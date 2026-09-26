@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1.7
 # Build context: repository root (railway.json sets dockerfilePath).
 FROM node:26.10.0-trixie-slim AS base
 RUN npm install --global pnpm@12.6.0 && pnpm --version
@@ -6,13 +5,11 @@ RUN npm install --global pnpm@12.6.0 && pnpm --version
 FROM base AS build
 WORKDIR /repo
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json .npmrc ./
-RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store pnpm fetch
+RUN pnpm fetch
 COPY . .
-RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-    pnpm install --offline --frozen-lockfile --filter "@cp/api..."
+RUN pnpm install --offline --frozen-lockfile --filter "@cp/api..."
 RUN pnpm --filter @cp/api build
-RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-    pnpm --filter @cp/api deploy --prod --legacy /out
+RUN pnpm --filter @cp/api deploy --prod --legacy /out
 
 FROM node:26.10.0-trixie-slim AS runtime
 ENV NODE_ENV=production

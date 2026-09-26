@@ -1,7 +1,8 @@
 import { z } from 'zod';
 
-/** Env files write unset optional values as `KEY=`; treat the empty string as absent. */
-const optionalUrl = z.preprocess((value) => (value === '' ? undefined : value), z.url().optional());
+/** Env files (and unresolved platform references) write unset values as `KEY=`; treat `''` as absent. */
+const emptyAsUndefined = (value: unknown) => (value === '' ? undefined : value);
+const optionalUrl = z.preprocess(emptyAsUndefined, z.url().optional());
 
 /** Runtime configuration for the worker service, validated once at boot. */
 export const workerEnvSchema = z.object({
@@ -15,7 +16,7 @@ export const workerEnvSchema = z.object({
   REDIS_URL: z.url(),
   SENTRY_DSN: optionalUrl,
   OTEL_EXPORTER_OTLP_ENDPOINT: optionalUrl,
-  COMMIT_SHA: z.string().min(1).default('dev'),
+  COMMIT_SHA: z.preprocess(emptyAsUndefined, z.string().min(1).default('dev')),
 });
 
 export type WorkerEnv = z.infer<typeof workerEnvSchema>;

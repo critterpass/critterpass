@@ -64,3 +64,14 @@ describe('worker environment', () => {
     });
   });
 });
+
+describe('worker environment on platforms without a git commit', () => {
+  it('falls back to "dev" when COMMIT_SHA resolves to an empty string', () => {
+    const env = loadWorkerEnv({
+      DATABASE_DIRECT_URL: 'postgres://u:p@localhost:5432/critterpass',
+      REDIS_URL: 'redis://localhost:6379',
+      COMMIT_SHA: '',
+    });
+    expect(env.COMMIT_SHA).toBe('dev');
+  });
+});
