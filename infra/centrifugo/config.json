@@ -1,0 +1,15 @@
+{
+  "client": {
+    "token": { "audience": "rt" }
+  },
+  "channel": {
+    "proxy": {
+      "subscribe": { "timeout": "1s" },
+      "publish": { "timeout": "1s" }
+    },
+    "namespaces": []
+  },
+  "engine": { "type": "redis" },
+  "health": { "enabled": true },
+  "admin": { "enabled": false }
+}

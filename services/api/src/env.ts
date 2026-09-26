@@ -6,6 +6,8 @@ const optionalUrl = z.preprocess((value) => (value === '' ? undefined : value), 
 /** Runtime configuration for the api service, validated once at boot. */
 export const apiEnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+  /** Deployment tier; NODE_ENV stays `production` in staging, so tier-specific behaviour keys off this. */
+  APP_ENV: z.enum(['local', 'staging', 'production']).default('local'),
   PORT: z.coerce.number().int().positive().default(8787),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   /** Pooled connection (PgBouncer, port 6432) used by request transactions. */

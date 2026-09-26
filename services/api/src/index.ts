@@ -31,7 +31,7 @@ const app = createApp({
   version: packageJson.version,
   commit: env.COMMIT_SHA,
   logger,
-  exposeDocs: env.NODE_ENV !== 'production',
+  exposeDocs: env.APP_ENV !== 'production',
   readiness: {
     db: async () => {
       await pool.query('select 1');

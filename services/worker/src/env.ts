@@ -6,6 +6,8 @@ const optionalUrl = z.preprocess((value) => (value === '' ? undefined : value), 
 /** Runtime configuration for the worker service, validated once at boot. */
 export const workerEnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+  /** Deployment tier; NODE_ENV stays `production` in staging, so tier-specific behaviour keys off this. */
+  APP_ENV: z.enum(['local', 'staging', 'production']).default('local'),
   PORT: z.coerce.number().int().positive().default(8788),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   /** Direct connection (port 5432): LISTEN/NOTIFY and job locking do not work through PgBouncer. */
