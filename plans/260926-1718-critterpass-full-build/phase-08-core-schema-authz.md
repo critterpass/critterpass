@@ -145,6 +145,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Drizzle 0.45 config with `entities.roles`, schemaFilter `public,app,ops,llm`. 2. Container helper: image `pgvector/pgvector:pg18` with `wal_level=logical`, one container per test file worker, migrate once, template DB per test. 3. Roles/schemas/extensions/helper fns migration. 4. `tx.ts` helpers with `pg` Pool (no session state, statement timeout 15 s). 5. Tests: `app.uid()` visible inside tx, empty in next pooled tx; `current_user` is `app_user`; `app_user` cannot `SET ROLE app_system`; no BYPASSRLS.
 - Tests: `pnpm --filter @cp/db test -- tx`
 - Done when: tests green; `pnpm --filter @cp/db migrate` applies cleanly twice (idempotent runner).
+- Status: done — 466fdaae
 
 ### T2 — Domain primitives: ids, errors, privacy classes, envelope, enums
 - Goal: leaf contracts every package imports.
