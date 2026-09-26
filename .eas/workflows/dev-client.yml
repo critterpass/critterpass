@@ -1,9 +1,8 @@
 name: Dev client builds
 
+# Dev clients only need rebuilding when native code changes (new native module, SDK bump, config plugin),
+# so this runs on demand: `eas workflow:run .eas/workflows/dev-client.yml`.
 on:
-  push:
-    branches: ['main']
-    paths: ['apps/mobile/**']
   workflow_dispatch: {}
 
 jobs:

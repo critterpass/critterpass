@@ -35,6 +35,10 @@ catalog:
   vitest: 5.0.2
   zod: 4.6.5
 
+# Security floors for transitive dependencies (patched releases of the same major).
+overrides:
+  sharp: 0.35.4
+
 # pnpm refuses dependency install scripts unless they are listed here.
 allowBuilds:
   '@parcel/watcher': true

@@ -80,7 +80,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'expo-build-properties',
       {
         ios: { deploymentTarget: '26.0' },
-        android: { compileSdkVersion: 36, targetSdkVersion: 36 },
+        // Expo SDK 58 modules compile against API 37 (also needed to reference MetricStyle behind an
+        // SDK_INT check); runtime behaviour still targets API 36.
+        android: { compileSdkVersion: 37, targetSdkVersion: 36 },
       },
     ],
   ],

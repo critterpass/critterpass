@@ -11,17 +11,20 @@ No real secret values live in this repo; everything below is a name or shape, ne
 | `cp-admin` | `apps/admin` | Vite + React back-office SPA served as Workers static assets (SPA fallback to `index.html`) | static assets only |
 | `cp-media-worker` | `services/media-worker` | Verifies HMAC-signed media URLs and streams the matching object from R2 | `MEDIA` (R2 bucket), `MEDIA_HMAC_KEYS` (secret) |
 
-Each Worker's `wrangler.jsonc` declares `staging` and `production` environments. Wrangler names
-the deployed script `<name>-staging` / `<name>-production` unless an environment sets its own
-`name`. Custom domain routes are left commented out in every `wrangler.jsonc` until the
-`critterpass.app` DNS zone is live (`docs/system-architecture.md` §14); until then, use the
-`*.workers.dev` URL Wrangler prints after a real deploy.
+Each Worker's `wrangler.jsonc` declares `staging` and `production` environments; the deployed scripts are
+`<name>-staging` / `<name>-production`. The Astro site builds through Cloudflare's Vite plugin, which picks the
+environment when bundling: build with `CLOUDFLARE_ENV=staging` (or `production`) and deploy without `--env`.
+
+Live staging hosts (Workers custom domains on the `critterpass.app` zone, certificates issued by Cloudflare):
+`staging.critterpass.app` (web), `admin.staging.critterpass.app` (admin), `media.staging.critterpass.app`
+(media Worker). Production routes stay commented in each `wrangler.jsonc` until launch.
 
 ## Secrets
 
 | Name | Used by | Shape | Set with |
 |---|---|---|---|
 | `MEDIA_HMAC_KEYS` | `cp-media-worker` | JSON object `{ "<key id>": "<secret>" }`; supports rotation by adding a new `kid` before removing the old one | `wrangler secret put MEDIA_HMAC_KEYS --env staging` (repeat with `--env production`) |
+| `SENTRY_DSN` | `cp-media-worker`, `cp-web` | Sentry project DSN | `wrangler secret put SENTRY_DSN --env staging` (web: `--name cp-web-staging`) |
 
 Never put `MEDIA_HMAC_KEYS`, or any secret, in a `wrangler.jsonc`; Wrangler secrets live in
 Cloudflare's own store, not in git. The signing side of the same key set is `signMediaUrl` from
@@ -38,8 +41,9 @@ Cloudflare's own store, not in git. The signing side of the same key set is `sig
 | `cp-backups` | shared | nightly off-provider `pg_dump` (35 day lifecycle) |
 | `cp-og` | shared | rendered Open Graph images |
 
-Buckets are provisioned separately (not created by this skeleton); nothing here creates, deletes
-or lists a real bucket.
+All six buckets exist with the APAC location hint. The three media buckets carry the CORS rules in
+[r2-cors.json](r2-cors.json) (browser PUTs from the web and admin origins); `cp-backups` expires objects
+after 35 days.
 
 ## Deploy commands
 
@@ -53,7 +57,7 @@ pnpm --filter @cp/admin build && pnpm --filter @cp/admin exec wrangler deploy --
 
 # Real deploy to staging (swap --env production for a production release)
 pnpm --filter @cp/media-worker exec wrangler deploy --env staging
-pnpm --filter @cp/web build && pnpm --filter @cp/web exec wrangler deploy --env staging
+CLOUDFLARE_ENV=staging pnpm --filter @cp/web build && pnpm --filter @cp/web exec wrangler deploy
 pnpm --filter @cp/admin build && pnpm --filter @cp/admin exec wrangler deploy --env staging
 ```
 

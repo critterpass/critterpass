@@ -95,7 +95,7 @@ Forbidden: Redux, MobX, React Context for frequently changing values, duplicatin
 
 ## 6. Styling with tokens (decision)
 
-**Decision:** `StyleSheet.create` + generated tokens (`@critterpass/design-tokens`) through a tiny `makeStyles((t) => ({...}))` helper with light/dark theme; Reanimated animated styles for motion. **No NativeWind/Tamagui/Unistyles.** Why: the hand-drawn design is bespoke (few utility-class wins), tokens already export to TS/Swift/Kotlin/CSS from one DTCG source, zero styling runtime keeps Hermes/Reanimated hot paths lean, and agents get one obvious pattern.
+**Decision:** `StyleSheet.create` + generated tokens (`@cp/design-tokens`) through a tiny `makeStyles((t) => ({...}))` helper with light/dark theme; Reanimated animated styles for motion. **No NativeWind/Tamagui/Unistyles.** Why: the hand-drawn design is bespoke (few utility-class wins), tokens already export to TS/Swift/Kotlin/CSS from one DTCG source, zero styling runtime keeps Hermes/Reanimated hot paths lean, and agents get one obvious pattern.
 
 | Rule | Detail |
 |---|---|
@@ -155,7 +155,7 @@ Forbidden: Redux, MobX, React Context for frequently changing values, duplicatin
 | Handler | `services/api/src/commands/<area>/<name>.ts` exporting `{ contract, policy, handle }`; registered in `registry.ts`; `handle` receives `tx` (from `withUser`), actor, input |
 | Client | `data/commands.ts` `run(name, input)` → generates `op_id`, writes to PowerSync upload queue when the command is sync-eligible, else `hc` POST; returns typed result |
 | Idempotency | handlers must be deterministic for the same `op_id`; external calls keyed by `op_id` (e.g. supplier partner ref) |
-| Error envelope | `{code, message_key, details?, retryable}`; UI maps `message_key` to i18n; never shows raw messages |
+| Error envelope | `{error: {code, message, retryable, detail?}}` (api-contracts §1, codes §3); UI maps `code` to an i18n message; never shows raw `message` |
 | Transient vs permanent | 5xx/network → retry with backoff (client queue); `DomainError` → surfaced to user with a fix action |
 | Workers | jobs call `dispatchSystem(name, input)`; never raw SQL writes bypassing handlers for domain state |
 | External calls | timeouts always set (default 10 s, supplier booking ≤120 s); circuit-breaker per supplier |
