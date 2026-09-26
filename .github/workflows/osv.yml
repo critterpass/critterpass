@@ -1,0 +1,24 @@
+name: dependency audit
+
+on:
+  schedule:
+    - cron: '0 22 * * 0' # Mondays 06:00 Singapore
+  pull_request:
+    paths: ['pnpm-lock.yaml']
+  push:
+    branches: [main]
+    paths: ['pnpm-lock.yaml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  osv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: OSV scanner
+        run: |
+          docker run --rm -v "$PWD:/src" ghcr.io/google/osv-scanner:v2.6.0 \
+            scan source --lockfile=/src/pnpm-lock.yaml
