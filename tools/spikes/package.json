@@ -1,0 +1,32 @@
+{
+  "name": "@cp/spikes",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Go/no-go platform spike harnesses (S-DB, S-AUTH, S-RT); rerun one with pnpm --filter @cp/spikes run <spike>",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "test:db": "vitest run --config vitest.db.config.ts --passWithNoTests",
+    "s-db": "tsx src/s-db/run.ts",
+    "s-rt": "tsx src/s-rt/run.ts",
+    "s-rt:load": "tsx src/s-rt/load.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "catalog:",
+    "better-auth": "catalog:",
+    "centrifuge": "catalog:",
+    "hono": "catalog:",
+    "jose": "catalog:",
+    "pg": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@cp/db": "workspace:*",
+    "@testcontainers/postgresql": "catalog:",
+    "@types/pg": "catalog:",
+    "testcontainers": "catalog:",
+    "tsx": "catalog:"
+  }
+}
