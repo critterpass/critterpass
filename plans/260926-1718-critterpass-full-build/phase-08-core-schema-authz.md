@@ -169,6 +169,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Generic table-driven machine (`canTransition`, `transition` returning side-effect tags). 2. Trip transitions JSON (sync doc §3.1) → TS + generated SQL guard trigger. 3. Tables with generated `phase`, `holds_seat`; tz validation; `seat_cap`/`redraft_limit` columns filled by phase 12 materialiser. 4. Helpers `is_trip_member/participant/organiser`, `trip_seats_held`.
 - Tests: `pnpm --filter @cp/domain test -- state`; `pnpm --filter @cp/db test -- trip`
 - Done when: every legal transition accepted and every illegal pair rejected by both TS and trigger (exhaustive loop test); `rsvp='out'` frees a seat in `trip_seats_held`.
+- Status: done — 770e614
 
 ### T5 — Plan versions, days, items, ChangeSets, GuideActions
 - Goal: plan model with stable ids, private drafts, apply-only-via-approved-ChangeSet.
