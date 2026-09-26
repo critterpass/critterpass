@@ -103,7 +103,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. `expo-font` config plugin embeds fonts at build time (no async load flash). 2. `fontFor(variant, locale)` returns family, size multiplier, lineHeight, `condensedUpper` flag per §6. 3. Prewarm: render hidden glyph run of each display instance before splash hides. 4. `CPFont.register()` + `Font.cp(.h1)` helpers for SwiftUI targets. 5. Web `@font-face` + `unicode-range`.
 - Tests: `pnpm --filter @cp/mobile jest src/lib/fonts`; EAS dev build smoke (phase 1 workflow) showing a font specimen (renders verified in phase 7 gallery).
 - Done when: resolver tests cover Latin, vi, th, ja, zh-Hans, ko; `CPFont.swift` parses; web CSS builds.
-- Status: done — `build/android-fonts.ts` → `codegen/android-fonts.ts`, output to `generated/android` (same tooling constraint as T2/T3; see report) — pending commit
+- Status: done — `build/android-fonts.ts` → `codegen/android-fonts.ts`, output to `generated/android` (same tooling constraint as T2/T3; see report) — 7c6a6c0
 
 ### T5 — Lingui setup, per-area catalogs, locale registry, lint
 - Goal: extraction/compilation pipeline and the 16-locale registry.
