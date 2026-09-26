@@ -42,7 +42,10 @@ export function checkServiceEnv(
 }
 
 function main() {
+  // pnpm forwards a literal `--` separator; drop it before parsing.
+  const args = process.argv.slice(2).filter((arg, index) => !(index === 0 && arg === '--'));
   const { values } = parseArgs({
+    args,
     options: { service: { type: 'string' }, 'env-file': { type: 'string' } },
   });
   const envFile = values['env-file'];
