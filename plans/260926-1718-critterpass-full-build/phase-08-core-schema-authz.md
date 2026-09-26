@@ -177,6 +177,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Tables + indexes `(trip_id, stable_id)`. 2. Visibility policy: organiser-only drafts. 3. `app.apply_change_set`: requires approved; copies base version → new version; applies ops by `stable_id`; conflict when base ≠ current → marks `stale`. 4. Change-set state machine + trigger. 5. ops zod in domain.
 - Tests: `pnpm --filter @cp/db test -- plan|change`
 - Done when: member cannot SELECT an organiser draft nor INSERT `plan_items`; applying an approved change-set yields a new `current` version with stable_ids preserved; stale base → `stale`, no writes.
+- Status: done — 2e00e83
 
 ### T6 — Command bookkeeping, outbox, domain events, activity log
 - Goal: F-015 plumbing and idempotency primitives.
