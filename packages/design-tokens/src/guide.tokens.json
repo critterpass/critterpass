@@ -1,0 +1,19 @@
+{
+  "guide": {
+    "order": {
+      "$type": "cpList",
+      "$value": ["tokek", "pon", "lundi", "ajo", "sardi", "paco"],
+      "$description": "Canonical guide order (C5); place.color = guide.color; non-guide places cycle this list"
+    },
+    "tokek": { "$type": "color", "$value": "{color.yellow}", "$description": "Bali" },
+    "pon": { "$type": "color", "$value": "{color.orange}", "$description": "Kyoto" },
+    "lundi": { "$type": "color", "$value": "{color.blue}", "$description": "Iceland" },
+    "ajo": { "$type": "color", "$value": "{color.pink}", "$description": "Mexico City" },
+    "sardi": { "$type": "color", "$value": "{color.green.base}", "$description": "Lisbon" },
+    "paco": {
+      "$type": "color",
+      "$value": "{color.paper.warm}",
+      "$description": "Cusco. design-system.md and design/Critterpass.dc.html name Paco's colour \"cream\" without a hex; no distinct cream primitive exists in either source, so this aliases the closest defined warm/cream primitive (paper.warm). Revisit on designer sign-off (design-system.md Unresolved Q1) with a token-only edit."
+    }
+  }
+}

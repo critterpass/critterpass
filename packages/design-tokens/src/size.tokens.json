@@ -1,0 +1,44 @@
+{
+  "size": {
+    "gutter": { "$type": "dimension", "$value": 20 },
+    "cardInner": { "$type": "cpRange", "$value": { "min": 14, "max": 16 } },
+    "cta": {
+      "bottom": { "$type": "dimension", "$value": 36 },
+      "gap": { "$type": "dimension", "$value": 12, "$description": "Above the home indicator" }
+    },
+    "tabbar": { "$type": "dimension", "$value": 88, "$description": "Includes safe area on a 844 pt frame" },
+    "primaryCta": {
+      "$type": "cpSizeGroup",
+      "$value": { "height": 58, "radius": 29 }
+    },
+    "headerPill": {
+      "$type": "cpSizeGroup",
+      "$value": { "height": 40, "hitTarget": 44 }
+    },
+    "chip": {
+      "$type": "cpSizeGroup",
+      "$value": { "height": 32, "hitTarget": 44 },
+      "$description": "Hit target reached via slop"
+    },
+    "otpBox": {
+      "$type": "cpSizeGroup",
+      "$value": { "width": 46, "height": 56 }
+    },
+    "toggle": {
+      "$type": "cpSizeGroup",
+      "$value": { "width": 46, "height": 28, "knob": 22 }
+    },
+    "avatar": {
+      "$type": "cpSizeGroup",
+      "$value": { "sm": 18, "md": 26, "lg": 32, "xl": 44 }
+    },
+    "fab": {
+      "$type": "cpSizeGroup",
+      "$value": { "size": 66, "raisedOffset": -30, "ringWidth": 5 }
+    },
+    "minTouchTarget": {
+      "$type": "cpSizeGroup",
+      "$value": { "width": 44, "height": 44, "androidWidth": 48, "androidHeight": 48 }
+    }
+  }
+}

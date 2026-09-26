@@ -1,0 +1,77 @@
+{
+  "color": {
+    "ink": {
+      "950": { "$type": "color", "$value": "#0b0a12", "$description": "Deepest shadow, key shadow" },
+      "930": { "$type": "color", "$value": "#0d0b18", "$description": "Scene backdrop (camera, night)" },
+      "900": { "$type": "color", "$value": "#120f22", "$description": "Tab bar, sunken" },
+      "850": { "$type": "color", "$value": "#17142a", "$description": "App background; ink text on accents" },
+      "800": { "$type": "color", "$value": "#1f1b38", "$description": "Cards, list groups, bubbles, keys" },
+      "780": { "$type": "color", "$value": "#241f3d", "$description": "Alt surface, stripes" },
+      "700": {
+        "$type": "color",
+        "$value": "#2c2750",
+        "$description": "Chips, segmented track, secondary buttons, ring track"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#3a3466",
+        "$description": "Decorative outlines, grabber, locked silhouettes"
+      },
+      "400": { "$type": "color", "$value": "#6f698c", "$description": "Decorative only (fails AA for text)" },
+      "300": { "$type": "color", "$value": "#8d87a8", "$description": "Inactive tab (5.5:1 on ink.900)" },
+      "200": { "$type": "color", "$value": "#a9a3c0", "$description": "Secondary text, eyebrows, tier common" },
+      "100": { "$type": "color", "$value": "#d8d3ee", "$description": "Unselected chip text" }
+    },
+    "paper": {
+      "base": {
+        "$type": "color",
+        "$value": "#f4efe4",
+        "$description": "Primary text on dark, paper surface, sticker edge"
+      },
+      "bright": { "$type": "color", "$value": "#fffdf6", "$description": "Sticker white, receipt" },
+      "warm": { "$type": "color", "$value": "#fff3c4", "$description": "Warm tints" },
+      "ink": { "$type": "color", "$value": "#211d18", "$description": "Ink on paper, doodle strokes" },
+      "muted": {
+        "$type": "color",
+        "$value": "#5d564b",
+        "$description": "Paper secondary text (>= 4.5:1; never rust small text for information)"
+      }
+    },
+    "rust": {
+      "base": {
+        "$type": "color",
+        "$value": "#c4623e",
+        "$description": "Paper stamp ink; handwriting only at 24 pt or larger"
+      },
+      "darkened": {
+        "$type": "color",
+        "$value": "#a44e2f",
+        "$description": "Darkened rust for paper stamp ink below 24 pt"
+      }
+    },
+    "yellow": { "$type": "color", "$value": "#ffd84a", "$description": "Accent" },
+    "orange": { "$type": "color", "$value": "#ff9a4d", "$description": "Accent" },
+    "pink": { "$type": "color", "$value": "#ff5fa8", "$description": "Accent" },
+    "blue": { "$type": "color", "$value": "#4f86ff", "$description": "Accent" },
+    "green": {
+      "base": { "$type": "color", "$value": "#54d6a4", "$description": "Accent" },
+      "deep": { "$type": "color", "$value": "#2e9a74", "$description": "PAID stamp, spots" }
+    },
+    "gold": {
+      "base": { "$type": "color", "$value": "#e0a92a", "$description": "Legendary" },
+      "dark": { "$type": "color", "$value": "#3a2f14", "$description": "Legendary locked background" },
+      "silhouette": { "$type": "color", "$value": "#6b5a24", "$description": "Legendary locked silhouette" }
+    },
+    "map": {
+      "base": { "$type": "color", "$value": "#172536", "$description": "Map background" },
+      "parksWater": { "$type": "color", "$value": "#1d3a38", "$description": "Map parks/water" }
+    },
+    "divider": { "$type": "color", "$value": "rgba(255,255,255,.07)", "$description": "Hairlines" },
+    "scrim": {
+      "$type": "cpAlphaRange",
+      "$value": { "hex": "#07060e", "alphaMin": 0.45, "alphaMax": 0.5 },
+      "$description": "Modal scrim"
+    },
+    "flash": { "$type": "color", "$value": "#fffbe8", "$description": "Burst flash" }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "radius": {
+    "xs": { "$type": "dimension", "$value": 4 },
+    "sm": { "$type": "dimension", "$value": 9 },
+    "md": { "$type": "dimension", "$value": 14 },
+    "lg": { "$type": "dimension", "$value": 20, "$description": "Cards" },
+    "xl": { "$type": "dimension", "$value": 24 },
+    "cardBig": { "$type": "dimension", "$value": 22 },
+    "sheetTop": { "$type": "dimension", "$value": 32, "$description": "Top corners of a sheet" },
+    "heroBottom": { "$type": "dimension", "$value": 40, "$description": "Bottom corners of hero panels" },
+    "pill": {
+      "$type": "cpFormula",
+      "$value": "height / 2",
+      "$description": "Computed from the element's own height at render time"
+    },
+    "circle": {
+      "$type": "cpFormula",
+      "$value": "height / 2",
+      "$description": "Full circle for a square element, computed from its own height"
+    },
+    "chatBubble": {
+      "theirs": {
+        "$type": "cpCornerSet",
+        "$value": [18, 18, 18, 4],
+        "$description": "top-left, top-right, bottom-right, bottom-left"
+      },
+      "mine": {
+        "$type": "cpCornerSet",
+        "$value": [18, 18, 4, 18],
+        "$description": "theirs mirrored horizontally: top-left, top-right, bottom-right, bottom-left"
+      }
+    },
+    "ticketStub": {
+      "$type": "cpCornerSet",
+      "$value": [10, 16, 16, 10],
+      "$description": "top-left, top-right, bottom-right, bottom-left"
+    }
+  }
+}

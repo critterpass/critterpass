@@ -1,0 +1,187 @@
+{
+  "motion": {
+    "duration": {
+      "instant": { "$type": "duration", "$value": 130 },
+      "fast": { "$type": "duration", "$value": 240 },
+      "base": { "$type": "duration", "$value": 340 },
+      "medium": { "$type": "duration", "$value": 460 },
+      "slow": { "$type": "duration", "$value": 560 },
+      "extra": { "$type": "duration", "$value": 780 },
+      "story": { "$type": "duration", "$value": 5000 },
+      "stagger": {
+        "tight": { "$type": "duration", "$value": 40 },
+        "rows": { "$type": "duration", "$value": 80 },
+        "cards": { "$type": "duration", "$value": 140 },
+        "stamps": { "$type": "duration", "$value": 280 }
+      }
+    },
+    "easing": {
+      "standard": {
+        "$type": "cubicBezier",
+        "$value": [0.32, 0.72, 0, 1],
+        "$description": "Navigation, sheets, reveals"
+      },
+      "enter": { "$type": "cubicBezier", "$value": [0, 0.55, 0.45, 1], "$description": "Entrances" },
+      "exit": { "$type": "cubicBezier", "$value": [0.5, 0, 0.75, 0], "$description": "Exits, slide-off" },
+      "inOut": { "$type": "cubicBezier", "$value": [0.65, 0, 0.35, 1], "$description": "Default DSL" },
+      "slam": { "$type": "cubicBezier", "$value": [0.5, 0, 0.8, 0.4], "$description": "Stamp fall, fling" },
+      "gesture": {
+        "$type": "cubicBezier",
+        "$value": [0.2, 0.8, 0.2, 1],
+        "$description": "Post-gesture settle"
+      },
+      "press": { "$type": "cubicBezier", "$value": [0.3, 0.7, 0.4, 1], "$description": "Press-down" },
+      "back": { "$type": "cubicBezier", "$value": [0.34, 1.56, 0.64, 1], "$description": "~10% overshoot" },
+      "burst": { "$type": "cubicBezier", "$value": [0.2, 1.3, 0.35, 1], "$description": "Burst in" },
+      "island": { "$type": "cubicBezier", "$value": [0.2, 1.25, 0.3, 1], "$description": "Island toast" }
+    },
+    "spring": {
+      "snappy": {
+        "$type": "cpSpring",
+        "$value": { "kind": "physical", "stiffness": 420, "damping": 26, "mass": 1, "overshootPercent": 8 },
+        "$description": "Toggle, drop, spring-back"
+      },
+      "bouncy": {
+        "$type": "cpSpring",
+        "$value": { "kind": "physical", "stiffness": 350, "damping": 21, "mass": 1, "overshootPercent": 11 },
+        "$description": "Pins, pop-ins"
+      },
+      "gentle": {
+        "$type": "cpSpring",
+        "$value": { "kind": "physical", "stiffness": 240, "damping": 21, "mass": 1, "overshootPercent": 5 },
+        "$description": "Next card, VS punch"
+      },
+      "soft": {
+        "$type": "cpSpring",
+        "$value": { "kind": "physical", "stiffness": 195, "damping": 21, "mass": 1, "overshootPercent": 3 },
+        "$description": "Day block move, burst-in"
+      },
+      "sheet": {
+        "$type": "cpSpring",
+        "$value": {
+          "kind": "easingDuration",
+          "easing": "{motion.easing.standard}",
+          "durationMs": 540,
+          "overshootPercent": 0
+        },
+        "$description": "Sheets"
+      }
+    },
+    "transition": {
+      "push": {
+        "$type": "cpTransition",
+        "$value": {
+          "enter": { "durationMs": 480, "easing": "{motion.easing.standard}", "spec": "in tx 100% -> 0" },
+          "exit": { "spec": "out tx 0 -> -30% + scrim .5" },
+          "back": { "durationMs": 420, "spec": "pop" }
+        },
+        "$description": "Drill-down"
+      },
+      "sheet": {
+        "$type": "cpTransition",
+        "$value": {
+          "enter": {
+            "durationMs": 540,
+            "easing": "{motion.easing.standard}",
+            "spec": "up to detent; presenter scale .93, scrim .45"
+          },
+          "back": { "durationMs": 420, "spec": "dismiss" }
+        },
+        "$description": "Modal sheet"
+      },
+      "rise": {
+        "$type": "cpTransition",
+        "$value": {
+          "enter": {
+            "durationMs": 620,
+            "easing": "{motion.easing.standard}",
+            "spec": "ty 100% -> 0, delay 120; presenter .93"
+          },
+          "back": { "durationMs": 420, "spec": "dismiss" }
+        },
+        "$description": "Full-screen modal"
+      },
+      "zoom": {
+        "$type": "cpTransition",
+        "$value": {
+          "enter": {
+            "durationMs": 560,
+            "spec": "shared-element grow from tapped card, radius 22 -> 54, fade first 35%; +200 ms hop pre-beat on stickers"
+          },
+          "back": { "durationMs": 460, "spec": "unzoom" }
+        },
+        "$description": "Card to detail"
+      },
+      "burst": {
+        "$type": "cpTransition",
+        "$value": {
+          "enter": {
+            "durationMs": 640,
+            "easing": "{motion.easing.burst}",
+            "spec": "s 1.2 -> 1 + flash #fffbe8 .55 over 460"
+          },
+          "back": { "durationMs": 260, "spec": "unfade" }
+        },
+        "$description": "Celebration"
+      },
+      "fold": {
+        "$type": "cpTransition",
+        "$value": {
+          "enter": { "durationMs": 560, "spec": "ty 70 -> 0 + fade, delay 160" },
+          "exit": { "durationMs": 380, "spec": "out scale .9" },
+          "back": { "spec": "unfade" }
+        },
+        "$description": "AI-job handoff"
+      },
+      "flip": {
+        "$type": "cpTransition",
+        "$value": {
+          "enter": { "durationMs": 680, "spec": "rotateY -90 -> 0 at perspective 1600" },
+          "back": { "spec": "flipback" }
+        },
+        "$description": "Card flip"
+      },
+      "tab": {
+        "$type": "cpTransition",
+        "$value": {
+          "enter": { "durationMs": 240, "spec": "fade 240 + children ty 12 -> 0 420" },
+          "back": { "spec": "" }
+        },
+        "$description": "Tab switch"
+      },
+      "fade": {
+        "$type": "cpTransition",
+        "$value": {
+          "enter": { "durationMs": 300, "spec": "same-slot state swap" },
+          "back": { "durationMs": 260, "spec": "unfade" }
+        },
+        "$description": "Same-slot state swap"
+      }
+    },
+    "gesture": {
+      "tapCancelPt": { "$type": "number", "$value": 8 },
+      "longPressMs": { "$type": "duration", "$value": 320 },
+      "edgeSwipe": {
+        "startXPt": { "$type": "number", "$value": 28 },
+        "commitDxPt": { "$type": "number", "$value": 110 },
+        "commitVelocityPtMs": { "$type": "number", "$value": 0.55 },
+        "settleMs": { "$type": "duration", "$value": 300 },
+        "settleEasing": { "$type": "cubicBezier", "$value": "{motion.easing.gesture}" }
+      },
+      "dragDismiss": {
+        "grabZoneSheetPt": { "$type": "number", "$value": 110 },
+        "grabZoneRisePt": { "$type": "number", "$value": 160 },
+        "commitDyPt": { "$type": "number", "$value": 150 },
+        "commitVelocityPtMs": { "$type": "number", "$value": 0.55 }
+      },
+      "press": {
+        "scaleNarrow": { "$type": "number", "$value": 0.92, "$description": "< 120 pt wide" },
+        "scaleMedium": { "$type": "number", "$value": 0.96 },
+        "scaleWide": { "$type": "number", "$value": 0.975 },
+        "durationMs": { "$type": "duration", "$value": 130 },
+        "releaseOvershoot": { "$type": "number", "$value": 1.035 },
+        "releaseDurationMs": { "$type": "duration", "$value": 420 }
+      }
+    }
+  }
+}

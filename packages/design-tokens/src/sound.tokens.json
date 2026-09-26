@@ -1,0 +1,329 @@
+{
+  "sound": {
+    "cue": {
+      "thud.heavy": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "heavy impact",
+          "hapticAndroid": "CONFIRM + heavy impact",
+          "sfxAsset": "sfx/thud-heavy.caf",
+          "category": "stickers-and-stamps"
+        },
+        "$description": "Stamp slam, ISSUED, BOOSTED, MATCH, EXIT"
+      },
+      "thud.soft": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "light impact",
+          "hapticAndroid": "light impact",
+          "sfxAsset": "sfx/thud-soft.caf",
+          "category": "stickers-and-stamps"
+        },
+        "$description": "Crew cards, reply segments, forms land, offline card"
+      },
+      "slap": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "medium impact",
+          "hapticAndroid": "medium impact",
+          "sfxAsset": "sfx/slap.caf",
+          "category": "stickers-and-stamps"
+        },
+        "$description": "Sticker slap-in, befriend, special stickers"
+      },
+      "peel": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "light impact",
+          "hapticAndroid": "light impact",
+          "sfxAsset": "sfx/peel.caf",
+          "category": "stickers-and-stamps"
+        },
+        "$description": "Translation labels, delete peel, attachment remove"
+      },
+      "whoosh": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "sfx/whoosh.caf",
+          "category": "stickers-and-stamps"
+        },
+        "$description": "Fling, fly-to, paper plane"
+      },
+      "tick": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "selection",
+          "hapticAndroid": "selection",
+          "sfxAsset": "sfx/tick.caf",
+          "category": "effects"
+        },
+        "$description": "Checklist ticks, OTP digits, keypad, odometer roll"
+      },
+      "snap": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "selection",
+          "hapticAndroid": "selection",
+          "sfxAsset": "sfx/snap.caf",
+          "category": "effects"
+        },
+        "$description": "Slider detents, 15-min snaps, segmented"
+      },
+      "success": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "notification success",
+          "hapticAndroid": "notification success",
+          "sfxAsset": "sfx/success.caf",
+          "category": "effects"
+        },
+        "$description": "Valid code, settled, sent"
+      },
+      "warning": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "notification warning",
+          "hapticAndroid": "notification warning",
+          "sfxAsset": "sfx/warning.caf",
+          "category": "effects"
+        },
+        "$description": "Clash, new warning, dietary clash"
+      },
+      "error": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "notification error",
+          "hapticAndroid": "notification error",
+          "sfxAsset": "sfx/error.caf",
+          "category": "effects"
+        },
+        "$description": "Wrong code shake, locked shake, card declined"
+      },
+      "vote": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "medium impact",
+          "hapticAndroid": "medium impact",
+          "sfxAsset": "sfx/vote.caf",
+          "category": "effects"
+        },
+        "$description": "Ballot, VS punch, +1 float"
+      },
+      "bell": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "light impact",
+          "hapticAndroid": "light impact",
+          "sfxAsset": "sfx/bell.caf",
+          "category": "effects"
+        },
+        "$description": "Something new needs you"
+      },
+      "holdRamp": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "haptic",
+          "hapticIOS": "continuous ramp (Core Haptics)",
+          "hapticAndroid": "continuous ramp (Vibrator composition)",
+          "sfxAsset": null,
+          "category": "effects"
+        },
+        "$description": "Hold ring, encounter"
+      },
+      "sos": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "haptic",
+          "hapticIOS": "long continuous pattern",
+          "hapticAndroid": "long continuous pattern",
+          "sfxAsset": null,
+          "category": "effects"
+        },
+        "$description": "SOS break-through; bypasses quiet hours"
+      },
+      "alarm": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "system alarm",
+          "hapticAndroid": "system alarm",
+          "sfxAsset": "sfx/alarm-guide.caf",
+          "category": "effects"
+        },
+        "$description": "Leave-by alarm; bypasses quiet hours"
+      },
+      "crack": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "medium impact",
+          "hapticAndroid": "medium impact",
+          "sfxAsset": "sfx/egg-crack.caf",
+          "category": "critter-voices"
+        },
+        "$description": "Egg hatch: crack"
+      },
+      "pop": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "notification success",
+          "hapticAndroid": "notification success",
+          "sfxAsset": "sfx/egg-pop.caf",
+          "category": "critter-voices"
+        },
+        "$description": "Egg hatch: pop open"
+      },
+      "chirp": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "sfx/critter-chirp.caf",
+          "category": "critter-voices"
+        },
+        "$description": "Egg hatch: critter chirp"
+      },
+      "flap": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "sfx",
+          "hapticIOS": "selection",
+          "hapticAndroid": "selection",
+          "sfxAsset": "sfx/flap.caf",
+          "category": "effects"
+        },
+        "$description": "Departures digits, split-flap clatter"
+      },
+      "printer": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "ambient",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "sfx/printer.caf",
+          "category": "effects"
+        },
+        "$description": "Receipts"
+      },
+      "scanner": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "ambient",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "sfx/scanner.caf",
+          "category": "effects"
+        },
+        "$description": "Scan"
+      },
+      "shutter": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "ambient",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "sfx/shutter.caf",
+          "category": "effects"
+        },
+        "$description": "Photo"
+      },
+      "pen": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "ambient",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "sfx/pen.caf",
+          "category": "effects"
+        },
+        "$description": "Strokes"
+      },
+      "page": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "ambient",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "sfx/page.caf",
+          "category": "effects"
+        },
+        "$description": "Page turn"
+      },
+      "envelope": {
+        "$type": "cpSound",
+        "$value": {
+          "kind": "ambient",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "sfx/envelope.caf",
+          "category": "effects"
+        },
+        "$description": "Feedback sent"
+      },
+      "music.tokek": {
+        "$type": "cpSound",
+        "$value": { "kind": "music", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": "music/tokek.m4a", "category": "music" }
+      },
+      "music.pon": {
+        "$type": "cpSound",
+        "$value": { "kind": "music", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": "music/pon.m4a", "category": "music" }
+      },
+      "music.lundi": {
+        "$type": "cpSound",
+        "$value": { "kind": "music", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": "music/lundi.m4a", "category": "music" }
+      },
+      "music.ajo": {
+        "$type": "cpSound",
+        "$value": { "kind": "music", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": "music/ajo.m4a", "category": "music" }
+      },
+      "music.sardi": {
+        "$type": "cpSound",
+        "$value": { "kind": "music", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": "music/sardi.m4a", "category": "music" }
+      },
+      "music.paco": {
+        "$type": "cpSound",
+        "$value": { "kind": "music", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": "music/paco.m4a", "category": "music" }
+      },
+      "voice.tokek": {
+        "$type": "cpSound",
+        "$value": { "kind": "voice", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": null, "category": "critter-voices" }
+      },
+      "voice.pon": {
+        "$type": "cpSound",
+        "$value": { "kind": "voice", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": null, "category": "critter-voices" }
+      },
+      "voice.lundi": {
+        "$type": "cpSound",
+        "$value": { "kind": "voice", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": null, "category": "critter-voices" }
+      },
+      "voice.ajo": {
+        "$type": "cpSound",
+        "$value": { "kind": "voice", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": null, "category": "critter-voices" }
+      },
+      "voice.sardi": {
+        "$type": "cpSound",
+        "$value": { "kind": "voice", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": null, "category": "critter-voices" }
+      },
+      "voice.paco": {
+        "$type": "cpSound",
+        "$value": { "kind": "voice", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": null, "category": "critter-voices" }
+      }
+    }
+  }
+}

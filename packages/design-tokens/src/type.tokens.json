@@ -1,0 +1,332 @@
+{
+  "type": {
+    "display": {
+      "mega": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "archivo",
+          "fontWeight": 900,
+          "fontSizeMin": 110,
+          "fontSizeMax": 176,
+          "lineHeight": 0.8,
+          "letterSpacing": -0.02,
+          "widthStep": 62,
+          "condensed": true,
+          "textTransform": "uppercase",
+          "tabularNumerals": true,
+          "dynamicType": { "scaleFactor": 0.5, "minScale": 0.7, "singleLine": true, "autoFit": true }
+        },
+        "$description": "KYOTO, BALI, 03:10, StandBy"
+      },
+      "hero": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "archivo",
+          "fontWeight": 900,
+          "fontSizeMin": 72,
+          "fontSizeMax": 90,
+          "lineHeight": 0.82,
+          "widthStepMin": 62,
+          "widthStepMax": 66,
+          "condensed": true,
+          "textTransform": "uppercase",
+          "tabularNumerals": true,
+          "dynamicType": { "scaleFactor": 0.5, "minScale": 0.7, "singleLine": true, "autoFit": true }
+        },
+        "$description": "Countdown, amounts, BOOSTED"
+      },
+      "xl": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "archivo",
+          "fontWeight": 900,
+          "fontSizeMin": 56,
+          "fontSizeMax": 64,
+          "lineHeight": 0.86,
+          "letterSpacing": -0.01,
+          "widthStepMin": 66,
+          "widthStepMax": 70,
+          "condensed": true,
+          "textTransform": "uppercase",
+          "dynamicType": { "scaleFactor": 0.5, "minScale": 0.7, "singleLine": true, "autoFit": true }
+        },
+        "$description": "DELAYED 2H 10M, BEFRIENDED!"
+      }
+    },
+    "h1": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "archivo",
+        "fontWeight": 900,
+        "fontSize": 44,
+        "fontSizeMin": 40,
+        "fontSizeMax": 52,
+        "lineHeight": 0.86,
+        "letterSpacing": -0.01,
+        "widthStep": 70,
+        "condensed": true,
+        "textTransform": "uppercase",
+        "dynamicType": { "scaleFactor": 0.5, "minScale": 0.7, "autoFit": true, "maxLines": 3 }
+      },
+      "$description": "Screen titles"
+    },
+    "h2": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "archivo",
+        "fontWeight": 900,
+        "fontSizeMin": 30,
+        "fontSizeMax": 36,
+        "lineHeight": 0.9,
+        "widthStep": 70,
+        "condensed": true,
+        "textTransform": "uppercase",
+        "dynamicType": { "scaleFactor": 1, "maxLines": 3 }
+      },
+      "$description": "Crew name, section heroes"
+    },
+    "h3": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "archivo",
+        "fontWeight": 900,
+        "fontSizeMin": 20,
+        "fontSizeMax": 28,
+        "lineHeight": 1,
+        "letterSpacing": 0.02,
+        "widthStep": 78,
+        "condensed": true,
+        "textTransform": "uppercase",
+        "dynamicType": { "scaleFactor": 1 }
+      },
+      "$description": "Card heroes, route codes"
+    },
+    "title": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "archivo",
+        "fontWeight": 900,
+        "fontSize": 16,
+        "lineHeight": 1,
+        "letterSpacing": 0.02,
+        "widthStep": 78,
+        "condensed": true,
+        "textTransform": "uppercase",
+        "dynamicType": { "scaleFactor": 1 }
+      },
+      "$description": "List/card item titles"
+    },
+    "button": {
+      "lg": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "archivo",
+          "fontWeight": 900,
+          "fontSize": 16,
+          "lineHeight": 1,
+          "letterSpacing": 0.06,
+          "widthStep": 100,
+          "condensed": true,
+          "textTransform": "uppercase",
+          "dynamicType": { "scaleFactor": 1 }
+        },
+        "$description": "Primary pill"
+      },
+      "sm": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "archivo",
+          "fontWeight": 800,
+          "fontSizeMin": 12,
+          "fontSizeMax": 14,
+          "lineHeight": 1,
+          "letterSpacing": 0.06,
+          "widthStep": 100,
+          "condensed": true,
+          "textTransform": "uppercase",
+          "dynamicType": { "scaleFactor": 1 }
+        },
+        "$description": "Pills, inline actions"
+      }
+    },
+    "eyebrow": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "geist",
+        "fontWeight": 700,
+        "fontSize": 11,
+        "lineHeight": 1.4,
+        "letterSpacing": 0.16,
+        "condensed": false,
+        "textTransform": "uppercase",
+        "dynamicType": { "scaleFactor": 1 }
+      },
+      "$description": "Section labels; colour text.secondary"
+    },
+    "label": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "geist",
+        "fontWeight": 800,
+        "fontSize": 11,
+        "lineHeight": 1.4,
+        "letterSpacing": 0.08,
+        "condensed": false,
+        "textTransform": "uppercase",
+        "dynamicType": { "scaleFactor": 1 }
+      },
+      "$description": "Chips, status, tab labels"
+    },
+    "body": {
+      "lg": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "geist",
+          "fontWeight": 500,
+          "fontSize": 15,
+          "lineHeight": 1.45,
+          "condensed": false,
+          "textTransform": "none",
+          "dynamicType": { "scaleFactor": 1 }
+        }
+      },
+      "base": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "geist",
+          "fontWeight": 500,
+          "fontSize": 14,
+          "lineHeight": 1.4,
+          "condensed": false,
+          "textTransform": "none",
+          "dynamicType": { "scaleFactor": 1 }
+        }
+      },
+      "sm": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "geist",
+          "fontWeight": 500,
+          "fontSize": 12.5,
+          "lineHeight": 1.35,
+          "condensed": false,
+          "textTransform": "none",
+          "dynamicType": { "scaleFactor": 1 }
+        }
+      }
+    },
+    "rowTitle": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "geist",
+        "fontWeight": 600,
+        "fontSize": 15,
+        "lineHeight": 1.4,
+        "condensed": false,
+        "textTransform": "none",
+        "dynamicType": { "scaleFactor": 1 }
+      },
+      "$description": "Settings rows, names"
+    },
+    "caption": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "geist",
+        "fontWeight": 500,
+        "fontSize": 11.5,
+        "lineHeight": 1.4,
+        "condensed": false,
+        "textTransform": "none",
+        "dynamicType": { "scaleFactor": 1 }
+      },
+      "$description": "Captions (min 11)"
+    },
+    "input": {
+      "base": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "geist",
+          "fontWeight": 600,
+          "fontSize": 18,
+          "lineHeight": 1.4,
+          "condensed": false,
+          "textTransform": "none",
+          "dynamicType": { "scaleFactor": 1 }
+        }
+      },
+      "otp": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "geist",
+          "fontWeight": 700,
+          "fontSize": 24,
+          "lineHeight": 1.4,
+          "condensed": false,
+          "textTransform": "none",
+          "tabularNumerals": true,
+          "dynamicType": { "scaleFactor": 1 }
+        }
+      }
+    },
+    "mono": {
+      "data": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "geistMono",
+          "fontWeight": 500,
+          "fontSizeMin": 11,
+          "fontSizeMax": 12.5,
+          "lineHeight": 1.4,
+          "letterSpacing": 0.06,
+          "condensed": false,
+          "textTransform": "none",
+          "tabularNumerals": true,
+          "dynamicType": { "scaleFactor": 1 }
+        },
+        "$description": "MRZ, times, codes, receipts"
+      }
+    },
+    "voice": {
+      "base": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "caveat",
+          "fontWeight": 600,
+          "fontSize": 20,
+          "lineHeight": 1.1,
+          "condensed": false,
+          "textTransform": "none",
+          "dynamicType": { "scaleFactor": 1 },
+          "plainTextFallback": { "fontFamily": "geist", "fontWeight": 500, "fontStyle": "italic" }
+        },
+        "$description": "Guide voice lines"
+      },
+      "postcard": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "caveat",
+          "fontWeight": 600,
+          "fontSize": 26,
+          "lineHeight": 1.1,
+          "condensed": false,
+          "textTransform": "none",
+          "dynamicType": { "scaleFactor": 1 },
+          "plainTextFallback": { "fontFamily": "geist", "fontWeight": 500, "fontStyle": "italic" }
+        }
+      },
+      "signature": {
+        "$type": "typography",
+        "$value": {
+          "fontFamily": "caveat",
+          "fontWeight": 600,
+          "fontSize": 22,
+          "lineHeight": 1.1,
+          "condensed": false,
+          "textTransform": "none",
+          "dynamicType": { "scaleFactor": 1 },
+          "plainTextFallback": { "fontFamily": "geist", "fontWeight": 500, "fontStyle": "italic" }
+        }
+      }
+    }
+  }
+}

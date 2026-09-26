@@ -1,0 +1,89 @@
+{
+  "semantic": {
+    "bg": {
+      "base": { "$type": "color", "$value": "{color.ink.850}", "$description": "Surfaces" },
+      "raised": { "$type": "color", "$value": "{color.ink.800}", "$description": "Surfaces" },
+      "control": { "$type": "color", "$value": "{color.ink.700}", "$description": "Surfaces" },
+      "sunken": { "$type": "color", "$value": "{color.ink.900}", "$description": "Surfaces" }
+    },
+    "surface": {
+      "document": {
+        "$type": "cpSurface",
+        "$value": { "background": "{color.paper.base}", "texture": "{texture.guilloche}" },
+        "$description": "Passport, stamps, receipts, visas (official moments)"
+      },
+      "celebrate": {
+        "$type": "cpSurface",
+        "$value": { "background": null, "texture": "{texture.halftone}" },
+        "$description": "Wins, befriends, stamps. Background is the contextual accent (guide/event colour) supplied by the caller; only the texture is fixed"
+      },
+      "alert": {
+        "pink": {
+          "$type": "cpSurface",
+          "$value": { "background": "{semantic.state.urgent}", "texture": "{texture.halftone}" },
+          "$description": "SOS, urgent delay, leave-by"
+        },
+        "orange": {
+          "$type": "cpSurface",
+          "$value": { "background": "{semantic.state.warning}", "texture": "{texture.halftone}" },
+          "$description": "Storm, warning delay"
+        }
+      }
+    },
+    "text": {
+      "primary": { "$type": "color", "$value": "{color.paper.base}" },
+      "secondary": { "$type": "color", "$value": "{color.ink.200}" },
+      "onAccent": { "$type": "color", "$value": "{color.ink.850}" },
+      "tertiary": {
+        "$type": "color",
+        "$value": "{color.ink.200}",
+        "$description": "Footers, timestamps; 12 pt minimum; never ink.400 for information"
+      }
+    },
+    "border": {
+      "control": {
+        "$type": "color",
+        "$value": "#5b5487",
+        "$description": "Interactive outlines, input idle ring, off toggle (3:1 on ink.850)"
+      },
+      "decorative": {
+        "$type": "color",
+        "$value": "{color.ink.600}",
+        "$description": "Dashed placeholders, grabber"
+      }
+    },
+    "action": {
+      "primary": { "$type": "color", "$value": "{color.yellow}", "$description": "Primary CTA, focus/selection ring, active tab" }
+    },
+    "state": {
+      "success": { "$type": "color", "$value": "{color.green.base}", "$description": "IN, PAID, online, valid, owed-to-you" },
+      "urgent": {
+        "$type": "color",
+        "$value": "{color.pink}",
+        "$description": "Urgent, badges, destructive, negative balance, clash"
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "{color.orange}",
+        "$description": "Owed money, card declined, last redraft"
+      },
+      "info": { "$type": "color", "$value": "{color.blue}", "$description": "Weather, planned, flights, \"you\" dot" }
+    },
+    "brand": {
+      "passplus": { "$type": "color", "$value": "{color.yellow}", "$description": "Pass+ visa, badges" },
+      "boost": { "$type": "color", "$value": "{color.pink}", "$description": "Boost stamp, badges" }
+    },
+    "increaseContrast": {
+      "borderControl": {
+        "$type": "color",
+        "$value": "#6a63a3",
+        "$description": "border.control override when OS Increase Contrast is on (>= 3:1)"
+      },
+      "textTertiary": {
+        "$type": "color",
+        "$value": "{color.ink.200}",
+        "$description": "text.tertiary override when OS Increase Contrast is on"
+      }
+    }
+  }
+}
