@@ -1,0 +1,16 @@
+{
+  "name": "@cp/design-tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "DTCG design tokens and generated TS/CSS/Swift/Kotlin outputs",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  }
+}

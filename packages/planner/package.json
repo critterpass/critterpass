@@ -1,0 +1,16 @@
+{
+  "name": "@cp/planner",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pure scheduler, constraint checker, ChangeSet ops and diff",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  }
+}

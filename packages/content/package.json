@@ -1,0 +1,16 @@
+{
+  "name": "@cp/content",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Generated content (JSON/MDX) and its zod schemas",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  }
+}
