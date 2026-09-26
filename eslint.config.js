@@ -80,6 +80,13 @@ export default defineConfig([
     languageOptions: { globals: { ...globals.node } },
   },
 
+  // CommonJS configs loaded by Metro, Babel and Jest in the mobile app package.
+  {
+    files: ['**/*.cjs', 'apps/mobile/*.js'],
+    languageOptions: { sourceType: 'commonjs', globals: { ...globals.node } },
+    rules: { '@typescript-eslint/no-require-imports': 'off' },
+  },
+
   { files: defaultExportAllowed, rules: { 'no-restricted-syntax': 'off' } },
 
   {
