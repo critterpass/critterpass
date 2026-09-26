@@ -18,3 +18,24 @@ export function pointAt(points: readonly Point[], index: number): Point {
   }
   return point;
 }
+
+/** Polyline arc length (sum of segment lengths). Ported bit-for-bit from design/doodles.js `len`. */
+export function arcLength(points: readonly Point[]): number {
+  let sum = 0;
+  for (let i = 1; i < points.length; i++) {
+    const a = pointAt(points, i - 1);
+    const b = pointAt(points, i);
+    sum += Math.hypot(b[0] - a[0], b[1] - a[1]);
+  }
+  return sum;
+}
+
+/** Flattens `[x, y]` point tuples into the interleaved buffer the public `Cmd` payload carries. */
+export function toFloat32Points(points: readonly Point[]): Float32Array {
+  const out = new Float32Array(points.length * 2);
+  points.forEach((p, i) => {
+    out[i * 2] = p[0];
+    out[i * 2 + 1] = p[1];
+  });
+  return out;
+}

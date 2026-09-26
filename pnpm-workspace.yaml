@@ -11,6 +11,7 @@ catalog:
   '@eslint/js': 10.0.1
   '@hono/node-server': 2.1.1
   '@hono/zod-openapi': 1.6.3
+  '@napi-rs/canvas': 1.0.9
   '@testcontainers/postgresql': 12.1.0
   '@testcontainers/redis': 12.1.0
   '@types/node': 26.6.3
@@ -24,6 +25,7 @@ catalog:
   hono: 4.13.9
   pg: 8.23.0
   pino: 10.3.1
+  playwright: 1.58.2
   prettier: 3.9.9
   redis: 6.2.1
   testcontainers: 12.1.0
