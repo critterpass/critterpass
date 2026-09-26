@@ -1,0 +1,22 @@
+{
+  "name": "@cp/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "lint": "eslint .",
+    "typecheck": "astro check",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "astro": "7.3.5",
+    "@astrojs/cloudflare": "14.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "catalog:",
+    "wrangler": "4.141.0"
+  }
+}

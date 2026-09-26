@@ -42,6 +42,8 @@ allowBuilds:
   protobufjs: false
   ssh2: false
   unrs-resolver: true
+  workerd: true
 
 minimumReleaseAgeExclude:
   - '@types/node@26.6.3'
+  - '@cloudflare/workers-types@5.20260926.1'

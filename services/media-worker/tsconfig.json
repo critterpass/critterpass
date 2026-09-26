@@ -1,8 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["ES2024", "DOM"],
-    "types": []
+    "types": ["@cloudflare/workers-types"]
   },
   "include": ["src", "test", "*.ts"]
 }
