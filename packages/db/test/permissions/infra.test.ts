@@ -80,6 +80,19 @@ describe('domain_events: no grant to any role but the owner', () => {
     ).rejects.toThrow(/permission denied/i);
   });
 
+  it('denies app_user UPDATE and DELETE — the log is append-only even to its own writer\'s role', async () => {
+    await expect(
+      withUser(db.pool, anonymousActor().uid, anonymousActor().device, (tx) =>
+        tx.query("UPDATE domain_events SET type = 'trip.created' WHERE false"),
+      ),
+    ).rejects.toThrow(/permission denied/i);
+    await expect(
+      withUser(db.pool, anonymousActor().uid, anonymousActor().device, (tx) =>
+        tx.query('DELETE FROM domain_events WHERE false'),
+      ),
+    ).rejects.toThrow(/permission denied/i);
+  });
+
   it('rejects an event type outside the catalogue even for the owner connection', async () => {
     await expect(
       db.pool.query(
@@ -90,9 +103,16 @@ describe('domain_events: no grant to any role but the owner', () => {
 });
 
 describe('rt_outbox: app_system may relay but not enqueue directly', () => {
-  it('still denies app_user entirely', async () => {
+  it('still denies app_user entirely, including a direct INSERT bypassing app.enqueue_rt', async () => {
     await expect(
       withUser(db.pool, anonymousActor().uid, anonymousActor().device, (tx) => tx.query('SELECT * FROM rt_outbox')),
+    ).rejects.toThrow(/permission denied/i);
+    await expect(
+      withUser(db.pool, anonymousActor().uid, anonymousActor().device, (tx) =>
+        tx.query(
+          "INSERT INTO rt_outbox (channel, payload, idem_key, kind) VALUES ('user:#x', '{}', gen_random_uuid(), 'publish')",
+        ),
+      ),
     ).rejects.toThrow(/permission denied/i);
   });
 
