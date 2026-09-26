@@ -43,10 +43,10 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 
 | # | Phase | Tasks | Depends on | Wave | Status |
 |---|---|---|---|---|---|
-| 1 | [Repo & toolchain bootstrap](./phase-01-repo-toolchain-bootstrap.md) | 10 | - | 1 | in_progress |
-| 2 | [Platform go/no-go spikes](./phase-02-platform-spikes.md) | 15 | 1 | 2 | pending |
-| 3 | [Design tokens, fonts, i18n](./phase-03-design-tokens-fonts-i18n.md) | 8 | 1 | 2 | pending |
-| 4 | [Critter art core](./phase-04-critter-art-core.md) | 8 | 1 | 2 | pending |
+| 1 | [Repo & toolchain bootstrap](./phase-01-repo-toolchain-bootstrap.md) | 10 | - | 1 | done |
+| 2 | [Platform go/no-go spikes](./phase-02-platform-spikes.md) | 15 | 1 | 2 | in_progress |
+| 3 | [Design tokens, fonts, i18n](./phase-03-design-tokens-fonts-i18n.md) | 8 | 1 | 2 | in_progress |
+| 4 | [Critter art core](./phase-04-critter-art-core.md) | 8 | 1 | 2 | in_progress |
 | 5 | [Sticker renderer, bake pipeline, share images](./phase-05-critter-renderer-asset-pipeline.md) | 10 | 2, 3, 4 | 3 | pending |
 | 6 | [Motion, feedback bus, gestures](./phase-06-motion-feedback-gestures.md) | 10 | 3, 4 | 3 | pending |
 | 7 | [App shell, components, a11y](./phase-07-app-shell-component-library.md) | 18 | 5, 6 | 4 | pending |
