@@ -74,6 +74,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Railway one-off service runs the probe against staging (PgBouncer 6432 and direct 5432). 2. Measure `select 1`, single-row insert tx, 10-statement tx with `SET LOCAL ROLE` + `set_config`; assert settings do not leak across pooled tx (two interleaved clients). 3. Check extensions; build HNSW on 100k random vectors, record time + query p95. 4. Record price quote. 5. Repeat against Railway Postgres for comparison.
 - Tests: `pnpm --filter @cp/spike-s-db run spike -- --target staging` prints a JSON report; leak test asserts `current_setting('app.uid', true)` is empty in the next tx.
 - Done when: ADR shows numbers for both targets and a verdict.
+- Status: done — 964e65d (latency/pooling/extensions PASS; HNSW build did not complete on PS-DEV within 1h31m — see ADR for chosen path and the founder follow-up to re-run on the launch-sized tier)
 
 ### T2 — S-AUTH server harness
 - Goal: prove uid-preserving upgrade and merge on the server.
