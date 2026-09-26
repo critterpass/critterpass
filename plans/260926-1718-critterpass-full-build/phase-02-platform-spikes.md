@@ -111,6 +111,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Centrifugo v6 (2 nodes, Redis 8) on staging with JWKS + subscribe proxy to harness. 2. Proxy allows members, denies others. 3. Remove member → server API `unsubscribe` → client event latency. 4. History + recovery after 2 min background on device. 5. k6/Node script ramps to 5k sockets.
 - Tests: `pnpm --filter @cp/spike-s-rt test` (proxy decisions), `run load -- --sockets 5000`.
 - Done when: revocation <1 s p95, recovery works, 5k sockets stable — or fallback recorded.
+- Status: done — 55e236b (revocation p95 3.4ms, recovery PASS after a real 2 min background, 5000/5000 sockets across 2 nodes, 0 failures; run against S-RT's own local 2-node stack, not staging — see ADR for the network-RTT caveat and two real Centrifugo/Better-Auth integration gaps found)
 
 ### T7 — Apple extension targets on SDK 58 / Xcode 27 / UIScene
 - Goal: all extension targets build, sign and run.
