@@ -6,7 +6,7 @@ depends_on: [11, 13, 15, 23, 24]
 wave: 11
 features: [F-053, F-054, F-055, F-056, F-057]
 screens: [3b-1, 3b-2, 3b-4, 3b-5, 3b-6, 3a-13, 3f-6, 3k-1, 5c-2]
-effort: 9 sessions
+tasks: 9
 owns:
   - packages/db/src/schema/home.ts
   - packages/db/migrations/<ts>_home_inbox_nudges_tips.sql

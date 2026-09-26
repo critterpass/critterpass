@@ -6,7 +6,7 @@ depends_on: [14, 15, 16, 26, 29, 35]
 wave: 17
 features: [F-063, F-064, F-065, F-066, F-067, F-068]
 screens: [3d-1, 3d-2, 3d-3, 3d-4, 3b-8, 3o-1, 3o-2, 4a-3]
-effort: 10 sessions
+tasks: 10
 owns:
   - packages/db/src/schema/explore.ts
   - packages/db/migrations/*_swipe_sessions_and_place_tips.sql

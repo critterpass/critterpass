@@ -6,7 +6,7 @@ depends_on: [13, 33, 40]
 wave: 19
 features: [F-129, F-130]
 screens: [3l-7, 3k-1, 3l-2]  # 3i-5 Settled Tokek grant/reveal built by P33; shelf only here
-effort: 7 sessions
+tasks: 7
 owns:
   - packages/domain/src/quests/**
   - packages/db/src/schema/quests.ts

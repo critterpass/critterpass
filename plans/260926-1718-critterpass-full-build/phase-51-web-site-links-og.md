@@ -10,7 +10,7 @@ late_block:
   wave: 19
 features: [F-182, F-183, F-184, F-185, F-186, F-092]
 screens: [Site-Home, Site-Header, Site-Footer, Site-Invite, Site-Referral, Site-Tips, Site-Tip-Article, Site-Legal, 3a-10, 3o-4, 3m-9]
-effort: 11 sessions (block A 6, block B 5)
+tasks: 11
 owns:
   - apps/web/src/layouts/
   - apps/web/src/components/site/

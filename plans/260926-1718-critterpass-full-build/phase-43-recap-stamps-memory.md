@@ -6,7 +6,7 @@ depends_on: [26, 31, 33, 40]
 wave: 19
 features: [F-131, F-132, F-133, F-134, F-139]
 screens: [3m-1, 3m-3, 3m-4, 3m-5, 3m-6, 3m-7, 3m-8, 3m-9, 3m-10, 3n-1]
-effort: 9 sessions
+tasks: 9
 owns:
   - packages/domain/src/recap/**
   - packages/db/src/schema/recap.ts

@@ -6,7 +6,7 @@ depends_on: [2, 3, 4, 8]   # 3 tokens/motion curves, 4 doodle art; guide sprite 
 wave: 3
 features: [F-030, F-031, F-032]
 screens: [3b-7, 3c-10, 3d-1, 3d-3, 3d-4, 3g-4, 3h-3, 3k-2, 3k-9]
-effort: 8 sessions
+tasks: 8
 owns:
   - packages/domain/src/places/**
   - packages/domain/src/routing/**

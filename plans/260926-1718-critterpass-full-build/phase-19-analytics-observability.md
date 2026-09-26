@@ -6,7 +6,7 @@ depends_on: [1, 7, 8, 10, 11, 17]
 wave: 6
 features: [F-024]
 screens: []
-effort: 10 sessions
+tasks: 10
 owns:
   - packages/domain/src/analytics/**
   - packages/domain/src/flags/**

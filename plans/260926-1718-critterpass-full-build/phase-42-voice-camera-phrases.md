@@ -6,7 +6,7 @@ depends_on: [32, 41]
 wave: 20
 features: [F-095, F-096, F-192]
 screens: [3j-2, 3j-3, 3l-7, 3n-2]
-effort: 9 sessions
+tasks: 9
 owns:
   - apps/mobile/modules/cp-speech/**
   - apps/mobile/modules/cp-ocr/src/live/**
@@ -183,4 +183,4 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 1. Pronunciation check on by default? Default off (tracking + "I said it"), toggle on.
 2. Extend P33 `cp-ocr` vs separate live module? Default extend under `cp-ocr/src/live` (coordinate with P33 owner).
 3. doc delta: `consents.purpose ai_voice` use at first voice turn; `phrase.feedback` route not in api-contracts §5.3.
-4. plan.md delta: effort 9 sessions (cp-speech split into T1–T3).
+4. plan.md delta: tasks 9 (cp-speech split into T1–T3).

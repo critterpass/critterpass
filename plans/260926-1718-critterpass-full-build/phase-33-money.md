@@ -6,7 +6,7 @@ depends_on: [10, 12, 13, 27]
 wave: 14
 features: [F-105, F-106, F-107, F-108, F-109]
 screens: [3i-1, 3i-2, 3i-3, 3i-4, 3i-5, 3i-6, 3g-1, 3n-8, 5b-1]
-effort: 12 sessions
+tasks: 12
 owns:
   - packages/cost-engine/src/ledger/
   - packages/cost-engine/src/settle/

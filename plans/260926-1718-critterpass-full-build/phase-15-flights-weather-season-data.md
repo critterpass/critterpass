@@ -6,7 +6,7 @@ depends_on: [8, 11, 13]
 wave: 7
 features: [F-033, F-034, F-035]
 screens: [3b-2, 3b-3, 3c-1, 3c-3, 3c-5, 3d-1, 3d-3, 3e-2, 3k-2, 3k-7, 3k-8, 3l-5]
-effort: 7 sessions
+tasks: 7
 owns:
   - infra/powersync/streams/season.yaml
   - packages/domain/src/travel-data/**

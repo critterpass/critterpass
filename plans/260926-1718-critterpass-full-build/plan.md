@@ -13,9 +13,9 @@ critical_path_tasks: 249
 |---|---|
 | Status | pending |
 | Date | 2026-09-26 (Asia/Saigon) |
-| Build model | Solo founder + Claude Opus 5.5 coding agents; **one task per agent session**; effort counted only in sessions |
+| Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
 | Scope | Full: all 192 master-analysis features, iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
-| Size | 54 phases, 543 session-sized tasks, 23 waves, critical path 249 tasks |
+| Size | 54 phases, 543 tasks, 23 waves, critical path 249 tasks |
 | Docs | [docs/README.md](../../docs/README.md) (reading order), [product-decisions.md](../../docs/product-decisions.md) (decisions 1–20, final), [code-standards.md](../../docs/code-standards.md), [system-architecture.md](../../docs/system-architecture.md), [data-model.md](../../docs/data-model.md), [api-contracts.md](../../docs/api-contracts.md), [design-system.md](../../docs/design-system.md) |
 | Reports | [plans/reports/](../reports/) — master synthesis, design analyses, research, fact-checks. Backend authority: [custom Hono backend](../reports/researcher-260926-1649-custom-hono-backend-report.md). Supplier authority: [travel supplier APIs](../reports/researcher-260926-1649-travel-supplier-apis-report.md) |
 | Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude-only AI |
@@ -26,7 +26,7 @@ critical_path_tasks: 249
 | Step | Rule |
 |---|---|
 | Reading order | `docs/README.md` → `product-decisions.md` → `code-standards.md` (§1 agent rules, §20 DoD) → architecture / data-model / api-contracts sections the phase links → phase file (Context links, Requirements, Architecture & contracts) → the one task → the design renders it names |
-| Unit of work | One task (`### Tn`) per session. Do not start a second task in the same session |
+| Unit of work | A task (`### Tn`) is a checkpoint, not a session limit. One agent pass may run consecutive tasks and whole phases (e.g. a full wave lane); finish each task’s tests + done-when and commit before starting the next; stop at founder gates, failing tests or missing accounts |
 | Ownership | Change only files in the phase `owns` list + task `Files`. Needing a file outside `owns` = stop, report `NEEDS_CONTEXT` |
 | Parallelism | All phases in one wave may run concurrently (owns lists are disjoint). Tasks inside a phase run in order unless the phase says otherwise. A phase starts only when every `depends_on` phase is `done` |
 | Undesigned flows | Build in code with the design system (D11); log the state in the phase file; founder reviews in the running app |
@@ -34,12 +34,12 @@ critical_path_tasks: 249
 | Definition of Done | `code-standards.md` §20: owns respected; matches render + done-when incl. loading/empty/error/offline; tests per §17 (narrowest first); lint + typecheck clean; permission/RLS tests if data touched; evals if AI touched; no ids or deferral language in code |
 | Task status | Add `- Status: in_progress \| done \| blocked — <short sha or blocker>` as the last line of the task block |
 | Phase status | Frontmatter `status: pending → in_progress → done`; mirror in the Status column below. Phase `done` = all tasks done + phase acceptance criteria + Maestro flows on iOS and Android |
-| Commits | Branch `feat/<area>-<behaviour>`, PR per task, squash merge. Conventional commits (`feat(money): split expense by shares`), no AI references, no plan/phase/task/feature ids in code, tests, migrations or commits. `.env.example` only |
-| Session end | `Status: DONE \| DONE_WITH_CONCERNS \| BLOCKED \| NEEDS_CONTEXT` + one-line summary |
+| Commits | Branch `feat/<area>-<behaviour>`, one commit per task, one PR per phase (or per pass), squash merge. Conventional commits (`feat(money): split expense by shares`), no AI references, no plan/phase/task/feature ids in code, tests, migrations or commits. `.env.example` only |
+| Pass end | `Status: DONE \| DONE_WITH_CONCERNS \| BLOCKED \| NEEDS_CONTEXT` + one-line summary |
 
 ## 2. Phases
 
-Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; effort = count of `### Tn` headings). Regenerate after any `depends_on` edit.
+Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; tasks = count of `### Tn` headings — a scope measure, not a time estimate). Regenerate after any `depends_on` edit.
 
 | # | Phase | Tasks | Depends on | Wave | Status |
 |---|---|---|---|---|---|
@@ -184,7 +184,7 @@ flowchart LR
 
 ## 3. Waves and critical path
 
-| Wave | Phases | Tasks | Max parallel sessions |
+| Wave | Phases | Tasks | Max parallel agent lanes |
 |---|---|---|---|
 | 1 | 1 | 10 | 1 |
 | 2 | 2, 3, 4, 8 | 40 | 4 |
@@ -213,7 +213,7 @@ flowchart LR
 
 **Critical path (249 of 543 tasks, strictly sequential):** 1 (10) → 2 (15) → 9 (10) → 10 (11) → 11 (11) → 13 (10) → 18 (12) → 22 (11) → 23 (10) → 24 (8) → 25 (9) → 26 (12) → 27 (12) → 33 (12) → 34 (11) → 35 (14) → 31 (10) → 40 (11) → 48 (10) → 49 (10) → 45 (12) → 53 (6) → 54 (12).
 
-Keep one session on the critical path at all times; content factory (18) starts batches as soon as 13/14/17 land; single-phase waves (1, 9, 11, 12, 13, 22, 23) are critical-path bottlenecks — fill them with off-path content-factory batches and flag-gated partner adapters. A failed spike changes approach inside the stack (Railway Postgres HA, PowerSync Cloud, bare workflow), never back to Supabase.
+Keep one agent lane on the critical path at all times; content factory (18) starts batches as soon as 13/14/17 land; single-phase waves (1, 9, 11, 12, 13, 22, 23) are critical-path bottlenecks — fill them with off-path content-factory batches and flag-gated partner adapters. A failed spike changes approach inside the stack (Railway Postgres HA, PowerSync Cloud, bare workflow), never back to Supabase.
 
 ## 4. Capability milestones
 
@@ -275,7 +275,7 @@ These gate flags, not code; code ships with truthful fallbacks until each lands.
 | Platform entitlements (AlarmKit, Communication Notifications, LA broadcast, background location, exact alarm, full-screen intent) delayed or denied | Request first; every surface has a coded fallback path flag-gated by server config |
 | Self-hosted PowerSync + PlanetScale logical replication across failover | S-SYNC failover drill in phase 2; fallbacks Railway Postgres HA / PowerSync Cloud |
 | Partner approvals slow; all gated by legal entity | Entity first; adapters behind flags; affiliate links cover launch |
-| Critical path of 249 sequential tasks | Keep one session on the critical path at all times; parallel waves fill the rest |
+| Critical path of 249 sequential tasks | Keep one agent lane on the critical path at all times; parallel waves fill the rest |
 | Founder review is the single human bottleneck (content batches, undesigned flows, milestones) | Fixed review cadence per content batch; review in running app builds, not docs |
 | Doc/plan drift: ~50 doc deltas where phases create tables/commands earlier than docs assign | Owning task updates the doc in the same PR; plan wins over docs on ownership |
 | LLM cost overrun (Opus drafts, crew-chat guide) | Silent fair-use caps, ai_cost_guard cron, kill switches |

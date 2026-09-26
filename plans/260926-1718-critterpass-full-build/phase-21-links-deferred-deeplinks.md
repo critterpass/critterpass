@@ -6,7 +6,7 @@ depends_on: [1, 10]
 wave: 5
 features: [F-018, F-044]
 screens: [3a-1, 3a-10, 3a-11, Site-Invite, web link routes]
-effort: 9 sessions
+tasks: 9
 owns:
   - packages/domain/src/links/
   - packages/db/src/schema/links.ts

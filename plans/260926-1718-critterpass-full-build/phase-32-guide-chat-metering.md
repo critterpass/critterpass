@@ -6,7 +6,7 @@ depends_on: [12, 13, 24, 29]
 wave: 16
 features: [F-093, F-094, F-097, F-098, F-099, F-160]
 screens: [3j-1, 3g-1, 4c-1, 4b-1, 3h-3, 3k-6, 3c-8, 3i-3]
-effort: 9 sessions
+tasks: 9
 owns:
   - packages/domain/src/guide/**
   - packages/db/src/schema/guide-chat.ts

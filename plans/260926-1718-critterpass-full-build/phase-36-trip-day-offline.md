@@ -6,7 +6,7 @@ depends_on: [11, 13, 14, 15, 18, 20, 25, 32, 34]
 wave: 17
 features: [F-012, F-110, F-111, F-112, F-113, F-114]
 screens: [3k-1, 3e-1, 3k-2, 3k-3, 3k-4, 3n-2, 5b-3, 5c-2, 5c-4]
-effort: 11 sessions
+tasks: 11
 owns:
   - infra/powersync/streams/trip-day.yaml
   - packages/domain/src/trip-day/**

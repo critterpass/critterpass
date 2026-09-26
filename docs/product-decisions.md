@@ -12,7 +12,7 @@ Precedence when sources disagree: **§1 decision log > §2 contradiction resolut
 
 | # | Date | Decision | Rationale |
 |---|---|---|---|
-| D1 | 2026-09-26 | Solo founder + Claude Opus 5.5 coding agents; all 192 features, one public launch; effort counted only in session-sized agent tasks | One coherent launch; agent tasks need clear file ownership and done-when checks |
+| D1 | 2026-09-26 | Solo founder + Claude Opus 5.5 coding agents; all 192 features, one public launch; no time or session estimates: phases are sized by task count; tasks are verifiable checkpoints and one agent pass may cover several tasks or phases | One coherent launch; agent tasks need clear file ownership and done-when checks |
 | D2 | 2026-09-26 | iOS + Android at launch with full parity where policy allows; iOS 26 min; Android target API 36, Live Updates gated 36+, MetricStyle 37+ | iOS 26 brings AlarmKit, scheduled LA start and widget push; crews are mixed-platform |
 | D3 | 2026-09-26 | Expo SDK 58 / RN 0.88 (New Arch, Hermes), TS strict, expo-router, Reanimated 4.7, Worklets 0.13, RNGH 3, Skia 2.13, VisionCamera; SwiftUI extension targets; Kotlin Android surfaces; Xcode 27 + UIScene | One TS codebase with the critter core; native surfaces written natively |
 | D4 | 2026-09-26 | Own backend: Hono 4.13 / Node 26 on Railway SG (api + worker); Postgres 18 on PlanetScale HA (ap-southeast-1); Drizzle; app-layer authz + RLS backstop; Better Auth 1.7; Centrifugo v6 + Redis 8; self-hosted PowerSync; pg-boss; R2 + media Worker; APNs + FCM; pgvector/FTS/pg_trgm. Never Supabase | Lowest lock-in, full control over authz, sync and jobs; spikes S-AUTH / S-SYNC / S-DB de-risk it |

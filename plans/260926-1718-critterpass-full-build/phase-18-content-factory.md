@@ -6,7 +6,7 @@ depends_on: [4, 5, 13, 14, 17]
 wave: 7
 features: [F-009]
 screens: [3l-2, 3l-3, 3l-8, 3l-9, 3l-10, 3b-1, 3b-7, 3b-8, 3a-4, 3h-3, 3k-6, 3p-1]
-effort: 12 sessions
+tasks: 12
 owns:
   - tools/content-factory/**
   - packages/content/**

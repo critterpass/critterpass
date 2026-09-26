@@ -6,7 +6,7 @@ depends_on: [8, 11]
 wave: 6
 features: [F-013, F-052]
 screens: [3j-1, 3g-1, 4b-1, 3b-3, 3b-4, 3g-2, 3e-3, 3k-5]
-effort: 10 sessions
+tasks: 10
 owns:
   - packages/ai/**
   - packages/domain/src/ai/**

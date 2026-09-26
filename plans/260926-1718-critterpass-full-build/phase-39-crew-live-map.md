@@ -6,7 +6,7 @@ depends_on: [12, 14, 20]
 wave: 7
 features: [F-051]
 screens: [3g-4]
-effort: 6 sessions
+tasks: 6
 owns:
   - infra/powersync/streams/live-map.yaml
   - packages/domain/src/live-map/**

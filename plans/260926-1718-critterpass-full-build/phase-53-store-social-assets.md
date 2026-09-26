@@ -10,7 +10,7 @@ early_block:
   wave: 11
 features: [F-187, F-188]
 screens: [Store-Assets, Store-Shot, App-Icon, Social-Kit]
-effort: 6 sessions
+tasks: 6
 owns:
   - tools/scripts/store-kit/
   - tools/scripts/social-kit/

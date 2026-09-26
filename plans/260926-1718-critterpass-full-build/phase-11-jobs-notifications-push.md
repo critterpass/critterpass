@@ -6,7 +6,7 @@ depends_on: [5, 10]
 wave: 5
 features: [F-014, F-016, F-017]
 screens: [5b-1, 5b-4, 3c-8, 3f-1, 3k-5]
-effort: 11 sessions
+tasks: 11
 owns:
   - services/worker/src/boss/
   - services/worker/src/jobs/sched/

@@ -6,7 +6,7 @@ depends_on: [2, 8, 9, 12, 14]
 wave: 4
 features: [F-010, F-011]
 screens: [3k-4, 3g-1, 3g-2, 3c-8, 3b-4, 3e-1]
-effort: 11 sessions
+tasks: 11
 owns:
   - packages/domain/src/commands/registry-types.ts   # envelope.ts is owned by phase 08
   - packages/domain/src/commands/index.ts

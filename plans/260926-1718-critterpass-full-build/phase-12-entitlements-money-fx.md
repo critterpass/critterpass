@@ -6,7 +6,7 @@ depends_on: [8]
 wave: 3
 features: [F-019, F-021]
 screens: [4b-1, 4e-1, 4e-2, 4f-1, 4f-3, 5c-5, 3i-1, 3n-8, 3c-9]
-effort: 7 sessions
+tasks: 7
 owns:
   - packages/entitlements/
   - packages/cost-engine/src/money/

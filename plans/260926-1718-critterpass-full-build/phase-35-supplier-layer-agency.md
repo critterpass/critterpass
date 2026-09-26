@@ -6,7 +6,7 @@ depends_on: [13, 14, 17, 29, 33, 34]
 wave: 16
 features: [F-103, F-104, F-117]
 screens: [3h-3, 3j-1, 3c-7, 3c-8, 3c-9, 3c-12, 3f-1, 3f-3, 3f-4, 3f-6, 3f-7, 4f-1, 3e-2, 3k-1, 3k-5, 3k-9, 3k-10]
-effort: 14 sessions
+tasks: 14
 owns:
   - infra/powersync/streams/suppliers.yaml
   - packages/suppliers/ (except src/travelpayouts/fares/ and src/flight-status/, owned by the fares and bookings phases)

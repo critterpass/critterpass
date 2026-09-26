@@ -6,7 +6,7 @@ depends_on: [36, 48, 49]
 wave: 21
 features: [F-181]
 screens: [5a-1, 5a-2, 5a-3, 5a-4, 5a-5, 5a-6, 5b-1, 5b-2, 5b-3, 5b-4, 5c-1, 5c-2, 5c-3, 5c-4, 5c-5, 3k-3, 3k-8, 3k-10]
-effort: 10 sessions
+tasks: 10
 owns:
   - apps/mobile/modules/cp-android-surfaces/
   - apps/mobile/plugins/with-android-surfaces.ts

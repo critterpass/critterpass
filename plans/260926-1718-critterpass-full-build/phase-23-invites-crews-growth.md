@@ -6,7 +6,7 @@ depends_on: [12, 21, 22]
 wave: 9
 features: [F-043, F-045, F-190, F-046, F-161, F-047]
 screens: [3a-10, 3a-11, 3a-12, 3a-13, 3g-3, 3b-2, 3f-7, Site-Referral]
-effort: 10 sessions
+tasks: 10
 owns:
   - infra/powersync/streams/crews.yaml
   - packages/domain/src/crews/

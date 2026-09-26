@@ -6,7 +6,7 @@ depends_on: [13, 16, 18, 27]
 wave: 14
 features: [F-074, F-075, F-076]
 screens: [3c-8, 3c-9, 3c-11, 3c-12, 4f-3]
-effort: 10 sessions
+tasks: 10
 owns:
   - infra/powersync/streams/draft.yaml
   - packages/db/src/schema/draft.ts

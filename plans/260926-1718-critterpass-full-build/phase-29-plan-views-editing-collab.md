@@ -6,7 +6,7 @@ depends_on: [24, 26, 28]
 wave: 15
 features: [F-077, F-078, F-079, F-080, F-081, F-083, F-050]
 screens: [3e-1, 3e-2, 3e-3, 3g-2, 3k-2, 3c-12, 3j-1, 3k-5, 3f-7]
-effort: 12 sessions
+tasks: 12
 owns:
   - packages/db/src/schema/collab.ts
   - packages/db/migrations/*_plan_comments_and_personal_overlay.sql

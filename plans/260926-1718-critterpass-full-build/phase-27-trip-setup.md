@@ -6,7 +6,7 @@ depends_on: [10, 16, 20, 24, 25, 26]
 wave: 13
 features: [F-069, F-070, F-071, F-072, F-073]
 screens: [3c-3, 3c-4, 3c-5, 3c-6, 3c-7, 3c-10, 3n-2]
-effort: 12 sessions
+tasks: 12
 owns:
   - infra/powersync/streams/setup.yaml
   - packages/db/src/schema/setup.ts

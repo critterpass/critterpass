@@ -6,7 +6,7 @@ depends_on: [1]
 wave: 2
 features: [F-006]
 screens: [3a-3, 3l-1, 3l-2, 3l-3, 3l-4, 3l-5, 3l-6, 3l-8, 3l-9, 3l-10, 3m-2, 3m-7, 3n-5]
-effort: 8 sessions
+tasks: 8
 owns: [packages/critter-art/package.json, packages/critter-art/tsconfig.json, packages/critter-art/vitest.config.ts, packages/critter-art/src/core/, packages/critter-art/src/kinds/, packages/critter-art/src/data/, packages/critter-art/src/forms/, packages/critter-art/src/backends/canvas2d/, packages/critter-art/src/index.ts, packages/critter-art/scripts/, packages/critter-art/golden/, packages/critter-art/gallery/]
 ---
 # Phase 4 — Critter art core (TS renderer extraction)

@@ -6,7 +6,7 @@ depends_on: [9, 11, 12, 24, 33, 39]
 wave: 15
 features: [F-157, F-158, F-159, F-162, F-163, F-164, F-165, F-166, F-167, F-168, F-169]
 screens: [4e-1, 4e-2, 4e-3, 4b-1, 4b-3, 4b-4, 4b-5, 4c-1, 4c-2, 4d-1, 4d-2, 4d-3, 4d-4, 4f-1, 4f-2, 4f-3]
-effort: 13 sessions
+tasks: 13
 owns:
   - packages/domain/src/billing/
   - packages/domain/src/paywall/

@@ -6,7 +6,7 @@ depends_on: [8, 9, 10, 12, 14]
 wave: 5
 features: [F-025]
 screens: []   # none designed; the whole console is designed in code (D11)
-effort: 8 sessions
+tasks: 8
 owns:
   - apps/admin/{package.json,vite.config.ts,index.html,tsconfig.json}
   - apps/admin/scripts/**

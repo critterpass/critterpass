@@ -6,7 +6,7 @@ depends_on: [2, 3, 4]
 wave: 3
 features: [F-007, F-008, F-140]
 screens: [3a-3, 3l-1, 3l-2, 3l-3, 3l-4, 3l-6, 3l-8, 3l-10, 3m-3, 3m-4, 3m-5, 3m-6, 3m-8, 3m-9, 3m-10, 3n-5, 3o-4, 5a-1, 5a-4, 5b-1, 5c-1, 5c-3, 5c-6]
-effort: 10 sessions
+tasks: 10
 owns: [packages/critter-art/src/backends/skia/, packages/critter-art/src/share/, packages/critter-art/src/web/, packages/critter-bake/, apps/mobile/src/ui/sticker/, apps/mobile/src/ui/share-image/, apps/mobile/src/app/(dev)/sticker-lab.tsx, apps/mobile/plugins/with-critter-art.ts, apps/mobile/generated/critter-art/, apps/web/public/critters/, e2e/critters/sticker-lab.yaml]
 ---
 # Phase 5 — Runtime sticker renderer, bake pipeline, share images

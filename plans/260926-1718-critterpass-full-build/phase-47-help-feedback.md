@@ -6,7 +6,7 @@ depends_on: [17, 25, 43, 46]
 wave: 20
 features: [F-153, F-154, F-155, F-156]
 screens: [3p-1, 3p-2, 3p-3, 3p-4, 3p-5, 3p-6, 3n-6]
-effort: 8 sessions
+tasks: 8
 owns:
   - packages/domain/src/help/
   - packages/db/src/schema/help-feedback.ts

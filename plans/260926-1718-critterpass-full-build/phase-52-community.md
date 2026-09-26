@@ -6,7 +6,7 @@ depends_on: [17, 28, 29, 30, 43, 44, 46, 51]
 wave: 21
 features: [F-149, F-150, F-151, F-152]
 screens: [3o-1, 3o-2, 3o-3, 3o-4, 3d-1, 3e-1, 3m-1]
-effort: 12 sessions
+tasks: 12
 owns:
   - packages/domain/src/community/
   - packages/db/src/schema/community.ts

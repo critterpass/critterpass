@@ -6,7 +6,7 @@ depends_on: [5, 11, 12, 26, 48]
 wave: 20
 features: [F-176, F-177, F-178, F-179, F-180]
 screens: [5b-2, 5b-4, 5c-1, 5c-2, 5c-3, 5c-4, 5c-5]
-effort: 10 sessions
+tasks: 10
 owns:
   - packages/domain/src/surfaces/widget-snapshot.ts
   - packages/domain/src/surfaces/notification-categories.ts

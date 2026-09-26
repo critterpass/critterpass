@@ -6,7 +6,7 @@ depends_on: [5, 7, 9, 10, 18, 20, 21]
 wave: 8
 features: [F-038, F-039, F-040, F-041]
 screens: [3a-1, 3a-2, 3a-3, 3a-4, 3a-5, 3a-6, 3a-7, 3a-8, 3a-9, 3n-1, 3n-3, 3n-4]
-effort: 11 sessions
+tasks: 11
 owns:
   - infra/powersync/streams/onboarding.yaml
   - packages/domain/src/pass/

@@ -6,7 +6,7 @@ depends_on: [2, 5, 11, 34, 36, 39, 40]
 wave: 19
 features: [F-170, F-171, F-172, F-173, F-174, F-175]
 screens: [5a-1, 5a-2, 5a-3, 5a-4, 5a-5, 5a-6, 3k-3, 3k-8, 3k-10, 3h-1, 3h-3, 5b-3]
-effort: 10 sessions
+tasks: 10
 owns:
   - packages/domain/src/live-activities.ts
   - packages/domain/src/surfaces/la-*.ts

@@ -10,7 +10,7 @@ Read with [system-architecture.md](./system-architecture.md). Where they conflic
 | # | Rule |
 |---|---|
 | 1 | Before coding: read this file, `system-architecture.md`, the phase file (`plans/260926-1718-critterpass-full-build/phase-XX-*.md`) and the task section you were assigned. Read the design render(s) the task names (`docs/design-renders/screens/<label>.png` + `screens.json`) |
-| 2 | **One task per session.** Stay inside the task's **owns** list (files/dirs). Touching anything else requires the task to name it as a dependency; if not, stop and report `NEEDS_CONTEXT` |
+| 2 | **Tasks are checkpoints, not session limits.** One agent pass may run several tasks or whole phases; finish each task’s tests and done-when before starting the next, and commit per task. Stay inside the task's **owns** list (files/dirs). Touching anything else requires the task to name it as a dependency; if not, stop and report `NEEDS_CONTEXT` |
 | 3 | Run the narrowest test first (`pnpm --filter <pkg> test -- <file>`), then the package, then `pnpm turbo run lint typecheck test --filter=...[HEAD]` |
 | 4 | Implement real behaviour. No mocks/fakes/stub data to pass checks; test doubles only at external network boundaries (§11) |
 | 5 | **No plan ids, phase numbers, task ids or feature ids (F-xxx, C12, 3c-8) in code, comments, test names, migration names or commits.** Describe behaviour instead ("rejects ballot after poll closed") |

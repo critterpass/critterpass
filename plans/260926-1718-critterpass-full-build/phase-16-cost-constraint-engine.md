@@ -6,7 +6,7 @@ depends_on: [12, 13, 14, 15]
 wave: 8
 features: [F-020]
 screens: [3c-1, 3c-5, 3c-7, 3c-9, 3c-10, 3e-3, 3f-3, 3f-4, 3f-7]
-effort: 7 sessions
+tasks: 7
 owns:
   - packages/cost-engine/src/{quotes,shares,rooms,budget,resplit,boost-split,display}/**
   - packages/cost-engine/test/{quotes,shares,rooms,budget,resplit,boost-split,golden}/**

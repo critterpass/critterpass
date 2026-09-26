@@ -6,7 +6,7 @@ depends_on: [1]
 wave: 2
 features: [F-001, F-002, F-026]
 screens: [3n-8, all (token/font/string consumers)]
-effort: 8 sessions
+tasks: 8
 owns: [packages/design-tokens/, packages/i18n/, apps/mobile/assets/fonts/, apps/mobile/src/lib/i18n/, apps/mobile/src/lib/fonts/, apps/web/src/styles/tokens.css, apps/web/public/fonts/, tools/scripts/fonts/, tools/scripts/i18n/, .github/workflows/i18n-sync.yml]
 ---
 # Phase 3 — Design tokens, fonts, i18n framework

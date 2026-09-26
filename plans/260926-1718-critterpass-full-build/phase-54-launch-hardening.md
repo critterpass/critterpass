@@ -6,7 +6,7 @@ depends_on: [19, 30, 37, 38, 42, 45, 47, 49, 50, 51, 52, 53]
 wave: 23
 features: []
 screens: [all]
-effort: 12 sessions
+tasks: 12
 owns:
   - e2e/journeys/
   - tools/scripts/load/

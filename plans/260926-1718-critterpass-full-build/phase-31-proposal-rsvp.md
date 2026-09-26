@@ -6,7 +6,7 @@ depends_on: [11, 16, 28, 29, 34, 35, 46]
 wave: 17
 features: [F-084, F-085, F-086, F-087, F-088, F-089, F-090, F-091]
 screens: [3f-1, 3f-2, 3f-3, 3f-4, 3f-5, 3f-6, 3f-7, 4f-1]
-effort: 10 sessions
+tasks: 10
 owns:
   - infra/powersync/streams/proposal.yaml
   - packages/domain/src/proposal/**

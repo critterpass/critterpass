@@ -6,7 +6,7 @@ depends_on: [11, 14, 18, 20, 32, 34, 35, 39]
 wave: 17
 features: [F-119, F-120]
 screens: [3k-6, 3k-10, 5a-2]
-effort: 7 sessions
+tasks: 7
 owns:
   - infra/powersync/streams/safety.yaml
   - packages/domain/src/safety/**

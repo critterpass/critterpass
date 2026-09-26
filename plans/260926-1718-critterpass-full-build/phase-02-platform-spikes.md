@@ -6,7 +6,7 @@ depends_on: [1]
 wave: 2
 features: []
 screens: [3k-2, 3g-4, 5a-3, 5c-2]
-effort: 15 sessions
+tasks: 15
 owns:
   - docs/decisions/**
   - docs/runbooks/db-switchover-drill.md

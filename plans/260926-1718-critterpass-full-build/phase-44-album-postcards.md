@@ -6,7 +6,7 @@ depends_on: [10, 12, 13, 43]
 wave: 20
 features: [F-135, F-136, F-137, F-138]
 screens: [3m-2, 3m-9, 3k-4, 3o-4]
-effort: 9 sessions
+tasks: 9
 owns:
   - packages/domain/src/album/**
   - packages/db/src/schema/album.ts

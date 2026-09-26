@@ -6,7 +6,7 @@ depends_on: [5, 12, 22, 33, 43, 47, 49]
 wave: 21
 features: [F-141, F-142, F-143, F-144, F-145, F-146, F-147, F-148, F-191]
 screens: [3n-1, 3n-2, 3n-3, 3n-4, 3n-5, 3n-6, 3n-7, 3n-8, 3n-9, 3n-10, 3n-11, 3g-3]
-effort: 12 sessions
+tasks: 12
 owns:
   - packages/domain/src/you/
   - packages/domain/src/account/

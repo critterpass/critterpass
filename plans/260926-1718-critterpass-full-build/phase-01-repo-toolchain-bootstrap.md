@@ -6,7 +6,7 @@ depends_on: []
 wave: 1
 features: []
 screens: []
-effort: 10 sessions
+tasks: 10
 owns:
   - package.json, pnpm-workspace.yaml, turbo.json, tsconfig.base.json, eslint.config.js, .prettierrc, vitest.workspace.ts, renovate.json, .gitignore, .nvmrc, .npmrc, .env.example
   - README.md, CLAUDE.md, docs/README.md (one-line path update only)
@@ -67,7 +67,7 @@ Done when: `pnpm i && pnpm turbo run lint typecheck test build` is green locally
 | CI | GitHub Actions: `turbo run lint typecheck test build --filter=...[origin/main]`, Node matrix 24 + 26, pnpm store cache, Turbo remote cache off (local cache via actions/cache), Docker available for Testcontainers, OSV scanner, Renovate weekly grouped PRs | D17 |
 | Deploy | Railway deploy from `main` (staging) via GitHub integration; production via manual promote; migrations as api pre-deploy command over `DATABASE_DIRECT_URL` (no-op until `packages/db` lands); EAS Workflows file for dev-client builds | arch §2 |
 | Error tracking accounts | Existing Sentry org `critterpass`; existing project `critterpass` serves `mobile`; add projects `api, worker, web, admin, media-worker` (DSNs into secret stores; wiring is phase 19) | D17 |
-| Agent docs | root `README.md` (setup, commands, layout) + `CLAUDE.md` (agent contract: read order from `docs/README.md`, one task per session, owns list, test commands, no ids in code, status protocol) | code-standards §1 |
+| Agent docs | root `README.md` (setup, commands, layout) + `CLAUDE.md` (agent contract: read order from `docs/README.md`, tasks are checkpoints (run as many tasks or phases per pass as the harness allows; commit and verify at each task boundary), owns list, test commands, no ids in code, status protocol) | code-standards §1 |
 | Tools | move `docs/design-renders/scripts/*.mjs` → `tools/design-renders/` (outputs stay in `docs/design-renders/`); fix relative paths; `pnpm renders` script | task scope |
 
 Undesigned states: none (no UI beyond a placeholder route that shows the app name and build variant, for dev-client verification).

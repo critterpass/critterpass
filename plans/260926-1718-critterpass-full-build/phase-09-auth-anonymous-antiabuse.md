@@ -6,7 +6,7 @@ depends_on: [2, 8]
 wave: 3
 features: [F-042, F-029]
 screens: [3a-1, 3a-7, 3a-8, 3a-11, 3a-12, 3n-9]
-effort: 10 sessions
+tasks: 10
 owns:
   - services/api/src/auth/
   - services/api/src/abuse/

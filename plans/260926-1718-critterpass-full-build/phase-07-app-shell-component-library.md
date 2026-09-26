@@ -6,7 +6,7 @@ depends_on: [5, 6]
 wave: 4
 features: [F-004, F-027]
 screens: [3b-2, 3b-6, 3d-3, 3f-5, 3l-4, 3n-6, 4e-1, 3m-3, 3a-1…3a-6, 3c-3…3c-7, 3i-2, 3i-4, 3n-2, 3n-8, all (shell + components)]
-effort: 18 sessions
+tasks: 18
 owns: [apps/mobile/src/ui/ (except ui/sticker/ owned by the sticker renderer phase), apps/mobile/src/app/_layout.tsx, apps/mobile/src/app/(tabs)/_layout.tsx, apps/mobile/src/app/(modal)/_layout.tsx, apps/mobile/src/app/(trip)/_layout.tsx, apps/mobile/src/app/+not-found.tsx, apps/mobile/src/app/(dev)/_layout.tsx, apps/mobile/src/app/(dev)/gallery/, apps/mobile/src/lib/navigation/, apps/mobile/src/lib/a11y/, apps/mobile/src/lib/theme/, tools/design-renders/extract-doodles.ts, tools/design-renders/extract-parents.ts, e2e/shell/, e2e/gallery/]
 ---
 # Phase 7 — App shell, navigation, component library, a11y

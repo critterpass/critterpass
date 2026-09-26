@@ -6,7 +6,7 @@ depends_on: [11, 13, 15, 33]
 wave: 15
 features: [F-100, F-101, F-102, F-121, F-036]
 screens: [3h-1, 3h-2, 3n-2, 3k-5, 3k-6, 3k-10, 3l-1, 5a-3, 5c-5]
-effort: 11 sessions
+tasks: 11
 owns:
   - packages/domain/src/bookings/
   - packages/domain/src/bcbp/

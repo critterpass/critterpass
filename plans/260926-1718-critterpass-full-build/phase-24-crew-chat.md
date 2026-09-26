@@ -6,7 +6,7 @@ depends_on: [10, 23]
 wave: 10
 features: [F-048]
 screens: [3g-1, 3k-4, 3a-13, 4b-1, 5b-4]
-effort: 8 sessions
+tasks: 8
 owns:
   - packages/db/src/schema/chat.ts
   - packages/db/migrations/<ts>_crew_chat_messages.sql

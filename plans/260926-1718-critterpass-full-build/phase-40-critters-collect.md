@@ -6,7 +6,7 @@ depends_on: [5, 6, 9, 14, 15, 18, 20, 25, 31, 34]
 wave: 18
 features: [F-122, F-123, F-124, F-125, F-126, F-127, F-128]
 screens: [3l-1, 3l-2, 3l-3, 3l-4, 3l-5, 3l-6, 3l-8, 3l-9, 3l-10]
-effort: 11 sessions
+tasks: 11
 owns:
   - packages/domain/src/critters/**
   - packages/db/src/schema/critters.ts

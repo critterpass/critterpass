@@ -6,7 +6,7 @@ depends_on: [1]
 wave: 2
 features: [F-037, F-015]
 screens: [3c-1, 3c-3, 3c-9, 3c-11, 3d-1, 3e-1, 3e-3, 3f-5, 3k-1, 3b-4, 3m-1]
-effort: 9 sessions
+tasks: 9
 owns:
   - packages/db/drizzle.config.ts
   - packages/db/src/client.ts

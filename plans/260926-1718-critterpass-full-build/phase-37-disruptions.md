@@ -6,7 +6,7 @@ depends_on: [15, 29, 35, 36]
 wave: 18
 features: [F-115, F-116, F-082, F-118]
 screens: [3k-5, 3k-7, 3k-8, 3k-9, 3e-2, 3e-3, 3b-4]
-effort: 11 sessions
+tasks: 11
 owns:
   - infra/powersync/streams/disruptions.yaml
   - packages/domain/src/disruptions/**
@@ -203,4 +203,4 @@ All free (Q-78, entitlement matrix); guide work unmetered (system guide work).
 2. Phase-29 day grid overlay slot for the weather layer — default: phase 29 exposes `DayGridOverlaySlot`; if absent, doc delta and a one-line mount edit in the phase-29 grid.
 3. Late threshold — default 10 min (server config).
 4. Who may choose a late option — default any member in the late party; affects others' times → C41 time-critical rule (any affected + UNDO + notice).
-5. plan.md delta: wave 16 (follows phase 36 moving to wave 15); effort 11 sessions (T8 split).
+5. plan.md delta: wave 16 (follows phase 36 moving to wave 15); tasks 11 (T8 split).

@@ -6,7 +6,7 @@ depends_on: [3, 4]
 wave: 3
 features: [F-003, F-005, F-028]
 screens: [3n-7, prototype (all motion captions), 3a-6, 3c-2, 3m-3, 3l-4, 3l-6, 3f-5, 3d-2, 3e-3, 4c-2, 5b-3]
-effort: 10 sessions
+tasks: 10
 owns: [apps/mobile/src/motion/, tools/scripts/check-audio-assets.ts, apps/mobile/modules/cp-haptics/, apps/mobile/assets/sfx/, apps/mobile/assets/music/, apps/mobile/src/app/(dev)/motion-lab.tsx, e2e/motion/]
 ---
 # Phase 6 — Motion runtime, feedback bus, gesture kit

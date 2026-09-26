@@ -6,7 +6,7 @@ depends_on: [2, 7, 10, 11, 14]
 wave: 6
 features: [F-022, F-023, F-189]
 screens: [3a-9, 3a-3, 3a-12, 3j-2, 3m-2, 3m-6, 3n-2, 3n-6, 3n-7, 3l-4, 3l-7, 3g-4, 3k-6, 3m-4, 3m-5, 3o-3]
-effort: 11 sessions
+tasks: 11
 owns:
   - infra/powersync/streams/location.yaml
   - packages/domain/src/permissions/

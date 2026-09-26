@@ -6,7 +6,7 @@ depends_on: [10, 13, 16, 18, 24, 25]
 wave: 12
 features: [F-049, F-058, F-059, F-060, F-061, F-062]
 screens: [3b-2, 3b-3, 3b-6, 3b-7, 3b-8, 3c-1, 3c-2, 3g-1, 5b-2, 3d-1]
-effort: 12 sessions
+tasks: 12
 owns:
   - packages/db/src/schema/polls.ts
   - packages/db/migrations/<ts>_polls_ballots_pitches.sql
