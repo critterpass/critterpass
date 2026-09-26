@@ -79,6 +79,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. Transcribe values from `docs/design-system.md` §1, §3.2, §3.3, §4 (no invented values; ambiguous ones read from the design source `design/Critterpass.dc.html`). 2. Guide colours exactly per C5; `*.onPaper` darkened variants computed and checked ≥ 4.5:1 on `paper`. 3. zod schema for DTCG `$type`/`$value` and alias resolution. 4. Contrast test over declared pairs (text roles × surfaces, tier glyphs, member colours on ink.850 and paper).
 - Tests: `pnpm --filter @cp/design-tokens test`.
 - Done when: all aliases resolve; contrast test passes; no token lacks `$type`.
+- Status: done — e0cc18b
 
 ### T2 — Token generators (TS, CSS, Swift, Kotlin) + literal lint rule
 - Goal: generated outputs from one source, built by Turborepo.
@@ -86,6 +87,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. Style Dictionary 5 (DTCG native) or a small custom emitter if SD cannot express springs/cue maps — pick one, keep one. 2. TS: `as const` object + types; easings as bezier tuples, springs as `{stiffness, damping, mass}`. 3. Swift `CPTokens` enums + `Color(hex:)`; Kotlin `object CpTokens`. 4. CSS vars on `:root`. 5. ESLint rule + fixture tests; register in the shared ESLint config from phase 1.
 - Tests: `pnpm --filter @cp/design-tokens test && pnpm turbo build --filter @cp/design-tokens`; `swiftc -parse packages/design-tokens/dist/swift/*.swift`; `kotlinc` compile check in CI script.
 - Done when: snapshots stable; Swift parses; Kotlin compiles; lint rule flags `'#fff'` and `fontSize: 12` in fixtures.
+- Status: done — `build/` -> `codegen/` and `dist/` -> `generated/` renamed (tooling forces this in this environment; see report) — 5f0a1c2
 
 ### T3 — Font acquisition, instancing, subsetting
 - Goal: reproducible font build producing all instances with licences.

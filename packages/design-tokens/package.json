@@ -12,12 +12,14 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
-    "build": "tsx build/index.ts"
+    "build": "tsx codegen/index.ts"
   },
   "dependencies": {
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@types/estree": "catalog:",
+    "eslint": "catalog:",
     "tsx": "catalog:"
   }
 }

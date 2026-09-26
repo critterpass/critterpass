@@ -7,6 +7,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
+import { designTokensEslintPlugin } from './packages/design-tokens/eslint/index.js';
 import { architectureLintConfig } from './tools/lint/boundaries.js';
 
 const rootDir = import.meta.dirname;
@@ -26,6 +27,9 @@ export default defineConfig([
   globalIgnores([
     '**/node_modules/',
     '**/dist/',
+    // packages/design-tokens' cross-language build output; named "generated/" rather than "dist/"
+    // (see packages/design-tokens/.gitignore for why) but the same kind of generated artifact.
+    'packages/design-tokens/generated/',
     '**/.turbo/',
     '**/.expo/',
     '**/.astro/',
@@ -107,6 +111,13 @@ export default defineConfig([
 
   // Architecture import rules (docs/system-architecture.md §3).
   ...architectureLintConfig(rootDir, boundaries),
+
+  // No hand-typed colours/fontSize/duration outside @cp/design-tokens (docs/code-standards.md §6).
+  {
+    files: ['apps/mobile/src/**/*.{ts,tsx}', 'apps/web/src/**/*.{ts,tsx}'],
+    plugins: { critterpass: designTokensEslintPlugin },
+    rules: { 'critterpass/no-literal-style': 'error' },
+  },
 
   prettier,
 ]);

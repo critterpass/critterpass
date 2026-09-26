@@ -13,6 +13,7 @@ catalog:
   '@hono/zod-openapi': 1.6.3
   '@testcontainers/postgresql': 12.1.0
   '@testcontainers/redis': 12.1.0
+  '@types/estree': 1.0.9
   '@types/node': 26.6.3
   '@types/pg': 8.23.1
   eslint: 10.11.0

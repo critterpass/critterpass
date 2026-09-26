@@ -15,6 +15,9 @@ export default function DevProbeScreen() {
   );
 }
 
+// Dev-only route (never bundled in production, see the marker above); stays on the platform
+// default text size rather than importing @cp/design-tokens, which route files may not import
+// directly (docs/system-architecture.md §3 — styling tokens flow through the ui/feature layers).
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -24,7 +27,6 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    fontSize: 20,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
 });
