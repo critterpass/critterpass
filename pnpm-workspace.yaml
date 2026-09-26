@@ -37,6 +37,7 @@ catalog:
 
 # pnpm refuses dependency install scripts unless they are listed here.
 allowBuilds:
+  '@parcel/watcher': true
   esbuild: true
   unrs-resolver: true
 

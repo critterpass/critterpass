@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2024", "DOM"],
+    "customConditions": ["react-native"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "app.config.ts", "jest.config.ts"],
+  "exclude": ["babel.config.js", "metro.config.js"]
+}
