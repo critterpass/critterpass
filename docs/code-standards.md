@@ -225,7 +225,7 @@ Forbidden: Redux, MobX, React Context for frequently changing values, duplicatin
 | Writes | the model never writes; tools return proposals validated by `planner`/`cost-engine`; numbers/times/prices computed by code, model only words them |
 | Context | built from `guide_reader` views only; **no C3 fields, no supplier content**; contract test asserts context builder output |
 | Injection | user/crew text wrapped as data; tool allow-list per surface; spend/booking actions require explicit user confirmation |
-| Evals | every prompt/tool/routing change updates or runs its promptfoo suite (`pnpm --filter ai eval <suite>`); CI blocks on regression |
+| Evals | every prompt/tool/routing change updates or runs its promptfoo suite (`pnpm --filter @cp/ai eval <suite>`); CI blocks on regression |
 | Traces | Langfuse with redaction; cost tags per crew-trip |
 | Disclosure | AI-generated content marked per EU AI Act Art. 50 in UI |
 | Metering | every model call passes through the quota check in `entitlements` |

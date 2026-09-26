@@ -108,70 +108,70 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Goal: extend P8's plan tables; add redraft reservations.
 - Files: `packages/db/src/schema/draft.ts`, `packages/db/src/schema/plan.ts` (append-only: 3 columns), `packages/db/migrations/<ts>_draft_metrics_and_redraft_reservations.sql`, `packages/db/test/permissions/{draft-organiser-visibility,redraft-reservations}.test.ts`, `packages/domain/src/itinerary/{schemas,ids}.ts`, `infra/powersync/streams/draft.yaml` (`agent_jobs` + `redraft_reservations` into `trip_draft`)
 - Steps: 1. `ALTER TABLE` for `locked_reason`, `metrics`, `coverage`; create `redraft_reservations` + RLS. 2. Stream appends. 3. zod `Itinerary`, `PlanDay`, `PlanItem`, `RedraftResult`. 4. New test files add draft-specific cases on top of P8's plan-table suites (P8 files untouched).
-- Tests: `pnpm --filter @critterpass/db test -- permissions/draft-organiser-visibility permissions/redraft-reservations permissions/itinerary_versions permissions/plan_items`
+- Tests: `pnpm --filter @cp/db test -- permissions/draft-organiser-visibility permissions/redraft-reservations permissions/itinerary_versions permissions/plan_items`
 - Done when: migration contains no `CREATE TABLE` for P8 tables; P8 plan permission suites still green; member reads 0 organiser-visibility rows or draft `agent_jobs` directly and via sync replica; organiser reads all; `redraft_reservations` writable only via handler.
 
 ### T2 — Draft validator, repair targeting, diff metrics
 - Goal: pure planner pieces for the draft pipeline.
 - Files: `packages/planner/src/draft/{candidate-pools,validate-itinerary,repair-targets,redraft-diff,metrics}.ts`, `packages/planner/test/draft/*.test.ts`
 - Steps: 1. Candidate pool shaping from prefetch data (per must-do/interest/day). 2. Validator: hours in dest tz, travel time from matrix, 15-min grid, capacity, must-do coverage, dietary, budget ≤ target, flight arrival/departure buffers. 3. Repair targets = violating days + reasons. 4. `redraftDiff(base, candidate)` on stable ids + metrics (transit Δ, pace Δ, must-dos kept, cost Δ).
-- Tests: `pnpm --filter @critterpass/planner test -- draft`
+- Tests: `pnpm --filter @cp/planner test -- draft`
 - Done when: 3c-12 fixture yields 3 changes and "90 MIN LESS ON TRAINS · SAME PACE · ALL 5 MUST-DOS KEPT"; validator catches each injected violation class.
 
 ### T3 — Draft prompts and schemas + promptfoo suite
 - Goal: skeleton/day/repair/summary/redraft prompts with evals.
 - Files: `packages/ai/src/prompts/draft/**`, `packages/ai/evals/draft/{promptfooconfig.yaml,golden/*.json,asserts/*.ts}`
 - Steps: 1. Persona-aware prompts (persona pack from P18) with strict JSON output keyed by POI ids; chat memory and member notes inside an untrusted-data block. 2. Golden set: ~30 crews across 6 guide cities + 20 redraft requests + 10 injection cases (crew messages / notes that try to override instructions, add links, reveal budgets or change other days). 3. Asserts run the planner validator + no-unknown-id + no numeric claims in prose + injection cases leave output schema, scope and constraints unchanged.
-- Tests: `pnpm --filter @critterpass/ai eval -- draft`
+- Tests: `pnpm --filter @cp/ai eval -- draft`
 - Done when: pass rate ≥ 90% on validator-clean first pass and 100% after repair; zero unknown POI ids; injection eval 100 %.
 
 ### T4a — `start_draft`/`cancel_draft` + job shell (load, prefetch, steps, persist)
 - Goal: durable job frame with truthful progress.
 - Files: `services/worker/src/jobs/ai/draft.ts`, `services/worker/src/jobs/ai/draft/{load,prefetch,persist,steps}.ts`, `services/api/src/commands/draft/{start-draft,cancel-draft}.ts`
 - Steps: 1. Command: organiser policy, one active job, agent_jobs row + `boss.send` in one tx. 2. Load via `guide_reader` views (no C3); parallel prefetch with per-call timeouts. 3. Steps writer + `trip_draft:` rt_outbox; persist version + coverage + metrics idempotently. 4. Push on completion; failure path marks steps failed; cancel.
-- Tests: `pnpm --filter @critterpass/worker test -- jobs/ai/draft/shell`; `pnpm --filter @critterpass/api test -- commands/draft/start-draft`
+- Tests: `pnpm --filter @cp/worker test -- jobs/ai/draft/shell`; `pnpm --filter @cp/api test -- commands/draft/start-draft`
 - Done when: second `start_draft` while one runs → rejected; killing the worker mid-job resumes or fails cleanly without duplicate versions; step labels match the copy list (no hold/price claims).
 
 ### T4b — Model stages: skeleton, day fan-out, validate/repair + bench
 - Goal: Opus skeleton → Sonnet days → validator repair loop.
 - Files: `services/worker/src/jobs/ai/draft/{skeleton,fan-out,validate-repair}.ts`, `services/worker/bench/draft.bench.ts`
 - Steps: 1. Opus skeleton; `Promise.all` Sonnet days streaming `draft.day_title` + day cards. 2. Validate/repair ≤2 then drop-and-flag. 3. Routing flag `ai.draft.skeleton_model` (opus / sonnet). 4. Bench script records p50/p95 and time to first day card per model route.
-- Tests: `pnpm --filter @critterpass/worker test -- jobs/ai/draft/stages`; `pnpm --filter @critterpass/worker bench:draft`
+- Tests: `pnpm --filter @cp/worker test -- jobs/ai/draft/stages`; `pnpm --filter @cp/worker bench:draft`
 - Done when: integration test with Anthropic recorded fixtures (recorded from real calls, replayed) produces a valid version; staging bench over 10 runs recorded in the PR for both routes; first streamed day card ≤ 8 s p50. p50 ≤ 20 s is tracked as a P54 launch gate (fallback = routing flag to all-Sonnet).
 
 ### T5 — Redraft pipeline + quota
 - Goal: `request_redraft`, `ai.redraft`, keep/revert, restore.
 - Files: `services/api/src/commands/draft/{request-redraft,keep-redraft,revert-redraft,restore-draft-version}.ts`, `services/worker/src/jobs/ai/redraft.ts`
 - Steps: 1. Atomic reserve (`SELECT … FOR UPDATE` on `trip_entitlements`/count) → `REDRAFT_LIMIT`. 2. Sonnet day job → diff + metrics + reasons → candidate version. 3. Commit on delivery, release on failure/identical. 4. Free fit-in redraft for late must-dos (Q-34) flagged `free_reason`. 5. `trip:` `redraft.counter` event.
-- Tests: `pnpm --filter @critterpass/api test -- commands/draft/redraft-quota`; `pnpm --filter @critterpass/worker test -- jobs/ai/redraft`
+- Tests: `pnpm --filter @cp/api test -- commands/draft/redraft-quota`; `pnpm --filter @cp/worker test -- jobs/ai/redraft`
 - Done when: 10 concurrent requests with 1 remaining produce exactly 1 accepted; failed job releases; boosted trip unlimited but capped by fair-use counter.
 
 ### T6 — Drafting screen (3c-8)
 - Goal: progress UI tied to real steps.
 - Files: `apps/mobile/src/features/plan/draft/{screens/drafting-screen.tsx,components/{ping-rings,task-list,day-marquee}.tsx,hooks/use-draft-job.ts,commands.ts,queries.ts}`, `apps/mobile/src/app/(trip)/[tripId]/draft/drafting.tsx`, `packages/i18n/locales/en/plan-draft/drafting.po`, `e2e/plan/draft-drafting.yaml`
 - Steps: 1. Subscribe `trip_draft:` + poll fallback. 2. Motion per spec via motion runtime presets. 3. Slow/failure/offline/cancel states. 4. Fold transition to review on done.
-- Tests: `pnpm --filter mobile test -- features/plan/draft/drafting`; `maestro test e2e/plan/draft-drafting.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/plan/draft/drafting`; `maestro test e2e/plan/draft-drafting.yaml`
 - Done when: backgrounding during job then tapping the push lands on 3c-9; failed step visible with reason.
 
 ### T7 — Private draft review (3c-9) + version history
 - Goal: organiser review screen.
 - Files: `apps/mobile/src/features/plan/draft/{screens/draft-review-screen.tsx,components/{draft-day-row,coverage-strip,stale-banner,version-history-sheet}.tsx}`, `apps/mobile/src/app/(trip)/[tripId]/draft/index.tsx`, `packages/i18n/locales/en/plan-draft/review.po`, `e2e/plan/draft-review.yaml`
 - Steps: 1. Rows from local `trip_draft` data; drop-in + stamp motion. 2. Coverage, over-budget, stale, lottery notes. 3. Stay rows: book-here link / free-cancel date. 4. Crew-side "{name} is planning" header status.
-- Tests: `pnpm --filter mobile test -- features/plan/draft/review`; `maestro test e2e/plan/draft-review.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/plan/draft/review`; `maestro test e2e/plan/draft-review.yaml`
 - Done when: a member device shows no draft data (Maestro run as member); tapping a day pushes the typed route helper `routes.day(tripId, day, {version: 'draft'})` (contract test; P29 builds the draft-mode day screen); RNTL layout snapshots committed; Maestro `takeScreenshot` artifact for `3c-9`.
 
 ### T8 — Change-a-day sheet, last-redraft interstitial, diff screen
 - Goal: 3c-11, 4f-3, 3c-12.
 - Files: `apps/mobile/src/features/plan/draft/{screens/change-day-sheet.tsx,screens/redraft-diff-screen.tsx,components/{reason-chips,change-card,metric-chips,last-redraft-interstitial}.tsx}`, `packages/i18n/locales/en/plan-draft/redraft.po`, `e2e/plan/draft-redraft.yaml`
 - Steps: 1. Sheet with chips, note, counter; interstitial before last; limit → Boost upsell (P46 entry). 2. Thinking beat (900 ms fold) while job runs. 3. Diff animation sequence; KEEP IT / put back with toasts + success haptic. 4. Failure/identical/conflict states.
-- Tests: `pnpm --filter mobile test -- features/plan/draft/redraft`; `maestro test e2e/plan/draft-redraft.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/plan/draft/redraft`; `maestro test e2e/plan/draft-redraft.yaml`
 - Done when: counter decrements only on delivered results; revert restores prior day rows; copy never says "I booked it".
 
 ### T9 — Draft supplier touches (stays links, Viator availability)
 - Goal: truthful stay/activity affordances in draft and redraft.
 - Files: `services/worker/src/jobs/ai/draft/suppliers.ts`, `apps/mobile/src/features/plan/draft/components/{stay-link-row,activity-slot-badge}.tsx`
 - Steps: 1. Stay affiliate link via P15 Travelpayouts client (`affiliate_clicks` sub_id via API) + "~$X estimate" from P16 cost bands. 2. Viator product match for must-dos; availability check behind `supplier.viator_booking` through the `packages/suppliers` availability port (P35 registers the Viator adapter; wiring + live check in P35). 3. Show free-cancel date only from an imported booking or a live Demand-adapter rate.
-- Tests: `pnpm --filter @critterpass/worker test -- jobs/ai/draft/suppliers`
+- Tests: `pnpm --filter @cp/worker test -- jobs/ai/draft/suppliers`
 - Done when: supplier text never enters prompts (test asserts prompt payloads contain only ids/prices from our DB); contract test against the availability port with a recorded Viator `availability/check` fixture flags "Slot available"; flag off or no adapter registered → links only; no stay row shows free-cancel without an imported booking.
 
 ## Phase acceptance criteria

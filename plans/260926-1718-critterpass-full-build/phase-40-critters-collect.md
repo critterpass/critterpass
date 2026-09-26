@@ -141,77 +141,77 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Goal: pure-TS rules shared by app and worker.
 - Files: `packages/domain/src/critters/{spawn-rules.ts,encounter-machine.ts,solar.ts,dex-counts.ts,home-set.ts,config.ts,index.ts}`, `packages/domain/test/critters/*.test.ts`
 - Steps: 1. zod schemas for five spawn kinds + windows. 2. Encounter reducer `(state, event{fix|tick|hold|leave}) → state` with hysteresis, accuracy gate, grace, drain, ready, wandered_off. 3. Solar sunrise/sunset per lat/lng/date (NOAA algorithm, no network). 4. Count derivations (C22) and home set (C39). 5. Defaults in `config.ts` overridable by server config.
-- Tests: `pnpm --filter @critterpass/domain test -- critters`
+- Tests: `pnpm --filter @cp/domain test -- critters`
 - Done when: table-driven tests cover every §3.4 transition, grace/drain timing, solar within ±2 min of reference tables, and counts for fixtures.
 
 ### T2 — Schema, RLS backstop, publication
 - Goal: critter collection tables with permission contract tests.
 - Files: `packages/db/src/schema/critters.ts`, `packages/db/migrations/<ts>_critter_collection_encounters.sql`, `packages/db/test/permissions/{eggs,encounters,collection-entries,stickers,guide-skins,crew-collection-counts}.test.ts`
 - Steps: 1. Drizzle tables + indexes per §3.9 (+ `guide_skins`, `trip_participants.egg_id`, `user_settings.explore_at_home`). 2. RLS policies + grants for `app_user`, `app_system`, `guide_reader`, `powersync_repl` (evidence column excluded). 3. `crew_collection_counts` table (app_user read for crew members, no write). 4. Publication entries (counts table in `crew_people`; no views published). 5. Schema test: `encounter_samples` has no lat/lng/geometry column.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/eggs permissions/encounters permissions/collection-entries permissions/stickers permissions/guide-skins permissions/crew-collection-counts`; `pnpm tsx tools/scripts/check-publication.ts`
+- Tests: `pnpm --filter @cp/db test -- permissions/eggs permissions/encounters permissions/collection-entries permissions/stickers permissions/guide-skins permissions/crew-collection-counts`; `pnpm tsx tools/scripts/check-publication.ts`
 - Done when: non-owner cannot read evidence or others' entries; crew sees counts only; `hide_collection` hides counts; publication excludes evidence and lists no views; `encounter_samples` schema test proves no coordinate columns.
 
 ### T3 — Commands: egg, encounter, befriend, skin, settings
 - Goal: server handlers for all critter commands.
 - Files: `services/api/src/commands/critters/{grant-egg,hatch-egg,start-encounter,report-encounter-samples,befriend-critter,set-guide-skin,set-explore-at-home}.ts`, `services/api/test/critters/commands.test.ts`
 - Steps: 1. Handlers with app-layer policy (participant, owned form, trip state). 2. `befriend_critter` stores evidence, sets `verification=pending`, enqueues `critter.verify` in txn. 3. `hatch_egg` idempotent across triggers. 4. Domain events + `rt_outbox` rows.
-- Tests: `pnpm --filter @critterpass/api test -- critters`
+- Tests: `pnpm --filter @cp/api test -- critters`
 - Done when: replayed `op_id` is a no-op; offline-order batch via `/sync/upload` yields the same end state; rejects return 2xx + `cmd_results`.
 
 ### T4 — Verification, rewards fan-out, hatch triggers
 - Goal: server truth for encounters and hatches.
 - Files: `services/worker/src/jobs/critters/{verify,grant-on-boarded,hatch-on-landed,crew-hints,crew-counts}.ts`, `services/worker/src/jobs/rewards/{index,registry}.ts`, `services/worker/test/critters/verify.test.ts`
 - Steps: 1. Plausibility scoring (speed, teleport vs flights, attestation, mock, skew) with thresholds in config. 2. verify → `collection_entries` + `critter.befriended`; revoke → remove pending entry + `critter.revoked`. 3. `reward.fanout` registry with same-ts grant. 4. `participant.boarded` consumer → `grant_egg`; `flight.event{landed}` consumer → `hatch_egg`. 5. `crew_collection` hints + first-spotter. 6. `crew-counts` job maintaining `crew_collection_counts`.
-- Tests: `pnpm --filter @critterpass/worker test -- critters`
+- Tests: `pnpm --filter @cp/worker test -- critters`
 - Done when: fixtures with mock flag, bad device-key signature or 900 km/h hop are revoked; clean fixtures verified (also with `attestation: unavailable`); boarded event grants one egg; landed webhook fixture hatches every crew member on that flight once; counts row updates on befriend/revoke and disappears when `hide_collection` is on.
 
 ### T5 — Legendary windows, reminders, co-presence
 - Goal: F-127 and F-128 server side.
 - Files: `services/api/src/commands/critters/set-legendary-reminder.ts`, `services/worker/src/jobs/reminders/{conditional,conditions}.ts`, `services/worker/src/jobs/critters/{copresence,season-reschedule}.ts`, `services/worker/test/critters/{reminders,copresence}.test.ts`
 - Steps: 1. Reminder scheduling a month before window in user tz; conditions registry (`window_active_not_found`, `quiet_window`, `crew_planning_again` used by phase 43). 2. Reschedule on `season.ingest` output. 3. Co-presence grouping + overlap check + grant to all + `trip_copresence` counts.
-- Tests: `pnpm --filter @critterpass/worker test -- critters/reminders critters/copresence`
+- Tests: `pnpm --filter @cp/worker test -- critters/reminders critters/copresence`
 - Done when: 6-member fixture grants all six with identical `found_at`; 5-of-6 grants none; reminder fires only when condition holds.
 
 ### T6 — Client encounter engine (offline)
 - Goal: device-side engine driving UI, commands and App Group.
 - Files: `apps/mobile/src/features/critters/engine/{engine.ts,evidence.ts,spawn-feed.ts,use-encounter.ts}`, `apps/mobile/src/features/critters/engine/__tests__/*.test.ts`, `tools/scripts/gpx/critters/{temple-dwell,walk-off-return,mock-teleport}.gpx`
 - Steps: 1. Subscribe `cp-location` `encounter` kind; feed domain reducer. 2. Load spawn rules from local PowerSync `trip_pack`; rotation seed. 3. Build evidence bundle (aggregates + local device-key signature via `lib/attestation`; Play Integrity token added at upload time, missing → `unavailable`). 4. Queue `start_encounter`/`report_encounter_samples`/`befriend_critter`. 5. Write silhouette stage + distance band to App Group for LA/widgets.
-- Tests: `pnpm --filter mobile test -- features/critters/engine`
+- Tests: `pnpm --filter @cp/mobile test -- features/critters/engine`
 - Done when: GPX fixtures replayed in Jest produce expected states and queued commands with no network; no raw fixes leave the device.
 
 ### T7 — Hatch + PASS tab Critterdex
 - Goal: 3l-1, 3l-2, 3l-8.
 - Files: `apps/mobile/src/app/(modal)/hatch/[tripId].tsx`, `apps/mobile/src/app/(tabs)/pass.tsx`, `apps/mobile/src/app/critters/set/[setId].tsx`, `apps/mobile/src/features/critters/{hatch,dex}/**`, `packages/i18n/locales/en/critters/{hatch,dex}.po`
 - Steps: 1. Hatch choreography (P6 patterns) + egg-waiting card + manual hatch. 2. Dex sections order, set rows, corner dots, bar, breathing locked slots, gold legendary silhouettes, filters + search. 3. Crew counts + realtime hints. 4. Home set + explore-at-home toggle. 5. Fly-in landing slot.
-- Tests: `pnpm --filter mobile test -- features/critters/hatch features/critters/dex`
+- Tests: `pnpm --filter @cp/mobile test -- features/critters/hatch features/critters/dex`
 - Done when: RNTL snapshots per state (empty, waiting egg, hatched, filters, hidden crew counts) pass and names never render for unfound critters.
 
 ### T8 — Critter detail, make-it-my-guide, share
 - Goal: 3l-3.
 - Files: `apps/mobile/src/app/critters/[critterId].tsx`, `apps/mobile/src/features/critters/detail/**`, `services/api/src/commands/critters/set-guide-skin.ts` (from T3, wiring only), `packages/i18n/locales/en/critters/detail.po`
 - Steps: 1. Flip-in, form spin + recolour, locked shake + requirement copy. 2. Make-it-my-guide with confirm + revert; triggers avatar render for surfaces. 3. Share via `ui/share-image`.
-- Tests: `pnpm --filter mobile test -- features/critters/detail`
+- Tests: `pnpm --filter @cp/mobile test -- features/critters/detail`
 - Done when: tapping each owned form changes skin across guide chat header in a test harness; locked forms cannot be set.
 
 ### T9 — Encounter camera UI, hold ceremony, wandered-off, befriended
 - Goal: 3l-4, 3l-5, 3l-6, 3l-10.
 - Files: `apps/mobile/src/app/(trip)/encounter/[id].tsx`, `apps/mobile/src/features/critters/encounter/**`, `packages/i18n/locales/en/critters/encounter.po`
 - Steps: 1. vision-camera scene + Skia overlay; illustrated fallback. 2. Hold ring (Gesture Handler 3 + Reanimated) with timings above; accessible Befriend action. 3. Wandered-off card with quiet window + reminder. 4. Befriended ceremony + XP chip + fly-to-pass. 5. Legendary scene layers.
-- Tests: `pnpm --filter mobile test -- features/critters/encounter`
+- Tests: `pnpm --filter @cp/mobile test -- features/critters/encounter`
 - Done when: hold completes only when state `ready`; accessibility action path befriends without hold; Reduce Motion variant renders final frames.
 
 ### T10 — Legendary calendar + co-presence UI
 - Goal: 3l-9 + co-presence progress.
 - Files: `apps/mobile/src/app/critters/legendaries.tsx`, `apps/mobile/src/features/critters/{legendary,copresence}/**`, `packages/i18n/locales/en/critters/legendary.po`
 - Steps: 1. 12-month strip with gold glint, trip-overlap fill, reminder toggles. 2. Co-presence card "3 of 6 here" from `trip_copresence`, who-is-missing list, simultaneous reveal on grant.
-- Tests: `pnpm --filter mobile test -- features/critters/legendary features/critters/copresence`
+- Tests: `pnpm --filter @cp/mobile test -- features/critters/legendary features/critters/copresence`
 - Done when: reminder toggle queues `set_legendary_reminder` offline; co-presence card updates from a mocked Centrifugo client in tests without coordinates in payloads.
 
 ### T11 — End-to-end flows
 - Goal: Maestro coverage on both platforms.
 - Files: `e2e/critters/{hatch,dex-filters,encounter-dwell,encounter-wander,encounter-accessible,legendary-reminder,copresence}.yaml`, `services/api/test/critters/e2e-sync.test.ts`
 - Steps: 1. Simulator/emulator GPX injection per flow. 2. Seeded content fixture (P18 test release). 3. Sync e2e: offline befriend → upload → verified.
-- Tests: `maestro test e2e/critters`; `pnpm --filter @critterpass/api test -- critters/e2e-sync`
+- Tests: `maestro test e2e/critters`; `pnpm --filter @cp/api test -- critters/e2e-sync`
 - Done when: all flows pass on iOS 26 simulator and Android API 36 emulator.
 
 ## Phase acceptance criteria

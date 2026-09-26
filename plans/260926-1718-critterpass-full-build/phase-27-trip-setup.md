@@ -141,84 +141,84 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Goal: tables + SECURITY DEFINER aggregators for calendars, availability, budgets.
 - Files: `packages/db/src/schema/setup.ts`, `packages/db/migrations/<ts>_setup_availability_and_budgets.sql`, `packages/db/test/permissions/{calendar-sources,calendar-days,availability-asks,availability-summaries,date-window-options,budget-max-private,budget-defaults-private,trip-budget-aggregates,budget-plans}.test.ts`, `packages/domain/src/setup/{availability,budget}.ts`
 - Steps: 1. Drizzle tables per data-model §3.4 + deltas. 2. Hand SQL: RLS ENABLE+FORCE, grants per role, `app.recompute_availability(trip)`, `app.recompute_budget_band(trip)` (k≥4, bucket+jitter, band edge rule), `app.my_budget_max(trip)`. 3. Exclude C3 tables from publication; revoke from `guide_reader`. 4. zod schemas in domain.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/budget-max-private permissions/calendar-days permissions/trip-budget-aggregates`
+- Tests: `pnpm --filter @cp/db test -- permissions/budget-max-private permissions/calendar-days permissions/trip-budget-aggregates`
 - Done when: owner cannot SELECT own `budget_max_private` as `app_user`; organiser/other member/`guide_reader`/`powersync_repl` read 0 rows of every C3 table; band never equals the lowest max across a property test of 1,000 random crews; band, dots, under-all and infeasible flag all absent when k < 4; inference property tests for k = 2 and k = 3 (organiser knows own max, observes every output of the aggregate, band route and lock responses) cannot bound the other maxes more tightly than "set / not set".
 
 ### T2 — Rooms, must-dos, dietary schema + sync streams
 - Goal: remaining setup tables and stream entries.
 - Files: `packages/db/src/schema/setup.ts`, `packages/db/migrations/<ts>_setup_rooms_must_dos_dietary.sql`, `packages/db/test/permissions/{room-plans,room-assignments,must-dos,dietary}.test.ts`, `infra/powersync/streams/setup.yaml`
 - Steps: 1. `room_plans`, `room_assignments`, `must_dos`, `dietary_profiles` (X), `participant_dietary_flags` (derived with consent). 2. RLS: members read, organiser writes rooms, owner writes must-dos. 3. Append tables to `trip` stream. 4. PowerSync local replica test.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/must-dos permissions/room-assignments permissions/dietary`; `pnpm --filter @critterpass/db test:sync`
+- Tests: `pnpm --filter @cp/db test -- permissions/must-dos permissions/room-assignments permissions/dietary`; `pnpm --filter @cp/db test:sync`
 - Done when: non-participant reads 0 rows; member cannot write another member's must-do; dietary detail unreadable by peers, flags readable only with consent.
 
 ### T3 — Date-window engine
 - Goal: pure best-window + no-fit option generation.
 - Files: `packages/planner/src/setup/{windows,no-fit-options}.ts`, `packages/planner/test/setup/windows.test.ts`
 - Steps: 1. Sliding window over per-date counts (free/maybe/busy/unknown), variable length, horizon ≤ 6 months. 2. Score = full-crew > season score > fare delta; tie-break earliest. 3. No-fit: best partial (missing members + which must-dos/highlights they'd miss), best full-crew alternative with price delta + season note, ask-first candidate when blocker has only `maybe` days. 4. Output `date_window_options` rows.
-- Tests: `pnpm --filter @critterpass/planner test -- setup/windows`
+- Tests: `pnpm --filter @cp/planner test -- setup/windows`
 - Done when: fixtures reproduce 3c-3 (Apr 2–9 all 6) and 3c-4 (3 options, ask-Dev pick) outputs; 16-member, multi-month and empty-data cases covered.
 
 ### T4 — Budget band & room pricing math
 - Goal: pure budget breakdown/knob validation and per-room split.
 - Files: `packages/cost-engine/src/budget/{band,breakdown,feasibility}.ts`, `packages/cost-engine/src/rooms/{group,split}.ts`, `packages/cost-engine/test/{budget,rooms}/*.test.ts`
 - Steps: 1. `breakdown(target, estimates)` → FLIGHTS/STAYS/FOOD/FUN summing exactly to target (largest-remainder). 2. `isUnderAll(target, band)`; feasibility vs cheapest plan. 3. Trait clustering (couples, chronotype, sleep) → room proposal. 4. Per-room split with unequal prices, nights per stay.
-- Tests: `pnpm --filter @critterpass/cost-engine test -- budget rooms`
+- Tests: `pnpm --filter @cp/cost-engine test -- budget rooms`
 - Done when: bars always sum to target in minor units; 3c-6 fixture groups light sleepers/early risers/night owls; odd crew sizes produce a valid plan or a capacity error.
 
 ### T5 — Availability & calendar commands, OAuth, sync jobs
 - Goal: server side of F-070.
 - Files: `services/api/src/commands/setup/{set-availability,connect-calendar,disconnect-calendar,ask-availability,answer-availability-ask,lock-trip-dates,set-setup-step}.ts`, `services/api/src/calendar-oauth/**`, `services/api/src/setup/windows-route.ts`, `services/worker/src/jobs/calendar/{sync,stale-nudge}.ts`, `services/worker/src/jobs/setup/{window-recompute,availability-ask-timeout}.ts`
 - Steps: 1. Handlers with policy + idempotent op_id; `set_availability` writes `calendar_days` then enqueues debounced recompute. 2. Google/Microsoft OAuth (PKCE, encrypted tokens, revoke on disconnect) + freeBusy → date-level reduction. 3. Ask flow: guide DM via P13 gateway + N-05 push with quick actions; reply intent; timeout job. 4. `trip_setup:` events via `rt_outbox`.
-- Tests: `pnpm --filter @critterpass/api test -- commands/setup/availability`; `pnpm --filter @critterpass/worker test -- jobs/calendar`
+- Tests: `pnpm --filter @cp/api test -- commands/setup/availability`; `pnpm --filter @cp/worker test -- jobs/calendar`
 - Done when: integration test proves organiser receives only counts/resolution; OAuth tokens never logged (log redaction test); stale nudge fires once per member per stale period.
 
 ### T6a — Budget commands, band route, private read
 - Goal: server side of F-071.
 - Files: `services/api/src/commands/setup/{submit-budget-max,set-budget-default,lock-budget-target}.ts`, `services/api/src/setup/{budget-band-route,private-read,own-fit}.ts`, `services/worker/src/jobs/setup/budget-recompute.ts`
 - Steps: 1. Budget submit converts via FX snapshot, emits count-only event, debounced recompute. 2. `lock_budget_target`: k ≥ 4 rejects above band (`STATE_INVALID{over_band}`), k < 4 no cross-member check; rate limit 3/h, 10/day per trip. 3. Own-fit read (self only). 4. k < 4 → band route `K_ANON_UNAVAILABLE`.
-- Tests: `pnpm --filter @critterpass/api test -- commands/setup/budget`
+- Tests: `pnpm --filter @cp/api test -- commands/setup/budget`
 - Done when: no response body, event, log line or `rt_outbox` payload contains a max (grep-assert test on captured outputs); 4th lock attempt in an hour → `RATE_LIMITED`; k = 2 and k = 3 crews get no band, no infeasible notice, and own-fit only for the caller.
 
 ### T6b — Rooms, must-do commands + fit-check job
 - Goal: server side of F-072–F-073.
 - Files: `services/api/src/commands/setup/{set-room-assignment,request-room-swap,set-room-prefs,lock-rooms,set-stay-choice,set-must-dos,track-lottery}.ts`, `services/worker/src/jobs/ai/fit-check.ts`
 - Steps: 1. Rooms with base_version check; prices from P16 cost bands into `cost_components`. 2. Must-dos + must-do prompt push. 3. `ai.fit_check`: planner fit + Haiku note; lottery → reminders only.
-- Tests: `pnpm --filter @critterpass/api test -- commands/setup/rooms commands/setup/must-dos`; `pnpm --filter @critterpass/worker test -- jobs/ai/fit-check`
+- Tests: `pnpm --filter @cp/api test -- commands/setup/rooms commands/setup/must-dos`; `pnpm --filter @cp/worker test -- jobs/ai/fit-check`
 - Done when: fit status transitions visible on `trip_setup:`; must-do prompt push is sent to every participant once; concurrent room edit → rebase reject.
 
 ### T7 — cp-calendar native module + calendar connect UI
 - Goal: on-device date-level busy reduction and connection flows.
 - Files: `apps/mobile/modules/cp-calendar/**` (Swift + Kotlin + TS), `apps/mobile/src/features/setup/{hooks/use-calendar-sync.ts,components/calendar-connect-sheet.tsx}`
 - Steps: 1. EventKit full access / CalendarContract read; reduce to `{date,state}` natively. 2. Permission via P20 orchestrator with 3a-9 copy; denied → manual entry. 3. Foreground + background refresh re-upload. 4. OAuth connect via in-app browser to `/v1/calendar/oauth/*`; tentative opt-in toggle.
-- Tests: `pnpm --filter mobile test -- setup/calendar`; `cd apps/mobile/modules/cp-calendar && xcodebuild test -scheme CpCalendarTests`; `./gradlew :cp-calendar:testDebugUnitTest`
+- Tests: `pnpm --filter @cp/mobile test -- setup/calendar`; `cd apps/mobile/modules/cp-calendar && xcodebuild test -scheme CpCalendarTests`; `./gradlew :cp-calendar:testDebugUnitTest`
 - Done when: native unit tests prove no title/attendee/time leaves the module; manual fallback works with permission denied.
 
 ### T8 — Wizard shell + When + No-week-fits screens
 - Goal: F-069 shell and 3c-3/3c-4 UI with member views.
 - Files: `apps/mobile/src/features/setup/{screens/setup-shell.tsx,screens/when-screen.tsx,screens/no-week-fits-screen.tsx,components/{stepper,heatmap,window-options,week-picker}.tsx,queries.ts,commands.ts}`, `apps/mobile/src/app/(trip)/[tripId]/setup/**`, `packages/i18n/locales/en/setup/when.po`, `e2e/setup/when.yaml`, `e2e/setup/no-week-fits.yaml`
 - Steps: 1. Step machine from `trips.setup_step`; organiser vs member rendering. 2. Heatmap (Skia or Reanimated cells) with animated opacity steps + draw-on stroke / scribble. 3. Options card-deal, CTA flap, ask flow waiting state, manual week picker. 4. All missing states listed in F-070.
-- Tests: `pnpm --filter mobile test -- features/setup/when`; `maestro test e2e/setup/when.yaml e2e/setup/no-week-fits.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/setup/when`; `maestro test e2e/setup/when.yaml e2e/setup/no-week-fits.yaml`
 - Done when: RNTL layout snapshots committed and Maestro `takeScreenshot` artifacts produced for founder review against `3c-3_When.png` / `3c-4_No_week_fits.png`; member view shows no other member's day states; VoiceOver reads "{date}, {n} of {N} free".
 
 ### T9 — Budget screen + private max entry
 - Goal: 3c-5 organiser screen and undesigned member max entry.
 - Files: `apps/mobile/src/features/setup/{screens/budget-screen.tsx,screens/private-max-screen.tsx,components/{budget-track,breakdown-bars}.tsx}`, `packages/i18n/locales/en/setup/budget.po`, `e2e/setup/budget.yaml`
 - Steps: 1. Track with bucketed dots drop-in stagger + band squeeze animation; knob gesture with haptic ticks via feedback bus. 2. Breakdown re-flow + odometer. 3. Member entry with FX preview, write-only confirmation, `local_private` cache. 4. k<4, infeasible, waiting, multi-currency states.
-- Tests: `pnpm --filter mobile test -- features/setup/budget`; `maestro test e2e/setup/budget.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/setup/budget`; `maestro test e2e/setup/budget.yaml`
 - Done when: after submit, no screen or query on another device shows the value; dots hidden for a 3-person crew; knob above band flips the check and blocks LOOKS GOOD.
 
 ### T10 — Rooms screen
 - Goal: 3c-6 drag assignment with live price.
 - Files: `apps/mobile/src/features/setup/{screens/rooms-screen.tsx,components/{stay-card,room-row,draggable-avatar}.tsx}`, `packages/i18n/locales/en/setup/rooms.po`, `e2e/setup/rooms.yaml`
 - Steps: 1. Gesture kit long-press drag, spring shuffle, reject shake. 2. Tap-select a11y path. 3. Per-person odometer from `cost-engine/rooms`. 4. Book-here link + free-cancel line when an imported booking exists; member read-only + swap request.
-- Tests: `pnpm --filter mobile test -- features/setup/rooms`; `maestro test e2e/setup/rooms.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/setup/rooms`; `maestro test e2e/setup/rooms.yaml`
 - Done when: swap updates both avatars and prices on a second device within 1 s via `trip_setup:`; over-capacity drop is rejected.
 
 ### T11 — Must-dos list + add sheet with presence
 - Goal: 3c-7 and 3c-10.
 - Files: `apps/mobile/src/features/setup/{screens/must-dos-screen.tsx,screens/add-must-do-sheet.tsx,components/{must-do-row,typing-row,fit-pill}.tsx,hooks/use-setup-presence.ts}`, `packages/i18n/locales/en/setup/must-dos.po`, `e2e/setup/must-dos.yaml`, `e2e/setup/must-dos-offline.yaml`
 - Steps: 1. Per-keystroke search (debounce 120 ms, local fallback). 2. Typing presence publish/subscribe; dashed → solid row animation. 3. Lottery/book-ahead pills with truthful copy + reminder. 4. DRAFT MY TRIP CTA (enabled with ≥1 must-do; routes to P28 start).
-- Tests: `pnpm --filter mobile test -- features/setup/must-dos`; `maestro test e2e/setup/must-dos.yaml e2e/setup/must-dos-offline.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/setup/must-dos`; `maestro test e2e/setup/must-dos.yaml e2e/setup/must-dos-offline.yaml`
 - Done when: offline add queues and appears after reconnect with fit status; push deep link opens the sheet directly; no copy claims the app entered a lottery.
 
 ## Phase acceptance criteria

@@ -127,35 +127,35 @@ Hub phase layouts (planning/travel day/in-trip/post), trip switcher, briefing fa
 - Goal: tables, RLS, publication.
 - Files: `packages/db/src/schema/trip-day.ts`, `packages/db/migrations/<ts>_trip_day_leave_by_alarms.sql`, `packages/db/test/permissions/{briefings,briefing-items,packing-items,leave-bys,readiness,alarms,offline-bundles}.test.ts`, `infra/powersync/streams/trip-day.yaml`.
 - Steps: 1. Drizzle + SQL, FORCE RLS, grants. 2. Stream entries. 3. Permission matrix: self, co-participant, non-participant crew member, outsider, guide_reader, powersync_repl.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/briefings permissions/readiness permissions/packing-items permissions/leave-bys permissions/alarms permissions/briefing-items permissions/offline-bundles`; `pnpm tsx tools/scripts/check-publication.ts`
+- Tests: `pnpm --filter @cp/db test -- permissions/briefings permissions/readiness permissions/packing-items permissions/leave-bys permissions/alarms permissions/briefing-items permissions/offline-bundles`; `pnpm tsx tools/scripts/check-publication.ts`
 - Done when: co-participant cannot read another's briefing or personal packing rows; guide_reader has no briefing access; `offline_bundles` readable by trip participants only and not writable by `app_user`; publication check passes.
 
 ### T2 — Leave-by engine (pure) and scheduler job
 - Goal: correct leave-by times and schedules in destination tz.
 - Files: `packages/planner/src/leave-by/{compute,window,escalation,readiness-summary,index}.ts` + tests, `packages/domain/src/trip-day/{leave-by,readiness,briefing,packing}.ts`, `services/worker/src/jobs/trip-day/{leaveby-schedule,leaveby-recompute}.ts`, `services/worker/test/trip-day/leave-by.test.ts`.
 - Steps: 1. `computeLeaveBy(item, pickup, route, buffer, tz)`; eligibility rules. 2. Escalation machine (scheduled → window → alerting → departed/cancelled; knock at 2nd snooze or T0 with not-up). 3. Worker creates/updates `leave_bys` on plan/flight events; schedules `scheduled_events` T−8 h, T−3 h traffic re-check, T−45 min re-check, T−lead, T0. 4. Route via phase-14 `/routes/eta` internal client (Mapbox traffic when configured, else Valhalla, flag stored in `legs`).
-- Tests: `pnpm --filter @critterpass/planner test -- leave-by`; `pnpm --filter @critterpass/worker test -- trip-day/leave-by`
+- Tests: `pnpm --filter @cp/planner test -- leave-by`; `pnpm --filter @cp/worker test -- trip-day/leave-by`
 - Done when: fixtures (Batur 03:30 pickup, airport run, dest tz ≠ device tz, DST) produce expected `leave_at`; plan change reschedules events exactly once.
 
 ### T3 — Trip-day commands, crew knock and realtime
 - Goal: readiness/snooze/packing/briefing actions end to end.
 - Files: `services/api/src/commands/trip-day/{set-readiness,snooze-leave-by,check-packing-item,add-packing-item,remove-packing-item,act-briefing-item,report-running-late,set-leave-by-buffer,mirror-alarm-state}.ts`, `services/api/test/trip-day/commands.test.ts`.
 - Steps: 1. Handlers with authz (participant on item; organiser for buffer). 2. Action-key scopes for readiness/snooze. 3. Events → `trip_dayof` publish, N-21 on 2nd snooze/T0, N-23 + chat message for running late, nudge via `schedule_nudge`. 4. Idempotency + offline replay tests.
-- Tests: `pnpm --filter @critterpass/api test -- trip-day`
+- Tests: `pnpm --filter @cp/api test -- trip-day`
 - Done when: action-key `set_readiness` from a simulated extension succeeds and publishes within the test; 2nd snooze emits exactly one N-21 to up members.
 
 ### T4 — Morning briefing job (AI-27) with evals
 - Goal: validated, persona-worded briefings with fallback.
 - Files: `services/worker/src/jobs/trip-day/{briefing-build,briefing-candidates,briefing-insert-event}.ts`, `packages/ai/src/routes/briefing/{prompt,schema,validate,fallback}.ts`, `packages/ai/evals/briefing/{promptfooconfig.yaml,fixtures/*.json}`, `services/worker/test/trip-day/briefing.test.ts`.
 - Steps: 1. Candidate builder via `app_system` + LLM views (no C3). 2. Sonnet call via phase-13 gateway (Langfuse trace). 3. Validator: only candidate ids, numbers must equal candidate numbers, ≤ 3 items. 4. Template fallback. 5. Event insert API used by other phases (`insertBriefingItem(event)`), dedupe. 6. Schedule per user local morning.
-- Tests: `pnpm --filter @critterpass/worker test -- trip-day/briefing`; `pnpm --filter @critterpass/ai eval -- briefing`
+- Tests: `pnpm --filter @cp/worker test -- trip-day/briefing`; `pnpm --filter @cp/ai eval -- briefing`
 - Done when: eval pass rate ≥ 95 % on 20 fixtures; forced model failure yields fallback briefing with `fallback_used=true`.
 
 ### T5 — cp-alarm iOS (AlarmKit) + countdown presentation
 - Goal: real AlarmKit alarms with I'M UP and snooze-once.
 - Files: `apps/mobile/modules/cp-alarm/{expo-module.config.json,index.ts,src/types.ts,ios/CpAlarmModule.swift,ios/AlarmScheduler.swift,ios/ImUpIntent.swift,ios/SnoozeIntent.swift}`, `apps/mobile/targets/widgets/Alarm/{LeaveByAlarmCountdown.swift,AlarmMetadata.swift}`, `apps/mobile/plugins/with-alarmkit.ts`.
 - Steps: 1. Authorization + status. 2. `schedule({leaveById, fireAt, title, tint, snoozeAllowed})`, `cancel`, `list`. 3. Stop intent writes `set_readiness{up}` to App Group outbox and posts with action key when network allows. 4. Snooze intent → countdown 5 min, reschedules without secondary, queues `snooze_leave_by`. 5. Countdown view with baked Tokek asset (phase 05 bake output).
-- Tests: `pnpm --filter mobile ios:test cp-alarm` (XCTest for scheduler mapping + intent → outbox write); simulator e2e in T11.
+- Tests: `pnpm --filter @cp/mobile ios:test cp-alarm` (XCTest for scheduler mapping + intent → outbox write); simulator e2e in T11.
 - Done when: XCTests pass; on the iOS 26 simulator `schedule` → `list` returns the alarm and invoking `ImUpIntent.perform()` produces a `cmd_results` success row. Physical-device ring-through-silent/Focus check → founder device checklist (Non-code dependencies).
 
 ### T6 — cp-alarm Android (exact alarm + full-screen UI)
@@ -169,28 +169,28 @@ Hub phase layouts (planning/travel day/in-trip/post), trip switcher, briefing fa
 - Goal: JS layer keeps OS alarms in sync; 3k-2 UI.
 - Files: `apps/mobile/src/features/trip/alarm/{use-alarm-sync,alarm-permission-sheet,post-snooze-state}.ts|tsx`, `apps/mobile/src/features/trip/day-of/{screen,leave-by-hero,countdown-ring,readiness-row,im-up-button,pack-chips,pen-strike,timeline,states/*}.tsx`, `apps/mobile/src/features/trip/leave-by/use-leave-by.ts`, `apps/mobile/src/app/(trip)/hub/[tripId]/day/[date].tsx`, `packages/i18n/locales/en/trip/{day-of,alarm}.po`.
 - Steps: 1. Alarm sync: schedule only when not up, cancel on up (any source), reschedule on `leave_by.changed`, mirror state via `mirror_alarm_state`. 2. Day-of hero, ring, readiness with snore bob/pop, pack chips with Skia pen stroke, timeline, all listed states. 3. Permission sheet via orchestrator.
-- Tests: `pnpm --filter mobile test -- features/trip/day-of features/trip/alarm`
+- Tests: `pnpm --filter @cp/mobile test -- features/trip/day-of features/trip/alarm`
 - Done when: RNTL tests cover each state; sync unit tests prove no alarm scheduled for an up member and cancel on remote up.
 
 ### T8 — Trip hub, trip list and briefing card
 - Goal: 3k-1 phase-aware hub and switcher.
 - Files: `apps/mobile/src/app/(tabs)/trips/{index,_layout}.tsx`, `apps/mobile/src/app/(trip)/hub/[tripId]/index.tsx`, `apps/mobile/src/features/trip/{hub/{screen,phase-header,countdown,tiles,tile-registry,ticker,states/*},trip-list/{screen,trip-row},briefing/{briefing-card,briefing-row,chip-actions}}.tsx|ts`, `packages/i18n/locales/en/trip/hub.po`.
 - Steps: 1. Trip list with Q-07 rule. 2. Phase header variants + C14 countdown. 3. Tiles from PowerSync queries; tile registry API. 4. Ticker marquee from `trip:` channel + synced `activity_events`. 5. Briefing chips with slideOff/flap/toast, optimistic commands.
-- Tests: `pnpm --filter mobile test -- features/trip/hub features/trip/trip-list features/trip/briefing`
+- Tests: `pnpm --filter @cp/mobile test -- features/trip/hub features/trip/trip-list features/trip/briefing`
 - Done when: RNTL snapshots for 5 phases, money tile 3 states, 2-trip switcher; NUDGE shows SENT on a second client via channel test.
 
 ### T9 — Offline bundle server and builder job
 - Goal: versioned per-day bundle manifest.
 - Files: `services/api/src/routes/offline-bundle.ts`, `services/worker/src/jobs/trip-day/{daybundle-build,daybundle-triggers}.ts`, `services/api/test/trip-day/offline-bundle.test.ts`.
 - Steps: 1. Builder collects assets (attachments, phrase audio keys, FX snapshot, place labels, today point forecasts, map region ref) into `offline_bundles`. 2. Route returns signed URLs (media-worker HMAC). 3. Triggers: 20:00 local cron via `scheduled_events`, `stay_exit` event from location engine, leave-by window start. 4. Authz participant only.
-- Tests: `pnpm --filter @critterpass/api test -- trip-day/offline-bundle`; `pnpm --filter @critterpass/worker test -- trip-day/daybundle`
+- Tests: `pnpm --filter @cp/api test -- trip-day/offline-bundle`; `pnpm --filter @cp/worker test -- trip-day/daybundle`
 - Done when: outsider gets 403; manifest version bumps only when content hash changes.
 
 ### T10 — Offline bundle client and offline UI
 - Goal: 3k-4 state app-wide with real queue data.
 - Files: `apps/mobile/src/features/trip/bundle/{bundle-manager,background-prefetch,storage-settings}.ts|tsx`, `apps/mobile/src/features/trip/offline/{offline-card,still-works-list,sends-list,queued-item-sheet,reconnect-sequence,conflicts-list}.tsx`, `apps/mobile/src/app/(trip)/hub/[tripId]/offline.tsx`, `packages/i18n/locales/en/trip/offline.po`.
 - Steps: 1. Delta downloader with resume, sandbox file protection, low-storage handling. 2. Background task registration (expo-background-task) + geofence trigger subscription. 3. Offline card, lists from manifest + `commands` table, inspect/cancel/edit sheet. 4. Reconnect sequence driven by acks; conflicts list from `cmd_results`. 5. Settings > Offline page (storage per trip, remove, auto toggle).
-- Tests: `pnpm --filter mobile test -- features/trip/offline features/trip/bundle`
+- Tests: `pnpm --filter @cp/mobile test -- features/trip/offline features/trip/bundle`
 - Done when: tests prove ticks follow real ack order; cancelling a queued op removes it before upload AND the local row/query result equals its pre-op value (vote, chat message, expense fixtures).
 
 ### T11 — End-to-end flows

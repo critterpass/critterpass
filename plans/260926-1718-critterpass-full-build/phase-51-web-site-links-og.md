@@ -98,77 +98,77 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Goal: shell for all pages.
 - Files: `apps/web/src/layouts/{Base,Site}.astro`, `apps/web/src/components/site/{Header,Footer,MobileNav,StoreBadges,LangSwitch}.astro`, `apps/web/src/pages/404.astro`, `packages/i18n/locales/en/web/*.po`, `infra/cloudflare/web/wrangler.jsonc`.
 - Steps: 1. Token CSS import; fonts subset preload. 2. Header/Footer per renders; mobile drawer. 3. Official badges. 4. Lingui web catalog.
-- Tests: `pnpm --filter web test:e2e -- site/shell`; `pnpm --filter web build`.
+- Tests: `pnpm --filter @cp/web test:e2e -- site/shell`; `pnpm --filter @cp/web build`.
 - Done when: Playwright visual diff vs `Site-Header.png`/`Site-Footer.png` within threshold at 1440 and 390 widths.
 
 ### T2 — Home page (8 sections)
 - Goal: F-182.
 - Files: `apps/web/src/pages/index.astro`, `apps/web/src/components/site/home/*.astro`, `apps/web/tests/site/home.spec.ts`.
 - Steps: 1. Seven sections per render with `<critter-sticker>`; pricing/perks section slot left for T11. 2. Reduced motion.
-- Tests: `pnpm --filter web test:e2e -- site/home`; `pnpm --filter web lighthouse`.
+- Tests: `pnpm --filter @cp/web test:e2e -- site/home`; `pnpm --filter @cp/web lighthouse`.
 - Done when: visual diff passes for the seven sections; Lighthouse perf/a11y ≥95 mobile.
 
 ### T3 — Public preview API + `public_reader` role (block B)
 - Goal: safe data for web.
 - Files: `services/api/src/routes/public-previews.ts`, `packages/domain/src/public/*.ts` (projection schemas), `packages/db/migrations/<ts>_public_reader_role.sql`, `services/api/test/public-previews/*.test.ts`, `packages/db/test/permissions/public-projections.test.ts`.
 - Steps: 1. `public_reader` role + security-barrier views for proposal/recap with explicit allow-lists; grant on 52's `community.shared_plan_public`. 2. Handlers run `SET LOCAL ROLE public_reader`; kind=plan calls 52's `readPublicPlan(token)`. 3. Token validation (revoked/expired/unlisted → 404). 4. Proposal crew = count + stickers; names only with consent. 5. Rate limit + bot filter reuse from 21.
-- Tests: `pnpm --filter @critterpass/api test -- public-previews`; `pnpm --filter @critterpass/db test -- public-projections`.
+- Tests: `pnpm --filter @cp/api test -- public-previews`; `pnpm --filter @cp/db test -- public-projections`.
 - Done when: projection test fails if any column tagged C2/C3 is selected; `public_reader` SELECT on any base table is denied; revoked token returns 404.
 
 ### T4 — Invite landing + /join + referral
 - Goal: F-183.
 - Files: `apps/web/src/components/previews/{InviteCard,JoinForm,ReferralCard,Countdown,Qr}.astro`, edits to `apps/web/src/pages/{i,j,r}/[...slug].astro`, `apps/web/tests/site/invite.spec.ts`.
 - Steps: 1. SSR from link preview with `Cache-Control: private, no-store` (no edge cache/SWR). 2. All error states. 3. QR on desktop. 4. Code lookup. 5. Human-open counting in the Worker using the phase-21 bot filter (POST to the phase-21 open counter).
-- Tests: `pnpm --filter web test:e2e -- site/invite`.
+- Tests: `pnpm --filter @cp/web test:e2e -- site/invite`.
 - Done when: expired/full/revoked/unknown each render designed-in-code states; an invite revoked after a first view renders the revoked state on the next request; bot UA does not increment opens; visual diff vs `Site-Invite.png`, `Site-Referral.png`.
 
 ### T5 — OG image service (base kinds: invite, referral, tip)
 - Goal: F-186 render + cache core.
 - Files: `apps/web/src/pages/og/[kind]/[id].png.ts`, `apps/web/src/lib/og/{templates/*.tsx,atlas,render,cache}.ts`, `services/worker/src/jobs/og/render.ts`.
 - Steps: 1. Takumi wasm render with atlas sprites + static fonts. 2. Route resolves private kinds by link token only; R2 key = `HMAC(secret, kind‖id‖version)`. 3. Revoke/expiry → 404 + R2 delete (purge job on revoke event). 4. Worker pre-warm job. 5. Fallback card.
-- Tests: `pnpm --filter web test -- og` (golden PNG diff per kind + revoked-token test); `pnpm --filter @critterpass/worker test -- og`.
+- Tests: `pnpm --filter @cp/web test -- og` (golden PNG diff per kind + revoked-token test); `pnpm --filter @cp/worker test -- og`.
 - Done when: invite/referral/tip render 1200×630 < 300 KB; cache hit on second request (header assert); a revoked invite token returns 404 and its R2 object is gone; an internal id in the URL returns 404.
 
 ### T6 — Tips journal + RSS
 - Goal: F-184.
 - Files: `apps/web/src/pages/tips/{index.astro,[category].astro,[slug].astro}`, `apps/web/src/pages/rss.xml.ts`, `apps/web/src/content/config.ts`, `packages/content/src/tips/schema.ts`, `apps/web/tests/site/tips.spec.ts`.
 - Steps: 1. Content collection from package. 2. Article layout per render with AI disclosure. 3. RSS + sitemap.
-- Tests: `pnpm --filter web test:e2e -- site/tips`; `pnpm --filter web build` (schema validation).
+- Tests: `pnpm --filter @cp/web test:e2e -- site/tips`; `pnpm --filter @cp/web build` (schema validation).
 - Done when: invalid frontmatter fails build; RSS validates (`pnpm tsx tools/scripts/web/validate-rss.ts`).
 
 ### T7 — Legal set + versioning
 - Goal: F-185 pages.
 - Files: `packages/content/src/legal/**`, `apps/web/src/pages/legal/{index.astro,[doc]/index.astro,[doc]/[version].astro}`, `apps/web/tests/site/legal.spec.ts`.
 - Steps: 1. Registry + zod. 2. Pages per Site-Legal render with TOC and version history. 3. Draft docs authored from product decisions, marked `counsel_review: pending` banner until counsel sign-off flag set.
-- Tests: `pnpm --filter @critterpass/content test -- legal`; `pnpm --filter web test:e2e -- site/legal`.
+- Tests: `pnpm --filter @cp/content test -- legal`; `pnpm --filter @cp/web test:e2e -- site/legal`.
 - Done when: every doc has latest + versioned URL; registry exposes versions to `client_config`.
 
 ### T8 — Web account deletion flow (block B)
 - Goal: store-required deletion URL usable by every non-anonymous user.
 - Files: `apps/web/src/pages/account/{delete.astro,delete/confirm.astro,delete/done.astro}`, `apps/web/src/lib/api/auth.ts`, `apps/web/tests/site/deletion.spec.ts`.
 - Steps: 1. Sign-in options: phone OTP via Better Auth through the phase-09 sender router (country allow-list), Cloudflare Turnstile verified server-side, per-IP and per-number rate limits; Sign in with Apple (web Services ID) and Google (web client) via Better Auth social; CORS allow-list for web origin. 2. Anonymous-only notice ("delete in the app"). 3. Confirm screen lists what is deleted/kept (C5 records). 4. Calls `request_account_deletion`; done page with grace period.
-- Tests: `pnpm --filter web test:e2e -- site/deletion` (against local compose stack); `pnpm --filter @critterpass/api test -- web-otp-guard`.
+- Tests: `pnpm --filter @cp/web test:e2e -- site/deletion` (against local compose stack); `pnpm --filter @cp/api test -- web-otp-guard`.
 - Done when: phone, Apple and Google sign-in each create an `account_deletions` row for the signed-in uid; OTP without Turnstile token, over rate limit, or to a non-allow-listed country is rejected without sending; unauthenticated call rejected.
 
 ### T9 — Web previews: proposal, recap, plan, locals (block B)
 - Goal: F-092.
 - Files: `apps/web/src/components/previews/{Proposal,Recap,Plan,Locals}Preview.astro`, edits to `apps/web/src/pages/{p,plan,locals}/[...slug].astro`, `apps/web/tests/site/previews.spec.ts`.
 - Steps: 1. Layouts derived from 3a-10/3m-9/3o-4 styles; proposal crew as count + anonymous stickers. 2. noindex for unlisted. 3. `no-store` for token pages. 4. Handoff CTA.
-- Tests: `pnpm --filter web test:e2e -- site/previews`.
+- Tests: `pnpm --filter @cp/web test:e2e -- site/previews`.
 - Done when: each preview renders from seeded local stack; unlisted pages carry `noindex`; revoked token shows gone state; proposal preview shows no avatar or name without consent.
 
 ### T11 — Private OG kinds, locals OG, home pricing (block B)
 - Goal: complete F-186 kinds and F-182 pricing.
 - Files: `apps/web/src/lib/og/templates/{proposal,recap,plan,locals}.tsx`, `apps/web/src/components/site/home/Pricing.astro`, `apps/web/tests/site/og-private.spec.ts`.
 - Steps: 1. Proposal/recap/plan templates keyed by link token, content from T3 projections only (no names/avatars without consent). 2. Locals template by public slug (critter forms from 40). 3. Pricing section from `/v1/catalog/perks` at build (build fails if unreachable in production; no hard-coded perks).
-- Tests: `pnpm --filter web test -- og` (golden per new kind + revoked plan link → 404); `pnpm --filter web test:e2e -- site/home`.
+- Tests: `pnpm --filter @cp/web test -- og` (golden per new kind + revoked plan link → 404); `pnpm --filter @cp/web test:e2e -- site/home`.
 - Done when: all 7 kinds render 1200×630 < 300 KB; revoked plan/recap/proposal tokens 404 with R2 purged; pricing section matches Site-Home render.
 
 ### T10 — Deploy pipeline + link-preview verification
 - Goal: production readiness.
 - Files: `.github/workflows/web.yml` (web job only), `apps/web/tests/site/unfurl.spec.ts`.
 - Steps: 1. Build + `wrangler deploy` per env. 2. Unfurl test using OG metadata parser against staging. 3. Cache headers.
-- Tests: `pnpm --filter web test:e2e -- site/unfurl`; `actionlint .github/workflows/web.yml`.
+- Tests: `pnpm --filter @cp/web test:e2e -- site/unfurl`; `actionlint .github/workflows/web.yml`.
 - Done when: staging deploy green; every route has og:title/og:image/twitter:card.
 
 ## Phase acceptance criteria

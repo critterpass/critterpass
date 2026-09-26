@@ -97,84 +97,84 @@ Done when: a trip published by crew A (after all consents) appears for crew B's 
 - Goal: tables + authz.
 - Files: `packages/db/src/schema/community.ts`, `packages/db/migrations/<ts>_shared_plans_ratings.sql`, `packages/db/test/permissions/{shared-plans,shared-plan-copies,ratings}.test.ts`, `packages/domain/src/community/{schemas,toggles,match}.ts`.
 - Steps: 1. Tables + `plan_links` + public views. 2. RLS/grants; `guide_reader` sees only public view. 3. Publication entries. 4. Domain schemas + `readPublicPlan(token)` (revoked/unpublished → null).
-- Tests: `pnpm --filter @critterpass/db test -- permissions/shared-plans permissions/ratings permissions/shared-plan-copies`.
+- Tests: `pnpm --filter @cp/db test -- permissions/shared-plans permissions/ratings permissions/shared-plan-copies`.
 - Done when: outsider reads only published projection; names-off projection contains no uid/display names; pending plan visible only to participants.
 
 ### T2 — Publish commands, consent flow, prepare job (scrub, blur, pick, tags)
 - Goal: safe publishing pipeline.
 - Files: `services/api/src/commands/community/{publish-shared-plan,respond-publish-consent,withdraw-publish-consent,update-shared-plan,unpublish-shared-plan,create-plan-link,revoke-plan-link}.ts`, `services/worker/src/jobs/community/{prepare,blur,pick-photos,rematerialise}.ts`, `packages/ai/src/routes/community/{title-tags,pii-scrub}.ts`, `packages/ai/evals/community/{title-tags,pii-scrub}/*`, `services/api/test/community/publish.test.ts`, `services/worker/test/community/prepare.test.ts`.
 - Steps: 1. Consent requests (chat card + Inbox via P24/P25 APIs). 2. Prepare job steps with progress. 3. YuNet detection (onnxruntime-node, threshold 0.6) + sharp blur; fail-closed vs P44 `face_count`. 4. Projection materialisation; crew system message. 5. `withdraw_publish_consent` → unpublish; `community.rematerialise` on crew leave / `account.purge`.
-- Tests: `pnpm --filter @critterpass/api test -- community/publish`; `pnpm --filter @critterpass/worker test -- community/prepare`; `pnpm --filter ai eval community-pii-scrub`.
+- Tests: `pnpm --filter @cp/api test -- community/publish`; `pnpm --filter @cp/worker test -- community/prepare`; `pnpm --filter @cp/ai eval community-pii-scrub`.
 - Done when: a note containing a booking ref and phone never appears in projection; a photo with an unconsented tagged face is excluded; a photo where the detector finds fewer faces than `face_count` is excluded; one decline blocks publish; withdrawal unpublishes; purging a named participant yields a projection without their name, tagged photos or tips (`services/worker/test/community/rematerialise.test.ts`).
 
 ### T3a — Publish sheet 3o-4 + consent card
 - Goal: designed sheet and consent UI.
 - Files: `apps/mobile/src/app/community/publish/[tripId].tsx`, `apps/mobile/src/features/community/publish/*`, `apps/mobile/src/features/community/consent/*` (chat/Inbox consent card), tests, `e2e/community/publish-consent.yaml`.
 - Steps: 1. Live preview from local projection preview fn (same code as server). 2. Toggles + envelope motion. 3. Consent card UI. 4. Pending/declined/processing/offline states.
-- Tests: `pnpm --filter @critterpass/mobile test -- community/publish community/consent`; `maestro test e2e/community/publish-consent.yaml` (two simulators).
+- Tests: `pnpm --filter @cp/mobile test -- community/publish community/consent`; `maestro test e2e/community/publish-consent.yaml` (two simulators).
 - Done when: preview text equals server projection for fixture trips; publish requires both devices' approval.
 
 ### T3b — Manage published plan
 - Goal: post-publish states.
 - Files: `apps/mobile/src/features/community/manage/*`, tests.
 - Steps: 1. Stats (copies, saves, rating). 2. Edit toggles → `update_shared_plan`; UNPUBLISH; link copy/revoke. 3. Withdraw-consent action for any participant. 4. "Planned, not travelled yet" label.
-- Tests: `pnpm --filter @critterpass/mobile test -- community/manage`.
+- Tests: `pnpm --filter @cp/mobile test -- community/manage`.
 - Done when: unpublish, revoke and withdraw each reach the tombstone state from fixture data.
 
 ### T4 — Browse API with taste-match ranking
 - Goal: ranked, filtered listing.
 - Files: `services/api/src/routes/shared-plans.ts`, `packages/domain/src/community/match.ts`, `packages/domain/src/community/match.test.ts`, `services/api/test/community/browse.test.ts`.
 - Steps: 1. Crew taste aggregation (context trip members; respects `hide_taste_tags` by using only visible tags). 2. Score fn (pure, tested). 3. SQL filter + keyset pagination + 5 min cache. 4. Guide's pick selection.
-- Tests: `pnpm --filter @critterpass/domain test -- community/match`; `pnpm --filter @critterpass/api test -- community/browse`.
+- Tests: `pnpm --filter @cp/domain test -- community/match`; `pnpm --filter @cp/api test -- community/browse`.
 - Done when: fixture corpus ranks by match not copies; empty destination returns `[]` with total 0 (no fallback seeding).
 
 ### T5 — Crew plans screen 3o-1
 - Goal: browse UI.
 - Files: `apps/mobile/src/app/community/[destinationId]/index.tsx`, `apps/mobile/src/features/community/browse/*`, tests, `e2e/community/browse.yaml`.
 - Steps: 1. Filter chips + FLIP re-sort. 2. Hero pick + rows. 3. Empty/no-results/offline/report states. 4. Shared-element zoom to detail. 5. Register `3o-1` with P07 and 3d-1 entry count via P30 public API.
-- Tests: `pnpm --filter @critterpass/mobile test -- community/browse`; `maestro test e2e/community/browse.yaml`.
+- Tests: `pnpm --filter @cp/mobile test -- community/browse`; `maestro test e2e/community/browse.yaml`.
 - Done when: motion-freeze screenshot matches `3o-1_Crew_plans.png` with a fixture published corpus created through the real publish command in test setup.
 
 ### T6 — Shared plan detail 3o-2 + guide overlap note + save
 - Goal: evaluate a plan.
 - Files: `apps/mobile/src/app/community/plan/[sharedPlanId].tsx`, `apps/mobile/src/features/community/detail/*`, `packages/ai/src/routes/community/overlap-note.ts`, `packages/ai/evals/community/overlap-note/*`, `services/api/src/commands/community/save-shared-plan.ts`, tests.
 - Steps: 1. Detail layout + expander + tips. 2. Overlap computation in planner (pure) → Haiku wording with persona; cache key. 3. Save/unsave. 4. Unpublished tombstone. 5. 3d-1 "CREW PLANS" count via P30 destination guide slot.
-- Tests: `pnpm --filter @critterpass/mobile test -- community/detail`; `pnpm --filter ai eval community-overlap-note`.
+- Tests: `pnpm --filter @cp/mobile test -- community/detail`; `pnpm --filter @cp/ai eval community-overlap-note`.
 - Done when: note numbers equal planner output in every eval case; saved plan appears in You saved list.
 
 ### T7a — Copy into draft: command + merge job + planner fns
 - Goal: fit-checked copy as a private ChangeSet (backend).
 - Files: `services/api/src/commands/community/{copy-shared-plan,suggest-shared-plan-to-organiser}.ts`, `services/worker/src/jobs/community/merge.ts`, `packages/planner/src/community/{map-items,merge,season-check}.ts`, `packages/planner/test/community/*.test.ts`, `services/worker/test/community/merge.test.ts`.
 - Steps: 1. Authz organiser; non-organiser suggestion path. 2. Redraft reservation rules (Q-41) using P46 redraft limit → `REDRAFT_LIMIT`. 3. Merge ops + constraint check via P16/P28 APIs. 4. ChangeSet (visibility organiser) + progress.
-- Tests: `pnpm --filter @critterpass/planner test -- community`; `pnpm --filter @critterpass/worker test -- community/merge`.
+- Tests: `pnpm --filter @cp/planner test -- community`; `pnpm --filter @cp/worker test -- community/merge`.
 - Done when: copying into an empty trip consumes no redraft; replacing consumes one and releases on job failure; over limit returns `REDRAFT_LIMIT`; a closed-in-season place is flagged clash.
 
 ### T7b — Copy UI
 - Goal: copy interactions on 3o-2.
 - Files: `apps/mobile/src/features/community/copy/*`, `e2e/community/copy-day.yaml`.
 - Steps: 1. "+" arc + "+1" float, toasts. 2. No-trip sheet, suggest-to-organiser card. 3. Conflict → P29 review; `REDRAFT_LIMIT` → P46 paywall entry `redraft_last`.
-- Tests: `pnpm --filter @critterpass/mobile test -- community/copy`; `maestro test e2e/community/copy-day.yaml`.
+- Tests: `pnpm --filter @cp/mobile test -- community/copy`; `maestro test e2e/community/copy-day.yaml`.
 - Done when: Day-3 copy lands in 3c-9 with the toast; limit reached opens the P46 paywall.
 
 ### T8a — Ratings backend: command, tip moderation, aggregates
 - Goal: ratings and anonymous tips (server).
 - Files: `services/api/src/commands/community/rate-places.ts`, `services/worker/src/jobs/community/{tip-moderate,aggregate}.ts`, `packages/ai/src/routes/community/tip-moderation.ts`, `packages/ai/evals/community/tip-moderation/*`, `services/worker/test/community/{tip-moderate,aggregate}.test.ts`.
 - Steps: 1. Batch command (idempotent op_ids). 2. Moderation → P30 `place_tips(source=community)` or P17 queue. 3. Nightly aggregates. 4. Inbox reminder registration.
-- Tests: `pnpm --filter @critterpass/api test -- community/rate`; `pnpm --filter @critterpass/worker test -- community/tip-moderate community/aggregate`; `pnpm --filter ai eval community-tip-moderation`.
+- Tests: `pnpm --filter @cp/api test -- community/rate`; `pnpm --filter @cp/worker test -- community/tip-moderate community/aggregate`; `pnpm --filter @cp/ai eval community-tip-moderation`.
 - Done when: an approved tip lands in `place_tips` without author identity; a rejected tip returns `CONTENT_REJECTED`.
 
 ### T8b — Rate the trip 3o-3 UI
 - Goal: card stack.
 - Files: `apps/mobile/src/app/community/rate/[tripId].tsx`, `apps/mobile/src/features/community/rate/*`, tests, `e2e/community/rate-trip.yaml`.
 - Steps: 1. Card stack with gestures + a11y actions + resume. 2. Offline batch queue. 3. Gentle rejected state. 4. End card → 3o-4.
-- Tests: `pnpm --filter @critterpass/mobile test -- community/rate`; `maestro test e2e/community/rate-trip.yaml`.
+- Tests: `pnpm --filter @cp/mobile test -- community/rate`; `maestro test e2e/community/rate-trip.yaml`.
 - Done when: an approved tip appears on the place detail for another crew; rejected tip shows the gentle state.
 
 ### T9 — Admin community module + report handling + e2e sweep
 - Goal: moderation tooling and verification.
 - Files: `apps/admin/src/modules/community/*`, `services/api/src/admin/community/*`, `services/api/src/commands/community/report-shared-plan.ts`, `services/api/test/community/admin.test.ts`, `e2e/community/{full-journey,a11y}.yaml`.
 - Steps: 1. Kind handlers (tip, shared_plan) in P17 queue. 2. Unpublish with reason + author notification. 3. Full journey A publishes → B browses/copies → B rates, on iOS + Android.
-- Tests: `pnpm --filter @critterpass/api test -- community/admin`; `maestro test e2e/community/`.
+- Tests: `pnpm --filter @cp/api test -- community/admin`; `maestro test e2e/community/`.
 - Done when: reported plan hidden after ops verdict within one sync cycle; all `e2e/community` flows green.
 
 ## Phase acceptance criteria

@@ -109,56 +109,56 @@ Done when: the 6 guide destinations (Bali, Kyoto, Iceland/Reykjavík, Mexico Cit
 - Goal: POI/catalogue tables with sync + authz.
 - Files: `packages/db/src/schema/places.ts`, `packages/db/migrations/<ts>_pois_and_map_regions.sql`, `<ts>_cities_index.sql`, `<ts>_llm_pois_view.sql`, `packages/db/test/permissions/{pois,poi-embeddings,poi-live-checks,map-regions,cities}.test.ts`, `packages/domain/src/places/{poi,categories}.ts`.
 - Steps: 1. Drizzle tables + deltas; GIST geo, GIN fts, trgm name, HNSW embedding indexes. 2. `pg_trgm`, `unaccent`, `vector` extensions (verified in S-DB). 3. RLS + grants; `ALTER PUBLICATION`; `destinations.geofence` expand column; `llm.pois` view + `guide_reader` grant. 4. Permission tests (any authenticated read; no user write; `guide_reader` reads `llm.pois` only).
-- Tests: `pnpm --filter @critterpass/db test -- permissions/pois permissions/map-regions permissions/cities`
+- Tests: `pnpm --filter @cp/db test -- permissions/pois permissions/map-regions permissions/cities`
 - Done when: tests green; `guide_reader` can SELECT `llm.pois` and nothing in `public.pois` directly.
 
 ### T2 — Hours model + categories (pure)
 - Goal: tz-correct opening-hours evaluation used by planner, UI and guide.
 - Files: `packages/domain/src/places/{hours,open-at}.ts`, `packages/domain/test/hours.test.ts`.
 - Steps: 1. Parse OSM `opening_hours` subset + editorial exceptions into typed spans. 2. `openAt(hours, tz, instant)`, `nextOpen`, `closesSoon(min)`; overnight + DST (Lisbon, Reykjavík). 3. Category mapping tables FSQ/Overture → taxonomy.
-- Tests: `pnpm --filter @critterpass/domain test -- hours`
+- Tests: `pnpm --filter @cp/domain test -- hours`
 - Done when: fixtures for Fushimi Inari 24h, Nishiki Market, overnight bar, DST boundary all pass.
 
 ### T3 — Ingest + conflation + embeddings
 - Goal: curated POIs for the 6 guide destinations + auto tier for the other 55 places.
 - Files: `services/worker/src/places/{ingest,conflate,embed,live-check}.ts`, `tools/maps/ingest-cli.ts`, `services/worker/test/places/conflate.test.ts`.
 - Steps: 1. Read FSQ OS + Overture parquet for bbox (`@duckdb/node-api`). 2. Conflate + upsert with stable ids and merge redirects. 3. Apply editorial overlay files (schema in `packages/domain/src/places/editorial.ts`; content authored by P18). 4. Embeddings job behind flag (vendor per founder decision; no-op when off). 5. Foursquare live check fn with 24 h debounce. 6. NOTICE/attribution file generation.
-- Tests: `pnpm --filter @critterpass/worker test -- places/conflate`
+- Tests: `pnpm --filter @cp/worker test -- places/conflate`
 - Done when: ingest of one destination in staging yields ≥300 active POIs with categories/hours; rerun is idempotent (no new ids); one guest place ingests as `curation='auto'` and a sparse place triggers the "no curated places yet" flag.
 
 ### T4 — Places + geocoding API and tool executors
 - Goal: search/detail/geocode endpoints.
 - Files: `services/api/src/places/{routes,search,detail}.ts`, `services/api/src/geocoding/{routes,mapbox}.ts`, `services/api/src/places/admin-upsert-poi.ts`, `services/api/test/places/*.test.ts`.
 - Steps: 1. Hybrid search SQL with filters and `near` ranking. 2. Detail with live-check flags, distance/time from trip lodging when `trip_id` given (via routing T5). 3. Geocode/reverse with Mapbox fallback (recorded fixtures). 4. `upsert_poi` admin command with audit. 5. Tool executors registered.
-- Tests: `pnpm --filter @critterpass/api test -- places`
+- Tests: `pnpm --filter @cp/api test -- places`
 - Done when: "ramen near Gion" returns Kyoto ramen POIs first; p50 search <150 ms on staging data; unknown POI → 404 `NOT_FOUND`.
 
 ### T5 — Valhalla on Railway + routing API + Mapbox traffic
 - Goal: ETAs, matrices, closures, traffic-aware leave-by.
 - Files: `infra/railway/valhalla/{Dockerfile,build-tiles.sh,railway.toml}`, `services/api/src/routing/{valhalla,mapbox,eta,matrix,fallback}.ts`, `packages/domain/src/routing/modes.ts`, `services/api/test/routing/*.test.ts`.
 - Steps: 0. Record Mapbox Product Terms check result (link + clause) in `services/api/src/routing/README.md`; if restricted, implement text-only traffic ETA and raise to founder. 1. Image builds tiles from OSM extracts for the 61 places' countries (+ GTFS where available). 2. Client with timeouts; modes walk/scooter/drive/transit. 3. Matrix ≤50×50. 4. Closure polygons param. 5. Mapbox `driving-traffic` with `depart_at`. 6. Straight-line fallback flagged `estimate`.
-- Tests: `pnpm --filter @critterpass/api test -- routing` (Testcontainers Valhalla with a small extract)
+- Tests: `pnpm --filter @cp/api test -- routing` (Testcontainers Valhalla with a small extract)
 - Done when: Kyoto walk + transit ETA returned; closure polygon changes the route; Valhalla stopped → fallback with `estimate:true`.
 
 ### T6 — Style, glyphs, sprites, PMTiles pipeline
 - Goal: branded tiles on R2.
 - Files: `tools/maps/{build-style,build-glyphs,build-sprites,build-pmtiles,upload-r2}.ts`, `apps/mobile/assets/map-style/critterpass-dark.json`, `infra/cloudflare/tiles/wrangler.toml`.
 - Steps: 1. Style JSON from tokens (layers: water, land, roads, rail, buildings, labels in Archivo). 2. Glyph PBFs + doodle sprites (from P04 art where available, else category icons). 3. planetiler: world z0–8 basemap + per-place regions (6 full, 55 city-bbox) → PMTiles → R2 + `map_regions` upsert. 4. Custom domain with range requests.
-- Tests: `pnpm --filter @critterpass/tools test -- maps` (style validates with `@maplibre/maplibre-gl-style-spec`)
+- Tests: `pnpm --filter @cp/scripts test -- maps` (style validates with `@maplibre/maplibre-gl-style-spec`)
 - Done when: style validates; world basemap + 61 place PMTiles uploaded in staging with manifest rows.
 
 ### T7a — Mobile map components
 - Goal: reusable map components.
 - Files: `apps/mobile/src/ui/map/{CpMap,DoodlePin,AvatarStackPin,ClusterBubble,YouDot,GuideSpriteSlot,RouteLine,useFlyTo}.tsx`, `apps/mobile/src/ui/map/__tests__/*.test.tsx`.
 - Steps: 1. MapLibre RN wrapper with style + PMTiles source (remote, local file, world basemap fallback). 2. Pins, clusters (MapLibre clustering), selected state, pin drop using phase 03 motion curve tokens (Reanimated; reduce-motion fade). 3. `GuideSpriteSlot` takes a render prop (sprite supplied by callers). 4. Map-side missing states (location denied / not in destination, pin >3 avatars, cluster expanded, list view, "no curated places yet").
-- Tests: `pnpm --filter @critterpass/mobile test -- ui/map`
+- Tests: `pnpm --filter @cp/mobile test -- ui/map`
 - Done when: RNTL tests cover pins/cluster/a11y labels and each missing state.
 
 ### T7b — Offline region packs, offline search, Maestro
 - Goal: region download and offline search on both platforms.
 - Files: `apps/mobile/src/data/places/{useRegionPack,offlineSearch,usePlaceSearch}.ts`, `apps/mobile/src/data/places/__tests__/*.test.ts`, `e2e/explore/map-offline.yaml`.
 - Steps: 1. Region download with progress, storage size, delete. 2. Local POI FTS in SQLite for offline search. 3. "Region not downloaded" / "no results" states. 4. Maestro: download region, airplane mode, search works.
-- Tests: `pnpm --filter @critterpass/mobile test -- data/places`; `maestro test e2e/explore/map-offline.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- data/places`; `maestro test e2e/explore/map-offline.yaml`
 - Done when: Maestro offline search passes on iOS 26 simulator and API 36 emulator.
 
 ## Phase acceptance criteria

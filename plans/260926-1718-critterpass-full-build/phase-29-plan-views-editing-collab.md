@@ -147,84 +147,84 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Goal: persistence for collaboration and overlay.
 - Files: `packages/db/src/schema/collab.ts`, `packages/db/migrations/<ts>_plan_comments_and_personal_overlay.sql`, `packages/db/test/permissions/{comments,comment-plus-ones,personal-plan-ops}.test.ts`, `packages/domain/src/plan/{comments,overlay,presence,hold-expiry,booking-impact}.ts`, `infra/powersync/streams/plan.yaml` (per-phase stream file merged into `infra/powersync/sync-streams.yaml` by the build)
 - Steps: 1. Tables + `calendar_feed_tokens`. 2. RLS + grants + `llm.my_personal_plan_ops` view. 3. Stream entries. 4. zod contracts for presence payloads; nullable provider interfaces.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/comments permissions/personal-plan-ops`
+- Tests: `pnpm --filter @cp/db test -- permissions/comments permissions/personal-plan-ops`
 - Done when: non-participant reads 0 comments; peers read 0 personal ops; `guide_reader` with `app.uid`=A reads only A's personal ops and 0 rows from the base table.
 
 ### T2 — Plan ops + version conflicts + rebase
 - Goal: `apply_plan_ops` with lock rules and rebase.
 - Files: `services/api/src/commands/plan/apply-plan-ops.ts`, `services/api/src/plan/{versioning,lock-rules}.ts`, `packages/planner/src/ops/rebase.ts`, `packages/planner/test/rebase/*.test.ts`
 - Steps: 1. Policy per Q-30; member edits rejected with `FORBIDDEN{use_changeset}` so client wraps them. 2. Version bump + `rt_outbox` `plan.ops`. 3. Rebase non-overlapping ops; conflicting → error with latest. 4. Activity events.
-- Tests: `pnpm --filter @critterpass/planner test -- rebase`; `pnpm --filter @critterpass/api test -- commands/plan`
+- Tests: `pnpm --filter @cp/planner test -- rebase`; `pnpm --filter @cp/api test -- commands/plan`
 - Done when: 50 randomized concurrent op streams converge to the same version on replay; booked-item move without confirm rejected.
 
 ### T3 — ChangeSet lifecycle + decider policies
 - Goal: create/toggle/send/approve/apply/stale/expire.
 - Files: `services/api/src/commands/changesets/{create,set-item,send,approve,apply}.ts`, `services/api/src/plan/decider-policy.ts`, `services/worker/src/jobs/plan/{changeset-expiry,stale-sweep}.ts`
 - Steps: 1. Poll creation via P26 poll engine with policy defaults (C41) and `closes_at` bound by hold expiry. 2. Tally → auto-apply at threshold; organiser tie-break. 3. Stale detection + expiry. 4. Chat card message + actionable push via P11.
-- Tests: `pnpm --filter @critterpass/api test -- commands/changesets`; `pnpm --filter @critterpass/worker test -- jobs/plan`
+- Tests: `pnpm --filter @cp/api test -- commands/changesets`; `pnpm --filter @cp/worker test -- jobs/plan`
 - Done when: table-driven tests cover all 4 policies × (approve, reject, tie, expiry); double-approve idempotent; stale set cannot apply; with a stub `HoldExpiryProvider` returning T, `closes_at` ≤ T; null provider leaves the policy default.
 
 ### T4 — Personal overlay merge
 - Goal: F-081 end to end.
 - Files: `packages/planner/src/overlay/{merge,conflicts}.ts`, `packages/planner/test/overlay/*.test.ts`, `services/api/src/commands/changesets/apply.ts` (personal scope branch), `apps/mobile/src/features/plan/overlay/**`, `e2e/plan/overlay.yaml`
 - Steps: 1. Merge function + conflict markers. 2. Personal apply writes `personal_plan_ops` + share recompute (cost-engine). 3. "just you" tags + keep/drop UI.
-- Tests: `pnpm --filter @critterpass/planner test -- overlay`; `maestro test e2e/plan/overlay.yaml`
+- Tests: `pnpm --filter @cp/planner test -- overlay`; `maestro test e2e/plan/overlay.yaml`
 - Done when: peer device plan unchanged; own share lowered when skipping optional item.
 
 ### T5 — Plan overview (3e-1)
 - Goal: overview screen with reorder, chips, presence, sweep.
 - Files: `apps/mobile/src/features/plan/overview/**`, `apps/mobile/src/features/plan/index.ts`, `apps/mobile/src/app/(trip)/[tripId]/plan/index.tsx`, `packages/i18n/locales/en/plan/overview.po`, `e2e/plan/overview.yaml`
 - Steps: 1. Local queries (group + overlay + draft mode). 2. Drag reorder with spring, remote reorder animation. 3. Chips, weather, sweep once per unseen change. 4. All missing states.
-- Tests: `pnpm --filter mobile test -- features/plan/overview`; `maestro test e2e/plan/overview.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/plan/overview`; `maestro test e2e/plan/overview.yaml`
 - Done when: reorder on device A animates on device B < 1 s; offline reorder reconciles.
 
 ### T6 — Day view, item detail, add/remove
 - Goal: F-078.
 - Files: `apps/mobile/src/features/plan/day/**`, `apps/mobile/src/app/(trip)/[tripId]/day/[day].tsx`, `packages/i18n/locales/en/plan/day.po`, `e2e/plan/day-edit.yaml`
 - Steps: 1. Day list + item detail sheet. 2. Time picker (15-min), attendees, move/remove. 3. Add from search/saved/freeform with fit check. 4. Member edits → auto ChangeSet.
-- Tests: `pnpm --filter mobile test -- features/plan/day`; `maestro test e2e/plan/day-edit.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/plan/day`; `maestro test e2e/plan/day-edit.yaml`
 - Done when: member add produces a ChangeSet card in chat; organiser add applies directly.
 
 ### T7 — Timeline core (grid, drag, snap, lanes, reflow, a11y)
 - Goal: F-079 editing mechanics.
 - Files: `apps/mobile/src/features/plan/timeline/{timeline-grid,timeline-block,lane-layout,use-timeline-drag,reflow}.ts(x)`, `apps/mobile/src/features/plan/timeline/__tests__/**`
 - Steps: 1. Lane layout algorithm (pure, tested). 2. Gesture Handler 3 + Reanimated worklets drag/resize with snap + haptics. 3. Collision reflow spring. 4. Accessibility actions.
-- Tests: `pnpm --filter mobile test -- features/plan/timeline`
+- Tests: `pnpm --filter @cp/mobile test -- features/plan/timeline`
 - Done when: CI perf budget on the drag Maestro run (dropped-frame count ≤ budget) passes; a11y actions change times by 15 min. Real-device 60 fps check → P54 launch checks.
 
 ### T8 — Timeline overlays: rain band, guide ghost, remote cursors
 - Goal: F-079 multiplayer + weather layer.
 - Files: `apps/mobile/src/features/plan/timeline/{rain-band,guide-ghost,remote-cursors,guide-banner}.tsx`, `apps/mobile/src/features/plan/collab/use-presence.ts`, `e2e/plan/timeline.yaml`
 - Steps: 1. Rain band from hourly forecast + drift. 2. Ghost from pending weather ChangeSet (seeded fixture in tests); accept animation → review. 3. Presence publish (throttled) + interpolated cursors.
-- Tests: `pnpm --filter mobile test -- features/plan/timeline/overlays`; `maestro test e2e/plan/timeline.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/plan/timeline/overlays`; `maestro test e2e/plan/timeline.yaml`
 - Done when: two simulators show each other's cursor; ghost accept routes to 3e-3 with the ChangeSet.
 
 ### T9 — Review changes screen + chat approval card
 - Goal: F-080 UI reused across flows.
 - Files: `apps/mobile/src/features/plan/review/**`, `apps/mobile/src/app/(trip)/[tripId]/review/[changesetId].tsx`, `packages/i18n/locales/en/plan/review.po`, `e2e/plan/review.yaml`
 - Steps: 1. Card deal, toggles, odometer chips. 2. Send/apply-personal actions. 3. `ChangesetChatCard` exported for P24 chat renderer (voting/approved/rejected/expired/stale). 4. Push action handling.
-- Tests: `pnpm --filter mobile test -- features/plan/review`; `maestro test e2e/plan/review.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/plan/review`; `maestro test e2e/plan/review.yaml`
 - Done when: approving from push updates the chat tally on another device; all-rejected disables send.
 
 ### T10 — Live collab decision view + comments
 - Goal: 3g-2 and anchored comments.
 - Files: `apps/mobile/src/features/plan/collab/**`, `services/api/src/commands/comments/{add,edit,delete,plusone,unplusone}.ts`, `apps/mobile/src/app/(trip)/[tripId]/decide/[pollId].tsx`, `packages/i18n/locales/en/plan/collab.po`, `e2e/plan/collab.yaml`
 - Steps: 1. Option cards, vote stickers, LEADING hop, tie/closed states. 2. Comment composer, +1, typing. 3. Guide accommodation card with KEEP/UNDO (`undo_guide_action`). 4. Closed poll → apply via ChangeSet.
-- Tests: `pnpm --filter @critterpass/api test -- commands/comments`; `pnpm --filter mobile test -- features/plan/collab`; `maestro test e2e/plan/collab.yaml`
+- Tests: `pnpm --filter @cp/api test -- commands/comments`; `pnpm --filter @cp/mobile test -- features/plan/collab`; `maestro test e2e/plan/collab.yaml`
 - Done when: comment + +1 + vote visible on second device < 1 s; UNDO reverts the guide change.
 
 ### T11 — Map & Calendar views
 - Goal: F-083 views.
 - Files: `apps/mobile/src/features/plan/views/{plan-map,plan-calendar}.tsx`, `packages/i18n/locales/en/plan/views.po`, `e2e/plan/views.yaml`
 - Steps: 1. Map with per-day routes/pins (P14 kit, offline). 2. Calendar grid. 3. Segmented control wiring.
-- Tests: `pnpm --filter mobile test -- features/plan/views`; `maestro test e2e/plan/views.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/plan/views`; `maestro test e2e/plan/views.yaml`
 - Done when: map works offline with downloaded region; tapping pin opens item detail.
 
 ### T12 — Calendar export (device write + ICS feed)
 - Goal: F-083 export.
 - Files: `services/api/src/plan/calendar-feed.ts`, `services/api/src/commands/plan/revoke-calendar-feed.ts`, `apps/mobile/src/features/plan/views/export-sheet.tsx`
 - Steps: 1. RFC 5545 ICS for my items (overlay-aware, tz-correct, stable UIDs from `stable_id`). 2. Revocable token feed. 3. Device write via the `cp-calendar` write method that P27 exposes (contract hook; P29 does not edit P27 files — if missing, plan.md delta adds `write.ts` to P27).
-- Tests: `pnpm --filter @critterpass/api test -- plan/calendar-feed` (validates with `ical.js` parser)
+- Tests: `pnpm --filter @cp/api test -- plan/calendar-feed` (validates with `ical.js` parser)
 - Done when: `ical.js` round-trip parses every event with correct tz and stable UIDs; revocation returns 404. Manual Apple/Google Calendar import → P54 launch checks.
 
 ## Phase acceptance criteria

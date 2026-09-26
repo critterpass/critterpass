@@ -131,70 +131,70 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Goal: proposal tables with C28/C3 enforced in DB.
 - Files: `packages/db/src/schema/proposals.ts`, `packages/db/migrations/<ts>_proposals_rsvp_engagement.sql`, `packages/db/test/permissions/{proposals,proposal-versions,engagement-events,private-guide-threads,anonymous-suggestions}.test.ts`
 - Steps: 1. Drizzle schema + SQL (roles, RLS, SECURITY DEFINER writers `app.record_engagement`, `app.write_anonymous_suggestion` with crew ≥ 4 check). 2. Publication entries + `infra/powersync/streams/proposal.yaml`. 3. Testcontainers tests per role (`app_user` peer, organiser, recipient, `guide_reader`, `powersync_repl`).
-- Tests: `pnpm --filter @critterpass/db test -- permissions/proposal`
+- Tests: `pnpm --filter @cp/db test -- permissions/proposal`
 - Done when: organiser cannot select `engagement_events` rows or another's `private_guide_threads`; peer cannot read another's `proposal_versions`; `guide_reader` has no access to private threads; anonymous suggestion insert AND unattributed objection ChangeSet fail for crew of 3.
 
 ### T2 — Domain contracts + proposal/RSVP command handlers
 - Goal: all §4.7 commands with policy, idempotency, seat cap.
 - Files: `packages/domain/src/proposal/{schemas,events,ops,reply-by}.ts`, `services/api/src/commands/proposal/*.ts`
 - Steps: 1. zod payloads + events. 2. `reply-by.ts` default + validation (C43). 3. Handlers: create/send/set_rsvp (seat cap via entitlements, waitlist on cap)/react/record_open (via definer fn)/schedule_followup/execute/dismiss suggestion/publish_offer/decline_trip/set_keep_in_chat. 4. rt_outbox rows for `proposal:{id}`.
-- Tests: `pnpm --filter @critterpass/api test -- commands/proposal`
+- Tests: `pnpm --filter @cp/api test -- commands/proposal`
 - Done when: tests cover replay of same op_id (no dupes), 7th `in` on unboosted trip returns `SEAT_CAP_REACHED` and waitlists, reply_by after free-cancel deadline rejected, reply-by default unaffected by a 20-min Viator hold fixture (never in the past), `record_proposal_open` never publishes per-user payload.
 
 ### T3 — Personalised version fan-out (AI-15) + poster/postcard render
 - Goal: real per-recipient versions via worker.
 - Files: `packages/ai/src/routes/proposal/{version.prompt.ts,version.schema.ts,validate.ts}`, `packages/ai/evals/proposal/version.yaml`, `services/worker/src/jobs/proposal/versions.ts`
 - Steps: 1. Context from `llm.*` views + injected cost numbers. 2. Structured output + number/id validator. 3. Poster/postcard via P05 share renderer → R2. 4. Progress to `user:#uid`; retry 3× then shared fallback.
-- Tests: `pnpm --filter @critterpass/ai eval -- proposal`; `pnpm --filter @critterpass/worker test -- proposal/versions`
+- Tests: `pnpm --filter @cp/ai eval -- proposal`; `pnpm --filter @cp/worker test -- proposal/versions`
 - Done when: eval passes leakage cases (another member's budget/objection in DB never appears), invented numbers rejected, fallback path tested.
 
 ### T4 — Builder screen (3f-1)
 - Goal: builder with format morph, toggles, reply-by, truthful stay/activity rows, preview-as, send progress.
 - Files: `apps/mobile/src/app/(trip)/proposal/build.tsx`, `apps/mobile/src/features/proposal/builder/**`, `packages/i18n/locales/en/proposal/builder.po`, `e2e/proposal/build-and-send.yaml`
 - Steps: 1. Queries over synced rows (bookings, Viator cart). 2. Format morph. 3. Reply-by picker with validation. 4. Send with avatar stamp per job step.
-- Tests: `pnpm --filter mobile test -- features/proposal/builder`; `maestro test e2e/proposal/build-and-send.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/proposal/builder`; `maestro test e2e/proposal/build-and-send.yaml`
 - Done when: no "hold the rooms" copy anywhere (grep test on catalog), send shows per-recipient progress, offline send queues.
 
 ### T5 — Story player + trailer (3f-2)
 - Goal: reusable story player; proposal trailer with live reactions.
 - Files: `apps/mobile/src/ui/story-player/**`, `apps/mobile/src/app/(trip)/proposal/[id]/trailer.tsx`, `apps/mobile/src/features/proposal/trailer/**`
 - Steps: 1. Headless timeline (Reanimated shared values), tap/hold/swipe. 2. Word-stamp headline, Ken Burns. 3. Centrifugo subscription + floating reactions. 4. `record_proposal_open` on view; reduced motion.
-- Tests: `pnpm --filter mobile test -- ui/story-player features/proposal/trailer`
+- Tests: `pnpm --filter @cp/mobile test -- ui/story-player features/proposal/trailer`
 - Done when: RNTL tests for pause/advance/reduced-motion; player has no import from `features/`.
 
 ### T6 — Your version (3f-3) + private objection sheet (3f-4)
 - Goal: personalised page, local share recompute, private objection flow.
 - Files: `apps/mobile/src/app/(trip)/proposal/[id]/index.tsx`, `apps/mobile/src/features/proposal/{your-version,objection}/**`, `services/api/src/routes/proposals.ts`, `packages/ai/src/routes/proposal/objection.*.ts`, `services/api/src/commands/proposal/submit-private-reason.ts` (extend), `e2e/proposal/objection-private.yaml`
 - Steps: 1. Picks/why sheet/donut/odometer toggles. 2. Hype bar public-only. 3. SSE objection route: deterministic options (cost engine/planner) + Haiku wording. 4. Follow-up scheduling.
-- Tests: `pnpm --filter @critterpass/api test -- routes/proposals`; `maestro test e2e/proposal/objection-private.yaml`
+- Tests: `pnpm --filter @cp/api test -- routes/proposals`; `maestro test e2e/proposal/objection-private.yaml`
 - Done when: organiser device in Maestro run sees only MAYBE; objection option totals equal cost-engine output; no per-person passive copy in catalog.
 
 ### T7 — Slide to board (3f-5)
 - Goal: scrubbed 6 s choreography committing RSVP.
 - Files: `apps/mobile/src/features/proposal/board/**`, `apps/mobile/src/app/(trip)/proposal/[id]/board.tsx`, `e2e/proposal/board.yaml`
 - Steps: 1. Single progress value timeline. 2. Gesture Handler scrub + completion threshold. 3. a11y action; haptics via feedback bus. 4. Cap error → seat sheet; offline pending.
-- Tests: `pnpm --filter mobile test -- features/proposal/board`; `maestro test e2e/proposal/board.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/proposal/board`; `maestro test e2e/proposal/board.yaml`
 - Done when: a11y action boards without gesture; cap rejection reverses UI with message; CI perf budget (Reanimated frame-drop count on the Maestro run ≤ budget) passes; real-device 60 fps check moves to P54 launch checks.
 
 ### T8 — RSVP tracker + suggestions (3f-6, AI-17) + reply-by cron
 - Goal: organiser tracker and handled suggestions.
 - Files: `apps/mobile/src/features/proposal/tracker/**`, `apps/mobile/src/app/(trip)/proposal/[id]/tracker.tsx`, `services/worker/src/jobs/proposal/{suggestions,reply-by,followup}.ts`, `packages/ai/src/routes/proposal/suggestion.*.ts`
 - Steps: 1. Rules: resend hour, lead item, anonymised offer (crew ≥ 4). 2. Haiku wording. 3. N-08/N-09 via notify router. 4. Lock at reply_by.
-- Tests: `pnpm --filter @critterpass/worker test -- proposal`
+- Tests: `pnpm --filter @cp/worker test -- proposal`
 - Done when: suggestion copy never contains a member name tied to a private reason; tracker catalog grep for "opened"/"not opened" = 0; reply-by cron idempotent per proposal.
 
 ### T9 — Dropout re-split engine + intent (AI-18)
 - Goal: deterministic ChangeSet on dropout.
 - Files: `packages/planner/src/dropout/{rooms,resplit,index}.ts`, `services/worker/src/jobs/proposal/{dropout,rsvp-intent}.ts`, `packages/ai/src/routes/proposal/intent.*.ts`
 - Steps: 1. Room re-optimiser (beds, prior pairings). 2. Re-split via cost engine. 3. Ops incl. `cancel_supplier_item`. 4. Intent classifier + narrative.
-- Tests: `pnpm --filter @critterpass/planner test -- dropout`; `pnpm --filter @critterpass/worker test -- proposal/dropout`
+- Tests: `pnpm --filter @cp/planner test -- dropout`; `pnpm --filter @cp/worker test -- proposal/dropout`
 - Done when: property test: sum of shares = total after dropout; job idempotent on `(trip_id, uid)`; an `out` intent alone never enqueues `trip.dropout` (confirm card required).
 
 ### T10 — Dropout screen (3f-7) + waitlist offer (4f-1)
 - Goal: apply/ask-crew UI and seat offer.
 - Files: `apps/mobile/src/features/proposal/dropout/**`, `apps/mobile/src/app/(trip)/proposal/[id]/dropout.tsx`, `services/worker/src/jobs/proposal/waitlist.ts`, `e2e/proposal/dropout-waitlist.yaml`
 - Steps: 1. Struck-through change list, rolling share, keep-in-chat toggle. 2. APPLY / Ask the crew first (C41 poll). 3. Waitlist offer lifecycle + expiry.
-- Tests: `maestro test e2e/proposal/dropout-waitlist.yaml`; `pnpm --filter @critterpass/worker test -- proposal/waitlist`
+- Tests: `maestro test e2e/proposal/dropout-waitlist.yaml`; `pnpm --filter @cp/worker test -- proposal/waitlist`
 - Done when: freed seat creates exactly one active offer; expired offer moves to next; nothing changes before APPLY.
 
 ## Phase acceptance criteria

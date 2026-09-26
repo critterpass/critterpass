@@ -119,70 +119,70 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Goal: five tables with privacy.
 - Files: `packages/db/src/schema/growth.ts`, `packages/db/migrations/<ts>_invites_referrals_waitlist.sql`, `packages/db/test/permissions/{invites,invite_prefill,referrals,seat_waitlist_offers,crew_contact_cards}.test.ts`, `infra/powersync/streams/crews.yaml` (`crew_invites`).
 - Steps: 1. Drizzle + SQL, FORCE RLS, grants; encrypted prefill fields via phase-09 crypto. 2. Matrix incl. ex-member and invitee-before-join.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/invites permissions/invite_prefill permissions/referrals permissions/seat_waitlist_offers permissions/crew_contact_cards`.
+- Tests: `pnpm --filter @cp/db test -- permissions/invites permissions/invite_prefill permissions/referrals permissions/seat_waitlist_offers permissions/crew_contact_cards`.
 - Done when: prefill unreadable by any role except command path; publication check passes.
 
 ### T2 — Crew, invite, seat and referral domain rules
 - Goal: pure rules.
 - Files: `packages/domain/src/crews/{limits,colours}.ts`, `packages/domain/src/invites/{machine,seat-allocation,forwarding}.ts`, `packages/domain/src/referrals/{qualification,rewards,fraud}.ts`, tests.
 - Steps: 1. Invite state machine. 2. Seat allocation decision given counts + cap. 3. Forwarded-link rule. 4. Colour assignment + ring pattern. 5. Referral qualification + cover thresholds + velocity.
-- Tests: `pnpm --filter @critterpass/domain test -- crews invites referrals`.
+- Tests: `pnpm --filter @cp/domain test -- crews invites referrals`.
 - Done when: table-driven tests cover every C26 case (unboosted 7th, boosted 16th, RSVP out frees seat, boost expiry freeze).
 
 ### T3 — Crew commands and membership epochs
 - Goal: create/switch/leave/remove/rename/mute/rotate.
 - Files: `services/api/src/commands/crews/{create-crew,update-crew,set-active-crew,leave-crew,remove-member,set-crew-notify,rotate-join-code}.ts`, `services/api/test/crews/crew-commands.test.ts`.
 - Steps: 1. Handlers with authz + limits. 2. Epoch increment + `rt_outbox` unsubscribe control row. 3. Organiser hand-off on leave (Q-11).
-- Tests: `pnpm --filter @critterpass/api test -- crews/crew-commands`.
+- Tests: `pnpm --filter @cp/api test -- crews/crew-commands`.
 - Done when: removed member's Centrifugo subscription ends (integration with Centrifugo container) and PowerSync stream drops crew rows.
 
 ### T4 — Invite commands, seat claim, waitlist, link providers
 - Goal: server invite lifecycle.
 - Files: `services/api/src/commands/invites/{create-invite,accept-invite,defer-invite,decline-invite,revoke-invite,promote-waitlist,accept-seat-offer}.ts`, `services/api/src/links/providers/{invite,join-code}.ts`, `services/worker/src/jobs/invites/{expire,waitlist-offer,offer-expire,nudge}.ts`, `packages/db/test/concurrency/seat-claim.test.ts`, tests.
 - Steps: 1. `create_invite` (registered users only) with seat token, code, prefill encrypt, phone hash. 2. `accept_invite` with `SELECT … FOR UPDATE` on trip, allocation from T2. 3. Waitlist offer jobs + N-43. 4. Phone-hash match handler for phase-21 claim. 5. Providers for preview/resolve.
-- Tests: `pnpm --filter @critterpass/db test -- concurrency/seat-claim`; `pnpm --filter @critterpass/api test -- crews/invites`; `pnpm --filter @critterpass/worker test -- jobs/invites`.
+- Tests: `pnpm --filter @cp/db test -- concurrency/seat-claim`; `pnpm --filter @cp/api test -- crews/invites`; `pnpm --filter @cp/worker test -- jobs/invites`.
 - Done when: 50 parallel claims on 6-seat trip with 4 taken → exactly 2 seated, 48 waitlisted; anonymous invitee can accept; anonymous inviter gets `AUTH_REQUIRED`.
 
 ### T5 — Invite AI, welcome line, referral engine
 - Goal: tag inference + referral rewards.
 - Files: `packages/ai/src/prompts/invite-tags/{prompt.ts,schema.ts,evals.yaml}`, `packages/ai/src/prompts/crew-welcome/{prompt.ts,evals.yaml}`, `services/api/src/commands/referrals/{attribute,void}.ts`, `services/api/src/links/providers/referral.ts`, `services/worker/src/jobs/referrals/evaluate.ts`, tests.
 - Steps: 1. Prompts with enum-constrained output + validators + template fallbacks. 2. Referral attribution on claim; evaluation on vote/trip events; stamp + cover grant via phase-22 stamps; fraud void.
-- Tests: `pnpm --filter @critterpass/ai eval -- invite-tags crew-welcome`; `pnpm --filter @critterpass/worker test -- jobs/referrals`.
+- Tests: `pnpm --filter @cp/ai eval -- invite-tags crew-welcome`; `pnpm --filter @cp/worker test -- jobs/referrals`.
 - Done when: eval pass rate ≥ 95 % on 40 notes; second device of same person never qualifies.
 
 ### T6 — Invited fast path screens
 - Goal: 3a-10, 3a-11, 3a-12, 3a-13.
 - Files: `apps/mobile/src/app/onboarding/invite/{ticket,code,pass,manifest}.tsx`, `apps/mobile/src/features/onboarding/invited/*`, tests.
 - Steps: 1. Ticket with preview data + motion + states. 2. Code entry with paste + found card + errors. 3. Three-tap pass using phase-22 chips/avatar/save sheet with provenance labels. 4. Manifest stamp-in, truthful nudge line, timing metric.
-- Tests: `pnpm --filter mobile test -- features/onboarding/invited`; `maestro test e2e/invites/fast-path.yaml`.
+- Tests: `pnpm --filter @cp/mobile test -- features/onboarding/invited`; `maestro test e2e/invites/fast-path.yaml`.
 - Done when: every undesigned state reachable in RNTL; Maestro timing ≤ 15 s p50 on simulator.
 
 ### T7 — Crews sheet, start a crew, crew settings
 - Goal: F-047 UI.
 - Files: `apps/mobile/src/app/crew/{index,new,[crewId]/settings}.tsx`, `apps/mobile/src/features/crew/{crews-sheet,start-crew,settings,members}/*`, `packages/i18n/locales/en/crew.po`, tests.
 - Steps: 1. Sheet with a typed `crewCardBadge` slot (P24 T4 registers the unread count; slot renders nothing until registered), invites JOIN/LATER, theme cross-fade. 2. Start flow → share. 3. Settings: rename, members, leave, remove, mute, rotate code.
-- Tests: `pnpm --filter mobile test -- features/crew`; `maestro test e2e/crew/crews-sheet.yaml`.
+- Tests: `pnpm --filter @cp/mobile test -- features/crew`; `maestro test e2e/crew/crews-sheet.yaml`.
 - Done when: switching crew changes Home theme and data within one frame budget; leave removes crew locally after sync.
 
 ### T8 — Invite composer, SEAT_LIMIT routing, waitlist UI
 - Goal: F-190 + F-161 joiner/inviter UI (4f-1 sheet itself is P46).
 - Files: `apps/mobile/src/features/crew/{invite-composer,seat-limit,waitlist}/*`, `apps/mobile/src/app/crew/[crewId]/invite.tsx`, tests.
 - Steps: 1. Composer: contact picker, prefill fields, note + inferred tags confirm, channel list, ticket preview, QR. 2. Seat-limit presenter registry + default waitlist sheet (truthful copy). 3. Invitee waitlist ("You're next for a seat") + seat-offer accept screens.
-- Tests: `pnpm --filter mobile test -- features/crew/invite-composer features/crew/seat-limit features/crew/waitlist`; `maestro test e2e/invites/seventh-seat.yaml`.
+- Tests: `pnpm --filter @cp/mobile test -- features/crew/invite-composer features/crew/seat-limit features/crew/waitlist`; `maestro test e2e/invites/seventh-seat.yaml`.
 - Done when: 7th invite yields `SEAT_LIMIT` and invokes the registered presenter (contract test with a test presenter), default presenter waitlists the invitee, never an error toast; no address book upload (network log assertion in test).
 
 ### T9 — Referral dashboard
 - Goal: You > Invite friends.
 - Files: `apps/mobile/src/app/crew/invite-friends.tsx`, `apps/mobile/src/features/crew/referral/*`, tests.
 - Steps: 1. Link + copy + channels. 2. Stamp slots + covers unlock state. 3. Friends list status-only. 4. Terms link.
-- Tests: `pnpm --filter mobile test -- features/crew/referral`.
+- Tests: `pnpm --filter @cp/mobile test -- features/crew/referral`.
 - Done when: states pending/joined/stamped render from synced `referrals`; no referee activity text shown.
 
 ### T10 — Growth loop end-to-end
 - Goal: prove loop across devices.
 - Files: `e2e/invites/{two-device-invite,forwarded-link,expired-code,waitlist-offer}.yaml`, `services/api/test/crews/growth-loop.test.ts`.
 - Steps: 1. Two-simulator run inviter → invitee (link via `simctl openurl`). 2. API test: forwarded link, revoke, RSVP out → offer → accept. 3. Referral qualification path.
-- Tests: `maestro test e2e/invites e2e/crew`; `pnpm --filter @critterpass/api test -- crews/growth-loop`.
+- Tests: `maestro test e2e/invites e2e/crew`; `pnpm --filter @cp/api test -- crews/growth-loop`.
 - Done when: all flows green; `time_to_manifest_ms` recorded.
 
 ## Phase acceptance criteria

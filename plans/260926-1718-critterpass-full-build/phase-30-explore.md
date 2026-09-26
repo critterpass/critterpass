@@ -135,70 +135,70 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Goal: swipe, tips, sponsored, saved lists persistence.
 - Files: `packages/db/src/schema/explore.ts`, `packages/db/migrations/<ts>_swipe_sessions_and_place_tips.sql`, `packages/db/migrations/<ts>_sponsored_placements.sql`, `packages/db/test/permissions/{swipe-sessions,swipe-votes,swipe-matches,place-tips,sponsored-placements,saved-items-lists}.test.ts`, `packages/domain/src/explore/*.ts`, `infra/powersync/streams/explore.yaml`
 - Steps: 1. Tables + unique (session, card) match. 2. `swipe_yes_votes` mirror table + trigger; `swipe_votes` excluded from publication. 3. RLS, grants, streams. 4. zod contracts.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/swipe-votes permissions/sponsored-placements permissions/place-tips`
+- Tests: `pnpm --filter @cp/db test -- permissions/swipe-votes permissions/sponsored-placements permissions/place-tips`
 - Done when: "no" votes unreadable by other members and absent from rows replicated by `powersync_repl` (test inspects the replicated rows); `place_tips.author_id` unreadable; only admin can write sponsored rows.
 
 ### T2 — Destination & place read APIs
 - Goal: server reads for 3d-1/3d-3.
 - Files: `services/api/src/explore/{destination-route,place-context,slot-suggest,sponsored-slot}.ts`, `services/worker/src/jobs/explore/place-qna-summary.ts`, `packages/ai/evals/explore/place-qna.yaml`
 - Steps: 1. Destination: month stats + per-origin fares (P15) + FX + picks ranking + sponsored slot per `sponsored(u,t)`. 2. Place context: stay distance, crowd best window, crew savers, Q&A snippet, suggested slot via planner. 3. Cache headers per api-contracts §5.5.
-- Tests: `pnpm --filter @critterpass/api test -- explore`; `pnpm --filter @critterpass/ai eval -- explore/place-qna`
+- Tests: `pnpm --filter @cp/api test -- explore`; `pnpm --filter @cp/ai eval -- explore/place-qna`
 - Done when: Pass+ user and boosted trip responses contain no sponsored slot; fares labelled with `seen_at`; no supplier text in any cached payload; crew B never receives crew A's Q&A snippet for the same POI; injection cases in chat ("ignore instructions…") do not alter output format or leak other text.
 
 ### T3 — Destination guide screen
 - Goal: 3d-1 + 3b-8 variants.
 - Files: `apps/mobile/src/features/explore/{screens/destination-screen.tsx,components/{month-bars,month-panel,picks-row,dest-hero}.tsx,queries.ts,commands.ts}`, `apps/mobile/src/app/explore/[destination].tsx`, `packages/i18n/locales/en/explore/destination.po`, `e2e/explore/destination.yaml`
 - Steps: 1. Hero + guide walk-in; shared-element enter. 2. Month bars grow on intersection; month-selected re-price panel. 3. Pitch/solo CTAs; save. 4. States.
-- Tests: `pnpm --filter mobile test -- features/explore/destination`; `maestro test e2e/explore/destination.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/explore/destination`; `maestro test e2e/explore/destination.yaml`
 - Done when: tapping a month shows per-origin prices for each crew member's airport in viewer currency; guest variant renders for a non-live destination.
 
 ### T4 — Place detail screen
 - Goal: 3d-3.
 - Files: `apps/mobile/src/features/explore/{screens/place-screen.tsx,components/{crowd-chart,add-to-day-button,supplier-card,crew-row}.tsx}`, `apps/mobile/src/app/explore/place/[placeId].tsx`, `packages/i18n/locales/en/explore/place.po`, `e2e/explore/place.yaml`
 - Steps: 1. Photo push-in + sheet. 2. Crowd bars + best window. 3. Add-to-day via P29 hooks (ops/ChangeSet) with in-plan state. 4. Supplier cards verbatim + disclosure; share; chat entry.
-- Tests: `pnpm --filter mobile test -- features/explore/place`; `maestro test e2e/explore/place.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/explore/place`; `maestro test e2e/explore/place.yaml`
 - Done when: add-to-day appears in the plan on a second device; supplier card data is not written to any local table (test asserts no persistence).
 
 ### T5 — Explore map + list view
 - Goal: 3d-4.
 - Files: `apps/mobile/src/features/explore/{screens/explore-map-screen.tsx,screens/explore-list-screen.tsx,components/{doodle-pin,pin-cluster,place-carousel,guide-sprite,filter-chips}.tsx}`, `apps/mobile/src/app/explore/map.tsx`, `packages/i18n/locales/en/explore/map.po`, `e2e/explore/map.yaml`
 - Steps: 1. Pins with avatars + clusters, filter re-drop. 2. Carousel ↔ camera fly-to sync. 3. Guide sprite heading + you-dot line; away state. 4. Offline search + list view.
-- Tests: `pnpm --filter mobile test -- features/explore/map`; `maestro test e2e/explore/map.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/explore/map`; `maestro test e2e/explore/map.yaml`
 - Done when: CI perf budget on the map pan Maestro run (500 POIs, dropped frames ≤ budget) passes (real-device 60 fps → P54); offline search returns results for a saved destination in airplane mode.
 
 ### T6 — Saved places & lists
 - Goal: F-066.
 - Files: `services/api/src/commands/explore/{save-place,unsave-place,saved-lists}.ts`, `apps/mobile/src/features/explore/{screens/saved-screen.tsx,components/save-button.tsx}`, `apps/mobile/src/app/explore/saved.tsx`, `packages/i18n/locales/en/explore/saved.po`, `e2e/explore/saved.yaml`
 - Steps: 1. Commands with idempotency. 2. Saved hub with lists + `SavedPlansSlot` (empty state until P52). 3. Offline pack offer on destination save.
-- Tests: `pnpm --filter @critterpass/api test -- commands/explore/save`; `maestro test e2e/explore/saved.yaml`
+- Tests: `pnpm --filter @cp/api test -- commands/explore/save`; `maestro test e2e/explore/saved.yaml`
 - Done when: save offline → synced after reconnect; SAVED filter count matches.
 
 ### T7 — Swipe server: deck job, votes, arbitrated matches
 - Goal: F-067 backend.
 - Files: `services/api/src/commands/explore/{start-swipe-session,swipe-vote,undo-swipe,end-swipe-session}.ts`, `services/worker/src/jobs/ai/swipe-deck.ts`, `services/api/src/explore/match-to-changeset.ts`
 - Steps: 1. Deck ranking in code + Sonnet notes batch (ids only). 2. Vote tx with unique match insert; `swipe:` events via `rt_outbox`. 3. Match → planner auto-slot → ChangeSet (organiser approval). 4. Push on session start.
-- Tests: `pnpm --filter @critterpass/api test -- commands/explore/swipe`; `pnpm --filter @critterpass/worker test -- jobs/ai/swipe-deck`
+- Tests: `pnpm --filter @cp/api test -- commands/explore/swipe`; `pnpm --filter @cp/worker test -- jobs/ai/swipe-deck`
 - Done when: 20 concurrent yes votes on one card yield exactly one match and one ChangeSet; 2-person crew matches at 2 yeses, solo at 1.
 
 ### T8 — Swipe UI
 - Goal: 3d-2.
 - Files: `apps/mobile/src/features/explore/{screens/swipe-screen.tsx,components/{swipe-card,match-stamp,swipe-controls,why-this-sheet,deck-summary}.tsx,hooks/use-swipe-session.ts}`, `apps/mobile/src/app/(trip)/[tripId]/swipe/[sessionId].tsx`, `packages/i18n/locales/en/explore/swipe.po`, `e2e/explore/swipe.yaml`
 - Steps: 1. Card physics per spec with worklets. 2. Presence + social pills + progress. 3. Match stamp + fly-into-plan. 4. Undo, summary, offline states.
-- Tests: `pnpm --filter mobile test -- features/explore/swipe`; `maestro test e2e/explore/swipe.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/explore/swipe`; `maestro test e2e/explore/swipe.yaml`
 - Done when: two devices produce a match stamp on both; queued offline swipes resolve on reconnect.
 
 ### T9 — Sponsored picks
 - Goal: F-068 end to end.
 - Files: `apps/mobile/src/features/explore/components/{sponsored-card,why-sponsored-sheet}.tsx`, `services/api/src/commands/explore/record-sponsored-event.ts`, `packages/i18n/locales/en/explore/sponsored.po`, `e2e/explore/sponsored.yaml`
 - Steps: 1. Slot rendering in picks, carousel, search with label. 2. Why-sheet + Pass+ link (P46). 3. Impression/click events (no personal targeting). 4. Store declarations checklist added to P54 inputs (**doc delta** note).
-- Tests: `pnpm --filter mobile test -- features/explore/sponsored`; `maestro test e2e/explore/sponsored.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/explore/sponsored`; `maestro test e2e/explore/sponsored.yaml`
 - Done when: free user sees ≤ 1 labelled slot per list; Pass+ and boosted-trip users see none (Maestro with two accounts).
 
 ### T10 — Explore entry points + offline pack integration
 - Goal: wire Explore under HOME and TRIPS (C30) and offline readiness.
 - Files: `apps/mobile/src/features/explore/{index.ts,screens/explore-home-screen.tsx}`, `apps/mobile/src/app/explore/index.tsx`, `packages/i18n/locales/en/explore/home.po`
 - Steps: 1. Explore home (destinations grid by guide colour, search, saved entry). 2. Entry links from Home and trip hub (exported hooks). 3. Offline badge per destination.
-- Tests: `pnpm --filter mobile test -- features/explore/home`
+- Tests: `pnpm --filter @cp/mobile test -- features/explore/home`
 - Done when: no 6th tab added; Explore reachable from Home and Trips; offline badge accurate.
 
 ## Phase acceptance criteria

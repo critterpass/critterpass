@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: Repo & toolchain bootstrap
-status: pending
+status: in_progress
 depends_on: []
 wave: 1
 features: []
@@ -79,7 +79,7 @@ Undesigned states: none (no UI beyond a placeholder route that shows the app nam
 | Env schema | per service `src/env.ts` (zod): `DATABASE_URL` (PgBouncer 6432), `DATABASE_DIRECT_URL` (5432; worker + the api pre-deploy migrate step only. Migrations always use the direct connection: DDL, advisory-lock migrators and `CREATE INDEX CONCURRENTLY` break under PgBouncer transaction pooling), `REDIS_URL`, `PUBLIC_BASE_URL`, `SENTRY_DSN?`, `OTEL_EXPORTER_OTLP_ENDPOINT?`, `COMMIT_SHA`; media-worker: `MEDIA_HMAC_KEYS` (JSON `{kid: secret}`), R2 binding `MEDIA` |
 | Media URL | `https://media.critterpass.app/<object_key>?v=<variant>&exp=<unix>&kid=<id>&sig=<base64url>`; sig = HMAC-SHA256(key, `object_key|variant|exp`). Doc delta if api-contracts lacks it |
 | Railway | config-as-code `services/*/railway.json` (build: Dockerfile, healthcheck `/health`, pre-deploy `DATABASE_URL=$DATABASE_DIRECT_URL pnpm --filter @cp/db migrate` guarded to no-op; `DATABASE_DIRECT_URL` is a reference variable on api used only by this step); private networking between services; `infra/railway/README.md` lists services, regions, IPs, variable references |
-| Package names | `@cp/<dir>` for every workspace package (e.g. `@cp/domain`, `@cp/db`, `@cp/api`, `@cp/mobile`); all phases filter with `--filter @cp/<dir>`. Doc delta: code-standards §6 still says `@critterpass/*` — update to `@cp/*` |
+| Package names | `@cp/<dir>` for every workspace package (e.g. `@cp/domain`, `@cp/db`, `@cp/api`, `@cp/mobile`); all phases filter with `--filter @cp/<dir>`. Doc delta: code-standards §6 still says `@cp/*` — update to `@cp/*` |
 | Dev routes | `apps/mobile/src/app/(dev)/**` is the only dev-only route folder (no `__dev/`). Excluded at build time: `metro.config.js` adds `resolver.blockList` for `src/app/(dev)/` when `APP_VARIANT=production`, so expo-router's `require.context` never bundles them; every `(dev)` screen exports marker `__CP_DEV_ROUTE__`. `tools/scripts/check-release-bundle.ts` runs `expo export` for ios + android with `APP_VARIANT=production` and fails if the bundle contains the marker or a `(dev)` path; required CI job on every PR touching `apps/mobile` |
 | No tables, commands, channels, jobs | this phase creates none |
 
@@ -90,6 +90,7 @@ Undesigned states: none (no UI beyond a placeholder route that shows the app nam
 - Steps: 1. `git init -b main`; `git remote add origin https://github.com/critterpass/critterpass.git`; write `.gitignore` (step 5) BEFORE the first `git add`; push after the first commit. 2. Write root configs per Requirements. 3. Create package manifests (`@cp/*`, `type: module`, `exports`), `src/index.ts` = `export {};` (each owning phase fills its package). 4. Boundaries rules for arch §3 (element types app/service/package-pure/package-server). 5. Add `.gitignore` covering `.env*` except `.env.example`, `ios/`, `android/` (CNG), `dist`, `.turbo`.
 - Tests: `pnpm i && pnpm turbo run lint typecheck` ; add `tools/scripts/boundaries.test.ts` asserting a fixture import from an app into `@cp/db` fails lint (`pnpm vitest run tools/scripts`).
 - Done when: clean install; lint + typecheck green; boundary violation fixture is rejected; repo exists on GitHub as private.
+- Status: done — c586d53 (TypeScript pinned to 6.0.x: typescript-eslint does not support the 7.x native compiler; root `vitest.config.ts` projects replace `vitest.workspace.ts`, removed in Vitest 4; boundary data in `tools/lint/boundaries.js`)
 
 ### T2 — Hono api + worker skeletons (Node 26)
 - Goal: deployable services with health, readiness, env validation, logs.
@@ -97,6 +98,7 @@ Undesigned states: none (no UI beyond a placeholder route that shows the app nam
 - Steps: 1. api: `OpenAPIHono` app in `app.ts`, `/health`, `/ready`, `/openapi.json`, request id middleware (`X-Request-Id` echo), body limit, pino. 2. worker: process that opens `pg` pool (direct URL) + Redis, exposes `/health` on `PORT` via node-server, graceful shutdown (SIGTERM drains). 3. `env.ts` zod schemas; `pnpm env:check` runs every service schema against current env. 4. Multi-stage Dockerfiles (pnpm deploy, Node 26 slim, non-root). 5. `.env.example` per service.
 - Tests: `pnpm --filter @cp/api test` (Vitest `app.request('/health')`, `/ready` returns 503 when DB unreachable, 200 against Testcontainers Postgres); same for worker.
 - Done when: tests green; `docker build` of both images succeeds; `/openapi.json` validates as OpenAPI 3.1.
+- Status: done — 72e0646 (+ APP_ENV tier, empty-value handling, Railway-safe Dockerfiles)
 
 ### T3 — Local infra (docker-compose)
 - Goal: one-command local backend matching staging topology.
@@ -104,6 +106,7 @@ Undesigned states: none (no UI beyond a placeholder route that shows the app nam
 - Steps: 1. Postgres 18 image with pgvector; `init.sql` creates extensions + `create publication powersync;` (tables added by schema phases). 2. Redis 8. 3. Centrifugo v6: `token_jwks_public_endpoint` → `http://host.docker.internal:8787/api/auth/jwks`, proxy endpoints → api, namespaces are added by the realtime phase. 4. PowerSync service + storage Postgres, JWKS from api, replication from compose Postgres. 5. Healthchecks; `pnpm infra:up`/`infra:down` scripts.
 - Tests: `pnpm infra:up && pnpm tsx tools/scripts/infra-smoke.ts` (checks `select extname from pg_extension` contains vector/pg_trgm/unaccent, `show wal_level`=logical, Redis PING, Centrifugo `/health`, PowerSync `/probes/liveness`).
 - Done when: smoke script exits 0 on a clean machine; api `/ready` is 200 against compose.
+- Status: done — 1b780ed (compose host ports 54320/63790 avoid a locally installed Postgres/Redis; Centrifugo and PowerSync read one shared config each via env overrides: `infra/centrifugo/config.json`, `infra/powersync/service.yaml`)
 
 ### T4 — Expo SDK 58 app skeleton + EAS
 - Goal: dev client builds for both platforms with variant config.
@@ -111,6 +114,7 @@ Undesigned states: none (no UI beyond a placeholder route that shows the app nam
 - Steps: 1. `create-expo-app` SDK 58 template, strip sample code; pin versions per arch §8. 2. `app.config.ts` reads `APP_VARIANT` → name/bundle id/scheme/icon badge; `ios.deploymentTarget 26.0`, Android `targetSdk/compileSdk 36`, New Arch, Hermes, `runtimeVersion` fingerprint, `updates.url`. 3. `eas.json` profiles development (dev client, internal), preview, staging, production with channels. 4. `eas init --id c06dadf1-1916-4cf8-8189-f650eaf560ee` (project id into config via env), variant values via `eas env:create --visibility secret|sensitive|plaintext` per EAS environment. 5. Placeholder route renders app name + variant. 6. Dev-route exclusion per Architecture (`metro.config.js` blockList + `tools/scripts/check-release-bundle.ts`) with a fixture `(dev)/_probe.tsx`.
 - Tests: `pnpm --filter @cp/mobile test` (RNTL renders index route); `pnpm --filter @cp/mobile exec expo-doctor`; `pnpm tsx tools/scripts/check-release-bundle.ts` (passes; fails when blockList is removed); `eas build -p all --profile development --non-interactive` via workflow.
 - Done when: expo-doctor clean; both dev-client builds succeed on EAS; Jest green.
+- Status: done — c541c35 (SDK 58 preview.7; Babel 7 + Jest 29 per Expo support, expo-doctor 20/20; compileSdk 37 required by SDK 58 modules, target 36; iOS simulator dev client built on EAS; Android dev client rebuilt after the compileSdk fix)
 
 ### T5 — Web, admin and media-worker skeletons
 - Goal: Cloudflare-deployable web/admin and a working signed-media reader.
@@ -118,6 +122,7 @@ Undesigned states: none (no UI beyond a placeholder route that shows the app nam
 - Steps: 1. Astro 7 + Cloudflare adapter, one index page, `wrangler.jsonc` envs staging/production. 2. Vite React admin, static assets Worker config. 3. media-worker: parse query, `verifyMediaSignature` (constant-time compare, kid lookup, expiry), `env.MEDIA.get(key)`, `Cache-Control: private, max-age` ≤ remaining exp, 403/404 mapping. 4. `signMediaUrl` in domain for api use.
 - Tests: `pnpm --filter @cp/media-worker test` (Vitest + `@cloudflare/vitest-pool-workers` with Miniflare R2: valid, expired, tampered, unknown kid, missing object); `pnpm --filter @cp/domain test -- media-signature`; `pnpm --filter @cp/web build`; `pnpm --filter @cp/admin build`.
 - Done when: all tests/builds green; `wrangler deploy --dry-run` succeeds for all three.
+- Status: done — 0c09d5d (media Worker pins Vitest 4 for the Workers pool; web builds static-first, environment chosen at bundle time via CLOUDFLARE_ENV)
 
 ### T6 — CI pipeline
 - Goal: every PR runs affected lint/typecheck/test/build.
@@ -125,6 +130,7 @@ Undesigned states: none (no UI beyond a placeholder route that shows the app nam
 - Steps: 1. `ci.yml`: checkout (fetch-depth 0), pnpm setup, Node matrix 24/26, cache pnpm store + `.turbo`, `pnpm turbo run lint typecheck test build --filter=...[origin/main]`. 2. Docker-enabled job for Testcontainers suites (`test:db` task). 2a. `release-bundle` job runs `check-release-bundle.ts` when `apps/mobile/**` changes. 3. `osv.yml` weekly + on lockfile change. 4. PR template carries DoD checklist (code-standards §20). 5. Branch protection via `gh api` requiring `ci`.
 - Tests: open a PR with a deliberate lint error → CI fails; fix → green.
 - Done when: CI green on `main`; branch protection active (`gh api repos/:owner/critterpass/branches/main/protection` shows required check).
+- Status: done — 818adcc (branch protection skipped: founder decision, GitHub Free org; merges only on green CI)
 
 ### T7 — Railway (Singapore) + PlanetScale Postgres HA
 - Goal: staging + production service shells reachable and wired to the database.
@@ -132,6 +138,7 @@ Undesigned states: none (no UI beyond a placeholder route that shows the app nam
 - Steps: 1. Link the existing Railway project `15372b45-8aeb-4a74-87d9-67b860e910a0` (Railway MCP/CLI, `use-railway` skill), region Singapore; ensure envs `staging` + `production` exist (one already exists: `d94cb6e4-…`). 2. Services api, worker (GitHub source, root `services/*`), redis (Redis 8), centrifugo, powersync-repl, powersync-api, powersync-storage (Railway Postgres 18); private networking. 3. Enable static outbound IPs on api + worker; record IPs in `infra/railway/README.md`. 4. PlanetScale Postgres via `pscale --format json` / PlanetScale MCP (skills `planetscale-pscale-cli-automation` + `planetscale-change-gates-and-approval-contract`; stop for founder approval before any billed create): database `critterpass` in `aws ap-southeast-1`, production HA (1 primary + 2 replicas), staging branch, PgBouncer, PITR on; enable extensions; allow-list Railway IPs; DB roles are created by the schema phase; here only the owner login. 5. Reference variables (`DATABASE_URL` etc.) in Railway; domains `api.`/`rt.`/`sync.` for staging (`*.staging.critterpass.app`).
 - Tests: `curl https://api.staging.critterpass.app/ready` → 200; `railway run pnpm env:check` per service.
 - Done when: staging api + worker healthy and `/ready` proves DB + Redis; production services exist (scaled to 0 or idle) with variables set; IPs documented.
+- Status: done — 7ad6137 (staging api + worker live in Singapore on PlanetScale staging via PgBouncer + Railway Redis; static IPs 208.77.246.240–242; PlanetScale `critterpass` PS-5 HA + `staging` branch, extensions + `powersync` publication on both. Founder follow-ups: install the Railway GitHub App on the `critterpass` org (auto-deploy; CLI uploads until then), set each service's config-as-code path in the dashboard, sync service instances into `production` before launch. Centrifugo and PowerSync services are created by the realtime/sync spikes that own their config)
 
 ### T8 — Cloudflare accounts, R2, DNS, deploy jobs
 - Goal: edge resources live for staging.
@@ -139,6 +146,7 @@ Undesigned states: none (no UI beyond a placeholder route that shows the app nam
 - Steps: 1. R2 buckets (owns list) with CORS for presigned PUT from app origins; lifecycle rule on `cp-backups` 35 d. 2. DNS zone `critterpass.app` (+ `go.`), records for api/rt/sync (Railway), media/admin/web (Workers). 3. Wrangler secrets for `MEDIA_HMAC_KEYS`. 4. `deploy-edge.yml`: on `main` deploy web/admin/media-worker to staging; production on manual dispatch. 5. R2 API token for api presign stored in Railway variables.
 - Tests: signed URL generated by `tools/scripts/sign-media-url.ts` for a test object returns 200; tampered returns 403.
 - Done when: staging hosts resolve over HTTPS; signed read works end to end.
+- Status: done — 961d304 (R2 buckets + CORS + 35-day backup expiry; staging.critterpass.app, admin.staging.critterpass.app, media.staging.critterpass.app live; signed read 200, tampered/unsigned/expired 403, missing 404. Founder follow-up: Cloudflare API token as GitHub secret `CLOUDFLARE_API_TOKEN` for deploy-edge)
 
 ### T9 — Secrets inventory, Sentry projects, EAS Workflows
 - Goal: every secret has a documented home; error-tracking projects exist.
@@ -146,6 +154,7 @@ Undesigned states: none (no UI beyond a placeholder route that shows the app nam
 - Steps: 1. In existing Sentry org `critterpass`: reuse project `critterpass` for mobile; create api, worker, web, admin, media-worker; DSNs → Railway variables / Wrangler secrets / EAS environment variables (`eas env:create --visibility secret`). 2. Populate secret matrix from arch §6 (APNs, FCM, RevenueCat, Anthropic, suppliers, OTP providers listed with "provisioned by phase that integrates"). 3. EAS Workflows: staging build + submit to TestFlight/Play internal on tag `staging-*`; production on tag `v*`. 4. Add `gitleaks` step to `ci.yml`.
 - Tests: `pnpm env:check` passes in CI with `.env.example` defaults for test env; gitleaks passes.
 - Done when: no secret in git history (gitleaks clean); matrix covers every arch §6 row.
+- Status: done — 59847dc (Sentry projects api, worker, web, admin, media-worker + existing mobile; DSNs in Railway, Wrangler, GitHub and EAS; EAS staging/production workflows; gitleaks in CI)
 
 ### T10 — Design-render tools move, README, CLAUDE.md
 - Goal: agent-ready repo docs; render scripts runnable from `tools/`.
@@ -153,18 +162,19 @@ Undesigned states: none (no UI beyond a placeholder route that shows the app nam
 - Steps: 1. `git mv docs/design-renders/scripts/* tools/design-renders/`; update input (`design/`) and output (`docs/design-renders/`) paths to repo-root-relative. 2. `pnpm renders:screens` regenerates one screen identical to the committed PNG. 3. README: prerequisites (Node 26, pnpm per `packageManager`, Docker, Xcode 27 + current Command Line Tools, Android SDK 36), setup, commands, layout table. 4. CLAUDE.md: reading order, one-task rule, owns rule, test ladder, no ids/deferral (design screen ids such as `3c-9` are allowed as product data keys — screen registry, parents map, fixtures; plan, phase, task, feature and finding ids stay banned from code, comments, test names and commits), status protocol, secrets rule, where undesigned states are logged.
 - Tests: `pnpm --filter @cp/design-renders run render:screens -- --only "3c-9 Pon's draft"` and byte/pixel compare to existing PNG.
 - Done when: rerender matches; README + CLAUDE.md present and linked from `docs/README.md`.
+- Status: done — e412988 (verify:screen re-renders "3c-9 Pon's draft" with 0 differing pixels, animated regions masked)
 
 ## Phase acceptance criteria
-- [ ] Private GitHub repo with protected `main`, CI required
-- [ ] `pnpm i && pnpm turbo run lint typecheck test build` green locally and in CI (Node 24 + 26)
-- [ ] `pnpm infra:up` + infra smoke script pass
-- [ ] api/worker `/health` + `/ready` pass on Railway staging (Singapore) against PlanetScale staging; static IPs recorded
-- [ ] PlanetScale production HA (1+2) with PITR exists; extensions vector/pg_trgm/unaccent enabled
-- [ ] web/admin/media-worker deployed to Cloudflare staging; signed media read 200, tampered 403
+- [x] Private GitHub repo, CI on every PR (branch protection unavailable on the Free org plan; founder chose to skip it)
+- [x] `pnpm i && pnpm turbo run lint typecheck test build` green locally and in CI (Node 24 + 26)
+- [x] `pnpm infra:up` + infra smoke script pass
+- [x] api/worker `/health` + `/ready` pass on Railway staging (Singapore) against PlanetScale staging; static IPs recorded
+- [x] PlanetScale production HA (1+2) with backups/PITR exists; extensions vector/pg_trgm/unaccent enabled
+- [x] web/admin/media-worker deployed to Cloudflare staging; signed media read 200, tampered 403
 - [ ] EAS dev-client builds succeed for iOS + Android
-- [ ] Only `.env.example` files in git; gitleaks clean
-- [ ] `tools/design-renders` reproduces a committed render
-- [ ] README.md + CLAUDE.md present
+- [x] Only `.env.example` files in git; gitleaks clean
+- [x] `tools/design-renders` reproduces a committed render
+- [x] README.md + CLAUDE.md present
 
 ## Risks & rollback
 | Risk | Mitigation / rollback |
