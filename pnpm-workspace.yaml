@@ -37,7 +37,10 @@ catalog:
 
 # pnpm refuses dependency install scripts unless they are listed here.
 allowBuilds:
+  cpu-features: false
   esbuild: true
+  protobufjs: false
+  ssh2: false
   unrs-resolver: true
 
 minimumReleaseAgeExclude:

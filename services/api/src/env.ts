@@ -1,0 +1,34 @@
+import { z } from 'zod';
+
+/** Env files write unset optional values as `KEY=`; treat the empty string as absent. */
+const optionalUrl = z.preprocess((value) => (value === '' ? undefined : value), z.url().optional());
+
+/** Runtime configuration for the api service, validated once at boot. */
+export const apiEnvSchema = z.object({
+  NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+  PORT: z.coerce.number().int().positive().default(8787),
+  LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
+  /** Pooled connection (PgBouncer, port 6432) used by request transactions. */
+  DATABASE_URL: z.url(),
+  /** Direct connection (port 5432), read only by the pre-deploy migration step. */
+  DATABASE_DIRECT_URL: optionalUrl,
+  REDIS_URL: z.url(),
+  PUBLIC_BASE_URL: z.url(),
+  SENTRY_DSN: optionalUrl,
+  OTEL_EXPORTER_OTLP_ENDPOINT: optionalUrl,
+  COMMIT_SHA: z.string().min(1).default('dev'),
+});
+
+export type ApiEnv = z.infer<typeof apiEnvSchema>;
+
+/** Parses the environment, failing fast with every problem listed (values are never echoed). */
+export function loadApiEnv(source: Record<string, string | undefined> = process.env): ApiEnv {
+  const parsed = apiEnvSchema.safeParse(source);
+  if (!parsed.success) {
+    const problems = parsed.error.issues.map(
+      (issue) => `${issue.path.join('.')}: ${issue.message}`,
+    );
+    throw new Error(`Invalid api environment:\n  ${problems.join('\n  ')}`);
+  }
+  return parsed.data;
+}

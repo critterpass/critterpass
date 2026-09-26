@@ -106,8 +106,11 @@ export const boundaryPolicies = [
   // npm dependencies and Node built-ins are governed by package.json, not by these rules.
   { allow: { to: { module: { origin: 'external' } } } },
   { allow: { to: { module: { origin: 'core' } } } },
-  // Repo tooling may share helpers across tool folders.
-  { from: { element: { type: 'tools' } }, allow: { to: { element: { type: 'tools' } } } },
+  // Repo tooling may share helpers across tool folders and read service config (env schemas).
+  {
+    from: { element: { type: 'tools' } },
+    allow: { to: { element: { types: { anyOf: ['tools', 'service', 'media-worker'] } } } },
+  },
   // Files inside one element may import each other.
   { allow: { dependency: { relationship: { to: 'internal' } } } },
   ...Object.entries(packageDeps).flatMap(([pkg, deps]) =>

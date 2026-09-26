@@ -8,5 +8,13 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
+  },
+  "dependencies": {
+    "pg": "catalog:",
+    "redis": "catalog:"
+  },
+  "devDependencies": {
+    "@types/pg": "catalog:",
+    "zod": "catalog:"
   }
 }
