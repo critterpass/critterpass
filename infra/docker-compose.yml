@@ -1,0 +1,83 @@
+# Local backend matching the staging topology: Postgres 18 (logical replication, pgvector),
+# Redis 8, Centrifugo v6 and a self-hosted PowerSync Service with its own storage database.
+# Start with `pnpm infra:up`; api and worker run on the host via `pnpm dev`.
+# Host ports avoid clashing with a locally installed Postgres/Redis: Postgres 54320, Redis 63790.
+name: critterpass
+
+services:
+  postgres:
+    build: ./docker/postgres
+    image: critterpass-postgres:local
+    environment:
+      POSTGRES_USER: app_owner
+      POSTGRES_PASSWORD: app_owner
+      POSTGRES_DB: critterpass
+    ports: ['54320:5432']
+    volumes: ['pgdata:/var/lib/postgresql']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U app_owner -d critterpass']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:8.8.3-alpine
+    ports: ['63790:6379']
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  centrifugo:
+    image: centrifugo/centrifugo:v6.9.6
+    command: ['centrifugo', '--config=/centrifugo/config.json']
+    volumes: ['./centrifugo/config.local.json:/centrifugo/config.json:ro']
+    ports: ['8000:8000']
+    extra_hosts: ['host.docker.internal:host-gateway']
+    depends_on:
+      redis: { condition: service_healthy }
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8000/health']
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  powersync-storage:
+    image: postgres:18.6-trixie
+    environment:
+      POSTGRES_USER: powersync_storage
+      POSTGRES_PASSWORD: powersync_storage
+      POSTGRES_DB: powersync_storage
+    volumes: ['powersync-storage:/var/lib/postgresql']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U powersync_storage -d powersync_storage']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  powersync:
+    image: journeyapps/powersync-service:1.26.1
+    command: ['start', '-r', 'unified']
+    environment:
+      POWERSYNC_CONFIG_PATH: /config/service.yaml
+      PS_CONFIG_FILE: /config/service.yaml
+    volumes: ['./powersync/service.local.yaml:/config/service.yaml:ro']
+    ports: ['8080:8080']
+    extra_hosts: ['host.docker.internal:host-gateway']
+    depends_on:
+      postgres: { condition: service_healthy }
+      powersync-storage: { condition: service_healthy }
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'node -e "fetch(''http://127.0.0.1:8080/probes/liveness'').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"',
+        ]
+      interval: 3s
+      timeout: 5s
+      retries: 40
+
+volumes:
+  pgdata:
+  powersync-storage:
