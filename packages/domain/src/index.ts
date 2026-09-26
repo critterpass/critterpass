@@ -99,6 +99,9 @@ export {
   type TripStatus,
 } from './enums/trip';
 export { DomainError, ERROR_CODES, errorMessageKey, type ErrorCode, type ErrorResponseBody } from './errors';
+export { type ActivityProjection, projectActivity } from './events/activity-rules';
+export { DOMAIN_EVENT_TYPES, domainEventTypeSchema, getDomainEventPayloadSchema, type DomainEventType } from './events/catalogue';
+export { domainEventInputSchema, parseDomainEvent, type DomainEventInput } from './events/envelope';
 export {
   CONSENT_PURPOSES,
   PRICE_DISPLAY_MODES,

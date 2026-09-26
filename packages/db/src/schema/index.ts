@@ -7,5 +7,5 @@ export {
   planDays,
   planItems,
 } from './plan';
-export { rtOutbox } from './platform';
+export { activityEvents, cmdLog, cmdResults, domainEvents, rtOutbox } from './platform';
 export { destinations, guides, tripParticipants, trips } from './trips';
