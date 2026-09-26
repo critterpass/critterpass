@@ -6,7 +6,8 @@
   "description": "Critter renderer core, drawing backends and critter data",
   "sideEffects": false,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./canvas2d": "./src/backends/canvas2d/index.ts"
   },
   "scripts": {
     "lint": "eslint .",
