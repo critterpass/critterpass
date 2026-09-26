@@ -36,17 +36,28 @@ function withDatabase(connectionUri: string, database: string): string {
  * state here, which is what makes "one container per test file worker" happen without extra
  * coordination code.
  */
+/**
+ * `pg.Pool` documents an `'error'` listener as required on every pool: without one, an idle
+ * client's connection-level error (e.g. a backend the admin connection just force-terminated)
+ * throws as an uncaught exception instead of being handled internally. Every pool this file hands
+ * out is short-lived and closed explicitly by its owner, so there is nothing useful to do with the
+ * error beyond not crashing the process.
+ */
+function silenceIdleClientErrors(pool: pg.Pool): pg.Pool {
+  pool.on('error', () => undefined);
+  return pool;
+}
+
 export async function startDbTestContainer(): Promise<DbTestContainer> {
   const container = await startPostgres();
   const adminUrl = container.getConnectionUri();
-  const adminPool = new pg.Pool({ connectionString: adminUrl, max: 5 });
+  const adminPool = silenceIdleClientErrors(new pg.Pool({ connectionString: adminUrl, max: 5 }));
   let created = 0;
 
   await adminPool.query(`CREATE DATABASE ${TEMPLATE_DATABASE}`);
-  const templatePool = new pg.Pool({
-    connectionString: withDatabase(adminUrl, TEMPLATE_DATABASE),
-    max: 1,
-  });
+  const templatePool = silenceIdleClientErrors(
+    new pg.Pool({ connectionString: withDatabase(adminUrl, TEMPLATE_DATABASE), max: 1 }),
+  );
   await migrateTestDatabase(templatePool);
   // Postgres refuses `CREATE DATABASE ... TEMPLATE x` while any session is connected to x.
   await templatePool.end();
@@ -56,13 +67,19 @@ export async function startDbTestContainer(): Promise<DbTestContainer> {
       created += 1;
       const name = `cp_test_${process.pid}_${created}`;
       await adminPool.query(`CREATE DATABASE ${name} TEMPLATE ${TEMPLATE_DATABASE}`);
-      const pool = new pg.Pool({ connectionString: withDatabase(adminUrl, name), max: 5 });
+      const pool = silenceIdleClientErrors(
+        new pg.Pool({ connectionString: withDatabase(adminUrl, name), max: 5 }),
+      );
       return {
         name,
         pool,
         async drop() {
-          await pool.end();
+          // Force-drop while `pool` is still open: any client it still has idle is then
+          // terminated by Postgres while pg.Pool's own idle-client error handling is listening,
+          // which evicts it cleanly. Ending the pool first and force-dropping after races the
+          // client's own socket teardown against Postgres independently killing the same backend.
           await adminPool.query(`DROP DATABASE IF EXISTS ${name} WITH (FORCE)`);
+          await pool.end();
         },
       };
     },

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { z } from 'zod';
 
+import * as catalogue from '../src/enums/catalogue';
 import * as crew from '../src/enums/crew';
 import * as identity from '../src/enums/identity';
 import * as plan from '../src/enums/plan';
@@ -14,6 +15,12 @@ interface EnumFixture {
 }
 
 const fixtures: readonly EnumFixture[] = [
+  { name: 'GuideColour', values: catalogue.GUIDE_COLOURS, schema: catalogue.guideColourSchema },
+  {
+    name: 'DestinationCoverage',
+    values: catalogue.DESTINATION_COVERAGES,
+    schema: catalogue.destinationCoverageSchema,
+  },
   { name: 'CrewMemberRole', values: crew.CREW_MEMBER_ROLES, schema: crew.crewMemberRoleSchema },
   {
     name: 'CrewMemberStatus',
@@ -54,6 +61,7 @@ const fixtures: readonly EnumFixture[] = [
     values: plan.PLAN_ITEM_COST_MODELS,
     schema: plan.planItemCostModelSchema,
   },
+  { name: 'PlanItemStatus', values: plan.PLAN_ITEM_STATUSES, schema: plan.planItemStatusSchema },
   { name: 'CreatedByKind', values: plan.CREATED_BY_KINDS, schema: plan.createdByKindSchema },
   { name: 'ChangeSetStatus', values: plan.CHANGE_SET_STATUSES, schema: plan.changeSetStatusSchema },
   {

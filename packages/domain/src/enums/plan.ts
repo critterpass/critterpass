@@ -23,6 +23,10 @@ export const PLAN_ITEM_COST_MODELS = ['per_person', 'group', 'unit'] as const;
 export const planItemCostModelSchema = z.enum(PLAN_ITEM_COST_MODELS);
 export type PlanItemCostModel = z.infer<typeof planItemCostModelSchema>;
 
+export const PLAN_ITEM_STATUSES = ['confirmed', 'proposed', 'voting'] as const;
+export const planItemStatusSchema = z.enum(PLAN_ITEM_STATUSES);
+export type PlanItemStatus = z.infer<typeof planItemStatusSchema>;
+
 /** Also used by `change_sets.author_kind`; guides never write `plan_items` directly either way. */
 export const CREATED_BY_KINDS = ['user', 'guide'] as const;
 export const createdByKindSchema = z.enum(CREATED_BY_KINDS);

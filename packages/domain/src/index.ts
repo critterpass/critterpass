@@ -26,6 +26,14 @@ export {
   type DevicePlatform,
 } from './commands/envelope';
 export {
+  DESTINATION_COVERAGES,
+  GUIDE_COLOURS,
+  destinationCoverageSchema,
+  guideColourSchema,
+  type DestinationCoverage,
+  type GuideColour,
+} from './enums/catalogue';
+export {
   CREW_MEMBER_ROLES,
   CREW_MEMBER_STATUSES,
   crewMemberRoleSchema,
@@ -43,6 +51,7 @@ export {
   ITINERARY_VERSION_STATUSES,
   ITINERARY_VERSION_VISIBILITIES,
   PLAN_ITEM_COST_MODELS,
+  PLAN_ITEM_STATUSES,
   changeSetApprovedByKindSchema,
   changeSetScopeSchema,
   changeSetStatusSchema,
@@ -52,6 +61,7 @@ export {
   itineraryVersionStatusSchema,
   itineraryVersionVisibilitySchema,
   planItemCostModelSchema,
+  planItemStatusSchema,
   type ChangeSetApprovedByKind,
   type ChangeSetScope,
   type ChangeSetStatus,
@@ -61,6 +71,7 @@ export {
   type ItineraryVersionStatus,
   type ItineraryVersionVisibility,
   type PlanItemCostModel,
+  type PlanItemStatus,
 } from './enums/plan';
 export {
   ACTOR_KINDS,
@@ -124,3 +135,10 @@ export {
   type PrivacyClass,
   type TablePrivacy,
 } from './privacy';
+export {
+  createStateMachine,
+  type StateMachine,
+  type Transition,
+  type TransitionResult,
+} from './state/machine';
+export { canTransitionTrip, deriveTripPhase, transitionTrip, tripStateMachine } from './state/trip';

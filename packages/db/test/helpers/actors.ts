@@ -108,3 +108,43 @@ export async function getCrewMembershipEpoch(
   );
   return firstRow(rows).membership_epoch;
 }
+
+export interface InsertTripOptions {
+  readonly crewId: string;
+  readonly status?: string;
+}
+
+export async function insertTrip(
+  client: pg.PoolClient | pg.Pool,
+  options: InsertTripOptions,
+): Promise<string> {
+  const { rows } = await client.query<{ id: string }>(
+    'INSERT INTO trips (crew_id, status) VALUES ($1, $2) RETURNING id',
+    [options.crewId, options.status ?? 'voting'],
+  );
+  return firstRow(rows).id;
+}
+
+export interface InsertTripParticipantOptions {
+  readonly tripId: string;
+  readonly userId: string;
+  readonly role?: 'organiser' | 'member';
+  readonly rsvp?: string;
+}
+
+export async function insertTripParticipant(
+  client: pg.PoolClient | pg.Pool,
+  options: InsertTripParticipantOptions,
+): Promise<void> {
+  await client.query(
+    'INSERT INTO trip_participants (trip_id, user_id, role, rsvp) VALUES ($1, $2, $3, $4)',
+    [options.tripId, options.userId, options.role ?? 'member', options.rsvp ?? 'unopened'],
+  );
+}
+
+export async function setTripStatus(
+  client: pg.PoolClient | pg.Pool,
+  options: { readonly tripId: string; readonly status: string },
+): Promise<void> {
+  await client.query('UPDATE trips SET status = $1 WHERE id = $2', [options.status, options.tripId]);
+}
