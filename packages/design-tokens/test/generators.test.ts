@@ -1,7 +1,12 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
 import { describe, expect, it } from 'vitest';
 
+import { buildAndroidFonts } from '../codegen/android-fonts.js';
 import { emitCss } from '../codegen/css.js';
 import { flattenForNative } from '../codegen/flatten.js';
+import { emitFontsCss } from '../codegen/fonts-css.js';
 import { emitKotlin } from '../codegen/kotlin.js';
 import { emitSwift } from '../codegen/swift.js';
 import { emitTs } from '../codegen/ts.js';
@@ -12,6 +17,7 @@ const ts = emitTs(tokens);
 const css = emitCss(leaves);
 const swift = emitSwift(leaves);
 const kotlin = emitKotlin(leaves);
+const fontsCss = emitFontsCss();
 
 describe('generators produce stable output', () => {
   it('TS matches its snapshot', () => {
@@ -99,5 +105,44 @@ describe('emitKotlin', () => {
     expect(kotlin).toContain('import androidx.compose.ui.unit.Dp');
     expect(kotlin).toContain('import androidx.compose.ui.unit.TextUnit');
     expect(kotlin).toContain('import androidx.compose.animation.core.CubicBezierEasing');
+  });
+});
+
+describe('emitFontsCss', () => {
+  it('matches its snapshot', () => {
+    expect(fontsCss).toMatchSnapshot();
+  });
+
+  it('shares one font-family name across every Archivo weight/width, unlike the mobile side', () => {
+    const archivoRules = fontsCss.split('@font-face').filter((rule) => rule.includes("font-family: 'Archivo'"));
+    expect(archivoRules.length).toBe(15); // 5 widths x 3 weights
+    expect(fontsCss).toContain('font-stretch: 62%;');
+    expect(fontsCss).toContain('font-stretch: 100%;');
+  });
+
+  it('gives every rule a unicode-range and a woff2 src', () => {
+    const ruleCount = (fontsCss.match(/@font-face/g) ?? []).length;
+    const rangeCount = (fontsCss.match(/unicode-range:/g) ?? []).length;
+    expect(ruleCount).toBeGreaterThan(0);
+    expect(rangeCount).toBe(ruleCount);
+    expect(fontsCss).toContain("format('woff2')");
+  });
+
+  it('excludes Instrument Serif’s mobile-only sibling but includes the family itself (web-only target)', () => {
+    expect(fontsCss).toContain("font-family: 'Instrument Serif'");
+  });
+});
+
+describe('buildAndroidFonts', () => {
+  it('copies every bundled ttf and writes a matching font-family XML wrapper', () => {
+    const written = buildAndroidFonts();
+    expect(written.length).toBeGreaterThan(0);
+    expect(written.length % 2).toBe(0);
+
+    const outputDir = join(import.meta.dirname, '../generated/android/res/font');
+    const xml = readFileSync(join(outputDir, 'archivo_w70_900_family.xml'), 'utf8');
+    expect(xml).toContain('app:font="@font/archivo_w70_900"');
+    expect(xml).toContain('app:fontWeight="900"');
+    expect(() => readFileSync(join(outputDir, 'archivo_w70_900.ttf'))).not.toThrow();
   });
 });

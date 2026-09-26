@@ -95,7 +95,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. Download OFL sources (Archivo VF, Geist, Geist Mono, Caveat, Instrument Serif, Noto Sans Thai) pinned by hash. 2. `fontTools.varLib.instancer` → Archivo `wdth` 62/66/70/78/100 × `wght` 700/800/900, named `Archivo-W{w}-{weight}`. 3. `pyftsubset` with the per-family unicode ranges in Requirements (`sources.json` carries each family's range set), keep `tnum`, `case`. 4. Glyph-coverage check: every Vietnamese precomposed letter and currency symbol present in Archivo/Geist/Caveat (report which fall back); every assigned Thai-block code point present in Noto Sans Thai. 5. Manifest lists family → file → weights/widths → coverage.
 - Tests: `python3 tools/scripts/fonts/build-fonts.py --check` (idempotent rebuild yields identical hashes; coverage assertions).
 - Done when: total mobile font payload ≤ 3 MB; Vietnamese + Thai coverage checks pass; licences committed.
-- Status: done — see report for font sources/licences and a fontTools reproducibility fix (`recalcTimestamp`) — 3a15a97
+- Status: done — see report for font sources/licences and a fontTools reproducibility fix (`recalcTimestamp`) — bc65a2d
 
 ### T4 — Font runtime, per-script resolver, native + web registration
 - Goal: apps and extensions render the right face, size factor and line height per locale script.
@@ -103,6 +103,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. `expo-font` config plugin embeds fonts at build time (no async load flash). 2. `fontFor(variant, locale)` returns family, size multiplier, lineHeight, `condensedUpper` flag per §6. 3. Prewarm: render hidden glyph run of each display instance before splash hides. 4. `CPFont.register()` + `Font.cp(.h1)` helpers for SwiftUI targets. 5. Web `@font-face` + `unicode-range`.
 - Tests: `pnpm --filter @cp/mobile jest src/lib/fonts`; EAS dev build smoke (phase 1 workflow) showing a font specimen (renders verified in phase 7 gallery).
 - Done when: resolver tests cover Latin, vi, th, ja, zh-Hans, ko; `CPFont.swift` parses; web CSS builds.
+- Status: done — `build/android-fonts.ts` → `codegen/android-fonts.ts`, output to `generated/android` (same tooling constraint as T2/T3; see report) — pending commit
 
 ### T5 — Lingui setup, per-area catalogs, locale registry, lint
 - Goal: extraction/compilation pipeline and the 16-locale registry.
