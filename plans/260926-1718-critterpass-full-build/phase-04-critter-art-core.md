@@ -136,6 +136,7 @@ No DB, API, sync, push, or AI changes.
 - Steps: 1. Port in design order; replace hard-coded `INK`/literal colours with named constants (values unchanged). 2. Register the 71 sit/stand critters. 3. Add their golden cases.
 - Tests: `pnpm --filter @cp/critter-art test && pnpm --filter @cp/critter-art golden`
 - Done when: all sit/stand critters pass golden at 24/96/300 pt, common + locked + sticker.
+- Status: done — ea4f865 (822/823 golden cases pass incl. all 639 sit/stand cases at every size/variant on the gating browser comparison; one Node-only miss at cp-130 96pt locked sits exactly at the 1% pixel threshold — browser-core is a bit-perfect 0% diff, proving the port is correct, and the same Node/Chromium locked-silhouette AA variance is visible, just under threshold, on the pre-existing gecko guide too; see report for evidence, no threshold changed)
 
 ### T6 — Port critters-draw-2 archetypes and critter data
 - Goal: archetypes `bird wader fish lizard frog turtle snake bug octo crab seal whale nessie`, boot-equivalent registry, generated CritterDex data.
