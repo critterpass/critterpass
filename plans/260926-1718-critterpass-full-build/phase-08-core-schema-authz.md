@@ -161,6 +161,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Drizzle tables + `pgPolicy`. 2. `app.is_crew_member` (active; chat variant `app.is_crew_chat_member` incl. former+keep_in_chat), `app.shares_crew(a,b)`. 3. Epoch trigger bumps `membership_epoch`, sets `joined_epoch`, writes `rt_outbox` kind `unsubscribe` for removed/left user on `crew:{crew_id}`, `crew_*:{crew_id}` + trip channels via `app.channel_name` (`#` is reserved for user-limited `user:#uid` only). 4. `users.username` citext unique; `member_ceiling` default 16 CHECK.
 - Tests: `pnpm --filter @cp/db test -- permissions/(users|crews|crew_members)`
 - Done when: outsider sees 0 rows, ex-member loses crew rows immediately after removal, epoch increments exactly once per membership change and emits one unsubscribe row.
+- Status: done — 81318781
 
 ### T4 — Trips, participants, catalogue tables, Trip status machine
 - Goal: F-037 trip lifecycle with TS/SQL parity.
