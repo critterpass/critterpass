@@ -153,6 +153,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. UUIDv7 generate/parse/time-extract. 2. Error table from api-contracts §3 (code, http, retry, message_key). 3. Privacy registry `{table → class, columns?}` used by publication + event-payload tests. 4. Envelope zod (`op_id` uuidv7, `actor.via` enum, `device.tz` IANA). 5. Enum → CHECK generator.
 - Tests: `pnpm --filter @cp/domain test`
 - Done when: every api-contracts §3 code present (test diffs against a list); UUIDv7 monotonic within ms; generator output snapshot matches migrations.
+- Status: done — d0c4c911
 
 ### T3 — Identity and crew tables, membership epochs
 - Goal: `users`, `user_settings`, `consents`, `media_objects`, `crews`, `crew_members` with RLS + helpers.
