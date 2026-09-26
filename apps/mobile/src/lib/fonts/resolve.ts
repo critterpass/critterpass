@@ -87,9 +87,21 @@ function geistFamilyFileName(base: LogicalFontFamily, weight: number): string {
  */
 function resolveCaveat(script: Script): ResolvedFont {
   if (script === 'latin' || script === 'vietnamese') {
-    return { fontFamily: 'Caveat-600', fontStyle: 'normal', sizeMultiplier: 1, lineHeightMultiplier: 1.1, condensedUpper: false };
+    return {
+      fontFamily: 'Caveat-600',
+      fontStyle: 'normal',
+      sizeMultiplier: 1,
+      lineHeightMultiplier: 1.1,
+      condensedUpper: false,
+    };
   }
-  return { fontFamily: 'Geist-500', fontStyle: 'italic', sizeMultiplier: 1, lineHeightMultiplier: 1.1, condensedUpper: false };
+  return {
+    fontFamily: 'Geist-500',
+    fontStyle: 'italic',
+    sizeMultiplier: 1,
+    lineHeightMultiplier: 1.1,
+    condensedUpper: false,
+  };
 }
 
 /** Archivo/Geist/Geist Mono cover Latin and Vietnamese in full; only Thai/CJK need a fallback face. */
@@ -97,12 +109,17 @@ function resolveLatinFamily(base: BaseTypeStyle, script: Script): ResolvedFont {
   const condensedUpper = base.condensed && CONDENSED_SUPPORTED[script];
 
   if (script === 'latin' || script === 'vietnamese') {
-    const fontFamily = base.fontFamily === 'archivo' ? archivoFileName(base.widthStep, base.fontWeight) : geistFamilyFileName(base.fontFamily, base.fontWeight);
+    const fontFamily =
+      base.fontFamily === 'archivo'
+        ? archivoFileName(base.widthStep, base.fontWeight)
+        : geistFamilyFileName(base.fontFamily, base.fontWeight);
     return {
       fontFamily,
       fontStyle: 'normal',
       sizeMultiplier: 1,
-      lineHeightMultiplier: base.condensed ? DISPLAY_LINE_HEIGHT[script] : base.lineHeightMultiplier,
+      lineHeightMultiplier: base.condensed
+        ? DISPLAY_LINE_HEIGHT[script]
+        : base.lineHeightMultiplier,
       condensedUpper,
     };
   }
@@ -119,7 +136,7 @@ function resolveLatinFamily(base: BaseTypeStyle, script: Script): ResolvedFont {
     };
   }
 
-  // CJK is never bundled (design-system.md F-002): the OS supplies PingFang/Hiragino/Apple SD
+  // CJK is never bundled (design-system.md §1.3): the OS supplies PingFang/Hiragino/Apple SD
   // Gothic (iOS) or Noto CJK (Android) once `fontFamily` is left unset.
   return {
     fontFamily: 'system',

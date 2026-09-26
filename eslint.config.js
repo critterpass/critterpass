@@ -19,6 +19,7 @@ const defaultExportAllowed = [
   'services/media-worker/src/index.ts',
   '**/*.config.{js,mjs,cjs,ts,mts}',
   '**/eslint.config.js',
+  '**/*.d.ts',
 ];
 
 const testFiles = ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', '**/test/**', '**/__tests__/**'];

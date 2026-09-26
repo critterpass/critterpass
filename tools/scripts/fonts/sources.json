@@ -1,5 +1,5 @@
 {
-  "$comment": "Upstream OFL font sources pinned by commit + sha256 (docs/design-system.md §1.3, phase F-002). unicodeRanges values are keys into unicodeRangeDefinitions below.",
+  "$comment": "Upstream OFL font sources pinned by commit + sha256 (docs/design-system.md §1.3). unicodeRanges values are keys into unicodeRangeDefinitions below.",
   "unicodeRangeDefinitions": {
     "latin": ["U+0020-007E"],
     "latin1Supplement": ["U+00A0-00FF"],

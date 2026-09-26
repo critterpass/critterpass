@@ -3,7 +3,7 @@
     "order": {
       "$type": "cpList",
       "$value": ["tokek", "pon", "lundi", "ajo", "sardi", "paco"],
-      "$description": "Canonical guide order (C5); place.color = guide.color; non-guide places cycle this list"
+      "$description": "Canonical guide order and colours; place.color = guide.color; non-guide places cycle this list"
     },
     "tokek": { "$type": "color", "$value": "{color.yellow}", "$description": "Bali" },
     "pon": { "$type": "color", "$value": "{color.orange}", "$description": "Kyoto" },

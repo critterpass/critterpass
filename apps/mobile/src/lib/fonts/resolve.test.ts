@@ -80,16 +80,19 @@ describe('fontFor — display-class Archivo variant (h1)', () => {
     });
   });
 
-  it.each(['ja', 'zh-Hans', 'ko'] as const)('falls back to the OS system font for %s, non-condensed', (locale) => {
-    const resolved = fontFor(displayH1, locale);
-    expect(resolved).toEqual({
-      fontFamily: 'system',
-      fontStyle: 'normal',
-      sizeMultiplier: 0.85,
-      lineHeightMultiplier: 1.15,
-      condensedUpper: false,
-    });
-  });
+  it.each(['ja', 'zh-Hans', 'ko'] as const)(
+    'falls back to the OS system font for %s, non-condensed',
+    (locale) => {
+      const resolved = fontFor(displayH1, locale);
+      expect(resolved).toEqual({
+        fontFamily: 'system',
+        fontStyle: 'normal',
+        sizeMultiplier: 0.85,
+        lineHeightMultiplier: 1.15,
+        condensedUpper: false,
+      });
+    },
+  );
 
   it('selects the requested Archivo width step and defaults to 70 when absent', () => {
     expect(fontFor({ ...displayH1, widthStep: 62 }, 'en').fontFamily).toBe('Archivo-W62-900');
@@ -126,7 +129,12 @@ describe('fontFor — body-class Geist variant', () => {
   });
 
   it('names Geist Mono without a space, matching the bundled file', () => {
-    const monoBase: BaseTypeStyle = { fontFamily: 'geistMono', fontWeight: 500, lineHeightMultiplier: 1.4, condensed: false };
+    const monoBase: BaseTypeStyle = {
+      fontFamily: 'geistMono',
+      fontWeight: 500,
+      lineHeightMultiplier: 1.4,
+      condensed: false,
+    };
     expect(fontFor(monoBase, 'en').fontFamily).toBe('GeistMono-500');
   });
 });
@@ -143,9 +151,12 @@ describe('fontFor — Caveat (guide voice)', () => {
     expect(fontFor(voiceBase, 'vi').fontFamily).toBe('Caveat-600');
   });
 
-  it.each(['th', 'ja', 'zh-Hans', 'ko'] as const)('falls back to Geist 500 italic for %s ("plain text for guide")', (locale) => {
-    const resolved = fontFor(voiceBase, locale);
-    expect(resolved.fontFamily).toBe('Geist-500');
-    expect(resolved.fontStyle).toBe('italic');
-  });
+  it.each(['th', 'ja', 'zh-Hans', 'ko'] as const)(
+    'falls back to Geist 500 italic for %s ("plain text for guide")',
+    (locale) => {
+      const resolved = fontFor(voiceBase, locale);
+      expect(resolved.fontFamily).toBe('Geist-500');
+      expect(resolved.fontStyle).toBe('italic');
+    },
+  );
 });

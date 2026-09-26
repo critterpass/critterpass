@@ -1,7 +1,7 @@
 // @ts-check
 /**
  * Bans hex/rgb() colour literals and numeric `fontSize`/`duration` values in style-ish code
- * (docs/code-standards.md §6, docs/design-system.md F-001): those values must come from
+ * (docs/code-standards.md §6, docs/design-system.md): those values must come from
  * `@cp/design-tokens` instead of being hand-typed in feature code.
  */
 

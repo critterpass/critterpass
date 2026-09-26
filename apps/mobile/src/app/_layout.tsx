@@ -13,7 +13,7 @@ export default function RootLayout() {
 
   // Render one hidden glyph per bundled face for a frame before revealing the app: this forces
   // the OS to rasterise each font's glyph atlas once up front, so the first *visible* text using
-  // it doesn't stutter (design-system.md F-002 "fonts prewarmed before first hero paint").
+  // it doesn't stutter (design-system.md: fonts are prewarmed before the first hero paint).
   useEffect(() => {
     if (!fontsReady) return undefined;
     const frame = requestAnimationFrame(() => setPrewarmed(true));

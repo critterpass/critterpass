@@ -37,8 +37,8 @@ describe('generators produce stable output', () => {
   });
 });
 
-describe('guide colours equal C5 across every output', () => {
-  // design-system.md C5: tokek yellow, pon orange, lundi blue, ajo pink, sardi green.
+describe('guide colours match the canonical palette in every output', () => {
+  // Canonical guide colours: tokek yellow, pon orange, lundi blue, ajo pink, sardi green.
   // (paco is the aliased "cream" case, documented in guide.tokens.json; not spot-checked here.)
   const c5 = {
     tokek: tokens.color.yellow,

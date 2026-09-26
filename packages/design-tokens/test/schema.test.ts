@@ -146,7 +146,7 @@ describe('the real token source', () => {
     );
   });
 
-  it('matches the canonical C5 guide colours exactly', () => {
+  it('matches the canonical guide colours exactly', () => {
     expect(tokens.guide.tokek).toBe(tokens.color.yellow);
     expect(tokens.guide.pon).toBe(tokens.color.orange);
     expect(tokens.guide.lundi).toBe(tokens.color.blue);

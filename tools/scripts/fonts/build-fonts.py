@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Reproducible font build for docs/design-system.md §1.3 / phase F-002.
+"""Reproducible font build for docs/design-system.md §1.3.
 
 Downloads the pinned OFL sources in sources.json (failing on a sha256 mismatch), instances the
 variable fonts (Archivo, Caveat, Noto Sans Thai) at the exact widths/weights the design tokens use,
 subsets every family to its declared unicode ranges keeping the `tnum`/`case` layout features, and
 writes:
-  - apps/mobile/assets/fonts/*.ttf   (bundled via the expo-font config plugin, T4)
-  - apps/web/public/fonts/*.woff2    (apps/web/src/styles/fonts.css @font-face, T4)
+  - apps/mobile/assets/fonts/*.ttf   (bundled via the expo-font config plugin)
+  - apps/web/public/fonts/*.woff2    (apps/web/src/styles/fonts.css @font-face)
   - packages/design-tokens/fonts/manifest.json + OFL-<Family>.txt licence copies
 
 Usage:
@@ -397,7 +397,7 @@ def run_build() -> dict[str, Any]:
 
 def verify_coverage(manifest: dict[str, Any]) -> list[str]:
     """Hard-fails only on each family's `criticalRanges` (Vietnamese for Archivo, Thai for Noto Sans
-    Thai, per T3's done-when); other gaps (e.g. Caveat's designed Vietnamese fallback to Geist
+    Thai, per the Thai coverage requirement); other gaps (e.g. Caveat's designed Vietnamese fallback to Geist
     italic, or a handful of rarely-used Latin Extended-A letters in Geist) are recorded in the
     manifest for review but don't block the build."""
     problems: list[str] = []
