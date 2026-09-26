@@ -82,6 +82,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Minimal Hono + Better Auth 1.7 (anonymous, phoneNumber, jwt EdDSA, admin, expo) on Testcontainers Postgres. 2. Flows: anon → phone verify (Twilio Verify test credentials), anon → linkSocial with an identity present elsewhere → `onLinkAccount` merge moves rows of a `spike_owned` table in one tx. 3. JWKS: rotate key, old tokens still verify until expiry. 4. Verify a JWT with `jose` using only the JWKS URL (what PowerSync/Centrifugo do).
 - Tests: `pnpm --filter @cp/spike-s-auth test` (uid unchanged, `isAnonymous` false, merge atomic on forced failure, rotation).
 - Done when: tests green; server verdict recorded.
+- Status: done — 967e97f (all 5 assertions PASS; genericOAuth + a local mock IdP stood in for native Apple/Google tokens (T3's job); phone OTP read from Better Auth's own verification row, no Twilio Verify account yet — see ADR)
 
 ### T3 — S-AUTH on device (Apple + Google native tokens)
 - Goal: native sign-in on Expo SDK 58 upgrades the anonymous session.
