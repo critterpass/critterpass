@@ -15,6 +15,7 @@ let postgres: StartedPostgreSqlContainer;
 let redisContainer: StartedRedisContainer;
 let pool: pg.Pool;
 let redis: RedisClientType;
+let redisStopped = false;
 
 beforeAll(async () => {
   [postgres, redisContainer] = await Promise.all([startPostgres(), startRedis()]);
@@ -29,8 +30,9 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await pool.end();
-  if (redis.isOpen) await redis.close();
-  await Promise.all([postgres.stop(), redisContainer?.stop()]);
+  // destroy, not close: a graceful QUIT would wait on a server one test deliberately stopped.
+  if (redis.isOpen) redis.destroy();
+  await Promise.all([postgres.stop(), redisStopped ? undefined : redisContainer.stop()]);
 });
 
 function buildApp() {
@@ -78,6 +80,7 @@ describe('GET /ready against real Postgres and Redis', () => {
 
   it('returns 503 naming Redis once it goes away', async () => {
     await redisContainer.stop();
+    redisStopped = true;
     const response = await buildApp().request('/ready');
     expect(response.status).toBe(503);
     expect(await response.json()).toEqual({
