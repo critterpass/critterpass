@@ -37,8 +37,8 @@ describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {
   });
 });
 
-// F-015: "no catalogue payload field maps to a C3 column" — a structural check that no payload
-// carries a field name shaped like a known C3 concept (budget, dietary, payout, calendar, etc).
+// No catalogue payload field may map to a C3 (owner-only, unpublished) column — a structural check
+// that no payload carries a field name shaped like a known C3 concept (budget, dietary, payout, etc).
 const FORBIDDEN_FIELD_SUBSTRINGS = [
   'budget',
   'dietary',

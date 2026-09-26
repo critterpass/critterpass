@@ -24,7 +24,7 @@ CREATE TRIGGER destinations_touch_updated_at BEFORE UPDATE ON destinations
 ALTER TABLE destinations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE destinations FORCE ROW LEVEL SECURITY;
 
--- guides.colour is the canonical guide palette (docs/product-decisions.md C5): Tokek yellow, Pon
+-- guides.colour is the canonical guide palette (docs/product-decisions.md): Tokek yellow, Pon
 -- orange, Lundi blue, Ajo pink, Sardi green, Paco cream.
 CREATE TABLE guides (
   id uuid PRIMARY KEY DEFAULT uuidv7(),
@@ -67,7 +67,7 @@ CREATE TABLE trips (
   end_date date,
   tz text,
   local_currency text,
-  -- Base tier (docs/product-decisions.md §3); phase 12's entitlements materialiser recomputes both
+  -- Base tier (docs/product-decisions.md §3); a later entitlements materialiser recomputes both
   -- once boost/Pass+ exist.
   seat_cap integer NOT NULL DEFAULT 6,
   plan_progress integer NOT NULL DEFAULT 0,
@@ -100,7 +100,7 @@ CREATE TABLE trip_participants (
   user_id uuid NOT NULL REFERENCES users (id),
   role text NOT NULL DEFAULT 'member',
   rsvp text NOT NULL DEFAULT 'unopened',
-  -- docs/product-decisions.md C26: waitlisted members do not hold a real seat either.
+  -- Waitlisted members do not hold a real seat either (docs/product-decisions.md).
   holds_seat boolean GENERATED ALWAYS AS (rsvp NOT IN ('out', 'waitlisted')) STORED,
   waitlist_position integer,
   chosen_options jsonb NOT NULL DEFAULT '{}'::jsonb,
@@ -137,7 +137,7 @@ LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
   )
 $$;
 
--- Co-organisers: true for any active role='organiser' row (Q-11 default), never just the first one.
+-- Co-organisers: true for any role='organiser' row on the trip, never just the first one.
 CREATE OR REPLACE FUNCTION app.is_trip_organiser(trip uuid) RETURNS boolean
 LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
   SELECT EXISTS (

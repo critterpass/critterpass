@@ -97,7 +97,7 @@ export const tripParticipants = pgTable('trip_participants', {
     .references(() => users.id),
   role: text('role').notNull().default('member'),
   rsvp: text('rsvp').notNull().default('unopened'),
-  /** Generated column: `rsvp NOT IN ('out', 'waitlisted')` (docs/product-decisions.md C26). */
+  /** Generated column: `rsvp NOT IN ('out', 'waitlisted')`; waitlisted members hold no seat either. */
   holdsSeat: boolean('holds_seat'),
   waitlistPosition: integer('waitlist_position'),
   chosenOptions: jsonb('chosen_options').notNull().default({}),

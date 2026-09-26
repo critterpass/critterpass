@@ -67,7 +67,7 @@ CREATE TRIGGER change_sets_guard BEFORE INSERT OR UPDATE ON change_sets
 -- an approved change set; copies the base version's days and items into a new version, applying
 -- each op by stable_id (add/move/remove/retime/swap); marks the change set stale with no writes if
 -- the trip's current version has moved on since base_version_id was captured. Op semantics beyond
--- this structural replay are validated by the planner (phase 16) before a change set may be
+-- this structural replay are validated by the planner before a change set may be
 -- approved in the first place.
 CREATE OR REPLACE FUNCTION app.apply_change_set(cs_id uuid) RETURNS uuid
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$

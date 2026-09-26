@@ -69,7 +69,7 @@ type EventAppendedHook = (tx: pg.PoolClient, event: AppendedDomainEvent) => Prom
 
 const eventAppendedHooks: EventAppendedHook[] = [];
 
-/** Registers a same-tx hook the job runner (phase 11) calls after every appended domain event. */
+/** Registers a same-tx hook a future job runner calls after every appended domain event. */
 export function onEventAppended(hook: EventAppendedHook): void {
   eventAppendedHooks.push(hook);
 }
@@ -82,7 +82,7 @@ export function resetEventAppendedHooksForTests(): void {
 /**
  * `app.append_event` + (when `projectActivity` maps the type) `app.append_activity`, then every
  * registered `onEventAppended` hook, all in the caller's transaction (docs/system-architecture.md
- * §4.1 step 6; F-015 "same-tx writes").
+ * §4.1 step 6: consumers enqueue in the same transaction the event was written in).
  */
 export async function appendDomainEvent(
   tx: pg.PoolClient,

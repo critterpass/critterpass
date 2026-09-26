@@ -15,7 +15,7 @@ LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
   )
 $$;
 
--- Co-organisers: true for any active role='organiser' row (Q-11 default), never just the first one.
+-- Co-organisers: true for any role='organiser' row on the trip, never just the first one.
 CREATE OR REPLACE FUNCTION app.is_trip_organiser(trip uuid) RETURNS boolean
 LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
   SELECT EXISTS (

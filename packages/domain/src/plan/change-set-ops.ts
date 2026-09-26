@@ -1,9 +1,9 @@
 /**
- * `change_sets.ops` structural shape (phase 8 requirement: "the single op schema; phase 13
- * imports it"). Kinds mirror `app.apply_change_set`'s migration comment (add/move/remove/retime/
- * swap, keyed by `stable_id`). Structural only: this schema does not know whether an op is a sane
- * *plan* (e.g. a `retime` inside the trip's dates) — `packages/planner` (phase 16) validates
- * semantics before a change set may be approved.
+ * `change_sets.ops` structural shape — the single schema every ChangeSet op is validated against,
+ * wherever it is proposed or applied from. Kinds mirror `app.apply_change_set`'s migration comment
+ * (add/move/remove/retime/swap, keyed by `stable_id`). Structural only: this schema does not know
+ * whether an op is a sane *plan* (e.g. a `retime` inside the trip's dates) — `packages/planner`
+ * validates semantics before a change set may be approved.
  */
 import { z } from 'zod';
 

@@ -1,5 +1,5 @@
 -- Command bookkeeping, domain events and the activity log (docs/data-model.md §3.18,
--- docs/api-contracts.md §2.4; F-015). `rt_outbox` and `app.channel_name` already exist
+-- docs/api-contracts.md §2.4). `rt_outbox` and `app.channel_name` already exist
 -- (identity_and_crews); this migration only extends rt_outbox, never recreates it.
 
 CREATE TABLE cmd_log (
@@ -220,7 +220,7 @@ $$;
 REVOKE EXECUTE ON FUNCTION app.append_event(text, text, uuid, text, uuid, jsonb, uuid, uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.append_event(text, text, uuid, text, uuid, jsonb, uuid, uuid) TO app_user, app_system;
 
--- app.append_activity: activity_events' only app_user-reachable write path (F-015 projection).
+-- app.append_activity: activity_events' only app_user-reachable write path (the activity-ticker projection).
 CREATE OR REPLACE FUNCTION app.append_activity(
   p_trip_id uuid, p_crew_id uuid, p_actor_kind text, p_actor_id uuid,
   p_verb text, p_object_kind text, p_object_id uuid, p_text text
@@ -235,8 +235,8 @@ REVOKE EXECUTE ON FUNCTION app.append_activity(uuid, uuid, text, uuid, text, tex
 GRANT EXECUTE ON FUNCTION app.append_activity(uuid, uuid, text, uuid, text, text, uuid, text) TO app_user, app_system;
 
 -- app.purge_expired_platform_rows: retention windows from docs/data-model.md §3.18 /
--- docs/data-model-sync-and-privacy.md §6. Registered into the `maint.purge` cron by phase 11;
--- app_system-only (a scheduled job, never a per-request call).
+-- docs/data-model-sync-and-privacy.md §6. Registered into the `maint.purge` cron once that job
+-- runner exists; app_system-only (a scheduled job, never a per-request call).
 CREATE OR REPLACE FUNCTION app.purge_expired_platform_rows() RETURNS void
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
 BEGIN

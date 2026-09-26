@@ -1,5 +1,5 @@
 /**
- * Domain event → activity ticker projection (docs/data-model.md §3.3 `activity_events`; F-015).
+ * Domain event → activity ticker projection (docs/data-model.md §3.3 `activity_events`).
  * A type with no entry here never projects (private events stay out of the crew-visible ticker) —
  * `appendDomainEvent` (packages/db/src/events.ts) only calls `app.append_activity` when this
  * returns non-null. `textKey` is an i18n id (`activity.<verb>`); rendering copy is a later phase.

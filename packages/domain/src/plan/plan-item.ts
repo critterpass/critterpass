@@ -2,7 +2,7 @@
  * The plan item shape ChangeSet ops diff against (docs/data-model.md §3.3). `stable_id` is the key
  * that survives across itinerary versions; everything else here is what a `move`/`retime`/`swap`/
  * `add` op's `before`/`after` snapshot may carry. This is structural only — semantic validation
- * (e.g. a `retime` landing inside the trip's date range) is the planner's job (phase 16).
+ * (e.g. a `retime` landing inside the trip's date range) is the planner's job.
  */
 import { z } from 'zod';
 
