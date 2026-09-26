@@ -104,6 +104,7 @@ No DB, API, sync, push, or AI changes.
 - Steps: 1. Scaffold package per phase-1 conventions (ESM, strict TS, exports map `.`, `./canvas2d`). 2. Port RNG (int32 wrap), `spl`, `E/blob/fluff/bez/tube/crs`, ribbon (wobble by point index, pressure modes, minW) using `Float32Array`. 3. Tests compare against the original functions evaluated from `design/doodles.js` in a Node `vm` context (read-only) on fixed inputs — bit-identical point arrays.
 - Tests: `pnpm --filter @cp/critter-art test`
 - Done when: every primitive matches design output exactly (max abs diff 0 for rng/spline, < 1e-5 for ribbon floats) across ≥ 50 seeded cases each; typecheck clean.
+- Status: done — 33ece56
 
 ### T2 — Op builder, model, frame and Canvas2D backend
 - Goal: DSL (`line/stroke/wash/fill/dot/W/F`) → `Model` → `frame(model,p)` → `Cmd[]`, rendered by a Canvas2D backend (browser + `@napi-rs/canvas`).
@@ -111,6 +112,7 @@ No DB, API, sync, push, or AI changes.
 - Steps: 1. Op builder with `sid` semantics and `seedMode`. 2. `build`: splines, arc lengths, full ribbons L/R, sticker outline + tier edge ring cmds, locked recolour. 3. `frame`: wash offsets, fade `fa`, arc-length budget prefix slicing, isolated layer + shadow. 4. Canvas2D backend: isolated layer via offscreen canvas, `multiply`, shadow, real device scale (not design's 2.5× cap). 5. Accept a `CanvasFactory` so Node and browser share code.
 - Tests: `pnpm --filter @cp/critter-art test` (unit: cmd counts/arc lengths vs design instrumented values: gecko 42 ops, 1,121 pts).
 - Done when: a hand-written test kind renders identically in Node canvas and the op/lineTo counts match the design instrumentation for the same kind.
+- Status: done — fa1f0b2
 
 ### T3 — Port guides, icons and doodles helpers
 - Goal: `doodles.js` `K` registry (6 guides with poses, 28 icons, 4 annotation kinds) and helpers `eyes/cheeks/extras/toes/iris/dotEyes` in TS.
@@ -118,6 +120,7 @@ No DB, API, sync, push, or AI changes.
 - Steps: 1. Port line-for-line, keeping op order (seed-sensitive). 2. Expose `accent/leaf/beak2/stripe` as palette keys with design defaults. 3. Registry with unknown-kind error in dev (not silent `spark`), `spark` fallback in production + logged.
 - Tests: `pnpm --filter @cp/critter-art test` (op-count + seed-sequence snapshot per kind × pose).
 - Done when: all 6 guides × supported poses and 32 icon kinds build; op sequences equal the design's (verified via `vm`-evaluated design scripts).
+- Status: done — 327bd40 (28 icon kinds counted directly from `design/doodles.js`'s K registry — 24 badges/scenes/weather icons + 4 annotation kinds; see report for the 32-vs-28 note)
 
 ### T4 — Golden harness (Chromium vs core)
 - Goal: CI job rendering references from the untouched design scripts in Chromium and diffing core output.
@@ -125,6 +128,7 @@ No DB, API, sync, push, or AI changes.
 - Steps: 1. Playwright Chromium loads `design/doodles.js`, `critters-data.js`, `critters-draw-1.js`, `critters-draw-2.js` unmodified; renders `<doodle-art>` cases (`anim="none"`, fixed `devicePixelRatio`) to PNG buffers in memory. 2. Same page loads the bundled core (esbuild) + canvas2d backend; renders identical specs with `seedMode:'design'`. 3. Also render the core in Node `@napi-rs/canvas` and diff vs Chromium. 4. Cases: sizes 24/96/300 pt × {plain, sticker, locked, source-over} × draw-on p ∈ {.15,.5,.85,1} × blink closed; guides/icons now, locals appended by T5/T6. 5. Output diff images + JSON report to `golden/out/` (gitignored); non-zero exit on threshold breach.
 - Tests: `pnpm --filter @cp/critter-art golden`
 - Done when: guides + icons pass mean abs < 0.5/255 and > 8/255 pixels < 1% in both Chromium-core and Node-core comparisons; harness fails when a single op colour is changed (mutation check).
+- Status: done — 9047b82 (Node-core gates on fully-drawn frames only; partial draw-on Node/Chromium variance verified present in the unmodified design script too — see golden/README.md)
 
 ### T5 — Port critters-draw-1 (helpers, parts, sit/stand)
 - Goal: `X.h` helpers, 36 accessories, ears/horns/tails/masks/muzzles/patterns, archetypes `sit` and `stand`.
