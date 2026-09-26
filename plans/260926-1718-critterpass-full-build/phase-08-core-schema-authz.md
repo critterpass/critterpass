@@ -185,6 +185,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Tables per data-model §3.18 (+ `crew_id`, `trip_id` on `domain_events`). 2. Catalogue seeded with core events (`crew.member_joined/left/removed`, `trip.created/status_changed`, `plan.version_created`, `change_set.proposed/applied/reverted/rejected`, `rsvp.changed`); later phases append. 3. SECURITY DEFINER `app.claim_op`/`app.record_cmd_result`/`app.append_event`/`app.enqueue_rt` (pinned `search_path`, EXECUTE to `app_user`) + TS wrappers `claimOpId`, `recordCmdResult`, `appendDomainEvent`, `enqueueRealtime`, activity projection. No table INSERT grants to `app_user` on `cmd_log`/`rt_outbox`/`domain_events`/`cmd_results`. 4. Privacy test: no catalogue payload field maps to a C3 column. 5. Purge fn with retention windows.
 - Tests: `pnpm --filter @cp/db test -- events|idempotency`
 - Done when: same op_id+hash → `duplicate` with stored result; different hash → `IDEMPOTENCY_MISMATCH`; event + activity + outbox rows commit or roll back together inside `withUser`; direct `INSERT` on `rt_outbox` as `app_user` is denied and `app.enqueue_rt` to a non-member crew channel raises `FORBIDDEN`; `app_user` cannot UPDATE/DELETE `domain_events`.
+- Status: done — 5c20052
 
 ### T7 — App-layer policy module
 - Goal: `can()` for crew/trip/plan actions shared by api + worker.
