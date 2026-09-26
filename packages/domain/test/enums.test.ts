@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { z } from 'zod';
 
 import * as crew from '../src/enums/crew';
+import * as identity from '../src/enums/identity';
 import * as plan from '../src/enums/plan';
 import * as platform from '../src/enums/platform';
 import * as trip from '../src/enums/trip';
@@ -18,6 +19,17 @@ const fixtures: readonly EnumFixture[] = [
     name: 'CrewMemberStatus',
     values: crew.CREW_MEMBER_STATUSES,
     schema: crew.crewMemberStatusSchema,
+  },
+  { name: 'UserStatus', values: identity.USER_STATUSES, schema: identity.userStatusSchema },
+  {
+    name: 'ConsentPurpose',
+    values: identity.CONSENT_PURPOSES,
+    schema: identity.consentPurposeSchema,
+  },
+  {
+    name: 'PriceDisplayMode',
+    values: identity.PRICE_DISPLAY_MODES,
+    schema: identity.priceDisplayModeSchema,
   },
   { name: 'TripStatus', values: trip.TRIP_STATUSES, schema: trip.tripStatusSchema },
   { name: 'TripPhase', values: trip.TRIP_PHASES, schema: trip.tripPhaseSchema },

@@ -6,3 +6,4 @@ export {
   type RunMigrationsOptions,
 } from './client';
 export { withGuideReader, withSystem, withUser } from './tx';
+export * as schema from './schema';

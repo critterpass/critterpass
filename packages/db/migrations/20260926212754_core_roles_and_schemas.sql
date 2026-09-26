@@ -36,6 +36,24 @@ BEGIN
 END
 $$;
 
+-- On managed Postgres this migration runs as a platform-provisioned login (e.g. PlanetScale's
+-- pscale_api_*), not literally as app_owner or auth. PostgreSQL 16+ only auto-grants the creator
+-- ADMIN option on a role it creates, not SET or INHERIT (`createrole_self_grant`), so
+-- `... AUTHORIZATION app_owner` / `AUTHORIZATION auth` below would otherwise fail with "must be
+-- able to SET ROLE app_owner". This upgrades that grant; it is skipped wherever the connecting
+-- role already IS the target (self-granting a role to itself errors), which is the case on a
+-- fresh local Postgres where app_owner is the literal superuser that owns everything already.
+DO $$
+BEGIN
+  IF current_user <> 'app_owner' THEN
+    EXECUTE 'GRANT app_owner TO CURRENT_USER WITH SET TRUE, INHERIT TRUE';
+  END IF;
+  IF current_user <> 'auth' THEN
+    EXECUTE 'GRANT auth TO CURRENT_USER WITH SET TRUE, INHERIT TRUE';
+  END IF;
+END
+$$;
+
 -- Every service's pooled connection currently authenticates as app_owner and downgrades per
 -- request via `SET LOCAL ROLE`, which requires membership in the target role.
 GRANT app_user TO app_owner;

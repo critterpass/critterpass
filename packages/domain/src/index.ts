@@ -89,6 +89,17 @@ export {
 } from './enums/trip';
 export { DomainError, ERROR_CODES, errorMessageKey, type ErrorCode, type ErrorResponseBody } from './errors';
 export {
+  CONSENT_PURPOSES,
+  PRICE_DISPLAY_MODES,
+  USER_STATUSES,
+  consentPurposeSchema,
+  priceDisplayModeSchema,
+  userStatusSchema,
+  type ConsentPurpose,
+  type PriceDisplayMode,
+  type UserStatus,
+} from './enums/identity';
+export {
   generateUuidV7,
   isUuidV7,
   parseUuidV7,
