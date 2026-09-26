@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>critter-art golden harness</title>
+  </head>
+  <body>
+    <!-- Unmodified design scripts (`git diff --stat design/` must stay empty). -->
+    <script src="/design/doodles.js"></script>
+    <script src="/design/critters-data.js"></script>
+    <script src="/design/critters-draw-1.js"></script>
+    <script src="/design/critters-draw-2.js"></script>
+    <!-- Bundled `@cp/critter-art` core + Canvas2D backend (esbuild output, see run-golden.ts). -->
+    <script src="/reference-page.js"></script>
+    <script>
+      // Renders a `<doodle-art>` element synchronously at an exact draw-on progress, bypassing the
+      // element's own IntersectionObserver-gated lazy `play()` so golden captures are deterministic.
+      window.__designRender = function (attrs, p, useClosed) {
+        const el = document.createElement('doodle-art');
+        document.body.appendChild(el);
+        for (const [name, value] of Object.entries(attrs)) el.setAttribute(name, value);
+        el.setup();
+        el.useClosed = !!useClosed;
+        el.draw(p);
+        const dataUrl = el.cv.toDataURL('image/png');
+        el.remove();
+        return dataUrl;
+      };
+    </script>
+  </body>
+</html>

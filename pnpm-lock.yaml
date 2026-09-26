@@ -188,6 +188,9 @@ catalogs:
     '@types/pg':
       specifier: 8.23.1
       version: 8.23.1
+    esbuild:
+      specifier: 0.28.2
+      version: 0.28.2
     eslint:
       specifier: 10.11.0
       version: 10.11.0
@@ -215,6 +218,9 @@ catalogs:
     pino:
       specifier: 10.3.1
       version: 10.3.1
+    playwright:
+      specifier: 1.58.2
+      version: 1.58.2
     prettier:
       specifier: 3.9.9
       version: 3.9.9
@@ -445,6 +451,15 @@ importers:
       '@napi-rs/canvas':
         specifier: 'catalog:'
         version: 1.0.9
+      esbuild:
+        specifier: 'catalog:'
+        version: 0.28.2
+      playwright:
+        specifier: 'catalog:'
+        version: 1.58.2
+      tsx:
+        specifier: 'catalog:'
+        version: 4.23.15
 
   packages/critter-bake: {}
 

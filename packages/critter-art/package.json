@@ -12,9 +12,14 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "golden": "tsx golden/run-golden.ts",
+    "golden:setup": "playwright install chromium"
   },
   "devDependencies": {
-    "@napi-rs/canvas": "catalog:"
+    "@napi-rs/canvas": "catalog:",
+    "esbuild": "catalog:",
+    "playwright": "catalog:",
+    "tsx": "catalog:"
   }
 }
