@@ -10,7 +10,7 @@
   },
   "env": {
     "staging": {
-      // "routes": [{ "pattern": "staging.critterpass.app/*", "custom_domain": true }]
+      "routes": [{ "pattern": "staging.critterpass.app", "custom_domain": true }],
     },
     "production": {
       // "routes": [{ "pattern": "critterpass.app/*", "custom_domain": true }]

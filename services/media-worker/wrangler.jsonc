@@ -7,7 +7,7 @@
   "env": {
     "staging": {
       "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "cp-media-staging" }],
-      // "routes": [{ "pattern": "media-staging.critterpass.app/*", "custom_domain": true }]
+      "routes": [{ "pattern": "media.staging.critterpass.app", "custom_domain": true }],
     },
     "production": {
       "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "cp-media-prod" }],

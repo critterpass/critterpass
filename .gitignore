@@ -32,3 +32,6 @@ certs/
 *.mobileprovision
 *.keystore
 *.jks
+
+# Wrangler local secrets
+.dev.vars*
