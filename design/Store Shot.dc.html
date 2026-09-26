@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="doodles.js"></script>
+<script src="critters-data.js"></script>
+<script src="critters-draw-1.js"></script>
+<script src="critters-draw-2.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+</helmet>
+<div style="width:360px;height:{{ h }}px;position:relative;overflow:hidden;background:{{ bg }};font-family:Geist,sans-serif;flex:none">
+<sc-if value="{{ route }}" hint-placeholder-val="{{ true }}">
+<svg width="360" height="420" viewBox="0 0 360 420" style="position:absolute;left:0;top:0"><path d="{{ routeD }}" fill="none" stroke="{{ routeInk }}" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="1 10"></path></svg>
+</sc-if>
+
+<sc-if value="{{ is1 }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:26px;right:26px;top:44px;display:flex;flex-direction:column;gap:12px;color:#17142a"><span style="font:900 44px/.88 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase;letter-spacing:-.01em">Stop planning trips in the group chat.</span><span style="font:500 15px/1.4 Geist,sans-serif;text-wrap:pretty">Everyone swipes, everyone votes, one place wins.</span></div>
+<div style="position:absolute;left:55px;top:258px;width:250px;height:540px;border-radius:38px;background:#17142a;box-shadow:0 0 0 7px #0b0a12,0 30px 60px rgba(40,30,0,.3);overflow:hidden;color:#f4efe4;transform:rotate(-3deg)">
+<div style="position:absolute;left:22px;top:12px;font:600 10px Geist,sans-serif">9:41</div><div style="position:absolute;left:50%;top:8px;width:72px;height:21px;margin-left:-36px;border-radius:11px;background:#000;display:{{ island }}"></div><div style="position:absolute;left:50%;top:10px;width:11px;height:11px;margin-left:-5px;border-radius:50%;background:#000;display:{{ hole }}"></div>
+<div style="position:absolute;left:14px;right:14px;top:44px;display:flex;flex-direction:column;gap:9px">
+<span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">NEXT TRIP · VOTING</span>
+<span style="font:900 32px/.9 Archivo,sans-serif;font-stretch:70%;text-transform:uppercase;color:#ffd84a">Where to?</span>
+<span style="font:500 10.5px Geist,sans-serif;color:#a9a3c0">3 of 4 voted · closes tonight</span>
+<div style="display:flex;gap:10px;align-items:center;padding:10px;border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1.5px #ffd84a"><doodle-art kind="cp-005" size="50" sticker="#2c2750" anim="none" blink="false"></doodle-art><div style="flex:1;display:flex;flex-direction:column;gap:5px"><span style="font:900 18px/1 Archivo,sans-serif;font-stretch:75%;text-transform:uppercase">Hội An</span><div style="height:6px;border-radius:3px;background:#2c2750"><div style="width:75%;height:100%;border-radius:3px;background:#ffd84a"></div></div><span style="font:600 9.5px Geist,sans-serif;color:#a9a3c0">3 votes</span></div></div>
+<div style="display:flex;gap:10px;align-items:center;padding:10px;border-radius:18px;background:#1f1b38"><doodle-art kind="cp-031" size="50" sticker="#2c2750" anim="none" blink="false"></doodle-art><div style="flex:1;display:flex;flex-direction:column;gap:5px"><span style="font:900 18px/1 Archivo,sans-serif;font-stretch:75%;text-transform:uppercase">Istanbul</span><div style="height:6px;border-radius:3px;background:#2c2750"><div style="width:25%;height:100%;border-radius:3px;background:#7fb8ff"></div></div><span style="font:600 9.5px Geist,sans-serif;color:#a9a3c0">1 vote</span></div></div>
+<div style="display:flex;gap:10px;align-items:center;padding:10px;border-radius:18px;background:#1f1b38"><doodle-art kind="cp-029" size="50" sticker="#2c2750" anim="none" blink="false"></doodle-art><div style="flex:1;display:flex;flex-direction:column;gap:5px"><span style="font:900 18px/1 Archivo,sans-serif;font-stretch:75%;text-transform:uppercase">Chengdu</span><div style="height:6px;border-radius:3px;background:#2c2750"></div><span style="font:600 9.5px Geist,sans-serif;color:#a9a3c0">Dev hasn't voted</span></div></div>
+</div></div>
+<div style="position:absolute;left:150px;top:350px;width:196px;padding:14px;box-sizing:border-box;border-radius:22px;background:#f4efe4;color:#17142a;transform:rotate(6deg);box-shadow:0 24px 48px rgba(40,30,0,.35);display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;align-items:flex-start"><doodle-art kind="cp-005" size="64" sticker="#ffffff" anim="none" blink="false"></doodle-art><span style="padding:5px 8px;border-radius:9px;background:#ff5fa8;font:800 9px Archivo,sans-serif;letter-spacing:.12em">WINNING</span></div>
+<span style="font:900 30px/.9 Archivo,sans-serif;font-stretch:70%;text-transform:uppercase">Hội An</span>
+<div style="display:flex;align-items:center;gap:6px"><div style="display:flex"><span style="width:22px;height:22px;border-radius:50%;background:#ff5fa8;font:800 9px Archivo,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #f4efe4">M</span><span style="width:22px;height:22px;margin-left:-6px;border-radius:50%;background:#7fb8ff;font:800 9px Archivo,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #f4efe4">W</span><span style="width:22px;height:22px;margin-left:-6px;border-radius:50%;background:#54d6a4;font:800 9px Archivo,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #f4efe4">A</span></div><span style="font:600 11px Geist,sans-serif">3 of 4 want this</span></div>
+</div>
+<div style="position:absolute;left:14px;top:560px;padding:8px 12px 8px 8px;border-radius:18px;background:#17142a;color:#f4efe4;display:flex;gap:8px;align-items:center;transform:rotate(-5deg);box-shadow:0 14px 30px rgba(40,30,0,.3)"><span style="width:24px;height:24px;border-radius:50%;background:#ff5fa8;color:#17142a;font:800 10px Archivo,sans-serif;display:flex;align-items:center;justify-content:center">M</span><span style="font:600 11.5px Geist,sans-serif">Maya voted Hội An</span></div>
+</sc-if>
+
+<sc-if value="{{ is2 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:26px;right:26px;top:44px;display:flex;flex-direction:column;gap:12px"><span style="font:900 44px/.88 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase;letter-spacing:-.01em;color:#ffd84a">Ask the gecko. It's been everywhere.</span><span style="font:500 15px/1.4 Geist,sans-serif;color:#e2def0;text-wrap:pretty">Tokek answers by text, voice or camera, and can rework the plan for you.</span></div>
+<div style="position:absolute;left:55px;top:258px;width:250px;height:540px;border-radius:38px;background:#17142a;box-shadow:0 0 0 7px #2c2750,0 30px 60px rgba(0,0,0,.45);overflow:hidden;color:#f4efe4;transform:rotate(2deg)">
+<div style="position:absolute;left:22px;top:12px;font:600 10px Geist,sans-serif">9:41</div><div style="position:absolute;left:50%;top:8px;width:72px;height:21px;margin-left:-36px;border-radius:11px;background:#000;display:{{ island }}"></div><div style="position:absolute;left:50%;top:10px;width:11px;height:11px;margin-left:-5px;border-radius:50%;background:#000;display:{{ hole }}"></div>
+<div style="position:absolute;left:14px;right:14px;top:42px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;gap:8px;align-items:center;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.08)"><doodle-art kind="gecko" size="30" sticker="#f4efe4" anim="none" blink="false"></doodle-art><div style="display:flex;flex-direction:column;gap:1px"><span style="font:800 13px Archivo,sans-serif">Tokek</span><span style="font:500 9.5px Geist,sans-serif;color:#a9a3c0">Your guide · Hội An</span></div></div>
+<div style="align-self:flex-end;max-width:78%;padding:9px 11px;border-radius:16px 16px 4px 16px;background:#ffd84a;color:#17142a;font:500 11.5px/1.35 Geist,sans-serif">It's pouring in Hội An. Plan B?</div>
+<div style="max-width:86%;padding:9px 11px;border-radius:16px 16px 16px 4px;background:#2c2750;font:500 11.5px/1.4 Geist,sans-serif">Lantern workshop at 2, it's indoors. Then cao lầu at Bà Bé, 6 min away.</div>
+<div style="padding:11px;border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1.5px rgba(255,216,74,.5);display:flex;flex-direction:column;gap:8px"><span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.16em;color:#ffd84a">PROPOSED CHANGE</span><span style="font:600 12px/1.35 Geist,sans-serif">Thu 14: Beach day → Lantern workshop</span><div style="display:flex;gap:6px"><span style="flex:1;height:30px;border-radius:15px;background:#ffd84a;color:#17142a;font:900 10px Archivo,sans-serif;letter-spacing:.06em;display:flex;align-items:center;justify-content:center">SWAP IT IN</span><span style="flex:1;height:30px;border-radius:15px;background:#2c2750;font:800 10px Archivo,sans-serif;letter-spacing:.06em;display:flex;align-items:center;justify-content:center">KEEP BEACH</span></div></div>
+</div>
+<div style="position:absolute;left:12px;right:12px;top:470px;display:flex;gap:6px;align-items:center"><div style="flex:1;height:36px;border-radius:18px;background:#2c2750;padding:0 14px;display:flex;align-items:center;font:500 11px Geist,sans-serif;color:#a9a3c0">Ask Tokek…</div><div style="width:36px;height:36px;border-radius:18px;background:#ffd84a;display:flex;align-items:center;justify-content:center"><div style="width:9px;height:14px;border-radius:5px;background:#17142a"></div></div></div>
+</div>
+<div style="position:absolute;left:-18px;top:440px;line-height:0;transform:rotate(-6deg)"><doodle-art kind="gecko" size="150" pose="point" sticker="#f4efe4" anim="none" blink="false" seed="41"></doodle-art></div>
+</sc-if>
+
+<sc-if value="{{ is3 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:26px;right:26px;top:44px;display:flex;flex-direction:column;gap:12px;color:#17142a"><span style="font:900 44px/.88 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase;letter-spacing:-.01em">Land somewhere new. Meet a local.</span><span style="font:500 15px/1.4 Geist,sans-serif;text-wrap:pretty">Every city has a critter to hatch. 150 to collect, and you have to be there.</span></div>
+<div style="position:absolute;left:55px;top:258px;width:250px;height:540px;border-radius:38px;background:#17142a;box-shadow:0 0 0 7px #0b0a12,0 30px 60px rgba(60,0,30,.35);overflow:hidden;color:#f4efe4">
+<div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 36%,rgba(255,216,74,.28),rgba(255,216,74,0) 55%)"></div>
+<div style="position:absolute;left:22px;top:12px;font:600 10px Geist,sans-serif">9:41</div><div style="position:absolute;left:50%;top:8px;width:72px;height:21px;margin-left:-36px;border-radius:11px;background:#000;display:{{ island }}"></div><div style="position:absolute;left:50%;top:10px;width:11px;height:11px;margin-left:-5px;border-radius:50%;background:#000;display:{{ hole }}"></div>
+<div style="position:absolute;left:14px;right:14px;top:52px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+<span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.16em;color:#ffd84a">NEW LOCAL · HỘI AN</span>
+<doodle-art kind="cp-005" size="150" sticker="#f4efe4" anim="none" blink="false"></doodle-art>
+<span style="font:900 40px/.85 Archivo,sans-serif;font-stretch:70%;text-transform:uppercase;color:#ffd84a">Chép</span>
+<span style="font:500 11px Geist,sans-serif;color:#a9a3c0">Lantern carp · #005</span>
+<span style="padding:6px 10px;border-radius:10px;background:#2c2750;font:800 9.5px Archivo,sans-serif;letter-spacing:.12em">10 / 150 FOUND</span>
+</div>
+<div style="position:absolute;left:14px;right:14px;top:440px;height:44px;border-radius:22px;background:#ffd84a;color:#17142a;font:900 11px Archivo,sans-serif;letter-spacing:.06em;display:flex;align-items:center;justify-content:center">ADD TO MY PASS</div>
+</div>
+<div style="position:absolute;left:4px;top:290px;line-height:0;transform:rotate(-14deg)"><doodle-art kind="cp-029" size="78" sticker="#f4efe4" anim="none" blink="false"></doodle-art></div>
+<div style="position:absolute;left:276px;top:318px;line-height:0;transform:rotate(12deg)"><doodle-art kind="cp-011" size="74" sticker="#f4efe4" anim="none" blink="false"></doodle-art></div>
+<div style="position:absolute;left:-6px;top:470px;line-height:0;transform:rotate(9deg)"><doodle-art kind="cp-031" size="84" sticker="#f4efe4" anim="none" blink="false"></doodle-art></div>
+<div style="position:absolute;left:282px;top:488px;line-height:0;transform:rotate(-10deg)"><doodle-art kind="cp-021" size="76" sticker="#f4efe4" anim="none" blink="false"></doodle-art></div>
+<div style="position:absolute;left:10px;top:600px;line-height:0;transform:rotate(-6deg)"><doodle-art kind="puffin" size="64" sticker="#f4efe4" anim="none" blink="false"></doodle-art></div>
+</sc-if>
+
+<sc-if value="{{ is4 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:26px;right:26px;top:44px;display:flex;flex-direction:column;gap:12px;color:#17142a"><span style="font:900 44px/.88 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase;letter-spacing:-.01em">Every day planned. Drag to change it.</span><span style="font:500 15px/1.4 Geist,sans-serif;text-wrap:pretty">One day-by-day plan the whole crew can move around.</span></div>
+<div style="position:absolute;left:55px;top:258px;width:250px;height:540px;border-radius:38px;background:#17142a;box-shadow:0 0 0 7px #0b0a12,0 30px 60px rgba(60,20,0,.3);overflow:hidden;color:#f4efe4;transform:rotate(-2deg)">
+<div style="position:absolute;left:22px;top:12px;font:600 10px Geist,sans-serif">9:41</div><div style="position:absolute;left:50%;top:8px;width:72px;height:21px;margin-left:-36px;border-radius:11px;background:#000;display:{{ island }}"></div><div style="position:absolute;left:50%;top:10px;width:11px;height:11px;margin-left:-5px;border-radius:50%;background:#000;display:{{ hole }}"></div>
+<div style="position:absolute;left:14px;right:14px;top:44px;display:flex;flex-direction:column;gap:10px">
+<span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">HỘI AN · DAY 2 OF 4</span>
+<span style="font:900 32px/.9 Archivo,sans-serif;font-stretch:70%;text-transform:uppercase;color:#ff9a4d">Thursday</span>
+<div style="display:flex;gap:4px;padding:3px;border-radius:12px;background:#1f1b38"><span style="flex:1;height:26px;border-radius:9px;font:800 8.5px Archivo,sans-serif;display:flex;align-items:center;justify-content:center;color:#a9a3c0">WED 13</span><span style="flex:1;height:26px;border-radius:9px;background:#f4efe4;color:#17142a;font:800 8.5px Archivo,sans-serif;display:flex;align-items:center;justify-content:center">THU 14</span><span style="flex:1;height:26px;border-radius:9px;font:800 8.5px Archivo,sans-serif;display:flex;align-items:center;justify-content:center;color:#a9a3c0">FRI 15</span><span style="flex:1;height:26px;border-radius:9px;font:800 8.5px Archivo,sans-serif;display:flex;align-items:center;justify-content:center;color:#a9a3c0">SAT 16</span></div>
+<div style="display:flex;gap:8px;align-items:center"><span style="width:34px;font:500 9.5px 'Geist Mono',monospace;color:#a9a3c0">08:30</span><div style="flex:1;padding:10px;border-radius:14px;background:#1f1b38;display:flex;gap:8px;align-items:center"><doodle-art kind="food" size="20" ink="#f4efe4" accent="#ff9a4d" anim="none"></doodle-art><span style="font:600 11.5px Geist,sans-serif">Bánh mì Phượng</span></div></div>
+<div style="display:flex;gap:8px;align-items:center"><span style="width:34px;font:500 9.5px 'Geist Mono',monospace;color:#a9a3c0">10:00</span><div style="flex:1;padding:10px;border-radius:14px;background:#1f1b38;display:flex;gap:8px;align-items:center"><doodle-art kind="pin" size="20" ink="#f4efe4" accent="#54d6a4" anim="none"></doodle-art><span style="font:600 11.5px Geist,sans-serif">Old Town walk</span></div></div>
+<div style="display:flex;gap:8px;align-items:center"><span style="width:34px;font:500 9.5px 'Geist Mono',monospace;color:#ff9a4d">15:00</span><div style="flex:1;height:40px;border-radius:14px;border:1.5px dashed rgba(255,154,77,.7);box-sizing:border-box;display:flex;align-items:center;padding:0 10px;font:600 10px Geist,sans-serif;color:#ff9a4d">Drop here</div></div>
+<div style="display:flex;gap:8px;align-items:center"><span style="width:34px;font:500 9.5px 'Geist Mono',monospace;color:#a9a3c0">19:00</span><div style="flex:1;padding:10px;border-radius:14px;background:#1f1b38;display:flex;gap:8px;align-items:center"><doodle-art kind="boat" size="20" ink="#f4efe4" accent="#7fb8ff" anim="none"></doodle-art><span style="font:600 11.5px Geist,sans-serif">Lantern boat ride</span></div></div>
+</div></div>
+<div style="position:absolute;left:118px;top:470px;width:224px;padding:12px;box-sizing:border-box;border-radius:18px;background:#f4efe4;color:#17142a;transform:rotate(7deg);box-shadow:0 24px 44px rgba(60,20,0,.4);display:flex;gap:10px;align-items:center">
+<doodle-art kind="star" size="30" ink="#17142a" accent="#ffd84a" anim="none"></doodle-art>
+<div style="flex:1;display:flex;flex-direction:column;gap:3px"><span style="font:500 9.5px 'Geist Mono',monospace;color:#6b6356">15:00 · 2 HRS</span><span style="font:800 15px/1.1 Archivo,sans-serif">Lantern workshop</span><span style="font:500 10px Geist,sans-serif;color:#6b6356">Maya is moving this</span></div>
+</div>
+<div style="position:absolute;left:300px;top:520px;width:22px;height:22px;border-radius:50%;background:#ff5fa8;box-shadow:0 0 0 3px #f4efe4"></div>
+</sc-if>
+
+<sc-if value="{{ is5 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:26px;right:26px;top:44px;display:flex;flex-direction:column;gap:12px;color:#17142a"><span style="font:900 40px/.88 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase;letter-spacing:-.01em">Nobody has to be the one who asks for money.</span><span style="font:500 15px/1.4 Geist,sans-serif;text-wrap:pretty">Log it or scan it. The split is done for you.</span></div>
+<div style="position:absolute;left:55px;top:258px;width:250px;height:540px;border-radius:38px;background:#17142a;box-shadow:0 0 0 7px #0b0a12,0 30px 60px rgba(0,50,30,.3);overflow:hidden;color:#f4efe4;transform:rotate(3deg)">
+<div style="position:absolute;left:22px;top:12px;font:600 10px Geist,sans-serif">9:41</div><div style="position:absolute;left:50%;top:8px;width:72px;height:21px;margin-left:-36px;border-radius:11px;background:#000;display:{{ island }}"></div><div style="position:absolute;left:50%;top:10px;width:11px;height:11px;margin-left:-5px;border-radius:50%;background:#000;display:{{ hole }}"></div>
+<div style="position:absolute;left:14px;right:14px;top:44px;display:flex;flex-direction:column;gap:10px">
+<span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">MONEY · HỘI AN</span>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font:600 11px Geist,sans-serif;color:#a9a3c0">You're owed</span><span style="font:900 48px/.9 Archivo,sans-serif;font-stretch:75%;color:#54d6a4">$66</span></div>
+<div style="display:flex;flex-direction:column;border-radius:16px;background:#1f1b38;padding:4px 12px">
+<div style="display:flex;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07)"><span style="width:26px;height:26px;border-radius:50%;background:#ff5fa8;color:#17142a;font:800 10px Archivo,sans-serif;display:flex;align-items:center;justify-content:center">M</span><span style="flex:1;font:600 11.5px Geist,sans-serif">Maya owes you</span><span style="font:800 13px Archivo,sans-serif;color:#54d6a4">$42</span></div>
+<div style="display:flex;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07)"><span style="width:26px;height:26px;border-radius:50%;background:#ffd84a;color:#17142a;font:800 10px Archivo,sans-serif;display:flex;align-items:center;justify-content:center">D</span><span style="flex:1;font:600 11.5px Geist,sans-serif">Dev owes you</span><span style="font:800 13px Archivo,sans-serif;color:#54d6a4">$24</span></div>
+<div style="display:flex;gap:9px;align-items:center;padding:9px 0"><span style="width:26px;height:26px;border-radius:50%;background:#7fb8ff;color:#17142a;font:800 10px Archivo,sans-serif;display:flex;align-items:center;justify-content:center">W</span><span style="flex:1;font:600 11.5px Geist,sans-serif">Winston</span><span style="font:600 10.5px Geist,sans-serif;color:#a9a3c0">Settled</span></div>
+</div>
+<span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0;margin-top:4px">LATEST</span>
+<div style="display:flex;gap:9px;align-items:center;padding:10px 12px;border-radius:14px;background:#1f1b38"><doodle-art kind="food" size="20" ink="#f4efe4" accent="#ff9a4d" anim="none"></doodle-art><span style="flex:1;font:600 11.5px Geist,sans-serif">Dinner at Bà Bé</span><span style="font:800 12px Archivo,sans-serif">$96</span></div>
+</div>
+<div style="position:absolute;left:14px;right:14px;top:450px;height:44px;border-radius:22px;background:#ffd84a;color:#17142a;font:900 11px Archivo,sans-serif;letter-spacing:.06em;display:flex;align-items:center;justify-content:center">SETTLE UP</div>
+</div>
+<div style="position:absolute;left:12px;top:486px;width:190px;padding:14px;box-sizing:border-box;border-radius:6px 6px 18px 18px;background:#fffaf0;color:#17142a;transform:rotate(-7deg);box-shadow:0 24px 44px rgba(0,50,30,.35);display:flex;flex-direction:column;gap:7px">
+<span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.16em;color:#2e9a74">SCANNED RECEIPT</span>
+<span style="font:500 11px 'Geist Mono',monospace;color:#6b6356">Bà Bé · cao lầu ×4</span>
+<span style="font:900 30px/.9 Archivo,sans-serif;font-stretch:75%">$96.00</span>
+<div style="height:1px;border-top:1.5px dashed rgba(23,20,42,.2)"></div>
+<span style="font:700 12px Geist,sans-serif">Split 4 ways · $24 each</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ is6 }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:26px;right:26px;top:44px;display:flex;flex-direction:column;gap:12px;color:#17142a"><span style="font:900 44px/.88 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase;letter-spacing:-.01em">Every booking. Even with no signal.</span><span style="font:500 15px/1.4 Geist,sans-serif;text-wrap:pretty">Flights, stays and tickets in one wallet, pulled in from your email.</span></div>
+<div style="position:absolute;left:55px;top:258px;width:250px;height:540px;border-radius:38px;background:#17142a;box-shadow:0 0 0 7px #0b0a12,0 30px 60px rgba(40,30,10,.25);overflow:hidden;color:#f4efe4;transform:rotate(-3deg)">
+<div style="position:absolute;left:22px;top:12px;font:600 10px Geist,sans-serif">9:41</div><div style="position:absolute;left:50%;top:8px;width:72px;height:21px;margin-left:-36px;border-radius:11px;background:#000;display:{{ island }}"></div><div style="position:absolute;left:50%;top:10px;width:11px;height:11px;margin-left:-5px;border-radius:50%;background:#000;display:{{ hole }}"></div>
+<div style="position:absolute;left:14px;right:14px;top:44px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">BOOKINGS</span><span style="display:flex;gap:5px;align-items:center;padding:4px 8px;border-radius:9px;background:#2c2750;font:700 8.5px Archivo,sans-serif;letter-spacing:.1em"><span style="width:6px;height:6px;border-radius:50%;background:#54d6a4"></span>OFFLINE · ALL SAVED</span></div>
+<span style="font:900 32px/.9 Archivo,sans-serif;font-stretch:70%;text-transform:uppercase;color:#f4efe4">Hội An trip</span>
+<div style="padding:12px;border-radius:18px;background:#ffd84a;color:#17142a;display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.14em">FLIGHT</span><doodle-art kind="plane" size="18" ink="#17142a" anim="none"></doodle-art></div><span style="font:900 24px/.9 Archivo,sans-serif;font-stretch:75%">SGN → DAD</span><span style="font:500 10px 'Geist Mono',monospace">VN 128 · THU 06:40 · 14A</span></div>
+<div style="padding:12px;border-radius:18px;background:#ff5fa8;color:#17142a;display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.14em">STAY</span><doodle-art kind="bed" size="18" ink="#17142a" anim="none"></doodle-art></div><span style="font:800 14px/1.1 Archivo,sans-serif">Hội An Riverside</span><span style="font:500 10px 'Geist Mono',monospace">3 NIGHTS · HRV-2291</span></div>
+<div style="padding:12px;border-radius:18px;background:#ff9a4d;color:#17142a;display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.14em">TICKETS</span><doodle-art kind="ticket" size="18" ink="#17142a" anim="none"></doodle-art></div><span style="font:800 14px/1.1 Archivo,sans-serif">Lantern workshop × 4</span><span style="font:500 10px 'Geist Mono',monospace">THU 15:00</span></div>
+<span style="font:500 10px Geist,sans-serif;color:#a9a3c0">3 imported from maya@ inbox</span>
+</div></div>
+<div style="position:absolute;left:170px;top:300px;width:180px;border-radius:18px;background:#17142a;color:#f4efe4;transform:rotate(8deg);box-shadow:0 24px 44px rgba(40,30,10,.35);overflow:hidden">
+<div style="padding:12px 14px;display:flex;flex-direction:column;gap:6px"><span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.16em;color:#ffd84a">BOARDING PASS</span><span style="font:900 30px/.9 Archivo,sans-serif;font-stretch:72%">SGN → DAD</span><div style="display:flex;justify-content:space-between;font:500 10px 'Geist Mono',monospace;color:#a9a3c0"><span>06:40</span><span>GATE 12</span><span>14A</span></div></div>
+<div style="height:40px;margin:0 14px 12px;border-radius:6px;background:#f4efe4 repeating-linear-gradient(90deg,#17142a 0 2px,transparent 2px 4px,#17142a 4px 5px,transparent 5px 8px) 8px 6px/calc(100% - 16px) 28px no-repeat"></div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:360,&quot;height&quot;:780},&quot;n&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;min&quot;:1,&quot;max&quot;:6,&quot;tsType&quot;:&quot;number&quot;},&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ios&quot;,&quot;android&quot;],&quot;default&quot;:&quot;ios&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;route&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const n = +(this.props.n ?? 1), ios = (this.props.platform ?? 'ios') === 'ios';
+    const BG = ['#ffd84a', '#17142a', '#ff5fa8', '#ff9a4d', '#54d6a4', '#f4efe4'];
+    const Y = [300, 336, 292, 330, 296, 332, 300], a = Y[n - 1], b = Y[n];
+    let d = `M0 ${a} C120 ${a - 60}, 240 ${b + 60}, 360 ${b}`;
+    if (n === 1) d = `M18 ${a + 40} C40 ${a}, 80 ${a - 40}, 120 ${a - 40} S 240 ${b + 60}, 360 ${b}`;
+    if (n === 6) d = `M0 ${a} C120 ${a - 60}, 220 ${b + 30}, 330 ${b - 40}`;
+    return {
+      h: ios ? 780 : 640, bg: BG[n - 1] || BG[0], island: ios ? 'block' : 'none', hole: ios ? 'none' : 'block',
+      route: this.props.route ?? true, routeD: d, routeInk: n === 2 ? 'rgba(244,239,228,.55)' : 'rgba(23,20,42,.45)',
+      is1: n === 1, is2: n === 2, is3: n === 3, is4: n === 4, is5: n === 5, is6: n === 6
+    };
+  }
+}
+</script>
+</body>
+</html>

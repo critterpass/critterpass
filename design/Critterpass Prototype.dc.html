@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Caveat:wght@500;600&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script src="doodles.js"></script>
+<script src="critters-data.js"></script>
+<script src="critters-draw-1.js"></script>
+<script src="critters-draw-2.js"></script>
+<style>body{margin:0;background:#e9e4da;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#211d18}a:hover{color:#c4623e}</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;padding:24px;display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:28px 44px;color:#211d18">
+<div style="flex:1 1 240px;max-width:290px;display:flex;flex-direction:column;gap:24px;position:sticky;top:24px;max-height:calc(100vh - 48px);overflow-y:auto;scrollbar-width:thin">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:500 11px 'Geist Mono',monospace;letter-spacing:.08em;color:#6b6356">CLICKABLE PROTOTYPE</span>
+<span style="font:400 46px/1 'Instrument Serif',serif">Critterpass</span>
+<span style="font:400 14px/1.5 Geist,sans-serif;color:#3d372f;text-wrap:pretty">Use it like the app. Swipe in from the left edge to go back, and drag sheets down to close them. Tap somewhere that does nothing and the phone shows what does.</span>
+<a href="Critterpass.dc.html" style="font:500 13px Geist,sans-serif">Every screen on one canvas ↗</a>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:500 11px 'Geist Mono',monospace;letter-spacing:.08em;color:#6b6356">START FROM</span>
+<sc-for list="{{ scen }}" as="s" hint-placeholder-count="9">
+<div onClick="{{ s.go }}" style="display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:12px;background:#f4efe4;cursor:pointer" style-hover="background:#fffaf0">
+<span style="font:600 14px Geist,sans-serif">{{ s.k }}</span>
+<span style="font:400 12.5px/1.35 Geist,sans-serif;color:#6b6356">{{ s.s }}</span>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;padding-bottom:12px">
+<span style="font:500 11px 'Geist Mono',monospace;letter-spacing:.08em;color:#6b6356">ALL SCREENS</span>
+<sc-for list="{{ secs }}" as="sec" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:1px">
+<div style="display:flex;align-items:center;gap:8px;margin:0 0 5px"><span style="font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px">{{ sec.id }}</span><span style="font:600 13px Geist,sans-serif">{{ sec.label }}</span></div>
+<sc-for list="{{ sec.items }}" as="it" hint-placeholder-count="4">
+<div onClick="{{ it.go }}" style="display:flex;gap:10px;align-items:baseline;padding:5px 8px;border-radius:8px;cursor:pointer;background:{{ it.bg }};color:{{ it.fg }}" style-hover="background:rgba(0,0,0,.07)">
+<span style="font:500 11px 'Geist Mono',monospace;opacity:.6;width:34px;flex:none">{{ it.id }}</span><span style="font:500 13.5px Geist,sans-serif">{{ it.name }}</span>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</div>
+<div ref="{{ wrapRef }}" style="flex:none;position:relative;width:410px;height:864px">
+<div ref="{{ stageRef }}" style="position:absolute;left:0;top:0;width:390px;height:844px;border-radius:54px;overflow:hidden;background:#17142a;box-shadow:0 0 0 10px #0b0a12,0 40px 80px rgba(20,16,40,.35);transform-origin:0 0;transform:translate(10px,10px);touch-action:none;user-select:none;-webkit-user-select:none;isolation:isolate"></div>
+<sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font:500 12px 'Geist Mono',monospace;letter-spacing:.08em;color:#a9a3c0">LOADING 89 SCREENS…</div></sc-if>
+<sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:40px;right:40px;top:45%;text-align:center;font:500 14px/1.5 Geist,sans-serif;color:#ff9a4d">{{ err }}</div></sc-if>
+</div>
+<div style="flex:1 1 240px;max-width:300px;display:flex;flex-direction:column;gap:20px;position:sticky;top:24px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:500 11px 'Geist Mono',monospace;letter-spacing:.08em;color:#6b6356">NOW SHOWING</span>
+<div style="display:flex;align-items:center;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:5px">{{ curId }}</span><span style="font:500 13px Geist,sans-serif;color:#6b6356">{{ curSec }}</span></div>
+<span style="font:400 40px/1 'Instrument Serif',serif;text-wrap:balance">{{ curName }}</span>
+<span style="font:500 11px/1.6 'Geist Mono',monospace;color:#6b6356;text-wrap:pretty">{{ trail }}</span>
+</div>
+<sc-if value="{{ hasTip }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:6px;padding:14px 16px;border-radius:16px;background:#17142a;color:#f4efe4">
+<span style="font:800 10.5px Archivo,sans-serif;letter-spacing:.16em;color:#ffd84a">TRY THIS</span>
+<span style="font:500 14px/1.45 Geist,sans-serif;text-wrap:pretty">{{ tip }}</span>
+</div>
+</sc-if>
+<div style="display:flex;flex-direction:column;gap:6px">
+<span style="font:500 11px 'Geist Mono',monospace;letter-spacing:.08em;color:#6b6356">MOTION</span>
+<span style="font:400 14px/1.55 Geist,sans-serif;color:#3d372f;text-wrap:pretty">{{ motion }}</span>
+</div>
+<sc-if value="{{ hasStates }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:500 11px 'Geist Mono',monospace;letter-spacing:.08em;color:#6b6356">OTHER STATES OF THIS SCREEN</span>
+<div style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ states }}" as="st" hint-placeholder-count="2">
+<span onClick="{{ st.go }}" style="padding:8px 12px;border-radius:18px;background:#f4efe4;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1);font:500 13px Geist,sans-serif;cursor:pointer" style-hover="background:#fffaf0">{{ st.name }}</span>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<span onClick="{{ back }}" style="padding:9px 14px;border-radius:18px;background:#17142a;color:#ffd84a;font:800 12px Archivo,sans-serif;letter-spacing:.06em;cursor:pointer" style-hover="background:#2c2750">← BACK</span>
+<span onClick="{{ toggleHints }}" style="padding:9px 14px;border-radius:18px;background:#f4efe4;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1);font:500 13px Geist,sans-serif;cursor:pointer" style-hover="background:#fffaf0">{{ hintsLabel }}</span>
+<span onClick="{{ restart }}" style="padding:9px 14px;border-radius:18px;background:#f4efe4;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1);font:500 13px Geist,sans-serif;cursor:pointer" style-hover="background:#fffaf0">Restart</span>
+</div>
+<span style="font:500 11px/1.6 'Geist Mono',monospace;color:#8a8275">← or Esc goes back · H shows tap targets · R restarts</span>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;slowmo&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Normal&quot;,&quot;2× slower&quot;,&quot;4× slower&quot;],&quot;default&quot;:&quot;Normal&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Review&quot;}}">
+class Component extends DCLogic {
+  state = { ready: false, err: '', cur: '', names: [], hints: false };
+  k = 1; stack = []; lib = {}; sections = []; busy = false; world = { done: new Set(), fresh: false };
+  E = 'cubic-bezier(.32,.72,0,1)';
+  INV = { push: 'pop', sheet: 'dismiss', rise: 'dismiss', zoom: 'unzoom', flip: 'flipback', fade: 'unfade', tab: 'unfade', burst: 'unfade', fold: 'unfade', none: 'unfade' };
+  BACKS = ['pop', 'dismiss', 'unzoom', 'flipback', 'unfade'];
+  STATES = [['Home, first run', 'Home', 'Home, final vote'], ['Inbox', 'All caught up'], ['Vote showdown', 'Kyoto wins'], ['When', 'No week fits'], ['Pon is drafting', "Pon's draft"], ["Who's in", "Dev's out"], ['Scan a receipt', "Couldn't read it"], ['Guide chat', 'Voice', 'Point and ask'], ['Trip hub', 'Flight delayed'], ['Day-of', 'Lock screen', 'Offline at the top'], ['Encounter', 'It wandered off'], ['Visa page', 'Boarding pass', 'Gold cover']];
+  SCEN = [['New here', 'Splash, onboarding, first-run home', ['Splash']], ['Somewhere else', 'Planning where no guide lives yet', ['Home, first run', 'Somewhere else']], ['Invited by a friend', 'The invite ticket, or typing a code', ['Invite, a seat for you']], ['Bali, 17 days out', 'Home, inbox, the plan and money', ['Home']], ['Vote and set up Kyoto', 'The final, dates, must-dos, the draft', ['Home, final vote', 'Vote showdown']], ['Change a day with Pon', "Redraft one day of Pon's draft", ["Pon's draft"]], ['The Kyoto proposal, as Rin', 'Trailer, maybe, slide to board', ['Proposal trailer']], ['The crew', 'Switch crews, the chat, the live map', ['Home, final vote']], ['Day 4: Batur sunrise', 'Lock screen, day-of, no signal', ['Lock screen']], ['Things go sideways', 'Forecast, rough seas, a closed road', ['Forecast']], ['Jordan hits SOS', 'What the rest of the crew sees', ['Crew chat', 'Crew map', 'Crew SOS']], ['Landing late', 'A delayed flight, then landing', ['Trip hub', 'Flight delayed']], ['Finding a critter', 'Encounter, befriend, your pass', ['Trip hub', 'Encounter']], ['The Critterdex', 'Four forms, legendaries, Sakura Pon', ['Your pass']], ['After the trip', 'Recap, rating it, sharing the plan', ['Recap']], ['Other crews’ plans', 'Browse and copy a Kyoto plan', ['Destination guide', 'Crew plans']], ['Make it yours', 'Profile, avatar, app icon', ['Profile', 'Edit profile']], ['Pon runs out of answers', 'The limit, the paywall, checkout', ['Out of questions']], ['Boost Kyoto', 'Split a boost, and what Rin sees', ['Home, final vote', 'Boost Kyoto']], ['Free first trip ends', 'The reminder after Bali', ['Recap', 'Free boost ending']], ['Manage your plan', 'Settings, cancel, a declined card, codes', ['Profile', 'Settings', 'Your plan']], ['Settings and sound', 'Guide themes, effects, the rest of Settings', ['Profile', 'Settings']], ['Feedback and ideas', 'Report, suggest, vote, rate', ['Settings, more', 'Help and feedback']], ['Leaving', 'Deleting your account, and the way back', ['Settings, more', 'Delete account']], ['Pass+, final paywall', 'The visa page, the comparison, the welcome', ['Paywall']], ['Hitting a limit', 'Seat 7, the live map, the last redraft', ["Who's in", 'Seven’s a crowd']], ['The recap story', 'Eight cards narrated by Tokek, then a year later', ['Recap', 'Recap, the cover']], ['Off the app', 'Live Activities, alarms, widgets, StandBy', ['Leave-by']], ['Invited, the short way', 'A ticket, three taps, the crew', ['Invite, a seat for you']]];
+  PARENT = { 'Language and currency': 'Settings, more', 'Phone sign-in': 'Save your pass', 'Your name': 'Splash', 'Your photo': 'Your name', 'This or that': 'Your photo', 'Home base': 'This or that', 'Pass issued': 'Home base', 'Save your pass': 'Pass issued', 'Permissions, in context': 'Pass issued', 'Your pass, three taps': 'Invite, a seat for you', 'You’re in': 'Your pass, three taps', 'Recap, the cover': 'Recap', 'Recap, the route': 'Recap', 'Recap, crew awards': 'Recap', 'Recap, the receipt': 'Recap', 'Recap, the one that got away': 'Recap', 'Recap, the stamp': 'Recap', 'Recap, the postcard': 'Recap', 'A year later': 'Home', 'On every lock screen': 'Crew map', 'How much we ping': 'Settings, more', 'Widget gallery': 'Settings, more', 'Settings, more': 'Settings', 'Sound': 'Settings, more', 'Delete account': 'Settings, more', 'Hold to delete': 'Delete account', 'Account closed': 'Settings, more', 'Help and feedback': 'Settings, more', 'Send feedback': 'Help and feedback', 'Feedback sent': 'Help and feedback', 'Idea board': 'Help and feedback', 'Suggest an idea': 'Idea board', 'Rate the app': 'Recap', 'Paywall': 'Home', 'What’s in each': 'Paywall', 'Welcome to Pass+': 'Paywall', 'Seven’s a crowd': "Who's in", 'Live map teaser': 'Crew map', 'Last redraft': "Pon's draft", 'Join with a code': 'Invite, a seat for you', 'Inbox': 'Home', 'All caught up': 'Home', 'Pitch a place': 'Home', 'Vote showdown': 'Home', 'Kyoto wins': 'Home', 'When': 'Kyoto wins', 'No week fits': 'Kyoto wins', 'Budget': 'When', 'Rooms': 'Budget', 'Must-dos': 'Rooms', "Pon's draft": 'Must-dos', 'Destination guide': 'Home, first run', 'Place detail': 'Destination guide', 'Map': 'Place detail', 'Swipe together': 'Trip plan', 'Trip plan': 'Trip hub', 'Day planning': 'Trip plan', 'Review changes': 'Day planning', 'Build the proposal': "Pon's draft", 'Proposal trailer': 'Build the proposal', 'Your version': 'Proposal trailer', 'Not sure yet': 'Your version', "Who's in": 'Build the proposal', "Dev's out": "Who's in", 'Crew chat': 'Home', 'Live collab': 'Trip plan', 'Add a booking': 'Bookings', 'Getting around': 'Trip plan', 'Balances': 'Trip hub', 'Add an expense': 'Balances', 'Scan a receipt': 'Balances', "Couldn't read it": 'Balances', 'Settle up': 'Balances', 'Budget 3i-6': 'Balances', 'Voice': 'Guide chat', 'Point and ask': 'Guide chat', 'Help': 'Guide chat', 'Flight delayed': 'Trip hub', 'Offline at the top': 'Day-of', 'Critter detail': 'Your pass', 'Encounter': 'Trip hub', 'It wandered off': 'Encounter', 'Crew quests': 'Your pass', 'Photos': 'Recap', 'Profile': 'Home', 'Settings': 'Profile', 'Somewhere else': 'Home, first run', 'Marrakech': 'Somewhere else', 'Add a must-do': 'Must-dos', 'Change a day': "Pon's draft", "Pon's redraft": "Pon's draft", 'Crews': 'Home, final vote', 'Crew map': 'Crew chat', 'Crew SOS': 'Crew map', 'Forecast': 'Day-of', 'Storm warning': 'Forecast', 'Running late': 'Forecast', 'Vietnam set': 'Your pass', 'Once a year': 'Your pass', 'Sakura Pon': 'Once a year', 'Crew plans': 'Destination guide', 'Shared plan': 'Crew plans', 'Rate the trip': 'Recap', 'Share the plan': 'Trip plan', 'Edit profile': 'Profile', 'Avatar': 'Edit profile', 'App icon': 'Edit profile', 'Out of questions': 'Guide chat', 'Visa page': 'Out of questions', 'Boarding pass': 'Out of questions', 'Gold cover': 'Out of questions', 'Compare plans': 'Visa page', 'Boost Kyoto': 'Home, final vote', 'Checkout': 'Boost Kyoto', 'Stamped': 'Home', 'Boosted by Winston': 'Crew chat', 'Free boost ending': 'Recap', 'Your plan': 'Settings', 'Before you go': 'Your plan', 'Card declined': 'Your plan', 'Redeem or restore': 'Your plan' };
+  wrapRef = el => { if (el) { this.wrap = el; this.fit(); } };
+  stageRef = el => { if (el && el !== this.stage) { this.stage = el; this.boot(); } };
+  get F() { return this._F || (this._F = this.flow()); }
+  get sl() { return { '2× slower': 2, '4× slower': 4 }[this.props.slowmo] || 1; }
+
+  componentDidMount() {
+    this._rs = () => this.fit(); addEventListener('resize', this._rs);
+    this._kd = e => { if (e.metaKey || e.ctrlKey || /INPUT|TEXTAREA/.test((e.target && e.target.tagName) || '')) return; if (['ArrowLeft', 'Escape', 'Backspace'].includes(e.key)) { e.preventDefault(); this.back(); } else if (e.key === 'h' || e.key === 'H') this.toggleHints(); else if (e.key === 'r' || e.key === 'R') this.resetTo(['Splash'], 'fade'); };
+    addEventListener('keydown', this._kd);
+  }
+  componentWillUnmount() { removeEventListener('resize', this._rs); removeEventListener('keydown', this._kd); this.stack.forEach(i => this.kill(i)); }
+
+  async boot() {
+    const st = this.stage; st.textContent = '';
+    const mk = css => { const d = document.createElement('div'); d.style.cssText = css; return d; };
+    this.layers = mk('position:absolute;inset:0;');
+    this.fx = mk('position:absolute;inset:0;pointer-events:none;z-index:50;');
+    this.hintBox = mk('position:absolute;inset:0;');
+    this.cv = document.createElement('canvas'); this.cv.width = 780; this.cv.height = 1688; this.cv.style.cssText = 'position:absolute;left:0;top:0;width:390px;height:844px;';
+    this.isl = mk('position:absolute;left:50%;top:11px;width:122px;height:35px;margin-left:-61px;border-radius:20px;background:#000;opacity:0;display:flex;align-items:center;gap:10px;padding:0 10px 0 12px;box-sizing:border-box;overflow:hidden;color:#f4efe4;pointer-events:none;');
+    this.scrim = mk('position:absolute;inset:0;background:#07060e;opacity:0;pointer-events:none;');
+    this.fx.append(this.hintBox, this.cv, this.isl); st.append(this.layers, this.fx);
+    this.fit(); this.pointer();
+    try { const r = await fetch('Critterpass.dc.html', { cache: 'no-cache' }); if (!r.ok) throw new Error('HTTP ' + r.status); this.parse(await r.text()); }
+    catch (e) { this.setState({ err: "Couldn't load Critterpass.dc.html (" + e.message + ')' }); return; }
+    let saved = null, h = false; try { saved = JSON.parse(localStorage.getItem('cp-proto-stack') || 'null'); h = localStorage.getItem('cp-proto-hints') === '1'; } catch (e) {}
+    this.setState({ ready: true, hints: h });
+    this.resetTo(saved && saved.length && saved.every(n => this.lib[n]) ? saved : ['Splash'], 'none');
+  }
+  parse(html) {
+    const doc = new DOMParser().parseFromString(html, 'text/html'); this.lib = {}; this.sections = [];
+    doc.querySelectorAll('.dv-opt').forEach(o => {
+      const b = o.querySelector('.dv-olabel b'), sec = { id: o.id, label: b ? b.textContent.replace(/\.\s*$/, '') : o.id, screens: [] };
+      o.querySelectorAll('[data-screen-label]').forEach(w => {
+        const m = (w.getAttribute('data-screen-label') || '').match(/^(\S+)\s+(.+)$/), ph = w.children[1]; if (!m || !ph) return;
+        const key = this.lib[m[2]] ? m[2] + ' ' + m[1] : m[2];
+        this.lib[key] = { key, id: m[1], name: m[2], secLabel: sec.label, ph, motion: w.children[2] ? w.children[2].textContent.replace(/^\s*MOTION\s*/, '').trim() : '' };
+        sec.screens.push(key);
+      });
+      if (sec.screens.length) this.sections.push(sec);
+    });
+  }
+  fit() {
+    if (!this.wrap || !this.stage) return;
+    const k = this.k = Math.max(.45, Math.min(1, (innerHeight - 40) / 864, (innerWidth - 24) / 410));
+    this.wrap.style.width = 410 * k + 'px'; this.wrap.style.height = 864 * k + 'px';
+    this.stage.style.transform = `translate(${10 * k}px,${10 * k}px) scale(${k})`;
+  }
+
+  // ---------- screens & navigation ----------
+  make(key) {
+    const el = document.importNode(this.lib[key].ph, true);
+    Object.assign(el.style, { position: 'absolute', left: '0', top: '0', boxShadow: 'none', margin: '0' });
+    if (parseFloat(el.style.width) > parseFloat(el.style.height)) { const w = parseFloat(el.style.width), h = parseFloat(el.style.height); Object.assign(el.style, { left: (390 - w) / 2 + 'px', top: (844 - h) / 2 + 'px', transform: 'rotate(90deg)', borderRadius: '0' }); }
+    el.querySelectorAll('tg-confetti').forEach(c => c.setAttribute('period', '1e12'));
+    return { name: key, el, t: 'none', timers: [], binds: [], drags: [] };
+  }
+  kill(i) { i.dead = true; i.timers.forEach(clearTimeout); i.el.remove(); }
+  top() { return this.stack[this.stack.length - 1]; }
+  after(i, ms, fn) { const id = setTimeout(() => { if (!i.dead && this.top() === i) try { fn(); } catch (e) { console.warn(e); } }, ms); i.timers.push(id); return id; }
+  run(i, k) { const f = (this.F[i.name] || {})[k]; if (f) try { f(this, i); } catch (e) { console.warn(e); } }
+  seen(n) { if (n === 'Home') this.world.fresh = this.world.final = false; if (n === 'Home, first run') this.world.fresh = true; if (n === 'Home, final vote') { this.world.fresh = false; this.world.final = true; } }
+  sync() { const names = this.stack.map(i => i.name); try { localStorage.setItem('cp-proto-stack', JSON.stringify(names)); } catch (e) {} this.setState({ cur: names[names.length - 1] || '', names }); }
+  enter(i, back, o = {}) {
+    this.run(i, back ? 'back' : 'enter');
+    if (o.tabi != null) { const tb = this.tabbar(i.el), it = tb && this.tabs(tb)[o.tabi]; it && it.animate([{ transform: 'none' }, { transform: 'translateY(-5px) scale(1.18)', offset: .4 }, { transform: 'none' }], { duration: 420, easing: 'ease-out' }); }
+    if (o.then) try { o.then(); } catch (e) { console.warn(e); }
+    if (this.state.hints) this.drawHints();
+  }
+  async go(name, t = 'push', o = {}) {
+    if (!this.lib[name] || this.busy) return;
+    this.busy = true; this.clearHints();
+    const out = this.top(), inc = this.make(name);
+    if (o.src && o.src.isConnected) { inc.src = o.src; o.rect = this.rel(o.src); }
+    inc.t = t; this.layers.appendChild(inc.el); this.wire(inc); this.run(inc, 'pre');
+    if (o.replace && out) { inc.t = out.t; inc.src = out.src; }
+    this.stack.push(inc); this.seen(name); this.sync();
+    await this.trans(out ? t : 'none', inc, out, { ...o, end: () => { if (!out) return; if (o.replace) { const n = this.stack.indexOf(out); if (n >= 0) this.stack.splice(n, 1); this.kill(out); this.sync(); } else out.el.style.display = 'none'; } });
+    this.busy = false; this.enter(inc, false, o);
+  }
+  async back() {
+    if (this.busy || !this.top()) return;
+    if (this.stack.length < 2) { const p = this.PARENT[this.top().name]; if (p) this.resetTo([p], 'pop'); else this.thud(); return; }
+    this.busy = true; this.clearHints();
+    const out = this.stack.pop(), inc = this.top(); inc.el.style.display = '';
+    let t = this.INV[out.t] || 'unfade'; const o = {};
+    if (t === 'unzoom') { if (out.src && out.src.isConnected && out.src.offsetParent) o.rect = this.rel(out.src); else t = 'unfade'; }
+    this.seen(inc.name); this.sync();
+    await this.trans(t, inc, out, { ...o, end: () => this.kill(out) });
+    this.busy = false; this.enter(inc, true);
+  }
+  async resetTo(names, t = 'fade', o = {}) {
+    if (this.busy || !names.every(n => this.lib[n])) return; this.busy = true; this.clearHints();
+    const old = this.stack, out = old[old.length - 1], ins = names.map(n => this.make(n)), first = this.layers.firstChild, below = this.BACKS.includes(t);
+    ins.forEach((x, n) => { x.t = n ? 'push' : 'none'; if (below && first) this.layers.insertBefore(x.el, first); else this.layers.appendChild(x.el); this.wire(x); if (n < ins.length - 1) x.el.style.display = 'none'; });
+    const inc = ins[ins.length - 1]; this.run(inc, 'pre'); this.stack = ins; names.forEach(n => this.seen(n)); this.sync();
+    await this.trans(out ? t : 'none', inc, out, { ...o, end: () => old.forEach(x => this.kill(x)) });
+    this.busy = false; this.enter(inc, false, o);
+  }
+  tab(name, o = {}) {
+    if (name === 'Home' && this.world.fresh) name = 'Home, first run'; else if (name === 'Home' && this.world.final) name = 'Home, final vote';
+    const root = this.stack[0];
+    if (root && root.name === name) { if (this.stack.length > 1) this.popTo(name); if (o.then) o.then(); return; }
+    this.resetTo([name], 'tab', o);
+  }
+  popTo(name) { const n = this.stack.findIndex(x => x.name === name); if (n < 0) return false; if (n === this.stack.length - 1) return true; this.stack.splice(n + 1, this.stack.length - n - 2).forEach(x => this.kill(x)); this.back(); return true; }
+  stepTo(name) { if (!this.popTo(name)) this.go(name); }
+  swap(n) { this.go(n, 'fade', { replace: 1 }); }
+
+  // ---------- transitions ----------
+  async trans(t, inc, out, o = {}) {
+    if (!out || t === 'none') { o.end && o.end(); return; }
+    const f = this.sl, W = [], L = this.layers, sc = this.scrim, E = this.E;
+    const A = (el, kf, d, e, dl) => { const a = el.animate(kf, { duration: d * f, easing: e || E, delay: (dl || 0) * f, fill: 'both' }); W.push(a); return a; };
+    const scr = (below, a, b, d) => { L.insertBefore(sc, below.nextSibling); A(sc, [{ opacity: a }, { opacity: b }], d); };
+    switch (t) {
+      case 'push': scr(out.el, 0, .5, 480); A(inc.el, [{ transform: 'translateX(100%)' }, { transform: 'none' }], 480); A(out.el, [{ transform: 'none' }, { transform: 'translateX(-30%)' }], 480); break;
+      case 'pop': scr(inc.el, .5, 0, 420); A(inc.el, [{ transform: 'translateX(-30%)' }, { transform: 'none' }], 420); A(out.el, [{ transform: 'none' }, { transform: 'translateX(100%)' }], 420); break;
+      case 'sheet': case 'rise': {
+        const s = t === 'sheet' ? this.sheetOf(inc) : null, d = t === 'rise' ? 620 : 540;
+        scr(out.el, 0, .45, d);
+        if (o.fling) out.el.querySelectorAll('tg-motion').forEach(m => { const r = this.rel(m), dx = r.l + r.w / 2 - 195, dy = r.t + r.h / 2 - 300, n = Math.hypot(dx, dy) || 1; A(m, [{}, { transform: `translate(${dx / n * 480}px,${dy / n * 480}px) rotate(${dx > 0 ? 50 : -50}deg)` }], 560, 'cubic-bezier(.55,0,.8,.3)'); });
+        if (s) { A(inc.el, [{ backgroundColor: 'rgba(0,0,0,0)' }, { backgroundColor: getComputedStyle(inc.el).backgroundColor }], 320, 'ease-out'); s.bg.forEach(c => A(c, [{ opacity: 0 }, {}], 320, 'ease-out')); s.fg.forEach(c => A(c, [{ translate: `0 ${844 - s.top}px` }, { translate: '0 0' }], d)); }
+        else A(inc.el, [{ transform: 'translateY(100%)' }, { transform: 'none' }], d, E, t === 'rise' ? 120 : 0);
+        A(out.el, [{ transform: 'none' }, { transform: 'scale(.93)' }], d); break;
+      }
+      case 'dismiss': {
+        const s = out.t === 'sheet' ? this.sheetOf(out) : null; scr(inc.el, .45, 0, 420);
+        if (s) { A(out.el, [{}, { backgroundColor: 'rgba(0,0,0,0)' }], 380, 'ease-in'); s.bg.forEach(c => A(c, [{}, { opacity: 0 }], 300, 'ease-in')); s.fg.forEach(c => A(c, [{ translate: '0 0' }, { translate: `0 ${844 - s.top}px` }], 420)); }
+        else A(out.el, [{ transform: 'none' }, { transform: 'translateY(100%)' }], 420);
+        A(inc.el, [{ transform: 'scale(.93)' }, { transform: 'none' }], 420); break;
+      }
+      case 'zoom': case 'unzoom': {
+        const bk = t === 'unzoom', el = bk ? out.el : inc.el, R = o.rect;
+        if (!R) return this.trans(bk ? 'unfade' : 'burst', inc, out, o);
+        const s = Math.max(.1, R.w / 390), cx = R.l + R.w / 2, cy = R.t + R.h / 2, hh = R.h / 2 / s, org = `${cx}px ${cy}px`;
+        const k0 = { transformOrigin: org, transform: `scale(${s})`, clipPath: `inset(${Math.max(0, cy - hh)}px 0px ${Math.max(0, 844 - cy - hh)}px 0px round ${22 / s}px)` }, k1 = { transformOrigin: org, transform: 'none', clipPath: 'inset(0px 0px 0px 0px round 54px)' }, d = bk ? 460 : 560;
+        A(el, bk ? [k1, k0] : [k0, k1], d);
+        A(el, bk ? [{ opacity: 1 }, { opacity: 1, offset: .6 }, { opacity: 0 }] : [{ opacity: 0 }, { opacity: 1, offset: .35 }, { opacity: 1 }], d, 'linear');
+        if (bk) { scr(inc.el, .5, 0, d); A(inc.el, [{ transform: 'scale(.94)' }, { transform: 'none' }], d); } else { scr(out.el, 0, .5, d); A(out.el, [{ transform: 'none' }, { transform: 'scale(.94)' }], d); }
+        break;
+      }
+      case 'burst': A(out.el, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scale(.9)' }], 360, 'ease-in'); A(inc.el, [{ opacity: 0, transform: 'scale(1.2)' }, { opacity: 1, transform: 'none' }], 640, 'cubic-bezier(.2,1.3,.35,1)', 120); this.flash(); break;
+      case 'fold': A(out.el, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scale(.9)' }], 380, 'cubic-bezier(.5,0,.75,0)'); A(inc.el, [{ opacity: 0, transform: 'translateY(70px)' }, { opacity: 1, transform: 'none' }], 560, E, 160); break;
+      case 'flip': case 'flipback': { const g = t === 'flip' ? 1 : -1; A(out.el, [{ transform: 'perspective(1600px) rotateY(0deg)' }, { transform: `perspective(1600px) rotateY(${90 * g}deg)` }], 260, 'cubic-bezier(.5,0,.9,.5)'); A(inc.el, [{ transform: `perspective(1600px) rotateY(${-90 * g}deg)` }, { transform: 'perspective(1600px) rotateY(0deg)' }], 420, 'cubic-bezier(.1,.6,.3,1)', 260); break; }
+      case 'tab': { A(inc.el, [{ opacity: 0 }, { opacity: 1 }], 240, 'ease-out'); const tb = this.tabbar(inc.el); [...inc.el.children].forEach(c => { if (c !== tb && !/height:50px/.test(c.getAttribute('style') || '')) A(c, [{ translate: '0 12px' }, { translate: '0 0' }], 420); }); break; }
+      case 'fade': A(inc.el, [{ opacity: 0 }, { opacity: 1 }], 300, 'ease-out'); break;
+      default: A(out.el, [{ opacity: 1 }, { opacity: 0 }], 260, 'ease-in');
+    }
+    await Promise.all(W.map(a => a.finished.catch(() => {})));
+    o.end && o.end(); W.forEach(a => a.cancel()); sc.remove();
+  }
+  sheetOf(i) {
+    if (i.sheet !== undefined) return i.sheet;
+    const kids = [...i.el.children], p = kids.find(c => /border-radius:3[0-2]px 3[0-2]px 0 0/.test(c.getAttribute('style') || ''));
+    if (!p) return i.sheet = null;
+    const top = p.offsetTop; return i.sheet = { top, fg: kids.filter(c => c.offsetTop >= top - 4), bg: kids.filter(c => c.offsetTop < top - 4) };
+  }
+  flash() { const d = document.createElement('div'); d.style.cssText = 'position:absolute;inset:0;background:#fffbe8;'; this.fx.appendChild(d); d.animate([{ opacity: 0 }, { opacity: .55, offset: .3 }, { opacity: 0 }], { duration: 460 * this.sl, fill: 'forwards' }).finished.then(() => d.remove()); }
+  thud() { this.layers.animate([{ translate: '0 0' }, { translate: '0 5px' }, { translate: '0 -2px' }, { translate: '0 0' }], { duration: 280 }); }
+
+  // ---------- gestures ----------
+  loc(e) { const r = this.stage.getBoundingClientRect(); return [(e.clientX - r.left) / this.k, (e.clientY - r.top) / this.k]; }
+  rel(el) { const s = this.stage.getBoundingClientRect(), r = el.getBoundingClientRect(), k = this.k; return { l: (r.left - s.left) / k, t: (r.top - s.top) / k, w: r.width / k, h: r.height / k }; }
+  pointer() {
+    const st = this.stage; let g = null;
+    st.addEventListener('pointerdown', e => {
+      if (e.button > 0 || this.fx.contains(e.target)) return;
+      const top = this.top(); if (!top || this.busy) return;
+      const [x, y] = this.loc(e); g = { x0: x, y0: y, t0: performance.now(), id: e.pointerId };
+      try { st.setPointerCapture(e.pointerId); } catch (_) {}
+      const d = top.drags.find(q => q.el.contains(e.target));
+      if (d) { g.d = d; d.down && d.down({ x, y }); return; }
+      let n = e.target; while (n && n !== top.el && !n.__cp) n = n.parentElement;
+      if (n && n.__cp) { g.b = n; if (!n.__cp.o.nopress) this.press(n, 1); const h = n.__cp.o.hold; if (h) g.h = setTimeout(() => { if (!g) return; g.held = 1; this.press(n, 0); h(this, n, top); }, 320); }
+      if (x < 28 && this.stack.length > 1) g.edge = 1;
+      const sy = this.canDrag(top); if (sy && y < sy) g.sheet = 1;
+    });
+    st.addEventListener('pointermove', e => {
+      if (!g || e.pointerId !== g.id) return;
+      const [x, y] = this.loc(e), dx = x - g.x0, dy = y - g.y0;
+      if (g.d) { g.d.move && g.d.move({ x, y, dx, dy }); return; }
+      if (!g.moved && Math.hypot(dx, dy) > 8) { g.moved = 1; if (g.b) { clearTimeout(g.h); if (!g.b.__cp.o.nopress) this.press(g.b, 0); } if (g.edge && dx > Math.abs(dy)) g.w = this.swipeStart('x'); else if (g.sheet && dy > Math.abs(dx)) g.w = this.swipeStart('y'); }
+      if (g.w) this.swipeMove(g.w, g.w.axis === 'x' ? dx : dy);
+    });
+    const up = e => {
+      if (!g || e.pointerId !== g.id) return; const G = g; g = null; clearTimeout(G.h);
+      const [x, y] = this.loc(e), dt = performance.now() - G.t0;
+      if (G.d) { G.d.up && G.d.up({ x, y, dx: x - G.x0, dy: y - G.y0, dt }); return; }
+      if (G.w) { const v = G.w.axis === 'x' ? x - G.x0 : y - G.y0; this.swipeEnd(G.w, v, v / Math.max(dt, 1)); return; }
+      if (G.moved || G.held || e.type === 'pointercancel') return;
+      if (G.b) { if (!G.b.__cp.o.nopress) this.press(G.b, 0); this.fire(G.b); } else this.dead(x, y);
+    };
+    st.addEventListener('pointerup', up); st.addEventListener('pointercancel', up);
+  }
+  press(el, down) {
+    const base = el.style.transform || '', w = el.offsetWidth, sm = w > 240 ? .975 : w > 120 ? .96 : .92;
+    if (el._pa) el._pa.cancel();
+    el._pa = down ? el.animate([{ transform: base || 'none' }, { transform: `${base} scale(${sm})` }], { duration: 130, easing: 'cubic-bezier(.3,.7,.4,1)', fill: 'forwards' })
+      : el.animate([{ transform: `${base} scale(${sm})` }, { transform: `${base} scale(1.035)`, offset: .45 }, { transform: base || 'none' }], { duration: 420, easing: 'ease-out' });
+  }
+  fire(el) {
+    const b = el.__cp; if (!b || b.i !== this.top() || this.busy) return;
+    let a = b.a;
+    if (typeof a === 'function') { try { a(this, el, b.i); } catch (e) { console.warn(e); } }
+    else if (a === 'back') this.back();
+    else { if (typeof a === 'string') a = [a]; const [to, t = 'push', o = {}] = a; this.go(to, t, t === 'zoom' ? { ...o, src: el } : o); }
+    if (this.state.hints) setTimeout(() => this.drawHints(), 520);
+  }
+  dead(x, y) {
+    const s = this.F[this.top().name] || {}; if (s.tap) return s.tap(this, this.top());
+    const r = document.createElement('div'); r.style.cssText = `position:absolute;left:${x - 20}px;top:${y - 20}px;width:40px;height:40px;border-radius:20px;border:2px solid rgba(255,216,74,.9);box-sizing:border-box;`;
+    this.fx.appendChild(r); r.animate([{ transform: 'scale(.3)', opacity: 1 }, { transform: 'scale(1.3)', opacity: 0 }], { duration: 480, easing: 'ease-out' }).finished.then(() => r.remove());
+    this.flashHints();
+  }
+  canDrag(top) { if (this.stack.length < 2 || !['sheet', 'rise', 'zoom'].includes(top.t)) return 0; const s = top.t === 'sheet' ? this.sheetOf(top) : null; return s ? s.top + 110 : 160; }
+  swipeStart(axis) {
+    if (this.busy) return null; const out = this.top(), inc = this.stack[this.stack.length - 2]; if (!inc) return null;
+    this.busy = true; this.clearHints(); inc.el.style.display = ''; this.layers.insertBefore(this.scrim, out.el);
+    const w = { axis, out, inc, s: axis === 'y' && out.t === 'sheet' ? this.sheetOf(out) : null };
+    if (w.s) { w.bg0 = out.el.style.background; w.rgb = (getComputedStyle(out.el).backgroundColor.match(/[\d.]+/g) || [23, 20, 42]).slice(0, 3).join(','); w.s.bg.forEach(c => { c._op = c.style.opacity; }); }
+    inc.el.style.transform = axis === 'x' ? 'translateX(-30%)' : 'scale(.93)'; this.scrim.style.opacity = axis === 'x' ? .5 : .45;
+    return w;
+  }
+  swipeMove(w, d) {
+    if (!w) return; d = Math.max(0, d); const { out, inc } = w;
+    if (w.axis === 'x') { const p = Math.min(1, d / 390); out.el.style.transform = `translateX(${d}px)`; inc.el.style.transform = `translateX(${-30 * (1 - p)}%)`; this.scrim.style.opacity = .5 * (1 - p); return; }
+    const p = Math.min(1, d / 520);
+    if (w.s) { w.s.fg.forEach(c => c.style.translate = `0 ${d}px`); w.s.bg.forEach(c => c.style.opacity = (parseFloat(c._op || 1) * (1 - p)).toFixed(3)); out.el.style.background = `rgba(${w.rgb},${1 - p})`; }
+    else out.el.style.transform = `translateY(${d}px)`;
+    inc.el.style.transform = `scale(${.93 + .07 * p})`; this.scrim.style.opacity = .45 * (1 - p);
+  }
+  swipeEnd(w, d, v) {
+    if (!w) return; const { out, inc, axis, s } = w, ok = d > (axis === 'x' ? 110 : 150) || v > .55, dur = 300, ez = 'cubic-bezier(.2,.8,.2,1)';
+    const set = (el, p, val) => { el.style.transition = `${p === 'transform' ? 'transform' : p} ${dur}ms ${ez}`; el.style[p] = val; };
+    if (axis === 'x') { set(out.el, 'transform', ok ? 'translateX(100%)' : 'none'); set(inc.el, 'transform', ok ? 'none' : 'translateX(-30%)'); }
+    else { if (s) { s.fg.forEach(c => set(c, 'translate', ok ? `0 ${844 - s.top}px` : '0 0')); s.bg.forEach(c => set(c, 'opacity', ok ? '0' : (c._op || '1'))); set(out.el, 'background', ok ? `rgba(${w.rgb},0)` : `rgba(${w.rgb},1)`); } else set(out.el, 'transform', ok ? 'translateY(100%)' : 'none'); set(inc.el, 'transform', ok ? 'none' : 'scale(.93)'); }
+    set(this.scrim, 'opacity', ok ? '0' : String(axis === 'x' ? .5 : .45));
+    setTimeout(() => {
+      [out.el, inc.el, this.scrim].forEach(e => { e.style.transition = ''; e.style.transform = ''; });
+      if (s) { s.fg.forEach(c => { c.style.transition = ''; c.style.translate = ''; }); s.bg.forEach(c => { c.style.transition = ''; c.style.opacity = c._op || ''; }); out.el.style.transition = ''; out.el.style.background = w.bg0; }
+      this.scrim.remove();
+      if (ok) { this.stack.pop(); this.kill(out); this.seen(inc.name); this.sync(); this.busy = false; this.enter(inc, true); }
+      else { inc.el.style.display = 'none'; this.busy = false; if (this.state.hints) this.drawHints(); }
+    }, dur + 30);
+  }
+
+  // ---------- hints ----------
+  drawHints() {
+    this.hintBox.getAnimations().forEach(a => a.cancel()); this.hintBox.textContent = ''; const top = this.top(); if (!top) return;
+    top.binds.concat(top.drags.map(d => d.el)).forEach(b => {
+      if (!b.isConnected || b.offsetParent === null) return; const r = this.rel(b); if (r.w < 3 || r.h < 3 || r.t > 844 || r.t + r.h < 0) return;
+      const d = document.createElement('div'); d.style.cssText = `position:absolute;left:${r.l - 3}px;top:${r.t - 3}px;width:${r.w + 6}px;height:${r.h + 6}px;border-radius:14px;background:rgba(255,216,74,.16);box-shadow:inset 0 0 0 2px rgba(255,216,74,.85);`; this.hintBox.appendChild(d);
+    });
+  }
+  flashHints() { if (this.state.hints) return; this.drawHints(); this.hintBox.animate([{ opacity: 0 }, { opacity: 1, offset: .2 }, { opacity: 1, offset: .7 }, { opacity: 0 }], { duration: 1100, fill: 'forwards' }); }
+  clearHints() { if (!this.hintBox) return; this.hintBox.getAnimations().forEach(a => a.cancel()); this.hintBox.textContent = ''; }
+  toggleHints() { const h = !this.state.hints; this.setState({ hints: h }); try { localStorage.setItem('cp-proto-hints', h ? '1' : '0'); } catch (e) {} this.clearHints(); if (h) setTimeout(() => this.drawHints(), 30); }
+
+  // ---------- wiring ----------
+  q(i, s) { return i.el.querySelector(s); }
+  qa(i, s) { return [...i.el.querySelectorAll(s)]; }
+  tx(n) { let s = ''; const w = e => { for (let c = e.firstChild; c; c = c.nextSibling) { if (c.nodeType === 3) s += c.data; else if (c.nodeName === 'BR') s += ' '; else if (c.nodeType === 1) w(c); } }; w(n); return s.replace(/\s+/g, ' ').trim(); }
+  texts(i) { if (i.txt) return i.txt; const out = []; i.el.querySelectorAll('*').forEach(n => { if (n.tagName !== 'DOODLE-ART' && n.tagName !== 'CANVAS') out.push([n, this.tx(n)]); }); return i.txt = out; }
+  outer(n, s) { const p = n.parentElement; return !p || this.tx(p) !== s; }
+  findHas(i, t) { const T = this.texts(i), hit = T.find(([n, s]) => s === t && this.outer(n, s)); if (hit) return hit[0]; let best = null; T.forEach(x => { if (x[1].includes(t) && (!best || x[1].length < best[1].length)) best = x; }); return best && best[0]; }
+  find(i, m) {
+    if (typeof m === 'string') m = { t: m };
+    let list;
+    if (m.sel) list = this.qa(i, m.sel); else if (m.cp) list = this.qa(i, `[data-cp="${m.cp}"]`);
+    else if (m.has) { const h = this.findHas(i, m.has); list = h ? [h] : []; }
+    else list = this.texts(i).filter(([n, s]) => s === m.t && this.outer(n, s)).map(x => x[0]);
+    if (m.nth != null) list = list[m.nth] ? [list[m.nth]] : []; else if (!m.all && !m.sel && !m.cp) list = list.slice(0, 1);
+    if (m.card) list = list.map(n => this.cardOf(n, i.el, 40));
+    if (m.up) list = list.map(n => { for (let k = 0; k < m.up && n.parentElement && n.parentElement !== i.el; k++) n = n.parentElement; return n; });
+    return list.filter(Boolean);
+  }
+  cardOf(n, root, minH = 40) { for (let e = n; e && e !== root; e = e.parentElement) { const s = e.getAttribute('style') || ''; if (/border-radius/.test(s) && /background|border:|box-shadow/.test(s) && e.offsetHeight >= minH && e.offsetWidth >= 60) return e; } return n; }
+  tabbar(el) { return [...el.children].find(c => { const s = c.getAttribute('style') || ''; return /height:88px/.test(s) && /bottom:0/.test(s); }); }
+  tabs(tb) { return [...tb.children].filter(c => !/position:absolute/.test(c.getAttribute('style') || '')); }
+  bind(i, el, a, o = {}) { el.__cp = { a, o, i }; i.binds.push(el); el.style.cursor = 'pointer'; }
+  wire(i) {
+    const s = this.F[i.name] || {}, el = i.el;
+    (s.b || []).forEach(([m, a, o]) => this.find(i, m).forEach(t => { if (!t.__cp) this.bind(i, t, a, o || {}); }));
+    try { s.mount && s.mount(this, i); } catch (e) { console.warn(e); }
+    (s.seg || []).forEach(g => this.seg(i, g));
+    const tb = this.tabbar(el);
+    if (tb) this.tabs(tb).slice(0, 5).forEach((c, n) => { if (!c.__cp) this.bind(i, c, n === 2 ? () => this.go('Guide chat', 'sheet') : () => this.tab(['Home', 'Trip hub', '', 'Bookings', 'Your pass'][n], { tabi: n })); });
+    this.texts(i).forEach(([n, t]) => { if (n.__cp || !(t === '✕' || /^←/.test(t)) || !this.outer(n, t)) return; this.bind(i, n, 'back'); });
+    el.querySelectorAll('[style*="width:46px;height:28px"]').forEach(t => { if (!t.__cp) this.bind(i, t, (c, x) => c.toggle(x), { nopress: 1 }); });
+    i.txt = null;
+  }
+  seg(i, g) {
+    const o = Array.isArray(g) ? g : g.o, f = g.f, els = o.map(t => this.findHas(i, t)).filter(Boolean); if (els.length < 2) return;
+    let lca = els[0].parentElement; while (lca && lca !== i.el && !els.every(e => lca.contains(e))) lca = lca.parentElement; if (!lca) return;
+    const opts = els.map(e => { let n = e; while (n.parentElement && n.parentElement !== lca) n = n.parentElement; return n; });
+    const isOn = x => { const b = x.style.backgroundColor; return b && b !== 'transparent' && b !== 'rgba(0, 0, 0, 0)'; };
+    const on = opts.find(isOn), off = opts.find(x => !isOn(x)); if (!on || !off) return;
+    const P = ['background', 'color', 'boxShadow', 'border'], S1 = {}, S0 = {}; P.forEach(p => { S1[p] = on.style[p]; S0[p] = off.style[p]; });
+    opts.forEach((x, n) => { if (x.__cp) return; this.bind(i, x, () => { opts.forEach(y => Object.assign(y.style, y === x ? S1 : S0)); x.animate([{ transform: 'scale(.9)' }, { transform: 'scale(1.06)', offset: .5 }, { transform: 'none' }], { duration: 320, easing: 'ease-out' }); f && f(this, i, n, x); }, { nopress: 1 }); });
+  }
+
+  // ---------- micro-interactions ----------
+  toggle(t, cb) {
+    const k = t.firstElementChild, on = /54d6a4|84, 214, 164/.test(t.style.background); if (!k) return;
+    const x0 = k.offsetLeft; t.style.transition = 'background-color .25s'; t.style.background = on ? '#3a3466' : '#54d6a4';
+    if (on) { k.style.right = ''; k.style.left = '3px'; } else { k.style.left = ''; k.style.right = '3px'; }
+    k.animate([{ transform: `translateX(${x0 - k.offsetLeft}px) scaleX(1.25)` }, { transform: 'none' }], { duration: 380, easing: 'cubic-bezier(.3,1.5,.5,1)' });
+    cb && cb(!on); return !on;
+  }
+  toast(text, o = {}) {
+    if (!text) return; const I = this.isl; clearTimeout(this._tt); I.getAnimations().forEach(a => a.cancel()); I.textContent = '';
+    const ic = document.createElement('doodle-art'); [['kind', o.k || 'gecko'], ['size', '32'], ['sticker', '#f4efe4'], ['anim', 'none'], ['blink', 'false'], ['sticker-w', '3']].forEach(([a, v]) => ic.setAttribute(a, v));
+    const sp = document.createElement('span'); sp.textContent = text; sp.style.cssText = 'flex:1;min-width:0;font:600 13px/1.3 Geist,sans-serif;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;';
+    I.append(ic, sp);
+    if (o.tap) { const b = document.createElement('span'); b.textContent = 'OPEN'; b.style.cssText = 'flex:none;padding:7px 11px;border-radius:13px;background:#ffd84a;color:#17142a;font:800 11px Archivo,sans-serif;letter-spacing:.06em'; I.append(b); }
+    I.style.pointerEvents = o.tap ? 'auto' : 'none'; I.style.cursor = o.tap ? 'pointer' : ''; I.onclick = o.tap ? () => { this.hideToast(); o.tap(); } : null;
+    const S = { width: '122px', height: '35px', marginLeft: '-61px', borderRadius: '20px', opacity: 1 }, B = { width: '360px', height: '62px', marginLeft: '-180px', borderRadius: '28px', opacity: 1 };
+    I.animate([S, B], { duration: 440, easing: 'cubic-bezier(.2,1.25,.3,1)', fill: 'forwards' });
+    [...I.children].forEach((c, n) => c.animate([{ opacity: 0, translate: '0 4px' }, { opacity: 1, translate: '0 0' }], { duration: 220, delay: 150 + n * 40, fill: 'both' }));
+    this._tt = setTimeout(() => this.hideToast(), o.ms || 2800);
+  }
+  hideToast() { const I = this.isl; I.style.pointerEvents = 'none'; I.onclick = null; [...I.children].forEach(c => c.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, fill: 'forwards' })); I.animate([{ width: '360px', height: '62px', marginLeft: '-180px', borderRadius: '28px', opacity: 1 }, { width: '122px', height: '35px', marginLeft: '-61px', borderRadius: '20px', opacity: 1, offset: .85 }, { width: '122px', height: '35px', marginLeft: '-61px', borderRadius: '20px', opacity: 0 }], { duration: 400, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' }); }
+  confetti(x = 195, y = 380, n = 90) {
+    const P = this.parts || (this.parts = []), cols = ['#ffd84a', '#ff5fa8', '#4f86ff', '#54d6a4', '#f4efe4', '#ff9a4d'];
+    for (let k = 0; k < n; k++) { const a = -Math.PI / 2 + (Math.random() - .5) * 2.4, v = 5 + Math.random() * 10; P.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: Math.random() * 6, vr: (Math.random() - .5) * .4, w: 6 + Math.random() * 6, h: 3 + Math.random() * 4, c: cols[k % 6], life: 1 }); }
+    if (this._cr) return; const c = this.cv.getContext('2d');
+    const tick = () => { c.setTransform(2, 0, 0, 2, 0, 0); c.clearRect(0, 0, 390, 844); this.parts = this.parts.filter(p => p.life > 0 && p.y < 900); for (const p of this.parts) { p.vy += .34; p.vx *= .985; p.vy *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life -= .008; c.save(); c.globalAlpha = Math.min(1, p.life * 2); c.translate(p.x, p.y); c.rotate(p.r); c.scale(1, Math.cos(p.r * 2)); c.fillStyle = p.c; c.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); c.restore(); } this._cr = this.parts.length ? requestAnimationFrame(tick) : 0; };
+    this._cr = requestAnimationFrame(tick);
+  }
+  burstIn(i) { i.el.querySelectorAll('tg-confetti').forEach(c => c.burst && c.burst(c.clientWidth, c.clientHeight)); }
+  pop(el) { if (!el) return; const b = el.style.transform || ''; el.animate([{ transform: b || 'none' }, { transform: `${b} scale(1.12)`, offset: .4 }, { transform: b || 'none' }], { duration: 360, easing: 'ease-out' }); }
+  shake(el) { el && el.animate([{ translate: '0 0' }, { translate: '-8px 0' }, { translate: '7px 0' }, { translate: '-5px 0' }, { translate: '3px 0' }, { translate: '0 0' }], { duration: 420 }); }
+  wobble(el) { el && el.animate([{ rotate: '0deg' }, { rotate: '-3deg' }, { rotate: '2.5deg' }, { rotate: '-1deg' }, { rotate: '0deg' }], { duration: 480 }); }
+  glow(el) { el && el.animate([{ boxShadow: '0 0 0 0 rgba(255,216,74,.75)' }, { boxShadow: '0 0 0 16px rgba(255,216,74,0)' }], { duration: 900, iterations: 2 }); }
+  drop(el, delay = 0) { el && el.animate([{ translate: '0 -18px', opacity: 0 }, { translate: '0 0', opacity: 1 }], { duration: 380, delay, easing: 'cubic-bezier(.3,1.5,.5,1)', fill: 'backwards' }); }
+  reveal(el, delay = 0) { el && el.animate([{ opacity: 0, translate: '0 12px' }, { translate: '0 0' }], { duration: 460, delay, easing: this.E, fill: 'backwards' }); }
+  setTxt(el, s) { const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) { if (n.data.trim()) { n.data = s; return; } } el.textContent = s; }
+  setNum(el, s) { const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) { if (/\d/.test(n.data)) { n.data = n.data.replace(/[\d.,]*\d/, s); return; } } }
+  flap(el, s) { if (!el) return; const b = el.style.transform || ''; el.animate([{ transform: `${b} perspective(300px) rotateX(0deg)` }, { transform: `${b} perspective(300px) rotateX(90deg)`, offset: .5 }, { transform: `${b} perspective(300px) rotateX(0deg)` }], { duration: 340, easing: 'ease-in-out' }); setTimeout(() => this.setTxt(el, s), 170); }
+  float(el, s) { const r = this.rel(el), d = document.createElement('div'); d.textContent = s; d.style.cssText = `position:absolute;left:${r.l + r.w / 2}px;top:${r.t - 6}px;font:900 20px Archivo,sans-serif;color:#ffd84a;text-shadow:0 2px 0 #17142a;`; this.fx.appendChild(d); d.animate([{ transform: 'translate(-50%,0) scale(.6)', opacity: 0 }, { transform: 'translate(-50%,-14px) scale(1.1)', opacity: 1, offset: .3 }, { transform: 'translate(-50%,-40px)', opacity: 0 }], { duration: 800, easing: 'ease-out' }).finished.then(() => d.remove()); }
+  count(el, a, b, fmt, ms = 700) { if (!el) return; const t0 = performance.now(); const f = now => { const k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 3); this.setNum(el, fmt(Math.round(a + (b - a) * e))); if (k < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); }
+  slideOff(el, then) {
+    if (!el) return; const gap = parseFloat(getComputedStyle(el.parentElement).rowGap) || 0;
+    el.animate([{ transform: 'none', opacity: 1 }, { transform: 'translateX(110%) rotate(4deg)', opacity: 0 }], { duration: 360, easing: 'cubic-bezier(.5,0,.75,0)', fill: 'forwards' }).finished.then(() => {
+      const cs = getComputedStyle(el), h = el.offsetHeight; el.style.overflow = 'hidden'; el.style.boxSizing = 'border-box';
+      el.animate([{ height: h + 'px', paddingTop: cs.paddingTop, paddingBottom: cs.paddingBottom, marginTop: '0px' }, { height: '0px', paddingTop: '0px', paddingBottom: '0px', marginTop: -gap + 'px' }], { duration: 320, easing: this.E, fill: 'forwards' }).finished.then(() => { el.getAnimations().forEach(a => a.cancel()); el.style.display = 'none'; then && then(); if (this.state.hints) this.drawHints(); });
+    });
+  }
+  choreo(i, dur) { const an = []; this.qa(i, `tg-motion[dur="${dur}"]`).forEach(m => { if (typeof m.start !== 'function') return; m.start(); m.start = () => {}; an.push(...(m.anims || [])); }); an.forEach(a => { a.pause(); a.currentTime = 0; }); return an; }
+  radio(i, els, apply, cb) { els.forEach((e, n) => this.bind(i, e, () => { els.forEach((x, m) => apply(x, m === n, m)); this.pop(e); cb && cb(n, e); }, { nopress: 1 })); }
+  chipStyle(el, on, col) { const ic = el.querySelector('doodle-art'); el.style.boxSizing = 'border-box'; if (on) { Object.assign(el.style, { background: col, color: '#17142a', border: '0', boxShadow: `0 0 0 3px #17142a,0 0 0 5px ${col}`, fontWeight: '900' }); ic && ic.setAttribute('ink', '#17142a'); } else { Object.assign(el.style, { background: 'transparent', color: '#d8d3ee', border: '2px solid #3a3466', boxShadow: 'none', fontWeight: '700' }); ic && ic.setAttribute('ink', '#a9a3c0'); } }
+
+  // ---------- screen-specific behaviour ----------
+  taste(i) {
+    const CH = ['SUNRISE CHASER', 'STREET FOOD', 'BEACH, NO PLANS', 'MUSEUMS', 'NIGHT OWL', 'BIG HIKES', 'PHOTO DUMPS', 'CHAOS IS FINE'];
+    const LN = ['Sunrise chaser. I know a volcano for that.', 'Street food? I know every warung worth the queue.', 'Beach, no plans. I can do nothing very well.', 'Museums for the rainy afternoons. Noted.', "Night owl. I'll keep your mornings slow.", "Big hikes. I'll pack the headlamp.", 'Photo dumps. I know where the light is at 6am.', "Chaos is fine? Then we'll get along."];
+    const PAL = ['#ffd84a', '#ff5fa8', '#4f86ff', '#54d6a4', '#ff9a4d'], next = this.findHas(i, 'NEXT'), ty = this.q(i, 'tg-type');
+    i.picks = new Set();
+    const upd = () => { if (next) { next.style.transition = 'opacity .25s'; next.style.opacity = i.picks.size >= 3 ? '' : '.4'; } };
+    CH.forEach((t, n) => {
+      const el = this.findHas(i, t); if (!el) return; const bg = el.style.backgroundColor, rot = n % 2 ? 2 : -2;
+      if (bg && bg !== 'transparent') { i.picks.add(t); el.dataset.c = bg; }
+      this.bind(i, el, () => {
+        const on = i.picks.has(t), col = el.dataset.c || PAL[n % 5]; el.dataset.c = col;
+        if (on) { i.picks.delete(t); this.chipStyle(el, 0); el.style.transform = ''; el.animate([{ transform: 'scale(.94)' }, { transform: 'none' }], { duration: 260, easing: 'ease-out' }); }
+        else { i.picks.add(t); this.chipStyle(el, 1, col); el.style.transform = `rotate(${rot}deg)`; el.animate([{ transform: `rotate(${rot * 3}deg) scale(.86)` }, { transform: `rotate(${rot}deg) scale(1.12)`, offset: .45 }, { transform: `rotate(${rot}deg)` }], { duration: 420, easing: 'ease-out' }); }
+        if (ty) { ty.setAttribute('text', !on ? LN[n] : i.picks.size < 3 ? 'Pick one more and I can start plotting.' : 'Fair. Still plenty to work with.'); ty.loop && ty.loop(); }
+        upd();
+      }, { nopress: 1 });
+    });
+    upd();
+  }
+  otp(i) {
+    const bx = this.qa(i, '[style*="width:46px;height:56px;border-radius:14px"]'), dg = ['2', '7', '3'];
+    [3, 4, 5].forEach((n, k) => this.after(i, 450 + k * 260, () => { const b = bx[n]; if (!b) return; b.innerHTML = `<span style="display:inline-block">${dg[k]}</span>`; b.style.boxShadow = 'inset 0 0 0 2px #3a3466'; this.drop(b.firstChild); }));
+    this.after(i, 1350, () => { bx.forEach((b, n) => { b.style.transition = 'box-shadow .2s'; b.style.boxShadow = 'inset 0 0 0 2px #54d6a4'; b.animate([{ translate: '0 0' }, { translate: '0 -5px' }, { translate: '0 0' }], { duration: 300, delay: n * 45 }); }); const p = this.q(i, 'doodle-art[kind="puffin"]'); if (p) { p.setAttribute('pose', 'cheer'); this.pop(p); } });
+    this.after(i, 2150, () => this.go('Permissions, in context'));
+  }
+  badCode(i, row) {
+    if (i.bad) return; i.bad = 1; const bx = [...row.children], ok = 'BALI6X';
+    bx.forEach((b, n) => { b.textContent = 'BALI7Y'[n]; b.style.boxShadow = 'inset 0 0 0 2px #ff5fa8'; }); this.shake(row);
+    this.toast('No crew uses BALI7Y. Ask whoever invited you for a new code.');
+    this.after(i, 1700, () => { bx.forEach((b, n) => { b.textContent = ok[n]; b.style.boxShadow = 'inset 0 0 0 2px #54d6a4'; this.drop(b, n * 50); }); i.bad = 0; });
+  }
+  hopGo(el, name) { const d = el.querySelector('doodle-art'); d && d.animate([{ transform: 'none' }, { transform: 'translateY(-20px) scale(1.12)', offset: .5 }, { transform: 'none' }], { duration: 320, easing: 'ease-out' }); this.after(this.top(), 200, () => this.go(name, 'zoom', { src: el })); }
+  badge(i) { const b = this.q(i, '[data-cp="bell"] span'); if (!b) return; const n = 3 - this.world.done.size; if (n <= 0) b.style.display = 'none'; else b.textContent = n; }
+  inboxCount(i) { const tab = this.findHas(i, 'NEEDS YOU'); tab && this.setNum(tab, String(Math.max(0, 3 - this.world.done.size))); }
+  inboxMount(i) { const map = { boat: 'BOAT DAY CLOSES FRIDAY', dinner: 'MOVE DINNER TO 21:00?', dev: 'KYOTO: REPLIES DUE SEP 30' }; this.world.done.forEach(k => { const e = this.findHas(i, map[k]); if (e) this.cardOf(e, i.el, 60).style.display = 'none'; }); this.inboxCount(i); }
+  handle(i, el, key, msg, k) {
+    const W = this.world.done; if (W.has(key)) return; W.add(key); this.pop(el);
+    const card = this.cardOf(el, i.el, 60); this.after(i, 160, () => this.slideOff(card, () => { if (W.size >= 3) this.after(i, 380, () => this.go('All caught up', 'fade', { replace: 1 })); }));
+    this.inboxCount(i); if (msg) this.toast(msg, { k });
+  }
+  vote(i, el, ky) {
+    el.style.transformOrigin = ky ? '50% 100%' : '50% 0%'; el.animate([{ transform: 'none' }, { transform: 'scale(.985,.95)', offset: .35 }, { transform: 'scale(1.005,1.02)', offset: .7 }, { transform: 'none' }], { duration: 460, easing: 'ease-out' });
+    const vs = this.findHas(i, 'VS'); vs && vs.animate([{ translate: '0 0' }, { translate: `0 ${ky ? 34 : -34}px`, offset: .35 }, { translate: '0 0' }], { duration: 520, easing: 'cubic-bezier(.3,1.4,.5,1)' });
+    if (!ky) return this.toast('Sardi thanks you. Kyoto still leads 4–2.', { k: 'sardine' });
+    if (i.voted) return; i.voted = 1; this.after(i, 450, () => this.toast('Rin and Dev just voted.', { k: 'tanuki' })); this.after(i, 1500, () => this.go('Kyoto wins', 'burst'));
+  }
+  swipe(i) {
+    const card = this.q(i, '[style*="height:462px"] > tg-motion'); if (!card) return; card.start = () => {}; (card.anims || []).forEach(a => a.cancel()); i.card = card;
+    i.drags.push({ el: card, down: () => { card.style.transition = 'none'; }, move: ({ dx, dy }) => { if (!i.fl) card.style.transform = `translate(${dx}px,${dy * .3}px) rotate(${dx / 14}deg)`; }, up: ({ dx }) => { if (i.fl) return; if (Math.abs(dx) > 110) this.fling(i, dx > 0 ? 1 : -1); else { card.style.transition = 'transform .45s cubic-bezier(.3,1.5,.5,1)'; card.style.transform = ''; } } });
+  }
+  fling(i, dir) {
+    const card = i.card; if (!card || i.fl) return; i.fl = 1;
+    const out = () => { card.style.transition = 'transform .4s cubic-bezier(.5,0,.8,.5), opacity .4s'; card.style.transform = dir > 0 ? 'translate(60px,-640px) rotate(10deg) scale(.7)' : 'translate(-560px,40px) rotate(-28deg)'; card.style.opacity = '0';
+      this.after(i, 430, () => { card.style.transition = 'none'; card.style.transform = 'translateY(26px) scale(.93)'; void card.offsetWidth; card.style.transition = 'transform .5s cubic-bezier(.3,1.4,.5,1), opacity .3s'; card.style.transform = ''; card.style.opacity = ''; const c = this.findHas(i, '12/30') || this.findHas(i, '/30'); if (c) { const m = this.tx(c).match(/(\d+)\/30/); m && this.setNum(c, String(+m[1] + 1)); } i.fl = 0; }); };
+    if (dir < 0) return out();
+    const r = this.rel(card), st = document.createElement('div'); st.textContent = 'MATCH';
+    st.style.cssText = `position:absolute;left:${r.l + r.w / 2}px;top:${r.t + r.h * .42}px;padding:6px 18px;border:5px solid #54d6a4;border-radius:14px;color:#54d6a4;background:rgba(23,20,42,.75);font:900 54px/1 Archivo,sans-serif;font-stretch:70%;letter-spacing:.04em;`;
+    this.fx.appendChild(st); st.animate([{ transform: 'translate(-50%,-50%) rotate(-14deg) scale(2.4)', opacity: 0 }, { transform: 'translate(-50%,-50%) rotate(-10deg) scale(.95)', opacity: 1, offset: .6 }, { transform: 'translate(-50%,-50%) rotate(-10deg) scale(1)', opacity: 1 }], { duration: 360, easing: 'cubic-bezier(.5,0,.8,.4)', fill: 'forwards' });
+    this.after(i, 330, () => this.thud());
+    this.after(i, 760, () => { st.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: 'forwards' }).finished.then(() => st.remove()); out(); this.toast("Tirta Empul's in the plan for Day 3."); });
+  }
+  boardSetup(i) {
+    const an = this.choreo(i, 6000), track = this.q(i, '[style*="height:68px;border-radius:34px"]'); if (!track || !an.length) return;
+    const inv = p => { let lo = 0, hi = 1; for (let n = 0; n < 18; n++) { const m = (lo + hi) / 2; if (3 * m * m - 2 * m * m * m < p) lo = m; else hi = m; } const t = (lo + hi) / 2; return 3 * (1 - t) * (1 - t) * t * .65 + 3 * (1 - t) * t * t * .35 + t * t * t; };
+    const set = p => an.forEach(a => { a.currentTime = 600 + inv(p) * 1440; });
+    let p = 0, p0 = 0, done = false; set(0);
+    i.drags.push({ el: track, down: () => { p0 = p; }, move: ({ dx }) => { if (done) return; p = Math.max(0, Math.min(1, p0 + dx / 282)); set(p); }, up: () => {
+      if (done) return;
+      if (p > .7) { done = true; const c0 = 600 + inv(p) * 1440; an.forEach(a => { a.currentTime = c0; a.play(); }); this.after(i, Math.max(0, 2400 - c0), () => { this.burstIn(i); this.thud(); }); this.after(i, 5280 - c0, () => an.forEach(a => { a.pause(); a.currentTime = 5280; })); this.after(i, 6200 - c0, () => this.go("Who's in", 'push', { then: () => this.toast("Rin's in. Five of six have boarded.", { k: 'tanuki' }) })); }
+      else { const s = p, t0 = performance.now(); const f = now => { const k = Math.min(1, (now - t0) / 280); p = s * Math.pow(1 - k, 3); set(p); if (k < 1 && !done) requestAnimationFrame(f); }; requestAnimationFrame(f); }
+    } });
+  }
+  holdSetup(i, o = {}) {
+    const ring = this.q(i, '[data-cp="ring"]') || this.q(i, '[style*="conic-gradient(#54d6a4 0 62%"]'), crit = this.q(i, 'tg-motion[fx="hop"]') || this.q(i, 'tg-motion[fx="float"]'), col = o.col || '#54d6a4'; if (!ring) return;
+    let p = 0, raf = 0, dir = 0, last = 0, done = false;
+    const paint = () => { ring.style.background = `conic-gradient(${col} 0 ${(p * 100).toFixed(1)}%,#2c2750 0)`; if (crit) crit.style.scale = String(1 + p * .3); };
+    const loop = now => { const dt = now - last; last = now; p = Math.max(0, Math.min(1, p + dir * dt / (dir > 0 ? (o.ms || 1500) : 450))); paint();
+      if (p >= 1 && !done) { done = true; ring.style.scale = ''; this.thud(); this.confetti(195, 600, 40); this.after(i, 300, () => o.done ? o.done() : this.go('Befriended', 'burst')); return; }
+      if ((dir > 0 && p < 1) || (dir < 0 && p > 0)) raf = requestAnimationFrame(loop); };
+    const run = d => { if (done) return; dir = d; cancelAnimationFrame(raf); last = performance.now(); raf = requestAnimationFrame(loop); };
+    paint(); i.drags.push({ el: ring, down: () => { ring.style.transition = 'scale .15s'; ring.style.scale = '.94'; run(1); }, up: () => { ring.style.scale = ''; run(-1); } });
+  }
+  toPass(i) {
+    const src = this.qa(i, 'doodle-art').sort((a, b) => (+b.getAttribute('size') || 0) - (+a.getAttribute('size') || 0))[0]; let cl = null;
+    if (src) { const r = this.rel(src); cl = document.createElement('doodle-art'); [...src.attributes].forEach(a => cl.setAttribute(a.name, a.value)); cl.setAttribute('anim', 'none'); cl.setAttribute('blink', 'false'); cl.style.cssText = `position:absolute;left:${r.l}px;top:${r.t}px;transform-origin:0 0;`; this.fx.appendChild(cl); cl._r = r; }
+    this.tab('Your pass', { then: () => {
+      if (!cl) return; const inst = this.top(), cell = this.q(inst, '[data-cp="fly"]'), dst = cell && cell.querySelector('doodle-art'); if (!dst) return cl.remove();
+      const a = cl._r, b = this.rel(dst), s = b.w / a.w; dst.style.opacity = 0;
+      cl.animate([{ transform: 'none' }, { transform: `translate(${(b.l - a.l) * .5}px,${(b.t - a.t) * .5 - 140}px) scale(${(1 + s) / 2}) rotate(-14deg)`, offset: .5 }, { transform: `translate(${b.l - a.l}px,${b.t - a.t}px) scale(${s})` }], { duration: 780, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' }).finished.then(() => { cl.remove(); dst.style.opacity = ''; this.pop(cell); this.thud(); this.toast("Temple Tokek is on your pass. That's 2 of Tokek's 4 forms."); });
+    } });
+  }
+  passFilter(i, n) {
+    const show = (el, on) => { if (!el) return; const was = el.style.display !== 'none'; el.style.display = on ? '' : 'none'; if (on && !was) el.animate([{ opacity: 0, translate: '0 10px' }, { opacity: 1, translate: '0 0' }], { duration: 320, easing: this.E }); };
+    this.qa(i, '[data-cp="row"]').forEach(r => show(r, r.dataset.near ? n === 2 : (n === 0 || (n === 1 && r.dataset.got !== '0'))));
+    show(this.q(i, '[data-cp="vn"]'), n !== 2); show(this.q(i, '[data-cp="ranklab"]'), n !== 2); if (this.state.hints) this.drawHints();
+  }
+  variant(i, box) {
+    const v = box.querySelector('doodle-art'), big = this.qa(i, 'doodle-art').sort((a, b) => (+b.getAttribute('size') || 0) - (+a.getAttribute('size') || 0))[0]; if (!v || !big || v === big) return;
+    ['fill', 'spot', 'accent', 'belly', 'pose'].forEach(a => v.hasAttribute(a) ? big.setAttribute(a, v.getAttribute(a)) : big.removeAttribute(a));
+    const D = box.dataset, card = this.q(i, '[data-cp="dcard"]');
+    if (D.bg && card) { card.style.transition = 'background-color .4s'; card.style.backgroundColor = D.bg; const tg = this.q(i, '[data-cp="dtag"]'), nm = this.q(i, '[data-cp="fname"]'), nt = this.q(i, '[data-cp="fnote"]'); if (tg) { tg.textContent = D.tag; tg.style.color = D.bg; } if (nm) nm.innerHTML = D.name; if (nt) { nt.textContent = D.note; nt.style.color = D.bg; } this.qa(i, '[data-cp="form"]').forEach(f => { const s = f.querySelector('span'); f.style.boxShadow = f === box && s ? `inset 0 0 0 2px ${s.style.color}` : ''; }); i.txt = null; }
+    big.animate([{ transform: 'perspective(600px) rotateY(0deg) scale(1)' }, { transform: 'perspective(600px) rotateY(180deg) scale(.9)', offset: .5 }, { transform: 'perspective(600px) rotateY(360deg) scale(1)' }], { duration: 560, easing: this.E }); this.pop(box);
+  }
+  keypad(i) {
+    const amt = this.q(i, '[data-cp="amount"]'), conv = this.q(i, '[data-cp="conv"]'), add = this.q(i, '[data-cp="add"]'); i.v = '450000';
+    const fmt = v => Number(v).toLocaleString('id-ID'), short = v => v >= 1e6 ? (v / 1e6).toFixed(1).replace('.0', '') + 'M' : v >= 1000 ? Math.round(v / 1000) + 'K' : String(v);
+    const render = () => { const v = +i.v || 0, usd = v / 15835; if (amt) { amt.textContent = fmt(v); amt.animate([{ translate: '0 -6px', opacity: .5 }, { translate: '0 0', opacity: 1 }], { duration: 180, easing: 'ease-out' }); } if (conv) conv.textContent = `≈ $${usd.toFixed(2)} · $${(usd / 6).toFixed(2)} each`; if (add) { add.textContent = v ? 'ADD RP ' + short(v) : 'ADD'; add.style.transition = 'opacity .2s'; add.style.opacity = v ? '' : '.4'; } };
+    this.qa(i, '[data-cp="key"]').forEach(k => this.bind(i, k, () => { const t = this.tx(k); if (t === '⌫') i.v = i.v.slice(0, -1) || '0'; else if (i.v.length < 10) i.v = (i.v === '0' ? '' : i.v) + t; render(); }));
+    this.radio(i, this.qa(i, '[data-cp="payer"]'), (x, on) => { x.style.boxShadow = on ? '0 0 0 2px #17142a,0 0 0 4px #ffd84a' : '0 0 0 2px #17142a'; });
+    if (add) this.bind(i, add, () => { const v = +i.v || 0; if (!v) return this.shake(add); this.back(); this.toast(`Added Rp ${fmt(v)}, $${(v / 15835 / 6).toFixed(2)} each.`); });
+  }
+  notSure(i) {
+    const cols = ['#ffd84a', '#ff5fa8', '#4f86ff', '#54d6a4'], LN = ['', 'Apr 2–9 is locked, but I can fly you in a day later.', "Tell me which day bugs you and I'll redraft it.", "Type it here. Winston won't see it."], offer = this.q(i, '[data-cp="offer"]');
+    this.radio(i, this.qa(i, '[data-cp="reason"]'), (x, on, m) => this.chipStyle(x, on, cols[m]), n => { if (offer) { offer.style.transition = 'opacity .3s'; offer.style.opacity = n ? '.35' : ''; } if (n) this.toast(LN[n], { k: 'tanuki' }); });
+    const tg = this.qa(i, '[data-cp="offer"] [style*="width:46px;height:28px"]'), share = this.q(i, '[data-cp="share"]'), cta = this.q(i, '[data-cp="in"]'); i.v = 1170;
+    tg.forEach(t => this.bind(i, t, () => { this.toggle(t); const on = tg.map(x => /54d6a4|84, 214, 164/.test(x.style.background)), v = 1310 - (on[0] ? 140 : 0) - (on[1] ? 64 : 0); this.count(share, i.v, v, x => '$' + x.toLocaleString('en-US')); i.v = v; if (share && share.nextElementSibling) share.nextElementSibling.style.opacity = v === 1310 ? '0' : ''; cta && this.flap(cta, v === 1310 ? "I'M IN" : `I'M IN AT $${v.toLocaleString('en-US')}`); }, { nopress: 1 }));
+  }
+  online(i, el) {
+    if (i.on) return; i.on = 1; el.style.transition = 'background .3s,color .3s'; el.style.background = '#54d6a4'; el.style.color = '#17142a'; this.setTxt(el, 'BACK ONLINE'); this.pop(el);
+    const tick = this.q(i, '[style*="border-radius:10px;background:#54d6a4"]');
+    this.qa(i, '[style*="box-shadow:inset 0 0 0 2px #ffd84a"]').forEach((m, n) => this.after(i, 350 + n * 330, () => { if (!tick) return; const t = tick.cloneNode(true); m.replaceWith(t); t.animate([{ scale: '0' }, { scale: '1.25', offset: .6 }, { scale: '1' }], { duration: 380, easing: 'ease-out' }); }));
+    const lab = this.findHas(i, "SENDS WHEN YOU'RE BACK"); lab && this.after(i, 1400, () => this.flap(lab, 'SENT'));
+    this.toast('Back online. 12 photos and a message sent.');
+  }
+  decide(i, el, msg, row) {
+    if (i.dec) return; i.dec = 1; const tm = el.closest('tg-motion'); if (tm) { (tm.anims || []).forEach(a => a.cancel()); tm.start = () => {}; }
+    this.pop(el); this.after(i, 160, () => this.slideOff(tm || this.cardOf(el, i.el, 60)));
+    const lab = this.findHas(i, 'ALREADY DONE'), list = lab && lab.parentElement, rows = list ? [...list.children].filter(c => c.querySelector('doodle-art')) : [], last = rows[rows.length - 1];
+    if (last) { const dv = document.createElement('div'); dv.style.cssText = 'height:1px;background:rgba(255,255,255,.07)'; const nr = last.cloneNode(true), sp = [...nr.querySelectorAll('span')].pop(); if (sp) sp.textContent = row; this.after(i, 560, () => { list.append(dv, nr); nr.animate([{ opacity: 0, translate: '0 -8px' }, { opacity: 1, translate: '0 0' }], { duration: 380, easing: this.E }); }); }
+    this.toast(msg);
+  }
+  paid(i, el) { if (el.dataset.on) return; el.dataset.on = 1; this.flap(el, 'PAID ✓'); el.style.transition = 'background .3s,color .3s'; el.style.background = '#54d6a4'; el.style.color = '#17142a'; i.paid = (i.paid || 0) + 1; if (i.paid >= 2) this.after(i, 450, () => { this.confetti(195, 420, 110); this.toast('All square. Everyone gets the Settled Tokek.'); }); }
+  strike(el) { const on = !el.dataset.st && !/line-through/.test(getComputedStyle(el).textDecorationLine); el.dataset.st = on ? '1' : ''; el.style.textDecoration = on ? 'line-through' : 'none'; el.style.transition = 'opacity .2s'; el.style.opacity = on ? '.5' : '1'; this.pop(el); }
+  wake(el) { el.setAttribute('pose', 'wave'); el.animate([{ translate: '0 0' }, { translate: '0 -16px', offset: .4 }, { translate: '0 0' }], { duration: 420, easing: 'ease-out' }); this.toast('Nothing needs you yet. Back to sleep.'); setTimeout(() => el.isConnected && el.setAttribute('pose', 'sleep'), 2200); }
+
+  addMust(w) { this.world.must = w; this.back(); this.toast(`Dev added ${w[0]}. All six must-dos are in.`, { k: 'tanuki' }); }
+  mustRow(i) {
+    const w = this.world.must; if (!w) return; const r = this.findHas(i, 'Dev is typing'), row = r && this.cardOf(r, i.el, 40); if (!row || row.dataset.done) return; row.dataset.done = 1;
+    Object.assign(row.style, { border: '0', background: '#1f1b38' }); const tm = row.querySelector('tg-motion'), blk = document.createElement('div');
+    blk.style.cssText = 'display:flex;flex-direction:column;gap:2px;flex:1;min-width:0'; blk.innerHTML = `<span style="font:900 16px/1 Archivo,sans-serif;font-stretch:78%;letter-spacing:.02em">${w[0]}</span><span style="font:500 12px/1.4 Geist,sans-serif;color:#a9a3c0">${w[1]}</span>`; r.replaceWith(blk);
+    if (tm) { const ck = document.createElement('doodle-art'); [['kind', 'check'], ['size', '18'], ['ink', '#54d6a4'], ['blend', 'source-over'], ['anim', 'none']].forEach(([a, v]) => ck.setAttribute(a, v)); tm.replaceWith(ck); }
+    const ln = this.findHas(i, 'All five fit'); ln && this.setTxt(ln, 'All six fit. The ramen goes on Day 1, right after you land.');
+    row.animate([{ transform: 'scale(.96)' }, { transform: 'scale(1.03)', offset: .5 }, { transform: 'none' }], { duration: 420, easing: 'ease-out' }); i.txt = null;
+  }
+  dayPicker(i) {
+    const D = [['NISHIKI AT DUSK', 'Land 11:20 · ryokan in Gion · Nishiki before dinner'], ['INARI AT 6AM', 'Gates before the crowds · tea ceremony at 15:00'], ['ARASHIYAMA AT DAWN', 'Bamboo at 6 · kaiseki lunch at Shigetsu'], ['NARA DEER', '09:12 train, 45 min each way · deer park and Tōdai-ji · move to Shijo at 15:00'], ['NOTHING. BLISS.', 'Nothing booked, on purpose'], ['NINTENDO MUSEUM', 'Uji · lottery result on Mar 1'], ['PONTOCHO AT NIGHT', 'Gion walk · alley dinner by the river'], ['FLY HOME', 'Checkout 10:00 · train to Kansai']];
+    const SAY = { 0: 'Day 1 bends around the flights, but dinner can move.', 4: "Day 5 is empty on purpose. I'd fight you on this one." }, info = this.q(i, '[data-cp="dayinfo"]'), cta = this.findHas(i, 'REDRAFT DAY 4'); i.day = 3;
+    this.radio(i, this.qa(i, '[data-cp="day"]'), (x, on) => { x.style.background = on ? '#ffd84a' : '#1f1b38'; x.style.color = on ? '#17142a' : '#f4efe4'; const s = x.children[1]; if (s) s.style.color = on ? '' : '#a9a3c0'; }, n => {
+      i.day = n; if (info) { const t = info.children[0], hd = t && t.children[0], tg = t && t.children[1]; if (hd) hd.textContent = `DAY ${n + 1} · ${D[n][0]}`; if (tg) tg.style.visibility = n === 3 ? '' : 'hidden'; if (info.children[1]) info.children[1].textContent = D[n][1]; info.animate([{ opacity: .3, translate: '0 6px' }, { opacity: 1, translate: '0 0' }], { duration: 260, easing: 'ease-out' }); }
+      if (cta) this.flap(cta, `REDRAFT DAY ${n + 1}`); if (SAY[n]) this.toast(SAY[n], { k: 'tanuki' }); i.txt = null;
+    });
+    const COLS = ['#ffd84a', '#54d6a4', '#ff5fa8', '#ff9a4d', '#4f86ff', '#f4efe4'];
+    this.qa(i, '[data-cp="why"]').forEach((el, n) => this.bind(i, el, () => { const b = el.style.backgroundColor, on = b && b !== 'transparent' && b !== 'rgba(0, 0, 0, 0)'; this.chipStyle(el, !on, COLS[n]); this.pop(el); }, { nopress: 1 }));
+  }
+  redraft(i, el) {
+    if (i.busyR) return; i.busyR = 1; this.flap(el, 'REDRAFTING…');
+    if (i.day === 3) return this.after(i, 900, () => this.go("Pon's redraft", 'fold', { replace: 1 }));
+    this.after(i, 1100, () => { this.back(); this.toast(`Pon redrafted Day ${i.day + 1}. Small changes, all in your draft.`, { k: 'tanuki' }); });
+  }
+  redraftRow(i) { if (!this.world.redraft || i.rd) return; const t = this.findHas(i, 'NARA DEER'); if (!t) return; i.rd = 1; this.flap(t, "PHILOSOPHER'S PATH"); const s = t.nextElementSibling; if (s) this.after(i, 200, () => this.setTxt(s, 'MON · Canal boat at 12:30 · move to Shijo')); }
+  rateNext(i, el) {
+    const L = [['CAMPUHAN RIDGE', 'DAY 3', 'The ridge walk at golden hour, knee and all.', '#26402c', 'photo · Campuhan Ridge'], ['WARUNG PONDOK', 'DAY 2', "Alex's best find. Nasi campur for Rp 35k.", '#6b2b1c', 'photo · Warung Pondok'], ['BATUR SUMMIT', 'DAY 4', 'Sunrise at 1,717 m. You found Sunrise Tokek.', '#3a2a4a', 'photo · Batur summit'], ['NUSA PENIDA', 'DAY 6', 'Boat day, moved to Saturday. Flat calm.', '#1d3a52', 'photo · Kelingking']];
+    const card = this.q(i, '[data-cp="rcard"]'); if (!card || i.rbusy) return; i.rn = i.rn || 0;
+    if (i.rn >= L.length) return this.toast('All rated. Your tips are live for crews planning Bali.');
+    i.rbusy = 1; const t = this.tx(el), up = /LOVED/.test(t), dir = /SKIP/.test(t) ? -1 : 1; this.pop(el); if (up) this.float(el, '♥');
+    card.animate([{ transform: 'none', opacity: 1 }, { transform: up ? 'translateY(-440px) rotate(-6deg)' : `translateX(${dir * 440}px) rotate(${dir * 14}deg)`, opacity: 0 }], { duration: 380, easing: 'cubic-bezier(.5,0,.8,.4)', fill: 'forwards' }).finished.then(() => {
+      const [n, d, s, bg, ph] = L[i.rn++], nm = this.q(i, '[data-cp="rname"]'), dy = this.q(i, '[data-cp="rday"] span'), sb = this.q(i, '[data-cp="rsub"]'), pd = card.firstElementChild, pl = pd && pd.querySelector('span'), cnt = this.q(i, '[data-cp="rcount"]');
+      if (nm) nm.textContent = n; if (dy) dy.textContent = d; if (sb) sb.textContent = s; if (pd) pd.style.backgroundColor = bg; if (pl) pl.textContent = ph; if (cnt) cnt.textContent = `${3 + i.rn} OF 11`;
+      card.getAnimations().forEach(a => a.cancel()); card.animate([{ transform: 'translateY(26px) scale(.94)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 420, easing: 'cubic-bezier(.3,1.4,.5,1)' }); i.rbusy = 0; i.txt = null;
+    });
+  }
+  ratePrompt(i) { if (this.world.rp) return; this.world.rp = 1; this.after(i, 1600, () => this.toast('Rate the trip? Thirty seconds, and it helps the next crew.', { ms: 5600, tap: () => this.go('Rate the trip') })); }
+  avatarPick(i, el) {
+    const src = el.querySelector('doodle-art'); if (!src) return; const ring = el.dataset.ring === '#3a3466' ? '#6f698c' : el.dataset.ring;
+    this.qa(i, '[data-cp="av"]').forEach(c => { c.style.boxShadow = c === el ? '0 0 0 3px #17142a,0 0 0 5px #ffd84a' : `0 0 0 2px ${c.dataset.ring}`; });
+    this.qa(i, '[data-cp="avbig"] doodle-art, [data-cp="avmini"] doodle-art').forEach(d => ['kind', 'fill', 'spot', 'accent', 'belly', 'pose'].forEach(a => src.hasAttribute(a) ? d.setAttribute(a, src.getAttribute(a)) : d.removeAttribute(a)));
+    const big = this.q(i, '[data-cp="avbig"]'); if (big) { big.style.boxShadow = `0 0 0 3px #17142a,0 0 0 5px ${ring}`; big.animate([{ transform: 'scale(.85)' }, { transform: 'scale(1.06)', offset: .6 }, { transform: 'none' }], { duration: 420, easing: 'ease-out' }); }
+    this.pop(el);
+  }
+  iconPick(i, el) {
+    const tile = el.firstElementChild, big = this.q(i, '[data-cp="iconbig"]'); if (!tile || !big) return;
+    big.style.background = tile.style.background; big.innerHTML = tile.innerHTML; const bx = big.firstElementChild; if (bx && /^scale/.test(bx.style.transform || '')) bx.style.transform = 'scale(' + (big.offsetWidth / 200) + ')';
+    big.animate([{ transform: 'scale(.82)' }, { transform: 'scale(1.08)', offset: .6 }, { transform: 'none' }], { duration: 420, easing: 'ease-out' });
+    this.qa(i, '[data-cp="icon"]').forEach(c => { if (c.children.length < 3) { c.firstElementChild.style.boxShadow = c === el ? '0 0 0 2px #17142a,0 0 0 4px #ffd84a' : '0 2px 0 rgba(0,0,0,.3)'; return; } const t = c.firstElementChild, s = c.lastElementChild, o = s.dataset.o || (s.dataset.o = this.tx(s) === 'In use' ? 'Default' : this.tx(s)); t.style.boxShadow = c === el ? '0 0 0 3px #17142a,0 0 0 5px #ffd84a' : '0 2px 0 rgba(0,0,0,.3)'; s.textContent = c === el ? 'In use' : o; s.style.color = c === el ? '#ffd84a' : '#a9a3c0'; });
+    this.pop(el); i.txt = null;
+  }
+  flow() {
+    const T = (s, k) => c => c.toast(s, { k });
+    const once = (s, t, k) => (c, el) => { if (el.dataset.on) return; el.dataset.on = 1; c.flap(el, s); t && c.toast(t, { k }); };
+    return {
+      'Join with a code': { tip: 'Tap the code boxes to see what a wrong code does.',
+        pre: (c, i) => { c.qa(i, '[data-cp="code"] > div').forEach((d, n) => c.drop(d, 420 + n * 70)); c.reveal(c.q(i, '[data-cp="pasted"]'), 900); c.reveal(c.q(i, '[data-cp="crew"]'), 1000); const tk = c.q(i, '[data-cp="tokek"] doodle-art'); tk && tk.animate([{ transform: 'scale(0) rotate(-24deg)' }, { transform: 'none' }], { duration: 520, delay: 1300, easing: 'cubic-bezier(.3,1.6,.5,1)', fill: 'backwards' }); },
+        b: [['JOIN THE BALI SIX', 'Your pass, three taps'], ['JOIN THE BALI SIX', (c, el) => c.go('Home', 'zoom', { src: el, then: () => c.toast("You're in the Bali Six. Tokek says hi.") })], [{ cp: 'code' }, (c, el, i) => c.badCode(i, el), { nopress: 1 }], ['Wrong crew? Ask Winston for a new code', 'back'], ['Paste a link', (c, el, i) => c.qa(i, '[data-cp="code"] > div').forEach((d, n) => c.drop(d, n * 60))]] },
+      'Home, first run': { b: [['JOIN WITH A CODE', ['Join with a code', 'sheet']], ...['BALI', 'KYOTO', 'ICELAND', 'MEXICO CITY', 'LISBON', 'CUSCO'].map(t => [{ t, card: 1 }, (c, el) => c.hopGo(el, 'Destination guide')]), [{ has: 'SOMEWHERE ELSE', card: 1 }, ['Somewhere else', 'sheet']]] },
+      'Home': { tip: 'Try the bell, the crew pill, the crew name, the Bali card and the vote board.', mount: (c, i) => c.badge(i), back: (c, i) => c.badge(i),
+        b: [[{ cp: 'bell' }, c => c.go(c.world.done.size >= 3 ? 'All caught up' : 'Inbox')], [{ cp: 'me' }, 'Profile'], [{ cp: 'crews' }, ['Crews', 'sheet']], [{ cp: 'crew' }, 'Crew chat'], [{ t: 'BALI', card: 1 }, ['Trip hub', 'zoom']], ['WHERE NEXT?', 'Vote showdown'], [{ has: 'KYOTO' }, 'Vote showdown'], [{ has: 'LISBON' }, ['Pitch a place', 'sheet']], [{ sel: '[style*="left:262px;top:160px"]' }, ['Pitch a place', 'sheet']], [{ has: 'Blossoms peak', card: 1 }, 'Destination guide']] },
+      'Pitch a place': { b: [['ADD TO THE VOTE', c => { c.back(); c.toast("Lisbon's on the board. 4 of 6 have voted.", { k: 'sardine' }); }], [{ has: 'PORTO', card: 1 }, T('Porto: $180 less, same sardines.', 'sardine')], [{ has: 'SEVILLE', card: 1 }, T('Seville is warmer in June.', 'sardine')]] },
+      'Inbox': { tip: 'Handle the three cards on top. Each slides away, and the inbox empties.', mount: (c, i) => c.inboxMount(i), seg: [['ALL', 'NEEDS YOU', 'CREW', 'GUIDES']],
+        b: [['BOAT DAY CLOSES FRIDAY', 'Live collab'], ['NUSA PENIDA', (c, el, i) => c.handle(i, el, 'boat', 'Voted Nusa Penida. It leads 5–2.')], ['GILI T', (c, el, i) => c.handle(i, el, 'boat', 'Voted Gili T. Penida still leads 4–3.')], ['MOVE DINNER TO 21:00?', 'Flight delayed'], ['APPROVE', (c, el, i) => c.handle(i, el, 'dinner', 'Dinner moved to 21:00. The crew has been told.')], ['KEEP 19:30', (c, el, i) => c.handle(i, el, 'dinner', 'Kept 19:30. Tokek let the hold go.')], ['KYOTO: REPLIES DUE SEP 30', "Who's in"], ['NUDGE DEV', (c, el, i) => c.handle(i, el, 'dev', 'Pon will nudge Dev at 21:00, when he opens things.', 'tanuki')], ['MARK ALL READ', T('Marked read. The three on top still need you.')], ['UNDO', T("Rin's pickup is back at 21:10.")], [{ has: 'Maya reacted', up: 1 }, ['Proposal trailer', 'sheet']], [{ has: 'Jordan paid you back', up: 1 }, 'Settle up']] },
+      'All caught up': { tip: 'Tap the sleeping gecko.', seg: [['ALL', 'NEEDS YOU', 'CREW', 'GUIDES']], b: [[{ sel: 'doodle-art[pose="sleep"]' }, (c, el) => c.wake(el)]] },
+      'Vote showdown': { tip: 'Tap a half to vote. Kyoto takes it once Rin and Dev are in.', b: [[{ sel: '[style*="height:422px;background:#ff9a4d"]' }, (c, el, i) => c.vote(i, el, 1), { nopress: 1 }], [{ sel: '[style*="top:422px;bottom:0;background:#4f86ff"]' }, (c, el, i) => c.vote(i, el, 0), { nopress: 1 }]] },
+      'Kyoto wins': { tip: 'Everyone sees this reveal once, the next time they open the app.',
+        pre: (c, i) => { const s = c.q(i, '[data-cp="stamp"]'); s && s.animate([{ transform: 'scale(2.6) rotate(-8deg)', opacity: 0 }, { transform: 'scale(.95) rotate(-1deg)', opacity: 1, offset: .7 }, { transform: 'none', opacity: 1 }], { duration: 480, delay: 560, easing: 'cubic-bezier(.5,0,.8,.4)', fill: 'backwards' }); c.reveal(c.q(i, '[data-cp="score"]'), 950); c.reveal(c.q(i, '[data-cp="tally"]'), 1100); },
+        enter: (c, i) => c.after(i, 280, () => { c.thud(); c.burstIn(i); }), b: [['SET UP KYOTO', 'When'], ['Lisbon goes back in the deck for next time', T("Sardi's saving his June pitch for next time.", 'sardine')]] },
+      'When': { tip: 'Lock the week. For the version where no week fits, use Other states.', b: [['LOCK APR 2–9', 'Budget'], ['2 BUDGET', 'Budget'], ['3 ROOMS', 'Rooms'], ['4 MUST-DOS', 'Must-dos']] },
+      'No week fits': { tip: 'Pick a way out. Asking Dev plays out the best case.',
+        mount: (c, i) => { i.opt = 2; c.radio(i, c.qa(i, '[data-cp="opt"]'), (x, on) => { x.style.boxShadow = on ? 'inset 0 0 0 2px #ffd84a' : ''; }, n => { i.opt = n; const cta = c.findHas(i, 'ASK DEV') || i.cta; if (cta) { i.cta = cta; c.flap(cta, ['LOCK APR 2–9', 'LOCK APR 16–23', 'ASK DEV'][n]); } }); },
+        b: [['ASK DEV', (c, el, i) => { i.cta = el; if (i.opt < 2) return c.go('Budget'); if (i.asked) return; i.asked = 1; c.flap(el, 'ASKING DEV…'); c.toast('Pon messaged Dev privately.', { k: 'tanuki' }); c.after(i, 1900, () => c.toast('Dev: "It was the dentist. Moving it."', { k: 'tanuki' })); c.after(i, 3700, () => c.go('When', 'fade', { replace: 1 })); }], ['Pick a week anyway', 'Budget']] },
+      'Budget': { b: [['LOOKS GOOD', 'Rooms'], ['APR 2–9 ✓', c => c.stepTo('When')], ['3 ROOMS', 'Rooms'], ['4 MUST-DOS', 'Must-dos']] },
+      'Rooms': { b: [['LOOKS GOOD', 'Must-dos'], ['BUDGET ✓', c => c.stepTo('Budget')], ['4 MUST-DOS', 'Must-dos']] },
+      'Must-dos': { tip: "Tap the row where Dev is typing to see the prompt everyone gets.", mount: (c, i) => c.mustRow(i), back: (c, i) => c.mustRow(i), b: [[{ has: 'Dev is typing', card: 1 }, (c, el) => el.dataset.done ? c.toast(`Dev is in: ${c.world.must[0]}.`, { k: 'tanuki' }) : c.go('Add a must-do', 'sheet')], ['DRAFT MY TRIP', ['Pon is drafting', 'fold']], ['ROOMS ✓', c => c.stepTo('Rooms')], ['ENTERED', T('Entered all six of you. Results on March 1.', 'tanuki')]] },
+      'Pon is drafting': { tip: 'Takes about five seconds here. Tap anywhere to skip.', enter: (c, i) => c.after(i, 5200, () => c.go("Pon's draft", 'fold', { replace: 1 })), tap: c => c.go("Pon's draft", 'fold', { replace: 1 }) },
+      "Pon's draft": { back: (c, i) => c.redraftRow(i), pre: (c, i) => { const d = c.q(i, '[data-cp="days"]'); d && [...d.children].filter(r => r.offsetHeight > 20).forEach((r, n) => r.animate([{ opacity: 0, translate: '0 -12px' }, { translate: '0 0' }], { duration: 400, delay: 520 + n * 80, easing: c.E, fill: 'backwards' })); }, b: [['BUILD THE PROPOSAL', 'Build the proposal'], ['Ask Pon to change a day', ['Change a day', 'sheet']]] },
+      'Destination guide': { b: [[{ cp: 'crewplans' }, 'Crew plans'], ['♡ SAVE', once('♥ SAVED', 'Saved to your Kyoto list.', 'tanuki')], [{ t: 'FUSHIMI INARI', card: 1 }, ['Place detail', 'zoom']], ['PITCH TO THE CREW', c => c.go('Vote showdown', 'push', { then: () => c.toast("Kyoto's on the board.", { k: 'tanuki' }) })], ['SOLO TRIP', T('Solo trips skip the vote. Pon plans for one.', 'tanuki')]] },
+      'Swipe together': { tip: 'Drag the card, or use ✕ and the green button. A yes makes a match.', mount: (c, i) => c.swipe(i), b: [['✕', (c, el, i) => c.fling(i, -1)], [{ sel: '[style*="width:60px;height:60px;border-radius:30px;background:#54d6a4"]' }, (c, el, i) => c.fling(i, 1)], ['WHY THIS?', T("Alex and Rin said yes, and it's 45 minutes from the villa.")]] },
+      'Place detail': { b: [['↗', T('Link copied. It opens in the app for the crew.', 'tanuki')], [{ has: 'ADD TO DAY 2', card: 1 }, (c, el) => { if (el.dataset.on) return; el.dataset.on = 1; el.style.transition = 'background .3s'; el.style.background = '#54d6a4'; c.pop(el); c.toast('Added to Day 2 at 06:00.', { k: 'tanuki' }); }], ['18 min from the ryokan', 'Map']] },
+      'Map': { mount: (c, i) => ['SAVED', 'CREW PICKS', 'FOOD', 'OPEN NOW'].forEach(t => { const e = c.findHas(i, t); e && !e.__cp && c.bind(i, e, () => { e.style.transition = 'opacity .2s'; e.style.opacity = e.style.opacity === '0.5' ? '' : '0.5'; c.pop(e); ['ARASHIYAMA', 'GION', 'NISHIKI'].forEach((p, n) => { const pin = c.findHas(i, p); pin && pin.parentElement.animate([{ translate: '0 -26px', opacity: 0 }, { translate: '0 0', opacity: 1 }], { duration: 420, delay: n * 70, easing: 'cubic-bezier(.3,1.6,.5,1)', fill: 'backwards' }); }); }, { nopress: 1 }); }), b: [[{ t: '18 min by train', card: 1 }, ['Place detail', 'zoom']], ['Search Kyoto', T('Search works offline once Kyoto is saved.', 'tanuki')]] },
+      'Trip plan': { tip: 'Each day opens something. Try Wednesday and Friday.', seg: [['LIST', 'MAP', 'CALENDAR']], b: [['SHARE', ['Share the plan', 'sheet']], [{ t: 'ARRIVE + POOL', card: 1 }, 'Getting around'], [{ t: 'UBUD CENTRE', card: 1 }, 'Swipe together'], [{ t: 'SLOW UBUD', card: 1 }, 'Day planning'], [{ t: 'BATUR SUNRISE', card: 1 }, 'Day-of'], [{ t: 'BOAT DAY', card: 1 }, 'Live collab'], [{ t: 'FREE DAY', card: 1 }, T('Nothing booked. On purpose.')]] },
+      'Day planning': { tip: "Tap the dashed 17:00 block to take Tokek's suggestion.", b: [['MOVE IT', 'Review changes'], [{ t: 'RIDGE WALK', card: 1 }, (c, el, i) => { if (i.mv) return; i.mv = 1; const s = c.findHas(i, 'Ridge walk'), src = s && c.cardOf(s, i.el, 30); if (src) { const dy = c.rel(el).t - c.rel(src).t; src.animate([{ translate: '0 0' }, { translate: `0 ${dy}px` }], { duration: 560, easing: 'cubic-bezier(.3,1.3,.5,1)', fill: 'forwards' }); } el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: 'forwards' }); c.toast('Moved to 17:00. Golden hour, no rain.'); c.after(i, 1300, () => c.go('Review changes')); }]] },
+      'Review changes': { b: [['SEND TO CREW', c => c.go('Crew chat', 'push', { then: () => c.toast('Sent to the crew. It needs three yeses.') })], ['Apply to my plan only', c => { if (!c.popTo('Trip plan')) c.back(); c.toast('Applied to your plan only.'); }], ['✕', (c, el) => c.flap(el, c.tx(el) === '✕' ? '✓' : '✕')]] },
+      'Build the proposal': { seg: [['TRAILER', 'POSTER', 'POSTCARD']], b: [['PREVIEW AS RIN', ['Proposal trailer', 'sheet']], ['PREVIEW AS DEV', ['Proposal trailer', 'sheet']], ['SEND TO 5 FRIENDS', (c, el, i) => { if (i.sent) return; i.sent = 1; c.flap(el, 'SENDING…'); c.after(i, 900, () => c.go("Who's in", 'push', { then: () => c.toast('Sent. Five personal versions, written by Pon.', { k: 'tanuki' }) })); }]] },
+      'Proposal trailer': { tip: "I'M IN boards the trip. MAYBE opens a private word with Pon.", b: [["I'M IN", ['Slide to board', 'rise']], ['MAYBE', ['Not sure yet', 'sheet']], ['✕', c => c.stack.length > 1 ? c.back() : c.go('Your version', 'fade', { replace: 1 })], ['Tap for Day 3', (c, el, i) => { c.qa(i, 'tg-motion[dur="5000"]').forEach(m => (m.anims || []).forEach(a => { a.currentTime = 0; })); c.toast('Day 3: Arashiyama before the crowds.', { k: 'tanuki' }); }]] },
+      'Your version': { b: [["I'M IN", ['Slide to board', 'rise']], ['NISHIKI MARKET CRAWL', T("It's there because you picked street food.", 'tanuki')], ['ARASHIYAMA BEFORE 7AM', T("Because you're a sunrise chaser.", 'tanuki')], ['A WHOLE FREE AFTERNOON', T('Because you asked for an easy-ish pace.', 'tanuki')], [{ has: 'Skip the Nara day', card: 1 }, (c, el, i) => { i.nara = !i.nara; const s = i.share || (i.share = c.findHas(i, '$1,310')); c.count(s, i.nara ? 1310 : 1246, i.nara ? 1246 : 1310, v => '$' + v.toLocaleString('en-US')); c.pop(el); c.toast(i.nara ? 'Nara day skipped. $64 back.' : 'Nara is back in.', { k: 'tanuki' }); }]] },
+      'Not sure yet': { tip: 'Pick a reason, then flip the two options. The price follows.', mount: (c, i) => c.notSure(i), b: [[{ cp: 'in' }, ['Slide to board', 'rise']], ['Still thinking. Ask me on Sunday', c => { c.back(); c.toast('Pon will ask on Sunday. Winston only sees "maybe".', { k: 'tanuki' }); }]] },
+      'Slide to board': { tip: 'Drag the tanuki along the track to board.', pre: (c, i) => c.boardSetup(i) },
+      "Who's in": { tip: "Tap RESEND, then wait a moment for Dev's reply.", b: [['RESEND', (c, el, i) => { c.slideOff(el.parentElement); c.toast('Resending to Dev at 21:00, ramen crawl first.', { k: 'tanuki' }); c.after(i, 3400, () => c.toast('Dev replied to the Kyoto proposal.', { k: 'tanuki', ms: 5200, tap: () => c.go("Dev's out") })); }], ['OFFER', (c, el) => { c.slideOff(el.parentElement); c.toast('Offered the cheaper room to everyone. Nobody sees who asked.', { k: 'tanuki' }); }]] },
+      "Dev's out": { b: [['APPLY CHANGES', c => { c.back(); c.toast('Re-split for five. $1,334 each.', { k: 'tanuki' }); }], ['Ask the crew first', 'Crew chat']] },
+      'Crew chat': { tip: 'MAP in the header shows where everyone is during a trip.', b: [[{ cp: 'map' }, 'Crew map'], ...['YES', 'MAYBE', 'NO'].map(t => [t, (c, el) => { c.pop(el); c.float(el, '+1'); }]), ["I'M IN", (c, el, i) => { if (el.dataset.on) return; el.dataset.on = 1; c.flap(el, 'BOOKED ✓'); const s = c.findHas(i, '1 SLOT LEFT'); s && c.flap(s, 'FULL'); c.toast('Booked Karsa Spa at 14:00, split four ways.'); }], ['VIEW', 'Balances'], [{ t: 'Message, or @tokek', card: 1 }, ['Guide chat', 'sheet']]] },
+      'Live collab': { b: [[{ t: 'NUSA PENIDA', card: 1 }, (c, el) => { c.pop(el); c.float(el, '+1'); }], [{ t: 'GILI T', card: 1 }, (c, el) => { c.pop(el); c.float(el, '+1'); }], ['KEEP IT', T('Kept. Nusa Penida it is.')], ['UNDO', T("Undone. Jordan's +1 is back.")]] },
+      'Bookings': { b: [['REVIEW', 'Add a booking']] },
+      'Add a booking': { b: [['COPY', (c, el) => { c.flap(el, 'COPIED'); c.toast('Forward any confirmation to that address.'); }], [{ t: 'ADD', all: 1 }, (c, el, i) => { c.slideOff(c.cardOf(el, i.el, 60)); c.toast('Added to the wallet.'); }], ['IGNORE', (c, el, i) => c.slideOff(c.cardOf(el, i.el, 60))]] },
+      'Getting around': { b: [[{ t: 'SHOW THIS TO MADE', card: 1 }, (c, el) => { c.glow(el); c.toast('Reading it out in Indonesian.'); }], ['BOOK', once('BOOKED ✓', 'Car booked. Rp 60k, split six ways.')]] },
+      'Balances': { tip: 'SCAN and ADD are the two ways to log an expense.', b: [['SETTLE IN 3 TAPS', 'Settle up'], ['SCAN', ['Scan a receipt', 'sheet']], ['ADD', ['Add an expense', 'sheet']], ['BUDGET', 'Budget 3i-6'], [{ t: 'BABI GULING, IBU OKA', card: 1 }, T("Maya paid. Jordan skipped the pork, so he's out of that line.")]] },
+      'Add an expense': { tip: 'The keypad works, and so does PAID BY.', mount: (c, i) => c.keypad(i), seg: [['EVENLY', 'BY SHARE', 'CUSTOM']], b: [['SCAN INSTEAD', ['Scan a receipt', 'fade', { replace: 1 }]]] },
+      'Scan a receipt': { tip: 'For a scan that fails, use Other states.', b: [['SPLIT IT', c => { c.back(); c.toast("Split. Jordan's out of the pork line."); }], ['MAYA PAID', (c, el) => c.pop(el)]] },
+      "Couldn't read it": { b: [[{ has: 'TYPE THE LINES', card: 1 }, ['Add an expense', 'fade', { replace: 1 }]], [{ has: 'RETAKE, FLATTER', card: 1 }, ['Scan a receipt', 'fade', { replace: 1 }]], [{ has: 'SPLIT EVENLY', card: 1 }, c => { c.back(); c.toast('Split evenly, $11.37 each.'); }]] },
+      'Settle up': { tip: 'Tap REQUESTED and PENDING to watch the payments clear.', b: [['NUDGE', once('NUDGED', 'Nudged Jordan. Gently.')], ['REMIND EVERYONE', T('Reminded Jordan and Rin.')], ['REQUESTED', (c, el, i) => c.paid(i, el)], ['PENDING', (c, el, i) => c.paid(i, el)]] },
+      'Guide chat': { tip: 'Hold the input bar to talk. The quick actions open cars, menus and help.', seg: [['GROUP', 'JUST ME']], b: [['PROPOSE TO GROUP', c => c.go('Crew chat', 'fade', { replace: 1, then: () => c.toast('Posted to the crew as a vote.') })], [{ t: 'JUST ME', nth: 1 }, T('Applied to your plan only.')], ['CALL A CAR', ['Getting around', 'fade', { replace: 1 }]], ['TRANSLATE A MENU', ['Point and ask', 'fade', { replace: 1 }]], ['PHARMACY', ['Help', 'fade', { replace: 1 }]], [{ t: 'Ask, or hold to talk', card: 1 }, T('Hold to talk, or type.'), { hold: c => c.go('Voice', 'fade', { replace: 1 }) }]] },
+      'Voice': { b: [['SEND TO THE GROUP', c => c.go('Crew chat', 'fade', { replace: 1, then: () => c.toast('Sent to the crew with both swaps.') })]] },
+      'Point and ask': { b: [['ORDER FOR 6', T('Order card ready to show the waiter.')], ['SPLIT THE BILL', ['Scan a receipt', 'fade', { replace: 1 }]], ['LEAST SPICY?', T('Nasi campur without sambal. Safe for all six.')]] },
+      'Trip hub': { b: [['DONE', (c, el) => c.slideOff(el.parentElement)], ['NUDGE', once('SENT', 'Nudged Dev and Alex about visa cash.')], ['SET', once('SET ✓', 'The door code will pin itself to Day 1.')], [{ t: 'PLAN', card: 1 }, 'Trip plan'], [{ t: 'BOOKINGS', card: 1 }, 'Bookings'], [{ t: 'MONEY', card: 1 }, 'Balances'], [{ t: 'QUESTS', card: 1 }, 'Crew quests']] },
+      'Day-of': { tip: 'Tap the packing list to strike items off, or the temperature for the forecast.', mount: (c, i) => ['HEADLAMP', 'WARM LAYER', 'RP 50K FOR COFFEE', 'TRAIL SHOES'].forEach(t => { const e = c.findHas(i, t); e && !e.__cp && c.bind(i, e, (c2, el) => c.strike(el), { nopress: 1 }); }), b: [['9° AT THE TOP', 'Forecast'], [{ t: 'SUNRISE AT THE SUMMIT', card: 1 }, 'Offline at the top'], [{ t: 'TOYA DEVASYA HOT SPRINGS', card: 1 }, 'Bookings']] },
+      'Lock screen': { tip: 'Tap the live activity or a notification to open the app.', b: [[{ has: 'LEAVE BY', card: 1 }, ['Day-of', 'zoom']], [{ has: 'Rise and shine', card: 1 }, ['Day-of', 'zoom']], [{ has: 'good coffee', card: 1 }, ['Crew chat', 'zoom']]] },
+      'Offline at the top': { tip: 'Tap NO SIGNAL to bring the signal back.', b: [["OPEN TODAY'S PLAN", 'Day-of'], [{ has: 'NO SIGNAL' }, (c, el, i) => c.online(i, el)]] },
+      'Flight delayed': { tip: 'Answer the dinner question, then tell the crew.',
+        pre: (c, i) => { const hd = i.el.firstElementChild; hd && hd.animate([{ translate: '0 -90px' }, { translate: '0 6px', offset: .75 }, { translate: '0 0' }], { duration: 560, delay: 380, easing: 'ease-out', fill: 'backwards' }); c.qa(i, '[style*="border-radius:11px;background:#54d6a4"]').forEach((k, n) => k.animate([{ scale: '0' }, { scale: '1.25', offset: .6 }, { scale: '1' }], { duration: 380, delay: 900 + n * 420, easing: 'ease-out', fill: 'backwards' })); },
+        b: [['APPROVE', (c, el, i) => c.decide(i, el, 'Dinner is at 21:00 now. Locavore confirmed.', 'Locavore moved to 21:00 for six')], ['KEEP 19:30', (c, el, i) => c.decide(i, el, "Kept 19:30. You'll go straight from the airport.", 'Dinner stays at 19:30')], ['TELL THE CREW', (c, el, i) => c.go('Crew chat', 'push', { then: () => { c.toast('Crew told. Three of you land at 13:50.'); c.after(c.top(), 3600, () => c.toast('SQ 938 has landed at DPS.', { ms: 5200, tap: () => c.go('Egg hatch', 'burst') })); } })], ['Undo everything', T("Undid Tokek's changes. Pickup is back at 11:40.")]] },
+      'Help': { b: [[{ cp: 'call' }, (c, el) => { c.glow(el); c.toast('Calling 112. Your location is going to the crew.'); }], [{ cp: 'tile' }, (c, el) => c.toast({ 'HURT OR SICK': 'BIMC Ubud is 9 minutes away. The phrase card is ready.', 'LOST OR STOLEN': 'Freeze your cards first. Tokek has the police report steps.', "I'M LOST": 'Your pin went to the crew. Stay where you are.', 'MISSED A RIDE': 'Made is 20 minutes out. Tokek rebooked him.' }[c.tx(el)])], ['GO', 'Getting around'], [{ cp: 'phrase' }, (c, el) => { c.glow(el); c.toast('Playing: "Saya butuh dokter."'); }]] },
+      'Egg hatch': { pre: (c, i) => { i.an = c.choreo(i, 5000); }, enter: (c, i) => { (i.an || []).forEach(a => a.play()); c.after(i, 2100, () => { c.burstIn(i); c.thud(); }); c.after(i, 4300, () => (i.an || []).forEach(a => a.pause())); }, b: [['SAY HI', ['Guide chat', 'sheet']], ['Show me around later', c => c.tab('Trip hub')]] },
+      'Your pass': { tip: 'Open the Bali card for the four forms, the gold row for legendaries, or the Vietnam set. The tabs filter.', seg: [{ o: ['ALL', 'FOUND', 'NEAR ME'], f: (c, i, n) => c.passFilter(i, n) }], b: [[{ cp: 'here' }, ['Critter detail', 'zoom']], [{ cp: 'legend' }, 'Once a year'], [{ cp: 'vn' }, 'Vietnam set'], [{ cp: 'maya' }, 'Crew quests'], [{ cp: 'row', all: 1 }, (c, el) => { const g = +el.dataset.got, s = c.tx(el).replace(/\s*\d+\/\d+ FOUND.*$/, '').replace(/^#\d+\s*/, ''); c.toast(g ? `${s}: ${g} found so far.` : `${s}: nothing yet. Found by being there.`); }]] },
+      'Critter detail': { tip: 'Tap the found forms to swap the sticker. Locked ones say what they take.', b: [[{ cp: 'form', all: 1 }, (c, el, i) => c.variant(i, el), { nopress: 1 }], [{ cp: 'lockform', all: 1 }, (c, el) => { c.shake(el); if (el.dataset.tier === 'legend') c.toast('Golden Tokek: all six of you on Batur by sunrise.', { tap: () => c.go('Once a year') }); else c.toast("Sunrise Tokek: summit Batur by sunrise. That's tomorrow."); }], ['MAKE IT MY GUIDE', once('YOUR GUIDE ✓', 'Temple Tokek is your guide in Bali now.')], ['↗', T('Share card saved to Photos.')]] },
+      'Encounter': { tip: 'Press and hold HOLD until the ring fills.', pre: (c, i) => c.holdSetup(i), b: [[{ sel: 'tg-motion[fx="hop"]' }, (c, el) => { const d = el.firstElementChild; d && d.animate([{ translate: '0 0' }, { translate: '46px -34px', rotate: '14deg', offset: .4 }, { translate: '0 0', rotate: '0deg' }], { duration: 640, easing: 'ease-out' }); c.toast("Too quick. It's shy. Hold the button and stay put."); }]] },
+      'It wandered off': { b: [['REMIND ME AT 07:00', once('REMINDER SET ✓', 'Tokek will wake you at 07:00.')], ['Back to the day', c => c.stack.length > 1 ? c.back() : c.tab('Trip hub')]] },
+      'Befriended': { pre: (c, i) => { i.an = c.choreo(i, 4500); }, enter: (c, i) => { (i.an || []).forEach(a => a.play()); c.after(i, 360, () => c.burstIn(i)); c.after(i, 3825, () => (i.an || []).forEach(a => a.pause())); c.count(c.findHas(i, '+150 XP'), 0, 150, v => String(v), 900); }, b: [['ADD TO YOUR PASS', (c, el, i) => c.toPass(i)], ['Share with the crew', T('Shared to the Bali Six chat.')]] },
+      'Crew quests': { b: [[{ t: 'SUNRISE SQUAD', card: 1 }, T('Four of six are signed up. Dev and Rin are next.')]] },
+      'Recap': { enter: (c, i) => c.ratePrompt(i), b: [[{ has: 'Golden Tokek got away' }, 'Once a year'], ['SHARE RECAP', ['Recap, the cover', 'rise']], ['WHERE NEXT? →', c => c.tab('Home', { then: () => c.toast('The vote for next time is open.', { k: 'tanuki' }) })], [{ has: '312 PHOTOS', card: 1 }, 'Photos']] },
+      'Photos': { seg: [['BEST', 'ALL', 'BY PERSON']], b: [['+ UPLOAD', T('Uploading 12 photos from today.')]] },
+      'Profile': { b: [[{ cp: 'plan' }, 'Your plan'], ['ALL 12 ›', T('12 stamps from 7 trips. Bali stamps itself when you land.', 'gecko')], ['EDIT', 'Edit profile'], ['SETTINGS', 'Settings'], ['RETAKE', ['This or that', 'sheet']], [{ t: 'THE BALI SIX', card: 1 }, c => c.tab('Home')], [{ t: 'UNI HOUSEMATES', card: 1 }, T('Lisbon, June 2024. The album is still there.', 'sardine')]] },
+      'Visa page': { tip: 'Tap either sticker, flip monthly and yearly, or GET PASS+ to go through checkout.', seg: [{ o: ['MONTHLY · $3.99', 'YEARLY · SAVE 37%'], f: (c, i, n) => c.toast(['$3.99 a month. Cancel or pause any time.', '$29.99 a year. That’s $2.50 a month.'][n]) }], b: [['GET PASS+', ['Checkout', 'rise']], [{ cp: 'plan', nth: 0 }, T('Pass+ is yours in every crew you’re in.')], [{ cp: 'plan', nth: 1 }, ['Boost Kyoto', 'sheet']], ['Boost a trip instead', ['Boost Kyoto', 'sheet']], ['What’s in each ›', 'Compare plans'], ['RESTORE', 'Redeem or restore'], [{ cp: 'stamp' }, T('The Bali Six’s first trip is free for everyone, until Oct 26.')]] },
+      'Boarding pass': { tip: 'Same offer as the visa page, told as two tickets.', b: [['BOARD WITH PASS+', ['Checkout', 'rise']], [{ cp: 'plan', nth: 1 }, ['Boost Kyoto', 'sheet']], ['What’s in each ›', 'Compare plans'], ['RESTORE', 'Redeem or restore']] },
+      'Gold cover': { tip: 'Same offer again, as your pass getting a gold cover.', b: [['UPGRADE MY PASS · $29.99/YR', ['Checkout', 'rise']], ['Boost a trip for the crew instead', ['Boost Kyoto', 'sheet']], [{ cp: 'cover' }, (c, el) => c.wobble(el)], ['RESTORE', 'Redeem or restore']] },
+      'Out of questions': { tip: 'Pon has run out of free answers for today. GET PASS+ opens the paywall.', b: [['GET PASS+', ['Visa page', 'rise']], ['ASK AT MIDNIGHT', c => { c.back(); c.toast('Pon will ping you at midnight.', { k: 'tanuki' }); }], [{ has: 'Maya has Pass+.', card: 1 }, 'Crew chat']] },
+      'Compare plans': { b: [['PASS+ · $3.99', ['Checkout', 'rise']], ['BOOST · $12', ['Boost Kyoto', 'sheet']]] },
+      'Boost Kyoto': { tip: 'Switch who pays, then boost. Checkout follows.', seg: [{ o: ["I'LL COVER IT", 'SPLIT 6 WAYS'], f: (c, i, n) => c.toast(['You cover the whole $12. Nobody owes you.', '$2 each goes into Balances.'][n], { k: 'tanuki' }) }], b: [['BOOST FOR $12', ['Checkout', 'rise']], [{ cp: 'bopt', nth: 1 }, T('$59 a year covers every Bali Six trip, plus Pass+ for you.', 'tanuki')]] },
+      'Checkout': { tip: 'Tap the ring (standing in for the side button) to pay.', b: [[{ cp: 'pay' }, (c, el) => c.go('Stamped', 'burst')], ['Double-click to pay', (c, el) => c.go('Stamped', 'burst')]] },
+      'Stamped': { b: [['TELL THE CREW', 'Boosted by Winston'], ['Done', c => c.tab('Home')]] },
+      'Boosted by Winston': { tip: 'This is Rin’s phone. Settle the $2 or say thanks.', b: [['SETTLE $2', 'Settle up'], ['THANKS WINSTON', once('SENT ♥', 'Rin thanked Winston.')]] },
+      'Free boost ending': { b: [['BOOST KYOTO · $2 EACH', ['Boost Kyoto', 'sheet']], ['PASS+ JUST FOR ME', ['Visa page', 'rise']], ['Stay free', c => { c.back(); c.toast('Staying free. The album and recap are yours either way.'); }]] },
+      'Your plan': { b: [['Cancel Pass+', 'Before you go'], [{ has: 'Redeem a code' }, 'Redeem or restore'], [{ has: 'Restore purchases' }, 'Redeem or restore'], [{ has: 'Change plan' }, 'Compare plans'], [{ has: 'Payment method' }, 'Card declined']] },
+      'Before you go': { b: [['PAUSE TILL KYOTO', c => { c.back(); c.toast('Paused until Mar 2. No charges till then.', { k: 'tanuki' }); }], ['KEEP PASS+', 'back'], ['Cancel anyway', T('Cancelled. Pass+ stays on until Nov 2, 2027.')]] },
+      'Card declined': { b: [['UPDATE CARD', c => { c.back(); c.toast('Card updated. Pass+ renewed.'); }], ['Try again', T('Still declined. The card expired in October.')]] },
+      'Redeem or restore': { b: [['REDEEM', c => { c.back(); c.toast('3 months of Pass+ from Maya. Renewal moved to Feb 2028.'); }], ['RESTORE PURCHASES', T('Found Pass+ and one boost. Both restored.')], [{ cp: 'gift' }, (c, el) => c.wobble(el)]] },
+      'Settings, more': { tip: 'The rest of Settings: sound, help and your account.', b: [['Language and currency', 'Language and currency'], ['Music', 'Sound'], ['Rate Critterpass', 'Rate the app'], ['Send feedback', 'Send feedback'], ['Suggest a feature', 'Idea board'], ['Help centre', 'Help and feedback'], ['Download my data', T('We’ll email a zip within the hour.')], ['Sign out', T('Signed out. Your crews and critters are saved for when you’re back.')], ['Delete account', 'Delete account']] },
+      'Sound': { tip: 'Every guide has a theme.', b: [['TOKEK', T('Playing: Tokek, gamelan lo-fi.', 'gecko')], ['PON', T('Playing: Pon, koto and rain.', 'tanuki')], ['LUNDI', T('Playing: Lundi, slow sea shanty.', 'puffin')]] },
+      'Delete account': { tip: 'See what goes and what stays, then continue.', b: [['CONTINUE', ['Hold to delete', 'sheet']], ['SETTLE UP', 'Settle up'], ['Download my data first', T('We’ll email a zip within the hour.')], [{ has: 'Manage subscription' }, T('Opens App Store subscriptions.')]] },
+      'Hold to delete': { tip: 'Tap HOLD to go through with it.', b: [[{ cp: 'ring' }, 'Account closed'], ['Keep my account', c => { c.back(); c.back(); c.toast('Glad you’re staying.', { k: 'gecko' }); }]] },
+      'Account closed': { b: [['UNDO, KEEP MY ACCOUNT', c => c.tab('Home', { then: () => c.toast('Welcome back. Everything’s where you left it.', { k: 'gecko' }) })], ['Close', 'Splash']] },
+      'Help and feedback': { tip: 'Pick any tile.', b: [[{ cp: 'bug' }, 'Send feedback'], [{ cp: 'fb' }, 'Send feedback'], [{ cp: 'idea' }, 'Idea board'], [{ cp: 'rate' }, 'Rate the app'], ['Splitting a Trip Boost', T('Opens the help article.')], ['Why can’t I buy critters?', T('Because you have to be there. That’s the whole point.', 'gecko')]] },
+      'Send feedback': { b: [[{ cp: 'send' }, 'Feedback sent']] },
+      'Feedback sent': { b: [['BACK TO SETTINGS', 'Settings, more'], [{ has: 'See what others asked for' }, 'Idea board']] },
+      'Idea board': { tip: 'Vote, or suggest your own.', b: [['+ SUGGEST AN IDEA', ['Suggest an idea', 'sheet']], [{ cp: 'idea', all: 1 }, (c, el) => { c.pop(el); c.toast('Vote counted. You can change it any time.'); }]] },
+      'Suggest an idea': { b: [[{ cp: 'dupvote' }, c => { c.back(); c.toast('Voted for Packing lists per crew. That makes 413.'); }], ['MINE’S DIFFERENT, POST IT', c => { c.back(); c.toast('Posted under NEW. Tokek will tell you if it moves.', { k: 'gecko' }); }]] },
+      'Rate the app': { tip: 'The system prompt. Tap a star or Not Now.', b: [[{ cp: 'stars' }, c => { c.back(); c.toast('Thanks. That helps the next crew find us.', { k: 'gecko' }); }], ['Not Now', 'back']] },
+      'Paywall': { tip: 'The picked direction. Flip the plan, open the comparison, or buy.', seg: [{ o: ['MONTHLY · $3.99', 'YEARLY · $29.99−37%'], f: (c, i, n) => c.toast(['$3.99 a month. Cancel or pause any time.', '$29.99 a year. That’s $2.50 a month.'][n]) }], b: [['GET PASS+', 'Welcome to Pass+'], ['Boost a trip instead', ['Boost Kyoto', 'sheet']], ['What’s in each ›', 'What’s in each'], ['RESTORE', 'Redeem or restore']] },
+      'What’s in each': { b: [['PASS+ · $29.99', 'Welcome to Pass+'], ['BOOST · $12', ['Boost Kyoto', 'sheet']]] },
+      'Welcome to Pass+': { b: [['PICK A NEW ICON', 'App icon'], ['Done', c => c.tab('Home')]] },
+      'Seven’s a crowd': { b: [['BOOST KYOTO · $12', ['Boost Kyoto', 'sheet']], ['Keep it at six', c => { c.back(); c.toast('Sam stays on the invite list. A seat opens if someone drops out.'); }]] },
+      'Live map teaser': { b: [['BOOST KYOTO · $12', ['Boost Kyoto', 'sheet']], ['Maybe later', 'back']] },
+      'Last redraft': { b: [['USE MY LAST ONE', 'Change a day'], ['BOOST · UNLIMITED · $12', ['Boost Kyoto', 'sheet']]] },
+      'Recap, the cover': { tip: 'Tap the bottom line to play the story.', b: [['Tap to start · hold to pause', 'Recap, the route'], ['✕', 'back']] },
+      'Recap, the route': { tip: 'Tap THE ROUTE for the next card.', b: [['THE ROUTE', 'Recap, crew awards'], ['✕', 'back']] },
+      'Recap, crew awards': { b: [[{ cp: 'mvp' }, c => { c.toast('Vote sent. Jordan is ahead, obviously.', { k: 'gecko' }); c.go('Recap, the receipt'); }], ['✕', 'back']] },
+      'Recap, the receipt': { tip: 'Tap MONEY, WRAPPED for the next card.', b: [['MONEY, WRAPPED', 'Recap, the one that got away'], ['✕', 'back']] },
+      'Recap, the one that got away': { b: [[{ cp: 'remind' }, c => { c.toast('I’ll tell you in May, only if the crew is planning.', { k: 'gecko' }); c.go('Recap, the stamp'); }], ['✕', 'back']] },
+      'Recap, the stamp': { tip: 'Tap STAMP 13 IS BALI for the last card.', b: [['STAMP 13 IS BALI', 'Recap, the postcard'], ['✕', 'back']] },
+      'Recap, the postcard': { b: [[{ cp: 'post' }, c => { c.back(); c.toast('Postcard sent to the Bali Six.', { k: 'gecko' }); }], ['POSTCARD', T('Postcard, 6 × 4.')], ['STORY 9:16', T('Story size, for sharing.')], ['POSTER', T('Poster, A3, with the route on the back.')], ['Mail a real one to each of you', ['Paywall', 'rise']], ['✕', 'back']] },
+      'A year later': { b: [[{ cp: 'reunion' }, c => c.tab('Home', { then: () => c.toast('Bali is pitched for next year. The vote is open.', { k: 'gecko' }) })], ['Share the memory', T('Saved to Photos with the crew’s signatures.')], ['✕', c => c.tab('Home')]] },
+      'Leave-by': { tip: 'Tap I’M UP right from the lock screen.', b: [[{ cp: 'up' }, c => c.toast('You’re up. Five of six now.', { k: 'gecko' })]] },
+      'Crew, live': { b: [['RUNNING LATE', T('Sent: “10 more minutes.”')], ['SOS', 'Crew SOS']] },
+      'Dynamic Island': { b: [['I’M UP', T('You’re up. Five of six now.', 'gecko')], ['ASK TOKEK', 'Guide chat']] },
+      'On every lock screen': { b: [[{ cp: 'cta' }, ['Boost Kyoto', 'sheet']], ['Just my own leave-by alarms', 'back']] },
+      'Vote from the lock screen': { b: [['Vote Kyoto', T('Voted Kyoto. It’s 3–1 now.', 'tanuki')], ['Vote Lisbon', T('Voted Lisbon. It’s 2–2 now.', 'sardine')], ['Open the showdown', 'Vote showdown']] },
+      'Leave-by alarm': { b: [['SLIDE, I’M UP', 'Leave-by'], ['Snooze 5 min', T('Fine. Five minutes. I’m watching.', 'gecko')]] },
+      'Widget gallery': { b: [['COUNTDOWN', T('Added to your home screen.')], ['THE VOTE', T('Added to your home screen.')], ['TODAY', T('Added to your home screen.')], ['BALANCES', T('Added to your home screen.')], ['CREW, LIVE', ['On every lock screen', 'sheet']], ['NEXT FLIGHT', ['Paywall', 'rise']]] },
+      'Splash': { b: [[{ cp: 'cta' }, 'Your name'], ['I have an invite code', 'Join with a code']] },
+      'Your name': { b: [[{ cp: 'cta' }, 'Your photo']] },
+      'Your photo': { b: [[{ cp: 'cta' }, 'This or that'], ['USE A REAL PHOTO', T('Opens the camera. Your photo gets a sticker edge.')]] },
+      'This or that': { b: [[{ cp: 'this' }, c => { c.toast('Sunrise chaser. Tokek approves.', { k: 'gecko' }); c.go('Home base'); }], [{ cp: 'that' }, c => { c.toast('Sleep till ten. Noted, no judgement.', { k: 'gecko' }); c.go('Home base'); }]] },
+      'Home base': { b: [[{ cp: 'cta' }, 'Pass issued']] },
+      'Pass issued': { b: [[{ cp: 'cta' }, ['Save your pass', 'sheet']]] },
+      'Save your pass': { b: [['Continue with Apple', 'Permissions, in context'], ['Continue with Google', 'Permissions, in context'], ['Use my phone number', 'Phone sign-in']] },
+      'Permissions, in context': { b: [[{ cp: 'cta' }, 'Home, first run'], ['Ask me later', 'Home, first run']] },
+      'Invite, a seat for you': { b: [[{ cp: 'cta' }, 'Your pass, three taps'], ['Just look around first', 'Proposal trailer']] },
+      'Your pass, three taps': { b: [[{ cp: 'cta' }, 'You’re in']] },
+      'You’re in': { b: [[{ cp: 'plan' }, 'Your version'], ['Say hi to the crew', 'Crew chat']] },
+      'Flight day': { tip: 'Found in your email, so it starts by itself on the morning you fly.', b: [['from your email', T('Pulled from your SQ confirmation. Pass+ only.')]] },
+      'Critter nearby': { tip: 'Keeps counting with the phone locked. Stay within 50 m.', b: [['STAY 4 MORE MIN', T('Stay put. The ring drains slowly if you wander.', 'gecko')]] },
+      'In the guide’s voice': { tip: 'Every notification comes from someone.', b: [['Tokek’s evening roundup', 'Guide chat'], ['Pon · Kyoto', "Pon's draft"], ['Balances', 'Balances']] },
+      'How much we ping': { tip: 'Pings over the budget wait for the 20:00 roundup.', b: [['Evening roundup', T('Roundup at 20:00. Change the time any day.')], ['Crew chat', T('Crew chat: mentions only.')]] },
+      'Home screen, before': { tip: 'The vote widget works: tap a side.', b: [[{ cp: 'vote' }, c => c.toast('Voted Kyoto from the widget. It’s 5–2.', { k: 'tanuki' })]] },
+      'Home screen, on the trip': { tip: 'NUDGE DEV works from the widget.', b: [[{ cp: 'bal' }, T('Nudge sent. Dev says “tonight, promise”.')]] },
+      'Lock screen widgets': { tip: 'Lock screen widgets take the system tint.' },
+      'StandBy': { tip: 'StandBy, the night before Batur. Shown turned sideways.' },
+      'Phone sign-in': { tip: 'The SMS code fills itself in, then the screen moves on.', enter: (c, i) => c.otp(i), b: [['CONTINUE WITH APPLE', 'Permissions, in context'], ['CONTINUE WITH GOOGLE', 'Permissions, in context']] },
+      'Language and currency': { tip: 'Pick a language, or flip how prices show.', seg: [{ o: ['HOME', 'LOCAL', 'BOTH'], f: (c, i, n) => c.toast(['Prices in S$ only.', 'Prices in rupiah only.', 'Rupiah with S$ next to it.'][n]) }], b: [['中文（简体）', T('早上好！凌晨 3:10 出发。', 'gecko')], ['Bahasa Indonesia', T('Selamat pagi! Berangkat jam 03:10.', 'gecko')], ['日本語', T('おはよう！3:10 に出発だよ。', 'tanuki')], ['12 more', T('Español, Português, Français, 한국어, ไทย, Tiếng Việt and six more.')]] },
+      'Settings': { tip: 'Switch how chatty the guide is to hear a sample.', seg: [{ o: ['QUIET', 'NORMAL', 'CHATTY'], f: (c, i, n) => c.toast(["I'll only speak up when it matters.", 'Leave by 03:10. The headlamp is by the door.', 'Leave by 03:10! Headlamp by the door, snacks in the left pocket. I checked the weather twice.'][n]) }], b: [[{ cp: 'plan' }, 'Your plan'], ['Mentions only ›', T('Crew chat: mentions only.')], ['During trips ›', T('Location is only on during trips.')], [{ has: 'Music and effects' }, 'Sound'], ['NOTIFICATIONS', 'How much we ping'], [{ cp: 'more' }, 'Settings, more']] },
+      'Home, final vote': { tip: 'The vote card mirrors the showdown. The crew pill opens the chat, the crew name switches crews.', mount: (c, i) => c.badge(i), back: (c, i) => c.badge(i), b: [[{ cp: 'bell' }, c => c.go(c.world.done.size >= 3 ? 'All caught up' : 'Inbox')], [{ cp: 'me' }, 'Profile'], [{ cp: 'crews' }, ['Crews', 'sheet']], [{ cp: 'crew' }, 'Crew chat'], [{ t: 'BALI', card: 1 }, ['Trip hub', 'zoom']], [{ cp: 'showdown' }, ['Vote showdown', 'zoom']], [{ cp: 'tally' }, 'Vote showdown']] },
+      'Somewhere else': { tip: 'Any city works, guide or not. Tap Marrakech.', b: [[{ cp: 'res', nth: 0 }, (c, el) => c.go('Marrakech', 'zoom', { src: el })], [{ cp: 'res', nth: 1 }, T('Chefchaouen: its local lives in the hills above the blue town.')], [{ cp: 'res', nth: 2 }, T('Merzouga: its local comes out when the sand cools.')], [{ t: 'go' }, (c, el, i) => c.go('Marrakech', 'zoom', { src: c.q(i, '[data-cp="res"]') })]] },
+      'Marrakech': { tip: 'No live guide here yet. Tap a local for a hint.', b: [['♡ SAVE', once('♥ SAVED', 'Saved to your Marrakech list.')], ['PITCH TO THE CREW', c => c.go('Home, final vote', 'push', { then: () => c.toast('Marrakech is pitched. It joins the vote after this one.') })], ['SOLO TRIP', T('Solo trips skip the vote. Tokek plans for one.')], [{ cp: 'local', all: 1 }, (c, el, i) => { c.shake(el); c.toast(['Nests high up, near the old palace walls.', 'Lives in the cedar hills above the blue town.', 'Only comes out when the sand cools, after sunset.'][c.qa(i, '[data-cp="local"]').indexOf(el)]); }]] },
+      'Add a must-do': { tip: 'What Dev sees. Pick a match, or keep it as typed.', b: [[{ cp: 'sug', nth: 0 }, c => c.addMust(['RAMEN KŌJI', 'Kyoto Station · Day 1, after landing'])], [{ cp: 'sug', nth: 1 }, c => c.addMust(['MENBAKA FIRE RAMEN', 'Nakagyō · Pon is booking it'])], [{ cp: 'sug', nth: 2 }, c => c.addMust(['RAMEN CRAWL', 'As Dev typed it · Pon picks the stops'])], [{ t: 'add' }, c => c.addMust(['RAMEN CRAWL', 'As Dev typed it · Pon picks the stops'])]] },
+      'Change a day': { tip: 'Pick a day and what bugs you. Day 4 gets the full redraft.', mount: (c, i) => c.dayPicker(i), b: [['REDRAFT DAY 4', (c, el, i) => c.redraft(i, el)]] },
+      "Pon's redraft": { tip: 'Keep it, or put Nara back.', b: [['KEEP IT', c => { c.world.redraft = 1; c.back(); c.toast('Day 4 is the canal now. Nobody else has seen it yet.', { k: 'tanuki' }); }], ['Put Nara back', c => { c.back(); c.toast('Nara is back on Day 4. The deer are relieved.', { k: 'tanuki' }); }]] },
+      'Crews': { tip: 'Answer the invite, or switch crews.', b: [[{ cp: 'crewrow', nth: 0 }, 'back'], [{ cp: 'crewrow', nth: 1 }, c => { c.back(); c.toast('Uni Housemates: nothing planned yet. Sam wants a reunion.', { k: 'sardine' }); }], ['JOIN', once('JOINED ✓', "You're in Ramen Club. Dev is thrilled.")], ['LATER', (c, el, i) => c.slideOff(c.q(i, '[data-cp="invite"]'))], [{ cp: 'newcrew' }, T('Name it and share the code. The guide comes with the first trip.')], ['JOIN WITH A CODE', ['Join with a code', 'fade', { replace: 1 }]]] },
+      'Crew map': { tip: 'Tap a pin, or wait a moment for Jordan.', enter: (c, i) => { if (c.world.sos) return; c.world.sos = 1; c.after(i, 2600, () => c.toast('Jordan sent an SOS.', { ms: 6000, tap: () => c.go('Crew SOS', 'rise') })); }, b: [[{ cp: 'pin', all: 1 }, (c, el) => { c.pop(el); c.toast(c.tx(el)); }], [{ cp: 'meet' }, (c, el) => { c.pop(el); c.toast('Meet-up at 17:00. Drag the pin to move it.'); }], ['MOVE IT', T('Drag the yellow pin to move the meet-up.')], ['PING ALL', T('Pinged everyone: Campuhan Ridge at 17:00.')], ["I'M ON MY WAY", once('ON MY WAY ✓', 'The crew can see you coming. 11 minutes.')]] },
+      'Crew SOS': { tip: 'What the other five see when someone hits SOS.', enter: (c, i) => c.after(i, 2200, () => { const w = c.q(i, '[data-cp="insurance"]'); if (!w) return; const sp = w.querySelectorAll('span'), d = sp[0], t = sp[1]; if (d) { Object.assign(d.style, { border: '0', background: '#54d6a4', display: 'flex', alignItems: 'center', justifyContent: 'center' }); d.innerHTML = '<doodle-art kind="check" size="13" ink="#17142a" blend="source-over" anim="none"></doodle-art>'; c.pop(d); } if (t) { t.style.color = '#f4efe4'; t.textContent = 'Sent his insurance details to the clinic'; } }), b: [["I'M GOING", once('GOING ✓', "Jordan knows you're coming. 7 minutes on foot.")], ['CALL JORDAN', T('Calling Jordan…')], ['See him on the map', c => c.stepTo('Crew map')]] },
+      'Forecast': { tip: 'Rough seas and the ceremony both open what happens next.', b: [[{ cp: 'watch', nth: 0 }, 'Storm warning'], [{ cp: 'watch', nth: 1 }, 'Running late'], [{ cp: 'watch', nth: 2 }, T('Clear at the summit, 80%. Leave by 03:10.')], [{ cp: 'watch', nth: 3 }, T('Airport run: leave the villa by 13:00 on Monday.')]] },
+      'Storm warning': { tip: 'Pick an option. The button follows.', mount: (c, i) => { i.opt = 0; const cta = c.findHas(i, 'SWAP THE DAYS'); c.radio(i, c.qa(i, '[data-cp="opt"]'), (x, on) => { x.style.boxShadow = on ? 'inset 0 0 0 2px #ffd84a' : ''; }, n => { i.opt = n; if (cta) c.flap(cta, ['SWAP THE DAYS', 'KEEP FRIDAY', 'SKIP THE BOAT'][n]); }); }, b: [['SWAP THE DAYS', (c, el, i) => { c.back(); c.toast(['Swapped. Boat day is Saturday now. Seats moved, no fee.', 'Kept Friday. Tokek watches the harbour from 5am.', 'Boat skipped. $38 back each, waterfall at 10.'][i.opt || 0]); }]] },
+      'Running late': { tip: 'Pick how to handle it. Whoever is waiting hears first.', mount: (c, i) => { i.opt = 0; const cta = c.findHas(i, 'PUSH TO 14:30'); c.radio(i, c.qa(i, '[data-cp="opt"]'), (x, on) => { const d = x.firstElementChild; Object.assign(d.style, on ? { background: '#ffd84a', boxShadow: 'inset 0 0 0 6px #ffd84a,inset 0 0 0 9px #17142a', border: '0' } : { background: 'transparent', boxShadow: 'none', border: '2px solid #3a3466' }); }, n => { i.opt = n; if (cta) c.flap(cta, ['PUSH TO 14:30', 'WALK THE LAST BIT', 'SKIP IT'][n]); }); }, b: [['PUSH TO 14:30', (c, el, i) => { c.back(); c.toast(['Spa moved to 14:30. Maya and Rin start without you.', 'Made drops you at the rice fields. Left at the warung.', 'Skipped. Tokek is asking Karsa for the full refund.'][i.opt || 0]); }]] },
+      'Vietnam set': { tip: 'Found ones show a field note. Locked ones only say the city.', b: [[{ cp: 'vcell', all: 1 }, (c, el) => { if (el.dataset.found === '1') { c.pop(el); c.toast(el.dataset.note); } else { c.shake(el); c.toast('Found by being in ' + el.dataset.city + '.'); } }]] },
+      'Once a year': { tip: 'Tap Sakura Pon: it falls on your Kyoto dates.', b: [[{ cp: 'ev', all: 1 }, (c, el) => { c.pop(el); c.toast(el.dataset.note); }], [{ cp: 'sakura' }, ['Sakura Pon', 'burst']], [{ cp: 'remind' }, once('REMINDERS ON', 'A nudge a month before each window.')]] },
+      'Sakura Pon': { tip: 'Press and hold HOLD until the gold ring fills. It takes a little longer.', pre: (c, i) => c.holdSetup(i, { col: '#ffd84a', ms: 2400, done: () => { c.confetti(195, 380, 140); c.toast('Sakura Pon is on your pass. Your first legendary.', { k: 'tanuki', ms: 3600 }); c.after(c.top(), 1600, () => c.tab('Your pass')); } }), b: [[{ sel: 'tg-motion[fx="float"]' }, (c, el) => { const d = el.firstElementChild; if (d) d.animate([{ translate: '0 0' }, { translate: '-40px -30px', rotate: '-12deg', offset: .4 }, { translate: '0 0', rotate: '0deg' }], { duration: 640, easing: 'ease-out' }); c.toast('Too quick. Stay still under the lanterns.'); }]] },
+      'Crew plans': { tip: "Open Pon's pick. The filter chips toggle.", b: [[{ cp: 'plan', nth: 0 }, ['Shared plan', 'zoom']], [{ cp: 'plan', nth: 1 }, T("Mia's crew did Kiyomizu at 6 every morning. Brutal, apparently.", 'tanuki')], [{ cp: 'plan', nth: 2 }, T('Hostels in Shimogyō and a lot of konbini. $780 each.', 'tanuki')], [{ cp: 'fchip', all: 1 }, (c, el) => { const on = /255, 216, 74/.test(el.style.backgroundColor); el.style.background = on ? '#1f1b38' : '#ffd84a'; el.style.color = on ? '#f4efe4' : '#17142a'; c.pop(el); }, { nopress: 1 }]] },
+      'Shared plan': { tip: 'Copy the whole plan, or tap + on a single day.', b: [['COPY INTO OUR TRIP', c => c.go("Pon's draft", 'push', { then: () => c.toast('Pon merged four days into your draft. Only you can see it.', { k: 'tanuki' }) })], ['DAY 3 ONLY', T('Day 3 is in your draft: ramen, three ways.', 'tanuki')], [{ cp: 'sday', all: 1 }, (c, el) => { c.pop(el); c.float(el, '+1'); c.toast('Added to your draft. Pon checked it against the must-dos.', { k: 'tanuki' }); }]] },
+      'Rate the trip': { tip: 'Rate a few places. Each tap deals the next card.', b: [[{ cp: 'rate', all: 1 }, (c, el, i) => c.rateNext(i, el)], ['SHARE THE PLAN TOO', ['Share the plan', 'sheet']]] },
+      'Share the plan': { tip: 'Flip what other crews can see, then publish.', b: [['PUBLISH TO CREW PLANS', c => { c.back(); c.toast('Published. Crews planning Bali will see it.'); }], ['Copy a read-only link instead', T('Read-only link copied.')]] },
+      'Edit profile': { tip: 'Tap the avatar or the app icon row.', b: [[{ cp: 'avatar' }, 'Avatar'], [{ cp: 'change' }, 'Avatar'], [{ cp: 'icon' }, 'App icon'], ['SAVE', c => { c.back(); c.toast('Profile saved.'); }], [{ cp: 'field', all: 1 }, (c, el) => { c.pop(el); c.toast('Edits in place. The keyboard slides up under the field.'); }]] },
+      'Avatar': { tip: 'Pick a critter and watch the previews change.', mount: (c, i) => c.qa(i, '[data-cp="av"]').forEach(el => { if (!el.__cp) c.bind(i, el, () => c.avatarPick(i, el), { nopress: 1 }); }), seg: [{ o: ['INITIALS', 'CRITTER', 'PHOTO'], f: (c, i, n) => { if (n !== 1) c.toast(['Initials on a colour you pick.', '', 'Photos only show inside your crews.'][n]); } }], b: [['DONE', c => { c.back(); c.toast('New avatar. Your crews see it everywhere.'); }], [{ cp: 'avlock', all: 1 }, (c, el) => { c.shake(el); c.toast(el.dataset.note); }]] },
+      'App icon': { tip: 'Styles swap the preview. STAMP needs Pass+. Locked critter icons say how to earn them.', b: [[{ cp: 'iconplus' }, 'Paywall'], [{ cp: 'icon', all: 1 }, (c, el, i) => c.iconPick(i, el), { nopress: 1 }], [{ cp: 'iconlock', all: 1 }, (c, el) => { c.shake(el); c.toast(c.tx(el.lastElementChild) + ' to unlock it.'); }]] }
+    };
+  }
+
+  renderVals() {
+    const L = this.lib, cn = this.state.cur, cd = L[cn], spec = this.F[cn] || {}, grp = this.STATES.find(g => g.includes(cn)) || [];
+    return {
+      wrapRef: this.wrapRef, stageRef: this.stageRef,
+      loading: !this.state.ready && !this.state.err, err: this.state.err, hasErr: !!this.state.err,
+      scen: this.SCEN.map(([k, s, st]) => ({ k, s, go: () => this.resetTo(st, 'fade') })),
+      secs: this.sections.map(s => ({ id: s.id, label: s.label, items: s.screens.map(key => ({ id: L[key].id, name: L[key].name, go: () => this.resetTo([key], 'fade'), bg: key === cn ? '#17142a' : 'transparent', fg: key === cn ? '#ffd84a' : '#211d18' })) })),
+      curId: cd ? cd.id : '', curName: cd ? cd.name : '', curSec: cd ? cd.secLabel : '', motion: cd ? cd.motion : '',
+      trail: (this.state.names || []).map(n => L[n] ? L[n].name : n).join('  ›  '),
+      tip: spec.tip || '', hasTip: !!spec.tip,
+      states: grp.filter(n => n !== cn && L[n]).map(n => ({ name: L[n].name, go: () => this.swap(n) })), hasStates: grp.length > 1 && !!cd,
+      back: () => this.back(), restart: () => this.resetTo(['Splash'], 'fade'), toggleHints: () => this.toggleHints(),
+      hintsLabel: this.state.hints ? 'Hide tap targets' : 'Show tap targets'
+    };
+  }
+}
+</script>
+</body>
+</html>

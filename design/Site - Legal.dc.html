@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Caveat:wght@600&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script src="doodles.js"></script>
+<style>body{margin:0;background:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#17142a}a{color:#17142a}a:hover{color:#c4623e}html{scroll-behavior:smooth}</style>
+</helmet>
+<div style="min-height:100vh;background:#f4efe4">
+<dc-import name="Site - Header" active="none" style="position:sticky;top:0;z-index:50;display:block" hint-size="100%,65px"></dc-import>
+
+<section data-screen-label="Legal hero" style="background:#17142a radial-gradient(rgba(255,216,74,.14) 1.3px,transparent 1.8px) 0 0/10px 10px;color:#f4efe4">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,88px) clamp(20px,4vw,48px) 0;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:16px"><span style="font:700 12px Archivo,sans-serif;letter-spacing:.18em;color:#a9a3c0">THE FINE PRINT · UPDATED {{ doc.updated }}</span><h1 style="margin:0;font:900 clamp(72px,11vw,150px)/.8 Archivo,sans-serif;font-stretch:64%;color:#ffd84a;text-transform:uppercase">{{ doc.title }}</h1></div>
+<tg-motion fx="float" dur="4200" style="line-height:0"><doodle-art kind="gecko" size="150" sticker="#f4efe4" pose="{{ doc.pose }}" seed="41"></doodle-art></tg-motion>
+</div>
+<div style="display:flex;gap:6px">
+<button onClick="{{ showPrivacy }}" style="height:52px;padding:0 26px;border:none;border-radius:18px 18px 0 0;cursor:pointer;font:900 16px Archivo,sans-serif;letter-spacing:.06em;background:{{ tabP.bg }};color:{{ tabP.fg }}">PRIVACY</button>
+<button onClick="{{ showTerms }}" style="height:52px;padding:0 26px;border:none;border-radius:18px 18px 0 0;cursor:pointer;font:900 16px Archivo,sans-serif;letter-spacing:.06em;background:{{ tabT.bg }};color:{{ tabT.fg }}">TERMS</button>
+</div>
+</div>
+</section>
+
+<section data-screen-label="Legal body" style="max-width:1240px;margin:0 auto;padding:48px clamp(20px,4vw,48px) 120px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:56px;align-items:start">
+<nav style="position:sticky;top:96px;display:flex;flex-direction:column;gap:4px;max-width:280px">
+<span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#6b6356;margin-bottom:10px">ON THIS PAGE</span>
+<sc-for list="{{ doc.sections }}" as="s" hint-placeholder-count="8"><a href="#{{ s.id }}" style="display:flex;gap:12px;padding:8px 12px;border-radius:12px;text-decoration:none;font:500 14.5px/1.35 Geist,sans-serif;color:#3d372f" style-hover="background:#e9e2d2"><span style="font:500 12px 'Geist Mono',monospace;color:#9c9384;padding-top:2px">{{ s.n }}</span>{{ s.title }}</a></sc-for>
+<span style="margin-top:20px;padding:12px 14px;border-radius:14px;background:#ffe9a8;font:500 12.5px/1.45 Geist,sans-serif;color:#5a4a14">Draft copy for design. Needs legal review before it goes live.</span>
+</nav>
+<article style="grid-column:span 2;display:flex;flex-direction:column;gap:48px;max-width:760px;min-width:0">
+<div style="position:relative;padding:32px 32px 28px;border-radius:28px;background:#ffd84a;transform:rotate(-.8deg)">
+<span style="position:absolute;right:24px;top:-18px;padding:6px 12px;border-radius:10px;background:#17142a;color:#ffd84a;font:700 11px Archivo,sans-serif;letter-spacing:.14em;transform:rotate(4deg)">TL;DR FROM TOKEK</span>
+<span style="display:block;font:900 34px/1 Archivo,sans-serif;font-stretch:72%;margin-bottom:18px">THE SHORT VERSION</span>
+<div style="display:flex;flex-direction:column;gap:12px"><sc-for list="{{ doc.short }}" as="b" hint-placeholder-count="3"><div style="display:flex;gap:12px;font:500 17px/1.45 Geist,sans-serif;text-wrap:pretty"><span style="flex:none;width:26px;height:26px;border-radius:13px;background:#17142a;color:#ffd84a;font:900 13px Archivo,sans-serif;display:flex;align-items:center;justify-content:center">✓</span><span>{{ b }}</span></div></sc-for></div>
+</div>
+<sc-for list="{{ doc.sections }}" as="s" hint-placeholder-count="6">
+<div id="{{ s.id }}" style="display:flex;flex-direction:column;gap:14px;scroll-margin-top:96px;padding-top:32px;border-top:1px solid #ddd5c4">
+<div style="display:flex;align-items:baseline;gap:14px"><span style="font:500 13px 'Geist Mono',monospace;color:#9c9384">{{ s.n }}</span><h2 style="margin:0;font:900 36px/.95 Archivo,sans-serif;font-stretch:72%;text-transform:uppercase">{{ s.title }}</h2></div>
+<sc-for list="{{ s.body }}" as="p" hint-placeholder-count="2"><p style="margin:0;font:400 17px/1.65 Geist,sans-serif;color:#3d372f;text-wrap:pretty">{{ p }}</p></sc-for>
+</div>
+</sc-for>
+<div style="display:flex;gap:16px;align-items:center;padding:24px 28px;border-radius:24px;background:#17142a;color:#f4efe4;flex-wrap:wrap"><doodle-art kind="gecko" size="64" sticker="#f4efe4" pose="point" seed="41" anim="none"></doodle-art><span style="flex:1;min-width:220px;font:500 16px/1.5 Geist,sans-serif">Questions about any of this? Write to <a href="mailto:hello@critterpass.app" style="color:#ffd84a">hello@critterpass.app</a> and a human will answer.</span></div>
+</article>
+</section>
+<dc-import name="Site - Footer" hint-size="100%,520px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { tab: 'privacy' };
+  componentDidMount() {
+    this.onHash = () => { const h = location.hash.slice(1); if (h === 'terms' || h === 'privacy') this.setState({ tab: h }); };
+    this.onHash(); window.addEventListener('hashchange', this.onHash);
+  }
+  componentWillUnmount() { window.removeEventListener('hashchange', this.onHash); }
+  go(tab) { this.setState({ tab }); try { history.replaceState(null, '', '#' + tab); } catch (e) {} window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  renderVals() {
+    const P = {
+      title: 'Privacy', updated: 'SEPT 2026', pose: 'think',
+      short: ['We use your location to hatch critters and plan your days. You can switch it off any time.', 'Your crew sees the trip. Nobody else does unless you share it.', "We don't sell your data. Delete your account and it goes, trips and all."],
+      sections: [
+        ['What we collect', ['Your name, email and profile photo when you sign up. The trips, votes, plans, messages and receipts you add to a crew. Your location while the app is in use or while a trip is active, if you allow it.', 'We also collect basic device and usage information so we can fix bugs and see which features people use.']],
+        ['Location and the pass', ['Critters hatch when you are actually somewhere, so the pass needs your location to work. We check it when the app is open, and during an active trip if you turn on travel mode.', 'We store the places you have been as pass entries, not a trail of coordinates. You can turn location off in settings; the rest of the app keeps working.']],
+        ['Talking to your guide', ['When you ask a guide something, by text or voice, we process it to answer you and to update the plan. Voice clips are turned into text and then deleted.', 'Guide conversations are part of your trip. Your crew can see what the guide changed in the plan, not your private questions.']],
+        ['Who sees what', ['Everyone in a crew sees that trip: the plan, the votes, shared expenses and the guide’s suggestions. People outside the crew see nothing unless you send them an invite or share a link.', 'Your pass is private by default. You can make it visible to friends.']],
+        ['Partners', ['When you book a stay, activity or transfer through Critterpass, we pass the booking partner the details needed to complete it. Payments are handled by our payment processor; we never see your full card number.', 'We do not sell personal data or share it with advertisers.']],
+        ['Keeping and deleting', ['We keep your data while your account is open. When you delete your account we remove your profile, pass and private messages within 30 days. Shared trip items you added stay with the crew with your name removed.']],
+        ['Your rights', ['You can download a copy of your data, correct it, or delete it from Settings → Privacy. Depending on where you live you may have additional rights, and we honour them wherever you are.']],
+        ['Changes', ['If we change this policy in a way that matters, we will tell you in the app before it takes effect.']]
+      ]
+    };
+    const T = {
+      title: 'Terms', updated: 'SEPT 2026', pose: 'point',
+      short: ['Critterpass helps you plan. Bookings are with the partner you book through.', 'Guides give good advice, but check anything important locally.', "Critters have no cash value and can't be bought, sold or traded."],
+      sections: [
+        ['Using Critterpass', ['You need to be 16 or older to use Critterpass. By creating an account you agree to these terms. If you use it on behalf of a group, you confirm you have their go-ahead to add them.']],
+        ['Your account', ['Keep your login to yourself. You are responsible for what happens in your account. Tell us straight away if you think someone else has access.']],
+        ['Crews and trips', ['Anyone with a crew invite can join that crew. Crew owners can remove members. Be kind in shared spaces; we may remove content or accounts that harass other people.']],
+        ['Bookings', ['Stays, activities and transfers booked in the app are contracts between you and the partner. Their terms, prices and cancellation rules apply, and we show them before you pay.']],
+        ['Splitting money', ['Critterpass keeps track of who owes what. When you settle up through the app, the payment is made by our payment processor. We are not a bank and do not hold your money.']],
+        ['The guides', ['Guides are AI. They are well-informed but can be wrong, and places change. Check opening times, safety advice and anything that affects your health or money before relying on it.']],
+        ['Critters and the pass', ['Critters are earned by visiting places. They have no cash value, cannot be bought, sold or transferred, and trying to fake a location to collect them may lead to them being removed.']],
+        ['Ending things', ['You can delete your account at any time. We may suspend accounts that break these terms, and we will tell you why where we can.']],
+        ['Liability', ['We work hard to keep Critterpass running and accurate, but we provide it as is. To the extent the law allows, we are not liable for losses caused by partner services, travel disruption or guide suggestions.']],
+        ['Changes', ['We will tell you in the app before material changes take effect. Continuing to use Critterpass after that means you accept them.']]
+      ]
+    };
+    const d = this.state.tab === 'terms' ? T : P;
+    const doc = { ...d, sections: d.sections.map(([title, body], i) => ({ title, body, n: String(i + 1).padStart(2, '0'), id: this.state.tab + '-' + (i + 1) })) };
+    const on = { bg: '#f4efe4', fg: '#17142a' }, off = { bg: '#2c2750', fg: '#a9a3c0' };
+    return { doc, tabP: this.state.tab === 'privacy' ? on : off, tabT: this.state.tab === 'terms' ? on : off, showPrivacy: () => this.go('privacy'), showTerms: () => this.go('terms') };
+  }
+}
+</script>
+</body>
+</html>

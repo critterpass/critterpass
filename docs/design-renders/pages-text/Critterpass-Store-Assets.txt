@@ -1,0 +1,321 @@
+1
+Critterpass: icons, splash and store assets
+Four icon directions, the launch sequence for both platforms, six screenshots per store, the Play feature graphic, a social card and a storyboard for the App Store preview video. Everything uses the app's palette, Archivo and the brush-pen doodles.
+APP ICON · FOUR DIRECTIONS
+1a
+Tokek's face. Close crop on yellow. Reads at every size, and the eyes stay distinct even at 29 pt.
+iOS · LIGHT / DARK / TINTED
+ANDROID ADAPTIVE · CIRCLE / SQUIRCLE / TEARDROP / THEMED
+ACTUAL SIZE · 120 / 87 / 60 / 40 / 29 PT
+1b
+Peeking out of a passport. Tokek grips the top of an orange passport. Says travel and the collection at once.
+iOS · LIGHT / DARK / TINTED
+PASSPORT
+PASSPORT
+PASSPORT
+ANDROID ADAPTIVE · CIRCLE / SQUIRCLE / TEARDROP / THEMED
+PASSPORT
+PASSPORT
+PASSPORT
+PASSPORT
+ACTUAL SIZE · 120 / 87 / 60 / 40 / 29 PT
+PASSPORT
+PASSPORT
+PASSPORT
+PASSPORT
+PASSPORT
+1c
+Passport stamp. A Hà Nội stamp holding Cụ Rùa, the first local. Swappable per city for seasonal icons.
+iOS · LIGHT / DARK / TINTED
+HÀ NỘI
+HÀ NỘI
+HÀ NỘI
+ANDROID ADAPTIVE · CIRCLE / SQUIRCLE / TEARDROP / THEMED
+HÀ NỘI
+HÀ NỘI
+HÀ NỘI
+HÀ NỘI
+ACTUAL SIZE · 120 / 87 / 60 / 40 / 29 PT
+HÀ NỘI
+HÀ NỘI
+HÀ NỘI
+HÀ NỘI
+HÀ NỘI
+1d
+The sticker. The sticker already used on the welcome screen, so the icon matches the first thing people see in the app.
+iOS · LIGHT / DARK / TINTED
+ANDROID ADAPTIVE · CIRCLE / SQUIRCLE / TEARDROP / THEMED
+ACTUAL SIZE · 120 / 87 / 60 / 40 / 29 PT
+HOME SCREEN TEST · 60 PT, 1a–1d LEFT TO RIGHT
+Critterpass
+PASSPORT
+Critterpass
+HÀ NỘI
+Critterpass
+Critterpass
+Critterpass
+PASSPORT
+Critterpass
+HÀ NỘI
+Critterpass
+Critterpass
+SPLASH · LAUNCH → HATCH
+iOS · LAUNCH SCREEN (STATIC)
+NOTE iOS launch screens can't animate, so this is the hatch sequence's first frame. The app swaps to the live version with nothing visibly changing.
+IN-APP HATCH · 2.4 S, LOOPED HERE
+CRITTER
+PASS
+MOTION The egg wobbles four times (0–1.3 s), bursts, and Tokek pops out waving with three sparks (1.6–2.1 s). The wordmark rises in, then the welcome screen's stickers slap on. On later launches it skips straight to Tokek.
+ANDROID 12+ · SPLASHSCREEN API
+192 dp icon mask
+NOTE The system splash draws the egg inside the circle mask on navy (#17142a). The wobble is an animated vector under 1,000 ms, then the app continues from the burst.
+APP STORE SCREENSHOTS · 6.9" · EXPORT 1290 × 2796
+STOP PLANNING TRIPS IN THE GROUP CHAT.
+Everyone swipes, everyone votes, one place wins.
+9:41
+NEXT TRIP · VOTING
+WHERE TO?
+3 of 4 voted · closes tonight
+HỘI AN
+3 votes
+ISTANBUL
+1 vote
+CHENGDU
+Dev hasn't voted
+WINNING
+HỘI AN
+M
+W
+A
+3 of 4 want this
+M
+Maya voted Hội An
+ASK THE GECKO. IT'S BEEN EVERYWHERE.
+Tokek answers by text, voice or camera, and can rework the plan for you.
+9:41
+Tokek
+Your guide · Hội An
+It's pouring in Hội An. Plan B?
+Lantern workshop at 2, it's indoors. Then cao lầu at Bà Bé, 6 min away.
+PROPOSED CHANGE
+Thu 14: Beach day → Lantern workshop
+SWAP IT IN
+KEEP BEACH
+Ask Tokek…
+LAND SOMEWHERE NEW. MEET A LOCAL.
+Every city has a critter to hatch. 150 to collect, and you have to be there.
+9:41
+NEW LOCAL · HỘI AN
+CHÉP
+Lantern carp · #005
+10 / 150 FOUND
+ADD TO MY PASS
+EVERY DAY PLANNED. DRAG TO CHANGE IT.
+One day-by-day plan the whole crew can move around.
+9:41
+HỘI AN · DAY 2 OF 4
+THURSDAY
+WED 13
+THU 14
+FRI 15
+SAT 16
+08:30
+Bánh mì Phượng
+10:00
+Old Town walk
+15:00
+Drop here
+19:00
+Lantern boat ride
+15:00 · 2 HRS
+Lantern workshop
+Maya is moving this
+NOBODY HAS TO BE THE ONE WHO ASKS FOR MONEY.
+Log it or scan it. The split is done for you.
+9:41
+MONEY · HỘI AN
+You're owed
+$66
+M
+Maya owes you
+$42
+D
+Dev owes you
+$24
+W
+Winston
+Settled
+LATEST
+Dinner at Bà Bé
+$96
+SETTLE UP
+SCANNED RECEIPT
+Bà Bé · cao lầu ×4
+$96.00
+Split 4 ways · $24 each
+EVERY BOOKING. EVEN WITH NO SIGNAL.
+Flights, stays and tickets in one wallet, pulled in from your email.
+9:41
+BOOKINGS
+OFFLINE · ALL SAVED
+HỘI AN TRIP
+FLIGHT
+SGN → DAD
+VN 128 · THU 06:40 · 14A
+STAY
+Hội An Riverside
+3 NIGHTS · HRV-2291
+TICKETS
+Lantern workshop × 4
+THU 15:00
+3 imported from maya@ inbox
+BOARDING PASS
+SGN → DAD
+06:40
+GATE 12
+14A
+The first three are what people see in search, so they carry the hook: group-chat pain, the guide, the critters. The dotted route runs from one screenshot into the next, so the set reads as one trip when someone swipes through.
+GOOGLE PLAY SCREENSHOTS · 9:16 · EXPORT 1080 × 1920
+STOP PLANNING TRIPS IN THE GROUP CHAT.
+Everyone swipes, everyone votes, one place wins.
+9:41
+NEXT TRIP · VOTING
+WHERE TO?
+3 of 4 voted · closes tonight
+HỘI AN
+3 votes
+ISTANBUL
+1 vote
+CHENGDU
+Dev hasn't voted
+WINNING
+HỘI AN
+M
+W
+A
+3 of 4 want this
+M
+Maya voted Hội An
+ASK THE GECKO. IT'S BEEN EVERYWHERE.
+Tokek answers by text, voice or camera, and can rework the plan for you.
+9:41
+Tokek
+Your guide · Hội An
+It's pouring in Hội An. Plan B?
+Lantern workshop at 2, it's indoors. Then cao lầu at Bà Bé, 6 min away.
+PROPOSED CHANGE
+Thu 14: Beach day → Lantern workshop
+SWAP IT IN
+KEEP BEACH
+Ask Tokek…
+LAND SOMEWHERE NEW. MEET A LOCAL.
+Every city has a critter to hatch. 150 to collect, and you have to be there.
+9:41
+NEW LOCAL · HỘI AN
+CHÉP
+Lantern carp · #005
+10 / 150 FOUND
+ADD TO MY PASS
+EVERY DAY PLANNED. DRAG TO CHANGE IT.
+One day-by-day plan the whole crew can move around.
+9:41
+HỘI AN · DAY 2 OF 4
+THURSDAY
+WED 13
+THU 14
+FRI 15
+SAT 16
+08:30
+Bánh mì Phượng
+10:00
+Old Town walk
+15:00
+Drop here
+19:00
+Lantern boat ride
+15:00 · 2 HRS
+Lantern workshop
+Maya is moving this
+NOBODY HAS TO BE THE ONE WHO ASKS FOR MONEY.
+Log it or scan it. The split is done for you.
+9:41
+MONEY · HỘI AN
+You're owed
+$66
+M
+Maya owes you
+$42
+D
+Dev owes you
+$24
+W
+Winston
+Settled
+LATEST
+Dinner at Bà Bé
+$96
+SETTLE UP
+SCANNED RECEIPT
+Bà Bé · cao lầu ×4
+$96.00
+Split 4 ways · $24 each
+EVERY BOOKING. EVEN WITH NO SIGNAL.
+Flights, stays and tickets in one wallet, pulled in from your email.
+9:41
+BOOKINGS
+OFFLINE · ALL SAVED
+HỘI AN TRIP
+FLIGHT
+SGN → DAD
+VN 128 · THU 06:40 · 14A
+STAY
+Hội An Riverside
+3 NIGHTS · HRV-2291
+TICKETS
+Lantern workshop × 4
+THU 15:00
+3 imported from maya@ inbox
+BOARDING PASS
+SGN → DAD
+06:40
+GATE 12
+14A
+PLAY FEATURE GRAPHIC · 1024 × 500
+CRITTER
+PASS
+Group trips, planned with the locals. The locals happen to be animals.
+Tokek sits right of centre so the Play play-button overlay (if a video is added) lands on navy, not on the wordmark.
+SOCIAL / OG · 1200 × 630
+PLAN THE TRIP. MEET THE LOCALS.
+Group trips, planned with the locals. The locals happen to be animals.
+APP STORE PREVIEW · 30 S STORYBOARD · 886 × 1920
+so where r we going
+idk u pick
+we said this in march
+???
+00:00 – 00:03
+Cold open. Group-chat messages pile up faster than you can read them.
+HỘI AN
+WINS
+00:03 – 00:08
+Hard cut to the app. Four quick swipes, the tally fills, the winning card lifts off the screen.
+It's pouring. Plan B?
+00:08 – 00:13
+Voice question to Tokek. The answer proposes a swap, one tap, and Thursday rearranges itself.
+THU 14
+00:13 – 00:18
+A friend's cursor drags the workshop into the afternoon. The whole day shifts to make room.
+→
+NEW
+LOCAL
+00:18 – 00:23
+Wheels down, phone buzzes, the egg hatches into Chép. The pass counter ticks from 9 to 10.
+$24
+EACH
+00:23 – 00:26
+Receipt scan, split four ways, settled. Three fast beats.
+CRITTER
+PASS
+00:26 – 00:30
+End card: icon and wordmark. Tokek waves from behind the icon.
+Apple requires preview footage to be captured in the app, so frames 2–6 are screen recordings with type laid over them. Frame 1 is the only one staged outside the app.

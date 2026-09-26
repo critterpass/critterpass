@@ -1,0 +1,208 @@
+---
+phase: 2
+title: Platform go/no-go spikes
+status: pending
+depends_on: [1]
+wave: 2
+features: []
+screens: [3k-2, 3g-4, 5a-3, 5c-2]
+effort: 15 sessions
+owns:
+  - docs/decisions/**
+  - docs/runbooks/db-switchover-drill.md
+  - tools/spikes/**
+  - apps/mobile/src/app/(dev)/spikes/**
+  - apps/mobile/targets/**                 # scaffold only; ownership released when this phase is done. Then: notification-service/ + _shared/{ActionKey,PushPayload}/ → 11; app-clip/ → 21; widgets/Alarm/ → 36; widgets/ root files, widgets/{LiveActivities,Intents/LiveActivity}/, widgets/CPWidgetBundle.swift, _shared/ActivityAttributes/ → 48; widgets/{Widgets,Intents/Widget,Intents/AppShortcuts}/, notification-content/, _shared/{Snapshot,Categories}/ → 49
+  - apps/mobile/modules/cp-app-group/**    # spike scaffold only; ownership released when this phase is done. Then phase 10 owns it, except src/snapshots/la/ (48) and src/snapshots/widgets/ (49)
+  - apps/mobile/plugins/with-apple-targets.ts (only if the in-repo config plugin path is chosen; `apps/mobile/plugins/` is shared, one file per owner)
+  - apps/mobile/modules/cp-spike-android/** (removed by the Android surfaces phase once its module lands)
+  - docs/system-architecture.md §11 (results column only)
+---
+# Phase 2 — Platform go/no-go spikes
+
+## Context links
+| Source | Section |
+|---|---|
+| `docs/system-architecture.md` | §2 topology, §4.3 realtime, §4.8 extensions, §7.a/§7.c sequences, §9 budgets, §11 spikes |
+| `plans/reports/researcher-260926-1649-custom-hono-backend-report.md` | "R0 spikes" (S-AUTH, S-SYNC, S-DB, S-RT), risk table, fallbacks, unresolved Q1–Q3 |
+| `plans/reports/researcher-260926-1143-mobile-framework-report.md` | spike table S1–S8, risks (SET, painter drift) |
+| `plans/reports/fact-check-260926-1143-mobile-framework-report.md` | corrections to S1–S8 claims |
+| `plans/reports/researcher-260926-1143-native-platform-monetization-report.md` | broadcast channels, push-to-start budget, AlarmKit, LiveActivityIntent |
+| `plans/reports/researcher-260926-1143-web-links-ops-report.md` | PMTiles on R2 |
+| `plans/reports/design-analysis-260926-1143-critter-render-engine-report.md` §5 | critter renderer targets |
+| Renders | `docs/design-renders/screens/` for leave-by LA (3k-2), crew live map (3g-4), lock screen/LA (5a-*), notifications (5c-*) — used only as visual targets for hello surfaces |
+
+## Overview
+Goal: prove or fail each risky platform/backend assumption with a runnable harness and an ADR before feature phases depend on it. Every failure resolves to a fallback inside the custom stack (never Supabase); budgets may be adjusted, scope may not.
+Done when: `docs/decisions/` holds one ADR per spike with measured numbers, PASS/FAIL against the stated criteria and the chosen path; harnesses under `tools/spikes/` rerun with one command; `docs/system-architecture.md` §11 carries a results column; the switchover drill runbook exists.
+
+## Requirements
+| Spike | Pass criteria | Fallback (same stack) | Decisions |
+|---|---|---|---|
+| S-DB | Railway SG → PlanetScale ap-southeast-1 p50 <3 ms, p99 recorded (1k `select 1` + 1k single-row tx); `SET LOCAL ROLE` + `set_config('app.uid', …, true)` survive PgBouncer transaction pooling; `vector`, `pg_trgm`, `unaccent` available; HNSW index build on 100k × 1024-d; price quote recorded | Railway Postgres HA | D4 |
+| S-AUTH | Better Auth 1.7 on Expo SDK 58: anonymous sign-in → `linkSocial({idToken})` with native Apple + Google tokens and `phoneNumber.verify({updatePhoneNumber:true})` keep the same uid and set `isAnonymous=false`; identity already on another user → `onLinkAccount` merge in one tx; `disableImplicitLinking`; JWT (EdDSA) verified by PowerSync and Centrifugo via JWKS; key rotation keeps sessions valid | merge transaction + PowerSync `disconnectAndClear` | D4, D14 |
+| S-SYNC | self-hosted PowerSync (Open Edition) on Railway SG replicating from PlanetScale; Better Auth JWKS; upload queue → `POST /sync/upload` runs a command handler, validation reject returns 2xx + `cmd_results` row; offline 50-op replay converges; chat-row round-trip p95 <1 s; 1k synthetic connections hold; **PlanetScale switchover keeps the logical slot** (no full re-replication) | PowerSync Cloud; Railway Postgres HA | D4, D12 |
+| S-RT | Centrifugo v6 + Redis 8: JWT via JWKS; subscribe proxy to api allows/denies per membership; server-side unsubscribe after removal <1 s; presence + history; recovery after 2 min app background; 5k sockets on 2 nodes | tune Redis engine / add nodes | D4 |
+| Apple targets | `@bacons/apple-targets` fork or in-repo config plugin generates + signs on EAS (SDK 58, Xcode 27, UIScene): widget ext (widget + Live Activity + AlarmKit UI + App Intent), Notification Service ext, Notification Content ext; App Group + shared Keychain group; widget peak memory <20 MB; intent round-trip <2 s | in-repo config plugin → bare workflow | D3 |
+| Push LA | `@parse/node-apn`: create/delete APNs broadcast channel, update a LA for N devices via one channel push; push-to-start (alert + `input-push-channel`); `LiveActivityIntent` "I'M UP" from lock screen reaches api via device action key; FCM v1 data message to Android | per-activity tokens for LA updates | D3, D4 |
+| NSE/NCE | communication notification with guide avatar (NSE downloads signed PNG); NCE poster with a vote action works with device locked and app killed | plain notification + category actions | D2 |
+| Skia critters (S1/S2) | one critter (Tokek) ported from `design/critters-draw-*.js` into a spike painter: ≤2 % pixel diff vs Node prerender; draw-on 120 fps iPhone 13+, ≥55 fps on low/mid Android (Galaxy A15-class + Pixel 7a); 150×4 grid scroll + 6 idle bobbing critters, dropped frames ≤2 % Android | pre-baked PNG thumbnails in grid, live Skia only for focused critter | D3 |
+| Motion (S3/S7/S8) | grow-into-page transition interruptible, ≤16 ms p95 frame; timeline drag 15-min snap + haptic tick, snap latency <1 frame; release cold start ≤1.2 s mid Android / ≤0.8 s iOS; iOS download ≤40 MB | custom teleport overlay; budgets adjusted in arch §9 | D3 |
+| Background location (S6) | trip-day While-In-Use session with Android foreground service; 50 m dwell ring updates LA while locked; battery <3 %/h during active encounter; Always upgrade path prompts correctly | significant-change + region monitoring only | D13 |
+| Map tiles | MapLibre RN 11 renders a custom hand-drawn style from PMTiles on R2 (via media-worker range reads or public tiles bucket); offline region download for one city; 60 fps pan on mid Android | vector tile server on Railway | D6 |
+| Valhalla | Valhalla 3.9 on Railway SG with SEA + Japan extract: walk/drive/transit-less route p95 <300 ms; matrix 16×16 <1 s; memory within Railway plan | smaller per-region extracts; Mapbox Directions for drive | D6 |
+| Android surfaces | Kotlin spike on API 36: Glance widget renders the shared snapshot written by `cp-app-group`; Live Update (`Notification.ProgressStyle`, promoted ongoing) created and updated from an FCM v1 data push, gated `SDK_INT >= 36`; MetricStyle path gated `>= 37` with a verified fallback on 36; full-screen-intent alarm incl. `canUseFullScreenIntent()` check + Settings deep-link flow when denied (API 34+ rule) | plain ongoing notification with progress; heads-up alarm notification + exact alarm | D2 |
+| Inline module bridge | Expo module `cp-app-group` (Swift + Kotlin) writes snapshot JSON + PNG to App Group / Android shared storage, reads shared outbox, triggers `WidgetCenter.reloadTimelines`; round-trip from JS <50 ms | per-target native bridge | D3 |
+
+Undesigned states: none shipped to users; spike screens live under `(dev)/spikes/` routes, excluded at build time by the phase-1 dev-route exclusion (phase 1: Metro `blockList` on `src/app/(dev)/**` for `APP_VARIANT=production` + `check-release-bundle` CI gate).
+
+## Architecture & contracts
+| Delta | Detail |
+|---|---|
+| ADR format | `docs/decisions/<yyyymmdd>-<slug>.md`: context, criteria table, method, raw numbers, verdict PASS/FAIL, chosen path, consequences, rerun command |
+| Harness home | `tools/spikes/<slug>/` (`s-db`, `s-auth`, `s-sync`, `s-rt`, `apns-live-activity`, `valhalla`, `tiles`); runnable via `pnpm --filter @cp/spike-<slug> run spike` and kept as regression probes (drills reuse them) |
+| Mobile spike routes | `apps/mobile/src/app/(dev)/spikes/<slug>.tsx`; spike painters/code stay in `tools/spikes` or `(dev)` and are not imported by features |
+| Throwaway schema | spikes use their own `spike_*` tables in a `spike` schema on staging, dropped after the ADR; never in `packages/db/migrations` |
+| Targets scaffold | `apps/mobile/targets/{widgets,notification-service,notification-content,_shared}` hello-world code + App Group id `group.app.critterpass` + Keychain group; later phases replace hello views |
+| Device evidence | Agents cannot hold devices. Every device-dependent check is split: (a) agent task — harness screen, scripted capture (Maestro flow on a device farm such as BrowserStack App Automate / Maestro Cloud, `adb shell dumpsys gfxinfo` / Perfetto trace scripts, `xctrace` templates) and an ADR with a `Founder device run` table left blank; (b) founder checklist step — run the script on the named physical device and fill the table. The phase is done only when (b) is filled; simulator/emulator numbers never count as fps, battery or memory evidence |
+| Device action key | spike validates the flow in arch §4.8 (key minted per device, stored in shared Keychain, `POST /v1/actions` with HMAC) using a spike endpoint in `tools/spikes/apns-live-activity` |
+
+## Tasks
+### T1 — S-DB: latency, pooling, extensions
+- Goal: go/no-go on PlanetScale from Railway SG.
+- Files: `tools/spikes/s-db/**`, `docs/decisions/<date>-planetscale-postgres-from-railway.md`.
+- Steps: 1. Railway one-off service runs the probe against staging (PgBouncer 6432 and direct 5432). 2. Measure `select 1`, single-row insert tx, 10-statement tx with `SET LOCAL ROLE` + `set_config`; assert settings do not leak across pooled tx (two interleaved clients). 3. Check extensions; build HNSW on 100k random vectors, record time + query p95. 4. Record price quote. 5. Repeat against Railway Postgres for comparison.
+- Tests: `pnpm --filter @cp/spike-s-db run spike -- --target staging` prints a JSON report; leak test asserts `current_setting('app.uid', true)` is empty in the next tx.
+- Done when: ADR shows numbers for both targets and a verdict.
+
+### T2 — S-AUTH server harness
+- Goal: prove uid-preserving upgrade and merge on the server.
+- Files: `tools/spikes/s-auth/**`, `docs/decisions/<date>-better-auth-anonymous-upgrade.md` (server half).
+- Steps: 1. Minimal Hono + Better Auth 1.7 (anonymous, phoneNumber, jwt EdDSA, admin, expo) on Testcontainers Postgres. 2. Flows: anon → phone verify (Twilio Verify test credentials), anon → linkSocial with an identity present elsewhere → `onLinkAccount` merge moves rows of a `spike_owned` table in one tx. 3. JWKS: rotate key, old tokens still verify until expiry. 4. Verify a JWT with `jose` using only the JWKS URL (what PowerSync/Centrifugo do).
+- Tests: `pnpm --filter @cp/spike-s-auth test` (uid unchanged, `isAnonymous` false, merge atomic on forced failure, rotation).
+- Done when: tests green; server verdict recorded.
+
+### T3 — S-AUTH on device (Apple + Google native tokens)
+- Goal: native sign-in on Expo SDK 58 upgrades the anonymous session.
+- Files: `apps/mobile/src/app/(dev)/spikes/auth.tsx`, `tools/spikes/s-auth/**` (staging deploy config), ADR (device half).
+- Steps: 1. Deploy harness to Railway staging as `spike-auth`. 2. `@better-auth/expo` client + `expo-apple-authentication` + Google native sign-in lib pinned for SDK 58. 3. Anonymous → Apple, anonymous → Google, anonymous → phone; show uid before/after. 4. Record SIWA revoke endpoint behaviour.
+- Tests: Maestro `e2e/spikes/auth-anonymous.yaml` for the anonymous + phone path (simulator); server harness asserts uid equality from logs.
+- Done when (agent): harness screen + ADR with `Founder device run` table ready. Founder checklist: real-device Apple + Google sign-in on iPhone + Android, uid screenshots into ADR (or FAIL + fallback).
+
+### T4 — S-SYNC: self-hosted PowerSync end to end
+- Goal: replication, auth, upload and latency proven on staging.
+- Files: `tools/spikes/s-sync/**`, `infra/powersync/` untouched (spike config in `tools/spikes/s-sync/config/`), `apps/mobile/src/app/(dev)/spikes/sync.tsx`, ADR.
+- Steps: 1. powersync-repl + powersync-api on Railway staging replicating `spike.messages` from PlanetScale via publication. 2. JWKS from `spike-auth`. 3. `/sync/upload` in harness: validates op, writes row or writes `cmd_results` reject with 2xx. 4. Device: offline 50 inserts → reconnect → converge; second device measures arrival (p95). 5. Node load script opens 1k sync connections for 10 min.
+- Tests: `pnpm --filter @cp/spike-s-sync run load -- --conns 1000`; latency script outputs p50/p95; reject path asserted by reading `cmd_results`.
+- Done when: numbers recorded against criteria; verdict in ADR.
+
+### T5 — S-SYNC switchover drill
+- Goal: logical slot survives a PlanetScale primary switchover.
+- Files: `tools/spikes/s-sync/drill.ts`, `docs/runbooks/db-switchover-drill.md`, ADR (drill section).
+- Steps: 1. Continuous writer + PowerSync checkpoint watcher. 2. Trigger PlanetScale switchover (console/API). 3. Measure write gap, replication resume time, whether PowerSync re-snapshotted (diagnostics API). 4. Repeat on Railway Postgres HA for the fallback. 5. Write runbook (quarterly drill steps, expected numbers, rollback).
+- Tests: `pnpm --filter @cp/spike-s-sync run drill` produces report JSON.
+- Done when: runbook exists; ADR states slot kept (PASS) or fallback chosen.
+
+### T6 — S-RT: Centrifugo proxy, presence, recovery, revocation
+- Goal: realtime contract proven.
+- Files: `tools/spikes/s-rt/**`, ADR.
+- Steps: 1. Centrifugo v6 (2 nodes, Redis 8) on staging with JWKS + subscribe proxy to harness. 2. Proxy allows members, denies others. 3. Remove member → server API `unsubscribe` → client event latency. 4. History + recovery after 2 min background on device. 5. k6/Node script ramps to 5k sockets.
+- Tests: `pnpm --filter @cp/spike-s-rt test` (proxy decisions), `run load -- --sockets 5000`.
+- Done when: revocation <1 s p95, recovery works, 5k sockets stable — or fallback recorded.
+
+### T7 — Apple extension targets on SDK 58 / Xcode 27 / UIScene
+- Goal: all extension targets build, sign and run.
+- Files: `apps/mobile/targets/{widgets,notification-service,notification-content,_shared}/**`, `apps/mobile/app.config.ts` (targets plugin entry — named dependency), `apps/mobile/plugins/**` if in-repo plugin, ADR.
+- Steps: 1. Try `@bacons/apple-targets` fork on SDK 58; if blocked, in-repo config plugin. 2. Widget ext: static widget, Live Activity (lock screen + Dynamic Island), AlarmKit alarm UI, App Intent button. 3. NSE + NCE hello. 4. App Group + Keychain group entitlements; UIScene lifecycle compatibility. 5. EAS build + install; `xctrace` widget-memory template script in `tools/spikes/apple-targets/`.
+- Tests: `eas build -p ios --profile development`; XCTest target for `_shared` snapshot decoding.
+- Done when (agent): signed EAS build with all targets; ADR picks the path. Founder checklist: install on iPhone, run the `xctrace` script, record widget memory <20 MB.
+
+### T8 — Inline module bridge: cp-app-group
+- Goal: JS ↔ App Group / Android shared storage bridge.
+- Files: `apps/mobile/modules/cp-app-group/**`, `apps/mobile/src/app/(dev)/spikes/app-group.tsx`.
+- Steps: 1. Expo module API: `writeSnapshot(key, json)`, `writeImage(key, pngBase64)`, `readOutbox()`, `reloadWidgets()`. 2. Kotlin equivalent (app-private file + Glance update broadcast). 3. Widget from T7 reads snapshot. 4. Time round-trip.
+- Tests: XCTest + JUnit for serialization; RNTL-free device timing recorded.
+- Done when: widget shows JS-written snapshot on both platforms; round-trip <50 ms.
+
+### T9 — APNs broadcast LA, push-to-start, I'M UP, NSE/NCE
+- Goal: native push paths proven with our server library.
+- Files: `tools/spikes/apns-live-activity/**`, `apps/mobile/src/app/(dev)/spikes/live-activity.tsx`, targets code from T7 (named dependency), ADR.
+- Steps: 1. `@parse/node-apn` with .p8: create broadcast channel, start LA via push-to-start with `input-push-channel`, update 3 devices via one channel push, end + delete channel. 2. `LiveActivityIntent` "I'M UP" → `POST /v1/actions` with device action key (HMAC) → harness logs. 3. NSE downloads signed avatar, sets communication intent; NCE poster with vote action (device locked, app killed). 4. `firebase-admin` FCM v1 data message to Android dev client. 5. Record push-to-start budget behaviour.
+- Tests: harness script `run lifecycle` prints each APNs response; device evidence in ADR.
+- Done when: all paths work on device or fallback recorded.
+
+### T10 — Skia critter painter perf (S1, S2)
+- Goal: renderer feasibility on low-end Android + iPhone.
+- Files: `tools/spikes/skia-critter/**` (spike painter ported from `design/critters-draw-*.js`, read-only source), `apps/mobile/src/app/(dev)/spikes/critter.tsx`, `apps/mobile/src/app/(dev)/spikes/critterdex-grid.tsx`, ADR.
+- Steps: 1. Port Tokek draw calls to a Canvas2D-like interface over Skia. 2. Node prerender (@napi-rs/canvas) reference PNG; device snapshot diff. 3. Draw-on + blink animation on UI thread. 4. 600-cell grid (FlashList 2 vs Legend List) + 6 idle critters. 5. Scripted capture (Perfetto config + `dumpsys gfxinfo` script, `xctrace` template) runnable on Galaxy A15-class, Pixel 7a, iPhone 13 (device farm or founder device).
+- Tests: `pnpm --filter @cp/spike-skia-critter test` (pixel diff ≤2 %).
+- Done when (agent): pixel-diff test green; capture scripts + ADR template ready. Founder checklist: run captures on the three devices; ADR records fps/drop rates and the grid strategy (live vs baked thumbnails) for phases 4/5.
+
+### T11 — Motion & startup (S3, S7, S8)
+- Goal: transition, drag and cold-start budgets measured.
+- Files: `apps/mobile/src/app/(dev)/spikes/{grow-into-page,timeline-drag}.tsx`, ADR.
+- Steps: 1. Compare `Link.AppleZoom`, Reanimated shared element (flagged), custom teleport overlay for grow-into-page. 2. Timeline drag with 15-min snap via Gesture Handler 3 + haptic ticks. 3. Release builds: cold start (Android `am start -W`, iOS Instruments), download size (App Store Connect/EAS size report).
+- Tests: Maestro `e2e/spikes/motion.yaml` drives both screens; numbers captured.
+- Done when (agent): ADR names the transition approach; cold-start/size scripts committed. Founder checklist: S7/S8 numbers from release builds on the reference devices.
+
+### T12 — Background location session + dwell ring (S6)
+- Goal: prove trip-day session design and battery budget.
+- Files: `apps/mobile/src/app/(dev)/spikes/location.tsx`, `tools/spikes/location/README.md` (method), ADR.
+- Steps: 1. While-In-Use session with iOS background location indicator + Android foreground service (type location). 2. 50 m geofence dwell → updates LA progress while locked (via T7/T9 targets). 3. Always upgrade prompt flow. 4. 1 h walk test: battery drain per platform.
+- Tests: unit test for dwell calculation in spike code; simulated-route Maestro run (GPX on simulator/emulator) proves the ring advances.
+- Done when (agent): simulated ring advance + field-test script in `tools/spikes/location/README.md`. Founder checklist: 1 h walk per platform, battery drain + lock-screen ring evidence in ADR; verdict.
+
+### T13 — MapLibre custom style + PMTiles on R2
+- Goal: map rendering and offline region feasibility.
+- Files: `tools/spikes/tiles/**` (pmtiles build script for one city extract, style JSON draft), `apps/mobile/src/app/(dev)/spikes/map.tsx`, ADR.
+- Steps: 1. Build PMTiles for Da Nang from OSM (planetiler/tippecanoe). 2. Upload to `cp-tiles`; serve via media-worker range reads or public bucket (compare). 3. Custom hand-drawn style draft (fonts glyphs + sprites on R2). 4. Offline pack download for city bbox. 5. Pan/zoom fps on mid Android.
+- Tests: `pnpm --filter @cp/spike-tiles run build -- --city da-nang`; fps capture script (founder checklist on mid Android).
+- Done when: offline map works in airplane mode; ADR chooses PMTiles or tile server.
+
+### T14 — Android native surfaces (Kotlin)
+- Goal: prove Android parity surfaces before the surface phases build them.
+- Files: `apps/mobile/modules/cp-spike-android/**` (Expo module, Kotlin: Glance widget, Live Update builder, alarm activity + receiver), `apps/mobile/src/app/(dev)/spikes/android-surfaces.tsx`, `tools/spikes/android-surfaces/**` (FCM data-push sender script), ADR.
+- Steps: 1. Glance widget reads the snapshot written via `cp-app-group` (T8). 2. FCM v1 data message → `FirebaseMessagingService` → post/update a promoted Live Update (`ProgressStyle`) when `SDK_INT >= 36`, plain progress notification below. 3. MetricStyle builder behind `SDK_INT >= 37`; on 36 the guard selects the fallback (unit-tested). 4. Full-screen-intent alarm: `canUseFullScreenIntent()` check, denied → Settings deep link flow, exact alarm scheduling; alarm activity over lock screen. 5. Record OEM behaviour notes.
+- Tests: `./gradlew :cp-spike-android:testDebugUnitTest` (SDK guards, payload parsing); Maestro `e2e/spikes/android-surfaces.yaml` on API 36 emulator (widget renders, Live Update posted, FSI permission flow).
+- Done when (agent): emulator flows green; ADR written. Founder checklist: physical API 36+ device run of FCM-updated Live Update and locked-screen alarm.
+
+### T15 — Valhalla on Railway + spike summary
+- Goal: routing feasibility and consolidated go/no-go.
+- Files: `tools/spikes/valhalla/**` (Dockerfile, tile build script), `docs/decisions/README.md` (index + summary), `docs/system-architecture.md` §11 results column.
+- Steps: 1. Build Valhalla tiles for the 61 places' countries; deploy to Railway SG with volume. 2. Measure route p95 (walk, drive), 16×16 matrix, memory/cold start. 3. Write ADR. 4. Write decisions index with PASS/FAIL table and fallbacks taken; update arch §11.
+- Tests: `pnpm --filter @cp/spike-valhalla run bench`.
+- Done when: all ADRs linked from index; arch §11 shows results.
+
+## Phase acceptance criteria
+- [ ] One ADR per spike (S-DB, S-AUTH, S-SYNC incl. drill, S-RT, Apple targets, Android surfaces, push LA/NSE/NCE, Skia critters, motion/startup, background location, tiles, Valhalla, inline module) with numbers and verdict
+- [ ] Each FAIL names a fallback inside the custom stack; no ADR proposes Supabase
+- [ ] Harnesses rerun via `pnpm --filter @cp/spike-<slug> run spike`
+- [ ] `docs/runbooks/db-switchover-drill.md` exists and was executed once
+- [ ] Signed iOS build with widget, LA, AlarmKit, NSE, NCE targets installs from EAS
+- [ ] `(dev)` routes excluded from production variant (`check-release-bundle` green)
+- [ ] Every `Founder device run` table filled
+- [ ] Spike tables dropped from staging
+
+## Risks & rollback
+| Risk | Mitigation / rollback |
+|---|---|
+| apple-targets unmaintained for SDK 58 | in-repo plugin; exit = bare workflow (`expo prebuild` committed) |
+| PowerSync slot lost on switchover | PowerSync Cloud (managed) or Railway PG HA; accept re-replication with measured time |
+| Better Auth anon uid not preserved | merge tx + `disconnectAndClear` |
+| Skia perf misses on low-end Android | baked PNG grid, fewer concurrent draw-ons (≤2), adjust budgets not scope |
+| Spike code leaking into features | lint boundary: nothing under `src/features` may import `(dev)` or `tools/spikes` |
+
+## Non-code dependencies
+| Item | Needed for | If not ready |
+|---|---|---|
+| Apple Developer account, App Group + AlarmKit + push entitlements, APNs .p8 | T3, T7, T9, T12 | simulator-only evidence; ADR marked incomplete, phase not done |
+| Google Play Console, Firebase project | T3, T9 | emulator + FCM test project |
+| Test devices: iPhone 13+, Galaxy A15-class, Pixel 7a | T10–T12 | borrow/rent via device farm (BrowserStack App Live) |
+| Twilio Verify test account | T2/T3 | phone path verified with Better Auth test OTP hook only; ADR notes gap |
+| PlanetScale switchover access | T5 | request from support; drill on Railway HA first |
+
+## Open questions
+1. apple-targets fork vs in-repo plugin — default: fork as a git dependency. Doc delta: add `apps/mobile/plugins/` (one config plugin per file, e.g. `with-critter-art.ts`) to the canonical layout in system-architecture.
+2. PMTiles delivery: public R2 bucket vs media-worker range reads — default: public `cp-tiles` bucket (tiles are not private).
+3. Android low-end reference device — default: Samsung Galaxy A15.
+4. Valhalla extract coverage — default: countries of the 61 places only.

@@ -1,0 +1,13 @@
+# OS / editor
+.DS_Store
+
+# Dependencies and build output
+node_modules/
+dist/
+.turbo/
+*.log
+
+# Environment and secrets (only .env.example is committed)
+.env
+.env.*
+!.env.example

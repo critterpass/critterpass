@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Caveat:wght@600&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script src="doodles.js"></script>
+<style>body{margin:0;background:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#17142a}a{color:#17142a}a:hover{color:#c4623e}</style>
+</helmet>
+<div style="min-height:100vh;background:#f4efe4">
+<dc-import name="Site - Header" active="tips" style="position:sticky;top:0;z-index:50;display:block" hint-size="100%,65px"></dc-import>
+
+<section data-screen-label="Tips hero" style="max-width:1240px;margin:0 auto;padding:clamp(56px,8vw,104px) clamp(20px,4vw,48px) 40px;display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:18px;max-width:720px">
+<span style="font:700 12px Archivo,sans-serif;letter-spacing:.18em;color:#6b6356">THE CRITTERPASS JOURNAL</span>
+<h1 style="margin:0;font:900 clamp(80px,12vw,168px)/.8 Archivo,sans-serif;font-stretch:64%;text-transform:uppercase">Tips from<br>the locals</h1>
+<p style="margin:0;font:500 clamp(17px,1.6vw,20px)/1.5 Geist,sans-serif;color:#3d372f;max-width:540px;text-wrap:pretty">Short, useful notes on planning with friends, sharing costs and getting the most out of a place. Written with our guides, checked by people who've been.</p>
+</div>
+<div style="position:relative;width:260px;height:200px">
+<div style="position:absolute;left:0;top:30px;line-height:0;transform:rotate(-10deg)"><doodle-art kind="tanuki" size="130" sticker="#f4efe4" pose="think" seed="42"></doodle-art></div>
+<div style="position:absolute;left:110px;top:0;line-height:0;transform:rotate(8deg)"><doodle-art kind="puffin" size="140" sticker="#f4efe4" pose="wave" seed="43"></doodle-art></div>
+<span style="position:absolute;left:10px;bottom:-14px;font:600 24px Caveat,cursive;color:#c4623e;transform:rotate(-4deg)">new every Thursday</span>
+</div>
+</section>
+
+<section data-screen-label="Filters" style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,48px) 32px;display:flex;gap:8px;flex-wrap:wrap">
+<sc-for list="{{ cats }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.pick }}" style="height:42px;padding:0 18px;border-radius:21px;border:2px solid #17142a;cursor:pointer;font:800 13px Archivo,sans-serif;letter-spacing:.08em;background:{{ c.bg }};color:{{ c.fg }};transition:transform .15s" style-hover="transform:rotate(-3deg)">{{ c.label }}</button></sc-for>
+</section>
+
+<section data-screen-label="Featured" style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,48px) 32px">
+<sc-if value="{{ showFeatured }}" hint-placeholder-val="{{ true }}">
+<a href="Site%20-%20Tip%20Article.dc.html" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));border-radius:36px;overflow:hidden;background:#17142a;color:#f4efe4;text-decoration:none;transition:transform .25s" style-hover="transform:rotate(-.5deg) translateY(-4px)">
+<div style="position:relative;min-height:380px;background:#54d6a4 radial-gradient(rgba(23,20,42,.13) 1.3px,transparent 1.7px) 0 0/9px 9px;display:flex;align-items:center;justify-content:center">
+<div style="position:absolute;left:24px;top:24px;padding:7px 12px;border-radius:10px;background:#17142a;color:#ffd84a;font:700 11px Archivo,sans-serif;letter-spacing:.16em;transform:rotate(-3deg)">FEATURED</div>
+<tg-motion fx="bob" dur="2600" style="line-height:0"><doodle-art kind="gecko" size="260" sticker="#f4efe4" pose="point" seed="41"></doodle-art></tg-motion>
+<div style="position:absolute;right:28px;top:40px;padding:10px 14px;border-radius:16px 16px 4px 16px;background:#f4efe4;color:#17142a;font:600 15px Geist,sans-serif;transform:rotate(3deg)">Vote by Friday?</div>
+</div>
+<div style="padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;justify-content:center;gap:18px">
+<span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">PLANNING · 6 MIN READ</span>
+<span style="font:900 clamp(40px,4.4vw,60px)/.9 Archivo,sans-serif;font-stretch:68%;text-transform:uppercase;color:#ffd84a;text-wrap:balance">How to get six friends to agree on where to go</span>
+<span style="font:400 17px/1.55 Geist,sans-serif;color:#c9c4dc;text-wrap:pretty">A shortlist of three, one deadline and a tie-break rule decided before anyone votes. Tokek's method for ending the "idk u pick" loop.</span>
+<span style="display:flex;align-items:center;gap:10px;font:600 14px Geist,sans-serif"><span style="width:32px;height:32px;border-radius:16px;background:#54d6a4;display:flex;align-items:center;justify-content:center;line-height:0;overflow:hidden"><doodle-art kind="gecko" size="30" anim="none" seed="41"></doodle-art></span>Tokek, Bali · Sept 24</span>
+</div>
+</a>
+</sc-if>
+</section>
+
+<section data-screen-label="Posts" style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,48px) 120px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:24px">
+<sc-for list="{{ posts }}" as="p" hint-placeholder-count="6">
+<a href="Site%20-%20Tip%20Article.dc.html" style="display:flex;flex-direction:column;border-radius:28px;overflow:hidden;background:#fffaf0;text-decoration:none;color:#17142a;box-shadow:0 1px 0 #ddd5c4;transition:transform .25s cubic-bezier(.34,1.56,.64,1)" style-hover="transform:rotate({{ p.tilt }}deg) translateY(-6px)">
+<div style="position:relative;height:220px;background:{{ p.bg }};display:flex;align-items:center;justify-content:center;overflow:hidden">
+<div style="position:absolute;inset:0;background:radial-gradient(rgba(23,20,42,.12) 1.3px,transparent 1.7px) 0 0/8px 8px"></div>
+<div style="position:relative;line-height:0;transform:rotate({{ p.tilt }}deg)"><doodle-art kind="{{ p.kind }}" size="170" sticker="#f4efe4" pose="{{ p.pose }}" seed="{{ p.seed }}" anim="none"></doodle-art></div>
+<span style="position:absolute;left:18px;top:18px;padding:5px 10px;border-radius:8px;background:#f4efe4;font:700 10px Archivo,sans-serif;letter-spacing:.14em">{{ p.cat }}</span>
+</div>
+<div style="padding:22px 24px 26px;display:flex;flex-direction:column;gap:10px;flex:1">
+<span style="font:900 28px/.95 Archivo,sans-serif;font-stretch:72%;text-transform:uppercase;text-wrap:balance">{{ p.title }}</span>
+<span style="font:400 15px/1.5 Geist,sans-serif;color:#5d564b;text-wrap:pretty">{{ p.dek }}</span>
+<span style="margin-top:auto;padding-top:10px;font:500 12px 'Geist Mono',monospace;color:#6b6356">{{ p.by }} · {{ p.mins }} MIN</span>
+</div>
+</a>
+</sc-for>
+<sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}"><div style="grid-column:1/-1;padding:48px;text-align:center;font:500 16px Geist,sans-serif;color:#6b6356">Nothing here yet. Pon is still writing.</div></sc-if>
+</section>
+
+<section data-screen-label="Tips CTA" style="background:#ffd84a radial-gradient(rgba(23,20,42,.12) 1.3px,transparent 1.7px) 0 0/10px 10px">
+<div style="max-width:1240px;margin:0 auto;padding:72px clamp(20px,4vw,48px);display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap">
+<div style="display:flex;align-items:center;gap:20px"><doodle-art kind="gecko" size="110" sticker="#f4efe4" pose="wave" seed="41"></doodle-art><span style="font:900 clamp(36px,4.4vw,56px)/.9 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase;max-width:520px">Or just ask the guide directly.</span></div>
+<a href="Site%20-%20Home.dc.html#get" style="display:flex;align-items:center;height:60px;padding:0 28px;border-radius:30px;background:#17142a;color:#ffd84a;text-decoration:none;font:900 15px Archivo,sans-serif;letter-spacing:.06em">GET THE APP</a>
+</div>
+</section>
+<dc-import name="Site - Footer" hint-size="100%,520px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { cat: 'ALL' };
+  renderVals() {
+    const all = [
+      { cat: 'MONEY', title: 'The fair way to split a villa when the rooms aren’t equal', dek: 'Weight by room, not by head. A simple formula the whole crew can check.', by: 'AJO, MEXICO CITY', mins: 4, kind: 'axolotl', pose: 'think', seed: 44, bg: '#ff5fa8', tilt: -2 },
+      { cat: 'CITY GUIDES', title: 'Kyoto before 8am: the temples worth the alarm', dek: 'Five places that are quiet at dawn and packed by ten, in walking order.', by: 'PON, KYOTO', mins: 5, kind: 'tanuki', pose: 'wave', seed: 42, bg: '#ff9a4d', tilt: 2 },
+      { cat: 'ON THE TRIP', title: 'Packing for Iceland in shoulder season', dek: 'Three layers, one pair of boots, and why you want a swimsuit in October.', by: 'LUNDI, ICELAND', mins: 4, kind: 'puffin', pose: 'cheer', seed: 43, bg: '#7fb8ff', tilt: -1.5 },
+      { cat: 'ON THE TRIP', title: 'What to do on the day it rains', dek: 'Keep a Plan B for each day before you leave and the swap takes one tap.', by: 'TOKEK, BALI', mins: 3, kind: 'gecko', pose: 'think', seed: 41, bg: '#54d6a4', tilt: 1.5 },
+      { cat: 'CITY GUIDES', title: 'Altitude, pacing and your first day in Cusco', dek: 'Why the first afternoon should be the slowest one, and what to eat.', by: 'PACO, CUSCO', mins: 5, kind: 'alpaca', pose: 'idle', seed: 46, bg: '#ffd84a', tilt: -2 },
+      { cat: 'MONEY', title: 'Group budgets nobody has to police', dek: 'Agree a daily number up front and let the app flag drift, not people.', by: 'SARDI, LISBON', mins: 4, kind: 'sardine', pose: 'wave', seed: 45, bg: '#4f86ff', tilt: 2 },
+      { cat: 'PLANNING', title: 'Picking dates when six calendars disagree', dek: 'Start with the no-go weeks, not the good ones. It narrows faster.', by: 'TOKEK, BALI', mins: 3, kind: 'gecko', pose: 'point', seed: 47, bg: '#c9d3de', tilt: -1 }
+    ];
+    const cur = this.state.cat;
+    const posts = cur === 'ALL' ? all : all.filter(p => p.cat === cur);
+    const cats = ['ALL', 'PLANNING', 'MONEY', 'ON THE TRIP', 'CITY GUIDES'].map(label => ({ label, bg: label === cur ? '#17142a' : 'transparent', fg: label === cur ? '#ffd84a' : '#17142a', pick: () => this.setState({ cat: label }) }));
+    return { posts, cats, empty: posts.length === 0, showFeatured: cur === 'ALL' || cur === 'PLANNING' };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+# Critterpass API contracts (async surface)
+
+Status: working contract · 2026-09-26 · companion of [api-contracts.md](./api-contracts.md) (envelope, commands, HTTP, AI tools, suppliers).
+Covers: Centrifugo channels, pg-boss jobs, push (APNs/FCM), notification actions + App Intents → commands, device action keys, App Group contract.
+
+## 1. Realtime (Centrifugo v6 OSS + Redis 8, P10)
+
+### 1.1 Rules
+
+| Item | Contract |
+|---|---|
+| Connection | WSS `rt.critterpass.app`; JWT `aud: rt`, EdDSA via Better Auth JWKS, `exp` 15 min, client refresh via `/api/auth/token` |
+| Channel pattern | `<namespace>:<id>`; user-limited channels `user:#<uid>` (Centrifugo `#` boundary) |
+| Subscribe auth | subscribe proxy → `POST /internal/rt/subscribe` (ACL below); no subscription tokens |
+| Revocation | on `crew.member_left/removed`, `participant.declined`, `location_share.changed(off)`, `session.revoked`: worker calls server API `unsubscribe` (channel) or `disconnect` (user) in the same outbox relay |
+| Delivery | only via `rt_outbox` (written in command tx) → worker `rt.relay` → server API `publish`/`broadcast`; never publish before commit |
+| Recovery | history + `recover: true`; client stores `(offset, epoch)` per channel. If Centrifugo returns `recovered: false` or the epoch changed → client treats channel as lossy and reconciles from PowerSync (source of truth) or the listed HTTP read |
+| Payload envelope | `{v: 1, id: <event uuidv7>, type: "<aggregate.event>", at, data}`; ≤ 8 KB; client dedupes on `id` |
+| Client publish | only via publish proxy on `trip_presence`, `crew_chat` (typing), `swipe` (presence ping); all other writes are commands |
+| Privacy | no C3 values ever (budget maxes, private threads, raw calendar, payout, dietary detail). Locations only on `trip_locations` to participants inside an open window |
+| Throttle | client-side: cursors ≤5 Hz, typing ≤1 per 3 s; server-side publish proxy drops over-rate (OSS has no per-op limits) |
+
+### 1.2 Namespace catalogue
+
+History = size / TTL. Presence ✓ = Centrifugo presence + join/leave enabled.
+
+| Namespace / pattern | ACL (subscribe proxy) | Payload types | Rate | Presence | History | Phase |
+|---|---|---|---|---|---|---|
+| `user:#{uid}` | self | `inbox.*`, `badge.counts`, `entitlement.changed`, `usage.changed{used, limit, reset_at}`, `job.progress{job_id, step, pct}`, `guide.private_message`, `cmd.result`, `session.revoked` | event | – | 100 / 24 h | 10 |
+| `crew:{crew_id}` | member | `member.joined/left/updated`, `invite.opened`, `boost.state`, `trip.summary`, `home.badges` | event | ✓ | 50 / 24 h | 23 |
+| `crew_chat:{crew_id}` | member | `message.created/edited/deleted`, `reaction`, `typing{uid\|guide}`, `guide.token{stream_id, seq, text}`, `poll.tally`, `guide_offer.taken`, `boost_card` | per msg; typing ≤0.33 Hz/user; tokens ~20/s | ✓ | 200 / 72 h | 24 |
+| `crew_money:{crew_id}` | member | `expense.*`, `balances.updated`, `payment.status`, `reward.granted{server_ts}` | event | – | 100 / 72 h | 33 |
+| `crew_bookings:{crew_id}` | member | `import.candidate`, `booking.*`, `flight.status` | event | – | 50 / 72 h | 34 |
+| `crew_collection:{crew_id}` | member | `critter.befriended`, `sighting`, `first_spotter` | event | – | 50 / 7 d | 40 |
+| `poll:{poll_id}` | eligible voter (+ creator) | `ballot.upserted{option_tallies, pending_count}`, `poll.closed`, `poll.result`, `changeset.tally{yes, needed}` | per ballot | – | 50 / 7 d | 26 |
+| `trip:{trip_id}` | participant | hub ticker `activity`, `tiles`, `boost.state`, `boost.intent_lock{by_uid, until}`, `redraft.counter`, `seat.count` | event | – | 100 / 72 h | 36 |
+| `trip_setup:{trip_id}` | participant | `step.status`, `calendar.sync_count`, `budget.band{count, dots[] (crew ≥4), band}`, `rooms.changed`, `must_do.row{fit_status}` | event | ✓ | 50 / 72 h | 27 |
+| `trip_draft:{trip_id}` | organiser | `draft.step`, `draft.day_title`, `draft.done`, `redraft.result`, `import.progress` | ~1/s during job | – | 100 / 24 h | 28 |
+| `trip_plan:{trip_id}` | participant | `plan.ops{version, ops}`, `guide.touched`, `forecast.band`, `match.inserted`, `changeset.*` | per op | – | 200 / 72 h | 29 |
+| `trip_presence:{trip_id}` | participant | client publish: `here{screen, day}`, `cursor{anchor}`, `typing` | ≤5 Hz/client | ✓ | none | 29 |
+| `trip_dayof:{trip_id}` | participant | `readiness{leave_by_id, up[], total}`, `packing.checked`, `leave_by.changed` | event | – | 50 / 24 h | 36 |
+| `trip_watch:{trip_id}` | participant | `watch.item`, `watch.status`, `forecast.updated` | per run | – | 50 / 72 h | 37 |
+| `trip_copresence:{trip_id}` | participant with active visit at spot | `copresence{spot_id, in_count, total}` (no coordinates) | event, TTL 30 min | – | none | 40 |
+| `trip_locations:{trip_id}` | participant with share window open (or Help/SOS session) | `fixes[{uid, lat, lng, acc, at, mode}]`, `meetup.*`, `eta[{uid, min}]`, `ping` | fixes 15–60 s; ETA 60 s | ✓ | 1 / 5 min (last fix only) | 39 |
+| `trip_quests:{trip_id}` | participant | `quest.progress`, `quest.completed`, `reward` | event | – | 50 / 72 h | 41 |
+| `trip_album:{trip_id}` | participant | `photo.added`, `photo.picked`, `curation.done` | event | – | 100 / 72 h | 44 |
+| `swipe:{session_id}` | participant in session | `vote{uid}` (verdict hidden until match), `match{poi_id}`, `progress`, presence ping | per swipe | ✓ | 100 / 24 h | 30 |
+| `proposal:{proposal_id}` | recipient; organiser gets extra `engagement.summary` via `user:#uid` only | `reaction`, `hype_pct`, `rsvp.status`, `offer.published` (never per-person opens, C28) | event | – | 50 / 14 d | 31 |
+| `guide_thread:{thread_id}` | group thread: crew member; private: owner (prefer `user:#uid`) | `token`, `tool_event`, `proposal{changeset_id}` | streaming | ✓ (group) | 50 / 24 h | 32 |
+| `disruption:{disruption_id}` | affected participant | `step{action_id, status}`, `needs_yes` | per step | – | 50 / 72 h | 37 |
+| `sos:{sos_id}` | crew of trip | `sender.fix`, `responder{uid, state}`, `step`, `message`, `resolved` | sub-second fixes | ✓ | 200 / 24 h | 38 |
+| `recap:{recap_id}` | participant | `signature`, `mvp.vote`, `mvp.result` | event | – | 50 / 14 d | 43 |
+| `memory:{memory_id}` | crew | `reaction` | event | – | 50 / 14 d | 43 |
+
+Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
+
+## 2. Jobs (pg-boss 12, `services/worker`, P11)
+
+### 2.1 Rules
+
+| Item | Contract |
+|---|---|
+| Enqueue | inside the command transaction via pg-boss Drizzle adapter (`boss.send(queue, data, opts)` on the tx) |
+| Naming | `<domain>.<action>` (e.g. `ai.draft`); handler at `services/worker/src/jobs/<domain>/<action>.ts` |
+| Idempotency | `singletonKey` = natural key (listed); handler re-reads state and no-ops if already done; side effects keyed by `op_id` or `job_id` |
+| Scheduling | per-object timers via `scheduled_events(due_at, kind, ref)` computed from local time + IANA tz; cron `sched.enqueue_due` every minute moves due rows into queues |
+| Retries | default `retryLimit 3, retryBackoff true, retryDelay 10 s`; dead-letter queue `<queue>.dlq` with ops alert + redrive in admin |
+| Progress | AI jobs write `agent_jobs.steps` and publish `job.progress` to `user:#uid` / `trip_draft` |
+| Quotas | reserved in command tx; job commits or releases (`quota.release` on final failure) |
+| Timeouts | `expireInSeconds` per queue; outbound calls ≤120 s |
+
+### 2.2 Event-driven queues
+
+| Queue | Trigger | Handler does | Retry / DLQ | Idempotency key | Phase |
+|---|---|---|---|---|---|
+| `rt.relay` | `rt_outbox` insert (LISTEN wake + 1 s sweep) | publish to Centrifugo, mark sent, unsubscribe/disconnect ops | 10 fast retries | outbox id | 10 (plain worker loop); moved onto pg-boss in 11 |
+| `notify.route` | domain events with notification mapping (N-01…N-52) | class (ALWAYS/BUDGET/ROUNDUP/SILENT/LOCAL) → prefs → quiet hours → budget ledger → paywall governor → `push.send` or roundup queue; guide-voice rewrite (cached) | 3 / DLQ | `(event_id, uid)` | 11 |
+| `push.send` | router | APNs/FCM send; 410/UNREGISTERED → token delete | 5 exp. | `(notification_id, device_id)` | 11 |
+| `push.la` | LA transitions, readiness, ETA | APNs `liveactivity` update/end/start or broadcast; FCM Live Update data | 3 | `(activity_id, seq)` | 48 |
+| `push.widget` | vote/balance/plan/forecast/crew change | APNs `widgets` content-changed; FCM data → Glance; budget ~40–70/day/device | 2 | `(device_id, kind, 5-min bucket)` | 49 |
+| `inbox.fanout` | domain events | inbox items + badge recompute | 3 | `(event_id, uid)` | 25 |
+| `ai.pitch` | pitch cache miss (background prewarm) | AI-01 | 2 | `(crew, place, month)` | 26 |
+| `ai.draft` | `start_draft` | load → prefetch → Opus skeleton → Sonnet day fan-out → validate → repair ≤2 → persist version → events | 2 / DLQ | `trip_id + draft_seq` | 28 |
+| `ai.redraft` | `request_redraft`, `import_shared_plan` | day-scoped pipeline + diff; release quota on failure | 2 | `redraft_id` | 28, 52 |
+| `ai.fit_check` | `set_must_dos` | planner fit per must-do | 3 | `(trip_id, must_do_hash)` | 27 |
+| `ai.proposal_versions` | `create_proposal` | one child per recipient (AI-15), costs injected | 3 each | `(proposal_id, uid)` | 31 |
+| `ai.rsvp_intent` | reply text | AI-18 intent; `out` → `trip.dropout` | 3 | message id | 31 |
+| `trip.dropout` | `participant.declined` | room re-optimise, Viator cancel if applicable, re-split, waitlist promote, ChangeSet | 3 / DLQ | `(trip_id, uid)` | 31 |
+| `ai.swipe_deck` | `start_swipe_session` | deck[30] + notes | 2 | session id | 30 |
+| `ai.guide_mention` | crew chat mention | AI-20 stream to `crew_chat` | 1 | message id | 32 |
+| `ai.queued_answer` | 00:00 local reset | AI-40 answer, passive push N-36 | 3 | question id | 32 |
+| `ai.receipt` | `POST /v1/receipts` | AI-25 lines + payer inference | 2 | receipt id | 33 |
+| `mail.parse` | inbound email | sanitize → JSON-LD/Microdata → Haiku extract (no tools) → validate → dedupe → candidate → N-13 | 3 / DLQ | message-id header hash | 34 |
+| `import.parse` | `import_paste`, `import_scan` | same parser path | 3 | op_id | 34 |
+| `flight.event` | AeroAPI webhook | status diff → N-14/N-41, LA, `ai.disruption`, landed → `hatch_egg` | 5 | `(flight_id, alert_id)` | 34 |
+| `ai.disruption` | flight event, watch escalation | AI-28 actions `{kind, reversible, needs_approval, cost_delta}`; progress on `disruption:` | 2 / DLQ | disruption id | 37 |
+| `ai.replan` | material forecast change | AI-14 ChangeSet | 2 | `(trip_id, forecast_hash)` | 37 |
+| `sos.orchestrate` | `trigger_sos` | deterministic fan-out (push ALWAYS + LA) first; AI-30 summary with hard timeout off the fan-out path; escalation timer | 10 fast | sos id | 38 |
+| `supplier.hold_expiry` | hold created | release/mark expired before lapse; close linked ChangeSet (C41) | 3 | hold id | 35 |
+| `vendor.reply_parse` | WhatsApp inbound | AI-31 reply intent → user card | 3 | wa message id | 35 |
+| `quest.evaluate` | expense/visit/phrase/copresence events | progress, completion → `grant_quest_reward` | 3 | `(quest_id, event_id)` | 41 |
+| `critter.verify` | `befriend_critter` | plausibility (speed, flight continuity, attestation, mock flags, skew) → verify/revoke | 3 | encounter id | 40 |
+| `reward.fanout` | reward events | stamps, icon unlocks, XP; same server ts | 3 | event id | 40 |
+| `media.process` | `register_photo`, avatar | thumbnails (sharp), hash dedupe, moderation, avatar PNG sizes for push/LA/widgets | 3 | media key | 44, 45 |
+| `ai.curate_album` | photos added (debounced 10 min) / trip end | AI-35 picks[24] + note (prefiltered) | 2 | `(trip_id, photo_set_hash)` | 44 |
+| `community.prepare` | `publish_shared_plan` | PII scrub, face blur derivative, title/tags (AI-36), match vectors | 2 / DLQ | shared plan id | 52 |
+| `postcard.fulfil` | `mail_postcard` | vendor order, status sync, failure refund of quota | 5 | postcard id | 44 |
+| `billing.apply` | RevenueCat webhook | refetch subscriber → fulfil/revoke; boost activation + IOUs; N-34/N-37 | 5 / DLQ | RC event id | 46 |
+| `boost.expire` | scheduled at `ends_at` | flip entitlements, end crew LAs, freeze seats >6, notify | 3 | boost id | 46 |
+| `export.build` | `request_data_export` | zip JSON + media + chat → R2 signed link, N-40 | 3 | export id | 45 |
+| `account.purge` | grace end | cascade delete/anonymise, R2 manifest delete, SIWA + Google revoke, write-offs | 3 / DLQ | uid | 45 |
+| `feedback.forward` | `submit_feedback` | AI-38 triage → tracker | 3 | ticket id | 47 |
+| `idea.shipped_fanout` | tracker webhook | N-38 to voters when app version ≥ fixed | 3 | idea id | 47 |
+| `content.publish` | `approve_content_batch` | write `packages/content` release, bake trigger, CDN purge | 2 | batch id | 18 |
+| `og.render` | share/invite created | Takumi OG from critter atlas → R2 | 3 | `(kind, id, version)` | 51 |
+
+### 2.3 Cron and per-object schedules
+
+| Queue | Schedule (tz) | Handler | Phase |
+|---|---|---|---|
+| `sched.enqueue_due` | `* * * * *` | move due `scheduled_events` into queues | 11 |
+| `eta.meetups` | every 60 s per active meetup (self-rescheduling) | Valhalla ETAs → `trip_locations`, LA broadcast p5 (p10 on arrive/late/all <5 min) | 39 |
+| `eta.running_late` | every 60 s per active transfer/item | detect ETA > start + threshold → N-27 | 37 |
+| `weather.watch` | `0 */3 * * *` (hourly within 48 h; 15 min marine/volcano alerts) | forecast watcher → `trip_watch`, `ai.replan` | 37 |
+| `fx.refresh` | `15 * * * *` | Frankfurter snapshot | 12 (snapshot fn); cron registered in 15 |
+| `fares.refresh` | `0 2 * * *` SGT | Travelpayouts calendars for active origins × candidates; price-drop detect (AI-03) | 15 |
+| `crowds.refresh` | `0 3 * * *` SGT | BestTime per active POI | 15 |
+| `season.ingest` | `0 4 * * 1` + in-season daily | bloom/legendary windows → reminder reschedule | 15, 40 |
+| `briefing.build` | per user local morning (`scheduled_events`) | AI-27 | 36 |
+| `quests.generate` | per trip ~04:00 local | AI-32 → validator → publish, N-31 | 41 |
+| `roundup.build` | per tz bucket, user time −10 min (default 20:00) | AI-39 ≤5 items, template fallback, skip empty | 49 |
+| `leaveby.schedule` | per LeaveBy: start T−≤8 h (push-to-start), T−15 relevance, T0, end | LA + alarm re-sync background push; crew knock at 2nd snooze/T0+N | 36, 48 |
+| `poll.close` | at `closes_at`; reminders −24 h / −2 h | `close_poll` (system), N-02/N-03, vote LA | 26 |
+| `proposal.reply_by` | reply_by −24 h, at reply_by | N-09, close | 31 |
+| `followup.deliver` | recipient local `at` | N-08 | 31 |
+| `nudge.dispatch` | engagement-hour model | N-12 | 25 |
+| `reminders.conditional` | per reminder due | N-30 / N-45 only if condition holds | 40 |
+| `boarding.schedule` | per flight boarding time | N-41, flight LA push-to-start T−3 h | 34 |
+| `location.expire` | share TTL / last-day midnight | stop share, purge fixes | 39 |
+| `daybundle.build` | night before + stay geofence exit + wake | offline bundle version | 36 |
+| `recap.build` | trip end (last-day local midnight) + debounced re-run | AI-34, share renders, N-32 | 43 |
+| `anniversary.scan` | `0 1 * * *` per tz bucket | N-35 | 43 |
+| `ftf.ending` | FTF end −3 d local | N-33 (governed) | 46 |
+| `billing.reconcile` | `0 5 * * *` | RevenueCat REST drift check, grace expiry (server 7 d) | 46 |
+| `pause.remind` | resume −N d | N-37 | 46 |
+| `mailbox.scan` | per Pass+ user daily local morning | Gmail/Graph incremental | 34 |
+| `calendar.stale_nudge` | `0 9 * * *` local | stale sync nudges | 27 |
+| `maint.purge` | `30 3 * * *` SGT | retention: fixes TTL, visits, encounter samples, receipts/menu images, face data, `cmd_log` 30 d, `cmd_results` 14 d, `rt_outbox` 7 d after send, `domain_events` 400 d, `notifications` 90 d, media orphans, invites + PII | 11 |
+| `maint.anon_gc` | `0 4 * * *` | delete anonymous accounts inactive 90 d with no crew | 11 (rules from 09) |
+| `maint.tokens` | `0 */6 * * *` | LA token hygiene, APNs channel GC (≤10k channels/env), ended activities | 48 |
+| `maint.codes` | `0 * * * *` | invite/join/gift/offer code expiry, abuse checks | 23, 46 |
+| `maint.purge_reminder` | purge_at −3 d | N-52 email/SMS | 45 |
+| `powersync.compact` | `0 19 * * *` UTC | bucket compact | 11 |
+| `ops.backup` | `0 20 * * *` UTC | off-provider `pg_dump` → R2 (monthly restore drill is ops runbook) | 11 |
+
+## 3. Push contracts (P11, P48, P49)
+
+### 3.1 APNs (`@parse/node-apn`, token auth .p8)
+
+| Push type | Topic | Use | Priority | Payload |
+|---|---|---|---|---|
+| `alert` | `<bundle>` | notifications N-* | 10 ALWAYS/time-sensitive; 5 passive | `aps{alert{title, body}, sound?, category, thread-id: crew_id, interruption-level: passive\|active\|time-sensitive, relevance-score, mutable-content: 1, target-content-id?}`, `cp{...}` (below); `apns-collapse-id` per poll/item |
+| `background` | `<bundle>` | alarm re-sync, snapshot refresh | 5 | `aps{content-available: 1}`, `cp{type: resync, scope}` |
+| `liveactivity` | `<bundle>.push-type.liveactivity` | LA start/update/end per device token | 5 routine; 10 arrive/late/SOS/T0 | `aps{timestamp, event: start\|update\|end, content-state, stale-date, dismissal-date?, relevance-score, alert? (required on start), attributes-type + attributes (start), input-push-channel (start, iOS 18+)}` |
+| broadcast (`liveactivity` on channel) | channel id per LeaveBy/MeetUp/Vote | crew fan-out | 5 / 10 as above | `aps{event: update\|end, content-state, timestamp}`; channels created/deleted via Channel Management API |
+| `widgets` | `<bundle>.push-type.widgets` | WidgetKit push (26+) | 5 | `aps{content-changed: true}` |
+
+Common custom block `cp` (≤1 KB):
+
+```json
+{ "v": 1, "nid": "<uuidv7>", "type": "vote.needs_you", "deeplink": "critterpass://crew/<id>/vote/<poll>",
+  "crew_id": "…", "trip_id": "…",
+  "sender": { "kind": "guide|member|system", "id": "tokek|<uid>", "name": "Tokek", "avatar": "avatars/guide-tokek@3x.png" },
+  "ctx": { "poll_id": "…", "options": [{ "id": "…", "label": "Bali" }] },
+  "full": false }
+```
+
+`full: false` → NSE fetches `GET /v1/notifications/{nid}` with the action key (minimal-payload mode for private content).
+
+**Communication Notification sender identity (NSE):** `INSendMessageIntent` with `sender = INPerson(personHandle: INPersonHandle(value: "cp-guide:<guide_id>"|"cp-user:<uid>", type: .unknown), displayName, image: INImage(avatar from App Group avatars/ or downloaded signed URL))`, `conversationIdentifier = crew_id` (or `guide:<guide_id>:<uid>` for 1:1 guide), `speakableGroupName = crew name`; donate interaction, `content.updating(from: intent)`. Fallback when the capability is refused: plain alert + avatar image attachment. Guide personas always carry AI disclosure in the conversation name ("Tokek · AI guide").
+
+### 3.2 LA activity types (`targets/_shared/ActivityAttributes/*.swift` ↔ `packages/domain/src/live-activities.ts`)
+
+ContentState ≤4 KB, ETA/text only, never coordinates; art = bundled/App Group assets by key.
+
+| Activity | Attributes (static) | ContentState | Start | Updates | Ent | Phase |
+|---|---|---|---|---|---|---|
+| `LeaveBy` | `trip_id, leave_by_id, title, legs[]` | `{leave_at, state: waiting\|soon\|go\|late\|done, up_count, total, pips[{uid_hash, up}], leg, guide_line}` | local, scheduled `startDate` (26+), or push-to-start T−≤8 h | broadcast channel per LeaveBy (crew pips need boost for crew channel; own LA free) | own free; crew pips per C10 | 48 |
+| `MeetUp` | `trip_id, meetup_id, place_name` | `{eta[{uid_hash, min}], all_under_5, state}` | push-to-start | broadcast p5 (p10 arrive/late) | Boost | 48 |
+| `Flight` | `booking_id, flight_no, route` | `{phase, sched, est, gate, delay_min, colour}` | push-to-start T−3 h | per-device token | free (C37) | 48 |
+| `Vote` | `poll_id, question` | `{closes_at, tallies[], voted: bool}` | push-to-start T−24 h | broadcast per poll | free | 48 |
+| `CritterNearby` | `spawn_id, silhouette_key` | `{distance_band, blur_stage}` | local | local/token | free | 48 |
+| `Storm` | `trip_id, watch_id` | `{severity, window, action_line}` | push-to-start | token | free | 48 |
+| `SOS` | `sos_id, sender_name` | `{state, responders, last_seen_min}` | push-to-start (recipients), local (sender) | token p10 | free | 48 |
+| `Alarm` (AlarmKit `AlarmAttributes<CPAlarmMetadata>`) | `leave_by_id` | countdown/paused presentation | AlarmKit schedule at plan sync | re-sync via background push | free | 36, 48 |
+
+Android: same types as Live Updates (`ProgressStyle`, API 36+ gate; MetricStyle 37+ gate) or ongoing notification below 36, driven by FCM data `{type: "la.<kind>", op: start|update|end, state}`.
+
+### 3.3 FCM (`firebase-admin`, HTTP v1)
+
+| Message | Priority | Body |
+|---|---|---|
+| Notification (all N-*) | high for ALWAYS, normal otherwise | **data-only** `{v, nid, type, channel_id, title, body, cp: <same JSON as APNs cp, stringified>}`; app renders MessagingStyle + `Person` + dynamic conversation shortcut (sender identity parity) |
+| Live Update | high | `{type: "la.<kind>", op, state}` |
+| Widget | normal | `{type: "widget.refresh", kinds[]}` → Glance `update()` |
+| Resync | normal | `{type: "resync", scope}` → WorkManager expedited |
+
+Android channels (`cp_always`, `cp_alarm` USAGE_ALARM, `cp_crew_chat`, `cp_votes`, `cp_money`, `cp_trip`, `cp_guide`, `cp_critters`, `cp_roundup`, `cp_sos` DND-bypass request). Channel id per notification class/category is fixed in `packages/domain/src/notifications.ts`.
+
+### 3.4 Notification categories and actions
+
+Category ids shared iOS (`UNNotificationCategory`) / Android (action set). Background actions (no unlock) run via extension or receiver → `POST /v1/actions` with action key; `.foreground` actions open the app route.
+
+| Category | Notifications | Actions (id → command) | Content ext |
+|---|---|---|---|
+| `cp.vote` | N-01, N-02 | `VOTE_1..VOTE_3` → `cast_ballot{poll_id, option_id}` (labels via `notificationActions` per vote); `OPEN` fg | ✓ animated poster + stamp (`.doNotDismiss`) |
+| `cp.changeset` | N-50 (needs yes), 3e-3 | `APPROVE` / `DECLINE` → `approve_changeset`; `UNDO` → `undo_guide_action` | – |
+| `cp.disruption` | N-28 | `APPROVE` → `decide_disruption_action{yes}`; `OPEN` fg | – |
+| `cp.leaveby` | N-20, N-21 | `IM_UP` → `set_readiness{up}`; `SNOOZE` → `snooze_leave_by`; `LATE_10` → `report_running_late{10}` | – |
+| `cp.sos` | N-24 | `COMING` → `respond_sos{coming}`; `CALL` fg (`tel:`); `OPEN` fg | – |
+| `cp.money` | N-16 | `MARK_PAID` → `mark_paid`; `CONFIRM` → `confirm_paid`; `NUDGE` → `nudge_payment` | – |
+| `cp.chat` | N-11 | `REPLY` (text input) → `send_message`; `READ` → `mark_read` | – |
+| `cp.rsvp` | N-07, N-09 | `IN` / `MAYBE` → `set_rsvp`; `OPEN` fg (OUT requires app, private reason flow) | ✓ poster |
+| `cp.invite` | N-42 | `JOIN` fg → `accept_invite`; `LATER` → `defer_invite` | – |
+| `cp.import` | N-13 | `ADD_ALL` → `resolve_import_candidate{add}` × n | – |
+| `cp.briefing` | morning briefing | `DONE` → `act_briefing_item{done}`; `NUDGE` → `act_briefing_item{nudge}` | – |
+| `cp.help` | N-25 | `STOP_SHARE` → `stop_help_share` | – |
+| `cp.memory` | N-35 | `REACT` → `react_memory` | – |
+| `cp.generic` | all others | `OPEN` fg | – |
+
+## 4. Off-app surfaces → commands (P48, P49, P50)
+
+All run through `POST /v1/actions` with the device action key; extension writes an optimistic App Group state and queues to `pending-actions.json` if offline (drained by app launch or next extension run; `op_id` generated in the extension).
+
+| Surface | Intent / action | Command | Scope | Notes |
+|---|---|---|---|---|
+| LA LeaveBy | `ImUpIntent` (LiveActivityIntent, app process) | `set_readiness{up, source: la}` | `readiness` | optimistic `activity.update`; server broadcasts |
+| LA LeaveBy / AlarmKit | `AlarmStopIntent` / `AlarmSnoozeIntent` | `set_readiness` / `snooze_leave_by` | `readiness` | 2nd snooze → crew knock |
+| LA MeetUp | `RunningLateIntent{10}`, `OnMyWayIntent`, `PingAllIntent` | `report_running_late`, `ping_all` | `trip_day` | Boost check server-side |
+| LA / Control / Siri | `SOSIntent` (confirm dialog) | `trigger_sos` | `sos` | never one-tap |
+| LA Vote / widget Vote | `CastBallotIntent{poll_id, option_id}` | `cast_ballot` | `ballot` | returns tallies for stamp |
+| Widget Balances | `NudgeIntent{uid, trip_id}` | `nudge_payment` / `send_nudge` | `money_nudge` | 1/pair/24 h |
+| Widget Today | `PackingCheckIntent` | `check_packing_item` | `trip_day` | – |
+| Widget config | `SelectTripIntent`, `SelectCrewIntent` (AppIntentConfiguration) | none (reads snapshot) | – | – |
+| App Shortcuts (Siri) | `AskGuideIntent` (opens app), `NextLeaveByIntent` (read), `SetActiveCrewIntent` | `set_active_crew` | `profile` | ask opens app (metered path) |
+| Control Center | `ImUpControl`, `SOSControl` | as above | as above | iOS 18+ controls |
+| Notification actions | §3.4 | as mapped | per category | background, no unlock where allowed |
+| Android | `BroadcastReceiver` → WorkManager expedited → same `/v1/actions`; Glance `actionRunCallback` | same commands | same scopes | parity |
+
+## 5. Device action keys (P11, P48)
+
+| Item | Contract |
+|---|---|
+| Issue | `POST /v1/devices/{id}/action-keys` (session) → `{key_id, secret (32 B), scopes[], expires_at}`; stored in shared Keychain access group `<TeamID>.app.critterpass.shared` (Android: EncryptedSharedPreferences in app) |
+| Scopes | `ballot`, `readiness`, `trip_day`, `sos`, `money_nudge`, `money_mark`, `rsvp`, `changeset`, `chat_reply`, `inbox`, `read_snapshot`, `read_notification` |
+| Request | headers `X-CP-Key-Id`, `X-CP-Ts` (±300 s), `X-CP-Sig = base64url(HMAC-SHA256(secret, method \n path \n ts \n sha256(body)))`; body = command envelope with `actor.via` set |
+| Server | key → (uid, device_id, scopes); reject scope misses with `ACTION_KEY_SCOPE`; same pipeline as `/v1/cmd` |
+| Lifetime | 30 d rolling, rotated on app foreground when <7 d left; revoked on sign-out, device removal, deletion, uid merge, or admin action |
+| Storage | `device_action_keys(key_id, user_id, device_id, secret (HMAC key encrypted at rest), scopes, expires_at, revoked_at)` (data-model §3) |
+
+## 6. App Group contract (P48, P49; Android mirror P50)
+
+Group `group.app.critterpass`; written by the app (`modules/cp-app-group`) and by extensions for optimistic state. Every JSON file: `{"schema": <int>, "generated_at": ISO, ...}`; readers ignore unknown fields; writes atomic (temp + rename); no C3 data.
+
+| Path | Writer | Reader | Content |
+|---|---|---|---|
+| `snapshot/widgets.json` | app, widget push handler (fetch `/v1/widgets/snapshot`) | widgets, LA | countdown, active trip, vote summary, balances (net only), today items, crew ETA line, next flight (Pass+) |
+| `snapshot/entitlements.json` | app | widgets, LA, NSE | `{passPlus, boostedTripIds[], boostExpiresAt, generatedAt}` (locked-state rendering) |
+| `snapshot/prefs.json` | app | NSE, content ext | chattiness, voice readout, per-category mode, quiet hours |
+| `snapshot/crews.json` | app | NSE, intents | crew ids → names, member first names + avatar keys (for INPerson) |
+| `state/la/<activity_id>.json` | app, intents | intents | last content-state + seq (optimistic updates) |
+| `state/pending-actions.json` | extensions | app (drain), extensions | queued envelopes with `op_id` |
+| `state/alarms.json` | app (cp-alarm) | alarm intents | leave_by_id → AlarmKit id, schedule hash |
+| `assets/avatars/<key>@2x/@3x.png` | app (from `media.process` renders) | NSE, LA, widgets | user + guide avatars |
+| `assets/critters/<form>-<pose>-<mode>.png` | app bundle copy + `critter-bake` outputs | LA, widgets, content ext | incl. silhouettes + blur stages; monochrome/tinted variants |
+| `config/endpoints.json` | app | all | api base URL, env, schema versions |
+
+Android mirror: Jetpack DataStore (`cp_snapshot`) + `filesDir/assets/*`; same JSON schemas from `packages/domain/src/surfaces/*.ts` (zod → Swift/Kotlin via codegen).
+
+## 7. Phase map (async surface)
+
+| Phase | Groups |
+|---|---|
+| 10 | §1 rules, `user`, relay |
+| 11 | §2 rules, `sched.enqueue_due`, `notify.route`, `push.send`, §3.1/§3.3 base, channels; §5 action keys (`device_action_keys` table, issue/rotate routes, `/v1/actions` verification) |
+| 23–44 | namespaces + queues per Phase column |
+| 36, 48 | LeaveBy scheduler, §3.2 LA types, AlarmKit, §4 LA intents |
+| 49 | categories §3.4, widget push, §4 widget intents, §6 App Group |
+| 50 | Android mirror of §3.2–§6 |
+
+## Unresolved questions
+
+1. Crew LA push-to-start timing for MeetUp (T−30 min assumed) and Vote (T−24 h assumed).
+2. Apple acceptance of guide personas as Communication Notification senders (fallback defined).
+3. Roundup/reset timezone when trip tz ≠ device tz (Q-84/Q-76): device tz assumed per decision 8.
+4. Centrifugo history sizes are initial values; tune after load test in the S-SYNC spike.

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script src="doodles.js"></script>
+<script src="critters-data.js"></script>
+<script src="critters-draw-1.js"></script>
+<script src="critters-draw-2.js"></script>
+<style>body{margin:0;background:#e9e4da;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#211d18}a{color:#211d18}a:hover{color:#c4623e}</style>
+</helmet>
+<section id="t1" style="padding:56px 60px 80px;display:flex;flex-direction:column;gap:72px">
+<div style="display:flex;flex-direction:column;gap:10px;max-width:760px">
+<div style="display:flex;align-items:baseline;gap:10px"><a href="#t1" style="font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none">1</a><span style="font:600 13px system-ui,sans-serif">Critterpass: icons, splash and store assets</span></div>
+<span style="font:400 14px/1.5 Geist,sans-serif;color:#5d564b;text-wrap:pretty">Four icon directions, the launch sequence for both platforms, six screenshots per store, the Play feature graphic, a social card and a storyboard for the App Store preview video. Everything uses the app's palette, Archivo and the brush-pen doodles.</span>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:28px">
+<span style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">APP ICON · FOUR DIRECTIONS</span>
+<div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+<sc-for list="{{ icons }}" as="ic" hint-placeholder-count="4">
+<div id="{{ ic.id }}" style="flex:none;width:560px;display:flex;flex-direction:column;gap:22px;padding:28px;box-sizing:border-box;border-radius:24px;background:#f4efe4">
+<div style="display:flex;align-items:baseline;gap:10px;font:400 13px/1.4 Geist,sans-serif;color:#5d564b"><a href="#{{ ic.id }}" style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none">{{ ic.id }}</a><span><b style="color:#211d18">{{ ic.name }}.</b> {{ ic.note }}</span></div>
+<div style="display:flex;flex-direction:column;gap:10px"><span style="font:500 10.5px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.06em">iOS · LIGHT / DARK / TINTED</span>
+<div style="display:flex;gap:16px"><dc-import name="App Icon" variant="{{ ic.v }}" mode="light" shape="ios" size="152" shadow="{{ true }}" hint-size="152px,152px"></dc-import><dc-import name="App Icon" variant="{{ ic.v }}" mode="dark" shape="ios" size="152" shadow="{{ true }}" hint-size="152px,152px"></dc-import><dc-import name="App Icon" variant="{{ ic.v }}" mode="tinted" shape="ios" size="152" shadow="{{ true }}" hint-size="152px,152px"></dc-import></div></div>
+<div style="display:flex;flex-direction:column;gap:10px"><span style="font:500 10.5px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.06em">ANDROID ADAPTIVE · CIRCLE / SQUIRCLE / TEARDROP / THEMED</span>
+<div style="display:flex;gap:16px;align-items:center"><dc-import name="App Icon" variant="{{ ic.v }}" mode="light" shape="circle" size="108" shadow="{{ true }}" hint-size="108px,108px"></dc-import><dc-import name="App Icon" variant="{{ ic.v }}" mode="light" shape="squircle" size="108" shadow="{{ true }}" hint-size="108px,108px"></dc-import><dc-import name="App Icon" variant="{{ ic.v }}" mode="light" shape="teardrop" size="108" shadow="{{ true }}" hint-size="108px,108px"></dc-import><dc-import name="App Icon" variant="{{ ic.v }}" mode="mono" shape="circle" size="108" shadow="{{ true }}" hint-size="108px,108px"></dc-import></div></div>
+<div style="display:flex;flex-direction:column;gap:10px"><span style="font:500 10.5px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.06em">ACTUAL SIZE · 120 / 87 / 60 / 40 / 29 PT</span>
+<div style="display:flex;gap:14px;align-items:flex-end"><dc-import name="App Icon" variant="{{ ic.v }}" size="120" hint-size="120px,120px"></dc-import><dc-import name="App Icon" variant="{{ ic.v }}" size="87" hint-size="87px,87px"></dc-import><dc-import name="App Icon" variant="{{ ic.v }}" size="60" hint-size="60px,60px"></dc-import><dc-import name="App Icon" variant="{{ ic.v }}" size="40" hint-size="40px,40px"></dc-import><dc-import name="App Icon" variant="{{ ic.v }}" size="29" hint-size="29px,29px"></dc-import></div></div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:20px">
+<span style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">HOME SCREEN TEST · 60 PT, 1a–1d LEFT TO RIGHT</span>
+<div style="display:flex;flex-wrap:wrap;gap:24px">
+<div style="width:420px;padding:28px 30px;box-sizing:border-box;border-radius:32px;background:#c9d3de;display:flex;justify-content:space-between">
+<sc-for list="{{ icons }}" as="ic" hint-placeholder-count="4"><div style="display:flex;flex-direction:column;align-items:center;gap:6px"><dc-import name="App Icon" variant="{{ ic.v }}" size="64" shadow="{{ true }}" hint-size="64px,64px"></dc-import><span style="font:500 11px Geist,sans-serif;color:#17142a">Critterpass</span></div></sc-for>
+</div>
+<div style="width:420px;padding:28px 30px;box-sizing:border-box;border-radius:32px;background:#1c1b24;display:flex;justify-content:space-between">
+<sc-for list="{{ icons }}" as="ic" hint-placeholder-count="4"><div style="display:flex;flex-direction:column;align-items:center;gap:6px"><dc-import name="App Icon" variant="{{ ic.v }}" mode="dark" size="64" hint-size="64px,64px"></dc-import><span style="font:500 11px Geist,sans-serif;color:#f4efe4">Critterpass</span></div></sc-for>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:24px">
+<span style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">SPLASH · LAUNCH → HATCH</span>
+<div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start;padding:10px">
+
+<div data-screen-label="Splash iOS launch" style="display:flex;flex-direction:column;gap:16px"><div style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">iOS · LAUNCH SCREEN (STATIC)</div>
+<div style="width:390px;height:844px;border-radius:54px;overflow:hidden;position:relative;background:#17142a;box-shadow:0 0 0 10px #0b0a12,0 40px 80px rgba(20,16,40,.35)">
+<div style="position:absolute;inset:0;background:radial-gradient(rgba(255,216,74,.2) 1.3px,transparent 1.8px) 0 0/10px 10px;-webkit-mask-image:radial-gradient(circle at 50% 44%,#000 20%,transparent 62%);mask-image:radial-gradient(circle at 50% 44%,#000 20%,transparent 62%)"></div>
+<div style="position:absolute;left:50%;top:50%;width:0;height:0"><div style="position:absolute;left:-60px;top:-110px;line-height:0"><doodle-art kind="egg" size="120" anim="none" seed="12"></doodle-art></div></div>
+</div>
+<div style="width:390px;font:400 13px/1.5 Geist,sans-serif;color:#5d564b;text-wrap:pretty"><b style="font:600 10.5px 'Geist Mono',monospace;letter-spacing:.08em;color:#211d18">NOTE</b> iOS launch screens can't animate, so this is the hatch sequence's first frame. The app swaps to the live version with nothing visibly changing.</div></div>
+
+<div data-screen-label="Splash hatch" style="display:flex;flex-direction:column;gap:16px"><div style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">IN-APP HATCH · 2.4 S, LOOPED HERE</div>
+<div style="width:390px;height:844px;border-radius:54px;overflow:hidden;position:relative;background:#17142a;box-shadow:0 0 0 10px #0b0a12,0 40px 80px rgba(20,16,40,.35)">
+<div style="position:absolute;inset:0;background:radial-gradient(rgba(255,216,74,.2) 1.3px,transparent 1.8px) 0 0/10px 10px;-webkit-mask-image:radial-gradient(circle at 50% 44%,#000 20%,transparent 62%);mask-image:radial-gradient(circle at 50% 44%,#000 20%,transparent 62%)"></div>
+<div style="position:absolute;left:50%;top:50%;width:0;height:0">
+<tg-motion kf="0:r0 s1 o1;.05:r-9;.1:r9;.15:r-12;.2:r12;.26:r0 s1.08 e=out;.32:s1.4 o0;.95:s1.4 o0;.96:s1 o0;1:s1 o1" dur="5200" style="position:absolute;left:-60px;top:-110px;line-height:0"><doodle-art kind="egg" size="120" anim="none" seed="12"></doodle-art></tg-motion>
+<tg-motion kf="0:s0 o0;.3:s0 o0 e=back;.4:s1 o1;.9:s1 o1;.95:s0 o0;1:s0 o0" dur="5200" style="position:absolute;left:-85px;top:-150px;line-height:0"><tg-motion fx="wiggle" dur="1400"><doodle-art kind="gecko" size="170" pose="wave" sticker="#f4efe4" anim="none" seed="41"></doodle-art></tg-motion></tg-motion>
+<tg-motion kf="0:s0 o0;.3:s0 o0 e=back;.38:s1 o1;.55:s1.2 o0;1:s1.2 o0" dur="5200" style="position:absolute;left:-130px;top:-150px;line-height:0"><doodle-art kind="spark" size="34" accent="#ffd84a" anim="none"></doodle-art></tg-motion>
+<tg-motion kf="0:s0 o0;.32:s0 o0 e=back;.4:s1 o1;.58:s1.2 o0;1:s1.2 o0" dur="5200" style="position:absolute;left:96px;top:-120px;line-height:0"><doodle-art kind="spark" size="26" accent="#ff5fa8" anim="none"></doodle-art></tg-motion>
+<tg-motion kf="0:s0 o0;.34:s0 o0 e=back;.42:s1 o1;.6:s1.2 o0;1:s1.2 o0" dur="5200" style="position:absolute;left:-110px;top:10px;line-height:0"><doodle-art kind="spark" size="22" accent="#54d6a4" anim="none"></doodle-art></tg-motion>
+</div>
+<tg-motion kf="0:ty24 o0;.4:ty24 o0 e=out;.5:ty0 o1;.9:ty0 o1;.95:o0;1:o0" dur="5200" block="1" style="position:absolute;left:0;right:0;top:520px;text-align:center"><span style="font:900 72px/.8 Archivo,sans-serif;font-stretch:64%;color:#ffd84a;letter-spacing:-.01em">CRITTER<br>PASS</span></tg-motion>
+</div>
+<div style="width:390px;font:400 13px/1.5 Geist,sans-serif;color:#5d564b;text-wrap:pretty"><b style="font:600 10.5px 'Geist Mono',monospace;letter-spacing:.08em;color:#211d18">MOTION</b> The egg wobbles four times (0–1.3 s), bursts, and Tokek pops out waving with three sparks (1.6–2.1 s). The wordmark rises in, then the welcome screen's stickers slap on. On later launches it skips straight to Tokek.</div></div>
+
+<div data-screen-label="Splash Android" style="display:flex;flex-direction:column;gap:16px"><div style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">ANDROID 12+ · SPLASHSCREEN API</div>
+<div style="width:390px;height:844px;border-radius:40px;overflow:hidden;position:relative;background:#17142a;box-shadow:0 0 0 10px #0b0a12,0 40px 80px rgba(20,16,40,.35)">
+<div style="position:absolute;left:50%;top:14px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#000"></div>
+<div style="position:absolute;left:50%;top:50%;width:0;height:0">
+<div style="position:absolute;left:-96px;top:-96px;width:192px;height:192px;border-radius:50%;border:1.5px dashed {{ guideInk }};box-sizing:border-box"></div>
+<tg-motion kf="0:r0;.1:r-9;.2:r9;.3:r-12;.4:r12;.5:r0;1:r0" dur="2000" style="position:absolute;left:-55px;top:-66px;line-height:0"><doodle-art kind="egg" size="110" anim="none" seed="12"></doodle-art></tg-motion>
+</div>
+<sc-if value="{{ showGuide }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;left:0;right:0;top:540px;text-align:center;font:500 11px 'Geist Mono',monospace;color:#a9a3c0">192 dp icon mask</span></sc-if>
+</div>
+<div style="width:390px;font:400 13px/1.5 Geist,sans-serif;color:#5d564b;text-wrap:pretty"><b style="font:600 10.5px 'Geist Mono',monospace;letter-spacing:.08em;color:#211d18">NOTE</b> The system splash draws the egg inside the circle mask on navy (#17142a). The wobble is an animated vector under 1,000 ms, then the app continues from the burst.</div></div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:20px">
+<span style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">APP STORE SCREENSHOTS · 6.9" · EXPORT 1290 × 2796</span>
+<div style="display:flex;gap:10px;width:max-content">
+<sc-for list="{{ shots }}" as="s" hint-placeholder-count="6"><div data-screen-label="iOS shot {{ s }}" style="flex:none;border-radius:14px;overflow:hidden;line-height:0"><dc-import name="Store Shot" n="{{ s }}" platform="ios" route="{{ route }}" hint-size="360px,780px"></dc-import></div></sc-for>
+</div>
+<span style="font:400 13px/1.5 Geist,sans-serif;color:#5d564b;max-width:760px;text-wrap:pretty">The first three are what people see in search, so they carry the hook: group-chat pain, the guide, the critters. The dotted route runs from one screenshot into the next, so the set reads as one trip when someone swipes through.</span>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:20px">
+<span style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">GOOGLE PLAY SCREENSHOTS · 9:16 · EXPORT 1080 × 1920</span>
+<div style="display:flex;gap:10px;width:max-content">
+<sc-for list="{{ shots }}" as="s" hint-placeholder-count="6"><div data-screen-label="Play shot {{ s }}" style="flex:none;border-radius:14px;overflow:hidden;line-height:0"><dc-import name="Store Shot" n="{{ s }}" platform="android" route="{{ route }}" hint-size="360px,640px"></dc-import></div></sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:16px">
+<span style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">PLAY FEATURE GRAPHIC · 1024 × 500</span>
+<div data-screen-label="Feature graphic" style="width:1024px;height:500px;position:relative;overflow:hidden;background:#17142a radial-gradient(rgba(255,216,74,.18) 1.3px,transparent 1.8px) 0 0/10px 10px;color:#f4efe4">
+<div style="position:absolute;left:72px;top:92px;display:flex;flex-direction:column;gap:22px;width:460px">
+<span style="font:900 150px/.8 Archivo,sans-serif;font-stretch:64%;color:#ffd84a;letter-spacing:-.01em">CRITTER<br>PASS</span>
+<span style="font:500 24px/1.35 Geist,sans-serif;text-wrap:pretty">Group trips, planned with the locals. The locals happen to be animals.</span>
+</div>
+<div style="position:absolute;left:600px;top:70px;line-height:0;transform:rotate(-6deg)"><doodle-art kind="gecko" size="300" pose="wave" sticker="#f4efe4" anim="none" seed="41"></doodle-art></div>
+<div style="position:absolute;left:560px;top:320px;line-height:0;transform:rotate(-12deg)"><doodle-art kind="cp-005" size="120" sticker="#f4efe4" anim="none"></doodle-art></div>
+<div style="position:absolute;left:880px;top:40px;line-height:0;transform:rotate(10deg)"><doodle-art kind="cp-029" size="110" sticker="#f4efe4" anim="none"></doodle-art></div>
+<div style="position:absolute;left:890px;top:330px;line-height:0;transform:rotate(8deg)"><doodle-art kind="cp-031" size="120" sticker="#f4efe4" anim="none"></doodle-art></div>
+</div>
+<span style="font:400 13px/1.5 Geist,sans-serif;color:#5d564b;max-width:1024px">Tokek sits right of centre so the Play play-button overlay (if a video is added) lands on navy, not on the wordmark.</span>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:16px">
+<span style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">SOCIAL / OG · 1200 × 630</span>
+<div data-screen-label="OG image" style="width:1200px;height:630px;position:relative;overflow:hidden;background:#ffd84a radial-gradient(rgba(23,20,42,.13) 1.3px,transparent 1.7px) 0 0/10px 10px;color:#17142a">
+<div style="position:absolute;left:80px;top:64px"><dc-import name="App Icon" variant="{{ iconPick }}" size="120" shadow="{{ true }}" hint-size="120px,120px"></dc-import></div>
+<div style="position:absolute;left:80px;top:216px;display:flex;flex-direction:column;gap:20px;width:580px">
+<span style="font:900 96px/.84 Archivo,sans-serif;font-stretch:64%;text-transform:uppercase;letter-spacing:-.01em">Plan the trip. Meet the locals.</span>
+<span style="font:500 26px/1.35 Geist,sans-serif;text-wrap:pretty">Group trips, planned with the locals. The locals happen to be animals.</span>
+</div>
+<div style="position:absolute;left:700px;top:60px;width:440px;height:510px">
+<div style="position:absolute;left:90px;top:120px;line-height:0;transform:rotate(-5deg)"><doodle-art kind="gecko" size="260" pose="cheer" sticker="#f4efe4" anim="none" seed="41"></doodle-art></div>
+<div style="position:absolute;left:0;top:0;line-height:0;transform:rotate(-12deg)"><doodle-art kind="cp-005" size="120" sticker="#f4efe4" anim="none"></doodle-art></div>
+<div style="position:absolute;left:300px;top:10px;line-height:0;transform:rotate(9deg)"><doodle-art kind="cp-011" size="110" sticker="#f4efe4" anim="none"></doodle-art></div>
+<div style="position:absolute;left:10px;top:370px;line-height:0;transform:rotate(8deg)"><doodle-art kind="cp-029" size="120" sticker="#f4efe4" anim="none"></doodle-art></div>
+<div style="position:absolute;left:320px;top:380px;line-height:0;transform:rotate(-8deg)"><doodle-art kind="cp-021" size="110" sticker="#f4efe4" anim="none"></doodle-art></div>
+</div>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:20px">
+<span style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">APP STORE PREVIEW · 30 S STORYBOARD · 886 × 1920</span>
+<div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+
+<div data-screen-label="Preview 1" style="width:200px;display:flex;flex-direction:column;gap:10px"><div style="height:433px;border-radius:22px;background:#17142a;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:18px;box-sizing:border-box">
+<div style="align-self:flex-start;padding:8px 11px;border-radius:14px 14px 14px 4px;background:#2c2750;color:#f4efe4;font:500 12px Geist,sans-serif;transform:rotate(-3deg)">so where r we going</div>
+<div style="align-self:flex-end;padding:8px 11px;border-radius:14px 14px 4px 14px;background:#7fb8ff;color:#17142a;font:500 12px Geist,sans-serif;transform:rotate(2deg)">idk u pick</div>
+<div style="align-self:flex-start;padding:8px 11px;border-radius:14px 14px 14px 4px;background:#2c2750;color:#f4efe4;font:500 12px Geist,sans-serif;transform:rotate(-1deg)">we said this in march</div>
+<div style="align-self:flex-end;padding:8px 11px;border-radius:14px 14px 4px 14px;background:#ff5fa8;color:#17142a;font:500 12px Geist,sans-serif;transform:rotate(3deg)">???</div>
+</div><span style="font:500 11px 'Geist Mono',monospace;color:#211d18">00:00 – 00:03</span><span style="font:400 12.5px/1.45 Geist,sans-serif;color:#5d564b">Cold open. Group-chat messages pile up faster than you can read them.</span></div>
+
+<div data-screen-label="Preview 2" style="width:200px;display:flex;flex-direction:column;gap:10px"><div style="height:433px;border-radius:22px;background:#ffd84a;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#17142a">
+<div style="line-height:0;transform:rotate(-8deg)"><doodle-art kind="cp-005" size="110" sticker="#f4efe4" anim="none"></doodle-art></div>
+<span style="font:900 44px/.85 Archivo,sans-serif;font-stretch:66%;text-align:center">HỘI AN<br>WINS</span>
+</div><span style="font:500 11px 'Geist Mono',monospace;color:#211d18">00:03 – 00:08</span><span style="font:400 12.5px/1.45 Geist,sans-serif;color:#5d564b">Hard cut to the app. Four quick swipes, the tally fills, the winning card lifts off the screen.</span></div>
+
+<div data-screen-label="Preview 3" style="width:200px;display:flex;flex-direction:column;gap:10px"><div style="height:433px;border-radius:22px;background:#17142a;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
+<div style="padding:9px 12px;border-radius:14px 14px 4px 14px;background:#ffd84a;color:#17142a;font:500 12px Geist,sans-serif;align-self:flex-end;margin-right:18px">It's pouring. Plan B?</div>
+<doodle-art kind="gecko" size="120" pose="think" sticker="#f4efe4" anim="none" seed="41"></doodle-art>
+</div><span style="font:500 11px 'Geist Mono',monospace;color:#211d18">00:08 – 00:13</span><span style="font:400 12.5px/1.45 Geist,sans-serif;color:#5d564b">Voice question to Tokek. The answer proposes a swap, one tap, and Thursday rearranges itself.</span></div>
+
+<div data-screen-label="Preview 4" style="width:200px;display:flex;flex-direction:column;gap:10px"><div style="height:433px;border-radius:22px;background:#ff9a4d;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:22px;box-sizing:border-box;color:#17142a">
+<span style="font:900 36px/.85 Archivo,sans-serif;font-stretch:66%">THU 14</span>
+<div style="height:34px;border-radius:12px;background:#17142a"></div>
+<div style="height:34px;border-radius:12px;background:#f4efe4;transform:rotate(6deg) translateX(14px);box-shadow:0 10px 20px rgba(60,20,0,.3)"></div>
+<div style="height:34px;border-radius:12px;background:#17142a"></div>
+</div><span style="font:500 11px 'Geist Mono',monospace;color:#211d18">00:13 – 00:18</span><span style="font:400 12.5px/1.45 Geist,sans-serif;color:#5d564b">A friend's cursor drags the workshop into the afternoon. The whole day shifts to make room.</span></div>
+
+<div data-screen-label="Preview 5" style="width:200px;display:flex;flex-direction:column;gap:10px"><div style="height:433px;border-radius:22px;background:#ff5fa8;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#17142a">
+<div style="display:flex;align-items:center;gap:6px"><doodle-art kind="egg" size="54" anim="none" seed="12"></doodle-art><span style="font:800 18px Archivo,sans-serif">→</span><doodle-art kind="cp-005" size="84" sticker="#f4efe4" anim="none"></doodle-art></div>
+<span style="font:900 34px/.85 Archivo,sans-serif;font-stretch:66%;text-align:center">NEW<br>LOCAL</span>
+</div><span style="font:500 11px 'Geist Mono',monospace;color:#211d18">00:18 – 00:23</span><span style="font:400 12.5px/1.45 Geist,sans-serif;color:#5d564b">Wheels down, phone buzzes, the egg hatches into Chép. The pass counter ticks from 9 to 10.</span></div>
+
+<div data-screen-label="Preview 6" style="width:200px;display:flex;flex-direction:column;gap:10px"><div style="height:433px;border-radius:22px;background:#54d6a4;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#17142a">
+<span style="font:900 64px/.85 Archivo,sans-serif;font-stretch:66%">$24</span><span style="font:800 14px Archivo,sans-serif;letter-spacing:.1em">EACH</span>
+</div><span style="font:500 11px 'Geist Mono',monospace;color:#211d18">00:23 – 00:26</span><span style="font:400 12.5px/1.45 Geist,sans-serif;color:#5d564b">Receipt scan, split four ways, settled. Three fast beats.</span></div>
+
+<div data-screen-label="Preview 7" style="width:200px;display:flex;flex-direction:column;gap:10px"><div style="height:433px;border-radius:22px;background:#17142a radial-gradient(rgba(255,216,74,.2) 1.3px,transparent 1.8px) 0 0/9px 9px;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px">
+<dc-import name="App Icon" variant="{{ iconPick }}" size="84" shadow="{{ true }}" hint-size="84px,84px"></dc-import>
+<span style="font:900 46px/.8 Archivo,sans-serif;font-stretch:64%;color:#ffd84a;text-align:center">CRITTER<br>PASS</span>
+</div><span style="font:500 11px 'Geist Mono',monospace;color:#211d18">00:26 – 00:30</span><span style="font:400 12.5px/1.45 Geist,sans-serif;color:#5d564b">End card: icon and wordmark. Tokek waves from behind the icon.</span></div>
+</div>
+<span style="font:400 13px/1.5 Geist,sans-serif;color:#5d564b;max-width:760px;text-wrap:pretty">Apple requires preview footage to be captured in the app, so frames 2–6 are screen recordings with type laid over them. Frame 1 is the only one staged outside the app.</span>
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;iconPick&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;face&quot;,&quot;passport&quot;,&quot;stamp&quot;,&quot;sticker&quot;],&quot;default&quot;:&quot;face&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Icon&quot;},&quot;route&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Screenshots&quot;},&quot;androidGuide&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Splash&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      icons: [
+        { id: '1a', v: 'face', name: "Tokek's face", note: 'Close crop on yellow. Reads at every size, and the eyes stay distinct even at 29 pt.' },
+        { id: '1b', v: 'passport', name: 'Peeking out of a passport', note: 'Tokek grips the top of an orange passport. Says travel and the collection at once.' },
+        { id: '1c', v: 'stamp', name: 'Passport stamp', note: 'A Hà Nội stamp holding Cụ Rùa, the first local. Swappable per city for seasonal icons.' },
+        { id: '1d', v: 'sticker', name: 'The sticker', note: 'The sticker already used on the welcome screen, so the icon matches the first thing people see in the app.' }
+      ],
+      shots: [1, 2, 3, 4, 5, 6],
+      iconPick: this.props.iconPick ?? 'face',
+      route: this.props.route ?? true,
+      showGuide: this.props.androidGuide ?? true,
+      guideInk: (this.props.androidGuide ?? true) ? 'rgba(244,239,228,.35)' : 'transparent'
+    };
+  }
+}
+</script>
+</body>
+</html>

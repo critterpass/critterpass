@@ -1,0 +1,21 @@
+# Critterpass docs
+
+Design + contracts for the full build (54 phases, plan: `plans/260926-1718-critterpass-full-build/`). No code yet. Backend is our own stack (Hono, PlanetScale Postgres, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2); never Supabase.
+
+| Doc | What it holds |
+|---|---|
+| [product-decisions.md](./product-decisions.md) | Final decision log D1–D20, contradiction resolutions C1–C48, entitlement matrix, platform adaptations, supplier copy, default answers to open questions |
+| [system-architecture.md](./system-architecture.md) | Runtime topology, repo layout + import rules, core patterns (commands, reads, realtime, jobs, push, AI, extensions, suppliers), authz, envs, sequences, ops, spikes |
+| [code-standards.md](./code-standards.md) | Agent working rules, TS/RN conventions, naming, state, styling, motion, i18n, a11y, DB, native, AI, testing, security, git, Definition of Done |
+| [data-model.md](./data-model.md) | Conventions, DB roles, RLS backstop, every table (columns, keys, policy, sync stream, privacy class, retention) |
+| [data-model-sync-and-privacy.md](./data-model-sync-and-privacy.md) | Private-field strategy, LLM views, state machines, PowerSync Sync Streams, realtime data rules, retention, table → creating phase |
+| [api-contracts.md](./api-contracts.md) | Command envelope + pipeline, error codes, command catalogue, HTTP routes, webhooks, AI tool registry, supplier adapters |
+| [api-contracts-async.md](./api-contracts-async.md) | Centrifugo namespaces (canonical), pg-boss queues + cron (canonical), APNs/FCM payloads, off-app actions, device action keys, App Group |
+| [design-system.md](./design-system.md) | Tokens, type, colour (guide colours per C5), components, motion presets, native-surface rules |
+| `design-renders/` | Screen PNGs (`screens/<label>.png`), `screens.json` (visible text + behaviour), page renders |
+
+## Reading order for coding agents
+
+1. `product-decisions.md` §1 (what is final) → 2. `code-standards.md` §1 (how to work) → 3. `system-architecture.md` §1–5 → 4. your phase file in the plan → 5. only the sections of `data-model*.md` / `api-contracts*.md` your task names → 6. `design-system.md` + the task's design renders for UI work.
+
+Precedence on conflict: product-decisions §1 > §2 > these contracts > older reports in `plans/reports/` > design files. Canonical owners: tables = data-model; commands/errors/routes = api-contracts; channels/queues/push = api-contracts-async.

@@ -1,0 +1,837 @@
+1
+Critter collection: 150 locals across 61 places
+One local per city
+Every city in the collection has one critter, and you get it by being there. Vietnam is the home set with ten. The ten most-visited places get five cities each, places 11 to 30 get three, and places 31 to 60 get one. Each name comes from the local word for the animal, or the nickname locals already use.
+VIETNAM
+10
+1 place × 10
+RANK 1–10
+50
+10 places × 5
+RANK 11–30
+60
+20 places × 3
+RANK 31–60
+30
+30 places × 1
+Ranked by 2024 international arrivals (UN Tourism). Macau is left out because most of its arrivals are same-day trips. The six live guides (Tokek, Pon, Lundi, Ajo, Sardi, Paco) keep their places.
+1a
+Bestiary. Every critter as its sticker, grouped by rank.
+VIETNAM
+HOME SET · 10 CRITTERS · ONE PER REGION
+#001
+CỤ RÙA
+HÀ NỘI
+Hoàn Kiếm turtle
+#002
+RỒNG
+HẠ LONG
+Bay dragon
+#003
+TRÂU
+SA PA
+Water buffalo
+#004
+SAO LA
+HUẾ
+Saola
+#005
+CHÉP
+HỘI AN
+Lantern carp
+#006
+NGỰA
+ĐÀ LẠT
+Flower pony
+#007
+CHÀO MÀO
+SÀI GÒN
+Red-whiskered bulbul
+#008
+CÒ
+MEKONG
+Egret
+#009
+XOÁY
+PHÚ QUỐC
+Phú Quốc ridgeback
+#010
+DƠI
+PHONG NHA
+Cave bat
+RANK 1–10
+FIVE CITIES EACH · 50 CRITTERS
+#01
+FRANCE
+#011
+ROUCOU
+PARIS
+Pigeon
+#012
+CIGALOU
+NICE
+Cicada
+#013
+LÉON
+LYON
+Lion
+#014
+RASCASSE
+MARSEILLE
+Scorpionfish
+#015
+STORI
+STRASBOURG
+White stork
+#02
+SPAIN
+#016
+DRAC
+BARCELONA
+Mosaic salamander
+#017
+OSITO
+MADRID
+Brown bear
+#018
+LINCE
+SEVILLE
+Iberian lynx
+#019
+FERRERET
+MALLORCA
+Midwife toad
+#020
+CANARIO
+TENERIFE
+Canary
+#03
+UNITED STATES
+#021
+PIZZA
+NEW YORK
+Subway rat
+#022
+COYO
+LOS ANGELES
+Coyote
+#023
+LUCKY
+LAS VEGAS
+Jackrabbit
+#024
+GATOR
+ORLANDO
+Alligator
+#025
+HUMU
+HONOLULU
+Reef triggerfish
+#04
+CHINA
+#026
+JINGBA
+BEIJING
+Pekingese
+#027
+XIEXIE
+SHANGHAI
+Hairy crab
+#028
+JINSI
+XI'AN
+Golden snub-nosed monkey
+#029
+HUAHUA
+CHENGDU
+Giant panda
+#030
+LUCI
+GUILIN
+Cormorant
+#05
+TÜRKIYE
+#031
+TOMBILI
+ISTANBUL
+Street cat
+#032
+CARETTA
+ANTALYA
+Loggerhead turtle
+#033
+PERI
+CAPPADOCIA
+Horse
+#034
+YUNUS
+BODRUM
+Bottlenose dolphin
+#035
+PEMBE
+IZMIR
+Flamingo
+#06
+ITALY
+#036
+LUPA
+ROME
+She-wolf
+#037
+SEPPIA
+VENICE
+Cuttlefish
+#038
+PORCELLINO
+FLORENCE
+Bronze boar
+#039
+BISCIO
+MILAN
+Crowned serpent
+#040
+AZZURRA
+CAPRI
+Blue lizard
+#07
+MEXICO
+#041
+AJO
+MEXICO CITY
+Axolotl
+#042
+TIBU
+CANCÚN
+Whale shark
+#043
+CHAPULÍN
+OAXACA
+Grasshopper
+#044
+COATI
+TULUM
+White-nosed coati
+#045
+XOLO
+GUADALAJARA
+Xoloitzcuintli
+#08
+HONG KONG
+#046
+MAYING
+VICTORIA PEAK
+Black kite
+#047
+MALAU
+KOWLOON
+Rhesus macaque
+#048
+GAMYU
+MONG KOK
+Goldfish
+#049
+HOITUN
+LANTAU
+Pink dolphin
+#050
+ROMER
+LAMMA
+Romer's tree frog
+#09
+UNITED KINGDOM
+#051
+MERLINA
+LONDON
+Tower raven
+#052
+BOBBY
+EDINBURGH
+Skye terrier
+#053
+NESSIE
+LOCH NESS
+Loch Ness monster
+#054
+BUZZ
+MANCHESTER
+Worker bee
+#055
+HERDY
+LAKE DISTRICT
+Herdwick lamb
+#10
+GERMANY
+#056
+BUDDY
+BERLIN
+Buddy bear
+#057
+WALDI
+MUNICH
+Dachshund
+#058
+HEIN
+HAMBURG
+Harbour seal
+#059
+KUCKI
+BLACK FOREST
+Cuckoo
+#060
+LUDWIG
+NEUSCHWANSTEIN
+Mute swan
+RANK 11–30
+THREE CITIES EACH · 60 CRITTERS
+#11
+JAPAN
+#061
+PON
+KYOTO
+Tanuki
+#062
+HACHI
+TOKYO
+Akita
+#063
+FUGU
+OSAKA
+Pufferfish
+#12
+GREECE
+#064
+KOUKOU
+ATHENS
+Little owl
+#065
+KRI-KRI
+CRETE
+Cretan wild goat
+#066
+PETROS
+MYKONOS
+Pelican
+#13
+THAILAND
+#067
+PLAKAD
+BANGKOK
+Siamese fighting fish
+#068
+CHANG
+CHIANG MAI
+Asian elephant
+#069
+CHANEE
+PHUKET
+White-handed gibbon
+#14
+AUSTRIA
+#070
+LIPI
+VIENNA
+Lipizzaner
+#071
+MURMELI
+SALZBURG
+Alpine marmot
+#072
+GAMSI
+INNSBRUCK
+Chamois
+#15
+SAUDI ARABIA
+#073
+JAMAL
+RIYADH
+Dromedary
+#074
+HUDHUD
+ALULA
+Hoopoe
+#075
+MARJAN
+JEDDAH
+Clownfish
+#16
+PORTUGAL
+#076
+SARDI
+LISBON
+Sardine
+#077
+GALO
+PORTO
+Barcelos rooster
+#078
+FARO
+ALGARVE
+Portuguese water dog
+#17
+MALAYSIA
+#079
+RIMAU
+KUALA LUMPUR
+Malayan tiger
+#080
+HELANG
+LANGKAWI
+Brahminy kite
+#081
+UTAN
+BORNEO
+Orangutan
+#18
+NETHERLANDS
+#082
+REIGER
+AMSTERDAM
+Grey heron
+#083
+LIEVE
+KEUKENHOF
+Ladybird
+#084
+EENDJE
+GIETHOORN
+Mallard
+#19
+CANADA
+#085
+BANDIT
+TORONTO
+Raccoon
+#086
+SKAANA
+VANCOUVER
+Orca
+#087
+WAPITI
+BANFF
+Elk
+#20
+POLAND
+#088
+SMOK
+KRAKÓW
+Wawel dragon
+#089
+WIEWI
+WARSAW
+Red squirrel
+#090
+FOKA
+GDAŃSK
+Grey seal
+#21
+CROATIA
+#091
+PAUN
+DUBROVNIK
+Peacock
+#092
+PJEGA
+SPLIT
+Dalmatian
+#093
+VILIN
+PLITVICE
+Dragonfly
+#22
+UNITED ARAB EMIRATES
+#094
+SAQR
+DUBAI
+Falcon
+#095
+ARUS
+ABU DHABI
+Dugong
+#096
+RAMLI
+SHARJAH
+Sand cat
+#23
+MOROCCO
+#097
+BELARJ
+MARRAKECH
+White stork
+#098
+MAGOT
+CHEFCHAOUEN
+Barbary macaque
+#099
+FANAK
+MERZOUGA
+Fennec fox
+#24
+HUNGARY
+#100
+PULI
+BUDAPEST
+Puli
+#101
+FOGAS
+BALATON
+Zander
+#102
+MANGALICA
+HORTOBÁGY
+Woolly pig
+#25
+SINGAPORE
+#103
+MERANG
+MARINA BAY
+Smooth-coated otter
+#104
+ENGGANG
+SENTOSA
+Oriental pied hornbill
+#105
+BELACAK
+SUNGEI BULOH
+Mudskipper
+#26
+SOUTH KOREA
+#106
+KKACHI
+SEOUL
+Magpie
+#107
+GALMAEGI
+BUSAN
+Black-tailed gull
+#108
+DWAEJI
+JEJU
+Jeju black pig
+#27
+EGYPT
+#109
+BASTET
+CAIRO
+Egyptian Mau
+#110
+KHEPRI
+LUXOR
+Scarab
+#111
+SOBEK
+ASWAN
+Nile crocodile
+#28
+INDONESIA
+#112
+TOKEK
+BALI
+Tokay gecko
+#113
+ORA
+LABUAN BAJO
+Komodo dragon
+#114
+KUKANG
+YOGYAKARTA
+Slow loris
+#29
+SWITZERLAND
+#115
+CHÜELI
+LUCERNE
+Alpine cow
+#116
+NÄSLI
+ZERMATT
+Valais blacknose sheep
+#117
+BARRY
+INTERLAKEN
+St. Bernard
+#30
+CZECHIA
+#118
+LEV
+PRAGUE
+Two-tailed lion
+#119
+MÉĎA
+ČESKÝ KRUMLOV
+Brown bear
+#120
+JELEN
+KARLOVY VARY
+Red deer stag
+RANK 31–60
+ONE CITY EACH · 30 CRITTERS
+#31
+ALBANIA
+#121
+SHQIPE
+TIRANA
+Golden eagle
+#32
+TUNISIA
+#122
+MAKNINE
+SIDI BOU SAID
+Goldfinch
+#33
+INDIA
+#123
+HATHI
+JAIPUR
+Painted elephant
+#34
+BELGIUM
+#124
+LANCHALS
+BRUGES
+Mute swan
+#35
+SOUTH AFRICA
+#125
+PIKKIE
+CAPE TOWN
+African penguin
+#36
+DOMINICAN REPUBLIC
+#126
+YUBARTA
+SAMANÁ
+Humpback whale
+#37
+UZBEKISTAN
+#127
+SHER
+SAMARKAND
+Tile tiger
+#38
+TAIWAN
+#128
+CHUAN
+TAIPEI
+Formosan pangolin
+#39
+AUSTRALIA
+#129
+GULA
+SYDNEY
+Koala
+#40
+IRELAND
+#130
+FIA
+DUBLIN
+Fallow deer
+#41
+SWEDEN
+#131
+ÄLGIS
+STOCKHOLM
+Moose
+#42
+CAMBODIA
+#132
+NEAK
+SIEM REAP
+Naga
+#43
+BRAZIL
+#133
+CAPIVARA
+RIO DE JANEIRO
+Capybara
+#44
+ARGENTINA
+#134
+HORNERO
+BUENOS AIRES
+Rufous hornero
+#45
+COLOMBIA
+#135
+PEREZOSO
+CARTAGENA
+Brown-throated sloth
+#46
+PHILIPPINES
+#136
+MAMAG
+BOHOL
+Philippine tarsier
+#47
+JORDAN
+#137
+WARDI
+PETRA
+Sinai rosefinch
+#48
+CHILE
+#138
+CHULENGO
+TORRES DEL PAINE
+Guanaco
+#49
+QATAR
+#139
+ORRY
+DOHA
+Arabian oryx
+#50
+GEORGIA
+#140
+KHOKHOBI
+TBILISI
+Common pheasant
+#51
+NORWAY
+#141
+FJELLREV
+TROMSØ
+Arctic fox
+#52
+LAOS
+#142
+MEE
+LUANG PRABANG
+Moon bear
+#53
+OMAN
+#143
+NIMR
+MUSCAT
+Arabian leopard
+#54
+NEW ZEALAND
+#144
+KIWI
+QUEENSTOWN
+Kiwi
+#55
+PERU
+#145
+PACO
+CUSCO
+Alpaca
+#56
+COSTA RICA
+#146
+RANITA
+LA FORTUNA
+Red-eyed tree frog
+#57
+KENYA
+#147
+TWIGA
+NAIROBI
+Giraffe
+#58
+ICELAND
+#148
+LUNDI
+REYKJAVÍK
+Atlantic puffin
+#59
+CUBA
+#149
+ZUNZÚN
+HAVANA
+Bee hummingbird
+#60
+TANZANIA
+#150
+MILIA
+SERENGETI
+Plains zebra
+1b
+Critterdex. The collection in the app, under the PASS tab.
+1b-1 · CRITTERDEX
+9:41
+5G
+YOUR CRITTERDEX
+9/150
+5 OF 61 PLACES
+Maya has 14
+ALL
+FOUND
+NEAR ME
+Search a city or a critter
+VIETNAM
+3/10 · HOME SET
+RANK 1–10 · FIVE CITIES EACH
+#01 FRANCE
+2/5 FOUND
+#02 SPAIN
+0/5 FOUND
+#03 UNITED STATES
+0/5 FOUND
+#04 CHINA
+0/5 FOUND
+#05 TÜRKIYE
+0/5 FOUND
+HOME
+TRIPS
+WALLET
+PASS
+LAYOUT Vietnam stays pinned on top as the home set. Every other place follows the ranking, one row each, with its city slots on the right.
+1b-2 · VIETNAM SET
+9:41
+5G
+‹ CRITTERDEX
+HOME SET
+VIETNAM
+3/10
+CỤ RÙA
+HÀ NỘI
+?
+???
+HẠ LONG
+?
+???
+SA PA
+?
+???
+HUẾ
+CHÉP
+HỘI AN
+?
+???
+ĐÀ LẠT
+CHÀO MÀO
+SÀI GÒN
+?
+???
+MEKONG
+?
+???
+PHÚ QUỐC
+?
+???
+PHONG NHA
+HOME
+TRIPS
+WALLET
+PASS
+LAYOUT Locked slots show the region, never the critter's name, so each city has something to find. The bar fills one segment per critter.
+1b-3 · CRITTER DETAIL
+9:41
+5G
+HỘI AN · VIETNAM
+#005
+LANTERN CARP
+CHÉP
+W
+M
+Follows the lanterns down the Thu Bồn after dark. Hold one over the water and it swims closer.
+From Chép's field notes
+FOUND
+Sep 21, 19:40
+WHERE
+Thu Bồn River
+ALSO HAS IT
+Maya
+VIETNAM SET · 3 OF 10
+SHOW THE CREW
+LAYOUT Same detail card as the pass. The card takes the critter's main colour, and the strip below shows the rest of its set.

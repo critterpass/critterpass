@@ -1,0 +1,2630 @@
+[
+ {
+  "label": "3a-1 Splash",
+  "screenText": "9:41\n5G\nCRITTERPASS\nPASSPORT · PASSEPORT\nYour pass to every place, and the locals who live there.\nOPEN YOUR PASS\nI have an invite code",
+  "caption": "MOTION The passport bobs gently and a sheen runs across the cover. Tokek hangs off the top edge and pops his head up every few seconds. OPEN YOUR PASS swings the cover open like a real passport and the first page fills the screen.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki",
+   "puffin",
+   "sardine",
+   "axolotl",
+   "alpaca",
+   "gecko"
+  ],
+  "motion": [
+   "float",
+   "float",
+   "float",
+   "float",
+   "float",
+   "0:r-4 ty0;.5:r-2 ty-6;1:r-4 ty0",
+   "0:sx1;.5:sx.3;1:sx1",
+   "0:ty0;.4:ty0;.5:ty-10 e=out;.6:ty0 e=in;1:ty0",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "3a-2 Your name",
+  "screenText": "9:41\n5G\nPAGE 1 OF 4\nCRITTERPASS · PASSEPORT\nCP-0427\n?\nGIVEN NAME · PRÉNOM\nWinst\nHOME\nNot yet\nISSUED\nNot yet\nTRAVEL STYLE\nWe’ll ask\nP<CPWINST<<<<<<<<<<<<<<<<<<<<<<<<<<<\nCP0427<<<<<<<<<<<<<<<<<<<<<<<<<<<<<00\nWHAT SHOULD THE\nGUIDES CALL YOU?\nWinst\nJust a first name is fine. I’m Tokek, so I can’t judge.\nNEXT",
+  "caption": "MOTION Each letter you type lands on the passport in the same moment, and the machine-readable line at the bottom rewrites itself. Tokek’s line reacts once you stop typing.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:ty30 o0 e=out;.08:ty0 o1;1:ty0 o1",
+   "bob",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "3a-3 Your photo",
+  "screenText": "9:41\n5G\nPAGE 2 OF 4\nPICK YOUR\nPASSPORT PHOTO\nAny guide works. You’ll earn more faces on the road.\nCP-0427\nUSE A REAL PHOTO\nTHAT’S ME",
+  "caption": "MOTION Tapping a guide drops it into the photo frame with a camera-flash blink, and it waves at you. The frame tilts a little each time, like a photo being slid into place. A real photo gets the sticker treatment, a white cut-out edge.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "tanuki",
+   "puffin",
+   "axolotl",
+   "sardine",
+   "alpaca"
+  ],
+  "motion": [
+   "bob",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "3a-4 This or that",
+  "screenText": "9:41\n5G\nPAGE 3 OF 4\nTHIS OR THAT\n3 OF 6\nSUNRISE\nSUMMIT\nUp at 3, on top by 6\nOR\nSLEEP\nTILL TEN\nBreakfast is a lifestyle\nON YOUR PASS SO FAR\nSTREET FOOD\nEASY-ISH PACE\n?\nTap one. There are no wrong answers, only late ones.",
+  "caption": "MOTION Two cards, one question. The top one bobs to invite a tap. Picking a side flings the other card away, and your answer turns into a stamp that thuds onto ON YOUR PASS. Six of these replace the chip list, and the crew’s answers later drive the compromise.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "sun"
+  ],
+  "motion": [
+   "0:ty0 r0;.5:ty-6 r-1;1:ty0 r0",
+   "wiggle"
+  ]
+ },
+ {
+  "label": "3a-5 Home base",
+  "screenText": "9:41\n5G\nPAGE 4 OF 4\nWHERE’S HOME?\nFlights and budgets start here. It’s also your first stamp.\nSing\nSIN\nSingapore Changi\nSingapore · SGD\nXSP\nSeletar\nSingapore · SGD\nJHB\nSenai, Johor Bahru\nMalaysia · 40 min away\nHOME · RUMAH\nSINGAPORE\nSTAMP No. 1\nTHAT’S HOME",
+  "caption": "MOTION Results narrow as you type, and the nearest airports to your location sit on top. Picking one inks the HOME stamp below in its colour, ready to land on the pass on the next screen.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "plane",
+   "check"
+  ],
+  "motion": [
+   "0:r-8 s1;.5:r-6 s1.03;1:r-8 s1",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "3a-6 Pass issued",
+  "screenText": "9:41\n5G\nCRITTERPASS · PASSEPORT\nCP-0427\nGIVEN NAME · PRÉNOM\nWINSTON\nHOME\nSINGAPORE · SIN\nISSUED\n26 SEP 2026\nTRAVEL STYLE\nSUNRISE · STREET FOOD · EASY\nP<SGPWINSTON<<<<<<<<<<<<<<<<<<<<<<<<<\nCP0427<<SGP<<SUNRISE<FOOD<EASY<<<<<<01\nCRITTERPASS\nISSUED\n26 SEP 2026\nHOME\nSIN\nYOUR PASS\nIS READY\nOne stamp so far. The guides will help with the rest.\nSAVE MY PASS\nTakes ten seconds. No password.",
+  "caption": "MOTION Everything you just answered comes together on one page. ISSUED slams down with a thud and confetti, then your first stamp, HOME, lands beside it. Tokek jumps in cheering. You get the pass before we ask for an account.",
+  "customEls": [
+   "tg-confetti",
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:ty-40 r-8 o0 e=back;.07:ty0 r-2 o1;1:ty0 r-2 o1",
+   "0:s2.2 o0 e=in;.05:s.94 o1;.08:s1.04;.11:s1;1:s1 o1",
+   "0:s2.2 o0 e=in;.05:s.94 o1;.08:s1.04;.11:s1;1:s1 o1",
+   "hop",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "3a-7 Save your pass",
+  "screenText": "9:41\n5G\nCRITTERPASS · PASSEPORT\nCP-0427\nGIVEN NAME · PRÉNOM\nWINSTON\nHOME\nSINGAPORE · SIN\nISSUED\n26 SEP 2026\nTRAVEL STYLE\nSUNRISE · STREET FOOD · EASY\nP<SGPWINSTON<<<<<<<<<<<<<<<<<<<<<<<<<\nCP0427<<SGP<<SUNRISE<FOOD<EASY<<<<<<01\nSAVE YOUR PASS\nKEEP IT SAFE\nSo your pass, critters and crews survive a lost phone. We never post anything for you.\n\nContinue with Apple\nG\nContinue with Google\nUse my phone number\nBy continuing you agree to the Terms and the Privacy Policy.",
+  "caption": "MOTION The sheet rises over the finished pass so you can see what you’re saving. After sign-in the pass slides back up and gets a small SAVED tick in the corner.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3a-8 Phone sign-in",
+  "screenText": "9:41\n5G\nYOUR\nNUMBER\nSo your pass survives a lost phone. One account for every crew, trip and critter.\nPHONE\n+65\n9123 4567\nCode sent to +65 9123 4567\n4\n1\n9\nOR\nCONTINUE WITH APPLE\nCONTINUE WITH GOOGLE\nBy continuing you agree to the Terms and the Privacy Policy.\nWe never post anything for you.",
+  "caption": "MOTION Digits drop into the boxes as the SMS code autofills. When the last one lands, the puffin claps and the pass gets a SAVED tick and the screen slides on to permissions.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "puffin"
+  ],
+  "motion": [
+   "float",
+   "blink"
+  ]
+ },
+ {
+  "label": "3a-9 Permissions, in context",
+  "screenText": "9:41\n5G\n← YOUR PASS\nLAST STEP\nTHREE THINGS,\nAND WHY\nLEAVE BY\n03:10\nALARMS AND PINGS\nLeave-by alarms and votes that need you. About five a day.\n?\nLOCATION, ON TRIPS\nCritters only appear where you actually are. Off when you’re home.\nCALENDAR\nSo the guide can find a week everyone can make.\nSay no to any of them. I’ll ask again when it actually matters.\nLET’S GO\nAsk me later",
+  "caption": "MOTION Each card plays a tiny live demo of what the permission does: a leave-by card drops in, a critter silhouette pings, and the calendar finds the week that fits. The system prompt only appears when you flip a toggle. Ask me later is a real option, and each one gets asked again at the moment it’s needed.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:ty-40 o0 e=back;.15:ty0 o1;.8:ty0 o1;.9:ty-40 o0;1:ty-40 o0",
+   "ping",
+   "pulse",
+   "bob",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "3a-10 Invite, a seat for you",
+  "screenText": "9:41\n5G\nW\nWinston saved you a seat\nOpened from WhatsApp · 2 min ago\nRIN, YOU’RE\nCOMING TO BALI\nCRITTERPASS AIR · CREW TICKET\nBALI-6X\nYOU\nWHEREVER\nDPS\nBALI\nDATES\nOCT 12–19\nSEAT\n5 OF 6\nEACH\n~$1,240\nW\nM\nA\nJ\nWinston, Maya, Alex and Jordan are in. Dev hasn’t opened his yet.\ntrailer\n▶\nTHE 40-SECOND TRAILER\nVolcano, boat day, the villa pool.\nTAKE THE SEAT\nJust look around first",
+  "caption": "MOTION The invite arrives as a crew ticket with your name on it, printed from the plan. It slides up and settles slightly crooked, the little plane wobbles along the route, and Tokek waves from the corner. TAKE THE SEAT skips straight to a three-tap pass.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "plane",
+   "gecko"
+  ],
+  "motion": [
+   "0:ty60 r6 o0 e=back;.08:ty0 r-2 o1;1:ty0 r-2 o1",
+   "0:tx0;.5:tx10;1:tx0",
+   "float",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "3a-11 Join with a code",
+  "screenText": "9:41\n5G\n← BACK\nPaste a link\nGOT A\nCODE?\nSix letters from whoever invited you. The same code works for a crew or a single trip.\nB\nA\nL\nI\n6\nX\nPasted from Winston's message\nFOUND IT · WINSTON'S CREW\nTHE BALI SIX\nBALI · OCT 12–19\n~$1,240 EACH\nM\nA\nJ\nR\n4 already in. Tokek is guiding.\nJOIN THE BALI SIX\nWrong crew? Ask Winston for a new code",
+  "caption": "MOTION Letters drop into the boxes as they're typed or pasted. On the sixth, the boxes ring green and the crew card unfolds beneath them, with Tokek landing on its corner. A wrong or expired code shakes the row and says who to ask for a new one.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "check",
+   "gecko"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "3a-12 Your pass, three taps",
+  "screenText": "9:41\n5G\n← TICKET\n1 OF 1\nYOUR PASS,\nTHREE TAPS\nWinston filled in what he knows. Change anything.\nGIVEN NAME\nRIN\nHOME\nSINGAPORE · SIN\nFROM WINSTON’S CONTACTS\n1 · YOUR FACE\n2 · HOW YOU TRAVEL\nSTREET FOOD\nSUNRISE CHASER\nBEACH, NO PLANS\n+ MORE\nWinston says you’ll eat anything. I picked two.\n3 · ISSUE MY PASS\nNext you’ll save it with Apple, Google or your number",
+  "caption": "MOTION Everything Winston already knows is filled in, marked where it came from. Two picks change the pass live above them. ISSUE MY PASS stamps it, asks for a sign-in in the same sheet as 3a-7, and drops Rin into the crew.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "axolotl",
+   "gecko",
+   "tanuki",
+   "puffin",
+   "sardine"
+  ],
+  "motion": [
+   "wiggle",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "3a-13 You’re in",
+  "screenText": "9:41\n5G\nCREW MANIFEST · THE BALI SIX\n5 OF 6\nW\nWINSTON\norganiser\nM\nMAYA\n6 critters\nA\nALEX\n4 critters\nJ\nJORDAN\n11 critters\nR\nRIN\njust now\nD\nDEV\nnot yet\nWelcome, Rin. The volcano’s on Day 4. You’ll love it, eventually.\nRIN’S IN\nFive of six. Dev is the last one, and Tokek has already nudged him.\nSEE THE PLAN\nSay hi to the crew",
+  "caption": "MOTION Each crew card stamps down onto the manifest in the order people joined, and Rin’s lands last with a green ring. Dev’s stays dashed. Tokek hops and his line types out. About fifteen seconds from opening the link to here.",
+  "customEls": [
+   "tg-confetti",
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:s1.6 o0 e=in;.05:s.95 o1;.08:s1;1:s1 o1",
+   "0:s1.6 o0 e=in;.05:s.95 o1;.08:s1;1:s1 o1",
+   "0:s1.6 o0 e=in;.05:s.95 o1;.08:s1;1:s1 o1",
+   "0:s1.6 o0 e=in;.05:s.95 o1;.08:s1;1:s1 o1",
+   "0:s1.6 o0 e=in;.05:s.95 o1;.08:s1;1:s1 o1",
+   "0:s1.6 o0 e=in;.05:s.95 o1;.08:s1;1:s1 o1",
+   "hop"
+  ]
+ },
+ {
+  "label": "3b-1 Home, first run",
+  "screenText": "9:41\n5G\nWELCOME, WINSTON\nJOIN WITH A CODE\nWHERE TO\nFIRST?\nPick a guide to start a trip. Your crew can vote on it later.\nBALI\nKYOTO\nICELAND\nMEXICO CITY\nLISBON\nCUSCO\n+\nSOMEWHERE ELSE\nNo guide there yet. Tokek will cover until one moves in.\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Guides idle in their cells. Tapping one makes it hop out of its cell and grow into the destination page, and the new trip starts there.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "tanuki",
+   "puffin",
+   "axolotl",
+   "sardine",
+   "alpaca",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "float",
+   "float",
+   "float",
+   "float",
+   "float",
+   "float"
+  ]
+ },
+ {
+  "label": "3b-2 Home",
+  "screenText": "9:41\n5G\nW\nHEY WINSTON ›\nTHE BALI SIX\n▾\nM\nA\nJ\n5\n3\nNEXT UP · OCT 12\nBALI\nPLAN 80%\nWHERE NEXT?\nVOTE OPEN · 4 OF 6 IN\nKYOTO\nM\nJ\nW\nLISBON\nA\nREYKJAVÍK\n+\nPITCH\nA PLACE\nBlossoms peak around April 3. Flights from Singapore drop to $412 if you book by February.\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION The Bali card counts down live while Tokek bobs over its edge. Destination stickers idle on their own loops, and each new vote drops an avatar onto a sticker with a small bounce. The bell rings once when something new needs you. The crew pill opens the chat, and the crew name above it switches crews.",
+  "customEls": [
+   "doodle-art",
+   "tg-count",
+   "tg-motion"
+  ],
+  "doodles": [
+   "chat",
+   "bell",
+   "gecko",
+   "tanuki",
+   "sardine",
+   "puffin",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "bob",
+   "blink",
+   "float",
+   "float",
+   "float"
+  ]
+ },
+ {
+  "label": "3b-3 Pitch a place",
+  "screenText": "9:41\n5G\nLisbon\n✕\nSARDI PITCHES\nLISBON\nIN JUNE\n16H FROM SIN\n$1,920 EACH\nJUNE FESTIVALS\nWHY YOUR CREW MIGHT BITE\nStreet food on every corner\nM\nJ\nBeaches 30 minutes out\nR\nTiled streets for photo dumps\nA\nCome for the grilled sardines. Stay for the grilled sardines.\nOR TRY\nPORTO · $180 LESS\nSEVILLE · WARMER\nADD TO THE VOTE",
+  "caption": "MOTION The pitch streams in line by line as the guide works it out, with the sardine sticker slapping on first. ADD TO THE VOTE flies the card onto the board on Home.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "pin",
+   "sardine",
+   "food",
+   "wave",
+   "camera"
+  ],
+  "motion": [
+   "blink"
+  ]
+ },
+ {
+  "label": "3b-4 Inbox",
+  "screenText": "9:41\n5G\nINBOX\nMARK ALL READ\nALL\nNEEDS YOU · 3\nCREW\nGUIDES\nBOAT DAY CLOSES FRIDAY\nYou haven't voted. Penida leads 4–2.\nNUSA PENIDA\nGILI T\nMOVE DINNER TO 21:00?\nYour flight's running late. Tokek has the restaurant on hold.\nAPPROVE\nKEEP 19:30\nKYOTO: REPLIES DUE SEP 30\n4 in, 1 maybe. Dev hasn't opened his invite.\nNUDGE DEV\nEARLIER\nM\nMaya reacted to the Kyoto trailer\n12m\nJ\nJordan paid you back $92.10\n1h\nTokek moved Rin's pickup to 22:40\nUNDO\n3h\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Items that need you sit on top and slide off to the right once they're handled. Everything else collapses into a quiet list below.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "boat",
+   "gecko",
+   "ticket",
+   "check",
+   "pin",
+   "wallet",
+   "egg"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3b-5 All caught up",
+  "screenText": "9:41\n5G\nINBOX\nMARK ALL READ\nALL\nNEEDS YOU · 0\nCREW\nGUIDES\nALL CAUGHT UP\nNothing needs you right now. Tokek will wake you if the boat vote changes.\nEARLIER\nM\nMaya reacted to the Kyoto trailer\n12m\nJ\nJordan paid you back $92.10\n1h\nTokek moved Rin's pickup to 22:40\nUNDO\n3h\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION The last handled card slides off and the Needs you count ticks down to zero. Tokek curls up in the space it left and snores. Tapping it opens one eye; anything new lands on top and wakes it.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "check",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "3b-6 Home, final vote",
+  "screenText": "9:41\n5G\nW\nHEY WINSTON ›\nTHE BALI SIX\n▾\nM\nA\nJ\n5\n3\nNEXT UP · OCT 12\nBALI\nPLAN 80%\nWHERE NEXT?\nFINAL · CLOSES FRI\nKYOTO\nM\nJ\nW\n3\n1\nA\nLISBON\nVS\nDEV AND RIN TO GO\nYou voted Kyoto. A tie goes to Kyoto.\nD\nR\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Once two places are left, the pitch board folds into a split card that mirrors the showdown. Each half idles with its guide, a new vote drops an avatar onto its side with a bounce, and the strip fills one segment per vote. The faces of whoever is left bob until they vote. The crew pill in the header opens the chat, and the crew name above it switches crews.",
+  "customEls": [
+   "doodle-art",
+   "tg-count",
+   "tg-motion"
+  ],
+  "doodles": [
+   "chat",
+   "bell",
+   "gecko",
+   "tanuki",
+   "sardine",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "bob",
+   "blink",
+   "wiggle",
+   "wiggle",
+   "pulse",
+   "bob",
+   "bob"
+  ]
+ },
+ {
+  "label": "3b-7 Somewhere else",
+  "screenText": "9:41\n5G\nMorocco\n✕\nMOROCCO\nNO LIVE GUIDE YET\n?\nMARRAKECH\nRiads, souks, rooftop dinners · 1 local to find\n›\n?\nCHEFCHAOUEN\nThe blue town in the Rif · 1 local to find\n›\n?\nMERZOUGA\nSahara dunes, camp nights · 1 local to find\n›\nNobody guides Morocco yet, so I'll cover it. The locals still turn up.\nq\nw\ne\nr\nt\ny\nu\ni\no\np\na\ns\nd\nf\ng\nh\nj\nk\nl\n⇧\nz\nx\nc\nv\nb\nn\nm\n⌫\n123\nspace\ngo",
+  "caption": "MOTION The sheet rises with the keyboard already up. Results arrive as you type, each with the silhouette of the local that lives there, never its name. Tapping a city grows it into its destination page.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "pin",
+   "cp-097",
+   "cp-098",
+   "cp-099",
+   "gecko"
+  ],
+  "motion": [
+   "blink"
+  ]
+ },
+ {
+  "label": "3b-8 Marrakech",
+  "screenText": "9:41\n5G\n← MOROCCO\n♡ SAVE\nMARRAKECH\nGUEST GUIDE: TOKEK\nNot my island, but I've done my homework.\n1 STOP FROM SIN\n10 MAD ≈ $1\nBEST: MAR · OCT\nTHE LOCALS\n0/3 · FOUND BY BEING THERE\n?\nMARRAKECH\n?\nCHEFCHAOUEN\n?\nMERZOUGA\nWHAT TOKEK KNOWS SO FAR\nRiads beat hotels for six. Most sleep six to eight.\nMerzouga is a long day's drive. Give the desert two nights.\nPITCH TO THE CREW\nSOLO TRIP",
+  "caption": "MOTION Tokek hops onto the hero as a guest guide, the same way a live guide would. The three locals breathe faintly in their slots; tapping one gives a hint about where it lives, never its name.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "cp-097",
+   "cp-098",
+   "cp-099",
+   "bed",
+   "sun"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "3c-1 Vote showdown",
+  "screenText": "← NEXT TRIP · FINAL\nCLOSES FRI\nKYOTO\nCome in April. The blossoms are ridiculous.\n7H FLIGHT\n$1,480 EACH\nBEST EARLY APR\nM\nJ\nW\n3 VOTES\nLISBON\nGrilled sardines. Every. Single. Night.\n16H FLIGHT\n$1,920 EACH\nBEST IN JUNE\nVS\nA\n1 VOTE · DEV AND RIN TO GO\nA tie goes to Kyoto: it's $440 cheaper for the four flying from Singapore.\n9:41\n5G",
+  "caption": "MOTION Each guide campaigns for its own city. Tapping a half squashes it like a button and the VS badge punches toward the other side. Avatars slide across when someone changes their mind.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki",
+   "sardine"
+  ],
+  "motion": [
+   "wiggle",
+   "wiggle",
+   "pulse"
+  ]
+ },
+ {
+  "label": "3c-2 Kyoto wins",
+  "screenText": "9:41\n5G\nWHERE NEXT? · FINAL\n6 OF 6 VOTED\nKYOTO\nWINS 4–2\nKYOTO\nM\nJ\nW\nR\n4\nLISBON\nA\nD\n2\nSardi took it well. He's already pitching June.\nSET UP KYOTO\nLisbon goes back in the deck for next time",
+  "caption": "MOTION Rin's and Dev's votes land, the Lisbon half slides off the bottom and orange takes the whole screen. KYOTO stamps down while Pon jumps in front of the turning rays, and confetti fires once. Everyone in the crew sees this the next time they open the app.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art",
+   "tg-confetti"
+  ],
+  "doodles": [
+   "tanuki",
+   "sardine"
+  ],
+  "motion": [
+   "spin",
+   "hop"
+  ]
+ },
+ {
+  "label": "3c-3 When",
+  "screenText": "9:41\n5G\n← KYOTO SETUP\nKYOTO WON 4–2\n1 WHEN\n2 BUDGET\n3 ROOMS\n4 MUST-DOS\nWHEN CAN\nEVERYONE GO?\nFrom five synced calendars. Dev hasn't connected his yet.\nAPRIL 2027\nAPR 2–9 · ALL 6 FREE\nM\nT\nW\nT\nF\nS\nS\n1\n4/6\n2\n6/6\n3\n6/6\n4\n6/6\n5\n6/6\n6\n6/6\n7\n6/6\n8\n6/6\n9\n6/6\n10\n5/6\n11\n4/6\n12\n3/6\n13\n3/6\n14\n2/6\n15\n3/6\n16\n4/6\n17\n5/6\n18\n5/6\n19\n3/6\n20\n2/6\n21\n2/6\n22\n3/6\n23\n4/6\n24\n4/6\n25\n3/6\n26\n2/6\n27\n1/6\n28\n2/6\n29\n3/6\n30\n4/6\nBlossoms peak around April 3, so this week gets you both.\nLOCK APR 2–9",
+  "caption": "MOTION The heatmap fills in as each calendar syncs, one day at a time. A pen stroke traces the best window, then Pon slides in with the reason.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3c-4 No week fits",
+  "screenText": "9:41\n5G\n← KYOTO SETUP\nKYOTO WON 4–2\n1 WHEN\n2 BUDGET\n3 ROOMS\n4 MUST-DOS\nNO WEEK\nFITS ALL SIX\nSix calendars, checked through June. In blossom season someone is always busy.\nAPR 2–9 · FIVE OF SIX\nDev flies in on the 5th and misses Inari and Arashiyama.\nW\nM\nA\nJ\nR\nAPR 16–23 · ALL SIX\nEveryone is free, but the blossoms are gone. Flights drop $90.\n−$90\nASK DEV FIRST\nHis Apr 2–4 block is marked \"tentative\". I'll ask him privately.\nPON'S PICK\n\"Tentative\" usually means a dentist. Worth one message.\nASK DEV\nPick a week anyway",
+  "caption": "MOTION The heatmap fills in like the usual When screen, but nothing reaches 6/6, so the pen stroke scribbles instead of circling. The calendar folds away and Pon deals three ways out, with its pick outlined in yellow.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3c-5 Budget",
+  "screenText": "9:41\n5G\n← KYOTO SETUP\nAPR 2–9 ✓\nWHEN\n2 BUDGET\n3 ROOMS\n4 MUST-DOS\nWHAT FEELS\nCOMFY?\nEveryone set a private max. Nobody sees anyone else's number, including Pon.\nSWEET SPOT, EACH\nUNDER ALL 6 MAXES\n$1,350\n$800\neach dot is someone's max\n$2,500\nFLIGHTS\n$520\nSTAYS\n$470\n2 ryokan nights in Gion, 5 in an apartment\nFOOD\n$220\nFUN\n$140\nLOOKS GOOD",
+  "caption": "MOTION Private maxes land on the track as anonymous dots, then the sweet-spot band squeezes in below all of them. Dragging the knob re-flows the breakdown bars live.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3c-6 Rooms",
+  "screenText": "9:41\n5G\n← KYOTO SETUP\nBUDGET ✓\nWHEN\nBUDGET\n3 ROOMS\n4 MUST-DOS\nWHO SLEEPS\nWHERE?\nPon grouped the light sleepers and the early risers. Drag anyone to swap.\nRYOKAN · GION\nAPR 2–4 · 2 NIGHTS\nROOM 1\nM\nR\nLIGHT SLEEPERS\nROOM 2\nW\nA\nEARLY RISERS\nROOM 3\nJ\nD\nNIGHT OWLS\nAPARTMENT · SHIJO\nAPR 4–9 · 5 NIGHTS\n3 bedrooms, 2 bathrooms, a kitchen for Jordan. Same pairs as the ryokan.\nEveryone else said \"don't care\". I took that literally. $470 each.\nLOOKS GOOD",
+  "caption": "MOTION Avatars can be dragged between rooms; the others shuffle up to make space and the price per person updates as they settle.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "check",
+   "tanuki"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3c-7 Must-dos",
+  "screenText": "9:41\n5G\n← KYOTO SETUP\nROOMS ✓\nWHEN\nBUDGET\nROOMS\n4 MUST-DOS\nONE MUST-DO\nEACH\nEveryone adds the one thing the trip isn't complete without.\nM\nTEA CEREMONY\nCamellia, Gion\nA\nNINTENDO MUSEUM\nUji · ticket lottery\nENTERED\nJ\nVEGETARIAN KAISEKI\nShigetsu, Arashiyama\nR\nARASHIYAMA AT DAWN\nBamboo grove, 6am\nW\nPONTOCHO AT NIGHT\nAlley dinner, river side\nD\nDev is typing\nAll five fit. Nintendo tickets are a lottery, so I entered all six of you.\nDRAFT MY TRIP",
+  "caption": "MOTION Each must-do pops in as its owner adds it. Pon checks them against the draft as they land and flags clashes with a small shake.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "check",
+   "tanuki"
+  ],
+  "motion": [
+   "0:ty0;.25:ty-4;.5:ty0;1:ty0"
+  ]
+ },
+ {
+  "label": "3c-8 Pon is drafting",
+  "screenText": "9:41\n5G\nPON IS DRAFTING\nYOUR 8 DAYS\nAbout 20 seconds. You review it before anyone else sees it.\nRead six taste profiles\nChecked the blossom forecast\nHeld 2 ryokan rooms in Gion, free cancel\nBalancing 3 early birds and 3 night owls\nFinding vegetarian ramen for Jordan\nDAY 1 · NISHIKI AT DUSK\nDAY 2 · INARI AT 6AM\nDAY 3 · ARASHIYAMA\nDAY 4 · NARA DEER\nDAY 5 · NOTHING. BLISS.\nDAY 6 · GION WALK\nDAY 1 · NISHIKI AT DUSK\nDAY 2 · INARI AT 6AM\nDAY 3 · ARASHIYAMA\nDAY 4 · NARA DEER\nDAY 5 · NOTHING. BLISS.\nDAY 6 · GION WALK",
+  "caption": "MOTION Finished tasks tick green and the next one rises in beneath. Draft day cards stream past below, so there's always something new to read. When it's done, everything folds into the trip plan.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki",
+   "check"
+  ],
+  "motion": [
+   "ping",
+   "ping",
+   "bob",
+   "rise",
+   "marquee"
+  ]
+ },
+ {
+  "label": "3c-9 Pon's draft",
+  "screenText": "9:41\n5G\n← KYOTO SETUP\nONLY YOU SEE THIS\nPON'S\nDRAFT\nApr 2–9, $1,310 each. Fix anything before the crew sees it.\nALL 5 MUST-DOS MADE IT\nM\nA\nJ\nR\nW\n1\nNISHIKI AT DUSK\nFRI · Land 11:20, ryokan in Gion\n2\nINARI AT 6AM\nSAT · Tea ceremony at 15:00\nM\n3\nARASHIYAMA AT DAWN\nSUN · Bamboo at 6, kaiseki lunch\nR\nJ\n4\nNARA DEER\nMON · Move to Shijo\nOPTIONAL\n5\nNOTHING. BLISS.\nTUE · Nothing booked, on purpose\n6\nNINTENDO MUSEUM\nWED · Uji, lottery result Mar 1\nA\n7\nPONTOCHO AT NIGHT\nTHU · Gion walk, alley dinner\nW\n8\nFLY HOME\nFRI · KIX 18:40, bags out by 14:00\nBUILD THE PROPOSAL\nAsk Pon to change a day",
+  "caption": "MOTION The day cards from the drafting screen drop into these rows in order, and each must-do owner's avatar stamps onto their day. Tapping a day opens it in planning mode. Nothing leaves this screen until you build the proposal.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "lock",
+   "tanuki",
+   "check"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "3c-10 Add a must-do",
+  "screenText": "9:41\n5G\nKYOTO · MUST-DOS\nD\nAS DEV\nDev, what's the one thing Kyoto isn't complete without?\nramen cr\n✕\nPON FOUND\nRAMEN KŌJI\nTen shops on one floor of Kyoto Station\nFITS DAY 1\nMENBAKA FIRE RAMEN\nThey set the bowl on fire. Seats go fast.\nBOOK AHEAD\n“RAMEN CRAWL”\nKeep it just as you typed it\n›\nq\nw\ne\nr\nt\ny\nu\ni\no\np\na\ns\nd\nf\ng\nh\nj\nk\nl\n⇧\nz\nx\nc\nv\nb\nn\nm\n⌫\n123\nspace\nadd",
+  "caption": "MOTION Pon's matches update with every letter, and each one comes with a fit check against the draft. Picking one flies it into the must-do list as Dev's row, and the typing dots on everyone else's screen turn into the real thing.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "tanuki",
+   "food"
+  ],
+  "motion": [
+   "blink"
+  ]
+ },
+ {
+  "label": "3c-11 Change a day",
+  "screenText": "9:41\n5G\nKYOTO · PON'S DRAFT\nONLY YOU SEE THIS\nCHANGE\nA DAY\nWHICH DAY?\n1\nFRI\n2\nSAT\n3\nSUN\n4\nMON\n5\nTUE\n6\nWED\n7\nTHU\n8\nFRI\nDAY 4 · NARA DEER\nOPTIONAL\n09:12 train, 45 min each way · deer park and Tōdai-ji · move to Shijo at 15:00\nWHAT SHOULD CHANGE?\nSLOWER\nCHEAPER\nLESS TRAIN\nMORE FOOD\nSWAP IT OUT\nSURPRISE ME\nANYTHING ELSE?\nNara on a Monday sounds packed. Something near the ryokan?\nREDRAFT DAY 4",
+  "caption": "MOTION Day chips snap to the one you pick and its summary flips in underneath. Reasons toggle like the taste chips from onboarding. REDRAFT folds the sheet into a short Pon-is-thinking beat, then the redraft arrives as a diff.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "lock",
+   "tanuki"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3c-12 Pon's redraft",
+  "screenText": "9:41\n5G\n← PON'S DRAFT\nONLY YOU SEE THIS\nDAY 4,\nREDRAFTED\nNara is out. The new day starts at the ryokan door and never gets on a train.\n09:12 Train to Nara, deer park\n09:00 PHILOSOPHER'S PATH\nGinkaku-ji to Nanzen-ji on foot, blossoms most of the way.\n12:30 Lunch in Nara\n12:30 OKAZAKI CANAL BOAT\nTwenty-five minutes under the cherry trees. I booked it.\n17:40 Train back to Kyoto\n17:00 NOTHING BOOKED\nA free evening before the move to Shijo. Rin asked for one.\n90 MIN LESS ON TRAINS\nSAME PACE\nALL 5 MUST-DOS KEPT\nThe deer will cope without you. The blossoms won't wait.\nKEEP IT\nPut Nara back",
+  "caption": "MOTION Pon unfolds from the thinking beat and the changes tick in one at a time, old line struck through first. Nothing changes for the crew until you build the proposal, so KEEP IT only updates your draft.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "lock",
+   "tanuki",
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3d-1 Destination guide",
+  "screenText": "9:41\n5G\n← EXPLORE\n♡ SAVE\nKYOTO\nYOUR GUIDE: PON\nShoes off, phone down, eyes up.\n7H FROM SIN\n¥1,000 ≈ $6.70\nBEST: APR · NOV\nWHEN TO GO\nCROWDS BY MONTH\nJ\nF\nM\nA\nM\nJ\nJ\nA\nS\nO\nN\nD\nAPR BLOSSOMS\nNOV LEAVES\nJAN CHEAPEST\nPON'S FIRST-TIMER PICKS\n1,240 CREW PLANS ›\nphoto ·\nFUSHIMI INARI\nphoto ·\nNISHIKI MARKET\nphoto ·\nARASHIYAMA\nPITCH TO THE CREW\nSOLO TRIP",
+  "caption": "MOTION Pon walks in from the edge and sits on the hero. The month bars grow from zero when the section scrolls into view, and tapping a month re-prices the whole page for your crew's airports.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": [
+   "bob",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow"
+  ]
+ },
+ {
+  "label": "3d-2 Swipe together",
+  "screenText": "9:41\n5G\nBALI · OCT 12–19\nSWIPE\nTOGETHER\n4 LIVE\nM\nA\nJ\nW\n12/30 · 3 matches\nphoto · Tirta Empul spring pools\nYES\nALEX + RIN SAID YES\nTIRTA EMPUL\nWater temple · 45 min from the villa · Rp 75k\nSarongs needed. I'll bring a spare for Jordan.\n✕\nWHY THIS?\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Cards fling left or right with a slight spin. When two friends say yes to the same place, the match stamp slams on and the card flies into the plan.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "heart",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "blink",
+   "0:r-1.5 tx0;.5:r-.5 tx6;1:r-1.5 tx0"
+  ]
+ },
+ {
+  "label": "3d-3 Place detail",
+  "screenText": "photo · Fushimi Inari gates\n9:41\n5G\n←\n↗\nPON'S PICK\nMUST-DO · RIN\nFUSHIMI\nINARI\nShrine · free · open 24h · 18 min from the ryokan\nCROWDS ON APR 3\nGO BEFORE 7:30\n6am\n10\n2pm\n6\n8pm\nKeep going past the Yotsutsuji viewpoint. Most people turn back there.\nM\nJ\nR\nJordan asked about stairs. The first 30 minutes are gentle; it gets steep after.\nADD TO DAY 2 · 06:00",
+  "caption": "MOTION The photo pushes in slowly as the sheet rises over it. Crowd bars draw left to right, and the now-marker pulses. ADD TO DAY 2 drops a copy of the card into that day with a small bounce.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "heart",
+   "tanuki",
+   "chat"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3d-4 Map",
+  "screenText": "map · central Kyoto\n9:41\n5G\nSearch Kyoto\n≡\nSAVED 14\nCREW PICKS\nFOOD\nOPEN NOW\nARASHIYAMA\nR\nGION\nNISHIKI\nM\nJ\n+9\nFUSHIMI INARI\nM\nJ\nR\nphoto ·\nFUSHIMI INARI\n18 min by train · open now\nM\nJ\nR\nDAY 2 · 06:00\nphoto ·\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Pins drop in with a bounce when filters change, and your guide walks beside the you-dot. Swiping the bottom cards flies the map to each place.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "pin",
+   "temple",
+   "food",
+   "tanuki",
+   "ticket",
+   "gecko",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "ping",
+   "hop"
+  ]
+ },
+ {
+  "label": "3e-1 Trip plan",
+  "screenText": "9:41\n5G\n← TRIPS\nM\nA\nSHARE\nBALI, DAY\nBY DAY\nLIST\nMAP\nCALENDAR\n1\nMON\nARRIVE + POOL\nDriver 11:40 · villa check-in 15:00\nBOOKED\n2\nTUE\nUBUD CENTRE\nMonkey Forest · cooking class\n1 VOTE\n3\nWED\nSLOW UBUD\nTerraces 7am · spa · ridge walk\n4\nTHU\nBATUR SUNRISE\nPickup 03:30 · hot springs\nBOOKED\n5\nFRI\nBOAT DAY\nNusa Penida or Gili T?\nVOTE\n6\nSAT\nFREE DAY\nNothing booked. On purpose.\n7\nSUN\nULUWATU\nBeach clubs · kecak at sunset\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Days re-sort with a spring when someone drags one. Open votes pulse softly, and a day Tokek has touched gets a brief highlight sweep.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "rain",
+   "sun",
+   "wave",
+   "pin",
+   "ticket",
+   "gecko",
+   "wallet",
+   "egg"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3e-2 Day planning",
+  "screenText": "9:41\n5G\n← DAY 3 / 8\nM\nA\nSLOW\nUBUD\nPLANNING MODE\nWed Oct 14 · rain 13–15h\n07\n09\n11\n13\n15\n17\n19\nRAIN\nJATILUWIH TERRACES\n07:00–11:00 · driver Made\nLUNCH · BIAH BIAH\n4 of 6 voted\nRIDGE WALK\n14:00 · in the rain\nKARSA SPA\nMaya, Rin\nRIDGE WALK\n17:00 · golden hour\nDINNER · LOCAVORE NXT\n19:30 · table held\nMAYA\nRain till three. Move the walk?\nDrag it, or tap to accept\nMOVE IT",
+  "caption": "MOTION Blocks snap to 15-minute rows while dragging and the others shuffle out of the way. The rain band drifts as the forecast updates, and Tokek's suggestion ghost pulses where the walk could go.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:ty0;.5:ty8;1:ty0",
+   "pulse"
+  ]
+ },
+ {
+  "label": "3e-3 Review changes",
+  "screenText": "9:41\n5G\n← DAY 3–4\nRAIN FORECAST\n4 CHANGES\nFOR THE RAIN\nTokek rearranged Wednesday afternoon and one dinner. Nothing anyone marked as a must-do was touched.\n14:00 Ridge walk\n17:00 RIDGE WALK\nRain clears by 3. Golden hour.\nM\nA\nJ\n14:00 Free time\n14:00 KARSA SPA\nMaya and Rin asked for it.\nM\nR\nWed 16:30 Monkey Forest\nTHU 10:00 MONKEY FOREST\nDry morning, fewer crowds.\nW\nA\nD\n✕\n19:30 Locavore NXT\n20:30 LOCAVORE NXT\nOnly needed if the walk runs late.\nM\nA\nJ\nR\nD\nW\n+$22 EACH\n1 BOOKING MOVED\n0 MUST-DOS TOUCHED\nSEND TO CREW · NEEDS 3 YESES\nApply to my plan only",
+  "caption": "MOTION Changes fan in like cards being dealt. Ticking or crossing one flips its check, and the total at the bottom re-counts as you go.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3f-1 Build the proposal",
+  "screenText": "9:41\n5G\n← KYOTO PLAN\nREADY TO SEND\nPITCH IT TO\nTHE CREW\nPon wrote a version for each person. Pick how it arrives.\n10,000\nGATES.\nTRAILER\nKYO\nTO\n$1,310 EACH\nPOSTER\nDear crew,\nPOSTCARD\nShow cost per person\n$1,310 each, flights included\nPersonal versions\nOne for each of the 5, written by Pon\nReply by\nSep 30 ›\nHold the rooms for\nFree cancellation until then\n5 days ›\nPREVIEW AS RIN\nPREVIEW AS DEV\nSEND TO 5 FRIENDS",
+  "caption": "MOTION Switching format morphs the preview between trailer, poster and postcard. The send button stamps each friend's avatar as their personal version finishes writing.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3f-2 Proposal trailer",
+  "screenText": "photo · Fushimi Inari gates at 6am\n9:41\n5G\nPON PRESENTS\nKyoto · Apr 2–9 · for the Bali Six\n✕\nM\nOKAY WOW\nJ\n6AM??\nA\nI'M IN\nDAY 2 · 06:00\n10,000 GATES.\nNOBODY ELSE.\nWorth the alarm. Promise.\nTap for Day 3 · hold to pause\nI'M IN\nMAYBE",
+  "caption": "MOTION Plays like a story: five-second slides, a slow push-in on each photo, headline words stamping in one at a time. Friends' reactions float up the side live while others are watching.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki",
+   "chat"
+  ],
+  "motion": [
+   "0:sx0 e=lin;1:sx1",
+   "rise"
+  ]
+ },
+ {
+  "label": "3f-3 Your version",
+  "screenText": "9:41\n5G\n← PROPOSAL\nROOMS HELD\nRIN, HERE'S\nYOUR VERSION\nPon rebuilt the plan around what you picked. Tap anything to see why it's there.\nNISHIKI MARKET CRAWL\nDay 1 · 17:00\nYOU PICKED STREET FOOD\nARASHIYAMA BEFORE 7AM\nDay 3 · bamboo, no crowds\nSUNRISE CHASER\nA WHOLE FREE AFTERNOON\nDay 5 · nothing booked\nEASY-ISH PACE\nYOUR SHARE\n$1,310\nSkip the Nara day and save $64\nCREW HYPE\n82%\nMaya watched the trailer twice. Jordan replied \"6AM??\"\nI'M IN\nASK PON",
+  "caption": "MOTION Picks slide in one by one and their reason tags stamp on. The hype bar fills whenever anyone reacts, and the room-hold timer ticks down live.",
+  "customEls": [
+   "tg-count",
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "food",
+   "sun",
+   "bed",
+   "flame",
+   "tanuki"
+  ],
+  "motion": [
+   "0:sx0 e=out;.3:sx1;1:sx1"
+  ]
+ },
+ {
+  "label": "3f-4 Not sure yet",
+  "screenText": "trailer, paused behind the sheet\n9:41\n5G\nJUST YOU AND PON\nWHAT'S HOLDING\nYOU BACK?\nWinston only sees \"maybe\". Pick one and I'll see what I can move.\nTHE COST\nTHE DATES\nTHE PLAN\nSOMETHING ELSE\nTWO WAYS TO BRING IT DOWN\nSHARE THE BIG ROOM\nThree beds in Shijo, with Maya and Jordan\n−$140\nSKIP THE NARA DAY\nSleep in instead. It's the priciest train.\n−$64\nYOUR SHARE\n$1,170\n$1,310\nRooms held until Sep 30\nI'M IN AT $1,170\nStill thinking. Ask me on Sunday",
+  "caption": "MOTION The sheet rises over the trailer, which keeps playing dimmed behind it. Picking a reason makes Pon think for a beat before the options deal in. Each toggle re-counts your share like an odometer, and the button's price follows. Nothing on this sheet reaches the crew.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "lock",
+   "tanuki",
+   "wallet",
+   "cal",
+   "ticket",
+   "chat"
+  ],
+  "motion": [
+   "float"
+  ]
+ },
+ {
+  "label": "3f-5 Slide to board",
+  "screenText": "9:41\n5G\nKYOTO · APR 2–9\nW\nM\nA\nJ\nR\n4/6\n5/6\nYOUR SEAT'S\nSAVED, RIN\nCRITTERPASS AIR\nGATE: YES\nSIN\nKIX\nPASSENGER\nRin Sato\nSEAT\nWindow, by Maya\nDATES\nApr 2–9\nYOUR SHARE\n$1,310\nBOARDING GROUP: THE BALI SIX\nA07\nPON'S EGG HATCHES WHEN YOU LAND\nSLIDE TO BOARD →\nBOARDED",
+  "caption": "MOTION One continuous 6-second beat: the tanuki knob slides, the ticket thumps, the stub tears off along the perforation, confetti fires and Pon's egg drops into the gap. Rin joins the crew rail and the counter flips to 5/6.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art",
+   "tg-confetti"
+  ],
+  "doodles": [
+   "plane",
+   "tanuki",
+   "egg"
+  ],
+  "motion": [
+   "0:s0 o0;.6:s0 o0 e=back;.66:s1 o1;.88:s1 o1;.92:s0 o0;1:s0 o0",
+   "0:o1;.6:o1;.62:o0;.92:o0;.94:o1;1:o1",
+   "0:o0;.6:o0;.62:o1;.92:o1;.94:o0;1:o0",
+   "0:s1;.34:s1 e=back;.38:s1.03;.44:s1;1:s1",
+   "0:tx0 ty0 r0 o1;.38:tx0 ty0 r0 o1 e=in;.54:tx30 ty130 r16 o0;.93:tx30 ty130 r16 o0;.94:tx0 ty0 r0 o0;1:tx0 ty0 r0 o1",
+   "0:s0 o0;.54:s0 o0 e=back;.62:s1 o1;.88:s1 o1;.92:s.7 o0;1:s0 o0",
+   "0:sx0;.1:sx0 e=io;.34:sx1;.88:sx1;.92:sx1 o0;.93:sx0 o0;1:sx0 o1",
+   "0:o1;.12:o1;.24:o0;.93:o0;1:o1",
+   "0:o0;.34:o0;.4:o1;.88:o1;.92:o0;1:o0",
+   "0:tx0;.1:tx0 e=io;.34:tx282;.88:tx282;.92:tx282 o0;.93:tx0 o0;1:tx0 o1"
+  ]
+ },
+ {
+  "label": "3f-6 Who's in",
+  "screenText": "9:41\n5G\n← KYOTO PROPOSAL\nROOMS HELD\nWHO'S IN?\n4 IN\n1 MAYBE\n1 UNOPENED\nW\nWinston (you)\nSent Sep 24\nORGANISER\nM\nMaya\nWatched the trailer twice\nIN\nJ\nJordan\nReplied \"6AM??\"\nIN\nR\nRin\nBoarded 2h ago\nIN\nA\nAlex\nOpened it 3 times\nMAYBE\nD\nDev\nSent 2 days ago\nUNOPENED\nPON SUGGESTS\nDev opens things at night. Resend at 21:00 with the ramen crawl up front?\nRESEND\nAlex asked me privately about cost. Offer everyone the cheaper room option?\nOFFER",
+  "caption": "MOTION Segments fill as replies land, each with a small thump. Pon's suggestions slide up when there's something useful to do, and disappear once handled.",
+  "customEls": [
+   "tg-count",
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3f-7 Dev's out",
+  "screenText": "9:41\n5G\n← WHO'S IN\nDEV REPLIED\nDEV CAN'T\nMAKE IT\nD\n\"Work trip moved to that week. Gutted. Send me every photo.\"\nDev · replied to your proposal · 2m\nWHAT PON WOULD CHANGE\nRYOKAN, ROOM 3\nJordan and Dev → released. Jordan joins Winston and Alex; the rooms sleep three.\nSHIJO APARTMENT\nsplit six ways → split five. Same three bedrooms.\nNINTENDO LOTTERY\nsix entries → five. Dev's is withdrawn.\nEVERYONE'S SHARE\n$1,334\n$1,310\n+$24 EACH\nKeep Dev in the chat\nHe'll still get the photos and the recap\nAPPLY CHANGES\nAsk the crew first",
+  "caption": "MOTION Dev's avatar slides out of the crew row and the others close the gap. Each change deals in with the old value struck through, and the share rolls from $1,310 to $1,334. Nothing moves until you apply it.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": [
+   "float"
+  ]
+ },
+ {
+  "label": "3g-1 Crew chat",
+  "screenText": "9:41\n5G\n←\nTHE BALI SIX\n6 people · Tokek is in this chat\nMAP\nTODAY\nM\nwho's up for the spa on day 3?\nSPA ON DAY 3?\nMaya's poll\nYES\nM\nR\nW\n3\nMAYBE\nA\n1\nNO\n0\nKarsa Spa has three slots at 14:00. Tap in and I'll book it and split it.\nI'M IN · 1 SLOT LEFT\nA\nphoto · warung lunch\nMaya paid Rp 1.08M for lunch\nSplit 6 ways · $11.37 each\nVIEW\n@tokek can we catch sunset somewhere after?\n+\nMessage, or @tokek",
+  "caption": "MOTION New messages rise in with a soft spring. Poll bars slide when a vote lands, and Tokek's typing dots are the only thing allowed to bounce.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "pin",
+   "gecko",
+   "wallet"
+  ],
+  "motion": [
+   "0:ty0;.25:ty-4;.5:ty0;1:ty0"
+  ]
+ },
+ {
+  "label": "3g-2 Live collab",
+  "screenText": "9:41\n5G\n← DAY 5 · FRI OCT 16\nMAYA, ALEX HERE\nBOAT DAY:\nPICK ONE\nphoto · Kelingking\nLEADING\nNUSA PENIDA\n45 min boat · $38\nM\nW\nJ\nR\n4\nphoto · Gili reef\nGILI T\n2h 30m boat · $52\nA\nD\n2\nALEX\nON: KELINGKING VIEWPOINT\nJ\nJordan Can we skip the stairs down? My knee's still bad.\n+1 from Rin · 4m\nKEEP IT\nUNDO\nM\nMaya is typing",
+  "caption": "MOTION Cursors glide around as friends browse. Votes land as avatar stickers with a pop and the LEADING tag hops to the winner. Typing dots pulse under the thread, and Tokek's reply writes itself in.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art",
+   "tg-type"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "blink",
+   "0:tx0 ty0;.3:tx-120 ty40;.55:tx-60 ty120;.8:tx10 ty60;1:tx0 ty0",
+   "0:ty0;.25:ty-4;.5:ty0;1:ty0"
+  ]
+ },
+ {
+  "label": "3g-3 Crews",
+  "screenText": "9:41\n5G\nYOUR CREWS\nJOIN WITH A CODE\nM\nA\nJ\nR\nD\nW\n5 NEW\nTHE BALI SIX\nBali in 16 days · Kyoto vote in the final\nMaya who's up for the spa on day 3?\nK\nS\nT\nW\n1 NEW\nUNI HOUSEMATES\nLisbon, June 2024 · nothing planned\nSam reunion in 2027?? i will cry\nD\nRAMEN CLUB\nDev invited you · 4 people, talking about Tokyo\nJOIN\nLATER\n+\nSTART A CREW\nName it and share the code. The guide comes with the first trip.",
+  "caption": "MOTION The crew name on Home opens this sheet. Unread counts tick down as you read, and tapping another crew cross-fades Home into that crew with its own trip and guide. Invites sit here until you answer them.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "chat"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3g-4 Crew map",
+  "screenText": "map · Ubud\n16:38\n5G\n← CHAT\nTHE BALI SIX\n5 of 6 sharing · trip days only\nLIVE\nCAMPUHAN RIDGE\nMEET 17:00\nM\nR\nMAYA + RIN\nKarsa Spa\nA\nALEX\nWarung Pondok\nJ\nJORDAN\nOn the scooter · 2 km\nMEET-UP · 17:00\nCAMPUHAN RIDGE\nMOVE IT\nM\nR\nMaya and Rin\nLeaving Karsa Spa\n16:52\nA\nAlex\nFinishing lunch, 900 m\n16:55\nJ\nJordan\nOn the scooter, 2 km out\n16:49\nD\nDev\nPaused sharing at 14:00\n–\nPING ALL\nI'M ON MY WAY\nSharing switches itself off on Oct 19 at midnight.",
+  "caption": "MOTION Pins glide as people move and bunch together when they're in the same place. Jordan's pin leaves a short trail while he's riding. The ETAs recount every minute, and the meet-up pin pulses once everyone is under five minutes away.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "star",
+   "gecko"
+  ],
+  "motion": [
+   "blink",
+   "hop",
+   "ping"
+  ]
+ },
+ {
+  "label": "3h-1 Bookings",
+  "screenText": "9:41\n5G\nBOOKINGS\n9 OFFLINE\nBATUR SUNRISE TREK\nOct 15 · 03:30\nSANUR → PENIDA\nOct 16 · 08:30\nVILLA KAYU MANIS\n5 nights\nSQ 938 · MON 12 OCT\nON TIME\nSIN\n09:05\nDPS\n11:40\nBOARDS\n08:25\nGATE\nB7\nSEAT\n34A\nBAG\n23KG\nMaya and Alex are on this flight. Tokek pings you when boarding opens.\nFound 2 bookings in Alex's inbox that weren't here yet.\nREVIEW\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Cards fan apart when you pull down and snap back on release. The top pass brightens and pins itself to the lock screen three hours before boarding.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "check",
+   "volcano",
+   "boat",
+   "bed",
+   "plane",
+   "gecko",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3h-2 Add a booking",
+  "screenText": "9:41\n5G\n← BOOKINGS\nADD A\nBOOKING\nFORWARD\nAny email\nSCAN\nPaper or screen\nPASTE\nA link or code\nbali-six@in.critterpass.app\nCOPY\nFOUND IN YOUR CREW'S INBOXES · 2\nKURA KURA FAST BOAT\nFri Oct 16 · Sanur → Penida · 6 seats · $228\nFROM ALEX'S EMAIL\nSplit 6 ways\nADD\nIGNORE\nAIRPORT TRANSFER\nMon Oct 12 · 11:40 · paid by you · $36\nADD\nI check for new confirmations every morning. You can switch that off in Settings.",
+  "caption": "MOTION Parsed bookings assemble field by field as Tokek reads them, like a form filling itself in. ADD slides the card into the wallet stack.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "chat",
+   "camera",
+   "ticket",
+   "boat",
+   "car",
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3h-3 Getting around",
+  "screenText": "map · Ubud\nVILLA\n9:41\n5G\n←\nAIRPORT → VILLA · 1H 05M\nM\nMADE IS 4 MIN AWAY\nWhite Avanza · DK 1234 AB · booked by Tokek\nSHOW THIS TO MADE\nTolong ke Villa Kayu Manis, Jalan Raya Sayan, Ubud.\n\"Please take us to Villa Kayu Manis, Sayan road, Ubud.\"\nLATER TODAY\nVILLA → WARUNG BIAH BIAH\n12 min by car · Rp 60k, split 6\nBOOK",
+  "caption": "MOTION The car creeps along the route in real time and the ETA bar drains with it. Tapping play on the phrase card reads it out loud in Indonesian.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "bed",
+   "car",
+   "chat",
+   "food"
+  ],
+  "motion": [
+   "0:tx0 ty0 e=lin;1:tx40 ty-32",
+   "0:sx1 e=lin;1:sx.15"
+  ]
+ },
+ {
+  "label": "3i-1 Balances",
+  "screenText": "9:41\n5G\nMONEY · $4,812 SPENT\nUSD\nYOU'RE OWED\n$186.40\nOWES\nIS OWED\nYou\n+186.40\nMaya\n+41.00\nDev\n0.00\nRin\n−41.00\nJordan\n−92.10\nAlex\n−94.30\nSETTLE IN 3 TAPS\nSCAN\nADD\nBUDGET\nLATEST\nBABI GULING, IBU OKA\nRp 1.08M · Maya paid · Jordan skipped the pork\n$68.20\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Bars grow out from the centre line whenever a new expense lands. The big number rolls like an odometer instead of jumping.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "camera",
+   "wallet",
+   "cal",
+   "food",
+   "pin",
+   "ticket",
+   "egg"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "3i-2 Add an expense",
+  "screenText": "9:41\n5G\n← MONEY\nSCAN INSTEAD\nNEW EXPENSE · BALI SIX\nRp\n450.000\n≈ $28.42 · $4.74 each\nSmoothie bowls, Clear Café\nFOOD\nPAID BY\nW\nM\nA\nJ\nR\nD\nSPLIT\nEVENLY\nBY SHARE\nCUSTOM\n1\n2\n3\n4\n5\n6\n7\n8\n9\n000\n0\n⌫\nADD RP 450K",
+  "caption": "MOTION Digits roll in like the balance odometer, and the dollar line and each share re-count under them as you type. Tapping someone under PAID BY slides the yellow ring over to them. ADD drops the new row into LATEST on Money, and its bar grows out from the centre line.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "camera",
+   "food"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3i-3 Scan a receipt",
+  "screenText": "camera · the receipt\n9:41\n5G\n✕\nAUTO-SPLIT ON\nIBU OKA · UBUD\n14/10 · 13:12 · meja 4\nBabi guling x5\n850.000\nEs kelapa x6\n130.000\nService 10%\n100.000\nTOTAL\n1.080.000\nTOKEK READ 3 LINES\nTap a line to change who had it.\nBabi guling ×5\nW\nM\nA\nR\nD\nNOT JORDAN\nEs kelapa ×6\nEVERYONE\nService 10%\nBY SHARE\nJordan pays $1.50\nEveryone else $13.34\nSPLIT IT · MAYA PAID",
+  "caption": "MOTION A scan line sweeps the paper and each recognised line lights up yellow. Avatars slide onto the rows below, and tapping a line opens a picker to change who had it.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:ty0 e=io;.5:ty190;1:ty0"
+  ]
+ },
+ {
+  "label": "3i-4 Couldn't read it",
+  "screenText": "camera · a folded receipt\n9:41\n5G\n✕\nTOO CRUMPLED\nTOTAL\n1.080.000\nTOKEK GOT HALF OF IT\nTHE TOTAL, NOT\nTHE LINES\nTotal: Rp 1.080.000 at Ibu Oka\n✕\nLine items: the fold hides all seven\nTYPE THE LINES\nTokek fills in the prices it could read\nRETAKE, FLATTER\nHold it on the table. Tokek will wait\nSPLIT EVENLY · $11.37 EACH",
+  "caption": "MOTION The scan line sweeps twice and stutters where the paper folds. The total locks in yellow, the unreadable lines grey out, and the sheet slides up with three ways forward instead of an error message.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3i-5 Settle up",
+  "screenText": "9:41\n5G\n← MONEY\nSETTLE UP\nTokek netted 23 expenses down to three payments.\nJ\n$92.10\n›\nW\nREQUESTED\nNUDGE\nA\n$94.30\n›\nW\nPAID ✓\nR\n$41.00\n›\nM\nPENDING\nHOW PEOPLE PAY YOU\nBANK TRANSFER\nPAYNOW\nCASH\nYour details are shared only with the person paying.\n?\nTwo more payments and all six of you get the Settled Tokek.\nREMIND EVERYONE",
+  "caption": "MOTION When a payment clears, its row slides left and a check stamps on. When the last one clears, everyone's phone gets the Settled Tokek sticker at the same moment.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3i-6 Budget",
+  "screenText": "9:41\n5G\nBALI BUDGET\nDAY 5 OF 8\nSPENT\n$4,812\nPLANNED\n$7,440\nTODAY\nSTAYS\n$1,840 / $2,700\nFOOD\n$1,160 / $1,500\nTRANSIT\n$620 / $1,100\nFUN\n$1,192 / $2,140\nBY DAY\nDASHES = PLAN\nD1\nD2\nD3\nD4\nD5\nD6\nD7\nD8\nOn track to finish $210 under. The boat day is the biggest cost left.\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Bars fill in day order when the screen opens. The TODAY marker slides to the current day, and the forecast line redraws after every new expense.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "grow"
+  ]
+ },
+ {
+  "label": "3j-1 Guide chat",
+  "screenText": "9:41\n5G\nTOKEK\nGroup mode · all six can see this\nGROUP\nJUST ME\nM\nIt's pouring in Ubud. What now?\n14:00 Campuhan Ridge walk\n→ COOKING CLASS, PAON\nIndoors · 4 seats held for 20 min\n16:30 Monkey Forest\n→ PURI LUKISAN MUSEUM\n10 min walk from Paon · covered garden\n+$22 each · dinner unchanged\nPROPOSE TO GROUP\nJUST ME\nCALL A CAR\nTRANSLATE A MENU\nPHARMACY\n+\nAsk, or hold to talk",
+  "caption": "MOTION The sheet rises over the plan with a spring. Tokek's reply writes itself in, then the plan card deals its swaps one at a time. PROPOSE TO GROUP turns the card into a vote in the crew chat.",
+  "customEls": [
+   "doodle-art",
+   "tg-type"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3j-2 Voice",
+  "screenText": "9:41\n5G\nTOKEK · GROUP MODE\nLISTENING\n\"It's pouring in Ubud. What now?\"\nRain till three. Two dry swaps, and dinner stays at 19:30.\nCOOKING CLASS, PAON\nIndoors · 4 seats held for 20 min\n+$18\nPURI LUKISAN MUSEUM\n10 min walk · covered garden\n+$4\nSEND TO THE GROUP",
+  "caption": "MOTION The rings breathe while Tokek listens and the waveform follows your voice. When it answers, the rings snap in and the swap cards drop onto the table one after the other.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "ping",
+   "ping",
+   "bob",
+   "blink",
+   "0:sy.3;.5:sy1;1:sy.3"
+  ]
+ },
+ {
+  "label": "3j-3 Point and ask",
+  "screenText": "9:41\n5G\nPOINT AND ASK\nINDONESIAN → ENGLISH\nWARUNG PONDOK\nNasi campur\n35k\nSate lilit\n40k\nLawar ayam\n30k\nGado-gado\n30k\nMIXED RICE PLATE\nMINCED FISH SATAY\nSPICY CHICKEN SALAD\nVEG, PEANUT SAUCE\nJORDAN ✓ VEG\nALEX ✕ PEANUTS\nGado-gado works for Jordan, but it's peanut sauce, so skip it for Alex. The nasi campur without sambal suits everyone.\nLEAST SPICY?\nORDER FOR 6\nSPLIT THE BILL\n+\nAsk about this menu",
+  "caption": "MOTION Translations peel onto the menu like stickers as the camera locks on. Dishes that clash with someone's profile shake once and turn pink.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:r0;.05:r-3;.1:r3;.15:r0;1:r0"
+  ]
+ },
+ {
+  "label": "3k-1 Trip hub",
+  "screenText": "9:41\n5G\nOCT 12–19 · 6 GOING\nBALI\nWHEELS UP IN\nTOKEK'S BRIEFING\ntoday\nRin's flight moved to 22:40. I moved her pickup to match.\nDONE\nVisa on arrival is $35, cash only. Dev and Alex haven't got any yet.\nNUDGE\nThe villa door code arrives Oct 11. I'll pin it to Day 1.\nSET\nPLAN\n8 DAYS\n2 votes open\nBOOKINGS\n9 SAVED\nall offline\nMONEY\n+$186\nowed to you\nQUESTS\n3 LIVE\ncrew level 7\nALEX MOVED SNORKELLING TO 14:00\n●\nMAYA VOTED NUSA PENIDA\n●\nTOKEK HELD 6 BOAT SEATS\n●\nJORDAN ADDED 12 PHOTOS\n●\nALEX MOVED SNORKELLING TO 14:00\n●\nMAYA VOTED NUSA PENIDA\n●\nTOKEK HELD 6 BOAT SEATS\n●\nJORDAN ADDED 12 PHOTOS\n●\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION The countdown ticks live. Tokek's briefing is rewritten each morning and finished items slide off with a check. The crew ticker along the bottom scrolls in real time.",
+  "customEls": [
+   "tg-count",
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "gecko",
+   "plane",
+   "wallet",
+   "bed",
+   "cal",
+   "ticket",
+   "star",
+   "pin",
+   "egg"
+  ],
+  "motion": [
+   "marquee"
+  ]
+ },
+ {
+  "label": "3k-2 Day-of",
+  "screenText": "2:48\n5G\nTHU OCT 15 · DAY 4\n9° AT THE TOP\nLEAVE BY\n03:10\nPickup at the villa gate, 03:30. Bring the headlamp, the path is dark.\nTO GO\nW\nM\nJ\nR\nA\nD\n4 OF 6 ARE UP\nTokek rings Alex and Dev at 03:00\nPACK\nHEADLAMP\nWARM LAYER\nRP 50K FOR COFFEE\nTRAIL SHOES\n06:10\nSUNRISE AT THE SUMMIT\nGuide: Ketut · 2h climb\n09:30\nTOYA DEVASYA HOT SPRINGS\nTickets in Bookings\n13:00\nNAP. TOKEK IS GUARDING IT.\nNothing booked until 16:00\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION The countdown ring drains in real time. Sleeping friends snore until they tap \"I'm up\", then pop awake. Packing items strike through with a pen stroke.",
+  "customEls": [
+   "tg-count",
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "check",
+   "pin",
+   "ticket",
+   "gecko",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "bob",
+   "bob"
+  ]
+ },
+ {
+  "label": "3k-3 Lock screen",
+  "screenText": "wallpaper\n5G\nThursday 15 October\n2:48\nLEAVE BY\n03:10\nPickup at the villa gate\n4 OF 6 UP\nTokek\nnow\nRise and shine. The headlamp's by the door. Four of you are up.\nMaya\n2m\nI'm up!! who has the good coffee",
+  "caption": "MOTION The live activity counts down on the lock screen, and the crew row fills as people tap \"I'm up\". At 03:10 the card flips to show the driver's ETA.",
+  "customEls": [
+   "doodle-art",
+   "tg-count"
+  ],
+  "doodles": [
+   "lock",
+   "gecko",
+   "sun",
+   "camera"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3k-4 Offline at the top",
+  "screenText": "9:41\nNo Service\nTHU OCT 15 · DAY 4\nNO SIGNAL\nOFFLINE AT\nTHE TOP\nBatur summit, 06:14. Today was saved to your phone before you left the villa.\nSTILL WORKS\nToday's plan and the 09:00 pickup with Ketut\nTrail map, downloaded at 03:02\nPhrase cards and Ketut's number\nHot spring tickets for 09:30\nSENDS WHEN YOU'RE BACK\n12 sunrise photos\ncrew album\n\"we made it!!\" to the crew chat\nYour vote: Nusa Penida\nOPEN TODAY'S PLAN\nLast synced 03:02 at the villa",
+  "caption": "MOTION When the signal drops, the top card slides from pink to night blue with a soft thud. Anything you do stacks up under SENDS WHEN YOU'RE BACK with a clock mark. Once the signal returns, each one flips to a tick and the banner lifts away.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "check"
+  ],
+  "motion": [
+   "blink",
+   "float"
+  ]
+ },
+ {
+  "label": "3k-5 Flight delayed",
+  "screenText": "9:41\n5G\nSQ 938 · SIN → DPS · MON 12 OCT\nDELAYED\n2H 10M\nNew arrival 13:50. Tokek has already sorted most of it.\nALREADY DONE\nMade rebooked for a 13:50 pickup, same car\nVilla knows you'll check in around 15:30\nRin still lands at 22:40, nothing changes for her\nNEEDS A YES\nDINNER: 19:30 → 21:00\nLocavore can hold the table for 6 until 21:00.\nAPPROVE\nKEEP 19:30\nW\nM\nA\n3 AFFECTED\nTELL THE CREW\nUndo everything",
+  "caption": "MOTION The delay banner drops in with a thud. Each fix ticks green as Tokek finishes it, in real time. Anything that needs a yes waits at the bottom with a gentle pulse.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "check"
+  ],
+  "motion": [
+   "wiggle",
+   "pulse"
+  ]
+ },
+ {
+  "label": "3k-6 Help",
+  "screenText": "9:41\n5G\n← TOKEK\nCREW CAN SEE YOU · 1H\nNEED\nA HAND?\nYou're on Jalan Raya Sayan, Ubud. Tokek has the numbers and the words.\nCALL 112\nAmbulance, police, fire\n110\nTourist police\nHURT OR SICK\nLOST OR STOLEN\nI'M LOST\nMISSED A RIDE\nBIMC UBUD · OPEN 24H\n9 min by car · takes your insurance\nGO\nSaya butuh dokter.\n\"I need a doctor.\" Show it, or tap to play.\n▶\nInsurance: Chubb Travel · the policy card is in Bookings",
+  "caption": "MOTION Opens from PHARMACY in the guide chat, or by holding the guide button anywhere. Location sharing with the crew starts as it opens and switches itself off after an hour. Each tile turns Tokek into a short checklist for that problem, with the right phrase card on top.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "bell",
+   "heart",
+   "wallet",
+   "pin",
+   "car"
+  ],
+  "motion": [
+   "blink",
+   "wiggle"
+  ]
+ },
+ {
+  "label": "3k-7 Forecast",
+  "screenText": "7:30\n5G\n← BALI\nCHECKED 07:30\nTHE REST\nOF THE TRIP\nWeather, roads, crowds and the volcano. I check every three hours and only ping you when it changes the plan.\nWED\nUBUD\n31°\n10%\nTHU\nBATUR\n30°\n20%\nFRI\nBOAT\n28°\n70%\nSAT\nFREE\n30°\n20%\nSUN\nULUWATU\n31°\n10%\nMON\nFLY\n31°\n10%\nWHAT COULD CHANGE THE PLAN\nROUGH SEAS FRIDAY\nWaves up to 2.5m. Fast boats to Penida might not run.\nPLAN B\nCEREMONY IN UBUD TODAY\nA procession closes Jalan Raya 13:00–15:00.\nWATCHING\nBATUR TOMORROW\nClear at the summit, 80%. Alert level is normal.\nGO\nAIRPORT RUN MONDAY\nTraffic to Denpasar builds after 4. Leave by 13:00.\nSET",
+  "caption": "MOTION Opens from the temperature on the day-of screen. Rain bars fill from the bottom and the watch list sorts itself by how much each item could change your plan. A new warning slides in at the top with one soft buzz.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "sun",
+   "rain",
+   "wave",
+   "temple",
+   "volcano",
+   "car"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3k-8 Storm warning",
+  "screenText": "18:10\n5G\n← TOKEK\nFRI OCT 16 · BOAT DAY\nROUGH\nSEAS\nFRIDAY\nWAVES 2.5M\nWIND 35 KM/H\nHARBOUR MIGHT CLOSE\nSaturday is flat calm. Swap the days and nobody spends Friday seasick.\nPICK ONE\nSWAP FRIDAY AND SATURDAY\nTOKEK PICKS\nBoat on Saturday, waves 1.1m. Friday becomes the free day. Seats moved, no fee.\nKEEP FRIDAY\nIf the harbour closes you get a full refund, but the day's gone.\nSKIP THE BOAT\nTegenungan waterfall and a long lunch instead. $38 back each.\nM\nA\nJ\nW\n4 of 6 said swap. Dev and Rin are napping after Batur.\nSWAP THE DAYS",
+  "caption": "MOTION Arrives as a live activity the moment the marine forecast turns. Rain clouds bob over the hero while Tokek frets. Picking an option re-prices it for the crew, and SWAP THE DAYS shuffles the two day cards in the plan with a quick card-trick flip.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "rain",
+   "gecko"
+  ],
+  "motion": [
+   "bob",
+   "bob",
+   "wiggle"
+  ]
+ },
+ {
+  "label": "3k-9 Running late",
+  "screenText": "map · Ubud centre\n13:46\n5G\n← TODAY\nETA 14:25\nCLOSED TILL 15:00\nKARSA\nKARSA SPA · 14:00\n+25 MIN\nRUNNING\n25 MIN LATE\nA temple procession closed Jalan Raya until 15:00. Made is looping round through Penestanan.\nPUSH THE SPA TO 14:30\nKARSA SAID YES\nMaya and Rin start on time. You and Jordan slot in after.\nWALK THE LAST BIT\nMade drops you at the rice fields. 12 minutes on foot.\nSKIP IT\nHalf back, that's Karsa's rule. Tokek will ask for more.\nPUSH TO 14:30",
+  "caption": "MOTION The route redraws as Made takes the detour and the closed stretch pulses pink. The ETA ticks live. Choosing an option messages whoever's waiting before you've even pressed the button.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "temple",
+   "heart",
+   "car"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "3k-10 Crew SOS",
+  "screenText": "16:42\n5G\nSOS · 16:42\n1.2 KM FROM YOU\nJ\nJORDAN\nNEEDS HELP\nHe came off his scooter on Jalan Raya Campuhan. He's sitting up and talking.\nknee's scraped up, bike's fine. i'm ok. mostly\nJORDAN · 16:43\nTOKEK'S ON IT\nSOS sent to all five of you\nHis location stays live until he's safe\nCalled BIMC Ubud. They know he may come in\nSending his insurance details to the clinic\nA\nAlex is going. 4 minutes away on foot.\nI'M GOING\nCALL JORDAN\nSee him on the map",
+  "caption": "MOTION Breaks through whatever screen you are on with one long buzz, and the SOS dot blinks until someone answers. Steps tick in as Tokek finishes them. I'M GOING tells Jordan who is coming and turns the map into walking directions.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "check"
+  ],
+  "motion": [
+   "blink"
+  ]
+ },
+ {
+  "label": "3l-1 Egg hatch",
+  "screenText": "9:41\n5G\nDPS · 13:50 · YOU LANDED\nWELCOME\nTO BALI\nTOKEK HATCHED\nYour guide for the next eight days, and critter #1 in the Bali set.\nSAY HI\nShow me around later",
+  "caption": "MOTION On landing, the trip's egg wobbles, cracks and pops. Confetti fires at the crack and Tokek lands with a squash and stretch. It loops here; in the app it plays once.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art",
+   "tg-confetti"
+  ],
+  "doodles": [
+   "egg",
+   "gecko"
+  ],
+  "motion": [
+   "0:r0 s1 o1;.08:r-8;.16:r8;.24:r-10;.32:r10;.38:r0 s1.08;.42:s1.35 o0;.9:s1.35 o0;.92:s.8 o0 r0;1:s1 o1",
+   "0:s0 o0;.42:s0 o0 e=back;.52:s1 o1;.58:sy.94 sx1.04;.64:s1;.88:s1 o1;.94:s.5 o0;1:s0 o0"
+  ]
+ },
+ {
+  "label": "3l-2 Your pass",
+  "screenText": "9:41\n5G\nYOUR CRITTERDEX\n9/150\n6 OF 61 PLACES\nMaya has 14\nALL\nFOUND\nNEAR ME\nHERE NOW · BALI\nTOKEK · 2 OF 4 FORMS\nCOMMON\nRARE\n?\nEPIC\n?\nLEGENDARY\nEpic is tomorrow: summit Batur by sunrise.\n?\nLEGENDARY ON YOUR DATES\nSAKURA PON · KYOTO, APR 2–9\n›\nVIETNAM\n3/10 · HOME SET\nRANK 1–10 · FIVE CITIES EACH\n#01 FRANCE\n2/5 FOUND\n#02 SPAIN\n0/5 FOUND\n#03 UNITED STATES\n0/5 FOUND\n#04 CHINA\n0/5 FOUND\n#05 TÜRKIYE\n0/5 FOUND\n#06 ITALY\n1/5 FOUND\n#07 MEXICO\n0/5 FOUND\n#08 HONG KONG\n0/5 FOUND\n#09 UNITED KINGDOM\n0/5 FOUND\n#10 GERMANY\n0/5 FOUND\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION New forms fly in from the encounter screen and land in their slot on the Bali card with a thump. The card for wherever you are sits on top, followed by a legendary that falls on your dates, then the home set and every place by rank. Locked slots breathe faintly so they read as waiting, not empty.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "tanuki",
+   "cp-113",
+   "cp-114",
+   "cp-001",
+   "cp-002",
+   "cp-003",
+   "cp-004",
+   "cp-005",
+   "cp-006",
+   "cp-007",
+   "cp-008",
+   "cp-009",
+   "cp-010",
+   "cp-011",
+   "cp-012",
+   "cp-013",
+   "cp-014",
+   "cp-015",
+   "cp-016",
+   "cp-017",
+   "cp-018",
+   "cp-019",
+   "cp-020",
+   "cp-021",
+   "cp-022",
+   "cp-023",
+   "cp-024",
+   "cp-025",
+   "cp-026",
+   "cp-027",
+   "cp-028",
+   "cp-029",
+   "cp-030",
+   "cp-031",
+   "cp-032",
+   "cp-033",
+   "cp-034",
+   "cp-035",
+   "cp-036",
+   "cp-037",
+   "cp-038",
+   "cp-039",
+   "cp-040",
+   "axolotl",
+   "cp-042",
+   "cp-043",
+   "cp-044",
+   "cp-045",
+   "cp-046",
+   "cp-047",
+   "cp-048",
+   "cp-049",
+   "cp-050",
+   "cp-051",
+   "cp-052",
+   "cp-053",
+   "cp-054",
+   "cp-055",
+   "cp-056",
+   "cp-057",
+   "cp-058",
+   "cp-059",
+   "cp-060",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3l-3 Critter detail",
+  "screenText": "9:41\n5G\nRARE · WATER TEMPLES\n#112\nTEMPLE\nTOKEK\nW\nM\nLives in the spring pools at Tirta Empul. Only comes out when it's quiet.\nFrom Tokek's field notes\nFOUND\nOct 14, 10:42\nWHERE\nTirta Empul\nALSO HAS IT\nMaya\nFORMS · 2 OF 4\nONE TOKEK, FOUR WAYS\nCOMMON\nBe in Bali\nRARE\nThree water temples\n?\nEPIC\nBatur by sunrise\n?\nLEGENDARY\nAll six at the top\nMAKE IT MY GUIDE\n↗",
+  "caption": "MOTION The card flips over from the pass. Tapping a found form swaps the sticker with a quick spin and recolours the card. A rare form changes colour, epic adds a pose and a pink edge, and legendary goes gold. Locked forms shake and say what it takes.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "pulse"
+  ]
+ },
+ {
+  "label": "3l-4 Encounter",
+  "screenText": "live camera · Tirta Empul spring pools\n9:41\n5G\nENCOUNTER\nYou're at Tirta Empul\nRARE · WATER TEMPLES ONLY\nA TEMPLE TOKEK\nIS HERE\nIt's shy around crowds. Stay a few minutes and it'll come closer. Maya befriended one here this morning.\nHOLD\nHOLD TO BEFRIEND\nTokek's rare form, 2 of 4",
+  "caption": "MOTION Critters only appear when you're physically there. This one hops between spots in the camera view and edges closer the longer you stay. Holding fills the ring, then it leaps into your pass.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "star"
+  ],
+  "motion": [
+   "ping",
+   "ping",
+   "hop"
+  ]
+ },
+ {
+  "label": "3l-5 It wandered off",
+  "screenText": "live camera · Tirta Empul, the path out\n9:41\n5G\nENCOUNTER OVER\nYOU STAYED 4 MIN\nRARE · WATER TEMPLES ONLY\nIT WANDERED\nOFF\nYou left the pools after four minutes, and it's shy. It comes back when the place goes quiet.\nBEST CHANCE\nTOMORROW, 07:30\n6am\nnoon\n6pm\nREMIND ME AT 07:00\nBack to the day",
+  "caption": "MOTION If you walk off mid-encounter, the critter hops to the edge of the frame, looks back once and leaves footprints. The card offers the next quiet window from the crowd forecast instead of a retry button.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "3l-6 Befriended",
+  "screenText": "9:41\n5G\nRARE FORM · 2 OF 4\nBEFRIENDED!\n+150 XP\nTEMPLE TOKEK\n2 IN THE CREW\nYou stayed 11 minutes. It noticed.\nADD TO YOUR PASS\nShare with the crew",
+  "caption": "MOTION Rays turn slowly behind the sticker as it slaps down with a spin, confetti bursts, and the XP chip counts up. ADD TO YOUR PASS flies the sticker into its slot on the grid.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art",
+   "tg-confetti"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "spin",
+   "0:s.2 o0 r-24 e=back;.12:s1.12 o1 r5;.2:s1 r0;.9:s1 o1;.96:s1 o0;1:s.2 o0 r-24"
+  ]
+ },
+ {
+  "label": "3l-7 Crew quests",
+  "screenText": "9:41\n5G\nBALI SIX · CREW LVL 7\nCREW QUESTS\n640 / 1000 XP\nLevel 8 unlocks a crew sticker\nSUNRISE SQUAD\nAll six on the Batur summit by 06:10 on Thursday.\nW\nM\nA\nJ\nREWARD · LEGENDARY CRITTER\n?\nWARUNG CRAWL\nEat at five different warungs.\nREWARD · +120 XP\nZERO DEBT\nSettle every bill before the flight home. $186 to go.\nREWARD · SETTLED TOKEK\nSAY IT IN BAHASA\nLearn five phrases with Tokek. Terima kasih counts.\nREWARD · +80 XP\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Tokek writes quests from the actual plan each morning. Progress pips fill with a spring, and finishing one spins the reward sticker onto everyone's phone at once.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "gecko",
+   "food",
+   "wallet",
+   "chat",
+   "pin",
+   "ticket",
+   "egg"
+  ],
+  "motion": [
+   "grow"
+  ]
+ },
+ {
+  "label": "3l-8 Vietnam set",
+  "screenText": "9:41\n5G\n← CRITTERDEX\nHOME SET\nVIETNAM\n3/10\nCỤ RÙA\nHÀ NỘI\n?\n???\nHẠ LONG\n?\n???\nSA PA\n?\n???\nHUẾ\nCHÉP\nHỘI AN\n?\n???\nĐÀ LẠT\nCHÀO MÀO\nSÀI GÒN\n?\n???\nMEKONG\n?\n???\nPHÚ QUỐC\n?\n???\nPHONG NHA\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Locked slots show the city, never the critter, so every place has something to find. The dots in each corner are its four forms, lit in their tier colour once found. The bar fills one segment per critter.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "cp-001",
+   "cp-002",
+   "cp-003",
+   "cp-004",
+   "cp-005",
+   "cp-006",
+   "cp-007",
+   "cp-008",
+   "cp-009",
+   "cp-010",
+   "pin",
+   "ticket",
+   "gecko",
+   "wallet",
+   "egg"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3l-9 Once a year",
+  "screenText": "9:41\n5G\n← CRITTERDEX\nREMIND ME\nONCE\nA YEAR\nLegendaries only show up on one day a year, or for the hardest thing a place has. They can't be bought or traded.\nJ\nF\nM\nA\nM\nJ\nJ\nA\nS\nO\nN\nD\nON ONE DAY\nNOV\n1–2\n?\nMARIGOLD AJO\nMexico City · Día de Muertos\nAPR\nEARLY\n?\nSAKURA PON\nKyoto · the week the blossoms peak\nYOUR DATES\nJUN\n12\n?\nFESTA SARDI\nLisbon · Santo António night\nJUN\n24\n?\nINTI PACO\nCusco · Inti Raymi\nAUG\nLATE\n?\nPUFFLING LUNDI\nHeimaey · puffling nights\nFOR THE HARDEST THING\nANY\nDAY\n?\nGOLDEN TOKEK\nBali · all six on Batur by sunrise\n4 OF 6 IN",
+  "caption": "MOTION Months with a legendary glint gold, and the one that overlaps your next trip is filled in. Each silhouette is gold instead of grey so you can tell a legendary slot at a glance. REMIND ME sets a nudge a month before each window.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "axolotl",
+   "tanuki",
+   "sardine",
+   "alpaca",
+   "puffin",
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3l-10 Sakura Pon",
+  "screenText": "live camera · Maruyama Park\n21:10\n5G\nLEGENDARY\nYou're under the big cherry\nLEGENDARY · BLOSSOM WEEK ONLY\nSAKURA PON\nIS HERE\nIt only comes out the week the blossoms peak, and only after dark. Stay still under the lanterns and it'll settle.\nHOLD\nHOLD TO BEFRIEND\nYour first legendary. Rin spotted it first.",
+  "caption": "MOTION Petals drift the whole time and the lanterns sway on their strings. Sakura Pon floats with a gold die-cut edge, the one thing only legendaries get, and sparkles pulse around it. Holding fills the gold ring more slowly than a normal encounter.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki",
+   "spark",
+   "star"
+  ],
+  "motion": [
+   "bob",
+   "bob",
+   "0:ty0 tx0 r0 o0;.08:o1;.85:o1;1:ty560 tx-30 r200 o0",
+   "0:ty0 tx0 r0 o0;.08:o1;.85:o1;1:ty560 tx36 r220 o0",
+   "0:ty0 tx0 r0 o0;.08:o1;.85:o1;1:ty560 tx-30 r240 o0",
+   "0:ty0 tx0 r0 o0;.08:o1;.85:o1;1:ty560 tx36 r260 o0",
+   "0:ty0 tx0 r0 o0;.08:o1;.85:o1;1:ty560 tx-30 r280 o0",
+   "0:ty0 tx0 r0 o0;.08:o1;.85:o1;1:ty560 tx36 r300 o0",
+   "0:ty0 tx0 r0 o0;.08:o1;.85:o1;1:ty560 tx-30 r320 o0",
+   "0:ty0 tx0 r0 o0;.08:o1;.85:o1;1:ty560 tx36 r340 o0",
+   "0:ty0 tx0 r0 o0;.08:o1;.85:o1;1:ty560 tx-30 r360 o0",
+   "0:ty0 tx0 r0 o0;.08:o1;.85:o1;1:ty560 tx36 r380 o0"
+  ]
+ },
+ {
+  "label": "3m-1 Recap",
+  "screenText": "9:41\n5G\nOCT 12–19 · THE BALI SIX\nBALI,\nTHE RECAP\n214 KM\ndriven, mostly by Made\n1 VOLCANO\nclimbed before sunrise\n312 PHOTOS\nJordan took 140 of them\n$0 OWED\nsettled two days early\nTOKEK'S FORMS\n3 OF 4 FOUND\n?\nThe Golden Tokek got away. Dev slept through the summit.\nEarliest riser\nJordan, knee and all\nBest find\nAlex: Warung Pondok\nSHARE RECAP\nWHERE NEXT? →",
+  "caption": "MOTION Plays as a story first, then settles into this page. Stats stamp in one by one, new critters tumble into a pile, and WHERE NEXT? drops you straight back into the vote on Home.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "hop"
+  ]
+ },
+ {
+  "label": "3m-2 Photos",
+  "screenText": "9:41\n5G\nPHOTOS\n+ UPLOAD\nBEST · 24\nALL · 312\nBY PERSON\nI picked 24 keepers. Nothing blurry, and everyone's in at least three.\nDAY 4 · BATUR SUNRISE\nJ\nM\nA\nW\nR\nDAY 5 · NUSA PENIDA\nA\nJ\nM\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Photos stream in as the crew uploads, each landing with a small drop. Tokek's picks get a quick glint as they're chosen, and long-pressing one shows who's in it.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3m-3 Recap, the cover",
+  "screenText": "9:41\n5G\nTOKEK PRESENTS\nBali, the recap · ♪ gamelan lo-fi\n✕\nTHE BALI SIX · OCT 12–19\nBALI\n8 DAYS\n6 OF YOU\n1 VOLCANO\nTap to start · hold to pause",
+  "caption": "MOTION The recap is an eight-card story Tokek narrates over his theme. The stickers slap down one by one around the page, then BALI slams in the middle and the page shakes. Every card has the same bars and header, and the last one hands you the postcard.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "sardine",
+   "tanuki",
+   "puffin",
+   "alpaca"
+  ],
+  "motion": [
+   "0:sx0 e=lin;1:sx1",
+   "float",
+   "0:s0 r-20 o0 e=back;.06:s1 r-8 o1;1:s1 r-8 o1",
+   "0:s0 o0 r-24 e=back;.06:s1 o1 r-8;1:s1 o1 r-8",
+   "0:s0 o0 r30 e=back;.06:s1 o1 r10;1:s1 o1 r10",
+   "0:s0 o0 r18 e=back;.06:s1 o1 r6;1:s1 o1 r6",
+   "0:s0 o0 r-18 e=back;.06:s1 o1 r-6;1:s1 o1 r-6",
+   "0:s0 o0 r24 e=back;.06:s1 o1 r8;1:s1 o1 r8",
+   "0:s1.6 o0 e=in;.04:s.96 o1;.07:s1;1:s1"
+  ]
+ },
+ {
+  "label": "3m-4 Recap, the route",
+  "screenText": "9:41\n5G\nTOKEK PRESENTS\nBali, the recap · ♪ gamelan lo-fi\n✕\nTHE ROUTE\n214 KM\nMade drove 180 of them.\nSEMINYAK\nD1\nUBUD\nD2–4\nBATUR\nD4 · 02:51\nAMED\nD5\nNUSA PENIDA\nD6\nSEMINYAK\nD8\nLongest leg: Ubud to Amed, three hours and one very patient driver.",
+  "caption": "MOTION The trail draws itself stop by stop while Tokek rides along it. The kilometre counter rolls up with him. Each stop pops as he reaches it, and the Batur dot glows orange for the 02:51 start.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "car"
+  ],
+  "motion": [
+   "0:sx0 e=lin;1:sx1",
+   "0:tx0 ty0;.2:tx146 ty88;.4:tx228 ty188;.6:tx56 ty270;.8:tx166 ty360;1:tx16 ty432"
+  ]
+ },
+ {
+  "label": "3m-5 Recap, crew awards",
+  "screenText": "9:41\n5G\nTOKEK PRESENTS\nBali, the recap · ♪ gamelan lo-fi\n✕\nTHE CREW AWARDS\nSIX OF YOU,\nSIX AWARDS\nJ\nEARLIEST RISER\nUp at 02:51 on Batur day. Nobody asked.\nM\nHUMAN CAMERA\n140 of the 312 photos, 9 of them good.\nR\nTHE TREASURER\nLogged 23 expenses. Found the $4 error.\nA\nBEST FIND\nWarung Pondok. Back twice in one day.\nD\nWORTH THE WAIT\nLate to 3 pickups, first to the summit.\nW\nTHE PLANNER\n14 plan edits and one tidy spreadsheet.\nVOTE FOR THE MVP",
+  "caption": "MOTION The six cards deal in from the top one after another with a slap and settle at slightly wrong angles. Tokek picks the awards from the trip itself: check-ins, photos, expenses and plan edits. VOTE FOR THE MVP opens a one-tap crew vote, and the winner’s card gets a gold edge on everyone’s recap.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "star"
+  ],
+  "motion": [
+   "0:sx0 e=lin;1:sx1",
+   "0:ty-30 o0 e=back;.05:ty0 o1;1:ty0 o1"
+  ]
+ },
+ {
+  "label": "3m-6 Recap, the receipt",
+  "screenText": "9:41\n5G\nTOKEK PRESENTS\nBali, the recap · ♪ gamelan lo-fi\n✕\nMONEY, WRAPPED\n$460 UNDER\nTHE BALI SIX\nOCT 12–19 · 6 GUESTS\nSTAYS\n$2,820\nFOOD · 61 MEALS\n$1,284\nTRANSIT · MADE\n$1,016\nTHE BOAT\n$540\nBATUR GUIDE\n$420\nFUN, OTHER\n$900\nTOTAL\n$6,980\nPLANNED\n$7,440\nEACH\n$1,163\nPRICIEST\nThe boat\nCHEAPEST DAY\nD6 · $38 each\nSETTLED\nIn 2 days\nEveryone’s square. Nobody owes anybody.\nTHANK YOU · TERIMA KASIH\nBALANCES\nPAID\nIN FULL",
+  "caption": "MOTION The receipt prints down from the top of the card with a thermal-printer buzz, one line at a time. PAID IN FULL stamps on it at the end. Swiping up shows your own split, and the receipt can be saved as an image.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:sx0 e=lin;1:sx1",
+   "0:ty-560 e=out;.12:ty0;1:ty0",
+   "0:s2.2 o0 e=in;.05:s.94 o1;.08:s1.04;.11:s1;1:s1 o1"
+  ]
+ },
+ {
+  "label": "3m-7 Recap, the one that got away",
+  "screenText": "9:41\n5G\nTOKEK PRESENTS\nBali, the recap · ♪ gamelan lo-fi\n✕\n?\nTHE ONE THAT GOT AWAY\nGOLDEN TOKEK\nSeen twice on Batur, befriended by nobody. Dev slept through the second one. It comes back in the dry season, May to September.\n3 of 4 forms\nREMIND ME IN MAY",
+  "caption": "MOTION Lights dim to a single warm glow and the gold silhouette drifts in it. The line about Dev types itself in last. REMIND ME sets a quiet notification for May that only fires if the crew is planning again.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:sx0 e=lin;1:sx1",
+   "float"
+  ]
+ },
+ {
+  "label": "3m-8 Recap, the stamp",
+  "screenText": "9:41\n5G\nTOKEK PRESENTS\nBali, the recap · ♪ gamelan lo-fi\n✕\nENTRIES · ENTRÉES\nPAGE 13\nLISBON\nJUN 24\nDPS · ARRIVED\nBALI\n12–19 OCT 2026\nMaya ✶\nJordan\nRin\nalex!\nDev (late)\nSTAMP 13 IS BALI\nThe crew signed it. It’s on your profile now.",
+  "caption": "MOTION The page turns to a fresh spread and the Bali stamp slams down in orange next to faded older ones. The crew’s signatures write themselves around it in their own colours as each of them opens the recap. On Profile, the dashed Bali stamp fills in the same colour.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:sx0 e=lin;1:sx1",
+   "0:s2.4 o0 r-30 e=in;.05:s.95 o1 r-6;.08:s1.03 r-6;.11:s1 r-6;1:s1 o1 r-6"
+  ]
+ },
+ {
+  "label": "3m-9 Recap, the postcard",
+  "screenText": "9:41\n5G\nTOKEK PRESENTS\nBali, the recap · ♪ gamelan lo-fi\n✕\nLAST CARD\nSEND IT HOME\nphoto · Batur at sunrise\nGreetings from\nBALI\nSummit at 06:02, knees at 06:03. Same time next year? — W\nPOSTCARD\nSTORY 9:16\nPOSTER\nSEND TO THE CREW\nMail a real one to each of you\nPASS+",
+  "caption": "MOTION The front flips over to the back every few seconds with a small bounce. The note is written from your recap highlights and you can rewrite it. The Tokek stamp is the guide from this trip. With Pass+, one printed postcard per trip is mailed to everyone in the crew.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:sx0 e=lin;1:sx1",
+   "0:r-4;.45:r-4;.5:r-2 s1.03;.55:r-4 s1;1:r-4"
+  ]
+ },
+ {
+  "label": "3m-10 A year later",
+  "screenText": "9:41\n5G\nphoto · the six of you on Batur, 06:02\nONE YEAR AGO TODAY\n✕\nBATUR, A YEAR ON\nOct 15, 2026. Six of you on top of a volcano at 06:02. Jordan still has the headlamp.\nM\n❤ 2\nJ\n“again??”\nR\n+1\nPLAN A REUNION\nShare the memory",
+  "caption": "MOTION Arrives as a quiet notification on the anniversary, then opens as this. The photo drifts in slowly and Tokek waves from the corner. Reactions from the crew pop in as they open theirs. PLAN A REUNION starts a new vote with Bali already pitched.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "3n-1 Profile",
+  "screenText": "9:41\n5G\n← HOME\nEDIT\nSETTINGS\nWINSTON\n@winston · Singapore\nPASS+\nRARE · TEMPLE TOKEK\n7\nTRIPS\n12\nCOUNTRIES\n8\nCRITTERS\nSTAMPS\nALL 12 ›\nLISBON\nJUN 2024\nHÀ NỘI\nFEB 2024\nSEOUL\nOCT 2023\nCDMX\nMAR 2023\nBALI\nIN 17 DAYS\nHOW YOU TRAVEL\nRETAKE\nSUNRISE CHASER\nSTREET FOOD\nMUSEUMS\nPHOTO DUMPS\nEASY-ISH PACE\nYOUR CREWS\nM\nA\nJ\nR\nTHE BALI SIX\nBali in 17 days · Kyoto voting\n›\nK\nS\nT\nUNI HOUSEMATES\nLisbon, June 2024\n›\nP<SGPWINSTON<<CP0427\nSINCE 2022",
+  "caption": "MOTION Stats count up on open. Temple Tokek bobs in its rare ring and follows your scroll with its eyes. The stamps land one after another with a small thud, and the Bali one stays dashed until you arrive, then stamps itself in yellow. PASS+ opens Your plan.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "spark"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "3n-2 Settings",
+  "screenText": "9:41\n5G\n← PROFILE\nPASS+ · YEARLY ›\nSETTINGS\nYOUR GUIDE\nHow chatty\nQUIET\nNORMAL\nCHATTY\nTalk out loud\nVoice replies when you speak first\nNOTIFICATIONS\nLeave-by alarms\nCan ring through Do Not Disturb\nCrew chat\nMentions only ›\nPRIVACY\nLocation\nDuring trips ›\nFind bookings in my email\nRead-only, confirmations only\nBudget max\nNever shown to anyone, guides included\nPrivate\nOFFLINE\nBali trip saved offline\nBookings, maps, phrases · 84 MB\nSOUND\nMusic and effects\nGamelan lo-fi · effects on\n›",
+  "caption": "MOTION Toggles snap with a small overshoot. The list keeps going under the fade: sound, help and account are on 3n-6. Changing how chatty the guide is plays a one-line sample in that voice.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "lock",
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3n-3 Edit profile",
+  "screenText": "9:41\n5G\n← PROFILE\nSAVE\nEDIT\nPROFILE\nTEMPLE TOKEK\nRare form · found Oct 14\nCHANGE AVATAR\nNAME\nWinston\n›\nUSERNAME\n@winston\n›\nHOME AIRPORT\nSIN · Singapore Changi\n›\nLANGUAGES\nEnglish, Mandarin\n›\nLOOK\nApp icon\nClassic · 5 of 9 unlocked\n›\nYour crews see your name, avatar and home airport. Nothing else.",
+  "caption": "MOTION Fields edit in place with the keyboard sliding up under them. The avatar is the sticker you picked, so it keeps its idle wobble here and everywhere else it appears.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3n-4 Avatar",
+  "screenText": "9:41\n5G\n← EDIT PROFILE\nDONE\nHOW THE CREW SEES IT\non my way!\nWINSTON\nINITIALS\nCRITTER\nPHOTO\nFROM YOUR CRITTERDEX\n10 UNLOCKED\n?\n?\nRare forms and up keep their coloured ring wherever your avatar shows up. Legendary rings are gold.",
+  "caption": "MOTION Picking a critter pops it into the big circle and every preview beside it updates at once. The avatar keeps the sticker’s idle wobble in chat and on the crew map. Locked forms shake and say what they take.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "sardine",
+   "cp-001",
+   "cp-005",
+   "cp-007",
+   "cp-011",
+   "cp-013",
+   "cp-036",
+   "cp-062"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3n-5 App icon",
+  "screenText": "9:41\n5G\n← EDIT PROFILE\n4 STYLES · 3 EARNED\nAPP ICON\nPASSPORT\nCritterpass\nSTYLE\nSAME AS THE STORE ICONS\nFACE\nFree\nPASSPORT\nPASSPORT\nIn use\nHÀ NỘI\nPASS+\nSTAMP\nPass+\nSTICKER\nFree\nAppearance\nAUTO\nLIGHT\nDARK\nTINTED\nPASSPORT\nLight\nPASSPORT\nDark\nPASSPORT\nTinted\nEARNED ON THE ROAD\n3 OF 6\nTEMPLE\nSARDI\nHOME SET\n?\nPON\n?\nGOLDEN\n?\nBALI SIX\nStyles come with Pass+. Critter icons are earned by being there, and none of them can be bought.",
+  "caption": "MOTION The four styles are the same artwork as the store icons. Tapping one swaps the home-screen preview with the squash iOS uses, and the appearance row redraws in light, dark and tinted. STAMP wears a PASS+ tag and opens the paywall. Locked critter icons shake and say how to earn them.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "cp-001",
+   "sardine",
+   "tanuki"
+  ],
+  "motion": [
+   "0:sx1 sy1;.05:sx1.14 sy.86 e=out;.1:sx.94 sy1.06;.16:sx1 sy1 e=back;1:sx1 sy1"
+  ]
+ },
+ {
+  "label": "3n-6 Settings, more",
+  "screenText": "9:41\n5G\n← PROFILE\nSETTINGS\nAPP\nMusic\nGamelan lo-fi, follows your guide\n›\nSound effects\nSticker slaps, stamps, pops\nLanguage and currency\nEnglish · prices in S$ and local\n›\nHELP AND FEEDBACK\nRate Critterpass\nOn the App Store\nSend feedback\nOr shake your phone on any screen\n›\nSuggest a feature\n48 ideas to vote on · 3 of yours\n›\nHelp centre\n›\nACCOUNT\nDownload my data\nPlans, photos and chat as a zip\n›\nSign out\nDelete account\nCRITTERPASS 1.0 (214)",
+  "caption": "MOTION The header collapses to a small title as you scroll past Offline. The music row’s bars play along with the current theme. At the very bottom Tokek wiggles over the build number, and tapping it five times plays his theme.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "heart",
+   "star",
+   "chat",
+   "spark",
+   "pin",
+   "gecko"
+  ],
+  "motion": [
+   "0:sy.3;.5:sy1;1:sy.3",
+   "wiggle"
+  ]
+ },
+ {
+  "label": "3n-7 Sound",
+  "screenText": "9:41\n5G\n← SETTINGS\nSOUND\nMUSIC\nPlay music\nEach guide has a theme. It changes when you land.\n–\n+\nTOKEK\nGamelan lo-fi\nPON\nKoto and rain\nLUNDI\nSlow sea shanty\nEFFECTS\n–\n+\nStickers and stamps\nThe slap, the thud, the peel\nCritter voices\nA chirp when a guide pops up\nQuiet on the road\nMutes everything 22:00–07:00 and inside temples\nHaptics\nTaps on stamps, holds and votes",
+  "caption": "MOTION The bars on the title and on the playing theme move with the music. Dragging a slider plays a short sample at that level: a gamelan phrase for music, a sticker slap for effects. Tapping a theme card crossfades to it.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "tanuki",
+   "puffin"
+  ],
+  "motion": [
+   "0:sy.3;.5:sy1;1:sy.3",
+   "bob",
+   "0:sy.3;.5:sy1;1:sy.3"
+  ]
+ },
+ {
+  "label": "3n-8 Language and currency",
+  "screenText": "9:41\n5G\n← SETTINGS\nLANGUAGE AND\nCURRENCY\nAPP LANGUAGE\nEnglish\nGuides mix in a few local words\n中文（简体）\nChinese, simplified\nBahasa Indonesia\nIndonesian\n日本語\nJapanese\n12 more\n›\nCURRENCY\nHome currency\nSGD · from your home airport\nS$ ›\nShow prices in\nHOME\nLOCAL\nBOTH\nRp 75.000\n≈ S$6.40\nTirta Empul\nFORMATS\nTime and distance\n24-hour · km ›\nBalances split in the crew’s currency. Rates work offline.",
+  "caption": "MOTION Switching language redraws the screen in place, and Tokek says one line in it so you can hear the voice. Each guide keeps a few words from home whatever you pick. Flipping HOME, LOCAL and BOTH rewrites the sample price with a small odometer roll, and every price in the app follows it.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "check",
+   "gecko"
+  ],
+  "motion": [
+   "wiggle"
+  ]
+ },
+ {
+  "label": "3n-9 Delete account",
+  "screenText": "9:41\n5G\n← SETTINGS\nDELETE YOUR\nACCOUNT?\nHere’s what goes with you, and what the crew keeps.\nGOES\nYour pass, your 8 critters and your stamps\nYour profile, uploads and chat messages\nTHE CREW KEEPS\nPlans you helped make, shown as “former member”\nExpenses you added, so Balances still add up\nYOU’RE OWED $186.40\nSettle up first, or the Bali Six keep it.\nSETTLE UP\nPass+ is billed by the App Store. Deleting doesn’t cancel it, so cancel it there too. Manage subscription ›\nCONTINUE\nDownload my data first",
+  "caption": "MOTION Tokek rocks from foot to foot, thinking. The two lists fill in one line at a time. If you’re owed money the orange card slides up last and nudges once. SETTLE UP jumps to Balances and brings you back here when you’re done.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "lock"
+  ],
+  "motion": [
+   "0:r-3 ty0;.5:r3 ty2;1:r-3 ty0"
+  ]
+ },
+ {
+  "label": "3n-10 Hold to delete",
+  "screenText": "9:41\n5G\n← SETTINGS\nDELETE YOUR\nACCOUNT?\nHere’s what goes with you, and what the crew keeps.\nGOES\nYour pass, your 8 critters and your stamps\nYour profile, uploads and chat messages\nTHE CREW KEEPS\nPlans you helped make, shown as “former member”\nExpenses you added, so Balances still add up\nYOU’RE OWED $186.40\nSettle up first, or the Bali Six keep it.\nSETTLE UP\nPass+ is billed by the App Store. Deleting doesn’t cancel it, so cancel it there too. Manage subscription ›\nLAST CHECK\nHOLD TO DELETE\nYour account is closed now and erased after 30 days. Sign in before Oct 26 and everything comes back.\nWHY ARE YOU LEAVING? OPTIONAL\nTRIP’S OVER\nTOO MANY PINGS\nCREW MOVED APPS\nPRIVACY\nSOMETHING ELSE\nHOLD\nHOLD FOR 3 SECONDS\npeeling off…\nKeep my account",
+  "caption": "MOTION The sheet rises over the dimmed list. While you hold, the ring fills pink and your critters peel off the sheet one by one with a soft rip. Let go early and they slap back on. Picking a reason is optional and never blocks the button.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "lock",
+   "sardine",
+   "cp-001"
+  ],
+  "motion": [
+   "0:r-3 ty0;.5:r3 ty2;1:r-3 ty0"
+  ]
+ },
+ {
+  "label": "3n-11 Account closed",
+  "screenText": "9:41\n5G\nDEPARTURES · DÉPARTS\nLAST PAGE\nEXIT · SORTIE\nSEE YOU\n26 SEP 2026\nCLOSED FOR 30 DAYS\nNothing is erased until Oct 26. Sign in before then and your pass, critters and crews come back as they were. We emailed this to w•••@gmail.com.\nYour 8 critters will wait by the door.\nUNDO, KEEP MY ACCOUNT\nClose",
+  "caption": "MOTION The EXIT stamp lands and the page shakes once. Tokek waves from the top of the page and keeps waving. The critter row fades a little each second and stops at half, so it reads as waiting, not gone. UNDO re-stamps the page with ENTRY and drops you on Home.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "sardine",
+   "cp-001",
+   "tanuki",
+   "puffin",
+   "axolotl",
+   "alpaca"
+  ],
+  "motion": [
+   "float"
+  ]
+ },
+ {
+  "label": "3o-1 Crew plans",
+  "screenText": "9:41\n5G\n← KYOTO\n1,240 SHARED\nCREW PLANS\nReal Kyoto trips, shared by the crews who took them. Copy a whole one, or just the good days.\n7–8 DAYS\nAPRIL\nCREWS OF 5–6\nUNDER $1,500\nSUNRISE CHASERS\nPON'S PICK FOR YOU\n★ 4.8\nSLOW KYOTO,\nFAST FOOD\nThe Osaka Four · 8 days · April 2025\n1\n2\n3\n4\n5\n6\n7\n8\n$1,240 EACH\n91% YOUR TASTE\n212 COPIES\nTHEY FOUND SAKURA PON ON DAY 2\nTEMPLES BEFORE 8AM\n★ 4.6\nMia and three friends · 7 days · Nov 2025 · $1,560 each\nKYOTO ON A BUDGET\n★ 4.4\nThe Hostel Crew · 6 days · Jan 2026 · $780 each",
+  "caption": "MOTION Opens from the Kyoto guide. Filters slide in as chips and the list re-sorts with a shuffle. Pon's pick sits on top because it matches your crew's taste chips, not because it's the most copied.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3o-2 Shared plan",
+  "screenText": "9:41\n5G\n← CREW PLANS\n♡ SAVE\nTHE OSAKA FOUR · APRIL 2025\nSLOW KYOTO,\nFAST FOOD\n8 DAYS\n$1,240 EACH\n★ 4.8 · 212 CREWS\nFour of these days overlap with my draft. Day 3 alone is worth it.\nDAY BY DAY\n+ ADDS ONE DAY\n1\nNISHIKI BEFORE LUNCH\nFRI · Ryokan in Higashiyama\n+\n2\nINARI AT 6AM\nSAT · Then Tōfuku-ji while it’s empty\n+\n3\nRAMEN, THREE WAYS\nSUN · Kōji, Menbaka, a Gion stall\n+\n+ 5 MORE DAYS\nWHAT THEY'D CHANGE\nK\nSkip Nara on a weekend. Go on a Tuesday or don't go.\nKenji · pace 4 of 5\nCOPY INTO OUR TRIP\nDAY 3 ONLY",
+  "caption": "MOTION The poster from the list grows into this page. Tapping + on a day drops it into Pon's draft with a small paper-plane arc, and Pon checks it against your must-dos before anything moves.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "3o-3 Rate the trip",
+  "screenText": "9:41\n5G\n← RECAP\n3 OF 11\nRATE\nTHE TRIP\nOne tap a place. Your tips show up for crews planning Bali, and nothing else about you does.\nphoto · Tirta Empul\nTIRTA EMPUL\nDAY 3\nThe spring temple. You found Temple Tokek here.\nLOVED IT\nFINE\n✕\nSKIP IT\nONE TIP FOR THE NEXT CREW\nGet there before 8. The tour buses start at 9.\nSHARE THE PLAN TOO",
+  "caption": "MOTION Each place is a card on a small stack. Loved it flicks the card up with a heart, skip it sends it left. The counter ticks and the next place slides up from underneath. Tips are optional and stay attached to the place, not to you.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "heart",
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3o-4 Share the plan",
+  "screenText": "9:41\n5G\nSHARE\nTHE PLAN\nHOW OTHER CREWS WILL SEE IT\nEIGHT DAYS,\nONE VOLCANO\nA crew of six · 8 days · October 2026\n8 DAYS\n12 PHOTOS\n3 OF 4 FORMS\nWHAT OTHER CREWS SEE\nOur names\nOff: you show up as \"a crew of six\"\nWhat it cost\nPer person, rounded to $10\n12 best photos\nPicked by Tokek, faces blurred\nThe chat\nNever leaves the crew\nPrivate\nPUBLISH TO CREW PLANS\nCopy a read-only link instead",
+  "caption": "MOTION Opens from SHARE on the trip plan. The preview card rewrites itself as you flip each toggle, so you can see exactly what leaves the crew. Publishing folds the card into an envelope and it flies off the top.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "lock"
+  ],
+  "motion": []
+ },
+ {
+  "label": "3p-1 Help and feedback",
+  "screenText": "9:41\n5G\n← SETTINGS\nHELP AND\nFEEDBACK\nSomething broke, or something’s missing? Tell me. I pass it straight to the humans.\nREPORT A PROBLEM\nOr shake any screen\nSEND FEEDBACK\nWhat you love, what bugs you\nSUGGEST A FEATURE\nVote on 48 ideas\nRATE THE APP\nTakes ten seconds\nHELP CENTRE\nRefunds, offline maps, splitting…\nSplitting a Trip Boost\n›\nWhy can’t I buy critters?\n›\nA human replies by email within two days.",
+  "caption": "MOTION Tokek points at the tiles while his line types out. Each tile lifts a little on press. Shaking the phone anywhere in the app opens REPORT A PROBLEM with a screenshot of where you were already attached.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "flame",
+   "chat",
+   "spark",
+   "heart",
+   "pin"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "3p-2 Send feedback",
+  "screenText": "9:41\n5G\n← HELP\nTO THE HUMANS\nSEND FEEDBACK\nHOW’S IT GOING?\nGRR\nMEH\nOKAY\nGOOD\nLOVE IT\nABOUT\nPLANNING\nMONEY\nGUIDE CHAT\nCRITTERS\nOTHER\nshot\n×\n+\nDevice info\niOS 20.1 · v1.0 (214)\nSEND IT",
+  "caption": "MOTION The critter under your pick hops and the others go grey. The note types itself in as an example. A screenshot of the last screen you were on is attached already, and the × peels it off like a sticker. SEND IT folds the note and it flies off the top.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion",
+   "tg-type"
+  ],
+  "doodles": [
+   "axolotl",
+   "puffin",
+   "sardine",
+   "gecko",
+   "tanuki"
+  ],
+  "motion": [
+   "hop",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "3p-3 Feedback sent",
+  "screenText": "9:41\n5G\nPOST · COURRIER\n#CP-2291\nGUIDE CHAT · GOOD\nTokek suggested the boat on a rainy morning. Could the guide check the forecast first?\nHQ · POST\nRECEIVED\n26 SEP 2026\nPINNED TO\nTHE BOARD\nThanks, Winston. A human reads every one of these. If we need more we’ll email you, and Tokek will tell you when it’s fixed.\nBACK TO SETTINGS\nSee what others asked for ›",
+  "caption": "MOTION The note drops onto the page and the pink pin pushes in. RECEIVED stamps down with a thud and a little confetti. Tokek hops once. When the fix ships, a card from Tokek lands in the Inbox with a link to this note.",
+  "customEls": [
+   "tg-confetti",
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:s2.2 o0 e=in;.05:s.94 o1;.08:s1.04;.11:s1;1:s1 o1",
+   "hop"
+  ]
+ },
+ {
+  "label": "3p-4 Idea board",
+  "screenText": "9:41\n5G\n← HELP\n3 VOTES LEFT\nWHAT’S NEXT?\nTOP\nNEW\nSHIPPED\n▲\n412\nPACKING LISTS PER CREW\nPLANNED\nM\nJ\nMaya and Jordan too\n▲\n356\nSPLIT RECEIPTS BY ITEM\nBUILDING\n▲\n288\nLEAVE-BY ALARMS ON THE WATCH\nLOOKING AT IT\n▲\n241\nA GUIDE FOR MARRAKECH\nPLANNED\nTokek: I know a guy\n▲\n198\nOFFLINE VOICE FOR THE GUIDE\nLOOKING AT IT\n+ SUGGEST AN IDEA",
+  "caption": "MOTION Voting works like crew votes: one tap, change it any time. Your vote fills the box yellow with a small stamp. Ideas your crew voted for show their faces. When one ships it slides to SHIPPED with a confetti pop, and everyone who voted gets a note from Tokek.",
+  "customEls": [],
+  "doodles": [],
+  "motion": []
+ },
+ {
+  "label": "3p-5 Suggest an idea",
+  "screenText": "9:41\n5G\n← HELP\n3 VOTES LEFT\nWHAT’S NEXT?\nTOP\nNEW\nSHIPPED\n▲\n412\nPACKING LISTS PER CREW\nPLANNED\nM\nJ\nMaya and Jordan too\n▲\n356\nSPLIT RECEIPTS BY ITEM\nBUILDING\n▲\n288\nLEAVE-BY ALARMS ON THE WATCH\nLOOKING AT IT\n▲\n241\nA GUIDE FOR MARRAKECH\nPLANNED\nTokek: I know a guy\n▲\n198\nOFFLINE VOICE FOR THE GUIDE\nLOOKING AT IT\nNEW IDEA\nSUGGEST AN IDEA\nIN A FEW WORDS\nShared packing list\nSounds like this one. Vote for it and it gets there faster.\nPACKING LISTS PER CREW\n412 votes · Planned\nVOTE ▲\nWHAT WOULD IT DO? OPTIONAL\nOne list the whole crew can tick off…\nMINE’S DIFFERENT, POST IT",
+  "caption": "MOTION As you type, the board behind the sheet filters to matches. When one is close, Tokek slides in with it and points. VOTE closes the sheet and stamps that card on the board. MINE’S DIFFERENT posts yours as NEW.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "wiggle"
+  ]
+ },
+ {
+  "label": "3p-6 Rate the app",
+  "screenText": "9:41\n5G\nOCT 12–19 · THE BALI SIX\nBALI,\nTHE RECAP\n214 KM\ndriven, mostly by Made\n1 VOLCANO\nclimbed before sunrise\n312 PHOTOS\nJordan took 140 of them\n$0 OWED\nsettled two days early\nTOKEK'S FORMS\n3 OF 4 FOUND\n?\nThe Golden Tokek got away. Dev slept through the summit.\nEarliest riser\nJordan, knee and all\nBest find\nAlex: Warung Pondok\nSHARE RECAP\nWHERE NEXT? →\nPASSPORT\nEnjoying Critterpass?\nTap a star to rate it on the\nApp Store.\n☆☆☆☆☆\nNot Now",
+  "caption": "MOTION The system rating sheet, asked at the best moment we have: the recap, right after it finishes playing. Tokek hops up behind it and waves. Rules: only after a trip that ended well, never during a trip, after an error or after a paywall, and no more than the system’s three times a year. The Settings row opens the App Store review page directly.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "hop",
+   "hop"
+  ]
+ },
+ {
+  "label": "4e-1 Paywall",
+  "screenText": "9:41\n5G\n✕\nRESTORE\nVISAS · VISAS · VISAS\nPAGE 07\nGO FURTHER\nTHAN FREE\nVISA · FOR YOU · POUR VOUS\nPASS+\n$29.99\nA YEAR · $2.50/MO\nHOLDER\nWINSTON\nENTRIES\nUNLIMITED\nVALID\n12 MONTHS\nWORKS IN\nEVERY CREW\nGuide chat, voice and camera without limits. Every icon style.\nV<CPPASS<PLUS<<WINSTON<<<<<<<<<<<<<<<\nENTRY · FOR THE CREW\nTRIP BOOST · $12\nRedrafts, live map, crews of 16.\nBALI SIX\nFIRST TRIP\nFREE\nOCT 12–26\nCritters are never for sale.\nP<SGPCRITTERPASS<<WINSTON<<<<<<<<<<<<<<\nCP0427<<SGP<<PASS<PLUS<<BALI<SIX<<<<<07\nMONTHLY · $3.99\nYEARLY · $29.99\n−37%\nGET PASS+\nBoost a trip instead\nWhat’s in each ›",
+  "caption": "MOTION The passport page slides up and the Pass+ visa slaps on with a small overshoot. A light sweep crosses the visa every few seconds and the holographic seal turns slowly. The Trip Boost entry stamp lands next, then FIRST TRIP FREE thuds down last and the page jolts. Flipping monthly and yearly rolls the price on the visa like an odometer. The button carries the same light sweep.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:ty40 o0 e=out;.06:ty0 o1;1:ty0 o1",
+   "float",
+   "0:s1.18 o0 e=back;.07:s1 o1;1:s1 o1",
+   "spin",
+   "0:tx-120 e=io;.28:tx440;1:tx440",
+   "0:s1.2 o0 r-3 e=back;.1:s1.2 o0 r-3;.17:s1 o1 r-3;1:s1 o1 r-3",
+   "0:s2.2 o0 e=in;.05:s.94 o1;.08:s1.04;.11:s1;1:s1 o1",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "4e-2 What’s in each",
+  "screenText": "9:41\n5G\n← BACK\nENTRIES · ENTRÉES\nPAGE 08\nWHAT’S IN EACH\nFREE\nPASS+\nBOOST\nGuide chat, voice, camera\n30 A DAY\n∞\n∞ ON TRIP\nRedrafts from the guide\n3 A TRIP\n3 A TRIP\n∞\nBookings from email\n–\n–\nCrew size\n6\n6\n16\nLive crew map\n–\n–\nIcon styles, avatars\n2\nALL\n–\nSponsored picks\nSHOWN\nNONE\nNONE\nCovers\nYou\nYou, every crew\nOne trip, whole crew\nVoting, splitting money, offline maps and every critter stay free for everyone.\nPASS+ · $29.99\nBOOST · $12\nPass+ renews yearly until you cancel. A boost is one trip, paid once.",
+  "caption": "MOTION Rows ink in one by one from the top, like entries being filled in. The PASS+ column carries a yellow highlighter band. Tapping a column header slides the band over to it and dims the other two, and the button below it lights up.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "check",
+   "gecko"
+  ],
+  "motion": [
+   "0:ty8 o0 e=out;.06:ty0 o1;1:ty0 o1",
+   "bob",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "4e-3 Welcome to Pass+",
+  "screenText": "9:41\n5G\nVISAS · VISAS · VISAS\nPAGE 07\nVISA · FOR YOU · POUR VOUS\nPASS+\n$29.99\nA YEAR · $2.50/MO\nHOLDER\nWINSTON\nENTRIES\nUNLIMITED\nVALID\n12 MONTHS\nWORKS IN\nEVERY CREW\nGuide chat, voice and camera without limits. Every icon style.\nV<CPPASS<PLUS<<WINSTON<<<<<<<<<<<<<<<\nENTRY\nADMITTED\n02 NOV 2026\nYOU’RE IN, WINSTON\nUnlimited chat with Tokek and Pon, voice and camera\nBookings pulled from your email\nEvery icon style and avatar\nPICK A NEW ICON\nYearly · renews Nov 2, 2027\nDone",
+  "caption": "MOTION The visa drops onto the page, then ADMITTED stamps across its corner with a thud and a burst of confetti. Tokek jumps in cheering. The three perks tick on one at a time. PICK A NEW ICON goes to App icon with the Pass+ styles already unlocked, since that’s the perk people see straight away.",
+  "customEls": [
+   "tg-confetti",
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "check"
+  ],
+  "motion": [
+   "0:s1.18 o0 e=back;.07:s1 o1;1:s1 o1",
+   "spin",
+   "0:tx-120 e=io;.28:tx440;1:tx440",
+   "0:s2.2 o0 e=in;.05:s.94 o1;.08:s1.04;.11:s1;1:s1 o1",
+   "hop",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "4a-1 Visa page",
+  "screenText": "9:41\n5G\n✕\nRESTORE\nVISAS · VISAS · VISAS\nPAGE 07\nGO FURTHER\nTHAN FREE\nPASS+ · FOR YOU\nUnlimited guide chat, voice and camera. Bookings from email. Every icon and avatar.\n$29.99\nA YEAR\nTRIP BOOST · FOR THE CREW\nUnlimited redrafts, the live crew map, crews up to 16. Everyone gets Pass+ for the trip.\n$12\nA TRIP\nBALI SIX\nFIRST TRIP\nFREE\nOCT 12–26\nCRITTERS ARE NEVER FOR SALE. YOU STILL EARN EVERY ONE.\nMONTHLY · $3.99\nYEARLY · SAVE 37%\nGET PASS+\nBoost a trip instead\nWhat’s in each ›",
+  "caption": "MOTION The page slides up like a passport opening. Each visa sticker lands with a slap and a slight skew, then the blue FIRST TRIP FREE stamp thumps over the corner. Tapping a sticker selects it, and the button and price switch between PASS+ and BOOST.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "tanuki"
+  ],
+  "motion": []
+ },
+ {
+  "label": "4a-2 Boarding pass",
+  "screenText": "9:41\n5G\n✕\nRESTORE\nPICK YOUR CLASS\nYour first trip with a crew is on us. After that, pick what fits.\nPERSONAL CLASS\nPASS+\nGUIDE\nUNLIMITED\nBOOKINGS\nFROM EMAIL\nICONS\nALL 24\n$29.99/YR\nOR $3.99 A MONTH\nCREW CLASS\nTRIP BOOST\nW\nM\nJ\nR\nD\nA\nREDRAFTS\nUNLIMITED\nCREW MAP\nLIVE\nSEATS\nUP TO 16\n$12/TRIP\n$2 EACH, SPLIT 6 WAYS\nBOARD WITH PASS+\nWhat’s in each ›",
+  "caption": "MOTION Tickets print in from the top of the screen, one after the other, with a paper shiver. Selecting one lifts it and gives it the dark outline; the other dims slightly. On purchase the stub tears along the dashed line and drops off the bottom.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "4a-3 Gold cover",
+  "screenText": "9:41\n5G\n✕\nRESTORE\nCRITTERPASS\nPLUS\nWINSTON · 7 TRIPS\nUPGRADE YOUR PASS\nPAGE 1 · FOR YOU\nAsk Tokek and Pon anything, any time\nBookings pulled from your email\nEvery app icon and critter avatar\nNo sponsored picks in Explore\nPAGE 2 · FOR THE CREW\nUnlimited redrafts\nLive crew map\nUPGRADE MY PASS · $29.99/YR\nBoost a trip for the crew instead",
+  "caption": "MOTION Your current navy pass sits on screen, then the gold cover slides over it and settles with a small tilt. The foil sheen sweeps across once, and the gecko seal follows your phone’s tilt. Swiping the pages turns the gold cover to pink for the crew page and to cream for the price page.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "4b-1 Out of questions",
+  "screenText": "9:41\n5G\nPON\nJust me · Kyoto, Apr 2–9\nCan we swap Nara for Uji on day 3?\nThat’s my thirtieth answer today, and the free ones are used up. I’ll be back at midnight, or…\n30 OF 30 TODAY\nRESETS 00:00\nPass+ keeps Pon talking: text, voice and camera, as much as you like. Your Kyoto plan and the vote don’t count towards this.\nGET PASS+\nASK AT MIDNIGHT\nM\nMaya has Pass+. Ask in the crew chat and Pon answers there.\n›\n+\nPon is back in 7h 12m",
+  "caption": "MOTION The meter fills as the last answer types in, and the thirtieth segment flicks yellow. Pon trails off mid-sentence and the card slides up under the line. Nothing is blocked outside this chat.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": []
+ },
+ {
+  "label": "4b-2 Compare plans",
+  "screenText": "9:41\n5G\n← BACK\nWHAT’S IN EACH\nFREE\nPASS+\nBOOST\nGuide chat, voice, camera\n30 A DAY\n∞\n∞ ON TRIP\nRedrafts from the guide\n3 A TRIP\n3 A TRIP\n∞\nBookings from email\n–\n–\nCrew size\n6\n6\n16\nLive crew map\n–\n–\nApp icons and avatars\n2\nALL\n–\nSponsored picks\nSHOWN\nNONE\nNONE\nCovers\nyou\nyou, in every crew\none trip, whole crew\nVoting, splitting money, offline maps and every critter stay free for everyone.\nPASS+ · $3.99\nBOOST · $12",
+  "caption": "MOTION Rows fill in left to right as the table scrolls into view. Tapping a column header highlights that column and dims the other two.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "4b-3 Boost Kyoto",
+  "screenText": "9:41\n5G\nTHE BALI SIX · APR 2–9\nBOOST KYOTO\nTHIS TRIP\nOn until a week after you land, Apr 16\n$12\nEVERY TRIP, ALL YEAR\nAny trip the Bali Six plan till next October, plus Pass+ for you\n$59\nWHO PAYS\nI'LL COVER IT\nSPLIT 6 WAYS\nM\nJ\nR\nD\nA\n$2 each goes into Balances, like any shared expense. Settle it with the rest of the trip.\nAFTER THE TRIP\nThe plan, album, recap and map trail stay forever. Unlimited redrafts and the live map pause until the next boost. Nobody gets removed from the crew.\nBOOST FOR $12\nTrip cancelled? The boost moves to your next one.",
+  "caption": "MOTION Switching WHO PAYS to SPLIT fans the five other avatars out from yours, and the price in the button counts from $12 down to your $2 share. Choosing ALL YEAR stamps a small PASS+ sticker onto the option.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": []
+ },
+ {
+  "label": "4b-4 Checkout",
+  "screenText": "9:41\n5G\nBOOST KYOTO\nStore\n✕\nTrip Boost · Kyoto\nCritterpass · one-time purchase\nAccount\nwinston@critterpass.app\nPay with\nVisa •••• 4412\nSplit\n$2 each in Balances\nTotal\n$12.00\nDouble-click to pay\nDouble-click\nside button",
+  "caption": "MOTION The system sheet rises over a dimmed boost screen. The side-button hint pulses twice. When payment clears, the ring fills with a tick and the sheet drops away into the stamp.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "4b-5 Stamped",
+  "screenText": "9:41\n5G\nENTRIES · ENTRÉES\nPAGE 08\nTHE BALI SIX\nBOOSTED\nKYOTO · APR 2–16\nUnlimited redrafts. I have ideas about Nara.\nTHE CREW’S IN\nM\nJ\nR\nD\nA\nMaya, Jordan, Rin, Dev and Alex each owe you $2. It’s in Balances.\nTELL THE CREW\nDone",
+  "caption": "MOTION The stamp slams down from above with a thud and a little ink spread, then the page shakes once. Pon hops in from the right, and the five avatars drop in one by one as each $2 is added to Balances.",
+  "customEls": [
+   "tg-confetti",
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": [
+   "hop"
+  ]
+ },
+ {
+  "label": "4c-1 Boosted by Winston",
+  "screenText": "9:41\n5G\n←\nTHE BALI SIX\n6 people · Pon is in this chat\nBOOSTED\nTODAY\nD\npon only gave us 3 redrafts, we used them all on day 2 😅\nW\nWINSTON BOOSTED KYOTO\nApr 2–16 · split 6 ways\n∞ REDRAFTS\nLIVE MAP\nPASS+ ON THE TRIP\nUP TO 16\nSETTLE $2\nTHANKS WINSTON\nNo more counting. Who wants day 3 back? I have a quieter Nara.\nM\nthank you W!! paying you back now\nSETTLED\nMaya and Jordan · 3 still to go\nM\nJ\n+\nMessage the crew",
+  "caption": "MOTION What Rin sees. The boost card drops into the chat with the pink stamp edge, and the perk chips pop in one at a time. When someone settles, their avatar slides into the SETTLED row.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": []
+ },
+ {
+  "label": "4c-2 Free boost ending",
+  "screenText": "9:41\n5G\n← RECAP\nOCT 23\n3\nDAYS LEFT ON YOUR FREE FIRST TRIP\nSettle up before Sunday and I’ll send the album.\nKEPT FOR GOOD\nTHE PLAN\n312 PHOTOS\nTHE RECAP\n4 CRITTERS\nMAP TRAIL\nPAUSES OCT 26\nUNLIMITED TOKEK\nREDRAFTS\nLIVE MAP\nALL ICONS\nBOOST KYOTO · $2 EACH\nPASS+ JUST FOR ME\nStay free",
+  "caption": "MOTION Arrives as a push three days before the free boost ends, and again on the recap. The big number flips down like a departures board. KEPT FOR GOOD chips settle first; the PAUSES chips grey out one by one.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "float"
+  ]
+ },
+ {
+  "label": "4d-1 Your plan",
+  "screenText": "9:41\n5G\n← SETTINGS\nYOUR PLAN\nYEARLY\nPASS+\nRenews Nov 2, 2027 · $29.99\nBOOSTS\nKyoto · the Bali Six\nTrip Boost · on until Apr 16 · 2 of 5 settled\nON\nBali · the Bali Six\nFirst trip free · ended Oct 26\nENDED\nMANAGE\nChange plan\nYearly ›\nPayment method\n•••• 4412 ›\nRedeem a code\n›\nRestore purchases\n›\nCancel Pass+",
+  "caption": "MOTION The pass card slides in from Settings with the same gold as the upgrade. Boost rows show a live settle count that ticks up as the crew pays back.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "4d-2 Before you go",
+  "screenText": "9:41\n5G\n← YOUR PLAN\nBEFORE\nYOU GO\nIf you cancel, Pass+ stays on until Nov 2, 2027. Kyoto’s boost is separate and stays on for the whole crew.\nBETWEEN TRIPS?\nPAUSE UNTIL KYOTO INSTEAD\nNo charges from now until Mar 2, a month before you fly. Your icons and avatar stay on while paused.\nN\nD\nJ\nF\nM\nA\nWHAT YOU’D LOSE\n–\nUnlimited Tokek and Pon\n–\nBookings from your email\n–\nIcons: Sakura Pon and 11 more\nPAUSE TILL KYOTO\nKEEP PASS+\nCancel anyway",
+  "caption": "MOTION The paused months shrink down to thin bars while Kyoto’s month stays tall. Tapping Cancel anyway asks once more in a sheet. There’s no timer and no discount countdown.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": []
+ },
+ {
+  "label": "4d-3 Card declined",
+  "screenText": "9:41\n5G\n← YOUR PLAN\n•••• 4412\nEXP 10/27\nTHE CARD DIDN’T GO THROUGH\nYour Pass+ renewal on Nov 2 was declined. The card expired last month. Everything stays on for 7 more days while you sort it.\nPass+ stays on until\nNov 9\nKyoto boost\nAlready paid, not affected\nUPDATE CARD\nTry again",
+  "caption": "MOTION The card tilts and shakes once when the screen opens. Updating it hands off to the store’s payment settings and comes back to a green tick on the same card.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "check"
+  ],
+  "motion": [
+   "wiggle"
+  ]
+ },
+ {
+  "label": "4d-4 Redeem or restore",
+  "screenText": "9:41\n5G\n← YOUR PLAN\nGOT A CODE?\nGift codes, promo codes and codes from a partner airline all go here.\nPASS\n-\n7K2Q\n-\nMAYA\nM\n3 MONTHS OF PASS+\nFrom Maya, “for all the planning”\nAdds to your current plan. Your renewal moves to Feb 2, 2028.\nREDEEM\nNEW PHONE?\nBrings back Pass+ and any boosts you bought with this store account.\nRESTORE PURCHASES",
+  "caption": "MOTION The code boxes fill as you type or paste, and turn green when the code checks out. The gift card flips over from a plain envelope to show who sent it.",
+  "customEls": [],
+  "doodles": [],
+  "motion": []
+ },
+ {
+  "label": "4f-1 Seven’s a crowd",
+  "screenText": "9:41\n5G\n← KYOTO PROPOSAL\nROOMS HELD\nWHO'S IN?\n4 IN\n1 MAYBE\n1 UNOPENED\nW\nWinston (you)\nSent Sep 24\nORGANISER\nM\nMaya\nWatched the trailer twice\nIN\nJ\nJordan\nReplied \"6AM??\"\nIN\nR\nRin\nBoarded 2h ago\nIN\nA\nAlex\nOpened it 3 times\nMAYBE\nD\nDev\nSent 2 days ago\nUNOPENED\nPON SUGGESTS\nDev opens things at night. Resend at 21:00 with the ramen crawl up front?\nRESEND\nAlex asked me privately about cost. Offer everyone the cheaper room option?\nOFFER\nKYOTO · SEAT 7\nSEVEN’S A CROWD\nW\nM\nJ\nR\nA\nD\nS\nFree crews top out at six. Boost Kyoto and Sam gets a seat, and the whole crew gets the live map and unlimited redrafts.\n$12, or $1.72 each\nSPLIT 7 WAYS\nBOOST KYOTO · $12\nKeep it at six",
+  "caption": "MOTION Inviting a seventh friend opens this instead of an error. Six seats fill left to right with the crew, and Sam’s seat pulses in dashed yellow. Keep it at six leaves Sam on the invite list with a note that a seat opens if someone drops out.",
+  "customEls": [
+   "tg-count",
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": [
+   "pulse",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "4f-2 Live map teaser",
+  "screenText": "map · Ubud\n16:38\n5G\n← CHAT\nTHE BALI SIX\n5 of 6 sharing · trip days only\nLIVE\nCAMPUHAN RIDGE\nMEET 17:00\nM\nR\nMAYA + RIN\nKarsa Spa\nA\nALEX\nWarung Pondok\nJ\nJORDAN\nOn the scooter · 2 km\nMEET-UP · 17:00\nCAMPUHAN RIDGE\nMOVE IT\nM\nR\nMaya and Rin\nLeaving Karsa Spa\n16:52\nA\nAlex\nFinishing lunch, 900 m\n16:55\nJ\nJordan\nOn the scooter, 2 km out\n16:49\nD\nDev\nPaused sharing at 14:00\n–\nPING ALL\nI'M ON MY WAY\nSharing switches itself off on Oct 19 at midnight.\nPREVIEW · YOUR BALI TRIP\nKYOTO ISN’T BOOSTED\nTHE LIVE MAP\nYou opened it 41 times in Bali.\nEveryone on one map during the trip, with walking times and SOS. It switches itself off at midnight on the last day.\nBOOST KYOTO · $12\nMaybe later",
+  "caption": "MOTION Opening the map on an unboosted trip shows your last trip’s map in grey, still moving, so you see what it did rather than read about it. The yellow pin pings. Maybe later closes it for this trip, and it doesn’t come back until the next one.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "star",
+   "gecko",
+   "pin"
+  ],
+  "motion": [
+   "blink",
+   "hop",
+   "ping",
+   "ping",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "4f-3 Last redraft",
+  "screenText": "9:41\n5G\n← KYOTO SETUP\nONLY YOU SEE THIS\nPON'S\nDRAFT\nApr 2–9, $1,310 each. Fix anything before the crew sees it.\nALL 5 MUST-DOS MADE IT\nM\nA\nJ\nR\nW\n1\nNISHIKI AT DUSK\nFRI · Land 11:20, ryokan in Gion\n2\nINARI AT 6AM\nSAT · Tea ceremony at 15:00\nM\n3\nARASHIYAMA AT DAWN\nSUN · Bamboo at 6, kaiseki lunch\nR\nJ\n4\nNARA DEER\nMON · Move to Shijo\nOPTIONAL\n5\nNOTHING. BLISS.\nTUE · Nothing booked, on purpose\n6\nNINTENDO MUSEUM\nWED · Uji, lottery result Mar 1\nA\n7\nPONTOCHO AT NIGHT\nTHU · Gion walk, alley dinner\nW\n8\nFLY HOME\nFRI · KIX 18:40, bags out by 14:00\nBUILD THE PROPOSAL\nAsk Pon to change a day\nKYOTO · REDRAFT 3 OF 3\nLAST FREE\nREDRAFT\nMake it count. Or boost the trip and I’ll keep redrafting until everyone’s happy.\nUSE MY LAST ONE\nBOOST · UNLIMITED · $12\nRedrafts reset every trip.",
+  "caption": "MOTION Tapping REDRAFT with one left raises this first, so the limit never lands as a surprise. The two used pips are crossed out and the last one glows orange. Pon rubs his chin. Using it runs the normal redraft, and the boost button stays one tap away on the result.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "lock",
+   "tanuki",
+   "check"
+  ],
+  "motion": [
+   "bob",
+   "wiggle",
+   "pulse"
+  ]
+ },
+ {
+  "label": "5a-1 Leave-by",
+  "screenText": "5G\nwallpaper\nThursday 15 October\n2:48\nLEAVE BY\nFREE\n03:10\nvilla gate\nVILLA\nPICKUP\nTRAILHEAD\nSUMMIT\n4 OF 6 UP\nI’M UP\nTokek\nnow\nRise and shine. Headlamp’s by the door, and Made is already outside.",
+  "caption": "MOTION Tokek walks the trail as the night goes on: villa, pickup, trailhead, summit. The countdown ticks, and I’M UP works right from the lock screen without opening the app. Each crew pip fills green with a small pop as someone taps it.",
+  "customEls": [
+   "doodle-art",
+   "tg-count",
+   "tg-motion"
+  ],
+  "doodles": [
+   "flame",
+   "camera",
+   "gecko"
+  ],
+  "motion": [
+   "0:tx0;1:tx0"
+  ]
+ },
+ {
+  "label": "5a-2 Crew, live",
+  "screenText": "5G\nwallpaper\nSaturday 17 October\n16:38\nMEET-UP · 17:00\nBOOST\n22 min\nCAMPUHAN RIDGE\n⚑\nW\nM\nR\nA\nJ\nD\nJ\nJordan\nScooter · 2 km · 8 min\nD\nDev\nJust left the villa · 21 min\nRUNNING LATE\nSOS",
+  "caption": "MOTION The whole crew on one lock-screen line, sliding toward the flag as they move. Whoever is furthest out gets a row underneath with an ETA. RUNNING LATE sends a one-tap “10 more minutes” to the crew. SOS works the same as in the app. On a boosted trip this runs on all six phones and ends by itself at the meet-up.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "flame",
+   "camera"
+  ],
+  "motion": [
+   "0:tx-6;.5:tx0;1:tx-6",
+   "0:tx-6;.5:tx0;1:tx-6",
+   "0:tx-6;.5:tx0;1:tx-6",
+   "0:tx-6;.5:tx0;1:tx-6",
+   "0:tx-6;.5:tx0;1:tx-6",
+   "0:tx-6;.5:tx0;1:tx-6"
+  ]
+ },
+ {
+  "label": "5a-3 Flight day",
+  "screenText": "5G\nwallpaper\nMonday 12 October\n7:40\nSQ 938 · GATE B7\nPASS+\nfrom your email\nSIN\nDPS\nBOARDING\nSEAT\n14A\nLANDS\n11:40\nAFTER LANDING\nMade is at door 3 with a sign. Silver Avanza, DK 1842 AB.",
+  "caption": "MOTION Found in your email, so it starts on its own the morning you fly. The countdown turns orange at ten minutes to boarding. When the wheels touch down, the card flips to the pickup and Tokek holds up a little sign with Made’s name on it.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion",
+   "tg-count"
+  ],
+  "doodles": [
+   "flame",
+   "camera",
+   "plane",
+   "gecko"
+  ],
+  "motion": [
+   "0:tx0 e=io;.5:tx6;1:tx0",
+   "wiggle"
+  ]
+ },
+ {
+  "label": "5a-4 Critter nearby",
+  "screenText": "5G\nwallpaper\nWednesday 14 October\n10:12\nSOMETHING’S NEARBY\nFREE\nTirta Empul\n?\nSTAY 4 MORE MIN\nPhone in your pocket is fine. Stay within 50 m of the pools.\nTokek\n6m\nSomething rustled near the spring pools. Go quietly and don’t chase it.",
+  "caption": "MOTION Encounters reward staying put, so they keep counting with the phone locked. The ring fills while you stay within 50 metres, and the silhouette sharpens as it gets close to full. Wander off and the ring drains slowly rather than resetting.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "flame",
+   "camera",
+   "gecko"
+  ],
+  "motion": [
+   "ping"
+  ]
+ },
+ {
+  "label": "5a-5 Dynamic Island",
+  "screenText": "9:41\n5G\nPhotos\nMaps\nMail\nNotes\nCamera\nClock\nWallet\nMusic\nWeather\nGrab\nCalendar\nFiles\nBooks\nHealth\nNews\nPASSPORT\nCritterpass\nPASSPORT\nLEAVE BY\n03:10\nVILLA\nPICKUP\nTRAILHEAD\nSUMMIT\nI’M UP\nASK TOKEK",
+  "caption": "MOTION Long-press the island to expand it. Tokek peeks out of the left edge in the compact state and the minutes sit on the right. Expanded, it shows the same trail as the lock screen with two buttons. At 03:10 the island pulses yellow once and the phone gives a double tap.",
+  "customEls": [
+   "doodle-art",
+   "tg-count",
+   "tg-motion"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:tx0;1:tx0"
+  ]
+ },
+ {
+  "label": "5a-6 On every lock screen",
+  "screenText": "map · Ubud\n16:38\n5G\n← CHAT\nTHE BALI SIX\n5 of 6 sharing · trip days only\nLIVE\nCAMPUHAN RIDGE\nMEET 17:00\nM\nR\nMAYA + RIN\nKarsa Spa\nA\nALEX\nWarung Pondok\nJ\nJORDAN\nOn the scooter · 2 km\nMEET-UP · 17:00\nCAMPUHAN RIDGE\nMOVE IT\nM\nR\nMaya and Rin\nLeaving Karsa Spa\n16:52\nA\nAlex\nFinishing lunch, 900 m\n16:55\nJ\nJordan\nOn the scooter, 2 km out\n16:49\nD\nDev\nPaused sharing at 14:00\n–\nPING ALL\nI'M ON MY WAY\nSharing switches itself off on Oct 19 at midnight.\nKYOTO · LIVE ACTIVITY\nON EVERY\nLOCK SCREEN\n16:38\nMEET-UP · 17:00\nBOOST\nW\nM\nR\nA\nJ\nD\nOn a boosted trip the meet-up, ETAs and SOS sit on all six lock screens and in the Dynamic Island. It switches off at midnight on the last day.\nBOOST KYOTO · $12\nJust my own leave-by alarms",
+  "caption": "MOTION Asked when someone taps “put this on the lock screen” on the crew map of an unboosted trip. The mini lock screen shows the real thing moving, avatars sliding toward the flag. The quiet option keeps your own leave-by Live Activity, which is always free.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "star",
+   "gecko"
+  ],
+  "motion": [
+   "blink",
+   "hop",
+   "ping",
+   "0:tx-140 e=io;.3:tx420;1:tx420"
+  ]
+ },
+ {
+  "label": "5b-1 In the guide’s voice",
+  "screenText": "5G\nwallpaper\nFriday 16 October\n20:00\nTokek’s evening roundup\n3 things for tomorrow\nnow\n1\nBoat at 08:30. Sarongs go in the day bag.\n2\nRain after two. I moved the museum up.\n3\nDev owes you $41. I’ll nudge him, gently.\nPon · Kyoto\n12m\nWinston, I wrote a version just for you. Six gates at dawn, no crowds.\nBalances\n1h\nMaya paid you back $92.10. You’re square with everyone except Dev.",
+  "caption": "MOTION Every notification comes from someone: the guide for tips, the destination guide for pitches, Balances for money, a crewmate for chat. Guides have their own icon in place of the app icon. At 20:00 the day’s small things arrive as one roundup instead of eight pings.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "flame",
+   "camera",
+   "gecko",
+   "tanuki",
+   "wallet"
+  ],
+  "motion": []
+ },
+ {
+  "label": "5b-2 Vote from the lock screen",
+  "screenText": "5G\nwallpaper\nThursday 8 October\n18:24\nKYOTO\nLISBON\nVS\nThe Bali Six · Final vote\nnow\nThree of six have voted. It’s Kyoto 2, Lisbon 1, and it closes Friday.\nVote Kyoto\nVote Lisbon\nOpen the showdown",
+  "caption": "MOTION Long-press the vote notification and it opens into the showdown poster, with both critters moving and VS pulsing. You can vote from the action buttons without unlocking. Your vote lands back on the notification as a small stamp.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "flame",
+   "camera",
+   "tanuki",
+   "sardine"
+  ],
+  "motion": [
+   "bob",
+   "wiggle",
+   "pulse"
+  ]
+ },
+ {
+  "label": "5b-3 Leave-by alarm",
+  "screenText": "5G\nLEAVE-BY ALARM · BATUR\n03:10\nPickup at the villa gate · Made is outside\nThe sun won’t wait. Neither will Made. Up!\n→\nSLIDE, I’M UP\nSnooze 5 min\n(Tokek will sigh)",
+  "caption": "MOTION Rings through Do Not Disturb because you allowed it for leave-by times only. The warm glow pulses with the alarm and Tokek hops on the beat. Sliding I’M UP ticks your pip on everyone’s Live Activity. Snooze is allowed once, and the second time Tokek pings the crew that you might need a knock.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "pulse",
+   "hop",
+   "0:tx0;.4:tx18 e=out;.6:tx0;1:tx0"
+  ]
+ },
+ {
+  "label": "5b-4 How much we ping",
+  "screenText": "9:41\n5G\n← SETTINGS\nHOW MUCH\nWE PING\nPing budget\nABOUT 5 A DAY\nOver budget, the rest waits for the 20:00 roundup.\nEvening roundup\nOne card at 20:00 with the small stuff\n20:00 ›\nGuide tips\nFrom Tokek, Pon and the rest\nCrew chat\nMentions only\n›\nMoney\nWhen someone pays or owes you\nCritters nearby\nOnly when you’re already there\nALWAYS GETS THROUGH\nLeave-by alarms, SOS, flight changes and anything that costs money if you miss it.",
+  "caption": "MOTION Dragging the budget fills the bar and Tokek reads out a sample of what a day would sound like at that level. Anything that doesn’t fit the budget queues for the roundup rather than being dropped.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "chat",
+   "wallet",
+   "spark"
+  ],
+  "motion": []
+ },
+ {
+  "label": "5c-1 Home screen, before",
+  "screenText": "9:41\n5G\nBALI IN\n17\nDAYS\nCRITTERDEX\n9/150\nKYOTO\nLISBON\nKYOTO · 4\nFRI\nLISBON · 2\nPhotos\nMaps\nMail\nNotes\nCamera\nClock\nWallet\nMusic\nPASSPORT",
+  "caption": "MOTION Three free widgets for the weeks before a trip. The countdown drops a day at midnight with a page-flip, and Tokek waves when you unlock. The vote widget is interactive: tapping a side votes, the count rolls, and it turns into the result when the vote closes.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "sardine",
+   "tanuki"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "5c-2 Home screen, on the trip",
+  "screenText": "9:41\n5G\nDAY 4 · BATUR\nTODAY\n31°\n06:02\nSummit, sunrise\n09:30\nBreakfast at the rim\n13:00\nHot springs, Toya Devasya\n19:30\nDinner, Locavore NXT\nRain after two. Springs are indoors.\nYOU’RE OWED\n$186\nNUDGE DEV\nBOOST\nRIDGE · 17:00\nJordan 8 min out\nM\nA\nJ\nR\nD\n⚑\nPASSPORT",
+  "caption": "MOTION The large Today widget follows the day: finished stops strike through and fade, and Tokek’s line at the bottom changes with the forecast. NUDGE DEV sends a friendly reminder without opening the app. The crew widget needs a boost and shows everyone’s dot around the next meet-up.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "sun",
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "5c-3 Lock screen widgets",
+  "screenText": "5G\nFri 25 Sep\n·\nBali in 17 days\n9:41\n17D\nBALI\n4–2\nKYOTO\nCRITTERDEX\n9 OF 150\nwallpaper\nLock screen widgets take the system tint, so Tokek goes monochrome here. Colour comes back on the home screen.",
+  "caption": "MOTION An inline line above the clock with the countdown, then a countdown ring, the vote score and Critterdex progress. They pick up the lock screen tint, so the artwork is drawn to still read in one colour.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "5c-4 StandBy",
+  "screenText": "02:48\nz z z\nLEAVE BY 03:10\n2\n2\nminutes · Made is outside",
+  "caption": "MOTION Charging on its side the night before Batur. Tokek sleeps next to the clock and breathes slowly, and the leave-by digits flip each minute. At 03:00 night mode lifts, Tokek wakes with a stretch, and the right side becomes the alarm.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "0:ty0 s1;.5:ty-3 s1.02;1:ty0 s1"
+  ]
+ },
+ {
+  "label": "5c-5 Widget gallery",
+  "screenText": "9:41\n5G\n← SETTINGS\nWIDGETS\nPut the trip on your home screen. Tokek keeps them up to date, even offline.\n17\nCOUNTDOWN\nFREE\nSmall · home and lock screen\n+\nTHE VOTE\nFREE\nMedium · tap to vote\n+\nTODAY\nFREE\nLarge · the day’s plan and weather\n+\n$186\nBALANCES\nFREE\nSmall · who owes who, and a nudge\n+\nM\nA\nJ\nCREW, LIVE\nBOOST\nSmall or medium · everyone near the meet-up\n+\nNEXT FLIGHT\nPASS+\nSmall · gate, seat, boarding time\n+",
+  "caption": "MOTION Each preview is the live widget at small scale, so the countdown and vote are real. Tapping + opens the system widget sheet on the right size. BOOST and PASS+ widgets can still be added: they show a gentle locked state that opens the right offer.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "plane"
+  ],
+  "motion": [
+   "bob"
+  ]
+ }
+]

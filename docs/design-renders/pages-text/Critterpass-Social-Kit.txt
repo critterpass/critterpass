@@ -1,0 +1,80 @@
+1
+Critterpass social kit
+Launch posts, a six-card guide carousel, two stories, profile images and banners. Everything is at export size. Same palette, Archivo and doodles as the app and store assets.
+1a
+Launch feed posts. 1080 × 1350 (4:5), the tallest the Instagram feed allows.
+OUT NOW · iOS + ANDROID
+CRITTER
+PASS
+Group trips, planned with the locals. The locals happen to be animals.
+EVERY TRIP STARTS IN THE GROUP CHAT.
+so where r we going
+idk u pick
+we said this in march
+???
+I've got a plan. Vote by Friday?
+@CRITTERPASS
+THE PASS
+YOU CAN'T BUY THEM. YOU HAVE TO GO.
+#001
+#005
+#011
+#016
+#021
+#029
+#031
+#041
+#056
+#071
+150 locals in 61 places. Each one hatches when you land.
+@CRITTERPASS
+1b
+"Meet the locals" carousel. Seven 1080 × 1350 slides. The dotted route runs across the seams so the swipe reads as one strip.
+SWIPE →
+MEET THE LOCALS
+Every place on Critterpass has its own guide. Here are six of them.
+BALI · GECKO
+1/6
+TOKEK
+Knows which rice terraces are empty at sunrise and which warung does the best babi guling.
+KYOTO · TANUKI
+2/6
+PON
+Knows which temples open at 6am, which ramen lines are worth it, and where the deer won't mug you.
+ICELAND · PUFFIN
+3/6
+LUNDI
+Reads the weather better than the forecast and always has a hot pool in mind for the evening.
+MEXICO CITY · AXOLOTL
+4/6
+AJO
+Has a taco stand for every neighbourhood and a trajinera booked before you ask.
+LISBON · SARDINE
+5/6
+SARDI
+Times the tram so you miss the queue and picks the miradouro with the best sunset.
+CUSCO · ALPACA
+6/6
+PACO
+Paces the altitude for you and knows the trail to the ruins nobody else takes.
+1c
+Stories and Reels covers. 1080 × 1920. Top 250 px and bottom 340 px stay clear of the platform UI (dashed guides).
+WHERE NEXT?
+PICK YOUR CREW'S LOCAL
+KYOTO
+ICELAND
+MEXICO CITY
+LISBON
+[ poll sticker sits here ]
+WHEELS DOWN IN BALI
+NEW LOCAL ON YOUR PASS
+→
+TOKEK
+Pass #10 · Bali
+1d
+Profiles and banners. Avatar 400 × 400 (shown with the circle crop), X header 1500 × 500, LinkedIn banner 1584 × 396.
+CRITTER
+PASS
+Group trips, planned with the locals.
+PLAN THE TRIP. MEET THE LOCALS.
+profile photo overlap, keep clear

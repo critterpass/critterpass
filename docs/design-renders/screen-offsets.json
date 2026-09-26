@@ -1,0 +1,747 @@
+[
+{
+"label": "3a-1 Splash",
+"start": 9619,
+"end": 15081
+},
+{
+"label": "3a-2 Your name",
+"start": 15081,
+"end": 22268
+},
+{
+"label": "3a-3 Your photo",
+"start": 22268,
+"end": 28417
+},
+{
+"label": "3a-4 This or that",
+"start": 28417,
+"end": 34392
+},
+{
+"label": "3a-5 Home base",
+"start": 34392,
+"end": 40337
+},
+{
+"label": "3a-6 Pass issued",
+"start": 40337,
+"end": 48349
+},
+{
+"label": "3a-7 Save your pass",
+"start": 48349,
+"end": 55181
+},
+{
+"label": "3a-8 Phone sign-in",
+"start": 55181,
+"end": 60571
+},
+{
+"label": "3a-9 Permissions, in context",
+"start": 60571,
+"end": 68559
+},
+{
+"label": "3a-10 Invite, a seat for you",
+"start": 68559,
+"end": 77416
+},
+{
+"label": "3a-11 Join with a code",
+"start": 77416,
+"end": 84606
+},
+{
+"label": "3a-12 Your pass, three taps",
+"start": 84606,
+"end": 91812
+},
+{
+"label": "3a-13 You\u2019re in",
+"start": 91812,
+"end": 100268
+},
+{
+"label": "3b-1 Home, first run",
+"start": 100268,
+"end": 108308
+},
+{
+"label": "3b-2 Home",
+"start": 108308,
+"end": 119329
+},
+{
+"label": "3b-3 Pitch a place",
+"start": 119329,
+"end": 126369
+},
+{
+"label": "3b-4 Inbox",
+"start": 126369,
+"end": 136408
+},
+{
+"label": "3b-5 All caught up",
+"start": 136408,
+"end": 143441
+},
+{
+"label": "3b-6 Home, final vote",
+"start": 143441,
+"end": 155568
+},
+{
+"label": "3b-7 Somewhere else",
+"start": 155568,
+"end": 168413
+},
+{
+"label": "3b-8 Marrakech",
+"start": 168413,
+"end": 176261
+},
+{
+"label": "3c-1 Vote showdown",
+"start": 176261,
+"end": 182831
+},
+{
+"label": "3c-2 Kyoto wins",
+"start": 182831,
+"end": 189164
+},
+{
+"label": "3c-3 When",
+"start": 189164,
+"end": 202638
+},
+{
+"label": "3c-4 No week fits",
+"start": 202638,
+"end": 209803
+},
+{
+"label": "3c-5 Budget",
+"start": 209803,
+"end": 217453
+},
+{
+"label": "3c-6 Rooms",
+"start": 217453,
+"end": 225347
+},
+{
+"label": "3c-7 Must-dos",
+"start": 225347,
+"end": 234137
+},
+{
+"label": "3c-8 Pon is drafting",
+"start": 234137,
+"end": 241948
+},
+{
+"label": "3c-9 Pon's draft",
+"start": 241948,
+"end": 253268
+},
+{
+"label": "3c-10 Add a must-do",
+"start": 253268,
+"end": 265905
+},
+{
+"label": "3c-11 Change a day",
+"start": 265905,
+"end": 275071
+},
+{
+"label": "3c-12 Pon's redraft",
+"start": 275071,
+"end": 282058
+},
+{
+"label": "3d-1 Destination guide",
+"start": 282058,
+"end": 293814
+},
+{
+"label": "3d-2 Swipe together",
+"start": 293814,
+"end": 302153
+},
+{
+"label": "3d-3 Place detail",
+"start": 302153,
+"end": 309806
+},
+{
+"label": "3d-4 Map",
+"start": 309806,
+"end": 323455
+},
+{
+"label": "3e-1 Trip plan",
+"start": 323455,
+"end": 335382
+},
+{
+"label": "3e-2 Day planning",
+"start": 335382,
+"end": 343546
+},
+{
+"label": "3e-3 Review changes",
+"start": 343546,
+"end": 354583
+},
+{
+"label": "3f-1 Build the proposal",
+"start": 354583,
+"end": 362683
+},
+{
+"label": "3f-2 Proposal trailer",
+"start": 362683,
+"end": 368893
+},
+{
+"label": "3f-3 Your version",
+"start": 368893,
+"end": 375829
+},
+{
+"label": "3f-4 Not sure yet",
+"start": 375829,
+"end": 383456
+},
+{
+"label": "3f-5 Slide to board",
+"start": 383456,
+"end": 392659
+},
+{
+"label": "3f-6 Who's in",
+"start": 392659,
+"end": 401935
+},
+{
+"label": "3f-7 Dev's out",
+"start": 401935,
+"end": 408769
+},
+{
+"label": "3g-1 Crew chat",
+"start": 408769,
+"end": 418939
+},
+{
+"label": "3g-2 Live collab",
+"start": 418939,
+"end": 427584
+},
+{
+"label": "3g-3 Crews",
+"start": 427584,
+"end": 436997
+},
+{
+"label": "3g-4 Crew map",
+"start": 436997,
+"end": 450837
+},
+{
+"label": "3h-1 Bookings",
+"start": 450837,
+"end": 459603
+},
+{
+"label": "3h-2 Add a booking",
+"start": 459603,
+"end": 466747
+},
+{
+"label": "3h-3 Getting around",
+"start": 466747,
+"end": 473943
+},
+{
+"label": "3i-1 Balances",
+"start": 473943,
+"end": 482292
+},
+{
+"label": "3i-2 Add an expense",
+"start": 482292,
+"end": 491003
+},
+{
+"label": "3i-3 Scan a receipt",
+"start": 491003,
+"end": 498803
+},
+{
+"label": "3i-4 Couldn't read it",
+"start": 498803,
+"end": 506373
+},
+{
+"label": "3i-5 Settle up",
+"start": 506373,
+"end": 514194
+},
+{
+"label": "3i-6 Budget",
+"start": 514194,
+"end": 524932
+},
+{
+"label": "3j-1 Guide chat",
+"start": 524932,
+"end": 532444
+},
+{
+"label": "3j-2 Voice",
+"start": 532444,
+"end": 539587
+},
+{
+"label": "3j-3 Point and ask",
+"start": 539587,
+"end": 547460
+},
+{
+"label": "3k-1 Trip hub",
+"start": 547460,
+"end": 557164
+},
+{
+"label": "3k-2 Day-of",
+"start": 557164,
+"end": 566919
+},
+{
+"label": "3k-3 Lock screen",
+"start": 566919,
+"end": 573173
+},
+{
+"label": "3k-4 Offline at the top",
+"start": 573173,
+"end": 580469
+},
+{
+"label": "3k-5 Flight delayed",
+"start": 580469,
+"end": 587230
+},
+{
+"label": "3k-6 Help",
+"start": 587230,
+"end": 594689
+},
+{
+"label": "3k-7 Forecast",
+"start": 594689,
+"end": 605494
+},
+{
+"label": "3k-8 Storm warning",
+"start": 605494,
+"end": 612703
+},
+{
+"label": "3k-9 Running late",
+"start": 612703,
+"end": 621411
+},
+{
+"label": "3k-10 Crew SOS",
+"start": 621411,
+"end": 628800
+},
+{
+"label": "3l-1 Egg hatch",
+"start": 628800,
+"end": 632549
+},
+{
+"label": "3l-2 Your pass",
+"start": 632549,
+"end": 653816
+},
+{
+"label": "3l-3 Critter detail",
+"start": 653816,
+"end": 662142
+},
+{
+"label": "3l-4 Encounter",
+"start": 662142,
+"end": 667371
+},
+{
+"label": "3l-5 It wandered off",
+"start": 667371,
+"end": 673959
+},
+{
+"label": "3l-6 Befriended",
+"start": 673959,
+"end": 677825
+},
+{
+"label": "3l-7 Crew quests",
+"start": 677825,
+"end": 687310
+},
+{
+"label": "3l-8 Vietnam set",
+"start": 687310,
+"end": 702426
+},
+{
+"label": "3l-9 Once a year",
+"start": 702426,
+"end": 715894
+},
+{
+"label": "3l-10 Sakura Pon",
+"start": 715894,
+"end": 728305
+},
+{
+"label": "3m-1 Recap",
+"start": 728305,
+"end": 734486
+},
+{
+"label": "3m-2 Photos",
+"start": 734486,
+"end": 743526
+},
+{
+"label": "3m-3 Recap, the cover",
+"start": 743526,
+"end": 749586
+},
+{
+"label": "3m-4 Recap, the route",
+"start": 749586,
+"end": 757896
+},
+{
+"label": "3m-5 Recap, crew awards",
+"start": 757896,
+"end": 766941
+},
+{
+"label": "3m-6 Recap, the receipt",
+"start": 766941,
+"end": 775119
+},
+{
+"label": "3m-7 Recap, the one that got away",
+"start": 775119,
+"end": 780608
+},
+{
+"label": "3m-8 Recap, the stamp",
+"start": 780608,
+"end": 786920
+},
+{
+"label": "3m-9 Recap, the postcard",
+"start": 786920,
+"end": 794468
+},
+{
+"label": "3m-10 A year later",
+"start": 794468,
+"end": 799838
+},
+{
+"label": "3n-1 Profile",
+"start": 799838,
+"end": 812419
+},
+{
+"label": "3n-2 Settings",
+"start": 812419,
+"end": 820748
+},
+{
+"label": "3n-3 Edit profile",
+"start": 820748,
+"end": 826944
+},
+{
+"label": "3n-4 Avatar",
+"start": 826944,
+"end": 836353
+},
+{
+"label": "3n-5 App icon",
+"start": 836353,
+"end": 861379
+},
+{
+"label": "3n-6 Settings, more",
+"start": 861379,
+"end": 870604
+},
+{
+"label": "3n-7 Sound",
+"start": 870604,
+"end": 881072
+},
+{
+"label": "3n-8 Language and currency",
+"start": 881072,
+"end": 888305
+},
+{
+"label": "3n-9 Delete account",
+"start": 888305,
+"end": 894055
+},
+{
+"label": "3n-10 Hold to delete",
+"start": 894055,
+"end": 903068
+},
+{
+"label": "3n-11 Account closed",
+"start": 903068,
+"end": 908666
+},
+{
+"label": "3o-1 Crew plans",
+"start": 908666,
+"end": 917076
+},
+{
+"label": "3o-2 Shared plan",
+"start": 917076,
+"end": 924787
+},
+{
+"label": "3o-3 Rate the trip",
+"start": 924787,
+"end": 930591
+},
+{
+"label": "3o-4 Share the plan",
+"start": 930591,
+"end": 937905
+},
+{
+"label": "3p-1 Help and feedback",
+"start": 937905,
+"end": 944205
+},
+{
+"label": "3p-2 Send feedback",
+"start": 944205,
+"end": 952908
+},
+{
+"label": "3p-3 Feedback sent",
+"start": 952908,
+"end": 957954
+},
+{
+"label": "3p-4 Idea board",
+"start": 957954,
+"end": 967063
+},
+{
+"label": "3p-5 Suggest an idea",
+"start": 967063,
+"end": 978358
+},
+{
+"label": "3p-6 Rate the app",
+"start": 978358,
+"end": 993894
+},
+{
+"label": "4e-1 Paywall",
+"start": 993894,
+"end": 1005298
+},
+{
+"label": "4e-2 What\u2019s in each",
+"start": 1005298,
+"end": 1018351
+},
+{
+"label": "4e-3 Welcome to Pass+",
+"start": 1018351,
+"end": 1028875
+},
+{
+"label": "4a-1 Visa page",
+"start": 1028875,
+"end": 1035474
+},
+{
+"label": "4a-2 Boarding pass",
+"start": 1035474,
+"end": 1044470
+},
+{
+"label": "4a-3 Gold cover",
+"start": 1044470,
+"end": 1052317
+},
+{
+"label": "4b-1 Out of questions",
+"start": 1052317,
+"end": 1060227
+},
+{
+"label": "4b-2 Compare plans",
+"start": 1060227,
+"end": 1070530
+},
+{
+"label": "4b-3 Boost Kyoto",
+"start": 1070530,
+"end": 1077830
+},
+{
+"label": "4b-4 Checkout",
+"start": 1077830,
+"end": 1082307
+},
+{
+"label": "4b-5 Stamped",
+"start": 1082307,
+"end": 1087992
+},
+{
+"label": "4c-1 Boosted by Winston",
+"start": 1087992,
+"end": 1095098
+},
+{
+"label": "4c-2 Free boost ending",
+"start": 1095098,
+"end": 1101217
+},
+{
+"label": "4d-1 Your plan",
+"start": 1101217,
+"end": 1106743
+},
+{
+"label": "4d-2 Before you go",
+"start": 1106743,
+"end": 1113291
+},
+{
+"label": "4d-3 Card declined",
+"start": 1113291,
+"end": 1118059
+},
+{
+"label": "4d-4 Redeem or restore",
+"start": 1118059,
+"end": 1123211
+},
+{
+"label": "4f-1 Seven\u2019s a crowd",
+"start": 1123211,
+"end": 1137492
+},
+{
+"label": "4f-2 Live map teaser",
+"start": 1137492,
+"end": 1153693
+},
+{
+"label": "4f-3 Last redraft",
+"start": 1153693,
+"end": 1174663
+},
+{
+"label": "5a-1 Leave-by",
+"start": 1174663,
+"end": 1182255
+},
+{
+"label": "5a-2 Crew, live",
+"start": 1182255,
+"end": 1189609
+},
+{
+"label": "5a-3 Flight day",
+"start": 1189609,
+"end": 1195084
+},
+{
+"label": "5a-4 Critter nearby",
+"start": 1195084,
+"end": 1200455
+},
+{
+"label": "5a-5 Dynamic Island",
+"start": 1200455,
+"end": 1215428
+},
+{
+"label": "5a-6 On every lock screen",
+"start": 1215428,
+"end": 1241656
+},
+{
+"label": "5b-1 In the guide\u2019s voice",
+"start": 1241656,
+"end": 1247880
+},
+{
+"label": "5b-2 Vote from the lock screen",
+"start": 1247880,
+"end": 1253250
+},
+{
+"label": "5b-3 Leave-by alarm",
+"start": 1253250,
+"end": 1256943
+},
+{
+"label": "5b-4 How much we ping",
+"start": 1256943,
+"end": 1264958
+},
+{
+"label": "5c-1 Home screen, before",
+"start": 1264958,
+"end": 1275682
+},
+{
+"label": "5c-2 Home screen, on the trip",
+"start": 1275682,
+"end": 1287121
+},
+{
+"label": "5c-3 Lock screen widgets",
+"start": 1287121,
+"end": 1291324
+},
+{
+"label": "5c-4 StandBy",
+"start": 1291324,
+"end": 1293994
+},
+{
+"label": "5c-5 Widget gallery",
+"start": 1293994,
+"end": 1306635
+}
+]

@@ -1,0 +1,1 @@
+var o={a:null}; print(o.a ?? 5); var f=(a,{b})=>a+b; print(f(1,{b:2})); print([...[1,2]].length, 2**3, Math.imul(3,4)); var q={...{x:1},y:2}; print(q.x+q.y); print(Array.from({length:3},(_, i)=>i).join()); print(Object.fromEntries([["a",1]]).a);

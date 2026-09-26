@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Caveat:wght@600&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script src="doodles.js"></script>
+<script src="critters-data.js"></script>
+<script src="critters-draw-1.js"></script>
+<script src="critters-draw-2.js"></script>
+<style>body{margin:0;background:#17142a;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#f4efe4}a{color:inherit}a:hover{color:#ffd84a}html{scroll-behavior:smooth}</style>
+</helmet>
+<div style="min-height:100vh;background:#17142a;overflow-x:hidden">
+<dc-import name="Site - Header" active="home" icon-pick="{{ iconPick }}" style="position:sticky;top:0;z-index:50;display:block" hint-size="100%,65px"></dc-import>
+
+<section id="top" data-screen-label="Hero" style="position:relative;background:#17142a radial-gradient(rgba(255,216,74,.16) 1.3px,transparent 1.8px) 0 0/10px 10px">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,96px) clamp(20px,4vw,48px) clamp(80px,9vw,128px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:40px;align-items:center">
+<div style="position:relative;display:flex;flex-direction:column;gap:26px">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="padding:7px 12px;border-radius:10px;background:#2c2750;font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">GROUP TRIP PLANNER</span><span style="padding:7px 12px;border-radius:10px;background:#54d6a4;color:#17142a;font:700 11px Archivo,sans-serif;letter-spacing:.16em;transform:rotate(-3deg)">NEW · iOS + ANDROID</span></div>
+<h1 style="margin:0;font:900 clamp(104px,16vw,220px)/.78 Archivo,sans-serif;font-stretch:64%;color:#ffd84a;letter-spacing:-.01em">CRITTER<br>PASS</h1>
+<div style="display:flex;flex-direction:column;gap:6px;max-width:500px">
+<p style="margin:0;font:500 clamp(19px,2vw,24px)/1.4 Geist,sans-serif;text-wrap:pretty">Group trips, planned with the locals. The locals happen to be animals.</p>
+<div style="display:flex;align-items:baseline;gap:10px;font:600 clamp(24px,2.4vw,30px)/1.1 Caveat,cursive;color:#ff5fa8;transform:rotate(-2deg);margin-top:6px"><span>↳</span><tg-type text="Tokek's already found you a villa." speed="55" hold="3200"></tg-type></div>
+</div>
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<a href="#get" style="display:flex;flex-direction:column;justify-content:center;height:60px;padding:0 24px;border-radius:30px;background:#ffd84a;color:#17142a;text-decoration:none;transition:transform .2s" style-hover="transform:rotate(-3deg) translateY(-2px)"><span style="font:600 11px Geist,sans-serif">Download on the</span><span style="font:900 20px/1 Archivo,sans-serif;font-stretch:80%;letter-spacing:.02em">APP STORE</span></a>
+<a href="#get" style="display:flex;flex-direction:column;justify-content:center;height:60px;padding:0 24px;border-radius:30px;background:#f4efe4;color:#17142a;text-decoration:none;transition:transform .2s" style-hover="transform:rotate(3deg) translateY(-2px)"><span style="font:600 11px Geist,sans-serif">Get it on</span><span style="font:900 20px/1 Archivo,sans-serif;font-stretch:80%;letter-spacing:.02em">GOOGLE PLAY</span></a>
+</div>
+</div>
+<div style="position:relative;height:clamp(440px,48vw,580px);max-width:580px;width:100%;justify-self:center">
+<div style="position:absolute;left:8%;right:8%;top:8%;bottom:6%;border-radius:36px;background:#f4efe4;transform:rotate(3deg);box-shadow:0 30px 60px rgba(0,0,0,.4)"></div>
+<div style="position:absolute;left:8%;right:8%;top:8%;bottom:6%;border-radius:36px;background:#221e3d;transform:rotate(-2deg);overflow:hidden">
+<div style="position:absolute;inset:0;background:radial-gradient(rgba(255,216,74,.12) 1.3px,transparent 1.8px) 0 0/9px 9px"></div>
+<div style="position:absolute;left:24px;right:24px;top:22px;display:flex;justify-content:space-between;font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0"><span>PASS · NO. 010</span><span>BALI</span></div>
+<div style="position:absolute;left:0;right:0;bottom:22%;border-top:4px dotted #ffd84a;opacity:.5"></div>
+</div>
+<tg-motion kf="0:s0 r-20 o0 e=back;.08:s1 r0 o1;1:s1 r0 o1" dur="9000" iter="1" style="position:absolute;left:26%;top:20%;line-height:0"><tg-motion fx="float" dur="4200"><doodle-art kind="gecko" size="250" sticker="#f4efe4" pose="wave" seed="41"></doodle-art></tg-motion></tg-motion>
+<tg-motion kf="0:s0 o0;.05:s0 o0 e=back;.12:s1 o1;1:s1 o1" dur="9000" iter="1" style="position:absolute;left:-2%;top:0;line-height:0;transform:rotate(-10deg)"><tg-motion fx="float" dur="4800" delay="700"><doodle-art kind="tanuki" size="150" sticker="#f4efe4" seed="42" delay="250"></doodle-art></tg-motion></tg-motion>
+<tg-motion kf="0:s0 o0;.08:s0 o0 e=back;.15:s1 o1;1:s1 o1" dur="9000" iter="1" style="position:absolute;right:-2%;top:4%;line-height:0"><tg-motion fx="float" dur="3900" delay="1400"><doodle-art kind="puffin" size="140" sticker="#f4efe4" seed="43" delay="500"></doodle-art></tg-motion></tg-motion>
+<tg-motion kf="0:s0 o0;.11:s0 o0 e=back;.18:s1 o1;1:s1 o1" dur="9000" iter="1" style="position:absolute;left:-4%;bottom:2%;line-height:0"><tg-motion fx="float" dur="4500" delay="300"><doodle-art kind="axolotl" size="150" sticker="#f4efe4" seed="44" delay="750"></doodle-art></tg-motion></tg-motion>
+<tg-motion kf="0:s0 o0;.14:s0 o0 e=back;.21:s1 o1;1:s1 o1" dur="9000" iter="1" style="position:absolute;right:-2%;bottom:0;line-height:0"><tg-motion fx="float" dur="5100" delay="1100"><doodle-art kind="sardine" size="160" sticker="#f4efe4" seed="45" delay="1000"></doodle-art></tg-motion></tg-motion>
+<div style="position:absolute;right:4%;top:40%;width:118px;height:118px;border-radius:50%;border:3px solid #ff5fa8;box-shadow:inset 0 0 0 5px #221e3d,inset 0 0 0 7px #ff5fa8;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(14deg);color:#ff5fa8;text-align:center"><span style="font:900 22px/.9 Archivo,sans-serif;font-stretch:70%">LOCALS<br>ONLY</span><span style="font:700 9px Archivo,sans-serif;letter-spacing:.14em;margin-top:4px">EST. 2026</span></div>
+</div>
+</div>
+</section>
+
+<div data-screen-label="City ticker" style="position:relative;z-index:2;margin:-36px -20px 0;transform:rotate(-2deg);background:#ffd84a;color:#17142a;overflow:hidden;padding:16px 0;box-shadow:0 12px 30px rgba(0,0,0,.35)">
+<tg-motion fx="marquee" dur="30000" style="display:flex;width:max-content">
+<div style="display:flex;gap:28px;padding-right:28px;align-items:center;font:900 30px/1 Archivo,sans-serif;font-stretch:70%;white-space:nowrap">
+<sc-for list="{{ ticker }}" as="t" hint-placeholder-count="12"><span>{{ t.city }}</span><span style="font:600 26px Caveat,cursive;color:#c4623e">{{ t.who }}</span><span>✦</span></sc-for>
+</div>
+<div style="display:flex;gap:28px;padding-right:28px;align-items:center;font:900 30px/1 Archivo,sans-serif;font-stretch:70%;white-space:nowrap">
+<sc-for list="{{ ticker }}" as="t" hint-placeholder-count="12"><span>{{ t.city }}</span><span style="font:600 26px Caveat,cursive;color:#c4623e">{{ t.who }}</span><span>✦</span></sc-for>
+</div>
+</tg-motion>
+</div>
+
+<section data-screen-label="Group chat" style="background:#f4efe4;color:#17142a;margin-top:-20px">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(96px,11vw,150px) clamp(20px,4vw,48px) clamp(72px,9vw,120px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:56px;align-items:center">
+<div style="position:relative;max-width:460px;width:100%">
+<div style="position:absolute;inset:0;border-radius:36px;background:#ff5fa8;transform:rotate(-4deg)"></div>
+<div style="position:relative;display:flex;flex-direction:column;gap:14px;padding:32px;border-radius:36px;background:#17142a">
+<div style="display:flex;justify-content:space-between;font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0;margin-bottom:6px"><span>THE BALI SIX</span><span>247 UNREAD</span></div>
+<tg-motion kf="0:s.4 o0 e=back;.06:s1 o1;.85:s1 o1;.9:o0;1:o0" dur="9000" stagger="700" style="display:flex;flex-direction:column;gap:14px">
+<div style="align-self:flex-start;padding:12px 16px;border-radius:20px 20px 20px 6px;background:#2c2750;color:#f4efe4;font:500 17px Geist,sans-serif;transform:rotate(-3deg)">so where r we going</div>
+<div style="align-self:flex-end;padding:12px 16px;border-radius:20px 20px 6px 20px;background:#7fb8ff;font:500 17px Geist,sans-serif;transform:rotate(2deg)">idk u pick</div>
+<div style="align-self:flex-start;padding:12px 16px;border-radius:20px 20px 20px 6px;background:#2c2750;color:#f4efe4;font:500 17px Geist,sans-serif;transform:rotate(-1deg)">we said this in march</div>
+<div style="align-self:flex-end;padding:12px 16px;border-radius:20px 20px 6px 20px;background:#ff5fa8;font:500 17px Geist,sans-serif;transform:rotate(3deg)">???</div>
+<div style="align-self:flex-start;display:flex;align-items:center;gap:10px;margin-top:8px"><doodle-art kind="gecko" size="64" sticker="#f4efe4" pose="point" seed="41" anim="none"></doodle-art><div style="flex:1;min-width:0;padding:12px 16px;border-radius:20px 20px 20px 6px;background:#ffd84a;font:600 17px/1.35 Geist,sans-serif;text-wrap:pretty">I've got a plan. Vote by Friday?</div></div>
+</tg-motion>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<h2 style="margin:0;font:900 clamp(56px,7vw,96px)/.84 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase;letter-spacing:-.01em;text-wrap:balance">Every trip starts in the group chat.</h2>
+<p style="margin:0;font:500 clamp(17px,1.6vw,20px)/1.5 Geist,sans-serif;color:#3d372f;max-width:520px;text-wrap:pretty">Most of them end there too. Critterpass adds a guide to the crew who lives at the destination. It drafts the plan, pitches it to everyone, and keeps the day moving once you land.</p>
+<span style="font:600 28px/1 Caveat,cursive;color:#c4623e;transform:rotate(-2deg);align-self:flex-start">← we've all been in this chat</span>
+</div>
+</div>
+</section>
+
+<section id="how" data-screen-label="How it works" style="background:#f4efe4;color:#17142a;scroll-margin-top:70px">
+<div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,48px) clamp(80px,10vw,140px);display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap"><h2 style="margin:0;font:900 clamp(44px,5vw,64px)/.86 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase">From “idk” to<br>wheels down</h2><span style="font:500 13px 'Geist Mono',monospace;color:#6b6356">FOUR STOPS ON THE ROUTE</span></div>
+<div style="position:relative">
+<div style="position:absolute;left:0;right:0;top:110px;border-top:5px dotted #17142a;opacity:.25"></div>
+<div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:20px">
+<div style="display:flex;flex-direction:column;border-radius:28px;overflow:hidden;background:#ffd84a;transform:rotate(-1.5deg);transition:transform .25s;box-shadow:0 14px 30px rgba(60,40,0,.12)" style-hover="transform:rotate(0) translateY(-8px)">
+<div style="height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px"><div style="line-height:0;transform:rotate(-8deg)"><doodle-art kind="cp-005" size="100" sticker="#f4efe4" anim="none"></doodle-art></div><span style="font:900 40px/.85 Archivo,sans-serif;font-stretch:66%;text-align:center">HỘI AN<br>WINS</span></div>
+<div style="padding:22px 24px 28px;display:flex;flex-direction:column;gap:8px;background:#fff7d6"><span style="font:500 12px 'Geist Mono',monospace;color:#6b5a24">STOP 01</span><span style="font:900 26px/1 Archivo,sans-serif;font-stretch:72%">SWIPE TO PICK</span><span style="font:400 15px/1.5 Geist,sans-serif;color:#3d372f;text-wrap:pretty">Everyone swipes through the shortlist. The tally fills live and the winner is settled in minutes.</span></div>
+</div>
+<div style="display:flex;flex-direction:column;border-radius:28px;overflow:hidden;background:#17142a;transform:rotate(1.5deg) translateY(24px);transition:transform .25s;box-shadow:0 14px 30px rgba(20,16,40,.2)" style-hover="transform:rotate(0) translateY(16px)">
+<div style="height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px"><div style="padding:10px 14px;border-radius:16px 16px 4px 16px;background:#ffd84a;font:500 14px Geist,sans-serif;align-self:flex-end;margin-right:28px">It's pouring. Plan B?</div><doodle-art kind="gecko" size="110" pose="think" sticker="#f4efe4" anim="none" seed="41"></doodle-art></div>
+<div style="padding:22px 24px 28px;display:flex;flex-direction:column;gap:8px;background:#221e3d;color:#f4efe4"><span style="font:500 12px 'Geist Mono',monospace;color:#a9a3c0">STOP 02</span><span style="font:900 26px/1 Archivo,sans-serif;font-stretch:72%">ASK THE LOCAL</span><span style="font:400 15px/1.5 Geist,sans-serif;color:#c9c4dc;text-wrap:pretty">The guide drafts the plan and answers anything, by voice or text. Rain on Thursday? It proposes a swap.</span></div>
+</div>
+<div style="display:flex;flex-direction:column;border-radius:28px;overflow:hidden;background:#ff9a4d;transform:rotate(-1deg);transition:transform .25s;box-shadow:0 14px 30px rgba(60,20,0,.14)" style-hover="transform:rotate(0) translateY(-8px)">
+<div style="height:220px;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:0 34px"><span style="font:900 34px/.85 Archivo,sans-serif;font-stretch:66%">THU 14</span><div style="height:32px;border-radius:12px;background:#17142a"></div><tg-motion kf="0:r0 tx0;.3:r0 tx0 e=back;.45:r5 tx14;.8:r5 tx14;1:r0 tx0" dur="4000" block="1"><div style="height:32px;border-radius:12px;background:#f4efe4;box-shadow:0 10px 20px rgba(60,20,0,.3)"></div></tg-motion><div style="height:32px;border-radius:12px;background:#17142a"></div></div>
+<div style="padding:22px 24px 28px;display:flex;flex-direction:column;gap:8px;background:#ffe0c7"><span style="font:500 12px 'Geist Mono',monospace;color:#7a3f18">STOP 03</span><span style="font:900 26px/1 Archivo,sans-serif;font-stretch:72%">PLAN TOGETHER</span><span style="font:400 15px/1.5 Geist,sans-serif;color:#3d372f;text-wrap:pretty">Drag anything to a new slot and the rest of the day shifts to make room, for everyone at once.</span></div>
+</div>
+<div style="display:flex;flex-direction:column;border-radius:28px;overflow:hidden;background:#54d6a4;transform:rotate(2deg) translateY(24px);transition:transform .25s;box-shadow:0 14px 30px rgba(0,60,40,.14)" style-hover="transform:rotate(0) translateY(16px)">
+<div style="height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px"><span style="font:900 80px/.85 Archivo,sans-serif;font-stretch:66%">$24</span><span style="font:800 15px Archivo,sans-serif;letter-spacing:.12em">EACH</span></div>
+<div style="padding:22px 24px 28px;display:flex;flex-direction:column;gap:8px;background:#d6f5e8"><span style="font:500 12px 'Geist Mono',monospace;color:#1f6b4d">STOP 04</span><span style="font:900 26px/1 Archivo,sans-serif;font-stretch:72%">SPLIT IT</span><span style="font:400 15px/1.5 Geist,sans-serif;color:#3d372f;text-wrap:pretty">Scan the receipt, split it however you like, settle up. Nobody keeps a spreadsheet.</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="locals" data-screen-label="The locals" style="scroll-margin-top:70px;background:#17142a">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,48px);display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:16px;max-width:640px">
+<h2 style="margin:0;font:900 clamp(56px,7vw,96px)/.84 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase;color:#ffd84a">Every place has a local</h2>
+<p style="margin:0;font:500 clamp(17px,1.6vw,20px)/1.5 Geist,sans-serif;color:#c9c4dc;text-wrap:pretty">Each destination has its own guide with its own colour and voice. They know the place the way someone who grew up there would.</p>
+</div>
+<span style="font:600 28px/1 Caveat,cursive;color:#ff5fa8;transform:rotate(-3deg)">hover to say hi ↓</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px">
+<sc-for list="{{ guides }}" as="g" hint-placeholder-count="6">
+<div style="position:relative;min-height:420px;border-radius:32px;overflow:hidden;background:{{ g.bg }};color:#17142a;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;transform:rotate({{ g.tilt }}deg);transition:transform .3s cubic-bezier(.34,1.56,.64,1)" style-hover="transform:rotate(0deg) scale(1.03)">
+<div style="position:absolute;inset:0;background:radial-gradient(rgba(23,20,42,.13) 1.3px,transparent 1.7px) 0 0/8px 8px"></div>
+<div style="position:absolute;left:20px;top:20px;padding:6px 10px 5px;border-radius:8px;background:#f4efe4;font:700 10px Archivo,sans-serif;letter-spacing:.14em;transform:rotate(-4deg)">HELLO, I'M</div>
+<span style="position:absolute;right:22px;top:22px;font:500 12px 'Geist Mono',monospace">{{ g.no }}</span>
+<div style="position:absolute;left:0;right:0;top:26px;display:flex;justify-content:center"><tg-motion fx="bob" dur="{{ g.dur }}"><doodle-art kind="{{ g.kind }}" size="190" sticker="#f4efe4" pose="wave" seed="{{ g.seed }}"></doodle-art></tg-motion></div>
+<div style="position:relative;display:flex;flex-direction:column;gap:6px">
+<span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em">{{ g.city }} · {{ g.species }}</span>
+<span style="font:900 64px/.8 Archivo,sans-serif;font-stretch:70%">{{ g.name }}</span>
+<span style="font:500 15px/1.45 Geist,sans-serif;text-wrap:pretty">{{ g.line }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="pass" data-screen-label="The pass" style="background:#ffd84a radial-gradient(rgba(23,20,42,.12) 1.3px,transparent 1.7px) 0 0/10px 10px;color:#17142a;scroll-margin-top:70px">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,48px);display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:18px;max-width:640px"><span style="font:700 12px Archivo,sans-serif;letter-spacing:.18em">THE PASS</span><h2 style="margin:0;font:900 clamp(56px,7vw,96px)/.84 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase;text-wrap:balance">You can't buy them. You have to go.</h2></div>
+<div style="display:flex;gap:36px"><div style="display:flex;flex-direction:column;gap:2px"><span style="font:900 72px/.85 Archivo,sans-serif;font-stretch:66%">150</span><span style="font:800 13px Archivo,sans-serif;letter-spacing:.12em">LOCALS</span></div><div style="display:flex;flex-direction:column;gap:2px"><span style="font:900 72px/.85 Archivo,sans-serif;font-stretch:66%">61</span><span style="font:800 13px Archivo,sans-serif;letter-spacing:.12em">PLACES</span></div></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));border-radius:36px;overflow:hidden;background:#17142a;box-shadow:0 30px 60px rgba(60,40,0,.25)">
+<div style="position:relative;min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:40px;border-right:2px dashed #3a3466;color:#f4efe4">
+<tg-confetti period="5200" at=".35" oy=".45"></tg-confetti>
+<div style="position:relative;width:200px;height:200px">
+<tg-motion kf="0:r0 s1 o1;.05:r-9;.1:r9;.15:r-12;.2:r12;.26:r0 s1.08 e=out;.32:s1.4 o0;.95:s1.4 o0;.96:s1 o0;1:s1 o1" dur="5200" style="position:absolute;left:40px;top:30px;line-height:0"><doodle-art kind="egg" size="120" anim="none" seed="12"></doodle-art></tg-motion>
+<tg-motion kf="0:s0 o0;.3:s0 o0 e=back;.4:s1 o1;.9:s1 o1;.95:s0 o0;1:s0 o0" dur="5200" style="position:absolute;left:0;top:0;line-height:0"><doodle-art kind="cp-005" size="200" sticker="#f4efe4" anim="none"></doodle-art></tg-motion>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;max-width:340px"><span style="font:900 30px/1 Archivo,sans-serif;font-stretch:72%;color:#ffd84a">WHEELS DOWN, EGG HATCHES</span><span style="font:400 15px/1.5 Geist,sans-serif;color:#c9c4dc;text-wrap:pretty">When you land somewhere, that place's local joins your pass. Stay a while and more of them turn up.</span></div>
+</div>
+<div style="padding:28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;align-content:center">
+<sc-for list="{{ pass }}" as="c" hint-placeholder-count="12">
+<div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0 10px;border-radius:18px;background:#221e3d;transition:transform .2s" style-hover="transform:rotate(-6deg) scale(1.1)">
+<doodle-art kind="{{ c.id }}" size="74" sticker="#f4efe4" anim="none" locked="{{ c.locked }}"></doodle-art>
+<span style="font:500 10px 'Geist Mono',monospace;color:#a9a3c0">{{ c.num }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<section data-screen-label="Screens" style="background:#17142a">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,48px) 24px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+<h2 style="margin:0;font:900 clamp(44px,5vw,64px)/.86 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase">A look inside</h2>
+<span style="font:600 28px/1 Caveat,cursive;color:#ffd84a;transform:rotate(-2deg)">scroll along the route →</span>
+</div>
+<div style="overflow-x:auto;padding:24px clamp(20px,4vw,48px) clamp(80px,10vw,140px)">
+<div style="display:flex;gap:16px;width:max-content;margin:0 auto">
+<sc-for list="{{ shots }}" as="s" hint-placeholder-count="6"><div style="flex:none;border-radius:18px;overflow:hidden;line-height:0;transform:rotate({{ s.tilt }}deg);transition:transform .25s" style-hover="transform:rotate(0) translateY(-8px)"><dc-import name="Store Shot" n="{{ s.n }}" platform="{{ platform }}" route="{{ true }}" hint-size="360px,780px"></dc-import></div></sc-for>
+</div>
+</div>
+</section>
+
+<section id="get" data-screen-label="Get the app" style="background:#ff5fa8 radial-gradient(rgba(23,20,42,.12) 1.3px,transparent 1.7px) 0 0/10px 10px;color:#17142a;scroll-margin-top:70px">
+<div style="max-width:1100px;margin:0 auto;padding:clamp(80px,10vw,140px) clamp(20px,4vw,48px)">
+<div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));background:#f4efe4;border-radius:28px;box-shadow:0 30px 60px rgba(80,0,40,.25);transform:rotate(-1.5deg);-webkit-mask:radial-gradient(circle 26px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 26px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 26px at 0 50%,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 26px at 100% 50%,#0000 98%,#000) right/51% 100% no-repeat">
+<div style="padding:clamp(32px,5vw,64px);display:flex;flex-direction:column;gap:24px;grid-column:span 2">
+<div style="display:flex;justify-content:space-between;gap:12px;font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#6b6356"><span>BOARDING PASS</span><span>ADMIT: THE WHOLE CREW</span></div>
+<h2 style="margin:0;font:900 clamp(56px,8vw,112px)/.82 Archivo,sans-serif;font-stretch:64%;text-transform:uppercase;text-wrap:balance">Plan the trip. Meet the locals.</h2>
+<p style="margin:0;font:500 clamp(16px,1.5vw,19px)/1.5 Geist,sans-serif;color:#3d372f;max-width:460px;text-wrap:pretty">Free on iPhone and Android. Start a crew, or join one with the code a friend sent you.</p>
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<a href="#get" style="display:flex;flex-direction:column;justify-content:center;height:60px;padding:0 24px;border-radius:30px;background:#17142a;color:#ffd84a;text-decoration:none;transition:transform .2s" style-hover="transform:rotate(-3deg)"><span style="font:600 11px Geist,sans-serif;color:#f4efe4">Download on the</span><span style="font:900 20px/1 Archivo,sans-serif;font-stretch:80%;letter-spacing:.02em">APP STORE</span></a>
+<a href="#get" style="display:flex;flex-direction:column;justify-content:center;height:60px;padding:0 24px;border-radius:30px;background:#17142a;color:#ffd84a;text-decoration:none;transition:transform .2s" style-hover="transform:rotate(3deg)"><span style="font:600 11px Geist,sans-serif;color:#f4efe4">Get it on</span><span style="font:900 20px/1 Archivo,sans-serif;font-stretch:80%;letter-spacing:.02em">GOOGLE PLAY</span></a>
+<a href="Site%20-%20Invite.dc.html" style="display:flex;align-items:center;height:60px;padding:0 8px;font:600 15px Geist,sans-serif;color:#17142a">I have a code →</a>
+</div>
+</div>
+<div style="position:relative;min-height:280px;border-left:3px dashed #d6cfbf;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:28px">
+<doodle-art kind="gecko" size="170" sticker="#f4efe4" pose="cheer" seed="41"></doodle-art>
+<span style="font:500 12px 'Geist Mono',monospace;color:#6b6356">GATE ✦ ANYWHERE</span>
+</div>
+</div>
+</div>
+</section>
+
+<dc-import name="Site - Footer" hint-size="100%,520px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;iconPick&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;face&quot;,&quot;passport&quot;,&quot;stamp&quot;,&quot;sticker&quot;],&quot;default&quot;:&quot;face&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Brand&quot;},&quot;platform&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ios&quot;,&quot;android&quot;],&quot;default&quot;:&quot;ios&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Screens&quot;},&quot;lockedStickers&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Pass&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const ids = [1, 5, 11, 16, 21, 26, 29, 31, 36, 41, 46, 51, 56, 61, 71, 81, 91, 101, 111, 121];
+    const lk = this.props.lockedStickers ?? true;
+    return {
+      iconPick: this.props.iconPick ?? 'face',
+      platform: this.props.platform ?? 'ios',
+      shots: [1, 2, 3, 4, 5, 6].map((n, i) => ({ n, tilt: [-2, 1.5, -1, 2, -1.5, 1][i] })),
+      pass: ids.map((n, i) => ({ id: 'cp-' + String(n).padStart(3, '0'), num: '#' + String(n).padStart(3, '0'), locked: lk && i % 5 === 3 ? 'true' : null })),
+      ticker: [['BALI', 'Tokek'], ['KYOTO', 'Pon'], ['REYKJAVÍK', 'Lundi'], ['MEXICO CITY', 'Ajo'], ['LISBON', 'Sardi'], ['CUSCO', 'Paco'], ['HÀ NỘI', 'Cụ Rùa'], ['HỘI AN', 'Chép'], ['PARIS', 'Roucou'], ['NEW YORK', 'Pizza'], ['BARCELONA', 'Drac'], ['NAIROBI', 'Twiga']].map(([city, who]) => ({ city, who })),
+      guides: [
+        { no: '01/06', tilt: -1.5, dur: 2400, name: 'TOKEK', city: 'BALI', species: 'GECKO', kind: 'gecko', seed: 41, bg: '#54d6a4', line: 'Knows which rice terraces are empty at sunrise and which warung does the best babi guling.' },
+        { no: '02/06', tilt: 1, dur: 2800, name: 'PON', city: 'KYOTO', species: 'TANUKI', kind: 'tanuki', seed: 51, bg: '#ff9a4d', line: "Knows which temples open at 6am, which ramen lines are worth it, and where the deer won't mug you." },
+        { no: '03/06', tilt: -.5, dur: 2600, name: 'LUNDI', city: 'ICELAND', species: 'PUFFIN', kind: 'puffin', seed: 43, bg: '#7fb8ff', line: 'Reads the weather better than the forecast and always has a hot pool in mind for the evening.' },
+        { no: '04/06', tilt: 1.5, dur: 3000, name: 'AJO', city: 'MEXICO CITY', species: 'AXOLOTL', kind: 'axolotl', seed: 44, bg: '#ff5fa8', line: 'Has a taco stand for every neighbourhood and a trajinera booked before you ask.' },
+        { no: '05/06', tilt: -1, dur: 2500, name: 'SARDI', city: 'LISBON', species: 'SARDINE', kind: 'sardine', seed: 45, bg: '#4f86ff', line: 'Times the tram so you miss the queue and picks the miradouro with the best sunset.' },
+        { no: '06/06', tilt: .8, dur: 2900, name: 'PACO', city: 'CUSCO', species: 'ALPACA', kind: 'alpaca', seed: 46, bg: '#ffd84a', line: 'Paces the altitude for you and knows the trail to the ruins nobody else takes.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

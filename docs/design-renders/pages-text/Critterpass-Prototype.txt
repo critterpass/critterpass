@@ -1,0 +1,430 @@
+CLICKABLE PROTOTYPE
+Critterpass
+Use it like the app. Swipe in from the left edge to go back, and drag sheets down to close them. Tap somewhere that does nothing and the phone shows what does.
+Every screen on one canvas ↗
+START FROM
+New here
+Splash, onboarding, first-run home
+Somewhere else
+Planning where no guide lives yet
+Invited by a friend
+The invite ticket, or typing a code
+Bali, 17 days out
+Home, inbox, the plan and money
+Vote and set up Kyoto
+The final, dates, must-dos, the draft
+Change a day with Pon
+Redraft one day of Pon's draft
+The Kyoto proposal, as Rin
+Trailer, maybe, slide to board
+The crew
+Switch crews, the chat, the live map
+Day 4: Batur sunrise
+Lock screen, day-of, no signal
+Things go sideways
+Forecast, rough seas, a closed road
+Jordan hits SOS
+What the rest of the crew sees
+Landing late
+A delayed flight, then landing
+Finding a critter
+Encounter, befriend, your pass
+The Critterdex
+Four forms, legendaries, Sakura Pon
+After the trip
+Recap, rating it, sharing the plan
+Other crews’ plans
+Browse and copy a Kyoto plan
+Make it yours
+Profile, avatar, app icon
+Pon runs out of answers
+The limit, the paywall, checkout
+Boost Kyoto
+Split a boost, and what Rin sees
+Free first trip ends
+The reminder after Bali
+Manage your plan
+Settings, cancel, a declined card, codes
+Settings and sound
+Guide themes, effects, the rest of Settings
+Feedback and ideas
+Report, suggest, vote, rate
+Leaving
+Deleting your account, and the way back
+Pass+, final paywall
+The visa page, the comparison, the welcome
+Hitting a limit
+Seat 7, the live map, the last redraft
+The recap story
+Eight cards narrated by Tokek, then a year later
+Off the app
+Live Activities, alarms, widgets, StandBy
+Invited, the short way
+A ticket, three taps, the crew
+ALL SCREENS
+3a
+Onboarding
+3a-1
+Splash
+3a-2
+Your name
+3a-3
+Your photo
+3a-4
+This or that
+3a-5
+Home base
+3a-6
+Pass issued
+3a-7
+Save your pass
+3a-8
+Phone sign-in
+3a-9
+Permissions, in context
+3a-10
+Invite, a seat for you
+3a-11
+Join with a code
+3a-12
+Your pass, three taps
+3a-13
+You’re in
+3b
+Home
+3b-1
+Home, first run
+3b-2
+Home
+3b-3
+Pitch a place
+3b-4
+Inbox
+3b-5
+All caught up
+3b-6
+Home, final vote
+3b-7
+Somewhere else
+3b-8
+Marrakech
+3c
+Next trip: vote and setup
+3c-1
+Vote showdown
+3c-2
+Kyoto wins
+3c-3
+When
+3c-4
+No week fits
+3c-5
+Budget
+3c-6
+Rooms
+3c-7
+Must-dos
+3c-8
+Pon is drafting
+3c-9
+Pon's draft
+3c-10
+Add a must-do
+3c-11
+Change a day
+3c-12
+Pon's redraft
+3d
+Explore
+3d-1
+Destination guide
+3d-2
+Swipe together
+3d-3
+Place detail
+3d-4
+Map
+3e
+Plan
+3e-1
+Trip plan
+3e-2
+Day planning
+3e-3
+Review changes
+3f
+Proposal
+3f-1
+Build the proposal
+3f-2
+Proposal trailer
+3f-3
+Your version
+3f-4
+Not sure yet
+3f-5
+Slide to board
+3f-6
+Who's in
+3f-7
+Dev's out
+3g
+Crew
+3g-1
+Crew chat
+3g-2
+Live collab
+3g-3
+Crews
+3g-4
+Crew map
+3h
+Bookings and getting around
+3h-1
+Bookings
+3h-2
+Add a booking
+3h-3
+Getting around
+3i
+Money
+3i-1
+Balances
+3i-2
+Add an expense
+3i-3
+Scan a receipt
+3i-4
+Couldn't read it
+3i-5
+Settle up
+3i-6
+Budget
+3j
+The guide
+3j-1
+Guide chat
+3j-2
+Voice
+3j-3
+Point and ask
+3k
+During the trip
+3k-1
+Trip hub
+3k-2
+Day-of
+3k-3
+Lock screen
+3k-4
+Offline at the top
+3k-5
+Flight delayed
+3k-6
+Help
+3k-7
+Forecast
+3k-8
+Storm warning
+3k-9
+Running late
+3k-10
+Crew SOS
+3l
+Critters and your pass
+3l-1
+Egg hatch
+3l-2
+Your pass
+3l-3
+Critter detail
+3l-4
+Encounter
+3l-5
+It wandered off
+3l-6
+Befriended
+3l-7
+Crew quests
+3l-8
+Vietnam set
+3l-9
+Once a year
+3l-10
+Sakura Pon
+3m
+After
+3m-1
+Recap
+3m-2
+Photos
+3m-3
+Recap, the cover
+3m-4
+Recap, the route
+3m-5
+Recap, crew awards
+3m-6
+Recap, the receipt
+3m-7
+Recap, the one that got away
+3m-8
+Recap, the stamp
+3m-9
+Recap, the postcard
+3m-10
+A year later
+3n
+You
+3n-1
+Profile
+3n-2
+Settings
+3n-3
+Edit profile
+3n-4
+Avatar
+3n-5
+App icon
+3n-6
+Settings, more
+3n-7
+Sound
+3n-8
+Language and currency
+3n-9
+Delete account
+3n-10
+Hold to delete
+3n-11
+Account closed
+3o
+Community
+3o-1
+Crew plans
+3o-2
+Shared plan
+3o-3
+Rate the trip
+3o-4
+Share the plan
+3p
+Help and feedback
+3p-1
+Help and feedback
+3p-2
+Send feedback
+3p-3
+Feedback sent
+3p-4
+Idea board
+3p-5
+Suggest an idea
+3p-6
+Rate the app
+4e
+Paywall, final: the visa page
+4e-1
+Paywall
+4e-2
+What’s in each
+4e-3
+Welcome to Pass+
+4a
+Paywall, three directions
+4a-1
+Visa page
+4a-2
+Boarding pass
+4a-3
+Gold cover
+4b
+Upgrading
+4b-1
+Out of questions
+4b-2
+Compare plans
+4b-3
+Boost Kyoto
+4b-4
+Checkout
+4b-5
+Stamped
+4c
+The crew side
+4c-1
+Boosted by Winston
+4c-2
+Free boost ending
+4d
+Managing it
+4d-1
+Your plan
+4d-2
+Before you go
+4d-3
+Card declined
+4d-4
+Redeem or restore
+4f
+Entry points
+4f-1
+Seven’s a crowd
+4f-2
+Live map teaser
+4f-3
+Last redraft
+5a
+Live Activities and the Dynamic Island
+5a-1
+Leave-by
+5a-2
+Crew, live
+5a-3
+Flight day
+5a-4
+Critter nearby
+5a-5
+Dynamic Island
+5a-6
+On every lock screen
+5b
+Notifications
+5b-1
+In the guide’s voice
+5b-2
+Vote from the lock screen
+5b-3
+Leave-by alarm
+5b-4
+How much we ping
+5c
+Widgets and StandBy
+5c-1
+Home screen, before
+5c-2
+Home screen, on the trip
+5c-3
+Lock screen widgets
+5c-4
+StandBy
+5c-5
+Widget gallery
+9:41
+5G
+CRITTERPASS
+PASSPORT · PASSEPORT
+Your pass to every place, and the locals who live there.
+OPEN YOUR PASS
+I have an invite code
+NOW SHOWING
+3a-1
+Onboarding
+Splash
+Splash
+MOTION
+The passport bobs gently and a sheen runs across the cover. Tokek hangs off the top edge and pops his head up every few seconds. OPEN YOUR PASS swings the cover open like a real passport and the first page fills the screen.
+← BACK
+Show tap targets
+Restart
+← or Esc goes back · H shows tap targets · R restarts

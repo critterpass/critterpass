@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Caveat:wght@500;600&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script src="doodles.js"></script>
+<script src="critters-data.js"></script>
+<script src="critters-draw-1.js"></script>
+<script src="critters-draw-2.js"></script>
+<style>body{margin:0;background:#e9e4da;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#211d18}a:hover{color:#c4623e}</style>
+</helmet>
+<section id="t1" data-screen-label="Critter collection" style="padding:56px 60px 96px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;align-items:baseline;gap:10px"><a href="#t1" style="font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none">1</a><span style="font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a">Critter collection: 150 locals across 61 places</span></div>
+
+<div style="display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap;max-width:1500px">
+<div style="display:flex;flex-direction:column;gap:14px;max-width:520px">
+<div style="font:400 48px/1 'Instrument Serif',serif;color:#211d18">One local per city</div>
+<div style="font:400 16px/1.55 Geist,sans-serif;color:#3d372f;text-wrap:pretty">Every city in the collection has one critter, and you get it by being there. Vietnam is the home set with ten. The ten most-visited places get five cities each, places 11 to 30 get three, and places 31 to 60 get one. Each name comes from the local word for the animal, or the nickname locals already use.</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,max-content);gap:12px">
+<div style="display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:14px;background:#f4efe4;min-width:120px"><span style="font:600 10.5px 'Geist Mono',monospace;letter-spacing:.06em;color:#6b6356">VIETNAM</span><span style="font:900 34px/1 Archivo,sans-serif;font-stretch:70%;color:#211d18">10</span><span style="font:400 12.5px/1.35 Geist,sans-serif;color:#5d564b">1 place × 10</span></div>
+<div style="display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:14px;background:#f4efe4;min-width:120px"><span style="font:600 10.5px 'Geist Mono',monospace;letter-spacing:.06em;color:#6b6356">RANK 1–10</span><span style="font:900 34px/1 Archivo,sans-serif;font-stretch:70%;color:#211d18">50</span><span style="font:400 12.5px/1.35 Geist,sans-serif;color:#5d564b">10 places × 5</span></div>
+<div style="display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:14px;background:#f4efe4;min-width:120px"><span style="font:600 10.5px 'Geist Mono',monospace;letter-spacing:.06em;color:#6b6356">RANK 11–30</span><span style="font:900 34px/1 Archivo,sans-serif;font-stretch:70%;color:#211d18">60</span><span style="font:400 12.5px/1.35 Geist,sans-serif;color:#5d564b">20 places × 3</span></div>
+<div style="display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:14px;background:#f4efe4;min-width:120px"><span style="font:600 10.5px 'Geist Mono',monospace;letter-spacing:.06em;color:#6b6356">RANK 31–60</span><span style="font:900 34px/1 Archivo,sans-serif;font-stretch:70%;color:#211d18">30</span><span style="font:400 12.5px/1.35 Geist,sans-serif;color:#5d564b">30 places × 1</span></div>
+<div style="grid-column:1 / -1;font:400 12.5px/1.5 Geist,sans-serif;color:#6b6356;max-width:560px;text-wrap:pretty">Ranked by 2024 international arrivals (UN Tourism). Macau is left out because most of its arrivals are same-day trips. The six live guides (Tokek, Pon, Lundi, Ajo, Sardi, Paco) keep their places.</div>
+</div>
+</div>
+
+<div id="1a" data-screen-label="1a Bestiary" style="display:flex;flex-direction:column;gap:18px;scroll-margin-top:16px">
+<div style="display:flex;align-items:baseline;gap:10px;font:400 13px/1.4 system-ui,sans-serif;color:rgba(0,0,0,.6)"><a href="#1a" style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none">1a</a>Bestiary. Every critter as its sticker, grouped by rank.</div>
+<div style="width:max-content;background:#17142a;border-radius:40px;padding:52px 56px 60px;display:flex;flex-direction:column;gap:64px;color:#f4efe4">
+
+<div style="display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;align-items:baseline;gap:16px"><span style="font:900 44px/.9 Archivo,sans-serif;font-stretch:66%;letter-spacing:.01em;color:#ffd84a">VIETNAM</span><span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">HOME SET · 10 CRITTERS · ONE PER REGION</span></div>
+<div style="display:grid;grid-template-columns:repeat(10,124px);gap:10px">
+<sc-for list="{{ vn }}" as="c" hint-placeholder-count="10">
+<div style="height:190px;border-radius:22px;background:#1f1b38;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 8px 13px;box-sizing:border-box;gap:4px">
+<span style="position:absolute;left:12px;top:11px;font:500 10px 'Geist Mono',monospace;color:#6f698c">{{ c.num }}</span>
+<div style="position:absolute;left:0;right:0;top:18px;display:flex;justify-content:center"><sc-if value="{{ lit }}" hint-placeholder-val="{{ true }}"><doodle-art kind="{{ c.kind }}" size="96" sticker="#f4efe4" seed="{{ c.no }}"></doodle-art></sc-if><sc-if value="{{ dark }}"><div style="position:relative;display:flex;justify-content:center;align-items:center"><doodle-art kind="{{ c.kind }}" size="96" sticker="#2c2750" locked="#3a3466" anim="none"></doodle-art><span style="position:absolute;font:900 36px Archivo,sans-serif;color:#6f698c">?</span></div></sc-if></div>
+<span style="font:900 14px/1 Archivo,sans-serif;font-stretch:74%;letter-spacing:.03em;text-transform:uppercase;text-align:center">{{ c.name }}</span>
+<sc-if value="{{ showCity }}" hint-placeholder-val="{{ true }}"><span style="font:700 9px/1.25 Archivo,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#ffd84a;text-align:center">{{ c.city }}</span></sc-if>
+<sc-if value="{{ showSpecies }}" hint-placeholder-val="{{ true }}"><span style="font:500 10.5px/1.25 Geist,sans-serif;color:#8d87a8;text-align:center;text-wrap:balance;min-height:26px">{{ c.species }}</span></sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:26px">
+<div style="display:flex;align-items:baseline;gap:16px"><span style="font:900 44px/.9 Archivo,sans-serif;font-stretch:66%;letter-spacing:.01em">RANK 1–10</span><span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">FIVE CITIES EACH · 50 CRITTERS</span></div>
+<div style="display:grid;grid-template-columns:repeat(2,max-content);gap:40px 44px">
+<sc-for list="{{ t1 }}" as="p" hint-placeholder-count="10">
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:baseline;gap:10px"><span style="font:900 22px/1 Archivo,sans-serif;font-stretch:70%;color:#6f698c">#{{ p.rk }}</span><span style="font:900 22px/1 Archivo,sans-serif;font-stretch:70%;letter-spacing:.02em;text-transform:uppercase">{{ p.name }}</span></div>
+<div style="display:flex;gap:8px">
+<sc-for list="{{ p.critters }}" as="c" hint-placeholder-count="5">
+<div style="width:124px;height:190px;border-radius:22px;background:#1f1b38;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 8px 13px;box-sizing:border-box;gap:4px">
+<span style="position:absolute;left:12px;top:11px;font:500 10px 'Geist Mono',monospace;color:#6f698c">{{ c.num }}</span>
+<div style="position:absolute;left:0;right:0;top:18px;display:flex;justify-content:center"><sc-if value="{{ lit }}" hint-placeholder-val="{{ true }}"><doodle-art kind="{{ c.kind }}" size="96" sticker="#f4efe4" seed="{{ c.no }}"></doodle-art></sc-if><sc-if value="{{ dark }}"><div style="position:relative;display:flex;justify-content:center;align-items:center"><doodle-art kind="{{ c.kind }}" size="96" sticker="#2c2750" locked="#3a3466" anim="none"></doodle-art><span style="position:absolute;font:900 36px Archivo,sans-serif;color:#6f698c">?</span></div></sc-if></div>
+<span style="font:900 14px/1 Archivo,sans-serif;font-stretch:74%;letter-spacing:.03em;text-transform:uppercase;text-align:center">{{ c.name }}</span>
+<sc-if value="{{ showCity }}" hint-placeholder-val="{{ true }}"><span style="font:700 9px/1.25 Archivo,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#a9a3c0;text-align:center">{{ c.city }}</span></sc-if>
+<sc-if value="{{ showSpecies }}" hint-placeholder-val="{{ true }}"><span style="font:500 10.5px/1.25 Geist,sans-serif;color:#8d87a8;text-align:center;text-wrap:balance;min-height:26px">{{ c.species }}</span></sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:26px">
+<div style="display:flex;align-items:baseline;gap:16px"><span style="font:900 44px/.9 Archivo,sans-serif;font-stretch:66%;letter-spacing:.01em">RANK 11–30</span><span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">THREE CITIES EACH · 60 CRITTERS</span></div>
+<div style="display:grid;grid-template-columns:repeat(3,max-content);gap:40px 44px">
+<sc-for list="{{ t2 }}" as="p" hint-placeholder-count="20">
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:baseline;gap:10px"><span style="font:900 22px/1 Archivo,sans-serif;font-stretch:70%;color:#6f698c">#{{ p.rk }}</span><span style="font:900 22px/1 Archivo,sans-serif;font-stretch:70%;letter-spacing:.02em;text-transform:uppercase">{{ p.name }}</span></div>
+<div style="display:flex;gap:8px">
+<sc-for list="{{ p.critters }}" as="c" hint-placeholder-count="3">
+<div style="width:124px;height:190px;border-radius:22px;background:#1f1b38;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 8px 13px;box-sizing:border-box;gap:4px">
+<span style="position:absolute;left:12px;top:11px;font:500 10px 'Geist Mono',monospace;color:#6f698c">{{ c.num }}</span>
+<div style="position:absolute;left:0;right:0;top:18px;display:flex;justify-content:center"><sc-if value="{{ lit }}" hint-placeholder-val="{{ true }}"><doodle-art kind="{{ c.kind }}" size="96" sticker="#f4efe4" seed="{{ c.no }}"></doodle-art></sc-if><sc-if value="{{ dark }}"><div style="position:relative;display:flex;justify-content:center;align-items:center"><doodle-art kind="{{ c.kind }}" size="96" sticker="#2c2750" locked="#3a3466" anim="none"></doodle-art><span style="position:absolute;font:900 36px Archivo,sans-serif;color:#6f698c">?</span></div></sc-if></div>
+<span style="font:900 14px/1 Archivo,sans-serif;font-stretch:74%;letter-spacing:.03em;text-transform:uppercase;text-align:center">{{ c.name }}</span>
+<sc-if value="{{ showCity }}" hint-placeholder-val="{{ true }}"><span style="font:700 9px/1.25 Archivo,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#a9a3c0;text-align:center">{{ c.city }}</span></sc-if>
+<sc-if value="{{ showSpecies }}" hint-placeholder-val="{{ true }}"><span style="font:500 10.5px/1.25 Geist,sans-serif;color:#8d87a8;text-align:center;text-wrap:balance;min-height:26px">{{ c.species }}</span></sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:26px">
+<div style="display:flex;align-items:baseline;gap:16px"><span style="font:900 44px/.9 Archivo,sans-serif;font-stretch:66%;letter-spacing:.01em">RANK 31–60</span><span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">ONE CITY EACH · 30 CRITTERS</span></div>
+<div style="display:grid;grid-template-columns:repeat(10,124px);gap:18px 10px">
+<sc-for list="{{ t3 }}" as="c" hint-placeholder-count="30">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:baseline;gap:6px;min-width:0"><span style="font:900 14px/1 Archivo,sans-serif;font-stretch:70%;color:#6f698c">#{{ c.rk }}</span><span style="font:900 14px/1 Archivo,sans-serif;font-stretch:70%;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.place }}</span></div>
+<div style="height:190px;border-radius:22px;background:#1f1b38;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 8px 13px;box-sizing:border-box;gap:4px">
+<span style="position:absolute;left:12px;top:11px;font:500 10px 'Geist Mono',monospace;color:#6f698c">{{ c.num }}</span>
+<div style="position:absolute;left:0;right:0;top:18px;display:flex;justify-content:center"><sc-if value="{{ lit }}" hint-placeholder-val="{{ true }}"><doodle-art kind="{{ c.kind }}" size="96" sticker="#f4efe4" seed="{{ c.no }}"></doodle-art></sc-if><sc-if value="{{ dark }}"><div style="position:relative;display:flex;justify-content:center;align-items:center"><doodle-art kind="{{ c.kind }}" size="96" sticker="#2c2750" locked="#3a3466" anim="none"></doodle-art><span style="position:absolute;font:900 36px Archivo,sans-serif;color:#6f698c">?</span></div></sc-if></div>
+<span style="font:900 14px/1 Archivo,sans-serif;font-stretch:74%;letter-spacing:.03em;text-transform:uppercase;text-align:center">{{ c.name }}</span>
+<sc-if value="{{ showCity }}" hint-placeholder-val="{{ true }}"><span style="font:700 9px/1.25 Archivo,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#a9a3c0;text-align:center">{{ c.city }}</span></sc-if>
+<sc-if value="{{ showSpecies }}" hint-placeholder-val="{{ true }}"><span style="font:500 10.5px/1.25 Geist,sans-serif;color:#8d87a8;text-align:center;text-wrap:balance;min-height:26px">{{ c.species }}</span></sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+</div>
+</div>
+
+<div id="1b" data-screen-label="1b Critterdex" style="display:flex;flex-direction:column;gap:18px;scroll-margin-top:16px">
+<div style="display:flex;align-items:baseline;gap:10px;font:400 13px/1.4 system-ui,sans-serif;color:rgba(0,0,0,.6)"><a href="#1b" style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none">1b</a>Critterdex. The collection in the app, under the PASS tab.</div>
+<div style="display:flex;gap:64px;align-items:flex-start;flex-wrap:wrap">
+
+<div data-screen-label="1b-1 Critterdex" style="display:flex;flex-direction:column;gap:16px">
+<div style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">1b-1 · CRITTERDEX</div>
+<div style="width:390px;height:844px;border-radius:54px;overflow:hidden;position:relative;background:#17142a;box-shadow:0 0 0 10px #0b0a12,0 40px 80px rgba(20,16,40,.35);color:#f4efe4;font-family:Geist,sans-serif">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;align-items:center;justify-content:space-between;padding:4px 30px 0 40px;z-index:40;font:600 15px Geist,sans-serif;color:#f4efe4"><span>9:41</span><div style="position:absolute;left:50%;top:11px;width:122px;height:35px;margin-left:-61px;border-radius:20px;background:#000"></div><div style="display:flex;gap:6px;align-items:center;font:700 12px Geist,sans-serif">5G<div style="width:25px;height:12px;border:1.5px solid currentColor;border-radius:4px;padding:1.5px;box-sizing:border-box;display:flex"><div style="width:72%;background:currentColor;border-radius:1.5px"></div></div></div></div>
+<div style="position:absolute;left:20px;right:20px;top:58px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end"><div style="display:flex;flex-direction:column;gap:4px"><span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">YOUR CRITTERDEX</span><span style="font:900 56px/.84 Archivo,sans-serif;font-stretch:66%">9<span style="color:#6f698c">/150</span></span></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span style="padding:6px 10px;border-radius:9px;background:#ff5fa8;color:#17142a;font:800 11px Archivo,sans-serif;letter-spacing:.06em">5 OF 61 PLACES</span><span style="font:500 12px Geist,sans-serif;color:#a9a3c0">Maya has 14</span></div></div>
+<div style="display:flex;gap:6px;padding:4px;border-radius:16px;background:#1f1b38"><span style="flex:1;height:34px;border-radius:12px;background:#f4efe4;color:#17142a;display:flex;align-items:center;justify-content:center;font:800 11.5px Archivo,sans-serif;letter-spacing:.08em">ALL</span><span style="flex:1;height:34px;border-radius:12px;color:#a9a3c0;display:flex;align-items:center;justify-content:center;font:800 11.5px Archivo,sans-serif;letter-spacing:.08em">FOUND</span><span style="flex:1;height:34px;border-radius:12px;color:#a9a3c0;display:flex;align-items:center;justify-content:center;font:800 11.5px Archivo,sans-serif;letter-spacing:.08em">NEAR ME</span></div>
+<div style="height:44px;border-radius:14px;background:#1f1b38;display:flex;align-items:center;gap:10px;padding:0 14px"><doodle-art kind="pin" size="18" ink="#8d87a8" blend="source-over" anim="none"></doodle-art><span style="font:500 14px Geist,sans-serif;color:#8d87a8">Search a city or a critter</span></div>
+<div style="border-radius:20px;background:#1f1b38;padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px;box-shadow:inset 0 0 0 2px #ffd84a">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:900 20px/1 Archivo,sans-serif;font-stretch:70%;letter-spacing:.02em;color:#ffd84a">VIETNAM</span><span style="font:800 11px Archivo,sans-serif;letter-spacing:.1em;color:#f4efe4">3/10 · HOME SET</span></div>
+<div style="display:flex;justify-content:space-between">
+<sc-for list="{{ vnMini }}" as="m" hint-placeholder-count="10"><sc-if value="{{ m.found }}" hint-placeholder-val="{{ true }}"><doodle-art kind="{{ m.kind }}" size="31" sticker="#f4efe4" anim="none" blink="false"></doodle-art></sc-if><sc-if value="{{ m.locked }}"><doodle-art kind="{{ m.kind }}" size="31" sticker="#2c2750" locked="#3a3466" anim="none"></doodle-art></sc-if></sc-for>
+</div>
+</div>
+<span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0;margin-top:2px">RANK 1–10 · FIVE CITIES EACH</span>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ topRows }}" as="r" hint-placeholder-count="5">
+<div style="height:58px;border-radius:16px;background:#1f1b38;display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 14px;gap:8px">
+<div style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:900 15px/1 Archivo,sans-serif;font-stretch:72%;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap"><span style="color:#6f698c">#{{ r.rk }} </span>{{ r.name }}</span><span style="font:700 9.5px Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0">{{ r.got }}/5 FOUND</span></div>
+<div style="display:flex;gap:2px;flex:none">
+<sc-for list="{{ r.minis }}" as="m" hint-placeholder-count="5"><sc-if value="{{ m.found }}" hint-placeholder-val="{{ true }}"><doodle-art kind="{{ m.kind }}" size="36" sticker="#f4efe4" anim="none" blink="false"></doodle-art></sc-if><sc-if value="{{ m.locked }}"><doodle-art kind="{{ m.kind }}" size="36" sticker="#2c2750" locked="#3a3466" anim="none"></doodle-art></sc-if></sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:88px;padding:10px 16px 0;display:flex;justify-content:space-between;align-items:flex-start;background:#120f22;border-top:1px solid rgba(255,255,255,.07);z-index:30;box-sizing:border-box"><div style="width:62px;display:flex;flex-direction:column;align-items:center;gap:4px;font:700 10px Archivo,sans-serif;letter-spacing:.08em;color:#8d87a8"><doodle-art kind="pin" size="24" ink="#8d87a8" blend="source-over" anim="none"></doodle-art>HOME</div><div style="width:62px;display:flex;flex-direction:column;align-items:center;gap:4px;font:700 10px Archivo,sans-serif;letter-spacing:.08em;color:#8d87a8"><doodle-art kind="ticket" size="24" ink="#8d87a8" blend="source-over" anim="none"></doodle-art>TRIPS</div><div style="width:66px;height:66px;margin-top:-30px;border-radius:33px;background:#ffd84a;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 5px #17142a"><doodle-art kind="gecko" size="50" fill="#fff3c4" spot="#e0a92a" accent="#ff5fa8" anim="none"></doodle-art></div><div style="width:62px;display:flex;flex-direction:column;align-items:center;gap:4px;font:700 10px Archivo,sans-serif;letter-spacing:.08em;color:#8d87a8"><doodle-art kind="wallet" size="24" ink="#8d87a8" blend="source-over" anim="none"></doodle-art>WALLET</div><div style="width:62px;display:flex;flex-direction:column;align-items:center;gap:4px;font:800 10px Archivo,sans-serif;letter-spacing:.08em;color:#ffd84a"><doodle-art kind="egg" size="24" ink="#ffd84a" blend="source-over" anim="none" fill="rgba(0,0,0,0)" spot="#ffd84a"></doodle-art>PASS</div><div style="position:absolute;left:50%;bottom:8px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:#f4efe4;z-index:40"></div></div>
+</div>
+<div style="width:390px;font:400 13px/1.5 Geist,sans-serif;color:#5d564b;text-wrap:pretty"><b style="font:600 10.5px 'Geist Mono',monospace;letter-spacing:.08em;color:#211d18">LAYOUT</b> Vietnam stays pinned on top as the home set. Every other place follows the ranking, one row each, with its city slots on the right.</div>
+</div>
+
+<div data-screen-label="1b-2 Vietnam set" style="display:flex;flex-direction:column;gap:16px">
+<div style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">1b-2 · VIETNAM SET</div>
+<div style="width:390px;height:844px;border-radius:54px;overflow:hidden;position:relative;background:#17142a;box-shadow:0 0 0 10px #0b0a12,0 40px 80px rgba(20,16,40,.35);color:#f4efe4;font-family:Geist,sans-serif">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;align-items:center;justify-content:space-between;padding:4px 30px 0 40px;z-index:40;font:600 15px Geist,sans-serif;color:#f4efe4"><span>9:41</span><div style="position:absolute;left:50%;top:11px;width:122px;height:35px;margin-left:-61px;border-radius:20px;background:#000"></div><div style="display:flex;gap:6px;align-items:center;font:700 12px Geist,sans-serif">5G<div style="width:25px;height:12px;border:1.5px solid currentColor;border-radius:4px;padding:1.5px;box-sizing:border-box;display:flex"><div style="width:72%;background:currentColor;border-radius:1.5px"></div></div></div></div>
+<div style="position:absolute;left:20px;right:20px;top:58px;display:flex;flex-direction:column;gap:14px">
+<span style="font:800 11px Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0">‹ CRITTERDEX</span>
+<div style="display:flex;justify-content:space-between;align-items:flex-end"><div style="display:flex;flex-direction:column;gap:6px"><span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#ffd84a">HOME SET</span><span style="font:900 56px/.84 Archivo,sans-serif;font-stretch:66%">VIETNAM</span></div><span style="font:900 30px/.9 Archivo,sans-serif;font-stretch:66%">3<span style="color:#6f698c">/10</span></span></div>
+<div style="display:flex;gap:4px"><span style="flex:1;height:6px;border-radius:3px;background:#ffd84a"></span><span style="flex:1;height:6px;border-radius:3px;background:#ffd84a"></span><span style="flex:1;height:6px;border-radius:3px;background:#ffd84a"></span><span style="flex:1;height:6px;border-radius:3px;background:#2c2750"></span><span style="flex:1;height:6px;border-radius:3px;background:#2c2750"></span><span style="flex:1;height:6px;border-radius:3px;background:#2c2750"></span><span style="flex:1;height:6px;border-radius:3px;background:#2c2750"></span><span style="flex:1;height:6px;border-radius:3px;background:#2c2750"></span><span style="flex:1;height:6px;border-radius:3px;background:#2c2750"></span><span style="flex:1;height:6px;border-radius:3px;background:#2c2750"></span></div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px">
+<sc-for list="{{ vnMini }}" as="m" hint-placeholder-count="10">
+<div style="height:128px;border-radius:20px;background:#1f1b38;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 6px 11px;box-sizing:border-box;gap:3px">
+<div style="position:absolute;left:0;right:0;top:7px;display:flex;justify-content:center"><sc-if value="{{ m.found }}" hint-placeholder-val="{{ true }}"><doodle-art kind="{{ m.kind }}" size="74" sticker="#f4efe4" anim="none"></doodle-art></sc-if><sc-if value="{{ m.locked }}"><div style="position:relative;display:flex;justify-content:center;align-items:center"><doodle-art kind="{{ m.kind }}" size="74" sticker="#2c2750" locked="#3a3466" anim="none"></doodle-art><span style="position:absolute;font:900 30px Archivo,sans-serif;color:#6f698c">?</span></div></sc-if></div>
+<span style="font:900 13px/1 Archivo,sans-serif;font-stretch:74%;letter-spacing:.02em;text-transform:uppercase;text-align:center;white-space:nowrap">{{ m.label }}</span>
+<span style="font:700 9.5px Archivo,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#a9a3c0;white-space:nowrap">{{ m.city }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:88px;padding:10px 16px 0;display:flex;justify-content:space-between;align-items:flex-start;background:#120f22;border-top:1px solid rgba(255,255,255,.07);z-index:30;box-sizing:border-box"><div style="width:62px;display:flex;flex-direction:column;align-items:center;gap:4px;font:700 10px Archivo,sans-serif;letter-spacing:.08em;color:#8d87a8"><doodle-art kind="pin" size="24" ink="#8d87a8" blend="source-over" anim="none"></doodle-art>HOME</div><div style="width:62px;display:flex;flex-direction:column;align-items:center;gap:4px;font:700 10px Archivo,sans-serif;letter-spacing:.08em;color:#8d87a8"><doodle-art kind="ticket" size="24" ink="#8d87a8" blend="source-over" anim="none"></doodle-art>TRIPS</div><div style="width:66px;height:66px;margin-top:-30px;border-radius:33px;background:#ffd84a;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 5px #17142a"><doodle-art kind="gecko" size="50" fill="#fff3c4" spot="#e0a92a" accent="#ff5fa8" anim="none"></doodle-art></div><div style="width:62px;display:flex;flex-direction:column;align-items:center;gap:4px;font:700 10px Archivo,sans-serif;letter-spacing:.08em;color:#8d87a8"><doodle-art kind="wallet" size="24" ink="#8d87a8" blend="source-over" anim="none"></doodle-art>WALLET</div><div style="width:62px;display:flex;flex-direction:column;align-items:center;gap:4px;font:800 10px Archivo,sans-serif;letter-spacing:.08em;color:#ffd84a"><doodle-art kind="egg" size="24" ink="#ffd84a" blend="source-over" anim="none" fill="rgba(0,0,0,0)" spot="#ffd84a"></doodle-art>PASS</div><div style="position:absolute;left:50%;bottom:8px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:#f4efe4;z-index:40"></div></div>
+</div>
+<div style="width:390px;font:400 13px/1.5 Geist,sans-serif;color:#5d564b;text-wrap:pretty"><b style="font:600 10.5px 'Geist Mono',monospace;letter-spacing:.08em;color:#211d18">LAYOUT</b> Locked slots show the region, never the critter's name, so each city has something to find. The bar fills one segment per critter.</div>
+</div>
+
+<div data-screen-label="1b-3 Critter detail" style="display:flex;flex-direction:column;gap:16px">
+<div style="font:500 12px 'Geist Mono',monospace;color:#6b6356;letter-spacing:.04em">1b-3 · CRITTER DETAIL</div>
+<div style="width:390px;height:844px;border-radius:54px;overflow:hidden;position:relative;background:#17142a;box-shadow:0 0 0 10px #0b0a12,0 40px 80px rgba(20,16,40,.35);color:#f4efe4;font-family:Geist,sans-serif">
+<div style="position:absolute;top:0;left:0;right:0;height:50px;display:flex;align-items:center;justify-content:space-between;padding:4px 30px 0 40px;z-index:40;font:600 15px Geist,sans-serif;color:#f4efe4"><span>9:41</span><div style="position:absolute;left:50%;top:11px;width:122px;height:35px;margin-left:-61px;border-radius:20px;background:#000"></div><div style="display:flex;gap:6px;align-items:center;font:700 12px Geist,sans-serif">5G<div style="width:25px;height:12px;border:1.5px solid currentColor;border-radius:4px;padding:1.5px;box-sizing:border-box;display:flex"><div style="width:72%;background:currentColor;border-radius:1.5px"></div></div></div></div>
+<div style="position:absolute;left:16px;right:16px;top:56px;height:392px;border-radius:32px;background:#ff9a4d radial-gradient(rgba(23,20,42,.13) 1.3px,transparent 1.7px) 0 0/8px 8px;color:#17142a;overflow:hidden">
+<div style="position:absolute;left:18px;right:18px;top:18px;display:flex;justify-content:space-between;align-items:center"><span style="padding:5px 9px;border-radius:9px;background:#17142a;color:#ff9a4d;font:800 10.5px Archivo,sans-serif;letter-spacing:.08em;white-space:nowrap">HỘI AN · VIETNAM</span><span style="font:900 20px Archivo,sans-serif;font-stretch:80%">#005</span></div>
+<div style="position:absolute;left:0;right:0;top:48px;display:flex;justify-content:center"><doodle-art kind="cp-005" size="232" sticker="#f4efe4" seed="205"></doodle-art></div>
+<div style="position:absolute;left:20px;bottom:20px;right:20px;display:flex;justify-content:space-between;align-items:flex-end"><div style="display:flex;flex-direction:column;gap:6px"><span style="font:700 11px Archivo,sans-serif;letter-spacing:.14em">LANTERN CARP</span><span style="font:900 56px/.84 Archivo,sans-serif;font-stretch:70%;letter-spacing:-.01em">CHÉP</span></div><div style="display:flex"><div style="width:30px;height:30px;flex:none;border-radius:50%;background:#f4efe4;color:#17142a;font:800 12px Archivo,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #ff9a4d">W</div><div style="width:30px;height:30px;flex:none;border-radius:50%;background:#ff5fa8;color:#17142a;font:800 12px Archivo,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #ff9a4d;margin-left:-7px">M</div></div></div>
+</div>
+<div style="position:absolute;left:20px;right:20px;top:466px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font:600 20px/1.1 Caveat,cursive;color:#ff9a4d">Follows the lanterns down the Thu Bồn after dark. Hold one over the water and it swims closer.</span><span style="font:500 12px/1.4 Geist,sans-serif;color:#6f698c">From Chép's field notes</span></div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px"><div style="border-radius:16px;background:#1f1b38;padding:10px 12px;display:flex;flex-direction:column;gap:3px"><span style="font:700 9.5px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">FOUND</span><span style="font:600 13px Geist,sans-serif">Sep 21, 19:40</span></div><div style="border-radius:16px;background:#1f1b38;padding:10px 12px;display:flex;flex-direction:column;gap:3px"><span style="font:700 9.5px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">WHERE</span><span style="font:600 13px Geist,sans-serif">Thu Bồn River</span></div><div style="border-radius:16px;background:#1f1b38;padding:10px 12px;display:flex;flex-direction:column;gap:3px"><span style="font:700 9.5px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">ALSO HAS IT</span><span style="font:600 13px Geist,sans-serif">Maya</span></div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">VIETNAM SET · 3 OF 10</span><div style="display:flex;justify-content:space-between">
+<sc-for list="{{ vnMini }}" as="m" hint-placeholder-count="10"><sc-if value="{{ m.found }}" hint-placeholder-val="{{ true }}"><doodle-art kind="{{ m.kind }}" size="31" sticker="#f4efe4" anim="none" blink="false"></doodle-art></sc-if><sc-if value="{{ m.locked }}"><doodle-art kind="{{ m.kind }}" size="31" sticker="#2c2750" locked="#3a3466" anim="none"></doodle-art></sc-if></sc-for>
+</div></div>
+</div>
+<div style="position:absolute;left:20px;right:20px;bottom:36px"><div style="height:58px;border-radius:29px;background:#ff9a4d;color:#17142a;display:flex;align-items:center;justify-content:center;font:900 16px Archivo,sans-serif;letter-spacing:.06em">SHOW THE CREW</div></div>
+<div style="position:absolute;left:50%;bottom:8px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:#f4efe4;z-index:40"></div>
+</div>
+<div style="width:390px;font:400 13px/1.5 Geist,sans-serif;color:#5d564b;text-wrap:pretty"><b style="font:600 10.5px 'Geist Mono',monospace;letter-spacing:.08em;color:#211d18">LAYOUT</b> Same detail card as the pass. The card takes the critter's main colour, and the strip below shows the rest of its set.</div>
+</div>
+
+</div>
+</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;bestiary&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Stickers&quot;,&quot;Silhouettes&quot;],&quot;default&quot;:&quot;Stickers&quot;,&quot;tsType&quot;:&quot;'Stickers' | 'Silhouettes'&quot;,&quot;section&quot;:&quot;Bestiary&quot;},&quot;cardInfo&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Full&quot;,&quot;Name + city&quot;,&quot;Name&quot;],&quot;default&quot;:&quot;Full&quot;,&quot;tsType&quot;:&quot;'Full' | 'Name + city' | 'Name'&quot;,&quot;section&quot;:&quot;Bestiary&quot;}}">
+class Component extends DCLogic {
+  state = { dex: null };
+  componentDidMount() {
+    const t = () => { if (window.CritterDex) this.setState({ dex: window.CritterDex }); else this.tm = setTimeout(t, 40); };
+    t();
+  }
+  componentWillUnmount() { clearTimeout(this.tm); }
+  renderVals() {
+    const dex = this.state.dex, P = dex ? dex.places : [], by = t => P.filter(p => p.tier === t);
+    const info = this.props.cardInfo ?? 'Full', sil = (this.props.bestiary ?? 'Stickers') === 'Silhouettes';
+    const vn = by(0)[0];
+    const FOUND = new Set(['cp-001', 'cp-005', 'cp-007', 'cp-011', 'cp-013', 'cp-036', 'cp-062', 'cp-076', 'cp-112']);
+    const mini = c => { const f = FOUND.has(c.id); return { kind: c.kind, found: f, locked: !f, label: f ? c.name : '???', city: c.city }; };
+    return {
+      vnMini: vn ? vn.critters.map(mini) : [],
+      topRows: by(1).slice(0, 5).map(p => ({ rk: p.rk, name: p.name, got: p.critters.filter(c => FOUND.has(c.id)).length, minis: p.critters.map(mini) })),
+      vn: vn ? vn.critters : [],
+      t1: by(1), t2: by(2),
+      t3: by(3).map(p => ({ ...p.critters[0], rk: p.rk })),
+      lit: !sil, dark: sil,
+      showCity: info !== 'Name', showSpecies: info === 'Full',
+    };
+  }
+}
+</script>
+</body>
+</html>

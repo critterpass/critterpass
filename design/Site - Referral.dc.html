@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Caveat:wght@600&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script src="doodles.js"></script>
+<style>body{margin:0;background:#ff5fa8;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#17142a}a{color:#17142a}a:hover{color:#17142a;opacity:.8}</style>
+</helmet>
+<div style="min-height:100vh;background:#f4efe4">
+<dc-import name="Site - Header" active="crew" style="position:sticky;top:0;z-index:50;display:block" hint-size="100%,65px"></dc-import>
+
+<section data-screen-label="Referral hero" style="background:#ff5fa8 radial-gradient(rgba(23,20,42,.12) 1.3px,transparent 1.7px) 0 0/10px 10px;overflow:hidden">
+<div style="max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,96px) clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:48px;align-items:center">
+<div style="display:flex;flex-direction:column;gap:22px">
+<span style="font:700 12px Archivo,sans-serif;letter-spacing:.18em">BRING YOUR CREW</span>
+<h1 style="margin:0;font:900 clamp(80px,12vw,164px)/.8 Archivo,sans-serif;font-stretch:64%;text-transform:uppercase">Trips are better with tagalongs</h1>
+<p style="margin:0;font:500 clamp(17px,1.6vw,20px)/1.5 Geist,sans-serif;max-width:480px;text-wrap:pretty">Send your link. When a friend joins and plans their first trip, you both get a stamp on your pass, and enough stamps unlock new pass covers.</p>
+<div style="display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:26px;background:#17142a;color:#f4efe4;max-width:520px">
+<span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0;padding:0 4px">YOUR LINK</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><span style="flex:1;min-width:200px;height:52px;padding:0 16px;border-radius:16px;background:#221e3d;display:flex;align-items:center;font:500 16px 'Geist Mono',monospace;color:#ffd84a">critterpass.app/i/{{ code }}</span><button onClick="{{ copy }}" style="height:52px;padding:0 22px;border:none;border-radius:16px;cursor:pointer;font:900 14px Archivo,sans-serif;letter-spacing:.06em;background:{{ copyBtn.bg }};color:#17142a;transition:transform .15s" style-active="transform:scale(.95)">{{ copyBtn.t }}</button></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:4px"><a href="#" style="height:40px;padding:0 16px;border-radius:20px;background:#2c2750;color:#f4efe4;text-decoration:none;display:flex;align-items:center;font:600 13.5px Geist,sans-serif">Messages</a><a href="#" style="height:40px;padding:0 16px;border-radius:20px;background:#2c2750;color:#f4efe4;text-decoration:none;display:flex;align-items:center;font:600 13.5px Geist,sans-serif">WhatsApp</a><a href="#" style="height:40px;padding:0 16px;border-radius:20px;background:#2c2750;color:#f4efe4;text-decoration:none;display:flex;align-items:center;font:600 13.5px Geist,sans-serif">Instagram story</a><a href="#" style="height:40px;padding:0 16px;border-radius:20px;background:#2c2750;color:#f4efe4;text-decoration:none;display:flex;align-items:center;font:600 13.5px Geist,sans-serif">Email</a></div>
+</div>
+</div>
+<div style="position:relative;height:clamp(420px,44vw,520px)">
+<div style="position:absolute;left:10%;top:6%;width:62%;aspect-ratio:3/4;border-radius:28px;background:#17142a;transform:rotate(-8deg);box-shadow:0 30px 60px rgba(80,0,40,.3);display:flex;flex-direction:column;justify-content:space-between;padding:24px;box-sizing:border-box;color:#ffd84a">
+<span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">PASS COVER</span>
+<span style="font:900 64px/.8 Archivo,sans-serif;font-stretch:64%">CRITTER<br>PASS</span>
+</div>
+<div style="position:absolute;right:4%;top:14%;width:62%;aspect-ratio:3/4;border-radius:28px;background:#ffd84a radial-gradient(rgba(23,20,42,.13) 1.3px,transparent 1.7px) 0 0/8px 8px;transform:rotate(6deg);box-shadow:0 30px 60px rgba(80,0,40,.3);display:flex;flex-direction:column;justify-content:space-between;padding:24px;box-sizing:border-box;color:#17142a">
+<div style="display:flex;justify-content:space-between"><span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em">GOLD COVER</span><span style="font:500 11px 'Geist Mono',monospace">5 STAMPS</span></div>
+<div style="align-self:center;line-height:0"><doodle-art kind="gecko" size="150" sticker="#f4efe4" pose="cheer" seed="41"></doodle-art></div>
+<span style="font:900 52px/.8 Archivo,sans-serif;font-stretch:64%">CREW<br>CAPTAIN</span>
+</div>
+<div style="position:absolute;left:4%;bottom:2%;width:120px;height:120px;border-radius:50%;border:3px solid #17142a;box-shadow:inset 0 0 0 5px #ff5fa8,inset 0 0 0 7px #17142a;display:flex;flex-direction:column;align-items:center;justify-content:center;transform:rotate(-14deg);text-align:center"><span style="font:900 22px/.9 Archivo,sans-serif;font-stretch:70%">TAG<br>ALONG</span><span style="font:700 9px Archivo,sans-serif;letter-spacing:.14em;margin-top:4px">STAMP NO. 1</span></div>
+</div>
+</div>
+</section>
+
+<section data-screen-label="Progress" style="max-width:1240px;margin:0 auto;padding:clamp(64px,8vw,104px) clamp(20px,4vw,48px) 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:32px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><h2 style="margin:0;font:900 clamp(40px,4.6vw,60px)/.86 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase">Your stamps</h2><span style="font:500 13px 'Geist Mono',monospace;color:#6b6356">{{ joined }} OF 5 · NEXT AT {{ nextAt }}</span></div>
+<div style="position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:22px;border-radius:28px;background:#fffaf0">
+<sc-for list="{{ slots }}" as="s" hint-placeholder-count="5"><div style="aspect-ratio:1;border-radius:50%;border:3px {{ s.border }};display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate({{ s.r }}deg);background:{{ s.bg }};color:{{ s.fg }}"><span style="font:900 clamp(16px,2vw,22px)/.9 Archivo,sans-serif;font-stretch:70%">{{ s.label }}</span><span style="font:700 8.5px Archivo,sans-serif;letter-spacing:.12em;margin-top:3px">{{ s.sub }}</span></div></sc-for>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;font:600 13px Geist,sans-serif;color:#5d564b"><span style="padding:8px 12px;border-radius:12px;background:#e9e2d2">1 stamp · Tagalong badge</span><span style="padding:8px 12px;border-radius:12px;background:#e9e2d2">3 stamps · Navy cover</span><span style="padding:8px 12px;border-radius:12px;background:#ffd84a;color:#17142a">5 stamps · Gold cover</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<span style="font:700 11px Archivo,sans-serif;letter-spacing:.16em;color:#6b6356">FRIENDS YOU'VE INVITED</span>
+<sc-for list="{{ friends }}" as="f" hint-placeholder-count="4"><div style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:20px;background:#fffaf0">
+<span style="flex:none;width:44px;height:44px;border-radius:50%;background:{{ f.c }};font:800 16px Archivo,sans-serif;display:flex;align-items:center;justify-content:center">{{ f.i }}</span>
+<span style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:600 16px Geist,sans-serif">{{ f.name }}</span><span style="font:500 13px Geist,sans-serif;color:#6b6356">{{ f.note }}</span></span>
+<span style="padding:6px 10px;border-radius:10px;font:800 10.5px Archivo,sans-serif;letter-spacing:.1em;background:{{ f.sbg }};color:{{ f.sfg }}">{{ f.status }}</span>
+</div></sc-for>
+</div>
+</section>
+
+<section data-screen-label="How referrals work" style="max-width:1240px;margin:0 auto;padding:40px clamp(20px,4vw,48px) clamp(80px,10vw,128px);display:flex;flex-direction:column;gap:28px">
+<h2 style="margin:0;font:900 clamp(40px,4.6vw,60px)/.86 Archivo,sans-serif;font-stretch:66%;text-transform:uppercase">How it works</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px">
+<div style="padding:28px;border-radius:28px;background:#17142a;color:#f4efe4;display:flex;flex-direction:column;gap:10px;transform:rotate(-1deg)"><span style="font:900 64px/.8 Archivo,sans-serif;font-stretch:66%;color:#ffd84a">1</span><span style="font:900 24px/1 Archivo,sans-serif;font-stretch:72%">SEND YOUR LINK</span><span style="font:400 15px/1.5 Geist,sans-serif;color:#c9c4dc">Or add them straight to a crew. Either counts.</span></div>
+<div style="padding:28px;border-radius:28px;background:#ffd84a;display:flex;flex-direction:column;gap:10px;transform:rotate(1deg)"><span style="font:900 64px/.8 Archivo,sans-serif;font-stretch:66%">2</span><span style="font:900 24px/1 Archivo,sans-serif;font-stretch:72%">THEY PLAN A TRIP</span><span style="font:400 15px/1.5 Geist,sans-serif;color:#3d372f">A stamp lands once they've joined and voted on, or planned, their first trip.</span></div>
+<div style="padding:28px;border-radius:28px;background:#54d6a4;display:flex;flex-direction:column;gap:10px;transform:rotate(-.5deg)"><span style="font:900 64px/.8 Archivo,sans-serif;font-stretch:66%">3</span><span style="font:900 24px/1 Archivo,sans-serif;font-stretch:72%">YOU BOTH GET ONE</span><span style="font:400 15px/1.5 Geist,sans-serif;color:#17142a">They start with a stamp too. Covers unlock at 3 and 5.</span></div>
+</div>
+<p style="margin:0;max-width:720px;font:400 13.5px/1.6 Geist,sans-serif;color:#6b6356;text-wrap:pretty">Stamps and covers are cosmetic and have no cash value. Critters still only come from visiting places. One stamp per friend, and a friend has to be new to Critterpass. See the <a href="Site%20-%20Legal.dc.html#terms">terms</a>.</p>
+</section>
+<dc-import name="Site - Footer" hint-size="100%,520px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;joined&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:0,&quot;max&quot;:5,&quot;step&quot;:1,&quot;default&quot;:2,&quot;tsType&quot;:&quot;number&quot;},&quot;code&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;WINST8&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { copied: false };
+  componentWillUnmount() { clearTimeout(this.t); }
+  renderVals() {
+    const joined = Math.max(0, Math.min(5, this.props.joined ?? 2));
+    const code = this.props.code ?? 'WINST8';
+    const labels = [['TAG', 'ALONG'], ['CREW', 'OF TWO'], ['NAVY', 'COVER'], ['ROAD', 'CREW'], ['GOLD', 'COVER']];
+    const slots = labels.map(([label, sub], i) => {
+      const got = i < joined;
+      return { label, sub, r: [-8, 6, -4, 9, -6][i], border: got ? 'solid #17142a' : 'dashed #c9c0ad', bg: got ? (i === 4 ? '#ffd84a' : i === 2 ? '#17142a' : '#ff5fa8') : 'transparent', fg: got ? (i === 2 ? '#ffd84a' : '#17142a') : '#b5ac99' };
+    });
+    const friends = [
+      { i: 'M', c: '#ff5fa8', name: 'Mai', note: 'Joined the Bali Six', status: 'STAMPED', sbg: '#17142a', sfg: '#ffd84a' },
+      { i: 'A', c: '#4f86ff', name: 'Arjun', note: 'Planning Kyoto', status: 'STAMPED', sbg: '#17142a', sfg: '#ffd84a' },
+      { i: 'J', c: '#54d6a4', name: 'Jess', note: 'Joined, no trip yet', status: 'ALMOST', sbg: '#ffd84a', sfg: '#17142a' },
+      { i: 'R', c: '#e9e2d2', name: 'Rafa', note: 'Invite sent 2 days ago', status: 'PENDING', sbg: '#e9e2d2', sfg: '#6b6356' }
+    ];
+    return {
+      code, joined, slots, friends,
+      nextAt: joined < 3 ? 3 : 5,
+      copyBtn: this.state.copied ? { t: 'COPIED ✓', bg: '#54d6a4' } : { t: 'COPY', bg: '#ffd84a' },
+      copy: () => { try { navigator.clipboard.writeText('https://critterpass.app/i/' + code); } catch (e) {} this.setState({ copied: true }); clearTimeout(this.t); this.t = setTimeout(() => this.setState({ copied: false }), 1800); }
+    };
+  }
+}
+</script>
+</body>
+</html>
