@@ -87,7 +87,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. Style Dictionary 5 (DTCG native) or a small custom emitter if SD cannot express springs/cue maps — pick one, keep one. 2. TS: `as const` object + types; easings as bezier tuples, springs as `{stiffness, damping, mass}`. 3. Swift `CPTokens` enums + `Color(hex:)`; Kotlin `object CpTokens`. 4. CSS vars on `:root`. 5. ESLint rule + fixture tests; register in the shared ESLint config from phase 1.
 - Tests: `pnpm --filter @cp/design-tokens test && pnpm turbo build --filter @cp/design-tokens`; `swiftc -parse packages/design-tokens/dist/swift/*.swift`; `kotlinc` compile check in CI script.
 - Done when: snapshots stable; Swift parses; Kotlin compiles; lint rule flags `'#fff'` and `fontSize: 12` in fixtures.
-- Status: done — `build/` -> `codegen/` and `dist/` -> `generated/` renamed (tooling forces this in this environment; see report) — 5f0a1c2
+- Status: done — `build/` -> `codegen/` and `dist/` -> `generated/` renamed (tooling forces this in this environment; see report) — 5231656
 
 ### T3 — Font acquisition, instancing, subsetting
 - Goal: reproducible font build producing all instances with licences.
@@ -95,6 +95,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. Download OFL sources (Archivo VF, Geist, Geist Mono, Caveat, Instrument Serif, Noto Sans Thai) pinned by hash. 2. `fontTools.varLib.instancer` → Archivo `wdth` 62/66/70/78/100 × `wght` 700/800/900, named `Archivo-W{w}-{weight}`. 3. `pyftsubset` with the per-family unicode ranges in Requirements (`sources.json` carries each family's range set), keep `tnum`, `case`. 4. Glyph-coverage check: every Vietnamese precomposed letter and currency symbol present in Archivo/Geist/Caveat (report which fall back); every assigned Thai-block code point present in Noto Sans Thai. 5. Manifest lists family → file → weights/widths → coverage.
 - Tests: `python3 tools/scripts/fonts/build-fonts.py --check` (idempotent rebuild yields identical hashes; coverage assertions).
 - Done when: total mobile font payload ≤ 3 MB; Vietnamese + Thai coverage checks pass; licences committed.
+- Status: done — see report for font sources/licences and a fontTools reproducibility fix (`recalcTimestamp`) — 3a15a97
 
 ### T4 — Font runtime, per-script resolver, native + web registration
 - Goal: apps and extensions render the right face, size factor and line height per locale script.
