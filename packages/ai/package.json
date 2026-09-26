@@ -1,0 +1,16 @@
+{
+  "name": "@cp/ai",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Server-only prompts, personas, tool schemas, model routing and evals",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  }
+}

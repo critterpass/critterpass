@@ -61,7 +61,7 @@ owns:
 
 ## Overview
 Goal: the single Postgres 18 schema foundation every later phase extends — roles, schemas, RLS backstop helpers, per-transaction identity (`withUser`), identity/crew/trip/plan core tables, the Trip status machine (TS + SQL parity), idempotent command bookkeeping (`cmd_log`, `cmd_results`), `rt_outbox`, append-only `domain_events` + `activity_events`, the PowerSync publication allow-list, the app-layer policy module and the Testcontainers permission contract harness.
-Done when: `pnpm --filter @critterpass/db test` spins a Postgres 18 container, applies all migrations, and the permission matrix (outsider / ex-member / member / organiser / anonymous × every table here) passes; `pnpm --filter @critterpass/domain test` passes policy + state machine tests; the publication check passes; `pnpm --filter @critterpass/db seed` loads a realistic crew/trip fixture.
+Done when: `pnpm --filter @cp/db test` spins a Postgres 18 container, applies all migrations, and the permission matrix (outsider / ex-member / member / organiser / anonymous × every table here) passes; `pnpm --filter @cp/domain test` passes policy + state machine tests; the publication check passes; `pnpm --filter @cp/db seed` loads a realistic crew/trip fixture.
 
 ## Requirements
 ### F-037 Trip & plan model
@@ -143,63 +143,63 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Goal: migrations run against a real Postgres 18 container; `withUser`/`withSystem` proven PgBouncer-safe.
 - Files: `packages/db/drizzle.config.ts`, `packages/db/src/{client,tx}.ts`, `packages/db/sql/roles.sql`, `packages/db/migrations/<ts>_core_roles_and_schemas.sql`, `packages/db/test/helpers/{pg-container,migrate,actors}.ts`, `packages/db/test/tx.test.ts`, `packages/db/package.json` scripts.
 - Steps: 1. Drizzle 0.45 config with `entities.roles`, schemaFilter `public,app,ops,llm`. 2. Container helper: image `pgvector/pgvector:pg18` with `wal_level=logical`, one container per test file worker, migrate once, template DB per test. 3. Roles/schemas/extensions/helper fns migration. 4. `tx.ts` helpers with `pg` Pool (no session state, statement timeout 15 s). 5. Tests: `app.uid()` visible inside tx, empty in next pooled tx; `current_user` is `app_user`; `app_user` cannot `SET ROLE app_system`; no BYPASSRLS.
-- Tests: `pnpm --filter @critterpass/db test -- tx`
-- Done when: tests green; `pnpm --filter @critterpass/db migrate` applies cleanly twice (idempotent runner).
+- Tests: `pnpm --filter @cp/db test -- tx`
+- Done when: tests green; `pnpm --filter @cp/db migrate` applies cleanly twice (idempotent runner).
 
 ### T2 — Domain primitives: ids, errors, privacy classes, envelope, enums
 - Goal: leaf contracts every package imports.
 - Files: `packages/domain/src/{ids,errors,privacy,channel-names}.ts`, `packages/domain/src/commands/envelope.ts`, `packages/domain/src/enums/{trip,crew,plan,platform}.ts`, `packages/domain/test/*.test.ts`, `packages/db/sql/gen-checks.ts` (emits `CHECK (col IN …)` from zod enums).
 - Steps: 1. UUIDv7 generate/parse/time-extract. 2. Error table from api-contracts §3 (code, http, retry, message_key). 3. Privacy registry `{table → class, columns?}` used by publication + event-payload tests. 4. Envelope zod (`op_id` uuidv7, `actor.via` enum, `device.tz` IANA). 5. Enum → CHECK generator.
-- Tests: `pnpm --filter @critterpass/domain test`
+- Tests: `pnpm --filter @cp/domain test`
 - Done when: every api-contracts §3 code present (test diffs against a list); UUIDv7 monotonic within ms; generator output snapshot matches migrations.
 
 ### T3 — Identity and crew tables, membership epochs
 - Goal: `users`, `user_settings`, `consents`, `media_objects`, `crews`, `crew_members` with RLS + helpers.
 - Files: `packages/db/src/schema/{identity,crews}.ts`, `packages/db/migrations/<ts>_identity_and_crews.sql`, `packages/db/sql/helpers-crew.sql`, `packages/db/test/permissions/{users,user_settings,consents,media_objects,crews,crew_members}.test.ts`.
 - Steps: 1. Drizzle tables + `pgPolicy`. 2. `app.is_crew_member` (active; chat variant `app.is_crew_chat_member` incl. former+keep_in_chat), `app.shares_crew(a,b)`. 3. Epoch trigger bumps `membership_epoch`, sets `joined_epoch`, writes `rt_outbox` kind `unsubscribe` for removed/left user on `crew:{crew_id}`, `crew_*:{crew_id}` + trip channels via `app.channel_name` (`#` is reserved for user-limited `user:#uid` only). 4. `users.username` citext unique; `member_ceiling` default 16 CHECK.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/(users|crews|crew_members)`
+- Tests: `pnpm --filter @cp/db test -- permissions/(users|crews|crew_members)`
 - Done when: outsider sees 0 rows, ex-member loses crew rows immediately after removal, epoch increments exactly once per membership change and emits one unsubscribe row.
 
 ### T4 — Trips, participants, catalogue tables, Trip status machine
 - Goal: F-037 trip lifecycle with TS/SQL parity.
 - Files: `packages/domain/src/state/{machine,trip}.ts`, `packages/domain/src/state/trip.transitions.json`, `packages/db/src/schema/trips.ts`, `packages/db/migrations/<ts>_trips_and_participants.sql`, `packages/db/test/permissions/{trips,trip_participants,destinations,guides}.test.ts`, `packages/db/test/trip-machine.test.ts`.
 - Steps: 1. Generic table-driven machine (`canTransition`, `transition` returning side-effect tags). 2. Trip transitions JSON (sync doc §3.1) → TS + generated SQL guard trigger. 3. Tables with generated `phase`, `holds_seat`; tz validation; `seat_cap`/`redraft_limit` columns filled by phase 12 materialiser. 4. Helpers `is_trip_member/participant/organiser`, `trip_seats_held`.
-- Tests: `pnpm --filter @critterpass/domain test -- state`; `pnpm --filter @critterpass/db test -- trip`
+- Tests: `pnpm --filter @cp/domain test -- state`; `pnpm --filter @cp/db test -- trip`
 - Done when: every legal transition accepted and every illegal pair rejected by both TS and trigger (exhaustive loop test); `rsvp='out'` frees a seat in `trip_seats_held`.
 
 ### T5 — Plan versions, days, items, ChangeSets, GuideActions
 - Goal: plan model with stable ids, private drafts, apply-only-via-approved-ChangeSet.
 - Files: `packages/db/src/schema/plan.ts`, `packages/db/migrations/<ts>_plan_versions_and_changesets.sql`, `packages/domain/src/plan/{change-set-ops,plan-item}.ts`, `packages/domain/src/state/change-set.ts`, `packages/db/test/permissions/{itinerary_versions,plan_days,plan_items,change_sets,guide_actions}.test.ts`, `packages/db/test/apply-change-set.test.ts`.
 - Steps: 1. Tables + indexes `(trip_id, stable_id)`. 2. Visibility policy: organiser-only drafts. 3. `app.apply_change_set`: requires approved; copies base version → new version; applies ops by `stable_id`; conflict when base ≠ current → marks `stale`. 4. Change-set state machine + trigger. 5. ops zod in domain.
-- Tests: `pnpm --filter @critterpass/db test -- plan|change`
+- Tests: `pnpm --filter @cp/db test -- plan|change`
 - Done when: member cannot SELECT an organiser draft nor INSERT `plan_items`; applying an approved change-set yields a new `current` version with stable_ids preserved; stale base → `stale`, no writes.
 
 ### T6 — Command bookkeeping, outbox, domain events, activity log
 - Goal: F-015 plumbing and idempotency primitives.
 - Files: `packages/db/src/schema/platform.ts`, `packages/db/src/events.ts`, `packages/db/migrations/<ts>_command_and_event_log.sql`, `packages/domain/src/events/{catalogue,envelope,activity-rules}.ts`, `packages/db/test/{events,idempotency}.test.ts`, `packages/db/test/permissions/{activity_events,cmd_results,infra}.test.ts`.
 - Steps: 1. Tables per data-model §3.18 (+ `crew_id`, `trip_id` on `domain_events`). 2. Catalogue seeded with core events (`crew.member_joined/left/removed`, `trip.created/status_changed`, `plan.version_created`, `change_set.proposed/applied/reverted/rejected`, `rsvp.changed`); later phases append. 3. SECURITY DEFINER `app.claim_op`/`app.record_cmd_result`/`app.append_event`/`app.enqueue_rt` (pinned `search_path`, EXECUTE to `app_user`) + TS wrappers `claimOpId`, `recordCmdResult`, `appendDomainEvent`, `enqueueRealtime`, activity projection. No table INSERT grants to `app_user` on `cmd_log`/`rt_outbox`/`domain_events`/`cmd_results`. 4. Privacy test: no catalogue payload field maps to a C3 column. 5. Purge fn with retention windows.
-- Tests: `pnpm --filter @critterpass/db test -- events|idempotency`
+- Tests: `pnpm --filter @cp/db test -- events|idempotency`
 - Done when: same op_id+hash → `duplicate` with stored result; different hash → `IDEMPOTENCY_MISMATCH`; event + activity + outbox rows commit or roll back together inside `withUser`; direct `INSERT` on `rt_outbox` as `app_user` is denied and `app.enqueue_rt` to a non-member crew channel raises `FORBIDDEN`; `app_user` cannot UPDATE/DELETE `domain_events`.
 
 ### T7 — App-layer policy module
 - Goal: `can()` for crew/trip/plan actions shared by api + worker.
 - Files: `packages/domain/src/policy/{index,crew,trip,plan,types}.ts`, `packages/domain/test/policy/*.test.ts`.
 - Steps: 1. Actor model `{uid, isAnonymous, roles[], via}`; facts loaded by caller. 2. Rules per Requirements. 3. Map denials to error codes (never leak existence: outsider → NOT_FOUND). 4. Table-driven tests actor × action.
-- Tests: `pnpm --filter @critterpass/domain test -- policy`
+- Tests: `pnpm --filter @cp/domain test -- policy`
 - Done when: 100% branch coverage on policy files; matrix mirrors RLS outcomes for the same fixtures (shared fixture file).
 
 ### T8 — Ops core, client config, PowerSync publication + check
 - Goal: publication allow-list with CI guard; config store.
 - Files: `packages/db/src/schema/ops-core.ts`, `packages/db/src/publication.ts`, `packages/db/migrations/<ts>_ops_core_and_publication.sql`, `tools/scripts/check-publication.ts`, `packages/db/test/publication.test.ts`.
 - Steps: 1. `ops.admin_audit`, `ops.ops_config(key, value, is_public)`, view `client_config`. 2. Allow-list = privacy class ≤ C2 non-S tables. 3. Migration creates publication explicitly; `powersync_repl` SELECT only on listed tables. 4. Check script compares `pg_publication_tables` to allow-list and fails on C3/`S` tables. 5. `guide_reader` has no grant on `public`.
-- Tests: `pnpm --filter @critterpass/db test -- publication`; `pnpm tsx tools/scripts/check-publication.ts`
+- Tests: `pnpm --filter @cp/db test -- publication`; `pnpm tsx tools/scripts/check-publication.ts`
 - Done when: publication equals allow-list; `powersync_repl` cannot read `cmd_log`/`ops.*`; script wired in CI (`turbo run check:publication`).
 
 ### T9 — Permission contract matrix + dev seed
 - Goal: reusable actor × table × op matrix and realistic seed.
 - Files: `packages/db/test/permissions/_matrix.ts`, `packages/db/test/helpers/fixtures.ts`, `packages/db/seed/{index,crew-bali-six,trip-kyoto-solo}.ts`, `packages/db/package.json` (`seed` script).
 - Steps: 1. Fixture builder: outsider, ex-member, member, organiser, co-organiser, anonymous. 2. Matrix runner: expected {select,insert,update,delete} per table declared once; each table test calls it. 3. Coverage test: every RLS-enabled table in `pg_tables` has a matrix entry and FORCE RLS on. 4. Seed from design: Winston's "The Bali Six" (Bali Oct 12–19, 4 in, Tokek), Kyoto solo trip (Pon), plan version with 2 days.
-- Tests: `pnpm --filter @critterpass/db test`; `pnpm --filter @critterpass/db seed` against docker-compose Postgres.
+- Tests: `pnpm --filter @cp/db test`; `pnpm --filter @cp/db seed` against docker-compose Postgres.
 - Done when: full suite green; coverage test fails if a new table lacks FORCE RLS or matrix entry.
 
 ## Phase acceptance criteria
@@ -212,7 +212,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - [ ] Domain event, activity row, outbox row atomic with the command tx.
 - [ ] Publication equals allow-list; no C3 or S table published; `guide_reader` has no `public` grant.
 - [ ] Seed loads; no plan/phase/feature ids in migrations, test names or comments.
-- [ ] Plan lint: `rg -n -- '--filter @cp/|--filter mobile ' plans/` returns nothing (every command uses `@critterpass/<pkg>`).
+- [ ] Plan lint: `rg -n -- '--filter @critterpass/|--filter mobile ' plans/` returns nothing (every command uses `@cp/<pkg>`).
 
 ## Risks & rollback
 | Risk | Mitigation / rollback |

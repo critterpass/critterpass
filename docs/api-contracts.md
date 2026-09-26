@@ -462,7 +462,7 @@ Auth column: **S** session bearer · **A** anonymous session allowed · **K** de
 | `POST /v1/media/presign` | S | `{purpose: avatar\|photo\|receipt\|menu\|booking_doc\|feedback, content_type, bytes, sha256}` → `{media_key, put_url, expires_at}` (≤5 MB) |
 | `POST /v1/media/multipart` / `.../{key}/parts` / `.../{key}/complete` | S | >5 MB originals (parts ≥5 MiB) |
 | `POST /v1/media/read-urls` | S | `{media_keys[]}` → HMAC-signed `media.critterpass.app` URLs (membership checked when minting; TTL 15 min) |
-| media Worker `GET /m/{key}?exp&sig` | HMAC | `services/media-worker`; verifies `HMAC-SHA256(secret, key+exp)`; edge cache private |
+| media Worker `GET https://media.critterpass.app/{object_key}?v={variant}&exp={unix}&kid={key id}&sig={base64url}` | HMAC | `services/media-worker`; `sig = HMAC-SHA256(keys[kid], "{object_key}\|{variant}\|{exp}")` via `signMediaUrl`/`verifyMediaSignature` in `packages/domain`; key set `MEDIA_HMAC_KEYS` rotates by `kid`; GET/HEAD only; expired, tampered, unknown `kid` or malformed → 403, missing object → 404; `Cache-Control: private, max-age=min(exp − now, 3600)` |
 
 ### 5.5 Reads not served by PowerSync (P14–P16, P25, P30, P34–P36, P38, P47, P49, P52)
 
@@ -540,7 +540,7 @@ Roles via Better Auth `admin` plugin; SPA at `apps/admin`. Routes: users (lookup
 
 ### 5.10 Health and docs
 
-`GET /health` (liveness), `GET /ready` (DB + Redis + Centrifugo API), `GET /openapi.json`, `GET /docs` (Scalar, non-prod only).
+`GET /health` (liveness, never touches dependencies) → `200 {status: "ok", service, version, commit}`. `GET /ready` → `200 {status: "ok", checks}` or `503 {status: "unavailable", checks}`, where `checks` maps each dependency to `ok`/`fail` (each probe capped at 2 s): `db`, `redis`, and `centrifugo` once the realtime service is wired. Same contract on the worker's private port. `GET /openapi.json` (OpenAPI 3.1), `GET /docs` (Scalar, every tier except production, keyed off `APP_ENV`).
 
 ## 6. AI tool registry (`packages/ai/src/tools/`, P13)
 

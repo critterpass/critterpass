@@ -126,70 +126,70 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Goal: one `executeCommand` implementing api-contracts §2.3 for every door.
 - Files: `packages/domain/src/commands/{registry-types.ts,index.ts}`, `packages/db/src/command/{execute.ts,revoke.ts}` (imports `claimOpId`/`recordCmdResult`/`appendDomainEvent`/`enqueueRealtime` from `packages/db/src/events.ts`), `services/api/src/commands/_framework/{registry.ts,define-command.ts}`, `packages/db/migrations/<ts>_rt_outbox_notify.sql`, `packages/db/test/command/execute.test.ts`
 - Steps: 1. Import phase 08 `CommandEnvelope`; add skew handling (future >5 min stored, not trusted). 2. `defineCommand({name, v, schema, authorize, entitle, handle, offline: boolean, actionScope?})`. 3. `executeCommand`: parse → overwrite `actor.uid` → `withUser` → `claimOpId` (sha256 of canonical JSON payload) → authorize → `entitle(tx, …)` from phase 12 `services/api/src/entitlements` → handle → `recordCmdResult` → commit. 4. Error mapping to `DomainError(code, detail)`. 5. NOTIFY trigger migration.
-- Tests: `pnpm --filter @critterpass/db test -- command/execute` (Testcontainers PG18: applied, duplicate replay returns stored result, `IDEMPOTENCY_MISMATCH`, authorize deny → `FORBIDDEN` with no writes, handler throw rolls back outbox + events, uid spoof overwritten, failed handler after `entitle` leaves the quota counter unchanged — pipeline integration for phase 12 quota reservations).
+- Tests: `pnpm --filter @cp/db test -- command/execute` (Testcontainers PG18: applied, duplicate replay returns stored result, `IDEMPOTENCY_MISMATCH`, authorize deny → `FORBIDDEN` with no writes, handler throw rolls back outbox + events, uid spoof overwritten, failed handler after `entitle` leaves the quota counter unchanged — pipeline integration for phase 12 quota reservations).
 - Done when: all cases pass; a test-file-registered command proves outbox + event rows exist only after commit.
 
 ### T2 — HTTP doors: `/v1/cmd/{cmd}`, `/sync/upload`, `/v1/cmd-results`
 - Goal: three routes on the one registry with correct status semantics.
 - Files: `services/api/src/routes/{cmd.ts,sync-upload.ts,cmd-results.ts}`, `services/api/test/routes/sync-upload.test.ts`, `services/api/test/routes/cmd.test.ts`
 - Steps: 1. `/v1/cmd/{cmd}`: session (anonymous allowed where command says) → `executeCommand` → 200 `{status, result}` or error envelope with HTTP per api §3. 2. `/sync/upload`: batch `{ops[]}` ≤500 ops/≤1 MB, ordered, each op own tx; rejects → recorded, continue; any transient error → stop, return 503 with index of first unprocessed op (already-applied ops replay as duplicates). 3. `/v1/cmd-results?since` paginated own rows. 4. OpenAPI via `@hono/zod-openapi`; per-uid rate limit (Redis) → `RATE_LIMITED`.
-- Tests: `pnpm --filter @critterpass/api test -- routes/sync-upload routes/cmd` (Hono `app.request` + Testcontainers).
+- Tests: `pnpm --filter @cp/api test -- routes/sync-upload routes/cmd` (Hono `app.request` + Testcontainers).
 - Done when: reject returns 2xx with `cmd_results.status=rejected`; retry of a partially applied batch yields `duplicate` for applied ops; `/openapi.json` lists the three routes.
 
 ### T3 — PowerSync service config, publication and core Sync Streams
 - Goal: self-hosted PowerSync (Open Edition) replicating from PG18 with Better Auth JWKS, streams for existing tables.
 - Files: `infra/powersync/{service.yaml,build-config.ts,README.md}`, `infra/powersync/streams/{core,entitlements,places}.yaml`, `infra/railway/powersync-repl.toml`, `infra/railway/powersync-api.toml`, `packages/db/test/helpers/stream-harness.ts`, `packages/db/test/permissions/{sync-streams-core,sync-streams-entitlements,sync-streams-places}.test.ts`
 - Steps: 1. Service config: `powersync_repl` direct (non-PgBouncer) connection, Postgres bucket storage (Railway PG18), JWKS `https://api…/api/auth/jwks`, `aud: sync`. 2. Verify phase 08 publication (+ 12/14 `ALTER PUBLICATION` entries) via `check-publication`. 3. `streams/core.yaml` (`me`, `crews`, `crew_people`, `trip`, `trip_draft`, `catalog`), `entitlements.yaml` (`products`, `perks`, `user_entitlements`, `trip_entitlements`, `usage_counters`, `fx_snapshots`), `places.yaml` (`pois`, `map_regions` in `trip_pack`/`explore`); `deleted_at IS NULL`; `build-config.ts` merges `streams/*.yaml`. 4. Railway configs: repl ×1, api ×N. 5. `stream-harness.ts`: evaluates a stream's SQL with the 5 fixtures (outsider / ex-member / member / organiser / anonymous) against Testcontainers PG; used here and by later phases.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/sync-streams`; `docker compose -f infra/docker-compose.yml up powersync` then `pnpm --filter @critterpass/db exec tsx test/smoke/powersync-health.ts`.
+- Tests: `pnpm --filter @cp/db test -- permissions/sync-streams`; `docker compose -f infra/docker-compose.yml up powersync` then `pnpm --filter @cp/db exec tsx test/smoke/powersync-health.ts`.
 - Done when: outsider/ex-member get zero rows for crew/trip streams; member gets rows; service reaches `ready` locally against compose Postgres.
 
 ### T4 — Mobile PowerSync client with SQLCipher and connector
 - Goal: encrypted local DB, credentials and upload wiring.
 - Files: `apps/mobile/src/data/powersync/{schema.ts,db.ts,connector.ts,encryption-key.ts,local-tables.ts}`, `apps/mobile/src/data/powersync/__tests__/connector.test.ts`
 - Steps: 1. PowerSync RN SDK on op-sqlite with SQLCipher; 32-byte key generated once into secure store (`requireAuthentication: false`, `keychainAccessible: AFTER_FIRST_UNLOCK`). 2. Schema generated from Drizzle for published tables + local-only `commands`, `local_private`, `overlay_*`. 3. `fetchCredentials` → `GET /api/auth/token?aud=sync`. 4. `uploadData` reads `commands` in insertion order, posts `/sync/upload`, removes sent ops on 2xx, backoff on 5xx/offline. 5. `resetForUser(uid)` → `disconnectAndClear()` + `local_private` wipe, registered into phase 09 `registerOnSignOut()` (sign-out, merge, `SESSION_REVOKED`).
-- Tests: `pnpm --filter @critterpass/mobile test -- data/powersync` (Jest; connector against msw-free Hono test server started in-process from `services/api` test harness).
+- Tests: `pnpm --filter @cp/mobile test -- data/powersync` (Jest; connector against msw-free Hono test server started in-process from `services/api` test harness).
 - Done when: DB file is unreadable without key (test opens raw file and fails); ordered upload + retry behaviour verified.
 
 ### T5 — Command client, optimistic overlays and reconcile
 - Goal: `useCommand` with optimistic writes, per-op reconcile and headless queued/rejected state.
 - Files: `apps/mobile/src/data/commands/{client.ts,use-command.ts,overlays.ts,reconcile.ts,summaries.ts}`, `apps/mobile/src/data/status/{use-sync-status.ts,use-queued-commands.ts,use-rejected-commands.ts}`, `apps/mobile/src/data/commands/__tests__/*.test.ts`
 - Steps: 1. `send(cmd, payload, {optimistic?})`: UUIDv7 `op_id`, envelope, insert into `commands` (+ overlay rows) in one local tx; online-only commands go to `/v1/cmd`. 2. Summary registry: each command registers `summarize(payload) → i18n message descriptor` (Lingui `msg` from phase 03; fallback to command name if absent). 3. Reconcile on `cmd_results` watch: applied → clear overlay once server row present; rejected → rollback overlay, push to rejected store. 4. Status hooks: online/offline (NetInfo), connecting, catching-up (PowerSync `hasSynced`/`downloading`), `lastSyncedAt`.
-- Tests: `pnpm --filter @critterpass/mobile test -- data/commands data/status`.
+- Tests: `pnpm --filter @cp/mobile test -- data/commands data/status`.
 - Done when: rejected op removes its overlay row and appears in `useRejectedCommands`; queued list survives DB reopen; statuses transition correctly in tests.
 
 ### T6 — Centrifugo config, subscribe and publish proxies
 - Goal: authenticated realtime with ACL from the same policy functions.
 - Files: `infra/centrifugo/config.json`, `infra/railway/centrifugo.toml`, `services/api/src/routes/internal-rt.ts`, `services/api/src/realtime/{namespaces.ts,acl.ts,publish-rules.ts,info.ts}`, `packages/domain/src/realtime/{envelope.ts,namespaces.ts,payloads/user.ts}`, `packages/db/test/permissions/rt-subscribe.test.ts`
 - Steps: 1. Config: token JWKS + `aud: rt`, Redis engine, namespaces from catalogue with history size/TTL, `force_recovery`, presence/join_leave, `allow_user_limited_channels`, proxy endpoints + shared header. 2. `registerNamespace({name, acl(uid, id, tx), clientPublish?: {types, maxHz, maxBytes}})`; register `user`, `crew`, `crew_chat`, `crew_money`, `crew_bookings`, `crew_collection`, `trip`, `trip_setup`, `trip_draft` (organiser), `trip_plan`, `trip_dayof`, `trip_watch`, `trip_quests`, `trip_album`, `trip_presence`. 3. Subscribe proxy returns `{result:{info}}` or 403 (unknown namespace → 403). 4. Publish proxy: only `trip_presence`, `crew_chat` typing; per-client rate window in Redis; drop oversize.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/rt-subscribe` (5 fixtures × every registered namespace); `pnpm --filter @critterpass/api test -- routes/internal-rt`.
+- Tests: `pnpm --filter @cp/db test -- permissions/rt-subscribe` (5 fixtures × every registered namespace); `pnpm --filter @cp/api test -- routes/internal-rt`.
 - Done when: matrix passes; publish of `message.created` by a client is dropped; typing at 2/s is rate-limited to ≤1/3 s.
 
 ### T7 — Outbox relay and server-side revocation
 - Goal: commit-then-publish fan-out with unsubscribe/disconnect on membership or session change.
 - Files: `services/worker/src/rt-relay/{relay.ts,centrifugo-api.ts,index.ts}`, `services/worker/test/rt-relay.test.ts`, `services/api/src/realtime/session-revoke-hook.ts`
 - Steps: 1. `LISTEN rt_outbox` + 1 s sweep; `SELECT … FOR UPDATE SKIP LOCKED LIMIT 100` as `app_system`. 2. Map kinds: publish (single channel), broadcast (grouped), unsubscribe (user, channel), disconnect (user). 3. Mark `published_at`; failures increment `attempts` with capped backoff. 4. Better Auth session revoke/sign-out hook writes `disconnect` outbox row. 5. Graceful shutdown.
-- Tests: `pnpm --filter @critterpass/worker test -- rt-relay` (Testcontainers PG + Centrifugo container: publish visible to a subscribed centrifuge-js Node client; membership removal → client receives unsubscribe < 1 s; rolled-back tx publishes nothing).
+- Tests: `pnpm --filter @cp/worker test -- rt-relay` (Testcontainers PG + Centrifugo container: publish visible to a subscribed centrifuge-js Node client; membership removal → client receives unsubscribe < 1 s; rolled-back tx publishes nothing).
 - Done when: all three behaviours pass; two relay instances never double-publish (test with concurrent relays checks message count).
 
 ### T8 — Mobile realtime client, recovery and presence hooks
 - Goal: typed subscriptions with recovery, dedupe, presence, typing and anchored cursors.
 - Files: `apps/mobile/src/data/realtime/{client.ts,subscriptions.ts,recovery-store.ts,use-channel.ts,use-presence.ts,use-typing.ts,use-anchored-presence.ts}`, `apps/mobile/src/data/realtime/__tests__/*.test.ts`
 - Steps: 1. centrifuge-js with `getToken` → `/api/auth/token?aud=rt`, refresh before `exp`. 2. Ref-counted `useChannel(ns, id, handlers)`; persist `(offset, epoch)` in MMKV; `recovered:false`/epoch change → `onChannelReset`. 3. Dedupe on envelope `id` (LRU 500); zod-validate payload by `type`. 4. AppState: disconnect after 30 s background, reconnect on foreground. 5. `useTyping` throttle 1/3 s + 5 s expiry; `useAnchoredPresence(anchor)` ≤5 Hz, clears on blur; `usePresence` from presence + join/leave.
-- Tests: `pnpm --filter @critterpass/mobile test -- data/realtime` (Jest against local Centrifugo via compose in CI job `rt-client`).
+- Tests: `pnpm --filter @cp/mobile test -- data/realtime` (Jest against local Centrifugo via compose in CI job `rt-client`).
 - Done when: reconnect after 2 min background recovers missed messages with no duplicates; lossy reset callback fires when history is exceeded.
 
 ### T9 — Media presign, multipart and signed reads
 - Goal: R2 upload/read primitives used by avatars, photos, receipts, docs.
 - Files: `services/api/src/routes/media.ts`, `services/api/src/media/{r2.ts,sign.ts,purposes.ts}`, `services/media-worker/{src/index.ts,wrangler.toml,test/index.test.ts}`, `services/api/test/routes/media.test.ts`
 - Steps: 1. `purposes.ts`: allowed content types + max bytes per purpose; key `u/<uid>/<purpose>/<uuidv7>`. 2. Presign PUT (≤5 MB) with sha256 checksum; multipart create/parts/complete (parts ≥5 MiB). 3. Register `media_objects` row via internal command `register_media_upload`. 4. `read-urls`: authorize each key (owner, or membership of the object's crew/trip) → `HMAC-SHA256(secret, key+exp)`, TTL 15 min. 5. Worker verifies sig/exp in constant time, streams from R2 binding, `Cache-Control: private`.
-- Tests: `pnpm --filter @critterpass/api test -- routes/media`; `pnpm --filter @critterpass/media-worker test` (Miniflare).
+- Tests: `pnpm --filter @cp/api test -- routes/media`; `pnpm --filter @cp/media-worker test` (Miniflare).
 - Done when: outsider read-url request → `NOT_FOUND`; expired/tampered sig → 403 at worker; oversize presign → `PAYLOAD_TOO_LARGE`.
 
 ### T10 — App Group bridge and extension outbox drain
 - Goal: extensions can queue commands offline and the app drains them through the normal pipeline.
 - Files: `apps/mobile/modules/cp-app-group/{expo-module.config.json,ios/CpAppGroupModule.swift,ios/AppGroupStore.swift,android/src/main/java/app/critterpass/appgroup/CpAppGroupModule.kt,src/index.ts}`, `packages/domain/src/surfaces/app-group.ts`, `apps/mobile/src/data/commands/drain-extension-outbox.ts`, `apps/mobile/modules/cp-app-group/ios/Tests/AppGroupStoreTests.swift`
 - Steps: 1. zod schemas for `state/pending-actions.json` and `config/endpoints.json` (`{schema, generated_at, …}`), codegen to Swift/Kotlin structs (script in `packages/domain/scripts/gen-surfaces.ts`). 2. Swift store: atomic temp+rename writes, `NSFileCoordinator`; Kotlin mirror in `filesDir`. 3. Config plugin adds App Group entitlement `group.app.critterpass`. 4. Drain on launch/foreground: move envelopes into `commands` (keep op_id, `actor.via` preserved), clear file. 5. Write `config/endpoints.json` on start.
-- Tests: `xcodebuild test -scheme CpAppGroup` via `pnpm --filter @critterpass/mobile ios:test cp-app-group`; `pnpm --filter @critterpass/mobile test -- drain-extension-outbox`.
+- Tests: `xcodebuild test -scheme CpAppGroup` via `pnpm --filter @cp/mobile ios:test cp-app-group`; `pnpm --filter @cp/mobile test -- drain-extension-outbox`.
 - Done when: an envelope written by the Swift store is uploaded once and file is emptied; concurrent write during drain is not lost (test).
 
 ### T11 — End-to-end sync harness and offline replay regression

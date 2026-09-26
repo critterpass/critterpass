@@ -98,35 +98,35 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 - Goal: iOS half of `cp-speech` with the JS API.
 - Files: `apps/mobile/modules/cp-speech/{expo-module.config.json,src/**,ios/**}`
 - Steps: 1. Expo module scaffold + TS API. 2. SpeechAnalyzer/SpeechTranscriber stream with partials. 3. AVAudioSession `playAndRecord` + `.voiceChat`, route changes, interruptions. 4. RMS level events 30 Hz. 5. Chunk playback queue + cancel + `setMuted`. 6. Debug fixture-audio input source.
-- Tests: `pnpm --filter mobile test -- modules/cp-speech`; `xcodebuild test -scheme CpSpeechTests`
+- Tests: `pnpm --filter @cp/mobile test -- modules/cp-speech`; `xcodebuild test -scheme CpSpeechTests`
 - Done when: XCTests pass; on the iOS 26 simulator the fixture WAV produces the expected transcript and chunks play in order and stop on `cancelPlayback`.
 
 ### T2 — cp-speech Android + Deepgram
 - Goal: Android half and Deepgram streaming for Android/unsupported locales.
 - Files: `apps/mobile/modules/cp-speech/android/**`, `apps/mobile/modules/cp-speech/src/deepgram.ts`
 - Steps: 1. AudioRecord (VOICE_COMMUNICATION) + AcousticEchoCanceler/NoiseSuppressor. 2. Deepgram Nova-3 websocket with `POST /v1/stt/token` token (iOS fallback path shares the TS client). 3. On-device SpeechRecognizer where the locale is supported offline. 4. ExoPlayer chunk queue + cancel + mute. 5. Debug fixture-audio source.
-- Tests: `./gradlew :cp-speech:testDebugUnitTest`; `pnpm --filter mobile test -- modules/cp-speech/deepgram`
+- Tests: `./gradlew :cp-speech:testDebugUnitTest`; `pnpm --filter @cp/mobile test -- modules/cp-speech/deepgram`
 - Done when: unit tests pass (Deepgram with recorded websocket fixture); on the API 36 emulator the fixture WAV yields a transcript and playback cancels.
 
 ### T3 — VAD and barge-in
 - Goal: speech-start detection during playback on the echo-cancelled signal.
 - Files: `apps/mobile/modules/cp-speech/{ios/Vad.swift,android/src/main/java/app/critterpass/speech/Vad.kt,src/barge-in.ts}` + tests
 - Steps: 1. Energy + spectral VAD with hangover on AEC input. 2. `onSpeechStart` during playback → `cancelPlayback` within 200 ms. 3. No-AEC device → barge-in disabled, tap-to-interrupt. 4. Fixture: TTS audio playing + fixture user speech mixed in.
-- Tests: `xcodebuild test -scheme CpSpeechTests -only-testing:VadTests`; `./gradlew :cp-speech:testDebugUnitTest --tests '*Vad*'`; `pnpm --filter mobile test -- modules/cp-speech/barge-in`
+- Tests: `xcodebuild test -scheme CpSpeechTests -only-testing:VadTests`; `./gradlew :cp-speech:testDebugUnitTest --tests '*Vad*'`; `pnpm --filter @cp/mobile test -- modules/cp-speech/barge-in`
 - Done when: own-TTS-only fixture never triggers barge-in; TTS + user-speech fixture stops playback ≤ 200 ms (both platforms, simulator/emulator).
 
 ### T4 — Voice server path (STT token, TTS streaming)
 - Goal: voice turns stream audio.
 - Files: `services/api/src/routes/stt-token.ts`, `services/api/src/lib/tts/**`, `packages/ai/src/routes/voice/**`, `packages/ai/evals/voice/**`
 - Steps: 1. Token route (rate-limited). 2. Sentence chunker → ElevenLabs Flash stream → R2-less direct chunk URLs/b64. 3. Filler lines. 4. Latency metrics to OTel.
-- Tests: `pnpm --filter @critterpass/api test -- routes/voice`; `pnpm --filter @critterpass/ai eval -- voice`
+- Tests: `pnpm --filter @cp/api test -- routes/voice`; `pnpm --filter @cp/ai eval -- voice`
 - Done when: integration test with recorded ElevenLabs fixture verifies ordered `audio{seq}`; TTFA metric emitted.
 
 ### T5 — Voice screen (3j-2) + barge-in
 - Goal: designed voice UI with rings/waveform and barge-in.
 - Files: `apps/mobile/src/features/guide/voice/**`, `apps/mobile/src/app/(modal)/guide/voice.tsx`, `packages/i18n/locales/en/guide/voice.po`
 - Steps: 1. Rings/waveform (Skia) from level. 2. Turn lifecycle + swap cards + SEND TO THE GROUP. 3. Barge-in cancel. 4. Permission and failure states.
-- Tests: `pnpm --filter mobile test -- features/guide/voice`; `maestro test e2e/guide/voice-turn.yaml` (debug build, fixture-audio source)
+- Tests: `pnpm --filter @cp/mobile test -- features/guide/voice`; `maestro test e2e/guide/voice-turn.yaml` (debug build, fixture-audio source)
 - Done when: barge-in UI test (fixture audio during playback) stops playback within 200 ms; mute toggle yields text-only reply; denied-permission path falls back to text.
 
 ### T6 — Live OCR frame processor
@@ -140,21 +140,21 @@ Done when: a voice turn returns first audio ≤ 1.5 s p50 on Singapore stack, in
 - Goal: translation + clash flags keyed by OCR line id.
 - Files: `services/api/src/routes/camera.ts`, `packages/ai/src/routes/camera/**`, `packages/ai/evals/camera/**`
 - Steps: 1. Validate lines/crop. 2. Consented flags from `llm` view. 3. Structured output (no price field); drop items with unknown line ids; strip digits/currency from model text. 4. `parseMenuPrice(lines, item_line_id)` in code (same-row bbox, currency symbols/codes, thousand separators e.g. "45.000" IDR, "45k"). 5. Meter + vision fair-use.
-- Tests: `pnpm --filter @critterpass/api test -- routes/camera`; `pnpm --filter @critterpass/ai eval -- camera`
+- Tests: `pnpm --filter @cp/api test -- routes/camera`; `pnpm --filter @cp/ai eval -- camera`
 - Done when: eval covers peanut/veg clash on 10 fixture menus; unknown ids rejected; no flags without consent; every displayed price equals the code-parsed OCR value (unit tests on 10 fixture menus); model output with numbers is stripped.
 
 ### T8 — Point-and-ask screen (3j-3)
 - Goal: stickers, shake-pink clash, caution, follow-ups.
 - Files: `apps/mobile/src/features/guide/camera/**`, `apps/mobile/src/app/(modal)/guide/camera.tsx`, `packages/i18n/locales/en/guide/camera.po`
 - Steps: 1. Sticker overlay aligned to boxes. 2. Clash animation. 3. Caution + allergy phrase card. 4. ORDER FOR 6 card, SPLIT THE BILL prefill, follow-up turns.
-- Tests: `pnpm --filter mobile test -- features/guide/camera`; `maestro test e2e/guide/camera-menu.yaml` (debug build, cp-ocr fixture-frame source)
+- Tests: `pnpm --filter @cp/mobile test -- features/guide/camera`; `maestro test e2e/guide/camera-menu.yaml` (debug build, cp-ocr fixture-frame source)
 - Done when: caution text always visible when any flag shown; offline shows on-device stickers only.
 
 ### T9 — Phrase practice (3l-7)
 - Goal: practise mode feeding quests.
 - Files: `apps/mobile/src/features/guide/phrase-practice/**`, `apps/mobile/src/app/(modal)/guide/practice.tsx`, `services/api/src/commands/guide/record-phrase-practice.ts`, `packages/ai/src/routes/phrase-practice/**`, `packages/i18n/locales/en/guide/practice.po`
 - Steps: 1. Listen → repeat → local grade → Haiku tip on mismatch. 2. Command + event. 3. Progress list. 4. Register quest template `phrase_practice{n, language}` consuming `phrase.practised` via the P41 `registerQuestTemplate` registry (`services/worker/src/jobs/quests/templates/phrase-practice.ts`).
-- Tests: `pnpm --filter @critterpass/api test -- commands/guide/record-phrase-practice`; `pnpm --filter @critterpass/worker test -- quests/templates/phrase-practice`; `maestro test e2e/guide/practice-quest.yaml` (fixture-audio source)
+- Tests: `pnpm --filter @cp/api test -- commands/guide/record-phrase-practice`; `pnpm --filter @cp/worker test -- quests/templates/phrase-practice`; `maestro test e2e/guide/practice-quest.yaml` (fixture-audio source)
 - Done when: five practised phrases advance the quest in P41 test fixture; practice turns not metered.
 
 ## Phase acceptance criteria

@@ -1,0 +1,20 @@
+{
+  "name": "@cp/design-renders",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Renders design/*.dc.html into docs/design-renders (screen PNGs, page renders, screens.json)",
+  "scripts": {
+    "setup": "playwright install chromium",
+    "render:screens": "node render-screens.mjs",
+    "render:pages": "node render-pages.mjs",
+    "extract:screens": "node extract-screens.mjs",
+    "verify:screen": "node verify-screen.mjs",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "pixelmatch": "7.2.0",
+    "playwright": "1.58.2",
+    "pngjs": "7.0.0"
+  }
+}

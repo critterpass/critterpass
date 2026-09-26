@@ -85,7 +85,7 @@ Capture data: a dedicated staging crew created through real commands by a seed s
 - Goal: listing as data.
 - Files: `packages/content/src/store/listing/*.json`, `packages/content/src/store/schema.ts`, `apps/mobile/store.config.json`, `tools/scripts/store-kit/{play-listing.ts,cpp.ts,events.ts}`.
 - Steps: 1. zod limits. 2. Generate EAS metadata file. 3. Play API upload (dry-run flag). 4. CPP + event card assets.
-- Tests: `pnpm --filter @critterpass/content test -- store`; `npx eas-cli metadata:lint`; `pnpm tsx tools/scripts/store-kit/play-listing.ts --dry-run`.
+- Tests: `pnpm --filter @cp/content test -- store`; `npx eas-cli metadata:lint`; `pnpm tsx tools/scripts/store-kit/play-listing.ts --dry-run`.
 - Done when: over-length copy fails the schema; dry runs pass.
 
 ### T5 — Preview video assembly

@@ -129,77 +129,77 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 - Goal: durable job infrastructure used by every later phase.
 - Files: `services/worker/src/boss/{boss.ts,queues.ts,define-job.ts,dlq.ts,shutdown.ts}`, `packages/db/src/jobs/{send-in-tx.ts,index.ts}`, `packages/db/migrations/<ts>_jobs_scheduling.sql`, `services/worker/test/boss.test.ts`
 - Steps: 1. Boot pg-boss 12 as `app_system` (schema `pgboss`), create queues from registry with retry/expire/DLQ options. 2. `defineJob({queue, schema, handler, singletonKey})`. 3. `sendInTx(tx, queue, data, opts)` via Drizzle adapter. 4. DLQ subscriber → Sentry + `redrive()`. 5. Move phase-10 relay loop into `rt.relay` handler keeping LISTEN wake.
-- Tests: `pnpm --filter @critterpass/worker test -- boss` (Testcontainers: rollback drops job; retry then DLQ; singleton dedupe; redrive).
+- Tests: `pnpm --filter @cp/worker test -- boss` (Testcontainers: rollback drops job; retry then DLQ; singleton dedupe; redrive).
 - Done when: all pass; worker starts/stops cleanly with in-flight jobs finishing or returning to queue.
 
 ### T2 — Step runner with progress and compensation
 - Goal: `runSteps` for long jobs with live progress.
 - Files: `services/worker/src/boss/steps.ts`, `packages/domain/src/realtime/payloads/job-progress.ts`, `services/worker/test/steps.test.ts`
 - Steps: 1. Persist step results in job output (resume skips done steps on retry). 2. Publish `job.progress` via `rt_outbox` per step with pct. 3. Reverse `compensate` on final failure. 4. `notifyOnComplete` emits domain event through `emitEvent`.
-- Tests: `pnpm --filter @critterpass/worker test -- steps`.
+- Tests: `pnpm --filter @cp/worker test -- steps`.
 - Done when: a job failing at step 3 on first attempt resumes at step 3; final failure compensates steps 2→1; progress rows appear in order.
 
 ### T3 — Local-time scheduling and `sched.enqueue_due`
 - Goal: per-object timers in local time.
 - Files: `packages/domain/src/time/local-schedule.ts`, `packages/domain/test/local-schedule.test.ts`, `services/worker/src/jobs/sched/enqueue-due.ts`, `packages/db/src/jobs/schedule-event.ts`, `services/worker/test/enqueue-due.test.ts`
 - Steps: 1. `localSchedule({date, time, tz})` → UTC; DST gap → next valid minute; overlap → first occurrence. 2. `scheduleEvent(tx, {kind, ref_id, local, tz})` / `cancel` / `reschedule`. 3. Cron `* * * * *` moves due rows (SKIP LOCKED) to target queues, stores `pgboss_job_id`.
-- Tests: `pnpm --filter @critterpass/domain test -- local-schedule` (property tests across tz list incl. Asia/Saigon, Europe/Berlin DST); `pnpm --filter @critterpass/worker test -- enqueue-due`.
+- Tests: `pnpm --filter @cp/domain test -- local-schedule` (property tests across tz list incl. Asia/Saigon, Europe/Berlin DST); `pnpm --filter @cp/worker test -- enqueue-due`.
 - Done when: DST cases pass; due events enqueue once under two concurrent workers.
 
 ### T4 — Maintenance and ops crons
 - Goal: retention and resilience jobs.
 - Files: `services/worker/src/jobs/maint/{purge.ts,anon-gc.ts,retention-rules.ts}`, `services/worker/src/jobs/ops/{backup.ts,powersync-compact.ts}`, `services/worker/test/maint.test.ts`
 - Steps: 1. `retention-rules.ts` registry `{table, column, ttl, where}`; seed rules for tables existing now (`cmd_log` 30 d, `cmd_results` 14 d, `rt_outbox` 7 d after publish, `domain_events` 400 d, `notifications` 90 d, `ping_ledger` 30 d, `roundups` 30 d, `push_tokens` invalid +7 d, `scheduled_events` 30 d after fire); later phases append. 2. `maint.anon_gc` per phase-09 rules (anonymous, inactive 90 d, no crew). 3. `ops.backup`: `pg_dump -Fc` streamed to R2 with date key, keep 35 daily; fixed outbound IP not required. 4. `powersync.compact` via service admin API.
-- Tests: `pnpm --filter @critterpass/worker test -- maint`; backup tested against Testcontainers + MinIO (R2-compatible) restore round-trip.
+- Tests: `pnpm --filter @cp/worker test -- maint`; backup tested against Testcontainers + MinIO (R2-compatible) restore round-trip.
 - Done when: purge deletes only expired rows in batches ≤5k; restored dump row counts match.
 
 ### T5 — Device registry and push token lifecycle
 - Goal: devices + tokens synced and kept fresh.
 - Files: `packages/db/migrations/<ts>_devices_notifications.sql`, `packages/db/test/permissions/devices-notifications.test.ts`, `services/api/src/commands/device/register-device.ts`, `apps/mobile/src/data/push/{register.ts,tokens.ts,use-push-lifecycle.ts}`, `infra/powersync/streams/notifications.yaml`
 - Steps: 1. Migration for §3.11 tables in this phase (FORCE RLS, grants, publication). 2. `register_device` handler: upsert device, token by `(kind, token)` (reassign on uid change), capabilities, tz, locale. 3. Mobile: native APNs/FCM token via expo-notifications `getDevicePushTokenAsync`, register on launch/foreground/token change; `last_seen_at` heartbeat (≤1/10 min). 4. Stream `me` additions.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/devices-notifications`; `pnpm --filter @critterpass/api test -- commands/device`; `pnpm --filter @critterpass/mobile test -- data/push`.
+- Tests: `pnpm --filter @cp/db test -- permissions/devices-notifications`; `pnpm --filter @cp/api test -- commands/device`; `pnpm --filter @cp/mobile test -- data/push`.
 - Done when: outsider cannot read others' devices/notifications; token moved between uids is detached from the old uid.
 
 ### T6 — Device action keys and `/v1/actions` door
 - Goal: extensions and receivers can run scoped commands without the app.
 - Files: `packages/db/migrations/<ts>_devices_action_key_fk.sql`, `services/api/src/routes/{action-keys.ts,actions.ts,notifications.ts}`, `apps/mobile/targets/_shared/ActionKey/{ActionKeyStore.swift,SignedRequest.swift}`, `apps/mobile/src/data/push/action-key.ts`, `services/api/test/routes/actions.test.ts`
 - Steps: 1. FK migration; `/v1/devices/{id}/action-keys` POST/DELETE call phase 09 `issueKey`/`revokeKey`. 2. Mount phase 09 verify middleware on `/v1/actions` and `/v1/notifications/{id}`. 3. `/v1/actions` → `executeCommand` only for commands whose `actionScope` ∈ key scopes, else `ACTION_KEY_SCOPE`; returns `{status, result}` (snapshot added by phase 49). 4. `GET /v1/notifications/{id}` for owner. 5. Client rotation on foreground when <7 d; device-removal revoke hook (sign-out/deletion/merge hooks live in phase 09). 6. Swift signer + shared Keychain group store.
-- Tests: `pnpm --filter @critterpass/api test -- routes/actions` (valid, skew, replayed sig with same op_id → duplicate, wrong scope, revoked); Swift `SignedRequestTests` via `pnpm --filter @critterpass/mobile ios:test shared`.
+- Tests: `pnpm --filter @cp/api test -- routes/actions` (valid, skew, replayed sig with same op_id → duplicate, wrong scope, revoked); Swift `SignedRequestTests` via `pnpm --filter @cp/mobile ios:test shared`.
 - Done when: all cases pass; Swift and TS produce identical signatures for a fixed vector.
 
 ### T7 — Notification catalogue and router policy
 - Goal: pure, tested routing decisions.
 - Files: `packages/domain/src/notifications.ts`, `services/worker/src/jobs/notify/{policy.ts,route.ts,audience.ts,register.ts,governor.ts}`, `services/worker/test/notify-policy.test.ts`, `services/worker/test/notify-route.test.ts`
 - Steps: 1. Catalogue of the 52 master §7 notifications under semantic keys (class, variants, category, channel, sender kind, collapse, expiry, passive). 2. `registerNotification({key, event, audience, template, dedupeKey})` API for feature phases. 3. Pure `decide({class, prefs, localNow, quiet, ledger, governor, onTrip})` → `send | roundup | drop(reason)`. 4. `notify.route` job: load prefs/tz (trip tz while on trip, Q-84), write `notifications` row (state), update `ping_ledger`, enqueue `push.send` or mark `rolled_into_roundup`. 5. Rewrite hook interface with cache key `(key, template_id, locale, guide_id, vars_hash)`.
-- Tests: `pnpm --filter @critterpass/worker test -- notify-policy notify-route` (property tests: ALWAYS never deferred; budget never exceeded; quiet hours hold BUDGET; governor ≤1/day; dedupe idempotent on replay).
+- Tests: `pnpm --filter @cp/worker test -- notify-policy notify-route` (property tests: ALWAYS never deferred; budget never exceeded; quiet hours hold BUDGET; governor ≤1/day; dedupe idempotent on replay).
 - Done when: property tests pass 1k runs; replaying the same event yields one notification per uid.
 
 ### T8 — Evening roundup builder
 - Goal: one roundup per user per local date.
 - Files: `services/worker/src/jobs/roundup/{build.ts,rank.ts,template.ts}`, `packages/i18n/locales/en/notifications/roundup.po`, `services/worker/test/roundup.test.ts`
 - Steps: 1. Cron every 5 min selects users whose roundup time −10 min falls in the window per tz bucket. 2. Collect `rolled_into_roundup` + ROUNDUP-class items for local date across crews; rank needs-you first, then recency; cap 5. 3. Skip if empty; else create `roundups` row + one push from the user's active guide (sender kind guide), body "N things for tomorrow" + numbered lines; `apns-collapse-id` = `roundup:<date>`. 4. Items beyond 5 stay in inbox (phase 25).
-- Tests: `pnpm --filter @critterpass/worker test -- roundup` (tz trip vs device, DST day, empty skip, exactly-once under retry).
+- Tests: `pnpm --filter @cp/worker test -- roundup` (tz trip vs device, DST day, empty skip, exactly-once under retry).
 - Done when: all pass.
 
 ### T9 — APNs + FCM delivery (`push.send`)
 - Goal: reliable delivery with correct payloads and token hygiene.
 - Files: `services/worker/src/push/{apns.ts,fcm.ts,payload.ts,render.ts,providers.ts}`, `services/worker/src/jobs/push/send.ts`, `packages/domain/src/push-payload.ts`, `packages/i18n/locales/en/notifications/common.po`, `services/worker/test/push-send.test.ts`
 - Steps: 1. node-apn provider (token auth, prod + sandbox), methods `alert`, `background`, `liveActivity`, `broadcast`, `widgets`. 2. firebase-admin `send` data-only; priority by class. 3. `cp` builder ≤1 KB, `full:false` when template marked private; interruption level, relevance, `thread-id`, collapse id. 4. Lingui server render by locale. 5. Error handling: invalidate tokens; retry transient 5×.
-- Tests: `pnpm --filter @critterpass/worker test -- push-send` (HTTP/2 APNs mock server via `node:http2` and FCM emulator endpoint — transport-level test doubles only; payload snapshot tests; oversize → truncate body then fail).
+- Tests: `pnpm --filter @cp/worker test -- push-send` (HTTP/2 APNs mock server via `node:http2` and FCM emulator endpoint — transport-level test doubles only; payload snapshot tests; oversize → truncate body then fail).
 - Done when: payload schema tests pass; 410 marks token invalid; sandbox tokens go to sandbox host.
 
 ### T10 — iOS Notification Service Extension with Communication Notifications
 - Goal: every iOS notification shows its sender with avatar.
 - Files: `apps/mobile/targets/notification-service/{NotificationService.swift,SenderIdentity.swift,AvatarLoader.swift,Info.plist,expo-target.config.js}`, `apps/mobile/targets/_shared/PushPayload/CPPayload.swift`, `apps/mobile/targets/notification-service/Tests/SenderIdentityTests.swift`
 - Steps: 1. Decode `cp`; if `full:false` fetch `/v1/notifications/{id}` with action key (timeout 8 s, keep original on failure). 2. Build `INPerson` + `INSendMessageIntent`, donate, `content.updating(from:)`; group name via `snapshot/crews.json`. 3. Avatar: App Group `assets/avatars/<key>@3x.png`, else signed URL download (≤2 s), else guide default. 4. Fallback: attachment image when intent update throws. 5. Entitlement `com.apple.developer.usernotifications.communication` + `NSUserActivityTypes` `INSendMessageIntent` in app Info.plist via config plugin.
-- Tests: `pnpm --filter @critterpass/mobile ios:test notification-service` (XCTest on payload fixtures); build `eas build --profile dev-sim --platform ios --local`.
+- Tests: `pnpm --filter @cp/mobile ios:test notification-service` (XCTest on payload fixtures); build `eas build --profile dev-sim --platform ios --local`.
 - Done when: tests pass; simulator push via `xcrun simctl push` fixture shows sender name + avatar.
 
 ### T11 — Android messaging, app tap routing and Maestro flows
 - Goal: Android sender parity and tap-to-route on both platforms.
 - Files: `apps/mobile/modules/cp-notifications/{expo-module.config.json,android/src/main/java/app/critterpass/notifications/{CpMessagingService.kt,Channels.kt,SenderStyle.kt,ConversationShortcuts.kt},android/src/test/java/…/SenderStyleTest.kt,src/index.ts}`, `apps/mobile/src/data/push/{routing.ts,foreground.ts}`, `e2e/notifications/{ios-sender.yaml,android-sender.yaml,tap-routes.yaml}`, `e2e/notifications/fixtures/*.json`
 - Steps: 1. Create channels at app start (ids from `packages/domain/src/notifications.ts` via codegen). 2. Render data-only messages: `MessagingStyle` + `Person` (IconCompat from asset/URL), dynamic shortcuts per conversation, group per crew, action buttons slots (actions wired in phase 49). 3. Tap → emit deep link to JS → expo-router navigate; foreground suppression when the conversation route is active. 4. Maestro flows push fixtures (`xcrun simctl push`, `adb shell cmd notification`/FCM test send) and assert sender + route.
-- Tests: `pnpm --filter @critterpass/mobile android:test cp-notifications`; `maestro test e2e/notifications/`.
+- Tests: `pnpm --filter @cp/mobile android:test cp-notifications`; `maestro test e2e/notifications/`.
 - Done when: JUnit + Maestro flows pass on iOS 26 simulator and API 36 emulator.
 
 ## Phase acceptance criteria

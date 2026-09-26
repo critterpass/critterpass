@@ -102,37 +102,37 @@ Help and SOS are "tell your crew" features; copy never says we contact emergency
 ### T1 — Safety schema and permission tests
 - Files: `packages/db/src/schema/safety.ts`, `packages/db/migrations/<ts>_help_sessions_sos.sql`, `packages/db/test/permissions/{help-sessions,help-session-private,help-session-messages}.test.ts`, `infra/powersync/streams/safety.yaml`.
 - Steps: 1. Tables/columns, FORCE RLS, grants. 2. Matrix: sender, responder, other crew, crew non-participant, outsider, guide_reader, powersync_repl.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/help-sessions permissions/help-session-private permissions/help-session-messages`
+- Tests: `pnpm --filter @cp/db test -- permissions/help-sessions permissions/help-session-private permissions/help-session-messages`
 - Done when: only sender + responders read private health notes; nothing private in publication.
 
 ### T2 — Help context API, help share commands, AI-30 checklist wording
 - Files: `services/api/src/routes/help-context.ts`, `services/api/src/commands/safety/{start-help-share,stop-help-share,extend-help-share,request-ops-clinic-call}.ts`, `packages/domain/src/safety/{checklists,help-context,share-policy}.ts`, `packages/ai/src/routes/help/**`, `packages/ai/evals/help/**`, `services/api/test/safety/help.test.ts`.
 - Steps: 1. Context from curated tables + geocode + Valhalla; insurance match. 2. Share commands (override pause, TTL 60, extend +60). 3. Checklist template resolver + Haiku wording with fallback. 4. Ops ticket with consent flag.
-- Tests: `pnpm --filter @critterpass/api test -- safety/help`; `pnpm --filter @critterpass/ai eval -- help`
+- Tests: `pnpm --filter @cp/api test -- safety/help`; `pnpm --filter @cp/ai eval -- help`
 - Done when: share auto-expires in test clock; eval proves no invented numbers/facilities.
 
 ### T3 — Help hub, checklists, phrase show mode
 - Files: `apps/mobile/src/app/(trip)/help/{index,[problem]}.tsx`, `apps/mobile/src/features/safety/help/{screen,share-indicator,call-tiles,problem-tiles,facility-row,phrase-card,show-it-mode,insurance-footer,checklist,consent-sheet,states/*}.tsx`, `apps/mobile/src/features/safety/use-help-context.ts`, `packages/i18n/locales/en/safety/help.po`.
 - Steps: 1. Online/offline context (synced tables + bundle labels). 2. Share start/stop/extend UI. 3. Four checklist screens with tile→page shared-element transform. 4. Show-it mode. 5. All states.
-- Tests: `pnpm --filter mobile test -- features/safety/help`
+- Tests: `pnpm --filter @cp/mobile test -- features/safety/help`
 - Done when: RNTL covers each state; offline render uses only local data (network mocked off); consent toggle renders OFF on first open and no `start_help_share` is queued until the user turns it on.
 
 ### T4 — SOS backend: commands, orchestrator, escalation, responder ETAs
 - Files: `services/api/src/commands/safety/{trigger-sos,respond-sos,send-sos-message,resolve-sos}.ts`, `services/worker/src/jobs/safety/{sos-orchestrate,sos-escalate,sos-responder-eta}.ts`, `packages/ai/src/routes/sos/**`, `packages/ai/evals/sos/**`, `services/api/test/safety/sos.test.ts`, `services/worker/test/safety/sos-latency.test.ts`.
 - Steps: 1. Incident + share(sos) + outbox in one tx. 2. Fan-out push (ALWAYS, bypass budget/quiet hours) + channel events before any AI. 3. Summary with 3 s timeout, fallback. 4. Escalation timer, responder ETAs, arrival. 5. Resolve → N-48, share end.
-- Tests: `pnpm --filter @critterpass/api test -- safety/sos`; `pnpm --filter @critterpass/worker test -- safety/sos-latency` (LLM stubbed to hang; asserts pushes enqueued < 500 ms)
+- Tests: `pnpm --filter @cp/api test -- safety/sos`; `pnpm --filter @cp/worker test -- safety/sos-latency` (LLM stubbed to hang; asserts pushes enqueued < 500 ms)
 - Done when: fan-out timing test passes with LLM unavailable; replayed trigger creates one incident; a `trigger_sos` op aged > 10 min on upload produces no fan-out/takeover and a `cmd_results` `stale` row that drives the sender confirm prompt.
 
 ### T5 — SOS sender flow (undesigned)
 - Files: `apps/mobile/src/app/(trip)/sos/{send,[id]}.tsx`, `apps/mobile/src/features/safety/sos/sender/{slide-to-send,cancel-countdown,quick-text,sender-status,im-ok,sms-fallback}.tsx`, `packages/i18n/locales/en/safety/sos.po`.
 - Steps: 1. Slide + 5 s cancel (haptic ticks). 2. Status view with seen/responders. 3. I'M OK / false alarm. 4. No-data SMS composer (expo-sms) prefilled to visible crew numbers + maps link. 5. Stale-SOS confirm prompt (SEND NOW / I'M OK) from `cmd_results`.
-- Tests: `pnpm --filter mobile test -- features/safety/sos/sender`
+- Tests: `pnpm --filter @cp/mobile test -- features/safety/sos/sender`
 - Done when: cancel within 5 s sends nothing (command queue empty); SMS fallback opens when offline.
 
 ### T6 — SOS receiver takeover and session map
 - Files: `apps/mobile/src/features/safety/sos/receiver/{takeover-host,sos-screen,steps-card,responder-row,im-going,long-buzz}.tsx|ts`, `apps/mobile/src/features/safety/session-map/{session-map,walking-route,use-session-map}.tsx|ts`.
 - Steps: 1. Root-level takeover host listening to `user:#uid` `sos.takeover` + push open. 2. Screen per design (blink until responded). 3. I'M GOING → walking route; CALL; map link. 4. Session map reusing phase-39 layers with gate bypass; governor suppressed.
-- Tests: `pnpm --filter mobile test -- features/safety/sos/receiver features/safety/session-map`
+- Tests: `pnpm --filter @cp/mobile test -- features/safety/sos/receiver features/safety/session-map`
 - Done when: takeover appears over any route in RNTL navigation test; unboosted trip still renders session map.
 
 ### T7 — Notification actions and e2e

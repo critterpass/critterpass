@@ -1,0 +1,16 @@
+{
+  "name": "@cp/critter-bake",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Node bake CLI producing critter assets for native, web and OG",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  }
+}

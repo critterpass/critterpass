@@ -1,0 +1,16 @@
+{
+  "name": "@cp/entitlements",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pure entitlement rules, quotas and fair-use caps shared by client and server",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  }
+}

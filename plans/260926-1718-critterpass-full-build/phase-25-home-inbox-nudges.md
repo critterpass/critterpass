@@ -130,56 +130,56 @@ Vote slot contract: `packages/domain/src/home/home-state.ts` exposes `HomeState.
 - Goal: tables above + permission tests.
 - Files: `packages/db/src/schema/home.ts`, `packages/db/migrations/<ts>_home_inbox_nudges_tips.sql`, `packages/db/test/permissions/home-inbox-nudges.test.ts`, `packages/domain/src/privacy.ts` (append-only entries).
 - Steps: 1. Drizzle + SQL for `saved_items`, `reminders`, `home_tips`, `nudges`, `app_open_hours`. 2. Policies, grants, publication (exclude `app_open_hours`). 3. Stream entries. 4. Privacy class-map entries for `nudges`, `app_open_hours`, `saved_items`, `reminders`. 5. Tests: crew tip visibility, nudge visible to sender+target only, open hours private, guide_reader denied.
-- Tests: `pnpm --filter @critterpass/db test -- home-inbox-nudges`
+- Tests: `pnpm --filter @cp/db test -- home-inbox-nudges`
 - Done when: all cases pass.
 
 ### T2 — Home mode machine and countdown target
 - Goal: pure, exhaustively tested domain logic.
 - Files: `packages/domain/src/home/{home-state,mode-machine,countdown}.ts`, `packages/domain/test/home/*.test.ts`.
 - Steps: 1. `deriveHomeMode(input)` for 6 modes with precedence in_trip > final_vote > everyday > post_trip > no_trip > first_run. 2. `countdownTarget(participant, flights, trip)` per C14 using Temporal/tz db. 3. `formatCountdown(now, target)`.
-- Tests: `pnpm --filter @critterpass/domain test -- home`
+- Tests: `pnpm --filter @cp/domain test -- home`
 - Done when: table tests cover each mode, DST edges, viewer tz ≠ destination tz, flight vs no-flight.
 
 ### T3 — Inbox fan-out and inbox commands
 - Goal: kind registry, fan-out job, actions, badges.
 - Files: `packages/domain/src/inbox/{kinds,registry}.ts`, `services/worker/src/jobs/inbox/fanout.ts`, `services/api/src/commands/inbox/{act-inbox-item,mark-inbox-read}.ts`, `services/api/test/home/inbox.test.ts`, `services/worker/test/home/fanout.test.ts`.
 - Steps: 1. Registry API `registerInboxKind`. 2. Fan-out idempotent per `(event_id, uid)`; resolves items when underlying state resolves (e.g. ballot cast elsewhere). 3. `act_inbox_item` dispatch table → target command via P10 framework, same `op_id`. 4. `badge.counts` recompute + rt_outbox. 5. Register this phase's kinds.
-- Tests: `pnpm --filter @critterpass/api test -- inbox`; `pnpm --filter @critterpass/worker test -- fanout`
+- Tests: `pnpm --filter @cp/api test -- inbox`; `pnpm --filter @cp/worker test -- fanout`
 - Done when: resolving from a notification action resolves the inbox item; duplicate action returns `duplicate`; badge counts correct.
 
 ### T4 — Nudges: command, send-time model, dispatch, share relay
 - Goal: F-056 server side.
 - Files: `packages/domain/src/nudges/{rules,templates,send-time}.ts`, `services/api/src/commands/nudges/{send-nudge,record-app-open}.ts`, `services/worker/src/jobs/nudges/dispatch.ts`, tests in `services/api/test/home/nudges.test.ts`.
 - Steps: 1. Rate rules + quiet hours. 2. Engagement hour from `app_open_hours`. 3. Schedule → dispatch → inbox item + `notify.route` N-12 with guide persona template (localised in `packages/i18n/locales/en/home/`). 4. Installed-without-token → inbox only; not installed → relay payload.
-- Tests: `pnpm --filter @critterpass/api test -- nudges`
+- Tests: `pnpm --filter @cp/api test -- nudges`
 - Done when: second nudge within 24 h → `NUDGE_TOO_SOON` with `next_at`; schedule time equals modal hour in target tz; installed target with push denied gets an inbox item and no relay; non-installed target gets relay and no server send.
 
 ### T5 — Countdown recompute, tip generation, create_trip
 - Goal: background jobs + trip creation.
 - Files: `services/worker/src/jobs/countdown/recompute.ts`, `services/worker/src/jobs/tips/{detect,generate}.ts`, `packages/ai/src/prompts/tips/phrase.md`, `packages/ai/evals/tips/promptfooconfig.yaml`, `services/api/src/commands/home/dismiss-tip.ts`, `services/worker/test/home/{countdown,tips}.test.ts`.
 - Steps: 1. Recompute on listed events through the `FlightSegmentsSource` port. 2. Detectors over P15 fare/season tables (Testcontainers fixtures seeded from recorded real API responses). 3. Haiku phrase + number validator + template fallback.
-- Tests: `pnpm --filter @critterpass/worker test -- home`; `pnpm --filter @critterpass/ai eval tips`
+- Tests: `pnpm --filter @cp/worker test -- home`; `pnpm --filter @cp/ai eval tips`
 - Done when: tip with unsupported number is rejected and replaced by template; contract test: a `booking.flight_added` event with a fixture `FlightSegmentsSource` moves `countdown_target_at` to the outbound departure, and with no source registered the target is trip start 00:00 destination tz.
 
 ### T6 — Home screen (all modes)
 - Goal: 3b-1, 3b-2, 3b-6 shell + undesigned modes.
 - Files: `apps/mobile/src/app/(tabs)/index.tsx`, `apps/mobile/src/features/home/{home-screen,home-header,crew-pill,bell-button,next-up-card,countdown-chip,first-run-grid,no-trip-card,in-trip-card,post-trip-card,tip-strip,slots}.tsx`, `apps/mobile/src/features/home/data/use-home-state.ts`, tests alongside.
 - Steps: 1. `useHomeState` from PowerSync + mode machine. 2. Components per mode, vote slot registration point. 3. Motion: bell ring, badge pop, Tokek bob, guide cell hop-and-grow, cross-fades; reduced motion. 4. a11y labels for countdown ("17 days 5 hours to Bali").
-- Tests: `pnpm --filter mobile test -- features/home`; `maestro test e2e/home/modes-screens.yaml` (`takeScreenshot` per mode → CI artifacts for founder review against `3b-1`/`3b-2`/`3b-6`)
+- Tests: `pnpm --filter @cp/mobile test -- features/home`; `maestro test e2e/home/modes-screens.yaml` (`takeScreenshot` per mode → CI artifacts for founder review against `3b-1`/`3b-2`/`3b-6`)
 - Done when: RNTL layout snapshot per mode; route contract tests: guide cell and tip tap push the typed destination route helper (`routes.destination(placeId)`; screen built by P30), SOMEWHERE ELSE pushes `routes.placeSearch()` (P26), crew switcher opens the P23 sheet.
 
 ### T7 — Inbox screen and all-caught-up
 - Goal: 3b-4, 3b-5.
 - Files: `apps/mobile/src/app/inbox/index.tsx`, `apps/mobile/src/features/home/inbox/{inbox-screen,filter-tabs,action-card,earlier-row,all-caught-up,kind-renderers}.tsx`, tests alongside.
 - Steps: 1. Filters + lists from `inbox_items`. 2. Inline actions → `act_inbox_item`, optimistic slide-off + rollback. 3. Undo rows. 4. Empty state motion (sleep, one-eye wake, drop-in wake). 5. App icon badge sync.
-- Tests: `pnpm --filter mobile test -- features/home/inbox`
+- Tests: `pnpm --filter @cp/mobile test -- features/home/inbox`
 - Done when: tests cover resolve, rollback on reject, resolved-elsewhere removal, empty transition.
 
 ### T8 — Nudge UX and share-sheet relay
 - Goal: shared `useNudge` hook + UI feedback.
 - Files: `apps/mobile/src/features/home/nudge/{use-nudge,nudge-toast,share-relay}.ts(x)`, tests alongside.
 - Steps: 1. Hook calls `send_nudge`, shows scheduled-time toast or cooldown message. 2. Relay → `Share.share` with guide text + link. 3. `record_app_open` on foreground (throttled).
-- Tests: `pnpm --filter mobile test -- features/home/nudge`
+- Tests: `pnpm --filter @cp/mobile test -- features/home/nudge`
 - Done when: hook returns typed outcomes (scheduled/inbox/relay/too_soon) used by inbox NUDGE button.
 
 ### T9 — End-to-end Home and Inbox flows

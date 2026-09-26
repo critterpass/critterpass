@@ -97,49 +97,49 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Goal: exact money math.
 - Files: `packages/cost-engine/src/money/{money,currencies,allocate,round,index}.ts`, `packages/cost-engine/test/money/{money,allocate,round}.test.ts`.
 - Steps: 1. ISO 4217 table as data (code, ISO exponent, symbol, narrow symbol) + `displayDecimals` override table. 2. bigint arithmetic + guards (currency mismatch throws typed error). 3. Largest-remainder allocate with stable tie-break. 4. Rounding modes. 5. fast-check property tests (sum preservation, idempotent rounding).
-- Tests: `pnpm --filter @critterpass/cost-engine test -- money`
+- Tests: `pnpm --filter @cp/cost-engine test -- money`
 - Done when: 10k-case properties pass; golden tests: IDR stored with ISO exponent 2 and displayed with 0 decimals ("Rp 75.000"); ISK exponent 0 (Reykjavík, "ISK 12,900" never "12,900.00"); JPY 0; split of IDR/JPY totals sums exactly.
 
 ### T2 — Display formatter, compact notation, home/local/both
 - Goal: one formatter for the whole app.
 - Files: `packages/cost-engine/src/money/{format,compact,country-currency}.ts`, `packages/cost-engine/test/money/format.test.ts`, `apps/mobile/src/data/money/{use-price-formatter,index}.ts`, `apps/mobile/src/data/money/__tests__/use-price-formatter.test.ts`.
 - Steps: 1. `Intl.NumberFormat` (Hermes Intl) with disambiguated symbols. 2. Modes HOME/LOCAL/BOTH with "≈" and FX snapshot. 3. Compact ("~$1.2k"), approximate quotes. 4. Hook reads `user_settings.price_display` + home currency from synced rows.
-- Tests: `pnpm --filter @critterpass/cost-engine test -- format`; `pnpm --filter @critterpass/mobile test -- data/money`
+- Tests: `pnpm --filter @cp/cost-engine test -- format`; `pnpm --filter @cp/mobile test -- data/money`
 - Done when: "Rp 75.000 ≈ S$6.40" reproduced for id-ID/en-SG with the fixture rate; 16 launch locales snapshot-tested.
 
 ### T3 — FX snapshots: table, conversion, Frankfurter ingest
 - Goal: pinned, offline-capable rates.
 - Files: `packages/db/src/schema/fx.ts`, `packages/db/migrations/<ts>_fx_snapshots.sql`, `packages/cost-engine/src/fx/{convert,snapshot}.ts`, `services/worker/src/fx/{frankfurter,ingest}.ts`, `services/worker/test/fx/ingest.test.ts`, `services/worker/test/fixtures/frankfurter/`, `packages/db/test/permissions/fx_snapshots.test.ts`.
 - Steps: 1. Table + R RLS. 2. Pure `convert(money, snapshot)` with half_even, cross via EUR. 3. Frankfurter v2 client (timeout, retry, typed errors) with recorded responses. 4. Ingest upsert idempotent; staleness metric.
-- Tests: `pnpm --filter @critterpass/worker test -- fx`; `pnpm --filter @critterpass/cost-engine test -- fx`
+- Tests: `pnpm --filter @cp/worker test -- fx`; `pnpm --filter @cp/cost-engine test -- fx`
 - Done when: re-running ingest creates no duplicates; conversion SGD↔IDR↔JPY matches fixture math to the minor unit.
 
 ### T4 — Pure entitlement resolution and capabilities
 - Goal: matrix → code.
 - Files: `packages/entitlements/src/{sources,resolve,capabilities,perks,index}.ts`, `packages/domain/src/entitlements/{capability-keys,errors}.ts`, `packages/entitlements/test/{resolve,matrix,lifecycle}.test.ts`.
 - Steps: 1. Source union + clock injection. 2. `passPlus`, `boostActive`, `guideUnlimited`, `redraftLimit`, `seatCap`, `helpMap`, `sponsored`. 3. Capability table (one row per matrix line) as data with test per row × source (Free, Pass+, Boost, FTF, crew yearly). 4. Overlays (paused, cancelled, expired, grace, boost ended, refund). 5. Perk list filter by `enabled`.
-- Tests: `pnpm --filter @critterpass/entitlements test`
+- Tests: `pnpm --filter @cp/entitlements test`
 - Done when: every product-decisions §3 matrix cell has an asserting test; Boost does not grant mailbox import or icon styles (C8); earned icons never gated (C23).
 
 ### T5 — Quotas, period keys, fair-use decisions
 - Goal: meter semantics shared client/server.
 - Files: `packages/entitlements/src/{quotas,period,fair-use}.ts`, `packages/entitlements/test/{quotas,period,fair-use}.test.ts`.
 - Steps: 1. `periodKey(instant, deviceTz)` + `resetAt` (DST and tz-change cases: user flies SGT → JST mid-day). 2. Meter decision incl. crew-chat Pass+ exemption and system exemption. 3. Redraft reservation semantics (reserve/commit/release). 4. Fair-use thresholds → `ok | degrade_haiku | busy`.
-- Tests: `pnpm --filter @critterpass/entitlements test -- quotas|period|fair-use`
+- Tests: `pnpm --filter @cp/entitlements test -- quotas|period|fair-use`
 - Done when: 30th question allowed, 31st → `QUOTA_EXHAUSTED` payload with correct `reset_at` in device tz; tz change never grants a second free window within the same device-local date.
 
 ### T6 — Entitlement and meter tables, atomic quota SQL
 - Goal: DB side with concurrency proof.
 - Files: `packages/db/src/schema/entitlements.ts`, `packages/db/migrations/<ts>_entitlements_and_meters.sql`, `packages/db/seed/catalog-products-perks.ts`, `packages/db/test/quota.test.ts`, `packages/db/test/permissions/{products,perks,user_entitlements,trip_entitlements,usage_counters,fair_use_counters}.test.ts`.
 - Steps: 1. Tables per data-model §3.14 + RLS + grants + publication allow-list entries. 2. `app.consume_quota` / `release_quota` / `bump_fair_use` SECURITY DEFINER. 3. Seed products (`pass_monthly`, `pass_yearly`, `boost_trip`, `boost_crew_year`, `gift_pass_3m`), perks (all enabled at launch, C48), ops_config keys.
-- Tests: `pnpm --filter @critterpass/db test -- quota|permissions/(products|perks|user_entitlements|trip_entitlements|usage_counters|fair_use_counters)`
+- Tests: `pnpm --filter @cp/db test -- quota|permissions/(products|perks|user_entitlements|trip_entitlements|usage_counters|fair_use_counters)`
 - Done when: 50 parallel consumes at limit 30 yield exactly 30 ok; `fair_use_counters` unreadable by `app_user` and unpublished; member reads trip entitlements, outsider does not.
 
 ### T7 — Server materialiser, `entitle()`, invalidation, extension snapshot schema
 - Goal: authoritative rows + pipeline hook.
 - Files: `services/api/src/entitlements/{materialise,loaders,entitle,notify,index}.ts`, `packages/domain/src/surfaces/entitlements.ts`, `apps/mobile/src/data/entitlements/{use-entitlements,index}.ts`, `services/api/test/entitlements/{materialise,entitle}.test.ts`.
 - Steps: 1. Loader registry (empty source set = Free). 2. `recomputeUser/Trip` writes rows + `trip.seat_cap`/`redraft_limit` columns + outbox events; recompute on crew membership/trip status domain events via hook from phase 8. 3. `entitle(ctx, {kind:'quota'|'capability'|'seat'|'redraft', …})` inside the command tx → reservation or typed error. 4. zod schema for App Group entitlements snapshot (Swift/Kotlin codegen by phase 48). 5. Mobile hook evaluating pure engine over synced rows.
-- Tests: `pnpm --filter @critterpass/api test -- entitlements`; `pnpm --filter @critterpass/mobile test -- data/entitlements`
+- Tests: `pnpm --filter @cp/api test -- entitlements`; `pnpm --filter @cp/mobile test -- data/entitlements`
 - Done when: registering a test-only source loader in the test suite flips a trip to 16 seats and writes `entitlement.changed` `rt_outbox` rows for every member; `entitle(tx, …)` called inside a raw `withUser` tx that then rolls back leaves `usage_counters` unchanged (pipeline-level test lives in phase 10 T1, which depends on this phase).
 
 ## Phase acceptance criteria

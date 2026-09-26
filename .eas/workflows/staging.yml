@@ -1,0 +1,38 @@
+name: Staging release
+
+# Tag a commit `staging-<anything>` to build the staging variant (bundle app.critterpass.staging) for both
+# platforms and hand it to TestFlight and the Play internal track.
+on:
+  push:
+    tags: ['staging-*']
+
+jobs:
+  build_ios:
+    name: Build iOS (staging)
+    type: build
+    params:
+      platform: ios
+      profile: staging
+
+  build_android:
+    name: Build Android (staging)
+    type: build
+    params:
+      platform: android
+      profile: staging
+
+  submit_ios:
+    name: Submit to TestFlight
+    needs: [build_ios]
+    type: submit
+    params:
+      build_id: ${{ needs.build_ios.outputs.build_id }}
+      profile: staging
+
+  submit_android:
+    name: Submit to Play internal testing
+    needs: [build_android]
+    type: submit
+    params:
+      build_id: ${{ needs.build_android.outputs.build_id }}
+      profile: staging

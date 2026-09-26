@@ -115,77 +115,77 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Goal: all phase tables with RLS, encryption columns, publication.
 - Files: `packages/db/src/schema/bookings.ts`, 4 migrations listed in owns, `packages/db/test/permissions/*.test.ts` (9 files in owns), `infra/powersync/streams/bookings.yaml`
 - Steps: 1. Drizzle schema per data-model §3.7. 2. RLS incl. visibility + candidate consent policy. 3. Encrypted columns via P08 envelope helpers. 4. `app.share_insurance`. 5. Publication allow-list (no barcode/policy columns). 6. Retention rules registered with `maint.purge`.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/bookings permissions/import-candidates permissions/insurance-policies permissions/mailbox-connections permissions/inbound-emails permissions/flight-segments permissions/flight-watches permissions/booking-attachments permissions/crew-inbound-addresses`
+- Tests: `pnpm --filter @cp/db test -- permissions/bookings permissions/import-candidates permissions/insurance-policies permissions/mailbox-connections permissions/inbound-emails permissions/flight-segments permissions/flight-watches permissions/booking-attachments permissions/crew-inbound-addresses`
 - Done when: personal booking invisible to crewmates; `guide_reader` sees only `llm.bookings` columns; tokens/policy numbers never selectable by non-owner.
 
 ### T2 — Booking commands, auto-expense, offline bundle, guide tools
 - Goal: manual CRUD + booking→expense link + offline availability.
 - Files: `services/api/src/commands/bookings/{add-booking.ts,edit-booking.ts,delete-booking.ts,set-booking-visibility.ts}`, `packages/domain/src/bookings/{booking-schema.ts,kinds.ts,deadline.ts,booked-cost-provider.ts}`, `services/api/src/bookings/{offline-bundle.ts,tools.ts}`, `services/worker/src/jobs/bookings/deadline-reminder.ts`, `services/api/test/bookings/commands.test.ts`
 - Steps: 1. Typed field schemas per kind. 2. Handlers + `crew_bookings:` events; optional `add_expense` via P33 domain writer in the same tx. 3. Offline-bundle entries (attachments signed URLs, barcode to owner). 4. Deadline reminder scheduling. 5. Register `bookings_read` (deadlines verbatim). 6. Register P33 `BookedCostProvider` (booked-not-yet-expensed).
-- Tests: `pnpm --filter @critterpass/api test -- bookings/commands`; `pnpm --filter @critterpass/cost-engine test -- forecast` (integration case)
+- Tests: `pnpm --filter @cp/api test -- bookings/commands`; `pnpm --filter @cp/cost-engine test -- forecast` (integration case)
 - Done when: P33 forecast includes a booked-not-yet-expensed booking and drops it once expensed; add with split creates booking + expense atomically; delete keeps the expense unless user chooses to delete it too; replay idempotent.
 
 ### T3 — Inbound email intake: Worker, webhook, sender allow-list, link-email
 - Goal: mail reaches a verified `inbound_emails` row or quarantine.
 - Files: `infra/cloudflare/inbound-email/{wrangler.toml,src/index.ts}`, `services/api/src/routes/webhooks/inbound-email.ts`, `services/api/src/commands/bookings/{rotate-inbound-address.ts,verify-sender-email.ts}`, `services/api/src/bookings/sender-allow-list.ts`, `apps/mobile/src/features/bookings/link-email/**`, `services/api/test/bookings/inbound-intake.test.ts`
 - Steps: 1. Worker: address lookup, size cap, raw → R2, HMAC POST. 2. Webhook verify + `inbound_emails` row + DKIM/SPF verdict. 3. Sender allow-list incl. Apple relay match; unknown → quarantine + reply-code "Link this email?" flow. 4. Address creation on crew create + rotation.
-- Tests: `pnpm --filter @critterpass/api test -- bookings/inbound-intake`; `pnpm --filter inbound-email test`
+- Tests: `pnpm --filter @cp/api test -- bookings/inbound-intake`; `pnpm --filter inbound-email test`
 - Done when: unknown sender quarantined; correct code links the address and releases the mail; Apple relay sender of a member accepted; bad HMAC rejected.
 
 ### T3b — Mail parse job, extractor, evals
 - Goal: verified mail → validated, deduped import candidate.
 - Files: `services/worker/src/jobs/bookings/mail-parse.ts`, `packages/domain/src/bookings/{jsonld.ts,dedupe.ts,sanitize.ts}`, `packages/ai/src/routes/booking-extract/`, `packages/ai/evals/booking-extract/`, `services/worker/test/bookings/mail-parse.test.ts`
 - Steps: 1. Sanitize → JSON-LD/Microdata → Haiku → validate → dedupe → candidate → N-13. 2. Eval set from real confirmation emails the founder forwards (Agoda, Trip.com, Booking.com, Viator, Klook, airlines, fast boats) + injection cases.
-- Tests: `pnpm --filter @critterpass/worker test -- bookings/mail-parse`; `pnpm --filter @critterpass/ai eval -- booking-extract`
+- Tests: `pnpm --filter @cp/worker test -- bookings/mail-parse`; `pnpm --filter @cp/ai eval -- booking-extract`
 - Done when: JSON-LD emails parse without an LLM call; eval ≥ 95 % field accuracy incl. `free_cancel_until`; injection cases never alter other fields or trigger tools; same email forwarded by 3 members → one candidate.
 
 ### T4 — Paste and scan imports, BCBP, candidate resolution
 - Goal: PASTE and SCAN channels + ADD/IGNORE with split.
 - Files: `packages/domain/src/bcbp/{decode.ts,index.ts}`, `packages/domain/test/bcbp.test.ts`, `services/api/src/commands/bookings/{import-paste.ts,import-scan.ts,resolve-import-candidate.ts}`, `services/worker/src/jobs/bookings/paste-parse.ts`, `services/api/test/bookings/imports.test.ts`
 - Steps: 1. IATA Resolution 792 BCBP decoder (multi-leg, conditional fields) tested with published spec sample strings. 2. Paste: code/text/URL (single fetch via `services/api/src/bookings/safe-fetch.ts` with the SSRF controls listed under PASTE, no storage). 3. Scan: OCR lines + barcode → extractor. 4. Resolve: add (booking + optional expense), ignore (crew-wide), duplicate. 5. `cp.import` notification actions.
-- Tests: `pnpm --filter @critterpass/domain test -- bcbp`; `pnpm --filter @critterpass/api test -- bookings/imports`
+- Tests: `pnpm --filter @cp/domain test -- bcbp`; `pnpm --filter @cp/api test -- bookings/imports`
 - Done when: spec BCBP samples decode exactly; resolve by one member hides candidate for all within one sync; SSRF tests: `http://169.254.169.254`, `http://localhost`, a DNS name resolving to 10.x, an allow-listed URL redirecting off-list, and a > 2 MB body are all refused.
 
 ### T5 — Mailbox auto-scan (Gmail + Microsoft)
 - Goal: Pass+ daily scan with trip filter and consented crew surfacing.
 - Files: `services/api/src/routes/mailbox-oauth.ts`, `services/api/src/commands/bookings/{connect-mailbox.ts,disconnect-mailbox.ts}`, `services/worker/src/jobs/bookings/mailbox-scan.ts`, `packages/domain/src/bookings/{trip-filter.ts,booking-senders.ts}`, `services/worker/test/bookings/mailbox-scan.test.ts`
 - Steps: 1. OAuth PKCE start/callback, encrypted refresh tokens. 2. Entitlement `mailbox_import` check + lifecycle overlays. 3. Incremental fetch with header-only prefilter, then message fetch for matches → `mail.parse` path. 4. Consent check for crew surfacing. 5. Disconnect → provider revoke + row delete. 6. Flags `mailbox.gmail`, `mailbox.microsoft`.
-- Tests: `pnpm --filter @critterpass/worker test -- bookings/mailbox-scan` (Testcontainers; provider HTTP recorded from a real test mailbox owned by the founder, replayed with nock)
+- Tests: `pnpm --filter @cp/worker test -- bookings/mailbox-scan` (Testcontainers; provider HTTP recorded from a real test mailbox owned by the founder, replayed with nock)
 - Done when: non-matching messages are never fetched beyond headers (asserted); expired Pass+ stops scans; revoke verified against provider.
 
 ### T6 — Flight status adapters, watches, webhook, events
 - Goal: live flight status for any wallet flight.
 - Files: `packages/suppliers/src/flight-status/{aeroapi.ts,aerodatabox.ts,types.ts}`, `packages/domain/src/flights/{status-diff.ts,boarding.ts,co-travellers.ts}`, `services/api/src/commands/bookings/{watch-flight.ts,report-landed.ts,set-flight-crew-visibility.ts}`, `services/api/src/routes/webhooks/aeroapi.ts`, `services/worker/src/jobs/flights/{flight-event.ts,flight-poll.ts,boarding-schedule.ts}`, `services/worker/test/flights/*.test.ts`
 - Steps: 1. Adapters with egress IP + timeouts + cost counter. 2. Watch on flight add/import; unwatch at landed + 1 d. 3. Webhook verify + refetch. 4. Diff → segments, events, N-14/N-41, `flight.landed`, disruption trigger. 5. Boarding estimate labelling. 6. Register `flight_status` tool executor.
-- Tests: `pnpm --filter @critterpass/worker test -- flights`; `pnpm --filter @critterpass/domain test -- flights`
+- Tests: `pnpm --filter @cp/worker test -- flights`; `pnpm --filter @cp/domain test -- flights`
 - Done when: a replayed real AeroAPI alert sequence (delay → gate → departed → landed) produces exactly one push per change and one `flight.landed`; spoofed webhook without refetch match is ignored.
 
 ### T7 — Insurance vault
 - Goal: owner-only encrypted policy with offline copy and consented share.
 - Files: `services/api/src/commands/bookings/{save-insurance-policy.ts,delete-insurance-policy.ts}`, `services/api/src/bookings/private-insurance.ts`, `apps/mobile/src/features/bookings/insurance/`, `services/api/test/bookings/insurance.test.ts`, `e2e/bookings/insurance.yaml`
 - Steps: 1. Commands + encryption. 2. `GET /v1/me/private/insurance` → `local_private`. 3. Share flow API used by P35/P38 (consent write + scoped reveal). 4. Wallet card + edit form + document scan (cp-ocr).
-- Tests: `pnpm --filter @critterpass/api test -- bookings/insurance`; `maestro test e2e/bookings/insurance.yaml`
+- Tests: `pnpm --filter @cp/api test -- bookings/insurance`; `maestro test e2e/bookings/insurance.yaml`
 - Done when: policy readable offline by owner only; share without consent → `CONSENT_REQUIRED`.
 
 ### T8 — Wallet stack UI (3h-1) + booking detail/edit
 - Goal: the card deck, flight card variants, boarding pass, detail/edit.
 - Files: `apps/mobile/src/app/(tabs)/wallet/bookings/{index.tsx,[id].tsx,edit/[id].tsx,pass/[id].tsx,archive.tsx}`, `apps/mobile/src/features/bookings/{stack/,flight-card/,detail/,boarding-pass/}`, `packages/i18n/locales/en/bookings/`, `e2e/bookings/wallet.yaml`
 - Steps: 1. Deck with fan gesture (Gesture Handler 3 + Reanimated spring). 2. Type cards + flight variants + co-travellers line. 3. Boarding pass full screen (brightness via expo-brightness, restore on exit). 4. Detail/edit/delete/visibility + deadline row. 5. Offline badge from bundle state; empty/loading/archive states; import banner.
-- Tests: `pnpm --filter mobile test -- features/bookings/stack`; `maestro test e2e/bookings/wallet.yaml` (airplane mode step opens barcode)
+- Tests: `pnpm --filter @cp/mobile test -- features/bookings/stack`; `maestro test e2e/bookings/wallet.yaml` (airplane mode step opens barcode)
 - Done when: renders match 3h-1 proportions; barcode opens offline; flight card updates live on `flight.status`.
 
 ### T9 — Add a booking UI (3h-2) + mailbox settings entry
 - Goal: three channels, crew candidates, assemble animation.
 - Files: `apps/mobile/src/app/(tabs)/wallet/bookings/add.tsx`, `apps/mobile/src/features/bookings/{add/,candidates/,paste/,scan/,mailbox/}`, `e2e/bookings/import.yaml`
 - Steps: 1. Tiles + address pill copy. 2. Paste: iOS SwiftUI `PasteButton` hosted via `@expo/ui` in `features/bookings/paste/PasteButton.ios.tsx` (no paste prompt); Android clipboard read on tap. 3. Scan flow (document camera + barcode). 4. Candidate cards with per-field assemble, split toggle, ADD/IGNORE slide. 5. Mailbox connect sheet (Pass+ lock → P46 paywall route; flag-off copy) + 3n-2 row hook exported for P45.
-- Tests: `pnpm --filter mobile test -- features/bookings/add`; `maestro test e2e/bookings/import.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/bookings/add`; `maestro test e2e/bookings/import.yaml`
 - Done when: paste of a real confirmation code/URL yields a candidate; ADD animates into the stack and creates the split expense.
 
 ### T10 — Wallet widget/LA snapshot fields and cross-phase events
 - Goal: publish the data other surfaces need, verified end to end.
 - Files: `services/worker/src/jobs/flights/snapshot.ts`, `packages/domain/src/flights/la-phase.ts`, `services/worker/test/flights/snapshot.test.ts`, `e2e/bookings/flight-day.yaml`
 - Steps: 1. `la_phase` computation (check-in → boarding → departed → landed → pickup) on segment change. 2. Snapshot fields `next_flight` (Pass+ gated at render, C37/Q-5A) and `boarding_at` into widget snapshot writer (P11/P49 contract). 3. Emit `flight.landed`, `boarding.soon` domain events with payload schemas in `packages/domain/src/flights`. 4. Maestro flight-day flow driven by replayed AeroAPI/AeroDataBox fixtures (live watched flight on staging → P54 launch checks).
-- Tests: `pnpm --filter @critterpass/worker test -- flights/snapshot`; `maestro test e2e/bookings/flight-day.yaml`
+- Tests: `pnpm --filter @cp/worker test -- flights/snapshot`; `maestro test e2e/bookings/flight-day.yaml`
 - Done when: emitted `flight.landed` / `boarding.soon` payloads validate against their `packages/domain` schemas; snapshot reflects a gate change within one job cycle.
 
 ## Phase acceptance criteria

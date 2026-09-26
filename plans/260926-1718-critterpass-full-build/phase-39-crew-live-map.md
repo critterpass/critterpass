@@ -91,35 +91,35 @@ Permission denied / WIU only while backgrounded (row "Updates when you open the 
 - Goal: tables + gate fn + RLS so only boosted, in-trip participants read live data.
 - Files: `packages/db/src/schema/meetups.ts`, `packages/db/migrations/<ts>_meetups_and_crew_map_gate.sql`, `packages/db/test/permissions/{meetups,crew-map-gate}.test.ts`, `infra/powersync/streams/live-map.yaml`.
 - Steps: 1. Drizzle schema + SQL (FORCE RLS, grants to app_user/app_system, none to guide_reader). 2. `app.crew_map_open_at(trip_id, at)` + `app.crew_map_open(trip_id)` SECURITY DEFINER (`SET search_path`), gate uses `now()` only. 3. Replace `member_etas` select policy. 4. Single-line channel-constant edit in `services/api/src/routes/loc.ts`. 5. Testcontainers matrix: participant boosted, participant unboosted, FTF trip, crew non-participant, outsider; window-end cases call `crew_map_open_at(trip, '<after midnight>')` as the test superuser (test-only; no clock GUC in production SQL); plus a test that `set_config('app.now', …)` as `app_user` leaves `crew_map_open` unchanged.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/meetups permissions/crew-map-gate`
+- Tests: `pnpm --filter @cp/db test -- permissions/meetups permissions/crew-map-gate`
 - Done when: unboosted participant gets 0 rows from `member_etas`/`meetups`; boosted participant reads them; `crew_map_open_at` after window end returns false; setting any `app.*` GUC as `app_user` cannot reopen the gate; `app_user` cannot EXECUTE `crew_map_open_at`.
 
 ### T2 — Live-map domain rules and commands
 - Goal: pure rules + idempotent commands.
 - Files: `packages/domain/src/live-map/{bunch,trail-policy,status-text,share-window,payloads,channel-acl,index}.ts` + `*.test.ts`, `services/api/src/commands/live-map/{set-location-share,pause-location-share,create-meetup,move-meetup,ping-all}.ts`, `services/api/src/routes/live-map.ts`, `services/api/test/live-map/{commands,subscribe-acl,live-snapshot}.test.ts`.
 - Steps: 1. Implement rules with unit tests (tz edges: UTC+8 vs UTC−10, DST dest). 2. Handlers via phase-10 `defineCommand` with `entitle: boostActive(t)`; `set_location_share` creates share with `ends_at` = window end. 3. Events → `rt_outbox` + notification mapping (N-23, N-47). 4. Pause publishes `share.paused` (clients drop the pin) and the paused member is excluded from `live-snapshot`. 5. Channel ACL rule + `GET live-snapshot`.
-- Tests: `pnpm --filter @critterpass/domain test -- live-map`; `pnpm --filter @critterpass/api test -- live-map`
+- Tests: `pnpm --filter @cp/domain test -- live-map`; `pnpm --filter @cp/api test -- live-map`
 - Done when: replayed op_id is a no-op; unboosted → `ENTITLEMENT_REQUIRED`; window end computed correctly for 6 destination tz fixtures; subscribe-proxy tests deny a participant when the gate is closed (unboosted) and after the window, allow a non-sharing participant when open, deny outsiders; reconnecting client gets every sharing member from `live-snapshot`, never a paused one.
 
 ### T3 — ETA job, arrival, expiry and server unsubscribe
 - Goal: 60 s ETAs, all-close pulse event, automatic switch-off.
 - Files: `services/worker/src/jobs/live-map/{eta-meetups,location-expire,unsubscribe-on-change}.ts`, `services/worker/test/live-map/*.test.ts`, `tools/scripts/live-map-sim/{sim.ts,README.md}` (Node clients posting fixes along GPX routes via `POST /v1/loc`).
 - Steps: 1. `eta.meetups` self-reschedules while meetup active and ≥1 share live; batch Valhalla matrix; mode from activity; upsert `member_etas`; publish `eta[]`. 2. Arrival (≤75 m) marks `arrived`; all-close event once. 3. `location.expire` cron ends shares at window end; `share.ended` + Centrifugo `unsubscribe` for non-eligible users; same on `boost.expired`, `member.left`. 4. Sim script drives 3 members through Ubud fixtures.
-- Tests: `pnpm --filter @critterpass/worker test -- live-map`; `pnpm tsx tools/scripts/live-map-sim/sim.ts --check` against docker-compose stack.
+- Tests: `pnpm --filter @cp/worker test -- live-map`; `pnpm tsx tools/scripts/live-map-sim/sim.ts --check` against docker-compose stack.
 - Done when: sim run shows ETAs updating every 60 ± 5 s, one N-47 on all-close, shares end at window end and a subscribed test client receives unsubscribe.
 
 ### T4 — Crew map screen: pins, bunching, trails, meet-up
 - Goal: 3g-4 as designed on iOS and Android.
 - Files: `apps/mobile/src/app/(trip)/map/[tripId].tsx`, `apps/mobile/src/features/crew/live-map/{screen,member-pin,bunch-pill,trail-layer,meetup-pin,route-to-meetup,header-pill,use-live-fixes,use-member-etas,use-trails}.tsx|ts`, `packages/i18n/locales/en/crew/live-map.po`.
 - Steps: 1. `CpMap` (phase 14) with custom style; load `live-snapshot` on mount and on every (re)subscribe, then apply `trip_locations` publications via `useChannel`. 2. Pin glide interpolation on UI thread; bunch/merge springs; reduced motion variants. 3. In-memory trail ring buffer (5 min), drawn only per `trailPolicy`. 4. Meet-up pin + guide hop + all-close ping. 5. Header, LIVE blink, stale/approximate/offline visuals.
-- Tests: `pnpm --filter mobile test -- features/crew/live-map` (RNTL: bunch pill labels, stale state, a11y labels "Maya and Rin, Karsa Spa, 3 minutes away"); unit test that trail buffer never writes to storage (spy on MMKV/fs).
+- Tests: `pnpm --filter @cp/mobile test -- features/crew/live-map` (RNTL: bunch pill labels, stale state, a11y labels "Maya and Rin, Karsa Spa, 3 minutes away"); unit test that trail buffer never writes to storage (spy on MMKV/fs).
 - Done when: RNTL + unit tests pass; the sim script visibly drives glides and a merge on both simulators (screenshots in PR).
 
 ### T5 — Bottom panel, actions, pause, gate and permission states
 - Goal: interactive panel and every undesigned state.
 - Files: `apps/mobile/src/features/crew/live-map/{panel,member-row,eta-clock,meetup-editor,ping-actions,pause-chip,gate-card,states/*}.tsx`, `apps/mobile/src/features/crew/live-map/use-meetup-snapshot.ts`.
 - Steps: 1. Rows with odometer ETA recount per minute. 2. Meet-up create/move (drag pin with haptic tick, MOVE IT → place picker) → commands, optimistic with pending badge. 3. PING ALL / I'M ON MY WAY with island toast. 4. Pause/resume chip. 5. Gate card when `crew_map_open` false → paywall entry `live_map` (router contract phase 46). 6. Permission banner via phase-20 orchestrator; Always upgrade copy. 7. `useMeetupSnapshot()` exported for the LA.
-- Tests: `pnpm --filter mobile test -- features/crew/live-map/panel`
+- Tests: `pnpm --filter @cp/mobile test -- features/crew/live-map/panel`
 - Done when: each state in "Undesigned states" has an RNTL test rendering its copy; offline queues meet-up move and replays.
 
 ### T6 — End-to-end flows
