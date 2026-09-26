@@ -1,0 +1,32 @@
+# PowerSync Service (Open Edition) config shared by every environment.
+# Environment-specific values come from PS_* variables (docker compose locally, Railway variables in the cloud).
+replication:
+  connections:
+    - type: postgresql
+      uri: !env PS_DATA_SOURCE_URI
+      sslmode: !env PS_DATA_SOURCE_SSLMODE
+
+storage:
+  type: postgresql
+  uri: !env PS_STORAGE_URI
+  sslmode: !env PS_STORAGE_SSLMODE
+
+port: !env PS_PORT::number
+
+# Sync streams are generated from infra/powersync/streams/*.yaml; none are published yet.
+sync_config:
+  content: |
+    config:
+      edition: 3
+    streams: {}
+
+client_auth:
+  jwks_uri: !env PS_JWKS_URI
+  audience: ['sync']
+
+healthcheck:
+  probes:
+    use_http: true
+
+telemetry:
+  disable_telemetry_sharing: true

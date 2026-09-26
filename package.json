@@ -1,0 +1,42 @@
+{
+  "name": "critterpass",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.6.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:db": "turbo run test:db",
+    "check": "turbo run lint typecheck test build",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "infra:up": "docker compose -f infra/docker-compose.yml up -d --wait",
+    "infra:down": "docker compose -f infra/docker-compose.yml down",
+    "infra:smoke": "tsx tools/scripts/infra-smoke.ts",
+    "env:check": "tsx tools/scripts/env-check.ts",
+    "renders:screens": "pnpm --filter @cp/design-renders run render:screens",
+    "renders:pages": "pnpm --filter @cp/design-renders run render:pages"
+  },
+  "devDependencies": {
+    "@eslint/js": "catalog:",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "eslint-import-resolver-typescript": "catalog:",
+    "eslint-plugin-boundaries": "catalog:",
+    "eslint-plugin-react-hooks": "catalog:",
+    "globals": "catalog:",
+    "prettier": "catalog:",
+    "tsx": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "@cp/scripts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Repo scripts: env check, infra smoke, release-bundle guard, architecture checks",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@cp/domain": "workspace:*",
+    "pg": "catalog:",
+    "redis": "catalog:"
+  },
+  "devDependencies": {
+    "@types/pg": "catalog:",
+    "zod": "catalog:"
+  }
+}

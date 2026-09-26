@@ -124,67 +124,67 @@ Done when: ballots from app, chat card, notification action, widget and Live Act
 ### T1 — Poll/pitch schema, state trigger, RLS, streams
 - Files: `packages/db/src/schema/polls.ts`, `packages/db/migrations/<ts>_polls_ballots_pitches.sql`, `packages/db/test/permissions/polls.test.ts`.
 - Steps: 1. Tables + indexes `(trip_id,status)`, `(closes_at) WHERE open`. 2. Transition trigger + `app.can_vote`. 3. Policies, publication, streams. 4. Tests: non-member denied, ineligible ballot denied by backstop, closed-poll ballot denied, reveals self-only.
-- Tests: `pnpm --filter @critterpass/db test -- polls`
+- Tests: `pnpm --filter @cp/db test -- polls`
 - Done when: all permission and transition cases pass.
 
 ### T2 — Pure poll engine
 - Files: `packages/domain/src/polls/{kinds,state,eligibility,tally,decider,tie-rules,board-layout}.ts`, `packages/domain/test/polls/*.test.ts`.
 - Steps: 1. State machine table. 2. Tally + pending. 3. C41 decider evaluation. 4. Tie rules using P16 cost-engine frozen quotes. 5. Deterministic sticker layout 1–8.
-- Tests: `pnpm --filter @critterpass/domain test -- polls`
+- Tests: `pnpm --filter @cp/domain test -- polls`
 - Done when: exhaustive table tests incl. ties, leaving voters, threshold_n, layout non-overlap property test.
 
 ### T3a — Trip creation, candidates, ballots, surface actions
 - Files: `services/api/src/commands/trips/create-trip.ts`, `services/api/src/commands/polls/{create-poll,add-poll-candidate,cast-ballot,retract-ballot}.ts`, `services/api/test/polls/{create-trip,ballots,race}.test.ts`.
 - Steps: 1. `create_trip` crew/solo branches + FTF check; crew branch creates the destination poll in the same tx. 2. Candidate + ballot handlers via P10 framework. 3. Register `ballot` scope in `/v1/actions`. 4. rt_outbox `poll:` + `crew_chat poll.tally`. 5. Race test: 20 concurrent ballots from mixed sources at the deadline.
-- Tests: `pnpm --filter @critterpass/api test -- polls/create-trip polls/ballots polls/race`
+- Tests: `pnpm --filter @cp/api test -- polls/create-trip polls/ballots polls/race`
 - Done when: no committed crew trip in `voting` lacks an open destination poll (invariant test); race test yields one ballot per voter and consistent tallies; late ballot → `VOTE_CLOSED` with result.
 
 ### T3b — Poll lifecycle commands and save place
 - Files: `services/api/src/commands/polls/{close-poll,mark-reveal-seen,advance-poll-stage,reopen-board,remove-candidate,queue-pitch}.ts`, `services/api/src/commands/places/save-place.ts`, `services/api/test/polls/lifecycle.test.ts`.
 - Steps: 1. Close with decider + tie rules from T2; `voting → won` transition. 2. Stage advance top 2 / organiser pick; reopen board. 3. Remove candidate (proposer/organiser, board only); queue pitch during final. 4. `save_place`/`unsave_place`.
-- Tests: `pnpm --filter @critterpass/api test -- polls/lifecycle`
+- Tests: `pnpm --filter @cp/api test -- polls/lifecycle`
 - Done when: close sets trip `won` exactly once; reveal-seen is per user; queued pitches seed the next board.
 
 ### T4 — Poll jobs, notifications, inbox kinds
 - Files: `services/worker/src/jobs/polls/{close,reminders,board-advance,result-fanout}.ts`, `packages/domain/src/polls/inbox-kinds.ts`, `services/worker/test/polls/jobs.test.ts`.
 - Steps: 1. Per-poll schedules, reschedule on `closes_at` change. 2. N-01/02/03 via `notify.route`. 3. Board advance top 2 / organiser pick item. 4. Register inbox kinds; lead-change watch event.
-- Tests: `pnpm --filter @critterpass/worker test -- polls`
+- Tests: `pnpm --filter @cp/worker test -- polls`
 - Done when: close at deadline sets winner with tie rule; reminders only to pending voters; inbox item resolves on ballot.
 
 ### T5 — Pitch service (SSE, tools, cache, evals)
 - Files: `services/api/src/routes/pitches.ts`, `packages/domain/src/pitches/{schema,validate}.ts`, `packages/ai/src/prompts/pitch/`, `packages/ai/evals/pitch/promptfooconfig.yaml`, `services/worker/src/jobs/pitches/prewarm.ts`, `services/api/test/polls/pitch.test.ts`.
 - Steps: 1. Structured section streaming on P13 gateway. 2. Tools wired to P15/P14/P16 read models. 3. Validator drops sections with ungrounded numbers and re-asks once. 4. Cache + prewarm. 5. Evals: grounding, voice, privacy.
-- Tests: `pnpm --filter @critterpass/api test -- pitch`; `pnpm --filter @critterpass/ai eval pitch`
+- Tests: `pnpm --filter @cp/api test -- pitch`; `pnpm --filter @cp/ai eval pitch`
 - Done when: eval grounding 100 %; cached second request returns in < 300 ms.
 
 ### T6 — Place search, guest brief API
 - Files: `services/api/src/routes/{places-search,guest-brief}.ts`, `packages/ai/src/prompts/guest-brief/`, `packages/ai/evals/guest-brief/promptfooconfig.yaml`, `services/api/test/polls/places.test.ts`.
 - Steps: 1. FTS + trgm query over destinations/cities (P14/P18 data) returning silhouette ids, never names of unfound locals. 2. Guest brief with `web_search` `allowed_domains` list (no supplier/OTA domains), untrusted-data framing, citations stored per fact, facts schema, cache per crew-size bucket. 3. FX + stops chips from P12/P15. 4. Evals: citations ⊆ allow-list, injection cases (≥ 10 poisoned pages).
-- Tests: `pnpm --filter @critterpass/api test -- places`; `pnpm --filter @critterpass/ai eval guest-brief`
+- Tests: `pnpm --filter @cp/api test -- places`; `pnpm --filter @cp/ai eval guest-brief`
 - Done when: "marakech" finds Marrakech; every row of the destinations DB is reachable by name (enumerated test over the seeded list, 61 guide places + guest cities); response never contains local names; brief facts ≤90 chars with a stored citation from the allow-list; injection eval 100 %.
 
 ### T7 — Mobile poll kit and chat poll card
 - Files: `apps/mobile/src/features/vote/poll/{use-poll,use-cast-ballot,poll-card,create-poll-sheet,poll-result}.tsx`, `apps/mobile/src/features/vote/register-chat-cards.ts`, tests alongside.
 - Steps: 1. Hooks over PowerSync + optimistic ballot. 2. Chat card registered in P24 registry (bars slide, +1 pop). 3. Create sheet from chat `+`. 4. Closed/result states.
-- Tests: `pnpm --filter mobile test -- features/vote/poll`
+- Tests: `pnpm --filter @cp/mobile test -- features/vote/poll`
 - Done when: vote offline → queued → tallied once online; card shows result after close.
 
 ### T8 — Destination board and pitch sheet
 - Files: `apps/mobile/src/features/vote/board/{vote-slot,destination-board,sticker,pitch-sheet,pitch-stream,fly-to-board}.tsx`, `apps/mobile/src/app/vote/pitch.tsx`, tests alongside.
 - Steps: 1. Register Home vote slot (P25). 2. Layout, float loops, avatar drop. 3. SSE client with section reveal + slap. 4. Queue + already-on-board + error states. 5. Organiser advance/reopen controls.
-- Tests: `pnpm --filter mobile test -- features/vote/board`
+- Tests: `pnpm --filter @cp/mobile test -- features/vote/board`
 - Done when: RNTL tests cover streaming states; RNTL layout snapshots committed; `maestro test e2e/vote/screens-board.yaml` emits `takeScreenshot` artifacts for `3b-2`/`3b-3` review.
 
 ### T9 — Final split card, showdown, winner reveal
 - Files: `apps/mobile/src/features/vote/final/{final-split-card,showdown-screen,winner-reveal,confetti,tie-line}.tsx`, `apps/mobile/src/app/vote/[pollId]/index.tsx`, `apps/mobile/src/app/vote/[pollId]/reveal.tsx`, tests alongside.
 - Steps: 1. Fold transition, split card. 2. Showdown gestures, squash, VS punch, haptics, avatar slide. 3. Reveal sequence + reveal-once gate on app open. 4. Organiser/non-organiser/missed/lost variants; reduced motion.
-- Tests: `pnpm --filter mobile test -- features/vote/final`
+- Tests: `pnpm --filter @cp/mobile test -- features/vote/final`
 - Done when: reveal shows once per user across two devices (integration via synced `poll_reveals`); RNTL layout snapshots committed; Maestro `takeScreenshot` artifacts for `3b-6`, `3c-1`, `3c-2`.
 
 ### T10 — Search sheet, guest guide page, solo trip
 - Files: `apps/mobile/src/features/vote/places/{search-sheet,result-row,guest-guide-page,locals-strip,brief-stream,crew-picker,solo-confirm}.tsx`, `apps/mobile/src/app/places/{search,[placeId]}.tsx`, tests alongside.
 - Steps: 1. Search with debounce, empty/no-results/offline states. 2. Guest page with hop-in, breathing locals, hints, save flap. 3. PITCH TO THE CREW with crew picker / no-crew path. 4. Solo confirm → `create_trip{solo}` → setup route.
-- Tests: `pnpm --filter mobile test -- features/vote/places`
+- Tests: `pnpm --filter @cp/mobile test -- features/vote/places`
 - Done when: tests cover live vs guest routing (live-guide rows push the typed `routes.destination(placeId)` helper; P30 builds that screen) and solo creation; RNTL layout snapshots committed; Maestro `takeScreenshot` artifacts for `3b-7`, `3b-8`.
 
 ### T11 — End-to-end vote loop

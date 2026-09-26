@@ -103,7 +103,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Goal: prove data isolation.
 - Files: `packages/db/test/fuzz/rls-fuzz.test.ts`, `packages/db/test/fuzz/generators.ts`.
 - Steps: 1. Generate random crews/trips/users; for every published + private table, attempt cross-user select/insert/update/delete as `app_user`, `guide_reader`, `powersync_repl`, `public_reader` (phase 51: public views only, no base tables). 2. Assert policy matrix from data-model.
-- Tests: `pnpm --filter @critterpass/db test -- fuzz`.
+- Tests: `pnpm --filter @cp/db test -- fuzz`.
 - Done when: 10k iterations, zero unexpected access.
 
 ### T6 — Security scans + external review package
@@ -131,7 +131,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Goal: bounded spend + fast off.
 - Files: `services/api/src/ops/kill-switches.ts`, `services/worker/src/jobs/ops/ai-cost-guard.ts`, tests beside.
 - Steps: 1. Registry + middleware checks. 2. Cost guard cron: alert + pause/queue (Opus skeleton jobs queued, never re-routed to another model); per-feature throttle/kill switch. 3. Founder admin toggles (incl. manual tier downgrade) audited.
-- Tests: `pnpm --filter @critterpass/api test -- kill-switches`; `pnpm --filter @critterpass/worker test -- ai-cost-guard`.
+- Tests: `pnpm --filter @cp/api test -- kill-switches`; `pnpm --filter @cp/worker test -- ai-cost-guard`.
 - Done when: exceeding a cap pauses/queues or disables within one cron tick and alerts; no code path changes a model tier without an audited admin toggle.
 
 ### T10 — Backups, restore drill, failover drill

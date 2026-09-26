@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cp-media-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-01",
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "cp-media-dev" }],
+  "env": {
+    "staging": {
+      "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "cp-media-staging" }],
+      "routes": [{ "pattern": "media.staging.critterpass.app", "custom_domain": true }],
+    },
+    "production": {
+      "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "cp-media-prod" }],
+      // "routes": [{ "pattern": "media.critterpass.app/*", "custom_domain": true }]
+    },
+  },
+}

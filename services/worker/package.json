@@ -1,0 +1,29 @@
+{
+  "name": "@cp/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "pg-boss consumers and cron: push router, realtime relay, AI jobs, parsers, recap, content, supplier polling",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=../../.env src/index.ts",
+    "build": "tsdown",
+    "start": "node dist/index.js",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:db": "vitest run --config vitest.db.config.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "catalog:",
+    "hono": "catalog:",
+    "pg": "catalog:",
+    "pino": "catalog:",
+    "redis": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@cp/db": "workspace:*",
+    "@types/pg": "catalog:",
+    "tsdown": "catalog:"
+  }
+}

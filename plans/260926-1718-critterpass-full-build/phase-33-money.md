@@ -130,84 +130,84 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Goal: all money tables exist with policies and sync.
 - Files: `packages/db/src/schema/{money,stickers}.ts`, `packages/db/migrations/<ts>_expenses_ledger_payments.sql`, `<ts>_receipts.sql`, `<ts>_payout_methods.sql`, `<ts>_stickers.sql`, `packages/db/test/permissions/{expenses,expense-shares,ledger-entries,payments,payout-methods,receipts,stickers}.test.ts`, `infra/powersync/streams/money.yaml`
 - Steps: 1. Drizzle schema per data-model §3.8/§3.9. 2. Append-only trigger on `ledger_entries`, `expense_edits`. 3. RLS + grants for `app_user`, `app_system`, `guide_reader` (none), `powersync_repl` (published columns only). 4. `app.reveal_payout` + audit. 5. Publication + stream queries.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/expenses permissions/ledger-entries permissions/payments permissions/payout-methods permissions/receipts permissions/stickers`
+- Tests: `pnpm --filter @cp/db test -- permissions/expenses permissions/ledger-entries permissions/payments permissions/payout-methods permissions/receipts permissions/stickers`
 - Done when: outsider/ex-member/member/organiser/anonymous matrix passes; UPDATE on `ledger_entries` fails for every role; `app.pseudonymise_user` succeeds only as `app_system` and leaves balances sum-zero; payout details unreadable except via reveal by the open payment's payer.
 
 ### T2 — Ledger engine: splits, itemised allocation, FX, ledger derivation
 - Goal: pure deterministic money core for every split mode.
 - Files: `packages/cost-engine/src/ledger/{split.ts,itemised.ts,derive-entries.ts,balances.ts,index.ts}`, `packages/cost-engine/test/ledger/*.test.ts`, `packages/domain/src/money/{expense-schema.ts,ledger-writer.ts}`
 - Steps: 1. `computeShares(amount, currency, mode, shares)` for equal/weights/fixed/items, largest-remainder allocation with stable order (payer absorbs last minor unit). 2. Itemised: items per assignee, service/tax/tip/discount pro-rata by item subtotal. 3. Convert to crew currency via P12 FX snapshot. 4. `deriveEntries(expense)` and `reverseEntries(prev)`. 5. `balances(entries)` with sum-zero assertion.
-- Tests: `pnpm --filter @critterpass/cost-engine test -- ledger` (golden: 3i-1 nets +186.40/+41.00/0/−41.00/−92.10/−94.30; 3i-3 Jordan $1.50, others $13.34 at 15,835 IDR/USD; 3i-4 $11.37; property tests: shares sum = amount for random inputs)
+- Tests: `pnpm --filter @cp/cost-engine test -- ledger` (golden: 3i-1 nets +186.40/+41.00/0/−41.00/−92.10/−94.30; 3i-3 Jordan $1.50, others $13.34 at 15,835 IDR/USD; 3i-4 $11.37; property tests: shares sum = amount for random inputs)
 - Done when: all golden and property tests pass; zero float arithmetic (lint rule `no-float-money` passes).
 
 ### T3 — Expense commands, crew-chat expense message, guide tools
 - Goal: add/edit/delete expenses offline-first with realtime fan-out.
 - Files: `services/api/src/commands/money/{add-expense.ts,edit-expense.ts,delete-expense.ts,set-trip-budget.ts,set-crew-settlement-currency.ts}`, `services/api/src/money/tools.ts`, `services/worker/src/jobs/money/rerate.ts`, `services/api/test/money/expenses.test.ts`
 - Steps: 1. Handlers: authz (participant; creator/payer/organiser edit), validate, write expense + shares + entries + `expense_edits` in one tx, `rt_outbox` events, `messages(type=expense)` row. 2. `base_version` conflict handling. 3. Settlement currency change + `money.rerate` job. 4. Register `balances_read`, `propose_expense` executors (numbers from engine). 5. `/sync/upload` path returns 2xx + `cmd_results` on validation reject.
-- Tests: `pnpm --filter @critterpass/api test -- money/expenses` (Testcontainers Postgres: idempotent replay same op_id; edit by non-payer rejected; delete writes reversal; offline upload reject returns 2xx)
+- Tests: `pnpm --filter @cp/api test -- money/expenses` (Testcontainers Postgres: idempotent replay same op_id; edit by non-payer rejected; delete writes reversal; offline upload reject returns 2xx)
 - Done when: tests pass; a second client receives `crew_money:` event within 1 s in the local docker-compose stack.
 
 ### T4 — Settlement: netting, payment lifecycle, Settled Tokek grant
 - Goal: settle plan + payment state machine + one-timestamp crew reward.
 - Files: `packages/cost-engine/src/settle/{min-transfers.ts,plan.ts}`, `packages/cost-engine/test/settle/*.test.ts`, `packages/domain/src/money/payment-state.ts`, `services/api/src/commands/money/{request-payment.ts,nudge-payment.ts,mark-paid.ts,confirm-paid.ts,dispute-payment.ts,remind-all.ts}`, `services/worker/src/jobs/money/autoconfirm.ts`, `services/api/test/money/settle.test.ts`
 - Steps: 1. Optimal min-transfer DP (≤16 members) + greedy fallback >16 (never reached: seat cap 16). 2. Payment state machine table-driven. 3. Rate limits (nudge 1/pair/24 h, remind 1/24 h) → `STATE_INVALID{rate_limited}`. 4. `confirm_paid`: when all balances zero for the trip → grant `stickers(kind=settled)` to all participants in the same tx, `reward.granted{server_ts}`, ALWAYS push. 5. Auto-confirm job.
-- Tests: `pnpm --filter @critterpass/cost-engine test -- settle`; `pnpm --filter @critterpass/api test -- money/settle`
+- Tests: `pnpm --filter @cp/cost-engine test -- settle`; `pnpm --filter @cp/api test -- money/settle`
 - Done when: 3i-1 nets produce exactly 3 transfers; reward granted once with identical `granted_at` for 6 users under concurrent final confirms (two racing commands → one grant); state-machine table covers every transition.
 
 ### T4b — Payout methods: EMVCo QR, encrypted storage, reveal, push actions
 - Goal: payee payout details stored encrypted and revealed only to the open payment's payer.
 - Files: `packages/domain/src/payout/{catalogue.ts,emvco-qr.ts}`, `packages/domain/test/payout/*.test.ts`, `services/api/src/commands/money/set-payout-method.ts`, `services/api/src/routes/payout-reveal.ts`, `services/api/src/money/push-actions.ts`, `services/api/test/money/payout.test.ts`
 - Steps: 1. EMVCo QR payload builder (PayNow SG, PromptPay TH, VietQR VN, DuitNow MY) with CRC16 tests against published spec examples. 2. Encrypted payout storage (P08 envelope helpers). 3. Reveal route over `app.reveal_payout` + audit. 4. `cp.money` action handlers registered with P11 router.
-- Tests: `pnpm --filter @critterpass/domain test -- payout`; `pnpm --filter @critterpass/api test -- money/payout`
+- Tests: `pnpm --filter @cp/domain test -- payout`; `pnpm --filter @cp/api test -- money/payout`
 - Done when: CRC16 matches spec examples for all 4 schemes; reveal audited and refused for non-payer; push action marks paid via the same command.
 
 ### T5 — `cp-ocr` native module (iOS + Android)
 - Goal: on-device OCR lines with boxes, quality signals, barcode and document scan.
 - Files: `apps/mobile/modules/cp-ocr/{expo-module.config.json,index.ts,src/*.ts,ios/*.swift,android/src/main/java/app/critterpass/ocr/*.kt}`, `apps/mobile/modules/cp-ocr/__tests__/*.test.ts`
 - Steps: 1. iOS: Vision text recognition (accurate, language hints from trip) exposed as a react-native-vision-camera frame-processor plugin (live boxes for the sweep; no DataScanner), document camera, barcode PDF417/Aztec/QR. 2. Android: ML Kit text recognition v2 (Latin, Japanese, Chinese, Korean, Devanagari scripts bundled; no Thai → return `unsupported_script` so T6 uses server OCR), barcode, Document Scanner. 3. Quality heuristics (Laplacian blur, glare ratio, text-line curvature for folds, bbox clipping). 4. Stable line ids (`l{index}` ordered top-to-bottom).
-- Tests: `pnpm --filter mobile test -- cp-ocr`; `xcodebuild test -scheme CpOcrTests` and `./gradlew :cp-ocr:testDebugUnitTest` on bundled real receipt photos in `apps/mobile/modules/cp-ocr/fixtures/` (photographed by the founder)
+- Tests: `pnpm --filter @cp/mobile test -- cp-ocr`; `xcodebuild test -scheme CpOcrTests` and `./gradlew :cp-ocr:testDebugUnitTest` on bundled real receipt photos in `apps/mobile/modules/cp-ocr/fixtures/` (photographed by the founder)
 - Done when: both platforms return identical-shape results on the fixture set; Thai fixture on Android returns `unsupported_script`; module builds in EAS dev client.
 
 ### T6 — Receipt pipeline: upload, Sonnet parse, assignment suggestions, commit
 - Goal: server turns OCR lines into validated itemised lines + suggestions.
 - Files: `services/api/src/routes/receipts.ts`, `services/worker/src/jobs/money/receipt-parse.ts`, `packages/ai/src/routes/receipt-parse/{prompt.ts,schema.ts,index.ts}`, `packages/ai/evals/receipt-parse/{promptfooconfig.yaml,cases/}`, `services/api/src/commands/money/commit-receipt.ts`, `services/api/test/money/receipts.test.ts`
 - Steps: 1. Presign (`purpose=receipt`) + `POST /v1/receipts` → job. 2. Sonnet structured output keyed by line id (server-OCR fallback path: Sonnet vision transcribes lines to `s{index}` first, then the same parse); code-side number re-parse and cross-check; lines-vs-total check; quality classification merge. 3. Suggestions: presence from plan item attendees, consented dietary flags via `guide_reader`-safe `crew_profiles`, pro-rata service; reason strings from templates. 4. `receipts.parsed` update → synced. 5. `commit_receipt` → expense(split_mode=items). 6. Fair-use bump. 7. Purge rule registration.
-- Tests: `pnpm --filter @critterpass/api test -- money/receipts`; `pnpm --filter @critterpass/ai eval -- receipt-parse` (grader: every amount appears in its cited OCR line; totals reconcile)
+- Tests: `pnpm --filter @cp/api test -- money/receipts`; `pnpm --filter @cp/ai eval -- receipt-parse` (grader: every amount appears in its cited OCR line; totals reconcile)
 - Done when: eval pass rate ≥ 95 % on line amounts for the fixture set (Thai cases via server-OCR path); any hallucinated amount is rejected by code (seeded test).
 
 ### T7 — Money home, history, expense detail (3i-1)
 - Goal: Wallet tab with BOOKINGS | MONEY segment and the Balances screen.
 - Files: `apps/mobile/src/app/(tabs)/wallet/_layout.tsx`, `apps/mobile/src/app/(tabs)/wallet/money/{index.tsx,history.tsx,expense/[id].tsx}`, `apps/mobile/src/features/money/{balances/,history/,expense-detail/,queries.ts}`, `packages/i18n/locales/en/money/`, `e2e/money/balances.yaml`
 - Steps: 1. Segmented layout (C29; bookings segment route slot filled by P34). 2. Balances hero odometer, diverging bars, tiles, LATEST. 3. History + detail + edit/delete entry points; FX line; receipt thumb via signed read. 4. Empty/all-square/you-owe/offline/pending states. 5. Currency chip sheet. 6. a11y: bars as a table for VoiceOver/TalkBack.
-- Tests: `pnpm --filter mobile test -- features/money/balances`; `maestro test e2e/money/balances.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/money/balances`; `maestro test e2e/money/balances.yaml`
 - Done when: two simulators show the same balances after an offline expense syncs; RNTL snapshot of empty + populated states matches render proportions.
 
 ### T8 — Add expense with split editors (3i-2)
 - Goal: fast keypad entry with EVENLY / BY SHARE / CUSTOM.
 - Files: `apps/mobile/src/app/(tabs)/wallet/money/add.tsx`, `apps/mobile/src/features/money/add-expense/{Keypad.tsx,PayerPicker.tsx,SplitEditor*.tsx,CurrencyPicker.tsx,useExpenseDraft.ts}`, `e2e/money/add-expense.yaml`
 - Steps: 1. Keypad with exponent-aware input + odometer digits. 2. Live conversion/per-share line (engine). 3. Payer ring spring. 4. Split editors + mismatch guard. 5. Category auto-suggest from current plan item. 6. Submit via command client (outbox); edit mode reuses screen.
-- Tests: `pnpm --filter mobile test -- features/money/add-expense`; `maestro test e2e/money/add-expense.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/money/add-expense`; `maestro test e2e/money/add-expense.yaml`
 - Done when: Rp 450.000 across 6 shows "≈ $28.42 · $4.74 each" at the 3i-2 rate; CUSTOM with mismatch cannot submit; works in airplane mode.
 
 ### T9 — Receipt scan + failure path UI (3i-3, 3i-4)
 - Goal: camera → sweep → itemised review → commit, with the three-way failure sheet.
 - Files: `apps/mobile/src/app/(tabs)/wallet/money/scan.tsx`, `apps/mobile/src/features/money/receipt/{ScanCamera.tsx,ScanSweep.tsx,LineAssignSheet.tsx,MemberPicker.tsx,FailureSheet.tsx,TypeLinesEditor.tsx}`, `e2e/money/receipt.yaml`
 - Steps: 1. Vision camera + `cp-ocr` frame-processor live lines; sweep + highlight animation (Reanimated). 2. Upload + job progress via `cmd_results`/`receipts` sync. 3. Review sheet with avatar stagger, line picker, payer picker. 4. Failure sheet by quality reason; TYPE THE LINES editor prefilled; RETAKE auto-capture; SPLIT EVENLY. 5. Permission-denied + offline ("Saved — Tokek reads it when you're back online", queued upload).
-- Tests: `pnpm --filter mobile test -- features/money/receipt`; `maestro test e2e/money/receipt.yaml` (uses a real receipt photo injected into the simulator camera roll via the library-pick path)
+- Tests: `pnpm --filter @cp/mobile test -- features/money/receipt`; `maestro test e2e/money/receipt.yaml` (uses a real receipt photo injected into the simulator camera roll via the library-pick path)
 - Done when: fixture receipt produces the 3i-3 assignment; crumpled fixture shows 3i-4 with total locked.
 
 ### T10 — Settle up, payment detail, payout methods (3i-5)
 - Goal: settle screen for payee and payer, reward ceremony.
 - Files: `apps/mobile/src/app/(tabs)/wallet/money/{settle.tsx,payment/[id].tsx,payout-methods.tsx}`, `apps/mobile/src/features/money/settle/{SettleList.tsx,PaymentRow.tsx,PaymentDetail.tsx,PayoutQr.tsx,PayoutMethodsEditor.tsx,SettledTokekReveal.tsx}`, `e2e/money/settle.yaml`
 - Steps: 1. Settle list with statuses, NUDGE/REMIND flaps + toasts. 2. Payer detail: reveal (online), QR (Skia), copy, deep links (bank app / Wise), MARK PAID. 3. Payee CONFIRM/DISPUTE. 4. Payout method editor with country catalogue. 5. Stamp + slide-left, silhouette progress, confetti ceremony on `reward.granted` (foreground now, else on next foreground from unseen `stickers` row).
-- Tests: `pnpm --filter mobile test -- features/money/settle`; `maestro test e2e/money/settle.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/money/settle`; `maestro test e2e/money/settle.yaml`
 - Done when: 3-payment scenario completes across two devices and both show the Settled Tokek; payout details never persisted in SQLite (test asserts).
 
 ### T11 — Budget & forecast (3i-6)
 - Goal: spent vs planned with day/category bars and a deterministic forecast line.
 - Files: `packages/cost-engine/src/forecast/{forecast.ts,biggest-remaining.ts}`, `packages/cost-engine/test/forecast/*.test.ts`, `apps/mobile/src/app/(tabs)/wallet/money/budget.tsx`, `apps/mobile/src/features/money/budget/`, `e2e/money/budget.yaml`
 - Steps: 1. Aggregate actuals by category/day (trip tz). 2. Forecast from remaining plan items + `BookedCostProvider` (empty until P34); finish delta; biggest remaining item. 3. Persona template line from content pack. 4. UI with staggered bars, TODAY marker, dashed plan line, over-plan colour, no-budget CTA, pre-trip state. 5. `set_trip_budget` edit sheet (organiser).
-- Tests: `pnpm --filter @critterpass/cost-engine test -- forecast` (golden 3i-6: $4,812 / $7,440, categories, "$210 under"); `maestro test e2e/money/budget.yaml`
+- Tests: `pnpm --filter @cp/cost-engine test -- forecast` (golden 3i-6: $4,812 / $7,440, categories, "$210 under"); `maestro test e2e/money/budget.yaml`
 - Done when: golden passes; forecast updates within 1 s of a new expense on device.
 
 ## Phase acceptance criteria

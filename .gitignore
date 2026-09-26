@@ -5,9 +5,33 @@
 node_modules/
 dist/
 .turbo/
+coverage/
+*.tsbuildinfo
 *.log
+
+# Generated native projects (Expo continuous native generation) and tool caches
+apps/mobile/ios/
+apps/mobile/android/
+.expo/
+.astro/
+.wrangler/
+test-results/
+playwright-report/
 
 # Environment and secrets (only .env.example is committed)
 .env
 .env.*
 !.env.example
+
+# Signing material and credentials (never committed)
+certs/
+*.p8
+*.p12
+*.cer
+*.certSigningRequest
+*.mobileprovision
+*.keystore
+*.jks
+
+# Wrangler local secrets
+.dev.vars*

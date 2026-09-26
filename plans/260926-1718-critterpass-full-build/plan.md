@@ -1,6 +1,6 @@
 ---
 title: Critterpass full build
-status: pending
+status: in_progress
 created: 2026-09-26
 phases: 54
 tasks: 543
@@ -43,7 +43,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 
 | # | Phase | Tasks | Depends on | Wave | Status |
 |---|---|---|---|---|---|
-| 1 | [Repo & toolchain bootstrap](./phase-01-repo-toolchain-bootstrap.md) | 10 | - | 1 | pending |
+| 1 | [Repo & toolchain bootstrap](./phase-01-repo-toolchain-bootstrap.md) | 10 | - | 1 | in_progress |
 | 2 | [Platform go/no-go spikes](./phase-02-platform-spikes.md) | 15 | 1 | 2 | pending |
 | 3 | [Design tokens, fonts, i18n](./phase-03-design-tokens-fonts-i18n.md) | 8 | 1 | 2 | pending |
 | 4 | [Critter art core](./phase-04-critter-art-core.md) | 8 | 1 | 2 | pending |

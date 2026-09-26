@@ -1,0 +1,22 @@
+{
+  "name": "@cp/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Drizzle schema, SQL migrations, roles/RLS, publication, withUser/withSystem",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./testing": "./test/helpers/containers.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "devDependencies": {
+    "@testcontainers/postgresql": "catalog:",
+    "@testcontainers/redis": "catalog:",
+    "testcontainers": "catalog:"
+  }
+}

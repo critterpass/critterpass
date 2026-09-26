@@ -1,0 +1,95 @@
+# Local backend matching the staging topology: Postgres 18 (logical replication, pgvector),
+# Redis 8, Centrifugo v6 and a self-hosted PowerSync Service with its own storage database.
+# Start with `pnpm infra:up`; api and worker run on the host via `pnpm dev`.
+# Host ports avoid clashing with a locally installed Postgres/Redis: Postgres 54320, Redis 63790.
+name: critterpass
+
+services:
+  postgres:
+    build: ./docker/postgres
+    image: critterpass-postgres:local
+    environment:
+      POSTGRES_USER: app_owner
+      POSTGRES_PASSWORD: app_owner
+      POSTGRES_DB: critterpass
+    ports: ['54320:5432']
+    volumes: ['pgdata:/var/lib/postgresql']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U app_owner -d critterpass']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:8.8.3-alpine
+    ports: ['63790:6379']
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  centrifugo:
+    image: centrifugo/centrifugo:v6.9.6
+    command: ['centrifugo', '--config=/centrifugo/config.json']
+    volumes: ['./centrifugo/config.json:/centrifugo/config.json:ro']
+    environment:
+      CENTRIFUGO_CLIENT_TOKEN_JWKS_PUBLIC_ENDPOINT: http://host.docker.internal:8787/api/auth/jwks
+      CENTRIFUGO_CLIENT_ALLOWED_ORIGINS: http://localhost:8081 http://localhost:4321 http://localhost:5173
+      CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_ENDPOINT: http://host.docker.internal:8787/internal/rt/subscribe
+      CENTRIFUGO_CHANNEL_PROXY_PUBLISH_ENDPOINT: http://host.docker.internal:8787/internal/rt/publish
+      CENTRIFUGO_HTTP_API_KEY: local-centrifugo-api-key
+      CENTRIFUGO_ENGINE_REDIS_ADDRESS: redis://redis:6379
+    ports: ['8000:8000']
+    extra_hosts: ['host.docker.internal:host-gateway']
+    depends_on:
+      redis: { condition: service_healthy }
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8000/health']
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  powersync-storage:
+    image: postgres:18.6-trixie
+    environment:
+      POSTGRES_USER: powersync_storage
+      POSTGRES_PASSWORD: powersync_storage
+      POSTGRES_DB: powersync_storage
+    volumes: ['powersync-storage:/var/lib/postgresql']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U powersync_storage -d powersync_storage']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  powersync:
+    image: journeyapps/powersync-service:1.26.1
+    command: ['start', '-r', 'unified']
+    environment:
+      POWERSYNC_CONFIG_PATH: /config/service.yaml
+      PS_DATA_SOURCE_URI: postgresql://app_owner:app_owner@postgres:5432/critterpass
+      PS_DATA_SOURCE_SSLMODE: disable
+      PS_STORAGE_URI: postgresql://powersync_storage:powersync_storage@powersync-storage:5432/powersync_storage
+      PS_STORAGE_SSLMODE: disable
+      PS_PORT: '8080'
+      PS_JWKS_URI: http://host.docker.internal:8787/api/auth/jwks
+    volumes: ['./powersync/service.yaml:/config/service.yaml:ro']
+    ports: ['8080:8080']
+    extra_hosts: ['host.docker.internal:host-gateway']
+    depends_on:
+      postgres: { condition: service_healthy }
+      powersync-storage: { condition: service_healthy }
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'node -e "fetch(''http://127.0.0.1:8080/probes/liveness'').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"',
+        ]
+      interval: 3s
+      timeout: 5s
+      retries: 40
+
+volumes:
+  pgdata:
+  powersync-storage:

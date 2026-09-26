@@ -108,63 +108,63 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Goal: threads/messages/queue tables with RLS.
 - Files: `packages/db/src/schema/guide-chat.ts`, `packages/db/migrations/<ts>_guide_threads_and_queued_questions.sql`, `packages/db/test/permissions/{guide-threads,guide-messages,queued-guide-questions,phrase-progress}.test.ts`
 - Steps: 1. Tables + group mode. 2. RLS + publication. 3. Testcontainers tests.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/guide`
+- Tests: `pnpm --filter @cp/db test -- permissions/guide`
 - Done when: non-owner cannot read private thread; non-member cannot read group thread; `guide_reader` sees only the calling user's thread.
 
 ### T2 — Guide turn route + meter integration + tools wiring
 - Goal: SSE turn endpoint with quota reserve/commit/release and ChangeSet output.
 - Files: `services/api/src/routes/guide.ts`, `packages/ai/src/routes/guide/{chat.prompt.ts,chat.tools.ts}`, `packages/domain/src/guide/{schemas,meter-rules}.ts`, `packages/ai/evals/guide/chat.yaml`
 - Steps: 1. Route validation + context guide (C27). 2. meter exemptions + tz clamp. 3. Tool set per api-contracts §6 caller C. 4. `usage` event + `QUOTA_EXHAUSTED` error.
-- Tests: `pnpm --filter @critterpass/api test -- routes/guide`; `pnpm --filter @critterpass/ai eval -- guide`
+- Tests: `pnpm --filter @cp/api test -- routes/guide`; `pnpm --filter @cp/ai eval -- guide`
 - Done when: 31 concurrent requests on 30-limit produce exactly 30 answers; failed turn releases quota; tz change test cannot exceed 30 in a day; a second tz change within 24 h is ignored.
 
 ### T3 — Guide sheet UI (3j-1)
 - Goal: sheet, modes, streaming, plan cards, quick actions, states.
 - Files: `apps/mobile/src/app/(modal)/guide/[threadId].tsx`, `apps/mobile/src/features/guide/chat/**`, `packages/i18n/locales/en/guide/chat.po`
 - Steps: 1. SSE client + token renderer. 2. Plan card with dealt swaps, PROPOSE TO GROUP / JUST ME + UNDO. 3. Quick actions behind supplier/feature flags. 4. States list above.
-- Tests: `pnpm --filter mobile test -- features/guide/chat`; `maestro test e2e/guide/chat-propose-to-group.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/guide/chat`; `maestro test e2e/guide/chat-propose-to-group.yaml`
 - Done when: PROPOSE TO GROUP produces a poll visible in crew chat on second device; offline question queues and sends on reconnect.
 
 ### T4 — Guide in crew chat (mentions + proactive)
 - Goal: @mention replies and offer cards.
 - Files: `services/worker/src/jobs/guide/{mention,proactive}.ts`, `packages/ai/src/routes/guide/{mention,proactive}.*.ts`, `apps/mobile/src/features/guide/crew-mention/**`
 - Steps: 1. Mention job streaming fan-out. 2. Metering rule (any Pass+/boost → unmetered). 3. Proactive trigger + rate limit + chat mode respect. 4. Offer card explicit confirm per member.
-- Tests: `pnpm --filter @critterpass/worker test -- guide`; `maestro test e2e/guide/crew-mention.yaml`
+- Tests: `pnpm --filter @cp/worker test -- guide`; `maestro test e2e/guide/crew-mention.yaml`
 - Done when: mention by free user with Pass+ crewmate does not increment usage; proactive cap enforced; offer never books without confirm; mention turn tool list is propose-only (test); prompt-assembly test shows no supplier text and availability numbers come from the template.
 
 ### T5 — Meter chip + 4b-1 limit card
 - Goal: limit UX exactly as designed.
 - Files: `apps/mobile/src/features/guide/meter/**`, `packages/i18n/locales/en/guide/meter.po`
 - Steps: 1. Segmented meter from synced `usage_counters`. 2. 30th segment flick + trail-off + card slide. 3. Crewmate hint list, countdown from `reset_at`, GET PASS+ entry.
-- Tests: `pnpm --filter mobile test -- features/guide/meter`
+- Tests: `pnpm --filter @cp/mobile test -- features/guide/meter`
 - Done when: RNTL snapshot covers free/at-limit/unlimited/boosted; countdown derived from `reset_at` only.
 
 ### T6 — Queued question at reset (F-099)
 - Goal: queue, answer at reset, passive push.
 - Files: `services/api/src/commands/guide/{queue-guide-question,cancel-queued-question}.ts`, `services/worker/src/jobs/guide/queued-answer.ts`, `apps/mobile/src/features/guide/queued/**`
 - Steps: 1. Commands with guard. 2. Cron per tz bucket. 3. AI-40 answer counted to new day. 4. N-36 passive; status for briefing.
-- Tests: `pnpm --filter @critterpass/worker test -- guide/queued-answer`
+- Tests: `pnpm --filter @cp/worker test -- guide/queued-answer`
 - Done when: fake-clock test answers at 00:00 in Asia/Saigon and not at 00:00 UTC; second queue same day rejected.
 
 ### T7 — Phrase cards + TTS pipeline
 - Goal: playable, showable, offline phrase cards.
 - Files: `apps/mobile/src/features/guide/phrases/**`, `services/api/src/commands/guide/request-phrase-card.ts`, `services/worker/src/jobs/guide/phrase-tts.ts`
 - Steps: 1. `<PhraseCard>` with play/show mode. 2. TTS job (ElevenLabs Flash/v3 by language, per-guide voice) → R2. 3. Offline bundle inclusion + on-device TTS fallback.
-- Tests: `pnpm --filter @critterpass/worker test -- guide/phrase-tts`; `maestro test e2e/guide/phrase-offline.yaml`
+- Tests: `pnpm --filter @cp/worker test -- guide/phrase-tts`; `maestro test e2e/guide/phrase-offline.yaml`
 - Done when: airplane-mode Maestro flow plays cached audio; custom address card produced within job.
 
 ### T8 — Dietary & accessibility capture + consent
 - Goal: undesigned capture flow built with design system.
 - Files: `apps/mobile/src/features/guide/dietary/**`, `apps/mobile/src/app/(modal)/guide/dietary.tsx`, `packages/i18n/locales/en/guide/dietary.po`
 - Steps: 1. Form + chips + free text. 2. Consent sheet + revoke. 3. Local-private storage; flags derivation check.
-- Tests: `pnpm --filter mobile test -- features/guide/dietary`; `pnpm --filter @critterpass/db test -- permissions/dietary` (reuse P27 tests, add consent revoke case)
+- Tests: `pnpm --filter @cp/mobile test -- features/guide/dietary`; `pnpm --filter @cp/db test -- permissions/dietary` (reuse P27 tests, add consent revoke case)
 - Done when: without consent `crew_profiles` tool returns no flags; revoke removes flags row.
 
 ### T9 — Guide chat evals + cost dashboard wiring
 - Goal: regression gate for chat/mention/queued prompts.
 - Files: `packages/ai/evals/guide/{chat,mention,proactive,queued}.yaml`
 - Steps: 1. Cases: numbers only from tools, no supplier text, persona, refusal, dietary privacy, prompt injection in mentions / proactive triggers / vendor replies (no out-of-policy tool call, no leak). 2. Langfuse cost per trip tags.
-- Tests: `pnpm --filter @critterpass/ai eval -- guide`
+- Tests: `pnpm --filter @cp/ai eval -- guide`
 - Done when: suite green and wired into `ai-evals` workflow.
 
 ## Phase acceptance criteria

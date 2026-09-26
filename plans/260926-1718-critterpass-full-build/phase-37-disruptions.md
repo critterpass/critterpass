@@ -110,67 +110,67 @@ All free (Q-78, entitlement matrix); guide work unmetered (system guide work).
 ### T1 — Disruption schema, streams, permission tests
 - Files: `packages/db/src/schema/disruptions.ts`, `packages/db/migrations/<ts>_disruptions_watch_items.sql`, `packages/db/test/permissions/{disruptions,watch-items,journey-checks}.test.ts`, `infra/powersync/streams/disruptions.yaml`.
 - Steps: 1. Tables/columns above, FORCE RLS, grants, `llm` view entries. 2. Matrix tests (participant, crew non-participant, outsider, guide_reader, powersync_repl).
-- Tests: `pnpm --filter @critterpass/db test -- permissions/disruptions permissions/watch-items permissions/journey-checks`
+- Tests: `pnpm --filter @cp/db test -- permissions/disruptions permissions/watch-items permissions/journey-checks`
 - Done when: outsiders read nothing; guide_reader sees disruptions without C3 fields.
 
 ### T2 — Flight impact analysis and autonomy classification
 - Files: `packages/planner/src/disruption/{flight-impact,classify-actions,compensation,index}.ts` + tests, `packages/domain/src/disruptions/{types,action-kinds,status}.ts`.
 - Steps: 1. Impact over plan version, bookings, flight travellers, leave-bys. 2. Candidate actions with `{kind, reversible, needs_approval, cost_delta, affected, compensation}` using phase-13 policy. 3. Re-trigger diff vs previous version.
-- Tests: `pnpm --filter @critterpass/planner test -- disruption`
+- Tests: `pnpm --filter @cp/planner test -- disruption`
 - Done when: 12 fixtures (delay, cancellation, diversion, missed connection, split crew) classify as expected; no vendor action is ever autonomous.
 
 ### T3 — Disruption agent job, executor wiring, commands
 - Files: `services/worker/src/jobs/disruptions/{flight-disruption,apply-vendor-reply,retrigger}.ts`, `packages/ai/src/routes/disruption/{prompt,schema,validate}.ts`, `packages/ai/evals/disruption/**`, `services/api/src/commands/disruptions/{decide-disruption-action,undo-disruption-action,announce-disruption}.ts`, `services/api/test/disruptions/flight.test.ts`.
 - Steps: 1. `ai.disruption`: build impact → AI-28 words summary/rows (ids only from T2) → persist → execute autonomous via phase-13 executor, publish steps. 2. Vendor drafts via `propose_vendor_message` → phase-35 desk. 3. Decisions with C41 policy; undo with compensation drafts. 4. announce → chat card. 5. N-14/N-28, briefing insert.
-- Tests: `pnpm --filter @critterpass/worker test -- disruptions/flight`; `pnpm --filter @critterpass/api test -- disruptions`; `pnpm --filter @critterpass/ai eval -- disruption`
+- Tests: `pnpm --filter @cp/worker test -- disruptions/flight`; `pnpm --filter @cp/api test -- disruptions`; `pnpm --filter @cp/ai eval -- disruption`
 - Done when: webhook fixture → disruption with done + needs-yes rows; approval by non-affected member rejected; undo restores plan version.
 
 ### T4 — Flight delayed screen (3k-5)
 - Files: `apps/mobile/src/app/(trip)/disruption/[id].tsx`, `apps/mobile/src/features/trip/disruptions/flight/{screen,hero,done-list,needs-yes-card,tell-crew,undo-link,states/*}.tsx`, `packages/i18n/locales/en/trip/disruptions.po`.
 - Steps: 1. Subscribe `disruption:`; rows tick on real steps. 2. Decision cards with decider state. 3. TELL THE CREW, undo, landed toast. 4. All states incl. offline.
-- Tests: `pnpm --filter mobile test -- features/trip/disruptions/flight`
+- Tests: `pnpm --filter @cp/mobile test -- features/trip/disruptions/flight`
 - Done when: RNTL covers every listed state; this task creates `e2e/trip/disruptions/flight-delay.yaml` and it is green.
 
 ### T5 — Forecast watcher and impact scoring
 - Files: `services/worker/src/jobs/disruptions/{weather-watch,watch-score,watch-notify}.ts`, `packages/planner/src/disruption/watch-rules.ts` + tests, `packages/ai/src/routes/watch/**`, `packages/ai/evals/watch/**`.
 - Steps: 1. Cadence scheduling per trip. 2. Source fetch via phase-15 services; closures via curated + `web_search` with citations. 3. Rules → status; diff vs last snapshot; escalation → N-26 / roundup line, `storm.escalated` event. 4. Haiku copy with fallback templates.
-- Tests: `pnpm --filter @critterpass/planner test -- watch-rules`; `pnpm --filter @critterpass/worker test -- disruptions/weather-watch`; `pnpm --filter @critterpass/ai eval -- watch`
+- Tests: `pnpm --filter @cp/planner test -- watch-rules`; `pnpm --filter @cp/worker test -- disruptions/weather-watch`; `pnpm --filter @cp/ai eval -- watch`
 - Done when: rough-seas fixture escalates to PLAN B exactly once; unchanged forecast sends nothing.
 
 ### T6 — Forecast screen (3k-7)
 - Files: `apps/mobile/src/app/(trip)/forecast/[tripId].tsx`, `apps/mobile/src/features/trip/disruptions/forecast/{screen,day-strip,precip-bar,watch-list,watch-row,hourly-sheet,states/*}.tsx`.
 - Steps: 1. Synced `watch_items` + `weather_snapshots`; FLIP reorder; slide-in + buzz. 2. Units per settings. 3. States.
-- Tests: `pnpm --filter mobile test -- features/trip/disruptions/forecast`
+- Tests: `pnpm --filter @cp/mobile test -- features/trip/disruptions/forecast`
 - Done when: RNTL covers states; reorder animation respects reduced motion.
 
 ### T7 — Storm options, decision poll and truthful commit
 - Files: `packages/planner/src/disruption/{storm-options,swap-days}.ts` + tests, `services/worker/src/jobs/disruptions/{storm-decision,storm-commit}.ts`, `services/api/test/disruptions/storm.test.ts`.
 - Steps: 1. Options with feasibility (availability, fees via Viator cancel-quote), deltas from cost engine, recommendation rule. 2. Create Poll(kind=decision) with C41 policy + closes_at. 3. On result: apply ChangeSet; Viator new hold → `awaiting_booker_payment` + booker prompt (phase-35 payment form) → on confirmation cancel old via phase-35 executor; hold expiry/payment failure → revert to old booking (ChangeSet day swap stays only if the crew chose it without the boat; else offer keep/skip); affiliate link items; ledger only on confirmation. 4. Auto-withdraw on improvement.
-- Tests: `pnpm --filter @critterpass/planner test -- storm`; `pnpm --filter @critterpass/worker test -- disruptions/storm`
+- Tests: `pnpm --filter @cp/planner test -- storm`; `pnpm --filter @cp/worker test -- disruptions/storm`
 - Done when: Viator sandbox swap with booker payment yields new booking + cancelled old (cancel issued strictly after confirmation); payment failure and hold expiry fixtures leave the old booking active and uncancelled; poll expiry keeps current plan.
 
 ### T8 — Storm screen (3k-8)
 - Files: `apps/mobile/src/app/(trip)/storm/[pollId].tsx`, `apps/mobile/src/features/trip/disruptions/storm/{screen,metric-chips,option-card,consensus-row,booker-pay-card,states/*}.tsx`, `e2e/trip/disruptions/storm-swap.yaml`.
 - Steps: 1. Storm UI with live re-pricing, CTA flap, card-trick flip on apply. 2. Booker "Confirm & pay" card (opens phase-35 Viator payment form) + waiting-on-booker / hold-expired states. 3. All F-116 states.
-- Tests: `pnpm --filter mobile test -- features/trip/disruptions/storm`
+- Tests: `pnpm --filter @cp/mobile test -- features/trip/disruptions/storm`
 - Done when: RNTL covers states incl. waiting-on-booker and payment-failed; this task creates `storm-swap.yaml` and it is green.
 
 ### T9 — Weather replan job and 3e-2 overlay
 - Files: `apps/mobile/src/features/plan/weather-suggestion/{rain-band,ghost-block,suggestion-banner,use-weather-suggestion}.tsx|ts`, `packages/ai/src/routes/replan/**`, `packages/ai/evals/replan/**`, `services/worker/src/jobs/disruptions/weather-replan.ts`, `services/api/src/commands/disruptions/dismiss-weather-suggestion.ts`, `services/worker/test/disruptions/replan.test.ts`, `e2e/trip/disruptions/weather-ghost.yaml`.
 - Steps: 1. `ai.replan` job (solver + AI-14 copy, ChangeSet trigger=weather). 2. 3e-2 overlay components exported for the phase-29 grid slot. 3. Accept → 3e-3 navigation; dismiss command.
-- Tests: `pnpm --filter mobile test -- features/plan/weather-suggestion`; `pnpm --filter @critterpass/worker test -- disruptions/replan`; `pnpm --filter @critterpass/ai eval -- replan`
+- Tests: `pnpm --filter @cp/mobile test -- features/plan/weather-suggestion`; `pnpm --filter @cp/worker test -- disruptions/replan`; `pnpm --filter @cp/ai eval -- replan`
 - Done when: RNTL + evals pass; stale suggestion withdrawn on plan change; this task creates `weather-ghost.yaml` and it is green.
 
 ### T10 — Journey check, running-late detection and options
 - Files: `services/api/src/routes/journey.ts`, `services/worker/src/jobs/disruptions/{running-late,late-options,journey-stale}.ts`, `packages/planner/src/disruption/late-options.ts` + tests, `packages/ai/src/routes/late/**`, `packages/ai/evals/late/**`, `services/api/src/commands/disruptions/choose-late-option.ts`, `services/api/test/disruptions/late.test.ts`.
 - Steps: 1. Route + threshold + disruption creation (fix not stored). 2. Options (push/split, walk, skip, call a car) with vendor status. 3. Selection → waiting-crew message immediately, vendor draft, apply on confirm. 4. Auto-resolve when on time.
-- Tests: `pnpm --filter @critterpass/api test -- disruptions/late`; `pnpm --filter @critterpass/planner test -- late-options`
+- Tests: `pnpm --filter @cp/api test -- disruptions/late`; `pnpm --filter @cp/planner test -- late-options`
 - Done when: a replayed GPX drive fixture creates exactly one disruption; `journey_checks` never contains coordinates (schema test).
 
 ### T11 — Running-late screen and e2e suite
 - Files: `apps/mobile/src/app/(trip)/late/[id].tsx`, `apps/mobile/src/features/trip/disruptions/late/{screen,route-map,closure-callout,late-sheet,option-list,waiting-view,use-journey-check,states/*}.tsx`, `e2e/trip/disruptions/running-late.yaml`.
 - Steps: 1. Map with stroke-dash detour redraw, closure pulse, ETA pill live. 2. Journey check hook in location engine subscription `leaveby`. 3. Waiting-crew view. 4. Create `running-late.yaml`; run the full Maestro suite (flows from T4, T8, T9, T11) with seeded webhooks and simulated location.
-- Tests: `pnpm --filter mobile test -- features/trip/disruptions/late`; `maestro test e2e/trip/disruptions/`
+- Tests: `pnpm --filter @cp/mobile test -- features/trip/disruptions/late`; `maestro test e2e/trip/disruptions/`
 - Done when: all 4 flows green on iOS 26 + Android 36.
 
 ## Phase acceptance criteria

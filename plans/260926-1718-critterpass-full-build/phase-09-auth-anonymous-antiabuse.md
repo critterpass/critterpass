@@ -96,70 +96,70 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Goal: Better Auth mounted at `/api/auth/*` with Postgres (Drizzle adapter, `auth` role), Redis secondary storage, UUIDv7 ids.
 - Files: `services/api/src/auth/{index,config,hooks}.ts`, `packages/db/src/schema/auth.ts`, `packages/db/migrations/<ts>_auth_schema.sql`, `services/api/test/auth/core.test.ts`, `services/api/.env.example`.
 - Steps: 1. Configure minimal plugins (anonymous, phoneNumber, jwt, admin, expo), `disableImplicitLinking`, `trustedOrigins`, session 30 d / `updateAge` 1 d. 2. Generate auth schema, review, commit SQL; grants per data-model §2. 3. `databaseHooks.user.create.after` inserts `public.users` (same id) + `user_settings` defaults. 4. zod env check for auth vars.
-- Tests: `pnpm --filter @critterpass/api test -- auth/core`
+- Tests: `pnpm --filter @cp/api test -- auth/core`
 - Done when: anonymous sign-in creates `auth.user` + `public.users` with identical uuidv7; `app_user` cannot SELECT `auth.*`.
 
 ### T2 — JWT/JWKS for PowerSync and Centrifugo, key rotation
 - Goal: short-lived audience-scoped tokens.
 - Files: `services/api/src/auth/tokens.ts`, `services/api/test/auth/jwks.test.ts`.
 - Steps: 1. jwt plugin EdDSA, encrypted private keys, `aud` sync|rt, 15 min, claims `sub`, `sid`, `anon`. 2. `/api/auth/token?aud=` endpoint. 3. Rotation job fn + retention of old keys 7 d. 4. Tests verify with `jose` `createRemoteJWKSet` against `/api/auth/jwks`, including after rotation.
-- Tests: `pnpm --filter @critterpass/api test -- auth/jwks`
+- Tests: `pnpm --filter @cp/api test -- auth/jwks`
 - Done when: token verifies by kid before and after rotation; wrong aud rejected; revoked session cannot mint tokens.
 
 ### T3 — Anonymous sign-in with attestation
 - Goal: attested anonymous-first identity.
 - Files: `services/api/src/abuse/attestation/{app-attest,play-integrity,challenge,index}.ts`, `services/api/src/auth/hooks.ts`, `services/api/src/routes/auth-extra.ts` (challenge route), `packages/db/src/schema/user-private.ts` (`device_attestations`), `packages/db/migrations/<ts>_device_attestations.sql`, `packages/db/test/permissions/device_attestations.test.ts`, `apps/mobile/src/lib/attestation.ts`, `services/api/test/abuse/attestation.test.ts`, `services/api/test/fixtures/attestation/`.
 - Steps: 1. App Attest: verify attestation object (cert chain to Apple root, nonce, app id `TEAMID.app.critterpass`), store key id + public key + counter in `device_attestations`; `POST /v1/attest/challenge` issues single-use Redis challenges (5 min); assertions verify challenge consumed once + counter monotonic. 2. Play Integrity: decode via Google API (service account), check package name, cert digest, `MEETS_DEVICE_INTEGRITY`, nonce. 3. `hooks.before` on `/sign-in/anonymous` and `/phone-number/send-otp`. 4. Env-driven mode. 5. Recorded real fixtures from the phase 2 spike devices.
-- Tests: `pnpm --filter @critterpass/api test -- abuse/attestation`
+- Tests: `pnpm --filter @cp/api test -- abuse/attestation`
 - Done when: valid fixtures pass, tampered nonce/app id/replayed counter/reused challenge fail with `ATTESTATION_FAILED`; `device_attestations` owner-less S table unreadable by `app_user`; mode cannot be changed by request input.
 
 ### T4 — Phone OTP sender router
 - Goal: WhatsApp first, SMS fallback, allow-listed countries.
 - Files: `services/api/src/auth/otp/{router,whatsapp,twilio-verify,prelude,countries}.ts`, `services/api/src/routes/webhooks-whatsapp.ts`, `services/api/test/auth/otp.test.ts`, `services/api/test/routes/webhooks-whatsapp.test.ts`, `services/api/test/fixtures/otp/`.
 - Steps: 1. `phoneNumber.sendOTP` → router: WhatsApp Cloud API authentication template (copy-code button) always tried first when the country allows WhatsApp (the Cloud API has no reachability lookup); else Twilio Verify or Prelude by country table; `POST /webhooks/whatsapp` verifies `X-Hub-Signature-256`, maps `failed`/undeliverable statuses by message id → verification `wa_failed` + `rt_outbox` `otp.channel_failed` on `user:#uid`; client offers "Send by SMS" on that event or after 20 s without verify; router records channel per verification. 2. Custom `verifyOTP`: local code for WhatsApp; provider check API for Verify/Prelude. 3. `verify({updatePhoneNumber:true})` on anonymous sessions; returning sign-in via `sign-in/phone-number`. 4. Write `user_private` enc + hash; uniqueness on `phone_hash` → conflict → `MERGE_REQUIRED`. 5. Android SMS Retriever hash in SMS body; "Send by SMS instead" retry forces SMS channel.
-- Tests: `pnpm --filter @critterpass/api test -- auth/otp` (provider HTTP recorded fixtures only)
+- Tests: `pnpm --filter @cp/api test -- auth/otp` (provider HTTP recorded fixtures only)
 - Done when: VN/SG/ID numbers route per table; blocked country → `VALIDATION` with `detail.reason='country_unsupported'`; WhatsApp sync send error falls back to SMS; signed webhook `failed` status marks `wa_failed` and emits `otp.channel_failed`; unsigned/bad-signature webhook → 401; uid unchanged after verify.
 
 ### T5 — Rate limits, SMS-pumping defences, code enumeration, bot filter
 - Goal: F-029 controls as reusable modules.
 - Files: `services/api/src/abuse/{rate-limits,pumping,code-attempts,bot-filter,metrics}.ts`, `services/api/test/abuse/{rate-limits,pumping,code-attempts,bot-filter}.test.ts`.
 - Steps: 1. Better Auth custom rules (Requirements table) in Redis; IPv6 /64 keying. 2. Prefix velocity breaker + daily spend counters + WhatsApp-only failover + OTel metrics `otp_sent_total{country,channel}`, `otp_verify_ratio`. 3. Code attempts limiter with exponential lockout. 4. Bot-filter UA/IP lists (config-driven).
-- Tests: `pnpm --filter @critterpass/api test -- abuse` (Redis Testcontainer)
+- Tests: `pnpm --filter @cp/api test -- abuse` (Redis Testcontainer)
 - Done when: limits return `RATE_LIMITED` with `retry_after_s`; synthetic pumping burst on one prefix trips the breaker; enumeration of 50 codes from one IP locks out.
 
 ### T6 — Social linking (Apple/Google ID tokens) and SIWA revocation
 - Goal: uid-preserving upgrade + revocable Apple link.
 - Files: `services/api/src/auth/social/{apple,google,revoke}.ts`, `services/api/src/routes/auth-extra.ts` (authorization-code route), `services/api/test/auth/link-social.test.ts`.
 - Steps: 1. Providers configured for ID-token verification (Apple audience = bundle id; Google iOS + Android + web client ids); nonce check. 2. `linkSocial` on anonymous session flips `is_anonymous=false`, `users.status='registered'`. 3. Authorization-code exchange → encrypted refresh token; `revokeApple(uid)` + `revokeGoogle(uid)`. 4. Test with signed ID tokens from a local JWKS test issuer injected via provider config (network boundary double only).
-- Tests: `pnpm --filter @critterpass/api test -- auth/link-social`
+- Tests: `pnpm --filter @cp/api test -- auth/link-social`
 - Done when: uid identical before/after link for both providers; implicit linking by email disabled (second provider with same email does not auto-link); revoke calls Apple endpoint with stored token.
 
 ### T7 — Merge ticket + merge execution + registry
 - Goal: conflict path that never loses data silently.
 - Files: `services/api/src/auth/merge/{ticket,execute}.ts`, `packages/db/src/merge-rules.ts`, `services/api/src/routes/auth-extra.ts` (merge routes), `services/api/test/auth/merge.test.ts`, `packages/db/test/merge-rules-coverage.test.ts`.
 - Steps: 1. Ticket minted only by the failed link/verify handler that just proved the credential (stores `verification_id`, `existing_uid`, `anon_uid`, `anon_session_id`; signed, single-use, 10 min); preview route requires the ticket + the same anonymous session. 2. Execute in one `withSystem` tx applying registry rules; unique-conflict resolution (existing wins); delete anonymous auth user; revoke sessions + action keys; outbox disconnect; `auth.merged` event; mint a session for `existing_uid` in the same response. 3. Coverage test over `information_schema.columns` for user FK columns.
-- Tests: `pnpm --filter @critterpass/api test -- auth/merge`; `pnpm --filter @critterpass/db test -- merge-rules`
+- Tests: `pnpm --filter @cp/api test -- auth/merge`; `pnpm --filter @cp/db test -- merge-rules`
 - Done when: anon crews + existing crews both present after merge; existing profile fields kept; replaying ticket fails; partial failure rolls back fully; a ticket cannot be obtained without a just-verified credential (test: forged/other-session ticket and preview request without proof → 403, no preview data leaked); merge response carries a working session for the existing uid (test: authenticated call succeeds as `existing_uid`).
 
 ### T8 — Returning-user sign-in and Expo auth client
 - Goal: undesigned returning flow server side + mobile client layer.
 - Files: `apps/mobile/src/data/auth/{client,session,link,otp,returning,merge,sign-out,sign-out-hooks,tokens}.ts`, `apps/mobile/src/data/auth/index.ts`, `apps/mobile/src/data/auth/__tests__/*.test.ts`, `services/api/test/auth/returning.test.ts`.
 - Steps: 1. `@better-auth/expo` client with SecureStore. 2. Flow functions per Architecture table, each returning typed outcomes (`linked`, `merge_required{preview}`, `country_unsupported`, …) for phase 22 screens. 3. Returning logic: decide sign-in vs merge-ticket by local anonymous data presence. 4. Token fetchers with refresh-ahead (60 s). 5. Sign-out/merge clears SecureStore and runs `registerOnSignOut(fn)` hooks in order (phase 10 T4 registers PowerSync `disconnectAndClear`); tests use a spy hook.
-- Tests: `pnpm --filter @critterpass/mobile test -- data/auth`; `pnpm --filter @critterpass/api test -- auth/returning`
+- Tests: `pnpm --filter @cp/mobile test -- data/auth`; `pnpm --filter @cp/api test -- auth/returning`
 - Done when: returning sign-in on a fresh install lands on the existing uid; an anonymous session with data triggers merge instead of data loss; typed outcomes exhaustively covered.
 
 ### T9 — Device action keys: storage, issuance helper, HMAC verification
 - Goal: extension auth primitive.
 - Files: `packages/db/src/schema/user-private.ts` (`device_action_keys`), `packages/db/migrations/<ts>_device_action_keys.sql`, `packages/domain/src/auth/action-key-scopes.ts`, `services/api/src/auth/action-keys/{issue,verify,revoke}.ts`, `services/api/test/auth/action-keys.test.ts`, `packages/db/test/permissions/device_action_keys.test.ts`.
 - Steps: 1. Table (secret encrypted via `packages/db/src/crypto`). 2. `issueKey(uid, deviceId, scopes)` / rotate when <7 d. 3. Hono middleware verifying signature over `method\npath\nts\nsha256(body)`, ±300 s, constant-time compare, scope check → `ACTION_KEY_SCOPE`, `last_used_at`. 4. Revocation hooks on sign-out, merge, deletion, admin.
-- Tests: `pnpm --filter @critterpass/api test -- action-keys`
+- Tests: `pnpm --filter @cp/api test -- action-keys`
 - Done when: valid signature passes; body tamper, stale ts, revoked key, missing scope each rejected with the right code.
 
 ### T10 — Account state, session revocation fan-out, admin roles, field crypto
 - Goal: close remaining identity plumbing.
 - Files: `packages/db/src/crypto/{envelope,hmac}.ts`, `packages/db/src/schema/user-private.ts` (`user_private`, `account_deletions`, `install_attributions`), `packages/db/migrations/<ts>_user_private_and_account_state.sql`, `services/api/src/auth/{guards,admin}.ts`, `services/api/test/auth/{guards,admin}.test.ts`, `packages/db/test/permissions/{user_private,account_deletions,install_attributions,auth_schema}.test.ts`.
 - Steps: 1. AES-256-GCM envelope with `key_id` + HMAC-SHA256 peppered hashes; key rotation re-encrypt fn. 2. Guards `requireSession`, `requireRegistered(reason)`, `rejectClosedAccount`. 3. Sign-out/revoke → outbox `session.revoked` + `disconnect`. 4. Admin roles + audit writes; impersonation off in prod. 5. `isAnonGcCandidate` rule fn.
-- Tests: `pnpm --filter @critterpass/api test -- auth/guards|auth/admin`; `pnpm --filter @critterpass/db test -- permissions/(user_private|account_deletions)`
+- Tests: `pnpm --filter @cp/api test -- auth/guards|auth/admin`; `pnpm --filter @cp/db test -- permissions/(user_private|account_deletions)`
 - Done when: C3 tables owner-only, unpublished, no `guide_reader` grant (asserted); closed account gets `ACCOUNT_CLOSED`; admin action writes audit row.
 
 ## Phase acceptance criteria

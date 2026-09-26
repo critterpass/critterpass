@@ -1,0 +1,16 @@
+pnpm-lock.yaml
+design/
+docs/design-renders/
+plans/
+**/dist/
+**/.astro/
+**/.expo/
+**/.turbo/
+apps/mobile/ios/
+apps/mobile/android/
+packages/db/migrations/
+docs/
+.claude/
+.agents/
+skills-lock.json
+**/*.md

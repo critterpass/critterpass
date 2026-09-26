@@ -90,7 +90,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Goal: server side of LA parity for 5 kinds.
 - Files: `packages/domain/src/surfaces/android-live-update.ts`, `services/worker/src/push/fcm-surfaces.ts`, `services/worker/test/android-surfaces/*.test.ts`.
 - Steps: 1. `ProgressSpec` derivation per kind from phase-48 ContentState. 2. Per-kind audience split per initiator rule (Live Update payload to initiator/opted-in devices; notification payload to others). 3. FCM op start/update/end mapping + Kotlin data class generation.
-- Tests: `pnpm --filter @critterpass/worker test -- android-surfaces`.
+- Tests: `pnpm --filter @cp/worker test -- android-surfaces`.
 - Done when: fixture sessions produce Live Update payloads only for initiator/opted-in devices and notification payloads for other members.
 
 ### T2b — Live Update renderer (Kotlin)
@@ -111,7 +111,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 - Goal: 5b-3 on Android and SOS DND bypass, both with denied-by-default degrade paths.
 - Files: `.../alarm/{AlarmFullScreenActivity,AlarmUi}.kt`, `.../sos/SosChannel.kt`, `apps/mobile/src/features/you/android-permissions/**`.
 - Steps: 1. Compose UI per render; slide I'M UP → `set_readiness`; snooze once → second snooze crew knock. 2. Explainer + settings deep links for exact alarm (`SCHEDULE_EXACT_ALARM`), FSI, promoted notifications, DND access. 3. `cp_sos` channel with `setBypassDnd(true)` once `isNotificationPolicyAccessGranted`; recreate channel after grant. 4. Degrade matrix with denied as the default row.
-- Tests: `./gradlew :<cp-surfaces-gradle>:connectedDebugAndroidTest --tests '*Alarm*' --tests '*Sos*'`; `pnpm --filter @critterpass/mobile test -- android-permissions`.
+- Tests: `./gradlew :<cp-surfaces-gradle>:connectedDebugAndroidTest --tests '*Alarm*' --tests '*Sos*'`; `pnpm --filter @cp/mobile test -- android-permissions`.
 - Done when: fresh install (nothing granted) → alarm posts heads-up + Live Update at an inexact time with earlier warning; with FSI + exact alarm granted the Activity shows over lock screen on time; SOS in DND rings only when policy access is granted, otherwise posts HIGH notification + settings banner.
 
 ### T5 — Glance home widgets (free)

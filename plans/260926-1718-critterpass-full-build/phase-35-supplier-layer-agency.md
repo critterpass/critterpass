@@ -102,98 +102,98 @@ Done when: a guide-proposed Viator activity can be held ("{n} seats held until {
 - Goal: adapter framework + all phase tables.
 - Files: `packages/suppliers/src/core/{adapter.ts,http.ts,audit.ts,flags.ts,errors.ts}`, `packages/db/src/schema/suppliers.ts`, 3 migrations in owns, `packages/db/test/permissions/{supplier-orders,affiliate,rides,providers,vendor-messaging}.test.ts`, `.dependency-cruiser.cjs` rule entry
 - Steps: 1. Interface + typed errors mapping to api-contracts §3. 2. Egress client (static IP env, timeout, abort, audit row). 3. Tables + RLS + publication + `infra/powersync/streams/suppliers.yaml`. 4. Content-isolation rule + schema test (no content columns).
-- Tests: `pnpm --filter @critterpass/suppliers test -- core`; `pnpm --filter @critterpass/db test -- permissions/supplier-orders permissions/affiliate permissions/rides permissions/providers permissions/vendor-messaging`; `pnpm depcruise`
+- Tests: `pnpm --filter @cp/suppliers test -- core`; `pnpm --filter @cp/db test -- permissions/supplier-orders permissions/affiliate permissions/rides permissions/providers permissions/vendor-messaging`; `pnpm depcruise`
 - Done when: timeout at 120 s returns `UPSTREAM_TIMEOUT`; `packages/ai` importing supplier content types fails CI.
 
 ### T2 — Affiliate links, click attribution, conversions, disclosure
 - Goal: every link partner live with sub-id tracking.
 - Files: `packages/suppliers/src/{travelpayouts/links/,booking-cj/,gyg/links.ts,transfers/,gojek/}`, `services/api/src/commands/suppliers/record-supplier-click.ts`, `services/worker/src/jobs/suppliers/affiliate-conversions.ts`, `packages/domain/src/suppliers/{ranking-guard.ts,disclosure.ts}`, `services/api/test/suppliers/affiliate.test.ts`
 - Steps: 1. Deep-link builders per partner (Agoda, Trip.com, Booking.com CJ, Klook, GYG, Kiwitaxi, GetTransfer, Gojek) with opaque `sub_id`. 2. Bridge redirect on `go.critterpass.app/r/{sub_id}` for attribution (route handed to P21 link resolver as a registered target). 3. Click command (offline OK; URL built server-side on sync, cached link shown offline). 4. Daily conversions import. 5. Ranking guard test: identical results with commission rates permuted.
-- Tests: `pnpm --filter @critterpass/suppliers test -- links`; `pnpm --filter @critterpass/api test -- suppliers/affiliate`
+- Tests: `pnpm --filter @cp/suppliers test -- links`; `pnpm --filter @cp/api test -- suppliers/affiliate`
 - Done when: each partner link resolves to the partner domain with our marker + sub_id; permuting commission rates never changes order.
 
 ### T3 — Viator adapter (Full + Booking)
 - Goal: complete Viator API client passing certification checks.
 - Files: `packages/suppliers/src/viator/{client.ts,search.ts,availability.ts,cart.ts,book.ts,status.ts,cancel.ts,mappers.ts}`, `packages/suppliers/test/viator/*.test.ts`
 - Steps: 1. Products/availability/check. 2. `/bookings/cart/hold` (≤ 16) mapping `pricing.status` + availability `HOLDING`/`HOLD_NOT_PROVIDED` + `validUntil`. 3. Payment session for Viator payment form (`VIATOR_FORM`). 4. `/bookings/cart/book`, status (rate limit 1/3 min), modified-since poll. 5. Cancel quote + cancel; amendment reasons. 6. Per-endpoint rolling 10 s rate limiter.
-- Tests: `pnpm --filter @critterpass/suppliers test -- viator` (unit on recorded sandbox responses) + `VIATOR_SANDBOX=1 pnpm --filter @critterpass/suppliers test:live -- viator` (real sandbox)
+- Tests: `pnpm --filter @cp/suppliers test -- viator` (unit on recorded sandbox responses) + `VIATOR_SANDBOX=1 pnpm --filter @cp/suppliers test:live -- viator` (real sandbox)
 - Done when: live sandbox run completes search → hold → book → cancel; rate limiter never exceeds documented limits.
 
 ### T4 — Viator order flow: commands, hold expiry, voucher → wallet, compensation
 - Goal: server state machine §3.5 wired to wallet, money, votes, GuideActions.
 - Files: `services/api/src/commands/suppliers/{hold-activity.ts,book-activity.ts,cancel-activity-booking.ts,release-activity-hold.ts}`, `services/api/src/suppliers/{offers-route.ts,payment-session.ts,cancel-quote.ts}`, `packages/domain/src/suppliers/order-state.ts`, `services/worker/src/jobs/suppliers/{hold-expiry.ts,viator-poll.ts,dropout-cancel.ts}`, `services/api/src/routes/webhooks/viator.ts`, `services/api/test/suppliers/viator-flow.test.ts`
 - Steps: 1. Table-driven state machine + transition trigger. 2. Hold → `supplier.hold_expiry` scheduled before `validUntil`; emits `hold.expiring`; registers the Viator implementations of P29's `HoldExpiryProvider` (poll `closes_at` clamp) and `BookingImpactProvider` (fee/cancel window, supplier refusal → blocked). Holds are placed only at booking time (after RSVP/vote), never at proposal time; if `validUntil` is shorter than the minimum vote window (`ops_config supplier.min_vote_window_min`, default 60), no hold is taken and copy is "book when agreed". 3. Book → pending poll → confirmed → P34 `add_booking(source=viator)` + P33 expense in one tx. 4. Cancel with quote. 5. `trip.dropout` handler. 6. Register GuideAction inverses + `bookable_activity`, `propose_hold` executors.
-- Tests: `pnpm --filter @critterpass/api test -- suppliers/viator-flow` (Testcontainers + recorded sandbox)
+- Tests: `pnpm --filter @cp/api test -- suppliers/viator-flow` (Testcontainers + recorded sandbox)
 - Done when: every state transition covered; hold expiry releases and closes linked vote; duplicate `book_activity` op_id never double-books; P29 clamp test: poll `closes_at` ≤ hold `validUntil`; booking-impact and supplier-refusal tests pass; a 20-min hold fixture yields no hold + "book when agreed".
 
 ### T5 — Truthful copy rules + supplier card + booking sheet UI
 - Goal: in-app offer cards and Viator booking/payment on both platforms.
 - Files: `packages/domain/src/suppliers/copy-rules.ts`, `packages/domain/test/suppliers/copy-rules.test.ts`, `packages/i18n/locales/en/suppliers/`, `apps/mobile/src/features/bookings/supplier/{OfferCard.tsx,HoldTimer.tsx,BookingSheet.tsx,PaymentWebView.tsx,CancelSheet.tsx,Disclosure.tsx}`, `apps/mobile/src/app/(modal)/supplier/{offer.tsx,book.tsx,cancel.tsx}`, `e2e/suppliers/viator-booking.yaml`
 - Steps: 1. `supplierCopy` covering every §5 row × flag state (table test). 2. Offer card (verbatim content fetched per view, attribution, disclosure, "seen {time} on {supplier}"). 3. Booking sheet + react-native-webview payment form with 3DS return handling. 4. Pending/booked/voucher/expired/cancel states. 5. Link fallback when flag off or `SUPPLIER_UNAVAILABLE`.
-- Tests: `pnpm --filter @critterpass/domain test -- suppliers/copy-rules`; `pnpm --filter mobile test -- features/bookings/supplier`; `maestro test e2e/suppliers/viator-booking.yaml` (Viator sandbox, test card with 3DS challenge)
+- Tests: `pnpm --filter @cp/domain test -- suppliers/copy-rules`; `pnpm --filter @cp/mobile test -- features/bookings/supplier`; `maestro test e2e/suppliers/viator-booking.yaml` (Viator sandbox, test card with 3DS challenge)
 - Done when: no rendered string contains "held" unless state is `HOLDING` (copy-rule test enumerates all states); sandbox booking lands in the wallet.
 
 ### T6 — Agoda Demand adapter (flagged)
 - Goal: Demand API rates + Fulfill Assisted booking + two-step cancel + BookingDetail, off by default.
 - Files: `packages/suppliers/src/agoda/{client.ts,search.ts,precheck.ts,book.ts,booking-detail.ts,cancel.ts}`, `packages/suppliers/test/agoda/*.test.ts`, `services/worker/src/jobs/suppliers/agoda-booking-poll.ts`
 - Steps: 1. Client with IP-whitelisted egress. 2. Search/rates → stay offer card data (verbatim, uncached). 3. Precheck + book via supplier-hosted or tokenised card path (Open question 2) behind `supplier.agoda_demand.book`. 4. Cancel two-step; BookingDetail poll → wallet. 5. Copy-mode switch via `ops.partner_adapters`.
-- Tests: `pnpm --filter @critterpass/suppliers test -- agoda` (recorded responses from Agoda's published API samples); `AGODA_SANDBOX=1 … test:live -- agoda` once credentials exist
+- Tests: `pnpm --filter @cp/suppliers test -- agoda` (recorded responses from Agoda's published API samples); `AGODA_SANDBOX=1 … test:live -- agoda` once credentials exist
 - Done when: unit suite green; flag off → adapter never called (asserted); flag on in staging with credentials passes the live run.
 
 ### T7 — Generic activity-adapter contract + GYG Partner API adapter (flagged)
 - Goal: a no-hold activity adapter contract any partner plugs into, proven with GYG (public OpenAPI).
 - Files: `packages/suppliers/src/activity-adapter/{contract.ts,conformance.ts}`, `packages/suppliers/src/gyg/{client.ts,search.ts,book.ts,status.ts,cancel.ts}`, `packages/suppliers/test/{activity-adapter,gyg}/*.test.ts`
 - Steps: 1. `ActivityAdapter` contract + reusable conformance suite (search → book → status → cancel, `hold_not_provided`). 2. GYG from OpenAPI → generated types; map to `SupplierOffer`/`BookRequest`; copy "Book on {supplier} · {n} left". 3. Flag `supplier.gyg_api`. 4. Order flow reuse from T4 with `hold_not_provided` path.
-- Tests: `pnpm --filter @critterpass/suppliers test -- activity-adapter gyg`
+- Tests: `pnpm --filter @cp/suppliers test -- activity-adapter gyg`
 - Done when: GYG type-checks against its published OpenAPI and passes the conformance suite on recorded responses; flag default off.
 
 ### T7b — Klook Activity API + Trip.com Attractions distributor adapters (runs when approval + docs arrive)
 - Goal: plug both partners into the T7 contract. Both API docs are login-gated (supplier report), so this task is scheduled on approval, not in the wave; until then their deep links (T2) remain the path.
 - Files: `packages/suppliers/src/{klook,tripcom}/{client.ts,search.ts,book.ts,status.ts,cancel.ts}`, `packages/suppliers/test/{klook,tripcom}/*.test.ts`
 - Steps: 1. Implement against the partner docs received at approval. 2. Flags `supplier.klook_activity_api`, `supplier.tripcom_distributor`. 3. Run T7 conformance suite.
-- Tests: `pnpm --filter @critterpass/suppliers test -- klook tripcom`
+- Tests: `pnpm --filter @cp/suppliers test -- klook tripcom`
 - Done when: both pass the conformance suite on recorded partner sandbox responses; flags default off.
 
 ### T8 — Rides: Grab Farefeed, Gojek fallback, ride logging
 - Goal: fare + ETA + deep link, ride legs and expenses.
 - Files: `packages/suppliers/src/grab/{oauth.ts,farefeed.ts}`, `packages/suppliers/src/gojek/deeplink.ts`, `services/api/src/suppliers/rides-quote.ts`, `services/api/src/commands/suppliers/log-ride.ts`, `services/api/test/suppliers/rides.test.ts`
 - Steps: 1. Partner OAuth client-credentials (`ride.estimate`). 2. Quote route (60 s cache of our quote only, per api-contracts) → `ride_quotes`. 3. Market availability table (Grab SEA cities; Gojek ID; else taxi/Uber link). 4. `log_ride` → `rides` + P33 expense split by attendees. 5. `ride_quote` tool executor ("never claim a car is booked").
-- Tests: `pnpm --filter @critterpass/api test -- suppliers/rides`; `GRAB_SANDBOX=1 pnpm --filter @critterpass/suppliers test:live -- grab`
+- Tests: `pnpm --filter @cp/api test -- suppliers/rides`; `GRAB_SANDBOX=1 pnpm --filter @cp/suppliers test:live -- grab`
 - Done when: Denpasar airport → Ubud quote returns fare range + deep link on replayed Farefeed fixtures; ride log creates a split expense. Live Grab run on staging → P54 launch checks.
 
 ### T9 — Getting around screen (3h-3)
 - Goal: truthful redesign of 3h-3 in the app.
 - Files: `apps/mobile/src/app/(trip)/getting-around.tsx`, `apps/mobile/src/features/bookings/getting-around/{RouteMap.tsx,TransferCard.tsx,GrabEstimateCard.tsx,JourneyProgress.tsx,LaterTodayRow.tsx}`, `e2e/suppliers/getting-around.yaml`
 - Steps: 1. Map (P14 MapLibre) with route + pins. 2. Transfer card from wallet voucher or Grab estimate card + OPEN GRAB / Gojek. 3. "I'm in the car" → time-based journey progress (labelled estimate), arrival haptic. 4. Phrase card via `PhraseCardSlot` registry (P32 registers its `<PhraseCard>`; until then/in tests a stub address card renders) + large "show to driver" mode. 5. LATER TODAY legs from plan with OPEN GRAB / LOG IT. 6. Offline: last quote shown with time, phrase card works offline.
-- Tests: `pnpm --filter mobile test -- features/bookings/getting-around`; `maestro test e2e/suppliers/getting-around.yaml`
+- Tests: `pnpm --filter @cp/mobile test -- features/bookings/getting-around`; `maestro test e2e/suppliers/getting-around.yaml`
 - Done when: no live-driver UI exists; deep link opens Grab (or store page) with pickup/drop-off; LOG IT creates the split expense.
 
 ### T10 — WhatsApp vendor messaging: approval guard, send, webhook
 - Goal: approved-only sending with delivery status.
 - Files: `packages/suppliers/src/whatsapp/{client.ts,templates.ts,webhook-verify.ts}`, `packages/domain/src/vendor-comms/{draft.ts,approval.ts,state.ts}`, `services/api/src/commands/suppliers/{request-vendor-message.ts,approve-vendor-message.ts,send-vendor-message.ts}`, `services/api/src/routes/webhooks/whatsapp-vendor.ts`, `services/api/test/suppliers/vendor-comms.test.ts`
 - Steps: 1. Cloud API client (templates, session messages, delivery status). 2. Draft → approval (hash of exact text) → ops task; send guard in DB + handler. 3. Webhook signature + routing to thread. 4. `propose_vendor_message` executor + GuideAction inverse.
-- Tests: `pnpm --filter @critterpass/api test -- suppliers/vendor-comms`
+- Tests: `pnpm --filter @cp/api test -- suppliers/vendor-comms`
 - Done when: sending an unapproved or edited-after-approval text is rejected at handler and DB; bad webhook signature rejected.
 
 ### T10b — Vendor reply parsing + eval
 - Goal: inbound vendor replies → structured intent, treated as untrusted.
 - Files: `services/worker/src/jobs/suppliers/vendor-reply-parse.ts`, `packages/ai/src/routes/vendor-reply/`, `packages/ai/evals/vendor-reply/`, `services/worker/test/suppliers/vendor-reply.test.ts`
 - Steps: 1. AI-31 reply intent (Haiku, no tools, reply inside delimited untrusted block). 2. Eval incl. multilingual and injection cases.
-- Tests: `pnpm --filter @critterpass/ai eval -- vendor-reply`; `pnpm --filter @critterpass/worker test -- suppliers/vendor-reply`
+- Tests: `pnpm --filter @cp/ai eval -- vendor-reply`; `pnpm --filter @cp/worker test -- suppliers/vendor-reply`
 - Done when: reply "ok 13:50 bisa" parses to yes + time; injection replies never change intent schema or trigger actions.
 
 ### T10c — Concierge hand-off + lottery reminders
 - Goal: human clinic/other concierge requests and lottery entry reminders.
 - Files: `services/api/src/commands/suppliers/{request-concierge.ts,set-entry-reminder.ts}`, `services/api/test/suppliers/concierge.test.ts`
 - Steps: 1. Concierge request (clinic/other) → ops task + insurance share hook (P34). 2. Lottery `set_entry_reminder` via `scheduled_events` per participant + official link (3c-7, 3c-9).
-- Tests: `pnpm --filter @critterpass/api test -- suppliers/concierge`
+- Tests: `pnpm --filter @cp/api test -- suppliers/concierge`
 - Done when: concierge creates one ops task (idempotent); reminder fires per participant at `closes_at` − lead; no entry is ever submitted by us.
 
 ### T11 — Ops vendor desk (admin) + in-app vendor cards
 - Goal: human desk UI and user-facing status cards.
 - Files: `services/api/src/admin/vendor-desk/{routes.ts,queries.ts}`, `apps/admin/src/modules/vendor-desk/{Queue.tsx,Thread.tsx,SendPanel.tsx,ConciergeTask.tsx}`, `apps/mobile/src/features/bookings/supplier/{VendorDraftCard.tsx,VendorThreadCard.tsx,ConciergeCard.tsx}`, `e2e/suppliers/vendor-message.yaml`, `apps/admin/e2e/vendor-desk.spec.ts`
 - Steps: 1. Admin queue (P17 shell, audited), SLA timers, send with approved text read-only. 2. Thread view + reply status. 3. Mobile cards: "Draft ready — send?" → "Sent {time}, waiting" → "{vendor} replied: …"; desk-hours state; not-on-WhatsApp fallback (`tel:` + phrase card). 4. Notification action approve (N category registered with P11).
-- Tests: `pnpm --filter admin test:e2e -- vendor-desk` (Playwright); `maestro test e2e/suppliers/vendor-message.yaml`
+- Tests: `pnpm --filter @cp/admin test:e2e -- vendor-desk` (Playwright); `maestro test e2e/suppliers/vendor-message.yaml`
 - Done when: end-to-end on local stack with replayed WhatsApp webhook fixtures: user approves → ops sends → reply card appears on device. Live WhatsApp test-number run → P54 launch checks.
 
 ## Phase acceptance criteria

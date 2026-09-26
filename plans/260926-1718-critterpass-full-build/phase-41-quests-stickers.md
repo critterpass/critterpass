@@ -84,49 +84,49 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Goal: code-owned quest semantics.
 - Files: `packages/domain/src/quests/{templates.ts,validator.ts,levels.ts,fallback.ts,index.ts}`, `services/worker/src/jobs/quests/templates/registry.ts`, `packages/domain/test/quests/*.test.ts`
 - Steps: 1. Template registry + zod schema per built-in template with bounds (not `photos`/`phrase_practice`). 2. `validateQuest(quest, dayContext)`. 3. Level curve + sticker thresholds. 4. Deterministic fallback quests from plan.
-- Tests: `pnpm --filter @critterpass/domain test -- quests`
+- Tests: `pnpm --filter @cp/domain test -- quests`
 - Done when: invalid params (POI not in plan, target out of bounds) are rejected; fallback always yields ≥ 1 quest for a non-empty day.
 
 ### T2 — Schema + permission tests
 - Goal: quest and XP tables.
 - Files: `packages/db/src/schema/quests.ts`, `packages/db/migrations/<ts>_quests_xp.sql`, `packages/db/test/permissions/{quests,quest-signups,quest-progress,xp-ledger}.test.ts`
 - Steps: 1. Tables incl. `crew_xp` table. 2. RLS + grants + publication (`crew_xp` in `crews` stream; no views published). 3. Append-only trigger on `xp_ledger`.
-- Tests: `pnpm --filter @critterpass/db test -- permissions/quests permissions/quest-signups permissions/quest-progress permissions/xp-ledger`
+- Tests: `pnpm --filter @cp/db test -- permissions/quests permissions/quest-signups permissions/quest-progress permissions/xp-ledger`
 - Done when: non-members read nothing; `app_user` cannot update/delete `xp_ledger` or write `crew_xp`; publication check lists no views.
 
 ### T3 — Quest generation job + AI-32 + evals
 - Goal: daily quests from the plan.
 - Files: `packages/ai/src/routes/quests/{prompt.ts,schema.ts,index.ts}`, `packages/ai/evals/quests/{promptfooconfig.yaml,cases/*.yaml}`, `services/worker/src/jobs/quests/generate.ts`, `services/worker/test/quests/generate.test.ts`
 - Steps: 1. Build context via LLM views (no C3). 2. Haiku structured output. 3. Validate + fallback + publish rows + `quest.published` + N-31. 4. Evals: validity rate, tone, no invented POIs.
-- Tests: `pnpm --filter @critterpass/worker test -- quests/generate`; `pnpm --filter @critterpass/ai eval -- quests`
+- Tests: `pnpm --filter @cp/worker test -- quests/generate`; `pnpm --filter @cp/ai eval -- quests`
 - Done when: eval ≥ 95 % valid quests on the case set; job idempotent per (trip, local date).
 
 ### T4 — Evaluation, rewards, stickers
 - Goal: progress and grants.
 - Files: `services/worker/src/jobs/quests/evaluate.ts`, `services/api/src/commands/quests/{signup-quest,grant-quest-reward}.ts`, `services/worker/src/jobs/rewards/handlers/{xp,crew-level,settle-xp}.ts`, `services/worker/test/quests/{evaluate,rewards}.test.ts`, `services/api/test/quests/commands.test.ts`
 - Steps: 1. Event → registered-template matcher → progress upsert (dedupe). 2. Completion → `grant_quest_reward` → XP rows + `crew_xp` update + `reward{reveal_at}`. 3. XP from befriend/visit/settle (`settle-xp` on P33 `reward.granted{kind: settled}`; backfill XP for trips settled before this phase). 4. Level-up → `stickers(kind=crew_level)`.
-- Tests: `pnpm --filter @critterpass/worker test -- quests`; `pnpm --filter @critterpass/api test -- quests`
+- Tests: `pnpm --filter @cp/worker test -- quests`; `pnpm --filter @cp/api test -- quests`
 - Done when: duplicate events never double-count; one level-up yields exactly one sticker per crew; settle fixture writes settle XP once and creates no second `settled` sticker (P33's grant stays the only one); tests use only events that exist by wave 16.
 
 ### T5 — Crew quests screen + hub tile
 - Goal: 3l-7 UI.
 - Files: `apps/mobile/src/app/(trip)/quests/index.tsx`, `apps/mobile/src/features/critters/quests/**` (incl. `QuestsTile.tsx` registered in the P36 hub tile list), `packages/i18n/locales/en/quests/quests.po`
 - Steps: 1. Header (crew level, XP bar, next-level sticker), quest cards in quest colour with pips/reward/icon. 2. Signup, states listed above. 3. Simultaneous reveal using server clock offset. 4. Hub tile.
-- Tests: `pnpm --filter mobile test -- features/critters/quests`
+- Tests: `pnpm --filter @cp/mobile test -- features/critters/quests`
 - Done when: reveal fires within ±100 ms of `reveal_at` in a clock-offset unit test; Reduce Motion variant shows static grant with haptic.
 
 ### T6 — Sticker shelf
 - Goal: C38 shelf on PASS + sticker detail (3i-5 grant moment stays in P33).
 - Files: `apps/mobile/src/features/critters/stickers/{StickerShelf.tsx,StickerDetailSheet.tsx,use-stickers.ts}`, `packages/i18n/locales/en/quests/stickers.po`
 - Steps: 1. Shelf component exported for P40 PASS screen slot. 2. Detail sheet (shows P33-granted Settled Tokek with trip + date). No edit to P33 files: P33 already owns `SettledTokekReveal`.
-- Tests: `pnpm --filter mobile test -- features/critters/stickers`
+- Tests: `pnpm --filter @cp/mobile test -- features/critters/stickers`
 - Done when: stickers never appear in dex counts, avatar picker or app-icon picker (test asserts selectors exclude them).
 
 ### T7 — End-to-end
 - Goal: two-device quest flow.
 - Files: `e2e/critters/{quests-progress,quests-reward,settled-sticker}.yaml`, `services/worker/test/quests/e2e.test.ts`
 - Steps: 1. Seed trip day, run generator with recorded LLM fixture from eval cassette. 2. Emit visit/expense events; assert pips + reward on two sessions.
-- Tests: `maestro test e2e/critters/quests-progress.yaml e2e/critters/quests-reward.yaml e2e/critters/settled-sticker.yaml`; `pnpm --filter @critterpass/worker test -- quests/e2e`
+- Tests: `maestro test e2e/critters/quests-progress.yaml e2e/critters/quests-reward.yaml e2e/critters/settled-sticker.yaml`; `pnpm --filter @cp/worker test -- quests/e2e`
 - Done when: flows pass on iOS and Android.
 
 ## Phase acceptance criteria

@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cp-web",
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_date": "2026-08-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+  },
+  "env": {
+    "staging": {
+      "routes": [{ "pattern": "staging.critterpass.app", "custom_domain": true }],
+    },
+    "production": {
+      // "routes": [{ "pattern": "critterpass.app/*", "custom_domain": true }]
+    },
+  },
+}

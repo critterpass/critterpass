@@ -1,0 +1,33 @@
+{
+  "name": "@cp/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Hono API: auth, commands, sync upload, extension actions, AI stream, webhooks, links, realtime proxy",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=../../.env src/index.ts",
+    "build": "tsdown",
+    "start": "node dist/index.js",
+    "migrate": "node dist/migrate.js",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:db": "vitest run --config vitest.db.config.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "catalog:",
+    "@hono/zod-openapi": "catalog:",
+    "@scalar/hono-api-reference": "0.12.6",
+    "hono": "catalog:",
+    "pg": "catalog:",
+    "pino": "catalog:",
+    "redis": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@cp/db": "workspace:*",
+    "@seriousme/openapi-schema-validator": "2.11.0",
+    "@types/pg": "catalog:",
+    "tsdown": "catalog:"
+  }
+}

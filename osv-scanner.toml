@@ -1,0 +1,11 @@
+# Time-boxed exceptions: each expires so the scan fails again and forces a fresh decision.
+
+[[IgnoredVulns]]
+id = "GHSA-vcc3-ghjq-m6fr"
+ignoreUntil = 2026-10-31T00:00:00Z
+reason = "decode-uri-component 0.2.2 via expo-router > query-string 7 (Expo SDK 58 preview). The only patched release (0.5.0) is ESM-only and breaks query-string's require(), which would break deep-link parsing. Re-check when Expo SDK 58 stable ships."
+
+[[IgnoredVulns]]
+id = "GHSA-w5hq-g745-h8pq"
+ignoreUntil = 2026-10-31T00:00:00Z
+reason = "uuid 7.0.3 via @expo/config-plugins > xcode: build-time only, generates v4 ids without a buffer; the flaw needs v3/v5/v6 called with buf. Re-check when Expo SDK 58 stable ships."

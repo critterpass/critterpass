@@ -115,77 +115,77 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Goal: four tables + pass number sequence.
 - Files: `packages/db/src/schema/onboarding.ts`, `packages/db/migrations/<ts>_passes_taste_stamps_avatars.sql`, `packages/db/test/permissions/{passes,taste_profiles,stamps,avatars}.test.ts`, `infra/powersync/streams/onboarding.yaml`.
 - Steps: 1. Drizzle + SQL, FORCE RLS, grants. 2. Sequence + helper. 3. Matrix: self, crewmate, ex-crewmate, outsider, guide_reader (taste tags visible via llm view only).
-- Tests: `pnpm --filter @critterpass/db test -- permissions/passes permissions/taste_profiles permissions/stamps permissions/avatars`.
+- Tests: `pnpm --filter @cp/db test -- permissions/passes permissions/taste_profiles permissions/stamps permissions/avatars`.
 - Done when: hidden taste tags invisible to crewmates; outsider sees nothing.
 
 ### T2 — Pass, MRZ, taste and airport domain
 - Goal: pure logic.
 - Files: `packages/domain/src/pass/{draft-machine,mrz,number}.ts`, `packages/domain/src/taste/{taxonomy,quiz-to-tags,chips}.ts`, `packages/domain/src/airports/{search,nearest,types}.ts`, tests.
 - Steps: 1. Draft machine with resume. 2. MRZ lines (ICAO 9303 transliteration table, `<` fill, 44 chars). 3. Quiz answers → tags + short forms. 4. Airport fuzzy search + haversine nearest.
-- Tests: `pnpm --filter @critterpass/domain test -- pass taste airports`.
+- Tests: `pnpm --filter @cp/domain test -- pass taste airports`.
 - Done when: MRZ golden tests for Latin, Vietnamese diacritics, CJK fallback; search returns SIN first for "Sing" and "sin".
 
 ### T3 — Onboarding content + airport dataset
 - Goal: bundled, validated content.
 - Files: `packages/content/onboarding/{quiz.json,home-words.json,tokek-lines.json,schema.ts}`, `packages/content/airports/{airports.json,metro-groups.json,schema.ts}`, `tools/scripts/build-airports.ts`.
 - Steps: 1. Author 6 questions × 2 options with tags, art refs, copy (en; other locales via Tolgee). 2. Scripted Tokek reaction pool (≥ 20 lines). 3. Build script downloads OurAirports CSV, filters scheduled service, joins currency, writes JSON ≤ 600 KB. 4. zod validation in CI.
-- Tests: `pnpm tsx tools/scripts/build-airports.ts --check`; `pnpm --filter @critterpass/content test -- onboarding airports`.
+- Tests: `pnpm tsx tools/scripts/build-airports.ts --check`; `pnpm --filter @cp/content test -- onboarding airports`.
 - Done when: schemas pass; dataset size budget met; founder approval noted in PR.
 
 ### T4 — Onboarding commands + geo hint
 - Goal: server handlers.
 - Files: `services/api/src/commands/onboarding/{start-pass,issue-pass,set-taste,set-home-airport}.ts`, `services/api/src/commands/avatar/set-avatar.ts`, `services/api/src/routes/geo.ts`, `services/api/test/onboarding/*.test.ts`.
 - Steps: 1. Handlers via phase-10 registry; `issue_pass` creates pass (issued), home stamp, taste profile, avatar row atomically; idempotent. 2. `set_avatar` ownership + moderation enqueue. 3. Geo hint from DB-IP mmdb loaded at boot.
-- Tests: `pnpm --filter @critterpass/api test -- onboarding`.
+- Tests: `pnpm --filter @cp/api test -- onboarding`.
 - Done when: offline replay of `issue_pass` after `start_pass` yields one pass; unowned form → `FORBIDDEN`.
 
 ### T5a — Avatar component + on-device subject lift
 - Goal: F-040 client side.
 - Files: `apps/mobile/src/ui/avatar/{Avatar,RarityRing,InitialsAvatar,PhotoAvatar,AvatarPicker}.tsx`, `apps/mobile/modules/cp-subject-lift/{index.ts,ios/CpSubjectLiftModule.swift,android/src/main/java/app/critterpass/subjectlift/CpSubjectLiftModule.kt}`, tests.
 - Steps: 1. Avatar component (sizes, ring, pending/rejected fallbacks). 2. Subject lift + Skia outline; no-subject fallback circular crop. 3. Upload via phase-10 media presign (surfaces `RATE_LIMITED`).
-- Tests: `pnpm --filter mobile test -- ui/avatar`; `./gradlew :cp-subject-lift:testDebugUnitTest`; `xcodebuild test -scheme CpSubjectLiftTests`.
+- Tests: `pnpm --filter @cp/mobile test -- ui/avatar`; `./gradlew :cp-subject-lift:testDebugUnitTest`; `xcodebuild test -scheme CpSubjectLiftTests`.
 - Done when: sample photo → cut-out PNG with alpha on both platforms; pending/rejected/rate-limited states render in RNTL.
 
 ### T5b — Avatar moderation, variants, App Group mirror
 - Goal: F-040 server side + OS-surface variants.
 - Files: `services/worker/src/jobs/avatar/{hash-match,moderate,render}.ts`, `services/api/src/commands/avatar/upload-limits.ts`, `apps/mobile/src/ui/avatar/app-group-mirror.ts`, tests.
 - Steps: 1. Per-uid/device upload rate limit on avatar presign. 2. Hash-match step (vendor adapter behind `moderation.hash_match` config) before Haiku. 3. Haiku classification, uncertain → ops queue. 4. Render job 40/64/120/240 px + App Group mirror.
-- Tests: `pnpm --filter @critterpass/worker test -- jobs/avatar`; `pnpm --filter @critterpass/api test -- onboarding/avatar-limits`.
+- Tests: `pnpm --filter @cp/worker test -- jobs/avatar`; `pnpm --filter @cp/api test -- onboarding/avatar-limits`.
 - Done when: hash-match hit (vendor test image) is blocked and never reaches the Haiku call (asserted on gateway spy); rejected image leaves initials visible to crew; 6th upload in an hour → `RATE_LIMITED`; variants exist in R2 for approved avatar.
 
 ### T6 — Splash, name, photo screens
 - Goal: 3a-1, 3a-2, 3a-3.
 - Files: `apps/mobile/src/app/onboarding/{index,name,photo}.tsx`, `apps/mobile/src/features/onboarding/{splash,name,photo}/*`, `apps/mobile/src/ui/pass-card/{PassCard,MrzLines,GlyphDrop}.tsx`, tests.
 - Steps: 1. Splash motion + cover swing shared element + returning sign-in entry + resolve gate. 2. Name with glyph drop, MRZ, Tokek pool, validation. 3. Photo picker with guide grid, flash, real photo flow and states.
-- Tests: `pnpm --filter mobile test -- features/onboarding`; `maestro test e2e/onboarding/splash-name-photo.yaml`.
+- Tests: `pnpm --filter @cp/mobile test -- features/onboarding`; `maestro test e2e/onboarding/splash-name-photo.yaml`.
 - Done when: RNTL covers all listed states; reduced-motion snapshot differs (no 3D swing).
 
 ### T7 — This-or-that and home base
 - Goal: 3a-4, 3a-5.
 - Files: `apps/mobile/src/app/onboarding/{taste,home}.tsx`, `apps/mobile/src/features/onboarding/{taste,home}/*`, tests.
 - Steps: 1. Card pair with fling gesture (RNGH) + tap, stamp thud, undo, skip, summary + disclosure. 2. Export `TasteQuiz` sheet mode for retake. 3. Airport search list with nearest, distance, ink stamp, states.
-- Tests: `pnpm --filter mobile test -- features/onboarding/taste features/onboarding/home`; `maestro test e2e/onboarding/taste-home.yaml`.
+- Tests: `pnpm --filter @cp/mobile test -- features/onboarding/taste features/onboarding/home`; `maestro test e2e/onboarding/taste-home.yaml`.
 - Done when: 6 answers produce expected tags; airplane-mode search still returns results.
 
 ### T8 — Pass issued, save sheet, phone sign-in
 - Goal: 3a-6, 3a-7, 3a-8 over phase-09 client.
 - Files: `apps/mobile/src/app/onboarding/{issued,save,phone}.tsx`, `apps/mobile/src/features/onboarding/{issued,save,phone}/*`, tests.
 - Steps: 1. Issued choreography with confetti + haptics + offline label. 2. Save sheet with approved Apple/Google buttons, merge-or-switch dialog, dismiss. 3. Phone entry + country picker + OTP boxes + resend + errors; SAVED tick.
-- Tests: `pnpm --filter mobile test -- features/onboarding/issued features/onboarding/save features/onboarding/phone`; `maestro test e2e/onboarding/save-phone.yaml` (test OTP number from phase-09 fixture).
+- Tests: `pnpm --filter @cp/mobile test -- features/onboarding/issued features/onboarding/save features/onboarding/phone`; `maestro test e2e/onboarding/save-phone.yaml` (test OTP number from phase-09 fixture).
 - Done when: linking keeps uid (asserted via API in e2e); every error state reachable in RNTL.
 
 ### T9 — Permissions step + flow controller
 - Goal: 3a-9 and resumable flow.
 - Files: `apps/mobile/src/app/onboarding/permissions.tsx`, `apps/mobile/src/features/onboarding/{flow-controller,permissions}/*`, `packages/i18n/locales/en/onboarding.po`, tests.
 - Steps: 1. Compose phase-20 primer cards; LET'S GO / Ask later. 2. Flow controller: step routing, resume, pending deep link hand-off (P21 pending store → P23 invited path), analytics `onboarding_step`. 3. Extract strings.
-- Tests: `pnpm --filter mobile test -- features/onboarding/flow-controller`; `pnpm --filter @critterpass/i18n test -- onboarding`.
+- Tests: `pnpm --filter @cp/mobile test -- features/onboarding/flow-controller`; `pnpm --filter @cp/i18n test -- onboarding`.
 - Done when: killing the app at each step resumes at that step.
 
 ### T10 — End-to-end first run
 - Goal: prove F-038–F-041 together.
 - Files: `e2e/onboarding/{first-run-ios,first-run-android,returning-sign-in,offline-first-launch}.yaml`, `services/api/test/onboarding/first-run.test.ts`.
 - Steps: 1. Full flow both platforms. 2. Offline start → issue → reconnect → sync. 3. Returning user sign-in skips pass creation. 4. Crewmate sees pass/avatar via stream (API test with two users).
-- Tests: `maestro test e2e/onboarding`; `pnpm --filter @critterpass/api test -- onboarding/first-run`.
+- Tests: `maestro test e2e/onboarding`; `pnpm --filter @cp/api test -- onboarding/first-run`.
 - Done when: all flows green in CI; cold start to 3a-2 within the §9 budget.
 
 ## Phase acceptance criteria
