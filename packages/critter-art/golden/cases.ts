@@ -1,6 +1,13 @@
-// Golden case matrix: guides + icons now (design/doodles.js's own K registry); locals are
-// appended once T5/T6 port critters-draw-1/2.js and the CritterDex data.
+// Golden case matrix: guides + icons (design/doodles.js's own K registry) plus locals as their
+// archetypes are ported (T5 adds sit/stand; T6 adds the remaining 13 archetypes).
+import { critters } from '../src/data/critters';
+import { isGuideSpec } from '../src/data/types';
+import type { ArchetypeName } from '../src/data/types';
+
 export const GUIDE_KINDS = ['gecko', 'tanuki', 'puffin', 'axolotl', 'sardine', 'alpaca'] as const;
+
+/** Archetypes with a golden-testable registration in src/kinds/locals/register.ts; extend as later tasks port more. */
+const PORTED_ARCHETYPES: ReadonlySet<ArchetypeName> = new Set(['sit', 'stand']);
 
 export const ICON_KINDS = [
   'egg',
@@ -85,6 +92,27 @@ export function buildCaseMatrix(): GoldenCase[] {
       }
       if (isGuide(kind)) {
         cases.push({ id: caseId(kind, sizePt, 'plain', 1, true), kind, sizePt, variant: 'plain', p: 1, blink: true, seed: 7 });
+      }
+    }
+  }
+
+  // Locals: 24/96/300pt x common/sticker/locked, fully drawn, seeded with the critter's own `no`
+  // (design's `c.no`, the documented default canonical seed for locals — see the phase's open
+  // questions). No draw-on/blink sweep here: that machinery is already validated kind-independently
+  // by DEEP_DIVE_KINDS above.
+  for (const critter of critters) {
+    if (isGuideSpec(critter.spec) || !PORTED_ARCHETYPES.has(critter.spec.b)) continue;
+    for (const sizePt of SIZES_PT) {
+      for (const variant of ['plain', 'sticker', 'locked'] as const) {
+        cases.push({
+          id: caseId(critter.id, sizePt, variant, 1, false),
+          kind: critter.id,
+          sizePt,
+          variant,
+          p: 1,
+          blink: false,
+          seed: critter.no,
+        });
       }
     }
   }

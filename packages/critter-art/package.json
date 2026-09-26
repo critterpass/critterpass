@@ -13,6 +13,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
+    "import-data": "tsx scripts/import-design-data.ts",
     "golden": "tsx golden/run-golden.ts",
     "golden:setup": "playwright install chromium"
   },

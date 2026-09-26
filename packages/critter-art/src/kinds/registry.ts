@@ -10,6 +10,7 @@ import { cal, chat, egg, flame, lock, star } from './icons/badges';
 import { bed, bell, boat, pin, ticket, wallet } from './icons/objects';
 import { camera, check, food, heart, temple, wave } from './icons/scenes';
 import { car, plane, rain, spark, sun, volcano } from './icons/weather';
+import { registerLocalKinds } from './locals/register';
 
 /** Every kind defaults to the 100x100 local space; icons declare their own `viewBox`. */
 export const DEFAULT_VIEW_BOX: readonly [number, number] = [100, 100];
@@ -114,3 +115,5 @@ const ICONS: Readonly<Record<string, KindFn>> = {
 for (const [name, fn] of Object.entries(ICONS)) {
   registerKind(name, { fn, viewBox: ANNOTATION_VIEW_BOXES[name] ?? DEFAULT_VIEW_BOX, animates: false });
 }
+
+registerLocalKinds();

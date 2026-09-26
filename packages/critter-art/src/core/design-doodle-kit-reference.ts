@@ -43,6 +43,12 @@ export type DesignKindFn = ((sink: DesignDrawSink, options: DesignKindOptions) =
 export interface DesignDoodleKit {
   readonly K: Record<string, DesignKindFn>;
   readonly CREATURES: Record<string, number>;
+  /** `E`/`eyes`/`cheeks`/`extras`/`toes`: untyped on purpose — critters-draw-1/2.js fixtures pass these through as opaque eval scope values, never call them from TypeScript directly. */
+  readonly E: unknown;
+  readonly eyes: unknown;
+  readonly cheeks: unknown;
+  readonly extras: unknown;
+  readonly toes: unknown;
 }
 
 class HTMLElementShim {
