@@ -118,6 +118,20 @@ export {
   type UuidV7Parts,
 } from './ids';
 export {
+  CHANGE_SET_OP_KINDS,
+  changeSetOpKindSchema,
+  changeSetOpSchema,
+  changeSetOpsSchema,
+  type ChangeSetOp,
+  type ChangeSetOpKind,
+  type ChangeSetOps,
+} from './plan/change-set-ops';
+export {
+  generateStableId,
+  planItemSnapshotSchema,
+  type PlanItemSnapshot,
+} from './plan/plan-item';
+export {
   signMediaUrl,
   verifyMediaSignature,
   type SignMediaUrlParams,
@@ -135,6 +149,13 @@ export {
   type PrivacyClass,
   type TablePrivacy,
 } from './privacy';
+export {
+  assertApprovedByKindAllowed,
+  canGoStale,
+  canTransitionChangeSet,
+  changeSetStateMachine,
+  transitionChangeSet,
+} from './state/change-set';
 export {
   createStateMachine,
   type StateMachine,

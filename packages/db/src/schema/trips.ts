@@ -72,7 +72,11 @@ export const trips = pgTable('trips', {
   planProgress: integer('plan_progress').notNull().default(0),
   redraftsUsed: integer('redrafts_used').notNull().default(0),
   redraftLimit: integer('redraft_limit').notNull().default(3),
-  /** No FK yet: itinerary_versions is created by the plan_versions_and_changesets migration. */
+  /**
+   * The `plan_versions_and_changesets` migration adds the real FK once `itinerary_versions`
+   * exists; left un-referenced here (rather than importing `./plan`) to avoid a circular import
+   * between the two schema mirrors — the SQL migrations are the enforced source of truth either way.
+   */
   currentVersionId: uuid('current_version_id'),
   draftVersionId: uuid('draft_version_id'),
   replyBy: timestamp('reply_by', { withTimezone: true, mode: 'date' }),
