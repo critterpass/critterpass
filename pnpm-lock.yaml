@@ -1006,7 +1006,18 @@ importers:
         specifier: 'catalog:'
         version: 4.23.15
 
-  packages/planner: {}
+  packages/planner:
+    dependencies:
+      '@cp/cost-engine':
+        specifier: workspace:*
+        version: link:../cost-engine
+      '@cp/domain':
+        specifier: workspace:*
+        version: link:../domain
+    devDependencies:
+      fast-check:
+        specifier: 'catalog:'
+        version: 4.10.2
 
   packages/sound-art:
     dependencies:
