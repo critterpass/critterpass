@@ -6,7 +6,7 @@
 import { adminPageSchema, moderationQueueItemSchema } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { imagePreview, registerModerationKind } from '../../src/admin/moderation';
+import { imagePreview, registerModerationKind } from '../../src/admin/moderation-intake';
 import { startAdminHarness, type AdminHarness, type AppUser, type TestApp } from './harness';
 
 const pageSchema = adminPageSchema(moderationQueueItemSchema);

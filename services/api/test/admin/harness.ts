@@ -16,7 +16,7 @@ import type { AccessVerifier } from '../../src/admin/access';
 import { createAccountControl, type AccountControl } from '../../src/admin/accounts';
 import { adminAreas } from '../../src/admin/areas';
 import { registerSupportGrantSource } from '../../src/admin/entitlement-grants';
-import type { MediaUrlSigner } from '../../src/admin/moderation';
+import type { MediaUrlSigner } from '../../src/admin/moderation-intake';
 import { parseAdminAllowlist } from '../../src/admin/allowlist';
 import { createAdminAuth, type AdminAuth } from '../../src/admin/auth';
 import { createAdminRouter, mountAdminRouter } from '../../src/admin/router';

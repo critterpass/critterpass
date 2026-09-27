@@ -12,7 +12,7 @@ import {
 } from '@cp/domain';
 
 import { asSystemRole } from '../admin/command';
-import { moderationKind, recordModerationReport } from '../admin/moderation';
+import { moderationKind, recordModerationReport } from '../admin/moderation-intake';
 import { defineCommand } from './_framework/define-command';
 
 export const reportContentCommand = defineCommand({

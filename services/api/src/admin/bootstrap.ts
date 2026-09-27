@@ -14,7 +14,7 @@ import { createAccountControl, type AppAuthHandle } from './accounts';
 import { parseAdminAllowlist } from './allowlist';
 import { adminAreas } from './areas';
 import { createAdminAuth } from './auth';
-import type { MediaUrlSigner } from './moderation';
+import type { MediaUrlSigner } from './moderation-intake';
 import { createAdminRouter } from './router';
 
 export interface AdminConsole {
