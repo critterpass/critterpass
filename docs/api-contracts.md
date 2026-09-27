@@ -124,6 +124,7 @@ Client contract: optimistic write to local SQLite; on `cmd_results.status = reje
 | `PAYMENT_PENDING` | 202 | – | supplier booking pending ("Waiting for the operator") |
 | `LOCATION_IMPLAUSIBLE` | 422 | no | encounter/visit failed plausibility |
 | `CONTENT_REJECTED` | 422 | no | moderation (avatar, tip, idea, note) |
+| `APPROVAL_REQUIRED` | 409 | no | an outbound ops action (vendor message, partner booking) has no `ops.approvals` row from the user for its subject → ask the user to approve the exact text first |
 | `PAYLOAD_TOO_LARGE` | 413 | no | – |
 | `UPSTREAM_TIMEOUT` | 504 | yes | outbound call >120 s budget |
 | `INTERNAL` | 500 | yes | Sentry event id in `detail.event_id` |
@@ -409,6 +410,8 @@ All via `/v1/admin/*` (Better Auth `admin` role + role claims `ops`, `content`, 
 | `grant_entitlement` / `revoke_entitlement` | grant `{uid, perk: pass_plus, until (≤ 366 d ahead), reason}` → `ops.entitlement_grants` row, resolved by the entitlement engine as Pass+ time until `until` (same shape as a redeemed code) and recomputed in the same tx; revoke `{uid, perk, reason}` ends every active grant of that perk (`STATE_INVALID` when none) | support | `entitlement.granted/revoked` | 17 |
 | `revoke_session` / `ban_user` / `unban_user` | `{uid, session_id, reason}` / `{uid, reason, until: datetime\|null}` / `{uid, reason}`; through the app's Better Auth store (Redis mirror + `auth.session`), so the user's next call is 401; revoke and ban fan out `session.revoked` on `user:#uid` and revoke action keys | support | – | 17 |
 | `revoke_device_key` | `{uid, device_id, reason}`: revokes that device's action keys | support | – | 17 |
+| `create_concierge_task` / `update_concierge_task` | create `{kind, trip_id?, requested_by?, due_at?, note?}`; update `{id, version, status?, assignee?: self\|null, note?}` (append-only notes, `VERSION_CONFLICT` on a stale version); status machine new → in_progress / waiting_user / cancelled, in_progress ↔ waiting_user → done / cancelled (`STATE_INVALID` otherwise); a `vendor_message` / `partner_booking` task reaches `done` only through `assertApproved` (`APPROVAL_REQUIRED`) | ops | – | 17 |
+| `approve_ops_action` | `{subject_kind, subject_id, text_shown}` via `/v1/cmd` (user, anonymous allowed, online only): writes `ops.approvals` as the user with the command's `op_id` and the text verbatim; the subject kind decides who may approve (`concierge_task`: its requester, while open) and links the approval. Every outbound ops action (P35 vendor messages, P38 bookings) calls `assertApproved(subject)` first; a grep test fails CI on an outbound path without it | user | – | 17 |
 | `set_idea_status` / `merge_ideas` | `{idea_id, status, fixed_in_version?}` | support | `idea.status_changed` (N-38) | 47 |
 | `approve_content_batch` / `reject_content_batch` | `{batch_id, notes}` (critter forms, personas, places, phrases) | content | `content.approved` → publish job | 18 |
 | `upsert_poi` / `set_emergency_info` | `{poi or country record, verified_at}` | content | `poi.changed` | 14, 38 |

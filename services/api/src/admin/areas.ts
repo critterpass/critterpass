@@ -6,6 +6,7 @@ import type pg from 'pg';
 
 import type { AccountControl } from './accounts';
 import { catalogueArea } from './catalogue';
+import { deskArea } from './desk';
 import { flagsArea } from './flags';
 import { moderationArea } from './moderation';
 import type { MediaUrlSigner } from './moderation-intake';
@@ -26,5 +27,6 @@ export function adminAreas(deps: AdminAreaDeps): readonly AdminAreaDefinition[] 
     partnersArea(deps.pool),
     moderationArea(deps),
     supportArea(deps),
+    deskArea(deps.pool),
   ];
 }

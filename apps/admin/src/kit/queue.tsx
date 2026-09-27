@@ -130,7 +130,7 @@ export function QueueView<Item>({ queue }: { queue: QueueDefinition<Item> }) {
                   ))}
                 </div>
               )}
-              {failure !== null && <ErrorState error={failure} />}
+              {failure !== null && <ErrorState error={failure} title="That didn’t go through" />}
             </div>
           )}
         </div>

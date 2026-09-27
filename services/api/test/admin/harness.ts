@@ -24,6 +24,7 @@ import type { AdminAreaDefinition } from '../../src/admin/registry';
 import { createAuthModule, type AuthModule } from '../../src/auth';
 import { createCommandRegistry } from '../../src/commands/_framework/registry';
 import { betterAuthSessionResolver } from '../../src/commands/_framework/session';
+import { approveOpsActionCommand } from '../../src/commands/approve-ops-action';
 import { reportContentCommand } from '../../src/commands/report-content';
 import { registerCommandRoute } from '../../src/routes/cmd';
 import { disabledAttestationConfig } from '../auth/test-attestation-config';
@@ -62,7 +63,7 @@ export interface TestApp {
   signIn(email: string): Promise<string>;
   command(cookie: string, cmd: string, payload: unknown, opId?: string): Promise<Response>;
   /** A user command through the app's `/v1/cmd` door. */
-  userCommand(user: AppUser, cmd: string, payload: unknown): Promise<Response>;
+  userCommand(user: AppUser, cmd: string, payload: unknown, opId?: string): Promise<Response>;
   close(): Promise<void>;
 }
 
@@ -91,6 +92,7 @@ export async function startAdminHarness(): Promise<AdminHarness> {
   registerSupportGrantSource();
   const userCommands = createCommandRegistry();
   userCommands.register(reportContentCommand);
+  userCommands.register(approveOpsActionCommand);
 
   function buildAuth(allowlist: string): AdminAuth {
     const auth = createAdminAuth({
@@ -206,13 +208,13 @@ export async function startAdminHarness(): Promise<AdminHarness> {
             }),
           });
         },
-        userCommand(user, cmd, payload) {
+        userCommand(user, cmd, payload, opId = generateUuidV7()) {
           return Promise.resolve(
             app.request('/v1/cmd/' + cmd, {
               method: 'POST',
               headers: { cookie: user.cookie, 'content-type': 'application/json' },
               body: JSON.stringify({
-                op_id: generateUuidV7(),
+                op_id: opId,
                 cmd,
                 v: 1,
                 actor: { uid: user.uid, via: 'app' },

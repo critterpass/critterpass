@@ -108,9 +108,78 @@ async function seedSupport(client: pg.Client): Promise<void> {
   );
 }
 
+/** Desk tasks around "now": one overdue, one due soon with the user's approval, one waiting. */
+async function seedDesk(client: pg.Client): Promise<void> {
+  const approval = '01920000-0000-7000-8000-00000000e001';
+  // Seeded notes read as written by the local ops operator (upserted before this runs).
+  const author = await client.query<{ id: string }>(
+    `SELECT id FROM auth."user" WHERE email = 'ops@critterpass.test'`,
+  );
+  const noteAuthor = author.rows[0]?.id ?? mai.id;
+  const tasks = [
+    {
+      id: '01920000-0000-7000-8000-00000000f001',
+      kind: 'vendor_message',
+      status: 'new',
+      requestedBy: mai.id,
+      due: '45 minutes',
+      note: 'Ask Warung Ibu Oka to hold a table for 4 on Friday 19:30.',
+    },
+    {
+      id: '01920000-0000-7000-8000-00000000f002',
+      kind: 'clinic_handoff',
+      status: 'new',
+      requestedBy: linh.id,
+      due: '-10 minutes',
+      note: 'Share the insurance card with BIMC Kuta before arrival.',
+    },
+    {
+      id: '01920000-0000-7000-8000-00000000f003',
+      kind: 'partner_booking',
+      status: 'new',
+      requestedBy: linh.id,
+      due: '5 hours',
+      note: 'Snorkel trip for 2, Saturday 08:00, via Viator.',
+    },
+    {
+      id: '01920000-0000-7000-8000-00000000f004',
+      kind: 'review',
+      status: 'in_progress',
+      requestedBy: null,
+      due: '1 day',
+      note: 'Check the Ubud day plan the guide redrafted twice.',
+    },
+  ] as const;
+  for (const task of tasks) {
+    await client.query(
+      `INSERT INTO ops.concierge_tasks (id, kind, status, requested_by, due_at, notes)
+       VALUES ($1, $2, $3, $4, now() + $5::interval,
+               jsonb_build_array(jsonb_build_object('at', now(), 'admin_id', $6::text, 'text', $7::text)))
+       ON CONFLICT (id) DO NOTHING`,
+      [task.id, task.kind, task.status, task.requestedBy, task.due, noteAuthor, task.note],
+    );
+  }
+  await client.query(
+    `INSERT INTO ops.approvals (id, user_id, subject_kind, subject_id, text_shown, approved_at)
+     VALUES ($1, $2, 'concierge_task', $3, $4, now() - interval '5 minutes')
+     ON CONFLICT (id) DO NOTHING`,
+    [
+      approval,
+      mai.id,
+      tasks[0].id,
+      'Hi Ibu Oka! Could you hold a table for 4 this Friday at 19:30? Thank you — Mai (via CritterPass)',
+    ],
+  );
+  await client.query('UPDATE ops.concierge_tasks SET approval_id = $2 WHERE id = $1', [
+    tasks[0].id,
+    approval,
+  ]);
+}
+
 export async function seedWorkQueues(client: pg.Client): Promise<void> {
   await seedTravellers(client);
   await seedSupport(client);
+  await seedDesk(client);
   await seedReport(client, sam.id, 'spam', [mai.id, linh.id]);
   await seedReport(client, rex.id, 'harassment', [linh.id]);
 }

@@ -87,7 +87,7 @@ export function ActionDialog({
             />
           </div>
         )}
-        {error !== null && <ErrorState error={error} />}
+        {error !== null && <ErrorState error={error} title="That didn’t go through" />}
       </div>
     </ConfirmDialog>
   );
