@@ -1,0 +1,37 @@
+# Content catalogue streams (docs/data-model-sync-and-privacy.md §4): the live content release. The
+# catalogue tables only ever hold rows of the published release (the publish job replaces them in
+# one transaction), so no release filter is needed here. Critter and form names are never synced:
+# they live in critter_names and reach a user through their own collection entry once found.
+# `trip_destination` repeats places.yaml's CTE verbatim (a stream named in several files shares its
+# CTEs, which must be identical).
+
+streams:
+  catalog:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM critter_sets
+      - SELECT * FROM critters
+      - SELECT * FROM critter_forms
+      - SELECT * FROM legendary_windows
+      - SELECT * FROM phrase_cards
+      - SELECT * FROM emergency_numbers
+
+  trip_pack:
+    with:
+      trip_destination: |
+        SELECT destination_id FROM trips
+        WHERE id = subscription.parameter('trip_id')
+          AND crew_id IN (SELECT crew_id FROM crew_members WHERE user_id = auth.user_id() AND status = 'active')
+    queries:
+      - SELECT * FROM spawn_rules WHERE destination_id IN trip_destination
+      - SELECT * FROM facilities WHERE destination_id IN trip_destination
+
+  # Subscribed with {locale} while the help centre is open. Articles are public, so the
+  # client-chosen parameter alone is enough. The search vector and embedding stay server-side.
+  help:
+    accept_potentially_dangerous_queries: true
+    queries:
+      - |
+        SELECT id, slug, locale, category, title, summary, body_md, release_id, created_at, updated_at
+        FROM help_articles
+        WHERE locale = subscription.parameter('locale')

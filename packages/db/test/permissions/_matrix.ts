@@ -369,6 +369,43 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       },
     ]),
   ),
+  // Content catalogue (RLS "R" for rows of the published release, system-written); the release
+  // itself, critter names and hours proposals have no app_user grant at all.
+  ...Object.fromEntries(
+    [
+      'critter_sets',
+      'critters',
+      'critter_forms',
+      'legendary_windows',
+      'spawn_rules',
+      'phrase_cards',
+      'emergency_numbers',
+      'facilities',
+      'help_articles',
+    ].map((table) => [
+      table,
+      {
+        selectProbe: { sql: `SELECT 1 FROM ${table} LIMIT 1`, params: () => [] },
+        expectations: READ_ONLY_ALL,
+      },
+    ]),
+  ),
+  ...Object.fromEntries(
+    ['content_releases', 'critter_names', 'poi_hours_proposals'].map((table) => [
+      table,
+      {
+        selectProbe: { sql: `SELECT 1 FROM ${table} LIMIT 1`, params: () => [] },
+        expectations: {
+          outsider: F,
+          exMember: F,
+          anonymous: F,
+          member: F,
+          coOrganiser: F,
+          organiser: F,
+        },
+      },
+    ]),
+  ),
   client_config: {
     selectProbe: {
       sql: "SELECT 1 FROM client_config WHERE key = 'matrix.probe'",

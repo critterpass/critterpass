@@ -16,6 +16,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "catalog:",
     "@cp/ai": "workspace:*",
+    "@cp/content": "workspace:*",
     "@cp/cost-engine": "workspace:*",
     "@cp/db": "workspace:*",
     "@cp/domain": "workspace:*",

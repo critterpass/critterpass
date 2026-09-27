@@ -22,11 +22,21 @@ export const SYNCED_TABLE_COLUMNS = {
     'crew_id user_id role colour status keep_in_chat:integer joined_epoch:integer left_at last_read_message_id notify_level created_at updated_at',
   crews:
     'name settlement_currency member_ceiling:integer membership_epoch:integer created_by created_at updated_at',
+  critter_forms:
+    'key critter_id rarity palette pose edge note requirement_copy xp:integer release_id created_at updated_at',
+  critter_sets:
+    'code name country rank:integer set_group:integer tz currency languages coverage guide_slug destination_id hero_critter_key month_hints release_id created_at updated_at',
+  critters:
+    'key set_id no:integer city species art_params canonical_seed:integer note release_id created_at updated_at',
   crowd_forecasts: 'poi_id dow:integer hourly source fetched_at created_at updated_at',
   destinations:
     'slug name country coverage colour currency best_months tz geofence created_at updated_at',
   devices:
     'user_id platform bundle_id os_version app_version locale tz permission_state attribution capabilities la_enabled:integer la_frequent:integer foreground:integer last_seen_at created_at updated_at',
+  emergency_numbers:
+    'country numbers source_url retrieved_on verified_at release_id created_at updated_at',
+  facilities:
+    'key destination_id kind name lat:real lng:real address phone open_24h:integer source_url retrieved_on verified_at release_id created_at updated_at',
   fx_snapshots: 'base quote rate as_of source created_at',
   guide_actions:
     'trip_id change_set_id kind target_provider_id channel status reversible:integer compensates_id cost_delta_minor:integer audit inverse undo_until disruption_id created_at updated_at',
@@ -36,18 +46,24 @@ export const SYNCED_TABLE_COLUMNS = {
   guides: 'slug name colour persona_pack_version voice_id local_words created_at updated_at',
   hazard_alerts:
     'destination_id kind subject level:integer level_label headline source source_url issued_at expires_at fetched_at created_at updated_at',
+  help_articles:
+    'slug locale category title summary body_md embedding fts release_id created_at updated_at',
   inbox_items:
     'user_id crew_id trip_id notification_id kind needs_you:integer actions deep_link expires_at undo_until resolved_at created_at updated_at',
   itinerary_versions:
     'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at',
   join_codes:
     'code target_kind target_id crew_id created_by expires_at max_uses:integer uses:integer status created_at updated_at',
+  legendary_windows:
+    'key form_id place_line rule months solar challenge source_url release_id created_at updated_at',
   map_regions: 'destination_id pmtiles_key bytes:integer version created_at updated_at',
   notification_prefs:
     'user_id budget_per_day:integer roundup_time roundup_tz quiet_from quiet_to guide_tips:integer money:integer critters_nearby:integer crew_chat_mode leave_by_dnd:integer per_category voice_readout:integer created_at updated_at',
   notifications:
     'user_id crew_id trip_id event_id key category class sender template_id title body items ctx deep_link collapse_key thread_id dedupe_key is_private:integer needs_you:integer llm_generated:integer local_date not_before expires_at state drop_reason sent_at created_at updated_at',
   perks: 'key tier copy_key is_shipped:integer sort:integer created_at updated_at',
+  phrase_cards:
+    'key language context text romanisation gloss audio_key audio_status native_reviewed_on release_id created_at updated_at',
   ping_ledger:
     'user_id local_date sent_budgeted:integer sent_always:integer sent_local:integer paywall_sent:integer queued:integer created_at updated_at',
   plan_days: 'version_id trip_id day_no:integer date theme weather_ref created_at updated_at',
@@ -65,6 +81,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'destination_id key kind name starts_on ends_on confidence source source_url sourced_on forecast_updated_at reviewed_at created_at updated_at',
   season_months:
     'destination_id month:integer crowd_index:integer price_index:integer price_index_source highlight_tag colour_role source source_url sourced_on reviewed_at created_at updated_at',
+  spawn_rules:
+    'key form_id kind set_id destination_id poi_ids geofences n:integer dwell_s:integer hold_ms:integer window_id solar min_members:integer foreground_only:integer copy release_id created_at updated_at',
   trip_entitlements:
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
   trip_participants:

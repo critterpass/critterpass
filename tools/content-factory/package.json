@@ -1,0 +1,28 @@
+{
+  "name": "@cp/content-factory",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Content factory CLI: brief, generate, validate, render, review and pull content releases",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@cp/ai": "workspace:*",
+    "@cp/content": "workspace:*",
+    "@cp/critter-art": "workspace:*",
+    "@cp/critter-bake": "workspace:*",
+    "@cp/db": "workspace:*",
+    "@cp/domain": "workspace:*",
+    "@napi-rs/canvas": "catalog:",
+    "pg": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/pg": "catalog:",
+    "tsx": "catalog:"
+  }
+}

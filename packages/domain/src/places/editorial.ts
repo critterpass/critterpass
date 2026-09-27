@@ -21,6 +21,12 @@ export const editorialOverlaySchema = z
     tips: z.array(z.string().min(1)).optional(),
     photos: z.array(editorialPhotoSchema).optional(),
     must_see: z.boolean().optional(),
+    /** Content factory editorial, written from open data only. */
+    why_go: z.string().min(1).optional(),
+    best_time: z.string().min(1).optional(),
+    time_needed_min: z.number().int().positive().optional(),
+    crowd_hint: z.string().min(1).optional(),
+    etiquette: z.string().min(1).optional(),
   })
   .strict();
 

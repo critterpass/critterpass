@@ -37,7 +37,7 @@ export const packageDeps = {
   ai: ['domain', 'planner', 'cost-engine', 'content'],
   suppliers: ['domain'],
   i18n: [],
-  content: ['domain'],
+  content: ['domain', 'critter-art'],
   'sound-art': ['design-tokens'],
 };
 
@@ -66,7 +66,7 @@ export const consumerDeps = {
   'mobile-lib': ['domain'],
   mobile: mobilePackages,
   web: ['domain', 'design-tokens', 'critter-art', 'i18n', 'content'],
-  admin: ['domain', 'design-tokens', 'i18n'],
+  admin: ['domain', 'design-tokens', 'i18n', 'critter-art', 'content'],
   service: [
     'domain',
     'db',

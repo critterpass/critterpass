@@ -7,6 +7,7 @@ import { createClient } from 'redis';
 import packageJson from '../package.json' with { type: 'json' };
 
 import { aiJobs } from './ai';
+import { contentJobs } from './content';
 import { loadWorkerEnv } from './env';
 import {
   createBoss,
@@ -68,6 +69,7 @@ const jobs: AnyJobDefinition[] = [
   guideActionUndoExpireJob(),
   ...aiJobs(env, (error) => logger.warn({ err: error }, 'langfuse export failed')),
   ...travelDataJobs(env, pool, logger.child({ component: 'travel-data' })),
+  ...contentJobs(),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&

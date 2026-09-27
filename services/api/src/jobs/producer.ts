@@ -19,11 +19,17 @@ import type pg from 'pg';
 import { PgBoss } from 'pg-boss';
 import type { Logger } from 'pino';
 
+import { CONTENT_PUBLISH_QUEUE } from '../admin/content/commands';
+
 export interface StartJobProducerOptions {
   /** A direct (non-PgBouncer) connection: pg-boss takes advisory locks while it starts. */
   readonly connectionString: string;
   readonly logger: Pick<Logger, 'error'>;
+  /** Start attempts, 2 s apart, before giving up (default 30). */
+  readonly startAttempts?: number;
 }
+
+const START_RETRY_MS = 2000;
 
 /**
  * Starts pg-boss in the `pgboss` schema as app_system (installing or upgrading it if the worker has
@@ -31,23 +37,37 @@ export interface StartJobProducerOptions {
  * with its catalogue at its own start), and registers it as this process's producer.
  */
 export async function startJobProducer(options: StartJobProducerOptions): Promise<PgBoss> {
-  const boss = new PgBoss({
-    connectionString: options.connectionString,
-    schema: 'pgboss',
-    createSchema: false,
-    options: '-c role=app_system',
-    application_name: 'cp-api-jobs',
-    max: 2,
-    supervise: false,
-    schedule: false,
-  });
-  boss.on('error', (error) => options.logger.error({ err: error }, 'pg-boss producer error'));
-  await boss.start();
-  if ((await boss.getQueue(NOTIFY_ROUTE_QUEUE)) === null) {
-    await boss.createQueue(NOTIFY_ROUTE_QUEUE, { policy: 'exclusive' });
+  const attempts = options.startAttempts ?? 30;
+  for (let attempt = 1; ; attempt += 1) {
+    const boss = new PgBoss({
+      connectionString: options.connectionString,
+      schema: 'pgboss',
+      createSchema: false,
+      options: '-c role=app_system',
+      application_name: 'cp-api-jobs',
+      max: 2,
+      supervise: false,
+      schedule: false,
+    });
+    boss.on('error', (error) => options.logger.error({ err: error }, 'pg-boss producer error'));
+    try {
+      await boss.start();
+    } catch (error) {
+      // The database may still be coming up when the api boots; keep trying for a while.
+      await boss.stop({ graceful: false }).catch(() => undefined);
+      if (attempt >= attempts) throw error;
+      await new Promise((resolve) => setTimeout(resolve, START_RETRY_MS));
+      continue;
+    }
+    // Queues api commands send to; the worker's queue catalogue sets their full policy at its boot.
+    for (const queue of [NOTIFY_ROUTE_QUEUE, CONTENT_PUBLISH_QUEUE]) {
+      if ((await boss.getQueue(queue)) === null) {
+        await boss.createQueue(queue, { policy: 'exclusive' });
+      }
+    }
+    registerJobProducer(boss);
+    return boss;
   }
-  registerJobProducer(boss);
-  return boss;
 }
 
 /** Enqueues one routing job per notification key `event` triggers, inside `tx`. */

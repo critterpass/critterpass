@@ -5,6 +5,7 @@
 import type { AdminModule } from '../kit/registry';
 import { auditModule } from '../modules/audit';
 import { catalogueModule } from '../modules/catalogue';
+import { contentModule } from '../modules/content';
 import { deskModule } from '../modules/desk';
 import { flagsModule } from '../modules/flags';
 import { moderationModule } from '../modules/moderation';
@@ -16,6 +17,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
   moderationModule,
   catalogueModule,
   seasonModule,
+  contentModule,
   flagsModule,
   partnersModule,
   supportModule,
