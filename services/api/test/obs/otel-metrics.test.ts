@@ -38,7 +38,7 @@ describe('otel metrics', () => {
     recorder.record('cp_job_queue_depth', 7, { queue: 'push.send' });
     const metrics = await exported();
     expect(metrics.find((metric) => metric.name === 'cp_cmd_total')).toMatchObject({
-      unit: '1',
+      unit: '{command}',
       points: [{ attributes: { cmd: 'cast_ballot', code: 'ok' }, value: 1 }],
     });
     expect(metrics.find((metric) => metric.name === 'cp_cmd_duration_ms')?.unit).toBe('ms');

@@ -65,6 +65,9 @@ export interface Otel {
 
 export function startOtel(options: OtelOptions): Otel | undefined {
   if (!options.endpoint && !options.spanExporter) return undefined;
+  // Stable HTTP semantic conventions: `http_server_request_duration_seconds` with
+  // `http_response_status_code`, the names the Grafana dashboards and alerts query.
+  process.env['OTEL_SEMCONV_STABILITY_OPT_IN'] ??= 'http';
   const base = options.endpoint?.replace(/\/$/u, '');
   const url = (signal: string) => (base ? { url: `${base}/v1/${signal}` } : {});
   const sdk = new NodeSDK({

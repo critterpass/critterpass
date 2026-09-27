@@ -3,6 +3,10 @@
  * instrument, unit and the only label keys it may carry. Labels are low-cardinality enums (a
  * command name, an outcome, a queue); user, crew and trip ids never become labels. Per-trip cost
  * lives in PostHog `llm_call` and Langfuse instead. Owning phases emit these by name.
+ *
+ * Units follow the OTLP → Prometheus translation Grafana Cloud applies: `ms` histograms gain a
+ * `_milliseconds` suffix (`cp_cmd_duration_ms_milliseconds_bucket`), while count units are UCUM
+ * annotations (`{command}`) that add no suffix, so counters keep their catalog names.
  */
 export type MetricKind = 'counter' | 'histogram' | 'gauge';
 
@@ -22,19 +26,19 @@ export const METRICS = {
   },
   cp_cmd_total: {
     kind: 'counter',
-    unit: '1',
+    unit: '{command}',
     description: 'Commands handled, by wire error code (ok when applied)',
     labels: ['cmd', 'code'],
   },
   cp_sync_upload_total: {
     kind: 'counter',
-    unit: '1',
+    unit: '{operation}',
     description: 'PowerSync upload operations by outcome',
     labels: ['outcome'],
   },
   cp_rt_publish_total: {
     kind: 'counter',
-    unit: '1',
+    unit: '{publication}',
     description: 'Realtime publications by channel namespace',
     labels: ['ns'],
   },
@@ -46,25 +50,25 @@ export const METRICS = {
   },
   cp_job_total: {
     kind: 'counter',
-    unit: '1',
+    unit: '{job}',
     description: 'Jobs finished by queue and outcome',
     labels: ['queue', 'outcome'],
   },
   cp_job_queue_depth: {
     kind: 'gauge',
-    unit: '1',
+    unit: '{job}',
     description: 'Jobs waiting per queue',
     labels: ['queue'],
   },
   cp_push_total: {
     kind: 'counter',
-    unit: '1',
+    unit: '{notification}',
     description: 'Push sends by provider, category and outcome',
     labels: ['provider', 'category', 'outcome'],
   },
   cp_llm_cost_micros_total: {
     kind: 'counter',
-    unit: 'usd_micros',
+    unit: '{usd_micros}',
     description: 'Model spend in USD micros by feature and tier',
     labels: ['feature', 'tier'],
   },
@@ -82,7 +86,7 @@ export const METRICS = {
   },
   cp_sms_sent_total: {
     kind: 'counter',
-    unit: '1',
+    unit: '{message}',
     description: 'OTP and fallback SMS sent by provider and destination country',
     labels: ['provider', 'country'],
   },
