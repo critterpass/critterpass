@@ -1,3 +1,4 @@
+export { agentJobs, aiUsage, guideOfferClaims, guideOffers, personaPacks } from './ai';
 export { authAccount, authJwks, authSchema, authSession, authUser, authVerification } from './auth';
 export { crewMembers, crews } from './crews';
 export {

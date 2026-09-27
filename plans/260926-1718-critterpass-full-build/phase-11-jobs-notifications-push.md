@@ -115,7 +115,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 
 | Area | Delta |
 |---|---|
-| Migrations | `<ts>_jobs_scheduling.sql`: `pgboss` schema owned by `app_system`, `scheduled_events`, `ai_usage`; `<ts>_devices_notifications.sql`: `devices`, `push_tokens`, `notifications`, `notification_prefs`, `ping_ledger`, `roundups`, `inbox_items`, `scheduled_deliveries` (data-model §3.11 columns, RLS FORCE, publication additions for stream `me`); `<ts>_devices_action_key_fk.sql` (FK only) |
+| Migrations | `<ts>_jobs_scheduling.sql`: `pgboss` schema owned by `app_system`, `scheduled_events` (`ai_usage` ships with the LLM gateway phase's own migration); `<ts>_devices_notifications.sql`: `devices`, `push_tokens`, `notifications`, `notification_prefs`, `ping_ledger`, `roundups`, `inbox_items`, `scheduled_deliveries` (data-model §3.11 columns, RLS FORCE, publication additions for stream `me`); `<ts>_devices_action_key_fk.sql` (FK only) |
 | Sync | stream `me` additions `devices`, `notifications` (30 d), `notification_prefs`, `ping_ledger`, `roundups`, `inbox_items`, `scheduled_deliveries` in own file `infra/powersync/streams/notifications.yaml` (phase 10 layout + `stream-harness`) |
 | Commands | `register_device` (A); `set_notification_prefs` handler shell (schema + persistence; UI + Pass+ voice gate phase 49); `issue_action_key` via route |
 | HTTP | `POST /v1/devices/{id}/action-keys`, `DELETE …`, `POST /v1/actions` (K), `GET /v1/notifications/{id}` (K scope `read_notification`) |

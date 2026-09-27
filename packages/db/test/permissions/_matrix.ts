@@ -557,6 +557,75 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: F,
     },
   },
+  // Own jobs (stream `me`) plus every job on a trip the caller organises (stream `trip_draft`);
+  // the fixture job belongs to the member. Written by app_system only.
+  agent_jobs: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM agent_jobs WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  // RLS class S: persona content reaches the guide only through llm.persona_packs.
+  persona_packs: {
+    selectProbe: { sql: 'SELECT 1 FROM persona_packs LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  guide_offers: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM guide_offers WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  // Trip members read every claim and may claim for themselves; nobody edits a claim.
+  guide_offer_claims: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM guide_offer_claims WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, true, false),
+      coOrganiser: op(true, true, false),
+      organiser: op(true, true, false),
+    },
+  },
+  // RLS class S (docs/data-model.md §3.18: per-call AI cost records) — app_system only.
+  ai_usage: {
+    selectProbe: { sql: 'SELECT 1 FROM ai_usage LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
 };
 
 /**

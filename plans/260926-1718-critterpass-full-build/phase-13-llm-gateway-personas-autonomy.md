@@ -104,6 +104,7 @@ Undesigned states to design in code (used by later UI phases): gateway `error{co
 - Steps: 1. Pin `@anthropic-ai/sdk`; wrap client with timeout, retry on 429/529 with jitter, refusal mapping. 2. Routing table for all routes in api-contracts §6 + ai-guide report §4.1 (model, thinking/effort, max_tokens). 3. Guard: Opus route rejects forced tool_choice; Sonnet/Opus strip `temperature`. 4. Pricing table (incl. cache read/write, batch) → `cost_micros`. 5. `recordUsage()` inserts `ai_usage` via `withSystem`. 6. Recorded-fixture transport for tests (network boundary only).
 - Tests: `pnpm --filter @cp/ai test -- routing usage`
 - Done when: every route in the routing table resolves; fixture call produces correct `cost_micros` incl. cache reads; refusal → `AI_REFUSED`; lint boundary blocks import from `apps/*`.
+- Status: done — e7db0a1
 
 ### T2 — Migrations: guide tables, `llm` views, `guide_reader` grants
 - Goal: DB surface for AI with privacy proven by tests.
@@ -111,6 +112,7 @@ Undesigned states to design in code (used by later UI phases): gateway `error{co
 - Steps: 1. Drizzle schema + migrations: new tables `agent_jobs`, `persona_packs`, `guide_offers`, `guide_offer_claims`; expand-only `ALTER TABLE guide_actions ADD inverse, undo_until, disruption_id` (no re-creation of phase 08 tables). 2. Hand SQL: `llm` views filtered by `current_setting('app.uid'/'app.trip')`, grants to `guide_reader` only on `llm`. 3. RLS + FORCE on user-data tables; state-transition trigger for `guide_actions.status`. 4. Publication + stream entries. 5. Permission tests: outsider/ex-member/member/organiser × each table; `guide_reader` denied on every table the privacy registry marks C3 / S / supplier / engagement (registry-driven loop).
 - Tests: `pnpm --filter @cp/db test -- permissions/llm-views permissions/change-sets permissions/guide-actions`
 - Done when: all permission tests green; publication diff check passes; organiser-only draft ChangeSets invisible to members.
+- Status: done — 7a92bfd
 
 ### T3 — Persona packs: schema, loader, prompt layering, guest mode
 - Goal: byte-stable persona prompts for 6 guides + guest guide.
@@ -118,6 +120,7 @@ Undesigned states to design in code (used by later UI phases): gateway `error{co
 - Steps: 1. zod schema (fields in Requirements). 2. v0 packs authored from design copy only (`docs/design-renders/screens.json` lines, 3b-1/3b-8 taglines, C5 colours), `status=draft`; local words limited to design-shown words pending vetting. 3. Loader: DB `persona_packs` (approved release) → fallback repo pack. 4. Layering builder with cache breakpoints; assert prefix ≥4096 tokens for Haiku routes via token count fixture. 5. Chattiness as user-turn instruction; locale directive.
 - Tests: `pnpm --filter @cp/ai test -- persona`
 - Done when: same inputs → identical prefix bytes across guides' shared layers (snapshot); guest pack never exposes locals' names (test); all 7 packs validate.
+- Status: done — bdc7748
 
 ### T4 — Context builder + injection wrapping
 - Goal: assemble trip/crew context only through `guide_reader`.
