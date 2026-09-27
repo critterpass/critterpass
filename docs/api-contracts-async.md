@@ -114,7 +114,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `account.purge` | grace end | cascade delete/anonymise, R2 manifest delete, SIWA + Google revoke, write-offs | 3 / DLQ | uid | 45 |
 | `feedback.forward` | `submit_feedback` | AI-38 triage → tracker | 3 | ticket id | 47 |
 | `idea.shipped_fanout` | tracker webhook | N-38 to voters when app version ≥ fixed | 3 | idea id | 47 |
-| `content.publish` | `approve_content_batch` | write `packages/content` release, bake trigger, CDN purge | 2 | batch id | 18 |
+| `content.publish` | `approve_content_batch`, `rollback_content_release` | verify the release artifact's checksum, replace the kind's catalogue rows in one tx (refuses unreviewed emergency/allergy cards and unverified safety records: release → `blocked` with the reason), mark the previous release `superseded`, `catalogue.changed` on `catalog`; `pnpm content <kind> pull` copies it into `packages/content` | 2 / DLQ | release id | 18 |
+| `content.embed` (doc delta) | help release published | embeds help articles into `help_articles.embedding`; a no-op until an embedding vendor is chosen (help search runs on the full-text index meanwhile) | 3 | release id | 18 |
 | `og.render` | share/invite created | Takumi OG from critter atlas → R2 | 3 | `(kind, id, version)` | 51 |
 | `poi.embed` (doc delta) | POI created/updated | `services/worker/src/places/embed.ts`: embeds searchable text, upserts `poi_embeddings`; flag-gated no-op until an embedding vendor is chosen | 3 | poi id | 14 |
 | `poi.live_check` (doc delta) | place detail open, `last_live_check_at` > 24 h | `services/worker/src/places/live-check.ts`: Foursquare open/closed check, upserts `poi_live_checks`; degrades to `gated` (no retry backoff) on the account's own credits-exhausted response | 3 | poi id | 14 |

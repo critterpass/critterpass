@@ -48,7 +48,7 @@ describe('pipeline stages', () => {
     expect(second.replay.requests).toHaveLength(0);
     expect(again.queued?.artifact.items).toEqual(result.queued?.artifact.items);
 
-    const artifact = readJson(stageFiles('taste_quiz', 'batch-a', root).paths.artifact);
+    const artifact = readJson<unknown>(stageFiles('taste_quiz', 'batch-a', root).paths.artifact);
     expect(loadRelease(artifact, 'taste_quiz').items).toHaveLength(1);
   });
 
@@ -83,5 +83,22 @@ describe('IP screen', () => {
     const md = ipChecklist('2026-09-28-critters-01', [checkName('Sakura Pon')]);
     expect(md).toContain('| [ ] | Sakura Pon | clear |');
     expect(md).toContain('tmsearch.uspto.gov');
+  });
+});
+
+describe('pull', () => {
+  it('writes the live release into the package and imports every current kind', async () => {
+    const { mkdirSync } = await import('node:fs');
+    const { writeCurrentRelease } = await import('../src/stages/pull');
+    const { currentRelease: current } = await import('@cp/content');
+    const root = mkdtempSync(path.join(os.tmpdir(), 'content-pkg-'));
+    mkdirSync(path.join(root, 'src'), { recursive: true });
+    const forms = current('forms');
+    expect(writeCurrentRelease('forms', forms, root)).toBe(1);
+    const module = await import('node:fs').then((fs) =>
+      fs.readFileSync(path.join(root, 'src', 'current.ts'), 'utf8'),
+    );
+    expect(module).toContain("import forms from '../releases/forms/current.json'");
+    expect(() => writeCurrentRelease('windows', undefined, root)).toThrow(/no published windows/u);
   });
 });

@@ -52,9 +52,13 @@ describe('review stage with a database', () => {
       gate: string;
       job: string | null;
     }>('SELECT status, stage, gate, agent_job_id AS job FROM content_releases');
-    expect(releases.rows).toEqual([
-      { status: 'review', stage: 'review', gate: 'owner_approval', job: expect.any(String) },
-    ]);
+    expect(releases.rows).toHaveLength(1);
+    expect(releases.rows[0]).toMatchObject({
+      status: 'review',
+      stage: 'review',
+      gate: 'owner_approval',
+    });
+    expect(releases.rows[0]?.job).toMatch(/^[0-9a-f-]{36}$/u);
     const reviews = await pool.query<{ item_ref: string; severity: string; verdict: string }>(
       'SELECT item_ref, severity, verdict FROM ops.content_reviews',
     );

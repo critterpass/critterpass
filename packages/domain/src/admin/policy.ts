@@ -9,6 +9,7 @@ import { effectiveAdminRoles, type AdminRole } from './roles';
 export const ADMIN_AREAS = [
   'home',
   'catalogue',
+  'content',
   'flags',
   'partners',
   'moderation',
@@ -25,6 +26,7 @@ const EVERY_ROLE: readonly AdminRole[] = ['owner', 'ops', 'content', 'support'];
 export const ADMIN_AREA_ROLES: Readonly<Record<AdminArea, readonly AdminRole[]>> = {
   home: EVERY_ROLE,
   catalogue: ['content'],
+  content: ['content'],
   flags: ['ops'],
   partners: ['ops'],
   moderation: ['ops', 'support'],
@@ -43,6 +45,11 @@ export const ADMIN_COMMAND_ROLES: Readonly<Record<string, readonly AdminRole[]>>
   upsert_poi: ['content'],
   upsert_season_editorial: ['content'],
   review_season_event: ['content'],
+  review_content_item: ['content'],
+  reject_content_batch: ['content'],
+  verify_poi_hours: ['content'],
+  approve_content_batch: ['owner'],
+  rollback_content_release: ['owner'],
   moderate_item: ['ops', 'support'],
   grant_entitlement: ['support'],
   revoke_entitlement: ['support'],

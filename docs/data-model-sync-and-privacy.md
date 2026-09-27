@@ -131,7 +131,7 @@ Service: self-hosted PowerSync Open Edition (Railway SG), Postgres bucket storag
 | `trip_draft` | client subscribes when caller is organiser | trip_id + organiser check | `itinerary_versions`/`plan_days`/`plan_items`/`change_sets` with visibility=organiser, `agent_jobs` for the trip |
 | `trip_me` | with `trip` | trip_id + `auth.user_id()` | `briefings`, `briefing_items` (per viewer) |
 | `trip_pack` | with `trip` (pre_trip/in_trip) | destination of trip | `pois` (destination), `facilities`, `weather_snapshots`, `crowd_forecasts`, `map_regions`, `spawn_rules` (as `trip_spawns`) |
-| `catalog` | auto | none (global) | `guides`, `destinations`, `phrase_cards`, `emergency_numbers`, `critter_sets`, `critters` (via public projection: names null until found — the projection table `critter_public` is maintained by system), `critter_forms`, `products`, `perks`, `client_config` |
+| `catalog` | auto | none (global) | `guides`, `destinations`, `phrase_cards`, `emergency_numbers`, `critter_sets`, `critters`, `critter_forms`, `legendary_windows` (name-free: names stay in `critter_names` and reach a user only through their own `collection_entries` once found; doc delta), `products`, `perks`, `client_config` |
 | `fx` | auto | uid (home, crew settlement and trip currencies) | `fx_snapshots` for the user's own currencies: a per-user filter can't share a stream with the parameterless `catalog` queries, and streams can't filter on `now()`, so the currency filter bounds volume instead of a 30-day window |
 | `explore` | on demand | destination_id | `pois`, `place_tips` |
 | `community` | on demand | shared_plan_id / destination | published `shared_plans`, `ratings` |
@@ -203,7 +203,7 @@ Phase owns the migration that creates the table (later phases may add columns vi
 | 15 Fares, weather, crowds | `price_quotes`, `fare_cells`, `weather_snapshots`, `crowd_forecasts`, `season_months`, `season_events`, `hazard_alerts`, `ops.supplier_calls` |
 | 16 Cost & constraint engine | `cost_components`, `share_calcs` |
 | 17 Back-office & ops | `ops.concierge_tasks`, `ops.approvals`, `ops.partner_adapters`, `ops.moderation_filings`, `ops.entitlement_grants`, `moderation_reports` |
-| 18 Content factory | `content_releases`, `critter_sets`, `critters`, `critter_forms`, `spawn_rules`, `critter_public`, `phrase_cards`, `emergency_numbers`, `facilities`, `help_articles`, `ops.content_reviews` |
+| 18 Content factory | `content_releases`, `critter_sets`, `critters`, `critter_forms`, `critter_names`, `legendary_windows`, `spawn_rules`, `phrase_cards`, `emergency_numbers`, `facilities`, `help_articles`, `poi_hours_proposals`, `ops.content_reviews` |
 | 20 Permissions, location, visits | `location_shares`, `location_fixes`, `member_etas`, `visits` |
 | 21 Link resolver, deferred links | `join_codes`, `install_attributions` (claim fields) |
 | 22 Onboarding | `taste_profiles`, `passes`, `stamps`, `avatars` |

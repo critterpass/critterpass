@@ -142,6 +142,10 @@ export const QUEUES = {
     expireInSeconds: 30 * 60,
     cron: { expr: '0 5 1 * *', tz: 'Asia/Singapore' },
   }),
+  // Content releases (docs/api-contracts-async.md §2.2): publishing replaces a kind's catalogue in
+  // one transaction, so jobs for the same release fold into one.
+  'content.publish': spec({ policy: 'exclusive', retryLimit: 2, deadLetter: true }),
+  'content.embed': spec({ policy: 'exclusive' }),
   'ops.backup': spec({
     policy: 'stately',
     retryLimit: 2,

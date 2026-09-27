@@ -3,6 +3,7 @@
  * generated_by, approved_by}`. The checksum is SHA-256 over the canonical JSON of kind, version
  * and items, so a release that was edited after approval no longer loads.
  */
+import { CONTENT_RELEASE_KINDS } from '@cp/domain';
 import { z } from 'zod';
 
 import { critterItemSchema } from './critters';
@@ -17,21 +18,8 @@ import { placeIndexItemSchema, poiItemSchema } from './places';
 import { spawnRuleItemSchema } from './spawn-rules';
 import { quizQuestionItemSchema } from './taste-quiz';
 
-export const CONTENT_KINDS = [
-  'sets',
-  'critters',
-  'forms',
-  'spawns',
-  'windows',
-  'personas',
-  'places',
-  'phrases',
-  'taste_quiz',
-  'help',
-  'emergency',
-  'facilities',
-  'insurance',
-] as const;
+/** Every content kind; the list lives in `@cp/domain` so the ops console shares it. */
+export const CONTENT_KINDS = CONTENT_RELEASE_KINDS;
 export const contentKindSchema = z.enum(CONTENT_KINDS);
 export type ContentKind = z.infer<typeof contentKindSchema>;
 
