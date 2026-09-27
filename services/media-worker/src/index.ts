@@ -43,6 +43,10 @@ function objectHeaders(object: R2Object, exp: number, now: number): Headers {
   if (!headers.has('content-type')) headers.set('content-type', 'application/octet-stream');
   headers.set('etag', object.httpEtag);
   headers.set('cache-control', cacheControlFor(exp, now));
+  // User uploads are served from this origin: never let a browser sniff one into something
+  // executable, and sandbox anything that is rendered anyway.
+  headers.set('x-content-type-options', 'nosniff');
+  headers.set('content-security-policy', "default-src 'none'; sandbox");
   return headers;
 }
 

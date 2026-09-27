@@ -53,6 +53,48 @@ describe('media-worker signed reads', () => {
     expect(response.headers.get('content-type')).toBe('image/webp');
     expect(response.headers.get('etag')).toBeTruthy();
     expect(response.headers.get('cache-control')).toMatch(/^private, max-age=\d+$/);
+    expect(response.headers.get('x-content-type-options')).toBe('nosniff');
+    expect(response.headers.get('content-security-policy')).toBe("default-src 'none'; sandbox");
+  });
+
+  it('caps max-age at the time left before exp, and at one hour', async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const soon = await fetchWorker(new Request(await signedUrl({ expiresAt: now + 90 })));
+    const late = await fetchWorker(new Request(await signedUrl({ expiresAt: now + 86_400 })));
+
+    const maxAge = (response: Response) =>
+      Number(/max-age=(\d+)/.exec(response.headers.get('cache-control') ?? '')?.[1]);
+    expect(maxAge(soon)).toBeLessThanOrEqual(90);
+    expect(maxAge(soon)).toBeGreaterThan(80);
+    expect(maxAge(late)).toBe(3600);
+  });
+
+  it('answers HEAD with headers only', async () => {
+    const response = await fetchWorker(new Request(await signedUrl(), { method: 'HEAD' }));
+    expect(response.status).toBe(200);
+    expect(response.headers.get('etag')).toBeTruthy();
+    expect(await response.text()).toBe('');
+  });
+
+  it('rejects a flipped signature and a missing or malformed one with 403', async () => {
+    const url = new URL(await signedUrl());
+    const sig = url.searchParams.get('sig') ?? '';
+    const flipped = new URL(url);
+    flipped.searchParams.set('sig', `${sig.slice(0, -1)}${sig.endsWith('A') ? 'B' : 'A'}`);
+    const missing = new URL(url);
+    missing.searchParams.delete('sig');
+    const malformed = new URL(url);
+    malformed.searchParams.set('sig', 'not base64url!');
+
+    for (const candidate of [flipped, missing, malformed]) {
+      expect((await fetchWorker(new Request(candidate))).status).toBe(403);
+    }
+  });
+
+  it('rejects a signature minted for another object key with 403', async () => {
+    const url = new URL(await signedUrl({ objectKey: 'critters/other.webp' }));
+    url.pathname = `/${OBJECT_KEY}`;
+    expect((await fetchWorker(new Request(url))).status).toBe(403);
   });
 
   it('rejects an expired signature with 403', async () => {

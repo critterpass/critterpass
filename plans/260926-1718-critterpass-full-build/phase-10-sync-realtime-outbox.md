@@ -128,6 +128,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. Import phase 08 `CommandEnvelope`; add skew handling (future >5 min stored, not trusted). 2. `defineCommand({name, v, schema, authorize, entitle, handle, offline: boolean, actionScope?})`. 3. `executeCommand`: parse → overwrite `actor.uid` → `withUser` → `claimOpId` (sha256 of canonical JSON payload) → authorize → `entitle(tx, …)` from phase 12 `services/api/src/entitlements` → handle → `recordCmdResult` → commit. 4. Error mapping to `DomainError(code, detail)`. 5. NOTIFY trigger migration.
 - Tests: `pnpm --filter @cp/db test -- command/execute` (Testcontainers PG18: applied, duplicate replay returns stored result, `IDEMPOTENCY_MISMATCH`, authorize deny → `FORBIDDEN` with no writes, handler throw rolls back outbox + events, uid spoof overwritten, failed handler after `entitle` leaves the quota counter unchanged — pipeline integration for phase 12 quota reservations).
 - Done when: all cases pass; a test-file-registered command proves outbox + event rows exist only after commit.
+- Status: done — 1a7b8aa
 
 ### T2 — HTTP doors: `/v1/cmd/{cmd}`, `/sync/upload`, `/v1/cmd-results`
 - Goal: three routes on the one registry with correct status semantics.
@@ -135,6 +136,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. `/v1/cmd/{cmd}`: session (anonymous allowed where command says) → `executeCommand` → 200 `{status, result}` or error envelope with HTTP per api §3. 2. `/sync/upload`: batch `{ops[]}` ≤500 ops/≤1 MB, ordered, each op own tx; rejects → recorded, continue; any transient error → stop, return 503 with index of first unprocessed op (already-applied ops replay as duplicates). 3. `/v1/cmd-results?since` paginated own rows. 4. OpenAPI via `@hono/zod-openapi`; per-uid rate limit (Redis) → `RATE_LIMITED`.
 - Tests: `pnpm --filter @cp/api test -- routes/sync-upload routes/cmd` (Hono `app.request` + Testcontainers).
 - Done when: reject returns 2xx with `cmd_results.status=rejected`; retry of a partially applied batch yields `duplicate` for applied ops; `/openapi.json` lists the three routes.
+- Status: done — c3102aa
 
 ### T3 — PowerSync service config, publication and core Sync Streams
 - Goal: self-hosted PowerSync (Open Edition) replicating from PG18 with Better Auth JWKS, streams for existing tables.
@@ -187,6 +189,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. `purposes.ts`: allowed content types + max bytes per purpose; key `u/<uid>/<purpose>/<uuidv7>`. 2. Presign PUT (≤5 MB) with sha256 checksum; multipart create/parts/complete (parts ≥5 MiB). 3. Register `media_objects` row via internal command `register_media_upload`. 4. `read-urls`: authorize each key (owner, or membership of the object's crew/trip) → `HMAC-SHA256(secret, key+exp)`, TTL 15 min. 5. Worker verifies sig/exp in constant time, streams from R2 binding, `Cache-Control: private`.
 - Tests: `pnpm --filter @cp/api test -- routes/media`; `pnpm --filter @cp/media-worker test` (Miniflare).
 - Done when: outsider read-url request → `NOT_FOUND`; expired/tampered sig → 403 at worker; oversize presign → `PAYLOAD_TOO_LARGE`.
+- Status: done — 7919827
 
 ### T10 — App Group bridge and extension outbox drain
 - Goal: extensions can queue commands offline and the app drains them through the normal pipeline.
