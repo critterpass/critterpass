@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { aiRouteSchema, aiTierSchema } from '../ai/routes';
 import { productKeySchema } from '../entitlements/product-keys';
 import { tripParticipantRsvpSchema } from '../enums/trip';
+import { LINK_CHANNELS, LINK_KINDS } from '../links/grammar';
 import { NOTIFICATION_CATEGORIES, NOTIFICATION_CLASSES } from '../notifications';
 
 import {
@@ -26,14 +27,14 @@ const flag = z.boolean();
 const oneOf = <const T extends readonly [string, ...string[]]>(values: T) => z.enum(values);
 
 const via = oneOf(['referrer', 'paste', 'code', 'phone', 'clip', 'link']);
-const channel = oneOf(['whatsapp', 'sms', 'imessage', 'messenger', 'copy', 'qr', 'share', 'other']);
+const channel = z.enum(LINK_CHANNELS);
 const modelTag = z.string().regex(/^[a-z0-9][a-z0-9._-]{0,63}$/u);
 
 /** Event-specific props; every one is optional unless the funnel needs it to be meaningful. */
 const EVENT_PROPS = {
   // Acquisition
   link_clicked: {
-    type: oneOf(['invite', 'join', 'proposal', 'plan', 'referral', 'affiliate', 'other']),
+    type: z.enum(LINK_KINDS),
     channel: channel.optional(),
     is_bot: flag,
   },

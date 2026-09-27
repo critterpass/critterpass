@@ -22,6 +22,7 @@ import {
   linkPreviewSchema,
   normalizeJoinCode,
   parseLinkPath,
+  type LinkChannel,
 } from '@cp/domain';
 import { createRoute, z, type OpenAPIHono } from '@hono/zod-openapi';
 import type { Context } from 'hono';
@@ -43,6 +44,7 @@ import { isHumanLinkOpen } from '../links/bot-filter';
 import { hashForLog } from '../links/redact';
 import { previewLink, type FirstOpenStore } from '../links/preview';
 import type { LinkProviderRegistry } from '../links/registry';
+import type { ServerAnalytics } from '../obs/analytics';
 
 export const PREVIEW_PER_IP_RULE: RateLimitRule = { windowSeconds: 60, max: 60 };
 export const CODE_LOOKUP_PER_IP_RULE: RateLimitRule = { windowSeconds: 60, max: 10 };
@@ -54,11 +56,17 @@ export interface LinkRouteDeps extends CommandDoorDeps {
   readonly links: LinkProviderRegistry;
   /** Shared with the web Worker; absent means visitor headers are never trusted. */
   readonly webProxySecret?: string | undefined;
+  /** `link_clicked` for every resolved preview (anonymous, with `is_bot`). */
+  readonly analytics?: Pick<ServerAnalytics, 'serverTrack'>;
 }
 
 interface Visitor {
   readonly ip: string;
   readonly userAgent: string | undefined;
+}
+
+function isLinkChannel(value: string | undefined): value is LinkChannel {
+  return (LINK_CHANNELS as readonly (string | undefined)[]).includes(value);
 }
 
 function secretMatches(given: string | undefined, expected: string | undefined): boolean {
@@ -172,6 +180,16 @@ export function registerLinkRoutes(app: OpenAPIHono<AppEnv>, deps: LinkRouteDeps
       const preview = await previewLink(
         { pool: deps.pool, registry: deps.links, firstOpens: deps.redis },
         { target, humanOpen, channel: channel ?? null },
+      );
+      void deps.analytics?.serverTrack(
+        'link_clicked',
+        {
+          type: target.kind,
+          is_bot: !humanOpen,
+          surface: 'web',
+          ...(isLinkChannel(channel) ? { channel } : {}),
+        },
+        { uid: null },
       );
       return c.json(preview, 200);
     },

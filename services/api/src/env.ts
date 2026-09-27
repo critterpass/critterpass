@@ -30,6 +30,13 @@ export const apiEnvSchema = z.object({
   PUBLIC_BASE_URL: z.url(),
   SENTRY_DSN: optionalUrl,
   OTEL_EXPORTER_OTLP_ENDPOINT: optionalUrl,
+  /** PostHog EU project key; unset = server analytics and flag evaluation off (catalog defaults). */
+  POSTHOG_PROJECT_API_KEY: optionalString,
+  POSTHOG_HOST: optionalUrl,
+  /** PostHog feature-flags secure key for local flag evaluation. */
+  POSTHOG_FLAGS_SECRET_KEY: optionalString,
+  /** HMAC key for the pseudonymous analytics `user_pid` (shared with the worker). */
+  ANALYTICS_PID_SALT: z.preprocess(emptyAsUndefined, z.string().min(16).optional()),
   COMMIT_SHA: z.preprocess(emptyAsUndefined, z.string().min(1).default('dev')),
   /** Better Auth's own Postgres connection, authenticated as the `auth` role (docs/data-model.md §2): a narrower grant than the app's own pooled `app_owner`-derived connection. */
   AUTH_DATABASE_URL: z.url(),

@@ -8,6 +8,7 @@ import packageJson from '../package.json' with { type: 'json' };
 
 import { aiJobs } from './ai';
 import { contentJobs } from './content';
+import { createPostHogSink, startExportLoop, type ExportLoop } from './analytics-export';
 import { loadWorkerEnv } from './env';
 import {
   createBoss,
@@ -123,6 +124,25 @@ jobs.push(
 );
 onEventAppended(routeEventHook);
 
+// Domain events → PostHog (consent-gated, idempotent on the event id).
+let analyticsExport: ExportLoop | undefined;
+if (env.POSTHOG_PROJECT_API_KEY && env.ANALYTICS_PID_SALT) {
+  const analyticsLogger = logger.child({ component: 'analytics-export' });
+  analyticsExport = startExportLoop({
+    pool,
+    sink: createPostHogSink({
+      apiKey: env.POSTHOG_PROJECT_API_KEY,
+      ...(env.POSTHOG_HOST ? { host: env.POSTHOG_HOST } : {}),
+    }),
+    pidSalt: env.ANALYTICS_PID_SALT,
+    onError: (error) => analyticsLogger.warn({ err: error }, 'analytics export failed'),
+  });
+} else {
+  logger.warn(
+    'analytics export is disabled: POSTHOG_PROJECT_API_KEY or ANALYTICS_PID_SALT is unset',
+  );
+}
+
 const jobsLogger = logger.child({ component: 'jobs' });
 const boss = createBoss({ connectionString: env.DATABASE_DIRECT_URL, logger: jobsLogger });
 let rtRelay: RtRelay | undefined;
@@ -160,6 +180,7 @@ function shutdown(signal: string) {
   server.close(() => {
     void runtime
       .then(() => rtRelay?.stop())
+      .then(() => analyticsExport?.stop())
       .then(() => stopJobRuntime(boss))
       .then(() => pushProviders.shutdown())
       .catch((error: unknown) => logger.error({ err: error }, 'job runtime stop failed'))
