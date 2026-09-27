@@ -18,9 +18,12 @@ module.exports = {
   testTimeout: 60_000,
   // The config plugin's integration suite inspects `expo prebuild` output (ios/, android/), so it
   // runs only where `CP_MACOS_SUITES=1`: the `critter-art-macos` CI job, which prebuilds first.
+  // Suites named `*.db.test.*` need Docker (Postgres, Centrifugo) and run only under
+  // `CP_DB_SUITES=1` (`pnpm test:db`, the database CI job).
   testPathIgnorePatterns: [
     ...(jestExpoPreset.testPathIgnorePatterns ?? ['/node_modules/']),
     ...(process.env.CP_MACOS_SUITES === '1' ? [] : ['<rootDir>/plugins/__tests__/']),
+    ...(process.env.CP_DB_SUITES === '1' ? [] : ['\\.db\\.test\\.']),
   ],
   moduleNameMapper: {
     ...jestExpoPreset.moduleNameMapper,
