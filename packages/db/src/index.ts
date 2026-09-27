@@ -20,4 +20,5 @@ export {
   type RecordCmdResultInput,
 } from './events';
 export { withGuideReader, withSystem, withUser } from './tx';
+export { computePublicationAllowList } from './publication';
 export * as schema from './schema';

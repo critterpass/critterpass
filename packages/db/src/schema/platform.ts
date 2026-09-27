@@ -9,10 +9,13 @@
 import { registerTablePrivacy } from '@cp/domain';
 import { bigserial, integer, jsonb, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
-// Infrastructure tables (docs/data-model.md §3.18) sit outside the C0-C5 privacy classification
-// used for publication/guide_reader decisions, so these four are deliberately never passed to
+// Pure bookkeeping tables (docs/data-model.md §3.18) sit outside the C0-C5 privacy classification
+// used for publication/guide_reader decisions, so these three are deliberately never passed to
 // registerTablePrivacy: none has an RLS policy or grant for app_user/app_system, and each is
 // excluded from the PowerSync publication simply by never being added to its allow-list.
+// `cmd_results` is different (see its own registerTablePrivacy call below): it is the one
+// per-command outcome row an owner may read directly (RLS class O), so data-model.md §3.18 and
+// this phase's own RLS-summary table both put it on the `me` stream.
 export const rtOutbox = pgTable('rt_outbox', {
   id: bigserial('id', { mode: 'number' }).primaryKey(),
   channel: text('channel').notNull(),
@@ -74,3 +77,4 @@ export const activityEvents = pgTable('activity_events', {
 });
 
 registerTablePrivacy('activity_events', { class: 'C1' });
+registerTablePrivacy('cmd_results', { class: 'C2' });

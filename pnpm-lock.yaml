@@ -598,6 +598,9 @@ importers:
 
   tools/scripts:
     dependencies:
+      '@cp/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@cp/domain':
         specifier: workspace:*
         version: link:../../packages/domain
