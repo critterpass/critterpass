@@ -1,3 +1,4 @@
+export { aiUsage } from './ai';
 export { authAccount, authJwks, authSchema, authSession, authUser, authVerification } from './auth';
 export { crewMembers, crews } from './crews';
 export {

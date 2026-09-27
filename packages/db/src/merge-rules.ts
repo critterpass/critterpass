@@ -109,3 +109,6 @@ registerMergeRule({
 // closed, so any row it somehow has carries no useful information forward.
 registerMergeRule({ table: 'user_private', userColumn: 'user_id', strategy: 'keep_existing' });
 registerMergeRule({ table: 'account_deletions', userColumn: 'user_id', strategy: 'drop' });
+
+// AI cost records (C5) follow the user who incurred them, same as any other retained ledger row.
+registerMergeRule({ table: 'ai_usage', userColumn: 'user_id', strategy: 'reassign' });

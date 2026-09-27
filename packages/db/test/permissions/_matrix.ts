@@ -557,6 +557,18 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: F,
     },
   },
+  // RLS class S (docs/data-model.md §3.18: per-call AI cost records) — app_system only.
+  ai_usage: {
+    selectProbe: { sql: 'SELECT 1 FROM ai_usage LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
 };
 
 /**
