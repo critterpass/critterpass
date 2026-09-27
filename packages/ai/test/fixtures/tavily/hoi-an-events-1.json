@@ -1,0 +1,61 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-27.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Hoi An old town events this week",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.tripsapien.com/things-to-do/hoi-an-vn/may-2027",
+          "title": "Hoi An Events & Things to Do in May 2027 | TripSapien",
+          "content": "TripSapien\n\nLog in\n\nPlan\n\nLantern-hung shophouses in the Ancient Town, Hoi An\n\n# Hoi Anevents & things to do in May2027\n\nStart with Tra Que Vegetable Village, Quan Cong Temple, plus Museum of Trade Ceramics. May in Hoi An averages 32°C / 90°F highs, 26°C / 79°F nights, and about 12 rainy days.\n\nExpect 32°C/90°F days and about 12 rainy ones in May. Start with these: [...] ### Hội An Central Market\n\n  5★ · 295outdoorOpen daily\n\n  The riverside market is the food and produce anchor for cao lau, herbs, fish, rice noodles, and morning vendor activity.\n Phuc Kien Meeting Hall in Hoi An3\n\n  ### Phuc Kien Meeting Hall\n\n  4.4★ · 2,059outdoorOpen daily\n\n  The Fujian assembly hall has temple courtyards, incense coils, dragon details, and merchant-diaspora history inside the Ancient Town ticket zone.\n\nShow 3 more sights→ [...] 4Japanese Covered Bridge\n 5Thanh Hà Pottery Village\n 6An Bang Beach\n\n### Neighborhoods\n\n Ancient Town in hoi an vn1\n\n  ### Ancient Town\n\n  The protected core has yellow shophouses, assembly halls, the Japanese Covered Bridge, Central Market, lantern shops, and car-free evening streets.\n An Hoi island in hoi an vn2\n\n  ### An Hội island\n\n  An Hội is the nightlife and night-market side, with lantern stalls, riverside bars, homestays, and boat docks facing the old town.\n Cẩm Phô in hoi an vn3",
+          "score": 0.604703,
+          "raw_content": null,
+          "published_date": "Wed, 23 Sep 2026 19:00:00 GMT",
+          "id": "b1d1b6-00"
+        },
+        {
+          "url": "https://howtotravelvietnam.com/guides/hoi-an-lantern-festival",
+          "title": "Hoi An Lantern Festival Guide 2026 and 2027: Full Moon ...",
+          "content": "HowToTravelVietnam Editorial Team Verified On the Ground Guide\n\n|\n\nUpdated: September 2026\n\n|\n\nRead time: 8 minutes\n\n|\n\n100% Free Travel Advice\n\nHoi An Ancient Town lantern lit riverfront\n\nHoai River at Twilight\n\nHundreds of glowing candlelit sampan boats reflecting on the calm river water.\n\nJapanese Covered Bridge Hoi An\n\nJapanese Covered Bridge (Chua Cau)\n\nThe 400 year old architectural landmark restored and illuminated for full moon night.\n\nHoi An Silk Lanterns Market [...] Every month on the 14th night of the lunar calendar, and most spectacularly during the Mid Autumn Festival (Tet Trung Thu), Hoi An Ancient Town switches off its modern electric streetlights. The entire UNESCO World Heritage town descends into an ethereal, golden sea of handmade silk lanterns, floating river candles, traditional folk games, and lion dance drumbeats. Here is everything you need to know to experience the magic without tourist traps. [...] 4:30 PM\n\n### Pedestrian Zone Enforced and Craft Stalls Open\n\nMotorbikes and scooters are barred from entering the Old Quarter. Riverside flower stalls and paper lantern crafters take their spots along Bach Dang Street and Nguyen Thai Hoc. This is the optimal time to browse before crowds pack the streets.\n\n6:00 PM\n\n### The Great Electric Light Switch Off (Tat Den)",
+          "score": 0.568057,
+          "raw_content": null,
+          "published_date": "Fri, 25 Sep 2026 19:00:00 GMT",
+          "id": "f09a2f-01"
+        },
+        {
+          "url": "https://www.facebook.com/groups/dananghoiantraveller/posts/1705667923836002",
+          "title": "Mid-Autumn Festival events and activities in Da Nang, ...",
+          "content": "Hoi An is recommended for a traditional Mid- Autumn experience with lanterns and cultural activities. You can enjoy the lantern atmosphere, local cultural",
+          "score": 0.4071218,
+          "raw_content": null,
+          "published_date": "Tue, 22 Sep 2026 19:00:00 GMT",
+          "id": "a3dff0-02"
+        },
+        {
+          "url": "https://www.facebook.com/visitdanangvietnam/posts/mid-autumn-in-hoi-an-every-full-moon-of-the-8th-lunar-month-the-ancient-town-tra/122153370536417000",
+          "title": "Mid-Autumn in Hoi An 🏮 Every full moon of the 8th lunar ...",
+          "content": "Hoi An Lantern Festival: Held on the 14th day of each lunar month, the Hoi An Lantern Festival is pure magic. Today is the Hoi An Lantern Festival, held on the",
+          "score": 0.3383618,
+          "raw_content": null,
+          "published_date": null,
+          "id": "a636db-03"
+        },
+        {
+          "url": "https://www.instagram.com/reel/DdrDzPRhjof",
+          "title": "✨ Looking for a truly local Vietnam experience? Put Phan ...",
+          "content": "Hoi An transforms into a magical world of colorful lanterns, shimmering reflections on the Thu Bon River, traditional music, and timeless old streets.",
+          "score": 0.29834872,
+          "raw_content": null,
+          "published_date": null,
+          "id": "d1cc31-04"
+        }
+      ],
+      "response_time": 1.78,
+      "request_id": "8868ab4c-dd70-4281-86db-8a3827e30ce6"
+    }
+  }
+}

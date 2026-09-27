@@ -65,8 +65,6 @@ export async function streamGuideTurn(
             { flags: flags.length, kinds: [...new Set(flags.map((f) => f.kind))] },
             'guide grounding flags',
           ),
-        onBlockedSources: (urls) =>
-          log.error({ urls }, 'web search returned a blocked supplier domain'),
         onSettled: (outcome, cause) => {
           const code =
             cause instanceof Error ? cause.name : typeof cause === 'string' ? cause : undefined;

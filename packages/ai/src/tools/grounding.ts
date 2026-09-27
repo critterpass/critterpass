@@ -4,6 +4,10 @@
  * value a tool or engine produced. Collected per turn from validated tool outputs; structured
  * output that fails is rejected (the caller repairs once, then falls back to fixed copy), and
  * free-text numbers no tool produced are flagged for the validator-failure metric and evals.
+ *
+ * Web search results are cite-only: a number or time a web page states may appear in a chat answer
+ * (shown with its source), but it is never a tool fact, so structured output, plan changes and
+ * cost-engine inputs can never be grounded on it.
  */
 
 /** Keys whose values are ids the model may only repeat, never invent. */
@@ -65,6 +69,46 @@ export function collectGrounding(outputs: readonly unknown[]): GroundingSet {
   return { ids, numbers, clockMinutes };
 }
 
+/** Tools whose results are outside text: quotable with their source, never facts. */
+export const CITE_ONLY_TOOLS: ReadonlySet<string> = new Set(['web_search']);
+
+export interface ToolOutputEntry {
+  readonly name: string;
+  readonly output: unknown;
+}
+
+/** The facts of a turn's tool results: every tool output except cite-only ones. */
+export function collectToolGrounding(entries: readonly ToolOutputEntry[]): GroundingSet {
+  return collectGrounding(
+    entries.filter((entry) => !CITE_ONLY_TOOLS.has(entry.name)).map((entry) => entry.output),
+  );
+}
+
+function stringsIn(node: unknown): string[] {
+  if (typeof node === 'string') return [node];
+  if (Array.isArray(node)) return node.flatMap(stringsIn);
+  if (node !== null && typeof node === 'object') return Object.values(node).flatMap(stringsIn);
+  return [];
+}
+
+/**
+ * Numbers and clock times written in cite-only results (web pages): chat text may quote them, with
+ * the sources the answer carries; nothing else may use them. No ids: a web page names none of ours.
+ */
+export function collectCitedGrounding(entries: readonly ToolOutputEntry[]): GroundingSet {
+  const numbers = new Set<number>();
+  const clockMinutes = new Set<number>();
+  for (const text of entries
+    .filter((e) => CITE_ONLY_TOOLS.has(e.name))
+    .flatMap((e) => stringsIn(e.output))) {
+    for (const clock of textClocks(text)) clockMinutes.add(clock.minutes);
+    for (const match of text.matchAll(TEXT_NUMBER)) {
+      for (const value of readings(match[1] ?? '')) numbers.add(value);
+    }
+  }
+  return { ids: new Set(), numbers, clockMinutes };
+}
+
 /** Merges sets, e.g. tool outputs with the ids and numbers of the trip context and question. */
 export function mergeGrounding(...sets: readonly GroundingSet[]): GroundingSet {
   return {
@@ -104,6 +148,18 @@ export function validateStructured(output: unknown, grounding: GroundingSet): Gr
 const TEXT_NUMBER = /(?<![\w.,])(\d{1,3}(?:[.,]\d{3})+|\d+(?:[.,]\d+)?)(?![\w])/gu;
 const TEXT_CLOCK = /\b(\d{1,2}):(\d{2})\s*(am|pm)?\b|\b(\d{1,2})\s*(am|pm)\b/giu;
 
+/** Clock times written in text ("20:30", "8:30 pm", "9am"), as minutes after midnight. */
+function textClocks(text: string): { readonly whole: string; readonly minutes: number }[] {
+  return [...text.matchAll(TEXT_CLOCK)].map((match) => {
+    const [whole, h1, m1, ap1, h2, ap2] = match;
+    let hours = Number(h1 ?? h2);
+    const half = (ap1 ?? ap2)?.toLowerCase();
+    if (half === 'pm' && hours < 12) hours += 12;
+    if (half === 'am' && hours === 12) hours = 0;
+    return { whole, minutes: hours * 60 + Number(m1 ?? 0) };
+  });
+}
+
 /** Readings of one number as written: "65.000" and "65,000" are 65000, "12.50" is 12.5. */
 function readings(raw: string): number[] {
   const values = new Set<number>();
@@ -119,16 +175,10 @@ function readings(raw: string): number[] {
 export function unverifiedTextNumbers(text: string, grounding: GroundingSet): GroundingViolation[] {
   const violations: GroundingViolation[] = [];
   const clocks = new Set<string>();
-  for (const match of text.matchAll(TEXT_CLOCK)) {
-    const [whole, h1, m1, ap1, h2, ap2] = match;
-    let hours = Number(h1 ?? h2);
-    const minutes = Number(m1 ?? 0);
-    const half = (ap1 ?? ap2)?.toLowerCase();
-    if (half === 'pm' && hours < 12) hours += 12;
-    if (half === 'am' && hours === 12) hours = 0;
-    clocks.add(whole);
-    if (!grounding.clockMinutes.has(hours * 60 + minutes)) {
-      violations.push({ kind: 'unverified_time', path: 'text', value: whole.trim() });
+  for (const clock of textClocks(text)) {
+    clocks.add(clock.whole);
+    if (!grounding.clockMinutes.has(clock.minutes)) {
+      violations.push({ kind: 'unverified_time', path: 'text', value: clock.whole.trim() });
     }
   }
   const withoutClocks = [...clocks]

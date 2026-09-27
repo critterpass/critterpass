@@ -60,6 +60,8 @@ export interface ToolSpec<I extends z.ZodObject = z.ZodObject, O extends z.ZodTy
   readonly effect: ToolEffect;
   readonly input: I;
   readonly output: O;
+  /** The tool_result text the model reads; default is the output as JSON. */
+  readonly render?: (output: unknown) => string;
 }
 
 export const spec = <I extends z.ZodObject, O extends z.ZodType>(

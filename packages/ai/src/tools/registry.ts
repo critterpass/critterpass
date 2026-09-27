@@ -10,7 +10,7 @@ import type Anthropic from '@anthropic-ai/sdk';
 import type { AiCaller, AiRoute } from '@cp/domain';
 import { z } from 'zod';
 
-import type { RouteConfig } from '../routing';
+import { resolveRoute, type RouteConfig } from '../routing';
 import { allowedTools, isToolAllowed } from './allow-lists';
 import { isToolName, TOOL_SPECS, type ToolInput, type ToolName, type ToolOutput } from './schemas';
 
@@ -79,9 +79,16 @@ export function toolDefinition(name: ToolName): Anthropic.Messages.Tool {
   };
 }
 
-/** Client-tool definitions for a route, in a fixed order so the tools cache layer stays byte-stable. */
-export function customToolDefinitions(route: RouteConfig): Anthropic.Messages.Tool[] {
-  return allowedTools(route.caller).map(toolDefinition);
+/** A tool this route may offer: on its caller's allow-list, and web search only where enabled. */
+export function isRouteTool(route: RouteConfig, name: ToolName): boolean {
+  return isToolAllowed(route.caller, name) && (name !== 'web_search' || route.webSearch);
+}
+
+/** Tool definitions for a route, in a fixed order so the tools cache layer stays byte-stable. */
+export function routeTools(route: RouteConfig): Anthropic.Messages.Tool[] {
+  return allowedTools(route.caller)
+    .filter((name) => isRouteTool(route, name))
+    .map(toolDefinition);
 }
 
 export interface ToolContext {
@@ -133,6 +140,10 @@ const FAILURE_TEXT: Readonly<Record<ToolFailure, string>> = {
   TOOL_INPUT_INVALID: 'TOOL_INPUT_INVALID: the input did not match the tool schema.',
 };
 
+/** On a route that can search the web, an unavailable check points there instead of a dead end. */
+const UNAVAILABLE_SEARCH_INSTEAD =
+  'TOOL_UNAVAILABLE: this check is not available right now. Search the web for it instead, and say where what you found came from; do not guess a value.';
+
 export interface ToolRegistry {
   registerToolExecutor<N extends ToolName>(name: N, executor: ToolExecutor<N>): void;
   hasExecutor(name: ToolName): boolean;
@@ -140,7 +151,15 @@ export interface ToolRegistry {
 }
 
 /** A tool call answered with a failure instead of running (the model is told why). */
-export function toolFailure(call: ToolCall, failure: ToolFailure): ToolRunResult {
+export function toolFailure(
+  call: ToolCall,
+  failure: ToolFailure,
+  options: { readonly searchInstead?: boolean } = {},
+): ToolRunResult {
+  const content =
+    failure === 'TOOL_UNAVAILABLE' && options.searchInstead === true
+      ? UNAVAILABLE_SEARCH_INSTEAD
+      : FAILURE_TEXT[failure];
   return {
     ok: false,
     name: call.name,
@@ -149,7 +168,7 @@ export function toolFailure(call: ToolCall, failure: ToolFailure): ToolRunResult
       type: 'tool_result',
       tool_use_id: call.id,
       is_error: true,
-      content: FAILURE_TEXT[failure],
+      content,
     },
   };
 }
@@ -159,8 +178,6 @@ export function createToolRegistry(
 ): ToolRegistry {
   const executors = new Map<ToolName, ToolExecutor<ToolName>>();
 
-  const failed = toolFailure;
-
   return {
     registerToolExecutor(name, executor) {
       if (executors.has(name)) throw new Error(`tool executor already registered: ${name}`);
@@ -168,7 +185,15 @@ export function createToolRegistry(
     },
     hasExecutor: (name) => executors.has(name),
     async execute(call, context) {
-      if (!isToolName(call.name) || !isToolAllowed(context.caller, call.name)) {
+      const route = { ...resolveRoute(context.route), caller: context.caller };
+      const searchInstead = call.name !== 'web_search' && isRouteTool(route, 'web_search');
+      const failed = (c: ToolCall, failure: ToolFailure) =>
+        toolFailure(c, failure, { searchInstead });
+      if (
+        !isToolName(call.name) ||
+        !isToolAllowed(context.caller, call.name) ||
+        !isRouteTool(route, call.name)
+      ) {
         return failed(call, 'TOOL_NOT_ALLOWED');
       }
       const name = call.name;
@@ -193,7 +218,11 @@ export function createToolRegistry(
         ok: true,
         name,
         output: output.data,
-        block: { type: 'tool_result', tool_use_id: call.id, content: JSON.stringify(output.data) },
+        block: {
+          type: 'tool_result',
+          tool_use_id: call.id,
+          content: tool.render?.(output.data) ?? JSON.stringify(output.data),
+        },
       };
     },
   };

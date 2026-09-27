@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import {
   allowedTools,
   createToolRegistry,
-  customToolDefinitions,
+  routeTools,
   resolveRoute,
   TOOL_ALLOW_LISTS,
   TOOL_NAMES,
@@ -40,6 +40,7 @@ const CONTRACT: Readonly<Record<string, string>> = {
   propose_hold: 'CG',
   propose_vendor_message: 'CR',
   schedule_nudge: 'GB',
+  web_search: 'CR',
 };
 
 const STRICT_KEYWORDS = new Set([
@@ -120,8 +121,8 @@ describe('tool schemas', () => {
 describe('allow-lists', () => {
   it('gives parsers no tool at all, and every other surface only its contract tools', () => {
     expect(TOOL_ALLOW_LISTS.M).toEqual([]);
-    expect(customToolDefinitions(resolveRoute('email.parse'))).toEqual([]);
-    expect(customToolDefinitions(resolveRoute('receipt.parse'))).toEqual([]);
+    expect(routeTools(resolveRoute('email.parse'))).toEqual([]);
+    expect(routeTools(resolveRoute('receipt.parse'))).toEqual([]);
     for (const caller of AI_CALLERS) {
       for (const name of allowedTools(caller)) expect(CONTRACT[name]).toContain(caller);
     }
@@ -130,7 +131,15 @@ describe('allow-lists', () => {
   });
 
   it('offers routes without a caller class no tools', () => {
-    expect(customToolDefinitions(resolveRoute('micro.line'))).toEqual([]);
+    expect(routeTools(resolveRoute('micro.line'))).toEqual([]);
+  });
+
+  it('offers web search only on routes that switch it on', () => {
+    const names = (route: Parameters<typeof resolveRoute>[0]) =>
+      routeTools(resolveRoute(route)).map((tool) => tool.name);
+    expect(names('guest.guide')).toContain('web_search');
+    expect(names('guide.chat')).not.toContain('web_search');
+    expect(names('disruption.plan_b')).not.toContain('web_search');
   });
 });
 

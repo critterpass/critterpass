@@ -20,23 +20,21 @@ import type { Gateway } from '../client';
 import { toGatewayError } from '../errors';
 import { resolveRoute } from '../routing';
 import {
+  collectCitedGrounding,
   collectGrounding,
+  collectToolGrounding,
   mergeGrounding,
   unverifiedTextNumbers,
   type GroundingViolation,
 } from '../tools/grounding';
 import {
+  routeTools,
   toolFailure,
   type ToolContext,
   type ToolRegistry,
   type ToolRunResult,
 } from '../tools/registry';
-import {
-  citedSources,
-  routeTools,
-  screenWebSearch,
-  type WebSearchOptions,
-} from '../tools/web-search';
+import { webSources } from '../tools/web-search';
 import type { UsageContext } from '../usage';
 import {
   DEFAULT_INPUT_CHECK_BUDGET_MS,
@@ -60,7 +58,6 @@ export interface RunTurnInput {
   readonly usage?: UsageContext;
   /** Rows the answer may quote besides tool output (trip context, engine values). */
   readonly groundingSources?: readonly unknown[];
-  readonly webSearch?: WebSearchOptions;
   readonly signal?: AbortSignal;
   /** Tool rounds before the final answer; chat surfaces use the default of 3. */
   readonly maxToolRounds?: number;
@@ -73,7 +70,6 @@ export interface RunTurnInput {
 export interface TurnHooks {
   readonly onToolResult?: (result: ToolRunResult) => void;
   readonly onGroundingFlags?: (violations: readonly GroundingViolation[]) => void;
-  readonly onBlockedSources?: (urls: readonly string[]) => void;
   readonly onSettled?: (outcome: 'committed' | 'released', cause?: unknown) => void;
   /** The input check's verdict, once known (flags are logged by the caller). */
   readonly onInputScreened?: (result: ComplianceResult) => void;
@@ -93,7 +89,7 @@ function streamEvent(event: Anthropic.Messages.RawMessageStreamEvent): TurnEvent
   }
   if (event.type === 'content_block_start') {
     const block = event.content_block;
-    if (block.type === 'tool_use' || block.type === 'server_tool_use') {
+    if (block.type === 'tool_use') {
       return { type: 'tool_start', tool: block.name, id: block.id };
     }
   }
@@ -128,7 +124,7 @@ function withDirective(messages: readonly MessageParam[], directive: string): Me
   });
 }
 
-/** Response blocks go back to the API verbatim (web-search results must round-trip unchanged). */
+/** Response blocks go back to the API verbatim (thinking blocks must round-trip with tool calls). */
 function asParams(content: readonly ContentBlock[]): Anthropic.Messages.ContentBlockParam[] {
   return content as unknown as Anthropic.Messages.ContentBlockParam[];
 }
@@ -160,7 +156,7 @@ export async function* runTurn(
     const degraded = reservation.fairUse === 'degrade_haiku';
     const routeId = degraded ? degradedRoute(input.route) : input.route;
     const route = resolveRoute(routeId);
-    const allTools = routeTools(route, input.webSearch ?? {});
+    const allTools = routeTools(route);
     const screen = watchInput(input.inputCheck, (result) => hooks.onInputScreened?.(result));
     await within(screen.settled, input.inputCheckBudgetMs ?? DEFAULT_INPUT_CHECK_BUDGET_MS);
     const readOnly = () =>
@@ -169,8 +165,7 @@ export async function* runTurn(
       ? withDirective(input.messages, BRIEF_ANSWER_DIRECTIVE)
       : [...input.messages];
     const maxRounds = input.maxToolRounds ?? DEFAULT_TOOL_ROUNDS;
-    const outputs: unknown[] = [];
-    const answered: ContentBlock[] = [];
+    const outputs: { readonly name: string; readonly output: unknown }[] = [];
     let finalText = '';
 
     for (let round = 0; ; round += 1) {
@@ -197,12 +192,7 @@ export async function* runTurn(
         }
       }
       if (message === undefined) throw new Error('model stream ended without a message');
-      answered.push(...message.content);
 
-      if (message.stop_reason === 'pause_turn' && !lastRound) {
-        messages = [...messages, { role: 'assistant', content: asParams(message.content) }];
-        continue;
-      }
       if (message.stop_reason !== 'tool_use' || lastRound) {
         finalText = textOf(message.content);
         break;
@@ -228,7 +218,7 @@ export async function* runTurn(
         results.push(result.block);
         yield { type: 'tool_result', id: block.id, card: toolCard(result) };
         if (result.ok) {
-          outputs.push(result.output);
+          outputs.push({ name: result.name, output: result.output });
           if (result.name === 'propose_plan_changes') {
             const { changeset_id } = result.output as { changeset_id: string };
             yield { type: 'proposal', changeset_id };
@@ -242,10 +232,10 @@ export async function* runTurn(
       ];
     }
 
-    const blocked = screenWebSearch(answered).blocked;
-    if (blocked.length > 0) hooks.onBlockedSources?.(blocked);
+    // Web results ground chat text only (cite-only), never structured output.
     const grounding = mergeGrounding(
-      collectGrounding(outputs),
+      collectToolGrounding(outputs),
+      collectCitedGrounding(outputs),
       collectGrounding(input.groundingSources ?? []),
     );
     const flags = unverifiedTextNumbers(finalText, grounding);
@@ -259,7 +249,7 @@ export async function* runTurn(
     const settlement = await meter.commit();
     hooks.onSettled?.('committed');
     if (settlement.usage !== null) yield { type: 'usage', ...settlement.usage };
-    yield { type: 'done', ai_generated: true, sources: citedSources(answered) };
+    yield { type: 'done', ai_generated: true, sources: webSources(outputs) };
   } catch (error) {
     await release(error);
     // A client that left gets no error frame; everything else ends on one.
