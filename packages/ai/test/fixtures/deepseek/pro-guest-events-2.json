@@ -3,23 +3,23 @@
   "response": {
     "status": 200,
     "body": {
-      "id": "058db259-e158-4c50-b65f-fecf9a49f458",
+      "id": "36e9c2f9-9c56-4678-8644-de6e00eddbf8",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-v4-pro",
       "content": [
         {
           "type": "text",
-          "text": "From what Tokek knows so far, the big one this week is the Hoi An Lantern Festival, held on the 14th night of the lunar month, when the old town switches off its electric lights for silk lanterns, floating river candles and folk games. One source says today is actually the lantern festival day, so it may be happening right now. Not my island, but I've done my homework."
+          "text": "From what Tokek knows so far, the big one is the Hoi An Lantern Festival, held each full moon of the 8th lunar month, when the old town glows with lanterns on the Thu Bon River — that's per Visit Danang. The International Lantern Festival ran 3–6 December 2026, so it's already passed, and I couldn't confirm anything specific for this exact week."
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 1428,
+        "input_tokens": 849,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 9344,
-        "output_tokens": 85,
+        "cache_read_input_tokens": 9856,
+        "output_tokens": 87,
         "service_tier": "standard"
       }
     }

@@ -140,7 +140,7 @@ describe('turn directives', () => {
           type: 'text',
           text: [
             '[Reply language: Indonesian (id). Chattiness: quiet, so at most 2 sentences and no local words.',
-            'Every greeting, exclamation or question counts as a sentence: stop at 2 sentences.',
+            'Every greeting, exclamation or question counts as a sentence: stop at 2 sentences, and sound like yourself in them.',
             `If you will not help with this request because it is harmful or illegal, reply with exactly ${DECLINE_MARKER} and nothing else.]`,
           ].join(' '),
         },

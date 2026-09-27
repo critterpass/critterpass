@@ -38,7 +38,7 @@ export function turnInstruction(
   return [
     `[Reply language: ${languageName(directives.locale)}.`,
     `Chattiness: ${directives.chattiness}, so at most ${sentences} and ${words}.`,
-    `Every greeting, exclamation or question counts as a sentence: stop at ${sentences}.`,
+    `Every greeting, exclamation or question counts as a sentence: stop at ${sentences}, and sound like yourself in them.`,
     ...(options.quotesData === true ? [DATA_BLOCK_DIRECTIVE] : []),
     `If you will not help with this request because it is harmful or illegal, reply with exactly ${DECLINE_MARKER} and nothing else.]`,
   ].join(' ');

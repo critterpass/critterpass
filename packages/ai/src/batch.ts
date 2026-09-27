@@ -112,7 +112,7 @@ export async function runBatch(
   checkBatchRequests(requests);
   const results = new Map<string, BatchItemResult>();
   let next = 0;
-  let failure: unknown;
+  let failure: Error | undefined;
   const worker = async (): Promise<void> => {
     while (failure === undefined && next < requests.length) {
       const request = requests[next];
@@ -123,7 +123,7 @@ export async function runBatch(
         await options.onResult?.(result);
         results.set(request.customId, result);
       } catch (error) {
-        failure ??= error;
+        failure ??= error instanceof Error ? error : toGatewayError(error);
       }
     }
   };
@@ -132,7 +132,7 @@ export async function runBatch(
     Math.min(options.concurrency ?? DEFAULT_BATCH_CONCURRENCY, requests.length),
   );
   await Promise.all(Array.from({ length: width }, worker));
-  if (failure !== undefined) throw failure instanceof Error ? failure : new Error(String(failure));
+  if (failure !== undefined) throw failure;
   return requests.flatMap((request) => {
     const result = results.get(request.customId);
     return result === undefined ? [] : [result];

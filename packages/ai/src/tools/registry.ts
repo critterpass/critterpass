@@ -12,6 +12,7 @@ import { z } from 'zod';
 
 import { resolveRoute, type RouteConfig } from '../routing';
 import { allowedTools, isToolAllowed } from './allow-lists';
+import { renderToolJson } from './render';
 import { isToolName, TOOL_SPECS, type ToolInput, type ToolName, type ToolOutput } from './schemas';
 
 /** JSON Schema keywords strict tool use accepts (structured-outputs JSON Schema limits). */
@@ -221,7 +222,7 @@ export function createToolRegistry(
         block: {
           type: 'tool_result',
           tool_use_id: call.id,
-          content: tool.render?.(output.data) ?? JSON.stringify(output.data),
+          content: tool.render?.(output.data) ?? renderToolJson(output.data),
         },
       };
     },

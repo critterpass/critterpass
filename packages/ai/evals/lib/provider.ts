@@ -31,8 +31,14 @@ import {
   type GroundingViolation,
 } from '../../src/tools/grounding';
 import { createToolRegistry, routeTools, type ToolRegistry } from '../../src/tools/registry';
+import { renderToolJson } from '../../src/tools/render';
 import { createTavilySearch } from '../../src/search';
-import { createWebSearchExecutor, webSources, withSources } from '../../src/tools/web-search';
+import {
+  createWebSearchExecutor,
+  searchFirst,
+  webSources,
+  withSources,
+} from '../../src/tools/web-search';
 import type { CaseVars } from './suite';
 import { modelFixtures, transportsFor } from './transports';
 
@@ -88,7 +94,7 @@ function toolExchange(vars: CaseVars): Anthropic.Messages.MessageParam[] {
       content: results.map((result, index) => ({
         type: 'tool_result' as const,
         tool_use_id: id(index),
-        content: JSON.stringify(result.output),
+        content: renderToolJson(result.output),
       })),
     },
   ];
@@ -150,8 +156,9 @@ interface Conversation {
 }
 
 /**
- * The case as a turn: tool calls run through the registry (web search through its executor, every
- * other tool answers TOOL_UNAVAILABLE since evals have no database) until the model answers.
+ * The case as a turn: a tool the case supplied (`tool_results`) answers with the case's output,
+ * other calls run through the registry (web search through its executor, every other tool answers
+ * TOOL_UNAVAILABLE since evals have no database) until the model answers.
  */
 async function converse(
   vars: CaseVars,
@@ -160,6 +167,8 @@ async function converse(
     readonly gateway: Gateway;
     readonly registry: ToolRegistry;
     readonly rounds: number;
+    /** Live turns end like a guide turn: the last round has tools off, so it must answer. */
+    readonly live: boolean;
     readonly caller: AiCaller;
   },
 ): Promise<Conversation> {
@@ -169,7 +178,11 @@ async function converse(
   for (let round = 1; ; round += 1) {
     let message: Anthropic.Messages.Message;
     try {
-      message = (await deps.gateway.callModel(vars.route, { ...input, messages })).message;
+      const answerNow = deps.live && round >= deps.rounds && (input.tools?.length ?? 0) > 0;
+      const first = round === 1 ? searchFirst(resolveRoute(vars.route)) : undefined;
+      const toolChoice = answerNow ? ({ type: 'none' } as const) : first;
+      const request = { ...input, messages, ...(toolChoice === undefined ? {} : { toolChoice }) };
+      message = (await deps.gateway.callModel(vars.route, request)).message;
     } catch (caught) {
       if (!(caught instanceof GatewayError)) throw caught;
       return { content: [], toolCalls, outputs, error: caught.code };
@@ -181,6 +194,17 @@ async function converse(
     }
     const results: Anthropic.Messages.ToolResultBlockParam[] = [];
     for (const call of calls) {
+      // A tool the case already answered answers the same again: it is this turn's data.
+      const served = vars.tool_results?.find((entry) => entry.tool === call.name);
+      if (served !== undefined) {
+        outputs.push({ name: call.name, output: served.output });
+        results.push({
+          type: 'tool_result',
+          tool_use_id: call.id,
+          content: renderToolJson(served.output),
+        });
+        continue;
+      }
       const result = await deps.registry.execute(
         { id: call.id, name: call.name, input: call.input },
         { uid: 'eval', tripId: null, caller: deps.caller, route: vars.route },
@@ -231,6 +255,7 @@ export async function runCase(vars: CaseVars, options: RunCaseOptions): Promise<
     gateway,
     registry,
     rounds,
+    live,
     caller: route.caller ?? 'C',
   });
   const { content, toolCalls, outputs, error } = turn;

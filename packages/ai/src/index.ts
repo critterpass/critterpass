@@ -125,6 +125,7 @@ export {
   type UntrustedKind,
 } from './context/wrap-untrusted';
 export { allowedTools, isToolAllowed, TOOL_ALLOW_LISTS } from './tools/allow-lists';
+export { renderToolJson } from './tools/render';
 export {
   createToolRegistry,
   isRouteTool,
@@ -166,6 +167,7 @@ export {
 export {
   createWebSearchExecutor,
   screenSearchQuery,
+  searchFirst,
   WEB_SEARCH_MAX_RESULTS,
   WEB_SEARCH_SNIPPET_CHARS,
   WEB_SEARCH_SPEC,

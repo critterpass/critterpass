@@ -5,7 +5,9 @@ import {
   createToolRegistry,
   createWebSearchExecutor,
   isBlockedUrl,
+  resolveRoute,
   screenSearchQuery,
+  searchFirst,
   SUPPLIER_BLOCKED_DOMAINS,
   TAVILY_MAX_EXCLUDED_DOMAINS,
   TAVILY_SEARCH_URL,
@@ -215,6 +217,11 @@ describe('web search executor', () => {
     expect(result.ok && webSources([{ name: result.name, output: result.output }])).toEqual([
       'https://tuoitre.vn/hoi-an',
     ]);
+  });
+
+  it('is the first move of a web search route, and of no other', () => {
+    expect(searchFirst(resolveRoute('guest.guide'))).toEqual({ type: 'tool', name: 'web_search' });
+    expect(searchFirst(resolveRoute('guide.chat'))).toBeUndefined();
   });
 
   it('is refused on a route that does not offer it', async () => {

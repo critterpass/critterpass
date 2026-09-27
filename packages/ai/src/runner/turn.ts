@@ -34,7 +34,7 @@ import {
   type ToolRegistry,
   type ToolRunResult,
 } from '../tools/registry';
-import { webSources } from '../tools/web-search';
+import { searchFirst, webSources } from '../tools/web-search';
 import type { UsageContext } from '../usage';
 import {
   DEFAULT_INPUT_CHECK_BUDGET_MS,
@@ -165,6 +165,7 @@ export async function* runTurn(
       ? withDirective(input.messages, BRIEF_ANSWER_DIRECTIVE)
       : [...input.messages];
     const maxRounds = input.maxToolRounds ?? DEFAULT_TOOL_ROUNDS;
+    const first = searchFirst(route);
     const outputs: { readonly name: string; readonly output: unknown }[] = [];
     let finalText = '';
 
@@ -179,6 +180,7 @@ export async function* runTurn(
           messages,
           ...(tools.length === 0 ? {} : { tools }),
           ...(lastRound && tools.length > 0 ? { toolChoice: { type: 'none' } as const } : {}),
+          ...(round === 0 && !lastRound && first !== undefined ? { toolChoice: first } : {}),
           ...(input.signal === undefined ? {} : { signal: input.signal }),
         },
         input.usage ?? {},

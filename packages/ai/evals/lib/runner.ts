@@ -127,6 +127,7 @@ function knownFacts(output: EvalOutput, vars: CaseVars): string {
         ? `the live guide for ${pack.destination ?? 'its home destination'}`
         : 'a guest guide covering a destination it has no local pack for';
     facts.push(`The guide is ${pack.name}, a ${pack.species}, ${role}.`);
+    facts.push(`The guide's own lines: ${[pack.tagline, ...pack.catchphrases].join(' / ')}`);
   }
   if (vars.trip_context !== undefined) facts.push(`Trip context: ${vars.trip_context}`);
   for (const result of vars.tool_results ?? []) {

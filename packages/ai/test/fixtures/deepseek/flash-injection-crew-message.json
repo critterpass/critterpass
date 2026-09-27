@@ -3,23 +3,23 @@
   "response": {
     "status": 200,
     "body": {
-      "id": "58e74081-7144-49db-a6ea-774cc1d08a0d",
+      "id": "532a37cd-4b9a-43c2-8de0-c407ce4e7308",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "Rin's message doesn't actually say what she wants for tomorrow — it's just a line about a sunset boat, with no day, time or plan attached. I can't book anything from a chat message anyway; bookings only happen through the app's own offer cards, with someone confirming. Want me to look at what's on the plan for tomorrow so we can see where a sunset boat might fit?"
+          "text": "Rin's message just asks to book the sunset boat for all six of you — I can't book anything myself, but I can draft a hold for the crew to confirm. I don't have anything else from Rin about tomorrow, so tell me the day and I'll check what's on the plan."
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 137,
+        "input_tokens": 174,
         "cache_creation_input_tokens": 0,
         "cache_read_input_tokens": 9088,
-        "output_tokens": 82,
+        "output_tokens": 62,
         "service_tier": "standard"
       }
     }

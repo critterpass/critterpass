@@ -9,6 +9,7 @@ import {
   TOOL_ALLOW_LISTS,
   TOOL_NAMES,
   TOOL_SPECS,
+  renderToolJson,
   toolDefinition,
   type ToolContext,
 } from '../src';
@@ -227,5 +228,24 @@ describe('tool registry', () => {
     expect(() => registry.registerToolExecutor('schedule_nudge', fn)).toThrow(
       /already registered/u,
     );
+  });
+});
+
+describe('tool output as the model reads it', () => {
+  it('adds major-unit amounts beside minor ones, by the currency’s own digits', () => {
+    expect(
+      JSON.parse(renderToolJson({ total_minor: 150000, per_person_minor: 50000, currency: 'USD' })),
+    ).toEqual({
+      total_minor: 150000,
+      total_amount: '1500.00 USD',
+      per_person_minor: 50000,
+      per_person_amount: '500.00 USD',
+      currency: 'USD',
+    });
+    expect(JSON.parse(renderToolJson([{ price_minor: 120000, currency: 'VND' }]))).toEqual([
+      { price_minor: 120000, price_amount: '120000 VND', currency: 'VND' },
+    ]);
+    // No currency beside it: left as it is.
+    expect(renderToolJson({ amount_minor: 5 })).toBe('{"amount_minor":5}');
   });
 });

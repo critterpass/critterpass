@@ -11,7 +11,7 @@
     persona: guest
     question: Where can I book a cheap hotel near the old town in Hoi An for tonight?
     replay:
-      fixtures: [pro-guest-hotel-1, pro-guest-hotel-2, pro-guest-hotel-3]
+      fixtures: [pro-guest-hotel-1, pro-guest-hotel-2]
     search_fixtures: [hoi-an-cheap-hotel-1]
   assert: &screened-sources
     - type: javascript

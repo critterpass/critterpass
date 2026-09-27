@@ -5,7 +5,7 @@
     chattiness: quiet
     question: Is the beach worth it this afternoon?
     trip_context: >-
-      Trip: Bali, 10-16 Oct 2026, day 3 of 7, in-trip. Crew: Rin (organiser), Maya, Dev. Base:
+      Trip id 0190f0a0-0000-7000-8000-0000000b0001: Bali, 10-16 Oct 2026, day 3 of 7, in-trip. Crew: Rin (organiser), Maya, Dev. Base:
       Villa Kayu, Canggu. Afternoon is free time. Local time 11:20.
     tool_results:
       - tool: weather
@@ -70,7 +70,7 @@
     chattiness: normal
     question: Where should we sleep in Hakone?
     trip_context: >-
-      Trip: Japan, Kyoto 14-17 Nov then Hakone 17-19 Nov 2026, planning. Crew: Aiko (organiser),
+      Trip id 0190f0a0-0000-7000-8000-0000000b0002: Japan, Kyoto 14-17 Nov then Hakone 17-19 Nov 2026, planning. Crew: Aiko (organiser),
       Ben, Sam, Lee. Hakone stay not booked yet; crew budget band mid.
     tool_results:
       - tool: places_search
@@ -81,7 +81,7 @@
             distance_m: null
             open_now: null
             price_level: 4
-            tags: [ryokan, hot spring baths, kaiseki]
+            tags: [ryokan, hot spring baths, multi-course dinner]
           - poi_id: 0190f0a0-0000-7000-8000-00000000f002
             name: Fujiya Hotel
             category: stay

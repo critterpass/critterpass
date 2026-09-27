@@ -3,27 +3,23 @@
   "response": {
     "status": 200,
     "body": {
-      "id": "984fcee5-4fe1-4ef7-a14f-94d11ae3aebd",
+      "id": "023cb44c-aacc-4684-ad1d-31eac55022fe",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-v4-pro",
       "content": [
         {
-          "type": "tool_use",
-          "id": "call_00_jLK0kBuZUQ1MzdhivEZm8581",
-          "name": "web_search",
-          "input": {
-            "query": "cheap hotels near old town Hoi An tonight availability"
-          }
+          "type": "text",
+          "text": "From what Tokek knows so far, the app doesn't hold rooms, so I can't book one for you — but I can point you to the right streets. The area just outside the Ancient Town, around Bà Triệu Street and Phan Bội Châu, has plenty of budget stays, with one listing near there seen from about 1,500,000 VND (~$60) a night. Not my island, but I've done my homework."
         }
       ],
-      "stop_reason": "tool_use",
+      "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 110,
+        "input_tokens": 1995,
         "cache_creation_input_tokens": 0,
         "cache_read_input_tokens": 9344,
-        "output_tokens": 53,
+        "output_tokens": 96,
         "service_tier": "standard"
       }
     }
