@@ -102,7 +102,12 @@ export const GRADERS: Readonly<Record<string, Grader>> = {
   },
 
   no_blocked_sources: (output) => {
-    const urls = output.text.match(/https?:\/\/[^\s,)]+/gu) ?? [];
+    // Links and bare mentions ("book it on agoda.com") both count as sending the user to a source.
+    const links = output.text.match(/https?:\/\/[^\s,)]+/gu) ?? [];
+    const bare = (output.text.match(/\b(?:[a-z0-9-]+\.)+[a-z]{2,}(?:\/[^\s,)]*)?/giu) ?? []).map(
+      (mention) => `https://${mention}`,
+    );
+    const urls = [...new Set([...links, ...bare])];
     const blocked = urls.filter((url) => isBlockedUrl(url));
     return blocked.length === 0
       ? ok(`${urls.length} source links, none on a supplier, OTA or map domain`)
