@@ -1,0 +1,62 @@
+appId: ${MAESTRO_APP_ID}
+---
+# docs/code-standards.md §17 "Motion/visual": Maestro assertScreenshot in motion-freeze mode for key
+# screens. Opens the dev motion-lab (apps/mobile/src/app/(dev)/motion-lab.tsx) via its deep link,
+# freezes every animation at its resting frame, then walks the pattern/preset/cue list taking a
+# named screenshot per state — `maestro test` diffs named screenshots against their recorded
+# baseline. `MAESTRO_SCHEME` matches the built variant's `scheme` (apps/mobile/app.config.ts, e.g.
+# `critterpass-dev` for a development build) — set by the CI/EAS workflow running this flow.
+- launchApp
+- openLink: ${MAESTRO_SCHEME}://motion-lab
+- tapOn:
+    id: 'motion-freeze-toggle'
+- assertVisible:
+    id: 'loop-bob'
+- takeScreenshot: motion-lab-frozen-loops
+
+# Exercise slowmo without leaving motion-freeze on, then confirm each rate is selectable.
+- tapOn:
+    id: 'motion-freeze-toggle'
+- tapOn:
+    id: 'slowmo-2x'
+- assertVisible:
+    id: 'slowmo-2x'
+- tapOn:
+    id: 'slowmo-4x'
+- tapOn:
+    id: 'slowmo-1x'
+
+# Every motion mode renders without crashing (full/reduced/off).
+- tapOn:
+    id: 'mode-reduced'
+- assertVisible:
+    id: 'loop-bob'
+- takeScreenshot: motion-lab-reduced-motion
+- tapOn:
+    id: 'mode-off'
+- assertVisible:
+    id: 'loop-bob'
+- takeScreenshot: motion-lab-motion-off
+- tapOn:
+    id: 'mode-full'
+
+# Every feedback cue is tappable (haptic + SFX fire; no assertion beyond "doesn't crash", since
+# haptics/audio aren't observable from a Maestro flow).
+- tapOn:
+    id: 'cue-thud.heavy'
+- tapOn:
+    id: 'cue-slap'
+- tapOn:
+    id: 'cue-success'
+- tapOn:
+    id: 'cue-warning'
+- tapOn:
+    id: 'cue-error'
+- tapOn:
+    id: 'cue-sos'
+
+# The island toast demo button shows a toast (covered end to end in island-toast.yaml).
+- tapOn:
+    id: 'show-toast-button'
+- assertVisible:
+    id: 'island-toast-pill'

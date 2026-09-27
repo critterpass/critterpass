@@ -1,0 +1,33 @@
+appId: ${MAESTRO_APP_ID}
+---
+# IslandToast show/queue/dismiss (docs/design-system.md §4.4). `MAESTRO_SCHEME` matches the built
+# variant's `scheme` (apps/mobile/app.config.ts) — set by the CI/EAS workflow running this flow.
+- launchApp
+- openLink: ${MAESTRO_SCHEME}://motion-lab
+
+# Shows a toast (with an OPEN action) and dismisses it via the swipe-up-affordance × button.
+- tapOn:
+    id: 'show-toast-button'
+- assertVisible:
+    id: 'island-toast-pill'
+- assertVisible: 'Pass issued'
+- tapOn:
+    id: 'island-toast-dismiss'
+- assertNotVisible:
+    id: 'island-toast-pill'
+
+# A second show while the first is still visible queues rather than overlapping (max 1 visible).
+- tapOn:
+    id: 'show-toast-button'
+- tapOn:
+    id: 'show-toast-button'
+- assertVisible:
+    id: 'island-toast-pill'
+- tapOn:
+    id: 'island-toast-dismiss'
+- assertVisible:
+    id: 'island-toast-pill'
+- tapOn:
+    id: 'island-toast-dismiss'
+- assertNotVisible:
+    id: 'island-toast-pill'

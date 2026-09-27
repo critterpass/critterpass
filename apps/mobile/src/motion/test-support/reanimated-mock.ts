@@ -157,6 +157,24 @@ function cancelAnimation(): void {
 }
 
 /**
+ * `react-native-gesture-handler`'s `GestureDetector` calls this to build the native event handler it
+ * attaches to a view's props — `IslandToast.tsx` is the first file in this package to render a real
+ * `<GestureDetector>` (every gesture-kit test up to now only calls `Gesture.*()` builder methods and
+ * invokes the resulting `.handlers.onX` callbacks directly, never mounting the component itself).
+ * Nothing under Jest ever routes a native gesture event through this handler, so a no-op
+ * `IWorkletEventHandler`-shaped stand-in is enough to satisfy `GestureDetector`'s attach/detach calls.
+ */
+function useEvent(): { workletEventHandler: Record<string, () => void> } {
+  return {
+    workletEventHandler: {
+      updateEventHandler: () => {},
+      registerForEvents: () => {},
+      unregisterFromEvents: () => {},
+    },
+  };
+}
+
+/**
  * `createAnimatedComponent` normally wraps a host component so it accepts the opaque style handle
  * `useAnimatedStyle` returns. This mock's `useAnimatedStyle` already resolves to a plain style
  * object, so the identity function is a faithful stand-in — react-native-gesture-handler's own
@@ -180,6 +198,7 @@ module.exports = {
   default: Animated,
   createAnimatedComponent,
   makeMutable,
+  useEvent,
   useSharedValue,
   useAnimatedStyle,
   useAnimatedProps: useAnimatedStyle,
