@@ -19,8 +19,20 @@ import * as schema from './schema';
  * SELECT policy at all — reads happen only through the API — so a client can never see it directly
  * even though the row content itself is not sensitive. Add a new entry here, with the same comment
  * style, if a later table needs the same treatment.
+ *
+ * `poi_embeddings` (packages/db/src/schema/places.ts) is the same RLS "S" shape: server-only search
+ * ranking, no app_user grant at all. `cities` and `poi_live_checks` are RLS "R" (app_user can read
+ * them directly) but docs/data-model.md §3.13 marks both `Stream: —`/"not synced" rather than a
+ * PowerSync stream name: `cities` is served over HTTP only (too large and too rarely-changing a
+ * reference table for a live sync stream), and `poi_live_checks` is a volatile per-POI cache
+ * refreshed by on-demand live checks, read through the places API rather than replicated.
  */
-const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set(['media_objects']);
+const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
+  'cities',
+  'media_objects',
+  'poi_embeddings',
+  'poi_live_checks',
+]);
 
 /** Every table this schema declares that the `powersync` publication should carry. */
 export function computePublicationAllowList(): readonly string[] {

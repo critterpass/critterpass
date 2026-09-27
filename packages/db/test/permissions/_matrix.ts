@@ -310,6 +310,64 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // Places catalogue (docs/data-model.md §3.13): pois/poi_live_checks/map_regions/cities
+  // are all RLS class R, same shape as destinations/guides above; poi_embeddings is class S (no
+  // app_user grant at all, same shape as media_objects/rt_outbox).
+  pois: {
+    selectProbe: { sql: 'SELECT 1 FROM pois LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  poi_embeddings: {
+    selectProbe: { sql: 'SELECT 1 FROM poi_embeddings LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  poi_live_checks: {
+    selectProbe: { sql: 'SELECT 1 FROM poi_live_checks LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  map_regions: {
+    selectProbe: { sql: 'SELECT 1 FROM map_regions LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  cities: {
+    selectProbe: { sql: 'SELECT 1 FROM cities LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
 };
 
 /**

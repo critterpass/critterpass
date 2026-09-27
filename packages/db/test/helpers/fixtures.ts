@@ -70,11 +70,32 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
 
     // Catalogue content (RLS class R, read-all authenticated): the table must not be empty or a
     // probe cannot tell "denied" apart from "table has nothing in it yet".
-    await tx.query(
-      "INSERT INTO destinations (slug, name) VALUES ('matrix-probe-destination', 'Matrix Probe') ON CONFLICT (slug) DO NOTHING",
+    const { rows: destinationRows } = await tx.query<{ id: string }>(
+      `INSERT INTO destinations (slug, name) VALUES ('matrix-probe-destination', 'Matrix Probe')
+       ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name RETURNING id`,
     );
+    const matrixProbeDestinationId = destinationRows[0]!.id;
     await tx.query(
       "INSERT INTO guides (slug, name, colour) VALUES ('matrix-probe-guide', 'Matrix Probe', 'yellow') ON CONFLICT (slug) DO NOTHING",
+    );
+
+    // Places catalogue (same RLS class R rule as destinations/guides above).
+    const { rows: poiRows } = await tx.query<{ id: string }>(
+      `INSERT INTO pois (destination_id, name, category, lat, lng) VALUES ($1, 'Matrix Probe POI', 'other', 0, 0)
+       RETURNING id`,
+      [matrixProbeDestinationId],
+    );
+    const matrixProbePoiId = poiRows[0]!.id;
+    await tx.query('INSERT INTO poi_live_checks (poi_id, is_open_now) VALUES ($1, true)', [
+      matrixProbePoiId,
+    ]);
+    await tx.query(
+      `INSERT INTO map_regions (destination_id, pmtiles_key, bytes, version)
+       VALUES ($1, 'matrix-probe.pmtiles', 1, 'matrix-probe')`,
+      [matrixProbeDestinationId],
+    );
+    await tx.query(
+      "INSERT INTO cities (name, country, lat, lng) VALUES ('Matrix Probe City', 'XX', 0, 0)",
     );
 
     const crewId = await insertCrew(tx, { createdBy: organiser });
