@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: replay (recorded responses) or live (Claude API, needs the secret)
+        description: replay (recorded responses) or live (DeepSeek and Tavily, needs the secrets)
         type: choice
         options: [replay, live]
         default: replay
@@ -44,24 +44,23 @@ jobs:
       - name: Changed suites
         if: github.event_name == 'pull_request'
         run: pnpm --filter @cp/ai eval --changed origin/${{ github.base_ref }}
-      - name: Every suite
+      - name: Generation suites
         if: github.event_name != 'pull_request'
-        # Claude-calibrated thresholds gate Anthropic runs; a compatible endpoint's run only reports.
-        continue-on-error: ${{ vars.EVAL_BASE_URL != '' }}
         env:
-          # Live only on the nightly or a manual live run, and only once the Claude key exists.
+          # Live against DeepSeek on the nightly or a manual live run; the thresholds gate both modes.
           EVAL_MODE: ${{ (github.event_name == 'schedule' || inputs.mode == 'live') && secrets.ANTHROPIC_API_KEY != '' && 'live' || 'replay' }}
+          # The DeepSeek key (the gateway speaks DeepSeek's Anthropic-format API).
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          # Repository variable naming an Anthropic-compatible endpoint to grade; unset = Anthropic.
+          # Optional repository variable overriding the graded endpoint; unset = DeepSeek.
           EVAL_BASE_URL: ${{ vars.EVAL_BASE_URL }}
-          # Jev key for the compliance suite's live run (its Haiku twin uses the Claude key).
-          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
-        run: pnpm --filter @cp/ai eval --all
+          # Web search cases search through Tavily; unset, they answer without search.
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+        run: pnpm --filter @cp/ai eval chat persona grounding injection autonomy
       - name: Compliance against Jev
-        # The decision suite runs live nightly on its own key, even before a Claude key exists.
-        if: github.event_name == 'schedule' || inputs.mode == 'live'
+        # The decision suite runs live on its own key; its fast-tier twin uses the DeepSeek key.
+        if: github.event_name != 'pull_request'
         env:
-          EVAL_MODE: ${{ secrets.TYPESAFE_API_KEY != '' && 'live' || 'replay' }}
+          EVAL_MODE: ${{ (github.event_name == 'schedule' || inputs.mode == 'live') && secrets.TYPESAFE_API_KEY != '' && 'live' || 'replay' }}
           TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           EVAL_BASE_URL: ${{ vars.EVAL_BASE_URL }}
