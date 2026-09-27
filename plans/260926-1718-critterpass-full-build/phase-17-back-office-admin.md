@@ -1,7 +1,7 @@
 ---
 phase: 17
 title: Back-office & ops console
-status: in_progress
+status: done
 depends_on: [8, 9, 10, 12, 14]
 wave: 5
 features: [F-025]
