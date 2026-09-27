@@ -122,6 +122,25 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       `INSERT INTO ops.ops_config (key, value, is_public) VALUES ('matrix.probe', '1'::jsonb, true)
        ON CONFLICT (key) DO UPDATE SET is_public = true`,
     );
+    await tx.query(
+      `INSERT INTO products (key, type, grants) VALUES ('boost_trip', 'consumable', '[]'::jsonb)
+       ON CONFLICT (key) DO NOTHING`,
+    );
+    await tx.query(
+      `INSERT INTO perks (key, tier, copy_key) VALUES ('boost_live_map', 'boost', 'monetize.perks.boost_live_map')
+       ON CONFLICT (key) DO NOTHING`,
+    );
+
+    // Materialised-only tables (RLS class O/T): one real row each so a select probe has something
+    // to find or correctly fail to find, matching how every other catalogue row above is seeded.
+    await tx.query(
+      `INSERT INTO user_entitlements (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
+      [organiser],
+    );
+    await tx.query(
+      `INSERT INTO trip_entitlements (trip_id) VALUES ($1) ON CONFLICT (trip_id) DO NOTHING`,
+      [tripId],
+    );
 
     const opId = crypto.randomUUID();
     await claimOpId(tx, { opId, uid: member, cmd: 'matrix_probe', payloadHash: 'h' });
@@ -140,6 +159,17 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       outsider,
     };
   });
+
+  // usage_counters has no app_system (or app_user) write grant at all — only app.consume_quota/
+  // app.release_quota may touch it (packages/db/test/permissions/usage_counters.test.ts) — so this
+  // one row is seeded as app_owner directly (the raw pool connection, which bypasses RLS), not
+  // through withSystem.
+  await pool.query(
+    `INSERT INTO usage_counters (subject_kind, subject_id, metric, period_key, limit_at_time, reset_at)
+     VALUES ('trip', $1, 'redrafts', 'matrix-probe', 3, now() + interval '1 day')
+     ON CONFLICT (subject_kind, subject_id, metric, period_key) DO NOTHING`,
+    [built.tripId],
+  );
 
   return {
     crewId: built.crewId,

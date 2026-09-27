@@ -1,5 +1,5 @@
 /**
- * Device-local calendar day keys (docs/product-decisions.md D8/C47: "reset 00:00 device tz").
+ * Device-local calendar day keys (docs/product-decisions.md §3: the guide meter "resets 00:00 device tz").
  * Built on `Temporal` (docs/code-standards.md §2: "never `new Date()` arithmetic for local days") so
  * a DST transition or an unusual UTC offset never shifts the reported calendar date by an hour.
  * `periodKey`/`periodResetAt` are the one place both the server (real reset enforcement) and the
@@ -20,11 +20,11 @@ function assertIanaTimeZone(deviceTz: string): void {
 }
 
 /**
- * The device-local calendar date (`YYYY-MM-DD`) `instant` falls on on in `deviceTz` — the
- * `period_key` a guide answer, redraft or fair-use bump is filed under. Two instants a few minutes
- * apart can land on different period keys near midnight; the same instant can land on different
- * period keys for two device timezones (a crew spread across countries) — both are correct, by
- * design (D8: the meter is per-device-tz, not per-server-day).
+ * The device-local calendar date (`YYYY-MM-DD`) `instant` falls on in `deviceTz` — the `period_key`
+ * a guide answer, redraft or fair-use bump is filed under. Two instants a few minutes apart can land
+ * on different period keys near midnight; the same instant can land on different period keys for two
+ * device timezones (a crew spread across countries) — both are correct, by design: the meter is
+ * per-device-tz, not per-server-day.
  */
 export function periodKey(instant: Date, deviceTz: string): string {
   assertIanaTimeZone(deviceTz);

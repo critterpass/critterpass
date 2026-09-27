@@ -1,6 +1,6 @@
 /**
  * Meter decisions over an already-counted `usage_counters` row (docs/product-decisions.md §3 guide
- * meter, C13 redrafts). The atomic increment itself is `app.consume_quota`
+ * meter and per-trip redraft cap). The atomic increment itself is `app.consume_quota`
  * (packages/db/migrations/*_entitlements_and_meters.sql); everything here is pure so the client can
  * reach the identical decision offline over a synced row, and a test never needs Postgres to cover
  * the boundary cases (29th/30th/31st question, exemptions, tz-change reset guard's *outcome*).
@@ -75,7 +75,8 @@ export type RedraftReservationDecision =
   { readonly ok: true } | { readonly ok: false; readonly detail: RedraftLimitDetail };
 
 /**
- * The free-tier visible redraft cap (3/trip, crew-wide, C13). `limit === Infinity` is Boost/FTF/crew
+ * The free-tier visible redraft cap (3/trip, crew-wide, reserved on submit and released on failure —
+ * a reverted redraft still counts). `limit === Infinity` is Boost/FTF/crew
  * yearly (`redraftLimit()` in ./resolve.ts): those trips never see `REDRAFT_LIMIT` here — the silent
  * fair-use cap (20/trip/day, ./fair-use.ts) governs them instead, and a breach there degrades rather
  * than blocking (never a paywall on an already-unlimited tier).

@@ -27,6 +27,25 @@ export {
   type SeatLimitOffer,
 } from './entitlements/errors';
 export {
+  ENTITLEMENT_SUBJECT_KINDS,
+  entitlementSubjectKindSchema,
+  FAIR_USE_METRICS,
+  fairUseMetricSchema,
+  USAGE_METRICS,
+  usageMetricSchema,
+  type EntitlementSubjectKind,
+  type FairUseMetric,
+  type UsageMetric,
+} from './entitlements/metrics';
+export {
+  PRODUCT_KEYS,
+  PRODUCT_TYPES,
+  productKeySchema,
+  productTypeSchema,
+  type ProductKey,
+  type ProductType,
+} from './entitlements/product-keys';
+export {
   commandActorSchema,
   commandDeviceSchema,
   commandEnvelopeSchema,
