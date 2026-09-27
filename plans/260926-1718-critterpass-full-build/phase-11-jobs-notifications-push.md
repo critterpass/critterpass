@@ -203,6 +203,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 - Steps: 1. Decode `cp`; if `full:false` fetch `/v1/notifications/{id}` with action key (timeout 8 s, keep original on failure). 2. Build `INPerson` + `INSendMessageIntent`, donate, `content.updating(from:)`; group name via `snapshot/crews.json`. 3. Avatar: App Group `assets/avatars/<key>@3x.png`, else signed URL download (≤2 s), else guide default. 4. Fallback: attachment image when intent update throws. 5. Entitlement `com.apple.developer.usernotifications.communication` + `NSUserActivityTypes` `INSendMessageIntent` in app Info.plist via config plugin.
 - Tests: `pnpm --filter @cp/mobile ios:test notification-service` (XCTest on payload fixtures); build `eas build --profile dev-sim --platform ios --local`.
 - Done when: tests pass; simulator push via `xcrun simctl push` fixture shows sender name + avatar.
+- Status: done — 123ab98f (XCTests via `pnpm --filter @cp/mobile ios:test`; extension builds in the e2e-test build. `xcrun simctl push` on Xcode 27 adds the request straight to the notification centre and never runs the service extension, so sender + avatar need a real APNs sandbox push once the app asks for notification permission)
 
 ### T11 — Android messaging, app tap routing and Maestro flows
 - Goal: Android sender parity and tap-to-route on both platforms.
