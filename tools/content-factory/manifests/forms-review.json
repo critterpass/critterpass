@@ -1,0 +1,15 @@
+{
+  "targets": [
+    {
+      "kind": "all",
+      "forms": ["common", "rare", "epic", "legendary"],
+      "poses": ["idle"],
+      "variants": ["color", "mask"],
+      "sizesPt": [24, 96],
+      "scales": [2],
+      "crop": "none",
+      "format": "png",
+      "out": "tools/content-factory/work/bake/forms-review"
+    }
+  ]
+}

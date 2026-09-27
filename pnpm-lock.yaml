@@ -958,6 +958,9 @@ importers:
 
   packages/critter-bake:
     dependencies:
+      '@cp/content':
+        specifier: workspace:*
+        version: link:../content
       '@cp/critter-art':
         specifier: workspace:*
         version: link:../critter-art

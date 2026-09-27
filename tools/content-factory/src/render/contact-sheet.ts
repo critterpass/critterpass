@@ -12,6 +12,7 @@ import {
   critters,
   frame,
   layout,
+  TIER_COLORS,
   type FormSpec,
   type RenderSpec,
 } from '@cp/critter-art';
@@ -53,7 +54,47 @@ function specFor(row: SheetRow, locked: boolean): RenderSpec {
     ...(row.form === undefined
       ? {}
       : { form: row.form, ...(row.form.pose === undefined ? {} : { pose: row.form.pose }) }),
-    ...(locked ? { variant: 'mask' as const } : {}),
+    ...(locked
+      ? {
+          variant: 'mask' as const,
+          // Legendary slots lock to a gold silhouette, every other tier to the ink silhouette.
+          ...(row.form?.rarity === 'legendary'
+            ? { maskColor: TIER_COLORS.legendary.lockedMask }
+            : {}),
+        }
+      : {}),
+  };
+}
+
+/** Fraction of pixels that differ between two renders of the same size (any channel off by > 16). */
+export function pixelDiff(a: RenderSpec, b: RenderSpec, sizePt = 96): number {
+  const render = (spec: RenderSpec) => {
+    const viewport = viewportFor(layout(spec, sizePt), 1);
+    const art = renderToCanvas(frame(build(spec, sizePt), 1), viewport, napiCanvas);
+    const canvas = createCanvas(160, 160);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(art as unknown as Parameters<SKRSContext2D['drawImage']>[0], 0, 0);
+    return ctx.getImageData(0, 0, 160, 160).data;
+  };
+  const x = render(a);
+  const y = render(b);
+  let differing = 0;
+  for (let i = 0; i < x.length; i += 4) {
+    const off = [0, 1, 2, 3].some((k) => Math.abs((x[i + k] ?? 0) - (y[i + k] ?? 0)) > 16);
+    if (off) differing += 1;
+  }
+  return differing / (x.length / 4);
+}
+
+export function critterSpec(critterId: string, form?: FormSpec): RenderSpec {
+  const critter = byId.get(critterId);
+  if (critter === undefined) throw new Error(`unknown critter ${critterId}`);
+  return {
+    kind: critter.kind,
+    seed: canonicalSeed(critter),
+    ...(form === undefined
+      ? {}
+      : { form, ...(form.pose === undefined ? {} : { pose: form.pose }) }),
   };
 }
 

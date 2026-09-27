@@ -19,6 +19,7 @@
     "generate:app-icons": "tsx scripts/generate-app-icons.ts"
   },
   "dependencies": {
+    "@cp/content": "workspace:*",
     "@cp/critter-art": "workspace:*",
     "@cp/design-tokens": "workspace:*",
     "@napi-rs/canvas": "catalog:",

@@ -30,7 +30,7 @@ export const packageDeps = {
   db: ['domain'],
   'design-tokens': [],
   'critter-art': ['design-tokens'],
-  'critter-bake': ['critter-art', 'design-tokens'],
+  'critter-bake': ['critter-art', 'design-tokens', 'content'],
   'cost-engine': ['domain'],
   planner: ['domain', 'cost-engine'],
   entitlements: ['domain'],
