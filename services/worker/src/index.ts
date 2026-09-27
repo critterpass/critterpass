@@ -6,8 +6,15 @@ import { createClient } from 'redis';
 import packageJson from '../package.json' with { type: 'json' };
 
 import { loadWorkerEnv } from './env';
+import {
+  createBoss,
+  createFailureReporter,
+  startJobRuntime,
+  stopJobRuntime,
+  type AnyJobDefinition,
+} from './boss';
 import { createHealthApp } from './health';
-import { createCentrifugoApi, startRtRelay, type RtRelay } from './rt-relay';
+import { createCentrifugoApi, rtRelayJob, startRtRelayWake, type RtRelay } from './rt-relay';
 
 const env = loadWorkerEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'worker', commit: env.COMMIT_SHA } });
@@ -40,22 +47,44 @@ const health = createHealthApp({
   },
 });
 
-let rtRelay: RtRelay | undefined;
+const jobs: AnyJobDefinition[] = [];
+const relayEnabled = Boolean(env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY);
 if (env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY) {
-  rtRelay = startRtRelay({
-    pool,
-    api: createCentrifugoApi({
-      baseUrl: env.CENTRIFUGO_API_URL,
-      apiKey: env.CENTRIFUGO_HTTP_API_KEY,
-    }),
-    logger: logger.child({ component: 'rt-relay' }),
-    connectListener: () => new pg.Client({ connectionString: env.DATABASE_DIRECT_URL }),
-  });
+  jobs.push(
+    rtRelayJob(
+      createCentrifugoApi({ baseUrl: env.CENTRIFUGO_API_URL, apiKey: env.CENTRIFUGO_HTTP_API_KEY }),
+    ),
+  );
 } else {
   logger.warn(
     'rt_outbox relay is disabled: CENTRIFUGO_API_URL or CENTRIFUGO_HTTP_API_KEY is unset',
   );
 }
+
+const jobsLogger = logger.child({ component: 'jobs' });
+const boss = createBoss({ connectionString: env.DATABASE_DIRECT_URL, logger: jobsLogger });
+let rtRelay: RtRelay | undefined;
+const runtime = startJobRuntime({
+  boss,
+  deps: { pool, logger: jobsLogger },
+  jobs,
+  report: createFailureReporter(jobsLogger),
+})
+  .then(() => {
+    jobsLogger.info({ queues: jobs.map((job) => job.queue) }, 'job runtime started');
+    if (relayEnabled) {
+      rtRelay = startRtRelayWake({
+        pool,
+        boss,
+        logger: logger.child({ component: 'rt-relay' }),
+        connectListener: () => new pg.Client({ connectionString: env.DATABASE_DIRECT_URL }),
+      });
+    }
+  })
+  .catch((error: unknown) => {
+    jobsLogger.fatal({ err: error }, 'job runtime failed to start');
+    process.exit(1);
+  });
 
 const server = serve({ fetch: health.fetch, port: env.PORT }, (info) => {
   logger.info({ port: info.port }, 'worker health listening');
@@ -67,8 +96,10 @@ function shutdown(signal: string) {
   shuttingDown = true;
   logger.info({ signal }, 'draining');
   server.close(() => {
-    void (rtRelay?.stop() ?? Promise.resolve())
-      .catch((error: unknown) => logger.error({ err: error }, 'rt relay stop failed'))
+    void runtime
+      .then(() => rtRelay?.stop())
+      .then(() => stopJobRuntime(boss))
+      .catch((error: unknown) => logger.error({ err: error }, 'job runtime stop failed'))
       .then(() =>
         Promise.allSettled([pool.end(), redis.isOpen ? redis.close() : Promise.resolve()]),
       )

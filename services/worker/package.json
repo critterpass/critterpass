@@ -21,6 +21,7 @@
     "@hono/node-server": "catalog:",
     "hono": "catalog:",
     "pg": "catalog:",
+    "pg-boss": "catalog:",
     "pino": "catalog:",
     "redis": "catalog:",
     "zod": "catalog:"

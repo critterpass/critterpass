@@ -50,3 +50,11 @@ export {
   type MergeRule,
   type MergeStrategy,
 } from './merge-rules';
+export {
+  jobTxDatabase,
+  registerJobProducer,
+  resetJobProducerForTests,
+  sendInTx,
+  type JobProducer,
+  type SendInTxOptions,
+} from './jobs';
