@@ -495,7 +495,9 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/hazards?destination_id` (doc delta) | S | `hazard_alerts` (MAGMA, IMO, JMA, GVP), highest level first, `stale` after 3 h unread | 15 min |
 | `GET /v1/fx/snapshot?base` | S | Frankfurter v2 daily | 24 h, offline bundle |
 | `GET /v1/routes/eta` | S | Valhalla (+ Mapbox traffic for leave-by) | none |
-| `GET /v1/budget/{trip_id}/band` | S | SECURITY DEFINER aggregate (k ≥ 4) | none |
+| `GET /v1/budget/{trip_id}/band` | S | `trip_budget_aggregates`, written by the budget band worker job with `@cp/cost-engine` `computeBudgetBand` (band from k ≥ 3, dots from k ≥ 4; doc delta) | none |
+| `GET /v1/trips/{id}/costs?version` (doc delta) | S | stored calc as the caller may see it: own `share_calcs` row (lines, personal option deltas), every member's `trip_share_totals`, `cost_components`, freshness; `version` ≠ current → `VERSION_CONFLICT` | none |
+| `POST /v1/trips/{id}/costs/preview` (doc delta) | S | `{ops}` (ChangeSet ops) → caller's own delta, crew-wide `each_minor` when uniform, bookings moved, must-dos touched; `@cp/planner` + `@cp/cost-engine` | none |
 | `GET /v1/trips/{id}/offline-bundle?date` | S | manifest + signed URLs (bookings, phrases audio, FX, POIs, PMTiles region) | versioned |
 | `GET /v1/help/context?lat&lng&trip_id` | S | curated emergency + facilities | offline bundle |
 | `GET /v1/entitlements?trip_id` | S | entitlement service; ETag | push-invalidated |

@@ -1073,6 +1073,9 @@ importers:
       '@cp/entitlements':
         specifier: workspace:*
         version: link:../../packages/entitlements
+      '@cp/planner':
+        specifier: workspace:*
+        version: link:../../packages/planner
       '@hono/node-server':
         specifier: 'catalog:'
         version: 2.1.1(hono@4.13.9)
