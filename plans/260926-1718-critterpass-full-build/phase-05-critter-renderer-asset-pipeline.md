@@ -164,6 +164,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Templates with typed props (zod), post + 9:16 variants, postcard print variant. 2. `renderShareCardNode()` export for worker. 3. `ShareImageSheet` (undesigned; design in code): preview, format toggle, rendering + failure states, share sheet, Instagram Stories (background + sticker layers; hidden if app absent), save to Photos add-only via `expo-media-library` write-only permission. 4. Alt text per card. 5. Golden snapshots per template (Node backend) from realistic fixture data (content from design copy).
 - Tests: `pnpm --filter @cp/critter-art test -- share/templates && pnpm --filter @cp/mobile test -- ui/share-image`
 - Done when: 12 templates render in both backends; RNTL covers sheet states; snapshot goldens committed and reviewed against 3l-3/3m-*/3o-4 renders.
+- Status: done — 2431d09 (content is founder-reviewable placeholder copy, not sourced from design renders — see phase report; goldens are self-consistency snapshots, not yet reviewed against 3l-3/3m-*/3o-4 by a founder)
 
 ## Phase acceptance criteria
 
