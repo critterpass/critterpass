@@ -24,6 +24,8 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
   'change_set.rejected': { trip_id: crypto.randomUUID(), change_set_id: crypto.randomUUID() },
   'rsvp.changed': { trip_id: crypto.randomUUID(), user_id: crypto.randomUUID(), rsvp: 'in' },
   'auth.merged': { from_uid: crypto.randomUUID(), into_uid: crypto.randomUUID() },
+  'invite.opened': { join_code_id: crypto.randomUUID(), channel: 'wa' },
+  'attribution.claimed': { device_id: crypto.randomUUID(), via: 'paste', link_kind: 'invite' },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

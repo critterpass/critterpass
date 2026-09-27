@@ -159,7 +159,7 @@ Every command also emits the generic `cmd.applied` metric; listed events are dom
 | `request_data_export` | `{}` | self | – | `account.export_requested` → job | A | 45 |
 | `request_account_deletion` | `{reason?}` | self | – | `account.closed` (revoke sessions, schedule purge) | A | 45 |
 | `restore_account` | `{}` | self | within grace | `account.restored` | A | 45 |
-| `claim_attribution` | `{install_referrer?\|pasted_token?\|join_code?}` | self | – | `attribution.claimed` | A | 21 |
+| `claim_attribution` | exactly one of `{install_referrer\|pasted_url\|join_code\|opened_url\|phone: true}`; internal, reached through `POST /v1/links/claim` | self | – | `attribution.claimed` | A | 21 |
 
 Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) are Better Auth endpoints (§5.1), not commands.
 
@@ -506,12 +506,13 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 
 | Route | Host | Auth | Notes |
 |---|---|---|---|
-| `/i/{token}`, `/j/{code}` | `critterpass.app`, `go.critterpass.app` (Astro Worker) | P | invite landing; Universal/App Link; OG image from critter atlas |
+| `/i/{code}[/{seat}]`, `/j/{code}[/{seat}]` | `critterpass.app`, `go.critterpass.app` (Astro Worker) | P | invite landing; `/j/` is an alias of `/i/`; an `/i/` code resolves by its type (crew, trip or referral); Universal/App Link; OG image from critter atlas |
 | `/p/{token}` | web | P | public/unlisted shared plan viewer |
 | `/r/{code}` | web | P | referral |
 | `/.well-known/apple-app-site-association`, `/.well-known/assetlinks.json` | web | P | static |
-| `GET /v1/links/{token}/preview` | api | P (bot-filtered, 60/min/IP) | public-safe preview `{crew_name, inviter_first_name, trip_place?, members_count, expires_at, state}`; records `invite.opened` (first real open) |
-| `POST /v1/links/claim` | api | A | deferred link: `{install_referrer\|pasted_url\|code}`; validates host/path/HMAC |
+| `GET /v1/links/{token}/preview?kind=&seat=&c=` | api | P (bot-filtered, 60/min/IP) | `{token}` is the link's code or token, `kind` its link kind (default `invite`); public-safe preview `{kind, crew_name, inviter_first_name, trip_place?, members_count, expires_at, state}` (`state`: active/expired/revoked/full); records `invite.opened` (first human open, once per code); the web Worker passes the visitor's IP/UA with `x-cp-web-proxy` |
+| `GET /v1/codes/{code}` | api | P (10/min/IP, 30/h/device via `X-CP-Install-Id`) | live code only: preview + `{code, link}`; every other code (unknown, revoked, expired, used up, malformed) → the same 404 |
+| `POST /v1/links/claim` | api | A | `claim_attribution` envelope, run for the session uid: `{install_referrer\|pasted_url\|join_code\|opened_url\|phone: true}`; validates host/path/seat HMAC; one attribution per device (a later claim returns the first link with `replayed: true`); result `{matched, via, kind, state, link, crew_id, replayed}` |
 | `GET /account/delete` | web | P | Play web deletion requirement → sign-in + `request_account_deletion` |
 
 ### 5.7 Centrifugo proxies (P10)

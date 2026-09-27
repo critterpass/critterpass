@@ -7,8 +7,14 @@ import { projectActivity } from '../../src/events/activity-rules';
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
  * docstring: "private events stay out of the crew-visible ticker"). `auth.merged` describes an
  * identity operation on one account, not something any crew member should see in a shared feed.
+ * `invite.opened` and `attribution.claimed` are funnel signals about a link or a device, not crew
+ * activity.
  */
-const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set(['auth.merged']);
+const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
+  'auth.merged',
+  'invite.opened',
+  'attribution.claimed',
+]);
 
 function publicEventTypes(): readonly DomainEventType[] {
   return DOMAIN_EVENT_TYPES.filter((type) => !PRIVATE_EVENT_TYPES.has(type));

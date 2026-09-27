@@ -124,6 +124,16 @@ export const apiEnvSchema = z.object({
   MEDIA_HMAC_KEYS: optionalString,
   /** Key id in MEDIA_HMAC_KEYS new read URLs are signed with. */
   MEDIA_HMAC_ACTIVE_KID: optionalString,
+
+  // --- Links (docs/api-contracts.md §5.6) ---
+  /** JSON `{"kid": "secret"}` seat-token HMAC keys (kid 1-8 of [a-z0-9], secrets 32+ chars); unset =
+   *  no seat link verifies, so claims carrying a seat token are refused. */
+  SEAT_TOKEN_KEYS: optionalString,
+  /** Key id in SEAT_TOKEN_KEYS new seat tokens are signed with. */
+  SEAT_TOKEN_ACTIVE_KID: optionalString,
+  /** Shared with the web Worker's own `LINKS_WEB_PROXY_SECRET`: lets its server-side preview calls
+   *  pass the visitor's IP and user agent. Unset = visitor headers are ignored. */
+  LINKS_WEB_PROXY_SECRET: z.preprocess(emptyAsUndefined, z.string().min(32).optional()),
 });
 
 export type ApiEnv = z.infer<typeof apiEnvSchema>;

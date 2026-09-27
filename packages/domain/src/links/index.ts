@@ -44,3 +44,20 @@ export {
   type SeatTokenCheck,
   type SeatTokenKeyring,
 } from './seat-token';
+export {
+  ATTRIBUTION_VIAS,
+  attributionViaSchema,
+  claimAttributionPayloadSchema,
+  claimAttributionResultSchema,
+  codeLookupResponseSchema,
+  LINK_STATES,
+  linkKindSchema,
+  linkPreviewSchema,
+  linkStateSchema,
+  type AttributionVia,
+  type ClaimAttributionPayload,
+  type ClaimAttributionResult,
+  type CodeLookupResponse,
+  type LinkPreview,
+  type LinkState,
+} from './wire';

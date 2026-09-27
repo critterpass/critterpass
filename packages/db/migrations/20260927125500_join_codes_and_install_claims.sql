@@ -71,3 +71,16 @@ ALTER TABLE install_attributions
   ADD COLUMN link_kind text CHECK (
     link_kind IN ('invite', 'plan_share', 'referral', 'plan', 'guide', 'locals', 'app')
   );
+
+-- Keep in sync with packages/domain/src/events/catalogue.ts#DOMAIN_EVENT_TYPES: the first human
+-- open of an invite link and a device's install attribution claim.
+ALTER TABLE domain_events DROP CONSTRAINT domain_events_type_check;
+ALTER TABLE domain_events ADD CONSTRAINT domain_events_type_check CHECK (type IN (
+  'crew.member_joined', 'crew.member_left', 'crew.member_removed',
+  'trip.created', 'trip.status_changed',
+  'plan.version_created',
+  'change_set.proposed', 'change_set.applied', 'change_set.reverted', 'change_set.rejected',
+  'rsvp.changed',
+  'auth.merged',
+  'invite.opened', 'attribution.claimed'
+));
