@@ -52,7 +52,7 @@ export interface PermissionFixture {
  * Builds a crew of five real users plus one backing-row-free "anonymous" uid, seats
  * organiser/coOrganiser/member on one trip, and adds one row to every read-all catalogue table
  * (plan version/day/item, change set, activity event, guide action, a member-owned `cmd_results`
- * row, one public `client_config` entry, one `fx_snapshots` row) so a table-by-table SELECT sweep
+ * row, one public `client_config` entry, one `fx_snapshots` row, one trip `price_quotes` row) so a table-by-table SELECT sweep
  * always has something real to find or correctly fail to find.
  */
 export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionFixture> {
@@ -168,6 +168,12 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await insertTripParticipant(tx, { tripId, userId: organiser, role: 'organiser' });
     await insertTripParticipant(tx, { tripId, userId: coOrganiser, role: 'organiser' });
     await insertTripParticipant(tx, { tripId, userId: member, role: 'member' });
+    // A trip-scoped frozen quote (RLS class T): only the trip's crew members may read it.
+    await tx.query(
+      `INSERT INTO price_quotes (trip_id, kind, origin, destination_id, amount_minor, currency, source, fetched_at, frozen_at)
+       VALUES ($1, 'flight', 'SIN', $2, 13900, 'USD', 'travelpayouts', now(), now())`,
+      [tripId, matrixProbeDestinationId],
+    );
 
     const versionId = await insertItineraryVersion(tx, {
       tripId,

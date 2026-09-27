@@ -37,6 +37,15 @@ export {
 export { cities, llmPois, mapRegions, poiEmbeddings, poiLiveChecks, pois } from './places';
 export { changeSets, guideActions, itineraryVersions, planDays, planItems } from './plan';
 export { activityEvents, cmdLog, cmdResults, domainEvents, rtOutbox } from './platform';
+export {
+  crowdForecasts,
+  fareCells,
+  hazardAlerts,
+  priceQuotes,
+  seasonEvents,
+  seasonMonths,
+  weatherSnapshots,
+} from './travel-data';
 export { destinations, guides, tripParticipants, trips } from './trips';
 export {
   accountDeletions,

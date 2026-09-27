@@ -11,6 +11,7 @@ import { z } from 'zod';
 
 import { tripParticipantRsvpSchema, tripStatusSchema } from '../enums/trip';
 import { itineraryVersionVisibilitySchema } from '../enums/plan';
+import { TRAVEL_DATA_EVENT_PAYLOADS } from '../travel-data/events';
 
 export const DOMAIN_EVENT_TYPES = [
   'crew.member_joined',
@@ -28,6 +29,9 @@ export const DOMAIN_EVENT_TYPES = [
   'invite.opened',
   'attribution.claimed',
   'guide_action.undone',
+  'fare.dropped',
+  'forecast.changed',
+  'hazard.changed',
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
 export type DomainEventType = z.infer<typeof domainEventTypeSchema>;
@@ -74,6 +78,7 @@ const DOMAIN_EVENT_CATALOGUE = {
     undo_action_id: z.uuid(),
     change_set_id: z.uuid(),
   }),
+  ...TRAVEL_DATA_EVENT_PAYLOADS,
 } as const satisfies Record<DomainEventType, z.ZodType>;
 
 export function getDomainEventPayloadSchema(type: DomainEventType): z.ZodType {

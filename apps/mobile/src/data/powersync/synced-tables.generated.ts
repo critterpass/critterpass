@@ -22,6 +22,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'crew_id user_id role colour status keep_in_chat:integer joined_epoch:integer left_at last_read_message_id notify_level created_at updated_at',
   crews:
     'name settlement_currency member_ceiling:integer membership_epoch:integer created_by created_at updated_at',
+  crowd_forecasts: 'poi_id dow:integer hourly source fetched_at created_at updated_at',
   destinations:
     'slug name country coverage colour currency best_months tz geofence created_at updated_at',
   devices:
@@ -33,6 +34,8 @@ export const SYNCED_TABLE_COLUMNS = {
   guide_offers:
     'trip_id message_id kind slots_total:integer slots_taken:integer expires_at target_ref status created_at updated_at',
   guides: 'slug name colour persona_pack_version voice_id local_words created_at updated_at',
+  hazard_alerts:
+    'destination_id kind subject level:integer level_label headline source source_url issued_at expires_at fetched_at created_at updated_at',
   inbox_items:
     'user_id crew_id trip_id notification_id kind needs_you:integer actions deep_link expires_at undo_until resolved_at created_at updated_at',
   itinerary_versions:
@@ -51,11 +54,17 @@ export const SYNCED_TABLE_COLUMNS = {
   plan_items:
     'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at',
   pois: 'destination_id name name_local category lat:real lng:real location address hours hours_verified_at price_level:integer source_ids editorial tags fts status curation merged_into_id geofence visit_radius_m:integer timezone last_live_check_at created_at updated_at',
+  price_quotes:
+    'trip_id kind origin destination_id dates amount_minor:integer currency source fetched_at frozen_at version:integer created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',
   roundups:
     'user_id local_date tz guide_id notification_ids lines sent_at fallback_used:integer created_at updated_at',
   scheduled_deliveries:
     'user_id kind target_ref send_at_local tz due_at payload status created_at updated_at',
+  season_events:
+    'destination_id key kind name starts_on ends_on confidence source source_url sourced_on forecast_updated_at reviewed_at created_at updated_at',
+  season_months:
+    'destination_id month:integer crowd_index:integer price_index:integer price_index_source highlight_tag colour_role source source_url sourced_on reviewed_at created_at updated_at',
   trip_entitlements:
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
   trip_participants:
@@ -70,4 +79,6 @@ export const SYNCED_TABLE_COLUMNS = {
     'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer created_at updated_at',
   users:
     'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at created_at updated_at',
+  weather_snapshots:
+    'destination_id point_key lat:real lng:real elevation_m:integer date hourly marine source fetched_at checked_at created_at updated_at',
 } as const;

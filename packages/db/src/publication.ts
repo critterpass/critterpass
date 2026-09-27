@@ -42,11 +42,15 @@ import * as schema from './schema';
  * own API calls, never replicated to a client.
  * `moderation_reports` (packages/db/src/schema/ops-console.ts) is "S" as well: a reporter may insert
  * their own report but never read any report back; only the ops console reads the queue.
+ * `fare_cells` (packages/db/src/schema/travel-data.ts) is RLS "R" but served over HTTP only
+ * (`/v1/fares`, `/v1/destinations/{id}`): nightly fare cells for every origin are too many rows, and
+ * too volatile, for a client to hold.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'cities',
   'fair_use_counters',
+  'fare_cells',
   'install_attributions',
   'media_objects',
   'moderation_reports',
