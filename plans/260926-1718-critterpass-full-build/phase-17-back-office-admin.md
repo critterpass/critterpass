@@ -101,6 +101,7 @@ Handoff — panels later phases add under their own `apps/admin/src/modules/<are
 - Steps: 1. Drizzle schema for `ops.concierge_tasks`, `ops.approvals`, `ops.partner_adapters`, `moderation_reports`; `ops_config.version`. 2. SQL: `admin_reader` column grants generated from the privacy map (script output checked in), audit append-only trigger, RLS for `moderation_reports` + `ops.approvals`. 3. Seed partner adapter rows (all `enabled=false`, `copy_mode='link'`; viator_booking `enabled=true`, `copy_mode='booking'`). 4. Extend permission matrix.
 - Tests: `pnpm --fail-if-no-match --filter @cp/db test -- permissions/admin-reader permissions/ops-console permissions/moderation-reports`
 - Done when: `admin_reader` SELECT on any C3 column fails; `app_user` cannot read `ops.*`; UPDATE/DELETE on `ops.admin_audit` fails for every role; reporter can insert own report only.
+- Status: done — ba3f743
 
 ### T2 — Admin auth, role policy, audited admin command pipeline
 - Goal: `/v1/admin/*` guarded, every mutation audited atomically.
@@ -108,6 +109,7 @@ Handoff — panels later phases add under their own `apps/admin/src/modules/<are
 - Steps: 1. Separate admin Better Auth instance (basePath `/v1/admin/auth`, cookie prefix `cp_admin`, 12 h absolute) + `admin` plugin role config + `ADMIN_ALLOWLIST` check. 2. Guard: session role, Cloudflare Access JWT header verification (`CF_ACCESS_AUD`), rate limit per admin. 3. `runAdminCommand` = standard command pipeline (idempotent op_id, zod) + policy fn + `ops.admin_audit` insert in same tx + `actor.via='admin'`. 4. Read helper `withAdminReader`. 5. `/v1/admin/me`, admin OpenAPI doc.
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- admin/guard admin/audit` (Testcontainers Postgres)
 - Done when: non-allow-listed or role-less user gets `FORBIDDEN`; missing Access header gets 401 in prod config; a failing command leaves no audit row; a successful one leaves exactly one with ip_hash.
+- Status: done — 4edf5a9
 
 ### T3 — Admin SPA scaffold, kit, deploy
 - Goal: signed-in shell with role-aware nav, module registry and deploy.
@@ -115,6 +117,7 @@ Handoff — panels later phases add under their own `apps/admin/src/modules/<are
 - Steps: 1. Vite + React 19 + TanStack Router/Query; typed `hc` client against api admin routes. 2. Kit: table (keyset pagination), form-from-zod, diff view, confirm dialog, queue view, state components (loading/empty/error/conflict/forbidden/offline) styled from `packages/design-tokens` CSS. 3. Registry + nav + home counters. 4. Wrangler deploy: static assets + Worker reverse proxy `/v1/admin/*` → api (same-origin; forwards Access JWT, strips client-supplied `Cf-Access-*` on other paths) + CSP headers.
 - Tests: `pnpm --fail-if-no-match --filter @cp/admin test && pnpm --fail-if-no-match --filter @cp/admin build && pnpm --fail-if-no-match --filter @cp/admin exec playwright test auth.spec.ts`
 - Done when: Playwright signs in against local api (docker-compose) as `support` and sees only support nav; unauthenticated visit redirects to sign-in; `pnpm lint` passes boundaries (no `packages/db` import).
+- Status: done — 034b04d
 
 ### T4 — Catalogue editor, flags, partner adapters
 - Goal: content/ops editing of existing catalogue + config.
@@ -122,6 +125,7 @@ Handoff — panels later phases add under their own `apps/admin/src/modules/<are
 - Steps: 1. `defineCatalogue` registrations: guides (C5 colour read-only), destinations, POIs (calls P14 `upsert_poi`, MapLibre pin preview). 2. `upsert_catalogue_item` with version check → `CONFLICT`. 3. Flags editor with typed key registry (`packages/domain/src/admin/config-keys.ts`), audiences, critical two-step confirm, `flag.changed` via `rt_outbox`. 4. `set_partner_adapter` toggles adapter + `supplier.<partner>.*` flags in one tx.
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- admin/catalogue admin/flags admin/partners && pnpm --fail-if-no-match --filter @cp/admin exec playwright test catalogue.spec.ts flags.spec.ts`
 - Done when: changing `guide.free_daily_limit` updates `client_config` and emits one `rt_outbox` row; concurrent edit returns `CONFLICT` and UI shows diff; enabling `klook_activity` flips its copy flag.
+- Status: done — 9ad8ce5
 
 ### T5 — Moderation intake and queue
 - Goal: users can report content; ops can act on it.
