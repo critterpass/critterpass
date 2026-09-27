@@ -1018,6 +1018,9 @@ importers:
       '@cp/ai':
         specifier: workspace:*
         version: link:../../packages/ai
+      '@cp/cost-engine':
+        specifier: workspace:*
+        version: link:../../packages/cost-engine
       '@cp/db':
         specifier: workspace:*
         version: link:../../packages/db

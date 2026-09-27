@@ -8,6 +8,7 @@ import type pg from 'pg';
 
 import type { AppEnv } from '../app';
 import type { SessionResolver } from '../commands/_framework/session';
+import { registerDestinationRoute } from './destination-route';
 import { registerFaresRoute } from './fares-route';
 
 export interface TravelDataRouteDeps {
@@ -20,4 +21,5 @@ export function registerTravelDataRoutes(
   deps: TravelDataRouteDeps,
 ): void {
   registerFaresRoute(app, deps);
+  registerDestinationRoute(app, deps);
 }

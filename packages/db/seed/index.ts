@@ -10,6 +10,7 @@ import { createPool } from '../src/client';
 import { withSystem } from '../src/tx';
 import { seedCatalogProductsPerks } from './catalog-products-perks';
 import { seedCrewBaliSix } from './crew-bali-six';
+import { seedSeason } from './season/load';
 import { seedTripKyotoSolo } from './trip-kyoto-solo';
 
 interface SeedGuide {
@@ -82,6 +83,7 @@ async function seedCatalogue(tx: pg.PoolClient): Promise<void> {
 
 export async function seed(pool: pg.Pool): Promise<void> {
   await withSystem(pool, seedCatalogue);
+  await seedSeason(pool);
   await seedCatalogProductsPerks(pool);
   await seedCrewBaliSix(pool);
   await seedTripKyotoSolo(pool);

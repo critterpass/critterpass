@@ -9,6 +9,7 @@ import type pg from 'pg';
 
 import { resolveDestination } from './destination-ref';
 import { readFares } from './fares-read';
+import { convertWithSnapshots } from './fx';
 
 function readAs<T>(pool: pg.Pool, context: ToolContext, fn: (tx: pg.PoolClient) => Promise<T>) {
   return withUser(pool, context.uid, 'guide', fn);
@@ -38,6 +39,26 @@ export function registerTravelDataToolExecutors(registry: ToolRegistry, pool: pg
               seen_at: fare.seen_at as string,
             })),
       );
+    }),
+  );
+
+  // Converted at the stored snapshot rate; no snapshot relating the pair = unavailable, never a
+  // guessed rate.
+  registry.registerToolExecutor('fx', (input, context) =>
+    readAs(pool, context, async (tx) => {
+      const conversion = await convertWithSnapshots(
+        tx,
+        input.amount_minor,
+        input.from.toUpperCase(),
+        input.to.toUpperCase(),
+      );
+      if (conversion === null)
+        throw new Error(`no FX snapshot relates ${input.from} and ${input.to}`);
+      return {
+        amount_minor: conversion.to.amount_minor,
+        rate: conversion.rate,
+        snapshot_id: conversion.snapshot_id,
+      };
     }),
   );
 }

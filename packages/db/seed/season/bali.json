@@ -1,0 +1,160 @@
+{
+  "destination": "bali",
+  "months": [
+    {
+      "month": 1,
+      "crowd_index": 76,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "BPS-Statistics Indonesia Bali Province, Q1 2025 foreign arrivals cited by Bali Post",
+      "source_url": "https://www.balipost.com/news/2025/05/03/455233/Dibandingkan-Tahun-Sebelumnya,Jumlah-Wisman...html",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 2,
+      "crowd_index": 65,
+      "price_index": null,
+      "highlight_tag": "FEB CHEAPEST",
+      "colour_role": "cheapest",
+      "source": "BPS-Statistics Indonesia Bali Province, Q1 2025 foreign arrivals cited by Bali Post",
+      "source_url": "https://www.balipost.com/news/2025/05/03/455233/Dibandingkan-Tahun-Sebelumnya,Jumlah-Wisman...html",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 3,
+      "crowd_index": 68,
+      "price_index": null,
+      "highlight_tag": "MAR NYEPI",
+      "colour_role": "cheapest",
+      "source": "BPS-Statistics Indonesia Bali Province, Perkembangan Pariwisata Provinsi Bali Maret 2025",
+      "source_url": "https://bali.bps.go.id/en/pressrelease/2025/05/02/717955/perkembangan-pariwisata-provinsi-bali-maret-2025.html",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 4,
+      "crowd_index": 85,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "BPS-Statistics Indonesia Bali Province, Perkembangan Pariwisata Provinsi Bali April 2025",
+      "source_url": "https://bali.bps.go.id/id/pressrelease/2025/06/02/717964/perkembangan-pariwisata-provinsi-bali-april-2025.html",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 5,
+      "crowd_index": 86,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "BPS-Statistics Indonesia Bali Province, Perkembangan Pariwisata Provinsi Bali Mei 2025",
+      "source_url": "https://bali.bps.go.id/en/pressrelease/2025/07/01/717970/perkembangan-pariwisata-provinsi-bali-mei-2025.html",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 6,
+      "crowd_index": 92,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "peak",
+      "source": "BPS-Statistics Indonesia Bali Province, Perkembangan Pariwisata Provinsi Bali Juli 2025 (June comparison)",
+      "source_url": "https://bali.bps.go.id/id/pressrelease/2025/09/01/717984/perkembangan-pariwisata-provinsi-bali-juli-2025.html",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 7,
+      "crowd_index": 100,
+      "price_index": null,
+      "highlight_tag": "JUL PEAK",
+      "colour_role": "peak",
+      "source": "BPS-Statistics Indonesia Bali Province, Perkembangan Pariwisata Provinsi Bali Juli 2025",
+      "source_url": "https://bali.bps.go.id/id/pressrelease/2025/09/01/717984/perkembangan-pariwisata-provinsi-bali-juli-2025.html",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 8,
+      "crowd_index": 98,
+      "price_index": null,
+      "highlight_tag": "AUG PEAK",
+      "colour_role": "peak",
+      "source": "BPS-Statistics Indonesia Bali Province, Perkembangan Pariwisata Provinsi Bali Agustus 2025",
+      "source_url": "https://bali.bps.go.id/en/pressrelease/2025/10/01/717985/perkembangan-pariwisata-provinsi-bali-agustus-2025.html",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 9,
+      "crowd_index": 91,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "BPS-Statistics Indonesia Bali Province, Perkembangan Pariwisata Provinsi Bali September 2025",
+      "source_url": "https://bali.bps.go.id/en/pressrelease/2025/11/03/717994/perkembangan-pariwisata-provinsi-bali--september-2025.html",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 10,
+      "crowd_index": 85,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "BPS-Statistics Indonesia Bali Province, Perkembangan Pariwisata Provinsi Bali November 2025 (October comparison)",
+      "source_url": "https://bali.bps.go.id/id/pressrelease/2026/01/05/718008/perkembangan-pariwisata-provinsi-bali-november-2025.html",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 11,
+      "crowd_index": 69,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "BPS-Statistics Indonesia Bali Province, Perkembangan Pariwisata Provinsi Bali November 2025",
+      "source_url": "https://bali.bps.go.id/id/pressrelease/2026/01/05/718008/perkembangan-pariwisata-provinsi-bali-november-2025.html",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 12,
+      "crowd_index": 82,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "BPS-Statistics Indonesia Bali Province, Tourism Overview of Bali Province December 2025",
+      "source_url": "https://bali.bps.go.id/en/pressrelease/2026/02/02/718014/tourism-overview-of-bali-province--december-2025.html",
+      "sourced_on": "2026-09-28"
+    }
+  ],
+  "events": [
+    {
+      "key": "nyepi-day-of-silence",
+      "kind": "holiday",
+      "name": "Nyepi (Balinese Day of Silence), Saka New Year 1949",
+      "starts_on": "2027-03-08",
+      "ends_on": "2027-03-08",
+      "confidence": "confirmed",
+      "source": "Kalender Bali Digital, Saka calendar calculation",
+      "source_url": "https://www.m.kalenderbali.org/?bl=3&tg=8&th=2027",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "galungan-kuningan-january-2027",
+      "kind": "ceremony",
+      "name": "Galungan and Kuningan",
+      "starts_on": "2027-01-13",
+      "ends_on": "2027-01-23",
+      "confidence": "typical",
+      "source": "Bali 210-day pawukon calendar, Galungan/Kuningan date projection",
+      "source_url": "https://www.bali-island.com/travel-tips/list-of-galungan-and-kuningan-dates-2026-in-bali/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "galungan-kuningan-august-2027",
+      "kind": "ceremony",
+      "name": "Galungan and Kuningan",
+      "starts_on": "2027-08-11",
+      "ends_on": "2027-08-21",
+      "confidence": "typical",
+      "source": "Bali 210-day pawukon calendar, Galungan/Kuningan date projection",
+      "source_url": "https://www.bali-island.com/travel-tips/list-of-galungan-and-kuningan-dates-2026-in-bali/",
+      "sourced_on": "2026-09-28"
+    }
+  ]
+}
