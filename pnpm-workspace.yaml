@@ -23,7 +23,9 @@ catalog:
   '@messageformat/parser': 5.1.1
   '@napi-rs/canvas': 1.0.9
   '@parse/node-apn': 8.1.0
+  '@powersync/common': 2.3.0
   '@powersync/node': 1.1.0
+  '@powersync/react-native': 2.3.0
   '@testcontainers/postgresql': 12.1.0
   '@testcontainers/redis': 12.1.0
   '@types/estree': 1.0.9
@@ -36,6 +38,7 @@ catalog:
   babel-plugin-dynamic-import-node: 2.3.3
   better-auth: 1.7.6
   better-sqlite3: 12.11.1
+  better-sqlite3-multiple-ciphers: 13.0.3
   cbor: 10.0.12
   centrifuge: 5.7.4
   drizzle-kit: 0.31.10
@@ -83,6 +86,7 @@ allowBuilds:
   '@firebase/util': true
   '@parcel/watcher': true
   better-sqlite3: true
+  better-sqlite3-multiple-ciphers: true
   cpu-features: false
   esbuild: true
   protobufjs: false
