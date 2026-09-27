@@ -6,3 +6,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../services/worker/src/jobs/roundup/template.ts
+msgid "notifications.roundup.subtitle"
+msgstr "{count, plural, one {# thing for tomorrow} other {# things for tomorrow}}"
+
+#: ../../services/worker/src/jobs/roundup/template.ts
+msgid "notifications.roundup.title"
+msgstr "{guide}'s evening roundup"
+
+#: ../../services/worker/src/jobs/roundup/template.ts
+msgid "notifications.roundup.titleWithoutGuide"
+msgstr "Your evening roundup"

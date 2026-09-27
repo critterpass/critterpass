@@ -1,1 +1,1 @@
-import type{Messages}from"@lingui/core";export const messages=JSON.parse("{}")as Messages;
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"notifications.roundup.subtitle\":[[\"count\",\"plural\",{\"one\":[\"#\",\"    ţĥĩńĝ ƒōŕ ţōḿōŕŕōŵ   \"],\"other\":[\"#\",\"     ţĥĩńĝś ƒōŕ ţōḿōŕŕōŵ    \"]}]],\"notifications.roundup.title\":[[\"guide\"],\"   'ś ēvēńĩńĝ ŕōũńďũƥ   \"],\"notifications.roundup.titleWithoutGuide\":[\"    Ŷōũŕ ēvēńĩńĝ ŕōũńďũƥ    \"]}")as Messages;

@@ -1,1 +1,1 @@
-import type{Messages}from"@lingui/core";export const messages=JSON.parse("{}")as Messages;
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"notifications.roundup.subtitle\":[[\"count\",\"plural\",{\"one\":[\"#\",\" thing for tomorrow\"],\"other\":[\"#\",\" things for tomorrow\"]}]],\"notifications.roundup.title\":[[\"guide\"],\"'s evening roundup\"],\"notifications.roundup.titleWithoutGuide\":[\"Your evening roundup\"]}")as Messages;

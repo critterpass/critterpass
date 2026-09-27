@@ -6,3 +6,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: fr\n"
+
+#: ../../services/worker/src/jobs/roundup/template.ts
+msgid "notifications.roundup.subtitle"
+msgstr ""
+
+#: ../../services/worker/src/jobs/roundup/template.ts
+msgid "notifications.roundup.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/roundup/template.ts
+msgid "notifications.roundup.titleWithoutGuide"
+msgstr ""

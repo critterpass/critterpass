@@ -3,7 +3,7 @@
  * preferences (defaults while they have never changed any), locale, the time zone their day runs
  * in, and whether the app is on screen right now.
  *
- * Time zone (docs/product-decisions.md Q-84): while the recipient is on a trip that is under way
+ * Time zone (docs/product-decisions.md, roundup zone): while the recipient is on a trip under way
  * the trip's zone is their day; otherwise their most recently seen device's zone, then their
  * profile zone, then UTC. `roundup_tz = 'device'` opts the evening roundup out of the trip zone.
  */
