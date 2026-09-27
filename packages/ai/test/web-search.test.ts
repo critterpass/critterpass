@@ -12,6 +12,7 @@ import {
   TAVILY_MAX_EXCLUDED_DOMAINS,
   TAVILY_SEARCH_URL,
   WEB_SEARCH_MAX_RESULTS,
+  WEB_SEARCH_SNIPPET_CHARS,
   webSources,
   type SearchHit,
   type SearchProvider,
@@ -147,6 +148,15 @@ describe('web search executor', () => {
         fetched_at: NOW.toISOString(),
       },
     ]);
+  });
+
+  it('clips a long extract without splitting an emoji, so the request stays valid JSON', async () => {
+    const content = `${'a'.repeat(WEB_SEARCH_SNIPPET_CHARS - 1)}🏮 lanterns`;
+    const { provider } = providerReturning([hit('https://kyoto.travel/en/events', content)]);
+    const output = await createWebSearchExecutor(provider)({ query: 'Kyoto events' }, CONTEXT);
+    const snippet = output.results[0]?.snippet ?? '';
+    expect(snippet).toBe(`${'a'.repeat(WEB_SEARCH_SNIPPET_CHARS - 1)}…`);
+    expect(snippet.isWellFormed()).toBe(true);
   });
 
   it('drops a regional-domain leak the provider let through, and reports it', async () => {

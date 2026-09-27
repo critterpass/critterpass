@@ -135,6 +135,13 @@ export const QUEUES = {
     expireInSeconds: 30 * 60,
     cron: { expr: '0 4 * * *', tz: 'Asia/Singapore' },
   }),
+  // Monthly: web research proposes the month three months ahead's dated events for review.
+  'season.research': spec({
+    policy: 'stately',
+    retryLimit: 1,
+    expireInSeconds: 30 * 60,
+    cron: { expr: '0 5 1 * *', tz: 'Asia/Singapore' },
+  }),
   'ops.backup': spec({
     policy: 'stately',
     retryLimit: 2,

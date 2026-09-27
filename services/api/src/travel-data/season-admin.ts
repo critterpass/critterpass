@@ -7,10 +7,17 @@
  * Rows are drafts unless `approve` is set: an edit clears `reviewed_at`, so a changed curve is
  * hidden from the app until a reviewer approves it again. A blossom or foliage forecast edit stamps
  * `forecast_updated_at`.
+ *
+ * The season review queue is every unreviewed event (web research candidates and edited drafts),
+ * listed with its source for a content reviewer; `review_season_event` approves one (served from
+ * then on) or rejects it (removed), audited like the upsert.
  */
 import {
+  canReviewSeasonEvents,
   canUpsertSeasonEditorial,
   DomainError,
+  reviewSeasonEventInputSchema,
+  type ReviewSeasonEventInput,
   upsertSeasonEditorialInputSchema,
   type PolicyActor,
   type SeasonEditorial,
@@ -124,4 +131,76 @@ export async function handleUpsertSeasonEditorial(
     events: input.events.length,
     reviewed,
   };
+}
+
+export interface SeasonReviewQueueRow {
+  readonly id: string;
+  readonly destination_id: string;
+  readonly key: string;
+  readonly kind: string;
+  readonly name: string;
+  readonly starts_on: string;
+  readonly ends_on: string;
+  readonly confidence: string;
+  readonly source: string;
+  readonly source_url: string | null;
+  readonly sourced_on: string;
+}
+
+/** The season review queue, soonest first; one destination's when `destinationId` is given. */
+export async function listSeasonReviewQueue(
+  tx: pg.PoolClient,
+  actor: PolicyActor,
+  destinationId?: string,
+): Promise<SeasonReviewQueueRow[]> {
+  const decision = canReviewSeasonEvents(actor);
+  if (!decision.ok) throw new DomainError(decision.deny);
+  const { rows } = await tx.query<SeasonReviewQueueRow>(
+    `SELECT id, destination_id, key, kind, name, starts_on::text, ends_on::text, confidence, source,
+            source_url, sourced_on::text
+       FROM season_events
+      WHERE reviewed_at IS NULL AND ($1::uuid IS NULL OR destination_id = $1)
+      ORDER BY starts_on, key`,
+    [destinationId ?? null],
+  );
+  return rows;
+}
+
+export const reviewSeasonEventResultSchema = z.object({
+  event_id: z.uuid(),
+  decision: z.enum(['approve', 'reject']),
+});
+export type ReviewSeasonEventResult = z.infer<typeof reviewSeasonEventResultSchema>;
+
+export const reviewSeasonEventContract = {
+  name: 'review_season_event' as const,
+  input: reviewSeasonEventInputSchema,
+  result: reviewSeasonEventResultSchema,
+};
+
+export const reviewSeasonEventPolicy = canReviewSeasonEvents;
+
+/** Approves (sets `reviewed_at`) or rejects (deletes) one queued event; `tx` from `withSystem`. */
+export async function handleReviewSeasonEvent(
+  tx: pg.PoolClient,
+  actor: PolicyActor,
+  rawInput: ReviewSeasonEventInput,
+): Promise<ReviewSeasonEventResult> {
+  const decision = canReviewSeasonEvents(actor);
+  if (!decision.ok) throw new DomainError(decision.deny);
+  const input = reviewSeasonEventInputSchema.parse(rawInput);
+  const { rows } = await tx.query<{ destination_id: string }>(
+    input.decision === 'approve'
+      ? `UPDATE season_events SET reviewed_at = now()
+          WHERE id = $1 AND reviewed_at IS NULL RETURNING destination_id`
+      : 'DELETE FROM season_events WHERE id = $1 AND reviewed_at IS NULL RETURNING destination_id',
+    [input.event_id],
+  );
+  if (rows.length === 0) throw new DomainError('NOT_FOUND');
+  await tx.query(
+    `INSERT INTO ops.admin_audit (admin_id, action, target_kind, target_id)
+     VALUES ($1, $2, 'season_event', $3)`,
+    [actor.uid, `review_season_event.${input.decision}`, input.event_id],
+  );
+  return { event_id: input.event_id, decision: input.decision };
 }

@@ -117,11 +117,17 @@ export function screenSearchQuery(query: string, privateTerms: readonly string[]
   return rest.replace(/\s+/gu, ' ').trim();
 }
 
+/**
+ * Cuts to the snippet length without splitting a surrogate pair: half an emoji serialises as a lone
+ * `\\u` escape, which the provider rejects as invalid JSON.
+ */
 function clipSnippet(text: string): string {
   const flat = text.replace(/\s+/gu, ' ').trim();
-  return flat.length <= WEB_SEARCH_SNIPPET_CHARS
-    ? flat
-    : `${flat.slice(0, WEB_SEARCH_SNIPPET_CHARS)}…`;
+  if (flat.length <= WEB_SEARCH_SNIPPET_CHARS) return flat;
+  const last = flat.charCodeAt(WEB_SEARCH_SNIPPET_CHARS - 1);
+  const end =
+    last >= 0xd800 && last <= 0xdbff ? WEB_SEARCH_SNIPPET_CHARS - 1 : WEB_SEARCH_SNIPPET_CHARS;
+  return `${flat.slice(0, end)}…`;
 }
 
 /** The `web_search` executor over one provider; register it with `registerToolExecutor`. */

@@ -1,7 +1,7 @@
 ---
 phase: 15
 title: Fares, weather/marine, season & crowd data
-status: in_progress
+status: done
 depends_on: [8, 11, 13]
 wave: 7
 features: [F-033, F-034, F-035]
@@ -161,6 +161,7 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 - Steps: 1. Monthly job per destination: code builds queries from destination, month and event keywords (no user data) and calls the gateway's `web_search` tool (phase 13 T13). 2. A structured extraction returns candidate events `{name, starts_on, ends_on, source_url, fetched_at}`. 3. Candidates land in the season review queue with their sources and are deduplicated against existing `season_events`. 4. Nothing is served until a human sets `reviewed_at`.
 - Tests: `pnpm --filter @cp/worker test -- travel-data/season-research`; review-gate test (unreviewed rows never served).
 - Done when: a destination-month run proposes cited candidates into the review queue, and unreviewed rows never reach any route.
+- Status: done — 3bef4b3c
 
 ## Phase acceptance criteria
 

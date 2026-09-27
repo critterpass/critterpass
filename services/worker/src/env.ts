@@ -46,6 +46,9 @@ export const workerEnvSchema = z.object({
   ANTHROPIC_API_KEY: optionalString,
   /** Override of that endpoint; unset = https://api.deepseek.com/anthropic. */
   ANTHROPIC_BASE_URL: optionalUrl,
+  /** Tavily search key for `season.research` (src/travel-data/season-research.ts); unset (or no
+   *  ANTHROPIC_API_KEY) = the monthly season events research does not run. */
+  TAVILY_API_KEY: optionalString,
   /** TypeSafe Jev key for typed decisions (`compliance.check`, src/ai/compliance-job.ts); unset =
    *  decisions answer from the fast-tier twin. */
   TYPESAFE_API_KEY: optionalString,

@@ -1,0 +1,61 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-28: query \"Kyoto, Japan public holidays and closures December 2026\".",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Kyoto, Japan public holidays and closures December 2026",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.japanhighlights.com/japan/public-holiday",
+          "title": "Japan Public Holidays 2026 - a Full List for You to Plan Your Trip",
+          "content": "New Year's Day is one of the longest holidays in Japan. Many companies and government offices close from around December 26 to January 4.\n\nDuring the New Year holiday, shrines are very crowded, as many locals visit to take part in New Year rituals. If you want to experience this atmosphere, visit Senso-ji (Asakusa) in Tokyo on January 1 or 2. [...] ## Japan Public Holidays in January 2026\n\n New Year's Day: Dec. 26 - Jan. 4 (10-day holiday)\n Coming of the Age Day: Jan. 10-Jan. 12 (3-day holiday)\n\nJapan public holiday January scheduleJapan's public holiday schedule in January\n\nIn January, many Japanese people can take up to 12 days off. This includes a 10-day New Year holiday and 3 days for Coming of Age Day. [...] |  |  |  |\n --- \n| Festival | Consecutive Holiday Dates | Days |\n| New Year's Day | Dec. 26-Jan. 4 | 10 |\n| Coming of Age Day | Jan. 10-Jan. 12 | 3 |\n| National Foundation Day | Feb. 11 | 1 |\n| Emperor's Birthday | Feb. 21 - Feb. 23 | 3 |\n| Vernal Equinox Day | Mar. 20 - Mar. 22 | 3 |\n| Golden Week | Apr. 29 - May 6 | 8 |\n| Marine Day | July 18-July 20 | 3 |\n| Students' Summer Break | Mid-July to the end of Aug. | One month |\n| Mountain Day | August 11 | 1 |",
+          "score": 0.7738498,
+          "raw_content": null,
+          "published_date": null,
+          "id": "8a71d3-00"
+        },
+        {
+          "url": "https://matcha-jp.com/en/3662",
+          "title": "Japan Public Holiday Calendar 2026-2027: Events, Travel Tips",
+          "content": "Although it is not a public holiday, the New Year’s holiday period from December 28 to January 4 often brings crowds to shopping centers and public transportation across Japan.\n\nReservations for public transportation are difficult to make due to the influx of people returning home for the new year. Shopping districts and centers are also packed with crowds of people cleaning and making preparations for the new year.\n\n## FAQ\n\n### How many public holidays does Japan have? [...] Public holidays in Japan do not universally require shops and businesses to close, so many remain open. However, certain businesses, particularly government offices, banks, and some smaller shops and restaurants, may close or have modified hours on public holidays. Additionally, some larger retailers and department stores may choose to be open to accommodate holiday shoppers. It's always best to confirm the operating hours of specific shops and businesses in advance, especially if you plan to [...] Japan Fall Foliage 2026 Forecast: 25 Destinations and Tips\n Tokyo Fall Foliage 2026: Top 12 Gardens and Parks in Autumn\n\n  Tokyo Fall Foliage 2026: Top 12 Gardens and Parks in Autumn\n\n  Tokyo\n Kyoto Fall Foliage 2026: The 12 Best Spots for Autumn Colors\n\n  Kyoto Fall Foliage 2026: The 12 Best Spots for Autumn Colors\n\n  Kyoto\n\n## 19. New Year’s Holidays: December 29 - January 3",
+          "score": 0.7533401,
+          "raw_content": null,
+          "published_date": "Mon, 14 Sep 2026 00:00:00 GMT",
+          "id": "9c98a0-01"
+        },
+        {
+          "url": "https://selfguidejapan.com/blog/japan-public-holidays-2026",
+          "title": "Japan Holidays 2026: All 17 Public Holidays, the Calendar & What They Do to Your Trip | BluePlanet",
+          "content": "Dec 29 – Jan 3\n\n## Why Japanese Holidays Affect Your Trip More Than You Expect\n\nTwo things to know. First, most attractions stay open on public holidays — Japan isn't like a European city where everything shutters. What does close: banks, government offices, some clinics, and a chunk of small family-run restaurants. [...] January 1 is the only official New Year's holiday, but in practice the country slows down for several days. Japan's biggest holiday is the New Year, with almost all businesses closing down between December 29 and January 3. Many people visit family and home towns, pray at a shrine on January 1 (known as hatsumode), and eat special foods called osechi ryori.\n\nTokyo at night with illuminated Tokyo Tower and city lights [...] Japan has 16 fixed national holidays each year, but 2026 will have 17 total holidays. The extra day comes from a rule that turns any weekday sandwiched between two holidays into an additional day off. In September 2026, this creates a bonus holiday on the 22nd, sitting between Respect for the Aged Day and Autumn Equinox Day. That's Silver Week, and it's a big deal.\n\nGolden Week\n\nApr 29 – May 6\n\nObon\n\nAug 13 – 16\n\nSilver Week\n\nSep 19 – 23\n\nNew Year\n\nDec 29 – Jan 3",
+          "score": 0.72254705,
+          "raw_content": null,
+          "published_date": "Mon, 18 May 2026 00:00:00 GMT",
+          "id": "53e4ae-02"
+        },
+        {
+          "url": "https://travel.rakuten.com/contents/usa/en-us/guide/japanese-national-holidays-golden-week",
+          "title": "Japan National Holidays and Golden Week Dates 2026/2027",
+          "content": "| September 23 | Autumnal Equinox Day (Shubun no Hi) |\n| October 11 | Sports Day (Supootsu no Hi) |\n| November 3 | Culture Day (Bunka no Hi) |\n| November 23 | Labor Thanksgiving Day (Kinro Kansha no Hi) |\n| December 31 | New Year’s Eve (O-misoka) | [...] | September 23 | Autumnal Equinox Day (Shubun no Hi) |\n| October 12 | Sports Day (Supootsu no Hi) |\n| November 3 | Culture Day (Bunka no Hi) |\n| November 23 | Labor Thanksgiving Day (Kinro Kansha no Hi) |\n| December 31 | New Year’s Eve (O-misoka) |\n| [...] ## Japanese national holidays 2026\n\nThe dates of national holidays, New Year, and Obon for 2026 are as follows. Dates in bold aren’t official public holidays, but will likely see lots of closures. Several holidays in 2026 fall on Sunday and are therefore observed the following Monday instead.",
+          "score": 0.6929958,
+          "raw_content": null,
+          "published_date": "Sun, 04 Jan 2026 23:00:00 GMT",
+          "id": "8dc4fd-03"
+        },
+        {
+          "url": "https://www.discoverkyoto.com/visitors-guide/public-holidays-japan",
+          "title": "Public Holidays in Japan | Discover Kyoto",
+          "content": "|  |  |\n --- |\n| New Year's Day | January 1st |\n| Coming of Age Day | second Monday of January |\n| Foundation Day | February 11th |\n| Emperor's Birthday | February 23rd |\n| Vernal Equinox Day | around March 20th |\n| Shōwa Day | April 29th |\n| Constitution Memorial Day | May 3rd |\n| Greenery Day | May 4th |\n| Children's Day | May 5th |\n| Marine Day | third Monday of July |\n| Mountain Day | August 11th |\n| Respect for the Aged Day | third Monday of September | [...] |  | Weekdays | Saturdays | Sundays & National Holidays |\n ---  --- |\n| Banks | 09:00 – 15:00 | closed | closed |\n| Post Offices | 09:00 – 17:00 | closed | closed |\n| Department Stores | 10:00 – 20:00 | 10:00 – 20:00 | 10:00 – 19:30 |\n| Shops | 10:00 – 20:00 | 10:00 – 20:00 | 10:00 – 20:00 |\n| Museums | 10:00 – 17:00 | 10:00 – 17:00 | 10:00 – 17:00 |\n| Offices | 09:00 – 17:00 | closed | closed | [...] TIPS\n\nJapan has long vacations 3 times a year when many Japanese people take trips or return to their hometown. During these periods we recommend that you reserve your hotels and transportation well in advance or choose different dates, if you can, to avoid the crowds!\n\n■ Golden Week: April 29th – May 5th ■ Obon Week: August 13th – 15th■ New Year: December 29th – January 3rd  \n(Some shops start business on January 2nd, but banks are closed through January 3rd.)\n\n## USUAL BUSINESS HOURS",
+          "score": 0.5775198,
+          "raw_content": null,
+          "published_date": null,
+          "id": "154a60-04"
+        }
+      ],
+      "response_time": 1.09,
+      "request_id": "3342a7a1-45da-4da1-959a-a6ae1b9a5a78"
+    }
+  }
+}

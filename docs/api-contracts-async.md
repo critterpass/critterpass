@@ -131,6 +131,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `fares.refresh` | `0 2 * * *` SGT | Travelpayouts calendars for active origins × candidates; price-drop detect (AI-03) | 15 |
 | `crowds.refresh` | `0 3 * * *` SGT | expires weekly crowd patterns older than 90 d (no hourly source contracted) | 15 |
 | `season.ingest` | `0 4 * * *` SGT, works Mondays and inside blossom/foliage windows | month `price_index` from fares (≥ 3 origins); bloom/legendary windows → reminder reschedule | 15, 40 |
+| `season.research` | `0 5 1 * *` SGT | per live destination, code-built `web_search` queries (destination, month three ahead, event keywords) → `season.research` extraction → cited candidates in the season review queue (`season_events`, `reviewed_at` null, deduplicated); served only once a content reviewer approves (D23) | 15 |
 | `weather.refresh` (doc delta) | `*/15 * * * *`; each point due at 3 h, 1 h within 48 h of an outdoor item, 15 min marine while under way | WeatherAPI.com forecast + marine → `weather_snapshots`; `forecast.changed` on material change | 15 |
 | `hazards.refresh` (doc delta) | `*/15 * * * *`; reads hourly, every tick while a trip is under way | MAGMA / IMO / JMA / GVP → `hazard_alerts`; `hazard.changed` on a level move | 15 |
 | `briefing.build` | per user local morning (`scheduled_events`) | AI-27 | 36 |
