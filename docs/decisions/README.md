@@ -55,10 +55,12 @@ serving box sized for matrices, or when transit routing needs something Mapbox c
 Valhalla tooling in `tools/spikes/` stays. The Railway Valhalla spike services and their volume
 were deleted the same day.
 
-## Open founder decision: Mapbox routing terms
+## Mapbox routing terms: build as designed, review before launch
 
-Two clauses of the Mapbox product terms limit how routing results can be used. They are recorded
-in `services/api/src/routing/README.md` and are not settled:
+Two clauses of the Mapbox product terms limit how routing results can be used (recorded in
+`services/api/src/routing/README.md`). On 2026-09-27 the founder chose to build the designed
+behaviour during development (stored leave-by times, the timed meet-up ETA refresh) and to settle
+the terms, with Mapbox or by changing the behaviour, in the legal review before launch:
 
 - **§2.10.1**: no caching or storing of Directions or Matrix results. The provider keeps no
   response cache; whether a derived value such as a plan item's leave-by time may be stored needs
