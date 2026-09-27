@@ -5,6 +5,7 @@ import path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import {
+  hostApp,
   parseCaptureArgs,
   parseEasJson,
   pickIosRuntime,
@@ -159,5 +160,32 @@ describe('parseEasJson', () => {
 
   it('fails clearly when there is no JSON', () => {
     expect(() => parseEasJson('Not logged in')).toThrow(/no JSON output/);
+  });
+});
+
+describe('hostApp', () => {
+  let dir: string;
+  beforeEach(() => {
+    dir = mkdtempSync(path.join(tmpdir(), 'cp-archive-'));
+  });
+  afterEach(() => rmSync(dir, { recursive: true, force: true }));
+
+  it('takes a lone top-level app', () => {
+    mkdirSync(path.join(dir, 'CritterPassDev.app'));
+    expect(hostApp(dir)).toBe(path.join(dir, 'CritterPassDev.app'));
+  });
+
+  it('skips the App Clip that sits next to the app in a products folder', () => {
+    const products = path.join(dir, 'Release-iphonesimulator');
+    mkdirSync(path.join(products, 'CritterpassClip.app'), { recursive: true });
+    mkdirSync(path.join(products, 'CritterPassDev.app', 'AppClips', 'CritterpassClip.app'), {
+      recursive: true,
+    });
+    expect(hostApp(dir)).toBe(path.join(products, 'CritterPassDev.app'));
+  });
+
+  it('finds nothing in an archive without an app', () => {
+    writeFileSync(path.join(dir, 'readme.txt'), 'no app');
+    expect(hostApp(dir)).toBeUndefined();
   });
 });
