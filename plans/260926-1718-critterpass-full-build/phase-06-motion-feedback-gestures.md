@@ -126,6 +126,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Cue table from tokens. 2. SFX pool preload per category; volume per category. 3. Audio session manager (ambient default; playback for voice/TTS). 4. Prefs in MMKV (`cp.motion.*`). 4a. `tools/scripts/check-audio-assets.ts`: every cue in `sound.tokens.json` with an SFX column and every guide in the music manifest has a licensed asset; `--mode release` fails, PR mode warns. 5. Quiet on the road window (device tz), context mutes; `alarm`/`sos` bypass. 6. Haptics toggle; SFX sourced from a licensed/owned library (credits file).
 - Tests: `pnpm --filter @cp/mobile jest src/motion/feedback`.
 - Done when: tests prove quiet window mutes `slap` but not `sos`; category off mutes only its cues; haptic still fires under Reduce Motion.
+- Status: done — 6f0b593 (no licensed SFX assets exist yet — a launch-gate founder dependency; every cue falls back to haptic-only, `check-audio-assets.ts --mode release` fails until they land)
 
 ### T8 — Music themes engine
 - Goal: per-guide theme playback with crossfade, ducking, previews and levels.
@@ -133,6 +134,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Manifest maps guideId → asset (from content/licensing), loop points, sample clip. 2. Two-player crossfade 1.5 s; `crossfadeTo(guideId)` for landing and theme tap. 3. `duck(-12dB)` / `unduck` for TTS/voice. 4. `preview('music' | 'effects', level)` for 3n-7 sliders. 5. Level meter shared value from player metering for bar animation. 6. Interruption handling; guide without asset → `available: false`.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/music`.
 - Done when: crossfade volumes sum correctly over time (fake timers); missing asset reported unavailable.
+- Status: done — 6f0b593 (no licensed music themes yet — a launch-gate founder dependency; all 6 guides are `available: false` in `manifest.json`, theme cards hidden)
 
 ### T9 — Press & gesture kit
 - Goal: GH3-based hooks with thresholds from tokens and a11y action descriptors.
