@@ -63,6 +63,7 @@ jobs:
     outputs:
       mobile: ${{ steps.filter.outputs.mobile }}
       critter_art: ${{ steps.filter.outputs.critter_art }}
+      critter_macos: ${{ steps.filter.outputs.critter_macos }}
     steps:
       - uses: actions/checkout@v7
       - uses: dorny/paths-filter@v4
@@ -81,6 +82,16 @@ jobs:
               - 'packages/critter-art/golden/**'
               - 'packages/critter-art/package.json'
               - 'design/**'
+            critter_macos:
+              - 'packages/critter-art/**'
+              - 'packages/critter-bake/**'
+              - 'apps/mobile/plugins/**'
+              - 'apps/mobile/app.config.ts'
+              - 'apps/mobile/generated/critter-art/**'
+              - 'apps/mobile/targets/**'
+              - 'apps/mobile/jest.config.js'
+              - 'design/**'
+              - '.github/workflows/ci.yml'
 
   critter-art-golden:
     name: critter art golden (Chromium + Node parity)
@@ -109,6 +120,41 @@ jobs:
           name: critter-art-golden
           path: packages/critter-art/golden/out/
           retention-days: 7
+
+  # Suites excluded from the Linux `checks` job by `CP_MACOS_SUITES` (see the vitest/jest configs of
+  # @cp/critter-art, @cp/critter-bake and @cp/mobile): real-Chromium tests, share-card goldens
+  # rendered on macOS arm64, and the config plugin's check of `expo prebuild` output.
+  critter-art-macos:
+    name: critter art macOS suites (Chromium, share goldens, prebuild plugin)
+    needs: changes
+    if: needs.changes.outputs.critter_macos == 'true'
+    runs-on: macos-latest
+    timeout-minutes: 30
+    env:
+      CP_MACOS_SUITES: '1'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      # Node 24: Playwright's browser installer hung after downloading on Node 26 runners.
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Install Chromium
+        timeout-minutes: 5
+        run: pnpm --filter @cp/critter-art exec playwright install chromium
+      - name: critter-art browser and share-card golden suites
+        run: >-
+          pnpm --filter @cp/critter-art exec vitest run
+          src/web/critter-sticker.test.ts src/share/templates/templates.test.ts
+      - name: critter-bake app icon design fidelity
+        run: pnpm --filter @cp/critter-bake exec vitest run src/templates/app-icons-design-fidelity.test.ts
+      - name: Expo prebuild
+        run: pnpm --filter @cp/mobile exec expo prebuild --clean --no-install
+      - name: Config plugin output
+        run: pnpm --filter @cp/mobile exec jest --maxWorkers=2 plugins/__tests__/with-critter-art
+      - name: Remove prebuild output
+        if: always()
+        run: rm -rf apps/mobile/ios apps/mobile/android
 
   release-bundle:
     name: release bundle excludes dev routes
