@@ -1,0 +1,71 @@
+name: E2E tests (Android)
+
+# Cloud-only Maestro run on an EAS-hosted Android emulator: fingerprint the project, reuse the
+# last e2e-test build for that fingerprint when one exists, and only trigger a new build when
+# nothing matches (JS-only changes should never consume the account's monthly build quota).
+# android_system_image_package pins API 36 (Android surfaces are designed against API 36).
+#
+# Two maestro jobs rather than one: a skipped job in `needs` cascades a skip to its dependents
+# (EAS Workflows docs, "Job status cascade"), so a single maestro job depending on both `find_build`
+# and the conditionally-skipped `build` would itself always be skipped. Exactly one of
+# maestro_existing_build / maestro_new_build runs per invocation.
+#
+# Both maestro jobs pin `runs_on: linux-medium-nested-virtualization`, which EAS Workflows
+# requires for a hardware-accelerated Android Emulator. As of this writing the emulator still
+# fails to boot ("Failed to configure emulator (null): emulator with required ID not found")
+# regardless of API level, because this project has the newer c3d-standard Android build
+# infrastructure enabled; c3d machines don't support nested virtualization. A founder with
+# dashboard access needs to opt this project back to the previous (n2-standard) Android build
+# infrastructure at https://expo.dev/accounts/critterpass/projects/critterpass/settings before
+# this workflow's maestro jobs can pass (docs/code-standards.md §17: cloud E2E ladder).
+on:
+  workflow_dispatch:
+    inputs:
+      flows:
+        type: string
+        required: false
+        # Maestro resolves flow_path relative to the app's base directory (apps/mobile), not the
+        # git repo root where e2e/ actually lives; tools/scripts/e2e-cloud.ts converts a
+        # repo-root-relative --flows value to this form before invoking the workflow.
+        default: ../../e2e/smoke/app-launch.yaml
+        description: Maestro flow file or directory, relative to apps/mobile, to run
+
+jobs:
+  fingerprint:
+    type: fingerprint
+    environment: development
+
+  find_build:
+    needs: [fingerprint]
+    type: get-build
+    params:
+      platform: android
+      profile: e2e-test
+      fingerprint_hash: ${{ needs.fingerprint.outputs.android_fingerprint_hash }}
+
+  build:
+    needs: [find_build]
+    if: ${{ !needs.find_build.outputs.build_id }}
+    type: build
+    params:
+      platform: android
+      profile: e2e-test
+
+  maestro_existing_build:
+    needs: [find_build]
+    if: ${{ needs.find_build.outputs.build_id }}
+    type: maestro
+    runs_on: linux-medium-nested-virtualization
+    params:
+      build_id: ${{ needs.find_build.outputs.build_id }}
+      flow_path: ${{ inputs.flows }}
+      android_system_image_package: system-images;android-36;google_apis;arm64-v8a
+
+  maestro_new_build:
+    needs: [build]
+    type: maestro
+    runs_on: linux-medium-nested-virtualization
+    params:
+      build_id: ${{ needs.build.outputs.build_id }}
+      flow_path: ${{ inputs.flows }}
+      android_system_image_package: system-images;android-36;google_apis;arm64-v8a
