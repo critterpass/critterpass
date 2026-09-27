@@ -6,6 +6,7 @@ import { createClient } from 'redis';
 
 import packageJson from '../package.json' with { type: 'json' };
 
+import { aiJobs } from './ai';
 import { loadWorkerEnv } from './env';
 import {
   createBoss,
@@ -57,7 +58,10 @@ const health = createHealthApp({
   },
 });
 
-const jobs: AnyJobDefinition[] = [enqueueDueJob(), purgeJob(), anonGcJob()];
+const jobs: AnyJobDefinition[] = [enqueueDueJob(), purgeJob(), anonGcJob(), ...aiJobs(env)];
+if (env.ANTHROPIC_API_KEY === undefined) {
+  logger.warn('ai.batch.poll is disabled: ANTHROPIC_API_KEY is unset');
+}
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&
   env.BACKUP_S3_BUCKET &&

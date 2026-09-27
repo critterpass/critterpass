@@ -20,3 +20,7 @@ place of `fetch`, so the real SDK client parses them end to end.
 | `haiku-stream-tool-use.json` | streamed turn that calls `places_search` (`stop_reason: tool_use`) |
 | `haiku-stream-after-tool.json` | streamed answer after a `TOOL_UNAVAILABLE` tool result |
 | `haiku-stream-refusal.json` | streamed turn ending in `stop_reason: refusal` |
+| `batch-create.json` | Message Batches create response (`processing_status: in_progress`) |
+| `batch-in-progress.json` | batch retrieve while still processing |
+| `batch-ended.json` | batch retrieve once ended, with `results_url` and request counts |
+| `batch-results.json` | `.jsonl` results out of request order: two `succeeded` (batch service tier), one `errored` |

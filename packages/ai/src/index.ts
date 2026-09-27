@@ -192,3 +192,30 @@ export {
   type RunTurnInput,
   type TurnHooks,
 } from './runner/turn';
+export {
+  createBatchClient,
+  type BatchClient,
+  type BatchClientOptions,
+  type BatchItemResult,
+  type BatchProcessingStatus,
+  type BatchRequest,
+  type BatchStatus,
+} from './batch';
+export {
+  AGENT_STEP_STATUSES,
+  agentInputHash,
+  agentJobPayloadSchema,
+  agentJobStepSchema,
+  alignSteps,
+  initialSteps,
+  startAgentJob,
+  stepsPct,
+  updateStep,
+  type AgentJobPayload,
+  type AgentJobStep,
+  type AgentStepStatus,
+  type EnqueueInTx,
+  type RowsClient,
+  type StartAgentJobInput,
+  type StartedAgentJob,
+} from './job-steps';

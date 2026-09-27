@@ -31,6 +31,11 @@ export const workerEnvSchema = z.object({
   CENTRIFUGO_API_URL: optionalUrl,
   /** Same value as the Centrifugo service's CENTRIFUGO_HTTP_API_KEY. */
   CENTRIFUGO_HTTP_API_KEY: optionalString,
+  /** Claude API key for Message Batches (`ai.batch.poll`, src/ai/batch-poll.ts); unset = the batch
+   *  poll job is not registered (nothing can submit a batch without it either). */
+  ANTHROPIC_API_KEY: optionalString,
+  /** Local-development override of the Anthropic endpoint; unset = Anthropic's API. */
+  ANTHROPIC_BASE_URL: optionalUrl,
   /** Nightly `ops.backup` (src/jobs/ops/backup.ts): a role that can read every schema with
    *  BYPASSRLS. Staging and production need it and the BACKUP_S3_* set; without them the job fails
    *  and dead-letters instead of skipping. Local development runs no backup unless they are set. */
