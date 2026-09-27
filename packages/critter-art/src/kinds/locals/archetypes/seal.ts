@@ -78,7 +78,7 @@ export const seal: ArchetypeFn = (sink, options, spec, colors) => {
     [18, 72],
     [29, 66],
   ];
-  // T8 epic pose (design gives `seal` no pose of its own): the right flipper raises in a wave.
+  // Epic pose (design gives `seal` no pose of its own): the right flipper raises in a wave.
   const rightFlipper: Point[] = epicPose
     ? mirrorX(flipper).map(([x, y]): Point => [x, y - 12])
     : mirrorX(flipper);

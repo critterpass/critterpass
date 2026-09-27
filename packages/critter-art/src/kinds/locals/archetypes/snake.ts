@@ -86,7 +86,7 @@ export const snake: ArchetypeFn = (sink, options, spec, colors) => {
     ],
     2.6,
   );
-  // T8 epic pose (design gives `snake` no pose of its own): the tongue-flick reaches out further.
+  // Epic pose (design gives `snake` no pose of its own): the tongue-flick reaches out further.
   F(
     sink,
     epicPose

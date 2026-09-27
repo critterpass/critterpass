@@ -219,7 +219,7 @@ export function build(spec: RenderSpec, sizePt: number): Model {
   const { sink, ops: rawOps } = createOpBuilder(spec.seed, options.ink);
   registration.fn(sink, options);
 
-  // `tilt`/`hop` (T8): whole-body transforms for kinds design itself never gives a pose. Applied to
+  // `tilt`/`hop`: whole-body transforms for kinds design itself never gives a pose. Applied to
   // the complete authored op list -- the sticker/edge outline below is built from this same `ops`,
   // so it moves with the body automatically instead of needing its own transform.
   const pose = resolvePose(spec);

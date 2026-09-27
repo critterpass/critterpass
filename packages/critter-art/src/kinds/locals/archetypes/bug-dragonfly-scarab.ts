@@ -10,7 +10,7 @@ import type { ArchetypeColors } from '../types';
 
 /** design/critters-draw-2.js `A.bug` branch `v === 'dragonfly'` (Plitvice). */
 export function drawDragonfly(sink: OpSink, options: KindDrawOptions, colors: ArchetypeColors): void {
-  // T8 epic pose (design gives `bug` no pose of its own): all four wings tilt up and spread wider.
+  // Epic pose (design gives `bug` no pose of its own): all four wings tilt up and spread wider.
   const wingTilt = isEpicPose(options.pose) ? 0.14 : 0;
   for (const [x, y, rx, ry, rot] of [
     [27, 42, 20, 6.5, -0.22 - wingTilt],
@@ -90,7 +90,7 @@ export function drawScarab(sink: OpSink, options: KindDrawOptions, colors: Arche
     sink.line(leg, { w: 2 });
     sink.line(mirrorX(leg), { w: 2 });
   }
-  // T8 epic pose (design gives `bug` no pose of its own): forelegs raise higher, sun disk grows.
+  // Epic pose (design gives `bug` no pose of its own): forelegs raise higher, sun disk grows.
   const forelegs: readonly [Point, Point, Point][] = epicPose
     ? [
         [[38, 44], [26, 30], [32, 18]],

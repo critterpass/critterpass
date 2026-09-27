@@ -56,12 +56,12 @@ describe('drawSparkExtras', () => {
   });
 });
 
-// T8's own "done when": every archetype + guide has an epic pose whose render visibly differs from
-// the common (unposed) render. `cheer` is design's own pose for sit/bird/lizard and the 4 posed
-// guides (already real, ported geometry, T3/T5/T6); `tilt` is T8's whole-body transform for the 12
-// pose-less archetypes and the 2 pose-less guides (sardine/alpaca), each combined with the bespoke
-// flourish `poses.ts`'s callers add per archetype (or, for the guides, nothing beyond the transform
-// itself, since sardine/alpaca have no pose-conditional geometry to begin with).
+// Every archetype and guide must have an epic pose whose render visibly differs from the common
+// (unposed) render. `cheer` is design's own pose for sit/bird/lizard and 4 of the 6 guides (already
+// real, ported geometry); `tilt` is the whole-body transform for the 12 pose-less archetypes and the
+// 2 pose-less guides (sardine/alpaca), each combined with the bespoke flourish `poses.ts`'s callers
+// add per archetype (or, for the guides, nothing beyond the transform itself, since sardine/alpaca
+// have no pose-conditional geometry to begin with).
 const ARCHETYPE_EPIC_POSE: Readonly<Record<ArchetypeName, Pose>> = {
   sit: 'cheer',
   stand: 'tilt',
@@ -119,7 +119,7 @@ function pctPixelsDiffer(a: Uint8ClampedArray, b: Uint8ClampedArray): number {
   return differing / pixelCount;
 }
 
-describe('epic pose vs common pose: every archetype and guide must visibly differ (T8)', () => {
+describe('epic pose vs common pose: every archetype and guide must visibly differ', () => {
   const localCases = Object.entries(ARCHETYPE_EPIC_POSE).map(([archetype, pose]) => {
     const representative = critters.find(
       (c) => !isGuideSpec(c.spec) && c.spec.b === (archetype as ArchetypeName),

@@ -3,8 +3,8 @@ import type { FormSpec } from '../core/model';
 // The only forms the design source actually draws (design-analysis report §3.4): Tokek's rare and
 // epic recolours, and Pon's Sakura legendary. Golden Tokek's *unlocked* palette is undesigned (the
 // design only shows its locked silhouette, C20) — "gold palette derived from 4a-3 gold-cover gecko"
-// per the phase's own note; picked here as a founder-reviewable starting point (T8 gallery), not a
-// verified design value. The other 148 critters' forms are phase 18's content factory to author.
+// picked here as a founder-reviewable starting point (see the review gallery), not a verified design
+// value. The other 148 critters' forms are the content factory's to author.
 
 export interface DesignedForm {
   readonly critterId: string;

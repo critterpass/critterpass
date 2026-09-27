@@ -35,7 +35,7 @@ export const crab: ArchetypeFn = (sink, options, spec, colors) => {
     [24, 40],
     [16, 44],
   ];
-  // T8 epic pose (design gives `crab` no pose of its own): the right claw raises in a pinch-cheer.
+  // Epic pose (design gives `crab` no pose of its own): the right claw raises in a pinch-cheer.
   const clawLift = 14;
   for (const mm of [0, 1]) {
     const raise = epicPose && mm === 1;

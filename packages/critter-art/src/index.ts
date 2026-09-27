@@ -43,7 +43,7 @@ export { isGuideSpec } from './data/types';
 export type { ArchetypeName, ColorTriplet, Critter, CritterSpec, GuideSpec, Place, SetGroup } from './data/types';
 
 // Form/tier model: zod schemas for the `critters.art_params` / `critter_forms.palette,pose,edge`
-// jsonb columns (docs/data-model.md), tier colours + edge ring styles (phase 5 asserts equality
+// jsonb columns (docs/data-model.md), tier colours + edge ring styles (mobile asserts equality
 // against `@cp/design-tokens`), the designed-form fixtures (Tokek rare/epic/legendary, Sakura Pon
 // legendary), and CritterDex-entry -> `RenderSpec` resolution.
 export {

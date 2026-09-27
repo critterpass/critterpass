@@ -56,7 +56,8 @@ function isProduction(): boolean {
 }
 
 /**
- * Resolves a kind (or CritterDex id, once T6 wires that mapping) to its registration. Outside
+ * Resolves a kind (or a CritterDex id, aliased to its kind by `locals/register.ts`) to its
+ * registration. Outside
  * production this throws on an unknown kind, so missing art surfaces immediately in development
  * and tests instead of silently drawing the wrong thing; in production it logs the miss and falls
  * back to `spark`, matching the design's own fallback (`K[kind] || K.spark`) so a bad id degrades

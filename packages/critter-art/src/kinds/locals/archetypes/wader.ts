@@ -132,7 +132,7 @@ export const wader: ArchetypeFn = (sink, options, spec, colors) => {
   sink.wash(neck.polygon, colors.f);
   const head = blobPolygon(hx, hy, hr, hr * 0.92, 0.85, 14);
   sink.wash(head, colors.f);
-  // T8 epic pose (design gives `wader` no pose of its own): the wing lifts as if flapping.
+  // Epic pose (design gives `wader` no pose of its own): the wing lifts as if flapping.
   const wingLift = epicPose ? 7 : 0;
   const restingWing: Point[] = isFloating
     ? [

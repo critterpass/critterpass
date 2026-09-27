@@ -26,7 +26,7 @@ export const turtle: ArchetypeFn = (sink, options, spec, colors) => {
         [20, 81],
         [27, 78],
       ];
-  // T8 epic pose (design gives `turtle` no pose of its own): the right flipper raises like a wave.
+  // Epic pose (design gives `turtle` no pose of its own): the right flipper raises like a wave.
   const rightFlipper: Point[] = epicPose
     ? mirrorX(flipper).map(([x, y]): Point => [x, y - 9])
     : mirrorX(flipper);

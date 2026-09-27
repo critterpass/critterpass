@@ -41,7 +41,7 @@ export const whale: ArchetypeFn = (sink, options, spec, colors) => {
     : isHumpback
       ? [[64, 38], [69, 31], [74, 40]]
       : [[48, 38], [57, 24], [64, 39]];
-  // T8 epic pose (design gives `whale` no pose of its own): the side fin slaps up out of the water.
+  // Epic pose (design gives `whale` no pose of its own): the side fin slaps up out of the water.
   const restingSideFin: Point[] = isHumpback
     ? [[30, 66], [22, 87], [30, 89], [40, 70]]
     : [[34, 64], [30, 76], [42, 67]];

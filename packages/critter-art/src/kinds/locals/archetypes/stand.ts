@@ -38,7 +38,7 @@ export const stand: ArchetypeFn = (sink, options, spec, colors) => {
   const bodyExponent = 0.85;
   const epicPose = isEpicPose(options.pose);
   const hx = isDachshund ? 28 : isElephant ? 31 : 30;
-  // T8 epic pose (design gives `stand` no pose of its own): head tips up, as if calling out.
+  // Epic pose (design gives `stand` no pose of its own): head tips up, as if calling out.
   const hy = (isGiraffe ? 16 : isGuanaco ? 21 : isDachshund ? 53 : isElephant ? 35 : 32) - (epicPose ? 5 : 0);
   const k = isElephant ? 0.8 : 0.7;
   const headFrame: HeadFrame = { x: hx, y: hy, k };

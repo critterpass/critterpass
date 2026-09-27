@@ -47,7 +47,7 @@ export const fish: ArchetypeFn = (sink, options, spec, colors) => {
       { w: 1.4, color: '#6fa8ff' },
     );
   }
-  // T8 epic pose (design gives `fish` no pose of its own): the top fin flicks up, where one exists.
+  // Epic pose (design gives `fish` no pose of its own): the top fin flicks up, where one exists.
   const finLift = epicPose ? 5 : 0;
   const topFin: readonly Point[] | undefined = (
     spec.fins === 'spiky'

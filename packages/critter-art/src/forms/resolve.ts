@@ -12,7 +12,7 @@ export function canonicalSeed(critter: Critter): number {
   return isGuideSpec(critter.spec) ? 7 : critter.no;
 }
 
-/** The designed fixture for a critter + rarity (Tokek rare/epic/legendary, Pon legendary); `undefined` for the 148 critters phase 18's content factory has not authored a form for yet. */
+/** The designed fixture for a critter + rarity (Tokek rare/epic/legendary, Pon legendary); `undefined` for the 148 critters the content factory has not authored a form for yet. */
 export function findDesignedForm(critterId: string, rarity: DesignedForm['form']['rarity']): DesignedForm | undefined {
   return DESIGNED_FORMS.find((f) => f.critterId === critterId && f.form.rarity === rarity);
 }

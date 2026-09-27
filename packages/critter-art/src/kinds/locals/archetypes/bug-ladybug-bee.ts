@@ -59,7 +59,7 @@ export function drawLadybug(
     { w: 2 },
   );
   sink.line(head, { w: 2.3, close: true });
-  // T8 epic pose (design gives `bug` no pose of its own): antennae perk up further, tips enlarged.
+  // Epic pose (design gives `bug` no pose of its own): antennae perk up further, tips enlarged.
   const epicPose = isEpicPose(options.pose);
   const antennae: readonly [Point, Point, Point][] = epicPose
     ? [
@@ -120,7 +120,7 @@ export function drawBee(sink: OpSink, options: KindDrawOptions, colors: Archetyp
     CRITTER_INK,
     1.5,
   );
-  // T8 epic pose (design gives `bug` no pose of its own): antennae perk up further, tips enlarged.
+  // Epic pose (design gives `bug` no pose of its own): antennae perk up further, tips enlarged.
   const antennae: readonly [Point, Point, Point][] = epicPose
     ? [
         [[44, 34], [38, 14], [30, 9]],

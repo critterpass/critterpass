@@ -47,7 +47,7 @@ describe('paletteSchema / poseSchema / edgeStyleSchema / formSpecSchema', () => 
     expect(result.success).toBe(true);
   });
 
-  it('accepts every Pose value including the T8 tilt/hop poses', () => {
+  it('accepts every Pose value including the whole-body tilt/hop poses', () => {
     for (const pose of ['idle', 'wave', 'cheer', 'think', 'point', 'sleep', 'crack', 'tilt', 'hop']) {
       expect(poseSchema.safeParse(pose).success).toBe(true);
     }

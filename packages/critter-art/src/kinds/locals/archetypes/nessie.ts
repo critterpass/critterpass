@@ -42,7 +42,7 @@ export const nessie: ArchetypeFn = (sink, options, _spec, colors) => {
   sink.line(neck.left.slice(0, n - 1), { w: 2.3 });
   sink.line(neck.right.slice(0, n - 1), { w: 2.3 });
   sink.line(head, { w: 2.5, close: true });
-  // T8 epic pose (design gives `nessie` no pose of its own): the head crests reach up further.
+  // Epic pose (design gives `nessie` no pose of its own): the head crests reach up further.
   const crestExtra = epicPose ? 4 : 0;
   for (const [x, y] of [
     [29, 19],

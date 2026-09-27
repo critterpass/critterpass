@@ -9,9 +9,9 @@ import { isGuideSpec } from '../src/data/types';
 import { findDesignedForm } from '../src/forms/resolve';
 
 // The pose every archetype/guide reviews best under when no rarity-specific form is authored yet
-// (T8's own pixel-diff test, `src/kinds/locals/poses.test.ts`, verifies each of these actually
-// differs from the common render by > 3% of pixels). `cheer` is design's own pose where it exists
-// (sit, bird, lizard, and 4 of the 6 guides); `tilt` is T8's whole-body transform for the rest.
+// (`src/kinds/locals/poses.test.ts` verifies each of these actually differs from the common render
+// by > 3% of pixels). `cheer` is design's own pose where it exists (sit, bird, lizard, and 4 of the
+// 6 guides); `tilt` is the whole-body transform for the rest.
 const ARCHETYPE_EPIC_POSE: Readonly<Record<ArchetypeName, Pose>> = {
   sit: 'cheer',
   stand: 'tilt',
@@ -66,11 +66,10 @@ const STICKER_COLOR = '#f4efe4';
 
 /**
  * Resolves one critter + the toolbar settings into a `RenderSpec`. Never fabricates a palette: a
- * rarity above common only recolours (and shows the die-cut edge ring for) the critters phase 18's
- * content factory -- so far just Tokek and Pon -- has actually authored a form for
- * (`forms/designed.ts`). Every other critter still previews its real, generated epic *pose* (T8's
- * own deliverable) over its common colours, flagged `undesigned` so a reviewer knows why the colours
- * didn't change.
+ * rarity above common only recolours (and shows the die-cut edge ring for) the critters the content
+ * factory -- so far just Tokek and Pon -- has actually authored a form for (`forms/designed.ts`).
+ * Every other critter still previews its real, generated epic *pose* over its common colours,
+ * flagged `undesigned` so a reviewer knows why the colours didn't change.
  */
 export function resolveCard(critter: Critter, settings: GallerySettings): GalleryCard {
   const base: RenderSpec = {

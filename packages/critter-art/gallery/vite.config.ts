@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 
-// Static review gallery for `@cp/critter-art`'s form/tier model and epic poses (T8) -- not shipped,
+// Static review gallery for `@cp/critter-art`'s form/tier model and epic poses -- not shipped,
 // founder-review only. `pnpm --filter @cp/critter-art gallery` serves it locally; `gallery:build`
-// produces static files the phase's own acceptance criteria checks for.
+// produces the static files a reviewer opens directly.
 export default defineConfig({
   root: import.meta.dirname,
   base: './',

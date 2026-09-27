@@ -13,7 +13,7 @@ export const octo: ArchetypeFn = (sink, options, spec, colors) => {
   const epicPose = isEpicPose(options.pose);
   const head = blobPolygon(50, 43, 30, 27, 0.9, 18);
   sink.wash(head, colors.bl);
-  // T8 epic pose (design gives `octo` no pose of its own): the last tentacle curls up in a wave.
+  // Epic pose (design gives `octo` no pose of its own): the last tentacle curls up in a wave.
   for (let i = 0; i < 8; i++) {
     const x = 31 + i * 5.4;
     const mirrorSign = i < 4 ? -1 : 1;

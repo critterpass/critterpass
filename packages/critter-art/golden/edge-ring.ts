@@ -15,12 +15,12 @@ import { comparePngBuffers } from './diff';
 // The two tier-edge rings the design mockups actually author in CSS (`Critterpass.dc.html`'s
 // "TOKEK'S FORMS" widget and the Sakura Pon hero screen): a wrapper `filter: drop-shadow` stack of 4
 // cardinal-offset copies, which dilates the sticker silhouette outward by a fixed number of CSS
-// pixels in a "plus" shape. `forms/tier-palette.ts` instead draws a uniform round-joined stroke ring
-// (this phase's own open question on tier edge style: "round outline ring, edge-band tolerance vs
-// CSS reference") — the two shapes are geometrically different by construction (a round ring covers
-// the diagonals between cardinal points that the CSS plus-shape does not), so this check measures and
-// records how far they diverge rather than asserting pixel parity; closing that gap is a founder
-// gallery-review call (T8), per the phase's risk table, not a stricter threshold here.
+// pixels in a "plus" shape. `forms/tier-palette.ts` instead draws a uniform round-joined stroke ring,
+// since a canvas-only core can't reproduce a multi-copy CSS filter -- the two shapes are
+// geometrically different by construction (a round ring covers the diagonals between cardinal points
+// that the CSS plus-shape does not), so this check measures and records how far they diverge rather
+// than asserting pixel parity; closing that gap is a founder gallery-review call, not a stricter
+// threshold here.
 export interface EdgeRingFixture {
   readonly name: string;
   readonly designAttrs: Readonly<Record<string, string>>;

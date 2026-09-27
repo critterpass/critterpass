@@ -105,9 +105,8 @@ screen) draw an epic/legendary tier edge as a wrapper `filter: drop-shadow(Npx 0
 0 0 c) drop-shadow(0 Npx 0 c) drop-shadow(0 -Npx 0 c)` around the `<doodle-art>` element — four
 copies of the sticker silhouette, each offset by a **fixed number of CSS pixels** (2px `#ff5fa8`
 epic, 3px `#ffd84a` legendary) along one axis, unioned together. Geometrically this is a "plus"-shaped
-dilation: it covers the silhouette's cardinal neighbourhood but not its diagonals. The phase's own
-open question on tier edge style already anticipated that a canvas-only core can't reproduce a
-multi-copy CSS filter and picked the fallback: `forms/tier-palette.ts` draws a single **uniform
+dilation: it covers the silhouette's cardinal neighbourhood but not its diagonals. A canvas-only core
+can't reproduce a multi-copy CSS filter, so `forms/tier-palette.ts` draws a single **uniform
 round-joined stroke ring** instead, sized in real points (`core/model.ts`'s `edgeWidthLocal`
 conversion, fixed regardless of render size, matching the CSS pixel offset's own size-invariance).
 
@@ -130,7 +129,6 @@ catches a broken render (blank canvas, crashed script, wildly wrong colour), and
 `golden/out/diffs/edge-ring-<name>.png` for a human to look at.
 
 Closing the remaining visual gap (if the founder decides the round ring reads wrong next to the CSS
-reference) is gallery review territory (T8), not a stricter threshold here — per the phase's risk
-table, the mitigation for "edge ring look ≠ CSS 4-offset dilation" is "edge-band tolerance; gallery
-review; switchable implementation behind `edgeStyle` option until founder signs off," not pixel
-parity, which the two mechanisms cannot reach by construction.
+reference) is the review gallery's job, not a stricter threshold here: the two mechanisms cannot
+reach pixel parity by construction, so the intended mitigation is an edge-band tolerance plus founder
+sign-off, with the round-ring implementation kept swappable behind `FormSpec.edge` until then.

@@ -14,7 +14,7 @@ import type { ArchetypeColors } from '../types';
  * the loop's own `p`) plus once mirrored — an op-order quirk kept exactly as authored.
  */
 export function drawCicada(sink: OpSink, options: KindDrawOptions, colors: ArchetypeColors): void {
-  // T8 epic pose (design gives `bug` no pose of its own): wings flare up and out.
+  // Epic pose (design gives `bug` no pose of its own): wings flare up and out.
   const epicPose = isEpicPose(options.pose);
   const wing: Point[] = epicPose
     ? [
@@ -112,7 +112,7 @@ export function drawHopper(sink: OpSink, options: KindDrawOptions, colors: Arche
   }
   sink.line(body, { w: 2.4, close: true });
   sink.line(head, { w: 2.6, close: true });
-  // T8 epic pose (design gives `bug` no pose of its own): antennae splay wider, tips marked.
+  // Epic pose (design gives `bug` no pose of its own): antennae splay wider, tips marked.
   const antennae: readonly [Point, Point, Point][] = epicPose
     ? [
         [[44, 23], [30, 6], [16, 2]],

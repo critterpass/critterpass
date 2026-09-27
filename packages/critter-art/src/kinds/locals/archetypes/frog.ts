@@ -55,7 +55,7 @@ export const frog: ArchetypeFn = (sink, options, spec, colors) => {
   sink.line(silhouette, { w: 2.6, close: true });
   for (const p of [backLeg, mirrorX(backLeg)]) sink.line(p, { w: 2.3 });
 
-  // T8 epic pose (design gives `frog` no pose of its own): the right front leg reaches up.
+  // Epic pose (design gives `frog` no pose of its own): the right front leg reaches up.
   const frontLegs: readonly [Point, Point][] = [
     [[36, 77], [32, 89]],
     [[64, 77], [68, 89]],

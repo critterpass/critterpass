@@ -1,7 +1,7 @@
 import type { Point } from './geometry';
 import type { Op } from './ops';
 
-// `Pose` `'tilt'`/`'hop'` (T8): whole-body geometric transforms for the archetypes and guides design
+// `Pose` `'tilt'`/`'hop'`: whole-body geometric transforms for the archetypes and guides design
 // itself never gives a pose (`kinds/locals/poses.ts` adds each pose-less archetype's own bespoke
 // raised limb/fin/antenna first; these two run afterwards, over the *complete* authored op list —
 // see `core/model.ts`'s `build()`, the only place the full list is available). Both act on `Op[]`

@@ -101,7 +101,7 @@ export const paletteSchema = z.object({
   ink: z.string().optional(),
 });
 
-/** `critter_forms.pose`: every archetype pose, including the epic-only `tilt`/`hop` (T8). */
+/** `critter_forms.pose`: every archetype pose, including the epic-only whole-body `tilt`/`hop`. */
 export const poseSchema: z.ZodType<Pose> = z.enum([
   'idle',
   'wave',
