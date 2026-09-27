@@ -1,11 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
 
-// See DoodlePin.test.tsx / RouteLine.test.tsx for why these are real `require()`s, not imports.
-jest.mock('react-native-reanimated', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return
-  return require('react-native-reanimated/lib/module/mock.js');
-});
+// See RouteLine.test.tsx for why this is a real `require()`, not an import.
 jest.mock('@maplibre/maplibre-react-native', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
   const { View } = require('react-native');
