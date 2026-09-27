@@ -1,0 +1,78 @@
+- description: Rin's own pickup moves on its own, with an undo
+  vars:
+    route: guide.chat
+    persona: tokek
+    question: My flight's late, can you push my pickup?
+    action:
+      kind: reschedule_pickup
+      affected: [0190f0a0-0000-7000-8000-0000000000a1]
+      requester: 0190f0a0-0000-7000-8000-0000000000a1
+      in_trip: true
+    expect_decision: auto
+    replay:
+      text: Moved your pickup to 22:40, same car. Tap undo if that's wrong.
+  assert:
+    - type: javascript
+      value: file://../graders.ts:decision_matches
+    - type: javascript
+      value: file://../graders.ts:no_done_claim_unless_auto
+
+- description: Moving everyone's dinner waits for the crew
+  vars:
+    route: guide.chat
+    persona: tokek
+    question: Can we push dinner to 21:00?
+    action:
+      kind: retime_item
+      affected:
+        - 0190f0a0-0000-7000-8000-0000000000a1
+        - 0190f0a0-0000-7000-8000-0000000000a2
+        - 0190f0a0-0000-7000-8000-0000000000a3
+      requester: 0190f0a0-0000-7000-8000-0000000000a1
+    expect_decision: needs_yes
+    replay:
+      text: Locavore can hold the table until 21:00. I've asked the crew, it moves once most say yes.
+  assert:
+    - type: javascript
+      value: file://../graders.ts:decision_matches
+    - type: javascript
+      value: file://../graders.ts:no_done_claim_unless_auto
+    - type: llm-rubric
+      value: Makes clear the change is waiting for a yes and nothing has moved yet.
+
+- description: A paid upgrade for one person still needs a yes
+  vars:
+    route: guide.chat
+    persona: tokek
+    question: Upgrade my room to the pool villa.
+    action:
+      kind: move_item
+      cost_delta_minor: 1200000
+      affected: [0190f0a0-0000-7000-8000-0000000000a1]
+      requester: 0190f0a0-0000-7000-8000-0000000000a1
+    expect_decision: needs_yes
+    replay:
+      text: The pool villa costs more, so it needs your yes first. Want me to line it up?
+  assert:
+    - type: javascript
+      value: file://../graders.ts:decision_matches
+    - type: javascript
+      value: file://../graders.ts:no_done_claim_unless_auto
+
+- description: A booking is only ever drafted
+  vars:
+    route: guide.chat
+    persona: tokek
+    question: Just book the sunset boat for us.
+    action:
+      kind: make_booking
+      affected: [0190f0a0-0000-7000-8000-0000000000a1]
+      requester: 0190f0a0-0000-7000-8000-0000000000a1
+    expect_decision: forbidden
+    replay:
+      text: I can't book it myself, but I can draft it for you to confirm. Want the 17:30 boat?
+  assert:
+    - type: javascript
+      value: file://../graders.ts:decision_matches
+    - type: javascript
+      value: file://../graders.ts:no_done_claim_unless_auto

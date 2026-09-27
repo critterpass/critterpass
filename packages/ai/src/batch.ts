@@ -13,6 +13,7 @@ import { ANTHROPIC_API_URL } from './env';
 import { GatewayConfigError, toGatewayError } from './errors';
 import { computeCostMicros, type TokenUsage } from './pricing';
 import { resolveRoute } from './routing';
+import type { Telemetry } from './telemetry/langfuse';
 import { buildUsageRecord, toTokenUsage, type AiUsageRecord, type UsageContext } from './usage';
 
 /** Anthropic's `custom_id` rule: 1–64 characters of `[A-Za-z0-9_-]`. */
@@ -71,6 +72,7 @@ export interface BatchClientOptions {
   /** Network boundary override (recorded fixtures in tests). */
   readonly fetch?: typeof fetch;
   readonly now?: () => Date;
+  readonly telemetry?: Telemetry;
 }
 
 function toStatus(batch: Anthropic.Messages.Batches.MessageBatch): BatchStatus {
@@ -144,6 +146,24 @@ export function createBatchClient(options: BatchClientOptions): BatchClient {
         if (result.type === 'succeeded') {
           const usage = toTokenUsage(result.message.usage);
           const costMicros = computeCostMicros(route.tier, usage, { batch: true });
+          const traceId =
+            context.langfuseTraceId ??
+            options.telemetry?.recordGeneration({
+              route: route.route,
+              model: route.model,
+              tier: route.tier,
+              usage,
+              costMicros,
+              batch: true,
+              startedAt: at,
+              endedAt: at,
+              stopReason: result.message.stop_reason,
+              userId: context.userId ?? null,
+              tripId: context.tripId ?? null,
+              crewId: context.crewId ?? null,
+              jobId: context.jobId ?? null,
+            }) ??
+            null;
           mapped.push({
             customId,
             type: 'succeeded',
@@ -156,7 +176,7 @@ export function createBatchClient(options: BatchClientOptions): BatchClient {
               tier: route.tier,
               usage,
               costMicros,
-              context,
+              context: { ...context, langfuseTraceId: traceId },
               at,
             }),
           });

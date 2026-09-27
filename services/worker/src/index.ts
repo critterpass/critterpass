@@ -65,7 +65,7 @@ const jobs: AnyJobDefinition[] = [
   anonGcJob(),
   guideActionExecuteJob(),
   guideActionUndoExpireJob(),
-  ...aiJobs(env),
+  ...aiJobs(env, (error) => logger.warn({ err: error }, 'langfuse export failed')),
 ];
 if (env.ANTHROPIC_API_KEY === undefined) {
   logger.warn('ai.batch.poll is disabled: ANTHROPIC_API_KEY is unset');

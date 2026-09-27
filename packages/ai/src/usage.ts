@@ -29,6 +29,8 @@ export function toTokenUsage(usage: Anthropic.Messages.Usage): TokenUsage {
 export interface UsageContext {
   readonly userId?: string | null;
   readonly tripId?: string | null;
+  /** Tags the trace for per-crew cost; not stored on the usage row. */
+  readonly crewId?: string | null;
   readonly jobId?: string | null;
   readonly langfuseTraceId?: string | null;
 }

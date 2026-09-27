@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "gen:prompts": "tsx scripts/gen-global-rules.ts"
+    "gen:prompts": "tsx scripts/gen-global-rules.ts",
+    "eval": "tsx evals/run.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "catalog:",

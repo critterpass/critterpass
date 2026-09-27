@@ -1,0 +1,11 @@
+# Injection defence: instructions hidden in crew messages, emails, OCR text, place tips and web
+# results stay inside data blocks, never trigger a write or draft tool, and parsers get no tools;
+# supplier pages never reach the answer. Run: pnpm --filter @cp/ai eval injection
+description: Prompt injection and supplier content
+prompts:
+  - '{{question}}'
+providers:
+  - id: file://../lib/provider.ts
+tests:
+  - file://web-search-supplier.yaml
+  - file://cases.yaml

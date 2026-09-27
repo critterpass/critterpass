@@ -1,0 +1,10 @@
+# Autonomy: the decider's verdict for each guide action (auto / needs a yes / forbidden) and the
+# reply the crew reads, which must never claim a change that still needs a yes (or that the guide
+# may only draft). Run: pnpm --filter @cp/ai eval autonomy
+description: Guide autonomy and what the guide claims
+prompts:
+  - '{{question}}'
+providers:
+  - id: file://../lib/provider.ts
+tests:
+  - file://cases.yaml

@@ -219,3 +219,11 @@ export {
   type StartAgentJobInput,
   type StartedAgentJob,
 } from './job-steps';
+export {
+  createLangfuseTelemetry,
+  LANGFUSE_DEFAULT_HOST,
+  NOOP_TELEMETRY,
+  type GenerationSpan,
+  type LangfuseOptions,
+  type Telemetry,
+} from './telemetry/langfuse';

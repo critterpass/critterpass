@@ -1,0 +1,57 @@
+name: ai-evals
+
+# The quality gate for prompts, personas, tools and routing (packages/ai/evals/README.md).
+on:
+  pull_request:
+    paths:
+      - 'packages/ai/**'
+      - 'packages/domain/src/ai/**'
+      - 'packages/domain/src/guide-actions/**'
+      - '.github/workflows/ai-evals.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'packages/ai/**'
+      - 'packages/domain/src/ai/**'
+      - 'packages/domain/src/guide-actions/**'
+      - '.github/workflows/ai-evals.yml'
+  schedule:
+    # Nightly full run, 02:30 Asia/Saigon.
+    - cron: '30 19 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: replay (recorded responses) or live (Claude API, needs the secret)
+        type: choice
+        options: [replay, live]
+        default: replay
+
+concurrency:
+  group: ai-evals-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  evals:
+    name: promptfoo suites
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with: { fetch-depth: 0 }
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Changed suites
+        if: github.event_name == 'pull_request'
+        run: pnpm --filter @cp/ai eval --changed origin/${{ github.base_ref }}
+      - name: Every suite
+        if: github.event_name != 'pull_request'
+        env:
+          # Live only on the nightly or a manual live run, and only once the Claude key exists.
+          EVAL_MODE: ${{ (github.event_name == 'schedule' || inputs.mode == 'live') && secrets.ANTHROPIC_API_KEY != '' && 'live' || 'replay' }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: pnpm --filter @cp/ai eval --all

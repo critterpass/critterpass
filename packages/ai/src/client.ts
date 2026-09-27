@@ -15,6 +15,7 @@ import {
 } from './errors';
 import { computeCostMicros, type TokenUsage } from './pricing';
 import { resolveRoute, type RouteConfig } from './routing';
+import type { Telemetry } from './telemetry/langfuse';
 import { buildUsageRecord, toTokenUsage, type AiUsageRecord, type UsageContext } from './usage';
 
 type MessageParams = Anthropic.Messages.MessageCreateParamsNonStreaming;
@@ -52,6 +53,8 @@ export interface GatewayOptions {
   /** Network boundary override (recorded fixtures in tests). */
   readonly fetch?: typeof fetch;
   readonly onUsage?: (record: AiUsageRecord) => Promise<void>;
+  /** Langfuse spans; the trace id lands on the call's `ai_usage` row. */
+  readonly telemetry?: Telemetry;
   readonly sleep?: (ms: number) => Promise<void>;
   readonly random?: () => number;
   readonly now?: () => Date;
@@ -147,16 +150,39 @@ export function createGateway(options: GatewayOptions): Gateway {
     route: RouteConfig,
     message: Anthropic.Messages.Message,
     context: UsageContext,
+    startedAt: Date,
   ): Promise<GatewayResult> {
     const usage = toTokenUsage(message.usage);
     const costMicros = computeCostMicros(route.tier, usage);
+    const endedAt = now();
+    const toolCalls = message.content.flatMap((block) =>
+      block.type === 'tool_use' ? [{ name: block.name, input: block.input }] : [],
+    );
+    const traceId =
+      context.langfuseTraceId ??
+      options.telemetry?.recordGeneration({
+        route: route.route,
+        model: route.model,
+        tier: route.tier,
+        usage,
+        costMicros,
+        startedAt,
+        endedAt,
+        stopReason: message.stop_reason,
+        userId: context.userId ?? null,
+        tripId: context.tripId ?? null,
+        crewId: context.crewId ?? null,
+        jobId: context.jobId ?? null,
+        ...(toolCalls.length === 0 ? {} : { output: toolCalls }),
+      }) ??
+      null;
     const record = buildUsageRecord({
       model: route.model,
       tier: route.tier,
       usage,
       costMicros,
-      context,
-      at: now(),
+      context: { ...context, langfuseTraceId: traceId },
+      at: endedAt,
     });
     // A refusal still bills its tokens, so the usage row is written before the error is raised.
     await options.onUsage?.(record);
@@ -173,13 +199,15 @@ export function createGateway(options: GatewayOptions): Gateway {
       const route = resolveRoute(routeId);
       const params = buildMessageParams(route, input);
       const options = input.signal === undefined ? {} : { signal: input.signal };
+      const startedAt = now();
       const message = await withRetry(() => client.messages.create(params, options));
-      return settle(route, message, context);
+      return settle(route, message, context, startedAt);
     },
 
     async *streamModel(routeId, input, context = {}) {
       const route = resolveRoute(routeId);
       const params = buildMessageParams(route, input);
+      const startedAt = now();
       for (let attempt = 1; ; attempt += 1) {
         let started = false;
         try {
@@ -192,7 +220,7 @@ export function createGateway(options: GatewayOptions): Gateway {
             yield { kind: 'delta', event };
           }
           const message = await stream.finalMessage();
-          yield { kind: 'done', result: await settle(route, message, context) };
+          yield { kind: 'done', result: await settle(route, message, context, startedAt) };
           return;
         } catch (error) {
           // Only a stream that failed before its first event can be retried transparently.
