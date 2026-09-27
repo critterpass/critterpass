@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 import { allocate } from '../../src/money/allocate';
 import { money, sumMoney } from '../../src/money/money';
+import { PROPERTY_SUITE_OPTIONS } from '../property-budget';
 
 describe('allocate: largest remainder with deterministic tie-break', () => {
   it('splits an evenly-divisible total exactly equally', () => {
@@ -108,80 +109,84 @@ describe('allocate: largest remainder with deterministic tie-break', () => {
   });
 });
 
-describe('property: shares always sum exactly back to the total (10k cases)', () => {
-  // uniqueArray on `id` rules out a (vanishingly unlikely but possible) duplicate-id shrink target,
-  // which would otherwise legitimately throw per the "rejects a duplicate id" behaviour above.
-  const participantArb = fc.uniqueArray(
-    fc.record({
-      id: fc.uuid(),
-      weight: fc.bigInt({ min: 0n, max: 1_000n }),
-    }),
-    { minLength: 1, maxLength: 12, selector: (participant) => participant.id },
-  );
-
-  it('sum(allocate(total, weights)) === total, for arbitrary positive totals and weights', () => {
-    fc.assert(
-      fc.property(
-        fc.bigInt({ min: 0n, max: 10_000_000n }),
-        participantArb.filter((ps) => ps.reduce((sum, p) => sum + p.weight, 0n) > 0n),
-        (amount, participants) => {
-          const total = money(amount, 'SGD');
-          const shares = allocate(total, participants);
-          return (
-            sumMoney(
-              'SGD',
-              shares.map((s) => s.amount),
-            ).amountMinor === total.amountMinor
-          );
-        },
-      ),
-      { numRuns: 10_000 },
+describe(
+  'property: shares always sum exactly back to the total (10k cases)',
+  PROPERTY_SUITE_OPTIONS,
+  () => {
+    // uniqueArray on `id` rules out a (vanishingly unlikely but possible) duplicate-id shrink target,
+    // which would otherwise legitimately throw per the "rejects a duplicate id" behaviour above.
+    const participantArb = fc.uniqueArray(
+      fc.record({
+        id: fc.uuid(),
+        weight: fc.bigInt({ min: 0n, max: 1_000n }),
+      }),
+      { minLength: 1, maxLength: 12, selector: (participant) => participant.id },
     );
-  });
 
-  it('is deterministic: the same input always produces the same output', () => {
-    fc.assert(
-      fc.property(
-        fc.bigInt({ min: 0n, max: 10_000_000n }),
-        participantArb.filter((ps) => ps.reduce((sum, p) => sum + p.weight, 0n) > 0n),
-        (amount, participants) => {
-          const total = money(amount, 'SGD');
-          const first = allocate(total, participants);
-          const second = allocate(total, participants);
-          return (
-            JSON.stringify(first, (_key, value: unknown) =>
-              typeof value === 'bigint' ? value.toString() : value,
-            ) ===
-            JSON.stringify(second, (_key, value: unknown) =>
-              typeof value === 'bigint' ? value.toString() : value,
-            )
-          );
-        },
-      ),
-      { numRuns: 10_000 },
-    );
-  });
+    it('sum(allocate(total, weights)) === total, for arbitrary positive totals and weights', () => {
+      fc.assert(
+        fc.property(
+          fc.bigInt({ min: 0n, max: 10_000_000n }),
+          participantArb.filter((ps) => ps.reduce((sum, p) => sum + p.weight, 0n) > 0n),
+          (amount, participants) => {
+            const total = money(amount, 'SGD');
+            const shares = allocate(total, participants);
+            return (
+              sumMoney(
+                'SGD',
+                shares.map((s) => s.amount),
+              ).amountMinor === total.amountMinor
+            );
+          },
+        ),
+        { numRuns: 10_000 },
+      );
+    });
 
-  it('every share is within one minor unit of the exact proportional amount', () => {
-    fc.assert(
-      fc.property(
-        fc.bigInt({ min: 0n, max: 10_000_000n }),
-        participantArb.filter((ps) => ps.reduce((sum, p) => sum + p.weight, 0n) > 0n),
-        (amount, participants) => {
-          const total = money(amount, 'SGD');
-          const totalWeight = participants.reduce((sum, p) => sum + p.weight, 0n);
-          const shares = allocate(total, participants);
-          return shares.every((share) => {
-            const participant = participants.find((p) => p.id === share.id);
-            if (!participant) return false;
-            const exactNumerator = amount * participant.weight;
-            const floorShare = exactNumerator / totalWeight;
-            const diff = share.amount.amountMinor - floorShare;
-            return diff === 0n || diff === 1n;
-          });
-        },
-      ),
-      { numRuns: 10_000 },
-    );
-  });
-});
+    it('is deterministic: the same input always produces the same output', () => {
+      fc.assert(
+        fc.property(
+          fc.bigInt({ min: 0n, max: 10_000_000n }),
+          participantArb.filter((ps) => ps.reduce((sum, p) => sum + p.weight, 0n) > 0n),
+          (amount, participants) => {
+            const total = money(amount, 'SGD');
+            const first = allocate(total, participants);
+            const second = allocate(total, participants);
+            return (
+              JSON.stringify(first, (_key, value: unknown) =>
+                typeof value === 'bigint' ? value.toString() : value,
+              ) ===
+              JSON.stringify(second, (_key, value: unknown) =>
+                typeof value === 'bigint' ? value.toString() : value,
+              )
+            );
+          },
+        ),
+        { numRuns: 10_000 },
+      );
+    });
+
+    it('every share is within one minor unit of the exact proportional amount', () => {
+      fc.assert(
+        fc.property(
+          fc.bigInt({ min: 0n, max: 10_000_000n }),
+          participantArb.filter((ps) => ps.reduce((sum, p) => sum + p.weight, 0n) > 0n),
+          (amount, participants) => {
+            const total = money(amount, 'SGD');
+            const totalWeight = participants.reduce((sum, p) => sum + p.weight, 0n);
+            const shares = allocate(total, participants);
+            return shares.every((share) => {
+              const participant = participants.find((p) => p.id === share.id);
+              if (!participant) return false;
+              const exactNumerator = amount * participant.weight;
+              const floorShare = exactNumerator / totalWeight;
+              const diff = share.amount.amountMinor - floorShare;
+              return diff === 0n || diff === 1n;
+            });
+          },
+        ),
+        { numRuns: 10_000 },
+      );
+    });
+  },
+);

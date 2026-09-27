@@ -22,6 +22,7 @@ import {
   sumMoney,
   zero,
 } from '../../src/money/money';
+import { PROPERTY_SUITE_OPTIONS } from '../property-budget';
 
 describe('money construction', () => {
   it('accepts a known ISO currency code', () => {
@@ -149,29 +150,33 @@ describe('arithmetic', () => {
   });
 });
 
-describe('property: arithmetic is exact over random bigint amounts (10k cases)', () => {
-  const currencyArb = fc.constantFrom('SGD', 'JPY', 'IDR', 'BHD', 'USD');
-  const amountArb = fc.bigInt({ min: -1_000_000_000_000n, max: 1_000_000_000_000n });
+describe(
+  'property: arithmetic is exact over random bigint amounts (10k cases)',
+  PROPERTY_SUITE_OPTIONS,
+  () => {
+    const currencyArb = fc.constantFrom('SGD', 'JPY', 'IDR', 'BHD', 'USD');
+    const amountArb = fc.bigInt({ min: -1_000_000_000_000n, max: 1_000_000_000_000n });
 
-  it('subtract(add(a, b), b) === a', () => {
-    fc.assert(
-      fc.property(currencyArb, amountArb, amountArb, (currency, a, b) => {
-        const ma = money(a, currency);
-        const mb = money(b, currency);
-        return equalsMoney(subtract(add(ma, mb), mb), ma);
-      }),
-      { numRuns: 10_000 },
-    );
-  });
+    it('subtract(add(a, b), b) === a', () => {
+      fc.assert(
+        fc.property(currencyArb, amountArb, amountArb, (currency, a, b) => {
+          const ma = money(a, currency);
+          const mb = money(b, currency);
+          return equalsMoney(subtract(add(ma, mb), mb), ma);
+        }),
+        { numRuns: 10_000 },
+      );
+    });
 
-  it('add is commutative and negate is its own inverse', () => {
-    fc.assert(
-      fc.property(currencyArb, amountArb, amountArb, (currency, a, b) => {
-        const ma = money(a, currency);
-        const mb = money(b, currency);
-        return equalsMoney(add(ma, mb), add(mb, ma)) && equalsMoney(negate(negate(ma)), ma);
-      }),
-      { numRuns: 10_000 },
-    );
-  });
-});
+    it('add is commutative and negate is its own inverse', () => {
+      fc.assert(
+        fc.property(currencyArb, amountArb, amountArb, (currency, a, b) => {
+          const ma = money(a, currency);
+          const mb = money(b, currency);
+          return equalsMoney(add(ma, mb), add(mb, ma)) && equalsMoney(negate(negate(ma)), ma);
+        }),
+        { numRuns: 10_000 },
+      );
+    });
+  },
+);

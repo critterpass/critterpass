@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { convert, convertViaBase } from '../../src/fx/convert';
 import { money, type Money } from '../../src/money/money';
 import { type FxSnapshot } from '../../src/fx/snapshot';
+import { PROPERTY_SUITE_OPTIONS } from '../property-budget';
 
 const EUR_SGD: FxSnapshot = {
   base: 'EUR',
@@ -118,29 +119,33 @@ describe('convertViaBase: cross rate through a shared base (docs/product-decisio
   });
 });
 
-describe('property: conversion never uses a float and round-trips within one minor unit (10k cases)', () => {
-  it('convert then convert back (inverse direction) stays within 1 minor unit of the original', () => {
-    fc.assert(
-      fc.property(
-        fc.bigInt({ min: 0n, max: 1_000_000_00n }),
-        fc.integer({ min: 1, max: 999_999 }),
-        fc.integer({ min: 1, max: 9 }),
-        (amountMinor, rateWhole, rateFraction) => {
-          const snapshot: FxSnapshot = {
-            base: 'EUR',
-            quote: 'SGD',
-            rate: `${rateWhole}.${rateFraction}`,
-            asOf: '2026-09-27',
-            source: 'property',
-          };
-          const original: Money = { amountMinor, currency: 'EUR' };
-          const there = convert(original, 'SGD', snapshot, 'half_even');
-          const back = convert(there, 'EUR', snapshot, 'half_even');
-          const diff = back.amountMinor - amountMinor;
-          return (diff < 0n ? -diff : diff) <= 1n;
-        },
-      ),
-      { numRuns: 10_000 },
-    );
-  });
-});
+describe(
+  'property: conversion never uses a float and round-trips within one minor unit (10k cases)',
+  PROPERTY_SUITE_OPTIONS,
+  () => {
+    it('convert then convert back (inverse direction) stays within 1 minor unit of the original', () => {
+      fc.assert(
+        fc.property(
+          fc.bigInt({ min: 0n, max: 1_000_000_00n }),
+          fc.integer({ min: 1, max: 999_999 }),
+          fc.integer({ min: 1, max: 9 }),
+          (amountMinor, rateWhole, rateFraction) => {
+            const snapshot: FxSnapshot = {
+              base: 'EUR',
+              quote: 'SGD',
+              rate: `${rateWhole}.${rateFraction}`,
+              asOf: '2026-09-27',
+              source: 'property',
+            };
+            const original: Money = { amountMinor, currency: 'EUR' };
+            const there = convert(original, 'SGD', snapshot, 'half_even');
+            const back = convert(there, 'EUR', snapshot, 'half_even');
+            const diff = back.amountMinor - amountMinor;
+            return (diff < 0n ? -diff : diff) <= 1n;
+          },
+        ),
+        { numRuns: 10_000 },
+      );
+    });
+  },
+);

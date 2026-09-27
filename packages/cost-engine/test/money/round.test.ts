@@ -3,6 +3,7 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 
 import { divideRounded, ROUNDING_MODES } from '../../src/money/round';
+import { PROPERTY_SUITE_OPTIONS } from '../property-budget';
 
 describe('divideRounded: worked examples per mode', () => {
   it("half_even rounds a tie to the nearest even quotient (banker's rounding)", () => {
@@ -38,57 +39,67 @@ describe('divideRounded: worked examples per mode', () => {
   });
 });
 
-describe('property: exact division is idempotent for every mode (10k cases)', () => {
-  it('a whole-number ratio rounds to itself regardless of mode', () => {
-    fc.assert(
-      fc.property(
-        fc.bigInt({ min: -1_000_000n, max: 1_000_000n }),
-        fc.bigInt({ min: 1n, max: 1_000n }),
-        fc.constantFrom(...ROUNDING_MODES),
-        (multiplier, denominator, mode) =>
-          divideRounded(multiplier * denominator, denominator, mode) === multiplier,
-      ),
-      { numRuns: 10_000 },
-    );
-  });
-});
+describe(
+  'property: exact division is idempotent for every mode (10k cases)',
+  PROPERTY_SUITE_OPTIONS,
+  () => {
+    it('a whole-number ratio rounds to itself regardless of mode', () => {
+      fc.assert(
+        fc.property(
+          fc.bigInt({ min: -1_000_000n, max: 1_000_000n }),
+          fc.bigInt({ min: 1n, max: 1_000n }),
+          fc.constantFrom(...ROUNDING_MODES),
+          (multiplier, denominator, mode) =>
+            divideRounded(multiplier * denominator, denominator, mode) === multiplier,
+        ),
+        { numRuns: 10_000 },
+      );
+    });
+  },
+);
 
-describe('property: every mode stays within one unit of the exact ratio (10k cases)', () => {
-  it('|rounded - numerator/denominator| < 1', () => {
-    fc.assert(
-      fc.property(
-        fc.bigInt({ min: -1_000_000_000n, max: 1_000_000_000n }),
-        fc.bigInt({ min: 1n, max: 1_000_000n }).filter((n) => n !== 0n),
-        fc.constantFrom(...ROUNDING_MODES),
-        (numerator, denominator, mode) => {
-          const rounded = divideRounded(numerator, denominator, mode);
-          // exact*denominator == numerator; compare rounded*denominator against numerator directly
-          // to stay in integer arithmetic (no float ever enters the check).
-          const diff = rounded * denominator - numerator;
-          const absDiff = diff < 0n ? -diff : diff;
-          return absDiff < (denominator < 0n ? -denominator : denominator);
-        },
-      ),
-      { numRuns: 10_000 },
-    );
-  });
+describe(
+  'property: every mode stays within one unit of the exact ratio (10k cases)',
+  PROPERTY_SUITE_OPTIONS,
+  () => {
+    it('|rounded - numerator/denominator| < 1', () => {
+      fc.assert(
+        fc.property(
+          fc.bigInt({ min: -1_000_000_000n, max: 1_000_000_000n }),
+          fc.bigInt({ min: 1n, max: 1_000_000n }).filter((n) => n !== 0n),
+          fc.constantFrom(...ROUNDING_MODES),
+          (numerator, denominator, mode) => {
+            const rounded = divideRounded(numerator, denominator, mode);
+            // exact*denominator == numerator; compare rounded*denominator against numerator directly
+            // to stay in integer arithmetic (no float ever enters the check).
+            const diff = rounded * denominator - numerator;
+            const absDiff = diff < 0n ? -diff : diff;
+            return absDiff < (denominator < 0n ? -denominator : denominator);
+          },
+        ),
+        { numRuns: 10_000 },
+      );
+    });
 
-  it('half_even and half_up only ever differ from down/up by at most one unit, all four bracket the exact value', () => {
-    fc.assert(
-      fc.property(
-        fc.bigInt({ min: -1_000_000_000n, max: 1_000_000_000n }),
-        fc.bigInt({ min: 1n, max: 1_000_000n }),
-        (numerator, denominator) => {
-          const down = divideRounded(numerator, denominator, 'down');
-          const up = divideRounded(numerator, denominator, 'up');
-          const halfUp = divideRounded(numerator, denominator, 'half_up');
-          const halfEven = divideRounded(numerator, denominator, 'half_even');
-          const lo = down < up ? down : up;
-          const hi = down < up ? up : down;
-          return halfUp >= lo && halfUp <= hi && halfEven >= lo && halfEven <= hi && hi - lo <= 1n;
-        },
-      ),
-      { numRuns: 10_000 },
-    );
-  });
-});
+    it('half_even and half_up only ever differ from down/up by at most one unit, all four bracket the exact value', () => {
+      fc.assert(
+        fc.property(
+          fc.bigInt({ min: -1_000_000_000n, max: 1_000_000_000n }),
+          fc.bigInt({ min: 1n, max: 1_000_000n }),
+          (numerator, denominator) => {
+            const down = divideRounded(numerator, denominator, 'down');
+            const up = divideRounded(numerator, denominator, 'up');
+            const halfUp = divideRounded(numerator, denominator, 'half_up');
+            const halfEven = divideRounded(numerator, denominator, 'half_even');
+            const lo = down < up ? down : up;
+            const hi = down < up ? up : down;
+            return (
+              halfUp >= lo && halfUp <= hi && halfEven >= lo && halfEven <= hi && hi - lo <= 1n
+            );
+          },
+        ),
+        { numRuns: 10_000 },
+      );
+    });
+  },
+);
