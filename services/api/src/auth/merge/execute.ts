@@ -24,7 +24,7 @@ export interface MergePreview {
     startDate: string | null;
     owner: 'anon' | 'existing';
   }>;
-  /** No `critters`/`stamps` table exists yet (phase 20+); always empty until one of those phases extends this preview. */
+  /** No `critters`/`stamps` table exists yet; always empty until a later critter-collection/travel-history phase extends this preview. */
   readonly critters: readonly never[];
   readonly stamps: readonly never[];
 }

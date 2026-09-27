@@ -11,6 +11,12 @@ import { crypto as dbCrypto } from '@cp/db';
 import { DomainError, type ErrorResponseBody } from '@cp/domain';
 
 import { issueChallenge, type ChallengeRedisClient } from '../abuse/attestation';
+import {
+  isLockedOut,
+  recordCodeAttemptFailure,
+  recordCodeAttemptSuccess,
+  type CodeAttemptsRedisClient,
+} from '../abuse/code-attempts';
 import type { AuthInstance } from '../auth/config';
 import {
   buildMergePreview,
@@ -47,6 +53,15 @@ const THIRTY_DAYS_SECONDS = 60 * 60 * 24 * 30;
 function errorResponse(c: Context, error: DomainError) {
   const body: ErrorResponseBody = error.toResponseBody();
   return c.json(body, error.http as never);
+}
+
+/** Sets the same `better-auth.session_token` cookie a real sign-in response would, so a web/browser caller (and manual testing) works immediately without depending on the Expo client's own token persistence. */
+function setSessionCookieHeader(c: Context, token: string, secret: string): void {
+  const signedCookie = encodeURIComponent(signBetterAuthSessionCookie(token, secret));
+  c.header(
+    'set-cookie',
+    `better-auth.session_token=${signedCookie}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${THIRTY_DAYS_SECONDS}`,
+  );
 }
 
 export function registerAuthExtraRoutes<E extends { Variables: object }>(
@@ -226,17 +241,117 @@ export function registerMergeExecuteRoute<E extends { Variables: object }>(
       appPool: deps.appPool,
       auth: deps.auth,
     });
-    // Sets the same `better-auth.session_token` cookie a real sign-in response would (web/browser
-    // clients keep working immediately); the raw token is also returned in the body for the Expo
-    // client (apps/mobile/src/data/auth/), which persists tokens itself rather than relying on a
-    // cookie jar.
-    const signedCookie = encodeURIComponent(
-      signBetterAuthSessionCookie(result.sessionToken, deps.secret),
-    );
-    c.header(
-      'set-cookie',
-      `better-auth.session_token=${signedCookie}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${THIRTY_DAYS_SECONDS}`,
-    );
+    // The raw token is also returned in the body for the Expo client (apps/mobile/src/data/auth/),
+    // which persists tokens itself rather than relying on a cookie jar.
+    setSessionCookieHeader(c, result.sessionToken, deps.secret);
     return c.json({ token: result.sessionToken, user: { id: result.existingUid } });
+  });
+}
+
+export interface ReturningPhoneSignInDeps {
+  readonly auth: AuthInstance;
+  readonly redis: CodeAttemptsRedisClient;
+  readonly secret: string;
+}
+
+interface InternalAdapterReturningSignIn {
+  createSession(userId: string): Promise<{ token: string }>;
+}
+
+interface RawAdapterReturningSignIn {
+  findOne(query: {
+    model: string;
+    where: Array<{ field: string; value: string }>;
+  }): Promise<{ id: string; phoneNumberVerified?: boolean | null } | null>;
+}
+
+/**
+ * `consumePhoneNumberOTP` is a `phoneNumber`-plugin endpoint registered with no path
+ * (`HIDE_METADATA`, `better-auth` 1.7.6 source): callable only server-side via `auth.api`, never over
+ * HTTP. It runs the exact same attempt-tracked verify-and-consume logic
+ * `/phone-number/verify`/`/sign-in/phone-number` use internally (5 attempts per code,
+ * `packages/db/src/schema/auth.ts`'s `auth.verification` row), without requiring or creating a
+ * session — precisely the primitive this route needs.
+ */
+interface ConsumePhoneNumberOtpApi {
+  consumePhoneNumberOTP(args: {
+    body: { phoneNumber: string; code: string };
+  }): Promise<{ status: true }>;
+}
+
+const returningPhoneSignInBodySchema = z.object({
+  phoneNumber: z.string().min(1),
+  code: z.string().min(1),
+});
+
+/**
+ * `POST /api/auth/sign-in/phone-number` (docs/api-contracts.md §5.1): the undesigned returning-user
+ * flow — a fresh install, no local pass, "I have an account" splash entry (its UI is built on top of
+ * the mobile auth client, apps/mobile/src/data/auth/). Registered before the
+ * `/api/auth/*` passthrough to `auth.handler` (same convention as services/api/src/auth/tokens.ts's
+ * token/jwks routes) so it wins over Better Auth's own built-in `/sign-in/phone-number` endpoint,
+ * which is password-based and unusable for this app's OTP-only design. Reuses
+ * `/phone-number/send-otp` (already session-optional) for the code. `code-attempts.ts` adds a second,
+ * IP+phone-dimensioned enumeration lockout on top of the per-code attempt cap above (defends against
+ * cycling through many different phone numbers from one IP, which the per-code cap alone would not).
+ */
+export function registerReturningPhoneSignInRoute<E extends { Variables: object }>(
+  app: Hono<E>,
+  deps: ReturningPhoneSignInDeps,
+): void {
+  app.post('/api/auth/sign-in/phone-number', async (c) => {
+    const parsed = returningPhoneSignInBodySchema.safeParse(
+      await c.req.json().catch(() => undefined),
+    );
+    if (!parsed.success) {
+      return errorResponse(c, new DomainError('VALIDATION', { issues: parsed.error.issues }));
+    }
+    const { phoneNumber, code } = parsed.data;
+    const identity = { ip: c.req.header('x-real-ip') ?? 'unknown', uid: phoneNumber };
+
+    const lockout = await isLockedOut(deps.redis, identity);
+    if (lockout.locked) {
+      return errorResponse(
+        c,
+        new DomainError('RATE_LIMITED', { retry_after_s: lockout.retryAfterS }),
+      );
+    }
+
+    const otpApi = deps.auth.api as unknown as ConsumePhoneNumberOtpApi;
+    try {
+      await otpApi.consumePhoneNumberOTP({ body: { phoneNumber, code } });
+    } catch (error) {
+      const errorCode = (error as { body?: { code?: string } } | undefined)?.body?.code;
+      if (errorCode === 'TOO_MANY_ATTEMPTS') {
+        return errorResponse(c, new DomainError('RATE_LIMITED', { reason: 'too_many_attempts' }));
+      }
+      const status = await recordCodeAttemptFailure(deps.redis, identity);
+      return errorResponse(
+        c,
+        status.locked
+          ? new DomainError('RATE_LIMITED', { retry_after_s: status.retryAfterS })
+          : new DomainError('VALIDATION', { reason: 'invalid_or_expired_code' }),
+      );
+    }
+    await recordCodeAttemptSuccess(deps.redis, identity);
+
+    const context = (await deps.auth.$context) as unknown as {
+      internalAdapter: InternalAdapterReturningSignIn;
+      adapter: RawAdapterReturningSignIn;
+    };
+    const user = await context.adapter.findOne({
+      model: 'user',
+      where: [{ field: 'phoneNumber', value: phoneNumber }],
+    });
+    if (!user?.phoneNumberVerified) {
+      return errorResponse(
+        c,
+        new DomainError('NOT_FOUND', { reason: 'no_account_for_phone_number' }),
+      );
+    }
+
+    const session = await context.internalAdapter.createSession(user.id);
+    setSessionCookieHeader(c, session.token, deps.secret);
+    return c.json({ token: session.token, user: { id: user.id } });
   });
 }
