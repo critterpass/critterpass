@@ -80,8 +80,8 @@ column only — always with a **bit-perfect (0% diff) browser-core comparison**,
 geometry and op sequence are exactly right. Example (`report.json`): `cp-130` (Fia, a deer with
 antlers + a spotted coat) measures browser meanAbs 0.000 / node meanAbs 0.251, pct>8 exactly 1.00%
 — one pixel either way decides pass/fail. `cp-002` and `cp-088` (both `dragon`/`smok` lizards, the
-most decorated `lizard` variants) show the same pattern. The pre-existing `gecko` guide (T3, already
-shipping) sits on the same continuum at 0.80% — under threshold, but the same phenomenon.
+most decorated `lizard` variants) show the same pattern. The pre-existing `gecko` guide (ported with the
+guides, already shipping) sits on the same continuum at 0.80% — under threshold, but the same phenomenon.
 
 Why: `locked` recolours every op to one flat, fully opaque colour (`model.ts` `applyMask`), so the
 rendered image is large flat regions bordered by anti-aliased edges with no interior alpha blending
