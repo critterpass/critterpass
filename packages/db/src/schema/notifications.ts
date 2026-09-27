@@ -39,6 +39,7 @@ export const devices = pgTable('devices', {
   id: uuid('id').primaryKey(),
   userId: userId(),
   platform: text('platform').notNull(),
+  bundleId: text('bundle_id'),
   osVersion: text('os_version'),
   appVersion: text('app_version').notNull(),
   locale: text('locale').notNull(),

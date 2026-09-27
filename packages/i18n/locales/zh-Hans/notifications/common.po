@@ -6,3 +6,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: zh-Hans\n"
+
+#: ../../services/worker/src/push/payload.ts
+msgid "notifications.push.privateBody"
+msgstr ""

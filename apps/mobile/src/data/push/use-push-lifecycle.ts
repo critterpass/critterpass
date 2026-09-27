@@ -30,6 +30,7 @@ export interface PushLifecycleDeps {
   /** The signed-in uid (anonymous included); `undefined` before a session exists. */
   readonly currentUid: () => Promise<string | undefined>;
   readonly platform: PushPlatform;
+  readonly bundleId?: string;
   readonly appVersion: string;
   readonly osVersion?: string;
   readonly locale: () => string;
@@ -67,6 +68,7 @@ export function createPushLifecycle(deps: PushLifecycleDeps): PushLifecycle {
         uid,
         installId: await getOrCreateInstallId(deps.storage),
         platform: deps.platform,
+        ...(deps.bundleId !== undefined ? { bundleId: deps.bundleId } : {}),
         appVersion: deps.appVersion,
         ...(deps.osVersion !== undefined ? { osVersion: deps.osVersion } : {}),
         tz: deps.timeZone(),

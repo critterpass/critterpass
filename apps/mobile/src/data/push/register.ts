@@ -41,6 +41,8 @@ export interface DeviceRegistration {
   readonly uid: string;
   readonly installId: string;
   readonly platform: PushPlatform;
+  /** `app.critterpass`, `.staging` or `.dev`: tells the server which APNs topic / FCM app. */
+  readonly bundleId?: string;
   readonly appVersion: string;
   readonly osVersion?: string;
   readonly tz: string;
@@ -80,6 +82,7 @@ export function buildRegisterDeviceEnvelope(
     capabilities: registration.capabilities ?? {},
   };
   if (registration.osVersion !== undefined) payload['os_version'] = registration.osVersion;
+  if (registration.bundleId !== undefined) payload['bundle_id'] = registration.bundleId;
   if (registration.pushToken !== undefined) {
     payload['push_token'] = registration.pushToken;
     payload['apns_env'] = registration.apnsEnv ?? 'prod';

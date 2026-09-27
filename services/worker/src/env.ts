@@ -44,6 +44,13 @@ export const workerEnvSchema = z.object({
   BACKUP_S3_REGION: z.preprocess(emptyAsUndefined, z.string().min(1).default('auto')),
   /** pg_dump binary (must be the server's major version or newer). */
   BACKUP_PG_DUMP_PATH: z.preprocess(emptyAsUndefined, z.string().min(1).default('pg_dump')),
+  /** APNs token auth (src/push/apns.ts): key id, team id and the .p8 contents. All three or none. */
+  APNS_KEY_ID: optionalString,
+  APNS_TEAM_ID: optionalString,
+  /** PEM text; a single-line value with literal `\n` escapes is accepted too. */
+  APNS_PRIVATE_KEY_PEM: optionalString,
+  /** Firebase service account JSON for FCM HTTP v1 (src/push/fcm.ts); unset = no Android pushes. */
+  FCM_SERVICE_ACCOUNT_JSON: optionalString,
 });
 
 export type WorkerEnv = z.infer<typeof workerEnvSchema>;

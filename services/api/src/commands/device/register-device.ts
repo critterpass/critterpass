@@ -9,7 +9,13 @@
  * for it are revoked. A token already registered on some other device moves here, which detaches
  * it from that device's owner, so a push for the old uid can never reach this install again.
  */
-import { DomainError, getNotificationSpec, isIanaTimeZone, isNotificationKey } from '@cp/domain';
+import {
+  appBundleIdSchema,
+  DomainError,
+  getNotificationSpec,
+  isIanaTimeZone,
+  isNotificationKey,
+} from '@cp/domain';
 import type pg from 'pg';
 import { z } from 'zod';
 
@@ -17,6 +23,8 @@ import { defineCommand } from '../_framework/define-command';
 
 export const registerDevicePayloadSchema = z.object({
   platform: z.enum(['ios', 'android']),
+  /** The build's bundle / application id: picks the APNs topic and FCM app for this install. */
+  bundle_id: appBundleIdSchema.optional(),
   /** Native APNs device token (hex) or FCM registration token; absent until the OS grants one. */
   push_token: z.string().min(1).max(4096).optional(),
   /** Which APNs host the token belongs to (development builds get sandbox tokens). */
@@ -133,10 +141,11 @@ async function upsertDevice(
 ): Promise<void> {
   await tx.query(
     `INSERT INTO devices (id, user_id, platform, os_version, app_version, locale, tz, capabilities,
-       foreground, la_enabled, last_seen_at)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, now())
+       foreground, la_enabled, bundle_id, last_seen_at)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, now())
      ON CONFLICT (id) DO UPDATE SET
        platform = EXCLUDED.platform,
+       bundle_id = coalesce(EXCLUDED.bundle_id, devices.bundle_id),
        os_version = EXCLUDED.os_version,
        app_version = EXCLUDED.app_version,
        locale = EXCLUDED.locale,
@@ -155,6 +164,7 @@ async function upsertDevice(
       JSON.stringify(payload.capabilities),
       payload.foreground,
       payload.capabilities.la === true,
+      payload.bundle_id ?? null,
     ],
   );
 }

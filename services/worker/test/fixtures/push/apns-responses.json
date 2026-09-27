@@ -1,0 +1,24 @@
+{
+  "_source": "Response shapes from Apple's 'Handling notification responses from APNs' documentation: status, apns-id header and the JSON reason body.",
+  "ok": { "status": 200, "headers": { "apns-id": "EC1BF194-B3B2-424A-89A9-5A918A6E6B5D" } },
+  "gone": {
+    "status": 410,
+    "headers": { "apns-id": "EC1BF194-B3B2-424A-89A9-5A918A6E6B5E" },
+    "body": { "reason": "Unregistered", "timestamp": 1790000000000 }
+  },
+  "bad": {
+    "status": 400,
+    "headers": { "apns-id": "EC1BF194-B3B2-424A-89A9-5A918A6E6B5F" },
+    "body": { "reason": "BadDeviceToken" }
+  },
+  "busy": {
+    "status": 429,
+    "headers": { "apns-id": "EC1BF194-B3B2-424A-89A9-5A918A6E6B60" },
+    "body": { "reason": "TooManyRequests" }
+  },
+  "down": {
+    "status": 503,
+    "headers": { "apns-id": "EC1BF194-B3B2-424A-89A9-5A918A6E6B61" },
+    "body": { "reason": "ServiceUnavailable" }
+  }
+}

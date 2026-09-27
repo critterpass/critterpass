@@ -1,3 +1,4 @@
+import { onEventAppended } from '@cp/db';
 import { serve } from '@hono/node-server';
 import pg from 'pg';
 import { pino } from 'pino';
@@ -19,6 +20,10 @@ import { purgeJob } from './jobs/maint/purge';
 import { backupJob } from './jobs/ops/backup';
 import { createObjectStore } from './jobs/ops/object-store';
 import { enqueueDueJob } from './jobs/sched/enqueue-due';
+import { notifyRouteJob, routeEventHook } from './jobs/notify';
+import { pushSendJob } from './jobs/push/send';
+import { roundupBuildJob, roundupScanJob } from './jobs/roundup/build';
+import { createCopyRenderer, createPushProviders, defaultBundleId } from './push';
 import { createCentrifugoApi, rtRelayJob, startRtRelayWake, type RtRelay } from './rt-relay';
 
 const env = loadWorkerEnv();
@@ -88,6 +93,23 @@ if (env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY) {
   );
 }
 
+// Notifications (docs/api-contracts-async.md §2.2): routing, the evening roundup and delivery.
+// Domain events appended in this process enqueue their routing jobs in the same transaction.
+const renderer = createCopyRenderer();
+const pushProviders = createPushProviders(env);
+if (!pushProviders.apns)
+  logger.warn('APNs is not configured: iOS pushes will be recorded as failed');
+if (!pushProviders.fcm)
+  logger.warn('FCM is not configured: Android pushes will be recorded as failed');
+const roundupBuild = roundupBuildJob({ renderer });
+jobs.push(
+  notifyRouteJob({ renderer }),
+  pushSendJob({ ...pushProviders, renderer, defaultBundleId: defaultBundleId(env.APP_ENV) }),
+  roundupBuild,
+  roundupScanJob(roundupBuild),
+);
+onEventAppended(routeEventHook);
+
 const jobsLogger = logger.child({ component: 'jobs' });
 const boss = createBoss({ connectionString: env.DATABASE_DIRECT_URL, logger: jobsLogger });
 let rtRelay: RtRelay | undefined;
@@ -126,6 +148,7 @@ function shutdown(signal: string) {
     void runtime
       .then(() => rtRelay?.stop())
       .then(() => stopJobRuntime(boss))
+      .then(() => pushProviders.shutdown())
       .catch((error: unknown) => logger.error({ err: error }, 'job runtime stop failed'))
       .then(() =>
         Promise.allSettled([pool.end(), redis.isOpen ? redis.close() : Promise.resolve()]),

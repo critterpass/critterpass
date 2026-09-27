@@ -10,6 +10,8 @@ CREATE TABLE devices (
   id uuid PRIMARY KEY,
   user_id uuid NOT NULL REFERENCES users (id),
   platform text NOT NULL,
+  -- Which build registered (app.critterpass / .staging / .dev): the APNs topic and FCM app.
+  bundle_id text,
   os_version text,
   app_version text NOT NULL,
   locale text NOT NULL,
@@ -27,6 +29,8 @@ CREATE TABLE devices (
 );
 ALTER TABLE devices ADD CONSTRAINT devices_platform_check CHECK (platform IN ('ios', 'android'));
 ALTER TABLE devices ADD CONSTRAINT devices_tz_check CHECK (app.valid_tz(tz));
+ALTER TABLE devices ADD CONSTRAINT devices_bundle_id_check
+  CHECK (bundle_id IN ('app.critterpass', 'app.critterpass.staging', 'app.critterpass.dev'));
 CREATE INDEX devices_user_id_idx ON devices (user_id);
 CREATE TRIGGER devices_touch_updated_at BEFORE UPDATE ON devices
   FOR EACH ROW EXECUTE FUNCTION app.touch_updated_at();

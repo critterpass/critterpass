@@ -1,0 +1,63 @@
+{
+  "_source": "Response shapes from the FCM HTTP v1 reference (projects.messages.send) and its ErrorCode enum; the token body is Google's OAuth 2.0 token endpoint response.",
+  "token": {
+    "status": 200,
+    "body": {
+      "access_token": "ya29.recorded-test-token",
+      "expires_in": 3599,
+      "token_type": "Bearer"
+    }
+  },
+  "ok": {
+    "status": 200,
+    "body": { "name": "projects/critterpass-test/messages/0:1790000000000000%31bd1c9631bd1c96" }
+  },
+  "gone": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": 404,
+        "message": "Requested entity was not found.",
+        "status": "NOT_FOUND",
+        "details": [
+          {
+            "@type": "type.googleapis.com/google.firebase.fcm.v1.FcmError",
+            "errorCode": "UNREGISTERED"
+          }
+        ]
+      }
+    }
+  },
+  "busy": {
+    "status": 429,
+    "body": {
+      "error": {
+        "code": 429,
+        "message": "Quota exceeded for quota metric 'Send requests'.",
+        "status": "RESOURCE_EXHAUSTED",
+        "details": [
+          {
+            "@type": "type.googleapis.com/google.firebase.fcm.v1.FcmError",
+            "errorCode": "QUOTA_EXCEEDED"
+          }
+        ]
+      }
+    }
+  },
+  "down": {
+    "status": 500,
+    "body": {
+      "error": {
+        "code": 500,
+        "message": "Internal error encountered.",
+        "status": "INTERNAL",
+        "details": [
+          {
+            "@type": "type.googleapis.com/google.firebase.fcm.v1.FcmError",
+            "errorCode": "INTERNAL"
+          }
+        ]
+      }
+    }
+  }
+}
