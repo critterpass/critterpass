@@ -132,6 +132,13 @@ export function buildRoundup(
 ): Promise<RoundupOutcome> {
   const now = deps.now?.() ?? new Date();
   return withSystem(pool, async (tx) => {
+    // One build per user and local date at a time: a concurrent build waits here, then sees the
+    // committed roundup below. Without it, a build that starts before another commits can read that
+    // roundup's lines as already rolled up and report `empty` instead of `already_built`.
+    await tx.query('SELECT pg_advisory_xact_lock(hashtext($1), hashtext($2))', [
+      `roundup:${data.user_id}`,
+      data.local_date,
+    ]);
     const done = await tx.query('SELECT 1 FROM roundups WHERE user_id = $1 AND local_date = $2', [
       data.user_id,
       data.local_date,
