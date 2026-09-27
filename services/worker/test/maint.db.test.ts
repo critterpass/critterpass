@@ -221,10 +221,27 @@ async function seedAccount(spec: AccountSpec): Promise<string> {
     spec.purchase ?? false,
     spec.purchase ? '["app_store"]' : '[]',
   ]);
+  // The install the key belongs to, with a token and a notification: personal rows that go with it.
+  const deviceId = randomUUID();
+  await q(
+    `INSERT INTO devices (id, user_id, platform, app_version, locale, tz)
+     VALUES ($1, $2, 'ios', '1.0.0', 'en', 'UTC')`,
+    [deviceId, uid],
+  );
+  await q(
+    "INSERT INTO push_tokens (device_id, kind, token, env) VALUES ($1, 'apns_alert', $2, 'prod')",
+    [deviceId, `token-${uid}`],
+  );
+  await q(
+    `INSERT INTO notifications (user_id, key, category, class, sender, template_id, title, body,
+       dedupe_key, local_date)
+     VALUES ($1, 'nudge', 'cp.generic', 'budgeted', '{"kind":"system"}', 't', 't', 't', 'seed', CURRENT_DATE)`,
+    [uid],
+  );
   await q(
     `INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
-     VALUES (gen_random_uuid()::text, gen_random_uuid(), $1, 'enc', '{read_notification}', now() + interval '30 days')`,
-    [uid],
+     VALUES (gen_random_uuid()::text, $2, $1, 'enc', '{read_notification}', now() + interval '30 days')`,
+    [uid, deviceId],
   );
   if (spec.sessionDaysAgo !== undefined) {
     await q(
@@ -265,8 +282,12 @@ describe('maint.anon_gc', () => {
     expect(await exists(stale)).toEqual({ users: 0, auth: 0, keys: 0 });
     expect(await count('FROM user_settings WHERE user_id = $1', [stale])).toBe(0);
     expect(await count('FROM auth.session WHERE user_id = $1', [stale])).toBe(0);
+    expect(await count('FROM devices WHERE user_id = $1', [stale])).toBe(0);
+    expect(await count('FROM notifications WHERE user_id = $1', [stale])).toBe(0);
+    expect(await count("FROM push_tokens WHERE token = 'token-' || $1", [stale])).toBe(0);
     for (const kept of [recentSession, inCrew, purchased, registered, young]) {
       expect(await exists(kept)).toEqual({ users: 1, auth: 1, keys: 1 });
+      expect(await count('FROM devices WHERE user_id = $1', [kept])).toBe(1);
     }
     expect(await collectAnonymousAccounts(harness.pool, silent)).toEqual({
       deleted: 0,
