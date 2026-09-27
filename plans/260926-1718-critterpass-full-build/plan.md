@@ -11,7 +11,7 @@ critical_path_tasks: 251
 
 | Field | Value |
 |---|---|
-| Status | in_progress: 6 of 57 phases done, 10 in progress; 123 tasks done on main and 16 more in PR #33 (2026-09-27 22:45) |
+| Status | in_progress: 8 of 57 phases done (7 more in progress, 2 waiting on founder device runs); 151 of 573 tasks done once PR #57 merges (2026-09-28 01:15). Progress and next waves: [controller report](../reports/controller-260928-0113-progress-and-upcoming-waves-report.md) |
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
 | Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
@@ -52,7 +52,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 7 | [App shell, components, a11y](./phase-07-app-shell-component-library.md) | 18 | 5, 6 | 4 | in_progress |
 | 8 | [Core schema, authz + RLS, domain events](./phase-08-core-schema-authz.md) | 9 | 1 | 2 | done |
 | 9 | [Auth, anonymous-first, anti-abuse](./phase-09-auth-anonymous-antiabuse.md) | 10 | 2, 8 | 3 | done |
-| 10 | [Offline sync, commands, realtime](./phase-10-sync-realtime-outbox.md) | 11 | 2, 8, 9, 12, 14 | 4 | in_progress |
+| 10 | [Offline sync, commands, realtime](./phase-10-sync-realtime-outbox.md) | 11 | 2, 8, 9, 12, 14 | 4 | done |
 | 11 | [Jobs, notification router, push](./phase-11-jobs-notifications-push.md) | 11 | 5, 10 | 5 | in_progress |
 | 12 | [Entitlements, money & FX primitives](./phase-12-entitlements-money-fx.md) | 7 | 8 | 3 | done |
 | 13 | [LLM gateway, personas, autonomy](./phase-13-llm-gateway-personas-autonomy.md) | 12 | 8, 11 | 6 | in_progress |
