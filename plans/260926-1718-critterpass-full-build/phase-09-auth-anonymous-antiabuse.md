@@ -98,6 +98,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. Configure minimal plugins (anonymous, phoneNumber, jwt, admin, expo), `disableImplicitLinking`, `trustedOrigins`, session 30 d / `updateAge` 1 d. 2. Generate auth schema, review, commit SQL; grants per data-model §2. 3. `databaseHooks.user.create.after` inserts `public.users` (same id) + `user_settings` defaults. 4. zod env check for auth vars.
 - Tests: `pnpm --filter @cp/api test -- auth/core`
 - Done when: anonymous sign-in creates `auth.user` + `public.users` with identical uuidv7; `app_user` cannot SELECT `auth.*`.
+- Status: done — 7fe2d99 (test named `core.db.test.ts` per the repo's Testcontainers convention — `pnpm --filter @cp/api test:db -- auth/core`; `services/api/src/auth/otp/*` and `routes/webhooks-whatsapp.ts` landed early as a real, credential-free routing skeleton so the phoneNumber plugin has a working `sendOTP`, filled in by T4)
 
 ### T2 — JWT/JWKS for PowerSync and Centrifugo, key rotation
 - Goal: short-lived audience-scoped tokens.
@@ -105,6 +106,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. jwt plugin EdDSA, encrypted private keys, `aud` sync|rt, 15 min, claims `sub`, `sid`, `anon`. 2. `/api/auth/token?aud=` endpoint. 3. Rotation job fn + retention of old keys 7 d. 4. Tests verify with `jose` `createRemoteJWKSet` against `/api/auth/jwks`, including after rotation.
 - Tests: `pnpm --filter @cp/api test -- auth/jwks`
 - Done when: token verifies by kid before and after rotation; wrong aud rejected; revoked session cannot mint tokens.
+- Status: done — 213435e (`jwks.db.test.ts` per Testcontainers convention, `pnpm --filter @cp/api test:db -- auth/jwks`; discovered and worked around Better Auth's undocumented hard-coded 3-per-10s `/sign-in*` rate limit via `rateLimit.customRules`)
 
 ### T3 — Anonymous sign-in with attestation
 - Goal: attested anonymous-first identity.
