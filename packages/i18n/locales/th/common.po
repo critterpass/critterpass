@@ -7,14 +7,947 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
 
+#: ../../apps/mobile/src/ui/states/PendingSync.tsx
+msgid "common.pending.sending"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
+msgid "common.chat.fromAuthor"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/camera/ScanOverlay.tsx
+msgid "common.camera.scanned"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/CountBadge.tsx
+msgid "common.badge.new"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/ClusterBubble.tsx
+msgid "map.clusterBubble.accessibilityLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
+msgid "common.home.switchCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/SegmentedProgress.tsx
+msgid "common.data.nOfTotalDone"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/DexHeader.tsx
+msgid "common.critter.dexCount"
+msgstr ""
+
+#: ../../apps/mobile/src/app/+not-found.tsx
+msgid "common.notFound.guideLine"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/TabBar.tsx
+msgid "common.shell.tabBadge"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/CalendarHeatmap.tsx
+msgid "common.data.heatmapDay"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/Donut.tsx
+msgid "common.data.segmentShare"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/BalanceBars.tsx
+msgid "common.data.balanceOwed"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/BalanceBars.tsx
+msgid "common.data.balanceEven"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chat/ChatRichCard.tsx
+msgid "common.chat.isTyping"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/BalanceBars.tsx
+msgid "common.data.balanceOwes"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/DoodlePin.tsx
+msgid "map.doodlePin.accessibilityLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/SetGrid.tsx
+msgid "common.critter.slotFound"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/sticker/a11y.ts
+msgid "sticker.a11y.formLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/sticker/a11y.ts
+msgid "sticker.a11y.poseLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/people/Avatar.tsx
+msgid "common.avatar.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/people/AvatarStack.tsx
+msgid "common.avatarStack.more"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/AvatarStackPin.tsx
+msgid "map.avatarStackPin.accessibilityLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/vote/LiveOptionCards.tsx
+msgid "common.vote.lookingHere"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/AvatarStackPin.tsx
+msgid "map.avatarStackPin.accessibilityLabelOverflow"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/MustDoRow.tsx
+msgid "common.plan.isTyping"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/money/SettleRow.tsx
+msgid "common.money.settleSummary"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/LinearBar.tsx
+msgid "common.data.percentUsed"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/inputs/Slider.tsx
+msgid "common.slider.percent"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/monetize/SeatsRow.tsx
+msgid "common.monetize.seatsTaken"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/MonthBars.tsx
+msgid "common.data.monthBarsSummary"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/LimitMeter.tsx
+msgid "common.limit.count"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/inputs/SegmentBudget.tsx
+msgid "common.segmentBudget.value"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/PollBars.tsx
+msgid "common.data.votes"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/monetize/SeatsRow.tsx
+msgid "common.monetize.seatWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/WeatherStrip.tsx
+msgid "common.data.weatherDay"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/HereNowForms.tsx
+msgid "common.critter.formFound"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/HereNowForms.tsx
+msgid "common.critter.formMissing"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/FormSelector.tsx
+msgid "common.critter.formLocked"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/monetize/PauseBars.tsx
+msgid "common.monetize.activeMonths"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chat/AttachmentThumb.tsx
+#: ../../apps/mobile/src/ui/chat/Composer.tsx
+msgid "common.chat.addAttachment"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.instagram"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/trip/EtaList.tsx
+msgid "common.trip.arrivesAt"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/GuideFab.tsx
+msgid "common.shell.fabAsk"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/BackEyebrow.tsx
+msgid "common.shell.backTo"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.beach"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.boat"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.booked"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.boost"
+msgstr ""
+
 #: ../../apps/mobile/src/app/index.tsx
 msgid "common.devHome.buildVariantLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.building"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.calendar"
+msgstr ""
+
+#. placeholder {0}: primary.number
+#: ../../apps/mobile/src/ui/trip/EmergencyTiles.tsx
+msgid "common.trip.callShort"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/trip/EmergencyTiles.tsx
+msgid "common.trip.callNumber"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.camera"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/inputs/HoldRing.tsx
+#: ../../apps/mobile/src/ui/states/ConfirmSheet.tsx
+msgid "common.confirm.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.car"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
+msgid "common.plan.diffSummary"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.chat"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/inputs/TextField.tsx
+msgid "common.field.clear"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
+msgid "common.signature.clear"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/sheet/CloseButton.tsx
+msgid "common.sheet.close"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.close"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
+msgid "common.chat.closeActions"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/tier.tsx
+msgid "common.critter.tierCommon"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/TierLabel.tsx
+msgid "common.tier.common"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/trip/ImportTiles.tsx
+msgid "common.trip.copy"
+msgstr ""
+
+#. placeholder {0}: address.value
+#: ../../apps/mobile/src/ui/trip/ImportTiles.tsx
+msgid "common.trip.copyAddress"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.error"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
+msgid "common.home.chat"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
+msgid "common.home.chatUnread"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.egg"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/Egg.tsx
+msgid "common.critter.egg"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/Egg.tsx
+msgid "common.critter.eggWobbling"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/Egg.tsx
+msgid "common.critter.eggCracking"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/DayRow.tsx
+msgid "common.plan.dayN"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/inputs/Keypad.tsx
+msgid "common.keypad.delete"
 msgstr ""
 
 #: ../../apps/mobile/src/app/(dev)/_probe.tsx
 msgid "common.devProbe.title"
 msgstr ""
 
+#: ../../apps/mobile/src/app/index.tsx
+msgid "common.devHome.devToolsEntry"
+msgstr ""
+
+#: ../../apps/mobile/src/motion/island-toast/IslandToast.tsx
+msgid "motion.islandToast.dismiss"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.done"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.offlineUnavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
+#: ../../apps/mobile/src/ui/plan/TimelineBlock.tsx
+msgid "common.plan.earlier"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/people/EmptySeat.tsx
+msgid "common.emptySeat.label"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.ended"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/tier.tsx
+msgid "common.critter.tierEpic"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/TierLabel.tsx
+msgid "common.tier.epic"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.favourite"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.cues"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/vote/RateStack.tsx
+msgid "common.vote.fine"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.flight"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/documents/Postcard.tsx
+msgid "common.postcard.flip"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.food"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.free"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.freeze"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/GuideFab.tsx
+msgid "common.shell.fabHelp"
+msgstr ""
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorBack"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/ErrorSheet.tsx
+msgid "common.error.back"
+msgstr ""
+
+#: ../../apps/mobile/src/app/+not-found.tsx
+msgid "common.notFound.home"
+msgstr ""
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorHome"
+msgstr ""
+
+#. placeholder {0}: hatchlingName ?? ''
+#: ../../apps/mobile/src/ui/critters/Egg.tsx
+msgid "common.critter.eggHatched"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
+msgid "common.home.greeting"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.highlight"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/ConfirmSheet.tsx
+msgid "common.confirm.hold"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/TabBar.tsx
+msgid "common.shell.tabHome"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.in"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
+msgid "common.home.inbox"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
+msgid "common.home.inboxUnread"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.toast"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
+msgid "common.plan.keepChange"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
+msgid "common.plan.changeKept"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
+#: ../../apps/mobile/src/ui/plan/TimelineBlock.tsx
+msgid "common.plan.later"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/vote/LiveOptionCards.tsx
+msgid "common.vote.leading"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/MonthStrip.tsx
+msgid "common.critter.legendaryMonths"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/tier.tsx
+msgid "common.critter.tierLegendary"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/TierLabel.tsx
+msgid "common.tier.legendary"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.listViewToggle"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.live"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/Skeleton.tsx
+msgid "common.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.locked"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.loops"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/vote/RateStack.tsx
+msgid "common.vote.lovedIt"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.mapViewToggle"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.maybe"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
+msgid "common.chat.messageActions"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.title"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.mode"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.demoToastSubtitle"
+msgstr ""
+
+#. placeholder {0}: person.name
+#: ../../apps/mobile/src/ui/plan/RoomAssign.tsx
+msgid "common.plan.pickPerson"
+msgstr ""
+
+#. placeholder {0}: picked.name
+#. placeholder {1}: room.name
+#: ../../apps/mobile/src/ui/plan/RoomAssign.tsx
+msgid "common.plan.movePersonHere"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/DayRow.tsx
+msgid "common.plan.moveDown"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/RoomAssign.tsx
+msgid "common.plan.moveHere"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/DayRow.tsx
+msgid "common.plan.moveUp"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/recap/AwardsGrid.tsx
+msgid "common.recap.mvp"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
+msgid "common.story.next"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
+msgid "common.vote.no"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.noResults"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/OfflinePill.tsx
+msgid "common.offline.noSignal"
+msgstr ""
+
+#. placeholder {0}: top.label
+#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
+msgid "common.vote.noTo"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
+msgid "common.signature.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.notifications"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/money/SettleRow.tsx
+msgid "common.money.nudge"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/money/SettleRow.tsx
+msgid "common.money.nudgePerson"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/CritterDetail.tsx
+msgid "common.critter.dexNumber"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/inputs/Toggle.tsx
+msgid "common.toggle.off"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/inputs/Toggle.tsx
+msgid "common.toggle.on"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.demoToastAction"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/PermissionCard.tsx
+msgid "common.permission.openSettings"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/DayBarsVsPlan.tsx
+msgid "common.data.overPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/story/PageDots.tsx
+msgid "common.story.pageOf"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/TabBar.tsx
+msgid "common.shell.tabPass"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.demoToastTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.passPlus"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
+msgid "common.story.pause"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/monetize/PauseBars.tsx
+msgid "common.monetize.pausedMonths"
+msgstr ""
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorBackBody"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.place"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.planned"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
+msgid "common.story.play"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.format.post"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
+msgid "common.story.previous"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/inputs/SettingsGroup.tsx
+msgid "common.settings.private"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/HourlyCrowd.tsx
+msgid "common.data.crowdSummary"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.rain"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/tier.tsx
+msgid "common.critter.tierRare"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/TierLabel.tsx
+msgid "common.tier.rare"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chat/ReactionFloats.tsx
+msgid "common.chat.reactions"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/trip/PhraseCard.tsx
+msgid "common.trip.playPhrase"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chat/Composer.tsx
+msgid "common.chat.recordVoice"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
+msgid "common.plan.rejectChange"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
+msgid "common.plan.changeRejected"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chat/AttachmentThumb.tsx
+msgid "common.chat.removeAttachment"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.rendering"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/recap/RouteRider.tsx
+msgid "common.recap.route"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.save"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/camera/ScanOverlay.tsx
+msgid "common.camera.scanning"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/inputs/SearchField.tsx
+msgid "common.search.label"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chat/Composer.tsx
+msgid "common.chat.send"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/OutboxList.tsx
+msgid "common.outbox.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/OutboxList.tsx
+msgid "common.outbox.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.share"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.showToast"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.sight"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
+msgid "common.signature.hint"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
+msgid "common.signature.typeName"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
+msgid "common.signature.pad"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
+msgid "common.signature.signed"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/vote/RateStack.tsx
+msgid "common.vote.skipIt"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
+msgid "common.story.position"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.slowmo"
+msgstr ""
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorEyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorHomeBody"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.stay"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/story/StepTabs.tsx
+msgid "common.story.step"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/story/StepTabs.tsx
+msgid "common.story.stepDone"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chat/Composer.tsx
+msgid "common.chat.stopRecording"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/trip/PhraseCard.tsx
+msgid "common.trip.stopPhrase"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.format.story"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.streak"
+msgstr ""
+
+#. placeholder {0}: ghost.title
+#. placeholder {1}: clockOf(locale, ghost.start)
+#: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
+msgid "common.plan.acceptSuggestion"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.sunny"
+msgstr ""
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.defaultDestinationName"
+msgstr ""
+
+#: ../../apps/mobile/src/app/+not-found.tsx
+msgid "common.notFound.title"
+msgstr ""
+
 #: ../../apps/mobile/src/app/(dev)/_probe.tsx
 msgid "common.devProbe.body"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/inputs/Keypad.tsx
+msgid "common.keypad.thousand"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.ticket"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/data/DayBarsVsPlan.tsx
+msgid "common.data.today"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/TabBar.tsx
+msgid "common.shell.tabTrips"
+msgstr ""
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorRetry"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.locationDenied"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/sticker/a11y.ts
+msgid "sticker.a11y.lockedLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.unopened"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/StaleCaption.tsx
+msgid "common.stale.updated"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/vote/IdeaVoteBox.tsx
+msgid "common.vote.upvote"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.volcano"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.vote"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/recap/AwardsGrid.tsx
+msgid "common.recap.voteMvp"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/vote/SplitShowdown.tsx
+#: ../../apps/mobile/src/ui/vote/VoteBoard.tsx
+msgid "common.vote.tapToVote"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/vote/SplitShowdown.tsx
+msgid "common.vote.versus"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/states/OutboxList.tsx
+msgid "common.outbox.queued"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/TabBar.tsx
+msgid "common.shell.tabWallet"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.wallet"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
+msgid "common.plan.wasHere"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
+msgid "common.vote.yes"
+msgstr ""
+
+#. placeholder {0}: top.label
+#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
+msgid "common.vote.yesTo"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.notInDestination"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/DexHeader.tsx
+msgid "common.critter.yourDex"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/YouDot.tsx
+msgid "map.youDot.accessibilityLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/critters/MonthStrip.tsx
+msgid "common.critter.tripMonths"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/chat/ChatRichCard.tsx
+#: ../../apps/mobile/src/ui/data/PollBars.tsx
+#: ../../apps/mobile/src/ui/vote/VoteBoard.tsx
+msgid "common.data.yourVote"
 msgstr ""

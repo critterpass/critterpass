@@ -245,7 +245,7 @@ export function ChatRichCard(props: ChatRichCardProps) {
           testID={props.testID}
           accessible
           accessibilityRole="text"
-          accessibilityLabel={t({ id: 'common.plan.isTyping', message: `${name} is typing` })}
+          accessibilityLabel={t({ id: 'common.chat.isTyping', message: `${name} is typing` })}
         >
           {props.avatar}
           <View style={[styles.card, styles.typing]}>
