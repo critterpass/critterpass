@@ -77,8 +77,40 @@ async function seedReport(
   }
 }
 
+export const LOCAL_JOIN_CODE = 'MQ7R2K';
+const MAI_DEVICE = '01920000-0000-7000-8000-00000000d001';
+
+/** Mai's live session, phone and action key, and her referral code, for the support screens. */
+async function seedSupport(client: pg.Client): Promise<void> {
+  await client.query(
+    `INSERT INTO auth.session (id, user_id, token, expires_at, user_agent)
+     VALUES ('01920000-0000-7000-8000-00000000c001', $1, 'local-mai-session-token',
+             now() + interval '30 days', 'CritterPass/1.4.0 (iPhone; iOS 26.0)')
+     ON CONFLICT (id) DO NOTHING`,
+    [mai.id],
+  );
+  await client.query(
+    `INSERT INTO devices (id, user_id, platform, os_version, app_version, locale, tz)
+     VALUES ($1, $2, 'ios', '26.0', '1.4.0', 'vi', 'Asia/Ho_Chi_Minh') ON CONFLICT (id) DO NOTHING`,
+    [MAI_DEVICE, mai.id],
+  );
+  await client.query(
+    `INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
+     VALUES ('local-mai-key', $1, $2, 'local-only', ARRAY['ballot'], now() + interval '30 days')
+     ON CONFLICT (key_id) DO NOTHING`,
+    [MAI_DEVICE, mai.id],
+  );
+  await client.query(
+    `INSERT INTO join_codes (code, target_kind, target_id, created_by)
+     SELECT $1, 'referral', $2, $2
+     WHERE NOT EXISTS (SELECT 1 FROM join_codes WHERE code = $1 AND status = 'active')`,
+    [LOCAL_JOIN_CODE, mai.id],
+  );
+}
+
 export async function seedWorkQueues(client: pg.Client): Promise<void> {
   await seedTravellers(client);
+  await seedSupport(client);
   await seedReport(client, sam.id, 'spam', [mai.id, linh.id]);
   await seedReport(client, rex.id, 'harassment', [linh.id]);
 }

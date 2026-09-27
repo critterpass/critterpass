@@ -9,6 +9,7 @@ import { catalogueArea } from './catalogue';
 import { flagsArea } from './flags';
 import { moderationArea, type MediaUrlSigner } from './moderation';
 import { partnersArea } from './partners';
+import { supportArea } from './support';
 import type { AdminAreaDefinition } from './registry';
 
 export interface AdminAreaDeps {
@@ -23,5 +24,6 @@ export function adminAreas(deps: AdminAreaDeps): readonly AdminAreaDefinition[] 
     flagsArea(deps.pool),
     partnersArea(deps.pool),
     moderationArea(deps),
+    supportArea(deps),
   ];
 }

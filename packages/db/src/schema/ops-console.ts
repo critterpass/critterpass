@@ -111,6 +111,24 @@ export const opsModerationFilings = ops.table('moderation_filings', {
   filedAt: timestamp('filed_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });
 
+/** Support's time-boxed perk grants; active ones feed the entitlement engine as Pass+ time. */
+export const opsEntitlementGrants = ops.table('entitlement_grants', {
+  id: uuid('id')
+    .primaryKey()
+    .default(sql`uuidv7()`),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id),
+  perk: text('perk').notNull(),
+  until: timestamp('until', { withTimezone: true, mode: 'date' }).notNull(),
+  reason: text('reason').notNull(),
+  grantedBy: uuid('granted_by').notNull(),
+  grantedAt: timestamp('granted_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+  revokedAt: timestamp('revoked_at', { withTimezone: true, mode: 'date' }),
+  revokedBy: uuid('revoked_by'),
+  revokeReason: text('revoke_reason'),
+});
+
 // ops.* tables follow ops-core.ts's convention (RLS class S, never publishable, no class of their
 // own); moderation_reports lives in `public` and so carries one.
 registerTablePrivacy('moderation_reports', { class: 'C2' });

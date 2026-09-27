@@ -202,7 +202,7 @@ Phase owns the migration that creates the table (later phases may add columns vi
 | 14 POI, map, routing | `pois`, `poi_embeddings`, `poi_live_checks`, `map_regions` |
 | 15 Fares, weather, crowds | `price_quotes`, `fare_cells`, `weather_snapshots`, `crowd_forecasts`, `season_months`, `season_events`, `hazard_alerts`, `ops.supplier_calls` |
 | 16 Cost & constraint engine | `cost_components`, `share_calcs` |
-| 17 Back-office & ops | `ops.concierge_tasks`, `ops.approvals`, `ops.partner_adapters`, `ops.moderation_filings`, `moderation_reports` |
+| 17 Back-office & ops | `ops.concierge_tasks`, `ops.approvals`, `ops.partner_adapters`, `ops.moderation_filings`, `ops.entitlement_grants`, `moderation_reports` |
 | 18 Content factory | `content_releases`, `critter_sets`, `critters`, `critter_forms`, `spawn_rules`, `critter_public`, `phrase_cards`, `emergency_numbers`, `facilities`, `help_articles`, `ops.content_reviews` |
 | 20 Permissions, location, visits | `location_shares`, `location_fixes`, `member_etas`, `visits` |
 | 21 Link resolver, deferred links | `join_codes`, `install_attributions` (claim fields) |

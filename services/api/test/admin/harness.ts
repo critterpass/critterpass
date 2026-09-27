@@ -15,6 +15,7 @@ import { createApp } from '../../src/app';
 import type { AccessVerifier } from '../../src/admin/access';
 import { createAccountControl, type AccountControl } from '../../src/admin/accounts';
 import { adminAreas } from '../../src/admin/areas';
+import { registerSupportGrantSource } from '../../src/admin/entitlement-grants';
 import type { MediaUrlSigner } from '../../src/admin/moderation';
 import { parseAdminAllowlist } from '../../src/admin/allowlist';
 import { createAdminAuth, type AdminAuth } from '../../src/admin/auth';
@@ -87,6 +88,7 @@ export async function startAdminHarness(): Promise<AdminHarness> {
     attestation: disabledAttestationConfig(),
   });
   const accounts = createAccountControl(appAuth.auth, pool);
+  registerSupportGrantSource();
   const userCommands = createCommandRegistry();
   userCommands.register(reportContentCommand);
 

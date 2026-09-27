@@ -406,7 +406,9 @@ All via `/v1/admin/*` (Better Auth `admin` role + role claims `ops`, `content`, 
 | `report_content` | `{kind, id, reason: spam\|harassment\|hate\|sexual\|violence\|impersonation\|personal_info\|other}` via `/v1/cmd` (any user, anonymous included; offline-capable); 20 per user per rolling 24 h (`RATE_LIMITED`); a subject with an open report from the last 24 h collapses into it (`report_count` + 1, same reporter counts once) → `{report_id, collapsed}` | user | – | 17 |
 | `set_feature_flag` | `{key, value, audience}` (supplier flags, perk lists, free limit 30) | ops | `flag.changed` | 17 |
 | `set_perk_catalogue` | `{products[], perks[], copy_keys}` (server-driven paywall/perks) | ops | `catalogue.changed` | 46 |
-| `grant_entitlement` / `revoke_entitlement` | `{uid, perk, until, reason}` | support | `entitlement.granted/revoked` | 17 |
+| `grant_entitlement` / `revoke_entitlement` | grant `{uid, perk: pass_plus, until (≤ 366 d ahead), reason}` → `ops.entitlement_grants` row, resolved by the entitlement engine as Pass+ time until `until` (same shape as a redeemed code) and recomputed in the same tx; revoke `{uid, perk, reason}` ends every active grant of that perk (`STATE_INVALID` when none) | support | `entitlement.granted/revoked` | 17 |
+| `revoke_session` / `ban_user` / `unban_user` | `{uid, session_id, reason}` / `{uid, reason, until: datetime\|null}` / `{uid, reason}`; through the app's Better Auth store (Redis mirror + `auth.session`), so the user's next call is 401; revoke and ban fan out `session.revoked` on `user:#uid` and revoke action keys | support | – | 17 |
+| `revoke_device_key` | `{uid, device_id, reason}`: revokes that device's action keys | support | – | 17 |
 | `set_idea_status` / `merge_ideas` | `{idea_id, status, fixed_in_version?}` | support | `idea.status_changed` (N-38) | 47 |
 | `approve_content_batch` / `reject_content_batch` | `{batch_id, notes}` (critter forms, personas, places, phrases) | content | `content.approved` → publish job | 18 |
 | `upsert_poi` / `set_emergency_info` | `{poi or country record, verified_at}` | content | `poi.changed` | 14, 38 |

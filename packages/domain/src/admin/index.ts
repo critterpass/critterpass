@@ -7,3 +7,4 @@ export * from './commands';
 export * from './config-keys';
 export * from './catalogue';
 export * from './moderation-kinds';
+export * from './support';

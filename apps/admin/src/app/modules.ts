@@ -7,10 +7,12 @@ import { catalogueModule } from '../modules/catalogue';
 import { flagsModule } from '../modules/flags';
 import { moderationModule } from '../modules/moderation';
 import { partnersModule } from '../modules/partners';
+import { supportModule } from '../modules/support';
 
 export const ADMIN_MODULES: readonly AdminModule[] = [
   moderationModule,
   catalogueModule,
   flagsModule,
   partnersModule,
+  supportModule,
 ];

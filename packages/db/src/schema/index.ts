@@ -32,6 +32,7 @@ export {
   moderationReports,
   opsApprovals,
   opsConciergeTasks,
+  opsEntitlementGrants,
   opsModerationFilings,
   opsPartnerAdapters,
 } from './ops-console';

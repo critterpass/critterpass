@@ -6,7 +6,8 @@
  * A revoke or ban then fans out like the app's own sign-out (realtime disconnect on `user:#uid`,
  * device action keys revoked).
  *
- * E-mail and phone number are lookup keys, never shown in full: the console gets them masked.
+ * E-mail and phone number are lookup keys only (the privacy map files both under C3): the console
+ * learns whether an account has one, never the value.
  */
 import type pg from 'pg';
 
@@ -15,8 +16,8 @@ import { fanOutSessionRevoked } from '../auth/guards';
 export interface AccountSummary {
   readonly uid: string;
   readonly isAnonymous: boolean;
-  readonly emailMasked: string | null;
-  readonly phoneMasked: string | null;
+  readonly hasEmail: boolean;
+  readonly hasPhone: boolean;
   readonly banned: boolean;
   readonly banReason: string | null;
   readonly banExpires: Date | null;
@@ -71,7 +72,6 @@ interface AuthSessionRecord {
 interface InternalAdapter {
   findUserById(id: string): Promise<AuthUserRecord | null>;
   findUserByEmail(email: string): Promise<{ user: AuthUserRecord } | null>;
-  listSessions(userId: string): Promise<AuthSessionRecord[]>;
   deleteSession(token: string): Promise<void>;
   deleteUserSessions(userId: string): Promise<void>;
   updateUser(userId: string, data: Record<string, unknown>): Promise<unknown>;
@@ -84,6 +84,7 @@ interface AuthContext {
       model: string;
       where: { field: string; value: string }[];
     }): Promise<T | null>;
+    findMany<T>(query: { model: string; where: { field: string; value: string }[] }): Promise<T[]>;
   };
 }
 
@@ -95,20 +96,22 @@ export interface AppAuthHandle {
 const PLACEHOLDER_EMAIL = /@anonymous\.placeholder\.invalid$/;
 const E164 = /^\+[1-9]\d{6,14}$/;
 
-export function maskEmail(email: string): string | null {
-  if (PLACEHOLDER_EMAIL.test(email)) return null;
-  const [local = '', domain = ''] = email.split('@');
-  return `${local.slice(0, 1)}***@${domain}`;
-}
-
-export function maskPhone(phone: string): string {
-  return `${phone.slice(0, 3)} ••• ${phone.slice(-2)}`;
-}
-
 const toDate = (value: Date | string) => (value instanceof Date ? value : new Date(value));
 
 export function createAccountControl(appAuth: AppAuthHandle, pool: pg.Pool): AccountControl {
   const context = async () => (await appAuth.$context) as AuthContext;
+  // Sessions are stored in Postgres as well as the Redis mirror (`storeSessionInDatabase`), so the
+  // table is the complete list; revoking goes through the adapter, which clears both.
+  const liveSessions = async (uid: string) => {
+    const rows = await (
+      await context()
+    ).adapter.findMany<AuthSessionRecord>({
+      model: 'session',
+      where: [{ field: 'userId', value: uid }],
+    });
+    const now = Date.now();
+    return rows.filter((row) => toDate(row.expiresAt).getTime() > now);
+  };
 
   return {
     async findByEmail(email) {
@@ -131,8 +134,8 @@ export function createAccountControl(appAuth: AppAuthHandle, pool: pg.Pool): Acc
       return {
         uid: user.id,
         isAnonymous: user.isAnonymous === true,
-        emailMasked: maskEmail(user.email),
-        phoneMasked: user.phoneNumber ? maskPhone(user.phoneNumber) : null,
+        hasEmail: !PLACEHOLDER_EMAIL.test(user.email),
+        hasPhone: Boolean(user.phoneNumber),
         banned: user.banned === true,
         banReason: user.banReason ?? null,
         banExpires: user.banExpires ? toDate(user.banExpires) : null,
@@ -140,7 +143,7 @@ export function createAccountControl(appAuth: AppAuthHandle, pool: pg.Pool): Acc
       };
     },
     async sessions(uid) {
-      const sessions = await (await context()).internalAdapter.listSessions(uid);
+      const sessions = await liveSessions(uid);
       return sessions
         .map((session) => ({
           id: session.id,
@@ -151,10 +154,9 @@ export function createAccountControl(appAuth: AppAuthHandle, pool: pg.Pool): Acc
         .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
     },
     async revokeSession(uid, sessionId) {
-      const adapter = (await context()).internalAdapter;
-      const session = (await adapter.listSessions(uid)).find((entry) => entry.id === sessionId);
+      const session = (await liveSessions(uid)).find((entry) => entry.id === sessionId);
       if (session === undefined) return false;
-      await adapter.deleteSession(session.token);
+      await (await context()).internalAdapter.deleteSession(session.token);
       await fanOutSessionRevoked(pool, uid);
       return true;
     },

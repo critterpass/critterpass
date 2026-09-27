@@ -54,6 +54,7 @@ import { registerActionsRoute } from './routes/actions';
 import { registerNotificationRoutes } from './routes/notifications';
 import { routeNotificationsFromApiEvents, startJobProducer } from './jobs/producer';
 import { buildAdminConsole } from './admin/bootstrap';
+import { registerSupportGrantSource } from './admin/entitlement-grants';
 import { mountAdminRouter } from './admin/router';
 
 const env = loadApiEnv();
@@ -186,6 +187,9 @@ const jobProducer = startJobProducer({
   return undefined;
 });
 routeNotificationsFromApiEvents();
+
+// Support's time-boxed perk grants are one more entitlement source, console or not.
+registerSupportGrantSource();
 
 // The three command doors over one registry (docs/api-contracts.md §2.2, §5.2).
 const commands = createCommandRegistry();
