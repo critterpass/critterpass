@@ -409,6 +409,7 @@ All via `/v1/admin/*` (Better Auth `admin` role + role claims `ops`, `content`, 
 | `set_idea_status` / `merge_ideas` | `{idea_id, status, fixed_in_version?}` | support | `idea.status_changed` (N-38) | 47 |
 | `approve_content_batch` / `reject_content_batch` | `{batch_id, notes}` (critter forms, personas, places, phrases) | content | `content.approved` → publish job | 18 |
 | `upsert_poi` / `set_emergency_info` | `{poi or country record, verified_at}` | content | `poi.changed` | 14, 38 |
+| `upsert_season_editorial` (doc delta) | `{destination_id, months[], events[], approve?}` (each row sourced; edits are drafts until approved) | content | – | 15 |
 | `send_vendor_message` | see §4.11 | ops | – | 35 |
 
 ## 5. HTTP endpoints (`services/api`)
@@ -474,12 +475,13 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 |---|---|---|---|
 | `GET /v1/places/search?q&near&filters` | S | curated POI DB (FTS + trgm + pgvector) | 1 h |
 | `GET /v1/places/{id}?trip_id` | S | POI DB + Foursquare live check (hours) | 15 min |
-| `GET /v1/places/{id}/crowds?date` | S | BestTime | 24 h |
+| `GET /v1/places/{id}/crowds?date` | S | `crowd_forecasts` when a weekly pattern exists, else `hourly: null` + the destination's reviewed month level (no hourly source contracted) | 24 h |
 | `GET /v1/geocode?q` (doc delta) | S | our `pois` + `cities` first (trigram), Mapbox Geocoding v6 permanent-mode fallback for addresses when neither matches and a token is configured | none |
 | `GET /v1/geocode/reverse?lat&lng` (doc delta) | S | nearest `pois` row within 60 m, else nearest `cities` locality; never calls Mapbox | none |
 | `GET /v1/destinations/{id}?origins&month` | S | POI + Travelpayouts + season | 6 h |
 | `GET /v1/fares?origins&dest&month` | S | Travelpayouts calendar (cached, "seen {time}") | 6 h |
-| `GET /v1/weather?lat&lng&from&to` / `/marine` | S | Open-Meteo | 1 h |
+| `GET /v1/weather?lat&lng&from&to[&elevation_m]` / `/marine` | S | stored WeatherAPI.com snapshots nearest the point (30 km; marine 60 km), `stale` flag, attribution | 1 h |
+| `GET /v1/hazards?destination_id` (doc delta) | S | `hazard_alerts` (MAGMA, IMO, JMA, GVP), highest level first, `stale` after 3 h unread | 15 min |
 | `GET /v1/fx/snapshot?base` | S | Frankfurter v2 daily | 24 h, offline bundle |
 | `GET /v1/routes/eta` | S | Valhalla (+ Mapbox traffic for leave-by) | none |
 | `GET /v1/budget/{trip_id}/band` | S | SECURITY DEFINER aggregate (k ≥ 4) | none |
