@@ -27,9 +27,10 @@ export interface RenderJob {
   readonly format: BakeFormat;
 }
 
-/** A rendered output: usually one file per job, three for `variant: 'blur'` (its blur stages). */
+/** A rendered output: usually one file per job, three for `variant: 'blur'` (its blur stages). `sourceJobOutPath` always equals the originating `RenderJob.outPath` (even for a blur stage's own, different `outPath`), so callers can look outputs back up by job without guessing at the blur-stage filename suffix. */
 export interface RenderOutput {
   readonly outPath: string;
+  readonly sourceJobOutPath: string;
   readonly bytes: Uint8Array;
 }
 
@@ -225,7 +226,7 @@ export async function renderJob(job: RenderJob): Promise<RenderOutput[]> {
 
   if (!isBlur) {
     const bytes = await encodeCanvas(canvas, job.format);
-    return [{ outPath: job.outPath, bytes }];
+    return [{ outPath: job.outPath, sourceJobOutPath: job.outPath, bytes }];
   }
 
   const outputs: RenderOutput[] = [];
@@ -233,7 +234,11 @@ export async function renderJob(job: RenderJob): Promise<RenderOutput[]> {
     const sigma = BLUR_STAGE_SIGMAS[stage] ?? 1;
     const blurred = blurCanvas(canvas, sigma * job.scale);
     const bytes = await encodeCanvas(blurred, job.format);
-    outputs.push({ outPath: job.outPath.replace(/(\.[a-z-]+)$/, `-stage${stage + 1}$1`), bytes });
+    outputs.push({
+      outPath: job.outPath.replace(/(\.[a-z-]+)$/, `-stage${stage + 1}$1`),
+      sourceJobOutPath: job.outPath,
+      bytes,
+    });
   }
   return outputs;
 }

@@ -150,6 +150,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         isAccessMediaLocationEnabled: false,
       },
     ],
+    // Last: copies the bake pipeline's generated critter art into the app + every extension target
+    // (iOS) and Android res/ once every other plugin's prebuild output exists.
+    './plugins/with-critter-art',
   ],
   experiments: {
     typedRoutes: true,

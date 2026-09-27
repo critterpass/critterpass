@@ -14,7 +14,8 @@
     "test": "vitest run --passWithNoTests",
     "bake": "tsx src/cli.ts",
     "bake:web": "tsx scripts/bake-web-webp.ts",
-    "bake:og-atlas": "tsx scripts/bake-og-atlas.ts"
+    "bake:og-atlas": "tsx scripts/bake-og-atlas.ts",
+    "generate:mobile-assets": "tsx scripts/generate-mobile-assets.ts"
   },
   "dependencies": {
     "@cp/critter-art": "workspace:*",

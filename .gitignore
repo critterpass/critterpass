@@ -12,6 +12,10 @@ coverage/
 # Generated native projects (Expo continuous native generation) and tool caches
 apps/mobile/ios/
 apps/mobile/android/
+# with-critter-art copies generated xcassets into each extension target's own directory on every
+# prebuild (`@bacons/apple-targets` links the whole directory into Xcode via a file-system-
+# synchronized group) — regenerated each time, not source.
+apps/mobile/targets/*/CritterArt.xcassets/
 # Inline Expo modules (apps/mobile/modules/cp-*) keep committed native source next to their own
 # local Gradle/Xcode build output when built in isolation (e.g. Android Studio, `./gradlew` from the
 # module dir) — only the output leaks untracked without this.

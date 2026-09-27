@@ -28,3 +28,12 @@ export { writeWebWebp } from './writers/web-webp';
 
 export type { AtlasIndex, AtlasRect, OgAtlasResult } from './writers/og-atlas';
 export { writeOgAtlas } from './writers/og-atlas';
+
+export type { XcassetImageVariant, XcassetImageset } from './writers/xcassets';
+export { buildImagesets, imagesetName, writeXcassetCatalog } from './writers/xcassets';
+
+export type { AndroidResFile } from './writers/android-res';
+export { buildAndroidResFiles, writeAndroidRes } from './writers/android-res';
+
+export type { AppGroupKeyIndex } from './writers/app-group-keys';
+export { buildAppGroupKeyIndex, writeAppGroupKeyIndex } from './writers/app-group-keys';
