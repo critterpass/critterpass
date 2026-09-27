@@ -27,12 +27,16 @@ import * as schema from './schema';
  * them directly) but docs/data-model.md §3.13 marks both `Stream: —`/"not synced" rather than a
  * PowerSync stream name: `cities` is served over HTTP only (too large and too rarely-changing a
  * reference table for a live sync stream), and `poi_live_checks` is a volatile per-POI cache
- * refreshed by on-demand live checks, read through the places API rather than replicated. Add a new
- * entry here, with the same comment style, if a later table needs the same treatment.
+ * refreshed by on-demand live checks, read through the places API rather than replicated.
+ *
+ * `install_attributions` (packages/db/src/schema/user-private.ts) is the "S" shape again: a device's
+ * attribution record has no app_user SELECT policy at all. Add a new entry here, with the same
+ * comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'cities',
   'fair_use_counters',
+  'install_attributions',
   'media_objects',
   'poi_embeddings',
   'poi_live_checks',

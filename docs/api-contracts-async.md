@@ -26,7 +26,7 @@ History = size / TTL. Presence ✓ = Centrifugo presence + join/leave enabled.
 
 | Namespace / pattern | ACL (subscribe proxy) | Payload types | Rate | Presence | History | Phase |
 |---|---|---|---|---|---|---|
-| `user:#{uid}` | self | `inbox.*`, `badge.counts`, `entitlement.changed`, `usage.changed{used, limit, reset_at}`, `job.progress{job_id, step, pct}`, `guide.private_message`, `cmd.result`, `session.revoked` | event | – | 100 / 24 h | 10 |
+| `user:#{uid}` | self | `inbox.*`, `badge.counts`, `entitlement.changed`, `usage.changed{used, limit, reset_at}`, `job.progress{job_id, step, pct}`, `guide.private_message`, `cmd.result`, `session.revoked`, `otp.channel_failed{verification_id}` | event | – | 100 / 24 h | 9, 10 |
 | `crew:{crew_id}` | member | `member.joined/left/updated`, `invite.opened`, `boost.state`, `trip.summary`, `home.badges` | event | ✓ | 50 / 24 h | 23 |
 | `crew_chat:{crew_id}` | member | `message.created/edited/deleted`, `reaction`, `typing{uid\|guide}`, `guide.token{stream_id, seq, text}`, `poll.tally`, `guide_offer.taken`, `boost_card` | per msg; typing ≤0.33 Hz/user; tokens ~20/s | ✓ | 200 / 72 h | 24 |
 | `crew_money:{crew_id}` | member | `expense.*`, `balances.updated`, `payment.status`, `reward.granted{server_ts}` | event | – | 100 / 72 h | 33 |
@@ -259,7 +259,7 @@ All run through `POST /v1/actions` with the device action key; extension writes 
 | Request | headers `X-CP-Key-Id`, `X-CP-Ts` (±300 s), `X-CP-Sig = base64url(HMAC-SHA256(secret, method \n path \n ts \n sha256(body)))`; body = command envelope with `actor.via` set |
 | Server | key → (uid, device_id, scopes); reject scope misses with `ACTION_KEY_SCOPE`; same pipeline as `/v1/cmd` |
 | Lifetime | 30 d rolling, rotated on app foreground when <7 d left; revoked on sign-out, device removal, deletion, uid merge, or admin action |
-| Storage | `device_action_keys(key_id, user_id, device_id, secret (HMAC key encrypted at rest), scopes, expires_at, revoked_at)` (data-model §3) |
+| Storage | `device_action_keys(key_id, user_id, device_id, secret_enc (HMAC-signing secret, AES-256-GCM envelope-encrypted), scopes, expires_at, last_used_at, revoked_at)` (data-model §3.1); `issueActionKey`, `verifyActionKeyRequest` (constant-time signature compare), `revokeActionKey`/`revokeActionKeysForUser`/`revokeActionKeysForDevice` built in phase 9 as the sole owner of the table + this verification primitive — phase 11 adds only the `devices` FK expand migration, the `POST/DELETE /v1/devices/{id}/action-keys` routes above, `/v1/actions`, and the Swift/Kotlin request signer |
 
 ## 6. App Group contract (P48, P49; Android mirror P50)
 

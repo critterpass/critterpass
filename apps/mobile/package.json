@@ -16,6 +16,7 @@
     "@cp/domain": "workspace:*",
     "@cp/entitlements": "workspace:*",
     "@cp/i18n": "workspace:*",
+    "@expo/app-integrity": "58.0.0",
     "@expo/dom-webview": "58.0.1",
     "@expo/log-box": "58.0.5",
     "@expo/metro-runtime": "58.0.7",

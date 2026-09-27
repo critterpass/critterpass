@@ -67,6 +67,16 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     // needs a real row on the organiser specifically for that probe to mean anything.
     await tx.query('INSERT INTO user_settings (user_id) VALUES ($1)', [organiser]);
     await tx.query("INSERT INTO consents (user_id, purpose) VALUES ($1, 'analytics')", [organiser]);
+    await tx.query('INSERT INTO user_private (user_id) VALUES ($1)', [organiser]);
+    await tx.query(
+      `INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
+       VALUES ($1, $2, $3, 'matrix-probe', ARRAY['ballot'], now() + interval '30 days')`,
+      [crypto.randomUUID(), crypto.randomUUID(), organiser],
+    );
+    await tx.query(
+      `INSERT INTO account_deletions (user_id, purge_at, source) VALUES ($1, now() + interval '30 days', 'app')`,
+      [organiser],
+    );
 
     // Catalogue content (RLS class R, read-all authenticated): the table must not be empty or a
     // probe cannot tell "denied" apart from "table has nothing in it yet".

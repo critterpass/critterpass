@@ -1,0 +1,9 @@
+{
+  "error": {
+    "message": "(#131030) Recipient phone number not in allowed list",
+    "type": "OAuthException",
+    "code": 131030,
+    "error_subcode": 2655007,
+    "fbtrace_id": "AexampleTraceId"
+  }
+}

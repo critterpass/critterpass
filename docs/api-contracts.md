@@ -424,12 +424,14 @@ Auth column: **S** session bearer · **A** anonymous session allowed · **K** de
 | `POST /api/auth/phone-number/verify` | A | `updatePhoneNumber: true` keeps uid when anonymous |
 | `POST /api/auth/link-social` | A/S | `{provider: apple\|google, idToken, nonce}`; links to current uid; `disableImplicitLinking` |
 | `POST /api/auth/sign-in/social` | P | only for returning users on a fresh install; never from an anonymous session (would drop uid) |
-| `GET /api/auth/token` | S | short EdDSA JWT `aud: sync\|rt` for PowerSync / Centrifugo |
+| `POST /api/auth/sign-in/phone-number` | P | returning-user phone sign-in (`{phoneNumber, code}`), fresh install with no anonymous session; own IP+phone code-enumeration lockout on top of Better Auth's per-code attempt cap; registered ahead of Better Auth's own password-based endpoint of the same name |
+| `GET /api/auth/token?aud=sync\|rt` | S | short (15 min) EdDSA JWT for PowerSync (`aud: sync`) / Centrifugo (`aud: rt`); claims `sub` (uid), `sid`, `anon`, `kid` |
 | `GET /api/auth/jwks` | P | consumed by PowerSync + Centrifugo |
-| `POST /api/auth/sign-out`, `/revoke-session(s)` | S | → `SESSION_REVOKED` fan-out on `user:#uid` |
+| `POST /api/auth/sign-out`, `/revoke-session(s)` | S | → `SESSION_REVOKED` fan-out on `user:#uid` + device action key revocation |
+| `POST /v1/attest/challenge` | P | `{installId}` → `{challenge}`; single-use, Redis, 5 min TTL, bound to install id; consumed by the next App Attest/Play Integrity assertion |
 | `POST /v1/auth/merge-ticket` | S | when link fails with existing identity → `{ticket, preview{crews, trips}}` |
-| `POST /v1/auth/merge` | S | `{ticket, strategy: keep_existing}` → server merges anon data into existing uid (`onLinkAccount`), client `disconnectAndClear()` |
-| `POST /v1/auth/apple/authorization-code` | S | capture SIWA refresh token for revocation on deletion |
+| `POST /v1/auth/merge` | S | `{ticket, strategy: keep_existing}` → server merges anon data into existing uid (`onLinkAccount`), mints and returns a session for the existing uid in the same response, client `disconnectAndClear()` |
+| `POST /v1/auth/apple/authorization-code` | S | capture SIWA refresh token (AES-256-GCM encrypted) for revocation on deletion; requires an already-linked Apple account |
 
 ### 5.2 Commands, sync, actions (P10)
 
