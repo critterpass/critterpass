@@ -115,6 +115,7 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. Table + R RLS. 2. Pure `convert(money, snapshot)` with half_even, cross via EUR. 3. Frankfurter v2 client (timeout, retry, typed errors) with recorded responses. 4. Ingest upsert idempotent; staleness metric.
 - Tests: `pnpm --filter @cp/worker test -- fx`; `pnpm --filter @cp/cost-engine test -- fx`
 - Done when: re-running ingest creates no duplicates; conversion SGD↔IDR↔JPY matches fixture math to the minor unit.
+- Status: done — 0a8ce2e
 
 ### T4 — Pure entitlement resolution and capabilities
 - Goal: matrix → code.
