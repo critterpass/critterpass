@@ -46,23 +46,7 @@ export {
   type ProductKey,
   type ProductType,
 } from './entitlements/product-keys';
-export {
-  commandActorSchema,
-  commandDeviceSchema,
-  commandEnvelopeSchema,
-  commandNameSchema,
-  actorViaSchema,
-  devicePlatformSchema,
-  isIanaTimeZone,
-  ACTOR_VIA_VALUES,
-  DEVICE_PLATFORMS,
-  type ActorVia,
-  type CommandActor,
-  type CommandDevice,
-  type CommandEnvelope,
-  type CommandName,
-  type DevicePlatform,
-} from './commands/envelope';
+export * from './commands';
 export {
   DESTINATION_COVERAGES,
   GUIDE_COLOURS,
