@@ -339,6 +339,9 @@ importers:
       '@cp/domain':
         specifier: workspace:*
         version: link:../../packages/domain
+      '@cp/entitlements':
+        specifier: workspace:*
+        version: link:../../packages/entitlements
       '@expo/dom-webview':
         specifier: 58.0.1
         version: 58.0.1(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)
@@ -524,6 +527,15 @@ importers:
 
   services/api:
     dependencies:
+      '@cp/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@cp/domain':
+        specifier: workspace:*
+        version: link:../../packages/domain
+      '@cp/entitlements':
+        specifier: workspace:*
+        version: link:../../packages/entitlements
       '@hono/node-server':
         specifier: 'catalog:'
         version: 2.1.1(hono@4.13.9)
@@ -549,9 +561,6 @@ importers:
         specifier: 'catalog:'
         version: 4.6.5
     devDependencies:
-      '@cp/db':
-        specifier: workspace:*
-        version: link:../../packages/db
       '@seriousme/openapi-schema-validator':
         specifier: 2.11.0
         version: 2.11.0

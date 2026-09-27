@@ -59,7 +59,7 @@ export const consumerDeps = {
   // 'cost-engine' added for the shared money formatter (apps/mobile/src/data/money): formatting is
   // pure presentation logic over synced/passed-in values, not I/O, so it stays a data-layer concern
   // rather than promoting the whole hook into a feature (docs/system-architecture.md §3).
-  'mobile-data': ['domain', 'cost-engine'],
+  'mobile-data': ['domain', 'cost-engine', 'entitlements'],
   'mobile-lib': ['domain'],
   mobile: mobilePackages,
   web: ['domain', 'design-tokens', 'critter-art', 'i18n', 'content'],

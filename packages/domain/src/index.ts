@@ -232,3 +232,11 @@ export {
   type TransitionResult,
 } from './state/machine';
 export { canTransitionTrip, deriveTripPhase, transitionTrip, tripStateMachine } from './state/trip';
+export {
+  buildEntitlementsSnapshot,
+  ENTITLEMENTS_SNAPSHOT_SCHEMA_VERSION,
+  entitlementsSnapshotSchema,
+  type BoostedTrip,
+  type BuildEntitlementsSnapshotInput,
+  type EntitlementsSnapshot,
+} from './surfaces/entitlements';
