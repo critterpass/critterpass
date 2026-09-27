@@ -126,7 +126,7 @@ Migrations run in the api **pre-deploy command** (private network; failure block
 | `packages/domain` | types, zod schemas, command/event contracts, UUIDv7, error codes, privacy classes | zod only (leaf) |
 | `packages/db` | Drizzle schema, SQL migrations, roles/RLS SQL, PowerSync publication + sync streams SQL, seed, Testcontainers helpers, `withUser`/`withSystem` | domain |
 | `packages/design-tokens` | DTCG source → TS/Swift/Kotlin/CSS, motion tokens | – (leaf) |
-| `packages/critter-art` | renderer core (display list) + canvas2d/skia backends + critter data & forms | design-tokens |
+| `packages/critter-art` | renderer core (display list) + canvas2d/skia backends + critter data & forms | none (tier colours live in `src/forms/tier-palette.ts`; a mobile-side test asserts equality with design-tokens instead of a runtime dependency) |
 | `packages/critter-bake` | Node bake CLI → xcassets, drawables, webp, OG atlas | critter-art, design-tokens |
 | `packages/cost-engine` | quotes, splits, FX, budgets (pure) | domain |
 | `packages/planner` | scheduler, constraint checker, ChangeSet ops + diff (pure) | domain, cost-engine |

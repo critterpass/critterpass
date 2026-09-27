@@ -1,0 +1,6 @@
+msgid ""
+msgstr ""
+"Language: vi\n"
+
+msgid "trip.itemCount.label"
+msgstr "{count, plural, other {# mục}"

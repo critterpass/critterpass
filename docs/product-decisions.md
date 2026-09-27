@@ -391,7 +391,7 @@ Flags in `feature_flags` (server): `supplier.viator_booking`, `supplier.agoda_de
 | Q-93 | Default icon PASSPORT | N |
 | Q-94 | Synthetic owned ElevenLabs voices per guide; 3 missing themes commissioned as buy-out originals | Y |
 | Q-95 | Minimum age 16; Declared Age Range API + age-rating questionnaire (social features → ≥ 13+ category) | Y (counsel) |
-| Q-96 | Licence of adapted `alesha-pro/tools` canvas code must be confirmed or the code rewritten before the renderer ships | Y (blocker) |
+| Q-96 | Licence of adapted `alesha-pro/tools` canvas code must be confirmed or the code rewritten before the renderer ships. Resolved 2026-09-27: MIT (Copyright (c) 2026 Alexey Fateev); ported code carries the notice in `packages/critter-art/THIRD_PARTY_NOTICES.txt` | N (resolved) |
 | Q-97 | Referral dashboard under You > Invite friends; rename the "Gold cover" reward to "Collector cover" | Y |
 | Q-98 | Store preview uses real app capture, no staged group-chat opening | N |
 | Q-99 | D20 assumption; `go.` and `in.` subdomains reserved | Y |

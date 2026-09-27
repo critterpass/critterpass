@@ -1,0 +1,1 @@
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"common.devHome.buildVariantLabel\":[\"   ßũĩĺď vàŕĩàńţ:    \",[\"variant\"]],\"common.devProbe.body\":[\"             Ţĥĩś śćŕēēń ōńĺŷ ēxĩśţś ĩń ďēvēĺōƥḿēńţ, śţàĝĩńĝ àńď ƥŕēvĩēŵ ƀũĩĺďś.             \"],\"common.devProbe.title\":[\"   Ďēv ŕōũţē ƥŕōƀē   \"]}")as Messages;

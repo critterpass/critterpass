@@ -28,6 +28,12 @@ Precedence: product-decisions §1 > §2 > contracts > older reports > design fil
 - TypeScript 6.0 strict (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `verbatimModuleSyntax`); named exports except route files, Astro pages, the Worker entry and `*.config.*`; files ≤ 300 lines.
 - Wire errors: `{error: {code, message, retryable, detail?}}` with codes from `docs/api-contracts.md` §3.
 - Local infra: `pnpm infra:up` (Postgres `54320`, Redis `63790`, Centrifugo `8000`, PowerSync `8080`); Testcontainers use the same Postgres image via `@cp/db/testing`.
+- Relative imports are extensionless (`./load`, never `./load.js`): Metro cannot map `.js` to `.ts`, and lint rejects it in the app and packages.
+- Run `pnpm exec prettier --write` on what you changed before committing; CI runs `pnpm format:check`. Generated output (catalogs, generated CSS) is listed in `.prettierignore` instead of being hand-formatted.
+- `tools/scripts/no-plan-ids.test.ts` fails CI when feature, decision, question, phase or task ids appear in tracked source; privacy classes `C0`–`C5` are fine.
+- Migrations: hand-written SQL named `<UTC timestamp>_<what>.sql`, applied by `runMigrations` (tracked by filename in `public._migrations`); every user-data table gets forced RLS, grants, a privacy class and a permission test. Staging check: `railway run --service api --environment staging -- pnpm --filter @cp/db migrate`.
+- Mobile checks beyond Jest: `pnpm tsx tools/scripts/check-release-bundle.ts` (production export must bundle) and `pnpm --filter @cp/mobile exec expo-doctor`.
+- Disk is shared and small: build Android for `arm64-v8a` only, delete `ios/`/`android/` build output, simulators and emulators you create when done, and check `df -h /` before large builds.
 
 ## Status
 

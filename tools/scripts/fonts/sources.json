@@ -1,0 +1,230 @@
+{
+  "$comment": "Upstream OFL font sources pinned by commit + sha256 (docs/design-system.md §1.3). unicodeRanges values are keys into unicodeRangeDefinitions below.",
+  "unicodeRangeDefinitions": {
+    "latin": ["U+0020-007E"],
+    "latin1Supplement": ["U+00A0-00FF"],
+    "latinExtendedA": ["U+0100-017F"],
+    "vietnamese": [
+      "U+0102-0103",
+      "U+0110-0111",
+      "U+0128-0129",
+      "U+0168-0169",
+      "U+01A0-01A1",
+      "U+01AF-01B0",
+      "U+1EA0-1EF9",
+      "U+20AB"
+    ],
+    "punctuation": [
+      "U+2013-2014",
+      "U+2018-201A",
+      "U+201C-201E",
+      "U+2026",
+      "U+2030",
+      "U+2039-203A",
+      "U+2044"
+    ],
+    "currencyExtra": ["U+20A9", "U+20AC", "U+0E3F"],
+    "thai": ["U+0E01-0E3A", "U+0E3F", "U+0E40-0E5B"],
+    "thaiLatinDigitsPunct": ["U+0020-002F", "U+0030-0039", "U+003A-0040"]
+  },
+  "$rangeNotes": {
+    "mrz": "ICAO 9303 A-Z 0-9 '<' is already covered by the 'latin' range for every Latin family; no extra codepoints needed.",
+    "currency": "S$, US$ and Rp are plain Latin letters + digits (already in 'latin'); ¥ and £ come from 'latin1Supplement'; ₫ (dong) is in 'vietnamese'; ₩ (won), € (euro) and ฿ (baht sign) are 'currencyExtra'."
+  },
+  "families": {
+    "archivo": {
+      "displayName": "Archivo",
+      "license": "OFL-1.1",
+      "licenseFileName": "OFL-Archivo.txt",
+      "repo": "https://github.com/Omnibus-Type/Archivo",
+      "commit": "211127690e8ff106c36c935f7e5e697114cff103",
+      "source": {
+        "url": "https://raw.githubusercontent.com/Omnibus-Type/Archivo/211127690e8ff106c36c935f7e5e697114cff103/fonts/variable/Archivo%5Bwdth%2Cwght%5D.ttf",
+        "sha256": "664bbeb10522dac35c174a3860aaecad7b1ad3a0fc8b0d26888e26c824ec556d"
+      },
+      "licenseSource": {
+        "url": "https://raw.githubusercontent.com/Omnibus-Type/Archivo/211127690e8ff106c36c935f7e5e697114cff103/OFL.txt"
+      },
+      "variable": true,
+      "axes": { "wdth": [62, 66, 70, 78, 100], "wght": [700, 800, 900] },
+      "instanceNaming": "Archivo-W{wdth}-{wght}",
+      "unicodeRanges": [
+        "latin",
+        "latin1Supplement",
+        "latinExtendedA",
+        "vietnamese",
+        "punctuation",
+        "currencyExtra"
+      ],
+      "criticalRanges": ["vietnamese"],
+      "keepFeatures": ["tnum", "case"],
+      "targets": ["mobile", "web"]
+    },
+    "geist": {
+      "displayName": "Geist",
+      "license": "OFL-1.1",
+      "licenseFileName": "OFL-Geist.txt",
+      "repo": "https://github.com/vercel/geist-font",
+      "commit": "10dc7658f13c38a474cde201bb09a4617267545b",
+      "licenseSource": {
+        "url": "https://raw.githubusercontent.com/vercel/geist-font/10dc7658f13c38a474cde201bb09a4617267545b/OFL.txt"
+      },
+      "variable": false,
+      "staticSources": [
+        {
+          "weight": 400,
+          "url": "https://raw.githubusercontent.com/vercel/geist-font/10dc7658f13c38a474cde201bb09a4617267545b/fonts/Geist/ttf/Geist-Regular.ttf",
+          "sha256": "85a1c6b18a6b0a06dfe9fd4f6d6a5d4979f74ec861eaef4bc7868b5492b8a117"
+        },
+        {
+          "weight": 500,
+          "url": "https://raw.githubusercontent.com/vercel/geist-font/10dc7658f13c38a474cde201bb09a4617267545b/fonts/Geist/ttf/Geist-Medium.ttf",
+          "sha256": "3a3b36f0d0b981f4857f7f00eeef4a5ee123605575d362ab31ee7c19e3d11f2f"
+        },
+        {
+          "weight": 600,
+          "url": "https://raw.githubusercontent.com/vercel/geist-font/10dc7658f13c38a474cde201bb09a4617267545b/fonts/Geist/ttf/Geist-SemiBold.ttf",
+          "sha256": "b9f52322d6d20a7ff1e7fe1310ff12ec851aebb83d24f8b4f1d4149298f489b2"
+        },
+        {
+          "weight": 700,
+          "url": "https://raw.githubusercontent.com/vercel/geist-font/10dc7658f13c38a474cde201bb09a4617267545b/fonts/Geist/ttf/Geist-Bold.ttf",
+          "sha256": "3f21f02b827228c3f0c5fb230d027b5a1a263013618e8052bc1b3c5692812c88"
+        },
+        {
+          "weight": 800,
+          "url": "https://raw.githubusercontent.com/vercel/geist-font/10dc7658f13c38a474cde201bb09a4617267545b/fonts/Geist/ttf/Geist-ExtraBold.ttf",
+          "sha256": "68b974a40bb1a6dc76f00fe5e36a5fb58808bbafbc19e3c920e8dc51c13e75b3"
+        }
+      ],
+      "unicodeRanges": [
+        "latin",
+        "latin1Supplement",
+        "latinExtendedA",
+        "vietnamese",
+        "punctuation",
+        "currencyExtra"
+      ],
+      "keepFeatures": ["tnum", "case"],
+      "targets": ["mobile", "web"]
+    },
+    "geistMono": {
+      "displayName": "Geist Mono",
+      "license": "OFL-1.1",
+      "licenseFileName": "OFL-GeistMono.txt",
+      "repo": "https://github.com/vercel/geist-font",
+      "commit": "10dc7658f13c38a474cde201bb09a4617267545b",
+      "licenseSource": {
+        "url": "https://raw.githubusercontent.com/vercel/geist-font/10dc7658f13c38a474cde201bb09a4617267545b/OFL.txt"
+      },
+      "variable": false,
+      "staticSources": [
+        {
+          "weight": 400,
+          "url": "https://raw.githubusercontent.com/vercel/geist-font/10dc7658f13c38a474cde201bb09a4617267545b/fonts/GeistMono/ttf/GeistMono-Regular.ttf",
+          "sha256": "5a0de4b3d54ab272f76a1d8c84b7fb24c67bbec6591d5300e61c7bc10094b6c8"
+        },
+        {
+          "weight": 500,
+          "url": "https://raw.githubusercontent.com/vercel/geist-font/10dc7658f13c38a474cde201bb09a4617267545b/fonts/GeistMono/ttf/GeistMono-Medium.ttf",
+          "sha256": "6fa6a795c17a11bcbef410f52a853e8503f8e25d92762d202d907c54f5c0c0fb"
+        },
+        {
+          "weight": 700,
+          "url": "https://raw.githubusercontent.com/vercel/geist-font/10dc7658f13c38a474cde201bb09a4617267545b/fonts/GeistMono/ttf/GeistMono-Bold.ttf",
+          "sha256": "325de0913317e63c9b0084d3f571c6d1c9279e776e9260c62be19e1c12d1be3c"
+        }
+      ],
+      "unicodeRanges": [
+        "latin",
+        "latin1Supplement",
+        "latinExtendedA",
+        "vietnamese",
+        "punctuation",
+        "currencyExtra"
+      ],
+      "keepFeatures": ["tnum", "case"],
+      "targets": ["mobile", "web"]
+    },
+    "caveat": {
+      "displayName": "Caveat",
+      "license": "OFL-1.1",
+      "licenseFileName": "OFL-Caveat.txt",
+      "repo": "https://github.com/google/fonts",
+      "commit": "5571d84c0d8c70ec1af4f64072d8c5cf1e4e9643",
+      "source": {
+        "url": "https://raw.githubusercontent.com/google/fonts/5571d84c0d8c70ec1af4f64072d8c5cf1e4e9643/ofl/caveat/Caveat%5Bwght%5D.ttf",
+        "sha256": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988"
+      },
+      "licenseSource": {
+        "url": "https://raw.githubusercontent.com/google/fonts/5571d84c0d8c70ec1af4f64072d8c5cf1e4e9643/ofl/caveat/OFL.txt"
+      },
+      "variable": true,
+      "axes": { "wght": [600, 700] },
+      "instanceNaming": "Caveat-{wght}",
+      "unicodeRanges": [
+        "latin",
+        "latin1Supplement",
+        "latinExtendedA",
+        "vietnamese",
+        "punctuation",
+        "currencyExtra"
+      ],
+      "keepFeatures": ["tnum", "case"],
+      "targets": ["mobile", "web"]
+    },
+    "instrumentSerif": {
+      "displayName": "Instrument Serif",
+      "license": "OFL-1.1",
+      "licenseFileName": "OFL-InstrumentSerif.txt",
+      "repo": "https://github.com/google/fonts",
+      "commit": "0b58fb370093f9a9f4ff785d94405710b79de67c",
+      "source": {
+        "url": "https://raw.githubusercontent.com/google/fonts/0b58fb370093f9a9f4ff785d94405710b79de67c/ofl/instrumentserif/InstrumentSerif-Regular.ttf",
+        "sha256": "498efd461f6ddfcb7a111bf9a565709d2085d48201d501ead960d93e84ffbb88"
+      },
+      "licenseSource": {
+        "url": "https://raw.githubusercontent.com/google/fonts/0b58fb370093f9a9f4ff785d94405710b79de67c/ofl/instrumentserif/OFL.txt"
+      },
+      "variable": false,
+      "staticSources": [
+        {
+          "weight": 400,
+          "url": "https://raw.githubusercontent.com/google/fonts/0b58fb370093f9a9f4ff785d94405710b79de67c/ofl/instrumentserif/InstrumentSerif-Regular.ttf",
+          "sha256": "498efd461f6ddfcb7a111bf9a565709d2085d48201d501ead960d93e84ffbb88"
+        }
+      ],
+      "unicodeRanges": [
+        "latin",
+        "latin1Supplement",
+        "latinExtendedA",
+        "vietnamese",
+        "punctuation",
+        "currencyExtra"
+      ],
+      "keepFeatures": ["tnum", "case"],
+      "targets": ["web"]
+    },
+    "notoSansThai": {
+      "displayName": "Noto Sans Thai",
+      "license": "OFL-1.1",
+      "licenseFileName": "OFL-NotoSansThai.txt",
+      "repo": "https://github.com/google/fonts",
+      "commit": "8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5",
+      "source": {
+        "url": "https://raw.githubusercontent.com/google/fonts/8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5/ofl/notosansthai/NotoSansThai%5Bwdth%2Cwght%5D.ttf",
+        "sha256": "5a1c559bb539583c8a1fd99d1c5b9491e5e14478c9cd2bd0970d5c3096cc9ef8"
+      },
+      "licenseSource": {
+        "url": "https://raw.githubusercontent.com/google/fonts/8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5/ofl/notosansthai/OFL.txt"
+      },
+      "variable": true,
+      "axes": { "wdth": [100], "wght": [400, 900] },
+      "instanceNaming": "NotoSansThai-{wght}",
+      "unicodeRanges": ["thai", "thaiLatinDigitsPunct"],
+      "criticalRanges": ["thai"],
+      "keepFeatures": ["tnum"],
+      "targets": ["mobile", "web"]
+    }
+  }
+}

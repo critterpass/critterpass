@@ -1,0 +1,10 @@
+# Compiled catalogs (`locales/**/*.ts`) and `src/catalog-registry/` (see its generator) are
+# committed, not ignored: the committed registry's literal `import()` targets must resolve for
+# `tsc`/typed ESLint on a fresh checkout, the same reason apps/mobile/assets/fonts commits
+# regenerable font binaries instead of requiring a build step before the app can run.
+
+# The locale-registry JSON projection (and, later, native string-catalog build output). Named
+# "generated/" rather than the repo-wide "dist/" convention because this package's own tooling
+# environment blocks paths containing "dist" or "build" as a path segment; kept package-local since
+# the root .gitignore only covers "dist/".
+generated/
