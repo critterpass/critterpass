@@ -1,0 +1,67 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <!--
+    A library module's own manifest merges into the host app's via Gradle's standard manifest
+    merger once autolinking adds this module as a Gradle project dependency (proven by
+    `cp-app-group`'s own — empty — manifest needing no app.config.ts plugin entry at all): no
+    config plugin is needed here either, since nothing below depends on app.json-level user
+    config. `android:name=".foo"` resolves against this module's own `namespace`
+    (`app.critterpass.spikeandroid`, build.gradle), producing a fully-qualified class name that
+    coexists fine with the host app's own package.
+  -->
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+  <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+  <application>
+    <!-- Glance widget (T8 snapshot reader). -->
+    <receiver
+      android:name=".widget.AndroidSurfacesWidgetReceiver"
+      android:exported="false"
+      android:label="Critterpass spike">
+      <intent-filter>
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter>
+      <meta-data
+        android:name="android.appwidget.provider"
+        android:resource="@xml/spike_widget_info" />
+    </receiver>
+
+    <!-- cp-app-group's reloadWidgets() broadcast. -->
+    <receiver android:name=".widget.ReloadWidgetsBroadcastReceiver" android:exported="false">
+      <intent-filter>
+        <action android:name="app.critterpass.appgroup.RELOAD_WIDGETS" />
+      </intent-filter>
+    </receiver>
+
+    <!--
+      Local FCM-receiver test hook, exported so `adb shell am broadcast` can reach it without
+      Metro (dev/spike-only component; this whole module is removed once phase 50 lands its real
+      Android surfaces).
+    -->
+    <receiver android:name=".push.AndroidSurfacesTestHookReceiver" android:exported="true">
+      <intent-filter>
+        <action android:name="app.critterpass.spikeandroid.SIMULATE_PUSH" />
+      </intent-filter>
+    </receiver>
+
+    <receiver android:name=".alarm.AlarmReceiver" android:exported="false" />
+
+    <activity
+      android:name=".alarm.AlarmActivity"
+      android:exported="false"
+      android:excludeFromRecents="true"
+      android:launchMode="singleInstance"
+      android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+
+    <!--
+      No `google-services.json` exists in this environment (see the ADR) — this service never
+      receives a real push here, but it is registered for real so the manifest shape matches what
+      a credentialed environment needs verbatim.
+    -->
+    <service android:name=".push.AndroidSurfacesMessagingService" android:exported="false">
+      <intent-filter>
+        <action android:name="com.google.firebase.MESSAGING_EVENT" />
+      </intent-filter>
+    </service>
+  </application>
+</manifest>
