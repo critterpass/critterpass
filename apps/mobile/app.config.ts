@@ -56,6 +56,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     bundleIdentifier: variant.bundleIdentifier,
     appleTeamId: APPLE_TEAM_ID,
     supportsTablet: false,
+    entitlements: {
+      'com.apple.security.application-groups': ['group.app.critterpass'],
+      'keychain-access-groups': ['$(AppIdentifierPrefix)app.critterpass.shared'],
+    },
   },
   android: {
     package: variant.bundleIdentifier,
@@ -85,6 +89,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         android: { compileSdkVersion: 37, targetSdkVersion: 36 },
       },
     ],
+    '@bacons/apple-targets',
   ],
   experiments: {
     typedRoutes: true,
