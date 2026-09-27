@@ -142,6 +142,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. Service config: `powersync_repl` direct (non-PgBouncer) connection, Postgres bucket storage (Railway PG18), JWKS `https://api…/api/auth/jwks`, `aud: sync`. 2. Verify phase 08 publication (+ 12/14 `ALTER PUBLICATION` entries) via `check-publication`. 3. `streams/core.yaml` (`me`, `crews`, `crew_people`, `trip`, `trip_draft`, `catalog`), `entitlements.yaml` (`products`, `perks`, `user_entitlements`, `trip_entitlements`, `usage_counters`, `fx_snapshots`), `places.yaml` (`pois`, `map_regions` in `trip_pack`/`explore`); `deleted_at IS NULL`; `build-config.ts` merges `streams/*.yaml`. 4. Railway configs: repl ×1, api ×N. 5. `stream-harness.ts`: evaluates a stream's SQL with the 5 fixtures (outsider / ex-member / member / organiser / anonymous) against Testcontainers PG; used here and by later phases.
 - Tests: `pnpm --filter @cp/db test -- permissions/sync-streams`; `docker compose -f infra/docker-compose.yml up powersync` then `pnpm --filter @cp/db exec tsx test/smoke/powersync-health.ts`.
 - Done when: outsider/ex-member get zero rows for crew/trip streams; member gets rows; service reaches `ready` locally against compose Postgres.
+- Status: done — f74a03e
 
 ### T4 — Mobile PowerSync client with SQLCipher and connector
 - Goal: encrypted local DB, credentials and upload wiring.
