@@ -61,7 +61,7 @@ CREATE SCHEMA IF NOT EXISTS ops AUTHORIZATION app_owner;
 CREATE SCHEMA IF NOT EXISTS llm AUTHORIZATION app_owner;
 CREATE SCHEMA IF NOT EXISTS auth AUTHORIZATION auth;
 
--- guide_reader gets USAGE on app too: the llm.* views arriving in phase 13 filter by app.uid(),
+-- guide_reader gets USAGE on app too: the llm.* views a later migration adds filter by app.uid(),
 -- which runs in the querying role's own session, not the view definer's.
 GRANT USAGE ON SCHEMA app TO app_user, app_system, guide_reader;
 GRANT USAGE ON SCHEMA llm TO guide_reader;

@@ -33,8 +33,8 @@ CREATE TRIGGER ops_config_touch_updated_at BEFORE UPDATE ON ops.ops_config
   FOR EACH ROW EXECUTE FUNCTION app.touch_updated_at();
 ALTER TABLE ops.ops_config ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ops.ops_config FORCE ROW LEVEL SECURITY;
--- Authz "adm": no app_user grant at all; app_system stands in until an admin console exists (same
--- convention T4 used for the destinations/guides catalogue). Only the is_public subset is ever
+-- Authz "adm": no app_user grant at all; app_system stands in until an admin console exists (the
+-- same convention the destinations/guides catalogue tables use). Only the is_public subset is ever
 -- client-visible, and only through client_config below.
 CREATE POLICY ops_config_system ON ops.ops_config FOR ALL TO app_system USING (true) WITH CHECK (true);
 GRANT SELECT, INSERT, UPDATE, DELETE ON ops.ops_config TO app_system;
@@ -115,5 +115,5 @@ BEGIN
 END
 $$;
 
--- guide_reader has no grant on the public schema at all (only llm.* views, arriving in phase 13);
+-- guide_reader has no grant on the public schema at all (only llm.* views, added once they exist);
 -- no statement here grants it one. ops.* stays off the publication and off every non-system grant.

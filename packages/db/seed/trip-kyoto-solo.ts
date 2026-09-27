@@ -1,7 +1,8 @@
 /**
- * A standalone solo trip to Kyoto guided by Pon (F-062, undesigned: `is_solo` skips voting and
- * starts straight in `setup`). No screens name a solo persona, so "Sana" is an invented, realistic
- * one-off traveller distinct from the Bali Six roster — flagged here rather than left unexplained.
+ * A standalone solo trip to Kyoto guided by Pon: a solo trip skips voting entirely and starts
+ * straight in `setup` (docs/data-model-sync-and-privacy.md §3.1). No screens name a solo persona,
+ * so "Sana" is an invented, realistic one-off traveller distinct from the Bali Six roster — flagged
+ * here rather than left unexplained.
  */
 import type pg from 'pg';
 

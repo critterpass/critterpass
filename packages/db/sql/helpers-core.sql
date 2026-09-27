@@ -31,7 +31,7 @@ REVOKE EXECUTE ON FUNCTION app.device() FROM PUBLIC;
 REVOKE EXECUTE ON FUNCTION app.touch_updated_at() FROM PUBLIC;
 REVOKE EXECUTE ON FUNCTION app.valid_tz(text) FROM PUBLIC;
 
--- guide_reader calls app.uid()/app.device() indirectly through llm.* view predicates (phase 13).
+-- guide_reader calls app.uid()/app.device() indirectly through llm.* view predicates, added once the guide's AI context views exist.
 GRANT EXECUTE ON FUNCTION app.uid() TO app_user, app_system, guide_reader;
 GRANT EXECUTE ON FUNCTION app.device() TO app_user, app_system, guide_reader;
 GRANT EXECUTE ON FUNCTION app.touch_updated_at() TO app_user, app_system;
