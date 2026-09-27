@@ -81,13 +81,17 @@ jobs:
     needs: changes
     if: needs.changes.outputs.critter_art == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Chromium and its system libraries come preinstalled; keep the tag equal to the `playwright`
+    # catalog version in pnpm-workspace.yaml.
+    container:
+      image: mcr.microsoft.com/playwright:v1.58.2-noble
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with: { node-version: 26, cache: pnpm }
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @cp/critter-art exec playwright install --with-deps chromium
       - run: pnpm --filter @cp/critter-art golden
       - name: Upload golden report and diffs
         if: failure()
