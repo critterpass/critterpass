@@ -3,6 +3,7 @@ import js from '@eslint/js';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import prettier from 'eslint-config-prettier/flat';
 import boundaries from 'eslint-plugin-boundaries';
+import lingui from 'eslint-plugin-lingui';
 import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -118,6 +119,47 @@ export default defineConfig([
     files: ['apps/mobile/src/**/*.{ts,tsx}', 'apps/web/src/**/*.{ts,tsx}'],
     plugins: { critterpass: designTokensEslintPlugin },
     rules: { 'critterpass/no-literal-style': 'error' },
+  },
+
+  // User-visible text must go through Lingui catalogs, not literals (docs/code-standards.md §8);
+  // ids follow the project's `area.screen.element` convention (docs/code-standards.md §3) rather
+  // than Lingui's default generated hash ids, which `require-explicit-id` enforces at the same time.
+  {
+    files: ['apps/mobile/src/**/*.{ts,tsx}', 'apps/web/src/**/*.{ts,tsx}'],
+    plugins: { lingui },
+    rules: {
+      'lingui/no-unlocalized-strings': [
+        'error',
+        {
+          // A single identifier-like token (letters/digits, optional hyphen segments, no spaces)
+          // is almost always a lookup key, enum value or asset name, not copy — e.g. a font family
+          // id or a script bucket like `thai`. The accepted tradeoff (the rule's own suggested
+          // starting config makes the same one): a genuinely single-word UI label also matches this
+          // and stays unflagged; screen review against the design renders catches that case instead.
+          ignore: ['^[A-Za-z][A-Za-z0-9]*(-[A-Za-z0-9]+)*$'],
+          // React Native attributes with no DOM equivalent for this rule's own built-in allowlist
+          // (which only recognises lowercase HTML tag/attribute pairs): test hooks, not copy.
+          ignoreNames: ['testID', 'nativeID'],
+        },
+      ],
+      'lingui/require-explicit-id': [
+        'error',
+        { patterns: ['^[a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)+$'] },
+      ],
+    },
+  },
+  {
+    // apps/mobile/src/lib is pure, non-UI helpers by contract (system-architecture.md §3: "dates,
+    // formatting, logging"); its string literals are lookup keys and identifiers, never rendered
+    // copy, so both rules would only ever fire on false positives here.
+    files: ['apps/mobile/src/lib/**/*.{ts,tsx}'],
+    rules: { 'lingui/no-unlocalized-strings': 'off', 'lingui/require-explicit-id': 'off' },
+  },
+  {
+    // Test descriptions and query selectors (`getByRole('header')`, `describe('...')`) are not
+    // user-facing copy and are not extracted into a catalog.
+    files: testFiles,
+    rules: { 'lingui/no-unlocalized-strings': 'off', 'lingui/require-explicit-id': 'off' },
   },
 
   prettier,

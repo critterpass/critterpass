@@ -1,0 +1,20 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-27 06:46+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: id\n"
+
+#: ../../apps/mobile/src/app/index.tsx
+msgid "common.devHome.buildVariantLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/_probe.tsx
+msgid "common.devProbe.title"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(dev)/_probe.tsx
+msgid "common.devProbe.body"
+msgstr ""
