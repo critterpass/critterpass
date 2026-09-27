@@ -11,7 +11,8 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "gen:prompts": "tsx scripts/gen-global-rules.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "catalog:",

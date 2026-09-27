@@ -4,19 +4,18 @@
  * rendered deterministically, so the same inputs give the same bytes and every user of a guide
  * shares the cached prefix; each layer ends on a cache breakpoint (at most four).
  */
-import { readFileSync } from 'node:fs';
-
 import type Anthropic from '@anthropic-ai/sdk';
 import type { AiTier } from '@cp/domain';
 
+import { GLOBAL_RULES } from '../prompts/global-rules.generated';
 import type { PersonaPack } from './schema';
 
-let globalRules: string | undefined;
-
-/** The shared rules every guide starts with (src/prompts/global-rules.md), read once. */
+/**
+ * The shared rules every guide starts with (src/prompts/global-rules.md, compiled into a module so
+ * bundled services never read it from disk).
+ */
 export function globalRulesText(): string {
-  globalRules ??= readFileSync(new URL('../prompts/global-rules.md', import.meta.url), 'utf8');
-  return globalRules;
+  return GLOBAL_RULES;
 }
 
 const REGISTER_WORDS = ['none', 'a touch', 'some', 'moderate', 'plenty', 'lots'] as const;
