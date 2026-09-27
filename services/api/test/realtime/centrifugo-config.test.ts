@@ -25,6 +25,8 @@ interface CentrifugoNamespace {
 }
 
 interface CentrifugoConfig {
+  readonly http_server: { readonly port: string; readonly internal_port: string };
+  readonly admin?: { readonly enabled?: boolean };
   readonly client: { readonly token: { readonly audience: string } };
   readonly channel: {
     readonly proxy: { readonly subscribe: object; readonly publish: object };
@@ -44,6 +46,14 @@ describe('infra/centrifugo/config.json', () => {
   it('verifies rt-audience tokens and uses the Redis engine', () => {
     expect(config.client.token.audience).toBe('rt');
     expect(config.engine.type).toBe('redis');
+  });
+
+  it('keeps the server API off the public port', () => {
+    // The internal port carries the server API and /health and is reached only over the private
+    // network; the public port (the one the domain targets) serves the client websocket.
+    expect(config.http_server.port).toBe('8000');
+    expect(config.http_server.internal_port).toBe('9000');
+    expect(config.admin?.enabled ?? false).toBe(false);
   });
 
   it('declares exactly the registered namespaces', () => {

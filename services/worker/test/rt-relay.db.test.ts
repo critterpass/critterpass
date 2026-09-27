@@ -69,15 +69,15 @@ beforeAll(async () => {
         CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_ENDPOINT: `${proxyBase}/subscribe`,
         CENTRIFUGO_CHANNEL_PROXY_PUBLISH_ENDPOINT: `${proxyBase}/publish`,
       })
-      .withExposedPorts(8000)
-      .withWaitStrategy(Wait.forHttp('/health', 8000))
+      // Clients connect on the public port; the server API and /health live on the internal one.
+      .withExposedPorts(8000, 9000)
+      .withWaitStrategy(Wait.forHttp('/health', 9000))
       .start(),
   ]);
   pool = new pg.Pool({ connectionString: postgres.getConnectionUri(), max: 10 });
   await runMigrations(pool);
-  const base = `${centrifugo.getHost()}:${centrifugo.getMappedPort(8000)}`;
-  wsUrl = `ws://${base}/connection/websocket`;
-  apiUrl = `http://${base}`;
+  wsUrl = `ws://${centrifugo.getHost()}:${centrifugo.getMappedPort(8000)}/connection/websocket`;
+  apiUrl = `http://${centrifugo.getHost()}:${centrifugo.getMappedPort(9000)}`;
 }, 240_000);
 
 afterEach(async () => {

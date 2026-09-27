@@ -9,7 +9,7 @@ const config = {
   databaseUrl:
     process.env['DATABASE_URL'] ?? 'postgres://app_owner:app_owner@localhost:54320/critterpass',
   redisUrl: process.env['REDIS_URL'] ?? 'redis://localhost:63790',
-  centrifugoUrl: process.env['CENTRIFUGO_URL'] ?? 'http://localhost:8000',
+  centrifugoUrl: process.env['CENTRIFUGO_URL'] ?? 'http://localhost:9000',
   powersyncUrl: process.env['POWERSYNC_URL'] ?? 'http://localhost:8080',
 };
 

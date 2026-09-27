@@ -1,4 +1,8 @@
 {
+  "http_server": {
+    "port": "8000",
+    "internal_port": "9000"
+  },
   "client": {
     "token": {
       "audience": "rt"

@@ -143,6 +143,7 @@ export function buildVerificationCreateAfterHook(): {
 const ATTESTED_PATHS = new Set(['/sign-in/anonymous', '/phone-number/send-otp']);
 const SEND_OTP_PATH = '/phone-number/send-otp';
 const LINK_SOCIAL_PATH = '/link-social';
+const SIGN_OUT_PATH = '/sign-out';
 
 interface SendOtpBody {
   readonly phoneNumber?: unknown;
@@ -233,6 +234,12 @@ export function buildRequestBeforeHook(
         await enforceOtpSendRateLimit({ phoneNumber, installId }, deps.rateLimit);
         await enforceOtpSendPumpingDefences(phoneNumber, deps.pumping);
       }
+      if (ctx.path === SIGN_OUT_PATH) {
+        // Better Auth's /sign-out reads the cookie itself and never loads `ctx.context.session`, so
+        // the after hook would see no session to fan out for. Load it now, while the row still
+        // exists; `disableRefresh` keeps this lookup from issuing a refreshed cookie on sign-out.
+        await getSessionFromCtx(ctx, { disableRefresh: true });
+      }
       if (ctx.path === LINK_SOCIAL_PATH) {
         // Linking needs a session; without one Better Auth's own handler rejects the call, so there
         // is no uid to count against here.
@@ -250,7 +257,8 @@ export function buildRequestBeforeHook(
  * not already reject, and fans out session revocation (`rt_outbox` `session.revoked` + action-key
  * revocation, guards.ts) after `/sign-out`/`/revoke-session(s)` — Better Auth's own handler has
  * already deleted the session row by the time this runs; `ctx.context.session` still carries the
- * pre-deletion uid.
+ * pre-deletion session, loaded by Better Auth's `sessionMiddleware` for the revoke endpoints and by
+ * the `before` hook above for `/sign-out` (whose handler skips that middleware).
  */
 export function buildRequestAfterHook(
   deps: Pick<RequestGuardsDeps, 'pumping' | 'appPool'>,

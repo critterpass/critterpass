@@ -112,10 +112,12 @@ export async function startCentrifugo(): Promise<CentrifugoHarness> {
       CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_ENDPOINT: `${proxyBase}/subscribe`,
       CENTRIFUGO_CHANNEL_PROXY_PUBLISH_ENDPOINT: `${proxyBase}/publish`,
     })
-    .withExposedPorts(8000)
-    .withWaitStrategy(Wait.forHttp('/health', 8000))
+    .withExposedPorts(8000, 9000)
+    .withWaitStrategy(Wait.forHttp('/health', 9000))
     .start();
   const base = `${container.getHost()}:${container.getMappedPort(8000)}`;
+  // The server API and health live on Centrifugo's internal port (infra/centrifugo/config.json).
+  const apiBase = `${container.getHost()}:${container.getMappedPort(9000)}`;
 
   return {
     wsUrl: `ws://${base}/connection/websocket`,
@@ -130,7 +132,7 @@ export async function startCentrifugo(): Promise<CentrifugoHarness> {
     },
     async publish(channel, data) {
       // node:http rather than fetch: Expo's Jest setup replaces the global fetch with its native one.
-      const body = await postJson(`http://${base}/api/publish`, { channel, data });
+      const body = await postJson(`http://${apiBase}/api/publish`, { channel, data });
       if (body.error !== undefined) throw new Error(`publish failed: ${JSON.stringify(body)}`);
     },
     async stop() {

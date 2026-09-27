@@ -12,7 +12,8 @@ import {
   type StartedPostgreSqlContainer,
   type StartedRedisContainer,
 } from '@cp/db/testing';
-import { runMigrations } from '@cp/db';
+import { runMigrations, withSystem } from '@cp/db';
+import { userChannel } from '@cp/domain';
 import { decodeJwt } from 'jose';
 import { pino } from 'pino';
 import pg from 'pg';
@@ -150,5 +151,85 @@ describe('Better Auth mounted through the real createApp()', () => {
   it('returns 404 (not swallowed by the auth catch-all) for an unrelated path', async () => {
     const response = await app.request('/api/auth/this-endpoint-does-not-exist');
     expect(response.status).toBe(404);
+  });
+});
+
+async function signInAnonymously(): Promise<{ cookie: string; uid: string }> {
+  const response = await app.request('/api/auth/sign-in/anonymous', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: '{}',
+  });
+  expect(response.status).toBe(200);
+  const { user } = (await response.json()) as { user: { id: string } };
+  const cookie = response.headers
+    .getSetCookie()
+    .map((value) => value.split(';')[0])
+    .join('; ');
+  return { cookie, uid: user.id };
+}
+
+async function disconnectRows(uid: string) {
+  const { rows } = await withSystem(pool, (tx) =>
+    tx.query<{ payload: unknown }>(
+      `SELECT payload FROM rt_outbox WHERE channel = $1 AND kind = 'disconnect'`,
+      [userChannel(uid)],
+    ),
+  );
+  return rows;
+}
+
+async function countDisconnectRows(): Promise<number> {
+  const { rows } = await withSystem(pool, (tx) =>
+    tx.query<{ n: number }>(`SELECT count(*)::int AS n FROM rt_outbox WHERE kind = 'disconnect'`),
+  );
+  return rows[0]?.n ?? 0;
+}
+
+describe('sign-out through the real createApp() ends realtime for that session', () => {
+  it('queues one realtime disconnect for the signed-out user and stops minting rt tokens', async () => {
+    const { cookie, uid } = await signInAnonymously();
+    expect((await app.request('/api/auth/token?aud=rt', { headers: { cookie } })).status).toBe(200);
+
+    const response = await app.request('/api/auth/sign-out', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', cookie },
+      body: '{}',
+    });
+    expect(response.status).toBe(200);
+    // Loading the session before the handler must not hand back a refreshed cookie: sign-out only clears.
+    for (const setCookie of response.headers.getSetCookie())
+      expect(setCookie).toMatch(/Max-Age=0/i);
+
+    expect(await disconnectRows(uid)).toEqual([{ payload: { type: 'session.revoked' } }]);
+    expect((await app.request('/api/auth/token?aud=rt', { headers: { cookie } })).status).toBe(401);
+  });
+
+  it('queues nothing when sign-out carries no session', async () => {
+    const before = await countDisconnectRows();
+    const response = await app.request('/api/auth/sign-out', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: '{}',
+    });
+    expect(response.status).toBeLessThan(500);
+    expect(await countDisconnectRows()).toBe(before);
+  });
+
+  it('leaves another signed-in user untouched', async () => {
+    const leaving = await signInAnonymously();
+    const staying = await signInAnonymously();
+
+    await app.request('/api/auth/sign-out', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', cookie: leaving.cookie },
+      body: '{}',
+    });
+
+    expect(await disconnectRows(staying.uid)).toEqual([]);
+    const token = await app.request('/api/auth/token?aud=rt', {
+      headers: { cookie: staying.cookie },
+    });
+    expect(token.status).toBe(200);
   });
 });
