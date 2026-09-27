@@ -119,7 +119,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Patterns generated from `sound.tokens.json` haptic column. 2. Continuous ramp (intensity 0→1 driven by `holdFill` value, throttled 30 Hz). 3. SOS long pattern. 4. Engine restart on reset/interruption. 5. `isSupported()` fallback to `expo-haptics` impacts.
 - Tests: `xcodebuild test` for the module test target via CI script; `./gradlew :cp-haptics:testDebugUnitTest`.
 - Done when: both builds pass; unit tests assert pattern parameters from tokens.
-- Status: JS wrapper + Swift/Kotlin implementation + XCTest/Robolectric unit tests written and autolinking-verified (`expo-modules-autolinking search` resolves the module on both platforms); native compile/device proof pending EAS — the `ci/eas-cloud-e2e` lane's `e2e-test` profile/workflow was still uncommitted work-in-progress when this lane reached T6, so no EAS build was attempted
+- Status: JS wrapper + Swift/Kotlin implementation + XCTest/Robolectric unit tests written and autolinking-verified (`expo-modules-autolinking search` resolves the module on both platforms). iOS native compile proven on real EAS infra: merging the (now-landed) `ci/eas-cloud-e2e` pipeline and running `pnpm e2e:cloud -- --platform ios` triggered a fresh `e2e-test`-profile build (fingerprint changed once `apps/mobile/modules/cp-haptics`'s Swift landed) that **FINISHED successfully** and was reused by every later Maestro run — confirms `CpHapticsModule.swift`/`HapticPatterns.swift` compile for real, not just locally-typechecked Swift syntax. Android build/Kotlin compile and both platforms' Maestro/device behaviour remain unverified: this pass ran iOS only per the coordinator's instruction (Android emulator boot is blocked on a founder EAS dashboard toggle, see the eas-cloud-e2e report), and the Maestro flows themselves didn't get far enough to exercise `ramp.*`/`play('sos')` at runtime (see T10's status — `openLink` into the dev screen is blocked by an unrelated upstream Maestro bug).
 
 ### T7 — Feedback bus, SFX, audio session, prefs, quiet rules
 - Goal: `impact(cue)` = haptic + SFX (+ jolt) under all prefs and mute rules.
@@ -151,7 +151,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Toast queue, durations, OPEN action, swipe-up dismiss, live-region announcement; Dynamic Island origin on supported iPhones (safe-area heuristics), banner elsewhere. 2. Motion lab lists presets/patterns/cues with slowmo + mode switch (excluded from release bundles by the phase-1 dev-route exclusion (phase 1: Metro `blockList` on `src/app/(dev)/**` for `APP_VARIANT=production` + `check-release-bundle` CI gate)). 3. Maestro: open lab, trigger each pattern in motion-freeze, `assertScreenshot`; toast show/queue/dismiss.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/island-toast`; `maestro test e2e/motion/` on iOS simulator and Android emulator.
 - Done when: Maestro flows pass on both platforms; toast announced by screen reader test.
-- Status: JS side done (IslandToast + queue + motion-lab + Jest a11y-announcement test all green); Maestro run pending — see phase report for the eas-cloud-e2e pipeline's readiness at the time this lane reached T10
+- Status: JS side done (IslandToast + queue + motion-lab + Jest a11y-announcement test all green). Maestro run attempted against the merged `ci/eas-cloud-e2e` pipeline (11 runs, `pnpm e2e:cloud -- --platform ios --flows e2e/motion`) but blocked: `openLink`'s custom-scheme deep link into `(dev)` routes is non-deterministic on this EAS iOS simulator infra (open upstream bug mobile-dev-inc/Maestro#2610, root-caused via failure screenshots/logs, not a guess — full trail in `plans/reports/critterpass-builder-260927-1220-eas-cloud-e2e-report.md`'s addendum). The pipeline itself, the build, and app launch are all confirmed working; only reaching a non-default route via deep link is affected.
 
 ## Phase acceptance criteria
 
@@ -161,8 +161,8 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - [x] Silent switch, category volumes, quiet on the road, temple mute, SOS/alarm bypass verified in tests
 - [x] Music crossfade, ducking and previews: Jest (fake timers) green — [ ] founder device checklist item (needs a real iPhone/Android device; unfilled, founder gate)
 - [ ] Launch gate: 6 music themes, full SFX set and critter chirps delivered and licensed (`assets/*/LICENSES.md`); `check-audio-assets --mode release` passes — blocked on the founder licensing dependency (plan §"Non-code dependencies"), not agent-side work
-- [ ] `cp-haptics` builds and tests pass on iOS and Android — JS+native code written and autolinking-verified; EAS build/device proof pending (`ci/eas-cloud-e2e` lane's profile was still uncommitted when this lane reached T6)
-- [ ] Maestro `e2e/motion/` green on both platforms — flows written; run pending the same EAS pipeline
+- [ ] `cp-haptics` builds and tests pass on iOS and Android — iOS EAS build (`e2e-test` profile) FINISHED successfully on real infra, proving the Swift compiles; Android build/Kotlin compile unverified (this pass ran iOS only, per instruction); XCTest/Robolectric unit tests unexecuted (no local toolchain)
+- [ ] Maestro `e2e/motion/` green on both platforms — flows written and iterated against real EAS runs (11 attempts); blocked by an open upstream Maestro bug (`openLink`'s custom-scheme deep link into `(dev)` routes is non-deterministic — mobile-dev-inc/Maestro#2610), not by anything in this phase's own code; see `plans/reports/critterpass-builder-260927-1220-eas-cloud-e2e-report.md`'s addendum
 - [x] Low-tier budget: ≤ 2 draw-ons, confetti ≤ 40 enforced
 
 ## Risks & rollback
