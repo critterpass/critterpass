@@ -46,6 +46,17 @@ const testFileExcludes = [
   `${repoRootPrefix}/**/__tests__/**`,
 ];
 
+const notificationSources = [
+  {
+    name: 'common',
+    include: [
+      `${repoRootPrefix}/services/worker/src/push/**`,
+      `${repoRootPrefix}/services/worker/src/jobs/notify/**`,
+    ],
+  },
+  { name: 'roundup', include: [`${repoRootPrefix}/services/worker/src/jobs/roundup/**`] },
+];
+
 export default defineConfig({
   locales: [...localeCodes],
   sourceLocale,
@@ -89,8 +100,16 @@ export default defineConfig({
       name: 'server',
       path: 'locales/{locale}/server',
       include: [`${repoRootPrefix}/services/**`],
-      exclude: testFileExcludes,
+      exclude: [...testFileExcludes, ...notificationSources.flatMap((catalog) => catalog.include)],
     },
+    // Push copy rendered in each recipient's locale by the worker (createServerI18n), one nested
+    // catalog per notification area so the router's and the roundup's copy never share a file.
+    ...notificationSources.map((catalog) => ({
+      name: `notifications/${catalog.name}`,
+      path: `locales/{locale}/notifications/${catalog.name}`,
+      include: catalog.include,
+      exclude: testFileExcludes,
+    })),
     {
       name: 'surfaces',
       path: 'locales/{locale}/surfaces',
