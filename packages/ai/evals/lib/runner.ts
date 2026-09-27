@@ -39,6 +39,8 @@ export interface SuiteReport {
 export interface RunOptions {
   readonly mode: EvalMode;
   readonly apiKey?: string;
+  /** Live runs only: an Anthropic-compatible endpoint to grade instead of Anthropic's API. */
+  readonly baseURL?: string;
   /** Swapped code-side checks (tests prove the gate fails when one regresses). */
   readonly pipeline?: Pipeline;
   /** Extra cases appended to the suite (seeded regressions in tests). */
@@ -57,8 +59,13 @@ const JUDGE_SYSTEM = [
   'Answer with JSON only: {"pass": true|false, "reason": "<one sentence>"}.',
 ].join(' ');
 
-async function judge(rubric: string, output: EvalOutput, apiKey: string): Promise<GradeResult> {
-  const gateway = createGateway({ apiKey });
+async function judge(
+  rubric: string,
+  output: EvalOutput,
+  apiKey: string,
+  baseURL: string | undefined,
+): Promise<GradeResult> {
+  const gateway = createGateway({ apiKey, ...(baseURL === undefined ? {} : { baseURL }) });
   const result = await gateway.callModel('guide.chat_escalation', {
     system: JUDGE_SYSTEM,
     messages: [{ role: 'user', content: `Rubric: ${rubric}\n\nReply:\n${output.text}` }],
@@ -125,7 +132,7 @@ async function check(
   } else if (type === 'llm-rubric') {
     if (options.mode === 'replay')
       return { type: assertion.type, outcome: 'skipped', reason: 'needs a live model' };
-    result = await judge(String(assertion.value), output, options.apiKey ?? '');
+    result = await judge(String(assertion.value), output, options.apiKey ?? '', options.baseURL);
   } else {
     result = baseCheck(type, assertion.value, output);
   }
@@ -144,6 +151,7 @@ export async function runSuite(name: string, options: RunOptions): Promise<Suite
       mode: options.mode,
       ...(options.pipeline === undefined ? {} : { pipeline: options.pipeline }),
       ...(options.apiKey === undefined ? {} : { apiKey: options.apiKey }),
+      ...(options.baseURL === undefined ? {} : { baseURL: options.baseURL }),
     });
     const assertions: AssertionReport[] = [];
     for (const assertion of testCase.assert)

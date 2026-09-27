@@ -30,8 +30,10 @@ assertions need a model, so replay reports them as skipped, never as passed.
 EVAL_MODE=live ANTHROPIC_API_KEY=<claude key> pnpm --filter @cp/ai eval --all
 ```
 
-Live runs always call `https://api.anthropic.com` (`ANTHROPIC_BASE_URL` is ignored, so a local
-stand-in endpoint is never graded). Replace a case's inline `replay` with a recorded fixture when
+Live runs call `https://api.anthropic.com` unless `EVAL_BASE_URL` names an Anthropic-compatible
+endpoint to grade instead (development runs use DeepSeek's, `https://api.deepseek.com/anthropic`,
+which answers Claude model names with its own models). `ANTHROPIC_BASE_URL` is ignored, so a local
+stand-in endpoint is never graded by accident; the run prints which host it graded. Replace a case's inline `replay` with a recorded fixture when
 re-recording from a real Claude response.
 
 ## Thresholds

@@ -50,8 +50,12 @@ jobs:
         run: pnpm --filter @cp/ai eval --changed origin/${{ github.base_ref }}
       - name: Every suite
         if: github.event_name != 'pull_request'
+        # Claude-calibrated thresholds gate Anthropic runs; a compatible endpoint's run only reports.
+        continue-on-error: ${{ vars.EVAL_BASE_URL != '' }}
         env:
           # Live only on the nightly or a manual live run, and only once the Claude key exists.
           EVAL_MODE: ${{ (github.event_name == 'schedule' || inputs.mode == 'live') && secrets.ANTHROPIC_API_KEY != '' && 'live' || 'replay' }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Repository variable naming an Anthropic-compatible endpoint to grade; unset = Anthropic.
+          EVAL_BASE_URL: ${{ vars.EVAL_BASE_URL }}
         run: pnpm --filter @cp/ai eval --all

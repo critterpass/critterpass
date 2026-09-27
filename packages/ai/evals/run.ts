@@ -44,8 +44,12 @@ function print(report: SuiteReport): void {
 async function main(): Promise<void> {
   const mode = process.env.EVAL_MODE === 'live' ? 'live' : 'replay';
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (mode === 'live' && !apiKey)
-    throw new Error('EVAL_MODE=live needs a Claude ANTHROPIC_API_KEY');
+  if (mode === 'live' && !apiKey) throw new Error('EVAL_MODE=live needs ANTHROPIC_API_KEY');
+  // Only an explicitly named endpoint is graded instead of Anthropic's API (never ANTHROPIC_BASE_URL).
+  const baseURL =
+    mode === 'live' && process.env.EVAL_BASE_URL ? process.env.EVAL_BASE_URL : undefined;
+  if (mode === 'live')
+    console.log(`live against ${baseURL ? new URL(baseURL).host : 'api.anthropic.com'}`);
   const suites = selected(process.argv.slice(2));
   if (suites.length === 0) {
     console.log('no eval suite is affected by these changes');
@@ -53,7 +57,11 @@ async function main(): Promise<void> {
   }
   let failed = false;
   for (const suite of suites) {
-    const report = await runSuite(suite, { mode, ...(apiKey ? { apiKey } : {}) });
+    const report = await runSuite(suite, {
+      mode,
+      ...(apiKey ? { apiKey } : {}),
+      ...(baseURL === undefined ? {} : { baseURL }),
+    });
     print(report);
     failed ||= !report.ok;
   }

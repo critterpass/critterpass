@@ -5,8 +5,9 @@
  *
  * `replay` (the default, and what CI runs): the gateway's network boundary serves the case's
  * recorded response (a fixture file or an inline answer), so the suite grades our pipeline
- * against fixed model behaviour. `live`: the same request goes to Anthropic's API (a Claude key
- * is required, and ANTHROPIC_BASE_URL is ignored so no stand-in endpoint can be graded).
+ * against fixed model behaviour. `live`: the same request goes to Anthropic's API, or to the
+ * Anthropic-compatible endpoint named by `baseURL`. ANTHROPIC_BASE_URL is ignored, so a stand-in
+ * endpoint is only ever graded when a run names it explicitly.
  */
 import type Anthropic from '@anthropic-ai/sdk';
 import { decideAutonomy, type AutonomyDecision } from '@cp/domain';
@@ -178,6 +179,8 @@ export interface RunCaseOptions {
   readonly mode: EvalMode;
   readonly pipeline?: Pipeline;
   readonly apiKey?: string;
+  /** Live runs only: an Anthropic-compatible endpoint to grade instead of Anthropic's API. */
+  readonly baseURL?: string;
 }
 
 export async function runCase(vars: CaseVars, options: RunCaseOptions): Promise<EvalOutput> {
@@ -195,6 +198,9 @@ export async function runCase(vars: CaseVars, options: RunCaseOptions): Promise<
   };
   const gateway = createGateway({
     apiKey: options.mode === 'live' ? (options.apiKey ?? '') : 'replay-key',
+    ...(options.mode === 'live' && options.baseURL !== undefined
+      ? { baseURL: options.baseURL }
+      : {}),
     fetch: recordingFetch,
     maxAttempts: options.mode === 'live' ? 3 : 1,
   });
