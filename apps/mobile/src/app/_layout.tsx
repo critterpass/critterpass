@@ -6,6 +6,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
+import { ThemeProvider } from '@/lib/theme';
+import { patterns } from '@/motion';
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -47,7 +49,11 @@ export default function RootLayout() {
             ))}
           </View>
         )}
-        <Stack screenOptions={{ headerShown: false }} />
+        <ThemeProvider>
+          <patterns.ScreenJoltProvider>
+            <Stack screenOptions={{ headerShown: false }} />
+          </patterns.ScreenJoltProvider>
+        </ThemeProvider>
       </I18nRoot>
     </GestureHandlerRootView>
   );

@@ -1,0 +1,14 @@
+// Public surface of the component library. The dev gallery registry (`./gallery/registry`) is
+// deliberately not re-exported: it loads every fixture file and must stay out of release bundles.
+export type { RowProps } from './layout/Row';
+export { Row } from './layout/Row';
+export type { SpacerProps } from './layout/Spacer';
+export { Spacer } from './layout/Spacer';
+export type { SpaceStep, StackProps } from './layout/Stack';
+export { Stack } from './layout/Stack';
+export type { ScaffoldProps, ScaffoldVariant, SurfaceTone } from './surface/Scaffold';
+export { Scaffold, SurfaceToneProvider, useSurfaceTone } from './surface/Scaffold';
+export type { TextProps, TextVariant } from './text/Text';
+export { Text, TEXT_VARIANTS } from './text/Text';
+export type { Theme } from './theme';
+export { makeStyles, MIN_TOUCH_TARGET, sizeToken, useTheme } from './theme';
