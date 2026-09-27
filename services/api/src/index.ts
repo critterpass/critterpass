@@ -81,6 +81,7 @@ const app = createApp({
 // actually present in env — an absent one is omitted, never faked (services/api/src/auth/bootstrap.ts).
 const authModule = createAuthModule({
   appPool: pool,
+  onPoolError: (error) => logger.error({ err: error }, 'idle auth database client error'),
   authDatabaseUrl: env.AUTH_DATABASE_URL,
   redis,
   secret: env.BETTER_AUTH_SECRET,

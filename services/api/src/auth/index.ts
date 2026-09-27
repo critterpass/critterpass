@@ -71,6 +71,8 @@ export interface AuthModuleDeps {
   readonly google?: GoogleProviderConfig | undefined;
   /** Gates admin impersonation (admin.ts); defaults to `true` (fail safe). */
   readonly isProduction?: boolean | undefined;
+  /** Receives errors from idle auth-pool connections (e.g. a database restart); defaults to a process warning. */
+  readonly onPoolError?: ((error: Error) => void) | undefined;
 }
 
 export interface AuthModule {
@@ -91,6 +93,13 @@ function extractHeaders(ctx: unknown): Headers | undefined {
 
 export function createAuthModule(deps: AuthModuleDeps): AuthModule {
   const authPool = new pg.Pool({ connectionString: deps.authDatabaseUrl, max: 10 });
+  // An idle connection that dies (database restart, failover) emits `error` on the pool; without a
+  // listener that event crashes the process.
+  authPool.on(
+    'error',
+    deps.onPoolError ??
+      ((error) => process.emitWarning(`idle auth database client error: ${error.message}`)),
+  );
   const db = drizzle(authPool);
 
   const secondaryStorage: AuthSecondaryStorage = {

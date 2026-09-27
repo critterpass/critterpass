@@ -16,12 +16,25 @@ export interface CreatePoolOptions {
   readonly connectionString: string;
   /** Defaults to 10; keep low for services (per-replica) and lower still for tests. */
   readonly max?: number;
+  /** Receives errors from idle connections (e.g. a database restart); defaults to a process warning. */
+  readonly onIdleError?: (error: Error) => void;
 }
 
 /** A pooled connection; the pool itself carries no session state (every helper uses `SET LOCAL`). */
 export function createPool(options: CreatePoolOptions | string): pg.Pool {
-  const resolved = typeof options === 'string' ? { connectionString: options } : options;
-  return new pg.Pool({ connectionString: resolved.connectionString, max: resolved.max ?? 10 });
+  const resolved: CreatePoolOptions =
+    typeof options === 'string' ? { connectionString: options } : options;
+  const pool = new pg.Pool({
+    connectionString: resolved.connectionString,
+    max: resolved.max ?? 10,
+  });
+  // Without a listener, an idle connection's `error` event (database restart, failover) crashes the process.
+  pool.on(
+    'error',
+    resolved.onIdleError ??
+      ((error) => process.emitWarning(`idle database client error: ${error.message}`)),
+  );
+  return pool;
 }
 
 export interface RunMigrationsOptions {
