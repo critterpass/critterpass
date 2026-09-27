@@ -64,6 +64,7 @@ jobs:
       mobile: ${{ steps.filter.outputs.mobile }}
       critter_art: ${{ steps.filter.outputs.critter_art }}
       critter_macos: ${{ steps.filter.outputs.critter_macos }}
+      services: ${{ steps.filter.outputs.services }}
     steps:
       - uses: actions/checkout@v7
       - uses: dorny/paths-filter@v4
@@ -91,6 +92,14 @@ jobs:
               - 'apps/mobile/targets/**'
               - 'apps/mobile/jest.config.js'
               - 'design/**'
+              - '.github/workflows/ci.yml'
+            services:
+              - 'services/api/**'
+              - 'services/worker/**'
+              - 'packages/**'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - 'package.json'
               - '.github/workflows/ci.yml'
 
   critter-art-golden:
@@ -168,6 +177,22 @@ jobs:
         with: { node-version: 26, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm tsx tools/scripts/check-release-bundle.ts
+
+  service-images:
+    # Builds the api and worker images exactly as Railway does, so a dependency or Dockerfile change
+    # that breaks a deploy fails its pull request instead of the next deploy.
+    name: service images build (${{ matrix.service }})
+    needs: changes
+    if: needs.changes.outputs.services == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [api, worker]
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker build -f services/${{ matrix.service }}/Dockerfile -t cp-${{ matrix.service }}-check .
 
   secrets:
     name: secret scan
