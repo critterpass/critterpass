@@ -58,6 +58,12 @@ module.exports = {
     // treating them as an ignored third-party dependency. Reuses the exact babel-jest transformer
     // and options the preset already resolved, rather than reconstructing them.
     '\\.mjs$': jestExpoPreset.transform['\\.[jt]sx?$'],
+    // jest-expo's own asset transform regex mirrors @expo/metro-config's default `assetExts`, which
+    // doesn't include `.ogg` (same gap `metro.config.js` fixes for the real Metro bundle) — @cp/
+    // sound-art's Android SFX are Ogg-encapsulated Opus (docs/decisions/20260927-in-house-procedural-
+    // audio.md). Reuses jest-expo's own asset transformer so a `require('*.ogg')` resolves the same
+    // way its `.caf`/`.m4a` siblings already do, rather than being parsed as JS source.
+    '^.+\\.(ogg)$': require.resolve('jest-expo/src/preset/assetFileTransformer.js'),
   },
   transformIgnorePatterns: jestExpoPreset.transformIgnorePatterns.map((pattern, index) =>
     // Only the first entry is the node_modules allowlist (jest-expo/jest-preset.js); the rest are
