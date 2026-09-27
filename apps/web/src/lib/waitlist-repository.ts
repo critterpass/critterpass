@@ -2,8 +2,8 @@
 /**
  * D1 access for the waitlist: the only module that talks to `waitlist_entries` /
  * `waitlist_rate_limits` directly (migrations/20260927064301_waitlist_entries.sql). Kept thin and
- * untested-by-mock — real behaviour is exercised against local/staging D1 (see
- * `docs/undesigned-states.md` note and the phase report for how this was smoke-tested).
+ * untested-by-mock — real behaviour is exercised against a local and a staging D1 database (see
+ * the `docs/undesigned-states.md` note for how this was smoke-tested).
  */
 import type { RateLimitRow } from './rate-limit';
 
