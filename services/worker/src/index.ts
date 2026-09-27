@@ -105,7 +105,7 @@ if (env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY) {
   );
 }
 
-// Notifications (docs/api-contracts-async.md §2.2): routing, the evening roundup and delivery.
+// Notifications (docs/api-contracts-async.md §2.2): routing, the evening roundup and delivery (timed).
 // Domain events appended in this process enqueue their routing jobs in the same transaction.
 const renderer = createCopyRenderer();
 const pushProviders = createPushProviders(env);
