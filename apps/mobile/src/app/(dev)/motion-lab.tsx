@@ -108,7 +108,6 @@ function ToastDemoButton() {
       testID="show-toast-button"
       onPress={() =>
         toast.show({
-          // eslint-disable-next-line lingui/no-unlocalized-strings -- a de-dupe key, never rendered copy.
           id: `motion-lab-${Date.now()}`,
           title: t({ id: 'motion.motionLab.demoToastTitle', message: 'Pass issued' }),
           subtitle: t({
