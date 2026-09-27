@@ -52,7 +52,15 @@ export const fish: ArchetypeFn = (sink, options, spec, colors) => {
   const topFin: readonly Point[] | undefined = (
     spec.fins === 'spiky'
       ? [
-          [34, 29], [38, 11], [43, 26], [48, 8], [53, 24], [58, 9], [62, 25], [67, 13], [70, 30],
+          [34, 29],
+          [38, 11],
+          [43, 26],
+          [48, 8],
+          [53, 24],
+          [58, 9],
+          [62, 25],
+          [67, 13],
+          [70, 30],
         ]
       : fish.fT
   )?.map(([x, y]): Point => [x, y - finLift]);
@@ -98,9 +106,18 @@ export const fish: ArchetypeFn = (sink, options, spec, colors) => {
   sink.line(fish.b, { w: 2.6, close: true });
   if (v === 'betta' || v === 'gold') {
     for (const l of [
-      [[26, 50], [10, 34]],
-      [[26, 52], [6, 54]],
-      [[26, 54], [10, 72]],
+      [
+        [26, 50],
+        [10, 34],
+      ],
+      [
+        [26, 52],
+        [6, 54],
+      ],
+      [
+        [26, 54],
+        [10, 72],
+      ],
     ] as const) {
       sink.line(l, { w: 1.3, color: colors.dk });
     }

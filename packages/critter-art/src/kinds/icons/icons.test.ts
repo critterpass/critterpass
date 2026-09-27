@@ -50,13 +50,16 @@ describe('icons', () => {
     expect(ours).toEqual(design);
   });
 
-  it.each(Object.keys(ICONS))('%s matches the design op sequence with an accent override', (name) => {
-    const designFn = K[name];
-    if (!designFn) throw new Error(`design/doodles.js no longer exports K.${name}`);
-    const options = fixtureOptions({ accent: '#4f86ff' });
-    const { ours, design } = buildBothOps(ICONS[name]!, designFn, 12, '#221e19', options);
-    expect(ours).toEqual(design);
-  });
+  it.each(Object.keys(ICONS))(
+    '%s matches the design op sequence with an accent override',
+    (name) => {
+      const designFn = K[name];
+      if (!designFn) throw new Error(`design/doodles.js no longer exports K.${name}`);
+      const options = fixtureOptions({ accent: '#4f86ff' });
+      const { ours, design } = buildBothOps(ICONS[name]!, designFn, 12, '#221e19', options);
+      expect(ours).toEqual(design);
+    },
+  );
 
   it('egg matches the design op sequence for the crack pose', () => {
     const designEgg = K['egg'];

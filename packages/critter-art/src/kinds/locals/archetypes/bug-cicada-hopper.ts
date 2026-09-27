@@ -115,20 +115,42 @@ export function drawHopper(sink: OpSink, options: KindDrawOptions, colors: Arche
   // Epic pose (design gives `bug` no pose of its own): antennae splay wider, tips marked.
   const antennae: readonly [Point, Point, Point][] = epicPose
     ? [
-        [[44, 23], [30, 6], [16, 2]],
-        [[56, 23], [70, 6], [84, 2]],
+        [
+          [44, 23],
+          [30, 6],
+          [16, 2],
+        ],
+        [
+          [56, 23],
+          [70, 6],
+          [84, 2],
+        ],
       ]
     : [
-        [[44, 23], [38, 8], [30, 3]],
-        [[56, 23], [62, 8], [70, 3]],
+        [
+          [44, 23],
+          [38, 8],
+          [30, 3],
+        ],
+        [
+          [56, 23],
+          [62, 8],
+          [70, 3],
+        ],
       ];
   for (const l of antennae) {
     sink.line(l, { w: 1.7 });
     if (epicPose) sink.dot(l[2][0], l[2][1], 2.6, legColor);
   }
   for (const l of [
-    [[40, 60], [32, 70]],
-    [[60, 60], [68, 70]],
+    [
+      [40, 60],
+      [32, 70],
+    ],
+    [
+      [60, 60],
+      [68, 70],
+    ],
   ] as const) {
     sink.line(l, { w: 2, color: legColor });
   }

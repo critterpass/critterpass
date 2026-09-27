@@ -1,5 +1,10 @@
 import { F, W } from '../../../core/ops';
-import { blobPolygon, catmullRomResample, superellipseArc, tubeOutline } from '../../../core/shapes';
+import {
+  blobPolygon,
+  catmullRomResample,
+  superellipseArc,
+  tubeOutline,
+} from '../../../core/shapes';
 import { dotEyes, eyes, extras } from '../../parts/face';
 import { ACC } from '../parts/accessories';
 import { drawCheekDots, drawSmile } from '../helpers';
@@ -14,7 +19,19 @@ export const snake: ArchetypeFn = (sink, options, spec, colors) => {
   const coilBack = blobPolygon(52, 73, 25, 8.5, 0.85, 16);
   sink.wash(coilFront, colors.f);
   sink.wash(coilBack, colors.f);
-  const neck = tubeOutline(catmullRomResample([[62, 71], [68, 60], [63, 50], [55, 44]], 3), 12, 11);
+  const neck = tubeOutline(
+    catmullRomResample(
+      [
+        [62, 71],
+        [68, 60],
+        [63, 50],
+        [55, 44],
+      ],
+      3,
+    ),
+    12,
+    11,
+  );
   sink.wash(neck.polygon, colors.f);
   if (isNaga) {
     W(
@@ -51,7 +68,15 @@ export const snake: ArchetypeFn = (sink, options, spec, colors) => {
   const head = blobPolygon(50, 34, 15, 12, 0.85, 14);
   sink.wash(head, colors.f);
   for (const [x, y] of [
-    [26, 84], [38, 88], [52, 89], [66, 88], [76, 83], [34, 73], [46, 77], [58, 77], [70, 72],
+    [26, 84],
+    [38, 88],
+    [52, 89],
+    [66, 88],
+    [76, 83],
+    [34, 73],
+    [46, 77],
+    [58, 77],
+    [70, 72],
   ] as const) {
     sink.stroke(
       [

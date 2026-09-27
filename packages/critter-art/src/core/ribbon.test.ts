@@ -12,7 +12,11 @@ function strokePath(count: number, offset: number): Point[] {
   ]);
 }
 
-function expectPointsClose(actual: readonly Point[], expected: readonly Point[], epsilon: number): void {
+function expectPointsClose(
+  actual: readonly Point[],
+  expected: readonly Point[],
+  epsilon: number,
+): void {
   expect(actual.length).toBe(expected.length);
   for (let i = 0; i < actual.length; i++) {
     expect(Math.abs(actual[i]![0] - expected[i]![0])).toBeLessThan(epsilon);

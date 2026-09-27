@@ -97,11 +97,7 @@ export function ribbonPolyCmd(
   return polyCmd(left.concat(right.slice().reverse()), color, alpha, blend);
 }
 
-export function layerCmd(
-  cmds: readonly Cmd[],
-  alpha: number,
-  shadow?: LayerShadow,
-): LayerCmd {
+export function layerCmd(cmds: readonly Cmd[], alpha: number, shadow?: LayerShadow): LayerCmd {
   return {
     t: 'layer',
     cmds: [...cmds],

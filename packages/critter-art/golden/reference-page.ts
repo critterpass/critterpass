@@ -20,7 +20,11 @@ function renderCore(spec: RenderSpec, sizePt: number, p: number, deviceScale: nu
   const model = build(spec, sizePt);
   const boxLayout = layout(spec, sizePt);
   const viewport = viewportFor(boxLayout, deviceScale);
-  const canvas = renderToCanvas(frame(model, p), viewport, browserCanvasFactory) as unknown as HTMLCanvasElement;
+  const canvas = renderToCanvas(
+    frame(model, p),
+    viewport,
+    browserCanvasFactory,
+  ) as unknown as HTMLCanvasElement;
   return canvas.toDataURL('image/png');
 }
 

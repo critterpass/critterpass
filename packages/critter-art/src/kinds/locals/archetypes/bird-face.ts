@@ -113,8 +113,16 @@ export function drawBirdFace(
     }
   } else if (v !== 'humming' && v !== 'owl') {
     for (const p of [
-      [[35, 93], [41, 85], [47, 93]],
-      [[53, 93], [59, 85], [65, 93]],
+      [
+        [35, 93],
+        [41, 85],
+        [47, 93],
+      ],
+      [
+        [53, 93],
+        [59, 85],
+        [65, 93],
+      ],
     ] as const) {
       F(sink, p, footColor, 2);
     }
@@ -230,7 +238,11 @@ export function drawBirdFace(
     );
   } else {
     const beakShape =
-      BEAK[spec.beak ?? (isRaptor ? 'hook' : v === 'owl' ? 'owl' : v === 'duck' ? 'duck' : 'short')] ?? BEAK['short'] ?? [];
+      BEAK[
+        spec.beak ?? (isRaptor ? 'hook' : v === 'owl' ? 'owl' : v === 'duck' ? 'duck' : 'short')
+      ] ??
+      BEAK['short'] ??
+      [];
     F(
       sink,
       beakShape.map(([x, y]): Point => [x, y + by]),

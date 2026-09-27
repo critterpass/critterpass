@@ -11,9 +11,21 @@ import type { ArchetypeFn } from '../types';
 export const crab: ArchetypeFn = (sink, options, spec, colors) => {
   const epicPose = isEpicPose(options.pose);
   const legs: readonly [Point, Point, Point][] = [
-    [[28, 66], [16, 72], [12, 82]],
-    [[30, 72], [20, 80], [18, 90]],
-    [[34, 76], [28, 86], [28, 94]],
+    [
+      [28, 66],
+      [16, 72],
+      [12, 82],
+    ],
+    [
+      [30, 72],
+      [20, 80],
+      [18, 90],
+    ],
+    [
+      [34, 76],
+      [28, 86],
+      [28, 94],
+    ],
   ];
   for (const l of legs) {
     for (const p of [l, mirrorX(l)]) {
@@ -49,8 +61,14 @@ export const crab: ArchetypeFn = (sink, options, spec, colors) => {
     if (raise) drawSparkExtras(sink, pointAt(c, 1)[0], pointAt(c, 1)[1] - 6, 5, colors.dk);
   }
   for (const l of [
-    [[43, 50], [41, 39]],
-    [[57, 50], [59, 39]],
+    [
+      [43, 50],
+      [41, 39],
+    ],
+    [
+      [57, 50],
+      [59, 39],
+    ],
   ] as const) {
     sink.line(l, { w: 2.2 });
   }

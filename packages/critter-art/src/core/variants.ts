@@ -5,10 +5,18 @@ function parseHexRgb(color: string): readonly [number, number, number] {
   const hex = color.startsWith('#') ? color.slice(1) : '';
   if (hex.length === 3) {
     const [r, g, b] = hex;
-    return [parseInt((r ?? '8') + (r ?? '8'), 16), parseInt((g ?? '8') + (g ?? '8'), 16), parseInt((b ?? '8') + (b ?? '8'), 16)];
+    return [
+      parseInt((r ?? '8') + (r ?? '8'), 16),
+      parseInt((g ?? '8') + (g ?? '8'), 16),
+      parseInt((b ?? '8') + (b ?? '8'), 16),
+    ];
   }
   if (hex.length === 6) {
-    return [parseInt(hex.slice(0, 2), 16), parseInt(hex.slice(2, 4), 16), parseInt(hex.slice(4, 6), 16)];
+    return [
+      parseInt(hex.slice(0, 2), 16),
+      parseInt(hex.slice(2, 4), 16),
+      parseInt(hex.slice(4, 6), 16),
+    ];
   }
   return [128, 128, 128];
 }

@@ -90,7 +90,9 @@ export async function comparePngBuffers(expected: Buffer, actual: Buffer): Promi
  */
 export function isWithinThreshold(result: DiffResult, effectiveSizePt: number): boolean {
   const meanAbsThreshold =
-    effectiveSizePt <= SMALL_SIZE_MAX_PT ? SMALL_SIZE_MEAN_ABS_DIFF_THRESHOLD : MEAN_ABS_DIFF_THRESHOLD;
+    effectiveSizePt <= SMALL_SIZE_MAX_PT
+      ? SMALL_SIZE_MEAN_ABS_DIFF_THRESHOLD
+      : MEAN_ABS_DIFF_THRESHOLD;
   const pctOver8Threshold =
     effectiveSizePt <= SMALL_SIZE_MAX_PT
       ? SMALL_SIZE_PIXELS_OVER_8_PCT_THRESHOLD

@@ -1,11 +1,11 @@
 import type { EdgeStyle } from '../core/model';
 
-// Tier colours live here (not `@cp/design-tokens`): critter-art is pure and design-tokens is being
-// built in a parallel wave-2 branch. Phase 5 asserts these values equal the generated tokens.
+// Tier colours from design-system.md §1.2 (the same values as the generated design tokens), kept here so
+// the pure renderer core has no runtime dependency.
 
 export type Rarity = 'common' | 'rare' | 'epic' | 'legendary';
 
-/** design-system §1.2 tier accents; C21 locked silhouette colours (legendary uses its own gold-on-dark pair). */
+/** design-system §1.2 tier accents; locked silhouette colours (legendary uses its own gold-on-dark pair). */
 export interface TierColors {
   readonly accent: string;
   readonly lockedMask: string;
@@ -24,7 +24,7 @@ export interface EdgeRingStyle {
   readonly width: number;
 }
 
-/** C40: epic always adds a pose and a 2 pt pink die-cut edge; legendary gets a 3 pt gold edge. */
+/** Epic always adds a pose and a 2 pt pink die-cut edge; legendary gets a 3 pt gold edge. */
 export const EDGE_RING_STYLES: Readonly<Record<Exclude<EdgeStyle, 'none'>, EdgeRingStyle>> = {
   epic: { color: '#ff5fa8', width: 2 },
   legendary: { color: '#ffd84a', width: 3 },

@@ -70,19 +70,22 @@ describe('DESIGNED_FORMS', () => {
     expect(findDesignedForm('cp-061', 'legendary')?.form.edge).toBe('legendary');
   });
 
-  it.each(DESIGNED_FORMS)('$name builds and frames at 96/150/300pt with a sticker, incl. the edge ring where designed', (designed) => {
-    for (const sizePt of [96, 150, 300]) {
-      const model = build(
-        { kind: designed.kind, seed: 7, form: designed.form, sticker: { color: '#f4efe4' } },
-        sizePt,
-      );
-      expect(model.ops.length).toBeGreaterThan(0);
-      if (designed.form.edge !== 'none') {
-        expect(model.edgeOutline).not.toBeNull();
-        expect(model.edgeColor).not.toBeNull();
+  it.each(DESIGNED_FORMS)(
+    '$name builds and frames at 96/150/300pt with a sticker, incl. the edge ring where designed',
+    (designed) => {
+      for (const sizePt of [96, 150, 300]) {
+        const model = build(
+          { kind: designed.kind, seed: 7, form: designed.form, sticker: { color: '#f4efe4' } },
+          sizePt,
+        );
+        expect(model.ops.length).toBeGreaterThan(0);
+        if (designed.form.edge !== 'none') {
+          expect(model.edgeOutline).not.toBeNull();
+          expect(model.edgeColor).not.toBeNull();
+        }
+        const cmds = frame(model, 1);
+        expect(cmds.length).toBeGreaterThan(0);
       }
-      const cmds = frame(model, 1);
-      expect(cmds.length).toBeGreaterThan(0);
-    }
-  });
+    },
+  );
 });

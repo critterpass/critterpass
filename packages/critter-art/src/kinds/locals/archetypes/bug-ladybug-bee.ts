@@ -63,12 +63,28 @@ export function drawLadybug(
   const epicPose = isEpicPose(options.pose);
   const antennae: readonly [Point, Point, Point][] = epicPose
     ? [
-        [[44, 26], [38, 10], [32, 4]],
-        [[56, 26], [62, 10], [68, 4]],
+        [
+          [44, 26],
+          [38, 10],
+          [32, 4],
+        ],
+        [
+          [56, 26],
+          [62, 10],
+          [68, 4],
+        ],
       ]
     : [
-        [[44, 26], [40, 15], [36, 13]],
-        [[56, 26], [60, 15], [64, 13]],
+        [
+          [44, 26],
+          [40, 15],
+          [36, 13],
+        ],
+        [
+          [56, 26],
+          [60, 15],
+          [64, 13],
+        ],
       ];
   for (const l of antennae) {
     sink.line(l, { w: 1.8 });
@@ -123,12 +139,28 @@ export function drawBee(sink: OpSink, options: KindDrawOptions, colors: Archetyp
   // Epic pose (design gives `bug` no pose of its own): antennae perk up further, tips enlarged.
   const antennae: readonly [Point, Point, Point][] = epicPose
     ? [
-        [[44, 34], [38, 14], [30, 9]],
-        [[56, 34], [62, 14], [70, 9]],
+        [
+          [44, 34],
+          [38, 14],
+          [30, 9],
+        ],
+        [
+          [56, 34],
+          [62, 14],
+          [70, 9],
+        ],
       ]
     : [
-        [[44, 34], [40, 22], [35, 19]],
-        [[56, 34], [60, 22], [65, 19]],
+        [
+          [44, 34],
+          [40, 22],
+          [35, 19],
+        ],
+        [
+          [56, 34],
+          [60, 22],
+          [65, 19],
+        ],
       ];
   for (const l of antennae) {
     sink.line(l, { w: 1.8 });

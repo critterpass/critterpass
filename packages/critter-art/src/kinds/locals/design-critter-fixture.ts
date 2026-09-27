@@ -27,7 +27,9 @@ export function asDesignFn(value: unknown, label: string): DesignCritterFn {
  * `evaluateDesignCritterBlock` — as a `DesignCritterFn` that dispatches on its first rest argument,
  * mirroring the design's own `TABLE[key](d, ...)` call sites so it plugs into `buildBothCritterOps`.
  */
-export function designTableDispatcher(table: Readonly<Record<string, DesignCritterFn>>): DesignCritterFn {
+export function designTableDispatcher(
+  table: Readonly<Record<string, DesignCritterFn>>,
+): DesignCritterFn {
   return (sink, ...rest) => {
     const [key, ...args] = rest;
     const fn = typeof key === 'string' ? table[key] : undefined;

@@ -23,7 +23,19 @@ export const nessie: ArchetypeFn = (sink, options, _spec, colors) => {
   ];
   sink.wash(hump1, colors.f);
   sink.wash(hump2, colors.f);
-  const neck = tubeOutline(catmullRomResample([[42, 81], [37, 64], [31, 48], [31, 36]], 3), 12, 10);
+  const neck = tubeOutline(
+    catmullRomResample(
+      [
+        [42, 81],
+        [37, 64],
+        [31, 48],
+        [31, 36],
+      ],
+      3,
+    ),
+    12,
+    10,
+  );
   sink.wash(neck.polygon, colors.f);
   const head = blobPolygon(34, 28, 13, 10.5, 0.85, 14);
   sink.wash(head, colors.f);
@@ -78,7 +90,16 @@ export const nessie: ArchetypeFn = (sink, options, _spec, colors) => {
   );
   sink.line(
     [
-      [10, 82], [20, 79.5], [30, 82], [40, 79.5], [50, 82], [60, 79.5], [70, 82], [80, 79.5], [90, 82], [98, 80],
+      [10, 82],
+      [20, 79.5],
+      [30, 82],
+      [40, 79.5],
+      [50, 82],
+      [60, 79.5],
+      [70, 82],
+      [80, 79.5],
+      [90, 82],
+      [98, 80],
     ],
     { w: 2.1, color: '#6fa8ff' },
   );

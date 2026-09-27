@@ -5,7 +5,12 @@ import { isGuideSpec } from '../../../data/types';
 import type { CritterSpec } from '../../../data/types';
 import { createOpBuilder } from '../../../core/ops';
 import { loadDesignCritterKit } from '../design-critter-reference';
-import { asDesignFn, buildBothCritterOps, fixtureOptions, fixtureSpec } from '../design-critter-fixture';
+import {
+  asDesignFn,
+  buildBothCritterOps,
+  fixtureOptions,
+  fixtureSpec,
+} from '../design-critter-fixture';
 import type { KindDrawOptions } from '../../registry';
 import { octo } from './octo';
 
@@ -42,17 +47,36 @@ describe('octo', () => {
     (_id, _name, no, spec) => {
       const options = fixtureOptions();
       const colors = { f: spec.c[0], dk: spec.c[1], bl: spec.c[2] };
-      const { ours, design } = buildBothCritterOps(octo, designOcto, no, '#221e19', options, spec, colors);
+      const { ours, design } = buildBothCritterOps(
+        octo,
+        designOcto,
+        no,
+        '#221e19',
+        options,
+        spec,
+        colors,
+      );
       expect(ours).toEqual(design);
     },
   );
 
-  it.each(OCTO_CRITTERS.map((c) => [c.id, c.spec] as const))('matches with eyes closed for %s', (_id, spec) => {
-    const options = fixtureOptions({ closed: true });
-    const colors = { f: spec.c[0], dk: spec.c[1], bl: spec.c[2] };
-    const { ours, design } = buildBothCritterOps(octo, designOcto, 205, '#221e19', options, spec, colors);
-    expect(ours).toEqual(design);
-  });
+  it.each(OCTO_CRITTERS.map((c) => [c.id, c.spec] as const))(
+    'matches with eyes closed for %s',
+    (_id, spec) => {
+      const options = fixtureOptions({ closed: true });
+      const colors = { f: spec.c[0], dk: spec.c[1], bl: spec.c[2] };
+      const { ours, design } = buildBothCritterOps(
+        octo,
+        designOcto,
+        205,
+        '#221e19',
+        options,
+        spec,
+        colors,
+      );
+      expect(ours).toEqual(design);
+    },
+  );
 
   describe('stable seed mode', () => {
     const base = { ink: '#221e19', eye: '#fffdf6', pupil: '#221e19' };

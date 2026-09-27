@@ -89,23 +89,30 @@ const GUIDE_EPIC_POSE: Readonly<Record<string, Pose>> = {
 };
 const SIZE_PT = 96;
 
-const nodeCanvasFactory: CanvasFactory = (width, height) => createCanvas(width, height) as unknown as CanvasLike;
+const nodeCanvasFactory: CanvasFactory = (width, height) =>
+  createCanvas(width, height) as unknown as CanvasLike;
 
 /** Rasterizes a spec to raw RGBA bytes via the real Node backend (`render.test.ts`'s established pattern), no PNG round-trip needed since both sides are compared in-process. */
-function renderPixels(spec: RenderSpec, sizePt: number): { data: Uint8ClampedArray; width: number; height: number } {
+function renderPixels(
+  spec: RenderSpec,
+  sizePt: number,
+): { data: Uint8ClampedArray; width: number; height: number } {
   const model = build(spec, sizePt);
   const boxLayout = layout(spec, sizePt);
   const viewport = viewportFor(boxLayout, 1);
-  const canvas = renderToCanvas(frame(model, 1), viewport, nodeCanvasFactory) as unknown as ReturnType<
-    typeof createCanvas
-  >;
+  const canvas = renderToCanvas(
+    frame(model, 1),
+    viewport,
+    nodeCanvasFactory,
+  ) as unknown as ReturnType<typeof createCanvas>;
   const { data } = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
   return { data, width: canvas.width, height: canvas.height };
 }
 
 /** Fraction (0..1) of pixels whose RGBA differs by more than a small floor in any channel. */
 function pctPixelsDiffer(a: Uint8ClampedArray, b: Uint8ClampedArray): number {
-  if (a.length !== b.length) throw new Error(`pixel buffer length mismatch: ${a.length} vs ${b.length}`);
+  if (a.length !== b.length)
+    throw new Error(`pixel buffer length mismatch: ${a.length} vs ${b.length}`);
   let differing = 0;
   const pixelCount = a.length / 4;
   for (let i = 0; i < a.length; i += 4) {
@@ -125,7 +132,12 @@ describe('epic pose vs common pose: every archetype and guide must visibly diffe
       (c) => !isGuideSpec(c.spec) && c.spec.b === (archetype as ArchetypeName),
     );
     if (!representative) throw new Error(`no shipped critter uses archetype "${archetype}"`);
-    return { label: `${archetype} (${representative.id})`, kind: representative.id, seed: representative.no, pose };
+    return {
+      label: `${archetype} (${representative.id})`,
+      kind: representative.id,
+      seed: representative.no,
+      pose,
+    };
   });
   const guideCases = Object.entries(GUIDE_EPIC_POSE).map(([kind, pose]) => ({
     label: kind,
@@ -139,12 +151,15 @@ describe('epic pose vs common pose: every archetype and guide must visibly diffe
   // where a pose change actually moves the most pixels (plain mode's bare ink line moves far fewer).
   const STICKER: RenderSpec['sticker'] = { color: '#f4efe4' };
 
-  it.each([...localCases, ...guideCases])('$label: epic ("$pose") differs from common by > 3% of pixels', ({ kind, seed, pose }) => {
-    const common = renderPixels({ kind, seed, sticker: STICKER }, SIZE_PT);
-    const epic = renderPixels({ kind, seed, pose, sticker: STICKER }, SIZE_PT);
-    expect(epic.width).toBe(common.width);
-    expect(epic.height).toBe(common.height);
-    const pct = pctPixelsDiffer(common.data, epic.data);
-    expect(pct).toBeGreaterThan(0.03);
-  });
+  it.each([...localCases, ...guideCases])(
+    '$label: epic ("$pose") differs from common by > 3% of pixels',
+    ({ kind, seed, pose }) => {
+      const common = renderPixels({ kind, seed, sticker: STICKER }, SIZE_PT);
+      const epic = renderPixels({ kind, seed, pose, sticker: STICKER }, SIZE_PT);
+      expect(epic.width).toBe(common.width);
+      expect(epic.height).toBe(common.height);
+      const pct = pctPixelsDiffer(common.data, epic.data);
+      expect(pct).toBeGreaterThan(0.03);
+    },
+  );
 });

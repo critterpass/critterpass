@@ -114,7 +114,11 @@ export function renderCard(spec: RenderSpec, sizePt: number, p: number): HTMLCan
   const model = build(spec, sizePt);
   const boxLayout = layout(spec, sizePt);
   const viewport = viewportFor(boxLayout, Math.min(2, window.devicePixelRatio || 1));
-  const canvas = renderToCanvas(frame(model, p), viewport, nodeless) as unknown as HTMLCanvasElement;
+  const canvas = renderToCanvas(
+    frame(model, p),
+    viewport,
+    nodeless,
+  ) as unknown as HTMLCanvasElement;
   canvas.style.width = `${viewport.widthPx / viewport.deviceScale}px`;
   canvas.style.height = `${viewport.heightPx / viewport.deviceScale}px`;
   return canvas;

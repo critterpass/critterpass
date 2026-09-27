@@ -25,23 +25,50 @@ describe('bug', () => {
     (_id, _name, no, spec) => {
       const options = fixtureOptions();
       const colors = { f: spec.c[0], dk: spec.c[1], bl: spec.c[2] };
-      const { ours, design } = buildBothCritterOps(bug, designBug, no, '#221e19', options, spec, colors);
+      const { ours, design } = buildBothCritterOps(
+        bug,
+        designBug,
+        no,
+        '#221e19',
+        options,
+        spec,
+        colors,
+      );
       expect(ours).toEqual(design);
     },
   );
 
-  it.each(BUG_CRITTERS.map((c) => [c.id, c.spec] as const))('matches with eyes closed for %s', (_id, spec) => {
-    const options = fixtureOptions({ closed: true });
-    const colors = { f: spec.c[0], dk: spec.c[1], bl: spec.c[2] };
-    const { ours, design } = buildBothCritterOps(bug, designBug, 205, '#221e19', options, spec, colors);
-    expect(ours).toEqual(design);
-  });
+  it.each(BUG_CRITTERS.map((c) => [c.id, c.spec] as const))(
+    'matches with eyes closed for %s',
+    (_id, spec) => {
+      const options = fixtureOptions({ closed: true });
+      const colors = { f: spec.c[0], dk: spec.c[1], bl: spec.c[2] };
+      const { ours, design } = buildBothCritterOps(
+        bug,
+        designBug,
+        205,
+        '#221e19',
+        options,
+        spec,
+        colors,
+      );
+      expect(ours).toEqual(design);
+    },
+  );
 
   it('renders nothing for an unknown bug variant', () => {
     const options = fixtureOptions();
     const colors = { f: '#fff', dk: '#000', bl: '#eee' };
     const spec = { b: 'bug' as const, c: ['#fff', '#000', '#eee'] as const, v: 'unknown' };
-    const { ours, design } = buildBothCritterOps(bug, designBug, 7, '#221e19', options, spec, colors);
+    const { ours, design } = buildBothCritterOps(
+      bug,
+      designBug,
+      7,
+      '#221e19',
+      options,
+      spec,
+      colors,
+    );
     expect(ours).toEqual([]);
     expect(design).toEqual([]);
   });

@@ -17,8 +17,16 @@ const MASK: Readonly<Record<string, MaskFn>> = {
   raccoon: (sink, hy, colors) =>
     sink.fill(
       [
-        [27, hy - 3], [38, hy - 7], [50, hy - 2.5], [62, hy - 7], [73, hy - 3],
-        [71, hy + 5], [60, hy + 6.5], [50, hy + 2.5], [40, hy + 6.5], [29, hy + 5],
+        [27, hy - 3],
+        [38, hy - 7],
+        [50, hy - 2.5],
+        [62, hy - 7],
+        [73, hy - 3],
+        [71, hy + 5],
+        [60, hy + 6.5],
+        [50, hy + 2.5],
+        [40, hy + 6.5],
+        [29, hy + 5],
       ] as const,
       colors.dk,
     ),
@@ -51,7 +59,8 @@ const MASK: Readonly<Record<string, MaskFn>> = {
     sink.fill(p, colors.dk);
     sink.fill(mirrorX(p), colors.dk);
   },
-  face: (sink, hy, colors, spec) => sink.fill(blobPolygon(50, hy + 4, 17, 12.5, 0.85, 14), spec.fcol || colors.bl),
+  face: (sink, hy, colors, spec) =>
+    sink.fill(blobPolygon(50, hy + 4, 17, 12.5, 0.85, 14), spec.fcol || colors.bl),
   akita: (sink, hy) => {
     sink.fill(blobPolygon(50, hy + 8, 19, 9, 0.8, 14), CREAM_WHITE);
     sink.dot(38, hy - 7.5, 2.6, CREAM_WHITE);
@@ -79,8 +88,18 @@ const MASK: Readonly<Record<string, MaskFn>> = {
   },
   fringe: (sink, hy, colors) => {
     const p = [
-      [27, hy - 6], [33, hy - 1], [38.5, hy - 6], [44, hy - 1.5], [50, hy - 6.5], [56, hy - 1.5],
-      [61.5, hy - 6], [67, hy - 1], [73, hy - 6], [70, hy - 15], [50, hy - 19], [30, hy - 15],
+      [27, hy - 6],
+      [33, hy - 1],
+      [38.5, hy - 6],
+      [44, hy - 1.5],
+      [50, hy - 6.5],
+      [56, hy - 1.5],
+      [61.5, hy - 6],
+      [67, hy - 1],
+      [73, hy - 6],
+      [70, hy - 15],
+      [50, hy - 19],
+      [30, hy - 15],
     ] as const;
     sink.fill(p, colors.dk);
     sink.line(p.slice(0, 9), { w: 1.8 });

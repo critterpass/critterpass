@@ -27,8 +27,16 @@ export const seal: ArchetypeFn = (sink, options, spec, colors) => {
     );
   } else {
     for (const p of [
-      [[40, 88], [28, 96], [44, 96]],
-      [[60, 88], [72, 96], [56, 96]],
+      [
+        [40, 88],
+        [28, 96],
+        [44, 96],
+      ],
+      [
+        [60, 88],
+        [72, 96],
+        [56, 96],
+      ],
     ] as const) {
       W(sink, p, colors.dk, 2);
     }

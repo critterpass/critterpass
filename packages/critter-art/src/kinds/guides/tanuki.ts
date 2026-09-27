@@ -68,11 +68,12 @@ export const tanuki: KindFn = (sink, options) => {
     [65, 58],
     [73, 66],
   ];
-  if (pose === 'wave') armR = [
-    [65, 56],
-    [74, 47],
-    [77, 38],
-  ];
+  if (pose === 'wave')
+    armR = [
+      [65, 56],
+      [74, 47],
+      [77, 38],
+    ];
   if (pose === 'cheer') {
     armL = [
       [35, 56],
@@ -85,11 +86,12 @@ export const tanuki: KindFn = (sink, options) => {
       [77, 38],
     ];
   }
-  if (pose === 'think') armR = [
-    [65, 58],
-    [71, 52],
-    [66, 46],
-  ];
+  if (pose === 'think')
+    armR = [
+      [65, 58],
+      [71, 52],
+      [66, 46],
+    ];
 
   sink.wash(tail, fill);
   sink.stroke(

@@ -12,7 +12,8 @@ import type { StandBodyContext } from './stand-face';
 /** Fixed-length lookup with a bounds check, matching `pointAt` but for the plain-number leg x-coordinates. */
 function numAt(values: readonly number[], index: number): number {
   const value = values[index];
-  if (value === undefined) throw new RangeError(`index ${index} out of bounds (length ${values.length})`);
+  if (value === undefined)
+    throw new RangeError(`index ${index} out of bounds (length ${values.length})`);
   return value;
 }
 
@@ -39,7 +40,9 @@ export const stand: ArchetypeFn = (sink, options, spec, colors) => {
   const epicPose = isEpicPose(options.pose);
   const hx = isDachshund ? 28 : isElephant ? 31 : 30;
   // Epic pose (design gives `stand` no pose of its own): head tips up, as if calling out.
-  const hy = (isGiraffe ? 16 : isGuanaco ? 21 : isDachshund ? 53 : isElephant ? 35 : 32) - (epicPose ? 5 : 0);
+  const hy =
+    (isGiraffe ? 16 : isGuanaco ? 21 : isDachshund ? 53 : isElephant ? 35 : 32) -
+    (epicPose ? 5 : 0);
   const k = isElephant ? 0.8 : 0.7;
   const headFrame: HeadFrame = { x: hx, y: hy, k };
   const hrx = 25 * k * (isElephant ? 1 : 0.9);
@@ -47,7 +50,8 @@ export const stand: ArchetypeFn = (sink, options, spec, colors) => {
   const legBottomY = isDachshund ? 88 : isGiraffe || isGuanaco || isHorse ? 94 : 91;
   const legX = isDachshund ? [42, 49, 73, 80] : [41, 48, 67, 74];
   const bodyRimY = (x: number, sign: number): number =>
-    by + sign * bry * Math.max(0, 1 - Math.abs((x - bx) / brx) ** (1 / bodyExponent)) ** bodyExponent;
+    by +
+    sign * bry * Math.max(0, 1 - Math.abs((x - bx) / brx) ** (1 / bodyExponent)) ** bodyExponent;
 
   const tx = bx + brx - 2;
   const ty = by - bry * 0.45;
@@ -55,14 +59,24 @@ export const stand: ArchetypeFn = (sink, options, spec, colors) => {
     spec.tail ||
     (isDachshund
       ? 'dog'
-      : isHorse || isGiraffe || isCamel || v === 'cow' || v === 'buffalo' || spec.horns === 'straight'
+      : isHorse ||
+          isGiraffe ||
+          isCamel ||
+          v === 'cow' ||
+          v === 'buffalo' ||
+          spec.horns === 'straight'
         ? 'tuft'
         : 'short');
   if (isHorse) {
     W(
       sink,
       [
-        [tx - 1, ty - 1], [tx + 9, ty + 2], [tx + 13, ty + 14], [tx + 8, ty + 26], [tx + 6, ty + 14], [tx + 1, ty + 7],
+        [tx - 1, ty - 1],
+        [tx + 9, ty + 2],
+        [tx + 13, ty + 14],
+        [tx + 8, ty + 26],
+        [tx + 6, ty + 14],
+        [tx + 1, ty + 7],
       ],
       spec.mc || colors.dk,
       2.1,
@@ -92,21 +106,8 @@ export const stand: ArchetypeFn = (sink, options, spec, colors) => {
   for (const i of [1, 3, 0, 2]) {
     const x = numAt(legX, i);
     const bottom: Point = [x + (i > 1 ? 0.8 : -0.8), legBottomY];
-    sink.stroke(
-      [
-        [x, by],
-        bottom,
-      ],
-      colors.f,
-      isElephant ? 9 : isDachshund ? 6 : 7,
-    );
-    sink.line(
-      [
-        [x, bodyRimY(x, 1) - 0.5],
-        bottom,
-      ],
-      { w: 2.2, taper: false },
-    );
+    sink.stroke([[x, by], bottom], colors.f, isElephant ? 9 : isDachshund ? 6 : 7);
+    sink.line([[x, bodyRimY(x, 1) - 0.5], bottom], { w: 2.2, taper: false });
     if (v === 'zebra' || spec.pat === 'zebra') {
       for (const y of [legBottomY - 10, legBottomY - 5]) {
         sink.stroke(
@@ -119,14 +120,21 @@ export const stand: ArchetypeFn = (sink, options, spec, colors) => {
         );
       }
     }
-    F(sink, ellipsePolygon(bottom[0], legBottomY + 0.8, isElephant ? 5 : 4, 2.1, 8), spec.fc || colors.dk, 1.5);
+    F(
+      sink,
+      ellipsePolygon(bottom[0], legBottomY + 0.8, isElephant ? 5 : 4, 2.1, 8),
+      spec.fc || colors.dk,
+      1.5,
+    );
   }
 
   if (isCamel) sink.wash(blobPolygon(bx + 3, by - bry + 1, 11, 9, 0.8, 14), colors.f);
   sink.wash(blobPolygon(bx, by, brx, bry, bodyExponent, 16), colors.f);
   const n0: Point = [bx - brx * 0.6, by - bry * 0.4];
   const n2: Point = [hx + 3, hy + hry * 0.6];
-  const n1: Point = isGiraffe ? [hx + 9, (n0[1] + n2[1]) / 2] : [(n0[0] + n2[0]) / 2 + 3, (n0[1] + n2[1]) / 2];
+  const n1: Point = isGiraffe
+    ? [hx + 9, (n0[1] + n2[1]) / 2]
+    : [(n0[0] + n2[0]) / 2 + 3, (n0[1] + n2[1]) / 2];
   const neckCurve = quadraticBezier(n0, n1, n2, 6);
   const neck = tubeOutline(
     neckCurve,
@@ -135,7 +143,13 @@ export const stand: ArchetypeFn = (sink, options, spec, colors) => {
   );
   if (spec.mane === 'ruff') sink.wash(tubeOutline(neckCurve, 17, 14).polygon, colors.dk);
   sink.wash(neck.polygon, colors.f);
-  const maneTube = isHorse ? tubeOutline(neck.right.slice(1).map(([x, y]): Point => [x + 1.6, y - 1]), 7, 5) : null;
+  const maneTube = isHorse
+    ? tubeOutline(
+        neck.right.slice(1).map(([x, y]): Point => [x + 1.6, y - 1]),
+        7,
+        5,
+      )
+    : null;
   if (maneTube) sink.wash(maneTube.polygon, spec.mc || colors.dk);
   drawEars(sink, spec.ears || (isElephant ? '' : 'horse'), headFrame, colors, spec, 0);
   drawHorns(sink, spec.horns, headFrame, colors, spec);

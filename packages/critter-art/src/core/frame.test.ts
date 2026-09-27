@@ -90,10 +90,7 @@ describe('frame', () => {
   });
 
   it('nests a shadowed sticker sub-layer, alpha ramping as min(1, 4p)', () => {
-    const model = build(
-      { kind: WASH_FILL_LINE_KIND, seed: 7, sticker: { color: '#f4efe4' } },
-      96,
-    );
+    const model = build({ kind: WASH_FILL_LINE_KIND, seed: 7, sticker: { color: '#f4efe4' } }, 96);
     const full = asLayer(frame(model, 1)[0]!);
     expect(full.cmds).toHaveLength(5); // sticker sub-layer + 4 body cmds
     const stickerLayer = asLayer(full.cmds[0]!);

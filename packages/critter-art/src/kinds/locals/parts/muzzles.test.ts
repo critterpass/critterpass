@@ -6,8 +6,21 @@ import { buildBothCritterOps, designTableDispatcher } from '../design-critter-fi
 import { drawMuzzle } from './muzzles';
 
 const MUZ_TYPES = [
-  'plain', 'dog', 'cat', 'long', 'snout', 'big', 'flat', 'capy', 'otter',
-  'rat', 'bunny', 'teeth', 'snub', 'monkey', 'longnose',
+  'plain',
+  'dog',
+  'cat',
+  'long',
+  'snout',
+  'big',
+  'flat',
+  'capy',
+  'otter',
+  'rat',
+  'bunny',
+  'teeth',
+  'snub',
+  'monkey',
+  'longnose',
 ] as const;
 
 describe('drawMuzzle', () => {
@@ -16,7 +29,16 @@ describe('drawMuzzle', () => {
 
   it.each(MUZ_TYPES)('matches the design op sequence for muzzle type %s', (type) => {
     const spec = { snc: '#ffb8c8', tusks: 1 as const, fcol: '#a8d4ff', ring: 1 as const };
-    const { ours, design } = buildBothCritterOps(drawMuzzle, designMuzzle, 7, '#221e19', type, 31, colors, spec);
+    const { ours, design } = buildBothCritterOps(
+      drawMuzzle,
+      designMuzzle,
+      7,
+      '#221e19',
+      type,
+      31,
+      colors,
+      spec,
+    );
     expect(ours).toEqual(design);
   });
 
@@ -31,7 +53,16 @@ describe('drawMuzzle', () => {
       fn?.(sink, ...rest);
     };
     for (const type of [undefined, 'unknown-muzzle']) {
-      const { ours, design } = buildBothCritterOps(drawMuzzle, designMuzzleWithFallback, 7, '#221e19', type, 31, colors, {});
+      const { ours, design } = buildBothCritterOps(
+        drawMuzzle,
+        designMuzzleWithFallback,
+        7,
+        '#221e19',
+        type,
+        31,
+        colors,
+        {},
+      );
       expect(ours).toEqual(design);
       expect(ours.length).toBeGreaterThan(0);
     }

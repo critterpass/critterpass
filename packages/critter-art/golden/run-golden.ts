@@ -18,6 +18,7 @@ import { buildCaseMatrix, caseToCoreSpec, caseToDesignAttrs } from './cases';
 import { comparePngBuffers, isWithinThreshold } from './diff';
 import type { EdgeRingResult } from './edge-ring';
 import { EDGE_RING_FIXTURES, runEdgeRingCase } from './edge-ring';
+import { isKnownNodeDeviation } from './known-node-deviations';
 
 // `page.evaluate` callbacks below are re-parsed and run inside Chromium, where the real `window`
 // (from harness.html / the bundled reference-page.js) provides these — declared locally instead of
@@ -146,8 +147,16 @@ async function runCase(
   return {
     result: {
       id: goldenCase.id,
-      browserCore: { meanAbsDiff: browserDiff.meanAbsDiff, pctPixelsOver8: browserDiff.pctPixelsOver8, pass: browserPass },
-      nodeCore: { meanAbsDiff: nodeDiff.meanAbsDiff, pctPixelsOver8: nodeDiff.pctPixelsOver8, pass: nodePass },
+      browserCore: {
+        meanAbsDiff: browserDiff.meanAbsDiff,
+        pctPixelsOver8: browserDiff.pctPixelsOver8,
+        pass: browserPass,
+      },
+      nodeCore: {
+        meanAbsDiff: nodeDiff.meanAbsDiff,
+        pctPixelsOver8: nodeDiff.pctPixelsOver8,
+        pass: nodePass,
+      },
       nodeGates,
     },
     diffs,
@@ -160,7 +169,11 @@ async function verifyMutationSensitivity(): Promise<boolean> {
   const mutated: RenderSpec = {
     kind: 'heart',
     seed: 7,
-    form: { rarity: 'common', palette: { f: '#000', dk: '#000', bl: '#000', accent: '#00ff00' }, edge: 'none' },
+    form: {
+      rarity: 'common',
+      palette: { f: '#000', dk: '#000', bl: '#000', accent: '#00ff00' },
+      edge: 'none',
+    },
   };
   const a = await renderNodeCore(base, 96, 1);
   const b = await renderNodeCore(mutated, 96, 1);
@@ -182,7 +195,10 @@ async function main(): Promise<void> {
   const server = await startServer(output.text);
   const browser = await chromium.launch();
   try {
-    const page = await browser.newPage({ viewport: { width: 800, height: 800 }, deviceScaleFactor: 1 });
+    const page = await browser.newPage({
+      viewport: { width: 800, height: 800 },
+      deviceScaleFactor: 1,
+    });
     await page.goto(`${server.origin}/`);
 
     const cases = buildCaseMatrix();
@@ -198,7 +214,18 @@ async function main(): Promise<void> {
     }
 
     const mutationCaught = await verifyMutationSensitivity();
-    const failures = results.filter((r) => !r.browserCore.pass || (r.nodeGates && !r.nodeCore.pass));
+    const knownNodeDeviations = results.filter(
+      (r) =>
+        r.browserCore.pass &&
+        r.nodeGates &&
+        !r.nodeCore.pass &&
+        isKnownNodeDeviation(r.id, r.nodeCore),
+    );
+    const failures = results.filter(
+      (r) =>
+        !r.browserCore.pass ||
+        (r.nodeGates && !r.nodeCore.pass && !isKnownNodeDeviation(r.id, r.nodeCore)),
+    );
     const nonGatingNodeMisses = results.filter((r) => !r.nodeGates && !r.nodeCore.pass);
 
     const edgeRingResults: EdgeRingResult[] = [];
@@ -216,6 +243,7 @@ async function main(): Promise<void> {
           cases: results,
           mutationCaught,
           failureCount: failures.length,
+          knownNodeDeviationCount: knownNodeDeviations.length,
           nonGatingNodeMissCount: nonGatingNodeMisses.length,
           edgeRings: edgeRingResults.map(({ name, meanAbsDiff, pctPixelsOver8, sane }) => ({
             name,
@@ -230,7 +258,12 @@ async function main(): Promise<void> {
     );
 
     console.log(`critter-art golden: ${results.length} cases, ${failures.length} failing`);
-    console.log(`mutation sensitivity check: ${mutationCaught ? 'caught (pass)' : 'MISSED (fail)'}`);
+    console.log(
+      `mutation sensitivity check: ${mutationCaught ? 'caught (pass)' : 'MISSED (fail)'}`,
+    );
+    console.log(
+      `known Node rasteriser deviations within their recorded ceilings (see golden/known-node-deviations.ts): ${knownNodeDeviations.length}`,
+    );
     console.log(
       `non-gating Node/Chromium misses at p<1 (recorded, not gating — see golden/README.md): ${nonGatingNodeMisses.length}`,
     );
@@ -241,7 +274,9 @@ async function main(): Promise<void> {
           `pct>8=${failure.nodeCore.pctPixelsOver8.toFixed(2)}%`,
       );
     }
-    console.log('tier edge ring vs design CSS reference (measured, not gated on fidelity — see golden/README.md):');
+    console.log(
+      'tier edge ring vs design CSS reference (measured, not gated on fidelity — see golden/README.md):',
+    );
     for (const edgeRing of edgeRingResults) {
       console.log(
         `  ${edgeRing.name}: meanAbs=${edgeRing.meanAbsDiff.toFixed(3)} pct>8=${edgeRing.pctPixelsOver8.toFixed(2)}% ` +

@@ -6,7 +6,7 @@ import type { EdgeStyle, Pose } from '../core/model';
 // Zod schemas for the two jsonb columns critter-art's render spec is built from
 // (docs/data-model.md §3.9): `critters.art_params` (this file's `artParamsSchema`, typed `ArtParams`
 // — the same shape as `CritterSpec`) and `critter_forms.palette`/`pose`/`edge` (`paletteSchema`,
-// `poseSchema`, `edgeStyleSchema`, combined as `formSpecSchema`). Phase 18's content factory
+// `poseSchema`, `edgeStyleSchema`, combined as `formSpecSchema`). The content factory
 // validates generated critters/forms against these before they ship.
 //
 // No `satisfies z.ZodType<...>` cross-check here: zod 4 infers optional object fields as

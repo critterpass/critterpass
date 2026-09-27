@@ -13,7 +13,10 @@ export function canonicalSeed(critter: Critter): number {
 }
 
 /** The designed fixture for a critter + rarity (Tokek rare/epic/legendary, Pon legendary); `undefined` for the 148 critters the content factory has not authored a form for yet. */
-export function findDesignedForm(critterId: string, rarity: DesignedForm['form']['rarity']): DesignedForm | undefined {
+export function findDesignedForm(
+  critterId: string,
+  rarity: DesignedForm['form']['rarity'],
+): DesignedForm | undefined {
   return DESIGNED_FORMS.find((f) => f.critterId === critterId && f.form.rarity === rarity);
 }
 
@@ -22,7 +25,10 @@ export function findDesignedForm(critterId: string, rarity: DesignedForm['form']
  * canonical rule above. Callers pass `form`/`variant`/`sticker`/`closedEyes` as needed — this only
  * fills in what every render of a given critter shares.
  */
-export function resolveRenderSpec(critter: Critter, overrides: Partial<Omit<RenderSpec, 'kind'>> = {}): RenderSpec {
+export function resolveRenderSpec(
+  critter: Critter,
+  overrides: Partial<Omit<RenderSpec, 'kind'>> = {},
+): RenderSpec {
   return {
     kind: critter.id,
     seed: canonicalSeed(critter),

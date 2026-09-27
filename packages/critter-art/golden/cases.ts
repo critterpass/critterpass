@@ -76,18 +76,42 @@ export function buildCaseMatrix(): GoldenCase[] {
   const allKinds: readonly string[] = [...GUIDE_KINDS, ...ICON_KINDS];
 
   for (const kind of allKinds) {
-    cases.push({ id: caseId(kind, 96, 'plain', 1, false), kind, sizePt: 96, variant: 'plain', p: 1, blink: false, seed: 7 });
+    cases.push({
+      id: caseId(kind, 96, 'plain', 1, false),
+      kind,
+      sizePt: 96,
+      variant: 'plain',
+      p: 1,
+      blink: false,
+      seed: 7,
+    });
   }
 
   for (const kind of DEEP_DIVE_KINDS) {
     for (const sizePt of SIZES_PT) {
       for (const variant of ['plain', 'sticker', 'locked', 'source-over'] as const) {
         for (const p of DRAW_ON_PROGRESSES) {
-          cases.push({ id: caseId(kind, sizePt, variant, p, false), kind, sizePt, variant, p, blink: false, seed: 7 });
+          cases.push({
+            id: caseId(kind, sizePt, variant, p, false),
+            kind,
+            sizePt,
+            variant,
+            p,
+            blink: false,
+            seed: 7,
+          });
         }
       }
       if (isGuide(kind)) {
-        cases.push({ id: caseId(kind, sizePt, 'plain', 1, true), kind, sizePt, variant: 'plain', p: 1, blink: true, seed: 7 });
+        cases.push({
+          id: caseId(kind, sizePt, 'plain', 1, true),
+          kind,
+          sizePt,
+          variant: 'plain',
+          p: 1,
+          blink: true,
+          seed: 7,
+        });
       }
     }
   }

@@ -61,15 +61,44 @@ describe('locals helpers', () => {
 
   it('drawNose matches design nose op sequence', () => {
     const designNose = asDesignFn(X.h['nose'], 'X.h.nose');
-    const { ours, design } = buildBothCritterOps(drawNose, designNose, 7, '#221e19', 50, 68, 4.5, 5);
+    const { ours, design } = buildBothCritterOps(
+      drawNose,
+      designNose,
+      7,
+      '#221e19',
+      50,
+      68,
+      4.5,
+      5,
+    );
     expect(ours).toEqual(design);
   });
 
   it('drawSmile matches design smile op sequence, with and without an explicit colour', () => {
     const designSmile = asDesignFn(X.h['smile'], 'X.h.smile');
-    const withDefaults = buildBothCritterOps(drawSmile, designSmile, 7, '#221e19', 50, 61, 4, 2, undefined);
+    const withDefaults = buildBothCritterOps(
+      drawSmile,
+      designSmile,
+      7,
+      '#221e19',
+      50,
+      61,
+      4,
+      2,
+      undefined,
+    );
     expect(withDefaults.ours).toEqual(withDefaults.design);
-    const withColor = buildBothCritterOps(drawSmile, designSmile, 7, '#221e19', 50, 61, 4, 2, '#ffffff');
+    const withColor = buildBothCritterOps(
+      drawSmile,
+      designSmile,
+      7,
+      '#221e19',
+      50,
+      61,
+      4,
+      2,
+      '#ffffff',
+    );
     expect(withColor.ours).toEqual(withColor.design);
   });
 
@@ -79,13 +108,29 @@ describe('locals helpers', () => {
       [33, 58],
       [67, 58],
     ];
-    const { ours, design } = buildBothCritterOps(drawCheekDots, designCheek, 7, '#221e19', points, 3);
+    const { ours, design } = buildBothCritterOps(
+      drawCheekDots,
+      designCheek,
+      7,
+      '#221e19',
+      points,
+      3,
+    );
     expect(ours).toEqual(design);
   });
 
   it('drawBloom matches design bloom op sequence', () => {
     const designBloom = asDesignFn(X.h['bloom'], 'X.h.bloom');
-    const { ours, design } = buildBothCritterOps(drawBloom, designBloom, 7, '#221e19', 50, 3, '#ff5a6e', '#c42f4a');
+    const { ours, design } = buildBothCritterOps(
+      drawBloom,
+      designBloom,
+      7,
+      '#221e19',
+      50,
+      3,
+      '#ff5a6e',
+      '#c42f4a',
+    );
     expect(ours).toEqual(design);
   });
 });

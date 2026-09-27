@@ -11,15 +11,7 @@ import { resolveKind } from '../kinds/registry';
 import { EDGE_RING_STYLES } from '../forms/tier-palette';
 
 export type Pose =
-  | 'idle'
-  | 'wave'
-  | 'cheer'
-  | 'think'
-  | 'point'
-  | 'sleep'
-  | 'crack'
-  | 'tilt'
-  | 'hop';
+  'idle' | 'wave' | 'cheer' | 'think' | 'point' | 'sleep' | 'crack' | 'tilt' | 'hop';
 
 /** `color` is the default; `mask` is design's `locked` silhouette generalised to any single colour. */
 export type Variant = 'color' | 'mask' | 'mono' | 'stamp';
@@ -183,7 +175,14 @@ function buildOp(op: Op, minW: number): BuiltOp {
     };
   }
   if (op.t === 'wash') {
-    return { t: 'wash', points: op.points, color: op.color, alpha: op.alpha, offset: op.offset, seed: op.seed };
+    return {
+      t: 'wash',
+      points: op.points,
+      color: op.color,
+      alpha: op.alpha,
+      offset: op.offset,
+      seed: op.seed,
+    };
   }
   return { t: 'fill', points: op.points, color: op.color, alpha: op.alpha };
 }
@@ -195,7 +194,12 @@ function buildStickerOutline(ops: readonly Op[], strokeWidth: number): StickerOu
       return { points: op.points, closed: true, width: strokeWidth * 2, fill: true };
     }
     if (op.t === 'line') {
-      return { points: op.points, closed: op.closed, width: strokeWidth * 2 + op.width, fill: false };
+      return {
+        points: op.points,
+        closed: op.closed,
+        width: strokeWidth * 2 + op.width,
+        fill: false,
+      };
     }
     return { points: op.points, closed: false, width: strokeWidth * 2 + op.width, fill: false };
   });
@@ -223,7 +227,8 @@ export function build(spec: RenderSpec, sizePt: number): Model {
   // the complete authored op list -- the sticker/edge outline below is built from this same `ops`,
   // so it moves with the body automatically instead of needing its own transform.
   const pose = resolvePose(spec);
-  const ops = pose === 'tilt' ? applyTiltPose(rawOps) : pose === 'hop' ? applyHopPose(rawOps) : rawOps;
+  const ops =
+    pose === 'tilt' ? applyTiltPose(rawOps) : pose === 'hop' ? applyHopPose(rawOps) : rawOps;
 
   let builtOps = ops.map((op) => buildOp(op, minW));
   let blend: Blend = spec.blend ?? 'multiply';
@@ -238,9 +243,11 @@ export function build(spec: RenderSpec, sizePt: number): Model {
     blend = 'srcOver';
   }
 
-  const totalArcLength = builtOps.reduce((sum, op) => (op.t === 'line' ? sum + op.arcLength : sum), 0) || 1;
+  const totalArcLength =
+    builtOps.reduce((sum, op) => (op.t === 'line' ? sum + op.arcLength : sum), 0) || 1;
 
-  const edgeStyle = spec.form && spec.form.edge !== 'none' ? EDGE_RING_STYLES[spec.form.edge] : null;
+  const edgeStyle =
+    spec.form && spec.form.edge !== 'none' ? EDGE_RING_STYLES[spec.form.edge] : null;
   // `EDGE_RING_STYLES[x].width` is a fixed point width (it replaces design's CSS `drop-shadow(Npx
   // ...)`, which offsets by a constant number of CSS pixels regardless of element size) — unlike
   // `stickerWidth`, a local-unit value design itself scales with the art. Convert pt -> local units
@@ -255,7 +262,8 @@ export function build(spec: RenderSpec, sizePt: number): Model {
     stickerColor: spec.sticker?.color ?? null,
     stickerOutline: spec.sticker ? buildStickerOutline(ops, stickerWidth) : null,
     edgeColor: edgeStyle?.color ?? null,
-    edgeOutline: spec.sticker && edgeStyle ? buildStickerOutline(ops, stickerWidth + edgeWidthLocal) : null,
+    edgeOutline:
+      spec.sticker && edgeStyle ? buildStickerOutline(ops, stickerWidth + edgeWidthLocal) : null,
   };
 }
 

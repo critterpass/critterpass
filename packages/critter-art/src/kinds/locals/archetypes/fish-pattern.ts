@@ -5,22 +5,44 @@ import { CREAM_WHITE } from '../helpers';
 import type { ArchetypeColors } from '../types';
 
 /** design/critters-draw-2.js `A.fish`'s `s.pat` overlays (scales/bands/dots/wspots/humu/bars/bluedots). */
-export function drawFishPattern(sink: OpSink, pattern: string | undefined, colors: ArchetypeColors): void {
+export function drawFishPattern(
+  sink: OpSink,
+  pattern: string | undefined,
+  colors: ArchetypeColors,
+): void {
   if (pattern === 'scales') {
     for (let r = 0; r < 3; r++) {
       for (let i = 0; i < 4; i++) {
-        sink.line(superellipseArc(30 + i * 9 + (r % 2) * 4.5, 42 + r * 8, 3.8, 3.4, 1, -1.2, 1.2, 5), {
-          w: 1.4,
-          color: colors.dk,
-        });
+        sink.line(
+          superellipseArc(30 + i * 9 + (r % 2) * 4.5, 42 + r * 8, 3.8, 3.4, 1, -1.2, 1.2, 5),
+          {
+            w: 1.4,
+            color: colors.dk,
+          },
+        );
       }
     }
   }
   if (pattern === 'bands') {
     const bands: readonly [Point, Point, Point, Point][] = [
-      [[62, 25], [68, 27.5], [67, 73], [61, 76.5]],
-      [[43, 23.5], [51, 23.5], [51, 78.5], [43, 78.5]],
-      [[24, 36], [29, 31], [29, 72], [24, 67]],
+      [
+        [62, 25],
+        [68, 27.5],
+        [67, 73],
+        [61, 76.5],
+      ],
+      [
+        [43, 23.5],
+        [51, 23.5],
+        [51, 78.5],
+        [43, 78.5],
+      ],
+      [
+        [24, 36],
+        [29, 31],
+        [29, 72],
+        [24, 67],
+      ],
     ];
     for (const p of bands) {
       sink.fill(p, CREAM_WHITE);

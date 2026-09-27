@@ -13,26 +13,160 @@ import type { ArchetypeColors } from '../types';
  */
 type TailShape =
   | { readonly w: readonly Point[]; readonly tip?: Point; readonly sc?: true }
-  | { readonly s: readonly Point[]; readonly sw: number; readonly ring?: number; readonly col?: string }
-  | { readonly l: readonly Point[]; readonly tf: Point; readonly l2?: readonly Point[]; readonly tf2?: Point }
+  | {
+      readonly s: readonly Point[];
+      readonly sw: number;
+      readonly ring?: number;
+      readonly col?: string;
+    }
+  | {
+      readonly l: readonly Point[];
+      readonly tf: Point;
+      readonly l2?: readonly Point[];
+      readonly tf2?: Point;
+    }
   | { readonly c: readonly Point[] }
   | { readonly pf: readonly [number, number, number] }
   | { readonly cu: true };
 
 const TAIL: Readonly<Record<string, TailShape>> = {
-  bushy: { w: [[68, 84], [80, 89], [91, 81], [94, 67], [87, 59], [79, 63], [74, 72]], tip: [90.5, 63.5] },
-  big: { w: [[67, 85], [82, 86], [92, 72], [88, 54], [93, 38], [85, 27], [74, 32], [77, 48], [71, 62]] },
-  plume: { w: [[67, 68], [74, 57], [85, 55], [91, 63], [86, 72], [75, 76]] },
-  pango: { w: [[64, 86], [80, 92], [93, 84], [95, 70], [88, 64], [84, 74], [74, 80]], sc: true },
-  thin: { s: [[68, 84], [81, 88], [90, 79], [89, 66]], sw: 6 },
-  ringthin: { s: [[68, 84], [81, 88], [90, 79], [89, 66]], sw: 6, ring: 3 },
-  ring: { s: [[67, 84], [81, 89], [92, 78], [92, 62], [87, 52]], sw: 9, ring: 4 },
-  long: { s: [[68, 84], [84, 89], [94, 77], [92, 59], [84, 53], [81, 59]], sw: 5 },
-  otter: { s: [[66, 85], [80, 91], [94, 87]], sw: 9 },
-  rat: { s: [[66, 86], [80, 93], [93, 88], [96, 76]], sw: 3.4, col: '#ffb8c8' },
-  tuft: { l: [[68, 84], [82, 87], [88, 75]], tf: [89, 71] },
-  twin: { l: [[68, 84], [82, 87], [88, 75]], tf: [89, 71], l2: [[67, 80], [77, 76], [79, 63]], tf2: [79.5, 59] },
-  curl: { c: [[69, 82], [77, 80], [79, 74], [74.5, 72], [73, 77]] },
+  bushy: {
+    w: [
+      [68, 84],
+      [80, 89],
+      [91, 81],
+      [94, 67],
+      [87, 59],
+      [79, 63],
+      [74, 72],
+    ],
+    tip: [90.5, 63.5],
+  },
+  big: {
+    w: [
+      [67, 85],
+      [82, 86],
+      [92, 72],
+      [88, 54],
+      [93, 38],
+      [85, 27],
+      [74, 32],
+      [77, 48],
+      [71, 62],
+    ],
+  },
+  plume: {
+    w: [
+      [67, 68],
+      [74, 57],
+      [85, 55],
+      [91, 63],
+      [86, 72],
+      [75, 76],
+    ],
+  },
+  pango: {
+    w: [
+      [64, 86],
+      [80, 92],
+      [93, 84],
+      [95, 70],
+      [88, 64],
+      [84, 74],
+      [74, 80],
+    ],
+    sc: true,
+  },
+  thin: {
+    s: [
+      [68, 84],
+      [81, 88],
+      [90, 79],
+      [89, 66],
+    ],
+    sw: 6,
+  },
+  ringthin: {
+    s: [
+      [68, 84],
+      [81, 88],
+      [90, 79],
+      [89, 66],
+    ],
+    sw: 6,
+    ring: 3,
+  },
+  ring: {
+    s: [
+      [67, 84],
+      [81, 89],
+      [92, 78],
+      [92, 62],
+      [87, 52],
+    ],
+    sw: 9,
+    ring: 4,
+  },
+  long: {
+    s: [
+      [68, 84],
+      [84, 89],
+      [94, 77],
+      [92, 59],
+      [84, 53],
+      [81, 59],
+    ],
+    sw: 5,
+  },
+  otter: {
+    s: [
+      [66, 85],
+      [80, 91],
+      [94, 87],
+    ],
+    sw: 9,
+  },
+  rat: {
+    s: [
+      [66, 86],
+      [80, 93],
+      [93, 88],
+      [96, 76],
+    ],
+    sw: 3.4,
+    col: '#ffb8c8',
+  },
+  tuft: {
+    l: [
+      [68, 84],
+      [82, 87],
+      [88, 75],
+    ],
+    tf: [89, 71],
+  },
+  twin: {
+    l: [
+      [68, 84],
+      [82, 87],
+      [88, 75],
+    ],
+    tf: [89, 71],
+    l2: [
+      [67, 80],
+      [77, 76],
+      [79, 63],
+    ],
+    tf2: [79.5, 59],
+  },
+  curl: {
+    c: [
+      [69, 82],
+      [77, 80],
+      [79, 74],
+      [74.5, 72],
+      [73, 77],
+    ],
+  },
   puff: { pf: [72, 84, 6] },
   stub: { pf: [71.5, 82.5, 4.5] },
   curlup: { cu: true },
@@ -55,7 +189,10 @@ export function drawTail(
     const p = shift(shape.w);
     sink.wash(p, colors.f);
     if (shape.tip) {
-      sink.wash(ellipsePolygon(shape.tip[0] + dx, shape.tip[1], 5, 6, 10, 0.5), spec.tt || colors.bl);
+      sink.wash(
+        ellipsePolygon(shape.tip[0] + dx, shape.tip[1], 5, 6, 10, 0.5),
+        spec.tt || colors.bl,
+      );
     }
     if (shape.sc) {
       for (const [x, y] of [
@@ -63,7 +200,10 @@ export function drawTail(
         [90, 76],
         [78, 88],
       ] as const) {
-        sink.line(superellipseArc(x + dx, y, 3.6, 3, 1, 0.3, 2.84, 5), { w: 1.4, color: colors.dk });
+        sink.line(superellipseArc(x + dx, y, 3.6, 3, 1, 0.3, 2.84, 5), {
+          w: 1.4,
+          color: colors.dk,
+        });
       }
     }
     sink.line(p, { w: 2.3 });

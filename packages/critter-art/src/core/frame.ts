@@ -58,7 +58,9 @@ export function frame(model: Model, p: number): Cmd[] {
         polylineCmd(op.points, true, 1.4, 'miter', op.color, 0.28 * fa, model.blend, { dx, dy }),
       );
     } else if (op.t === 'under') {
-      bodyCmds.push(ribbonPolyCmd(op.ribbon.left, op.ribbon.right, op.color, 0.9 * fa, model.blend));
+      bodyCmds.push(
+        ribbonPolyCmd(op.ribbon.left, op.ribbon.right, op.color, 0.9 * fa, model.blend),
+      );
     }
   }
 
@@ -81,7 +83,9 @@ export function frame(model: Model, p: number): Cmd[] {
 
   const layers: Cmd[] = [];
   if (model.edgeOutline && model.edgeColor) {
-    layers.push(layerCmd(stickerOutlineCmds(model.edgeOutline, model.edgeColor), Math.min(1, p * 4)));
+    layers.push(
+      layerCmd(stickerOutlineCmds(model.edgeOutline, model.edgeColor), Math.min(1, p * 4)),
+    );
   }
   if (model.stickerOutline && model.stickerColor) {
     layers.push(

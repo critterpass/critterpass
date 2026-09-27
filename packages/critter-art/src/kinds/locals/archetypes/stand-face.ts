@@ -49,12 +49,33 @@ export function drawStandFace(
   ctx: StandBodyContext,
 ): void {
   const { v, isElephant, isDachshund, isCamel, isHorse, isMoose, isGiraffe } = ctx;
-  const { bx, by, brx, bry, bodyExponent, hx, hy, hrx, hry, headFrame, head, neck, maneTube, bodyRimY } = ctx;
+  const {
+    bx,
+    by,
+    brx,
+    bry,
+    bodyExponent,
+    hx,
+    hy,
+    hrx,
+    hry,
+    headFrame,
+    head,
+    neck,
+    maneTube,
+    bodyRimY,
+  } = ctx;
 
   const pattern = spec.pat;
   if (pattern === 'spots') {
     for (const [x, y] of [
-      [50, 57], [58, 54], [66, 57], [62, 64], [52, 65], [72, 62], [45, 62],
+      [50, 57],
+      [58, 54],
+      [66, 57],
+      [62, 64],
+      [52, 65],
+      [72, 62],
+      [45, 62],
     ] as const) {
       sink.dot(x, y, 1.9, CREAM_WHITE);
     }
@@ -70,8 +91,16 @@ export function drawStandFace(
   }
   if (pattern === 'giraffe') {
     const spots: Point[] = [
-      [48, 58], [57, 55], [66, 58], [74, 62], [55, 64], [64, 66], [44, 65],
-      pointAt(ctx.neckCurve, 1), pointAt(ctx.neckCurve, 3), pointAt(ctx.neckCurve, 5),
+      [48, 58],
+      [57, 55],
+      [66, 58],
+      [74, 62],
+      [55, 64],
+      [64, 66],
+      [44, 65],
+      pointAt(ctx.neckCurve, 1),
+      pointAt(ctx.neckCurve, 3),
+      pointAt(ctx.neckCurve, 5),
     ];
     for (const [x, y] of spots) sink.fill(blobPolygon(x, y, 3.2, 2.7, 0.7, 8), colors.dk);
   }
@@ -120,7 +149,8 @@ export function drawStandFace(
   }
 
   sink.line(superellipseArc(bx, by, brx, bry, bodyExponent, 4.3, 9.65, 22), { w: 2.4 });
-  if (isCamel) sink.line(superellipseArc(bx + 3, by - bry + 1, 11, 9, 0.8, 3.35, 6.07, 10), { w: 2.3 });
+  if (isCamel)
+    sink.line(superellipseArc(bx + 3, by - bry + 1, 11, 9, 0.8, 3.35, 6.07, 10), { w: 2.3 });
   sink.line(neck.left.slice(1, -1), { w: 2.3 });
   sink.line(neck.right.slice(1, -1), { w: 2.3 });
   if (maneTube) sink.line(maneTube.right, { w: 2 });
@@ -143,7 +173,11 @@ export function drawStandFace(
     W(
       sink,
       [
-        [hx - 5, hy - hry + 3], [hx - 1, hy - hry - 4], [hx + 4, hy - hry - 2], [hx + 5, hy - hry + 3.5], [hx, hy - hry + 5.5],
+        [hx - 5, hy - hry + 3],
+        [hx - 1, hy - hry - 4],
+        [hx + 4, hy - hry - 2],
+        [hx + 5, hy - hry + 3.5],
+        [hx, hy - hry + 5.5],
       ],
       spec.mc || colors.dk,
       1.8,
@@ -186,7 +220,11 @@ export function drawStandFace(
     sink.wash(trunk.polygon, colors.f);
     if (pattern === 'painted') {
       for (const i of [1, 2, 3]) {
-        sink.stroke([pointAt(trunk.left, i), pointAt(trunk.right, i)], i === 2 ? '#ffb84d' : '#ff8fbf', 2.2);
+        sink.stroke(
+          [pointAt(trunk.left, i), pointAt(trunk.right, i)],
+          i === 2 ? '#ffb84d' : '#ff8fbf',
+          2.2,
+        );
       }
     }
     sink.line(trunk.left.slice(1), { w: 2.2 });
@@ -277,6 +315,15 @@ export function drawStandFace(
       1.8,
     );
   }
-  drawAccessory(sink, spec, colors, { x: hx, y: hy - hry, w: hrx, cy: hy, ny: hy + hry, nw: 7.5, hx: 20, hy: 70 });
+  drawAccessory(sink, spec, colors, {
+    x: hx,
+    y: hy - hry,
+    w: hrx,
+    cy: hy,
+    ny: hy + hry,
+    nw: 7.5,
+    hx: 20,
+    hy: 70,
+  });
   extras(sink, options);
 }

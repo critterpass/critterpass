@@ -24,7 +24,7 @@ export type ColorTriplet = readonly [fill: string, dark: string, belly: string];
 
 /**
  * design/critters-data.js `spec` for the 144 non-guide critters (`critters.art_params` per
- * docs/data-model.md; phase 7 adds the zod schema). Every field beyond `b`/`c` is optional — set
+ * docs/data-model.md; validated by the zod schema in src/forms/schema.ts). Every field beyond `b`/`c` is optional — set
  * only when a critter uses that accessory/pattern/geometry tweak.
  */
 export interface CritterSpec {
@@ -77,7 +77,7 @@ export interface CritterSpec {
   readonly wc?: string;
 }
 
-/** design/critters-data.js `spec` for the 6 guides: only points at the hand-drawn kind, per C40's guide/local split. */
+/** design/critters-data.js `spec` for the 6 guides: only points at the hand-drawn kind: guides are hand-drawn, locals are generated archetypes. */
 export interface GuideSpec {
   readonly k: string;
 }

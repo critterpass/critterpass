@@ -116,7 +116,11 @@ const ICONS: Readonly<Record<string, KindFn>> = {
 };
 
 for (const [name, fn] of Object.entries(ICONS)) {
-  registerKind(name, { fn, viewBox: ANNOTATION_VIEW_BOXES[name] ?? DEFAULT_VIEW_BOX, animates: false });
+  registerKind(name, {
+    fn,
+    viewBox: ANNOTATION_VIEW_BOXES[name] ?? DEFAULT_VIEW_BOX,
+    animates: false,
+  });
 }
 
 registerLocalKinds();

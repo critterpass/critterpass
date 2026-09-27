@@ -76,7 +76,9 @@ describe('blobPolygon', () => {
       for (const ry of [6, 14, 27]) {
         for (const e of [0.7, 0.8, 0.85, 0.9, 0.95]) {
           for (const n of [10, 12, 14, 16, 18]) {
-            expect(blobPolygon(50, 60, rx, ry, e, n)).toEqual(designShapes.blob(50, 60, rx, ry, e, n));
+            expect(blobPolygon(50, 60, rx, ry, e, n)).toEqual(
+              designShapes.blob(50, 60, rx, ry, e, n),
+            );
             cases++;
           }
         }

@@ -90,7 +90,10 @@ describe('build() variant wiring', () => {
     expect(withSticker.edgeOutline).not.toBeNull();
 
     const withoutSticker = build(
-      { ...BASE, form: { rarity: 'epic', palette: { f: '#fff', dk: '#000', bl: '#eee' }, edge: 'epic' } },
+      {
+        ...BASE,
+        form: { rarity: 'epic', palette: { f: '#fff', dk: '#000', bl: '#eee' }, edge: 'epic' },
+      },
       96,
     );
     expect(withoutSticker.edgeOutline).toBeNull();

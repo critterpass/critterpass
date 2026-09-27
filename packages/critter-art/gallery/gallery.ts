@@ -49,7 +49,10 @@ function matchesSearch(card: GalleryCard, query: string): boolean {
   );
 }
 
-function buildCell(card: GalleryCard, sizePt: number): { cell: HTMLElement; canvas: HTMLCanvasElement } {
+function buildCell(
+  card: GalleryCard,
+  sizePt: number,
+): { cell: HTMLElement; canvas: HTMLCanvasElement } {
   const cell = document.createElement('div');
   cell.className = 'cell';
   const canvas = renderCard(card.spec, sizePt, 1);
@@ -93,7 +96,7 @@ function rebuild(): void {
 
 /** design's own `easeInOutQuad`, matching how the app eases every draw-on caller-side. */
 function easeInOutQuad(t: number): number {
-  return t < 0.5 ? 2 * t * t : 1 - ((-2 * t + 2) ** 2) / 2;
+  return t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
 }
 
 function replay(): void {
@@ -118,7 +121,15 @@ function applyBackground(): void {
   document.body.classList.toggle('dark', backgroundSelect.value === 'dark');
 }
 
-for (const control of [raritySelect, poseSelect, variantSelect, sizeSelect, seedModeSelect, stickerCheckbox, blinkCheckbox]) {
+for (const control of [
+  raritySelect,
+  poseSelect,
+  variantSelect,
+  sizeSelect,
+  seedModeSelect,
+  stickerCheckbox,
+  blinkCheckbox,
+]) {
   control.addEventListener('change', rebuild);
 }
 searchInput.addEventListener('input', rebuild);

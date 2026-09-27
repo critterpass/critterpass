@@ -27,9 +27,21 @@ export function drawBirdPreWashDecorations(
   }
   if (v === 'rooster') {
     const combParts: readonly [Point, Point, Point][] = [
-      [[68, 60], [84, 46], [95, 54]],
-      [[70, 66], [89, 60], [95, 70]],
-      [[70, 72], [86, 74], [90, 84]],
+      [
+        [68, 60],
+        [84, 46],
+        [95, 54],
+      ],
+      [
+        [70, 66],
+        [89, 60],
+        [95, 70],
+      ],
+      [
+        [70, 72],
+        [86, 74],
+        [90, 84],
+      ],
     ];
     const combColors = ['#e8453c', '#3a3466', '#ffd84a'];
     combParts.forEach((p, i) => {
@@ -78,7 +90,11 @@ export function drawBirdPreWashDecorations(
       const tip: Point = [50 + Math.cos(a) * 19, 20 + Math.sin(a) * 19];
       W(
         sink,
-        [[50 + Math.cos(a - 0.5) * 4, 20 + Math.sin(a - 0.5) * 4], tip, [50 + Math.cos(a + 0.5) * 4, 20 + Math.sin(a + 0.5) * 4]],
+        [
+          [50 + Math.cos(a - 0.5) * 4, 20 + Math.sin(a - 0.5) * 4],
+          tip,
+          [50 + Math.cos(a + 0.5) * 4, 20 + Math.sin(a + 0.5) * 4],
+        ],
         colors.f,
         1.8,
       );

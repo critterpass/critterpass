@@ -5,10 +5,39 @@ import { asDesignFn, buildBothCritterOps } from '../design-critter-fixture';
 import { ACC, drawAccessory } from './accessories';
 
 const ACCESSORY_NAMES = [
-  'beret', 'crown', 'nonla', 'boater', 'sailor', 'bollen', 'fez', 'laurel', 'flowers', 'hood',
-  'shades', 'orange', 'edelweiss', 'rose', 'marigold', 'scarf', 'tartan', 'redscarf', 'collar',
-  'knot', 'bell', 'barrel', 'amber', 'tassel', 'bridle', 'pizza', 'dice', 'berries', 'bamboo',
-  'acorn', 'gumleaf', 'tulip', 'balloon',
+  'beret',
+  'crown',
+  'nonla',
+  'boater',
+  'sailor',
+  'bollen',
+  'fez',
+  'laurel',
+  'flowers',
+  'hood',
+  'shades',
+  'orange',
+  'edelweiss',
+  'rose',
+  'marigold',
+  'scarf',
+  'tartan',
+  'redscarf',
+  'collar',
+  'knot',
+  'bell',
+  'barrel',
+  'amber',
+  'tassel',
+  'bridle',
+  'pizza',
+  'dice',
+  'berries',
+  'bamboo',
+  'acorn',
+  'gumleaf',
+  'tulip',
+  'balloon',
 ] as const;
 
 describe('ACC table', () => {
@@ -46,13 +75,29 @@ describe('drawAccessory', () => {
 
   it.each(['beret', 'scarf', 'pizza'] as const)('dispatches %s exactly like X.acc', (acc) => {
     const spec = { acc, sc: '#54d6a4' };
-    const { ours, design } = buildBothCritterOps(drawAccessory, designAcc, 7, '#221e19', spec, colors, anchor);
+    const { ours, design } = buildBothCritterOps(
+      drawAccessory,
+      designAcc,
+      7,
+      '#221e19',
+      spec,
+      colors,
+      anchor,
+    );
     expect(ours).toEqual(design);
   });
 
   it('renders nothing for an unset or unknown accessory', () => {
     for (const spec of [{}, { acc: 'unknown-accessory' }]) {
-      const { ours, design } = buildBothCritterOps(drawAccessory, designAcc, 7, '#221e19', spec, colors, anchor);
+      const { ours, design } = buildBothCritterOps(
+        drawAccessory,
+        designAcc,
+        7,
+        '#221e19',
+        spec,
+        colors,
+        anchor,
+      );
       expect(ours).toEqual([]);
       expect(design).toEqual([]);
     }

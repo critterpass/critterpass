@@ -50,7 +50,15 @@ export const wader: ArchetypeFn = (sink, options, spec, colors) => {
   if (isFloating) {
     sink.line(
       [
-        [14, 83], [24, 80], [34, 83], [44, 80], [54, 83], [64, 80], [74, 83], [84, 80], [92, 83],
+        [14, 83],
+        [24, 80],
+        [34, 83],
+        [44, 80],
+        [54, 83],
+        [64, 80],
+        [74, 83],
+        [84, 80],
+        [92, 83],
       ],
       { w: 2, color: '#6fa8ff' },
     );
@@ -68,15 +76,36 @@ export const wader: ArchetypeFn = (sink, options, spec, colors) => {
     const legColor = spec.lc || '#ff9a4d';
     const legs: readonly [Point, Point, Point][] = isFlamingo
       ? [
-          [[53, 71], [52, 84], [53, 96]],
-          [[58, 71], [66, 79], [57, 82]],
+          [
+            [53, 71],
+            [52, 84],
+            [53, 96],
+          ],
+          [
+            [58, 71],
+            [66, 79],
+            [57, 82],
+          ],
         ]
       : [
-          [[51, 70], [49, 83], [51, 95]],
-          [[59, 70], [61, 83], [59, 95]],
+          [
+            [51, 70],
+            [49, 83],
+            [51, 95],
+          ],
+          [
+            [59, 70],
+            [61, 83],
+            [59, 95],
+          ],
         ];
     for (const leg of legs) sink.line(leg, { w: 2.3, color: legColor, taper: false });
-    const feet: readonly Point[] = isFlamingo ? [[53, 96]] : [[51, 95], [59, 95]];
+    const feet: readonly Point[] = isFlamingo
+      ? [[53, 96]]
+      : [
+          [51, 95],
+          [59, 95],
+        ];
     for (const [x, y] of feet) {
       sink.line(
         [
@@ -91,7 +120,16 @@ export const wader: ArchetypeFn = (sink, options, spec, colors) => {
 
   const body: Point[] = isFloating
     ? [
-        [24, 72], [28, 60], [42, 54], [62, 54], [80, 47], [88, 50], [85, 63], [74, 74], [54, 78], [34, 78],
+        [24, 72],
+        [28, 60],
+        [42, 54],
+        [62, 54],
+        [80, 47],
+        [88, 50],
+        [85, 63],
+        [74, 74],
+        [54, 78],
+        [34, 78],
       ]
     : [
         [31, 62],
@@ -106,15 +144,46 @@ export const wader: ArchetypeFn = (sink, options, spec, colors) => {
       ];
   const neckCurve: Point[] =
     v === 'swan'
-      ? [[42, 58], [33, 50], [29, 41], [32, 33], [hx + 1, hy + 7]]
+      ? [
+          [42, 58],
+          [33, 50],
+          [29, 41],
+          [32, 33],
+          [hx + 1, hy + 7],
+        ]
       : isPelican
-        ? [[46, 54], [41, 45], [hx + 2, hy + 9]]
+        ? [
+            [46, 54],
+            [41, 45],
+            [hx + 2, hy + 9],
+          ]
         : v === 'float'
-          ? [[46, 58], [40, 49], [hx + 2, hy + 8]]
+          ? [
+              [46, 58],
+              [40, 49],
+              [hx + 2, hy + 8],
+            ]
           : isFlamingo
-            ? [[42, 54], [33, 46], [35, 36], [41, 30], [hx + 2, hy + 8]]
-            : [[42, 54], [36, 45], [37, 36], [hx + 2, hy + 8]];
-  const neckWidth: readonly [number, number] = isPelican ? [13, 11] : v === 'swan' ? [9, 7.5] : v === 'float' ? [10, 8.5] : [8, 6.5];
+            ? [
+                [42, 54],
+                [33, 46],
+                [35, 36],
+                [41, 30],
+                [hx + 2, hy + 8],
+              ]
+            : [
+                [42, 54],
+                [36, 45],
+                [37, 36],
+                [hx + 2, hy + 8],
+              ];
+  const neckWidth: readonly [number, number] = isPelican
+    ? [13, 11]
+    : v === 'swan'
+      ? [9, 7.5]
+      : v === 'float'
+        ? [10, 8.5]
+        : [8, 6.5];
   const neck = tubeOutline(catmullRomResample(neckCurve, 3), neckWidth[0], neckWidth[1]);
   if (!isFloating) {
     W(
@@ -204,7 +273,8 @@ export const wader: ArchetypeFn = (sink, options, spec, colors) => {
       2,
     );
   } else {
-    const beakShape = (spec.beak !== undefined ? BEAK_SHAPES[spec.beak] : undefined) ?? BEAK_SHAPES['long'] ?? [];
+    const beakShape =
+      (spec.beak !== undefined ? BEAK_SHAPES[spec.beak] : undefined) ?? BEAK_SHAPES['long'] ?? [];
     F(
       sink,
       beakShape.map(([x, y]): Point => [hx + x, hy + y]),
@@ -233,6 +303,15 @@ export const wader: ArchetypeFn = (sink, options, spec, colors) => {
     3.3,
   );
   drawCheekDots(sink, [[hx + 7.5, hy + 4]], 2.2);
-  drawAccessory(sink, spec, colors, { x: hx + 1, y: hy - hr, w: hr, cy: hy, ny: hy + hr, nw: 5, hx: 0, hy: 0 });
+  drawAccessory(sink, spec, colors, {
+    x: hx + 1,
+    y: hy - hr,
+    w: hr,
+    cy: hy,
+    ny: hy + hr,
+    nw: 5,
+    hx: 0,
+    hy: 0,
+  });
   extras(sink, options);
 };

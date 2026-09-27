@@ -99,7 +99,15 @@ export const bird: ArchetypeFn = (sink, options, spec, colors) => {
   }
   if (v === 'kiwi') {
     for (const [x, y] of [
-      [36, 52], [44, 44], [60, 42], [70, 50], [74, 64], [66, 76], [38, 74], [30, 64], [52, 36],
+      [36, 52],
+      [44, 44],
+      [60, 42],
+      [70, 50],
+      [74, 64],
+      [66, 76],
+      [38, 74],
+      [30, 64],
+      [52, 36],
     ] as const) {
       sink.line(
         [
@@ -114,7 +122,15 @@ export const bird: ArchetypeFn = (sink, options, spec, colors) => {
     sink.fill(ellipsePolygon(40, 41, 10.5, 10.5, 12), colors.bl);
     sink.fill(ellipsePolygon(60, 41, 10.5, 10.5, 12), colors.bl);
     for (const [x, y] of [
-      [34, 62], [44, 70], [58, 64], [66, 72], [40, 80], [60, 80], [50, 20], [42, 24], [58, 24],
+      [34, 62],
+      [44, 70],
+      [58, 64],
+      [66, 72],
+      [40, 80],
+      [60, 80],
+      [50, 20],
+      [42, 24],
+      [58, 24],
     ] as const) {
       sink.dot(x, y, 1.6, CREAM_WHITE);
     }

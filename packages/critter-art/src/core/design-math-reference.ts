@@ -114,5 +114,8 @@ export function loadDesignShapeMath(): DesignShapeMath {
   if (start === -1 || end === -1) {
     throw new Error('design/critters-draw-1.js layout changed; update loadDesignShapeMath markers');
   }
-  return evaluateBlock<DesignShapeMath>(source.slice(start, end), '{ arcB, blob, fluff, bez, crs, tube }');
+  return evaluateBlock<DesignShapeMath>(
+    source.slice(start, end),
+    '{ arcB, blob, fluff, bez, crs, tube }',
+  );
 }

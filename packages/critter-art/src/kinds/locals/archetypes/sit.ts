@@ -25,8 +25,17 @@ function drawCurls(
 ): void {
   void bodyHalfWidth;
   const spots: Point[] = [
-    [37, 59], [45, 56], [55, 56], [63, 59], [34, 70], [66, 70], [38, 80], [62, 80],
-    [40, headY - 13], [50, headY - 16], [60, headY - 13],
+    [37, 59],
+    [45, 56],
+    [55, 56],
+    [63, 59],
+    [34, 70],
+    [66, 70],
+    [38, 80],
+    [62, 80],
+    [40, headY - 13],
+    [50, headY - 16],
+    [60, headY - 13],
   ];
   for (const [x, y] of spots) {
     const shape: Point[] =
@@ -62,7 +71,15 @@ function drawPuli(sink: OpSink, options: KindDrawOptions, colors: ArchetypeColor
   sink.line(mop, { w: 2.5, close: true });
   sink.line(
     [
-      [31, 44], [36, 49], [41, 45], [46, 50], [50, 46], [54, 50], [59, 45], [64, 49], [69, 44],
+      [31, 44],
+      [36, 49],
+      [41, 45],
+      [46, 50],
+      [50, 46],
+      [54, 50],
+      [59, 45],
+      [64, 49],
+      [69, 44],
     ],
     { w: 1.8 },
   );
@@ -127,18 +144,29 @@ export const sit: ArchetypeFn = (sink, options, spec, colors) => {
 
   if (v === 'bat') {
     const wing: Point[] = [
-      [31, 56], [15, 44], [4, 52], [7, 62], [13, 60], [15, 70], [23, 66], [27, 74], [33, 68],
+      [31, 56],
+      [15, 44],
+      [4, 52],
+      [7, 62],
+      [13, 60],
+      [15, 70],
+      [23, 66],
+      [27, 74],
+      [33, 68],
     ];
     for (const p of [wing, mirrorX(wing)]) W(sink, p, colors.dk, 2.2);
   }
   drawTail(sink, spec.tail, colors, spec, bw);
-  const mane: Point[] | undefined = spec.mane ? fluffPolygon(50, hy + 3, rx + 6, ry + 7.5, 10, 0.13) : undefined;
+  const mane: Point[] | undefined = spec.mane
+    ? fluffPolygon(50, hy + 3, rx + 6, ry + 7.5, 10, 0.13)
+    : undefined;
   if (mane) sink.wash(mane, spec.mc || colors.dk);
   sink.wash(body, colors.f);
   drawEars(sink, spec.ears, headFrame, colors, spec, 0);
   drawHorns(sink, spec.horns, headFrame, colors, spec);
   sink.wash(head, spec.hc || colors.f);
-  if (spec.belly !== 0 && v !== 'sheep') sink.fill(ellipsePolygon(50, 73, bw * 0.56, 12, 12), colors.bl);
+  if (spec.belly !== 0 && v !== 'sheep')
+    sink.fill(ellipsePolygon(50, 73, bw * 0.56, 12, 12), colors.bl);
   drawPattern(sink, spec.pat, colors, hy, bw);
   drawMask(sink, spec.mask, hy, colors, spec);
   sink.line(body, { w: 2.4, close: v === 'sheep' });
@@ -150,10 +178,13 @@ export const sit: ArchetypeFn = (sink, options, spec, colors) => {
   if (v === 'pangolin') {
     for (let r = 0; r < 4; r++) {
       for (let i = 0; i < 4 - (r % 2); i++) {
-        sink.line(superellipseArc(36 + i * 9 + (r % 2) * 4.5, 56 + r * 8, 4.5, 3.6, 1, 0.2, 2.94, 6), {
-          w: 1.6,
-          color: colors.dk,
-        });
+        sink.line(
+          superellipseArc(36 + i * 9 + (r % 2) * 4.5, 56 + r * 8, 4.5, 3.6, 1, 0.2, 2.94, 6),
+          {
+            w: 1.6,
+            color: colors.dk,
+          },
+        );
       }
     }
     for (const [x, y] of [

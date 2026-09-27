@@ -36,7 +36,8 @@ export const edelweiss: AccessoryFn = (sink, a) => {
   sink.dot(x, y, 1.4, '#ffd84a');
 };
 
-export const rose: AccessoryFn = (sink, a) => drawBloom(sink, a.x + a.w * 0.74, a.y + a.w * 0.3, '#ff5a6e', '#c42f4a');
+export const rose: AccessoryFn = (sink, a) =>
+  drawBloom(sink, a.x + a.w * 0.74, a.y + a.w * 0.3, '#ff5a6e', '#c42f4a');
 
 export const marigold: AccessoryFn = (sink, a) => {
   const x = a.x + a.w * 0.74;

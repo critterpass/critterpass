@@ -66,7 +66,14 @@ export function drawNose(sink: OpSink, x: number, y: number, rx = 3.8, ry = 2.7)
 }
 
 /** design/critters-draw-1.js `smile`: a shallow 3-point smile line, ink by default. */
-export function drawSmile(sink: OpSink, x: number, y: number, w = 5, h = 2.5, color?: string): void {
+export function drawSmile(
+  sink: OpSink,
+  x: number,
+  y: number,
+  w = 5,
+  h = 2.5,
+  color?: string,
+): void {
   sink.line(
     [
       [x - w, y],
@@ -83,7 +90,13 @@ export function drawCheekDots(sink: OpSink, points: readonly Point[], r = 3): vo
 }
 
 /** design/critters-draw-1.js `bloom`: a small filled flower with a contrasting centre dot. */
-export function drawBloom(sink: OpSink, x: number, y: number, color: string, centerColor: string): void {
+export function drawBloom(
+  sink: OpSink,
+  x: number,
+  y: number,
+  color: string,
+  centerColor: string,
+): void {
   F(sink, fluffPolygon(x, y, 3.4, 3.4, 5, 0.45), color, 1.4);
   sink.dot(x, y, 1.3, centerColor);
 }

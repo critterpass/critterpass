@@ -19,8 +19,23 @@ export const frog: ArchetypeFn = (sink, options, spec, colors) => {
   for (const p of [backLeg, mirrorX(backLeg)]) sink.wash(p, colors.f);
 
   const silhouette: Point[] = [
-    [18, 64], [20, 48], [23, 36], [28, 28], [36, 26.5], [43, 30.5], [50, 32.5], [57, 30.5], [64, 26.5],
-    [72, 28], [77, 36], [80, 48], [82, 64], [76, 79], [62, 86], [38, 86], [24, 79],
+    [18, 64],
+    [20, 48],
+    [23, 36],
+    [28, 28],
+    [36, 26.5],
+    [43, 30.5],
+    [50, 32.5],
+    [57, 30.5],
+    [64, 26.5],
+    [72, 28],
+    [77, 36],
+    [80, 48],
+    [82, 64],
+    [76, 79],
+    [62, 86],
+    [38, 86],
+    [24, 79],
   ];
   sink.wash(silhouette, colors.f);
   sink.fill(ellipsePolygon(50, 72, 17, 11.5, 12), colors.bl);
@@ -57,8 +72,14 @@ export const frog: ArchetypeFn = (sink, options, spec, colors) => {
 
   // Epic pose (design gives `frog` no pose of its own): the right front leg reaches up.
   const frontLegs: readonly [Point, Point][] = [
-    [[36, 77], [32, 89]],
-    [[64, 77], [68, 89]],
+    [
+      [36, 77],
+      [32, 89],
+    ],
+    [
+      [64, 77],
+      [68, 89],
+    ],
   ];
   for (const [i, base] of frontLegs.entries()) {
     const raised = epicPose && i === 1;
@@ -66,7 +87,8 @@ export const frog: ArchetypeFn = (sink, options, spec, colors) => {
     const l: [Point, Point] = [base[0], tip];
     sink.line(l, { w: 2.3, taper: false });
     if (isTree) {
-      for (const k of [-3, 0, 3]) sink.dot(l[1][0] + k, l[1][1] + 1.5, 1.9, spec.red ? '#ff9a4d' : colors.bl);
+      for (const k of [-3, 0, 3])
+        sink.dot(l[1][0] + k, l[1][1] + 1.5, 1.9, spec.red ? '#ff9a4d' : colors.bl);
     } else {
       toes(sink, l, CRITTER_INK);
     }
@@ -79,7 +101,14 @@ export const frog: ArchetypeFn = (sink, options, spec, colors) => {
     if (isTree) {
       for (const k of [-3, 0, 3]) sink.dot(x + k, y, 1.9, spec.red ? '#ff9a4d' : colors.bl);
     } else {
-      toes(sink, [[x + (x < 50 ? 4 : -4), y - 5], [x, y]], CRITTER_INK);
+      toes(
+        sink,
+        [
+          [x + (x < 50 ? 4 : -4), y - 5],
+          [x, y],
+        ],
+        CRITTER_INK,
+      );
     }
   }
   if (spec.red) {

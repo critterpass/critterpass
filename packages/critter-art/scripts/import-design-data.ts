@@ -46,7 +46,9 @@ function loadCritterDex(): DesignCritterDex {
   const sandbox: { window?: unknown; CritterDex?: DesignCritterDex } = {};
   sandbox.window = sandbox;
   const context = vm.createContext(sandbox);
-  new vm.Script(readDesignFile('critters-data.js'), { filename: 'critters-data.js' }).runInContext(context);
+  new vm.Script(readDesignFile('critters-data.js'), { filename: 'critters-data.js' }).runInContext(
+    context,
+  );
   if (!sandbox.CritterDex) throw new Error('design/critters-data.js did not set window.CritterDex');
   return sandbox.CritterDex;
 }

@@ -37,12 +37,10 @@ export function ribbonPolygon(
   const random = createRng(options.seed);
   const phase1 = random() * 6.28;
   const phase2 = random() * 6.28;
-  const wobbled: Point[] = points.map(
-    (p, i): Point => [
-      p[0] + Math.sin(i * 0.07 + phase1) * options.amp,
-      p[1] + Math.cos(i * 0.061 + phase2) * options.amp,
-    ],
-  );
+  const wobbled: Point[] = points.map((p, i): Point => [
+    p[0] + Math.sin(i * 0.07 + phase1) * options.amp,
+    p[1] + Math.cos(i * 0.061 + phase2) * options.amp,
+  ]);
   const left: Point[] = [];
   const right: Point[] = [];
   for (let i = 0; i < n; i++) {

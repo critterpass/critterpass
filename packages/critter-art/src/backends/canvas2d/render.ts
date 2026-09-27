@@ -56,7 +56,13 @@ function coord(pts: Float32Array, index: number): number {
   return value;
 }
 
-function tracePath(ctx: Canvas2DContext, pts: Float32Array, close: boolean, dx: number, dy: number): void {
+function tracePath(
+  ctx: Canvas2DContext,
+  pts: Float32Array,
+  close: boolean,
+  dx: number,
+  dy: number,
+): void {
   ctx.beginPath();
   ctx.moveTo(coord(pts, 0) + dx, coord(pts, 1) + dy);
   for (let i = 2; i < pts.length; i += 2) {
@@ -96,7 +102,14 @@ function drawLayer(
 ): void {
   const offscreen = createCanvas(viewport.widthPx, viewport.heightPx);
   const offscreenCtx = offscreen.getContext('2d');
-  offscreenCtx.setTransform(viewport.contentScale, 0, 0, viewport.contentScale, viewport.padPx, viewport.padPx);
+  offscreenCtx.setTransform(
+    viewport.contentScale,
+    0,
+    0,
+    viewport.contentScale,
+    viewport.padPx,
+    viewport.padPx,
+  );
   for (const child of cmd.cmds) drawCmd(offscreenCtx, child, viewport, createCanvas);
 
   ctx.save();
@@ -141,7 +154,14 @@ export function renderToCanvas(
   const ctx = canvas.getContext('2d');
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, viewport.widthPx, viewport.heightPx);
-  ctx.setTransform(viewport.contentScale, 0, 0, viewport.contentScale, viewport.padPx, viewport.padPx);
+  ctx.setTransform(
+    viewport.contentScale,
+    0,
+    0,
+    viewport.contentScale,
+    viewport.padPx,
+    viewport.padPx,
+  );
   for (const cmd of cmds) drawCmd(ctx, cmd, viewport, createCanvas);
   return canvas;
 }

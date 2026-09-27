@@ -23,8 +23,12 @@ function probeSeedAfter(run: (sink: ReturnType<typeof createOpBuilder>['sink']) 
 
 describe('dotEyes stable seed mode', () => {
   it('design mode (default) reproduces the seed-count mismatch: closed consumes one more seed than open', () => {
-    const openSeed = probeSeedAfter((sink) => dotEyes(sink, { ...OPTIONS, closed: false }, POINTS, 3));
-    const closedSeed = probeSeedAfter((sink) => dotEyes(sink, { ...OPTIONS, closed: true }, POINTS, 3));
+    const openSeed = probeSeedAfter((sink) =>
+      dotEyes(sink, { ...OPTIONS, closed: false }, POINTS, 3),
+    );
+    const closedSeed = probeSeedAfter((sink) =>
+      dotEyes(sink, { ...OPTIONS, closed: true }, POINTS, 3),
+    );
     expect(closedSeed).toBe(openSeed + 1);
   });
 

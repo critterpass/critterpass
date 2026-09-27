@@ -41,7 +41,12 @@ export const EDGE_RING_FIXTURES: readonly EdgeRingFixture[] = [
       spot: '#c4623e',
       pose: 'cheer',
     },
-    form: { rarity: 'epic', palette: { f: '#ff9a4d', dk: '#c4623e', bl: '#ff9a4d' }, pose: 'cheer', edge: 'epic' },
+    form: {
+      rarity: 'epic',
+      palette: { f: '#ff9a4d', dk: '#c4623e', bl: '#ff9a4d' },
+      pose: 'cheer',
+      edge: 'epic',
+    },
   },
   {
     name: 'sakura-pon',
@@ -83,7 +88,8 @@ const BOX_PX = ART_PX + 2 * MARGIN_PX;
  */
 export const EDGE_RING_SANITY_MAX_PCT = 70;
 
-const nodeCanvasFactory: CanvasFactory = (width, height) => createCanvas(width, height) as unknown as CanvasLike;
+const nodeCanvasFactory: CanvasFactory = (width, height) =>
+  createCanvas(width, height) as unknown as CanvasLike;
 
 /** Renders `fixture`'s designed form through our own core, composed onto a `BOX_PX`-square transparent canvas so it lines up with the CSS reference's own padding. */
 async function renderCoreEdgeRingPng(fixture: EdgeRingFixture): Promise<Buffer> {
@@ -96,7 +102,11 @@ async function renderCoreEdgeRingPng(fixture: EdgeRingFixture): Promise<Buffer> 
   const model = build(spec, ART_PX);
   const boxLayout = layout(spec, ART_PX);
   const viewport = viewportFor(boxLayout, 1);
-  const artCanvas = renderToCanvas(frame(model, 1), viewport, nodeCanvasFactory) as unknown as Canvas;
+  const artCanvas = renderToCanvas(
+    frame(model, 1),
+    viewport,
+    nodeCanvasFactory,
+  ) as unknown as Canvas;
 
   const composed = createCanvas(BOX_PX, BOX_PX);
   const ctx = composed.getContext('2d');
@@ -109,7 +119,13 @@ async function renderCoreEdgeRingPng(fixture: EdgeRingFixture): Promise<Buffer> 
 // `page.evaluate` callbacks are re-parsed and run inside Chromium, where `harness.html`'s
 // `__edgeRingWrap` provides this — declared locally rather than adding the `dom` lib package-wide.
 declare const window: {
-  __edgeRingWrap: (attrs: Record<string, string>, ringOffsetPx: number, ringColor: string, boxPx: number, artPx: number) => void;
+  __edgeRingWrap: (
+    attrs: Record<string, string>,
+    ringOffsetPx: number,
+    ringColor: string,
+    boxPx: number,
+    artPx: number,
+  ) => void;
 };
 
 /** Renders the untouched design's CSS 4-offset ring around `fixture`'s `<doodle-art>`, screenshotting the wrapper element (real Chromium compositing, incl. the `filter`). */
@@ -118,7 +134,13 @@ async function renderCssEdgeRingPng(page: Page, fixture: EdgeRingFixture): Promi
   const ringOffsetPx = ringStyle.width;
   const ringColor = ringStyle.color;
   await page.evaluate(
-    (args: { attrs: Record<string, string>; ringOffsetPx: number; ringColor: string; boxPx: number; artPx: number }) =>
+    (args: {
+      attrs: Record<string, string>;
+      ringOffsetPx: number;
+      ringColor: string;
+      boxPx: number;
+      artPx: number;
+    }) =>
       window.__edgeRingWrap(args.attrs, args.ringOffsetPx, args.ringColor, args.boxPx, args.artPx),
     { attrs: { ...fixture.designAttrs }, ringOffsetPx, ringColor, boxPx: BOX_PX, artPx: ART_PX },
   );
@@ -134,7 +156,10 @@ export interface EdgeRingResult {
 }
 
 /** Compares one designed form's CSS-authored edge ring against our own round-ring rendering; see the module doc comment for why this reports rather than gates. */
-export async function runEdgeRingCase(page: Page, fixture: EdgeRingFixture): Promise<EdgeRingResult> {
+export async function runEdgeRingCase(
+  page: Page,
+  fixture: EdgeRingFixture,
+): Promise<EdgeRingResult> {
   const expected = await renderCssEdgeRingPng(page, fixture);
   const actual = await renderCoreEdgeRingPng(fixture);
   const diff = await comparePngBuffers(expected, actual);

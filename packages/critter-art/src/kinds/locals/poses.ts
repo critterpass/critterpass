@@ -19,7 +19,13 @@ export function isEpicPose(pose: string | undefined): boolean {
  * next to whichever part an epic pose raises, reusing the spark icon's own geometry rather than
  * authoring a new shape.
  */
-export function drawSparkExtras(sink: OpSink, x: number, y: number, r: number, color: string): void {
+export function drawSparkExtras(
+  sink: OpSink,
+  x: number,
+  y: number,
+  r: number,
+  color: string,
+): void {
   const points: Point[] = [
     [x, y - r],
     [x + r * 0.36, y - r * 0.36],

@@ -16,14 +16,48 @@ export const whale: ArchetypeFn = (sink, options, spec, colors) => {
 
   const body: Point[] = isOrca
     ? [
-        [8, 56], [12, 44], [26, 37], [46, 35], [64, 37], [78, 44], [88, 53], [88, 58], [76, 62], [56, 67], [34, 69], [18, 66],
+        [8, 56],
+        [12, 44],
+        [26, 37],
+        [46, 35],
+        [64, 37],
+        [78, 44],
+        [88, 53],
+        [88, 58],
+        [76, 62],
+        [56, 67],
+        [34, 69],
+        [18, 66],
       ]
     : isHumpback
       ? [
-          [8, 54], [12, 42], [28, 35], [50, 34], [68, 38], [82, 46], [90, 54], [86, 60], [70, 64], [48, 70], [26, 70], [12, 64],
+          [8, 54],
+          [12, 42],
+          [28, 35],
+          [50, 34],
+          [68, 38],
+          [82, 46],
+          [90, 54],
+          [86, 60],
+          [70, 64],
+          [48, 70],
+          [26, 70],
+          [12, 64],
         ]
       : [
-          [10, 56], [16, 47], [28, 41], [46, 37], [62, 38], [76, 44], [86, 52], [88, 57], [78, 60], [60, 64], [40, 67], [24, 66], [14, 62],
+          [10, 56],
+          [16, 47],
+          [28, 41],
+          [46, 37],
+          [62, 38],
+          [76, 44],
+          [86, 52],
+          [88, 57],
+          [78, 60],
+          [60, 64],
+          [40, 67],
+          [24, 66],
+          [14, 62],
         ];
   const fluke: Point[] = [
     [84, 52],
@@ -37,15 +71,38 @@ export const whale: ArchetypeFn = (sink, options, spec, colors) => {
     [84, 58],
   ];
   const dorsalFin: Point[] = isOrca
-    ? [[46, 36], [53, 13], [62, 37]]
+    ? [
+        [46, 36],
+        [53, 13],
+        [62, 37],
+      ]
     : isHumpback
-      ? [[64, 38], [69, 31], [74, 40]]
-      : [[48, 38], [57, 24], [64, 39]];
+      ? [
+          [64, 38],
+          [69, 31],
+          [74, 40],
+        ]
+      : [
+          [48, 38],
+          [57, 24],
+          [64, 39],
+        ];
   // Epic pose (design gives `whale` no pose of its own): the side fin slaps up out of the water.
   const restingSideFin: Point[] = isHumpback
-    ? [[30, 66], [22, 87], [30, 89], [40, 70]]
-    : [[34, 64], [30, 76], [42, 67]];
-  const sideFin: Point[] = epicPose ? restingSideFin.map(([x, y]): Point => [x, y - 16]) : restingSideFin;
+    ? [
+        [30, 66],
+        [22, 87],
+        [30, 89],
+        [40, 70],
+      ]
+    : [
+        [34, 64],
+        [30, 76],
+        [42, 67],
+      ];
+  const sideFin: Point[] = epicPose
+    ? restingSideFin.map(([x, y]): Point => [x, y - 16])
+    : restingSideFin;
   sink.wash(fluke, colors.f);
   sink.wash(dorsalFin, colors.f);
   if (!isHumpback) sink.wash(sideFin, colors.f);

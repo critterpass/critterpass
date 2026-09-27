@@ -1,21 +1,10 @@
 // Public API. Math primitives (`src/core/{rng,spline,shapes,ribbon}`) and the op builder
 // (`src/core/ops`) stay package-internal — callers only need the pipeline below plus the kind
 // registry (populated as guides/icons/locals are ported).
-export type {
-  Cmd,
-  LayerCmd,
-  LayerShadow,
-  PolyCmd,
-  PolylineCmd,
-  Blend,
-} from './core/cmd';
+export type { Cmd, LayerCmd, LayerShadow, PolyCmd, PolylineCmd, Blend } from './core/cmd';
 export type { ArtBox, Layout } from './core/layout';
 export { layout } from './core/layout';
-export {
-  build,
-  DEFAULT_INK,
-  DEFAULT_LOCKED_COLOR,
-} from './core/model';
+export { build, DEFAULT_INK, DEFAULT_LOCKED_COLOR } from './core/model';
 export type {
   BuiltFillOp,
   BuiltLineOp,
@@ -40,7 +29,15 @@ export type { KindDrawOptions, KindFn, KindRegistration } from './kinds/registry
 export { critters } from './data/critters';
 export { places } from './data/places';
 export { isGuideSpec } from './data/types';
-export type { ArchetypeName, ColorTriplet, Critter, CritterSpec, GuideSpec, Place, SetGroup } from './data/types';
+export type {
+  ArchetypeName,
+  ColorTriplet,
+  Critter,
+  CritterSpec,
+  GuideSpec,
+  Place,
+  SetGroup,
+} from './data/types';
 
 // Form/tier model: zod schemas for the `critters.art_params` / `critter_forms.palette,pose,edge`
 // jsonb columns (docs/data-model.md), tier colours + edge ring styles (mobile asserts equality

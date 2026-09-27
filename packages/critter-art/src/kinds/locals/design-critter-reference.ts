@@ -37,7 +37,10 @@ export interface DesignCritterKit {
   readonly horns: DesignCritterFn;
 }
 
-type PluginPart = readonly [order: number, register: (dk: DesignDoodleKit, x: DesignCritterKit) => void];
+type PluginPart = readonly [
+  order: number,
+  register: (dk: DesignDoodleKit, x: DesignCritterKit) => void,
+];
 
 interface CritterPartsSandbox {
   window?: unknown;
@@ -74,9 +77,9 @@ export function loadDesignCritterKit(includeArchetypesPartTwo = false): {
   };
   sandbox.window = sandbox;
   const context = vm.createContext(sandbox);
-  new vm.Script(readDesignFile('critters-draw-1.js'), { filename: 'critters-draw-1.js' }).runInContext(
-    context,
-  );
+  new vm.Script(readDesignFile('critters-draw-1.js'), {
+    filename: 'critters-draw-1.js',
+  }).runInContext(context);
   if (includeArchetypesPartTwo) {
     new vm.Script(readDesignFile('critters-draw-2.js'), {
       filename: 'critters-draw-2.js',
