@@ -56,6 +56,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     bundleIdentifier: variant.bundleIdentifier,
     appleTeamId: APPLE_TEAM_ID,
     supportsTablet: false,
+    usesAppleSignIn: true,
     entitlements: {
       'com.apple.security.application-groups': ['group.app.critterpass'],
       'keychain-access-groups': ['$(AppIdentifierPrefix)app.critterpass.shared'],
@@ -124,6 +125,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     '@bacons/apple-targets',
+    '@maplibre/maplibre-react-native',
+    'expo-apple-authentication',
     [
       'expo-location',
       {

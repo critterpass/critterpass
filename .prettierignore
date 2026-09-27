@@ -24,3 +24,6 @@ packages/i18n/src/catalog-registry/
 
 # Expo CLI regenerates this git-ignored type reference file.
 **/expo-env.d.ts
+
+# Map tile spike build output (git-ignored by tools/spikes/tiles/.gitignore).
+tools/spikes/tiles/.output/
