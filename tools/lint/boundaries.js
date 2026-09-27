@@ -38,6 +38,7 @@ export const packageDeps = {
   suppliers: ['domain'],
   i18n: [],
   content: ['domain'],
+  'sound-art': ['design-tokens'],
 };
 
 export const serverOnlyPackages = ['db', 'ai', 'suppliers'];
