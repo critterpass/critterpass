@@ -116,3 +116,20 @@ export {
   type CostIndex,
 } from './budget/breakdown';
 export { chooseStayMix, type StayMix, type StayMixPart, type StayRate } from './budget/stay-mix';
+export {
+  packRooms,
+  previewSwap,
+  repackWithout,
+  shareDeltas,
+  type Guest,
+  type RepackResult,
+  type RoomSlot,
+  type SwapDelta,
+} from './rooms/pack';
+export {
+  dropout,
+  type DropoutChange,
+  type DropoutResult,
+  type MemberResplit,
+} from './resplit/dropout';
+export { splitBoost, type BoostIou, type BoostSplit } from './boost-split/split';
