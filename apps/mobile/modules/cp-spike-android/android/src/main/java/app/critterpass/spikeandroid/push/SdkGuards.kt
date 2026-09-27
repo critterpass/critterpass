@@ -1,8 +1,8 @@
 package app.critterpass.spikeandroid.push
 
 /**
- * API-level gates for the promoted Live Update notification surfaces (phase-02 "Android
- * surfaces", product-decisions.md D2: Live Updates 36+, `MetricStyle` 37+). Pure functions of an
+ * API-level gates for the promoted Live Update notification surfaces (the "Android
+ * surfaces", product decisions: Live Updates 36+, `MetricStyle` 37+). Pure functions of an
  * injected SDK int so they're unit-testable on a plain JVM without Robolectric — call sites pass
  * `Build.VERSION.SDK_INT`.
  */

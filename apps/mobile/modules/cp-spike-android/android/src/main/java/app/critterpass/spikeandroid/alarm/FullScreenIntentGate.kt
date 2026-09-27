@@ -1,7 +1,7 @@
 package app.critterpass.spikeandroid.alarm
 
 /**
- * Pure decision for the API 34+ full-screen-intent permission rule (phase-02 "Android surfaces":
+ * Pure decision for the API 34+ full-screen-intent permission rule (the "Android surfaces":
  * `canUseFullScreenIntent()` check, denied → Settings deep link). Below API 34,
  * `USE_FULL_SCREEN_INTENT` is a normal manifest permission granted at install time, so there is
  * nothing to check at runtime. Takes the OS's own answer as input so this stays testable on a

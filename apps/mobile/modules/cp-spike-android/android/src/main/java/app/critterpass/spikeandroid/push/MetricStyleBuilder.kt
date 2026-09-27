@@ -9,7 +9,7 @@ import android.content.Context
  * If this were inlined into [LiveUpdateNotifier], the JVM's per-class verification could still
  * touch `Notification$MetricStyle` while verifying that shared class, even on an API 36 device
  * whose framework doesn't have it, risking a `VerifyError` instead of the clean fallback the spike
- * requires (product-decisions.md D2: "MetricStyle path gated >= 37 with a verified fallback on
+ * requires (product decisions: "MetricStyle path gated >= 37 with a verified fallback on
  * 36").
  */
 internal object MetricStyleBuilder {

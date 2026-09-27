@@ -14,7 +14,7 @@ import android.widget.TextView
 private const val ALARM_NOTIFICATION_ID = 5101
 
 /**
- * Full-screen-intent target (phase-02 "Android surfaces" step 4): shown over the lock screen when
+ * Full-screen-intent target (the "Android surfaces" step 4): shown over the lock screen when
  * the OS granted this app the full-screen-intent permission. Plain Views, not Compose — this
  * activity has one static screen and doesn't need the widget's Compose/Glance runtime, so keeping
  * it dependency-free avoids pulling in `activity-compose`/`material3` for a single spike screen.

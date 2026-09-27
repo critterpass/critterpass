@@ -12,7 +12,7 @@ private const val CHANNEL_NAME = "Spike live updates"
 internal const val LIVE_UPDATE_NOTIFICATION_ID = 4201
 
 /**
- * Posts/updates/cancels the promoted Live Update notification per SDK gate (phase-02 "Android
+ * Posts/updates/cancels the promoted Live Update notification per SDK gate (the "Android
  * surfaces" step 2–3): `Notification.ProgressStyle` (36+, `MetricStyle` swapped in on 37+ when the
  * payload carries a metric), a plain `NotificationCompat` progress notification below 36.
  */
@@ -68,7 +68,7 @@ object LiveUpdateNotifier {
       .build()
   }
 
-  /** Below API 36: the fallback named in phase-02's requirements table. */
+  /** Below API 36: the fallback named in the spike's requirements table. */
   private fun buildFallbackNotification(context: Context, payload: AndroidSurfacesPushPayload): Notification =
     NotificationCompat.Builder(context, CHANNEL_ID)
       .setSmallIcon(android.R.drawable.ic_popup_reminder)

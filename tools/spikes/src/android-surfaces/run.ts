@@ -3,7 +3,7 @@ import { formatError } from '../shared/format-error';
 
 /**
  * Sends a real `la.leaveby` FCM v1 data message to a real Android dev-client install
- * (`AndroidSurfacesMessagingService` → `LiveUpdateNotifier`, phase-02 "Android surfaces"). No
+ * (`AndroidSurfacesMessagingService` → `LiveUpdateNotifier`, the "Android surfaces" spike). No
  * Firebase project exists in this environment (see the ADR); this prints `SKIPPED` with the exact
  * reason instead of faking success, matching `tools/spikes/src/apns-live-activity/run.ts`'s own
  * FCM step. `pnpm --filter @cp/spikes run android-surfaces` reruns it once credentials exist.

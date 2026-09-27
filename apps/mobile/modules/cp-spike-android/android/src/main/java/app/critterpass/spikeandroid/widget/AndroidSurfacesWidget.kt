@@ -7,7 +7,7 @@ import androidx.glance.appwidget.provideContent
 import androidx.glance.text.Text
 
 /**
- * Glance widget proving the cp-app-group snapshot round-trip on Android (phase-02 "Android
+ * Glance widget proving the cp-app-group snapshot round-trip on Android (the "Android
  * surfaces" step 1). Renders the `message` field of whatever `(dev)/spikes/app-group.tsx`'s
  * "Write hello snapshot" button last wrote — a real cross-process (well, cross-file) read, not a
  * hard-coded string.
