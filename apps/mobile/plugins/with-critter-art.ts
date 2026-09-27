@@ -4,10 +4,9 @@ import { join } from 'node:path';
 import type { ConfigPlugin } from 'expo/config-plugins';
 import { IOSConfig, withDangerousMod } from 'expo/config-plugins';
 
-// Non-code dependency: the phase 2 extension-target spike names these three targets (each a
-// directory under `apps/mobile/targets/`, per `@bacons/apple-targets`'s convention — see
-// docs/system-architecture.md §4.7/§4.8). If a later phase renames or adds a target, update this
-// one list; nothing else in this plugin needs to change.
+// These three extension targets each live in their own directory under `apps/mobile/targets/`, per
+// `@bacons/apple-targets`'s convention — see docs/system-architecture.md §4.7/§4.8. If a target is
+// renamed or a new one is added, update this one list; nothing else in this plugin needs to change.
 const IOS_EXTENSION_TARGET_DIRS: readonly string[] = [
   'widgets',
   'notification-service',

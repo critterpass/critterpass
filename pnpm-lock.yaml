@@ -651,6 +651,9 @@ importers:
       '@cp/critter-art':
         specifier: workspace:*
         version: link:../critter-art
+      '@cp/design-tokens':
+        specifier: workspace:*
+        version: link:../design-tokens
       '@napi-rs/canvas':
         specifier: 'catalog:'
         version: 1.0.9
@@ -660,6 +663,10 @@ importers:
       zod:
         specifier: 'catalog:'
         version: 4.6.5
+    devDependencies:
+      playwright:
+        specifier: 'catalog:'
+        version: 1.58.2
 
   packages/db:
     dependencies:

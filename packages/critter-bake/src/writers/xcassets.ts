@@ -15,7 +15,7 @@ export interface XcassetImageset {
   readonly template: boolean;
 }
 
-/** Writes one `<name>.imageset` folder: `Contents.json` plus `@2x`/`@3x` PNGs — `1x` is never emitted (F-008: "1x omitted"). */
+/** Writes one `<name>.imageset` folder: `Contents.json` plus `@2x`/`@3x` PNGs — `1x` is never emitted (every supported device is at least `@2x`). */
 function writeImageset(catalogDir: string, imageset: XcassetImageset): void {
   const dir = resolve(catalogDir, `${imageset.name}.imageset`);
   mkdirSync(dir, { recursive: true });

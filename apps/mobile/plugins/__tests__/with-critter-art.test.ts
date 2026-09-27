@@ -42,7 +42,7 @@ describe('with-critter-art (requires a prior `expo prebuild`)', () => {
   it('copies CritterArt.xcassets into every extension target directory', () => {
     for (const name of EXTENSION_TARGET_DIRS) {
       const targetDir = join(targetsDir, name);
-      if (!existsSync(targetDir)) continue; // a target the phase 2 spike hasn't wired up yet
+      if (!existsSync(targetDir)) continue; // a target this checkout hasn't prebuilt yet
       const xcassets = join(targetDir, 'CritterArt.xcassets');
       expect(existsSync(xcassets)).toBe(true);
       expect(existsSync(join(xcassets, 'Contents.json'))).toBe(true);

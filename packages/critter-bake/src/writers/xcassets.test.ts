@@ -42,7 +42,7 @@ describe('buildImagesets', () => {
     expect(imagesets[0]?.template).toBe(true);
   });
 
-  it('skips a 1x job (F-008: "1x omitted")', async () => {
+  it('skips a 1x job (every supported device is at least @2x)', async () => {
     const jobs = expandManifest([target({ kind: 'gecko', scales: [1, 2] })]);
     const outputs = await runPool(jobs, { concurrency: 2 });
     const imagesets = buildImagesets(jobs, outputs);

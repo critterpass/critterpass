@@ -1,0 +1,27 @@
+{
+  "fill": {
+    "solid": "extended-srgb:0.78824,0.60392,0.16471,1.00000"
+  },
+  "groups": [
+    {
+      "layers": [
+        {
+          "image-name": "golden-content.png",
+          "name": "golden-content"
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.3
+      }
+    }
+  ],
+  "supported-platforms": {
+    "circles": [],
+    "squares": "shared"
+  }
+}

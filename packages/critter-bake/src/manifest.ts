@@ -58,3 +58,27 @@ export function loadManifest(path: string): BakeManifest {
   }
   return result.data;
 }
+
+// The 10 app icons (`templates/app-icons.ts`) are a fixed, hand-authored list, not a cross-product
+// like `bakeTargetSchema` above — this manifest only holds genuine configuration (output roots,
+// export sizes, the label font), not identity data a zod cross-product schema would need to model.
+export const appIconManifestSchema = z.object({
+  outIos: z.string().min(1),
+  outAndroid: z.string().min(1),
+  flatSizePx: z.number().positive(),
+  androidForegroundPx: z.number().positive(),
+  fontFamily: z.string().min(1),
+  /** Path to a `.ttf`, relative to this manifest file's own directory. */
+  fontFile: z.string().min(1),
+});
+
+export type AppIconManifest = z.infer<typeof appIconManifestSchema>;
+
+export function loadAppIconManifest(path: string): AppIconManifest {
+  const raw: unknown = JSON.parse(readFileSync(path, 'utf8'));
+  const result = appIconManifestSchema.safeParse(raw);
+  if (!result.success) {
+    throw new Error(`invalid app icon manifest at ${path}:\n${result.error.message}`);
+  }
+  return result.data;
+}
