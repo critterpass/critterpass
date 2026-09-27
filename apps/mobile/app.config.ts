@@ -90,6 +90,21 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     '@bacons/apple-targets',
+    [
+      'expo-location',
+      {
+        // Trip-day While-In-Use session first (system-architecture.md §4 platform-physics table);
+        // the spike's own "Always" upgrade flow prompts for this second, separate string only after
+        // the user opts in — never requested together (Apple/Play both reject a combined ask).
+        locationWhenInUsePermission:
+          'Critterpass uses your location during an active trip day to track leave-by timing and nearby critter encounters.',
+        locationAlwaysAndWhenInUsePermission:
+          'Critterpass can keep tracking a trip day in the background so critter encounters and crew ETAs keep working while your phone is locked.',
+        isIosBackgroundLocationEnabled: true,
+        isAndroidBackgroundLocationEnabled: true,
+        isAndroidForegroundServiceEnabled: true,
+      },
+    ],
   ],
   experiments: {
     typedRoutes: true,

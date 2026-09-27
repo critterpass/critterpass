@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+- tapOn: "Use current location as POI"
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: location-poi-set-2
+- tapOn: "Start trip-day session"
+- tapOn:
+    text: "Allow While Using App|Allow Once|OK"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: location-tracking-started-2
