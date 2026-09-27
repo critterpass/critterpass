@@ -58,9 +58,15 @@ import { buildAdminConsole } from './admin/bootstrap';
 import { registerSupportGrantSource } from './admin/entitlement-grants';
 import { mountAdminRouter } from './admin/router';
 import { createServerAnalytics } from './obs/analytics';
+import { initSentry } from './obs/sentry';
 
 const env = loadApiEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'api', commit: env.COMMIT_SHA } });
+const errors = initSentry({
+  dsn: env.SENTRY_DSN,
+  environment: env.APP_ENV,
+  release: `api@${packageJson.version}+${env.COMMIT_SHA}`,
+});
 
 const pool = new pg.Pool({
   connectionString: env.DATABASE_URL,
@@ -90,6 +96,7 @@ const app = createApp({
   version: packageJson.version,
   commit: env.COMMIT_SHA,
   logger,
+  errors,
   exposeDocs: env.APP_ENV !== 'production',
   pool,
   ...(env.MAPBOX_TOKEN !== undefined ? { mapboxToken: env.MAPBOX_TOKEN } : {}),
@@ -326,6 +333,7 @@ function shutdown(signal: string) {
       jobProducer.then((boss) => boss?.stop({ graceful: true, timeout: 5_000 })),
       adminConsole?.close() ?? Promise.resolve(),
       serverAnalytics.shutdown(),
+      errors.flush(),
     ]).then(() => {
       logger.info('stopped');
       process.exit(0);

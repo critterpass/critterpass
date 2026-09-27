@@ -19,6 +19,7 @@ import {
 } from './boss';
 import { guideActionExecuteJob, guideActionUndoExpireJob } from './guide-actions';
 import { createHealthApp } from './health';
+import { initWorkerSentry } from './obs/sentry';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { backupJob } from './jobs/ops/backup';
@@ -33,6 +34,11 @@ import { travelDataJobs } from './travel-data';
 
 const env = loadWorkerEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'worker', commit: env.COMMIT_SHA } });
+const errors = initWorkerSentry({
+  dsn: env.SENTRY_DSN,
+  environment: env.APP_ENV,
+  release: `worker@${packageJson.version}+${env.COMMIT_SHA}`,
+});
 
 const pool = new pg.Pool({
   connectionString: env.DATABASE_DIRECT_URL,
@@ -150,7 +156,7 @@ const runtime = startJobRuntime({
   boss,
   deps: { pool, logger: jobsLogger },
   jobs,
-  report: createFailureReporter(jobsLogger),
+  report: createFailureReporter(jobsLogger, errors.deadLetter),
 })
   .then(() => {
     jobsLogger.info({ queues: jobs.map((job) => job.queue) }, 'job runtime started');
@@ -185,7 +191,11 @@ function shutdown(signal: string) {
       .then(() => pushProviders.shutdown())
       .catch((error: unknown) => logger.error({ err: error }, 'job runtime stop failed'))
       .then(() =>
-        Promise.allSettled([pool.end(), redis.isOpen ? redis.close() : Promise.resolve()]),
+        Promise.allSettled([
+          pool.end(),
+          redis.isOpen ? redis.close() : Promise.resolve(),
+          errors.flush(),
+        ]),
       )
       .then(() => {
         logger.info('stopped');

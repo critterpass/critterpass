@@ -19,6 +19,7 @@
     "@cp/critter-art": "workspace:*",
     "@cp/design-tokens": "workspace:*",
     "@cp/domain": "workspace:*",
+    "@sentry/browser": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@tanstack/react-router": "catalog:",
     "maplibre-gl": "catalog:",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@cp/content": "workspace:*",
     "@playwright/test": "catalog:",
+    "@sentry/core": "catalog:",
     "@types/pg": "catalog:",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",

@@ -8,29 +8,29 @@
 import { redact, redactString, stripQuery, type RedactOptions } from './scrub';
 
 export interface ScrubbableBreadcrumb {
-  category?: string;
-  message?: string;
-  data?: Record<string, unknown>;
-  [key: string]: unknown;
+  category?: string | undefined;
+  message?: string | undefined;
+  data?: Record<string, unknown> | undefined;
 }
 
 export interface ScrubbableEvent {
-  message?: string;
-  request?: {
-    url?: string;
-    data?: unknown;
-    headers?: unknown;
-    cookies?: unknown;
-    query_string?: unknown;
-    [key: string]: unknown;
-  };
-  user?: { id?: string | number; [key: string]: unknown };
-  exception?: { values?: { value?: string; [key: string]: unknown }[] };
-  breadcrumbs?: ScrubbableBreadcrumb[];
-  extra?: Record<string, unknown>;
-  contexts?: Record<string, unknown>;
-  tags?: Record<string, unknown>;
-  [key: string]: unknown;
+  message?: string | undefined;
+  request?:
+    | {
+        url?: string | undefined;
+        method?: string | undefined;
+        data?: unknown;
+        headers?: unknown;
+        cookies?: unknown;
+        query_string?: unknown;
+      }
+    | undefined;
+  user?: { id?: string | number | undefined } | undefined;
+  exception?: { values?: { value?: string | undefined }[] | undefined } | undefined;
+  breadcrumbs?: ScrubbableBreadcrumb[] | undefined;
+  extra?: Record<string, unknown> | undefined;
+  contexts?: Record<string, unknown> | undefined;
+  tags?: Record<string, unknown> | undefined;
 }
 
 /** Breadcrumb categories that record what the user typed or read; dropped entirely. */
@@ -115,4 +115,16 @@ export function scrubErrorEvent<E extends ScrubbableEvent>(
   if (next.contexts !== undefined) next.contexts = scrubContexts(next.contexts, options);
   if (next.tags !== undefined) next.tags = redact(next.tags, options);
   return next;
+}
+
+/** The privacy options every Sentry SDK init spreads in (react-native, node, browser, workers). */
+export function sentryScrubbing(options: RedactOptions = {}) {
+  return {
+    sendDefaultPii: false,
+    beforeSend: <E extends ScrubbableEvent>(event: E): E => scrubErrorEvent(event, options),
+    beforeSendTransaction: <E extends ScrubbableEvent>(event: E): E =>
+      scrubErrorEvent(event, options),
+    beforeBreadcrumb: <B extends ScrubbableBreadcrumb>(crumb: B): B | null =>
+      scrubBreadcrumb(crumb, options),
+  } as const;
 }

@@ -8,6 +8,7 @@ import type { Logger } from 'pino';
 import { ZodError } from 'zod';
 
 import { registerGeocodingRoutes } from './geocoding/routes';
+import { NOOP_ERROR_REPORTER, type ErrorReporter } from './obs/sentry';
 import { redactLinkPath } from './links/redact';
 import { registerPlacesRoutes } from './places/routes';
 import { straightLineRoutingProvider } from './routing/eta';
@@ -33,6 +34,8 @@ export interface AppDeps {
   /** Public base URL `cp-tiles` serves PMTiles/fonts/sprite from (env.ts `TILES_BASE_URL`); used
    *  by the `/v1/map/regions/{destination_id}` manifest route. */
   tilesBaseUrl?: string;
+  /** Sentry: unexpected errors are reported and `INTERNAL` carries `detail.event_id`. */
+  errors?: ErrorReporter;
 }
 
 /** The identity a verified session/action-key middleware sets (that middleware does not exist yet);
@@ -104,21 +107,38 @@ export function createApp(deps: AppDeps) {
   if (deps.exposeDocs) app.get('/docs', Scalar({ url: '/openapi.json' }));
 
   app.notFound((c) => c.json(errorBody('NOT_FOUND', 'Not found', false), 404));
+  const errors = deps.errors ?? NOOP_ERROR_REPORTER;
   app.onError((error, c) => {
     if (error instanceof DomainError) {
+      let body = error.toResponseBody();
       if (error.http >= 500) {
+        const eventId = errors.captureInternal(error, { reqId: c.var.requestId });
         deps.logger.error(
-          { req_id: c.var.requestId, err: error, code: error.code },
+          { req_id: c.var.requestId, err: error, code: error.code, event_id: eventId },
           'domain error',
         );
+        if (eventId !== undefined) {
+          const detail = (body.error.detail ?? {}) as Record<string, unknown>;
+          body = { error: { ...body.error, detail: { ...detail, event_id: eventId } } };
+        }
       }
-      return c.json(error.toResponseBody(), error.http as Parameters<typeof c.json>[1]);
+      return c.json(body, error.http as Parameters<typeof c.json>[1]);
     }
     if (error instanceof ZodError) {
       return c.json(errorBody('VALIDATION', 'Invalid request', false), 422);
     }
-    deps.logger.error({ req_id: c.var.requestId, err: error }, 'unhandled error');
-    return c.json(errorBody('INTERNAL', 'Something went wrong', true), 500);
+    const eventId = errors.captureInternal(error, { reqId: c.var.requestId });
+    deps.logger.error(
+      { req_id: c.var.requestId, err: error, event_id: eventId },
+      'unhandled error',
+    );
+    const body: { error: ReturnType<typeof errorBody>['error'] & { detail?: object } } = errorBody(
+      'INTERNAL',
+      'Something went wrong',
+      true,
+    );
+    if (eventId !== undefined) body.error.detail = { event_id: eventId };
+    return c.json(body, 500);
   });
 
   return app;

@@ -3,6 +3,8 @@
   "name": "cp-media-worker",
   "main": "src/index.ts",
   "compatibility_date": "2026-08-01",
+  // AsyncLocalStorage for @sentry/cloudflare request isolation.
+  "compatibility_flags": ["nodejs_als"],
   "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "cp-media-dev" }],
   "env": {
     "staging": {

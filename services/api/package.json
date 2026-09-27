@@ -26,6 +26,8 @@
     "@hono/node-server": "catalog:",
     "@hono/zod-openapi": "catalog:",
     "@scalar/hono-api-reference": "0.12.6",
+    "@sentry/core": "catalog:",
+    "@sentry/node": "catalog:",
     "asn1js": "catalog:",
     "aws4fetch": "catalog:",
     "better-auth": "1.7.6",

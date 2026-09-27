@@ -21,10 +21,19 @@ import {
   startDeviceAppSession,
 } from '@/data/app-session/device-session';
 import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/DeferredLinkGate';
+import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
+import {
+  AnalyticsProvider,
+  createAnalyticsClient,
+  posthogKeyFromEnv,
+  useAnalytics,
+  useScreenTracking,
+} from '@/lib/analytics';
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
 import { useNavigationPersistence } from '@/lib/navigation/restore';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
+import { analyticsViolationBreadcrumb, initAppSentry, sentryDsnFromEnv } from '@/lib/observability';
 import { ThemeProvider } from '@/lib/theme';
 import { useMotionMode } from '@/motion/motion-mode';
 import { IslandToast } from '@/motion/island-toast';
@@ -49,6 +58,19 @@ const deferredLinks = deferredLinkPrimitives(
 );
 const openHref = (href: string) => router.replace(href);
 
+initAppSentry({
+  dsn: sentryDsnFromEnv(),
+  environment: String(Constants.expoConfig?.extra?.['appVariant'] ?? 'development'),
+});
+
+/** Product analytics: sends nothing until the analytics consent is granted. */
+const analytics = createAnalyticsClient({
+  apiKey: posthogKeyFromEnv(),
+  dev: __DEV__,
+  onViolation: analyticsViolationBreadcrumb,
+});
+registerOnSignOut(() => analytics.reset());
+
 /** Saved navigation is only restored into the same JS build it was saved from. */
 const BUILD = `${Constants.expoConfig?.version ?? ''}:${Updates.updateId ?? 'embedded'}`;
 
@@ -64,6 +86,7 @@ function RootNavigator() {
       .catch(() => setLaunchUrl(null));
   }, []);
   useNavigationPersistence({ navigationRef, build: BUILD, launchUrl });
+  useScreenTracking(useAnalytics());
   return (
     <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
       {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route group name, not copy */}
@@ -114,25 +137,27 @@ export default function RootLayout() {
           </View>
         )}
         <ThemeProvider>
-          <AppSessionRoot
-            start={startDeviceAppSession}
-            appState={deviceAppState}
-            onError={reportAppSessionError}
-            push={devicePush}
-          >
-            <ScreenJoltProvider>
-              <RootNavigator />
-              <DeferredLinkGate
-                primitives={deferredLinks}
-                navigate={openHref}
-                claims={deviceLinkClaims}
-                onReady={() => setLinksReady(true)}
-              />
-              <OverlayHost />
-              <SharedGrowHost />
-              <IslandToast />
-            </ScreenJoltProvider>
-          </AppSessionRoot>
+          <AnalyticsProvider client={analytics}>
+            <AppSessionRoot
+              start={startDeviceAppSession}
+              appState={deviceAppState}
+              onError={reportAppSessionError}
+              push={devicePush}
+            >
+              <ScreenJoltProvider>
+                <RootNavigator />
+                <DeferredLinkGate
+                  primitives={deferredLinks}
+                  navigate={openHref}
+                  claims={deviceLinkClaims}
+                  onReady={() => setLinksReady(true)}
+                />
+                <OverlayHost />
+                <SharedGrowHost />
+                <IslandToast />
+              </ScreenJoltProvider>
+            </AppSessionRoot>
+          </AnalyticsProvider>
         </ThemeProvider>
       </I18nRoot>
     </GestureHandlerRootView>

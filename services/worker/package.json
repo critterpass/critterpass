@@ -26,6 +26,8 @@
     "@hono/node-server": "catalog:",
     "@lingui/core": "catalog:",
     "@parse/node-apn": "catalog:",
+    "@sentry/core": "catalog:",
+    "@sentry/node": "catalog:",
     "aws4fetch": "catalog:",
     "firebase-admin": "catalog:",
     "hono": "catalog:",

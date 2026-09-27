@@ -170,6 +170,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     // Last: copies the bake pipeline's generated critter art into the app + every extension target
     // (iOS) and Android res/ once every other plugin's prebuild output exists.
     './plugins/with-critter-art',
+    // Crash reporting: native SDKs, and source map + dSYM/ProGuard upload from EAS builds
+    // (SENTRY_AUTH_TOKEN is an EAS environment variable, never committed).
+    [
+      '@sentry/react-native/expo',
+      { organization: 'critterpass', project: 'critterpass', url: 'https://sentry.io/' },
+    ],
   ],
   experiments: {
     typedRoutes: true,

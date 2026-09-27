@@ -9,7 +9,12 @@ import { createRoot } from 'react-dom/client';
 import { router } from './app/router';
 import { applyTheme } from './app/theme';
 import { isApiError } from './lib/api';
+import { initAdminSentry } from './lib/observability/sentry';
 
+initAdminSentry({
+  dsn: import.meta.env.VITE_SENTRY_DSN,
+  environment: import.meta.env.VITE_APP_ENV ?? 'local',
+});
 applyTheme();
 
 const queryClient = new QueryClient({

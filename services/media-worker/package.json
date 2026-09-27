@@ -12,7 +12,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@cp/domain": "workspace:*"
+    "@cp/domain": "workspace:*",
+    "@sentry/cloudflare": "10.75.3"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "0.22.0",

@@ -54,5 +54,13 @@ const ogImageUrl = new URL('/og-image.png', Astro.site ?? 'https://critterpass.a
   </head>
   <body>
     <slot />
+    <script>
+      import { installLazyErrorReporting } from '../lib/analytics/sentry';
+
+      installLazyErrorReporting({
+        dsn: import.meta.env['PUBLIC_SENTRY_DSN'],
+        environment: import.meta.env['PUBLIC_APP_ENV'] ?? 'local',
+      });
+    </script>
   </body>
 </html>
