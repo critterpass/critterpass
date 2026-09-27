@@ -139,12 +139,12 @@ Done when: the 6 guide destinations (Bali, Kyoto, Iceland/Reykjavík, Mexico Cit
 - Done when: "ramen near Gion" returns Kyoto ramen POIs first; p50 search <150 ms on staging data; unknown POI → 404 `NOT_FOUND`.
 - Status: done — 61e236e (unknown POI → 404 NOT_FOUND verified; search ranking verified against real staging Kyoto data, see T3 status for ingest numbers; session-verification middleware does not exist yet — routes gate on `c.var.uid`/AUTH_REQUIRED, tested with a stand-in auth middleware; distance/time-from-lodging is real and wired but always omitted today since no lodging table exists yet — handoff below)
 
-### T5 — Valhalla on Railway + routing API + Mapbox traffic
-- Goal: ETAs, matrices, closures, traffic-aware leave-by.
-- Files: `infra/railway/valhalla/{Dockerfile,build-tiles.sh,railway.toml}`, `services/api/src/routing/{valhalla,mapbox,eta,matrix,fallback}.ts`, `packages/domain/src/routing/modes.ts`, `services/api/test/routing/*.test.ts`.
-- Steps: 0. Record Mapbox Product Terms check result (link + clause) in `services/api/src/routing/README.md`; if restricted, implement text-only traffic ETA and raise to founder. 1. Image builds tiles from OSM extracts for the 61 places' countries (+ GTFS where available). 2. Client with timeouts; modes walk/scooter/drive/transit. 3. Matrix ≤50×50. 4. Closure polygons param. 5. Mapbox `driving-traffic` with `depart_at`. 6. Straight-line fallback flagged `estimate`.
-- Tests: `pnpm --filter @cp/api test -- routing` (Testcontainers Valhalla with a small extract)
-- Done when: Kyoto walk + transit ETA returned; closure polygon changes the route; Valhalla stopped → fallback with `estimate:true`.
+### T5 — Routing API on Mapbox (Valhalla later)
+- Goal: ETAs, matrices, closures, traffic-aware leave-by. Founder decision 2026-09-27: Mapbox Directions + Matrix at launch; Valhalla (spike tooling in `tools/spikes/`) replaces it behind the same provider interface when volume justifies it (`docs/decisions/20260927-valhalla-routing-on-railway.md`, addendum).
+- Files: `services/api/src/routing/{README.md,provider,mapbox,modes,eta,matrix,closures,fallback,routes}.ts`, `packages/domain/src/routing/{eta-provider,straight-line-eta}.ts`, `services/api/test/routing/**` (recorded Mapbox fixtures + recorder), route mounting in `services/api/src/{app,index}.ts`, `MAPBOX_TOKEN` in `.env.example` files.
+- Steps: 0. Record the Mapbox Product Terms check (links + clauses on caching/storage and attribution) in `services/api/src/routing/README.md`; design caching to respect it. 1. `RoutingProvider` interface (eta, matrix, leave-by) so a Valhalla provider can drop in. 2. Modes: walk → `walking`, drive → `driving-traffic`, scooter → `cycling` (documented proxy); transit has no Mapbox profile → straight-line estimate with `estimate: true` and the reason. 3. Matrix up to 50×50, chunked to Mapbox's coordinate caps (25; 10 on `driving-traffic`), cost documented. 4. Closure polygons → sampled `exclude` points (≤50, driving profiles only); gaps documented. 5. ETA and leave-by on `driving-traffic` with `depart_at`. 6. Outage/timeout → straight-line fallback flagged `estimate`.
+- Tests: `pnpm --filter @cp/api test -- routing` (replayed real Mapbox responses; timeouts/HTTP failures simulated at the HTTP boundary)
+- Done when: Kyoto walk + drive ETAs, a traffic matrix, a chunked matrix, traffic leave-by and a closure-changed route pass against recorded Mapbox responses; transit returns a flagged estimate; a Mapbox timeout returns a fallback with `estimate: true`.
 
 ### T6 — Style, glyphs, sprites, PMTiles pipeline
 - Goal: branded tiles on R2.
