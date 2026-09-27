@@ -1,10 +1,10 @@
-jest.mock('../../impact', () => ({ impact: jest.fn() }));
+jest.mock('../../feedback', () => ({ impact: jest.fn() }));
 
 import { act, renderHook } from '@testing-library/react-native';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { AccessibilityInfo } from 'react-native';
 
-import { impact } from '../../impact';
+import { impact } from '../../feedback';
 import { useMotionMode } from '../../motion-mode';
 import { resetMotionModeForTests } from '../../test-support/reset-motion-mode';
 import { useBarGrow } from '../bar-grow';
@@ -24,7 +24,7 @@ beforeEach(async () => {
 describe('useOdometer', () => {
   it('renders one column per digit, least-significant last', async () => {
     const { result } = await renderHook(() => useOdometer(42));
-    expect(result.current.columns.map((column) => column.key)).toEqual(['d1', 'd0']);
+    expect(result.current.columns.map((column) => column.key)).toEqual(['digit1', 'digit0']);
     expect(result.current.columns.map((column) => column.value.value)).toEqual([4, 2]);
   });
 
@@ -37,7 +37,7 @@ describe('useOdometer', () => {
     );
     expect(result.current.columns).toHaveLength(1);
     await rerender({ value: 10 });
-    expect(result.current.columns.map((column) => column.key)).toEqual(['d1', 'd0']);
+    expect(result.current.columns.map((column) => column.key)).toEqual(['digit1', 'digit0']);
     expect(result.current.columns.map((column) => column.value.value)).toEqual([1, 0]);
   });
 

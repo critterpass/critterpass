@@ -50,7 +50,7 @@ describe('sampleLoopPreset', () => {
     }
   });
 
-  it('returns the first stop at phase 0 and wraps seamlessly back to it at phase 1', () => {
+  it('returns the first stop at t=0 and wraps seamlessly back to it at t=1', () => {
     for (const id of LOOP_PRESET_IDS) {
       const def = LOOP_PRESETS[id];
       const atZero = sampleLoopPreset(def, 0);

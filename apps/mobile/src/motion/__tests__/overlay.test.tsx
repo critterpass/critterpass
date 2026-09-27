@@ -11,7 +11,7 @@ jest.mock('@shopify/react-native-skia', () => {
     React.createElement(View, props, props.children);
   return { Canvas: passthrough, Group: passthrough, Circle: passthrough };
 });
-jest.mock('../impact', () => ({ impact: jest.fn() }));
+jest.mock('../feedback', () => ({ impact: jest.fn() }));
 jest.mock('expo-router', () => ({ useIsFocused: jest.fn(() => true) }));
 
 import { act, render, renderHook, waitFor } from '@testing-library/react-native';
@@ -20,7 +20,7 @@ import type { ComponentRef, RefObject } from 'react';
 import { Text, type View } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 
-import { impact } from '../impact';
+import { impact } from '../feedback';
 import { useMotionMode } from '../motion-mode';
 import { OverlayHost } from '../overlay/OverlayHost';
 import { flyTo, flyToOverlay } from '../overlay/fly-to';

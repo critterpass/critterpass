@@ -1,9 +1,9 @@
-jest.mock('../../impact', () => ({ impact: jest.fn() }));
+jest.mock('../../feedback', () => ({ impact: jest.fn() }));
 
 import { act, renderHook } from '@testing-library/react-native';
 import { describe, expect, it, jest, beforeEach } from '@jest/globals';
 
-import { impact } from '../../impact';
+import { impact } from '../../feedback';
 import { useMotionMode } from '../../motion-mode';
 import { resetMotionModeForTests } from '../../test-support/reset-motion-mode';
 import { useDeal } from '../deal';

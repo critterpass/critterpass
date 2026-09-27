@@ -6,6 +6,13 @@ const jestExpoPreset = require('jest-expo/jest-preset');
 /** @type {import('jest').Config} */
 module.exports = {
   ...jestExpoPreset,
+  setupFiles: [
+    ...jestExpoPreset.setupFiles,
+    // The package's own official Jest setup: mocks the native `RNGestureHandlerModule` and wires
+    // `fireGestureHandler`'s `DeviceEventEmitter` events to declarative `Gesture.*()` callbacks, so
+    // `src/motion/gestures`' hooks run their real Pan/LongPress/Tap logic under Jest.
+    require.resolve('react-native-gesture-handler/jestSetup'),
+  ],
   moduleNameMapper: {
     ...jestExpoPreset.moduleNameMapper,
     // Reanimated's own shipped `/mock` re-exports several names from its real entry point, which at
@@ -23,6 +30,11 @@ module.exports = {
     // nitro-modules-mock.ts's own comment for why an empty stub is enough.
     '^react-native-nitro-modules$':
       require.resolve('./src/motion/test-support/nitro-modules-mock.ts'),
+    // expo-audio's real entry point patches `AudioModule.AudioPlayer.prototype` at import time,
+    // which needs a native `ExpoAudio` module Jest never registers — see expo-audio-mock.ts's own
+    // comment for why a hand-rolled mock (the same class of exception as the Reanimated one above)
+    // is used instead of the shipped module.
+    '^expo-audio$': require.resolve('./src/motion/test-support/expo-audio-mock.ts'),
     // react-native's "exports" map only exposes "react-native/asset-registry", while the Jest preset maps
     // to the pre-exports path relative to the requesting file, which pnpm's isolated node_modules cannot
     // satisfy; point the mapper at the resolved file instead.

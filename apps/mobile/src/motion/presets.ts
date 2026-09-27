@@ -215,7 +215,7 @@ export function sampleLoopPreset(def: LoopPresetDef, phase: number): LoopTransfo
   };
 }
 
-/** The resting frame (phase 0) a preset shows in reduced/off motion mode (design-system.md §5: "idle loops static"). */
+/** The resting frame (t=0) a preset shows in reduced/off motion mode (design-system.md §5: "idle loops static"). */
 export function restingLoopTransform(id: LoopPresetId): LoopTransform {
   const def = LOOP_PRESETS[id];
   const firstStop = def.stops[0];

@@ -5,7 +5,7 @@ import { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reani
 import { tokens } from '@cp/design-tokens';
 
 import { bezierEasing } from '../easing';
-import { impact } from '../impact';
+import { impact } from '../feedback';
 import { useReducedImpactMotion } from './shared';
 
 const turnEasing = bezierEasing(tokens.motion.easing.standard);

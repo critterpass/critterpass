@@ -102,7 +102,7 @@ export function useOdometer(value: number): { readonly columns: readonly Odomete
 
   const columns: OdometerColumn[] = digitColumns
     .map((column, indexFromRight) => ({
-      key: `d${indexFromRight}`,
+      key: `digit${indexFromRight}`,
       isSign: false as const,
       value: column,
     }))

@@ -1,6 +1,7 @@
 import { scheduleOnRN } from 'react-native-worklets';
 
-import { impact, type SoundCueId } from '../impact';
+import { impact } from '../feedback';
+import type { SoundCueId } from '../impact';
 import { useMotionMode } from '../motion-mode';
 
 /** docs/design-system.md §5 Reduce Motion: "impacts fade 150 ms, no jolt/shake, ... haptic + SFX kept". */
@@ -13,10 +14,10 @@ export function useReducedImpactMotion(): boolean {
 }
 
 /**
- * Fires `impact(cueId)` (haptic today; also SFX once the feedback bus task in this phase lands) from
- * a UI-thread worklet, together with an optional same-frame visual side effect (e.g. the screen
- * jolt) — both dispatched to the JS thread in one hop so they land in the same frame
- * (docs/design-system.md §3.4 choreography rule 3: "impact = visual + jolt + haptic + SFX").
+ * Fires the feedback bus's `impact(cueId)` (haptic + SFX) from a UI-thread worklet, together with an
+ * optional same-frame visual side effect (e.g. the screen jolt) — both dispatched to the JS thread in
+ * one hop so they land in the same frame (docs/design-system.md §3.4 choreography rule 3: "impact =
+ * visual + jolt + haptic + SFX").
  */
 export function triggerImpact(cueId: SoundCueId, andAlso?: () => void): void {
   'worklet';
