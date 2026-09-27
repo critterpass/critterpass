@@ -3,7 +3,9 @@ appId: app.critterpass.dev
 # Screenshots for `pnpm screens:capture`: the home screen, then the Developer tools list reached by
 # tapping its entry (never `openLink`, which is non-deterministic for `(dev)` routes). The reused
 # e2e-test build loads the freshly published JS before its first render, so the wait budgets for it.
-- launchApp
+# A cleared launch: otherwise the app restores the screen an earlier flow left open.
+- launchApp:
+    clearState: true
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'

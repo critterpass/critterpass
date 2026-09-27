@@ -2,7 +2,9 @@ appId: app.critterpass.dev
 ---
 # Screenshot for `pnpm screens:capture`: the motion lab at rest. Motion freeze stops the shared loop
 # clock so every idle loop sits on its resting frame and the capture is deterministic.
-- launchApp
+# A cleared launch: otherwise the app restores the screen an earlier flow left open.
+- launchApp:
+    clearState: true
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'

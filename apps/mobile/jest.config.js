@@ -77,9 +77,13 @@ module.exports = {
   transformIgnorePatterns: jestExpoPreset.transformIgnorePatterns.map((pattern, index) =>
     // Only the first entry is the node_modules allowlist (jest-expo/jest-preset.js); the rest are
     // unrelated exclusions (the reanimated babel plugin, @react-native/babel-preset) left untouched.
-    // @messageformat/* is @lingui/core's own ICU parsing dependency, also ESM-only.
+    // @messageformat/* is @lingui/core's own ICU parsing dependency, also ESM-only, as is the
+    // @formatjs/* Intl.PluralRules polyfill the app installs for Hermes (src/lib/i18n/intl-polyfills).
     index === 0
-      ? pattern.replace('standard-navigation', 'standard-navigation|@lingui|@messageformat')
+      ? pattern.replace(
+          'standard-navigation',
+          'standard-navigation|@lingui|@messageformat|@formatjs',
+        )
       : pattern,
   ),
 };

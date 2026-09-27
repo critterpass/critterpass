@@ -1,13 +1,11 @@
-import { useLingui } from '@lingui/react/macro';
-import type { ErrorBoundaryProps } from 'expo-router';
 import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
-import { router, useNavigationContainerRef } from 'expo-router';
+import { useNavigationContainerRef } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Updates from 'expo-updates';
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text as RNText, View } from 'react-native';
+import { StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
@@ -20,18 +18,13 @@ import { IslandToast } from '@/motion/island-toast';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
-import {
-  makeStyles,
-  MIN_TOUCH_TARGET,
-  Row,
-  Scaffold,
-  sizeToken,
-  Stack as Column,
-  Text,
-  useTheme,
-} from '@/ui';
+import { useTheme } from '@/ui';
+import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
 
 void SplashScreen.preventAutoHideAsync();
+
+// Expo Router renders this in place of the root layout when anything below it throws.
+export { RootErrorBoundary as ErrorBoundary };
 
 /** Saved navigation is only restored into the same JS build it was saved from. */
 const BUILD = `${Constants.expoConfig?.version ?? ''}:${Updates.updateId ?? 'embedded'}`;
@@ -105,104 +98,6 @@ export default function RootLayout() {
         </ThemeProvider>
       </I18nRoot>
     </GestureHandlerRootView>
-  );
-}
-
-const HOME_HREF = '/';
-
-const useErrorStyles = makeStyles((t) => ({
-  panel: {
-    marginTop: 'auto',
-    backgroundColor: t.semantic.bg.raised,
-    borderTopStartRadius: t.radius.sheetTop,
-    borderTopEndRadius: t.radius.sheetTop,
-    padding: t.size.gutter,
-    paddingBottom: t.size.cta.bottom,
-    gap: t.space['16'],
-  },
-  option: {
-    flex: 1,
-    minHeight: MIN_TOUCH_TARGET,
-    borderRadius: t.radius.lg,
-    backgroundColor: t.semantic.bg.control,
-    padding: t.space['14'],
-    gap: t.space['4'],
-  },
-  primary: {
-    minHeight: sizeToken(t.size.primaryCta, 'height'),
-    borderRadius: sizeToken(t.size.primaryCta, 'radius'),
-    backgroundColor: t.semantic.action.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: t.space['20'],
-  },
-}));
-
-/**
- * Root error boundary (undesigned; follows the 3i-4 "three ways forward" pattern): try again,
- * go back, or go home. Never shows the raw error. Wraps every route below the root layout.
- */
-export function ErrorBoundary({ retry }: ErrorBoundaryProps) {
-  const { t } = useLingui();
-  const styles = useErrorStyles();
-  const theme = useTheme();
-  const canGoBack = router.canGoBack();
-  const options = [
-    ...(canGoBack
-      ? [
-          {
-            key: 'back',
-            title: t({ id: 'common.shell.errorBack', message: 'Go back' }),
-            body: t({ id: 'common.shell.errorBackBody', message: 'Pick up where you were' }),
-            onPress: () => router.back(),
-          },
-        ]
-      : []),
-    {
-      key: 'home',
-      title: t({ id: 'common.shell.errorHome', message: 'Go home' }),
-      body: t({ id: 'common.shell.errorHomeBody', message: 'Start again from your crews' }),
-      onPress: () => router.replace(HOME_HREF),
-    },
-  ];
-
-  return (
-    <Scaffold edges={['top']}>
-      <View style={styles.panel} testID="shell-error">
-        <Text variant="eyebrow">
-          {t({ id: 'common.shell.errorEyebrow', message: 'Something went sideways' })}
-        </Text>
-        <Text variant="h2" accessibilityRole="header">
-          {t({ id: 'common.shell.errorTitle', message: 'That didn’t load' })}
-        </Text>
-        <Row gap="8" align="stretch">
-          {options.map((option) => (
-            <Pressable
-              key={option.key}
-              testID={`shell-error-${option.key}`}
-              accessibilityRole="button"
-              onPress={option.onPress}
-              style={styles.option}
-            >
-              <Column gap="4">
-                <Text variant="title">{option.title}</Text>
-                <Text variant="bodySm">{option.body}</Text>
-              </Column>
-            </Pressable>
-          ))}
-        </Row>
-        <Pressable
-          testID="shell-error-retry"
-          accessibilityRole="button"
-          onPress={() => void retry()}
-          style={styles.primary}
-        >
-          <Text variant="buttonLg" color={theme.semantic.text.onAccent}>
-            {t({ id: 'common.shell.errorRetry', message: 'Try again' })}
-          </Text>
-        </Pressable>
-      </View>
-    </Scaffold>
   );
 }
 

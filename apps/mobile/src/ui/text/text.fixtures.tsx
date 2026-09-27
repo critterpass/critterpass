@@ -25,6 +25,21 @@ registerFixture('Text', 'all variants', () => (
   </Stack>
 ));
 
+/** Every display-class variant, whose tight leading must still fit cap tops and stacked marks. */
+const DISPLAY_VARIANTS = (Object.keys(TEXT_VARIANTS) as TextVariant[]).filter(
+  (variant) => TEXT_VARIANTS[variant].condensed,
+);
+
+registerFixture('Text', 'stacked marks at every display size', () => (
+  <Stack gap="8">
+    {DISPLAY_VARIANTS.map((variant) => (
+      <Text key={variant} variant={variant} autoFit={false}>
+        VIỆT NAM · ĐẶT CHỖ · CHUYẾN ĐI
+      </Text>
+    ))}
+  </Stack>
+));
+
 registerFixture('Text', 'h1 auto-fit long title', () => (
   <Text variant="h1">Your whole crew is going to Kyoto in cherry blossom season</Text>
 ));

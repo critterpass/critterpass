@@ -34,8 +34,9 @@ const useStyles = makeStyles((th) => ({
     borderBottomColor: th.color.paper.muted,
     alignItems: 'center',
   },
-  label: { flex: 2 },
-  cell: { flex: 1, alignItems: 'center', justifyContent: 'center', alignSelf: 'stretch' },
+  cell: { alignItems: 'center', justifyContent: 'center', alignSelf: 'stretch' },
+  // A value that wraps ("∞ on trip") stays centred on its column.
+  value: { textAlign: 'center' },
   band: {
     position: 'absolute',
     top: 0,
@@ -60,16 +61,21 @@ export function ComparisonTable({
     0,
     columns.findIndex((column) => column.id === highlighted),
   );
-  const share = 1 / (columns.length + 2);
+  // One column grid for the header, every row and the band: the label takes two shares, each plan
+  // one. Fixed percentages rather than flex, so a wide value ("30 a day") can't nudge its column.
+  const share = 100 / (columns.length + 2);
+  const labelWidth = { width: `${2 * share}%` } as const;
+  const cellWidth = { width: `${share}%` } as const;
   return (
     <View testID={testID}>
       <View
         pointerEvents="none"
-        style={[styles.band, { start: `${(2 + index) * share * 100}%`, width: `${share * 100}%` }]}
+        testID={testID ? `${testID}-band` : undefined}
+        style={[styles.band, { start: `${(2 + index) * share}%`, ...cellWidth }]}
       />
       <Stack>
         <Row style={styles.row} accessibilityRole="tablist">
-          <View style={styles.label} />
+          <View style={labelWidth} />
           {columns.map((column) => {
             const selected = column.id === highlighted;
             return (
@@ -80,7 +86,7 @@ export function ComparisonTable({
                 accessibilityState={{ selected }}
                 {...(onHighlight ? { onPress: () => onHighlight(column.id) } : {})}
                 widthClass="narrow"
-                style={styles.cell}
+                style={[styles.cell, cellWidth]}
               >
                 <Text
                   variant="label"
@@ -103,13 +109,14 @@ export function ComparisonTable({
               ...columns.map((column, i) => `${column.label} ${row.values[i] ?? ''}`),
             ].join(', ')}
           >
-            <Text variant="bodySm" color={theme.color.paper.ink} style={styles.label}>
+            <Text variant="bodySm" color={theme.color.paper.ink} style={labelWidth}>
               {row.label}
             </Text>
             {columns.map((column, i) => (
-              <View key={column.id} style={styles.cell}>
+              <View key={column.id} style={[styles.cell, cellWidth]}>
                 <Text
                   variant="label"
+                  style={styles.value}
                   color={
                     column.id === highlighted ? theme.color.paper.ink : theme.color.paper.muted
                   }

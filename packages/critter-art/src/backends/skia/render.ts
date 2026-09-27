@@ -73,6 +73,17 @@ function contentTransform(viewport: RasterViewport): Transform2D {
   return { scale: viewport.contentScale, tx: viewport.padPx, ty: viewport.padPx };
 }
 
+/**
+ * Canvas 2D's `globalAlpha` scales the fill colour's own alpha, while Skia's `setAlphaf` replaces
+ * it. Folding the colour's alpha in keeps the two backends identical for translucent colours: a
+ * `transparent` wash (a doodle drawn with a clear fill) stays clear instead of turning black.
+ */
+function setColorAndAlpha(paint: SkPaint, engine: SkiaEngine, color: string, alpha: number): void {
+  const skColor = engine.Color(color);
+  paint.setColor(skColor);
+  paint.setAlphaf(alpha * (skColor[3] ?? 1));
+}
+
 function drawPoly(
   canvas: SkCanvas,
   cmd: PolyCmd,
@@ -90,8 +101,7 @@ function drawPoly(
   const paint = engine.Paint();
   paint.setAntiAlias(true);
   paint.setStyle(PAINT_STYLE_FILL);
-  paint.setColor(engine.Color(cmd.color));
-  paint.setAlphaf(cmd.alpha);
+  setColorAndAlpha(paint, engine, cmd.color, cmd.alpha);
   paint.setBlendMode(blendMode(cmd.blend));
   canvas.drawPath(path, paint);
 }
@@ -114,8 +124,7 @@ function drawPolyline(
   const paint = engine.Paint();
   paint.setAntiAlias(true);
   paint.setStyle(PAINT_STYLE_STROKE);
-  paint.setColor(engine.Color(cmd.color));
-  paint.setAlphaf(cmd.alpha);
+  setColorAndAlpha(paint, engine, cmd.color, cmd.alpha);
   paint.setBlendMode(blendMode(cmd.blend));
   paint.setStrokeWidth(cmd.width * transform.scale);
   paint.setStrokeJoin(cmd.join === 'round' ? STROKE_JOIN_ROUND : STROKE_JOIN_MITER);

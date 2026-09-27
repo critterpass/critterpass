@@ -5,8 +5,8 @@ jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
 import { fireEvent, screen } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
-import { Alert, View } from 'react-native';
-import type { AlertButton } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
+import type { AlertButton, StyleProp, ViewStyle } from 'react-native';
 
 import { IconButton } from '../buttons/IconButton';
 import { InlineAction } from '../buttons/InlineAction';
@@ -178,6 +178,30 @@ describe('inputs', () => {
     expect(gift.props['aria-invalid']).toBe(true);
     await fireEvent.changeText(gift, 'ab12-cd34-ef56-gh');
     expect(onChangeText).toHaveBeenLastCalledWith('AB12CD34EF56');
+  });
+
+  it('shows a gift code as one box per group that shares the row width instead of 12 fixed boxes', async () => {
+    await renderUi(
+      <CodeBoxes
+        label="Gift code"
+        value="PASS7K2QMA"
+        onChangeText={jest.fn()}
+        groups={[4, 4, 4]}
+      />,
+    );
+    for (const group of ['PASS', '7K2Q', 'MA']) {
+      const text = screen.getByText(group, { includeHiddenElements: true });
+      // One line, shrunk to fit its box at large text sizes rather than wrapping or overflowing.
+      expect(text.props.numberOfLines).toBe(1);
+      const styleOf = (node: typeof text | null) =>
+        StyleSheet.flatten(node?.props.style as StyleProp<ViewStyle>);
+      let box = text.parent;
+      while (box && styleOf(box)?.borderWidth === undefined) box = box.parent;
+      const style = styleOf(box);
+      expect(style).toEqual(expect.objectContaining({ flex: 1 }));
+      expect(style?.width).toBeUndefined();
+    }
+    expect(screen.queryByText('P', { includeHiddenElements: true })).toBeNull();
   });
 
   it('builds amounts from keypad keys', async () => {

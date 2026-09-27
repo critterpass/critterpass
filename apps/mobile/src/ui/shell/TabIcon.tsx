@@ -14,8 +14,10 @@ import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
 import { Sticker } from '../sticker/Sticker';
 
-/** Doodle icons of the tab bar (design/doodles.js `pin`, `ticket`, `wallet`, `egg`). */
-export type TabIconKind = 'pin' | 'ticket' | 'wallet' | 'egg';
+import type { TabIconKind } from './tab-icon-art';
+import { tabIconArt } from './tab-icon-art';
+
+export type { TabIconKind } from './tab-icon-art';
 
 export const TAB_ICON_SIZE = tokens.space['24'];
 
@@ -31,8 +33,8 @@ export interface TabIconProps {
 }
 
 /**
- * A doodle icon drawn by the critter-art pipeline as a single-colour mask (no die-cut edge), so
- * the same art recolours for active (yellow) and inactive (ink.300). Decorative: the tab button
+ * A doodle icon drawn by the critter-art pipeline in one colour (no die-cut edge), so the same art
+ * recolours for active (yellow) and inactive (ink.300). Decorative: the tab button
  * carries the label.
  */
 export function TabIcon({ kind, color, focused }: TabIconProps) {
@@ -56,9 +58,8 @@ export function TabIcon({ kind, color, focused }: TabIconProps) {
           kind={kind}
           name={kind}
           size={TAB_ICON_SIZE}
-          variant="mask"
-          maskColor={color}
           sticker={null}
+          {...tabIconArt(kind, color)}
         />
       </Animated.View>
     </View>

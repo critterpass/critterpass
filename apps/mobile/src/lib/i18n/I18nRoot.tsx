@@ -1,3 +1,6 @@
+// Before anything formats a message: Hermes lacks the Intl APIs Lingui and the format helpers use.
+import './intl-polyfills';
+
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { useEffect, useState } from 'react';

@@ -8,7 +8,7 @@ import { useFrameCallback } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 import type { SharedValue } from 'react-native-reanimated';
 
-import type { FormSpec, Pose, RenderSpec, StickerSpec, Variant } from '@cp/critter-art';
+import type { Blend, FormSpec, Pose, RenderSpec, StickerSpec, Variant } from '@cp/critter-art';
 import type { SkiaEngine } from '@cp/critter-art/skia';
 
 import { stickerLabel, stickerPoseLabel } from './a11y';
@@ -109,6 +109,8 @@ export interface StickerProps {
   readonly variant?: Variant;
   /** The `variant="mask"` recolour — `SilhouetteSlot` passes its grey/gold silhouette colour here. */
   readonly maskColor?: string;
+  /** Composite for the art's washes: `srcOver` is design's `blend="source-over"` (icons on dark UI). */
+  readonly blend?: Blend;
   readonly size: number;
   readonly sticker?: StickerSpec | null;
   readonly seed?: number;
@@ -127,7 +129,17 @@ export interface StickerProps {
 }
 
 function buildRenderSpec(props: StickerProps): RenderSpec {
-  const { kind, form, pose, variant, maskColor, sticker, seed = 7, closedEyes = false } = props;
+  const {
+    kind,
+    form,
+    pose,
+    variant,
+    maskColor,
+    blend,
+    sticker,
+    seed = 7,
+    closedEyes = false,
+  } = props;
   return {
     kind,
     seed,
@@ -136,6 +148,7 @@ function buildRenderSpec(props: StickerProps): RenderSpec {
     ...(pose ? { pose } : {}),
     ...(variant ? { variant } : {}),
     ...(maskColor ? { maskColor } : {}),
+    ...(blend ? { blend } : {}),
     ...(sticker !== undefined ? { sticker } : {}),
   };
 }
