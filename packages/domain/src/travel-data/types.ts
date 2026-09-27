@@ -112,9 +112,25 @@ export const weatherDaySchema = z
   .strict();
 export type WeatherDay = z.infer<typeof weatherDaySchema>;
 
-/** `weather_snapshots.hourly`: one local date at one point. */
+/** An official weather alert the forecast carried (WeatherAPI.com `alerts`). */
+export const weatherAlertSchema = z
+  .object({
+    kind: z.string().min(1),
+    severity: z.string().min(1),
+    headline: z.string().nullable(),
+    from: isoInstant.nullable(),
+    to: isoInstant.nullable(),
+  })
+  .strict();
+export type WeatherAlert = z.infer<typeof weatherAlertSchema>;
+
+/** `weather_snapshots.hourly`: one local date at one point, with the alerts current when fetched. */
 export const weatherSnapshotBodySchema = z
-  .object({ day: weatherDaySchema, hours: z.array(weatherHourSchema) })
+  .object({
+    day: weatherDaySchema,
+    hours: z.array(weatherHourSchema),
+    alerts: z.array(weatherAlertSchema).optional(),
+  })
   .strict();
 export type WeatherSnapshotBody = z.infer<typeof weatherSnapshotBodySchema>;
 

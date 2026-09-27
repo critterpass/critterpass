@@ -109,6 +109,14 @@ export const QUEUES = {
     expireInSeconds: 60 * 60,
     cron: { expr: '0 3 * * *', tz: 'Asia/Singapore' },
   }),
+  // Every 15 minutes; each forecast point decides whether it is due (3 h, 1 h, or 15 min marine).
+  'weather.refresh': spec({
+    policy: 'stately',
+    retryLimit: 1,
+    expireInSeconds: 10 * 60,
+    keepCompletedSeconds: 86_400,
+    cron: { expr: '*/15 * * * *', tz: 'UTC' },
+  }),
   // Daily; the handler works on Mondays and during blossom/foliage windows only.
   'season.ingest': spec({
     policy: 'stately',

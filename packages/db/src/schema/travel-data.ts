@@ -102,6 +102,7 @@ export const weatherSnapshots = pgTable(
     date: date('date', { mode: 'string' }).notNull(),
     hourly: jsonb('hourly').$type<WeatherSnapshotBody>().notNull(),
     marine: jsonb('marine').$type<MarineSnapshotBody>(),
+    marineFetchedAt: timestamp('marine_fetched_at', { withTimezone: true, mode: 'date' }),
     source: text('source').notNull(),
     fetchedAt: timestamp('fetched_at', { withTimezone: true, mode: 'date' }).notNull(),
     checkedAt: timestamp('checked_at', { withTimezone: true, mode: 'date' }).notNull(),

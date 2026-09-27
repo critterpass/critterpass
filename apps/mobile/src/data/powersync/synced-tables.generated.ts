@@ -80,5 +80,5 @@ export const SYNCED_TABLE_COLUMNS = {
   users:
     'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at created_at updated_at',
   weather_snapshots:
-    'destination_id point_key lat:real lng:real elevation_m:integer date hourly marine source fetched_at checked_at created_at updated_at',
+    'destination_id point_key lat:real lng:real elevation_m:integer date hourly marine marine_fetched_at source fetched_at checked_at created_at updated_at',
 } as const;

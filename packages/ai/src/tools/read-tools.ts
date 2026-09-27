@@ -84,14 +84,20 @@ export const READ_TOOL_SPECS = {
     'CGRB',
     'read',
     forecastInput,
-    series({ temp_c: z.number(), precip_mm: z.number(), wind_kph: z.number(), code: z.string() }),
+    series({
+      temp_c: z.number(),
+      chance_of_rain: z.number(),
+      precip_mm: z.number(),
+      wind_kph: z.number(),
+      code: z.string(),
+    }),
   ),
   marine: spec(
     'Hourly sea conditions and alerts. Copy values verbatim.',
     'CGRB',
     'read',
     forecastInput,
-    series({ wave_m: z.number(), swell_m: z.number(), sea_temp_c: z.number() }),
+    series({ wave_m: z.number(), swell_m: z.number(), sea_temp_c: z.number().nullable() }),
   ),
   route_eta: spec(
     'Travel time between points. Leave-by times come from the planner, not from you.',

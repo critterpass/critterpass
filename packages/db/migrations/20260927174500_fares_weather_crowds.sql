@@ -88,8 +88,9 @@ GRANT SELECT ON fare_cells TO app_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON fare_cells TO app_system;
 
 -- Hourly forecast per (destination, point, local date): `point_key` is `centroid`, a summit, or a
--- 0.1° grid cell holding plan-item places, so a trip's points share one row per cell. `marine` is
--- set only for coastal points with boat items. `checked_at` > `fetched_at` means the last refresh
+-- 0.1° grid cell holding plan-item places, so a trip's points share one row per cell. `marine`
+-- (the destination's coastal point, refreshed on its own cadence, `marine_fetched_at`) is set on
+-- the centroid row only while a trip there has boat items. `checked_at` > `fetched_at` means the last refresh
 -- failed and readers show the last snapshot as stale. 30-day retention on `date`.
 CREATE TABLE weather_snapshots (
   id uuid PRIMARY KEY DEFAULT uuidv7(),
@@ -101,6 +102,7 @@ CREATE TABLE weather_snapshots (
   date date NOT NULL,
   hourly jsonb NOT NULL,
   marine jsonb,
+  marine_fetched_at timestamptz,
   source text NOT NULL,
   fetched_at timestamptz NOT NULL,
   checked_at timestamptz NOT NULL,

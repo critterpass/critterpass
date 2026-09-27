@@ -11,6 +11,7 @@ import type { SessionResolver } from '../commands/_framework/session';
 import { registerCrowdsRoute } from './crowds-route';
 import { registerDestinationRoute } from './destination-route';
 import { registerFaresRoute } from './fares-route';
+import { registerWeatherRoutes } from './weather-route';
 
 export interface TravelDataRouteDeps {
   readonly pool: pg.Pool;
@@ -24,4 +25,5 @@ export function registerTravelDataRoutes(
   registerFaresRoute(app, deps);
   registerDestinationRoute(app, deps);
   registerCrowdsRoute(app, deps);
+  registerWeatherRoutes(app, deps);
 }

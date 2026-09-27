@@ -27,6 +27,10 @@ export const workerEnvSchema = z.object({
   /** WeatherAPI.com key for `weather.refresh` (src/travel-data); unset = the job is not registered
    *  and weather surfaces show their empty state. */
   WEATHERAPI_KEY: optionalString,
+  /** Forecast days the WeatherAPI.com plan allows (free 3, Starter 7, Pro+ 14). */
+  WEATHERAPI_FORECAST_DAYS: z.coerce.number().int().min(1).max(14).default(3),
+  /** Marine forecast days the plan allows (free 1, Starter 3, Pro+ 5). */
+  WEATHERAPI_MARINE_DAYS: z.coerce.number().int().min(1).max(7).default(1),
   /** Overrides the Overture release path in src/places/ingest.ts. */
   OVERTURE_RELEASE: optionalString,
   /** A parquet export standing in for FSQ OS Places' gated Iceberg catalog; unset = Overture-only ingest. */
