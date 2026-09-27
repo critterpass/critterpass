@@ -1,6 +1,13 @@
 /* Critterpass coming-soon page. Faithful port of the Claude Design "Site - Coming Soon v2" mock;
    colours/fonts come from @cp/design-tokens (tokens.css, fonts.css), imported by the page. */
 
+/* The page swaps states (waitlist form / joined panel, egg / hatched local) with the `hidden`
+   attribute. The browser's own `[hidden] { display: none }` loses to any class that sets `display`
+   (e.g. `.cs-joined { display: flex }`), which showed both states at once; keep `hidden` absolute. */
+.cs-root [hidden] {
+  display: none !important;
+}
+
 .cs-root {
   min-height: 100vh;
   background: var(--color-ink-850);
