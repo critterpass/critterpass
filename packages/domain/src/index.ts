@@ -9,6 +9,24 @@ export {
   type ChannelNamespace,
 } from './channel-names';
 export {
+  CAPABILITY_KEYS,
+  capabilityKeySchema,
+  type CapabilityKey,
+} from './entitlements/capability-keys';
+export {
+  entitlementRequiredDetailSchema,
+  quotaExhaustedDetailSchema,
+  redraftLimitDetailSchema,
+  seatLimitDetailSchema,
+  seatLimitOfferSchema,
+  SEAT_LIMIT_OFFERS,
+  type EntitlementRequiredDetail,
+  type QuotaExhaustedDetail,
+  type RedraftLimitDetail,
+  type SeatLimitDetail,
+  type SeatLimitOffer,
+} from './entitlements/errors';
+export {
   commandActorSchema,
   commandDeviceSchema,
   commandEnvelopeSchema,

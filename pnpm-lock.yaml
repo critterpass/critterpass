@@ -504,7 +504,11 @@ importers:
         specifier: 'catalog:'
         version: 4.6.5
 
-  packages/entitlements: {}
+  packages/entitlements:
+    dependencies:
+      '@cp/domain':
+        specifier: workspace:*
+        version: link:../domain
 
   packages/i18n: {}
 
