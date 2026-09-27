@@ -6,11 +6,20 @@
   "description": "Generated content (JSON/MDX) and its zod schemas",
   "sideEffects": false,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./releases/*": "./releases/*"
   },
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@cp/critter-art": "workspace:*",
+    "@cp/domain": "workspace:*",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:"
   }
 }

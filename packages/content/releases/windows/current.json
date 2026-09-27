@@ -1,0 +1,96 @@
+{
+  "kind": "windows",
+  "version": 1,
+  "items": [
+    {
+      "id": "marigold-ajo",
+      "form_id": "cp-041:legendary",
+      "place_line": "Mexico City · Día de Muertos",
+      "rule": {
+        "type": "annual_range",
+        "start": "11-01",
+        "end": "11-02"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://ich.unesco.org/en/RL/indigenous-festivity-dedicated-to-the-dead-00054",
+      "designed": true
+    },
+    {
+      "id": "sakura-pon",
+      "form_id": "cp-061:legendary",
+      "place_line": "Kyoto · the week the blossoms peak",
+      "rule": {
+        "type": "month_part",
+        "month": 4,
+        "part": "early"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.japan-guide.com/sakura/",
+      "designed": true
+    },
+    {
+      "id": "festa-sardi",
+      "form_id": "cp-076:legendary",
+      "place_line": "Lisbon · Santo António night",
+      "rule": {
+        "type": "annual_range",
+        "start": "06-12",
+        "end": "06-12"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.visitlisboa.com/en/events/festas-de-lisboa",
+      "designed": true
+    },
+    {
+      "id": "inti-paco",
+      "form_id": "cp-145:legendary",
+      "place_line": "Cusco · Inti Raymi",
+      "rule": {
+        "type": "annual_range",
+        "start": "06-24",
+        "end": "06-24"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.peru.travel/en/events/inti-raymi",
+      "designed": true
+    },
+    {
+      "id": "puffling-lundi",
+      "form_id": "cp-148:legendary",
+      "place_line": "Heimaey · puffling nights",
+      "rule": {
+        "type": "month_part",
+        "month": 8,
+        "part": "late"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.visitwestmanislands.com/",
+      "designed": true
+    },
+    {
+      "id": "golden-tokek",
+      "form_id": "cp-112:legendary",
+      "place_line": "Bali · all six on Batur by sunrise",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": "by_sunrise",
+      "challenge": "All six on Batur by sunrise",
+      "source_url": null,
+      "designed": true
+    }
+  ],
+  "generated_by": {
+    "batch_key": "designed-fixtures",
+    "route": null,
+    "model": null,
+    "generated_at": "2026-09-28T00:00:00.000Z"
+  },
+  "approved_by": null,
+  "checksum": "3c499c9f10ea3a8a401d9003e7683f9b956b0dec7ea180feafe55c1946262932"
+}

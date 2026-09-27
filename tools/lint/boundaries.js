@@ -37,7 +37,7 @@ export const packageDeps = {
   ai: ['domain', 'planner', 'cost-engine', 'content'],
   suppliers: ['domain'],
   i18n: [],
-  content: ['domain'],
+  content: ['domain', 'critter-art'],
   'sound-art': ['design-tokens'],
 };
 

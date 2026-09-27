@@ -821,7 +821,21 @@ importers:
         specifier: 'catalog:'
         version: 2.9.1
 
-  packages/content: {}
+  packages/content:
+    dependencies:
+      '@cp/critter-art':
+        specifier: workspace:*
+        version: link:../critter-art
+      '@cp/domain':
+        specifier: workspace:*
+        version: link:../domain
+      zod:
+        specifier: 'catalog:'
+        version: 4.6.5
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.3
 
   packages/cost-engine:
     dependencies:
