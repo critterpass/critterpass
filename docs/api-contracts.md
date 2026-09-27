@@ -417,6 +417,7 @@ All via `/v1/admin/*` (Better Auth `admin` role + role claims `ops`, `content`, 
 | `approve_content_batch` / `reject_content_batch` | `{batch_id, notes}` (critter forms, personas, places, phrases) | content | `content.approved` → publish job | 18 |
 | `upsert_poi` / `set_emergency_info` | `{poi or country record, verified_at}` | content | `poi.changed` | 14, 38 |
 | `upsert_season_editorial` (doc delta) | `{destination_id, months[], events[], approve?}` (each row sourced; edits are drafts until approved) | content | – | 15 |
+| `review_season_event` | `{event_id, decision: approve\|reject}`: approve serves a queued season event, reject deletes it; audited as `review_season_event.<decision>` | content | – | 15 |
 | `send_vendor_message` | see §4.11 | ops | – | 35 |
 
 ## 5. HTTP endpoints (`services/api`)
@@ -557,6 +558,7 @@ Roles via Better Auth `admin` plugin; SPA at `apps/admin`. Routes: users (lookup
 | `GET /v1/admin/me` | any | operator, roles, openable areas |
 | `GET /v1/admin/catalogue/{kind}`, `/flags`, `/partners` | content / ops / ops | editors |
 | `GET /v1/admin/moderation?status=&cursor=`, `/moderation/summary` | ops, support | queue with each kind's preview (images as media Worker HMAC URLs) |
+| `GET /v1/admin/season/summary`, `/season/curves?state=&destination_id=`, `/season/events?state=&destination_id=` | content | season review: draft (`pending`) or approved month curves, interpolated months flagged from their cited source, and queued or approved dated events with source and fetched day |
 | `GET /v1/admin/users?q=`, `/users/{uid}`, `/commands?op_id=\|uid=` | support | lookup by uid, e-mail, E.164 phone, join code, `@username`; detail never carries C3 (contact details are presence flags, sessions have no IP) |
 | `GET /v1/admin/desk?status=`, `/desk/summary` | ops | tasks soonest due first, SLA band, the user's approval verbatim |
 | `GET /v1/admin/audit?admin=&action=&target_kind=&target_id=&from=&to=&cursor=`, `/audit/facets` | owner, ops | `ops.admin_audit`, newest first |

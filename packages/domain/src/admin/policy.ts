@@ -41,6 +41,8 @@ export const ADMIN_COMMAND_ROLES: Readonly<Record<string, readonly AdminRole[]>>
   set_partner_adapter: ['ops'],
   upsert_catalogue_item: ['content'],
   upsert_poi: ['content'],
+  upsert_season_editorial: ['content'],
+  review_season_event: ['content'],
   moderate_item: ['ops', 'support'],
   grant_entitlement: ['support'],
   revoke_entitlement: ['support'],

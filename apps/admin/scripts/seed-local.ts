@@ -9,6 +9,7 @@ import { execFileSync } from 'node:child_process';
 
 import pg from 'pg';
 
+import { seedSeasonReview } from './seed-season-review';
 import { seedWorkQueues } from './seed-work-queues';
 
 const DEFAULT_URL = 'postgres://app_owner:app_owner@localhost:54320/critterpass_admin';
@@ -106,6 +107,7 @@ export async function seedLocal(databaseUrl: string = DEFAULT_URL): Promise<void
   await client.connect();
   try {
     await seedWorkQueues(client);
+    await seedSeasonReview(client);
   } finally {
     await client.end();
   }
