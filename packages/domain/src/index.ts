@@ -277,23 +277,13 @@ export {
   type TransitionResult,
 } from './state/machine';
 export { canTransitionTrip, deriveTripPhase, transitionTrip, tripStateMachine } from './state/trip';
-export {
-  buildEntitlementsSnapshot,
-  ENTITLEMENTS_SNAPSHOT_SCHEMA_VERSION,
-  entitlementsSnapshotSchema,
-  type BoostedTrip,
-  type BuildEntitlementsSnapshotInput,
-  type EntitlementsSnapshot,
-} from './surfaces/entitlements';
-export {
-  localSchedule,
-  resolveLocalSchedule,
-  toLocalWallTime,
-  type LocalScheduleInput,
-  type LocalScheduleResolution,
-  type LocalScheduleResult,
-} from './time/local-schedule';
+export * from './surfaces/entitlements';
+export * from './time/local-schedule';
 export * from './links';
 export * from './notifications';
 export * from './push-payload';
 export * from './admin';
+export * from './analytics';
+export * from './redact';
+export * from './flags';
+export * from './obs';

@@ -9,7 +9,8 @@
       "distribution": "internal",
       "channel": "development",
       "env": {
-        "APP_VARIANT": "development"
+        "APP_VARIANT": "development",
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
       }
     },
     "development-simulator": {
@@ -22,7 +23,8 @@
       "distribution": "internal",
       "channel": "preview",
       "env": {
-        "APP_VARIANT": "staging"
+        "APP_VARIANT": "staging",
+        "SENTRY_ALLOW_FAILURE": "true"
       }
     },
     "e2e-test": {
@@ -33,7 +35,8 @@
       "node": "24.21.0",
       "pnpm": "12.6.0",
       "env": {
-        "APP_VARIANT": "development"
+        "APP_VARIANT": "development",
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
       },
       "ios": {
         "simulator": true,
@@ -51,7 +54,8 @@
         "APP_VARIANT": "staging",
         "EXPO_PUBLIC_API_BASE_URL": "https://api-staging-de92.up.railway.app",
         "EXPO_PUBLIC_POWERSYNC_URL": "https://powersync-api-staging.up.railway.app",
-        "EXPO_PUBLIC_REALTIME_URL": "wss://centrifugo-staging-652b.up.railway.app/connection/websocket"
+        "EXPO_PUBLIC_REALTIME_URL": "wss://centrifugo-staging-652b.up.railway.app/connection/websocket",
+        "SENTRY_ALLOW_FAILURE": "true"
       },
       "autoIncrement": true
     },

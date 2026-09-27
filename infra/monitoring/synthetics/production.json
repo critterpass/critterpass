@@ -1,0 +1,34 @@
+{
+  "environment": "production",
+  "frequencyMs": 60000,
+  "timeoutMs": 10000,
+  "probes": ["Singapore", "Frankfurt"],
+  "checks": [
+    {
+      "job": "api-health",
+      "target": "https://api.critterpass.app/health",
+      "validStatusCodes": [200]
+    },
+    {
+      "job": "sync-liveness",
+      "target": "https://sync.critterpass.app/probes/liveness",
+      "validStatusCodes": [200]
+    },
+    {
+      "job": "rt-websocket",
+      "target": "https://rt.critterpass.app/connection/websocket",
+      "validStatusCodes": [400]
+    },
+    {
+      "job": "web-home",
+      "target": "https://critterpass.app/",
+      "validStatusCodes": [200]
+    },
+    {
+      "job": "media-probe",
+      "target": "https://media.critterpass.app",
+      "signedObjectKey": "probe/health.txt",
+      "validStatusCodes": [200]
+    }
+  ]
+}

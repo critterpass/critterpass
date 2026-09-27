@@ -1,0 +1,68 @@
+// Grafana Alloy on Railway's private network: scrapes PowerSync, Centrifugo, Redis and Postgres
+// and remote-writes to Grafana Cloud Prometheus. api and worker send OTLP to Grafana Cloud
+// directly (services/*/src/obs/otel.ts); this collector covers the services without an SDK.
+// Every address and credential comes from Railway variables (names in infra/monitoring/README.md).
+
+prometheus.remote_write "grafana_cloud" {
+	endpoint {
+		url = sys.env("GRAFANA_PROM_REMOTE_WRITE_URL")
+
+		basic_auth {
+			username = sys.env("GRAFANA_PROM_USERNAME")
+			password = sys.env("GRAFANA_CLOUD_TOKEN")
+		}
+	}
+
+	external_labels = {
+		env     = sys.env("APP_ENV"),
+		cluster = "railway",
+	}
+}
+
+// PowerSync api and replication instances (telemetry.prometheus_port in infra/powersync/service.yaml).
+prometheus.scrape "powersync" {
+	targets = [
+		{"__address__" = sys.env("POWERSYNC_API_METRICS_ADDR"), "job" = "powersync", "role" = "api"},
+		{"__address__" = sys.env("POWERSYNC_REPL_METRICS_ADDR"), "job" = "powersync", "role" = "replication"},
+	]
+	scrape_interval = "30s"
+	forward_to      = [prometheus.remote_write.grafana_cloud.receiver]
+}
+
+// Centrifugo's /metrics on its internal port (never exposed publicly).
+prometheus.scrape "centrifugo" {
+	targets = [
+		{"__address__" = sys.env("CENTRIFUGO_METRICS_ADDR"), "job" = "centrifugo"},
+	]
+	metrics_path    = "/metrics"
+	scrape_interval = "30s"
+	forward_to      = [prometheus.remote_write.grafana_cloud.receiver]
+}
+
+prometheus.exporter.redis "redis" {
+	redis_addr     = sys.env("REDIS_ADDR")
+	redis_password = sys.env("REDIS_PASSWORD")
+}
+
+prometheus.scrape "redis" {
+	targets         = prometheus.exporter.redis.redis.targets
+	job_name        = "redis"
+	scrape_interval = "30s"
+	forward_to      = [prometheus.remote_write.grafana_cloud.receiver]
+}
+
+// The app database through the read-only `monitoring_reader` login (pg_monitor, no table access):
+// connections and replication from the exporter's defaults, slot lag, replica lag and the top
+// statements from postgres-queries.yaml.
+prometheus.exporter.postgres "app" {
+	data_source_names          = [sys.env("MONITORING_DATABASE_URL")]
+	custom_queries_config_path = "/etc/alloy/postgres-queries.yaml"
+	disable_default_metrics    = false
+}
+
+prometheus.scrape "postgres" {
+	targets         = prometheus.exporter.postgres.app.targets
+	job_name        = "postgres"
+	scrape_interval = "30s"
+	forward_to      = [prometheus.remote_write.grafana_cloud.receiver]
+}

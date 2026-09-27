@@ -23,11 +23,28 @@ catalog:
   '@maplibre/maplibre-gl-style-spec': 26.4.4
   '@messageformat/parser': 5.1.1
   '@napi-rs/canvas': 1.0.9
+  '@opentelemetry/api': 1.9.1
+  '@opentelemetry/api-logs': 0.222.0
+  '@opentelemetry/exporter-logs-otlp-http': 0.222.0
+  '@opentelemetry/exporter-metrics-otlp-http': 0.222.0
+  '@opentelemetry/exporter-trace-otlp-http': 0.222.0
+  '@opentelemetry/instrumentation-http': 0.222.0
+  '@opentelemetry/instrumentation-pg': 0.74.0
+  '@opentelemetry/instrumentation-pino': 0.68.0
+  '@opentelemetry/instrumentation-undici': 0.32.0
+  '@opentelemetry/resources': 2.11.0
+  '@opentelemetry/sdk-logs': 0.222.0
+  '@opentelemetry/sdk-metrics': 2.11.0
+  '@opentelemetry/sdk-node': 0.222.0
+  '@opentelemetry/sdk-trace-base': 2.11.0
   '@parse/node-apn': 8.1.0
   '@playwright/test': 1.58.2
   '@powersync/common': 2.3.0
   '@powersync/node': 1.1.0
   '@powersync/react-native': 2.3.0
+  '@sentry/browser': 10.75.3
+  '@sentry/core': 10.75.3
+  '@sentry/node': 10.75.3
   '@tanstack/react-query': 5.103.2
   '@tanstack/react-router': 1.170.38
   '@testcontainers/postgresql': 12.1.0
@@ -59,6 +76,7 @@ catalog:
   firebase-admin: 14.5.0
   globals: 17.12.0
   hono: 4.13.9
+  import-in-the-middle: 3.5.1
   jose: 6.2.12
   maplibre-gl: 6.11.0
   pg: 8.23.0
@@ -66,6 +84,7 @@ catalog:
   pino: 10.3.1
   pkijs: 3.4.1
   playwright: 1.58.2
+  posthog-node: 5.54.1
   prettier: 3.9.9
   react-native-mmkv: 4.3.2
   react-native-nitro-modules: 0.37.1
@@ -92,6 +111,7 @@ overrides:
 allowBuilds:
   '@firebase/util': true
   '@parcel/watcher': true
+  '@sentry/cli': true
   better-sqlite3: true
   better-sqlite3-multiple-ciphers: true
   cpu-features: false

@@ -6,6 +6,10 @@ interface ImportMetaEnv {
   /** Link-outs on Home; hidden when unset. */
   readonly VITE_UPTIME_URL?: string;
   readonly VITE_GRAFANA_URL?: string;
+  /** Sentry DSN (public client key); unset = error reporting off. */
+  readonly VITE_SENTRY_DSN?: string;
+  /** `staging` | `production`. */
+  readonly VITE_APP_ENV?: string;
 }
 
 interface ImportMeta {

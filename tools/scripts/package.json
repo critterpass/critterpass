@@ -14,7 +14,8 @@
     "@cp/design-tokens": "workspace:*",
     "@cp/domain": "workspace:*",
     "pg": "catalog:",
-    "redis": "catalog:"
+    "redis": "catalog:",
+    "yaml": "catalog:"
   },
   "devDependencies": {
     "@types/pg": "catalog:",

@@ -1,6 +1,5 @@
 import { serve } from '@hono/node-server';
 import pg from 'pg';
-import { pino } from 'pino';
 import { createClient } from 'redis';
 
 import packageJson from '../package.json' with { type: 'json' };
@@ -57,9 +56,11 @@ import { routeNotificationsFromApiEvents, startJobProducer } from './jobs/produc
 import { buildAdminConsole } from './admin/bootstrap';
 import { registerSupportGrantSource } from './admin/entitlement-grants';
 import { mountAdminRouter } from './admin/router';
+import { createServerAnalytics } from './obs/analytics';
+import { startApiObservability } from './obs';
 
 const env = loadApiEnv();
-const logger = pino({ level: env.LOG_LEVEL, base: { service: 'api', commit: env.COMMIT_SHA } });
+const { logger, errors } = startApiObservability(env, packageJson.version);
 
 const pool = new pg.Pool({
   connectionString: env.DATABASE_URL,
@@ -89,6 +90,7 @@ const app = createApp({
   version: packageJson.version,
   commit: env.COMMIT_SHA,
   logger,
+  errors,
   exposeDocs: env.APP_ENV !== 'production',
   pool,
   ...(env.MAPBOX_TOKEN !== undefined ? { mapboxToken: env.MAPBOX_TOKEN } : {}),
@@ -192,6 +194,15 @@ routeNotificationsFromApiEvents();
 // Support's time-boxed perk grants are one more entitlement source, console or not.
 registerSupportGrantSource();
 
+// Request-time analytics (link clicks, widget actions); consent-gated, off without a PostHog key.
+const serverAnalytics = createServerAnalytics({
+  pool,
+  projectApiKey: env.POSTHOG_PROJECT_API_KEY,
+  pidSalt: env.ANALYTICS_PID_SALT,
+  host: env.POSTHOG_HOST,
+  onError: (error) => logger.warn({ err: error }, 'server analytics failed'),
+});
+
 // The three command doors over one registry (docs/api-contracts.md §2.2, §5.2).
 const commands = createCommandRegistry();
 commands.register(registerMediaUploadCommand);
@@ -234,6 +245,7 @@ registerLinkRoutes(app, {
   ...commandDoors,
   links: linkProviders,
   webProxySecret: env.LINKS_WEB_PROXY_SECRET,
+  analytics: serverAnalytics,
 });
 // Device action keys and the doors they open (docs/api-contracts-async.md §5): keys are stored
 // envelope-encrypted, so every route here needs the field-encryption keyring.
@@ -246,7 +258,7 @@ if (fieldEncryptionKeyring) {
     keyring: fieldEncryptionKeyring,
   };
   registerActionKeyRoutes(app, actionDeps);
-  registerActionsRoute(app, actionDeps);
+  registerActionsRoute(app, { ...actionDeps, analytics: serverAnalytics });
   registerNotificationRoutes(app, actionDeps);
 } else {
   logger.warn('Device action keys and /v1/actions are disabled: FIELD_ENCRYPTION_KEYS is unset');
@@ -314,6 +326,8 @@ function shutdown(signal: string) {
       authModule.close(),
       jobProducer.then((boss) => boss?.stop({ graceful: true, timeout: 5_000 })),
       adminConsole?.close() ?? Promise.resolve(),
+      serverAnalytics.shutdown(),
+      errors.flush(),
     ]).then(() => {
       logger.info('stopped');
       process.exit(0);

@@ -2,9 +2,11 @@
 // regardless of the repo's ESM convention.
 const path = require('node:path');
 
-const { getDefaultConfig } = require('expo/metro-config');
+// Sentry's wrapper around Expo's default config adds debug ids to bundles and source maps, so
+// errors symbolicate against the exact bundle that ran (embedded or an EAS update).
+const { getSentryExpoConfig } = require('@sentry/react-native/metro');
 
-const config = getDefaultConfig(__dirname);
+const config = getSentryExpoConfig(__dirname);
 
 // Metro's (and Expo's) default assetExts recognise `.caf`/`.m4a` but not `.ogg` — @cp/sound-art's
 // Android SFX files (docs/decisions/20260927-in-house-procedural-audio.md: Ogg-encapsulated Opus,

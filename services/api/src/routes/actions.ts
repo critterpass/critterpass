@@ -24,11 +24,14 @@ import {
   type CommandDoorDeps,
 } from '../commands/_framework/doors';
 import { CMD_PER_UID_RULE, enforceUidRateLimit } from '../commands/_framework/session';
+import type { ServerAnalytics } from '../obs/analytics';
 
 export interface ActionRouteDeps extends Omit<CommandDoorDeps, 'logger'> {
   readonly keyring: dbCrypto.FieldEncryptionKeyring;
   /** Test-only clock override for the signature timestamp window. */
   readonly now?: () => number;
+  /** `widget_action` for every applied widget action (extensions carry no analytics SDK). */
+  readonly analytics?: Pick<ServerAnalytics, 'serverTrack'>;
 }
 
 /** The surfaces that reach commands through this door (`actor.via`), never the app or the server. */
@@ -143,6 +146,13 @@ export function registerActionsRoute(app: OpenAPIHono<AppEnv>, deps: ActionRoute
     if (outcome.status === 'rejected') throw new DomainError(outcome.code, outcome.detail);
     if (outcome.status === 'duplicate' && outcome.original === 'rejected') {
       throw new DomainError(outcome.code ?? 'INTERNAL', outcome.detail);
+    }
+    if (envelope.actor.via === 'widget' && outcome.status === 'applied') {
+      void deps.analytics?.serverTrack(
+        'widget_action',
+        { kind: envelope.cmd, surface: 'widget' },
+        { uid: key.userId },
+      );
     }
     return c.json(outcomeBody(outcome), 200);
   });

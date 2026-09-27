@@ -1,13 +1,13 @@
 import { onEventAppended } from '@cp/db';
 import { serve } from '@hono/node-server';
 import pg from 'pg';
-import { pino } from 'pino';
 import { createClient } from 'redis';
 
 import packageJson from '../package.json' with { type: 'json' };
 
 import { aiJobs } from './ai';
 import { contentJobs } from './content';
+import { createPostHogSink, startExportLoop, type ExportLoop } from './analytics-export';
 import { loadWorkerEnv } from './env';
 import {
   createBoss,
@@ -18,6 +18,10 @@ import {
 } from './boss';
 import { guideActionExecuteJob, guideActionUndoExpireJob } from './guide-actions';
 import { createHealthApp } from './health';
+import { createWorkerLlmObservability } from './obs/langfuse';
+import { createLogger } from './obs/logger';
+import { createMetricsRecorder } from './obs/metrics';
+import { initWorkerSentry } from './obs/sentry';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { backupJob } from './jobs/ops/backup';
@@ -31,7 +35,12 @@ import { createCentrifugoApi, rtRelayJob, startRtRelayWake, type RtRelay } from 
 import { travelDataJobs } from './travel-data';
 
 const env = loadWorkerEnv();
-const logger = pino({ level: env.LOG_LEVEL, base: { service: 'worker', commit: env.COMMIT_SHA } });
+const logger = createLogger({ level: env.LOG_LEVEL, service: 'worker', commit: env.COMMIT_SHA });
+const errors = initWorkerSentry({
+  dsn: env.SENTRY_DSN,
+  environment: env.APP_ENV,
+  release: `worker@${packageJson.version}+${env.COMMIT_SHA}`,
+});
 
 const pool = new pg.Pool({
   connectionString: env.DATABASE_DIRECT_URL,
@@ -61,13 +70,35 @@ const health = createHealthApp({
   },
 });
 
+const metrics = createMetricsRecorder({ strict: env.APP_ENV === 'local' });
+const llmObservability = createWorkerLlmObservability({
+  publicKey: env.LANGFUSE_PUBLIC_KEY,
+  secretKey: env.LANGFUSE_SECRET_KEY,
+  host: env.LANGFUSE_HOST,
+  environment: env.APP_ENV,
+  metrics,
+  ...(env.POSTHOG_PROJECT_API_KEY
+    ? {
+        sink: createPostHogSink({
+          apiKey: env.POSTHOG_PROJECT_API_KEY,
+          ...(env.POSTHOG_HOST ? { host: env.POSTHOG_HOST } : {}),
+        }),
+      }
+    : {}),
+  onError: (error) => logger.warn({ err: error }, 'llm observability export failed'),
+});
+
 const jobs: AnyJobDefinition[] = [
   enqueueDueJob(),
   purgeJob(),
   anonGcJob(),
   guideActionExecuteJob(),
   guideActionUndoExpireJob(),
-  ...aiJobs(env, (error) => logger.warn({ err: error }, 'langfuse export failed')),
+  ...aiJobs(
+    env,
+    (error) => logger.warn({ err: error }, 'langfuse export failed'),
+    llmObservability,
+  ),
   ...travelDataJobs(env, pool, logger.child({ component: 'travel-data' })),
   ...contentJobs(),
 ];
@@ -123,6 +154,25 @@ jobs.push(
 );
 onEventAppended(routeEventHook);
 
+// Domain events → PostHog (consent-gated, idempotent on the event id).
+let analyticsExport: ExportLoop | undefined;
+if (env.POSTHOG_PROJECT_API_KEY && env.ANALYTICS_PID_SALT) {
+  const analyticsLogger = logger.child({ component: 'analytics-export' });
+  analyticsExport = startExportLoop({
+    pool,
+    sink: createPostHogSink({
+      apiKey: env.POSTHOG_PROJECT_API_KEY,
+      ...(env.POSTHOG_HOST ? { host: env.POSTHOG_HOST } : {}),
+    }),
+    pidSalt: env.ANALYTICS_PID_SALT,
+    onError: (error) => analyticsLogger.warn({ err: error }, 'analytics export failed'),
+  });
+} else {
+  logger.warn(
+    'analytics export is disabled: POSTHOG_PROJECT_API_KEY or ANALYTICS_PID_SALT is unset',
+  );
+}
+
 const jobsLogger = logger.child({ component: 'jobs' });
 const boss = createBoss({ connectionString: env.DATABASE_DIRECT_URL, logger: jobsLogger });
 let rtRelay: RtRelay | undefined;
@@ -130,7 +180,7 @@ const runtime = startJobRuntime({
   boss,
   deps: { pool, logger: jobsLogger },
   jobs,
-  report: createFailureReporter(jobsLogger),
+  report: createFailureReporter(jobsLogger, errors.deadLetter),
 })
   .then(() => {
     jobsLogger.info({ queues: jobs.map((job) => job.queue) }, 'job runtime started');
@@ -160,11 +210,16 @@ function shutdown(signal: string) {
   server.close(() => {
     void runtime
       .then(() => rtRelay?.stop())
+      .then(() => analyticsExport?.stop())
       .then(() => stopJobRuntime(boss))
       .then(() => pushProviders.shutdown())
       .catch((error: unknown) => logger.error({ err: error }, 'job runtime stop failed'))
       .then(() =>
-        Promise.allSettled([pool.end(), redis.isOpen ? redis.close() : Promise.resolve()]),
+        Promise.allSettled([
+          pool.end(),
+          redis.isOpen ? redis.close() : Promise.resolve(),
+          errors.flush(),
+        ]),
       )
       .then(() => {
         logger.info('stopped');

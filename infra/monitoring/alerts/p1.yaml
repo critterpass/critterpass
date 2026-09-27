@@ -1,0 +1,82 @@
+# P1: page the on-call contact 07:00–23:00 SGT; outside those hours notifications wait for the
+# morning (notification-policy.yaml). Each rule links its runbook in docs/runbooks/alerts/.
+# `expr` is an instant PromQL query; the rule fires when its value crosses `threshold` for `for`.
+group: p1
+interval: 1m
+rules:
+  - uid: cp-p1-api-down
+    title: API down
+    severity: P1
+    runbook: api-down
+    for: 2m
+    expr: min(probe_success{job="api-health"})
+    op: lt
+    threshold: 1
+    noData: Alerting
+    summary: The api /health check fails from the external probes.
+  - uid: cp-p1-sync-lag
+    title: Sync lag over 60 s
+    severity: P1
+    runbook: sync-lag
+    for: 5m
+    expr: max(powersync_replication_lag_seconds)
+    op: gt
+    threshold: 60
+    summary: PowerSync is more than a minute behind the database; clients see stale data.
+  - uid: cp-p1-replication-slot-lag
+    title: Replication slot lag over 1 GB
+    severity: P1
+    runbook: replication-slot-lag
+    for: 5m
+    expr: max(cp_pg_slot_lag_bytes)
+    op: gt
+    threshold: 1073741824
+    summary: A replication slot retains over 1 GB of WAL; disk fills if it keeps growing.
+  - uid: cp-p1-replication-slot-growing
+    title: Replication slot lag growing for 15 min
+    severity: P1
+    runbook: replication-slot-lag
+    for: 15m
+    expr: min(deriv(cp_pg_slot_lag_bytes[15m]))
+    op: gt
+    threshold: 0
+    summary: Every replication slot's lag has grown steadily for 15 minutes.
+  - uid: cp-p1-dlq-growth
+    title: Dead-letter queue growing
+    severity: P1
+    runbook: dlq-growth
+    for: 10m
+    expr: sum(delta(cp_job_queue_depth{queue=~".*dlq.*"}[15m]))
+    op: gt
+    threshold: 0
+    summary: Jobs keep landing in a dead-letter queue.
+  - uid: cp-p1-auth-error-spike
+    title: Auth error spike
+    severity: P1
+    runbook: auth-error-spike
+    for: 5m
+    expr: >-
+      sum(rate(http_server_request_duration_seconds_count{service_name="api",http_response_status_code=~"401|403|429"}[5m]))
+      / clamp_min(sum(rate(http_server_request_duration_seconds_count{service_name="api"}[5m])), 1)
+    op: gt
+    threshold: 0.2
+    summary: Over a fifth of api requests are refused as unauthenticated, forbidden or rate limited.
+  - uid: cp-p1-sms-spend-spike
+    title: SMS spend spike
+    severity: P1
+    runbook: sms-spend-spike
+    for: 5m
+    expr: sum(increase(cp_sms_sent_total[1h]))
+    op: gt
+    threshold: 500
+    summary: More than 500 SMS in the last hour; possible SMS pumping.
+  - uid: cp-p1-uptime-check-failed
+    title: Uptime check failing
+    severity: P1
+    runbook: uptime-check-failed
+    for: 3m
+    expr: min by (job) (probe_success)
+    op: lt
+    threshold: 1
+    noData: Alerting
+    summary: An external uptime check (sync, realtime, web or media) fails from every probe.

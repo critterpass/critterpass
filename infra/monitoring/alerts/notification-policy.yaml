@@ -1,0 +1,32 @@
+# Where alerts go. No on-call phone number yet, so P1 pages by email; add the Grafana IRM
+# (OnCall) SMS/call integration as a second P1 receiver once the founder's number exists.
+contactPoints:
+  - uid: cp-oncall-email
+    name: on-call email
+    type: email
+    settings:
+      addresses: ${ONCALL_EMAIL}
+      singleEmail: true
+muteTimings:
+  # Outside 07:00–23:00 SGT: P1 notifications wait and are sent when the window reopens.
+  - name: outside-sgt-waking-hours
+    time_intervals:
+      - times:
+          - start_time: '23:00'
+            end_time: '24:00'
+          - start_time: '00:00'
+            end_time: '07:00'
+        location: Asia/Singapore
+policy:
+  receiver: on-call email
+  group_by: [grafana_folder, alertname]
+  routes:
+    - receiver: on-call email
+      object_matchers: [[severity, '=', P1]]
+      mute_time_intervals: [outside-sgt-waking-hours]
+      group_wait: 30s
+      repeat_interval: 1h
+    - receiver: on-call email
+      object_matchers: [[severity, '=', P2]]
+      group_wait: 5m
+      repeat_interval: 12h

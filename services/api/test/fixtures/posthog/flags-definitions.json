@@ -1,0 +1,27 @@
+{
+  "flags": [
+    {
+      "id": 101,
+      "team_id": 1,
+      "name": "Masked onboarding and paywall replay",
+      "key": "analytics.replay",
+      "active": true,
+      "deleted": false,
+      "ensure_experience_continuity": false,
+      "filters": {
+        "groups": [
+          {
+            "properties": [
+              { "key": "platform", "type": "person", "value": ["ios"], "operator": "exact" }
+            ],
+            "rollout_percentage": 100
+          }
+        ],
+        "payloads": {},
+        "multivariate": null
+      }
+    }
+  ],
+  "group_type_mapping": {},
+  "cohorts": {}
+}

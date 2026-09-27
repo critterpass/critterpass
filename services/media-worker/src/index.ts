@@ -1,6 +1,8 @@
 import { verifyMediaSignature } from '@cp/domain';
 
-export interface Env {
+import { withObservability, type ObservabilityEnv } from './obs';
+
+export interface Env extends ObservabilityEnv {
   readonly MEDIA_HMAC_KEYS: string;
   readonly MEDIA: R2Bucket;
 }
@@ -50,7 +52,7 @@ function objectHeaders(object: R2Object, exp: number, now: number): Headers {
   return headers;
 }
 
-export default {
+export default withObservability({
   async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       return new Response('Method Not Allowed', {
@@ -90,4 +92,4 @@ export default {
     if (object === null) return new Response('Not Found', { status: 404 });
     return new Response(object.body, { status: 200, headers: objectHeaders(object, exp, now) });
   },
-};
+});

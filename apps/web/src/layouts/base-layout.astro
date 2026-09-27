@@ -54,5 +54,14 @@ const ogImageUrl = new URL('/og-image.png', Astro.site ?? 'https://critterpass.a
   </head>
   <body>
     <slot />
+    <script>
+      import { installLazyErrorReporting, installWebAnalytics } from '../lib/analytics';
+
+      installLazyErrorReporting({
+        dsn: import.meta.env['PUBLIC_SENTRY_DSN'],
+        environment: import.meta.env['PUBLIC_APP_ENV'] ?? 'local',
+      });
+      installWebAnalytics({ apiKey: import.meta.env['PUBLIC_POSTHOG_KEY'] });
+    </script>
   </body>
 </html>

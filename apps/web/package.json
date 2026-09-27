@@ -15,6 +15,7 @@
     "@astrojs/cloudflare": "14.3.3",
     "@cp/critter-art": "workspace:*",
     "@cp/domain": "workspace:*",
+    "@sentry/browser": "catalog:",
     "astro": "7.3.5",
     "uqr": "catalog:"
   },

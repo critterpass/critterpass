@@ -163,5 +163,8 @@
   },
   "admin": {
     "enabled": false
+  },
+  "prometheus": {
+    "enabled": true
   }
 }

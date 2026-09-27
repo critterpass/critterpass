@@ -35,3 +35,5 @@ healthcheck:
 
 telemetry:
   disable_telemetry_sharing: true
+  # Scraped by the Alloy collector over the private network (infra/monitoring/alloy).
+  prometheus_port: 9464
