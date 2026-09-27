@@ -182,6 +182,8 @@ export {
   type WeeklySpans,
 } from './places/hours';
 export { closesSoon, nextOpen, openAt } from './places/open-at';
+export { CANONICAL_TZ_PATTERN, canonicalTz, timeZoneIdSchema } from './time/canonical-tz';
+export { TZ_ALIASES, TZDATA_VERSION } from './time/tz-aliases';
 export {
   POI_CURATIONS,
   POI_STATUSES,
