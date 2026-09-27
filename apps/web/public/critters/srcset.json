@@ -1,0 +1,194 @@
+{
+  "alpaca-common-idle": [
+    {
+      "sizePt": 96,
+      "scale": 1,
+      "url": "/critters/alpaca-common-idle-color-96pt@1x.webp"
+    },
+    {
+      "sizePt": 96,
+      "scale": 2,
+      "url": "/critters/alpaca-common-idle-color-96pt@2x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 1,
+      "url": "/critters/alpaca-common-idle-color-150pt@1x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 2,
+      "url": "/critters/alpaca-common-idle-color-150pt@2x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 1,
+      "url": "/critters/alpaca-common-idle-color-232pt@1x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 2,
+      "url": "/critters/alpaca-common-idle-color-232pt@2x.webp"
+    }
+  ],
+  "axolotl-common-idle": [
+    {
+      "sizePt": 96,
+      "scale": 1,
+      "url": "/critters/axolotl-common-idle-color-96pt@1x.webp"
+    },
+    {
+      "sizePt": 96,
+      "scale": 2,
+      "url": "/critters/axolotl-common-idle-color-96pt@2x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 1,
+      "url": "/critters/axolotl-common-idle-color-150pt@1x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 2,
+      "url": "/critters/axolotl-common-idle-color-150pt@2x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 1,
+      "url": "/critters/axolotl-common-idle-color-232pt@1x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 2,
+      "url": "/critters/axolotl-common-idle-color-232pt@2x.webp"
+    }
+  ],
+  "gecko-common-idle": [
+    {
+      "sizePt": 96,
+      "scale": 1,
+      "url": "/critters/gecko-common-idle-color-96pt@1x.webp"
+    },
+    {
+      "sizePt": 96,
+      "scale": 2,
+      "url": "/critters/gecko-common-idle-color-96pt@2x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 1,
+      "url": "/critters/gecko-common-idle-color-150pt@1x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 2,
+      "url": "/critters/gecko-common-idle-color-150pt@2x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 1,
+      "url": "/critters/gecko-common-idle-color-232pt@1x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 2,
+      "url": "/critters/gecko-common-idle-color-232pt@2x.webp"
+    }
+  ],
+  "puffin-common-idle": [
+    {
+      "sizePt": 96,
+      "scale": 1,
+      "url": "/critters/puffin-common-idle-color-96pt@1x.webp"
+    },
+    {
+      "sizePt": 96,
+      "scale": 2,
+      "url": "/critters/puffin-common-idle-color-96pt@2x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 1,
+      "url": "/critters/puffin-common-idle-color-150pt@1x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 2,
+      "url": "/critters/puffin-common-idle-color-150pt@2x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 1,
+      "url": "/critters/puffin-common-idle-color-232pt@1x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 2,
+      "url": "/critters/puffin-common-idle-color-232pt@2x.webp"
+    }
+  ],
+  "sardine-common-idle": [
+    {
+      "sizePt": 96,
+      "scale": 1,
+      "url": "/critters/sardine-common-idle-color-96pt@1x.webp"
+    },
+    {
+      "sizePt": 96,
+      "scale": 2,
+      "url": "/critters/sardine-common-idle-color-96pt@2x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 1,
+      "url": "/critters/sardine-common-idle-color-150pt@1x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 2,
+      "url": "/critters/sardine-common-idle-color-150pt@2x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 1,
+      "url": "/critters/sardine-common-idle-color-232pt@1x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 2,
+      "url": "/critters/sardine-common-idle-color-232pt@2x.webp"
+    }
+  ],
+  "tanuki-common-idle": [
+    {
+      "sizePt": 96,
+      "scale": 1,
+      "url": "/critters/tanuki-common-idle-color-96pt@1x.webp"
+    },
+    {
+      "sizePt": 96,
+      "scale": 2,
+      "url": "/critters/tanuki-common-idle-color-96pt@2x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 1,
+      "url": "/critters/tanuki-common-idle-color-150pt@1x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 2,
+      "url": "/critters/tanuki-common-idle-color-150pt@2x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 1,
+      "url": "/critters/tanuki-common-idle-color-232pt@1x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 2,
+      "url": "/critters/tanuki-common-idle-color-232pt@2x.webp"
+    }
+  ]
+}

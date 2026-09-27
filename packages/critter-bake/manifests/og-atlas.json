@@ -1,0 +1,26 @@
+{
+  "targets": [
+    {
+      "kind": "all",
+      "forms": ["common", "rare", "epic", "legendary"],
+      "poses": ["idle"],
+      "variants": ["color"],
+      "sizesPt": [96],
+      "scales": [1],
+      "crop": "none",
+      "format": "png",
+      "out": "packages/critter-bake/out/og-atlas/sprites"
+    },
+    {
+      "kind": ["gecko", "tanuki", "puffin", "axolotl", "sardine", "alpaca"],
+      "forms": ["common"],
+      "poses": ["wave", "cheer", "think", "point", "sleep", "crack", "tilt", "hop"],
+      "variants": ["color"],
+      "sizesPt": [96],
+      "scales": [1],
+      "crop": "none",
+      "format": "png",
+      "out": "packages/critter-bake/out/og-atlas/sprites"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "images": [
+    {
+      "filename": "gecko-epic-sleep-color-48pt@2x.png",
+      "idiom": "universal",
+      "scale": "2x"
+    },
+    {
+      "filename": "gecko-epic-sleep-color-48pt@3x.png",
+      "idiom": "universal",
+      "scale": "3x"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

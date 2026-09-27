@@ -1,0 +1,48 @@
+{
+  "targets": [
+    {
+      "kind": ["gecko", "tanuki", "puffin", "axolotl", "sardine", "alpaca"],
+      "forms": ["common", "rare", "epic", "legendary"],
+      "poses": ["idle", "cheer", "sleep"],
+      "variants": ["color", "mask"],
+      "sizesPt": [48, 96],
+      "scales": [2, 3],
+      "crop": "none",
+      "format": "png",
+      "out": "packages/critter-bake/out/tier-a/guides"
+    },
+    {
+      "kind": "all",
+      "forms": ["common"],
+      "poses": ["idle"],
+      "variants": ["mask"],
+      "sizesPt": [60],
+      "scales": [2, 3],
+      "crop": "none",
+      "format": "png",
+      "out": "packages/critter-bake/out/tier-a/silhouettes"
+    },
+    {
+      "kind": "all",
+      "forms": ["common"],
+      "poses": ["idle"],
+      "variants": ["blur"],
+      "sizesPt": [60],
+      "scales": [2],
+      "crop": "none",
+      "format": "png",
+      "out": "packages/critter-bake/out/tier-a/silhouettes-blur"
+    },
+    {
+      "kind": ["gecko", "tanuki", "puffin", "axolotl", "sardine", "alpaca"],
+      "forms": ["common", "rare", "epic", "legendary"],
+      "poses": ["idle"],
+      "variants": ["color"],
+      "sizesPt": [48],
+      "scales": [2, 3],
+      "crop": "face",
+      "format": "png",
+      "out": "packages/critter-bake/out/tier-a/notification-avatars"
+    }
+  ]
+}
