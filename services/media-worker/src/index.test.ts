@@ -80,7 +80,9 @@ describe('media-worker signed reads', () => {
     const url = new URL(await signedUrl());
     const sig = url.searchParams.get('sig') ?? '';
     const flipped = new URL(url);
-    flipped.searchParams.set('sig', `${sig.slice(0, -1)}${sig.endsWith('A') ? 'B' : 'A'}`);
+    // Flip the first character: it carries six signature bits, unlike the last one, whose low bits
+    // are base64 padding.
+    flipped.searchParams.set('sig', `${sig.startsWith('A') ? 'B' : 'A'}${sig.slice(1)}`);
     const missing = new URL(url);
     missing.searchParams.delete('sig');
     const malformed = new URL(url);

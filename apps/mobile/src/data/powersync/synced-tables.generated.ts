@@ -26,7 +26,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'slug name country coverage colour currency best_months tz geofence created_at updated_at',
   fx_snapshots: 'base quote rate as_of source created_at',
   guide_actions:
-    'trip_id change_set_id kind target_provider_id channel status reversible:integer compensates_id cost_delta_minor:integer audit created_at updated_at',
+    'trip_id change_set_id kind target_provider_id channel status reversible:integer compensates_id cost_delta_minor:integer audit inverse undo_until disruption_id created_at updated_at',
   guide_offer_claims: 'offer_id trip_id user_id created_at',
   guide_offers:
     'trip_id message_id kind slots_total:integer slots_taken:integer expires_at target_ref status created_at updated_at',
