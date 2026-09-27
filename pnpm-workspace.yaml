@@ -11,6 +11,7 @@ catalog:
   '@eslint/js': 10.0.1
   '@hono/node-server': 2.1.1
   '@hono/zod-openapi': 1.6.3
+  '@parse/node-apn': 8.1.0
   '@testcontainers/postgresql': 12.1.0
   '@testcontainers/redis': 12.1.0
   '@types/node': 26.6.3
@@ -22,6 +23,7 @@ catalog:
   eslint-import-resolver-typescript: 4.4.5
   eslint-plugin-boundaries: 7.2.0
   eslint-plugin-react-hooks: 7.1.1
+  'firebase-admin': 14.5.0
   globals: 17.12.0
   hono: 4.13.9
   jose: 6.2.12
@@ -44,6 +46,7 @@ overrides:
 
 # pnpm refuses dependency install scripts unless they are listed here.
 allowBuilds:
+  '@firebase/util': true
   '@parcel/watcher': true
   cpu-features: false
   esbuild: true
