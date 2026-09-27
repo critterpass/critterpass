@@ -13,6 +13,7 @@ import type pg from 'pg';
 
 import type { AnyJobDefinition, JobLogger } from '../boss/define-job';
 import type { WorkerEnv } from '../env';
+import { crowdsRefreshJob } from './crowds-refresh';
 import { faresRefreshJob } from './fares-refresh';
 import { seasonIngestJob } from './season-ingest';
 
@@ -31,7 +32,7 @@ export function travelDataJobs(
   logger: JobLogger,
 ): AnyJobDefinition[] {
   const http = createAuditedSupplierHttp(pool, logger);
-  const jobs: AnyJobDefinition[] = [seasonIngestJob()];
+  const jobs: AnyJobDefinition[] = [seasonIngestJob(), crowdsRefreshJob()];
   const token = env.TRAVELPAYOUTS_TOKEN;
   if (token === undefined) {
     logger.warn({}, 'fares.refresh is disabled: TRAVELPAYOUTS_TOKEN is unset');

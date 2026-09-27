@@ -7,6 +7,7 @@ import { withUser } from '@cp/db';
 import { iataCodeSchema, monthKeySchema } from '@cp/domain';
 import type pg from 'pg';
 
+import { readCrowds } from './crowds-route';
 import { resolveDestination } from './destination-ref';
 import { readFares } from './fares-read';
 import { convertWithSnapshots } from './fx';
@@ -39,6 +40,28 @@ export function registerTravelDataToolExecutors(registry: ToolRegistry, pool: pg
               seen_at: fare.seen_at as string,
             })),
       );
+    }),
+  );
+
+  // No hourly source yet: hourly and best_window stay null and the month level stands in.
+  registry.registerToolExecutor('crowd_forecast', (input, context) =>
+    readAs(pool, context, async (tx) => {
+      const crowds = await readCrowds(tx, input.poi_id, input.date);
+      return {
+        hourly: crowds.hourly === null ? null : [...crowds.hourly],
+        best_window:
+          crowds.best_window === null
+            ? null
+            : { start: crowds.best_window.start, end: crowds.best_window.end },
+        month:
+          crowds.month === null
+            ? null
+            : {
+                crowd_index: crowds.month.crowd_index,
+                colour_role: crowds.month.colour_role,
+                highlight_tag: crowds.month.highlight_tag,
+              },
+      };
     }),
   );
 

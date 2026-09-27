@@ -104,6 +104,11 @@ export const QUEUES = {
     expireInSeconds: 2 * 60 * 60,
     cron: { expr: '0 2 * * *', tz: 'Asia/Singapore' },
   }),
+  'crowds.refresh': spec({
+    policy: 'stately',
+    expireInSeconds: 60 * 60,
+    cron: { expr: '0 3 * * *', tz: 'Asia/Singapore' },
+  }),
   // Daily; the handler works on Mondays and during blossom/foliage windows only.
   'season.ingest': spec({
     policy: 'stately',

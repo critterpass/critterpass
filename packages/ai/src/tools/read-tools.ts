@@ -63,13 +63,20 @@ export const READ_TOOL_SPECS = {
     }),
   ),
   crowd_forecast: spec(
-    'Hourly crowd forecast for a place on a date.',
+    'Crowd levels for a place on a date: hourly when known (else null), plus the month level.',
     'CDR',
     'read',
     z.object({ poi_id: id, date: isoDate }),
     z.object({
-      hourly: z.array(z.number()),
+      hourly: z.array(z.number()).nullable(),
       best_window: z.object({ start: z.string(), end: z.string() }).nullable(),
+      month: z
+        .object({
+          crowd_index: z.number().int(),
+          colour_role: z.enum(['cheapest', 'peak', 'normal']),
+          highlight_tag: z.string().nullable(),
+        })
+        .nullable(),
     }),
   ),
   weather: spec(

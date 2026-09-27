@@ -1,3 +1,4 @@
+export * from './best-window';
 export * from './destinations';
 export * from './events';
 export * from './fares';
