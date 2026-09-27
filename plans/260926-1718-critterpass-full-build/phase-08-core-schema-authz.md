@@ -243,5 +243,6 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 |---|---|
 | Doc delta: sync doc §7 assigns `itinerary_versions/plan_days/plan_items` to 28 and `change_sets/guide_actions` to 13 | created here (F-037 owns the model); 13/28 add columns by expand migrations — update §7 |
 | Doc delta: `domain_events`/`rt_outbox` columns differ between data-model §3.18 and api-contracts §2.4 | data-model wins (`aggregate_kind`, `actor_kind`, `payload`, `occurred_at`, `published_at`) + add `crew_id`, `trip_id`; update api-contracts §2.4 |
+| Doc delta: data-model §3.14 calls `client_config` a "view" over `ops_config` | it is a real table, kept mirrored from `ops.ops_config` by a trigger: only base tables can enter a logical-replication publication, and `client_config` is meant to sync via `powersync` like `destinations`/`guides` — update §3.14 |
 | Trip visibility after `rsvp='out'` (data-model UQ 5) | still crew-visible |
 | Former-member read scope (data-model UQ 3) | chat + ledger rows naming them only |
