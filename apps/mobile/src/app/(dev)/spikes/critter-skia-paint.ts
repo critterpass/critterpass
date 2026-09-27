@@ -8,7 +8,7 @@ import type { SkPath, SkPoint } from '@shopify/react-native-skia';
 
 import { buildRibbonPolygon } from './critter-geometry';
 import type { Point } from './critter-geometry';
-import type { DrawOp } from './critter-gecko-ops';
+import type { DrawOp } from './critter-draw-ops';
 
 /** <Path blendMode> takes the DOM API's camelCase string form of Skia's BlendMode enum, not the enum itself. */
 export type PaintBlendMode = 'srcOver' | 'multiply';
