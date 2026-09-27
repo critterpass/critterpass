@@ -1,0 +1,27 @@
+appId: app.critterpass.dev
+---
+# Screenshots for `pnpm screens:capture`: typography, icons, textures and card surfaces.
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'Text'
+- takeScreenshot: 02-text
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'Icon'
+- takeScreenshot: 03-icons
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'Texture'
+- takeScreenshot: 04-textures
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: 04-textures-more
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'Card'
+- takeScreenshot: 05-cards

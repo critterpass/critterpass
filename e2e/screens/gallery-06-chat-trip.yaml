@@ -1,0 +1,37 @@
+appId: app.critterpass.dev
+---
+# Screenshots for `pnpm screens:capture`: chat and story, then the trip, money and camera surfaces.
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'ChatMessage'
+- takeScreenshot: 21-chat-message
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'ChatRichCard'
+- takeScreenshot: 22-chat-rich-card
+- scroll
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: 22-chat-rich-card-more
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'StoryPlayer'
+- takeScreenshot: 23-story-player
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'LeaveByHero'
+- takeScreenshot: 24-leave-by-hero
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'SettleRow'
+- takeScreenshot: 25-settle-row
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'Viewfinder'
+- takeScreenshot: 26-viewfinder
