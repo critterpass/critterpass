@@ -53,7 +53,8 @@ export async function rejectClosedAccount(pool: pg.Pool, userId: string): Promis
  * `session.revoked` on `user:#uid` + revoke device action keys"). Called from `hooks.after` on
  * `/sign-out`, `/revoke-session` and `/revoke-sessions` — Better Auth's own handler has already
  * deleted the session row by the time this runs; `ctx.context.session` still carries the pre-deletion
- * uid (populated by `sessionMiddleware` before the handler ran), which is all this needs.
+ * uid (loaded before the handler ran: by `sessionMiddleware` on the revoke endpoints, by the auth
+ * `hooks.before` on `/sign-out`), which is all this needs.
  */
 export async function fanOutSessionRevoked(pool: pg.Pool, userId: string): Promise<void> {
   await withSystem(pool, (tx) =>
