@@ -142,6 +142,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Implement each hook (thresholds §3.3, springs from tokens). 2. `useHoldFill` accepts touch or external value (dwell) and drives `cp-haptics` ramp. 3. Each returns `{gesture, animatedStyle, accessibilityActions, onAccessibilityAction}`. 4. Reduced variants (shorter fling, no rotation).
 - Tests: `pnpm --filter @cp/mobile jest src/motion/gestures` (GH `fireGestureHandler` test utils).
 - Done when: commit/cancel thresholds verified for fling, slide-to-confirm and hold-fill; each hook exposes an a11y action.
+- Status: done — cb1afc3
 
 ### T10 — IslandToast + motion lab + Maestro
 - Goal: island toast component/queue and a dev screen exercising the whole runtime.
