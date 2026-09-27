@@ -15,19 +15,32 @@
     "test:db": "vitest run --config vitest.db.config.ts"
   },
   "dependencies": {
+    "@better-auth/expo": "1.7.6",
+    "@cp/db": "workspace:*",
+    "@cp/domain": "workspace:*",
     "@hono/node-server": "catalog:",
     "@hono/zod-openapi": "catalog:",
     "@scalar/hono-api-reference": "0.12.6",
+    "asn1js": "catalog:",
+    "better-auth": "1.7.6",
+    "cbor": "catalog:",
+    "drizzle-orm": "catalog:",
     "hono": "catalog:",
+    "jose": "catalog:",
+    "libphonenumber-js": "1.13.14",
     "pg": "catalog:",
     "pino": "catalog:",
+    "pkijs": "catalog:",
     "redis": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@cp/db": "workspace:*",
+    "@peculiar/x509": "2.1.0",
     "@seriousme/openapi-schema-validator": "2.11.0",
+    "@testcontainers/postgresql": "catalog:",
+    "@testcontainers/redis": "catalog:",
     "@types/pg": "catalog:",
+    "testcontainers": "catalog:",
     "tsdown": "catalog:"
   }
 }

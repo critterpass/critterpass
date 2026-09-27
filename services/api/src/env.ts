@@ -20,6 +20,12 @@ export const apiEnvSchema = z.object({
   SENTRY_DSN: optionalUrl,
   OTEL_EXPORTER_OTLP_ENDPOINT: optionalUrl,
   COMMIT_SHA: z.preprocess(emptyAsUndefined, z.string().min(1).default('dev')),
+  /** Better Auth's own Postgres connection, authenticated as the `auth` role (docs/data-model.md §2): a narrower grant than the app's own pooled `app_owner`-derived connection. */
+  AUTH_DATABASE_URL: z.url(),
+  /** Encrypts JWKS private keys at rest and signs Better Auth's internal cookies; 32+ chars, generated with `openssl rand -base64 32`. */
+  BETTER_AUTH_SECRET: z.string().min(32),
+  /** Comma-separated app scheme(s)/origins Better Auth accepts for OAuth redirects and the Expo plugin; mobile schemes always included regardless of this value. */
+  APP_TRUSTED_ORIGINS: z.preprocess(emptyAsUndefined, z.string().min(1).optional()),
 });
 
 export type ApiEnv = z.infer<typeof apiEnvSchema>;

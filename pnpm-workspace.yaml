@@ -24,7 +24,11 @@ catalog:
   '@types/estree': 1.0.9
   '@types/node': 26.6.3
   '@types/pg': 8.23.1
+  asn1js: 3.0.10
   babel-plugin-dynamic-import-node: 2.3.3
+  cbor: 10.0.12
+  jose: 6.2.12
+  pkijs: 3.4.1
   drizzle-kit: 0.31.10
   drizzle-orm: 0.45.2
   esbuild: 0.28.2
