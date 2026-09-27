@@ -39,6 +39,7 @@ catalog:
 
 # Security floors for transitive dependencies (patched releases of the same major).
 overrides:
+  '@esbuild-kit/core-utils>esbuild': 0.25.12
   sharp: 0.35.4
 
 # pnpm refuses dependency install scripts unless they are listed here.
