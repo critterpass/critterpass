@@ -1,0 +1,21 @@
+{
+  "name": "@cp/maps",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "POI ingest CLI and map tile/style build scripts",
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "ingest": "tsx ingest-cli.ts"
+  },
+  "dependencies": {
+    "@cp/db": "workspace:*",
+    "@cp/domain": "workspace:*",
+    "pg": "catalog:"
+  },
+  "devDependencies": {
+    "@types/pg": "catalog:",
+    "tsx": "catalog:"
+  }
+}

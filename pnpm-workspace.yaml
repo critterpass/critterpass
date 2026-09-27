@@ -8,6 +8,7 @@ saveExact: true
 
 # One pinned version per shared dependency; workspace packages reference them as `catalog:`.
 catalog:
+  '@duckdb/node-api': 1.5.5-r.5
   '@eslint/js': 10.0.1
   '@hono/node-server': 2.1.1
   '@hono/zod-openapi': 1.6.3

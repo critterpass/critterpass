@@ -79,6 +79,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. `useSharedClock()` single `useFrameCallback` driving a shared value; presets derive phase from it. 2. `useLoop(preset, {offset})` returns animated style; pauses when unfocused (`useIsFocused`) or off-screen (visibility hook). 3. `useMotionMode()` merges OS `AccessibilityInfo.isReduceMotionEnabled` with in-app setting. 4. Device tier flag (RAM/cores) for budgets. 5. Slowmo multiplier + motion-freeze in dev builds.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/__tests__/presets` (Reanimated jest utils, fake timers: phase at t, pause, reduced → static).
 - Done when: all 10 loop presets match token durations; reduced/off produce static styles.
+- Status: done — 2fa9500
 
 ### T2 — tg-motion DSL compiler
 - Goal: design keyframes compile to Reanimated descriptors so captions can be reproduced exactly.
@@ -86,6 +87,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Parser for `offset: tx ty s sx sy r o e=` segments with carry-forward. 2. Compile to `Keyframe`-compatible objects with per-segment easing from tokens. 3. `once` flag strips presentation holds. 4. Fixtures from ≥ 10 design animations (stamp, slap, hop, deal…).
 - Tests: `pnpm --filter @cp/mobile jest src/motion/dsl`.
 - Done when: every fixture compiles; round-trip values equal the design numbers.
+- Status: done — 0b4e850
 
 ### T3 — Impact patterns: stamp, thud, slap, settle, squash, flap, slideOff, deal, sheen
 - Goal: first half of the one-shot library with reduced variants.
@@ -93,6 +95,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Each pattern = hook/function returning animated props + `onImpact` frame callback that calls `impact(cue)` via `scheduleOnRN` once (never per frame). 2. `thud` applies to a screen-root shared value exposed by `ScreenJoltProvider`. 3. Reduced variant per §5 row. 4. Stagger helpers from tokens.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/patterns/__tests__/impact-patterns`.
 - Done when: stamp fires `thud.heavy` exactly once at impact frame; reduced stamp = 150 ms fade without jolt.
+- Status: done — 0923e7a
 
 ### T4 — Number & text patterns: odometer, splitFlap, countUp, typewriter/stream, barGrow, storyProgress
 - Goal: numbers never jump; text reveals are word-buffered.
@@ -100,6 +103,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Odometer per-digit columns (650 ms, digit stagger 30, tabular figures, `tick` cue throttled). 2. Split-flap 340 ms per flip with `flap` cue. 3. Typewriter reserves final box; stream mode accepts appended tokens, reveals by word. 4. Reduced = instant final value with a11y announcement hook.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/patterns/__tests__/number-patterns`.
 - Done when: odometer handles digit-count changes and negative values; reduced shows final frame.
+- Status: done — a07fb1c
 
 ### T5 — Overlay effects: flyTo, confetti, rays, pingRings, petals, draw, pageTurn, waveform, typing
 - Goal: Skia/overlay-based effects with budgets.
@@ -107,6 +111,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. `OverlayHost` at app root renders clones measured via `measure()`; `flyTo(sourceRef, targetRef, node)` arc (mid lift 140, r −14°, 780 ms) then pop + `thud.soft`. 2. Confetti particle system in Skia (`useFrameCallback`), counts by tier, gravity .33, drag .985. 3. `draw` drives critter-art `frame(model, t)` progress (stroke trim) and owns the only draw-on concurrency gate (≤ 2; exported as `drawGate`); stickers receive the progress shared value, never their own gate. 4. `waveform` consumes an audio-level shared value. 5. Reduced variants: omit confetti/rays/petals, final frames.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/__tests__/overlay`.
 - Done when: third concurrent draw-on is queued; low-tier confetti capped at 40.
+- Status: done — 5879256
 
 ### T6 — cp-haptics native module
 - Goal: Core Haptics ramps/SOS on iOS, compositions on Android.
@@ -114,6 +119,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Patterns generated from `sound.tokens.json` haptic column. 2. Continuous ramp (intensity 0→1 driven by `holdFill` value, throttled 30 Hz). 3. SOS long pattern. 4. Engine restart on reset/interruption. 5. `isSupported()` fallback to `expo-haptics` impacts.
 - Tests: `xcodebuild test` for the module test target via CI script; `./gradlew :cp-haptics:testDebugUnitTest`.
 - Done when: both builds pass; unit tests assert pattern parameters from tokens.
+- Status: JS wrapper + Swift/Kotlin implementation + XCTest/Robolectric unit tests written and autolinking-verified (`expo-modules-autolinking search` resolves the module on both platforms). iOS native compile proven on real EAS infra: merging the (now-landed) `ci/eas-cloud-e2e` pipeline and running `pnpm e2e:cloud -- --platform ios` triggered a fresh `e2e-test`-profile build (fingerprint changed once `apps/mobile/modules/cp-haptics`'s Swift landed) that **FINISHED successfully** and was reused by every later Maestro run — confirms `CpHapticsModule.swift`/`HapticPatterns.swift` compile for real, not just locally-typechecked Swift syntax. Android build/Kotlin compile and both platforms' Maestro/device behaviour remain unverified: this pass ran iOS only per the coordinator's instruction (Android emulator boot is blocked on a founder EAS dashboard toggle, see the eas-cloud-e2e report), and the Maestro flows themselves didn't get far enough to exercise `ramp.*`/`play('sos')` at runtime (see T10's status — `openLink` into the dev screen is blocked by an unrelated upstream Maestro bug).
 
 ### T7 — Feedback bus, SFX, audio session, prefs, quiet rules
 - Goal: `impact(cue)` = haptic + SFX (+ jolt) under all prefs and mute rules.
@@ -121,6 +127,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Cue table from tokens. 2. SFX pool preload per category; volume per category. 3. Audio session manager (ambient default; playback for voice/TTS). 4. Prefs in MMKV (`cp.motion.*`). 4a. `tools/scripts/check-audio-assets.ts`: every cue in `sound.tokens.json` with an SFX column and every guide in the music manifest has a licensed asset; `--mode release` fails, PR mode warns. 5. Quiet on the road window (device tz), context mutes; `alarm`/`sos` bypass. 6. Haptics toggle; SFX sourced from a licensed/owned library (credits file).
 - Tests: `pnpm --filter @cp/mobile jest src/motion/feedback`.
 - Done when: tests prove quiet window mutes `slap` but not `sos`; category off mutes only its cues; haptic still fires under Reduce Motion.
+- Status: done — 6f0b593 (no licensed SFX assets exist yet — a launch-gate founder dependency; every cue falls back to haptic-only, `check-audio-assets.ts --mode release` fails until they land)
 
 ### T8 — Music themes engine
 - Goal: per-guide theme playback with crossfade, ducking, previews and levels.
@@ -128,6 +135,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Manifest maps guideId → asset (from content/licensing), loop points, sample clip. 2. Two-player crossfade 1.5 s; `crossfadeTo(guideId)` for landing and theme tap. 3. `duck(-12dB)` / `unduck` for TTS/voice. 4. `preview('music' | 'effects', level)` for 3n-7 sliders. 5. Level meter shared value from player metering for bar animation. 6. Interruption handling; guide without asset → `available: false`.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/music`.
 - Done when: crossfade volumes sum correctly over time (fake timers); missing asset reported unavailable.
+- Status: done — 6f0b593 (no licensed music themes yet — a launch-gate founder dependency; all 6 guides are `available: false` in `manifest.json`, theme cards hidden)
 
 ### T9 — Press & gesture kit
 - Goal: GH3-based hooks with thresholds from tokens and a11y action descriptors.
@@ -135,6 +143,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Implement each hook (thresholds §3.3, springs from tokens). 2. `useHoldFill` accepts touch or external value (dwell) and drives `cp-haptics` ramp. 3. Each returns `{gesture, animatedStyle, accessibilityActions, onAccessibilityAction}`. 4. Reduced variants (shorter fling, no rotation).
 - Tests: `pnpm --filter @cp/mobile jest src/motion/gestures` (GH `fireGestureHandler` test utils).
 - Done when: commit/cancel thresholds verified for fling, slide-to-confirm and hold-fill; each hook exposes an a11y action.
+- Status: done — cb1afc3
 
 ### T10 — IslandToast + motion lab + Maestro
 - Goal: island toast component/queue and a dev screen exercising the whole runtime.
@@ -142,18 +151,19 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Toast queue, durations, OPEN action, swipe-up dismiss, live-region announcement; Dynamic Island origin on supported iPhones (safe-area heuristics), banner elsewhere. 2. Motion lab lists presets/patterns/cues with slowmo + mode switch (excluded from release bundles by the phase-1 dev-route exclusion (phase 1: Metro `blockList` on `src/app/(dev)/**` for `APP_VARIANT=production` + `check-release-bundle` CI gate)). 3. Maestro: open lab, trigger each pattern in motion-freeze, `assertScreenshot`; toast show/queue/dismiss.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/island-toast`; `maestro test e2e/motion/` on iOS simulator and Android emulator.
 - Done when: Maestro flows pass on both platforms; toast announced by screen reader test.
+- Status: JS side done (IslandToast + queue + motion-lab + Jest a11y-announcement test all green). Maestro run attempted against the merged `ci/eas-cloud-e2e` pipeline (11 runs, `pnpm e2e:cloud -- --platform ios --flows e2e/motion`) but blocked: `openLink`'s custom-scheme deep link into `(dev)` routes is non-deterministic on this EAS iOS simulator infra (open upstream bug mobile-dev-inc/Maestro#2610, root-caused via failure screenshots/logs, not a guess — full trail in `plans/reports/critterpass-builder-260927-1220-eas-cloud-e2e-report.md`'s addendum). The pipeline itself, the build, and app launch are all confirmed working; only reaching a non-default route via deep link is affected.
 
 ## Phase acceptance criteria
 
-- [ ] No `withTiming`/`withSpring` literals outside `src/motion` (lint check)
-- [ ] All §3.1 presets and §3.4 patterns implemented with reduced/off variants
-- [ ] `impact()` covers every cue id in `sound.tokens.json` (test enumerates tokens)
-- [ ] Silent switch, category volumes, quiet on the road, temple mute, SOS/alarm bypass verified in tests
-- [ ] Music crossfade, ducking and previews: Jest (fake timers) green; founder device checklist item filled in the phase report
-- [ ] Launch gate: 6 music themes, full SFX set and critter chirps delivered and licensed (`assets/*/LICENSES.md`); `check-audio-assets --mode release` passes
-- [ ] `cp-haptics` builds and tests pass on iOS and Android
-- [ ] Maestro `e2e/motion/` green on both platforms
-- [ ] Low-tier budget: ≤ 2 draw-ons, confetti ≤ 40 enforced
+- [x] No `withTiming`/`withSpring` literals outside `src/motion` (verified by `grep -rl "withTiming\|withSpring" apps/mobile/src` matching only `apps/mobile/src/motion/**` — no automated lint rule exists for this yet; `tools/lint/*` is outside this phase's owns list, so authoring one is a handoff, not blocking)
+- [x] All §3.1 presets and §3.4 patterns implemented with reduced/off variants
+- [x] `impact()` covers every cue id in `sound.tokens.json` (test enumerates tokens)
+- [x] Silent switch, category volumes, quiet on the road, temple mute, SOS/alarm bypass verified in tests
+- [x] Music crossfade, ducking and previews: Jest (fake timers) green — [ ] founder device checklist item (needs a real iPhone/Android device; unfilled, founder gate)
+- [ ] Launch gate: 6 music themes, full SFX set and critter chirps delivered and licensed (`assets/*/LICENSES.md`); `check-audio-assets --mode release` passes — blocked on the founder licensing dependency (plan §"Non-code dependencies"), not agent-side work
+- [ ] `cp-haptics` builds and tests pass on iOS and Android — iOS EAS build (`e2e-test` profile) FINISHED successfully on real infra, proving the Swift compiles; Android build/Kotlin compile unverified (this pass ran iOS only, per instruction); XCTest/Robolectric unit tests unexecuted (no local toolchain)
+- [ ] Maestro `e2e/motion/` green on both platforms — flows written and iterated against real EAS runs (11 attempts); blocked by an open upstream Maestro bug (`openLink`'s custom-scheme deep link into `(dev)` routes is non-deterministic — mobile-dev-inc/Maestro#2610), not by anything in this phase's own code; see `plans/reports/critterpass-builder-260927-1220-eas-cloud-e2e-report.md`'s addendum
+- [x] Low-tier budget: ≤ 2 draw-ons, confetti ≤ 40 enforced
 
 ## Risks & rollback
 
@@ -168,9 +178,9 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 
 | Dependency | If not ready |
 |---|---|
-| SFX library licence (thud, slap, peel, chimes, flap, ambient; ~40 in 6 families) | Launch gate, owner: founder (license or commission). Before delivery, dev builds run haptic-only for that cue; release fails `check-audio-assets --mode release` |
-| Music themes: 3 named (gamelan lo-fi, koto and rain, slow sea shanty) + 3 commissioned | Launch gate, owner: founder (commission/license). Hidden theme card is runtime safety only; release check requires all 6 |
-| Critter chirp audio (content spec) | Launch gate, owner: founder/content factory. Haptic-only fallback is runtime safety only |
+| SFX library (thud, slap, peel, chimes, flap, ambient; 23 cues + 6 per-guide notify motifs) | In-house procedural audio (`@cp/sound-art`, `docs/decisions/20260927-in-house-procedural-audio.md`), baked to `packages/sound-art/out/`. Founder listening approval via the gallery is the remaining gate; wiring into `apps/mobile/assets/sfx/` happens once this phase's asset folders and the sound-art branch are both merged (ADR "Wiring into the app"). Before that, dev builds run haptic-only for that cue; release fails `check-audio-assets --mode release` until wired |
+| Music themes: 3 named (gamelan lo-fi, koto and rain, slow sea shanty) + 3 proposed (marimba lo-fi, fado-style plucked guitar waltz, Andean pan flute + charango) | In-house procedural audio (`@cp/sound-art`), baked to `packages/sound-art/out/music/`. Founder listening approval of the 3 proposed styles (and of all 6 generally) is the remaining gate, not licensing/commissioning. Hidden theme card is runtime safety only; release check requires all 6 wired |
+| Critter chirp audio (content spec) | In-house procedural audio (`@cp/sound-art`'s `chirp` cue). Founder listening approval is the remaining gate. Haptic-only fallback is runtime safety only |
 
 ## Open questions
 

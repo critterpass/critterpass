@@ -164,6 +164,52 @@ export {
 } from './enums/identity';
 export { generateUuidV7, isUuidV7, parseUuidV7, uuidV7Schema, type UuidV7Parts } from './ids';
 export {
+  CATEGORY_ICON_KEYS,
+  DEFAULT_VISIT_RADIUS_M,
+  POI_CATEGORIES,
+  defaultVisitRadiusM,
+  mapSourceCategoriesToTaxonomy,
+  mapSourceCategoryToTaxonomy,
+  poiCategorySchema,
+  type PoiCategory,
+} from './places/categories';
+export {
+  EMPTY_EDITORIAL_OVERLAY,
+  editorialOverlaySchema,
+  editorialPhotoSchema,
+  type EditorialOverlay,
+  type EditorialPhoto,
+} from './places/editorial';
+export {
+  EMPTY_HOURS,
+  WEEKDAYS,
+  hoursExceptionSchema,
+  hoursSchema,
+  parseOpeningHours,
+  timeSpanSchema,
+  type Hours,
+  type HoursException,
+  type TimeSpan,
+  type Weekday,
+  type WeeklySpans,
+} from './places/hours';
+export { closesSoon, nextOpen, openAt } from './places/open-at';
+export {
+  POI_CURATIONS,
+  POI_STATUSES,
+  canUpsertPoi,
+  poiCurationSchema,
+  poiSourceIdsSchema,
+  poiStatusSchema,
+  upsertPoiInputSchema,
+  upsertPoiResultSchema,
+  type PoiCuration,
+  type PoiSourceIds,
+  type PoiStatus,
+  type UpsertPoiInput,
+  type UpsertPoiResult,
+} from './places/poi';
+export {
   CHANGE_SET_OP_KINDS,
   changeSetOpKindSchema,
   changeSetOpSchema,
@@ -219,6 +265,14 @@ export {
   type PrivacyClass,
   type TablePrivacy,
 } from './privacy';
+export {
+  TRAVEL_MODES,
+  type RouteEtaInput,
+  type RouteEtaProvider,
+  type RouteEtaResult,
+  type TravelMode,
+} from './routing/eta-provider';
+export { estimateStraightLineEta, straightLineEtaProvider } from './routing/straight-line-eta';
 export {
   assertApprovedByKindAllowed,
   canGoStale,

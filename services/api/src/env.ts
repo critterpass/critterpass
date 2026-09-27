@@ -97,6 +97,9 @@ export const apiEnvSchema = z.object({
   FIELD_ENCRYPTION_ACTIVE_KEY_ID: optionalString,
   /** Peppers `user_private.phone_hash` (HMAC-SHA256, packages/db/src/crypto/hmac.ts) — a separate secret from FIELD_ENCRYPTION_KEYS so rotating one never invalidates the other. */
   PHONE_HASH_PEPPER: optionalString,
+  /** Mapbox Geocoding v6 server key (src/geocoding/mapbox.ts); omitted = forward geocoding stays
+   *  local-only (our pois + cities), no Mapbox fallback for addresses. */
+  MAPBOX_TOKEN: optionalString,
 });
 
 export type ApiEnv = z.infer<typeof apiEnvSchema>;

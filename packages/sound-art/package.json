@@ -1,0 +1,27 @@
+{
+  "name": "@cp/sound-art",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "In-house procedural sound and music synthesis core, cue/theme composition and the bake CLI",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "bake": "tsx scripts/bake.ts",
+    "gallery:smoke": "tsx scripts/gallery-smoke.ts"
+  },
+  "dependencies": {
+    "@cp/design-tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "playwright": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

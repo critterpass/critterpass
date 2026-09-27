@@ -51,6 +51,8 @@ const app = createApp({
   commit: env.COMMIT_SHA,
   logger,
   exposeDocs: env.APP_ENV !== 'production',
+  pool,
+  ...(env.MAPBOX_TOKEN !== undefined ? { mapboxToken: env.MAPBOX_TOKEN } : {}),
   readiness: {
     db: async () => {
       await pool.query('select 1');

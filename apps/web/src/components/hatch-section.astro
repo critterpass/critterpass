@@ -1,0 +1,63 @@
+---
+import '../styles/coming-soon-sections.css';
+---
+
+<section class="cs-hatch" aria-label="Hatch an egg preview">
+  <div class="cs-hatch__grid">
+    <div class="cs-hatch__copy">
+      <span class="cs-eyebrow">A LITTLE PREVIEW</span>
+      <h2 class="cs-h2">Every local starts as an egg</h2>
+      <p class="cs-hatch__desc">
+        In the app, an egg hatches when you land somewhere new. Here you can cheat. Tap it three times and see who
+        turns up.
+      </p>
+      <div class="cs-stats">
+        <div class="cs-stat">
+          <span class="cs-stat__value">150</span>
+          <span class="cs-stat__label">LOCALS</span>
+        </div>
+        <div class="cs-stat">
+          <span class="cs-stat__value">61</span>
+          <span class="cs-stat__label">PLACES</span>
+        </div>
+        <span class="cs-stats__quip">you can't buy them.<br />you have to go.</span>
+      </div>
+    </div>
+
+    <div class="cs-egg-stage">
+      <div class="cs-confetti-layer" data-cs="egg-confetti" aria-hidden="true"></div>
+
+      <div data-cs="egg-not-hatched">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:20px">
+          <span class="cs-egg-hint" data-cs="egg-hint">tap the egg</span>
+          <button type="button" class="cs-egg-btn" data-cs="egg-button" aria-label="Tap the egg">
+            <cp-critter data-cs="egg-critter" kind="egg" seed="12" size="200" />
+          </button>
+          <div class="cs-egg-shadow"></div>
+          <div class="cs-tap-dots" data-cs="tap-dots">
+            <span class="cs-tap-dot"></span>
+            <span class="cs-tap-dot"></span>
+            <span class="cs-tap-dot"></span>
+          </div>
+        </div>
+      </div>
+
+      <div data-cs="egg-hatched" hidden>
+        <div class="cs-hatched">
+          <span class="cs-hatched__critter">
+            <cp-critter data-cs="hatched-critter" kind="cp-005" seed="1" size="210" sticker="#f4efe4" />
+          </span>
+          <div class="cs-hatched__meta">
+            <span class="cs-hatched__num"><span data-cs="hatched-num">#005</span> OF 150 · <span data-cs="hatched-city">HỘI AN</span></span>
+            <span class="cs-hatched__name" data-cs="hatched-name">Chép</span>
+            <span class="cs-hatched__species" data-cs="hatched-species">A lantern carp, waiting for you in Hội An.</span>
+          </div>
+          <div class="cs-hatched__actions">
+            <a href="#join" class="cs-btn-solid">SAVE MY SEAT ↑</a>
+            <button type="button" class="cs-btn-outline" data-cs="hatch-again">HATCH ANOTHER</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

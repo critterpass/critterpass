@@ -440,6 +440,11 @@ Agents design these in code with existing components; founder reviews in the run
 
 1. Designer sign-off on C5 guide colours and non-guide place colour cycling.
 2. Member colour patterns for 7–16 members: ring pattern acceptable, or extend the palette?
-3. Music themes for Ajo, Sardi, Paco and the critter "chirp" content spec.
+3. Music themes for Ajo, Sardi, Paco and the critter "chirp" content spec — **answered, pending founder
+   listening approval**: all sound/music is now composed in-house and procedurally (`@cp/sound-art`,
+   `docs/decisions/20260927-in-house-procedural-audio.md`), including the critter chirp. Proposed
+   styles for the 3 unnamed guides, for founder approval via the listening gallery
+   (`packages/sound-art/gallery/index.html`): **Ajo** (Mexico City) — marimba lo-fi; **Sardi** (Lisbon)
+   — fado-style plucked guitar waltz; **Paco** (Cusco) — Andean pan flute + charango.
 4. Per-guide custom notification sounds: approve (App Store allows ≤ 30 s bundled sounds).
 5. CJK/Thai display face choice (Noto Sans CJK Black vs a licensed heavy face).
