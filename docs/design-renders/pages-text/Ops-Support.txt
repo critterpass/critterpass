@@ -1,0 +1,134 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+PEOPLE
+SUPPORT
+FIND
+maya.chen@gmail.com
+LOOKS LIKE AN EMAIL
+LOOK UP
+By uid, phone in +E.164, email, 6-character join code or ticket number. 1 match.
+M
+MAYA CHEN
+ACTIVE
+PASS+
+PHONE VERIFIED
+UID
+0192f3a4-7c1e…8c9d
+JOINED
+2 Aug 2026 · anon → phone
+PHONE
++65 •••• 4471
+EMAIL
+maya.chen@gmail.com
+LOCALE · TZ
+en-SG · Asia/Singapore
+CREWS
+The Bali Six · 6 people
+TRIPS
+Bali 14–21 Oct · in setup
+TICKETS
+#CP-10482 open
+REVOKE ALL SESSIONS
+BAN…
+NOT SHOWN HERE
+Budgets, payout details, insurance, dietary profile and raw location are private (C3). There is no impersonation; this view is read-only.
+ENTITLEMENTS
++ GRANT
+PASS+
+Monthly subscription · App Store
+store · renews 3 Oct 2026
+Billing ›
+BOOST
+Bali trip · First Trip Free
+ftf_grant · until 28 Oct (trip end + 7 d)
+Crew grant
+PASS+
+30 days granted by Arif
+code_grant · starts when the store period ends
+Revoke
+ACCOUNT DELETION
+panel from P45
+NONE
+REQUESTED
+RESTORE 30 D
+PURGED
+Last data export 12 Sep, link expired. Force-purge is for legal requests only and needs a reason.
+SESSIONS · 3
+30-day sessions
+iPhone 16 · Critterpass 1.0.3 (212)
+created 2 Aug · Singapore
+active now
+REVOKE
+iPad Air · Critterpass 1.0.3 (212)
+created 19 Sep · Singapore
+2 d ago
+REVOKE
+Web · critterpass.app/invite
+created 20 Sep · link preview only
+7 d ago
+REVOKE
+DEVICE ACTION KEYS · 2
+rotate every 30 days
+iPhone 16 · iOS 26.1
+key k_7Q2M… · rotated 3 d ago · scopes la.action, widget.vote
+REVOKE KEY
+iPad Air · iPadOS 26.0
+key k_R41D… · rotated 21 d ago · scopes widget.vote
+REVOKE KEY
+COMMAND TRACE
+op_id or command…
+13:47
+add_album_photos
+op 01J9R2…7HV · iPhone 16
+REJECTED
+13:47
+add_album_photos
+op 01J9R2…7HV · retry
+DUPLICATE
+12:10
+vote_poll
+op 01J9QZ…K2A
+APPLIED
+Sat
+approve_ops_action
+op 01J9Q8…M2C · desk task 01J9QA…2WX
+APPLIED
+Sat
+set_trip_dates
+op 01J9Q1…9PD
+APPLIED
+add_album_photos · rejected MEDIA_TOO_LARGE
+{ trip_id: "0193b7…e1f", photos: [40 items], caption: «C2 redacted» }

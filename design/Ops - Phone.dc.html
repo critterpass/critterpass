@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script src="doodles.js"></script>
+<style>body{margin:0;background:#0d0b18;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="Phone check-in" style="width:390px;height:844px;box-sizing:border-box;position:relative;overflow:hidden;border-radius:52px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif;display:flex;flex-direction:column">
+<div style="position:relative;flex:none;height:54px;display:flex;align-items:center;justify-content:space-between;padding:6px 34px 0 38px;font:600 15px/1 Geist,sans-serif">
+<span>15:42</span><span style="position:absolute;left:50%;top:18px;width:118px;height:34px;margin-left:-59px;border-radius:17px;background:#0b0a12"></span><span style="font:600 13px/1 Geist,sans-serif">5G · 82%</span>
+</div>
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div style="flex:none;display:flex;align-items:center;justify-content:space-between;padding:8px 20px 10px">
+<span style="display:flex;align-items:center;gap:8px"><dc-import name="App Icon" variant="face" size="28" hint-size="28px,28px"></dc-import><span style="font:900 19px/1 Archivo,sans-serif;font-stretch:64%;color:#ffd84a">CRITTERPASS</span><span style="padding:3px 5px;border-radius:5px;background:#2c2750;color:#d8d3ee;font:800 10.5px/1 Archivo,sans-serif;letter-spacing:.1em">OPS</span></span>
+<span style="width:32px;height:32px;border-radius:50%;background:#ffd84a;color:#17142a;display:inline-flex;align-items:center;justify-content:center;font:900 14px/1 Archivo,sans-serif">Q</span>
+</div>
+<div style="flex:1;min-height:0;overflow:hidden;padding:0 16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:#ff9a4d radial-gradient(rgba(23,20,42,.13) 1.3px,transparent 1.7px) 0 0/8px 8px;color:#17142a"><span style="padding:5px 6px;border-radius:5px;background:#17142a;color:#ff9a4d;font:800 11px/1 Archivo,sans-serif;letter-spacing:.1em">INCIDENT</span><span style="font:600 13px/1.3 Geist,sans-serif;flex:1">APNs degraded since 14:02</span><span style="font:700 16px/1 Geist,sans-serif">›</span></div>
+<div style="position:relative;display:flex;flex-direction:column;gap:6px;padding:4px 4px 0">
+<span style="font:900 44px/.84 Archivo,sans-serif;font-stretch:64%;text-transform:uppercase;max-width:250px">Afternoon, Quoc</span>
+<span style="font:600 22px/1.05 Caveat,cursive;color:#ffd84a;transform:rotate(-1.5deg);transform-origin:0 50%">3 things need a human.</span>
+<div style="position:absolute;right:-6px;top:-10px;line-height:0"><doodle-art kind="gecko" size="96" sticker="#f4efe4" pose="wave" seed="41"></doodle-art></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+<sc-for list="{{ counters }}" as="c" hint-placeholder-count="6">
+<div style="display:flex;flex-direction:column;gap:6px;padding:10px;border-radius:14px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.1em;color:#a9a3c0">{{ c.label }}</span><span style="font:900 34px/.8 Archivo,sans-serif;font-stretch:64%;color:{{ c.color }}">{{ c.value }}</span></div>
+</sc-for>
+</div>
+<div style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)">
+<div style="padding:12px 14px 6px;font:700 11px/1 Archivo,sans-serif;letter-spacing:.14em;color:#a9a3c0">ASSIGNED TO YOU</div>
+<sc-for list="{{ assigned }}" as="a" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;min-height:52px;padding:8px 14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)"><span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;color:#a9a3c0">{{ a.queue }}</span><span style="font:600 14px/1.25 Geist,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ a.title }}</span></span><span style="font:700 12.5px/1 'Geist Mono',monospace;color:{{ a.color }}">{{ a.due }}</span></div>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:14px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);font:600 13px/1 Geist,sans-serif"><span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:#ff9a4d"></span>31/32 services OK</span><span style="font-family:'Geist Mono',monospace;color:#c9c4dc">AI $184 / $400</span></div>
+</div>
+<div style="flex:none;display:grid;grid-template-columns:repeat(4,1fr);padding:10px 12px 30px;background:#120f22;box-shadow:inset 0 1px 0 #221e3d">
+<span style="display:flex;flex-direction:column;align-items:center;gap:6px;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;color:#ffd84a"><span style="width:6px;height:6px;border-radius:3px;background:#ffd84a"></span>HOME</span>
+<span style="display:flex;flex-direction:column;align-items:center;gap:6px;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;color:#8d87a8"><span style="height:6px;font:800 10px/6px Archivo,sans-serif;color:#ff5fa8">5</span>MY WORK</span>
+<span style="display:flex;flex-direction:column;align-items:center;gap:6px;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;color:#8d87a8"><span style="height:6px;font:800 10px/6px Archivo,sans-serif;color:#ff5fa8">16</span>QUEUES</span>
+<span style="display:flex;flex-direction:column;align-items:center;gap:6px;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;color:#8d87a8"><span style="height:6px"></span>MORE</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ isMod }}" hint-placeholder-val="{{ false }}">
+<div style="flex:none;display:flex;align-items:center;justify-content:space-between;padding:8px 20px 12px"><span style="font:800 12px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0">‹ MODERATION</span><span style="font:600 12.5px/1 'Geist Mono',monospace;color:#a9a3c0">1 of 12</span></div>
+<div style="flex:1;min-height:0;overflow:hidden;padding:0 16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font:800 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#ffd84a">PHOTO · ALBUM</span><span style="font:700 12.5px/1 'Geist Mono',monospace;color:#ff5fa8">26 h · SLA passed</span></div>
+<span style="font:900 34px/.86 Archivo,sans-serif;font-stretch:68%;text-transform:uppercase">Kuta Crew · beach day</span>
+<div style="aspect-ratio:4/3;border-radius:16px;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 8px,transparent 8px 16px),#2c2750;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px"><span style="font:500 11.5px/1.4 'Geist Mono',monospace;color:#d8d3ee;text-align:center">reported photo · blurred</span><button style="height:44px;padding:0 18px;border-radius:22px;border:1.5px solid #f4efe4;background:transparent;color:#f4efe4;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em">HOLD TO REVEAL</button></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap"><span style="padding:6px 8px;border-radius:6px;background:#2c2750;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">NUDITY ×2</span><span style="padding:6px 8px;border-radius:6px;background:#2c2750;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">SPAM ×1</span></div>
+<div style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;background:#1f1b38"><span style="width:36px;height:36px;border-radius:50%;background:#4f86ff;color:#17142a;display:inline-flex;align-items:center;justify-content:center;font:900 15px/1 Archivo,sans-serif;flex:none">R</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font:600 14px/1.2 Geist,sans-serif">Rizky P. · Kuta Crew</span><span style="font:500 12.5px/1.2 Geist,sans-serif;color:#a9a3c0">4 reports against, 1 removed</span></span></div>
+</div>
+<div style="flex:none;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px 32px;background:#120f22;box-shadow:inset 0 1px 0 #221e3d">
+<button style="height:52px;border-radius:26px;border:0;background:#54d6a4;color:#17142a;font:900 13px/1 Archivo,sans-serif;letter-spacing:.06em">APPROVE</button>
+<button style="height:52px;border-radius:26px;border:0;background:#ff9a4d;color:#17142a;font:900 13px/1 Archivo,sans-serif;letter-spacing:.06em">HIDE</button>
+<button style="height:52px;border-radius:26px;border:0;background:#ff5fa8;color:#17142a;font:900 13px/1 Archivo,sans-serif;letter-spacing:.06em">REMOVE</button>
+<button style="height:52px;border-radius:26px;border:1.5px solid #ff5fa8;background:transparent;color:#ff5fa8;font:900 13px/1 Archivo,sans-serif;letter-spacing:.06em">BAN AUTHOR</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDesk }}" hint-placeholder-val="{{ false }}">
+<div style="flex:none;display:flex;align-items:center;justify-content:space-between;padding:8px 20px 12px"><span style="font:800 12px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0">‹ DESK</span><span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:14px;background:#ff5fa8;color:#17142a;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">DUE <span style="font:700 12.5px/1 'Geist Mono',monospace"><tg-count from="2292" format="ms"></tg-count></span></span></div>
+<div style="flex:1;min-height:0;overflow:hidden;padding:0 16px;display:flex;flex-direction:column;gap:12px">
+<span style="font:800 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#ffd84a">VENDOR MESSAGE · IN PROGRESS · YOU</span>
+<span style="font:900 34px/.86 Archivo,sans-serif;font-stretch:68%;text-transform:uppercase">Airport pickup for The Bali Six</span>
+<div style="position:relative;border-radius:16px;background:#f4efe4;color:#211d18;padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.14em;color:#6b6356">MAYA APPROVED THIS TEXT</span>
+<span style="font:500 14px/1.45 Geist,sans-serif;padding-right:54px">Hi Made, this is Critterpass writing for Maya Chen. Six of us land at Denpasar on Wed 14 Oct at 10:40…</span>
+<div style="position:absolute;right:10px;bottom:10px;width:58px;height:58px;border-radius:50%;border:2.5px solid #1f9a6a;box-shadow:inset 0 0 0 3px #f4efe4,inset 0 0 0 4.5px #1f9a6a;display:flex;align-items:center;justify-content:center;color:#1f9a6a;transform:rotate(14deg)"><span style="font:900 12px/.9 Archivo,sans-serif;font-stretch:70%">APPROVED</span></div>
+</div>
+<div style="align-self:flex-start;max-width:86%;padding:10px 14px;border-radius:18px 18px 18px 4px;background:#2c2750;font:500 14px/1.4 Geist,sans-serif">Can do. One van, 750k IDR with parking. Name sign at arrivals.</div>
+<div style="align-self:flex-end;max-width:86%;display:flex;flex-direction:column;align-items:flex-end;gap:6px"><div style="padding:10px 14px;border-radius:18px 18px 4px 18px;box-shadow:inset 0 0 0 1.5px #7fb8ff;color:#d8d3ee;font:500 14px/1.4 Geist,sans-serif">Van for 750k works. Please confirm Wed 14 Oct, 10:40.</div><span style="font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;color:#a9a3c0">DRAFT · WAITING ON MAYA</span></div>
+</div>
+<div style="flex:none;display:flex;flex-direction:column;gap:8px;padding:12px 16px 32px;background:#120f22;box-shadow:inset 0 1px 0 #221e3d">
+<button style="height:52px;border-radius:26px;border:0;background:#ffd84a;color:#17142a;font:900 13px/1 Archivo,sans-serif;letter-spacing:.06em">ASK MAYA TO APPROVE</button>
+<button style="height:44px;border-radius:22px;border:1.5px solid #5b5487;background:transparent;color:#f4efe4;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em">MARK WAITING ON USER</button>
+</div>
+</sc-if>
+<div aria-hidden="true" style="position:absolute;inset:0;border-radius:52px;box-shadow:inset 0 0 0 9px #0b0a12,inset 0 0 0 10px #2c2750;pointer-events:none;z-index:5"></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;moderation&quot;,&quot;desk&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const s = this.props.screen ?? 'home';
+    const P = '#ff5fa8', O = '#ff9a4d', N = '#f4efe4';
+    return {
+      isHome: s === 'home', isMod: s === 'moderation', isDesk: s === 'desk',
+      counters: [
+        { label: 'MODERATION', value: '12', color: P }, { label: 'DESK < 2 H', value: '4', color: P }, { label: 'DLQ', value: '7', color: O },
+        { label: 'CONTENT', value: '2', color: N }, { label: 'FEEDBACK', value: '9', color: N }, { label: 'IDEAS', value: '5', color: N }
+      ],
+      assigned: [
+        { queue: 'DESK', title: 'Airport pickup for The Bali Six', due: '38 min', color: P },
+        { queue: 'MODERATION', title: 'Photo reported 3× in Kuta Crew', due: 'late', color: P },
+        { queue: 'FEEDBACK', title: '#CP-10482 Recap freezes', due: '1 h 52', color: O }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

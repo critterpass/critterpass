@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#17142a;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="Jobs & DLQ" style="width:1440px;display:grid;grid-template-columns:240px minmax(0,1fr);min-height:900px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif">
+<dc-import name="Ops - Nav" active="jobs" style="display:block;height:100%" hint-size="240px,900px"></dc-import>
+<main style="min-width:0;padding:28px 32px 40px;display:flex;flex-direction:column;gap:18px">
+<header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">PLATFORM</span>
+<h1 style="margin:0;font:900 48px/.86 Archivo,sans-serif;font-stretch:70%;letter-spacing:-.01em;text-transform:uppercase">Jobs &amp; DLQ</h1>
+<p style="margin:0;font:500 14px/1.45 Geist,sans-serif;color:#a9a3c0;max-width:640px;text-wrap:pretty">Background queues. A job that fails three times lands in its dead-letter queue; redrive sends it back once the cause is fixed.</p>
+</div>
+<div style="display:flex;align-items:center;gap:8px"><span style="font:500 12.5px/1 Geist,sans-serif;color:#a9a3c0">worker ×2 · refreshed 20 s ago</span></div>
+</header>
+
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) 80px 80px 100px 90px 90px minmax(0,1fr);gap:14px;padding:12px 16px;font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0;background:#17142a"><span>QUEUE</span><span style="text-align:right">ACTIVE</span><span style="text-align:right">QUEUED</span><span style="text-align:right">DONE 24 H</span><span style="text-align:right">FAILED</span><span style="text-align:right">DLQ</span><span>NOTES</span></div>
+<sc-for list="{{ queues }}" as="q" hint-placeholder-count="10">
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) 80px 80px 100px 90px 90px minmax(0,1fr);gap:14px;align-items:center;padding:10px 16px;background:{{ q.bg }};box-shadow:{{ q.ring }}">
+<span style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font:600 13.5px/1.2 'Geist Mono',monospace">{{ q.name }}</span><span style="font:500 12px/1.2 Geist,sans-serif;color:#a9a3c0">{{ q.what }}</span></span>
+<span style="font:600 13px/1 'Geist Mono',monospace;text-align:right">{{ q.active }}</span>
+<span style="font:600 13px/1 'Geist Mono',monospace;text-align:right;color:{{ q.queuedColor }}">{{ q.queued }}</span>
+<span style="font:500 13px/1 'Geist Mono',monospace;text-align:right;color:#c9c4dc">{{ q.done }}</span>
+<span style="font:600 13px/1 'Geist Mono',monospace;text-align:right;color:{{ q.failColor }}">{{ q.failed }}</span>
+<span style="justify-self:end;min-width:28px;height:22px;padding:0 7px;box-sizing:border-box;border-radius:11px;background:{{ q.dlqBg }};color:{{ q.dlqFg }};font:800 12px/22px Archivo,sans-serif;text-align:center">{{ q.dlq }}</span>
+<span style="font:500 12.5px/1.3 Geist,sans-serif;color:{{ q.noteColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ q.note }}</span>
+</div>
+</sc-for>
+</section>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;align-items:start">
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 2px #ff9a4d;overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)">
+<span style="display:flex;flex-direction:column;gap:5px"><span style="font:600 16px/1 'Geist Mono',monospace">push.send.dlq</span><span style="font:500 12.5px/1.2 Geist,sans-serif;color:#a9a3c0">5 dead letters · all APNs 503 during the open incident</span></span>
+<span style="display:flex;gap:8px"><button style="height:36px;padding:0 14px;border-radius:18px;border:1.5px solid #5b5487;background:transparent;color:#f4efe4;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">REDRIVE 3 SELECTED</button><button style="height:36px;padding:0 16px;border-radius:18px;border:0;background:#ffd84a;color:#17142a;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">REDRIVE ALL 5</button></span>
+</div>
+<div style="display:grid;grid-template-columns:22px 150px 70px minmax(0,1fr) 60px;gap:12px;padding:10px 16px;font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0;background:#17142a"><span></span><span>JOB</span><span>FAILED</span><span>LAST ERROR · PAYLOAD (REDACTED)</span><span style="text-align:right">TRIES</span></div>
+<sc-for list="{{ dead }}" as="d" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:22px 150px 70px minmax(0,1fr) 60px;gap:12px;align-items:center;padding:10px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<sc-if value="{{ d.checked }}"><span style="width:18px;height:18px;border-radius:5px;background:#ffd84a;color:#17142a;display:inline-flex;align-items:center;justify-content:center;font:900 12px/1 Archivo,sans-serif">✓</span></sc-if>
+<sc-if value="{{ d.unchecked }}"><span style="width:18px;height:18px;border-radius:5px;box-shadow:inset 0 0 0 1.5px #5b5487"></span></sc-if>
+<span style="font:500 12.5px/1.2 'Geist Mono',monospace">{{ d.id }}</span>
+<span style="font:500 12.5px/1 'Geist Mono',monospace;color:#a9a3c0">{{ d.when }}</span>
+<span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:600 13px/1.2 'Geist Mono',monospace;color:#ff9a4d">{{ d.error }}</span><span style="font:500 12px/1.2 'Geist Mono',monospace;color:#a9a3c0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ d.payload }}</span></span>
+<span style="font:600 12.5px/1 'Geist Mono',monospace;text-align:right">3/3</span>
+</div>
+</sc-for>
+<div style="padding:12px 16px;font:500 12.5px/1.4 Geist,sans-serif;color:#a9a3c0;background:#17142a">Redriven jobs keep their original singleton key, so a push that already went out will not send twice. Last redrive: Mai, 13:40, 12 jobs, all delivered.</div>
+</section>
+
+<aside style="display:flex;flex-direction:column;gap:16px">
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="padding:14px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">SCHEDULED</span></div>
+<sc-for list="{{ crons }}" as="c" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)"><span style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font:600 13px/1.2 'Geist Mono',monospace">{{ c.name }}</span><span style="font:500 12px/1.2 'Geist Mono',monospace;color:#a9a3c0">{{ c.when }}</span></span><span style="font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;color:{{ c.color }}">{{ c.last }}</span></div>
+</sc-for>
+</section>
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:16px;display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">RETRY POLICY</span>
+<span style="font:500 13px/1.45 Geist,sans-serif;color:#c9c4dc">3 tries with backoff from 10 s. billing.apply retries 5 times. A DLQ insert raises a Sentry event and pages in SGT hours if the DLQ keeps growing.</span>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const q = (name, what, active, queued, done, failed, dlq, note, o = {}) => ({ name, what, active, queued, done, failed, dlq, note,
+      queuedColor: o.qc || '#f4efe4', failColor: failed !== '0' ? '#ff9a4d' : '#a9a3c0',
+      dlqBg: dlq === '0' ? '#2c2750' : o.sel ? '#ff9a4d' : '#ff5fa8', dlqFg: dlq === '0' ? '#a9a3c0' : '#17142a',
+      noteColor: o.nc || '#a9a3c0', bg: o.sel ? '#2c2750' : 'transparent', ring: o.sel ? 'inset 3px 0 0 #ff9a4d, inset 0 -1px 0 rgba(255,255,255,.05)' : 'inset 0 -1px 0 rgba(255,255,255,.05)' });
+    return {
+      queues: [
+        q('push.send', 'APNs and FCM delivery', '12', '38', '184,210', '31', '5', 'APNs 503s since 14:02, retrying', { sel: 1, nc: '#ff9a4d', qc: '#ff9a4d' }),
+        q('notify.route', 'decide: send, roundup or drop', '4', '0', '96,402', '0', '0', ''),
+        q('rt.relay', 'outbox → realtime channels', '2', '0', '412,880', '0', '0', 'lag 0.4 s'),
+        q('billing.apply', 'RevenueCat events → entitlements', '0', '0', '1,204', '1', '1', 'INITIAL_PURCHASE failed, replay on Billing', { nc: '#ff5fa8' }),
+        q('feedback.forward', 'triage, then Linear', '0', '0', '41', '1', '1', 'Linear 429 at 11:20', { nc: '#ff5fa8' }),
+        q('ai.skeleton', 'opus itinerary skeleton', '2', '0', '19', '0', '0', 'held automatically if opus nears its cap'),
+        q('roundup.build', 'evening roundups by time zone', '0', '0', '3,180', '0', '0', 'next bucket 18:50 SGT'),
+        q('content.publish', 'approved releases → app and db', '0', '0', '1', '0', '0', 'forms v3 · 21 Sep'),
+        q('idea.embed', 'duplicate detection for ideas', '0', '0', '22', '0', '0', '')
+      ],
+      dead: [
+        { id: 'job 01J9R4…1KQ', when: '15:31', error: 'APNs 503 ServiceUnavailable', payload: '{ notification: N-12 leave_by, device: ••••7f3a, class: ALWAYS }', checked: true, unchecked: false },
+        { id: 'job 01J9R4…0ZT', when: '15:29', error: 'APNs 503 ServiceUnavailable', payload: '{ notification: N-21 vote_closing, device: ••••a91c, class: NORMAL }', checked: true, unchecked: false },
+        { id: 'job 01J9R3…YH2', when: '15:18', error: 'APNs 503 ServiceUnavailable', payload: '{ notification: N-05 crew_joined, device: ••••0b44, class: NORMAL }', checked: true, unchecked: false },
+        { id: 'job 01J9R3…W8M', when: '15:02', error: 'APNs 503 ServiceUnavailable', payload: '{ liveActivity: crew_map update, channel: ••••c2 }', checked: false, unchecked: true },
+        { id: 'job 01J9R3…T4C', when: '14:47', error: 'APNs 503 ServiceUnavailable', payload: '{ notification: N-33 ftf_ending, device: ••••51de, class: ROUNDUP }', checked: false, unchecked: true }
+      ],
+      crons: [
+        { name: 'sched.enqueue_due', when: 'every minute', last: 'OK 15:42', color: '#54d6a4' },
+        { name: 'ops.ai_cost_guard', when: 'every 5 min', last: 'OK 15:40', color: '#54d6a4' },
+        { name: 'billing.reconcile', when: '05:00 SGT daily', last: 'OK · 0 FIXES', color: '#54d6a4' },
+        { name: 'ops.backup', when: '03:00 SGT · pg_dump to R2', last: 'OK · 4.1 GB', color: '#54d6a4' },
+        { name: 'powersync.compact', when: 'Railway cron · 04:00', last: 'OK', color: '#54d6a4' },
+        { name: 'maint.anon_gc', when: '02:00 SGT daily', last: '212 REMOVED', color: '#a9a3c0' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

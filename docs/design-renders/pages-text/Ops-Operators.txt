@@ -1,0 +1,215 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+GOVERNANCE
+OPERATORS
+
+Who can sign in and what each role opens. Changing a role runs set_admin_role, which only an owner can do.
+
+OPERATOR
+ROLES · CLICK TO CHANGE
+LAST SIGN-IN
+SESSIONS
+Q
+Quoc
+quoc@critterpass.app
+OWNER
+OPS
+CONTENT
+SUPPORT
+today 07:58
+1
+you
+M
+Mai Tran
+mai@critterpass.app
+OWNER
+OPS
+CONTENT
+SUPPORT
+today 07:02
+2
+End sessions
+L
+Linh Pham
+linh@critterpass.app
+OWNER
+OPS
+CONTENT
+SUPPORT
+today 09:30
+1
+End sessions
+A
+Arif Rahman
+arif@critterpass.app
+OWNER
+OPS
+CONTENT
+SUPPORT
+today 08:15
+1
+End sessions
+D
+Dewi Santoso
+dewi@critterpass.app
+OWNER
+OPS
+CONTENT
+SUPPORT
+Sat 23:10
+0
+No sessions
+H
+Hana Sato
+hana@critterpass.app · allow-listed
+OWNER
+OPS
+CONTENT
+SUPPORT
+never
+0
+Give a role
+WHAT EACH ROLE OPENS
+owner implies every role
+AREA
+OWNER
+OPS
+CONTENT
+SUPPORT
+Home
+●
+●
+●
+●
+My work
+new area
+●
+●
+●
+●
+Moderation
+●
+●
+—
+●
+Concierge desk
+●
+●
+—
+—
+Feedback & ideas
+●
+—
+—
+●
+Support
+●
+—
+—
+●
+Billing
+new area
+●
+—
+—
+●
+Catalogue
+●
+—
+●
+—
+Content batches
+new area
+approve: owner
+●
+—
+●
+—
+Community & drivers
+new area
+●
+●
+●
+—
+Flags & config
+●
+●
+—
+—
+Partners
+●
+●
+—
+—
+Services & spend
+new area
+tier downgrade: owner
+●
+●
+—
+—
+Jobs & DLQ
+●
+●
+—
+—
+Audit log
+CSV export: owner
+●
+●
+—
+—
+Operators
+new area
+owner only
+●
+—
+—
+—
+HOW SOMEONE GETS IN
+1
+Allow-list their email
+Add it to ADMIN_ALLOWLIST in the api environment and redeploy.
+2
+They sign in
+Cloudflare Access first, then Google with that work email.
+3
+You give them a role
+Until then they can sign in but see nothing.
+Removing someone: clear their roles here first, which ends their sessions at once. Then take them off the allow-list.
+IF THE CONSOLE IS DOWN
+Owners can run any command from a laptop with the emergency CLI. It writes the same audit rows.
+pnpm admin:cmd revoke_session '{…}'

@@ -1,0 +1,121 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+YOU
+MY WORK
+
+Everything assigned to you across queues, soonest due first.
+
+ALL
+5
+DESK
+2
+MODERATION
+1
+FEEDBACK
+1
+CONTENT
+1
+OVERDUE
+1
+MODERATION
+Photo reported 3× in a Kuta Crew album
+photo · 01J9QM…8KD · first report 26 h ago
+Two reporters say nudity, one says spam. Author has one earlier removal.
+NEW
+2 h late
+24 h SLA
+OPEN
+DUE IN THE NEXT 2 HOURS
+2
+DESK
+Airport pickup for The Bali Six
+vendor_message · task 01J9QA…2WX
+Maya approved the message to Made (Bali Airport Transfers). He replied with a van quote.
+IN PROGRESS
+lands 10:40 Wed
+OPEN
+FEEDBACK
+#CP-10482 Recap freezes on slide 5
+bug · severe · iOS 26.1 · app 1.0.3 (212)
+Triage thinks it duplicates #CP-10411. Reply is due within two days of receipt.
+NEW
+1 h 52
+reply due
+OPEN
+LATER
+2
+DESK
+Clinic hand-off for a Reykjavík crew
+clinic_handoff · task 01J9P7…Q3M
+Waiting on Sigrún to approve sharing her booking with the clinic.
+WAITING USER
+Mon 09:00
+SGT
+OPEN
+CONTENT
+Forms · Asia set 07
+batch 2026-09-27-forms-07 · gate G2
+10 critters rendered. 3 validator warnings on palette contrast. Only an owner can approve.
+OWNER REVIEW
+no due time
+OPEN
+j
+k
+move
+enter
+open
+u
+hand back
+UP FOR GRABS · YOUR AREAS
+4
+COMMUNITY
+Driver listing flagged: possible rating ring
+Pak Wayan · 3 new crews · 48 h
+TAKE
+JOBS
+push.send.dlq grew by 5
+APNs 503 · last failure 15:31
+TAKE
+DESK
+Viator booking change for Lisbon crew
+partner_booking · due 17:30
+TAKE
+MODERATION
+Avatar reported in The Bali Six
+avatar · 1 report · 3 h
+TAKE
+6 DONE TODAY
+Two more and you've cleared the desk.

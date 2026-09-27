@@ -1,0 +1,101 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+PLATFORM
+PARTNERS
+
+A supplier adapter goes live only after the partner approves and certifies us. Saving flips the adapter and the app’s copy together.
+
+LIVE
+VIATOR
+viator_booking
+Approved 18 Sep, ref VTR-22817. Tours and activities, booked inside the app.
+p95 820 ms · 0.4% errors · 212 bookings in Sep
+APP SAYS
+BOOK IN CRITTERPASS
+APPROVED · OFF
+KLOOK
+klook_activity
+Activity API approved 27 Sep. Certification call on 30 Sep.
+not called yet
+APP SAYS
+OPEN KLOOK ↗
+OFF
+AGODA
+agoda_demand
+Stays go out as affiliate links through Travelpayouts until the Demand API is approved.
+links only · 1,904 click-outs in Sep
+APP SAYS
+OPEN AGODA ↗
+OFF
+TRIP.COM
+trip_com_at
+Affiliate links through CJ. No API access requested yet.
+links only · 311 click-outs in Sep
+APP SAYS
+OPEN TRIP.COM ↗
+OFF
+GETYOURGUIDE
+gyg_api
+Applied 14 Sep. No reply yet.
+not called
+APP SAYS
+HIDDEN
+KLOOK
+klook_activity · version 3
+OFF
+Adapter live
+Calls the Klook Activity API for prices and slots
+App copy
+LINK · AFFILIATE
+BOOKING · IN-APP
+What a crew will see
+NOW
+Ubud cooking class
+OPEN KLOOK ↗
+AFTER SAVE
+Ubud cooking class · from 450k
+OPEN KLOOK ↗
+Notes · approval reference
+Activity API approved 27 Sep, ref KLK-5521. Certification call 30 Sep.
+CHANGES TO SAVE
+enabled
+false
+true
+notes
+applied 20 Sep
+approved 27 Sep…
+UPDATE ADAPTER AND APP COPY…
+Booking copy stays off until the adapter has passed certification.

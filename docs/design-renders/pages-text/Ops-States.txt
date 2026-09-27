@@ -1,0 +1,75 @@
+KIT · SHARED BY EVERY SCREEN
+STATES, BANNERS & CONFIRMS
+
+A guide shows up only when something is empty, blocked or broken. Everything else stays plain so the data reads first.
+
+01 · LOADING
+02 · EMPTY QUEUE
+NOTHING WAITING
+All quiet. Go get a kopi.
+See what was handled today
+03 · ERROR
+THAT DIDN’T LOAD
+The api took too long to answer.
+504 · request 01J9R5…9QX
+TRY AGAIN
+04 · STALE SAVE
+SOMEONE ELSE SAVED FIRST
+Linh saved Tokek while you were editing. Your changes weren’t saved.
+field
+server now
+your edit
+voice_id
+el_tokek_v3
+el_tokek_v2
+local_words
+4 words
++ enak
+LOAD THE LATEST AND RE-APPLY MINE
+05 · NOT FOR YOUR ROLE
+NOT FOR YOUR ROLE
+Flags & config is for ops. Ask an owner if you need it.
+You are
+SUPPORT
+06 · SIGN-IN REFUSED
+STAFF PASS
+NOT ON THE LIST
+quoc.b@gmail.com isn’t allow-listed. Use your work account, or ask an owner.
+TRY ANOTHER ACCOUNT
+07 · BANNERS · TOP OF EVERY PAGE, NEWEST FIRST
+INCIDENT
+Push delivery degraded. APNs is returning 5xx for 3% of sends since 14:02 SGT.
+Mai · 14:09
+Runbook
+RESOLVE
+MAINTENANCE
+Database switchover Sun 4 Oct, 04:00–04:30 SGT. Sync pauses for about 35 seconds; the console stays read-only.
+Quoc · planned
+EDIT
+You’re offline. Nothing can be saved until the connection is back; what you see may be out of date.
+08 · CRITICAL CONFIRM
+CHANGE A CRITICAL SETTING
+This changes the live app for everyone it applies to, within seconds.
+value
+30
+40
+Type guide.free_daily_limit to confirm
+guide.free_dai
+CHANGE IT
+CANCEL
+09 · DESTRUCTIVE CONFIRM
+BAN RIZKY P.?
+· Ends his 2 sessions and revokes 1 device key
+· Hides his photos and notes from Kuta Crew
+· His crew keeps its plan and money records
+Reason · required
+Repeated nudity after removal
+Until
+30 days
+▾
+BAN FOR 30 DAYS
+CANCEL
+10 · SAVED
+Saved · Tokek v13
+upsert_catalogue_item · op 01J9R6…2LB
+Toasts drop from the top for 2.8 s and always carry the op_id, so anyone can find the audit row.

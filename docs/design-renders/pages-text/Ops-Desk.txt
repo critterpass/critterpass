@@ -1,0 +1,118 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+QUEUES
+CONCIERGE DESK
+
+Human tasks for crews. Nothing goes to a vendor until the user has approved the exact text.
+
+DESK OPEN · 07:00–23:00 SGT
++ NEW TASK
+BY DUE TIME
+6 OPEN
+VENDOR MESSAGE
+12 min late
+Late check-in note to Alaya Ubud
+NEW
+unassigned
+VENDOR MESSAGE
+38 min
+Airport pickup for The Bali Six
+IN PROGRESS
+You
+PARTNER BOOKING
+1 h 48
+Viator booking change, Lisbon crew
+NEW
+unassigned
+REVIEW
+1 h 55
+Tour guide no-show in Kyoto
+IN PROGRESS
+Dewi
+CLINIC HAND-OFF
+Mon 09:00
+Clinic hand-off for a Reykjavík crew
+WAITING USER
+Quoc
+VENDOR MESSAGE
+Mon 13:00
+Table for 8 in Roma Norte
+WAITING USER
+Mai
+VENDOR MESSAGE
+AIRPORT PICKUP FOR THE BALI SIX
+task 01J9QA…2WX · crew The Bali Six · trip Bali 14–21 Oct · 6 people
+✓ NEW
+IN PROGRESS
+WAITING USER
+DONE
+DUE IN
+Q
+You ·
+hand back
+WHAT MAYA APPROVED
+APPROVED TEXT · READ-ONLY
+
+Hi Made, this is Critterpass writing for Maya Chen. Six of us land at Denpasar on Wed 14 Oct at 10:40 (SQ938). Could you drive us to Ubud? We have about eight big bags. What would it cost?
+
+Maya Chen · Sat 26 Sep 21:14 SGT
+op 01J9Q8…M2C · sha 9f2c…41ab
+APPROVED
+26 SEP
+This is exactly what Maya saw. Sending anything else needs a new approval from her.
+NOTES
+15:02
+Mai Van quote is fair; airport runs to Ubud go for 600–800k.
+21:34
+WhatsApp Made replied. Draft reply sent to Maya for approval.
+21:20
+System Sent the approved text through WhatsApp Business.
+Made · Bali Airport Transfers
++62 812-3880-4410 · WhatsApp Business
+REPLIED
+Hi Made, this is Critterpass writing for Maya Chen. Six of us land at Denpasar on Wed 14 Oct at 10:40…
+approved text · sent 21:20 · read 21:31
+Can do. 6 people with 8 bags is one van, 750k IDR with parking. I wait at arrivals with a name sign.
+21:34
+Van for 750k works. Please confirm Wed 14 Oct, 10:40 arrival, name sign for Maya.
+DRAFT · WAITING ON MAYA
+LOCKED
+Sending needs an approval for this exact text
+ASK MAYA TO APPROVE
+EDIT
+MARK WAITING ON USER
+MARK DONE
+CANCEL TASK

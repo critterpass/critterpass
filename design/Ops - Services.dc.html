@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#17142a;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="Services & spend" style="width:1440px;display:grid;grid-template-columns:240px minmax(0,1fr);min-height:900px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif">
+<dc-import name="Ops - Nav" active="services" style="display:block;height:100%" hint-size="240px,900px"></dc-import>
+<main style="min-width:0;padding:28px 32px 40px;display:flex;flex-direction:column;gap:18px">
+<header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">PLATFORM</span>
+<h1 style="margin:0;font:900 48px/.86 Archivo,sans-serif;font-stretch:70%;letter-spacing:-.01em;text-transform:uppercase">Services &amp; spend</h1>
+<p style="margin:0;font:500 14px/1.45 Geist,sans-serif;color:#a9a3c0;max-width:680px;text-wrap:pretty">Every outside service we call, with its health, quota and spend, and the switch that turns our use of it off. Every switch is audited.</p>
+</div>
+<div style="display:flex;align-items:center;gap:8px">
+<span style="font:500 12.5px/1 Geist,sans-serif;color:#a9a3c0">checked 30 s ago</span>
+<a href="#" style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-radius:16px;box-shadow:inset 0 0 0 1.5px #5b5487;color:#f4efe4;font:800 11.5px/1 Archivo,sans-serif;letter-spacing:.08em">GRAFANA ↗</a>
+<a href="#" style="display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 12px;border-radius:16px;box-shadow:inset 0 0 0 1.5px #5b5487;color:#f4efe4;font:800 11.5px/1 Archivo,sans-serif;letter-spacing:.08em">LANGFUSE ↗</a>
+</div>
+</header>
+
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px">
+<sc-for list="{{ tiles }}" as="t" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)">
+<span style="display:flex;justify-content:space-between;font:700 11px/1 Archivo,sans-serif;letter-spacing:.14em;color:#a9a3c0"><span>{{ t.label }}</span><span style="color:{{ t.flagColor }}">{{ t.flag }}</span></span>
+<span style="display:flex;align-items:baseline;gap:8px"><span style="font:900 44px/.8 Archivo,sans-serif;font-stretch:66%;font-variant-numeric:tabular-nums;color:{{ t.color }}">{{ t.value }}</span><span style="font:500 13px/1 Geist,sans-serif;color:#a9a3c0">{{ t.of }}</span></span>
+<span style="display:block;height:6px;border-radius:3px;background:#2c2750;overflow:hidden"><span style="display:block;height:100%;width:{{ t.pct }};background:{{ t.bar }}"></span></span>
+<span style="font:500 12.5px/1.3 Geist,sans-serif;color:#c9c4dc">{{ t.note }}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start">
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">CLAUDE · BY MODEL TIER · TODAY</span><span style="font:500 12px/1 Geist,sans-serif;color:#54d6a4">cost guard OK · every 5 min</span></div>
+<sc-for list="{{ tiers }}" as="t" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 150px 44px;gap:14px;align-items:center;padding:13px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:3px;background:{{ t.color }}"></span><span style="font:600 14px/1.2 'Geist Mono',monospace">{{ t.model }}</span></span><span style="font:500 12.5px/1.3 Geist,sans-serif;color:#a9a3c0">{{ t.use }}</span></span>
+<span style="display:flex;flex-direction:column;gap:6px"><span style="font:600 13px/1 'Geist Mono',monospace;text-align:right">{{ t.spend }} <span style="color:#a9a3c0;font-weight:500">/ {{ t.cap }}</span></span><span style="display:block;height:6px;border-radius:3px;background:#2c2750;overflow:hidden"><span style="display:block;height:100%;width:{{ t.pct }};background:{{ t.color }}"></span></span></span>
+<span style="justify-self:end;position:relative;width:40px;height:24px;border-radius:12px;background:#54d6a4"><span style="position:absolute;right:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#17142a"></span></span>
+</div>
+</sc-for>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;background:#17142a"><span style="font:500 12.5px/1.4 Geist,sans-serif;color:#a9a3c0;text-wrap:pretty">Tiers never change on their own. Near a cap, opus skeleton jobs queue instead of switching model.</span><button style="height:30px;padding:0 12px;border-radius:15px;border:1.5px solid #5b5487;background:transparent;color:#f4efe4;font:900 11px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer;flex:none">DOWNGRADE A TIER…</button></div>
+</section>
+
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:14px 16px 16px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">AI SPEND · LAST 14 DAYS</span><span style="display:flex;gap:12px;font:500 12px/1 Geist,sans-serif;color:#c9c4dc"><span style="display:inline-flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:2px;background:#4f86ff"></span>haiku</span><span style="display:inline-flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:2px;background:#ffd84a"></span>sonnet</span><span style="display:inline-flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:2px;background:#ff5fa8"></span>opus</span></span></div>
+<div style="position:relative;display:flex;align-items:flex-end;gap:8px;height:170px;padding-top:10px">
+<span style="position:absolute;left:0;right:0;top:24px;border-top:1.5px dashed #ff5fa8;opacity:.7"></span><span style="position:absolute;right:0;top:8px;font:600 11px/1 'Geist Mono',monospace;color:#ff5fa8">cap $400</span>
+<sc-for list="{{ days }}" as="d" hint-placeholder-count="14">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;height:100%"><span style="display:block;height:{{ d.o }};border-radius:3px;background:#ff5fa8"></span><span style="display:block;height:{{ d.s }};border-radius:3px;background:#ffd84a"></span><span style="display:block;height:{{ d.h }};border-radius:3px;background:#4f86ff"></span></div>
+</sc-for>
+</div>
+<div style="display:flex;justify-content:space-between;font:500 11.5px/1 'Geist Mono',monospace;color:#a9a3c0"><span>14 Sep</span><span>21 Sep</span><span>today</span></div>
+</section>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px;align-items:start">
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">AI FEATURES · KILL SWITCHES</span><span style="font:500 12px/1 Geist,sans-serif;color:#a9a3c0">today</span></div>
+<sc-for list="{{ features }}" as="f" hint-placeholder-count="8">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 80px 110px 70px 40px;gap:12px;align-items:center;padding:10px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<span style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font:600 13px/1.2 'Geist Mono',monospace">{{ f.key }}</span><span style="font:500 12px/1.2 Geist,sans-serif;color:#a9a3c0">{{ f.what }}</span></span>
+<span style="font:500 12px/1 'Geist Mono',monospace;color:#c9c4dc">{{ f.model }}</span>
+<span style="font:500 12.5px/1 Geist,sans-serif;color:#c9c4dc">{{ f.volume }}</span>
+<span style="font:600 13px/1 'Geist Mono',monospace;text-align:right">{{ f.spend }}</span>
+<span style="justify-self:end;position:relative;width:40px;height:24px;border-radius:12px;background:#54d6a4"><span style="position:absolute;right:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#17142a"></span></span>
+</div>
+</sc-for>
+</section>
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">PRODUCT SWITCHES</span><span style="font:500 12px/1 Geist,sans-serif;color:#a9a3c0">typed confirm</span></div>
+<sc-for list="{{ product }}" as="p" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 40px;gap:12px;align-items:center;padding:10px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<span style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font:600 13px/1.2 'Geist Mono',monospace">{{ p.key }}</span><span style="font:500 12px/1.3 Geist,sans-serif;color:{{ p.noteColor }}">{{ p.what }}</span></span>
+<sc-if value="{{ p.on }}"><span style="justify-self:end;position:relative;width:40px;height:24px;border-radius:12px;background:#54d6a4"><span style="position:absolute;right:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#17142a"></span></span></sc-if>
+<sc-if value="{{ p.off }}"><span style="justify-self:end;position:relative;width:40px;height:24px;border-radius:12px;background:#3a3466"><span style="position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#a9a3c0"></span></span></sc-if>
+</div>
+</sc-for>
+</section>
+</div>
+
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">THIRD-PARTY SERVICES · 32</span><span style="font:500 12px/1 Geist,sans-serif;color:#a9a3c0">spend is month to date</span></div>
+<div style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.3fr) 104px 128px 150px 76px 210px;gap:12px;padding:10px 16px;font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0;background:#17142a"><span>SERVICE</span><span>WE USE IT FOR</span><span>STATUS</span><span>P95 · ERRORS</span><span>USAGE</span><span style="text-align:right">SPEND</span><span>SWITCH</span></div>
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="6">
+<div style="padding:12px 16px 6px;font:800 12px/1 Archivo,sans-serif;letter-spacing:.14em;color:#f4efe4">{{ g.label }}</div>
+<sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.3fr) 104px 128px 150px 76px 210px;gap:12px;align-items:center;padding:9px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05);background:{{ r.rowBg }}">
+<span style="font:600 13.5px/1.25 Geist,sans-serif">{{ r.name }}</span>
+<span style="font:500 12.5px/1.3 Geist,sans-serif;color:#a9a3c0">{{ r.use }}</span>
+<span style="display:inline-flex;align-items:center;gap:6px;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;color:{{ r.stColor }}"><span style="width:8px;height:8px;border-radius:50%;background:{{ r.stColor }}"></span>{{ r.status }}</span>
+<span style="font:500 12.5px/1 'Geist Mono',monospace;color:{{ r.perfColor }}">{{ r.perf }}</span>
+<span style="display:flex;flex-direction:column;gap:5px"><span style="font:500 12px/1 Geist,sans-serif;color:#c9c4dc">{{ r.usage }}</span><span style="display:block;height:4px;border-radius:2px;background:#2c2750;overflow:hidden"><span style="display:block;height:100%;width:{{ r.pct }};background:{{ r.barColor }}"></span></span></span>
+<span style="font:600 12.5px/1 'Geist Mono',monospace;text-align:right">{{ r.spend }}</span>
+<span style="display:flex;align-items:center;gap:8px;min-width:0"><sc-if value="{{ r.on }}"><span style="position:relative;width:34px;height:20px;border-radius:10px;background:#54d6a4;flex:none"><span style="position:absolute;right:3px;top:3px;width:14px;height:14px;border-radius:50%;background:#17142a"></span></span></sc-if><span style="font:500 11.5px/1.2 'Geist Mono',monospace;color:#a9a3c0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.sw }}</span></span>
+</div>
+</sc-for>
+</sc-for>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const OK = '#54d6a4', DG = '#ff9a4d', NL = '#a9a3c0';
+    const row = (name, use, status, perf, usage, pct, spend, sw, on) => {
+      const c = status === 'OK' ? OK : status === 'DEGRADED' ? DG : NL;
+      const p = parseFloat(pct) || 0;
+      return { name, use, status, stColor: c, perf, perfColor: status === 'DEGRADED' ? DG : '#c9c4dc', usage, pct, barColor: p >= 80 ? '#ff5fa8' : p >= 60 ? '#ff9a4d' : '#7fb8ff', spend, sw, on: !!on, rowBg: status === 'DEGRADED' ? 'rgba(255,154,77,.08)' : 'transparent' };
+    };
+    const days = [220, 236, 241, 228, 262, 290, 301, 274, 255, 268, 310, 322, 296, 184].map((t, i) => {
+      const k = 150 / 400; const h = t * .24, s = t * .6, o = t - h - s;
+      return { h: (h * k).toFixed(1) + 'px', s: (s * k).toFixed(1) + 'px', o: (o * k).toFixed(1) + 'px' };
+    });
+    return {
+      tiles: [
+        { label: 'SPEND THIS MONTH', flag: 'ON PACE', flagColor: OK, value: '$1,284', of: 'of $3,000', pct: '43%', bar: '#ffd84a', color: '#f4efe4', note: 'Heading for about $2,410 by the 30th.' },
+        { label: 'AI TODAY', flag: 'GUARD OK', flagColor: OK, value: '$184', of: 'of $400 cap', pct: '46%', bar: '#ffd84a', color: '#f4efe4', note: 'Alerts at 80%, pauses at 100%.' },
+        { label: 'SERVICES', flag: '1 DEGRADED', flagColor: DG, value: '31/32', of: 'healthy', pct: '97%', bar: OK, color: '#f4efe4', note: 'APNs 5xx since 14:02. Incident is open.' },
+        { label: 'OTP · SMS TODAY', flag: 'NORMAL', flagColor: OK, value: '$22', of: 'alert at $60', pct: '37%', bar: '#7fb8ff', color: '#f4efe4', note: 'SMS-pumping guard blocked 41 attempts.' }
+      ],
+      tiers: [
+        { model: 'haiku-4-5', use: 'Guide chat, voice, quests, parsing', spend: '$41', cap: '$120', pct: '34%', color: '#4f86ff' },
+        { model: 'sonnet-5', use: 'Proposals, redrafts, recaps, vision', spend: '$118', cap: '$220', pct: '54%', color: '#ffd84a' },
+        { model: 'opus-5-5', use: 'Itinerary skeleton only', spend: '$25', cap: '$60', pct: '42%', color: '#ff5fa8' }
+      ],
+      days,
+      features: [
+        { key: 'ai.guide_chat.enabled', what: 'Ask the local, in text', model: 'haiku', volume: '4,210 turns', spend: '$38' },
+        { key: 'ai.voice.enabled', what: 'Talk out loud mode', model: 'haiku', volume: '612 min', spend: '$9' },
+        { key: 'ai.redraft.enabled', what: 'Plan redrafts', model: 'sonnet', volume: '188 runs', spend: '$44' },
+        { key: 'ai.proposal.enabled', what: 'Pitches to the crew', model: 'sonnet', volume: '61 runs', spend: '$29' },
+        { key: 'ai.recap.enabled', what: 'Trip recap stories', model: 'sonnet', volume: '34 stories', spend: '$21' },
+        { key: 'ai.vision.enabled', what: 'Receipts and booking scans', model: 'sonnet', volume: '290 scans', spend: '$24' },
+        { key: 'ai.skeleton.enabled', what: 'First full itinerary', model: 'opus', volume: '19 trips', spend: '$25' }
+      ],
+      product: [
+        { key: 'la.crew_map.enabled', what: 'Off · Mai · 14:12 · APNs incident', noteColor: DG, on: false, off: true },
+        { key: 'la.leave_by.enabled', what: 'Leave-by Live Activity', noteColor: '#a9a3c0', on: true, off: false },
+        { key: 'widgets.push.enabled', what: 'Widget refresh pushes', noteColor: '#a9a3c0', on: true, off: false },
+        { key: 'android.fsi.enabled', what: 'Android full-screen alarms', noteColor: '#a9a3c0', on: true, off: false },
+        { key: 'signup.enabled', what: 'New accounts', noteColor: '#a9a3c0', on: true, off: false },
+        { key: 'otp.whatsapp.enabled', what: 'WhatsApp sign-in codes', noteColor: '#a9a3c0', on: true, off: false }
+      ],
+      groups: [
+        { label: 'MESSAGING & SIGN-IN', rows: [
+          row('Prelude', 'SMS sign-in codes', 'OK', '1.1 s · 0.3%', '5,904 checks', '0%', '$118', 'otp.sms.enabled', 1),
+          row('Twilio Verify', 'SMS fallback when Prelude fails', 'OK', '1.4 s · 0.6%', '312 checks', '0%', '$14', 'fallback only'),
+          row('WhatsApp Business', 'Sign-in codes, vendor desk', 'OK', '0.9 s · 0.2%', '2,480 messages', '0%', '$61', 'otp.whatsapp.enabled', 1)
+        ] },
+        { label: 'PUSH', rows: [
+          row('APNs', 'Push, Live Activities, widgets', 'DEGRADED', '380 ms · 3.1%', '184k sends', '0%', '—', 'widgets.push · la.*', 1),
+          row('FCM', 'Android push', 'OK', '210 ms · 0.2%', '61k sends', '0%', '—', 'none')
+        ] },
+        { label: 'PAYMENTS', rows: [
+          row('RevenueCat', 'Purchases and store webhooks', 'OK', '2.1 s lag · 0.1%', '1 failed webhook', '0%', '$0', 'billing.enabled', 1)
+        ] },
+        { label: 'MAPS & TRAVEL DATA', rows: [
+          row('Mapbox', 'Routes and ETAs', 'OK', '240 ms · 0.1%', '62% of free tier', '62%', '$0', 'falls back to estimates'),
+          row('WeatherAPI.com', 'Forecasts and marine', 'OK', '180 ms · 0%', '41% of plan', '41%', '$0', 'none'),
+          row('AeroDataBox', 'Flight status', 'OK', '450 ms · 0.2%', '71% of plan', '71%', '$25', 'none'),
+          row('FlightAware', 'Delay alerts', 'OK', '— · 0%', '212 alerts', '20%', '$40', 'none'),
+          row('Travelpayouts', 'Fares and stay links', 'OK', '620 ms · 0.8%', '88k calls', '30%', '$0', 'none'),
+          row('Foursquare Places', 'Place data import', 'OK', '300 ms · 0.1%', '9% of quota', '9%', '$0', 'none'),
+          row('Frankfurter', 'Currency rates', 'OK', '90 ms · 0%', 'daily pull', '0%', 'free', 'none')
+        ] },
+        { label: 'SUPPLIERS', rows: [
+          row('Viator', 'Tours, booked in the app', 'OK', '820 ms · 0.4%', '212 bookings', '0%', 'comm.', 'supplier.viator_booking', 1),
+          row('Grab Farefeed', 'Ride price estimates', 'OK', '510 ms · 1.2%', '14k quotes', '35%', '$0', 'supplier.grab', 1),
+          row('Klook · Agoda · Trip.com · GYG', 'Not live yet, see Partners', 'NOT LIVE', '—', '—', '0%', '—', 'on Partners')
+        ] },
+        { label: 'VOICE & MAIL', rows: [
+          row('ElevenLabs', 'Guide voices, phrase audio', 'OK', '700 ms · 0.3%', '38% of characters', '38%', '$99', 'ai.voice.enabled', 1),
+          row('Deepgram', 'Speech-to-text fallback', 'OK', '420 ms · 0.1%', '212 min', '4%', '$6', 'none'),
+          row('Resend', 'Support replies, receipts', 'OK', '240 ms · 0%', '1,212 emails', '24%', '$20', 'none'),
+          row('PostGrid', 'Printed postcards', 'OK', '— · 0%', '41 cards', '0%', '$74', 'postcards.enabled', 1)
+        ] },
+        { label: 'INFRASTRUCTURE & OBSERVABILITY', rows: [
+          row('Railway', 'api, worker, realtime, sync', 'OK', '—', '5 services', '0%', '$212', 'none'),
+          row('PlanetScale Postgres', 'Primary database, Singapore', 'OK', '18 ms query · 0%', '38% of storage', '38%', '$299', 'none'),
+          row('Cloudflare', 'Workers, R2 media, tiles', 'OK', '—', '1.2 TB served', '12%', '$41', 'none'),
+          row('Sentry · PostHog · Grafana · Langfuse', 'Errors, analytics, metrics, AI traces', 'OK', '—', 'all under plan', '30%', '$55', 'none')
+        ] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

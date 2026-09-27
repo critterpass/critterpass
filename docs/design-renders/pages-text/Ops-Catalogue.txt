@@ -1,0 +1,117 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+CONTENT
+CATALOGUE
+
+Guides, destinations and places the app ships with. Every save is versioned; a stale save shows what changed.
+
+GUIDES
+6
+DESTINATIONS
+61
+POIS
+1,842
+Search guides by name
+GUIDE
+COLOUR
+VOICE · PERSONA
+VER.
+TOKEK
+Bali · Tokay gecko
+yellow
+el_tokek_v2
+tokek-2026.09.2
+v12
+PON
+Kyoto · Tanuki
+orange
+el_pon_v3
+pon-2026.09.1
+v9
+LUNDI
+Iceland · Atlantic puffin
+blue
+el_lundi_v1
+lundi-2026.08.4
+v7
+AJO
+Mexico City · Axolotl
+pink
+el_ajo_v1
+ajo-2026.09.1
+v6
+SARDI
+Lisbon · Sardine
+green
+el_sardi_v1
+sardi-2026.08.2
+v6
+PACO
+Cusco · Alpaca
+cream
+el_paco_v1
+paco-2026.08.2
+v5
+The six guides are fixed. Their colours are canonical and can’t be edited here.
+page 1
+GUIDE · BALI
+COLOUR LOCKED · C5
+TOKEK
+Name
+Tokek
+Voice id
+el_tokek_v2
+Persona pack version
+tokek-2026.09.3
+Local words · shown and spoken in Indonesian
+terima kasih
+thank you
+selamat pagi
+good morning
+pelan-pelan
+slowly, take it easy
+enak
+delicious
++ Add a word
+CHANGES TO SAVE · 2
+persona_pack_version
+tokek-2026.09.2
+tokek-2026.09.3
+local_words
+3 words
++ enak
+version 12 · Linh · today 14:40
+SAVE CHANGES
