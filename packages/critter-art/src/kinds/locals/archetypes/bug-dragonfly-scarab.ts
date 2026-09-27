@@ -1,18 +1,22 @@
+import type { Point } from '../../../core/geometry';
 import { F, W } from '../../../core/ops';
 import type { OpSink } from '../../../core/ops';
 import { blobPolygon, ellipsePolygon, tubeOutline } from '../../../core/shapes';
 import { eyes, extras } from '../../parts/face';
 import { CREAM_WHITE, drawCheekDots, drawSmile, mirrorX } from '../helpers';
+import { isEpicPose } from '../poses';
 import type { KindDrawOptions } from '../../registry';
 import type { ArchetypeColors } from '../types';
 
 /** design/critters-draw-2.js `A.bug` branch `v === 'dragonfly'` (Plitvice). */
 export function drawDragonfly(sink: OpSink, options: KindDrawOptions, colors: ArchetypeColors): void {
+  // T8 epic pose (design gives `bug` no pose of its own): all four wings tilt up and spread wider.
+  const wingTilt = isEpicPose(options.pose) ? 0.14 : 0;
   for (const [x, y, rx, ry, rot] of [
-    [27, 42, 20, 6.5, -0.22],
-    [73, 42, 20, 6.5, 0.22],
-    [28, 55, 18, 6, 0.14],
-    [72, 55, 18, 6, -0.14],
+    [27, 42, 20, 6.5, -0.22 - wingTilt],
+    [73, 42, 20, 6.5, 0.22 + wingTilt],
+    [28, 55, 18, 6, 0.14 + wingTilt],
+    [72, 55, 18, 6, -0.14 - wingTilt],
   ] as const) {
     W(sink, ellipsePolygon(x, y, rx, ry, 14, rot), '#dff6ff', 1.9);
     sink.line(
@@ -73,6 +77,7 @@ export function drawDragonfly(sink: OpSink, options: KindDrawOptions, colors: Ar
 
 /** design/critters-draw-2.js `A.bug` branch `v === 'scarab'` (Luxor). */
 export function drawScarab(sink: OpSink, options: KindDrawOptions, colors: ArchetypeColors): void {
+  const epicPose = isEpicPose(options.pose);
   for (const [x, y] of [
     [30, 62],
     [28, 74],
@@ -85,13 +90,18 @@ export function drawScarab(sink: OpSink, options: KindDrawOptions, colors: Arche
     sink.line(leg, { w: 2 });
     sink.line(mirrorX(leg), { w: 2 });
   }
-  for (const l of [
-    [[38, 44], [30, 34], [36, 26]],
-    [[62, 44], [70, 34], [64, 26]],
-  ] as const) {
-    sink.line(l, { w: 2.1 });
-  }
-  F(sink, ellipsePolygon(50, 18, 12, 11, 14), '#ffb84d', 2.2);
+  // T8 epic pose (design gives `bug` no pose of its own): forelegs raise higher, sun disk grows.
+  const forelegs: readonly [Point, Point, Point][] = epicPose
+    ? [
+        [[38, 44], [26, 30], [32, 18]],
+        [[62, 44], [74, 30], [68, 18]],
+      ]
+    : [
+        [[38, 44], [30, 34], [36, 26]],
+        [[62, 44], [70, 34], [64, 26]],
+      ];
+  for (const l of forelegs) sink.line(l, { w: 2.1 });
+  F(sink, ellipsePolygon(50, 18, epicPose ? 14 : 12, epicPose ? 13 : 11, 14), '#ffb84d', 2.2);
   for (const [x, y] of [
     [36, 12],
     [64, 12],

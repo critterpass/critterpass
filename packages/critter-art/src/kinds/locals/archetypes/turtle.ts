@@ -1,12 +1,15 @@
 import type { Point } from '../../../core/geometry';
+import { pointAt } from '../../../core/geometry';
 import { F } from '../../../core/ops';
 import { blobPolygon, superellipseArc } from '../../../core/shapes';
 import { eyes, extras } from '../../parts/face';
 import { drawCheekDots, drawSmile, mirrorX } from '../helpers';
+import { drawSparkExtras, isEpicPose } from '../poses';
 import type { ArchetypeFn } from '../types';
 
 /** design/critters-draw-2.js `A.turtle`: 2 critters, `v === 'sea'` or the plain default (Hoàn Kiếm turtle). */
 export const turtle: ArchetypeFn = (sink, options, spec, colors) => {
+  const epicPose = isEpicPose(options.pose);
   const isSea = spec.v === 'sea';
   const flipper: Point[] = isSea
     ? [
@@ -23,6 +26,10 @@ export const turtle: ArchetypeFn = (sink, options, spec, colors) => {
         [20, 81],
         [27, 78],
       ];
+  // T8 epic pose (design gives `turtle` no pose of its own): the right flipper raises like a wave.
+  const rightFlipper: Point[] = epicPose
+    ? mirrorX(flipper).map(([x, y]): Point => [x, y - 9])
+    : mirrorX(flipper);
   const backLeg: Point[] = isSea
     ? [
         [30, 80],
@@ -36,7 +43,7 @@ export const turtle: ArchetypeFn = (sink, options, spec, colors) => {
         [34, 92],
         [37, 84],
       ];
-  for (const p of [flipper, mirrorX(flipper), backLeg, mirrorX(backLeg)]) sink.wash(p, colors.f);
+  for (const p of [flipper, rightFlipper, backLeg, mirrorX(backLeg)]) sink.wash(p, colors.f);
   sink.wash(blobPolygon(50, 31, 14.5, 12.5, 0.85, 14), colors.f);
   const shell: Point[] = [
     [15, 76],
@@ -80,7 +87,11 @@ export const turtle: ArchetypeFn = (sink, options, spec, colors) => {
     ],
     { w: 1.8 },
   );
-  for (const p of [flipper, mirrorX(flipper), backLeg, mirrorX(backLeg)]) sink.line(p, { w: 2.2 });
+  for (const p of [flipper, rightFlipper, backLeg, mirrorX(backLeg)]) sink.line(p, { w: 2.2 });
+  if (epicPose) {
+    const tip = pointAt(rightFlipper, 1);
+    drawSparkExtras(sink, tip[0] + 3, tip[1] - 5, 5, colors.dk);
+  }
   sink.line(superellipseArc(50, 31, 14.5, 12.5, 0.85, 2.3, 7.12, 16), { w: 2.5 });
   eyes(
     sink,

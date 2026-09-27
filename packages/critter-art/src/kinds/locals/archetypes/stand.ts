@@ -4,6 +4,7 @@ import { blobPolygon, ellipsePolygon, quadraticBezier, tubeOutline } from '../..
 import { drawEars } from '../parts/ears';
 import { drawHorns } from '../parts/horns';
 import type { HeadFrame } from '../helpers';
+import { drawSparkExtras, isEpicPose } from '../poses';
 import type { ArchetypeFn } from '../types';
 import { drawStandFace } from './stand-face';
 import type { StandBodyContext } from './stand-face';
@@ -35,8 +36,10 @@ export const stand: ArchetypeFn = (sink, options, spec, colors) => {
   const brx = isDachshund ? 27 : 24;
   const bry = isDachshund ? 10 : 13;
   const bodyExponent = 0.85;
+  const epicPose = isEpicPose(options.pose);
   const hx = isDachshund ? 28 : isElephant ? 31 : 30;
-  const hy = isGiraffe ? 16 : isGuanaco ? 21 : isDachshund ? 53 : isElephant ? 35 : 32;
+  // T8 epic pose (design gives `stand` no pose of its own): head tips up, as if calling out.
+  const hy = (isGiraffe ? 16 : isGuanaco ? 21 : isDachshund ? 53 : isElephant ? 35 : 32) - (epicPose ? 5 : 0);
   const k = isElephant ? 0.8 : 0.7;
   const headFrame: HeadFrame = { x: hx, y: hy, k };
   const hrx = 25 * k * (isElephant ? 1 : 0.9);
@@ -141,6 +144,7 @@ export const stand: ArchetypeFn = (sink, options, spec, colors) => {
   }
   const head = blobPolygon(hx, hy, hrx, hry, 0.8, 16);
   sink.wash(head, colors.f);
+  if (epicPose) drawSparkExtras(sink, hx + hrx * 0.9, hy - hry - 3, 5, colors.dk);
 
   const context: StandBodyContext = {
     v,

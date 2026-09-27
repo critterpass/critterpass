@@ -4,6 +4,7 @@ import type { Op } from './ops';
 import { createOpBuilder } from './ops';
 import type { RibbonPolygon } from './ribbon';
 import { ribbonPolygon } from './ribbon';
+import { applyHopPose, applyTiltPose } from './pose-transform';
 import { applyMaskVariant, applyMonoVariant, applyStampVariant } from './variants';
 import type { KindDrawOptions } from '../kinds/registry';
 import { resolveKind } from '../kinds/registry';
@@ -215,8 +216,14 @@ export function build(spec: RenderSpec, sizePt: number): Model {
   const minW = minRibbonWidth(sizePt, viewBoxWidth, pad);
 
   const options = resolveOptions(spec);
-  const { sink, ops } = createOpBuilder(spec.seed, options.ink);
+  const { sink, ops: rawOps } = createOpBuilder(spec.seed, options.ink);
   registration.fn(sink, options);
+
+  // `tilt`/`hop` (T8): whole-body transforms for kinds design itself never gives a pose. Applied to
+  // the complete authored op list -- the sticker/edge outline below is built from this same `ops`,
+  // so it moves with the body automatically instead of needing its own transform.
+  const pose = resolvePose(spec);
+  const ops = pose === 'tilt' ? applyTiltPose(rawOps) : pose === 'hop' ? applyHopPose(rawOps) : rawOps;
 
   let builtOps = ops.map((op) => buildOp(op, minW));
   let blend: Blend = spec.blend ?? 'multiply';

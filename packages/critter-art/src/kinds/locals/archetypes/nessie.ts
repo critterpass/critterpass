@@ -2,10 +2,12 @@ import type { Point } from '../../../core/geometry';
 import { blobPolygon, catmullRomResample, tubeOutline } from '../../../core/shapes';
 import { eyes, extras } from '../../parts/face';
 import { drawCheekDots, drawSmile } from '../helpers';
+import { drawSparkExtras, isEpicPose } from '../poses';
 import type { ArchetypeFn } from '../types';
 
 /** design/critters-draw-2.js `A.nessie`: 1 critter (Loch Ness). */
 export const nessie: ArchetypeFn = (sink, options, _spec, colors) => {
+  const epicPose = isEpicPose(options.pose);
   const hump1: Point[] = [
     [46, 81],
     [52, 68],
@@ -40,6 +42,8 @@ export const nessie: ArchetypeFn = (sink, options, _spec, colors) => {
   sink.line(neck.left.slice(0, n - 1), { w: 2.3 });
   sink.line(neck.right.slice(0, n - 1), { w: 2.3 });
   sink.line(head, { w: 2.5, close: true });
+  // T8 epic pose (design gives `nessie` no pose of its own): the head crests reach up further.
+  const crestExtra = epicPose ? 4 : 0;
   for (const [x, y] of [
     [29, 19],
     [39, 19],
@@ -47,12 +51,13 @@ export const nessie: ArchetypeFn = (sink, options, _spec, colors) => {
     sink.line(
       [
         [x, y],
-        [x, y - 4],
+        [x, y - 4 - crestExtra],
       ],
       { w: 2.2 },
     );
-    sink.dot(x, y - 5, 2, colors.dk);
+    sink.dot(x, y - 5 - crestExtra, epicPose ? 2.6 : 2, colors.dk);
   }
+  if (epicPose) drawSparkExtras(sink, 34, 8, 4.5, colors.dk);
   eyes(
     sink,
     options,

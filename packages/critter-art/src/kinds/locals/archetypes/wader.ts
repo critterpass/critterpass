@@ -1,9 +1,11 @@
 import type { Point } from '../../../core/geometry';
+import { pointAt } from '../../../core/geometry';
 import { F, W } from '../../../core/ops';
 import { blobPolygon, catmullRomResample, ellipsePolygon, tubeOutline } from '../../../core/shapes';
 import { eyes, extras } from '../../parts/face';
 import { drawAccessory } from '../parts/accessories';
 import { drawCheekDots } from '../helpers';
+import { drawSparkExtras, isEpicPose } from '../poses';
 import type { ArchetypeFn } from '../types';
 
 const BEAK_SHAPES: Readonly<Record<string, readonly Point[]>> = {
@@ -36,6 +38,7 @@ const BEAK_SHAPES: Readonly<Record<string, readonly Point[]>> = {
 
 /** design/critters-draw-2.js `A.wader`: 9 critters across 4 named variants (swan/float/pelican/flamingo) plus the plain default (egret/stork/heron). */
 export const wader: ArchetypeFn = (sink, options, spec, colors) => {
+  const epicPose = isEpicPose(options.pose);
   const v = spec.v ?? '';
   const isFloating = v === 'swan' || v === 'float';
   const isPelican = v === 'pelican';
@@ -129,7 +132,9 @@ export const wader: ArchetypeFn = (sink, options, spec, colors) => {
   sink.wash(neck.polygon, colors.f);
   const head = blobPolygon(hx, hy, hr, hr * 0.92, 0.85, 14);
   sink.wash(head, colors.f);
-  const wing: Point[] = isFloating
+  // T8 epic pose (design gives `wader` no pose of its own): the wing lifts as if flapping.
+  const wingLift = epicPose ? 7 : 0;
+  const restingWing: Point[] = isFloating
     ? [
         [44, 60],
         [60, 56],
@@ -144,9 +149,14 @@ export const wader: ArchetypeFn = (sink, options, spec, colors) => {
         [74, 62],
         [58, 66],
       ];
+  const wing: Point[] = restingWing.map(([x, y]): Point => [x, y - wingLift]);
   sink.fill(wing, colors.dk);
   sink.line([...body.slice(2), ...body.slice(0, 2)], { w: 2.5 });
   sink.line(wing, { w: 1.8, close: true });
+  if (epicPose) {
+    const wingTip = pointAt(wing, 2);
+    drawSparkExtras(sink, wingTip[0] + 4, wingTip[1] - 4, 5, colors.dk);
+  }
   const n = neck.left.length;
   sink.line(neck.left.slice(1, n - 1), { w: 2.3 });
   sink.line(neck.right.slice(1, n - 1), { w: 2.3 });

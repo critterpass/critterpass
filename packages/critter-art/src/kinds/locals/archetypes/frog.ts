@@ -2,10 +2,12 @@ import type { Point } from '../../../core/geometry';
 import { ellipsePolygon } from '../../../core/shapes';
 import { eyes, extras, iris, toes } from '../../parts/face';
 import { CRITTER_INK, drawCheekDots, mirrorX } from '../helpers';
+import { drawSparkExtras, isEpicPose } from '../poses';
 import type { ArchetypeFn } from '../types';
 
 /** design/critters-draw-2.js `A.frog`: 3 critters, `v === 'tree'` (with an optional `red` accent) or the plain default. */
 export const frog: ArchetypeFn = (sink, options, spec, colors) => {
+  const epicPose = isEpicPose(options.pose);
   const isTree = spec.v === 'tree';
   const backLeg: Point[] = [
     [22, 71],
@@ -53,16 +55,22 @@ export const frog: ArchetypeFn = (sink, options, spec, colors) => {
   sink.line(silhouette, { w: 2.6, close: true });
   for (const p of [backLeg, mirrorX(backLeg)]) sink.line(p, { w: 2.3 });
 
-  for (const l of [
+  // T8 epic pose (design gives `frog` no pose of its own): the right front leg reaches up.
+  const frontLegs: readonly [Point, Point][] = [
     [[36, 77], [32, 89]],
     [[64, 77], [68, 89]],
-  ] as const) {
+  ];
+  for (const [i, base] of frontLegs.entries()) {
+    const raised = epicPose && i === 1;
+    const tip: Point = raised ? [80, 60] : base[1];
+    const l: [Point, Point] = [base[0], tip];
     sink.line(l, { w: 2.3, taper: false });
     if (isTree) {
       for (const k of [-3, 0, 3]) sink.dot(l[1][0] + k, l[1][1] + 1.5, 1.9, spec.red ? '#ff9a4d' : colors.bl);
     } else {
       toes(sink, l, CRITTER_INK);
     }
+    if (raised) drawSparkExtras(sink, tip[0] + 4, tip[1] - 4, 5, colors.dk);
   }
   for (const [x, y] of [
     [13, 89],

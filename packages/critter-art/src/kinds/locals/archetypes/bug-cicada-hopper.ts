@@ -4,6 +4,7 @@ import type { OpSink } from '../../../core/ops';
 import { blobPolygon, ellipsePolygon } from '../../../core/shapes';
 import { eyes, extras } from '../../parts/face';
 import { drawCheekDots, drawSmile, mirrorX } from '../helpers';
+import { isEpicPose } from '../poses';
 import type { KindDrawOptions } from '../../registry';
 import type { ArchetypeColors } from '../types';
 
@@ -13,14 +14,25 @@ import type { ArchetypeColors } from '../types';
  * the loop's own `p`) plus once mirrored — an op-order quirk kept exactly as authored.
  */
 export function drawCicada(sink: OpSink, options: KindDrawOptions, colors: ArchetypeColors): void {
-  const wing: Point[] = [
-    [42, 44],
-    [26, 52],
-    [19, 72],
-    [25, 93],
-    [36, 91],
-    [45, 70],
-  ];
+  // T8 epic pose (design gives `bug` no pose of its own): wings flare up and out.
+  const epicPose = isEpicPose(options.pose);
+  const wing: Point[] = epicPose
+    ? [
+        [42, 44],
+        [16, 40],
+        [6, 60],
+        [16, 85],
+        [32, 88],
+        [45, 70],
+      ]
+    : [
+        [42, 44],
+        [26, 52],
+        [19, 72],
+        [25, 93],
+        [36, 91],
+        [45, 70],
+      ];
   const vein: Point[] = [
     [40, 50],
     [30, 70],
@@ -71,6 +83,7 @@ export function drawCicada(sink: OpSink, options: KindDrawOptions, colors: Arche
 
 /** design/critters-draw-2.js `A.bug` branch `v === 'hopper'` (Oaxaca). */
 export function drawHopper(sink: OpSink, options: KindDrawOptions, colors: ArchetypeColors): void {
+  const epicPose = isEpicPose(options.pose);
   const legColor = '#ff5a3d';
   const hindLeg: Point[] = [
     [36, 64],
@@ -99,11 +112,19 @@ export function drawHopper(sink: OpSink, options: KindDrawOptions, colors: Arche
   }
   sink.line(body, { w: 2.4, close: true });
   sink.line(head, { w: 2.6, close: true });
-  for (const l of [
-    [[44, 23], [38, 8], [30, 3]],
-    [[56, 23], [62, 8], [70, 3]],
-  ] as const) {
+  // T8 epic pose (design gives `bug` no pose of its own): antennae splay wider, tips marked.
+  const antennae: readonly [Point, Point, Point][] = epicPose
+    ? [
+        [[44, 23], [30, 6], [16, 2]],
+        [[56, 23], [70, 6], [84, 2]],
+      ]
+    : [
+        [[44, 23], [38, 8], [30, 3]],
+        [[56, 23], [62, 8], [70, 3]],
+      ];
+  for (const l of antennae) {
     sink.line(l, { w: 1.7 });
+    if (epicPose) sink.dot(l[2][0], l[2][1], 2.6, legColor);
   }
   for (const l of [
     [[40, 60], [32, 70]],

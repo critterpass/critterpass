@@ -148,4 +148,22 @@ describe('build', () => {
   it('throws for an unregistered kind', () => {
     expect(() => build({ kind: 'not-a-real-kind', seed: 1 }, 96)).toThrow(/unknown critter-art kind/);
   });
+
+  it('tilt/hop move every op point, including the sticker outline (built from the same transformed ops)', () => {
+    const plain = build({ kind: TEST_KIND, seed: 7, sticker: { color: '#f4efe4' } }, 96);
+    const tilted = build({ kind: TEST_KIND, seed: 7, sticker: { color: '#f4efe4' }, pose: 'tilt' }, 96);
+    const hopped = build({ kind: TEST_KIND, seed: 7, sticker: { color: '#f4efe4' }, pose: 'hop' }, 96);
+    for (const posed of [tilted, hopped]) {
+      expect(posed.ops.map((op) => op.points)).not.toEqual(plain.ops.map((op) => op.points));
+      expect(posed.stickerOutline?.map((shape) => shape.points)).not.toEqual(
+        plain.stickerOutline?.map((shape) => shape.points),
+      );
+    }
+  });
+
+  it('an unposed or cheer-posed kind is untouched by the tilt/hop transform', () => {
+    const idle = build({ kind: TEST_KIND_UNSTICKERED, seed: 7 }, 96);
+    const cheer = build({ kind: TEST_KIND_UNSTICKERED, seed: 7, pose: 'cheer' }, 96);
+    expect(cheer.ops.map((op) => op.points)).toEqual(idle.ops.map((op) => op.points));
+  });
 });

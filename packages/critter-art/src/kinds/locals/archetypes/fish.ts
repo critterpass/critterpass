@@ -3,12 +3,14 @@ import { F, W } from '../../../core/ops';
 import { blobPolygon, ellipsePolygon, superellipseArc } from '../../../core/shapes';
 import { eyes, extras } from '../../parts/face';
 import { CREAM_WHITE } from '../helpers';
+import { drawSparkExtras, isEpicPose } from '../poses';
 import type { ArchetypeFn } from '../types';
 import { FSH } from './fish-shapes';
 import { drawFishPattern } from './fish-pattern';
 
 /** design/critters-draw-2.js `A.fish`: 10 critters across 8 named variants (`long` is also the default). */
 export const fish: ArchetypeFn = (sink, options, spec, colors) => {
+  const epicPose = isEpicPose(options.pose);
   const v = spec.v ?? 'long';
   const fish = FSH[v] ?? FSH['long'];
   if (!fish) throw new Error(`unknown fish variant "${v}"`);
@@ -45,12 +47,15 @@ export const fish: ArchetypeFn = (sink, options, spec, colors) => {
       { w: 1.4, color: '#6fa8ff' },
     );
   }
-  const topFin: readonly Point[] | undefined =
+  // T8 epic pose (design gives `fish` no pose of its own): the top fin flicks up, where one exists.
+  const finLift = epicPose ? 5 : 0;
+  const topFin: readonly Point[] | undefined = (
     spec.fins === 'spiky'
       ? [
           [34, 29], [38, 11], [43, 26], [48, 8], [53, 24], [58, 9], [62, 25], [67, 13], [70, 30],
         ]
-      : fish.fT;
+      : fish.fT
+  )?.map(([x, y]): Point => [x, y - finLift]);
   sink.wash(fish.t, colors.f);
   if (topFin) sink.wash(topFin, colors.dk);
   if (fish.fB) sink.wash(fish.fB, colors.f);
@@ -209,6 +214,7 @@ export const fish: ArchetypeFn = (sink, options, spec, colors) => {
   }
   const cheekCenter: Point = fish.e ? [fish.e[0], fish.e[1]] : [84, 50];
   sink.dot(cheekCenter[0] + 2, cheekCenter[1] + 10, 2.6, '#ff7fa8', 0.5);
+  if (epicPose) drawSparkExtras(sink, cheekCenter[0] + 2, cheekCenter[1] - 16, 5, colors.dk);
   if (spec.acc === 'lantern') {
     sink.line(
       [

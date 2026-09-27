@@ -1,13 +1,16 @@
 import type { Point } from '../../../core/geometry';
+import { pointAt } from '../../../core/geometry';
 import { F, W } from '../../../core/ops';
 import { blobPolygon, ellipsePolygon } from '../../../core/shapes';
 import { dotEyes, extras } from '../../parts/face';
 import { drawAccessory } from '../parts/accessories';
 import { CRITTER_INK, drawCheekDots, mirrorX } from '../helpers';
+import { drawSparkExtras, isEpicPose } from '../poses';
 import type { ArchetypeFn } from '../types';
 
 /** design/critters-draw-2.js `A.seal`: 3 critters, `v === 'dugong'` or the plain default (harbour/grey seal). */
 export const seal: ArchetypeFn = (sink, options, spec, colors) => {
+  const epicPose = isEpicPose(options.pose);
   const isDugong = spec.v === 'dugong';
   if (isDugong) {
     W(
@@ -75,9 +78,17 @@ export const seal: ArchetypeFn = (sink, options, spec, colors) => {
     [18, 72],
     [29, 66],
   ];
-  for (const p of [flipper, mirrorX(flipper)]) sink.wash(p, colors.f);
+  // T8 epic pose (design gives `seal` no pose of its own): the right flipper raises in a wave.
+  const rightFlipper: Point[] = epicPose
+    ? mirrorX(flipper).map(([x, y]): Point => [x, y - 12])
+    : mirrorX(flipper);
+  for (const p of [flipper, rightFlipper]) sink.wash(p, colors.f);
   sink.line(body, { w: 2.6, close: true });
-  for (const p of [flipper, mirrorX(flipper)]) sink.line(p, { w: 2.2 });
+  for (const p of [flipper, rightFlipper]) sink.line(p, { w: 2.2 });
+  if (epicPose) {
+    const tip = pointAt(rightFlipper, 1);
+    drawSparkExtras(sink, tip[0] + 3, tip[1] - 5, 5, colors.dk);
+  }
   if (isDugong) {
     F(sink, blobPolygon(50, 51, 13, 8, 0.75, 12), colors.bl, 2);
     sink.dot(46, 47, 1.2, CRITTER_INK);

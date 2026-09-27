@@ -1,26 +1,42 @@
 import type { Point } from '../../../core/geometry';
+import { pointAt } from '../../../core/geometry';
 import { F } from '../../../core/ops';
 import { blobPolygon, ellipsePolygon } from '../../../core/shapes';
 import { extras, isShut } from '../../parts/face';
 import { drawAccessory } from '../parts/accessories';
 import { drawCheekDots, drawSmile } from '../helpers';
+import { drawSparkExtras, isEpicPose } from '../poses';
 import type { ArchetypeFn } from '../types';
 
 /** design/critters-draw-2.js `A.octo`: 1 critter (Venice, Seppia). */
 export const octo: ArchetypeFn = (sink, options, spec, colors) => {
+  const epicPose = isEpicPose(options.pose);
   const head = blobPolygon(50, 43, 30, 27, 0.9, 18);
   sink.wash(head, colors.bl);
+  // T8 epic pose (design gives `octo` no pose of its own): the last tentacle curls up in a wave.
   for (let i = 0; i < 8; i++) {
     const x = 31 + i * 5.4;
     const mirrorSign = i < 4 ? -1 : 1;
-    const tentacle: Point[] = [
-      [x, 60],
-      [x + mirrorSign * 2, 74],
-      [x + mirrorSign * 5, 83],
-      [x + mirrorSign * 2.5, 88],
-    ];
+    const raise = epicPose && i === 7;
+    const tentacle: Point[] = raise
+      ? [
+          [x, 60],
+          [x + 4, 44],
+          [x + 8, 30],
+          [x + 5, 20],
+        ]
+      : [
+          [x, 60],
+          [x + mirrorSign * 2, 74],
+          [x + mirrorSign * 5, 83],
+          [x + mirrorSign * 2.5, 88],
+        ];
     sink.stroke(tentacle, colors.f, 5.2);
     sink.line(tentacle, { w: 1.8 });
+    if (raise) {
+      const tip = pointAt(tentacle, 3);
+      drawSparkExtras(sink, tip[0] + 3, tip[1] - 4, 5, colors.dk);
+    }
   }
   const mantle = blobPolygon(50, 42, 25, 23, 0.9, 18);
   sink.wash(mantle, colors.f);

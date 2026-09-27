@@ -1,12 +1,15 @@
 import type { Point } from '../../../core/geometry';
+import { pointAt } from '../../../core/geometry';
 import { W } from '../../../core/ops';
 import { blobPolygon, ellipsePolygon } from '../../../core/shapes';
 import { eyes, extras } from '../../parts/face';
 import { CREAM_WHITE } from '../helpers';
+import { drawSparkExtras, isEpicPose } from '../poses';
 import type { ArchetypeFn } from '../types';
 
 /** design/critters-draw-2.js `A.whale`: 4 critters across 3 named variants (dolphin/orca/humpback), drawn in profile with a single visible eye. */
 export const whale: ArchetypeFn = (sink, options, spec, colors) => {
+  const epicPose = isEpicPose(options.pose);
   const isDolphin = spec.v === 'dolphin';
   const isOrca = spec.v === 'orca';
   const isHumpback = spec.v === 'humpback';
@@ -38,7 +41,11 @@ export const whale: ArchetypeFn = (sink, options, spec, colors) => {
     : isHumpback
       ? [[64, 38], [69, 31], [74, 40]]
       : [[48, 38], [57, 24], [64, 39]];
-  const sideFin: Point[] = isHumpback ? [[30, 66], [22, 87], [30, 89], [40, 70]] : [[34, 64], [30, 76], [42, 67]];
+  // T8 epic pose (design gives `whale` no pose of its own): the side fin slaps up out of the water.
+  const restingSideFin: Point[] = isHumpback
+    ? [[30, 66], [22, 87], [30, 89], [40, 70]]
+    : [[34, 64], [30, 76], [42, 67]];
+  const sideFin: Point[] = epicPose ? restingSideFin.map(([x, y]): Point => [x, y - 16]) : restingSideFin;
   sink.wash(fluke, colors.f);
   sink.wash(dorsalFin, colors.f);
   if (!isHumpback) sink.wash(sideFin, colors.f);
@@ -122,5 +129,9 @@ export const whale: ArchetypeFn = (sink, options, spec, colors) => {
     { w: 1.9 },
   );
   sink.dot(34, 57, 2.8, '#ff7fa8', 0.5);
+  if (epicPose) {
+    const tip = pointAt(sideFin, 1);
+    drawSparkExtras(sink, tip[0] - 4, tip[1] - 4, 5, colors.dk);
+  }
   extras(sink, options);
 };

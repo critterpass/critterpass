@@ -3,10 +3,12 @@ import { blobPolygon, catmullRomResample, superellipseArc, tubeOutline } from '.
 import { dotEyes, eyes, extras } from '../../parts/face';
 import { ACC } from '../parts/accessories';
 import { drawCheekDots, drawSmile } from '../helpers';
+import { drawSparkExtras, isEpicPose } from '../poses';
 import type { ArchetypeFn } from '../types';
 
 /** design/critters-draw-2.js `A.snake`: 2 critters, `v === 'naga'` (Cambodia) or the plain default (crowned serpent). */
 export const snake: ArchetypeFn = (sink, options, spec, colors) => {
+  const epicPose = isEpicPose(options.pose);
   const isNaga = spec.v === 'naga';
   const coilFront = blobPolygon(50, 84, 31, 9.5, 0.85, 16);
   const coilBack = blobPolygon(52, 73, 25, 8.5, 0.85, 16);
@@ -84,17 +86,28 @@ export const snake: ArchetypeFn = (sink, options, spec, colors) => {
     ],
     2.6,
   );
+  // T8 epic pose (design gives `snake` no pose of its own): the tongue-flick reaches out further.
   F(
     sink,
-    [
-      [49, 41.5],
-      [51, 41.5],
-      [51, 46],
-      [53.5, 49.5],
-      [50, 47.5],
-      [46.5, 49.5],
-      [49, 46],
-    ],
+    epicPose
+      ? [
+          [49, 41.5],
+          [51, 41.5],
+          [51, 52],
+          [55, 58],
+          [50, 54],
+          [45, 58],
+          [49, 52],
+        ]
+      : [
+          [49, 41.5],
+          [51, 41.5],
+          [51, 46],
+          [53.5, 49.5],
+          [50, 47.5],
+          [46.5, 49.5],
+          [49, 46],
+        ],
     '#ff5a6e',
     1.3,
   );
@@ -102,5 +115,6 @@ export const snake: ArchetypeFn = (sink, options, spec, colors) => {
     ACC['crown']?.(sink, { x: 50, y: 23, w: 15, cy: 0, ny: 0, nw: 0, hx: 0, hy: 0 }, spec, colors);
   }
   if (isNaga) sink.dot(50, 26, 2, '#ff5fa8');
+  if (epicPose) drawSparkExtras(sink, 58, 22, 5, colors.dk);
   extras(sink, options);
 };

@@ -1,12 +1,15 @@
 import type { Point } from '../../../core/geometry';
+import { pointAt } from '../../../core/geometry';
 import { W } from '../../../core/ops';
 import { blobPolygon, ellipsePolygon, fluffPolygon } from '../../../core/shapes';
 import { eyes, extras } from '../../parts/face';
 import { drawCheekDots, drawSmile, mirrorX } from '../helpers';
+import { drawSparkExtras, isEpicPose } from '../poses';
 import type { ArchetypeFn } from '../types';
 
 /** design/critters-draw-2.js `A.crab`: 1 critter (Shanghai, Xiexie). */
 export const crab: ArchetypeFn = (sink, options, spec, colors) => {
+  const epicPose = isEpicPose(options.pose);
   const legs: readonly [Point, Point, Point][] = [
     [[28, 66], [16, 72], [12, 82]],
     [[30, 72], [20, 80], [18, 90]],
@@ -32,13 +35,18 @@ export const crab: ArchetypeFn = (sink, options, spec, colors) => {
     [24, 40],
     [16, 44],
   ];
+  // T8 epic pose (design gives `crab` no pose of its own): the right claw raises in a pinch-cheer.
+  const clawLift = 14;
   for (const mm of [0, 1]) {
-    const a = mm ? mirrorX(arm) : arm;
-    const c = mm ? mirrorX(claw) : claw;
+    const raise = epicPose && mm === 1;
+    const lift: (p: Point) => Point = raise ? ([x, y]) => [x, y - clawLift] : (p) => p;
+    const a = (mm ? mirrorX(arm) : arm).map(lift);
+    const c = (mm ? mirrorX(claw) : claw).map(lift);
     sink.stroke(a, colors.f, 5);
     sink.line(a, { w: 2.1 });
     W(sink, c, colors.f, 2.2);
-    sink.fill(fluffPolygon(mm ? 80 : 20, 46, 6, 4.5, 6, 0.3), colors.dk);
+    sink.fill(fluffPolygon(mm ? 80 : 20, raise ? 46 - clawLift : 46, 6, 4.5, 6, 0.3), colors.dk);
+    if (raise) drawSparkExtras(sink, pointAt(c, 1)[0], pointAt(c, 1)[1] - 6, 5, colors.dk);
   }
   for (const l of [
     [[43, 50], [41, 39]],

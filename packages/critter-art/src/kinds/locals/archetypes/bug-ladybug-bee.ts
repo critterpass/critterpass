@@ -1,9 +1,11 @@
+import type { Point } from '../../../core/geometry';
 import { F, W } from '../../../core/ops';
 import type { OpSink } from '../../../core/ops';
 import { blobPolygon, ellipsePolygon } from '../../../core/shapes';
 import { eyes, extras } from '../../parts/face';
 import { drawAccessory } from '../parts/accessories';
 import { CREAM_WHITE, CRITTER_INK, drawCheekDots, drawSmile } from '../helpers';
+import { isEpicPose } from '../poses';
 import type { KindDrawOptions } from '../../registry';
 import type { ArchetypeColors } from '../types';
 import type { CritterSpec } from '../../../data/types';
@@ -57,12 +59,20 @@ export function drawLadybug(
     { w: 2 },
   );
   sink.line(head, { w: 2.3, close: true });
-  for (const l of [
-    [[44, 26], [40, 15], [36, 13]],
-    [[56, 26], [60, 15], [64, 13]],
-  ] as const) {
+  // T8 epic pose (design gives `bug` no pose of its own): antennae perk up further, tips enlarged.
+  const epicPose = isEpicPose(options.pose);
+  const antennae: readonly [Point, Point, Point][] = epicPose
+    ? [
+        [[44, 26], [38, 10], [32, 4]],
+        [[56, 26], [62, 10], [68, 4]],
+      ]
+    : [
+        [[44, 26], [40, 15], [36, 13]],
+        [[56, 26], [60, 15], [64, 13]],
+      ];
+  for (const l of antennae) {
     sink.line(l, { w: 1.8 });
-    sink.dot(l[2][0], l[2][1], 2, CRITTER_INK);
+    sink.dot(l[2][0], l[2][1], epicPose ? 3 : 2, CRITTER_INK);
   }
   eyes(
     sink,
@@ -88,6 +98,7 @@ export function drawLadybug(
 
 /** design/critters-draw-2.js `A.bug` branch `v === 'bee'` (Manchester). */
 export function drawBee(sink: OpSink, options: KindDrawOptions, colors: ArchetypeColors): void {
+  const epicPose = isEpicPose(options.pose);
   for (const [x, y, r] of [
     [31, 36, -0.5],
     [69, 36, 0.5],
@@ -109,12 +120,19 @@ export function drawBee(sink: OpSink, options: KindDrawOptions, colors: Archetyp
     CRITTER_INK,
     1.5,
   );
-  for (const l of [
-    [[44, 34], [40, 22], [35, 19]],
-    [[56, 34], [60, 22], [65, 19]],
-  ] as const) {
+  // T8 epic pose (design gives `bug` no pose of its own): antennae perk up further, tips enlarged.
+  const antennae: readonly [Point, Point, Point][] = epicPose
+    ? [
+        [[44, 34], [38, 14], [30, 9]],
+        [[56, 34], [62, 14], [70, 9]],
+      ]
+    : [
+        [[44, 34], [40, 22], [35, 19]],
+        [[56, 34], [60, 22], [65, 19]],
+      ];
+  for (const l of antennae) {
     sink.line(l, { w: 1.8 });
-    sink.dot(l[2][0], l[2][1], 2.2, CRITTER_INK);
+    sink.dot(l[2][0], l[2][1], epicPose ? 3 : 2.2, CRITTER_INK);
   }
   for (const [x, y] of [
     [36, 84],
