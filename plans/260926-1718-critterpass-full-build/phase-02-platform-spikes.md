@@ -119,6 +119,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Try `@bacons/apple-targets` fork on SDK 58; if blocked, in-repo config plugin. 2. Widget ext: static widget, Live Activity (lock screen + Dynamic Island), AlarmKit alarm UI, App Intent button. 3. NSE + NCE hello. 4. App Group + Keychain group entitlements; UIScene lifecycle compatibility. 5. EAS build + install; `xctrace` widget-memory template script in `tools/spikes/apple-targets/`.
 - Tests: `eas build -p ios --profile development`; XCTest target for `_shared` snapshot decoding.
 - Done when (agent): signed EAS build with all targets; ADR picks the path. Founder checklist: install on iPhone, run the `xctrace` script, record widget memory <20 MB.
+- Status: done — 35a185a (chosen path: published `@bacons/apple-targets@5.0.0`, unmodified — no fork needed, contradicting the plan's pessimistic default; widget incl. Live Activity/AlarmKit/App Intent + NSE + NCE all build, sign-for-simulator, embed and install/launch clean under SDK 58/Xcode 27/UIScene; App Group + Keychain entitlement chain verified app+extensions. Blocked on real signing: no Apple ID/API-key session in Xcode and the only Apple Development cert is for the wrong team (S8H6HTF3KK, not YFND2EEW8S) — no EAS/device build or on-device memory/intent-latency number possible until the founder fixes accounts; see ADR)
 
 ### T8 — Inline module bridge: cp-app-group
 - Goal: JS ↔ App Group / Android shared storage bridge.
