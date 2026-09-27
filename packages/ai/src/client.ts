@@ -1,6 +1,6 @@
 /**
  * The single model entry point: `callModel(route, input)` / `streamModel(route, input)`. Generation
- * runs on DeepSeek through its Anthropic-compatible Messages API (docs/product-decisions.md D22);
+ * runs on DeepSeek through its Anthropic-compatible Messages API;
  * this module is the provider seam, so a second provider plugs in here behind the same interface.
  * It adds a request timeout, jittered retries on transient statuses only, refusal mapping, and one
  * usage record (with `cost_micros`) per call handed to `onUsage`.
@@ -302,7 +302,7 @@ export function createGateway(options: GatewayOptions): Gateway {
         ...params,
         messages: [
           ...params.messages,
-          { role: 'assistant', content: message.content as Anthropic.Messages.ContentBlockParam[] },
+          { role: 'assistant', content: message.content },
           { role: 'user', content: REPAIR_INSTRUCTION },
         ],
       };

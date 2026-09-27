@@ -1,6 +1,6 @@
 /**
  * Route → model and request shape (docs/api-contracts.md §6 "Model routing"). Generation runs on
- * DeepSeek (docs/product-decisions.md D22) with explicit model ids: the fast tier
+ * DeepSeek with explicit model ids: the fast tier
  * (`deepseek-flash`, vision-capable) answers chat, voice, parsing, photo work and short lines; the
  * pro tier (`deepseek-v4-pro`, text only) plans, redrafts, proposes, narrates recaps, writes the
  * content libraries, runs the guest guide and builds the itinerary skeleton. Swapping a model is a

@@ -1,12 +1,12 @@
 /**
  * The gateway's own environment contract. Generation runs on DeepSeek through its
- * Anthropic-compatible Messages API (docs/product-decisions.md D22), so the key lives in
+ * Anthropic-compatible Messages API, so the key lives in
  * `ANTHROPIC_API_KEY` (the variable the Anthropic-format client reads; it holds the DeepSeek key)
  * and requests go to `DEEPSEEK_ANTHROPIC_URL`. `ANTHROPIC_BASE_URL` is an explicit override of that
  * origin; the gateway never uses an endpoint the SDK picked up implicitly. `TYPESAFE_API_KEY`
  * enables the Jev decision client; unset, every decision route answers from its fast-tier twin.
  * The Jev endpoint has no override at all (./decide/client.ts pins it). `TAVILY_API_KEY` enables
- * web search (./tools/search), whose origin is pinned too.
+ * web search (./search), whose origin is pinned too.
  */
 import { z } from 'zod';
 

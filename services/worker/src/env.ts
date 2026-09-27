@@ -41,13 +41,13 @@ export const workerEnvSchema = z.object({
   CENTRIFUGO_API_URL: optionalUrl,
   /** Same value as the Centrifugo service's CENTRIFUGO_HTTP_API_KEY. */
   CENTRIFUGO_HTTP_API_KEY: optionalString,
-  /** Claude API key for Message Batches (`ai.batch.poll`, src/ai/batch-poll.ts); unset = the batch
-   *  poll job is not registered (nothing can submit a batch without it either). */
+  /** The DeepSeek key: generation runs through DeepSeek's Anthropic-format API
+   *  (packages/ai/src/env.ts); unset = decision fallbacks and AI job steps have no model. */
   ANTHROPIC_API_KEY: optionalString,
-  /** Local-development override of the Anthropic endpoint; unset = Anthropic's API. */
+  /** Override of that endpoint; unset = https://api.deepseek.com/anthropic. */
   ANTHROPIC_BASE_URL: optionalUrl,
   /** TypeSafe Jev key for typed decisions (`compliance.check`, src/ai/compliance-job.ts); unset =
-   *  decisions answer from the Haiku twin. */
+   *  decisions answer from the fast-tier twin. */
   TYPESAFE_API_KEY: optionalString,
   /** Langfuse traces for model calls (packages/ai/src/telemetry/langfuse.ts); both keys unset =
    *  no traces are exported. */

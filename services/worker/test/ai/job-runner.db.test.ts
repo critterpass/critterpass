@@ -52,10 +52,12 @@ const keyed = (overrides = {}) =>
 describe('agent job runner', () => {
   it('resumes on a restarted worker at the failed step, billing every model call to the job', async () => {
     const queue = uniqueQueue('agent_resume');
-    const transport = fixtureTransport(['haiku-basic']);
+    const transport = fixtureTransport(['flash-basic']);
     const gateway = createGateway({
       apiKey: 'fixture-key',
       fetch: transport.fetch,
+      // Off-peak, so the recorded call has a fixed price.
+      now: () => new Date('2026-09-28T05:00:00Z'),
       onUsage: (record) => recordUsage((fn) => withSystem(harness.pool, fn), record),
     });
     const sideEffects: string[] = [];
@@ -113,9 +115,9 @@ describe('agent job runner', () => {
       persist: { saved: { stop: 'end_turn' } },
     });
     const usage = await usageTotals(harness.pool, id);
-    expect(usage).toEqual({ rows: 1, tokens_in: 14, tokens_out: 5, cost_micros: 39 });
-    expect(row).toMatchObject({ tokens_in: 14, tokens_out: 5, cost_micros: 39 });
-    expect(row.model).toBe('claude-haiku-4-5-20251001');
+    expect(usage).toEqual({ rows: 1, tokens_in: 10, tokens_out: 2, cost_micros: 3 });
+    expect(row).toMatchObject({ tokens_in: 10, tokens_out: 2, cost_micros: 3 });
+    expect(row.model).toBe('deepseek-flash');
 
     const { rows: progress } = await harness.pool.query<{ step: string; pct: number }>(
       `SELECT payload->'data'->>'step' AS step, (payload->'data'->>'pct')::int AS pct FROM rt_outbox

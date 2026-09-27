@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  collectCitedGrounding,
   collectGrounding,
+  collectToolGrounding,
   mergeGrounding,
   unverifiedTextNumbers,
   validateStructured,
@@ -99,5 +101,49 @@ describe('free-text grounding', () => {
       { kind: 'unverified_number', path: 'text', value: '350,000' },
       { kind: 'unknown_id', path: 'text', value: OTHER_POI },
     ]);
+  });
+});
+
+describe('web search results are cite-only', () => {
+  const web = {
+    name: 'web_search',
+    output: {
+      results: [
+        {
+          url: 'https://tuoitre.vn/hoi-an',
+          title: 'Lantern night',
+          snippet: 'Lanterns go up at 18:30; entry to the old town is 120,000 VND.',
+          published_at: '2026-09-20T10:00:00+07:00',
+          fetched_at: '2026-09-28T02:00:00Z',
+        },
+      ],
+    },
+  };
+  const places = {
+    name: 'places_search',
+    output: [{ poi_id: '0190f0a0-0000-7000-8000-00000000a001', distance_m: 350 }],
+  };
+
+  it('never grounds structured output, even on a web page number or time', () => {
+    const facts = collectToolGrounding([web, places]);
+    expect(
+      validateStructured(
+        { poi_id: '0190f0a0-0000-7000-8000-00000000a001', price_minor: 120000, start_at: '18:30' },
+        facts,
+      ).map((v) => v.kind),
+    ).toEqual(['unverified_number', 'unverified_time']);
+    // Not even the page's own publish or fetch times.
+    expect(validateStructured({ start_at: '10:00' }, facts)).toHaveLength(1);
+  });
+
+  it('lets a chat answer quote what the page says', () => {
+    const grounding = mergeGrounding(
+      collectToolGrounding([web, places]),
+      collectCitedGrounding([web, places]),
+    );
+    expect(
+      unverifiedTextNumbers('Lanterns go up at 18:30 and entry is 120,000 VND.', grounding),
+    ).toEqual([]);
+    expect(unverifiedTextNumbers('Entry is 150,000 VND.', grounding)).toHaveLength(1);
   });
 });

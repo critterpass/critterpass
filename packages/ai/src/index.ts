@@ -189,7 +189,7 @@ export {
   TAVILY_MAX_RESULTS,
   TAVILY_SEARCH_URL,
   type TavilyOptions,
-} from './tools/search';
+} from './search';
 export {
   BRIEF_ANSWER_DIRECTIVE,
   degradedRoute,

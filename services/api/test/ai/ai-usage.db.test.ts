@@ -40,21 +40,15 @@ afterAll(async () => {
 
 describe('recordUsage', () => {
   it('writes one ai_usage row as app_system with the computed cost', async () => {
-    const usage = {
-      inputTokens: 23,
-      cacheWrite5mTokens: 0,
-      cacheWrite1hTokens: 0,
-      cacheReadTokens: 4410,
-      outputTokens: 12,
-      webSearchRequests: 0,
-    };
+    const usage = { inputTokens: 23, cacheWriteTokens: 0, cacheReadTokens: 4410, outputTokens: 12 };
+    const at = new Date('2026-09-28T05:00:00Z');
     const record = buildUsageRecord({
-      model: 'claude-haiku-4-5-20251001',
-      tier: 'haiku',
+      model: 'deepseek-flash',
+      tier: 'fast',
       usage,
-      costMicros: computeCostMicros('haiku', usage),
+      costMicros: computeCostMicros('fast', usage, at),
       context: { langfuseTraceId: 'trace-usage-db' },
-      at: new Date('2026-09-27T10:00:00Z'),
+      at,
     });
     await recordUsage(runAsSystem, record);
 
@@ -67,12 +61,13 @@ describe('recordUsage', () => {
     expect(rows).toEqual([
       {
         user_id: null,
-        tier: 'haiku',
+        tier: 'fast',
         tokens_in: 4433,
         tokens_out: 12,
         cache_read: 4410,
-        cost_micros: 524,
-        at: new Date('2026-09-27T10:00:00Z'),
+        // 23 × 0.15 + 4410 × 0.003 + 12 × 0.6 µ$ at the off-peak fast rate.
+        cost_micros: 24,
+        at: new Date('2026-09-28T05:00:00Z'),
       },
     ]);
   });

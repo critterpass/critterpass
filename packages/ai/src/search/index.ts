@@ -2,8 +2,8 @@
  * Search adapters behind `SearchProvider` (../search-provider.ts). Tavily is the configured
  * provider; a second adapter (Brave) plugs in here the same way.
  */
-import { aiEnvSchema } from '../../env';
-import type { SearchProvider } from '../search-provider';
+import { aiEnvSchema } from '../env';
+import type { SearchProvider } from '../tools/search-provider';
 import { createTavilySearch, type TavilyOptions } from './tavily';
 
 export {

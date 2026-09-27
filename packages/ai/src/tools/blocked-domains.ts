@@ -1,6 +1,6 @@
 /**
  * Supplier, OTA, metasearch and map pages the guide's web search must never read (docs/product-decisions.md:
- * supplier content never reaches the LLM; D6: map pages come from our map stack). Two layers:
+ * supplier content never reaches the LLM; map pages come from our own map stack). Two layers:
  *
  * - `SUPPLIER_BLOCKED_DOMAINS`: concrete domains sent to the search provider as its exclusion
  *   list (providers match exact domains and their subdomains);

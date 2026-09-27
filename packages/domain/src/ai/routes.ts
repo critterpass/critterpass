@@ -8,7 +8,7 @@
  * Decision routes (`DECISION_ROUTES`) pick a label, answer yes/no or score a rubric; they run on
  * TypeSafe's Jev with a fast-tier twin of the same answer shape as fallback
  * (docs/decisions/20260927-jev-decision-model.md). Every other route is generation and runs on
- * DeepSeek (docs/product-decisions.md D22): the fast tier for chat, voice, parsing and short lines,
+ * DeepSeek: the fast tier for chat, voice, parsing and short lines,
  * the pro tier for planning, redrafts, proposals and the itinerary skeleton.
  */
 import { z } from 'zod';

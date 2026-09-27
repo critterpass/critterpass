@@ -1,4 +1,4 @@
--- Generation moves to DeepSeek (docs/product-decisions.md D22): a fast tier and a pro tier replace
+-- Generation moves to DeepSeek: a fast tier and a pro tier replace
 -- the three Claude tiers in `ai_usage.tier`. Existing rows keep their real model id in `model` and
 -- take the tier with the same role (haiku → fast, sonnet and opus → pro). The CHECK list is
 -- rewritten whole and must equal the domain's AI_TIERS

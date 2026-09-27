@@ -1,6 +1,6 @@
 /**
  * The web search seam: the guide's `web_search` tool (./web-search.ts) talks to one small
- * interface, and each search API is an adapter behind it (./search: Tavily first). An adapter
+ * interface, and each search API is an adapter behind it (../search: Tavily first). An adapter
  * sends the supplier blocklist the way its API takes it and maps results to `SearchHit`; the tool
  * still screens every URL in code, whatever the provider promised.
  */

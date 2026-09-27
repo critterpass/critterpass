@@ -6,7 +6,7 @@
  */
 import { z } from 'zod';
 
-import { SearchProviderError, type SearchHit, type SearchProvider } from '../search-provider';
+import { SearchProviderError, type SearchHit, type SearchProvider } from '../tools/search-provider';
 
 export const TAVILY_SEARCH_URL = 'https://api.tavily.com/search';
 /** Tavily's documented limits. */

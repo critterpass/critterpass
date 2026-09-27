@@ -4,8 +4,8 @@
  * `agent_jobs.partial` and its progress in `agent_jobs.steps` (plus a `job.progress` hint), so a
  * retry on any worker resumes at the first unfinished step without repeating earlier side effects.
  * Model calls a step makes are billed to the job through `ctx.usage`, and the job's token and cost
- * totals are re-summed from `ai_usage` after every step. A step may suspend the job (a submitted
- * Message Batch): it is resumed by whoever finishes the wait (./batch-poll.ts).
+ * totals are re-summed from `ai_usage` after every step. A step may suspend the job while it waits
+ * on something outside the worker: whoever finishes the wait re-enqueues it.
  *
  * Steps must be idempotent on `ctx.idempotencyKey`: a crash after a step's side effect but before
  * its result is saved runs that step again.
@@ -70,7 +70,7 @@ export interface ResumeTarget {
 
 export interface StepSuspension {
   readonly [SUSPEND]: true;
-  /** Kept as the step's entry in `partial` while it waits (e.g. the batch id). */
+  /** Kept as the step's entry in `partial` while it waits (e.g. the id of what it waits on). */
   readonly partial: unknown;
   /** Runs in the transaction that marks the step `waiting` (enqueue whatever ends the wait). */
   readonly onSuspend: (tx: pg.PoolClient, resume: ResumeTarget) => Promise<void>;

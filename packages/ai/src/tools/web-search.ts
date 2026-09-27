@@ -6,7 +6,7 @@
  * - Query privacy: the model writes the query, so before it leaves, contact details, links, card
  *   and ID numbers, booking-reference-like codes and the trip's private terms (crew names, booking
  *   references) are cut out; a query holds places, dates and topics only.
- * - Supplier content never reaches the model (docs/product-decisions.md D10): every search sends
+ * - Supplier content never reaches the model (docs/product-decisions.md): every search sends
  *   the supplier blocklist to the provider, and every returned URL is screened again here, so a
  *   result the provider let through is dropped before the model or a client sees it.
  * - Facts carry their source: the model receives each surviving result as an untrusted data block

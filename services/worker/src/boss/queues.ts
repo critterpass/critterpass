@@ -92,8 +92,6 @@ export const QUEUES = {
     expireInSeconds: 60 * 60,
     cron: { expr: '0 4 * * *', tz: 'UTC' },
   }),
-  // Polls one suspended Message Batch step; `stately` lets the running poll queue its own next poll.
-  'ai.batch.poll': spec({ policy: 'stately', retryLimit: 5, retryDelay: 30, deadLetter: true }),
   'guide_action.execute': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
   'guide_action.undo_expire': spec({ policy: 'exclusive' }),
   // Travel data (docs/api-contracts-async.md §2.3): one run at a time; a rerun inside the same

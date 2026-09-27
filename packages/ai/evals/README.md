@@ -3,13 +3,13 @@
 promptfoo-format suites, one directory per suite (`<suite>/promptfooconfig.yaml` plus case files in
 promptfoo's `tests` format). They gate every change to prompts, personas, tools and routing.
 
-| Suite       | What it grades                                                                    |
-| ----------- | --------------------------------------------------------------------------------- |
-| `chat`      | persona layering, chattiness budget, allowed tool calls, refusal handling         |
-| `persona`   | voice (rubric), sentence caps per chattiness, local words from the guide's own list |
-| `grounding` | ids, numbers and times only from tool output; invented ones are caught            |
-| `injection` | untrusted text stays in data blocks, no write tools, parsers get no tools, no supplier pages |
-| `autonomy`  | the decider's verdict per action; replies never claim a change that needs a yes   |
+| Suite        | What it grades                                                                                                                                    |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `chat`       | persona layering, chattiness budget, allowed tool calls, refusal handling                                                                         |
+| `persona`    | voice (rubric), sentence caps per chattiness, local words from the guide's own list                                                               |
+| `grounding`  | ids, numbers and times only from tool output; invented ones are caught                                                                            |
+| `injection`  | untrusted text stays in data blocks, no write tools, parsers get no tools, no supplier pages                                                      |
+| `autonomy`   | the decider's verdict per action; replies never claim a change that needs a yes                                                                   |
 | `compliance` | the input compliance check on 40 EN + 40 VI texts: outcome per surface, reject precision, self-harm and injection recall, figurative talk passing |
 
 ## Running

@@ -120,18 +120,31 @@ async function outboxUsage(uid: string): Promise<Record<string, unknown>[]> {
   return rows.filter((row) => row.payload.type === 'usage.changed').map((row) => row.payload.data);
 }
 
+/** Event names with each run of `token` frames collapsed to one (streams split text freely). */
+function shape(frames: readonly { event: string }[]): string[] {
+  return frames
+    .map((f) => f.event)
+    .filter((event, i, all) => event !== 'token' || all[i - 1] !== 'token');
+}
+
+const tokens = (frames: readonly { event: string; data: { text?: string } }[]) =>
+  frames
+    .filter((f) => f.event === 'token')
+    .map((f) => f.data.text ?? '')
+    .join('');
+
 describe('guide turn over SSE', () => {
   it('streams tokens, then usage and done, and commits one unit', async () => {
     const me = await harness.signInAnonymously();
-    useFixtures(['haiku-stream']);
+    useFixtures(['flash-stream']);
     const response = await ask(me.cookie, 'Hi Tokek');
     expect(response.headers.get('content-type')).toContain('text/event-stream');
     const frames = parseFrames(await response.text());
 
-    expect(frames.map((f) => f.event)).toEqual(['token', 'token', 'usage', 'done']);
-    expect(frames.slice(0, 2).map((f) => f.data.text)).toEqual(['Sawasdee', ' krub!']);
-    expect(frames[2]?.data).toMatchObject({ used: 1, limit: 30 });
-    expect(frames[3]?.data).toEqual({ ai_generated: true, sources: [] });
+    expect(shape(frames)).toEqual(['token', 'usage', 'done']);
+    expect(tokens(frames)).toMatch(/^Hi! Tokek here/u);
+    expect(frames.at(-2)?.data).toMatchObject({ used: 1, limit: 30 });
+    expect(frames.at(-1)?.data).toEqual({ ai_generated: true, sources: [] });
     expect(await used(me.uid)).toBe(1);
     expect(await outboxUsage(me.uid)).toEqual([
       expect.objectContaining({ metric: 'guide_answers', used: 1, limit: 30 }),
@@ -144,31 +157,23 @@ describe('guide turn over SSE', () => {
 
   it('runs a tool round, reports an unavailable tool honestly, and answers after it', async () => {
     const me = await harness.signInAnonymously();
-    useFixtures(['haiku-stream-tool-use', 'haiku-stream-after-tool']);
-    const frames = parseFrames(await (await ask(me.cookie, 'Night markets near us?')).text());
+    useFixtures(['flash-stream-tool-use', 'flash-stream-after-tool']);
+    const frames = parseFrames(await (await ask(me.cookie, 'Noodles near us?')).text());
 
-    expect(frames.map((f) => f.event)).toEqual([
-      'token',
-      'token',
-      'tool_start',
-      'tool_result',
-      'token',
-      'token',
-      'token',
-      'usage',
-      'done',
-    ]);
-    expect(frames[2]?.data).toEqual({ tool: 'places_search', id: 'toolu_01StreamPlacesSearch1' });
-    expect(frames[3]?.data).toEqual({
-      id: 'toolu_01StreamPlacesSearch1',
+    expect(shape(frames)).toEqual(['token', 'tool_start', 'tool_result', 'token', 'usage', 'done']);
+    const callId = 'call_00_5623rQZDspBjPvKPRxfg8991';
+    expect(frames.find((f) => f.event === 'tool_start')?.data).toEqual({
+      tool: 'places_search',
+      id: callId,
+    });
+    expect(frames.find((f) => f.event === 'tool_result')?.data).toEqual({
+      id: callId,
       card: { tool: 'places_search', status: 'unavailable' },
     });
     const second = transport.requests[1] as { messages: { role: string; content: unknown }[] };
     expect(second.messages.at(-1)).toMatchObject({
       role: 'user',
-      content: [
-        { type: 'tool_result', tool_use_id: 'toolu_01StreamPlacesSearch1', is_error: true },
-      ],
+      content: [{ type: 'tool_result', tool_use_id: callId, is_error: true }],
     });
     const firstTools = (transport.requests[0] as { tools: { name: string; strict: boolean }[] })
       .tools;
@@ -181,22 +186,23 @@ describe('guide turn over SSE', () => {
     expect(usageRows.rowCount).toBe(2);
   });
 
-  it('releases the unit when the model refuses', async () => {
+  it('releases the unit when the model declines, never streaming the marker', async () => {
     const me = await harness.signInAnonymously();
-    useFixtures(['haiku-stream-refusal']);
+    useFixtures(['flash-stream-decline']);
     const frames = parseFrames(await (await ask(me.cookie, 'something off-limits')).text());
     expect(frames.at(-1)).toEqual({
       event: 'error',
       data: { code: 'AI_REFUSED', retryable: false },
     });
     expect(frames.map((f) => f.event)).not.toContain('done');
+    expect(tokens(frames)).toBe('');
     expect(await used(me.uid)).toBe(0);
     expect((await outboxUsage(me.uid)).at(-1)).toMatchObject({ used: 0 });
   });
 
   it('releases the unit when the provider fails', async () => {
     const me = await harness.signInAnonymously();
-    useFixtures(['overloaded-529']);
+    useFixtures(['anthropic/overloaded-529']);
     const frames = parseFrames(await (await ask(me.cookie, 'Hi')).text());
     expect(frames).toEqual([{ event: 'error', data: { code: 'AI_UNAVAILABLE', retryable: true } }]);
     expect(await used(me.uid)).toBe(0);
@@ -204,7 +210,7 @@ describe('guide turn over SSE', () => {
 
   it('releases the unit when the client disconnects mid-answer', async () => {
     const me = await harness.signInAnonymously();
-    useFixtures(['haiku-stream']);
+    useFixtures(['flash-stream']);
     const response = await ask(me.cookie, 'Hi');
     const reader = (response.body as ReadableStream<Uint8Array>).getReader();
     const first = new TextDecoder().decode((await reader.read()).value);
@@ -254,18 +260,18 @@ describe('unlimited tiers and the silent fair-use cap', () => {
     return me;
   }
 
-  it('is not metered, and over the cap moves the turn to Haiku with a short answer', async () => {
+  it('is not metered, and over the cap moves the turn to the fast tier with a short answer', async () => {
     const me = await unlimitedUserAt(300);
-    useFixtures(['haiku-stream']);
+    useFixtures(['flash-stream']);
     const frames = parseFrames(
       await (await ask(me.cookie, 'Plan tomorrow?', 'guide.chat_escalation')).text(),
     );
-    expect(frames.map((f) => f.event)).toEqual(['token', 'token', 'done']);
+    expect(shape(frames)).toEqual(['token', 'done']);
     const request = transport.requests[0] as {
       model: string;
       messages: { content: { text: string }[] }[];
     };
-    expect(request.model).toBe('claude-haiku-4-5-20251001');
+    expect(request.model).toBe('deepseek-flash');
     expect(request.messages[0]?.content[0]?.text).toContain('two short sentences');
     expect(await used(me.uid)).toBe(0);
   });

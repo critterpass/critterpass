@@ -1,13 +1,12 @@
 /**
- * The worker's AI jobs: every agent job definition (features append theirs to `AGENT_JOBS`), the
- * `ai.batch.poll` job that finishes their batch steps (registered once a Claude key is configured)
- * and `compliance.check` for offline-created text (always registered: with no model configured it
- * still applies each surface's unavailable outcome, so public text fails closed to review).
+ * The worker's AI jobs: every agent job definition (features append theirs to `AGENT_JOBS`; bulk
+ * work uses `batchStep`, direct calls with bounded concurrency) and `compliance.check` for
+ * offline-created text (always registered: with no model configured it still applies each
+ * surface's unavailable outcome, so public text fails closed to review).
  */
-import { createBatchClient, createLangfuseTelemetry } from '@cp/ai';
+import { createLangfuseTelemetry } from '@cp/ai';
 
 import type { AnyJobDefinition } from '../boss';
-import { aiBatchPollJob } from './batch-poll';
 import { complianceCheckJob } from './compliance-job';
 import type { AgentJobDefinition } from './job-runner';
 
@@ -37,22 +36,16 @@ export function aiJobs(
   const baseURL = env.ANTHROPIC_BASE_URL === undefined ? {} : { baseURL: env.ANTHROPIC_BASE_URL };
   const compliance = complianceCheckJob({
     typesafeApiKey: env.TYPESAFE_API_KEY,
-    anthropic:
+    generation:
       env.ANTHROPIC_API_KEY === undefined
         ? undefined
         : { apiKey: env.ANTHROPIC_API_KEY, ...baseURL },
     telemetry,
   });
-  if (env.ANTHROPIC_API_KEY === undefined) return [...AGENT_JOBS, compliance];
-  const batches = createBatchClient({
-    apiKey: env.ANTHROPIC_API_KEY,
-    telemetry,
-    ...baseURL,
-  });
-  return [...AGENT_JOBS, aiBatchPollJob({ batches, jobs: AGENT_JOBS }), compliance];
+  return [...AGENT_JOBS, compliance];
 }
 
-export { AI_BATCH_POLL_QUEUE, aiBatchPollJob, batchStep, type BatchStep } from './batch-poll';
+export { batchStep, type BatchDeps, type BatchProgress, type BatchStepInput } from './batch-step';
 export {
   COMPLIANCE_CHECK_QUEUE,
   COMPLIANCE_CHECK_SPEC,

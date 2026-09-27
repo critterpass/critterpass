@@ -11,6 +11,7 @@ import {
   buildSystemBlocks,
   REPO_PACKS,
   resolveRoute,
+  isUntrustedBlock,
   userTurnWithData,
   type ReaderClient,
   type RunAsGuideReader,
@@ -138,7 +139,7 @@ describe('guide context through guide_reader', () => {
   it('reads only llm views, as guide_reader', async () => {
     const recorder = recordingRunner();
     await buildContext(
-      { uid: asker(), tripId: crew.tripId, surface: 'C', citations: true },
+      { uid: asker(), tripId: crew.tripId, surface: 'C' },
       { runAsGuideReader: recorder.run, redactKeys: guideRedactionKeys() },
     );
     expect(recorder.roles).toEqual(['guide_reader']);
@@ -155,7 +156,6 @@ describe('guide context through guide_reader', () => {
       uid: asker(),
       tripId: crew.tripId,
       surface: 'C',
-      citations: true,
       untrusted: [{ kind: 'crew_message', text: INJECTION, source: 'msg-1', label: 'Rin' }],
     });
     const params = buildMessageParams(resolveRoute('guide.chat'), {
@@ -176,7 +176,9 @@ describe('guide context through guide_reader', () => {
     expect(system).not.toContain('book it');
     const blocks = params.messages.flatMap((m) => (Array.isArray(m.content) ? m.content : []));
     const carriers = blocks.filter((block) => JSON.stringify(block).includes('book it'));
-    expect(carriers.map((block) => block.type)).toEqual(['document']);
+    expect(carriers.map((block) => block.type === 'text' && isUntrustedBlock(block))).toEqual([
+      true,
+    ]);
   });
 
   it('gives an outsider no trip at all', async () => {
@@ -186,7 +188,6 @@ describe('guide context through guide_reader', () => {
       uid: outsider,
       tripId: crew.tripId,
       surface: 'C',
-      citations: true,
     });
     expect(context.tripContext).toBeUndefined();
   });

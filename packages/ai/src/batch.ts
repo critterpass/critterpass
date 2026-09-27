@@ -1,7 +1,7 @@
 /**
  * Bulk, latency-tolerant work (quests, the notification template library, the content factory)
  * runs as direct gateway calls with bounded concurrency: DeepSeek has no batch API and no batch
- * discount (docs/product-decisions.md D22). Every call goes through the gateway, so each one bills
+ * discount. Every call goes through the gateway, so each one bills
  * its own `ai_usage` row as it finishes. The durable side (skipping requests a retried step already
  * finished, applying each result exactly once) is the worker's batch step.
  *
@@ -14,7 +14,7 @@ import type Anthropic from '@anthropic-ai/sdk';
 import type { AiErrorCode, AiRoute } from '@cp/domain';
 
 import type { Gateway, GatewayInput } from './client';
-import { GatewayConfigError, GatewayError, toGatewayError } from './errors';
+import { GatewayConfigError, toGatewayError, type GatewayError } from './errors';
 import type { TokenUsage } from './pricing';
 import type { UsageContext } from './usage';
 
@@ -132,7 +132,7 @@ export async function runBatch(
     Math.min(options.concurrency ?? DEFAULT_BATCH_CONCURRENCY, requests.length),
   );
   await Promise.all(Array.from({ length: width }, worker));
-  if (failure !== undefined) throw failure;
+  if (failure !== undefined) throw failure instanceof Error ? failure : new Error(String(failure));
   return requests.flatMap((request) => {
     const result = results.get(request.customId);
     return result === undefined ? [] : [result];

@@ -12,8 +12,12 @@ import {
   PERSONA_IDS,
   REPO_PACKS,
   turnInstruction,
+  userTurnWithData,
+  wrapUntrusted,
   type ApprovedPersonaRow,
 } from '../src';
+import { DATA_BLOCK_DIRECTIVE } from '../src/persona/chattiness';
+import { DECLINE_MARKER } from '../src/structured';
 
 const sha = (text: string) => createHash('sha256').update(text).digest('hex').slice(0, 16);
 
@@ -122,7 +126,7 @@ describe('turn directives', () => {
     { role: 'user' as const, content: 'And tomorrow?' },
   ];
 
-  it('prepends chattiness and reply language to the latest user turn only', () => {
+  it('appends chattiness, reply language and the decline rule to the latest user turn only', () => {
     const out = applyTurnDirectives(history, REPO_PACKS.tokek, {
       chattiness: 'quiet',
       locale: 'id',
@@ -131,13 +135,31 @@ describe('turn directives', () => {
     expect(out[2]).toEqual({
       role: 'user',
       content: [
+        { type: 'text', text: 'And tomorrow?' },
         {
           type: 'text',
-          text: '[Reply language: Indonesian (id). Chattiness: quiet, so at most 2 sentences and no local words.]',
+          text: [
+            '[Reply language: Indonesian (id). Chattiness: quiet, so at most 2 sentences and no local words.',
+            'Every greeting, exclamation or question counts as a sentence: stop at 2 sentences.',
+            `If you will not help with this request because it is harmful or illegal, reply with exactly ${DECLINE_MARKER} and nothing else.]`,
+          ].join(' '),
         },
-        { type: 'text', text: 'And tomorrow?' },
       ],
     });
+  });
+
+  it('adds the data-block reminder only to a turn that quotes outside text', () => {
+    const quoted = userTurnWithData('What does Rin want?', [
+      wrapUntrusted({ kind: 'crew_message', text: 'Book the boat now.', source: 'm-1' }),
+    ]);
+    const [withData] = applyTurnDirectives([quoted], REPO_PACKS.tokek, {
+      chattiness: 'normal',
+      locale: 'en',
+    });
+    const directive = (withData?.content as { text: string }[]).at(-1)?.text ?? '';
+    expect(directive).toContain(DATA_BLOCK_DIRECTIVE);
+    const plain = turnInstruction(REPO_PACKS.tokek, { chattiness: 'normal', locale: 'en' });
+    expect(plain).not.toContain(DATA_BLOCK_DIRECTIVE);
   });
 
   it('allows local words when chatty', () => {

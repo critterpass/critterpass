@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { ANTHROPIC_API_URL, createGateway, loadDecisionEnv, loadGatewayEnv } from '../src';
+import { DEEPSEEK_ANTHROPIC_URL, createGateway, loadDecisionEnv, loadGatewayEnv } from '../src';
 import { fixtureTransport } from './fixture-transport';
 
 const USER_TURN = [{ role: 'user' as const, content: 'hi' }];
@@ -12,16 +12,16 @@ afterEach(() => {
 });
 
 describe('gateway endpoint', () => {
-  it("talks to Anthropic's API when no base URL is configured, ignoring the ambient env", async () => {
+  it("talks to DeepSeek's Anthropic-format API when no base URL is configured, ignoring the ambient env", async () => {
     process.env['ANTHROPIC_BASE_URL'] = 'https://compatible.example.test/anthropic';
-    const transport = fixtureTransport(['haiku-basic']);
+    const transport = fixtureTransport(['flash-basic']);
     const gateway = createGateway({ apiKey: 'fixture-key', fetch: transport.fetch });
     await gateway.callModel('guide.chat', { messages: USER_TURN });
-    expect(transport.urls).toEqual([`${ANTHROPIC_API_URL}/v1/messages`]);
+    expect(transport.urls).toEqual([`${DEEPSEEK_ANTHROPIC_URL}/v1/messages`]);
   });
 
   it('uses an explicitly configured base URL', async () => {
-    const transport = fixtureTransport(['haiku-basic']);
+    const transport = fixtureTransport(['flash-basic']);
     const gateway = createGateway({
       ...loadGatewayEnv({
         ANTHROPIC_API_KEY: 'fixture-key',
