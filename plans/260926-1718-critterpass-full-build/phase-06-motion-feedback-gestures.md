@@ -1,7 +1,7 @@
 ---
 phase: 6
 title: Motion runtime, feedback bus, gesture kit
-status: pending
+status: in_progress
 depends_on: [3, 4]
 wave: 3
 features: [F-003, F-005, F-028]
