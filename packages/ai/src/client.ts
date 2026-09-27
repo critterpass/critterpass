@@ -3,9 +3,10 @@
  * Anthropic SDK with a request timeout, jittered retries on 429/529 only, refusal mapping, and one
  * usage record (with `cost_micros`) per call handed to `onUsage`.
  */
-import Anthropic from '@anthropic-ai/sdk';
+import Anthropic, { APIError } from '@anthropic-ai/sdk';
 import type { AiRoute } from '@cp/domain';
 
+import { ANTHROPIC_API_URL } from './env';
 import {
   GatewayConfigError,
   GatewayError,
@@ -41,6 +42,7 @@ export type GatewayStreamEvent =
 
 export interface GatewayOptions {
   readonly apiKey: string;
+  /** Explicit endpoint override (see ./env.ts); unset = Anthropic's API. */
   readonly baseURL?: string;
   readonly timeoutMs?: number;
   /** Total attempts per call, including the first. */
@@ -98,8 +100,10 @@ export function buildMessageParams(route: RouteConfig, input: GatewayInput): Mes
 }
 
 function retryAfterMs(error: unknown): number | undefined {
-  if (!(error instanceof Anthropic.APIError)) return undefined;
-  const header = error.headers?.get('retry-after');
+  if (!(error instanceof APIError)) return undefined;
+  // The SDK types `headers` through its own fetch shims; at runtime it is the response's Headers.
+  const headers = error.headers as Headers | undefined;
+  const header = headers?.get('retry-after');
   const seconds = header === null || header === undefined ? Number.NaN : Number(header);
   return Number.isFinite(seconds) && seconds >= 0
     ? Math.min(seconds * 1000, MAX_DELAY_MS)
@@ -111,7 +115,8 @@ export function createGateway(options: GatewayOptions): Gateway {
     apiKey: options.apiKey,
     maxRetries: 0,
     timeout: options.timeoutMs ?? 60_000,
-    ...(options.baseURL === undefined ? {} : { baseURL: options.baseURL }),
+    // Always explicit: the SDK would otherwise read ANTHROPIC_BASE_URL from the process env.
+    baseURL: options.baseURL ?? ANTHROPIC_API_URL,
     ...(options.fetch === undefined ? {} : { fetch: options.fetch }),
   });
   const maxAttempts = options.maxAttempts ?? 3;

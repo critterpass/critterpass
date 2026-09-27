@@ -21,15 +21,19 @@ export function loadFixture(name: string): { readonly response: FixtureResponse 
 export interface FixtureTransport {
   readonly fetch: typeof fetch;
   readonly requests: Record<string, unknown>[];
+  readonly urls: string[];
 }
 
 export function fixtureTransport(names: readonly string[]): FixtureTransport {
   const queue = [...names];
   const requests: Record<string, unknown>[] = [];
-  const replay = async (_input: unknown, init?: RequestInit): Promise<Response> => {
+  const urls: string[] = [];
+  const replay = (input: unknown, init?: RequestInit): Promise<Response> => {
+    urls.push(input instanceof Request ? input.url : String(input));
     const name = queue.shift();
     if (name === undefined) throw new Error('fixture transport: no response left to replay');
-    requests.push(JSON.parse(String(init?.body ?? '{}')) as Record<string, unknown>);
+    const body = typeof init?.body === 'string' ? init.body : '{}';
+    requests.push(JSON.parse(body) as Record<string, unknown>);
     const { response } = loadFixture(name);
     const headers = new Headers({ 'request-id': `req_fixture_${name}`, ...response.headers });
     if (response.sse !== undefined) {
@@ -37,10 +41,12 @@ export function fixtureTransport(names: readonly string[]): FixtureTransport {
       const text = response.sse
         .map((e) => `event: ${e.event}\ndata: ${JSON.stringify(e.data)}\n\n`)
         .join('');
-      return new Response(text, { status: response.status, headers });
+      return Promise.resolve(new Response(text, { status: response.status, headers }));
     }
     headers.set('content-type', 'application/json');
-    return new Response(JSON.stringify(response.body), { status: response.status, headers });
+    return Promise.resolve(
+      new Response(JSON.stringify(response.body), { status: response.status, headers }),
+    );
   };
-  return { fetch: replay as typeof fetch, requests };
+  return { fetch: replay, requests, urls };
 }

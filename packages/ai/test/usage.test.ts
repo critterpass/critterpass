@@ -28,11 +28,13 @@ function gatewayFor(fixtures: readonly string[]) {
   const gateway = createGateway({
     apiKey: 'fixture-key',
     fetch: transport.fetch,
-    onUsage: async (record) => {
+    onUsage: (record) => {
       records.push(record);
+      return Promise.resolve();
     },
-    sleep: async (ms) => {
+    sleep: (ms) => {
       sleeps.push(ms);
+      return Promise.resolve();
     },
     random: () => 0.5,
     now: () => AT,
@@ -76,6 +78,15 @@ describe('callModel against recorded responses', () => {
     expect(first.costMicros).toBe(5596);
     expect(second.costMicros).toBe(524);
     expect(records[1]).toMatchObject({ tokensIn: 4433, cacheRead: 4410, tripId, costMicros: 524 });
+  });
+
+  it('returns a tool call untouched and bills the turn that requested it', async () => {
+    const { gateway, records } = gatewayFor(['haiku-tool-use']);
+    const result = await gateway.callModel('guide.chat', { messages: USER_TURN });
+    expect(result.message.stop_reason).toBe('tool_use');
+    expect(result.message.content[1]).toMatchObject({ type: 'tool_use', name: 'places_search' });
+    expect(result.costMicros).toBe(967);
+    expect(records).toHaveLength(1);
   });
 
   it('maps a refusal to AI_REFUSED after recording its billed usage', async () => {

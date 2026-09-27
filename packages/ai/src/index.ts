@@ -8,6 +8,13 @@ export {
   type GatewayStreamEvent,
 } from './client';
 export {
+  aiEnvSchema,
+  ANTHROPIC_API_URL,
+  loadGatewayEnv,
+  type AiEnv,
+  type GatewayEnvOptions,
+} from './env';
+export {
   GatewayConfigError,
   GatewayError,
   isRetryableProviderError,
