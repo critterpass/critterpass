@@ -15,12 +15,18 @@ beforeEach(() => {
     return Promise.reject(new Error('network down'));
   });
 });
-afterEach(() => {
+/** Every client a test creates, shut down afterwards so no SDK timer outlives the test. */
+const created: AnalyticsClient[] = [];
+afterEach(async () => {
+  // Drains queued sends and stops the SDK's timers before the test environment is torn down.
+  await Promise.all(
+    created.splice(0).map((client) => client.posthog?._shutdown(1_000) ?? Promise.resolve()),
+  );
   global.fetch = realFetch;
 });
 
 function client(bootstrapFlags?: Record<string, boolean>): AnalyticsClient {
-  return createAnalyticsClient({
+  const analytics = createAnalyticsClient({
     apiKey: 'phc_test',
     dev: true,
     initialConsent: 'granted',
@@ -34,8 +40,11 @@ function client(bootstrapFlags?: Record<string, boolean>): AnalyticsClient {
       disableSurveys: true,
       disableCompression: true,
       fetchRetryCount: 0,
+      featureFlagsRequestMaxRetries: 0,
     },
   });
+  created.push(analytics);
+  return analytics;
 }
 
 function Replay() {

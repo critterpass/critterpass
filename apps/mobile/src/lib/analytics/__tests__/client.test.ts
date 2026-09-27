@@ -1,6 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 
-import { createAnalyticsClient, decisionFromRows, type AnalyticsClientOptions } from '../index';
+import {
+  createAnalyticsClient,
+  decisionFromRows,
+  type AnalyticsClient,
+  type AnalyticsClientOptions,
+} from '../index';
 
 const PID = 'a'.repeat(64);
 const TRIP = '0192a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b';
@@ -29,12 +34,18 @@ beforeEach(() => {
   });
 });
 
-afterEach(() => {
+/** Every client a test creates, shut down afterwards so no SDK timer outlives the test. */
+const created: AnalyticsClient[] = [];
+afterEach(async () => {
+  // Drains queued sends and stops the SDK's timers before the test environment is torn down.
+  await Promise.all(
+    created.splice(0).map((client) => client.posthog?._shutdown(1_000) ?? Promise.resolve()),
+  );
   global.fetch = realFetch;
 });
 
 function client(overrides: Partial<AnalyticsClientOptions> = {}) {
-  return createAnalyticsClient({
+  const analytics = createAnalyticsClient({
     apiKey: 'phc_test',
     dev: true,
     sdkOverrides: {
@@ -49,6 +60,8 @@ function client(overrides: Partial<AnalyticsClientOptions> = {}) {
     },
     ...overrides,
   });
+  created.push(analytics);
+  return analytics;
 }
 
 const capturedEvents = () => sent.flatMap((batch) => batch.events);
