@@ -1,0 +1,87 @@
+[
+  {
+    "request": "/directions/v5/mapbox/driving-traffic/135.758800,34.985800;135.785000,34.994900?alternatives=false&geometries=geojson&overview=simplified&steps=false",
+    "status": 200,
+    "body": {
+      "code": "Ok",
+      "waypoints": [
+        {
+          "location": [135.759685, 34.9865],
+          "name": "",
+          "distance": 112.192,
+          "time_zone": {
+            "offset": "+09:00",
+            "identifier": "Asia/Tokyo",
+            "abbreviation": "JST"
+          }
+        },
+        {
+          "location": [135.784652, 34.995331],
+          "name": "",
+          "distance": 57.525,
+          "time_zone": {
+            "offset": "+09:00",
+            "identifier": "Asia/Tokyo",
+            "abbreviation": "JST"
+          }
+        }
+      ],
+      "routes": [
+        {
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [135.759685, 34.9865],
+              [135.75971, 34.98924],
+              [135.769574, 34.989334],
+              [135.77447, 34.98903],
+              [135.774973, 34.992868],
+              [135.776093, 34.994351],
+              [135.777499, 34.994841],
+              [135.778419, 34.99539],
+              [135.780726, 34.996201],
+              [135.779735, 34.996845],
+              [135.779929, 34.997089],
+              [135.781028, 34.996947],
+              [135.781019, 34.996657],
+              [135.781185, 34.996584],
+              [135.782498, 34.996341],
+              [135.782473, 34.996046],
+              [135.782134, 34.995972],
+              [135.78327, 34.996009],
+              [135.783784, 34.99581],
+              [135.783768, 34.995608],
+              [135.784586, 34.99552],
+              [135.784652, 34.995331]
+            ]
+          },
+          "distance": 3546.06,
+          "duration": 896.541,
+          "weight": 1944.197,
+          "weight_name": "auto",
+          "duration_typical": 887.345,
+          "weight_typical": 2015.857,
+          "legs": [
+            {
+              "steps": [],
+              "summary": "七条通, 東大路通",
+              "distance": 3546.06,
+              "duration": 896.541,
+              "weight": 1944.197,
+              "duration_typical": 887.345,
+              "weight_typical": 2015.857,
+              "admins": [
+                {
+                  "iso_3166_1": "JP",
+                  "iso_3166_1_alpha3": "JPN"
+                }
+              ],
+              "via_waypoints": []
+            }
+          ]
+        }
+      ],
+      "uuid": "WeZ4XGtJi5bz-5hdfTCFtNrXYDwCYih9GFqh6L88-fOCl39nqlKbdg=="
+    }
+  }
+]
