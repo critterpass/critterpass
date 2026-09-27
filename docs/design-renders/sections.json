@@ -23,5 +23,16 @@
  "4f": "Entry points. The three limits a crew actually hits, each asked at the moment it matters with a quiet way out, and the full list of every way in.",
  "5a": "Live Activities and the Dynamic Island. Leave-by with Tokek walking the trail, the crew converging on a meet-up, flight day, a critter encounter that keeps counting in your pocket, the expanded island, the boost ask, and every compact state.",
  "5b": "Notifications. Written by the guide, grouped into an evening roundup, voted on without unlocking, an alarm that gets you up for Batur, and a ping budget.",
- "5c": "Widgets and StandBy. Before the trip, on the trip, on the lock screen, on the nightstand, and the gallery, with what is free and what comes with Pass+ or a boost."
+ "5c": "Widgets and StandBy. Before the trip, on the trip, on the lock screen, on the nightstand, and the gallery, with what is free and what comes with Pass+ or a boost.",
+ "6a": "Find a driver: entry. A “Need a driver here?” card on the leg Grab can’t cover (6a-1), and the hub with the three sources plus Ask for me (6a-2).",
+ "6b": "Find a driver: ask for me. Tokek drafts the group post from the trip. The user copies it and posts it themselves; CritterPass never reads or posts in groups (6b-1).",
+ "6c": "Find a driver: add a contact. Paste, screenshot or WhatsApp contact, like Add a booking (6c-1). The extracted card is confirmed line by line (6c-2). Includes the failed-read state (6c-3).",
+ "6d": "Find a driver: compare and pick. Up to four candidates side by side with the gaps flagged (6d-1). Pick sets the driver on the chosen legs, directly or through a crew vote (6d-2).",
+ "6e": "Drivers our crews used. Opted-in drivers only, rated by crews (6e-1). Detail with a WhatsApp contact button (6e-2), the empty state (6e-3), and the saved driver when data drops (6e-4).",
+ "6f": "Private tours. Klook and Viator cards, supplier content verbatim with attribution, Tokek’s take kept separate, commission line pinned (6f-1).",
+ "6g": "After the trip. Rate your driver in the Rate the trip stack (6g-1), then invite him to be listed with a WhatsApp message the user sends (6g-2). Includes the not-yet-claimed state (6g-3).",
+ "6h": "Claim page (web). Where the driver confirms his details and consents (6h-1). He can pause or remove the listing from the same link (6h-2).",
+ "6i": "Share with your driver. A second tab on the plan’s SHARE sheet: link, WhatsApp, PDF, expiry and revoke (6i-1).",
+ "6j": "Driver plan page (web). No login, built for a cheap Android. Day by day with pickup pins (6j-1). The driver can quote, reorder and add tips (6j-2). Includes the switched-off link (6j-3).",
+ "6k": "Driver replied. The quote and changes arrive as a proposal on the existing approval poll (6k-1)."
 }
