@@ -78,6 +78,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. `makeStyles((t) => …)` with theme + increase-contrast. 2. `<Text variant>` uses `fontFor(variant, locale)`, upper-at-render, tabular numerals, Dynamic Type caps, auto-fit. 3. `Scaffold` variants dark/paper/colourHero/scene/map with status-bar style. 4. Gallery registry: `registerFixture(component, stateName, render)`; list + detail screens with locale, font-scale, motion-mode and contrast switchers. 5. `(dev)` group guarded by `__DEV__`/build profile.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/text`.
 - Done when: h1 auto-fits in en-XA pseudo-locale at AX3 within 3 lines; gallery lists Text fixtures.
+- Status: done — fd124c3, 99f1fb8
 
 ### T2 — Doodle icons, textures, rings, surfaces
 - Goal: vector doodle icon set with label registry; Skia textures; cards/surfaces.
@@ -92,6 +93,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Providers order per Requirements. 2. Gate interfaces with real defaults. 3. TabBar: 5 slots, FAB centre, badges, bounce, large-content viewer. 4. FAB tap/long-press resolve the guide sheet and Help hub hrefs through the screen registry (routes owned by the guide and help phases); while a route is unregistered the action is hidden from the FAB, never pointed at a stub screen. 5. Tab screens themselves belong to area phases; this task ships the layout plus registry lookups.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/shell` (inset fixtures: gesture nav, 3-button nav); `maestro test e2e/shell/tabs.yaml e2e/shell/edge-to-edge.yaml` (Android emulator in gesture and 3-button modes).
 - Done when: tabs switch with `tab` transition; FAB long-press fires help route lookup; tab labels hide at max text size; tab bar and FAB clear the Android nav bar in both navigation modes.
+- Status: done — 74f537e
 
 ### T4 — Transitions, sheets, rise, edge-swipe, predictive back
 - Goal: the 10 transitions and sheet system.
@@ -99,6 +101,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. expo-router Stack `screenOptions` + custom interpolators per transition using motion tokens. 2. Sheet with detents, presenter scale .93, scrim, drag-dismiss thresholds (phase-6 `dragDismiss`), nested scroll hand-off, keyboard avoidance. 3. Edge-swipe back via phase-6 `edgeSwipe` on iOS; Android predictive back enabled (`enableOnBackInvokedCallback`). 4. Reduced → cross-fade.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/sheet`; `maestro test e2e/shell/sheets.yaml` (iOS + Android).
 - Done when: detent snap, drag-dismiss commit/cancel and ✕ verified; Android back closes sheet.
+- Status: done — 13a22d0
 
 ### T5 — Shared-element grow (teleport overlay), burst, fold, flip
 - Goal: zoom card→detail and remaining special transitions.
@@ -106,6 +109,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. `useSharedSource(id)` registers card layout; destination `SharedTarget id` measures; clone animates in `OverlayHost` (radius 22→54, fade first 35 %, sticker hop pre-beat). 2. Unzoom on back using stored source rect (fallback: fade if source unmounted). 3. Burst flash, fold, flip per tokens.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/transitions`; `maestro test e2e/shell/zoom.yaml`.
 - Done when: gallery demo card → detail → back animates both ways at 60 fps on mid Android (Perf monitor note in PR).
+- Status: done — 0b05930
 
 ### T6 — Back-stack synthesis, screen registry, state restoration
 - Goal: cold entries build the right back stack.
@@ -113,6 +117,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Extract `PARENT` map from `design/Critterpass Prototype.dc.html` into generated `parents.ts`. 2. `registerScreens({ '3c-9': href, … })` API for area phases. 3. `synthesizeStack(screenId, params)` walks parents to Home, skipping unregistered ids. 4. Navigation state persistence rules.
 - Tests: `pnpm --filter @cp/mobile jest src/lib/navigation`.
 - Done when: tests reproduce the report's example chains (3c-9…Home, 3k-10…Home, 3m-3…3m-1, 4e-1→Home).
+- Status: done — 7550403
 
 ### T7 — Buttons & inputs
 - Goal: §2.2 family.
