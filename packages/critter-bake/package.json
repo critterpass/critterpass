@@ -22,6 +22,7 @@
     "@cp/critter-art": "workspace:*",
     "@cp/design-tokens": "workspace:*",
     "@napi-rs/canvas": "catalog:",
+    "sharp": "catalog:",
     "tsx": "catalog:",
     "zod": "catalog:"
   },

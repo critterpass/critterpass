@@ -122,13 +122,17 @@ export default function StickerLabScreen() {
         onPress={() => setClosedEyesStorm((value) => !value)}
       />
 
-      <FlashList
-        testID="sticker-lab-grid"
-        data={DEX_CELLS}
-        numColumns={GRID_COLUMNS}
-        keyExtractor={(item) => item.kind}
-        renderItem={renderItem}
-      />
+      {/* `testID` on the wrapping View, not `<FlashList>` itself: FlashList's own prop types don't
+          mention `testID` at all (checked its .d.ts), so there's no guarantee it forwards one to a
+          real native accessibility identifier — a plain View reliably does. */}
+      <View testID="sticker-lab-grid" style={styles.grid}>
+        <FlashList
+          data={DEX_CELLS}
+          numColumns={GRID_COLUMNS}
+          keyExtractor={(item) => item.kind}
+          renderItem={renderItem}
+        />
+      </View>
     </View>
   );
 }
@@ -139,4 +143,5 @@ const styles = StyleSheet.create({
   readout: { fontSize: 13, opacity: 0.7 },
   heroRow: { flexDirection: 'row', gap: 16 },
   heroColumn: { alignItems: 'center', gap: 4 },
+  grid: { flex: 1 },
 });

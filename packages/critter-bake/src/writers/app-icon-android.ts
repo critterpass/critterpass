@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 
 import { renderCardNode } from '@cp/critter-art/share';
 
+import { optimizePng } from '../encode';
 import type { AppIconDefinition } from '../templates/app-icons';
 import { buildAppIconContentLayout } from '../templates/app-icons';
 
@@ -25,7 +26,7 @@ async function shrinkToSafeZone(sourcePng: Uint8Array, sizePx: number): Promise<
   const drawSize = sizePx * SAFE_ZONE_RATIO;
   const offset = (sizePx - drawSize) / 2;
   ctx.drawImage(image, offset, offset, drawSize, drawSize);
-  return canvas.encode('png');
+  return optimizePng(await canvas.encode('png'));
 }
 
 /**

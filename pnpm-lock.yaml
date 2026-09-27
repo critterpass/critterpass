@@ -696,6 +696,9 @@ importers:
       '@napi-rs/canvas':
         specifier: 'catalog:'
         version: 1.0.9
+      sharp:
+        specifier: 0.35.4
+        version: 0.35.4(@types/node@26.6.3)
       tsx:
         specifier: 'catalog:'
         version: 4.23.15

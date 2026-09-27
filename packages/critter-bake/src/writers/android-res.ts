@@ -13,11 +13,18 @@ const DENSITY_BY_SCALE: Readonly<Record<number, string>> = {
   4: 'xxxhdpi',
 };
 
+/**
+ * Includes `crop` (when not `'none'`) for the same reason `xcassets.ts`'s `imagesetName` does — two
+ * manifest targets can describe the same (kind, rarity, pose, variant, sizePt) with a different
+ * crop (tier-a.json's `guides` vs `notification-avatars`), and without this two different images
+ * would silently collide on the same drawable name.
+ */
 function drawableName(job: RenderJob, stageSuffix: string): string {
   const rarity = job.renderSpec.form?.rarity ?? 'common';
   const pose = job.renderSpec.pose ?? 'idle';
+  const cropSuffix = job.crop === 'none' ? '' : `_${job.crop}`;
   // Android resource names must be lowercase snake_case with no punctuation beyond `_`.
-  return `critter_${job.renderSpec.kind}_${rarity}_${pose}_${job.variant}_${job.sizePt}pt${stageSuffix}`
+  return `critter_${job.renderSpec.kind}_${rarity}_${pose}_${job.variant}_${job.sizePt}pt${cropSuffix}${stageSuffix}`
     .replace(/[^a-z0-9_]/gi, '_')
     .toLowerCase();
 }

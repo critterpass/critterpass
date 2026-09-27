@@ -53,11 +53,21 @@ export function writeXcassetCatalog(
   }
 }
 
-/** The `.imageset` name a job's `@2x`/`@3x` outputs share — also the `UIImage(named:)` lookup key at runtime, so `app-group-keys.ts` reuses this. */
+/**
+ * The `.imageset` name a job's `@2x`/`@3x` outputs share — also the `UIImage(named:)` lookup key at
+ * runtime, so `app-group-keys.ts` reuses this. Includes `crop` (when not `'none'`) because two
+ * manifest targets can otherwise describe the same (kind, rarity, pose, variant, sizePt) with a
+ * different crop — tier-a.json's `guides` (crop `none`) and `notification-avatars` (crop `face`)
+ * both produce a `gecko-common-idle-color-48pt` job — and without this, `buildImagesets` would
+ * silently let one crop's bytes overwrite the other's under the same name, non-deterministically
+ * (whichever the worker pool happened to finish last). Found and fixed while sampling real baked
+ * output for the PNG-optimization pass, not a guess.
+ */
 export function imagesetName(job: RenderJob): string {
   const rarity = job.renderSpec.form?.rarity ?? 'common';
   const pose = job.renderSpec.pose ?? 'idle';
-  return `${job.renderSpec.kind}-${rarity}-${pose}-${job.variant}-${job.sizePt}pt`;
+  const cropSuffix = job.crop === 'none' ? '' : `-${job.crop}`;
+  return `${job.renderSpec.kind}-${rarity}-${pose}-${job.variant}-${job.sizePt}pt${cropSuffix}`;
 }
 
 /** Extracts a blur job's `-stageN` suffix from one of its (differently-named) outputs, or `''` for a job whose single output keeps its own `outPath`. */

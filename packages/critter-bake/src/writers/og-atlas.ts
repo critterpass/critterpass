@@ -2,6 +2,7 @@ import { createCanvas, loadImage } from '@napi-rs/canvas';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
+import { optimizePng } from '../encode';
 import { loadManifest } from '../manifest';
 import { runPool } from '../pool';
 import { expandManifest } from '../render-job';
@@ -130,7 +131,7 @@ export async function writeOgAtlas(
       const image = await loadImage(Buffer.from(sprite.bytes));
       ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h);
     }
-    const bytes = await canvas.encode('png');
+    const bytes = await optimizePng(await canvas.encode('png'));
     writeFileSync(resolve(absOutDir, `sheet-${sheet}.png`), bytes);
   }
 

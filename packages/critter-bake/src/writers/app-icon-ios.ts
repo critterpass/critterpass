@@ -5,6 +5,7 @@ import { dirname, resolve } from 'node:path';
 import { renderCardNode } from '@cp/critter-art/share';
 import { parseColor } from '@cp/design-tokens';
 
+import { optimizePng } from '../encode';
 import type { AppIconDefinition } from '../templates/app-icons';
 import { buildAppIconContentLayout } from '../templates/app-icons';
 
@@ -61,7 +62,7 @@ export async function writeIconComposerBundle(
   const assetsDir = resolve(bundleDir, 'Assets');
   mkdirSync(assetsDir, { recursive: true });
 
-  const contentPng = await renderCardNode(buildAppIconContentLayout(def));
+  const contentPng = await optimizePng(await renderCardNode(buildAppIconContentLayout(def)));
   const imageName = `${def.id}-content.png`;
   writeFileSync(resolve(assetsDir, imageName), contentPng);
 
@@ -100,6 +101,14 @@ const FLAT_RENDITIONS: readonly FlatRendition[] = [
  * Exports the "10 x 3 flat fallbacks" (light/dark/tinted, done-when's own count) from an
  * already-written `.icon` bundle via `ictool`, into a standard `<id>.appiconset` Xcode can use
  * as-is on OSes before Icon Composer/Liquid Glass, or as the icon's flat App Store listing image.
+ *
+ * Left exactly as `ictool` writes them — not passed through `optimizePng` (`../encode.ts`) like
+ * this pipeline's own PNGs. `ictool`'s output is 16-bit-per-channel with an embedded (Display P3)
+ * ICC profile; `@napi-rs/canvas`'s decoder and sharp's decoder disagree on those bytes independently
+ * of any re-encoding this function might do (confirmed by diffing sharp's raw decode against
+ * `@napi-rs/canvas`'s decode of the same untouched file), so a "pixel-identical after re-encode"
+ * claim can't actually be verified here with this pipeline's tools. Not worth risking a real,
+ * unverifiable colour shift on the app's own App Store icon to save bytes on 30 files.
  */
 export function writeFlatAppIconSet(
   bundleDir: string,
