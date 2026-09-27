@@ -64,6 +64,7 @@ ALTER TABLE domain_events ADD CONSTRAINT domain_events_type_check CHECK (type IN
   'auth.merged',
   'invite.opened', 'attribution.claimed',
   'guide_action.undone',
+  'fare.dropped', 'forecast.changed', 'hazard.changed',
   'moderation.decided',
   'entitlement.granted', 'entitlement.revoked'
 ));
