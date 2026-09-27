@@ -54,7 +54,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 9 | [Auth, anonymous-first, anti-abuse](./phase-09-auth-anonymous-antiabuse.md) | 10 | 2, 8 | 3 | pending |
 | 10 | [Offline sync, commands, realtime](./phase-10-sync-realtime-outbox.md) | 11 | 2, 8, 9, 12, 14 | 4 | pending |
 | 11 | [Jobs, notification router, push](./phase-11-jobs-notifications-push.md) | 11 | 5, 10 | 5 | pending |
-| 12 | [Entitlements, money & FX primitives](./phase-12-entitlements-money-fx.md) | 7 | 8 | 3 | pending |
+| 12 | [Entitlements, money & FX primitives](./phase-12-entitlements-money-fx.md) | 7 | 8 | 3 | done |
 | 13 | [LLM gateway, personas, autonomy](./phase-13-llm-gateway-personas-autonomy.md) | 10 | 8, 11 | 6 | pending |
 | 14 | [POI data, maps, routing](./phase-14-places-maps-routing.md) | 8 | 2, 3, 4, 8 | 3 | pending |
 | 15 | [Fares, weather, season & crowds](./phase-15-flights-weather-season-data.md) | 7 | 8, 11, 13 | 7 | pending |

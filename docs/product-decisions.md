@@ -100,7 +100,7 @@ Precedence when sources disagree: **§1 decision log > §2 contradiction resolut
 | C44 | Draft privacy | Pre-draft fit = feasibility vs dates/hours/skeleton; post-draft members see fits/tight/clash only. `[upd]` No spend or holds on an unsent draft: "I booked it" → "Free-cancel slot found — book it once the crew's in" (link-out) |
 | C45 | Help/SOS map | Session-scoped free map (sender pin, responders, walking directions) on any trip; teaser and governor suppressed |
 | C46 | Boost window | Purchase → trip end + 7 d; copy "ON NOW · UNTIL {date}" + trip dates separately; FTF starts when first trip enters Setup |
-| C47 | Queued question | Reset 00:00 device tz; queued question answered at reset (counts toward new day), passive notification, resurfaced in morning briefing if unread |
+| C47 | Queued question | Reset 00:00 device tz; queued question answered at reset (counts toward new day), passive notification, resurfaced in morning briefing if unread. `[upd]` Anti-abuse: the server accepts at most one meter reset per subject/metric per 20 h regardless of the device-reported tz, so repeatedly changing device tz forward cannot manufacture extra free windows within the same real day |
 | C48 | Perks sold vs shipped | `[upd]` Every perk ships at launch. Perk lists stay server-driven (`perk.enabled`) so partner-dependent or broken perks can be withdrawn from copy without an app release (App Store 3.1.2) |
 
 ---

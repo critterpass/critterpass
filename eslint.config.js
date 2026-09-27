@@ -10,6 +10,7 @@ import tseslint from 'typescript-eslint';
 
 import { designTokensEslintPlugin } from './packages/design-tokens/eslint/index.js';
 import { architectureLintConfig } from './tools/lint/boundaries.js';
+import { moneyFloatGuardConfig } from './tools/lint/money-float-guard.js';
 
 const rootDir = import.meta.dirname;
 
@@ -132,6 +133,9 @@ export default defineConfig([
 
   // Architecture import rules (docs/system-architecture.md §3).
   ...architectureLintConfig(rootDir, boundaries),
+
+  // No float in money/FX arithmetic.
+  ...moneyFloatGuardConfig(),
 
   // No hand-typed colours/fontSize/duration outside @cp/design-tokens (docs/code-standards.md §6).
   {
