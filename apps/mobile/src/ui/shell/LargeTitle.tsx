@@ -1,0 +1,102 @@
+import type { ReactNode } from 'react';
+import { useState } from 'react';
+import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import { View } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import type { SharedValue } from 'react-native-reanimated';
+
+import { tokens } from '@cp/design-tokens';
+
+import { useReducedImpactMotion } from '@/motion/patterns/shared';
+
+import { Text } from '../text/Text';
+import { makeStyles, MIN_TOUCH_TARGET } from '../theme';
+
+/** Scroll distance over which the large title hands over to the compact header title. */
+export const LARGE_TITLE_COLLAPSE_PT = tokens.type.h1.fontSize ?? tokens.space['32'];
+const LIFT_PT = tokens.space['8'];
+
+/** `collapse` 0 (expanded) → 1 (collapsed) from a scroll view's offset. */
+export function useLargeTitleCollapse(): {
+  readonly collapse: SharedValue<number>;
+  readonly collapsed: boolean;
+  readonly onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+} {
+  const collapse = useSharedValue(0);
+  const [collapsed, setCollapsed] = useState(false);
+  const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const next = Math.min(
+      1,
+      Math.max(0, event.nativeEvent.contentOffset.y / LARGE_TITLE_COLLAPSE_PT),
+    );
+    collapse.value = next;
+    const isCollapsed = next >= 1;
+    if (isCollapsed !== collapsed) setCollapsed(isCollapsed);
+  };
+  return { collapse, collapsed, onScroll };
+}
+
+const useStyles = makeStyles((t) => ({
+  bar: {
+    minHeight: MIN_TOUCH_TARGET,
+    paddingHorizontal: t.size.gutter,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  side: { flex: 1 },
+  end: { flex: 1, alignItems: 'flex-end' },
+  large: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['8'] },
+}));
+
+export interface LargeTitleProps {
+  readonly title: string;
+  readonly collapse?: SharedValue<number> | undefined;
+  /** Whether the compact title is showing (for screen readers, which ignore opacity). */
+  readonly collapsed?: boolean | undefined;
+  readonly start?: ReactNode;
+  readonly end?: ReactNode;
+}
+
+/**
+ * Screen header: a condensed h1 that collapses into a small centred title as content scrolls
+ * (3n-6), with optional start (back eyebrow) and end (pills) slots.
+ */
+export function LargeTitle({ title, collapse, collapsed = false, start, end }: LargeTitleProps) {
+  const styles = useStyles();
+  const reduced = useReducedImpactMotion();
+  const fallback = useSharedValue(0);
+  const progress = collapse ?? fallback;
+
+  const compactStyle = useAnimatedStyle(() => ({ opacity: progress.value }));
+  const largeStyle = useAnimatedStyle(() => ({
+    opacity: 1 - progress.value,
+    transform: [{ translateY: reduced ? 0 : -LIFT_PT * progress.value }],
+  }));
+
+  return (
+    <View>
+      <View style={styles.bar}>
+        <View style={styles.side}>{start}</View>
+        <Animated.View
+          style={compactStyle}
+          accessibilityElementsHidden={!collapsed}
+          importantForAccessibility={collapsed ? 'auto' : 'no-hide-descendants'}
+        >
+          <Text variant="title" accessibilityRole={collapsed ? 'header' : undefined}>
+            {title}
+          </Text>
+        </Animated.View>
+        <View style={styles.end}>{end}</View>
+      </View>
+      <Animated.View
+        style={[styles.large, largeStyle]}
+        accessibilityElementsHidden={collapsed}
+        importantForAccessibility={collapsed ? 'no-hide-descendants' : 'auto'}
+      >
+        <Text variant="h1" accessibilityRole="header">
+          {title}
+        </Text>
+      </Animated.View>
+    </View>
+  );
+}

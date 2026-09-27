@@ -1,0 +1,51 @@
+appId: app.critterpass.dev
+---
+# Android edge-to-edge (targetSdk 36): the tab bar and the raised guide FAB must sit above the
+# system navigation bar and stay tappable. Run once per navigation mode on the emulator — gesture
+# navigation and 3-button navigation (set before the run with
+# `adb shell cmd overlay enable com.android.internal.systemui.navbar.gestural` or
+# `...navbar.threebutton`); on iOS it checks the same against the home indicator.
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 25000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-shell-tabs'
+    timeout: 10000
+- tapOn:
+    id: 'gallery-shell-tabs'
+- extendedWaitUntil:
+    visible:
+      id: 'tab-bar'
+    timeout: 10000
+
+# Every slot is fully visible (not under the nav bar) and responds to a tap at its centre.
+- assertVisible:
+    id: 'tab-home'
+- assertVisible:
+    id: 'tab-pass'
+- assertVisible:
+    id: 'guide-fab'
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-tab-pass'
+    timeout: 5000
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-tab-index'
+    timeout: 5000
+- takeScreenshot: shell-edge-to-edge

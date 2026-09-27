@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# Screenshots for `pnpm screens:capture`: data visualisations, plan rows and voting.
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'ProgressRing'
+- takeScreenshot: 16-progress-ring
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'WeatherStrip'
+- takeScreenshot: 17-weather-strip
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'DayTimeline'
+- takeScreenshot: 18-day-timeline
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'MustDoRow'
+- takeScreenshot: 19-must-do-row
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'MoodPicker'
+- takeScreenshot: 20-mood-picker

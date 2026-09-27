@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# Opens one component's gallery page (every registered state of `COMPONENT`) from a fresh launch,
+# then waits for its idle animations to settle so the screenshot is stable.
+- runFlow: open-gallery.yaml
+- scrollUntilVisible:
+    element:
+      id: 'gallery-component-${COMPONENT}'
+    direction: DOWN
+    timeout: 90000
+- tapOn:
+    id: 'gallery-component-${COMPONENT}'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-${COMPONENT}'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 3000
+# Still on the page after settling: a component that crashes the app fails here instead of
+# producing a screenshot of the home screen.
+- assertVisible:
+    id: 'gallery-detail-${COMPONENT}'

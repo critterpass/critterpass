@@ -1,0 +1,81 @@
+appId: app.critterpass.dev
+---
+# Shell tab bar: reaches the gallery's tab demo (apps/mobile/src/app/(dev)/gallery/tabs/) by tapping
+# through "Developer tools" → "Component gallery" (never `openLink` into a (dev) route: see
+# e2e/critters/sticker-lab.yaml). Switches every tab, then exercises the guide FAB: tap resolves the
+# guide sheet lookup, long-press (320 ms) the Help hub lookup.
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 25000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-shell-tabs'
+    timeout: 10000
+- tapOn:
+    id: 'gallery-shell-tabs'
+
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-tab-index'
+    timeout: 10000
+- assertVisible:
+    id: 'tab-bar'
+- assertVisible:
+    id: 'guide-fab'
+
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-tab-trips'
+    timeout: 5000
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-tab-wallet'
+    timeout: 5000
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-tab-pass'
+    timeout: 5000
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-tab-index'
+    timeout: 5000
+
+# FAB tap → guide sheet lookup.
+- tapOn:
+    id: 'guide-fab'
+- extendedWaitUntil:
+    visible:
+      id: 'shell-target-guide'
+    timeout: 5000
+- tapOn:
+    id: 'shell-target-back'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-fab'
+    timeout: 5000
+
+# FAB long-press → Help hub lookup.
+- longPressOn:
+    id: 'guide-fab'
+- extendedWaitUntil:
+    visible:
+      id: 'shell-target-help'
+    timeout: 5000

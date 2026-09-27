@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# Screenshots for `pnpm screens:capture`: critters, the trip recap and the monetisation surfaces.
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'CritterDetail'
+- takeScreenshot: 27-critter-detail
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'SetGrid'
+- takeScreenshot: 28-set-grid
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'EncounterCard'
+- takeScreenshot: 29-encounter-card
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'MemoryHero'
+- takeScreenshot: 30-memory-hero
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'VisaPaywall'
+- takeScreenshot: 31-visa-paywall
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'ComparisonTable'
+- takeScreenshot: 32-comparison-table

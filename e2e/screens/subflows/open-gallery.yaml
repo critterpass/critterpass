@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# Relaunches the app and opens the component gallery by tapping through "Developer tools" (never
+# `openLink` into a (dev) route). The gallery screens have no back control, so every component page
+# starts from a fresh launch. A plain relaunch reopens the last screen, so the app's state is cleared;
+# each launch then fetches the freshly published JS before its first render.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-index'
+    timeout: 15000

@@ -5,7 +5,7 @@ jest.mock('../../impact', () => {
 jest.mock('../../../../modules/cp-haptics', () => ({ play: jest.fn() }));
 
 import { act, renderHook } from '@testing-library/react-native';
-import { beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 
 import { tokens } from '@cp/design-tokens';
 
@@ -113,6 +113,33 @@ describe('audio session', () => {
 });
 
 describe('impact (the feedback bus)', () => {
+  // SFX are muted during the quiet-on-the-road window, so these cases run at midday whatever the
+  // machine's clock says; only Date is faked, so async renders and timers still run for real.
+  beforeEach(() => {
+    jest.useFakeTimers({
+      now: new Date(2026, 0, 1, 12, 0),
+      doNotFake: [
+        'hrtime',
+        'nextTick',
+        'performance',
+        'queueMicrotask',
+        'requestAnimationFrame',
+        'cancelAnimationFrame',
+        'requestIdleCallback',
+        'cancelIdleCallback',
+        'setImmediate',
+        'clearImmediate',
+        'setInterval',
+        'clearInterval',
+        'setTimeout',
+        'clearTimeout',
+      ],
+    });
+  });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it('fires the haptic and no SFX for a cue with no licensed asset (haptic-only fallback)', () => {
     impact('slap');
     expect(mockedFireHaptic).toHaveBeenCalledWith('slap');

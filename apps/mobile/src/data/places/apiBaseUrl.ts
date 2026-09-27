@@ -11,6 +11,6 @@ const DEFAULT_API_BASE_URL = 'https://api-staging-de92.up.railway.app';
 export function resolveApiBaseUrl(): string {
   // React Native's ambient ProcessEnv typing makes bracket access resolve to `any`; assert the
   // real (Metro-inlined) type explicitly rather than letting `any` flow into `fromEnv`.
-  const fromEnv = process.env['EXPO_PUBLIC_API_BASE_URL'] as string | undefined;
+  const fromEnv = process.env['EXPO_PUBLIC_API_BASE_URL'];
   return fromEnv !== undefined && fromEnv.length > 0 ? fromEnv : DEFAULT_API_BASE_URL;
 }

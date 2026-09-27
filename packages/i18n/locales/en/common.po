@@ -7,14 +7,947 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../../apps/mobile/src/ui/states/PendingSync.tsx
+msgid "common.pending.sending"
+msgstr "{accessibilityLabel}, sending"
+
+#: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
+msgid "common.chat.fromAuthor"
+msgstr "{author}: {text}"
+
+#: ../../apps/mobile/src/ui/camera/ScanOverlay.tsx
+msgid "common.camera.scanned"
+msgstr "{count} lines read"
+
+#: ../../apps/mobile/src/ui/chips/CountBadge.tsx
+msgid "common.badge.new"
+msgstr "{count} new"
+
+#: ../../apps/mobile/src/ui/map/ClusterBubble.tsx
+msgid "map.clusterBubble.accessibilityLabel"
+msgstr "{count} places here, tap to expand"
+
+#: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
+msgid "common.home.switchCrew"
+msgstr "{crewName}, switch crew"
+
+#: ../../apps/mobile/src/ui/data/SegmentedProgress.tsx
+msgid "common.data.nOfTotalDone"
+msgstr "{filled} of {total} done"
+
+#: ../../apps/mobile/src/ui/critters/DexHeader.tsx
+msgid "common.critter.dexCount"
+msgstr "{found} of {total} critters found"
+
+#: ../../apps/mobile/src/app/+not-found.tsx
+msgid "common.notFound.guideLine"
+msgstr "{guide} looked everywhere. Let’s head home."
+
+#: ../../apps/mobile/src/ui/shell/TabBar.tsx
+msgid "common.shell.tabBadge"
+msgstr "{label}, {count} new"
+
+#: ../../apps/mobile/src/ui/data/CalendarHeatmap.tsx
+msgid "common.data.heatmapDay"
+msgstr "{n}: {free} of {total} free"
+
+#: ../../apps/mobile/src/ui/data/Donut.tsx
+msgid "common.data.segmentShare"
+msgstr "{name} {pct}"
+
+#: ../../apps/mobile/src/ui/data/BalanceBars.tsx
+msgid "common.data.balanceOwed"
+msgstr "{name} is owed {amount}"
+
+#: ../../apps/mobile/src/ui/data/BalanceBars.tsx
+msgid "common.data.balanceEven"
+msgstr "{name} is settled"
+
+#: ../../apps/mobile/src/ui/chat/ChatRichCard.tsx
+msgid "common.chat.isTyping"
+msgstr "{name} is typing"
+
+#: ../../apps/mobile/src/ui/data/BalanceBars.tsx
+msgid "common.data.balanceOwes"
+msgstr "{name} owes {amount}"
+
+#: ../../apps/mobile/src/ui/map/DoodlePin.tsx
+msgid "map.doodlePin.accessibilityLabel"
+msgstr "{name}, {categoryLabel}"
+
+#: ../../apps/mobile/src/ui/critters/SetGrid.tsx
+msgid "common.critter.slotFound"
+msgstr "{name}, {city}, {forms} of 4 forms"
+
+#: ../../apps/mobile/src/ui/sticker/a11y.ts
+msgid "sticker.a11y.formLabel"
+msgstr "{name}, {form} form"
+
+#: ../../apps/mobile/src/ui/sticker/a11y.ts
+msgid "sticker.a11y.poseLabel"
+msgstr "{name}, {pose}"
+
+#: ../../apps/mobile/src/ui/people/Avatar.tsx
+msgid "common.avatar.pending"
+msgstr "{name}, invited"
+
+#: ../../apps/mobile/src/ui/people/AvatarStack.tsx
+msgid "common.avatarStack.more"
+msgstr "{names} and {hidden} more"
+
+#: ../../apps/mobile/src/ui/map/AvatarStackPin.tsx
+msgid "map.avatarStackPin.accessibilityLabel"
+msgstr "{names} here"
+
+#: ../../apps/mobile/src/ui/vote/LiveOptionCards.tsx
+msgid "common.vote.lookingHere"
+msgstr "{names} looking"
+
+#: ../../apps/mobile/src/ui/map/AvatarStackPin.tsx
+msgid "map.avatarStackPin.accessibilityLabelOverflow"
+msgstr "{names}, and {overflow} more here"
+
+#: ../../apps/mobile/src/ui/plan/MustDoRow.tsx
+msgid "common.plan.isTyping"
+msgstr "{ownerName} is typing"
+
+#: ../../apps/mobile/src/ui/money/SettleRow.tsx
+msgid "common.money.settleSummary"
+msgstr "{payer} pays {payee} {amount}"
+
+#: ../../apps/mobile/src/ui/data/LinearBar.tsx
+msgid "common.data.percentUsed"
+msgstr "{pct} used"
+
+#: ../../apps/mobile/src/ui/inputs/Slider.tsx
+msgid "common.slider.percent"
+msgstr "{percent}%"
+
+#: ../../apps/mobile/src/ui/monetize/SeatsRow.tsx
+msgid "common.monetize.seatsTaken"
+msgstr "{taken} of {capacity} seats taken"
+
+#: ../../apps/mobile/src/ui/data/MonthBars.tsx
+msgid "common.data.monthBarsSummary"
+msgstr "{title}: best in {best}"
+
+#: ../../apps/mobile/src/ui/states/LimitMeter.tsx
+msgid "common.limit.count"
+msgstr "{used} of {limit} used"
+
+#: ../../apps/mobile/src/ui/inputs/SegmentBudget.tsx
+msgid "common.segmentBudget.value"
+msgstr "{value} of {segments}"
+
+#: ../../apps/mobile/src/ui/data/PollBars.tsx
+msgid "common.data.votes"
+msgstr "{votes, plural, one {# vote} other {# votes}}"
+
+#: ../../apps/mobile/src/ui/monetize/SeatsRow.tsx
+msgid "common.monetize.seatWaiting"
+msgstr "{waitingName} waiting for seat {seatNumber}"
+
+#: ../../apps/mobile/src/ui/data/WeatherStrip.tsx
+msgid "common.data.weatherDay"
+msgstr "{where}: {temp}, {rain} chance of rain"
+
+#: ../../apps/mobile/src/ui/critters/HereNowForms.tsx
+msgid "common.critter.formFound"
+msgstr "{word} form, found"
+
+#: ../../apps/mobile/src/ui/critters/HereNowForms.tsx
+msgid "common.critter.formMissing"
+msgstr "{word} form, not found yet"
+
+#: ../../apps/mobile/src/ui/critters/FormSelector.tsx
+msgid "common.critter.formLocked"
+msgstr "{word}, locked: {need}"
+
+#: ../../apps/mobile/src/ui/monetize/PauseBars.tsx
+msgid "common.monetize.activeMonths"
+msgstr "Active: {active}"
+
+#: ../../apps/mobile/src/ui/chat/AttachmentThumb.tsx
+#: ../../apps/mobile/src/ui/chat/Composer.tsx
+msgid "common.chat.addAttachment"
+msgstr "Add attachment"
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.instagram"
+msgstr "Add to Story"
+
+#: ../../apps/mobile/src/ui/trip/EtaList.tsx
+msgid "common.trip.arrivesAt"
+msgstr "arrives {eta}"
+
+#: ../../apps/mobile/src/ui/shell/GuideFab.tsx
+msgid "common.shell.fabAsk"
+msgstr "Ask {guide}"
+
+#: ../../apps/mobile/src/ui/shell/BackEyebrow.tsx
+msgid "common.shell.backTo"
+msgstr "Back to {section}"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.beach"
+msgstr "Beach"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.boat"
+msgstr "Boat"
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.booked"
+msgstr "Booked"
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.boost"
+msgstr "Boost"
+
 #: ../../apps/mobile/src/app/index.tsx
 msgid "common.devHome.buildVariantLabel"
 msgstr "Build variant: {variant}"
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.building"
+msgstr "Building"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.calendar"
+msgstr "Calendar"
+
+#. placeholder {0}: primary.number
+#: ../../apps/mobile/src/ui/trip/EmergencyTiles.tsx
+msgid "common.trip.callShort"
+msgstr "Call {0}"
+
+#: ../../apps/mobile/src/ui/trip/EmergencyTiles.tsx
+msgid "common.trip.callNumber"
+msgstr "Call {number}, {label}"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.camera"
+msgstr "Camera"
+
+#: ../../apps/mobile/src/ui/inputs/HoldRing.tsx
+#: ../../apps/mobile/src/ui/states/ConfirmSheet.tsx
+msgid "common.confirm.cancel"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.car"
+msgstr "Car"
+
+#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
+msgid "common.plan.diffSummary"
+msgstr "Changed from {before} to {after}"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.chat"
+msgstr "Chat"
+
+#: ../../apps/mobile/src/ui/inputs/TextField.tsx
+msgid "common.field.clear"
+msgstr "Clear"
+
+#: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
+msgid "common.signature.clear"
+msgstr "Clear"
+
+#: ../../apps/mobile/src/ui/sheet/CloseButton.tsx
+msgid "common.sheet.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
+msgid "common.chat.closeActions"
+msgstr "Close"
+
+#: ../../apps/mobile/src/ui/critters/tier.tsx
+msgid "common.critter.tierCommon"
+msgstr "Common"
+
+#: ../../apps/mobile/src/ui/chips/TierLabel.tsx
+msgid "common.tier.common"
+msgstr "Common"
+
+#: ../../apps/mobile/src/ui/trip/ImportTiles.tsx
+msgid "common.trip.copy"
+msgstr "Copy"
+
+#. placeholder {0}: address.value
+#: ../../apps/mobile/src/ui/trip/ImportTiles.tsx
+msgid "common.trip.copyAddress"
+msgstr "Copy {0}"
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.error"
+msgstr "Could not render this image."
+
+#: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
+msgid "common.home.chat"
+msgstr "Crew chat"
+
+#: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
+msgid "common.home.chatUnread"
+msgstr "Crew chat, {chat} new"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.egg"
+msgstr "Critter egg"
+
+#: ../../apps/mobile/src/ui/critters/Egg.tsx
+msgid "common.critter.egg"
+msgstr "Critter egg"
+
+#: ../../apps/mobile/src/ui/critters/Egg.tsx
+msgid "common.critter.eggWobbling"
+msgstr "Critter egg, about to hatch"
+
+#: ../../apps/mobile/src/ui/critters/Egg.tsx
+msgid "common.critter.eggCracking"
+msgstr "Critter egg, cracking"
+
+#: ../../apps/mobile/src/ui/plan/DayRow.tsx
+msgid "common.plan.dayN"
+msgstr "Day {dayNumber}"
+
+#: ../../apps/mobile/src/ui/inputs/Keypad.tsx
+msgid "common.keypad.delete"
+msgstr "Delete"
 
 #: ../../apps/mobile/src/app/(dev)/_probe.tsx
 msgid "common.devProbe.title"
 msgstr "Dev route probe"
 
+#: ../../apps/mobile/src/app/index.tsx
+msgid "common.devHome.devToolsEntry"
+msgstr "Developer tools"
+
+#: ../../apps/mobile/src/motion/island-toast/IslandToast.tsx
+msgid "motion.islandToast.dismiss"
+msgstr "Dismiss"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.offlineUnavailable"
+msgstr "Download this region to use the map offline."
+
+#: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
+#: ../../apps/mobile/src/ui/plan/TimelineBlock.tsx
+msgid "common.plan.earlier"
+msgstr "Earlier by 15 minutes"
+
+#: ../../apps/mobile/src/ui/people/EmptySeat.tsx
+msgid "common.emptySeat.label"
+msgstr "Empty seat"
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.ended"
+msgstr "Ended"
+
+#: ../../apps/mobile/src/ui/critters/tier.tsx
+msgid "common.critter.tierEpic"
+msgstr "Epic"
+
+#: ../../apps/mobile/src/ui/chips/TierLabel.tsx
+msgid "common.tier.epic"
+msgstr "Epic"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.favourite"
+msgstr "Favourite"
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.cues"
+msgstr "Feedback cues"
+
+#: ../../apps/mobile/src/ui/vote/RateStack.tsx
+msgid "common.vote.fine"
+msgstr "Fine"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.flight"
+msgstr "Flight"
+
+#: ../../apps/mobile/src/ui/documents/Postcard.tsx
+msgid "common.postcard.flip"
+msgstr "Flips the postcard"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.food"
+msgstr "Food"
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.free"
+msgstr "Free"
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.freeze"
+msgstr "freeze"
+
+#: ../../apps/mobile/src/ui/shell/GuideFab.tsx
+msgid "common.shell.fabHelp"
+msgstr "Get help"
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorBack"
+msgstr "Go back"
+
+#: ../../apps/mobile/src/ui/states/ErrorSheet.tsx
+msgid "common.error.back"
+msgstr "Go back"
+
+#: ../../apps/mobile/src/app/+not-found.tsx
+msgid "common.notFound.home"
+msgstr "Go home"
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorHome"
+msgstr "Go home"
+
+#. placeholder {0}: hatchlingName ?? ''
+#: ../../apps/mobile/src/ui/critters/Egg.tsx
+msgid "common.critter.eggHatched"
+msgstr "Hatched: {0}"
+
+#: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
+msgid "common.home.greeting"
+msgstr "Hey {name}"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.highlight"
+msgstr "Highlight"
+
+#: ../../apps/mobile/src/ui/states/ConfirmSheet.tsx
+msgid "common.confirm.hold"
+msgstr "Hold"
+
+#: ../../apps/mobile/src/ui/shell/TabBar.tsx
+msgid "common.shell.tabHome"
+msgstr "Home"
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.in"
+msgstr "In"
+
+#: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
+msgid "common.home.inbox"
+msgstr "Inbox"
+
+#: ../../apps/mobile/src/ui/shell/HomeHeader.tsx
+msgid "common.home.inboxUnread"
+msgstr "Inbox, {inbox} new"
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.toast"
+msgstr "Island toast"
+
+#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
+msgid "common.plan.keepChange"
+msgstr "Keep this change"
+
+#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
+msgid "common.plan.changeKept"
+msgstr "Kept"
+
+#: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
+#: ../../apps/mobile/src/ui/plan/TimelineBlock.tsx
+msgid "common.plan.later"
+msgstr "Later by 15 minutes"
+
+#: ../../apps/mobile/src/ui/vote/LiveOptionCards.tsx
+msgid "common.vote.leading"
+msgstr "Leading"
+
+#: ../../apps/mobile/src/ui/critters/MonthStrip.tsx
+msgid "common.critter.legendaryMonths"
+msgstr "Legendaries in {legendary}"
+
+#: ../../apps/mobile/src/ui/critters/tier.tsx
+msgid "common.critter.tierLegendary"
+msgstr "Legendary"
+
+#: ../../apps/mobile/src/ui/chips/TierLabel.tsx
+msgid "common.tier.legendary"
+msgstr "Legendary"
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.listViewToggle"
+msgstr "List view"
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.live"
+msgstr "Live"
+
+#: ../../apps/mobile/src/ui/states/Skeleton.tsx
+msgid "common.loading"
+msgstr "Loading"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.locked"
+msgstr "Locked"
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.loops"
+msgstr "Loop presets"
+
+#: ../../apps/mobile/src/ui/vote/RateStack.tsx
+msgid "common.vote.lovedIt"
+msgstr "Loved it"
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.mapViewToggle"
+msgstr "Map view"
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.maybe"
+msgstr "Maybe"
+
+#: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
+msgid "common.chat.messageActions"
+msgstr "Message actions"
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.title"
+msgstr "Motion lab"
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.mode"
+msgstr "Motion mode"
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.demoToastSubtitle"
+msgstr "motion-lab demo toast"
+
+#. placeholder {0}: person.name
+#: ../../apps/mobile/src/ui/plan/RoomAssign.tsx
+msgid "common.plan.pickPerson"
+msgstr "Move {0}"
+
+#. placeholder {0}: picked.name
+#. placeholder {1}: room.name
+#: ../../apps/mobile/src/ui/plan/RoomAssign.tsx
+msgid "common.plan.movePersonHere"
+msgstr "Move {0} to {1}"
+
+#: ../../apps/mobile/src/ui/plan/DayRow.tsx
+msgid "common.plan.moveDown"
+msgstr "Move down"
+
+#: ../../apps/mobile/src/ui/plan/RoomAssign.tsx
+msgid "common.plan.moveHere"
+msgstr "Move here"
+
+#: ../../apps/mobile/src/ui/plan/DayRow.tsx
+msgid "common.plan.moveUp"
+msgstr "Move up"
+
+#: ../../apps/mobile/src/ui/recap/AwardsGrid.tsx
+msgid "common.recap.mvp"
+msgstr "MVP"
+
+#: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
+msgid "common.story.next"
+msgstr "Next slide"
+
+#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
+msgid "common.vote.no"
+msgstr "No"
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.noResults"
+msgstr "No results for this filter."
+
+#: ../../apps/mobile/src/ui/states/OfflinePill.tsx
+msgid "common.offline.noSignal"
+msgstr "No signal"
+
+#. placeholder {0}: top.label
+#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
+msgid "common.vote.noTo"
+msgstr "No to {0}"
+
+#: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
+msgid "common.signature.empty"
+msgstr "Not signed"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.notifications"
+msgstr "Notifications"
+
+#: ../../apps/mobile/src/ui/money/SettleRow.tsx
+msgid "common.money.nudge"
+msgstr "Nudge"
+
+#: ../../apps/mobile/src/ui/money/SettleRow.tsx
+msgid "common.money.nudgePerson"
+msgstr "Nudge {payer}"
+
+#: ../../apps/mobile/src/ui/critters/CritterDetail.tsx
+msgid "common.critter.dexNumber"
+msgstr "Number {dexNumber}"
+
+#: ../../apps/mobile/src/ui/inputs/Toggle.tsx
+msgid "common.toggle.off"
+msgstr "Off"
+
+#: ../../apps/mobile/src/ui/inputs/Toggle.tsx
+msgid "common.toggle.on"
+msgstr "On"
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.demoToastAction"
+msgstr "Open"
+
+#: ../../apps/mobile/src/ui/states/PermissionCard.tsx
+msgid "common.permission.openSettings"
+msgstr "Open Settings"
+
+#: ../../apps/mobile/src/ui/data/DayBarsVsPlan.tsx
+msgid "common.data.overPlan"
+msgstr "over plan"
+
+#: ../../apps/mobile/src/ui/story/PageDots.tsx
+msgid "common.story.pageOf"
+msgstr "Page {page} of {total}"
+
+#: ../../apps/mobile/src/ui/shell/TabBar.tsx
+msgid "common.shell.tabPass"
+msgstr "Pass"
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.demoToastTitle"
+msgstr "Pass issued"
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.passPlus"
+msgstr "Pass+"
+
+#: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
+msgid "common.story.pause"
+msgstr "Pause"
+
+#: ../../apps/mobile/src/ui/monetize/PauseBars.tsx
+msgid "common.monetize.pausedMonths"
+msgstr "Paused: {paused}"
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorBackBody"
+msgstr "Pick up where you were"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.place"
+msgstr "Place"
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.planned"
+msgstr "Planned"
+
+#: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
+msgid "common.story.play"
+msgstr "Play"
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.format.post"
+msgstr "Post"
+
+#: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
+msgid "common.story.previous"
+msgstr "Previous slide"
+
+#: ../../apps/mobile/src/ui/inputs/SettingsGroup.tsx
+msgid "common.settings.private"
+msgstr "Private"
+
+#: ../../apps/mobile/src/ui/data/HourlyCrowd.tsx
+msgid "common.data.crowdSummary"
+msgstr "quietest at {quiet}, busiest at {busy}"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.rain"
+msgstr "Rain"
+
+#: ../../apps/mobile/src/ui/critters/tier.tsx
+msgid "common.critter.tierRare"
+msgstr "Rare"
+
+#: ../../apps/mobile/src/ui/chips/TierLabel.tsx
+msgid "common.tier.rare"
+msgstr "Rare"
+
+#: ../../apps/mobile/src/ui/chat/ReactionFloats.tsx
+msgid "common.chat.reactions"
+msgstr "Reactions: {spoken}"
+
+#: ../../apps/mobile/src/ui/trip/PhraseCard.tsx
+msgid "common.trip.playPhrase"
+msgstr "Read aloud"
+
+#: ../../apps/mobile/src/ui/chat/Composer.tsx
+msgid "common.chat.recordVoice"
+msgstr "Record a voice message"
+
+#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
+msgid "common.plan.rejectChange"
+msgstr "Reject this change"
+
+#: ../../apps/mobile/src/ui/plan/DiffRow.tsx
+msgid "common.plan.changeRejected"
+msgstr "Rejected"
+
+#: ../../apps/mobile/src/ui/chat/AttachmentThumb.tsx
+msgid "common.chat.removeAttachment"
+msgstr "Remove {label}"
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.rendering"
+msgstr "Rendering share image"
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.retry"
+msgstr "Retry"
+
+#: ../../apps/mobile/src/ui/recap/RouteRider.tsx
+msgid "common.recap.route"
+msgstr "Route, {distance}: {route}"
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.save"
+msgstr "Save to Photos"
+
+#: ../../apps/mobile/src/ui/camera/ScanOverlay.tsx
+msgid "common.camera.scanning"
+msgstr "Scanning, {count} lines read"
+
+#: ../../apps/mobile/src/ui/inputs/SearchField.tsx
+msgid "common.search.label"
+msgstr "Search"
+
+#: ../../apps/mobile/src/ui/chat/Composer.tsx
+msgid "common.chat.send"
+msgstr "Send"
+
+#: ../../apps/mobile/src/ui/states/OutboxList.tsx
+msgid "common.outbox.title"
+msgstr "Sends when you're back"
+
+#: ../../apps/mobile/src/ui/states/OutboxList.tsx
+msgid "common.outbox.sent"
+msgstr "Sent"
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.share"
+msgstr "Share"
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.showToast"
+msgstr "show toast"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.sight"
+msgstr "Sight"
+
+#: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
+msgid "common.signature.hint"
+msgstr "Sign here"
+
+#: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
+msgid "common.signature.typeName"
+msgstr "Sign with my name"
+
+#: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
+msgid "common.signature.pad"
+msgstr "Signature pad"
+
+#: ../../apps/mobile/src/ui/documents/SignatureLayer.tsx
+msgid "common.signature.signed"
+msgstr "Signed"
+
+#: ../../apps/mobile/src/ui/vote/RateStack.tsx
+msgid "common.vote.skipIt"
+msgstr "Skip it"
+
+#: ../../apps/mobile/src/ui/story/StoryPlayer.tsx
+msgid "common.story.position"
+msgstr "Slide {n} of {total}"
+
+#: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
+msgid "motion.motionLab.slowmo"
+msgstr "Slowmo"
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorEyebrow"
+msgstr "Something went sideways"
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorHomeBody"
+msgstr "Start again from your crews"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.stay"
+msgstr "Stay"
+
+#: ../../apps/mobile/src/ui/story/StepTabs.tsx
+msgid "common.story.step"
+msgstr "Step {n} of {total}, {name}"
+
+#: ../../apps/mobile/src/ui/story/StepTabs.tsx
+msgid "common.story.stepDone"
+msgstr "Step {n} of {total}, {name}, done"
+
+#: ../../apps/mobile/src/ui/chat/Composer.tsx
+msgid "common.chat.stopRecording"
+msgstr "Stop and send voice message"
+
+#: ../../apps/mobile/src/ui/trip/PhraseCard.tsx
+msgid "common.trip.stopPhrase"
+msgstr "Stop reading aloud"
+
+#: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
+msgid "shareImage.format.story"
+msgstr "Story"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.streak"
+msgstr "Streak"
+
+#. placeholder {0}: ghost.title
+#. placeholder {1}: clockOf(locale, ghost.start)
+#: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
+msgid "common.plan.acceptSuggestion"
+msgstr "Suggestion: {0}, {1}. Accept"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.sunny"
+msgstr "Sunny"
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorTitle"
+msgstr "That didn’t load"
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.defaultDestinationName"
+msgstr "this destination"
+
+#: ../../apps/mobile/src/app/+not-found.tsx
+msgid "common.notFound.title"
+msgstr "This page wandered off"
+
 #: ../../apps/mobile/src/app/(dev)/_probe.tsx
 msgid "common.devProbe.body"
 msgstr "This screen only exists in development, staging and preview builds."
+
+#: ../../apps/mobile/src/ui/inputs/Keypad.tsx
+msgid "common.keypad.thousand"
+msgstr "Three zeros"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.ticket"
+msgstr "Ticket"
+
+#: ../../apps/mobile/src/ui/data/DayBarsVsPlan.tsx
+msgid "common.data.today"
+msgstr "today"
+
+#: ../../apps/mobile/src/ui/shell/TabBar.tsx
+msgid "common.shell.tabTrips"
+msgstr "Trips"
+
+#: ../../apps/mobile/src/app/_layout.tsx
+msgid "common.shell.errorRetry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.locationDenied"
+msgstr "Turn on location to see where you are."
+
+#: ../../apps/mobile/src/ui/sticker/a11y.ts
+msgid "sticker.a11y.lockedLabel"
+msgstr "Undiscovered local, found by being in {city}"
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.unopened"
+msgstr "Unopened"
+
+#: ../../apps/mobile/src/ui/states/StaleCaption.tsx
+msgid "common.stale.updated"
+msgstr "Updated {age}"
+
+#: ../../apps/mobile/src/ui/vote/IdeaVoteBox.tsx
+msgid "common.vote.upvote"
+msgstr "Upvote {ideaTitle}"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.volcano"
+msgstr "Volcano"
+
+#: ../../apps/mobile/src/ui/chips/StatusChip.tsx
+msgid "common.status.vote"
+msgstr "Vote"
+
+#: ../../apps/mobile/src/ui/recap/AwardsGrid.tsx
+msgid "common.recap.voteMvp"
+msgstr "Vote for the MVP"
+
+#: ../../apps/mobile/src/ui/vote/SplitShowdown.tsx
+#: ../../apps/mobile/src/ui/vote/VoteBoard.tsx
+msgid "common.vote.tapToVote"
+msgstr "Votes for this place"
+
+#: ../../apps/mobile/src/ui/vote/SplitShowdown.tsx
+msgid "common.vote.versus"
+msgstr "vs"
+
+#: ../../apps/mobile/src/ui/states/OutboxList.tsx
+msgid "common.outbox.queued"
+msgstr "Waiting for signal"
+
+#: ../../apps/mobile/src/ui/shell/TabBar.tsx
+msgid "common.shell.tabWallet"
+msgstr "Wallet"
+
+#: ../../apps/mobile/src/ui/icons/labels.ts
+msgid "common.icon.wallet"
+msgstr "Wallet"
+
+#: ../../apps/mobile/src/ui/plan/DayTimeline.tsx
+msgid "common.plan.wasHere"
+msgstr "Was here"
+
+#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
+msgid "common.vote.yes"
+msgstr "Yes"
+
+#. placeholder {0}: top.label
+#: ../../apps/mobile/src/ui/vote/SwipeStack.tsx
+msgid "common.vote.yesTo"
+msgstr "Yes to {0}"
+
+#: ../../apps/mobile/src/ui/map/CpMap.tsx
+msgid "map.cpMap.notInDestination"
+msgstr "You're not in {destination} yet."
+
+#: ../../apps/mobile/src/ui/critters/DexHeader.tsx
+msgid "common.critter.yourDex"
+msgstr "Your Critterdex"
+
+#: ../../apps/mobile/src/ui/map/YouDot.tsx
+msgid "map.youDot.accessibilityLabel"
+msgstr "Your location"
+
+#: ../../apps/mobile/src/ui/critters/MonthStrip.tsx
+msgid "common.critter.tripMonths"
+msgstr "your trip: {trip}"
+
+#: ../../apps/mobile/src/ui/chat/ChatRichCard.tsx
+#: ../../apps/mobile/src/ui/data/PollBars.tsx
+#: ../../apps/mobile/src/ui/vote/VoteBoard.tsx
+msgid "common.data.yourVote"
+msgstr "your vote"

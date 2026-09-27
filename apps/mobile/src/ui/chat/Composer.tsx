@@ -1,0 +1,194 @@
+import { t } from '@lingui/core/macro';
+import { TextInput, View } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { scheduleOnRN } from 'react-native-worklets';
+
+import { resolveTypeVariant } from '@cp/design-tokens';
+
+import { LONG_PRESS_DURATION_MS } from '@/motion/gestures/long-press';
+import { fontFor } from '@/lib/fonts';
+import { useLocale } from '@/lib/i18n/use-locale';
+import { useThemeSettings } from '@/lib/theme';
+
+import { Icon } from '../icons/Icon';
+import { Row } from '../layout/Row';
+import { PressScale } from '../press/PressScale';
+import { Text } from '../text/Text';
+import { TEXT_VARIANTS } from '../text/Text';
+import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';
+
+export interface ComposerProps {
+  readonly value: string;
+  readonly onChangeText: (text: string) => void;
+  readonly onSend: () => void;
+  /** "Message, or @tokek". */
+  readonly placeholder: string;
+  readonly onAttach?: () => void;
+  /** Tap the mic: start or stop a voice message (the screen-reader path). */
+  readonly onMicTap?: () => void;
+  /** Hold the mic to talk; release to send. */
+  readonly onHoldStart?: () => void;
+  readonly onHoldEnd?: () => void;
+  /** A voice message is recording (mic shows active). */
+  readonly recording?: boolean;
+  readonly testID?: string;
+}
+
+const useStyles = makeStyles((th) => ({
+  bar: { alignItems: 'center', gap: th.space['8'] },
+  circle: {
+    width: MIN_TOUCH_TARGET + th.space['4'],
+    height: MIN_TOUCH_TARGET + th.space['4'],
+    borderRadius: MIN_TOUCH_TARGET,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mic: { alignItems: 'center' },
+  capsule: { width: th.space['10'], height: th.space['14'], borderRadius: th.space['6'] },
+  cradle: {
+    width: th.space['16'],
+    height: th.space['8'],
+    marginTop: -th.space['4'],
+    borderWidth: th.space['2'],
+    borderTopWidth: 0,
+    borderBottomStartRadius: th.space['8'],
+    borderBottomEndRadius: th.space['8'],
+  },
+  stand: { width: th.space['2'], height: th.space['4'] },
+  field: {
+    flex: 1,
+    minHeight: MIN_TOUCH_TARGET + th.space['4'],
+    borderRadius: MIN_TOUCH_TARGET,
+    backgroundColor: th.semantic.bg.raised,
+    paddingHorizontal: th.space['16'],
+    justifyContent: 'center',
+  },
+}));
+
+/** Microphone drawn from token strokes (capsule, cradle and stand). */
+function MicGlyph({ color }: { readonly color: string }) {
+  const styles = useStyles();
+  return (
+    <View style={styles.mic} importantForAccessibility="no-hide-descendants">
+      <View style={[styles.capsule, { backgroundColor: color }]} />
+      <View style={[styles.cradle, { borderColor: color }]} />
+      <View style={[styles.stand, { backgroundColor: color }]} />
+    </View>
+  );
+}
+
+/** Chat input bar: + attach, text field, and a mic (tap, or hold to talk) that becomes send. */
+export function Composer({
+  value,
+  onChangeText,
+  onSend,
+  placeholder,
+  onAttach,
+  onMicTap,
+  onHoldStart,
+  onHoldEnd,
+  recording = false,
+  testID,
+}: ComposerProps) {
+  const styles = useStyles();
+  const theme = useTheme();
+  const locale = useLocale();
+  const { fontScale } = useThemeSettings();
+  const token = TEXT_VARIANTS.bodyLg;
+  const resolved = resolveTypeVariant(token, { fontScale });
+  const font = fontFor(
+    {
+      fontFamily: token.fontFamily,
+      fontWeight: token.fontWeight,
+      lineHeightMultiplier: resolved.lineHeightMultiplier,
+      condensed: token.condensed,
+    },
+    locale,
+  );
+  const canSend = value.trim().length > 0;
+  const tap = () => onMicTap?.();
+  const holdStart = () => onHoldStart?.();
+  const holdEnd = () => onHoldEnd?.();
+  const hold = Gesture.LongPress()
+    .enabled(onHoldStart !== undefined)
+    .minDuration(LONG_PRESS_DURATION_MS)
+    .onStart(() => {
+      'worklet';
+      scheduleOnRN(holdStart);
+    })
+    .onFinalize((_event, success) => {
+      'worklet';
+      if (success) scheduleOnRN(holdEnd);
+    });
+  const micTap = Gesture.Tap().onEnd(() => {
+    'worklet';
+    scheduleOnRN(tap);
+  });
+  const micLabel = recording
+    ? t({ id: 'common.chat.stopRecording', message: 'Stop and send voice message' })
+    : t({ id: 'common.chat.recordVoice', message: 'Record a voice message' });
+
+  return (
+    <Row style={styles.bar} testID={testID}>
+      {onAttach ? (
+        <PressScale
+          accessibilityLabel={t({ id: 'common.chat.addAttachment', message: 'Add attachment' })}
+          onPress={onAttach}
+          widthClass="narrow"
+          style={[styles.circle, { backgroundColor: theme.semantic.bg.raised }]}
+        >
+          <Text variant="h3">+</Text>
+        </PressScale>
+      ) : null}
+      <View style={styles.field}>
+        <TextInput
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={placeholder}
+          placeholderTextColor={theme.semantic.text.secondary}
+          accessibilityLabel={placeholder}
+          multiline
+          style={{
+            color: theme.semantic.text.primary,
+            fontSize: resolved.fontSize * font.sizeMultiplier,
+            ...(font.fontFamily === 'system' ? {} : { fontFamily: font.fontFamily }),
+          }}
+        />
+      </View>
+      {canSend ? (
+        <PressScale
+          accessibilityLabel={t({ id: 'common.chat.send', message: 'Send' })}
+          onPress={onSend}
+          widthClass="narrow"
+          style={[styles.circle, { backgroundColor: theme.semantic.action.primary }]}
+        >
+          <Icon
+            name="arrow"
+            size={theme.space['20']}
+            decorative
+            color={theme.semantic.text.onAccent}
+          />
+        </PressScale>
+      ) : (
+        <GestureDetector gesture={Gesture.Exclusive(hold, micTap)}>
+          <View
+            accessible
+            accessibilityRole="button"
+            accessibilityLabel={micLabel}
+            accessibilityState={{ selected: recording }}
+            accessibilityActions={[{ name: 'activate', label: micLabel }]}
+            onAccessibilityAction={(event) => {
+              if (event.nativeEvent.actionName === 'activate') tap();
+            }}
+            style={[
+              styles.circle,
+              { backgroundColor: recording ? theme.semantic.state.urgent : theme.color.paper.base },
+            ]}
+          >
+            <MicGlyph color={recording ? theme.semantic.text.onAccent : theme.color.paper.ink} />
+          </View>
+        </GestureDetector>
+      )}
+    </Row>
+  );
+}

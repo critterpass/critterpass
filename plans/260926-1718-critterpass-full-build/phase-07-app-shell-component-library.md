@@ -78,6 +78,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. `makeStyles((t) => …)` with theme + increase-contrast. 2. `<Text variant>` uses `fontFor(variant, locale)`, upper-at-render, tabular numerals, Dynamic Type caps, auto-fit. 3. `Scaffold` variants dark/paper/colourHero/scene/map with status-bar style. 4. Gallery registry: `registerFixture(component, stateName, render)`; list + detail screens with locale, font-scale, motion-mode and contrast switchers. 5. `(dev)` group guarded by `__DEV__`/build profile.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/text`.
 - Done when: h1 auto-fits in en-XA pseudo-locale at AX3 within 3 lines; gallery lists Text fixtures.
+- Status: done — fd124c3, 99f1fb8
 
 ### T2 — Doodle icons, textures, rings, surfaces
 - Goal: vector doodle icon set with label registry; Skia textures; cards/surfaces.
@@ -85,6 +86,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Extract paths from `design/doodles.js` (read-only) into `react-native-svg` components; mirror-aware flag. 2. Label registry (decorative vs labelled, Lingui ids). 3. Texture shaders from `texture` tokens (Skia `RuntimeEffect` / patterns). 4. Cards with `slideOff` for `ActionCard`.
 - Tests: `pnpm tsx tools/design-renders/extract-doodles.ts --check`; `pnpm --filter @cp/mobile jest src/ui/__tests__/icons`.
 - Done when: every doodle has a registry entry; decorative icons hidden from a11y tree.
+- Status: done — 747e33c (extractor ships as tools/design-renders/extract-doodles.mjs)
 
 ### T3 — Root layout, route groups, tab bar, guide FAB
 - Goal: navigable skeleton with the custom tab bar.
@@ -92,6 +94,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Providers order per Requirements. 2. Gate interfaces with real defaults. 3. TabBar: 5 slots, FAB centre, badges, bounce, large-content viewer. 4. FAB tap/long-press resolve the guide sheet and Help hub hrefs through the screen registry (routes owned by the guide and help phases); while a route is unregistered the action is hidden from the FAB, never pointed at a stub screen. 5. Tab screens themselves belong to area phases; this task ships the layout plus registry lookups.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/shell` (inset fixtures: gesture nav, 3-button nav); `maestro test e2e/shell/tabs.yaml e2e/shell/edge-to-edge.yaml` (Android emulator in gesture and 3-button modes).
 - Done when: tabs switch with `tab` transition; FAB long-press fires help route lookup; tab labels hide at max text size; tab bar and FAB clear the Android nav bar in both navigation modes.
+- Status: done — 74f537e
 
 ### T4 — Transitions, sheets, rise, edge-swipe, predictive back
 - Goal: the 10 transitions and sheet system.
@@ -99,6 +102,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. expo-router Stack `screenOptions` + custom interpolators per transition using motion tokens. 2. Sheet with detents, presenter scale .93, scrim, drag-dismiss thresholds (phase-6 `dragDismiss`), nested scroll hand-off, keyboard avoidance. 3. Edge-swipe back via phase-6 `edgeSwipe` on iOS; Android predictive back enabled (`enableOnBackInvokedCallback`). 4. Reduced → cross-fade.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/sheet`; `maestro test e2e/shell/sheets.yaml` (iOS + Android).
 - Done when: detent snap, drag-dismiss commit/cancel and ✕ verified; Android back closes sheet.
+- Status: done — 13a22d0
 
 ### T5 — Shared-element grow (teleport overlay), burst, fold, flip
 - Goal: zoom card→detail and remaining special transitions.
@@ -106,6 +110,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. `useSharedSource(id)` registers card layout; destination `SharedTarget id` measures; clone animates in `OverlayHost` (radius 22→54, fade first 35 %, sticker hop pre-beat). 2. Unzoom on back using stored source rect (fallback: fade if source unmounted). 3. Burst flash, fold, flip per tokens.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/transitions`; `maestro test e2e/shell/zoom.yaml`.
 - Done when: gallery demo card → detail → back animates both ways at 60 fps on mid Android (Perf monitor note in PR).
+- Status: done — 0b05930
 
 ### T6 — Back-stack synthesis, screen registry, state restoration
 - Goal: cold entries build the right back stack.
@@ -113,6 +118,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Extract `PARENT` map from `design/Critterpass Prototype.dc.html` into generated `parents.ts`. 2. `registerScreens({ '3c-9': href, … })` API for area phases. 3. `synthesizeStack(screenId, params)` walks parents to Home, skipping unregistered ids. 4. Navigation state persistence rules.
 - Tests: `pnpm --filter @cp/mobile jest src/lib/navigation`.
 - Done when: tests reproduce the report's example chains (3c-9…Home, 3k-10…Home, 3m-3…3m-1, 4e-1→Home).
+- Status: done — 7550403
 
 ### T7 — Buttons & inputs
 - Goal: §2.2 family.
@@ -120,6 +126,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. PillButton variants incl. sheen, label flap, loading, disabled. 2. CodeBoxes (drop digits, valid green, shake + `error` on invalid, 4-4-4 gift code). 3. Keypad with odometer amount. 4. SlideToConfirm/HoldRing via phase-6 hooks + a11y actions. 5. Toggle squash knob, On/Off value.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/inputs`.
 - Done when: RNTL `getByRole` finds each control with state; a11y actions trigger commit paths.
+- Status: done — 3ddb694
 
 ### T8a — Chips, badges, people, LiveSticker
 - Goal: §2.3 and §2.4 (minus Sticker rendering) plus the motion-wired sticker.
@@ -127,6 +134,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Member colour + ring pattern for members 7–16. 2. TierLabel glyph + word. 3. GuideLine Caveat in guide colour; plain-text setting. 4. `LiveSticker` = sticker-phase `<Sticker>` + motion `draw` pattern (`drawGate`, ≤ 2 concurrent, 1500/700 ms, delay, tap replay) + `use-blink` on the shared idle clock (150 ms swap every 2.6–6.2 s; paused off-screen, background, Reduce Motion).
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/chips-people`.
 - Done when: fixtures + a11y labels for every listed component; LiveSticker tests: 3rd draw-on queued, blink paused under Reduce Motion and off-screen.
+- Status: done — 11668ea
 
 ### T8b — State components
 - Goal: every design-system §7 state as a reusable component.
@@ -134,6 +142,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. State components per §7 table. 2. Skeleton with `tex.hatch`. 3. ErrorSheet "three ways forward".
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/states`.
 - Done when: every §7 state has a component + gallery fixture.
+- Status: done — aeb0a09
 
 ### T9 — Document artefacts
 - Goal: §2.6 family.
@@ -141,6 +150,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Guilloche/engraving/barcode textures. 2. Stamp round/rect/dashed pending with `stamp` pattern; ink per context (C7). 3. Ticket notch + tear line; Postcard flip; Receipt zig-zag with highlighted OCR lines prop. 4. MRZ decorative and hidden from a11y; composites grouped with one label.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/documents`.
 - Done when: fixtures render in all locales incl. vi/ja; screen reader reads one grouped label per artefact.
+- Status: done — fd298bb
 
 ### T10 — Data & numbers
 - Goal: §2.7 family with text summaries.
@@ -148,6 +158,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Skia or SVG charts with `barGrow`. 2. `accessibilityLabel` summaries generated per chart. 3. Countdown dhms/hms/ms with localised units + live region interval. 4. StreamText word-buffered, reserves final box, announces on completion.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/data`.
 - Done when: every chart exposes a text summary; countdown label changes with its colour state.
+- Status: done — c72c948
 
 ### T11a — Planning and voting
 - Goal: §2.8 plan + vote families.
@@ -155,6 +166,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. DayTimeline 07–19 grid, 15-min snap (`snap` cue), rain band, ghost suggestion, time-stepper alternative. 2. DiffRow ✓/✕. 3. SwipeStack/RateStack with buttons. 4. Presence cursor on LiveOptionCards.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/plan-vote`.
 - Done when: every gesture component has its button/stepper alternative tested.
+- Status: done — 644fa82
 
 ### T11b — Chat and story
 - Goal: §2.8 chat family plus `StoryPlayer`, `StepTabs`, `PageDots`, `Composer`.
@@ -162,6 +174,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Chat bubbles radius spec, reaction floats, composer. 2. StoryPlayer 5 s segments, tap zones, hold-to-pause, visible pause, captions, reduced (no push-in, announced advance).
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/chat-story`.
 - Done when: fixtures + a11y for each component; story hold-to-pause has a pause-button alternative tested.
+- Status: done — 997e0e6
 
 ### T12a — Trip-day, money, camera presentational components
 - Goal: §2.9 (excluding map family) trip/money/camera components.
@@ -169,6 +182,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Presentational props only (feature phases bind data). 2. `SupplierCard` renders verbatim supplier fields + attribution + affiliate disclosure slot; no caching props. 3. `Viewfinder`/`ScanOverlay` accept a camera child (vision-camera wired by feature phases). 4. `VoiceOrb`/`waveform` take an audio-level shared value.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/trip-money-camera`.
 - Done when: all listed components have fixtures and a11y labels; no feature data imports in `src/ui`.
+- Status: done — 6792244
 
 ### T12b — Critter presentational components
 - Goal: §2.10 critter family.
@@ -176,6 +190,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Presentational props only; stickers via `LiveSticker` / `<Sticker>`. 2. Locked/legendary states with tier glyph + word.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/critters`.
 - Done when: all listed components have fixtures and a11y labels (locked label per F-027).
+- Status: done — febcab3
 
 ### T12c — Recap and monetisation presentational components
 - Goal: §2.10 recap + monetise families.
@@ -183,6 +198,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Presentational props only. 2. `PerksChecklist` renders server-driven perk list prop. 3. Prices passed in as store-localised strings (no literals).
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/recap-monetize`.
 - Done when: all listed components have fixtures and a11y labels; no feature data imports in `src/ui`.
+- Status: done — 6553cf5
 
 ### T13 — Accessibility layer + audits
 - Goal: cross-cutting a11y utilities and automated checks.
