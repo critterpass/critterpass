@@ -117,7 +117,7 @@ describe('Text', () => {
   });
 
   it('uses tabular numerals where the token asks for them', async () => {
-    const screen = await renderText(<Text variant="display.hero">17d 05:26</Text>);
+    const screen = await renderText(<Text variant="displayHero">17d 05:26</Text>);
     expect(flat(screen.getByText('17D 05:26')).fontVariant).toEqual(['tabular-nums']);
   });
 

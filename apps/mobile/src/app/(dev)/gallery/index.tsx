@@ -150,7 +150,7 @@ export default function GalleryIndexScreen() {
                 accessibilityRole="button"
                 style={styles.row}
               >
-                <Text variant="row.title">{component}</Text>
+                <Text variant="rowTitle">{component}</Text>
               </Pressable>
             </Link>
           ))}

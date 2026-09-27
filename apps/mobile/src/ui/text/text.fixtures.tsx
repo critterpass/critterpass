@@ -7,11 +7,11 @@ import type { TextVariant } from './Text';
 import { Text, TEXT_VARIANTS } from './Text';
 
 const SAMPLE: Partial<Record<TextVariant, string>> = {
-  'display.mega': 'Kyoto',
-  'display.hero': '17d 05:26',
-  'display.xl': 'Befriended!',
+  displayMega: 'Kyoto',
+  displayHero: '17d 05:26',
+  displayXl: 'Befriended!',
   h1: 'Where next?',
-  'mono.data': 'P<IDNWINSTON<<CRITTER<<<<<<',
+  monoData: 'P<IDNWINSTON<<CRITTER<<<<<<',
   voice: 'Blossoms peak around April 3.',
 };
 
