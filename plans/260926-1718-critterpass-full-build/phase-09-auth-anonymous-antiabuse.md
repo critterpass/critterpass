@@ -154,6 +154,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. `@better-auth/expo` client with SecureStore. 2. Flow functions per Architecture table, each returning typed outcomes (`linked`, `merge_required{preview}`, `country_unsupported`, …) for phase 22 screens. 3. Returning logic: decide sign-in vs merge-ticket by local anonymous data presence. 4. Token fetchers with refresh-ahead (60 s). 5. Sign-out/merge clears SecureStore and runs `registerOnSignOut(fn)` hooks in order (phase 10 T4 registers PowerSync `disconnectAndClear`); tests use a spy hook.
 - Tests: `pnpm --filter @cp/mobile test -- data/auth`; `pnpm --filter @cp/api test -- auth/returning`
 - Done when: returning sign-in on a fresh install lands on the existing uid; an anonymous session with data triggers merge instead of data loss; typed outcomes exhaustively covered.
+- Status: done — cf7ffe4 (mobile client); server-side returning sign-in landed in 542f885
 
 ### T9 — Device action keys: storage, issuance helper, HMAC verification
 - Goal: extension auth primitive.
