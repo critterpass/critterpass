@@ -1,0 +1,8 @@
+{
+  "outIos": "app-icons/ios",
+  "outAndroid": "app-icons/android",
+  "flatSizePx": 1024,
+  "androidForegroundPx": 432,
+  "fontFamily": "Archivo",
+  "fontFile": "../../../apps/mobile/assets/fonts/Archivo-W78-800.ttf"
+}

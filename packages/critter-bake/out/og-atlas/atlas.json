@@ -1,0 +1,1416 @@
+{
+  "alpaca-common-cheer": {
+    "sheet": 0,
+    "x": 0,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "alpaca-common-crack": {
+    "sheet": 0,
+    "x": 98,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "alpaca-common-hop": {
+    "sheet": 0,
+    "x": 196,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "alpaca-common-idle": {
+    "sheet": 0,
+    "x": 294,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "alpaca-common-point": {
+    "sheet": 0,
+    "x": 392,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "alpaca-common-sleep": {
+    "sheet": 0,
+    "x": 490,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "alpaca-common-think": {
+    "sheet": 0,
+    "x": 588,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "alpaca-common-tilt": {
+    "sheet": 0,
+    "x": 686,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "alpaca-common-wave": {
+    "sheet": 0,
+    "x": 784,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "axolotl-common-cheer": {
+    "sheet": 0,
+    "x": 882,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "axolotl-common-crack": {
+    "sheet": 0,
+    "x": 980,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "axolotl-common-hop": {
+    "sheet": 0,
+    "x": 1078,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "axolotl-common-idle": {
+    "sheet": 0,
+    "x": 1176,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "axolotl-common-point": {
+    "sheet": 0,
+    "x": 1274,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "axolotl-common-sleep": {
+    "sheet": 0,
+    "x": 1372,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "axolotl-common-think": {
+    "sheet": 0,
+    "x": 1470,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "axolotl-common-tilt": {
+    "sheet": 0,
+    "x": 1568,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "axolotl-common-wave": {
+    "sheet": 0,
+    "x": 1666,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "cp-001-common-idle": {
+    "sheet": 0,
+    "x": 1764,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "cp-002-common-idle": {
+    "sheet": 0,
+    "x": 1862,
+    "y": 0,
+    "w": 96,
+    "h": 96
+  },
+  "cp-003-common-idle": {
+    "sheet": 0,
+    "x": 0,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-004-common-idle": {
+    "sheet": 0,
+    "x": 98,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-005-common-idle": {
+    "sheet": 0,
+    "x": 196,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-006-common-idle": {
+    "sheet": 0,
+    "x": 294,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-007-common-idle": {
+    "sheet": 0,
+    "x": 392,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-008-common-idle": {
+    "sheet": 0,
+    "x": 490,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-009-common-idle": {
+    "sheet": 0,
+    "x": 588,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-010-common-idle": {
+    "sheet": 0,
+    "x": 686,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-011-common-idle": {
+    "sheet": 0,
+    "x": 784,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-012-common-idle": {
+    "sheet": 0,
+    "x": 882,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-013-common-idle": {
+    "sheet": 0,
+    "x": 980,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-014-common-idle": {
+    "sheet": 0,
+    "x": 1078,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-015-common-idle": {
+    "sheet": 0,
+    "x": 1176,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-016-common-idle": {
+    "sheet": 0,
+    "x": 1274,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-017-common-idle": {
+    "sheet": 0,
+    "x": 1372,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-018-common-idle": {
+    "sheet": 0,
+    "x": 1470,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-019-common-idle": {
+    "sheet": 0,
+    "x": 1568,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-020-common-idle": {
+    "sheet": 0,
+    "x": 1666,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-021-common-idle": {
+    "sheet": 0,
+    "x": 1764,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-022-common-idle": {
+    "sheet": 0,
+    "x": 1862,
+    "y": 98,
+    "w": 96,
+    "h": 96
+  },
+  "cp-023-common-idle": {
+    "sheet": 0,
+    "x": 0,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-024-common-idle": {
+    "sheet": 0,
+    "x": 98,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-025-common-idle": {
+    "sheet": 0,
+    "x": 196,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-026-common-idle": {
+    "sheet": 0,
+    "x": 294,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-027-common-idle": {
+    "sheet": 0,
+    "x": 392,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-028-common-idle": {
+    "sheet": 0,
+    "x": 490,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-029-common-idle": {
+    "sheet": 0,
+    "x": 588,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-030-common-idle": {
+    "sheet": 0,
+    "x": 686,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-031-common-idle": {
+    "sheet": 0,
+    "x": 784,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-032-common-idle": {
+    "sheet": 0,
+    "x": 882,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-033-common-idle": {
+    "sheet": 0,
+    "x": 980,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-034-common-idle": {
+    "sheet": 0,
+    "x": 1078,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-035-common-idle": {
+    "sheet": 0,
+    "x": 1176,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-036-common-idle": {
+    "sheet": 0,
+    "x": 1274,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-037-common-idle": {
+    "sheet": 0,
+    "x": 1372,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-038-common-idle": {
+    "sheet": 0,
+    "x": 1470,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-039-common-idle": {
+    "sheet": 0,
+    "x": 1568,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-040-common-idle": {
+    "sheet": 0,
+    "x": 1666,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-042-common-idle": {
+    "sheet": 0,
+    "x": 1764,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-043-common-idle": {
+    "sheet": 0,
+    "x": 1862,
+    "y": 196,
+    "w": 96,
+    "h": 96
+  },
+  "cp-044-common-idle": {
+    "sheet": 0,
+    "x": 0,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-045-common-idle": {
+    "sheet": 0,
+    "x": 98,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-046-common-idle": {
+    "sheet": 0,
+    "x": 196,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-047-common-idle": {
+    "sheet": 0,
+    "x": 294,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-048-common-idle": {
+    "sheet": 0,
+    "x": 392,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-049-common-idle": {
+    "sheet": 0,
+    "x": 490,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-050-common-idle": {
+    "sheet": 0,
+    "x": 588,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-051-common-idle": {
+    "sheet": 0,
+    "x": 686,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-052-common-idle": {
+    "sheet": 0,
+    "x": 784,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-053-common-idle": {
+    "sheet": 0,
+    "x": 882,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-054-common-idle": {
+    "sheet": 0,
+    "x": 980,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-055-common-idle": {
+    "sheet": 0,
+    "x": 1078,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-056-common-idle": {
+    "sheet": 0,
+    "x": 1176,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-057-common-idle": {
+    "sheet": 0,
+    "x": 1274,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-058-common-idle": {
+    "sheet": 0,
+    "x": 1372,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-059-common-idle": {
+    "sheet": 0,
+    "x": 1470,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-060-common-idle": {
+    "sheet": 0,
+    "x": 1568,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-062-common-idle": {
+    "sheet": 0,
+    "x": 1666,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-063-common-idle": {
+    "sheet": 0,
+    "x": 1764,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-064-common-idle": {
+    "sheet": 0,
+    "x": 1862,
+    "y": 294,
+    "w": 96,
+    "h": 96
+  },
+  "cp-065-common-idle": {
+    "sheet": 0,
+    "x": 0,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-066-common-idle": {
+    "sheet": 0,
+    "x": 98,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-067-common-idle": {
+    "sheet": 0,
+    "x": 196,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-068-common-idle": {
+    "sheet": 0,
+    "x": 294,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-069-common-idle": {
+    "sheet": 0,
+    "x": 392,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-070-common-idle": {
+    "sheet": 0,
+    "x": 490,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-071-common-idle": {
+    "sheet": 0,
+    "x": 588,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-072-common-idle": {
+    "sheet": 0,
+    "x": 686,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-073-common-idle": {
+    "sheet": 0,
+    "x": 784,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-074-common-idle": {
+    "sheet": 0,
+    "x": 882,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-075-common-idle": {
+    "sheet": 0,
+    "x": 980,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-077-common-idle": {
+    "sheet": 0,
+    "x": 1078,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-078-common-idle": {
+    "sheet": 0,
+    "x": 1176,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-079-common-idle": {
+    "sheet": 0,
+    "x": 1274,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-080-common-idle": {
+    "sheet": 0,
+    "x": 1372,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-081-common-idle": {
+    "sheet": 0,
+    "x": 1470,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-082-common-idle": {
+    "sheet": 0,
+    "x": 1568,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-083-common-idle": {
+    "sheet": 0,
+    "x": 1666,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-084-common-idle": {
+    "sheet": 0,
+    "x": 1764,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-085-common-idle": {
+    "sheet": 0,
+    "x": 1862,
+    "y": 392,
+    "w": 96,
+    "h": 96
+  },
+  "cp-086-common-idle": {
+    "sheet": 0,
+    "x": 0,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-087-common-idle": {
+    "sheet": 0,
+    "x": 98,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-088-common-idle": {
+    "sheet": 0,
+    "x": 196,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-089-common-idle": {
+    "sheet": 0,
+    "x": 294,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-090-common-idle": {
+    "sheet": 0,
+    "x": 392,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-091-common-idle": {
+    "sheet": 0,
+    "x": 490,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-092-common-idle": {
+    "sheet": 0,
+    "x": 588,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-093-common-idle": {
+    "sheet": 0,
+    "x": 686,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-094-common-idle": {
+    "sheet": 0,
+    "x": 784,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-095-common-idle": {
+    "sheet": 0,
+    "x": 882,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-096-common-idle": {
+    "sheet": 0,
+    "x": 980,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-097-common-idle": {
+    "sheet": 0,
+    "x": 1078,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-098-common-idle": {
+    "sheet": 0,
+    "x": 1176,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-099-common-idle": {
+    "sheet": 0,
+    "x": 1274,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-100-common-idle": {
+    "sheet": 0,
+    "x": 1372,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-101-common-idle": {
+    "sheet": 0,
+    "x": 1470,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-102-common-idle": {
+    "sheet": 0,
+    "x": 1568,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-103-common-idle": {
+    "sheet": 0,
+    "x": 1666,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-104-common-idle": {
+    "sheet": 0,
+    "x": 1764,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-105-common-idle": {
+    "sheet": 0,
+    "x": 1862,
+    "y": 490,
+    "w": 96,
+    "h": 96
+  },
+  "cp-106-common-idle": {
+    "sheet": 0,
+    "x": 0,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-107-common-idle": {
+    "sheet": 0,
+    "x": 98,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-108-common-idle": {
+    "sheet": 0,
+    "x": 196,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-109-common-idle": {
+    "sheet": 0,
+    "x": 294,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-110-common-idle": {
+    "sheet": 0,
+    "x": 392,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-111-common-idle": {
+    "sheet": 0,
+    "x": 490,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-113-common-idle": {
+    "sheet": 0,
+    "x": 588,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-114-common-idle": {
+    "sheet": 0,
+    "x": 686,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-115-common-idle": {
+    "sheet": 0,
+    "x": 784,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-116-common-idle": {
+    "sheet": 0,
+    "x": 882,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-117-common-idle": {
+    "sheet": 0,
+    "x": 980,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-118-common-idle": {
+    "sheet": 0,
+    "x": 1078,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-119-common-idle": {
+    "sheet": 0,
+    "x": 1176,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-120-common-idle": {
+    "sheet": 0,
+    "x": 1274,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-121-common-idle": {
+    "sheet": 0,
+    "x": 1372,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-122-common-idle": {
+    "sheet": 0,
+    "x": 1470,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-123-common-idle": {
+    "sheet": 0,
+    "x": 1568,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-124-common-idle": {
+    "sheet": 0,
+    "x": 1666,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-125-common-idle": {
+    "sheet": 0,
+    "x": 1764,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-126-common-idle": {
+    "sheet": 0,
+    "x": 1862,
+    "y": 588,
+    "w": 96,
+    "h": 96
+  },
+  "cp-127-common-idle": {
+    "sheet": 0,
+    "x": 0,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-128-common-idle": {
+    "sheet": 0,
+    "x": 98,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-129-common-idle": {
+    "sheet": 0,
+    "x": 196,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-130-common-idle": {
+    "sheet": 0,
+    "x": 294,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-131-common-idle": {
+    "sheet": 0,
+    "x": 392,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-132-common-idle": {
+    "sheet": 0,
+    "x": 490,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-133-common-idle": {
+    "sheet": 0,
+    "x": 588,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-134-common-idle": {
+    "sheet": 0,
+    "x": 686,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-135-common-idle": {
+    "sheet": 0,
+    "x": 784,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-136-common-idle": {
+    "sheet": 0,
+    "x": 882,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-137-common-idle": {
+    "sheet": 0,
+    "x": 980,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-138-common-idle": {
+    "sheet": 0,
+    "x": 1078,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-139-common-idle": {
+    "sheet": 0,
+    "x": 1176,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-140-common-idle": {
+    "sheet": 0,
+    "x": 1274,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-141-common-idle": {
+    "sheet": 0,
+    "x": 1372,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-142-common-idle": {
+    "sheet": 0,
+    "x": 1470,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-143-common-idle": {
+    "sheet": 0,
+    "x": 1568,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-144-common-idle": {
+    "sheet": 0,
+    "x": 1666,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-146-common-idle": {
+    "sheet": 0,
+    "x": 1764,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-147-common-idle": {
+    "sheet": 0,
+    "x": 1862,
+    "y": 686,
+    "w": 96,
+    "h": 96
+  },
+  "cp-149-common-idle": {
+    "sheet": 0,
+    "x": 0,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "cp-150-common-idle": {
+    "sheet": 0,
+    "x": 98,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "gecko-common-cheer": {
+    "sheet": 0,
+    "x": 196,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "gecko-common-crack": {
+    "sheet": 0,
+    "x": 294,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "gecko-common-hop": {
+    "sheet": 0,
+    "x": 392,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "gecko-common-idle": {
+    "sheet": 0,
+    "x": 490,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "gecko-common-point": {
+    "sheet": 0,
+    "x": 588,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "gecko-common-sleep": {
+    "sheet": 0,
+    "x": 686,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "gecko-common-think": {
+    "sheet": 0,
+    "x": 784,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "gecko-common-tilt": {
+    "sheet": 0,
+    "x": 882,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "gecko-common-wave": {
+    "sheet": 0,
+    "x": 980,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "gecko-epic-idle": {
+    "sheet": 0,
+    "x": 1078,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "gecko-legendary-idle": {
+    "sheet": 0,
+    "x": 1176,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "gecko-rare-idle": {
+    "sheet": 0,
+    "x": 1274,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "puffin-common-cheer": {
+    "sheet": 0,
+    "x": 1372,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "puffin-common-crack": {
+    "sheet": 0,
+    "x": 1470,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "puffin-common-hop": {
+    "sheet": 0,
+    "x": 1568,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "puffin-common-idle": {
+    "sheet": 0,
+    "x": 1666,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "puffin-common-point": {
+    "sheet": 0,
+    "x": 1764,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "puffin-common-sleep": {
+    "sheet": 0,
+    "x": 1862,
+    "y": 784,
+    "w": 96,
+    "h": 96
+  },
+  "puffin-common-think": {
+    "sheet": 0,
+    "x": 0,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "puffin-common-tilt": {
+    "sheet": 0,
+    "x": 98,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "puffin-common-wave": {
+    "sheet": 0,
+    "x": 196,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "sardine-common-cheer": {
+    "sheet": 0,
+    "x": 294,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "sardine-common-crack": {
+    "sheet": 0,
+    "x": 392,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "sardine-common-hop": {
+    "sheet": 0,
+    "x": 490,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "sardine-common-idle": {
+    "sheet": 0,
+    "x": 588,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "sardine-common-point": {
+    "sheet": 0,
+    "x": 686,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "sardine-common-sleep": {
+    "sheet": 0,
+    "x": 784,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "sardine-common-think": {
+    "sheet": 0,
+    "x": 882,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "sardine-common-tilt": {
+    "sheet": 0,
+    "x": 980,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "sardine-common-wave": {
+    "sheet": 0,
+    "x": 1078,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-cheer": {
+    "sheet": 0,
+    "x": 1176,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-crack": {
+    "sheet": 0,
+    "x": 1274,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-hop": {
+    "sheet": 0,
+    "x": 1372,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-idle": {
+    "sheet": 0,
+    "x": 1470,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-point": {
+    "sheet": 0,
+    "x": 1568,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-sleep": {
+    "sheet": 0,
+    "x": 1666,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-think": {
+    "sheet": 0,
+    "x": 1764,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-tilt": {
+    "sheet": 0,
+    "x": 1862,
+    "y": 882,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-wave": {
+    "sheet": 0,
+    "x": 0,
+    "y": 980,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-legendary-idle": {
+    "sheet": 0,
+    "x": 98,
+    "y": 980,
+    "w": 96,
+    "h": 96
+  }
+}

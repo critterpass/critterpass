@@ -3,5 +3,6 @@
   "compilerOptions": {
     "types": []
   },
-  "include": ["src", "test", "golden", "scripts", "*.ts"]
+  "include": ["src", "test", "golden", "scripts", "*.ts"],
+  "exclude": ["src/web"]
 }

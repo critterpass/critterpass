@@ -154,6 +154,20 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         isAndroidForegroundServiceEnabled: true,
       },
     ],
+    'expo-sharing',
+    [
+      'expo-media-library',
+      {
+        // Share cards only ever add a new photo (`MediaLibrary.requestPermissionsAsync(true)`,
+        // write-only) — never read or delete the camera roll, so only the "add" permission string
+        // is set; there is no read-access string to configure.
+        savePhotosPermission: 'Critterpass can save a share card to your photos when you tap Save.',
+        isAccessMediaLocationEnabled: false,
+      },
+    ],
+    // Last: copies the bake pipeline's generated critter art into the app + every extension target
+    // (iOS) and Android res/ once every other plugin's prebuild output exists.
+    './plugins/with-critter-art',
   ],
   experiments: {
     typedRoutes: true,
