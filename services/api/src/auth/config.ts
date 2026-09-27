@@ -61,6 +61,22 @@ export interface AuthConfigDeps {
   readonly databaseHooks: NonNullable<BetterAuthOptions['databaseHooks']>;
   /** Overrides the jwt plugin's key rotation interval; only ever set by jwks.db.test.ts to force rotation inside one run. */
   readonly jwksRotationIntervalSeconds?: number | undefined;
+  /**
+   * `window`/`max` override Better Auth's global default (100 requests / 10 s per key); `customRules`
+   * (keyed by exact path or a `*`-wildcard, docs' `wildcardMatch`) win over *everything* else,
+   * including Better Auth's own hard-coded defaults for sign-in-shaped paths (`/sign-in*`: 3 per 10 s
+   * — verified against the installed `better-auth` 1.7.6 rate-limiter source, not documented). F-029's
+   * real per-path limits (services/api/src/abuse/rate-limits.ts, T5) are `customRules`; tests that are
+   * not exercising rate limiting (e.g. jwks.db.test.ts, which signs in repeatedly to test tokens)
+   * relax the sign-in default the same way.
+   */
+  readonly rateLimit?:
+    | {
+        readonly window?: number | undefined;
+        readonly max?: number | undefined;
+        readonly customRules?: NonNullable<BetterAuthOptions['rateLimit']>['customRules'];
+      }
+    | undefined;
 }
 
 export function buildAuthOptions(deps: AuthConfigDeps): BetterAuthOptions {
@@ -117,6 +133,9 @@ export function buildAuthOptions(deps: AuthConfigDeps): BetterAuthOptions {
       // F-029's limits are provable in Testcontainers tests, not just in prod.
       enabled: true,
       storage: 'secondary-storage',
+      window: deps.rateLimit?.window ?? 10,
+      max: deps.rateLimit?.max ?? 100,
+      ...(deps.rateLimit?.customRules ? { customRules: deps.rateLimit.customRules } : {}),
     },
     databaseHooks: deps.databaseHooks,
     plugins: [

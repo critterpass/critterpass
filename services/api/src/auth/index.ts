@@ -43,6 +43,7 @@ export interface AuthModuleDeps {
   readonly trustedOrigins: readonly string[];
   readonly otpAdapters: Partial<Record<OtpChannel, OtpChannelAdapter>>;
   readonly jwksRotationIntervalSeconds?: number | undefined;
+  readonly rateLimit?: AuthConfigDeps['rateLimit'];
 }
 
 export interface AuthModule {
@@ -144,6 +145,7 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
       otp,
       databaseHooks: mergedDatabaseHooks,
       jwksRotationIntervalSeconds: deps.jwksRotationIntervalSeconds,
+      rateLimit: deps.rateLimit,
     }),
   );
   authRef.current = auth;

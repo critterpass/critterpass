@@ -42,6 +42,10 @@ beforeAll(async () => {
     baseUrl: 'http://localhost:8787/api/auth',
     trustedOrigins: ['app.critterpass://'],
     otpAdapters: {},
+    // This suite is not exercising rate limiting (that is abuse/rate-limits.db.test.ts): Better
+    // Auth's own hard-coded default for /sign-in* (3 per 10 s) would otherwise fail repeated
+    // sign-ins across this file's tests.
+    rateLimit: { customRules: { '/sign-in/*': { window: 1, max: 1000 } } },
   });
 }, 180_000);
 
