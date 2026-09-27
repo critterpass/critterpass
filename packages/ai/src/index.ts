@@ -84,3 +84,32 @@ export {
   type PersonaId,
   type PersonaPack,
 } from './persona/schema';
+export {
+  buildContext,
+  CONTEXT_QUERIES,
+  renderTripContext,
+  type BuildContextDeps,
+  type BuildContextInput,
+  type GuideContext,
+  type GuidePrefs,
+  type ReaderClient,
+  type RunAsGuideReader,
+} from './context/build';
+export {
+  pinoRedactPaths,
+  redactionKeys,
+  redactRecord,
+  type PrivacyTableColumns,
+} from './context/redact';
+export {
+  MAX_UNTRUSTED_CHARS,
+  UNTRUSTED_CONTEXT,
+  UNTRUSTED_KINDS,
+  userTurnWithData,
+  wrapAllUntrusted,
+  wrapUntrusted,
+  type UntrustedBlock,
+  type UntrustedInput,
+  type UntrustedKind,
+  type WrapOptions,
+} from './context/wrap-untrusted';

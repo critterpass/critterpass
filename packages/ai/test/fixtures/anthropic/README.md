@@ -11,6 +11,7 @@ place of `fetch`, so the real SDK client parses them end to end.
 | `haiku-cache-read.json`  | same prefix served from the cache (`cache_read_input_tokens`) |
 | `haiku-tool-use.json`    | `stop_reason: tool_use` with a `places_search` call           |
 | `haiku-stream.json`      | SSE events of a streamed answer                               |
+| `haiku-injection-ignored.json` | answer to a turn quoting an injected crew message: text only, no tool call |
 | `sonnet-refusal.json`    | `stop_reason: refusal` with `stop_details`                    |
 | `overloaded-529.json`    | overloaded error, retried                                     |
 | `rate-limited-429.json`  | rate-limit error with `retry-after`                           |
