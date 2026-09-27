@@ -18,6 +18,14 @@ name: E2E tests (Android)
 # dashboard access needs to opt this project back to the previous (n2-standard) Android build
 # infrastructure at https://expo.dev/accounts/critterpass/projects/critterpass/settings before
 # this workflow's maestro jobs can pass (docs/code-standards.md §17: cloud E2E ladder).
+#
+# A reused build's embedded JS bundle is frozen at build time; the fingerprint match ignores
+# JS-only changes, so `publish_update` republishes the current JS to the e2e-test channel first
+# whenever a build is reused — `maestro_existing_build` needs it, so it always runs after the
+# publish completes. A fresh build already embeds the current JS, so `maestro_new_build` needs no
+# such step. `app.config.ts` sets `updates.checkAutomatically: 'ON_LOAD'` for this build's
+# `APP_VARIANT=development` variant, so the app blocks its first render on this update before
+# Maestro sees it.
 on:
   workflow_dispatch:
     inputs:
@@ -51,8 +59,21 @@ jobs:
       platform: android
       profile: e2e-test
 
-  maestro_existing_build:
+  publish_update:
+    name: Publish current JS to e2e-test (reused build only)
     needs: [find_build]
+    if: ${{ needs.find_build.outputs.build_id }}
+    type: update
+    environment: development
+    env:
+      APP_VARIANT: development
+    params:
+      platform: android
+      channel: e2e-test
+      message: e2e freshness for fingerprint ${{ needs.fingerprint.outputs.android_fingerprint_hash }}
+
+  maestro_existing_build:
+    needs: [find_build, publish_update]
     if: ${{ needs.find_build.outputs.build_id }}
     type: maestro
     runs_on: linux-medium-nested-virtualization

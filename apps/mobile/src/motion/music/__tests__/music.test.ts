@@ -38,9 +38,10 @@ describe('crossfadeFraction', () => {
 });
 
 describe('themes', () => {
-  it('has no available themes until assets are licensed (manifest.json is all `available: false`)', () => {
-    expect(availableThemes()).toEqual([]);
-    expect(themeFor('tokek')?.available).toBe(false);
+  it('lists all 6 guide themes as available now that @cp/sound-art assets are wired', () => {
+    const guideIds = availableThemes().map((theme) => theme.guideId);
+    expect(guideIds).toEqual(['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco']);
+    expect(themeFor('tokek')?.available).toBe(true);
   });
 
   it('returns undefined for an unrecognised guide id', () => {
@@ -105,22 +106,22 @@ describe('music.preview', () => {
     expect(player?.volume).toBeCloseTo(0.4);
   });
 
-  it("no-ops for a 'music' preview when no guide sample is licensed yet", () => {
+  it("plays the current (or default) guide's sample preview for a 'music' preview", () => {
     expect(() => music.preview('music', 0.5)).not.toThrow();
   });
 });
 
 describe('music.play / crossfadeTo respect the volume prefs', () => {
-  it('plays at 0 volume when music is disabled in prefs', async () => {
-    musicEngine.crossfadeTo('a', 'test://a.m4a', 0); // seed a track so setBaseVolume(0) is observable
+  it('plays the (now-bundled) guide theme at 0 volume when music is disabled in prefs', async () => {
     const { result, unmount } = await renderHook(() => useFeedbackPrefs());
     await act(() => {
       result.current.setMusicEnabled(false);
     });
     await unmount();
 
-    music.play('tokek'); // no licensed asset — stops, but must not throw while reading prefs
-    expect(musicEngine.playingGuideId).toBeNull();
+    music.play('tokek'); // bundled by @cp/sound-art — plays, but silently, respecting the prefs
+    expect(musicEngine.playingGuideId).toBe('tokek');
+    expect(musicEngine.peekVolumesForTests().active).toBe(0);
   });
 });
 
