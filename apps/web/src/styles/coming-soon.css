@@ -16,10 +16,13 @@
   font-family: Geist, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
-.cs-root a {
+/* Bare links inherit and turn yellow on hover. Zero specificity so every styled link (the yellow
+   JOIN THE WAITLIST pill, share and social buttons) keeps its own text colour in every state;
+   at `.cs-root a` strength these rules turned the pill's ink text cream and then yellow-on-yellow. */
+:where(.cs-root a) {
   color: inherit;
 }
-.cs-root a:hover {
+:where(.cs-root a:hover) {
   color: var(--color-yellow);
 }
 .cs-root input::placeholder {
