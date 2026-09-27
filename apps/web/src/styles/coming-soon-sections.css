@@ -1,0 +1,539 @@
+/* Critterpass coming-soon page: ticker, hatch, feature cards, final call, footer. */
+
+/* ---------- City ticker ---------- */
+.cs-ticker {
+  position: relative;
+  z-index: 2;
+  margin: -36px -20px 0;
+  transform: rotate(-2deg);
+  background: var(--color-yellow);
+  color: var(--color-ink-850);
+  overflow: hidden;
+  padding: 16px 0;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+.cs-ticker__track {
+  display: flex;
+  width: max-content;
+  animation: cs-marquee 30s linear infinite;
+}
+@keyframes cs-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.cs-ticker__group {
+  display: flex;
+  gap: 28px;
+  padding-right: 28px;
+  align-items: center;
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 1;
+  font-stretch: 70%;
+  white-space: nowrap;
+}
+.cs-ticker__who {
+  font:
+    600 26px Caveat,
+    cursive;
+  color: var(--color-rust-base);
+}
+
+/* ---------- Hatch section ---------- */
+.cs-hatch {
+  position: relative;
+  background: var(--color-surface-alt);
+  margin-top: -20px;
+}
+.cs-hatch__grid {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(100px, 11vw, 150px) clamp(20px, 4vw, 48px) clamp(80px, 10vw, 130px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 48px;
+  align-items: center;
+}
+.cs-hatch__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 520px;
+}
+.cs-eyebrow {
+  font:
+    700 12px Archivo,
+    sans-serif;
+  letter-spacing: 0.18em;
+  color: var(--color-ink-200);
+}
+.cs-h2 {
+  margin: 0;
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: clamp(56px, 7vw, 96px);
+  line-height: 0.94;
+  font-stretch: 66%;
+  text-transform: uppercase;
+  color: var(--color-yellow);
+  text-wrap: balance;
+}
+.cs-hatch__desc {
+  margin: 0;
+  font:
+    500 clamp(17px, 1.6vw, 20px) / 1.5 Geist,
+    sans-serif;
+  color: var(--color-ink-200);
+  text-wrap: pretty;
+}
+.cs-stats {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.cs-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cs-stat__value {
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: 56px;
+  line-height: 1;
+  font-stretch: 66%;
+  color: var(--color-paper-base);
+}
+.cs-stat__label {
+  font:
+    800 12px Archivo,
+    sans-serif;
+  letter-spacing: 0.12em;
+  color: var(--color-ink-200);
+}
+.cs-stats__quip {
+  font:
+    600 26px/1 Caveat,
+    cursive;
+  color: var(--color-pink);
+  transform: rotate(-3deg);
+  margin-left: 8px;
+}
+.cs-egg-stage {
+  position: relative;
+  min-height: 460px;
+  border-radius: 40px;
+  background: var(--color-ink-850)
+    radial-gradient(rgba(255, 216, 74, 0.12) 1.3px, transparent 1.8px) 0 0 / 10px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 32px;
+  overflow: hidden;
+}
+.cs-egg-hint {
+  font:
+    600 30px/1 Caveat,
+    cursive;
+  color: var(--color-pink);
+  transform: rotate(-4deg);
+}
+.cs-egg-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  line-height: 0;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.cs-egg-btn:active {
+  transform: scale(0.92);
+}
+.cs-egg-shadow {
+  width: 180px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  margin-top: -14px;
+}
+.cs-tap-dots {
+  display: flex;
+  gap: 8px;
+}
+.cs-tap-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  background: var(--color-ink-600);
+  transition: background 0.2s;
+}
+.cs-tap-dot[data-filled='true'] {
+  background: var(--color-pink);
+}
+.cs-hatched {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.cs-hatched__critter {
+  line-height: 0;
+  animation: cs-pop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.cs-hatched__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+.cs-hatched__num {
+  font:
+    500 12px 'Geist Mono',
+    monospace;
+  color: var(--color-ink-200);
+}
+.cs-hatched__name {
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: 56px;
+  line-height: 1;
+  font-stretch: 66%;
+  color: var(--color-yellow);
+}
+.cs-hatched__species {
+  font:
+    500 15px Geist,
+    sans-serif;
+  color: var(--color-ink-200);
+}
+.cs-hatched__actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cs-btn-solid {
+  height: 48px;
+  padding: 0 20px;
+  border-radius: 24px;
+  background: var(--color-yellow);
+  color: var(--color-ink-850);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font:
+    900 13px Archivo,
+    sans-serif;
+  letter-spacing: 0.06em;
+  transition: transform 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.cs-btn-solid:hover {
+  transform: rotate(-3deg);
+}
+.cs-btn-outline {
+  height: 48px;
+  padding: 0 20px;
+  border-radius: 24px;
+  border: 2px solid var(--color-ink-600);
+  background: none;
+  color: var(--color-paper-base);
+  cursor: pointer;
+  font:
+    900 13px Archivo,
+    sans-serif;
+  letter-spacing: 0.06em;
+}
+
+/* ---------- Feature cards ---------- */
+.cs-features {
+  background: var(--color-paper-base);
+  color: var(--color-ink-850);
+}
+.cs-features__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(80px, 10vw, 130px) clamp(20px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+.cs-features__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.cs-features__title {
+  margin: 0;
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: clamp(48px, 6vw, 80px);
+  line-height: 0.94;
+  font-stretch: 66%;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--color-ink-850);
+}
+.cs-features__quip {
+  font:
+    600 28px/1 Caveat,
+    cursive;
+  color: var(--color-rust-base);
+  transform: rotate(-2deg);
+}
+.cs-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 24px 20px;
+}
+.cs-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 28px;
+  overflow: hidden;
+  transition: transform 0.25s;
+}
+.cs-card:hover {
+  transform: rotate(0) translateY(-6px);
+}
+.cs-card__art {
+  position: relative;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.cs-card__body {
+  flex: 1;
+  padding: 20px 24px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cs-card__index {
+  font:
+    500 12px 'Geist Mono',
+    monospace;
+}
+.cs-card__title {
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  line-height: 1.05;
+  font-stretch: 72%;
+}
+.cs-card__desc {
+  font:
+    400 15px/1.55 Geist,
+    sans-serif;
+  color: var(--color-paper-body);
+  text-wrap: pretty;
+}
+
+/* ---------- Final call ---------- */
+.cs-final {
+  background: var(--color-pink) radial-gradient(rgba(23, 20, 42, 0.12) 1.3px, transparent 1.7px) 0
+    0 / 10px 10px;
+  color: var(--color-ink-850);
+}
+.cs-final__outer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(80px, 10vw, 130px) clamp(20px, 4vw, 48px);
+}
+.cs-final__card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  background: var(--color-paper-base);
+  border-radius: 28px;
+  box-shadow: 0 30px 60px rgba(80, 0, 40, 0.25);
+  transform: rotate(-1.5deg);
+  -webkit-mask:
+    radial-gradient(circle 26px at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 26px at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle 26px at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 26px at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat;
+}
+.cs-final__left {
+  padding: clamp(32px, 5vw, 60px);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  grid-column: span 2;
+}
+.cs-final__eyebrow-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font:
+    700 11px Archivo,
+    sans-serif;
+  letter-spacing: 0.16em;
+  color: var(--color-paper-label);
+}
+.cs-final__title {
+  margin: 0;
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: clamp(56px, 8vw, 104px);
+  line-height: 0.92;
+  font-stretch: 64%;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.cs-final__gate-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.cs-final__gate-badge {
+  padding: 8px 14px 6px;
+  border-radius: 14px;
+  background: var(--color-ink-850);
+  color: var(--color-yellow);
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: clamp(24px, 3.4vw, 42px);
+  line-height: 1;
+  font-stretch: 70%;
+  font-variant-numeric: tabular-nums;
+}
+.cs-final__seats {
+  font:
+    500 15px/1.4 Geist,
+    sans-serif;
+  color: var(--color-paper-body);
+}
+.cs-final__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.cs-final__cta {
+  height: 60px;
+  padding: 0 28px;
+  font-size: 16px;
+}
+.cs-final__quip {
+  font:
+    600 26px/1 Caveat,
+    cursive;
+  color: var(--color-rust-base);
+  transform: rotate(-2deg);
+}
+.cs-final__right {
+  position: relative;
+  min-height: 260px;
+  border-left: 3px dashed var(--color-paper-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px;
+}
+.cs-final__right-critter {
+  line-height: 0;
+  animation: cs-hop 2.6s ease-in-out infinite;
+}
+@keyframes cs-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-16px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+}
+.cs-final__gate-label {
+  font:
+    500 12px 'Geist Mono',
+    monospace;
+  color: var(--color-paper-label);
+}
+
+/* ---------- Footer ---------- */
+.cs-footer {
+  background: var(--color-ink-850);
+}
+.cs-footer__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 36px clamp(20px, 4vw, 48px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  font:
+    500 13px Geist,
+    sans-serif;
+  color: var(--color-ink-200);
+}
+.cs-footer__left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.cs-footer__brand {
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: 22px;
+  line-height: 1;
+  font-stretch: 64%;
+  color: var(--color-yellow);
+}
+.cs-footer__quip {
+  font:
+    600 22px/1 Caveat,
+    cursive;
+  color: var(--color-pink);
+}
+.cs-footer__social {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 18px;
+  background: var(--color-ink-700);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font:
+    800 11px Archivo,
+    sans-serif;
+  letter-spacing: 0.1em;
+  color: var(--color-paper-base);
+}
+.cs-footer__right {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-ticker__track,
+  .cs-hatched__critter,
+  .cs-final__right-critter {
+    animation: none !important;
+  }
+}

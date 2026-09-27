@@ -16,7 +16,10 @@ const bannedIds: { pattern: RegExp; what: string }[] = [
   // C0–C5 are privacy classes (system-architecture.md §5), so only C6–C48 are unambiguous resolution ids.
   { pattern: /\bC(?:[6-9]|[1-3]\d|4[0-8])\b/, what: 'contradiction-resolution id' },
   {
-    pattern: /\bD(?:[1-9]|1\d|20)\b(?!\s*(?:array|canvas|context|vector|point|space|model))/i,
+    // `D1` is also Cloudflare's database product (the web waitlist runs on it), so product-context
+    // uses of it are not decision citations.
+    pattern:
+      /(?<!Cloudflare )\bD(?:[1-9]|1\d|20)\b(?!-backed)(?!\s*(?:array|canvas|context|vector|point|space|model|database|databases|binding|access|read|reads|write|writes|counter|row|rows|table|tables|query|queries|migrations?)\b)/i,
     what: 'decision id',
   },
   // Requires a separator so wave maths like `phase1` stays legal.
@@ -43,6 +46,21 @@ function trackedSourceFiles(): string[] {
         sourceExtensions.test(file) && !excluded.test(file) && !file.endsWith('pnpm-lock.yaml'),
     );
 }
+
+describe('decision id pattern', () => {
+  const decision = bannedIds.find((entry) => entry.what === 'decision id')?.pattern;
+
+  it('flags plan-style decision citations', () => {
+    expect(decision?.test('Owned backend, never Supabase (D4).')).toBe(true);
+    expect(decision?.test('per D14 the sender router picks WhatsApp first')).toBe(true);
+  });
+
+  it('allows Cloudflare D1 as a product name', () => {
+    expect(decision?.test('In a Cloudflare D1 database operated by Critterpass.')).toBe(false);
+    expect(decision?.test('the join form and its D1-backed waitlist')).toBe(false);
+    expect(decision?.test('against a single D1 read per attempt')).toBe(false);
+  });
+});
 
 describe('no plan bookkeeping ids in source', () => {
   it('keeps feature, decision, question, phase and task ids out of code and tests', () => {

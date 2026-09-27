@@ -1,0 +1,61 @@
+---
+import '../styles/coming-soon.css';
+import { GUIDES } from '../lib/guides';
+
+const initialGuide = GUIDES[0]!;
+---
+
+<div class="cs-pass-wrap">
+  <div class="cs-pass-shadow"></div>
+  <div class="cs-pass" data-cs="pass" style={`background:${initialGuide.bg}`}>
+    <div class="cs-pass__texture"></div>
+    <div class="cs-pass__head">
+      <span>CRITTERPASS · BOARDING SOON</span>
+      <span>CP-<span data-cs="pass-no">{initialGuide.no}</span></span>
+    </div>
+    <div class="cs-pass__guide">
+      <cp-critter
+        data-cs="pass-critter"
+        kind={initialGuide.kind}
+        seed={initialGuide.seed}
+        size="230"
+        pose="wave"
+        sticker="#f4efe4"
+        label={`${initialGuide.name} waving`}
+      />
+    </div>
+    <div class="cs-pass__foot">
+      <div class="cs-pass__grid">
+        <div class="cs-pass__field">
+          <span class="cs-pass__field-label">FROM</span>
+          <span class="cs-pass__field-value">GROUP CHAT</span>
+        </div>
+        <div class="cs-pass__field">
+          <span class="cs-pass__field-label">TO</span>
+          <span class="cs-pass__field-value" data-cs="pass-city">{initialGuide.city}</span>
+        </div>
+        <div class="cs-pass__field">
+          <span class="cs-pass__field-label">SEAT</span>
+          <span class="cs-pass__field-value" data-cs="pass-seat">— —</span>
+        </div>
+      </div>
+      <div class="cs-pass__bottom">
+        <div class="cs-pass__gate">
+          <span class="cs-pass__field-label">GATE OPENS IN</span>
+          <span class="cs-pass__gate-badge" data-cs="pass-gate">BOARDING SOON</span>
+        </div>
+        <div class="cs-pass__guide-name">
+          <span class="cs-pass__guide-name-script">your guide</span>
+          <span class="cs-pass__guide-name-value" data-cs="pass-guide-name">{initialGuide.name}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="cs-pass__egg">
+    <cp-critter kind="egg" seed="12" size="100" label="A wiggling egg" />
+  </span>
+  <div class="cs-pass__stamp">
+    <span class="cs-pass__stamp-title">COMING<br />SOON</span>
+    <span class="cs-pass__stamp-sub">EST. 2026</span>
+  </div>
+</div>

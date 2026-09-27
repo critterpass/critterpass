@@ -48,6 +48,11 @@
         "$value": "#a9a3c0",
         "$description": "Secondary text, eyebrows, tier common"
       },
+      "150": {
+        "$type": "color",
+        "$value": "#c9c4dc",
+        "$description": "Secondary text on dark surfaces, between ink.100 and ink.200 (marketing copy)"
+      },
       "100": { "$type": "color", "$value": "#d8d3ee", "$description": "Unselected chip text" }
     },
     "paper": {
@@ -57,6 +62,11 @@
         "$description": "Primary text on dark, paper surface, sticker edge"
       },
       "bright": { "$type": "color", "$value": "#fffdf6", "$description": "Sticker white, receipt" },
+      "cream": {
+        "$type": "color",
+        "$value": "#fffaf0",
+        "$description": "Warm paper fill for inputs/chips, lighter than paper.base"
+      },
       "warm": { "$type": "color", "$value": "#fff3c4", "$description": "Warm tints" },
       "ink": {
         "$type": "color",
@@ -67,6 +77,31 @@
         "$type": "color",
         "$value": "#5d564b",
         "$description": "Paper secondary text (>= 4.5:1; never rust small text for information)"
+      },
+      "body": {
+        "$type": "color",
+        "$value": "#3d372f",
+        "$description": "Paper surface body copy, darker than paper.muted"
+      },
+      "label": {
+        "$type": "color",
+        "$value": "#6b6356",
+        "$description": "Paper surface eyebrow/mono caption text"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "#d6cfbf",
+        "$description": "Paper surface control border (idle input ring, dashed rules)"
+      },
+      "divider": {
+        "$type": "color",
+        "$value": "#e6dfcf",
+        "$description": "Paper surface hairline/divider, lighter than paper.border"
+      },
+      "placeholder": {
+        "$type": "color",
+        "$value": "#9a927f",
+        "$description": "Paper surface input placeholder text"
       }
     },
     "rust": {
@@ -85,9 +120,19 @@
     "orange": { "$type": "color", "$value": "#ff9a4d", "$description": "Accent" },
     "pink": { "$type": "color", "$value": "#ff5fa8", "$description": "Accent" },
     "blue": { "$type": "color", "$value": "#4f86ff", "$description": "Accent" },
+    "blueLight": {
+      "$type": "color",
+      "$value": "#7fb8ff",
+      "$description": "Lighter blue accent (marketing surfaces, chat bubbles)"
+    },
     "green": {
       "base": { "$type": "color", "$value": "#54d6a4", "$description": "Accent" },
-      "deep": { "$type": "color", "$value": "#2e9a74", "$description": "PAID stamp, spots" }
+      "deep": { "$type": "color", "$value": "#2e9a74", "$description": "PAID stamp, spots" },
+      "signal": {
+        "$type": "color",
+        "$value": "#1f9a6a",
+        "$description": "Affirmative badge border/text on paper, darker than green.base"
+      }
     },
     "gold": {
       "base": { "$type": "color", "$value": "#e0a92a", "$description": "Legendary" },
@@ -112,6 +157,75 @@
       "$value": { "hex": "#07060e", "alphaMin": 0.45, "alphaMax": 0.5 },
       "$description": "Modal scrim"
     },
-    "flash": { "$type": "color", "$value": "#fffbe8", "$description": "Burst flash" }
+    "flash": { "$type": "color", "$value": "#fffbe8", "$description": "Burst flash" },
+    "surfaceAlt": {
+      "$type": "color",
+      "$value": "#221e3d",
+      "$description": "Alternate dark section background, between ink.780 and ink.800"
+    },
+    "danger": {
+      "border": {
+        "$type": "color",
+        "$value": "#ff5a3d",
+        "$description": "Invalid-input border"
+      },
+      "text": {
+        "$type": "color",
+        "$value": "#c63f3f",
+        "$description": "Invalid-input helper text"
+      }
+    },
+    "progressStripe": {
+      "$type": "color",
+      "$value": "#ff7fbb",
+      "$description": "Secondary stripe colour in a diagonal progress-bar fill"
+    },
+    "card": {
+      "swipeBg": {
+        "$type": "color",
+        "$value": "#fff7d6",
+        "$description": "Coming-soon feature card: swipe-to-pick"
+      },
+      "planBg": {
+        "$type": "color",
+        "$value": "#ffe0c7",
+        "$description": "Coming-soon feature card: plan together"
+      },
+      "planLabel": {
+        "$type": "color",
+        "$value": "#7a3f18",
+        "$description": "Coming-soon feature card: plan together index label"
+      },
+      "planEditing": {
+        "$type": "color",
+        "$value": "#5a2c0e",
+        "$description": "Coming-soon feature card: plan together \"editing\" tag text"
+      },
+      "splitBg": {
+        "$type": "color",
+        "$value": "#d6f5e8",
+        "$description": "Coming-soon feature card: split it"
+      },
+      "splitLabel": {
+        "$type": "color",
+        "$value": "#1f6b4d",
+        "$description": "Coming-soon feature card: split it index label"
+      },
+      "collectBg": {
+        "$type": "color",
+        "$value": "#dcebff",
+        "$description": "Coming-soon feature card: collect the pass"
+      },
+      "collectLabel": {
+        "$type": "color",
+        "$value": "#23467a",
+        "$description": "Coming-soon feature card: collect the pass index label"
+      },
+      "receiptBorder": {
+        "$type": "color",
+        "$value": "#b8b0a0",
+        "$description": "Coming-soon feature card: split-it receipt dashed border"
+      }
+    }
   }
 }
