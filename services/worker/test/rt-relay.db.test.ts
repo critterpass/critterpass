@@ -154,10 +154,11 @@ function countingApi(url = apiUrl): CountingApi {
   };
 }
 
-function startRelay(api: CentrifugoApi): RtRelay {
+function startRelay(api: CentrifugoApi, sweepIntervalMs?: number): RtRelay {
   const relay = startRtRelay({
     pool,
     api,
+    ...(sweepIntervalMs !== undefined ? { sweepIntervalMs } : {}),
     logger: silent,
     connectListener: () => new pg.Client({ connectionString: postgres.getConnectionUri() }),
   });
@@ -221,6 +222,21 @@ describe('rt_outbox relay', () => {
     await until(() => watched.publications.length === 1, 3000);
     expect(watched.publications).toEqual([sent]);
     await until(async () => (await unpublishedCount()) === 0, 2000);
+  });
+
+  it('is woken by the commit NOTIFY without waiting for a sweep', async () => {
+    const uid = randomUUID();
+    const channel = channelName('user', uid);
+    const watched = await watch(await connect(uid), channel);
+    startRelay(countingApi(), 60_000);
+    await sleep(300);
+
+    await withSystem(pool, (tx) =>
+      enqueueRealtime(tx, { channel, payload: envelope('badge.counts', { counts: {} }) }),
+    );
+    const committedAt = performance.now();
+    await until(() => watched.publications.length === 1, 1000);
+    expect(performance.now() - committedAt).toBeLessThan(1000);
   });
 
   it('fans one event out to several channels with a single broadcast', async () => {
