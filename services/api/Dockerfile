@@ -4,10 +4,10 @@ RUN npm install --global pnpm@12.6.0 && pnpm --version
 
 FROM base AS build
 WORKDIR /repo
-COPY pnpm-lock.yaml pnpm-workspace.yaml package.json .npmrc ./
-RUN pnpm fetch
 COPY . .
-RUN pnpm install --offline --frozen-lockfile --filter "@cp/api..."
+# Install only this service's dependency graph: a workspace-wide fetch would also download and
+# build other apps' native tooling (e.g. the mobile app's SQLCipher test driver needs Python).
+RUN pnpm install --frozen-lockfile --filter "@cp/api..."
 RUN pnpm --filter @cp/api build
 RUN pnpm --filter @cp/api deploy --prod --legacy /out
 
