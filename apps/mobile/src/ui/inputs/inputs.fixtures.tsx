@@ -44,7 +44,9 @@ function Search() {
 }
 
 function Code({ groups, status }: { groups?: number[]; status: CodeStatus }) {
-  const [value, setValue] = useState(status === 'idle' ? '48' : '482913'.padEnd(12, 'A'));
+  // A gift code is shown as 4d-4 draws it: two groups in, the last one being typed.
+  const initial = groups ? 'PASS7K2QMA' : status === 'idle' ? '48' : '482913';
+  const [value, setValue] = useState(initial);
   return (
     <CodeBoxes
       label="Verification code"

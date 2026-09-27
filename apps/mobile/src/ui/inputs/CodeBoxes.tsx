@@ -47,9 +47,24 @@ function borderFor(theme: Theme, status: CodeStatus, filled: boolean, active: bo
 
 const useStyles = makeStyles((t) => ({
   row: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'] },
+  groupedRow: { alignSelf: 'stretch' },
+  groupedCells: { flex: 1 },
   box: {
     width: sizeToken(t.size.otpBox, 'width'),
     height: sizeToken(t.size.otpBox, 'height'),
+    borderRadius: t.radius.md,
+    borderWidth: t.ring.input.idle.widthPt,
+    backgroundColor: t.semantic.bg.raised,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  // A gift code's group shares the row with the others (4d-4): the three boxes split the width
+  // evenly and grow taller with the text instead of overflowing the card.
+  group: {
+    flex: 1,
+    minWidth: 0,
+    minHeight: sizeToken(t.size.otpBox, 'height'),
+    paddingHorizontal: t.space['8'],
     borderRadius: t.radius.md,
     borderWidth: t.ring.input.idle.widthPt,
     backgroundColor: t.semantic.bg.raised,
@@ -60,7 +75,16 @@ const useStyles = makeStyles((t) => ({
   capture: { ...StyleSheet.absoluteFill, opacity: 0.02, color: 'transparent' },
 }));
 
-function Box({ char, border }: { readonly char: string; readonly border: string }) {
+function Box({
+  char,
+  border,
+  grouped = false,
+}: {
+  readonly char: string;
+  readonly border: string;
+  /** One box holding a whole gift-code group, sized from the row's width rather than per character. */
+  readonly grouped?: boolean;
+}) {
   const styles = useStyles();
   const reduced = useReducedImpactMotion();
   const drop = useSharedValue(0);
@@ -72,16 +96,23 @@ function Box({ char, border }: { readonly char: string; readonly border: string 
   }, [char, reduced]);
   const style = useAnimatedStyle(() => ({ transform: [{ translateY: drop.value }] }));
   return (
-    <View style={[styles.box, { borderColor: border }]}>
+    <View style={[grouped ? styles.group : styles.box, { borderColor: border }]}>
       <Animated.View style={style}>
-        <Text variant="inputOtp">{char}</Text>
+        {grouped ? (
+          <Text variant="inputOtp" numberOfLines={1} autoFit>
+            {char}
+          </Text>
+        ) : (
+          <Text variant="inputOtp">{char}</Text>
+        )}
       </Animated.View>
     </View>
   );
 }
 
 /**
- * Segmented code entry (OTP, crew join, 4-4-4 gift codes): digits drop into boxes, a valid code
+ * Segmented code entry (OTP, crew join, 4-4-4 gift codes): characters drop into boxes, one per
+ * digit for a single group and one per group for a gift code (4d-4: PASS - 7K2Q - MAYA), a valid code
  * rings green, an invalid one shakes and plays the error cue. One hidden native input receives the
  * text (and the OS one-time-code autofill); screen readers see only that input.
  */
@@ -134,29 +165,45 @@ export function CodeBoxes({
     if (cleaned.length === length) onComplete?.(cleaned);
   };
 
+  const grouped = groups.length > 1;
+
   return (
-    <Animated.View style={[styles.row, shakeStyle]}>
+    <Animated.View style={[styles.row, grouped ? styles.groupedRow : null, shakeStyle]}>
       <View
-        style={styles.row}
+        style={[styles.row, grouped ? styles.groupedCells : null]}
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       >
         {groups.map((size, groupIndex) => {
           const start = groups.slice(0, groupIndex).reduce((sum, n) => sum + n, 0);
+          const end = start + size;
           return (
             <Fragment key={start}>
               {groupIndex > 0 ? <View style={styles.dash} /> : null}
-              {Array.from({ length: size }, (_, i) => {
-                const index = start + i;
-                const char = value[index] ?? '';
-                return (
-                  <Box
-                    key={index}
-                    char={char}
-                    border={borderFor(theme, status, char !== '', index === value.length)}
-                  />
-                );
-              })}
+              {grouped ? (
+                <Box
+                  grouped
+                  char={value.slice(start, end)}
+                  border={borderFor(
+                    theme,
+                    status,
+                    value.length > start,
+                    value.length >= start && value.length < end,
+                  )}
+                />
+              ) : (
+                Array.from({ length: size }, (_, i) => {
+                  const index = start + i;
+                  const char = value[index] ?? '';
+                  return (
+                    <Box
+                      key={index}
+                      char={char}
+                      border={borderFor(theme, status, char !== '', index === value.length)}
+                    />
+                  );
+                })
+              )}
             </Fragment>
           );
         })}
