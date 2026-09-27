@@ -412,6 +412,9 @@ importers:
       '@cp/cost-engine':
         specifier: workspace:*
         version: link:../../packages/cost-engine
+      '@cp/critter-art':
+        specifier: workspace:*
+        version: link:../../packages/critter-art
       '@cp/domain':
         specifier: workspace:*
         version: link:../../packages/domain
@@ -460,6 +463,9 @@ importers:
       expo-dev-client:
         specifier: 58.0.7
         version: 58.0.7(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))
+      expo-file-system:
+        specifier: ~58.0.2
+        version: 58.0.2(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))
       expo-font:
         specifier: 58.0.2
         version: 58.0.2(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)
@@ -530,6 +536,9 @@ importers:
       '@lingui/conf':
         specifier: 'catalog:'
         version: 6.8.0
+      '@napi-rs/canvas':
+        specifier: 'catalog:'
+        version: 1.0.9
       '@react-native/jest-preset':
         specifier: 0.88.0-rc.1
         version: 0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(react@19.3.0)(supports-color@7.2.0)
@@ -545,6 +554,9 @@ importers:
       babel-preset-expo:
         specifier: 58.0.4
         version: 58.0.4(@babel/core@7.29.7(supports-color@7.2.0))(@babel/runtime@7.29.7)(expo@58.0.0-preview.7)(react-refresh@0.14.2)(supports-color@7.2.0)
+      canvaskit-wasm:
+        specifier: 0.41.0
+        version: 0.41.0
       expo-doctor:
         specifier: 1.20.4
         version: 1.20.4
