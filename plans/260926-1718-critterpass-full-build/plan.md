@@ -33,7 +33,7 @@ critical_path_tasks: 249
 | Partners not yet approved | Build the adapter + truthful fallback behind a server flag; never fake data |
 | Definition of Done | `code-standards.md` §20: owns respected; matches render + done-when incl. loading/empty/error/offline; tests per §17 (narrowest first); lint + typecheck clean; permission/RLS tests if data touched; evals if AI touched; no ids or deferral language in code |
 | Task status | Add `- Status: in_progress \| done \| blocked — <short sha or blocker>` as the last line of the task block |
-| Phase status | Frontmatter `status: pending → in_progress → done`; mirror in the Status column below. Phase `done` = all tasks done + phase acceptance criteria + Maestro flows on iOS and Android |
+| Phase status | Frontmatter `status: pending → in_progress → done`; mirror in the Status column below. Phase `done` = all tasks done + phase acceptance criteria, verified by unit tests and manual checks; Maestro flows run locally when the phase's changes need them |
 | Commits | Branch `feat/<area>-<behaviour>`, one commit per task, one PR per phase (or per pass), squash merge. Conventional commits (`feat(money): split expense by shares`), no AI references, no plan/phase/task/feature ids in code, tests, migrations or commits. `.env.example` only |
 | Pass end | `Status: DONE \| DONE_WITH_CONCERNS \| BLOCKED \| NEEDS_CONTEXT` + one-line summary |
 

@@ -130,7 +130,7 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     const referralPath = `critterpass.app/w/${data.handle}`;
     currentReferralUrl = `https://${referralPath}`;
     setText(csEl(root, 'referral-link'), referralPath);
-    const shareText = `Come join me on Critterpass — ${currentReferralUrl}`;
+    const shareText = `Come join me on CritterPass — ${currentReferralUrl}`;
     const whatsapp = csEl<HTMLAnchorElement>(root, 'share-whatsapp');
     if (whatsapp) whatsapp.href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
     const messages = csEl<HTMLAnchorElement>(root, 'share-messages');
@@ -223,8 +223,8 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Critterpass',
-          text: 'Come join me on Critterpass',
+          title: 'CritterPass',
+          text: 'Come join me on CritterPass',
           url: currentReferralUrl,
         });
         return;

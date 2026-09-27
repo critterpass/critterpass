@@ -134,7 +134,7 @@ export default function AndroidSurfacesSpikeScreen() {
 
       <Text style={styles.sectionTitle}>Glance widget</Text>
       <Text style={styles.body}>
-        Long-press the home screen → widgets → Critterpass spike, then write a snapshot from the
+        Long-press the home screen → widgets → CritterPass spike, then write a snapshot from the
         cp-app-group spike screen to see it update.
       </Text>
 
