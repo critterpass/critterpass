@@ -8,6 +8,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import { createApp } from './app';
 import { loadApiEnv } from './env';
 import { createAuthModule } from './auth';
+import { mountAuthHandler } from './auth/mount';
 import {
   buildAppleSiwaConfigFromEnv,
   buildAppleSocialConfigFromEnv,
@@ -25,7 +26,6 @@ import {
   registerMergeTicketPreviewRoute,
   registerReturningPhoneSignInRoute,
 } from './routes/auth-extra';
-import { sessionRevokeRealtimeMiddleware } from './realtime/session-revoke-hook';
 import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerWhatsAppWebhookRoutes } from './routes/webhooks-whatsapp';
 import { createCommandRegistry } from './commands/_framework/registry';
@@ -276,8 +276,7 @@ if (
 // above (`/api/auth/sign-in/phone-number` in particular — registerReturningPhoneSignInRoute wins
 // over Better Auth's own password-based endpoint of the same name only because Hono matches the
 // first registered route).
-app.use('/api/auth/admin/*', sessionRevokeRealtimeMiddleware({ pool, logger }));
-app.on(['GET', 'POST'], '/api/auth/*', (c) => authModule.handler(c.req.raw));
+mountAuthHandler(app, authModule, { pool, logger });
 
 const server = serve({ fetch: app.fetch, port: env.PORT }, (info) => {
   logger.info({ port: info.port }, 'api listening');
