@@ -1,0 +1,59 @@
+appId: app.critterpass.dev
+---
+# IslandToast show/queue/dismiss (docs/design-system.md §4.4). Reaches the dev motion-lab
+# (apps/mobile/src/app/(dev)/motion-lab.tsx, which hosts the toast demo button) by tapping through
+# the home screen's "Developer tools" entry and its Developer tools list
+# (apps/mobile/src/app/(dev)/index.tsx), never via `openLink`: a deep link into a `(dev)` route is
+# non-deterministic on EAS-hosted iOS simulators (mobile-dev-inc/Maestro#2610 — confirmed via a
+# failure screenshot in an earlier pass of this flow, not a guess), and iOS's one-time "Open in
+# ―?" confirmation sheet for a custom-scheme link adds another source of flakiness this sidesteps
+# entirely.
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 25000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-motion-lab'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-motion-lab'
+# Motion lab's first mount does real work no earlier (dev) screen does — Skia canvases, ~24
+# Reanimated shared values, every loop preset's animation starting — on a cold EAS simulator's
+# very first render of this screen in the process. 30s (this flow's original deep-link-era value)
+# gives that real work room to finish before asserting; a shorter budget here previously caused the
+# app to be judged unresponsive.
+- extendedWaitUntil:
+    visible:
+      id: 'show-toast-button'
+    timeout: 30000
+
+# Shows a toast (with an OPEN action) and dismisses it via the swipe-up-affordance × button.
+- tapOn:
+    id: 'show-toast-button'
+- assertVisible:
+    id: 'island-toast-pill'
+- assertVisible: 'Pass issued'
+- tapOn:
+    id: 'island-toast-dismiss'
+- assertNotVisible:
+    id: 'island-toast-pill'
+
+# A second show while the first is still visible queues rather than overlapping (max 1 visible).
+- tapOn:
+    id: 'show-toast-button'
+- tapOn:
+    id: 'show-toast-button'
+- assertVisible:
+    id: 'island-toast-pill'
+- tapOn:
+    id: 'island-toast-dismiss'
+- assertVisible:
+    id: 'island-toast-pill'
+- tapOn:
+    id: 'island-toast-dismiss'
+- assertNotVisible:
+    id: 'island-toast-pill'

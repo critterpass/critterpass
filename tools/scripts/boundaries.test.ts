@@ -96,4 +96,12 @@ describe('architecture import rules', () => {
     );
     expect(errors).toEqual([]);
   });
+
+  it('lets the motion layer load the in-house sound-art caf/ogg audio assets', async () => {
+    const errors = await lintAt(
+      'apps/mobile/src/motion/probe.ts',
+      "import sfx from '../../assets/sfx/thud-heavy.caf';\nexport const x = sfx;\n",
+    );
+    expect(errors).toEqual([]);
+  });
 });

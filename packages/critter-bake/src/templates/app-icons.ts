@@ -5,9 +5,9 @@ import { findDesignedForm } from '@cp/critter-art';
 import { tokens } from '@cp/design-tokens';
 
 /**
- * The 10 app icon identities (phase spec: "4 styles FACE/PASSPORT/STAMP/STICKER + 6 earned icons
- * TEMPLE, SARDI, HOME SET, PON, GOLDEN, BALI SIX"). Kebab-case ids double as the alternate-icon
- * name Info.plist/`activity-alias` entries use (phase 45's icon switcher matches against these).
+ * The 10 app icon identities: the 4 base styles (FACE/PASSPORT/STAMP/STICKER) plus 6 earned icons
+ * (TEMPLE, SARDI, HOME SET, PON, GOLDEN, BALI SIX). Kebab-case ids double as the alternate-icon
+ * name the icon switcher's Info.plist/`activity-alias` entries match against.
  */
 export const APP_ICON_IDS = [
   'face',

@@ -1,0 +1,44 @@
+appId: app.critterpass.dev
+---
+# Real, non-mocked flow against the deployed "spike-auth" Railway service (T3): anonymous
+# sign-in, then phone-number upgrade with the OTP read from the server's own debug endpoint
+# (`/internal/spike/otp`) since a simulator cannot receive a real SMS — same technique T2's
+# server-only harness used, now driven from the actual on-device Better Auth client. Apple/Google
+# on a real device are a founder checklist item (docs/decisions/20260927-better-auth-anonymous-
+# upgrade.md, device half) — no test account exists to drive them here. Reaches the spike screen
+# by tapping through the home screen's "Developer tools" entry and its Developer tools list
+# (apps/mobile/src/app/(dev)/index.tsx), never via `openLink`: a deep link into a `(dev)` route is
+# non-deterministic on EAS-hosted iOS simulators (mobile-dev-inc/Maestro#2610).
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 25000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-spikes-auth'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-spikes-auth'
+- extendedWaitUntil:
+    visible: 'S-AUTH on device spike'
+    timeout: 20000
+- tapOn: 'Sign in anonymously'
+- extendedWaitUntil:
+    visible: 'anonymous sign-in ok'
+    timeout: 15000
+- takeScreenshot: auth-anonymous-signed-in
+- tapOn: 'Send code'
+- extendedWaitUntil:
+    visible: 'OTP captured from server'
+    timeout: 15000
+- takeScreenshot: auth-otp-captured
+- tapOn: 'Verify code'
+- extendedWaitUntil:
+    visible: 'phone verify ok'
+    timeout: 15000
+- assertVisible: 'isAnonymous: false'
+- assertVisible: 'unchanged'
+- takeScreenshot: auth-phone-upgraded-uid-unchanged

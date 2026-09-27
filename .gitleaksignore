@@ -1,0 +1,3 @@
+# False positive: a PEM-shaped placeholder (the word "real" between BEGIN/END lines) in an early
+# version of the auth bootstrap test; the test now generates a throwaway key at runtime.
+4daa545bf91c9a332103faf2cff5c3d752372746:services/api/test/auth/bootstrap.test.ts:private-key:189

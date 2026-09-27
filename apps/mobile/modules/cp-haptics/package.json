@@ -1,0 +1,9 @@
+{
+  "name": "cp-haptics",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Core Haptics (iOS) / VibrationEffect composition (Android) ramps and long patterns feedback.emit's expo-haptics impacts can't produce.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}

@@ -59,6 +59,9 @@ async function applyMigration(client: pg.PoolClient, migrationsDir: string, file
   const sql = await readFile(path.join(migrationsDir, filename), 'utf8');
   await client.query('BEGIN');
   try {
+    // A pooled connection (PgBouncer transaction mode) can carry a session-level search_path set by
+    // another client; pin it so unqualified DDL and CREATE EXTENSION always land in `public`.
+    await client.query('SET LOCAL search_path TO public');
     await client.query(sql);
     await client.query(`INSERT INTO ${MIGRATIONS_TABLE} (filename) VALUES ($1)`, [filename]);
     await client.query('COMMIT');

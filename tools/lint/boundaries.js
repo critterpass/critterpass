@@ -38,6 +38,7 @@ export const packageDeps = {
   suppliers: ['domain'],
   i18n: [],
   content: ['domain'],
+  'sound-art': ['design-tokens'],
 };
 
 export const serverOnlyPackages = ['db', 'ai', 'suppliers'];
@@ -123,7 +124,7 @@ export const boundaryPolicies = [
     allow: {
       to: {
         file: {
-          path: '**/*.{png,jpg,jpeg,webp,gif,svg,ttf,otf,woff,woff2,mp3,m4a,wav,json,lottie}',
+          path: '**/*.{png,jpg,jpeg,webp,gif,svg,ttf,otf,woff,woff2,mp3,m4a,wav,caf,ogg,json,lottie}',
         },
       },
     },

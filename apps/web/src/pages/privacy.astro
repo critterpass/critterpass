@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/base-layout.astro';
+import SiteHeader from '../components/site-header.astro';
+import SiteFooter from '../components/site-footer.astro';
+import '../styles/privacy.css';
+
+// SSR (not prerendered) so the `www.critterpass.app` -> apex redirect in src/middleware.ts applies
+// here too; see index.astro for the same note.
+export const prerender = false;
+---
+
+<BaseLayout
+  title="Privacy — Critterpass"
+  description="What Critterpass collects on the coming-soon waitlist, why, where it's stored, and how to delete it."
+  canonicalPath="/privacy"
+>
+  <div class="cs-privacy">
+    <SiteHeader />
+    <div class="cs-privacy__inner">
+      <div>
+        <h1 class="cs-privacy__title">Privacy</h1>
+        <p class="cs-privacy__updated">Last updated 27 September 2026 — draft, pending founder/counsel review.</p>
+      </div>
+
+      <section>
+        <h2>What we collect</h2>
+        <p>When you join the Critterpass waitlist, we store:</p>
+        <ul>
+          <li>Your email address</li>
+          <li>The destination you picked as "where you're headed first"</li>
+          <li>Your referral handle (e.g. <code>critterpass.app/w/yourname</code>) and, if you followed
+            someone else's link, whose it was</li>
+          <li>The date and time you joined</li>
+        </ul>
+        <p>We do not collect your name, payment details, or precise location. We do not use
+          third-party analytics, advertising pixels, or trackers on this page.</p>
+      </section>
+
+      <section>
+        <h2>Why we collect it</h2>
+        <p>To hold your place in line, to email you when Critterpass launches (and maybe once before
+          that), to work out the first-wave order fairly, and to credit referrals when a friend joins
+          through your link.</p>
+      </section>
+
+      <section>
+        <h2>Where it's stored</h2>
+        <p>In a Cloudflare D1 database operated by Critterpass. We also keep a short-lived, hashed
+          record of the IP address a sign-up came from, solely to prevent abuse of the waitlist form;
+          it is never linked to your email and is not retained beyond what's needed for that check.</p>
+      </section>
+
+      <section>
+        <h2>How long we keep it</h2>
+        <p>Until Critterpass launches, plus a short wind-down period, or until you ask us to delete
+          it — whichever comes first.</p>
+      </section>
+
+      <section>
+        <h2>How to delete your data</h2>
+        <p>Email <a href="mailto:hello@critterpass.app">hello@critterpass.app</a> from the address you
+          signed up with and we'll remove your entry.</p>
+      </section>
+    </div>
+    <SiteFooter />
+  </div>
+</BaseLayout>

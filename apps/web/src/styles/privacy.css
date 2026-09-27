@@ -1,0 +1,57 @@
+.cs-privacy {
+  background: var(--color-ink-850);
+  color: var(--color-paper-base);
+  min-height: 100vh;
+}
+.cs-privacy__inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(48px, 8vw, 96px) clamp(20px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.cs-privacy__title {
+  margin: 0;
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 0.92;
+  font-stretch: 66%;
+  color: var(--color-yellow);
+  text-transform: uppercase;
+}
+.cs-privacy__updated {
+  font:
+    500 12px 'Geist Mono',
+    monospace;
+  color: var(--color-ink-200);
+}
+.cs-privacy h2 {
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.1;
+  font-stretch: 78%;
+  color: var(--color-paper-base);
+  margin: 0 0 8px;
+}
+.cs-privacy p,
+.cs-privacy li {
+  font:
+    400 16px/1.6 Geist,
+    sans-serif;
+  color: var(--color-ink-100);
+}
+.cs-privacy ul {
+  padding-left: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cs-privacy section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

@@ -6,6 +6,12 @@ const { getDefaultConfig } = require('expo/metro-config');
 
 const config = getDefaultConfig(__dirname);
 
+// Metro's (and Expo's) default assetExts recognise `.caf`/`.m4a` but not `.ogg` — @cp/sound-art's
+// Android SFX files (docs/decisions/20260927-in-house-procedural-audio.md: Ogg-encapsulated Opus,
+// since this environment's ffmpeg build has no libvorbis encoder) would otherwise be treated as an
+// unparseable JS source file and fail the bundle rather than being resolved as a binary asset.
+config.resolver.assetExts = [...config.resolver.assetExts, 'ogg'];
+
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

@@ -1,0 +1,86 @@
+appId: app.critterpass.dev
+---
+# docs/code-standards.md §17 "Motion/visual": Maestro assertScreenshot in motion-freeze mode for key
+# screens. Reaches the dev motion-lab (apps/mobile/src/app/(dev)/motion-lab.tsx) by tapping through
+# the home screen's "Developer tools" entry and its Developer tools list
+# (apps/mobile/src/app/(dev)/index.tsx), never via `openLink`: a deep link into a `(dev)` route is
+# non-deterministic on EAS-hosted iOS simulators (mobile-dev-inc/Maestro#2610 — confirmed via a
+# failure screenshot in an earlier pass of this flow, not a guess), and iOS's one-time "Open in
+# ―?" confirmation sheet for a custom-scheme link adds another source of flakiness this sidesteps
+# entirely. Freezes every animation at its resting frame, then walks the pattern/preset/cue list
+# taking a named screenshot per state — `maestro test` diffs named screenshots against their
+# recorded baseline.
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 25000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-motion-lab'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-motion-lab'
+# Motion lab's first mount does real work no earlier (dev) screen does — Skia canvases, ~24
+# Reanimated shared values, every loop preset's animation starting — on a cold EAS simulator's
+# very first render of this screen in the process. 30s (this flow's original deep-link-era value)
+# gives that real work room to finish before asserting; a shorter budget here previously caused the
+# app to be judged unresponsive.
+- extendedWaitUntil:
+    visible:
+      id: 'motion-freeze-toggle'
+    timeout: 30000
+- tapOn:
+    id: 'motion-freeze-toggle'
+- assertVisible:
+    id: 'loop-bob'
+- takeScreenshot: motion-lab-frozen-loops
+
+# Exercise slowmo without leaving motion-freeze on, then confirm each rate is selectable.
+- tapOn:
+    id: 'motion-freeze-toggle'
+- tapOn:
+    id: 'slowmo-2x'
+- assertVisible:
+    id: 'slowmo-2x'
+- tapOn:
+    id: 'slowmo-4x'
+- tapOn:
+    id: 'slowmo-1x'
+
+# Every motion mode renders without crashing (full/reduced/off).
+- tapOn:
+    id: 'mode-reduced'
+- assertVisible:
+    id: 'loop-bob'
+- takeScreenshot: motion-lab-reduced-motion
+- tapOn:
+    id: 'mode-off'
+- assertVisible:
+    id: 'loop-bob'
+- takeScreenshot: motion-lab-motion-off
+- tapOn:
+    id: 'mode-full'
+
+# Every feedback cue is tappable (haptic + SFX fire; no assertion beyond "doesn't crash", since
+# haptics/audio aren't observable from a Maestro flow).
+- tapOn:
+    id: 'cue-thud.heavy'
+- tapOn:
+    id: 'cue-slap'
+- tapOn:
+    id: 'cue-success'
+- tapOn:
+    id: 'cue-warning'
+- tapOn:
+    id: 'cue-error'
+- tapOn:
+    id: 'cue-sos'
+
+# The island toast demo button shows a toast (covered end to end in island-toast.yaml).
+- tapOn:
+    id: 'show-toast-button'
+- assertVisible:
+    id: 'island-toast-pill'
