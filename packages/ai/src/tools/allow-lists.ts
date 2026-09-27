@@ -8,12 +8,6 @@ import { AI_CALLERS, type AiCaller } from '@cp/domain';
 
 import { TOOL_NAMES, TOOL_SPECS, type ToolName } from './schemas';
 
-/** Anthropic-executed tools and their callers (the guest guide and event/closure checks). */
-export const SERVER_TOOL_CALLERS = { web_search: ['C', 'R'] } as const satisfies Readonly<
-  Record<string, readonly AiCaller[]>
->;
-export type ServerToolName = keyof typeof SERVER_TOOL_CALLERS;
-
 export const TOOL_ALLOW_LISTS: Readonly<Record<AiCaller, readonly ToolName[]>> = Object.fromEntries(
   AI_CALLERS.map((caller) => [
     caller,
@@ -32,8 +26,4 @@ export function allowedTools(caller: AiCaller | null): readonly ToolName[] {
 
 export function isToolAllowed(caller: AiCaller | null, name: string): boolean {
   return (allowedTools(caller) as readonly string[]).includes(name);
-}
-
-export function isServerToolAllowed(caller: AiCaller | null, name: ServerToolName): boolean {
-  return caller !== null && (SERVER_TOOL_CALLERS[name] as readonly AiCaller[]).includes(caller);
 }

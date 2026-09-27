@@ -9,7 +9,7 @@ Companion: [code-standards.md](./code-standards.md) (how to write code) · Sourc
 
 ## 1. Overview
 
-Critterpass = mobile group-travel planner. A crew votes on a destination, a Claude-powered guide (6 live guides + guest) drafts a trip, members review personalised proposals, then travel together with a local-first trip hub, money ledger, bookings wallet, crew live map, Live Activities and collectible critters (150 locals × 4 forms, 61 places).
+Critterpass = mobile group-travel planner. A crew votes on a destination, an AI guide (6 live guides + guest, generated on DeepSeek) drafts a trip, members review personalised proposals, then travel together with a local-first trip hub, money ledger, bookings wallet, crew live map, Live Activities and collectible critters (150 locals × 4 forms, 61 places).
 
 | Principle | Consequence |
 |---|---|
@@ -59,7 +59,7 @@ flowchart LR
     PG[("primary + 2 replicas, PgBouncer 6432, PITR, pgvector, failover-safe logical slot")]
   end
   subgraph TP["Third parties"]
-    CL["Claude API"]; APNS["APNs"]; FCM["FCM v1"]; RC["RevenueCat + store notifications"]
+    CL["DeepSeek API"]; APNS["APNs"]; FCM["FCM v1"]; RC["RevenueCat + store notifications"]
     OTP["WhatsApp / Twilio Verify / Prelude"]; SUP["Viator, Travelpayouts, Agoda*, Klook*, Trip.com*, Grab Farefeed, WhatsApp Business"]
     DATA["Open-Meteo, AeroDataBox, FlightAware, Frankfurter, BestTime, Foursquare, Mapbox Directions/Matrix (launch routing provider)"]
     VOICE["Deepgram, ElevenLabs"]; OBS["Sentry, PostHog EU, Grafana Cloud, Langfuse"]; MAIL["Resend, inbound mail, PostGrid"]
@@ -219,16 +219,17 @@ Queues are named `<domain>.<action>`; full catalogue (triggers, retries, singlet
 
 | Layer | Design |
 |---|---|
-| Gateway | `packages/ai` + api/worker: Anthropic SDK tool runner; model routing `haiku-4-5` (chat, voice, quests, parsing) · `sonnet-5` (workhorse: proposals, redraft, recap, vision) · `opus-5-5` (itinerary skeleton only) |
-| Decisions | `packages/ai/src/decide/` beside the Claude client: typed Choice/Noul/Score questions to TypeSafe `jev-1.13.0` (pinned origin and model, 800 ms, Haiku twin fallback of the same answer shape); routes marked `provider: 'jev'` in the routing table; never generation ([decision](decisions/20260927-jev-decision-model.md)) |
+| Gateway | `packages/ai` + api/worker: one provider seam (`src/client.ts`) calling DeepSeek through its Anthropic-format Messages API (`https://api.deepseek.com/anthropic`, key in `ANTHROPIC_API_KEY`); explicit model ids: fast tier `deepseek-flash` (chat, voice, quests, parsing, receipts, menus, photos: the vision model) · pro tier `deepseek-v4-pro` (planning: day drafts, redrafts, proposals, disruption plan B, recap, content libraries, guest guide, itinerary skeleton). Nothing depends on Claude-only features: structured replies are a schema instruction plus one repair and caller validation, refusals are a decline marker mapped to `AI_REFUSED`, bulk jobs are direct calls with bounded concurrency (no batch API), web search is our own tool. A second provider (Gemini) would plug in at the same seam |
+| Web search | `web_search` tool in `packages/ai/src/tools/web-search.ts` behind a `SearchProvider` (`src/search/`, Tavily first, Brave next): query screened for contact details, codes and crew names; supplier/OTA/map blocklist sent as `exclude_domains` and every URL screened again across country domains; results reach the model as untrusted data with URL, title and fetch time; answers carry their source links; web numbers are cite-only (never plan changes, costs or structured output) |
+| Decisions | `packages/ai/src/decide/` beside the generation client: typed Choice/Noul/Score questions to TypeSafe `jev-1.13.0` (pinned origin and model, 800 ms, fast-tier twin fallback of the same answer shape); routes marked `provider: 'jev'` in the routing table; never generation ([decision](decisions/20260927-jev-decision-model.md)) |
 | Personas | persona files in `packages/content` (voice, lexicon, colour per C5), loaded by `packages/ai/persona` |
 | Context | read via `guide_reader` role views only (no C3, no supplier content); curated POI DB + planner outputs |
 | Tools | allow-listed tool schemas; read tools query deterministic services; **write tools produce proposals** (`ChangeSet`, `GuideAction` draft) validated by `planner`/`cost-engine`; user or crew approval then a normal command applies it |
 | Streaming | chat: SSE from api (`/v1/guide/stream`); long jobs: pg-boss with step progress on Centrifugo |
 | Metering | quota reserved in the command tx (`entitlements`), released on failure; free = 30 questions/day, reset 00:00 device tz; silent fair-use cap on unlimited tiers |
 | Evals & traces | promptfoo suites per prompt in `packages/ai/evals` (CI gate on change); Langfuse traces with PII-redacted payloads |
-| Voice | on-device SpeechAnalyzer / Android SpeechRecognizer (Deepgram fallback) → Haiku → ElevenLabs Flash (one owned voice per guide) |
-| Vision | on-device OCR boxes (cp-ocr) → Sonnet structured output keyed by OCR line id → deterministic amount parsing |
+| Voice | on-device SpeechAnalyzer / Android SpeechRecognizer (Deepgram fallback) → fast tier → ElevenLabs Flash (one owned voice per guide) |
+| Vision | on-device OCR boxes (cp-ocr) → fast-tier structured output keyed by OCR line id → deterministic amount parsing |
 
 ### 4.7 Critter art pipeline
 
@@ -360,13 +361,13 @@ sequenceDiagram
   participant API as api
   participant PG as Postgres
   participant WK as worker (ai queue)
-  participant CL as Claude
+  participant CL as DeepSeek
   participant PL as planner + cost-engine
   O->>API: request_redraft {op_id, trip, instruction}
   API->>PG: policy + reserve redraft quota + agent_jobs row + boss.send (one tx)
   API-->>O: {job_id}
   WK->>PG: load context via guide_reader views (no C3)
-  WK->>CL: Sonnet tool runner (tools: search_poi, check_slot, propose_ops)
+  WK->>CL: pro-tier tool loop (tools: search_poi, check_slot, propose_ops)
   CL-->>WK: proposed ops
   WK->>PL: validate ops (constraints, opening hours, travel times, budget) → fix-loop ≤2
   PL-->>WK: ChangeSet{base_version, ops, cost delta, violations=[]}
@@ -519,7 +520,7 @@ Exact patch versions live in `pnpm-lock.yaml`; bumps go through Renovate weekly 
 | Command RTT (online) | p95 ≤300 ms api (excl. LLM/supplier) |
 | Chat round-trip (sender → other member) | p95 <1 s |
 | Realtime revocation | removal → unsubscribe <1 s |
-| Guide first token | p95 ≤1.5 s (Haiku), ≤3 s (Sonnet) |
+| Guide first token | p95 ≤1.5 s (fast tier), ≤3 s (pro tier) |
 | Draft job | visible step progress every ≤5 s; skeleton + days ≤90 s p95 |
 | API → DB | p50 <3 ms (S-DB gate) |
 | Widget ext memory | <20 MB peak (limit ~30 MB) |

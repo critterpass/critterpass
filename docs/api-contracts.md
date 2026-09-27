@@ -595,7 +595,7 @@ Callers: **C** guide chat 1:1 (text/voice) · **G** guide in crew chat · **D** 
 | `ride_quote` | `{from, to}` | `{provider, fare_range_minor, eta_min, deep_link_ref}` | Grab Farefeed | never claim a car is booked | C G |
 | `phrase_card` | `{purpose, language, register, address?}` | `{text, gloss, audio_ref}` | content DB + TTS | curated first | C G B |
 | `help_context` | `{lat, lng, trip_id}` | `{emergency_numbers[], facilities[], phrases[]}` | curated emergency DB | safety content curated, AI personalises only wording | C |
-| `web_search` (Anthropic server tool) | domain allow-list | results as documents | Anthropic | only guest guide, events, closures; cite | C R |
+| `web_search` (our tool, `SearchProvider`: Tavily first) | `{query, recent?, news?}` | `{results[{url, title, snippet, published_at, fetched_at}]}` | Tavily | only on routes that enable it: the guest guide now, each other use in product-decisions D23 by its own phase; query screened for contact details, codes and crew names; supplier/OTA/map blocklist as `exclude_domains` and re-checked on every URL; results reach the model as untrusted data; answer carries source links; cite-only numbers | C R |
 | `propose_plan_changes` | `{trip_id, base_version, ops[{op, item, new, reason, source_ids[]}]}` | `{changeset_id, violations[], cost_delta}` | planner validator | never mutates; returns ChangeSet for 3e-3 | C G R D |
 | `create_vote_draft` | `{crew_id, question, options[], closes_at}` | `{draft_id}` | DB | poll created only by user tap | C G |
 | `propose_expense` | `{trip_id, amount_minor, currency, payer_uid, split}` | `{draft_id}` | cost-engine | user confirms → `add_expense` | G |
@@ -603,9 +603,9 @@ Callers: **C** guide chat 1:1 (text/voice) · **G** guide in crew chat · **D** 
 | `propose_vendor_message` | `{vendor_ref, intent, text}` | `{draft_id}` | – | user approval → ops desk | C R |
 | `schedule_nudge` | `{target_uid, reason}` | `{draft_id\|sent}` | notification router | auto-send only for own reminders | G B |
 
-Model routing (`packages/ai/src/routing.ts`): Haiku 4.5 default chat, voice, quests, parsing, micro-lines; Sonnet 5 pitch, day fan-out, redraft, vision (menu, receipt, email fallback), briefing, disruption; Opus 5.5 draft skeleton only. Traces to Langfuse; evals in promptfoo (`packages/ai/evals`).
+Model routing (`packages/ai/src/routing.ts`), DeepSeek through its Anthropic-format API: fast tier `deepseek-flash` for chat, voice, crew mentions, quests, roundup, email parse, micro-lines, pitch, briefing and the image routes (photo picks, receipt, menu); pro tier `deepseek-v4-pro` for chat escalation, day drafts and repair, redraft, proposals, disruption plan B, recap, notification templates, content factory, email parse fallback, the guest guide and the draft skeleton. Streamed routes answer without thinking; pro job routes think at an explicit effort. Costs per DeepSeek's list with cache-hit input and the weekday peak windows (01–04 and 06–10 UTC at twice the off-peak rate). Bulk routes run as direct calls with bounded concurrency. Traces to Langfuse; evals in promptfoo (`packages/ai/evals`).
 
-Decision routes ([decision record](decisions/20260927-jev-decision-model.md)): every route entry carries `provider: 'claude' | 'jev'`. A decision route answers a closed label set (Choice), a yes/no probability (Noul) or a rubric score (Score) and runs on TypeSafe `jev-1.13.0` through `decide(route, {state, questions})` (`packages/ai/src/decide/`); it also names a `fallback` Haiku twin that returns the same answer shape and per-route `thresholds` (`packages/domain/src/ai/decision-thresholds.ts`). No generation route may use `provider: 'jev'`.
+Decision routes ([decision record](decisions/20260927-jev-decision-model.md)): every route entry carries `provider: 'deepseek' | 'jev'`. A decision route answers a closed label set (Choice), a yes/no probability (Noul) or a rubric score (Score) and runs on TypeSafe `jev-1.13.0` through `decide(route, {state, questions})` (`packages/ai/src/decide/`); it also names a `fallback` fast-tier twin that returns the same answer shape and per-route `thresholds` (`packages/domain/src/ai/decision-thresholds.ts`). No generation route may use `provider: 'jev'`.
 
 | Route | Primitive | Consumer rule on an uncertain answer |
 |---|---|---|
@@ -618,9 +618,9 @@ Decision routes ([decision record](decisions/20260927-jev-decision-model.md)): e
 |---|---|
 | Endpoint | `POST https://api.typesafe.ai/v1/systemone`, pinned in code (no env override), model pinned `jev-1.13.0` |
 | Budget | 800 ms per attempt; one retry on 429/529 after `retry-after` (≤ 1 s, else no retry) |
-| Fallback | Haiku twin on timeout, 429/529 after the retry, 401/403, transport error, unreadable answer or missing `TYPESAFE_API_KEY`; the result carries `answered_by: 'jev' \| 'haiku'`; twin answers have `probabilities: null` and a label-derived `confidence`, judged against the route's stricter `haiku` band. Both down → `AI_UNAVAILABLE` |
+| Fallback | fast-tier twin on timeout, 429/529 after the retry, 401/403, transport error, unreadable answer or missing `TYPESAFE_API_KEY`; the result carries `answered_by: 'jev' \| 'fast'`; twin answers have `probabilities: null` and a label-derived `confidence`, judged against the route's stricter `fast` band. Both down → `AI_UNAVAILABLE` |
 | Answers | zod-validated against the question map (a missing or unknown answer key is rejected); yes/no answers carry `confidence = \|2p − 1\|` |
-| Metering | never user-metered; one `ai_usage` row per call, `tier='jev'` billed on input tokens only (or the twin's `haiku` row) |
+| Metering | never user-metered; one `ai_usage` row per call, `tier='jev'` billed on input tokens only (or the twin's `fast` row) |
 | Privacy | `state` holds only the text under question; Langfuse records route, model, tokens, latency and typed answers, never the state |
 
 Input compliance check (`checkCompliance({surface, text})`, route `compliance.check`; policy in `packages/domain/src/ai/compliance.ts`, bands in `decision-thresholds.ts`): code patterns first (email, phone, card, passport → `personal_info`; a link → `promotion` in the review band), then one Jev request with one Noul per category the surface screens. Result `{outcome: 'pass' | 'review' | 'reject', flags: [{category, p}], answered_by: 'jev' | 'haiku' | 'code' | 'none'}`; `flags` lists categories at or above the review threshold. Categories: `prompt_injection`, `harassment`, `sexual`, `self_harm`, `violence`, `illegal`, `personal_info`, `promotion`.
@@ -632,7 +632,7 @@ Input compliance check (`checkCompliance({surface, text})`, route `compliance.ch
 | `public_text` (tips, shared-plan notes, captions, idea board) | all | `reject` → `CONTENT_REJECTED {categories}`; `review` → moderation queue, author sees "under review"; self-harm only reviews | `review` (fails closed) |
 | `outbound_text` (ops-desk vendor drafts) | harassment, sexual, illegal, personal_info | never auto-sent when `review` | `review` |
 
-Bands (`jev-1.13.0`, tuned on the 40 EN + 40 VI eval set): review at p ≥ 0.5, reject at p ≥ 0.85; a Haiku-twin verdict rejects only on a definite `yes` and reviews from `unsure` up. Offline-created text is checked by the `compliance.check` job when it reaches the server, never on device.
+Bands (`jev-1.13.0`, tuned on the 40 EN + 40 VI eval set): review at p ≥ 0.5, reject at p ≥ 0.85; a twin verdict rejects only on a definite `yes` and reviews from `unsure` up. Offline-created text is checked by the `compliance.check` job when it reaches the server, never on device.
 
 ## 7. Supplier adapters (`packages/suppliers`, P35; server-only)
 

@@ -4,6 +4,35 @@
     persona: tokek
     chattiness: quiet
     question: Is the beach worth it this afternoon?
+    trip_context: >-
+      Trip id 0190f0a0-0000-7000-8000-0000000b0001: Bali, 10-16 Oct 2026, day 3 of 7, in-trip. Crew: Rin (organiser), Maya, Dev. Base:
+      Villa Kayu, Canggu. Afternoon is free time. Local time 11:20.
+    tool_results:
+      - tool: weather
+        output:
+          hourly:
+            - {
+                at: '2026-10-12T14:00:00+08:00',
+                temp_c: 31,
+                precip_mm: 0,
+                wind_kph: 12,
+                code: sunny,
+              }
+            - {
+                at: '2026-10-12T16:00:00+08:00',
+                temp_c: 30,
+                precip_mm: 0,
+                wind_kph: 14,
+                code: sunny,
+              }
+            - {
+                at: '2026-10-12T18:00:00+08:00',
+                temp_c: 28,
+                precip_mm: 2.4,
+                wind_kph: 18,
+                code: showers,
+              }
+          alerts: []
     replay:
       text: Rise and shine, it's a beach day. Go before the clouds roll in.
   assert:
@@ -40,6 +69,26 @@
     persona: pon
     chattiness: normal
     question: Where should we sleep in Hakone?
+    trip_context: >-
+      Trip id 0190f0a0-0000-7000-8000-0000000b0002: Japan, Kyoto 14-17 Nov then Hakone 17-19 Nov 2026, planning. Crew: Aiko (organiser),
+      Ben, Sam, Lee. Hakone stay not booked yet; crew budget band mid.
+    tool_results:
+      - tool: places_search
+        output:
+          - poi_id: 0190f0a0-0000-7000-8000-00000000f001
+            name: Hakone Ginyu
+            category: stay
+            distance_m: null
+            open_now: null
+            price_level: 4
+            tags: [ryokan, hot spring baths, multi-course dinner]
+          - poi_id: 0190f0a0-0000-7000-8000-00000000f002
+            name: Fujiya Hotel
+            category: stay
+            distance_m: null
+            open_now: null
+            price_level: 3
+            tags: [hotel, hot spring baths]
     replay:
       text: A ryokan with an onsen, no question. Dinner there is a full kaiseki, so skip lunch.
   assert:

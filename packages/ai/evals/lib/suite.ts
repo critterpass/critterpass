@@ -23,8 +23,10 @@ const toolCallSchema = z.object({
 
 /** The recorded model response a replay run serves instead of calling the API. */
 export const replaySchema = z.object({
-  /** A recorded response in test/fixtures/anthropic (`<name>.json`). */
+  /** A recorded model response in test/fixtures/deepseek (`<name>.json`). */
   fixture: z.string().min(1).optional(),
+  /** Recorded model responses served in call order (a web search case: search, then answer). */
+  fixtures: z.array(z.string().min(1)).optional(),
   /** Or an inline answer: text (JSON text on structured routes) and/or tool calls. */
   text: z.string().optional(),
   tool_calls: z.array(toolCallSchema).optional(),
@@ -66,8 +68,17 @@ export const caseVarsSchema = z
     action: actionSchema.optional(),
     expect_decision: z.enum(['auto', 'needs_yes', 'forbidden']).optional(),
     replay: replaySchema.optional(),
-    /** Shorthand for `replay.fixture` (the web search cases). */
+    /** Shorthand for `replay.fixture`. */
     fixture: z.string().optional(),
+    /** Recorded search responses (test/fixtures/tavily), served in call order. */
+    search_fixtures: z.array(z.string().min(1)).optional(),
+    /** JSON Schema the reply must follow (sent as the route's output format). */
+    format: z.record(z.string(), z.unknown()).optional(),
+    /**
+     * The replay answer is a deliberate model slip the code-side validators must catch; it is the
+     * input under test in both modes, so live runs grade the validator on it too.
+     */
+    seeded: z.boolean().optional(),
   })
   .loose();
 export type CaseVars = z.infer<typeof caseVarsSchema>;

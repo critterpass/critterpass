@@ -2,7 +2,7 @@
  * Decision thresholds per route, tuned on that route's eval set against the pinned model
  * (`jev-1.13.0`, docs/decisions/20260927-jev-decision-model.md): a new Jev version needs a full
  * decision-eval run and re-tuned numbers here. Each route carries a band for Jev answers and a
- * stricter one for answers from its Haiku twin, whose values come from labels rather than
+ * stricter one for answers from its fast-tier twin, whose values come from labels rather than
  * calibrated probabilities, so more of them land in the uncertain middle.
  *
  * A yes/no answer `p` is `yes` at or above `yes`, `no` at or below `no`, and `uncertain` between
@@ -25,29 +25,29 @@ export type DecisionThresholds = Readonly<Record<DecisionAnswerer, DecisionBand>
 
 export type YesNoVerdict = 'yes' | 'no' | 'uncertain';
 
-/** A Haiku twin answers yes/no only as definite or hedged labels; only definite ones decide. */
-const HAIKU_BAND: DecisionBand = { yes: 0.9, no: 0.1, minConfidence: 0.8 };
+/** The twin answers yes/no only as definite or hedged labels; only definite ones decide. */
+const TWIN_BAND: DecisionBand = { yes: 0.9, no: 0.1, minConfidence: 0.8 };
 
 export const DECISION_THRESHOLDS: Readonly<Record<DecisionRoute, DecisionThresholds>> = {
   // Runs on every crew message: an unsure chime-in stays quiet.
   'guide.chime_in_classifier': {
     jev: { yes: 0.7, no: 0.3, minConfidence: 0.5 },
-    haiku: HAIKU_BAND,
+    fast: TWIN_BAND,
   },
   // Below the confidence floor the help screen asks the user which topic they meant.
   'help.intent_classifier': {
     jev: { yes: 0.7, no: 0.3, minConfidence: 0.5 },
-    haiku: HAIKU_BAND,
+    fast: TWIN_BAND,
   },
   // The spike's gray zone (0.35–0.65) keeps both ideas instead of merging them.
   'idea.duplicate_tiebreak': {
     jev: { yes: 0.65, no: 0.35, minConfidence: 0.5 },
-    haiku: HAIKU_BAND,
+    fast: TWIN_BAND,
   },
   // Outcomes come from the per surface and category bands in COMPLIANCE_THRESHOLDS.
   'compliance.check': {
     jev: { yes: 0.85, no: 0.3, minConfidence: 0.5 },
-    haiku: HAIKU_BAND,
+    fast: TWIN_BAND,
   },
 };
 
@@ -77,7 +77,7 @@ export type ComplianceBands = Readonly<Record<DecisionAnswerer, ComplianceBand>>
 const band = (review: number, reject: number | null): ComplianceBands => ({
   jev: { review, reject },
   // Twin labels: only a definite `yes` (1) rejects; `unsure` (0.5) and above go to review.
-  haiku: { review: 0.5, reject: reject === null ? null : 1 },
+  fast: { review: 0.5, reject: reject === null ? null : 1 },
 });
 
 /**

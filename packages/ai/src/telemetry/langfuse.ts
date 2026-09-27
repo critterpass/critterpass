@@ -102,7 +102,7 @@ function attributesOf(span: GenerationSpan, redactKeys: readonly string[]): Attr
         input: usage.inputTokens,
         output: usage.outputTokens,
         cache_read_input_tokens: usage.cacheReadTokens,
-        cache_creation_input_tokens: usage.cacheWrite5mTokens + usage.cacheWrite1hTokens,
+        cache_creation_input_tokens: usage.cacheWriteTokens,
       }),
     ),
     str(

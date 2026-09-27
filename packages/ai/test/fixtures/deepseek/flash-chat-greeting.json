@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-27.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "a64ee13f-becf-4f4c-bcd6-01efecf2652d",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Hey, welcome! Just a first name is fine — I'm Tokek, so I can't judge. What are we planning, or is this a hello-and-see visit?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 215,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 8832,
+        "output_tokens": 37,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

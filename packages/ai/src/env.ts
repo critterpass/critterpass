@@ -1,14 +1,17 @@
 /**
- * The gateway's own environment contract. `ANTHROPIC_BASE_URL` is an explicit local-development
- * override (an Anthropic-compatible endpoint used until Claude keys exist); when it is unset the
- * gateway always talks to Anthropic's API, never an endpoint the SDK picked up implicitly.
- * `TYPESAFE_API_KEY` enables the Jev decision client; unset, every decision route answers from its
- * Haiku twin. The Jev endpoint has no override at all (./decide/client.ts pins it).
+ * The gateway's own environment contract. Generation runs on DeepSeek through its
+ * Anthropic-compatible Messages API, so the key lives in
+ * `ANTHROPIC_API_KEY` (the variable the Anthropic-format client reads; it holds the DeepSeek key)
+ * and requests go to `DEEPSEEK_ANTHROPIC_URL`. `ANTHROPIC_BASE_URL` is an explicit override of that
+ * origin; the gateway never uses an endpoint the SDK picked up implicitly. `TYPESAFE_API_KEY`
+ * enables the Jev decision client; unset, every decision route answers from its fast-tier twin.
+ * The Jev endpoint has no override at all (./decide/client.ts pins it). `TAVILY_API_KEY` enables
+ * web search (./search), whose origin is pinned too.
  */
 import { z } from 'zod';
 
-/** Anthropic's API origin, pinned so an ambient ANTHROPIC_BASE_URL can never redirect traffic. */
-export const ANTHROPIC_API_URL = 'https://api.anthropic.com';
+/** DeepSeek's Anthropic-format origin, pinned so an ambient ANTHROPIC_BASE_URL never redirects traffic. */
+export const DEEPSEEK_ANTHROPIC_URL = 'https://api.deepseek.com/anthropic';
 
 const emptyAsUndefined = (value: unknown) => (value === '' ? undefined : value);
 
@@ -16,6 +19,8 @@ export const aiEnvSchema = z.object({
   ANTHROPIC_API_KEY: z.string().min(1),
   ANTHROPIC_BASE_URL: z.preprocess(emptyAsUndefined, z.url().optional()),
   TYPESAFE_API_KEY: z.preprocess(emptyAsUndefined, z.string().min(1).optional()),
+  /** Enables the guide's `web_search` tool (Tavily); unset, the tool answers `TOOL_UNAVAILABLE`. */
+  TAVILY_API_KEY: z.preprocess(emptyAsUndefined, z.string().min(1).optional()),
 });
 export type AiEnv = z.infer<typeof aiEnvSchema>;
 
@@ -42,7 +47,7 @@ export function loadGatewayEnv(
 
 const decisionEnvSchema = aiEnvSchema.pick({ TYPESAFE_API_KEY: true });
 
-/** The Jev key, validated without echoing it; `undefined` means decisions use the Haiku twin. */
+/** The Jev key, validated without echoing it; `undefined` means decisions use the fast-tier twin. */
 export function loadDecisionEnv(source: Record<string, string | undefined> = process.env): {
   readonly apiKey: string | undefined;
 } {

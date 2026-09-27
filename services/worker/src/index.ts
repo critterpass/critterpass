@@ -69,9 +69,6 @@ const jobs: AnyJobDefinition[] = [
   ...aiJobs(env, (error) => logger.warn({ err: error }, 'langfuse export failed')),
   ...travelDataJobs(env, pool, logger.child({ component: 'travel-data' })),
 ];
-if (env.ANTHROPIC_API_KEY === undefined) {
-  logger.warn('ai.batch.poll is disabled: ANTHROPIC_API_KEY is unset');
-}
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&
   env.BACKUP_S3_BUCKET &&

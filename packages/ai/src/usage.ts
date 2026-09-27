@@ -10,18 +10,11 @@ import type { TokenUsage } from './pricing';
 
 /** Maps the API's usage block onto billed token classes. */
 export function toTokenUsage(usage: Anthropic.Messages.Usage): TokenUsage {
-  const split = usage.cache_creation;
-  // The per-TTL split is authoritative when present; without it every cache write used the
-  // default 5-minute TTL.
   return {
     inputTokens: usage.input_tokens,
-    cacheWrite5mTokens: split
-      ? split.ephemeral_5m_input_tokens
-      : (usage.cache_creation_input_tokens ?? 0),
-    cacheWrite1hTokens: split?.ephemeral_1h_input_tokens ?? 0,
+    cacheWriteTokens: usage.cache_creation_input_tokens ?? 0,
     cacheReadTokens: usage.cache_read_input_tokens ?? 0,
     outputTokens: usage.output_tokens,
-    webSearchRequests: usage.server_tool_use?.web_search_requests ?? 0,
   };
 }
 
@@ -69,11 +62,7 @@ export function buildUsageRecord(input: BuildUsageRecordInput): AiUsageRecord {
     jobId: context.jobId ?? null,
     model: input.model,
     tier: input.tier,
-    tokensIn:
-      usage.inputTokens +
-      usage.cacheWrite5mTokens +
-      usage.cacheWrite1hTokens +
-      usage.cacheReadTokens,
+    tokensIn: usage.inputTokens + usage.cacheWriteTokens + usage.cacheReadTokens,
     tokensOut: usage.outputTokens,
     cacheRead: usage.cacheReadTokens,
     costMicros: input.costMicros,

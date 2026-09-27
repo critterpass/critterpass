@@ -6,7 +6,7 @@
  * `<kind>:<id>`), and each kind's `apply` must be idempotent (a re-sent job applies the same
  * verdict again). A kind with no registered handler fails the job instead of dropping a verdict.
  *
- * Decision usage rows are written as app_system; with both Jev and the Haiku twin down the surface
+ * Decision usage rows are written as app_system; with both Jev and the fast-tier twin down the surface
  * policy still answers (`public_text` goes to review), so the job completes either way.
  */
 import {
@@ -66,11 +66,11 @@ export const complianceCheckPayloadSchema = z.strictObject({
 export type ComplianceCheckPayload = z.infer<typeof complianceCheckPayloadSchema>;
 
 export interface ComplianceJobOptions {
-  /** `TYPESAFE_API_KEY`; unset = every check answers from the Haiku twin. */
+  /** `TYPESAFE_API_KEY`; unset = every check answers from the fast-tier twin. */
   readonly typesafeApiKey?: string | undefined;
-  /** Claude key (and dev endpoint) for the Haiku twin; unset with no Jev key = every check takes
-   *  the surface's unavailable outcome. */
-  readonly anthropic?: GatewayEnvOptions | undefined;
+  /** The DeepSeek key (and endpoint override) for the fast-tier twin; unset with no Jev key =
+   *  every check takes the surface's unavailable outcome. */
+  readonly generation?: GatewayEnvOptions | undefined;
   readonly telemetry?: Telemetry;
 }
 
@@ -93,16 +93,16 @@ export function complianceCheckJob(
         recordUsage((fn) => withSystem(ctx.pool, fn), record);
       const telemetry = options.telemetry === undefined ? {} : { telemetry: options.telemetry };
       const gateway =
-        options.anthropic === undefined
+        options.generation === undefined
           ? {}
-          : { gateway: createGateway({ ...options.anthropic, ...telemetry, onUsage }) };
+          : { gateway: createGateway({ ...options.generation, ...telemetry, onUsage }) };
       const decisions = createDecisionClient({
         apiKey: options.typesafeApiKey,
         ...gateway,
         ...telemetry,
         onUsage,
         onFallback: (route, reason) =>
-          ctx.logger.warn({ route, reason }, 'decision answered by the Haiku twin'),
+          ctx.logger.warn({ route, reason }, 'decision answered by the fast-tier twin'),
       });
       const result = await checkCompliance(
         {

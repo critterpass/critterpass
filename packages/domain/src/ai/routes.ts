@@ -6,14 +6,15 @@
  * M camera/receipt/email parsers (no tools, structured output only).
  *
  * Decision routes (`DECISION_ROUTES`) pick a label, answer yes/no or score a rubric; they run on
- * TypeSafe's Jev with a Haiku twin of the same answer shape as fallback
- * (docs/decisions/20260927-jev-decision-model.md). Every other route is generation and stays on
- * Claude.
+ * TypeSafe's Jev with a fast-tier twin of the same answer shape as fallback
+ * (docs/decisions/20260927-jev-decision-model.md). Every other route is generation and runs on
+ * DeepSeek: the fast tier for chat, voice, parsing and short lines,
+ * the pro tier for planning, redrafts, proposals and the itinerary skeleton.
  */
 import { z } from 'zod';
 
 export const AI_ROUTES = [
-  // Haiku 4.5: chat, voice, quests, parsing and micro-lines.
+  // Chat, voice, quests, parsing and micro-lines.
   'guide.chat',
   'guide.voice',
   'guide.crew_mention',
@@ -22,7 +23,7 @@ export const AI_ROUTES = [
   'email.parse',
   'must_do.fit_line',
   'micro.line',
-  // Sonnet 5: the workhorse.
+  // Pitches, drafting, redrafts, proposals, briefings, recaps, parsers and the guest guide.
   'guide.chat_escalation',
   'pitch.place',
   'draft.day',
@@ -39,9 +40,9 @@ export const AI_ROUTES = [
   'menu.parse',
   'email.parse_fallback',
   'guest.guide',
-  // Opus 5.5: the itinerary skeleton only.
+  // The itinerary skeleton.
   'draft.skeleton',
-  // Jev 1.13 typed decisions, each with a Haiku twin.
+  // Jev 1.13 typed decisions, each with a fast-tier twin.
   'guide.chime_in_classifier',
   'help.intent_classifier',
   'idea.duplicate_tiebreak',
@@ -63,19 +64,20 @@ export function isDecisionRoute(route: AiRoute): route is DecisionRoute {
   return (DECISION_ROUTES as readonly AiRoute[]).includes(route);
 }
 
-export const CLAUDE_TIERS = ['haiku', 'sonnet', 'opus'] as const;
-export type ClaudeTier = (typeof CLAUDE_TIERS)[number];
+/** Generation tiers: `fast` (DeepSeek Flash) and `pro` (DeepSeek V4 Pro). */
+export const GENERATION_TIERS = ['fast', 'pro'] as const;
+export type GenerationTier = (typeof GENERATION_TIERS)[number];
 
-/** Billing tier of one model call (`ai_usage.tier`): a Claude tier or the Jev decision model. */
-export const AI_TIERS = [...CLAUDE_TIERS, 'jev'] as const;
+/** Billing tier of one model call (`ai_usage.tier`): a generation tier or the Jev decision model. */
+export const AI_TIERS = [...GENERATION_TIERS, 'jev'] as const;
 export const aiTierSchema = z.enum(AI_TIERS);
 export type AiTier = z.infer<typeof aiTierSchema>;
 
-export const AI_PROVIDERS = ['claude', 'jev'] as const;
+export const AI_PROVIDERS = ['deepseek', 'jev'] as const;
 export type AiProvider = (typeof AI_PROVIDERS)[number];
 
-/** Which model answered a decision: Jev, or the route's Haiku twin on fallback. */
-export const DECISION_ANSWERERS = ['jev', 'haiku'] as const;
+/** Which model answered a decision: Jev, or the route's fast-tier twin on fallback. */
+export const DECISION_ANSWERERS = ['jev', 'fast'] as const;
 export type DecisionAnswerer = (typeof DECISION_ANSWERERS)[number];
 
 export const AI_CALLERS = ['C', 'G', 'D', 'R', 'B', 'M'] as const;

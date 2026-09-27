@@ -1,42 +1,31 @@
 /**
- * Message Batches (docs/api-contracts.md §6 "Batch"): bulk, latency-tolerant work (quests, the
- * notification template library, the content factory) at half the token price. `submit` sends one
- * batch of routed requests, `retrieve` reads its processing status, and `results` maps every
- * finished request back by `custom_id` with its batch-priced usage record. The durable side
- * (submitting once, polling, applying results once) is the worker's `ai.batch.poll` job.
+ * Bulk, latency-tolerant work (quests, the notification template library, the content factory)
+ * runs as direct gateway calls with bounded concurrency: DeepSeek has no batch API and no batch
+ * discount. Every call goes through the gateway, so each one bills
+ * its own `ai_usage` row as it finishes. The durable side (skipping requests a retried step already
+ * finished, applying each result exactly once) is the worker's batch step.
+ *
+ * A request ends as `succeeded`, `refused` (the model declined it) or `errored` (the provider
+ * rejected it for good, e.g. an invalid request). A transient failure after the gateway's own
+ * retries stops the run: no new request starts, the ones in flight finish and are reported, and the
+ * error is thrown so the job retries later from where it stopped.
  */
-import Anthropic from '@anthropic-ai/sdk';
-import type { AiRoute } from '@cp/domain';
+import type Anthropic from '@anthropic-ai/sdk';
+import type { AiErrorCode, AiRoute } from '@cp/domain';
 
-import { buildMessageParams, type GatewayInput } from './client';
-import { ANTHROPIC_API_URL } from './env';
-import { GatewayConfigError, toGatewayError } from './errors';
-import { computeCostMicros, type TokenUsage } from './pricing';
-import { resolveClaudeRoute } from './routing';
-import type { Telemetry } from './telemetry/langfuse';
-import { buildUsageRecord, toTokenUsage, type AiUsageRecord, type UsageContext } from './usage';
+import type { Gateway, GatewayInput } from './client';
+import { GatewayConfigError, toGatewayError, type GatewayError } from './errors';
+import type { TokenUsage } from './pricing';
+import type { UsageContext } from './usage';
 
-/** Anthropic's `custom_id` rule: 1–64 characters of `[A-Za-z0-9_-]`. */
-const CUSTOM_ID = /^[\w-]{1,64}$/;
+/** 1–64 characters of `[A-Za-z0-9_-]`: the key a request's result is stored and matched under. */
+const CUSTOM_ID = /^[\w-]{1,64}$/u;
+
+export const DEFAULT_BATCH_CONCURRENCY = 4;
 
 export interface BatchRequest {
   readonly customId: string;
   readonly input: Omit<GatewayInput, 'signal'>;
-}
-
-export type BatchProcessingStatus = 'in_progress' | 'canceling' | 'ended';
-
-export interface BatchStatus {
-  readonly id: string;
-  readonly status: BatchProcessingStatus;
-  readonly counts: {
-    readonly processing: number;
-    readonly succeeded: number;
-    readonly errored: number;
-    readonly canceled: number;
-    readonly expired: number;
-  };
-  readonly endedAt: string | null;
 }
 
 export type BatchItemResult =
@@ -44,55 +33,28 @@ export type BatchItemResult =
       readonly customId: string;
       readonly type: 'succeeded';
       readonly message: Anthropic.Messages.Message;
-      /** `stop_reason: refusal`: billed like any answer, but carries no usable output. */
-      readonly refused: boolean;
       readonly usage: TokenUsage;
       readonly costMicros: number;
-      readonly record: AiUsageRecord;
     }
+  | { readonly customId: string; readonly type: 'refused' }
   | {
       readonly customId: string;
       readonly type: 'errored';
-      readonly errorType: string;
+      readonly code: AiErrorCode;
       readonly errorMessage: string;
-    }
-  | { readonly customId: string; readonly type: 'canceled' | 'expired' };
+    };
 
-export interface BatchClient {
-  submit(route: AiRoute, requests: readonly BatchRequest[]): Promise<BatchStatus>;
-  retrieve(batchId: string): Promise<BatchStatus>;
-  /** Every result of an ended batch; usage records are billed to `context` at batch prices. */
-  results(batchId: string, route: AiRoute, context?: UsageContext): Promise<BatchItemResult[]>;
+export interface RunBatchOptions {
+  /** Requests in flight at once (default 4). */
+  readonly concurrency?: number;
+  /** Who every call is billed to (the agent job). */
+  readonly context?: UsageContext;
+  readonly signal?: AbortSignal;
+  /** Called once per finished request, as it finishes (results arrive in any order). */
+  readonly onResult?: (result: BatchItemResult) => Promise<void>;
 }
 
-export interface BatchClientOptions {
-  readonly apiKey: string;
-  readonly baseURL?: string;
-  readonly timeoutMs?: number;
-  /** Network boundary override (recorded fixtures in tests). */
-  readonly fetch?: typeof fetch;
-  readonly now?: () => Date;
-  readonly telemetry?: Telemetry;
-}
-
-function toStatus(batch: Anthropic.Messages.Batches.MessageBatch): BatchStatus {
-  const counts = batch.request_counts;
-  return {
-    id: batch.id,
-    status: batch.processing_status,
-    counts: {
-      processing: counts.processing,
-      succeeded: counts.succeeded,
-      errored: counts.errored,
-      canceled: counts.canceled,
-      expired: counts.expired,
-    },
-    endedAt: batch.ended_at,
-  };
-}
-
-function checkRequests(requests: readonly BatchRequest[]): void {
-  if (requests.length === 0) throw new GatewayConfigError('a batch needs at least one request');
+export function checkBatchRequests(requests: readonly BatchRequest[]): void {
   const seen = new Set<string>();
   for (const { customId } of requests) {
     if (!CUSTOM_ID.test(customId)) {
@@ -103,95 +65,76 @@ function checkRequests(requests: readonly BatchRequest[]): void {
   }
 }
 
-export function createBatchClient(options: BatchClientOptions): BatchClient {
-  const client = new Anthropic({
-    apiKey: options.apiKey,
-    maxRetries: 2,
-    timeout: options.timeoutMs ?? 120_000,
-    baseURL: options.baseURL ?? ANTHROPIC_API_URL,
-    ...(options.fetch === undefined ? {} : { fetch: options.fetch }),
-  });
-  const now = options.now ?? (() => new Date());
+/** A failure that retrying later cannot fix (the provider rejected the request itself). */
+function isPermanent(error: GatewayError): boolean {
+  return error.code !== 'AI_UNAVAILABLE' || error.detail?.transient === false;
+}
 
-  const call = async <T>(run: () => Promise<T>): Promise<T> => {
-    try {
-      return await run();
-    } catch (error) {
-      throw toGatewayError(error);
+async function runOne(
+  gateway: Gateway,
+  route: AiRoute,
+  request: BatchRequest,
+  options: RunBatchOptions,
+): Promise<BatchItemResult> {
+  try {
+    const input =
+      options.signal === undefined ? request.input : { ...request.input, signal: options.signal };
+    const result = await gateway.callModel(route, input, options.context ?? {});
+    return {
+      customId: request.customId,
+      type: 'succeeded',
+      message: result.message,
+      usage: result.usage,
+      costMicros: result.costMicros,
+    };
+  } catch (caught) {
+    const error = toGatewayError(caught);
+    if (error.code === 'AI_REFUSED') return { customId: request.customId, type: 'refused' };
+    if (isPermanent(error)) {
+      return {
+        customId: request.customId,
+        type: 'errored',
+        code: error.code,
+        errorMessage: error.message,
+      };
+    }
+    throw error;
+  }
+}
+
+/** Runs every request (at most `concurrency` at once) and returns the results in request order. */
+export async function runBatch(
+  gateway: Gateway,
+  route: AiRoute,
+  requests: readonly BatchRequest[],
+  options: RunBatchOptions = {},
+): Promise<BatchItemResult[]> {
+  checkBatchRequests(requests);
+  const results = new Map<string, BatchItemResult>();
+  let next = 0;
+  let failure: Error | undefined;
+  const worker = async (): Promise<void> => {
+    while (failure === undefined && next < requests.length) {
+      const request = requests[next];
+      next += 1;
+      if (request === undefined) return;
+      try {
+        const result = await runOne(gateway, route, request, options);
+        await options.onResult?.(result);
+        results.set(request.customId, result);
+      } catch (error) {
+        failure ??= error instanceof Error ? error : toGatewayError(error);
+      }
     }
   };
-
-  return {
-    async submit(routeId, requests) {
-      checkRequests(requests);
-      const route = resolveClaudeRoute(routeId);
-      const params = requests.map((request) => ({
-        custom_id: request.customId,
-        params: buildMessageParams(route, request.input),
-      }));
-      return toStatus(await call(() => client.messages.batches.create({ requests: params })));
-    },
-
-    async retrieve(batchId) {
-      return toStatus(await call(() => client.messages.batches.retrieve(batchId)));
-    },
-
-    async results(batchId, routeId, context = {}) {
-      const route = resolveClaudeRoute(routeId);
-      const decoder = await call(() => client.messages.batches.results(batchId));
-      const at = now();
-      const mapped: BatchItemResult[] = [];
-      for await (const line of decoder) {
-        const { custom_id: customId, result } = line;
-        if (result.type === 'succeeded') {
-          const usage = toTokenUsage(result.message.usage);
-          const costMicros = computeCostMicros(route.tier, usage, { batch: true });
-          const traceId =
-            context.langfuseTraceId ??
-            options.telemetry?.recordGeneration({
-              route: route.route,
-              model: route.model,
-              tier: route.tier,
-              usage,
-              costMicros,
-              batch: true,
-              startedAt: at,
-              endedAt: at,
-              stopReason: result.message.stop_reason,
-              userId: context.userId ?? null,
-              tripId: context.tripId ?? null,
-              crewId: context.crewId ?? null,
-              jobId: context.jobId ?? null,
-            }) ??
-            null;
-          mapped.push({
-            customId,
-            type: 'succeeded',
-            message: result.message,
-            refused: result.message.stop_reason === 'refusal',
-            usage,
-            costMicros,
-            record: buildUsageRecord({
-              model: route.model,
-              tier: route.tier,
-              usage,
-              costMicros,
-              context: { ...context, langfuseTraceId: traceId },
-              at,
-            }),
-          });
-        } else if (result.type === 'errored') {
-          mapped.push({
-            customId,
-            type: 'errored',
-            errorType: result.error.error.type,
-            errorMessage: result.error.error.message,
-          });
-        } else {
-          mapped.push({ customId, type: result.type });
-        }
-      }
-      return mapped;
-    },
-  };
+  const width = Math.max(
+    1,
+    Math.min(options.concurrency ?? DEFAULT_BATCH_CONCURRENCY, requests.length),
+  );
+  await Promise.all(Array.from({ length: width }, worker));
+  if (failure !== undefined) throw failure;
+  return requests.flatMap((request) => {
+    const result = results.get(request.customId);
+    return result === undefined ? [] : [result];
+  });
 }

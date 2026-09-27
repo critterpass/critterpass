@@ -1,14 +1,18 @@
 /**
- * Route → model and request shape (docs/api-contracts.md §6 "Model routing"; per-task tiers from the
- * AI guide research §4.1). Haiku 4.5 is the default; Sonnet 5 is the workhorse; Opus 5.5 runs only
- * the itinerary skeleton. Swapping a model is a change to `MODEL_IDS` plus a full eval run.
+ * Route → model and request shape (docs/api-contracts.md §6 "Model routing"). Generation runs on
+ * DeepSeek with explicit model ids: the fast tier
+ * (`deepseek-flash`, vision-capable) answers chat, voice, parsing, photo work and short lines; the
+ * pro tier (`deepseek-v4-pro`, text only) plans, redrafts, proposes, narrates recaps, writes the
+ * content libraries, runs the guest guide and builds the itinerary skeleton. Swapping a model is a
+ * change to `MODEL_IDS` plus a full eval run; the gateway's provider seam (./client.ts) is where a
+ * second provider would plug in.
  *
- * Thinking: Haiku routes run without thinking. Sonnet 5 thinks adaptively by default, so every
- * latency-bound (streamed) Sonnet route disables it explicitly; job routes keep adaptive thinking
- * with an explicit effort. Opus 5.5 thinking cannot be disabled.
+ * Thinking: DeepSeek thinks by default, so every route states it. Streamed and fast routes run
+ * without thinking (it delays the first token); pro job routes think with an explicit effort. A
+ * thinking request rejects a forced tool choice, and a tool choice of `any` is not enforced at all.
  *
  * Decision routes (a closed label, a yes/no probability or a rubric score) run on TypeSafe's Jev,
- * pinned to `jev-1.13.0` because thresholds are tuned per version, and name a Haiku twin that
+ * pinned to `jev-1.13.0` because thresholds are tuned per version, and name a fast-tier twin that
  * answers the same shape when Jev is unavailable (./decide). No generation route may run on Jev.
  */
 import {
@@ -19,17 +23,20 @@ import {
   type AiTier,
   type DecisionRoute,
   type DecisionThresholds,
+  type GenerationTier,
 } from '@cp/domain';
 
 /** The Jev version decision thresholds were tuned against; never the moving `jev-latest` alias. */
 export const JEV_MODEL = 'jev-1.13.0';
 
 export const MODEL_IDS: Readonly<Record<AiTier, string>> = {
-  haiku: 'claude-haiku-4-5-20251001',
-  sonnet: 'claude-sonnet-5',
-  opus: 'claude-opus-5-5',
+  fast: 'deepseek-flash',
+  pro: 'deepseek-v4-pro',
   jev: JEV_MODEL,
 };
+
+/** Tiers whose model reads images (receipts, menus, photos). */
+export const VISION_TIERS: ReadonlySet<AiTier> = new Set<AiTier>(['fast']);
 
 /** Prompt layers in cache order (tools first, conversation last). */
 export const CACHE_LAYERS = [
@@ -42,8 +49,9 @@ export const CACHE_LAYERS = [
 ] as const;
 export type CacheLayer = (typeof CACHE_LAYERS)[number];
 
-export type Thinking = 'disabled' | 'adaptive';
-export type Effort = 'low' | 'medium' | 'high';
+export type Thinking = 'disabled' | 'enabled';
+/** DeepSeek reasoning effort; only sent when thinking is on. */
+export type Effort = 'low' | 'high';
 export type Delivery = 'stream' | 'call' | 'batch';
 
 export interface RouteConfig {
@@ -54,15 +62,20 @@ export interface RouteConfig {
   /** Tool allow-list class; `null` = no tools at all. */
   readonly caller: AiCaller | null;
   readonly thinking: Thinking;
-  /** `output_config.effort`; Haiku 4.5 routes leave it unset. */
+  /** `output_config.effort` for thinking routes. */
   readonly effort: Effort | undefined;
+  /** Sampling temperature for routes without thinking (thinking ignores it); unset = default. */
+  readonly temperature: number | undefined;
+  /** Output budget; on thinking routes it covers the reasoning too. */
   readonly maxTokens: number;
   readonly output: 'text' | 'structured';
   readonly delivery: Delivery;
-  /** Anthropic server-side web search (guest guide only). */
+  /** Reads images (receipts, menus, photos): only on a vision tier. */
+  readonly vision: boolean;
+  /** Our own `web_search` tool (./tools/web-search.ts) is offered on this route. */
   readonly webSearch: boolean;
   readonly cacheLayers: readonly CacheLayer[];
-  /** Decision routes: the Haiku twin run when Jev cannot answer. */
+  /** Decision routes: the fast-tier twin run when Jev cannot answer. */
   readonly fallback: RouteConfig | undefined;
   /** Decision routes: the verdict bands tuned for this route. */
   readonly thresholds: DecisionThresholds | undefined;
@@ -78,113 +91,122 @@ const JOB_LAYERS: readonly CacheLayer[] = [
 ];
 const PLAIN_LAYERS: readonly CacheLayer[] = ['global_rules'];
 
-type RouteSpec = Omit<
-  RouteConfig,
-  'route' | 'provider' | 'model' | 'effort' | 'webSearch' | 'fallback' | 'thresholds'
-> & {
+interface RouteSpec {
+  readonly tier: GenerationTier;
+  readonly caller: AiCaller | null;
+  readonly thinking: Thinking;
   readonly effort?: Effort;
+  readonly temperature?: number;
+  readonly maxTokens: number;
+  readonly output: 'text' | 'structured';
+  readonly delivery: Delivery;
+  readonly vision?: boolean;
   readonly webSearch?: boolean;
-};
+  readonly cacheLayers: readonly CacheLayer[];
+}
 
-const haiku = (
-  caller: AiCaller | null,
-  maxTokens: number,
-  rest: Partial<Pick<RouteSpec, 'output' | 'delivery' | 'cacheLayers'>> = {},
-): RouteSpec => ({
-  tier: 'haiku',
+type SpecOptions = Partial<
+  Pick<RouteSpec, 'output' | 'delivery' | 'cacheLayers' | 'vision' | 'webSearch' | 'temperature'>
+>;
+
+/**
+ * Guide conversation routes sample cooler than the provider default: the persona still reads as
+ * itself, and the rules (sentence caps, data blocks, declines) hold turn after turn.
+ */
+export const GUIDE_TEMPERATURE = 0.5;
+
+/** A fast-tier route: no thinking. */
+const fast = (caller: AiCaller | null, maxTokens: number, rest: SpecOptions = {}): RouteSpec => ({
+  tier: 'fast',
   caller,
   thinking: 'disabled',
   maxTokens,
   output: rest.output ?? 'text',
   delivery: rest.delivery ?? 'call',
+  vision: rest.vision ?? false,
+  webSearch: rest.webSearch ?? false,
   cacheLayers: rest.cacheLayers ?? PLAIN_LAYERS,
+  ...(rest.temperature === undefined ? {} : { temperature: rest.temperature }),
 });
 
-const sonnet = (
+/**
+ * A pro-tier route. Streamed routes are latency-bound, so they answer without thinking; job
+ * routes think at `effort`.
+ */
+const pro = (
   caller: AiCaller | null,
   maxTokens: number,
   effort: Effort,
-  rest: Partial<Pick<RouteSpec, 'output' | 'delivery' | 'cacheLayers' | 'webSearch'>> = {},
+  rest: SpecOptions = {},
 ): RouteSpec => {
   const delivery = rest.delivery ?? 'call';
+  const thinking: Thinking = delivery === 'stream' ? 'disabled' : 'enabled';
   return {
-    tier: 'sonnet',
+    tier: 'pro',
     caller,
-    // Streamed routes are latency-bound: adaptive thinking would delay the first token.
-    thinking: delivery === 'stream' ? 'disabled' : 'adaptive',
-    effort,
+    thinking,
+    ...(thinking === 'enabled' ? { effort } : {}),
     maxTokens,
     output: rest.output ?? 'text',
     delivery,
-    cacheLayers: rest.cacheLayers ?? JOB_LAYERS,
     webSearch: rest.webSearch ?? false,
+    cacheLayers: rest.cacheLayers ?? JOB_LAYERS,
+    ...(thinking === 'disabled' && rest.temperature !== undefined
+      ? { temperature: rest.temperature }
+      : {}),
   };
 };
 
-/** Haiku twin of a decision route: no tools, a small JSON answer, no thinking. */
-const twin = (): RouteSpec => haiku(null, 512, { output: 'structured' });
+const GUIDE_STREAM: SpecOptions = {
+  delivery: 'stream',
+  cacheLayers: GUIDE_LAYERS,
+  temperature: GUIDE_TEMPERATURE,
+};
 
-const CLAUDE_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSpec>> = {
-  'guide.chat': haiku('C', 1024, { delivery: 'stream', cacheLayers: GUIDE_LAYERS }),
-  'guide.voice': haiku('C', 512, { delivery: 'stream', cacheLayers: GUIDE_LAYERS }),
-  'guide.crew_mention': haiku('G', 1024, { delivery: 'stream', cacheLayers: GUIDE_LAYERS }),
-  'quests.generate': haiku('B', 4096, {
+/** Fast-tier twin of a decision route: no tools, a small JSON answer, no thinking. */
+const twin = (): RouteSpec => fast(null, 512, { output: 'structured' });
+
+const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSpec>> = {
+  'guide.chat': fast('C', 1024, GUIDE_STREAM),
+  'guide.voice': fast('C', 512, GUIDE_STREAM),
+  'guide.crew_mention': fast('G', 1024, GUIDE_STREAM),
+  'quests.generate': fast('B', 4096, {
     output: 'structured',
     delivery: 'batch',
     cacheLayers: JOB_LAYERS,
   }),
-  'roundup.evening': haiku('B', 512, { cacheLayers: JOB_LAYERS }),
-  'email.parse': haiku('M', 2048, { output: 'structured' }),
-  'must_do.fit_line': haiku(null, 128),
-  'micro.line': haiku(null, 128),
-  'guide.chat_escalation': sonnet('C', 2048, 'low', {
-    delivery: 'stream',
-    cacheLayers: GUIDE_LAYERS,
-  }),
-  'pitch.place': sonnet(null, 1024, 'low', { delivery: 'stream' }),
-  'draft.day': sonnet('D', 8192, 'low', { output: 'structured' }),
-  'draft.repair': sonnet('D', 4096, 'low', { output: 'structured' }),
-  'redraft.day': sonnet('D', 8192, 'medium', { output: 'structured' }),
-  'proposal.personal': sonnet('D', 2048, 'low', { output: 'structured' }),
-  'briefing.daily': sonnet('B', 2048, 'low', { output: 'structured' }),
-  'disruption.plan_b': sonnet('R', 4096, 'low', { output: 'structured' }),
-  'recap.narration': sonnet('B', 8192, 'medium', { output: 'structured' }),
-  'photo.picks': sonnet(null, 2048, 'low', { output: 'structured', cacheLayers: PLAIN_LAYERS }),
-  'notification.templates': sonnet(null, 8192, 'low', {
+  'roundup.evening': fast('B', 512, { cacheLayers: JOB_LAYERS }),
+  'email.parse': fast('M', 2048, { output: 'structured' }),
+  'must_do.fit_line': fast(null, 128),
+  'micro.line': fast(null, 128),
+  'pitch.place': fast(null, 1024, { delivery: 'stream', cacheLayers: JOB_LAYERS }),
+  'briefing.daily': fast('B', 2048, { output: 'structured', cacheLayers: JOB_LAYERS }),
+  'photo.picks': fast(null, 2048, { output: 'structured', vision: true }),
+  'receipt.parse': fast('M', 4096, { output: 'structured', vision: true }),
+  'menu.parse': fast('M', 4096, { output: 'structured', delivery: 'stream', vision: true }),
+  'guide.chat_escalation': pro('C', 2048, 'low', GUIDE_STREAM),
+  'draft.day': pro('D', 16_000, 'low', { output: 'structured' }),
+  'draft.repair': pro('D', 8192, 'low', { output: 'structured' }),
+  'redraft.day': pro('D', 16_000, 'high', { output: 'structured' }),
+  'proposal.personal': pro('D', 8192, 'low', { output: 'structured' }),
+  'disruption.plan_b': pro('R', 8192, 'low', { output: 'structured' }),
+  'recap.narration': pro('B', 16_000, 'low', { output: 'structured' }),
+  'notification.templates': pro(null, 16_000, 'low', {
     output: 'structured',
     delivery: 'batch',
     cacheLayers: ['global_rules', 'persona'],
   }),
-  'content.factory': sonnet(null, 8192, 'low', {
+  'content.factory': pro(null, 16_000, 'low', {
     output: 'structured',
     delivery: 'batch',
     cacheLayers: ['global_rules', 'persona', 'destination'],
   }),
-  'receipt.parse': sonnet('M', 4096, 'low', { output: 'structured', cacheLayers: PLAIN_LAYERS }),
-  'menu.parse': sonnet('M', 4096, 'low', {
-    output: 'structured',
-    delivery: 'stream',
-    cacheLayers: PLAIN_LAYERS,
-  }),
-  'email.parse_fallback': sonnet('M', 4096, 'low', {
+  'email.parse_fallback': pro('M', 8192, 'low', {
     output: 'structured',
     cacheLayers: PLAIN_LAYERS,
   }),
-  'guest.guide': sonnet('C', 2048, 'low', {
-    delivery: 'stream',
-    webSearch: true,
-    cacheLayers: GUIDE_LAYERS,
-  }),
-  'draft.skeleton': {
-    tier: 'opus',
-    caller: 'D',
-    thinking: 'adaptive',
-    effort: 'medium',
-    maxTokens: 16_000,
-    output: 'structured',
-    delivery: 'call',
-    cacheLayers: JOB_LAYERS,
-  },
+  'guest.guide': pro('C', 2048, 'low', { ...GUIDE_STREAM, webSearch: true }),
+  'draft.skeleton': pro('D', 32_000, 'high', { output: 'structured' }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
@@ -197,15 +219,17 @@ const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
 function toConfig(route: AiRoute, spec: RouteSpec): RouteConfig {
   return {
     route,
-    provider: 'claude',
+    provider: 'deepseek',
     tier: spec.tier,
     model: MODEL_IDS[spec.tier],
     caller: spec.caller,
     thinking: spec.thinking,
     effort: spec.effort,
+    temperature: spec.temperature,
     maxTokens: spec.maxTokens,
     output: spec.output,
     delivery: spec.delivery,
+    vision: spec.vision ?? false,
     webSearch: spec.webSearch ?? false,
     cacheLayers: spec.cacheLayers,
     fallback: undefined,
@@ -227,7 +251,10 @@ function toDecisionConfig(route: DecisionRoute, twinSpec: RouteSpec): RouteConfi
 }
 
 export const ROUTING: Readonly<Record<AiRoute, RouteConfig>> = Object.fromEntries([
-  ...Object.entries(CLAUDE_SPECS).map(([route, spec]) => [route, toConfig(route as AiRoute, spec)]),
+  ...Object.entries(GENERATION_SPECS).map(([route, spec]) => [
+    route,
+    toConfig(route as AiRoute, spec),
+  ]),
   ...Object.entries(DECISION_SPECS).map(([route, spec]) => [
     route,
     toDecisionConfig(route as DecisionRoute, spec),
@@ -239,10 +266,10 @@ export function resolveRoute(route: AiRoute): RouteConfig {
 }
 
 /**
- * The Claude request config for a route: the route itself, or a decision route's Haiku twin. The
- * Claude gateway only ever sends this, so a decision route called through it runs its twin.
+ * The generation request config for a route: the route itself, or a decision route's fast-tier
+ * twin. The gateway only ever sends this, so a decision route called through it runs its twin.
  */
-export function resolveClaudeRoute(route: AiRoute): RouteConfig {
+export function resolveGenerationRoute(route: AiRoute): RouteConfig {
   const config = ROUTING[route];
   return config.fallback ?? config;
 }

@@ -221,11 +221,12 @@ Forbidden: Redux, MobX, React Context for frequently changing values, duplicatin
 | Rule | Detail |
 |---|---|
 | Location | prompts, personas loader, tool schemas, routing in `packages/ai`; prompts only under `packages/ai/src/prompts/<route>/` (global rules `src/prompts/global-rules.md`); no prompt strings elsewhere |
-| Models | Haiku 4.5 default; Sonnet 5 workhorse; Opus 5.5 only for itinerary skeleton — routing table in `packages/ai/src/routing.ts` |
-| Decision routes | only a closed label set, a yes/no or a rubric score may run on Jev (`decide()`, pinned `jev-1.13.0`, never `jev-latest`); every one names a Haiku twin and thresholds tuned on its EN + VI eval set; low confidence is an outcome (review, ask, or twin), never a silent guess; `state` holds only the text under question; deterministic patterns (phone, email, URL, card, ID) run in code first; no images, generation, counting or date comparison ([decision](decisions/20260927-jev-decision-model.md)) |
+| Models | DeepSeek only, by explicit id: fast tier `deepseek-flash` by default (and every image route), pro tier `deepseek-v4-pro` for planning, redrafts, proposals, recap, content libraries, the guest guide and the itinerary skeleton — routing table in `packages/ai/src/routing.ts`; every route states thinking (off on streamed and fast routes); no Claude-only feature (output formats, citations, document blocks, batches, server tools, forced `any` tool choice) may be relied on |
+| Web search | only through the `web_search` tool on routes that enable it; queries hold places, dates and topics only (screened in code); the supplier/OTA/map blocklist goes to the provider and is re-checked in code on every URL; results enter as untrusted data blocks; web facts keep their source link and are cite-only (never plan changes, costs or structured output) |
+| Decision routes | only a closed label set, a yes/no or a rubric score may run on Jev (`decide()`, pinned `jev-1.13.0`, never `jev-latest`); every one names a fast-tier twin and thresholds tuned on its EN + VI eval set; low confidence is an outcome (review, ask, or twin), never a silent guess; `state` holds only the text under question; deterministic patterns (phone, email, URL, card, ID) run in code first; no images, generation, counting or date comparison ([decision](decisions/20260927-jev-decision-model.md)) |
 | Writes | the model never writes; tools return proposals validated by `planner`/`cost-engine`; numbers/times/prices computed by code, model only words them |
 | Context | built from `guide_reader` views only; **no C3 fields, no supplier content**; contract test asserts context builder output |
-| Injection | user/crew text wrapped as data; tool allow-list per surface; spend/booking actions require explicit user confirmation |
+| Injection | outside text (crew messages, OCR, emails, tips, web results) only inside fenced `<untrusted_data>` blocks built by `wrap-untrusted.ts`; a turn quoting data carries the data-block directive; tool allow-list per surface; spend/booking actions require explicit user confirmation |
 | Evals | every prompt/tool/routing change updates or runs its promptfoo suite (`pnpm --filter @cp/ai eval <suite>`); CI blocks on regression |
 | Traces | Langfuse with redaction; cost tags per crew-trip |
 | Disclosure | AI-generated content marked per EU AI Act Art. 50 in UI |
@@ -266,7 +267,7 @@ Forbidden: Redux, MobX, React Context for frequently changing values, duplicatin
 | Web route | Playwright (incl. AASA/assetlinks, OG render) |
 | Bug fix | failing regression test first |
 
-Test doubles: only at network boundaries (Claude, suppliers, APNs/FCM, RevenueCat) using recorded fixtures; never mock the database.
+Test doubles: only at network boundaries (DeepSeek, Tavily, Jev, suppliers, APNs/FCM, RevenueCat) using recorded fixtures; never mock the database.
 
 **macOS-only suites:** a suite that needs a real Chromium (Playwright), compares Node canvas output against goldens rendered on macOS arm64, or inspects `expo prebuild` output is listed in its package's Vitest/Jest config and excluded unless `CP_MACOS_SUITES=1`. The Linux `checks` job never sets it; the macOS `critter-art-macos` job in `.github/workflows/ci.yml` sets it, installs Chromium, runs `expo prebuild --clean --no-install` before the config plugin test, and runs each listed suite by path. Run them locally with the same flag, e.g. `CP_MACOS_SUITES=1 pnpm --filter @cp/critter-art exec vitest run src/share/templates/templates.test.ts`. A new suite of this kind goes in that list and in that job; never skip it silently.
 

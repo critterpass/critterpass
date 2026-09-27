@@ -6,8 +6,8 @@
  *
  * Replay (CI): Jev's network boundary serves `compliance/recorded.json`, real responses captured
  * by a live run with `EVAL_RECORD=1`, keyed by a hash of the exact request (a reworded question
- * needs a new recording). Live: the same requests go to Jev with `TYPESAFE_API_KEY`, and the Haiku
- * twin runs through the Anthropic key when Jev fails.
+ * needs a new recording). Live: the same requests go to Jev with `TYPESAFE_API_KEY`, and the fast-tier
+ * twin runs through the generation key when Jev fails.
  */
 import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -75,7 +75,8 @@ export interface MetricReport {
 export interface ComplianceRunOptions {
   readonly mode: 'replay' | 'live';
   readonly typesafeKey?: string;
-  readonly anthropicKey?: string;
+  /** The generation key: a failed Jev call is answered by the fast-tier twin. */
+  readonly generationKey?: string;
   readonly baseURL?: string;
   /** Live only: write every Jev response into recorded.json. */
   readonly record?: boolean;
@@ -222,9 +223,9 @@ export async function runCompliance(
     ? {}
     : (JSON.parse(readFileSync(recordingsPath(root), 'utf8')) as Recordings);
   const gateway =
-    live && options.anthropicKey !== undefined
+    live && options.generationKey !== undefined
       ? createGateway({
-          apiKey: options.anthropicKey,
+          apiKey: options.generationKey,
           ...(options.baseURL === undefined ? {} : { baseURL: options.baseURL }),
         })
       : undefined;

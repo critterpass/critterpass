@@ -1,5 +1,5 @@
 {
-  "source": "Hand-authored to the Messages API response schema (https://platform.claude.com/docs/en/api/messages); replace with a live recording from an Anthropic API key.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-27: a streamed guide turn declined with the decline marker",
   "response": {
     "status": 200,
     "sse": [
@@ -8,28 +8,19 @@
         "data": {
           "type": "message_start",
           "message": {
-            "id": "msg_01StreamFixture000000001",
+            "id": "2fe4fb4b-a7be-4880-ac83-29c57d1cbacb",
             "type": "message",
             "role": "assistant",
-            "model": "claude-haiku-4-5-20251001",
+            "model": "deepseek-flash",
             "content": [],
             "stop_reason": null,
             "stop_sequence": null,
-            "stop_details": null,
-            "container": null,
             "usage": {
-              "input_tokens": 14,
+              "input_tokens": 300,
               "cache_creation_input_tokens": 0,
-              "cache_read_input_tokens": 0,
-              "cache_creation": {
-                "ephemeral_5m_input_tokens": 0,
-                "ephemeral_1h_input_tokens": 0
-              },
-              "output_tokens": 1,
-              "output_tokens_details": null,
-              "server_tool_use": null,
-              "service_tier": "standard",
-              "inference_geo": "global"
+              "cache_read_input_tokens": 5504,
+              "output_tokens": 0,
+              "service_tier": "standard"
             }
           }
         }
@@ -41,8 +32,7 @@
           "index": 0,
           "content_block": {
             "type": "text",
-            "text": "",
-            "citations": null
+            "text": ""
           }
         }
       },
@@ -59,7 +49,7 @@
           "index": 0,
           "delta": {
             "type": "text_delta",
-            "text": "Sawasdee"
+            "text": "[["
           }
         }
       },
@@ -70,7 +60,29 @@
           "index": 0,
           "delta": {
             "type": "text_delta",
-            "text": " krub!"
+            "text": "decl"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "ine"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "]]"
           }
         }
       },
@@ -87,17 +99,14 @@
           "type": "message_delta",
           "delta": {
             "stop_reason": "end_turn",
-            "stop_sequence": null,
-            "stop_details": null,
-            "container": null
+            "stop_sequence": null
           },
           "usage": {
-            "input_tokens": 14,
+            "input_tokens": 300,
             "cache_creation_input_tokens": 0,
-            "cache_read_input_tokens": 0,
-            "output_tokens": 7,
-            "output_tokens_details": null,
-            "server_tool_use": null
+            "cache_read_input_tokens": 5504,
+            "output_tokens": 4,
+            "service_tier": "standard"
           }
         }
       },

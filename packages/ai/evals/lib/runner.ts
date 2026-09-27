@@ -17,7 +17,7 @@ import {
   type MetricReport,
 } from './compliance';
 import { runCase, type EvalMode, type EvalOutput, type Pipeline } from './provider';
-import { EVALS_DIR, loadSuite, type Assertion, type EvalCase } from './suite';
+import { EVALS_DIR, loadSuite, type Assertion, type CaseVars, type EvalCase } from './suite';
 
 export interface AssertionReport {
   readonly type: string;
@@ -29,6 +29,8 @@ export interface CaseReport {
   readonly description: string;
   readonly outcome: 'pass' | 'fail' | 'skipped';
   readonly assertions: readonly AssertionReport[];
+  /** What the client was shown (or the error code), for triaging a failed case. */
+  readonly output?: string;
 }
 
 export interface SuiteReport {
@@ -49,11 +51,13 @@ export interface SuiteReport {
 export interface RunOptions {
   readonly mode: EvalMode;
   readonly apiKey?: string;
-  /** Live runs only: an Anthropic-compatible endpoint to grade instead of Anthropic's API. */
+  /** Live runs only: an Anthropic-format endpoint to grade instead of DeepSeek's. */
   readonly baseURL?: string;
+  /** Live web search cases: the search provider key. */
+  readonly searchKey?: string;
   /** Live decision suites: the Jev key. */
   readonly typesafeKey?: string;
-  /** Live decision suites: store every Jev response as the replay recording. */
+  /** Live runs: store the responses as the replay recordings (Jev, DeepSeek, Tavily). */
   readonly record?: boolean;
   /** Swapped code-side checks (tests prove the gate fails when one regresses). */
   readonly pipeline?: Pipeline;
@@ -76,7 +80,7 @@ async function runComplianceSuite(options: RunOptions, threshold: number): Promi
     {
       mode: options.mode,
       ...(options.typesafeKey === undefined ? {} : { typesafeKey: options.typesafeKey }),
-      ...(options.apiKey === undefined ? {} : { anthropicKey: options.apiKey }),
+      ...(options.apiKey === undefined ? {} : { generationKey: options.apiKey }),
       ...(options.baseURL === undefined ? {} : { baseURL: options.baseURL }),
       ...(options.record === undefined ? {} : { record: options.record }),
       ...(options.root === undefined ? {} : { root: options.root }),
@@ -106,19 +110,50 @@ async function runComplianceSuite(options: RunOptions, threshold: number): Promi
 
 const JUDGE_SYSTEM = [
   'You grade one reply from a travel guide character against a rubric.',
-  'Answer with JSON only: {"pass": true|false, "reason": "<one sentence>"}.',
+  'Check each criterion the rubric states, literally, and nothing else: never add criteria of your own.',
+  'Local words are words from the destination language, not ordinary English words or place names.',
+  'Facts listed under "Known to the guide" are not invented.',
+  'A criterion written as "only X" is met when the reply uses X or nothing of that kind.',
+  'Answer with JSON only: {"pass": true|false, "reason": "<one sentence naming any unmet criterion>"}.',
 ].join(' ');
+
+/** What the guide was given for this case, so the judge can tell a known fact from an invented one. */
+function knownFacts(output: EvalOutput, vars: CaseVars): string {
+  const facts: string[] = [];
+  const pack = output.pack;
+  if (pack !== null) {
+    const role =
+      pack.guest_mode === null
+        ? `the live guide for ${pack.destination ?? 'its home destination'}`
+        : 'a guest guide covering a destination it has no local pack for';
+    facts.push(`The guide is ${pack.name}, a ${pack.species}, ${role}.`);
+    facts.push(`The guide's own lines: ${[pack.tagline, ...pack.catchphrases].join(' / ')}`);
+  }
+  if (vars.trip_context !== undefined) facts.push(`Trip context: ${vars.trip_context}`);
+  for (const result of vars.tool_results ?? []) {
+    facts.push(`Tool ${result.tool} returned: ${JSON.stringify(result.output)}`);
+  }
+  return facts.length === 0 ? 'nothing beyond the question' : facts.join('\n');
+}
 
 async function judge(
   rubric: string,
   output: EvalOutput,
+  vars: CaseVars,
   apiKey: string,
   baseURL: string | undefined,
 ): Promise<GradeResult> {
   const gateway = createGateway({ apiKey, ...(baseURL === undefined ? {} : { baseURL }) });
-  const result = await gateway.callModel('guide.chat_escalation', {
+  const content = [
+    `Rubric: ${rubric}`,
+    `Known to the guide:\n${knownFacts(output, vars)}`,
+    `Question: ${vars.question}`,
+    `Reply:\n${output.text}`,
+  ].join('\n\n');
+  // A pro route that thinks before answering; the judge sends no tools.
+  const result = await gateway.callModel('draft.repair', {
     system: JUDGE_SYSTEM,
-    messages: [{ role: 'user', content: `Rubric: ${rubric}\n\nReply:\n${output.text}` }],
+    messages: [{ role: 'user', content }],
   });
   const text = result.message.content.flatMap((b) => (b.type === 'text' ? [b.text] : [])).join('');
   const verdict = JSON.parse(
@@ -182,7 +217,13 @@ async function check(
   } else if (type === 'llm-rubric') {
     if (options.mode === 'replay')
       return { type: assertion.type, outcome: 'skipped', reason: 'needs a live model' };
-    result = await judge(String(assertion.value), output, options.apiKey ?? '', options.baseURL);
+    result = await judge(
+      String(assertion.value),
+      output,
+      testCase.vars,
+      options.apiKey ?? '',
+      options.baseURL,
+    );
   } else {
     result = baseCheck(type, assertion.value, output);
   }
@@ -203,6 +244,8 @@ export async function runSuite(name: string, options: RunOptions): Promise<Suite
       ...(options.pipeline === undefined ? {} : { pipeline: options.pipeline }),
       ...(options.apiKey === undefined ? {} : { apiKey: options.apiKey }),
       ...(options.baseURL === undefined ? {} : { baseURL: options.baseURL }),
+      ...(options.searchKey === undefined ? {} : { searchKey: options.searchKey }),
+      ...(options.record === undefined ? {} : { record: options.record }),
     });
     const assertions: AssertionReport[] = [];
     for (const assertion of testCase.assert)
@@ -210,7 +253,12 @@ export async function runSuite(name: string, options: RunOptions): Promise<Suite
     const graded = assertions.filter((a) => a.outcome !== 'skipped');
     const outcome =
       graded.length === 0 ? 'skipped' : graded.every((a) => a.outcome === 'pass') ? 'pass' : 'fail';
-    cases.push({ description: testCase.description, outcome, assertions });
+    cases.push({
+      description: testCase.description,
+      outcome,
+      assertions,
+      output: output.error ?? output.text,
+    });
   }
   const graded = cases.filter((c) => c.outcome !== 'skipped').length;
   const passed = cases.filter((c) => c.outcome === 'pass').length;

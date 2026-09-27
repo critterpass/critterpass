@@ -14,17 +14,10 @@ const CREW = '0190f0a0-0000-7000-8000-0000000000c1';
 
 const span: GenerationSpan = {
   route: 'guide.chat',
-  model: 'claude-haiku-4-5-20251001',
-  tier: 'haiku',
-  usage: {
-    inputTokens: 23,
-    cacheWrite5mTokens: 0,
-    cacheWrite1hTokens: 0,
-    cacheReadTokens: 4410,
-    outputTokens: 12,
-    webSearchRequests: 0,
-  },
-  costMicros: 524,
+  model: 'deepseek-flash',
+  tier: 'fast',
+  usage: { inputTokens: 23, cacheWriteTokens: 0, cacheReadTokens: 4410, outputTokens: 12 },
+  costMicros: 24,
   startedAt: new Date('2026-09-27T10:00:00Z'),
   endedAt: new Date('2026-09-27T10:00:01Z'),
   stopReason: 'end_turn',
@@ -97,15 +90,15 @@ describe('Langfuse telemetry', () => {
     );
     expect(attributes).toMatchObject({
       'langfuse.observation.type': 'generation',
-      'langfuse.observation.model.name': 'claude-haiku-4-5-20251001',
+      'langfuse.observation.model.name': 'deepseek-flash',
       'langfuse.session.id': TRIP,
       'langfuse.trace.metadata.crew_id': CREW,
-      'langfuse.trace.metadata.cost_micros': '524',
-      'langfuse.observation.cost_details': JSON.stringify({ total: 0.000524 }),
+      'langfuse.trace.metadata.cost_micros': '24',
+      'langfuse.observation.cost_details': JSON.stringify({ total: 0.000024 }),
       'langfuse.trace.tags': {
         values: [
           { stringValue: 'route:guide.chat' },
-          { stringValue: 'tier:haiku' },
+          { stringValue: 'tier:fast' },
           { stringValue: `trip:${TRIP}` },
           { stringValue: `crew:${CREW}` },
         ],
@@ -141,7 +134,7 @@ describe('Langfuse telemetry', () => {
       flushIntervalMs: 0,
     });
     const records: AiUsageRecord[] = [];
-    const transport = fixtureTransport(['haiku-basic']);
+    const transport = fixtureTransport(['flash-basic']);
     const gateway = createGateway({
       apiKey: 'fixture-key',
       fetch: transport.fetch,

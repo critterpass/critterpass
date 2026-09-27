@@ -1,10 +1,10 @@
 /**
  * `decide(route, {state, questions})`: the one entry point for typed decisions. It calls TypeSafe's
  * Jev at a pinned origin and model with an 800 ms budget per attempt and one retry on 429/529
- * (honouring a short `retry-after`), and falls back to the route's Haiku twin on timeout, rate
+ * (honouring a short `retry-after`), and falls back to the route's fast-tier twin on timeout, rate
  * limit or overload after the retry, transport error, an unreadable response or a missing key.
  * Every result says who answered (`answered_by`), and every call writes one usage record
- * (`tier='jev'`, input tokens only; or the twin's own Haiku record through the gateway).
+ * (`tier='jev'`, input tokens only; or the twin's own fast-tier record through the gateway).
  *
  * Privacy: `state` carries only the text under question. Telemetry records route, model, token
  * counts, latency and the typed answers (labels and numbers), never the state.
@@ -48,7 +48,7 @@ export interface Decision<Q extends QuestionMap> {
   readonly route: DecisionRoute;
   readonly answers: Answers<Q>;
   readonly answered_by: DecisionAnswerer;
-  /** The model that answered (Jev's reported version, or the twin's Claude model). */
+  /** The model that answered (Jev's reported version, or the twin's DeepSeek model). */
   readonly model: string;
   /** Why the twin answered; `undefined` when Jev did. */
   readonly fallbackReason: FallbackReason | undefined;
@@ -57,9 +57,9 @@ export interface Decision<Q extends QuestionMap> {
 }
 
 export interface DecisionClientOptions {
-  /** `TYPESAFE_API_KEY`; unset = every decision answers from its Haiku twin. */
+  /** `TYPESAFE_API_KEY`; unset = every decision answers from its fast-tier twin. */
   readonly apiKey?: string | undefined;
-  /** The Claude gateway that runs Haiku twins; without it a Jev failure is `AI_UNAVAILABLE`. */
+  /** The gateway that runs the fast-tier twins; without it a Jev failure is `AI_UNAVAILABLE`. */
   readonly gateway?: Pick<Gateway, 'callModel'>;
   readonly timeoutMs?: number;
   /** Network boundary override (recorded fixtures in tests). */
@@ -114,11 +114,9 @@ function reasonFor(status: number): FallbackReason {
 function tokenUsage(inputTokens: number, outputTokens: number): TokenUsage {
   return {
     inputTokens,
-    cacheWrite5mTokens: 0,
-    cacheWrite1hTokens: 0,
+    cacheWriteTokens: 0,
     cacheReadTokens: 0,
     outputTokens,
-    webSearchRequests: 0,
   };
 }
 
@@ -195,8 +193,8 @@ export function createDecisionClient(options: DecisionClientOptions = {}): Decis
       count(response.usage?.input_tokens),
       count(response.usage?.output_tokens),
     );
-    const costMicros = computeCostMicros('jev', usage);
     const endedAt = now();
+    const costMicros = computeCostMicros('jev', usage, endedAt);
     const traceId =
       context.langfuseTraceId ??
       options.telemetry?.recordGeneration({
@@ -257,7 +255,7 @@ export function createDecisionClient(options: DecisionClientOptions = {}): Decis
     return {
       route,
       answers: parseTwinAnswers(input.questions, result.message),
-      answered_by: 'haiku',
+      answered_by: 'fast',
       model: result.route.model,
       fallbackReason: reason,
       latencyMs: clock() - started,

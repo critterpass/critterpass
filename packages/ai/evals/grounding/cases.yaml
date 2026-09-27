@@ -1,7 +1,22 @@
 - description: Picks name only places the search returned
   vars:
     route: guide.chat
+    persona: tokek
     question: Two breakfast spots near the villa?
+    format: &picks
+      type: object
+      properties:
+        picks:
+          type: array
+          items:
+            type: object
+            properties:
+              poi_id: { type: string }
+              distance_m: { type: number }
+            required: [poi_id, distance_m]
+            additionalProperties: false
+      required: [picks]
+      additionalProperties: false
     tool_results: &places
       - tool: places_search
         output:
@@ -22,8 +37,11 @@
 - description: An invented place id is caught
   vars:
     route: guide.chat
+    persona: tokek
     question: One more breakfast spot?
+    format: *picks
     tool_results: *places
+    seeded: true
     replay:
       text: '{"picks":[{"poi_id":"0190f0a0-0000-7000-8000-00000000beef","distance_m":350}]}'
   assert:
@@ -33,7 +51,11 @@
 - description: A split quoted from the cost engine is grounded, in major units and with separators
   vars:
     route: guide.chat
+    persona: tokek
     question: How much is the boat each?
+    trip_context: &boat-trip >-
+      Trip id 0190f0a0-0000-7000-8000-0000000b0001: Bali, 10-16 Oct 2026, day 3 of 7, in-trip.
+      Crew: Rin (organiser), Maya, Dev. Sunset boat on day 4 for all three, shared cost.
     tool_results: &split
       - tool: split_preview
         output:
@@ -49,8 +71,10 @@
 - description: An arithmetic slip in a split is flagged
   vars:
     route: guide.chat
+    persona: tokek
     question: How much is the boat each?
     tool_results: *split
+    seeded: true
     replay:
       text: The boat is $1,500 in total, so $520 each.
   assert:
@@ -60,6 +84,7 @@
 - description: A time the schedule does not hold is flagged
   vars:
     route: guide.chat
+    persona: tokek
     question: When is dinner?
     tool_results:
       - tool: day_plan
@@ -67,6 +92,7 @@
           items:
             - title: Dinner at Locavore
               starts_at: '2026-10-12T21:00:00+08:00'
+    seeded: true
     replay:
       text: Dinner is at 20:30 tonight.
   assert:

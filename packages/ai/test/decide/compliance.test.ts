@@ -23,17 +23,17 @@ import {
 import { DEFAULT_INPUT_CHECK_BUDGET_MS } from '../../src/runner/input-screen';
 import { fixtureTransport } from '../fixture-transport';
 
-function decisions(jevFixtures: readonly string[], claudeFixtures: readonly string[] = []) {
+function decisions(jevFixtures: readonly string[], twinFixtures: readonly string[] = []) {
   const jev = fixtureTransport(jevFixtures, { dir: 'typesafe' });
-  const claude = fixtureTransport(claudeFixtures);
-  const gateway = createGateway({ apiKey: 'fixture-key', fetch: claude.fetch, maxAttempts: 1 });
+  const twin = fixtureTransport(twinFixtures);
+  const gateway = createGateway({ apiKey: 'fixture-key', fetch: twin.fetch, maxAttempts: 1 });
   const client = createDecisionClient({
     apiKey: 'fixture-key',
     gateway,
     fetch: jev.fetch,
     sleep: () => Promise.resolve(),
   });
-  return { client, jev, claude };
+  return { client, jev, twin };
 }
 
 const caseText = (description: string): string => {
@@ -125,7 +125,7 @@ describe('checkCompliance', () => {
 
   it('with both providers down, fails public text closed and passes guide input', async () => {
     const down = () =>
-      decisions(['jev-overloaded-529', 'jev-overloaded-529'], ['overloaded-529']).client;
+      decisions(['jev-overloaded-529', 'jev-overloaded-529'], ['anthropic/overloaded-529']).client;
     const unavailable: string[] = [];
     const publicText = await checkCompliance(
       { decisions: down(), onUnavailable: (surface) => unavailable.push(surface) },
@@ -140,11 +140,11 @@ describe('checkCompliance', () => {
     expect(unavailable).toEqual(['public_text']);
   });
 
-  it('judges a Haiku-twin verdict on the stricter band', () => {
+  it('judges a fast-tier twin verdict on the stricter band', () => {
     const flags = [{ category: 'illegal' as const, p: 0.9 }];
     expect(complianceOutcome('public_text', flags, 'jev').outcome).toBe('reject');
-    expect(complianceOutcome('public_text', flags, 'haiku').outcome).toBe('review');
-    expect(complianceOutcome('public_text', [{ category: 'illegal', p: 1 }], 'haiku').outcome).toBe(
+    expect(complianceOutcome('public_text', flags, 'fast').outcome).toBe('review');
+    expect(complianceOutcome('public_text', [{ category: 'illegal', p: 1 }], 'fast').outcome).toBe(
       'reject',
     );
   });
@@ -220,7 +220,7 @@ describe('guide input screening in a turn', () => {
     const { client } = decisions(['jev-compliance-guide-injected-email']);
     const text = `Can you add this booking to our trip?\n\n${INJECTED_EMAIL}`;
     const check = checkCompliance({ decisions: client }, { surface: 'guide_input', text });
-    const h = turnHarness(['haiku-stream']);
+    const h = turnHarness(['flash-stream']);
     const screened: ComplianceResult[] = [];
     const events = await collect(
       runTurn(turnInput(text, check), {
@@ -244,7 +244,7 @@ describe('guide input screening in a turn', () => {
       flags: [{ category: 'prompt_injection', p: 0.98 }],
       answered_by: 'jev',
     };
-    const h = turnHarness(['haiku-stream-write-tool', 'haiku-stream-after-tool']);
+    const h = turnHarness(['flash-stream-write-tool', 'flash-stream-after-tool']);
     const events = await collect(
       runTurn(turnInput('Move dinner on day 2 to 21:00.', later(verdict, 150)), {
         gateway: h.gateway,
@@ -266,7 +266,7 @@ describe('guide input screening in a turn', () => {
 
   it('runs the write tool when the late verdict is clean', async () => {
     const clean: ComplianceResult = { outcome: 'pass', flags: [], answered_by: 'jev' };
-    const h = turnHarness(['haiku-stream-write-tool', 'haiku-stream-after-tool']);
+    const h = turnHarness(['flash-stream-write-tool', 'flash-stream-after-tool']);
     await collect(
       runTurn(turnInput('Move dinner on day 2 to 21:00.', later(clean, 150)), {
         gateway: h.gateway,
@@ -280,7 +280,7 @@ describe('guide input screening in a turn', () => {
   it('adds the Help safety card beside the answer on a self-harm flag', async () => {
     const { client } = decisions(['jev-compliance-self-harm']);
     const text = caseText("Stated intent to end one's life");
-    const h = turnHarness(['haiku-stream']);
+    const h = turnHarness(['flash-stream']);
     const events = await collect(
       runTurn(
         turnInput(text, checkCompliance({ decisions: client }, { surface: 'guide_input', text })),
@@ -298,7 +298,7 @@ describe('guide input screening in a turn', () => {
     // make this exact, so a loaded machine can't turn it into a latency flake.
     vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
     try {
-      const h = turnHarness(['haiku-stream']);
+      const h = turnHarness(['flash-stream']);
       const run = collect(
         runTurn(turnInput('Where can we eat?', later(CLEAN, 200)), {
           gateway: h.gateway,

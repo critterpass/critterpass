@@ -4,9 +4,12 @@ import { describe, expect, it } from 'vitest';
 import {
   buildMessageParams,
   GatewayConfigError,
+  GUIDE_TEMPERATURE,
   JEV_MODEL,
   MODEL_IDS,
-  resolveClaudeRoute,
+  structuredInstruction,
+  VISION_TIERS,
+  resolveGenerationRoute,
   resolveRoute,
   ROUTING,
 } from '../src';
@@ -26,22 +29,65 @@ describe('routing table', () => {
     expect(Object.keys(ROUTING).sort()).toEqual([...AI_ROUTES].sort());
   });
 
-  it('uses Opus only for the itinerary skeleton', () => {
-    const opus = AI_ROUTES.filter((route) => resolveRoute(route).tier === 'opus');
-    expect(opus).toEqual(['draft.skeleton']);
+  it('runs generation on the two DeepSeek tiers, by explicit model id', () => {
+    expect(MODEL_IDS).toEqual({
+      fast: 'deepseek-flash',
+      pro: 'deepseek-v4-pro',
+      jev: 'jev-1.13.0',
+    });
+    for (const route of AI_ROUTES) {
+      expect(Object.values(MODEL_IDS), route).toContain(resolveRoute(route).model);
+      expect(resolveRoute(route).model, route).not.toMatch(/claude|haiku|sonnet|opus/u);
+    }
   });
 
-  it('keeps chat, voice, quests and parsing on Haiku', () => {
-    const haiku: AiRoute[] = ['guide.chat', 'guide.voice', 'quests.generate', 'email.parse'];
-    for (const route of haiku) expect(resolveRoute(route).tier).toBe('haiku');
+  it('keeps chat, voice, quests, parsing and photo work on the fast tier', () => {
+    const fast: AiRoute[] = [
+      'guide.chat',
+      'guide.voice',
+      'guide.crew_mention',
+      'quests.generate',
+      'email.parse',
+      'receipt.parse',
+      'menu.parse',
+      'photo.picks',
+    ];
+    for (const route of fast) expect(resolveRoute(route).tier, route).toBe('fast');
   });
 
-  it('never leaves Sonnet streaming routes on adaptive thinking', () => {
+  it('plans, redrafts and builds the skeleton on the pro tier', () => {
+    const pro: AiRoute[] = [
+      'draft.skeleton',
+      'draft.day',
+      'redraft.day',
+      'proposal.personal',
+      'disruption.plan_b',
+      'guest.guide',
+    ];
+    for (const route of pro) expect(resolveRoute(route).tier, route).toBe('pro');
+  });
+
+  it('reads images only on a vision tier', () => {
     for (const route of AI_ROUTES) {
       const config = resolveRoute(route);
-      if (config.tier === 'sonnet' && config.delivery === 'stream') {
+      if (config.vision) expect(VISION_TIERS.has(config.tier), route).toBe(true);
+    }
+    expect(AI_ROUTES.filter((route) => resolveRoute(route).vision).sort()).toEqual([
+      'menu.parse',
+      'photo.picks',
+      'receipt.parse',
+    ]);
+  });
+
+  it('never thinks on a streamed or fast route, and states effort wherever it thinks', () => {
+    for (const route of AI_ROUTES) {
+      const config = resolveRoute(route);
+      if (config.delivery === 'stream' || config.tier === 'fast') {
         expect(config.thinking, route).toBe('disabled');
+      }
+      if (config.thinking === 'enabled') {
         expect(config.effort, route).toBeDefined();
+        expect(config.temperature, route).toBeUndefined();
       }
     }
   });
@@ -52,7 +98,7 @@ describe('routing table', () => {
     }
   });
 
-  it('runs only decision routes on Jev, pinned, each with a Haiku twin and thresholds', () => {
+  it('runs only decision routes on Jev, pinned, each with a fast-tier twin and thresholds', () => {
     const onJev = AI_ROUTES.filter((route) => resolveRoute(route).provider === 'jev');
     expect(onJev.sort()).toEqual([...DECISION_ROUTES].sort());
     for (const route of DECISION_ROUTES) {
@@ -61,25 +107,25 @@ describe('routing table', () => {
       expect(config.model).toBe('jev-1.13.0');
       expect(config.fallback).toMatchObject({
         route,
-        provider: 'claude',
-        tier: 'haiku',
+        provider: 'deepseek',
+        tier: 'fast',
         caller: null,
         output: 'structured',
         delivery: 'call',
       });
       expect(config.thresholds).toBe(DECISION_THRESHOLDS[route]);
-      expect(resolveClaudeRoute(route)).toBe(config.fallback);
+      expect(resolveGenerationRoute(route)).toBe(config.fallback);
     }
   });
 
-  it('keeps every generation route on Claude with no fallback', () => {
+  it('keeps every generation route on DeepSeek with no fallback', () => {
     const decisions = new Set<AiRoute>(DECISION_ROUTES);
     for (const route of AI_ROUTES.filter((r) => !decisions.has(r))) {
       const config = resolveRoute(route);
-      expect(config.provider, route).toBe('claude');
+      expect(config.provider, route).toBe('deepseek');
       expect(config.tier, route).not.toBe('jev');
       expect(config.fallback, route).toBeUndefined();
-      expect(resolveClaudeRoute(route)).toBe(config);
+      expect(resolveGenerationRoute(route)).toBe(config);
     }
   });
 
@@ -90,44 +136,53 @@ describe('routing table', () => {
 });
 
 describe('buildMessageParams', () => {
-  it('rejects a forced tool choice on the Opus route', () => {
-    const route = resolveRoute('draft.skeleton');
-    for (const toolChoice of [{ type: 'any' as const }, { type: 'tool' as const, name: 'x' }]) {
-      expect(() => buildMessageParams(route, { messages: USER_TURN, toolChoice })).toThrow(
-        GatewayConfigError,
-      );
-    }
+  it('rejects a tool choice the provider would not honour', () => {
+    const skeleton = resolveRoute('draft.skeleton');
+    const chat = resolveRoute('guide.chat');
+    const any = { type: 'any' as const };
+    const forced = { type: 'tool' as const, name: 'x' };
+    // `any` is never enforced; a forced tool is rejected with thinking on.
+    expect(() => buildMessageParams(chat, { messages: USER_TURN, toolChoice: any })).toThrow(
+      GatewayConfigError,
+    );
+    expect(() => buildMessageParams(skeleton, { messages: USER_TURN, toolChoice: forced })).toThrow(
+      GatewayConfigError,
+    );
     expect(
-      buildMessageParams(route, { messages: USER_TURN, toolChoice: { type: 'auto' } }).tool_choice,
+      buildMessageParams(chat, { messages: USER_TURN, toolChoice: forced }).tool_choice,
+    ).toEqual(forced);
+    expect(
+      buildMessageParams(skeleton, { messages: USER_TURN, toolChoice: { type: 'auto' } })
+        .tool_choice,
     ).toEqual({ type: 'auto' });
   });
 
-  it('strips temperature on Sonnet and Opus but keeps it on Haiku', () => {
-    const input = { messages: USER_TURN, temperature: 0.7 };
-    expect(buildMessageParams(resolveRoute('pitch.place'), input)).not.toHaveProperty(
-      'temperature',
-    );
+  it('sends temperature only without thinking, with the guide default on guide routes', () => {
+    expect(
+      buildMessageParams(resolveRoute('guide.chat'), { messages: USER_TURN }).temperature,
+    ).toBe(GUIDE_TEMPERATURE);
+    const input = { messages: USER_TURN, temperature: 0 };
+    expect(buildMessageParams(resolveRoute('micro.line'), input).temperature).toBe(0);
     expect(buildMessageParams(resolveRoute('draft.skeleton'), input)).not.toHaveProperty(
       'temperature',
     );
-    expect(buildMessageParams(resolveRoute('guide.chat'), input).temperature).toBe(0.7);
   });
 
-  it('sends explicit thinking and effort per route', () => {
+  it('sends explicit thinking, with effort only when thinking', () => {
     const skeleton = buildMessageParams(resolveRoute('draft.skeleton'), { messages: USER_TURN });
     expect(skeleton).toMatchObject({
-      model: 'claude-opus-5-5',
-      thinking: { type: 'adaptive' },
-      output_config: { effort: 'medium' },
+      model: 'deepseek-v4-pro',
+      thinking: { type: 'enabled' },
+      output_config: { effort: 'high' },
     });
     const chat = buildMessageParams(resolveRoute('guide.chat'), { messages: USER_TURN });
-    expect(chat).toMatchObject({ model: MODEL_IDS.haiku, thinking: { type: 'disabled' } });
+    expect(chat).toMatchObject({ model: MODEL_IDS.fast, thinking: { type: 'disabled' } });
     expect(chat).not.toHaveProperty('output_config');
-    const pitch = buildMessageParams(resolveRoute('pitch.place'), { messages: USER_TURN });
-    expect(pitch).toMatchObject({
-      thinking: { type: 'disabled' },
-      output_config: { effort: 'low' },
+    const escalation = buildMessageParams(resolveRoute('guide.chat_escalation'), {
+      messages: USER_TURN,
     });
+    expect(escalation).toMatchObject({ model: MODEL_IDS.pro, thinking: { type: 'disabled' } });
+    expect(escalation).not.toHaveProperty('output_config');
   });
 
   it('refuses tools on a route without a tool allow-list', () => {
@@ -137,12 +192,18 @@ describe('buildMessageParams', () => {
     ).toThrow(GatewayConfigError);
   });
 
-  it('passes a structured output format through output_config', () => {
-    const format = { type: 'json_schema' as const, schema: { type: 'object' } };
+  it('turns a structured output format into a system instruction carrying the schema', () => {
+    const schema = { type: 'object', properties: { total_minor: { type: 'integer' } } };
     const params = buildMessageParams(resolveRoute('receipt.parse'), {
+      system: 'Read receipts.',
       messages: USER_TURN,
-      outputFormat: format,
+      outputFormat: { type: 'json_schema', schema },
     });
-    expect(params.output_config).toEqual({ effort: 'low', format });
+    expect(params).not.toHaveProperty('output_config');
+    expect(params.system).toEqual([
+      { type: 'text', text: 'Read receipts.' },
+      { type: 'text', text: structuredInstruction({ type: 'json_schema', schema }) },
+    ]);
+    expect(JSON.stringify(params.system)).toContain('total_minor');
   });
 });

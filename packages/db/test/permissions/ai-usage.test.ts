@@ -16,7 +16,7 @@ let db: DbTestDatabase;
 let fixture: TripFixture;
 
 const INSERT = `INSERT INTO ai_usage (user_id, trip_id, model, tier, tokens_in, tokens_out, cache_read, cost_micros)
-  VALUES ($1, $2, 'claude-haiku-4-5-20251001', 'haiku', 100, 10, 40, 114)`;
+  VALUES ($1, $2, 'deepseek-flash', 'fast', 100, 10, 40, 30)`;
 
 beforeAll(async () => {
   container = await startDbTestContainer();
@@ -78,7 +78,7 @@ describe('ai_usage: RLS class S, app_system only', () => {
       withSystem(db.pool, (tx) =>
         tx.query(
           `INSERT INTO ai_usage (model, tier, tokens_in, tokens_out, cache_read, cost_micros)
-           VALUES ('claude-sonnet-5', 'sonnet', 10, 1, 11, 1)`,
+           VALUES ('deepseek-v4-pro', 'pro', 10, 1, 11, 1)`,
         ),
       ),
     ).rejects.toThrow(/ai_usage_counts_check/);

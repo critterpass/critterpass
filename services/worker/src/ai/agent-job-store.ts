@@ -1,5 +1,5 @@
 /**
- * `agent_jobs` reads and writes shared by the agent job runner and the batch poll job. Every write
+ * `agent_jobs` reads and writes shared by the agent job runner and its batch steps. Every write
  * is conditional on the job still being live (`queued`/`running`), so a job cancelled by a newer
  * start (packages/ai/src/job-steps.ts#startAgentJob) stops at its next write instead of
  * overwriting the cancellation.

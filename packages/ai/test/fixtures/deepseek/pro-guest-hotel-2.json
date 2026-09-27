@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-v4-pro) through its Anthropic-format API, 2026-09-27.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "023cb44c-aacc-4684-ad1d-31eac55022fe",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "text",
+          "text": "From what Tokek knows so far, the app doesn't hold rooms, so I can't book one for you — but I can point you to the right streets. The area just outside the Ancient Town, around Bà Triệu Street and Phan Bội Châu, has plenty of budget stays, with one listing near there seen from about 1,500,000 VND (~$60) a night. Not my island, but I've done my homework."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1995,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9344,
+        "output_tokens": 96,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

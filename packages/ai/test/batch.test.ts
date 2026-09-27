@@ -1,100 +1,126 @@
 import { describe, expect, it } from 'vitest';
 
-import { createBatchClient, GatewayConfigError } from '../src';
+import {
+  createGateway,
+  GatewayConfigError,
+  runBatch,
+  textOf,
+  type AiUsageRecord,
+  type BatchItemResult,
+} from '../src';
 import { fixtureTransport } from './fixture-transport';
 
-const AT = new Date('2026-09-27T11:00:00Z');
+const AT = new Date('2026-09-28T05:00:00Z');
 const JOB = '0190f0a0-0000-7000-8000-00000000000a';
 const turn = (text: string) => ({ messages: [{ role: 'user' as const, content: text }] });
 
-function clientFor(fixtures: readonly string[]) {
+function gatewayFor(fixtures: readonly string[]) {
   const transport = fixtureTransport(fixtures);
-  const client = createBatchClient({
+  const records: AiUsageRecord[] = [];
+  const gateway = createGateway({
     apiKey: 'fixture-key',
     fetch: transport.fetch,
+    maxAttempts: 2,
+    sleep: () => Promise.resolve(),
     now: () => AT,
+    onUsage: (record) => (records.push(record), Promise.resolve()),
   });
-  return { client, transport };
+  return { gateway, transport, records };
 }
 
-describe('Message Batches wrapper', () => {
-  it('submits one routed request per custom_id', async () => {
-    const { client, transport } = clientFor(['batch-create']);
-    const status = await client.submit('quests.generate', [
-      { customId: 'quest-1', input: turn('gecko mural') },
-      { customId: 'quest-2', input: turn('kopi') },
+describe('batch work as direct calls', () => {
+  it('runs every request through the gateway, each billed to the job on its own row', async () => {
+    const { gateway, transport, records } = gatewayFor(['flash-quest-mural', 'flash-quest-kopi']);
+    const delivered: string[] = [];
+    const results = await runBatch(
+      gateway,
+      'quests.generate',
+      [
+        { customId: 'quest-1', input: turn('gecko mural') },
+        { customId: 'quest-2', input: turn('kopi') },
+      ],
+      {
+        concurrency: 1,
+        context: { jobId: JOB },
+        onResult: (result) => (delivered.push(result.customId), Promise.resolve()),
+      },
+    );
+    expect(transport.urls).toEqual([
+      'https://api.deepseek.com/anthropic/v1/messages',
+      'https://api.deepseek.com/anthropic/v1/messages',
     ]);
-    expect(status).toMatchObject({
-      id: 'msgbatch_01FixtureQuestsBatch0001',
-      status: 'in_progress',
-    });
-    expect(transport.methods).toEqual(['POST']);
-    expect(transport.urls[0]).toMatch(/\/v1\/messages\/batches$/);
-    const body = transport.requests[0] as { requests: { custom_id: string; params: object }[] };
-    expect(body.requests.map((request) => request.custom_id)).toEqual(['quest-1', 'quest-2']);
-    expect(body.requests[0]?.params).toMatchObject({
-      model: 'claude-haiku-4-5-20251001',
-      messages: [{ role: 'user', content: 'gecko mural' }],
-    });
+    expect(transport.requests.map((r) => r.model)).toEqual(['deepseek-flash', 'deepseek-flash']);
+    expect(delivered).toEqual(['quest-1', 'quest-2']);
+    expect(results.map((r) => [r.customId, r.type])).toEqual([
+      ['quest-1', 'succeeded'],
+      ['quest-2', 'succeeded'],
+    ]);
+    const first = results[0] as Extract<BatchItemResult, { type: 'succeeded' }>;
+    expect(textOf(first.message)).toMatch(/^\{"quests"/u);
+    // No batch discount: 112 in and 94 out at the off-peak fast rate.
+    expect(first.costMicros).toBe(73);
+    expect(records.map((r) => [r.jobId, r.tier, r.costMicros])).toEqual([
+      [JOB, 'fast', 73],
+      [JOB, 'fast', 87],
+    ]);
   });
 
-  it('rejects empty batches, malformed and duplicate custom ids before any request', async () => {
-    const { client, transport } = clientFor([]);
-    await expect(client.submit('quests.generate', [])).rejects.toBeInstanceOf(GatewayConfigError);
+  it('reports a request the provider rejects as errored and carries on', async () => {
+    const { gateway } = gatewayFor(['invalid-request-422', 'flash-quest-kopi']);
+    const results = await runBatch(
+      gateway,
+      'quests.generate',
+      [
+        { customId: 'bad', input: turn('x') },
+        { customId: 'good', input: turn('kopi') },
+      ],
+      { concurrency: 1 },
+    );
+    expect(results).toEqual([
+      {
+        customId: 'bad',
+        type: 'errored',
+        code: 'AI_UNAVAILABLE',
+        errorMessage: 'model provider request failed',
+      },
+      expect.objectContaining({ customId: 'good', type: 'succeeded' }),
+    ]);
+  });
+
+  it('stops on a transient failure after delivering what finished, so a retry resumes', async () => {
+    const { gateway, transport } = gatewayFor([
+      'flash-quest-mural',
+      'anthropic/overloaded-529',
+      'anthropic/overloaded-529',
+    ]);
+    const delivered: string[] = [];
+    const run = runBatch(
+      gateway,
+      'quests.generate',
+      [
+        { customId: 'quest-1', input: turn('gecko mural') },
+        { customId: 'quest-2', input: turn('kopi') },
+        { customId: 'quest-3', input: turn('night market') },
+      ],
+      { concurrency: 1, onResult: (r) => (delivered.push(r.customId), Promise.resolve()) },
+    );
+    await expect(run).rejects.toMatchObject({ code: 'AI_UNAVAILABLE', retryable: true });
+    expect(delivered).toEqual(['quest-1']);
+    // quest-3 never started.
+    expect(transport.requests).toHaveLength(3);
+  });
+
+  it('rejects malformed and duplicate custom ids before any request', async () => {
+    const { gateway, transport } = gatewayFor([]);
     await expect(
-      client.submit('quests.generate', [{ customId: 'quest 1', input: turn('x') }]),
-    ).rejects.toThrow(/custom_id/);
+      runBatch(gateway, 'quests.generate', [{ customId: 'quest 1', input: turn('x') }]),
+    ).rejects.toBeInstanceOf(GatewayConfigError);
     await expect(
-      client.submit('quests.generate', [
+      runBatch(gateway, 'quests.generate', [
         { customId: 'q', input: turn('x') },
         { customId: 'q', input: turn('y') },
       ]),
-    ).rejects.toThrow(/duplicate/);
+    ).rejects.toThrow(/duplicate/u);
     expect(transport.requests).toHaveLength(0);
-  });
-
-  it('reads processing status and request counts', async () => {
-    const { client } = clientFor(['batch-in-progress', 'batch-ended']);
-    expect(await client.retrieve('msgbatch_01FixtureQuestsBatch0001')).toMatchObject({
-      status: 'in_progress',
-      endedAt: null,
-    });
-    expect(await client.retrieve('msgbatch_01FixtureQuestsBatch0001')).toMatchObject({
-      status: 'ended',
-      counts: { succeeded: 2, errored: 1, processing: 0 },
-    });
-  });
-
-  it('maps results back by custom_id at batch prices, whatever order they arrive in', async () => {
-    const { client, transport } = clientFor(['batch-ended', 'batch-results']);
-    const results = await client.results('msgbatch_01FixtureQuestsBatch0001', 'quests.generate', {
-      jobId: JOB,
-    });
-    expect(transport.urls[1]).toMatch(/\/results$/);
-    const byId = new Map(results.map((result) => [result.customId, result]));
-    expect(byId.get('quest-3')).toEqual({
-      customId: 'quest-3',
-      type: 'errored',
-      errorType: 'invalid_request_error',
-      errorMessage: 'max_tokens: must be at most 64000',
-    });
-    // Haiku at half price: 1000 in + 4000 cache reads + 200 out = 1200 µ$; 1200/4000/300 = 1550 µ$.
-    expect(byId.get('quest-1')).toMatchObject({
-      type: 'succeeded',
-      refused: false,
-      costMicros: 1200,
-    });
-    expect(byId.get('quest-2')).toMatchObject({ type: 'succeeded', costMicros: 1550 });
-    const first = byId.get('quest-1');
-    if (first?.type !== 'succeeded') throw new Error('quest-1 did not succeed');
-    expect(first.record).toMatchObject({
-      jobId: JOB,
-      tier: 'haiku',
-      tokensIn: 5000,
-      tokensOut: 200,
-      cacheRead: 4000,
-      costMicros: 1200,
-      at: AT,
-    });
   });
 });

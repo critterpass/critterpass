@@ -6,7 +6,7 @@
  *
  * Every answer carries a `confidence` in 0..1. Jev reports it for choice and score; for a yes/no
  * answer it is derived the same way as for a two-option choice, `|2p − 1|`. Probabilities are
- * `null` when the Haiku twin answered (its values come from labels, ./fallback.ts).
+ * `null` when the fast-tier twin answered (its values come from labels, ./fallback.ts).
  */
 import { z } from 'zod';
 

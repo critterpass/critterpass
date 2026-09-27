@@ -80,9 +80,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `push.widget` | vote/balance/plan/forecast/crew change | APNs `widgets` content-changed; FCM data → Glance; budget ~40–70/day/device | 2 | `(device_id, kind, 5-min bucket)` | 49 |
 | `inbox.fanout` | domain events | inbox items + badge recompute | 3 | `(event_id, uid)` | 25 |
 | `ai.pitch` | pitch cache miss (background prewarm) | AI-01 | 2 | `(crew, place, month)` | 26 |
-| `ai.draft` | `start_draft` | load → prefetch → Opus skeleton → Sonnet day fan-out → validate → repair ≤2 → persist version → events | 2 / DLQ | `trip_id + draft_seq` | 28 |
-| `ai.batch.poll` (doc delta) | a batch step of an agent job suspends | Message Batches status until ended (re-enqueues itself), then in one tx: `ai_usage` per result at batch prices, results by `custom_id` to the step, step done, cost roll-up, job resumed | 5 / DLQ | `(agent_job_id, step)` | 13 |
-| `compliance.check` | public, imported or outbound text created offline reaches the server (upload handler or command) | the content kind's registered handler loads the text, `checkCompliance` screens it (code patterns, one Jev call, Haiku twin fallback), the handler applies the verdict idempotently (publish, moderation review, `CONTENT_REJECTED`); payload holds ids only | 3 / DLQ | `(content_kind, content_id)` | 13 |
+| `ai.draft` | `start_draft` | load → prefetch → pro-tier skeleton → pro-tier day fan-out → validate → repair ≤2 → persist version → events | 2 / DLQ | `trip_id + draft_seq` | 28 |
+| `compliance.check` | public, imported or outbound text created offline reaches the server (upload handler or command) | the content kind's registered handler loads the text, `checkCompliance` screens it (code patterns, one Jev call, fast-tier twin fallback), the handler applies the verdict idempotently (publish, moderation review, `CONTENT_REJECTED`); payload holds ids only | 3 / DLQ | `(content_kind, content_id)` | 13 |
 | `ai.redraft` | `request_redraft`, `import_shared_plan` | day-scoped pipeline + diff; release quota on failure | 2 | `redraft_id` | 28, 52 |
 | `ai.fit_check` | `set_must_dos` | planner fit per must-do | 3 | `(trip_id, must_do_hash)` | 27 |
 | `ai.proposal_versions` | `create_proposal` | one child per recipient (AI-15), costs injected | 3 each | `(proposal_id, uid)` | 31 |
@@ -92,7 +91,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `ai.guide_mention` | crew chat mention | AI-20 stream to `crew_chat` | 1 | message id | 32 |
 | `ai.queued_answer` | 00:00 local reset | AI-40 answer, passive push N-36 | 3 | question id | 32 |
 | `ai.receipt` | `POST /v1/receipts` | AI-25 lines + payer inference | 2 | receipt id | 33 |
-| `mail.parse` | inbound email | sanitize → JSON-LD/Microdata → Haiku extract (no tools) → validate → dedupe → candidate → N-13 | 3 / DLQ | message-id header hash | 34 |
+| `mail.parse` | inbound email | sanitize → JSON-LD/Microdata → fast-tier extract (no tools) → validate → dedupe → candidate → N-13 | 3 / DLQ | message-id header hash | 34 |
 | `import.parse` | `import_paste`, `import_scan` | same parser path | 3 | op_id | 34 |
 | `flight.event` | AeroAPI webhook | status diff → N-14/N-41, LA, `ai.disruption`, landed → `hatch_egg` | 5 | `(flight_id, alert_id)` | 34 |
 | `ai.disruption` | flight event, watch escalation | AI-28 actions `{kind, reversible, needs_approval, cost_delta}`; progress on `disruption:` | 2 / DLQ | disruption id | 37 |

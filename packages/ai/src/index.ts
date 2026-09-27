@@ -9,7 +9,7 @@ export {
 } from './client';
 export {
   aiEnvSchema,
-  ANTHROPIC_API_URL,
+  DEEPSEEK_ANTHROPIC_URL,
   loadDecisionEnv,
   loadGatewayEnv,
   type AiEnv,
@@ -24,17 +24,26 @@ export {
 } from './errors';
 export {
   computeCostMicros,
+  isPeakTime,
+  PEAK_WINDOWS_UTC,
   PRICES,
-  WEB_SEARCH_MICROS,
-  type CostOptions,
   type ModelPrice,
+  type TierPrice,
   type TokenUsage,
 } from './pricing';
 export {
+  DECLINE_MARKER,
+  isDeclined,
+  parseStructuredText,
+  structuredInstruction,
+  textOf,
+} from './structured';
+export {
   CACHE_LAYERS,
+  GUIDE_TEMPERATURE,
   JEV_MODEL,
   MODEL_IDS,
-  resolveClaudeRoute,
+  resolveGenerationRoute,
   resolveRoute,
   ROUTING,
   type CacheLayer,
@@ -42,6 +51,7 @@ export {
   type Effort,
   type RouteConfig,
   type Thinking,
+  VISION_TIERS,
 } from './routing';
 export {
   buildUsageRecord,
@@ -57,10 +67,7 @@ export { applyTurnDirectives, turnInstruction, type TurnDirectives } from './per
 export {
   buildSystemBlocks,
   globalRulesText,
-  MIN_CACHEABLE_PREFIX_TOKENS,
   renderPersonaBlock,
-  sharedPrefixIsCacheable,
-  tokenLowerBound,
   type PromptLayers,
 } from './persona/layering';
 export {
@@ -105,28 +112,24 @@ export {
   type PrivacyTableColumns,
 } from './context/redact';
 export {
+  isUntrustedBlock,
   MAX_UNTRUSTED_CHARS,
   UNTRUSTED_CONTEXT,
   UNTRUSTED_KINDS,
+  UNTRUSTED_TAG,
   userTurnWithData,
   wrapAllUntrusted,
   wrapUntrusted,
   type UntrustedBlock,
   type UntrustedInput,
   type UntrustedKind,
-  type WrapOptions,
 } from './context/wrap-untrusted';
-export {
-  allowedTools,
-  isServerToolAllowed,
-  isToolAllowed,
-  SERVER_TOOL_CALLERS,
-  TOOL_ALLOW_LISTS,
-  type ServerToolName,
-} from './tools/allow-lists';
+export { allowedTools, isToolAllowed, TOOL_ALLOW_LISTS } from './tools/allow-lists';
+export { renderToolJson } from './tools/render';
 export {
   createToolRegistry,
-  customToolDefinitions,
+  isRouteTool,
+  routeTools,
   toolDefinition,
   toolFailure,
   toStrictJsonSchema,
@@ -147,28 +150,48 @@ export {
   type ToolOutput,
   type ToolSpec,
 } from './tools/schemas';
-export { isBlockedUrl, SUPPLIER_BLOCKED_DOMAINS } from './tools/blocked-domains';
+export { isBlockedUrl, SUPPLIER_BLOCKED_DOMAINS, SUPPLIER_BRANDS } from './tools/blocked-domains';
 export {
+  CITE_ONLY_TOOLS,
+  collectCitedGrounding,
   collectGrounding,
+  collectToolGrounding,
   mergeGrounding,
   unverifiedTextNumbers,
   validateStructured,
   type GroundingSet,
   type GroundingViolation,
   type GroundingViolationKind,
+  type ToolOutputEntry,
 } from './tools/grounding';
 export {
-  citedSources,
-  dropBlockedCitations,
-  routeTools,
-  screenWebSearch,
-  visibleAnswer,
-  WEB_SEARCH_MAX_USES,
-  WEB_SEARCH_TOOL_TYPE,
-  webSearchTool,
-  type WebSearchOptions,
-  type WebSearchScreen,
+  createWebSearchExecutor,
+  screenSearchQuery,
+  searchFirst,
+  WEB_SEARCH_MAX_RESULTS,
+  WEB_SEARCH_SNIPPET_CHARS,
+  WEB_SEARCH_SPEC,
+  WEB_SEARCH_TOOL,
+  webSources,
+  withSources,
+  type WebResult,
+  type WebSearchExecutorOptions,
+  type WebSearchOutput,
 } from './tools/web-search';
+export {
+  SearchProviderError,
+  type SearchHit,
+  type SearchProvider,
+  type SearchQuery,
+} from './tools/search-provider';
+export {
+  createTavilySearch,
+  searchProviderFromEnv,
+  TAVILY_MAX_EXCLUDED_DOMAINS,
+  TAVILY_MAX_RESULTS,
+  TAVILY_SEARCH_URL,
+  type TavilyOptions,
+} from './search';
 export {
   BRIEF_ANSWER_DIRECTIVE,
   degradedRoute,
@@ -198,13 +221,12 @@ export {
   type TurnHooks,
 } from './runner/turn';
 export {
-  createBatchClient,
-  type BatchClient,
-  type BatchClientOptions,
+  checkBatchRequests,
+  DEFAULT_BATCH_CONCURRENCY,
+  runBatch,
   type BatchItemResult,
-  type BatchProcessingStatus,
   type BatchRequest,
-  type BatchStatus,
+  type RunBatchOptions,
 } from './batch';
 export {
   AGENT_STEP_STATUSES,

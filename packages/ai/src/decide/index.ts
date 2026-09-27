@@ -18,9 +18,9 @@ export {
   type CheckComplianceInput,
 } from './compliance';
 export {
-  HAIKU_NOUL_LABELS,
-  HAIKU_SURE_CONFIDENCE,
-  HAIKU_UNSURE_CONFIDENCE,
+  TWIN_NOUL_LABELS,
+  TWIN_SURE_CONFIDENCE,
+  TWIN_UNSURE_CONFIDENCE,
   parseTwinAnswers,
   twinRequest,
 } from './fallback';

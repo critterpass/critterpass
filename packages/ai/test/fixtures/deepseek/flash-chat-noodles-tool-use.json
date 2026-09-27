@@ -1,0 +1,41 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-27.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "722e7e9c-aaa2-40b2-90d1-1e4cbf281e35",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Let me check what's near the villa right now."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_BnPiI3sbgBZbgLc0cZtR2457",
+          "name": "places_search",
+          "input": {
+            "query": "noodles",
+            "near": {
+              "lat": -8.5069,
+              "lng": 115.2625
+            },
+            "category": "food",
+            "open_at": "2026-10-12T18:40:00+08:00"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 3617,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 5504,
+        "output_tokens": 129,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

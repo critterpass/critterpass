@@ -1,0 +1,61 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-27.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Hoi An old town events this week",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.tripsapien.com/things-to-do/hoi-an-vn/may-2027",
+          "title": "Hoi An Events & Things to Do in May 2027",
+          "content": "TripSapien\n\nLog in\n\nPlan\n\nLantern-hung shophouses in the Ancient Town, Hoi An\n\n# Hoi Anevents & things to do in May2027\n\nStart with Tra Que Vegetable Village, Quan Cong Temple, plus Museum of Trade Ceramics. May in Hoi An averages 32°C / 90°F highs, 26°C / 79°F nights, and about 12 rainy days.\n\nExpect 32°C/90°F days and about 12 rainy ones in May. Start with these: [...] ### Hội An Central Market\n\n  5★ · 295outdoorOpen daily\n\n  The riverside market is the food and produce anchor for cao lau, herbs, fish, rice noodles, and morning vendor activity.\n Phuc Kien Meeting Hall in Hoi An3\n\n  ### Phuc Kien Meeting Hall\n\n  4.4★ · 2,059outdoorOpen daily\n\n  The Fujian assembly hall has temple courtyards, incense coils, dragon details, and merchant-diaspora history inside the Ancient Town ticket zone.\n\nShow 3 more sights→ [...] 4Japanese Covered Bridge\n 5Thanh Hà Pottery Village\n 6An Bang Beach\n\n### Neighborhoods\n\n Ancient Town in hoi an vn1\n\n  ### Ancient Town\n\n  The protected core has yellow shophouses, assembly halls, the Japanese Covered Bridge, Central Market, lantern shops, and car-free evening streets.\n An Hoi island in hoi an vn2\n\n  ### An Hội island\n\n  An Hội is the nightlife and night-market side, with lantern stalls, riverside bars, homestays, and boat docks facing the old town.\n Cẩm Phô in hoi an vn3",
+          "score": 0.60498303,
+          "raw_content": null,
+          "published_date": "Wed, 23 Sep 2026 19:00:00 GMT",
+          "id": "4d522b-00"
+        },
+        {
+          "url": "https://www.facebook.com/smiletravel.net/posts/-hoi-an-is-about-to-light-up-with-the-2026-international-lantern-festival-36-dec/1786602993470221",
+          "title": "Hoi An International Lantern Festival 2026 in Vietnam",
+          "content": "HOI AN IS ABOUT TO LIGHT UP WITH THE 2026 INTERNATIONAL LANTERN FESTIVAL! ✨ 3–6 December 2026 Hoi An Ancient Town, Vietnam Imagine walking",
+          "score": 0.59457535,
+          "raw_content": null,
+          "published_date": null,
+          "id": "2e84d7-01"
+        },
+        {
+          "url": "https://www.facebook.com/visitdanangvietnam/posts/mid-autumn-in-hoi-an-every-full-moon-of-the-8th-lunar-month-the-ancient-town-tra/122153370536417000",
+          "title": "Mid-Autumn in Hoi An 🏮 Every full moon of the 8th lunar ...",
+          "content": "The Hoi An Lantern Festival, also known as the Full Moon Lantern Festival, is a traditional event held in the ancient town of Hoi An, Vietnam. This festival",
+          "score": 0.5046147,
+          "raw_content": null,
+          "published_date": null,
+          "id": "7ee309-02"
+        },
+        {
+          "url": "https://www.instagram.com/reel/DdrDzPRhjof",
+          "title": "✨ Looking for a truly local Vietnam experience? Put Phan ...",
+          "content": "Hoi An transforms into a magical world of colorful lanterns, shimmering reflections on the Thu Bon River, traditional music, and timeless old streets.",
+          "score": 0.29871684,
+          "raw_content": null,
+          "published_date": null,
+          "id": "79b858-03"
+        },
+        {
+          "url": "https://www.facebook.com/NYNATravel.AmazingVietNam/videos/-pov-you-came-to-vietnam-just-in-time-for-the-mid-autumn-festival-suddenly-the-s/2385718888855642",
+          "title": "🌕 POV: You came to Vietnam just in time for the Mid",
+          "content": "Hoi An Lantern Festival, the Ha Giang Buckwheat Flower Festival, the Mu Cang Chai Rice Harvest Festival, the Mid-Autumn Festival, and the Ok Om Bok Festival.",
+          "score": 0.28882527,
+          "raw_content": null,
+          "published_date": null,
+          "id": "0b7a57-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "09d8eb78-8ae1-42a9-a337-8032471b3236"
+    }
+  }
+}

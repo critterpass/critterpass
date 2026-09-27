@@ -1,0 +1,61 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-27.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "cheap hotels near Hoi An old town tonight availability",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.facebook.com/marriottbonvoy/posts/discover-more-of-vietnam-with-marriott-bonvoy-book-directly-get-exclusive-rates/1610387771132462",
+          "title": "Discover more of Vietnam with Marriott Bonvoy. Book ...",
+          "content": "... hotel is a peaceful haven just outside the bustling Ancient Town. 5. Legacy Hoi An Resort – #13 Hoi An City - From 1,500,000 VND/night (~$60) Perfect for",
+          "score": 0.62303346,
+          "raw_content": null,
+          "published_date": null,
+          "id": "8455b8-00"
+        },
+        {
+          "url": "https://onlinebooking.vn/en/destinations/vietnam/the-central/hoi-an",
+          "title": "Hoi An – Online Booking Travel | Vietnam – Laos – Cambodia",
+          "content": "View detail\n\nHoi An Central Boutique Hotel Vietnam 3Featured\n\nFamily Package · Private Tour · Resort Package · 6 Days · 5 Nights\n\n### Hoi An Family Culture & Beach Holiday – 6 Days 5 Nights\n\nVietnam · The Central · Hoi An\n\nCombine the heritage charm of Hoi An with a relaxing beach holiday on this private six-day family escape. Stay two nights near Hoi An Ancient Town, enjoy a guided cultural walk and lantern-making experience,…\n\nUS$595/pax\n\nView detail [...] View detail\n\nFurama 5 Star Da Nang Resort Vietnam13Beach & Heritage\n\nBeach Holiday · Cultural Discovery · Resort Package · 5 Days · 4 Nights\n\n### Furama Danang Classic Beach & Hoi An Discovery – 5 Days 4 Nights\n\nVietnam · The Central · Da Nang · Hoi An\n\nEnjoy four nights at Furama Resort Danang with beachfront leisure, private airport transfers and a relaxed afternoon and evening discovering the lantern-lit heritage streets of Hoi An Ancient Town.\n\nUS$525/guest\n\nView detail [...] A private 3-day cultural journey combining the imperial heritage of Hue, a scenic drive over the Hai Van Pass and the historic streets of Hoi An Ancient Town.\n\nUS$365/pax\n\nView detail\n\nNo tours found for this duration.\n\nStay\n\n## Hotels in Hoi An\n\nSelected hotels, resorts and villas for a comfortable stay.\n\nVictoria Hoi An Beach Resort Spa Vietnam 15Beachfront Resort\n\n4 Star · Hotel\n\n### Victoria Hoi An Beach Resort & Spa\n\nVietnam · The Central · Hoi An",
+          "score": 0.560566,
+          "raw_content": null,
+          "published_date": "Tue, 22 Sep 2026 20:00:00 GMT",
+          "id": "1e24af-01"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=dW2dw8eg-Zo",
+          "title": "Ancient Town Hotel - Feels Premium Inside | Hoi An, Vietnam",
+          "content": "Ancient Town Hotel ⭐ Hotel category Booking details: https://www.agoda.com/... LOCATION No. 131, Tran Hung Dao, Minh An Ward, Cẩm Phô, Hoi",
+          "score": 0.33118513,
+          "raw_content": null,
+          "published_date": null,
+          "id": "4c8f5b-02"
+        },
+        {
+          "url": "https://www.facebook.com/karmaexperienceind/posts/%F0%9D%90%87%F0%9D%90%A8%F0%9D%90%A2-%F0%9D%90%80%F0%9D%90%A7-%F0%9D%90%95%F0%9D%90%A2%F0%9D%90%9E%F0%9D%90%AD%F0%9D%90%A7%F0%9D%90%9A%F0%9D%90%A6-%F0%9D%90%82%F0%9D%90%A8%F0%9D%90%AE%F0%9D%90%A9%F0%9D%90%A5%F0%9D%90%9E-%F0%9D%90%84%F0%9D%90%AC%F0%9D%90%9C%F0%9D%90%9A%F0%9D%90%A9%F0%9D%90%9E-%F0%9D%90%84%F0%9D%90%A7%F0%9D%90%A3%F0%9D%90%A8%F0%9D%90%B2-%F0%9D%90%9A-%F0%9D%9F%92-%F0%9D%90%A7%F0%9D%90%A2%F0%9D%90%A0%F0%9D%90%A1%F0%9D%90%AD-%F0%9D%90%AC%F0%9D%90%AD%F0%9D%90%9A%F0%9D%90%B2-%F0%9D%90%9F%F0%9D%90%A8%F0%9D%90%AB-%F0%9D%90%A3%F0%9D%90%AE%F0%9D%90%AC%F0%9D%90%AD-%F0%9D%9F%97%F0%9D%9F%97%F0%9D%9F%97%F0%9D%9F%93%F0%9D%90%9F%F0%9D%90%A8%F0%9D%90%AB-%F0%9D%90%9A-%F0%9D%90%9C%F0%9D%90%A8%F0%9D%90%AE%F0%9D%90%A9%F0%9D%90%A5%F0%9D%90%9E-%F0%9D%90%96%F0%9D%90%A8%F0%9D%90%AB%F0%9D%90%AD/1111676398093405",
+          "title": "𝐇𝐨𝐢 𝐀𝐧, 𝐕𝐢𝐞𝐭𝐧𝐚𝐦 𝐂𝐨𝐮𝐩𝐥𝐞 𝐄𝐬𝐜𝐚𝐩𝐞 𝐄𝐧𝐣𝐨𝐲 𝐚 𝟒- ...",
+          "content": "Hoi An is calling your name! For just $899 per ROOM, you can indulge in 5 NIGHTS of RELAXATION and ADVENTURE. Relax at this serene retreat with a sprawling",
+          "score": 0.289563,
+          "raw_content": null,
+          "published_date": null,
+          "id": "f1b677-03"
+        },
+        {
+          "url": "https://www.instagram.com/reel/DdloI7fDCp_",
+          "title": "WHAT ANIMAL DO YOU SEE? 🧐 During Hoianese Cultural ...",
+          "content": "First Hoianese Center Hotel: 109 Bà Triệu St, Hội An • Hoianese Quiet Old Town Hotel: 30 Bà Triệu St, Hội An • Hoianese Tranquil Heritage Hotel: 30 Phan Bội",
+          "score": 0.23717858,
+          "raw_content": null,
+          "published_date": null,
+          "id": "a08ab2-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "7a81a532-abdf-48cd-8b5c-94bc84a66bd2"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-27: the same prefix again, served from the context cache",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "125f34ab-6a41-4072-925d-a8248dbb4a36",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Rise and shine. What are we cooking up for Bali today?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 242,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 5504,
+        "output_tokens": 14,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-27: a plain answer on guide.chat, no system prompt",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "ab7d73b7-aef4-474d-a2ca-202ad24ce4ed",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Hello there"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 2,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

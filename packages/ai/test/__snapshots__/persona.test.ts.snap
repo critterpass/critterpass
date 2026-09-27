@@ -3,32 +3,32 @@
 exports[`prompt layering > keeps every layer stable across releases (snapshot of layer hashes) 1`] = `
 {
   "ajo": [
-    "3db4413b576358ae",
-    "42b9744f3f9be221",
+    "22712d9e22fda77a",
+    "609cad4a89d53b34",
   ],
   "guest": [
-    "3db4413b576358ae",
-    "391a75757d15539f",
+    "22712d9e22fda77a",
+    "f508bea52fbc7eb4",
   ],
   "lundi": [
-    "3db4413b576358ae",
-    "3068cf0ad4b67916",
+    "22712d9e22fda77a",
+    "4885ae5560610206",
   ],
   "paco": [
-    "3db4413b576358ae",
-    "516bf9aca6671937",
+    "22712d9e22fda77a",
+    "7703ec20755253f9",
   ],
   "pon": [
-    "3db4413b576358ae",
-    "20ef07dd9db4a36c",
+    "22712d9e22fda77a",
+    "9579a99aabbacb33",
   ],
   "sardi": [
-    "3db4413b576358ae",
-    "1090979eb9c11e00",
+    "22712d9e22fda77a",
+    "9177c682cf60a0c5",
   ],
   "tokek": [
-    "3db4413b576358ae",
-    "bfc6215e823f3fc5",
+    "22712d9e22fda77a",
+    "c76f7550c6e8f4a6",
   ],
 }
 `;

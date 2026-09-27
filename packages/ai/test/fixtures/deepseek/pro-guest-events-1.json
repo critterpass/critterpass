@@ -1,0 +1,32 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-v4-pro) through its Anthropic-format API, 2026-09-27.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "4e17024e-8b82-4f80-861a-f713f4e8b98d",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "call_00_OBfJD4U8XwdnDP25MNbP5847",
+          "name": "web_search",
+          "input": {
+            "query": "Hoi An old town events this week",
+            "recent": "week"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 34,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 6272,
+        "output_tokens": 60,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
