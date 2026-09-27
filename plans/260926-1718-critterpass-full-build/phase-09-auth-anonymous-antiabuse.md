@@ -146,6 +146,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. Ticket minted only by the failed link/verify handler that just proved the credential (stores `verification_id`, `existing_uid`, `anon_uid`, `anon_session_id`; signed, single-use, 10 min); preview route requires the ticket + the same anonymous session. 2. Execute in one `withSystem` tx applying registry rules; unique-conflict resolution (existing wins); delete anonymous auth user; revoke sessions + action keys; outbox disconnect; `auth.merged` event; mint a session for `existing_uid` in the same response. 3. Coverage test over `information_schema.columns` for user FK columns.
 - Tests: `pnpm --filter @cp/api test -- auth/merge`; `pnpm --filter @cp/db test -- merge-rules`
 - Done when: anon crews + existing crews both present after merge; existing profile fields kept; replaying ticket fails; partial failure rolls back fully; a ticket cannot be obtained without a just-verified credential (test: forged/other-session ticket and preview request without proof → 403, no preview data leaked); merge response carries a working session for the existing uid (test: authenticated call succeeds as `existing_uid`).
+- Status: done — 836facf
 
 ### T8 — Returning-user sign-in and Expo auth client
 - Goal: undesigned returning flow server side + mobile client layer.
