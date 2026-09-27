@@ -14,6 +14,9 @@
     "test:db": "vitest run --config vitest.db.config.ts"
   },
   "dependencies": {
+    "@cp/db": "workspace:*",
+    "@cp/domain": "workspace:*",
+    "@duckdb/node-api": "catalog:",
     "@hono/node-server": "catalog:",
     "hono": "catalog:",
     "pg": "catalog:",
@@ -22,7 +25,6 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@cp/db": "workspace:*",
     "@types/pg": "catalog:",
     "tsdown": "catalog:"
   }
