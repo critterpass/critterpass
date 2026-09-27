@@ -8,6 +8,12 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { AppSessionRoot } from '@/data/app-session/AppSessionRoot';
+import {
+  deviceAppState,
+  reportAppSessionError,
+  startDeviceAppSession,
+} from '@/data/app-session/device-session';
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
 import { useNavigationPersistence } from '@/lib/navigation/restore';
@@ -75,7 +81,7 @@ export default function RootLayout() {
   if (!fontsReady || !i18nReady) return null;
 
   // Provider order: gestures (one root for every GestureDetector) → locale → theme (contrast, font
-  // scale) → screen jolt → navigation, with the overlay, shared-grow and toast hosts above screens.
+  // scale) → session (local-first database, realtime) → screen jolt → navigation, with the overlay, shared-grow and toast hosts above screens.
   return (
     <GestureHandlerRootView style={[styles.root, { backgroundColor: theme.color.ink['950'] }]}>
       <I18nRoot>
@@ -89,12 +95,18 @@ export default function RootLayout() {
           </View>
         )}
         <ThemeProvider>
-          <ScreenJoltProvider>
-            <RootNavigator />
-            <OverlayHost />
-            <SharedGrowHost />
-            <IslandToast />
-          </ScreenJoltProvider>
+          <AppSessionRoot
+            start={startDeviceAppSession}
+            appState={deviceAppState}
+            onError={reportAppSessionError}
+          >
+            <ScreenJoltProvider>
+              <RootNavigator />
+              <OverlayHost />
+              <SharedGrowHost />
+              <IslandToast />
+            </ScreenJoltProvider>
+          </AppSessionRoot>
         </ThemeProvider>
       </I18nRoot>
     </GestureHandlerRootView>
