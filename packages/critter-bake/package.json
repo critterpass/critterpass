@@ -11,6 +11,13 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "bake": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "@cp/critter-art": "workspace:*",
+    "@napi-rs/canvas": "catalog:",
+    "tsx": "catalog:",
+    "zod": "catalog:"
   }
 }

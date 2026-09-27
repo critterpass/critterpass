@@ -1,0 +1,4 @@
+# Local/placeholder bake output for manifests that don't yet target a committed consumer path
+# (apps/mobile/generated/critter-art, apps/web/public/critters, out/og-atlas — see T6/T7/T8).
+/out/
+.critter-bake-cache.json
