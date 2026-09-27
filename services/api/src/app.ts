@@ -1,9 +1,14 @@
+import { DomainError, straightLineEtaProvider, type RouteEtaProvider } from '@cp/domain';
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { Scalar } from '@scalar/hono-api-reference';
 import { bodyLimit } from 'hono/body-limit';
 import { requestId, type RequestIdVariables } from 'hono/request-id';
+import type pg from 'pg';
 import type { Logger } from 'pino';
+import { ZodError } from 'zod';
 
+import { registerGeocodingRoutes } from './geocoding/routes';
+import { registerPlacesRoutes } from './places/routes';
 import { registerHealthRoutes, type ReadinessCheck } from './routes/health';
 
 export interface AppDeps {
@@ -14,9 +19,24 @@ export interface AppDeps {
   readiness: Record<string, ReadinessCheck>;
   /** Serves the Scalar API reference at /docs (never in production). */
   exposeDocs: boolean;
+  /** Absent for services (like media-worker, or future non-DB routes) that never mount DB routes. */
+  pool?: pg.Pool;
+  /** Server key for Mapbox Geocoding v6 (forward/reverse fallback); geocoding degrades without it. */
+  mapboxToken?: string;
+  /** A real Valhalla/Mapbox routing provider will replace this; defaults to the straight-line estimate. */
+  routeEtaProvider?: RouteEtaProvider;
 }
 
-export type AppEnv = { Variables: RequestIdVariables };
+/** The identity a verified session/action-key middleware sets (that middleware does not exist yet);
+ *  every places/geocoding route requires it and returns AUTH_REQUIRED when absent
+ *  (docs/code-standards.md §18: every endpoint authenticated except health/JWKS/webhooks/public
+ *  links). */
+export interface AuthVariables {
+  uid?: string;
+  device?: string;
+}
+
+export type AppEnv = { Variables: RequestIdVariables & AuthVariables };
 
 /** Wire error body shared by every route (docs/api-contracts.md §1, §3). */
 function errorBody(code: string, message: string, retryable: boolean) {
@@ -52,6 +72,17 @@ export function createApp(deps: AppDeps) {
   );
 
   registerHealthRoutes(app, deps);
+  if (deps.pool !== undefined) {
+    const pool = deps.pool;
+    registerPlacesRoutes(app, {
+      pool,
+      routeEtaProvider: deps.routeEtaProvider ?? straightLineEtaProvider,
+    });
+    registerGeocodingRoutes(app, {
+      pool,
+      ...(deps.mapboxToken !== undefined ? { mapboxToken: deps.mapboxToken } : {}),
+    });
+  }
 
   app.doc31('/openapi.json', {
     openapi: '3.1.0',
@@ -61,6 +92,18 @@ export function createApp(deps: AppDeps) {
 
   app.notFound((c) => c.json(errorBody('NOT_FOUND', 'Not found', false), 404));
   app.onError((error, c) => {
+    if (error instanceof DomainError) {
+      if (error.http >= 500) {
+        deps.logger.error(
+          { req_id: c.var.requestId, err: error, code: error.code },
+          'domain error',
+        );
+      }
+      return c.json(error.toResponseBody(), error.http as Parameters<typeof c.json>[1]);
+    }
+    if (error instanceof ZodError) {
+      return c.json(errorBody('VALIDATION', 'Invalid request', false), 422);
+    }
     deps.logger.error({ req_id: c.var.requestId, err: error }, 'unhandled error');
     return c.json(errorBody('INTERNAL', 'Something went wrong', true), 500);
   });

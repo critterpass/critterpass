@@ -16,6 +16,8 @@
   "dependencies": {
     "@cp/cost-engine": "workspace:*",
     "@cp/db": "workspace:*",
+    "@cp/domain": "workspace:*",
+    "@duckdb/node-api": "catalog:",
     "@hono/node-server": "catalog:",
     "hono": "catalog:",
     "pg": "catalog:",

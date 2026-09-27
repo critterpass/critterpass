@@ -1,0 +1,46 @@
+appId: app.critterpass.dev
+---
+# Real, non-mocked flow: fetches the actual Da Nang PMTiles archive from the live public R2
+# bucket, writes it to app storage, then re-points MapLibre's source at that on-disk file and
+# confirms the custom dark style still renders — the offline proof this spike's ADR records
+# (docs/decisions/<date>-maplibre-pmtiles-on-r2.md). The dev-client launcher taps mirror
+# tools/spikes/location/maestro-open-location.yaml's proven defensive pattern; each is optional
+# because a warm app (already on a JS route) never shows them. A cold dev-client boot can also
+# land on the launcher's own "Recently opened" list instead of the JS bundle — the extra point
+# tap re-opens it; harmless (falls on ordinary map content) once already warm.
+- tapOn:
+    text: 'Open'
+    optional: true
+- tapOn:
+    text: 'Continue'
+    optional: true
+- tapOn:
+    point: '50%,55%'
+    optional: true
+- openLink: 'critterpass-dev://spikes/map'
+- tapOn:
+    text: 'Open'
+    optional: true
+- tapOn:
+    text: 'Continue'
+    optional: true
+- extendedWaitUntil:
+    visible: 'MapLibre + PMTiles on R2 spike'
+    timeout: 20000
+- extendedWaitUntil:
+    visible: 'map loaded|style loaded'
+    timeout: 30000
+- takeScreenshot: map-remote-source-rendered
+- tapOn: 'Download city pack (offline)'
+- extendedWaitUntil:
+    visible: 'downloaded'
+    timeout: 20000
+- takeScreenshot: map-city-pack-downloaded
+- tapOn: 'Switch to downloaded local file'
+- extendedWaitUntil:
+    visible: 'source: local file'
+    timeout: 10000
+- extendedWaitUntil:
+    visible: 'map loaded|style loaded'
+    timeout: 20000
+- takeScreenshot: map-local-source-rendered

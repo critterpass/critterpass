@@ -90,6 +90,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Deploy harness to Railway staging as `spike-auth`. 2. `@better-auth/expo` client + `expo-apple-authentication` + Google native sign-in lib pinned for SDK 58. 3. Anonymous → Apple, anonymous → Google, anonymous → phone; show uid before/after. 4. Record SIWA revoke endpoint behaviour.
 - Tests: Maestro `e2e/spikes/auth-anonymous.yaml` for the anonymous + phone path (simulator); server harness asserts uid equality from logs.
 - Done when (agent): harness screen + ADR with `Founder device run` table ready. Founder checklist: real-device Apple + Google sign-in on iPhone + Android, uid screenshots into ADR (or FAIL + fallback).
+- Status: done — 2b007cc (anonymous → phone PASS end to end on a real iOS-simulator device against a real deployed `spike-auth` Railway service, uid preserved, Maestro-tested; real Apple `apple` social provider deployed and wired but no Apple ID on this simulator to drive a genuine sign-in; Google blocked entirely — no Firebase/Google Cloud project provisioned; found and fixed a real PgBouncer session-`SET` leak onto other staging clients mid-deploy — see ADR device half for the full finding set and founder checklist)
 
 ### T4 — S-SYNC: self-hosted PowerSync end to end
 - Goal: replication, auth, upload and latency proven on staging.
@@ -169,6 +170,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Build PMTiles for Da Nang from OSM (planetiler/tippecanoe). 2. Upload to `cp-tiles`; serve via media-worker range reads or public bucket (compare). 3. Custom hand-drawn style draft (fonts glyphs + sprites on R2). 4. Offline pack download for city bbox. 5. Pan/zoom fps on mid Android.
 - Tests: `pnpm --filter @cp/spike-tiles run build -- --city da-nang`; fps capture script (founder checklist on mid Android).
 - Done when: offline map works in airplane mode; ADR chooses PMTiles or tile server.
+- Status: done — 609a08a (real Da Nang PMTiles extract via planetiler + Geofabrik, uploaded to the public `cp-tiles` bucket with real SDF glyphs and a canvas-drawn sprite; MapLibre RN 11 renders the custom dark style from it and, after a real on-device download, renders again from the local file with zero PMTiles-source network calls — two real bugs found and fixed getting there (a doubled `file://` scheme, `<Map>` needing a full remount to reapply `background-pattern`); media-worker range reads ruled out by reading its actual source, not guessing — see the ADR; true network-severed offline proof and Android pan/zoom fps remain founder follow-ups)
 
 ### T14 — Android native surfaces (Kotlin)
 - Goal: prove Android parity surfaces before the surface phases build them.

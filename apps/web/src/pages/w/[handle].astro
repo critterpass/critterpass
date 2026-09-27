@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/base-layout.astro';
+import ComingSoonPage from '../../components/coming-soon-page.astro';
+
+export const prerender = false;
+
+// Referral link (`critterpass.app/w/<handle>`): the visitor's own join is attributed to this
+// handle, whether or not it turns out to belong to a real entry (the join endpoint checks that).
+const handle = Astro.params.handle ?? null;
+---
+
+<BaseLayout
+  title="Critterpass — Group trips, planned with the locals"
+  description="Critterpass is a group trip planner coming soon to iOS and Android. The locals happen to be animals. Join the waitlist."
+  canonicalPath="/"
+>
+  <ComingSoonPage referredBy={handle} />
+</BaseLayout>
