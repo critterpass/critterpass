@@ -173,6 +173,26 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       [tripId],
     );
 
+    // AI tables: a job the member asked for on this trip, an open guide offer the member claimed,
+    // and one approved persona pack (no app_user grant at all, so every actor must still see nothing).
+    await tx.query(
+      "INSERT INTO agent_jobs (trip_id, user_id, kind, status) VALUES ($1, $2, 'draft', 'running')",
+      [tripId, member],
+    );
+    const { rows: offerRows } = await tx.query<{ id: string }>(
+      "INSERT INTO guide_offers (trip_id, kind, slots_total) VALUES ($1, 'join_activity', 3) RETURNING id",
+      [tripId],
+    );
+    await tx.query(
+      'INSERT INTO guide_offer_claims (offer_id, trip_id, user_id) VALUES ($1, $2, $3)',
+      [offerRows[0]!.id, tripId, member],
+    );
+    await tx.query(
+      `INSERT INTO persona_packs (guide_id, version, status, approved_at)
+       SELECT id, 'matrix-probe', 'approved', now() FROM guides WHERE slug = 'matrix-probe-guide'
+       ON CONFLICT (guide_id, version) DO NOTHING`,
+    );
+
     const opId = crypto.randomUUID();
     await claimOpId(tx, { opId, uid: member, cmd: 'matrix_probe', payloadHash: 'h' });
     await recordCmdResult(tx, { opId, uid: member, cmd: 'matrix_probe', status: 'applied' });
