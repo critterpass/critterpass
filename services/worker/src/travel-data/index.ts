@@ -2,6 +2,7 @@
  * Travel-data jobs (docs/api-contracts-async.md §2.3): each supplier-backed refresh is registered
  * only when its key is configured, and every outbound call is audited in `ops.supplier_calls`.
  */
+import { createGateway, createTavilySearch, recordUsage, type AiUsageRecord } from '@cp/ai';
 import { withSystem } from '@cp/db';
 import {
   createSqlSupplierCallAudit,
@@ -24,6 +25,7 @@ import { fetchJma } from './hazards/jma';
 import { fetchMagma } from './hazards/magma';
 import { isHazardTick, refreshHazards, type HazardFeeds } from './hazards/refresh';
 import { seasonIngestJob } from './season-ingest';
+import { seasonResearchJob } from './season-research';
 import { refreshWeather, type WeatherSource } from './weather-refresh';
 import { fetchForecast, fetchMarine } from './weatherapi-client';
 
@@ -75,7 +77,13 @@ export function hazardsRefreshJob(feeds: HazardFeeds): AnyJobDefinition {
 export function travelDataJobs(
   env: Pick<
     WorkerEnv,
-    'TRAVELPAYOUTS_TOKEN' | 'WEATHERAPI_KEY' | 'WEATHERAPI_FORECAST_DAYS' | 'WEATHERAPI_MARINE_DAYS'
+    | 'TRAVELPAYOUTS_TOKEN'
+    | 'WEATHERAPI_KEY'
+    | 'WEATHERAPI_FORECAST_DAYS'
+    | 'WEATHERAPI_MARINE_DAYS'
+    | 'ANTHROPIC_API_KEY'
+    | 'ANTHROPIC_BASE_URL'
+    | 'TAVILY_API_KEY'
   >,
   pool: pg.Pool,
   logger: JobLogger,
@@ -110,6 +118,23 @@ export function travelDataJobs(
       weatherRefreshJob(source, {
         forecastDays: env.WEATHERAPI_FORECAST_DAYS,
         marineDays: env.WEATHERAPI_MARINE_DAYS,
+      }),
+    );
+  }
+  const modelKey = env.ANTHROPIC_API_KEY;
+  const searchKey = env.TAVILY_API_KEY;
+  if (modelKey === undefined || searchKey === undefined) {
+    logger.warn({}, 'season.research is disabled: ANTHROPIC_API_KEY or TAVILY_API_KEY is unset');
+  } else {
+    const onUsage = (record: AiUsageRecord) => recordUsage((fn) => withSystem(pool, fn), record);
+    jobs.push(
+      seasonResearchJob({
+        gateway: createGateway({
+          apiKey: modelKey,
+          ...(env.ANTHROPIC_BASE_URL === undefined ? {} : { baseURL: env.ANTHROPIC_BASE_URL }),
+          onUsage,
+        }),
+        search: createTavilySearch({ apiKey: searchKey }),
       }),
     );
   }

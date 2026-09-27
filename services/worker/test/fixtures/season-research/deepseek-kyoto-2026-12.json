@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-28: season.research extraction for Kyoto, December 2026.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "7758f8d4-1744-4b02-84c9-c77c39390b37",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"events\":[{\"name\":\"Jodo-e (Enlightenment Ceremony)\",\"kind\":\"ceremony\",\"starts_on\":\"2026-12-08\",\"ends_on\":\"2026-12-08\",\"source_url\":\"https://matsurimap.app/en/events/december-2026\"},{\"name\":\"Seidokai\",\"kind\":\"ceremony\",\"starts_on\":\"2026-12-08\",\"ends_on\":\"2026-12-08\",\"source_url\":\"https://matsurimap.app/en/events/december-2026\"},{\"name\":\"Goku Kaji (Sacred Offering Blessing)\",\"kind\":\"ceremony\",\"starts_on\":\"2026-12-21\",\"ends_on\":\"2026-12-21\",\"source_url\":\"https://matsurimap.app/en/events/december-2026\"},{\"name\":\"Lantern Fair\",\"kind\":\"festival\",\"starts_on\":\"2026-12-01\",\"ends_on\":\"2026-12-01\",\"source_url\":\"https://matsurimap.app/en/events/december-2026\"},{\"name\":\"Gishi Matsuri\",\"kind\":\"festival\",\"starts_on\":\"2026-12-14\",\"ends_on\":\"2026-12-14\",\"source_url\":\"https://indochinatravel.com/country/japan/japan-festivals\"},{\"name\":\"Imperial Procession Reenactment\",\"kind\":\"ceremony\",\"starts_on\":\"2026-12-06\",\"ends_on\":\"2026-12-06\",\"source_url\":\"https://www.dannywithlove.com/blog/japan-in-2026-unique-events\"},{\"name\":\"Special Illumination and Nighttime Viewing of the Main Hall, Lecture Hall, and Three-Dimensional Mandala\",\"kind\":\"ceremony\",\"starts_on\":\"2026-10-31\",\"ends_on\":\"2026-12-13\",\"source_url\":\"https://kyoto.travel/en/events\"},{\"name\":\"Autumn Leaves Peak in Kyoto\",\"kind\":\"foliage\",\"starts_on\":\"2026-12-08\",\"ends_on\":\"2026-12-21\",\"source_url\":\"https://selfguidejapan.com/blog/japan-best-autumn-leaves-spots-2026\"},{\"name\":\"Autumn Foliage Peak in Kyoto\",\"kind\":\"foliage\",\"starts_on\":\"2026-12-11\",\"ends_on\":\"2026-12-11\",\"source_url\":\"https://www.nippon.com/en/japan-data/h02888\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 6624,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 529,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

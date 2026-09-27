@@ -3,6 +3,7 @@ export * from './destinations';
 export * from './events';
 export * from './fares';
 export * from './season';
+export * from './season-research';
 export * from './types';
 export * from './weather';
 export * from './wire';
