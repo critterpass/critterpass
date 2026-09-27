@@ -33,6 +33,10 @@ import { betterAuthSessionResolver } from './commands/_framework/session';
 import { registerCmdResultsRoute } from './routes/cmd-results';
 import { registerCommandRoute } from './routes/cmd';
 import { registerSyncUploadRoute } from './routes/sync-upload';
+import { createR2Client } from './media/r2';
+import { registerMediaUploadCommand } from './media/register-media-upload';
+import { mediaSigningConfigFromEnv } from './media/sign';
+import { registerMediaRoutes } from './routes/media';
 
 const env = loadApiEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'api', commit: env.COMMIT_SHA } });
@@ -145,6 +149,7 @@ if (env.WHATSAPP_APP_SECRET && env.WHATSAPP_VERIFY_TOKEN) {
 
 // The three command doors over one registry (docs/api-contracts.md §2.2, §5.2).
 const commands = createCommandRegistry();
+commands.register(registerMediaUploadCommand);
 const commandDoors = {
   pool,
   registry: commands,
@@ -159,6 +164,33 @@ if (env.RT_PROXY_SECRET) {
   registerInternalRtRoutes(app, { pool, redis, proxySecret: env.RT_PROXY_SECRET });
 } else {
   logger.warn('Centrifugo proxies are disabled: RT_PROXY_SECRET is unset');
+}
+
+if (
+  env.R2_S3_ENDPOINT &&
+  env.R2_BUCKET &&
+  env.R2_ACCESS_KEY_ID &&
+  env.R2_SECRET_ACCESS_KEY &&
+  env.MEDIA_PUBLIC_BASE_URL &&
+  env.MEDIA_HMAC_KEYS &&
+  env.MEDIA_HMAC_ACTIVE_KID
+) {
+  registerMediaRoutes(app, {
+    ...commandDoors,
+    r2: createR2Client({
+      endpoint: env.R2_S3_ENDPOINT,
+      bucket: env.R2_BUCKET,
+      accessKeyId: env.R2_ACCESS_KEY_ID,
+      secretAccessKey: env.R2_SECRET_ACCESS_KEY,
+    }),
+    signing: mediaSigningConfigFromEnv({
+      baseUrl: env.MEDIA_PUBLIC_BASE_URL,
+      keysJson: env.MEDIA_HMAC_KEYS,
+      activeKeyId: env.MEDIA_HMAC_ACTIVE_KID,
+    }),
+  });
+} else {
+  logger.info('Media routes are disabled: R2_* or MEDIA_* is unset');
 }
 
 // Mounted last: Better Auth's own catch-all handler must never shadow the more specific routes

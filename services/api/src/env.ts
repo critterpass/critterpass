@@ -110,6 +110,20 @@ export const apiEnvSchema = z.object({
    *  `CENTRIFUGO_CHANNEL_PROXY_*_HTTP_STATIC_HEADERS`); unset = the proxy routes are not mounted and
    *  every proxied subscribe fails closed. Generate with `openssl rand -base64 32`. */
   RT_PROXY_SECRET: z.preprocess(emptyAsUndefined, z.string().min(32).optional()),
+
+  // --- Media (docs/api-contracts.md §5.4): R2 over its S3-compatible API plus the HMAC key set the
+  // media Worker verifies read URLs with. The media routes register only when all are set. ---
+  /** `https://<account id>.r2.cloudflarestorage.com` */
+  R2_S3_ENDPOINT: optionalUrl,
+  R2_BUCKET: optionalString,
+  R2_ACCESS_KEY_ID: optionalString,
+  R2_SECRET_ACCESS_KEY: optionalString,
+  /** Origin of the media Worker, e.g. `https://media.critterpass.app`. */
+  MEDIA_PUBLIC_BASE_URL: optionalUrl,
+  /** JSON `{"kid": "secret"}`; the same value is the media Worker's `MEDIA_HMAC_KEYS` secret. */
+  MEDIA_HMAC_KEYS: optionalString,
+  /** Key id in MEDIA_HMAC_KEYS new read URLs are signed with. */
+  MEDIA_HMAC_ACTIVE_KID: optionalString,
 });
 
 export type ApiEnv = z.infer<typeof apiEnvSchema>;
