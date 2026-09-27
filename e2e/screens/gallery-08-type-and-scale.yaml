@@ -1,0 +1,68 @@
+appId: app.critterpass.dev
+---
+# Screenshots for `pnpm screens:capture`: display headlines with stacked Vietnamese marks, the gift
+# code and the plan comparison, in English and Vietnamese at 1x and 2x text size.
+- runFlow:
+    file: subflows/open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'Text'
+      LOCALE: 'en'
+      SCALE: '1'
+- scrollUntilVisible:
+    element:
+      id: 'gallery-fixture-stacked marks at every display size'
+    direction: DOWN
+    timeout: 20000
+    # At 2x a fixture is taller than the screen; its top edge showing is enough.
+    visibilityPercentage: 5
+- takeScreenshot: 38-text-stacked-marks-en-1x
+- runFlow:
+    file: subflows/open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'Text'
+      LOCALE: 'vi'
+      SCALE: '1'
+- takeScreenshot: 39-text-vi-1x
+- scrollUntilVisible:
+    element:
+      id: 'gallery-fixture-stacked marks at every display size'
+    direction: DOWN
+    timeout: 20000
+    # At 2x a fixture is taller than the screen; its top edge showing is enough.
+    visibilityPercentage: 5
+- takeScreenshot: 40-text-stacked-marks-vi-1x
+- runFlow:
+    file: subflows/open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'Text'
+      LOCALE: 'vi'
+      SCALE: '2'
+- scrollUntilVisible:
+    element:
+      id: 'gallery-fixture-stacked marks at every display size'
+    direction: DOWN
+    timeout: 20000
+    # At 2x a fixture is taller than the screen; its top edge showing is enough.
+    visibilityPercentage: 5
+- takeScreenshot: 41-text-stacked-marks-vi-2x
+- runFlow:
+    file: subflows/open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'CodeBoxes'
+      LOCALE: 'en'
+      SCALE: '2'
+- scrollUntilVisible:
+    element:
+      id: 'gallery-fixture-gift code 4-4-4'
+    direction: DOWN
+    timeout: 20000
+    # At 2x a fixture is taller than the screen; its top edge showing is enough.
+    visibilityPercentage: 5
+- takeScreenshot: 42-code-boxes-gift-code-2x
+- runFlow:
+    file: subflows/open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'ComparisonTable'
+      LOCALE: 'vi'
+      SCALE: '1'
+- takeScreenshot: 43-comparison-table-vi-1x
