@@ -178,6 +178,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Glance widget reads the snapshot written via `cp-app-group` (T8). 2. FCM v1 data message → `FirebaseMessagingService` → post/update a promoted Live Update (`ProgressStyle`) when `SDK_INT >= 36`, plain progress notification below. 3. MetricStyle builder behind `SDK_INT >= 37`; on 36 the guard selects the fallback (unit-tested). 4. Full-screen-intent alarm: `canUseFullScreenIntent()` check, denied → Settings deep link flow, exact alarm scheduling; alarm activity over lock screen. 5. Record OEM behaviour notes.
 - Tests: `./gradlew :cp-spike-android:testDebugUnitTest` (SDK guards, payload parsing); Maestro `e2e/spikes/android-surfaces.yaml` on API 36 emulator (widget renders, Live Update posted, FSI permission flow).
 - Done when (agent): emulator flows green; ADR written. Founder checklist: physical API 36+ device run of FCM-updated Live Update and locked-screen alarm.
+- Status: done — adc07ab (PASS on every code path: real compile against API 36/37 SDK stubs, real manifest merge + resource linking, 13/13 JVM unit tests, real EAS cloud Android build producing a signed APK on the release configuration — which caught and led to fixing one real bug, a nonexistent `androidx.core:core:1.13.2` pin that only debug-variant resolution had silently tolerated; Maestro itself still fails at emulator boot, the pre-existing EAS Android build-infrastructure gap already documented in `.eas/workflows/e2e-android.yml`, not this module; FCM transport untested end to end — no Firebase project — exercised instead via a local test hook calling the identical receiver code; physical-device confirmation and Firebase credentials remain founder follow-ups, see the ADR)
 
 ### T15 — Valhalla on Railway + spike summary
 - Goal: routing feasibility and consolidated go/no-go.
@@ -185,6 +186,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Build Valhalla tiles for the 61 places' countries; deploy to Railway SG with volume. 2. Measure route p95 (walk, drive), 16×16 matrix, memory/cold start. 3. Write ADR. 4. Write decisions index with PASS/FAIL table and fallbacks taken; update arch §11.
 - Tests: `pnpm --filter @cp/spike-valhalla run bench`.
 - Done when: all ADRs linked from index; arch §11 shows results.
+- Status: in_progress — 41832b6 (Valhalla ADR done: PASS on walk/drive route p95, FAIL on 16x16 matrix p95 for larger metros, on a merged SEA+Japan extract only — the 4 guide-destination countries and cold-start numbers weren't obtained under a founder time/cost box; decisions index and arch §11 summary pending)
 
 ## Phase acceptance criteria
 - [ ] One ADR per spike (S-DB, S-AUTH, S-SYNC incl. drill, S-RT, Apple targets, Android surfaces, push LA/NSE/NCE, Skia critters, motion/startup, background location, tiles, Valhalla, inline module) with numbers and verdict

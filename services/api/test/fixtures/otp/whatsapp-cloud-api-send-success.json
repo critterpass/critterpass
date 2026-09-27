@@ -1,0 +1,7 @@
+{
+  "messaging_product": "whatsapp",
+  "contacts": [{ "input": "6598765432", "wa_id": "6598765432" }],
+  "messages": [
+    { "id": "wamid.HBgLNjU5ODc2NTQzMhUCABEYEjA1RUFEQUFERUFBRTAxRTAA", "message_status": "accepted" }
+  ]
+}

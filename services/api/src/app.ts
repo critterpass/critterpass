@@ -25,6 +25,9 @@ export interface AppDeps {
   mapboxToken?: string;
   /** A real Valhalla/Mapbox routing provider will replace this; defaults to the straight-line estimate. */
   routeEtaProvider?: RouteEtaProvider;
+  /** Public base URL `cp-tiles` serves PMTiles/fonts/sprite from (env.ts `TILES_BASE_URL`); used
+   *  by the `/v1/map/regions/{destination_id}` manifest route. */
+  tilesBaseUrl?: string;
 }
 
 /** The identity a verified session/action-key middleware sets (that middleware does not exist yet);
@@ -44,6 +47,8 @@ function errorBody(code: string, message: string, retryable: boolean) {
 }
 
 const MAX_BODY_BYTES = 1024 * 1024;
+/** Matches env.ts's `TILES_BASE_URL` default (the `cp-tiles` R2 bucket's public `dev-url`). */
+const DEFAULT_TILES_BASE_URL = 'https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev';
 
 export function createApp(deps: AppDeps) {
   const app = new OpenAPIHono<AppEnv>();
@@ -77,6 +82,7 @@ export function createApp(deps: AppDeps) {
     registerPlacesRoutes(app, {
       pool,
       routeEtaProvider: deps.routeEtaProvider ?? straightLineEtaProvider,
+      tilesBaseUrl: deps.tilesBaseUrl ?? DEFAULT_TILES_BASE_URL,
     });
     registerGeocodingRoutes(app, {
       pool,

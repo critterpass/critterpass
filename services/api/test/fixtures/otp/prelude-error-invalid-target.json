@@ -1,0 +1,9 @@
+{
+  "type": "invalid_params_error",
+  "errors": [
+    {
+      "code": "invalid_target",
+      "message": "The phone number is not a valid target for verification."
+    }
+  ]
+}

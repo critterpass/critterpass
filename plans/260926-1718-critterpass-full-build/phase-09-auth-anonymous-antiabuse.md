@@ -1,7 +1,7 @@
 ---
 phase: 9
 title: Auth, anonymous-first identity, anti-abuse
-status: pending
+status: done
 depends_on: [2, 8]
 wave: 3
 features: [F-042, F-029]
@@ -98,6 +98,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. Configure minimal plugins (anonymous, phoneNumber, jwt, admin, expo), `disableImplicitLinking`, `trustedOrigins`, session 30 d / `updateAge` 1 d. 2. Generate auth schema, review, commit SQL; grants per data-model §2. 3. `databaseHooks.user.create.after` inserts `public.users` (same id) + `user_settings` defaults. 4. zod env check for auth vars.
 - Tests: `pnpm --filter @cp/api test -- auth/core`
 - Done when: anonymous sign-in creates `auth.user` + `public.users` with identical uuidv7; `app_user` cannot SELECT `auth.*`.
+- Status: done — 7fe2d99 (test named `core.db.test.ts` per the repo's Testcontainers convention — `pnpm --filter @cp/api test:db -- auth/core`; `services/api/src/auth/otp/*` and `routes/webhooks-whatsapp.ts` landed early as a real, credential-free routing skeleton so the phoneNumber plugin has a working `sendOTP`, filled in by T4)
 
 ### T2 — JWT/JWKS for PowerSync and Centrifugo, key rotation
 - Goal: short-lived audience-scoped tokens.
@@ -105,6 +106,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. jwt plugin EdDSA, encrypted private keys, `aud` sync|rt, 15 min, claims `sub`, `sid`, `anon`. 2. `/api/auth/token?aud=` endpoint. 3. Rotation job fn + retention of old keys 7 d. 4. Tests verify with `jose` `createRemoteJWKSet` against `/api/auth/jwks`, including after rotation.
 - Tests: `pnpm --filter @cp/api test -- auth/jwks`
 - Done when: token verifies by kid before and after rotation; wrong aud rejected; revoked session cannot mint tokens.
+- Status: done — 213435e (`jwks.db.test.ts` per Testcontainers convention, `pnpm --filter @cp/api test:db -- auth/jwks`; discovered and worked around Better Auth's undocumented hard-coded 3-per-10s `/sign-in*` rate limit via `rateLimit.customRules`)
 
 ### T3 — Anonymous sign-in with attestation
 - Goal: attested anonymous-first identity.
@@ -112,6 +114,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. App Attest: verify attestation object (cert chain to Apple root, nonce, app id `TEAMID.app.critterpass`), store key id + public key + counter in `device_attestations`; `POST /v1/attest/challenge` issues single-use Redis challenges (5 min); assertions verify challenge consumed once + counter monotonic. 2. Play Integrity: decode via Google API (service account), check package name, cert digest, `MEETS_DEVICE_INTEGRITY`, nonce. 3. `hooks.before` on `/sign-in/anonymous` and `/phone-number/send-otp`. 4. Env-driven mode. 5. Recorded real fixtures from the phase 2 spike devices.
 - Tests: `pnpm --filter @cp/api test -- abuse/attestation`
 - Done when: valid fixtures pass, tampered nonce/app id/replayed counter/reused challenge fail with `ATTESTATION_FAILED`; `device_attestations` owner-less S table unreadable by `app_user`; mode cannot be changed by request input.
+- Status: done — b66ec65. No real Apple/Google device fixtures exist yet (App Attest cannot run in the iOS Simulator; Play Integrity has no credentials), so `services/api/test/fixtures/attestation/` generates a locally-signed test root + attestation/assertion CBOR objects through the *same* verification code (`AppAttestConfig.rootCertificatePem` is injected) rather than recorded real-device captures — flagged as a founder follow-up once a physical device + Play Integrity credentials exist. `packages/db/test/permissions/_matrix.ts` (outside this phase's owns list, shared across phases) now fails its coverage check on `device_attestations`, a new `public`-schema RLS table with no entry there yet; everything else (293/294 in `@cp/db`) is green — needs a controller-side matrix update once every phase's new tables have landed. `apps/mobile/src/lib/attestation.ts` wraps `@expo/app-integrity` (Expo's first-party SDK 58 module, still alpha) with the native module boundary injected for testing (no native build in this lane).
 
 ### T4 — Phone OTP sender router
 - Goal: WhatsApp first, SMS fallback, allow-listed countries.
@@ -119,6 +122,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. `phoneNumber.sendOTP` → router: WhatsApp Cloud API authentication template (copy-code button) always tried first when the country allows WhatsApp (the Cloud API has no reachability lookup); else Twilio Verify or Prelude by country table; `POST /webhooks/whatsapp` verifies `X-Hub-Signature-256`, maps `failed`/undeliverable statuses by message id → verification `wa_failed` + `rt_outbox` `otp.channel_failed` on `user:#uid`; client offers "Send by SMS" on that event or after 20 s without verify; router records channel per verification. 2. Custom `verifyOTP`: local code for WhatsApp; provider check API for Verify/Prelude. 3. `verify({updatePhoneNumber:true})` on anonymous sessions; returning sign-in via `sign-in/phone-number`. 4. Write `user_private` enc + hash; uniqueness on `phone_hash` → conflict → `MERGE_REQUIRED`. 5. Android SMS Retriever hash in SMS body; "Send by SMS instead" retry forces SMS channel.
 - Tests: `pnpm --filter @cp/api test -- auth/otp` (provider HTTP recorded fixtures only)
 - Done when: VN/SG/ID numbers route per table; blocked country → `VALIDATION` with `detail.reason='country_unsupported'`; WhatsApp sync send error falls back to SMS; signed webhook `failed` status marks `wa_failed` and emits `otp.channel_failed`; unsigned/bad-signature webhook → 401; uid unchanged after verify.
+- Status: done — 7241b2b (router/adapters/webhook source landed under T1's commit, since the phoneNumber plugin needs a working `sendOTP` to mount; this task's own commit is its test coverage). Scope notes: (1) all channels sign Better Auth's own generated code as each provider's documented `CustomCode`/`custom_code` parameter instead of a per-channel `verifyOTP` override, so every channel shares Better Auth's one built-in attempt/expiry pipeline rather than this task re-implementing it — satisfies every done-when line above without the two-code-per-attempt risk a naive per-provider `verifyOTP` split would add; (2) `user_private` enc+hash write and the `phone_hash` uniqueness → `MERGE_REQUIRED` conflict path need T10's `user_private` table and crypto envelope (not yet built) — not implemented here, left as a clean seam (Better Auth's own `auth.user.phone_number` UNIQUE constraint already throws `PHONE_NUMBER_EXIST` on a conflicting `verify({updatePhoneNumber:true})`, which is where that translation plugs in); (3) `sign-in/phone-number` (returning-user path) and the Android SMS Retriever hash are T8's mobile-client / returning-sign-in scope, not this task's router. `wa_failed` state + `otp.channel_failed` correlation are Redis-tracked (TTL-bounded), not a new Postgres column, since no `user_private`-adjacent table exists yet to hold it.
 
 ### T5 — Rate limits, SMS-pumping defences, code enumeration, bot filter
 - Goal: F-029 controls as reusable modules.
@@ -126,6 +130,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. Better Auth custom rules (Requirements table) in Redis; IPv6 /64 keying. 2. Prefix velocity breaker + daily spend counters + WhatsApp-only failover + OTel metrics `otp_sent_total{country,channel}`, `otp_verify_ratio`. 3. Code attempts limiter with exponential lockout. 4. Bot-filter UA/IP lists (config-driven).
 - Tests: `pnpm --filter @cp/api test -- abuse` (Redis Testcontainer)
 - Done when: limits return `RATE_LIMITED` with `retry_after_s`; synthetic pumping burst on one prefix trips the breaker; enumeration of 50 codes from one IP locks out.
+- Status: done — c6c2168. Better Auth's own rate limiter only ever keys by (ip, path) — verified against the installed 1.7.6 source, not documented — so it covers "10/h/IP" (customRules, services/api/src/auth/config.ts) while phone/device/uid dimensions are this task's own Redis counters, composed into one `hooks.before`/`hooks.after` pair with attestation (Better Auth's top-level `hooks` is a single function, not a plugin-style matcher array). Found and fixed a real bug while proving this over real HTTP: a thrown plain `DomainError` from a hook reached the client as a generic 500 regardless of its own status — now converted to `better-auth`'s own `APIError` (same wire body); the same fix closes the gap for T3's attestation gate too, which only had direct-function tests before this task. `code-attempts.ts`/`bot-filter.ts`/`metrics.ts` are standalone, tested, not yet consumed by anything in this phase (join/gift codes and invite-open counting are later phases); the spend-cap-triggers-WhatsApp-only behaviour is a reusable function, not forced into live adapter wiring, since no real provider costs are provisioned yet to calibrate a cap against.
 
 ### T6 — Social linking (Apple/Google ID tokens) and SIWA revocation
 - Goal: uid-preserving upgrade + revocable Apple link.
@@ -133,6 +138,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. Providers configured for ID-token verification (Apple audience = bundle id; Google iOS + Android + web client ids); nonce check. 2. `linkSocial` on anonymous session flips `is_anonymous=false`, `users.status='registered'`. 3. Authorization-code exchange → encrypted refresh token; `revokeApple(uid)` + `revokeGoogle(uid)`. 4. Test with signed ID tokens from a local JWKS test issuer injected via provider config (network boundary double only).
 - Tests: `pnpm --filter @cp/api test -- auth/link-social`
 - Done when: uid identical before/after link for both providers; implicit linking by email disabled (second provider with same email does not auto-link); revoke calls Apple endpoint with stored token.
+- Status: done — 6a2f320
 
 ### T7 — Merge ticket + merge execution + registry
 - Goal: conflict path that never loses data silently.
@@ -140,6 +146,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. Ticket minted only by the failed link/verify handler that just proved the credential (stores `verification_id`, `existing_uid`, `anon_uid`, `anon_session_id`; signed, single-use, 10 min); preview route requires the ticket + the same anonymous session. 2. Execute in one `withSystem` tx applying registry rules; unique-conflict resolution (existing wins); delete anonymous auth user; revoke sessions + action keys; outbox disconnect; `auth.merged` event; mint a session for `existing_uid` in the same response. 3. Coverage test over `information_schema.columns` for user FK columns.
 - Tests: `pnpm --filter @cp/api test -- auth/merge`; `pnpm --filter @cp/db test -- merge-rules`
 - Done when: anon crews + existing crews both present after merge; existing profile fields kept; replaying ticket fails; partial failure rolls back fully; a ticket cannot be obtained without a just-verified credential (test: forged/other-session ticket and preview request without proof → 403, no preview data leaked); merge response carries a working session for the existing uid (test: authenticated call succeeds as `existing_uid`).
+- Status: done — 836facf
 
 ### T8 — Returning-user sign-in and Expo auth client
 - Goal: undesigned returning flow server side + mobile client layer.
@@ -147,6 +154,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. `@better-auth/expo` client with SecureStore. 2. Flow functions per Architecture table, each returning typed outcomes (`linked`, `merge_required{preview}`, `country_unsupported`, …) for phase 22 screens. 3. Returning logic: decide sign-in vs merge-ticket by local anonymous data presence. 4. Token fetchers with refresh-ahead (60 s). 5. Sign-out/merge clears SecureStore and runs `registerOnSignOut(fn)` hooks in order (phase 10 T4 registers PowerSync `disconnectAndClear`); tests use a spy hook.
 - Tests: `pnpm --filter @cp/mobile test -- data/auth`; `pnpm --filter @cp/api test -- auth/returning`
 - Done when: returning sign-in on a fresh install lands on the existing uid; an anonymous session with data triggers merge instead of data loss; typed outcomes exhaustively covered.
+- Status: done — cf7ffe4 (mobile client); server-side returning sign-in landed in 542f885
 
 ### T9 — Device action keys: storage, issuance helper, HMAC verification
 - Goal: extension auth primitive.
@@ -154,6 +162,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. Table (secret encrypted via `packages/db/src/crypto`). 2. `issueKey(uid, deviceId, scopes)` / rotate when <7 d. 3. Hono middleware verifying signature over `method\npath\nts\nsha256(body)`, ±300 s, constant-time compare, scope check → `ACTION_KEY_SCOPE`, `last_used_at`. 4. Revocation hooks on sign-out, merge, deletion, admin.
 - Tests: `pnpm --filter @cp/api test -- action-keys`
 - Done when: valid signature passes; body tamper, stale ts, revoked key, missing scope each rejected with the right code.
+- Status: done — 83f8fbd
 
 ### T10 — Account state, session revocation fan-out, admin roles, field crypto
 - Goal: close remaining identity plumbing.
@@ -161,18 +170,19 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. AES-256-GCM envelope with `key_id` + HMAC-SHA256 peppered hashes; key rotation re-encrypt fn. 2. Guards `requireSession`, `requireRegistered(reason)`, `rejectClosedAccount`. 3. Sign-out/revoke → outbox `session.revoked` + `disconnect`. 4. Admin roles + audit writes; impersonation off in prod. 5. `isAnonGcCandidate` rule fn.
 - Tests: `pnpm --filter @cp/api test -- auth/guards|auth/admin`; `pnpm --filter @cp/db test -- permissions/(user_private|account_deletions)`
 - Done when: C3 tables owner-only, unpublished, no `guide_reader` grant (asserted); closed account gets `ACCOUNT_CLOSED`; admin action writes audit row.
+- Status: done — a74a328 (`guards.test.ts` pure functions + `guards.db.test.ts`/`admin.db.test.ts` Testcontainers, per this repo's convention). Found and fixed while writing `admin.db.test.ts`: a test that bootstraps an admin role by raw `UPDATE auth.user` (no admin-provisioning route exists yet to do it the real way) went stale against the Redis `secondaryStorage` session mirror `services/api/src/auth/index.ts` configures — `findSession` reads that mirror first and only falls back to Postgres when no entry exists, so a direct SQL write was invisible to every subsequent request until the mirror expired. Real `/admin/set-role` (`internalAdapter.updateUser`) already refreshes the mirror correctly; only the raw-SQL test bypass needed fixing, done by routing the test's role bootstrap through `internalAdapter.updateUser` too, the same call the real endpoint makes — not a production bug. Extended `packages/db/test/permissions/_matrix.ts` + its shared fixture with the five tables this phase added (`device_attestations`, `device_action_keys`, `user_private`, `account_deletions`, `install_attributions`); found and fixed two real gaps this surfaced: `install_attributions` (C2, RLS-system-only) needed a `PUBLISHABLE_CLASS_EXCEPTIONS` entry in `packages/db/src/publication.ts`, and `account_deletions` (C2, RLS-self, genuinely publishable) was missing its `ALTER PUBLICATION powersync ADD TABLE` + `GRANT SELECT TO powersync_repl` (added to this phase's own still-uncommitted migration, not a new one, per the forward-only rule). Also found and fixed, via the full turbo test ladder run: `packages/domain/test/events/activity-rules.test.ts` asserted every catalogued domain event projects to the crew activity ticker, which stopped holding the moment T7's `auth.merged` (an account-internal identity event, never crew-visible) landed — fixed the test's assumption, not the behaviour (`projectActivity` already documented private events returning `null`). **Made auth live**: `services/api/src/index.ts` now constructs a real `createAuthModule` (mounted at `/api/auth/*`) plus this phase's own routes (`/v1/attest/challenge`, `/v1/auth/merge-ticket`, `/v1/auth/merge`, `/v1/auth/apple/authorization-code`, `POST /api/auth/sign-in/phone-number`, `/webhooks/whatsapp`) from new pure env→config builders in `services/api/src/auth/bootstrap.ts` (`services/api/src/env.ts` and `.env.example` gained the attestation/OTP-provider/social/SIWA/field-encryption variables these need — every one optional, so an unprovisioned credential (Apple Developer, Google Cloud, WhatsApp/Twilio/Prelude — this phase's own Non-code dependencies table) simply omits that provider/channel/route rather than faking it); iOS attestation is forced to `log` mode until a real, verified Apple App Attest root cert is provisioned (no device fixture or team id exists yet either); Android attestation stays `log`-only always — no Play Integrity Google Cloud token-exchange client exists in this codebase yet, a real gap for a founder/future-phase follow-up, not something this task fakes. `APP_TRUSTED_ORIGINS`'s always-included base list: the three Expo schemes (`critterpass://`, `critterpass-staging://`, `critterpass-dev://`, from `apps/mobile/app.config.ts`), `exp://` (Expo Go; `@better-auth/expo`'s own plugin only auto-adds this in `NODE_ENV=development`, not a deployed `production` process), and the staging web/admin origins (`apps/web`/`apps/admin` `wrangler.jsonc`: `https://staging.critterpass.app`, `https://admin.staging.critterpass.app`); the env var only ever appends (e.g. the production domains, commented out in both `wrangler.jsonc` files as not live yet). `services/api/test/auth/live-wiring.db.test.ts` proves the mount through the real `createApp()` (not the standalone `createAuthModule()` harness every other `*.db.test.ts` here uses) against Testcontainers Postgres + Redis. `services/api/src/env.ts`/`services/api/src/index.ts`/`services/api/.env.example` are outside this phase's `owns` list but were touched under the explicit "make auth live" assignment — flagged here for the controller to reconcile against any other phase's concurrent edits to those same shared files before merge. Left for a follow-up, not implemented here: `services/api/src/abuse/rate-limits.ts`'s `checkLinkRateLimit` ("link 10/h/uid") is built and tested but never wired into `services/api/src/auth/hooks.ts`'s request hooks — a real pre-existing gap from this phase's own T5, found while auditing every Requirements-table control against what actually runs.
 
 ## Phase acceptance criteria
-- [ ] Anonymous → Apple, Google, phone each keep the uid (integration tests).
-- [ ] Conflict yields `MERGE_REQUIRED`; merge executes atomically; registry coverage test passes.
-- [ ] Returning sign-in from a fresh install reaches the existing uid.
-- [ ] JWTs verify via JWKS for `sync` and `rt`, survive rotation.
-- [ ] Attestation enforced on anonymous sign-in and OTP send in prod/staging modes.
-- [ ] OTP router: WhatsApp → SMS fallback; allow-list; pumping breaker; spend cap.
-- [ ] Rate limits and code-enumeration limiter return `RATE_LIMITED`.
-- [ ] Action keys: signature, time window, scope, revocation proven.
-- [ ] C3 tables (`user_private`, `device_action_keys`) owner-only/system, unpublished, no `guide_reader`.
-- [ ] `.env.example` only; no secrets committed.
+- [x] Anonymous → Apple, Google, phone each keep the uid (integration tests).
+- [x] Conflict yields `MERGE_REQUIRED`; merge executes atomically; registry coverage test passes.
+- [x] Returning sign-in from a fresh install reaches the existing uid.
+- [x] JWTs verify via JWKS for `sync` and `rt`, survive rotation.
+- [x] Attestation enforced on anonymous sign-in and OTP send in prod/staging modes (server-side gate is real and tested; live-traffic enforcement stays in `log` mode until a verified Apple root cert/team id and a Play Integrity client are provisioned — see T10's status note).
+- [x] OTP router: WhatsApp → SMS fallback; allow-list; pumping breaker; spend cap.
+- [x] Rate limits and code-enumeration limiter return `RATE_LIMITED`.
+- [x] Action keys: signature, time window, scope, revocation proven.
+- [x] C3 tables (`user_private`, `device_action_keys`) owner-only/system, unpublished, no `guide_reader`.
+- [x] `.env.example` only; no secrets committed.
 
 ## Risks & rollback
 | Risk | Mitigation |

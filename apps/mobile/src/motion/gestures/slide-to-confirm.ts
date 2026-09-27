@@ -21,11 +21,12 @@ export const SLIDE_TO_CONFIRM_SPRING_BACK_MS = 280;
 const SLIDE_TO_CONFIRM_COMMIT_SETTLE_MS = 150;
 const springBackEasing = bezierEasing(tokens.motion.easing.back);
 
-export function commitsSlideToConfirm(
-  progress: number,
-  commitFraction: number = SLIDE_TO_CONFIRM_COMMIT_FRACTION,
-): boolean {
-  return progress >= commitFraction;
+export function commitsSlideToConfirm(progress: number, commitFraction?: number): boolean {
+  'worklet';
+  // Defaults resolve in the body: a worklet's captured constants only exist once its body runs on
+  // the UI runtime, so a default parameter naming one throws there.
+  const commitFractionResolved = commitFraction ?? SLIDE_TO_CONFIRM_COMMIT_FRACTION;
+  return progress >= commitFractionResolved;
 }
 
 export interface UseSlideToConfirmOptions {

@@ -13,17 +13,17 @@ const APPLE_TEAM_ID = 'YFND2EEW8S';
 
 const VARIANTS: Record<AppVariant, VariantConfig> = {
   development: {
-    name: 'Critterpass (Dev)',
+    name: 'CritterPass (Dev)',
     bundleIdentifier: 'app.critterpass.dev',
     scheme: 'critterpass-dev',
   },
   staging: {
-    name: 'Critterpass (Staging)',
+    name: 'CritterPass (Staging)',
     bundleIdentifier: 'app.critterpass.staging',
     scheme: 'critterpass-staging',
   },
   production: {
-    name: 'Critterpass',
+    name: 'CritterPass',
     bundleIdentifier: 'app.critterpass',
     scheme: 'critterpass',
   },
@@ -146,9 +146,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         // the spike's own "Always" upgrade flow prompts for this second, separate string only after
         // the user opts in — never requested together (Apple/Play both reject a combined ask).
         locationWhenInUsePermission:
-          'Critterpass uses your location during an active trip day to track leave-by timing and nearby critter encounters.',
+          'CritterPass uses your location during an active trip day to track leave-by timing and nearby critter encounters.',
         locationAlwaysAndWhenInUsePermission:
-          'Critterpass can keep tracking a trip day in the background so critter encounters and crew ETAs keep working while your phone is locked.',
+          'CritterPass can keep tracking a trip day in the background so critter encounters and crew ETAs keep working while your phone is locked.',
         isIosBackgroundLocationEnabled: true,
         isAndroidBackgroundLocationEnabled: true,
         isAndroidForegroundServiceEnabled: true,

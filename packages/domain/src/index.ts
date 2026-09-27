@@ -1,3 +1,4 @@
+export { ACTION_KEY_SCOPES, isActionKeyScope, type ActionKeyScope } from './auth/action-key-scopes';
 export {
   CHANNEL_NAMESPACES,
   CREW_CHANNEL_NAMESPACES,
@@ -8,6 +9,7 @@ export {
   userChannel,
   type ChannelNamespace,
 } from './channel-names';
+export * from './realtime';
 export {
   CAPABILITY_KEYS,
   capabilityKeySchema,
@@ -45,23 +47,7 @@ export {
   type ProductKey,
   type ProductType,
 } from './entitlements/product-keys';
-export {
-  commandActorSchema,
-  commandDeviceSchema,
-  commandEnvelopeSchema,
-  commandNameSchema,
-  actorViaSchema,
-  devicePlatformSchema,
-  isIanaTimeZone,
-  ACTOR_VIA_VALUES,
-  DEVICE_PLATFORMS,
-  type ActorVia,
-  type CommandActor,
-  type CommandDevice,
-  type CommandEnvelope,
-  type CommandName,
-  type DevicePlatform,
-} from './commands/envelope';
+export * from './commands';
 export {
   DESTINATION_COVERAGES,
   GUIDE_COLOURS,

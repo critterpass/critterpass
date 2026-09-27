@@ -1,15 +1,163 @@
 {
   "client": {
-    "token": { "audience": "rt" }
+    "token": {
+      "audience": "rt"
+    }
   },
   "channel": {
     "proxy": {
-      "subscribe": { "timeout": "1s" },
-      "publish": { "timeout": "1s" }
+      "subscribe": {
+        "timeout": "1s"
+      },
+      "publish": {
+        "timeout": "1s"
+      }
     },
-    "namespaces": []
+    "namespaces": [
+      {
+        "name": "user",
+        "subscribe_proxy_enabled": true,
+        "allow_user_limited_channels": true,
+        "history_size": 100,
+        "history_ttl": "24h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "crew",
+        "subscribe_proxy_enabled": true,
+        "presence": true,
+        "join_leave": true,
+        "force_push_join_leave": true,
+        "allow_presence_for_subscriber": true,
+        "history_size": 50,
+        "history_ttl": "24h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "crew_chat",
+        "subscribe_proxy_enabled": true,
+        "publish_proxy_enabled": true,
+        "presence": true,
+        "join_leave": true,
+        "force_push_join_leave": true,
+        "allow_presence_for_subscriber": true,
+        "history_size": 200,
+        "history_ttl": "72h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "crew_money",
+        "subscribe_proxy_enabled": true,
+        "history_size": 100,
+        "history_ttl": "72h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "crew_bookings",
+        "subscribe_proxy_enabled": true,
+        "history_size": 50,
+        "history_ttl": "72h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "crew_collection",
+        "subscribe_proxy_enabled": true,
+        "history_size": 50,
+        "history_ttl": "168h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "trip",
+        "subscribe_proxy_enabled": true,
+        "history_size": 100,
+        "history_ttl": "72h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "trip_setup",
+        "subscribe_proxy_enabled": true,
+        "presence": true,
+        "join_leave": true,
+        "force_push_join_leave": true,
+        "allow_presence_for_subscriber": true,
+        "history_size": 50,
+        "history_ttl": "72h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "trip_draft",
+        "subscribe_proxy_enabled": true,
+        "history_size": 100,
+        "history_ttl": "24h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "trip_plan",
+        "subscribe_proxy_enabled": true,
+        "history_size": 200,
+        "history_ttl": "72h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "trip_dayof",
+        "subscribe_proxy_enabled": true,
+        "history_size": 50,
+        "history_ttl": "24h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "trip_watch",
+        "subscribe_proxy_enabled": true,
+        "history_size": 50,
+        "history_ttl": "72h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "trip_quests",
+        "subscribe_proxy_enabled": true,
+        "history_size": 50,
+        "history_ttl": "72h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "trip_album",
+        "subscribe_proxy_enabled": true,
+        "history_size": 100,
+        "history_ttl": "72h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "trip_presence",
+        "subscribe_proxy_enabled": true,
+        "publish_proxy_enabled": true,
+        "presence": true,
+        "join_leave": true,
+        "force_push_join_leave": true,
+        "allow_presence_for_subscriber": true
+      }
+    ]
   },
-  "engine": { "type": "redis" },
-  "health": { "enabled": true },
-  "admin": { "enabled": false }
+  "engine": {
+    "type": "redis"
+  },
+  "health": {
+    "enabled": true
+  },
+  "admin": {
+    "enabled": false
+  }
 }

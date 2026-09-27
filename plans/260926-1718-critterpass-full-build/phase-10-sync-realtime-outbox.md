@@ -1,7 +1,7 @@
 ---
 phase: 10
 title: Offline sync, command framework, realtime
-status: pending
+status: in_progress
 depends_on: [2, 8, 9, 12, 14]
 wave: 4
 features: [F-010, F-011]
@@ -128,6 +128,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. Import phase 08 `CommandEnvelope`; add skew handling (future >5 min stored, not trusted). 2. `defineCommand({name, v, schema, authorize, entitle, handle, offline: boolean, actionScope?})`. 3. `executeCommand`: parse → overwrite `actor.uid` → `withUser` → `claimOpId` (sha256 of canonical JSON payload) → authorize → `entitle(tx, …)` from phase 12 `services/api/src/entitlements` → handle → `recordCmdResult` → commit. 4. Error mapping to `DomainError(code, detail)`. 5. NOTIFY trigger migration.
 - Tests: `pnpm --filter @cp/db test -- command/execute` (Testcontainers PG18: applied, duplicate replay returns stored result, `IDEMPOTENCY_MISMATCH`, authorize deny → `FORBIDDEN` with no writes, handler throw rolls back outbox + events, uid spoof overwritten, failed handler after `entitle` leaves the quota counter unchanged — pipeline integration for phase 12 quota reservations).
 - Done when: all cases pass; a test-file-registered command proves outbox + event rows exist only after commit.
+- Status: done — 1a7b8aa
 
 ### T2 — HTTP doors: `/v1/cmd/{cmd}`, `/sync/upload`, `/v1/cmd-results`
 - Goal: three routes on the one registry with correct status semantics.
@@ -135,6 +136,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. `/v1/cmd/{cmd}`: session (anonymous allowed where command says) → `executeCommand` → 200 `{status, result}` or error envelope with HTTP per api §3. 2. `/sync/upload`: batch `{ops[]}` ≤500 ops/≤1 MB, ordered, each op own tx; rejects → recorded, continue; any transient error → stop, return 503 with index of first unprocessed op (already-applied ops replay as duplicates). 3. `/v1/cmd-results?since` paginated own rows. 4. OpenAPI via `@hono/zod-openapi`; per-uid rate limit (Redis) → `RATE_LIMITED`.
 - Tests: `pnpm --filter @cp/api test -- routes/sync-upload routes/cmd` (Hono `app.request` + Testcontainers).
 - Done when: reject returns 2xx with `cmd_results.status=rejected`; retry of a partially applied batch yields `duplicate` for applied ops; `/openapi.json` lists the three routes.
+- Status: done — c3102aa
 
 ### T3 — PowerSync service config, publication and core Sync Streams
 - Goal: self-hosted PowerSync (Open Edition) replicating from PG18 with Better Auth JWKS, streams for existing tables.
@@ -142,6 +144,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. Service config: `powersync_repl` direct (non-PgBouncer) connection, Postgres bucket storage (Railway PG18), JWKS `https://api…/api/auth/jwks`, `aud: sync`. 2. Verify phase 08 publication (+ 12/14 `ALTER PUBLICATION` entries) via `check-publication`. 3. `streams/core.yaml` (`me`, `crews`, `crew_people`, `trip`, `trip_draft`, `catalog`), `entitlements.yaml` (`products`, `perks`, `user_entitlements`, `trip_entitlements`, `usage_counters`, `fx_snapshots`), `places.yaml` (`pois`, `map_regions` in `trip_pack`/`explore`); `deleted_at IS NULL`; `build-config.ts` merges `streams/*.yaml`. 4. Railway configs: repl ×1, api ×N. 5. `stream-harness.ts`: evaluates a stream's SQL with the 5 fixtures (outsider / ex-member / member / organiser / anonymous) against Testcontainers PG; used here and by later phases.
 - Tests: `pnpm --filter @cp/db test -- permissions/sync-streams`; `docker compose -f infra/docker-compose.yml up powersync` then `pnpm --filter @cp/db exec tsx test/smoke/powersync-health.ts`.
 - Done when: outsider/ex-member get zero rows for crew/trip streams; member gets rows; service reaches `ready` locally against compose Postgres.
+- Status: done — f74a03e
 
 ### T4 — Mobile PowerSync client with SQLCipher and connector
 - Goal: encrypted local DB, credentials and upload wiring.
@@ -163,6 +166,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. Config: token JWKS + `aud: rt`, Redis engine, namespaces from catalogue with history size/TTL, `force_recovery`, presence/join_leave, `allow_user_limited_channels`, proxy endpoints + shared header. 2. `registerNamespace({name, acl(uid, id, tx), clientPublish?: {types, maxHz, maxBytes}})`; register `user`, `crew`, `crew_chat`, `crew_money`, `crew_bookings`, `crew_collection`, `trip`, `trip_setup`, `trip_draft` (organiser), `trip_plan`, `trip_dayof`, `trip_watch`, `trip_quests`, `trip_album`, `trip_presence`. 3. Subscribe proxy returns `{result:{info}}` or 403 (unknown namespace → 403). 4. Publish proxy: only `trip_presence`, `crew_chat` typing; per-client rate window in Redis; drop oversize.
 - Tests: `pnpm --filter @cp/db test -- permissions/rt-subscribe` (5 fixtures × every registered namespace); `pnpm --filter @cp/api test -- routes/internal-rt`.
 - Done when: matrix passes; publish of `message.created` by a client is dropped; typing at 2/s is rate-limited to ≤1/3 s.
+- Status: done — 4c1e8b0 (api suite is `internal-rt.db.test.ts` per the Testcontainers convention: `pnpm --filter @cp/api test:db -- routes/internal-rt`; ACL predicates live in `packages/domain/src/realtime/namespaces.ts` as `RT_ACL_RULE_SQL` so the db permission suite runs exactly what the proxy runs; config drift test `services/api/test/realtime/centrifugo-config.test.ts`)
 
 ### T7 — Outbox relay and server-side revocation
 - Goal: commit-then-publish fan-out with unsubscribe/disconnect on membership or session change.
@@ -170,6 +174,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. `LISTEN rt_outbox` + 1 s sweep; `SELECT … FOR UPDATE SKIP LOCKED LIMIT 100` as `app_system`. 2. Map kinds: publish (single channel), broadcast (grouped), unsubscribe (user, channel), disconnect (user). 3. Mark `published_at`; failures increment `attempts` with capped backoff. 4. Better Auth session revoke/sign-out hook writes `disconnect` outbox row. 5. Graceful shutdown.
 - Tests: `pnpm --filter @cp/worker test -- rt-relay` (Testcontainers PG + Centrifugo container: publish visible to a subscribed centrifuge-js Node client; membership removal → client receives unsubscribe < 1 s; rolled-back tx publishes nothing).
 - Done when: all three behaviours pass; two relay instances never double-publish (test with concurrent relays checks message count).
+- Status: done — 29be5fc, 427f038 (suite is `rt-relay.db.test.ts`: `pnpm --filter @cp/worker test:db -- rt-relay`; phase 09 already queues the disconnect for sign-out/revoke-session(s), so `session-revoke-hook.ts` covers the admin ban/remove/revoke-user-sessions paths as middleware in front of Better Auth)
 
 ### T8 — Mobile realtime client, recovery and presence hooks
 - Goal: typed subscriptions with recovery, dedupe, presence, typing and anchored cursors.
@@ -177,6 +182,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. centrifuge-js with `getToken` → `/api/auth/token?aud=rt`, refresh before `exp`. 2. Ref-counted `useChannel(ns, id, handlers)`; persist `(offset, epoch)` in MMKV; `recovered:false`/epoch change → `onChannelReset`. 3. Dedupe on envelope `id` (LRU 500); zod-validate payload by `type`. 4. AppState: disconnect after 30 s background, reconnect on foreground. 5. `useTyping` throttle 1/3 s + 5 s expiry; `useAnchoredPresence(anchor)` ≤5 Hz, clears on blur; `usePresence` from presence + join/leave.
 - Tests: `pnpm --filter @cp/mobile test -- data/realtime` (Jest against local Centrifugo via compose in CI job `rt-client`).
 - Done when: reconnect after 2 min background recovers missed messages with no duplicates; lossy reset callback fires when history is exceeded.
+- Status: done — c9319af (integration suites start their own Centrifugo with this repo's config via Testcontainers, reaching the stand-in proxy through Docker's `host-gateway` alias; anchored presence spaces sends 250 ms apart so the api's 200 ms window never drops the latest anchor, and resends a rejected latest anchor once)
 
 ### T9 — Media presign, multipart and signed reads
 - Goal: R2 upload/read primitives used by avatars, photos, receipts, docs.
@@ -184,6 +190,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. `purposes.ts`: allowed content types + max bytes per purpose; key `u/<uid>/<purpose>/<uuidv7>`. 2. Presign PUT (≤5 MB) with sha256 checksum; multipart create/parts/complete (parts ≥5 MiB). 3. Register `media_objects` row via internal command `register_media_upload`. 4. `read-urls`: authorize each key (owner, or membership of the object's crew/trip) → `HMAC-SHA256(secret, key+exp)`, TTL 15 min. 5. Worker verifies sig/exp in constant time, streams from R2 binding, `Cache-Control: private`.
 - Tests: `pnpm --filter @cp/api test -- routes/media`; `pnpm --filter @cp/media-worker test` (Miniflare).
 - Done when: outsider read-url request → `NOT_FOUND`; expired/tampered sig → 403 at worker; oversize presign → `PAYLOAD_TOO_LARGE`.
+- Status: done — 7919827
 
 ### T10 — App Group bridge and extension outbox drain
 - Goal: extensions can queue commands offline and the app drains them through the normal pipeline.

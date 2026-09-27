@@ -1,4 +1,4 @@
-/* Critterpass coming-soon page. Faithful port of the Claude Design "Site - Coming Soon v2" mock;
+/* CritterPass coming-soon page. Faithful port of the Claude Design "Site - Coming Soon v2" mock;
    colours/fonts come from @cp/design-tokens (tokens.css, fonts.css), imported by the page. */
 
 /* The page swaps states (waitlist form / joined panel, egg / hatched local) with the `hidden`

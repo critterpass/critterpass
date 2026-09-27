@@ -117,6 +117,7 @@ Ours:
 | `past_trips` | place_id, country, month date, source | user_id | self | O | me | C2 | acct |
 | `phrase_progress` | phrase_id, practised_at, score | (user_id, phrase_id) | self | O | me | C2 | acct |
 | `install_attributions` | device_id, channel, source, invite_id?, join_code?, claimed_at | unique device_id | sys | S | — | C2 | 180 d |
+| `device_attestations` | install_id, platform (ios/android), key_id, public_key, counter, attested_at, last_assertion_at, verdict | unique install_id, unique key_id | sys | S (silent; never client-visible) | — | C2 | rolling |
 
 ### 3.2 Crews, memberships, invites
 
@@ -293,7 +294,7 @@ No in-app money movement (C24). Boost split = IOU `ledger_entries(source_kind='b
 | `installed_widgets` | device_id, kind, family, config jsonb (trip_id/crew_id) | device_id | self | O | — | C2 | 30 d unseen |
 | `device_activities` | device_id, user_id, trip_id, kind (leave_by/crew_meetup/flight/encounter/vote_closing/sos/storm/alarm), ref_id, os_activity_id, activity_push_token, broadcast_channel_id?, started_via (local/scheduled/push_to_start), state (pending/active/stale/ended/dismissed), stale_at, ends_at, last_content_version | (state, ends_at) | self / sys | O | — | C2 | 7 d after end |
 | `broadcast_channels` | apns_channel_id, scope (leave_by/meetup/vote), ref_id, storage_policy, delete_after | uk apns_channel_id | sys | S | — | C2 | GC at delete_after |
-| `device_action_keys` | key_id, device_id, user_id, secret (HMAC key, encrypted at rest), scopes text[] (`ballot`, `readiness`, `trip_day`, `sos`, `money_nudge`, `money_mark`, `rsvp`, `changeset`, `chat_reply`, `inbox`, `read_snapshot`, `read_notification`; api-contracts-async §5), expires_at (30 d rolling), created_at, last_used_at, revoked_at | pk key_id | self create/revoke; revoked on sign-out, account switch, membership change | O | — | C3 (secret hash) | revoked + 30 d |
+| `device_action_keys` | key_id, device_id, user_id, secret_enc (HMAC-signing secret, AES-256-GCM envelope-encrypted, `packages/db/src/crypto`), scopes text[] (`ballot`, `readiness`, `trip_day`, `sos`, `money_nudge`, `money_mark`, `rsvp`, `changeset`, `chat_reply`, `inbox`, `read_snapshot`, `read_notification`; api-contracts-async §5), expires_at (30 d rolling), created_at, last_used_at, revoked_at | pk key_id | self create/revoke (app_system issues); revoked on sign-out, device removal, account deletion, uid merge, admin action | O | — | C3 (secret hash) | revoked + 30 d |
 | `notifications` | user_id, crew_id?, trip_id?, category, class (always/budgeted/roundup_only), sender jsonb (kind/id), template_id, title, body, items jsonb, deep_link, collapse_key, thread_id, dedupe_key, llm_generated, not_before, expires_at, state (queued/sent/rolled_into_roundup/dropped/failed), sent_at | uk (user_id, dedupe_key); (state, not_before) | sys | O read | me (last 30 d) | C2 | 90 d |
 | `notification_prefs` | user_id, budget_per_day (1–10, default 5), roundup_time, roundup_tz (trip/device), guide_tips, money, critters_nearby, crew_chat_mode, leave_by_dnd, quiet_hours | uk user_id | self | O | me | C2 | acct |
 | `ping_ledger` | user_id, local_date, sent_budgeted, queued | uk (user_id, local_date) | sys | O read | me | C2 | 30 d |

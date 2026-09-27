@@ -23,11 +23,12 @@ const OUT_DURATION_MS = 400; // "out 400 slam"
 /** "next card from ty 26 s .93 gentle" — the entry transform the next card in the deck should start from. */
 export const NEXT_CARD_ENTRY = { translateY: 26, scale: 0.93 } as const;
 
-export function commitsFling(
-  dx: number,
-  commitDistance: number = FLING_COMMIT_DISTANCE_PT,
-): boolean {
-  return Math.abs(dx) >= commitDistance;
+export function commitsFling(dx: number, commitDistance?: number): boolean {
+  'worklet';
+  // Defaults resolve in the body: a worklet's captured constants only exist once its body runs on
+  // the UI runtime, so a default parameter naming one throws there.
+  const commitDistanceResolved = commitDistance ?? FLING_COMMIT_DISTANCE_PT;
+  return Math.abs(dx) >= commitDistanceResolved;
 }
 
 export type SwipeDirection = 'left' | 'right';

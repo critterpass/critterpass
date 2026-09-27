@@ -28,10 +28,15 @@ const DISMISS_OUT_DURATION_MS = 280;
 export function commitsDragDismiss(
   dy: number,
   velocityPtPerMs: number,
-  commitDistancePt: number = DRAG_DISMISS_COMMIT_DISTANCE_PT,
-  commitVelocity: number = DRAG_DISMISS_COMMIT_VELOCITY_PT_PER_MS,
+  commitDistancePt?: number,
+  commitVelocity?: number,
 ): boolean {
-  return dy > commitDistancePt || velocityPtPerMs > commitVelocity;
+  'worklet';
+  // Defaults resolve in the body: a worklet's captured constants only exist once its body runs on
+  // the UI runtime, so a default parameter naming one throws there.
+  const commitDistancePtResolved = commitDistancePt ?? DRAG_DISMISS_COMMIT_DISTANCE_PT;
+  const commitVelocityResolved = commitVelocity ?? DRAG_DISMISS_COMMIT_VELOCITY_PT_PER_MS;
+  return dy > commitDistancePtResolved || velocityPtPerMs > commitVelocityResolved;
 }
 
 export const dragDismiss = {

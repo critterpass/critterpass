@@ -7,6 +7,7 @@ import packageJson from '../package.json' with { type: 'json' };
 
 import { loadWorkerEnv } from './env';
 import { createHealthApp } from './health';
+import { createCentrifugoApi, startRtRelay, type RtRelay } from './rt-relay';
 
 const env = loadWorkerEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'worker', commit: env.COMMIT_SHA } });
@@ -39,6 +40,23 @@ const health = createHealthApp({
   },
 });
 
+let rtRelay: RtRelay | undefined;
+if (env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY) {
+  rtRelay = startRtRelay({
+    pool,
+    api: createCentrifugoApi({
+      baseUrl: env.CENTRIFUGO_API_URL,
+      apiKey: env.CENTRIFUGO_HTTP_API_KEY,
+    }),
+    logger: logger.child({ component: 'rt-relay' }),
+    connectListener: () => new pg.Client({ connectionString: env.DATABASE_DIRECT_URL }),
+  });
+} else {
+  logger.warn(
+    'rt_outbox relay is disabled: CENTRIFUGO_API_URL or CENTRIFUGO_HTTP_API_KEY is unset',
+  );
+}
+
 const server = serve({ fetch: health.fetch, port: env.PORT }, (info) => {
   logger.info({ port: info.port }, 'worker health listening');
 });
@@ -49,12 +67,15 @@ function shutdown(signal: string) {
   shuttingDown = true;
   logger.info({ signal }, 'draining');
   server.close(() => {
-    void Promise.allSettled([pool.end(), redis.isOpen ? redis.close() : Promise.resolve()]).then(
-      () => {
+    void (rtRelay?.stop() ?? Promise.resolve())
+      .catch((error: unknown) => logger.error({ err: error }, 'rt relay stop failed'))
+      .then(() =>
+        Promise.allSettled([pool.end(), redis.isOpen ? redis.close() : Promise.resolve()]),
+      )
+      .then(() => {
         logger.info('stopped');
         process.exit(0);
-      },
-    );
+      });
   });
   setTimeout(() => process.exit(1), 25_000).unref();
 }

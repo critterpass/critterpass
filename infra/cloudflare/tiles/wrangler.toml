@@ -1,0 +1,32 @@
+# cp-tiles R2 bucket config (F-031 "Custom domain with range requests").
+#
+# This is a config reference, not a deployable Worker — cp-tiles has no Worker in front of it.
+# docs/decisions/20260927-maplibre-pmtiles-on-r2.md's chosen path serves PMTiles/fonts/sprite
+# straight from the bucket's own public `dev-url` (verified to answer real `Range` requests with
+# `Accept-Ranges: bytes` and 206 partial-content responses — a genuine R2 feature, not something a
+# Worker needs to add), which is what `tools/maps/build-style.ts`'s `TILES_PUBLIC_BASE_URL` and the
+# `TILES_BASE_URL` env var point at today.
+#
+# Attaching a `tiles.critterpass.app` custom domain (this file's other purpose) additionally needs
+# a real `wrangler r2 bucket domain add` call against the `critterpass.app` Cloudflare zone this
+# repo does not hold zone-admin credentials for in this pass — same dev-url-first, custom-domain-
+# later posture the tiles spike's own founder follow-ups used. Once the founder approves the zone
+# record:
+#
+#   wrangler r2 bucket domain add cp-tiles tiles.critterpass.app --zone-id <critterpass.app zone id>
+#
+# then flip `TILES_BASE_URL` (services/api/.env, Railway staging/production vars) from the r2.dev
+# URL to `https://tiles.critterpass.app` — no code change needed, the manifest route and the mobile
+# style JSON both read the base URL as configuration, not a hard-coded host.
+
+name = "cp-tiles"
+main = "unused.js" # no Worker script; this file only documents the R2 bucket/domain binding
+
+[[r2_buckets]]
+binding = "TILES"
+bucket_name = "cp-tiles"
+
+# Uncomment once the founder approves the `critterpass.app` zone record:
+# [[routes]]
+# pattern = "tiles.critterpass.app/*"
+# zone_name = "critterpass.app"

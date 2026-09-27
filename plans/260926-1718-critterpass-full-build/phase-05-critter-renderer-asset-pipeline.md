@@ -1,7 +1,7 @@
 ---
 phase: 5
 title: Runtime sticker renderer, bake pipeline, share images
-status: pending
+status: in_progress
 depends_on: [2, 3, 4]
 wave: 3
 features: [F-007, F-008, F-140]

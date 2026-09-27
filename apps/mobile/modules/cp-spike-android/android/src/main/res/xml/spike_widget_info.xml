@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  AppWidgetProviderInfo for the T14 Glance spike widget. `initialLayout` points at Glance's own
+  bundled loading layout (`androidx.glance.appwidget:glance-appwidget`'s
+  `glance_default_loading_layout`) instead of a hand-authored XML layout — Glance renders the real
+  content itself once `provideGlance` runs; this is only what the launcher shows for one frame
+  before that.
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+  android:minWidth="180dp"
+  android:minHeight="110dp"
+  android:updatePeriodMillis="0"
+  android:resizeMode="horizontal|vertical"
+  android:widgetCategory="home_screen"
+  android:initialLayout="@layout/glance_default_loading_layout" />
