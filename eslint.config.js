@@ -184,6 +184,17 @@ export default defineConfig([
     files: testFiles,
     rules: { 'lingui/no-unlocalized-strings': 'off', 'lingui/require-explicit-id': 'off' },
   },
+  {
+    // `(dev)` routes are internal harnesses (spikes, labs, benches) that never ship: Metro drops
+    // them from production bundles and `check-release-bundle` fails CI if one leaks. Their labels
+    // and measurement styling are not user-facing copy or design-system UI.
+    files: ['apps/mobile/src/app/(dev)/**/*.{ts,tsx}'],
+    rules: {
+      'critterpass/no-literal-style': 'off',
+      'lingui/no-unlocalized-strings': 'off',
+      'lingui/require-explicit-id': 'off',
+    },
+  },
 
   prettier,
 ]);

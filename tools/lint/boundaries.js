@@ -12,6 +12,8 @@ export const boundaryElements = [
   { type: 'mobile-motion', pattern: 'apps/mobile/src/motion' },
   { type: 'mobile-data', pattern: 'apps/mobile/src/data' },
   { type: 'mobile-lib', pattern: 'apps/mobile/src/lib' },
+  // Inline Expo modules (code-standards.md §14: Swift/Kotlin bridges under apps/mobile/modules/cp-*).
+  { type: 'mobile-native-module', pattern: 'apps/mobile/modules/*', capture: ['module'] },
   { type: 'mobile', pattern: 'apps/mobile' },
   { type: 'web', pattern: 'apps/web' },
   { type: 'admin', pattern: 'apps/admin' },
@@ -82,7 +84,14 @@ export const consumerDeps = {
 
 /** Mobile layers each layer may import (arch §3 rows for apps/mobile/src/*). */
 const mobileLayerDeps = {
-  'mobile-route': ['mobile-feature', 'mobile-ui', 'mobile-motion', 'mobile-data', 'mobile-lib'],
+  'mobile-route': [
+    'mobile-feature',
+    'mobile-ui',
+    'mobile-motion',
+    'mobile-data',
+    'mobile-lib',
+    'mobile-native-module',
+  ],
   'mobile-feature': ['mobile-ui', 'mobile-motion', 'mobile-data', 'mobile-lib'],
   'mobile-ui': ['mobile-motion', 'mobile-lib'],
   'mobile-motion': ['mobile-lib'],
