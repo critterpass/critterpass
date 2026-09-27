@@ -19,7 +19,8 @@ const bannedIds: { pattern: RegExp; what: string }[] = [
     pattern: /\bD(?:[1-9]|1\d|20)\b(?!\s*(?:array|canvas|context|vector|point|space|model))/i,
     what: 'decision id',
   },
-  { pattern: /\bphase[ -]?\d{1,2}\b/i, what: 'phase number' },
+  // Requires a separator so wave maths like `phase1` stays legal.
+  { pattern: /\bphase[ -]\d{1,2}\b/i, what: 'phase number' },
   { pattern: /\bT(?:[1-9]|1\d)\b(?:'s)?\s*(?:done|task|—)/, what: 'task id' },
 ];
 

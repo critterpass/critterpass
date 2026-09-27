@@ -1,0 +1,47 @@
+Third-party notices for @cp/critter-art
+=========================================
+
+design/doodles.js (the Critterpass design prototype's hand-drawn renderer) adapts the brush-pen
+stroke, wash and palette approach from alesha-pro/tools (skills/hand-drawn-canvas-animation),
+which is MIT-licensed. This package ports that renderer's math and drawing logic to TypeScript,
+so the same notice carries into the following files:
+
+  src/core/rng.ts
+  src/core/spline.ts
+  src/core/ribbon.ts
+  src/core/ops.ts
+  src/core/shapes.ts (ellipsePolygon)
+  src/kinds/guides/gecko.ts
+  src/kinds/guides/tanuki.ts
+  src/kinds/guides/puffin.ts
+  src/kinds/guides/axolotl.ts
+  src/kinds/guides/sardine.ts
+  src/kinds/guides/alpaca.ts
+  src/kinds/icons/badges.ts
+  src/kinds/icons/objects.ts
+  src/kinds/icons/scenes.ts
+  src/kinds/icons/weather.ts
+  src/kinds/icons/annotations.ts
+  src/kinds/parts/face.ts (eyes, cheeks, extras, toes)
+
+MIT License
+
+Copyright (c) 2026 Alexey Fateev
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
