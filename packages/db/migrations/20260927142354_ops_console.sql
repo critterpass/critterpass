@@ -235,7 +235,7 @@ GRANT SELECT (created_at, expires_at, id, kind, message_id, slots_taken, slots_t
 CREATE POLICY guide_offers_admin_reader ON guide_offers FOR SELECT TO admin_reader USING (true);
 GRANT SELECT (colour, created_at, id, local_words, name, persona_pack_version, slug, updated_at, voice_id) ON guides TO admin_reader;
 CREATE POLICY guides_admin_reader ON guides FOR SELECT TO admin_reader USING (true);
-GRANT SELECT (channel, claimed_at, created_at, device_id, invite_id, join_code, source) ON install_attributions TO admin_reader;
+GRANT SELECT (channel, claimed_at, claimed_url, created_at, device_id, invite_id, join_code, link_kind, source, via) ON install_attributions TO admin_reader;
 CREATE POLICY install_attributions_admin_reader ON install_attributions FOR SELECT TO admin_reader USING (true);
 GRANT SELECT (cost_pp_minor, created_at, created_by_job_id, currency, id, parent_id, status, trip_id, updated_at, visibility) ON itinerary_versions TO admin_reader;
 CREATE POLICY itinerary_versions_admin_reader ON itinerary_versions FOR SELECT TO admin_reader USING (true);
