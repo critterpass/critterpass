@@ -5,7 +5,7 @@ import {
   patternFlags,
   type ComplianceResult,
 } from '@cp/domain';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { loadComplianceCases } from '../../evals/lib/compliance';
 import {
@@ -20,6 +20,7 @@ import {
   type MeterHandle,
   type TurnEvent,
 } from '../../src';
+import { DEFAULT_INPUT_CHECK_BUDGET_MS } from '../../src/runner/input-screen';
 import { fixtureTransport } from '../fixture-transport';
 
 function decisions(jevFixtures: readonly string[], claudeFixtures: readonly string[] = []) {
@@ -292,35 +293,32 @@ describe('guide input screening in a turn', () => {
     expect(events).toContainEqual({ type: 'help_card', topic: 'safety' });
   });
 
-  it(
-    'keeps p95 added latency under 50 ms while the check is still running',
-    { timeout: 20_000 },
-    async () => {
-      // Time to the first model request, with a check still running versus with no check at all:
-      // the difference is what screening adds to a turn.
-      const firstRequestAfter = async (inputCheck: Promise<ComplianceResult> | undefined) => {
-        const h = turnHarness(['haiku-stream']);
-        const started = performance.now();
-        await collect(
-          runTurn(turnInput('Where can we eat?', inputCheck), {
-            gateway: h.gateway,
-            registry: h.registry,
-            meter: UNMETERED,
-          }),
-        );
-        return (h.firstRequestAt[0] ?? Number.POSITIVE_INFINITY) - started;
-      };
-      // One unmeasured pair warms the SDK and module caches.
-      await firstRequestAfter(undefined);
-      await firstRequestAfter(later(CLEAN, 200));
-      const added: number[] = [];
-      for (let i = 0; i < 20; i += 1) {
-        const baseline = await firstRequestAfter(undefined);
-        added.push((await firstRequestAfter(later(CLEAN, 200))) - baseline);
+  it('starts the first model call when the input budget runs out, while the check is still running', async () => {
+    // The verdict lands at 200 ms; the model call must not wait for it past the budget. Fake timers
+    // make this exact, so a loaded machine can't turn it into a latency flake.
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    try {
+      const h = turnHarness(['haiku-stream']);
+      const run = collect(
+        runTurn(turnInput('Where can we eat?', later(CLEAN, 200)), {
+          gateway: h.gateway,
+          registry: h.registry,
+          meter: UNMETERED,
+        }),
+      );
+      await vi.advanceTimersByTimeAsync(DEFAULT_INPUT_CHECK_BUDGET_MS - 1);
+      expect(h.firstRequestAt).toHaveLength(0);
+      await vi.advanceTimersByTimeAsync(1);
+      // Flush pending promise work without moving the clock (vi.waitFor would advance it).
+      for (let i = 0; i < 50 && h.firstRequestAt.length === 0; i += 1) {
+        await vi.advanceTimersByTimeAsync(0);
       }
-      added.sort((a, b) => a - b);
-      const p95 = added[Math.ceil(0.95 * added.length) - 1] ?? Number.POSITIVE_INFINITY;
-      expect(p95).toBeLessThanOrEqual(50);
-    },
-  );
+      expect(h.firstRequestAt).toHaveLength(1);
+      await vi.advanceTimersByTimeAsync(200);
+      const events = await run;
+      expect(events.at(-1)).toMatchObject({ type: 'done' });
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });
