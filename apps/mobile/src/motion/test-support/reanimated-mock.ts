@@ -11,6 +11,7 @@
 // its target value immediately, same as the upstream mock, since nothing here asserts on
 // intermediate animation frames — only on the settled value and on `useFrameCallback`-driven state).
 import { useEffect, useRef, useState } from 'react';
+import { View } from 'react-native';
 
 type Listener<Value> = (value: Value) => void;
 
@@ -155,8 +156,16 @@ function cancelAnimation(): void {
   // No pending animation ever exists in this mock (withX resolves synchronously).
 }
 
+// The real module's default export is the `Animated` namespace (`Animated.View`, `.Text`, ...): each
+// is normally a `createAnimatedComponent`-wrapped host component that accepts the opaque style handle
+// `useAnimatedStyle` returns. This mock's `useAnimatedStyle` already resolves to a plain style object
+// (see above), so a plain host component is a faithful stand-in — only `View` is reimplemented here
+// since it is the only one this package's motion code renders directly.
+const Animated = { View };
+
 module.exports = {
   __esModule: true,
+  default: Animated,
   makeMutable,
   useSharedValue,
   useAnimatedStyle,

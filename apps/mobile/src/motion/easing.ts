@@ -15,6 +15,12 @@ export function linearEasing(t: number): number {
   return t;
 }
 
+/** `motion.easing` has no quadratic token; `draw`'s own spec names "easeInOutQuad" specifically. */
+export function quadInOutEasing(t: number): number {
+  'worklet';
+  return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+}
+
 // Standard cubic-bezier easing (Newton-Raphson root-finding with a bisection fallback for slopes
 // too flat to converge) — the same numerical method browsers use for CSS's `cubic-bezier()` and
 // what most JS easing libraries implement. Kept local (rather than Reanimated's own `Easing.bezier`)
