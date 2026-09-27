@@ -143,3 +143,24 @@ export {
   type ToolOutput,
   type ToolSpec,
 } from './tools/schemas';
+export { isBlockedUrl, SUPPLIER_BLOCKED_DOMAINS } from './tools/blocked-domains';
+export {
+  collectGrounding,
+  mergeGrounding,
+  unverifiedTextNumbers,
+  validateStructured,
+  type GroundingSet,
+  type GroundingViolation,
+  type GroundingViolationKind,
+} from './tools/grounding';
+export {
+  dropBlockedCitations,
+  routeTools,
+  screenWebSearch,
+  visibleAnswer,
+  WEB_SEARCH_MAX_USES,
+  WEB_SEARCH_TOOL_TYPE,
+  webSearchTool,
+  type WebSearchOptions,
+  type WebSearchScreen,
+} from './tools/web-search';
