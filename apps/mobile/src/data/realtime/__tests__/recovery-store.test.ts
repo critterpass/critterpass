@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { createMMKV } from 'react-native-mmkv';
 
+import { createDeviceRecoveryStore } from '../device-recovery-store';
 import { createRecoveryStore } from '../recovery-store';
 
 describe('createRecoveryStore', () => {
@@ -45,8 +46,8 @@ describe('createRecoveryStore', () => {
     expect(store.get('crew:c3')).toBeUndefined();
   });
 
-  it('opens its own MMKV instance by default', () => {
-    const store = createRecoveryStore();
+  it('opens its own MMKV instance on the device', () => {
+    const store = createDeviceRecoveryStore();
     store.set('crew:c1', { offset: 5, epoch: 'e' });
     expect(store.get('crew:c1')).toEqual({ offset: 5, epoch: 'e' });
   });

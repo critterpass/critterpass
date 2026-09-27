@@ -2,9 +2,10 @@
  * Persisted stream positions for realtime channels (docs/api-contracts-async.md §1.1 "Recovery").
  * Every namespace with history runs `force_recovery`, so resubscribing with the last seen
  * `(offset, epoch)` replays exactly what was missed, even after the app was killed. Positions live
- * in MMKV so a cold start resumes where the last session stopped instead of reconciling everything.
+ * in MMKV so a cold start resumes where the last session stopped instead of reconciling everything
+ * (./device-recovery-store.ts opens it). The store itself only needs a key-value interface, so the
+ * realtime client also runs under plain Node (the end-to-end sync harness).
  */
-import { createMMKV } from 'react-native-mmkv';
 
 /** The slice of an MMKV instance this store uses; `createMMKV()` returns one. */
 export interface KeyValueStorage {
@@ -27,10 +28,8 @@ export interface RecoveryStore {
   clear(): void;
 }
 
-/* eslint-disable lingui/no-unlocalized-strings -- MMKV storage ids and keys, never rendered copy. */
-const STORAGE_ID = 'cp-realtime';
+// eslint-disable-next-line lingui/no-unlocalized-strings -- storage key prefix, never rendered copy.
 const KEY_PREFIX = 'rt.pos.';
-/* eslint-enable lingui/no-unlocalized-strings */
 
 function parsePosition(raw: string | undefined): StreamPositionRecord | undefined {
   if (raw === undefined) return undefined;
@@ -46,9 +45,7 @@ function parsePosition(raw: string | undefined): StreamPositionRecord | undefine
   }
 }
 
-export function createRecoveryStore(
-  storage: KeyValueStorage = createMMKV({ id: STORAGE_ID }),
-): RecoveryStore {
+export function createRecoveryStore(storage: KeyValueStorage): RecoveryStore {
   return {
     get: (channel) => parsePosition(storage.getString(KEY_PREFIX + channel)),
     set: (channel, position) => {

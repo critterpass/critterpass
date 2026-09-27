@@ -7,7 +7,7 @@
  */
 import { Centrifuge } from 'centrifuge';
 
-import { createRecoveryStore, type RecoveryStore } from './recovery-store';
+import type { RecoveryStore } from './recovery-store';
 import { createChannelRegistry, type ChannelRegistry } from './subscriptions';
 
 export const BACKGROUND_DISCONNECT_MS = 30_000;
@@ -19,7 +19,8 @@ export interface CreateRealtimeClientOptions {
   readonly url: string;
   /** Resolves a fresh `aud=rt` connection token, e.g. `() => tokens.getToken('rt')`. */
   readonly getToken: () => Promise<string>;
-  readonly positions?: RecoveryStore;
+  /** Persisted stream positions: `createDeviceRecoveryStore()` in the app. */
+  readonly positions: RecoveryStore;
   /** WebSocket implementation; React Native's global one when omitted. */
   readonly websocket?: unknown;
 }
@@ -35,7 +36,7 @@ export interface RealtimeClient {
 }
 
 export function createRealtimeClient(options: CreateRealtimeClientOptions): RealtimeClient {
-  const positions = options.positions ?? createRecoveryStore();
+  const { positions } = options;
   const centrifuge = new Centrifuge(options.url, {
     getToken: () => options.getToken(),
     ...(options.websocket !== undefined ? { websocket: options.websocket } : {}),
