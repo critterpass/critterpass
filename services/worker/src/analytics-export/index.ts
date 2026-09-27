@@ -7,3 +7,4 @@ export {
 } from './exporter';
 export { startExportLoop, type ExportLoop } from './loop';
 export { DOMAIN_EVENT_MAPPERS, mapDomainEvent, type DomainEventRow } from './mapper';
+export { deleteAnalyticsPerson, type PosthogAdminOptions } from './deletion';

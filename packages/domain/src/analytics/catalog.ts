@@ -47,6 +47,8 @@ const EVENT_PROPS = {
     context: z.string().regex(/^[a-z0-9_]{1,40}$/u),
     result: oneOf(['granted', 'denied', 'limited', 'blocked']),
   },
+  // Web: the only event critterpass.app sends besides page views (cookieless, anonymous).
+  cta_clicked: { cta: z.string().regex(/^[a-z0-9_]{1,40}$/u) },
   // Crew / vote
   crew_created: {},
   crew_joined: { via: oneOf(['link', 'code', 'qr', 'invite', 'merge']).optional() },

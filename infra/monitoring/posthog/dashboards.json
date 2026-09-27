@@ -1,0 +1,32 @@
+[
+  {
+    "key": "growth",
+    "name": "CritterPass / Growth",
+    "description": "Acquisition and the invite fast path."
+  },
+  {
+    "key": "crew",
+    "name": "CritterPass / Crew and planning",
+    "description": "Crew, vote, setup and proposal funnels."
+  },
+  {
+    "key": "guide",
+    "name": "CritterPass / Guide",
+    "description": "Guide usage and limit hits."
+  },
+  {
+    "key": "trip",
+    "name": "CritterPass / Trip and after",
+    "description": "Trip activity, critters and recap."
+  },
+  {
+    "key": "monetise",
+    "name": "CritterPass / Monetise",
+    "description": "Paywall, purchases and quiet no."
+  },
+  {
+    "key": "ai",
+    "name": "CritterPass / AI cost",
+    "description": "Model spend per crew trip and per feature (llm_call)."
+  }
+]

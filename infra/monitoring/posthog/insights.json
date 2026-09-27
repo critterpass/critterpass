@@ -1,0 +1,419 @@
+[
+  {
+    "key": "acquisition-funnel",
+    "name": "Acquisition: link to saved account",
+    "dashboard": "growth",
+    "query": {
+      "kind": "InsightVizNode",
+      "source": {
+        "kind": "FunnelsQuery",
+        "series": [
+          {
+            "kind": "EventsNode",
+            "event": "link_clicked"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "install_attributed"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "pass_issued"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "account_saved"
+          }
+        ],
+        "funnelsFilter": {
+          "funnelWindowInterval": 14,
+          "funnelWindowIntervalUnit": "day",
+          "funnelVizType": "steps"
+        },
+        "dateRange": {
+          "date_from": "-30d"
+        }
+      }
+    }
+  },
+  {
+    "key": "invite-time-to-issue",
+    "name": "Invite fast path: time to pass (p50 / p90, target 15 s)",
+    "dashboard": "growth",
+    "query": {
+      "kind": "InsightVizNode",
+      "source": {
+        "kind": "TrendsQuery",
+        "series": [
+          {
+            "kind": "EventsNode",
+            "event": "pass_issued",
+            "properties": [
+              {
+                "key": "path",
+                "value": "invited",
+                "operator": "exact",
+                "type": "event"
+              }
+            ],
+            "math": "median",
+            "math_property": "duration_ms",
+            "custom_name": "p50 ms"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "pass_issued",
+            "properties": [
+              {
+                "key": "path",
+                "value": "invited",
+                "operator": "exact",
+                "type": "event"
+              }
+            ],
+            "math": "p90",
+            "math_property": "duration_ms",
+            "custom_name": "p90 ms"
+          }
+        ],
+        "interval": "day",
+        "dateRange": {
+          "date_from": "-30d"
+        },
+        "trendsFilter": {
+          "display": "ActionsLineGraph"
+        }
+      }
+    }
+  },
+  {
+    "key": "crew-vote-funnel",
+    "name": "Crew and vote",
+    "dashboard": "crew",
+    "query": {
+      "kind": "InsightVizNode",
+      "source": {
+        "kind": "FunnelsQuery",
+        "series": [
+          {
+            "kind": "EventsNode",
+            "event": "crew_created"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "invite_sent"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "crew_joined"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "ballot_cast"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "poll_closed"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "reveal_seen"
+          }
+        ],
+        "funnelsFilter": {
+          "funnelWindowInterval": 14,
+          "funnelWindowIntervalUnit": "day",
+          "funnelVizType": "steps"
+        },
+        "dateRange": {
+          "date_from": "-30d"
+        }
+      }
+    }
+  },
+  {
+    "key": "setup-plan-funnel",
+    "name": "Setup and plan",
+    "dashboard": "crew",
+    "query": {
+      "kind": "InsightVizNode",
+      "source": {
+        "kind": "FunnelsQuery",
+        "series": [
+          {
+            "kind": "EventsNode",
+            "event": "dates_locked"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "budget_locked"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "draft_completed"
+          }
+        ],
+        "funnelsFilter": {
+          "funnelWindowInterval": 14,
+          "funnelWindowIntervalUnit": "day",
+          "funnelVizType": "steps"
+        },
+        "dateRange": {
+          "date_from": "-30d"
+        }
+      }
+    }
+  },
+  {
+    "key": "proposal-boarded-funnel",
+    "name": "Proposal to boarded",
+    "dashboard": "crew",
+    "query": {
+      "kind": "InsightVizNode",
+      "source": {
+        "kind": "FunnelsQuery",
+        "series": [
+          {
+            "kind": "EventsNode",
+            "event": "proposal_sent"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "proposal_opened"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "rsvp_changed"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "boarded"
+          }
+        ],
+        "funnelsFilter": {
+          "funnelWindowInterval": 30,
+          "funnelWindowIntervalUnit": "day",
+          "funnelVizType": "steps"
+        },
+        "dateRange": {
+          "date_from": "-30d"
+        }
+      }
+    }
+  },
+  {
+    "key": "guide-usage",
+    "name": "Guide questions and limit hits",
+    "dashboard": "guide",
+    "query": {
+      "kind": "InsightVizNode",
+      "source": {
+        "kind": "TrendsQuery",
+        "series": [
+          {
+            "kind": "EventsNode",
+            "event": "guide_question"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "guide_limit_hit"
+          }
+        ],
+        "interval": "day",
+        "dateRange": {
+          "date_from": "-30d"
+        },
+        "trendsFilter": {
+          "display": "ActionsLineGraph"
+        }
+      }
+    }
+  },
+  {
+    "key": "trip-activity",
+    "name": "Trip: bookings, expenses, I'm up",
+    "dashboard": "trip",
+    "query": {
+      "kind": "InsightVizNode",
+      "source": {
+        "kind": "TrendsQuery",
+        "series": [
+          {
+            "kind": "EventsNode",
+            "event": "booking_added"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "expense_added"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "im_up"
+          }
+        ],
+        "interval": "day",
+        "dateRange": {
+          "date_from": "-30d"
+        },
+        "trendsFilter": {
+          "display": "ActionsLineGraph"
+        }
+      }
+    }
+  },
+  {
+    "key": "critters-after",
+    "name": "Critters and after the trip",
+    "dashboard": "trip",
+    "query": {
+      "kind": "InsightVizNode",
+      "source": {
+        "kind": "FunnelsQuery",
+        "series": [
+          {
+            "kind": "EventsNode",
+            "event": "egg_hatched"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "encounter_ended"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "recap_story_completed"
+          }
+        ],
+        "funnelsFilter": {
+          "funnelWindowInterval": 60,
+          "funnelWindowIntervalUnit": "day",
+          "funnelVizType": "steps"
+        },
+        "dateRange": {
+          "date_from": "-30d"
+        }
+      }
+    }
+  },
+  {
+    "key": "monetise-funnel",
+    "name": "Monetise: paywall to purchase",
+    "dashboard": "monetise",
+    "query": {
+      "kind": "InsightVizNode",
+      "source": {
+        "kind": "FunnelsQuery",
+        "series": [
+          {
+            "kind": "EventsNode",
+            "event": "paywall_shown"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "purchase_completed"
+          }
+        ],
+        "funnelsFilter": {
+          "funnelWindowInterval": 7,
+          "funnelWindowIntervalUnit": "day",
+          "funnelVizType": "steps"
+        },
+        "dateRange": {
+          "date_from": "-30d"
+        }
+      }
+    }
+  },
+  {
+    "key": "quiet-no",
+    "name": "Quiet no and paywall suppressions",
+    "dashboard": "monetise",
+    "query": {
+      "kind": "InsightVizNode",
+      "source": {
+        "kind": "TrendsQuery",
+        "series": [
+          {
+            "kind": "EventsNode",
+            "event": "quiet_no"
+          },
+          {
+            "kind": "EventsNode",
+            "event": "paywall_shown",
+            "custom_name": "paywall shown"
+          }
+        ],
+        "interval": "week",
+        "dateRange": {
+          "date_from": "-30d"
+        },
+        "trendsFilter": {
+          "display": "ActionsLineGraph"
+        }
+      }
+    }
+  },
+  {
+    "key": "ai-cost-per-trip",
+    "name": "AI cost per crew trip (USD micros)",
+    "dashboard": "ai",
+    "query": {
+      "kind": "InsightVizNode",
+      "source": {
+        "kind": "TrendsQuery",
+        "series": [
+          {
+            "kind": "EventsNode",
+            "event": "llm_call",
+            "math": "sum",
+            "math_property": "cost_est",
+            "custom_name": "cost"
+          }
+        ],
+        "interval": "week",
+        "dateRange": {
+          "date_from": "-30d"
+        },
+        "trendsFilter": {
+          "display": "ActionsTable"
+        },
+        "breakdownFilter": {
+          "breakdown": "trip_id",
+          "breakdown_type": "event",
+          "breakdown_limit": 25
+        }
+      }
+    }
+  },
+  {
+    "key": "ai-cost-by-feature",
+    "name": "AI cost by feature (USD micros)",
+    "dashboard": "ai",
+    "query": {
+      "kind": "InsightVizNode",
+      "source": {
+        "kind": "TrendsQuery",
+        "series": [
+          {
+            "kind": "EventsNode",
+            "event": "llm_call",
+            "math": "sum",
+            "math_property": "cost_est",
+            "custom_name": "cost"
+          }
+        ],
+        "interval": "day",
+        "dateRange": {
+          "date_from": "-30d"
+        },
+        "trendsFilter": {
+          "display": "ActionsLineGraph"
+        },
+        "breakdownFilter": {
+          "breakdown": "feature",
+          "breakdown_type": "event",
+          "breakdown_limit": 25
+        }
+      }
+    }
+  }
+]
