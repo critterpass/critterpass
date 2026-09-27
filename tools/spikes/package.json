@@ -23,6 +23,7 @@
     "tiles:upload": "tsx tiles/upload.ts"
   },
   "dependencies": {
+    "@better-auth/expo": "1.7.6",
     "@hono/node-server": "catalog:",
     "@parse/node-apn": "catalog:",
     "@powersync/node": "catalog:",
