@@ -47,6 +47,7 @@ export const AI_ROUTES = [
   'guide.chime_in_classifier',
   'help.intent_classifier',
   'idea.duplicate_tiebreak',
+  'poi.duplicate_tiebreak',
   'compliance.check',
 ] as const;
 export const aiRouteSchema = z.enum(AI_ROUTES);
@@ -57,6 +58,7 @@ export const DECISION_ROUTES = [
   'guide.chime_in_classifier',
   'help.intent_classifier',
   'idea.duplicate_tiebreak',
+  'poi.duplicate_tiebreak',
   'compliance.check',
 ] as const satisfies readonly AiRoute[];
 export type DecisionRoute = (typeof DECISION_ROUTES)[number];

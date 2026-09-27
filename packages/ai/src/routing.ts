@@ -214,6 +214,7 @@ const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
   'guide.chime_in_classifier': twin(),
   'help.intent_classifier': twin(),
   'idea.duplicate_tiebreak': twin(),
+  'poi.duplicate_tiebreak': twin(),
   'compliance.check': twin(),
 };
 

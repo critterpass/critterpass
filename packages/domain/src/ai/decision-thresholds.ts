@@ -44,6 +44,12 @@ export const DECISION_THRESHOLDS: Readonly<Record<DecisionRoute, DecisionThresho
     jev: { yes: 0.65, no: 0.35, minConfidence: 0.5 },
     fast: TWIN_BAND,
   },
+  // Two nearby POIs with different names (often two languages): a sure yes merges them, the gray
+  // band goes to a person in the places review batch.
+  'poi.duplicate_tiebreak': {
+    jev: { yes: 0.65, no: 0.35, minConfidence: 0.5 },
+    fast: TWIN_BAND,
+  },
   // Outcomes come from the per surface and category bands in COMPLIANCE_THRESHOLDS.
   'compliance.check': {
     jev: { yes: 0.85, no: 0.3, minConfidence: 0.5 },
