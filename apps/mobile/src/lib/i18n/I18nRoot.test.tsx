@@ -26,9 +26,6 @@ describe('useI18nReady', () => {
   });
 });
 
-// The first render loads compiled catalogs, which Jest transforms on a cold cache (tens of seconds on CI).
-jest.setTimeout(60_000);
-
 describe('I18nRoot', () => {
   it('provides the active locale to <Trans>/useLingui() consumers', async () => {
     const { getByText } = await renderWithI18n(

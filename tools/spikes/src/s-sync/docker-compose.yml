@@ -1,0 +1,31 @@
+# S-SYNC's own PowerSync (Open Edition) — separate from infra/docker-compose.yml (which tests
+# must not touch). Postgres source + storage come from Testcontainers (harness.ts); this compose
+# file only runs the PowerSync service itself, reaching back into the host via
+# host.docker.internal for both Postgres instances and the JWKS source. Started/stopped by
+# docker.ts, never left running: `docker compose -p cp-spike-s-sync -f docker-compose.yml down -v`.
+name: cp-spike-s-sync
+
+services:
+  powersync:
+    image: journeyapps/powersync-service:1.26.1
+    command: ['start', '-r', 'unified']
+    environment:
+      POWERSYNC_CONFIG_PATH: /config/service.yaml
+      PS_DATA_SOURCE_URI: ${S_SYNC_DATA_SOURCE_URI}
+      PS_DATA_SOURCE_SSLMODE: disable
+      PS_STORAGE_URI: ${S_SYNC_STORAGE_URI}
+      PS_STORAGE_SSLMODE: disable
+      PS_PORT: '8080'
+      PS_JWKS_URI: ${S_SYNC_JWKS_URI}
+    volumes: ['./config/service.yaml:/config/service.yaml:ro']
+    ports: ['8901:8080']
+    extra_hosts: ['host.docker.internal:host-gateway']
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'node -e "fetch(''http://127.0.0.1:8080/probes/liveness'').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"',
+        ]
+      interval: 3s
+      timeout: 5s
+      retries: 40

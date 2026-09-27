@@ -1,0 +1,51 @@
+# Spike-owned PowerSync Service (Open Edition) config for the S-SYNC harness
+# (tools/spikes/src/s-sync/). Mirrors infra/powersync/service.yaml's shape (same PS_* env-var
+# convention) but with a real stream against the throwaway `spike.messages` table;
+# infra/powersync/service.yaml itself is untouched by this spike. Used both by the local
+# docker-compose (docker-compose.yml) and baked into the Railway image
+# (tools/spikes/s-sync-powersync.Dockerfile) for the T4/T5 measurements.
+replication:
+  connections:
+    - type: postgresql
+      uri: !env PS_DATA_SOURCE_URI
+      sslmode: !env PS_DATA_SOURCE_SSLMODE
+      # Distinguishes this spike's replication slot from a real deployment's `powersync_*` slot
+      # on the same Postgres instance, and makes it easy to find/drop during cleanup.
+      slot_name_prefix: spike_sync_
+
+storage:
+  type: postgresql
+  uri: !env PS_STORAGE_URI
+  sslmode: !env PS_STORAGE_SSLMODE
+
+port: !env PS_PORT::number
+
+sync_config:
+  content: |
+    config:
+      edition: 3
+    streams:
+      messages:
+        auto_subscribe: true
+        queries:
+          - SELECT id, body, created_by, created_at FROM spike.messages
+
+client_auth:
+  jwks_uri: !env PS_JWKS_URI
+  audience: ['sync']
+
+# Default is 200 per API process (system-architecture.md §2's "powersync-api ... ≤200 conns
+# each" scaling row matches this exact default) — raised here so the T4 connection-ramp measures
+# the client side's own ceiling, not this config default. Verified empirically: without this,
+# `pnpm run s-sync:load -- --conns` fails past 200 with PSYNC_S2304 "Maximum active concurrent
+# connections limit has been reached".
+api:
+  parameters:
+    max_concurrent_connections: 1200
+
+healthcheck:
+  probes:
+    use_http: true
+
+telemetry:
+  disable_telemetry_sharing: true

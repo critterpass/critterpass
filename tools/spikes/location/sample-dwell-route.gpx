@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic approach → dwell → depart route around a test POI near Da Nang (this plan's reference
+     city for the map tiles spike). Radius in the dwell-ring config is 50 m; points below are chosen
+     so the "dwell" cluster sits inside that radius and the approach/depart points sit outside it. -->
+<gpx version="1.1" creator="critterpass-spike-skia-critter" xmlns="http://www.topografix.com/GPX/1/1">
+  <trk>
+    <name>dwell-ring-test-route</name>
+    <trkseg>
+      <trkpt lat="16.056500" lon="108.202000"><time>2026-09-27T00:00:00Z</time></trkpt>
+      <trkpt lat="16.055800" lon="108.202100"><time>2026-09-27T00:00:20Z</time></trkpt>
+      <trkpt lat="16.055200" lon="108.202150"><time>2026-09-27T00:00:40Z</time></trkpt>
+      <trkpt lat="16.054750" lon="108.202180"><time>2026-09-27T00:01:00Z</time></trkpt>
+      <trkpt lat="16.054420" lon="108.202195"><time>2026-09-27T00:01:20Z</time></trkpt>
+      <trkpt lat="16.054410" lon="108.202205"><time>2026-09-27T00:01:40Z</time></trkpt>
+      <trkpt lat="16.054430" lon="108.202190"><time>2026-09-27T00:02:00Z</time></trkpt>
+      <trkpt lat="16.054415" lon="108.202210"><time>2026-09-27T00:02:20Z</time></trkpt>
+      <trkpt lat="16.054425" lon="108.202200"><time>2026-09-27T00:02:40Z</time></trkpt>
+      <trkpt lat="16.054800" lon="108.202400"><time>2026-09-27T00:03:00Z</time></trkpt>
+      <trkpt lat="16.055500" lon="108.202800"><time>2026-09-27T00:03:20Z</time></trkpt>
+      <trkpt lat="16.056500" lon="108.203500"><time>2026-09-27T00:03:40Z</time></trkpt>
+    </trkseg>
+  </trk>
+</gpx>
