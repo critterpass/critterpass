@@ -99,6 +99,7 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. ISO 4217 table as data (code, ISO exponent, symbol, narrow symbol) + `displayDecimals` override table. 2. bigint arithmetic + guards (currency mismatch throws typed error). 3. Largest-remainder allocate with stable tie-break. 4. Rounding modes. 5. fast-check property tests (sum preservation, idempotent rounding).
 - Tests: `pnpm --filter @cp/cost-engine test -- money`
 - Done when: 10k-case properties pass; golden tests: IDR stored with ISO exponent 2 and displayed with 0 decimals ("Rp 75.000"); ISK exponent 0 (Reykjavík, "ISK 12,900" never "12,900.00"); JPY 0; split of IDR/JPY totals sums exactly.
+- Status: done — 694c4f0
 
 ### T2 — Display formatter, compact notation, home/local/both
 - Goal: one formatter for the whole app.
