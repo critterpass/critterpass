@@ -14,6 +14,10 @@ import {
   type AnyJobDefinition,
 } from './boss';
 import { createHealthApp } from './health';
+import { anonGcJob } from './jobs/maint/anon-gc';
+import { purgeJob } from './jobs/maint/purge';
+import { backupJob } from './jobs/ops/backup';
+import { createObjectStore } from './jobs/ops/object-store';
 import { enqueueDueJob } from './jobs/sched/enqueue-due';
 import { createCentrifugoApi, rtRelayJob, startRtRelayWake, type RtRelay } from './rt-relay';
 
@@ -48,7 +52,29 @@ const health = createHealthApp({
   },
 });
 
-const jobs: AnyJobDefinition[] = [enqueueDueJob()];
+const jobs: AnyJobDefinition[] = [enqueueDueJob(), purgeJob(), anonGcJob()];
+const backupStore =
+  env.BACKUP_S3_ENDPOINT &&
+  env.BACKUP_S3_BUCKET &&
+  env.BACKUP_S3_ACCESS_KEY_ID &&
+  env.BACKUP_S3_SECRET_ACCESS_KEY
+    ? createObjectStore({
+        endpoint: env.BACKUP_S3_ENDPOINT,
+        bucket: env.BACKUP_S3_BUCKET,
+        accessKeyId: env.BACKUP_S3_ACCESS_KEY_ID,
+        secretAccessKey: env.BACKUP_S3_SECRET_ACCESS_KEY,
+        region: env.BACKUP_S3_REGION,
+      })
+    : undefined;
+if (env.APP_ENV !== 'local' || (backupStore && env.BACKUP_DATABASE_URL)) {
+  jobs.push(
+    backupJob({
+      databaseUrl: env.BACKUP_DATABASE_URL,
+      store: backupStore,
+      pgDump: [env.BACKUP_PG_DUMP_PATH],
+    }),
+  );
+}
 const relayEnabled = Boolean(env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY);
 if (env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY) {
   jobs.push(

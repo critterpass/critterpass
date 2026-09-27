@@ -19,6 +19,7 @@
     "@cp/domain": "workspace:*",
     "@duckdb/node-api": "catalog:",
     "@hono/node-server": "catalog:",
+    "aws4fetch": "catalog:",
     "hono": "catalog:",
     "pg": "catalog:",
     "pg-boss": "catalog:",

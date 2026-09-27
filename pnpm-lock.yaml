@@ -978,6 +978,9 @@ importers:
       '@hono/node-server':
         specifier: 'catalog:'
         version: 2.1.1(hono@4.13.9)
+      aws4fetch:
+        specifier: 'catalog:'
+        version: 1.0.20
       hono:
         specifier: 'catalog:'
         version: 4.13.9

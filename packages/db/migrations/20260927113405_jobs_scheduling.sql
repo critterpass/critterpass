@@ -89,3 +89,114 @@ REVOKE EXECUTE ON FUNCTION app.cancel_scheduled_event(text, uuid, text) FROM PUB
 GRANT EXECUTE ON FUNCTION app.schedule_event(text, uuid, text, timestamp, text, timestamptz, jsonb)
   TO app_user, app_system;
 GRANT EXECUTE ON FUNCTION app.cancel_scheduled_event(text, uuid, text) TO app_user, app_system;
+
+-- Retention for the command/event bookkeeping tables (docs/api-contracts-async.md §2.3
+-- `maint.purge`). app_system has no grant on cmd_log, cmd_results or domain_events and must not
+-- read them, so the purge job deletes through this function: the time column and filter per table
+-- are fixed here, the job supplies only the age (never under a day) and a batch size (at most
+-- 5000 rows per call, so one call never holds locks for long). Returns the rows deleted.
+CREATE OR REPLACE FUNCTION app.purge_expired(p_table text, p_ttl interval, p_limit integer)
+RETURNS integer
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+DECLARE
+  cutoff timestamptz := now() - p_ttl;
+  deleted integer;
+BEGIN
+  IF p_ttl < interval '1 day' THEN
+    RAISE EXCEPTION 'retention under one day refused' USING ERRCODE = 'invalid_parameter_value';
+  END IF;
+  IF p_limit < 1 OR p_limit > 5000 THEN
+    RAISE EXCEPTION 'purge batch must be 1..5000 rows' USING ERRCODE = 'invalid_parameter_value';
+  END IF;
+
+  CASE p_table
+    WHEN 'cmd_results' THEN
+      DELETE FROM cmd_results WHERE op_id IN (
+        SELECT op_id FROM cmd_results WHERE server_ts < cutoff LIMIT p_limit);
+    WHEN 'cmd_log' THEN
+      -- A log row still referenced by a result waits for the result's own (shorter) retention.
+      DELETE FROM cmd_log WHERE op_id IN (
+        SELECT l.op_id FROM cmd_log l
+        WHERE l.created_at < cutoff
+          AND NOT EXISTS (SELECT 1 FROM cmd_results r WHERE r.op_id = l.op_id)
+        LIMIT p_limit);
+    WHEN 'domain_events' THEN
+      DELETE FROM domain_events WHERE id IN (
+        SELECT id FROM domain_events WHERE occurred_at < cutoff LIMIT p_limit);
+    WHEN 'rt_outbox' THEN
+      -- Sent rows age from their send; rows parked after the relay's last attempt (10) from their
+      -- creation. Rows still being retried are never touched.
+      DELETE FROM rt_outbox WHERE id IN (
+        SELECT id FROM rt_outbox
+        WHERE published_at < cutoff OR (published_at IS NULL AND attempts >= 10 AND created_at < cutoff)
+        LIMIT p_limit);
+    ELSE
+      RAISE EXCEPTION 'no retention rule for table %', p_table USING ERRCODE = 'invalid_parameter_value';
+  END CASE;
+  GET DIAGNOSTICS deleted = ROW_COUNT;
+  RETURN deleted;
+END;
+$$;
+
+REVOKE EXECUTE ON FUNCTION app.purge_expired(text, interval, integer) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.purge_expired(text, interval, integer) TO app_system;
+
+-- Anonymous account garbage collection (`maint.anon_gc`, docs/data-model-sync-and-privacy.md:
+-- anonymous users inactive 90 d with no crew and no purchase are purged). Activity lives in the
+-- auth schema, which app_system cannot read, so candidate selection is a SECURITY DEFINER function;
+-- `app.anon_gc_finish` re-checks the same conditions under a row lock before it removes the
+-- account's device action keys, its `users` row and its `auth.user` row (sessions and linked
+-- accounts cascade). The job deletes every other per-user row through the merge-rule registry
+-- (packages/db/src/merge-rules.ts) first, in the same transaction.
+CREATE OR REPLACE FUNCTION app.anon_gc_is_candidate(p_user_id uuid, p_inactive interval)
+RETURNS boolean
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+  SELECT EXISTS (
+    SELECT 1
+    FROM public.users u
+    JOIN auth."user" au ON au.id = u.id AND au.is_anonymous
+    WHERE u.id = p_user_id
+      AND u.status = 'anonymous'
+      AND GREATEST(
+            u.updated_at,
+            au.updated_at,
+            COALESCE((SELECT max(s.updated_at) FROM auth.session s WHERE s.user_id = u.id), '-infinity')
+          ) < now() - p_inactive
+      AND NOT EXISTS (SELECT 1 FROM crew_members m WHERE m.user_id = u.id)
+      AND NOT EXISTS (
+        SELECT 1 FROM user_entitlements e
+        WHERE e.user_id = u.id AND (e.pass_plus OR jsonb_array_length(e.sources) > 0))
+  )
+$$;
+
+CREATE OR REPLACE FUNCTION app.anon_gc_candidates(p_inactive interval, p_limit integer)
+RETURNS SETOF uuid
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+  SELECT u.id FROM public.users u
+  WHERE u.status = 'anonymous' AND u.created_at < now() - p_inactive
+    AND app.anon_gc_is_candidate(u.id, p_inactive)
+  ORDER BY u.created_at
+  LIMIT p_limit
+$$;
+
+CREATE OR REPLACE FUNCTION app.anon_gc_finish(p_user_id uuid, p_inactive interval)
+RETURNS boolean
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+BEGIN
+  PERFORM 1 FROM public.users WHERE id = p_user_id FOR UPDATE;
+  IF NOT app.anon_gc_is_candidate(p_user_id, p_inactive) THEN
+    RETURN false;
+  END IF;
+  DELETE FROM device_action_keys WHERE user_id = p_user_id;
+  DELETE FROM public.users WHERE id = p_user_id;
+  DELETE FROM auth."user" WHERE id = p_user_id AND is_anonymous;
+  RETURN true;
+END;
+$$;
+
+REVOKE EXECUTE ON FUNCTION app.anon_gc_is_candidate(uuid, interval) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION app.anon_gc_candidates(interval, integer) FROM PUBLIC;
+REVOKE EXECUTE ON FUNCTION app.anon_gc_finish(uuid, interval) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.anon_gc_is_candidate(uuid, interval) TO app_system;
+GRANT EXECUTE ON FUNCTION app.anon_gc_candidates(interval, integer) TO app_system;
+GRANT EXECUTE ON FUNCTION app.anon_gc_finish(uuid, interval) TO app_system;

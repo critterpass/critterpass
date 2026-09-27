@@ -92,11 +92,6 @@ export const QUEUES = {
     expireInSeconds: 60 * 60,
     cron: { expr: '0 4 * * *', tz: 'UTC' },
   }),
-  'powersync.compact': spec({
-    policy: 'stately',
-    expireInSeconds: 60 * 60,
-    cron: { expr: '0 19 * * *', tz: 'UTC' },
-  }),
   'ops.backup': spec({
     policy: 'stately',
     retryLimit: 2,
