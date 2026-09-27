@@ -396,19 +396,19 @@ msgstr "freeze"
 msgid "common.shell.fabHelp"
 msgstr "Get help"
 
-#: ../../apps/mobile/src/app/_layout.tsx
-msgid "common.shell.errorBack"
-msgstr "Go back"
-
 #: ../../apps/mobile/src/ui/states/ErrorSheet.tsx
 msgid "common.error.back"
+msgstr "Go back"
+
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
+msgid "common.shell.errorBack"
 msgstr "Go back"
 
 #: ../../apps/mobile/src/app/+not-found.tsx
 msgid "common.notFound.home"
 msgstr "Go home"
 
-#: ../../apps/mobile/src/app/_layout.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorHome"
 msgstr "Go home"
 
@@ -638,7 +638,7 @@ msgstr "Pause"
 msgid "common.monetize.pausedMonths"
 msgstr "Paused: {paused}"
 
-#: ../../apps/mobile/src/app/_layout.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorBackBody"
 msgstr "Pick up where you were"
 
@@ -782,11 +782,11 @@ msgstr "Slide {n} of {total}"
 msgid "motion.motionLab.slowmo"
 msgstr "Slowmo"
 
-#: ../../apps/mobile/src/app/_layout.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorEyebrow"
 msgstr "Something went sideways"
 
-#: ../../apps/mobile/src/app/_layout.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorHomeBody"
 msgstr "Start again from your crews"
 
@@ -828,7 +828,7 @@ msgstr "Suggestion: {0}, {1}. Accept"
 msgid "common.icon.sunny"
 msgstr "Sunny"
 
-#: ../../apps/mobile/src/app/_layout.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorTitle"
 msgstr "That didn’t load"
 
@@ -860,7 +860,7 @@ msgstr "today"
 msgid "common.shell.tabTrips"
 msgstr "Trips"
 
-#: ../../apps/mobile/src/app/_layout.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorRetry"
 msgstr "Try again"
 

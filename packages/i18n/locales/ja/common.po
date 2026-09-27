@@ -396,19 +396,19 @@ msgstr ""
 msgid "common.shell.fabHelp"
 msgstr ""
 
-#: ../../apps/mobile/src/app/_layout.tsx
-msgid "common.shell.errorBack"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/states/ErrorSheet.tsx
 msgid "common.error.back"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
+msgid "common.shell.errorBack"
 msgstr ""
 
 #: ../../apps/mobile/src/app/+not-found.tsx
 msgid "common.notFound.home"
 msgstr ""
 
-#: ../../apps/mobile/src/app/_layout.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorHome"
 msgstr ""
 
@@ -638,7 +638,7 @@ msgstr ""
 msgid "common.monetize.pausedMonths"
 msgstr ""
 
-#: ../../apps/mobile/src/app/_layout.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorBackBody"
 msgstr ""
 
@@ -782,11 +782,11 @@ msgstr ""
 msgid "motion.motionLab.slowmo"
 msgstr ""
 
-#: ../../apps/mobile/src/app/_layout.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorEyebrow"
 msgstr ""
 
-#: ../../apps/mobile/src/app/_layout.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorHomeBody"
 msgstr ""
 
@@ -828,7 +828,7 @@ msgstr ""
 msgid "common.icon.sunny"
 msgstr ""
 
-#: ../../apps/mobile/src/app/_layout.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorTitle"
 msgstr ""
 
@@ -860,7 +860,7 @@ msgstr ""
 msgid "common.shell.tabTrips"
 msgstr ""
 
-#: ../../apps/mobile/src/app/_layout.tsx
+#: ../../apps/mobile/src/ui/shell/RootErrorBoundary.tsx
 msgid "common.shell.errorRetry"
 msgstr ""
 
