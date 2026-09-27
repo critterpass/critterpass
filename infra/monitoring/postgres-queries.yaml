@@ -1,0 +1,76 @@
+# Custom queries for the Alloy postgres exporter (prometheus.exporter.postgres), run as
+# `monitoring_reader` (pg_monitor). Metric names are `<query>_<column>`: `cp_pg_slot_lag_bytes`,
+# `cp_pg_slot_active`, `cp_pg_replica_lag_seconds`, `cp_pg_connections_count`,
+# `cp_pg_statements_*`. Statement text is never exported, only its queryid.
+cp_pg_slot:
+  query: |
+    SELECT slot_name,
+           slot_type,
+           CASE WHEN active THEN 1 ELSE 0 END AS active,
+           COALESCE(pg_wal_lsn_diff(pg_current_wal_lsn(), confirmed_flush_lsn), 0) AS lag_bytes
+      FROM pg_replication_slots
+  metrics:
+    - slot_name:
+        usage: LABEL
+        description: Replication slot name
+    - slot_type:
+        usage: LABEL
+        description: logical or physical
+    - active:
+        usage: GAUGE
+        description: 1 when a consumer is attached to the slot
+    - lag_bytes:
+        usage: GAUGE
+        description: WAL bytes between the current position and the slot's confirmed flush
+
+cp_pg_replica:
+  query: |
+    SELECT application_name,
+           COALESCE(EXTRACT(EPOCH FROM replay_lag), 0) AS lag_seconds
+      FROM pg_stat_replication
+  metrics:
+    - application_name:
+        usage: LABEL
+        description: Standby or subscriber name
+    - lag_seconds:
+        usage: GAUGE
+        description: Replay lag of the standby in seconds
+
+cp_pg_connections:
+  query: |
+    SELECT COALESCE(usename, 'system') AS role, state, count(*) AS count
+      FROM pg_stat_activity
+     GROUP BY 1, 2
+  metrics:
+    - role:
+        usage: LABEL
+        description: Database role of the backend
+    - state:
+        usage: LABEL
+        description: Backend state (active, idle, idle in transaction)
+    - count:
+        usage: GAUGE
+        description: Backends in this role and state
+
+cp_pg_statements:
+  query: |
+    SELECT queryid::text AS queryid,
+           calls,
+           total_exec_time / 1000 AS total_seconds,
+           mean_exec_time AS mean_ms
+      FROM pg_stat_statements
+     ORDER BY total_exec_time DESC
+     LIMIT 20
+  metrics:
+    - queryid:
+        usage: LABEL
+        description: pg_stat_statements query id (no statement text)
+    - calls:
+        usage: COUNTER
+        description: Executions of the statement
+    - total_seconds:
+        usage: COUNTER
+        description: Total execution time
+    - mean_ms:
+        usage: GAUGE
+        description: Mean execution time in milliseconds
