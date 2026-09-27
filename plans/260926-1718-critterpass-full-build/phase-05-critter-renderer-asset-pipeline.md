@@ -95,6 +95,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Build paths from flat arrays in one call per poly. 2. Isolated layer + multiply + shadow σ 2.5 pt. 3. Jest test using RN Skia's CanvasKit test env renders 20 kinds and diffs vs canvas2d (`@napi-rs/canvas`) output.
 - Tests: `pnpm --filter @cp/critter-art test:skia`
 - Done when: 20-kind sample within golden thresholds (mean < 0.5/255, > 8/255 px < 1%) vs canvas2d.
+- Status: done — 83a31ee
 
 ### T2 — Sticker image cache and PNG export
 - Goal: memory + disk cache, pre-warm, eviction, `exportPng`.
