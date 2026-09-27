@@ -23,3 +23,4 @@ export {
   installAttributions,
   userPrivate,
 } from './user-private';
+export { scheduledEvents } from '../jobs/schema';

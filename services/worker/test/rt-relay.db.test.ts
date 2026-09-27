@@ -1,8 +1,9 @@
 /**
- * The rt_outbox relay against real Postgres and a real Centrifugo running this repo's
- * infra/centrifugo/config.json, observed through centrifuge-js clients. Centrifugo's subscribe
- * proxy points at a local allow-all endpoint: channel ACL is the api's concern (proven by its own
- * suites); here every subscription must succeed so delivery and revocation are what is measured.
+ * The rt_outbox relay, run as the pg-boss `rt.relay` job, against real Postgres and a real
+ * Centrifugo running this repo's infra/centrifugo/config.json, observed through centrifuge-js
+ * clients. Centrifugo's subscribe proxy points at a local allow-all endpoint: channel ACL is the
+ * api's concern (proven by its own suites); here every subscription must succeed so delivery and
+ * revocation are what is measured.
  */
 import { createHmac, randomUUID } from 'node:crypto';
 import { createServer, type Server } from 'node:http';
@@ -21,10 +22,12 @@ import {
   createCentrifugoApi,
   DISCONNECT_RECONNECT_CODE,
   RT_RELAY_MAX_ATTEMPTS,
-  startRtRelay,
+  rtRelayJob,
+  startRtRelayWake,
   type CentrifugoApi,
   type RtRelay,
 } from '../src/rt-relay';
+import { createBoss, createFailureReporter, startJobRuntime, stopJobRuntime } from '../src/boss';
 
 const API_KEY = 'test-centrifugo-api-key';
 const TOKEN_SECRET = 'test-centrifugo-token-secret-0123456789';
@@ -154,14 +157,29 @@ function countingApi(url = apiUrl): CountingApi {
   };
 }
 
-function startRelay(api: CentrifugoApi, sweepIntervalMs?: number): RtRelay {
-  const relay = startRtRelay({
+/** One worker instance: its own pg-boss consuming `rt.relay` with `api`, plus the LISTEN/sweep wake. */
+async function startRelay(api: CentrifugoApi, sweepIntervalMs?: number): Promise<RtRelay> {
+  const boss = createBoss({ connectionString: postgres.getConnectionUri(), logger: silent });
+  await startJobRuntime({
+    boss,
+    deps: { pool, logger: silent },
+    jobs: [rtRelayJob(api)],
+    report: createFailureReporter(silent),
+  });
+  const wake = startRtRelayWake({
     pool,
-    api,
+    boss,
     ...(sweepIntervalMs !== undefined ? { sweepIntervalMs } : {}),
     logger: silent,
     connectListener: () => new pg.Client({ connectionString: postgres.getConnectionUri() }),
   });
+  const relay: RtRelay = {
+    wake: () => wake.wake(),
+    async stop() {
+      await wake.stop();
+      await stopJobRuntime(boss, 5000);
+    },
+  };
   relays.push(relay);
   return relay;
 }
@@ -213,7 +231,7 @@ describe('rt_outbox relay', () => {
   it('delivers a committed publish to a subscribed centrifuge-js client', async () => {
     const { crewId, member } = await seedCrew();
     const watched = await watch(await connect(member), channelName('crew_money', crewId));
-    startRelay(countingApi());
+    await startRelay(countingApi());
 
     const sent = envelope('expense.added', { expense_id: randomUUID() });
     await withSystem(pool, (tx) =>
@@ -228,7 +246,7 @@ describe('rt_outbox relay', () => {
     const uid = randomUUID();
     const channel = channelName('user', uid);
     const watched = await watch(await connect(uid), channel);
-    startRelay(countingApi(), 60_000);
+    await startRelay(countingApi(), 60_000);
     await sleep(300);
 
     await withSystem(pool, (tx) =>
@@ -245,7 +263,7 @@ describe('rt_outbox relay', () => {
     const crew = await watch(client, channelName('crew', crewId));
     const bookings = await watch(client, channelName('crew_bookings', crewId));
     const api = countingApi();
-    startRelay(api);
+    await startRelay(api);
 
     const sent = envelope('trip.summary', { trip_id: randomUUID() });
     await withSystem(pool, async (tx) => {
@@ -262,7 +280,7 @@ describe('rt_outbox relay', () => {
     const uid = randomUUID();
     const channel = channelName('user', uid);
     const watched = await watch(await connect(uid), channel);
-    startRelay(countingApi());
+    await startRelay(countingApi());
 
     await expect(
       withSystem(pool, async (tx) => {
@@ -295,7 +313,7 @@ describe('rt_outbox relay', () => {
     const client = await connect(member);
     const crew = await watch(client, channelName('crew', crewId));
     const chat = await watch(client, channelName('crew_chat', crewId));
-    startRelay(countingApi());
+    await startRelay(countingApi());
     await sleep(300);
 
     await withSystem(pool, (tx) =>
@@ -316,7 +334,7 @@ describe('rt_outbox relay', () => {
     const disconnected = new Promise<number>((resolve) =>
       client.on('connecting', (ctx) => resolve(ctx.code)),
     );
-    startRelay(countingApi());
+    await startRelay(countingApi());
     await withSystem(pool, (tx) =>
       enqueueRealtime(tx, {
         channel: channelName('user', uid),
@@ -342,8 +360,8 @@ describe('rt_outbox relay', () => {
         });
       }
     });
-    startRelay(apiA);
-    startRelay(apiB);
+    await startRelay(apiA);
+    await startRelay(apiB);
 
     await until(async () => (await unpublishedCount()) === 0, 15_000);
     await until(() => watched.publications.length >= 250, 5000);
@@ -360,7 +378,7 @@ describe('rt_outbox relay', () => {
       await enqueueRealtime(tx, { channel, payload: envelope('badge.counts', { counts: {} }) });
       await enqueueRealtime(tx, { channel, payload: { no_type: true } });
     });
-    const relay = startRelay(countingApi('http://127.0.0.1:9'));
+    const relay = await startRelay(countingApi('http://127.0.0.1:9'));
     await until(async () => {
       const { rows } = await pool.query<{ attempts: number }>(
         'SELECT attempts FROM rt_outbox ORDER BY id LIMIT 1',
@@ -375,7 +393,7 @@ describe('rt_outbox relay', () => {
     expect(rows[0]?.published_at).toBeNull();
     expect(rows[0]?.attempts).toBeLessThan(RT_RELAY_MAX_ATTEMPTS);
 
-    startRelay(countingApi());
+    await startRelay(countingApi());
     await until(async () => (await unpublishedCount()) <= 1, 5000);
     const parked = await pool.query<{ attempts: number; published_at: Date | null }>(
       'SELECT attempts, published_at FROM rt_outbox ORDER BY id',
