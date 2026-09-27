@@ -26,7 +26,7 @@ export interface StatusChipProps {
   readonly testID?: string;
 }
 
-function wordFor(status: ChipStatus): string {
+export function statusWord(status: ChipStatus): string {
   switch (status) {
     case 'booked':
       return t({ id: 'common.status.booked', message: 'Booked' });
@@ -98,7 +98,7 @@ export function StatusChip({ status, label, testID }: StatusChipProps) {
   return (
     <View testID={testID} style={[styles.chip, { backgroundColor: bg }]}>
       <Text variant="label" color={fg}>
-        {label ?? wordFor(status)}
+        {label ?? statusWord(status)}
       </Text>
     </View>
   );
