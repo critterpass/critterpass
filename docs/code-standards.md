@@ -267,6 +267,8 @@ Forbidden: Redux, MobX, React Context for frequently changing values, duplicatin
 
 Test doubles: only at network boundaries (Claude, suppliers, APNs/FCM, RevenueCat) using recorded fixtures; never mock the database.
 
+**Cloud E2E ladder (mobile):** run JS/unit/DB tests locally as above; run Maestro flows with `pnpm e2e:cloud -- --platform ios|android [--flows e2e/<dir>]`, which starts an EAS Workflow (`.eas/workflows/e2e-ios.yml` / `e2e-android.yml`) that builds an iOS simulator / Android APK on the `e2e-test` profile and runs the flows on an EAS-hosted simulator/emulator, never on this machine. The workflow reuses the last build matching the project's fingerprint (`fingerprint` → `get-build` jobs) and only triggers a new EAS build when nothing matches — don't add build-triggering changes (native deps, config plugins) for JS-only work, and don't run `eas build`/`eas workflow:run` speculatively; the account has a monthly build quota. Local native builds (`expo run:ios`/`run:android`, simulators/emulators on this Mac) are for native-code debugging only, one build at a time, Android `arm64-v8a` only.
+
 ---
 
 ## 18. Security rules
