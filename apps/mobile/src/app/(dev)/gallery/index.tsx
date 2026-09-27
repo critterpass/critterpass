@@ -139,6 +139,11 @@ export default function GalleryIndexScreen() {
           ))}
         </Switcher>
         <Stack gap="8">
+          <Link href="/(dev)/gallery/tabs" asChild>
+            <Pressable testID="gallery-shell-tabs" accessibilityRole="button" style={styles.row}>
+              <Text variant="rowTitle">Shell: tab bar + guide FAB</Text>
+            </Pressable>
+          </Link>
           {listComponents().map((component) => (
             <Link
               key={component}

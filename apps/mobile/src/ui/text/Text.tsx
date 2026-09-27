@@ -54,6 +54,8 @@ export interface TextProps extends Omit<RNTextProps, 'style' | 'children' | 'all
   readonly color?: string | undefined;
   /** Overrides the variant's own auto-fit rule (on for display + h1). */
   readonly autoFit?: boolean | undefined;
+  /** Auto-fit floor in points (default: the variant's minimum scale of its scaled size). */
+  readonly autoFitMinSize?: number | undefined;
   readonly style?: StyleProp<TextStyle> | undefined;
 }
 
@@ -97,6 +99,7 @@ export function Text({
   children,
   color,
   autoFit,
+  autoFitMinSize,
   style,
   numberOfLines,
   onLayout,
@@ -135,7 +138,10 @@ export function Text({
     enabled: (autoFit ?? token.dynamicType.autoFit === true) && text !== null,
     text: text ?? '',
     maxSize: scaledSize,
-    minSize: scaledSize * (token.dynamicType.minScale ?? AUTO_FIT_MIN_SCALE),
+    minSize: Math.min(
+      scaledSize,
+      autoFitMinSize ?? scaledSize * (token.dynamicType.minScale ?? AUTO_FIT_MIN_SCALE),
+    ),
     maxLines: lineLimit ?? Number.POSITIVE_INFINITY,
     advanceRatio: token.condensed ? ADVANCE_RATIO.condensed : ADVANCE_RATIO.regular,
     letterSpacingEm: token.letterSpacing ?? 0,

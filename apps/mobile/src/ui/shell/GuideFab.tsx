@@ -1,0 +1,143 @@
+import { useLingui } from '@lingui/react/macro';
+import { router } from 'expo-router';
+import { View } from 'react-native';
+import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
+
+import type { Critter } from '@cp/critter-art';
+import { canonicalSeed, critters } from '@cp/critter-art';
+import { tokens } from '@cp/design-tokens';
+
+import type { GuideId } from '@/lib/navigation/active-guide';
+import { useActiveGuide } from '@/lib/navigation/active-guide';
+import { useScreenHref } from '@/lib/navigation/screen-registry';
+import { impact } from '@/motion/feedback';
+import { useLongPress } from '@/motion/gestures/long-press';
+import { usePress } from '@/motion/gestures/press';
+
+import { Sticker } from '../sticker/Sticker';
+import { makeStyles, sizeToken } from '../theme';
+
+/** Guide chat sheet (tap) and Help hub (long-press); routes owned by the guide and help areas. */
+// eslint-disable-next-line lingui/no-unlocalized-strings -- design screen id (data key), never rendered
+export const GUIDE_SHEET_SCREEN = '3j-1';
+// eslint-disable-next-line lingui/no-unlocalized-strings -- design screen id (data key), never rendered
+export const HELP_HUB_SCREEN = '3k-6';
+
+const GUIDE_CRITTER_IDS: Readonly<Record<GuideId, string>> = {
+  tokek: 'cp-112',
+  pon: 'cp-061',
+  lundi: 'cp-148',
+  ajo: 'cp-041',
+  sardi: 'cp-076',
+  paco: 'cp-145',
+};
+
+export function guideCritter(guideId: GuideId): Critter {
+  const critter = critters.find((entry) => entry.id === GUIDE_CRITTER_IDS[guideId]);
+  if (!critter) {
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- a developer-facing throw, never rendered.
+    throw new Error(`critter-art: guide ${guideId} missing from the dex`);
+  }
+  return critter;
+}
+
+export const FAB_SIZE = sizeToken(tokens.size.fab, 'size');
+/** Negative: how far the FAB rises above the tab bar's top edge. */
+export const FAB_RAISE = sizeToken(tokens.size.fab, 'raisedOffset');
+export const FAB_RING = sizeToken(tokens.size.fab, 'ringWidth');
+const STICKER_SIZE = FAB_SIZE - tokens.space['10'];
+
+const useStyles = makeStyles((t) => ({
+  ring: {
+    width: FAB_SIZE + 2 * FAB_RING,
+    height: FAB_SIZE + 2 * FAB_RING,
+    borderRadius: (FAB_SIZE + 2 * FAB_RING) / 2,
+    backgroundColor: t.color.ink['900'],
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  face: {
+    width: FAB_SIZE,
+    height: FAB_SIZE,
+    borderRadius: FAB_SIZE / 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+}));
+
+/**
+ * The raised centre slot of the tab bar: the context guide's sticker on the guide colour. Tap asks
+ * the guide, long-press (320 ms) opens Help. Each action exists only once its route is registered;
+ * it is never pointed at a placeholder screen.
+ */
+export function GuideFab() {
+  const { t } = useLingui();
+  const styles = useStyles();
+  const { guideId } = useActiveGuide();
+  const critter = guideCritter(guideId);
+  const askHref = useScreenHref(GUIDE_SHEET_SCREEN);
+  const helpHref = useScreenHref(HELP_HUB_SCREEN);
+
+  const guide = critter.name;
+  const askLabel = t({ id: 'common.shell.fabAsk', message: `Ask ${guide}` });
+  const helpLabel = t({ id: 'common.shell.fabHelp', message: 'Get help' });
+
+  const ask = () => {
+    if (askHref === undefined) return;
+    impact('tick');
+    router.push(askHref);
+  };
+  const help = () => {
+    if (helpHref === undefined) return;
+    impact('tick');
+    router.push(helpHref);
+  };
+
+  const press = usePress({
+    widthClass: 'narrow',
+    disabled: askHref === undefined,
+    onPress: ask,
+    accessibilityLabel: askLabel,
+  });
+  const longPress = useLongPress({
+    disabled: helpHref === undefined,
+    onLongPress: help,
+    accessibilityLabel: helpLabel,
+  });
+
+  const actions = [
+    ...(askHref !== undefined ? press.accessibilityActions : []),
+    ...(helpHref !== undefined ? longPress.accessibilityActions : []),
+  ];
+  const interactive = actions.length > 0;
+
+  return (
+    <GestureDetector gesture={Gesture.Exclusive(longPress.gesture, press.gesture)}>
+      <Animated.View
+        testID="guide-fab"
+        accessible
+        accessibilityRole={interactive ? 'button' : 'image'}
+        accessibilityLabel={askHref !== undefined ? askLabel : guide}
+        accessibilityActions={actions}
+        onAccessibilityAction={(event) => {
+          if (event.nativeEvent.actionName === 'longpress') longPress.onAccessibilityAction(event);
+          else press.onAccessibilityAction(event);
+        }}
+        style={[styles.ring, press.animatedStyle]}
+      >
+        <View style={[styles.face, { backgroundColor: tokens.guide[guideId] }]}>
+          <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+            <Sticker
+              kind={critter.kind}
+              name={critter.name}
+              seed={canonicalSeed(critter)}
+              pose="idle"
+              size={STICKER_SIZE}
+            />
+          </View>
+        </View>
+      </Animated.View>
+    </GestureDetector>
+  );
+}
