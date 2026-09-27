@@ -12,12 +12,13 @@ appId: app.critterpass.dev
 # "path" as the (ignored) host and routes to "/" instead (React Navigation linking's own documented
 # gotcha for schemes without a host segment).
 - launchApp
-- assertVisible:
-    text: 'Critterpass \(Dev\)'
+- extendedWaitUntil:
+    visible: 'Critterpass \(Dev\)'
     timeout: 30000
 - openLink: critterpass-dev:///motion-lab
-- assertVisible:
-    id: 'motion-freeze-toggle'
+- extendedWaitUntil:
+    visible:
+      id: 'motion-freeze-toggle'
     timeout: 15000
 - tapOn:
     id: 'motion-freeze-toggle'

@@ -7,12 +7,13 @@ appId: app.critterpass.dev
 # it silently. A custom scheme with no host needs a third slash (`scheme:///path`) — `scheme://path`
 # parses "path" as the (ignored) host and routes to "/" instead.
 - launchApp
-- assertVisible:
-    text: 'Critterpass \(Dev\)'
+- extendedWaitUntil:
+    visible: 'Critterpass \(Dev\)'
     timeout: 30000
 - openLink: critterpass-dev:///motion-lab
-- assertVisible:
-    id: 'show-toast-button'
+- extendedWaitUntil:
+    visible:
+      id: 'show-toast-button'
     timeout: 15000
 
 # Shows a toast (with an OPEN action) and dismisses it via the swipe-up-affordance × button.
