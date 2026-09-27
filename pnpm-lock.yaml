@@ -245,6 +245,9 @@ catalogs:
     typescript-eslint:
       specifier: 8.70.1
       version: 8.70.1
+    vite:
+      specifier: 8.3.1
+      version: 8.3.1
     vitest:
       specifier: 5.0.2
       version: 5.0.2
@@ -464,6 +467,9 @@ importers:
       tsx:
         specifier: 'catalog:'
         version: 4.23.15
+      vite:
+        specifier: 'catalog:'
+        version: 8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
 
   packages/critter-bake: {}
 

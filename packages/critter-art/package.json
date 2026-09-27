@@ -11,11 +11,13 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p gallery",
     "test": "vitest run --passWithNoTests",
     "import-data": "tsx scripts/import-design-data.ts",
     "golden": "tsx golden/run-golden.ts",
-    "golden:setup": "playwright install chromium"
+    "golden:setup": "playwright install chromium",
+    "gallery": "vite --config gallery/vite.config.ts",
+    "gallery:build": "vite build --config gallery/vite.config.ts"
   },
   "dependencies": {
     "zod": "catalog:"
@@ -24,6 +26,7 @@
     "@napi-rs/canvas": "catalog:",
     "esbuild": "catalog:",
     "playwright": "catalog:",
-    "tsx": "catalog:"
+    "tsx": "catalog:",
+    "vite": "catalog:"
   }
 }
