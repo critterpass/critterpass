@@ -17,8 +17,10 @@
     "@cp/cost-engine": "workspace:*",
     "@cp/db": "workspace:*",
     "@cp/domain": "workspace:*",
+    "@cp/i18n": "workspace:*",
     "@duckdb/node-api": "catalog:",
     "@hono/node-server": "catalog:",
+    "@lingui/core": "catalog:",
     "aws4fetch": "catalog:",
     "hono": "catalog:",
     "pg": "catalog:",
@@ -30,6 +32,7 @@
   "devDependencies": {
     "@types/pg": "catalog:",
     "centrifuge": "catalog:",
+    "fast-check": "catalog:",
     "testcontainers": "catalog:",
     "tsdown": "catalog:"
   }

@@ -173,4 +173,30 @@ describe('register_device', () => {
     );
     expect(rows[0]?.revoked_at).toBeInstanceOf(Date);
   });
+
+  it('mirrors device-scheduled notifications into the ledger once each', async () => {
+    const session = await harness.signInAnonymously();
+    const deviceId = randomUUID();
+    const alarm = { id: randomUUID(), key: 'leave_by_alarm', fire_at: '2026-09-27T23:50:00Z' };
+    const reminder = {
+      id: randomUUID(),
+      key: 'critter_window_reminder',
+      fire_at: '2026-09-28T01:00:00Z',
+    };
+    // 23:50 UTC is 06:50 on the 28th in Ho Chi Minh City: both land on the same local date.
+    await register(session, deviceId, { local_scheduled: [alarm, reminder] });
+    await register(session, deviceId, { local_scheduled: [alarm] });
+
+    const { rows } = await withSystem(harness.pool, (tx) =>
+      tx.query<{ local_date: string; sent_local: number }>(
+        'SELECT local_date::text, sent_local FROM ping_ledger WHERE user_id = $1',
+        [session.uid],
+      ),
+    );
+    expect(rows).toEqual([{ local_date: '2026-09-28', sent_local: 2 }]);
+    const unknown = await register(session, deviceId, {
+      local_scheduled: [{ ...alarm, id: randomUUID(), key: 'not_a_key' }],
+    });
+    expect(unknown.status).toBe(422);
+  });
 });

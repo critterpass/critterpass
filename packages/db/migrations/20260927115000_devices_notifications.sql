@@ -270,6 +270,19 @@ CREATE POLICY scheduled_deliveries_system ON scheduled_deliveries FOR ALL TO app
 GRANT SELECT, INSERT, UPDATE ON scheduled_deliveries TO app_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON scheduled_deliveries TO app_system;
 
+-- The router reads the one event it is routing. domain_events has no grant to any role (its
+-- readers go through SECURITY DEFINER functions, like the purge), so this is the worker's way in.
+CREATE OR REPLACE FUNCTION app.domain_event_for_routing(p_id uuid)
+RETURNS TABLE (
+  id uuid, type text, payload jsonb, crew_id uuid, trip_id uuid, actor_id uuid, occurred_at timestamptz
+)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+  SELECT e.id, e.type, e.payload, e.crew_id, e.trip_id, e.actor_id, e.occurred_at
+  FROM public.domain_events e WHERE e.id = p_id
+$$;
+REVOKE EXECUTE ON FUNCTION app.domain_event_for_routing(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.domain_event_for_routing(uuid) TO app_system;
+
 -- Stream `me` additions (infra/powersync/streams/notifications.yaml). push_tokens stays out of the
 -- publication (API-only, packages/db/src/publication.ts exceptions); everything else here is
 -- synced to its owner. Same guarded, idempotent ADD TABLE pattern as earlier migrations.

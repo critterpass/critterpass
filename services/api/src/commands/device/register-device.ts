@@ -9,7 +9,7 @@
  * for it are revoked. A token already registered on some other device moves here, which detaches
  * it from that device's owner, so a push for the old uid can never reach this install again.
  */
-import { DomainError, isIanaTimeZone } from '@cp/domain';
+import { DomainError, getNotificationSpec, isIanaTimeZone, isNotificationKey } from '@cp/domain';
 import type pg from 'pg';
 import { z } from 'zod';
 
@@ -27,6 +27,20 @@ export const registerDevicePayloadSchema = z.object({
   os_version: z.string().min(1).max(32).optional(),
   /** The app's state when it sent this call; the router holds "only if backgrounded" pushes. */
   foreground: z.boolean().default(false),
+  /**
+   * Notifications the app scheduled on the device itself (leave-by alarms, reminders), mirrored
+   * into the daily ledger once each so the budget screen and roundup see everything that pinged.
+   */
+  local_scheduled: z
+    .array(
+      z.object({
+        id: z.uuid(),
+        key: z.string().refine(isNotificationKey, { message: 'must be a notification key' }),
+        fire_at: z.iso.datetime({ offset: true }),
+      }),
+    )
+    .max(64)
+    .default([]),
   capabilities: z
     .object({
       la: z.boolean(),
@@ -168,6 +182,43 @@ async function upsertToken(
   });
 }
 
+/**
+ * Records each reported local notification once (dedupe key `local:<id>`) and books it on the
+ * ledger for the local date it fires on, in the device's zone.
+ */
+async function mirrorLocalNotifications(
+  tx: pg.PoolClient,
+  uid: string,
+  tz: string,
+  items: RegisterDevicePayload['local_scheduled'],
+): Promise<void> {
+  if (items.length === 0) return;
+  const rows = items.map((item) => ({
+    id: item.id,
+    key: item.key,
+    category: getNotificationSpec(item.key)?.category ?? 'cp.generic',
+    fire_at: item.fire_at,
+  }));
+  await asSystem(tx, () =>
+    tx.query(
+      `WITH mirrored AS (
+         INSERT INTO notifications (user_id, key, category, class, sender, template_id, title, body,
+           dedupe_key, local_date, state, sent_at)
+         SELECT $1, i.key, i.category, 'local', '{"kind":"system"}', i.key, '', '', 'local:' || i.id,
+           (i.fire_at AT TIME ZONE $2)::date, 'sent', i.fire_at
+         FROM jsonb_to_recordset($3::jsonb) AS i(id uuid, key text, category text, fire_at timestamptz)
+         ON CONFLICT (user_id, dedupe_key) DO NOTHING
+         RETURNING local_date
+       )
+       INSERT INTO ping_ledger (user_id, local_date, sent_local)
+       SELECT $1, local_date, count(*) FROM mirrored GROUP BY local_date
+       ON CONFLICT (user_id, local_date) DO UPDATE
+         SET sent_local = ping_ledger.sent_local + EXCLUDED.sent_local`,
+      [uid, tz, JSON.stringify(rows)],
+    ),
+  );
+}
+
 export const registerDevice = defineCommand({
   name: 'register_device',
   v: 1,
@@ -185,6 +236,7 @@ export const registerDevice = defineCommand({
     const tz = await canonicalZone(tx, payload.tz);
     const moved = await claimInstall(tx, deviceId, ctx.uid);
     await upsertDevice(tx, deviceId, ctx.uid, tz, payload);
+    await mirrorLocalNotifications(tx, ctx.uid, tz, payload.local_scheduled);
     if (payload.push_token !== undefined) {
       await upsertToken(tx, deviceId, { ...payload, push_token: payload.push_token });
     }
