@@ -87,7 +87,8 @@ export function dropBlockedCitations(
   content: readonly Anthropic.Messages.ContentBlock[],
 ): Anthropic.Messages.ContentBlock[] {
   return content.map((block) => {
-    if (block.type !== 'text' || block.citations === null) return block;
+    // Anthropic sends `citations: null`; compatible endpoints may omit the field entirely.
+    if (block.type !== 'text' || !block.citations) return block;
     return {
       ...block,
       citations: block.citations.filter(

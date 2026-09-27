@@ -1,3 +1,4 @@
+import type Anthropic from '@anthropic-ai/sdk';
 import { readFileSync } from 'node:fs';
 
 import { describe, expect, it } from 'vitest';
@@ -35,6 +36,16 @@ describe('blocked supplier domains', () => {
     expect(isBlockedUrl('https://notbooking.com/')).toBe(false);
     expect(isBlockedUrl('https://hoianworldheritage.org.vn/en')).toBe(false);
     expect(isBlockedUrl('not a url')).toBe(true);
+  });
+});
+
+describe('visible answer', () => {
+  it('shows a text block that carries no citations field at all', () => {
+    const block = {
+      type: 'text',
+      text: 'Pho is best at breakfast.',
+    } as Anthropic.Messages.TextBlock;
+    expect(visibleAnswer([block])).toBe('Pho is best at breakfast.');
   });
 });
 
