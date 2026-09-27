@@ -55,7 +55,7 @@ describe('sentry', () => {
         cookie: 'session=abc',
         'content-type': 'application/json',
       },
-      body: JSON.stringify({ text: 'private message', budget_max: 900 }),
+      body: JSON.stringify({ text: 'private message', budget_max: 987_654 }),
     });
     expect(response.status).toBe(500);
     const body = (await response.json()) as {
@@ -79,7 +79,7 @@ describe('sentry', () => {
       'session=abc',
       'private message',
       'anna@example.com',
-      '900',
+      '987654',
     ]) {
       expect(serialised).not.toContain(secret);
     }

@@ -57,16 +57,10 @@ import { buildAdminConsole } from './admin/bootstrap';
 import { registerSupportGrantSource } from './admin/entitlement-grants';
 import { mountAdminRouter } from './admin/router';
 import { createServerAnalytics } from './obs/analytics';
-import { createLogger } from './obs/logger';
-import { initSentry } from './obs/sentry';
+import { startApiObservability } from './obs';
 
 const env = loadApiEnv();
-const logger = createLogger({ level: env.LOG_LEVEL, service: 'api', commit: env.COMMIT_SHA });
-const errors = initSentry({
-  dsn: env.SENTRY_DSN,
-  environment: env.APP_ENV,
-  release: `api@${packageJson.version}+${env.COMMIT_SHA}`,
-});
+const { logger, errors } = startApiObservability(env, packageJson.version);
 
 const pool = new pg.Pool({
   connectionString: env.DATABASE_URL,

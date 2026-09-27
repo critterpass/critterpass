@@ -34,15 +34,13 @@ describe('worker llm observability', () => {
     });
     const span: GenerationSpan = {
       route: 'guide.chat',
-      model: 'claude-haiku-4-5',
-      tier: 'haiku',
+      model: 'deepseek-flash',
+      tier: 'fast',
       usage: {
         inputTokens: 10,
         outputTokens: 5,
         cacheReadTokens: 0,
-        cacheWrite5mTokens: 0,
-        cacheWrite1hTokens: 0,
-        webSearchRequests: 0,
+        cacheWriteTokens: 0,
       },
       costMicros: 40,
       startedAt: new Date('2026-09-28T01:00:00.000Z'),

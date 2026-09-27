@@ -51,15 +51,13 @@ function harness() {
 
 const span: GenerationSpan = {
   route: 'guide.chat',
-  model: 'claude-haiku-4-5',
-  tier: 'haiku',
+  model: 'deepseek-flash',
+  tier: 'fast',
   usage: {
     inputTokens: 1200,
     outputTokens: 300,
     cacheReadTokens: 0,
-    cacheWrite5mTokens: 0,
-    cacheWrite1hTokens: 0,
-    webSearchRequests: 0,
+    cacheWriteTokens: 0,
   },
   costMicros: 2_700,
   startedAt: new Date('2026-09-28T01:00:00.000Z'),
@@ -92,19 +90,19 @@ describe('llm observability', () => {
       {
         name: 'cp_llm_cost_micros_total',
         value: 2_700,
-        labels: { feature: 'guide.chat', tier: 'haiku' },
+        labels: { feature: 'guide.chat', tier: 'fast' },
       },
       {
         name: 'cp_llm_latency_ms',
         value: 1_250,
-        labels: { feature: 'guide.chat', model: 'claude-haiku-4-5' },
+        labels: { feature: 'guide.chat', model: 'deepseek-flash' },
       },
     ]);
     expect(events).toEqual([
       {
         feature: 'guide.chat',
-        model: 'claude-haiku-4-5',
-        tier: 'haiku',
+        model: 'deepseek-flash',
+        tier: 'fast',
         latency: 1_250,
         cost_est: 2_700,
         trip_id: TRIP,
