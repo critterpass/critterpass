@@ -19,6 +19,13 @@ threshold, plus one `edge-ring-*.png` per tier-edge fixture always). Both are gi
 exit when any gating case misses threshold, the mutation-sensitivity check fails, or an edge-ring
 comparison fails its (much looser) sanity ceiling — see "Tier edge ring" below.
 
+CI runs this on macOS arm64 (`critter-art-golden` job in `.github/workflows/ci.yml`), the platform
+the thresholds and `known-node-deviations.ts` ceilings were measured on. On Linux x64 the
+browser-core comparison is still bit-perfect, but the Node column misses threshold on most 24pt
+cases (mean abs ≈ 1–2/255, 2–5% of pixels > 8/255): `@napi-rs/canvas` rasterizes small
+anti-aliased edges differently there. Anything that bakes or compares Node renders byte-for-byte
+(bake `--check`, server share cards) must pin one platform too.
+
 ## Case matrix
 
 - **Baseline** — every guide and icon (34 kinds) at 96pt, plain, fully drawn (`p=1`). Confirms
