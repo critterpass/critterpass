@@ -16,5 +16,8 @@
   "dependencies": {
     "@js-temporal/polyfill": "catalog:",
     "zod": "catalog:"
+  },
+  "devDependencies": {
+    "fast-check": "catalog:"
   }
 }

@@ -1,0 +1,35 @@
+# AI gateway streams (docs/data-model-sync-and-privacy.md §4): durable AI jobs and guide offers. Queries
+# join the core streams of the same name; `my_crews` is the global CTE declared in core.yaml and
+# `organised_trips` repeats trip_draft's CTE from core.yaml verbatim. change_sets and guide_actions are
+# already in core.yaml. persona_packs is never published (read by the guide through llm.persona_packs).
+
+streams:
+  # The caller's own jobs (agent_jobs SELECT policy: user_id = app.uid()).
+  me:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM agent_jobs WHERE user_id = auth.user_id()
+
+  # Offers the guide posted on one trip and who claimed them (app.is_trip_member).
+  trip:
+    queries:
+      - |
+        SELECT * FROM guide_offers
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM guide_offer_claims
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+
+  # Every job on a trip the caller organises (agent_jobs SELECT policy: app.is_trip_organiser).
+  trip_draft:
+    with:
+      organised_trips: |
+        SELECT trip_id FROM trip_participants WHERE user_id = auth.user_id() AND role = 'organiser'
+    queries:
+      - |
+        SELECT * FROM agent_jobs
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN organised_trips
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)

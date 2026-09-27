@@ -43,6 +43,8 @@ export interface PermissionFixture {
   readonly dayId: string;
   /** Authored by `actors.member` — the natural target for a "does the author own this?" probe. */
   readonly changeSetId: string;
+  /** A running `agent_jobs` row the member asked for on the trip. */
+  readonly agentJobId: string;
   readonly actors: Readonly<Record<ActorKind, string>>;
 }
 
@@ -173,6 +175,27 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       [tripId],
     );
 
+    // AI tables: a job the member asked for on this trip, an open guide offer the member claimed,
+    // and one approved persona pack (no app_user grant at all, so every actor must still see nothing).
+    const { rows: jobRows } = await tx.query<{ id: string }>(
+      "INSERT INTO agent_jobs (trip_id, user_id, kind, status) VALUES ($1, $2, 'draft', 'running') RETURNING id",
+      [tripId, member],
+    );
+    const agentJobId = jobRows[0]!.id;
+    const { rows: offerRows } = await tx.query<{ id: string }>(
+      "INSERT INTO guide_offers (trip_id, kind, slots_total) VALUES ($1, 'join_activity', 3) RETURNING id",
+      [tripId],
+    );
+    await tx.query(
+      'INSERT INTO guide_offer_claims (offer_id, trip_id, user_id) VALUES ($1, $2, $3)',
+      [offerRows[0]!.id, tripId, member],
+    );
+    await tx.query(
+      `INSERT INTO persona_packs (guide_id, version, status, approved_at)
+       SELECT id, 'matrix-probe', 'approved', now() FROM guides WHERE slug = 'matrix-probe-guide'
+       ON CONFLICT (guide_id, version) DO NOTHING`,
+    );
+
     const opId = crypto.randomUUID();
     await claimOpId(tx, { opId, uid: member, cmd: 'matrix_probe', payloadHash: 'h' });
     await recordCmdResult(tx, { opId, uid: member, cmd: 'matrix_probe', status: 'applied' });
@@ -183,6 +206,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       versionId,
       dayId,
       changeSetId,
+      agentJobId,
       organiser,
       coOrganiser,
       member,
@@ -208,6 +232,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     versionId: built.versionId,
     dayId: built.dayId,
     changeSetId: built.changeSetId,
+    agentJobId: built.agentJobId,
     actors: {
       outsider: built.outsider,
       exMember: built.exMember,

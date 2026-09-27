@@ -20,6 +20,7 @@
     "@cp/domain": "workspace:*",
     "drizzle-orm": "catalog:",
     "pg": "catalog:",
+    "pg-boss": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {

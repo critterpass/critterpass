@@ -1,0 +1,34 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`prompt layering > keeps every layer stable across releases (snapshot of layer hashes) 1`] = `
+{
+  "ajo": [
+    "3db4413b576358ae",
+    "42b9744f3f9be221",
+  ],
+  "guest": [
+    "3db4413b576358ae",
+    "391a75757d15539f",
+  ],
+  "lundi": [
+    "3db4413b576358ae",
+    "3068cf0ad4b67916",
+  ],
+  "paco": [
+    "3db4413b576358ae",
+    "516bf9aca6671937",
+  ],
+  "pon": [
+    "3db4413b576358ae",
+    "20ef07dd9db4a36c",
+  ],
+  "sardi": [
+    "3db4413b576358ae",
+    "1090979eb9c11e00",
+  ],
+  "tokek": [
+    "3db4413b576358ae",
+    "bfc6215e823f3fc5",
+  ],
+}
+`;
