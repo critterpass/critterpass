@@ -103,3 +103,9 @@ registerMergeRule({
   strategy: 'drop',
   viaFunction: 'merge_revoke_device_action_keys',
 });
+
+// T10: user_private is a singleton per user (PK user_id, same shape as user_settings) — existing
+// wins. account_deletions is a history table; an anon uid reaching merge at all implies it was never
+// closed, so any row it somehow has carries no useful information forward.
+registerMergeRule({ table: 'user_private', userColumn: 'user_id', strategy: 'keep_existing' });
+registerMergeRule({ table: 'account_deletions', userColumn: 'user_id', strategy: 'drop' });

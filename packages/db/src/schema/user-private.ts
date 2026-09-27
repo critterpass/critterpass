@@ -1,13 +1,12 @@
 /**
- * Anti-abuse / extension-auth device tables (docs/data-model.md §3.1). Typed mirror of the applied
- * migrations (packages/db/migrations/*_device_attestations.sql, *_device_action_keys.sql, and the
- * ones a later task adds to this same file), not run through `drizzle-kit generate` (same convention
- * as ./identity.ts). `user_private`/`account_deletions`/`install_attributions` (docs/data-model.md
- * §3.1, §3.17) land here in a later task.
+ * Anti-abuse / extension-auth / account-state device and identity tables (docs/data-model.md §3.1,
+ * §3.17). Typed mirror of the applied migrations (packages/db/migrations/*_device_attestations.sql,
+ * *_device_action_keys.sql, *_user_private_and_account_state.sql), not run through
+ * `drizzle-kit generate` (same convention as ./identity.ts).
  */
 import { registerTablePrivacy } from '@cp/domain';
 import { sql } from 'drizzle-orm';
-import { integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { jsonb, pgTable, text, timestamp, uuid, integer } from 'drizzle-orm/pg-core';
 
 import { users } from './identity';
 
@@ -58,3 +57,59 @@ export const deviceActionKeys = pgTable('device_action_keys', {
 });
 
 registerTablePrivacy('device_action_keys', { class: 'C3' });
+
+/**
+ * The encrypted split half of a user's identity (docs/data-model.md §3.1). RLS class X: owner-only
+ * (same policy shape as O) and, unlike an ordinary O table, explicitly never granted to
+ * `guide_reader` or entered into the powersync publication — enforced here structurally (C3 is never
+ * publishable, `packages/domain/src/privacy.ts#isPublishableClass`) as well as by the migration's own
+ * grants.
+ */
+export const userPrivate = pgTable('user_private', {
+  userId: uuid('user_id')
+    .primaryKey()
+    .references(() => users.id),
+  phoneE164Enc: text('phone_e164_enc'),
+  phoneHash: text('phone_hash'),
+  emailEnc: text('email_enc'),
+  passportNoEnc: text('passport_no_enc'),
+  signInCountry: text('sign_in_country'),
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+});
+
+registerTablePrivacy('user_private', { class: 'C3' });
+
+/** Account deletion/restore workflow state (docs/data-model.md §3.17); the restore/purge job itself is a later phase's, this phase owns only the table and `rejectClosedAccount`'s read of it. */
+export const accountDeletions = pgTable('account_deletions', {
+  id: uuid('id')
+    .primaryKey()
+    .default(sql`uuidv7()`),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id),
+  reason: text('reason'),
+  balancesSnapshot: jsonb('balances_snapshot'),
+  requestedAt: timestamp('requested_at', { withTimezone: true, mode: 'date' })
+    .notNull()
+    .defaultNow(),
+  purgeAt: timestamp('purge_at', { withTimezone: true, mode: 'date' }).notNull(),
+  restoredAt: timestamp('restored_at', { withTimezone: true, mode: 'date' }),
+  purgedAt: timestamp('purged_at', { withTimezone: true, mode: 'date' }),
+  source: text('source').notNull(),
+});
+
+registerTablePrivacy('account_deletions', { class: 'C2' });
+
+/** Install attribution skeleton (docs/data-model.md §3.1); the attribution pipeline itself is a later phase's job. */
+export const installAttributions = pgTable('install_attributions', {
+  deviceId: uuid('device_id').primaryKey(),
+  channel: text('channel'),
+  source: text('source'),
+  inviteId: uuid('invite_id'),
+  joinCode: text('join_code'),
+  claimedAt: timestamp('claimed_at', { withTimezone: true, mode: 'date' }),
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+});
+
+registerTablePrivacy('install_attributions', { class: 'C2' });

@@ -23,6 +23,8 @@ import {
   type PumpingHookDeps,
 } from '../abuse/pumping';
 import { enforceOtpSendRateLimit, type AbuseRateLimitDeps } from '../abuse/rate-limits';
+import { maybeWriteAdminAudit } from './admin';
+import { fanOutSessionRevoked } from './guards';
 
 export interface HooksDeps {
   readonly appPool: pg.Pool;
@@ -192,7 +194,16 @@ export interface RequestGuardsDeps {
   readonly attestation: AttestationDeps;
   readonly rateLimit: AbuseRateLimitDeps;
   readonly pumping: PumpingHookDeps;
+  /** Shared by session-revocation fan-out and the admin-audit write — both are plain `app_system` inserts against the same pool. */
+  readonly appPool: pg.Pool;
 }
+
+const SESSION_REVOCATION_PATHS = new Set([
+  '/sign-out',
+  '/revoke-session',
+  '/revoke-sessions',
+  '/revoke-other-sessions',
+]);
 
 /**
  * The one `hooks.before` middleware Better Auth accepts (a single function, not an array of matcher
@@ -222,16 +233,29 @@ export function buildRequestBeforeHook(
   });
 }
 
-/** Records pumping bookkeeping after a `/phone-number/send-otp` call that the `before` hook above did not already reject. */
+/**
+ * Records pumping bookkeeping after a `/phone-number/send-otp` call that the `before` hook above did
+ * not already reject, and fans out session revocation (`rt_outbox` `session.revoked` + action-key
+ * revocation, guards.ts) after `/sign-out`/`/revoke-session(s)` — Better Auth's own handler has
+ * already deleted the session row by the time this runs; `ctx.context.session` still carries the
+ * pre-deletion uid.
+ */
 export function buildRequestAfterHook(
-  deps: Pick<RequestGuardsDeps, 'pumping'>,
+  deps: Pick<RequestGuardsDeps, 'pumping' | 'appPool'>,
 ): NonNullable<NonNullable<BetterAuthOptions['hooks']>['after']> {
   return createAuthMiddleware(async (ctx) => {
-    if (ctx.path !== SEND_OTP_PATH) return;
-    try {
-      await recordOtpSendPumpingBookkeeping(readSendOtpPhoneNumber(ctx), deps.pumping);
-    } catch (error) {
-      throw toApiError(error);
+    if (ctx.path === SEND_OTP_PATH) {
+      try {
+        await recordOtpSendPumpingBookkeeping(readSendOtpPhoneNumber(ctx), deps.pumping);
+      } catch (error) {
+        throw toApiError(error);
+      }
     }
+    if (SESSION_REVOCATION_PATHS.has(ctx.path)) {
+      const userId = (ctx.context as { session?: { user: { id: string } } | null }).session?.user
+        .id;
+      if (userId) await fanOutSessionRevoked(deps.appPool, userId);
+    }
+    await maybeWriteAdminAudit(ctx, deps.appPool);
   });
 }

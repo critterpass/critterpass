@@ -69,6 +69,8 @@ export interface AuthModuleDeps {
   readonly apple?: AppleProviderConfig | undefined;
   /** Absent when Google Cloud OAuth client ids are not provisioned yet. */
   readonly google?: GoogleProviderConfig | undefined;
+  /** Gates admin impersonation (admin.ts); defaults to `true` (fail safe). */
+  readonly isProduction?: boolean | undefined;
 }
 
 export interface AuthModule {
@@ -187,6 +189,7 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
     },
     rateLimit: { redis: deps.redis },
     pumping: { redis: deps.redis, config: deps.pumping ?? defaultPumpingConfig() },
+    appPool: deps.appPool,
   };
 
   const auth = betterAuth(
@@ -202,6 +205,7 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
       rateLimit: deps.rateLimit,
       apple: deps.apple,
       google: deps.google,
+      isProduction: deps.isProduction,
       hooks: {
         before: buildRequestBeforeHook(requestGuardsDeps),
         after: buildRequestAfterHook(requestGuardsDeps),

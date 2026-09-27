@@ -4,8 +4,8 @@
  * DELETE: `device_action_keys` grants no role DELETE (packages/db/migrations/*_device_action_keys
  * .sql), so a revoked row stays auditable for its retention window. Merge's own revocation runs
  * through `packages/db/src/merge-rules.ts`'s registered rule instead of these helpers (same
- * transaction as the rest of the merge); sign-out, device removal, deletion and admin actions
- * (T10, phase 45, phase 11) call these directly.
+ * transaction as the rest of the merge); sign-out, device removal, account deletion and admin
+ * actions (this phase's `guards.ts`, and later phases' device/account routes) call these directly.
  */
 import { withSystem } from '@cp/db';
 import type pg from 'pg';

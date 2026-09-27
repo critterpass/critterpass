@@ -20,12 +20,14 @@ import * as schema from './schema';
  * even though the row content itself is not sensitive. `fair_use_counters`
  * (packages/db/src/schema/entitlements.ts) is the same shape: silent fair-use counts must never be
  * client-visible (docs/product-decisions.md §3 "never shown as a limit"), even though the row
- * content is not otherwise sensitive. Add a new entry here, with the same comment style, if a later
- * table needs the same treatment.
+ * content is not otherwise sensitive. `install_attributions` (packages/db/src/schema/user-private.ts)
+ * is the same shape again: a device's attribution record has no app_user SELECT policy at all. Add a
+ * new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'media_objects',
   'fair_use_counters',
+  'install_attributions',
 ]);
 
 /** Every table this schema declares that the `powersync` publication should carry. */

@@ -118,6 +118,14 @@ describe('device_action_keys: owner-only, system-issued', () => {
     expect(rows).toEqual([]);
   });
 
+  it('never grants guide_reader a table privilege', async () => {
+    const { rows } = await db.pool.query(
+      `SELECT 1 FROM information_schema.role_table_grants
+       WHERE table_name = 'device_action_keys' AND grantee = 'guide_reader'`,
+    );
+    expect(rows).toEqual([]);
+  });
+
   it('never publishes device_action_keys on the powersync publication', async () => {
     const { rows } = await db.pool.query(
       "SELECT 1 FROM pg_publication_tables WHERE pubname = 'powersync' AND tablename = 'device_action_keys'",

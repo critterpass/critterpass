@@ -3,8 +3,8 @@
  * (±300 s), `X-CP-Sig = base64url(HMAC-SHA256(secret, method\npath\nts\nsha256(body)))`. The one
  * error code for every rejection reason is `ACTION_KEY_SCOPE` (docs/api-contracts.md §3 has no
  * separate code per failure kind); `detail.reason` distinguishes them for logging/debugging without
- * needing new wire-level codes. Phase 11 wires this into `/v1/actions` and its Swift/Kotlin signer
- * counterpart; this module only proves a request's signature, freshness and scope.
+ * needing new wire-level codes. A later phase wires this into `/v1/actions` and its Swift/Kotlin
+ * signer counterpart; this module only proves a request's signature, freshness and scope.
  */
 import { createHash, createHmac } from 'node:crypto';
 

@@ -12,6 +12,7 @@ import { betterAuth, type BetterAuthOptions } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin, anonymous, jwt, phoneNumber } from 'better-auth/plugins';
 
+import { buildAdminPluginConfig } from './admin';
 import type { AppleProviderConfig } from './social/apple';
 import { buildAppleSocialProviderOptions } from './social/apple';
 import type { GoogleProviderConfig } from './social/google';
@@ -88,6 +89,8 @@ export interface AuthConfigDeps {
   readonly apple?: AppleProviderConfig | undefined;
   /** Absent when Google Cloud OAuth client ids are not provisioned yet. */
   readonly google?: GoogleProviderConfig | undefined;
+  /** Gates impersonation (admin.ts's `buildAdminPluginConfig`) — server config only, never client input. Defaults to `true` (fail safe: impersonation off unless a deployment explicitly opts in). */
+  readonly isProduction?: boolean | undefined;
 }
 
 export function buildAuthOptions(deps: AuthConfigDeps): BetterAuthOptions {
@@ -182,14 +185,7 @@ export function buildAuthOptions(deps: AuthConfigDeps): BetterAuthOptions {
         // real PowerSync/Centrifugo tokens always come from GET /api/auth/token?aud=.
         disableSettingJwtHeader: true,
       }),
-      admin({
-        // `support`/`content` (docs/product-decisions.md's admin plugin note) need their own
-        // `roles`-configured permission sets before they can be added to adminRoles (Better Auth
-        // rejects an adminRoles entry with no matching roles definition) — a later task's full
-        // permission matrix, impersonation gating and ops.admin_audit wiring. `admin` alone uses
-        // Better Auth's own built-in default role/permissions.
-        adminRoles: ['admin'],
-      }),
+      admin(buildAdminPluginConfig(deps.isProduction ?? true)),
       expo(),
     ],
   };

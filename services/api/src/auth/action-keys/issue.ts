@@ -1,8 +1,8 @@
 /**
  * Device action key issuance and rotation (docs/api-contracts-async.md §5). The plaintext secret is
  * generated here and returned exactly once, to the caller that just proved it owns the session
- * issuing the key (phase 11's `POST /v1/devices/{id}/action-keys`); only its AES-256-GCM-encrypted
- * form (`packages/db/src/crypto`) is ever stored.
+ * issuing the key (a later phase's `POST /v1/devices/{id}/action-keys`); only its
+ * AES-256-GCM-encrypted form (`packages/db/src/crypto`) is ever stored.
  */
 import { randomBytes, randomUUID } from 'node:crypto';
 
@@ -63,7 +63,8 @@ interface ActionKeyRotationRow {
 /**
  * Rotates a key when fewer than 7 d remain: issues a fresh key with the same device/scopes and
  * revokes the old one. Returns `undefined` when the key does not exist, is already revoked, or
- * rotation is not yet due — a caller (phase 11's app-foreground check) can call this unconditionally.
+ * rotation is not yet due — a caller (a later phase's app-foreground check) can call this
+ * unconditionally.
  */
 export async function rotateActionKeyIfDue(
   pool: pg.Pool,
