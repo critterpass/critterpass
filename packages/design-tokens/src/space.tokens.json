@@ -1,0 +1,15 @@
+{
+  "space": {
+    "2": { "$type": "dimension", "$value": 2 },
+    "4": { "$type": "dimension", "$value": 4 },
+    "6": { "$type": "dimension", "$value": 6 },
+    "8": { "$type": "dimension", "$value": 8 },
+    "10": { "$type": "dimension", "$value": 10 },
+    "12": { "$type": "dimension", "$value": 12 },
+    "14": { "$type": "dimension", "$value": 14 },
+    "16": { "$type": "dimension", "$value": 16 },
+    "20": { "$type": "dimension", "$value": 20 },
+    "24": { "$type": "dimension", "$value": 24 },
+    "32": { "$type": "dimension", "$value": 32 }
+  }
+}

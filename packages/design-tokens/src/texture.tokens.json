@@ -1,0 +1,92 @@
+{
+  "texture": {
+    "halftone": {
+      "$type": "cpTexture",
+      "$value": { "kind": "dots", "color": "rgba(23,20,42,.13)", "radiusPt": 1.3, "gridPt": 8 },
+      "$description": "Every colour hero, ticket, card"
+    },
+    "halftoneDark": {
+      "$type": "cpTexture",
+      "$value": {
+        "kind": "dots",
+        "layers": ["rgba(255,216,74,.2) 9pt grid", "rgba(244,239,228,.07) 9pt grid"]
+      },
+      "$description": "Splash, invite, voice orb"
+    },
+    "guilloche": {
+      "$type": "cpTexture",
+      "$value": {
+        "kind": "repeatingRadial",
+        "color": "rgba(23,20,42,.05)",
+        "ringWidthMinPt": 1,
+        "ringWidthMaxPt": 7,
+        "originPercentX": 50,
+        "originPercentY": 120
+      },
+      "$description": "Passport pages"
+    },
+    "hatch": {
+      "$type": "cpTexture",
+      "$value": {
+        "kind": "stripes",
+        "angleDeg": 135,
+        "color": "rgba(255,255,255,.05)",
+        "stripeWidthPt": 8,
+        "stripeGapPt": 16,
+        "baseColor": "{color.paper.muted}"
+      },
+      "$description": "Photo placeholders / loading photos"
+    },
+    "engraving": {
+      "$type": "cpTexture",
+      "$value": {
+        "kind": "lines",
+        "angleDeg": 115,
+        "color": "rgba(23,20,42,.055)",
+        "lineWidthPt": 1,
+        "lineGapPt": 6
+      },
+      "$description": "Visa, gold cover"
+    },
+    "barcode": {
+      "$type": "cpTexture",
+      "$value": {
+        "kind": "stripes",
+        "color": "{color.ink.850}",
+        "stripeWidthPt": 2,
+        "stripeGapPt": 2
+      },
+      "$description": "Tickets, receipts"
+    },
+    "rays": {
+      "$type": "cpTexture",
+      "$value": {
+        "kind": "conic",
+        "color": "{color.paper.warm}",
+        "opacity": 0.45,
+        "stepDeg": 9,
+        "spinMs": 9000
+      },
+      "$description": "Wins, befriends"
+    },
+    "holo": {
+      "$type": "cpTexture",
+      "$value": {
+        "kind": "conic",
+        "colors": ["{color.pink}", "{color.yellow}", "{color.green.base}", "{color.blue}"],
+        "animated": true
+      },
+      "$description": "Pass+ visa seal"
+    },
+    "sheen": {
+      "$type": "cpTexture",
+      "$value": {
+        "kind": "sweepBand",
+        "skewDeg": -20,
+        "widthPt": 60,
+        "color": "rgba(255,255,255,.55)"
+      },
+      "$description": "Primary CTA sweep"
+    }
+  }
+}

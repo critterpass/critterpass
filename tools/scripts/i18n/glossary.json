@@ -1,0 +1,36 @@
+{
+  "$comment": "Do-not-translate terms for Critterpass catalogs. Translator/reviewer reference for Tolgee; not yet machine-enforced (see notes). Sourced from docs/design-system.md and docs/product-decisions.md — update this file, not the source docs, if a term's spelling changes.",
+  "doNotTranslate": [
+    {
+      "term": "Critterpass",
+      "category": "product",
+      "note": "App name; never transliterated or translated."
+    },
+    { "term": "Pass+", "category": "product", "note": "Subscription tier name." },
+    {
+      "term": "Trip Boost",
+      "category": "product",
+      "note": "Consumable purchase name; UI chip copy may shorten to \"Boost\" — keep either form untranslated."
+    },
+    {
+      "term": "Critterdex",
+      "category": "product",
+      "note": "Critter-collection feature and widget name."
+    },
+    {
+      "term": "Tokek",
+      "category": "guide",
+      "note": "Bali guide (gecko); also the guest guide shown outside the 6 launch destinations."
+    },
+    { "term": "Pon", "category": "guide", "note": "Kyoto guide (tanuki)." },
+    { "term": "Lundi", "category": "guide", "note": "Iceland guide (puffin)." },
+    { "term": "Ajo", "category": "guide", "note": "Mexico City guide (axolotl)." },
+    { "term": "Sardi", "category": "guide", "note": "Lisbon guide (sardine)." },
+    { "term": "Paco", "category": "guide", "note": "Cusco guide (alpaca)." }
+  ],
+  "notes": [
+    "Critter species/form names are not enumerated here yet: the content factory (docs/product-decisions.md's guide-content pipeline) has not produced the final critter roster this glossary would need to list. Add them here once that content ships, before the first non-en release of any catalog that references them.",
+    "`<local lang=\"...\">` markup spans (packages/i18n/src/local-markup.ts) mark inline text that keeps a fixed language regardless of the surrounding locale (for example a Balinese greeting inside an English message) — never translate a span's content when translating the message around it.",
+    "This file is a translator/reviewer reference today, not wired into an automated check. A real follow-up once a Tolgee project exists: either import it as an organization-level Tolgee glossary (POST /v2/organizations/{organizationId}/glossaries) so Tolgee's own editor flags these terms, or extend tools/scripts/i18n/check-complete.ts to flag a shipped-locale translation that accidentally translates one of these terms."
+  ]
+}
