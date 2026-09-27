@@ -9,6 +9,7 @@
  * erase a previous editorial pass.
  */
 import {
+  canonicalTz,
   defaultVisitRadiusM,
   editorialOverlaySchema,
   parseOpeningHours,
@@ -161,7 +162,7 @@ async function insertPoiRows(
       row.hoursVerifiedAt,
       row.curation,
       row.visitRadiusM,
-      timezone ?? null,
+      timezone === undefined ? null : canonicalTz(timezone),
     ]),
     INSERT_CASTS,
   );

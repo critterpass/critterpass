@@ -21,9 +21,15 @@ BEGIN
 END;
 $$;
 
+-- Canonical IANA ids only, checked without scanning pg_timezone_names. app.canonical_tz (the
+-- alias table) and the tz-column triggers live in migrations/*_valid_tz_fast.sql.
 CREATE OR REPLACE FUNCTION app.valid_tz(tz text) RETURNS boolean
-LANGUAGE sql STABLE SET search_path = pg_catalog AS $$
-  SELECT EXISTS (SELECT 1 FROM pg_timezone_names WHERE name = tz)
+LANGUAGE sql STABLE PARALLEL SAFE AS $$
+  SELECT tz OPERATOR(pg_catalog.~)
+           '^(Etc/GMT(-(1[0-4]|[1-9])|\+(1[0-2]|[1-9]))|[A-Z][A-Za-z_-]*(/[A-Z][A-Za-z_-]*){1,2})$'
+     AND app.canonical_tz(tz) OPERATOR(pg_catalog.=) tz
+     AND pg_catalog.pg_input_is_valid('2000-01-01 00:00:00 ' OPERATOR(pg_catalog.||) tz,
+                                      'pg_catalog.timestamptz')
 $$;
 
 REVOKE EXECUTE ON FUNCTION app.uid() FROM PUBLIC;
