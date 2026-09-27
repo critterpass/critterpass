@@ -1,7 +1,7 @@
 ---
 phase: 10
 title: Offline sync, command framework, realtime
-status: in_progress
+status: done
 depends_on: [2, 8, 9, 12, 14]
 wave: 4
 features: [F-010, F-011]
