@@ -6,7 +6,7 @@ depends_on: [4, 5, 13, 14, 17]
 wave: 7
 features: [F-009]
 screens: [3l-2, 3l-3, 3l-8, 3l-9, 3l-10, 3b-1, 3b-7, 3b-8, 3a-4, 3h-3, 3k-6, 3p-1]
-tasks: 12
+tasks: 13
 owns:
   - tools/content-factory/**
   - packages/content/**
@@ -163,6 +163,13 @@ Undesigned (design in code, D11): admin content review screens (batch list, item
 - Steps: 1. Structure from official sources (URL per record). 2. Generate a per-record verification checklist (source URL, retrieved_at) for the founder. 3. Publish via `set_emergency_info` / catalogue batch.
 - Tests: `pnpm content emergency validate --all && pnpm content facilities validate --all`
 - Done when (agent): every country of the 61 places has a sourced record with `verified_at null` + checklist entry; facilities for 6 guide cities with ≥ 1 hospital and pharmacy each; publish job refuses records with `verified_at null` (test). Human verification → G7.
+
+### T13 — Opening hours research from official sources (web search)
+- Goal: fill the empty `hours` of POIs from official venue or tourism sites, human-verified before use (D23).
+- Files: the places batch step and its review view in the ops console catalogue (owned places-batch files), tests with recorded search and model fixtures.
+- Steps: 1. For POIs without hours, search official venue and tourism domains first; the general search keeps the supplier blocklist and also excludes Google Maps and TripAdvisor (D6). 2. Extract weekday hours and dated exceptions, each with `source_url` and `fetched_at`. 3. Proposed hours stay unverified; the ops console shows them with their source, and a human sets `verified_at`. Only verified hours are served. 4. Foursquare live checks remain the runtime source.
+- Tests: extraction on recorded fixtures; only verified hours are served (test).
+- Done when: a batch proposes cited hours for POIs without hours, and a verified proposal fills `hours` for OPEN NOW and fit checks.
 
 ## Phase acceptance criteria
 
