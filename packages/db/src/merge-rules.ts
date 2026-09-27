@@ -91,3 +91,15 @@ registerMergeRule({
 // tables above but never contending for a unique slot.
 registerMergeRule({ table: 'crews', userColumn: 'created_by', strategy: 'reassign' });
 registerMergeRule({ table: 'media_objects', userColumn: 'owner_id', strategy: 'reassign' });
+
+// device_action_keys (T9): tied to one physical device, not a fact worth carrying to the existing
+// uid's own devices. "Dropping" here means revoking (setting revoked_at), never a hard DELETE — this
+// table has no DELETE grant for any role (data-model.md's "revoked + 30 d" retention needs the row to
+// stay auditable) — via the same SECURITY DEFINER escape hatch fair_use_counters uses, matching
+// "revoked on ... uid merge" (docs/api-contracts-async.md §5).
+registerMergeRule({
+  table: 'device_action_keys',
+  userColumn: 'user_id',
+  strategy: 'drop',
+  viaFunction: 'merge_revoke_device_action_keys',
+});

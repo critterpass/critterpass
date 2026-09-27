@@ -4,7 +4,7 @@
  * without consuming the ticket (repeatable while the user reviews); `confirmMerge` executes once,
  * then the caller must run every registered `onSignOut` hook (sign-out.ts's `runOnSignOutHooks`) even
  * though this was never a sign-out — the client is switching uids and must drop the anonymous
- * session's local state (PowerSync `disconnectAndClear()`, phase 10 T4) exactly like a real sign-out.
+ * session's local state (PowerSync `disconnectAndClear()`, registered into this same hook registry) exactly like a real sign-out.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer (docs/system-architecture.md
    §3); every literal is a route path, outcome discriminant or error code, never rendered copy. */
@@ -59,7 +59,7 @@ export async function confirmMerge(
   }
   if (!data) return { kind: 'error', code: 'UNKNOWN' };
   // The anonymous session is gone server-side the instant this response arrives: every registered
-  // hook (PowerSync disconnectAndClear, phase 10 T4) must drop the anonymous uid's local state before
+  // hook (PowerSync disconnectAndClear) must drop the anonymous uid's local state before
   // the caller resyncs as the existing uid.
   await runOnSignOutHooks();
   return { kind: 'merged', userId: data.user.id };

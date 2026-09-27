@@ -14,4 +14,4 @@ export { clientConfig, opsAdminAudit, opsConfig } from './ops-core';
 export { changeSets, guideActions, itineraryVersions, planDays, planItems } from './plan';
 export { activityEvents, cmdLog, cmdResults, domainEvents, rtOutbox } from './platform';
 export { destinations, guides, tripParticipants, trips } from './trips';
-export { deviceAttestations } from './user-private';
+export { deviceActionKeys, deviceAttestations } from './user-private';

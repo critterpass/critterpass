@@ -2,7 +2,7 @@
  * Registry of local-state cleanup hooks that must run whenever the client stops being the current
  * uid — a real sign-out, or a successful merge switching to `existing_uid` (docs/data-model.md §3.1;
  * docs/data-model-sync-and-privacy.md §4 "account switch → `disconnectAndClear()`"). This module owns
- * only the registry; phase 10 T4 registers PowerSync's `disconnectAndClear()` here, and a later phase
+ * only the registry; a later task registers PowerSync's `disconnectAndClear()` here, and another
  * registers `local_private` wipe — neither dependency exists yet in this phase, so nothing is
  * pre-registered.
  */

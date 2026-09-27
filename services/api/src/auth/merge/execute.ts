@@ -159,21 +159,10 @@ export async function executeMerge(
     for (const rule of listMergeRules()) {
       await applyMergeRule(tx, rule, anonUid, existingUid);
     }
-    // The anon uid's own `public.users` row (and `device_action_keys`, once T9 lands) carries no
-    // useful data of its own once every registered table has been reassigned/dropped above; deleted
-    // here rather than left orphaned once `auth.user` (below) is gone. A SAVEPOINT is required, not
-    // just a JS try/catch: Postgres marks the whole transaction aborted on any statement error
-    // regardless of whether the client catches it, so every later statement in this same tx would
-    // otherwise fail with "current transaction is aborted" once T9's table does not exist yet.
-    await tx.query('SAVEPOINT before_device_action_keys');
-    try {
-      await tx.query('DELETE FROM device_action_keys WHERE user_id = $1', [anonUid]);
-      await tx.query('RELEASE SAVEPOINT before_device_action_keys');
-    } catch (error) {
-      if (!(error instanceof Error) || !/relation .* does not exist/i.test(error.message))
-        throw error;
-      await tx.query('ROLLBACK TO SAVEPOINT before_device_action_keys');
-    }
+    // `device_action_keys` is dropped by its own registered merge rule (packages/db/src/merge-rules
+    // .ts, T9) in the loop above. The anon uid's own `public.users` row carries no useful data of its
+    // own once every registered table has been reassigned/dropped; deleted here rather than left
+    // orphaned once `auth.user` (below) is gone.
     await tx.query('DELETE FROM users WHERE id = $1', [anonUid]);
     await enqueueRealtime(tx, {
       channel: userChannel(anonUid),

@@ -1,3 +1,4 @@
+export { ACTION_KEY_SCOPES, isActionKeyScope, type ActionKeyScope } from './auth/action-key-scopes';
 export {
   CHANNEL_NAMESPACES,
   CREW_CHANNEL_NAMESPACES,

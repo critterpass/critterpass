@@ -1,7 +1,7 @@
 /**
  * Typed outcomes every auth flow function returns (docs/api-contracts.md §5.1; this phase's
- * Architecture table: "each returning typed outcomes ... for phase 22 screens"). A discriminated
- * union rather than throwing: phase 22's screens switch on `.kind` exhaustively (never a caught
+ * this phase's Architecture table ("each returning typed outcomes..."). A discriminated
+ * union rather than throwing: the returning-sign-in screen switches on `.kind` exhaustively (never a caught
  * exception) to pick the right undesigned-state copy (docs/undesigned-states.md).
  */
 

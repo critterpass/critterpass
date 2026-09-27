@@ -3,13 +3,13 @@
  * `POST /api/auth/sign-in/phone-number`, `POST /sign-in/social`). `decideReturningFlow` is the pure
  * local-data check this phase's Architecture table calls for ("decide sign-in vs merge-ticket by
  * local anonymous data presence") — no network, no auth client, trivially unit-testable; the caller
- * (phase 22's screen) branches on its result before ever calling a network flow function.
+ * (the returning-sign-in screen) branches on its result before ever calling a network flow function.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer (docs/system-architecture.md
    §3); every literal is a route path, error code or outcome discriminant, never rendered copy. */
 import type { ReturningSignInOutcome } from './types';
 
-/** What phase 22's screen already knows locally before it offers "I have an account". */
+/** What the returning-sign-in screen already knows locally before it offers "I have an account". */
 export interface LocalAnonymousDataPresence {
   /** True once `/sign-in/anonymous` has ever run on this install (a local pass exists at all). */
   readonly hasAnonymousSession: boolean;
@@ -24,12 +24,11 @@ export type ReturningFlowDecision =
 
 /**
  * No anonymous session yet → sign in directly (`sign_in_directly`). An anonymous session with no
- * crews (nothing worth losing) → still sign in as the returning user, then let `maint.anon_gc`
- * (phase 11) reap the empty anonymous uid later (`sign_in_then_gc_anonymous`) — never delete it here
- * synchronously, since sign-in itself does not touch the anonymous uid at all. An anonymous session
- * with crews → the merge-ticket path must run first: signing in directly would silently orphan that
- * data (docs/data-model.md §3.1 "Second device": "sign-in required (Q-10); same flow as returning
- * user").
+ * crews (nothing worth losing) → still sign in as the returning user, then let a later scheduled
+ * maintenance job reap the now-empty anonymous uid (`sign_in_then_gc_anonymous`) — never delete it
+ * here synchronously, since sign-in itself does not touch the anonymous uid at all. An anonymous
+ * session with crews → the merge-ticket path must run first: signing in directly would silently
+ * orphan that data. A second device reaches this same decision (sign-in required either way).
  */
 export function decideReturningFlow(local: LocalAnonymousDataPresence): ReturningFlowDecision {
   if (!local.hasAnonymousSession) return { kind: 'sign_in_directly' };
