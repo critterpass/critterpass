@@ -139,6 +139,7 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. Tables per data-model §3.14 + RLS + grants + publication allow-list entries. 2. `app.consume_quota` / `release_quota` / `bump_fair_use` SECURITY DEFINER. 3. Seed products (`pass_monthly`, `pass_yearly`, `boost_trip`, `boost_crew_year`, `gift_pass_3m`), perks (all enabled at launch, C48), ops_config keys.
 - Tests: `pnpm --filter @cp/db test -- quota|permissions/(products|perks|user_entitlements|trip_entitlements|usage_counters|fair_use_counters)`
 - Done when: 50 parallel consumes at limit 30 yield exactly 30 ok; `fair_use_counters` unreadable by `app_user` and unpublished; member reads trip entitlements, outsider does not.
+- Status: done — a6490e4
 
 ### T7 — Server materialiser, `entitle()`, invalidation, extension snapshot schema
 - Goal: authoritative rows + pipeline hook.
