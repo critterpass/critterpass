@@ -13,14 +13,19 @@ import { getRandomBytes } from 'expo-crypto';
 import * as SecureStore from 'expo-secure-store';
 
 import { runOnSignOutHooks } from '../auth/sign-out-hooks';
+import { createCommandClient } from '../commands/client';
+import { createDeviceResolver } from '../commands/device';
+import { startReconcile } from '../commands/reconcile';
 import { resolveApiBaseUrl } from '../places/apiBaseUrl';
+import { createExpoNetworkSource, retryWhenOnline } from '../status/network';
 import { createSyncConnector, resolvePowerSyncUrl } from './connector';
 import { loadOrCreateDatabaseKey } from './encryption-key';
+import type { LocalFirstContextValue } from './local-first-context';
 import { openEncryptedDatabase } from './open-database';
 import { bindLocalOwner, registerLocalDataReset } from './reset';
 import { buildAppSchema } from './schema';
 import { createFetchTransport } from './transport';
-import { createUploadQueue, type UploadQueue } from './upload-queue';
+import { createUploadQueue } from './upload-queue';
 
 export const DATABASE_FILENAME = 'critterpass.db';
 
@@ -34,13 +39,10 @@ export interface LocalFirstAuth {
   sessionHeaders(): Promise<Record<string, string>>;
 }
 
-export interface LocalFirst {
-  readonly db: AbstractPowerSyncDatabase;
-  readonly queue: UploadQueue;
-}
-
 let opening: Promise<AbstractPowerSyncDatabase> | null = null;
-let current: LocalFirst | null = null;
+let current: LocalFirstContextValue | null = null;
+let activeAuth: LocalFirstAuth | null = null;
+let activeUid: string | null = null;
 
 // Sign-out, merge and SESSION_REVOKED all run the auth layer's hooks; this one wipes local data.
 registerLocalDataReset(() => current);
@@ -74,28 +76,55 @@ export function getAppDatabase(): Promise<AbstractPowerSyncDatabase> {
   return opening;
 }
 
+function requireAuth(): LocalFirstAuth {
+  if (activeAuth === null) throw new Error('startLocalFirst has not run for a signed-in user');
+  return activeAuth;
+}
+
+function requireUid(): string {
+  if (activeUid === null) throw new Error('startLocalFirst has not run for a signed-in user');
+  return activeUid;
+}
+
+/** Queue, command client, connectivity and reconcile over the database; built once per process. */
+function assemble(db: AbstractPowerSyncDatabase): LocalFirstContextValue {
+  const transport = createFetchTransport({
+    baseUrl: resolveApiBaseUrl(),
+    sessionHeaders: () => requireAuth().sessionHeaders(),
+  });
+  const queue = createUploadQueue({ db, transport, onSessionRevoked: runOnSignOutHooks });
+  const network = createExpoNetworkSource();
+  const commands = createCommandClient({
+    db,
+    queue,
+    transport,
+    uid: requireUid,
+    device: createDeviceResolver(),
+  });
+  retryWhenOnline(network, queue);
+  startReconcile(db);
+  return { db, queue, commands, network };
+}
+
 /**
- * Starts sync and uploads for the signed-in `uid` (anonymous included). Call after every sign-in
- * or merge: a database still holding another uid's data is wiped before connecting.
+ * Starts sync and uploads for the signed-in `uid` (anonymous included) and returns the value for
+ * `LocalFirstProvider`. Call after every sign-in or merge: a database still holding another uid's
+ * data is wiped before connecting.
  */
-export async function startLocalFirst(auth: LocalFirstAuth, uid: string): Promise<LocalFirst> {
+export async function startLocalFirst(
+  auth: LocalFirstAuth,
+  uid: string,
+): Promise<LocalFirstContextValue> {
+  activeAuth = auth;
+  activeUid = uid;
   const db = await getAppDatabase();
-  const queue =
-    current?.queue ??
-    createUploadQueue({
-      db,
-      transport: createFetchTransport({
-        baseUrl: resolveApiBaseUrl(),
-        sessionHeaders: () => auth.sessionHeaders(),
-      }),
-      onSessionRevoked: runOnSignOutHooks,
-    });
-  current = { db, queue };
+  current ??= assemble(db);
+  const { queue } = current;
   await bindLocalOwner(db, queue, uid);
   await db.connect(
     createSyncConnector({
       endpoint: resolvePowerSyncUrl(),
-      getSyncToken: () => auth.getSyncToken(),
+      getSyncToken: () => requireAuth().getSyncToken(),
       flushCommands: () => queue.flush(),
     }),
   );
@@ -103,6 +132,6 @@ export async function startLocalFirst(auth: LocalFirstAuth, uid: string): Promis
   return current;
 }
 
-export function getLocalFirst(): LocalFirst | null {
+export function getLocalFirst(): LocalFirstContextValue | null {
   return current;
 }

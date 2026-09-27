@@ -138,9 +138,9 @@ describe('upload queue → POST /sync/upload', () => {
     const a = crew('Da Nang');
     const first = await enqueue(db, session.uid, 'create_test_crew', a);
     let online = false;
-    // Nothing listens on port 9 (discard): a real refused connection, not a simulated one.
+    // Nothing listens on port 49: a real refused connection, not a simulated one.
     const offline = createFetchTransport({
-      baseUrl: 'http://127.0.0.1:9',
+      baseUrl: 'http://127.0.0.1:49',
       sessionHeaders: () => Promise.resolve({}),
       fetch: nodeFetch,
     });
