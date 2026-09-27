@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+- tapOn:
+    text: 'Continue'
+    optional: true
+- openLink: 'critterpass-dev:///(dev)/spikes/critter'
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: 'Play draw-on'
+- extendedWaitUntil:
+    notVisible: '0 filled polygons this frame'
+    timeout: 4000
+- takeScreenshot: critter-mid-drawon
+- extendedWaitUntil:
+    visible: 'Play draw-on'
+    timeout: 4000
+- takeScreenshot: critter-drawon-done

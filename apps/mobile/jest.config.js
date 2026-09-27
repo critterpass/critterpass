@@ -13,6 +13,9 @@ module.exports = {
     // `src/motion/gestures`' hooks run their real Pan/LongPress/Tap logic under Jest.
     require.resolve('react-native-gesture-handler/jestSetup'),
   ],
+  // Whichever suite runs first in a cold Jest worker pays the one-off transform of React Native's
+  // renderer inside its first render; on a two-core CI runner that alone can exceed half a minute.
+  testTimeout: 60_000,
   moduleNameMapper: {
     ...jestExpoPreset.moduleNameMapper,
     // Reanimated's own shipped `/mock` re-exports several names from its real entry point, which at

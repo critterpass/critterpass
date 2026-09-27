@@ -1,4 +1,13 @@
 export { crewMembers, crews } from './crews';
+export {
+  fairUseCounters,
+  perks,
+  products,
+  tripEntitlements,
+  usageCounters,
+  userEntitlements,
+} from './entitlements';
+export { fxSnapshots } from './fx';
 export { consents, mediaObjects, userSettings, users } from './identity';
 export { clientConfig, opsAdminAudit, opsConfig } from './ops-core';
 export { changeSets, guideActions, itineraryVersions, planDays, planItems } from './plan';

@@ -62,6 +62,7 @@ jobs:
       pull-requests: read
     outputs:
       mobile: ${{ steps.filter.outputs.mobile }}
+      critter_art: ${{ steps.filter.outputs.critter_art }}
     steps:
       - uses: actions/checkout@v7
       - uses: dorny/paths-filter@v4
@@ -71,6 +72,43 @@ jobs:
             mobile:
               - 'apps/mobile/**'
               - 'tools/scripts/check-release-bundle.ts'
+            critter_art:
+              - 'packages/critter-art/src/core/**'
+              - 'packages/critter-art/src/kinds/**'
+              - 'packages/critter-art/src/data/**'
+              - 'packages/critter-art/src/forms/**'
+              - 'packages/critter-art/src/backends/canvas2d/**'
+              - 'packages/critter-art/golden/**'
+              - 'packages/critter-art/package.json'
+              - 'design/**'
+
+  critter-art-golden:
+    name: critter art golden (Chromium + Node parity)
+    needs: changes
+    if: needs.changes.outputs.critter_art == 'true'
+    # Parity thresholds are validated on macOS arm64. On Linux x64, @napi-rs/canvas rasterizes
+    # small anti-aliased edges differently from Chromium (24pt cases exceed the threshold while the
+    # browser comparison stays bit-perfect), so the gate runs on the reference platform.
+    runs-on: macos-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      # Node 24: Playwright's browser installer hung after downloading on Node 26 runners.
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Install Chromium
+        timeout-minutes: 5
+        run: pnpm --filter @cp/critter-art exec playwright install chromium
+      - run: pnpm --filter @cp/critter-art golden
+      - name: Upload golden report and diffs
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: critter-art-golden
+          path: packages/critter-art/golden/out/
+          retention-days: 7
 
   release-bundle:
     name: release bundle excludes dev routes

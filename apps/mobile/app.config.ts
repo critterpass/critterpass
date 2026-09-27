@@ -56,6 +56,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     bundleIdentifier: variant.bundleIdentifier,
     appleTeamId: APPLE_TEAM_ID,
     supportsTablet: false,
+    entitlements: {
+      'com.apple.security.application-groups': ['group.app.critterpass'],
+      'keychain-access-groups': ['$(AppIdentifierPrefix)app.critterpass.shared'],
+    },
   },
   android: {
     package: variant.bundleIdentifier,
@@ -117,6 +121,22 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         // Expo SDK 58 modules compile against API 37 (also needed to reference MetricStyle behind an
         // SDK_INT check); runtime behaviour still targets API 36.
         android: { compileSdkVersion: 37, targetSdkVersion: 36 },
+      },
+    ],
+    '@bacons/apple-targets',
+    [
+      'expo-location',
+      {
+        // Trip-day While-In-Use session first (system-architecture.md §4 platform-physics table);
+        // the spike's own "Always" upgrade flow prompts for this second, separate string only after
+        // the user opts in — never requested together (Apple/Play both reject a combined ask).
+        locationWhenInUsePermission:
+          'Critterpass uses your location during an active trip day to track leave-by timing and nearby critter encounters.',
+        locationAlwaysAndWhenInUsePermission:
+          'Critterpass can keep tracking a trip day in the background so critter encounters and crew ETAs keep working while your phone is locked.',
+        isIosBackgroundLocationEnabled: true,
+        isAndroidBackgroundLocationEnabled: true,
+        isAndroidForegroundServiceEnabled: true,
       },
     ],
   ],

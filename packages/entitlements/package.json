@@ -12,5 +12,9 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@cp/domain": "workspace:*",
+    "@js-temporal/polyfill": "catalog:"
   }
 }

@@ -1,0 +1,63 @@
+name: E2E tests (iOS)
+
+# Cloud-only Maestro run on an EAS-hosted iOS simulator: fingerprint the project, reuse the last
+# e2e-test build for that fingerprint when one exists, and only trigger a new build when nothing
+# matches (JS-only changes should never consume the account's monthly build quota).
+#
+# Two maestro jobs rather than one: a skipped job in `needs` cascades a skip to its dependents
+# (EAS Workflows docs, "Job status cascade"), so a single maestro job depending on both `find_build`
+# and the conditionally-skipped `build` would itself always be skipped. Exactly one of
+# maestro_existing_build / maestro_new_build runs per invocation.
+#
+# Both maestro jobs pin `image: latest` (same alias as the build job): the maestro job's own
+# `auto` image otherwise selected an iOS 18 simulator runtime, too old to install a build whose
+# deploymentTarget is iOS 26.0 ("Requires a Newer Version of iOS").
+on:
+  workflow_dispatch:
+    inputs:
+      flows:
+        type: string
+        required: false
+        # Maestro resolves flow_path relative to the app's base directory (apps/mobile), not the
+        # git repo root where e2e/ actually lives; tools/scripts/e2e-cloud.ts converts a
+        # repo-root-relative --flows value to this form before invoking the workflow.
+        default: ../../e2e/smoke/app-launch.yaml
+        description: Maestro flow file or directory, relative to apps/mobile, to run
+
+jobs:
+  fingerprint:
+    type: fingerprint
+    environment: development
+
+  find_build:
+    needs: [fingerprint]
+    type: get-build
+    params:
+      platform: ios
+      profile: e2e-test
+      fingerprint_hash: ${{ needs.fingerprint.outputs.ios_fingerprint_hash }}
+
+  build:
+    needs: [find_build]
+    if: ${{ !needs.find_build.outputs.build_id }}
+    type: build
+    params:
+      platform: ios
+      profile: e2e-test
+
+  maestro_existing_build:
+    needs: [find_build]
+    if: ${{ needs.find_build.outputs.build_id }}
+    type: maestro
+    image: latest
+    params:
+      build_id: ${{ needs.find_build.outputs.build_id }}
+      flow_path: ${{ inputs.flows }}
+
+  maestro_new_build:
+    needs: [build]
+    type: maestro
+    image: latest
+    params:
+      build_id: ${{ needs.build.outputs.build_id }}
+      flow_path: ${{ inputs.flows }}
