@@ -2,8 +2,11 @@ appId: app.critterpass.dev
 ---
 # IslandToast show/queue/dismiss (docs/design-system.md §4.4). `appId`/the deep-link scheme match the
 # `e2e-test` build profile's `APP_VARIANT=development` (apps/mobile/app.config.ts's `development`
-# variant — same as e2e/smoke/app-launch.yaml's `appId`).
+# variant — same as e2e/smoke/app-launch.yaml's `appId`). Waits for the home screen before
+# deep-linking: opening the link too early (before the JS bundle/navigation container mounts) drops
+# it silently.
 - launchApp
+- assertVisible: 'Critterpass \(Dev\)'
 - openLink: critterpass-dev://motion-lab
 
 # Shows a toast (with an OPEN action) and dismisses it via the swipe-up-affordance × button.

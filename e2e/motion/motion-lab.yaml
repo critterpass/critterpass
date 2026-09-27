@@ -6,7 +6,10 @@ appId: app.critterpass.dev
 # named screenshot per state — `maestro test` diffs named screenshots against their recorded
 # baseline. `appId`/the deep-link scheme match the `e2e-test` build profile's `APP_VARIANT=development`
 # (apps/mobile/app.config.ts's `development` variant — same as e2e/smoke/app-launch.yaml's `appId`).
+# Waits for the home screen before deep-linking: opening the link before the JS bundle/navigation
+# container finishes mounting (fonts/i18n gate `_layout.tsx`'s first render) drops the link silently.
 - launchApp
+- assertVisible: 'Critterpass \(Dev\)'
 - openLink: critterpass-dev://motion-lab
 - tapOn:
     id: 'motion-freeze-toggle'
