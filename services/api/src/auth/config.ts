@@ -77,6 +77,8 @@ export interface AuthConfigDeps {
         readonly customRules?: NonNullable<BetterAuthOptions['rateLimit']>['customRules'];
       }
     | undefined;
+  /** Request-level before/after middleware (services/api/src/auth/hooks.ts's attestation gate on `/sign-in/anonymous` and `/phone-number/send-otp`, F-029). */
+  readonly hooks?: BetterAuthOptions['hooks'];
 }
 
 export function buildAuthOptions(deps: AuthConfigDeps): BetterAuthOptions {
@@ -138,6 +140,7 @@ export function buildAuthOptions(deps: AuthConfigDeps): BetterAuthOptions {
       ...(deps.rateLimit?.customRules ? { customRules: deps.rateLimit.customRules } : {}),
     },
     databaseHooks: deps.databaseHooks,
+    hooks: deps.hooks,
     plugins: [
       anonymous(),
       phoneNumber({

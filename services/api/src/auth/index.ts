@@ -14,7 +14,11 @@ import {
   type AuthSecondaryStorage,
   type PhoneOtpPort,
 } from './config';
-import { buildDatabaseHooks, buildVerificationCreateAfterHook } from './hooks';
+import {
+  buildAttestationBeforeHook,
+  buildDatabaseHooks,
+  buildVerificationCreateAfterHook,
+} from './hooks';
 import {
   createOtpRouter,
   createRedisOtpDeliveryTracker,
@@ -22,6 +26,8 @@ import {
 } from './otp/router';
 import type { OtpChannel } from './otp/countries';
 import { betterAuth } from 'better-auth';
+
+import type { AttestationConfig } from '../abuse/attestation';
 
 /** The subset of node-redis's client API this module needs; real shape (not `AuthSecondaryStorage`'s simplified one) so `services/api/src/app.ts` can pass its actual `redis` client through untouched. */
 export interface AuthRedisClient {
@@ -44,6 +50,11 @@ export interface AuthModuleDeps {
   readonly otpAdapters: Partial<Record<OtpChannel, OtpChannelAdapter>>;
   readonly jwksRotationIntervalSeconds?: number | undefined;
   readonly rateLimit?: AuthConfigDeps['rateLimit'];
+  readonly attestation: AttestationConfig;
+  readonly onAttestationFailure?: (
+    error: unknown,
+    context: { installId: string | undefined; platform: string | undefined },
+  ) => void;
 }
 
 export interface AuthModule {
@@ -135,6 +146,13 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
     },
   };
 
+  const attestationBeforeHook = buildAttestationBeforeHook({
+    appPool: deps.appPool,
+    redis: deps.redis,
+    config: deps.attestation,
+    ...(deps.onAttestationFailure ? { onAttestationFailure: deps.onAttestationFailure } : {}),
+  });
+
   const auth = betterAuth(
     buildAuthOptions({
       db,
@@ -146,6 +164,7 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
       databaseHooks: mergedDatabaseHooks,
       jwksRotationIntervalSeconds: deps.jwksRotationIntervalSeconds,
       rateLimit: deps.rateLimit,
+      hooks: { before: attestationBeforeHook },
     }),
   );
   authRef.current = auth;

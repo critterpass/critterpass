@@ -9,10 +9,13 @@
  * the orphaned `auth.user` row is harmless and inert; it is never referenced by a session a client
  * holds. Documented as a residual risk in this phase's report rather than papered over.
  */
+import { createAuthMiddleware } from '@better-auth/core/api';
 import type { BetterAuthOptions } from 'better-auth';
 import type pg from 'pg';
 
 import { withSystem } from '@cp/db';
+
+import { enforceAttestation, type AttestationDeps } from '../abuse/attestation';
 
 export interface HooksDeps {
   readonly appPool: pg.Pool;
@@ -85,4 +88,21 @@ export function buildVerificationCreateAfterHook(): {
       return id;
     },
   };
+}
+
+const ATTESTED_PATHS = new Set(['/sign-in/anonymous', '/phone-number/send-otp']);
+
+/**
+ * Gates anonymous sign-in and OTP send behind attestation (docs/data-model.md §3.1 F-029). Mode
+ * (`enforce`/`log`) lives entirely in `deps.config`, never in the request, so a client cannot opt
+ * itself out; services/api/src/abuse/attestation/index.ts#enforceAttestation runs full verification
+ * either way and only `enforce` mode turns a failure into a thrown `ATTESTATION_FAILED`.
+ */
+export function buildAttestationBeforeHook(
+  deps: AttestationDeps,
+): NonNullable<NonNullable<BetterAuthOptions['hooks']>['before']> {
+  return createAuthMiddleware(async (ctx) => {
+    if (!ATTESTED_PATHS.has(ctx.path)) return;
+    await enforceAttestation(ctx.headers ?? new Headers(), deps);
+  });
 }

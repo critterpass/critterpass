@@ -17,6 +17,8 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { createAuthModule, type AuthModule } from '../../src/auth';
 
+import { disabledAttestationConfig } from './test-attestation-config';
+
 let postgres: StartedPostgreSqlContainer;
 let redisContainer: StartedRedisContainer;
 let pool: pg.Pool;
@@ -46,6 +48,7 @@ beforeAll(async () => {
     // Auth's own hard-coded default for /sign-in* (3 per 10 s) would otherwise fail repeated
     // sign-ins across this file's tests.
     rateLimit: { customRules: { '/sign-in/*': { window: 1, max: 1000 } } },
+    attestation: disabledAttestationConfig(),
   });
 }, 180_000);
 

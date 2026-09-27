@@ -15,6 +15,7 @@
     "test:db": "vitest run --config vitest.db.config.ts"
   },
   "dependencies": {
+    "@better-auth/core": "1.7.6",
     "@better-auth/expo": "1.7.6",
     "@cp/db": "workspace:*",
     "@cp/domain": "workspace:*",
@@ -40,6 +41,7 @@
     "@testcontainers/postgresql": "catalog:",
     "@testcontainers/redis": "catalog:",
     "@types/pg": "catalog:",
+    "reflect-metadata": "0.2.2",
     "testcontainers": "catalog:",
     "tsdown": "catalog:"
   }

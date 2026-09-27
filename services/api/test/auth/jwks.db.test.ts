@@ -20,6 +20,8 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { createAuthModule, type AuthModule } from '../../src/auth';
 import { registerAuthTokenRoutes, rotateJwksIfDue } from '../../src/auth/tokens';
 
+import { disabledAttestationConfig } from './test-attestation-config';
+
 let postgres: StartedPostgreSqlContainer;
 let redisContainer: StartedRedisContainer;
 let pool: pg.Pool;
@@ -44,6 +46,7 @@ function buildApp(): AuthModule {
     // abuse/rate-limits.db.test.ts): Better Auth's own hard-coded default for /sign-in* (3 per 10 s)
     // would otherwise fail this file's later tests.
     rateLimit: { customRules: { '/sign-in/*': { window: 1, max: 1000 } } },
+    attestation: disabledAttestationConfig(),
   });
 }
 
