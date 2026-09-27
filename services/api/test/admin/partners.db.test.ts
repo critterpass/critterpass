@@ -5,7 +5,6 @@
 import { partnerAdaptersResponseSchema } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { adminAreas } from '../../src/admin/areas';
 import { startAdminHarness, type AdminHarness, type TestApp } from './harness';
 
 let harness: AdminHarness;
@@ -16,7 +15,7 @@ beforeAll(async () => {
   harness = await startAdminHarness();
   await harness.seedOperator('ops@critterpass.test', ['ops']);
   await harness.seedOperator('content@critterpass.test', ['content']);
-  app = harness.app({ areas: adminAreas({ pool: harness.pool }) });
+  app = harness.app({ areas: harness.areas() });
   ops = await app.signIn('ops@critterpass.test');
 }, 240_000);
 

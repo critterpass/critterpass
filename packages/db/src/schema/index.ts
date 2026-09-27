@@ -32,6 +32,7 @@ export {
   moderationReports,
   opsApprovals,
   opsConciergeTasks,
+  opsModerationFilings,
   opsPartnerAdapters,
 } from './ops-console';
 export { cities, llmPois, mapRegions, poiEmbeddings, poiLiveChecks, pois } from './places';

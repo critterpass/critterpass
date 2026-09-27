@@ -85,6 +85,10 @@ export interface QueueAction<Item> {
   /** Single-key shortcut while an item is focused (e.g. `a`, `h`, `r`). */
   readonly shortcut?: string;
   readonly tone?: 'default' | 'danger';
+  /** Whether the action applies to this item (e.g. a verdict its kind supports); default always. */
+  readonly available?: (item: Item) => boolean;
+  /** Asks before running (destructive actions); the shortcut opens the same confirm. */
+  readonly confirm?: (item: Item) => { title: string; body: string; label: string };
   readonly run: (item: Item) => Promise<void>;
 }
 
@@ -92,7 +96,7 @@ export interface QueueDefinition<Item> {
   readonly kind: string;
   readonly statuses: readonly string[];
   readonly itemId: (item: Item) => string;
-  readonly title: (item: Item) => string;
+  readonly title: (item: Item) => ReactNode;
   readonly load: (
     status: string,
     cursor: string | undefined,
@@ -102,6 +106,8 @@ export interface QueueDefinition<Item> {
   }>;
   readonly actions: readonly QueueAction<Item>[];
   readonly preview: (item: Item) => ReactNode;
+  /** Shown when the current status has no items. */
+  readonly emptyTitle?: string;
 }
 
 export function defineQueue<Item>(queue: QueueDefinition<Item>): QueueDefinition<Item> {

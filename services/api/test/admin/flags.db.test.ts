@@ -5,7 +5,6 @@
 import { adminFlagsResponseSchema, generateUuidV7 } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { adminAreas } from '../../src/admin/areas';
 import { startAdminHarness, type AdminHarness, type TestApp } from './harness';
 
 let harness: AdminHarness;
@@ -19,7 +18,7 @@ beforeAll(async () => {
   await harness.pool.query(
     `INSERT INTO ops.ops_config (key, value, is_public) VALUES ('guide.free_daily_limit', '30', true)`,
   );
-  app = harness.app({ areas: adminAreas({ pool: harness.pool }) });
+  app = harness.app({ areas: harness.areas() });
   ops = await app.signIn('ops@critterpass.test');
 }, 240_000);
 

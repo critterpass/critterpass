@@ -1,6 +1,8 @@
 /**
  * A real api app with the console routes mounted over Testcontainers Postgres + Redis, the console's
- * own Better Auth instance (dev sign-in enabled), and helpers to seed operators and send commands.
+ * own Better Auth instance (dev sign-in enabled), the app's Better Auth instance (anonymous app
+ * users, the account actions the console takes on them) and the app's `/v1/cmd` door for the user
+ * commands that feed the console, plus helpers to seed operators and send commands.
  */
 import { startPostgres, startRedis } from '@cp/db/testing';
 import { runMigrations } from '@cp/db';
@@ -11,17 +13,36 @@ import { createClient, type RedisClientType } from 'redis';
 
 import { createApp } from '../../src/app';
 import type { AccessVerifier } from '../../src/admin/access';
+import { createAccountControl, type AccountControl } from '../../src/admin/accounts';
+import { adminAreas } from '../../src/admin/areas';
+import type { MediaUrlSigner } from '../../src/admin/moderation';
 import { parseAdminAllowlist } from '../../src/admin/allowlist';
 import { createAdminAuth, type AdminAuth } from '../../src/admin/auth';
 import { createAdminRouter, mountAdminRouter } from '../../src/admin/router';
 import type { AdminAreaDefinition } from '../../src/admin/registry';
+import { createAuthModule, type AuthModule } from '../../src/auth';
+import { createCommandRegistry } from '../../src/commands/_framework/registry';
+import { betterAuthSessionResolver } from '../../src/commands/_framework/session';
+import { reportContentCommand } from '../../src/commands/report-content';
+import { registerCommandRoute } from '../../src/routes/cmd';
+import { disabledAttestationConfig } from '../auth/test-attestation-config';
 
 export const ADMIN_ORIGIN = 'http://localhost:5173';
 const SECRET = 'test-secret-at-least-32-characters-long';
 
+export interface AppUser {
+  readonly cookie: string;
+  readonly uid: string;
+}
+
 export interface AdminHarness {
   readonly pool: pg.Pool;
   readonly redis: RedisClientType;
+  readonly accounts: AccountControl;
+  /** Every area the api serves, over this harness's database and app accounts. */
+  areas(media?: MediaUrlSigner): readonly AdminAreaDefinition[];
+  /** An anonymous app user with a live app session. */
+  signInUser(): Promise<AppUser>;
   /** Builds an app; `allowlist` defaults to every seeded operator. */
   app(options?: AppOptions): TestApp;
   seedOperator(email: string, roles: readonly AdminRole[]): Promise<string>;
@@ -39,6 +60,8 @@ export interface TestApp {
   request(path: string, init?: RequestInit): Promise<Response>;
   signIn(email: string): Promise<string>;
   command(cookie: string, cmd: string, payload: unknown, opId?: string): Promise<Response>;
+  /** A user command through the app's `/v1/cmd` door. */
+  userCommand(user: AppUser, cmd: string, payload: unknown): Promise<Response>;
   close(): Promise<void>;
 }
 
@@ -52,6 +75,20 @@ export async function startAdminHarness(): Promise<AdminHarness> {
   await redis.connect();
   const seeded: string[] = [];
   const opened: AdminAuth[] = [];
+  const appAuth: AuthModule = createAuthModule({
+    appPool: pool,
+    authDatabaseUrl: postgres.getConnectionUri(),
+    redis,
+    secret: SECRET,
+    baseUrl: 'http://localhost:8787/api/auth',
+    trustedOrigins: ['app.critterpass://'],
+    otpAdapters: {},
+    rateLimit: { customRules: { '/sign-in/*': { window: 1, max: 1000 } } },
+    attestation: disabledAttestationConfig(),
+  });
+  const accounts = createAccountControl(appAuth.auth, pool);
+  const userCommands = createCommandRegistry();
+  userCommands.register(reportContentCommand);
 
   function buildAuth(allowlist: string): AdminAuth {
     const auth = createAdminAuth({
@@ -68,6 +105,23 @@ export async function startAdminHarness(): Promise<AdminHarness> {
   return {
     pool,
     redis,
+    accounts,
+    areas: (media = () => Promise.resolve(null)) => adminAreas({ pool, accounts, media }),
+    async signInUser() {
+      const response = await appAuth.handler(
+        new Request('http://localhost:8787/api/auth/sign-in/anonymous', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: '{}',
+        }),
+      );
+      const cookie = /better-auth\.session_token=[^;]+/.exec(
+        response.headers.get('set-cookie') ?? '',
+      )?.[0];
+      const body = (await response.json()) as { user: { id: string } };
+      if (cookie === undefined) throw new Error(`app sign-in failed: ${response.status}`);
+      return { cookie, uid: body.user.id };
+    },
     async seedOperator(email, roles) {
       const auth = buildAuth(`${email}:${roles.join('+')}`);
       const context = (await auth.auth.$context) as unknown as {
@@ -94,6 +148,13 @@ export async function startAdminHarness(): Promise<AdminHarness> {
         readiness: {},
         exposeDocs: false,
         pool,
+      });
+      registerCommandRoute(app, {
+        pool,
+        registry: userCommands,
+        sessions: betterAuthSessionResolver(appAuth.auth.api),
+        redis,
+        logger: pino({ level: 'silent' }),
       });
       mountAdminRouter(
         app,
@@ -143,11 +204,29 @@ export async function startAdminHarness(): Promise<AdminHarness> {
             }),
           });
         },
+        userCommand(user, cmd, payload) {
+          return Promise.resolve(
+            app.request('/v1/cmd/' + cmd, {
+              method: 'POST',
+              headers: { cookie: user.cookie, 'content-type': 'application/json' },
+              body: JSON.stringify({
+                op_id: generateUuidV7(),
+                cmd,
+                v: 1,
+                actor: { uid: user.uid, via: 'app' },
+                device: { id: 'device-1', platform: 'ios', app_version: '1.0.0', tz: 'UTC' },
+                client_ts: new Date().toISOString(),
+                payload,
+              }),
+            }),
+          );
+        },
         close: () => auth.close(),
       };
     },
     async stop() {
       await Promise.all(opened.map((auth) => auth.close().catch(() => undefined)));
+      await appAuth.close();
       redis.destroy();
       await pool.end();
       await Promise.all([postgres.stop(), redisContainer.stop()]);

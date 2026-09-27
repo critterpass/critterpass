@@ -59,6 +59,12 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     to_level: 2,
     impact: 60,
   },
+  'moderation.decided': {
+    report_id: crypto.randomUUID(),
+    target_kind: 'user',
+    target_id: crypto.randomUUID(),
+    verdict: 'ban_author',
+  },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

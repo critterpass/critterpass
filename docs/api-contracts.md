@@ -402,7 +402,8 @@ All via `/v1/admin/*` (Better Auth `admin` role + role claims `ops`, `content`, 
 
 | Command | Payload | Role | Events | Phase |
 |---|---|---|---|---|
-| `moderate_item` | `{kind: avatar\|tip\|idea\|photo\|note, id, verdict}` | ops | `moderation.decided` | 17 |
+| `moderate_item` | `{kind, id, verdict: approve\|hide\|remove\|ban_author, note?}`; `kind` is any registered moderation kind (`user` here; avatar, photo, note, tip, idea, public_text by their phases); verdicts limited to what the kind's handler supports | ops, support | `moderation.decided` (one per report) | 17 |
+| `report_content` | `{kind, id, reason: spam\|harassment\|hate\|sexual\|violence\|impersonation\|personal_info\|other}` via `/v1/cmd` (any user, anonymous included; offline-capable); 20 per user per rolling 24 h (`RATE_LIMITED`); a subject with an open report from the last 24 h collapses into it (`report_count` + 1, same reporter counts once) → `{report_id, collapsed}` | user | – | 17 |
 | `set_feature_flag` | `{key, value, audience}` (supplier flags, perk lists, free limit 30) | ops | `flag.changed` | 17 |
 | `set_perk_catalogue` | `{products[], perks[], copy_keys}` (server-driven paywall/perks) | ops | `catalogue.changed` | 46 |
 | `grant_entitlement` / `revoke_entitlement` | `{uid, perk, until, reason}` | support | `entitlement.granted/revoked` | 17 |

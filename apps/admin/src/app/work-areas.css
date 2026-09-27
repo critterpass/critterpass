@@ -1,0 +1,67 @@
+/* Work areas (moderation, support, desk, audit): queues, previews, detail panels. Tokens only. */
+.queue-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.queue-item {
+  width: 100%;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+.queue-item[data-selected='true'] {
+  border-color: var(--semantic-action-primary);
+}
+.kv {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-4) var(--space-12);
+  margin: 0;
+}
+.kv dt {
+  color: var(--semantic-text-secondary);
+}
+.kv dd {
+  margin: 0;
+  word-break: break-word;
+}
+.preview-image {
+  max-width: 100%;
+  max-height: 360px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--semantic-border-decorative);
+}
+.preview-text {
+  white-space: pre-wrap;
+  background: var(--semantic-bg-base);
+  border-radius: var(--radius-sm);
+  padding: var(--space-12);
+}
+.section-title {
+  font-weight: 700;
+  font-size: 15px;
+  margin: 0;
+}
+.sla[data-sla='overdue'] {
+  color: var(--semantic-state-urgent);
+  font-weight: 700;
+}
+.sla[data-sla='due_soon'] {
+  color: var(--semantic-state-warning);
+  font-weight: 700;
+}
+.sla[data-sla='ok'] {
+  color: var(--semantic-state-success);
+}
+.approval {
+  border-left: 3px solid var(--semantic-state-success);
+  padding-left: var(--space-12);
+}
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-8);
+  align-items: end;
+}

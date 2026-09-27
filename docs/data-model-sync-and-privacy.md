@@ -196,14 +196,14 @@ Phase owns the migration that creates the table (later phases may add columns vi
 | 08 Core schema, authz + RLS backstop | roles, `app` helpers, `withUser`/`withSystem`, publication scaffold, `users`, `user_settings`, `crews`, `crew_members`, `trips`, `trip_participants`, `destinations`, `guides`, `activity_events`, `domain_events`, `cmd_log`, `cmd_results`, `rt_outbox`, `consents`, `media_objects`, `ops.admin_audit`, `ops_config` |
 | 09 Auth, identity, anti-abuse | `auth.*`, `user_private`, `install_attributions` (skeleton), `account_deletions` |
 | 10 Offline sync, commands, realtime | `infra/powersync` streams (initial), client `commands`/`local_private`, Centrifugo proxy |
-| 11 Jobs, notification router, push | `pgboss` schema, `scheduled_events`, `devices`, `push_tokens`, `notifications`, `notification_prefs`, `ping_ledger`, `roundups`, `inbox_items`, `scheduled_deliveries`, `device_action_keys`, `ai_usage` |
+| 11 Jobs, notification router, push | `pgboss` schema, `scheduled_events`, `devices`, `push_tokens`, `notifications`, `notification_prefs`, `ping_ledger`, `roundups`, `inbox_items`, `scheduled_deliveries`, `device_action_keys`, `ai_usage`, `ops.dead_letters` |
 | 12 Entitlements, money & FX primitives | `products`, `perks`, `user_entitlements`, `trip_entitlements`, `usage_counters`, `fair_use_counters`, `fx_snapshots` |
 | 13 LLM gateway, personas, tools | `llm` schema views, `agent_jobs`, `persona_packs`, `change_sets`, `guide_actions`, `guide_offers`, `guide_offer_claims` |
 | 14 POI, map, routing | `pois`, `poi_embeddings`, `poi_live_checks`, `map_regions` |
 | 15 Fares, weather, crowds | `price_quotes`, `fare_cells`, `weather_snapshots`, `crowd_forecasts`, `season_months`, `season_events`, `hazard_alerts`, `ops.supplier_calls` |
 | 16 Cost & constraint engine | `cost_components`, `share_calcs` |
-| 17 Back-office & ops | `ops.concierge_tasks`, `ops.approvals`, `ops.partner_adapters`, `ops.content_reviews`, `ops.dead_letters`, `moderation_reports` |
-| 18 Content factory | `content_releases`, `critter_sets`, `critters`, `critter_forms`, `spawn_rules`, `critter_public`, `phrase_cards`, `emergency_numbers`, `facilities`, `help_articles` |
+| 17 Back-office & ops | `ops.concierge_tasks`, `ops.approvals`, `ops.partner_adapters`, `ops.moderation_filings`, `moderation_reports` |
+| 18 Content factory | `content_releases`, `critter_sets`, `critters`, `critter_forms`, `spawn_rules`, `critter_public`, `phrase_cards`, `emergency_numbers`, `facilities`, `help_articles`, `ops.content_reviews` |
 | 20 Permissions, location, visits | `location_shares`, `location_fixes`, `member_etas`, `visits` |
 | 21 Link resolver, deferred links | `join_codes`, `install_attributions` (claim fields) |
 | 22 Onboarding | `taste_profiles`, `passes`, `stamps`, `avatars` |
