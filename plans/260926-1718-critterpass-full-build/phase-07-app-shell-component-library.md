@@ -158,6 +158,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Skia or SVG charts with `barGrow`. 2. `accessibilityLabel` summaries generated per chart. 3. Countdown dhms/hms/ms with localised units + live region interval. 4. StreamText word-buffered, reserves final box, announces on completion.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/data`.
 - Done when: every chart exposes a text summary; countdown label changes with its colour state.
+- Status: done — c72c948
 
 ### T11a — Planning and voting
 - Goal: §2.8 plan + vote families.
@@ -165,6 +166,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. DayTimeline 07–19 grid, 15-min snap (`snap` cue), rain band, ghost suggestion, time-stepper alternative. 2. DiffRow ✓/✕. 3. SwipeStack/RateStack with buttons. 4. Presence cursor on LiveOptionCards.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/plan-vote`.
 - Done when: every gesture component has its button/stepper alternative tested.
+- Status: done — 644fa82
 
 ### T11b — Chat and story
 - Goal: §2.8 chat family plus `StoryPlayer`, `StepTabs`, `PageDots`, `Composer`.
@@ -172,6 +174,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Chat bubbles radius spec, reaction floats, composer. 2. StoryPlayer 5 s segments, tap zones, hold-to-pause, visible pause, captions, reduced (no push-in, announced advance).
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/chat-story`.
 - Done when: fixtures + a11y for each component; story hold-to-pause has a pause-button alternative tested.
+- Status: done — 997e0e6
 
 ### T12a — Trip-day, money, camera presentational components
 - Goal: §2.9 (excluding map family) trip/money/camera components.
@@ -179,6 +182,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Presentational props only (feature phases bind data). 2. `SupplierCard` renders verbatim supplier fields + attribution + affiliate disclosure slot; no caching props. 3. `Viewfinder`/`ScanOverlay` accept a camera child (vision-camera wired by feature phases). 4. `VoiceOrb`/`waveform` take an audio-level shared value.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/trip-money-camera`.
 - Done when: all listed components have fixtures and a11y labels; no feature data imports in `src/ui`.
+- Status: done — 6792244
 
 ### T12b — Critter presentational components
 - Goal: §2.10 critter family.
@@ -186,6 +190,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Presentational props only; stickers via `LiveSticker` / `<Sticker>`. 2. Locked/legendary states with tier glyph + word.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/critters`.
 - Done when: all listed components have fixtures and a11y labels (locked label per F-027).
+- Status: done — febcab3
 
 ### T12c — Recap and monetisation presentational components
 - Goal: §2.10 recap + monetise families.
@@ -193,6 +198,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Presentational props only. 2. `PerksChecklist` renders server-driven perk list prop. 3. Prices passed in as store-localised strings (no literals).
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/recap-monetize`.
 - Done when: all listed components have fixtures and a11y labels; no feature data imports in `src/ui`.
+- Status: done — 6553cf5
 
 ### T13 — Accessibility layer + audits
 - Goal: cross-cutting a11y utilities and automated checks.
