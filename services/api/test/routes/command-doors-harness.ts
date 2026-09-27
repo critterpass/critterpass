@@ -11,11 +11,12 @@ import {
   type StartedRedisContainer,
 } from '@cp/db/testing';
 import { generateUuidV7 } from '@cp/domain';
+import type { OpenAPIHono } from '@hono/zod-openapi';
 import pg from 'pg';
 import { pino } from 'pino';
 import { createClient, type RedisClientType } from 'redis';
 
-import { createApp } from '../../src/app';
+import { createApp, type AppEnv } from '../../src/app';
 import { createAuthModule, type AuthModule } from '../../src/auth';
 import type { CommandDoorDeps } from '../../src/commands/_framework/doors';
 import {
@@ -42,8 +43,12 @@ export interface CommandDoorsHarness {
   stop(): Promise<void>;
 }
 
+/** Mounts extra routes on the same app (and deps) before Better Auth's catch-all. */
+export type MountRoutes = (app: OpenAPIHono<AppEnv>, deps: CommandDoorDeps) => void;
+
 export async function startCommandDoors(
   registerCommands: (registry: CommandRegistry) => void,
+  mount?: MountRoutes,
 ): Promise<CommandDoorsHarness> {
   const [postgres, redisContainer]: [StartedPostgreSqlContainer, StartedRedisContainer] =
     await Promise.all([startPostgres(), startRedis()]);
@@ -88,6 +93,7 @@ export async function startCommandDoors(
   registerCommandRoute(app, deps);
   registerSyncUploadRoute(app, deps);
   registerCmdResultsRoute(app, deps);
+  mount?.(app, deps);
   app.on(['GET', 'POST'], '/api/auth/*', (c) => authModule.handler(c.req.raw));
 
   const request = (path: string, init: RequestInit = {}): Promise<Response> => {
