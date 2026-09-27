@@ -3,8 +3,8 @@ name: dependency audit
 on:
   schedule:
     - cron: '0 22 * * 0' # Mondays 06:00 Singapore
-  pull_request:
-    paths: ['pnpm-lock.yaml']
+  # Pull requests call it from ci.yml when the lockfile changes, so its result feeds `ci passed`.
+  workflow_call:
   push:
     branches: [main]
     paths: ['pnpm-lock.yaml']

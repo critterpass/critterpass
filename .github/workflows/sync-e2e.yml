@@ -2,22 +2,10 @@ name: sync-e2e
 
 # The end-to-end sync harness (tools/scripts/sync-e2e): Postgres with logical replication, Redis,
 # Centrifugo and PowerSync in Docker, the api and worker on the runner, and the app's own
-# local-first client on Node. Runs when anything on the write/sync/realtime path changes.
+# local-first client on Node. Pull requests call it from ci.yml when anything on the
+# write/sync/realtime path changes, so its result feeds `ci passed`.
 on:
-  pull_request:
-    paths:
-      - 'apps/mobile/src/data/**'
-      - 'services/api/src/**'
-      - 'services/worker/src/**'
-      - 'packages/db/**'
-      - 'packages/domain/**'
-      - 'infra/docker-compose.yml'
-      - 'infra/docker/postgres/**'
-      - 'infra/powersync/**'
-      - 'infra/centrifugo/**'
-      - 'tools/scripts/sync-e2e/**'
-      - 'pnpm-lock.yaml'
-      - '.github/workflows/sync-e2e.yml'
+  workflow_call:
   push:
     branches: [main]
   workflow_dispatch:

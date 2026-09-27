@@ -66,6 +66,9 @@ jobs:
       critter_macos: ${{ steps.filter.outputs.critter_macos }}
       services: ${{ steps.filter.outputs.services }}
       synced_schema: ${{ steps.filter.outputs.synced_schema }}
+      ai_evals: ${{ steps.filter.outputs.ai_evals }}
+      lockfile: ${{ steps.filter.outputs.lockfile }}
+      sync_e2e: ${{ steps.filter.outputs.sync_e2e }}
     steps:
       - uses: actions/checkout@v7
       - uses: dorny/paths-filter@v4
@@ -107,6 +110,27 @@ jobs:
               - 'pnpm-workspace.yaml'
               - 'package.json'
               - '.github/workflows/ci.yml'
+            ai_evals:
+              - 'packages/ai/**'
+              - 'packages/domain/src/ai/**'
+              - 'packages/domain/src/guide-actions/**'
+              - '.github/workflows/ai-evals.yml'
+            lockfile:
+              - 'pnpm-lock.yaml'
+              - '.github/workflows/osv.yml'
+            sync_e2e:
+              - 'apps/mobile/src/data/**'
+              - 'services/api/src/**'
+              - 'services/worker/src/**'
+              - 'packages/db/**'
+              - 'packages/domain/**'
+              - 'infra/docker-compose.yml'
+              - 'infra/docker/postgres/**'
+              - 'infra/powersync/**'
+              - 'infra/centrifugo/**'
+              - 'tools/scripts/sync-e2e/**'
+              - 'pnpm-lock.yaml'
+              - '.github/workflows/sync-e2e.yml'
 
   critter-art-golden:
     name: critter art golden (Chromium + Node parity)
@@ -226,3 +250,49 @@ jobs:
         run: |
           docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1 \
             git /repo --redact --no-banner --exit-code 1
+
+  # These workflows also run on their own for pushes to main, nightly and on dispatch.
+  ai-evals:
+    name: ai evals
+    needs: changes
+    if: github.event_name == 'pull_request' && needs.changes.outputs.ai_evals == 'true'
+    uses: ./.github/workflows/ai-evals.yml
+
+  osv:
+    name: dependency audit
+    needs: changes
+    if: github.event_name == 'pull_request' && needs.changes.outputs.lockfile == 'true'
+    uses: ./.github/workflows/osv.yml
+
+  sync-e2e:
+    name: sync e2e
+    needs: changes
+    if: github.event_name == 'pull_request' && needs.changes.outputs.sync_e2e == 'true'
+    uses: ./.github/workflows/sync-e2e.yml
+
+  # The single required check for merging: every job above reports on every pull request, and a job
+  # skipped by its path filter counts as passing.
+  ci-passed:
+    name: ci passed
+    if: always()
+    needs:
+      - checks
+      - database
+      - changes
+      - critter-art-golden
+      - critter-art-macos
+      - release-bundle
+      - synced-schema
+      - service-images
+      - secrets
+      - ai-evals
+      - osv
+      - sync-e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Every needed job passed or was skipped
+        env:
+          RESULTS: ${{ toJSON(needs.*.result) }}
+        run: |
+          echo "$RESULTS"
+          if echo "$RESULTS" | grep -qE '"(failure|cancelled)"'; then exit 1; fi
