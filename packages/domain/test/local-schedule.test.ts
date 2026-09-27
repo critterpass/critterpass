@@ -75,7 +75,9 @@ function wallOf(at: Date, tz: string): Temporal.PlainDateTime {
     .toPlainDateTime();
 }
 
-describe('localSchedule', () => {
+// Property runs walk many time zones and DST transitions per case; a shared CI runner needs more
+// than the default 5 s per property, the same budget the cost engine's property suites use.
+describe('localSchedule', { timeout: 60_000 }, () => {
   it('fires at the exact wall time whenever that time exists', () => {
     fc.assert(
       fc.property(wallTimes, (sample) => {
