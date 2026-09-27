@@ -23,6 +23,7 @@ export default function DevLayout() {
   if (!devRoutesEnabled()) return <Redirect href="/" />;
   return (
     <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="gallery/zoom-detail" options={{ animation: 'fade' }} />
       {MODAL_DEMOS.map((name) => (
         <Stack.Screen
           key={name}

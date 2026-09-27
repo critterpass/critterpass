@@ -15,6 +15,7 @@ import { useMotionMode } from '@/motion/motion-mode';
 import { IslandToast } from '@/motion/island-toast';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
+import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
 import {
   makeStyles,
   MIN_TOUCH_TARGET,
@@ -83,6 +84,7 @@ export default function RootLayout() {
           <ScreenJoltProvider>
             <RootNavigator />
             <OverlayHost />
+            <SharedGrowHost />
             <IslandToast />
           </ScreenJoltProvider>
         </ThemeProvider>

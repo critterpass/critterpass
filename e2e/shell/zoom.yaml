@@ -1,0 +1,68 @@
+appId: app.critterpass.dev
+---
+# Shared-element grow (card → detail → back) from the gallery's zoom demo
+# (apps/mobile/src/app/(dev)/gallery/zoom-demo.tsx, zoom-detail.tsx), reached by tapping through
+# "Developer tools" → "Component gallery" (never `openLink` into a (dev) route: see
+# e2e/critters/sticker-lab.yaml). Asserts the hand-off in both directions; frame rate is checked on
+# a physical mid-range Android with the perf monitor, not in this cloud run.
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 25000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-shell-zoom'
+    timeout: 10000
+- tapOn:
+    id: 'gallery-shell-zoom'
+- extendedWaitUntil:
+    visible:
+      id: 'zoom-card-kyoto'
+    timeout: 10000
+
+- tapOn:
+    id: 'zoom-card-kyoto'
+- extendedWaitUntil:
+    visible:
+      id: 'shared-target-kyoto'
+    timeout: 5000
+- assertVisible:
+    id: 'zoom-detail-back'
+- tapOn:
+    id: 'zoom-detail-back'
+- extendedWaitUntil:
+    visible:
+      id: 'zoom-card-kyoto'
+    timeout: 5000
+
+# A second card zooms and unzooms too (the store keeps no stale clone).
+- tapOn:
+    id: 'zoom-card-lisbon'
+- extendedWaitUntil:
+    visible:
+      id: 'shared-target-lisbon'
+    timeout: 5000
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - pressKey: back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          id: 'zoom-detail-back'
+- extendedWaitUntil:
+    visible:
+      id: 'zoom-card-lisbon'
+    timeout: 5000
