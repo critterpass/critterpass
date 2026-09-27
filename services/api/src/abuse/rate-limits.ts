@@ -95,13 +95,19 @@ export async function enforceOtpSendRateLimit(
 }
 
 /**
- * Reusable "N per hour per uid" check for account-linking-shaped endpoints (`/link-social`, T6;
- * phone verify's own linking path). Not wired to a specific path here — the caller supplies the
- * already-authenticated uid, since only an endpoint that requires a session has one to key by.
+ * Reusable "N per hour per uid" check for account-linking-shaped endpoints (`/link-social` and phone
+ * verify's own linking path). The caller supplies the already-authenticated uid, since only an
+ * endpoint that requires a session has one to key by.
  */
 export async function checkLinkRateLimit(
   redis: RateLimitRedisClient,
   uid: string,
 ): Promise<RateLimitDecision> {
   return checkRateLimit(redis, `abuse:link:uid:${uid}`, LINK_PER_UID_RULE);
+}
+
+/** Throws `RATE_LIMITED` (with `retry_after_s`) once a uid exceeds the linking limit. */
+export async function enforceLinkRateLimit(uid: string, deps: AbuseRateLimitDeps): Promise<void> {
+  const decision = await checkLinkRateLimit(deps.redis, uid);
+  if (!decision.allowed) throw rateLimited(decision.retryAfterS);
 }

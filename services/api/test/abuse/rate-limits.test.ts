@@ -8,6 +8,7 @@ import { describe, expect, it } from 'vitest';
 import {
   checkLinkRateLimit,
   checkRateLimit,
+  enforceLinkRateLimit,
   enforceOtpSendRateLimit,
   hashForRateLimitKey,
   LINK_PER_UID_RULE,
@@ -119,5 +120,29 @@ describe('checkLinkRateLimit', () => {
       expect((await checkLinkRateLimit(redis, 'uid-1')).allowed).toBe(true);
     }
     expect((await checkLinkRateLimit(redis, 'uid-1')).allowed).toBe(false);
+  });
+});
+
+describe('enforceLinkRateLimit', () => {
+  it('rejects the 11th account link within an hour for the same uid', async () => {
+    const redis = new FakeRedis();
+    for (let i = 0; i < LINK_PER_UID_RULE.max; i += 1) {
+      await enforceLinkRateLimit('user-1', { redis });
+    }
+    const error = await enforceLinkRateLimit('user-1', { redis }).catch(
+      (caught: unknown) => caught,
+    );
+    expect(error).toMatchObject({ code: 'RATE_LIMITED' });
+    expect((error as { detail: { retry_after_s: number } }).detail.retry_after_s).toBeGreaterThan(
+      0,
+    );
+  });
+
+  it('counts each uid separately', async () => {
+    const redis = new FakeRedis();
+    for (let i = 0; i < LINK_PER_UID_RULE.max; i += 1) {
+      await enforceLinkRateLimit('user-1', { redis });
+    }
+    await expect(enforceLinkRateLimit('user-2', { redis })).resolves.toBeUndefined();
   });
 });

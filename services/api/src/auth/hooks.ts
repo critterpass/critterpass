@@ -10,6 +10,7 @@
  * holds. Documented as a residual risk in this phase's report rather than papered over.
  */
 import { createAuthMiddleware } from '@better-auth/core/api';
+import { getSessionFromCtx } from 'better-auth/api';
 import { APIError, type BetterAuthOptions } from 'better-auth';
 import type pg from 'pg';
 
@@ -22,7 +23,11 @@ import {
   recordOtpSendPumpingBookkeeping,
   type PumpingHookDeps,
 } from '../abuse/pumping';
-import { enforceOtpSendRateLimit, type AbuseRateLimitDeps } from '../abuse/rate-limits';
+import {
+  enforceLinkRateLimit,
+  enforceOtpSendRateLimit,
+  type AbuseRateLimitDeps,
+} from '../abuse/rate-limits';
 import { maybeWriteAdminAudit } from './admin';
 import { fanOutSessionRevoked } from './guards';
 
@@ -137,6 +142,7 @@ export function buildVerificationCreateAfterHook(): {
 
 const ATTESTED_PATHS = new Set(['/sign-in/anonymous', '/phone-number/send-otp']);
 const SEND_OTP_PATH = '/phone-number/send-otp';
+const LINK_SOCIAL_PATH = '/link-social';
 
 interface SendOtpBody {
   readonly phoneNumber?: unknown;
@@ -226,6 +232,12 @@ export function buildRequestBeforeHook(
         const installId = ctx.headers?.get('x-cp-install-id') ?? undefined;
         await enforceOtpSendRateLimit({ phoneNumber, installId }, deps.rateLimit);
         await enforceOtpSendPumpingDefences(phoneNumber, deps.pumping);
+      }
+      if (ctx.path === LINK_SOCIAL_PATH) {
+        // Linking needs a session; without one Better Auth's own handler rejects the call, so there
+        // is no uid to count against here.
+        const session = await getSessionFromCtx(ctx);
+        if (session) await enforceLinkRateLimit(session.user.id, deps.rateLimit);
       }
     } catch (error) {
       throw toApiError(error);
