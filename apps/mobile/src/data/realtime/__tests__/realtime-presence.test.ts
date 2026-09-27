@@ -121,9 +121,8 @@ describe('useTyping', () => {
     await waitFor(() => expect(watcher.result.current.typing).toEqual([bob.uid]));
     expect(typist.result.current.typing).toEqual([]);
 
-    // The last typing event left around the 3 s mark; 5 s later bob is no longer typing. The lower
-    // bound below is the behaviour; the generous ceiling only absorbs a loaded CI runner's delivery lag.
-    await waitFor(() => expect(watcher.result.current.typing).toEqual([]), { timeout: 15_000 });
+    // The last typing event left around the 3 s mark; 5 s later bob is no longer typing.
+    await waitFor(() => expect(watcher.result.current.typing).toEqual([]), { timeout: 8000 });
     expect(Date.now() - sends[1]!.at).toBeGreaterThanOrEqual(4900);
     await watcher.unmount();
     await typist.unmount();

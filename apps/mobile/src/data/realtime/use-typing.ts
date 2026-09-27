@@ -72,11 +72,13 @@ export function useTyping(
   const [typing, setTyping] = useState<readonly string[]>([]);
   const [expiresAt, setExpiresAt] = useState<number | undefined>(undefined);
 
-  const refresh = useCallback(() => {
-    const now = Date.now();
-    setTyping(roster.active(now));
-    setExpiresAt(roster.nextExpiry());
-  }, [roster]);
+  const refresh = useCallback(
+    (at: number = Date.now()) => {
+      setTyping(roster.active(at));
+      setExpiresAt(roster.nextExpiry());
+    },
+    [roster],
+  );
 
   useChannel(namespace, id, {
     onEvent: (envelope) => {
@@ -89,7 +91,13 @@ export function useTyping(
 
   useEffect(() => {
     if (expiresAt === undefined) return undefined;
-    const timer = setTimeout(refresh, Math.max(0, expiresAt - Date.now()));
+    // A timer can fire a millisecond before Date.now() reaches its deadline. Evaluating at the
+    // deadline itself guarantees the entry that scheduled it expires; otherwise the next expiry would
+    // equal the current one, React would skip the update, and no further timer would ever run.
+    const timer = setTimeout(
+      () => refresh(Math.max(Date.now(), expiresAt)),
+      Math.max(0, expiresAt - Date.now()),
+    );
     return () => clearTimeout(timer);
   }, [expiresAt, refresh]);
 
