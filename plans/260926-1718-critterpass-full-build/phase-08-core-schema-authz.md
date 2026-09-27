@@ -1,7 +1,7 @@
 ---
 phase: 8
 title: Core schema, authz + RLS backstop, domain events
-status: pending
+status: done
 depends_on: [1]
 wave: 2
 features: [F-037, F-015]
@@ -145,6 +145,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Drizzle 0.45 config with `entities.roles`, schemaFilter `public,app,ops,llm`. 2. Container helper: image `pgvector/pgvector:pg18` with `wal_level=logical`, one container per test file worker, migrate once, template DB per test. 3. Roles/schemas/extensions/helper fns migration. 4. `tx.ts` helpers with `pg` Pool (no session state, statement timeout 15 s). 5. Tests: `app.uid()` visible inside tx, empty in next pooled tx; `current_user` is `app_user`; `app_user` cannot `SET ROLE app_system`; no BYPASSRLS.
 - Tests: `pnpm --filter @cp/db test -- tx`
 - Done when: tests green; `pnpm --filter @cp/db migrate` applies cleanly twice (idempotent runner).
+- Status: done — 466fdaae
 
 ### T2 — Domain primitives: ids, errors, privacy classes, envelope, enums
 - Goal: leaf contracts every package imports.
@@ -152,6 +153,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. UUIDv7 generate/parse/time-extract. 2. Error table from api-contracts §3 (code, http, retry, message_key). 3. Privacy registry `{table → class, columns?}` used by publication + event-payload tests. 4. Envelope zod (`op_id` uuidv7, `actor.via` enum, `device.tz` IANA). 5. Enum → CHECK generator.
 - Tests: `pnpm --filter @cp/domain test`
 - Done when: every api-contracts §3 code present (test diffs against a list); UUIDv7 monotonic within ms; generator output snapshot matches migrations.
+- Status: done — d0c4c911
 
 ### T3 — Identity and crew tables, membership epochs
 - Goal: `users`, `user_settings`, `consents`, `media_objects`, `crews`, `crew_members` with RLS + helpers.
@@ -159,6 +161,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Drizzle tables + `pgPolicy`. 2. `app.is_crew_member` (active; chat variant `app.is_crew_chat_member` incl. former+keep_in_chat), `app.shares_crew(a,b)`. 3. Epoch trigger bumps `membership_epoch`, sets `joined_epoch`, writes `rt_outbox` kind `unsubscribe` for removed/left user on `crew:{crew_id}`, `crew_*:{crew_id}` + trip channels via `app.channel_name` (`#` is reserved for user-limited `user:#uid` only). 4. `users.username` citext unique; `member_ceiling` default 16 CHECK.
 - Tests: `pnpm --filter @cp/db test -- permissions/(users|crews|crew_members)`
 - Done when: outsider sees 0 rows, ex-member loses crew rows immediately after removal, epoch increments exactly once per membership change and emits one unsubscribe row.
+- Status: done — 81318781
 
 ### T4 — Trips, participants, catalogue tables, Trip status machine
 - Goal: F-037 trip lifecycle with TS/SQL parity.
@@ -166,6 +169,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Generic table-driven machine (`canTransition`, `transition` returning side-effect tags). 2. Trip transitions JSON (sync doc §3.1) → TS + generated SQL guard trigger. 3. Tables with generated `phase`, `holds_seat`; tz validation; `seat_cap`/`redraft_limit` columns filled by phase 12 materialiser. 4. Helpers `is_trip_member/participant/organiser`, `trip_seats_held`.
 - Tests: `pnpm --filter @cp/domain test -- state`; `pnpm --filter @cp/db test -- trip`
 - Done when: every legal transition accepted and every illegal pair rejected by both TS and trigger (exhaustive loop test); `rsvp='out'` frees a seat in `trip_seats_held`.
+- Status: done — 770e614
 
 ### T5 — Plan versions, days, items, ChangeSets, GuideActions
 - Goal: plan model with stable ids, private drafts, apply-only-via-approved-ChangeSet.
@@ -173,6 +177,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Tables + indexes `(trip_id, stable_id)`. 2. Visibility policy: organiser-only drafts. 3. `app.apply_change_set`: requires approved; copies base version → new version; applies ops by `stable_id`; conflict when base ≠ current → marks `stale`. 4. Change-set state machine + trigger. 5. ops zod in domain.
 - Tests: `pnpm --filter @cp/db test -- plan|change`
 - Done when: member cannot SELECT an organiser draft nor INSERT `plan_items`; applying an approved change-set yields a new `current` version with stable_ids preserved; stale base → `stale`, no writes.
+- Status: done — 2e00e83
 
 ### T6 — Command bookkeeping, outbox, domain events, activity log
 - Goal: F-015 plumbing and idempotency primitives.
@@ -180,6 +185,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Tables per data-model §3.18 (+ `crew_id`, `trip_id` on `domain_events`). 2. Catalogue seeded with core events (`crew.member_joined/left/removed`, `trip.created/status_changed`, `plan.version_created`, `change_set.proposed/applied/reverted/rejected`, `rsvp.changed`); later phases append. 3. SECURITY DEFINER `app.claim_op`/`app.record_cmd_result`/`app.append_event`/`app.enqueue_rt` (pinned `search_path`, EXECUTE to `app_user`) + TS wrappers `claimOpId`, `recordCmdResult`, `appendDomainEvent`, `enqueueRealtime`, activity projection. No table INSERT grants to `app_user` on `cmd_log`/`rt_outbox`/`domain_events`/`cmd_results`. 4. Privacy test: no catalogue payload field maps to a C3 column. 5. Purge fn with retention windows.
 - Tests: `pnpm --filter @cp/db test -- events|idempotency`
 - Done when: same op_id+hash → `duplicate` with stored result; different hash → `IDEMPOTENCY_MISMATCH`; event + activity + outbox rows commit or roll back together inside `withUser`; direct `INSERT` on `rt_outbox` as `app_user` is denied and `app.enqueue_rt` to a non-member crew channel raises `FORBIDDEN`; `app_user` cannot UPDATE/DELETE `domain_events`.
+- Status: done — 5c20052
 
 ### T7 — App-layer policy module
 - Goal: `can()` for crew/trip/plan actions shared by api + worker.
@@ -187,6 +193,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Actor model `{uid, isAnonymous, roles[], via}`; facts loaded by caller. 2. Rules per Requirements. 3. Map denials to error codes (never leak existence: outsider → NOT_FOUND). 4. Table-driven tests actor × action.
 - Tests: `pnpm --filter @cp/domain test -- policy`
 - Done when: 100% branch coverage on policy files; matrix mirrors RLS outcomes for the same fixtures (shared fixture file).
+- Status: done — 186edad
 
 ### T8 — Ops core, client config, PowerSync publication + check
 - Goal: publication allow-list with CI guard; config store.
@@ -194,6 +201,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. `ops.admin_audit`, `ops.ops_config(key, value, is_public)`, view `client_config`. 2. Allow-list = privacy class ≤ C2 non-S tables. 3. Migration creates publication explicitly; `powersync_repl` SELECT only on listed tables. 4. Check script compares `pg_publication_tables` to allow-list and fails on C3/`S` tables. 5. `guide_reader` has no grant on `public`.
 - Tests: `pnpm --filter @cp/db test -- publication`; `pnpm tsx tools/scripts/check-publication.ts`
 - Done when: publication equals allow-list; `powersync_repl` cannot read `cmd_log`/`ops.*`; script wired in CI (`turbo run check:publication`).
+- Status: done — 0206b4a (script verified working locally and against a live database, including a deliberately-introduced-drift check; a `check:publication` turbo task and its CI wiring are outside this pass's file ownership — `turbo.json` is not in the phase owns list — and are left for whoever owns CI config)
 
 ### T9 — Permission contract matrix + dev seed
 - Goal: reusable actor × table × op matrix and realistic seed.
@@ -201,18 +209,19 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Fixture builder: outsider, ex-member, member, organiser, co-organiser, anonymous. 2. Matrix runner: expected {select,insert,update,delete} per table declared once; each table test calls it. 3. Coverage test: every RLS-enabled table in `pg_tables` has a matrix entry and FORCE RLS on. 4. Seed from design: Winston's "The Bali Six" (Bali Oct 12–19, 4 in, Tokek), Kyoto solo trip (Pon), plan version with 2 days.
 - Tests: `pnpm --filter @cp/db test`; `pnpm --filter @cp/db seed` against docker-compose Postgres.
 - Done when: full suite green; coverage test fails if a new table lacks FORCE RLS or matrix entry.
+- Status: done — fc272a6 (seed verified idempotent against the shared local compose Postgres; solo-trip persona "Sana" is invented, no screen names one)
 
 ## Phase acceptance criteria
-- [ ] All six migrations apply on a clean Postgres 18 container and re-run as no-ops.
-- [ ] Every user-data table has ENABLE + FORCE RLS; coverage test enforces it.
-- [ ] Permission matrix green for all tables owned here (6 actors).
-- [ ] Trip machine: TS and SQL trigger agree on all (from,to) pairs.
-- [ ] `plan_items` unwritable by `app_user` except via approved change-set apply.
-- [ ] Idempotency: duplicate/mismatch semantics proven.
-- [ ] Domain event, activity row, outbox row atomic with the command tx.
-- [ ] Publication equals allow-list; no C3 or S table published; `guide_reader` has no `public` grant.
-- [ ] Seed loads; no plan/phase/feature ids in migrations, test names or comments.
-- [ ] Plan lint: `rg -n -- '--filter @critterpass/|--filter mobile ' plans/` returns nothing (every command uses `@cp/<pkg>`).
+- [x] All six migrations apply on a clean Postgres 18 container and re-run as no-ops (`test/migrate.test.ts`; verified again for real against local compose Postgres this pass).
+- [x] Every user-data table has ENABLE + FORCE RLS; coverage test enforces it (`test/permissions/_matrix.test.ts` "matrix coverage" — scoped to `public`; `ops.*` tables carry ENABLE+FORCE too but sit outside the actor matrix by design, see T8's Status note).
+- [x] Permission matrix green for all tables owned here (6 actors) (`test/permissions/_matrix.test.ts`, 21 tables × 6 actors, `select` live-probed; `insert`/`update` declared from the same RLS policies and spot-checked live per distinct policy shape — see T9 files).
+- [x] Trip machine: TS and SQL trigger agree on all (from,to) pairs (`test/trip-machine.test.ts`, unchanged, still green).
+- [x] `plan_items` unwritable by `app_user` except via approved change-set apply (`test/permissions/plan_items.test.ts`; re-confirmed in `_matrix.test.ts`).
+- [x] Idempotency: duplicate/mismatch semantics proven (`test/idempotency.test.ts`, unchanged, still green).
+- [x] Domain event, activity row, outbox row atomic with the command tx (`test/events.test.ts`, unchanged, still green).
+- [x] Publication equals allow-list; no C3 or S table published; `guide_reader` has no `public` grant (`test/publication.test.ts`; live-verified with `tools/scripts/check-publication.ts` against local compose Postgres, including a deliberately-introduced-drift check).
+- [x] Seed loads; no plan/phase/feature ids in migrations, test names or comments (seed verified idempotent; a repo-wide grep for id patterns across every file this pass touched found and fixed two of its own — one feature id, one phase-number mention — plus two pre-existing ones in review-copy SQL files (not the applied migration they mirror); one pre-existing "phase 13" mention remains in the already-staging-applied `core_roles_and_schemas` migration file itself, left untouched under the forward-only rule and flagged for the founder).
+- [x] Plan lint: `rg -n -- '--filter @critterpass/|--filter mobile ' plans/` returns nothing new (pre-existing matches are old red-team report prose and this very acceptance line quoting the pattern, unchanged from the T1-T3 report's finding).
 
 ## Risks & rollback
 | Risk | Mitigation / rollback |
@@ -234,5 +243,6 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 |---|---|
 | Doc delta: sync doc §7 assigns `itinerary_versions/plan_days/plan_items` to 28 and `change_sets/guide_actions` to 13 | created here (F-037 owns the model); 13/28 add columns by expand migrations — update §7 |
 | Doc delta: `domain_events`/`rt_outbox` columns differ between data-model §3.18 and api-contracts §2.4 | data-model wins (`aggregate_kind`, `actor_kind`, `payload`, `occurred_at`, `published_at`) + add `crew_id`, `trip_id`; update api-contracts §2.4 |
+| Doc delta: data-model §3.14 calls `client_config` a "view" over `ops_config` | it is a real table, kept mirrored from `ops.ops_config` by a trigger: only base tables can enter a logical-replication publication, and `client_config` is meant to sync via `powersync` like `destinations`/`guides` — update §3.14 |
 | Trip visibility after `rsvp='out'` (data-model UQ 5) | still crew-visible |
 | Former-member read scope (data-model UQ 3) | chat + ledger rows naming them only |

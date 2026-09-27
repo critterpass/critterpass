@@ -1,0 +1,2326 @@
+{
+  "families": {
+    "archivo": {
+      "criticalRanges": ["vietnamese"],
+      "instances": [
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W62-700",
+          "mobileContentHash": "f65207d77e7cbe6ad63dd2ac4da32e54d5697599eb3913c288468ddb4dde64fc",
+          "mobileFile": "Archivo-W62-700.ttf",
+          "mobileSha256": "b559a4f5f55ef00b3aaa33ff5a682e09f9210f2b0d8513dbcff2dd3d5b6b9c71",
+          "mobileSizeBytes": 71808,
+          "webContentHash": "da753e346ea46a68f43c14b11ae78d6f746dead06873288809e4fa9f5056ff33",
+          "webFile": "Archivo-W62-700.woff2",
+          "webSha256": "8b69904728872ee1767037215e8ded5e29fe5d6e669d325744512b9910153a8e",
+          "webSizeBytes": 17200,
+          "weight": 700,
+          "width": 62
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W62-800",
+          "mobileContentHash": "e7788c95b7a3b4652aaeb8e43103ae2c766196f32c2000e7dd10eb96960862c7",
+          "mobileFile": "Archivo-W62-800.ttf",
+          "mobileSha256": "6f1970d9abd0e44aa05a447e6ea9c78534e8653e4f01d77d4e5b2f982e694ef9",
+          "mobileSizeBytes": 71776,
+          "webContentHash": "5e3a24495a59dd3ecb5b088b327504cecd0cb63d796a2b08a8077c2e512d5017",
+          "webFile": "Archivo-W62-800.woff2",
+          "webSha256": "548e2675b2e4319a8a3c1b0df51ed45dc0454e0cf37b90841e85d805448f0bf8",
+          "webSizeBytes": 17132,
+          "weight": 800,
+          "width": 62
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W62-900",
+          "mobileContentHash": "4aecce0634511d75996fef518787553323dd1e96f529b707e2eff9e5c0f5cb94",
+          "mobileFile": "Archivo-W62-900.ttf",
+          "mobileSha256": "6a1b971813a15cd0fab6e4385a0594e98e9dbe1b78ce89b0a974ba0bf6004f97",
+          "mobileSizeBytes": 71748,
+          "webContentHash": "11e2d2fc7174bad4d52d48403cd70367eabf3455f6581e16525aa16b59a83309",
+          "webFile": "Archivo-W62-900.woff2",
+          "webSha256": "7f170e1d40143b3a72b4f41632d309f38c1027b40af77b71e03fe8c417aa1e4e",
+          "webSizeBytes": 15644,
+          "weight": 900,
+          "width": 62
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W66-700",
+          "mobileContentHash": "0cb03d1d25ce6c8235b2015d724d67112e6b7342414ffffaa9b2389f0c1958ca",
+          "mobileFile": "Archivo-W66-700.ttf",
+          "mobileSha256": "f9249148a022349746bb6f103a4c67a68e2e1e6fb15547dbd96675003394c300",
+          "mobileSizeBytes": 71908,
+          "webContentHash": "653d899680eb89e554439dd18ab84b39e42286b2780807d202602c7c9cd0b5a1",
+          "webFile": "Archivo-W66-700.woff2",
+          "webSha256": "d044c7b8c11119834ed5c4c3f3c84028f534979ce2546d368e5415d157ef4ef1",
+          "webSizeBytes": 17380,
+          "weight": 700,
+          "width": 66
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W66-800",
+          "mobileContentHash": "8d83f24741ef9345a0ee28af89d362940e29b477bbbcff3bcb4b95ea06306dfc",
+          "mobileFile": "Archivo-W66-800.ttf",
+          "mobileSha256": "bd51353a656a2590e6b2ea657f7fb8bec87a0e4484ad59535eee5c60c0b6e205",
+          "mobileSizeBytes": 71872,
+          "webContentHash": "032b80a06e05b4ed7316f41c83d6b449066a6d2a218a0e028b4b84e24d5db194",
+          "webFile": "Archivo-W66-800.woff2",
+          "webSha256": "2bb747c0830f4102cf28c2d0f1a07368ec26cb33cafa3287f0c6f5afcbae98ab",
+          "webSizeBytes": 17400,
+          "weight": 800,
+          "width": 66
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W66-900",
+          "mobileContentHash": "a2ebd3d6b3643afe9758fde447396cc0ce8b0271da89d77f5f7c6b67014555e3",
+          "mobileFile": "Archivo-W66-900.ttf",
+          "mobileSha256": "5942daa056d0ce26392d20ba8917e123eeca7af281322c5a2348dffa77cba796",
+          "mobileSizeBytes": 71836,
+          "webContentHash": "8b4eace264241767261c5073a0b7d3e976dd201191848c538214a03f9135a583",
+          "webFile": "Archivo-W66-900.woff2",
+          "webSha256": "de3edcf83f88683b95ba4492431f56b83a37215d483cd6039f5621b1bb1110e2",
+          "webSizeBytes": 16912,
+          "weight": 900,
+          "width": 66
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W70-700",
+          "mobileContentHash": "98ea9ddb8dc31a8378d1ba69fbfe20fde9cba5b2badcf7c546bb76d0fc7b5be8",
+          "mobileFile": "Archivo-W70-700.ttf",
+          "mobileSha256": "6300473ebea0e9a7301273e95e8a4cd23c887237852cdd987a3cbfed911d7244",
+          "mobileSizeBytes": 71920,
+          "webContentHash": "f02b5f4654c05aa468f447ad9d4c4a914d5b9b12aa2d18ba8a1bc6243f83453f",
+          "webFile": "Archivo-W70-700.woff2",
+          "webSha256": "959983ab14a20c8c463f37fd948b99db11526557525dee0e55629f01fc7a6311",
+          "webSizeBytes": 17332,
+          "weight": 700,
+          "width": 70
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W70-800",
+          "mobileContentHash": "28e5c5e6fc913d4a387832e6f33ebb288bb3e65324205f06f6f12db747269e55",
+          "mobileFile": "Archivo-W70-800.ttf",
+          "mobileSha256": "aac477f1a4d3560d10c755ed9dc5d917f3a8876b59b2e08c4271416010cc36fa",
+          "mobileSizeBytes": 71924,
+          "webContentHash": "c2683e9f61b07a36438df71583a788e3e9eb42e69f16c76b69c86fee4d9180a8",
+          "webFile": "Archivo-W70-800.woff2",
+          "webSha256": "b7dcf3538016c8994897fd8ffb377053f394b8233602d87ad68ae2b770113f65",
+          "webSizeBytes": 17460,
+          "weight": 800,
+          "width": 70
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W70-900",
+          "mobileContentHash": "ab76c9fbd161372fa9757ab42d48454110ea628c1921bf11213a0cfee50570cb",
+          "mobileFile": "Archivo-W70-900.ttf",
+          "mobileSha256": "29767ac7dbe55b83c44300361cbade7cfffa2d44494b48d4faeed8b64e1731bf",
+          "mobileSizeBytes": 71912,
+          "webContentHash": "81110689bb851b887480e8515bd274df10799c9585d26559669371e1e3db3d4e",
+          "webFile": "Archivo-W70-900.woff2",
+          "webSha256": "30471d0e07ac47f228202aaca1c7bd551805f26cc02c2dec590d89773c6763df",
+          "webSizeBytes": 17048,
+          "weight": 900,
+          "width": 70
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W78-700",
+          "mobileContentHash": "1732a81717bfd3d581927b14b527184f2112715e8e6e97edaeb0e0d3559815db",
+          "mobileFile": "Archivo-W78-700.ttf",
+          "mobileSha256": "886832da244673e8a3e5aa348dd47d8fed500f40bc3686b2d32f56b52b5475de",
+          "mobileSizeBytes": 72088,
+          "webContentHash": "2c87e6e70b4b706aa408a187fa7824c6a47a8404d9fdee3d40070dfd0a95400c",
+          "webFile": "Archivo-W78-700.woff2",
+          "webSha256": "2f5b7be01afdb6a5c35c3dba175ba5b7b44c66c674085cd0899f1c430138c652",
+          "webSizeBytes": 17432,
+          "weight": 700,
+          "width": 78
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W78-800",
+          "mobileContentHash": "5e3f62e05c91716fce9d4b294e2fd5f9ff52c5bfe962cbdb0a16fd8b2be2d7fd",
+          "mobileFile": "Archivo-W78-800.ttf",
+          "mobileSha256": "75f7043bc97cfd08829506a3af56e5334440b5e2e3b63f3bffcff3342aada732",
+          "mobileSizeBytes": 72056,
+          "webContentHash": "2615af8b8ce8b1ba8f996bc023507b5ba3d8b12761b841e020f447347166a787",
+          "webFile": "Archivo-W78-800.woff2",
+          "webSha256": "738345171d0165e9a488b94cdeb89bbb35b830a56159af247482cc5ee64cbbd3",
+          "webSizeBytes": 17700,
+          "weight": 800,
+          "width": 78
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W78-900",
+          "mobileContentHash": "1818f53774505c1f2bfffcbbb778c57aabe7b95f1c56157337eeadadca1c9688",
+          "mobileFile": "Archivo-W78-900.ttf",
+          "mobileSha256": "212de66a7862dfb807aa01fb2cbbb8bd250d081c66c49d8b50fa4298a53bcfa5",
+          "mobileSizeBytes": 72084,
+          "webContentHash": "8003265153da9d0425a34ea84fe076064ce81d0b5fb0cd89e90b90159a471a29",
+          "webFile": "Archivo-W78-900.woff2",
+          "webSha256": "ff36b15674d8f10214e94622563adbf2d2b72d30f591b8fd39d4d157580e93df",
+          "webSizeBytes": 17208,
+          "weight": 900,
+          "width": 78
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W100-700",
+          "mobileContentHash": "fc4a2ffcc70513eb118e4b5d19de44d27a924b8e054495c9930fd362eb8c9373",
+          "mobileFile": "Archivo-W100-700.ttf",
+          "mobileSha256": "9bac6e8f8a5d64ed9b18586a3010f69324ea1753a0f32bda7a1de2008636d562",
+          "mobileSizeBytes": 72444,
+          "webContentHash": "c713b2b11ced62f64a2270cdcd2e36840d659dc0598cc3d1102f84e9537838f1",
+          "webFile": "Archivo-W100-700.woff2",
+          "webSha256": "43cec1951cdeee4170b70e3f6bee4f539ee9710eea881d41132717a2dd168174",
+          "webSizeBytes": 17384,
+          "weight": 700,
+          "width": 100
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W100-800",
+          "mobileContentHash": "176b15e71899ee4010dba5233bbf81b91bc44d3749e4edb9ea6eee64f7e0093d",
+          "mobileFile": "Archivo-W100-800.ttf",
+          "mobileSha256": "084d8a6eed9a510df0455d72f013f48fca45d8eb24adb218cf04a2d86acf544e",
+          "mobileSizeBytes": 72436,
+          "webContentHash": "377272dbbe7c2006e2dc05f8d409271e53109e654cb7d4fef020942f463d7d6f",
+          "webFile": "Archivo-W100-800.woff2",
+          "webSha256": "c25c2fca09ac366f31d6db53da807f25309977441ed5855bcb38e657952ea995",
+          "webSizeBytes": 17376,
+          "weight": 800,
+          "width": 100
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": ["U+0E3F"],
+              "missingCount": 1,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Archivo-W100-900",
+          "mobileContentHash": "e78cce2d951752071b48b3818946b0633ee99c727bea1ae11729cb3f0747b3c4",
+          "mobileFile": "Archivo-W100-900.ttf",
+          "mobileSha256": "bc9f4e056db00adc807e40788886da6fc2b94f2e1a342e911c41dfb2fdb1a1b4",
+          "mobileSizeBytes": 72304,
+          "webContentHash": "5b3f3a3061dc2424fb21baf1bf0464de1a10f2045b65d6bdcef3e3e19b0b0eff",
+          "webFile": "Archivo-W100-900.woff2",
+          "webSha256": "920960c107507ad19006c2234f04020c0d7992b4c53967a01b876bb69a069a50",
+          "webSizeBytes": 15936,
+          "weight": 900,
+          "width": 100
+        }
+      ]
+    },
+    "caveat": {
+      "criticalRanges": [],
+      "instances": [
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": ["U+017F"],
+                "missingCount": 1,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [
+                  "U+01A0",
+                  "U+01A1",
+                  "U+01AF",
+                  "U+01B0",
+                  "U+1EA0",
+                  "U+1EA1",
+                  "U+1EA2",
+                  "U+1EA3",
+                  "U+1EA4",
+                  "U+1EA5",
+                  "U+1EA6",
+                  "U+1EA7",
+                  "U+1EA8",
+                  "U+1EA9",
+                  "U+1EAA",
+                  "U+1EAB",
+                  "U+1EAC",
+                  "U+1EAD",
+                  "U+1EAE",
+                  "U+1EAF",
+                  "U+1EB0",
+                  "U+1EB1",
+                  "U+1EB2",
+                  "U+1EB3",
+                  "U+1EB4",
+                  "U+1EB5",
+                  "U+1EB6",
+                  "U+1EB7",
+                  "U+1EBA",
+                  "U+1EBB",
+                  "U+1EBE",
+                  "U+1EBF",
+                  "U+1EC0",
+                  "U+1EC1",
+                  "U+1EC2",
+                  "U+1EC3",
+                  "U+1EC4",
+                  "U+1EC5",
+                  "U+1EC6",
+                  "U+1EC7",
+                  "U+1EC8",
+                  "U+1EC9",
+                  "U+1ECE",
+                  "U+1ECF",
+                  "U+1ED0",
+                  "U+1ED1",
+                  "U+1ED2",
+                  "U+1ED3",
+                  "U+1ED4",
+                  "U+1ED5",
+                  "U+1ED6",
+                  "U+1ED7",
+                  "U+1ED8",
+                  "U+1ED9",
+                  "U+1EDA",
+                  "U+1EDB",
+                  "U+1EDC",
+                  "U+1EDD",
+                  "U+1EDE",
+                  "U+1EDF",
+                  "U+1EE0",
+                  "U+1EE1",
+                  "U+1EE2",
+                  "U+1EE3",
+                  "U+1EE6",
+                  "U+1EE7",
+                  "U+1EE8",
+                  "U+1EE9",
+                  "U+1EEA",
+                  "U+1EEB",
+                  "U+1EEC",
+                  "U+1EED",
+                  "U+1EEE",
+                  "U+1EEF",
+                  "U+1EF0",
+                  "U+1EF1",
+                  "U+1EF4",
+                  "U+1EF5",
+                  "U+1EF6",
+                  "U+1EF7",
+                  "U+20AB"
+                ],
+                "missingCount": 81,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": [
+                "U+017F",
+                "U+01A0",
+                "U+01A1",
+                "U+01AF",
+                "U+01B0",
+                "U+0E3F",
+                "U+1EA0",
+                "U+1EA1",
+                "U+1EA2",
+                "U+1EA3",
+                "U+1EA4",
+                "U+1EA5",
+                "U+1EA6",
+                "U+1EA7",
+                "U+1EA8",
+                "U+1EA9",
+                "U+1EAA",
+                "U+1EAB",
+                "U+1EAC",
+                "U+1EAD",
+                "U+1EAE",
+                "U+1EAF",
+                "U+1EB0",
+                "U+1EB1",
+                "U+1EB2",
+                "U+1EB3",
+                "U+1EB4",
+                "U+1EB5",
+                "U+1EB6",
+                "U+1EB7",
+                "U+1EBA",
+                "U+1EBB",
+                "U+1EBE",
+                "U+1EBF",
+                "U+1EC0",
+                "U+1EC1",
+                "U+1EC2",
+                "U+1EC3",
+                "U+1EC4",
+                "U+1EC5",
+                "U+1EC6",
+                "U+1EC7",
+                "U+1EC8",
+                "U+1EC9",
+                "U+1ECE",
+                "U+1ECF",
+                "U+1ED0",
+                "U+1ED1",
+                "U+1ED2",
+                "U+1ED3",
+                "U+1ED4",
+                "U+1ED5",
+                "U+1ED6",
+                "U+1ED7",
+                "U+1ED8",
+                "U+1ED9",
+                "U+1EDA",
+                "U+1EDB",
+                "U+1EDC",
+                "U+1EDD",
+                "U+1EDE",
+                "U+1EDF",
+                "U+1EE0",
+                "U+1EE1",
+                "U+1EE2",
+                "U+1EE3",
+                "U+1EE6",
+                "U+1EE7",
+                "U+1EE8",
+                "U+1EE9",
+                "U+1EEA",
+                "U+1EEB",
+                "U+1EEC",
+                "U+1EED",
+                "U+1EEE",
+                "U+1EEF",
+                "U+1EF0",
+                "U+1EF1",
+                "U+1EF4",
+                "U+1EF5",
+                "U+1EF6",
+                "U+1EF7",
+                "U+20AB"
+              ],
+              "missingCount": 83,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Caveat-600",
+          "mobileContentHash": "d1f2dd206b9841d20309921b0b363891f8c03ba26f2e5ae3cfe55bb475c5f04d",
+          "mobileFile": "Caveat-600.ttf",
+          "mobileSha256": "32e3697dfba7505aa9f46f0433a5abea8b7d28177209ab5957993ee6ff36a5ff",
+          "mobileSizeBytes": 119280,
+          "webContentHash": "44ed60240ac45cd1bcc37c21433bb173c9c79b6e2da7c1f27dd233384df4e673",
+          "webFile": "Caveat-600.woff2",
+          "webSha256": "52a398825a4189c66452539141435ab3f15bb79d47eeb6e091170c3e91ef9d88",
+          "webSizeBytes": 52824,
+          "weight": 600,
+          "width": null
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": ["U+017F"],
+                "missingCount": 1,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [
+                  "U+01A0",
+                  "U+01A1",
+                  "U+01AF",
+                  "U+01B0",
+                  "U+1EA0",
+                  "U+1EA1",
+                  "U+1EA2",
+                  "U+1EA3",
+                  "U+1EA4",
+                  "U+1EA5",
+                  "U+1EA6",
+                  "U+1EA7",
+                  "U+1EA8",
+                  "U+1EA9",
+                  "U+1EAA",
+                  "U+1EAB",
+                  "U+1EAC",
+                  "U+1EAD",
+                  "U+1EAE",
+                  "U+1EAF",
+                  "U+1EB0",
+                  "U+1EB1",
+                  "U+1EB2",
+                  "U+1EB3",
+                  "U+1EB4",
+                  "U+1EB5",
+                  "U+1EB6",
+                  "U+1EB7",
+                  "U+1EBA",
+                  "U+1EBB",
+                  "U+1EBE",
+                  "U+1EBF",
+                  "U+1EC0",
+                  "U+1EC1",
+                  "U+1EC2",
+                  "U+1EC3",
+                  "U+1EC4",
+                  "U+1EC5",
+                  "U+1EC6",
+                  "U+1EC7",
+                  "U+1EC8",
+                  "U+1EC9",
+                  "U+1ECE",
+                  "U+1ECF",
+                  "U+1ED0",
+                  "U+1ED1",
+                  "U+1ED2",
+                  "U+1ED3",
+                  "U+1ED4",
+                  "U+1ED5",
+                  "U+1ED6",
+                  "U+1ED7",
+                  "U+1ED8",
+                  "U+1ED9",
+                  "U+1EDA",
+                  "U+1EDB",
+                  "U+1EDC",
+                  "U+1EDD",
+                  "U+1EDE",
+                  "U+1EDF",
+                  "U+1EE0",
+                  "U+1EE1",
+                  "U+1EE2",
+                  "U+1EE3",
+                  "U+1EE6",
+                  "U+1EE7",
+                  "U+1EE8",
+                  "U+1EE9",
+                  "U+1EEA",
+                  "U+1EEB",
+                  "U+1EEC",
+                  "U+1EED",
+                  "U+1EEE",
+                  "U+1EEF",
+                  "U+1EF0",
+                  "U+1EF1",
+                  "U+1EF4",
+                  "U+1EF5",
+                  "U+1EF6",
+                  "U+1EF7",
+                  "U+20AB"
+                ],
+                "missingCount": 81,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": [
+                "U+017F",
+                "U+01A0",
+                "U+01A1",
+                "U+01AF",
+                "U+01B0",
+                "U+0E3F",
+                "U+1EA0",
+                "U+1EA1",
+                "U+1EA2",
+                "U+1EA3",
+                "U+1EA4",
+                "U+1EA5",
+                "U+1EA6",
+                "U+1EA7",
+                "U+1EA8",
+                "U+1EA9",
+                "U+1EAA",
+                "U+1EAB",
+                "U+1EAC",
+                "U+1EAD",
+                "U+1EAE",
+                "U+1EAF",
+                "U+1EB0",
+                "U+1EB1",
+                "U+1EB2",
+                "U+1EB3",
+                "U+1EB4",
+                "U+1EB5",
+                "U+1EB6",
+                "U+1EB7",
+                "U+1EBA",
+                "U+1EBB",
+                "U+1EBE",
+                "U+1EBF",
+                "U+1EC0",
+                "U+1EC1",
+                "U+1EC2",
+                "U+1EC3",
+                "U+1EC4",
+                "U+1EC5",
+                "U+1EC6",
+                "U+1EC7",
+                "U+1EC8",
+                "U+1EC9",
+                "U+1ECE",
+                "U+1ECF",
+                "U+1ED0",
+                "U+1ED1",
+                "U+1ED2",
+                "U+1ED3",
+                "U+1ED4",
+                "U+1ED5",
+                "U+1ED6",
+                "U+1ED7",
+                "U+1ED8",
+                "U+1ED9",
+                "U+1EDA",
+                "U+1EDB",
+                "U+1EDC",
+                "U+1EDD",
+                "U+1EDE",
+                "U+1EDF",
+                "U+1EE0",
+                "U+1EE1",
+                "U+1EE2",
+                "U+1EE3",
+                "U+1EE6",
+                "U+1EE7",
+                "U+1EE8",
+                "U+1EE9",
+                "U+1EEA",
+                "U+1EEB",
+                "U+1EEC",
+                "U+1EED",
+                "U+1EEE",
+                "U+1EEF",
+                "U+1EF0",
+                "U+1EF1",
+                "U+1EF4",
+                "U+1EF5",
+                "U+1EF6",
+                "U+1EF7",
+                "U+20AB"
+              ],
+              "missingCount": 83,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Caveat-700",
+          "mobileContentHash": "9e44ffc7ad68b07f899b9df71b88399300cc9964666510582f34e43cfa922f0d",
+          "mobileFile": "Caveat-700.ttf",
+          "mobileSha256": "3e47f1dc7b9e2a34775db5a32db3c3650df68c37d3ec21c3e3e8f449059b6d34",
+          "mobileSizeBytes": 119120,
+          "webContentHash": "8b2d885b52f4c9ea386016c4cfb24adc5ccd6359279628c2dffbcccfd1101391",
+          "webFile": "Caveat-700.woff2",
+          "webSha256": "a238f9cc4d22bd7e1c5aa058136aa90fb79c6df0313a842645b046c04ae64b1e",
+          "webSizeBytes": 52548,
+          "weight": 700,
+          "width": null
+        }
+      ]
+    },
+    "geist": {
+      "criticalRanges": [],
+      "instances": [
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+20A9"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": ["U+00AD"],
+                "missingCount": 1,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [
+                  "U+0114",
+                  "U+0115",
+                  "U+012C",
+                  "U+012D",
+                  "U+0138",
+                  "U+013F",
+                  "U+0140",
+                  "U+0149",
+                  "U+014E",
+                  "U+014F",
+                  "U+017F"
+                ],
+                "missingCount": 11,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": ["U+20AB"],
+                "missingCount": 1,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": [
+                "U+00AD",
+                "U+0114",
+                "U+0115",
+                "U+012C",
+                "U+012D",
+                "U+0138",
+                "U+013F",
+                "U+0140",
+                "U+0149",
+                "U+014E",
+                "U+014F",
+                "U+017F",
+                "U+20A9",
+                "U+20AB"
+              ],
+              "missingCount": 14,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Geist-400",
+          "mobileContentHash": "00fcbcc5fc58ea0f0d75584295cca83ddef43f0530c2fc79c800fc3b27a4f980",
+          "mobileFile": "Geist-400.ttf",
+          "mobileSha256": "92ae74e56c8940aabb54c82290efbaefe80d9b9ef6fcf7eec85a61708a15c0f0",
+          "mobileSizeBytes": 58756,
+          "webContentHash": "180c9e8d2202da17af6656ccdd5743d75c3eb96a825299bca223b37b130b1a28",
+          "webFile": "Geist-400.woff2",
+          "webSha256": "9131152d26d1811f2c77cafe8f4ada4033f4e0935b34489bf4e0b70d9809689d",
+          "webSizeBytes": 21324,
+          "weight": 400,
+          "width": null
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+20A9"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": ["U+00AD"],
+                "missingCount": 1,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [
+                  "U+0114",
+                  "U+0115",
+                  "U+012C",
+                  "U+012D",
+                  "U+0138",
+                  "U+013F",
+                  "U+0140",
+                  "U+0149",
+                  "U+014E",
+                  "U+014F",
+                  "U+017F"
+                ],
+                "missingCount": 11,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": ["U+20AB"],
+                "missingCount": 1,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": [
+                "U+00AD",
+                "U+0114",
+                "U+0115",
+                "U+012C",
+                "U+012D",
+                "U+0138",
+                "U+013F",
+                "U+0140",
+                "U+0149",
+                "U+014E",
+                "U+014F",
+                "U+017F",
+                "U+20A9",
+                "U+20AB"
+              ],
+              "missingCount": 14,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Geist-500",
+          "mobileContentHash": "d7f4d040bb497e9308028942a79afcaabfaa55231093d188854df917c872aad5",
+          "mobileFile": "Geist-500.ttf",
+          "mobileSha256": "a56015a325f161097f4f1deb7842c43342a7b812d12103876ea073771b2a7982",
+          "mobileSizeBytes": 59760,
+          "webContentHash": "49e4136e7175ccb39d7e8a090133abe82a288183a5124356ef2873a0f27f3d87",
+          "webFile": "Geist-500.woff2",
+          "webSha256": "22eacd53525324ce5c7e7402de85ef568e85bbc5790cf2f866e7ec08c58ce9fd",
+          "webSizeBytes": 21976,
+          "weight": 500,
+          "width": null
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+20A9"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": ["U+00AD"],
+                "missingCount": 1,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [
+                  "U+0114",
+                  "U+0115",
+                  "U+012C",
+                  "U+012D",
+                  "U+0138",
+                  "U+013F",
+                  "U+0140",
+                  "U+0149",
+                  "U+014E",
+                  "U+014F",
+                  "U+017F"
+                ],
+                "missingCount": 11,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": ["U+20AB"],
+                "missingCount": 1,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": [
+                "U+00AD",
+                "U+0114",
+                "U+0115",
+                "U+012C",
+                "U+012D",
+                "U+0138",
+                "U+013F",
+                "U+0140",
+                "U+0149",
+                "U+014E",
+                "U+014F",
+                "U+017F",
+                "U+20A9",
+                "U+20AB"
+              ],
+              "missingCount": 14,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Geist-600",
+          "mobileContentHash": "3149abcccaef485899ef5ca021ee6322ae865bea0fd7ec631bf80877f1861c49",
+          "mobileFile": "Geist-600.ttf",
+          "mobileSha256": "b3ee47066ee9753ef1f2126f5df761c8b328c8ee39e91e4f7c1bab4dd85f749d",
+          "mobileSizeBytes": 59788,
+          "webContentHash": "eb799d6412c1d178afdfefcf3c15e9931635b260da0f53750f82c7fad1ff7170",
+          "webFile": "Geist-600.woff2",
+          "webSha256": "6bee5b2963b518db5ad0b794c3f51c1bcdc94dba73be2106323afbeaafb69058",
+          "webSizeBytes": 21988,
+          "weight": 600,
+          "width": null
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+20A9"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": ["U+00AD"],
+                "missingCount": 1,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [
+                  "U+0114",
+                  "U+0115",
+                  "U+012C",
+                  "U+012D",
+                  "U+0138",
+                  "U+013F",
+                  "U+0140",
+                  "U+0149",
+                  "U+014E",
+                  "U+014F",
+                  "U+017F"
+                ],
+                "missingCount": 11,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": ["U+20AB"],
+                "missingCount": 1,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": [
+                "U+00AD",
+                "U+0114",
+                "U+0115",
+                "U+012C",
+                "U+012D",
+                "U+0138",
+                "U+013F",
+                "U+0140",
+                "U+0149",
+                "U+014E",
+                "U+014F",
+                "U+017F",
+                "U+20A9",
+                "U+20AB"
+              ],
+              "missingCount": 14,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Geist-700",
+          "mobileContentHash": "f7df9bd961b0427166bf0ded4ed2c3c2320a35749467fe99f734496f3fba37d1",
+          "mobileFile": "Geist-700.ttf",
+          "mobileSha256": "40138bc2c6ac03ba2880999154600d3d8b1cb72bd7d2acecb6de854aba8d935c",
+          "mobileSizeBytes": 60636,
+          "webContentHash": "4db0d4742b7ccca99d2085e955865f26c28ec76b8e255815d75b9fbc922a3371",
+          "webFile": "Geist-700.woff2",
+          "webSha256": "1d1ad968e447dc202fa0be1a8056cded2a4a0515c3c26b669f96dee5052c9c6e",
+          "webSizeBytes": 22244,
+          "weight": 700,
+          "width": null
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+20A9"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": ["U+00AD"],
+                "missingCount": 1,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [
+                  "U+0114",
+                  "U+0115",
+                  "U+012C",
+                  "U+012D",
+                  "U+0138",
+                  "U+013F",
+                  "U+0140",
+                  "U+0149",
+                  "U+014E",
+                  "U+014F",
+                  "U+017F"
+                ],
+                "missingCount": 11,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": ["U+20AB"],
+                "missingCount": 1,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": [
+                "U+00AD",
+                "U+0114",
+                "U+0115",
+                "U+012C",
+                "U+012D",
+                "U+0138",
+                "U+013F",
+                "U+0140",
+                "U+0149",
+                "U+014E",
+                "U+014F",
+                "U+017F",
+                "U+20A9",
+                "U+20AB"
+              ],
+              "missingCount": 14,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "Geist-800",
+          "mobileContentHash": "f972f33f6a8385ef6e47f510323843b69e90c3935ebf8bf173d7cdd42966fd29",
+          "mobileFile": "Geist-800.ttf",
+          "mobileSha256": "8ed3b359d5e1b1e2880129383ab992b6ad5fc48f3fb99407f85892fded74bdaa",
+          "mobileSizeBytes": 61352,
+          "webContentHash": "a133da5a9665590538bdb8507946034d50b4c13589992dfc956c1cc6c299aa91",
+          "webFile": "Geist-800.woff2",
+          "webSha256": "929e28b885bf00ca0a6298e93e7b9061a4805416ff4c82c55bd987983b32fefd",
+          "webSizeBytes": 22372,
+          "weight": 800,
+          "width": null
+        }
+      ]
+    },
+    "geistMono": {
+      "criticalRanges": [],
+      "instances": [
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+20A9"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": ["U+00AD"],
+                "missingCount": 1,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [
+                  "U+0114",
+                  "U+0115",
+                  "U+012C",
+                  "U+012D",
+                  "U+0132",
+                  "U+0133",
+                  "U+0138",
+                  "U+013F",
+                  "U+0140",
+                  "U+0149",
+                  "U+014E",
+                  "U+014F",
+                  "U+017F"
+                ],
+                "missingCount": 13,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": ["U+20AB"],
+                "missingCount": 1,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": [
+                "U+00AD",
+                "U+0114",
+                "U+0115",
+                "U+012C",
+                "U+012D",
+                "U+0132",
+                "U+0133",
+                "U+0138",
+                "U+013F",
+                "U+0140",
+                "U+0149",
+                "U+014E",
+                "U+014F",
+                "U+017F",
+                "U+20A9",
+                "U+20AB"
+              ],
+              "missingCount": 16,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "GeistMono-400",
+          "mobileContentHash": "8d0727386e48974c081b44755ee462c40ea433720347ca9f7fab75f263d74ec0",
+          "mobileFile": "GeistMono-400.ttf",
+          "mobileSha256": "67bc4dc98c8a8e18196ea6ad8726c73b0dcad318d272dcb9570b42c090efa4ee",
+          "mobileSizeBytes": 58496,
+          "webContentHash": "458db35a625294c51a2a2fefec5eb2157be7090ea20e3fc4ea57de9835b11dba",
+          "webFile": "GeistMono-400.woff2",
+          "webSha256": "d9e38fe605f66f6afa534c04d9c8e8b765612d27d40b156ea204145365fcd56d",
+          "webSizeBytes": 22596,
+          "weight": 400,
+          "width": null
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+20A9"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": ["U+00AD"],
+                "missingCount": 1,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [
+                  "U+0114",
+                  "U+0115",
+                  "U+012C",
+                  "U+012D",
+                  "U+0132",
+                  "U+0133",
+                  "U+0138",
+                  "U+013F",
+                  "U+0140",
+                  "U+0149",
+                  "U+014E",
+                  "U+014F",
+                  "U+017F"
+                ],
+                "missingCount": 13,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": ["U+20AB"],
+                "missingCount": 1,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": [
+                "U+00AD",
+                "U+0114",
+                "U+0115",
+                "U+012C",
+                "U+012D",
+                "U+0132",
+                "U+0133",
+                "U+0138",
+                "U+013F",
+                "U+0140",
+                "U+0149",
+                "U+014E",
+                "U+014F",
+                "U+017F",
+                "U+20A9",
+                "U+20AB"
+              ],
+              "missingCount": 16,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "GeistMono-500",
+          "mobileContentHash": "02d5a1dc6925d69b1491a338e5b0c1cbf5b0c7f03f55fc76ae73a14f6ee1c7e1",
+          "mobileFile": "GeistMono-500.ttf",
+          "mobileSha256": "7b636e5798d60898d202f80a1772f3fe6a5cdfc84a07859e7301dd3de1ec1179",
+          "mobileSizeBytes": 58904,
+          "webContentHash": "39664f542cd06eef2dc8a447e6d592f5bd22fe91fb40a84805bb6976b8fdab56",
+          "webFile": "GeistMono-500.woff2",
+          "webSha256": "e7253c08a7eb43c2b25967f784ee7889af7675ac697266de99c1d7d9f5efc770",
+          "webSizeBytes": 23220,
+          "weight": 500,
+          "width": null
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+20A9"],
+                "missingCount": 1,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": ["U+00AD"],
+                "missingCount": 1,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [
+                  "U+0114",
+                  "U+0115",
+                  "U+012C",
+                  "U+012D",
+                  "U+0132",
+                  "U+0133",
+                  "U+0138",
+                  "U+013F",
+                  "U+0140",
+                  "U+0149",
+                  "U+014E",
+                  "U+014F",
+                  "U+017F"
+                ],
+                "missingCount": 13,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": ["U+20AB"],
+                "missingCount": 1,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": [
+                "U+00AD",
+                "U+0114",
+                "U+0115",
+                "U+012C",
+                "U+012D",
+                "U+0132",
+                "U+0133",
+                "U+0138",
+                "U+013F",
+                "U+0140",
+                "U+0149",
+                "U+014E",
+                "U+014F",
+                "U+017F",
+                "U+20A9",
+                "U+20AB"
+              ],
+              "missingCount": 16,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "GeistMono-700",
+          "mobileContentHash": "853a0f3a5123087bacb1f26e58883c60f8f300b0769e0c463ee24550c30dd5c8",
+          "mobileFile": "GeistMono-700.ttf",
+          "mobileSha256": "30d1b2d666316e898e611ef952f3ec003f227bac2436f38e92450be44a4cad58",
+          "mobileSizeBytes": 59940,
+          "webContentHash": "9660876aa6a997ae920c5e4a6bc25778e36bc6151f032bc986742f2924fe14dd",
+          "webFile": "GeistMono-700.woff2",
+          "webSha256": "ab53e77c130b63b72c27becad05b77dc37494518fce57830af3d783676bc3dfd",
+          "webSizeBytes": 23492,
+          "weight": 700,
+          "width": null
+        }
+      ]
+    },
+    "instrumentSerif": {
+      "criticalRanges": [],
+      "instances": [
+        {
+          "coverage": {
+            "byRange": {
+              "currencyExtra": {
+                "missing": ["U+0E3F", "U+20A9"],
+                "missingCount": 2,
+                "requiredCount": 3
+              },
+              "latin": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 95
+              },
+              "latin1Supplement": {
+                "missing": [
+                  "U+00A4",
+                  "U+00A6",
+                  "U+00AC",
+                  "U+00AD",
+                  "U+00B1",
+                  "U+00B2",
+                  "U+00B3",
+                  "U+00B5",
+                  "U+00B9",
+                  "U+00BC",
+                  "U+00BD",
+                  "U+00BE"
+                ],
+                "missingCount": 12,
+                "requiredCount": 96
+              },
+              "latinExtendedA": {
+                "missing": [
+                  "U+0108",
+                  "U+0109",
+                  "U+0114",
+                  "U+0115",
+                  "U+011C",
+                  "U+011D",
+                  "U+0124",
+                  "U+0125",
+                  "U+0128",
+                  "U+0129",
+                  "U+012C",
+                  "U+012D",
+                  "U+0134",
+                  "U+0135",
+                  "U+0138",
+                  "U+013F",
+                  "U+0140",
+                  "U+0149",
+                  "U+014E",
+                  "U+014F",
+                  "U+015C",
+                  "U+015D",
+                  "U+0162",
+                  "U+0163",
+                  "U+0166",
+                  "U+0167",
+                  "U+0168",
+                  "U+0169",
+                  "U+017F"
+                ],
+                "missingCount": 29,
+                "requiredCount": 128
+              },
+              "punctuation": {
+                "missing": ["U+2044"],
+                "missingCount": 1,
+                "requiredCount": 13
+              },
+              "vietnamese": {
+                "missing": [
+                  "U+0128",
+                  "U+0129",
+                  "U+0168",
+                  "U+0169",
+                  "U+01A0",
+                  "U+01A1",
+                  "U+01AF",
+                  "U+01B0",
+                  "U+1EA0",
+                  "U+1EA1",
+                  "U+1EA2",
+                  "U+1EA3",
+                  "U+1EA4",
+                  "U+1EA5",
+                  "U+1EA6",
+                  "U+1EA7",
+                  "U+1EA8",
+                  "U+1EA9",
+                  "U+1EAA",
+                  "U+1EAB",
+                  "U+1EAC",
+                  "U+1EAD",
+                  "U+1EAE",
+                  "U+1EAF",
+                  "U+1EB0",
+                  "U+1EB1",
+                  "U+1EB2",
+                  "U+1EB3",
+                  "U+1EB4",
+                  "U+1EB5",
+                  "U+1EB6",
+                  "U+1EB7",
+                  "U+1EB8",
+                  "U+1EB9",
+                  "U+1EBA",
+                  "U+1EBB",
+                  "U+1EBC",
+                  "U+1EBD",
+                  "U+1EBE",
+                  "U+1EBF",
+                  "U+1EC0",
+                  "U+1EC1",
+                  "U+1EC2",
+                  "U+1EC3",
+                  "U+1EC4",
+                  "U+1EC5",
+                  "U+1EC6",
+                  "U+1EC7",
+                  "U+1EC8",
+                  "U+1EC9",
+                  "U+1ECA",
+                  "U+1ECB",
+                  "U+1ECC",
+                  "U+1ECD",
+                  "U+1ECE",
+                  "U+1ECF",
+                  "U+1ED0",
+                  "U+1ED1",
+                  "U+1ED2",
+                  "U+1ED3",
+                  "U+1ED4",
+                  "U+1ED5",
+                  "U+1ED6",
+                  "U+1ED7",
+                  "U+1ED8",
+                  "U+1ED9",
+                  "U+1EDA",
+                  "U+1EDB",
+                  "U+1EDC",
+                  "U+1EDD",
+                  "U+1EDE",
+                  "U+1EDF",
+                  "U+1EE0",
+                  "U+1EE1",
+                  "U+1EE2",
+                  "U+1EE3",
+                  "U+1EE4",
+                  "U+1EE5",
+                  "U+1EE6",
+                  "U+1EE7",
+                  "U+1EE8",
+                  "U+1EE9",
+                  "U+1EEA",
+                  "U+1EEB",
+                  "U+1EEC",
+                  "U+1EED",
+                  "U+1EEE",
+                  "U+1EEF",
+                  "U+1EF0",
+                  "U+1EF1",
+                  "U+1EF4",
+                  "U+1EF5",
+                  "U+1EF6",
+                  "U+1EF7",
+                  "U+1EF8",
+                  "U+1EF9",
+                  "U+20AB"
+                ],
+                "missingCount": 97,
+                "requiredCount": 103
+              }
+            },
+            "overall": {
+              "missing": [
+                "U+00A4",
+                "U+00A6",
+                "U+00AC",
+                "U+00AD",
+                "U+00B1",
+                "U+00B2",
+                "U+00B3",
+                "U+00B5",
+                "U+00B9",
+                "U+00BC",
+                "U+00BD",
+                "U+00BE",
+                "U+0108",
+                "U+0109",
+                "U+0114",
+                "U+0115",
+                "U+011C",
+                "U+011D",
+                "U+0124",
+                "U+0125",
+                "U+0128",
+                "U+0129",
+                "U+012C",
+                "U+012D",
+                "U+0134",
+                "U+0135",
+                "U+0138",
+                "U+013F",
+                "U+0140",
+                "U+0149",
+                "U+014E",
+                "U+014F",
+                "U+015C",
+                "U+015D",
+                "U+0162",
+                "U+0163",
+                "U+0166",
+                "U+0167",
+                "U+0168",
+                "U+0169",
+                "U+017F",
+                "U+01A0",
+                "U+01A1",
+                "U+01AF",
+                "U+01B0",
+                "U+0E3F",
+                "U+1EA0",
+                "U+1EA1",
+                "U+1EA2",
+                "U+1EA3",
+                "U+1EA4",
+                "U+1EA5",
+                "U+1EA6",
+                "U+1EA7",
+                "U+1EA8",
+                "U+1EA9",
+                "U+1EAA",
+                "U+1EAB",
+                "U+1EAC",
+                "U+1EAD",
+                "U+1EAE",
+                "U+1EAF",
+                "U+1EB0",
+                "U+1EB1",
+                "U+1EB2",
+                "U+1EB3",
+                "U+1EB4",
+                "U+1EB5",
+                "U+1EB6",
+                "U+1EB7",
+                "U+1EB8",
+                "U+1EB9",
+                "U+1EBA",
+                "U+1EBB",
+                "U+1EBC",
+                "U+1EBD",
+                "U+1EBE",
+                "U+1EBF",
+                "U+1EC0",
+                "U+1EC1",
+                "U+1EC2",
+                "U+1EC3",
+                "U+1EC4",
+                "U+1EC5",
+                "U+1EC6",
+                "U+1EC7",
+                "U+1EC8",
+                "U+1EC9",
+                "U+1ECA",
+                "U+1ECB",
+                "U+1ECC",
+                "U+1ECD",
+                "U+1ECE",
+                "U+1ECF",
+                "U+1ED0",
+                "U+1ED1",
+                "U+1ED2",
+                "U+1ED3",
+                "U+1ED4",
+                "U+1ED5",
+                "U+1ED6",
+                "U+1ED7",
+                "U+1ED8",
+                "U+1ED9",
+                "U+1EDA",
+                "U+1EDB",
+                "U+1EDC",
+                "U+1EDD",
+                "U+1EDE",
+                "U+1EDF",
+                "U+1EE0",
+                "U+1EE1",
+                "U+1EE2",
+                "U+1EE3",
+                "U+1EE4",
+                "U+1EE5",
+                "U+1EE6",
+                "U+1EE7",
+                "U+1EE8",
+                "U+1EE9",
+                "U+1EEA",
+                "U+1EEB",
+                "U+1EEC",
+                "U+1EED",
+                "U+1EEE",
+                "U+1EEF",
+                "U+1EF0",
+                "U+1EF1",
+                "U+1EF4",
+                "U+1EF5",
+                "U+1EF6",
+                "U+1EF7",
+                "U+1EF8",
+                "U+1EF9",
+                "U+2044",
+                "U+20A9",
+                "U+20AB"
+              ],
+              "missingCount": 137,
+              "requiredCount": 430
+            }
+          },
+          "fileStem": "InstrumentSerif-400",
+          "webContentHash": "91ed1e109cc59adc34cc7c0c83d353000390a63d866d385aa66c6227117c979d",
+          "webFile": "InstrumentSerif-400.woff2",
+          "webSha256": "cd6cc06813aaf423234fca6987dce7520bab98d390a05b5618c3c1b4342492c4",
+          "webSizeBytes": 22344,
+          "weight": 400,
+          "width": null
+        }
+      ]
+    },
+    "notoSansThai": {
+      "criticalRanges": ["thai"],
+      "instances": [
+        {
+          "coverage": {
+            "byRange": {
+              "thai": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 87
+              },
+              "thaiLatinDigitsPunct": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 33
+              }
+            },
+            "overall": {
+              "missing": [],
+              "missingCount": 0,
+              "requiredCount": 120
+            }
+          },
+          "fileStem": "NotoSansThai-400",
+          "mobileContentHash": "c534dc6ccc0dd2e4f457aa7f4111a9ac05390744c55c128a85593552f2ce1156",
+          "mobileFile": "NotoSansThai-400.ttf",
+          "mobileSha256": "30debc3b7f98d806466e9e583651872dfa65dab715210d16baab08f68ab71f11",
+          "mobileSizeBytes": 21368,
+          "webContentHash": "0b12c684136b2f171d0aac02c015e142d47594e1e4cef496431a7bc651e4709a",
+          "webFile": "NotoSansThai-400.woff2",
+          "webSha256": "f19313b4efb9d6a963a2c87be2eb42e6ae361734e802302c1b5f9ca349e62f9e",
+          "webSizeBytes": 10088,
+          "weight": 400,
+          "width": 100
+        },
+        {
+          "coverage": {
+            "byRange": {
+              "thai": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 87
+              },
+              "thaiLatinDigitsPunct": {
+                "missing": [],
+                "missingCount": 0,
+                "requiredCount": 33
+              }
+            },
+            "overall": {
+              "missing": [],
+              "missingCount": 0,
+              "requiredCount": 120
+            }
+          },
+          "fileStem": "NotoSansThai-900",
+          "mobileContentHash": "a6bff2997e1c25a08e43e8b89dde1930db2bc29dceb514f8a601746e55e6e7d0",
+          "mobileFile": "NotoSansThai-900.ttf",
+          "mobileSha256": "69823f2064820db26a11cc93a05d85020ea0637236c6c5aa74939db146fe9b83",
+          "mobileSizeBytes": 21352,
+          "webContentHash": "e8b1bbb828a569ad8e7d80fc12fc4d0c482aa68978c0af337076773d1a9ea2c8",
+          "webFile": "NotoSansThai-900.woff2",
+          "webSha256": "644cc7ed23e4dbf935e6f6e78000a53c77234bcac4b82d6b4a3b62b68ee97089",
+          "webSizeBytes": 9956,
+          "weight": 900,
+          "width": 100
+        }
+      ]
+    }
+  },
+  "mobileBudgetBytes": 3145728,
+  "mobileTotalBytes": 1838868,
+  "mobileWithinBudget": true,
+  "sources": {
+    "archivo": {
+      "commit": "211127690e8ff106c36c935f7e5e697114cff103",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-Archivo.txt",
+      "repo": "https://github.com/Omnibus-Type/Archivo"
+    },
+    "caveat": {
+      "commit": "5571d84c0d8c70ec1af4f64072d8c5cf1e4e9643",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-Caveat.txt",
+      "repo": "https://github.com/google/fonts"
+    },
+    "geist": {
+      "commit": "10dc7658f13c38a474cde201bb09a4617267545b",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-Geist.txt",
+      "repo": "https://github.com/vercel/geist-font"
+    },
+    "geistMono": {
+      "commit": "10dc7658f13c38a474cde201bb09a4617267545b",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-GeistMono.txt",
+      "repo": "https://github.com/vercel/geist-font"
+    },
+    "instrumentSerif": {
+      "commit": "0b58fb370093f9a9f4ff785d94405710b79de67c",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-InstrumentSerif.txt",
+      "repo": "https://github.com/google/fonts"
+    },
+    "notoSansThai": {
+      "commit": "8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-NotoSansThai.txt",
+      "repo": "https://github.com/google/fonts"
+    }
+  }
+}

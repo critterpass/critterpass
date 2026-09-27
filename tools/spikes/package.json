@@ -33,12 +33,12 @@
   },
   "devDependencies": {
     "@cp/db": "workspace:*",
-    "@napi-rs/canvas": "1.0.9",
+    "@napi-rs/canvas": "catalog:",
     "@testcontainers/postgresql": "catalog:",
     "@types/pg": "catalog:",
     "@types/pngjs": "6.0.5",
     "pixelmatch": "7.2.0",
-    "playwright": "1.58.2",
+    "playwright": "catalog:",
     "pngjs": "7.0.0",
     "testcontainers": "catalog:",
     "tsx": "catalog:"

@@ -11,27 +11,45 @@ catalog:
   '@eslint/js': 10.0.1
   '@hono/node-server': 2.1.1
   '@hono/zod-openapi': 1.6.3
+  '@lingui/babel-plugin-lingui-macro': 6.8.0
+  '@lingui/cli': 6.8.0
+  '@lingui/conf': 6.8.0
+  '@lingui/core': 6.8.0
+  '@lingui/format-po': 6.8.0
+  '@lingui/react': 6.8.0
+  '@messageformat/parser': 5.1.1
+  '@napi-rs/canvas': 1.0.9
   '@parse/node-apn': 8.1.0
   '@powersync/node': 1.1.0
   '@testcontainers/postgresql': 12.1.0
   '@testcontainers/redis': 12.1.0
+  '@types/estree': 1.0.9
   '@types/node': 26.6.3
   '@types/pg': 8.23.1
-  'better-auth': 1.7.6
-  'better-sqlite3': 12.11.1
+  babel-plugin-dynamic-import-node: 2.3.3
+  better-auth: 1.7.6
+  better-sqlite3: 12.11.1
   centrifuge: 5.7.4
+  drizzle-kit: 0.31.10
+  drizzle-orm: 0.45.2
+  esbuild: 0.28.2
   eslint: 10.11.0
   eslint-config-prettier: 10.1.8
   eslint-import-resolver-typescript: 4.4.5
   eslint-plugin-boundaries: 7.2.0
+  eslint-plugin-lingui: 0.16.0
   eslint-plugin-react-hooks: 7.1.1
-  'firebase-admin': 14.5.0
+  expo-localization: 58.0.1
+  firebase-admin: 14.5.0
   globals: 17.12.0
   hono: 4.13.9
   jose: 6.2.12
   pg: 8.23.0
   pino: 10.3.1
+  playwright: 1.58.2
   prettier: 3.9.9
+  react-native-mmkv: 4.3.2
+  react-native-nitro-modules: 0.37.1
   redis: 6.2.1
   testcontainers: 12.1.0
   tsdown: 0.23.0
@@ -39,11 +57,13 @@ catalog:
   turbo: 2.11.4
   typescript: 6.0.3
   typescript-eslint: 8.70.1
+  vite: 8.3.1
   vitest: 5.0.2
   zod: 4.6.5
 
 # Security floors for transitive dependencies (patched releases of the same major).
 overrides:
+  '@esbuild-kit/core-utils>esbuild': 0.25.12
   sharp: 0.35.4
 
 # pnpm refuses dependency install scripts unless they are listed here.

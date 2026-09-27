@@ -1,0 +1,48 @@
+{
+  "ring": {
+    "cutout": {
+      "$type": "cpRing",
+      "$value": { "widthPt": 2, "color": null },
+      "$description": "2 pt in the underlying background colour around avatars; colour is contextual"
+    },
+    "selected": {
+      "$type": "cpDoubleRing",
+      "$value": {
+        "inner": { "widthPt": 3, "color": "{color.ink.850}" },
+        "outer": { "widthPt": 2, "color": null }
+      },
+      "$description": "Outer accent colour is contextual (selection/member/tier colour)"
+    },
+    "focus": {
+      "$type": "cpRing",
+      "$value": { "widthPt": 2, "inset": true, "color": "{color.yellow}" },
+      "$description": "Also keyboard/switch focus"
+    },
+    "input": {
+      "idle": {
+        "$type": "cpRing",
+        "$value": { "widthPt": 2, "inset": true, "color": "{semantic.border.control}" }
+      },
+      "valid": {
+        "$type": "cpRing",
+        "$value": { "widthPt": 2, "inset": true, "color": "{color.green.base}" }
+      },
+      "error": {
+        "$type": "cpRing",
+        "$value": { "widthPt": 2, "inset": true, "color": "{color.pink}" }
+      }
+    },
+    "glowFeedback": {
+      "$type": "cpGlow",
+      "$value": {
+        "color": "{color.yellow}",
+        "blurFromPt": 0,
+        "blurToPt": 16,
+        "opacityFrom": 0.75,
+        "opacityTo": 0,
+        "durationMs": 900,
+        "iterations": 2
+      }
+    }
+  }
+}

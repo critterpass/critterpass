@@ -1,0 +1,22 @@
+[
+  { "from": null, "to": "voting" },
+  { "from": null, "to": "setup" },
+  { "from": "voting", "to": "won" },
+  { "from": "won", "to": "setup" },
+  { "from": "setup", "to": "drafting" },
+  { "from": "drafting", "to": "draft_review" },
+  { "from": "drafting", "to": "setup" },
+  { "from": "draft_review", "to": "redrafting" },
+  { "from": "redrafting", "to": "draft_review" },
+  { "from": "draft_review", "to": "proposed" },
+  { "from": "proposed", "to": "draft_review" },
+  { "from": "proposed", "to": "confirmed" },
+  { "from": "confirmed", "to": "pre_trip" },
+  { "from": "pre_trip", "to": "in_trip" },
+  { "from": "in_trip", "to": "post_trip" },
+  { "from": "post_trip", "to": "archived" },
+  { "from": "setup", "to": "cancelled" },
+  { "from": "proposed", "to": "cancelled" },
+  { "from": "confirmed", "to": "cancelled" },
+  { "from": "pre_trip", "to": "cancelled" }
+]

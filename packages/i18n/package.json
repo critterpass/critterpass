@@ -6,11 +6,27 @@
   "description": "Lingui catalogs per area and native string generators",
   "sideEffects": false,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./server": "./src/server/index.ts",
+    "./native": "./src/native/index.ts"
   },
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "extract": "tsx scripts/extract.ts",
+    "compile": "tsx scripts/compile.ts",
+    "build": "tsx scripts/compile.ts",
+    "check:missing": "lingui check missing"
+  },
+  "dependencies": {
+    "@lingui/core": "catalog:",
+    "@messageformat/parser": "catalog:"
+  },
+  "devDependencies": {
+    "@lingui/cli": "catalog:",
+    "@lingui/conf": "catalog:",
+    "@lingui/format-po": "catalog:",
+    "tsx": "catalog:"
   }
 }

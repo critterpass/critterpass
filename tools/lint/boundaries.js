@@ -115,6 +115,16 @@ export const boundaryPolicies = [
   // npm dependencies and Node built-ins are governed by package.json, not by these rules.
   { allow: { to: { module: { origin: 'external' } } } },
   { allow: { to: { module: { origin: 'core' } } } },
+  // Binary and data assets (images, fonts, audio, animation JSON) are not code: any layer may load them.
+  {
+    allow: {
+      to: {
+        file: {
+          path: '**/*.{png,jpg,jpeg,webp,gif,svg,ttf,otf,woff,woff2,mp3,m4a,wav,json,lottie}',
+        },
+      },
+    },
+  },
   // Repo tooling may share helpers across tool folders and read service config (env schemas).
   {
     from: { element: { type: 'tools' } },
