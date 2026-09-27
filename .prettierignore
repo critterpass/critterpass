@@ -21,3 +21,6 @@ apps/web/src/styles/fonts.css
 # Compiled Lingui catalogs and the generated catalog registry (formatting follows the generator)
 packages/i18n/locales/**/*.ts
 packages/i18n/src/catalog-registry/
+
+# Expo CLI regenerates this git-ignored type reference file.
+**/expo-env.d.ts

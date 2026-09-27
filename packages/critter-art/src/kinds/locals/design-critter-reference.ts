@@ -6,11 +6,12 @@ import type { DesignDoodleKit } from '../../core/design-doodle-kit-reference';
 import type { LineOptions, WashOptions } from '../../core/ops';
 import type { Point } from '../../core/geometry';
 
-// Test-only: boots the unmodified `design/critters-draw-1.js` (and, for T6, `critters-draw-2.js`)
-// in a Node vm context, then replays `boot()`'s own two-line "sort parts by order, invoke with
-// (DK, X)" loop myself — `boot()`'s internal `X` object is never exposed on `window`, so this is the
-// only way fidelity tests can reach the real `X.h`, `X.A.<archetype>`, `X.acc`, `X.ears`, `X.horns`
-// functions instead of a hand-copied transcription. Never imported by shipped code.
+// Test-only: boots the unmodified `design/critters-draw-1.js` (and `critters-draw-2.js` for the
+// later archetypes) in a Node vm context, then replays `boot()`'s own two-line "sort parts by
+// order, invoke with (DK, X)" loop myself — `boot()`'s internal `X` object is never exposed on
+// `window`, so this is the only way fidelity tests can reach the real `X.h`, `X.A.<archetype>`,
+// `X.acc`, `X.ears`, `X.horns` functions instead of a hand-copied transcription. Never imported by
+// shipped code.
 const repoRoot = new URL('../../../../../', import.meta.url);
 
 function readDesignFile(name: string): string {

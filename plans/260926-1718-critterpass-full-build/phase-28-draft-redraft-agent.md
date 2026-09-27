@@ -141,8 +141,8 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 
 ### T5 — Redraft pipeline + quota
 - Goal: `request_redraft`, `ai.redraft`, keep/revert, restore.
-- Files: `services/api/src/commands/draft/{request-redraft,keep-redraft,revert-redraft,restore-draft-version}.ts`, `services/worker/src/jobs/ai/redraft.ts`
-- Steps: 1. Atomic reserve (`SELECT … FOR UPDATE` on `trip_entitlements`/count) → `REDRAFT_LIMIT`. 2. Sonnet day job → diff + metrics + reasons → candidate version. 3. Commit on delivery, release on failure/identical. 4. Free fit-in redraft for late must-dos (Q-34) flagged `free_reason`. 5. `trip:` `redraft.counter` event.
+- Files: `services/api/src/commands/draft/{request-redraft,keep-redraft,revert-redraft,restore-draft-version}.ts`, `services/worker/src/jobs/ai/redraft.ts`, `services/api/src/entitlements/entitle.ts` (redraft fair-use call only)
+- Steps: 1. Atomic reserve (`SELECT … FOR UPDATE` on `trip_entitlements`/count) → `REDRAFT_LIMIT`. 2. Sonnet day job → diff + metrics + reasons → candidate version. 3. Commit on delivery, release on failure/identical. 4. Free fit-in redraft for late must-dos (Q-34) flagged `free_reason`. 5. `trip:` `redraft.counter` event. 6. Redraft fair-use for unlimited trips (20/trip/day): the entitlements phase closed `fair_use_counters.metric` to `guide_tokens`/`voice_seconds`/`vision_calls`, so this phase's `*_draft_metrics_and_redraft_reservations.sql` migration widens that check with `redrafts`, and `entitle()`'s `redraft` kind calls `app.bump_fair_use` for unlimited trips.
 - Tests: `pnpm --filter @cp/api test -- commands/draft/redraft-quota`; `pnpm --filter @cp/worker test -- jobs/ai/redraft`
 - Done when: 10 concurrent requests with 1 remaining produce exactly 1 accepted; failed job releases; boosted trip unlimited but capped by fair-use counter.
 

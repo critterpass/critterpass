@@ -1,0 +1,40 @@
+# S-RT's own Centrifugo (2 nodes) + Redis — separate from infra/docker-compose.yml (which
+# tests must not touch). Started/stopped by tools/spikes/src/s-rt/run.ts and load.ts, never
+# left running: `docker compose -p cp-spike-s-rt -f docker-compose.yml down -v` tears it down.
+# CENTRIFUGO_CLIENT_TOKEN_JWKS_PUBLIC_ENDPOINT and CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_ENDPOINT
+# are supplied by the launching script's environment (the harness's ports are ephemeral).
+name: cp-spike-s-rt
+
+services:
+  redis:
+    image: redis:8.8.3-alpine
+    ports: ['64790:6379']
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  centrifugo-a: &centrifugo
+    image: centrifugo/centrifugo:v6.9.6
+    command: ['centrifugo', '--config=/centrifugo/config.json']
+    volumes: ['./config.json:/centrifugo/config.json:ro']
+    environment: &centrifugo-env
+      CENTRIFUGO_CLIENT_TOKEN_JWKS_PUBLIC_ENDPOINT: ${CENTRIFUGO_JWKS_URL}
+      CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_ENDPOINT: ${CENTRIFUGO_SUBSCRIBE_URL}
+      CENTRIFUGO_HTTP_API_KEY: spike-rt-api-key
+      CENTRIFUGO_ENGINE_REDIS_ADDRESS: redis://redis:6379
+    ports: ['8801:8000']
+    extra_hosts: ['host.docker.internal:host-gateway']
+    depends_on:
+      redis: { condition: service_healthy }
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8000/health']
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  centrifugo-b:
+    <<: *centrifugo
+    environment: *centrifugo-env
+    ports: ['8802:8000']

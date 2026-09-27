@@ -1,7 +1,7 @@
 ---
 phase: 12
 title: Entitlement engine, money & FX primitives
-status: pending
+status: done
 depends_on: [8]
 wave: 3
 features: [F-019, F-021]
@@ -99,6 +99,7 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. ISO 4217 table as data (code, ISO exponent, symbol, narrow symbol) + `displayDecimals` override table. 2. bigint arithmetic + guards (currency mismatch throws typed error). 3. Largest-remainder allocate with stable tie-break. 4. Rounding modes. 5. fast-check property tests (sum preservation, idempotent rounding).
 - Tests: `pnpm --filter @cp/cost-engine test -- money`
 - Done when: 10k-case properties pass; golden tests: IDR stored with ISO exponent 2 and displayed with 0 decimals ("Rp 75.000"); ISK exponent 0 (Reykjavík, "ISK 12,900" never "12,900.00"); JPY 0; split of IDR/JPY totals sums exactly.
+- Status: done — 694c4f0
 
 ### T2 — Display formatter, compact notation, home/local/both
 - Goal: one formatter for the whole app.
@@ -106,6 +107,7 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. `Intl.NumberFormat` (Hermes Intl) with disambiguated symbols. 2. Modes HOME/LOCAL/BOTH with "≈" and FX snapshot. 3. Compact ("~$1.2k"), approximate quotes. 4. Hook reads `user_settings.price_display` + home currency from synced rows.
 - Tests: `pnpm --filter @cp/cost-engine test -- format`; `pnpm --filter @cp/mobile test -- data/money`
 - Done when: "Rp 75.000 ≈ S$6.40" reproduced for id-ID/en-SG with the fixture rate; 16 launch locales snapshot-tested.
+- Status: done — a1801fd
 
 ### T3 — FX snapshots: table, conversion, Frankfurter ingest
 - Goal: pinned, offline-capable rates.
@@ -113,6 +115,7 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. Table + R RLS. 2. Pure `convert(money, snapshot)` with half_even, cross via EUR. 3. Frankfurter v2 client (timeout, retry, typed errors) with recorded responses. 4. Ingest upsert idempotent; staleness metric.
 - Tests: `pnpm --filter @cp/worker test -- fx`; `pnpm --filter @cp/cost-engine test -- fx`
 - Done when: re-running ingest creates no duplicates; conversion SGD↔IDR↔JPY matches fixture math to the minor unit.
+- Status: done — 0a8ce2e
 
 ### T4 — Pure entitlement resolution and capabilities
 - Goal: matrix → code.
@@ -120,6 +123,7 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. Source union + clock injection. 2. `passPlus`, `boostActive`, `guideUnlimited`, `redraftLimit`, `seatCap`, `helpMap`, `sponsored`. 3. Capability table (one row per matrix line) as data with test per row × source (Free, Pass+, Boost, FTF, crew yearly). 4. Overlays (paused, cancelled, expired, grace, boost ended, refund). 5. Perk list filter by `enabled`.
 - Tests: `pnpm --filter @cp/entitlements test`
 - Done when: every product-decisions §3 matrix cell has an asserting test; Boost does not grant mailbox import or icon styles (C8); earned icons never gated (C23).
+- Status: done — deb4e1c
 
 ### T5 — Quotas, period keys, fair-use decisions
 - Goal: meter semantics shared client/server.
@@ -127,6 +131,7 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. `periodKey(instant, deviceTz)` + `resetAt` (DST and tz-change cases: user flies SGT → JST mid-day). 2. Meter decision incl. crew-chat Pass+ exemption and system exemption. 3. Redraft reservation semantics (reserve/commit/release). 4. Fair-use thresholds → `ok | degrade_haiku | busy`.
 - Tests: `pnpm --filter @cp/entitlements test -- quotas|period|fair-use`
 - Done when: 30th question allowed, 31st → `QUOTA_EXHAUSTED` payload with correct `reset_at` in device tz; tz change never grants a second free window within the same device-local date.
+- Status: done — 7bc8a0b (reserve/commit/release and the tz-abuse 20h guard are the atomic SQL in T6; this task is the pure decision layer over it)
 
 ### T6 — Entitlement and meter tables, atomic quota SQL
 - Goal: DB side with concurrency proof.
@@ -134,6 +139,7 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. Tables per data-model §3.14 + RLS + grants + publication allow-list entries. 2. `app.consume_quota` / `release_quota` / `bump_fair_use` SECURITY DEFINER. 3. Seed products (`pass_monthly`, `pass_yearly`, `boost_trip`, `boost_crew_year`, `gift_pass_3m`), perks (all enabled at launch, C48), ops_config keys.
 - Tests: `pnpm --filter @cp/db test -- quota|permissions/(products|perks|user_entitlements|trip_entitlements|usage_counters|fair_use_counters)`
 - Done when: 50 parallel consumes at limit 30 yield exactly 30 ok; `fair_use_counters` unreadable by `app_user` and unpublished; member reads trip entitlements, outsider does not.
+- Status: done — a6490e4
 
 ### T7 — Server materialiser, `entitle()`, invalidation, extension snapshot schema
 - Goal: authoritative rows + pipeline hook.
@@ -141,16 +147,17 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. Loader registry (empty source set = Free). 2. `recomputeUser/Trip` writes rows + `trip.seat_cap`/`redraft_limit` columns + outbox events; recompute on crew membership/trip status domain events via hook from phase 8. 3. `entitle(ctx, {kind:'quota'|'capability'|'seat'|'redraft', …})` inside the command tx → reservation or typed error. 4. zod schema for App Group entitlements snapshot (Swift/Kotlin codegen by phase 48). 5. Mobile hook evaluating pure engine over synced rows.
 - Tests: `pnpm --filter @cp/api test -- entitlements`; `pnpm --filter @cp/mobile test -- data/entitlements`
 - Done when: registering a test-only source loader in the test suite flips a trip to 16 seats and writes `entitlement.changed` `rt_outbox` rows for every member; `entitle(tx, …)` called inside a raw `withUser` tx that then rolls back leaves `usage_counters` unchanged (pipeline-level test lives in phase 10 T1, which depends on this phase).
+- Status: done — eb6f4b9 (mobile hook takes synced-row shapes as explicit args pending PowerSync, same pattern T2's `usePriceFormatter` already uses)
 
 ## Phase acceptance criteria
-- [ ] Every entitlement matrix cell and lifecycle overlay covered by a passing test.
-- [ ] Guide meter 30/day with device-tz reset; concurrency-safe consume proven.
-- [ ] Fair-use caps silent (no client-visible table, degrade decisions only).
-- [ ] Perk lists read from synced `perks` rows; nothing hard-coded in clients.
-- [ ] Money property tests pass; no float in money paths (lint rule `no-restricted-syntax` on `parseFloat`/`Number(` in money dirs).
-- [ ] FX ingest idempotent; conversions pinned to `fx_snapshot_id`.
-- [ ] HOME/LOCAL/BOTH formatter reproduces design samples.
-- [ ] Permission tests for all new tables green; publication check passes.
+- [x] Every entitlement matrix cell and lifecycle overlay covered by a passing test.
+- [x] Guide meter 30/day with device-tz reset; concurrency-safe consume proven.
+- [x] Fair-use caps silent (no client-visible table, degrade decisions only).
+- [x] Perk lists read from synced `perks` rows; nothing hard-coded in clients.
+- [x] Money property tests pass; no float in money paths (lint rule `no-restricted-syntax` on `parseFloat`/`Number(` in money dirs).
+- [x] FX ingest idempotent; conversions pinned to `fx_snapshot_id`.
+- [x] HOME/LOCAL/BOTH formatter reproduces design samples.
+- [x] Permission tests for all new tables green; publication check passes.
 
 ## Risks & rollback
 | Risk | Mitigation |

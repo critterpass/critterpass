@@ -12,6 +12,12 @@ coverage/
 # Generated native projects (Expo continuous native generation) and tool caches
 apps/mobile/ios/
 apps/mobile/android/
+# Inline Expo modules (apps/mobile/modules/cp-*) keep committed native source next to their own
+# local Gradle/Xcode build output when built in isolation (e.g. Android Studio, `./gradlew` from the
+# module dir) — only the output leaks untracked without this.
+apps/mobile/modules/*/android/build/
+apps/mobile/modules/*/android/.cxx/
+apps/mobile/modules/*/ios/build/
 .expo/
 .astro/
 .wrangler/

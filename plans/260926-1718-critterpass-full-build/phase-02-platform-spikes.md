@@ -74,6 +74,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Railway one-off service runs the probe against staging (PgBouncer 6432 and direct 5432). 2. Measure `select 1`, single-row insert tx, 10-statement tx with `SET LOCAL ROLE` + `set_config`; assert settings do not leak across pooled tx (two interleaved clients). 3. Check extensions; build HNSW on 100k random vectors, record time + query p95. 4. Record price quote. 5. Repeat against Railway Postgres for comparison.
 - Tests: `pnpm --filter @cp/spike-s-db run spike -- --target staging` prints a JSON report; leak test asserts `current_setting('app.uid', true)` is empty in the next tx.
 - Done when: ADR shows numbers for both targets and a verdict.
+- Status: done — 964e65d (latency/pooling/extensions PASS; HNSW build did not complete on PS-DEV within 1h31m — see ADR for chosen path and the founder follow-up to re-run on the launch-sized tier)
 
 ### T2 — S-AUTH server harness
 - Goal: prove uid-preserving upgrade and merge on the server.
@@ -81,6 +82,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Minimal Hono + Better Auth 1.7 (anonymous, phoneNumber, jwt EdDSA, admin, expo) on Testcontainers Postgres. 2. Flows: anon → phone verify (Twilio Verify test credentials), anon → linkSocial with an identity present elsewhere → `onLinkAccount` merge moves rows of a `spike_owned` table in one tx. 3. JWKS: rotate key, old tokens still verify until expiry. 4. Verify a JWT with `jose` using only the JWKS URL (what PowerSync/Centrifugo do).
 - Tests: `pnpm --filter @cp/spike-s-auth test` (uid unchanged, `isAnonymous` false, merge atomic on forced failure, rotation).
 - Done when: tests green; server verdict recorded.
+- Status: done — 967e97f (all 5 assertions PASS; genericOAuth + a local mock IdP stood in for native Apple/Google tokens (T3's job); phone OTP read from Better Auth's own verification row, no Twilio Verify account yet — see ADR)
 
 ### T3 — S-AUTH on device (Apple + Google native tokens)
 - Goal: native sign-in on Expo SDK 58 upgrades the anonymous session.
@@ -95,6 +97,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. powersync-repl + powersync-api on Railway staging replicating `spike.messages` from PlanetScale via publication. 2. JWKS from `spike-auth`. 3. `/sync/upload` in harness: validates op, writes row or writes `cmd_results` reject with 2xx. 4. Device: offline 50 inserts → reconnect → converge; second device measures arrival (p95). 5. Node load script opens 1k sync connections for 10 min.
 - Tests: `pnpm --filter @cp/spike-s-sync run load -- --conns 1000`; latency script outputs p50/p95; reject path asserted by reading `cmd_results`.
 - Done when: numbers recorded against criteria; verdict in ADR.
+- Status: done — 8467ed0 (replication/auth/upload/offline-replay/chat-latency PASS on real Railway SG + PlanetScale staging; 1,120 concurrent connections held with 0 failures by aggregating 4 independent load-generator processes — a single process maxes out around 280-300 from its own per-client SDK memory cost, not from any server-side limit; see ADR for the full finding set incl. the hardcoded publication name, publication/table ownership split, and the `iat`/`aud` JWT payload findings)
 
 ### T5 — S-SYNC switchover drill
 - Goal: logical slot survives a PlanetScale primary switchover.
@@ -102,6 +105,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Continuous writer + PowerSync checkpoint watcher. 2. Trigger PlanetScale switchover (console/API). 3. Measure write gap, replication resume time, whether PowerSync re-snapshotted (diagnostics API). 4. Repeat on Railway Postgres HA for the fallback. 5. Write runbook (quarterly drill steps, expected numbers, rollback).
 - Tests: `pnpm --filter @cp/spike-s-sync run drill` produces report JSON.
 - Done when: runbook exists; ADR states slot kept (PASS) or fallback chosen.
+- Status: done — f93167d (`pscale branch switchover` on `main` confirmed real and used directly, no support-request blocker; FAIL — the promoted replica does not carry the old primary's logical slot, forcing a full re-snapshot after ~30s of retry/detection; ~34.4s real sync-path gap measured from replication logs against PlanetScale's own official switchover timing, app-level writes barely affected (1/138 failed); chosen path is an adjusted operational expectation within the same stack (D4 stands), not a technology change — runbook + ADR carry the founder follow-ups (re-test at production data volume; ask PlanetScale support about slot-preserving failover))
 
 ### T6 — S-RT: Centrifugo proxy, presence, recovery, revocation
 - Goal: realtime contract proven.
@@ -109,6 +113,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Centrifugo v6 (2 nodes, Redis 8) on staging with JWKS + subscribe proxy to harness. 2. Proxy allows members, denies others. 3. Remove member → server API `unsubscribe` → client event latency. 4. History + recovery after 2 min background on device. 5. k6/Node script ramps to 5k sockets.
 - Tests: `pnpm --filter @cp/spike-s-rt test` (proxy decisions), `run load -- --sockets 5000`.
 - Done when: revocation <1 s p95, recovery works, 5k sockets stable — or fallback recorded.
+- Status: done — 55e236b (revocation p95 3.4ms, recovery PASS after a real 2 min background, 5000/5000 sockets across 2 nodes, 0 failures; run against S-RT's own local 2-node stack, not staging — see ADR for the network-RTT caveat and two real Centrifugo/Better-Auth integration gaps found)
 
 ### T7 — Apple extension targets on SDK 58 / Xcode 27 / UIScene
 - Goal: all extension targets build, sign and run.
@@ -116,6 +121,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Try `@bacons/apple-targets` fork on SDK 58; if blocked, in-repo config plugin. 2. Widget ext: static widget, Live Activity (lock screen + Dynamic Island), AlarmKit alarm UI, App Intent button. 3. NSE + NCE hello. 4. App Group + Keychain group entitlements; UIScene lifecycle compatibility. 5. EAS build + install; `xctrace` widget-memory template script in `tools/spikes/apple-targets/`.
 - Tests: `eas build -p ios --profile development`; XCTest target for `_shared` snapshot decoding.
 - Done when (agent): signed EAS build with all targets; ADR picks the path. Founder checklist: install on iPhone, run the `xctrace` script, record widget memory <20 MB.
+- Status: done — 35a185a (chosen path: published `@bacons/apple-targets@5.0.0`, unmodified — no fork needed, contradicting the plan's pessimistic default; widget incl. Live Activity/AlarmKit/App Intent + NSE + NCE all build, sign-for-simulator, embed and install/launch clean under SDK 58/Xcode 27/UIScene; App Group + Keychain entitlement chain verified app+extensions. Blocked on real signing: no Apple ID/API-key session in Xcode and the only Apple Development cert is for the wrong team (S8H6HTF3KK, not YFND2EEW8S) — no EAS/device build or on-device memory/intent-latency number possible until the founder fixes accounts; see ADR)
 
 ### T8 — Inline module bridge: cp-app-group
 - Goal: JS ↔ App Group / Android shared storage bridge.
@@ -123,6 +129,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Expo module API: `writeSnapshot(key, json)`, `writeImage(key, pngBase64)`, `readOutbox()`, `reloadWidgets()`. 2. Kotlin equivalent (app-private file + Glance update broadcast). 3. Widget from T7 reads snapshot. 4. Time round-trip.
 - Tests: XCTest + JUnit for serialization; RNTL-free device timing recorded.
 - Done when: widget shows JS-written snapshot on both platforms; round-trip <50 ms.
+- Status: done — b85ba96 (iOS PASS: widget reads the App-Group snapshot this module writes for real; app builds/installs/launches clean with the module linked; file-I/O floor for the write+read cycle measured at p50 0.56 ms / p95 0.77 ms, comfortably under budget, though the literal on-device JS-thread number still needs Metro/Maestro or a founder run. Android Kotlin implemented and verified against the real expo-modules-core source but not build-verified — no Gradle/emulator run attempted; see ADR founder follow-ups)
 
 ### T9 — APNs broadcast LA, push-to-start, I'M UP, NSE/NCE
 - Goal: native push paths proven with our server library.
@@ -130,6 +137,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. `@parse/node-apn` with .p8: create broadcast channel, start LA via push-to-start with `input-push-channel`, update 3 devices via one channel push, end + delete channel. 2. `LiveActivityIntent` "I'M UP" → `POST /v1/actions` with device action key (HMAC) → harness logs. 3. NSE downloads signed avatar, sets communication intent; NCE poster with vote action (device locked, app killed). 4. `firebase-admin` FCM v1 data message to Android dev client. 5. Record push-to-start budget behaviour.
 - Tests: harness script `run lifecycle` prints each APNs response; device evidence in ADR.
 - Done when: all paths work on device or fallback recorded.
+- Status: done — bd5f9f2 (device-action-key HMAC contract PASS incl. real Swift/TypeScript signature parity, actions-server accepts a valid signed request and rejects a tampered one; APNs broadcast channel/push-to-start/update/end/delete and FCM data message SKIPPED — no `.p8` key or Firebase service account in this environment, harness prints the exact reason instead of faking success; NSE/NCE build+embed shared with the apple-targets spike, runtime delivery blocked by `simctl push` needing notification authorization this minimal app never requests — see ADR for founder prerequisites)
 
 ### T10 — Skia critter painter perf (S1, S2)
 - Goal: renderer feasibility on low-end Android + iPhone.
@@ -137,6 +145,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Port Tokek draw calls to a Canvas2D-like interface over Skia. 2. Node prerender (@napi-rs/canvas) reference PNG; device snapshot diff. 3. Draw-on + blink animation on UI thread. 4. 600-cell grid (FlashList 2 vs Legend List) + 6 idle critters. 5. Scripted capture (Perfetto config + `dumpsys gfxinfo` script, `xctrace` template) runnable on Galaxy A15-class, Pixel 7a, iPhone 13 (device farm or founder device).
 - Tests: `pnpm --filter @cp/spike-skia-critter test` (pixel diff ≤2 %).
 - Done when (agent): pixel-diff test green; capture scripts + ADR template ready. Founder checklist: run captures on the three devices; ADR records fps/drop rates and the grid strategy (live vs baked thumbnails) for phases 4/5.
+- Status: done — e4f8657 (pixel-diff 0.175% vs the real design/doodles.js source, PASS; grid strategy decided: FlashList 2, confirmed clean at 600 cells + 6 bobbing critters; iOS-simulator fps real but not the phase's physical-device evidence — Android emulator not reached this pass after a real disk incident during T10's own Android build attempt, see the ADR; founder device runs still needed)
 
 ### T11 — Motion & startup (S3, S7, S8)
 - Goal: transition, drag and cold-start budgets measured.
@@ -144,6 +153,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Compare `Link.AppleZoom`, Reanimated shared element (flagged), custom teleport overlay for grow-into-page. 2. Timeline drag with 15-min snap via Gesture Handler 3 + haptic ticks. 3. Release builds: cold start (Android `am start -W`, iOS Instruments), download size (App Store Connect/EAS size report).
 - Tests: Maestro `e2e/spikes/motion.yaml` drives both screens; numbers captured.
 - Done when (agent): ADR names the transition approach; cold-start/size scripts committed. Founder checklist: S7/S8 numbers from release builds on the reference devices.
+- Status: done — 49bb324 (chosen path: custom teleport overlay — Link.AppleZoom confirmed inert in this expo-router release both by source and on-device, Reanimated shared element works only in-screen not across native-stack routes; teleport overlay and the 15-min timeline drag both measured zero dropped frames (16.67 ms floor) on iOS simulator; cold-start/size scripts committed but produced no number this pass — an unbounded Instruments trace risked disk again, see the ADR; release-build numbers on reference devices still needed)
 
 ### T12 — Background location session + dwell ring (S6)
 - Goal: prove trip-day session design and battery budget.
@@ -151,6 +161,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. While-In-Use session with iOS background location indicator + Android foreground service (type location). 2. 50 m geofence dwell → updates LA progress while locked (via T7/T9 targets). 3. Always upgrade prompt flow. 4. 1 h walk test: battery drain per platform.
 - Tests: unit test for dwell calculation in spike code; simulated-route Maestro run (GPX on simulator/emulator) proves the ring advances.
 - Done when (agent): simulated ring advance + field-test script in `tools/spikes/location/README.md`. Founder checklist: 1 h walk per platform, battery drain + lock-screen ring evidence in ADR; verdict.
+- Status: done — 86fb1f2 (real iOS-simulator session: While-In-Use permission, background-location indicator, TaskManager background task, dwell ring advancing 0%→5% from live location fixes at a fixed POI — the phase's required proof; 10 hardware-free unit tests for the grace+slow-drain reducer; App Group snapshot write reaches T8's module for real but errors with a specific CpAppGroupError in this build, see the ADR; Android emulator, the 1h battery walk and locked-screen LA render all remain founder/next-pass follow-ups)
 
 ### T13 — MapLibre custom style + PMTiles on R2
 - Goal: map rendering and offline region feasibility.

@@ -1,6 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    // Matches packages/domain/tsconfig.json: @cp/domain's ids/media-signature modules use Web
+    // Crypto globals (not node:crypto) so the same code runs in Node, Workers and React Native;
+    // tsc compiles their source directly (no .d.ts boundary), so this package needs the same lib.
+    "lib": ["ES2024", "DOM"],
     "types": []
   },
   "include": ["src", "test", "*.ts"]

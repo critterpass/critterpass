@@ -19,6 +19,7 @@
     "@better-auth/expo": "1.7.6",
     "@cp/db": "workspace:*",
     "@cp/domain": "workspace:*",
+    "@cp/entitlements": "workspace:*",
     "@hono/node-server": "catalog:",
     "@hono/zod-openapi": "catalog:",
     "@scalar/hono-api-reference": "0.12.6",

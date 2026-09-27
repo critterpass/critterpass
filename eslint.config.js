@@ -10,6 +10,7 @@ import tseslint from 'typescript-eslint';
 
 import { designTokensEslintPlugin } from './packages/design-tokens/eslint/index.js';
 import { architectureLintConfig } from './tools/lint/boundaries.js';
+import { moneyFloatGuardConfig } from './tools/lint/money-float-guard.js';
 
 const rootDir = import.meta.dirname;
 
@@ -133,6 +134,9 @@ export default defineConfig([
   // Architecture import rules (docs/system-architecture.md §3).
   ...architectureLintConfig(rootDir, boundaries),
 
+  // No float in money/FX arithmetic.
+  ...moneyFloatGuardConfig(),
+
   // No hand-typed colours/fontSize/duration outside @cp/design-tokens (docs/code-standards.md §6).
   {
     files: ['apps/mobile/src/**/*.{ts,tsx}', 'apps/web/src/**/*.{ts,tsx}'],
@@ -179,6 +183,17 @@ export default defineConfig([
     // user-facing copy and are not extracted into a catalog.
     files: testFiles,
     rules: { 'lingui/no-unlocalized-strings': 'off', 'lingui/require-explicit-id': 'off' },
+  },
+  {
+    // `(dev)` routes are internal harnesses (spikes, labs, benches) that never ship: Metro drops
+    // them from production bundles and `check-release-bundle` fails CI if one leaks. Their labels
+    // and measurement styling are not user-facing copy or design-system UI.
+    files: ['apps/mobile/src/app/(dev)/**/*.{ts,tsx}'],
+    rules: {
+      'critterpass/no-literal-style': 'off',
+      'lingui/no-unlocalized-strings': 'off',
+      'lingui/require-explicit-id': 'off',
+    },
   },
 
   prettier,

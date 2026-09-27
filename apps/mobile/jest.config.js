@@ -6,6 +6,9 @@ const jestExpoPreset = require('jest-expo/jest-preset');
 /** @type {import('jest').Config} */
 module.exports = {
   ...jestExpoPreset,
+  // Whichever suite runs first in a cold Jest worker pays the one-off transform of React Native's
+  // renderer inside its first render; on a two-core CI runner that alone can exceed half a minute.
+  testTimeout: 60_000,
   moduleNameMapper: {
     ...jestExpoPreset.moduleNameMapper,
     // react-native's "exports" map only exposes "react-native/asset-registry", while the Jest preset maps
