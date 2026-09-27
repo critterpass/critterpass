@@ -1,4 +1,4 @@
-// Before anything formats a message: Hermes has no Intl.PluralRules of its own.
+// Before anything formats a message: Hermes lacks the Intl APIs Lingui and the format helpers use.
 import './intl-polyfills';
 
 import { i18n } from '@lingui/core';
