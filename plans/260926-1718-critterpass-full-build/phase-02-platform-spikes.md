@@ -151,6 +151,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Compare `Link.AppleZoom`, Reanimated shared element (flagged), custom teleport overlay for grow-into-page. 2. Timeline drag with 15-min snap via Gesture Handler 3 + haptic ticks. 3. Release builds: cold start (Android `am start -W`, iOS Instruments), download size (App Store Connect/EAS size report).
 - Tests: Maestro `e2e/spikes/motion.yaml` drives both screens; numbers captured.
 - Done when (agent): ADR names the transition approach; cold-start/size scripts committed. Founder checklist: S7/S8 numbers from release builds on the reference devices.
+- Status: done — 49bb324 (chosen path: custom teleport overlay — Link.AppleZoom confirmed inert in this expo-router release both by source and on-device, Reanimated shared element works only in-screen not across native-stack routes; teleport overlay and the 15-min timeline drag both measured zero dropped frames (16.67 ms floor) on iOS simulator; cold-start/size scripts committed but produced no number this pass — an unbounded Instruments trace risked disk again, see the ADR; release-build numbers on reference devices still needed)
 
 ### T12 — Background location session + dwell ring (S6)
 - Goal: prove trip-day session design and battery budget.
