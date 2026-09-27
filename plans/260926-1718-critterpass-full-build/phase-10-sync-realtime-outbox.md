@@ -152,6 +152,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. PowerSync RN SDK on op-sqlite with SQLCipher; 32-byte key generated once into secure store (`requireAuthentication: false`, `keychainAccessible: AFTER_FIRST_UNLOCK`). 2. Schema generated from Drizzle for published tables + local-only `commands`, `local_private`, `overlay_*`. 3. `fetchCredentials` → `GET /api/auth/token?aud=sync`. 4. `uploadData` reads `commands` in insertion order, posts `/sync/upload`, removes sent ops on 2xx, backoff on 5xx/offline. 5. `resetForUser(uid)` → `disconnectAndClear()` + `local_private` wipe, registered into phase 09 `registerOnSignOut()` (sign-out, merge, `SESSION_REVOKED`).
 - Tests: `pnpm --filter @cp/mobile test -- data/powersync` (Jest; connector against msw-free Hono test server started in-process from `services/api` test harness).
 - Done when: DB file is unreadable without key (test opens raw file and fails); ordered upload + retry behaviour verified.
+- Status: done — 087e423
 
 ### T5 — Command client, optimistic overlays and reconcile
 - Goal: `useCommand` with optimistic writes, per-op reconcile and headless queued/rejected state.
@@ -159,6 +160,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. `send(cmd, payload, {optimistic?})`: UUIDv7 `op_id`, envelope, insert into `commands` (+ overlay rows) in one local tx; online-only commands go to `/v1/cmd`. 2. Summary registry: each command registers `summarize(payload) → i18n message descriptor` (Lingui `msg` from phase 03; fallback to command name if absent). 3. Reconcile on `cmd_results` watch: applied → clear overlay once server row present; rejected → rollback overlay, push to rejected store. 4. Status hooks: online/offline (NetInfo), connecting, catching-up (PowerSync `hasSynced`/`downloading`), `lastSyncedAt`.
 - Tests: `pnpm --filter @cp/mobile test -- data/commands data/status`.
 - Done when: rejected op removes its overlay row and appears in `useRejectedCommands`; queued list survives DB reopen; statuses transition correctly in tests.
+- Status: done — 9dbf023
 
 ### T6 — Centrifugo config, subscribe and publish proxies
 - Goal: authenticated realtime with ACL from the same policy functions.
