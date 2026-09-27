@@ -1,8 +1,11 @@
 /**
  * Closed value sets of the AI tables (docs/data-model.md §3.3, §3.13); each migration CHECK
- * constraint is generated from these lists (packages/db/sql/gen-checks.ts).
+ * constraint is generated from these lists (packages/db/sql/gen-checks.ts). GuideAction statuses
+ * live with the other plan enums in ../enums/plan.ts.
  */
 import { z } from 'zod';
+
+import type { GuideActionStatus } from '../enums/plan';
 
 export const AGENT_JOB_KINDS = [
   'draft',
@@ -36,17 +39,6 @@ export type PersonaPackStatus = z.infer<typeof personaPackStatusSchema>;
 export const GUIDE_OFFER_STATUSES = ['open', 'full', 'expired', 'cancelled'] as const;
 export const guideOfferStatusSchema = z.enum(GUIDE_OFFER_STATUSES);
 export type GuideOfferStatus = z.infer<typeof guideOfferStatusSchema>;
-
-export const GUIDE_ACTION_STATUSES = [
-  'planned',
-  'needs_approval',
-  'running',
-  'done',
-  'failed',
-  'undone',
-] as const;
-export const guideActionStatusSchema = z.enum(GUIDE_ACTION_STATUSES);
-export type GuideActionStatus = z.infer<typeof guideActionStatusSchema>;
 
 /**
  * GuideAction machine (docs/data-model-sync-and-privacy.md §3.6): planned → needs_approval →

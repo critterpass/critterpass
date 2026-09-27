@@ -72,6 +72,7 @@ export const GUIDE_ACTION_STATUSES = [
   'running',
   'done',
   'failed',
+  'undone',
 ] as const;
 export const guideActionStatusSchema = z.enum(GUIDE_ACTION_STATUSES);
 export type GuideActionStatus = z.infer<typeof guideActionStatusSchema>;
