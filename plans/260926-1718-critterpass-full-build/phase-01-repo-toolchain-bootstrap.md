@@ -1,7 +1,7 @@
 ---
 phase: 1
 title: Repo & toolchain bootstrap
-status: in_progress
+status: done
 depends_on: []
 wave: 1
 features: []
@@ -171,7 +171,7 @@ Undesigned states: none (no UI beyond a placeholder route that shows the app nam
 - [x] api/worker `/health` + `/ready` pass on Railway staging (Singapore) against PlanetScale staging; static IPs recorded
 - [x] PlanetScale production HA (1+2) with backups/PITR exists; extensions vector/pg_trgm/unaccent enabled
 - [x] web/admin/media-worker deployed to Cloudflare staging; signed media read 200, tampered 403
-- [ ] EAS dev-client builds succeed for iOS + Android
+- [x] EAS dev-client builds succeed for iOS (simulator profile; device builds need Apple credentials in EAS) + Android
 - [x] Only `.env.example` files in git; gitleaks clean
 - [x] `tools/design-renders` reproduces a committed render
 - [x] README.md + CLAUDE.md present
