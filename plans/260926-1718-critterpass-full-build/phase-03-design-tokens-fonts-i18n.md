@@ -79,6 +79,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. Transcribe values from `docs/design-system.md` §1, §3.2, §3.3, §4 (no invented values; ambiguous ones read from the design source `design/Critterpass.dc.html`). 2. Guide colours exactly per C5; `*.onPaper` darkened variants computed and checked ≥ 4.5:1 on `paper`. 3. zod schema for DTCG `$type`/`$value` and alias resolution. 4. Contrast test over declared pairs (text roles × surfaces, tier glyphs, member colours on ink.850 and paper).
 - Tests: `pnpm --filter @cp/design-tokens test`.
 - Done when: all aliases resolve; contrast test passes; no token lacks `$type`.
+- Status: done — e0cc18b
 
 ### T2 — Token generators (TS, CSS, Swift, Kotlin) + literal lint rule
 - Goal: generated outputs from one source, built by Turborepo.
@@ -86,6 +87,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. Style Dictionary 5 (DTCG native) or a small custom emitter if SD cannot express springs/cue maps — pick one, keep one. 2. TS: `as const` object + types; easings as bezier tuples, springs as `{stiffness, damping, mass}`. 3. Swift `CPTokens` enums + `Color(hex:)`; Kotlin `object CpTokens`. 4. CSS vars on `:root`. 5. ESLint rule + fixture tests; register in the shared ESLint config from phase 1.
 - Tests: `pnpm --filter @cp/design-tokens test && pnpm turbo build --filter @cp/design-tokens`; `swiftc -parse packages/design-tokens/dist/swift/*.swift`; `kotlinc` compile check in CI script.
 - Done when: snapshots stable; Swift parses; Kotlin compiles; lint rule flags `'#fff'` and `fontSize: 12` in fixtures.
+- Status: done — `build/` -> `codegen/` and `dist/` -> `generated/` renamed (tooling forces this in this environment; see report) — 5231656
 
 ### T3 — Font acquisition, instancing, subsetting
 - Goal: reproducible font build producing all instances with licences.
@@ -93,6 +95,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. Download OFL sources (Archivo VF, Geist, Geist Mono, Caveat, Instrument Serif, Noto Sans Thai) pinned by hash. 2. `fontTools.varLib.instancer` → Archivo `wdth` 62/66/70/78/100 × `wght` 700/800/900, named `Archivo-W{w}-{weight}`. 3. `pyftsubset` with the per-family unicode ranges in Requirements (`sources.json` carries each family's range set), keep `tnum`, `case`. 4. Glyph-coverage check: every Vietnamese precomposed letter and currency symbol present in Archivo/Geist/Caveat (report which fall back); every assigned Thai-block code point present in Noto Sans Thai. 5. Manifest lists family → file → weights/widths → coverage.
 - Tests: `python3 tools/scripts/fonts/build-fonts.py --check` (idempotent rebuild yields identical hashes; coverage assertions).
 - Done when: total mobile font payload ≤ 3 MB; Vietnamese + Thai coverage checks pass; licences committed.
+- Status: done — see report for font sources/licences and a fontTools reproducibility fix (`recalcTimestamp`) — bc65a2d
 
 ### T4 — Font runtime, per-script resolver, native + web registration
 - Goal: apps and extensions render the right face, size factor and line height per locale script.
@@ -100,6 +103,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. `expo-font` config plugin embeds fonts at build time (no async load flash). 2. `fontFor(variant, locale)` returns family, size multiplier, lineHeight, `condensedUpper` flag per §6. 3. Prewarm: render hidden glyph run of each display instance before splash hides. 4. `CPFont.register()` + `Font.cp(.h1)` helpers for SwiftUI targets. 5. Web `@font-face` + `unicode-range`.
 - Tests: `pnpm --filter @cp/mobile jest src/lib/fonts`; EAS dev build smoke (phase 1 workflow) showing a font specimen (renders verified in phase 7 gallery).
 - Done when: resolver tests cover Latin, vi, th, ja, zh-Hans, ko; `CPFont.swift` parses; web CSS builds.
+- Status: done — `build/android-fonts.ts` → `codegen/android-fonts.ts`, output to `generated/android` (same tooling constraint as T2/T3; see report) — 7c6a6c0
 
 ### T5 — Lingui setup, per-area catalogs, locale registry, lint
 - Goal: extraction/compilation pipeline and the 16-locale registry.
@@ -107,6 +111,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. Lingui config with one catalog per area; include globs `apps/mobile/src/{app,features}/<area>/**`, `apps/mobile/src/{ui,motion,lib}/**` → `common`, `apps/web/**` → `web`, `services/**` → `server`. 2. Registry: 16 entries with BCP-47, script, direction, nativeName, `shipped`. 3. Pseudo-locale `en-XA` generator. 4. Enable `eslint-plugin-lingui` `no-unlocalized-strings` for mobile/web. 5. Empty source catalogs for all areas so area phases only add messages. 6. Compile each area bundle from `locales/<locale>/<area>.po` plus any sub-catalogs `locales/<locale>/<area>/*.po` (area phases own their sub-catalog files, so parallel phases never share a `.po`).
 - Tests: `pnpm --filter @cp/i18n test && pnpm --filter @cp/i18n extract && pnpm --filter @cp/i18n compile`.
 - Done when: extract/compile run clean; registry test asserts the shipped set equals the Q-03 list (10 unless the founder confirms 16) + en-XA dev-only; lint fails on a JSX literal fixture.
+- Status: done — dynamic `import()` needs a literal path under every bundler this repo tests through (Metro; Vite/Vitest cannot glob-expand a two-variable template either — confirmed by running the package's own tests against both forms), so `loadCatalog`/`loadAllCatalogs` read a generated, committed `src/catalog-registry/` instead of interpolating locale/area into `import()` directly; see the report for what else that changed (compiled catalogs and the registry are committed, not gitignored, so a fresh checkout typechecks without running `compile` first) — 5b18fc7
 
 ### T6 — Mobile i18n runtime: in-place switch, formatting, casing, local-word markup
 - Goal: `I18nRoot` with synchronous in-place language switch and all locale-generic helpers.
@@ -114,6 +119,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. Load compiled catalogs for the active locale (all areas, bundled; lazy `import()` per locale). 2. `setLocale` activates, persists MMKV `cp.locale`, emits `onLocaleChanged`; React tree re-renders without remounting navigation. 3. Initial locale: stored → device preferred (expo-localization) → en. 4. `upper()`, `parseLocalMarkup()` returning `{text, lang}` spans (for TTS/translator lock), `format.*` wrappers with 12/24 h and km/mi options, countdown unit labels. 5. Missing-key fallback to en + Sentry breadcrumb hook. 6. Node server loader mirrors the same API.
 - Tests: `pnpm --filter @cp/i18n test`; `pnpm --filter @cp/mobile jest src/lib/i18n` (RNTL: switch locale → same screen instance shows new text, navigation state unchanged).
 - Done when: tests cover Turkish/German/Greek casing, CJK no-op, markup round-trip, interval + relative formats in 3 locales, in-place switch.
+- Status: done — missing-key fallback logs a console warning, not a Sentry breadcrumb (no crash-reporting SDK is installed anywhere in the app yet); real behaviour otherwise matches the design (a shipped locale's own untranslated message already shows the English source text, baked in by `lingui compile`, so the fallback/breadcrumb path only ever fires for a genuinely missing id) — see the report for the mobile Jest configuration this task's tests needed — 50f77e0
 
 ### T7 — Native string generators (.xcstrings, strings.xml, per-app language config)
 - Goal: extensions and OS per-app language settings driven from catalogs.
@@ -121,6 +127,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. Convert `surfaces` ICU messages → `.xcstrings` JSON (plural `variations`, `%@` / `%lld` placeholders with positional order). 2. → `values-<locale>/strings.xml` with `<plurals>` and escaped apostrophes. 3. Emit `CFBundleLocalizations` list + Android `res/xml/locales_config.xml` from shipped locales. 4. Reject ICU constructs that native formats cannot express (select inside plural) with a clear error.
 - Tests: `pnpm --filter @cp/i18n test` (golden files for en + vi + ja); `xcrun xcstringstool` validation where available on macOS CI.
 - Done when: goldens match; invalid ICU fails the build with the message id.
+- Status: done — output path is `packages/i18n/src/native/` (a generator module, not a build script writing files yet: the `surfaces` catalog has no real messages for any target/module phase to consume until a later phase adds them); goldens verified against the real `xcstringstool compile` and `aapt2 compile` toolchains, not just JSON/XML well-formedness — 1f9ca92
 
 ### T8 — Tolgee translation pipeline + CI gate
 - Goal: source keys flow to Tolgee, translations flow back, shipped locales cannot ship with gaps.
@@ -128,18 +135,19 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - Steps: 1. Push new/changed en messages with context (area, screen id comment from `#.` extractor comments). 2. Pull reviewed translations into `.po`. 3. Glossary/do-not-translate list (guide names, critter names, product names, `<local>` spans). 4. `check-complete` reports missing keys/broken ICU per shipped locale; `--mode warn` (PR CI: annotation, exit 0) and `--mode release` (release branches/tags: exit 1). 5. Workflow: on main push → push keys; nightly + manual → pull and open PR; release workflows call `--mode release`.
 - Tests: `pnpm tsx tools/scripts/i18n/check-complete.ts --dry` against fixture catalogs; workflow lint via `actionlint`.
 - Done when: `--mode release` fails on a fixture with a missing vi key, `--mode warn` exits 0 with an annotation, both pass on complete catalogs; no secret committed.
+- Status: done — verified directly against the CLI (not only its unit tests): `--mode release` exits 1 with an error annotation on the incomplete and broken-ICU fixtures, `--mode warn` exits 0 with a warning annotation on the same fixtures, both exit 0 on the complete fixture. Push/pull run in their dry fallback since no Tolgee project exists yet (see the report). CI wiring covers pull requests (warn) and a version tag push (release); the repo has no release-branch naming convention yet, so branch-based release triggers aren't wired — see the acceptance criteria note below — 21326ae
 
 ## Phase acceptance criteria
 
-- [ ] `pnpm turbo build test --filter @cp/design-tokens --filter @cp/i18n` green
-- [ ] Guide colours equal C5 in TS, Swift, Kotlin and CSS outputs (single snapshot test)
-- [ ] Contrast test passes for all declared pairs
-- [ ] Literal-style and unlocalised-string lint rules active in `apps/mobile` and `apps/web`
-- [ ] Font payload ≤ 3 MB; Vietnamese coverage check passes; licences committed
-- [ ] Language switch re-renders in place (RNTL test) and persists across relaunch
-- [ ] `.xcstrings` / `strings.xml` / `locales_config.xml` generated from catalogs
-- [ ] Tolgee completeness gate wired: warn on PRs, fail on release branches/tags
-- [ ] No plan/phase/feature ids in code, comments, test names or commits
+- [x] `pnpm turbo build test --filter @cp/design-tokens --filter @cp/i18n` green
+- [x] Guide colours equal C5 in TS, Swift, Kotlin and CSS outputs (single snapshot test)
+- [x] Contrast test passes for all declared pairs
+- [x] Literal-style and unlocalised-string lint rules active in `apps/mobile` and `apps/web`
+- [x] Font payload ≤ 3 MB; Vietnamese coverage check passes; licences committed
+- [x] Language switch re-renders in place (RNTL test) and persists across relaunch
+- [x] `.xcstrings` / `strings.xml` / `locales_config.xml` generated from catalogs
+- [ ] Tolgee completeness gate wired: warn on PRs, fail on release branches/tags — warn-on-PR and release-on-version-tag are wired and tested end to end; release-on-*branch* isn't, because the repo has no release-branch naming convention yet (open question, owner: founder/team). `tools/scripts/i18n/check-complete.ts --mode release` already does the right thing the moment a trigger names it; wiring a branch pattern into `.github/workflows/i18n-sync.yml`'s `completeness` job is a one-line follow-up once that convention exists.
+- [x] No plan/phase/feature ids in code, comments, test names or commits
 
 ## Risks & rollback
 

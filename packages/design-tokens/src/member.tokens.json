@@ -1,0 +1,21 @@
+{
+  "member": {
+    "colors": {
+      "$type": "cpList",
+      "$value": [
+        "{color.yellow}",
+        "{color.pink}",
+        "{color.blue}",
+        "{color.green.base}",
+        "{color.orange}",
+        "{guide.paco}"
+      ],
+      "$description": "Assigned in join order (yellow, pink, blue, green, orange, cream); members 7-16 reuse this palette with a ring pattern"
+    },
+    "ringPatterns": {
+      "$type": "cpList",
+      "$value": ["solid", "dashed", "double"],
+      "$description": "Members 1-6 get solid; members 7-16 cycle dashed then double over the same 6 colours"
+    }
+  }
+}

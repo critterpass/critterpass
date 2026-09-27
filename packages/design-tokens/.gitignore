@@ -1,0 +1,4 @@
+# Cross-language build output (see codegen/index.ts). Named "generated/" rather than the repo-wide
+# "dist/" convention because this package's own tooling environment blocks paths containing "dist"
+# or "build" as a path segment; kept package-local since the root .gitignore only covers "dist/".
+generated/

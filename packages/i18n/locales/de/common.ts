@@ -1,0 +1,1 @@
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"common.devHome.buildVariantLabel\":[\"Build variant: \",[\"variant\"]],\"common.devProbe.body\":[\"This screen only exists in development, staging and preview builds.\"],\"common.devProbe.title\":[\"Dev route probe\"]}")as Messages;

@@ -1,0 +1,9 @@
+msgid ""
+msgstr ""
+"Language: en\n"
+
+msgid "common.retry.label"
+msgstr "Try again"
+
+msgid "common.cancel.label"
+msgstr "Cancel"

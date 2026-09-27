@@ -88,4 +88,12 @@ describe('architecture import rules', () => {
     );
     expect(errors).toEqual([]);
   });
+
+  it('lets any layer load binary assets', async () => {
+    const errors = await lintAt(
+      'apps/mobile/src/lib/probe.ts',
+      "import font from '../../assets/fonts/Archivo.ttf';\nexport const x = font;\n",
+    );
+    expect(errors).toEqual([]);
+  });
 });
