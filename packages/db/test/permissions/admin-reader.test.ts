@@ -130,8 +130,16 @@ describe('admin_reader: the privacy boundary', () => {
         `admin_reader grant drifted from the privacy map; a new migration needs:\n${renderAdminReaderGrantSql(grant)}`,
       ).toEqual(grant.columns);
     }
-    // Every table registered when the console shipped is covered.
-    for (const table of ['users', 'trips', 'crews', 'moderation_reports', 'cmd_results']) {
+    // Every table the console reads is covered.
+    for (const table of [
+      'users',
+      'trips',
+      'crews',
+      'moderation_reports',
+      'cmd_results',
+      'devices',
+      'join_codes',
+    ]) {
       expect(granted.has(table), table).toBe(true);
     }
   });

@@ -8,10 +8,13 @@ import type { Logger } from 'pino';
 
 import type { RateLimitRedisClient } from '../abuse/rate-limits';
 import type { ApiEnv } from '../env';
+import { READ_URL_TTL_SECONDS, mediaSigningConfigFromEnv, mintReadUrl } from '../media/sign';
 import { createAccessVerifier } from './access';
+import { createAccountControl, type AppAuthHandle } from './accounts';
 import { parseAdminAllowlist } from './allowlist';
 import { adminAreas } from './areas';
 import { createAdminAuth } from './auth';
+import type { MediaUrlSigner } from './moderation-intake';
 import { createAdminRouter } from './router';
 
 export interface AdminConsole {
@@ -23,6 +26,22 @@ export interface AdminConsoleDeps {
   readonly pool: pg.Pool;
   readonly redis: RateLimitRedisClient;
   readonly logger: Pick<Logger, 'error' | 'warn'>;
+  /** The app's own Better Auth instance: account actions must go through its session store. */
+  readonly appAuth: AppAuthHandle;
+}
+
+/** Signed media Worker URLs for moderation previews, when media signing is configured. */
+function mediaSigner(env: ApiEnv): MediaUrlSigner {
+  if (!env.MEDIA_PUBLIC_BASE_URL || !env.MEDIA_HMAC_KEYS || !env.MEDIA_HMAC_ACTIVE_KID) {
+    return () => Promise.resolve(null);
+  }
+  const config = mediaSigningConfigFromEnv({
+    baseUrl: env.MEDIA_PUBLIC_BASE_URL,
+    keysJson: env.MEDIA_HMAC_KEYS,
+    activeKeyId: env.MEDIA_HMAC_ACTIVE_KID,
+  });
+  return (objectKey) =>
+    mintReadUrl(config, objectKey, Math.floor(Date.now() / 1000) + READ_URL_TTL_SECONDS);
 }
 
 export function buildAdminConsole(env: ApiEnv, deps: AdminConsoleDeps): AdminConsole | undefined {
@@ -61,7 +80,14 @@ export function buildAdminConsole(env: ApiEnv, deps: AdminConsoleDeps): AdminCon
     allowlist,
     access,
     ipHashSecret: env.BETTER_AUTH_SECRET,
-    areas: adminAreas({ pool: deps.pool }),
+    cliTokenSecret: env.BETTER_AUTH_SECRET,
+    areas: adminAreas({
+      pool: deps.pool,
+      accounts: createAccountControl(deps.appAuth, deps.pool),
+      media: mediaSigner(env),
+      operators: auth.operators,
+      allowlist,
+    }),
   });
   return { router, close: () => auth.close() };
 }

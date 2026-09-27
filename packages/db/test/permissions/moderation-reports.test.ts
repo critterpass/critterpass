@@ -1,7 +1,8 @@
 /**
  * `moderation_reports` (docs/data-model.md §3.15, RLS class S): any user may file a report as
  * themselves, nobody reads reports back through app_user, and only the system (the ops console's
- * command pipeline) changes a report's status or verdict.
+ * command pipeline) changes a report's status or verdict. The input compliance check files review
+ * rows with no reporter; every user filing is kept once per reporter in `ops.moderation_filings`.
  */
 import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -94,6 +95,60 @@ describe('moderation_reports', () => {
       await client.query('ROLLBACK');
       client.release();
     }
+  });
+
+  it('files a compliance review without a reporter, but never a user report without one', async () => {
+    await expect(
+      withSystem(db.pool, (tx) =>
+        tx.query(
+          `INSERT INTO moderation_reports (source, target_kind, target_id, reason)
+           VALUES ('compliance', 'public_text', $1, 'harassment')`,
+          [randomId()],
+        ),
+      ),
+    ).resolves.toBeDefined();
+    await expect(
+      withSystem(db.pool, (tx) =>
+        tx.query(
+          `INSERT INTO moderation_reports (target_kind, target_id, reason)
+           VALUES ('user', $1, 'spam')`,
+          [randomId()],
+        ),
+      ),
+    ).rejects.toThrow(/moderation_reports_reporter_check/);
+    await expect(
+      withSystem(db.pool, (tx) =>
+        tx.query(
+          `INSERT INTO moderation_reports (source, target_kind, target_id, reason)
+           VALUES ('robot', 'user', $1, 'spam')`,
+          [randomId()],
+        ),
+      ),
+    ).rejects.toThrow(/check constraint/i);
+  });
+
+  it('keeps each filing in ops.moderation_filings, once per reporter per report', async () => {
+    const reporter = await withSystem(db.pool, (tx) => insertUser(tx));
+    await withSystem(db.pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string }>(
+        `INSERT INTO moderation_reports (reporter_id, target_kind, target_id, reason)
+         VALUES ($1, 'user', $2, 'spam') RETURNING id`,
+        [reporter, randomId()],
+      );
+      const file = () =>
+        tx.query(
+          `INSERT INTO ops.moderation_filings (report_id, reporter_id, reason)
+           VALUES ($1, $2, 'spam') ON CONFLICT DO NOTHING`,
+          [rows[0]?.id, reporter],
+        );
+      expect((await file()).rowCount).toBe(1);
+      expect((await file()).rowCount).toBe(0);
+    });
+    await expect(
+      withUser(db.pool, reporter, anonymousActor().device, (tx) =>
+        tx.query('SELECT 1 FROM ops.moderation_filings'),
+      ),
+    ).rejects.toThrow(/permission denied/i);
   });
 
   it('rejects an unknown status or a malformed subject kind', async () => {

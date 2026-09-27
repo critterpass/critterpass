@@ -2,12 +2,14 @@
  * `pnpm --filter @cp/admin seed:local`: prepares a local database for the console (dev server,
  * Playwright): creates it if missing, applies every migration, runs the shared catalogue seed, and
  * upserts one operator per role (`<role>@critterpass.test`, signed in through the local dev door)
- * plus a few Bali POIs.
+ * plus a few Bali POIs and the travellers and queue items of the work areas.
  * Local infra only (`pnpm infra:up`); never point it at a shared environment.
  */
 import { execFileSync } from 'node:child_process';
 
 import pg from 'pg';
+
+import { seedWorkQueues } from './seed-work-queues';
 
 const DEFAULT_URL = 'postgres://app_owner:app_owner@localhost:54320/critterpass_admin';
 
@@ -100,6 +102,13 @@ export async function seedLocal(databaseUrl: string = DEFAULT_URL): Promise<void
   runDbScript('seed', databaseUrl);
   await upsertOperators(databaseUrl);
   await seedPois(databaseUrl);
+  const client = new pg.Client({ connectionString: databaseUrl });
+  await client.connect();
+  try {
+    await seedWorkQueues(client);
+  } finally {
+    await client.end();
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1] ?? ''}`) {

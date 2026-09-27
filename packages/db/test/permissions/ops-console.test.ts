@@ -6,6 +6,8 @@
 import {
   CONCIERGE_TASK_KINDS,
   CONCIERGE_TASK_STATUSES,
+  GRANTABLE_PERKS,
+  MODERATION_REPORT_SOURCES,
   MODERATION_REPORT_STATUSES,
   MODERATION_VERDICTS,
   PARTNER_COPY_MODES,
@@ -184,6 +186,53 @@ describe('partner adapters and flag projection', () => {
   });
 });
 
+describe('support entitlement grants', () => {
+  async function grant(uid: string, until: string): Promise<void> {
+    await withSystem(db.pool, (tx) =>
+      tx.query(
+        `INSERT INTO ops.entitlement_grants (user_id, perk, until, reason, granted_by)
+         VALUES ($1, 'pass_plus', now() + $2::interval, 'make-good', $1)`,
+        [uid, until],
+      ),
+    );
+  }
+
+  it('exposes active grants to their own user and app_system only', async () => {
+    const holder = await withSystem(db.pool, (tx) => insertUser(tx));
+    const stranger = await withSystem(db.pool, (tx) => insertUser(tx));
+    await grant(holder, '30 days');
+    const count = 'SELECT count(*)::int AS n FROM app.active_entitlement_grants($1)';
+    const device = anonymousActor().device;
+    expect(
+      (await withUser(db.pool, holder, device, (tx) => tx.query(count, [holder]))).rows,
+    ).toEqual([{ n: 1 }]);
+    expect(
+      (await withUser(db.pool, stranger, device, (tx) => tx.query(count, [holder]))).rows,
+    ).toEqual([{ n: 0 }]);
+    expect((await withSystem(db.pool, (tx) => tx.query(count, [holder]))).rows).toEqual([{ n: 1 }]);
+    await expect(asRole('admin_reader', (tx) => tx.query(count, [holder]))).rejects.toThrow(
+      /permission denied/i,
+    );
+  });
+
+  it('leaves expired and revoked grants out, and refuses a grant ending before it starts', async () => {
+    const holder = await withSystem(db.pool, (tx) => insertUser(tx));
+    await grant(holder, '30 days');
+    await withSystem(db.pool, (tx) =>
+      tx.query(
+        `UPDATE ops.entitlement_grants SET revoked_at = now(), revoked_by = user_id
+         WHERE user_id = $1`,
+        [holder],
+      ),
+    );
+    const { rows } = await withSystem(db.pool, (tx) =>
+      tx.query('SELECT * FROM app.active_entitlement_grants($1)', [holder]),
+    );
+    expect(rows).toEqual([]);
+    await expect(grant(holder, '-1 day')).rejects.toThrow(/check constraint/i);
+  });
+});
+
 describe('CHECK constraints follow the domain enums', () => {
   it.each([
     ['ops.concierge_tasks', CONCIERGE_TASK_KINDS],
@@ -192,6 +241,8 @@ describe('CHECK constraints follow the domain enums', () => {
     ['ops.partner_adapters', PARTNER_COPY_MODES],
     ['public.moderation_reports', MODERATION_REPORT_STATUSES],
     ['public.moderation_reports', MODERATION_VERDICTS],
+    ['public.moderation_reports', MODERATION_REPORT_SOURCES],
+    ['ops.entitlement_grants', GRANTABLE_PERKS],
   ] as const)('%s allows every value of its enum', async (table, values) => {
     const { rows } = await db.pool.query<{ def: string }>(
       `SELECT pg_get_constraintdef(oid) AS def FROM pg_constraint

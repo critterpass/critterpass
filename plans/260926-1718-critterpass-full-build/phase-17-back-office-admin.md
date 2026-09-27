@@ -135,6 +135,7 @@ Handoff — panels later phases add under their own `apps/admin/src/modules/<are
 - Steps: 1. `report_content` command (any user; per-user rate limit 20/day; duplicate report collapses). 2. Kind-handler registry `{kind, preview(id), apply(verdict)}`; P17 ships `user` kind (ban author) and handler contract. 3. Queue UI with shortcuts, image preview via HMAC media URL. 4. `moderate_item` → status + `moderation.decided` domain event.
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- admin/moderation commands/report-content && pnpm --fail-if-no-match --filter @cp/admin exec playwright test moderation.spec.ts`
 - Done when: reported user item appears in queue, verdict writes audit + event, re-report of same target within 24 h increments count instead of new row.
+- Status: done — f0c097e2
 
 ### T6 — Support tools
 - Goal: find a user and fix their account safely.
@@ -142,6 +143,7 @@ Handoff — panels later phases add under their own `apps/admin/src/modules/<are
 - Steps: 1. Lookup (uid/phone/email/join code) via `admin_reader`. 2. Sessions list/revoke, ban/unban (Better Auth admin API), device action key revoke. 3. Entitlement panel over P12 tables + `grant_entitlement`/`revoke_entitlement` (reason required, `until` required). 4. Command trace by op_id with redaction. 5. `userPanels` slot for later phases.
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- admin/support && pnpm --fail-if-no-match --filter @cp/admin exec playwright test support.spec.ts`
 - Done when: grant makes `packages/entitlements` resolve the perk for that uid; revoked session's next api call returns 401; no C3 value appears in any support response (snapshot test over seeded C3 data).
+- Status: done — c4760236
 
 ### T7 — Concierge / ops desk and approvals
 - Goal: human ops queue with an enforced user-approval gate.
@@ -149,6 +151,7 @@ Handoff — panels later phases add under their own `apps/admin/src/modules/<are
 - Steps: 1. Task commands create/update/assign; status machine in `packages/domain`. 2. `approve_ops_action` user command writes `ops.approvals` with the exact text shown (doc delta). 3. `assertApproved(subject)` guard exported for P35/P38 outbound actions. 4. Queue UI with due-at SLA colours, notes, approval card.
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- admin/desk commands/approve-ops-action`
 - Done when: `assertApproved` throws `APPROVAL_REQUIRED` without a row and passes with one; illegal status transition rejected; task list sorted by due_at.
+- Status: done — aca48fdc
 
 ### T8 — Audit viewer, hardening, e2e suite
 - Goal: audit visibility and a security baseline for launch review.
@@ -156,17 +159,18 @@ Handoff — panels later phases add under their own `apps/admin/src/modules/<are
 - Steps: 1. Audit viewer filters + CSV export (owner). 2. Role matrix e2e: every command × role → allowed/forbidden. 3. Headers (CSP, HSTS, frame-ancestors none), dependency audit in CI. 4. Emergency CLI `pnpm admin:cmd <command> <json>`: runs `runAdminCommand` with an owner identity from a local short-lived token, audited like UI commands. 5. Runbook section appended to `docs/system-architecture.md` ops table only if absent (admin onboarding/offboarding).
 - Tests: `pnpm --fail-if-no-match --filter @cp/admin exec playwright test`
 - Done when: role matrix spec green for all P17 commands; audit viewer shows every action performed in the e2e run.
+- Status: done — c6c2e347
 
 ## Phase acceptance criteria
 
-- [ ] `pnpm --fail-if-no-match --filter @cp/db test -- permissions` green incl. admin_reader C3 denial and audit immutability
-- [ ] Every `/v1/admin/cmd/*` call writes exactly one `ops.admin_audit` row in the same tx (test)
-- [ ] Role matrix Playwright spec green; `support` cannot change flags, `content` cannot ban
-- [ ] `set_feature_flag guide.free_daily_limit` propagates to `client_config` and `catalog` realtime
-- [ ] `assertApproved` exported and covered; no outbound-action path bypasses it (grep test)
-- [ ] Module registry documented in code with one example module; handoff table matches `docs/api-contracts.md` §5.9 (doc delta applied by the doc owner)
+- [x] `pnpm --fail-if-no-match --filter @cp/db test -- permissions` green incl. admin_reader C3 denial and audit immutability
+- [x] Every `/v1/admin/cmd/*` call writes exactly one `ops.admin_audit` row in the same tx (test)
+- [x] Role matrix Playwright spec green; `support` cannot change flags, `content` cannot ban
+- [x] `set_feature_flag guide.free_daily_limit` propagates to `client_config` and `catalog` realtime
+- [x] `assertApproved` exported and covered; no outbound-action path bypasses it (grep test)
+- [x] Module registry documented in code with one example module; handoff table matches `docs/api-contracts.md` §5.9 (doc delta applied by the doc owner)
 - [ ] `apps/admin` builds, deploys via wrangler to staging, CSP header present
-- [ ] No secrets in `apps/admin` bundle (build scan for `sk_`, `-----BEGIN`)
+- [x] No secrets in `apps/admin` bundle (build scan for `sk_`, `-----BEGIN`)
 
 ## Risks & rollback
 

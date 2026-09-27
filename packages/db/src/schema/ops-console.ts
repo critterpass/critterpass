@@ -69,15 +69,15 @@ export const opsPartnerAdapters = ops.table('partner_adapters', {
 
 /**
  * One row per reported subject: a repeat report within 24 h raises `report_count` on the open row
- * instead of adding another (the `report_content` command collapses them as `app_system`).
+ * instead of adding another (the `report_content` command collapses them as `app_system`). A
+ * `compliance` row is filed by the input compliance check's review band and has no reporter.
  */
 export const moderationReports = pgTable('moderation_reports', {
   id: uuid('id')
     .primaryKey()
     .default(sql`uuidv7()`),
-  reporterId: uuid('reporter_id')
-    .notNull()
-    .references(() => users.id),
+  reporterId: uuid('reporter_id').references(() => users.id),
+  source: text('source').notNull().default('user'),
   targetKind: text('target_kind').notNull(),
   targetId: uuid('target_id').notNull(),
   reason: text('reason').notNull(),
@@ -91,6 +91,42 @@ export const moderationReports = pgTable('moderation_reports', {
   decidedAt: timestamp('decided_at', { withTimezone: true, mode: 'date' }),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+});
+
+/**
+ * Every individual filing behind a report: one per (report, reporter), so a reporter repeating
+ * themselves never inflates `report_count`, and the per-user daily report limit counts real filings.
+ */
+export const opsModerationFilings = ops.table('moderation_filings', {
+  id: uuid('id')
+    .primaryKey()
+    .default(sql`uuidv7()`),
+  reportId: uuid('report_id')
+    .notNull()
+    .references(() => moderationReports.id),
+  reporterId: uuid('reporter_id')
+    .notNull()
+    .references(() => users.id),
+  reason: text('reason').notNull(),
+  filedAt: timestamp('filed_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+});
+
+/** Support's time-boxed perk grants; active ones feed the entitlement engine as Pass+ time. */
+export const opsEntitlementGrants = ops.table('entitlement_grants', {
+  id: uuid('id')
+    .primaryKey()
+    .default(sql`uuidv7()`),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id),
+  perk: text('perk').notNull(),
+  until: timestamp('until', { withTimezone: true, mode: 'date' }).notNull(),
+  reason: text('reason').notNull(),
+  grantedBy: uuid('granted_by').notNull(),
+  grantedAt: timestamp('granted_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+  revokedAt: timestamp('revoked_at', { withTimezone: true, mode: 'date' }),
+  revokedBy: uuid('revoked_by'),
+  revokeReason: text('revoke_reason'),
 });
 
 // ops.* tables follow ops-core.ts's convention (RLS class S, never publishable, no class of their

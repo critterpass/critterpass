@@ -34,13 +34,35 @@ export function EmptyState({
   );
 }
 
-export function ErrorState({ error, onRetry }: { error: unknown; onRetry?: () => void }) {
+/** Console copy for error codes an operator can act on; anything else shows the api's message. */
+const CODE_COPY: Readonly<Record<string, string>> = {
+  APPROVAL_REQUIRED: 'The user has not approved this yet. Nothing was sent.',
+  VERSION_CONFLICT: 'Someone else changed this first. Reload and try again.',
+  STATE_INVALID: 'That change is not possible from the current state.',
+  NOT_FOUND: 'It no longer exists.',
+  RATE_LIMITED: 'Too many requests. Wait a moment and try again.',
+  VALIDATION: 'Some values are not valid.',
+};
+
+export function ErrorState({
+  error,
+  onRetry,
+  title = 'That didn’t load',
+}: {
+  error: unknown;
+  onRetry?: () => void;
+  title?: string;
+}) {
   if (isApiError(error, 'FORBIDDEN')) return <ForbiddenState />;
   const requestId = isApiError(error) ? error.requestId : null;
-  const message = error instanceof Error ? error.message : 'Something went wrong.';
+  const message = isApiError(error)
+    ? (CODE_COPY[error.code] ?? error.message)
+    : error instanceof Error
+      ? error.message
+      : 'Something went wrong.';
   return (
     <div className="state" role="alert">
-      <div className="state-title">That didn’t load</div>
+      <div className="state-title">{title}</div>
       <div>{message}</div>
       {requestId !== null && <div className="mono">Request id {requestId}</div>}
       {onRetry && (

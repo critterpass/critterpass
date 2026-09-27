@@ -30,6 +30,8 @@ import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerWhatsAppWebhookRoutes } from './routes/webhooks-whatsapp';
 import { createCommandRegistry } from './commands/_framework/registry';
 import { registerDeviceCommands } from './commands/device';
+import { approveOpsActionCommand } from './commands/approve-ops-action';
+import { reportContentCommand } from './commands/report-content';
 import { betterAuthSessionResolver } from './commands/_framework/session';
 import { registerCmdResultsRoute } from './routes/cmd-results';
 import { registerCommandRoute } from './routes/cmd';
@@ -53,6 +55,7 @@ import { registerActionsRoute } from './routes/actions';
 import { registerNotificationRoutes } from './routes/notifications';
 import { routeNotificationsFromApiEvents, startJobProducer } from './jobs/producer';
 import { buildAdminConsole } from './admin/bootstrap';
+import { registerSupportGrantSource } from './admin/entitlement-grants';
 import { mountAdminRouter } from './admin/router';
 
 const env = loadApiEnv();
@@ -186,11 +189,16 @@ const jobProducer = startJobProducer({
 });
 routeNotificationsFromApiEvents();
 
+// Support's time-boxed perk grants are one more entitlement source, console or not.
+registerSupportGrantSource();
+
 // The three command doors over one registry (docs/api-contracts.md §2.2, §5.2).
 const commands = createCommandRegistry();
 commands.register(registerMediaUploadCommand);
 registerDeviceCommands(commands);
 commands.register(undoGuideActionCommand);
+commands.register(reportContentCommand);
+commands.register(approveOpsActionCommand);
 
 // Links (docs/api-contracts.md §5.6): providers per link kind, the claim command, public routes.
 const linkProviders = createLinkProviderRegistry();
@@ -277,7 +285,7 @@ if (
 }
 
 // Ops console (/v1/admin/*): its own Better Auth instance, guard and audited command pipeline.
-const adminConsole = buildAdminConsole(env, { pool, redis, logger });
+const adminConsole = buildAdminConsole(env, { pool, redis, logger, appAuth: authModule.auth });
 if (adminConsole) {
   mountAdminRouter(app, adminConsole.router);
 } else {

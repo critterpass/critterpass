@@ -388,7 +388,7 @@ original row above.
 | `ideas` | title, body, status (open/planned/building/shipped), embedding, votes_count | — | adm curate; any submit | R | help | C0 | forever |
 | `idea_votes` | idea_id, user_id | uk | self | O | me | C2 | acct |
 | `feedback_tickets` | user_id, ticket_no, mood, category, body, device_info jsonb (opt-in), screenshot_key, status | (status) | self create | O | me | C2 | 2 y |
-| `moderation_reports` | reporter_id, target_kind, target_id, reason, status | (status) | any | S | — | C2 | 1 y |
+| `moderation_reports` | reporter_id? (null only for `source = compliance`), source (user/compliance), target_kind, target_id, reason, status, report_count, last_reported_at, verdict, decided_by, decided_at | (status, last_reported_at); open rows by (target_kind, target_id) | any | S | — | C2 | 1 y |
 
 ### 3.16 Ops, concierge, vendor messaging (`ops` schema)
 
@@ -401,6 +401,8 @@ original row above.
 | `ops.partner_adapters` | partner (agoda_demand/klook_activity/trip_com_at/viator_booking/gyg_api), enabled, copy_mode, approved_at, notes | adm | S (`client_config` exposes flags) | C0 | forever |
 | `ops.admin_audit` | admin_id, action, target_kind, target_id, reason, at, ip_hash | sys | S | C2 | 2 y |
 | `ops.supplier_calls` | supplier, endpoint (fixed label, never a URL), method, attempt, outcome (ok/http_error/timeout/network_error), status, latency_ms, cost_units, at (no bodies) | sys | S | C0 | 90 d |
+| `ops.moderation_filings` | report_id, reporter_id, reason, filed_at; uk (report_id, reporter_id) — one row per user filing behind a report (daily report limit, repeat reports count once) | sys | S | C2 | 1 y |
+| `ops.entitlement_grants` | user_id, perk (pass_plus), until, reason, granted_by, granted_at, revoked_at?, revoked_by?, revoke_reason?; active grants read only through `app.active_entitlement_grants(uid)` (SECURITY DEFINER: app_system any uid, app_user own) by the entitlement loader | adm | S | C2 | 2 y |
 | `ops.content_reviews` | release_id, item_ref, render_key, verdict, reviewer, notes | adm | S | C0 | forever |
 | `ops.dead_letters` (view over `pgboss` DLQ) | queue, job_id, error, attempts | adm | S | C2 | 30 d |
 

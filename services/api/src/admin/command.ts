@@ -90,3 +90,19 @@ export async function runAdminCommand(
     ...(deps.now !== undefined ? { now: deps.now } : {}),
   });
 }
+
+/**
+ * Runs `fn` as app_system inside a user command's own transaction, then restores the caller's role.
+ * For the console-facing steps a user command performs (filing a report, recording an approval
+ * against an ops task): tables app_user has no grant on. A failure aborts the whole transaction,
+ * which also reverts the role switch.
+ */
+export async function asSystemRole<T>(tx: pg.PoolClient, fn: () => Promise<T>): Promise<T> {
+  const { rows } = await tx.query<{ role: string }>('SELECT current_user::text AS role');
+  const role = rows[0]?.role;
+  if (role === undefined) throw new Error('could not read current_user');
+  await tx.query('SET LOCAL ROLE app_system');
+  const result = await fn();
+  await tx.query("SELECT set_config('role', $1, true)", [role]);
+  return result;
+}

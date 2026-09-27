@@ -44,6 +44,8 @@ export interface AdminRouterDeps {
   readonly allowlist: AdminAllowlist;
   readonly access?: AccessVerifier | undefined;
   readonly ipHashSecret: string;
+  /** Enables the emergency CLI door (owner tokens signed with this secret). */
+  readonly cliTokenSecret?: string | undefined;
   readonly areas: readonly AdminAreaDefinition[];
   readonly now?: () => Date;
 }
@@ -96,6 +98,10 @@ export function createAdminRouter(deps: AdminRouterDeps): OpenAPIHono<AdminEnv> 
       redis: deps.redis,
       access: deps.access,
       ipHashSecret: deps.ipHashSecret,
+      cli:
+        deps.cliTokenSecret === undefined
+          ? undefined
+          : { secret: deps.cliTokenSecret, operators: deps.auth.operators },
       ...(deps.now !== undefined ? { now: deps.now } : {}),
     }),
   );

@@ -1,0 +1,11 @@
+# Security headers on every response of the ops console (admin.critterpass.app).
+# Applied by the admin Worker (apps/admin/worker/index.ts, SECURITY_HEADERS), which runs first for
+# assets and the /v1/admin/* proxy alike; apps/admin/worker/index.test.ts keeps the two identical.
+/*
+  content-security-policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob: https://tile.openstreetmap.org https://media.critterpass.app https://media.staging.critterpass.app; connect-src 'self' https://tile.openstreetmap.org; worker-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'
+  strict-transport-security: max-age=31536000; includeSubDomains
+  x-content-type-options: nosniff
+  x-frame-options: DENY
+  referrer-policy: no-referrer
+  permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+  cross-origin-opener-policy: same-origin

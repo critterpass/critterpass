@@ -65,5 +65,44 @@ for (const size of WIDTHS) {
     await nav(page).getByRole('link', { name: 'Partners' }).click();
     await page.getByRole('row', { name: /viator_booking/ }).click();
     await shot(page, 'partners', size.name);
+
+    await page.goto('/');
+    await expect(page.getByRole('link', { name: /Reports open/ })).toContainText('2');
+    await shot(page, 'home-owner', size.name);
+
+    await nav(page).getByRole('link', { name: 'Moderation' }).click();
+    await page.getByRole('button', { name: /Spammy Sam/ }).click();
+    await expect(page.getByLabel('Report preview')).toContainText('spam_sam');
+    await shot(page, 'moderation-queue', size.name);
+    await page.getByRole('button', { name: 'Ban author (b)' }).click();
+    await shot(page, 'moderation-ban-confirm', size.name);
+    await page.getByRole('button', { name: 'Cancel' }).click();
+
+    await nav(page).getByRole('link', { name: 'Support' }).click();
+    await page.getByLabel('Find user', { exact: true }).fill('+84901234567');
+    await page.getByRole('button', { name: 'Find user' }).click();
+    await expect(page.getByRole('table', { name: 'Matching users' })).toBeVisible();
+    await shot(page, 'support-lookup', size.name);
+    await page.getByRole('link', { name: 'Mai Tran' }).click();
+    await expect(page.getByRole('region', { name: 'Sessions' })).toContainText('CritterPass/1.4.0');
+    await shot(page, 'support-user', size.name);
+    await page
+      .getByRole('region', { name: 'Entitlements' })
+      .getByRole('button', { name: 'Grant Pass+' })
+      .click();
+    await shot(page, 'support-grant-dialog', size.name);
+    await page.getByRole('button', { name: 'Cancel' }).click();
+
+    await nav(page).getByRole('link', { name: 'Ops desk' }).click();
+    await page.getByRole('button', { name: /message/ }).click();
+    await expect(page.getByLabel('User approval')).toBeVisible();
+    // Taking the task gives the audit log a row to show (a no-op once it is already ours).
+    await page.keyboard.press('t');
+    await expect(page.getByLabel('Task')).toContainText('owner@critterpass.test');
+    await shot(page, 'desk-approval', size.name);
+
+    await nav(page).getByRole('link', { name: 'Audit log' }).click();
+    await expect(page.getByRole('table', { name: 'Audit entries' })).toBeVisible();
+    await shot(page, 'audit-log', size.name);
   });
 }

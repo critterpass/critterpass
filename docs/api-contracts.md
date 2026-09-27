@@ -124,6 +124,7 @@ Client contract: optimistic write to local SQLite; on `cmd_results.status = reje
 | `PAYMENT_PENDING` | 202 | – | supplier booking pending ("Waiting for the operator") |
 | `LOCATION_IMPLAUSIBLE` | 422 | no | encounter/visit failed plausibility |
 | `CONTENT_REJECTED` | 422 | no | moderation (avatar, tip, idea, note) |
+| `APPROVAL_REQUIRED` | 409 | no | an outbound ops action (vendor message, partner booking) has no `ops.approvals` row from the user for its subject → ask the user to approve the exact text first |
 | `PAYLOAD_TOO_LARGE` | 413 | no | – |
 | `UPSTREAM_TIMEOUT` | 504 | yes | outbound call >120 s budget |
 | `INTERNAL` | 500 | yes | Sentry event id in `detail.event_id` |
@@ -402,10 +403,16 @@ All via `/v1/admin/*` (Better Auth `admin` role + role claims `ops`, `content`, 
 
 | Command | Payload | Role | Events | Phase |
 |---|---|---|---|---|
-| `moderate_item` | `{kind: avatar\|tip\|idea\|photo\|note, id, verdict}` | ops | `moderation.decided` | 17 |
+| `moderate_item` | `{kind, id, verdict: approve\|hide\|remove\|ban_author, note?}`; `kind` is any registered moderation kind (`user` here; avatar, photo, note, tip, idea, public_text by their phases); verdicts limited to what the kind's handler supports | ops, support | `moderation.decided` (one per report) | 17 |
+| `report_content` | `{kind, id, reason: spam\|harassment\|hate\|sexual\|violence\|impersonation\|personal_info\|other}` via `/v1/cmd` (any user, anonymous included; offline-capable); 20 per user per rolling 24 h (`RATE_LIMITED`); a subject with an open report from the last 24 h collapses into it (`report_count` + 1, same reporter counts once) → `{report_id, collapsed}` | user | – | 17 |
 | `set_feature_flag` | `{key, value, audience}` (supplier flags, perk lists, free limit 30) | ops | `flag.changed` | 17 |
 | `set_perk_catalogue` | `{products[], perks[], copy_keys}` (server-driven paywall/perks) | ops | `catalogue.changed` | 46 |
-| `grant_entitlement` / `revoke_entitlement` | `{uid, perk, until, reason}` | support | `entitlement.granted/revoked` | 17 |
+| `grant_entitlement` / `revoke_entitlement` | grant `{uid, perk: pass_plus, until (≤ 366 d ahead), reason}` → `ops.entitlement_grants` row, resolved by the entitlement engine as Pass+ time until `until` (same shape as a redeemed code) and recomputed in the same tx; revoke `{uid, perk, reason}` ends every active grant of that perk (`STATE_INVALID` when none) | support | `entitlement.granted/revoked` | 17 |
+| `revoke_session` / `ban_user` / `unban_user` | `{uid, session_id, reason}` / `{uid, reason, until: datetime\|null}` / `{uid, reason}`; through the app's Better Auth store (Redis mirror + `auth.session`), so the user's next call is 401; revoke and ban fan out `session.revoked` on `user:#uid` and revoke action keys | support | – | 17 |
+| `revoke_device_key` | `{uid, device_id, reason}`: revokes that device's action keys | support | – | 17 |
+| `create_concierge_task` / `update_concierge_task` | create `{kind, trip_id?, requested_by?, due_at?, note?}`; update `{id, version, status?, assignee?: self\|null, note?}` (append-only notes, `VERSION_CONFLICT` on a stale version); status machine new → in_progress / waiting_user / cancelled, in_progress ↔ waiting_user → done / cancelled (`STATE_INVALID` otherwise); a `vendor_message` / `partner_booking` task reaches `done` only through `assertApproved` (`APPROVAL_REQUIRED`) | ops | – | 17 |
+| `approve_ops_action` | `{subject_kind, subject_id, text_shown}` via `/v1/cmd` (user, anonymous allowed, online only): writes `ops.approvals` as the user with the command's `op_id` and the text verbatim; the subject kind decides who may approve (`concierge_task`: its requester, while open) and links the approval. Every outbound ops action (P35 vendor messages, P38 bookings) calls `assertApproved(subject)` first; a grep test fails CI on an outbound path without it | user | – | 17 |
+| `set_admin_role` | `{uid, roles[], reason}`: an allow-listed console account's roles (`auth.user.role`), applied on its next request; an owner cannot drop their own `owner` | owner | – | 17 |
 | `set_idea_status` / `merge_ideas` | `{idea_id, status, fixed_in_version?}` | support | `idea.status_changed` (N-38) | 47 |
 | `approve_content_batch` / `reject_content_batch` | `{batch_id, notes}` (critter forms, personas, places, phrases) | content | `content.approved` → publish job | 18 |
 | `upsert_poi` / `set_emergency_info` | `{poi or country record, verified_at}` | content | `poi.changed` | 14, 38 |
@@ -544,6 +551,19 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 ### 5.9 Admin and ops (`/v1/admin/*`, P17)
 
 Roles via Better Auth `admin` plugin; SPA at `apps/admin`. Routes: users (lookup, sessions, grant/revoke), moderation queues, vendor desk (drafts, send, replies), content batches (review, approve), flags, catalogue, jobs (pg-boss dashboard mounted read-only at `/v1/admin/jobs`), webhooks replay, feedback/ideas, POI + emergency editor. Every mutating call = §4.17 command with `actor.via = admin`.
+
+| Route (reads run as `admin_reader`) | Role | Notes |
+|---|---|---|
+| `GET /v1/admin/me` | any | operator, roles, openable areas |
+| `GET /v1/admin/catalogue/{kind}`, `/flags`, `/partners` | content / ops / ops | editors |
+| `GET /v1/admin/moderation?status=&cursor=`, `/moderation/summary` | ops, support | queue with each kind's preview (images as media Worker HMAC URLs) |
+| `GET /v1/admin/users?q=`, `/users/{uid}`, `/commands?op_id=\|uid=` | support | lookup by uid, e-mail, E.164 phone, join code, `@username`; detail never carries C3 (contact details are presence flags, sessions have no IP) |
+| `GET /v1/admin/desk?status=`, `/desk/summary` | ops | tasks soonest due first, SLA band, the user's approval verbatim |
+| `GET /v1/admin/audit?admin=&action=&target_kind=&target_id=&from=&to=&cursor=`, `/audit/facets` | owner, ops | `ops.admin_audit`, newest first |
+| `GET /v1/admin/audit/export?…`, `/operators` | owner | CSV (≤ 10 000 rows, formula cells neutralised) as `{filename, rows, truncated, csv}`; operator roles |
+| `POST /v1/admin/cmd/{cmd}` | per command | §4.17; also accepts `Authorization: CP-Admin-CLI <token>` (5-minute owner token signed with the api's auth secret) for the emergency CLI, commands only |
+
+Later areas plug in with `defineAdminArea` (`services/api/src/admin/registry.ts`) and `defineAdminModule` (`apps/admin/src/kit/registry.ts`); moderation subject kinds with `registerModerationKind`, approvable subjects with `registerApprovalSubject`, user-detail panels with `userPanels`.
 
 ### 5.10 Health and docs
 

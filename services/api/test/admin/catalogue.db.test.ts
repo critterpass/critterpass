@@ -6,7 +6,6 @@
 import { adminPageSchema, catalogueItemSchema, generateUuidV7 } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { adminAreas } from '../../src/admin/areas';
 import { startAdminHarness, type AdminHarness, type TestApp } from './harness';
 
 let harness: AdminHarness;
@@ -29,7 +28,7 @@ beforeAll(async () => {
      VALUES ('bali', 'Bali', 'live', 'IDR', 'Asia/Makassar') RETURNING id`,
   );
   baliId = rows[0]?.id ?? '';
-  app = harness.app({ areas: adminAreas({ pool: harness.pool }) });
+  app = harness.app({ areas: harness.areas() });
   content = await app.signIn('content@critterpass.test');
 }, 240_000);
 

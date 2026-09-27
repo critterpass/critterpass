@@ -1,6 +1,14 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+
 import { describe, expect, it } from 'vitest';
 
-import { CONTENT_SECURITY_POLICY, handleAdminRequest, type AdminWorkerEnv } from './index';
+import {
+  CONTENT_SECURITY_POLICY,
+  SECURITY_HEADERS,
+  handleAdminRequest,
+  type AdminWorkerEnv,
+} from './index';
 
 interface Captured {
   url: string;
@@ -89,5 +97,26 @@ describe('admin Worker', () => {
     expect(new TextDecoder().decode(captured[0]?.init.body as ArrayBuffer)).toBe(
       '{"cmd":"set_feature_flag"}',
     );
+  });
+});
+
+describe('security headers file', () => {
+  it('matches exactly what the Worker sets', () => {
+    const file = readFileSync(
+      path.resolve(import.meta.dirname, '../../../infra/cloudflare/admin/headers'),
+      'utf8',
+    );
+    const declared = Object.fromEntries(
+      file
+        .split('\n')
+        .filter((line) => line.startsWith('  '))
+        .map((line) => {
+          const [name = '', ...value] = line.trim().split(': ');
+          return [name, value.join(': ')];
+        }),
+    );
+    expect(declared).toEqual(SECURITY_HEADERS);
+    expect(CONTENT_SECURITY_POLICY).toContain("frame-ancestors 'none'");
+    expect(SECURITY_HEADERS['strict-transport-security']).toContain('max-age=31536000');
   });
 });

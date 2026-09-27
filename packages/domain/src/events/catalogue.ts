@@ -10,6 +10,8 @@
 import { z } from 'zod';
 
 import { tripParticipantRsvpSchema, tripStatusSchema } from '../enums/trip';
+import { moderationVerdictSchema } from '../admin/ops-enums';
+import { grantablePerkSchema } from '../admin/support';
 import { itineraryVersionVisibilitySchema } from '../enums/plan';
 import { TRAVEL_DATA_EVENT_PAYLOADS } from '../travel-data/events';
 
@@ -32,6 +34,9 @@ export const DOMAIN_EVENT_TYPES = [
   'fare.dropped',
   'forecast.changed',
   'hazard.changed',
+  'moderation.decided',
+  'entitlement.granted',
+  'entitlement.revoked',
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
 export type DomainEventType = z.infer<typeof domainEventTypeSchema>;
@@ -79,6 +84,25 @@ const DOMAIN_EVENT_CATALOGUE = {
     change_set_id: z.uuid(),
   }),
   ...TRAVEL_DATA_EVENT_PAYLOADS,
+  // Aggregate is the moderation report; the subject kind's owning phase consumes it.
+  'moderation.decided': z.object({
+    report_id: z.uuid(),
+    target_kind: z.string(),
+    target_id: z.uuid(),
+    verdict: moderationVerdictSchema,
+  }),
+  // Aggregate is the support grant (`ops.entitlement_grants`); the user's entitlements recompute.
+  'entitlement.granted': z.object({
+    user_id: z.uuid(),
+    grant_id: z.uuid(),
+    perk: grantablePerkSchema,
+    until: z.iso.datetime({ offset: true }),
+  }),
+  'entitlement.revoked': z.object({
+    user_id: z.uuid(),
+    grant_id: z.uuid(),
+    perk: grantablePerkSchema,
+  }),
 } as const satisfies Record<DomainEventType, z.ZodType>;
 
 export function getDomainEventPayloadSchema(type: DomainEventType): z.ZodType {
