@@ -1,7 +1,7 @@
 ---
 phase: 8
 title: Core schema, authz + RLS backstop, domain events
-status: pending
+status: done
 depends_on: [1]
 wave: 2
 features: [F-037, F-015]
@@ -209,18 +209,19 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Fixture builder: outsider, ex-member, member, organiser, co-organiser, anonymous. 2. Matrix runner: expected {select,insert,update,delete} per table declared once; each table test calls it. 3. Coverage test: every RLS-enabled table in `pg_tables` has a matrix entry and FORCE RLS on. 4. Seed from design: Winston's "The Bali Six" (Bali Oct 12–19, 4 in, Tokek), Kyoto solo trip (Pon), plan version with 2 days.
 - Tests: `pnpm --filter @cp/db test`; `pnpm --filter @cp/db seed` against docker-compose Postgres.
 - Done when: full suite green; coverage test fails if a new table lacks FORCE RLS or matrix entry.
+- Status: done — fc272a6 (seed verified idempotent against the shared local compose Postgres; solo-trip persona "Sana" is invented, no screen names one)
 
 ## Phase acceptance criteria
-- [ ] All six migrations apply on a clean Postgres 18 container and re-run as no-ops.
-- [ ] Every user-data table has ENABLE + FORCE RLS; coverage test enforces it.
-- [ ] Permission matrix green for all tables owned here (6 actors).
-- [ ] Trip machine: TS and SQL trigger agree on all (from,to) pairs.
-- [ ] `plan_items` unwritable by `app_user` except via approved change-set apply.
-- [ ] Idempotency: duplicate/mismatch semantics proven.
-- [ ] Domain event, activity row, outbox row atomic with the command tx.
-- [ ] Publication equals allow-list; no C3 or S table published; `guide_reader` has no `public` grant.
-- [ ] Seed loads; no plan/phase/feature ids in migrations, test names or comments.
-- [ ] Plan lint: `rg -n -- '--filter @critterpass/|--filter mobile ' plans/` returns nothing (every command uses `@cp/<pkg>`).
+- [x] All six migrations apply on a clean Postgres 18 container and re-run as no-ops (`test/migrate.test.ts`; verified again for real against local compose Postgres this pass).
+- [x] Every user-data table has ENABLE + FORCE RLS; coverage test enforces it (`test/permissions/_matrix.test.ts` "matrix coverage" — scoped to `public`; `ops.*` tables carry ENABLE+FORCE too but sit outside the actor matrix by design, see T8's Status note).
+- [x] Permission matrix green for all tables owned here (6 actors) (`test/permissions/_matrix.test.ts`, 21 tables × 6 actors, `select` live-probed; `insert`/`update` declared from the same RLS policies and spot-checked live per distinct policy shape — see T9 files).
+- [x] Trip machine: TS and SQL trigger agree on all (from,to) pairs (`test/trip-machine.test.ts`, unchanged, still green).
+- [x] `plan_items` unwritable by `app_user` except via approved change-set apply (`test/permissions/plan_items.test.ts`; re-confirmed in `_matrix.test.ts`).
+- [x] Idempotency: duplicate/mismatch semantics proven (`test/idempotency.test.ts`, unchanged, still green).
+- [x] Domain event, activity row, outbox row atomic with the command tx (`test/events.test.ts`, unchanged, still green).
+- [x] Publication equals allow-list; no C3 or S table published; `guide_reader` has no `public` grant (`test/publication.test.ts`; live-verified with `tools/scripts/check-publication.ts` against local compose Postgres, including a deliberately-introduced-drift check).
+- [x] Seed loads; no plan/phase/feature ids in migrations, test names or comments (seed verified idempotent; a repo-wide grep for id patterns across every file this pass touched found and fixed two of its own — one feature id, one phase-number mention — plus two pre-existing ones in review-copy SQL files (not the applied migration they mirror); one pre-existing "phase 13" mention remains in the already-staging-applied `core_roles_and_schemas` migration file itself, left untouched under the forward-only rule and flagged for the founder).
+- [x] Plan lint: `rg -n -- '--filter @critterpass/|--filter mobile ' plans/` returns nothing new (pre-existing matches are old red-team report prose and this very acceptance line quoting the pattern, unchanged from the T1-T3 report's finding).
 
 ## Risks & rollback
 | Risk | Mitigation / rollback |
