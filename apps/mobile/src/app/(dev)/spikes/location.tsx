@@ -98,7 +98,7 @@ export default function LocationDwellSpikeScreen() {
       distanceInterval: 10,
       showsBackgroundLocationIndicator: true,
       foregroundService: {
-        notificationTitle: 'Critterpass trip day',
+        notificationTitle: 'CritterPass trip day',
         notificationBody: 'Tracking nearby critter encounters for this spike.',
       },
     });
