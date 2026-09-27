@@ -201,6 +201,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. `ops.admin_audit`, `ops.ops_config(key, value, is_public)`, view `client_config`. 2. Allow-list = privacy class ≤ C2 non-S tables. 3. Migration creates publication explicitly; `powersync_repl` SELECT only on listed tables. 4. Check script compares `pg_publication_tables` to allow-list and fails on C3/`S` tables. 5. `guide_reader` has no grant on `public`.
 - Tests: `pnpm --filter @cp/db test -- publication`; `pnpm tsx tools/scripts/check-publication.ts`
 - Done when: publication equals allow-list; `powersync_repl` cannot read `cmd_log`/`ops.*`; script wired in CI (`turbo run check:publication`).
+- Status: done — 0206b4a (script verified working locally and against a live database, including a deliberately-introduced-drift check; a `check:publication` turbo task and its CI wiring are outside this pass's file ownership — `turbo.json` is not in the phase owns list — and are left for whoever owns CI config)
 
 ### T9 — Permission contract matrix + dev seed
 - Goal: reusable actor × table × op matrix and realistic seed.
