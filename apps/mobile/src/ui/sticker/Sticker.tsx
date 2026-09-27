@@ -51,8 +51,8 @@ function getDefaultSkiaEngine(): SkiaEngine {
 
 let defaultCache: StickerCache | undefined;
 
-/** Lazily builds the on-device cache over `expo-file-system`'s cache directory — see the doc comment on `getDefaultSkiaEngine` for why this is lazy. */
-function getDefaultSkiaCache(): StickerCache {
+/** Lazily builds the on-device cache over `expo-file-system`'s cache directory — see the doc comment on `getDefaultSkiaEngine` for why this is lazy. Exported for the sticker lab's cache-size readout, which reports on this same default instance's `memoryBytes` rather than a private grid-only copy. */
+export function getDefaultSkiaCache(): StickerCache {
   if (!defaultCache) {
     // eslint-disable-next-line @typescript-eslint/no-require-imports -- lazy native-module load, see doc comment above
     const { Directory, File, Paths } = require('expo-file-system') as typeof ExpoFileSystemModule;

@@ -122,6 +122,11 @@ export class StickerCache {
     private readonly disk: DiskLruCache,
   ) {}
 
+  /** Current memory-tier usage in bytes — the sticker lab's on-screen readout reads this directly rather than trying to sample process RSS from JS (not reliably available in React Native without a native module; real device memory profiling is the capture script's job, not this). */
+  get memoryBytes(): number {
+    return this.memory.bytes;
+  }
+
   async getOrRender(key: string, render: () => Promise<Uint8Array>): Promise<Uint8Array> {
     const cached = this.memory.get(key);
     if (cached) return cached;
