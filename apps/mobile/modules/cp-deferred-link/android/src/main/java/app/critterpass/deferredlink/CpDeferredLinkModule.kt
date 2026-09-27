@@ -36,6 +36,16 @@ class CpDeferredLinkModule : Module() {
 
     // iOS-only check; Android's deferral is the referrer above.
     AsyncFunction("detectLikelyLink") { false }
+
+    // A referrer a test run passes as a launch extra (Maestro `launchApp` arguments). JS asks for
+    // it only in internal (non-production) variants.
+    AsyncFunction("getReferrerOverride") {
+      appContext.currentActivity?.intent?.getStringExtra(REFERRER_OVERRIDE_EXTRA)
+    }
+  }
+
+  companion object {
+    const val REFERRER_OVERRIDE_EXTRA = "cp_install_referrer"
   }
 
   private fun readReferrer(context: Context, done: (String?) -> Unit) {

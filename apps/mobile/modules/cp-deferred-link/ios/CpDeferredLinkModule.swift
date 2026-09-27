@@ -24,6 +24,10 @@ public class CpDeferredLinkModule: Module {
     AsyncFunction("getInstallReferrer") { () -> String? in
       nil
     }
+
+    AsyncFunction("getReferrerOverride") { () -> String? in
+      nil
+    }
   }
 }
 

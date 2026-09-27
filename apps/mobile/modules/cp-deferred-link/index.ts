@@ -27,3 +27,16 @@ export async function detectLikelyLink(): Promise<boolean> {
     return false;
   }
 }
+
+/**
+ * Android internal builds only: a referrer a test run passed as the `cp_install_referrer` launch
+ * extra, standing in for Play's. Callers must not use it in the production variant.
+ */
+export async function getReferrerOverride(): Promise<string | null> {
+  if (Platform.OS !== 'android' || nativeCpDeferredLinkModule === null) return null;
+  try {
+    return await nativeCpDeferredLinkModule.getReferrerOverride();
+  } catch {
+    return null;
+  }
+}
