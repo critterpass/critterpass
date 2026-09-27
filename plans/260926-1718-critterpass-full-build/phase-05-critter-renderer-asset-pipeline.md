@@ -142,6 +142,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Port the 4 icon style layouts + 6 earned icons from `design/App Icon.dc.html` into layout templates (share layout model). 2. iOS: layered `.icon` bundle per icon (layers from the share layout model, `icon.json` with glass/specular defaults) + flat 1024 px light/dark/tinted fallback sets. 3. Android adaptive fg/bg + monochrome (66/108 safe zone) per `activity-alias`. 4. Stamp polygons → SVG → VectorDrawable small icon. 5. Playwright screenshot of `App Icon.dc.html` vs baked icon diff (layout tolerance documented).
 - Tests: `pnpm --filter @cp/critter-bake test -- app-icons`
 - Done when (agent): 10 layered `.icon` bundles + 10 × 3 flat fallbacks (iOS) and adaptive/monochrome sets (Android) generated; founder checklist: iOS 26 device check picks layered vs flat per icon; icon names match an exported `APP_ICON_IDS` constant for phase 45.
+- Status: done — 81abe53 (3 of 6 earned icons — sardi/home-set/bali-six — use an undesigned character mapping logged in docs/undesigned-states.md; passport/stamp chrome drops the DC file's dashed border and fine wordmark/dot details; see phase report)
 
 ### T8 — Web outputs, web element, OG atlas
 - Goal: web WebP set, `<critter-sticker>` element, Takumi atlas.
