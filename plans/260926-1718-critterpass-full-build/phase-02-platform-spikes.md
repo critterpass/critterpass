@@ -135,6 +135,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. `@parse/node-apn` with .p8: create broadcast channel, start LA via push-to-start with `input-push-channel`, update 3 devices via one channel push, end + delete channel. 2. `LiveActivityIntent` "I'M UP" → `POST /v1/actions` with device action key (HMAC) → harness logs. 3. NSE downloads signed avatar, sets communication intent; NCE poster with vote action (device locked, app killed). 4. `firebase-admin` FCM v1 data message to Android dev client. 5. Record push-to-start budget behaviour.
 - Tests: harness script `run lifecycle` prints each APNs response; device evidence in ADR.
 - Done when: all paths work on device or fallback recorded.
+- Status: done — bd5f9f2 (device-action-key HMAC contract PASS incl. real Swift/TypeScript signature parity, actions-server accepts a valid signed request and rejects a tampered one; APNs broadcast channel/push-to-start/update/end/delete and FCM data message SKIPPED — no `.p8` key or Firebase service account in this environment, harness prints the exact reason instead of faking success; NSE/NCE build+embed shared with the apple-targets spike, runtime delivery blocked by `simctl push` needing notification authorization this minimal app never requests — see ADR for founder prerequisites)
 
 ### T10 — Skia critter painter perf (S1, S2)
 - Goal: renderer feasibility on low-end Android + iPhone.
