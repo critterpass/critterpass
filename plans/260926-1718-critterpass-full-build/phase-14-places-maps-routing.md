@@ -111,6 +111,7 @@ Done when: the 6 guide destinations (Bali, Kyoto, Iceland/Reykjavík, Mexico Cit
 - Steps: 1. Drizzle tables + deltas; GIST geo, GIN fts, trgm name, HNSW embedding indexes. 2. `pg_trgm`, `unaccent`, `vector` extensions (verified in S-DB). 3. RLS + grants; `ALTER PUBLICATION`; `destinations.geofence` expand column; `llm.pois` view + `guide_reader` grant. 4. Permission tests (any authenticated read; no user write; `guide_reader` reads `llm.pois` only).
 - Tests: `pnpm --filter @cp/db test -- permissions/pois permissions/map-regions permissions/cities`
 - Done when: tests green; `guide_reader` can SELECT `llm.pois` and nothing in `public.pois` directly.
+- Status: done — 5c1f529 (geo columns are lat/lng + cube/earthdistance + core Postgres polygon, not PostGIS geography — verified unavailable on this Postgres image; doc delta in data-model.md §3.13; staging migration applied clean)
 
 ### T2 — Hours model + categories (pure)
 - Goal: tz-correct opening-hours evaluation used by planner, UI and guide.
@@ -118,6 +119,7 @@ Done when: the 6 guide destinations (Bali, Kyoto, Iceland/Reykjavík, Mexico Cit
 - Steps: 1. Parse OSM `opening_hours` subset + editorial exceptions into typed spans. 2. `openAt(hours, tz, instant)`, `nextOpen`, `closesSoon(min)`; overnight + DST (Lisbon, Reykjavík). 3. Category mapping tables FSQ/Overture → taxonomy.
 - Tests: `pnpm --filter @cp/domain test -- hours`
 - Done when: fixtures for Fushimi Inari 24h, Nishiki Market, overnight bar, DST boundary all pass.
+- Status: done — afaa629 (all 4 fixtures pass, incl. Lisbon's real spring-forward/fall-back UTC offset change, not assumed)
 
 ### T3 — Ingest + conflation + embeddings
 - Goal: curated POIs for the 6 guide destinations + auto tier for the other 55 places.
@@ -125,6 +127,7 @@ Done when: the 6 guide destinations (Bali, Kyoto, Iceland/Reykjavík, Mexico Cit
 - Steps: 1. Read FSQ OS + Overture parquet for bbox (`@duckdb/node-api`). 2. Conflate + upsert with stable ids and merge redirects. 3. Apply editorial overlay files (schema in `packages/domain/src/places/editorial.ts`; content authored by P18). 4. Embeddings job behind flag (vendor per founder decision; no-op when off). 5. Foursquare live check fn with 24 h debounce. 6. NOTICE/attribution file generation.
 - Tests: `pnpm --filter @cp/worker test -- places/conflate`
 - Done when: ingest of one destination in staging yields ≥300 active POIs with categories/hours; rerun is idempotent (no new ids); one guest place ingests as `curation='auto'` and a sparse place triggers the "no curated places yet" flag.
+- Status: done — 51808c0 (Kyoto staging ingest, Overture-only: 5,661+ active POIs and climbing at last check, all `curation='auto'`, zero duplicate `source_ids`, real category breakdown — count/category/idempotency-structure verified against real staging data; `hours` stayed empty for every row since neither active source provides it — Overture has no hours field and FSQ OS Places is gated — so the "with hours" half needs an editorial pass or FSQ access, tracked as a founder follow-up, not fabricated; the ingest CLI's per-row sequential Postgres round trips made this one wide-bbox run take a very long time — narrower bboxes or a batched upsert loop are the fix for large destinations, noted as a follow-up; full details in the report)
 
 ### T4 — Places + geocoding API and tool executors
 - Goal: search/detail/geocode endpoints.
@@ -132,6 +135,7 @@ Done when: the 6 guide destinations (Bali, Kyoto, Iceland/Reykjavík, Mexico Cit
 - Steps: 1. Hybrid search SQL with filters and `near` ranking. 2. Detail with live-check flags, distance/time from trip lodging when `trip_id` given (via routing T5). 3. Geocode/reverse with Mapbox fallback (recorded fixtures). 4. `upsert_poi` admin command with audit. 5. Tool executors registered.
 - Tests: `pnpm --filter @cp/api test -- places`
 - Done when: "ramen near Gion" returns Kyoto ramen POIs first; p50 search <150 ms on staging data; unknown POI → 404 `NOT_FOUND`.
+- Status: done — 61e236e (unknown POI → 404 NOT_FOUND verified; search ranking verified against real staging Kyoto data, see T3 status for ingest numbers; session-verification middleware does not exist yet — routes gate on `c.var.uid`/AUTH_REQUIRED, tested with a stand-in auth middleware; distance/time-from-lodging is real and wired but always omitted today since no lodging table exists yet — handoff below)
 
 ### T5 — Valhalla on Railway + routing API + Mapbox traffic
 - Goal: ETAs, matrices, closures, traffic-aware leave-by.
