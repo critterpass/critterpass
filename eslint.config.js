@@ -8,6 +8,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 import { architectureLintConfig } from './tools/lint/boundaries.js';
+import { moneyFloatGuardConfig } from './tools/lint/money-float-guard.js';
 
 const rootDir = import.meta.dirname;
 
@@ -107,6 +108,9 @@ export default defineConfig([
 
   // Architecture import rules (docs/system-architecture.md §3).
   ...architectureLintConfig(rootDir, boundaries),
+
+  // No float in money/FX arithmetic.
+  ...moneyFloatGuardConfig(),
 
   prettier,
 ]);
