@@ -1,7 +1,7 @@
 ---
 phase: 13
 title: LLM gateway, personas, tool registry, autonomy policy
-status: pending
+status: in_progress
 depends_on: [8, 11]
 wave: 6
 features: [F-013, F-052]

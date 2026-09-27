@@ -1,7 +1,7 @@
 ---
 phase: 11
 title: Job runner, notification router, push
-status: pending
+status: in_progress
 depends_on: [5, 10]
 wave: 5
 features: [F-014, F-016, F-017]

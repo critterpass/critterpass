@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: Platform go/no-go spikes
-status: pending
+status: in_progress
 depends_on: [1]
 wave: 2
 features: []
