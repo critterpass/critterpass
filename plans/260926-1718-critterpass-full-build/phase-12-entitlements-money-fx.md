@@ -131,6 +131,7 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. `periodKey(instant, deviceTz)` + `resetAt` (DST and tz-change cases: user flies SGT → JST mid-day). 2. Meter decision incl. crew-chat Pass+ exemption and system exemption. 3. Redraft reservation semantics (reserve/commit/release). 4. Fair-use thresholds → `ok | degrade_haiku | busy`.
 - Tests: `pnpm --filter @cp/entitlements test -- quotas|period|fair-use`
 - Done when: 30th question allowed, 31st → `QUOTA_EXHAUSTED` payload with correct `reset_at` in device tz; tz change never grants a second free window within the same device-local date.
+- Status: done — 7bc8a0b (reserve/commit/release and the tz-abuse 20h guard are the atomic SQL in T6; this task is the pure decision layer over it)
 
 ### T6 — Entitlement and meter tables, atomic quota SQL
 - Goal: DB side with concurrency proof.
