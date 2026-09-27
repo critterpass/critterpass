@@ -39,12 +39,19 @@ export default async function globalSetup(): Promise<void> {
     'POSTGRES_DB=critterpass',
     'critterpass-postgres:test',
   ]);
-  for (let attempt = 0; attempt < 90; attempt += 1) {
+  // The image's entrypoint runs init scripts on a temporary server, stops it and starts the real
+  // one; only after "init process complete" does a ready answer mean the final server.
+  for (let attempt = 0; attempt < 120; attempt += 1) {
+    // Postgres logs to stderr.
+    const logs = execFileSync('sh', ['-c', `docker logs ${E2E_DB_CONTAINER} 2>&1`], {
+      encoding: 'utf8',
+    });
+    if (logs.includes('init process complete')) break;
+    await sleep(1000);
+  }
+  for (let attempt = 0; attempt < 60; attempt += 1) {
     try {
-      docker(['exec', E2E_DB_CONTAINER, 'pg_isready', '-U', 'app_owner', '-d', 'critterpass']);
-      // The entrypoint restarts Postgres once after init scripts; give it a moment to settle.
-      await sleep(1500);
-      docker(['exec', E2E_DB_CONTAINER, 'pg_isready', '-U', 'app_owner', '-d', 'critterpass']);
+      docker(['exec', E2E_DB_CONTAINER, 'pg_isready', '-h', '127.0.0.1', '-U', 'app_owner']);
       break;
     } catch {
       await sleep(1000);

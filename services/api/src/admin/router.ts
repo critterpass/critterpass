@@ -19,7 +19,12 @@ import type { AdminAllowlist } from './allowlist';
 import { ADMIN_AUTH_BASE_PATH, type AdminAuth } from './auth';
 import { adminGuard, type AdminVariables } from './auth-guard';
 import { runAdminCommand } from './command';
-import { createAdminRegistry, type AdminAreaDefinition, type AnyAdminRead } from './registry';
+import {
+  createAdminRegistry,
+  type AdminAreaDefinition,
+  type AnyAdminRead,
+  type OperatorDirectory,
+} from './registry';
 
 export const ADMIN_BASE_PATH = '/v1/admin';
 
@@ -51,7 +56,11 @@ function errorBody(code: string, message: string, retryable: boolean) {
 
 const toHonoPath = (path: string) => path.replaceAll(/\{([a-z_]+)\}/g, ':$1');
 
-function registerRead(app: OpenAPIHono<AdminEnv>, read: AnyAdminRead): void {
+function registerRead(
+  app: OpenAPIHono<AdminEnv>,
+  read: AnyAdminRead,
+  operators: OperatorDirectory,
+): void {
   const path = `${ADMIN_BASE_PATH}${read.path}`;
   app.openAPIRegistry.registerPath({
     method: 'get',
@@ -71,7 +80,7 @@ function registerRead(app: OpenAPIHono<AdminEnv>, read: AnyAdminRead): void {
     if (!decision.ok) throw new DomainError(decision.deny, { reason: 'role' });
     const query = read.query === undefined ? {} : read.query.parse(c.req.query());
     const params = read.params === undefined ? {} : read.params.parse(c.req.param());
-    return c.json((await read.run({ admin, query, params })) as object, 200);
+    return c.json((await read.run({ admin, operators, query, params })) as object, 200);
   });
 }
 
@@ -151,7 +160,8 @@ export function createAdminRouter(deps: AdminRouterDeps): OpenAPIHono<AdminEnv> 
     return c.json(outcomeBody(outcome), 200);
   });
 
-  for (const read of registry.reads()) registerRead(app, read);
+  const operators: OperatorDirectory = { emails: (uids) => deps.auth.operatorEmails(uids) };
+  for (const read of registry.reads()) registerRead(app, read, operators);
 
   app.doc31(`${ADMIN_BASE_PATH}/openapi.json`, {
     openapi: '3.1.0',

@@ -49,6 +49,8 @@ function kindOf(schema: z.ZodType): { kind: FieldKind; options: readonly string[
     const max = schema.maxLength ?? 0;
     return { kind: max === 0 || max >= LONG_TEXT_MIN ? 'longtext' : 'text', options: [] };
   }
+  // String formats (uuid, email, iso dates) are their own classes in zod 4, all of def type string.
+  if (schema.def.type === 'string') return { kind: 'text', options: [] };
   if (schema instanceof z.ZodNumber) return { kind: 'number', options: [] };
   if (schema instanceof z.ZodBoolean) return { kind: 'boolean', options: [] };
   if (schema instanceof z.ZodEnum) {

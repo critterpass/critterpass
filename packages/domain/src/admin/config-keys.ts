@@ -1,0 +1,142 @@
+/**
+ * Typed `ops.ops_config` keys: the only keys `set_feature_flag` accepts, each with its value
+ * schema, whether it projects to the synced `client_config` (public), whether the console asks for
+ * a typed two-step confirm (critical), and whether another command owns it (the supplier switches
+ * follow `set_partner_adapter`, so app copy and adapter state never drift apart).
+ */
+import { z } from 'zod';
+
+import { flagAudienceSchema } from './flag-audience';
+import { PARTNER_KEYS, partnerCopyModeSchema, type PartnerKey } from './ops-enums';
+
+export interface ConfigKeyDefinition {
+  readonly schema: z.ZodType;
+  readonly isPublic: boolean;
+  readonly critical: boolean;
+  readonly description: string;
+  readonly managedBy?: 'partners';
+}
+
+const limit = (max: number) => z.number().int().min(0).max(max);
+
+function supplierKeys(partner: PartnerKey): Record<string, ConfigKeyDefinition> {
+  return {
+    [`supplier.${partner}.enabled`]: {
+      schema: z.boolean(),
+      isPublic: true,
+      critical: true,
+      description: `Whether the ${partner} adapter is live`,
+      managedBy: 'partners',
+    },
+    [`supplier.${partner}.copy_mode`]: {
+      schema: partnerCopyModeSchema,
+      isPublic: true,
+      critical: true,
+      description: `App copy for ${partner}: link or in-app booking`,
+      managedBy: 'partners',
+    },
+  };
+}
+
+export const CONFIG_KEYS: Readonly<Record<string, ConfigKeyDefinition>> = {
+  'guide.free_daily_limit': {
+    schema: limit(1000),
+    isPublic: true,
+    critical: true,
+    description: 'Free guide turns per user per day',
+  },
+  'seat.cap_free': {
+    schema: limit(100),
+    isPublic: true,
+    critical: true,
+    description: 'Crew seats without a boost',
+  },
+  'seat.cap_boost': {
+    schema: limit(100),
+    isPublic: true,
+    critical: true,
+    description: 'Crew seats with a boost',
+  },
+  'redraft.limit_free': {
+    schema: limit(100),
+    isPublic: true,
+    critical: false,
+    description: 'Free redrafts per trip',
+  },
+  'billing.grace_days': {
+    schema: limit(60),
+    isPublic: false,
+    critical: true,
+    description: 'Days a lapsed subscription keeps its perks',
+  },
+  'fair_use.guide_turns_per_user_day': {
+    schema: limit(100_000),
+    isPublic: false,
+    critical: false,
+    description: 'Silent fair-use cap: guide turns per user per day',
+  },
+  'fair_use.crew_chat_per_crew_day': {
+    schema: limit(100_000),
+    isPublic: false,
+    critical: false,
+    description: 'Silent fair-use cap: crew chat guide replies per crew per day',
+  },
+  'fair_use.redrafts_per_trip_day': {
+    schema: limit(10_000),
+    isPublic: false,
+    critical: false,
+    description: 'Silent fair-use cap: redrafts per trip per day',
+  },
+  'fair_use.system_jobs_per_trip_day': {
+    schema: limit(10_000),
+    isPublic: false,
+    critical: false,
+    description: 'Silent fair-use cap: system jobs per trip per day',
+  },
+  'perks.catalogue_version': {
+    schema: z.string().min(1).max(64),
+    isPublic: true,
+    critical: false,
+    description: 'Which server-driven perk list the app shows',
+  },
+  ...Object.fromEntries(PARTNER_KEYS.flatMap((partner) => Object.entries(supplierKeys(partner)))),
+};
+
+export function configKey(key: string): ConfigKeyDefinition | undefined {
+  return Object.hasOwn(CONFIG_KEYS, key) ? CONFIG_KEYS[key] : undefined;
+}
+
+export function supplierFlagKeys(partner: PartnerKey): { enabled: string; copyMode: string } {
+  return { enabled: `supplier.${partner}.enabled`, copyMode: `supplier.${partner}.copy_mode` };
+}
+
+/** The `catalog` realtime channel clients listen on to refetch `client_config` and catalogues. */
+export const CATALOG_CHANNEL = 'catalog';
+
+export const setFeatureFlagPayloadSchema = z
+  .object({
+    key: z.string().min(1).max(128),
+    value: z.unknown(),
+    audience: flagAudienceSchema,
+    /** The version the operator edited; `0` when the key has no row yet. */
+    version: z.number().int().min(0),
+  })
+  .strict();
+export type SetFeatureFlagPayload = z.infer<typeof setFeatureFlagPayloadSchema>;
+
+export const adminFlagSchema = z.object({
+  key: z.string(),
+  description: z.string(),
+  is_public: z.boolean(),
+  critical: z.boolean(),
+  managed_by: z.enum(['partners']).nullable(),
+  value: z.unknown(),
+  audience: flagAudienceSchema,
+  version: z.number().int(),
+  /** What the app currently syncs for this key; null when not projected. */
+  client_value: z.unknown(),
+  updated_at: z.string().nullable(),
+  updated_by: z.string().nullable(),
+});
+export type AdminFlag = z.infer<typeof adminFlagSchema>;
+export const adminFlagsResponseSchema = z.object({ items: z.array(adminFlagSchema) });

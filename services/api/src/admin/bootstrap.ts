@@ -61,7 +61,7 @@ export function buildAdminConsole(env: ApiEnv, deps: AdminConsoleDeps): AdminCon
     allowlist,
     access,
     ipHashSecret: env.BETTER_AUTH_SECRET,
-    areas: adminAreas(),
+    areas: adminAreas({ pool: deps.pool }),
   });
   return { router, close: () => auth.close() };
 }

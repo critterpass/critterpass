@@ -30,16 +30,22 @@ export default defineConfig({
     baseURL: webOrigin,
     trace: 'retain-on-failure',
   },
+  // SwiftShader gives headless Chromium the WebGL2 MapLibre needs for the POI pin preview.
   projects: [
     {
       name: 'desktop',
-      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1440, height: 900 },
+        launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] },
+      },
     },
   ],
   webServer: [
     {
-      command: 'pnpm --filter @cp/api exec tsx src/index.ts',
-      cwd: repoRoot,
+      // Binaries directly (not through pnpm), so Playwright's shutdown reaches the server itself.
+      command: `${path.join(repoRoot, 'node_modules/.bin/tsx')} src/index.ts`,
+      cwd: path.join(repoRoot, 'services/api'),
       url: `http://127.0.0.1:${E2E_API_PORT}/health`,
       reuseExistingServer: false,
       timeout: 120_000,
@@ -62,8 +68,8 @@ export default defineConfig({
       },
     },
     {
-      command: 'pnpm --filter @cp/admin exec vite',
-      cwd: repoRoot,
+      command: 'node_modules/.bin/vite',
+      cwd: import.meta.dirname,
       url: webOrigin,
       reuseExistingServer: false,
       timeout: 120_000,

@@ -46,8 +46,8 @@ function toPipelineDefinition(
     entitle: noEntitlement,
     handle: async (tx, payload, ctx) => {
       const result = await definition.handle(tx, payload, { ...ctx, via: 'admin', admin });
-      if (definition.audit !== 'self') {
-        const subject = definition.audit(payload, result);
+      const subject = definition.audit === 'self' ? 'self' : definition.audit(payload, result);
+      if (subject !== 'self') {
         await writeAdminAudit(tx, {
           adminId: admin.uid,
           action: definition.name,

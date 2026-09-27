@@ -15,6 +15,7 @@ describe('fieldsFromSchema', () => {
     limit: z.number().int(),
     live: z.boolean(),
     words: z.record(z.string(), z.string()).describe('Local words'),
+    destination_id: z.uuid(),
   });
 
   it('maps each zod type to an input kind and keeps labels and flags', () => {
@@ -26,6 +27,7 @@ describe('fieldsFromSchema', () => {
       ['limit', 'number'],
       ['live', 'boolean'],
       ['words', 'json'],
+      ['destination_id', 'text'],
     ]);
     expect(fields.find((field) => field.name === 'colour')).toMatchObject({
       readOnly: true,
@@ -44,11 +46,20 @@ describe('fieldsFromSchema', () => {
       limit: 30,
       live: true,
       words: { hello: 'sawasdee' },
+      destination_id: '01920000-0000-7000-8000-000000000001',
     });
     expect(state['bio']).toBe('');
+    expect(state['destination_id']).toBe('01920000-0000-7000-8000-000000000001');
     expect(parseFormState(schema, fields, state)).toEqual({
       ok: true,
-      values: { name: 'Pon', bio: null, limit: 30, live: true, words: { hello: 'sawasdee' } },
+      values: {
+        name: 'Pon',
+        bio: null,
+        limit: 30,
+        live: true,
+        words: { hello: 'sawasdee' },
+        destination_id: '01920000-0000-7000-8000-000000000001',
+      },
     });
     const broken = parseFormState(schema, fields, { ...state, name: '', words: '{nope' });
     expect(broken.ok).toBe(false);

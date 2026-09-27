@@ -61,6 +61,8 @@ export interface AdminAuthDeps {
 export interface AdminAuth {
   readonly auth: ReturnType<typeof betterAuth>;
   handler(request: Request): Promise<Response>;
+  /** Console operators' e-mails by uid, for "changed by" columns. */
+  operatorEmails(uids: readonly string[]): Promise<ReadonlyMap<string, string>>;
   close(): Promise<void>;
 }
 
@@ -177,6 +179,14 @@ export function createAdminAuth(deps: AdminAuthDeps): AdminAuth {
   return {
     auth,
     handler: (request) => auth.handler(request),
+    async operatorEmails(uids) {
+      if (uids.length === 0) return new Map();
+      const { rows } = await pool.query<{ id: string; email: string }>(
+        'SELECT id, email FROM auth."user" WHERE id = ANY($1::uuid[]) AND role IS NOT NULL',
+        [uids],
+      );
+      return new Map(rows.map((row) => [row.id, row.email]));
+    },
     close: () => pool.end(),
   };
 }

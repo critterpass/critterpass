@@ -19,6 +19,8 @@ export interface SchemaFormProps {
   schema: z.ZodObject;
   readOnly?: readonly string[];
   initial: Record<string, unknown>;
+  /** Pending values to start from (re-applying an edit after a conflict); diffed against `initial`. */
+  draft?: Record<string, unknown> | undefined;
   submitLabel: string;
   busy?: boolean;
   onSubmit: (values: Record<string, unknown>, changes: readonly FieldChange[]) => void;
@@ -97,7 +99,9 @@ export function SchemaForm(props: SchemaFormProps) {
     () => fieldsFromSchema(props.schema, props.readOnly),
     [props.schema, props.readOnly],
   );
-  const [state, setState] = useState<FormState>(() => toFormState(fields, props.initial));
+  const [state, setState] = useState<FormState>(() =>
+    toFormState(fields, { ...props.initial, ...props.draft }),
+  );
   const parsed = parseFormState(props.schema, fields, state);
   const baseline = useMemo(() => {
     const editable = fields.filter((field) => !field.readOnly).map((field) => field.name);

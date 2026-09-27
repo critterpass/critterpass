@@ -9,6 +9,9 @@ const host = process.env['ADMIN_DEV_HOST'] ?? 'localhost';
 
 export default defineConfig({
   plugins: [react()],
+  // MapLibre starts its worker from a file beside its own module (`new URL(..., import.meta.url)`);
+  // pre-bundling would move the module away from that file.
+  optimizeDeps: { exclude: ['maplibre-gl'] },
   server: {
     host,
     port,

@@ -46,7 +46,7 @@ export interface AdminCommandDefinition<Payload, Result> {
    * The audit row's subject. `'self'` = the handler writes its own audit row (a handler shared with
    * another door, such as `upsert_poi`); the pipeline then writes none, so there is still one.
    */
-  readonly audit: ((payload: Payload, result: Result) => AdminAuditTarget) | 'self';
+  readonly audit: ((payload: Payload, result: Result) => AdminAuditTarget | 'self') | 'self';
   /** Runs as `app_system` inside the pipeline's transaction, after the role policy passed. */
   readonly handle: (
     tx: pg.PoolClient,
@@ -63,8 +63,14 @@ export function defineAdminCommand<Payload, Result>(
   return definition as unknown as AnyAdminCommand;
 }
 
+/** Operator e-mails for "changed by" columns (console accounts only, never app users). */
+export interface OperatorDirectory {
+  emails(uids: readonly string[]): Promise<ReadonlyMap<string, string>>;
+}
+
 export interface AdminReadContext<Query, Params> {
   readonly admin: AdminIdentity;
+  readonly operators: OperatorDirectory;
   readonly query: Query;
   readonly params: Params;
 }

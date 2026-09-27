@@ -1,7 +1,8 @@
 /**
  * `pnpm --filter @cp/admin seed:local`: prepares a local database for the console (dev server,
  * Playwright): creates it if missing, applies every migration, runs the shared catalogue seed, and
- * upserts one operator per role (`<role>@critterpass.test`, signed in through the local dev door).
+ * upserts one operator per role (`<role>@critterpass.test`, signed in through the local dev door)
+ * plus a few Bali POIs.
  * Local infra only (`pnpm infra:up`); never point it at a shared environment.
  */
 import { execFileSync } from 'node:child_process';
@@ -62,6 +63,35 @@ async function upsertOperators(databaseUrl: string): Promise<void> {
   }
 }
 
+/** A few Bali places so the POI editor and its map preview have something to show. */
+const LOCAL_POIS = [
+  { name: 'Tegallalang Rice Terrace', category: 'nature', lat: -8.4312, lng: 115.2793 },
+  { name: 'Pura Tirta Empul', category: 'temple_shrine', lat: -8.4153, lng: 115.3154 },
+  { name: 'Ubud Art Market', category: 'market', lat: -8.5069, lng: 115.2625 },
+] as const;
+
+async function seedPois(databaseUrl: string): Promise<void> {
+  const client = new pg.Client({ connectionString: databaseUrl });
+  await client.connect();
+  try {
+    const { rows } = await client.query<{ id: string }>(
+      "SELECT id FROM destinations WHERE slug = 'bali'",
+    );
+    const bali = rows[0]?.id;
+    if (bali === undefined) return;
+    for (const poi of LOCAL_POIS) {
+      await client.query(
+        `INSERT INTO pois (destination_id, name, category, lat, lng, curation)
+         SELECT $1, $2, $3, $4, $5, 'editorial'
+         WHERE NOT EXISTS (SELECT 1 FROM pois WHERE destination_id = $1 AND name = $2)`,
+        [bali, poi.name, poi.category, poi.lat, poi.lng],
+      );
+    }
+  } finally {
+    await client.end();
+  }
+}
+
 export async function seedLocal(databaseUrl: string = DEFAULT_URL): Promise<void> {
   const url = new URL(databaseUrl);
   assertLocal(url);
@@ -69,6 +99,7 @@ export async function seedLocal(databaseUrl: string = DEFAULT_URL): Promise<void
   runDbScript('migrate', databaseUrl);
   runDbScript('seed', databaseUrl);
   await upsertOperators(databaseUrl);
+  await seedPois(databaseUrl);
 }
 
 if (import.meta.url === `file://${process.argv[1] ?? ''}`) {
