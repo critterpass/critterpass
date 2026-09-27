@@ -5,23 +5,23 @@ appId: app.critterpass.dev
 # (`/internal/spike/otp`) since a simulator cannot receive a real SMS — same technique T2's
 # server-only harness used, now driven from the actual on-device Better Auth client. Apple/Google
 # on a real device are a founder checklist item (docs/decisions/20260927-better-auth-anonymous-
-# upgrade.md, device half) — no test account exists to drive them here.
+# upgrade.md, device half) — no test account exists to drive them here. Reaches the spike screen
+# by tapping through the home screen's "Developer tools" entry and its Developer tools list
+# (apps/mobile/src/app/(dev)/index.tsx), never via `openLink`: a deep link into a `(dev)` route is
+# non-deterministic on EAS-hosted iOS simulators (mobile-dev-inc/Maestro#2610).
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 25000
 - tapOn:
-    text: 'Open'
-    optional: true
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-spikes-auth'
+    timeout: 10000
 - tapOn:
-    text: 'Continue'
-    optional: true
-- tapOn:
-    point: '50%,55%'
-    optional: true
-- openLink: 'critterpass-dev://spikes/auth'
-- tapOn:
-    text: 'Open'
-    optional: true
-- tapOn:
-    text: 'Continue'
-    optional: true
+    id: 'dev-nav-spikes-auth'
 - extendedWaitUntil:
     visible: 'S-AUTH on device spike'
     timeout: 20000

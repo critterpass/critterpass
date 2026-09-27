@@ -1,10 +1,46 @@
 {
   "guides": [
-    { "guideId": "tokek", "available": false, "asset": null, "sampleAsset": null },
-    { "guideId": "pon", "available": false, "asset": null, "sampleAsset": null },
-    { "guideId": "lundi", "available": false, "asset": null, "sampleAsset": null },
-    { "guideId": "ajo", "available": false, "asset": null, "sampleAsset": null },
-    { "guideId": "sardi", "available": false, "asset": null, "sampleAsset": null },
-    { "guideId": "paco", "available": false, "asset": null, "sampleAsset": null }
+    {
+      "guideId": "tokek",
+      "available": true,
+      "asset": "music/tokek.m4a",
+      "sampleAsset": "music/tokek-preview.m4a",
+      "pendingFounderApproval": false
+    },
+    {
+      "guideId": "pon",
+      "available": true,
+      "asset": "music/pon.m4a",
+      "sampleAsset": "music/pon-preview.m4a",
+      "pendingFounderApproval": false
+    },
+    {
+      "guideId": "lundi",
+      "available": true,
+      "asset": "music/lundi.m4a",
+      "sampleAsset": "music/lundi-preview.m4a",
+      "pendingFounderApproval": false
+    },
+    {
+      "guideId": "ajo",
+      "available": true,
+      "asset": "music/ajo.m4a",
+      "sampleAsset": "music/ajo-preview.m4a",
+      "pendingFounderApproval": true
+    },
+    {
+      "guideId": "sardi",
+      "available": true,
+      "asset": "music/sardi.m4a",
+      "sampleAsset": "music/sardi-preview.m4a",
+      "pendingFounderApproval": true
+    },
+    {
+      "guideId": "paco",
+      "available": true,
+      "asset": "music/paco.m4a",
+      "sampleAsset": "music/paco-preview.m4a",
+      "pendingFounderApproval": true
+    }
   ]
 }

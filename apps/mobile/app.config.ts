@@ -51,6 +51,18 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   runtimeVersion: { policy: 'fingerprint' },
   updates: {
     url: `https://u.expo.dev/${EAS_PROJECT_ID}`,
+    // The `development` variant is what the `e2e-test` EAS build profile ships (eas.json). Cloud
+    // Maestro runs reuse the last build whose *native* fingerprint matches, but that build's
+    // embedded JS bundle is frozen at build time and the fingerprint ignores JS-only changes — so a
+    // JS-only edit would otherwise be tested against stale code. Blocking first launch on an update
+    // check (rather than the default deferred/background check) makes a reused e2e-test build load
+    // whatever was last published to its channel before the UI renders. `fallbackToCacheTimeout` is
+    // generous for an EAS-hosted simulator's network path; on timeout it falls back to the embedded
+    // bundle rather than hanging. Staging/production keep expo-updates' default deferred check —
+    // this must never block a real user's launch.
+    ...(appVariant === 'development'
+      ? { checkAutomatically: 'ON_LOAD' as const, fallbackToCacheTimeout: 20000 }
+      : {}),
   },
   ios: {
     bundleIdentifier: variant.bundleIdentifier,

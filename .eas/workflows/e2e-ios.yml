@@ -9,6 +9,14 @@ name: E2E tests (iOS)
 # and the conditionally-skipped `build` would itself always be skipped. Exactly one of
 # maestro_existing_build / maestro_new_build runs per invocation.
 #
+# A reused build's embedded JS bundle is frozen at build time; the fingerprint match ignores
+# JS-only changes, so `publish_update` republishes the current JS to the e2e-test channel first
+# whenever a build is reused — `maestro_existing_build` needs it, so it always runs after the
+# publish completes. A fresh build already embeds the current JS, so `maestro_new_build` needs no
+# such step. `app.config.ts` sets `updates.checkAutomatically: 'ON_LOAD'` for this build's
+# `APP_VARIANT=development` variant, so the app blocks its first render on this update before
+# Maestro sees it.
+#
 # Both maestro jobs pin `image: latest` (same alias as the build job): the maestro job's own
 # `auto` image otherwise selected an iOS 18 simulator runtime, too old to install a build whose
 # deploymentTarget is iOS 26.0 ("Requires a Newer Version of iOS").
@@ -45,8 +53,21 @@ jobs:
       platform: ios
       profile: e2e-test
 
-  maestro_existing_build:
+  publish_update:
+    name: Publish current JS to e2e-test (reused build only)
     needs: [find_build]
+    if: ${{ needs.find_build.outputs.build_id }}
+    type: update
+    environment: development
+    env:
+      APP_VARIANT: development
+    params:
+      platform: ios
+      channel: e2e-test
+      message: e2e freshness for fingerprint ${{ needs.fingerprint.outputs.ios_fingerprint_hash }}
+
+  maestro_existing_build:
+    needs: [find_build, publish_update]
     if: ${{ needs.find_build.outputs.build_id }}
     type: maestro
     image: latest
