@@ -13,16 +13,21 @@ storage:
 
 port: !env PS_PORT::number
 
-# Sync streams are generated from infra/powersync/streams/*.yaml; none are published yet.
+# Generated from infra/powersync/streams/*.yaml by build-config.ts; resolved next to this file.
 sync_config:
-  content: |
-    config:
-      edition: 3
-    streams: {}
+  path: sync-streams.yaml
 
 client_auth:
   jwks_uri: !env PS_JWKS_URI
   audience: ['sync']
+
+api:
+  # Bearer tokens for the admin API (diagnostics, used by the health smoke and operators).
+  tokens:
+    - !env PS_ADMIN_API_TOKEN
+  parameters:
+    # Per api instance; scale powersync-api out rather than raising this (system-architecture §2).
+    max_concurrent_connections: 200
 
 healthcheck:
   probes:

@@ -25,7 +25,14 @@ import {
   registerMergeTicketPreviewRoute,
   registerReturningPhoneSignInRoute,
 } from './routes/auth-extra';
+import { sessionRevokeRealtimeMiddleware } from './realtime/session-revoke-hook';
+import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerWhatsAppWebhookRoutes } from './routes/webhooks-whatsapp';
+import { createCommandRegistry } from './commands/_framework/registry';
+import { betterAuthSessionResolver } from './commands/_framework/session';
+import { registerCmdResultsRoute } from './routes/cmd-results';
+import { registerCommandRoute } from './routes/cmd';
+import { registerSyncUploadRoute } from './routes/sync-upload';
 
 const env = loadApiEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'api', commit: env.COMMIT_SHA } });
@@ -136,10 +143,29 @@ if (env.WHATSAPP_APP_SECRET && env.WHATSAPP_VERIFY_TOKEN) {
   );
 }
 
+// The three command doors over one registry (docs/api-contracts.md §2.2, §5.2).
+const commands = createCommandRegistry();
+const commandDoors = {
+  pool,
+  registry: commands,
+  sessions: betterAuthSessionResolver(authModule.auth.api),
+  redis,
+  logger,
+};
+registerCommandRoute(app, commandDoors);
+registerSyncUploadRoute(app, commandDoors);
+registerCmdResultsRoute(app, commandDoors);
+if (env.RT_PROXY_SECRET) {
+  registerInternalRtRoutes(app, { pool, redis, proxySecret: env.RT_PROXY_SECRET });
+} else {
+  logger.warn('Centrifugo proxies are disabled: RT_PROXY_SECRET is unset');
+}
+
 // Mounted last: Better Auth's own catch-all handler must never shadow the more specific routes
 // above (`/api/auth/sign-in/phone-number` in particular — registerReturningPhoneSignInRoute wins
 // over Better Auth's own password-based endpoint of the same name only because Hono matches the
 // first registered route).
+app.use('/api/auth/admin/*', sessionRevokeRealtimeMiddleware({ pool, logger }));
 app.on(['GET', 'POST'], '/api/auth/*', (c) => authModule.handler(c.req.raw));
 
 const server = serve({ fetch: app.fetch, port: env.PORT }, (info) => {

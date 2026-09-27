@@ -34,7 +34,7 @@ neither the CLI nor the API token available to agents can set a service's config
 | api | `NODE_ENV=production`, `APP_ENV`, `DATABASE_URL` (PgBouncer `:6432`), `DATABASE_DIRECT_URL` (`:5432`, migrations only), `REDIS_URL=${{Redis.REDIS_URL}}`, `PUBLIC_BASE_URL`, `COMMIT_SHA=${{RAILWAY_GIT_COMMIT_SHA}}`, `RAILWAY_DOCKERFILE_PATH`, `SENTRY_DSN` |
 | worker | `NODE_ENV=production`, `APP_ENV`, `DATABASE_DIRECT_URL`, `REDIS_URL=${{Redis.REDIS_URL}}`, `COMMIT_SHA`, `RAILWAY_DOCKERFILE_PATH`, `SENTRY_DSN` |
 | centrifugo | `CENTRIFUGO_HTTP_API_KEY`, `CENTRIFUGO_ENGINE_REDIS_ADDRESS`, `CENTRIFUGO_CLIENT_TOKEN_JWKS_PUBLIC_ENDPOINT`, `CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_ENDPOINT`, `CENTRIFUGO_CHANNEL_PROXY_PUBLISH_ENDPOINT`, `CENTRIFUGO_CLIENT_ALLOWED_ORIGINS` |
-| powersync-* | `PS_ROLE`, `PS_DATA_SOURCE_URI` (PlanetScale replication role, `:5432`), `PS_DATA_SOURCE_SSLMODE=verify-full`, `PS_STORAGE_URI=${{Postgres.DATABASE_URL}}`, `PS_STORAGE_SSLMODE`, `PS_PORT`, `PS_JWKS_URI` |
+| powersync-* | `PS_ROLE`, `PS_DATA_SOURCE_URI` (PlanetScale replication role, `:5432`), `PS_DATA_SOURCE_SSLMODE=verify-full`, `PS_STORAGE_URI=${{Postgres.DATABASE_URL}}`, `PS_STORAGE_SSLMODE`, `PS_PORT`, `PS_JWKS_URI`, `PS_ADMIN_API_TOKEN` (diagnostics API; the service won't start without it), `PORT=8080` |
 
 Validate a service's variables with `railway run --service api pnpm env:check --service api`.
 

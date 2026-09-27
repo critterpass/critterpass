@@ -1,0 +1,23 @@
+# Railway config-as-code for the `centrifugo` service (set once per environment under
+# Settings -> Config-as-code -> Railway config file: infra/railway/centrifugo.toml).
+# Variables (names only; values live in Railway): CENTRIFUGO_HTTP_API_KEY,
+# CENTRIFUGO_ENGINE_REDIS_ADDRESS, CENTRIFUGO_CLIENT_TOKEN_JWKS_PUBLIC_ENDPOINT (api /api/auth/jwks),
+# CENTRIFUGO_CLIENT_ALLOWED_ORIGINS, CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_ENDPOINT and
+# CENTRIFUGO_CHANNEL_PROXY_PUBLISH_ENDPOINT (api /internal/rt/subscribe|publish over the private
+# network), CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_HTTP_STATIC_HEADERS and
+# CENTRIFUGO_CHANNEL_PROXY_PUBLISH_HTTP_STATIC_HEADERS ({"x-cp-rt-proxy-secret": <api RT_PROXY_SECRET>}).
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "infra/railway/centrifugo.Dockerfile"
+watchPatterns = ["infra/centrifugo/**", "infra/railway/centrifugo.Dockerfile", "infra/railway/centrifugo.toml"]
+
+[deploy]
+healthcheckPath = "/health"
+healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5
+drainingSeconds = 30
+
+[deploy.multiRegionConfig.asia-southeast1-eqsg3a]
+numReplicas = 1
