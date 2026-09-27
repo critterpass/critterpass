@@ -11,11 +11,16 @@
     "test:db": "vitest run --config vitest.db.config.ts --passWithNoTests",
     "s-db": "tsx src/s-db/run.ts",
     "s-rt": "tsx src/s-rt/run.ts",
-    "s-rt:load": "tsx src/s-rt/load.ts"
+    "s-rt:load": "tsx src/s-rt/load.ts",
+    "s-sync": "tsx src/s-sync/run.ts",
+    "s-sync:load": "tsx src/s-sync/load.ts",
+    "s-sync:drill": "tsx src/s-sync/drill.ts"
   },
   "dependencies": {
     "@hono/node-server": "catalog:",
+    "@powersync/node": "catalog:",
     "better-auth": "catalog:",
+    "better-sqlite3": "catalog:",
     "centrifuge": "catalog:",
     "hono": "catalog:",
     "jose": "catalog:",
