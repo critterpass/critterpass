@@ -1,3 +1,4 @@
+import Constants from 'expo-constants';
 import { makeMutable, type SharedValue } from 'react-native-reanimated';
 
 export type SlowmoMultiplier = 1 | 2 | 4;
@@ -15,14 +16,29 @@ export const slowmoMultiplier: SharedValue<SlowmoMultiplier> = makeMutable<Slowm
  */
 export const motionFreeze: SharedValue<boolean> = makeMutable(false);
 
-/** Sets the debug slowmo multiplier. No-op outside `__DEV__` so a release build can never be slowed down. */
+/**
+ * Slowmo and motion freeze are debug tools: available under a dev server and in every non-production
+ * build variant, never in production. Keyed on the variant rather than `__DEV__` alone because the
+ * `e2e-test` profile ships a release build of the `development` variant, and that is where Maestro
+ * takes its motion-freeze screenshots. An unknown or missing variant counts as production.
+ */
+export function debugMotionControlsEnabled(isDev: boolean, appVariant: unknown): boolean {
+  return isDev || appVariant === 'development' || appVariant === 'staging';
+}
+
+const debugControlsEnabled = debugMotionControlsEnabled(
+  __DEV__,
+  Constants.expoConfig?.extra?.appVariant,
+);
+
+/** Sets the debug slowmo multiplier. No-op in production so a shipped build can never be slowed down. */
 export function setSlowmoMultiplier(multiplier: SlowmoMultiplier): void {
-  if (!__DEV__) return;
+  if (!debugControlsEnabled) return;
   slowmoMultiplier.value = multiplier;
 }
 
-/** Toggles motion-freeze mode. No-op outside `__DEV__`; only `motion-lab` and Maestro use it. */
+/** Toggles motion-freeze mode. No-op in production; only `motion-lab` and Maestro use it. */
 export function setMotionFreeze(frozen: boolean): void {
-  if (!__DEV__) return;
+  if (!debugControlsEnabled) return;
   motionFreeze.value = frozen;
 }

@@ -19,6 +19,7 @@ export interface UseLoopOptions {
 }
 
 function transformToStyle(t: LoopTransform) {
+  'worklet';
   return {
     opacity: t.o,
     transform: [

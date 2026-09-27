@@ -17,6 +17,13 @@ export interface UsePageTurnOptions {
   readonly onSettled?: () => void;
 }
 
+// Runs on the JS thread: the UI runtime can only schedule a function defined there, never an arrow
+// built inside the completion worklet.
+function firePageSettled(onSettled?: () => void): void {
+  impact('page');
+  onSettled?.();
+}
+
 /** A page flipping via 3D rotateY, darkening (shading) as its underside comes into view, then settling flat. */
 export function usePageTurn({ active, onSettled }: UsePageTurnOptions) {
   const rotateY = useSharedValue(0);
@@ -32,12 +39,7 @@ export function usePageTurn({ active, onSettled }: UsePageTurnOptions) {
     rotateY.value = 0;
     rotateY.value = withTiming(180, { duration: TURN_MS, easing: turnEasing }, (finished) => {
       'worklet';
-      if (finished) {
-        scheduleOnRN(() => {
-          impact('page');
-          onSettled?.();
-        });
-      }
+      if (finished) scheduleOnRN(firePageSettled, onSettled);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- rotateY is a stable shared value ref; onSettled is read fresh via closure at completion time.
   }, [active, reduced]);

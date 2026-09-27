@@ -159,6 +159,7 @@ export const LOOP_PRESETS: Readonly<Record<LoopPresetId, LoopPresetDef>> = {
 } as const;
 
 function resolveStopTransform(stop: LoopKeyframeStop): LoopTransform {
+  'worklet';
   return {
     tx: stop.tx ?? IDENTITY_TRANSFORM.tx,
     ty: stop.ty ?? IDENTITY_TRANSFORM.ty,
@@ -217,6 +218,7 @@ export function sampleLoopPreset(def: LoopPresetDef, phase: number): LoopTransfo
 
 /** The resting frame (t=0) a preset shows in reduced/off motion mode (design-system.md §5: "idle loops static"). */
 export function restingLoopTransform(id: LoopPresetId): LoopTransform {
+  'worklet';
   const def = LOOP_PRESETS[id];
   const firstStop = def.stops[0];
   return firstStop === undefined ? IDENTITY_TRANSFORM : resolveStopTransform(firstStop);
