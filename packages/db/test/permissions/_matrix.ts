@@ -368,6 +368,20 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // llm.pois is a view, not a public-schema table (the coverage scan below never requires an entry
+  // for it), added anyway: guide_reader is the only role granted it, so every app_user actor here
+  // must see the same "no access" shape as poi_embeddings/media_objects.
+  'llm.pois': {
+    selectProbe: { sql: 'SELECT 1 FROM llm.pois LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
 };
 
 /**
