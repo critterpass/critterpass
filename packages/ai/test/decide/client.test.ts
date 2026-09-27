@@ -36,12 +36,12 @@ interface Harness {
   readonly fallbacks: FallbackReason[];
   readonly sleeps: number[];
   readonly jev: ReturnType<typeof fixtureTransport>;
-  readonly claude: ReturnType<typeof fixtureTransport>;
+  readonly twin: ReturnType<typeof fixtureTransport>;
 }
 
 function harness(
   jevFixtures: readonly string[],
-  claudeFixtures: readonly string[] = [],
+  twinFixtures: readonly string[] = [],
   overrides: Partial<DecisionClientOptions> = {},
 ) {
   const records: AiUsageRecord[] = [];
@@ -52,10 +52,10 @@ function harness(
     return Promise.resolve();
   };
   const jev = fixtureTransport(jevFixtures, { dir: 'typesafe' });
-  const claude = fixtureTransport(claudeFixtures);
+  const twin = fixtureTransport(twinFixtures);
   const gateway = createGateway({
     apiKey: 'fixture-key',
-    fetch: claude.fetch,
+    fetch: twin.fetch,
     onUsage,
     now: () => AT,
   });
@@ -72,7 +72,7 @@ function harness(
     now: () => AT,
     ...overrides,
   });
-  const h: Harness = { records, fallbacks, sleeps, jev, claude };
+  const h: Harness = { records, fallbacks, sleeps, jev, twin };
   return { client, h };
 }
 
@@ -130,14 +130,14 @@ describe('decide on Jev', () => {
   });
 
   it('rejects a response whose answers do not match the question map', async () => {
-    const { client, h } = harness(['jev-help-intent'], ['haiku-decision-twin']);
+    const { client, h } = harness(['jev-help-intent'], ['flash-decision-twin']);
     const decision = await client.decide('help.intent_classifier', {
       state: STATE,
       questions: { topic: QUESTIONS.topic, urgent: QUESTIONS.urgent },
     });
     // The recorded reply carries an unknown `frustration` key, so the twin answers instead.
     expect(h.fallbacks).toEqual(['invalid_response']);
-    expect(decision.answered_by).toBe('haiku');
+    expect(decision.answered_by).toBe('fast');
   });
 
   it('refuses a generation route and malformed questions before any request', async () => {
@@ -156,11 +156,11 @@ describe('decide on Jev', () => {
   });
 });
 
-describe('decide falls back to the Haiku twin', () => {
+describe('decide falls back to the fast-tier twin', () => {
   it('on 529 after one retry, answering with the same shape', async () => {
     const { client, h } = harness(
       ['jev-overloaded-529', 'jev-overloaded-529'],
-      ['haiku-decision-twin'],
+      ['flash-decision-twin'],
     );
     const decision = await client.decide('help.intent_classifier', {
       state: STATE,
@@ -168,7 +168,7 @@ describe('decide falls back to the Haiku twin', () => {
     });
     expect(h.jev.urls).toHaveLength(2);
     expect(h.fallbacks).toEqual(['overloaded']);
-    expect(decision.answered_by).toBe('haiku');
+    expect(decision.answered_by).toBe('fast');
     expect(decision.fallbackReason).toBe('overloaded');
     expect(decision.answers.topic).toEqual({
       type: 'choice',
@@ -184,8 +184,8 @@ describe('decide falls back to the Haiku twin', () => {
       probabilities: null,
       confidence: 0.4,
     });
-    // Jev billed nothing; the twin's own Haiku row is the only usage.
-    expect(h.records.map((r) => r.tier)).toEqual(['haiku']);
+    // Jev billed nothing; the twin's own fast-tier row is the only usage.
+    expect(h.records.map((r) => r.tier)).toEqual(['fast']);
   });
 
   it('retries a 429 after its retry-after and answers from Jev', async () => {
@@ -199,14 +199,14 @@ describe('decide falls back to the Haiku twin', () => {
   });
 
   it('does not wait out a long retry-after', async () => {
-    const { client, h } = harness(['jev-rate-limited-429-long'], ['haiku-decision-twin']);
+    const { client, h } = harness(['jev-rate-limited-429-long'], ['flash-decision-twin']);
     const decision = await client.decide('help.intent_classifier', {
       state: STATE,
       questions: QUESTIONS,
     });
     expect(h.sleeps).toEqual([]);
     expect(h.fallbacks).toEqual(['rate_limited']);
-    expect(decision.answered_by).toBe('haiku');
+    expect(decision.answered_by).toBe('fast');
   });
 
   it('when Jev does not answer within 800 ms', async () => {
@@ -219,13 +219,13 @@ describe('decide falls back to the Haiku twin', () => {
           reject(init.signal?.reason as Error);
         });
       });
-    const { client, h } = harness([], ['haiku-decision-twin'], { fetch: hang });
+    const { client, h } = harness([], ['flash-decision-twin'], { fetch: hang });
     const decision = await client.decide('help.intent_classifier', {
       state: STATE,
       questions: QUESTIONS,
     });
     expect(h.fallbacks).toEqual(['timeout']);
-    expect(decision.answered_by).toBe('haiku');
+    expect(decision.answered_by).toBe('fast');
     expect(waited).toHaveLength(1);
     expect(waited[0]).toBeGreaterThanOrEqual(790);
     expect(waited[0]).toBeLessThan(1_500);
@@ -233,24 +233,24 @@ describe('decide falls back to the Haiku twin', () => {
 
   it('on a transport error and on a rejected key', async () => {
     const broken: typeof fetch = () => Promise.reject(new TypeError('fetch failed'));
-    const first = harness([], ['haiku-decision-twin'], { fetch: broken });
+    const first = harness([], ['flash-decision-twin'], { fetch: broken });
     await first.client.decide('help.intent_classifier', { state: STATE, questions: QUESTIONS });
     expect(first.h.fallbacks).toEqual(['transport_error']);
 
-    const second = harness(['jev-unauthorized-401'], ['haiku-decision-twin']);
+    const second = harness(['jev-unauthorized-401'], ['flash-decision-twin']);
     await second.client.decide('help.intent_classifier', { state: STATE, questions: QUESTIONS });
     expect(second.h.fallbacks).toEqual(['unauthorized']);
   });
 
   it('without a key, never calling Jev', async () => {
-    const { client, h } = harness([], ['haiku-decision-twin'], { apiKey: undefined });
+    const { client, h } = harness([], ['flash-decision-twin'], { apiKey: undefined });
     const decision = await client.decide('help.intent_classifier', {
       state: STATE,
       questions: QUESTIONS,
     });
     expect(h.jev.urls).toEqual([]);
     expect(h.fallbacks).toEqual(['missing_key']);
-    expect(decision.answered_by).toBe('haiku');
+    expect(decision.answered_by).toBe('fast');
   });
 
   it('raises AI_UNAVAILABLE when no twin can run', async () => {

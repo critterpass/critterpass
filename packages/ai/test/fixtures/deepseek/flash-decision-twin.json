@@ -1,5 +1,5 @@
 {
-  "source": "Live recording of the Haiku twin request through the development Anthropic-compatible endpoint (ANTHROPIC_BASE_URL), 2026-09-28; the model field is what that endpoint reports.",
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-28: a decision route's fast-tier twin answering as JSON text.",
   "response": {
     "status": 200,
     "headers": {},

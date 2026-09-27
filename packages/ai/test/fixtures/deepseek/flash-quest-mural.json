@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-27: a quests.generate call with a JSON reply format",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "c4f78a00-2506-4d7d-bf24-d91b2545b583",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"title\":\"Find the Gecko Mural\",\"hint\":\"Walk through central Ubud and locate the large gecko painted on a wall; look for it near a busy street or café, then take a photo that includes the whole lizard.\"},{\"title\":\"Gecko Selfie Challenge\",\"hint\":\"Stand beside the gecko mural and take a creative selfie where the gecko appears to be climbing on you or over your shoulder.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 112,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 94,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

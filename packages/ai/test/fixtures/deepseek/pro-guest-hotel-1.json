@@ -1,0 +1,36 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-v4-pro) through its Anthropic-format API, 2026-09-27.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "357b4893-0b73-4687-b6e0-10a3d081257b",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "text",
+          "text": "From what Tokek knows so far, I can't see tonight's hotel prices or availability without checking first. Let me search for stays near the old town and see what's open."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_pQcnv2J6lL6bRwa1Jwxs8745",
+          "name": "places_search",
+          "input": {
+            "query": "old town Hoi An",
+            "category": "stay"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 91,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9216,
+        "output_tokens": 99,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-27: a quests.generate call with a JSON reply format",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "15ddeba3-2f8c-4e47-a29b-bd477f397328",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"title\":\"Sip the Sacred Bean\",\"hint\":\"Order a traditional Bali kopi tubruk at a small warung in central Ubud. Watch the grounds settle before your first sip, then note how the earthy sweetness differs from drip coffee.\"},{\"title\":\"Kopi at the Rice Field Edge\",\"hint\":\"Walk the Campuhan Ridge or a Tegalalang path, find a café overlooking the paddies, and try a single-origin Kintamani kopi. Ask the server where the beans were grown and how they were roasted.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 110,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 118,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

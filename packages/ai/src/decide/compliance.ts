@@ -2,7 +2,7 @@
  * `checkCompliance({surface, text})`: code patterns first, then one Jev request asking a yes/no
  * question per category the surface screens, then the surface policy
  * (packages/domain/src/ai/compliance.ts) maps probabilities to `pass | review | reject`. When the
- * patterns alone reject, no model is called. When neither Jev nor its Haiku twin answers, the
+ * patterns alone reject, no model is called. When neither Jev nor its fast-tier twin answers, the
  * surface's unavailable outcome applies (`public_text` fails closed to review; `guide_input`
  * passes). The check never throws on a provider failure.
  *

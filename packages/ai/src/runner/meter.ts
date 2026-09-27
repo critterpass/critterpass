@@ -3,7 +3,7 @@
  * `done`, released on failure/refusal"). The service reserves before the stream opens (so an
  * exhausted free meter is a plain `QUOTA_EXHAUSTED` response) and hands the turn a `MeterHandle`;
  * the turn settles it exactly once, whichever way it ends. Unlimited tiers are not metered but pass
- * the silent fair-use cap, which never errors: over the cap the turn drops to Haiku and short
+ * the silent fair-use cap, which never errors: over the cap the turn drops to the fast tier and short
  * answers, and past that the guide says it is busy.
  */
 import type { AiRoute } from '@cp/domain';
@@ -42,7 +42,7 @@ export function settleOnce(handle: MeterHandle): MeterHandle {
   };
 }
 
-/** Guide routes an over-cap unlimited user is moved to (all Haiku). */
+/** Guide routes an over-cap unlimited user is moved to (all on the fast tier). */
 const DEGRADED_ROUTE: Partial<Record<AiRoute, AiRoute>> = {
   'guide.chat_escalation': 'guide.chat',
   'guest.guide': 'guide.chat',

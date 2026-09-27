@@ -28,7 +28,7 @@ export const aiUsage = pgTable('ai_usage', {
   tripId: uuid('trip_id').references(() => trips.id),
   jobId: uuid('job_id').references(() => agentJobs.id, { onDelete: 'set null' }),
   model: text('model').notNull(),
-  /** A Claude tier or `jev` (CHECK `ai_usage_tier_check` mirrors AI_TIERS). */
+  /** A generation tier (`fast`, `pro`) or `jev` (CHECK `ai_usage_tier_check` mirrors AI_TIERS). */
   tier: text('tier').$type<AiTier>().notNull(),
   tokensIn: integer('tokens_in').notNull(),
   tokensOut: integer('tokens_out').notNull(),

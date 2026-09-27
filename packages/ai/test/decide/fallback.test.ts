@@ -8,11 +8,11 @@ import {
   createGateway,
   GatewayConfigError,
   GatewayError,
-  HAIKU_NOUL_LABELS,
+  TWIN_NOUL_LABELS,
   MODEL_IDS,
   noul,
   parseTwinAnswers,
-  resolveClaudeRoute,
+  resolveGenerationRoute,
   resolveRoute,
   score,
   twinRequest,
@@ -30,7 +30,7 @@ function reply(text: string): Anthropic.Messages.Message {
     id: 'msg_twin',
     type: 'message',
     role: 'assistant',
-    model: MODEL_IDS.haiku,
+    model: MODEL_IDS.fast,
     content: [{ type: 'text', text, citations: null }],
     stop_reason: 'end_turn',
     stop_sequence: null,
@@ -63,22 +63,22 @@ describe('twin request', () => {
     expect(content).toContain('{"index":2,"level":"Angry"}');
   });
 
-  it('runs a decision route through the gateway as its Haiku twin', async () => {
+  it('runs a decision route through the gateway as its fast-tier twin', async () => {
     expect(resolveRoute('compliance.check')).toMatchObject({ provider: 'jev', tier: 'jev' });
-    expect(resolveClaudeRoute('compliance.check')).toMatchObject({
-      provider: 'claude',
-      tier: 'haiku',
-      model: MODEL_IDS.haiku,
+    expect(resolveGenerationRoute('compliance.check')).toMatchObject({
+      provider: 'deepseek',
+      tier: 'fast',
+      model: MODEL_IDS.fast,
       caller: null,
     });
-    const claude = fixtureTransport(['haiku-decision-twin']);
-    const gateway = createGateway({ apiKey: 'fixture-key', fetch: claude.fetch });
+    const twin = fixtureTransport(['flash-decision-twin']);
+    const gateway = createGateway({ apiKey: 'fixture-key', fetch: twin.fetch });
     const client = createDecisionClient({ gateway });
     await client.decide('help.intent_classifier', { state: 'x', questions: QUESTIONS }).catch(
       () => undefined, // the recorded reply answers other question ids; only the request matters
     );
-    expect(claude.requests[0]).toMatchObject({ model: MODEL_IDS.haiku, temperature: 0 });
-    expect(claude.requests[0]).not.toHaveProperty('tool_choice');
+    expect(twin.requests[0]).toMatchObject({ model: MODEL_IDS.fast, temperature: 0 });
+    expect(twin.requests[0]).not.toHaveProperty('tool_choice');
   });
 
   it('never builds a Claude request from a Jev route config', () => {
@@ -103,7 +103,7 @@ describe('twin answers', () => {
     });
   });
 
-  it.each(Object.entries(HAIKU_NOUL_LABELS))('reads %s as %d', (label, p) => {
+  it.each(Object.entries(TWIN_NOUL_LABELS))('reads %s as %d', (label, p) => {
     const answers = parseTwinAnswers({ q: noul('?') }, reply(`{"q":"${label}"}`));
     expect(answers.q.noul).toBe(p);
   });

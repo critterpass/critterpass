@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-27: a long persona prefix sent for the first time (no cache hit)",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "eec0a550-7a9b-488b-9123-8d706313a3ea",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Hey! Tokek here, your Bali guide. What are we planning — dates, places, or just daydreaming about the beach?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 5746,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 28,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

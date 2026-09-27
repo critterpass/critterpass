@@ -17,6 +17,7 @@
 import { z } from 'zod';
 
 import { COMPLIANCE_THRESHOLDS } from './decision-thresholds';
+import type { DecisionAnswerer } from './routes';
 
 export const COMPLIANCE_CATEGORIES = [
   'prompt_injection',
@@ -43,8 +44,8 @@ export type ComplianceSurface = z.infer<typeof complianceSurfaceSchema>;
 export const COMPLIANCE_OUTCOMES = ['pass', 'review', 'reject'] as const;
 export type ComplianceOutcome = (typeof COMPLIANCE_OUTCOMES)[number];
 
-/** Who produced the verdict: Jev, the Haiku twin, code patterns alone, or nobody (both down). */
-export const COMPLIANCE_ANSWERERS = ['jev', 'haiku', 'code', 'none'] as const;
+/** Who produced the verdict: Jev, the fast-tier twin, code patterns alone, or nobody (both down). */
+export const COMPLIANCE_ANSWERERS = ['jev', 'fast', 'code', 'none'] as const;
 export type ComplianceAnswerer = (typeof COMPLIANCE_ANSWERERS)[number];
 
 export interface ComplianceFlag {
@@ -69,7 +70,7 @@ export const SURFACE_CATEGORIES: Readonly<
   outbound_text: ['harassment', 'sexual', 'illegal', 'personal_info'],
 };
 
-/** The outcome when neither Jev nor the Haiku twin answered. */
+/** The outcome when neither Jev nor the fast-tier twin answered. */
 export const UNAVAILABLE_OUTCOME: Readonly<Record<ComplianceSurface, ComplianceOutcome>> = {
   // The question is never blocked; the turn still runs with its untrusted text wrapped.
   guide_input: 'pass',
@@ -83,7 +84,7 @@ export const UNAVAILABLE_OUTCOME: Readonly<Record<ComplianceSurface, ComplianceO
 // Deterministic patterns: exact, free and checked before any model call.
 const EMAIL = /[\p{L}\p{N}._%+-]+@[\p{L}\p{N}.-]+\.[\p{L}]{2,}/u;
 const URL =
-  /\b(?:https?:\/\/|www\.)\S+|\b[\p{L}\p{N}-]+\.(?:com|net|org|vn|io|co|me|info|biz|link|ly)(?:\/\S*)?\b/iu;
+  /\b(?:https?:\/\/|www\.)\S+|\b[\p{L}\p{N}-]+\.(?:com|net|org|vn|io|co|me|info|biz|link|ly)(?:\.[a-z]{2})?(?:\/\S*)?\b/iu;
 /** A leading + or 0 then 8–13 more digits, split by spaces, dots or dashes (prices never lead with 0). */
 const PHONE = /(?:\+\d|\b0\d)(?:[\s.-]?\d){7,12}\b/u;
 /** Passport numbers (a letter then 7–8 digits). */
@@ -114,6 +115,36 @@ export function detectPatterns(text: string): CompliancePattern[] {
   if (PASSPORT.test(text)) found.push('passport');
   if (URL.test(text.replace(EMAIL, ' '))) found.push('url');
   return found;
+}
+
+const globally = (pattern: RegExp) => new RegExp(pattern.source, `${pattern.flags}g`);
+
+/**
+ * The text with every email, link, card, phone and passport number cut out (each replaced by a
+ * space), and which kinds were removed. Used where text leaves for a third party, such as a web
+ * search query the model wrote.
+ */
+export function stripPatterns(text: string): {
+  readonly text: string;
+  readonly removed: CompliancePattern[];
+} {
+  const removed = new Set<CompliancePattern>();
+  const cut = (source: string, pattern: RegExp, kind: CompliancePattern) =>
+    source.replace(globally(pattern), () => {
+      removed.add(kind);
+      return ' ';
+    });
+  let rest = cut(text, EMAIL, 'email');
+  rest = cut(rest, URL, 'url');
+  rest = rest.replace(CARD_CANDIDATE, (match) => {
+    const digits = match.replace(/\D/gu, '');
+    if (digits.length < 13 || !luhnValid(digits)) return match;
+    removed.add('card');
+    return ' ';
+  });
+  rest = cut(rest, PHONE, 'phone');
+  rest = cut(rest, PASSPORT, 'passport');
+  return { text: rest.replace(/\s+/gu, ' ').trim(), removed: [...removed] };
 }
 
 /** What a pattern match says: contact details and ID numbers are personal info, links promotion. */
@@ -157,13 +188,13 @@ export function mergeFlags(...lists: readonly (readonly ComplianceFlag[])[]): Co
 }
 
 /**
- * Maps category probabilities to the surface outcome. `answeredBy` picks the band: a Haiku-twin
+ * Maps category probabilities to the surface outcome. `answeredBy` picks the band: a twin
  * verdict uses the stricter one; code pattern flags use Jev's. Returns the flagged categories only.
  */
 export function complianceOutcome(
   surface: ComplianceSurface,
   scores: readonly ComplianceFlag[],
-  answeredBy: 'jev' | 'haiku',
+  answeredBy: DecisionAnswerer,
 ): { readonly outcome: ComplianceOutcome; readonly flags: ComplianceFlag[] } {
   const bands = COMPLIANCE_THRESHOLDS[surface];
   let outcome: ComplianceOutcome = 'pass';

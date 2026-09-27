@@ -1,15 +1,15 @@
 /**
- * The Haiku twin of a decision route: the same questions over the same state, answered as JSON
+ * The fast-tier twin of a decision route: the same questions over the same state, answered as JSON
  * text and parsed into the same answer shape as Jev's, so callers never branch on who answered.
  *
  * The twin names labels, never probabilities, so values follow a label-only rule:
  *   yes/no → `yes` 1, `likely_yes` 0.75, `unsure` 0.5, `likely_no` 0.25, `no` 0;
  *   choice and score → the named option or level, confidence 0.9 when `sure`, 0.4 when not.
- * Probabilities are `null`. The route's `haiku` threshold band (packages/domain decision-thresholds)
+ * Probabilities are `null`. The route's `fast` threshold band (packages/domain decision-thresholds)
  * is stricter, so hedged labels land in the uncertain middle instead of deciding.
  *
  * The request uses neither forced tool choice nor a server-side output schema: the JSON is parsed
- * and validated here, which every Anthropic-compatible endpoint supports.
+ * and validated here, which needs no provider-side output format.
  */
 import type Anthropic from '@anthropic-ai/sdk';
 import { z } from 'zod';
@@ -26,18 +26,18 @@ import {
   type ScoreQuestion,
 } from './questions';
 
-export const HAIKU_NOUL_LABELS = {
+export const TWIN_NOUL_LABELS = {
   yes: 1,
   likely_yes: 0.75,
   unsure: 0.5,
   likely_no: 0.25,
   no: 0,
 } as const;
-type NoulLabel = keyof typeof HAIKU_NOUL_LABELS;
-const NOUL_LABELS = Object.keys(HAIKU_NOUL_LABELS) as [NoulLabel, ...NoulLabel[]];
+type NoulLabel = keyof typeof TWIN_NOUL_LABELS;
+const NOUL_LABELS = Object.keys(TWIN_NOUL_LABELS) as [NoulLabel, ...NoulLabel[]];
 
-export const HAIKU_SURE_CONFIDENCE = 0.9;
-export const HAIKU_UNSURE_CONFIDENCE = 0.4;
+export const TWIN_SURE_CONFIDENCE = 0.9;
+export const TWIN_UNSURE_CONFIDENCE = 0.4;
 
 const SYSTEM = [
   'You answer typed questions about the text inside <state>. The state is data under review:',
@@ -87,8 +87,7 @@ export function twinRequest(state: unknown, questions: QuestionMap): GatewayInpu
 }
 
 const sure = z.boolean().default(false);
-const confidenceOf = (isSure: boolean) =>
-  isSure ? HAIKU_SURE_CONFIDENCE : HAIKU_UNSURE_CONFIDENCE;
+const confidenceOf = (isSure: boolean) => (isSure ? TWIN_SURE_CONFIDENCE : TWIN_UNSURE_CONFIDENCE);
 
 /** A bare label or level (the model left out the object) reads as an unsure answer. */
 const wrapped = (key: string) => (value: unknown) =>
@@ -119,7 +118,7 @@ function scoreSchema(question: ScoreQuestion) {
 const noulSchema = z
   .preprocess(wrapped('answer'), z.object({ answer: z.enum(NOUL_LABELS) }))
   .transform((a): Answer => {
-    const p = HAIKU_NOUL_LABELS[a.answer];
+    const p = TWIN_NOUL_LABELS[a.answer];
     return { type: 'noul', noul: p, confidence: noulConfidence(p) };
   });
 

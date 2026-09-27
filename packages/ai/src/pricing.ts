@@ -1,90 +1,86 @@
 /**
- * Claude list prices → `cost_micros` (1 micro = 1e-6 USD) for `ai_usage`.
+ * Model prices → `cost_micros` (1 micro = 1e-6 USD) for `ai_usage`.
  *
- * Source: https://platform.claude.com/docs/en/about-claude/pricing (read 2026-09-27): per-MTok
- * base input, 5-minute and 1-hour cache writes, cache hits and output for Haiku 4.5, Sonnet 5 and
- * Opus 5.5; Batch API −50% on input and output, stacking with the cache multipliers; web search
- * $10 per 1,000 searches. A rate of N USD/MTok is N micros per token, so rates are stored as
- * micros per million tokens and divided once at the end to keep the arithmetic integral.
+ * DeepSeek (https://api-docs.deepseek.com/quick_start/pricing, read 2026-09-28), per million tokens:
+ *
+ * | Tier | Model | Cache-hit input | Cache-miss input | Output |
+ * |---|---|---|---|---|
+ * | fast | `deepseek-flash` | $0.003 off-peak / $0.006 peak | $0.15 / $0.30 | $0.60 / $1.20 |
+ * | pro | `deepseek-v4-pro` | $0.022 / $0.044 | $0.66 / $1.32 | $1.98 / $3.96 |
+ *
+ * Peak hours are 01:00–04:00 and 06:00–10:00 UTC, Monday to Friday; every other hour is off-peak
+ * at half the peak rate. DeepSeek also bills Chinese public holidays off-peak in full; the holiday
+ * calendar is not encoded here, so a weekday-holiday call inside a peak window is recorded at the
+ * peak rate (an over-count, never an under-count). Context caching is automatic and cache writes
+ * cost the plain input rate. There is no batch discount (DeepSeek has no batch API).
  *
  * Jev (https://docs.typesafe.ai/models, read 2026-09-27): $0.042 per MTok input, output free, no
- * cache or batch pricing, so a decision call costs its input tokens only.
+ * cache pricing or peak hours, so a decision call costs its input tokens only.
+ *
+ * A rate of N USD/MTok is N micros per token, so rates are stored as micros per million tokens and
+ * divided once at the end to keep the arithmetic integral.
  */
 import type { AiTier } from '@cp/domain';
 
 export interface ModelPrice {
+  /** Cache-miss input (and cache writes). */
   readonly input: number;
-  readonly cacheWrite5m: number;
-  readonly cacheWrite1h: number;
+  /** Cache-hit input. */
   readonly cacheRead: number;
   readonly output: number;
 }
 
-const USD = 1_000_000;
+export interface TierPrice {
+  readonly offPeak: ModelPrice;
+  readonly peak: ModelPrice;
+}
+
+const PER_MTOK = 1_000_000;
+
+const flat = (price: ModelPrice): TierPrice => ({ offPeak: price, peak: price });
 
 /** Micros per million tokens. */
-export const PRICES: Readonly<Record<AiTier, ModelPrice>> = {
-  haiku: {
-    input: 1 * USD,
-    cacheWrite5m: 1.25 * USD,
-    cacheWrite1h: 2 * USD,
-    cacheRead: 0.1 * USD,
-    output: 5 * USD,
+export const PRICES: Readonly<Record<AiTier, TierPrice>> = {
+  fast: {
+    offPeak: { input: 150_000, cacheRead: 3_000, output: 600_000 },
+    peak: { input: 300_000, cacheRead: 6_000, output: 1_200_000 },
   },
-  sonnet: {
-    input: 2 * USD,
-    cacheWrite5m: 2.5 * USD,
-    cacheWrite1h: 4 * USD,
-    cacheRead: 0.2 * USD,
-    output: 10 * USD,
+  pro: {
+    offPeak: { input: 660_000, cacheRead: 22_000, output: 1_980_000 },
+    peak: { input: 1_320_000, cacheRead: 44_000, output: 3_960_000 },
   },
-  opus: {
-    input: 4 * USD,
-    cacheWrite5m: 5 * USD,
-    cacheWrite1h: 8 * USD,
-    cacheRead: 0.2 * USD,
-    output: 20 * USD,
-  },
-  jev: {
-    input: 42_000,
-    cacheWrite5m: 0,
-    cacheWrite1h: 0,
-    cacheRead: 0,
-    output: 0,
-  },
+  jev: flat({ input: 42_000, cacheRead: 0, output: 0 }),
 };
 
-/** Micros per web search request. */
-export const WEB_SEARCH_MICROS = 10_000;
+/** UTC hour ranges `[from, to)` billed at the peak rate, Monday to Friday. */
+export const PEAK_WINDOWS_UTC: readonly (readonly [number, number])[] = [
+  [1, 4],
+  [6, 10],
+];
+
+/** True when a call finishing at `at` is billed at DeepSeek's peak rate. */
+export function isPeakTime(at: Date): boolean {
+  const day = at.getUTCDay();
+  if (day === 0 || day === 6) return false;
+  const hour = at.getUTCHours();
+  return PEAK_WINDOWS_UTC.some(([from, to]) => hour >= from && hour < to);
+}
 
 /** Token counts of one call, split by how each token is billed. */
 export interface TokenUsage {
   /** Uncached input tokens (the API's `input_tokens`). */
   readonly inputTokens: number;
-  readonly cacheWrite5mTokens: number;
-  readonly cacheWrite1hTokens: number;
+  /** Input tokens reported as cache writes; billed as uncached input. */
+  readonly cacheWriteTokens: number;
   readonly cacheReadTokens: number;
   readonly outputTokens: number;
-  readonly webSearchRequests: number;
 }
 
-export interface CostOptions {
-  /** Message Batches API call: every token rate is halved (Claude tiers only). */
-  readonly batch?: boolean;
-}
-
-export function computeCostMicros(
-  tier: AiTier,
-  usage: TokenUsage,
-  options: CostOptions = {},
-): number {
-  const price = PRICES[tier];
+export function computeCostMicros(tier: AiTier, usage: TokenUsage, at: Date): number {
+  const price = isPeakTime(at) ? PRICES[tier].peak : PRICES[tier].offPeak;
   const weighted =
-    usage.inputTokens * price.input +
-    usage.cacheWrite5mTokens * price.cacheWrite5m +
-    usage.cacheWrite1hTokens * price.cacheWrite1h +
+    (usage.inputTokens + usage.cacheWriteTokens) * price.input +
     usage.cacheReadTokens * price.cacheRead +
     usage.outputTokens * price.output;
-  const divisor = options.batch === true && tier !== 'jev' ? 2 * USD : USD;
-  return Math.round(weighted / divisor) + usage.webSearchRequests * WEB_SEARCH_MICROS;
+  return Math.round(weighted / PER_MTOK);
 }

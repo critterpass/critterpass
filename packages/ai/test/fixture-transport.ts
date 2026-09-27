@@ -1,6 +1,8 @@
 /**
- * Replays recorded API fixtures at the network boundary: Anthropic Messages API responses
- * (test/fixtures/anthropic/*.json, the default) or TypeSafe Jev responses (test/fixtures/typesafe).
+ * Replays recorded API fixtures at the network boundary: DeepSeek responses in the Anthropic
+ * Messages format (test/fixtures/deepseek, the default), Tavily search responses
+ * (test/fixtures/tavily), TypeSafe Jev responses (test/fixtures/typesafe) or protocol-level status
+ * responses (test/fixtures/anthropic). A name may carry its directory (`anthropic/overloaded-529`).
  * The real clients run end to end, only `fetch` is swapped. Responses are served in the order
  * given; every request body is kept for assertions.
  */
@@ -12,17 +14,24 @@ interface FixtureResponse {
   readonly headers?: Readonly<Record<string, string>>;
   readonly body?: unknown;
   readonly sse?: readonly { readonly event: string; readonly data: unknown }[];
-  /** A `.jsonl` body (Message Batches results), one JSON value per line. */
-  readonly jsonl?: readonly unknown[];
 }
 
-export type FixtureDir = 'anthropic' | 'typesafe';
+export const FIXTURE_DIRS = ['deepseek', 'tavily', 'typesafe', 'anthropic'] as const;
+export type FixtureDir = (typeof FIXTURE_DIRS)[number];
+
+function locate(name: string, dir: FixtureDir): string {
+  const slash = name.indexOf('/');
+  const prefix = name.slice(0, slash);
+  return slash !== -1 && (FIXTURE_DIRS as readonly string[]).includes(prefix)
+    ? name
+    : `${dir}/${name}`;
+}
 
 export function loadFixture(
   name: string,
-  dir: FixtureDir = 'anthropic',
+  dir: FixtureDir = 'deepseek',
 ): { readonly response: FixtureResponse } {
-  const url = new URL(`./fixtures/${dir}/${name}.json`, import.meta.url);
+  const url = new URL(`./fixtures/${locate(name, dir)}.json`, import.meta.url);
   return JSON.parse(readFileSync(fileURLToPath(url), 'utf8')) as { response: FixtureResponse };
 }
 
@@ -56,11 +65,6 @@ export function fixtureTransport(
         .map((e) => `event: ${e.event}\ndata: ${JSON.stringify(e.data)}\n\n`)
         .join('');
       return Promise.resolve(new Response(text, { status: response.status, headers }));
-    }
-    if (response.jsonl !== undefined) {
-      headers.set('content-type', 'application/binary');
-      const text = response.jsonl.map((line) => JSON.stringify(line)).join('\n');
-      return Promise.resolve(new Response(`${text}\n`, { status: response.status, headers }));
     }
     headers.set('content-type', 'application/json');
     return Promise.resolve(

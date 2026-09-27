@@ -1,5 +1,5 @@
 {
-  "source": "Live recording of a streamed guide turn that calls propose_plan_changes, through the development Anthropic-compatible endpoint (ANTHROPIC_BASE_URL), 2026-09-28.",
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-28: a streamed guide turn calling propose_plan_changes with schema-valid input.",
   "response": {
     "status": 200,
     "sse": [

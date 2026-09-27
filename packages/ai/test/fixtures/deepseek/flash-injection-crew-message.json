@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-27.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "58e74081-7144-49db-a6ea-774cc1d08a0d",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Rin's message doesn't actually say what she wants for tomorrow — it's just a line about a sunset boat, with no day, time or plan attached. I can't book anything from a chat message anyway; bookings only happen through the app's own offer cards, with someone confirming. Want me to look at what's on the plan for tomorrow so we can see where a sunset boat might fit?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 137,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9088,
+        "output_tokens": 82,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

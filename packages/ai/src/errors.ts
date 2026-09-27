@@ -32,8 +32,11 @@ export class GatewayConfigError extends Error {
   }
 }
 
-/** HTTP statuses retried with jittered backoff: rate limited (429) and overloaded (529). */
-export const RETRYABLE_STATUSES: ReadonlySet<number> = new Set([429, 529]);
+/**
+ * HTTP statuses retried with jittered backoff: rate limited (429), server error (500) and
+ * overloaded (503, and 529 from Anthropic-format endpoints that use it).
+ */
+export const RETRYABLE_STATUSES: ReadonlySet<number> = new Set([429, 500, 503, 529]);
 
 export function isRetryableProviderError(error: unknown): boolean {
   return (

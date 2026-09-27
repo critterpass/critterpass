@@ -1,0 +1,31 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-v4-pro) through its Anthropic-format API, 2026-09-27.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "984fcee5-4fe1-4ef7-a14f-94d11ae3aebd",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "call_00_jLK0kBuZUQ1MzdhivEZm8581",
+          "name": "web_search",
+          "input": {
+            "query": "cheap hotels near old town Hoi An tonight availability"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 110,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9344,
+        "output_tokens": 53,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
