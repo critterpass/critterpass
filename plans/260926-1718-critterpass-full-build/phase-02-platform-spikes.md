@@ -169,6 +169,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Build PMTiles for Da Nang from OSM (planetiler/tippecanoe). 2. Upload to `cp-tiles`; serve via media-worker range reads or public bucket (compare). 3. Custom hand-drawn style draft (fonts glyphs + sprites on R2). 4. Offline pack download for city bbox. 5. Pan/zoom fps on mid Android.
 - Tests: `pnpm --filter @cp/spike-tiles run build -- --city da-nang`; fps capture script (founder checklist on mid Android).
 - Done when: offline map works in airplane mode; ADR chooses PMTiles or tile server.
+- Status: done — 609a08a (real Da Nang PMTiles extract via planetiler + Geofabrik, uploaded to the public `cp-tiles` bucket with real SDF glyphs and a canvas-drawn sprite; MapLibre RN 11 renders the custom dark style from it and, after a real on-device download, renders again from the local file with zero PMTiles-source network calls — two real bugs found and fixed getting there (a doubled `file://` scheme, `<Map>` needing a full remount to reapply `background-pattern`); media-worker range reads ruled out by reading its actual source, not guessing — see the ADR; true network-severed offline proof and Android pan/zoom fps remain founder follow-ups)
 
 ### T14 — Android native surfaces (Kotlin)
 - Goal: prove Android parity surfaces before the surface phases build them.
