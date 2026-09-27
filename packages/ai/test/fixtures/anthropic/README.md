@@ -17,3 +17,6 @@ place of `fetch`, so the real SDK client parses them end to end.
 | `rate-limited-429.json`                | rate-limit error with `retry-after`                                                        |
 | `sonnet-web-search.json`               | guest-guide answer from Anthropic web search with cited results                            |
 | `sonnet-web-search-supplier-leak.json` | web search that returned and cited a supplier page (the case the code-side screen catches) |
+| `haiku-stream-tool-use.json` | streamed turn that calls `places_search` (`stop_reason: tool_use`) |
+| `haiku-stream-after-tool.json` | streamed answer after a `TOOL_UNAVAILABLE` tool result |
+| `haiku-stream-refusal.json` | streamed turn ending in `stop_reason: refusal` |

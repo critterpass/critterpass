@@ -154,6 +154,7 @@ export {
   type GroundingViolationKind,
 } from './tools/grounding';
 export {
+  citedSources,
   dropBlockedCitations,
   routeTools,
   screenWebSearch,
@@ -164,3 +165,30 @@ export {
   type WebSearchOptions,
   type WebSearchScreen,
 } from './tools/web-search';
+export {
+  BRIEF_ANSWER_DIRECTIVE,
+  degradedRoute,
+  settleOnce,
+  type FairUseLevel,
+  type MeterHandle,
+  type MeterReservation,
+  type MeterSettlement,
+} from './runner/meter';
+export {
+  encodeSseEvent,
+  SSE_HEADERS,
+  SSE_HEARTBEAT,
+  sseStream,
+  type SseStreamOptions,
+  type ToolCard,
+  type ToolCardStatus,
+  type TurnEvent,
+  type UsageSnapshot,
+} from './runner/sse';
+export {
+  DEFAULT_TOOL_ROUNDS,
+  runTurn,
+  type RunTurnDeps,
+  type RunTurnInput,
+  type TurnHooks,
+} from './runner/turn';

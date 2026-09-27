@@ -97,10 +97,17 @@ export function dropBlockedCitations(
   });
 }
 
+/** Distinct cited URLs a client may show, blocked domains removed. */
+export function citedSources(content: readonly Anthropic.Messages.ContentBlock[]): string[] {
+  const urls = dropBlockedCitations(content).flatMap((block) =>
+    block.type === 'text' ? citationUrls(block) : [],
+  );
+  return [...new Set(urls)];
+}
+
 /** The answer as a client would see it: text plus the source URLs it cites. */
 export function visibleAnswer(content: readonly Anthropic.Messages.ContentBlock[]): string {
-  const safe = dropBlockedCitations(content);
-  const text = safe.flatMap((block) => (block.type === 'text' ? [block.text] : [])).join('');
-  const sources = safe.flatMap((block) => (block.type === 'text' ? citationUrls(block) : []));
-  return sources.length === 0 ? text : `${text}\n\nSources: ${[...new Set(sources)].join(', ')}`;
+  const text = content.flatMap((block) => (block.type === 'text' ? [block.text] : [])).join('');
+  const sources = citedSources(content);
+  return sources.length === 0 ? text : `${text}\n\nSources: ${sources.join(', ')}`;
 }
