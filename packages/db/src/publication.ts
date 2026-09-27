@@ -17,10 +17,16 @@ import * as schema from './schema';
  * Tables whose privacy class alone (C0-C2) would qualify them, but whose RLS shape is "S"
  * (docs/data-model.md §1.1): `media_objects` (packages/db/src/schema/identity.ts) has no app_user
  * SELECT policy at all — reads happen only through the API — so a client can never see it directly
- * even though the row content itself is not sensitive. Add a new entry here, with the same comment
- * style, if a later table needs the same treatment.
+ * even though the row content itself is not sensitive. `fair_use_counters`
+ * (packages/db/src/schema/entitlements.ts) is the same shape: silent fair-use counts must never be
+ * client-visible (docs/product-decisions.md §3 "never shown as a limit"), even though the row
+ * content is not otherwise sensitive. Add a new entry here, with the same comment style, if a later
+ * table needs the same treatment.
  */
-const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set(['media_objects']);
+const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
+  'media_objects',
+  'fair_use_counters',
+]);
 
 /** Every table this schema declares that the `powersync` publication should carry. */
 export function computePublicationAllowList(): readonly string[] {

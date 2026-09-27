@@ -1,0 +1,13 @@
+[
+  { "date": "2026-09-27", "base": "EUR", "quote": "AUD", "rate": 1.6222 },
+  { "date": "2026-09-27", "base": "EUR", "quote": "GBP", "rate": 0.86 },
+  { "date": "2026-09-27", "base": "EUR", "quote": "IDR", "rate": 20411 },
+  { "date": "2026-09-27", "base": "EUR", "quote": "JPY", "rate": 180.4 },
+  { "date": "2026-09-27", "base": "EUR", "quote": "KRW", "rate": 1551.81 },
+  { "date": "2026-09-27", "base": "EUR", "quote": "MYR", "rate": 4.6469 },
+  { "date": "2026-09-26", "base": "EUR", "quote": "PHP", "rate": 71.338 },
+  { "date": "2026-09-27", "base": "EUR", "quote": "SGD", "rate": 1.4571 },
+  { "date": "2026-09-27", "base": "EUR", "quote": "THB", "rate": 38.065 },
+  { "date": "2026-09-27", "base": "EUR", "quote": "USD", "rate": 1.1398 },
+  { "date": "2026-09-27", "base": "EUR", "quote": "VND", "rate": 29546 }
+]

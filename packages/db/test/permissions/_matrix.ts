@@ -296,6 +296,17 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  fx_snapshots: {
+    selectProbe: { sql: 'SELECT 1 FROM fx_snapshots LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
   client_config: {
     selectProbe: {
       sql: "SELECT 1 FROM client_config WHERE key = 'matrix.probe'",
@@ -308,6 +319,96 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       member: op(true, false, false),
       coOrganiser: op(true, false, false),
       organiser: op(true, false, false),
+    },
+  },
+  products: {
+    selectProbe: {
+      sql: "SELECT 1 FROM products WHERE key = 'boost_trip'",
+      params: () => [],
+    },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  perks: {
+    selectProbe: {
+      sql: "SELECT 1 FROM perks WHERE key = 'boost_live_map'",
+      params: () => [],
+    },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  // Self-only (RLS class O), materialised server-side: the organiser's own row, not published to
+  // anyone else — the same shape as user_settings/consents above, but with no app_user write grant
+  // at all (packages/db/test/permissions/user_entitlements.test.ts proves the write side directly).
+  user_entitlements: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM user_entitlements WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: op(true, false, false),
+    },
+  },
+  // Trip-member read (RLS class T), materialised server-side, no app_user write grant.
+  trip_entitlements: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM trip_entitlements WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  // The fixture's one usage_counters row is trip-scoped, exercising the same is_trip_member half of
+  // the "O / T" policy as trip_entitlements; packages/db/test/permissions/usage_counters.test.ts
+  // proves the user-scoped half (self vs. non-self) directly.
+  usage_counters: {
+    selectProbe: {
+      sql: "SELECT 1 FROM usage_counters WHERE subject_kind = 'trip' AND subject_id = $1",
+      params: (f) => [f.tripId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  // RLS class S (docs/product-decisions.md §3: silent fair-use caps, never client-visible) — no
+  // app_user grant at all, same shape as cmd_log/domain_events above.
+  fair_use_counters: {
+    selectProbe: { sql: 'SELECT 1 FROM fair_use_counters LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
     },
   },
 };
