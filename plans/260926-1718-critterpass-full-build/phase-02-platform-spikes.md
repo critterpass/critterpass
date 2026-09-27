@@ -97,6 +97,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. powersync-repl + powersync-api on Railway staging replicating `spike.messages` from PlanetScale via publication. 2. JWKS from `spike-auth`. 3. `/sync/upload` in harness: validates op, writes row or writes `cmd_results` reject with 2xx. 4. Device: offline 50 inserts → reconnect → converge; second device measures arrival (p95). 5. Node load script opens 1k sync connections for 10 min.
 - Tests: `pnpm --filter @cp/spike-s-sync run load -- --conns 1000`; latency script outputs p50/p95; reject path asserted by reading `cmd_results`.
 - Done when: numbers recorded against criteria; verdict in ADR.
+- Status: done — 8467ed0 (replication/auth/upload/offline-replay/chat-latency PASS on real Railway SG + PlanetScale staging; 1,120 concurrent connections held with 0 failures by aggregating 4 independent load-generator processes — a single process maxes out around 280-300 from its own per-client SDK memory cost, not from any server-side limit; see ADR for the full finding set incl. the hardcoded publication name, publication/table ownership split, and the `iat`/`aud` JWT payload findings)
 
 ### T5 — S-SYNC switchover drill
 - Goal: logical slot survives a PlanetScale primary switchover.
@@ -104,6 +105,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Continuous writer + PowerSync checkpoint watcher. 2. Trigger PlanetScale switchover (console/API). 3. Measure write gap, replication resume time, whether PowerSync re-snapshotted (diagnostics API). 4. Repeat on Railway Postgres HA for the fallback. 5. Write runbook (quarterly drill steps, expected numbers, rollback).
 - Tests: `pnpm --filter @cp/spike-s-sync run drill` produces report JSON.
 - Done when: runbook exists; ADR states slot kept (PASS) or fallback chosen.
+- Status: done — f93167d (`pscale branch switchover` on `main` confirmed real and used directly, no support-request blocker; FAIL — the promoted replica does not carry the old primary's logical slot, forcing a full re-snapshot after ~30s of retry/detection; ~34.4s real sync-path gap measured from replication logs against PlanetScale's own official switchover timing, app-level writes barely affected (1/138 failed); chosen path is an adjusted operational expectation within the same stack (D4 stands), not a technology change — runbook + ADR carry the founder follow-ups (re-test at production data volume; ask PlanetScale support about slot-preserving failover))
 
 ### T6 — S-RT: Centrifugo proxy, presence, recovery, revocation
 - Goal: realtime contract proven.
