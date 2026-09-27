@@ -32,11 +32,11 @@ jobs:
       - uses: actions/setup-node@v7
         with: { node-version: '${{ matrix.node }}', cache: pnpm }
       - run: pnpm install --frozen-lockfile
-      - uses: actions/cache@v6
+      # Turborepo remote cache served from the GitHub Actions cache, one entry per task hash. Keyed
+      # per Node version so each matrix leg really runs its own tests.
+      - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
         with:
-          path: .turbo/cache
-          key: turbo-${{ runner.os }}-node${{ matrix.node }}-${{ github.sha }}
-          restore-keys: turbo-${{ runner.os }}-node${{ matrix.node }}-
+          cache-prefix: turbo-node${{ matrix.node }}_
       - name: Format
         if: matrix.node == 26
         run: pnpm format:check
@@ -53,6 +53,10 @@ jobs:
       - uses: actions/setup-node@v7
         with: { node-version: 26, cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      # Only the builds the suites depend on come from cache; turbo.json never caches test:db.
+      - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
+        with:
+          cache-prefix: turbo-node26_
       - run: pnpm turbo run test:db --affected --continue
 
   changes:
