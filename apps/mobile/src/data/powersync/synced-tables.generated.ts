@@ -11,6 +11,8 @@ export const SYNCED_TABLE_COLUMNS = {
   account_deletions:
     'user_id reason balances_snapshot requested_at purge_at restored_at purged_at source',
   activity_events: 'trip_id crew_id actor_kind actor_id verb object_kind object_id text at',
+  agent_jobs:
+    'trip_id user_id kind status steps partial input_hash base_version_id result_ref model tokens_in:integer tokens_out:integer cost_micros:integer pgboss_job_id created_at updated_at',
   change_sets:
     'trip_id base_version_id trigger scope author_kind author_id status poll_id cost_delta_minor:integer ops approved_by_kind approved_by result_version_id created_at updated_at',
   client_config: 'key value updated_at',
@@ -25,6 +27,9 @@ export const SYNCED_TABLE_COLUMNS = {
   fx_snapshots: 'base quote rate as_of source created_at',
   guide_actions:
     'trip_id change_set_id kind target_provider_id channel status reversible:integer compensates_id cost_delta_minor:integer audit created_at updated_at',
+  guide_offer_claims: 'offer_id trip_id user_id created_at',
+  guide_offers:
+    'trip_id message_id kind slots_total:integer slots_taken:integer expires_at target_ref status created_at updated_at',
   guides: 'slug name colour persona_pack_version voice_id local_words created_at updated_at',
   itinerary_versions:
     'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at',
