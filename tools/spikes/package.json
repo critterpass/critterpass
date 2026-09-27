@@ -21,7 +21,9 @@
     "tiles:build": "tsx tiles/build.ts",
     "tiles:fonts": "tsx tiles/generate-fonts.ts",
     "tiles:sprite": "tsx tiles/generate-sprite.ts",
-    "tiles:upload": "tsx tiles/upload.ts"
+    "tiles:upload": "tsx tiles/upload.ts",
+    "valhalla:bench": "tsx src/valhalla/run.ts",
+    "valhalla:cold-start": "tsx src/valhalla/cold-start.ts"
   },
   "dependencies": {
     "@better-auth/expo": "1.7.6",
