@@ -7,6 +7,7 @@ export { impact, SOUND_CUE_IDS } from './impact';
 export type { SoundCueId } from './impact';
 export type { MotionMode } from './motion-mode';
 export { combineMotionMode, useMotionMode } from './motion-mode';
+export * as patterns from './patterns';
 export type {
   LoopEasingId,
   LoopKeyframeStop,
