@@ -1,7 +1,7 @@
 ---
 phase: 12
 title: Entitlement engine, money & FX primitives
-status: pending
+status: done
 depends_on: [8]
 wave: 3
 features: [F-019, F-021]
@@ -147,16 +147,17 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. Loader registry (empty source set = Free). 2. `recomputeUser/Trip` writes rows + `trip.seat_cap`/`redraft_limit` columns + outbox events; recompute on crew membership/trip status domain events via hook from phase 8. 3. `entitle(ctx, {kind:'quota'|'capability'|'seat'|'redraft', …})` inside the command tx → reservation or typed error. 4. zod schema for App Group entitlements snapshot (Swift/Kotlin codegen by phase 48). 5. Mobile hook evaluating pure engine over synced rows.
 - Tests: `pnpm --filter @cp/api test -- entitlements`; `pnpm --filter @cp/mobile test -- data/entitlements`
 - Done when: registering a test-only source loader in the test suite flips a trip to 16 seats and writes `entitlement.changed` `rt_outbox` rows for every member; `entitle(tx, …)` called inside a raw `withUser` tx that then rolls back leaves `usage_counters` unchanged (pipeline-level test lives in phase 10 T1, which depends on this phase).
+- Status: done — eb6f4b9 (mobile hook takes synced-row shapes as explicit args pending PowerSync, same pattern T2's `usePriceFormatter` already uses)
 
 ## Phase acceptance criteria
-- [ ] Every entitlement matrix cell and lifecycle overlay covered by a passing test.
-- [ ] Guide meter 30/day with device-tz reset; concurrency-safe consume proven.
-- [ ] Fair-use caps silent (no client-visible table, degrade decisions only).
-- [ ] Perk lists read from synced `perks` rows; nothing hard-coded in clients.
-- [ ] Money property tests pass; no float in money paths (lint rule `no-restricted-syntax` on `parseFloat`/`Number(` in money dirs).
-- [ ] FX ingest idempotent; conversions pinned to `fx_snapshot_id`.
-- [ ] HOME/LOCAL/BOTH formatter reproduces design samples.
-- [ ] Permission tests for all new tables green; publication check passes.
+- [x] Every entitlement matrix cell and lifecycle overlay covered by a passing test.
+- [x] Guide meter 30/day with device-tz reset; concurrency-safe consume proven.
+- [x] Fair-use caps silent (no client-visible table, degrade decisions only).
+- [x] Perk lists read from synced `perks` rows; nothing hard-coded in clients.
+- [x] Money property tests pass; no float in money paths (lint rule `no-restricted-syntax` on `parseFloat`/`Number(` in money dirs).
+- [x] FX ingest idempotent; conversions pinned to `fx_snapshot_id`.
+- [x] HOME/LOCAL/BOTH formatter reproduces design samples.
+- [x] Permission tests for all new tables green; publication check passes.
 
 ## Risks & rollback
 | Risk | Mitigation |
