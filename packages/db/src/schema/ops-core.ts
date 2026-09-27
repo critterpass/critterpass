@@ -6,7 +6,16 @@
  */
 import { registerTablePrivacy } from '@cp/domain';
 import { sql } from 'drizzle-orm';
-import { boolean, jsonb, pgSchema, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  integer,
+  jsonb,
+  pgSchema,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from 'drizzle-orm/pg-core';
 
 const ops = pgSchema('ops');
 
@@ -21,12 +30,20 @@ export const opsAdminAudit = ops.table('admin_audit', {
   reason: text('reason'),
   at: timestamp('at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   ipHash: text('ip_hash'),
+  /** The admin command's op_id and a redacted summary (added by *_ops_console.sql). */
+  opId: uuid('op_id'),
+  detail: jsonb('detail'),
 });
 
 export const opsConfig = ops.table('ops_config', {
   key: text('key').primaryKey(),
   value: jsonb('value').notNull(),
   isPublic: boolean('is_public').notNull().default(false),
+  /** Optimistic-concurrency token for the ops console's flag editor (added by *_ops_console.sql). */
+  version: integer('version').notNull().default(1),
+  /** Who a flag applies to (`@cp/domain` `flagAudienceSchema`); only `all` projects to client_config. */
+  audience: jsonb('audience').notNull().default({ kind: 'all' }),
+  updatedBy: uuid('updated_by'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

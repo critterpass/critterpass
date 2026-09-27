@@ -74,4 +74,4 @@ jobs:
         if: steps.creds.outputs.ready == 'true'
         run: |
           pnpm --filter @cp/admin run build
-          pnpm --filter @cp/admin exec wrangler deploy --env "$TARGET"
+          pnpm --filter @cp/admin run deploy --env "$TARGET"
