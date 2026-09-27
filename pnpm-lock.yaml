@@ -952,6 +952,12 @@ importers:
       '@types/pg':
         specifier: 'catalog:'
         version: 8.23.1
+      centrifuge:
+        specifier: 'catalog:'
+        version: 5.7.4
+      testcontainers:
+        specifier: 'catalog:'
+        version: 12.1.0(supports-color@10.2.2)
       tsdown:
         specifier: 'catalog:'
         version: 0.23.0(@volar/typescript@2.4.28(typescript@6.0.3))(tsx@4.23.15)(typescript@6.0.3)

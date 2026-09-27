@@ -25,6 +25,7 @@ import {
   registerMergeTicketPreviewRoute,
   registerReturningPhoneSignInRoute,
 } from './routes/auth-extra';
+import { sessionRevokeRealtimeMiddleware } from './realtime/session-revoke-hook';
 import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerWhatsAppWebhookRoutes } from './routes/webhooks-whatsapp';
 import { createCommandRegistry } from './commands/_framework/registry';
@@ -164,6 +165,7 @@ if (env.RT_PROXY_SECRET) {
 // above (`/api/auth/sign-in/phone-number` in particular — registerReturningPhoneSignInRoute wins
 // over Better Auth's own password-based endpoint of the same name only because Hono matches the
 // first registered route).
+app.use('/api/auth/admin/*', sessionRevokeRealtimeMiddleware({ pool, logger }));
 app.on(['GET', 'POST'], '/api/auth/*', (c) => authModule.handler(c.req.raw));
 
 const server = serve({ fetch: app.fetch, port: env.PORT }, (info) => {
