@@ -65,6 +65,7 @@ jobs:
       critter_art: ${{ steps.filter.outputs.critter_art }}
       critter_macos: ${{ steps.filter.outputs.critter_macos }}
       services: ${{ steps.filter.outputs.services }}
+      synced_schema: ${{ steps.filter.outputs.synced_schema }}
     steps:
       - uses: actions/checkout@v7
       - uses: dorny/paths-filter@v4
@@ -93,6 +94,11 @@ jobs:
               - 'apps/mobile/jest.config.js'
               - 'design/**'
               - '.github/workflows/ci.yml'
+            synced_schema:
+              - 'packages/db/src/schema/**'
+              - 'packages/db/src/publication.ts'
+              - 'infra/powersync/**'
+              - 'apps/mobile/src/data/powersync/**'
             services:
               - 'services/api/**'
               - 'services/worker/**'
@@ -177,6 +183,22 @@ jobs:
         with: { node-version: 26, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm tsx tools/scripts/check-release-bundle.ts
+
+  synced-schema:
+    # The mobile app's local schema is generated from the server's Drizzle schema and the powersync
+    # publication. The app may not depend on @cp/db, so turbo never reruns its tests for a schema
+    # change; this job runs the drift check whenever either side changes.
+    name: mobile synced schema matches the server
+    needs: changes
+    if: needs.changes.outputs.synced_schema == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @cp/mobile exec jest src/data/powersync/__tests__/synced-schema
 
   service-images:
     # Builds the api and worker images exactly as Railway does, so a dependency or Dockerfile change
