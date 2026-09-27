@@ -35,3 +35,4 @@ export {
   type Rational,
   type RoundingMode,
 } from './money/index';
+export { convert, convertViaBase, isStaleSnapshot, type FxSnapshot } from './fx/index';

@@ -296,6 +296,17 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  fx_snapshots: {
+    selectProbe: { sql: 'SELECT 1 FROM fx_snapshots LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
   client_config: {
     selectProbe: {
       sql: "SELECT 1 FROM client_config WHERE key = 'matrix.probe'",

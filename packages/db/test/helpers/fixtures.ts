@@ -48,10 +48,10 @@ export interface PermissionFixture {
 
 /**
  * Builds a crew of five real users plus one backing-row-free "anonymous" uid, seats
- * organiser/coOrganiser/member on one trip, and adds one row to every remaining table this phase
- * owns (plan version/day/item, change set, activity event, guide action, a member-owned
- * `cmd_results` row, and one public `client_config` entry) so a table-by-table SELECT sweep always
- * has something real to find or correctly fail to find.
+ * organiser/coOrganiser/member on one trip, and adds one row to every read-all catalogue table
+ * (plan version/day/item, change set, activity event, guide action, a member-owned `cmd_results`
+ * row, one public `client_config` entry, one `fx_snapshots` row) so a table-by-table SELECT sweep
+ * always has something real to find or correctly fail to find.
  */
 export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionFixture> {
   const anonymousUid = anonymousActor().uid;
@@ -75,6 +75,11 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     );
     await tx.query(
       "INSERT INTO guides (slug, name, colour) VALUES ('matrix-probe-guide', 'Matrix Probe', 'yellow') ON CONFLICT (slug) DO NOTHING",
+    );
+    await tx.query(
+      `INSERT INTO fx_snapshots (base, quote, rate, as_of, source)
+       VALUES ('EUR', 'SGD', 1.4571, '2026-09-25', 'matrix-probe')
+       ON CONFLICT (base, quote, as_of, source) DO NOTHING`,
     );
 
     const crewId = await insertCrew(tx, { createdBy: organiser });
