@@ -1,7 +1,7 @@
 ---
 phase: 13
 title: LLM gateway, personas, tool registry, autonomy policy
-status: in_progress
+status: done
 depends_on: [8, 11]
 wave: 6
 features: [F-013, F-052]
@@ -243,6 +243,7 @@ Offline-first: public text created offline is checked when its command reaches t
   6. No Claude model id remains in code; the gateway keeps one seam where a Gemini adapter could be added later (none now).
 - Tests: `pnpm --filter @cp/ai test`; `pnpm --filter @cp/ai eval --all` in replay and live (DeepSeek); recorded Tavily fixtures for the search tool.
 - Done when: every eval suite meets its threshold live on DeepSeek; `ai_usage` costs match DeepSeek pricing; a batch job completes without the Batches API; `guest.guide` answers with blocklist-screened search sources.
+- Status: done — e49e602
 
 ## Phase acceptance criteria
 
