@@ -33,6 +33,7 @@
     "jose": "catalog:",
     "libphonenumber-js": "1.13.14",
     "pg": "catalog:",
+    "pg-boss": "catalog:",
     "pino": "catalog:",
     "pkijs": "catalog:",
     "redis": "catalog:",

@@ -17,7 +17,10 @@ import { z } from 'zod';
 import { createApp } from '../../src/app';
 import { createAuthModule } from '../../src/auth';
 import { defineCommand } from '../../src/commands/_framework/define-command';
-import { createCommandRegistry } from '../../src/commands/_framework/registry';
+import {
+  createCommandRegistry,
+  type CommandRegistry,
+} from '../../src/commands/_framework/registry';
 import { betterAuthSessionResolver } from '../../src/commands/_framework/session';
 import { registerDeviceCommands } from '../../src/commands/device';
 import { registerActionKeyRoutes } from '../../src/routes/action-keys';
@@ -33,6 +36,9 @@ export interface SignedIn {
 
 export interface ActionDoorsHarness {
   readonly pool: pg.Pool;
+  readonly connectionString: string;
+  /** Commands a suite adds on top of the device command and the test ballot. */
+  readonly registry: CommandRegistry;
   /** How many times each op_id's handler actually ran. */
   readonly runs: Map<string, number>;
   request(path: string, init?: RequestInit): Promise<Response>;
@@ -143,6 +149,8 @@ export async function startActionDoors(): Promise<ActionDoorsHarness> {
 
   return {
     pool,
+    connectionString: postgres.getConnectionUri(),
+    registry,
     runs,
     request,
     async signInAnonymously() {

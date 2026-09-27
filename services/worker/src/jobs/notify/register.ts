@@ -9,7 +9,12 @@
  */
 import { createHash } from 'node:crypto';
 
-import type { ClassContext, NotificationKey, SenderKind } from '@cp/domain';
+import {
+  notificationKeysForEvent,
+  type ClassContext,
+  type NotificationKey,
+  type SenderKind,
+} from '@cp/domain';
 import type pg from 'pg';
 
 import type { Copy, CopyVars } from '../../push/render';
@@ -72,6 +77,11 @@ const registrations = new Map<string, NotificationRegistration>();
 const registrationId = (event: string, key: string): string => `${event}→${key}`;
 
 export function registerNotification(registration: NotificationRegistration): void {
+  if (!notificationKeysForEvent(registration.event).includes(registration.key)) {
+    throw new Error(
+      `declare ${registration.event} → ${registration.key} in @cp/domain NOTIFICATION_TRIGGERS first`,
+    );
+  }
   const id = registrationId(registration.event, registration.key);
   if (registrations.has(id)) {
     throw new Error(

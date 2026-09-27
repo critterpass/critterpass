@@ -49,6 +49,7 @@ import { seatTokenKeyringFromJson, type LinkEnvironment } from '@cp/domain';
 import { registerActionKeyRoutes } from './routes/action-keys';
 import { registerActionsRoute } from './routes/actions';
 import { registerNotificationRoutes } from './routes/notifications';
+import { routeNotificationsFromApiEvents, startJobProducer } from './jobs/producer';
 
 const env = loadApiEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'api', commit: env.COMMIT_SHA } });
@@ -169,6 +170,18 @@ if (env.WHATSAPP_APP_SECRET && env.WHATSAPP_VERIFY_TOKEN) {
   );
 }
 
+// Send-only pg-boss for enqueue-in-transaction (docs/api-contracts-async.md §2.1), and notification
+// routing for every domain event this process appends. Until the producer has started, a command
+// that must enqueue fails retryably rather than dropping its job.
+const jobProducer = startJobProducer({
+  connectionString: env.DATABASE_DIRECT_URL ?? env.DATABASE_URL,
+  logger,
+}).catch((error: unknown) => {
+  logger.error({ err: error }, 'job producer failed to start; enqueueing commands will fail');
+  return undefined;
+});
+routeNotificationsFromApiEvents();
+
 // The three command doors over one registry (docs/api-contracts.md §2.2, §5.2).
 const commands = createCommandRegistry();
 commands.register(registerMediaUploadCommand);
@@ -278,6 +291,7 @@ function shutdown(signal: string) {
       pool.end(),
       redis.isOpen ? redis.close() : Promise.resolve(),
       authModule.close(),
+      jobProducer.then((boss) => boss?.stop({ graceful: true, timeout: 5_000 })),
     ]).then(() => {
       logger.info('stopped');
       process.exit(0);

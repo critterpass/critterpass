@@ -9,12 +9,16 @@
 import { sendInTx, withSystem } from '@cp/db';
 import {
   getNotificationSpec,
+  notificationKeysForEvent,
+  notifyRouteJobSchema,
+  notifyRouteSingletonKey,
+  NOTIFY_ROUTE_QUEUE,
   renderCollapseKey,
   resolveNotificationClass,
   type NotificationClass,
+  type NotifyRouteJob,
 } from '@cp/domain';
 import type pg from 'pg';
-import { z } from 'zod';
 
 import { defineJob, type JobDefinition } from '../../boss';
 import type { CopyRenderer } from '../../push/render';
@@ -23,43 +27,38 @@ import { decide, localClock, type Decision } from './policy';
 import {
   dedupeKeyFor,
   getRegistration,
-  registrationsForEvent,
   type NotificationRegistration,
   type NotificationRewriter,
   type RoutedEvent,
 } from './register';
 import { bookLedger, lockLedger, pushTargets, writeNotification } from './store';
 
-export const NOTIFY_ROUTE_QUEUE = 'notify.route';
+export { NOTIFY_ROUTE_QUEUE };
 export const PUSH_SEND_QUEUE = 'push.send';
 
-export const notifyRouteDataSchema = z.object({
-  event_id: z.uuid(),
-  key: z.string().min(1),
-  /** Absent on the fan-out job; present on each recipient's job. */
-  uid: z.uuid().optional(),
-});
-export type NotifyRouteData = z.infer<typeof notifyRouteDataSchema>;
-
-const routeSingletonKey = (data: NotifyRouteData): string =>
-  `${data.event_id}:${data.key}:${data.uid ?? '*'}`;
+export const notifyRouteDataSchema = notifyRouteJobSchema;
+export type NotifyRouteData = NotifyRouteJob;
 
 export function enqueueNotifyRoute(
   tx: pg.PoolClient,
   data: NotifyRouteData,
 ): Promise<string | null> {
-  return sendInTx(tx, NOTIFY_ROUTE_QUEUE, notifyRouteDataSchema.parse(data), {
-    singletonKey: routeSingletonKey(data),
+  return sendInTx(tx, NOTIFY_ROUTE_QUEUE, notifyRouteJobSchema.parse(data), {
+    singletonKey: notifyRouteSingletonKey(data),
   });
 }
 
-/** `onEventAppended` hook: one routing job per registered notification of the event's type. */
+/**
+ * `onEventAppended` hook: one routing job per notification key the event triggers
+ * (`NOTIFICATION_TRIGGERS` in @cp/domain), in the transaction that appended the event. The api
+ * registers the same hook, so events from either process are routed.
+ */
 export async function routeEventHook(
   tx: pg.PoolClient,
   event: { readonly id: string; readonly type: string },
 ): Promise<void> {
-  for (const registration of registrationsForEvent(event.type)) {
-    await enqueueNotifyRoute(tx, { event_id: event.id, key: registration.key });
+  for (const key of notificationKeysForEvent(event.type)) {
+    await enqueueNotifyRoute(tx, { event_id: event.id, key });
   }
 }
 
@@ -235,7 +234,7 @@ export function notifyRouteJob(deps: NotifyRouteDeps): JobDefinition<NotifyRoute
   return defineJob({
     queue: NOTIFY_ROUTE_QUEUE,
     schema: notifyRouteDataSchema,
-    singletonKey: routeSingletonKey,
+    singletonKey: notifyRouteSingletonKey,
     concurrency: 4,
     handler: async (data, ctx) => {
       const outcome = await routeNotification(ctx.pool, deps, data);

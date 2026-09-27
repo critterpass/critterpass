@@ -1014,6 +1014,9 @@ importers:
       pg:
         specifier: 'catalog:'
         version: 8.23.0
+      pg-boss:
+        specifier: 'catalog:'
+        version: 12.35.0
       pino:
         specifier: 'catalog:'
         version: 10.3.1
@@ -1093,7 +1096,7 @@ importers:
         version: 2.1.1(hono@4.13.9)
       '@lingui/core':
         specifier: 'catalog:'
-        version: 6.8.0(@babel/core@7.29.7(supports-color@7.2.0))
+        version: 6.8.0(@babel/core@7.29.7(supports-color@10.2.2))
       '@parse/node-apn':
         specifier: 'catalog:'
         version: 8.1.0(supports-color@10.2.2)

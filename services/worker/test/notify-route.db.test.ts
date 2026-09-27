@@ -10,6 +10,7 @@ import {
   resetEventAppendedHooksForTests,
   withSystem,
 } from '@cp/db';
+import { registerNotificationTrigger, resetNotificationTriggersForTests } from '@cp/domain';
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import {
@@ -51,6 +52,9 @@ afterAll(async () => {
 
 beforeEach(() => {
   resetNotificationRegistrationsForTests();
+  resetNotificationTriggersForTests();
+  registerNotificationTrigger('crew.member_joined', 'member_joined');
+  registerNotificationTrigger('crew.member_left', 'crew_ping');
   registerNotification({
     key: 'member_joined',
     event: 'crew.member_joined',
@@ -117,6 +121,19 @@ async function joinedEvent(crewId: string, joiner: string): Promise<string> {
     { crewId },
   );
 }
+
+describe('registration', () => {
+  it('refuses a notification whose trigger is not declared in the shared catalogue', () => {
+    expect(() =>
+      registerNotification({
+        key: 'recap_ready',
+        event: 'trip.status_changed',
+        audience: () => Promise.resolve([]),
+        compose: () => Promise.resolve(null),
+      }),
+    ).toThrow(/NOTIFICATION_TRIGGERS/);
+  });
+});
 
 describe('fan-out', () => {
   it('enqueues one routing job per recipient, keyed by event, key and uid', async () => {

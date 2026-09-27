@@ -6,17 +6,20 @@
  * (services/worker/src/jobs/notify/register.ts); this file is the shared, pure part both the worker
  * and the apps read.
  *
+ * Which domain events trigger which keys is declared here too (`NOTIFICATION_TRIGGERS`), because
+ * both processes that append domain events (the api and the worker) must enqueue `notify.route`
+ * in the same transaction as the event; the audience and copy live with the worker registration.
+ *
  * Classes: `always` bypasses the daily budget and quiet hours; `budgeted` counts toward the budget
  * and waits for the evening roundup when over budget or in quiet hours; `roundup_only` is only ever
  * a roundup line; `silent` is a data/Live Activity/widget push handled by its own queue; `local` is
  * scheduled on the device and only mirrored into the ledger.
  */
+import { z } from 'zod';
+
+// prettier-ignore
 export const NOTIFICATION_CLASSES = [
-  'always',
-  'budgeted',
-  'roundup_only',
-  'silent',
-  'local',
+  'always', 'budgeted', 'roundup_only', 'silent', 'local',
 ] as const;
 export type NotificationClass = (typeof NOTIFICATION_CLASSES)[number];
 
@@ -33,35 +36,17 @@ export const CLASS_VARIANTS = [
 ] as const;
 export type ClassVariant = (typeof CLASS_VARIANTS)[number];
 
+// prettier-ignore
 export const NOTIFICATION_CATEGORIES = [
-  'cp.vote',
-  'cp.changeset',
-  'cp.disruption',
-  'cp.leaveby',
-  'cp.sos',
-  'cp.money',
-  'cp.chat',
-  'cp.rsvp',
-  'cp.invite',
-  'cp.import',
-  'cp.briefing',
-  'cp.help',
-  'cp.memory',
-  'cp.generic',
+  'cp.vote', 'cp.changeset', 'cp.disruption', 'cp.leaveby', 'cp.sos', 'cp.money', 'cp.chat',
+  'cp.rsvp', 'cp.invite', 'cp.import', 'cp.briefing', 'cp.help', 'cp.memory', 'cp.generic',
 ] as const;
 export type NotificationCategory = (typeof NOTIFICATION_CATEGORIES)[number];
 
+// prettier-ignore
 export const ANDROID_CHANNELS = [
-  'cp_always',
-  'cp_alarm',
-  'cp_crew_chat',
-  'cp_votes',
-  'cp_money',
-  'cp_trip',
-  'cp_guide',
-  'cp_critters',
-  'cp_roundup',
-  'cp_sos',
+  'cp_always', 'cp_alarm', 'cp_crew_chat', 'cp_votes', 'cp_money', 'cp_trip', 'cp_guide',
+  'cp_critters', 'cp_roundup', 'cp_sos',
 ] as const;
 export type AndroidChannel = (typeof ANDROID_CHANNELS)[number];
 
@@ -72,11 +57,9 @@ export const INTERRUPTION_LEVELS = ['passive', 'active', 'time-sensitive'] as co
 export type InterruptionLevel = (typeof INTERRUPTION_LEVELS)[number];
 
 /** The `notification_prefs` switch that can mute a key (ALWAYS keys ignore it). */
+// prettier-ignore
 export const NOTIFICATION_PREF_GATES = [
-  'guide_tips',
-  'money',
-  'critters_nearby',
-  'crew_chat',
+  'guide_tips', 'money', 'critters_nearby', 'crew_chat',
 ] as const;
 export type NotificationPrefGate = (typeof NOTIFICATION_PREF_GATES)[number];
 
@@ -268,4 +251,49 @@ export function renderCollapseKey(
     return String(value ?? '');
   });
   return missing ? undefined : rendered;
+}
+
+/** The routing queue and its payload, shared by every process that enqueues it. */
+export const NOTIFY_ROUTE_QUEUE = 'notify.route';
+
+export const notifyRouteJobSchema = z.object({
+  event_id: z.uuid(),
+  key: z.string().min(1),
+  /** Absent on the per-event fan-out job; present on each recipient's job. */
+  uid: z.uuid().optional(),
+});
+export type NotifyRouteJob = z.infer<typeof notifyRouteJobSchema>;
+
+/** One queued-or-active routing job per (event, key, recipient). */
+export function notifyRouteSingletonKey(job: NotifyRouteJob): string {
+  return `${job.event_id}:${job.key}:${job.uid ?? '*'}`;
+}
+
+/**
+ * Domain event type → the catalogue keys it triggers. A feature adds its row here and registers the
+ * matching audience and copy with the worker's `registerNotification`, which refuses a key that
+ * is not declared here, so the api and the worker never disagree about what gets routed.
+ */
+const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>> = {};
+
+const triggers = new Map<string, Set<NotificationKey>>(
+  Object.entries(NOTIFICATION_TRIGGERS).map(([event, keys]) => [event, new Set(keys)]),
+);
+
+/** Adds one trigger at runtime (a feature module, or a test). Idempotent. */
+export function registerNotificationTrigger(event: string, key: NotificationKey): void {
+  const keys = triggers.get(event) ?? new Set<NotificationKey>();
+  keys.add(key);
+  triggers.set(event, keys);
+}
+
+export function notificationKeysForEvent(event: string): readonly NotificationKey[] {
+  return [...(triggers.get(event) ?? [])];
+}
+
+/** Test-only: back to the declared triggers. */
+export function resetNotificationTriggersForTests(): void {
+  triggers.clear();
+  for (const [event, keys] of Object.entries(NOTIFICATION_TRIGGERS))
+    triggers.set(event, new Set(keys));
 }
