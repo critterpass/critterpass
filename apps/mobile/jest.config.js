@@ -8,6 +8,21 @@ module.exports = {
   ...jestExpoPreset,
   moduleNameMapper: {
     ...jestExpoPreset.moduleNameMapper,
+    // Reanimated's own shipped `/mock` re-exports several names from its real entry point, which at
+    // 4.7.0 unconditionally reaches web/DOM layout-animation code with no native module, `document`
+    // or `window.matchMedia` to fall back to under Jest — see reanimated-mock.ts's own comment for
+    // the open upstream issue this substitutes for.
+    '^react-native-reanimated$': require.resolve('./src/motion/test-support/reanimated-mock.ts'),
+    // Worklets' native binding has nothing to load under Jest either; unlike Reanimated's, Worklets'
+    // own mock is self-contained (no real-module imports), so it is used as shipped (its own docs,
+    // "Mock Implementation (Recommended)").
+    '^react-native-worklets$': 'react-native-worklets/src/mock',
+    // react-native-mmkv's own `createMMKV` correctly returns an in-memory mock under Jest, but
+    // reaching that check means first evaluating an unconditional import of this package, whose real
+    // entry point looks up its native HybridObject binding at import time — see
+    // nitro-modules-mock.ts's own comment for why an empty stub is enough.
+    '^react-native-nitro-modules$':
+      require.resolve('./src/motion/test-support/nitro-modules-mock.ts'),
     // react-native's "exports" map only exposes "react-native/asset-registry", while the Jest preset maps
     // to the pre-exports path relative to the requesting file, which pnpm's isolated node_modules cannot
     // satisfy; point the mapper at the resolved file instead.

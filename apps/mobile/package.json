@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@cp/design-tokens": "workspace:*",
     "@cp/i18n": "workspace:*",
     "@expo/dom-webview": "58.0.1",
     "@expo/log-box": "58.0.5",
@@ -17,11 +18,14 @@
     "@lingui/core": "catalog:",
     "@lingui/react": "catalog:",
     "@react-native/metro-config": "0.88.0-rc.1",
+    "@shopify/react-native-skia": "2.13.0",
     "expo": "58.0.0-preview.7",
     "expo-build-properties": "58.0.7",
     "expo-constants": "58.0.7",
     "expo-dev-client": "58.0.7",
+    "expo-device": "58.0.2",
     "expo-font": "58.0.2",
+    "expo-haptics": "58.0.1",
     "expo-linking": "58.0.7",
     "expo-localization": "catalog:",
     "expo-router": "58.0.8",
