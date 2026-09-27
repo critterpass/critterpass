@@ -1,0 +1,25 @@
+---
+import '../styles/coming-soon-sections.css';
+
+// TikTok has no account yet (founder decision) — no href configured, so no link renders.
+const INSTAGRAM_URL = 'https://www.instagram.com/critterpass.app';
+const TIKTOK_URL: string | null = null;
+---
+
+<footer class="cs-footer">
+  <div class="cs-footer__inner">
+    <div class="cs-footer__left">
+      <span class="cs-footer__brand">CRITTERPASS</span>
+      <span class="cs-footer__quip">follow the locals →</span>
+      <a href={INSTAGRAM_URL} target="_blank" rel="noopener" class="cs-footer__social">INSTAGRAM</a>
+      {TIKTOK_URL && (
+        <a href={TIKTOK_URL} target="_blank" rel="noopener" class="cs-footer__social">TIKTOK</a>
+      )}
+    </div>
+    <div class="cs-footer__right">
+      <a href="/privacy">Privacy</a>
+      <a href="mailto:hello@critterpass.app">hello@critterpass.app</a>
+      <span>© 2026 Critterpass</span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,40 @@
+---
+import '../styles/coming-soon.css';
+import WaitlistForm from './waitlist-form.astro';
+import JoinedPanel from './joined-panel.astro';
+import BoardingPass from './boarding-pass.astro';
+---
+
+<section id="join" class="cs-hero" aria-label="Hero and waitlist">
+  <div class="cs-confetti-layer" data-cs="hero-confetti" aria-hidden="true"></div>
+  <div class="cs-hero__grid">
+    <div class="cs-hero__copy">
+      <div class="cs-badges">
+        <span class="cs-badge cs-badge--muted">GROUP TRIP PLANNER</span>
+        <span class="cs-badge cs-badge--pink">COMING SOON · iOS + ANDROID</span>
+      </div>
+      <h1 class="cs-title">CRITTER<br />PASS</h1>
+      <div class="cs-lede">
+        <p class="cs-lede__text">Group trips, planned with the locals. The locals happen to be animals.</p>
+        <div class="cs-typed">
+          <span aria-hidden="true">↳</span>
+          <span data-cs="typed-text">The locals are still packing.</span>
+        </div>
+      </div>
+
+      <div class="cs-ticket">
+        <div class="cs-ticket__shadow"></div>
+        <div class="cs-ticket__card">
+          <div class="cs-ticket__head">
+            <span data-cs="ticket-title">WAITLIST · FIRST WAVE</span>
+            <span>ADMIT: ONE CREW</span>
+          </div>
+          <WaitlistForm />
+          <JoinedPanel />
+        </div>
+      </div>
+    </div>
+
+    <BoardingPass />
+  </div>
+</section>

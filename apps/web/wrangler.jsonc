@@ -8,12 +8,40 @@
     "directory": "./dist",
     "binding": "ASSETS",
   },
+  // Local `wrangler dev` (no --env) uses this top-level binding against a local sqlite file.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cp-waitlist",
+      "database_id": "d219f5f6-a0eb-4027-bbf6-55d6010a8881",
+      "migrations_dir": "migrations",
+    },
+  ],
   "env": {
     "staging": {
       "routes": [{ "pattern": "staging.critterpass.app", "custom_domain": true }],
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "cp-waitlist-staging",
+          "database_id": "c48254d4-e3cc-4c8a-8d96-b3f606c6ddd9",
+          "migrations_dir": "migrations",
+        },
+      ],
     },
     "production": {
-      // "routes": [{ "pattern": "critterpass.app/*", "custom_domain": true }]
+      "routes": [
+        { "pattern": "critterpass.app", "custom_domain": true },
+        { "pattern": "www.critterpass.app", "custom_domain": true },
+      ],
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "cp-waitlist",
+          "database_id": "d219f5f6-a0eb-4027-bbf6-55d6010a8881",
+          "migrations_dir": "migrations",
+        },
+      ],
     },
   },
 }
