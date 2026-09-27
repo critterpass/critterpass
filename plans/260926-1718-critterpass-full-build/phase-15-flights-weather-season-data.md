@@ -28,7 +28,7 @@ owns:
 
 | Source | Section |
 |---|---|
-| `docs/product-decisions.md` | D6 (Open-Meteo, Travelpayouts, Frankfurter, BestTime, AeroDataBox/AeroAPI), D10 (fare estimates only, no flight booking), C14, C20 (season is a hint) |
+| `docs/product-decisions.md` | D6 as amended by D21 (WeatherAPI.com, Travelpayouts, Frankfurter, AeroDataBox/AeroAPI; hourly venue crowds on hold), D10 (fare estimates only, no flight booking), C14, C20 (season is a hint) |
 | `docs/system-architecture.md` | §4.9 supplier layer (flights row), §10 ops (outbound timeouts, fixed IP) |
 | `docs/data-model.md` | §3.4 `price_quotes`; §3.12 `weather_snapshots`, `crowd_forecasts`; §3.8 `fx_snapshots` (P12) |
 | `docs/api-contracts.md` | §5.5 `/v1/fares`, `/v1/destinations/{id}`, `/v1/weather`, `/marine`, `/v1/places/{id}/crowds`, `/v1/fx/snapshot`; §6 tools `fare_calendar`, `weather`, `marine`, `crowd_forecast`, `fx`; §7 `travelpayouts` adapter |
@@ -63,7 +63,7 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 | Month curves | `season_months` per destination × month: `crowd_index` 0–100, `price_index`, `highlight_tag` (APR BLOSSOMS, NOV LEAVES, JAN CHEAPEST), colour role (cheapest/peak/normal); editorial, sourced + dated; price_index recomputed from `fare_cells` when coverage ≥ 3 origins |
 | Events | `season_events`: kind (blossom, foliage, festival, ceremony, holiday, closure), name, starts_on/ends_on, confidence, source, forecast_updated_at; in-season daily refresh from editorial updates (blossom forecast edits via admin) |
 | Re-pricing | `/v1/destinations/{id}?origins&month` returns month bars + per-origin fares for the selected month + fx chip + best months ("re-prices the whole page for your crew's airports") |
-| Hourly crowds | BestTime weekly forecast per active POI (venue id mapping stored), refreshed nightly for POIs in active trips, monthly otherwise; `/v1/places/{id}/crowds?date` → `hourly[24]`, `best_window` computed deterministically (lowest contiguous window within open hours) |
+| Hourly crowds | **On hold (D21):** no hourly source until one cheaper than BestTime is chosen; `/v1/places/{id}/crowds` returns the month curve with `hourly: null` and the hourly chart stays hidden. Design for when a source exists: BestTime weekly forecast per active POI (venue id mapping stored), refreshed nightly for POIs in active trips, monthly otherwise; `/v1/places/{id}/crowds?date` → `hourly[24]`, `best_window` computed deterministically (lowest contiguous window within open hours) |
 | Availability heatmap feed | `season_events` + holidays feed P27 date options ("no week fits" reasons) |
 | Missing states | no crowd data → hide hourly chart, show month curve only; no editorial month curve → hide WHEN TO GO card, show best_months chips; guest-guide destination → events from `web_search` notes only (P13 guest mode), labelled |
 
@@ -71,12 +71,12 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 
 | Area | Behaviour |
 |---|---|
-| Weather | Open-Meteo commercial: hourly temp, precip prob/amount, wind, weather code per trip point (destination centroid + plan-item POIs, elevation-aware for summits e.g. Batur); `weather_snapshots` per destination/date + point cache 1 h |
-| Marine | Open-Meteo Marine: wave height/period for boat items (3k-8 "Waves up to 2.5m") |
+| Weather | WeatherAPI.com `forecast.json` (D21): hourly temp, `chance_of_rain`/`daily_chance_of_rain`, precip amount, wind, condition code, `uv`, hourly temp, precip prob/amount, wind, weather code per trip point (destination centroid + plan-item POIs, elevation-aware for summits e.g. Batur via a lapse-rate adjustment from the POI's elevation, since the API takes no elevation parameter); `weather_snapshots` per destination/date + point cache 1 h |
+| Marine | WeatherAPI.com `marine.json`: `sig_ht_mt`, `swell_ht_mt`, `swell_period_secs` for boat items (3k-8 "Waves up to 2.5m"); `water_temp_c` and tides on Pro+ |
 | Hazards | curated feed adapters: MAGMA Indonesia / PVMBG volcano alert level (Bali/Lombok), Icelandic Met Office (Reykjavík), JMA warnings (Kyoto), GVP weekly report fallback; `hazard_alerts` (destination, kind, level, headline, source, issued_at, expires_at) |
 | Watchers | `watchForecast(trip)` pure diff: material change = precip ≥50 % flips on an outdoor item, wave ≥2.0 m on a boat item, hazard level change, temp extremes; emits `forecast.changed` / `hazard.changed` domain events with impact score; P37 builds watch list + `ai.replan` from them |
 | Cadence | `weather.refresh` every 3 h (hourly within 48 h of an outdoor item; 15 min for marine/volcano when trip in progress) |
-| Attribution | Open-Meteo CC BY 4.0 string on weather surfaces (key exported for UI) |
+| Attribution | "Powered by WeatherAPI.com" link on weather surfaces while on the free plan (key exported for UI); paid plans don't require it |
 | Missing states | feed down → last snapshot with "CHECKED {time}" + stale badge; never invent a forecast |
 
 ## Architecture & contracts
@@ -93,7 +93,7 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 | Adapter | `packages/suppliers/src/travelpayouts/fares/` (search-only capability of the `travelpayouts` adapter; P35 owns links/affiliate part) |
 | Suppliers core | first outbound supplier call lands here, so this phase creates the minimal core P35 later extends: `fetchWithEgress` (Railway static outbound IP), 120 s timeout, retries on idempotent reads only, and the `supplier_calls` audit table (supplier, endpoint, status, latency, cost units, no bodies; S, no user read) in `*_supplier_calls.sql` — **doc delta**; P35 drops these from its own scope |
 | Tools | executors `fare_calendar`, `weather`, `marine`, `crowd_forecast`, `fx` registered via P13 `registerToolExecutor` |
-| Env | `TRAVELPAYOUTS_TOKEN`, `TRAVELPAYOUTS_MARKER`, `OPEN_METEO_API_KEY`, `BESTTIME_API_KEY_PRIVATE` in `.env.example` |
+| Env | `TRAVELPAYOUTS_TOKEN`, `TRAVELPAYOUTS_MARKER`, `WEATHERAPI_KEY` in `.env.example` |
 
 ## Tasks
 
@@ -119,17 +119,18 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- travel-data/destination`
 - Done when: Kyoto returns APR/NOV peak tags and per-origin fares for the chosen month; missing curve returns `curve:null`.
 
-### T4 — BestTime hourly crowds
+### T4 — Crowds route and executor (hourly source on hold)
 - Goal: 3d-3 crowd chart + "GO BEFORE 7:30".
 - Files: `services/worker/src/travel-data/{besttime-client,crowds-refresh}.ts`, `services/api/src/travel-data/crowds-route.ts`, `packages/domain/src/travel-data/best-window.ts`, tests.
 - Steps: 1. Venue mapping via BestTime venue search on POI name+address; store ref. 2. Weekly forecast → `crowd_forecasts` (per dow). 3. Pure `bestWindow(hourly, openSpans)`. 4. Route + `crowd_forecast` executor.
 - Tests: `pnpm --fail-if-no-match --filter @cp/domain test -- best-window` ; `pnpm --fail-if-no-match --filter @cp/worker test -- travel-data/crowds`
 - Done when: Fushimi Inari fixture yields early-morning best window; POI without data → `hourly:null`.
+- Scope under D21: no hourly source yet, so skip steps 1–2 (BestTime client and refresh). Ship step 4's route and `crowd_forecast` executor on the destination month curve with `hourly: null` and `best_window: null`; keep `bestWindow` (step 3) as a tested pure function for when an hourly source exists.
 
-### T5 — Open-Meteo weather + marine
+### T5 — WeatherAPI.com weather + marine
 - Goal: hourly forecasts per trip point.
-- Files: `services/worker/src/travel-data/{open-meteo-client,weather-refresh}.ts`, `services/api/src/travel-data/weather-route.ts`, tests with recorded fixtures.
-- Steps: 1. Client (commercial endpoint, elevation param). 2. Refresh cadence per rules; snapshots per destination/date; point cache. 3. Marine for boat items. 4. Routes + `weather`/`marine` executors; attribution key.
+- Files: `services/worker/src/travel-data/{weatherapi-client,weather-refresh}.ts`, `services/api/src/travel-data/weather-route.ts`, tests with recorded fixtures.
+- Steps: 1. Client for `forecast.json` (hourly + daily, up to the plan's forecast days) and `marine.json`, keyed by `WEATHERAPI_KEY`; summit temperatures adjusted by POI elevation. 2. Refresh cadence per rules; snapshots per destination/date; point cache. 3. Marine for boat items. 4. Routes + `weather`/`marine` executors; attribution key.
 - Tests: `pnpm --fail-if-no-match --filter @cp/worker test -- travel-data/weather`
 - Done when: Bali trip fixture stores 7-day hourly + marine; failure keeps last snapshot with `stale:true`.
 
@@ -163,8 +164,8 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 |---|---|
 | Travelpayouts gaps for small origins | hub fallback labelled; "no recent price" state |
 | Travelpayouts conversion minimums threaten account | fare data kept, affiliate CTAs only where compliant (P35) |
-| Open-Meteo Standard lacks climate normals | month curves editorial; no climate API dependency |
-| BestTime credit burn | refresh only active-trip POIs nightly |
+| WeatherAPI.com has no climate normals | month curves editorial; no climate API dependency |
+| Hourly crowds on hold (D21) | month curve only; revisit when a cheaper hourly source exists |
 | Hazard feed format changes | adapter contract tests + ops alert on parse failure; last value kept |
 
 ## Non-code dependencies
@@ -172,8 +173,8 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 | Dependency | If not ready |
 |---|---|
 | Travelpayouts partner account + token | fare fields return null and UI shows the "no recent price" state |
-| Open-Meteo commercial plan | cannot ship (free tier is non-commercial); staging only |
-| BestTime Pro subscription | hourly chart hidden (month curve only) |
+| WeatherAPI.com account + `WEATHERAPI_KEY` (free plan: 100k calls/month, 3-day forecast, 1-day marine) for development and staging; Pro+ ($25/month: 14-day forecast, 5-day marine, sea temperature, tides) before launch | without a key, weather fields are null and surfaces show their empty state |
+| Hourly venue crowd source: none chosen (BestTime judged too costly, D21) | hourly chart hidden (month curve only) |
 | Founder review of editorial season data | rows stay `reviewed_at null` and are not served |
 
 ## Open questions
