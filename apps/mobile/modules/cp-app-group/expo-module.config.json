@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["CpAppGroupModule"]
+  },
+  "android": {
+    "modules": ["app.critterpass.appgroup.CpAppGroupModule"]
+  }
+}
