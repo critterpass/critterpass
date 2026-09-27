@@ -26,6 +26,7 @@ import {
   type AttestationConfig,
   type AttestationDeps,
 } from '../../src/abuse/attestation';
+import { createAuthModule } from '../../src/auth';
 import {
   buildAppAttestFixture,
   generateTestRoot,
@@ -214,5 +215,41 @@ describe('enforceAttestation: android with no Play Integrity credentials provisi
     // No credentials means nothing is verified at all (not even a failure to report) — this is the
     // phase's documented non-code-dependency fallback, not a silently-passed check.
     expect(failures).toHaveLength(0);
+  });
+});
+
+describe('attestation enforcement over a real HTTP request', () => {
+  // A regression test for a real bug this phase's own testing found: Better Auth's dispatch
+  // (`runBeforeHooks`, `node_modules/better-auth/dist/api/dispatch.mjs`) only special-cases a
+  // thrown `better-call`/`better-auth` APIError — a plain thrown DomainError reached the client as a
+  // generic 500 regardless of its own `.http`/`.code`, which `enforceAttestation`'s own unit-style
+  // tests above never exercised (they call the function directly, never through
+  // services/api/src/auth/hooks.ts's `hooks.before`). Fixed by `hooks.ts`'s `toApiError`.
+  it('rejects /sign-in/anonymous with 403 ATTESTATION_FAILED, not a generic 500, when enforce mode has no attestation headers', async () => {
+    const authModule = createAuthModule({
+      appPool: pool,
+      authDatabaseUrl: postgres.getConnectionUri(),
+      redis,
+      secret: 'test-secret-at-least-32-characters-long',
+      baseUrl: 'http://localhost:8787/api/auth',
+      trustedOrigins: ['app.critterpass://'],
+      otpAdapters: {},
+      rateLimit: { customRules: { '/sign-in/*': { window: 1, max: 1000 } } },
+      attestation: appAttestConfig({ iosMode: 'enforce', androidMode: 'enforce' }),
+    });
+    try {
+      const response = await authModule.handler(
+        new Request('http://localhost:8787/api/auth/sign-in/anonymous', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: '{}',
+        }),
+      );
+      expect(response.status).toBe(403);
+      const body = (await response.json()) as { error: { code: string } };
+      expect(body.error.code).toBe('ATTESTATION_FAILED');
+    } finally {
+      await authModule.close();
+    }
   });
 });

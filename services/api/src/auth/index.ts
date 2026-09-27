@@ -15,8 +15,9 @@ import {
   type PhoneOtpPort,
 } from './config';
 import {
-  buildAttestationBeforeHook,
   buildDatabaseHooks,
+  buildRequestAfterHook,
+  buildRequestBeforeHook,
   buildVerificationCreateAfterHook,
 } from './hooks';
 import {
@@ -28,13 +29,16 @@ import type { OtpChannel } from './otp/countries';
 import { betterAuth } from 'better-auth';
 
 import type { AttestationConfig } from '../abuse/attestation';
+import { defaultPumpingConfig, type PumpingConfig } from '../abuse/pumping';
 
 /** The subset of node-redis's client API this module needs; real shape (not `AuthSecondaryStorage`'s simplified one) so `services/api/src/app.ts` can pass its actual `redis` client through untouched. */
 export interface AuthRedisClient {
   get(key: string): Promise<string | null>;
   getDel(key: string): Promise<string | null>;
   incr(key: string): Promise<number>;
+  incrBy(key: string, amount: number): Promise<number>;
   expire(key: string, seconds: number): Promise<number>;
+  ttl(key: string): Promise<number>;
   set(key: string, value: string, options?: { EX?: number }): Promise<unknown>;
   del(key: string): Promise<number>;
   setEx(key: string, seconds: number, value: string): Promise<unknown>;
@@ -55,6 +59,8 @@ export interface AuthModuleDeps {
     error: unknown,
     context: { installId: string | undefined; platform: string | undefined },
   ) => void;
+  /** Defaults to `defaultPumpingConfig()`; override to set real allow-listed countries and spend caps once provisioned. */
+  readonly pumping?: PumpingConfig | undefined;
 }
 
 export interface AuthModule {
@@ -146,12 +152,16 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
     },
   };
 
-  const attestationBeforeHook = buildAttestationBeforeHook({
-    appPool: deps.appPool,
-    redis: deps.redis,
-    config: deps.attestation,
-    ...(deps.onAttestationFailure ? { onAttestationFailure: deps.onAttestationFailure } : {}),
-  });
+  const requestGuardsDeps = {
+    attestation: {
+      appPool: deps.appPool,
+      redis: deps.redis,
+      config: deps.attestation,
+      ...(deps.onAttestationFailure ? { onAttestationFailure: deps.onAttestationFailure } : {}),
+    },
+    rateLimit: { redis: deps.redis },
+    pumping: { redis: deps.redis, config: deps.pumping ?? defaultPumpingConfig() },
+  };
 
   const auth = betterAuth(
     buildAuthOptions({
@@ -164,7 +174,10 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
       databaseHooks: mergedDatabaseHooks,
       jwksRotationIntervalSeconds: deps.jwksRotationIntervalSeconds,
       rateLimit: deps.rateLimit,
-      hooks: { before: attestationBeforeHook },
+      hooks: {
+        before: buildRequestBeforeHook(requestGuardsDeps),
+        after: buildRequestAfterHook(requestGuardsDeps),
+      },
     }),
   );
   authRef.current = auth;

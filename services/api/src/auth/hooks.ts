@@ -10,12 +10,19 @@
  * holds. Documented as a residual risk in this phase's report rather than papered over.
  */
 import { createAuthMiddleware } from '@better-auth/core/api';
-import type { BetterAuthOptions } from 'better-auth';
+import { APIError, type BetterAuthOptions } from 'better-auth';
 import type pg from 'pg';
 
 import { withSystem } from '@cp/db';
+import { DomainError } from '@cp/domain';
 
 import { enforceAttestation, type AttestationDeps } from '../abuse/attestation';
+import {
+  enforceOtpSendPumpingDefences,
+  recordOtpSendPumpingBookkeeping,
+  type PumpingHookDeps,
+} from '../abuse/pumping';
+import { enforceOtpSendRateLimit, type AbuseRateLimitDeps } from '../abuse/rate-limits';
 
 export interface HooksDeps {
   readonly appPool: pg.Pool;
@@ -91,18 +98,104 @@ export function buildVerificationCreateAfterHook(): {
 }
 
 const ATTESTED_PATHS = new Set(['/sign-in/anonymous', '/phone-number/send-otp']);
+const SEND_OTP_PATH = '/phone-number/send-otp';
+
+interface SendOtpBody {
+  readonly phoneNumber?: unknown;
+}
+
+function readSendOtpPhoneNumber(ctx: { body?: unknown }): string | undefined {
+  const phoneNumber = (ctx.body as SendOtpBody | undefined)?.phoneNumber;
+  return typeof phoneNumber === 'string' && phoneNumber.length > 0 ? phoneNumber : undefined;
+}
 
 /**
- * Gates anonymous sign-in and OTP send behind attestation (docs/data-model.md §3.1 F-029). Mode
- * (`enforce`/`log`) lives entirely in `deps.config`, never in the request, so a client cannot opt
- * itself out; services/api/src/abuse/attestation/index.ts#enforceAttestation runs full verification
- * either way and only `enforce` mode turns a failure into a thrown `ATTESTATION_FAILED`.
+ * `better-call`'s `APIError` constructor only *types* `status` as one of its named HTTP-status
+ * strings (`better-call/dist/error.mjs`'s `statusCodes` map), even though its runtime also accepts a
+ * raw number — this is every status a `DomainError` (`packages/domain/src/errors.ts`) can carry.
  */
-export function buildAttestationBeforeHook(
-  deps: AttestationDeps,
+const HTTP_STATUS_NAMES: Readonly<Record<number, Parameters<typeof APIError.fromStatus>[0]>> = {
+  200: 'OK',
+  202: 'ACCEPTED',
+  401: 'UNAUTHORIZED',
+  402: 'PAYMENT_REQUIRED',
+  403: 'FORBIDDEN',
+  404: 'NOT_FOUND',
+  409: 'CONFLICT',
+  410: 'GONE',
+  413: 'PAYLOAD_TOO_LARGE',
+  422: 'UNPROCESSABLE_ENTITY',
+  429: 'TOO_MANY_REQUESTS',
+  500: 'INTERNAL_SERVER_ERROR',
+  502: 'BAD_GATEWAY',
+  503: 'SERVICE_UNAVAILABLE',
+  504: 'GATEWAY_TIMEOUT',
+};
+
+/**
+ * Better Auth's dispatch (`runBeforeHooks`/`runAfterHooks`, `node_modules/better-auth/dist/api/
+ * dispatch.mjs`) only special-cases a thrown `better-call`/`better-auth` `APIError`: anything else a
+ * `hooks.before`/`hooks.after` middleware throws propagates as an unhandled exception and becomes a
+ * generic 500 "Something went wrong" (confirmed empirically — a plain thrown `DomainError` reached
+ * the client as a 500 regardless of its own `.http`/`.code`). Every check this file composes throws
+ * `DomainError`; this converts it to the `APIError` shape Better Auth recognises, carrying the exact
+ * same `{error: {code, message, retryable, detail}}` body (`APIError`'s `body` is serialised
+ * verbatim by `better-call`'s `toResponse`, so the wire contract does not change).
+ */
+function toApiError(error: unknown): unknown {
+  if (error instanceof DomainError) {
+    return APIError.fromStatus(
+      HTTP_STATUS_NAMES[error.http] ?? 'INTERNAL_SERVER_ERROR',
+      error.toResponseBody(),
+    );
+  }
+  return error;
+}
+
+export interface RequestGuardsDeps {
+  readonly attestation: AttestationDeps;
+  readonly rateLimit: AbuseRateLimitDeps;
+  readonly pumping: PumpingHookDeps;
+}
+
+/**
+ * The one `hooks.before` middleware Better Auth accepts (a single function, not an array of matcher
+ * rules the way a plugin's own `hooks` are): composes attestation (F-029, `/sign-in/anonymous` +
+ * `/phone-number/send-otp`), then the phone/device rate limits and country/velocity pumping
+ * defences (both `/phone-number/send-otp` only — the IP dimension is Better Auth's own `customRules`
+ * entry for the same path). Mode/limits live entirely in each module's own config, never in the
+ * request, so a client cannot opt itself out of any of them.
+ */
+export function buildRequestBeforeHook(
+  deps: RequestGuardsDeps,
 ): NonNullable<NonNullable<BetterAuthOptions['hooks']>['before']> {
   return createAuthMiddleware(async (ctx) => {
-    if (!ATTESTED_PATHS.has(ctx.path)) return;
-    await enforceAttestation(ctx.headers ?? new Headers(), deps);
+    try {
+      if (ATTESTED_PATHS.has(ctx.path)) {
+        await enforceAttestation(ctx.headers ?? new Headers(), deps.attestation);
+      }
+      if (ctx.path === SEND_OTP_PATH) {
+        const phoneNumber = readSendOtpPhoneNumber(ctx);
+        const installId = ctx.headers?.get('x-cp-install-id') ?? undefined;
+        await enforceOtpSendRateLimit({ phoneNumber, installId }, deps.rateLimit);
+        await enforceOtpSendPumpingDefences(phoneNumber, deps.pumping);
+      }
+    } catch (error) {
+      throw toApiError(error);
+    }
+  });
+}
+
+/** Records pumping bookkeeping after a `/phone-number/send-otp` call that the `before` hook above did not already reject. */
+export function buildRequestAfterHook(
+  deps: Pick<RequestGuardsDeps, 'pumping'>,
+): NonNullable<NonNullable<BetterAuthOptions['hooks']>['after']> {
+  return createAuthMiddleware(async (ctx) => {
+    if (ctx.path !== SEND_OTP_PATH) return;
+    try {
+      await recordOtpSendPumpingBookkeeping(readSendOtpPhoneNumber(ctx), deps.pumping);
+    } catch (error) {
+      throw toApiError(error);
+    }
   });
 }
