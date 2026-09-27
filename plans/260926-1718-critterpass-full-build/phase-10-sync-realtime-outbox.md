@@ -163,6 +163,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. Config: token JWKS + `aud: rt`, Redis engine, namespaces from catalogue with history size/TTL, `force_recovery`, presence/join_leave, `allow_user_limited_channels`, proxy endpoints + shared header. 2. `registerNamespace({name, acl(uid, id, tx), clientPublish?: {types, maxHz, maxBytes}})`; register `user`, `crew`, `crew_chat`, `crew_money`, `crew_bookings`, `crew_collection`, `trip`, `trip_setup`, `trip_draft` (organiser), `trip_plan`, `trip_dayof`, `trip_watch`, `trip_quests`, `trip_album`, `trip_presence`. 3. Subscribe proxy returns `{result:{info}}` or 403 (unknown namespace → 403). 4. Publish proxy: only `trip_presence`, `crew_chat` typing; per-client rate window in Redis; drop oversize.
 - Tests: `pnpm --filter @cp/db test -- permissions/rt-subscribe` (5 fixtures × every registered namespace); `pnpm --filter @cp/api test -- routes/internal-rt`.
 - Done when: matrix passes; publish of `message.created` by a client is dropped; typing at 2/s is rate-limited to ≤1/3 s.
+- Status: done — 4c1e8b0 (api suite is `internal-rt.db.test.ts` per the Testcontainers convention: `pnpm --filter @cp/api test:db -- routes/internal-rt`; ACL predicates live in `packages/domain/src/realtime/namespaces.ts` as `RT_ACL_RULE_SQL` so the db permission suite runs exactly what the proxy runs; config drift test `services/api/test/realtime/centrifugo-config.test.ts`)
 
 ### T7 — Outbox relay and server-side revocation
 - Goal: commit-then-publish fan-out with unsubscribe/disconnect on membership or session change.
@@ -170,6 +171,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. `LISTEN rt_outbox` + 1 s sweep; `SELECT … FOR UPDATE SKIP LOCKED LIMIT 100` as `app_system`. 2. Map kinds: publish (single channel), broadcast (grouped), unsubscribe (user, channel), disconnect (user). 3. Mark `published_at`; failures increment `attempts` with capped backoff. 4. Better Auth session revoke/sign-out hook writes `disconnect` outbox row. 5. Graceful shutdown.
 - Tests: `pnpm --filter @cp/worker test -- rt-relay` (Testcontainers PG + Centrifugo container: publish visible to a subscribed centrifuge-js Node client; membership removal → client receives unsubscribe < 1 s; rolled-back tx publishes nothing).
 - Done when: all three behaviours pass; two relay instances never double-publish (test with concurrent relays checks message count).
+- Status: done — 29be5fc, 427f038 (suite is `rt-relay.db.test.ts`: `pnpm --filter @cp/worker test:db -- rt-relay`; phase 09 already queues the disconnect for sign-out/revoke-session(s), so `session-revoke-hook.ts` covers the admin ban/remove/revoke-user-sessions paths as middleware in front of Better Auth)
 
 ### T8 — Mobile realtime client, recovery and presence hooks
 - Goal: typed subscriptions with recovery, dedupe, presence, typing and anchored cursors.
