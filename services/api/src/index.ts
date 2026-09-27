@@ -46,6 +46,9 @@ import { joinCodeProvider } from './links/join-code-provider';
 import { createLinkProviderRegistry } from './links/registry';
 import { registerLinkRoutes } from './routes/links';
 import { seatTokenKeyringFromJson, type LinkEnvironment } from '@cp/domain';
+import { registerActionKeyRoutes } from './routes/action-keys';
+import { registerActionsRoute } from './routes/actions';
+import { registerNotificationRoutes } from './routes/notifications';
 
 const env = loadApiEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'api', commit: env.COMMIT_SHA } });
@@ -205,6 +208,22 @@ registerLinkRoutes(app, {
   links: linkProviders,
   webProxySecret: env.LINKS_WEB_PROXY_SECRET,
 });
+// Device action keys and the doors they open (docs/api-contracts-async.md §5): keys are stored
+// envelope-encrypted, so every route here needs the field-encryption keyring.
+if (fieldEncryptionKeyring) {
+  const actionDeps = {
+    pool,
+    registry: commands,
+    sessions: commandDoors.sessions,
+    redis,
+    keyring: fieldEncryptionKeyring,
+  };
+  registerActionKeyRoutes(app, actionDeps);
+  registerActionsRoute(app, actionDeps);
+  registerNotificationRoutes(app, actionDeps);
+} else {
+  logger.warn('Device action keys and /v1/actions are disabled: FIELD_ENCRYPTION_KEYS is unset');
+}
 if (env.RT_PROXY_SECRET) {
   registerInternalRtRoutes(app, { pool, redis, proxySecret: env.RT_PROXY_SECRET });
 } else {
