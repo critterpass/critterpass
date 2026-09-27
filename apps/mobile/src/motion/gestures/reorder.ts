@@ -27,6 +27,7 @@ export interface ReorderAnimatedStyle {
 }
 
 function clampIndex(index: number, itemCount: number): number {
+  'worklet';
   return Math.min(itemCount - 1, Math.max(0, index));
 }
 

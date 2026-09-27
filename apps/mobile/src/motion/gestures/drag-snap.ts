@@ -8,8 +8,12 @@ import type { GestureHookResult } from './shared';
 /** docs/design-system.md §3.4 `snap` cue: "15-min snaps". */
 export const SNAP_MINUTES = 15;
 
-export function snapMinutes(minutes: number, snapToMinutes: number = SNAP_MINUTES): number {
-  return Math.round(minutes / snapToMinutes) * snapToMinutes;
+export function snapMinutes(minutes: number, snapToMinutes?: number): number {
+  'worklet';
+  // Defaults resolve in the body: a worklet's captured constants only exist once its body runs on
+  // the UI runtime, so a default parameter naming one throws there.
+  const snapToMinutesResolved = snapToMinutes ?? SNAP_MINUTES;
+  return Math.round(minutes / snapToMinutesResolved) * snapToMinutesResolved;
 }
 
 export interface UseDragSnapOptions {
