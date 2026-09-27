@@ -4,7 +4,7 @@
 export type { Cmd, LayerCmd, LayerShadow, PolyCmd, PolylineCmd, Blend } from './core/cmd';
 export type { ArtBox, Layout } from './core/layout';
 export { layout } from './core/layout';
-export { build, DEFAULT_INK, DEFAULT_LOCKED_COLOR } from './core/model';
+export { build, CLEAR_FILL, DEFAULT_INK, DEFAULT_LOCKED_COLOR } from './core/model';
 export type {
   BuiltFillOp,
   BuiltLineOp,

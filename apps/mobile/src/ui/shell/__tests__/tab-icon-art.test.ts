@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { build } from '@cp/critter-art';
+import { build, CLEAR_FILL } from '@cp/critter-art';
 import type { Model } from '@cp/critter-art';
 import { tokens } from '@cp/design-tokens';
 
@@ -26,7 +26,7 @@ describe('tab icon art', () => {
     expect(solidAreas(egg)).toEqual([]);
     const washes = egg.ops.filter((op) => op.t === 'wash');
     // The shell wash first, then the four spots.
-    expect(washes[0]?.color).toBe('transparent');
+    expect(washes[0]?.color).toBe(CLEAR_FILL);
     expect(washes.slice(1).map((op) => op.color)).toEqual([ACTIVE, ACTIVE, ACTIVE, ACTIVE]);
     expect(egg.ops.filter((op) => op.t === 'line').every((op) => op.color === ACTIVE)).toBe(true);
     expect(egg.blend).toBe('srcOver');

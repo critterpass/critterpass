@@ -59,6 +59,12 @@ export interface RenderSpec {
 const DEFAULT_INK = '#221e19';
 const DEFAULT_EYE = '#fffdf6';
 const DEFAULT_LOCKED_COLOR = '#3a3466';
+/**
+ * design's `fill="rgba(0,0,0,0)"`: a palette colour that paints nothing, for doodles drawn as bare
+ * outlines (the tab bar egg). Written as rgba because not every Skia colour parser knows the CSS
+ * `transparent` keyword (CanvasKit reads it as opaque black).
+ */
+export const CLEAR_FILL = 'rgba(0,0,0,0)';
 
 export interface BuiltLineOp {
   readonly t: 'line';

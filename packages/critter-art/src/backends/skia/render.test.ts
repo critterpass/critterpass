@@ -20,7 +20,7 @@ import { GUIDE_KINDS, ICON_KINDS } from '../../../golden/cases';
 import { comparePngBuffers, isWithinThreshold } from '../../../golden/diff';
 import { frame } from '../../core/frame';
 import { layout } from '../../core/layout';
-import { build } from '../../core/model';
+import { build, CLEAR_FILL } from '../../core/model';
 import type { RenderSpec } from '../../core/model';
 import { renderToCanvas, viewportFor as canvas2dViewportFor } from '../canvas2d';
 import type { CanvasFactory } from '../canvas2d';
@@ -162,6 +162,27 @@ describe('Skia backend vs canvas2d backend (real Skia via canvaskit-wasm)', () =
     expect(
       isWithinThreshold(diff, effectiveSizePt),
       `${kind}: meanAbsDiff=${diff.meanAbsDiff.toFixed(3)} pctOver8=${diff.pctPixelsOver8.toFixed(3)}%`,
+    ).toBe(true);
+  });
+
+  it('keeps a clear fill clear, as canvas does (the tab bar egg drawn as an outline)', async () => {
+    const ink = '#8d87a8';
+    const { canvas2dPng, skiaPng, effectiveSizePt } = await renderBothBackends({
+      kind: 'egg',
+      seed: SEED,
+      sticker: null,
+      variant: 'color',
+      blend: 'srcOver',
+      form: {
+        rarity: 'common',
+        edge: 'none',
+        palette: { ink, f: CLEAR_FILL, dk: ink, bl: CLEAR_FILL },
+      },
+    });
+    const diff = await comparePngBuffers(canvas2dPng, skiaPng);
+    expect(
+      isWithinThreshold(diff, effectiveSizePt),
+      `clear egg: meanAbsDiff=${diff.meanAbsDiff.toFixed(3)} pctOver8=${diff.pctPixelsOver8.toFixed(3)}%`,
     ).toBe(true);
   });
 

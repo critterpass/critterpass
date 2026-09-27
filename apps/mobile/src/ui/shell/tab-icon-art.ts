@@ -1,3 +1,4 @@
+import { CLEAR_FILL } from '@cp/critter-art';
 import type { FormSpec } from '@cp/critter-art';
 
 /** Doodle icons of the tab bar (design/doodles.js `pin`, `ticket`, `wallet`, `egg`). */
@@ -13,7 +14,7 @@ export function tabIconArt(kind: TabIconKind, color: string) {
   const form: FormSpec = {
     rarity: 'common',
     edge: 'none',
-    palette: { ink: color, f: 'transparent', dk: color, bl: 'transparent' },
+    palette: { ink: color, f: CLEAR_FILL, dk: color, bl: CLEAR_FILL },
   };
   return { variant: 'color', form, blend: 'srcOver' } as const;
 }
