@@ -16,6 +16,10 @@ jest.mock('../../../modules/cp-app-group', () => ({
 
 import AppGroupSpikeScreen from '../(dev)/spikes/app-group';
 
+// The first render loads and transforms the whole screen's module graph; on a cold CI runner that
+// alone takes longer than Jest's 5 s default.
+jest.setTimeout(30_000);
+
 describe('AppGroupSpikeScreen', () => {
   it('writes a schema-versioned hello snapshot and reports the round-trip time', async () => {
     const { getByText, findByText } = await render(<AppGroupSpikeScreen />);

@@ -1,8 +1,9 @@
-import { mkdtempSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
 import pixelmatch from 'pixelmatch';
+import { chromium } from 'playwright';
 import { PNG } from 'pngjs';
 import { describe, expect, it } from 'vitest';
 
@@ -56,39 +57,47 @@ describe('renderGeckoToPng', () => {
   });
 });
 
+// Rendering the design source needs Playwright's Chromium (`pnpm exec playwright install
+// chromium`); CI's generic test job has no browser, so this parity probe runs where one is installed.
+const hasChromium = existsSync(chromium.executablePath());
+
 describe('gecko port vs the real design source', () => {
-  it('matches design/doodles.js <doodle-art kind="gecko"> within 2% of pixels', async () => {
-    const [reference, port] = await Promise.all([
-      renderReferenceGeckoPng({ size: SIZE, pose: 'idle' }),
-      Promise.resolve(renderGeckoToPng({ size: SIZE, progress: 1 }).png),
-    ]);
-    const expected = PNG.sync.read(reference);
-    const actual = PNG.sync.read(port);
-    expect(actual.width).toBe(expected.width);
-    expect(actual.height).toBe(expected.height);
+  it.skipIf(!hasChromium)(
+    'matches design/doodles.js <doodle-art kind="gecko"> within 2% of pixels',
+    async () => {
+      const [reference, port] = await Promise.all([
+        renderReferenceGeckoPng({ size: SIZE, pose: 'idle' }),
+        Promise.resolve(renderGeckoToPng({ size: SIZE, progress: 1 }).png),
+      ]);
+      const expected = PNG.sync.read(reference);
+      const actual = PNG.sync.read(port);
+      expect(actual.width).toBe(expected.width);
+      expect(actual.height).toBe(expected.height);
 
-    const diff = new PNG({ width: expected.width, height: expected.height });
-    const differing = pixelmatch(
-      expected.data,
-      actual.data,
-      diff.data,
-      expected.width,
-      expected.height,
-      {
-        threshold: 0.1,
-      },
-    );
-    const ratio = differing / (expected.width * expected.height);
-
-    if (ratio > MAX_DIFF_RATIO) {
-      const outDir = mkdtempSync(path.join(tmpdir(), 'cp-skia-critter-'));
-      writeFileSync(path.join(outDir, 'expected.png'), reference);
-      writeFileSync(path.join(outDir, 'actual.png'), port);
-      writeFileSync(path.join(outDir, 'diff.png'), PNG.sync.write(diff));
-      console.log(
-        `gecko port pixel diff ${(ratio * 100).toFixed(2)}% — images written to ${outDir}`,
+      const diff = new PNG({ width: expected.width, height: expected.height });
+      const differing = pixelmatch(
+        expected.data,
+        actual.data,
+        diff.data,
+        expected.width,
+        expected.height,
+        {
+          threshold: 0.1,
+        },
       );
-    }
-    expect(ratio).toBeLessThanOrEqual(MAX_DIFF_RATIO);
-  }, 30_000);
+      const ratio = differing / (expected.width * expected.height);
+
+      if (ratio > MAX_DIFF_RATIO) {
+        const outDir = mkdtempSync(path.join(tmpdir(), 'cp-skia-critter-'));
+        writeFileSync(path.join(outDir, 'expected.png'), reference);
+        writeFileSync(path.join(outDir, 'actual.png'), port);
+        writeFileSync(path.join(outDir, 'diff.png'), PNG.sync.write(diff));
+        console.log(
+          `gecko port pixel diff ${(ratio * 100).toFixed(2)}% — images written to ${outDir}`,
+        );
+      }
+      expect(ratio).toBeLessThanOrEqual(MAX_DIFF_RATIO);
+    },
+    30_000,
+  );
 });

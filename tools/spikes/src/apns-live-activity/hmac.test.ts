@@ -83,9 +83,11 @@ describe('Swift/TypeScript signature parity', () => {
     'apns-live-activity',
     'print-test-vector-signature.swift',
   );
-  const hasSwift = existsSync(swiftScript);
+  // CryptoKit ships only with Apple platforms, so the live Swift run is a macOS check; the captured
+  // vector above still guards the TypeScript side everywhere else (CI runs on Linux).
+  const canRunCryptoKit = process.platform === 'darwin' && existsSync(swiftScript);
 
-  it.skipIf(!hasSwift)(
+  it.skipIf(!canRunCryptoKit)(
     'regenerates the same signature by actually invoking swift on this machine',
     () => {
       const output = execFileSync('swift', [swiftScript], { encoding: 'utf8' }).trim();
