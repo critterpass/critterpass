@@ -95,3 +95,24 @@ export {
   type PersonalOptionDelta,
   type ViewerQuote,
 } from './shares/personal-options';
+export {
+  BAND_MIN_MAXES,
+  BAND_STEP_USD_MINOR,
+  DOTS_MIN_MAXES,
+  bandStepMinor,
+  computeBudgetBand,
+  knobPosition,
+  type BudgetBand,
+  type BudgetBandInput,
+  type KnobPosition,
+} from './budget/band';
+export { bucketDots, bucketWidth, type DotTrack } from './budget/dots';
+export {
+  budgetBreakdown,
+  feasibleLow,
+  type Breakdown,
+  type BreakdownCategory,
+  type BreakdownInput,
+  type CostIndex,
+} from './budget/breakdown';
+export { chooseStayMix, type StayMix, type StayMixPart, type StayRate } from './budget/stay-mix';

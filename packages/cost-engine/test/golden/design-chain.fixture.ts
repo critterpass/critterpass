@@ -140,3 +140,18 @@ export const SKIP_NARA: PersonalOption = {
   label: 'Skip the Nara day',
   ops: [{ op: 'withdraw', componentId: 'nara-day', uid: RIN }],
 };
+
+/** 3c-5: Kyoto's editorial index (per person per night / per day). */
+export const KYOTO_INDEX = {
+  currency: USD,
+  stays: [
+    { type: 'ryokan', nightlyLowMinor: 9_000n, nightlyHighMinor: 11_000n },
+    { type: 'apartment', nightlyLowMinor: 4_000n, nightlyHighMinor: 5_000n },
+  ],
+  foodPpDayMinor: 2_750n,
+  funPpDayMinor: 1_250n,
+} as const;
+
+/** Six private maxes: the lowest is $1,400, so the band tops out one step under it. */
+export const PRIVATE_MAXES = [1_400, 1_450, 1_500, 1_600, 1_800, 2_000].map(dollars);
+export const BUDGET_TRACK = { lowMinor: 100_000n, highMinor: 250_000n } as const;
