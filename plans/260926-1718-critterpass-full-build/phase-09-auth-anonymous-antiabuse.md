@@ -138,6 +138,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. Providers configured for ID-token verification (Apple audience = bundle id; Google iOS + Android + web client ids); nonce check. 2. `linkSocial` on anonymous session flips `is_anonymous=false`, `users.status='registered'`. 3. Authorization-code exchange → encrypted refresh token; `revokeApple(uid)` + `revokeGoogle(uid)`. 4. Test with signed ID tokens from a local JWKS test issuer injected via provider config (network boundary double only).
 - Tests: `pnpm --filter @cp/api test -- auth/link-social`
 - Done when: uid identical before/after link for both providers; implicit linking by email disabled (second provider with same email does not auto-link); revoke calls Apple endpoint with stored token.
+- Status: done — 6a2f320
 
 ### T7 — Merge ticket + merge execution + registry
 - Goal: conflict path that never loses data silently.
