@@ -65,7 +65,7 @@ CREATE SCHEMA IF NOT EXISTS ops AUTHORIZATION app_owner;
 CREATE SCHEMA IF NOT EXISTS llm AUTHORIZATION app_owner;
 CREATE SCHEMA IF NOT EXISTS auth AUTHORIZATION auth;
 
--- guide_reader gets USAGE on app too: the llm.* views arriving in phase 13 filter by app.uid(),
+-- guide_reader gets USAGE on app too: the llm.* guide-context views filter by app.uid(),
 -- which runs in the querying role's own session, not the view definer's.
 GRANT USAGE ON SCHEMA app TO app_user, app_system, guide_reader;
 GRANT USAGE ON SCHEMA llm TO guide_reader;
@@ -120,7 +120,7 @@ REVOKE EXECUTE ON FUNCTION app.device() FROM PUBLIC;
 REVOKE EXECUTE ON FUNCTION app.touch_updated_at() FROM PUBLIC;
 REVOKE EXECUTE ON FUNCTION app.valid_tz(text) FROM PUBLIC;
 
--- guide_reader calls app.uid()/app.device() indirectly through llm.* view predicates (phase 13).
+-- guide_reader calls app.uid()/app.device() indirectly through llm.* view predicates.
 GRANT EXECUTE ON FUNCTION app.uid() TO app_user, app_system, guide_reader;
 GRANT EXECUTE ON FUNCTION app.device() TO app_user, app_system, guide_reader;
 GRANT EXECUTE ON FUNCTION app.touch_updated_at() TO app_user, app_system;
