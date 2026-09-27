@@ -1,142 +1,176 @@
 import Intents
+import UIKit
 import UserNotifications
 
-/// Hello-world Notification Service extension proving the target builds, signs and runs under
-/// Swift 6 strict concurrency (api-contracts-async.md §3.1 "Communication Notification sender
-/// identity"). A real push carries `cp.sender` (guide or crewmate) in its custom data block;
-/// this rewrites the notification as a communication notification with that sender's identity,
-/// downloading the avatar referenced by the payload. If donating the intent is refused for any
-/// reason, the extension falls back to the original alert content untouched.
+/// Rewrites every crew and guide push as a Communication Notification (docs/api-contracts-async.md
+/// §3.1): the sender's name and face lead the banner, grouped by crew. Minimal-payload pushes
+/// (`cp.full: false`) first fetch their content with the device action key. Every step degrades to
+/// the content the push arrived with: a failed fetch keeps the generic line, a refused intent falls
+/// back to an avatar attachment, and running out of time delivers the best attempt so far.
 final class NotificationService: UNNotificationServiceExtension, @unchecked Sendable {
-    private var contentHandler: ((UNNotificationContent) -> Void)?
-    private var bestAttemptContent: UNMutableNotificationContent?
+    private let delivery = Delivery()
 
     override func didReceive(
         _ request: UNNotificationRequest,
         withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void
     ) {
-        self.contentHandler = contentHandler
-        guard let mutableContent = request.content.mutableCopy() as? UNMutableNotificationContent else {
+        guard let content = request.content.mutableCopy() as? UNMutableNotificationContent else {
             contentHandler(request.content)
             return
         }
-        bestAttemptContent = mutableContent
-
-        guard let sender = SenderIdentity(userInfo: request.content.userInfo) else {
-            contentHandler(mutableContent)
+        delivery.start(handler: contentHandler, bestAttempt: content)
+        guard let payload = CPPayload(userInfo: request.content.userInfo) else {
+            delivery.finish(content)
             return
         }
-
+        let delivery = self.delivery
         Task {
-            let finalContent = await Self.applyCommunicationIdentity(sender: sender, to: mutableContent)
-            contentHandler(finalContent)
+            let final = await Self.render(payload: payload, content: content)
+            delivery.finish(final)
         }
     }
 
     override func serviceExtensionTimeWillExpire() {
-        if let bestAttemptContent {
-            contentHandler?(bestAttemptContent)
+        delivery.expire()
+    }
+
+    private static func render(
+        payload: CPPayload,
+        content: UNMutableNotificationContent
+    ) async -> UNNotificationContent {
+        let containerUrl = AppGroupContainer.url
+        let credential = try? ActionKeyStore.read()
+        var sender = payload.sender
+        var crewId = payload.crewId
+
+        if !payload.full, let fetched = await MinimalPayload.fetch(
+            notificationId: payload.notificationId, credential: credential, containerUrl: containerUrl
+        ) {
+            content.title = fetched.title
+            content.body = fetched.body
+            if let threadId = fetched.threadId { content.threadIdentifier = threadId }
+            sender = fetched.sender ?? sender
+            crewId = fetched.crewId ?? crewId
+        }
+        if content.threadIdentifier.isEmpty, let crewId { content.threadIdentifier = crewId }
+
+        let crews = CrewDirectory.read(containerUrl: containerUrl)
+        guard let identity = SenderIdentity(
+            sender: sender, crewId: crewId, recipientUserId: credential?.userId, crews: crews
+        ) else { return content }
+
+        let avatar = await AvatarLoader(containerUrl: containerUrl).load(
+            avatarKey: identity.avatarKey(crews: crews, crewId: crewId),
+            signedUrl: sender.avatarUrl,
+            fetch: { url in await AvatarLoader.download(url) },
+            guideDefault: { UIImage(named: AvatarLoader.guideDefaultImageName)?.pngData() }
+        )
+        return await CommunicationContent.apply(identity: identity, avatar: avatar, to: content)
+    }
+}
+
+/// Calls the system's content handler exactly once, whichever of "rendered", "no `cp` block" or
+/// "time is up" happens first.
+private final class Delivery: @unchecked Sendable {
+    private let lock = NSLock()
+    private var handler: ((UNNotificationContent) -> Void)?
+    private var bestAttempt: UNNotificationContent?
+
+    func start(handler: @escaping (UNNotificationContent) -> Void, bestAttempt: UNNotificationContent) {
+        lock.withLock {
+            self.handler = handler
+            self.bestAttempt = bestAttempt
         }
     }
 
-    private static func applyCommunicationIdentity(
-        sender: SenderIdentity,
+    func finish(_ content: UNNotificationContent) {
+        let handler = lock.withLock { () -> ((UNNotificationContent) -> Void)? in
+            defer { self.handler = nil }
+            return self.handler
+        }
+        handler?(content)
+    }
+
+    func expire() {
+        let best = lock.withLock { bestAttempt }
+        if let best { finish(best) }
+    }
+}
+
+/// `GET /v1/notifications/{nid}` signed with the device action key (`read_notification` scope).
+private enum MinimalPayload {
+    static func fetch(
+        notificationId: String,
+        credential: ActionKeyCredential?,
+        containerUrl: URL?
+    ) async -> CPNotificationContent? {
+        guard let credential,
+              let apiBaseUrl = AppGroupEndpoints.apiBaseUrl(containerUrl: containerUrl),
+              let request = try? SignedRequest.notificationRequest(
+                  notificationId: notificationId, credential: credential, apiBaseUrl: apiBaseUrl
+              ),
+              let (data, response) = try? await URLSession.shared.data(for: request),
+              let http = response as? HTTPURLResponse, http.statusCode == 200
+        else { return nil }
+        return CPNotificationContent.decode(data)
+    }
+}
+
+private enum CommunicationContent {
+    static func apply(
+        identity: SenderIdentity,
+        avatar: Data?,
         to content: UNMutableNotificationContent
     ) async -> UNNotificationContent {
-        let avatarUrl = await AvatarDownloader.resolve(sender: sender)
-        var avatarImage: INImage?
-        if let avatarUrl, let data = try? Data(contentsOf: avatarUrl) {
-            avatarImage = INImage(imageData: data)
-        }
-
         let person = INPerson(
-            personHandle: INPersonHandle(value: sender.handleValue, type: .unknown),
+            personHandle: INPersonHandle(value: identity.handle, type: .unknown),
             nameComponents: nil,
-            displayName: sender.displayName,
-            image: avatarImage,
+            displayName: identity.displayName,
+            image: avatar.map { INImage(imageData: $0) },
             contactIdentifier: nil,
-            customIdentifier: sender.handleValue
+            customIdentifier: identity.handle
         )
-
         let intent = INSendMessageIntent(
             recipients: nil,
             outgoingMessageType: .outgoingMessageText,
             content: content.body,
-            speakableGroupName: INSpeakableString(spokenPhrase: sender.conversationName),
-            conversationIdentifier: sender.conversationIdentifier,
+            speakableGroupName: identity.groupName.map { INSpeakableString(spokenPhrase: $0) },
+            conversationIdentifier: identity.conversationIdentifier,
             serviceName: nil,
             sender: person,
             attachments: nil
         )
-
+        if let avatar {
+            intent.setImage(INImage(imageData: avatar), forParameterNamed: \.sender)
+        }
         let interaction = INInteraction(intent: intent, response: nil)
         interaction.direction = .incoming
+        // A refused donation still lets `updating(from:)` try; only its failure means fallback.
+        try? await interaction.donate()
         do {
-            try await interaction.donate()
-            if let updated = try? content.updating(from: intent) {
-                return updated
-            }
+            return try content.updating(from: intent)
         } catch {
-            // Communication-notification donation can be refused by the system (e.g. missing
-            // entitlement approval); the original content is still a valid, deliverable
-            // notification, so this is a documented fallback, not a crash.
+            return withAvatarAttachment(content, identity: identity, avatar: avatar)
         }
+    }
+
+    /// Fallback when the system refuses the communication intent: a plain alert that still names
+    /// the sender and carries their face as an image attachment.
+    static func withAvatarAttachment(
+        _ content: UNMutableNotificationContent,
+        identity: SenderIdentity,
+        avatar: Data?
+    ) -> UNNotificationContent {
+        if content.subtitle.isEmpty, identity.displayName != content.title {
+            content.subtitle = identity.displayName
+        }
+        guard let avatar else { return content }
+        let file = FileManager.default.temporaryDirectory
+            .appendingPathComponent("cp-avatar-\(UUID().uuidString).png")
+        guard (try? avatar.write(to: file)) != nil,
+              let attachment = try? UNNotificationAttachment(identifier: "sender-avatar", url: file)
+        else { return content }
+        content.attachments = [attachment]
         return content
-    }
-}
-
-/// Parsed from the push payload's `cp.sender` block (api-contracts-async.md §3.1).
-private struct SenderIdentity {
-    let kind: String
-    let id: String
-    let name: String
-    let avatarPath: String?
-
-    var handleValue: String {
-        kind == "guide" ? "cp-guide:\(id)" : "cp-user:\(id)"
-    }
-
-    var displayName: String {
-        kind == "guide" ? "\(name) · AI guide" : name
-    }
-
-    var conversationName: String {
-        name
-    }
-
-    var conversationIdentifier: String {
-        id
-    }
-
-    init?(userInfo: [AnyHashable: Any]) {
-        guard
-            let cp = userInfo["cp"] as? [String: Any],
-            let sender = cp["sender"] as? [String: Any],
-            let kind = sender["kind"] as? String,
-            let id = sender["id"] as? String,
-            let name = sender["name"] as? String
-        else {
-            return nil
-        }
-        self.kind = kind
-        self.id = id
-        self.name = name
-        self.avatarPath = sender["avatar"] as? String
-    }
-}
-
-/// Avatars are bundled into the App Group by the app (api-contracts-async.md §6
-/// `assets/avatars/`); a signed URL is only fetched as a fallback for an avatar the app has not
-/// synced yet.
-private enum AvatarDownloader {
-    static func resolve(sender: SenderIdentity) async -> URL? {
-        guard let path = sender.avatarPath, let containerUrl = AppGroupContainer.url else {
-            return nil
-        }
-        let localUrl = containerUrl.appendingPathComponent(path)
-        if FileManager.default.fileExists(atPath: localUrl.path) {
-            return localUrl
-        }
-        return nil
     }
 }

@@ -6,8 +6,10 @@
     <dict>
       <key>NSExtensionAttributes</key>
       <dict>
-        <key>NSExtensionActivationRule</key>
-        <string>TRUEPREDICATE</string>
+        <key>IntentsSupported</key>
+        <array>
+          <string>INSendMessageIntent</string>
+        </array>
       </dict>
       <key>NSExtensionPrincipalClass</key>
       <string>$(PRODUCT_MODULE_NAME).NotificationService</string>

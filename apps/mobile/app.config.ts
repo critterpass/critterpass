@@ -139,6 +139,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     '@bacons/apple-targets',
+    // Communication Notifications for the notification service extension (entitlement +
+    // NSUserActivityTypes).
+    './modules/cp-notifications/plugin/with-communication-notifications',
     '@maplibre/maplibre-react-native',
     'expo-apple-authentication',
     [

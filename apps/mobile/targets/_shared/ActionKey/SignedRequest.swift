@@ -5,7 +5,7 @@ import Foundation
 /// (unix seconds, ±300 s) and `X-CP-Sig = base64url(HMAC-SHA256(secret, method \n path \n ts \n
 /// hex(sha256(body))))`. The body is a full command envelope; the server runs it through the same
 /// pipeline as the app, so a retried request with the same `op_id` is answered as a duplicate.
-struct SignedRequestHeaders: Equatable, Sendable {
+struct ActionKeyRequestHeaders: Equatable, Sendable {
     let keyId: String
     let timestamp: String
     let signature: String
@@ -33,7 +33,7 @@ enum SignedRequest {
         keyId: String,
         secret: String,
         timestamp: Date
-    ) -> SignedRequestHeaders {
+    ) -> ActionKeyRequestHeaders {
         let ts = String(Int(timestamp.timeIntervalSince1970))
         let bodyDigest = SHA256.hash(data: body).map { String(format: "%02x", $0) }.joined()
         let message = "\(method)\n\(path)\n\(ts)\n\(bodyDigest)"
@@ -41,7 +41,7 @@ enum SignedRequest {
             for: Data(message.utf8),
             using: SymmetricKey(data: Data(secret.utf8))
         )
-        return SignedRequestHeaders(keyId: keyId, timestamp: ts, signature: base64url(Data(mac)))
+        return ActionKeyRequestHeaders(keyId: keyId, timestamp: ts, signature: base64url(Data(mac)))
     }
 
     static func base64url(_ data: Data) -> String {
