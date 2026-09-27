@@ -3,14 +3,40 @@ import { isGuideSpec } from '../../data/types';
 import type { ArchetypeName, CritterSpec } from '../../data/types';
 import { DEFAULT_VIEW_BOX, hasKind, registerKind, resolveKind } from '../registry';
 import type { KindFn } from '../registry';
+import { bird } from './archetypes/bird';
+import { bug } from './archetypes/bug';
+import { crab } from './archetypes/crab';
+import { fish } from './archetypes/fish';
+import { frog } from './archetypes/frog';
+import { lizard } from './archetypes/lizard';
+import { nessie } from './archetypes/nessie';
+import { octo } from './archetypes/octo';
+import { seal } from './archetypes/seal';
 import { sit } from './archetypes/sit';
+import { snake } from './archetypes/snake';
 import { stand } from './archetypes/stand';
+import { turtle } from './archetypes/turtle';
+import { wader } from './archetypes/wader';
+import { whale } from './archetypes/whale';
 import type { ArchetypeFn } from './types';
 
-/** Archetype functions ported so far; T6 fills in the remaining 13 (bird, wader, fish, lizard, frog, turtle, snake, bug, octo, crab, seal, whale, nessie). */
-const ARCHETYPES: Partial<Record<ArchetypeName, ArchetypeFn>> = {
+/** All 15 design/critters-draw-1/2.js archetypes. */
+const ARCHETYPES: Readonly<Record<ArchetypeName, ArchetypeFn>> = {
   sit,
   stand,
+  bird,
+  wader,
+  fish,
+  lizard,
+  frog,
+  turtle,
+  snake,
+  bug,
+  octo,
+  crab,
+  seal,
+  whale,
+  nessie,
 };
 
 /** design's boot(): `C = {f: o.fill||s.c[0], dk: o.spot||s.c[1], bl: o.belly||s.c[2]}`, wrapped once per critter around its archetype function. */
@@ -40,10 +66,8 @@ export function registerLocalKinds(): void {
       registerKind(critter.id, resolveKind(critter.kind));
       continue;
     }
-    const archetype = ARCHETYPES[critter.spec.b];
-    if (!archetype) continue;
     registerKind(critter.id, {
-      fn: wrapArchetype(archetype, critter.spec),
+      fn: wrapArchetype(ARCHETYPES[critter.spec.b], critter.spec),
       viewBox: DEFAULT_VIEW_BOX,
       animates: true,
     });

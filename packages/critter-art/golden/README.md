@@ -1,11 +1,10 @@
 # critter-art golden harness
 
-Renders guides and icons through the **unmodified** `design/*.js` scripts in Chromium (the
-reference) and diffs them against `@cp/critter-art`'s own `build`/`frame`/Canvas2D pipeline,
-rendered two ways: in the same Chromium page (bundled via esbuild) and in Node via
-`@napi-rs/canvas`. Locals (150 CritterDex critters) are appended once T5/T6 port
-`critters-draw-1/2.js` and the CritterDex data — this harness only exercises the 6 guides and 28
-icon kinds T3 ported.
+Renders guides, icons and every CritterDex local through the **unmodified** `design/*.js` scripts
+in Chromium (the reference) and diffs them against `@cp/critter-art`'s own `build`/`frame`/Canvas2D
+pipeline, rendered two ways: in the same Chromium page (bundled via esbuild) and in Node via
+`@napi-rs/canvas`. Covers all 6 guides, 28 icon kinds, and all 150 locals across their 15 archetypes
+(`src/kinds/locals/register.ts`).
 
 ## Running
 
@@ -27,6 +26,10 @@ Non-zero exit when any gating case misses threshold or the mutation-sensitivity 
   (`.15/.5/.85/1`), plus a blink (`closedEyes`) case per size for the two guides. The
   variant/draw-on/blink machinery in `build`/`frame` is kind-independent, so this validates those
   dimensions thoroughly without repeating them for all 34 kinds.
+- **Locals** — every one of the 150 CritterDex critters at 24/96/300pt × common/sticker/locked,
+  fully drawn (`p=1`), seeded with the critter's own `no` (design's `c.no`, the canonical seed for
+  locals). No draw-on/blink sweep per critter — that machinery is already validated
+  kind-independently by the deep-dive cases above.
 - **Mutation check** — `heart` rendered with its accent forced to a jarring colour must fail
   threshold against the unmutated render; this is the "does the harness actually have teeth"
   check called out in the phase file.
@@ -64,8 +67,27 @@ comparison), which the port matches almost exactly (mean abs typically < 0.01) a
 If this reasoning is ever in doubt, rerun the check: load the untouched design scripts in both
 engines at a mid draw-on `p` and diff them directly, with no `@cp/critter-art` code involved.
 
-## Extending
+## Node vs Chromium at locked (silhouette) mode: verified, not a port defect
 
-`T5`/`T6` append local critters: add their kind names to `cases.ts`'s matrix (locals only need
-the 96pt/plain/p=1 baseline; the deep-dive kinds stay as-is) and the CritterDex `no` as the
-default seed once `docs/product-decisions.md`'s canonical-seed rule is wired up.
+A handful of `96pt`/`locked` cases land right at the strict threshold boundary on the **Node**
+column only — always with a **bit-perfect (0% diff) browser-core comparison**, proving the port's
+geometry and op sequence are exactly right. Example (`report.json`): `cp-130` (Fia, a deer with
+antlers + a spotted coat) measures browser meanAbs 0.000 / node meanAbs 0.251, pct>8 exactly 1.00%
+— one pixel either way decides pass/fail. `cp-002` and `cp-088` (both `dragon`/`smok` lizards, the
+most decorated `lizard` variants) show the same pattern. The pre-existing `gecko` guide (T3, already
+shipping) sits on the same continuum at 0.80% — under threshold, but the same phenomenon.
+
+Why: `locked` recolours every op to one flat, fully opaque colour (`model.ts` `applyMask`), so the
+rendered image is large flat regions bordered by anti-aliased edges with no interior alpha blending
+to soften engine differences — unlike normal colour mode, where washes/fills blend translucently and
+absorb small rounding differences. Critters with more total outline perimeter (antlers, spines, many
+limbs, coat-pattern strokes) accumulate more AA-edge pixels, so their `pct>8` sits closer to the
+1% cutoff purely as a function of decoration complexity, not correctness. This was not assumed: the
+diff image for `cp-130` (`golden/out/diffs/cp-130-96pt-locked-p1-node.png`) shows a uniform thin red
+trace along the *entire* silhouette outline, not a localized shape error.
+
+This does **not** gate-exempt anything — `packages/critter-bake` genuinely bakes locked/silhouette
+PNGs in production, so Node parity at `p=1` locked mode is a real, meaningful check; these are
+reported as real (if narrow) misses, not filtered out. Fixing the underlying two-Skia-build
+rasterization gap is outside `packages/critter-art`'s reach (same finding as the draw-on section
+above, extended to a second rendering mode).

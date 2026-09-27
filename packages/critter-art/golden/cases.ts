@@ -1,13 +1,9 @@
-// Golden case matrix: guides + icons (design/doodles.js's own K registry) plus locals as their
-// archetypes are ported (T5 adds sit/stand; T6 adds the remaining 13 archetypes).
+// Golden case matrix: guides + icons (design/doodles.js's own K registry) plus every local critter
+// (all 15 design/critters-draw-1/2.js archetypes are registered in src/kinds/locals/register.ts).
 import { critters } from '../src/data/critters';
 import { isGuideSpec } from '../src/data/types';
-import type { ArchetypeName } from '../src/data/types';
 
 export const GUIDE_KINDS = ['gecko', 'tanuki', 'puffin', 'axolotl', 'sardine', 'alpaca'] as const;
-
-/** Archetypes with a golden-testable registration in src/kinds/locals/register.ts; extend as later tasks port more. */
-const PORTED_ARCHETYPES: ReadonlySet<ArchetypeName> = new Set(['sit', 'stand']);
 
 export const ICON_KINDS = [
   'egg',
@@ -101,7 +97,7 @@ export function buildCaseMatrix(): GoldenCase[] {
   // questions). No draw-on/blink sweep here: that machinery is already validated kind-independently
   // by DEEP_DIVE_KINDS above.
   for (const critter of critters) {
-    if (isGuideSpec(critter.spec) || !PORTED_ARCHETYPES.has(critter.spec.b)) continue;
+    if (isGuideSpec(critter.spec)) continue;
     for (const sizePt of SIZES_PT) {
       for (const variant of ['plain', 'sticker', 'locked'] as const) {
         cases.push({
