@@ -10,7 +10,8 @@ export async function runBrief(
   log: (line: string) => void = () => undefined,
 ): Promise<Brief> {
   const base = await module.brief(ctx);
-  const brief: Brief = Object.keys(notes).length === 0 ? base : { ...base, notes };
+  const withOptions: Brief = { ...base, options: ctx.options };
+  const brief: Brief = Object.keys(notes).length === 0 ? withOptions : { ...withOptions, notes };
   files.write('brief', brief);
   log(
     `brief: ${brief.units.length} units${brief.notes ? ` · ${Object.keys(notes).length} reviewer notes` : ''}`,

@@ -17,6 +17,7 @@
     "@cp/db": "workspace:*",
     "@cp/domain": "workspace:*",
     "@napi-rs/canvas": "catalog:",
+    "aws4fetch": "catalog:",
     "pg": "catalog:",
     "zod": "catalog:"
   },

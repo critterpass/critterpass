@@ -6,3 +6,4 @@ import './windows';
 import './places/sets';
 import './places/pois';
 import './personas';
+import './phrases';
