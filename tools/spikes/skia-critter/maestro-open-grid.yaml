@@ -1,0 +1,29 @@
+appId: app.critterpass.dev
+---
+- openLink: "critterpass-dev:///(dev)/spikes/critterdex-grid"
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: grid-flash-list-cached
+- swipe:
+    start: 50%, 80%
+    end: 50%, 20%
+    duration: 300
+- repeat:
+    times: 6
+    commands:
+      - swipe:
+          start: 50%, 80%
+          end: 50%, 20%
+          duration: 250
+- takeScreenshot: grid-flash-list-scrolled
+- tapOn: "list: flash-list"
+- waitForAnimationToEnd:
+    timeout: 2000
+- repeat:
+    times: 6
+    commands:
+      - swipe:
+          start: 50%, 80%
+          end: 50%, 20%
+          duration: 250
+- takeScreenshot: grid-legend-list-scrolled
