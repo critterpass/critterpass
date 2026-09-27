@@ -6,6 +6,9 @@
  * Opus 5.5; Batch API −50% on input and output, stacking with the cache multipliers; web search
  * $10 per 1,000 searches. A rate of N USD/MTok is N micros per token, so rates are stored as
  * micros per million tokens and divided once at the end to keep the arithmetic integral.
+ *
+ * Jev (https://docs.typesafe.ai/models, read 2026-09-27): $0.042 per MTok input, output free, no
+ * cache or batch pricing, so a decision call costs its input tokens only.
  */
 import type { AiTier } from '@cp/domain';
 
@@ -42,6 +45,13 @@ export const PRICES: Readonly<Record<AiTier, ModelPrice>> = {
     cacheRead: 0.2 * USD,
     output: 20 * USD,
   },
+  jev: {
+    input: 42_000,
+    cacheWrite5m: 0,
+    cacheWrite1h: 0,
+    cacheRead: 0,
+    output: 0,
+  },
 };
 
 /** Micros per web search request. */
@@ -59,7 +69,7 @@ export interface TokenUsage {
 }
 
 export interface CostOptions {
-  /** Message Batches API call: every token rate is halved. */
+  /** Message Batches API call: every token rate is halved (Claude tiers only). */
   readonly batch?: boolean;
 }
 
@@ -75,6 +85,6 @@ export function computeCostMicros(
     usage.cacheWrite1hTokens * price.cacheWrite1h +
     usage.cacheReadTokens * price.cacheRead +
     usage.outputTokens * price.output;
-  const divisor = options.batch === true ? 2 * USD : USD;
+  const divisor = options.batch === true && tier !== 'jev' ? 2 * USD : USD;
   return Math.round(weighted / divisor) + usage.webSearchRequests * WEB_SEARCH_MICROS;
 }

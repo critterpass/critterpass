@@ -6,13 +6,29 @@
  * Thinking: Haiku routes run without thinking. Sonnet 5 thinks adaptively by default, so every
  * latency-bound (streamed) Sonnet route disables it explicitly; job routes keep adaptive thinking
  * with an explicit effort. Opus 5.5 thinking cannot be disabled.
+ *
+ * Decision routes (a closed label, a yes/no probability or a rubric score) run on TypeSafe's Jev,
+ * pinned to `jev-1.13.0` because thresholds are tuned per version, and name a Haiku twin that
+ * answers the same shape when Jev is unavailable (./decide). No generation route may run on Jev.
  */
-import type { AiCaller, AiRoute, AiTier } from '@cp/domain';
+import {
+  DECISION_THRESHOLDS,
+  type AiCaller,
+  type AiProvider,
+  type AiRoute,
+  type AiTier,
+  type DecisionRoute,
+  type DecisionThresholds,
+} from '@cp/domain';
+
+/** The Jev version decision thresholds were tuned against; never the moving `jev-latest` alias. */
+export const JEV_MODEL = 'jev-1.13.0';
 
 export const MODEL_IDS: Readonly<Record<AiTier, string>> = {
   haiku: 'claude-haiku-4-5-20251001',
   sonnet: 'claude-sonnet-5',
   opus: 'claude-opus-5-5',
+  jev: JEV_MODEL,
 };
 
 /** Prompt layers in cache order (tools first, conversation last). */
@@ -32,6 +48,7 @@ export type Delivery = 'stream' | 'call' | 'batch';
 
 export interface RouteConfig {
   readonly route: AiRoute;
+  readonly provider: AiProvider;
   readonly tier: AiTier;
   readonly model: string;
   /** Tool allow-list class; `null` = no tools at all. */
@@ -45,6 +62,10 @@ export interface RouteConfig {
   /** Anthropic server-side web search (guest guide only). */
   readonly webSearch: boolean;
   readonly cacheLayers: readonly CacheLayer[];
+  /** Decision routes: the Haiku twin run when Jev cannot answer. */
+  readonly fallback: RouteConfig | undefined;
+  /** Decision routes: the verdict bands tuned for this route. */
+  readonly thresholds: DecisionThresholds | undefined;
 }
 
 const GUIDE_LAYERS = CACHE_LAYERS;
@@ -57,7 +78,10 @@ const JOB_LAYERS: readonly CacheLayer[] = [
 ];
 const PLAIN_LAYERS: readonly CacheLayer[] = ['global_rules'];
 
-type RouteSpec = Omit<RouteConfig, 'route' | 'model' | 'effort' | 'webSearch'> & {
+type RouteSpec = Omit<
+  RouteConfig,
+  'route' | 'provider' | 'model' | 'effort' | 'webSearch' | 'fallback' | 'thresholds'
+> & {
   readonly effort?: Effort;
   readonly webSearch?: boolean;
 };
@@ -97,12 +121,13 @@ const sonnet = (
   };
 };
 
-const SPECS: Readonly<Record<AiRoute, RouteSpec>> = {
+/** Haiku twin of a decision route: no tools, a small JSON answer, no thinking. */
+const twin = (): RouteSpec => haiku(null, 512, { output: 'structured' });
+
+const CLAUDE_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSpec>> = {
   'guide.chat': haiku('C', 1024, { delivery: 'stream', cacheLayers: GUIDE_LAYERS }),
   'guide.voice': haiku('C', 512, { delivery: 'stream', cacheLayers: GUIDE_LAYERS }),
   'guide.crew_mention': haiku('G', 1024, { delivery: 'stream', cacheLayers: GUIDE_LAYERS }),
-  'guide.chime_in_classifier': haiku(null, 64, { output: 'structured' }),
-  'help.intent_classifier': haiku(null, 64, { output: 'structured' }),
   'quests.generate': haiku('B', 4096, {
     output: 'structured',
     delivery: 'batch',
@@ -110,7 +135,6 @@ const SPECS: Readonly<Record<AiRoute, RouteSpec>> = {
   }),
   'roundup.evening': haiku('B', 512, { cacheLayers: JOB_LAYERS }),
   'email.parse': haiku('M', 2048, { output: 'structured' }),
-  'idea.duplicate_tiebreak': haiku(null, 64, { output: 'structured' }),
   'must_do.fit_line': haiku(null, 128),
   'micro.line': haiku(null, 128),
   'guide.chat_escalation': sonnet('C', 2048, 'low', {
@@ -163,9 +187,17 @@ const SPECS: Readonly<Record<AiRoute, RouteSpec>> = {
   },
 };
 
+const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
+  'guide.chime_in_classifier': twin(),
+  'help.intent_classifier': twin(),
+  'idea.duplicate_tiebreak': twin(),
+  'compliance.check': twin(),
+};
+
 function toConfig(route: AiRoute, spec: RouteSpec): RouteConfig {
   return {
     route,
+    provider: 'claude',
     tier: spec.tier,
     model: MODEL_IDS[spec.tier],
     caller: spec.caller,
@@ -176,13 +208,41 @@ function toConfig(route: AiRoute, spec: RouteSpec): RouteConfig {
     delivery: spec.delivery,
     webSearch: spec.webSearch ?? false,
     cacheLayers: spec.cacheLayers,
+    fallback: undefined,
+    thresholds: undefined,
   };
 }
 
-export const ROUTING: Readonly<Record<AiRoute, RouteConfig>> = Object.fromEntries(
-  Object.entries(SPECS).map(([route, spec]) => [route, toConfig(route as AiRoute, spec)]),
-) as Record<AiRoute, RouteConfig>;
+/** A decision route on Jev: the twin's request shape, the Jev model, the twin as fallback. */
+function toDecisionConfig(route: DecisionRoute, twinSpec: RouteSpec): RouteConfig {
+  const fallback = toConfig(route, twinSpec);
+  return {
+    ...fallback,
+    provider: 'jev',
+    tier: 'jev',
+    model: JEV_MODEL,
+    fallback,
+    thresholds: DECISION_THRESHOLDS[route],
+  };
+}
+
+export const ROUTING: Readonly<Record<AiRoute, RouteConfig>> = Object.fromEntries([
+  ...Object.entries(CLAUDE_SPECS).map(([route, spec]) => [route, toConfig(route as AiRoute, spec)]),
+  ...Object.entries(DECISION_SPECS).map(([route, spec]) => [
+    route,
+    toDecisionConfig(route as DecisionRoute, spec),
+  ]),
+]) as Record<AiRoute, RouteConfig>;
 
 export function resolveRoute(route: AiRoute): RouteConfig {
   return ROUTING[route];
+}
+
+/**
+ * The Claude request config for a route: the route itself, or a decision route's Haiku twin. The
+ * Claude gateway only ever sends this, so a decision route called through it runs its twin.
+ */
+export function resolveClaudeRoute(route: AiRoute): RouteConfig {
+  const config = ROUTING[route];
+  return config.fallback ?? config;
 }

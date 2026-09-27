@@ -583,6 +583,24 @@ Callers: **C** guide chat 1:1 (text/voice) · **G** guide in crew chat · **D** 
 
 Model routing (`packages/ai/src/routing.ts`): Haiku 4.5 default chat, voice, quests, parsing, micro-lines; Sonnet 5 pitch, day fan-out, redraft, vision (menu, receipt, email fallback), briefing, disruption; Opus 5.5 draft skeleton only. Traces to Langfuse; evals in promptfoo (`packages/ai/evals`).
 
+Decision routes ([decision record](decisions/20260927-jev-decision-model.md)): every route entry carries `provider: 'claude' | 'jev'`. A decision route answers a closed label set (Choice), a yes/no probability (Noul) or a rubric score (Score) and runs on TypeSafe `jev-1.13.0` through `decide(route, {state, questions})` (`packages/ai/src/decide/`); it also names a `fallback` Haiku twin that returns the same answer shape and per-route `thresholds` (`packages/domain/src/ai/decision-thresholds.ts`). No generation route may use `provider: 'jev'`.
+
+| Route | Primitive | Consumer rule on an uncertain answer |
+|---|---|---|
+| `guide.chime_in_classifier` | Noul | stay quiet |
+| `help.intent_classifier` | Choice | ask the user which topic they meant |
+| `idea.duplicate_tiebreak` | Noul | keep both ideas |
+| `compliance.check` | Noul per category | per surface policy (below) |
+
+| Behaviour | Rule |
+|---|---|
+| Endpoint | `POST https://api.typesafe.ai/v1/systemone`, pinned in code (no env override), model pinned `jev-1.13.0` |
+| Budget | 800 ms per attempt; one retry on 429/529 after `retry-after` (≤ 1 s, else no retry) |
+| Fallback | Haiku twin on timeout, 429/529 after the retry, 401/403, transport error, unreadable answer or missing `TYPESAFE_API_KEY`; the result carries `answered_by: 'jev' \| 'haiku'`; twin answers have `probabilities: null` and a label-derived `confidence`, judged against the route's stricter `haiku` band. Both down → `AI_UNAVAILABLE` |
+| Answers | zod-validated against the question map (a missing or unknown answer key is rejected); yes/no answers carry `confidence = \|2p − 1\|` |
+| Metering | never user-metered; one `ai_usage` row per call, `tier='jev'` billed on input tokens only (or the twin's `haiku` row) |
+| Privacy | `state` holds only the text under question; Langfuse records route, model, tokens, latency and typed answers, never the state |
+
 ## 7. Supplier adapters (`packages/suppliers`, P35; server-only)
 
 ```ts

@@ -222,6 +222,7 @@ Forbidden: Redux, MobX, React Context for frequently changing values, duplicatin
 |---|---|
 | Location | prompts, personas loader, tool schemas, routing in `packages/ai`; prompts only under `packages/ai/src/prompts/<route>/` (global rules `src/prompts/global-rules.md`); no prompt strings elsewhere |
 | Models | Haiku 4.5 default; Sonnet 5 workhorse; Opus 5.5 only for itinerary skeleton — routing table in `packages/ai/src/routing.ts` |
+| Decision routes | only a closed label set, a yes/no or a rubric score may run on Jev (`decide()`, pinned `jev-1.13.0`, never `jev-latest`); every one names a Haiku twin and thresholds tuned on its EN + VI eval set; low confidence is an outcome (review, ask, or twin), never a silent guess; `state` holds only the text under question; deterministic patterns (phone, email, URL, card, ID) run in code first; no images, generation, counting or date comparison ([decision](decisions/20260927-jev-decision-model.md)) |
 | Writes | the model never writes; tools return proposals validated by `planner`/`cost-engine`; numbers/times/prices computed by code, model only words them |
 | Context | built from `guide_reader` views only; **no C3 fields, no supplier content**; contract test asserts context builder output |
 | Injection | user/crew text wrapped as data; tool allow-list per surface; spend/booking actions require explicit user confirmation |

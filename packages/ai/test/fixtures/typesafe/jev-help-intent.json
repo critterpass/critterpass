@@ -1,0 +1,46 @@
+{
+  "source": "Live recording from https://api.typesafe.ai/v1/systemone (jev-1.13.0), 2026-09-28.",
+  "response": {
+    "status": 200,
+    "headers": {},
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "topic": {
+          "type": "choice",
+          "choice": "refund",
+          "confidence": 1,
+          "probabilities": {
+            "other": 0,
+            "refund": 1,
+            "booking_change": 0,
+            "safety": 0
+          }
+        },
+        "urgent": {
+          "type": "noul",
+          "noul": 0.44
+        },
+        "frustration": {
+          "type": "score",
+          "score": 1.05,
+          "confidence": 0.91,
+          "legend": {
+            "0": "Calm",
+            "1": "Annoyed",
+            "2": "Angry"
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0.94,
+            "2": 0.06
+          }
+        }
+      },
+      "usage": {
+        "input_tokens": 431,
+        "output_tokens": 80
+      }
+    }
+  }
+}

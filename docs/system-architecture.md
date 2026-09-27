@@ -220,6 +220,7 @@ Queues are named `<domain>.<action>`; full catalogue (triggers, retries, singlet
 | Layer | Design |
 |---|---|
 | Gateway | `packages/ai` + api/worker: Anthropic SDK tool runner; model routing `haiku-4-5` (chat, voice, quests, parsing) · `sonnet-5` (workhorse: proposals, redraft, recap, vision) · `opus-5-5` (itinerary skeleton only) |
+| Decisions | `packages/ai/src/decide/` beside the Claude client: typed Choice/Noul/Score questions to TypeSafe `jev-1.13.0` (pinned origin and model, 800 ms, Haiku twin fallback of the same answer shape); routes marked `provider: 'jev'` in the routing table; never generation ([decision](decisions/20260927-jev-decision-model.md)) |
 | Personas | persona files in `packages/content` (voice, lexicon, colour per C5), loaded by `packages/ai/persona` |
 | Context | read via `guide_reader` role views only (no C3, no supplier content); curated POI DB + planner outputs |
 | Tools | allow-listed tool schemas; read tools query deterministic services; **write tools produce proposals** (`ChangeSet`, `GuideAction` draft) validated by `planner`/`cost-engine`; user or crew approval then a normal command applies it |

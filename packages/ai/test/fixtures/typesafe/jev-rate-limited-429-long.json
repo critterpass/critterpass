@@ -1,0 +1,15 @@
+{
+  "source": "Error envelope authored from the documented status (https://docs.typesafe.ai/api#errors) in the shape of the recorded 401; a server condition, not a model reply.",
+  "response": {
+    "status": 429,
+    "headers": {
+      "retry-after": "30"
+    },
+    "body": {
+      "detail": {
+        "error_type": "rate_limit_error",
+        "message": "Rate limit exceeded"
+      }
+    }
+  }
+}

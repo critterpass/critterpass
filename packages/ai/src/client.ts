@@ -14,7 +14,7 @@ import {
   toGatewayError,
 } from './errors';
 import { computeCostMicros, type TokenUsage } from './pricing';
-import { resolveRoute, type RouteConfig } from './routing';
+import { resolveClaudeRoute, type RouteConfig } from './routing';
 import type { Telemetry } from './telemetry/langfuse';
 import { buildUsageRecord, toTokenUsage, type AiUsageRecord, type UsageContext } from './usage';
 
@@ -74,6 +74,9 @@ const MAX_DELAY_MS = 8_000;
 
 /** Builds the Messages API request for a route, enforcing the per-model request rules. */
 export function buildMessageParams(route: RouteConfig, input: GatewayInput): MessageParams {
+  if (route.provider !== 'claude') {
+    throw new GatewayConfigError(`route ${route.route} runs on ${route.provider}, not Claude`);
+  }
   const forced = input.toolChoice?.type === 'any' || input.toolChoice?.type === 'tool';
   if (forced && (route.tier === 'opus' || route.thinking === 'adaptive')) {
     throw new GatewayConfigError(
@@ -196,7 +199,7 @@ export function createGateway(options: GatewayOptions): Gateway {
 
   return {
     async callModel(routeId, input, context = {}) {
-      const route = resolveRoute(routeId);
+      const route = resolveClaudeRoute(routeId);
       const params = buildMessageParams(route, input);
       const options = input.signal === undefined ? {} : { signal: input.signal };
       const startedAt = now();
@@ -205,7 +208,7 @@ export function createGateway(options: GatewayOptions): Gateway {
     },
 
     async *streamModel(routeId, input, context = {}) {
-      const route = resolveRoute(routeId);
+      const route = resolveClaudeRoute(routeId);
       const params = buildMessageParams(route, input);
       const startedAt = now();
       for (let attempt = 1; ; attempt += 1) {

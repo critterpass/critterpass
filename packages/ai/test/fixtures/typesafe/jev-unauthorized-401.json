@@ -1,0 +1,13 @@
+{
+  "source": "Live recording of a rejected API key from https://api.typesafe.ai/v1/systemone, 2026-09-28.",
+  "response": {
+    "status": 401,
+    "headers": {},
+    "body": {
+      "detail": {
+        "error_type": "authentication_error",
+        "message": "Cannot authenticate with the server. Please check your API key and try again."
+      }
+    }
+  }
+}

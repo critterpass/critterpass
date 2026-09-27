@@ -10,6 +10,7 @@ export {
 export {
   aiEnvSchema,
   ANTHROPIC_API_URL,
+  loadDecisionEnv,
   loadGatewayEnv,
   type AiEnv,
   type GatewayEnvOptions,
@@ -31,7 +32,9 @@ export {
 } from './pricing';
 export {
   CACHE_LAYERS,
+  JEV_MODEL,
   MODEL_IDS,
+  resolveClaudeRoute,
   resolveRoute,
   ROUTING,
   type CacheLayer,
@@ -227,3 +230,4 @@ export {
   type LangfuseOptions,
   type Telemetry,
 } from './telemetry/langfuse';
+export * from './decide';
