@@ -16,7 +16,11 @@
     "s-sync:load": "tsx src/s-sync/load.ts",
     "s-sync:drill": "tsx src/s-sync/drill.ts",
     "apns-live-activity": "tsx src/apns-live-activity/run.ts",
-    "skia-critter": "tsx src/skia-critter/run.ts"
+    "skia-critter": "tsx src/skia-critter/run.ts",
+    "tiles:build": "tsx tiles/build.ts",
+    "tiles:fonts": "tsx tiles/generate-fonts.ts",
+    "tiles:sprite": "tsx tiles/generate-sprite.ts",
+    "tiles:upload": "tsx tiles/upload.ts"
   },
   "dependencies": {
     "@hono/node-server": "catalog:",
@@ -33,6 +37,7 @@
   },
   "devDependencies": {
     "@cp/db": "workspace:*",
+    "@kartore/glyphore": "0.2.0",
     "@napi-rs/canvas": "catalog:",
     "@testcontainers/postgresql": "catalog:",
     "@types/pg": "catalog:",
