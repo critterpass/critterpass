@@ -182,6 +182,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. centrifuge-js with `getToken` → `/api/auth/token?aud=rt`, refresh before `exp`. 2. Ref-counted `useChannel(ns, id, handlers)`; persist `(offset, epoch)` in MMKV; `recovered:false`/epoch change → `onChannelReset`. 3. Dedupe on envelope `id` (LRU 500); zod-validate payload by `type`. 4. AppState: disconnect after 30 s background, reconnect on foreground. 5. `useTyping` throttle 1/3 s + 5 s expiry; `useAnchoredPresence(anchor)` ≤5 Hz, clears on blur; `usePresence` from presence + join/leave.
 - Tests: `pnpm --filter @cp/mobile test -- data/realtime` (Jest against local Centrifugo via compose in CI job `rt-client`).
 - Done when: reconnect after 2 min background recovers missed messages with no duplicates; lossy reset callback fires when history is exceeded.
+- Status: done — c9319af (integration suites start their own Centrifugo with this repo's config via Testcontainers, reaching the stand-in proxy through Docker's `host-gateway` alias; anchored presence spaces sends 250 ms apart so the api's 200 ms window never drops the latest anchor, and resends a rejected latest anchor once)
 
 ### T9 — Media presign, multipart and signed reads
 - Goal: R2 upload/read primitives used by avatars, photos, receipts, docs.
