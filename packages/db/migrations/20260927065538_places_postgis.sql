@@ -6,7 +6,9 @@
 -- plain numbers); `location` is a generated geography column derived from them, and is what
 -- near-me ranking, reverse geocoding and geofence containment actually query against.
 
-CREATE EXTENSION IF NOT EXISTS postgis;
+-- Pinned to `public`: without WITH SCHEMA, CREATE EXTENSION installs into the first schema on the
+-- session's search_path, which a pooled connection can inherit from another client.
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA public;
 
 ALTER TABLE pois ADD COLUMN location geography(Point, 4326)
   GENERATED ALWAYS AS (ST_SetSRID(ST_MakePoint(lng, lat), 4326)::geography) STORED;
@@ -19,7 +21,7 @@ CREATE INDEX cities_location_gist_idx ON cities USING gist (location);
 -- Geofence authoring has no data yet (Overture division/locality seeding is a later pass), so the
 -- type change is a straight `USING NULL` rather than a geometry conversion.
 ALTER TABLE pois ALTER COLUMN geofence TYPE geography(Polygon, 4326) USING NULL;
-COMMENT ON COLUMN pois.geofence IS 'Editorial-authored geofence for visit/spawn detection (P20, P40); no consumer yet.';
+COMMENT ON COLUMN pois.geofence IS 'Editorial-authored geofence for visit and spawn detection; no consumer yet.';
 
 ALTER TABLE destinations ALTER COLUMN geofence TYPE geography(MultiPolygon, 4326) USING NULL;
 COMMENT ON COLUMN destinations.geofence IS 'Multi-polygon geofence seeded from Overture locality/division polygons at ingest.';
