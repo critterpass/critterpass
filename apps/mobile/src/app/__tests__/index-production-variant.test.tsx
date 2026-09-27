@@ -5,7 +5,7 @@
 // (imported before the reset) can no longer see.
 jest.mock('expo-constants', () => ({
   __esModule: true,
-  default: { expoConfig: { name: 'Critterpass', extra: { appVariant: 'production' } } },
+  default: { expoConfig: { name: 'CritterPass', extra: { appVariant: 'production' } } },
 }));
 
 import { describe, expect, it, jest } from '@jest/globals';

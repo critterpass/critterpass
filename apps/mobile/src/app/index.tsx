@@ -14,7 +14,7 @@ const DEV_TOOLS_ROUTE = '/(dev)';
 
 export default function HomeScreen() {
   const { t } = useLingui();
-  const appName = Constants.expoConfig?.name ?? 'Critterpass';
+  const appName = Constants.expoConfig?.name ?? 'CritterPass';
   const appVariant = readAppVariant();
   // Never in production: Metro still bundles this route file (it isn't under (dev)), but the
   // (dev) route group it links to is dropped from a production export

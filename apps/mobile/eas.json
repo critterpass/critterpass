@@ -65,11 +65,17 @@
     "staging": {
       "android": {
         "track": "internal"
+      },
+      "ios": {
+        "ascAppId": "6816656656"
       }
     },
     "production": {
       "android": {
         "track": "production"
+      },
+      "ios": {
+        "ascAppId": "6816655856"
       }
     }
   }

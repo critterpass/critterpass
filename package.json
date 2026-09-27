@@ -41,5 +41,6 @@
     "typescript-eslint": "catalog:",
     "vitest": "catalog:",
     "yaml": "catalog:"
-  }
+  },
+  "license": "Apache-2.0"
 }
