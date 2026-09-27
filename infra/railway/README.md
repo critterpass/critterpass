@@ -26,7 +26,9 @@ Staging public domains (1 replica each in `asia-southeast1-eqsg3a`):
 |---|---|---|
 | `api` | `https://api-staging-de92.up.railway.app` | `EXPO_PUBLIC_API_BASE_URL`; tokens from `GET /api/auth/token?aud=sync\|rt` |
 | `powersync-api` | `https://powersync-api-staging.up.railway.app` (port 8080) | `EXPO_PUBLIC_POWERSYNC_URL` |
-| `centrifugo` | `https://centrifugo-staging-652b.up.railway.app` (port 8000) | `wss://centrifugo-staging-652b.up.railway.app/connection/websocket` |
+| `centrifugo` | `https://centrifugo-staging-652b.up.railway.app` (port 8000) | `EXPO_PUBLIC_REALTIME_URL` = `wss://centrifugo-staging-652b.up.railway.app/connection/websocket` |
+
+The mobile `staging` EAS build profile (`apps/mobile/eas.json`) sets these three variables; development and e2e builds leave them unset or take them from a local `apps/mobile/.env` (`apps/mobile/.env.example`).
 
 ### Config as code
 

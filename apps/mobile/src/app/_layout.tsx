@@ -1,13 +1,26 @@
 import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
-import { useNavigationContainerRef } from 'expo-router';
+import { router, useNavigationContainerRef } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Updates from 'expo-updates';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text as RNText, View } from 'react-native';
+import { Platform, StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { appGroupOutbox, writeEndpointsConfig } from '../../modules/cp-app-group';
+import * as cpDeferredLink from '../../modules/cp-deferred-link';
+
+import { AppSessionRoot } from '@/data/app-session/AppSessionRoot';
+import {
+  configureDeviceAppGroup,
+  deviceAppState,
+  deviceLinkClaims,
+  devicePush,
+  reportAppSessionError,
+  startDeviceAppSession,
+} from '@/data/app-session/device-session';
+import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/DeferredLinkGate';
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
 import { useNavigationPersistence } from '@/lib/navigation/restore';
@@ -25,6 +38,16 @@ void SplashScreen.preventAutoHideAsync();
 
 // Expo Router renders this in place of the root layout when anything below it throws.
 export { RootErrorBoundary as ErrorBoundary };
+
+// The session drains and configures the App Group the extensions share.
+configureDeviceAppGroup({ outbox: appGroupOutbox, writeEndpointsConfig });
+
+const deferredLinks = deferredLinkPrimitives(
+  cpDeferredLink,
+  Platform.OS,
+  Constants.expoConfig?.extra?.appVariant,
+);
+const openHref = (href: string) => router.replace(href);
 
 /** Saved navigation is only restored into the same JS build it was saved from. */
 const BUILD = `${Constants.expoConfig?.version ?? ''}:${Updates.updateId ?? 'embedded'}`;
@@ -54,6 +77,8 @@ export default function RootLayout() {
   const fontsReady = useFontsReady();
   const i18nReady = useI18nReady();
   const [prewarmed, setPrewarmed] = useState(false);
+  // The first-launch deferred link check holds the splash (bounded; see DeferredLinkGate).
+  const [linksReady, setLinksReady] = useState(false);
 
   // Render one hidden glyph per bundled face for a frame before revealing the app: this forces
   // the OS to rasterise each font's glyph atlas once up front, so the first *visible* text using
@@ -65,17 +90,17 @@ export default function RootLayout() {
   }, [fontsReady, i18nReady]);
 
   useEffect(() => {
-    if (fontsReady && i18nReady && prewarmed) {
+    if (fontsReady && i18nReady && prewarmed && linksReady) {
       void SplashScreen.hideAsync();
     }
-  }, [fontsReady, i18nReady, prewarmed]);
+  }, [fontsReady, i18nReady, prewarmed, linksReady]);
 
   // Gated on both: I18nRoot's own I18nProvider would otherwise render nothing until a locale is
   // active, which would swap the splash screen for a blank frame instead of keeping it up.
   if (!fontsReady || !i18nReady) return null;
 
   // Provider order: gestures (one root for every GestureDetector) → locale → theme (contrast, font
-  // scale) → screen jolt → navigation, with the overlay, shared-grow and toast hosts above screens.
+  // scale) → session (local-first database, realtime) → screen jolt → navigation, with the overlay, shared-grow and toast hosts above screens.
   return (
     <GestureHandlerRootView style={[styles.root, { backgroundColor: theme.color.ink['950'] }]}>
       <I18nRoot>
@@ -89,12 +114,25 @@ export default function RootLayout() {
           </View>
         )}
         <ThemeProvider>
-          <ScreenJoltProvider>
-            <RootNavigator />
-            <OverlayHost />
-            <SharedGrowHost />
-            <IslandToast />
-          </ScreenJoltProvider>
+          <AppSessionRoot
+            start={startDeviceAppSession}
+            appState={deviceAppState}
+            onError={reportAppSessionError}
+            push={devicePush}
+          >
+            <ScreenJoltProvider>
+              <RootNavigator />
+              <DeferredLinkGate
+                primitives={deferredLinks}
+                navigate={openHref}
+                claims={deviceLinkClaims}
+                onReady={() => setLinksReady(true)}
+              />
+              <OverlayHost />
+              <SharedGrowHost />
+              <IslandToast />
+            </ScreenJoltProvider>
+          </AppSessionRoot>
         </ThemeProvider>
       </I18nRoot>
     </GestureHandlerRootView>
