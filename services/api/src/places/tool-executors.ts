@@ -90,10 +90,12 @@ export async function placesSearchTool(
     let distanceSelect = 'NULL::double precision AS distance_m';
     let orderExpression = 'name ASC';
     if (near !== undefined) {
-      params.push(near.lat, near.lng);
-      const latParam = params.length - 1;
-      const lngParam = params.length;
-      distanceSelect = `earth_distance(ll_to_earth($${latParam}, $${lngParam}), ll_to_earth(lat, lng)) AS distance_m`;
+      params.push(near.lng, near.lat);
+      const lngParam = params.length - 1;
+      const latParam = params.length;
+      // llm.pois is a plain view without the PostGIS `location` generated column, so distance is
+      // computed straight from its lat/lng columns (identical geography cast the base table uses).
+      distanceSelect = `ST_Distance(ST_SetSRID(ST_MakePoint(lng, lat), 4326)::geography, ST_SetSRID(ST_MakePoint($${lngParam}, $${latParam}), 4326)::geography) AS distance_m`;
       orderExpression = 'distance_m ASC';
     }
 

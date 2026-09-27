@@ -94,11 +94,11 @@ async function reverseGeocodeLocal(
   lng: number,
 ): Promise<ReverseGeocodeResult> {
   const nearestPoi = await tx.query<{ id: string; name: string; distance_m: number }>(
-    `SELECT id, name, earth_distance(ll_to_earth($1, $2), ll_to_earth(lat, lng)) AS distance_m
+    `SELECT id, name, ST_Distance(location, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography) AS distance_m
      FROM pois WHERE status = 'active'
-     AND earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(lat, lng)
-     ORDER BY distance_m ASC LIMIT 1`,
-    [lat, lng, REVERSE_POI_RADIUS_M],
+     AND ST_DWithin(location, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography, $3)
+     ORDER BY location <-> ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography LIMIT 1`,
+    [lng, lat, REVERSE_POI_RADIUS_M],
   );
   const poi = nearestPoi.rows[0];
   if (poi !== undefined && poi.distance_m <= REVERSE_POI_RADIUS_M) {
@@ -111,11 +111,11 @@ async function reverseGeocodeLocal(
     country: string;
     distance_m: number;
   }>(
-    `SELECT id, name, country, earth_distance(ll_to_earth($1, $2), ll_to_earth(lat, lng)) AS distance_m
+    `SELECT id, name, country, ST_Distance(location, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography) AS distance_m
      FROM cities
-     WHERE earth_box(ll_to_earth($1, $2), $3) @> ll_to_earth(lat, lng)
-     ORDER BY distance_m ASC LIMIT 1`,
-    [lat, lng, REVERSE_CITY_RADIUS_M],
+     WHERE ST_DWithin(location, ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography, $3)
+     ORDER BY location <-> ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography LIMIT 1`,
+    [lng, lat, REVERSE_CITY_RADIUS_M],
   );
   const city = nearestCity.rows[0];
   if (city !== undefined) {

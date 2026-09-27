@@ -1,17 +1,14 @@
 /**
  * POI, catalogue and map-region tables (docs/data-model.md §3.13). Typed mirror of
- * packages/db/migrations/*_pois_and_map_regions.sql and *_cities_index.sql, which are the applied
- * source of truth for columns, constraints, RLS and grants — this file is not run through
- * `drizzle-kit generate`.
+ * packages/db/migrations/*_pois_and_map_regions.sql, *_cities_index.sql and *_places_postgis.sql,
+ * which are the applied source of truth for columns, constraints, RLS and grants — this file is not
+ * run through `drizzle-kit generate`.
  *
- * `lat`/`lng` + a `cube`/`earthdistance` GiST index stand in for docs/data-model.md's
- * `geo geography(Point)` (`pois.geofence`/`destinations.geofence` similarly use core Postgres
- * `polygon`/`polygon[]` instead of `geography(Polygon)`/`geography(MultiPolygon)`): the Postgres
- * image this project runs locally and in staging (`pgvector/pgvector:0.8.6-pg18-trixie`, verified
- * against `pg_available_extensions`) has no PostGIS, only the vector/pg_trgm/unaccent/cube/
- * earthdistance contrib set the platform database-latency spike checks — see the migration file for
- * the full rationale. `packages/domain/src/places/poi.ts` has the wire/domain shapes these columns
- * carry.
+ * `lat`/`lng` stay as plain columns (synced clients read plain numbers); `location` is a
+ * PostGIS `geography(Point,4326)` generated from them (docs/data-model.md §3.13's `geo
+ * geography(Point)`), used by near-me ranking, reverse geocoding and KNN queries via its GiST
+ * index. `pois.geofence`/`destinations.geofence` are `geography(Polygon)`/`geography(MultiPolygon)`.
+ * `packages/domain/src/places/poi.ts` has the wire/domain shapes these columns carry.
  */
 import { registerTablePrivacy } from '@cp/domain';
 import { sql } from 'drizzle-orm';
@@ -33,12 +30,16 @@ import {
 import { destinations } from './trips';
 
 /**
- * A single Postgres `polygon` ring: geofence authoring has no consumer yet. `destinations.geofence`
- * uses the same `polygon[]` shape (an array of rings, standing in for MultiPolygon) but that column's
- * Drizzle mirror lives in `./trips.ts`, outside this file's ownership (`packages/db/src/schema/places.ts`
- * only) — the migration adds the real column either way.
+ * PostGIS geography columns: Drizzle has no core-API geography type, so these are typed as their
+ * WKB-hex text wire representation (matching how `pg` returns them), same convention as `tsvector`
+ * below. `destinations.geofence` uses `geographyMultiPolygon` but that column's Drizzle mirror lives
+ * in `./trips.ts`, outside this file's ownership (`packages/db/src/schema/places.ts` only) — the
+ * migration adds the real column either way.
  */
-const polygon = customType<{ data: string }>({ dataType: () => 'polygon' });
+const geographyPoint = customType<{ data: string }>({ dataType: () => 'geography(Point,4326)' });
+const geographyPolygon = customType<{ data: string }>({
+  dataType: () => 'geography(Polygon,4326)',
+});
 const tsvector = customType<{ data: string }>({ dataType: () => 'tsvector' });
 
 const llm = pgSchema('llm');
@@ -55,6 +56,8 @@ export const pois = pgTable('pois', {
   category: text('category').notNull(),
   lat: doublePrecision('lat').notNull(),
   lng: doublePrecision('lng').notNull(),
+  /** Generated column (`ST_SetSRID(ST_MakePoint(lng, lat), 4326)::geography`); never written directly. */
+  location: geographyPoint('location'),
   address: text('address'),
   hours: jsonb('hours').notNull().default({}),
   hoursVerifiedAt: timestamp('hours_verified_at', { withTimezone: true, mode: 'date' }),
@@ -67,7 +70,7 @@ export const pois = pgTable('pois', {
   status: text('status').notNull().default('active'),
   curation: text('curation').notNull().default('auto'),
   mergedIntoId: uuid('merged_into_id'),
-  geofence: polygon('geofence'),
+  geofence: geographyPolygon('geofence'),
   visitRadiusM: integer('visit_radius_m'),
   timezone: text('timezone'),
   lastLiveCheckAt: timestamp('last_live_check_at', { withTimezone: true, mode: 'date' }),
@@ -119,6 +122,8 @@ export const cities = pgTable('cities', {
   country: text('country').notNull(),
   lat: doublePrecision('lat').notNull(),
   lng: doublePrecision('lng').notNull(),
+  /** Generated column (`ST_SetSRID(ST_MakePoint(lng, lat), 4326)::geography`); never written directly. */
+  location: geographyPoint('location'),
   population: integer('population'),
   iataNearby: text('iata_nearby').array().notNull().default([]),
   sourceId: text('source_id'),

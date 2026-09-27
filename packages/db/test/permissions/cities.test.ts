@@ -67,4 +67,19 @@ describe('cities RLS: "somewhere else" search index (class C0, read-all, not syn
   it('is excluded from the powersync publication despite its C0 privacy class', () => {
     expect(computePublicationAllowList()).not.toContain('cities');
   });
+
+  it('generates the location geography column from lat/lng for GiST/KNN queries', async () => {
+    await withSystem(db.pool, (tx) =>
+      tx.query(
+        "INSERT INTO cities (name, country, lat, lng) VALUES ('Sintra', 'Portugal', 38.7979, -9.3903)",
+      ),
+    );
+    const rows = await withSystem(db.pool, (tx) =>
+      tx.query<{ distance_m: number }>(
+        `SELECT ST_Distance(location, ST_SetSRID(ST_MakePoint(-9.3903, 38.7979), 4326)::geography) AS distance_m
+         FROM cities WHERE name = 'Sintra'`,
+      ),
+    );
+    expect(rows.rows[0]?.distance_m).toBeCloseTo(0, 1);
+  });
 });

@@ -297,7 +297,7 @@ Permission contract suite (Vitest + Testcontainers, PR-blocking): fixture actors
 
 | Env | Where | Data | Notes |
 |---|---|---|---|
-| local | `infra/docker-compose.yml`: Postgres 18 (wal_level=logical, pgvector), Redis 8, Centrifugo, PowerSync, Valhalla (small extract); media uses a real R2 dev bucket | seed from `packages/db/seed` | api/worker via `pnpm dev`; app via dev client |
+| local | `infra/docker-compose.yml`: Postgres 18 (wal_level=logical, pgvector, PostGIS), Redis 8, Centrifugo, PowerSync, Valhalla (small extract); media uses a real R2 dev bucket | seed from `packages/db/seed` | api/worker via `pnpm dev`; app via dev client |
 | preview | Railway PR environment (optional per PR touching services) + PlanetScale branch | seed | EAS Update channel `preview` |
 | staging | Railway `staging` + PlanetScale staging branch | seed + anonymised fixtures | EAS channel `staging`, TestFlight / Play internal |
 | prod | Railway `production` + PlanetScale production (HA) | real | EAS channel `production` |
@@ -489,7 +489,7 @@ sequenceDiagram
 | API | hono / @hono/node-server | 4.13 / 2.1 |
 | | @hono/zod-openapi / zod | 1.6 / 4.x |
 | | better-auth / @better-auth/expo | 1.7.x |
-| DB | PostgreSQL / pgvector | 18 / 0.8.x |
+| DB | PostgreSQL / pgvector / PostGIS | 18 / 0.8.x / 3.6.x |
 | | drizzle-orm / drizzle-kit / pg | 0.45 / 0.31 / 8.23 |
 | Jobs | pg-boss | 12.x |
 | Realtime | Centrifugo / Redis | v6.9 / 8.x |
@@ -552,7 +552,7 @@ Exact patch versions live in `pnpm-lock.yaml`; bumps go through Renovate weekly 
 |---|---|---|
 | S-AUTH | anon → Apple/Google `linkSocial(idToken)` + phone `verify(updatePhoneNumber)` keep uid; conflict → merge ticket | onLinkAccount merge tx + PowerSync `disconnectAndClear` |
 | S-SYNC | self-hosted PowerSync + Better Auth JWKS; chat p95 <1 s; offline replay; **DB switchover keeps slot**; 1k synthetic conns | PowerSync Cloud; Railway Postgres HA |
-| S-DB | Railway→PlanetScale p50 <3 ms; SET LOCAL via PgBouncer; pgvector, pg_trgm, unaccent | Railway Postgres HA |
+| S-DB | Railway→PlanetScale p50 <3 ms; SET LOCAL via PgBouncer; pgvector, pg_trgm, unaccent, PostGIS | Railway Postgres HA |
 | S-RT | proxy + JWKS; unsubscribe <1 s; recovery after 2 min background; 5k sockets / 2 nodes | tune Redis engine / add nodes |
 | Apple targets | fork of `@bacons/apple-targets` or in-repo config plugin signs all targets on SDK 58 / Xcode 27 / UIScene | bare workflow |
 | Renderer / motion / surfaces | mobile S1–S8 thresholds (critter parity, Critterdex scroll, LA I'M UP, NSE, dwell ring, drag snap, cold start) | adjust budgets, never scope |

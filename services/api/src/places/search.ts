@@ -113,10 +113,10 @@ export async function searchPlaces(
 
   let distanceSelect = 'NULL::double precision AS distance_m';
   if (filters.near !== undefined) {
-    params.push(filters.near.lat, filters.near.lng);
-    const latParam = params.length - 1;
-    const lngParam = params.length;
-    distanceSelect = `earth_distance(ll_to_earth($${latParam}, $${lngParam}), ll_to_earth(p.lat, p.lng)) AS distance_m`;
+    params.push(filters.near.lng, filters.near.lat);
+    const lngParam = params.length - 1;
+    const latParam = params.length;
+    distanceSelect = `ST_Distance(p.location, ST_SetSRID(ST_MakePoint($${lngParam}, $${latParam}), 4326)::geography) AS distance_m`;
     if (!hasQuery) orderExpression = 'distance_m ASC';
   }
 

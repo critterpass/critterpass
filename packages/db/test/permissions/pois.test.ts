@@ -188,6 +188,52 @@ describe('pois RLS: catalogue (class C0, read-all)', () => {
     expect(rows.rows).toHaveLength(0);
   });
 
+  it('generates the location geography column from lat/lng for GiST/KNN queries', async () => {
+    const poiId = await insertPoi();
+    const rows = await withSystem(db.pool, (tx) =>
+      tx.query<{ distance_m: number }>(
+        `SELECT ST_Distance(location, ST_SetSRID(ST_MakePoint(135.0, 35.0), 4326)::geography) AS distance_m
+         FROM pois WHERE id = $1`,
+        [poiId],
+      ),
+    );
+    expect(rows.rows[0]?.distance_m).toBeCloseTo(0, 1);
+  });
+
+  it('supports geofence containment via PostGIS ST_Covers (visit/spawn detection consumers)', async () => {
+    const poiId = await withSystem(db.pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string }>(
+        `INSERT INTO pois (destination_id, name, category, lat, lng, geofence)
+         VALUES ($1, 'Nishiki Market Grounds', 'market', 35.0051, 135.7651,
+           ST_GeomFromText(
+             'POLYGON((135.764 35.004, 135.766 35.004, 135.766 35.006, 135.764 35.006, 135.764 35.004))',
+             4326
+           )::geography)
+         RETURNING id`,
+        [destinationId],
+      );
+      return firstRow(rows).id;
+    });
+
+    const inside = await withSystem(db.pool, (tx) =>
+      tx.query<{ covers: boolean }>(
+        `SELECT ST_Covers(geofence, ST_SetSRID(ST_MakePoint(135.7651, 35.0051), 4326)::geography) AS covers
+         FROM pois WHERE id = $1`,
+        [poiId],
+      ),
+    );
+    expect(inside.rows[0]?.covers).toBe(true);
+
+    const outside = await withSystem(db.pool, (tx) =>
+      tx.query<{ covers: boolean }>(
+        `SELECT ST_Covers(geofence, ST_SetSRID(ST_MakePoint(136.0, 36.0), 4326)::geography) AS covers
+         FROM pois WHERE id = $1`,
+        [poiId],
+      ),
+    );
+    expect(outside.rows[0]?.covers).toBe(false);
+  });
+
   it('is a member of the powersync publication (trip_pack + explore, docs/data-model.md §3.13)', async () => {
     expect(computePublicationAllowList()).toContain('pois');
     const { rows } = await db.pool.query(
