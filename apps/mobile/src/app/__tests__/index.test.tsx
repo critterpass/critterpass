@@ -10,4 +10,10 @@ describe('HomeScreen', () => {
     expect(getByRole('header')).toBeTruthy();
     expect(getByLabelText(/build variant/i)).toBeTruthy();
   });
+
+  it('shows a developer tools entry outside production (no appVariant mock: Jest resolves it to the default "development")', async () => {
+    const { getByTestId } = await renderWithI18n(<HomeScreen />);
+
+    expect(getByTestId('dev-tools-entry')).toBeTruthy();
+  });
 });

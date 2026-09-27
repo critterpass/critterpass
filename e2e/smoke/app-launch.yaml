@@ -1,5 +1,17 @@
 appId: app.critterpass.dev
 ---
+# The e2e-test build profile (apps/mobile/eas.json) sets `updates.checkAutomatically: 'ON_LOAD'`
+# for its APP_VARIANT=development variant, so a reused build blocks its first render on whatever
+# JS was last published to the e2e-test channel (up to `fallbackToCacheTimeout`) — the
+# extendedWaitUntil below budgets for that. Tapping through to the Developer tools screen and
+# reading its build marker is this suite's proof that the JS actually running is current, even on
+# a reused native build (fingerprint-based build reuse ignores JS-only changes).
 - launchApp
+- extendedWaitUntil:
+    visible:
+      text: 'Critterpass \(Dev\)'
+    timeout: 25000
+- tapOn:
+    id: 'dev-tools-entry'
 - assertVisible:
-    text: 'Critterpass \(Dev\)'
+    id: 'dev-build-marker'
