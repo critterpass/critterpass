@@ -28,6 +28,8 @@ catalog:
   '@powersync/common': 2.3.0
   '@powersync/node': 1.1.0
   '@powersync/react-native': 2.3.0
+  '@tanstack/react-query': 5.103.2
+  '@tanstack/react-router': 1.170.38
   '@testcontainers/postgresql': 12.1.0
   '@testcontainers/redis': 12.1.0
   '@types/estree': 1.0.9
@@ -58,6 +60,7 @@ catalog:
   globals: 17.12.0
   hono: 4.13.9
   jose: 6.2.12
+  maplibre-gl: 6.11.0
   pg: 8.23.0
   pg-boss: 12.35.0
   pino: 10.3.1

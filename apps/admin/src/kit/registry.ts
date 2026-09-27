@@ -1,0 +1,149 @@
+/**
+ * The console's module registry: every area plugs in with `defineAdminModule` (navigation entry,
+ * routes, optional home counters and user-detail panels) instead of editing the shell. Server twin:
+ * `services/api/src/admin/registry.ts`. Two helpers cover the common shapes: `defineQueue` for
+ * status-driven work queues and `defineCatalogue` for schema-driven editors.
+ *
+ * Example:
+ *
+ * ```ts
+ * export const flagsModule = defineAdminModule({
+ *   id: 'flags',
+ *   area: 'flags',
+ *   label: 'Flags & config',
+ *   order: 30,
+ *   routes: [{ path: 'flags', component: FlagsPage }],
+ * });
+ * ```
+ */
+import { canOpenAdminArea, type AdminArea, type AdminRole } from '@cp/domain';
+import type { ComponentType, ReactNode } from 'react';
+import type { z } from 'zod';
+
+export interface AdminModuleRoute {
+  /** Relative to the console root, TanStack Router style (`catalogue/$kind`). */
+  readonly path: string;
+  readonly component: ComponentType;
+}
+
+export interface HomeCounter {
+  readonly id: string;
+  readonly label: string;
+  /** Where the counter links to (the module's queue). */
+  readonly to: string;
+  readonly load: () => Promise<number>;
+  /** Counters above this value render in the warning colour. */
+  readonly warnAbove?: number;
+}
+
+export interface UserPanel {
+  readonly id: string;
+  readonly label: string;
+  readonly component: ComponentType<{ uid: string }>;
+}
+
+export interface AdminModule {
+  readonly id: string;
+  readonly area: AdminArea;
+  readonly label: string;
+  /** Navigation order; lower first. */
+  readonly order: number;
+  readonly routes: readonly AdminModuleRoute[];
+  readonly homeCounters?: readonly HomeCounter[];
+  readonly userPanels?: readonly UserPanel[];
+}
+
+export function defineAdminModule(module: AdminModule): AdminModule {
+  if (module.routes.length === 0) throw new Error(`admin module ${module.id} has no routes`);
+  return module;
+}
+
+/** Modules whose area the roles may open, in navigation order. */
+export function visibleModules(
+  modules: readonly AdminModule[],
+  roles: readonly AdminRole[],
+): readonly AdminModule[] {
+  return [...modules]
+    .filter((module) => canOpenAdminArea(roles, module.area).ok)
+    .sort((a, b) => a.order - b.order);
+}
+
+/** The module whose first route owns a console path, if any. */
+export function moduleForPath(
+  modules: readonly AdminModule[],
+  pathname: string,
+): AdminModule | undefined {
+  const first = pathname.split('/').filter(Boolean)[0];
+  return modules.find((module) =>
+    module.routes.some((route) => route.path.split('/')[0] === first),
+  );
+}
+
+export interface QueueAction<Item> {
+  readonly id: string;
+  readonly label: string;
+  /** Single-key shortcut while an item is focused (e.g. `a`, `h`, `r`). */
+  readonly shortcut?: string;
+  readonly tone?: 'default' | 'danger';
+  readonly run: (item: Item) => Promise<void>;
+}
+
+export interface QueueDefinition<Item> {
+  readonly kind: string;
+  readonly statuses: readonly string[];
+  readonly itemId: (item: Item) => string;
+  readonly title: (item: Item) => string;
+  readonly load: (
+    status: string,
+    cursor: string | undefined,
+  ) => Promise<{
+    items: Item[];
+    next_cursor: string | null;
+  }>;
+  readonly actions: readonly QueueAction<Item>[];
+  readonly preview: (item: Item) => ReactNode;
+}
+
+export function defineQueue<Item>(queue: QueueDefinition<Item>): QueueDefinition<Item> {
+  if (queue.statuses.length === 0) throw new Error(`queue ${queue.kind} has no statuses`);
+  const shortcuts = queue.actions.flatMap((action) => (action.shortcut ? [action.shortcut] : []));
+  if (new Set(shortcuts).size !== shortcuts.length) {
+    throw new Error(`queue ${queue.kind} repeats a shortcut`);
+  }
+  return queue;
+}
+
+export interface CatalogueColumn<Item> {
+  readonly id: string;
+  readonly label: string;
+  readonly value: (item: Item) => ReactNode;
+}
+
+export interface CatalogueDefinition<Item> {
+  readonly kind: string;
+  readonly label: string;
+  /** Editable fields; the form is generated from this schema. */
+  readonly schema: z.ZodObject;
+  /** Fields shown but never editable (e.g. a guide's canonical colour). */
+  readonly readOnly?: readonly string[];
+  readonly columns: readonly CatalogueColumn<Item>[];
+  readonly itemId: (item: Item) => string;
+  readonly title: (item: Item) => string;
+  /** The editable values of an item, in the schema's shape. */
+  readonly values: (item: Item) => Record<string, unknown>;
+  /** Whether new items can be created from the console. */
+  readonly creatable: boolean;
+  /** Optional preview beside the form (e.g. a map pin). */
+  readonly preview?: ComponentType<{ values: Record<string, unknown> }>;
+}
+
+export function defineCatalogue<Item>(
+  catalogue: CatalogueDefinition<Item>,
+): CatalogueDefinition<Item> {
+  for (const field of catalogue.readOnly ?? []) {
+    if (!(field in catalogue.schema.shape)) {
+      throw new Error(`catalogue ${catalogue.kind}: read-only field ${field} is not in the schema`);
+    }
+  }
+  return catalogue;
+}
