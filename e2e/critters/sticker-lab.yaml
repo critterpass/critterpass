@@ -1,0 +1,61 @@
+appId: app.critterpass.dev
+---
+# Device-bench smoke flow for the sticker lab (apps/mobile/src/app/(dev)/sticker-lab.tsx): reaches
+# it by tapping through the home screen's "Developer tools" entry and its dev-route list
+# (apps/mobile/src/app/(dev)/index.tsx), never via `openLink` — a deep link into a `(dev)` route is
+# non-deterministic on EAS-hosted simulators (mobile-dev-inc/Maestro#2610, same reasoning as
+# motion-lab.yaml). Scrolls the full 150-critter grid, replays both hero draw-ons, and flips the
+# closed-eye storm toggle — asserting only that nothing crashes and the screen stays responsive, per
+# the phase's own "no fps assertion on simulators/emulators" scope: real fps/memory numbers come
+# from the founder's physical-device run (e2e/critters/capture-perf.sh), not this cloud flow.
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 25000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-sticker-lab'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-sticker-lab'
+
+# First mount renders 2 hero stickers, a live grid of the real 150-critter dex, and starts sampling
+# fps/cache — give it real room on a cold EAS simulator before asserting anything.
+- extendedWaitUntil:
+    visible:
+      id: 'sticker-lab-grid'
+    timeout: 30000
+- assertVisible:
+    id: 'sticker-lab-fps'
+- assertVisible:
+    id: 'sticker-lab-cache-bytes'
+
+# Both hero draw-ons replay without crashing.
+- tapOn:
+    id: 'sticker-lab-hero-1'
+- tapOn:
+    id: 'sticker-lab-hero-2'
+- assertVisible:
+    id: 'sticker-lab-grid'
+
+# Scroll the full dex grid — the real stress case for the sticker cache (many concurrent cache
+# misses as new cells enter the viewport).
+- scroll
+- scroll
+- scroll
+- assertVisible:
+    id: 'sticker-lab-grid'
+
+# The closed-eye storm forces every visible cell to miss its cache in the same frame (the blink-swap
+# worst case) — on, then off, asserting the screen survives both.
+- tapOn:
+    id: 'sticker-lab-closed-eyes-storm'
+- assertVisible:
+    id: 'sticker-lab-grid'
+- tapOn:
+    id: 'sticker-lab-closed-eyes-storm'
+- assertVisible:
+    id: 'sticker-lab-grid'

@@ -1,0 +1,15 @@
+{
+  "targets": [
+    {
+      "kind": ["gecko", "tanuki", "puffin", "axolotl", "sardine", "alpaca"],
+      "forms": ["common"],
+      "poses": ["idle"],
+      "variants": ["color"],
+      "sizesPt": [96, 150, 232],
+      "scales": [1, 2],
+      "crop": "none",
+      "format": "webp",
+      "out": "apps/web/public/critters"
+    }
+  ]
+}

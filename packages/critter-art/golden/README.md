@@ -26,6 +26,12 @@ cases (mean abs ≈ 1–2/255, 2–5% of pixels > 8/255): `@napi-rs/canvas` rast
 anti-aliased edges differently there. Anything that bakes or compares Node renders byte-for-byte
 (bake `--check`, server share cards) must pin one platform too.
 
+The Vitest suites with the same constraint (share-card goldens in
+`src/share/templates/templates.test.ts`, the real-Chromium `src/web/critter-sticker.test.ts`, and
+`@cp/critter-bake`'s app icon design-fidelity test) are excluded from `pnpm test` unless
+`CP_MACOS_SUITES=1`; CI's macOS `critter-art-macos` job sets it and runs them (see
+`vitest.config.ts` and `docs/code-standards.md` §17).
+
 ## Case matrix
 
 - **Baseline** — every guide and icon (34 kinds) at 96pt, plain, fully drawn (`p=1`). Confirms

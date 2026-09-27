@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background_face">#ffd84a</color>
+    <color name="ic_launcher_background_passport">#17142a</color>
+    <color name="ic_launcher_background_stamp">#f4efe4</color>
+    <color name="ic_launcher_background_sticker">#17142a</color>
+    <color name="ic_launcher_background_temple">#2e9a74</color>
+    <color name="ic_launcher_background_sardi">#54d6a4</color>
+    <color name="ic_launcher_background_home_set">#4f86ff</color>
+    <color name="ic_launcher_background_pon">#c94f86</color>
+    <color name="ic_launcher_background_golden">#c99a2a</color>
+    <color name="ic_launcher_background_bali_six">#ffd84a</color>
+</resources>

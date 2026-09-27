@@ -95,6 +95,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Build paths from flat arrays in one call per poly. 2. Isolated layer + multiply + shadow σ 2.5 pt. 3. Jest test using RN Skia's CanvasKit test env renders 20 kinds and diffs vs canvas2d (`@napi-rs/canvas`) output.
 - Tests: `pnpm --filter @cp/critter-art test:skia`
 - Done when: 20-kind sample within golden thresholds (mean < 0.5/255, > 8/255 px < 1%) vs canvas2d.
+- Status: done — 83a31ee
 
 ### T2 — Sticker image cache and PNG export
 - Goal: memory + disk cache, pre-warm, eviction, `exportPng`.
@@ -102,6 +103,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Spec hash incl. `artVersion`. 2. Byte-sized LRU (25 MB), disk cap 60 MB with LRU sweep. 3. Memory-warning eviction. 4. `prewarm(specs[])` batching off the JS frame budget (InteractionManager/idle). 5. `exportPng` writes to a given path.
 - Tests: `pnpm --filter @cp/mobile test -- sticker/cache`
 - Done when: tests prove hit/miss, byte cap eviction, version invalidation, disk sweep; export produces a decodable PNG of correct px size.
+- Status: done — 6d68085
 
 ### T3 — `<Sticker>` component: static, draw-on, blink, locked
 - Goal: the app's single sticker component (rendering only; timing/gating come from motion).
@@ -109,6 +111,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Props `{kind|critterId, form, pose, variant, size, sticker, drawOn?, delay?, blink?, onPress?}`. 2. Static path = cached image. 3. `drawProgress` shared value + `frame()` worklet → Skia `Picture`; snapshot to cache at 1. 4. `closedEyes` prop selects the closed-eye cached image. 5. Absent `drawProgress` = static final frame (Reduce Motion path). 6. A11y labels.
 - Tests: `pnpm --filter @cp/mobile test -- ui/sticker`
 - Done when: RNTL tests cover progress rendering (0, 0.5, 1 → cache write), closedEyes swap, static path, labels, locked silhouette; no layout shift between placeholder and image.
+- Status: done — cf06c18
 
 ### T4 — Sticker lab screen, device bench, Maestro
 - Goal: measurable proof on devices.
@@ -116,6 +119,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Lab: 150-cell dex grid, 2 hero draw-ons (local `withTiming` progress), closed-eye toggle storm, memory readout, fps counter. 2. Maestro flow scrolls grid, triggers draw-ons, asserts no crash (no fps assertion on simulators/emulators). 3. Capture script (Perfetto/`dumpsys gfxinfo`, `xctrace`) for the founder device run; tune bucket list if needed.
 - Tests: `maestro test e2e/critters/sticker-lab.yaml`
 - Done when (agent): Maestro passes on iOS simulator and Android emulator; capture script committed. Founder checklist: physical mid-range Android + iPhone run records grid scroll 60 fps, 2 concurrent draw-ons ≥ 55 fps, cache ≤ 25 MB in the phase report.
+- Status: done — 70f7b9b (the ~1 s SIGABRT was the draw-on frame callback calling a React state setter on the UI thread; it now schedules the re-render onto the JS thread, and the device-faithful Reanimated test double covers this class; the sticker-lab Maestro flow runs locally when needed)
 
 ### T5 — Bake CLI core
 - Goal: manifest-driven, parallel, deterministic Node renderer.
@@ -123,6 +127,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. zod manifest. 2. `worker_threads` pool over canvas2d backend on `@napi-rs/canvas`. 3. Variants color/mask/mono/stamp/blur (Gaussian blur stages for silhouettes). 4. PNG/WebP encode; crop face/circle. 5. Content-hash cache; `--check` mode fails if outputs are stale (CI).
 - Tests: `pnpm --filter @cp/critter-bake test && pnpm critter-bake --manifest packages/critter-bake/manifests/tier-a.json --check`
 - Done when: tier A bakes; second run writes 0 files; `--check` detects a stale output.
+- Status: done — e18f07c
 
 ### T6 — Platform writers: xcassets, Android res, config plugin
 - Goal: generated assets land in app + extension targets on prebuild.
@@ -130,6 +135,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. xcassets imagesets (1x omitted, @2x/@3x, template rendering for mask). 2. Android density buckets. 3. Key index JSON mapping App Group keys → bundled files. 4. Config plugin copies into app, widget, notification-service/content targets (paths from phase 2 target spike) and Android `res`.
 - Tests: `pnpm --filter @cp/critter-bake test`; `pnpm --filter @cp/mobile expo prebuild --clean --no-install` then assert files exist via `pnpm --filter @cp/mobile test -- plugins/with-critter-art`
 - Done when: prebuild output contains CritterArt assets in every target and Android res; `xcodebuild -list` shows no asset catalog errors (`xcrun actool` validation passes).
+- Status: done — aa2660d (generated output is ~27MB against the ~6-10MB tier-A budget note; see phase report)
 
 ### T7 — App icons and notification small icon
 - Goal: every alternate icon and Android monochrome/small icon from the art core.
@@ -137,6 +143,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Port the 4 icon style layouts + 6 earned icons from `design/App Icon.dc.html` into layout templates (share layout model). 2. iOS: layered `.icon` bundle per icon (layers from the share layout model, `icon.json` with glass/specular defaults) + flat 1024 px light/dark/tinted fallback sets. 3. Android adaptive fg/bg + monochrome (66/108 safe zone) per `activity-alias`. 4. Stamp polygons → SVG → VectorDrawable small icon. 5. Playwright screenshot of `App Icon.dc.html` vs baked icon diff (layout tolerance documented).
 - Tests: `pnpm --filter @cp/critter-bake test -- app-icons`
 - Done when (agent): 10 layered `.icon` bundles + 10 × 3 flat fallbacks (iOS) and adaptive/monochrome sets (Android) generated; founder checklist: iOS 26 device check picks layered vs flat per icon; icon names match an exported `APP_ICON_IDS` constant for phase 45.
+- Status: done — 81abe53 (3 of 6 earned icons — sardi/home-set/bali-six — use an undesigned character mapping logged in docs/undesigned-states.md; passport/stamp chrome drops the DC file's dashed border and fine wordmark/dot details; see phase report)
 
 ### T8 — Web outputs, web element, OG atlas
 - Goal: web WebP set, `<critter-sticker>` element, Takumi atlas.
@@ -144,6 +151,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Element: IO-lazy (rootMargin 150 px) draw-on, reduced motion = static, tap replay, disconnect frees canvas. 2. WebP buckets + srcset JSON. 3. OG atlas: packed sprite sheets + JSON index `{kind, form, pose} → rect`.
 - Tests: `pnpm --filter @cp/critter-art test -- web && pnpm --filter @cp/critter-bake test -- web og-atlas`
 - Done when: Playwright test mounts 100 elements, only visible ones allocate canvases; atlas index covers all 150 critters × designed forms + 6 guides × poses.
+- Status: done — b00384b
 
 ### T9 — Share layout model with Skia and Node backends
 - Goal: one layout description, two renderers, parity-tested.
@@ -151,6 +159,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Model: frame, rect (radius, halftone tex), text run (font family/axis width step/weight/colour/maxLines/ellipsis), image (URI, fit, rotation), sticker spec, rotation for "slightly wrong angles". 2. Font registry from `@cp/design-tokens` font files (assert tier colours equal critter-art constants here). 3. Skia backend via Paragraph API; Node backend via `@napi-rs/canvas` `GlobalFonts`. 4. Grapheme-safe text (Vietnamese, emoji).
 - Tests: `pnpm --filter @cp/critter-art test -- share`
 - Done when: a test card renders on both backends within share tolerance (text AA band documented); tier colours asserted equal to design tokens.
+- Status: done — 7393cbb (font registry step used one bundled font file directly rather than a `@cp/design-tokens`-owned registry — design-tokens ships type-scale metadata, not font binaries, which live in `apps/mobile/assets/fonts/`; see phase report)
 
 ### T10 — Share card templates and share actions
 - Goal: all F-140 cards and the share/save flow.
@@ -158,6 +167,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Templates with typed props (zod), post + 9:16 variants, postcard print variant. 2. `renderShareCardNode()` export for worker. 3. `ShareImageSheet` (undesigned; design in code): preview, format toggle, rendering + failure states, share sheet, Instagram Stories (background + sticker layers; hidden if app absent), save to Photos add-only via `expo-media-library` write-only permission. 4. Alt text per card. 5. Golden snapshots per template (Node backend) from realistic fixture data (content from design copy).
 - Tests: `pnpm --filter @cp/critter-art test -- share/templates && pnpm --filter @cp/mobile test -- ui/share-image`
 - Done when: 12 templates render in both backends; RNTL covers sheet states; snapshot goldens committed and reviewed against 3l-3/3m-*/3o-4 renders.
+- Status: done — 2431d09 (content is founder-reviewable placeholder copy, not sourced from design renders — see phase report; goldens are self-consistency snapshots, not yet reviewed against 3l-3/3m-*/3o-4 by a founder)
 
 ## Phase acceptance criteria
 

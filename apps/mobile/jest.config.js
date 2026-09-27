@@ -16,6 +16,12 @@ module.exports = {
   // Whichever suite runs first in a cold Jest worker pays the one-off transform of React Native's
   // renderer inside its first render; on a two-core CI runner that alone can exceed half a minute.
   testTimeout: 60_000,
+  // The config plugin's integration suite inspects `expo prebuild` output (ios/, android/), so it
+  // runs only where `CP_MACOS_SUITES=1`: the `critter-art-macos` CI job, which prebuilds first.
+  testPathIgnorePatterns: [
+    ...(jestExpoPreset.testPathIgnorePatterns ?? ['/node_modules/']),
+    ...(process.env.CP_MACOS_SUITES === '1' ? [] : ['<rootDir>/plugins/__tests__/']),
+  ],
   moduleNameMapper: {
     ...jestExpoPreset.moduleNameMapper,
     // Reanimated's own shipped `/mock` re-exports several names from its real entry point, which at
