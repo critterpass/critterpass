@@ -111,6 +111,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Props `{kind|critterId, form, pose, variant, size, sticker, drawOn?, delay?, blink?, onPress?}`. 2. Static path = cached image. 3. `drawProgress` shared value + `frame()` worklet → Skia `Picture`; snapshot to cache at 1. 4. `closedEyes` prop selects the closed-eye cached image. 5. Absent `drawProgress` = static final frame (Reduce Motion path). 6. A11y labels.
 - Tests: `pnpm --filter @cp/mobile test -- ui/sticker`
 - Done when: RNTL tests cover progress rendering (0, 0.5, 1 → cache write), closedEyes swap, static path, labels, locked silhouette; no layout shift between placeholder and image.
+- Status: done — cf06c18
 
 ### T4 — Sticker lab screen, device bench, Maestro
 - Goal: measurable proof on devices.
