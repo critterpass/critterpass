@@ -1,5 +1,6 @@
-import { Easing } from 'react-native';
+import type { StackCardStyleInterpolator, StackNavigationOptions } from 'expo-router/js-stack';
 import type { BottomTabNavigationOptions } from 'expo-router/js-tabs';
+import { Easing, Platform } from 'react-native';
 
 /**
  * Screen transitions from the motion tokens (docs/design-system.md §3.3). `lib` may not import
@@ -34,6 +35,8 @@ export const REDUCED_CROSS_FADE_MS = 200;
 const TAB_CHILDREN_MS = 420;
 const TAB_CHILDREN_RISE_PT = 12;
 
+const linear = (value: number) => value;
+
 export function bezier([x1, y1, x2, y2]: Bezier): (value: number) => number {
   return Easing.bezier(x1, y1, x2, y2);
 }
@@ -53,7 +56,7 @@ export function tabTransition(motion: ShellMotion, reduced: boolean): BottomTabN
       animation: 'fade',
       transitionSpec: {
         animation: 'timing',
-        config: { duration: REDUCED_CROSS_FADE_MS, easing: (value: number) => value },
+        config: { duration: REDUCED_CROSS_FADE_MS, easing: linear },
       },
       sceneStyleInterpolator: ({ current }) => ({
         sceneStyle: {
@@ -86,5 +89,104 @@ export function tabTransition(motion: ShellMotion, reduced: boolean): BottomTabN
         ],
       },
     }),
+  };
+}
+
+// §3.3 `push`: "in tx 100% -> 0; out tx 0 -> -30% + scrim .5".
+const PUSH_PARALLAX = 0.3;
+const PUSH_SCRIM_OPACITY = 0.5;
+// §3.3 gestures: "edge-swipe back from x < 28" (the motion gesture kit's own threshold).
+export const EDGE_SWIPE_START_PT = 28;
+// The stack commits a swipe when `dx + v × impact > width / 2`; this impact makes a release at the
+// designed .55 pt/ms commit on a 390 pt screen with no travel, matching the design's velocity rule.
+const EDGE_SWIPE_VELOCITY_IMPACT = 390 / 2 / 550;
+
+const forPush: StackCardStyleInterpolator = ({ current, next, layouts }) => {
+  const width = layouts.screen.width;
+  const enterX = current.progress.interpolate({ inputRange: [0, 1], outputRange: [width, 0] });
+  const coveredX = next
+    ? next.progress.interpolate({ inputRange: [0, 1], outputRange: [0, -width * PUSH_PARALLAX] })
+    : 0;
+  return {
+    cardStyle: { transform: [{ translateX: enterX }, { translateX: coveredX }] },
+    overlayStyle: {
+      opacity: current.progress.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, PUSH_SCRIM_OPACITY],
+      }),
+    },
+  };
+};
+
+const forCrossFade: StackCardStyleInterpolator = ({ current }) => ({
+  cardStyle: { opacity: current.progress },
+});
+
+/** Present instantly: sheets and rises run their own entrance over a transparent card. */
+const forSelfAnimated: StackCardStyleInterpolator = () => ({});
+
+function timing(durationMs: number, easing: (value: number) => number) {
+  return { animation: 'timing' as const, config: { duration: durationMs, easing } };
+}
+
+/** Drill-down push (480 standard; pop 420) with iOS edge-swipe back; reduced → 200 ms fade. */
+export function pushTransition(motion: ShellMotion, reduced: boolean): StackNavigationOptions {
+  if (reduced) {
+    return {
+      headerShown: false,
+      cardStyleInterpolator: forCrossFade,
+      transitionSpec: {
+        open: timing(REDUCED_CROSS_FADE_MS, linear),
+        close: timing(REDUCED_CROSS_FADE_MS, linear),
+      },
+      gestureEnabled: false,
+    };
+  }
+  const standard = bezier(motion.easing.standard);
+  const push = motion.transition.push;
+  return {
+    headerShown: false,
+    cardStyleInterpolator: forPush,
+    cardOverlayEnabled: true,
+    transitionSpec: {
+      open: timing(legMs(push, 'enter', 480), standard),
+      close: timing(legMs(push, 'back', 420), bezier(motion.easing.gesture)),
+    },
+    // Android uses the system (predictive) back gesture instead of an in-app edge swipe.
+    gestureEnabled: Platform.OS === 'ios',
+    gestureDirection: 'horizontal',
+    gestureResponseDistance: EDGE_SWIPE_START_PT,
+    gestureVelocityImpact: EDGE_SWIPE_VELOCITY_IMPACT,
+  };
+}
+
+/**
+ * The `(modal)` group's presentation: a transparent card over a still-rendered presenter, shown
+ * instantly because `Sheet` and `RiseModal` animate themselves (detents, drag, presenter scale).
+ */
+export function modalGroupOptions(): StackNavigationOptions {
+  return {
+    headerShown: false,
+    presentation: 'transparentModal',
+    cardStyle: { backgroundColor: 'transparent' },
+    cardOverlayEnabled: false,
+    detachPreviousScreen: false,
+    gestureEnabled: false,
+    cardStyleInterpolator: forSelfAnimated,
+    transitionSpec: { open: timing(0, linear), close: timing(0, linear) },
+  };
+}
+
+/** Same-slot state swap: fade in 300, unfade 260 (reduced: 200 ms both ways). */
+export function fadeTransition(motion: ShellMotion, reduced: boolean): StackNavigationOptions {
+  const fade = motion.transition.fade;
+  const openMs = reduced ? REDUCED_CROSS_FADE_MS : legMs(fade, 'enter', 300);
+  const closeMs = reduced ? REDUCED_CROSS_FADE_MS : legMs(fade, 'back', 260);
+  const easing = reduced ? linear : bezier(motion.easing.standard);
+  return {
+    headerShown: false,
+    cardStyleInterpolator: forCrossFade,
+    transitionSpec: { open: timing(openMs, easing), close: timing(closeMs, easing) },
+    gestureEnabled: false,
   };
 }

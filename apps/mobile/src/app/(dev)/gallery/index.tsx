@@ -19,6 +19,16 @@ import { GALLERY_FONT_SCALES } from '@/ui/gallery/types';
 export const __CP_DEV_ROUTE__ = true;
 
 const GALLERY_LOCALES = ['en', 'en-XA', 'vi', 'ja', 'th'] as const;
+const SHELL_DEMOS = [
+  {
+    href: '/(dev)/gallery/tabs',
+    testID: 'gallery-shell-tabs',
+    label: 'Shell: tab bar + guide FAB',
+  },
+  { href: '/(dev)/gallery/sheet-demo', testID: 'gallery-shell-sheet', label: 'Shell: sheet' },
+  { href: '/(dev)/gallery/rise-demo', testID: 'gallery-shell-rise', label: 'Shell: rise modal' },
+] as const;
+
 const MOTION_MODES: readonly MotionMode[] = ['full', 'reduced', 'off'];
 
 const useStyles = makeStyles((t) => ({
@@ -139,11 +149,13 @@ export default function GalleryIndexScreen() {
           ))}
         </Switcher>
         <Stack gap="8">
-          <Link href="/(dev)/gallery/tabs" asChild>
-            <Pressable testID="gallery-shell-tabs" accessibilityRole="button" style={styles.row}>
-              <Text variant="rowTitle">Shell: tab bar + guide FAB</Text>
-            </Pressable>
-          </Link>
+          {SHELL_DEMOS.map((demo) => (
+            <Link key={demo.href} href={demo.href} asChild>
+              <Pressable testID={demo.testID} accessibilityRole="button" style={styles.row}>
+                <Text variant="rowTitle">{demo.label}</Text>
+              </Pressable>
+            </Link>
+          ))}
           {listComponents().map((component) => (
             <Link
               key={component}

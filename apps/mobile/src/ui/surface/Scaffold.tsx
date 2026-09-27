@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // Deep import: the `@/motion` barrel also loads the Skia overlay host, which screens don't need.
 import { useScreenJoltStyle } from '@/motion/patterns/thud';
 
+import { usePresenterStyle } from '../sheet/presenter';
 import type { Theme } from '../theme';
 import { makeStyles, useTheme } from '../theme';
 
@@ -35,16 +36,16 @@ const TONE: Readonly<Record<ScaffoldVariant, SurfaceTone>> = {
 type Edge = 'top' | 'bottom';
 
 export interface ScaffoldProps {
-  readonly variant?: ScaffoldVariant;
+  readonly variant?: ScaffoldVariant | undefined;
   /** Hero colour for `colourHero` (guide/place colour); defaults to `action.primary`. */
-  readonly accent?: string;
+  readonly accent?: string | undefined;
   /** Texture layer drawn under the content (e.g. halftone), full-bleed. */
-  readonly background?: ReactNode;
+  readonly background?: ReactNode | undefined;
   /** Safe-area edges padded; the tab bar pads its own bottom inset. */
-  readonly edges?: readonly Edge[];
+  readonly edges?: readonly Edge[] | undefined;
   readonly children?: ReactNode;
-  readonly style?: StyleProp<ViewStyle>;
-  readonly testID?: string;
+  readonly style?: StyleProp<ViewStyle> | undefined;
+  readonly testID?: string | undefined;
 }
 
 function backgroundFor(variant: ScaffoldVariant, theme: Theme, accent: string | undefined): string {
@@ -70,7 +71,7 @@ const useStyles = makeStyles(() => ({
 /**
  * Screen root for every designed surface: background per variant, status-bar style that stays
  * legible on it, safe-area padding (Android draws edge-to-edge at targetSdk 36) and the shared
- * screen jolt impacts trigger.
+ * screen jolt impacts trigger. Scales to .93 as a presenter while a sheet or rise is up.
  */
 export function Scaffold({
   variant = 'dark',
@@ -85,6 +86,7 @@ export function Scaffold({
   const styles = useStyles();
   const insets = useSafeAreaInsets();
   const joltStyle = useScreenJoltStyle();
+  const presenterStyle = usePresenterStyle();
   const tone = TONE[variant];
 
   const padding: ViewStyle = {
@@ -94,9 +96,14 @@ export function Scaffold({
 
   return (
     <SurfaceToneProvider value={tone}>
-      <View
+      <Animated.View
         testID={testID}
-        style={[styles.root, { backgroundColor: backgroundFor(variant, theme, accent) }, style]}
+        style={[
+          styles.root,
+          { backgroundColor: backgroundFor(variant, theme, accent) },
+          style,
+          presenterStyle,
+        ]}
       >
         <StatusBar barStyle={tone === 'dark' ? 'light-content' : 'dark-content'} />
         {background ? (
@@ -105,7 +112,7 @@ export function Scaffold({
           </View>
         ) : null}
         <Animated.View style={[styles.content, padding, joltStyle]}>{children}</Animated.View>
-      </View>
+      </Animated.View>
     </SurfaceToneProvider>
   );
 }

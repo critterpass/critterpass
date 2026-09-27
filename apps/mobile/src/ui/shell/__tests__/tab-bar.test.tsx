@@ -147,7 +147,7 @@ describe('TabBar', () => {
   it('shows a badge set by the tab screen', async () => {
     await renderShell();
     await fireEvent.press(screen.getByTestId('tab-trips'));
-    expect(screen.getByTestId('tab-trips-badge')).toBeTruthy();
+    expect(screen.getByTestId('tab-trips-badge', HIDDEN)).toBeTruthy();
     expect(screen.getByTestId('tab-trips').props.accessibilityLabel).toBe('Trips, 3 new');
   });
 

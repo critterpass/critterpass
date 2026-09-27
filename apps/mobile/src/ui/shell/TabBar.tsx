@@ -1,6 +1,7 @@
 import { useLingui } from '@lingui/react/macro';
 import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import { Platform, Pressable, View } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { tokens } from '@cp/design-tokens';
@@ -70,17 +71,43 @@ const useStyles = makeStyles((t) => ({
   container: { position: 'absolute', start: 0, end: 0, bottom: 0 },
   fabSlot: { width: FAB_SIZE + 2 * FAB_RING },
   fabLayer: { position: 'absolute', top: 0, start: 0, end: 0, alignItems: 'center' },
-  badge: {
-    position: 'absolute',
-    top: t.space['4'],
-    start: '55%',
-    minWidth: t.space['16'],
+  badge: { position: 'absolute', top: t.space['4'], start: '55%' },
+  count: {
+    minWidth: t.space['20'],
+    height: t.space['20'],
     paddingHorizontal: t.space['4'],
-    borderRadius: t.space['8'],
+    borderRadius: t.space['10'],
     backgroundColor: t.semantic.state.urgent,
     alignItems: 'center',
+    justifyContent: 'center',
   },
 }));
+
+/** Pink count badge shared by the tab bar and the home header (decorative; labels carry the count). */
+export function ShellBadge({
+  count,
+  testID,
+  style,
+}: {
+  readonly count: string | number;
+  readonly testID?: string | undefined;
+  readonly style?: StyleProp<ViewStyle> | undefined;
+}) {
+  const styles = useStyles();
+  const theme = useTheme();
+  return (
+    <View
+      testID={testID}
+      style={[styles.count, style]}
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants"
+    >
+      <Text variant="label" color={theme.semantic.text.onAccent}>
+        {String(count)}
+      </Text>
+    </View>
+  );
+}
 
 function TabButton({
   slot,
@@ -157,11 +184,7 @@ function TabButton({
         </Text>
       ) : null}
       {count !== undefined ? (
-        <View style={styles.badge} testID={`${slot.testID}-badge`}>
-          <Text variant="label" color={theme.semantic.text.onAccent}>
-            {String(count)}
-          </Text>
-        </View>
+        <ShellBadge count={count} testID={`${slot.testID}-badge`} style={styles.badge} />
       ) : null}
     </Pressable>
   );

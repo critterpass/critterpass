@@ -9,7 +9,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
+import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { ThemeProvider } from '@/lib/theme';
+import { useMotionMode } from '@/motion/motion-mode';
 import { IslandToast } from '@/motion/island-toast';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
@@ -26,7 +28,20 @@ import {
 
 void SplashScreen.preventAutoHideAsync();
 
+/** Drill-down pushes by default; the `(modal)` group presents sheets and rises over the stack. */
+function RootNavigator() {
+  const { motion } = useTheme();
+  const [motionMode] = useMotionMode();
+  return (
+    <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
+      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route group name, not copy */}
+      <Stack.Screen name="(modal)" options={modalGroupOptions()} />
+    </Stack>
+  );
+}
+
 export default function RootLayout() {
+  const theme = useTheme();
   const fontsReady = useFontsReady();
   const i18nReady = useI18nReady();
   const [prewarmed, setPrewarmed] = useState(false);
@@ -53,7 +68,7 @@ export default function RootLayout() {
   // Provider order: gestures (one root for every GestureDetector) → locale → theme (contrast, font
   // scale) → screen jolt → navigation, with the overlay, shared-grow and toast hosts above screens.
   return (
-    <GestureHandlerRootView style={styles.root}>
+    <GestureHandlerRootView style={[styles.root, { backgroundColor: theme.color.ink['950'] }]}>
       <I18nRoot>
         {prewarmed ? null : (
           <View pointerEvents="none" style={styles.prewarm}>
@@ -66,7 +81,7 @@ export default function RootLayout() {
         )}
         <ThemeProvider>
           <ScreenJoltProvider>
-            <Stack screenOptions={{ headerShown: false }} />
+            <RootNavigator />
             <OverlayHost />
             <IslandToast />
           </ScreenJoltProvider>

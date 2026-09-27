@@ -51,3 +51,9 @@ export const MIN_TOUCH_TARGET =
   Platform.OS === 'android'
     ? sizeToken(tokens.size.minTouchTarget, 'androidHeight')
     : sizeToken(tokens.size.minTouchTarget, 'height');
+
+/** A rotation for a transform (`rotate: degrees(45)`), kept out of string literals. */
+export function degrees(value: number): string {
+  'worklet';
+  return `${value}deg`;
+}
