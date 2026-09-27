@@ -107,6 +107,7 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. `Intl.NumberFormat` (Hermes Intl) with disambiguated symbols. 2. Modes HOME/LOCAL/BOTH with "≈" and FX snapshot. 3. Compact ("~$1.2k"), approximate quotes. 4. Hook reads `user_settings.price_display` + home currency from synced rows.
 - Tests: `pnpm --filter @cp/cost-engine test -- format`; `pnpm --filter @cp/mobile test -- data/money`
 - Done when: "Rp 75.000 ≈ S$6.40" reproduced for id-ID/en-SG with the fixture rate; 16 launch locales snapshot-tested.
+- Status: done — a1801fd
 
 ### T3 — FX snapshots: table, conversion, Frankfurter ingest
 - Goal: pinned, offline-capable rates.
