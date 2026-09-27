@@ -27,6 +27,7 @@ export const DOMAIN_EVENT_TYPES = [
   'auth.merged',
   'invite.opened',
   'attribution.claimed',
+  'guide_action.undone',
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
 export type DomainEventType = z.infer<typeof domainEventTypeSchema>;
@@ -66,6 +67,12 @@ const DOMAIN_EVENT_CATALOGUE = {
     device_id: z.uuid(),
     via: z.enum(['referrer', 'paste', 'code', 'phone', 'clip', 'link']),
     link_kind: z.string().nullable(),
+  }),
+  'guide_action.undone': z.object({
+    trip_id: z.uuid(),
+    action_id: z.uuid(),
+    undo_action_id: z.uuid(),
+    change_set_id: z.uuid(),
   }),
 } as const satisfies Record<DomainEventType, z.ZodType>;
 

@@ -15,6 +15,7 @@ import {
   stopJobRuntime,
   type AnyJobDefinition,
 } from './boss';
+import { guideActionExecuteJob, guideActionUndoExpireJob } from './guide-actions';
 import { createHealthApp } from './health';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
@@ -58,7 +59,14 @@ const health = createHealthApp({
   },
 });
 
-const jobs: AnyJobDefinition[] = [enqueueDueJob(), purgeJob(), anonGcJob(), ...aiJobs(env)];
+const jobs: AnyJobDefinition[] = [
+  enqueueDueJob(),
+  purgeJob(),
+  anonGcJob(),
+  guideActionExecuteJob(),
+  guideActionUndoExpireJob(),
+  ...aiJobs(env),
+];
 if (env.ANTHROPIC_API_KEY === undefined) {
   logger.warn('ai.batch.poll is disabled: ANTHROPIC_API_KEY is unset');
 }
