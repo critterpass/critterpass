@@ -13,7 +13,8 @@ const repoRoot = path.resolve(import.meta.dirname, '../..');
 const bannedIds: { pattern: RegExp; what: string }[] = [
   { pattern: /\bF-\d{3}\b/, what: 'feature id' },
   { pattern: /\bQ-\d{2}[A-Z]?\b/, what: 'open-question id' },
-  { pattern: /\bC(?:[1-9]|[1-3]\d|4[0-8])\b/, what: 'contradiction-resolution id' },
+  // C0–C5 are privacy classes (system-architecture.md §5), so only C6–C48 are unambiguous resolution ids.
+  { pattern: /\bC(?:[6-9]|[1-3]\d|4[0-8])\b/, what: 'contradiction-resolution id' },
   {
     pattern: /\bD(?:[1-9]|1\d|20)\b(?!\s*(?:array|canvas|context|vector|point|space|model))/i,
     what: 'decision id',

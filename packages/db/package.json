@@ -12,11 +12,21 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run",
+    "migrate": "tsx src/client.ts",
+    "seed": "tsx seed/index.ts"
+  },
+  "dependencies": {
+    "@cp/domain": "workspace:*",
+    "drizzle-orm": "catalog:",
+    "pg": "catalog:"
   },
   "devDependencies": {
     "@testcontainers/postgresql": "catalog:",
     "@testcontainers/redis": "catalog:",
-    "testcontainers": "catalog:"
+    "@types/pg": "catalog:",
+    "drizzle-kit": "catalog:",
+    "testcontainers": "catalog:",
+    "tsx": "catalog:"
   }
 }

@@ -24,6 +24,8 @@ catalog:
   '@types/node': 26.6.3
   '@types/pg': 8.23.1
   babel-plugin-dynamic-import-node: 2.3.3
+  drizzle-kit: 0.31.10
+  drizzle-orm: 0.45.2
   eslint: 10.11.0
   eslint-config-prettier: 10.1.8
   eslint-import-resolver-typescript: 4.4.5
@@ -50,6 +52,7 @@ catalog:
 
 # Security floors for transitive dependencies (patched releases of the same major).
 overrides:
+  '@esbuild-kit/core-utils>esbuild': 0.25.12
   sharp: 0.35.4
 
 # pnpm refuses dependency install scripts unless they are listed here.

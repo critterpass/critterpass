@@ -17,6 +17,8 @@ WORKDIR /app
 COPY --from=build --chown=node:node /out/package.json ./package.json
 COPY --from=build --chown=node:node /out/node_modules ./node_modules
 COPY --from=build --chown=node:node /repo/services/api/dist ./dist
+# dist/migrate.js resolves this by URL relative to itself (services/api/src/migrate.ts), not cwd.
+COPY --from=build --chown=node:node /repo/packages/db/migrations ./dist/migrations
 USER node
 EXPOSE 8787
 CMD ["node", "--enable-source-maps", "dist/index.js"]
