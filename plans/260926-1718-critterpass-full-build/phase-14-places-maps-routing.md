@@ -1,7 +1,7 @@
 ---
 phase: 14
 title: POI data, map platform, routing
-status: pending
+status: in_progress
 depends_on: [2, 3, 4, 8]   # 3 tokens/motion curves, 4 doodle art; guide sprite injected via slot prop (no phase 05/06 import)
 wave: 3
 features: [F-030, F-031, F-032]
