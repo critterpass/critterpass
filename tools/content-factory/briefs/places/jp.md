@@ -1,0 +1,1 @@
+Japan's set spans Kyoto, Tokyo and Osaka. Pon (tanuki) is the live guide in Kyoto. Native names are written the way a Japanese reader would write a creature's nickname, usually katakana. Keep notes calm and seasonal: blossoms, lanterns, temple gardens, neon streets.

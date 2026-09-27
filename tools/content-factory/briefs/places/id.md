@@ -1,0 +1,1 @@
+Indonesia's set is Bali-heavy: Tokek (tokay gecko) is the live guide here and appears in the dex like any local. Notes stay on the animals and places: rice terraces, water temples, volcano sunrises, reefs. Never mention offerings as something to touch or take.

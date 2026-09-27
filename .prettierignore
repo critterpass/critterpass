@@ -37,3 +37,4 @@ packages/design-tokens/generated/
 
 # Recorded hazard feed pages stay byte-for-byte as the feeds served them.
 services/worker/test/fixtures/hazards/
+tools/content-factory/batches/

@@ -2,9 +2,13 @@
  * Review stage: a batch that validated (no `fail`) becomes a release in `review` (or `blocked`
  * when it waits on something outside the pipeline, such as a native speaker) with one review row
  * per item carrying its validator report. The checksummed release artifact is also written to
- * batches/<kind>/<batch>.json, so the same batch can be queued in any environment. Re-running the
+ * batches/<kind>/<batch>.json (with the IP checklist beside it for named kinds), so the same batch
+ * can be queued in any environment. Re-running the
  * stage for a batch still under review replaces it in place; an approved batch is never touched.
  */
+import { copyFileSync, existsSync } from 'node:fs';
+import path from 'node:path';
+
 import { resolveRoute } from '@cp/ai';
 import { buildRelease, itemRef, parseItems, type ContentKind, type Release } from '@cp/content';
 import { withSystem } from '@cp/db';
@@ -83,6 +87,10 @@ export async function runReview(
       approved_by: null,
     });
     writeJson(files.paths.artifact, artifact);
+    const checklist = path.join(files.paths.dir, 'ip-checklist.md');
+    if (existsSync(checklist)) {
+      copyFileSync(checklist, files.paths.artifact.replace(/\.json$/u, '.ip-checklist.md'));
+    }
     if (tx === null) return { releaseId: null, version, status, artifact } as const;
     const { rows } = await tx.query<{ id: string }>(
       `INSERT INTO content_releases (kind, version, batch_key, title, status, stage, gate, blocked_reason,
