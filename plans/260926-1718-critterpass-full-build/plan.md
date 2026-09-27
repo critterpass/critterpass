@@ -11,7 +11,7 @@ critical_path_tasks: 249
 
 | Field | Value |
 |---|---|
-| Status | pending |
+| Status | in_progress: 6 of 57 phases done, 10 in progress; 123 tasks done on main and 16 more in PR #33 (2026-09-27 22:45) |
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
 | Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
@@ -53,17 +53,17 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 8 | [Core schema, authz + RLS, domain events](./phase-08-core-schema-authz.md) | 9 | 1 | 2 | done |
 | 9 | [Auth, anonymous-first, anti-abuse](./phase-09-auth-anonymous-antiabuse.md) | 10 | 2, 8 | 3 | done |
 | 10 | [Offline sync, commands, realtime](./phase-10-sync-realtime-outbox.md) | 11 | 2, 8, 9, 12, 14 | 4 | in_progress |
-| 11 | [Jobs, notification router, push](./phase-11-jobs-notifications-push.md) | 11 | 5, 10 | 5 | pending |
+| 11 | [Jobs, notification router, push](./phase-11-jobs-notifications-push.md) | 11 | 5, 10 | 5 | in_progress |
 | 12 | [Entitlements, money & FX primitives](./phase-12-entitlements-money-fx.md) | 7 | 8 | 3 | done |
-| 13 | [LLM gateway, personas, autonomy](./phase-13-llm-gateway-personas-autonomy.md) | 10 | 8, 11 | 6 | pending |
+| 13 | [LLM gateway, personas, autonomy](./phase-13-llm-gateway-personas-autonomy.md) | 10 | 8, 11 | 6 | in_progress |
 | 14 | [POI data, maps, routing](./phase-14-places-maps-routing.md) | 8 | 2, 3, 4, 8 | 3 | in_progress |
 | 15 | [Fares, weather, season & crowds](./phase-15-flights-weather-season-data.md) | 7 | 8, 11, 13 | 7 | pending |
 | 16 | [Cost & constraint engine](./phase-16-cost-constraint-engine.md) | 7 | 12, 13, 14, 15 | 8 | pending |
-| 17 | [Back-office & ops console](./phase-17-back-office-admin.md) | 8 | 8, 9, 10, 12, 14 | 5 | pending |
+| 17 | [Back-office & ops console](./phase-17-back-office-admin.md) | 8 | 8, 9, 10, 12, 14 | 5 | in_progress |
 | 18 | [Content factory](./phase-18-content-factory.md) | 12 | 4, 5, 13, 14, 17 | 7 | pending |
 | 19 | [Analytics, experiments, observability](./phase-19-analytics-observability.md) | 10 | 1, 7, 8, 10, 11, 17 | 6 | pending |
 | 20 | [Permissions, location, POI visits](./phase-20-permissions-location-visits.md) | 11 | 2, 7, 10, 11, 14 | 6 | pending |
-| 21 | [Links & deferred deep links](./phase-21-links-deferred-deeplinks.md) | 9 | 1, 10 | 5 | pending |
+| 21 | [Links & deferred deep links](./phase-21-links-deferred-deeplinks.md) | 9 | 1, 10 | 5 | in_progress |
 | 22 | [Onboarding: passport, taste, avatar](./phase-22-onboarding-pass.md) | 11 | 5, 7, 9, 10, 18, 20, 21 | 8 | pending |
 | 23 | [Invites, crews, referral, seat cap](./phase-23-invites-crews-growth.md) | 10 | 12, 21, 22 | 9 | pending |
 | 24 | [Crew chat](./phase-24-crew-chat.md) | 8 | 10, 23 | 10 | pending |
