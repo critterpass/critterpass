@@ -1,8 +1,8 @@
 /**
- * Rounding modes over exact bigint ratios (docs/product-decisions.md F-021). Every money computation
- * that is not an exact integer result — allocation remainders, FX conversion, percentage splits —
- * goes through `divideRounded` so the rounding rule is applied in one place, on exact integers,
- * never on a floating-point intermediate.
+ * Rounding modes over exact bigint ratios. Every money computation that is not an exact integer
+ * result — allocation remainders, FX conversion, percentage splits — goes through `divideRounded`
+ * so the rounding rule is applied in one place, on exact integers, never on a floating-point
+ * intermediate.
  */
 import { DomainError } from '@cp/domain';
 

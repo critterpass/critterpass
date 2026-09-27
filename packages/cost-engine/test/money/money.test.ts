@@ -40,7 +40,7 @@ describe('money construction', () => {
     expect((caught as DomainError).code).toBe('VALIDATION');
   });
 
-  it('never falls back to a 2-decimal default for a zero/three-decimal currency (F-021)', () => {
+  it('never falls back to a 2-decimal default for a zero/three-decimal currency', () => {
     expect(currencyExponent('JPY')).toBe(0);
     expect(currencyExponent('VND')).toBe(0);
     expect(currencyExponent('KRW')).toBe(0);

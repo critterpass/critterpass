@@ -1,6 +1,6 @@
 /**
- * ISO 4217 currency table as data (docs/product-decisions.md §F-021, docs/code-standards.md §2
- * "Money: integer minor units + ISO currency ... never floats"). `exponent` is the number of digits
+ * ISO 4217 currency table as data (docs/code-standards.md §2 "Money: integer minor units + ISO
+ * currency ... never floats"). `exponent` is the number of digits
  * after the decimal point the ISO standard defines for that currency's minor unit — the only value
  * `packages/cost-engine/src/money/money.ts` uses to turn a bigint `amountMinor` into major units.
  * There is deliberately no "else 2" fallback anywhere in this module: a code absent from
@@ -33,16 +33,16 @@ function currency(
   return { code, exponent, symbol, narrowSymbol };
 }
 
-/** Currencies with 3-digit ISO 4217 minor units (docs/product-decisions.md F-021). */
+/** Currencies with 3-digit ISO 4217 minor units. */
 const THREE_DECIMAL = ['BHD', 'IQD', 'JOD', 'KWD', 'LYD', 'OMR', 'TND'] as const;
 
 /** Currencies with a 4-digit ISO 4217 minor unit (funds/inflation-indexed units). */
 const FOUR_DECIMAL = ['CLF', 'UYW'] as const;
 
 /**
- * Currencies with a 0-digit ISO 4217 minor unit — includes JPY/VND/KRW (named explicitly in
- * F-021) and ISK, whose minor unit moved from 2 to 0 in the 2021 ISO 4217 amendment (the Icelandic
- * króna no longer subdivides into aurar).
+ * Currencies with a 0-digit ISO 4217 minor unit — includes JPY/VND/KRW and ISK, whose minor unit
+ * moved from 2 to 0 in the 2021 ISO 4217 amendment (the Icelandic króna no longer subdivides into
+ * aurar).
  */
 const ZERO_DECIMAL = [
   'BIF',
@@ -64,7 +64,7 @@ const ZERO_DECIMAL = [
   'XPF',
 ] as const;
 
-/** Currencies Critterpass gives an explicit, disambiguated symbol (docs/product-decisions.md F-021). */
+/** Currencies Critterpass gives an explicit, disambiguated symbol. */
 const NAMED_SYMBOLS: Readonly<Record<string, readonly [symbol: string, narrow: string]>> = {
   USD: ['US$', '$'],
   EUR: ['€', '€'],
@@ -100,6 +100,7 @@ const NAMED_SYMBOLS: Readonly<Record<string, readonly [symbol: string, narrow: s
  */
 const TWO_DECIMAL = [
   'AED',
+  'AFN',
   'ALL',
   'AMD',
   'ANG',
@@ -159,6 +160,7 @@ const TWO_DECIMAL = [
   'KES',
   'KGS',
   'KHR',
+  'KPW',
   'KYD',
   'KZT',
   'LAK',
@@ -249,9 +251,9 @@ export const ISO_CURRENCIES: Readonly<Record<string, CurrencyDefinition>> = Obje
 export type CurrencyCode = keyof typeof ISO_CURRENCIES;
 
 /**
- * Cash-practice overrides for display only (docs/product-decisions.md F-021): IDR's ISO exponent
- * is 2, but nobody prices in sen, so the formatter rounds to whole rupiah. ISK is listed here too,
- * even though its ISO exponent already is 0, so every consumer can use the same
+ * Cash-practice overrides for display only: IDR's ISO exponent is 2, but nobody prices in sen, so
+ * the formatter rounds to whole rupiah. ISK is listed here too, even though its ISO exponent
+ * already is 0, so every consumer can use the same
  * `displayDecimals(code) ?? exponent(code)` lookup without special-casing either currency.
  */
 export const DISPLAY_DECIMAL_OVERRIDES: Readonly<Partial<Record<CurrencyCode, number>>> = {

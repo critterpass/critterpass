@@ -59,7 +59,7 @@ describe('allocate: largest remainder with deterministic tie-break', () => {
     expect(byId).toEqual({ 'two-shares': 667n, 'one-share': 333n });
   });
 
-  it('sums exactly for a zero-exponent currency total (IDR/JPY, F-021 done-when)', () => {
+  it('sums exactly for a zero-exponent currency total (IDR/JPY)', () => {
     for (const currency of ['IDR', 'JPY'] as const) {
       const total = money(1_000_001n, currency);
       const shares = allocate(total, [

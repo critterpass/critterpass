@@ -1,8 +1,8 @@
 /**
- * Largest-remainder allocation (docs/product-decisions.md F-021): splits an exact `Money` total
- * across weighted shares so the parts always sum back to the total — no rounding drift, ever. Ties
- * (equal remainders) break on ascending `id` so the same input always produces the same output
- * anywhere it is recomputed (server, client, a redrafted expense split).
+ * Largest-remainder allocation: splits an exact `Money` total across weighted shares so the parts
+ * always sum back to the total — no rounding drift, ever. Ties (equal remainders) break on
+ * ascending `id` so the same input always produces the same output anywhere it is recomputed
+ * (server, client, a redrafted expense split).
  */
 import { DomainError } from '@cp/domain';
 

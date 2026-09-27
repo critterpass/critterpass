@@ -1,4 +1,6 @@
 export { allocate, type AllocationShare, type AllocationWeight } from './allocate';
+export { formatCompactMoney, type FormatCompactMoneyOptions } from './compact';
+export { COUNTRY_CURRENCIES, currencyForCountry, isKnownCountry } from './country-currency';
 export {
   DISPLAY_DECIMAL_OVERRIDES,
   ISO_CURRENCIES,
@@ -10,6 +12,7 @@ export {
   type CurrencyCode,
   type CurrencyDefinition,
 } from './currencies';
+export { formatMoney, type FormatMoneyOptions } from './format';
 export {
   add,
   compare,

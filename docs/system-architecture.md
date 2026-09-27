@@ -114,7 +114,7 @@ Migrations run in the api **pre-deploy command** (private network; failure block
 | `apps/mobile/src/features/<area>/` | area screens' logic, hooks, components (areas: onboarding, crew, home, vote, explore, setup, plan, proposal, guide, bookings, money, trip, safety, critters, recap, album, you, community, help, monetize) | ui, motion, data, lib, domain, cost-engine, planner, entitlements, critter-art, design-tokens, i18n. **Not another feature's internals** (only its `index.ts` public API) |
 | `apps/mobile/src/ui/` | component library (tokens-based, a11y) | motion, design-tokens, critter-art, lib, i18n |
 | `apps/mobile/src/motion/` | motion runtime, feedback bus (haptics + sound + animation), gesture kit | design-tokens, lib |
-| `apps/mobile/src/data/` | PowerSync client + schema, command client (hc), Centrifugo client, query hooks | domain, lib |
+| `apps/mobile/src/data/` | PowerSync client + schema, command client (hc), Centrifugo client, query hooks, shared money formatter | domain, cost-engine, lib |
 | `apps/mobile/src/lib/` | pure helpers (dates, formatting, logging) | domain |
 | `apps/mobile/modules/cp-*/` | Expo native modules (Swift + Kotlin) | platform SDKs only |
 | `apps/mobile/targets/<name>/` | SwiftUI extensions; shared Swift in `targets/_shared/` | `_shared`, generated tokens Swift, OpenAPI Swift client |
