@@ -16,7 +16,14 @@ import {
   removeDir,
   tempDatabaseDir,
 } from '../test-support/open-node-database';
-import { commandRows, enqueue, queueWith, TEST_BACKOFF } from '../test-support/queue-fixtures';
+import {
+  commandRows,
+  enqueue,
+  eventually,
+  queueWith,
+  TEST_BACKOFF,
+  stopQueues,
+} from '../test-support/queue-fixtures';
 import type { SyncTransport, TransportResponse } from '../transport';
 import { backoffDelayMs } from '../upload-queue';
 
@@ -103,6 +110,7 @@ describe('upload queue responses', () => {
   });
 
   afterEach(async () => {
+    await stopQueues();
     await db.close();
     removeDir(dir);
   });
@@ -132,7 +140,6 @@ describe('upload queue responses', () => {
     expect(queue.getState()).toMatchObject({ failures: 1, retryDelayMs: 7_000 });
     expect(queue.getState().lastError).toBe('RATE_LIMITED');
     expect(await commandRows(db)).toEqual([{ id: opId, status: 'queued', attempts: 1 }]);
-    queue.reset();
   });
 
   it('keeps an op queued when the session is missing (AUTH_REQUIRED) and backs off', async () => {
@@ -143,7 +150,39 @@ describe('upload queue responses', () => {
 
     expect(queue.getState()).toMatchObject({ failures: 1, retryDelayMs: TEST_BACKOFF.baseMs });
     expect(await commandRows(db)).toEqual([{ id: opId, status: 'queued', attempts: 1 }]);
-    queue.reset();
+  });
+
+  it('clears the failure and the pending retry by the time a retried op is seen done', async () => {
+    const opId = await enqueue(db, UID, 'create_test_crew', {});
+    const transport = answering(serverError('INTERNAL'), {
+      status: 200,
+      body: { results: [{ op_id: opId, status: 'applied' }] },
+    });
+    const queue = queueWith(db, transport);
+    // What any reader of the database sees, the moment the op's row turns `done`.
+    const seenWhenDone: unknown[] = [];
+    const stopWatching = db.onChange(
+      {
+        onChange: async () => {
+          const rows = await commandRows(db);
+          if (rows.length > 0 && rows.every((row) => row.status === 'done')) {
+            const { failures, nextRetryAt, retryDelayMs, lastError } = queue.getState();
+            seenWhenDone.push({ failures, nextRetryAt, retryDelayMs, lastError });
+          }
+        },
+      },
+      { tables: ['commands'], throttleMs: 0 },
+    );
+
+    await queue.flush();
+    expect(queue.getState()).toMatchObject({ failures: 1, lastError: 'INTERNAL' });
+    await eventually(() => Promise.resolve(seenWhenDone.length > 0));
+    stopWatching();
+
+    const clean = { failures: 0, nextRetryAt: null, retryDelayMs: null, lastError: null };
+    expect(seenWhenDone[0]).toEqual(clean);
+    expect(queue.getState()).toMatchObject(clean);
+    expect(transport.calls).toBe(2);
   });
 
   it('never marks ops done from a 2xx that carries no outcomes', async () => {
@@ -154,6 +193,5 @@ describe('upload queue responses', () => {
 
     expect(queue.getState().lastError).toBe('MISSING_RESULT');
     expect(await commandRows(db)).toEqual([{ id: opId, status: 'queued', attempts: 1 }]);
-    queue.reset();
   });
 });

@@ -105,6 +105,14 @@ export function createUploadQueue(options: UploadQueueOptions) {
   let rerun = false;
   let timer: ReturnType<typeof setTimeout> | null = null;
   let recovered = false;
+  let stopped = false;
+
+  const SUCCESS: Partial<UploadQueueState> = {
+    failures: 0,
+    nextRetryAt: null,
+    retryDelayMs: null,
+    lastError: null,
+  };
 
   function setState(patch: Partial<UploadQueueState>) {
     state = { ...state, ...patch };
@@ -116,7 +124,17 @@ export function createUploadQueue(options: UploadQueueOptions) {
     timer = null;
   }
 
-  async function applyResults(batch: readonly QueuedCommandRow[], outcomes: UploadResult[]) {
+  /**
+   * Records the outcomes the server returned and puts every other op of the batch back in line,
+   * in one transaction. `onCommit` runs inside it, so queue state it sets is visible no later than
+   * the rows it describes.
+   */
+  async function settleBatch(
+    batch: readonly QueuedCommandRow[],
+    outcomes: readonly UploadResult[],
+    requeueReason: string,
+    onCommit: () => void = () => undefined,
+  ) {
     const rejectedAt = new Date(now()).toISOString();
     await db.writeTransaction(async (tx) => {
       const done: string[] = [];
@@ -135,6 +153,12 @@ export function createUploadQueue(options: UploadQueueOptions) {
         }
       }
       await markCommandsDone(tx, done);
+      await requeueCommands(
+        tx,
+        batch.map((row) => row.id),
+        requeueReason,
+      );
+      onCommit();
     });
   }
 
@@ -177,9 +201,12 @@ export function createUploadQueue(options: UploadQueueOptions) {
 
     if (response.status >= 200 && response.status < 300) {
       const outcomes = results(response.body);
-      await applyResults(batch, outcomes);
       // Ops the response did not cover (never expected) go back in line rather than stay `sending`.
-      await db.writeTransaction((tx) => requeueCommands(tx, ids, 'MISSING_RESULT'));
+      // A batch that got through clears the failure streak in the same transaction that marks its
+      // ops done: no reader ever sees them done while the queue still reports a pending retry.
+      await settleBatch(batch, outcomes, 'MISSING_RESULT', () => {
+        if (outcomes.length > 0 && gen === generation) setState(SUCCESS);
+      });
       return outcomes.length > 0
         ? { kind: 'progress' }
         : { kind: 'retry', error: 'MISSING_RESULT' };
@@ -190,9 +217,10 @@ export function createUploadQueue(options: UploadQueueOptions) {
     if (response.status === 503) {
       const detail = error?.detail as { first_unprocessed?: number; results?: unknown } | undefined;
       const firstUnprocessed = Math.max(0, Math.min(detail?.first_unprocessed ?? 0, batch.length));
-      await applyResults(batch.slice(0, firstUnprocessed), results(detail));
+      await settleBatch(batch, results(detail).slice(0, firstUnprocessed), code);
+    } else {
+      await db.writeTransaction((tx) => requeueCommands(tx, ids, code));
     }
-    await db.writeTransaction((tx) => requeueCommands(tx, ids, code));
     const retryAfterS = (error?.detail as { retry_after_s?: unknown } | undefined)?.retry_after_s;
     return {
       kind: 'retry',
@@ -207,6 +235,8 @@ export function createUploadQueue(options: UploadQueueOptions) {
     clearTimer();
     timer = setTimeout(() => {
       timer = null;
+      // The retry is no longer pending once it starts; the failure count stays until it succeeds.
+      setState({ nextRetryAt: null, retryDelayMs: null });
       void flush();
     }, delay);
     setState({
@@ -226,28 +256,33 @@ export function createUploadQueue(options: UploadQueueOptions) {
     }
     setState({ sending: true });
     try {
-      for (;;) {
+      while (gen === generation) {
         const outcome = await attempt(gen);
-        if (outcome.kind === 'progress') {
-          setState({ failures: 0, lastError: null, nextRetryAt: null, retryDelayMs: null });
-          continue;
-        }
-        if (outcome.kind === 'empty')
-          setState({ failures: 0, nextRetryAt: null, retryDelayMs: null });
+        if (gen !== generation || outcome.kind === 'stale') return;
+        if (outcome.kind === 'progress') continue;
+        if (outcome.kind === 'empty') setState(SUCCESS);
         if (outcome.kind === 'retry') scheduleRetry(outcome);
         if (outcome.kind === 'revoked') {
           generation += 1;
+          setState({ sending: false });
           await options.onSessionRevoked();
         }
         return;
       }
+    } catch (error) {
+      // A local database failure mid-flush: retry later rather than surface an unhandled
+      // rejection from a timer. After a reset or stop the failure belongs to abandoned work.
+      if (gen === generation) {
+        scheduleRetry({ error: error instanceof Error ? error.message : 'LOCAL_DB' });
+      }
     } finally {
-      setState({ sending: false });
+      if (gen === generation) setState({ sending: false });
     }
   }
 
   /** Flushes until the queue is empty or an attempt fails; concurrent calls share one run. */
   function flush(): Promise<void> {
+    if (stopped) return Promise.resolve();
     if (running !== null) {
       rerun = true;
       return running;
@@ -255,7 +290,7 @@ export function createUploadQueue(options: UploadQueueOptions) {
     clearTimer();
     running = run().finally(() => {
       running = null;
-      if (rerun && timer === null) {
+      if (rerun && timer === null && !stopped) {
         rerun = false;
         void flush();
       }
@@ -271,7 +306,9 @@ export function createUploadQueue(options: UploadQueueOptions) {
       if (timer === null) void flush();
     },
     /** Connectivity came back or the app returned to the foreground: skip any pending backoff. */
-    retryNow(): Promise<void> {
+    async retryNow(): Promise<void> {
+      // A run already in flight may be about to schedule a backoff; start fresh after it.
+      if (running !== null) await running;
       clearTimer();
       return flush();
     },
@@ -280,6 +317,17 @@ export function createUploadQueue(options: UploadQueueOptions) {
       generation += 1;
       clearTimer();
       recovered = false;
+      setState(idle);
+    },
+    /**
+     * Shuts the queue down for good before its database closes: pending retries are cancelled,
+     * in-flight work is abandoned, and this resolves once nothing more will touch the database.
+     */
+    async stop(): Promise<void> {
+      stopped = true;
+      generation += 1;
+      clearTimer();
+      if (running !== null) await running;
       setState(idle);
     },
     getState: (): UploadQueueState => state,

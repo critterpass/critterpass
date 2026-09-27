@@ -44,12 +44,23 @@ export async function enqueue(
   return envelope.op_id;
 }
 
+const openQueues = new Set<UploadQueue>();
+
 export function queueWith(
   db: AbstractPowerSyncDatabase,
   transport: SyncTransport,
   onSessionRevoked: () => Promise<void> = () => Promise.resolve(),
 ): UploadQueue {
-  return createUploadQueue({ db, transport, onSessionRevoked, backoff: TEST_BACKOFF });
+  const queue = createUploadQueue({ db, transport, onSessionRevoked, backoff: TEST_BACKOFF });
+  openQueues.add(queue);
+  return queue;
+}
+
+/** Teardown: stops every queue `queueWith` made (timers and in-flight work) before its database closes. */
+export async function stopQueues(): Promise<void> {
+  const queues = [...openQueues];
+  openQueues.clear();
+  await Promise.all(queues.map((queue) => queue.stop()));
 }
 
 export async function commandRows(db: AbstractPowerSyncDatabase) {

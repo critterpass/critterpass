@@ -21,7 +21,7 @@ import {
   removeDir,
   tempDatabaseDir,
 } from '../test-support/open-node-database';
-import { enqueue, queueWith } from '../test-support/queue-fixtures';
+import { enqueue, queueWith, stopQueues } from '../test-support/queue-fixtures';
 
 jest.mock(
   '@powersync/common',
@@ -51,6 +51,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
   resetOnSignOutHooksForTests();
+  await stopQueues();
   await db.close();
   removeDir(dir);
 });

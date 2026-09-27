@@ -32,6 +32,7 @@ import {
   eventually,
   queueWith,
   TEST_BACKOFF,
+  stopQueues,
 } from '../test-support/queue-fixtures';
 import { startApiHarness, type ApiHarness } from '../test-support/start-api-harness';
 
@@ -61,6 +62,7 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
+  await stopQueues();
   await db.close();
   removeDir(dir);
 });

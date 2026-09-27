@@ -94,7 +94,7 @@ export async function openTestLocalFirst(
     uid,
     wrapper: ({ children }) => createElement(LocalFirstProvider, { value }, children),
     async close() {
-      queue.reset();
+      await queue.stop();
       await db.close();
     },
   };
