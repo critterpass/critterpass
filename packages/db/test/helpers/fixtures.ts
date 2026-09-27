@@ -43,6 +43,8 @@ export interface PermissionFixture {
   readonly dayId: string;
   /** Authored by `actors.member` — the natural target for a "does the author own this?" probe. */
   readonly changeSetId: string;
+  /** A running `agent_jobs` row the member asked for on the trip. */
+  readonly agentJobId: string;
   readonly actors: Readonly<Record<ActorKind, string>>;
 }
 
@@ -175,10 +177,11 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
 
     // AI tables: a job the member asked for on this trip, an open guide offer the member claimed,
     // and one approved persona pack (no app_user grant at all, so every actor must still see nothing).
-    await tx.query(
-      "INSERT INTO agent_jobs (trip_id, user_id, kind, status) VALUES ($1, $2, 'draft', 'running')",
+    const { rows: jobRows } = await tx.query<{ id: string }>(
+      "INSERT INTO agent_jobs (trip_id, user_id, kind, status) VALUES ($1, $2, 'draft', 'running') RETURNING id",
       [tripId, member],
     );
+    const agentJobId = jobRows[0]!.id;
     const { rows: offerRows } = await tx.query<{ id: string }>(
       "INSERT INTO guide_offers (trip_id, kind, slots_total) VALUES ($1, 'join_activity', 3) RETURNING id",
       [tripId],
@@ -203,6 +206,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       versionId,
       dayId,
       changeSetId,
+      agentJobId,
       organiser,
       coOrganiser,
       member,
@@ -228,6 +232,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     versionId: built.versionId,
     dayId: built.dayId,
     changeSetId: built.changeSetId,
+    agentJobId: built.agentJobId,
     actors: {
       outsider: built.outsider,
       exMember: built.exMember,

@@ -2,22 +2,20 @@
  * The persona loader against a real, migrated Postgres, reading through llm.persona_packs as
  * `guide_reader`: the latest approved release wins, a newer draft never does.
  */
-// The gateway never imports @cp/db; only this suite borrows its migrations, role-scoped
-// transactions and Testcontainers harness to read the real view.
-// eslint-disable-next-line boundaries/dependencies -- see the comment above
+// The gateway never imports @cp/db, so this suite lives in the api, which may use both. It borrows
+// the db package's migrations, role-scoped transactions and Testcontainers harness to read the real view.
+
 import { runMigrations, withGuideReader, withSystem } from '@cp/db';
-// eslint-disable-next-line boundaries/dependencies -- see the comment above
 import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
 import pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-
 import {
   LATEST_APPROVED_PERSONA_SQL,
   loadPersonaPack,
   REPO_PACKS,
   type ApprovedPersonaRow,
   type PersonaReleaseSource,
-} from '../src';
+} from '@cp/ai';
 
 let postgres: StartedPostgreSqlContainer;
 let pool: pg.Pool;

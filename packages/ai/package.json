@@ -11,8 +11,7 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "test:db": "vitest run --config vitest.db.config.ts"
+    "test": "vitest run"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "catalog:",
@@ -20,7 +19,6 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@cp/db": "workspace:*",
     "@types/pg": "catalog:",
     "pg": "catalog:"
   }

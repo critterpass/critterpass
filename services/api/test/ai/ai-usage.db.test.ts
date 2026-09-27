@@ -2,16 +2,15 @@
  * `recordUsage` against a real, fully migrated Postgres: the row lands through `withSystem` exactly
  * as a service wires it, and the role boundary holds (app_system may not rewrite a cost).
  */
-// The gateway itself never imports @cp/db; only this suite borrows its migrations, role-scoped
-// transactions and Testcontainers harness to prove the insert against the real table.
-// eslint-disable-next-line boundaries/dependencies -- see the comment above
+// The gateway never imports @cp/db, so this suite lives in the api, which may use both. It borrows
+// the db package's migrations, role-scoped transactions and Testcontainers harness to prove
+// the insert against the real table.
+
 import { runMigrations, withSystem } from '@cp/db';
-// eslint-disable-next-line boundaries/dependencies -- see the comment above
 import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
 import pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-
-import { buildUsageRecord, computeCostMicros, recordUsage, type RunAsSystem } from '../src';
+import { buildUsageRecord, computeCostMicros, recordUsage, type RunAsSystem } from '@cp/ai';
 
 let postgres: StartedPostgreSqlContainer;
 let pool: pg.Pool;
