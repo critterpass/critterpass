@@ -9,6 +9,7 @@
  * them; a choice or score answer below `minConfidence` is `uncertain`. What an uncertain answer
  * does (ask the user, keep both ideas, stay quiet, send to review) is the consumer's rule.
  */
+import type { ComplianceCategory, ComplianceSurface } from './compliance';
 import type { DecisionAnswerer, DecisionRoute } from './routes';
 
 export interface DecisionBand {
@@ -43,9 +44,9 @@ export const DECISION_THRESHOLDS: Readonly<Record<DecisionRoute, DecisionThresho
     jev: { yes: 0.65, no: 0.35, minConfidence: 0.5 },
     haiku: HAIKU_BAND,
   },
-  // Per surface and category bands live in COMPLIANCE_THRESHOLDS; this is the route default.
+  // Outcomes come from the per surface and category bands in COMPLIANCE_THRESHOLDS.
   'compliance.check': {
-    jev: { yes: 0.85, no: 0.5, minConfidence: 0.5 },
+    jev: { yes: 0.85, no: 0.3, minConfidence: 0.5 },
     haiku: HAIKU_BAND,
   },
 };
@@ -63,3 +64,52 @@ export function yesNoVerdict(p: number, band: DecisionBand): YesNoVerdict {
 export function isConfident(confidence: number, band: DecisionBand): boolean {
   return confidence >= band.minConfidence;
 }
+
+/** A category's probability at or above `review` flags it; at or above `reject` rejects the text. */
+export interface ComplianceBand {
+  readonly review: number;
+  /** `null`: this surface never rejects on the category, it only flags. */
+  readonly reject: number | null;
+}
+
+export type ComplianceBands = Readonly<Record<DecisionAnswerer, ComplianceBand>>;
+
+const band = (review: number, reject: number | null): ComplianceBands => ({
+  jev: { review, reject },
+  // Twin labels: only a definite `yes` (1) rejects; `unsure` (0.5) and above go to review.
+  haiku: { review: 0.5, reject: reject === null ? null : 1 },
+});
+
+/**
+ * Per surface × category bands for `compliance.check`, tuned on the compliance eval set
+ * (packages/ai/evals/compliance, EN + VI) against `jev-1.13.0`.
+ */
+export const COMPLIANCE_THRESHOLDS: Readonly<
+  Record<ComplianceSurface, Partial<Record<ComplianceCategory, ComplianceBands>>>
+> = {
+  guide_input: {
+    prompt_injection: band(0.5, null),
+    self_harm: band(0.5, null),
+    violence: band(0.5, null),
+    harassment: band(0.5, null),
+  },
+  imported_text: {
+    prompt_injection: band(0.5, null),
+  },
+  public_text: {
+    prompt_injection: band(0.5, 0.85),
+    harassment: band(0.5, 0.85),
+    sexual: band(0.5, 0.85),
+    self_harm: band(0.5, null),
+    violence: band(0.5, 0.85),
+    illegal: band(0.5, 0.85),
+    personal_info: band(0.5, 0.85),
+    promotion: band(0.5, 0.85),
+  },
+  outbound_text: {
+    harassment: band(0.5, null),
+    sexual: band(0.5, null),
+    illegal: band(0.5, null),
+    personal_info: band(0.5, null),
+  },
+};

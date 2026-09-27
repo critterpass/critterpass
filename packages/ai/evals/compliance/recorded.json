@@ -1,0 +1,2262 @@
+{
+  "63b2585775ddfec0cc9f74d4": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 754,
+      "output_tokens": 76
+    }
+  },
+  "740e59c24f93278e65ee1918": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 759,
+      "output_tokens": 76
+    }
+  },
+  "bd1932c67155c8ced046de99": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 759,
+      "output_tokens": 76
+    }
+  },
+  "e5e4bd267461fa113bac25a3": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.1
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.04
+      }
+    },
+    "usage": {
+      "input_tokens": 760,
+      "output_tokens": 76
+    }
+  },
+  "8500d59b1961cf3de2afe8da": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 759,
+      "output_tokens": 76
+    }
+  },
+  "7d71ca82608b227fafa23b9c": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 757,
+      "output_tokens": 76
+    }
+  },
+  "d21c89a08d1502fd4af5ce76": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 762,
+      "output_tokens": 76
+    }
+  },
+  "aee0efc2782d9be39b907649": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 766,
+      "output_tokens": 76
+    }
+  },
+  "deec1f8ffa67fbb0bc4076cf": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 759,
+      "output_tokens": 76
+    }
+  },
+  "fac6e240554ffcc1a2c0d556": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 766,
+      "output_tokens": 76
+    }
+  },
+  "e6f0bda64198ae434c27beee": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 774,
+      "output_tokens": 76
+    }
+  },
+  "f3bfa7106fe9f66cf6aff9f3": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.25
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 762,
+      "output_tokens": 76
+    }
+  },
+  "b0e0487b845681e881e664ae": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.24
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.09
+      }
+    },
+    "usage": {
+      "input_tokens": 764,
+      "output_tokens": 76
+    }
+  },
+  "aae1b53e521e94a187406925": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.14
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 761,
+      "output_tokens": 76
+    }
+  },
+  "ec5f1b3524a5cbca66828421": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.98
+      }
+    },
+    "usage": {
+      "input_tokens": 760,
+      "output_tokens": 76
+    }
+  },
+  "0b581a10494bdef1a5d61b39": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 440,
+      "output_tokens": 23
+    }
+  },
+  "bb7a22b898c9ed6667b83dc4": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 454,
+      "output_tokens": 23
+    }
+  },
+  "d722500b8fd44fb13914eeb8": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.99
+      }
+    },
+    "usage": {
+      "input_tokens": 466,
+      "output_tokens": 23
+    }
+  },
+  "824afa4e3e90354adc1c1538": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.98
+      }
+    },
+    "usage": {
+      "input_tokens": 455,
+      "output_tokens": 23
+    }
+  },
+  "b923e90855bb53912b73ec72": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.98
+      }
+    },
+    "usage": {
+      "input_tokens": 443,
+      "output_tokens": 23
+    }
+  },
+  "c4db90980e970eafb140d792": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.09
+      }
+    },
+    "usage": {
+      "input_tokens": 1076,
+      "output_tokens": 141
+    }
+  },
+  "2504f0d1371a4737fe964d88": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 1076,
+      "output_tokens": 141
+    }
+  },
+  "979f95e6aa1e5df751ac3053": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 1077,
+      "output_tokens": 141
+    }
+  },
+  "d2b9915702600a819822ca02": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 1071,
+      "output_tokens": 141
+    }
+  },
+  "74ac9691ed57b696ff5999c2": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.16
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 1072,
+      "output_tokens": 141
+    }
+  },
+  "680ba4ae94ab44d8d2fc0605": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 1071,
+      "output_tokens": 141
+    }
+  },
+  "fff0411eb701fe7413ae1344": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.89
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.9
+      }
+    },
+    "usage": {
+      "input_tokens": 1078,
+      "output_tokens": 141
+    }
+  },
+  "7b0d2fc5f1a81238de9407ad": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.38
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.87
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.84
+      }
+    },
+    "usage": {
+      "input_tokens": 1071,
+      "output_tokens": 141
+    }
+  },
+  "332d7ba097b1a8a37edb49f2": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.56
+      }
+    },
+    "usage": {
+      "input_tokens": 1076,
+      "output_tokens": 141
+    }
+  },
+  "0dbaa19c7702177766811fef": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.89
+      }
+    },
+    "usage": {
+      "input_tokens": 1075,
+      "output_tokens": 141
+    }
+  },
+  "fc4be8a2314e34895201fa1d": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.52
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.67
+      }
+    },
+    "usage": {
+      "input_tokens": 1074,
+      "output_tokens": 141
+    }
+  },
+  "e0c268ea8e0a71db6e88e869": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 1086,
+      "output_tokens": 141
+    }
+  },
+  "40e7b764434f7d7820d7a768": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.99
+      }
+    },
+    "usage": {
+      "input_tokens": 1080,
+      "output_tokens": 141
+    }
+  },
+  "0d8540b5cf5d078fb5ea11bf": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.08
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.98
+      }
+    },
+    "usage": {
+      "input_tokens": 1078,
+      "output_tokens": 141
+    }
+  },
+  "246094dfa2daa270e0ab06fb": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.58
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 1076,
+      "output_tokens": 141
+    }
+  },
+  "2968f3aaeb9727d3ced7d5cb": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 631,
+      "output_tokens": 71
+    }
+  },
+  "dd13c7640f7f57447fe345a2": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "harassment": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 630,
+      "output_tokens": 71
+    }
+  },
+  "39b75122086f1d9dfad32b1a": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.97
+      }
+    },
+    "usage": {
+      "input_tokens": 643,
+      "output_tokens": 71
+    }
+  },
+  "ab10034320a0ed427643e167": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 761,
+      "output_tokens": 76
+    }
+  },
+  "803c2835ac61a187b5121229": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 765,
+      "output_tokens": 76
+    }
+  },
+  "ae80577ecaac1e7acd8c50e1": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 764,
+      "output_tokens": 76
+    }
+  },
+  "fc0aece3330d75385e9fb1de": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.16
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.06
+      }
+    },
+    "usage": {
+      "input_tokens": 772,
+      "output_tokens": 76
+    }
+  },
+  "f21bf792919932f3324909ed": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 763,
+      "output_tokens": 76
+    }
+  },
+  "77d79971eda1627b082fe832": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 761,
+      "output_tokens": 76
+    }
+  },
+  "4161ae485e8fc142fbce55d1": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.04
+      }
+    },
+    "usage": {
+      "input_tokens": 767,
+      "output_tokens": 76
+    }
+  },
+  "76226e36b40664285a4611f4": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 774,
+      "output_tokens": 76
+    }
+  },
+  "535796eb5f3220d266d0ddec": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.05
+      }
+    },
+    "usage": {
+      "input_tokens": 766,
+      "output_tokens": 76
+    }
+  },
+  "d4a4084be9ac37ebea7c4658": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 779,
+      "output_tokens": 76
+    }
+  },
+  "b7da06cebbdd2b6a5c6ae048": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 780,
+      "output_tokens": 76
+    }
+  },
+  "c2d1ce3b515289f1512c1dae": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.37
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.04
+      }
+    },
+    "usage": {
+      "input_tokens": 764,
+      "output_tokens": 76
+    }
+  },
+  "8125b9ce551176da9c6caada": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.26
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.17
+      }
+    },
+    "usage": {
+      "input_tokens": 766,
+      "output_tokens": 76
+    }
+  },
+  "6abc4624b4a1ac0c158cced9": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.18
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 764,
+      "output_tokens": 76
+    }
+  },
+  "195df6a40304da14e6d9c872": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.98
+      }
+    },
+    "usage": {
+      "input_tokens": 766,
+      "output_tokens": 76
+    }
+  },
+  "c3fef6aa69f075bd20b4ddb7": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 451,
+      "output_tokens": 23
+    }
+  },
+  "0d54c50098f2b1d9fcb362f3": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 461,
+      "output_tokens": 23
+    }
+  },
+  "31369b45790846013cfffffa": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.99
+      }
+    },
+    "usage": {
+      "input_tokens": 488,
+      "output_tokens": 23
+    }
+  },
+  "6debbef4bb4ba41558c6d6e0": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.98
+      }
+    },
+    "usage": {
+      "input_tokens": 467,
+      "output_tokens": 23
+    }
+  },
+  "e7e53fcfa8234e5304d9ab5a": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.97
+      }
+    },
+    "usage": {
+      "input_tokens": 464,
+      "output_tokens": 23
+    }
+  },
+  "9c937d2138487685d203e294": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.08
+      }
+    },
+    "usage": {
+      "input_tokens": 1082,
+      "output_tokens": 141
+    }
+  },
+  "c7ea9092ff611c919ba8069f": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 1085,
+      "output_tokens": 141
+    }
+  },
+  "4c57c7bf8e1a454dc8d8abf1": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 1074,
+      "output_tokens": 141
+    }
+  },
+  "2f8e56d59a8a52fe2ee6a7f3": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 1087,
+      "output_tokens": 141
+    }
+  },
+  "5c79b354ae149d296346b069": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.99
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.2
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 1096,
+      "output_tokens": 141
+    }
+  },
+  "6c89d5724fd795864caf8fd2": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 1081,
+      "output_tokens": 141
+    }
+  },
+  "cf6ed088d4119684f47af6ab": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.14
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.93
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.93
+      }
+    },
+    "usage": {
+      "input_tokens": 1081,
+      "output_tokens": 141
+    }
+  },
+  "1a0ff1522bfe692b71acdef6": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.42
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.87
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.88
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.66
+      }
+    },
+    "usage": {
+      "input_tokens": 1077,
+      "output_tokens": 141
+    }
+  },
+  "8e8361319c0a9a3f1af1df0f": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.38
+      }
+    },
+    "usage": {
+      "input_tokens": 1088,
+      "output_tokens": 141
+    }
+  },
+  "f4a0f57ad585dcbfd02c041a": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.97
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.64
+      }
+    },
+    "usage": {
+      "input_tokens": 1082,
+      "output_tokens": 141
+    }
+  },
+  "e06f2dbfd105b3deca05a936": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.07
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.96
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.32
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.57
+      }
+    },
+    "usage": {
+      "input_tokens": 1082,
+      "output_tokens": 141
+    }
+  },
+  "6567c2523fe8268048666763": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.95
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.04
+      }
+    },
+    "usage": {
+      "input_tokens": 1093,
+      "output_tokens": 141
+    }
+  },
+  "60c3dad95ea23955d09f2d24": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.99
+      }
+    },
+    "usage": {
+      "input_tokens": 1080,
+      "output_tokens": 141
+    }
+  },
+  "debb7e14cb7bd95085f14f66": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.09
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.03
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.05
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.98
+      }
+    },
+    "usage": {
+      "input_tokens": 1082,
+      "output_tokens": 141
+    }
+  },
+  "4ad97f58143e4e160b15b500": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "prompt_injection": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "harassment": {
+        "type": "noul",
+        "noul": 0.04
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "self_harm": {
+        "type": "noul",
+        "noul": 0.8
+      },
+      "violence": {
+        "type": "noul",
+        "noul": 0.41
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.02
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "promotion": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 1081,
+      "output_tokens": 141
+    }
+  },
+  "d981a6640f15e6feb7d35ece": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.02
+      }
+    },
+    "usage": {
+      "input_tokens": 645,
+      "output_tokens": 71
+    }
+  },
+  "0ff8f29ad88fa661885cae5c": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "harassment": {
+        "type": "noul",
+        "noul": 0.98
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.03
+      }
+    },
+    "usage": {
+      "input_tokens": 645,
+      "output_tokens": 71
+    }
+  },
+  "8bed1c602fbfcc1f0f0cc247": {
+    "model": "jev-1.13.0",
+    "answers": {
+      "harassment": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "sexual": {
+        "type": "noul",
+        "noul": 0.01
+      },
+      "illegal": {
+        "type": "noul",
+        "noul": 0.06
+      },
+      "personal_info": {
+        "type": "noul",
+        "noul": 0.97
+      }
+    },
+    "usage": {
+      "input_tokens": 653,
+      "output_tokens": 71
+    }
+  }
+}

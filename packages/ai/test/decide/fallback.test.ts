@@ -104,8 +104,18 @@ describe('twin answers', () => {
   });
 
   it.each(Object.entries(HAIKU_NOUL_LABELS))('reads %s as %d', (label, p) => {
-    const answers = parseTwinAnswers({ q: noul('?') }, reply(`{"q":{"answer":"${label}"}}`));
+    const answers = parseTwinAnswers({ q: noul('?') }, reply(`{"q":"${label}"}`));
     expect(answers.q.noul).toBe(p);
+  });
+
+  it('accepts bare labels and levels as unsure answers', () => {
+    const answers = parseTwinAnswers(
+      QUESTIONS,
+      reply('{"topic":"refund","urgent":{"answer":"no"},"mood":1}'),
+    );
+    expect(answers.topic).toMatchObject({ choice: 'refund', confidence: 0.4 });
+    expect(answers.urgent.noul).toBe(0);
+    expect(answers.mood).toMatchObject({ score: 1, confidence: 0.4 });
   });
 
   it.each([

@@ -11,5 +11,6 @@ error envelopes Jev cannot be made to return on demand are authored from the doc
 | `jev-overloaded-529.json` | overloaded (authored from the documented status) |
 | `jev-rate-limited-429.json` | rate limited with a short `retry-after` (authored) |
 | `jev-rate-limited-429-long.json` | rate limited with a `retry-after` too long to wait for (authored) |
+| `jev-compliance-*.json` | live compliance-check answers (one noul per category) for eval cases: a figurative guide question, stated self-harm, a hidden instruction in a forwarded email (as an import and pasted into a guide question), drugs offered in a public tip |
 
 The Haiku twin's reply to the same questions is `../anthropic/haiku-decision-twin.json`.

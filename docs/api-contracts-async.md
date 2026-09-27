@@ -82,6 +82,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `ai.pitch` | pitch cache miss (background prewarm) | AI-01 | 2 | `(crew, place, month)` | 26 |
 | `ai.draft` | `start_draft` | load → prefetch → Opus skeleton → Sonnet day fan-out → validate → repair ≤2 → persist version → events | 2 / DLQ | `trip_id + draft_seq` | 28 |
 | `ai.batch.poll` (doc delta) | a batch step of an agent job suspends | Message Batches status until ended (re-enqueues itself), then in one tx: `ai_usage` per result at batch prices, results by `custom_id` to the step, step done, cost roll-up, job resumed | 5 / DLQ | `(agent_job_id, step)` | 13 |
+| `compliance.check` | public, imported or outbound text created offline reaches the server (upload handler or command) | the content kind's registered handler loads the text, `checkCompliance` screens it (code patterns, one Jev call, Haiku twin fallback), the handler applies the verdict idempotently (publish, moderation review, `CONTENT_REJECTED`); payload holds ids only | 3 / DLQ | `(content_kind, content_id)` | 13 |
 | `ai.redraft` | `request_redraft`, `import_shared_plan` | day-scoped pipeline + diff; release quota on failure | 2 | `redraft_id` | 28, 52 |
 | `ai.fit_check` | `set_must_dos` | planner fit per must-do | 3 | `(trip_id, must_do_hash)` | 27 |
 | `ai.proposal_versions` | `create_proposal` | one child per recipient (AI-15), costs injected | 3 each | `(proposal_id, uid)` | 31 |

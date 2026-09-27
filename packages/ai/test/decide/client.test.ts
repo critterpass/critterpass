@@ -177,11 +177,12 @@ describe('decide falls back to the Haiku twin', () => {
       confidence: 0.9,
     });
     expect(decision.answers.urgent).toEqual({ type: 'noul', noul: 0, confidence: 1 });
+    // The twin was not sure of the level, so its label-only confidence is the low one.
     expect(decision.answers.frustration).toEqual({
       type: 'score',
       score: 1,
       probabilities: null,
-      confidence: 0.9,
+      confidence: 0.4,
     });
     // Jev billed nothing; the twin's own Haiku row is the only usage.
     expect(h.records.map((r) => r.tier)).toEqual(['haiku']);

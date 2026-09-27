@@ -4,23 +4,23 @@
     "status": 200,
     "headers": {},
     "body": {
-      "id": "4c2b6174-d091-4a76-afec-89bf0d9f7fca",
+      "id": "c80efc90-e06d-4c79-a24c-860c2f94653a",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "{\"topic\": {\"choice\": \"refund\", \"sure\": true}, \"urgent\": {\"answer\": \"no\"}, \"frustration\": {\"level\": 1, \"sure\": true}}"
+          "text": "{\"topic\": {\"choice\": \"refund\", \"sure\": true}, \"urgent\": \"no\", \"frustration\": {\"level\": 1, \"sure\": false}}"
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 307,
+        "input_tokens": 316,
         "cache_creation_input_tokens": 0,
         "cache_read_input_tokens": 0,
-        "output_tokens": 43,
+        "output_tokens": 40,
         "service_tier": "standard"
       }
     }

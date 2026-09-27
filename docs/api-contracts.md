@@ -447,7 +447,7 @@ Auth column: **S** session bearer · **A** anonymous session allowed · **K** de
 
 | Route | Auth | Stream | Notes |
 |---|---|---|---|
-| `POST /v1/guide/threads/{id}/turns` | S | SSE | `{text, mode: text\|voice, context{screen, trip_id, day?}, attachments?}`; quota reserved on start, committed on `done`, released on failure/refusal. Events: `token`, `tool_start`, `tool_result{card}`, `proposal{changeset_id}`, `audio{seq, url\|b64}` (voice), `usage{used, limit, reset_at}`, `done`, `error{code}` |
+| `POST /v1/guide/threads/{id}/turns` | S | SSE | `{text, mode: text\|voice, context{screen, trip_id, day?}, attachments?}`; quota reserved on start, committed on `done`, released on failure/refusal. Events: `token`, `tool_start`, `tool_result{card}`, `proposal{changeset_id}`, `audio{seq, url\|b64}` (voice), `usage{used, limit, reset_at}`, `help_card{topic: safety}` (the guide-input check flagged self-harm or violence; sent before `done`), `done`, `error{code}` |
 | `POST /v1/guide/crew/{crew_id}/mentions` | S | SSE + fan-out on `crew_chat` | guide in crew chat; unmetered if any member Pass+/boost, silent fair-use cap |
 | `POST /v1/pitches` | S | SSE | `{crew_id, place_id, month?}` → `sticker, headline, chip, reason, quote, alternative, done`; cache key (crew, place, month) |
 | `POST /v1/camera/menu` | S | SSE | `{ocr_lines[{id, text, bbox}], crops[media_id], trip_id}` → `item{ocr_line_id, translation, price, flags[]}`; metered |
@@ -600,6 +600,17 @@ Decision routes ([decision record](decisions/20260927-jev-decision-model.md)): e
 | Answers | zod-validated against the question map (a missing or unknown answer key is rejected); yes/no answers carry `confidence = \|2p − 1\|` |
 | Metering | never user-metered; one `ai_usage` row per call, `tier='jev'` billed on input tokens only (or the twin's `haiku` row) |
 | Privacy | `state` holds only the text under question; Langfuse records route, model, tokens, latency and typed answers, never the state |
+
+Input compliance check (`checkCompliance({surface, text})`, route `compliance.check`; policy in `packages/domain/src/ai/compliance.ts`, bands in `decision-thresholds.ts`): code patterns first (email, phone, card, passport → `personal_info`; a link → `promotion` in the review band), then one Jev request with one Noul per category the surface screens. Result `{outcome: 'pass' | 'review' | 'reject', flags: [{category, p}], answered_by: 'jev' | 'haiku' | 'code' | 'none'}`; `flags` lists categories at or above the review threshold. Categories: `prompt_injection`, `harassment`, `sexual`, `self_harm`, `violence`, `illegal`, `personal_info`, `promotion`.
+
+| Surface | Categories | Outcome | Both providers down |
+|---|---|---|---|
+| `guide_input` (guide chat, mentions, voice) | injection, self-harm, violence, harassment | never `reject`: injection → the turn's write tools are removed (or refused once the verdict lands); self-harm or violence → `help_card{topic: safety}`; the check starts before the context build and the turn waits for it at most 25 ms | `pass`, the turn still wraps untrusted text |
+| `imported_text` (emails, receipt OCR, vendor replies) | injection | `review` = the candidate needs the user's confirm before any auto-action | `review` |
+| `public_text` (tips, shared-plan notes, captions, idea board) | all | `reject` → `CONTENT_REJECTED {categories}`; `review` → moderation queue, author sees "under review"; self-harm only reviews | `review` (fails closed) |
+| `outbound_text` (ops-desk vendor drafts) | harassment, sexual, illegal, personal_info | never auto-sent when `review` | `review` |
+
+Bands (`jev-1.13.0`, tuned on the 40 EN + 40 VI eval set): review at p ≥ 0.5, reject at p ≥ 0.85; a Haiku-twin verdict rejects only on a definite `yes` and reviews from `unsure` up. Offline-created text is checked by the `compliance.check` job when it reaches the server, never on device.
 
 ## 7. Supplier adapters (`packages/suppliers`, P35; server-only)
 

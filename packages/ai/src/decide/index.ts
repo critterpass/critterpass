@@ -11,6 +11,13 @@ export {
   type FallbackReason,
 } from './client';
 export {
+  CATEGORY_QUESTIONS,
+  checkCompliance,
+  MAX_COMPLIANCE_CHARS,
+  type CheckComplianceDeps,
+  type CheckComplianceInput,
+} from './compliance';
+export {
   HAIKU_NOUL_LABELS,
   HAIKU_SURE_CONFIDENCE,
   HAIKU_UNSURE_CONFIDENCE,

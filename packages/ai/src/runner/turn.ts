@@ -4,9 +4,17 @@
  * meter exactly once: commit when `done` is sent, release on failure, refusal or a client that
  * left. Every model call goes through the gateway, so each round writes its own usage row. The
  * turn never throws: failures become one `error{code}` event with the gateway's taxonomy.
+ *
+ * Input screening: the caller starts the `guide_input` compliance check before its context build
+ * and passes it as `inputCheck`. The turn waits for it at most `inputCheckBudgetMs` before the
+ * first model call, so it adds almost nothing to the turn. A verdict in time decides the tools up
+ * front; a late one still gates every write tool: the first write call waits for the verdict, and
+ * once injection is flagged write calls are refused and later rounds carry read tools only. A
+ * self-harm or violence flag adds the Help safety card before `done`. The question is never
+ * blocked.
  */
 import type Anthropic from '@anthropic-ai/sdk';
-import type { AiRoute } from '@cp/domain';
+import { guideInputActions, type AiRoute, type ComplianceResult } from '@cp/domain';
 
 import type { Gateway } from '../client';
 import { toGatewayError } from '../errors';
@@ -17,7 +25,12 @@ import {
   unverifiedTextNumbers,
   type GroundingViolation,
 } from '../tools/grounding';
-import type { ToolContext, ToolRegistry, ToolRunResult } from '../tools/registry';
+import {
+  toolFailure,
+  type ToolContext,
+  type ToolRegistry,
+  type ToolRunResult,
+} from '../tools/registry';
 import {
   citedSources,
   routeTools,
@@ -25,6 +38,14 @@ import {
   type WebSearchOptions,
 } from '../tools/web-search';
 import type { UsageContext } from '../usage';
+import {
+  DEFAULT_INPUT_CHECK_BUDGET_MS,
+  INPUT_VERDICT_WAIT_MS,
+  isWriteTool,
+  toolName,
+  watchInput,
+  within,
+} from './input-screen';
 import { BRIEF_ANSWER_DIRECTIVE, degradedRoute, settleOnce, type MeterHandle } from './meter';
 import type { ToolCard, TurnEvent } from './sse';
 
@@ -43,6 +64,10 @@ export interface RunTurnInput {
   readonly signal?: AbortSignal;
   /** Tool rounds before the final answer; chat surfaces use the default of 3. */
   readonly maxToolRounds?: number;
+  /** The `guide_input` compliance check of the asker's text, started before the context build. */
+  readonly inputCheck?: Promise<ComplianceResult>;
+  /** How long the first model call waits for `inputCheck` (default 25 ms). */
+  readonly inputCheckBudgetMs?: number;
 }
 
 export interface TurnHooks {
@@ -50,6 +75,8 @@ export interface TurnHooks {
   readonly onGroundingFlags?: (violations: readonly GroundingViolation[]) => void;
   readonly onBlockedSources?: (urls: readonly string[]) => void;
   readonly onSettled?: (outcome: 'committed' | 'released', cause?: unknown) => void;
+  /** The input check's verdict, once known (flags are logged by the caller). */
+  readonly onInputScreened?: (result: ComplianceResult) => void;
 }
 
 export interface RunTurnDeps {
@@ -60,7 +87,6 @@ export interface RunTurnDeps {
 }
 
 export const DEFAULT_TOOL_ROUNDS = 3;
-
 function streamEvent(event: Anthropic.Messages.RawMessageStreamEvent): TurnEvent | undefined {
   if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
     return { type: 'token', text: event.delta.text };
@@ -134,7 +160,11 @@ export async function* runTurn(
     const degraded = reservation.fairUse === 'degrade_haiku';
     const routeId = degraded ? degradedRoute(input.route) : input.route;
     const route = resolveRoute(routeId);
-    const tools = routeTools(route, input.webSearch ?? {});
+    const allTools = routeTools(route, input.webSearch ?? {});
+    const screen = watchInput(input.inputCheck, (result) => hooks.onInputScreened?.(result));
+    await within(screen.settled, input.inputCheckBudgetMs ?? DEFAULT_INPUT_CHECK_BUDGET_MS);
+    const readOnly = () =>
+      screen.current !== undefined && guideInputActions(screen.current).readOnlyTools;
     let messages = degraded
       ? withDirective(input.messages, BRIEF_ANSWER_DIRECTIVE)
       : [...input.messages];
@@ -146,6 +176,7 @@ export async function* runTurn(
     for (let round = 0; ; round += 1) {
       const lastRound = round >= maxRounds;
       let message: Anthropic.Messages.Message | undefined;
+      const tools = readOnly() ? allTools.filter((tool) => !isWriteTool(toolName(tool))) : allTools;
       const stream = deps.gateway.streamModel(
         routeId,
         {
@@ -180,14 +211,19 @@ export async function* runTurn(
       const results: Anthropic.Messages.ToolResultBlockParam[] = [];
       for (const block of message.content) {
         if (block.type !== 'tool_use') continue;
-        const result = await deps.registry.execute(
-          { id: block.id, name: block.name, input: block.input },
-          {
-            ...input.tool,
-            route: routeId,
-            ...(input.signal === undefined ? {} : { signal: input.signal }),
-          },
-        );
+        const call = { id: block.id, name: block.name, input: block.input };
+        // A write tool never runs before the input verdict is known.
+        if (isWriteTool(block.name) && screen.current === undefined) {
+          await within(screen.settled, INPUT_VERDICT_WAIT_MS);
+        }
+        const result =
+          readOnly() && isWriteTool(block.name)
+            ? toolFailure(call, 'TOOL_NOT_ALLOWED')
+            : await deps.registry.execute(call, {
+                ...input.tool,
+                route: routeId,
+                ...(input.signal === undefined ? {} : { signal: input.signal }),
+              });
         hooks.onToolResult?.(result);
         results.push(result.block);
         yield { type: 'tool_result', id: block.id, card: toolCard(result) };
@@ -214,6 +250,10 @@ export async function* runTurn(
     );
     const flags = unverifiedTextNumbers(finalText, grounding);
     if (flags.length > 0) hooks.onGroundingFlags?.(flags);
+    if (screen.current === undefined) await within(screen.settled, INPUT_VERDICT_WAIT_MS);
+    if (screen.current !== undefined && guideInputActions(screen.current).safetyCard) {
+      yield { type: 'help_card', topic: 'safety' };
+    }
 
     settled = true;
     const settlement = await meter.commit();
