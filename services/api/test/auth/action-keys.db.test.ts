@@ -34,6 +34,17 @@ async function createUser(): Promise<string> {
   return id;
 }
 
+/** A real install row for `userId`: every action key belongs to one. */
+async function createDevice(userId: string): Promise<string> {
+  const id = randomUUID();
+  await pool.query(
+    `INSERT INTO devices (id, user_id, platform, app_version, locale, tz)
+     VALUES ($1, $2, 'ios', '1.0.0', 'en', 'UTC')`,
+    [id, userId],
+  );
+  return id;
+}
+
 beforeAll(async () => {
   postgres = await startPostgres();
   pool = new pg.Pool({ connectionString: postgres.getConnectionUri(), max: 10 });
@@ -69,7 +80,7 @@ function signedHeaders(
 describe('device action keys', () => {
   it('accepts a validly signed request and records last_used_at', async () => {
     const userId = await createUser();
-    const deviceId = randomUUID();
+    const deviceId = await createDevice(userId);
     const issued = await issueActionKey(pool, { userId, deviceId, scopes: ['ballot'] }, keyring);
     const ts = String(Math.floor(Date.now() / 1000));
     const body = JSON.stringify({ option_id: 'opt-1' });
@@ -93,7 +104,7 @@ describe('device action keys', () => {
     const userId = await createUser();
     const issued = await issueActionKey(
       pool,
-      { userId, deviceId: randomUUID(), scopes: ['ballot'] },
+      { userId, deviceId: await createDevice(userId), scopes: ['ballot'] },
       keyring,
     );
     const ts = String(Math.floor(Date.now() / 1000));
@@ -121,7 +132,7 @@ describe('device action keys', () => {
     const userId = await createUser();
     const issued = await issueActionKey(
       pool,
-      { userId, deviceId: randomUUID(), scopes: ['ballot'] },
+      { userId, deviceId: await createDevice(userId), scopes: ['ballot'] },
       keyring,
     );
     const staleTs = String(Math.floor(Date.now() / 1000) - 1000);
@@ -147,7 +158,7 @@ describe('device action keys', () => {
     const userId = await createUser();
     const issued = await issueActionKey(
       pool,
-      { userId, deviceId: randomUUID(), scopes: ['ballot'] },
+      { userId, deviceId: await createDevice(userId), scopes: ['ballot'] },
       keyring,
     );
     await revokeActionKey(pool, issued.keyId);
@@ -167,7 +178,7 @@ describe('device action keys', () => {
     const userId = await createUser();
     const issued = await issueActionKey(
       pool,
-      { userId, deviceId: randomUUID(), scopes: ['readiness'] },
+      { userId, deviceId: await createDevice(userId), scopes: ['readiness'] },
       keyring,
     );
     const ts = String(Math.floor(Date.now() / 1000));
@@ -218,7 +229,7 @@ describe('device action keys', () => {
       const userId = await createUser();
       const issued = await issueActionKey(
         pool,
-        { userId, deviceId: randomUUID(), scopes: ['ballot'] },
+        { userId, deviceId: await createDevice(userId), scopes: ['ballot'] },
         keyring,
       );
       await expect(rotateActionKeyIfDue(pool, issued.keyId, keyring)).resolves.toBeUndefined();
@@ -228,7 +239,7 @@ describe('device action keys', () => {
       const userId = await createUser();
       const issued = await issueActionKey(
         pool,
-        { userId, deviceId: randomUUID(), scopes: ['ballot'] },
+        { userId, deviceId: await createDevice(userId), scopes: ['ballot'] },
         keyring,
       );
       await pool.query(
@@ -286,12 +297,12 @@ describe('device action keys', () => {
       const userB = await createUser();
       const keyA = await issueActionKey(
         pool,
-        { userId: userA, deviceId: randomUUID(), scopes: ['ballot'] },
+        { userId: userA, deviceId: await createDevice(userA), scopes: ['ballot'] },
         keyring,
       );
       const keyB = await issueActionKey(
         pool,
-        { userId: userB, deviceId: randomUUID(), scopes: ['ballot'] },
+        { userId: userB, deviceId: await createDevice(userB), scopes: ['ballot'] },
         keyring,
       );
 
@@ -308,8 +319,8 @@ describe('device action keys', () => {
 
     it('revokeActionKeysForDevice revokes every key for that device only', async () => {
       const userId = await createUser();
-      const deviceX = randomUUID();
-      const deviceY = randomUUID();
+      const deviceX = await createDevice(userId);
+      const deviceY = await createDevice(userId);
       const keyOnDeviceX = await issueActionKey(
         pool,
         { userId, deviceId: deviceX, scopes: ['ballot'] },
