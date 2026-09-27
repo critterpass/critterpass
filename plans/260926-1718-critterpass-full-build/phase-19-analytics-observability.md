@@ -1,7 +1,7 @@
 ---
 phase: 19
 title: Analytics, experiments, observability
-status: pending
+status: in_progress
 depends_on: [1, 7, 8, 10, 11, 17]
 wave: 6
 features: [F-024]
@@ -86,6 +86,7 @@ Done when: a staging run of the app + api produces catalog-valid PostHog events 
 - Steps: 1. zod schema per §10.5 event incl. common props; enums for `surface`, `entitlement`, `source`. 2. `AnalyticsEvent` discriminated union + `track` type helper. 3. Guard: rejects string props not in an enum/id/bucket allow-list; reject keys matching forbidden patterns (name, email, phone, lat, lng, amount, text, diet). 4. `redact(value)` deep scrubber used by Sentry/pino/Langfuse. 5. `user_pid` HMAC helper (server) signature defined here, key from env.
 - Tests: `pnpm --fail-if-no-match --filter @cp/domain test -- analytics redact` (every event parses a valid sample; forbidden keys rejected; nested scrub).
 - Done when: all §10.5 events defined; guard + scrubber tests green.
+- Status: done — 77aedf58
 
 ### T2 — Mobile analytics client with consent gate
 - Goal: app sends catalog events only with consent.
@@ -93,6 +94,7 @@ Done when: a staging run of the app + api produces catalog-valid PostHog events 
 - Steps: 1. PostHog RN init (EU host, `identified_only`, autocapture touches off, replay disabled). 2. Consent gate: state from local `consents` row + `setConsent(granted)`; pre-decision events dropped; revoke → `optOut`. 3. `identify(user_pid)` after consent + non-anonymous account; `reset` on sign-out. 4. expo-router screen events (route name only). 5. Common props provider (platform, app_version, locale, entitlement, active crew/trip ids).
 - Tests: `pnpm --fail-if-no-match --filter @cp/mobile test -- analytics` (Jest + RNTL: no network capture before consent, events after, catalog violation throws in dev and is dropped + Sentry breadcrumb in prod, reset on sign-out).
 - Done when: tests green; staging dev build shows events in PostHog EU only after consent.
+- Status: done — 3efe8b44 (staging dev-build check pending: needs an EAS build with the new native Sentry SDK)
 
 ### T3 — Flags & experiments
 - Goal: typed flags with safe defaults on client and server.
@@ -100,6 +102,7 @@ Done when: a staging run of the app + api produces catalog-valid PostHog events 
 - Steps: 1. Flag catalog (key, type, default, owner area, experiment variants). 2. api: posthog-node local evaluation; `flags` field for `GET /v1/config/bootstrap` (handler owner adds the field call). 3. Client: bootstrap flags → PostHog `bootstrap`, `useFlag(key)` returns catalog default when unreachable; exposure event only on variant render. 4. Document split: business config in `ops_config`, UX experiments in PostHog, paywall tests in RevenueCat.
 - Tests: `pnpm --fail-if-no-match --filter @cp/domain test -- flags`; `pnpm --fail-if-no-match --filter @cp/api test -- flags` (PostHog down → defaults); mobile hook test.
 - Done when: tests green; a staging flag toggle changes `useFlag` result after relaunch.
+- Status: done — 2f904c83 (staging toggle pending: POSTHOG_FLAGS_SECRET_KEY and the bootstrap route's `flags` field)
 
 ### T4 — Server analytics: domain-event export + request events
 - Goal: funnels include server-truth events without person profiles for non-consented users.
@@ -107,6 +110,7 @@ Done when: a staging run of the app + api produces catalog-valid PostHog events 
 - Steps: 1. Mapper: `domain_events.type` → catalog event (+ props allow-list); unmapped types skipped. 2. Exporter: read after cursor (ordered by UUIDv7 id), consent lookup per actor; no consent → drop unless the event is in `NO_CONSENT_ALLOWED`; send batch with `uuid = domain_event.id` (idempotent), `$process_person_profile: false` when no consent. 3. Loop: advisory-lock singleton, 30 s, cursor in `ops_config`. 4. api helper `serverTrack(event)` for request-time events (link resolver, actions).
 - Tests: `pnpm --fail-if-no-match --filter @cp/worker test -- analytics-export` (Testcontainers Postgres: cursor advances, replay sends same uuids, no-consent → no person profile, no-consent actor's non-allow-listed event skipped (test), C3 never in payload; PostHog HTTP stubbed at network boundary with recorded fixture).
 - Done when: tests green; staging shows exported events.
+- Status: done — 365e37ea (PostHog vars set on staging api/worker; verify exported events after deploy)
 
 ### T5 — Sentry across app, api, worker, web, admin, media-worker
 - Goal: scrubbed, symbolicated errors with releases.
@@ -114,6 +118,7 @@ Done when: a staging run of the app + api produces catalog-valid PostHog events 
 - Steps: 1. RN SDK + Expo plugin, dSYM/ProGuard mapping + source maps via EAS, release/dist naming. 2. Shared `beforeSend`/`beforeBreadcrumb` = `redact`; `sendDefaultPii: false`. 3. Node SDK 10.x in api/worker with Hono error handler returning `event_id` in `INTERNAL`. 4. Browser + Cloudflare SDKs. 5. Environment tags (staging/production).
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- sentry` (INTERNAL response has event_id; scrubbed payload asserted via transport spy at network boundary); mobile Jest scrub test.
 - Done when: staging test crash appears symbolicated with no body/headers; tests green.
+- Status: done — 99d7aadf (staging symbolicated crash pending: SENTRY_AUTH_TOKEN as an EAS env var and a staging build)
 
 ### T6 — OpenTelemetry for api + worker
 - Goal: traces, metrics, logs to Grafana Cloud.
@@ -121,6 +126,7 @@ Done when: a staging run of the app + api produces catalog-valid PostHog events 
 - Steps: 1. NodeSDK with http/undici/pg/pino instrumentations, resource attrs (service, version, env). 2. Metric definitions from domain; helper `recordCommand(cmd, outcome, ms)` etc. for owning phases. 3. pino → OTLP logs with `redact.paths`; `req_id`, `op_id`, hashed `uid`. 4. Accept `traceparent` from app; propagate into pg-boss job metadata (field reserved for job runner). 5. OTLP creds in Railway vars.
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- otel` (in-memory exporter: `/ready` produces http + pg spans; metric label allow-list enforced).
 - Done when: staging traces visible in Grafana Tempo with api → pg spans.
+- Status: done — 31de6e86 (api → pg spans proven locally; Grafana staging pending the Grafana Cloud stack)
 
 ### T7 — Collector: Alloy on Railway (PowerSync, Centrifugo, Redis, Postgres slot lag)
 - Goal: infra metrics incl. replication slot lag.
@@ -128,6 +134,7 @@ Done when: a staging run of the app + api produces catalog-valid PostHog events 
 - Steps: 1. Alloy service on Railway staging/production (private network). 2. Scrape PowerSync Prometheus, Centrifugo `/metrics`, Redis exporter. 3. Postgres exporter custom queries: slot lag bytes + active, replica lag, connections, top `pg_stat_statements`. 4. Remote write to Grafana Cloud.
 - Tests: `alloy fmt --test` in CI; staging query `cp_pg_slot_lag_bytes` returns series.
 - Done when: all four sources visible in Grafana staging.
+- Status: done — 9588a7cd (config validated with `alloy validate`/`fmt --test`; Railway service and Grafana staging pending the Grafana Cloud stack)
 
 ### T8 — Langfuse hookup
 - Goal: LLM traces with redaction and cost tags ready for the gateway.
@@ -135,6 +142,7 @@ Done when: a staging run of the app + api produces catalog-valid PostHog events 
 - Steps: 1. Langfuse client (EU), flush on shutdown. 2. `startLlmTrace({feature, model, tier, crew_id, trip_id})` returning trace id for `ai_usage.langfuse_trace_id`. 3. Input/output masking via `redact` + user-text masking. 4. Score API wrapper for answer ratings. 5. Emit `cp_llm_cost_micros_total` + PostHog `llm_call` from the same helper.
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- langfuse` (masking; one call → trace + metric + event; Langfuse HTTP stubbed at boundary).
 - Done when: helper exported and tested; staging sample trace visible.
+- Status: done — 8e8915d0 (staging sample trace after the next worker deploy)
 
 ### T9 — Grafana dashboards, alerts, on-call, uptime (as code)
 - Goal: reproducible monitoring.
@@ -142,6 +150,7 @@ Done when: a staging run of the app + api produces catalog-valid PostHog events 
 - Steps: 1. Dashboards per Requirements. 2. Alert rules P1/P2 with thresholds; contact points (phone via Grafana OnCall/IRM SMS+call) with mute timing outside 07:00–23:00 SGT (queued). 3. Synthetic checks (SG + Frankfurt probes). 4. `grafana-apply.ts` idempotently provisions via API. 5. Runbooks.
 - Tests: `pnpm tsx tools/scripts/grafana-apply.ts --dry-run` validates JSON; fire a test alert in staging and assert via the Grafana API that the contact point notification was sent (status saved as artifact).
 - Done when: apply is idempotent; test alert dispatch confirmed by API; synthetic checks green. Physical phone receipt is a launch-milestone checklist item (M8), not an agent check.
+- Status: done — 5b09901a (apply verified idempotent against a local Grafana 12.2; test alert dispatch and synthetics pending the Grafana Cloud stack; P1 is email-only until an on-call number exists)
 
 ### T10 — PostHog project, funnels, web cookieless capture
 - Goal: product dashboards and web analytics.
@@ -149,19 +158,20 @@ Done when: a staging run of the app + api produces catalog-valid PostHog events 
 - Steps: 1. PostHog EU project(s) staging/production; retention; IP capture off; data deletion for purged users (API helper called by account-deletion job). 2. Insights/funnels per Requirements incl. invite time-to-issue p50/p90 and AI cost per crew-trip (sum `llm_call.cost_est` by `trip_id`). 3. Web client: memory persistence, no cookies, page + CTA events only. 4. Apply script idempotent.
 - Tests: `pnpm --fail-if-no-match --filter @cp/web test -- analytics` (no cookie/localStorage writes; Playwright check on built site); `posthog-apply --dry-run`.
 - Done when: dashboards exist in staging project; web sets no cookies.
+- Status: done — db177a90 (web no-cookie Playwright check green; staging insights pending a PostHog personal API key)
 
 ## Phase acceptance criteria
-- [ ] Every master §10.5 event has a zod schema; guard rejects forbidden props
+- [x] Every master §10.5 event has a zod schema; guard rejects forbidden props
 - [ ] No client event leaves the device before analytics consent (Jest + staging check)
-- [ ] Server export idempotent (replay → same uuids), no person profile without consent
-- [ ] Flags fall back to catalog defaults when PostHog is unreachable
+- [x] Server export idempotent (replay → same uuids), no person profile without consent
+- [x] Flags fall back to catalog defaults when PostHog is unreachable
 - [ ] Sentry: symbolicated staging crash for iOS + Android; api `INTERNAL` returns `event_id`; payloads scrubbed
 - [ ] Grafana shows api → pg traces, PowerSync/Centrifugo/Redis metrics and slot lag
 - [ ] P1 test alert dispatched inside hours, muted/queued outside (API-verified); phone receipt checked at M8
 - [ ] Synthetic uptime checks green for api, sync, rt, web, media
-- [ ] Langfuse helper masks user text and writes trace id + cost metric
-- [ ] Web analytics sets no cookies (Playwright)
-- [ ] Dashboards/alerts/insights reproducible from `infra/monitoring` via apply scripts
+- [x] Langfuse helper masks user text and writes trace id + cost metric
+- [x] Web analytics sets no cookies (Playwright)
+- [x] Dashboards/alerts/insights reproducible from `infra/monitoring` via apply scripts
 
 ## Risks & rollback
 | Risk | Mitigation / rollback |
