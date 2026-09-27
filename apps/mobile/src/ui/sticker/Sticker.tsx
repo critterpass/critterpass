@@ -2,9 +2,10 @@ import { Canvas, Image as SkiaImage, Picture } from '@shopify/react-native-skia'
 import type { SkImage } from '@shopify/react-native-skia';
 import type * as RNSkiaModule from '@shopify/react-native-skia';
 import type * as ExpoFileSystemModule from 'expo-file-system';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { PixelRatio, View } from 'react-native';
 import { useFrameCallback } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import type { SharedValue } from 'react-native-reanimated';
 
 import type { FormSpec, Pose, RenderSpec, StickerSpec, Variant } from '@cp/critter-art';
@@ -163,8 +164,11 @@ export function Sticker(props: StickerProps): React.JSX.Element {
   // below) drives the live picture; under Jest's reanimated double this callback never fires
   // (no native UI runtime), which is fine — tests drive frames by changing `drawProgress` directly.
   const [, forceTick] = useState(0);
+  // The frame callback runs on the UI thread, where calling a React state setter directly throws
+  // and aborts the app; hop the re-render request back to the JS thread instead.
+  const bump = useCallback(() => forceTick((tick) => tick + 1), []);
   useFrameCallback(() => {
-    if (drawProgress && drawProgress.value < 1) forceTick((tick) => tick + 1);
+    if (drawProgress && drawProgress.value < 1) scheduleOnRN(bump);
   }, Boolean(drawProgress));
 
   const liveProgress = drawProgress ? drawProgress.value : 1;
