@@ -53,6 +53,7 @@ const app = createApp({
   exposeDocs: env.APP_ENV !== 'production',
   pool,
   ...(env.MAPBOX_TOKEN !== undefined ? { mapboxToken: env.MAPBOX_TOKEN } : {}),
+  tilesBaseUrl: env.TILES_BASE_URL,
   readiness: {
     db: async () => {
       await pool.query('select 1');

@@ -19,6 +19,7 @@ catalog:
   '@lingui/core': 6.8.0
   '@lingui/format-po': 6.8.0
   '@lingui/react': 6.8.0
+  '@maplibre/maplibre-gl-style-spec': 26.4.4
   '@messageformat/parser': 5.1.1
   '@napi-rs/canvas': 1.0.9
   '@parse/node-apn': 8.1.0
@@ -26,6 +27,8 @@ catalog:
   '@testcontainers/postgresql': 12.1.0
   '@testcontainers/redis': 12.1.0
   '@types/estree': 1.0.9
+  '@types/better-sqlite3': 9.6.0
+  '@types/geojson': 7946.0.16
   '@types/node': 26.6.3
   '@types/pg': 8.23.1
   asn1js: 3.0.10

@@ -186,6 +186,35 @@ function createAnimatedComponent<Component>(component: Component): Component {
   return component;
 }
 
+// The OS "Reduce Motion" setting: off under Jest; a test that needs it on overrides this export.
+function useReducedMotion(): boolean {
+  return false;
+}
+
+// Easing curves only shape intermediate frames, which this mock never produces (every `withX`
+// resolves to its target immediately), so every curve and curve builder yields the identity.
+type EasingFunction = (t: number) => number;
+const identityEasing: EasingFunction = (t) => t;
+const identityEasingBuilder = (): EasingFunction => identityEasing;
+const passEasingThrough = (easing: EasingFunction): EasingFunction => easing;
+const Easing = {
+  linear: identityEasing,
+  ease: identityEasing,
+  quad: identityEasing,
+  cubic: identityEasing,
+  sin: identityEasing,
+  circle: identityEasing,
+  exp: identityEasing,
+  bounce: identityEasing,
+  poly: identityEasingBuilder,
+  bezier: identityEasingBuilder,
+  elastic: identityEasingBuilder,
+  back: identityEasingBuilder,
+  in: passEasingThrough,
+  out: passEasingThrough,
+  inOut: passEasingThrough,
+};
+
 // The real module's default export is the `Animated` namespace (`Animated.View`, `.Text`, ...): each
 // is normally a `createAnimatedComponent`-wrapped host component that accepts the opaque style handle
 // `useAnimatedStyle` returns. This mock's `useAnimatedStyle` already resolves to a plain style object
@@ -210,4 +239,6 @@ module.exports = {
   withRepeat,
   withSequence,
   cancelAnimation,
+  useReducedMotion,
+  Easing,
 };
