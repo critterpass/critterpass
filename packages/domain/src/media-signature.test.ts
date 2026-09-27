@@ -153,6 +153,22 @@ describe('verifyMediaSignature round trip', () => {
     expect(result).toEqual({ status: 'bad_signature' });
   });
 
+  it('rejects a non-canonical encoding of a valid signature', async () => {
+    const { query } = await sign();
+    // A 32-byte HMAC is 43 base64url characters; the last one carries 2 signature bits and 4 zero
+    // padding bits. Setting a padding bit decodes to the same bytes but is not the canonical string.
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+    const last = alphabet.indexOf(query.sig.charAt(query.sig.length - 1));
+    const nonCanonical = `${query.sig.slice(0, -1)}${alphabet.charAt(last | 1)}`;
+    const result = await verifyMediaSignature({
+      ...query,
+      sig: nonCanonical,
+      keys: KEYS,
+      now: nowSeconds(),
+    });
+    expect(result).toEqual({ status: 'malformed', reason: 'sig is not canonical base64url' });
+  });
+
   it('accepts a signature exactly at the expiry boundary', async () => {
     const { query } = await sign();
     const result = await verifyMediaSignature({ ...query, keys: KEYS, now: query.exp });

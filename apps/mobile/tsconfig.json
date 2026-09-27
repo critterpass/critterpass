@@ -12,6 +12,7 @@
   },
   "include": [
     "src",
+    "modules",
     "plugins",
     "app.config.ts",
     "jest.config.ts",

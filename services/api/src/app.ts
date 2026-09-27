@@ -8,6 +8,7 @@ import type { Logger } from 'pino';
 import { ZodError } from 'zod';
 
 import { registerGeocodingRoutes } from './geocoding/routes';
+import { redactLinkPath } from './links/redact';
 import { registerPlacesRoutes } from './places/routes';
 import { straightLineRoutingProvider } from './routing/eta';
 import type { RoutingProvider } from './routing/provider';
@@ -61,12 +62,12 @@ export function createApp(deps: AppDeps) {
   app.use(async (c, next) => {
     const startedAt = performance.now();
     await next();
-    // Path only: query strings may carry tokens or signatures.
+    // Path only: query strings may carry tokens or signatures; link codes in the path are hashed.
     deps.logger.info(
       {
         req_id: c.var.requestId,
         method: c.req.method,
-        path: c.req.path,
+        path: redactLinkPath(c.req.path),
         status: c.res.status,
         ms: Math.round(performance.now() - startedAt),
       },

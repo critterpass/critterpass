@@ -31,12 +31,26 @@ afterAll(async () => {
   await container.stop();
 });
 
+/** A real install row for `userId`: every action key belongs to one. */
+async function insertDevice(userId: string): Promise<string> {
+  const id = randomUUID();
+  await withSystem(db.pool, (tx) =>
+    tx.query(
+      `INSERT INTO devices (id, user_id, platform, app_version, locale, tz)
+       VALUES ($1, $2, 'ios', '1.0.0', 'en', 'UTC')`,
+      [id, userId],
+    ),
+  );
+  return id;
+}
+
 async function insertKey(userId: string, keyId = randomUUID()): Promise<string> {
+  const deviceId = await insertDevice(userId);
   await withSystem(db.pool, (tx) =>
     tx.query(
       `INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
        VALUES ($1, $2, $3, 'enc', ARRAY['ballot'], now() + interval '30 days')`,
-      [keyId, randomUUID(), userId],
+      [keyId, deviceId, userId],
     ),
   );
   return keyId;
@@ -58,12 +72,13 @@ describe('device_action_keys: owner-only, system-issued', () => {
 
   it('lets a user insert their own key but not one for another user', async () => {
     const ownKeyId = randomUUID();
+    const organiserDevice = await insertDevice(fixture.actors.organiser);
     await expect(
       withUser(db.pool, fixture.actors.organiser, anonymousActor().device, (tx) =>
         tx.query(
           `INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
            VALUES ($1, $2, $3, 'enc', ARRAY['ballot'], now() + interval '30 days')`,
-          [ownKeyId, randomUUID(), fixture.actors.organiser],
+          [ownKeyId, organiserDevice, fixture.actors.organiser],
         ),
       ),
     ).resolves.toBeDefined();
@@ -73,7 +88,7 @@ describe('device_action_keys: owner-only, system-issued', () => {
         tx.query(
           `INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
            VALUES ($1, $2, $3, 'enc', ARRAY['ballot'], now() + interval '30 days')`,
-          [randomUUID(), randomUUID(), fixture.actors.organiser],
+          [randomUUID(), organiserDevice, fixture.actors.organiser],
         ),
       ),
     ).rejects.toThrow(/row-level security|permission denied/i);
@@ -98,12 +113,13 @@ describe('device_action_keys: owner-only, system-issued', () => {
   });
 
   it('rejects an empty scopes array', async () => {
+    const organiserDevice = await insertDevice(fixture.actors.organiser);
     await expect(
       withSystem(db.pool, (tx) =>
         tx.query(
           `INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
            VALUES ($1, $2, $3, 'enc', ARRAY[]::text[], now() + interval '30 days')`,
-          [randomUUID(), randomUUID(), fixture.actors.organiser],
+          [randomUUID(), organiserDevice, fixture.actors.organiser],
         ),
       ),
     ).rejects.toThrow(/violates check constraint/i);

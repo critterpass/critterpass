@@ -1,7 +1,7 @@
 ---
 phase: 11
 title: Job runner, notification router, push
-status: pending
+status: in_progress
 depends_on: [5, 10]
 wave: 5
 features: [F-014, F-016, F-017]
@@ -163,6 +163,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 - Steps: 1. Migration for §3.11 tables in this phase (FORCE RLS, grants, publication). 2. `register_device` handler: upsert device, token by `(kind, token)` (reassign on uid change), capabilities, tz, locale. 3. Mobile: native APNs/FCM token via expo-notifications `getDevicePushTokenAsync`, register on launch/foreground/token change; `last_seen_at` heartbeat (≤1/10 min). 4. Stream `me` additions.
 - Tests: `pnpm --filter @cp/db test -- permissions/devices-notifications`; `pnpm --filter @cp/api test -- commands/device`; `pnpm --filter @cp/mobile test -- data/push`.
 - Done when: outsider cannot read others' devices/notifications; token moved between uids is detached from the old uid.
+- Status: done — e029297
 
 ### T6 — Device action keys and `/v1/actions` door
 - Goal: extensions and receivers can run scoped commands without the app.
@@ -170,6 +171,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 - Steps: 1. FK migration; `/v1/devices/{id}/action-keys` POST/DELETE call phase 09 `issueKey`/`revokeKey`. 2. Mount phase 09 verify middleware on `/v1/actions` and `/v1/notifications/{id}`. 3. `/v1/actions` → `executeCommand` only for commands whose `actionScope` ∈ key scopes, else `ACTION_KEY_SCOPE`; returns `{status, result}` (snapshot added by phase 49). 4. `GET /v1/notifications/{id}` for owner. 5. Client rotation on foreground when <7 d; device-removal revoke hook (sign-out/deletion/merge hooks live in phase 09). 6. Swift signer + shared Keychain group store.
 - Tests: `pnpm --filter @cp/api test -- routes/actions` (valid, skew, replayed sig with same op_id → duplicate, wrong scope, revoked); Swift `SignedRequestTests` via `pnpm --filter @cp/mobile ios:test shared`.
 - Done when: all cases pass; Swift and TS produce identical signatures for a fixed vector.
+- Status: done — 655154a, 4bd8eed
 
 ### T7 — Notification catalogue and router policy
 - Goal: pure, tested routing decisions.
@@ -177,6 +179,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 - Steps: 1. Catalogue of the 52 master §7 notifications under semantic keys (class, variants, category, channel, sender kind, collapse, expiry, passive). 2. `registerNotification({key, event, audience, template, dedupeKey})` API for feature phases. 3. Pure `decide({class, prefs, localNow, quiet, ledger, governor, onTrip})` → `send | roundup | drop(reason)`. 4. `notify.route` job: load prefs/tz (trip tz while on trip, Q-84), write `notifications` row (state), update `ping_ledger`, enqueue `push.send` or mark `rolled_into_roundup`. 5. Rewrite hook interface with cache key `(key, template_id, locale, guide_id, vars_hash)`.
 - Tests: `pnpm --filter @cp/worker test -- notify-policy notify-route` (property tests: ALWAYS never deferred; budget never exceeded; quiet hours hold BUDGET; governor ≤1/day; dedupe idempotent on replay).
 - Done when: property tests pass 1k runs; replaying the same event yields one notification per uid.
+- Status: done — 6508073
 
 ### T8 — Evening roundup builder
 - Goal: one roundup per user per local date.
@@ -184,6 +187,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 - Steps: 1. Cron every 5 min selects users whose roundup time −10 min falls in the window per tz bucket. 2. Collect `rolled_into_roundup` + ROUNDUP-class items for local date across crews; rank needs-you first, then recency; cap 5. 3. Skip if empty; else create `roundups` row + one push from the user's active guide (sender kind guide), body "N things for tomorrow" + numbered lines; `apns-collapse-id` = `roundup:<date>`. 4. Items beyond 5 stay in inbox (phase 25).
 - Tests: `pnpm --filter @cp/worker test -- roundup` (tz trip vs device, DST day, empty skip, exactly-once under retry).
 - Done when: all pass.
+- Status: done — 3e2f895, 3c08c01
 
 ### T9 — APNs + FCM delivery (`push.send`)
 - Goal: reliable delivery with correct payloads and token hygiene.
@@ -191,6 +195,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 - Steps: 1. node-apn provider (token auth, prod + sandbox), methods `alert`, `background`, `liveActivity`, `broadcast`, `widgets`. 2. firebase-admin `send` data-only; priority by class. 3. `cp` builder ≤1 KB, `full:false` when template marked private; interruption level, relevance, `thread-id`, collapse id. 4. Lingui server render by locale. 5. Error handling: invalidate tokens; retry transient 5×.
 - Tests: `pnpm --filter @cp/worker test -- push-send` (HTTP/2 APNs mock server via `node:http2` and FCM emulator endpoint — transport-level test doubles only; payload snapshot tests; oversize → truncate body then fail).
 - Done when: payload schema tests pass; 410 marks token invalid; sandbox tokens go to sandbox host.
+- Status: done — 9fd432c
 
 ### T10 — iOS Notification Service Extension with Communication Notifications
 - Goal: every iOS notification shows its sender with avatar.

@@ -1,5 +1,299 @@
 [
  {
+  "label": "6a-1 Trip plan, a leg needs a driver",
+  "screenText": "9:41\n5G\n← TRIPS\nM\nA\nSHARE\nBALI, DAY\nBY DAY\nLIST\nMAP\nCALENDAR\n1\nMON\nARRIVE + POOL\nDriver 11:40 · villa check-in 15:00\nBOOKED\n2\nTUE\nUBUD CENTRE\nMonkey Forest · cooking class\n1 VOTE\n3\nWED\nSLOW UBUD\nTerraces 7am · spa · ridge walk\nNO RIDE\nNEED A DRIVER HERE?\nGrab won’t pick up at Jatiluwih, and Ubud’s local drivers block app pickups in the centre. Most crews hire a driver for the day.\nFIND A DRIVER\nNOT NOW\n4\nTHU\nBATUR SUNRISE\nPickup 03:30 · Ketut · hot springs\nBOOKED\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Opens under a leg when Tokek sees the route has no app pickup (Jatiluwih, Ubud centre after 18:00, Amed). The card unfolds out of the day row like a ticket stub. NOT NOW folds it into a small NO RIDE flag; the same card also sits at the top of Getting around for that day.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6a-2 Find a driver",
+  "screenText": "9:41\n5G\n← DAY 3 · SLOW UBUD\nFIND A\nDRIVER\nPick the legs, then where the driver comes from. You can mix sources and compare them after.\nFOR THESE LEGS\n✓ WED 14 · JATILUWIH\n✓ SUN 18 · ULUWATU\n+ DAY\nCREWS’ DRIVERS\n4 around Ubud, rated by crews who rode with them\n→\nBOOK A PRIVATE TOUR\nKlook and Viator, fixed price per car\n→\nFOUND ONE YOURSELF\nPaste a message, drop a screenshot, share a contact\n→\nASK FOR ME\nI’ll write a post for the Ubud groups. You post it.\nDRAFT IT\nSHORTLIST\nM\nK\nMade, Komang\nCOMPARE",
+  "caption": "MOTION Leg chips come pre-picked from the card that opened this. The three sources stagger in from the right. Anything added from any source lands in one shortlist at the bottom, which bumps up by one with a small hop.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "car",
+   "ticket",
+   "chat",
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6b-1 Ask for me",
+  "screenText": "9:41\n5G\n← FIND A DRIVER\nDRAFT\nTOKEK’S\nPOST\nCopy it and post it in the groups yourself. Critterpass never posts there and never reads them.\nTAP A HIGHLIGHT TO CHANGE IT\nEN\n+ ID\nHi all, looking for a driver or driver-guide in Ubud for 6 adults.\nWed 14 Oct: Ubud → Jatiluwih → Ubud, 06:30 to about 18:00\nSun 18 Oct: Ubud → Uluwatu for kecak → Ubud, 13:00 to about 21:30\nNeed 7+ seats, English please. Budget around Rp 700k a day. Please say what’s included (fuel, parking, tolls, entry) and your overtime rate. Terima kasih!\nCOPY POST\nWHERE CREWS ASKED FOR UBUD\nUbud Community\nFacebook group · 9 crews posted here\nOPEN ↗\n›\nBali Drivers and Guides\nFacebook group · 6 crews posted here\nOPEN ↗\n›\nWhen someone replies, share their message to me. I’ll pull out the details.",
+  "caption": "MOTION Highlights are the parts Tokek filled from the trip: party size, dates, route, language, budget. Tapping one opens a one-line editor and the post rewrites around it. COPY POST flashes the card and shows a toast, “Copied. Paste it in the group.” OPEN goes to the group in the Facebook app. Groups are suggested from where past crews said they posted, not from reading them.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6c-1 Add a driver",
+  "screenText": "9:41\n5G\n← FIND A DRIVER\nADD A\nDRIVER\nPASTE\nText or a link\nSCREENSHOT\nDrop or pick one\nCONTACT\nFrom WhatsApp\n“Hi, Made here, driver in Ubud 12 yrs. Avanza 6 pax. Full day 10 hrs Rp 650k incl petrol + parking. English OK. WA +62 812 3456 7890”\nPasted just now\nREAD IT\nSHARED WITH TOKEK · 2\nK\nKOMANG\nWhatsApp contact · shared by Alex\nSHORTLISTED\nSCREENSHOT\nFrom Maya · 10:48\nCOULDN’T READ\nShare any message to Critterpass from WhatsApp or Facebook and it lands here. I only read what you send.",
+  "caption": "MOTION Same three doors as Add a booking. Sharing into Critterpass from another app drops the item straight into SHARED WITH TOKEK for everyone in the crew. READ IT turns the dashed box into a card that fills in field by field.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "ticket",
+   "camera",
+   "chat",
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6c-2 Check the card",
+  "screenText": "9:41\n5G\n← ADD A DRIVER\nfrom your paste\nIS THIS\nRIGHT?\nTap each line to confirm or fix it. Nothing reaches the crew until you do.\nM\nMADE\nDriver · Ubud · says 12 years\n3 OF 6 CHECKED\nWHATSAPP\n+62 812 3456 7890\n✎\nSPEAKS\nEnglish, Bahasa Indonesia\n✎\nCAR\nToyota Avanza · 6 seats\nFits six. Big bags go on laps.\n✎\nPRICE\nRp 650k a day · 10 hours\n✎\nWHAT THE PRICE INCLUDES\n✓ FUEL\n✓ PARKING\nTOLLS?\nENTRY?\nOVERTIME?\n3 things aren’t in his message. Want me to write the question?\nASK MADE\nCONFIRM 2 MORE",
+  "caption": "MOTION Tapping a line highlights the words it came from in the original message, pinned in a peek bar at the top, so you can check Tokek read it right. Confirmed lines tick green. ASK MADE opens WhatsApp with the question written; you send it. The button unlocks when every line is checked.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "check",
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6c-3 Couldn’t read it",
+  "screenText": "9:41\n5G\n← ADD A DRIVER\nCOULDN’T\nREAD IT\nMaya’s screenshot cuts off above the phone number, and the price is inside a photo.\nscreenshot · Facebook comment\nCUT OFF HERE\nWHAT I COULD READ\n?\nNAME\nWayan?\nOnly from the profile name\n✎\n?\nPHONE\nNot in the picture\n✎\n?\nPRICE\nIn a photo I can’t read\n✎\nTYPE THE REST IN\nTry another screenshot\nAsk Maya for the link",
+  "caption": "MOTION The screenshot sits where the card would, with the crop line marked so it’s clear what went wrong. Nothing is added to the shortlist. TYPE THE REST keeps what was read and opens the same card as 6c-2 with the gaps focused.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6d-1 Compare",
+  "screenText": "9:41\n5G\n← SHORTLIST\nWed 14 + Sun 18 · 6 people\nCOMPARE 3\nM\nMADE\n4 MISSING\nK\nKOMANG\n1 MISSING\nT\nKLOOK CAR\nCOMPLETE\nA DAY\nRp 650k\nRp 900k\nUS$68\nEACH, BOTH DAYS\nRp 217k\nRp 300k\nRp 367k\nCAR\nAvanza · 6\nHiAce · 10\nMPV · 6\nSPEAKS\nEN · ID\nEN · ID · JP\nEnglish\nTOLLS\nNOT SAID\n✓ Yes\n✓ Yes\nENTRY FEES\nNOT SAID\nNot incl.\nNot incl.\nOVERTIME\nNOT SAID\nRp 75k/hr\nUS$8/hr\nLICENCE\nNOT SAID\nShows it\nKlook checks\nCREWS\n—\n♥ 6 of 7\n★ 4.8 Klook\nMade’s cheapest, but Day 7 runs to 21:30 and he hasn’t said what overtime costs.\nPICK\nPICK\nPICK",
+  "caption": "MOTION Columns scroll sideways when there are four. NOT SAID flags pulse once as the table loads; tapping one offers to ask that driver on WhatsApp. Prices convert to Rupiah per person using the crew’s split, so a per-car tour and a per-day driver line up.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6d-2 Pick for which legs",
+  "screenText": "9:41\n5G\n← SHORTLIST\nCOMPARE 3\nPICK MADE\nWHICH\nLEGS?\nWed 14 · Jatiluwih\n06:30–18:00 · 11½ hours\nSun 18 · Uluwatu\n13:00–21:30 · 8½ hours\nFri 16 · Sanur harbour\nBoat at 07:00 · 1 hour\nThu 15 · Batur\nKetut is booked\nTAKEN\nTell Made on WhatsApp\nI’ll write it with dates and pickup pins. You send it.\nAsk the crew first\nTurns this into a vote, like any change\nWed is 11½ hours. Made’s price covers 10.\nSET MADE ON 2 DAYS",
+  "caption": "MOTION The sheet rises over the table and keeps Made’s column peeking above it. Legs with another provider are shown but locked. Setting him writes his name, car and number onto both days, and 3h-3 picks him up as the driver. Day 3 runs over 10 hours, so the button line warns about overtime.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6e-1 Crews’ drivers",
+  "screenText": "9:41\n5G\n← FIND A DRIVER\nDRIVERS OUR\nCREWS USED\nOnly drivers who asked to be listed. Ratings come from crews who rode with them.\n✓ UBUD\nENGLISH\n7+ SEATS\nDAY TRIPS\nK\nKOMANG ADI\nDriver-guide · Ubud, Sidemen\n6/7\n23 trips\nON TIME\nKNOWS THE WARUNGS\nCAREFUL ON HILLS\nEN · ID · JP · HiAce, 10 seats\nN\nNYOMAN\nDriver · Ubud, Tegallalang\n4/4\n11 trips\nPATIENT\nGREAT PHOTOS\nEN · ID · Innova, 6 seats\nP\nPUTU\nDriver · Ubud, airport runs\n3/5\n9 trips\nFAIR PRICE\nNEW CAR\nEN · ID · Xpander, 6 seats",
+  "caption": "MOTION The heart count is how many crews tapped LOVED IT on the post-trip rating, out of crews who rated. Filters snap on like the plan chips. Cards rise in as they load; the list never shows a driver who hasn’t confirmed on the claim page.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "heart"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6e-2 Driver detail",
+  "screenText": "9:41\n5G\n← CREWS’ DRIVERS\nRUNS HIS OWN LISTING\nhis photo\nKOMANG\nADI\nDriver-guide · Ubud\n6 OF 7\nCREWS LOVED IT\n23\nTRIPS WITH CREWS\n2025\nLISTED SINCE\nToyota HiAce · 10 seats\nAir-con, room for surfboards\nEnglish, Bahasa, some Japanese\nUbud, Sidemen, Jatiluwih\nAirport runs too\nRp 900k a day, fuel, parking, tolls\nWhat he tells crews. Not a Critterpass price.\nONE TIP FROM A CREW\n“He took us to his cousin’s warung. Best babi guling of the trip.”\nA crew of four · August 2026\nMESSAGE ON WHATSAPP\nAdd to shortlist",
+  "caption": "MOTION The passport-style photo is his own upload from the claim page. MESSAGE opens WhatsApp with a first line already written (“Hi Komang, found you on Critterpass. We’re 6 in Ubud on 14 and 18 Oct…”). Tips show crew size and month only.",
+  "customEls": [],
+  "doodles": [],
+  "motion": []
+ },
+ {
+  "label": "6e-3 Nobody listed here",
+  "screenText": "9:41\n5G\n← FIND A DRIVER\nDRIVERS OUR\nCREWS USED\n✓ AMED\nENGLISH\n7+ SEATS\nNOBODY LISTED AROUND AMED YET\nNo crew has brought back a driver here who asked to be listed. Komang covers Sidemen, 50 minutes away.\nSHOW SIDEMEN TOO\nASK FOR ME\nI’ll write a post for the Amed groups\n→\nPRIVATE TOURS\n2 from Klook and Viator cover Amed\n→",
+  "caption": "MOTION Empty isn’t a dead end: widen the area, ask the groups, or book a tour. Tokek dozes, and wakes if you change the area chip.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "chat",
+   "ticket"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6e-4 Offline, driver saved",
+  "screenText": "9:41\nSOS\nNO DATA UP HERE\nJatiluwih, 13:40. Made was saved to your phone at 06:12.\nYOUR RIDE\nBACK\nM\nMADE · 15:30\nWhite Avanza · DK 1234 AB\nUpper car park, by the warung\nCALL\nWHATSAPP · LATER\nCalls use signal, not data. The message sends when you’re back online.\nSHOW THIS TO MADE\nSaya di parkir atas, dekat warung.\n“I’m at the upper car park, by the warung.”\nSAVED ON YOUR PHONE\nMade’s number, car and plate\nToday’s pickups and pins\nWhat you agreed\nRp 650k, fuel and parking included",
+  "caption": "MOTION When data drops, the card slides from the usual blue to night blue with a soft thud, the same as Offline at the top. Anything that needs the internet greys out with a clock mark instead of vanishing.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "lock",
+   "pin"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6f-1 Private tours",
+  "screenText": "9:41\n5G\n← FIND A DRIVER\nPRIVATE TOURS\nFixed price, booked and paid with the supplier. Titles, photos and ratings are theirs, word for word.\nsupplier photo · Klook\nFROM KLOOK\n★ 4.8 · 2,140 reviews\nTHEIR WORDS\nPrivate Car Charter in Bali with English-Speaking Driver (10 Hours)\nFrom US$68 per car · up to 6 people · fuel included\nFits Day 3. Ten hours covers Jatiluwih with a long lunch.\nADD TO COMPARE\nOPEN KLOOK ↗\nFROM VIATOR\n★ 4.9 · 860 reviews\nTHEIR WORDS\nBali Full-Day Private Tour: Jatiluwih Rice Terraces and Tanah Lot\nFrom US$85 per group · guide included\nAdds Tanah Lot at sunset. You’d miss the ridge walk.\nADD TO COMPARE\nOPEN VIATOR ↗\nWe may earn a commission. It never changes what Tokek recommends.",
+  "caption": "MOTION Supplier content keeps its own type and sits under a THEIR WORDS label; Tokek’s opinion is always in his handwriting, below a rule, so the two never blur. The commission line is pinned and never scrolls away.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6g-1 Rate your driver",
+  "screenText": "9:41\n5G\n← RECAP\n4 OF 11\nRATE\nYOUR DRIVER\nYour crew’s rating and tags go on Made’s listing if he’s listed. Nothing about you does.\nphoto · Made at the terraces\nMADE\nDAY 3 + DAY 7\nAvanza · Jatiluwih and Uluwatu · Rp 1.4M\nLOVED IT\nFINE\n✕\nNOT AGAIN\n✓ ON TIME\n✓ SAFE DRIVER\n✓ KNEW THE SPOTS\nGOOD ENGLISH\nFAIR PRICE\nONE TIP FOR THE NEXT CREW\nAsk for the upper car park at Jatiluwih. Much less walking back.\nINVITE MADE TO BE LISTED",
+  "caption": "MOTION A driver is one more card in the Rate the trip stack, straight after the places they drove you to. LOVED IT flicks the card up with a heart. Tags are optional and any crew member can add them; the listing shows the crew’s combined answer.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "heart",
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6g-2 Invite Made",
+  "screenText": "9:41\n5G\nINVITE MADE\nTO BE LISTED\nMade decides. Nothing about him is public until he confirms on his own phone, and he can take it down anytime.\nTHE MESSAGE · YOU SEND IT\nHi Made, it’s Winston from the group of six (Jatiluwih and Uluwatu, 14 and 18 Oct). Thank you again!\nOur trip app lists drivers travellers loved, so other groups can find them. It’s free and you choose what’s shown. If you’d like that: critterpass.app/d/made-7k2q\nIf not, no problem, just ignore this.\nAdd it in Bahasa too\nMade said English is fine. Sent below the English.\nOPEN IN WHATSAPP\nYou press send. Critterpass doesn’t message anyone.",
+  "caption": "MOTION Opens from the last rating card. The bubble is editable in place. OPEN IN WHATSAPP hands the text to WhatsApp with Made’s chat open; the user presses send there. The link is single-use, tied to Made’s number, and prefilled from the card the crew confirmed in 6c-2.",
+  "customEls": [],
+  "doodles": [],
+  "motion": []
+ },
+ {
+  "label": "6g-3 Waiting for Made",
+  "screenText": "9:41\n5G\n← GETTING AROUND\nOUR\nDRIVERS\nDrivers this crew used. The ones who haven’t confirmed are only visible to you six.\nM\nMADE\nDay 3, Day 7 · 6 of 6 loved it\nNOT CLAIMED\nInvite sent on WhatsApp · Oct 20\nMade opened the link · Oct 21\nWaiting for him to confirm\nThe link works until 20 Nov. After that it switches off and nothing is listed.\nNUDGE\nCANCEL INVITE\nK\nKETUT\nBatur guide · Day 4 · 5 of 6 loved it\nLISTED\nI won’t chase Made. One nudge from you is plenty.",
+  "caption": "MOTION The pending row ticks as Made moves through the link. NUDGE reopens WhatsApp with a shorter follow-up and can be used once. CANCEL kills the link on the spot.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "check",
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6h-1 Claim your listing",
+  "screenText": "9:41\n4G\ncritterpass.app/d/made-7k2q\n2\nCRITTERPASS\nEN\nID\nHI MADE. A CREW OF SIX WANTS TO RECOMMEND YOU.\nCheck the details below. Nothing is shown to anyone until you say yes, and you can remove it anytime from this page.\nYOUR NAME\nMade Suarta\nChange\nWHERE YOU DRIVE\nUbud\nJatiluwih\nUluwatu\n+ Add\nLANGUAGES\nEnglish\nBahasa Indonesia\n+ Add\nCAR\nToyota Avanza, 6 seats\nChange\nWHATSAPP\n+62 812 3456 7890\nVerified\nWHAT CREWS WILL SEE\nM\nMADE SUARTA\nDriver · Ubud, Jatiluwih, Uluwatu\n6/6\nON TIME\nSAFE DRIVER\nKNEW THE SPOTS\nCrews never see who rated you or what anyone paid.\nList me for travel crews on Critterpass\nShow ratings and tags from crews I drove\nYou can hide these later and keep the listing.\nYES, LIST ME\nNo thanks\nFree for drivers. No app, no password: this link is your key. Keep the WhatsApp message to come back.",
+  "caption": "NOTE Full page, scrolled. Built for a cheap Android on 3G: system fonts plus one web font, no photos above the fold, under 60 KB. Everything is prefilled from what the crew confirmed, and Made can change any of it. The WhatsApp number is verified because he opened the link from that chat. No thanks deletes the invite.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "lock",
+   "gecko",
+   "heart",
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6h-2 You’re listed",
+  "screenText": "9:41\n4G\ncritterpass.app/d/made-7k2q\n2\nCRITTERPASS\nEN\nID\nLISTED\nYOU’RE LISTED, MADE\nCrews planning Ubud can find you and message you on WhatsApp. Come back to this link to change anything.\nPause my listing\nHide it while you’re fully booked\nChange my details\nName, areas, languages, car\n›\nShow ratings and tags\nOn · 6 of 6 loved it\n›\nREMOVE MY LISTING\nRemoves your listing and ratings from Critterpass right away. Crews who already have your number keep it in their own trip.",
+  "caption": "NOTE Remove asks once more (“Remove for good?”), then confirms on the page. No email or account needed. Pausing hides the listing from 6e-1 without losing ratings.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "lock",
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6i-1 Share with your driver",
+  "screenText": "9:41\n5G\nOTHER CREWS\nA DRIVER OR GUIDE\nSHARE WITH\nMADE\nA page with the days you pick. No login. First names only, no budgets, no chat.\ncritterpass.app/g/7k2q\nCOPY\nSEND ON WHATSAPP\nPDF\nDays\nWed 14, Sun 18\n›\nLink expires\nIn 14 days · 1 Nov\n›\nLet Made send a quote\nHe can also suggest changes and tips\nBudgets, chat, last names\nNever\nOpened twice · last at 10:14 today\nREVOKE LINK",
+  "caption": "MOTION A second tab on the SHARE sheet from the trip plan. The PDF is the same page for drivers who’d rather print. REVOKE asks once, then the link shows the switched-off page (6j-3) immediately, and any quote Made already sent stays with the crew.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "lock"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6j-1 Plan for the driver",
+  "screenText": "9:41\n4G\ncritterpass.app/g/7k2q\n2\nCRITTERPASS\nEN\nID\nTRIP PLAN FROM WINSTON\n6 PEOPLE, 2 DAYS WITH YOU\n6 adults, daypacks\nWed 14 + Sun 18 Oct\nStay: Sayan, Ubud\nMUST-DOS\nJatiluwih rice terraces · Kecak dance at Uluwatu (tickets bought) · Home by 22:00 on Sunday\nWED 14 OCT\n06:30\nPickup · Villa Kayu Manis\nJalan Raya Sayan, Ubud\nOpen pickup in Maps\n07:30\nJatiluwih rice terraces\nAbout 3 hours walking\nMUST-DO\n11:30\nLunch near Jatiluwih\nOpen to your suggestion\n14:00\nKarsa Spa, Ubud\nDrop-off, 2 hours\n16:30\nCampuhan Ridge Walk\nDrop at the start, pick up at the end\n18:00\nBack to the villa\nSUN 18 OCT\n13:00\nPickup · Villa Kayu Manis\nOpen pickup in Maps\n15:30\nUluwatu Temple\nSarongs needed\n18:00\nKecak dance\nTickets bought\nMUST-DO\n19:30\nDinner, Jimbaran Bay\n21:30\nBack to the villa\nWinston, Maya, Alex, Jordan, Rin, Dev\nSEND A QUOTE\nSUGGEST CHANGES\nADD A TIP\nNo login needed. This link works until 1 Nov.",
+  "caption": "NOTE Full page, scrolled; the three buttons stick to the bottom on a real phone. Readable at 360 px with 16 px body text and high contrast. Pickups are the only map pins and open Google Maps, which drivers already use. Budgets, chat, votes and last names never reach this page. EN/ID switches the whole page, including stop names Tokek has translations for.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "lock",
+   "gecko",
+   "pin"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6j-2 Send a quote",
+  "screenText": "9:41\n4G\ncritterpass.app/g/7k2q/quote\n2\n← Trip plan\nYOUR QUOTE\nPRICE PER DAY\nRp 700.000\n× 2 days\nTotal Rp 1.400.000\nINCLUDED IN THE PRICE\nPetrol\nParking\nTolls\nEntry tickets\nOVERTIME, PER HOUR AFTER 10 HOURS\nRp 75.000\nEdit\nCAR\nToyota Avanza, 6 seats\nEdit\nSUGGEST A CHANGE · WED 14\n07:00\nJatiluwih rice terraces\nMOVED\n≡\n11:30\nLunch near Jatiluwih\n≡\n14:00\nKarsa Spa, Ubud\n≡\nGo at 07:00. Tour buses arrive at 10.\nTIPS FOR THE CREW\nBring sarongs for Uluwatu, or rent one at the gate for Rp 10.000.\n+ Another tip\nSEND TO THE CREW\nThey decide together in their app. Winston will reply on WhatsApp.",
+  "caption": "NOTE Plain form controls, big hit targets, Indonesian number formatting. Reordering is drag or tap-to-move. Nothing Made writes changes the plan directly; it arrives as a proposal the crew votes on (6k-1).",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "lock",
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6j-3 Link switched off",
+  "screenText": "9:41\n4G\ncritterpass.app/g/7k2q\n2\nCRITTERPASS\nEN\nID\nTHIS LINK IS SWITCHED OFF\nWinston stopped sharing this plan on 20 Oct. Ask them on WhatsApp for a new link.\nYour quote from 12 Oct is still with the crew.\nOPEN WHATSAPP",
+  "caption": "NOTE Revoked copy shown. Expired reads “This link expired on 1 Nov.” Neither shows any trip details, names or dates beyond who shared it.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "lock",
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "6k-1 Made replied",
+  "screenText": "9:41\n5G\n← DAY 3 + DAY 7\nFROM MADE\nMADE SENT\nA QUOTE\nRp 700k a day with fuel, parking and tolls, for both days. He suggested 2 changes. No must-dos moved.\nRp 650k a day, extras unknown\nRP 1.4M FOR BOTH DAYS\nRp 233k each · overtime Rp 75k/hr\nM\nA\nWed 07:30 Jatiluwih\nWED 07:00 JATILUWIH\nTour buses arrive at 10.\nW\nSun 21:30 back at the villa\nSUN 22:00 BACK AT THE VILLA\nTraffic after kecak. Still inside 10 hours.\nR\n2 TIPS, PINNED TO THE DAYS · NO VOTE\nSarongs for Uluwatu, or Rp 10k at the gate.\nUpper car park at Jatiluwih.\n+RP 17K EACH\n4 OF 6 VOTED\n0 MUST-DOS TOUCHED\nYES TO ALL · NEEDS 3 YESES\nPick one by one",
+  "caption": "MOTION The existing approval poll from Review changes. Made’s quote is one item next to his order changes, each with its own tick. Faces fill in as the crew votes in real time. At three yeses Tokek sets the price on both legs and offers to tell Made on WhatsApp.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "check"
+  ],
+  "motion": []
+ },
+ {
   "label": "3a-1 Splash",
   "screenText": "9:41\n5G\nCRITTERPASS\nPASSPORT · PASSEPORT\nYour pass to every place, and the locals who live there.\nOPEN YOUR PASS\nI have an invite code",
   "caption": "MOTION The passport bobs gently and a sheen runs across the cover. Tokek hangs off the top edge and pops his head up every few seconds. OPEN YOUR PASS swings the cover open like a real passport and the first page fills the screen.",

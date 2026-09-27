@@ -31,6 +31,16 @@ export const workerEnvSchema = z.object({
   CENTRIFUGO_API_URL: optionalUrl,
   /** Same value as the Centrifugo service's CENTRIFUGO_HTTP_API_KEY. */
   CENTRIFUGO_HTTP_API_KEY: optionalString,
+  /** Claude API key for Message Batches (`ai.batch.poll`, src/ai/batch-poll.ts); unset = the batch
+   *  poll job is not registered (nothing can submit a batch without it either). */
+  ANTHROPIC_API_KEY: optionalString,
+  /** Local-development override of the Anthropic endpoint; unset = Anthropic's API. */
+  ANTHROPIC_BASE_URL: optionalUrl,
+  /** Langfuse traces for model calls (packages/ai/src/telemetry/langfuse.ts); both keys unset =
+   *  no traces are exported. */
+  LANGFUSE_PUBLIC_KEY: optionalString,
+  LANGFUSE_SECRET_KEY: optionalString,
+  LANGFUSE_HOST: optionalUrl,
   /** Nightly `ops.backup` (src/jobs/ops/backup.ts): a role that can read every schema with
    *  BYPASSRLS. Staging and production need it and the BACKUP_S3_* set; without them the job fails
    *  and dead-letters instead of skipping. Local development runs no backup unless they are set. */
@@ -44,6 +54,13 @@ export const workerEnvSchema = z.object({
   BACKUP_S3_REGION: z.preprocess(emptyAsUndefined, z.string().min(1).default('auto')),
   /** pg_dump binary (must be the server's major version or newer). */
   BACKUP_PG_DUMP_PATH: z.preprocess(emptyAsUndefined, z.string().min(1).default('pg_dump')),
+  /** APNs token auth (src/push/apns.ts): key id, team id and the .p8 contents. All three or none. */
+  APNS_KEY_ID: optionalString,
+  APNS_TEAM_ID: optionalString,
+  /** PEM text; a single-line value with literal `\n` escapes is accepted too. */
+  APNS_PRIVATE_KEY_PEM: optionalString,
+  /** Firebase service account JSON for FCM HTTP v1 (src/push/fcm.ts); unset = no Android pushes. */
+  FCM_SERVICE_ACCOUNT_JSON: optionalString,
 });
 
 export type WorkerEnv = z.infer<typeof workerEnvSchema>;

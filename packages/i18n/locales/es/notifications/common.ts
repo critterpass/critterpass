@@ -1,0 +1,1 @@
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"notifications.push.privateBody\":[\"Sent you something. Open to see it.\"]}")as Messages;

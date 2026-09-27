@@ -24,7 +24,7 @@ class NoLongerCandidate extends Error {}
 
 /** Rules whose rows would be carried to another account on merge: data this purge must not drop. */
 function holdsSharedData(rule: MergeRule): boolean {
-  return rule.strategy === 'union' || rule.strategy === 'reassign';
+  return rule.personal !== true && (rule.strategy === 'union' || rule.strategy === 'reassign');
 }
 
 async function purgeAccount(
@@ -42,7 +42,8 @@ async function purgeAccount(
     if (rows[0]?.found === true) return 'kept_shared_data';
   }
   for (const rule of listMergeRules()) {
-    if (holdsSharedData(rule)) continue;
+    // Personal rows go with the users row in app.anon_gc_finish (their foreign keys cascade).
+    if (holdsSharedData(rule) || rule.personal === true) continue;
     if (rule.viaFunction !== undefined) {
       await tx.query(`SELECT app.${rule.viaFunction}($1)`, [uid]);
     } else {

@@ -85,6 +85,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   plugins: [
     'expo-router',
+    // Universal Links / App Links for this variant's link hosts (plugins/with-links.ts).
+    ['./plugins/with-links', { variant: appVariant }],
     [
       'expo-splash-screen',
       {

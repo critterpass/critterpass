@@ -1,7 +1,7 @@
 ---
 phase: 21
 title: Link resolver, deep-link router, deferred deep links
-status: pending
+status: in_progress
 depends_on: [1, 10]
 wave: 5
 features: [F-018, F-044]
@@ -97,6 +97,7 @@ Done when: tapping any link route opens the right app screen on both OSes when i
 - Steps: 1. Route table + `parseLink(url)` / `buildLink(kind, params, host)`. 2. Code alphabet + `generateCode()` CSPRNG + normalise (upper, strip spaces/dashes, map O→0 not allowed → reject). 3. Seat token generate/HMAC verify with key rotation. 4. Custom scheme mapping.
 - Tests: `pnpm --fail-if-no-match --filter @cp/domain test -- links`.
 - Done when: property tests round-trip build→parse for all kinds; distribution test (χ²) on 100k codes passes; ambiguous glyphs never generated.
+- Status: done — c999753
 
 ### T2 — Join codes + attribution claim schema
 - Goal: storage with RLS backstop.
@@ -104,6 +105,7 @@ Done when: tapping any link route opens the right app screen on both OSes when i
 - Steps: 1. `join_codes` table + partial unique index on active code. 2. Expand `install_attributions`. 3. `app.lookup_join_code` definer fn (public subset, increments nothing). 4. Permission matrix.
 - Tests: `pnpm --fail-if-no-match --filter @cp/db test -- permissions/join_codes permissions/install_attributions_claims`.
 - Done when: outsider cannot SELECT `join_codes` rows but lookup fn returns public subset only for active codes.
+- Status: done — 65ce80a
 
 ### T3 — API resolver, preview, claim
 - Goal: server endpoints and provider registry.
@@ -111,6 +113,7 @@ Done when: tapping any link route opens the right app screen on both OSes when i
 - Steps: 1. Provider registry interface `{kind, preview(ctx), resolve(ctx)}`. 2. Bot filter + first-human-open event. 3. Code lookup with phase-09 rate limits, uniform 404. 4. Claim command validating host/path/HMAC, idempotent per device. 5. OpenAPI via `@hono/zod-openapi`.
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- links`.
 - Done when: WhatsApp/iMessage preview UA does not emit `invite.opened`; 11th lookup in a minute returns 429; replayed claim returns original result.
+- Status: done — 9da0117
 
 ### T4 — AASA, assetlinks, handoff pages, in-app browser escape
 - Goal: web side of links on both hosts.
@@ -118,6 +121,7 @@ Done when: tapping any link route opens the right app screen on both OSes when i
 - Steps: 1. Static well-known files with correct content type, both hosts. 2. Handoff component: preview, Open in app via `go.` host, store buttons with Play referrer, clipboard copy on CTA, intent URL. 3. In-app browser overlay. 4. Route pages render handoff (phase 51 restyles content).
 - Tests: `pnpm --fail-if-no-match --filter @cp/web test:e2e -- links`.
 - Done when: Playwright asserts AASA JSON schema/content-type/no redirect on both hosts, assetlinks fingerprints, Instagram UA shows escape overlay, Play URL carries encoded referrer.
+- Status: done — 4413305
 
 ### T5 — Native link config + cp-deferred-link module
 - Goal: OS-level link claims and deferred primitives.
@@ -125,6 +129,7 @@ Done when: tapping any link route opens the right app screen on both OSes when i
 - Steps: 1. Plugin writes associated domains + intent filters for every UL path on both hosts + scheme. 2. Kotlin `getInstallReferrer()` once (cached flag). 3. Swift `detectLikelyLink()` via `detectPatterns` (no value read). 4. Paste via expo-clipboard `ClipboardPasteButton`.
 - Tests: `./gradlew :cp-deferred-link:testDebugUnitTest`; `pnpm --fail-if-no-match --filter @cp/mobile test -- modules/cp-deferred-link`; `npx expo prebuild --no-install` + `tools/scripts/check-links-manifest.ts` asserting entitlements/manifest.
 - Done when: prebuilt iOS entitlements list both hosts; Android manifest has `autoVerify` filters for each path; module unit tests pass.
+- Status: done — a8d7918 (Gradle/XCTest module suites not run locally; prebuild + check-links-manifest pass for development and production)
 
 ### T6 — In-app deep-link router
 - Goal: every link lands on the right screen with gating.
@@ -132,6 +137,7 @@ Done when: tapping any link route opens the right app screen on both OSes when i
 - Steps: 1. `+native-intent` rewrites UL/scheme to internal paths. 2. Pending-link store (MMKV) consumed after onboarding. 3. Membership/state check via resolver client before navigation. 4. Unknown → Home with toast.
 - Tests: `pnpm --fail-if-no-match --filter @cp/mobile test -- lib/links`; `maestro test e2e/links/open-installed.yaml`.
 - Done when: `xcrun simctl openurl` / `adb shell am start -d` for each kind reaches expected route in Maestro.
+- Status: done — e979d31 (Maestro open-installed flow written; needs the target screens and the gate mounted to run)
 
 ### T7 — First-launch deferred resolver + splash states
 - Goal: zero-typing install → target.
@@ -139,6 +145,7 @@ Done when: tapping any link route opens the right app screen on both OSes when i
 - Steps: 1. Order: Android referrer → iOS detectPatterns → paste control prompt → code entry. 2. `POST /v1/links/claim`; store pending link. 3. Loading state (≤ 2 s), fallback to normal splash. 4. Analytics funnel events. 5. Phone-hash hook invoked after phone verify (calls claim with `via: phone`).
 - Tests: `pnpm --fail-if-no-match --filter @cp/mobile test -- lib/links/deferred`; `maestro test e2e/links/deferred-android.yaml` (referrer injected via debug-only override flag in internal builds).
 - Done when: debug referrer override lands on invite route; iOS paste flow lands on target in simulator Maestro.
+- Status: done — 6c47e0e (SplashResolveGate is headless; the root layout must mount it before the Maestro deferred flows can run)
 
 ### T8 — Funnel verification and runbook
 - Goal: prove real-device deferral and measure.

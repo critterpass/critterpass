@@ -24,22 +24,38 @@ export const SYNCED_TABLE_COLUMNS = {
     'name settlement_currency member_ceiling:integer membership_epoch:integer created_by created_at updated_at',
   destinations:
     'slug name country coverage colour currency best_months tz geofence created_at updated_at',
+  devices:
+    'user_id platform bundle_id os_version app_version locale tz permission_state attribution capabilities la_enabled:integer la_frequent:integer foreground:integer last_seen_at created_at updated_at',
   fx_snapshots: 'base quote rate as_of source created_at',
   guide_actions:
-    'trip_id change_set_id kind target_provider_id channel status reversible:integer compensates_id cost_delta_minor:integer audit created_at updated_at',
+    'trip_id change_set_id kind target_provider_id channel status reversible:integer compensates_id cost_delta_minor:integer audit inverse undo_until disruption_id created_at updated_at',
   guide_offer_claims: 'offer_id trip_id user_id created_at',
   guide_offers:
     'trip_id message_id kind slots_total:integer slots_taken:integer expires_at target_ref status created_at updated_at',
   guides: 'slug name colour persona_pack_version voice_id local_words created_at updated_at',
+  inbox_items:
+    'user_id crew_id trip_id notification_id kind needs_you:integer actions deep_link expires_at undo_until resolved_at created_at updated_at',
   itinerary_versions:
     'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at',
+  join_codes:
+    'code target_kind target_id crew_id created_by expires_at max_uses:integer uses:integer status created_at updated_at',
   map_regions: 'destination_id pmtiles_key bytes:integer version created_at updated_at',
+  notification_prefs:
+    'user_id budget_per_day:integer roundup_time roundup_tz quiet_from quiet_to guide_tips:integer money:integer critters_nearby:integer crew_chat_mode leave_by_dnd:integer per_category voice_readout:integer created_at updated_at',
+  notifications:
+    'user_id crew_id trip_id event_id key category class sender template_id title body items ctx deep_link collapse_key thread_id dedupe_key is_private:integer needs_you:integer llm_generated:integer local_date not_before expires_at state drop_reason sent_at created_at updated_at',
   perks: 'key tier copy_key is_shipped:integer sort:integer created_at updated_at',
+  ping_ledger:
+    'user_id local_date sent_budgeted:integer sent_always:integer sent_local:integer paywall_sent:integer queued:integer created_at updated_at',
   plan_days: 'version_id trip_id day_no:integer date theme weather_ref created_at updated_at',
   plan_items:
     'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at',
   pois: 'destination_id name name_local category lat:real lng:real location address hours hours_verified_at price_level:integer source_ids editorial tags fts status curation merged_into_id geofence visit_radius_m:integer timezone last_live_check_at created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',
+  roundups:
+    'user_id local_date tz guide_id notification_ids lines sent_at fallback_used:integer created_at updated_at',
+  scheduled_deliveries:
+    'user_id kind target_ref send_at_local tz due_at payload status created_at updated_at',
   trip_entitlements:
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
   trip_participants:

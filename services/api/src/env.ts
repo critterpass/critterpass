@@ -23,7 +23,8 @@ export const apiEnvSchema = z.object({
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   /** Pooled connection (PgBouncer, port 6432) used by request transactions. */
   DATABASE_URL: z.url(),
-  /** Direct connection (port 5432), read only by the pre-deploy migration step. */
+  /** Direct connection (port 5432): the pre-deploy migration step and the job producer (pg-boss needs
+   *  session-level advisory locks, which PgBouncer transaction pooling cannot give). */
   DATABASE_DIRECT_URL: optionalUrl,
   REDIS_URL: z.url(),
   PUBLIC_BASE_URL: z.url(),
@@ -124,6 +125,16 @@ export const apiEnvSchema = z.object({
   MEDIA_HMAC_KEYS: optionalString,
   /** Key id in MEDIA_HMAC_KEYS new read URLs are signed with. */
   MEDIA_HMAC_ACTIVE_KID: optionalString,
+
+  // --- Links (docs/api-contracts.md §5.6) ---
+  /** JSON `{"kid": "secret"}` seat-token HMAC keys (kid 1-8 of [a-z0-9], secrets 32+ chars); unset =
+   *  no seat link verifies, so claims carrying a seat token are refused. */
+  SEAT_TOKEN_KEYS: optionalString,
+  /** Key id in SEAT_TOKEN_KEYS new seat tokens are signed with. */
+  SEAT_TOKEN_ACTIVE_KID: optionalString,
+  /** Shared with the web Worker's own `LINKS_WEB_PROXY_SECRET`: lets its server-side preview calls
+   *  pass the visitor's IP and user agent. Unset = visitor headers are ignored. */
+  LINKS_WEB_PROXY_SECRET: z.preprocess(emptyAsUndefined, z.string().min(32).optional()),
 });
 
 export type ApiEnv = z.infer<typeof apiEnvSchema>;

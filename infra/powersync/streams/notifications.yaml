@@ -1,0 +1,15 @@
+# Device and notification rows synced to their owner (docs/data-model-sync-and-privacy.md §4). Queries
+# join the core `me` stream. Stream filters cannot compare against now(), so the notifications window
+# is bounded by the retention purge rather than by date. push_tokens is API-only and never synced.
+
+streams:
+  me:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM devices WHERE user_id = auth.user_id()
+      - SELECT * FROM notifications WHERE user_id = auth.user_id()
+      - SELECT *, user_id AS id FROM notification_prefs WHERE user_id = auth.user_id()
+      - SELECT * FROM ping_ledger WHERE user_id = auth.user_id()
+      - SELECT * FROM roundups WHERE user_id = auth.user_id()
+      - SELECT * FROM inbox_items WHERE user_id = auth.user_id()
+      - SELECT * FROM scheduled_deliveries WHERE user_id = auth.user_id()

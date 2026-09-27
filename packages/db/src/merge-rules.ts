@@ -29,6 +29,13 @@ export interface MergeRule {
    * uid instead of a raw `DELETE FROM <table>`.
    */
   readonly viaFunction?: string;
+  /**
+   * Rows that only mean something to their own user (devices, notifications). They follow the
+   * user on merge, but they are not data anyone else relies on: deleting the user deletes them
+   * (their `user_id` foreign key cascades), so account GC neither keeps an account for them nor
+   * deletes them one by one.
+   */
+  readonly personal?: boolean;
 }
 
 const registry = new Map<string, MergeRule>();
@@ -120,4 +127,56 @@ registerMergeRule({
   userColumn: 'user_id',
   strategy: 'union',
   conflictColumns: ['offer_id'],
+});
+
+// A join code keeps working after its creator's anonymous uid merges: the code follows the user.
+registerMergeRule({ table: 'join_codes', userColumn: 'created_by', strategy: 'reassign' });
+
+// Devices and the notification router's tables (docs/data-model.md §3.11). The anon uid's device is
+// the one the user is holding right now, so it (and everything addressed to it) follows the user.
+// Per-date and per-dedupe-key rows collide with the existing uid's own: existing wins. Prefs are a
+// singleton per user, like user_settings.
+registerMergeRule({
+  table: 'devices',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  personal: true,
+});
+registerMergeRule({
+  table: 'notifications',
+  userColumn: 'user_id',
+  strategy: 'union',
+  conflictColumns: ['dedupe_key'],
+  personal: true,
+});
+registerMergeRule({
+  table: 'notification_prefs',
+  userColumn: 'user_id',
+  strategy: 'keep_existing',
+});
+registerMergeRule({
+  table: 'ping_ledger',
+  userColumn: 'user_id',
+  strategy: 'union',
+  conflictColumns: ['local_date'],
+  personal: true,
+});
+registerMergeRule({
+  table: 'roundups',
+  userColumn: 'user_id',
+  strategy: 'union',
+  conflictColumns: ['local_date'],
+  personal: true,
+});
+registerMergeRule({
+  table: 'inbox_items',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  personal: true,
+});
+registerMergeRule({
+  table: 'scheduled_deliveries',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  personal: true,
 });

@@ -23,13 +23,23 @@ import { localeCodes } from '../src/locales';
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const registryDir = join(packageRoot, 'src', 'catalog-registry');
 
-/** Catalog names for a locale: every `.po` file already extracted for it (lingui.config.ts owns the list). */
-function catalogNamesFor(locale: string): string[] {
-  const dir = join(packageRoot, 'locales', locale);
+/** `.po` catalog names directly inside `dir`, prefixed with `prefix`. */
+function poNamesIn(dir: string, prefix: string): string[] {
   return readdirSync(dir, { withFileTypes: true })
     .filter((entry) => entry.isFile() && entry.name.endsWith('.po'))
-    .map((entry) => entry.name.slice(0, -'.po'.length))
-    .sort();
+    .map((entry) => `${prefix}${entry.name.slice(0, -'.po'.length)}`);
+}
+
+/**
+ * Catalog names for a locale: every `.po` file already extracted for it (lingui.config.ts owns the
+ * list), including one level of nested catalogs such as `notifications/common`.
+ */
+function catalogNamesFor(locale: string): string[] {
+  const dir = join(packageRoot, 'locales', locale);
+  const nested = readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .flatMap((entry) => poNamesIn(join(dir, entry.name), `${entry.name}/`));
+  return [...poNamesIn(dir, ''), ...nested].sort();
 }
 
 function writeLocaleRegistry(locale: string, catalogNames: string[]): void {

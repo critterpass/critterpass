@@ -14,6 +14,8 @@ export const catalogs: Record<string, () => Promise<Messages>> = {
   "home": () => import('../../locales/ms/home').then((m) => m.messages),
   "monetize": () => import('../../locales/ms/monetize').then((m) => m.messages),
   "money": () => import('../../locales/ms/money').then((m) => m.messages),
+  "notifications/common": () => import('../../locales/ms/notifications/common').then((m) => m.messages),
+  "notifications/roundup": () => import('../../locales/ms/notifications/roundup').then((m) => m.messages),
   "onboarding": () => import('../../locales/ms/onboarding').then((m) => m.messages),
   "plan": () => import('../../locales/ms/plan').then((m) => m.messages),
   "proposal": () => import('../../locales/ms/proposal').then((m) => m.messages),

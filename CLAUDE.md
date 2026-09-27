@@ -29,6 +29,8 @@ Precedence: product-decisions §1 > §2 > contracts > older reports > design fil
 - Wire errors: `{error: {code, message, retryable, detail?}}` with codes from `docs/api-contracts.md` §3.
 - Local infra: `pnpm infra:up` (Postgres `54320`, Redis `63790`, Centrifugo `8000`, PowerSync `8080`); Testcontainers use the same Postgres image via `@cp/db/testing`.
 - The brand is written **CritterPass** in user-facing text (app name, copy, web, store listings); identifiers, packages, bundle ids and domains stay lowercase (`critterpass`).
+- Property-based (fast-check) and golden/render suites set an explicit budget (`describe(name, { timeout: 60_000 }, ...)`): CI runners are about 3× slower than this Mac.
+- After changing the Drizzle schema of a synced table (or the powersync publication), regenerate the mobile schema: `pnpm --filter @cp/mobile exec tsx src/data/powersync/test-support/synced-schema-source.ts --write`.
 - Relative imports are extensionless (`./load`, never `./load.js`): Metro cannot map `.js` to `.ts`, and lint rejects it in the app and packages.
 - Run `pnpm exec prettier --write` on what you changed before committing; CI runs `pnpm format:check`. Generated output (catalogs, generated CSS) is listed in `.prettierignore` instead of being hand-formatted.
 - `tools/scripts/no-plan-ids.test.ts` fails CI when feature, decision, question, phase or task ids appear in tracked source; privacy classes `C0`–`C5` are fine.

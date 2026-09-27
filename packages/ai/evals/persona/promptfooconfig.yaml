@@ -1,0 +1,10 @@
+# Persona voice and chattiness: every guide's reply stays in its own voice, inside the sentence
+# budget of the chattiness setting, using local words only from its own vetted list. Voice itself
+# is an llm-rubric, graded in live runs. Run: pnpm --filter @cp/ai eval persona
+description: Persona voice and chattiness
+prompts:
+  - '{{question}}'
+providers:
+  - id: file://../lib/provider.ts
+tests:
+  - file://cases.yaml

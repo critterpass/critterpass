@@ -43,6 +43,26 @@ function op(select: boolean, insert: boolean, update: boolean): TableOpExpectati
 
 const F = op(false, false, false);
 
+/** RLS class O, user-written: anyone may insert their own row; only the organiser's is probed. */
+const SELF_ONLY: Readonly<Record<ActorKind, TableOpExpectation>> = {
+  outsider: op(false, true, false),
+  exMember: op(false, true, false),
+  anonymous: op(false, true, false),
+  member: op(false, true, false),
+  coOrganiser: op(false, true, false),
+  organiser: op(true, true, true),
+};
+
+/** RLS class O, system-written: the owner may read its own row and nothing else. */
+const OWNER_READ: Readonly<Record<ActorKind, TableOpExpectation>> = {
+  outsider: F,
+  exMember: F,
+  anonymous: F,
+  member: F,
+  coOrganiser: F,
+  organiser: op(true, false, false),
+};
+
 export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   users: {
     selectProbe: { sql: 'SELECT 1 FROM users WHERE id = $1', params: (f) => [f.actors.organiser] },
@@ -569,6 +589,22 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: F,
     },
   },
+  // RLS class M: active crew members read their crew's codes (the fixture code is the crew's own);
+  // writes belong to app_system. Non-members resolve a code only via app.lookup_join_code.
+  join_codes: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM join_codes WHERE crew_id = $1',
+      params: (f) => [f.crewId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
   // Own jobs (stream `me`) plus every job on a trip the caller organises (stream `trip_draft`);
   // the fixture job belongs to the member. Written by app_system only.
   agent_jobs: {
@@ -637,6 +673,67 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       coOrganiser: F,
       organiser: F,
     },
+  },
+  // Devices and the notification router's tables (docs/data-model.md §3.11), all RLS class O.
+  // Self-owned (user writes its own row): devices, notification_prefs, scheduled_deliveries.
+  devices: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM devices WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: SELF_ONLY,
+  },
+  notification_prefs: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM notification_prefs WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: SELF_ONLY,
+  },
+  scheduled_deliveries: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM scheduled_deliveries WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: SELF_ONLY,
+  },
+  // Owner-read, system-written: the router's own bookkeeping.
+  notifications: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM notifications WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
+  ping_ledger: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM ping_ledger WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
+  roundups: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM roundups WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
+  // System-created, owner may only resolve (column UPDATE grant on resolved_at).
+  inbox_items: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM inbox_items WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: { ...OWNER_READ, organiser: op(true, false, true) },
+  },
+  // Readable through the owning device only; every write goes through app_system.
+  push_tokens: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM push_tokens t JOIN devices d ON d.id = t.device_id WHERE d.user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
   },
 };
 

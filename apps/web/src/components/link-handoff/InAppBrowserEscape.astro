@@ -1,0 +1,47 @@
+---
+import type { InAppBrowser, LinkPlatform } from '../../lib/links/ua';
+
+export interface Props {
+  readonly inAppBrowser: InAppBrowser;
+  readonly platform: LinkPlatform;
+  readonly link: string;
+  readonly openInChromeHref: string | null;
+}
+
+const { inAppBrowser, platform, link, openInChromeHref } = Astro.props;
+const APP_NAMES: Record<InAppBrowser, string> = {
+  instagram: 'Instagram',
+  tiktok: 'TikTok',
+  facebook: 'Facebook',
+  messenger: 'Messenger',
+  line: 'LINE',
+  whatsapp: 'WhatsApp',
+  x: 'X',
+};
+const browserName = platform === 'ios' ? 'Safari' : 'your browser';
+---
+
+<div class="lh-escape" role="dialog" aria-modal="true" aria-labelledby="lh-escape-title" data-escape data-testid="in-app-escape">
+  <div class="lh-escape__card">
+    <p class="lh-eyebrow">Almost there</p>
+    <h2 id="lh-escape-title" class="lh-escape__title">Open in {browserName}</h2>
+    <p class="lh-escape__body">
+      {APP_NAMES[inAppBrowser]}'s browser can't open CritterPass. Tap <strong>•••</strong> at the top
+      and choose <strong>Open in {browserName}</strong>, or copy the link and paste it there.
+    </p>
+    <div class="lh-escape__actions">
+      {
+        openInChromeHref !== null && (
+          <a class="lh-cta" href={openInChromeHref} data-testid="open-in-chrome">
+            Open in Chrome
+          </a>
+        )
+      }
+      <button type="button" class="lh-store lh-copy" data-copy-only={link} data-testid="copy-link">
+        <span class="lh-copy__idle">Copy link</span>
+        <span class="lh-copy__done">Copied</span>
+      </button>
+      <button type="button" class="lh-escape__dismiss" data-escape-dismiss>Not now</button>
+    </div>
+  </div>
+</div>

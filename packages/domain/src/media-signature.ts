@@ -125,6 +125,11 @@ export async function verifyMediaSignature(
   } catch {
     return { status: 'malformed', reason: 'sig is not valid base64url' };
   }
+  // The last base64url character carries unused padding bits, so several strings decode to the same
+  // bytes; only the canonical encoding is accepted, which keeps each signature single-valued.
+  if (base64UrlEncode(signatureBytes) !== sig) {
+    return { status: 'malformed', reason: 'sig is not canonical base64url' };
+  }
 
   const key = await importHmacKey(secret, 'verify');
   const message = new TextEncoder().encode(signaturePayload(objectKey, variant, exp));

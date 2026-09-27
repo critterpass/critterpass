@@ -39,6 +39,53 @@ async function seedTimers(rows: number, status: string, ageDays: number): Promis
   );
 }
 
+/** One user's notification rows on both sides of each table's retention window. */
+async function seedNotificationTables(): Promise<{
+  uid: string;
+  deviceId: string;
+  inboxId: string;
+}> {
+  const uid = randomUUID();
+  const deviceId = randomUUID();
+  await q("INSERT INTO users (id, status) VALUES ($1, 'anonymous')", [uid]);
+  await q(
+    `INSERT INTO devices (id, user_id, platform, app_version, locale, tz)
+     VALUES ($1, $2, 'ios', '1.0.0', 'en', 'UTC')`,
+    [deviceId, uid],
+  );
+  const { rows } = await q(
+    `INSERT INTO notifications (user_id, key, category, class, sender, template_id, title, body,
+       dedupe_key, local_date, created_at)
+     SELECT $1, 'nudge', 'cp.generic', 'budgeted', '{"kind":"system"}', 't', 't', 't', k, CURRENT_DATE,
+       now() - make_interval(days => d)
+     FROM (VALUES ('old', 91), ('new', 10)) AS v(k, d)
+     RETURNING id, dedupe_key`,
+    [uid],
+  );
+  const oldNotification = (rows as { id: string; dedupe_key: string }[]).find(
+    (r) => r.dedupe_key === 'old',
+  );
+  const inbox = await q(
+    "INSERT INTO inbox_items (user_id, kind, notification_id) VALUES ($1, 'nudge', $2) RETURNING id",
+    [uid, oldNotification?.id],
+  );
+  await q(
+    `INSERT INTO ping_ledger (user_id, local_date) VALUES ($1, CURRENT_DATE - 31), ($1, CURRENT_DATE)`,
+    [uid],
+  );
+  await q(
+    `INSERT INTO roundups (user_id, local_date, tz) VALUES ($1, CURRENT_DATE - 31, 'UTC'), ($1, CURRENT_DATE, 'UTC')`,
+    [uid],
+  );
+  await q(
+    `INSERT INTO push_tokens (device_id, kind, token, env, invalid_at)
+     SELECT $1, 'apns_alert', gen_random_uuid()::text, 'prod', v.at
+     FROM (VALUES (now() - interval '8 days'), (now() - interval '1 day'), (NULL::timestamptz)) AS v(at)`,
+    [deviceId],
+  );
+  return { uid, deviceId, inboxId: (inbox.rows[0] as { id: string }).id };
+}
+
 describe('maint.purge', () => {
   it('deletes only expired rows, in batches of at most 5000', async () => {
     // Timers are few: every row pays scheduled_events' time-zone check (a pg_timezone_names scan).
@@ -79,6 +126,8 @@ describe('maint.purge', () => {
              ORDER BY op_id LIMIT 8) AS picked`,
     );
 
+    const notified = await seedNotificationTables();
+
     const reports = await purgeExpired(harness.pool, { batchSize: 9000 });
     const byTable = new Map<string, PurgeTableReport>(reports.map((r) => [r.table, r]));
 
@@ -105,6 +154,24 @@ describe('maint.purge', () => {
 
     expect(byTable.get('notifications')).toEqual({
       table: 'notifications',
+      deleted: 1,
+      batches: [1],
+    });
+    expect(await count('FROM notifications WHERE user_id = $1', [notified.uid])).toBe(1);
+    // The inbox item outlives the notification it came from; only the link is cleared.
+    expect(
+      await count('FROM inbox_items WHERE id = $1 AND notification_id IS NULL', [notified.inboxId]),
+    ).toBe(1);
+    expect(byTable.get('ping_ledger')?.deleted).toBe(1);
+    expect(byTable.get('roundups')?.deleted).toBe(1);
+    expect(byTable.get('push_tokens')?.deleted).toBe(1);
+    expect(await count('FROM push_tokens WHERE device_id = $1', [notified.deviceId])).toBe(2);
+
+    const [missing] = await purgeExpired(harness.pool, {
+      rules: [{ kind: 'direct', table: 'not_created_yet', column: 'created_at', ttlDays: 30 }],
+    });
+    expect(missing).toEqual({
+      table: 'not_created_yet',
       deleted: 0,
       batches: [],
       skipped: 'missing_table',
@@ -154,10 +221,27 @@ async function seedAccount(spec: AccountSpec): Promise<string> {
     spec.purchase ?? false,
     spec.purchase ? '["app_store"]' : '[]',
   ]);
+  // The install the key belongs to, with a token and a notification: personal rows that go with it.
+  const deviceId = randomUUID();
+  await q(
+    `INSERT INTO devices (id, user_id, platform, app_version, locale, tz)
+     VALUES ($1, $2, 'ios', '1.0.0', 'en', 'UTC')`,
+    [deviceId, uid],
+  );
+  await q(
+    "INSERT INTO push_tokens (device_id, kind, token, env) VALUES ($1, 'apns_alert', $2, 'prod')",
+    [deviceId, `token-${uid}`],
+  );
+  await q(
+    `INSERT INTO notifications (user_id, key, category, class, sender, template_id, title, body,
+       dedupe_key, local_date)
+     VALUES ($1, 'nudge', 'cp.generic', 'budgeted', '{"kind":"system"}', 't', 't', 't', 'seed', CURRENT_DATE)`,
+    [uid],
+  );
   await q(
     `INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
-     VALUES (gen_random_uuid()::text, gen_random_uuid(), $1, 'enc', '{read_notification}', now() + interval '30 days')`,
-    [uid],
+     VALUES (gen_random_uuid()::text, $2, $1, 'enc', '{read_notification}', now() + interval '30 days')`,
+    [uid, deviceId],
   );
   if (spec.sessionDaysAgo !== undefined) {
     await q(
@@ -198,8 +282,12 @@ describe('maint.anon_gc', () => {
     expect(await exists(stale)).toEqual({ users: 0, auth: 0, keys: 0 });
     expect(await count('FROM user_settings WHERE user_id = $1', [stale])).toBe(0);
     expect(await count('FROM auth.session WHERE user_id = $1', [stale])).toBe(0);
+    expect(await count('FROM devices WHERE user_id = $1', [stale])).toBe(0);
+    expect(await count('FROM notifications WHERE user_id = $1', [stale])).toBe(0);
+    expect(await count("FROM push_tokens WHERE token = 'token-' || $1", [stale])).toBe(0);
     for (const kept of [recentSession, inCrew, purchased, registered, young]) {
       expect(await exists(kept)).toEqual({ users: 1, auth: 1, keys: 1 });
+      expect(await count('FROM devices WHERE user_id = $1', [kept])).toBe(1);
     }
     expect(await collectAnonymousAccounts(harness.pool, silent)).toEqual({
       deleted: 0,

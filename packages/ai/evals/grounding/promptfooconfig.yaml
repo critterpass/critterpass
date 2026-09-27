@@ -1,0 +1,10 @@
+# Grounding: the guide may only name ids and quote numbers and times that a tool returned this
+# turn. Cases pair tool outputs with a recorded answer; the grounding validators must pass the
+# grounded answers and catch the invented ones. Run: pnpm --filter @cp/ai eval grounding
+description: Grounding of ids, numbers and times
+prompts:
+  - '{{question}}'
+providers:
+  - id: file://../lib/provider.ts
+tests:
+  - file://cases.yaml

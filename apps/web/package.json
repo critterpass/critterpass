@@ -8,15 +8,19 @@
     "build": "astro build",
     "lint": "eslint .",
     "typecheck": "astro check",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "test:e2e": "playwright test -c tests/links/playwright.config.ts"
   },
   "dependencies": {
-    "astro": "7.3.5",
     "@astrojs/cloudflare": "14.3.3",
-    "@cp/critter-art": "workspace:*"
+    "@cp/critter-art": "workspace:*",
+    "@cp/domain": "workspace:*",
+    "astro": "7.3.5",
+    "uqr": "catalog:"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
+    "@playwright/test": "catalog:",
     "playwright": "catalog:",
     "typescript": "catalog:",
     "wrangler": "4.141.0"

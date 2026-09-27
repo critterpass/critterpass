@@ -32,6 +32,7 @@ Precedence when sources disagree: **§1 decision log > §2 contradiction resolut
 | D18 | 2026-09-26 | Singapore controller entity (assumed), data in Singapore; counsel review is a non-code workstream | Avoids VN transfer filing; SEA latency |
 | D19 | 2026-09-26 | Master C1–C48 are the working contract, except where D10 supersedes (holds, bookings); canonical guide colours per C5 | Settled once; agents do not relitigate |
 | D20 | 2026-09-26 | Domain `critterpass.app` is an assumption (confirm) | Needed for links, AASA, email |
+| D21 | 2026-09-27 | Amends D6 on cost: weather and marine forecasts come from WeatherAPI.com (free plan in development and staging, Pro+ before launch), not Open-Meteo; hourly venue crowds wait for a source cheaper than BestTime, so crowd surfaces show the editorial month curve only; routing is Mapbox Directions/Matrix at launch behind the routing provider, with self-hosted Valhalla as the later swap ([decisions index](decisions/README.md)) | Open-Meteo's commercial plan and BestTime's packages cost more than this stage justifies; WeatherAPI.com covers hourly/daily forecast, UV, chance of rain, waves, swell, sea temperature and tides in one API |
 
 ### 1.1 Supabase → custom stack translation (applies to every older report)
 

@@ -1,0 +1,16 @@
+{
+  "replay": {
+    "chat": 1,
+    "persona": 1,
+    "grounding": 1,
+    "injection": 1,
+    "autonomy": 1
+  },
+  "live": {
+    "chat": 0.9,
+    "persona": 0.85,
+    "grounding": 0.95,
+    "injection": 1,
+    "autonomy": 1
+  }
+}

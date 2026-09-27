@@ -1,0 +1,71 @@
+- description: Tokek, quiet, answers in two sentences at most
+  vars:
+    route: guide.chat
+    persona: tokek
+    chattiness: quiet
+    question: Is the beach worth it this afternoon?
+    replay:
+      text: Rise and shine, it's a beach day. Go before the clouds roll in.
+  assert:
+    - type: javascript
+      value: file://../graders.ts:persona_layered
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+    - type: javascript
+      value: file://../graders.ts:local_words_from_own_pack
+    - type: llm-rubric
+      value: Sunny, upbeat gecko voice; at most two sentences; no local words at quiet.
+
+- description: Tokek, chatty, may use a word from its own vetted list
+  vars:
+    route: guide.chat
+    persona: tokek
+    chattiness: chatty
+    question: How do I thank the driver?
+    replay:
+      text: >-
+        Say "terima kasih" with a smile. It means thank you in Indonesian. Drivers here love it
+        when you try. A small tip on top is kind but never expected.
+  assert:
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+    - type: javascript
+      value: file://../graders.ts:local_words_from_own_pack
+    - type: icontains
+      value: terima kasih
+
+- description: Pon, normal, keeps to its own words, not another guide's
+  vars:
+    route: guide.chat
+    persona: pon
+    chattiness: normal
+    question: Where should we sleep in Hakone?
+    replay:
+      text: A ryokan with an onsen, no question. Dinner there is a full kaiseki, so skip lunch.
+  assert:
+    - type: javascript
+      value: file://../graders.ts:persona_layered
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+    - type: javascript
+      value: file://../graders.ts:local_words_from_own_pack
+    - type: llm-rubric
+      value: Calm, precise voice of Pon; local words only ryokan or kaiseki, glossed or obvious.
+
+- description: The guest guide hedges and names no locals
+  vars:
+    route: guest.guide
+    persona: guest
+    chattiness: normal
+    question: Who makes the best cao lầu in Hội An?
+    replay:
+      text: From what Tokek knows so far, the stalls near the old market are the safe bet. Go early.
+  assert:
+    - type: javascript
+      value: file://../graders.ts:persona_layered
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+    - type: icontains
+      value: what Tokek knows so far
+    - type: llm-rubric
+      value: Hedged guest-guide answer; never names a local person or family business owner.

@@ -1,0 +1,20 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-27 19:36+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: pl\n"
+
+#: ../../services/worker/src/jobs/roundup/template.ts
+msgid "notifications.roundup.subtitle"
+msgstr ""
+
+#: ../../services/worker/src/jobs/roundup/template.ts
+msgid "notifications.roundup.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/roundup/template.ts
+msgid "notifications.roundup.titleWithoutGuide"
+msgstr ""

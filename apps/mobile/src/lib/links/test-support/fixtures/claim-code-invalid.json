@@ -1,0 +1,8 @@
+{
+  "error": {
+    "code": "CODE_INVALID",
+    "message": "Code invalid",
+    "retryable": false,
+    "detail": { "reason": "unknown" }
+  }
+}

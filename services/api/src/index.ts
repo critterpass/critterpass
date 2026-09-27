@@ -29,17 +29,28 @@ import { sessionRevokeRealtimeMiddleware } from './realtime/session-revoke-hook'
 import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerWhatsAppWebhookRoutes } from './routes/webhooks-whatsapp';
 import { createCommandRegistry } from './commands/_framework/registry';
+import { registerDeviceCommands } from './commands/device';
 import { betterAuthSessionResolver } from './commands/_framework/session';
 import { registerCmdResultsRoute } from './routes/cmd-results';
 import { registerCommandRoute } from './routes/cmd';
 import { registerSyncUploadRoute } from './routes/sync-upload';
 import { registerJobsRoute } from './ai/jobs-route';
+import { undoGuideActionCommand } from './ai/undo-guide-action';
 import { createR2Client } from './media/r2';
 import { registerMediaUploadCommand } from './media/register-media-upload';
 import { mediaSigningConfigFromEnv } from './media/sign';
 import { registerMediaRoutes } from './routes/media';
 import { createMapboxRoutingProvider } from './routing/eta';
 import { MapboxRoutingClient } from './routing/mapbox';
+import { createClaimAttributionCommand } from './commands/attribution/claim-attribution';
+import { joinCodeProvider } from './links/join-code-provider';
+import { createLinkProviderRegistry } from './links/registry';
+import { registerLinkRoutes } from './routes/links';
+import { seatTokenKeyringFromJson, type LinkEnvironment } from '@cp/domain';
+import { registerActionKeyRoutes } from './routes/action-keys';
+import { registerActionsRoute } from './routes/actions';
+import { registerNotificationRoutes } from './routes/notifications';
+import { routeNotificationsFromApiEvents, startJobProducer } from './jobs/producer';
 
 const env = loadApiEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'api', commit: env.COMMIT_SHA } });
@@ -160,9 +171,42 @@ if (env.WHATSAPP_APP_SECRET && env.WHATSAPP_VERIFY_TOKEN) {
   );
 }
 
+// Send-only pg-boss for enqueue-in-transaction (docs/api-contracts-async.md §2.1), and notification
+// routing for every domain event this process appends. Until the producer has started, a command
+// that must enqueue fails retryably rather than dropping its job.
+const jobProducer = startJobProducer({
+  connectionString: env.DATABASE_DIRECT_URL ?? env.DATABASE_URL,
+  logger,
+}).catch((error: unknown) => {
+  logger.error({ err: error }, 'job producer failed to start; enqueueing commands will fail');
+  return undefined;
+});
+routeNotificationsFromApiEvents();
+
 // The three command doors over one registry (docs/api-contracts.md §2.2, §5.2).
 const commands = createCommandRegistry();
 commands.register(registerMediaUploadCommand);
+registerDeviceCommands(commands);
+commands.register(undoGuideActionCommand);
+
+// Links (docs/api-contracts.md §5.6): providers per link kind, the claim command, public routes.
+const linkProviders = createLinkProviderRegistry();
+linkProviders.register(joinCodeProvider);
+const LINK_ENVIRONMENT_BY_APP_ENV: Record<typeof env.APP_ENV, LinkEnvironment> = {
+  production: 'production',
+  staging: 'staging',
+  local: 'development',
+};
+const seatKeys =
+  env.SEAT_TOKEN_KEYS !== undefined && env.SEAT_TOKEN_ACTIVE_KID !== undefined
+    ? seatTokenKeyringFromJson(env.SEAT_TOKEN_KEYS, env.SEAT_TOKEN_ACTIVE_KID).keys
+    : {};
+commands.register(
+  createClaimAttributionCommand({
+    registry: linkProviders,
+    config: { env: LINK_ENVIRONMENT_BY_APP_ENV[env.APP_ENV], seatKeys },
+  }),
+);
 const commandDoors = {
   pool,
   registry: commands,
@@ -174,6 +218,27 @@ registerCommandRoute(app, commandDoors);
 registerSyncUploadRoute(app, commandDoors);
 registerCmdResultsRoute(app, commandDoors);
 registerJobsRoute(app, commandDoors);
+registerLinkRoutes(app, {
+  ...commandDoors,
+  links: linkProviders,
+  webProxySecret: env.LINKS_WEB_PROXY_SECRET,
+});
+// Device action keys and the doors they open (docs/api-contracts-async.md §5): keys are stored
+// envelope-encrypted, so every route here needs the field-encryption keyring.
+if (fieldEncryptionKeyring) {
+  const actionDeps = {
+    pool,
+    registry: commands,
+    sessions: commandDoors.sessions,
+    redis,
+    keyring: fieldEncryptionKeyring,
+  };
+  registerActionKeyRoutes(app, actionDeps);
+  registerActionsRoute(app, actionDeps);
+  registerNotificationRoutes(app, actionDeps);
+} else {
+  logger.warn('Device action keys and /v1/actions are disabled: FIELD_ENCRYPTION_KEYS is unset');
+}
 if (env.RT_PROXY_SECRET) {
   registerInternalRtRoutes(app, { pool, redis, proxySecret: env.RT_PROXY_SECRET });
 } else {
@@ -228,6 +293,7 @@ function shutdown(signal: string) {
       pool.end(),
       redis.isOpen ? redis.close() : Promise.resolve(),
       authModule.close(),
+      jobProducer.then((boss) => boss?.stop({ graceful: true, timeout: 5_000 })),
     ]).then(() => {
       logger.info('stopped');
       process.exit(0);

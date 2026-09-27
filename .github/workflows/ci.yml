@@ -64,6 +64,8 @@ jobs:
       mobile: ${{ steps.filter.outputs.mobile }}
       critter_art: ${{ steps.filter.outputs.critter_art }}
       critter_macos: ${{ steps.filter.outputs.critter_macos }}
+      services: ${{ steps.filter.outputs.services }}
+      synced_schema: ${{ steps.filter.outputs.synced_schema }}
     steps:
       - uses: actions/checkout@v7
       - uses: dorny/paths-filter@v4
@@ -91,6 +93,19 @@ jobs:
               - 'apps/mobile/targets/**'
               - 'apps/mobile/jest.config.js'
               - 'design/**'
+              - '.github/workflows/ci.yml'
+            synced_schema:
+              - 'packages/db/src/schema/**'
+              - 'packages/db/src/publication.ts'
+              - 'infra/powersync/**'
+              - 'apps/mobile/src/data/powersync/**'
+            services:
+              - 'services/api/**'
+              - 'services/worker/**'
+              - 'packages/**'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - 'package.json'
               - '.github/workflows/ci.yml'
 
   critter-art-golden:
@@ -168,6 +183,38 @@ jobs:
         with: { node-version: 26, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm tsx tools/scripts/check-release-bundle.ts
+
+  synced-schema:
+    # The mobile app's local schema is generated from the server's Drizzle schema and the powersync
+    # publication. The app may not depend on @cp/db, so turbo never reruns its tests for a schema
+    # change; this job runs the drift check whenever either side changes.
+    name: mobile synced schema matches the server
+    needs: changes
+    if: needs.changes.outputs.synced_schema == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @cp/mobile exec jest src/data/powersync/__tests__/synced-schema
+
+  service-images:
+    # Builds the api and worker images exactly as Railway does, so a dependency or Dockerfile change
+    # that breaks a deploy fails its pull request instead of the next deploy.
+    name: service images build (${{ matrix.service }})
+    needs: changes
+    if: needs.changes.outputs.services == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [api, worker]
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker build -f services/${{ matrix.service }}/Dockerfile -t cp-${{ matrix.service }}-check .
 
   secrets:
     name: secret scan

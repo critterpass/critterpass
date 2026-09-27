@@ -44,3 +44,7 @@ if they were verified design values.
 | `SwipeStack` / `RateStack` (3d-2, 3o-3) | Empty deck | No render shows the deck after the last card. The components render a caller-supplied `empty` node so features compose an `EmptyState`. |
 | `SeatsRow` (4f-1) | Empty seats below capacity | Only the full crew plus the pulsing seventh seat is drawn. Unfilled seats render as dashed `border.decorative` circles. |
 | `ArLabels` (3j-3) | Clashing dish chip | The caption says clashing dishes "turn pink"; the pill fills `state.urgent` and the clash note keeps a paper chip so its words stay readable. |
+| Site-Invite (web `/i`, `/j`) | Invite expired / revoked / full | Same ticket card with a plain headline ("This invite has run out", "This invite was switched off", "Every seat is taken") and who to ask; store buttons stay so the visitor can still install |
+| Site-Invite (web link pages) | Link not found (unknown code, malformed path) | 404 with the ticket card ("This link doesn't work"), the code form and store buttons; the same page for every unknown code so codes cannot be enumerated |
+| Site-Invite (web `/p`, `/r`, `/plan`, `/g`, `/locals`, `/app`) | Non-invite link kinds | Generic ticket card with a kind-specific headline and "Open in CritterPass"; restyled with the site pages |
+| Site-Invite (web, in-app browsers) | Open-in-browser overlay | Yellow bottom sheet over the page: how to leave Instagram/TikTok/Facebook/Messenger/LINE/WhatsApp/X's browser, Copy link, Open in Chrome on Android |

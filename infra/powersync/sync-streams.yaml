@@ -16,6 +16,13 @@ streams:
       - SELECT *, op_id AS id FROM cmd_results WHERE uid = auth.user_id()
       - SELECT *, user_id AS id FROM user_entitlements WHERE user_id = auth.user_id()
       - SELECT * FROM usage_counters WHERE subject_kind = 'user' AND subject_id = auth.user_id()
+      - SELECT * FROM devices WHERE user_id = auth.user_id()
+      - SELECT * FROM notifications WHERE user_id = auth.user_id()
+      - SELECT *, user_id AS id FROM notification_prefs WHERE user_id = auth.user_id()
+      - SELECT * FROM ping_ledger WHERE user_id = auth.user_id()
+      - SELECT * FROM roundups WHERE user_id = auth.user_id()
+      - SELECT * FROM inbox_items WHERE user_id = auth.user_id()
+      - SELECT * FROM scheduled_deliveries WHERE user_id = auth.user_id()
   trip:
     queries:
       - |-
@@ -115,6 +122,11 @@ streams:
     query: |-
       SELECT * FROM users
       WHERE id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)
+  crew_invites:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM join_codes WHERE crew_id IN my_crews
+      - SELECT * FROM join_codes WHERE created_by = auth.user_id()
   catalog:
     auto_subscribe: true
     queries:

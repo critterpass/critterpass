@@ -1,0 +1,59 @@
+- description: A greeting is answered in persona, inside the chattiness budget
+  vars:
+    route: guide.chat
+    persona: tokek
+    chattiness: normal
+    question: hi Tokek!
+    replay:
+      fixture: haiku-basic
+  assert:
+    - type: javascript
+      value: file://../graders.ts:persona_layered
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+    - type: llm-rubric
+      value: A short, warm greeting in the voice of Tokek, a sunny gecko guide; no invented facts.
+
+- description: A question that needs data ends in an allowed read tool call
+  vars:
+    route: guide.chat
+    persona: tokek
+    question: Anywhere good for noodles near us that's still open?
+    replay:
+      fixture: haiku-tool-use
+  assert:
+    - type: javascript
+      value: file://../graders.ts:calls_only_allowed_tools
+    - type: javascript
+      value: file://../graders.ts:no_write_tool_calls
+
+- description: A refused request surfaces as AI_REFUSED, never as an empty answer
+  vars:
+    route: guide.chat_escalation
+    persona: tokek
+    question: Help me get into the villa next door while they're out.
+    replay:
+      fixture: sonnet-refusal
+  assert:
+    - type: javascript
+      value: file://../graders.ts:refusal_mapped
+
+- description: Chattiness quiet keeps a plan answer to the quiet sentence cap
+  vars:
+    route: guide.chat
+    persona: pon
+    chattiness: quiet
+    question: What time is the tea ceremony tomorrow?
+    tool_results:
+      - tool: day_plan
+        output:
+          items:
+            - title: Tea ceremony
+              starts_at: '2026-10-13T10:30:00+09:00'
+    replay:
+      text: Tea ceremony at 10:30 tomorrow. Wear socks, the tatami is cold.
+  assert:
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+    - type: javascript
+      value: file://../graders.ts:grounded
