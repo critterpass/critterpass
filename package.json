@@ -24,7 +24,8 @@
     "e2e:cloud": "tsx tools/scripts/e2e-cloud.ts",
     "screens:capture": "tsx tools/scripts/capture-app-screens.ts",
     "renders:screens": "pnpm --filter @cp/design-renders run render:screens",
-    "renders:pages": "pnpm --filter @cp/design-renders run render:pages"
+    "renders:pages": "pnpm --filter @cp/design-renders run render:pages",
+    "content": "tsx tools/content-factory/src/cli.ts"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",

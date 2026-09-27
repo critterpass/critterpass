@@ -417,7 +417,7 @@ CREATE POLICY content_reviews_system ON ops.content_reviews FOR ALL TO app_syste
   USING (true) WITH CHECK (true);
 CREATE POLICY content_reviews_admin_reader ON ops.content_reviews FOR SELECT TO admin_reader
   USING (true);
-GRANT SELECT, INSERT, UPDATE ON ops.content_reviews TO app_system;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ops.content_reviews TO app_system;
 GRANT SELECT ON ops.content_reviews TO admin_reader;
 
 -- The guide reads phrase cards and help articles through llm views only.

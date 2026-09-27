@@ -1,0 +1,59 @@
+{
+  "source": "api.deepseek.com 2026-09-27",
+  "request": {
+    "model": "deepseek-v4-pro",
+    "max_tokens": 16000,
+    "messages": [
+      {
+        "role": "user",
+        "content": "Write one question about mornings: two sides, each a label of at most 16 characters in capitals, a line of at most 30 characters and 1-2 tags, plus a chip of at most 16 characters."
+      }
+    ],
+    "thinking": {
+      "type": "enabled",
+      "budget_tokens": 8000
+    },
+    "system": [
+      {
+        "type": "text",
+        "text": "You write playful this-or-that travel questions. Reply with JSON only."
+      },
+      {
+        "type": "text",
+        "text": "# Reply format\n\nReply with one JSON value only: no prose before or after it and no code fences. It must match this JSON Schema:\n{\"type\":\"object\",\"properties\":{\"left\":{\"type\":\"object\",\"properties\":{\"label\":{\"type\":\"string\"},\"line\":{\"type\":\"string\"},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"street_food\",\"sit_down_dining\",\"coffee\",\"nightlife\",\"quiet_evenings\",\"early_starts\",\"late_starts\",\"easy_pace\",\"packed_days\",\"nature\",\"hiking\",\"beach\",\"culture\",\"history\",\"temples\",\"museums\",\"markets\",\"shopping\",\"wellness\",\"adventure\",\"photo_spots\",\"local_life\",\"splurge\",\"thrifty\"]}}},\"required\":[\"label\",\"line\",\"tags\"],\"additionalProperties\":false},\"right\":{\"type\":\"object\",\"properties\":{\"label\":{\"type\":\"string\"},\"line\":{\"type\":\"string\"},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"street_food\",\"sit_down_dining\",\"coffee\",\"nightlife\",\"quiet_evenings\",\"early_starts\",\"late_starts\",\"easy_pace\",\"packed_days\",\"nature\",\"hiking\",\"beach\",\"culture\",\"history\",\"temples\",\"museums\",\"markets\",\"shopping\",\"wellness\",\"adventure\",\"photo_spots\",\"local_life\",\"splurge\",\"thrifty\"]}}},\"required\":[\"label\",\"line\",\"tags\"],\"additionalProperties\":false},\"chip\":{\"type\":\"string\"}},\"required\":[\"left\",\"right\",\"chip\"],\"additionalProperties\":false}"
+      }
+    ],
+    "output_config": {
+      "effort": "low"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "98068195-b4b1-48b0-9e3b-e1554778cf3c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "We need to write one question about mornings. The format: left and right each with label (caps, <=16 chars), line (<=30 chars), tags (array of 1-2 from enum), and a chip (<=16 chars). The question is about mornings, so likely a playful this-or-that choice. Example: left label \"SUNRISE HIKE\", line \"Catch the first light on a trail\", tags [\"hiking\",\"early_starts\"], right label \"COFFEE IN BED\", line \"Slow start with a warm cup\", tags [\"coffee\",\"easy_pace\"], chip might be \"MORNING VIBES\" or something. Need to ensure all valid. Chip is a short phrase summarizing the question. Let me craft one. Keep it playful.",
+          "signature": "98068195-b4b1-48b0-9e3b-e1554778cf3c"
+        },
+        {
+          "type": "text",
+          "text": "{\n  \"left\": {\n    \"label\": \"SUNRISE HIKE\",\n    \"line\": \"Hit the trail before first light\",\n    \"tags\": [\"hiking\", \"early_starts\"]\n  },\n  \"right\": {\n    \"label\": \"COFFEE IN BED\",\n    \"line\": \"Sip slowly while still cozy\",\n    \"tags\": [\"coffee\", \"easy_pace\"]\n  },\n  \"chip\": \"MORNING RITUAL\"\n}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 402,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 267,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
