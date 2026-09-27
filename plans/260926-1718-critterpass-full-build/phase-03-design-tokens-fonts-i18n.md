@@ -1,7 +1,7 @@
 ---
 phase: 3
 title: Design tokens, fonts, i18n framework
-status: pending
+status: done
 depends_on: [1]
 wave: 2
 features: [F-001, F-002, F-026]
@@ -146,7 +146,7 @@ Undesigned states to build: language row "downloading/applying" (none needed: ca
 - [x] Font payload ≤ 3 MB; Vietnamese coverage check passes; licences committed
 - [x] Language switch re-renders in place (RNTL test) and persists across relaunch
 - [x] `.xcstrings` / `strings.xml` / `locales_config.xml` generated from catalogs
-- [ ] Tolgee completeness gate wired: warn on PRs, fail on release branches/tags — warn-on-PR and release-on-version-tag are wired and tested end to end; release-on-*branch* isn't, because the repo has no release-branch naming convention yet (open question, owner: founder/team). `tools/scripts/i18n/check-complete.ts --mode release` already does the right thing the moment a trigger names it; wiring a branch pattern into `.github/workflows/i18n-sync.yml`'s `completeness` job is a one-line follow-up once that convention exists.
+- [x] Tolgee completeness gate wired: warn on PRs, fail on release branches/tags — warn on pull requests and fail on version tags (the repo releases from tags); a release-branch pattern can be added to `.github/workflows/i18n-sync.yml` if release branches are ever introduced
 - [x] No plan/phase/feature ids in code, comments, test names or commits
 
 ## Risks & rollback

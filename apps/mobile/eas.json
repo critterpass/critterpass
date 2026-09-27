@@ -25,6 +25,25 @@
         "APP_VARIANT": "staging"
       }
     },
+    "e2e-test": {
+      "extends": "preview",
+      "distribution": "internal",
+      "channel": "e2e-test",
+      "withoutCredentials": true,
+      "node": "24.21.0",
+      "pnpm": "12.6.0",
+      "env": {
+        "APP_VARIANT": "development"
+      },
+      "ios": {
+        "simulator": true,
+        "image": "latest"
+      },
+      "android": {
+        "buildType": "apk",
+        "image": "latest"
+      }
+    },
     "staging": {
       "distribution": "store",
       "channel": "staging",

@@ -12,6 +12,8 @@ export const boundaryElements = [
   { type: 'mobile-motion', pattern: 'apps/mobile/src/motion' },
   { type: 'mobile-data', pattern: 'apps/mobile/src/data' },
   { type: 'mobile-lib', pattern: 'apps/mobile/src/lib' },
+  // Inline Expo modules (code-standards.md §14: Swift/Kotlin bridges under apps/mobile/modules/cp-*).
+  { type: 'mobile-native-module', pattern: 'apps/mobile/modules/*', capture: ['module'] },
   { type: 'mobile', pattern: 'apps/mobile' },
   { type: 'web', pattern: 'apps/web' },
   { type: 'admin', pattern: 'apps/admin' },
@@ -56,7 +58,10 @@ export const consumerDeps = {
   'mobile-feature': mobilePackages,
   'mobile-ui': ['design-tokens', 'critter-art', 'i18n'],
   'mobile-motion': ['design-tokens'],
-  'mobile-data': ['domain'],
+  // 'cost-engine' added for the shared money formatter (apps/mobile/src/data/money): formatting is
+  // pure presentation logic over synced/passed-in values, not I/O, so it stays a data-layer concern
+  // rather than promoting the whole hook into a feature (docs/system-architecture.md §3).
+  'mobile-data': ['domain', 'cost-engine', 'entitlements'],
   'mobile-lib': ['domain'],
   mobile: mobilePackages,
   web: ['domain', 'design-tokens', 'critter-art', 'i18n', 'content'],
@@ -79,7 +84,14 @@ export const consumerDeps = {
 
 /** Mobile layers each layer may import (arch §3 rows for apps/mobile/src/*). */
 const mobileLayerDeps = {
-  'mobile-route': ['mobile-feature', 'mobile-ui', 'mobile-motion', 'mobile-data', 'mobile-lib'],
+  'mobile-route': [
+    'mobile-feature',
+    'mobile-ui',
+    'mobile-motion',
+    'mobile-data',
+    'mobile-lib',
+    'mobile-native-module',
+  ],
   'mobile-feature': ['mobile-ui', 'mobile-motion', 'mobile-data', 'mobile-lib'],
   'mobile-ui': ['mobile-motion', 'mobile-lib'],
   'mobile-motion': ['mobile-lib'],

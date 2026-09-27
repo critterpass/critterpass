@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+- tapOn:
+    text: 'Continue'
+    optional: true
+- openLink: 'critterpass-dev:///(dev)/spikes/timeline-drag'
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: timeline-before-drag
+- swipe:
+    start: '4%,18%'
+    end: '55%,18%'
+    duration: 1500
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: timeline-after-drag

@@ -17,18 +17,22 @@ import * as schema from './schema';
  * Tables whose privacy class alone (C0-C2) would qualify them, but whose RLS shape is "S"
  * (docs/data-model.md §1.1): `media_objects` (packages/db/src/schema/identity.ts) has no app_user
  * SELECT policy at all — reads happen only through the API — so a client can never see it directly
- * even though the row content itself is not sensitive. Add a new entry here, with the same comment
- * style, if a later table needs the same treatment.
+ * even though the row content itself is not sensitive. `fair_use_counters`
+ * (packages/db/src/schema/entitlements.ts) is the same shape: silent fair-use counts must never be
+ * client-visible (docs/product-decisions.md §3 "never shown as a limit"), even though the row
+ * content is not otherwise sensitive.
  *
  * `poi_embeddings` (packages/db/src/schema/places.ts) is the same RLS "S" shape: server-only search
  * ranking, no app_user grant at all. `cities` and `poi_live_checks` are RLS "R" (app_user can read
  * them directly) but docs/data-model.md §3.13 marks both `Stream: —`/"not synced" rather than a
  * PowerSync stream name: `cities` is served over HTTP only (too large and too rarely-changing a
  * reference table for a live sync stream), and `poi_live_checks` is a volatile per-POI cache
- * refreshed by on-demand live checks, read through the places API rather than replicated.
+ * refreshed by on-demand live checks, read through the places API rather than replicated. Add a new
+ * entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'cities',
+  'fair_use_counters',
   'media_objects',
   'poi_embeddings',
   'poi_live_checks',

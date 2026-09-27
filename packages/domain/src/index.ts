@@ -9,6 +9,43 @@ export {
   type ChannelNamespace,
 } from './channel-names';
 export {
+  CAPABILITY_KEYS,
+  capabilityKeySchema,
+  type CapabilityKey,
+} from './entitlements/capability-keys';
+export {
+  entitlementRequiredDetailSchema,
+  quotaExhaustedDetailSchema,
+  redraftLimitDetailSchema,
+  seatLimitDetailSchema,
+  seatLimitOfferSchema,
+  SEAT_LIMIT_OFFERS,
+  type EntitlementRequiredDetail,
+  type QuotaExhaustedDetail,
+  type RedraftLimitDetail,
+  type SeatLimitDetail,
+  type SeatLimitOffer,
+} from './entitlements/errors';
+export {
+  ENTITLEMENT_SUBJECT_KINDS,
+  entitlementSubjectKindSchema,
+  FAIR_USE_METRICS,
+  fairUseMetricSchema,
+  USAGE_METRICS,
+  usageMetricSchema,
+  type EntitlementSubjectKind,
+  type FairUseMetric,
+  type UsageMetric,
+} from './entitlements/metrics';
+export {
+  PRODUCT_KEYS,
+  PRODUCT_TYPES,
+  productKeySchema,
+  productTypeSchema,
+  type ProductKey,
+  type ProductType,
+} from './entitlements/product-keys';
+export {
   commandActorSchema,
   commandDeviceSchema,
   commandEnvelopeSchema,
@@ -249,3 +286,11 @@ export {
   type TransitionResult,
 } from './state/machine';
 export { canTransitionTrip, deriveTripPhase, transitionTrip, tripStateMachine } from './state/trip';
+export {
+  buildEntitlementsSnapshot,
+  ENTITLEMENTS_SNAPSHOT_SCHEMA_VERSION,
+  entitlementsSnapshotSchema,
+  type BoostedTrip,
+  type BuildEntitlementsSnapshotInput,
+  type EntitlementsSnapshot,
+} from './surfaces/entitlements';
