@@ -24,3 +24,22 @@ export {
   type CommandOutcome,
   type CommandResolver,
 } from './registry-types';
+// Commands queued by off-app surfaces reach the app through the App Group outbox.
+export {
+  APP_ENVIRONMENTS,
+  APP_GROUP_ID,
+  APP_GROUP_PATHS,
+  APP_GROUP_SCHEMA_VERSIONS,
+  buildEndpointsConfig,
+  ENDPOINTS_CONFIG_SCHEMA_VERSION,
+  endpointsConfigSchema,
+  EXTENSION_ACTOR_VIA_VALUES,
+  PENDING_ACTIONS_SCHEMA_VERSION,
+  pendingActionSchema,
+  pendingActionsFileSchema,
+  readPendingActions,
+  type EndpointsConfig,
+  type PendingAction,
+  type PendingActionsFile,
+  type PendingActionsRead,
+} from '../surfaces/app-group';

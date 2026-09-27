@@ -1,0 +1,51 @@
+name: sync-e2e
+
+# The end-to-end sync harness (tools/scripts/sync-e2e): Postgres with logical replication, Redis,
+# Centrifugo and PowerSync in Docker, the api and worker on the runner, and the app's own
+# local-first client on Node. Runs when anything on the write/sync/realtime path changes.
+on:
+  pull_request:
+    paths:
+      - 'apps/mobile/src/data/**'
+      - 'services/api/src/**'
+      - 'services/worker/src/**'
+      - 'packages/db/**'
+      - 'packages/domain/**'
+      - 'infra/docker-compose.yml'
+      - 'infra/docker/postgres/**'
+      - 'infra/powersync/**'
+      - 'infra/centrifugo/**'
+      - 'tools/scripts/sync-e2e/**'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/sync-e2e.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: sync-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  sync-e2e:
+    name: offline replay, rejects, retries, realtime and revocation
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Build the local Postgres image
+        run: docker compose -f infra/docker-compose.yml build postgres
+      - name: Run every scenario
+        run: pnpm tsx tools/scripts/sync-e2e/run.ts --all
+      - name: Remove the stack
+        if: always()
+        run: >-
+          docker compose -p cp-sync-e2e -f infra/docker-compose.yml
+          -f tools/scripts/sync-e2e/compose.yml down -v --remove-orphans

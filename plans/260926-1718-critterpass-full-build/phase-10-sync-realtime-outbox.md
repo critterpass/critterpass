@@ -200,6 +200,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. zod schemas for `state/pending-actions.json` and `config/endpoints.json` (`{schema, generated_at, …}`), codegen to Swift/Kotlin structs (script in `packages/domain/scripts/gen-surfaces.ts`). 2. Swift store: atomic temp+rename writes, `NSFileCoordinator`; Kotlin mirror in `filesDir`. 3. Config plugin adds App Group entitlement `group.app.critterpass`. 4. Drain on launch/foreground: move envelopes into `commands` (keep op_id, `actor.via` preserved), clear file. 5. Write `config/endpoints.json` on start.
 - Tests: `xcodebuild test -scheme CpAppGroup` via `pnpm --filter @cp/mobile ios:test cp-app-group`; `pnpm --filter @cp/mobile test -- drain-extension-outbox`.
 - Done when: an envelope written by the Swift store is uploaded once and file is emptied; concurrent write during drain is not lost (test).
+- Status: done — 4ad5743 (store tests run on the host without a simulator: `swift test --package-path apps/mobile/modules/cp-app-group/ios`; codegen is `pnpm --filter @cp/domain exec tsx scripts/gen-surfaces.ts [--check]`; the App Group entitlement was already in `app.config.ts`; the app root still wires `startExtensionOutboxDrain`, `registerExtensionOutboxReset` and `writeEndpointsConfig` with `appGroupOutbox`)
 
 ### T11 — End-to-end sync harness and offline replay regression
 - Goal: CI-runnable proof of the full loop with real services.
@@ -207,6 +208,7 @@ D4 (own stack, never Supabase), D12 (PowerSync local-first for all crew/trip dat
 - Steps: 1. Compose stack (PG18 logical, Redis, Centrifugo, PowerSync, api, worker). 2. Node client via `@powersync/node` + centrifuge-js using the same `apps/mobile/src/data` connector code (platform-neutral modules). 3. Scenarios: offline queue 50 ops → restart → replay exactly once; reject mid-batch continues; api 503 mid-batch → retry idempotent; two clients see realtime hint < 1 s p95 and rows via sync; member removal → unsubscribe + stream drops rows; uid switch clears local DB.
 - Tests: `pnpm tsx tools/scripts/sync-e2e/run.ts --all`.
 - Done when: all scenarios green locally and in the GitHub Actions job; p95 hint latency printed and < 1 s.
+- Status: done — 1f7a68a (green locally, hint p95 348 ms; the Actions job runs once the PR is open)
 
 ## Phase acceptance criteria
 

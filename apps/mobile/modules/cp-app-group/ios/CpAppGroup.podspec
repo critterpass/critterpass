@@ -20,4 +20,6 @@ Pod::Spec.new do |s|
   }
 
   s.source_files = "**/*.{h,m,mm,swift,hpp,cpp}"
+  # Host-side SwiftPM tests of the store (swift test --package-path …/ios), never part of the app.
+  s.exclude_files = ["Package.swift", "Tests/**/*"]
 end

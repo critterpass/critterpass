@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "generated_at": "2026-09-27T09:30:00.000Z",
+  "actions": [
+    {
+      "op_id": "01a0e3b9-2d82-70d1-915e-aa071ba834da",
+      "cmd": "create_test_crew",
+      "v": 1,
+      "via": "widget",
+      "scope": "trip_day",
+      "client_ts": "2026-09-27T09:29:58.512Z",
+      "payload": {
+        "crew_id": "addd6b6a-a45b-47cc-9969-d8cf306b9cb6",
+        "name": "Queued from the widget"
+      }
+    }
+  ]
+}

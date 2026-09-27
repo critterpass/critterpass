@@ -13,19 +13,17 @@ import { getRandomBytes } from 'expo-crypto';
 import * as SecureStore from 'expo-secure-store';
 
 import { runOnSignOutHooks } from '../auth/sign-out-hooks';
-import { createCommandClient } from '../commands/client';
 import { createDeviceResolver } from '../commands/device';
-import { startReconcile } from '../commands/reconcile';
 import { resolveApiBaseUrl } from '../places/apiBaseUrl';
 import { createExpoNetworkSource, retryWhenOnline } from '../status/network';
-import { createSyncConnector, resolvePowerSyncUrl } from './connector';
+import { resolvePowerSyncUrl } from './connector';
 import { loadOrCreateDatabaseKey } from './encryption-key';
+import { assembleLocalFirstCore, connectLocalFirst } from './local-first';
 import type { LocalFirstContextValue } from './local-first-context';
 import { openEncryptedDatabase } from './open-database';
-import { bindLocalOwner, registerLocalDataReset } from './reset';
+import { registerLocalDataReset } from './reset';
 import { buildAppSchema } from './schema';
 import { createFetchTransport } from './transport';
-import { createUploadQueue } from './upload-queue';
 
 export const DATABASE_FILENAME = 'critterpass.db';
 
@@ -92,17 +90,15 @@ function assemble(db: AbstractPowerSyncDatabase): LocalFirstContextValue {
     baseUrl: resolveApiBaseUrl(),
     sessionHeaders: () => requireAuth().sessionHeaders(),
   });
-  const queue = createUploadQueue({ db, transport, onSessionRevoked: runOnSignOutHooks });
-  const network = createExpoNetworkSource();
-  const commands = createCommandClient({
+  const { queue, commands } = assembleLocalFirstCore({
     db,
-    queue,
     transport,
     uid: requireUid,
     device: createDeviceResolver(),
+    onSessionRevoked: runOnSignOutHooks,
   });
+  const network = createExpoNetworkSource();
   retryWhenOnline(network, queue);
-  startReconcile(db);
   return { db, queue, commands, network };
 }
 
@@ -119,16 +115,11 @@ export async function startLocalFirst(
   activeUid = uid;
   const db = await getAppDatabase();
   current ??= assemble(db);
-  const { queue } = current;
-  await bindLocalOwner(db, queue, uid);
-  await db.connect(
-    createSyncConnector({
-      endpoint: resolvePowerSyncUrl(),
-      getSyncToken: () => requireAuth().getSyncToken(),
-      flushCommands: () => queue.flush(),
-    }),
-  );
-  queue.schedule();
+  await connectLocalFirst(current, {
+    uid,
+    endpoint: resolvePowerSyncUrl(),
+    getSyncToken: () => requireAuth().getSyncToken(),
+  });
   return current;
 }
 

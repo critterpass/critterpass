@@ -18,6 +18,11 @@ export function writeImage(key: string, pngBase64: string): void {
   cpAppGroupNativeModule.writeImage(key, pngBase64);
 }
 
+/** Writes `config/endpoints.json` (a `{ schema, generated_at, ... }` envelope) for extensions. */
+export function writeEndpointsConfig(json: string): void {
+  cpAppGroupNativeModule.writeEndpointsConfig(json);
+}
+
 /** Raw JSON text of `state/pending-actions.json`; see {@link readOutboxActions} for parsed use. */
 export function readOutbox(): string {
   return cpAppGroupNativeModule.readOutbox();
@@ -32,6 +37,26 @@ export function readOutboxActions(): PendingAction[] {
   const parsed = JSON.parse(readOutbox()) as OutboxFile;
   return Array.isArray(parsed.actions) ? parsed.actions : [];
 }
+
+/**
+ * Removes the listed entries under file coordination, keeping anything an extension appended
+ * meanwhile; returns how many entries remain.
+ */
+export function removeOutboxActions(opIds: readonly string[]): number {
+  return cpAppGroupNativeModule.removeOutboxActions([...opIds]);
+}
+
+/** Drops every queued entry (account switch). */
+export function clearOutbox(): void {
+  cpAppGroupNativeModule.clearOutbox();
+}
+
+/** The outbox in the shape the app's drain (`src/data/commands/drain-extension-outbox.ts`) takes. */
+export const appGroupOutbox = {
+  read: readOutbox,
+  remove: removeOutboxActions,
+  clear: clearOutbox,
+};
 
 /** Tells WidgetKit (iOS) / the Glance receiver (Android) to reload from the latest snapshot. */
 export function reloadWidgets(): void {

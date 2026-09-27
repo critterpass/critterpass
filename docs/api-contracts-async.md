@@ -275,13 +275,13 @@ Group `group.app.critterpass`; written by the app (`modules/cp-app-group`) and b
 | `snapshot/prefs.json` | app | NSE, content ext | chattiness, voice readout, per-category mode, quiet hours |
 | `snapshot/crews.json` | app | NSE, intents | crew ids → names, member first names + avatar keys (for INPerson) |
 | `state/la/<activity_id>.json` | app, intents | intents | last content-state + seq (optimistic updates) |
-| `state/pending-actions.json` | extensions | app (drain), extensions | queued envelopes with `op_id` |
+| `state/pending-actions.json` | extensions | app (drain), extensions | `{schema: 1, generated_at, actions[]}`; each action is `{op_id (uuid v7), cmd, v: 1, via (widget \| notif_action \| la_intent \| app_intent), scope (action-key scope), client_ts, base_version?, payload}`. The app drains on launch and foreground, adds uid and device to build the command envelope (keeping `op_id` and `via`), and empties the file; a write during a drain is kept for the next one |
 | `state/alarms.json` | app (cp-alarm) | alarm intents | leave_by_id → AlarmKit id, schedule hash |
 | `assets/avatars/<key>@2x/@3x.png` | app (from `media.process` renders) | NSE, LA, widgets | user + guide avatars |
 | `assets/critters/<form>-<pose>-<mode>.png` | app bundle copy + `critter-bake` outputs | LA, widgets, content ext | incl. silhouettes + blur stages; monochrome/tinted variants |
-| `config/endpoints.json` | app | all | api base URL, env, schema versions |
+| `config/endpoints.json` | app | all | `{schema: 1, generated_at, env (development \| staging \| production), api_base_url, schemas: {<path>: <version>}}`, written on app start |
 
-Android mirror: Jetpack DataStore (`cp_snapshot`) + `filesDir/assets/*`; same JSON schemas from `packages/domain/src/surfaces/*.ts` (zod → Swift/Kotlin via codegen).
+Android mirror: Jetpack DataStore (`cp_snapshot`) + `filesDir/assets/*`; same JSON schemas from `packages/domain/src/surfaces/*.ts` (zod → Swift/Kotlin via `packages/domain/scripts/gen-surfaces.ts`).
 
 ## 7. Phase map (async surface)
 

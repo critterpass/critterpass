@@ -1,0 +1,29 @@
+# Overlay on infra/docker-compose.yml for the end-to-end sync harness: the same images and configs,
+# run as their own compose project (`cp-sync-e2e`) on separate host ports with data on tmpfs, so a
+# run never touches the developer's `pnpm infra:up` stack and leaves nothing behind. The api and
+# worker run on the host (run.ts spawns them); containers reach them through host.docker.internal.
+# Relative paths resolve against infra/ (the first compose file).
+services:
+  postgres:
+    ports: !override ['${CP_E2E_PG_PORT:-54330}:5432']
+    volumes: !reset []
+    tmpfs: ['/var/lib/postgresql']
+
+  redis:
+    ports: !override ['${CP_E2E_REDIS_PORT:-63791}:6379']
+
+  centrifugo:
+    ports: !override ['${CP_E2E_CENTRIFUGO_PORT:-8010}:8000']
+    environment:
+      CENTRIFUGO_CLIENT_TOKEN_JWKS_PUBLIC_ENDPOINT: http://host.docker.internal:${CP_E2E_API_PORT:-8797}/api/auth/jwks
+      CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_ENDPOINT: http://host.docker.internal:${CP_E2E_API_PORT:-8797}/internal/rt/subscribe
+      CENTRIFUGO_CHANNEL_PROXY_PUBLISH_ENDPOINT: http://host.docker.internal:${CP_E2E_API_PORT:-8797}/internal/rt/publish
+
+  powersync-storage:
+    volumes: !reset []
+    tmpfs: ['/var/lib/postgresql']
+
+  powersync:
+    ports: !override ['${CP_E2E_POWERSYNC_PORT:-8090}:8080']
+    environment:
+      PS_JWKS_URI: http://host.docker.internal:${CP_E2E_API_PORT:-8797}/api/auth/jwks

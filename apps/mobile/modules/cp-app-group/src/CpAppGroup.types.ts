@@ -1,13 +1,16 @@
 /**
- * A single queued command envelope written by an extension or a `LiveActivityIntent`
- * (api-contracts-async.md §4, §6 `state/pending-actions.json`). `readOutbox()` returns the raw
- * JSON text of `{ schema, generated_at, actions: PendingAction[] }`; callers decode it with the
- * same zod schema the app uses to validate everything else entering the system from outside JS.
+ * One command an extension queued in `state/pending-actions.json` (api-contracts-async.md §4, §6):
+ * the envelope minus the uid and device, which the app adds when it drains the file. The zod
+ * schema in `packages/domain/src/surfaces/app-group.ts` is the source of this shape and the
+ * validation boundary; the Swift and Kotlin types are generated from it.
  */
 export interface PendingAction {
   op_id: string;
-  created_at: string;
-  command: string;
+  cmd: string;
+  v: 1;
+  via: 'widget' | 'notif_action' | 'la_intent' | 'app_intent';
   scope: string;
-  payload: Record<string, string>;
+  client_ts: string;
+  base_version?: number;
+  payload: Record<string, unknown>;
 }
