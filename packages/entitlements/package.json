@@ -14,6 +14,7 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "@cp/domain": "workspace:*"
+    "@cp/domain": "workspace:*",
+    "@js-temporal/polyfill": "catalog:"
   }
 }
