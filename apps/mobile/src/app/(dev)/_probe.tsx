@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/react/macro';
 import { StyleSheet, Text, View } from 'react-native';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
@@ -8,9 +9,13 @@ export default function DevProbeScreen() {
   return (
     <View style={styles.container}>
       <Text accessibilityRole="header" style={styles.title}>
-        Dev route probe
+        <Trans id="common.devProbe.title">Dev route probe</Trans>
       </Text>
-      <Text>This screen only exists in development, staging and preview builds.</Text>
+      <Text>
+        <Trans id="common.devProbe.body">
+          This screen only exists in development, staging and preview builds.
+        </Trans>
+      </Text>
     </View>
   );
 }
