@@ -144,6 +144,7 @@ No DB, API, sync, push, or AI changes.
 - Steps: 1. Port archetypes. 2. Import script reads `design/critters-data.js` via `vm`, writes typed data (61 places, 150 critters, `setGroup` not `tier`, C4). 3. `resolveKind` maps guide cp-ids to guide kinds. 4. Golden for all 150.
 - Tests: `pnpm --filter @cp/critter-art test && pnpm --filter @cp/critter-art golden`
 - Done when: 150/150 critters + 6 guides pass golden; data import is idempotent (re-run yields zero diff); `resolveKind('cp-112')` renders gecko.
+- Status: done — f08d13a (+ 4039333 setGroup rename) (1477/1480 golden cases pass on the gating browser comparison incl. all 150 critters; import re-run diffs empty; guide cp-id aliasing verified. 3 Node-only misses, same class as T5's cp-130: 96pt locked, bit-perfect 0% browser diff, marginal Node/Chromium AA variance on the most decorated `lizard`/`stand` critters — see golden/README.md)
 
 ### T7 — Form/tier model, variants, seeds
 - Goal: `FormSpec`/`Palette`/`ArtParams` zod schemas, tier edges, silhouettes, `mask/mono/stamp` variants, canonical seeds, stable blink seeds.
