@@ -1,3 +1,8 @@
 # False positive: a PEM-shaped placeholder (the word "real" between BEGIN/END lines) in an early
 # version of the auth bootstrap test; the test now generates a throwaway key at runtime.
 4daa545bf91c9a332103faf2cff5c3d752372746:services/api/test/auth/bootstrap.test.ts:private-key:189
+
+# False positive: a sequential stripe-shaped test string in the admin bundle secret-scan test on the
+# console tools branch; it exists only to prove the scanner flags `sk_live_` prefixes.
+4ac54a9e69eb4eff033a274799721b71498a5b1a:apps/admin/scripts/scan-bundle.test.ts:stripe-access-token:7
+1fd9a041211a4fcef9b8d86a5321840aa9fdf64f:apps/admin/scripts/scan-bundle.test.ts:stripe-access-token:7
