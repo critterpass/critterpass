@@ -76,3 +76,22 @@ export {
   type ResolvedMember,
 } from './shares/per-origin';
 export { displayDelta, roundEach, roundedMean } from './display/round';
+export { inViewerCurrency } from './shares/fx';
+export {
+  applyCostOps,
+  roomComponents,
+  stateComponents,
+  stateShares,
+  type CostOp,
+  type Room,
+  type RoomStay,
+  type TripCostState,
+} from './shares/state';
+export {
+  personalOptionDeltas,
+  viewerQuote,
+  viewerShareWithOptions,
+  type PersonalOption,
+  type PersonalOptionDelta,
+  type ViewerQuote,
+} from './shares/personal-options';

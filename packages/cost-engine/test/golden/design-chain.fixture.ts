@@ -6,6 +6,8 @@
 import { money } from '../../src/money/money';
 import { type CostComponent } from '../../src/quotes/quote-set';
 import { type CostMember } from '../../src/shares/per-origin';
+import { type PersonalOption } from '../../src/shares/personal-options';
+import { type TripCostState } from '../../src/shares/state';
 
 export const USD = 'USD' as const;
 export const SEEN_AT = '2027-02-01T00:00:00.000Z';
@@ -66,3 +68,75 @@ export const VOTE_LISBON: readonly CostComponent[] = [
 ];
 
 export const dollars = (value: number) => money(BigInt(value) * 100n, USD);
+
+/**
+ * 3c-9 / 3f-3 draft, Apr 2–9: flights per origin, 2 ryokan nights in Gion (priced per guest, rooms
+ * sleep three), 5 nights in the Shijo apartment (one price split
+ * across the crew), the Nara day and the museum lottery per person, food and fun per person.
+ * Rin, a light sleeper, has her own room in the apartment: that supplement is what sharing the big
+ * room gives back. Rin (SIN): 520 + 300 + 120 + 140 + 64 + 136 + 30 = $1,310.
+ */
+export const DRAFT: TripCostState = {
+  currency: USD,
+  members: CREW,
+  components: [
+    ...flights('draft', { SIN: [52_000n, 420], HKG: [48_000n, 240], KUL: [56_000n, 450] }),
+    component('apartment', {
+      kind: 'stay',
+      unit: 'group',
+      amountMinor: 72_000n,
+      label: 'Shijo apartment',
+    }),
+    component('apartment-own-room', {
+      kind: 'stay',
+      unit: 'person',
+      amountMinor: 14_000n,
+      memberIds: [RIN],
+      label: 'Own room in the apartment',
+    }),
+    component('nara-day', {
+      kind: 'activity',
+      unit: 'person',
+      amountMinor: 6_400n,
+      label: 'Nara day',
+    }),
+    component('museum-lottery', {
+      kind: 'activity',
+      unit: 'person',
+      amountMinor: 0n,
+      label: 'Nintendo Museum lottery entry',
+    }),
+    component('food', { kind: 'food', unit: 'person', amountMinor: 13_600n }),
+    component('fun', { kind: 'fun', unit: 'person', amountMinor: 3_000n }),
+  ],
+  stays: [
+    {
+      id: 'ryokan',
+      label: 'Ryokan in Gion',
+      pricing: 'per_guest',
+      nightlyMinor: 15_000n,
+      nights: 2,
+      currency: USD,
+      source: 'estimate',
+      seenAt: SEEN_AT,
+      rooms: [
+        { key: 'room-1', capacity: 3, occupants: [WINSTON, ALEX] },
+        { key: 'room-2', capacity: 3, occupants: [MAYA, RIN] },
+        { key: 'room-3', capacity: 3, occupants: [JORDAN, DEV] },
+      ],
+    },
+  ],
+};
+
+/** 3f-4: Rin's private options. */
+export const SHARE_BIG_ROOM: PersonalOption = {
+  id: 'share-big-room',
+  label: 'Share the big room',
+  ops: [{ op: 'withdraw', componentId: 'apartment-own-room', uid: RIN }],
+  requires: [MAYA, JORDAN],
+};
+export const SKIP_NARA: PersonalOption = {
+  id: 'skip-nara',
+  label: 'Skip the Nara day',
+  ops: [{ op: 'withdraw', componentId: 'nara-day', uid: RIN }],
+};

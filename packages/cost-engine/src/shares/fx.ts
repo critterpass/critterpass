@@ -42,3 +42,16 @@ export function convertWith(amount: Money, target: CurrencyCode, fx: FxContext |
     to: target,
   });
 }
+
+/**
+ * A share re-expressed in the viewer's home currency (multi-currency crews): the converted amount
+ * plus the snapshot it used, for the "in SGD at {date} rates" note.
+ */
+export function inViewerCurrency(
+  amount: Money,
+  home: CurrencyCode,
+  fx: FxContext | undefined,
+): { readonly amount: Money; readonly fxSnapshotId: string | null } {
+  if (amount.currency === home) return { amount, fxSnapshotId: null };
+  return { amount: convertWith(amount, home, fx), fxSnapshotId: fx?.snapshotId ?? null };
+}
