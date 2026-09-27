@@ -21,6 +21,7 @@ export {
   type ConsentGate,
   type ConsentRow,
 } from './consent';
+export { readFlag, useFlag } from './flags';
 export { routeNameFromSegments, useScreenTracking } from './screen-tracking';
 export {
   AnalyticsProvider,

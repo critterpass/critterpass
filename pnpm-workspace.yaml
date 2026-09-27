@@ -66,6 +66,7 @@ catalog:
   pino: 10.3.1
   pkijs: 3.4.1
   playwright: 1.58.2
+  posthog-node: 5.54.1
   prettier: 3.9.9
   react-native-mmkv: 4.3.2
   react-native-nitro-modules: 0.37.1

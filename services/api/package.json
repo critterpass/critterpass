@@ -38,6 +38,7 @@
     "pg-boss": "catalog:",
     "pino": "catalog:",
     "pkijs": "catalog:",
+    "posthog-node": "catalog:",
     "redis": "catalog:",
     "zod": "catalog:"
   },

@@ -56,6 +56,8 @@ export interface AnalyticsClient {
   readonly consent: ConsentGate;
   readonly capture: <N extends AnalyticsEventName>(event: N, props: AnalyticsEventProps<N>) => void;
   readonly screen: (routeName: string) => void;
+  /** Experiment exposure (`$feature_flag_called`), reported once a variant has rendered. */
+  readonly exposure: (flag: string, value: boolean | string) => void;
   readonly setConsent: (granted: boolean) => void;
   readonly setIdentity: (identity: Identity | null) => void;
   readonly setCommonProps: (props: CommonProps) => void;
@@ -83,6 +85,10 @@ export function createAnalyticsClient(options: AnalyticsClientOptions): Analytic
           personProfiles: 'identified_only',
           defaultOptIn: false,
           captureAppLifecycleEvents: true,
+          // Flags come bootstrapped from the api; PostHog's own /flags call waits for consent,
+          // and exposure is reported on variant render (./flags.ts), not on every read.
+          preloadFeatureFlags: false,
+          sendFeatureFlagEvent: false,
           enableSessionReplay: options.replay === true,
           sessionReplayConfig: {
             maskAllTextInputs: true,
@@ -118,6 +124,7 @@ export function createAnalyticsClient(options: AnalyticsClientOptions): Analytic
     if (decision === 'granted') {
       void posthog.optIn();
       applyIdentity();
+      void posthog.reloadFeatureFlagsAsync().catch(() => undefined);
     } else {
       void posthog.optOut();
     }
@@ -150,6 +157,13 @@ export function createAnalyticsClient(options: AnalyticsClientOptions): Analytic
       if (!posthog || !granted()) return;
       void posthog.screen(routeName, definedProps(common));
     },
+    exposure(flag, value) {
+      if (!posthog || !granted()) return;
+      posthog.capture('$feature_flag_called', {
+        $feature_flag: flag,
+        $feature_flag_response: value,
+      });
+    },
     setConsent(isGranted) {
       consent.set(isGranted ? 'granted' : 'denied');
     },
@@ -171,7 +185,8 @@ export function createAnalyticsClient(options: AnalyticsClientOptions): Analytic
       await posthog?.optOut();
     },
     async flush() {
-      await posthog?.flush();
+      // An unreachable PostHog loses the batch; analytics never fails the caller.
+      await posthog?.flush().catch(() => undefined);
     },
   };
 }
