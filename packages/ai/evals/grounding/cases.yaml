@@ -1,0 +1,74 @@
+- description: Picks name only places the search returned
+  vars:
+    route: guide.chat
+    question: Two breakfast spots near the villa?
+    tool_results: &places
+      - tool: places_search
+        output:
+          results:
+            - poi_id: 0190f0a0-0000-7000-8000-00000000a001
+              name: Bánh Mì Phượng
+              distance_m: 350
+            - poi_id: 0190f0a0-0000-7000-8000-00000000a002
+              name: Madam Khánh
+              distance_m: 520
+    replay:
+      text: '{"picks":[{"poi_id":"0190f0a0-0000-7000-8000-00000000a001","distance_m":350},{"poi_id":"0190f0a0-0000-7000-8000-00000000a002","distance_m":520}]}'
+  assert:
+    - type: is-json
+    - type: javascript
+      value: file://../graders.ts:grounded
+
+- description: An invented place id is caught
+  vars:
+    route: guide.chat
+    question: One more breakfast spot?
+    tool_results: *places
+    replay:
+      text: '{"picks":[{"poi_id":"0190f0a0-0000-7000-8000-00000000beef","distance_m":350}]}'
+  assert:
+    - type: javascript
+      value: file://../graders.ts:flags_unknown_id
+
+- description: A split quoted from the cost engine is grounded, in major units and with separators
+  vars:
+    route: guide.chat
+    question: How much is the boat each?
+    tool_results: &split
+      - tool: split_preview
+        output:
+          total_minor: 150000
+          per_person_minor: 50000
+          currency: USD
+    replay:
+      text: The boat is $1,500 in total, so $500 each.
+  assert:
+    - type: javascript
+      value: file://../graders.ts:grounded
+
+- description: An arithmetic slip in a split is flagged
+  vars:
+    route: guide.chat
+    question: How much is the boat each?
+    tool_results: *split
+    replay:
+      text: The boat is $1,500 in total, so $520 each.
+  assert:
+    - type: javascript
+      value: file://../graders.ts:flags_unverified_number
+
+- description: A time the schedule does not hold is flagged
+  vars:
+    route: guide.chat
+    question: When is dinner?
+    tool_results:
+      - tool: day_plan
+        output:
+          items:
+            - title: Dinner at Locavore
+              starts_at: '2026-10-12T21:00:00+08:00'
+    replay:
+      text: Dinner is at 20:30 tonight.
+  assert:
+    - type: javascript
+      value: file://../graders.ts:flags_unverified_time

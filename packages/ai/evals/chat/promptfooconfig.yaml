@@ -1,0 +1,10 @@
+# Guide chat 1:1: the request pipeline (persona layers, chattiness directive, route tools) and how
+# a turn ends (answer, allowed tool call, refusal). Run: pnpm --filter @cp/ai eval chat
+description: Guide chat turns
+prompts:
+  - '{{question}}'
+providers:
+  # The gateway provider (evals/lib/provider.ts): replay by default, EVAL_MODE=live for Claude.
+  - id: file://../lib/provider.ts
+tests:
+  - file://cases.yaml

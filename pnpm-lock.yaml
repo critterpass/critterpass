@@ -1076,6 +1076,12 @@ importers:
 
   services/worker:
     dependencies:
+      '@anthropic-ai/sdk':
+        specifier: 'catalog:'
+        version: 0.128.0(zod@4.6.5)
+      '@cp/ai':
+        specifier: workspace:*
+        version: link:../../packages/ai
       '@cp/cost-engine':
         specifier: workspace:*
         version: link:../../packages/cost-engine

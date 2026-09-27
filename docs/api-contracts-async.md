@@ -81,6 +81,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `inbox.fanout` | domain events | inbox items + badge recompute | 3 | `(event_id, uid)` | 25 |
 | `ai.pitch` | pitch cache miss (background prewarm) | AI-01 | 2 | `(crew, place, month)` | 26 |
 | `ai.draft` | `start_draft` | load → prefetch → Opus skeleton → Sonnet day fan-out → validate → repair ≤2 → persist version → events | 2 / DLQ | `trip_id + draft_seq` | 28 |
+| `ai.batch.poll` (doc delta) | a batch step of an agent job suspends | Message Batches status until ended (re-enqueues itself), then in one tx: `ai_usage` per result at batch prices, results by `custom_id` to the step, step done, cost roll-up, job resumed | 5 / DLQ | `(agent_job_id, step)` | 13 |
 | `ai.redraft` | `request_redraft`, `import_shared_plan` | day-scoped pipeline + diff; release quota on failure | 2 | `redraft_id` | 28, 52 |
 | `ai.fit_check` | `set_must_dos` | planner fit per must-do | 3 | `(trip_id, must_do_hash)` | 27 |
 | `ai.proposal_versions` | `create_proposal` | one child per recipient (AI-15), costs injected | 3 each | `(proposal_id, uid)` | 31 |
@@ -94,6 +95,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `import.parse` | `import_paste`, `import_scan` | same parser path | 3 | op_id | 34 |
 | `flight.event` | AeroAPI webhook | status diff → N-14/N-41, LA, `ai.disruption`, landed → `hatch_egg` | 5 | `(flight_id, alert_id)` | 34 |
 | `ai.disruption` | flight event, watch escalation | AI-28 actions `{kind, reversible, needs_approval, cost_delta}`; progress on `disruption:` | 2 / DLQ | disruption id | 37 |
+| `guide_action.execute` (doc delta) | a guide action is planned | autonomy decider → auto (policy approval with decider audit, apply ChangeSet, undo window + timer, `guide.touched`) or needs a yes (`changeset_approval` poll draft) or forbidden | 3 / DLQ | action id | 13 |
+| `guide_action.undo_expire` (doc delta) | per-object timer at `undo_until` | closes the undo window in the synced row, `guide.undo_closed` on `trip_plan` | 3 | action id | 13 |
 | `ai.replan` | material forecast change | AI-14 ChangeSet | 2 | `(trip_id, forecast_hash)` | 37 |
 | `sos.orchestrate` | `trigger_sos` | deterministic fan-out (push ALWAYS + LA) first; AI-30 summary with hard timeout off the fan-out path; escalation timer | 10 fast | sos id | 38 |
 | `supplier.hold_expiry` | hold created | release/mark expired before lapse; close linked ChangeSet (C41) | 3 | hold id | 35 |

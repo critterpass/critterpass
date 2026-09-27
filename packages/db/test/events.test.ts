@@ -3,6 +3,7 @@
  * projection + registered hooks land atomically with the rest of the command's writes, and
  * `app.enqueue_rt` only lets a caller publish to a channel they could subscribe to.
  */
+import { DOMAIN_EVENT_TYPES } from '@cp/domain';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import {
@@ -180,5 +181,20 @@ describe('enqueueRealtime', () => {
         }),
       ),
     ).resolves.toBeDefined();
+  });
+});
+
+// Every migration that adds an event type rewrites the whole CHECK list, so a list copied from an
+// older main silently drops types added since; the catalogue is the source of truth.
+describe('domain_events type check', () => {
+  it('allows exactly the event types in the domain catalogue', async () => {
+    const result = await db.pool.query<{ def: string }>(
+      `SELECT pg_get_constraintdef(oid) AS def FROM pg_constraint
+        WHERE conrelid = 'domain_events'::regclass AND conname = 'domain_events_type_check'`,
+    );
+    const allowed = [...(result.rows[0]?.def ?? '').matchAll(/'([^']+)'::text/g)].map(
+      (match) => match[1],
+    );
+    expect(allowed.sort()).toEqual([...DOMAIN_EVENT_TYPES].sort());
   });
 });

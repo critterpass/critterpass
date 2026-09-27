@@ -11,6 +11,8 @@ interface FixtureResponse {
   readonly headers?: Readonly<Record<string, string>>;
   readonly body?: unknown;
   readonly sse?: readonly { readonly event: string; readonly data: unknown }[];
+  /** A `.jsonl` body (Message Batches results), one JSON value per line. */
+  readonly jsonl?: readonly unknown[];
 }
 
 export function loadFixture(name: string): { readonly response: FixtureResponse } {
@@ -22,17 +24,20 @@ export interface FixtureTransport {
   readonly fetch: typeof fetch;
   readonly requests: Record<string, unknown>[];
   readonly urls: string[];
+  readonly methods: string[];
 }
 
 export function fixtureTransport(names: readonly string[]): FixtureTransport {
   const queue = [...names];
   const requests: Record<string, unknown>[] = [];
   const urls: string[] = [];
+  const methods: string[] = [];
   const replay = (input: unknown, init?: RequestInit): Promise<Response> => {
     urls.push(input instanceof Request ? input.url : String(input));
+    methods.push(init?.method ?? 'GET');
     const name = queue.shift();
     if (name === undefined) throw new Error('fixture transport: no response left to replay');
-    const body = typeof init?.body === 'string' ? init.body : '{}';
+    const body = typeof init?.body === 'string' && init.body !== '' ? init.body : '{}';
     requests.push(JSON.parse(body) as Record<string, unknown>);
     const { response } = loadFixture(name);
     const headers = new Headers({ 'request-id': `req_fixture_${name}`, ...response.headers });
@@ -43,10 +48,15 @@ export function fixtureTransport(names: readonly string[]): FixtureTransport {
         .join('');
       return Promise.resolve(new Response(text, { status: response.status, headers }));
     }
+    if (response.jsonl !== undefined) {
+      headers.set('content-type', 'application/binary');
+      const text = response.jsonl.map((line) => JSON.stringify(line)).join('\n');
+      return Promise.resolve(new Response(`${text}\n`, { status: response.status, headers }));
+    }
     headers.set('content-type', 'application/json');
     return Promise.resolve(
       new Response(JSON.stringify(response.body), { status: response.status, headers }),
     );
   };
-  return { fetch: replay, requests, urls };
+  return { fetch: replay, requests, urls, methods };
 }

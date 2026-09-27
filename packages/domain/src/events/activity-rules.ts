@@ -51,6 +51,11 @@ const ACTIVITY_RULES: Partial<Record<DomainEventType, ActivityProjection>> = {
     objectKind: 'change_set',
     textKey: 'activity.change_set_rejected',
   },
+  'guide_action.undone': {
+    verb: 'undid',
+    objectKind: 'guide_action',
+    textKey: 'activity.guide_action_undone',
+  },
   'rsvp.changed': {
     verb: 'rsvped',
     objectKind: 'trip_participant',

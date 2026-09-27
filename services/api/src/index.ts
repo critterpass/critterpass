@@ -35,6 +35,7 @@ import { registerCmdResultsRoute } from './routes/cmd-results';
 import { registerCommandRoute } from './routes/cmd';
 import { registerSyncUploadRoute } from './routes/sync-upload';
 import { registerJobsRoute } from './ai/jobs-route';
+import { undoGuideActionCommand } from './ai/undo-guide-action';
 import { createR2Client } from './media/r2';
 import { registerMediaUploadCommand } from './media/register-media-upload';
 import { mediaSigningConfigFromEnv } from './media/sign';
@@ -186,6 +187,7 @@ routeNotificationsFromApiEvents();
 const commands = createCommandRegistry();
 commands.register(registerMediaUploadCommand);
 registerDeviceCommands(commands);
+commands.register(undoGuideActionCommand);
 
 // Links (docs/api-contracts.md §5.6): providers per link kind, the claim command, public routes.
 const linkProviders = createLinkProviderRegistry();
