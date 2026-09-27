@@ -9,6 +9,7 @@ export { feedback, impact, useFeedbackPrefs } from './feedback';
 export type { FeedbackPrefsControls, FeedbackPrefsSnapshot } from './feedback';
 export { music } from './music';
 export type { GuideId, ThemeInfo } from './music';
+export * as gestures from './gestures';
 export type { MotionMode } from './motion-mode';
 export { combineMotionMode, useMotionMode } from './motion-mode';
 export { OverlayHost } from './overlay/OverlayHost';

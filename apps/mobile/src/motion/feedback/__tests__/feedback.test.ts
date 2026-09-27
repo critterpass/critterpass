@@ -2,12 +2,17 @@ jest.mock('../../impact', () => {
   const actual = jest.requireActual('../../impact');
   return { ...(actual as object), impact: jest.fn() };
 });
+jest.mock('../../../../modules/cp-haptics', () => ({ play: jest.fn() }));
 
 import { act, renderHook } from '@testing-library/react-native';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 
 import { tokens } from '@cp/design-tokens';
 
+// `apps/mobile/modules/cp-haptics` isn't yet classified in `tools/lint/boundaries.js` (owned by an
+// earlier phase) — see `gestures/hold-fill.ts`'s own comment on this pre-existing gap.
+// eslint-disable-next-line boundaries/dependencies -- see the comment above
+import { play as playCpHaptic } from '../../../../modules/cp-haptics';
 import { impact as fireHaptic, SOUND_CUE_IDS } from '../../impact';
 import { resetFeedbackPrefsForTests } from '../../test-support/reset-feedback-prefs';
 import {
@@ -27,6 +32,7 @@ import {
 import { peekSfxPlayerForTests, resetSfxPoolForTests, SFX_ASSET_MODULES } from '../sfx-pool';
 
 const mockedFireHaptic = fireHaptic as jest.MockedFunction<typeof fireHaptic>;
+const mockedPlayCpHaptic = playCpHaptic as jest.MockedFunction<typeof playCpHaptic>;
 
 beforeEach(async () => {
   jest.clearAllMocks();
@@ -146,10 +152,10 @@ describe('impact (the feedback bus)', () => {
       impact('sos');
 
       expect(peekSfxPlayerForTests('slap')).toBeUndefined();
-      // sos has no SFX asset in sound.tokens.json (haptic/cp-haptics only) — the bypass is proven by
-      // its haptic still firing, since a quiet-muted cue's haptic is untouched either way (haptics
-      // follow their own toggle, never quiet hours).
-      expect(mockedFireHaptic).toHaveBeenCalledWith('sos');
+      // sos has no SFX asset in sound.tokens.json (cp-haptics only) — the bypass is proven by its
+      // haptic still firing, since a quiet-muted cue's haptic is untouched either way (haptics follow
+      // their own toggle, never quiet hours).
+      expect(mockedPlayCpHaptic).toHaveBeenCalledWith('sos');
     } finally {
       jest.useRealTimers();
     }
@@ -159,7 +165,9 @@ describe('impact (the feedback bus)', () => {
     for (const cueId of SOUND_CUE_IDS) {
       expect(() => impact(cueId)).not.toThrow();
     }
-    expect(mockedFireHaptic).toHaveBeenCalledTimes(Object.keys(tokens.sound.cue).length);
+    // Every cue except `sos` (routed to cp-haptics instead) goes through the basic haptic mapping.
+    expect(mockedFireHaptic).toHaveBeenCalledTimes(Object.keys(tokens.sound.cue).length - 1);
+    expect(mockedPlayCpHaptic).toHaveBeenCalledWith('sos');
   });
 });
 

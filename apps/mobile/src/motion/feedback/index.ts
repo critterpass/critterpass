@@ -1,3 +1,9 @@
+// `apps/mobile/modules/cp-haptics` is this phase's own native module (plan §"Architecture &
+// contracts"); `tools/lint/boundaries.js` (owned by an earlier phase) does not yet classify
+// `apps/mobile/modules/*` as an importable layer from `mobile-motion` — same class of pre-existing
+// gap `apps/mobile/src/lib/i18n/set-locale.ts` already documents for `@cp/i18n`.
+// eslint-disable-next-line boundaries/dependencies -- see the comment above
+import { play as playCpHaptic } from '../../../modules/cp-haptics';
 import { impact as fireHaptic, type SoundCueId } from '../impact';
 import { cueFor } from './cues';
 import { getFeedbackPrefsSnapshot } from './prefs';
@@ -20,7 +26,13 @@ export function impact(cueId: SoundCueId): void {
   const cue = cueFor(cueId);
   const prefs = getFeedbackPrefsSnapshot();
 
-  if (prefs.hapticsEnabled) fireHaptic(cueId);
+  if (prefs.hapticsEnabled) {
+    // `sos`'s "long continuous pattern" has no `expo-haptics` equivalent — cp-haptics (T6) plays it;
+    // `holdRamp` stays continuous-only, driven directly by `gestures/hold-fill.ts`'s `ramp.*`, never by
+    // a discrete `impact()` call.
+    if (cueId === 'sos') playCpHaptic('sos');
+    else fireHaptic(cueId);
+  }
 
   if (cue.kind !== 'sfx' && cue.kind !== 'ambient') return;
   if (!cue.sfxAsset) return;

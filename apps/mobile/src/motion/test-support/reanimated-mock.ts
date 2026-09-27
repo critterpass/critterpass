@@ -156,16 +156,29 @@ function cancelAnimation(): void {
   // No pending animation ever exists in this mock (withX resolves synchronously).
 }
 
+/**
+ * `createAnimatedComponent` normally wraps a host component so it accepts the opaque style handle
+ * `useAnimatedStyle` returns. This mock's `useAnimatedStyle` already resolves to a plain style
+ * object, so the identity function is a faithful stand-in — react-native-gesture-handler's own
+ * `GestureDetector`/`Text` (reached transitively by importing `Gesture` from
+ * `react-native-gesture-handler`, `src/motion/gestures/*`'s only import from that package) calls
+ * this at module-load time, so it must be a real function, not merely absent.
+ */
+function createAnimatedComponent<Component>(component: Component): Component {
+  return component;
+}
+
 // The real module's default export is the `Animated` namespace (`Animated.View`, `.Text`, ...): each
 // is normally a `createAnimatedComponent`-wrapped host component that accepts the opaque style handle
 // `useAnimatedStyle` returns. This mock's `useAnimatedStyle` already resolves to a plain style object
 // (see above), so a plain host component is a faithful stand-in — only `View` is reimplemented here
 // since it is the only one this package's motion code renders directly.
-const Animated = { View };
+const Animated = { View, createAnimatedComponent };
 
 module.exports = {
   __esModule: true,
   default: Animated,
+  createAnimatedComponent,
   makeMutable,
   useSharedValue,
   useAnimatedStyle,
