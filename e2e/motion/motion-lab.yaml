@@ -16,24 +16,21 @@ appId: app.critterpass.dev
 # Maestro#2610): the first openLink's URL is dropped even once "Open" is tapped and the app
 # foregrounds (it lands back on "/", not the deep-linked route) — confirmed via a failure screenshot,
 # not a guess. Opening the same link again once the scheme is already trusted (no more confirmation
-# sheet) delivers it as a plain warm Linking event, which does navigate correctly. Re-opening the
-# link immediately after the foreground re-launch crashed the app once (XCTestDriver "kAXErrorServer
-# NotFound", confirmed in the run's own maestro.log) — asserting the home screen is stable first
-# avoids racing the second openLink against an in-flight app-state transition.
-- launchApp
-- assertVisible: 'Critterpass \(Dev\)'
+# sheet) delivers it as a plain warm Linking event once trusted, which does navigate correctly, but
+# reopening it while the app was still transitioning crashed it once (XCTestDriver
+# "kAXErrorServerNotFound"). This attempt instead cold-starts straight into the link (`stopApp` first,
+# so no app is already foregrounded to interrupt) — Expo Router resolves a cold `getInitialURL()`
+# link differently than a warm `Linking` event, and the "Open in ―?" confirmation may not even need
+# to appear when there is no other foreground app for it to interrupt.
+- stopApp
 - openLink: critterpass-dev://motion-lab
 - tapOn:
     text: 'Open'
     optional: true
-- launchApp:
-    stopApp: false
-- assertVisible: 'Critterpass \(Dev\)'
-- openLink: critterpass-dev://motion-lab
 - extendedWaitUntil:
     visible:
       id: 'motion-freeze-toggle'
-    timeout: 20000
+    timeout: 30000
 - tapOn:
     id: 'motion-freeze-toggle'
 - assertVisible:
