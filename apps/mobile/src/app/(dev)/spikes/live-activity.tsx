@@ -63,9 +63,9 @@ export default function LiveActivitySpikeScreen() {
         1. Set APNS_KEY_PATH / APNS_KEY_ID / APNS_TEAM_ID and run{'\n'}
         {'   '}pnpm --filter @cp/spikes run apns-live-activity{'\n'}
         2. Confirm broadcast channel create/push-to-start/update/end/delete all print PASS.{'\n'}
-        3. Install the EAS build on a real iPhone, trigger a push-to-start, and confirm the
-        Dynamic Island/lock screen renders and &quot;I&apos;M UP&quot; reaches this screen&apos;s
-        action-key harness.
+        3. Install the EAS build on a real iPhone, trigger a push-to-start, and confirm the Dynamic
+        Island/lock screen renders and &quot;I&apos;M UP&quot; reaches this screen&apos;s action-key
+        harness.
       </Text>
     </ScrollView>
   );

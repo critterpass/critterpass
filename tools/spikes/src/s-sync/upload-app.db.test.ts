@@ -12,7 +12,10 @@ let pool: pg.Pool;
 
 beforeAll(async () => {
   postgres = await startPostgres();
-  pool = new pg.Pool({ connectionString: postgres.getConnectionUri(), connectionTimeoutMillis: 2000 });
+  pool = new pg.Pool({
+    connectionString: postgres.getConnectionUri(),
+    connectionTimeoutMillis: 2000,
+  });
   await ensureSpikeSchema(pool);
 });
 
@@ -36,10 +39,15 @@ describe('applyUploadOp (system-architecture.md §4.1 command pipeline stand-in)
     const result = await applyUploadOp(pool, op);
     expect(result).toEqual({ id: op.id, status: 'applied' });
 
-    const row = await pool.query(`select body, created_by from ${SPIKE_SCHEMA}.messages where id = $1`, [op.id]);
+    const row = await pool.query(
+      `select body, created_by from ${SPIKE_SCHEMA}.messages where id = $1`,
+      [op.id],
+    );
     expect(row.rows).toEqual([{ body: 'hello from a test', created_by: 'tester' }]);
 
-    const logged = await pool.query(`select 1 from ${SPIKE_SCHEMA}.cmd_log where op_id = $1`, [op.id]);
+    const logged = await pool.query(`select 1 from ${SPIKE_SCHEMA}.cmd_log where op_id = $1`, [
+      op.id,
+    ]);
     expect(logged.rowCount).toBe(1);
   });
 
@@ -48,7 +56,9 @@ describe('applyUploadOp (system-architecture.md §4.1 command pipeline stand-in)
     const result = await applyUploadOp(pool, op);
     expect(result).toEqual({ id: op.id, status: 'rejected', code: 'MESSAGE_EMPTY' });
 
-    const message = await pool.query(`select 1 from ${SPIKE_SCHEMA}.messages where id = $1`, [op.id]);
+    const message = await pool.query(`select 1 from ${SPIKE_SCHEMA}.messages where id = $1`, [
+      op.id,
+    ]);
     expect(message.rowCount).toBe(0);
 
     const cmdResult = await pool.query<{ code: string }>(

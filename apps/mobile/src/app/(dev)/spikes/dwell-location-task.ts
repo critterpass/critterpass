@@ -29,7 +29,10 @@ let lastFix: Location.LocationObject | null = null;
 type Listener = (state: DwellState, fix: Location.LocationObject) => void;
 const listeners = new Set<Listener>();
 
-export function configureDwellTarget(nextPoi: GeoPoint, nextConfig: DwellConfig = DEFAULT_DWELL_CONFIG): void {
+export function configureDwellTarget(
+  nextPoi: GeoPoint,
+  nextConfig: DwellConfig = DEFAULT_DWELL_CONFIG,
+): void {
   poi = nextPoi;
   config = nextConfig;
   dwellState = INITIAL_DWELL_STATE;

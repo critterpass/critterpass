@@ -78,7 +78,10 @@ export interface RenderGeckoOptions {
 const VIEW_BOX = 100;
 
 /** Renders Tokek to a PNG buffer via the Node canvas surface — the spike's "Node prerender". */
-export function renderGeckoToPng(options: RenderGeckoOptions = {}): { png: Buffer; renderMs: number } {
+export function renderGeckoToPng(options: RenderGeckoOptions = {}): {
+  png: Buffer;
+  renderMs: number;
+} {
   const size = options.size ?? 200;
   const progress = options.progress ?? 1;
   const { ops, totalLineLength } = buildGeckoDrawing(options.palette);

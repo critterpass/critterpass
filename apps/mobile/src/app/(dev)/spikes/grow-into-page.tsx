@@ -34,26 +34,52 @@ interface Rect {
 }
 
 /** One grid card; owns its own measure ref (hooks must live at one call site per card, not in a loop). */
-function GrowCard({ color, index, onPress }: { color: string; index: number; onPress: (index: number, rect: Rect) => void }) {
+function GrowCard({
+  color,
+  index,
+  onPress,
+}: {
+  color: string;
+  index: number;
+  onPress: (index: number, rect: Rect) => void;
+}) {
   const animatedRef = useAnimatedRef<Animated.View>();
 
   const handlePress = useCallback(() => {
     runOnUI(() => {
       'worklet';
       const measured = measure(animatedRef);
-      if (measured) runOnJS(onPress)(index, { x: measured.pageX, y: measured.pageY, width: measured.width, height: measured.height });
+      if (measured)
+        runOnJS(onPress)(index, {
+          x: measured.pageX,
+          y: measured.pageY,
+          width: measured.width,
+          height: measured.height,
+        });
     })();
   }, [animatedRef, index, onPress]);
 
   return (
-    <Pressable onPress={handlePress} accessibilityRole="button" accessibilityLabel={`Card ${index + 1}`}>
+    <Pressable
+      onPress={handlePress}
+      accessibilityRole="button"
+      accessibilityLabel={`Card ${index + 1}`}
+    >
       <Animated.View ref={animatedRef} style={[styles.card, { backgroundColor: color }]} />
     </Pressable>
   );
 }
 
 /** Custom teleport overlay: clones the tapped card's measured rect and grows it to fill the screen. */
-function TeleportOverlay({ sourceRect, color, onClosed }: { sourceRect: Rect; color: string; onClosed: () => void }) {
+function TeleportOverlay({
+  sourceRect,
+  color,
+  onClosed,
+}: {
+  sourceRect: Rect;
+  color: string;
+  onClosed: () => void;
+}) {
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
   const progress = useSharedValue(0);
   useEffect(() => {
@@ -63,12 +89,32 @@ function TeleportOverlay({ sourceRect, color, onClosed }: { sourceRect: Rect; co
   const overlayStyle = useAnimatedStyle(() => {
     const x = interpolate(progress.value, [0, 1], [sourceRect.x, 0], Extrapolation.CLAMP);
     const y = interpolate(progress.value, [0, 1], [sourceRect.y, 0], Extrapolation.CLAMP);
-    const width = interpolate(progress.value, [0, 1], [sourceRect.width, screenWidth], Extrapolation.CLAMP);
-    const height = interpolate(progress.value, [0, 1], [sourceRect.height, screenHeight], Extrapolation.CLAMP);
+    const width = interpolate(
+      progress.value,
+      [0, 1],
+      [sourceRect.width, screenWidth],
+      Extrapolation.CLAMP,
+    );
+    const height = interpolate(
+      progress.value,
+      [0, 1],
+      [sourceRect.height, screenHeight],
+      Extrapolation.CLAMP,
+    );
     const borderRadius = interpolate(progress.value, [0, 1], [CARD_RADIUS, 0], Extrapolation.CLAMP);
-    return { position: 'absolute', left: x, top: y, width, height, borderRadius, backgroundColor: color };
+    return {
+      position: 'absolute',
+      left: x,
+      top: y,
+      width,
+      height,
+      borderRadius,
+      backgroundColor: color,
+    };
   });
-  const contentStyle = useAnimatedStyle(() => ({ opacity: interpolate(progress.value, [0, 0.35, 1], [0, 1, 1], Extrapolation.CLAMP) }));
+  const contentStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(progress.value, [0, 0.35, 1], [0, 1, 1], Extrapolation.CLAMP),
+  }));
 
   const close = useCallback(() => {
     // Reanimated SharedValue.value is a deliberately mutable escape hatch outside React's render
@@ -82,10 +128,17 @@ function TeleportOverlay({ sourceRect, color, onClosed }: { sourceRect: Rect; co
 
   return (
     <Animated.View style={overlayStyle}>
-      <Pressable style={StyleSheet.absoluteFill} onPress={close} accessibilityRole="button" accessibilityLabel="Close detail">
+      <Pressable
+        style={StyleSheet.absoluteFill}
+        onPress={close}
+        accessibilityRole="button"
+        accessibilityLabel="Close detail"
+      >
         <Animated.View style={[styles.detailContent, contentStyle]}>
           <Text style={styles.detailTitle}>Detail (teleport overlay)</Text>
-          <Text style={styles.detailBody}>Tap anywhere to close — reverses the same shared progress value mid-flight.</Text>
+          <Text style={styles.detailBody}>
+            Tap anywhere to close — reverses the same shared progress value mid-flight.
+          </Text>
         </Animated.View>
       </Pressable>
     </Animated.View>
@@ -96,21 +149,43 @@ function TeleportOverlay({ sourceRect, color, onClosed }: { sourceRect: Rect; co
  * swap in the same commit (conditional render, not a route change — expo-router's default
  * native-stack renders screens as native view controllers, which this layout-animation mechanism
  * does not reach into; see the ADR for why this was tested as an in-screen reveal instead). */
-function SharedElementDemo({ selected, onSelect }: { selected: number | null; onSelect: (index: number | null) => void }) {
+function SharedElementDemo({
+  selected,
+  onSelect,
+}: {
+  selected: number | null;
+  onSelect: (index: number | null) => void;
+}) {
   if (selected === null) {
     return (
       <View style={styles.grid}>
         {CARD_COLORS.map((color, i) => (
-          <Pressable key={i} onPress={() => onSelect(i)} accessibilityRole="button" accessibilityLabel={`Card ${i + 1}`}>
-            <Animated.View sharedTransitionTag={`grow-card-${i}`} style={[styles.card, { backgroundColor: color }]} />
+          <Pressable
+            key={i}
+            onPress={() => onSelect(i)}
+            accessibilityRole="button"
+            accessibilityLabel={`Card ${i + 1}`}
+          >
+            <Animated.View
+              sharedTransitionTag={`grow-card-${i}`}
+              style={[styles.card, { backgroundColor: color }]}
+            />
           </Pressable>
         ))}
       </View>
     );
   }
   return (
-    <Pressable style={styles.detailFill} onPress={() => onSelect(null)} accessibilityRole="button" accessibilityLabel="Close detail">
-      <Animated.View sharedTransitionTag={`grow-card-${selected}`} style={[styles.detailFill, { backgroundColor: CARD_COLORS[selected] }]}>
+    <Pressable
+      style={styles.detailFill}
+      onPress={() => onSelect(null)}
+      accessibilityRole="button"
+      accessibilityLabel="Close detail"
+    >
+      <Animated.View
+        sharedTransitionTag={`grow-card-${selected}`}
+        style={[styles.detailFill, { backgroundColor: CARD_COLORS[selected] }]}
+      >
         <View style={styles.detailContent}>
           <Text style={styles.detailTitle}>Detail (Reanimated shared element)</Text>
           <Text style={styles.detailBody}>Tap anywhere to close.</Text>
@@ -131,7 +206,8 @@ export default function GrowIntoPageScreen() {
   const reportFrame = useCallback((maxDeltaMs: number) => setP95FrameMs(maxDeltaMs), []);
   useFrameCallback((frame) => {
     'worklet';
-    if (frame.timeSincePreviousFrame !== null) maxFrameDeltaMs.value = Math.max(maxFrameDeltaMs.value, frame.timeSincePreviousFrame);
+    if (frame.timeSincePreviousFrame !== null)
+      maxFrameDeltaMs.value = Math.max(maxFrameDeltaMs.value, frame.timeSincePreviousFrame);
     if (windowStart.value === 0) windowStart.value = frame.timestamp;
     if (frame.timestamp - windowStart.value >= 700) {
       runOnJS(reportFrame)(maxFrameDeltaMs.value);
@@ -140,7 +216,10 @@ export default function GrowIntoPageScreen() {
     }
   }, true);
 
-  const handleCardPress = useCallback((index: number, rect: Rect) => setTeleport({ index, rect }), []);
+  const handleCardPress = useCallback(
+    (index: number, rect: Rect) => setTeleport({ index, rect }),
+    [],
+  );
 
   return (
     <View style={styles.root}>
@@ -150,12 +229,18 @@ export default function GrowIntoPageScreen() {
         </Text>
         <View style={styles.buttonRow}>
           {MODES.map((m) => (
-            <Pressable key={m} onPress={() => setMode(m)} style={[styles.modeButton, mode === m && styles.modeButtonActive]}>
+            <Pressable
+              key={m}
+              onPress={() => setMode(m)}
+              style={[styles.modeButton, mode === m && styles.modeButtonActive]}
+            >
               <Text style={[styles.modeLabel, mode === m && styles.modeLabelActive]}>{m}</Text>
             </Pressable>
           ))}
         </View>
-        <Text style={styles.body}>worst frame gap (700 ms window): {p95FrameMs.toFixed(2)} ms (budget 16.6 ms @60fps)</Text>
+        <Text style={styles.body}>
+          worst frame gap (700 ms window): {p95FrameMs.toFixed(2)} ms (budget 16.6 ms @60fps)
+        </Text>
 
         {mode === 'teleport-overlay' && (
           <View style={styles.grid}>
@@ -164,7 +249,9 @@ export default function GrowIntoPageScreen() {
             ))}
           </View>
         )}
-        {mode === 'shared-element' && <SharedElementDemo selected={sharedSelected} onSelect={setSharedSelected} />}
+        {mode === 'shared-element' && (
+          <SharedElementDemo selected={sharedSelected} onSelect={setSharedSelected} />
+        )}
         {mode === 'apple-zoom' && (
           <View style={styles.grid}>
             <Link href="/(dev)/spikes/grow-into-page-detail" asChild>
@@ -173,20 +260,27 @@ export default function GrowIntoPageScreen() {
                   {/* Link.Trigger forwards this child through expo-router's <Slot>, which throws on
                    * an array `style` prop — flatten it first (a real, source-verified constraint,
                    * not an assumption; see the ADR). */}
-                  <Animated.View style={StyleSheet.flatten([styles.card, { backgroundColor: CARD_COLORS[0] }])} />
+                  <Animated.View
+                    style={StyleSheet.flatten([styles.card, { backgroundColor: CARD_COLORS[0] }])}
+                  />
                 </Link.Trigger>
               </Pressable>
             </Link>
             <Text style={styles.body}>
-              Link.AppleZoom is wired above; see the ADR — expo-router 58.0.8 hard-codes its enabling flag to
-              false, so this currently navigates with the plain push transition, not a zoom.
+              Link.AppleZoom is wired above; see the ADR — expo-router 58.0.8 hard-codes its
+              enabling flag to false, so this currently navigates with the plain push transition,
+              not a zoom.
             </Text>
           </View>
         )}
       </ScrollView>
 
       {teleport ? (
-        <TeleportOverlay sourceRect={teleport.rect} color={CARD_COLORS[teleport.index] ?? '#4f86ff'} onClosed={() => setTeleport(null)} />
+        <TeleportOverlay
+          sourceRect={teleport.rect}
+          color={CARD_COLORS[teleport.index] ?? '#4f86ff'}
+          onClosed={() => setTeleport(null)}
+        />
       ) : null}
     </View>
   );
@@ -198,7 +292,12 @@ const styles = StyleSheet.create({
   title: { fontSize: 20, fontWeight: '600' },
   body: { fontSize: 13 },
   buttonRow: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
-  modeButton: { paddingHorizontal: 10, paddingVertical: 6, borderRadius: 8, borderWidth: StyleSheet.hairlineWidth },
+  modeButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    borderWidth: StyleSheet.hairlineWidth,
+  },
   modeButtonActive: { backgroundColor: '#221e19' },
   modeLabel: { fontSize: 13 },
   modeLabelActive: { color: '#fff' },

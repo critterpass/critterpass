@@ -20,7 +20,9 @@ function createMockList<Item>() {
     return (
       <View>
         {(data ?? []).map((item, index) => (
-          <View key={keyExtractor ? keyExtractor(item, index) : index}>{renderItem({ item, index })}</View>
+          <View key={keyExtractor ? keyExtractor(item, index) : index}>
+            {renderItem({ item, index })}
+          </View>
         ))}
       </View>
     );

@@ -6,7 +6,12 @@ import { createAuthHarness, type SpikeAuthHarness } from '../s-auth/harness';
 import { startMockIdp, type MockIdp } from '../s-auth/mock-idp';
 
 import { createSpikeSyncApp } from './app';
-import { POWERSYNC_LOCAL_URL, startPowerSync, stopPowerSync, type PowerSyncEndpoints } from './docker';
+import {
+  POWERSYNC_LOCAL_URL,
+  startPowerSync,
+  stopPowerSync,
+  type PowerSyncEndpoints,
+} from './docker';
 import { addSpikeTableToPublication, ensureSpikeSchema } from './schema';
 import { listen, type RunningApp } from './serve';
 
@@ -51,7 +56,10 @@ export async function createSSyncHarness(): Promise<SSyncHarness> {
       startMockIdp(),
     ]);
 
-    pool = new pg.Pool({ connectionString: source.getConnectionUri(), connectionTimeoutMillis: 5000 });
+    pool = new pg.Pool({
+      connectionString: source.getConnectionUri(),
+      connectionTimeoutMillis: 5000,
+    });
     await ensureSpikeSchema(pool);
     await addSpikeTableToPublication(pool);
 

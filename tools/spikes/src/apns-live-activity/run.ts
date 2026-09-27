@@ -40,12 +40,23 @@ async function runActionKeyLifecycle(): Promise<void> {
   const url = `http://127.0.0.1:${port}/v1/actions`;
 
   try {
-    const body = Buffer.from(JSON.stringify({ op_id: 'spike-op-1', command: 'set_readiness', scope: 'readiness', payload: { up: 'true' } }));
+    const body = Buffer.from(
+      JSON.stringify({
+        op_id: 'spike-op-1',
+        command: 'set_readiness',
+        scope: 'readiness',
+        payload: { up: 'true' },
+      }),
+    );
     const headers = sign('POST', '/v1/actions', body, TEST_KEY);
     const response = await fetch(url, {
       method: 'POST',
       body,
-      headers: { 'X-CP-Key-Id': headers.keyId, 'X-CP-Ts': headers.timestamp, 'X-CP-Sig': headers.signature },
+      headers: {
+        'X-CP-Key-Id': headers.keyId,
+        'X-CP-Ts': headers.timestamp,
+        'X-CP-Sig': headers.signature,
+      },
     });
     if (response.ok && received) {
       record('device-action-key: signed request accepted', 'PASS', JSON.stringify(received));
@@ -53,11 +64,22 @@ async function runActionKeyLifecycle(): Promise<void> {
       record('device-action-key: signed request accepted', 'FAIL', `status ${response.status}`);
     }
 
-    const tamperedBody = Buffer.from(JSON.stringify({ op_id: 'spike-op-2', command: 'set_readiness', scope: 'readiness', payload: { up: 'false' } }));
+    const tamperedBody = Buffer.from(
+      JSON.stringify({
+        op_id: 'spike-op-2',
+        command: 'set_readiness',
+        scope: 'readiness',
+        payload: { up: 'false' },
+      }),
+    );
     const tamperedResponse = await fetch(url, {
       method: 'POST',
       body: tamperedBody,
-      headers: { 'X-CP-Key-Id': headers.keyId, 'X-CP-Ts': headers.timestamp, 'X-CP-Sig': headers.signature },
+      headers: {
+        'X-CP-Key-Id': headers.keyId,
+        'X-CP-Ts': headers.timestamp,
+        'X-CP-Sig': headers.signature,
+      },
     });
     record(
       'device-action-key: tampered body rejected',
@@ -72,7 +94,11 @@ async function runActionKeyLifecycle(): Promise<void> {
 async function runApnsLifecycle(): Promise<void> {
   const credentials = credentialsFromEnv(BUNDLE_ID);
   if (!credentials) {
-    record('apns: broadcast channel + push-to-start + update + end + delete', 'SKIPPED', 'no .p8 key configured (APNS_KEY_PATH/APNS_KEY_ID/APNS_TEAM_ID)');
+    record(
+      'apns: broadcast channel + push-to-start + update + end + delete',
+      'SKIPPED',
+      'no .p8 key configured (APNS_KEY_PATH/APNS_KEY_ID/APNS_TEAM_ID)',
+    );
     return;
   }
 
@@ -83,8 +109,21 @@ async function runApnsLifecycle(): Promise<void> {
     await pushToStart(credentials, {
       channelId,
       attributesType: 'LeaveByActivityAttributes',
-      attributes: { trip_id: 'spike-trip', leave_by_id: 'spike-leave-by', title: 'Spike leave-by', legs: [] },
-      contentState: { leave_at: new Date(Date.now() + 600_000).toISOString(), state: 'waiting', up_count: 0, total: 1, pips: [], leg: 'spike-leg', guide_line: 'Tokek is watching the clock.' },
+      attributes: {
+        trip_id: 'spike-trip',
+        leave_by_id: 'spike-leave-by',
+        title: 'Spike leave-by',
+        legs: [],
+      },
+      contentState: {
+        leave_at: new Date(Date.now() + 600_000).toISOString(),
+        state: 'waiting',
+        up_count: 0,
+        total: 1,
+        pips: [],
+        leg: 'spike-leg',
+        guide_line: 'Tokek is watching the clock.',
+      },
       alertTitle: 'Leave-by started',
       inputPushChannel: channelId,
     });
@@ -105,7 +144,11 @@ async function runApnsLifecycle(): Promise<void> {
 
 async function runFcmLifecycle(): Promise<void> {
   if (!hasFcmCredentials()) {
-    record('fcm: data message to Android dev client', 'SKIPPED', 'no GOOGLE_APPLICATION_CREDENTIALS configured');
+    record(
+      'fcm: data message to Android dev client',
+      'SKIPPED',
+      'no GOOGLE_APPLICATION_CREDENTIALS configured',
+    );
     return;
   }
   const deviceToken = process.env.FCM_TEST_DEVICE_TOKEN;
@@ -114,7 +157,12 @@ async function runFcmLifecycle(): Promise<void> {
     return;
   }
   try {
-    const messageId = await sendLiveActivityDataMessage({ deviceToken, kind: 'leave_by', op: 'update', state: { state: 'soon' } });
+    const messageId = await sendLiveActivityDataMessage({
+      deviceToken,
+      kind: 'leave_by',
+      op: 'update',
+      state: { state: 'soon' },
+    });
     record('fcm: data message to Android dev client', 'PASS', messageId);
   } catch (error) {
     record('fcm: data message to Android dev client', 'FAIL', formatError(error));
@@ -127,7 +175,9 @@ async function main(): Promise<void> {
   await runFcmLifecycle();
 
   const failed = results.filter((r) => r.status === 'FAIL');
-  console.log(`\n${results.length} steps: ${results.filter((r) => r.status === 'PASS').length} PASS, ${failed.length} FAIL, ${results.filter((r) => r.status === 'SKIPPED').length} SKIPPED`);
+  console.log(
+    `\n${results.length} steps: ${results.filter((r) => r.status === 'PASS').length} PASS, ${failed.length} FAIL, ${results.filter((r) => r.status === 'SKIPPED').length} SKIPPED`,
+  );
   if (failed.length > 0) process.exitCode = 1;
 }
 

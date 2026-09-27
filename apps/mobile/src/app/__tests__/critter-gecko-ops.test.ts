@@ -7,7 +7,11 @@ import * as mockSkia from '../__mocks__/mock-skia';
 
 jest.mock('@shopify/react-native-skia', () => mockSkia);
 
-import { buildRibbonPolygon, catmullRomSpline, ellipsePoints } from '../(dev)/spikes/critter-geometry';
+import {
+  buildRibbonPolygon,
+  catmullRomSpline,
+  ellipsePoints,
+} from '../(dev)/spikes/critter-geometry';
 import { buildGeckoDrawing } from '../(dev)/spikes/critter-gecko-ops';
 import { buildGeckoPaintOps } from '../(dev)/spikes/critter-skia-paint';
 
@@ -36,8 +40,22 @@ describe('critter-geometry', () => {
       [5, 2],
       [10, 0],
     ];
-    const a = buildRibbonPolygon(points, points.length, { w: 3, minW: 1, taper: true, close: false, seed: 3, amp: 0.4 });
-    const b = buildRibbonPolygon(points, points.length, { w: 3, minW: 1, taper: true, close: false, seed: 3, amp: 0.4 });
+    const a = buildRibbonPolygon(points, points.length, {
+      w: 3,
+      minW: 1,
+      taper: true,
+      close: false,
+      seed: 3,
+      amp: 0.4,
+    });
+    const b = buildRibbonPolygon(points, points.length, {
+      w: 3,
+      minW: 1,
+      taper: true,
+      close: false,
+      seed: 3,
+      amp: 0.4,
+    });
     expect(a).toEqual(b);
   });
 });

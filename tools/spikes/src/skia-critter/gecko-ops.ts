@@ -28,8 +28,19 @@ export type DrawOp =
       readonly offset: number;
       readonly seed: number;
     }
-  | { readonly kind: 'under'; readonly points: Point[]; readonly color: string; readonly width: number; readonly seed: number }
-  | { readonly kind: 'fill'; readonly points: Point[]; readonly color: string; readonly alpha: number }
+  | {
+      readonly kind: 'under';
+      readonly points: Point[];
+      readonly color: string;
+      readonly width: number;
+      readonly seed: number;
+    }
+  | {
+      readonly kind: 'fill';
+      readonly points: Point[];
+      readonly color: string;
+      readonly alpha: number;
+    }
   | {
       readonly kind: 'line';
       readonly points: Point[];
@@ -113,6 +124,7 @@ export function buildGeckoDrawing(palette: GeckoPalette = {}): GeckoDrawing {
   const ink = palette.ink ?? DEFAULT_INK;
   const { ctx, ops } = createDrawContext(OP_SEED_START, ink);
   drawGecko(ctx, ink, { pose: 'idle', ...palette });
-  const totalLineLength = ops.reduce((sum, op) => (op.kind === 'line' ? sum + op.length : sum), 0) || 1;
+  const totalLineLength =
+    ops.reduce((sum, op) => (op.kind === 'line' ? sum + op.length : sum), 0) || 1;
   return { ops, totalLineLength };
 }

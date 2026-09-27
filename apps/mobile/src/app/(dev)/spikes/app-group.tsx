@@ -24,7 +24,11 @@ export default function AppGroupSpikeScreen() {
     try {
       const writtenAt = new Date().toISOString();
       const message = `hello from JS @ ${writtenAt}`;
-      const envelope = JSON.stringify({ schema: SNAPSHOT_SCHEMA, generated_at: writtenAt, message });
+      const envelope = JSON.stringify({
+        schema: SNAPSHOT_SCHEMA,
+        generated_at: writtenAt,
+        message,
+      });
 
       const start = performance.now();
       writeSnapshot('hello', envelope);

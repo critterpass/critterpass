@@ -37,7 +37,9 @@ async function main(): Promise<void> {
   const { auth } = await createAuthHarness(pool, mockIdp);
   const app = createSpikeSyncApp({ auth, pool });
   const running = await listen(app, env.PORT);
-  console.log(JSON.stringify({ msg: 's-sync app listening', baseUrl: running.baseUrl, port: env.PORT }));
+  console.log(
+    JSON.stringify({ msg: 's-sync app listening', baseUrl: running.baseUrl, port: env.PORT }),
+  );
 
   const shutdown = async (): Promise<void> => {
     console.log(JSON.stringify({ msg: 's-sync app shutting down' }));

@@ -51,7 +51,8 @@ export default function TimelineDragScreen() {
   const reportFrame = useCallback((maxDeltaMs: number) => setWorstFrameMs(maxDeltaMs), []);
   useFrameCallback((frame) => {
     'worklet';
-    if (frame.timeSincePreviousFrame !== null) maxFrameDeltaMs.value = Math.max(maxFrameDeltaMs.value, frame.timeSincePreviousFrame);
+    if (frame.timeSincePreviousFrame !== null)
+      maxFrameDeltaMs.value = Math.max(maxFrameDeltaMs.value, frame.timeSincePreviousFrame);
     if (windowStart.value === 0) windowStart.value = frame.timestamp;
     if (frame.timestamp - windowStart.value >= 700) {
       runOnJS(reportFrame)(maxFrameDeltaMs.value);
@@ -92,7 +93,9 @@ export default function TimelineDragScreen() {
       <Text accessibilityRole="header" style={styles.title}>
         Timeline drag spike
       </Text>
-      <Text style={styles.body}>Drag the handle — snaps to 15-minute steps with a haptic tick on every crossing.</Text>
+      <Text style={styles.body}>
+        Drag the handle — snaps to 15-minute steps with a haptic tick on every crossing.
+      </Text>
       <Text style={styles.time}>{formatTime(stepIndex)}</Text>
       <View style={styles.track}>
         <Animated.View style={[styles.fill, fillStyle]} />
@@ -100,7 +103,10 @@ export default function TimelineDragScreen() {
           <Animated.View style={[styles.thumb, thumbStyle]} />
         </GestureDetector>
       </View>
-      <Text style={styles.body}>worst frame gap while dragging (700 ms window): {worstFrameMs.toFixed(2)} ms (budget 16.6 ms @60fps)</Text>
+      <Text style={styles.body}>
+        worst frame gap while dragging (700 ms window): {worstFrameMs.toFixed(2)} ms (budget 16.6 ms
+        @60fps)
+      </Text>
     </View>
   );
 }
@@ -110,7 +116,27 @@ const styles = StyleSheet.create({
   title: { fontSize: 20, fontWeight: '600' },
   body: { fontSize: 13 },
   time: { fontSize: 32, fontWeight: '700', fontVariant: ['tabular-nums'] },
-  track: { width: TRACK_WIDTH, height: 8, borderRadius: 4, backgroundColor: '#e4e0d6', justifyContent: 'center' },
-  fill: { position: 'absolute', left: 0, top: 0, bottom: 0, borderRadius: 4, backgroundColor: '#4f86ff' },
-  thumb: { position: 'absolute', left: 0, width: THUMB_SIZE, height: THUMB_SIZE, borderRadius: THUMB_SIZE / 2, backgroundColor: '#221e19' },
+  track: {
+    width: TRACK_WIDTH,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#e4e0d6',
+    justifyContent: 'center',
+  },
+  fill: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    borderRadius: 4,
+    backgroundColor: '#4f86ff',
+  },
+  thumb: {
+    position: 'absolute',
+    left: 0,
+    width: THUMB_SIZE,
+    height: THUMB_SIZE,
+    borderRadius: THUMB_SIZE / 2,
+    backgroundColor: '#221e19',
+  },
 });

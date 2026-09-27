@@ -55,7 +55,9 @@ async function postDrillMessage(appUrl: string, id: string, body: string): Promi
   const response = await fetch(`${appUrl}/sync/upload`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ ops: [{ id, table: 'messages', op: 'PUT', data: { body, created_by: 'drill-writer' } }] }),
+    body: JSON.stringify({
+      ops: [{ id, table: 'messages', op: 'PUT', data: { body, created_by: 'drill-writer' } }],
+    }),
     signal: AbortSignal.timeout(10_000),
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -70,7 +72,11 @@ async function querySlots(pool: pg.Pool): Promise<Array<{ slot_name: string; act
 
 async function main(): Promise<void> {
   const env = envSchema.parse(process.env);
-  const pool = new pg.Pool({ connectionString: env.S_SYNC_DATABASE_URL, max: 3, connectionTimeoutMillis: 10_000 });
+  const pool = new pg.Pool({
+    connectionString: env.S_SYNC_DATABASE_URL,
+    max: 3,
+    connectionTimeoutMillis: 10_000,
+  });
   pool.on('error', (error) =>
     console.error(JSON.stringify({ msg: 's-sync drill pool error', error: String(error) })),
   );
@@ -84,13 +90,23 @@ async function main(): Promise<void> {
   }
 
   const clientDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cp-spike-s-sync-drill-'));
-  const watcher = await createSpikeSyncClient({ dbFilename: 'drill-watcher.db', dbLocation: clientDir });
+  const watcher = await createSpikeSyncClient({
+    dbFilename: 'drill-watcher.db',
+    dbLocation: clientDir,
+  });
   const writes: WriteRecord[] = [];
   const arrivals = new Map<string, number>();
   let stopWriter = false;
 
   function progress(step: string, extra: Record<string, unknown> = {}): void {
-    console.error(JSON.stringify({ msg: 's-sync drill progress', step, at: new Date().toISOString(), ...extra }));
+    console.error(
+      JSON.stringify({
+        msg: 's-sync drill progress',
+        step,
+        at: new Date().toISOString(),
+        ...extra,
+      }),
+    );
   }
 
   try {
@@ -154,7 +170,9 @@ async function main(): Promise<void> {
     } catch {
       // keep the raw string — some CLI paths do not emit pure JSON on stdout
     }
-    progress('switchover command returned', { commandMs: switchoverFinishedAt - switchoverStartedAt });
+    progress('switchover command returned', {
+      commandMs: switchoverFinishedAt - switchoverStartedAt,
+    });
 
     progress('post-switchover observation period', { ms: env.S_SYNC_POST_SWITCHOVER_MS });
     await new Promise((resolve) => setTimeout(resolve, env.S_SYNC_POST_SWITCHOVER_MS));
@@ -169,7 +187,9 @@ async function main(): Promise<void> {
     });
     progress('slots after switchover', { slotsAfter });
 
-    const lastGoodBefore = [...writes].reverse().find((w) => !w.failed && w.postedAt < switchoverStartedAt);
+    const lastGoodBefore = [...writes]
+      .reverse()
+      .find((w) => !w.failed && w.postedAt < switchoverStartedAt);
     const firstGoodAfter = writes.find((w) => !w.failed && w.postedAt >= switchoverStartedAt);
     const writeGapMs =
       lastGoodBefore?.ackedAt != null && firstGoodAfter?.ackedAt != null
@@ -211,13 +231,25 @@ async function main(): Promise<void> {
     await watcher.disconnect().catch(() => undefined);
     await watcher.close().catch(() => undefined);
     await removeSpikeTableFromPublication(pool).catch((error: unknown) =>
-      console.error(JSON.stringify({ msg: 's-sync drill: publication cleanup failed', error: formatError(error) })),
+      console.error(
+        JSON.stringify({
+          msg: 's-sync drill: publication cleanup failed',
+          error: formatError(error),
+        }),
+      ),
     );
     await dropSpikeSchema(pool).catch((error: unknown) =>
-      console.error(JSON.stringify({ msg: 's-sync drill: schema cleanup failed', error: formatError(error) })),
+      console.error(
+        JSON.stringify({ msg: 's-sync drill: schema cleanup failed', error: formatError(error) }),
+      ),
     );
     await assertNoSpikeTableInPublication(pool).catch((error: unknown) =>
-      console.error(JSON.stringify({ msg: 's-sync drill: publication not empty after cleanup', error: formatError(error) })),
+      console.error(
+        JSON.stringify({
+          msg: 's-sync drill: publication not empty after cleanup',
+          error: formatError(error),
+        }),
+      ),
     );
     await pool.end();
     await fs.rm(clientDir, { recursive: true, force: true });

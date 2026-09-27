@@ -16,7 +16,12 @@ import {
   ensureSpikeSchema,
   removeSpikeTableFromPublication,
 } from './schema';
-import { testChatLatency, testOfflineReplay, testReplicationAndReject, type ScenarioContext } from './scenario';
+import {
+  testChatLatency,
+  testOfflineReplay,
+  testReplicationAndReject,
+  type ScenarioContext,
+} from './scenario';
 
 /**
  * Runs the S-SYNC scenario against an already-deployed target (Railway `spike-sync-app` +
@@ -102,7 +107,11 @@ async function rampConnections(
           // permanently rejected connection (e.g. the server's `max_concurrent_connections` cap)
           // never rejects a bare `connect()`, it just retries forever in the background
           // (client.ts). This also disconnects (stopping that retry loop) on failure.
-          await connectAndWaitForSync(db, { appUrl: ctx.appUrl, syncEndpoint: ctx.syncEndpoint, userId }, 15_000);
+          await connectAndWaitForSync(
+            db,
+            { appUrl: ctx.appUrl, syncEndpoint: ctx.syncEndpoint, userId },
+            15_000,
+          );
           const ms = performance.now() - startedAt;
           return { ok: true as const, db, ms };
         } catch (error) {
@@ -162,7 +171,11 @@ async function main(): Promise<void> {
   // short of exhausting the host rather than trusting --conns alone.
   const maxRssMb = Number(process.env['S_SYNC_LOAD_MAX_RSS_MB'] ?? '3000');
 
-  const pool = new pg.Pool({ connectionString: env.S_SYNC_DATABASE_URL, max: 5, connectionTimeoutMillis: 10_000 });
+  const pool = new pg.Pool({
+    connectionString: env.S_SYNC_DATABASE_URL,
+    max: 5,
+    connectionTimeoutMillis: 10_000,
+  });
   const clientDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cp-spike-s-sync-load-'));
 
   // Normally this run owns the full lifecycle (assert clean → create/publish → measure →
@@ -183,7 +196,9 @@ async function main(): Promise<void> {
       clientDir,
     };
 
-    console.error(JSON.stringify({ msg: 's-sync load progress', step: 'testReplicationAndReject' }));
+    console.error(
+      JSON.stringify({ msg: 's-sync load progress', step: 'testReplicationAndReject' }),
+    );
     const replicationAndReject = await testReplicationAndReject(ctx);
 
     console.error(JSON.stringify({ msg: 's-sync load progress', step: 'testChatLatency' }));
@@ -192,7 +207,9 @@ async function main(): Promise<void> {
     console.error(JSON.stringify({ msg: 's-sync load progress', step: 'testOfflineReplay' }));
     const offlineReplay = await testOfflineReplay(ctx, env.S_SYNC_OFFLINE_OPS);
 
-    console.error(JSON.stringify({ msg: 's-sync load progress', step: 'rampConnections', targetConnections }));
+    console.error(
+      JSON.stringify({ msg: 's-sync load progress', step: 'rampConnections', targetConnections }),
+    );
     const connections = await rampConnections(ctx, targetConnections, batchSize, maxRssMb);
 
     console.log(

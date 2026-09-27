@@ -24,7 +24,13 @@ export function credentialsFromEnv(bundleId: string): ApnsCredentials | undefine
   const keyId = process.env.APNS_KEY_ID;
   const teamId = process.env.APNS_TEAM_ID;
   if (!keyPath || !keyId || !teamId) return undefined;
-  return { keyId, teamId, key: keyPath, bundleId, production: process.env.APNS_PRODUCTION === 'true' };
+  return {
+    keyId,
+    teamId,
+    key: keyPath,
+    bundleId,
+    production: process.env.APNS_PRODUCTION === 'true',
+  };
 }
 
 function buildProvider(credentials: ApnsCredentials): apn.Provider {
@@ -39,7 +45,9 @@ export interface CreatedChannel {
 }
 
 /** Channel Management API: mint a new broadcast channel id for one LeaveBy/MeetUp/Vote. */
-export async function createBroadcastChannel(credentials: ApnsCredentials): Promise<CreatedChannel> {
+export async function createBroadcastChannel(
+  credentials: ApnsCredentials,
+): Promise<CreatedChannel> {
   const provider = buildProvider(credentials);
   try {
     const notification = new apn.Notification();
@@ -55,7 +63,10 @@ export async function createBroadcastChannel(credentials: ApnsCredentials): Prom
   }
 }
 
-export async function deleteBroadcastChannel(credentials: ApnsCredentials, channelId: string): Promise<void> {
+export async function deleteBroadcastChannel(
+  credentials: ApnsCredentials,
+  channelId: string,
+): Promise<void> {
   const provider = buildProvider(credentials);
   try {
     const notification = new apn.Notification();

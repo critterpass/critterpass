@@ -33,7 +33,9 @@ interface BrowserDocument {
 declare const document: BrowserDocument;
 
 /** Renders Tokek via the real design/doodles.js `<doodle-art>` element, fully drawn (progress=1). */
-export async function renderReferenceGeckoPng(options: ReferenceRenderOptions = {}): Promise<Buffer> {
+export async function renderReferenceGeckoPng(
+  options: ReferenceRenderOptions = {},
+): Promise<Buffer> {
   const size = options.size ?? 200;
   const pose = options.pose ?? 'idle';
   const browser = await chromium.launch();
@@ -42,7 +44,9 @@ export async function renderReferenceGeckoPng(options: ReferenceRenderOptions = 
       viewport: { width: size, height: size },
       deviceScaleFactor: 1,
     });
-    await page.setContent('<!doctype html><html><body style="margin:0;background:#ffffff"></body></html>');
+    await page.setContent(
+      '<!doctype html><html><body style="margin:0;background:#ffffff"></body></html>',
+    );
     await page.addScriptTag({ path: DOODLES_JS_PATH });
     await page.evaluate(
       ({ pose, size }) => {
@@ -68,7 +72,8 @@ export async function renderReferenceGeckoPng(options: ReferenceRenderOptions = 
       el?.draw?.(1);
     });
     const canvasHandle = await page.$('doodle-art canvas');
-    if (!canvasHandle) throw new Error('design/doodles.js did not create a <canvas> inside <doodle-art>');
+    if (!canvasHandle)
+      throw new Error('design/doodles.js did not create a <canvas> inside <doodle-art>');
     return await canvasHandle.screenshot();
   } finally {
     await browser.close();

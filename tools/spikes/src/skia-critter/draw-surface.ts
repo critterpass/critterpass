@@ -18,7 +18,8 @@ export interface DrawSurface {
 
 function at<T>(items: readonly T[], index: number): T {
   const value = items[index];
-  if (value === undefined) throw new Error(`draw-surface: index ${index} out of range (length ${items.length})`);
+  if (value === undefined)
+    throw new Error(`draw-surface: index ${index} out of range (length ${items.length})`);
   return value;
 }
 

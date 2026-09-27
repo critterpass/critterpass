@@ -10,7 +10,7 @@ import { renderReferenceGeckoPng } from './design-source-reference';
 import { buildGeckoDrawing } from './gecko-ops';
 import { renderGeckoToPng } from './node-canvas-surface';
 
-// Same threshold as phase-02's Skia critter criterion (S1/S2): ≤2% pixel diff vs the Node prerender.
+// Same threshold as the Skia critter spike criterion: ≤2% pixel diff vs the Node prerender.
 // Here the "prerender" is compared to the real, unmodified design source, not to itself, so this
 // tests the ported drawing calls' fidelity — not a tautology.
 const MAX_DIFF_RATIO = 0.02;
@@ -45,41 +45,50 @@ describe('renderGeckoToPng', () => {
     const half = PNG.sync.read(renderGeckoToPng({ size: SIZE, progress: 0.5 }).png);
     const full = PNG.sync.read(renderGeckoToPng({ size: SIZE, progress: 1 }).png);
     const diffAgainstBlank = new PNG({ width: SIZE, height: SIZE });
-    const emptyVsHalf = pixelmatch(empty.data, half.data, diffAgainstBlank.data, SIZE, SIZE, { threshold: 0.1 });
-    const emptyVsFull = pixelmatch(empty.data, full.data, diffAgainstBlank.data, SIZE, SIZE, { threshold: 0.1 });
+    const emptyVsHalf = pixelmatch(empty.data, half.data, diffAgainstBlank.data, SIZE, SIZE, {
+      threshold: 0.1,
+    });
+    const emptyVsFull = pixelmatch(empty.data, full.data, diffAgainstBlank.data, SIZE, SIZE, {
+      threshold: 0.1,
+    });
     expect(emptyVsHalf).toBeGreaterThan(0);
     expect(emptyVsFull).toBeGreaterThan(emptyVsHalf);
   });
 });
 
 describe('gecko port vs the real design source', () => {
-  it(
-    'matches design/doodles.js <doodle-art kind="gecko"> within 2% of pixels',
-    async () => {
-      const [reference, port] = await Promise.all([
-        renderReferenceGeckoPng({ size: SIZE, pose: 'idle' }),
-        Promise.resolve(renderGeckoToPng({ size: SIZE, progress: 1 }).png),
-      ]);
-      const expected = PNG.sync.read(reference);
-      const actual = PNG.sync.read(port);
-      expect(actual.width).toBe(expected.width);
-      expect(actual.height).toBe(expected.height);
+  it('matches design/doodles.js <doodle-art kind="gecko"> within 2% of pixels', async () => {
+    const [reference, port] = await Promise.all([
+      renderReferenceGeckoPng({ size: SIZE, pose: 'idle' }),
+      Promise.resolve(renderGeckoToPng({ size: SIZE, progress: 1 }).png),
+    ]);
+    const expected = PNG.sync.read(reference);
+    const actual = PNG.sync.read(port);
+    expect(actual.width).toBe(expected.width);
+    expect(actual.height).toBe(expected.height);
 
-      const diff = new PNG({ width: expected.width, height: expected.height });
-      const differing = pixelmatch(expected.data, actual.data, diff.data, expected.width, expected.height, {
+    const diff = new PNG({ width: expected.width, height: expected.height });
+    const differing = pixelmatch(
+      expected.data,
+      actual.data,
+      diff.data,
+      expected.width,
+      expected.height,
+      {
         threshold: 0.1,
-      });
-      const ratio = differing / (expected.width * expected.height);
+      },
+    );
+    const ratio = differing / (expected.width * expected.height);
 
-      if (ratio > MAX_DIFF_RATIO) {
-        const outDir = mkdtempSync(path.join(tmpdir(), 'cp-skia-critter-'));
-        writeFileSync(path.join(outDir, 'expected.png'), reference);
-        writeFileSync(path.join(outDir, 'actual.png'), port);
-        writeFileSync(path.join(outDir, 'diff.png'), PNG.sync.write(diff));
-        console.log(`gecko port pixel diff ${(ratio * 100).toFixed(2)}% — images written to ${outDir}`);
-      }
-      expect(ratio).toBeLessThanOrEqual(MAX_DIFF_RATIO);
-    },
-    30_000,
-  );
+    if (ratio > MAX_DIFF_RATIO) {
+      const outDir = mkdtempSync(path.join(tmpdir(), 'cp-skia-critter-'));
+      writeFileSync(path.join(outDir, 'expected.png'), reference);
+      writeFileSync(path.join(outDir, 'actual.png'), port);
+      writeFileSync(path.join(outDir, 'diff.png'), PNG.sync.write(diff));
+      console.log(
+        `gecko port pixel diff ${(ratio * 100).toFixed(2)}% — images written to ${outDir}`,
+      );
+    }
+    expect(ratio).toBeLessThanOrEqual(MAX_DIFF_RATIO);
+  }, 30_000);
 });

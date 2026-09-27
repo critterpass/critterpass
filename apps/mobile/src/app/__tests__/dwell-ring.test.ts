@@ -1,10 +1,20 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { INITIAL_DWELL_STATE, haversineMeters, replayDwellSeries, stepDwellState } from '../(dev)/spikes/dwell-ring';
+import {
+  INITIAL_DWELL_STATE,
+  haversineMeters,
+  replayDwellSeries,
+  stepDwellState,
+} from '../(dev)/spikes/dwell-ring';
 import type { DwellConfig, LocationFix } from '../(dev)/spikes/dwell-ring';
 
 const POI = { lat: 10.762622, lon: 106.660172 }; // Ho Chi Minh City, arbitrary test POI
-const CONFIG: DwellConfig = { radiusMeters: 50, thresholdSeconds: 120, graceSeconds: 20, drainPerSecond: 1 / 30 };
+const CONFIG: DwellConfig = {
+  radiusMeters: 50,
+  thresholdSeconds: 120,
+  graceSeconds: 20,
+  drainPerSecond: 1 / 30,
+};
 
 function fixAt(offsetSeconds: number, point: { lat: number; lon: number }): LocationFix {
   return { ...point, timestampMs: offsetSeconds * 1000 };

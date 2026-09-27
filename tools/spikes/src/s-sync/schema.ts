@@ -5,7 +5,7 @@ export const MESSAGES_TABLE = 'messages';
 const QUALIFIED_MESSAGES_TABLE = `${SPIKE_SCHEMA}.${MESSAGES_TABLE}`;
 
 /**
- * Throwaway spike schema (phase-02 "spikes use their own spike_* tables in a spike schema on
+ * Throwaway spike schema (spike rule: "spikes use their own spike_* tables in a spike schema on
  * staging, dropped after the ADR"). Used identically against the Testcontainers image, PlanetScale
  * staging and PlanetScale main so the same code path is exercised locally before it ever touches
  * a shared cloud database.
@@ -24,7 +24,10 @@ const QUALIFIED_MESSAGES_TABLE = `${SPIKE_SCHEMA}.${MESSAGES_TABLE}`;
  * is `<role>.<branch-id>` (e.g. `pscale_api_oua4wu8hge6u.bvls2mz86del`), a PgBouncer/proxy
  * routing identifier — `pg_roles` only knows the role by the part before the dot.
  */
-export async function ensureSpikeSchema(pool: pg.Pool, replicationRoleUsername?: string): Promise<void> {
+export async function ensureSpikeSchema(
+  pool: pg.Pool,
+  replicationRoleUsername?: string,
+): Promise<void> {
   await pool.query(`create schema if not exists ${SPIKE_SCHEMA}`);
   await pool.query(`
     create table if not exists ${QUALIFIED_MESSAGES_TABLE} (

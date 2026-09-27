@@ -33,7 +33,8 @@ function polygonPath(points: readonly Point[]): SkPath {
 
 function at<T>(items: readonly T[], index: number): T {
   const value = items[index];
-  if (value === undefined) throw new Error(`critter-skia-paint: index ${index} out of range (length ${items.length})`);
+  if (value === undefined)
+    throw new Error(`critter-skia-paint: index ${index} out of range (length ${items.length})`);
   return value;
 }
 
@@ -60,7 +61,11 @@ function seededRng(seed: number): () => number {
  * draw-on budget. Call again every animation frame to reproduce the on-screen cost of NOT caching
  * a critter's paint — see critter.tsx / critterdex-grid.tsx for the cached-image alternative.
  */
-export function buildGeckoPaintOps(ops: readonly DrawOp[], totalLineLength: number, progress: number): GeckoPaintOp[] {
+export function buildGeckoPaintOps(
+  ops: readonly DrawOp[],
+  totalLineLength: number,
+  progress: number,
+): GeckoPaintOp[] {
   const p = clamp01(progress);
   if (p <= 0) return [];
   const fadeAlpha = clamp01((p - 0.25) / 0.55);
@@ -72,17 +77,39 @@ export function buildGeckoPaintOps(ops: readonly DrawOp[], totalLineLength: numb
       const ox = (random() - 0.5) * 2 * op.offset;
       const oy = (random() - 0.2) * op.offset;
       const shifted = op.points.map(([x, y]) => [x + ox, y + oy] as Point);
-      result.push({ path: polygonPath(shifted), color: op.color, opacity: op.alpha * fadeAlpha, blendMode: 'multiply' });
+      result.push({
+        path: polygonPath(shifted),
+        color: op.color,
+        opacity: op.alpha * fadeAlpha,
+        blendMode: 'multiply',
+      });
     } else if (op.kind === 'under') {
-      const polygon = buildRibbonPolygon(op.points, op.points.length, { w: op.width, minW: MIN_STROKE_WIDTH, taper: true, close: false, seed: op.seed, amp: UNDER_AMP });
-      result.push({ path: polygonPath(polygon), color: op.color, opacity: 0.9 * fadeAlpha, blendMode: 'multiply' });
+      const polygon = buildRibbonPolygon(op.points, op.points.length, {
+        w: op.width,
+        minW: MIN_STROKE_WIDTH,
+        taper: true,
+        close: false,
+        seed: op.seed,
+        amp: UNDER_AMP,
+      });
+      result.push({
+        path: polygonPath(polygon),
+        color: op.color,
+        opacity: 0.9 * fadeAlpha,
+        blendMode: 'multiply',
+      });
     }
   }
 
   let budget = p * totalLineLength * 1.02;
   for (const op of ops) {
     if (op.kind === 'fill') {
-      result.push({ path: polygonPath(op.points), color: op.color, opacity: op.alpha * (p >= 1 ? 1 : fadeAlpha), blendMode: 'srcOver' });
+      result.push({
+        path: polygonPath(op.points),
+        color: op.color,
+        opacity: op.alpha * (p >= 1 ? 1 : fadeAlpha),
+        blendMode: 'srcOver',
+      });
     } else if (op.kind === 'line') {
       if (budget <= 0) continue;
       let points = op.points;
@@ -98,8 +125,20 @@ export function buildGeckoPaintOps(ops: readonly DrawOp[], totalLineLength: numb
         points = points.slice(0, cut + 1);
       }
       budget -= op.length;
-      const polygon = buildRibbonPolygon(points, op.points.length, { w: op.width, minW: MIN_STROKE_WIDTH, taper: op.taper, close: op.close, seed: op.seed, amp: LINE_AMP });
-      result.push({ path: polygonPath(polygon), color: op.color, opacity: 1, blendMode: 'srcOver' });
+      const polygon = buildRibbonPolygon(points, op.points.length, {
+        w: op.width,
+        minW: MIN_STROKE_WIDTH,
+        taper: op.taper,
+        close: op.close,
+        seed: op.seed,
+        amp: LINE_AMP,
+      });
+      result.push({
+        path: polygonPath(polygon),
+        color: op.color,
+        opacity: 1,
+        blendMode: 'srcOver',
+      });
     }
   }
   return result;

@@ -141,7 +141,11 @@ export async function testReplicationAndReject(
     }
 
     const rejectId = crypto.randomUUID();
-    const rejectResult = await postMessage(ctx.appUrl, { id: rejectId, body: '', createdBy: 'seed' });
+    const rejectResult = await postMessage(ctx.appUrl, {
+      id: rejectId,
+      body: '',
+      createdBy: 'seed',
+    });
     const cmdResult = await ctx.pool.query<{ code: string }>(
       `select code from ${SPIKE_SCHEMA}.cmd_results where op_id = $1`,
       [rejectId],
@@ -241,9 +245,10 @@ export async function testOfflineReplay(
     // The queue draining only proves upload; give replication a moment to round-trip back down.
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const serverRows = await ctx.pool.query(`select id from ${SPIKE_SCHEMA}.messages where id = any($1)`, [
-      ids,
-    ]);
+    const serverRows = await ctx.pool.query(
+      `select id from ${SPIKE_SCHEMA}.messages where id = any($1)`,
+      [ids],
+    );
     return {
       opsCount,
       queuedBeforeConnect,

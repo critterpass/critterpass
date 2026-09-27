@@ -22,7 +22,12 @@ async function main(): Promise<void> {
   const harness = await createSSyncHarness();
   const clientDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cp-spike-s-sync-'));
   try {
-    const ctx = { appUrl: harness.appUrl, syncEndpoint: harness.syncEndpoint, pool: harness.pool, clientDir };
+    const ctx = {
+      appUrl: harness.appUrl,
+      syncEndpoint: harness.syncEndpoint,
+      pool: harness.pool,
+      clientDir,
+    };
 
     progress('testReplicationAndReject');
     const replicationAndReject = await testReplicationAndReject(ctx);

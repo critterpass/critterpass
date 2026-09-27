@@ -7,7 +7,8 @@ export type Point = readonly [number, number];
 
 function at<T>(items: readonly T[], index: number): T {
   const value = items[index];
-  if (value === undefined) throw new Error(`critter-geometry: index ${index} out of range (length ${items.length})`);
+  if (value === undefined)
+    throw new Error(`critter-geometry: index ${index} out of range (length ${items.length})`);
   return value;
 }
 
@@ -27,7 +28,8 @@ export function catmullRomSpline(points: readonly Point[], close: boolean, step 
   const n = points.length;
   if (n < 2) return points.slice();
   const out: Point[] = [];
-  const wrap = (i: number) => (close ? at(points, ((i % n) + n) % n) : at(points, Math.max(0, Math.min(n - 1, i))));
+  const wrap = (i: number) =>
+    close ? at(points, ((i % n) + n) % n) : at(points, Math.max(0, Math.min(n - 1, i)));
   const segments = close ? n : n - 1;
   for (let i = 0; i < segments; i += 1) {
     const p0 = wrap(i - 1);
@@ -53,7 +55,14 @@ export function catmullRomSpline(points: readonly Point[], close: boolean, step 
 }
 
 /** Point ring on an ellipse, ported from doodles.js `E`. */
-export function ellipsePoints(cx: number, cy: number, rx: number, ry: number, n = 12, rot = 0): Point[] {
+export function ellipsePoints(
+  cx: number,
+  cy: number,
+  rx: number,
+  ry: number,
+  n = 12,
+  rot = 0,
+): Point[] {
   return Array.from({ length: n }, (_, i) => {
     const a = rot + (i / n) * Math.PI * 2;
     return [cx + Math.cos(a) * rx, cy + Math.sin(a) * ry] as Point;
@@ -85,7 +94,11 @@ export interface RibbonOptions {
  * stroke's point count (not just the revealed prefix in `points`) so taper does not distort
  * mid draw-on.
  */
-export function buildRibbonPolygon(points: readonly Point[], fullPointCount: number, o: RibbonOptions): Point[] {
+export function buildRibbonPolygon(
+  points: readonly Point[],
+  fullPointCount: number,
+  o: RibbonOptions,
+): Point[] {
   const n = points.length;
   if (n < 2) return [];
   const random = seededRng(o.seed);

@@ -73,13 +73,19 @@ export default function CritterSpikeScreen() {
     rafHandle.current = requestAnimationFrame(tick);
   }, []);
 
-  useEffect(() => () => {
-    if (rafHandle.current !== null) cancelAnimationFrame(rafHandle.current);
-  }, []);
+  useEffect(
+    () => () => {
+      if (rafHandle.current !== null) cancelAnimationFrame(rafHandle.current);
+    },
+    [],
+  );
 
   const drawing = closed ? closedDrawing : openDrawing;
   // Pure for render: no timing here (React may invoke this more than once per commit).
-  const paintOps = useMemo(() => buildGeckoPaintOps(drawing.ops, drawing.totalLineLength, progress), [drawing, progress]);
+  const paintOps = useMemo(
+    () => buildGeckoPaintOps(drawing.ops, drawing.totalLineLength, progress),
+    [drawing, progress],
+  );
 
   // Timing lives in an effect, recomputing once more purely to measure the JS-thread cost of NOT
   // caching this frame's paint — deferred to the next tick so the setState here can't cascade into
@@ -105,13 +111,23 @@ export default function CritterSpikeScreen() {
       <Canvas style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}>
         <Group transform={[{ scale: CANVAS_SIZE / 100 }]}>
           {paintOps.map((op, i) => (
-            <Path key={i} path={op.path} color={op.color} opacity={op.opacity} blendMode={op.blendMode} />
+            <Path
+              key={i}
+              path={op.path}
+              color={op.color}
+              opacity={op.opacity}
+              blendMode={op.blendMode}
+            />
           ))}
         </Group>
       </Canvas>
 
       <View style={styles.buttonRow}>
-        <Button title={running ? 'Drawing on…' : 'Play draw-on'} onPress={startDrawOn} disabled={running} />
+        <Button
+          title={running ? 'Drawing on…' : 'Play draw-on'}
+          onPress={startDrawOn}
+          disabled={running}
+        />
       </View>
 
       <View style={styles.resultBox}>
@@ -132,7 +148,13 @@ const styles = StyleSheet.create({
   title: { fontSize: 20, fontWeight: '600' },
   body: { fontSize: 14 },
   buttonRow: { alignSelf: 'flex-start' },
-  resultBox: { gap: 4, borderRadius: 8, borderWidth: StyleSheet.hairlineWidth, padding: 12, alignSelf: 'stretch' },
+  resultBox: {
+    gap: 4,
+    borderRadius: 8,
+    borderWidth: StyleSheet.hairlineWidth,
+    padding: 12,
+    alignSelf: 'stretch',
+  },
   resultLabel: { fontSize: 12, textTransform: 'uppercase', opacity: 0.6 },
   resultValue: { fontSize: 24, fontWeight: '700' },
 });

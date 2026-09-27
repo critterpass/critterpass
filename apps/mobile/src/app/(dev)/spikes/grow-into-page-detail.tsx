@@ -24,7 +24,14 @@ export default function GrowIntoPageDetailScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 24, padding: 16 },
-  card: { width: '100%', aspectRatio: 1, borderRadius: 24, backgroundColor: '#4f86ff', alignItems: 'center', justifyContent: 'center' },
+  card: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: 24,
+    backgroundColor: '#4f86ff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   title: { fontSize: 24, fontWeight: '700', color: '#fff' },
   back: { fontSize: 16, color: '#4f86ff' },
 });

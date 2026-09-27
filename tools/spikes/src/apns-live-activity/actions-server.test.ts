@@ -14,7 +14,11 @@ async function errorCode(response: Response): Promise<string> {
   return body.error.code;
 }
 
-function post(app: ReturnType<typeof createActionsServer>, body: Buffer, headerOverrides: Record<string, string> = {}) {
+function post(
+  app: ReturnType<typeof createActionsServer>,
+  body: Buffer,
+  headerOverrides: Record<string, string> = {},
+) {
   const headers = sign('POST', '/v1/actions', body, KEY);
   return app.request('/v1/actions', {
     method: 'POST',
@@ -32,19 +36,30 @@ describe('actions-server', () => {
   it('accepts a validly signed, well-formed envelope and hands it to onAction', async () => {
     const received: LoggedAction[] = [];
     const app = createActionsServer(KEY, (action) => received.push(action));
-    const body = Buffer.from(JSON.stringify({ op_id: 'op-1', command: 'cast_ballot', scope: 'ballot', payload: { poll_id: 'p1', option_id: 'o1' } }));
+    const body = Buffer.from(
+      JSON.stringify({
+        op_id: 'op-1',
+        command: 'cast_ballot',
+        scope: 'ballot',
+        payload: { poll_id: 'p1', option_id: 'o1' },
+      }),
+    );
 
     const response = await post(app, body);
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({ result: { op_id: 'op-1' } });
-    expect(received).toEqual([{ command: 'cast_ballot', scope: 'ballot', payload: { poll_id: 'p1', option_id: 'o1' } }]);
+    expect(received).toEqual([
+      { command: 'cast_ballot', scope: 'ballot', payload: { poll_id: 'p1', option_id: 'o1' } },
+    ]);
   });
 
   it('rejects an unknown key id without touching onAction', async () => {
     const received: LoggedAction[] = [];
     const app = createActionsServer(KEY, (action) => received.push(action));
-    const body = Buffer.from(JSON.stringify({ op_id: 'op-1', command: 'cast_ballot', scope: 'ballot', payload: {} }));
+    const body = Buffer.from(
+      JSON.stringify({ op_id: 'op-1', command: 'cast_ballot', scope: 'ballot', payload: {} }),
+    );
 
     const response = await post(app, body, { 'X-CP-Key-Id': 'not-the-real-key' });
 

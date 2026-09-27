@@ -77,7 +77,9 @@ export interface CreateClientOptions {
   readWorkerCount?: number;
 }
 
-export async function createSpikeSyncClient(options: CreateClientOptions): Promise<PowerSyncDatabase> {
+export async function createSpikeSyncClient(
+  options: CreateClientOptions,
+): Promise<PowerSyncDatabase> {
   const db = new PowerSyncDatabase({
     schema: spikeSyncSchema,
     database: {
@@ -117,7 +119,10 @@ export async function connectAndWaitForSync(
     await Promise.race([
       db.waitForFirstSync(),
       new Promise((_resolve, reject) =>
-        setTimeout(() => reject(new Error(`s-sync client: waitForFirstSync timed out after ${timeoutMs}ms`)), timeoutMs),
+        setTimeout(
+          () => reject(new Error(`s-sync client: waitForFirstSync timed out after ${timeoutMs}ms`)),
+          timeoutMs,
+        ),
       ),
     ]);
   } catch (error) {

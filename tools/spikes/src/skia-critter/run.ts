@@ -29,11 +29,12 @@ async function main(): Promise<void> {
   // while its blink/idle-bob loop is live. Host-Mac Node timing only — see the ADR for real
   // simulator/emulator on-screen fps captured from the RN dev routes.
   const singleFrameSamplesMs: number[] = [];
-  for (let i = 0; i < 200; i += 1) singleFrameSamplesMs.push(renderGeckoToPng({ size: 200, progress: 1 }).renderMs);
+  for (let i = 0; i < 200; i += 1)
+    singleFrameSamplesMs.push(renderGeckoToPng({ size: 200, progress: 1 }).renderMs);
 
   // Approximates one animation frame's worth of ribbon tessellation for a realistic Critterdex
   // viewport (6 idle bobbing critters, per code-standards.md §7's "≤2 concurrent draw-ons" budget
-  // read together with phase-02's "6 idle bobbing critters") plus a FlashList/Legend List
+  // read together with the spike's "6 idle bobbing critters") plus a FlashList/Legend List
   // recycle window of ~24 on-screen cells re-painting from cache misses.
   const concurrentCritterCount = 6;
   const scrollRecycleWindow = 24;

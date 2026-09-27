@@ -12,7 +12,9 @@ export function useFrameCallback(): { setActive: (active: boolean) => void } {
   return { setActive: () => {} };
 }
 
-export function runOnJS<Args extends unknown[], Result>(fn: (...args: Args) => Result): (...args: Args) => Result {
+export function runOnJS<Args extends unknown[], Result>(
+  fn: (...args: Args) => Result,
+): (...args: Args) => Result {
   return fn;
 }
 

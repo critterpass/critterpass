@@ -5,7 +5,13 @@ import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { reloadWidgets, writeSnapshot } from '../../../../modules/cp-app-group';
 import type { DwellState } from './dwell-ring';
 import { haversineMeters } from './dwell-ring';
-import { DEFAULT_DWELL_CONFIG, LOCATION_TASK_NAME, configureDwellTarget, getDwellSnapshot, subscribeDwellUpdates } from './dwell-location-task';
+import {
+  DEFAULT_DWELL_CONFIG,
+  LOCATION_TASK_NAME,
+  configureDwellTarget,
+  getDwellSnapshot,
+  subscribeDwellUpdates,
+} from './dwell-location-task';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -15,7 +21,10 @@ const SNAPSHOT_SCHEMA = 1;
 
 type PermissionLevel = 'unknown' | 'denied' | 'foreground' | 'always';
 
-function toPermissionLevel(foreground: Location.PermissionStatus, background: Location.PermissionStatus | null): PermissionLevel {
+function toPermissionLevel(
+  foreground: Location.PermissionStatus,
+  background: Location.PermissionStatus | null,
+): PermissionLevel {
   if (background === Location.PermissionStatus.GRANTED) return 'always';
   if (foreground === Location.PermissionStatus.GRANTED) return 'foreground';
   if (foreground === Location.PermissionStatus.DENIED) return 'denied';
@@ -46,7 +55,12 @@ export default function LocationDwellSpikeScreen() {
         const start = performance.now();
         writeSnapshot(
           'dwell_ring',
-          JSON.stringify({ schema: SNAPSHOT_SCHEMA, progress: state.progress, dwell_seconds: state.dwellSeconds, generated_at: new Date().toISOString() }),
+          JSON.stringify({
+            schema: SNAPSHOT_SCHEMA,
+            progress: state.progress,
+            dwell_seconds: state.dwellSeconds,
+            generated_at: new Date().toISOString(),
+          }),
         );
         reloadWidgets();
         setSnapshotMs(performance.now() - start);
@@ -62,11 +76,15 @@ export default function LocationDwellSpikeScreen() {
 
   const requestAlways = useCallback(async () => {
     const result = await Location.requestBackgroundPermissionsAsync();
-    setPermission((current) => (result.status === Location.PermissionStatus.GRANTED ? 'always' : current));
+    setPermission((current) =>
+      result.status === Location.PermissionStatus.GRANTED ? 'always' : current,
+    );
   }, []);
 
   const setPoiFromCurrentLocation = useCallback(async () => {
-    const current = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+    const current = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.Balanced,
+    });
     const nextPoi = { lat: current.coords.latitude, lon: current.coords.longitude };
     setPoi(nextPoi);
     configureDwellTarget(nextPoi, DEFAULT_DWELL_CONFIG);
@@ -103,7 +121,10 @@ export default function LocationDwellSpikeScreen() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  const distanceMeters = poi && fix ? haversineMeters({ lat: fix.coords.latitude, lon: fix.coords.longitude }, poi) : null;
+  const distanceMeters =
+    poi && fix
+      ? haversineMeters({ lat: fix.coords.latitude, lon: fix.coords.longitude }, poi)
+      : null;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -113,35 +134,69 @@ export default function LocationDwellSpikeScreen() {
       <Text style={styles.body}>permission: {permission}</Text>
 
       <View style={styles.buttonRow}>
-        <Button title="Enable location (While-In-Use)" onPress={() => void requestForeground()} disabled={permission !== 'unknown' && permission !== 'denied'} />
+        <Button
+          title="Enable location (While-In-Use)"
+          onPress={() => void requestForeground()}
+          disabled={permission !== 'unknown' && permission !== 'denied'}
+        />
       </View>
       {permission === 'foreground' || permission === 'always' ? (
         <View style={styles.buttonRow}>
-          <Button title="Enable background tracking (Always)" onPress={() => void requestAlways()} disabled={permission === 'always'} />
+          <Button
+            title="Enable background tracking (Always)"
+            onPress={() => void requestAlways()}
+            disabled={permission === 'always'}
+          />
         </View>
       ) : null}
       <View style={styles.buttonRow}>
-        <Button title="Use current location as POI" onPress={() => void setPoiFromCurrentLocation()} disabled={permission === 'unknown' || permission === 'denied'} />
+        <Button
+          title="Use current location as POI"
+          onPress={() => void setPoiFromCurrentLocation()}
+          disabled={permission === 'unknown' || permission === 'denied'}
+        />
       </View>
       <View style={styles.buttonRow}>
-        <Button title={tracking ? 'Stop trip-day session' : 'Start trip-day session'} onPress={() => void (tracking ? stopTracking() : startTracking())} disabled={!poi} />
+        <Button
+          title={tracking ? 'Stop trip-day session' : 'Start trip-day session'}
+          onPress={() => void (tracking ? stopTracking() : startTracking())}
+          disabled={!poi}
+        />
       </View>
 
-      {poi ? <Text style={styles.body}>POI: {poi.lat.toFixed(6)}, {poi.lon.toFixed(6)} (radius {DEFAULT_DWELL_CONFIG.radiusMeters} m)</Text> : <Text style={styles.body}>No POI set yet.</Text>}
+      {poi ? (
+        <Text style={styles.body}>
+          POI: {poi.lat.toFixed(6)}, {poi.lon.toFixed(6)} (radius{' '}
+          {DEFAULT_DWELL_CONFIG.radiusMeters} m)
+        </Text>
+      ) : (
+        <Text style={styles.body}>No POI set yet.</Text>
+      )}
       {fix ? (
         <Text style={styles.body}>
-          last fix: {fix.coords.latitude.toFixed(6)}, {fix.coords.longitude.toFixed(6)} (±{fix.coords.accuracy?.toFixed(0) ?? '?'} m) at{' '}
+          last fix: {fix.coords.latitude.toFixed(6)}, {fix.coords.longitude.toFixed(6)} (±
+          {fix.coords.accuracy?.toFixed(0) ?? '?'} m) at{' '}
           {new Date(fix.timestamp).toLocaleTimeString()}
         </Text>
       ) : null}
-      {distanceMeters !== null ? <Text style={styles.body}>distance to POI: {distanceMeters.toFixed(1)} m</Text> : null}
+      {distanceMeters !== null ? (
+        <Text style={styles.body}>distance to POI: {distanceMeters.toFixed(1)} m</Text>
+      ) : null}
 
       <View style={styles.resultBox}>
         <Text style={styles.resultLabel}>dwell ring</Text>
-        <Text style={styles.resultValue}>{dwell ? `${(dwell.progress * 100).toFixed(0)}%` : '0%'}</Text>
-        <Text style={styles.body}>{dwell ? `${dwell.dwellSeconds.toFixed(0)}s / ${DEFAULT_DWELL_CONFIG.thresholdSeconds}s` : ''}</Text>
+        <Text style={styles.resultValue}>
+          {dwell ? `${(dwell.progress * 100).toFixed(0)}%` : '0%'}
+        </Text>
+        <Text style={styles.body}>
+          {dwell
+            ? `${dwell.dwellSeconds.toFixed(0)}s / ${DEFAULT_DWELL_CONFIG.thresholdSeconds}s`
+            : ''}
+        </Text>
       </View>
-      {snapshotMs !== null ? <Text style={styles.body}>last App Group snapshot write: {snapshotMs.toFixed(2)} ms</Text> : null}
+      {snapshotMs !== null ? (
+        <Text style={styles.body}>last App Group snapshot write: {snapshotMs.toFixed(2)} ms</Text>
+      ) : null}
     </ScrollView>
   );
 }
@@ -151,7 +206,13 @@ const styles = StyleSheet.create({
   title: { fontSize: 20, fontWeight: '600' },
   body: { fontSize: 13 },
   buttonRow: { alignSelf: 'stretch' },
-  resultBox: { gap: 4, borderRadius: 8, borderWidth: StyleSheet.hairlineWidth, padding: 12, alignSelf: 'stretch' },
+  resultBox: {
+    gap: 4,
+    borderRadius: 8,
+    borderWidth: StyleSheet.hairlineWidth,
+    padding: 12,
+    alignSelf: 'stretch',
+  },
   resultLabel: { fontSize: 12, textTransform: 'uppercase', opacity: 0.6 },
   resultValue: { fontSize: 28, fontWeight: '700' },
 });

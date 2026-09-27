@@ -50,7 +50,7 @@ export function buildAuthOptions(
         // Anonymous users carry a placeholder email (`temp-<id>@anonymous.placeholder.invalid`),
         // which never matches a real identity's email; without this, `/link-social` refuses
         // to attach a real identity to an anonymous session at all (phone linking has no such
-        // check). Required for the anonymous-first upgrade (D14) to work with social identities.
+        // check). Required for the anonymous-first upgrade to work with social identities.
         allowDifferentEmails: true,
       },
     },
@@ -73,7 +73,7 @@ export function buildAuthOptions(
           // Reads the OTP straight from the row the phone plugin itself writes (value is
           // "<code>:<attempts>"), the same place a real Twilio Verify integration's `sendOTP`
           // hook would read it from before dispatching it. No Twilio Verify test account is
-          // provisioned yet (phase 2 non-code dependency), so this stands in for that call.
+          // provisioned yet (a pending account dependency), so this stands in for that call.
           // Sync body, but the hook's declared type requires a real Promise return.
           after: (verification) => {
             if (verification) {

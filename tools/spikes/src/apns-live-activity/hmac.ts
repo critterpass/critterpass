@@ -53,9 +53,11 @@ export function verify(
   const tsSeconds = Number(headers.timestamp);
   if (!Number.isFinite(tsSeconds)) return { valid: false, reason: 'malformed timestamp' };
   const skew = Math.abs(Math.floor(now.getTime() / 1000) - tsSeconds);
-  if (skew > MAX_CLOCK_SKEW_SECONDS) return { valid: false, reason: `timestamp skew ${skew}s exceeds window` };
+  if (skew > MAX_CLOCK_SKEW_SECONDS)
+    return { valid: false, reason: `timestamp skew ${skew}s exceeds window` };
 
   const expected = sign(method, path, body, key, new Date(tsSeconds * 1000));
-  if (expected.signature !== headers.signature) return { valid: false, reason: 'signature mismatch' };
+  if (expected.signature !== headers.signature)
+    return { valid: false, reason: 'signature mismatch' };
   return { valid: true };
 }

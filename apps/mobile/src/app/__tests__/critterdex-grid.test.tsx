@@ -14,6 +14,10 @@ jest.mock('@legendapp/list/react-native', () => ({ LegendList: mockList.LegendLi
 
 import CritterdexGridSpikeScreen from '../(dev)/spikes/critterdex-grid';
 
+// Renders 600 real components (the mocked list has no virtualization); give this more headroom
+// than Jest's 5 s default on a loaded machine.
+const RENDER_TIMEOUT_MS = 15_000;
+
 describe('CritterdexGridSpikeScreen', () => {
   it(
     'renders 600 cells and can switch list implementation and cell mode',
@@ -29,8 +33,6 @@ describe('CritterdexGridSpikeScreen', () => {
       await fireEvent.press(getByText('cells: cached image'));
       expect(getByText('cells: live redraw')).toBeTruthy();
     },
-    // Renders 600 real components (the mocked list has no virtualization); give this more headroom
-    // than Jest's 5 s default on a loaded machine.
-    15_000,
+    RENDER_TIMEOUT_MS,
   );
 });

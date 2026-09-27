@@ -7,7 +7,15 @@ import { drawAsImage } from '@shopify/react-native-skia';
 import type { SkImage } from '@shopify/react-native-skia';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import Animated, { runOnJS, useAnimatedStyle, useFrameCallback, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useFrameCallback,
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { buildGeckoDrawing } from './critter-gecko-ops';
 import { buildGeckoPaintOps } from './critter-skia-paint';
@@ -27,17 +35,34 @@ interface GridCell {
   readonly id: string;
 }
 
-const gridData: GridCell[] = Array.from({ length: GRID_ROWS * GRID_COLUMNS }, (_, i) => ({ id: `cell-${i}` }));
+const gridData: GridCell[] = Array.from({ length: GRID_ROWS * GRID_COLUMNS }, (_, i) => ({
+  id: `cell-${i}`,
+}));
 
 /** One idle-bobbing critter drawn from the same cached image — transform-only, no redraw per frame. */
 function IdleBobbingCritter({ image, index }: { image: SkImage; index: number }) {
   const style = useAnimatedStyle(() => ({
-    transform: [{ translateY: withRepeat(withSequence(withTiming(-6, { duration: 1200 }), withTiming(0, { duration: 1200 })), -1, true) }],
+    transform: [
+      {
+        translateY: withRepeat(
+          withSequence(withTiming(-6, { duration: 1200 }), withTiming(0, { duration: 1200 })),
+          -1,
+          true,
+        ),
+      },
+    ],
   }));
   return (
     <Animated.View key={index} style={[styles.idleCritter, style]}>
       <Canvas style={{ width: CELL_SIZE * 0.6, height: CELL_SIZE * 0.6 }}>
-        <Image image={image} x={0} y={0} width={CELL_SIZE * 0.6} height={CELL_SIZE * 0.6} fit="contain" />
+        <Image
+          image={image}
+          x={0}
+          y={0}
+          width={CELL_SIZE * 0.6}
+          height={CELL_SIZE * 0.6}
+          fit="contain"
+        />
       </Canvas>
     </Animated.View>
   );
@@ -50,7 +75,14 @@ function GridCritterCell({ image }: { image: SkImage | null }) {
   return (
     <View style={[styles.cell, { width: CELL_SIZE, height: CELL_SIZE }]}>
       <Canvas style={{ width: CELL_SIZE, height: CELL_SIZE }}>
-        <Image image={image} x={4} y={4} width={CELL_SIZE - 8} height={CELL_SIZE - 8} fit="contain" />
+        <Image
+          image={image}
+          x={4}
+          y={4}
+          width={CELL_SIZE - 8}
+          height={CELL_SIZE - 8}
+          fit="contain"
+        />
       </Canvas>
     </View>
   );
@@ -59,13 +91,22 @@ function GridCritterCell({ image }: { image: SkImage | null }) {
 /** Fallback for a live (uncached) cell, tessellating the ribbon ops fresh — used only to compare cost. */
 function GridCritterCellLive() {
   const drawing = useMemo(() => buildGeckoDrawing(), []);
-  const paintOps = useMemo(() => buildGeckoPaintOps(drawing.ops, drawing.totalLineLength, 1), [drawing]);
+  const paintOps = useMemo(
+    () => buildGeckoPaintOps(drawing.ops, drawing.totalLineLength, 1),
+    [drawing],
+  );
   return (
     <View style={[styles.cell, { width: CELL_SIZE, height: CELL_SIZE }]}>
       <Canvas style={{ width: CELL_SIZE, height: CELL_SIZE }}>
         <Group transform={[{ translate: [4, 4] }, { scale: (CELL_SIZE - 8) / 100 }]}>
           {paintOps.map((op, i) => (
-              <Path key={i} path={op.path} color={op.color} opacity={op.opacity} blendMode={op.blendMode} />
+            <Path
+              key={i}
+              path={op.path}
+              color={op.color}
+              opacity={op.opacity}
+              blendMode={op.blendMode}
+            />
           ))}
         </Group>
       </Canvas>
@@ -88,13 +129,21 @@ export default function CritterdexGridSpikeScreen() {
     const element = (
       <Group transform={[{ scale: CELL_SIZE / 100 }]}>
         {paintOps.map((op, i) => (
-          <Path key={i} path={op.path} color={op.color} opacity={op.opacity} blendMode={op.blendMode} />
+          <Path
+            key={i}
+            path={op.path}
+            color={op.color}
+            opacity={op.opacity}
+            blendMode={op.blendMode}
+          />
         ))}
       </Group>
     );
     drawAsImage(element, size)
       .then(setCachedImage)
-      .catch((error: unknown) => console.error('critterdex-grid: offscreen snapshot failed', error));
+      .catch((error: unknown) =>
+        console.error('critterdex-grid: offscreen snapshot failed', error),
+      );
   }, []);
 
   const frameCount = useSharedValue(0);
@@ -128,20 +177,41 @@ export default function CritterdexGridSpikeScreen() {
         Critterdex grid spike ({GRID_ROWS * GRID_COLUMNS} cells)
       </Text>
       <View style={styles.buttonRow}>
-        <Button title={`list: ${listImpl}`} onPress={() => setListImpl((v) => (v === 'flash-list' ? 'legend-list' : 'flash-list'))} />
-        <Button title={liveCells ? 'cells: live redraw' : 'cells: cached image'} onPress={() => setLiveCells((v) => !v)} />
+        <Button
+          title={`list: ${listImpl}`}
+          onPress={() => setListImpl((v) => (v === 'flash-list' ? 'legend-list' : 'flash-list'))}
+        />
+        <Button
+          title={liveCells ? 'cells: live redraw' : 'cells: cached image'}
+          onPress={() => setLiveCells((v) => !v)}
+        />
         <Button title="scroll to end" onPress={scrollToEnd} />
       </View>
       <Text style={styles.body}>native committed fps: {nativeFps.toFixed(1)}</Text>
 
       <View style={styles.idleRow}>
-        {cachedImage && Array.from({ length: IDLE_CRITTER_COUNT }, (_, i) => <IdleBobbingCritter key={i} image={cachedImage} index={i} />)}
+        {cachedImage &&
+          Array.from({ length: IDLE_CRITTER_COUNT }, (_, i) => (
+            <IdleBobbingCritter key={i} image={cachedImage} index={i} />
+          ))}
       </View>
 
       {listImpl === 'flash-list' ? (
-        <FlashList ref={flashListRef} data={gridData} numColumns={GRID_COLUMNS} keyExtractor={(item) => item.id} renderItem={renderItem} />
+        <FlashList
+          ref={flashListRef}
+          data={gridData}
+          numColumns={GRID_COLUMNS}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+        />
       ) : (
-        <LegendList ref={legendListRef} data={gridData} numColumns={GRID_COLUMNS} keyExtractor={(item: GridCell) => item.id} renderItem={renderItem} />
+        <LegendList
+          ref={legendListRef}
+          data={gridData}
+          numColumns={GRID_COLUMNS}
+          keyExtractor={(item: GridCell) => item.id}
+          renderItem={renderItem}
+        />
       )}
     </View>
   );

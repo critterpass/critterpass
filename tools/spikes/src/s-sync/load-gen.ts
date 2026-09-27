@@ -15,7 +15,7 @@ import { connectAndWaitForSync, createSpikeSyncClient } from './client';
  * machine load.ts otherwise runs on — that machine measured ~50 MB RSS per client and shares
  * 16 GB with sibling agents (see the ADR), which caps a useful connection count far below the
  * 1k target well before `powersync-api` itself would be the bottleneck. Deleted once the number
- * is recorded (phase-02 rule: delete every staging-only spike service after measuring).
+ * is recorded (spike rule: delete every staging-only spike service after measuring).
  */
 const envSchema = z.object({
   SYNC_ENDPOINT: z.url(),
@@ -59,7 +59,11 @@ async function main(): Promise<void> {
           });
           await connectAndWaitForSync(
             db,
-            { appUrl: env.APP_URL, syncEndpoint: env.SYNC_ENDPOINT, userId: `loadgen-user-${start + i}` },
+            {
+              appUrl: env.APP_URL,
+              syncEndpoint: env.SYNC_ENDPOINT,
+              userId: `loadgen-user-${start + i}`,
+            },
             15_000,
           );
           return { ok: true as const, ms: performance.now() - startedAt };

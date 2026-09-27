@@ -43,7 +43,8 @@ export function createSpikeSyncApp({ auth, pool }: CreateAppOptions): Hono {
   // PASSED). Passing `aud` in the payload overrides the jwt plugin's configured default
   // audience per call (better-auth/src/plugins/jwt/sign.ts: `payload.aud ?? options.jwt.audience`),
   // so one Better Auth instance mints both `aud: rt` (S-RT) and `aud: sync` (this spike) tokens
-  // without two separate plugin configs — a real finding for phase 9/10, not just spike wiring.
+  // without two separate plugin configs — a real finding for the auth and sync build, not just
+  // spike wiring.
   //
   // `iat` must be set explicitly here: the low-level `signJWT` API only calls `setIssuedAt()`
   // when `payload.iat` is truthy (`const iat = payload.iat!; ... if (iat) jwt.setIssuedAt(iat)`)
@@ -56,7 +57,9 @@ export function createSpikeSyncApp({ auth, pool }: CreateAppOptions): Hono {
     const body = await c.req.json<{ userId: string; audience: string }>();
     const signJwtApi = auth.api as unknown as SignJwtApi;
     const result = await signJwtApi.signJWT({
-      body: { payload: { sub: body.userId, aud: body.audience, iat: Math.floor(Date.now() / 1000) } },
+      body: {
+        payload: { sub: body.userId, aud: body.audience, iat: Math.floor(Date.now() / 1000) },
+      },
     });
     return c.json({ token: result.token });
   });

@@ -3,7 +3,7 @@ import type pg from 'pg';
 /**
  * Throwaway data the anonymous-merge scenario proves gets carried over atomically when
  * `onLinkAccount` reassigns an anonymous user's data to the pre-existing account it
- * merges into. Lives in its own `spike` schema, never `packages/db/migrations` (phase 2
+ * merges into. Lives in its own `spike` schema, never `packages/db/migrations` (spike
  * convention: spike tables are dropped after the ADR records its numbers).
  */
 export async function ensureOwnedRowsSchema(pool: pg.Pool): Promise<void> {

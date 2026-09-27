@@ -1,11 +1,11 @@
 appId: app.critterpass.dev
 ---
-- openLink: "critterpass-dev:///(dev)/spikes/critterdex-grid"
+- openLink: 'critterpass-dev:///(dev)/spikes/critterdex-grid'
 - waitForAnimationToEnd:
     timeout: 5000
-- tapOn: "cells: cached image"
+- tapOn: 'cells: cached image'
 - extendedWaitUntil:
-    visible: "cells: live redraw"
+    visible: 'cells: live redraw'
     timeout: 3000
 - waitForAnimationToEnd:
     timeout: 2000

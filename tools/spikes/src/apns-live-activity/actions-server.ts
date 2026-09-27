@@ -24,7 +24,10 @@ export interface LoggedAction {
  * call the real endpoint — the only test double here is *this server standing in for the api
  * service*, the network boundary code-standards.md §17 permits a double at.
  */
-export function createActionsServer(key: DeviceActionKey, onAction: (action: LoggedAction) => void) {
+export function createActionsServer(
+  key: DeviceActionKey,
+  onAction: (action: LoggedAction) => void,
+) {
   const app = new Hono();
 
   app.post('/v1/actions', async (c) => {
@@ -33,20 +36,44 @@ export function createActionsServer(key: DeviceActionKey, onAction: (action: Log
     const timestamp = c.req.header('X-CP-Ts');
     const signature = c.req.header('X-CP-Sig');
     if (!keyId || !timestamp || !signature) {
-      return c.json({ error: { code: 'ACTION_KEY_MISSING_HEADERS', message: 'missing signing headers', retryable: false } }, 401);
+      return c.json(
+        {
+          error: {
+            code: 'ACTION_KEY_MISSING_HEADERS',
+            message: 'missing signing headers',
+            retryable: false,
+          },
+        },
+        401,
+      );
     }
     if (keyId !== key.keyId) {
-      return c.json({ error: { code: 'ACTION_KEY_UNKNOWN', message: 'unknown key id', retryable: false } }, 401);
+      return c.json(
+        { error: { code: 'ACTION_KEY_UNKNOWN', message: 'unknown key id', retryable: false } },
+        401,
+      );
     }
 
     const verdict = verify('POST', '/v1/actions', rawBody, { keyId, timestamp, signature }, key);
     if (!verdict.valid) {
-      return c.json({ error: { code: 'ACTION_KEY_INVALID_SIGNATURE', message: verdict.reason, retryable: false } }, 401);
+      return c.json(
+        {
+          error: {
+            code: 'ACTION_KEY_INVALID_SIGNATURE',
+            message: verdict.reason,
+            retryable: false,
+          },
+        },
+        401,
+      );
     }
 
     const parsed = actionEnvelopeSchema.safeParse(JSON.parse(rawBody.toString('utf8')));
     if (!parsed.success) {
-      return c.json({ error: { code: 'VALIDATION_FAILED', message: parsed.error.message, retryable: false } }, 422);
+      return c.json(
+        { error: { code: 'VALIDATION_FAILED', message: parsed.error.message, retryable: false } },
+        422,
+      );
     }
 
     onAction({
