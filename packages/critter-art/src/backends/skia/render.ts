@@ -51,6 +51,8 @@ export interface SkiaEngine {
     ): SkImageFilter;
   };
   Color(color: string): SkColor;
+  /** Decodes an encoded image (e.g. a cached PNG) back into a drawable `SkImage` — used by the sticker cache's display path, not by `renderToPicture`/`toImage` themselves. */
+  readonly Image: { MakeImageFromEncoded(bytes: Uint8Array): SkImage | null };
 }
 
 export interface RasterViewport {

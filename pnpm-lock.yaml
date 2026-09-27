@@ -527,6 +527,9 @@ importers:
       '@bacons/apple-targets':
         specifier: 5.0.0
         version: 5.0.0(expo@58.0.0-preview.7)(supports-color@7.2.0)(typescript@6.0.3)
+      '@cp/design-tokens':
+        specifier: workspace:*
+        version: link:../../packages/design-tokens
       '@jest/globals':
         specifier: 29.7.0
         version: 29.7.0(supports-color@7.2.0)

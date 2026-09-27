@@ -5,6 +5,7 @@ import { createCanvas } from '@napi-rs/canvas';
 import type { Canvas } from '@napi-rs/canvas';
 import type {
   SkCanvas,
+  SkImage,
   SkImageFilter,
   SkPaint,
   SkPath,
@@ -104,6 +105,10 @@ function createCanvasKitEngine(ck: CanvasKit): SkiaEngine {
         ) as unknown as SkImageFilter,
     },
     Color: (color: string) => ck.parseColorString(color),
+    Image: {
+      MakeImageFromEncoded: (bytes: Uint8Array) =>
+        ck.MakeImageFromEncoded(bytes) as unknown as SkImage | null,
+    },
   };
 }
 

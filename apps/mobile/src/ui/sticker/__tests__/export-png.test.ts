@@ -78,6 +78,12 @@ function createCanvasKitEngine(ck: CanvasKit): SkiaEngine {
         >,
     },
     Color: (color: string) => ck.parseColorString(color),
+    Image: {
+      MakeImageFromEncoded: (bytes: Uint8Array) =>
+        ck.MakeImageFromEncoded(bytes) as unknown as ReturnType<
+          SkiaEngine['Image']['MakeImageFromEncoded']
+        >,
+    },
   };
 }
 
