@@ -108,6 +108,10 @@ export const installAttributions = pgTable('install_attributions', {
   source: text('source'),
   inviteId: uuid('invite_id'),
   joinCode: text('join_code'),
+  /** How the install was attributed (packages/db/src/schema/links.ts `INSTALL_ATTRIBUTION_VIAS`). */
+  via: text('via'),
+  claimedUrl: text('claimed_url'),
+  linkKind: text('link_kind'),
   claimedAt: timestamp('claimed_at', { withTimezone: true, mode: 'date' }),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

@@ -121,3 +121,6 @@ registerMergeRule({
   strategy: 'union',
   conflictColumns: ['offer_id'],
 });
+
+// A join code keeps working after its creator's anonymous uid merges: the code follows the user.
+registerMergeRule({ table: 'join_codes', userColumn: 'created_by', strategy: 'reassign' });

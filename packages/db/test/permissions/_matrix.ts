@@ -569,6 +569,22 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: F,
     },
   },
+  // RLS class M: active crew members read their crew's codes (the fixture code is the crew's own);
+  // writes belong to app_system. Non-members resolve a code only via app.lookup_join_code.
+  join_codes: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM join_codes WHERE crew_id = $1',
+      params: (f) => [f.crewId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
   // Own jobs (stream `me`) plus every job on a trip the caller organises (stream `trip_draft`);
   // the fixture job belongs to the member. Written by app_system only.
   agent_jobs: {

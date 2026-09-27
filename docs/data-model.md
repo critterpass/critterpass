@@ -116,7 +116,7 @@ Ours:
 | `saved_items` | kind (place/plan/day), ref_id, list_name | (user_id, kind) | self | O | me | C2 | acct |
 | `past_trips` | place_id, country, month date, source | user_id | self | O | me | C2 | acct |
 | `phrase_progress` | phrase_id, practised_at, score | (user_id, phrase_id) | self | O | me | C2 | acct |
-| `install_attributions` | device_id, channel, source, invite_id?, join_code?, claimed_at | unique device_id | sys | S | — | C2 | 180 d |
+| `install_attributions` | device_id, channel, source, invite_id?, join_code?, via (referrer/paste/code/phone/clip/link)?, claimed_url?, link_kind?, claimed_at | unique device_id | sys | S | — | C2 | 180 d |
 | `device_attestations` | install_id, platform (ios/android), key_id, public_key, counter, attested_at, last_assertion_at, verdict | unique install_id, unique key_id | sys | S (silent; never client-visible) | — | C2 | rolling |
 
 ### 3.2 Crews, memberships, invites
@@ -127,7 +127,7 @@ Ours:
 | `crew_members` | crew_id, user_id, role (organiser/member), colour, status (active/left/removed/former), keep_in_chat, joined_epoch, left_at, last_read_message_id, notify_level | uk (crew_id, user_id); idx (user_id, crew_id) WHERE active | mem (self leave), org (remove) | M | crews | C1 | life |
 | `invites` | crew_id, trip_id?, inviter_id, seat_token_hash (≥128-bit, single-claim), invitee_user_id?, channel, status (pending/later/declined/claimed/waitlisted/expired), waitlist_position, expires_at, claimed_by, open_count (bot-filtered) | uk seat_token_hash; (crew_id, status) | mem | M | crew_invites | C1 (status) | 90 d after terminal |
 | `invite_prefill` | invite_id, name_enc, home_hint, tags, inviter_note_enc, provenance | 1:1 invite; TTL purge | mem (inviter) | X (inviter only) | — | C3 | purge at claim/expiry + 7 d |
-| `join_codes` | code (6 chars, ambiguity-safe alphabet, CSPRNG), target_kind (crew/trip/referral), target_id, expires_at, max_uses, uses, status | uk code WHERE active | mem | M | crew_invites | C1 | 30 d after expiry |
+| `join_codes` | code (6 chars, ambiguity-safe alphabet, CSPRNG), target_kind (crew/trip/referral), target_id, crew_id? (null for referral), created_by, expires_at, max_uses, uses, status (active/revoked/expired/exhausted) | uk code WHERE active; non-members resolve via `app.lookup_join_code(code)` (live codes only, public subset) | mem | M (+ creator for referral codes; writes S) | crew_invites | C1 | 30 d after expiry |
 | `referrals` | referrer_id, referee_id, code, qualified_at, reward_kind, reward_ref | uk referee_id | sys | O (either party) | me | C2 | acct |
 | `crew_contact_cards` | crew_id, user_id, phone_display | derived when `CONSENT(crew_phone_visible)`; deleted on revoke | sys | M | crews | C1 (consented) | life of consent |
 
