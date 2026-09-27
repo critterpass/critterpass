@@ -1,5 +1,5 @@
--- Editorial season curves and events, and curated hazard alerts (docs/product-decisions.md C20:
--- season is a hint). CHECK lists are copied from packages/domain/src/travel-data/types.ts.
+-- Editorial season curves and events, and curated hazard alerts (season is a hint, never a rule).
+-- CHECK lists are copied from packages/domain/src/travel-data/types.ts.
 --
 -- Season rows are authored from cited public sources (`source`, `source_url`, `sourced_on`) and
 -- reach clients only once a content reviewer approves them (`reviewed_at`): an unreviewed row is

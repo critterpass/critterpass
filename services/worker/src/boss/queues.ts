@@ -96,6 +96,14 @@ export const QUEUES = {
   'ai.batch.poll': spec({ policy: 'stately', retryLimit: 5, retryDelay: 30, deadLetter: true }),
   'guide_action.execute': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
   'guide_action.undo_expire': spec({ policy: 'exclusive' }),
+  // Travel data (docs/api-contracts-async.md §2.3): one run at a time; a rerun inside the same
+  // night is a no-op because every cell remembers when it was last asked.
+  'fares.refresh': spec({
+    policy: 'stately',
+    retryDelay: 600,
+    expireInSeconds: 2 * 60 * 60,
+    cron: { expr: '0 2 * * *', tz: 'Asia/Singapore' },
+  }),
   'ops.backup': spec({
     policy: 'stately',
     retryLimit: 2,
