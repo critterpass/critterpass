@@ -7,8 +7,10 @@ import {
   GUIDE_ACTION_STATUSES,
   type GuideActionStatus,
 } from '@cp/domain';
+import { getTableColumns } from 'drizzle-orm';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { guideActions } from '../../src/schema/plan';
 import { withGuideReader, withSystem, withUser } from '../../src/tx';
 import { anonymousActor, firstRow } from '../helpers/actors';
 import { buildPermissionFixture, type PermissionFixture } from '../helpers/fixtures';
@@ -50,6 +52,17 @@ beforeAll(async () => {
 afterAll(async () => {
   await db.drop();
   await container.stop();
+});
+
+describe('guide_actions typed schema', () => {
+  it('mirrors every column of the migrated table', async () => {
+    const { rows } = await db.pool.query<{ column_name: string }>(
+      `SELECT column_name FROM information_schema.columns
+       WHERE table_schema = 'public' AND table_name = 'guide_actions' ORDER BY column_name`,
+    );
+    const typed = Object.values(getTableColumns(guideActions)).map((column) => column.name);
+    expect(typed.sort()).toEqual(rows.map((row) => row.column_name));
+  });
 });
 
 describe('guide_actions visibility', () => {

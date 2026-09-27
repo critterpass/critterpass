@@ -27,6 +27,8 @@ export interface GatewayInput {
   /** Honoured on Haiku only: Sonnet 5 and Opus 5.5 reject non-default sampling parameters. */
   readonly temperature?: number;
   readonly outputFormat?: Anthropic.Messages.JSONOutputFormat;
+  /** Cancels the request (client disconnect); an aborted call is never retried. */
+  readonly signal?: AbortSignal;
 }
 
 export interface GatewayResult {
@@ -170,7 +172,8 @@ export function createGateway(options: GatewayOptions): Gateway {
     async callModel(routeId, input, context = {}) {
       const route = resolveRoute(routeId);
       const params = buildMessageParams(route, input);
-      const message = await withRetry(() => client.messages.create(params));
+      const options = input.signal === undefined ? {} : { signal: input.signal };
+      const message = await withRetry(() => client.messages.create(params, options));
       return settle(route, message, context);
     },
 
@@ -180,7 +183,10 @@ export function createGateway(options: GatewayOptions): Gateway {
       for (let attempt = 1; ; attempt += 1) {
         let started = false;
         try {
-          const stream = client.messages.stream(params);
+          const stream = client.messages.stream(
+            params,
+            input.signal === undefined ? {} : { signal: input.signal },
+          );
           for await (const event of stream) {
             started = true;
             yield { kind: 'delta', event };

@@ -33,6 +33,7 @@ import { betterAuthSessionResolver } from './commands/_framework/session';
 import { registerCmdResultsRoute } from './routes/cmd-results';
 import { registerCommandRoute } from './routes/cmd';
 import { registerSyncUploadRoute } from './routes/sync-upload';
+import { registerJobsRoute } from './ai/jobs-route';
 import { createR2Client } from './media/r2';
 import { registerMediaUploadCommand } from './media/register-media-upload';
 import { mediaSigningConfigFromEnv } from './media/sign';
@@ -161,6 +162,7 @@ const commandDoors = {
 registerCommandRoute(app, commandDoors);
 registerSyncUploadRoute(app, commandDoors);
 registerCmdResultsRoute(app, commandDoors);
+registerJobsRoute(app, commandDoors);
 if (env.RT_PROXY_SECRET) {
   registerInternalRtRoutes(app, { pool, redis, proxySecret: env.RT_PROXY_SECRET });
 } else {
