@@ -12,7 +12,7 @@ import { createClient } from 'redis';
 
 import { createApp } from '../../../services/api/src/app';
 import { createAuthModule } from '../../../services/api/src/auth';
-import { registerAuthTokenRoutes } from '../../../services/api/src/auth/tokens';
+import { mountAuthHandler } from '../../../services/api/src/auth/mount';
 import { createCommandRegistry } from '../../../services/api/src/commands/_framework/registry';
 import { betterAuthSessionResolver } from '../../../services/api/src/commands/_framework/session';
 import { registerCmdResultsRoute } from '../../../services/api/src/routes/cmd-results';
@@ -110,8 +110,8 @@ registerCommandRoute(app, doors);
 registerSyncUploadRoute(app, doors);
 registerCmdResultsRoute(app, doors);
 registerInternalRtRoutes(app, { pool, redis, proxySecret: required('RT_PROXY_SECRET') });
-registerAuthTokenRoutes(app, authModule.auth);
-app.on(['GET', 'POST'], '/api/auth/*', (c) => authModule.handler(c.req.raw));
+// The api's own auth mount, so the harness exercises the token, JWKS and revocation wiring it ships.
+mountAuthHandler(app, authModule, { pool, logger });
 
 // All interfaces: Centrifugo and PowerSync reach this through host.docker.internal.
 const server = serve({ fetch: app.fetch, port, hostname: '0.0.0.0' }, (info) => {
