@@ -162,6 +162,7 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. Table (secret encrypted via `packages/db/src/crypto`). 2. `issueKey(uid, deviceId, scopes)` / rotate when <7 d. 3. Hono middleware verifying signature over `method\npath\nts\nsha256(body)`, ±300 s, constant-time compare, scope check → `ACTION_KEY_SCOPE`, `last_used_at`. 4. Revocation hooks on sign-out, merge, deletion, admin.
 - Tests: `pnpm --filter @cp/api test -- action-keys`
 - Done when: valid signature passes; body tamper, stale ts, revoked key, missing scope each rejected with the right code.
+- Status: done — 83f8fbd
 
 ### T10 — Account state, session revocation fan-out, admin roles, field crypto
 - Goal: close remaining identity plumbing.
