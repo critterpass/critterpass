@@ -33,6 +33,8 @@ export const SYNCED_TABLE_COLUMNS = {
   guides: 'slug name colour persona_pack_version voice_id local_words created_at updated_at',
   itinerary_versions:
     'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at',
+  join_codes:
+    'code target_kind target_id crew_id created_by expires_at max_uses:integer uses:integer status created_at updated_at',
   map_regions: 'destination_id pmtiles_key bytes:integer version created_at updated_at',
   perks: 'key tier copy_key is_shipped:integer sort:integer created_at updated_at',
   plan_days: 'version_id trip_id day_no:integer date theme weather_ref created_at updated_at',
