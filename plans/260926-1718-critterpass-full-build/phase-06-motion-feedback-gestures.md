@@ -103,6 +103,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Odometer per-digit columns (650 ms, digit stagger 30, tabular figures, `tick` cue throttled). 2. Split-flap 340 ms per flip with `flap` cue. 3. Typewriter reserves final box; stream mode accepts appended tokens, reveals by word. 4. Reduced = instant final value with a11y announcement hook.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/patterns/__tests__/number-patterns`.
 - Done when: odometer handles digit-count changes and negative values; reduced shows final frame.
+- Status: done — a07fb1c
 
 ### T5 — Overlay effects: flyTo, confetti, rays, pingRings, petals, draw, pageTurn, waveform, typing
 - Goal: Skia/overlay-based effects with budgets.
@@ -110,6 +111,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. `OverlayHost` at app root renders clones measured via `measure()`; `flyTo(sourceRef, targetRef, node)` arc (mid lift 140, r −14°, 780 ms) then pop + `thud.soft`. 2. Confetti particle system in Skia (`useFrameCallback`), counts by tier, gravity .33, drag .985. 3. `draw` drives critter-art `frame(model, t)` progress (stroke trim) and owns the only draw-on concurrency gate (≤ 2; exported as `drawGate`); stickers receive the progress shared value, never their own gate. 4. `waveform` consumes an audio-level shared value. 5. Reduced variants: omit confetti/rays/petals, final frames.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/__tests__/overlay`.
 - Done when: third concurrent draw-on is queued; low-tier confetti capped at 40.
+- Status: done — 5879256
 
 ### T6 — cp-haptics native module
 - Goal: Core Haptics ramps/SOS on iOS, compositions on Android.
