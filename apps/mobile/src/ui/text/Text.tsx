@@ -16,6 +16,7 @@ import { useSurfaceTone } from '../surface/Scaffold';
 import type { Theme } from '../theme';
 import { useTheme } from '../theme';
 import { ADVANCE_RATIO, AUTO_FIT_MIN_SCALE, useAutoFit } from './auto-fit';
+import { glyphRoomStyle, topGlyphRoomEm } from './glyph-room';
 
 const { type } = tokens;
 
@@ -162,12 +163,18 @@ export function Text({
     ...(uppercase && transformed.hasElements ? { textTransform: 'uppercase' } : {}),
   };
 
+  // Tight display leading would otherwise clip cap tops and stacked marks (Ệ, Ữ) off the first line.
+  const room = glyphRoomStyle(
+    topGlyphRoomEm(font.fontFamily, font.lineHeightMultiplier) * fontSize,
+    style,
+  );
+
   return (
     <RNText
       {...rest}
       allowFontScaling={false}
       numberOfLines={lineLimit}
-      style={[variantStyle, style]}
+      style={[variantStyle, style, room]}
       onLayout={(event) => {
         fit.onLayout(event);
         onLayout?.(event);
