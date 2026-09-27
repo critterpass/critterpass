@@ -3,19 +3,30 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "POI ingest CLI and map tile/style build scripts",
+  "description": "POI ingest CLI and map style/glyph/sprite/PMTiles build + R2 upload scripts",
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "ingest": "tsx ingest-cli.ts"
+    "test": "vitest run",
+    "ingest": "tsx ingest-cli.ts",
+    "build:style": "tsx build-style.ts",
+    "build:glyphs": "tsx build-glyphs.ts",
+    "build:sprites": "tsx build-sprites.ts",
+    "build:pmtiles": "tsx build-pmtiles.ts",
+    "upload:r2": "tsx upload-r2.ts"
   },
   "dependencies": {
     "@cp/db": "workspace:*",
+    "@cp/design-tokens": "workspace:*",
     "@cp/domain": "workspace:*",
+    "@maplibre/maplibre-gl-style-spec": "catalog:",
     "pg": "catalog:"
   },
   "devDependencies": {
+    "@kartore/glyphore": "0.2.0",
+    "@napi-rs/canvas": "catalog:",
     "@types/pg": "catalog:",
-    "tsx": "catalog:"
+    "tsx": "catalog:",
+    "vitest": "catalog:"
   }
 }

@@ -1,0 +1,63 @@
+appId: app.critterpass.dev
+---
+# Region download + offline search ("Offline packs"; done when: "Maestro
+# offline search passes on iOS 26 simulator and API 36 emulator").
+#
+# Blocked today on two things outside this flow, not on the flow itself:
+#
+# 1. No screen exists yet to open. `apps/mobile/src/app/(dev)/**` (dev harnesses, same pattern as
+#    the tiles spike's `spikes/map.tsx`) and the real Explore/map route (`mobile-route`/
+#    `mobile-feature`) are both outside this phase's owns list
+#    (`apps/mobile/src/ui/map/**`, `apps/mobile/src/data/places/**` only) — this flow assumes a
+#    screen at `critterpass-dev://explore/map-offline` that renders `CpMap` wired to
+#    `useRegionPack`/`usePlaceSearch` for the real Kyoto destination
+#    (`01a0e179-bf1c-76fc-8518-02475203c9f7`, verified live on staging), with a labelled
+#    "Download region" button, a labelled "Force offline (test only)" switch (real network
+#    severance is impossible to automate here: Maestro's `setAirplaneMode` is a documented no-op on
+#    the iOS simulator this environment runs on — Android-only — see
+#    `usePlaceSearch.ts`'s `forceOffline` option, added for exactly this), and a search box whose
+#    results render with `testID="place-result-<id>"`.
+# 2. The api routes this flow needs (`GET /v1/map/regions/{id}`, `GET /v1/places/search`) are not
+#    deployed anywhere this flow can reach yet — verified with a live request against the real
+#    staging domain (`curl https://api-staging-de92.up.railway.app/v1/places/search?q=nishiki`
+#    → `{"error":{"code":"NOT_FOUND"...}}`, i.e. staging is running a build from before these
+#    routes existed, not an auth rejection). Deploy the branch/PR carrying `services/api/src/
+#    places/{routes,map-regions}.ts` before running this flow for real.
+#
+# Once both land, this flow needs only its `openLink` target updated to the real route.
+- tapOn:
+    text: 'Open'
+    optional: true
+- tapOn:
+    text: 'Continue'
+    optional: true
+- tapOn:
+    point: '50%,55%'
+    optional: true
+- openLink: 'critterpass-dev://explore/map-offline'
+- tapOn:
+    text: 'Open'
+    optional: true
+- tapOn:
+    text: 'Continue'
+    optional: true
+- extendedWaitUntil:
+    visible: 'map loaded|style loaded'
+    timeout: 30000
+- inputText: 'nishiki'
+- extendedWaitUntil:
+    visible: 'Nishiki Market'
+    timeout: 10000
+- takeScreenshot: map-offline-online-search
+- tapOn: 'Download region'
+- extendedWaitUntil:
+    visible: 'Downloaded'
+    timeout: 60000
+- takeScreenshot: map-offline-region-downloaded
+- tapOn: 'Force offline (test only)'
+- eraseText
+- inputText: 'nishiki'
+- extendedWaitUntil:
+    visible: 'Nishiki Market'
+    timeout: 10000
+- takeScreenshot: map-offline-search-results
