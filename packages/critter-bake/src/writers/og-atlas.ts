@@ -15,7 +15,7 @@ export interface AtlasRect {
   readonly h: number;
 }
 
-/** Keyed by `${kind}-${form}-${pose}` — Takumi (phase 51) reads this to place a sprite into an OG image. */
+/** Keyed by `${kind}-${form}-${pose}` — the OG image renderer (Takumi) reads this to place a sprite into an OG image. */
 export type AtlasIndex = Record<string, AtlasRect>;
 
 export interface OgAtlasResult {
@@ -79,7 +79,7 @@ function packShelves(sprites: readonly Sprite[]): {
 /**
  * Bakes one or more OG sprite sheet PNGs (`packages/critter-bake/out/og-atlas/sheet-N.png`) plus
  * `atlas.json` (`{kind, form, pose} -> {sheet, x, y, w, h}`) from a manifest of `format: "png"`
- * targets — the atlas Takumi (phase 51) composites `og.render` images from.
+ * targets — the atlas the OG image job (`og.render`, via the Takumi renderer) composites its images from.
  */
 export async function writeOgAtlas(
   manifestPath: string,

@@ -6,8 +6,8 @@ import { build } from '../core/model';
 import type { Model, RenderSpec } from '../core/model';
 
 // Design's draw-on timing (creatures 1500ms / icons 700ms, easeInOutQuad) — the app's version of
-// this lives in the phase-6 motion runtime; the web element has no such runtime to depend on, so it
-// carries its own small, self-contained copy.
+// this lives in its own shared motion runtime; the web element has no such runtime to depend on,
+// so it carries its own small, self-contained copy.
 const DRAW_ON_MS_CREATURE = 1500;
 const DRAW_ON_MS_ICON = 700;
 const ROOT_MARGIN = '150px';
