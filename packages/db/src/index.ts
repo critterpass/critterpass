@@ -51,10 +51,16 @@ export {
   type MergeStrategy,
 } from './merge-rules';
 export {
+  cancelScheduledEvent,
   jobTxDatabase,
   registerJobProducer,
+  rescheduleEvent,
   resetJobProducerForTests,
+  scheduledJobDataSchema,
+  scheduleEvent,
   sendInTx,
   type JobProducer,
+  type ScheduledJobData,
+  type ScheduleEventInput,
   type SendInTxOptions,
 } from './jobs';

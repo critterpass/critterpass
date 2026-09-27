@@ -33,8 +33,13 @@ import * as schema from './schema';
  * attribution record has no app_user SELECT policy at all. Add a new entry here, with the same
  * comment style, if a later table needs the same treatment.
  *
+<<<<<<< HEAD
  * `persona_packs` (packages/db/src/schema/ai.ts) is "S" as well: persona content reaches the guide
  * only through the `llm.persona_packs` view, never a client.
+=======
+ * `scheduled_events` (packages/db/src/jobs/schema.ts) is "S" too: server timers, written through
+ * `app.schedule_event` and read only by the worker.
+>>>>>>> 822f227 (feat(jobs): local-time timers and the minute enqueue-due sweep)
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'cities',
@@ -44,6 +49,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'persona_packs',
   'poi_embeddings',
   'poi_live_checks',
+  'scheduled_events',
 ]);
 
 /** Every table this schema declares that the `powersync` publication should carry. */

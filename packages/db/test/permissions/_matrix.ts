@@ -556,6 +556,18 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       coOrganiser: F,
       organiser: F,
     },
+  }, // RLS class S (docs/data-model.md §3.11: server timers) — no app_user grant at all; commands arm
+  // timers only through app.schedule_event (packages/db/test/permissions/scheduled_events.test.ts).
+  scheduled_events: {
+    selectProbe: { sql: 'SELECT 1 FROM scheduled_events LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
   },
   // Own jobs (stream `me`) plus every job on a trip the caller organises (stream `trip_draft`);
   // the fixture job belongs to the member. Written by app_system only.

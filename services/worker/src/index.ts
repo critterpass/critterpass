@@ -14,6 +14,7 @@ import {
   type AnyJobDefinition,
 } from './boss';
 import { createHealthApp } from './health';
+import { enqueueDueJob } from './jobs/sched/enqueue-due';
 import { createCentrifugoApi, rtRelayJob, startRtRelayWake, type RtRelay } from './rt-relay';
 
 const env = loadWorkerEnv();
@@ -47,7 +48,7 @@ const health = createHealthApp({
   },
 });
 
-const jobs: AnyJobDefinition[] = [];
+const jobs: AnyJobDefinition[] = [enqueueDueJob()];
 const relayEnabled = Boolean(env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY);
 if (env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY) {
   jobs.push(
