@@ -116,8 +116,8 @@ export function createSpikeAuthApp(
   app.get('/health', (c) => c.json({ ok: true }));
   app.on(['GET', 'POST'], '/api/auth/*', (c) => auth.handler(c.req.raw));
 
-  // Spike-only debug door: never shipped to production auth (phase-9's real build has a real
-  // Twilio Verify send, not a capture map). Lets a device that cannot receive a real SMS
+  // Spike-only debug door: never shipped to production auth (the real auth build sends a real
+  // Twilio Verify code, not a capture map). Lets a device that cannot receive a real SMS
   // complete the phone-verify step against this deploy.
   app.get('/internal/spike/otp', (c) => {
     const identifier = c.req.query('identifier');
