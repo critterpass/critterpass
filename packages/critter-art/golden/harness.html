@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>critter-art golden harness</title>
+  </head>
+  <body>
+    <!-- Unmodified design scripts (`git diff --stat design/` must stay empty). -->
+    <script src="/design/doodles.js"></script>
+    <script src="/design/critters-data.js"></script>
+    <script src="/design/critters-draw-1.js"></script>
+    <script src="/design/critters-draw-2.js"></script>
+    <!-- Bundled `@cp/critter-art` core + Canvas2D backend (esbuild output, see run-golden.ts). -->
+    <script src="/reference-page.js"></script>
+    <script>
+      // Renders a `<doodle-art>` element synchronously at an exact draw-on progress, bypassing the
+      // element's own IntersectionObserver-gated lazy `play()` so golden captures are deterministic.
+      window.__designRender = function (attrs, p, useClosed) {
+        const el = document.createElement('doodle-art');
+        document.body.appendChild(el);
+        for (const [name, value] of Object.entries(attrs)) el.setAttribute(name, value);
+        el.setup();
+        el.useClosed = !!useClosed;
+        el.draw(p);
+        const dataUrl = el.cv.toDataURL('image/png');
+        el.remove();
+        return dataUrl;
+      };
+      // Builds design's own tier-edge mechanism (CSS `filter: drop-shadow` x4, offset by a fixed
+      // number of CSS pixels) around a `<doodle-art>` element, left in the DOM at a stable id for the
+      // caller to screenshot with Playwright's real element-screenshot API (needed to capture the
+      // CSS filter's compositing — a canvas `toDataURL()` cannot see outside its own bitmap). Replaces
+      // any previous wrapper so repeated calls don't accumulate elements.
+      window.__edgeRingWrap = function (attrs, ringOffsetPx, ringColor, boxPx, artPx) {
+        const previous = document.getElementById('edge-ring-wrap');
+        if (previous) previous.remove();
+        const wrap = document.createElement('div');
+        wrap.id = 'edge-ring-wrap';
+        wrap.style.cssText = `position:relative;width:${boxPx}px;height:${boxPx}px;display:flex;align-items:center;justify-content:center;`;
+        const el = document.createElement('doodle-art');
+        for (const [name, value] of Object.entries(attrs)) el.setAttribute(name, value);
+        el.style.cssText =
+          `display:block;width:${artPx}px;height:${artPx}px;` +
+          `filter: drop-shadow(${ringOffsetPx}px 0 0 ${ringColor}) drop-shadow(${-ringOffsetPx}px 0 0 ${ringColor}) ` +
+          `drop-shadow(0 ${ringOffsetPx}px 0 ${ringColor}) drop-shadow(0 ${-ringOffsetPx}px 0 ${ringColor});`;
+        wrap.appendChild(el);
+        document.body.appendChild(wrap);
+        el.setup();
+        el.useClosed = false;
+        el.draw(1);
+      };
+    </script>
+  </body>
+</html>
