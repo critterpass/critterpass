@@ -107,10 +107,16 @@ export function toes(sink: OpSink, limb: readonly Point[], ink: string): void {
   }
 }
 
-/** design/critters-draw-1.js `dotEyes`: simple round pupil-only eyes (seal/dugong/naga). */
+/**
+ * design/critters-draw-1.js `dotEyes`: simple round pupil-only eyes (seal/dugong/naga). Design's
+ * closed branch consumes one seed (`line`) the open branch never consumes (`fill`/`dot` don't), so
+ * every later ribbon in the kind wobbles differently across a blink — `seedMode: 'stable'` reserves
+ * a matching seed in the open branch so it doesn't; `seedMode: 'design'` (default, golden) replicates
+ * the jitter exactly.
+ */
 export function dotEyes(
   sink: OpSink,
-  options: Pick<KindDrawOptions, 'closed' | 'pose' | 'eye' | 'pupil'>,
+  options: Pick<KindDrawOptions, 'closed' | 'pose' | 'eye' | 'pupil' | 'seedMode'>,
   points: readonly Point[],
   r: number,
 ): void {
@@ -128,6 +134,7 @@ export function dotEyes(
     }
     sink.fill(ellipsePolygon(x, y, r, r * 1.1, 10), options.pupil);
     sink.dot(x - r * 0.35, y - r * 0.42, r * 0.36, options.eye);
+    if (options.seedMode === 'stable') sink.reserveSeed();
   }
 }
 

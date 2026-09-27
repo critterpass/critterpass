@@ -28,6 +28,8 @@ export interface KindDrawOptions {
   readonly pupil: string;
   readonly pose?: string;
   readonly closed: boolean;
+  /** `'design'` (default, golden mode) replicates the design's own blink seed jitter exactly; `'stable'` fixes it — see `OpSink.reserveSeed`. */
+  readonly seedMode?: 'design' | 'stable';
 }
 
 export type KindFn = (sink: OpSink, options: KindDrawOptions) => void;
@@ -35,7 +37,7 @@ export type KindFn = (sink: OpSink, options: KindDrawOptions) => void;
 export interface KindRegistration {
   readonly fn: KindFn;
   readonly viewBox: readonly [number, number];
-  /** Guides (and, once T6 lands, locals) get blink support: a closed-eye op list plus the blink loop. */
+  /** Guides and locals get blink support: a closed-eye op list plus the blink loop. */
   readonly animates: boolean;
 }
 

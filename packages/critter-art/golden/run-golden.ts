@@ -16,6 +16,8 @@ import { build } from '../src/core/model';
 import type { CoreCaseSpec, DesignAttrs, GoldenCase } from './cases';
 import { buildCaseMatrix, caseToCoreSpec, caseToDesignAttrs } from './cases';
 import { comparePngBuffers, isWithinThreshold } from './diff';
+import type { EdgeRingResult } from './edge-ring';
+import { EDGE_RING_FIXTURES, runEdgeRingCase } from './edge-ring';
 
 // `page.evaluate` callbacks below are re-parsed and run inside Chromium, where the real `window`
 // (from harness.html / the bundled reference-page.js) provides these — declared locally instead of
@@ -199,10 +201,29 @@ async function main(): Promise<void> {
     const failures = results.filter((r) => !r.browserCore.pass || (r.nodeGates && !r.nodeCore.pass));
     const nonGatingNodeMisses = results.filter((r) => !r.nodeGates && !r.nodeCore.pass);
 
+    const edgeRingResults: EdgeRingResult[] = [];
+    for (const fixture of EDGE_RING_FIXTURES) {
+      const result = await runEdgeRingCase(page, fixture);
+      edgeRingResults.push(result);
+      writeFileSync(new URL(`diffs/edge-ring-${result.name}.png`, outDir), result.diffPng);
+    }
+    const insaneEdgeRings = edgeRingResults.filter((r) => !r.sane);
+
     writeFileSync(
       new URL('report.json', outDir),
       JSON.stringify(
-        { cases: results, mutationCaught, failureCount: failures.length, nonGatingNodeMissCount: nonGatingNodeMisses.length },
+        {
+          cases: results,
+          mutationCaught,
+          failureCount: failures.length,
+          nonGatingNodeMissCount: nonGatingNodeMisses.length,
+          edgeRings: edgeRingResults.map(({ name, meanAbsDiff, pctPixelsOver8, sane }) => ({
+            name,
+            meanAbsDiff,
+            pctPixelsOver8,
+            sane,
+          })),
+        },
         null,
         2,
       ),
@@ -220,8 +241,15 @@ async function main(): Promise<void> {
           `pct>8=${failure.nodeCore.pctPixelsOver8.toFixed(2)}%`,
       );
     }
+    console.log('tier edge ring vs design CSS reference (measured, not gated on fidelity — see golden/README.md):');
+    for (const edgeRing of edgeRingResults) {
+      console.log(
+        `  ${edgeRing.name}: meanAbs=${edgeRing.meanAbsDiff.toFixed(3)} pct>8=${edgeRing.pctPixelsOver8.toFixed(2)}% ` +
+          `(sanity ${edgeRing.sane ? 'ok' : 'FAILED'})`,
+      );
+    }
 
-    if (failures.length > 0 || !mutationCaught) {
+    if (failures.length > 0 || !mutationCaught || insaneEdgeRings.length > 0) {
       process.exitCode = 1;
     }
   } finally {

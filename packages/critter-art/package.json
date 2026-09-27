@@ -17,6 +17,9 @@
     "golden": "tsx golden/run-golden.ts",
     "golden:setup": "playwright install chromium"
   },
+  "dependencies": {
+    "zod": "catalog:"
+  },
   "devDependencies": {
     "@napi-rs/canvas": "catalog:",
     "esbuild": "catalog:",

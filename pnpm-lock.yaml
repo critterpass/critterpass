@@ -447,6 +447,10 @@ importers:
   packages/cost-engine: {}
 
   packages/critter-art:
+    dependencies:
+      zod:
+        specifier: 'catalog:'
+        version: 4.6.5
     devDependencies:
       '@napi-rs/canvas':
         specifier: 'catalog:'

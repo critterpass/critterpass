@@ -4,8 +4,10 @@ import type { Op } from './ops';
 import { createOpBuilder } from './ops';
 import type { RibbonPolygon } from './ribbon';
 import { ribbonPolygon } from './ribbon';
+import { applyMaskVariant, applyMonoVariant, applyStampVariant } from './variants';
 import type { KindDrawOptions } from '../kinds/registry';
 import { resolveKind } from '../kinds/registry';
+import { EDGE_RING_STYLES } from '../forms/tier-palette';
 
 export type Pose =
   | 'idle'
@@ -112,6 +114,9 @@ export interface Model {
   readonly blend: Blend;
   readonly stickerColor: string | null;
   readonly stickerOutline: StickerOutlineShape[] | null;
+  /** Tier edge ring (epic/legendary), drawn beneath the sticker outline; `null` below (no sticker or no edge). */
+  readonly edgeColor: string | null;
+  readonly edgeOutline: StickerOutlineShape[] | null;
 }
 
 /** design's `minW = 1.05 * dpr / k`; the dpr terms cancel, leaving a size-only local-unit floor. */
@@ -140,6 +145,7 @@ function resolveOptions(spec: RenderSpec): KindDrawOptions {
     ...(palette?.stripe !== undefined ? { stripe: palette.stripe } : {}),
     ...(pose !== undefined ? { pose } : {}),
     closed: spec.closedEyes ?? false,
+    ...(spec.seedMode !== undefined ? { seedMode: spec.seedMode } : {}),
   };
 }
 
@@ -181,16 +187,6 @@ function buildOp(op: Op, minW: number): BuiltOp {
   return { t: 'fill', points: op.points, color: op.color, alpha: op.alpha };
 }
 
-/** design's `lock()`: recolours every op to one colour at full opacity, forcing source-over. */
-function applyMask(ops: BuiltOp[], color: string): BuiltOp[] {
-  return ops.map((op): BuiltOp => {
-    if (op.t === 'line') return { ...op, color };
-    if (op.t === 'under') return { ...op, color };
-    if (op.t === 'wash') return { ...op, color, alpha: 1 };
-    return { ...op, color, alpha: 1 };
-  });
-}
-
 /** design's sticker outline pass: one silhouette shape per op, in the sticker's own colour. */
 function buildStickerOutline(ops: readonly Op[], strokeWidth: number): StickerOutlineShape[] {
   return ops.map((op): StickerOutlineShape => {
@@ -207,8 +203,9 @@ function buildStickerOutline(ops: readonly Op[], strokeWidth: number): StickerOu
 /**
  * Builds the backend-agnostic geometry for one render spec at one size: tessellated ops, full
  * ribbon L/R arrays (precomputed once so `frame` never re-tessellates or re-runs per-vertex trig),
- * the die-cut sticker outline, and mask recolouring. Called once per (spec, sizePt, closedEyes)
- * combination — build a second Model for the closed-eye variant instead of mutating this one.
+ * the die-cut sticker outline, the tier edge ring, and variant recolouring. Called once per (spec,
+ * sizePt, closedEyes) combination — build a second Model for the closed-eye variant instead of
+ * mutating this one.
  */
 export function build(spec: RenderSpec, sizePt: number): Model {
   const registration = resolveKind(spec.kind);
@@ -223,12 +220,26 @@ export function build(spec: RenderSpec, sizePt: number): Model {
 
   let builtOps = ops.map((op) => buildOp(op, minW));
   let blend: Blend = spec.blend ?? 'multiply';
-  if (spec.variant === 'mask') {
-    builtOps = applyMask(builtOps, spec.maskColor ?? DEFAULT_LOCKED_COLOR);
+  const variant = spec.variant ?? 'color';
+  if (variant === 'mask') {
+    builtOps = applyMaskVariant(builtOps, spec.maskColor ?? DEFAULT_LOCKED_COLOR);
+    blend = 'srcOver';
+  } else if (variant === 'mono') {
+    builtOps = applyMonoVariant(builtOps);
+  } else if (variant === 'stamp') {
+    builtOps = applyStampVariant(builtOps, options.ink);
     blend = 'srcOver';
   }
 
   const totalArcLength = builtOps.reduce((sum, op) => (op.t === 'line' ? sum + op.arcLength : sum), 0) || 1;
+
+  const edgeStyle = spec.form && spec.form.edge !== 'none' ? EDGE_RING_STYLES[spec.form.edge] : null;
+  // `EDGE_RING_STYLES[x].width` is a fixed point width (it replaces design's CSS `drop-shadow(Npx
+  // ...)`, which offsets by a constant number of CSS pixels regardless of element size) — unlike
+  // `stickerWidth`, a local-unit value design itself scales with the art. Convert pt -> local units
+  // the same way `minRibbonWidth` above converts its own pt-space constant, so the fixed-pt ring
+  // stays visually the same width at every `sizePt` instead of growing/shrinking with the art.
+  const edgeWidthLocal = edgeStyle ? (edgeStyle.width * (viewBoxWidth + 2 * pad)) / sizePt : 0;
 
   return {
     ops: builtOps,
@@ -236,6 +247,8 @@ export function build(spec: RenderSpec, sizePt: number): Model {
     blend,
     stickerColor: spec.sticker?.color ?? null,
     stickerOutline: spec.sticker ? buildStickerOutline(ops, stickerWidth) : null,
+    edgeColor: edgeStyle?.color ?? null,
+    edgeOutline: spec.sticker && edgeStyle ? buildStickerOutline(ops, stickerWidth + edgeWidthLocal) : null,
   };
 }
 

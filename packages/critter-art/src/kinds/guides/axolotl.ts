@@ -123,6 +123,9 @@ export const axolotl: KindFn = (sink, options) => {
     } else {
       sink.fill(ellipsePolygon(x, y, 3.6, 3.9, 10), options.pupil);
       sink.dot(x - 1.2, y - 1.4, 1.2, options.eye);
+      // The closed branch above consumes one seed (`line`) this branch doesn't, so later ribbons
+      // would wobble differently across a blink — reserve the same seed here in stable mode.
+      if (options.seedMode === 'stable') sink.reserveSeed();
     }
   }
   sink.line(

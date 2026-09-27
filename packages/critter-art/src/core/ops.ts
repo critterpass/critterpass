@@ -62,6 +62,14 @@ export interface OpSink {
   wash(points: readonly Point[], color: string, options?: WashOptions): void;
   fill(points: readonly Point[], color: string): void;
   dot(x: number, y: number, r: number, color: string, alpha?: number): void;
+  /**
+   * Advances the seed counter by one without drawing anything. Design behaviour to preserve, not a
+   * new primitive: some kinds' closed-eye style (`dotEyes`, octo, axolotl) consumes a different
+   * number of seeds than their open-eye style, so every later line/stroke/wash in the kind wobbles
+   * differently on blink — `seedMode: 'stable'` calls this from whichever branch under-consumes, so
+   * later ops keep the same seed either way; `seedMode: 'design'` (golden) never calls it.
+   */
+  reserveSeed(): void;
 }
 
 export interface OpBuilder {
@@ -110,6 +118,9 @@ export function createOpBuilder(seed: number, ink: string): OpBuilder {
     },
     dot(x, y, r, color, alpha = 1) {
       ops.push({ t: 'fill', points: ellipsePolygon(x, y, r, r, 10), color, alpha });
+    },
+    reserveSeed() {
+      sid++;
     },
   };
   return { sink, ops };

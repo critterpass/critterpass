@@ -80,6 +80,9 @@ export function frame(model: Model, p: number): Cmd[] {
   }
 
   const layers: Cmd[] = [];
+  if (model.edgeOutline && model.edgeColor) {
+    layers.push(layerCmd(stickerOutlineCmds(model.edgeOutline, model.edgeColor), Math.min(1, p * 4)));
+  }
   if (model.stickerOutline && model.stickerColor) {
     layers.push(
       layerCmd(

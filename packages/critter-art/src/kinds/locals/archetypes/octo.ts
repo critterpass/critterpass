@@ -48,6 +48,10 @@ export const octo: ArchetypeFn = (sink, options, spec, colors) => {
         ],
         { w: 2.2 },
       );
+      // The open branch below consumes two seeds (F's line, then the eyebrow line) this branch
+      // only consumes one — reserve the missing seed here in stable mode so later ribbons wobble
+      // the same way regardless of blink state.
+      if (options.seedMode === 'stable') sink.reserveSeed();
       continue;
     }
     F(sink, ellipsePolygon(x, y, 6, 6, 14), options.eye, 2.1);
