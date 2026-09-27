@@ -9,6 +9,12 @@ export type SpringValue = Tokens['motion']['spring'][keyof Tokens['motion']['spr
 
 export type EasingFn = (t: number) => number;
 
+/** `motion.easing` has no "linear" token (`spin`/`marquee`/`splitFlap`'s "lin" is a DSL/design shorthand, not a bezier). */
+export function linearEasing(t: number): number {
+  'worklet';
+  return t;
+}
+
 // Standard cubic-bezier easing (Newton-Raphson root-finding with a bisection fallback for slopes
 // too flat to converge) — the same numerical method browsers use for CSS's `cubic-bezier()` and
 // what most JS easing libraries implement. Kept local (rather than Reanimated's own `Easing.bezier`)
