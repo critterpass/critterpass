@@ -11,7 +11,10 @@ appId: app.critterpass.dev
 # openLink's URL is dropped even once "Open" is tapped and the app foregrounds (it lands back on "/",
 # not the deep-linked route) — confirmed via a failure screenshot, not a guess. Opening the same link
 # again once the scheme is already trusted (no more confirmation sheet) delivers it as a plain warm
-# Linking event, which does navigate correctly.
+# Linking event, which does navigate correctly. Re-opening the link immediately after the foreground
+# re-launch crashed the app once (XCTestDriver "kAXErrorServerNotFound", confirmed in the run's own
+# maestro.log) — asserting the home screen is stable first avoids racing the second openLink against
+# an in-flight app-state transition.
 - launchApp
 - assertVisible: 'Critterpass \(Dev\)'
 - openLink: critterpass-dev://motion-lab
@@ -20,6 +23,7 @@ appId: app.critterpass.dev
     optional: true
 - launchApp:
     stopApp: false
+- assertVisible: 'Critterpass \(Dev\)'
 - openLink: critterpass-dev://motion-lab
 - extendedWaitUntil:
     visible:
