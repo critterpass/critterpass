@@ -7,13 +7,17 @@ appId: app.critterpass.dev
 # it silently. iOS shows a one-time system confirmation sheet ("Open in \"Critterpass (Dev)\"?") the
 # first time a custom-scheme link is opened from outside the app — left undismissed, it blocks the
 # app underneath indefinitely (`optional: true` since a later run in the same device session may not
-# show it again).
+# show it again). A known Maestro/iOS-simulator flakiness (mobile-dev-inc/Maestro#2610) leaves the
+# app backgrounded even after "Open" is tapped — re-launching without stopApp brings the
+# already-navigated app back to the foreground rather than restarting it.
 - launchApp
 - assertVisible: 'Critterpass \(Dev\)'
 - openLink: critterpass-dev://motion-lab
 - tapOn:
     text: 'Open'
     optional: true
+- launchApp:
+    stopApp: false
 - extendedWaitUntil:
     visible:
       id: 'show-toast-button'
