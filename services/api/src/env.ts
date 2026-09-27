@@ -135,6 +135,20 @@ export const apiEnvSchema = z.object({
   /** Shared with the web Worker's own `LINKS_WEB_PROXY_SECRET`: lets its server-side preview calls
    *  pass the visitor's IP and user agent. Unset = visitor headers are ignored. */
   LINKS_WEB_PROXY_SECRET: z.preprocess(emptyAsUndefined, z.string().min(32).optional()),
+  // --- Ops console (/v1/admin/*, services/api/src/admin): mounted only when both of the first two
+  // are set; production also requires Cloudflare Access (CF_ACCESS_*). ---
+  /** Origin the console is served from (its Worker proxies /v1/admin/* here), e.g. https://admin.critterpass.app */
+  ADMIN_PUBLIC_ORIGIN: optionalUrl,
+  /** Comma-separated `email` or `email:role+role` entries (roles: owner, ops, content, support). */
+  ADMIN_ALLOWLIST: optionalString,
+  /** Google OAuth web client for console sign-in (redirect URI: <ADMIN_PUBLIC_ORIGIN>/v1/admin/auth/callback/google). */
+  ADMIN_GOOGLE_CLIENT_ID: optionalString,
+  ADMIN_GOOGLE_CLIENT_SECRET: optionalString,
+  /** Cloudflare Access team domain (`<team>.cloudflareaccess.com`) and the console application's AUD tag. */
+  CF_ACCESS_TEAM_DOMAIN: optionalString,
+  CF_ACCESS_AUD: optionalString,
+  /** Local development only (APP_ENV=local): lets an allow-listed, already-created operator sign in without Google. */
+  ADMIN_DEV_SIGN_IN: boolFlag(false),
 });
 
 export type ApiEnv = z.infer<typeof apiEnvSchema>;

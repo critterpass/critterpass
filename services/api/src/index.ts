@@ -51,6 +51,8 @@ import { registerActionKeyRoutes } from './routes/action-keys';
 import { registerActionsRoute } from './routes/actions';
 import { registerNotificationRoutes } from './routes/notifications';
 import { routeNotificationsFromApiEvents, startJobProducer } from './jobs/producer';
+import { buildAdminConsole } from './admin/bootstrap';
+import { mountAdminRouter } from './admin/router';
 
 const env = loadApiEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'api', commit: env.COMMIT_SHA } });
@@ -272,6 +274,14 @@ if (
   logger.info('Media routes are disabled: R2_* or MEDIA_* is unset');
 }
 
+// Ops console (/v1/admin/*): its own Better Auth instance, guard and audited command pipeline.
+const adminConsole = buildAdminConsole(env, { pool, redis, logger });
+if (adminConsole) {
+  mountAdminRouter(app, adminConsole.router);
+} else {
+  logger.info('Ops console routes are disabled: ADMIN_PUBLIC_ORIGIN or ADMIN_ALLOWLIST is unset');
+}
+
 // Mounted last: Better Auth's own catch-all handler must never shadow the more specific routes
 // above (`/api/auth/sign-in/phone-number` in particular — registerReturningPhoneSignInRoute wins
 // over Better Auth's own password-based endpoint of the same name only because Hono matches the
@@ -293,6 +303,7 @@ function shutdown(signal: string) {
       redis.isOpen ? redis.close() : Promise.resolve(),
       authModule.close(),
       jobProducer.then((boss) => boss?.stop({ graceful: true, timeout: 5_000 })),
+      adminConsole?.close() ?? Promise.resolve(),
     ]).then(() => {
       logger.info('stopped');
       process.exit(0);
