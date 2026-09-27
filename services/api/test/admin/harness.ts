@@ -17,6 +17,7 @@ import { createAccountControl, type AccountControl } from '../../src/admin/accou
 import { adminAreas } from '../../src/admin/areas';
 import { registerSupportGrantSource } from '../../src/admin/entitlement-grants';
 import type { MediaUrlSigner } from '../../src/admin/moderation-intake';
+import { createOperatorStore } from '../../src/admin/operators';
 import { parseAdminAllowlist } from '../../src/admin/allowlist';
 import { createAdminAuth, type AdminAuth } from '../../src/admin/auth';
 import { createAdminRouter, mountAdminRouter } from '../../src/admin/router';
@@ -30,7 +31,7 @@ import { registerCommandRoute } from '../../src/routes/cmd';
 import { disabledAttestationConfig } from '../auth/test-attestation-config';
 
 export const ADMIN_ORIGIN = 'http://localhost:5173';
-const SECRET = 'test-secret-at-least-32-characters-long';
+export const SECRET = 'test-secret-at-least-32-characters-long';
 
 export interface AppUser {
   readonly cookie: string;
@@ -110,7 +111,18 @@ export async function startAdminHarness(): Promise<AdminHarness> {
     pool,
     redis,
     accounts,
-    areas: (media = () => Promise.resolve(null)) => adminAreas({ pool, accounts, media }),
+    areas: (media = () => Promise.resolve(null)) =>
+      adminAreas({
+        pool,
+        accounts,
+        media,
+        operators: createOperatorStore(pool),
+        // Every operator seeded so far, whenever the check runs.
+        allowlist: {
+          allows: (email) => seeded.includes(email.toLowerCase()),
+          initialRoles: () => [],
+        },
+      }),
     async signInUser() {
       const response = await appAuth.handler(
         new Request('http://localhost:8787/api/auth/sign-in/anonymous', {
@@ -170,6 +182,7 @@ export async function startAdminHarness(): Promise<AdminHarness> {
           allowlist: parseAdminAllowlist(allowlist),
           access: options.access,
           ipHashSecret: SECRET,
+          cliTokenSecret: SECRET,
           areas: options.areas ?? [],
           ...(options.now !== undefined ? { now: options.now } : {}),
         }),

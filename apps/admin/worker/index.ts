@@ -3,7 +3,7 @@
  * the SPA from static assets and reverse-proxies `/v1/admin/*` same-origin to the api, so the
  * host-only `SameSite=Strict` console cookie reaches it. Cloudflare Access sits in front of the host;
  * the Access assertion it injects is the only `Cf-Access-*` header forwarded. Every response carries
- * the console's security headers.
+ * the console's security headers (infra/cloudflare/admin/headers).
  */
 
 export interface AdminWorkerEnv {
@@ -16,12 +16,14 @@ const API_PREFIX = '/v1/admin/';
 const ACCESS_ASSERTION = 'cf-access-jwt-assertion';
 const CLIENT_IP = 'x-cp-client-ip';
 const OSM_TILES = 'https://tile.openstreetmap.org';
+/** The media Worker's signed read URLs (moderation image previews). */
+const MEDIA_HOSTS = 'https://media.critterpass.app https://media.staging.critterpass.app';
 
 export const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   "script-src 'self'",
   "style-src 'self'",
-  `img-src 'self' data: blob: ${OSM_TILES}`,
+  `img-src 'self' data: blob: ${OSM_TILES} ${MEDIA_HOSTS}`,
   `connect-src 'self' ${OSM_TILES}`,
   "worker-src 'self' blob:",
   "font-src 'self'",
@@ -31,7 +33,8 @@ export const CONTENT_SECURITY_POLICY = [
   "frame-ancestors 'none'",
 ].join('; ');
 
-const SECURITY_HEADERS: Readonly<Record<string, string>> = {
+/** Mirrored, for review, in infra/cloudflare/admin/headers (a test keeps the two identical). */
+export const SECURITY_HEADERS: Readonly<Record<string, string>> = {
   'content-security-policy': CONTENT_SECURITY_POLICY,
   'strict-transport-security': 'max-age=31536000; includeSubDomains',
   'x-content-type-options': 'nosniff',

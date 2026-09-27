@@ -34,11 +34,19 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop',
+      testIgnore: /audit\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1440, height: 900 },
         launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] },
       },
+    },
+    // Last, after every other spec: the audit viewer must show every action the run performed.
+    {
+      name: 'audit',
+      testMatch: /audit\.spec\.ts/,
+      dependencies: ['desktop'],
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
     },
   ],
   webServer: [

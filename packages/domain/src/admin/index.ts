@@ -9,3 +9,5 @@ export * from './catalogue';
 export * from './moderation-kinds';
 export * from './support';
 export * from './desk';
+export * from './audit';
+export * from './cli-token';

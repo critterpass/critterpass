@@ -545,6 +545,7 @@ Exact patch versions live in `pnpm-lock.yaml`; bumps go through Renovate weekly 
 | Egress | fixed outbound IPs (partner whitelists, DB allow-list); outbound timeouts up to 120 s for supplier booking calls |
 | Security | Better Auth advisories patched within 48 h; Renovate + OSV in CI; external auth/permission review before launch |
 | Runbooks | `docs/runbooks/*.md` (one per alert) |
+| Ops console access | **Onboard**: add `email:role[+role]` to `ADMIN_ALLOWLIST` (Railway api variable, redeploy) and add the e-mail to the Cloudflare Access policy for `admin.`; the first Google sign-in creates the account with those roles, later changes go through `set_admin_role` (owner, audited). **Offboard**: remove the allow-list entry (locks the account on its next request) and the Access policy entry; clear roles with `set_admin_role` so the audit log records it. **Console down**: `railway run --service api -- pnpm --filter @cp/admin admin:cmd <command> '<json>'` with `ADMIN_API_ORIGIN`, `ADMIN_CLI_EMAIL` (an owner) and, where Access guards the api, `CF_ACCESS_TOKEN` from `cloudflared access token`; a 5-minute owner token, audited like the console |
 
 ---
 

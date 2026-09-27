@@ -23,6 +23,7 @@ import pg from 'pg';
 import { z } from 'zod';
 
 import type { AdminAllowlist } from './allowlist';
+import { createOperatorStore, type OperatorStore } from './operators';
 
 export const ADMIN_AUTH_BASE_PATH = '/v1/admin/auth';
 export const ADMIN_COOKIE_PREFIX = 'cp_admin';
@@ -63,6 +64,8 @@ export interface AdminAuth {
   handler(request: Request): Promise<Response>;
   /** Console operators' e-mails by uid, for "changed by" columns. */
   operatorEmails(uids: readonly string[]): Promise<ReadonlyMap<string, string>>;
+  /** Console accounts and their roles (CLI owner lookup, `set_admin_role`). */
+  readonly operators: OperatorStore;
   close(): Promise<void>;
 }
 
@@ -178,6 +181,7 @@ export function createAdminAuth(deps: AdminAuthDeps): AdminAuth {
   const auth = betterAuth(buildAdminAuthOptions(deps, drizzle(pool)));
   return {
     auth,
+    operators: createOperatorStore(pool),
     handler: (request) => auth.handler(request),
     async operatorEmails(uids) {
       if (uids.length === 0) return new Map();

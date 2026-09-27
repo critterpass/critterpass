@@ -80,10 +80,13 @@ export function buildAdminConsole(env: ApiEnv, deps: AdminConsoleDeps): AdminCon
     allowlist,
     access,
     ipHashSecret: env.BETTER_AUTH_SECRET,
+    cliTokenSecret: env.BETTER_AUTH_SECRET,
     areas: adminAreas({
       pool: deps.pool,
       accounts: createAccountControl(deps.appAuth, deps.pool),
       media: mediaSigner(env),
+      operators: auth.operators,
+      allowlist,
     }),
   });
   return { router, close: () => auth.close() };

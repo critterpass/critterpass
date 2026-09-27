@@ -1,8 +1,9 @@
 /**
  * Every console module, one line each. Areas built later (jobs, feedback, content batches) add
- * their `defineAdminModule` export here.
+ * their `defineAdminModule` export here; `defineAdminModule` in ../kit/registry.ts shows one.
  */
 import type { AdminModule } from '../kit/registry';
+import { auditModule } from '../modules/audit';
 import { catalogueModule } from '../modules/catalogue';
 import { deskModule } from '../modules/desk';
 import { flagsModule } from '../modules/flags';
@@ -17,4 +18,5 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
   partnersModule,
   supportModule,
   deskModule,
+  auditModule,
 ];
