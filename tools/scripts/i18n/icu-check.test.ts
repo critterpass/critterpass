@@ -28,6 +28,8 @@ describe('checkIcuSyntax', () => {
   });
 
   it('flags an unrecognised argument type', () => {
-    expect(checkIcuSyntax('{count, counted, other {# items}}')).toMatch(/unrecognised ICU argument type "counted"/);
+    expect(checkIcuSyntax('{count, counted, other {# items}}')).toMatch(
+      /unrecognised ICU argument type "counted"/,
+    );
   });
 });

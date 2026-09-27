@@ -23,7 +23,9 @@ describe('parseLocalMarkup', () => {
 
   it('handles more than one local span in the same message', () => {
     expect(
-      parseLocalMarkup('<local lang="id">Selamat pagi</local>, then <local lang="id">terima kasih</local>.'),
+      parseLocalMarkup(
+        '<local lang="id">Selamat pagi</local>, then <local lang="id">terima kasih</local>.',
+      ),
     ).toEqual([
       { text: 'Selamat pagi', lang: 'id' },
       { text: ', then ' },

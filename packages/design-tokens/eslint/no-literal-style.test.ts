@@ -16,7 +16,9 @@ const eslint = new ESLint({
 
 async function lint(code: string): Promise<string[]> {
   const [result] = await eslint.lintText(code, { filePath: 'fixture.tsx' });
-  return (result?.messages ?? []).map((message) => `${message.ruleId ?? 'parse'}: ${message.message}`);
+  return (result?.messages ?? []).map(
+    (message) => `${message.ruleId ?? 'parse'}: ${message.message}`,
+  );
 }
 
 describe('critterpass/no-literal-style', () => {
@@ -51,7 +53,9 @@ describe('critterpass/no-literal-style', () => {
   });
 
   it('does not flag a token-sourced colour', async () => {
-    const errors = await lint("import { tokens } from '@cp/design-tokens';\nconst style = { backgroundColor: tokens.color.yellow };\n");
+    const errors = await lint(
+      "import { tokens } from '@cp/design-tokens';\nconst style = { backgroundColor: tokens.color.yellow };\n",
+    );
     expect(errors.some((e) => e.includes('no-literal-style'))).toBe(false);
   });
 

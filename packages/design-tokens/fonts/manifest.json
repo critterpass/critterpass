@@ -1,17 +1,13 @@
 {
   "families": {
     "archivo": {
-      "criticalRanges": [
-        "vietnamese"
-      ],
+      "criticalRanges": ["vietnamese"],
       "instances": [
         {
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -42,9 +38,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -65,9 +59,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -98,9 +90,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -121,9 +111,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -154,9 +142,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -177,9 +163,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -210,9 +194,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -233,9 +215,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -266,9 +246,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -289,9 +267,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -322,9 +298,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -345,9 +319,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -378,9 +350,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -401,9 +371,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -434,9 +402,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -457,9 +423,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -490,9 +454,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -513,9 +475,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -546,9 +506,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -569,9 +527,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -602,9 +558,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -625,9 +579,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -658,9 +610,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -681,9 +631,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -714,9 +662,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -737,9 +683,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -770,9 +714,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -793,9 +735,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -826,9 +766,7 @@
               }
             },
             "overall": {
-              "missing": [
-                "U+0E3F"
-              ],
+              "missing": ["U+0E3F"],
               "missingCount": 1,
               "requiredCount": 430
             }
@@ -854,9 +792,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -871,9 +807,7 @@
                 "requiredCount": 96
               },
               "latinExtendedA": {
-                "missing": [
-                  "U+017F"
-                ],
+                "missing": ["U+017F"],
                 "missingCount": 1,
                 "requiredCount": 128
               },
@@ -1076,9 +1010,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F"
-                ],
+                "missing": ["U+0E3F"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -1093,9 +1025,7 @@
                 "requiredCount": 96
               },
               "latinExtendedA": {
-                "missing": [
-                  "U+017F"
-                ],
+                "missing": ["U+017F"],
                 "missingCount": 1,
                 "requiredCount": 128
               },
@@ -1303,9 +1233,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+20A9"
-                ],
+                "missing": ["U+20A9"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -1315,9 +1243,7 @@
                 "requiredCount": 95
               },
               "latin1Supplement": {
-                "missing": [
-                  "U+00AD"
-                ],
+                "missing": ["U+00AD"],
                 "missingCount": 1,
                 "requiredCount": 96
               },
@@ -1344,9 +1270,7 @@
                 "requiredCount": 13
               },
               "vietnamese": {
-                "missing": [
-                  "U+20AB"
-                ],
+                "missing": ["U+20AB"],
                 "missingCount": 1,
                 "requiredCount": 103
               }
@@ -1388,9 +1312,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+20A9"
-                ],
+                "missing": ["U+20A9"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -1400,9 +1322,7 @@
                 "requiredCount": 95
               },
               "latin1Supplement": {
-                "missing": [
-                  "U+00AD"
-                ],
+                "missing": ["U+00AD"],
                 "missingCount": 1,
                 "requiredCount": 96
               },
@@ -1429,9 +1349,7 @@
                 "requiredCount": 13
               },
               "vietnamese": {
-                "missing": [
-                  "U+20AB"
-                ],
+                "missing": ["U+20AB"],
                 "missingCount": 1,
                 "requiredCount": 103
               }
@@ -1473,9 +1391,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+20A9"
-                ],
+                "missing": ["U+20A9"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -1485,9 +1401,7 @@
                 "requiredCount": 95
               },
               "latin1Supplement": {
-                "missing": [
-                  "U+00AD"
-                ],
+                "missing": ["U+00AD"],
                 "missingCount": 1,
                 "requiredCount": 96
               },
@@ -1514,9 +1428,7 @@
                 "requiredCount": 13
               },
               "vietnamese": {
-                "missing": [
-                  "U+20AB"
-                ],
+                "missing": ["U+20AB"],
                 "missingCount": 1,
                 "requiredCount": 103
               }
@@ -1558,9 +1470,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+20A9"
-                ],
+                "missing": ["U+20A9"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -1570,9 +1480,7 @@
                 "requiredCount": 95
               },
               "latin1Supplement": {
-                "missing": [
-                  "U+00AD"
-                ],
+                "missing": ["U+00AD"],
                 "missingCount": 1,
                 "requiredCount": 96
               },
@@ -1599,9 +1507,7 @@
                 "requiredCount": 13
               },
               "vietnamese": {
-                "missing": [
-                  "U+20AB"
-                ],
+                "missing": ["U+20AB"],
                 "missingCount": 1,
                 "requiredCount": 103
               }
@@ -1643,9 +1549,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+20A9"
-                ],
+                "missing": ["U+20A9"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -1655,9 +1559,7 @@
                 "requiredCount": 95
               },
               "latin1Supplement": {
-                "missing": [
-                  "U+00AD"
-                ],
+                "missing": ["U+00AD"],
                 "missingCount": 1,
                 "requiredCount": 96
               },
@@ -1684,9 +1586,7 @@
                 "requiredCount": 13
               },
               "vietnamese": {
-                "missing": [
-                  "U+20AB"
-                ],
+                "missing": ["U+20AB"],
                 "missingCount": 1,
                 "requiredCount": 103
               }
@@ -1733,9 +1633,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+20A9"
-                ],
+                "missing": ["U+20A9"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -1745,9 +1643,7 @@
                 "requiredCount": 95
               },
               "latin1Supplement": {
-                "missing": [
-                  "U+00AD"
-                ],
+                "missing": ["U+00AD"],
                 "missingCount": 1,
                 "requiredCount": 96
               },
@@ -1776,9 +1672,7 @@
                 "requiredCount": 13
               },
               "vietnamese": {
-                "missing": [
-                  "U+20AB"
-                ],
+                "missing": ["U+20AB"],
                 "missingCount": 1,
                 "requiredCount": 103
               }
@@ -1822,9 +1716,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+20A9"
-                ],
+                "missing": ["U+20A9"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -1834,9 +1726,7 @@
                 "requiredCount": 95
               },
               "latin1Supplement": {
-                "missing": [
-                  "U+00AD"
-                ],
+                "missing": ["U+00AD"],
                 "missingCount": 1,
                 "requiredCount": 96
               },
@@ -1865,9 +1755,7 @@
                 "requiredCount": 13
               },
               "vietnamese": {
-                "missing": [
-                  "U+20AB"
-                ],
+                "missing": ["U+20AB"],
                 "missingCount": 1,
                 "requiredCount": 103
               }
@@ -1911,9 +1799,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+20A9"
-                ],
+                "missing": ["U+20A9"],
                 "missingCount": 1,
                 "requiredCount": 3
               },
@@ -1923,9 +1809,7 @@
                 "requiredCount": 95
               },
               "latin1Supplement": {
-                "missing": [
-                  "U+00AD"
-                ],
+                "missing": ["U+00AD"],
                 "missingCount": 1,
                 "requiredCount": 96
               },
@@ -1954,9 +1838,7 @@
                 "requiredCount": 13
               },
               "vietnamese": {
-                "missing": [
-                  "U+20AB"
-                ],
+                "missing": ["U+20AB"],
                 "missingCount": 1,
                 "requiredCount": 103
               }
@@ -2005,10 +1887,7 @@
           "coverage": {
             "byRange": {
               "currencyExtra": {
-                "missing": [
-                  "U+0E3F",
-                  "U+20A9"
-                ],
+                "missing": ["U+0E3F", "U+20A9"],
                 "missingCount": 2,
                 "requiredCount": 3
               },
@@ -2071,9 +1950,7 @@
                 "requiredCount": 128
               },
               "punctuation": {
-                "missing": [
-                  "U+2044"
-                ],
+                "missing": ["U+2044"],
                 "missingCount": 1,
                 "requiredCount": 13
               },
@@ -2336,9 +2213,7 @@
       ]
     },
     "notoSansThai": {
-      "criticalRanges": [
-        "thai"
-      ],
+      "criticalRanges": ["thai"],
       "instances": [
         {
           "coverage": {

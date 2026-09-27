@@ -10,7 +10,13 @@
     },
     "paper": {
       "$type": "shadow",
-      "$value": { "offsetX": 0, "offsetY": 6, "blur": 14, "spread": 0, "color": "rgba(23,20,42,.12)" }
+      "$value": {
+        "offsetX": 0,
+        "offsetY": 6,
+        "blur": 14,
+        "spread": 0,
+        "color": "rgba(23,20,42,.12)"
+      }
     },
     "hard": {
       "$type": "shadow",
@@ -19,7 +25,13 @@
     },
     "sticker": {
       "$type": "shadow",
-      "$value": { "offsetX": 0, "offsetY": 2.5, "blur": 5, "spread": 0, "color": "rgba(0,0,0,.32)" },
+      "$value": {
+        "offsetX": 0,
+        "offsetY": 2.5,
+        "blur": 5,
+        "spread": 0,
+        "color": "rgba(0,0,0,.32)"
+      },
       "$description": "Baked into art"
     }
   }

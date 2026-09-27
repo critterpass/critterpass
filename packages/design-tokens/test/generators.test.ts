@@ -67,7 +67,7 @@ describe('emitTs', () => {
 
 describe('emitCss', () => {
   it('emits a single :root block with kebab-case custom properties', () => {
-    expect(css).toMatch(/^\/\/ Generated[\s\S]*:root \{/);
+    expect(css).toMatch(/^\/\* Generated[^\n]*\*\/\n:root \{/);
     expect(css).toContain('--color-yellow: #ffd84a;');
     expect(css).toContain('--space-8: 8px;');
     expect(css).toContain('--motion-duration-base: 340ms;');
@@ -114,7 +114,9 @@ describe('emitFontsCss', () => {
   });
 
   it('shares one font-family name across every Archivo weight/width, unlike the mobile side', () => {
-    const archivoRules = fontsCss.split('@font-face').filter((rule) => rule.includes("font-family: 'Archivo'"));
+    const archivoRules = fontsCss
+      .split('@font-face')
+      .filter((rule) => rule.includes("font-family: 'Archivo'"));
     expect(archivoRules.length).toBe(15); // 5 widths x 3 weights
     expect(fontsCss).toContain('font-stretch: 62%;');
     expect(fontsCss).toContain('font-stretch: 100%;');
@@ -144,5 +146,13 @@ describe('buildAndroidFonts', () => {
     expect(xml).toContain('app:font="@font/archivo_w70_900"');
     expect(xml).toContain('app:fontWeight="900"');
     expect(() => readFileSync(join(outputDir, 'archivo_w70_900.ttf'))).not.toThrow();
+  });
+});
+
+describe('generated CSS', () => {
+  it('uses only block comments, so browsers keep every rule', () => {
+    for (const output of [css, fontsCss]) {
+      expect(output.split('\n').filter((line) => line.trimStart().startsWith('//'))).toEqual([]);
+    }
   });
 });

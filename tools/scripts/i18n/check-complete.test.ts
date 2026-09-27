@@ -77,7 +77,9 @@ describe('CLI', () => {
 
   function run(args: string[]): { status: number; stdout: string } {
     try {
-      const stdout = execFileSync('pnpm', ['exec', 'tsx', scriptPath, ...args], { encoding: 'utf8' });
+      const stdout = execFileSync('pnpm', ['exec', 'tsx', scriptPath, ...args], {
+        encoding: 'utf8',
+      });
       return { status: 0, stdout };
     } catch (error) {
       const withStatus = error as { status: number | null; stdout: string };
@@ -94,7 +96,9 @@ describe('CLI', () => {
   it('--mode release fails on a fixture with a missing vi key', () => {
     const result = run(['--dry', '--mode', 'release']);
     expect(result.status).toBe(1);
-    expect(result.stdout).toContain('::error::missing translation: vi/common.po "common.cancel.label"');
+    expect(result.stdout).toContain(
+      '::error::missing translation: vi/common.po "common.cancel.label"',
+    );
   });
 
   it('both modes pass on complete catalogs', () => {

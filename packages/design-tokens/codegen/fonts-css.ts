@@ -9,7 +9,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { GENERATED_HEADER } from './generated-header.js';
+import { GENERATED_HEADER_CSS } from './generated-header.js';
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SOURCES_PATH = join(packageRoot, '../../tools/scripts/fonts/sources.json');
@@ -59,8 +59,17 @@ function entriesForFamily(name: string, spec: FamilySource, sources: FontSources
     const entries: FontFaceEntry[] = [];
     for (const width of widths) {
       for (const weight of spec.axes.wght) {
-        const fileStem = width !== undefined && varyStretch ? `Archivo-W${width}-${weight}` : `${spec.displayName.replace(/ /g, '')}-${weight}`;
-        entries.push({ family, weight, stretchPercent: varyStretch ? width : undefined, fileStem, unicodeRange });
+        const fileStem =
+          width !== undefined && varyStretch
+            ? `Archivo-W${width}-${weight}`
+            : `${spec.displayName.replace(/ /g, '')}-${weight}`;
+        entries.push({
+          family,
+          weight,
+          stretchPercent: varyStretch ? width : undefined,
+          fileStem,
+          unicodeRange,
+        });
       }
     }
     return entries;
@@ -76,7 +85,8 @@ function entriesForFamily(name: string, spec: FamilySource, sources: FontSources
 }
 
 function fontFaceRule(entry: FontFaceEntry): string {
-  const stretch = entry.stretchPercent !== undefined ? `\n  font-stretch: ${entry.stretchPercent}%;` : '';
+  const stretch =
+    entry.stretchPercent !== undefined ? `\n  font-stretch: ${entry.stretchPercent}%;` : '';
   return `@font-face {
   font-family: '${entry.family}';
   src: url('/fonts/${entry.fileStem}.woff2') format('woff2');
@@ -93,5 +103,5 @@ export function emitFontsCss(): string {
     .filter(([, spec]) => spec.targets.includes('web'))
     .flatMap(([name, spec]) => entriesForFamily(name, spec, sources))
     .map(fontFaceRule);
-  return `${GENERATED_HEADER}\n\n${rules.join('\n\n')}\n`;
+  return `${GENERATED_HEADER_CSS}\n\n${rules.join('\n\n')}\n`;
 }

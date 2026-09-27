@@ -49,7 +49,9 @@ function isTypographyValue(value: unknown): value is TypographyLeafValue {
   return typeof value === 'object' && value !== null && 'fontFamily' in value;
 }
 
-function isShadowValue(value: unknown): value is { offsetX: number; offsetY: number; blur: number; spread: number; color: string } {
+function isShadowValue(
+  value: unknown,
+): value is { offsetX: number; offsetY: number; blur: number; spread: number; color: string } {
   return typeof value === 'object' && value !== null && 'offsetX' in value;
 }
 

@@ -64,9 +64,13 @@ async function main(): Promise<void> {
   const config: TolgeeConfig | undefined = loadTolgeeConfig();
   if (values.dry || !config) {
     if (!values.dry) {
-      console.log('TOLGEE_API_KEY/TOLGEE_PROJECT_ID not set — running in --dry mode (no request sent).');
+      console.log(
+        'TOLGEE_API_KEY/TOLGEE_PROJECT_ID not set — running in --dry mode (no request sent).',
+      );
     }
-    console.log(`Would pull reviewed translations into ${localesDir} (no request sent in --dry mode).`);
+    console.log(
+      `Would pull reviewed translations into ${localesDir} (no request sent in --dry mode).`,
+    );
     return;
   }
 
@@ -81,7 +85,9 @@ async function main(): Promise<void> {
 
     const files = locatePulledFiles(extractedDir);
     applyPulledFiles(files, localesDir);
-    console.log(`Pulled ${String(files.length)} catalog file(s) from Tolgee project ${config.projectId}.`);
+    console.log(
+      `Pulled ${String(files.length)} catalog file(s) from Tolgee project ${config.projectId}.`,
+    );
   } finally {
     rmSync(workDir, { recursive: true, force: true });
   }

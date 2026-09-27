@@ -50,7 +50,16 @@ const NATIVE_CATEGORIES = new Set([
   'shadow',
   'type',
 ]);
-const PASSTHROUGH_TYPES = new Set(['color', 'dimension', 'duration', 'number', 'string', 'cpFormula', 'cubicBezier', 'shadow']);
+const PASSTHROUGH_TYPES = new Set([
+  'color',
+  'dimension',
+  'duration',
+  'number',
+  'string',
+  'cpFormula',
+  'cubicBezier',
+  'shadow',
+]);
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -80,7 +89,10 @@ function isNativeRelevantPath(path: readonly string[]): boolean {
 }
 
 /** Colour/dimension/etc. leaves plus a simplified `type.*` view and the computed guide onPaper colours. */
-export function flattenForNative(tokens: Tokens, declarations: readonly DeclaredToken[]): readonly FlatLeaf[] {
+export function flattenForNative(
+  tokens: Tokens,
+  declarations: readonly DeclaredToken[],
+): readonly FlatLeaf[] {
   const leaves: FlatLeaf[] = [];
   for (const decl of declarations) {
     const path = decl.path.split('.');
@@ -100,7 +112,9 @@ export function flattenForNative(tokens: Tokens, declarations: readonly Declared
 
 /** `cardBig` -> `card-big`; used for CSS custom property names. */
 export function pathToKebab(path: readonly string[]): string {
-  return path.map((segment) => segment.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()).join('-');
+  return path
+    .map((segment) => segment.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase())
+    .join('-');
 }
 
 /** `['card', 'Big']` -> `CardBig`; used for Swift/Kotlin member names. */

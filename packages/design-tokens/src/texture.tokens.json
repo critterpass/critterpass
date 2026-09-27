@@ -50,7 +50,12 @@
     },
     "barcode": {
       "$type": "cpTexture",
-      "$value": { "kind": "stripes", "color": "{color.ink.850}", "stripeWidthPt": 2, "stripeGapPt": 2 },
+      "$value": {
+        "kind": "stripes",
+        "color": "{color.ink.850}",
+        "stripeWidthPt": 2,
+        "stripeGapPt": 2
+      },
       "$description": "Tickets, receipts"
     },
     "rays": {
@@ -75,7 +80,12 @@
     },
     "sheen": {
       "$type": "cpTexture",
-      "$value": { "kind": "sweepBand", "skewDeg": -20, "widthPt": 60, "color": "rgba(255,255,255,.55)" },
+      "$value": {
+        "kind": "sweepBand",
+        "skewDeg": -20,
+        "widthPt": 60,
+        "color": "rgba(255,255,255,.55)"
+      },
       "$description": "Primary CTA sweep"
     }
   }

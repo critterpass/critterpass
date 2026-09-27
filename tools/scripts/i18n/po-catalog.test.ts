@@ -20,7 +20,9 @@ describe('readPoEntries', () => {
   });
 
   it('returns an empty translation for an untranslated entry', () => {
-    const po = ['msgid ""', 'msgstr ""', '', 'msgid "common.cancel.label"', 'msgstr ""', ''].join('\n');
+    const po = ['msgid ""', 'msgstr ""', '', 'msgid "common.cancel.label"', 'msgstr ""', ''].join(
+      '\n',
+    );
 
     expect(readPoEntries(po)[0]?.translation).toBe('');
   });
@@ -104,7 +106,14 @@ describe('readPoEntries', () => {
   });
 
   it('unescapes quotes and backslashes', () => {
-    const po = ['msgid ""', 'msgstr ""', '', 'msgid "a.b.c"', 'msgstr "Say \\"hi\\" \\\\ ok"', ''].join('\n');
+    const po = [
+      'msgid ""',
+      'msgstr ""',
+      '',
+      'msgid "a.b.c"',
+      'msgstr "Say \\"hi\\" \\\\ ok"',
+      '',
+    ].join('\n');
 
     expect(readPoEntries(po)[0]?.translation).toBe('Say "hi" \\ ok');
   });

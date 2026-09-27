@@ -14,7 +14,15 @@
       "U+1EA0-1EF9",
       "U+20AB"
     ],
-    "punctuation": ["U+2013-2014", "U+2018-201A", "U+201C-201E", "U+2026", "U+2030", "U+2039-203A", "U+2044"],
+    "punctuation": [
+      "U+2013-2014",
+      "U+2018-201A",
+      "U+201C-201E",
+      "U+2026",
+      "U+2030",
+      "U+2039-203A",
+      "U+2044"
+    ],
     "currencyExtra": ["U+20A9", "U+20AC", "U+0E3F"],
     "thai": ["U+0E01-0E3A", "U+0E3F", "U+0E40-0E5B"],
     "thaiLatinDigitsPunct": ["U+0020-002F", "U+0030-0039", "U+003A-0040"]
@@ -40,7 +48,14 @@
       "variable": true,
       "axes": { "wdth": [62, 66, 70, 78, 100], "wght": [700, 800, 900] },
       "instanceNaming": "Archivo-W{wdth}-{wght}",
-      "unicodeRanges": ["latin", "latin1Supplement", "latinExtendedA", "vietnamese", "punctuation", "currencyExtra"],
+      "unicodeRanges": [
+        "latin",
+        "latin1Supplement",
+        "latinExtendedA",
+        "vietnamese",
+        "punctuation",
+        "currencyExtra"
+      ],
       "criticalRanges": ["vietnamese"],
       "keepFeatures": ["tnum", "case"],
       "targets": ["mobile", "web"]
@@ -82,7 +97,14 @@
           "sha256": "68b974a40bb1a6dc76f00fe5e36a5fb58808bbafbc19e3c920e8dc51c13e75b3"
         }
       ],
-      "unicodeRanges": ["latin", "latin1Supplement", "latinExtendedA", "vietnamese", "punctuation", "currencyExtra"],
+      "unicodeRanges": [
+        "latin",
+        "latin1Supplement",
+        "latinExtendedA",
+        "vietnamese",
+        "punctuation",
+        "currencyExtra"
+      ],
       "keepFeatures": ["tnum", "case"],
       "targets": ["mobile", "web"]
     },
@@ -113,7 +135,14 @@
           "sha256": "325de0913317e63c9b0084d3f571c6d1c9279e776e9260c62be19e1c12d1be3c"
         }
       ],
-      "unicodeRanges": ["latin", "latin1Supplement", "latinExtendedA", "vietnamese", "punctuation", "currencyExtra"],
+      "unicodeRanges": [
+        "latin",
+        "latin1Supplement",
+        "latinExtendedA",
+        "vietnamese",
+        "punctuation",
+        "currencyExtra"
+      ],
       "keepFeatures": ["tnum", "case"],
       "targets": ["mobile", "web"]
     },
@@ -133,7 +162,14 @@
       "variable": true,
       "axes": { "wght": [600, 700] },
       "instanceNaming": "Caveat-{wght}",
-      "unicodeRanges": ["latin", "latin1Supplement", "latinExtendedA", "vietnamese", "punctuation", "currencyExtra"],
+      "unicodeRanges": [
+        "latin",
+        "latin1Supplement",
+        "latinExtendedA",
+        "vietnamese",
+        "punctuation",
+        "currencyExtra"
+      ],
       "keepFeatures": ["tnum", "case"],
       "targets": ["mobile", "web"]
     },
@@ -158,7 +194,14 @@
           "sha256": "498efd461f6ddfcb7a111bf9a565709d2085d48201d501ead960d93e84ffbb88"
         }
       ],
-      "unicodeRanges": ["latin", "latin1Supplement", "latinExtendedA", "vietnamese", "punctuation", "currencyExtra"],
+      "unicodeRanges": [
+        "latin",
+        "latin1Supplement",
+        "latinExtendedA",
+        "vietnamese",
+        "punctuation",
+        "currencyExtra"
+      ],
       "keepFeatures": ["tnum", "case"],
       "targets": ["web"]
     },

@@ -89,7 +89,8 @@ export function parseForNative(message: string, messageId: string): NativeMessag
 
   const pluralIndex = tokens.findIndex((token) => token.type === 'plural');
   const hasOtherSelect = tokens.some(
-    (token, index) => index !== pluralIndex && (token.type === 'select' || token.type === 'selectordinal'),
+    (token, index) =>
+      index !== pluralIndex && (token.type === 'select' || token.type === 'selectordinal'),
   );
   if (hasOtherSelect) {
     throw new UnsupportedNativeMessageError(

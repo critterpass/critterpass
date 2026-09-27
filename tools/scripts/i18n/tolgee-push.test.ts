@@ -16,7 +16,10 @@ describe('collectSourceKeys', () => {
   });
 
   it('carries a message’s extracted comment as the key’s description', () => {
-    const keys = collectSourceKeys(join(import.meta.dirname, 'fixtures', 'with-comment', 'locales'), 'en');
+    const keys = collectSourceKeys(
+      join(import.meta.dirname, 'fixtures', 'with-comment', 'locales'),
+      'en',
+    );
     expect(keys).toEqual([
       {
         name: 'crew.invite.accept',

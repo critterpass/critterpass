@@ -58,13 +58,19 @@ export function generateStringsXml(options: StringsXmlOptions): string {
     const shape = parseForNative(text, id);
 
     if (shape.kind === 'plain') {
-      lines.push(`    <string name="${id}">${renderAndroid(shape.segments, positions, pluralArg)}</string>`);
+      lines.push(
+        `    <string name="${id}">${renderAndroid(shape.segments, positions, pluralArg)}</string>`,
+      );
       continue;
     }
 
     lines.push(`    <plurals name="${id}">`);
     for (const [category, caseSegments] of shape.cases) {
-      const value = renderAndroid([...shape.prefix, ...caseSegments, ...shape.suffix], positions, pluralArg);
+      const value = renderAndroid(
+        [...shape.prefix, ...caseSegments, ...shape.suffix],
+        positions,
+        pluralArg,
+      );
       lines.push(`        <item quantity="${category}">${value}</item>`);
     }
     lines.push('    </plurals>');

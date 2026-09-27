@@ -1,4 +1,9 @@
-export type { NativeMessage, NativeSegment, PlainNativeMessage, PluralNativeMessage } from './message-shape.js';
+export type {
+  NativeMessage,
+  NativeSegment,
+  PlainNativeMessage,
+  PluralNativeMessage,
+} from './message-shape.js';
 export { UnsupportedNativeMessageError, argOrderOf, parseForNative } from './message-shape.js';
 export type { XcstringsOptions } from './xcstrings.js';
 export { generateXcstrings } from './xcstrings.js';

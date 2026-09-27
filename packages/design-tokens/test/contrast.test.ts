@@ -29,7 +29,10 @@ describe('relativeLuminance and contrastRatio', () => {
   });
 
   it('is symmetric regardless of argument order', () => {
-    expect(contrastRatio('#17142a', '#f4efe4')).toBeCloseTo(contrastRatio('#f4efe4', '#17142a'), 10);
+    expect(contrastRatio('#17142a', '#f4efe4')).toBeCloseTo(
+      contrastRatio('#f4efe4', '#17142a'),
+      10,
+    );
   });
 
   it('gives identical colours a 1:1 ratio', () => {
@@ -57,7 +60,9 @@ describe('darkenToContrast', () => {
   });
 
   it('is deterministic: the same inputs always produce the same output', () => {
-    expect(darkenToContrast('#54d6a4', '#f4efe4', 4.5)).toBe(darkenToContrast('#54d6a4', '#f4efe4', 4.5));
+    expect(darkenToContrast('#54d6a4', '#f4efe4', 4.5)).toBe(
+      darkenToContrast('#54d6a4', '#f4efe4', 4.5),
+    );
   });
 
   it('throws rather than returning a colour that still fails, when darkening cannot help', () => {
@@ -72,17 +77,25 @@ describe('contrastPairs (design-system.md §5 accessibility contract)', () => {
     expect(contrastPairs.length).toBeGreaterThan(0);
   });
 
-  it.each(contrastPairs.map((pair) => [pair.name, pair] as const))('%s meets its minimum ratio', (_name, pair) => {
-    expect(contrastRatio(pair.fg, pair.bg)).toBeGreaterThanOrEqual(pair.minRatio);
-  });
+  it.each(contrastPairs.map((pair) => [pair.name, pair] as const))(
+    '%s meets its minimum ratio',
+    (_name, pair) => {
+      expect(contrastRatio(pair.fg, pair.bg)).toBeGreaterThanOrEqual(pair.minRatio);
+    },
+  );
 
   it('flags that border.control (#5b5487) measures short of the 3:1 design-system.md §1.2 claims', () => {
     // Tracked gap, not a bug in this package: #5b5487 is the exact, repeated value in
     // design/Critterpass.dc.html, so the fix (if any) is a token edit on founder sign-off, not an
     // invented hex here. This assertion pins today's real ratio so a further regression is caught.
-    expect(contrastRatio(tokens.semantic.border.control, tokens.semantic.bg.base)).toBeCloseTo(2.618, 2);
+    expect(contrastRatio(tokens.semantic.border.control, tokens.semantic.bg.base)).toBeCloseTo(
+      2.618,
+      2,
+    );
     // The Increase Contrast escape hatch already meets the 3:1 the base colour falls short of.
-    expect(contrastRatio(tokens.semantic.increaseContrast.borderControl, tokens.semantic.bg.base)).toBeGreaterThanOrEqual(3);
+    expect(
+      contrastRatio(tokens.semantic.increaseContrast.borderControl, tokens.semantic.bg.base),
+    ).toBeGreaterThanOrEqual(3);
   });
 });
 

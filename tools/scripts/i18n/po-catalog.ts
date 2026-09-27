@@ -27,7 +27,11 @@ function unescape(value: string): string {
   return value.replace(/\\n/g, '\n').replace(/\\"/g, '"').replace(/\\\\/g, '\\');
 }
 
-function readContinuations(lines: readonly string[], start: number, initial: string): [string, number] {
+function readContinuations(
+  lines: readonly string[],
+  start: number,
+  initial: string,
+): [string, number] {
   let value = initial;
   let index = start;
   while (index < lines.length) {

@@ -22,11 +22,10 @@ function compileCatalogs(): void {
   // does not choke on an untracked file) and linted like any other TS output; the CLI's default
   // `/*eslint-disable*/` header would otherwise trip this repo's `reportUnusedDisableDirectives`
   // setting on the (rule-clean) generated code, so it is turned off here instead.
-  const result = spawnSync(
-    'lingui',
-    ['compile', '--output-prefix', '', ...process.argv.slice(2)],
-    { stdio: 'inherit', shell: process.platform === 'win32' },
-  );
+  const result = spawnSync('lingui', ['compile', '--output-prefix', '', ...process.argv.slice(2)], {
+    stdio: 'inherit',
+    shell: process.platform === 'win32',
+  });
   if (result.error) throw result.error;
   if (result.status !== 0) process.exit(result.status ?? 1);
 }

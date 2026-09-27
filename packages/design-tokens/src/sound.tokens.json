@@ -278,51 +278,123 @@
       },
       "music.tokek": {
         "$type": "cpSound",
-        "$value": { "kind": "music", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": "music/tokek.m4a", "category": "music" }
+        "$value": {
+          "kind": "music",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "music/tokek.m4a",
+          "category": "music"
+        }
       },
       "music.pon": {
         "$type": "cpSound",
-        "$value": { "kind": "music", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": "music/pon.m4a", "category": "music" }
+        "$value": {
+          "kind": "music",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "music/pon.m4a",
+          "category": "music"
+        }
       },
       "music.lundi": {
         "$type": "cpSound",
-        "$value": { "kind": "music", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": "music/lundi.m4a", "category": "music" }
+        "$value": {
+          "kind": "music",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "music/lundi.m4a",
+          "category": "music"
+        }
       },
       "music.ajo": {
         "$type": "cpSound",
-        "$value": { "kind": "music", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": "music/ajo.m4a", "category": "music" }
+        "$value": {
+          "kind": "music",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "music/ajo.m4a",
+          "category": "music"
+        }
       },
       "music.sardi": {
         "$type": "cpSound",
-        "$value": { "kind": "music", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": "music/sardi.m4a", "category": "music" }
+        "$value": {
+          "kind": "music",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "music/sardi.m4a",
+          "category": "music"
+        }
       },
       "music.paco": {
         "$type": "cpSound",
-        "$value": { "kind": "music", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": "music/paco.m4a", "category": "music" }
+        "$value": {
+          "kind": "music",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": "music/paco.m4a",
+          "category": "music"
+        }
       },
       "voice.tokek": {
         "$type": "cpSound",
-        "$value": { "kind": "voice", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": null, "category": "critter-voices" }
+        "$value": {
+          "kind": "voice",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": null,
+          "category": "critter-voices"
+        }
       },
       "voice.pon": {
         "$type": "cpSound",
-        "$value": { "kind": "voice", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": null, "category": "critter-voices" }
+        "$value": {
+          "kind": "voice",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": null,
+          "category": "critter-voices"
+        }
       },
       "voice.lundi": {
         "$type": "cpSound",
-        "$value": { "kind": "voice", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": null, "category": "critter-voices" }
+        "$value": {
+          "kind": "voice",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": null,
+          "category": "critter-voices"
+        }
       },
       "voice.ajo": {
         "$type": "cpSound",
-        "$value": { "kind": "voice", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": null, "category": "critter-voices" }
+        "$value": {
+          "kind": "voice",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": null,
+          "category": "critter-voices"
+        }
       },
       "voice.sardi": {
         "$type": "cpSound",
-        "$value": { "kind": "voice", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": null, "category": "critter-voices" }
+        "$value": {
+          "kind": "voice",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": null,
+          "category": "critter-voices"
+        }
       },
       "voice.paco": {
         "$type": "cpSound",
-        "$value": { "kind": "voice", "hapticIOS": null, "hapticAndroid": null, "sfxAsset": null, "category": "critter-voices" }
+        "$value": {
+          "kind": "voice",
+          "hapticIOS": null,
+          "hapticAndroid": null,
+          "sfxAsset": null,
+          "category": "critter-voices"
+        }
       }
     }
   }

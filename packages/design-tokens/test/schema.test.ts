@@ -24,7 +24,11 @@ describe('resolveTokenTree (alias resolution)', () => {
       c: { leaf: { $type: 'color', $value: '{b.mid}' } },
     };
     const { tree: resolved } = resolveTokenTree(tree);
-    expect(resolved).toEqual({ a: { base: '#222222' }, b: { mid: '#222222' }, c: { leaf: '#222222' } });
+    expect(resolved).toEqual({
+      a: { base: '#222222' },
+      b: { mid: '#222222' },
+      c: { leaf: '#222222' },
+    });
   });
 
   it('resolves aliases nested inside arrays and objects', () => {
@@ -97,22 +101,30 @@ describe('validateDeclarations', () => {
   });
 
   it('rejects a value that does not match its declared $type', () => {
-    expect(() => validateDeclarations([{ path: 'x', type: 'dimension', value: 'eight' }])).toThrow(/invalid token/);
+    expect(() => validateDeclarations([{ path: 'x', type: 'dimension', value: 'eight' }])).toThrow(
+      /invalid token/,
+    );
   });
 
   it('rejects an unknown $type', () => {
-    expect(() => validateDeclarations([{ path: 'x', type: 'notAType', value: 1 }])).toThrow(/unknown \$type/);
+    expect(() => validateDeclarations([{ path: 'x', type: 'notAType', value: 1 }])).toThrow(
+      /unknown \$type/,
+    );
   });
 
   it('rejects a colour value that is not hex or rgba()', () => {
-    expect(() => validateDeclarations([{ path: 'x', type: 'color', value: 'cream' }])).toThrow(/invalid token/);
+    expect(() => validateDeclarations([{ path: 'x', type: 'color', value: 'cream' }])).toThrow(
+      /invalid token/,
+    );
   });
 });
 
 describe('the real token source', () => {
   it('declares every token with a $type this package recognises', () => {
     for (const decl of tokenDeclarations) {
-      expect(isKnownTokenType(decl.type), `${decl.path} has unknown $type "${decl.type}"`).toBe(true);
+      expect(isKnownTokenType(decl.type), `${decl.path} has unknown $type "${decl.type}"`).toBe(
+        true,
+      );
     }
   });
 
@@ -121,7 +133,8 @@ describe('the real token source', () => {
     const usedTypes = new Set(tokenDeclarations.map((d) => d.type));
     const unusedButExpected = new Set(['string', 'number']); // reserved for future categories
     for (const type of Object.keys(tokenSchemas)) {
-      if (!usedTypes.has(type)) expect(unusedButExpected.has(type), `schema "${type}" is unused`).toBe(true);
+      if (!usedTypes.has(type))
+        expect(unusedButExpected.has(type), `schema "${type}" is unused`).toBe(true);
     }
   });
 
@@ -164,14 +177,24 @@ describe('the real token source', () => {
   });
 
   it('matches the space scale exactly', () => {
-    expect(Object.keys(tokens.space).map(Number).sort((a, b) => a - b)).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 32]);
+    expect(
+      Object.keys(tokens.space)
+        .map(Number)
+        .sort((a, b) => a - b),
+    ).toEqual([2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 32]);
   });
 
   it('matches motion durations and easings exactly', () => {
     expect(tokens.motion.duration.base).toBe(340);
     expect(tokens.motion.duration.story).toBe(5000);
     expect(tokens.motion.easing.standard).toEqual([0.32, 0.72, 0, 1]);
-    expect(tokens.motion.spring.snappy).toEqual({ kind: 'physical', stiffness: 420, damping: 26, mass: 1, overshootPercent: 8 });
+    expect(tokens.motion.spring.snappy).toEqual({
+      kind: 'physical',
+      stiffness: 420,
+      damping: 26,
+      mass: 1,
+      overshootPercent: 8,
+    });
   });
 
   it('gives member.colors exactly the 6 join-order accents and 3 ring patterns', () => {
@@ -180,7 +203,11 @@ describe('the real token source', () => {
   });
 
   it('never lets an informational typography variant drop below the 11pt floor (§1.3)', () => {
-    for (const [path, variant] of Object.entries({ eyebrow: tokens.type.eyebrow, label: tokens.type.label, caption: tokens.type.caption })) {
+    for (const [path, variant] of Object.entries({
+      eyebrow: tokens.type.eyebrow,
+      label: tokens.type.label,
+      caption: tokens.type.caption,
+    })) {
       const smallest = variant.fontSize ?? variant.fontSizeMin;
       expect(smallest, path).toBeDefined();
       expect(smallest ?? 0, path).toBeGreaterThanOrEqual(11);

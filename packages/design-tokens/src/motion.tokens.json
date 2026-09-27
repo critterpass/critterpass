@@ -21,39 +21,95 @@
         "$value": [0.32, 0.72, 0, 1],
         "$description": "Navigation, sheets, reveals"
       },
-      "enter": { "$type": "cubicBezier", "$value": [0, 0.55, 0.45, 1], "$description": "Entrances" },
-      "exit": { "$type": "cubicBezier", "$value": [0.5, 0, 0.75, 0], "$description": "Exits, slide-off" },
-      "inOut": { "$type": "cubicBezier", "$value": [0.65, 0, 0.35, 1], "$description": "Default DSL" },
-      "slam": { "$type": "cubicBezier", "$value": [0.5, 0, 0.8, 0.4], "$description": "Stamp fall, fling" },
+      "enter": {
+        "$type": "cubicBezier",
+        "$value": [0, 0.55, 0.45, 1],
+        "$description": "Entrances"
+      },
+      "exit": {
+        "$type": "cubicBezier",
+        "$value": [0.5, 0, 0.75, 0],
+        "$description": "Exits, slide-off"
+      },
+      "inOut": {
+        "$type": "cubicBezier",
+        "$value": [0.65, 0, 0.35, 1],
+        "$description": "Default DSL"
+      },
+      "slam": {
+        "$type": "cubicBezier",
+        "$value": [0.5, 0, 0.8, 0.4],
+        "$description": "Stamp fall, fling"
+      },
       "gesture": {
         "$type": "cubicBezier",
         "$value": [0.2, 0.8, 0.2, 1],
         "$description": "Post-gesture settle"
       },
-      "press": { "$type": "cubicBezier", "$value": [0.3, 0.7, 0.4, 1], "$description": "Press-down" },
-      "back": { "$type": "cubicBezier", "$value": [0.34, 1.56, 0.64, 1], "$description": "~10% overshoot" },
-      "burst": { "$type": "cubicBezier", "$value": [0.2, 1.3, 0.35, 1], "$description": "Burst in" },
-      "island": { "$type": "cubicBezier", "$value": [0.2, 1.25, 0.3, 1], "$description": "Island toast" }
+      "press": {
+        "$type": "cubicBezier",
+        "$value": [0.3, 0.7, 0.4, 1],
+        "$description": "Press-down"
+      },
+      "back": {
+        "$type": "cubicBezier",
+        "$value": [0.34, 1.56, 0.64, 1],
+        "$description": "~10% overshoot"
+      },
+      "burst": {
+        "$type": "cubicBezier",
+        "$value": [0.2, 1.3, 0.35, 1],
+        "$description": "Burst in"
+      },
+      "island": {
+        "$type": "cubicBezier",
+        "$value": [0.2, 1.25, 0.3, 1],
+        "$description": "Island toast"
+      }
     },
     "spring": {
       "snappy": {
         "$type": "cpSpring",
-        "$value": { "kind": "physical", "stiffness": 420, "damping": 26, "mass": 1, "overshootPercent": 8 },
+        "$value": {
+          "kind": "physical",
+          "stiffness": 420,
+          "damping": 26,
+          "mass": 1,
+          "overshootPercent": 8
+        },
         "$description": "Toggle, drop, spring-back"
       },
       "bouncy": {
         "$type": "cpSpring",
-        "$value": { "kind": "physical", "stiffness": 350, "damping": 21, "mass": 1, "overshootPercent": 11 },
+        "$value": {
+          "kind": "physical",
+          "stiffness": 350,
+          "damping": 21,
+          "mass": 1,
+          "overshootPercent": 11
+        },
         "$description": "Pins, pop-ins"
       },
       "gentle": {
         "$type": "cpSpring",
-        "$value": { "kind": "physical", "stiffness": 240, "damping": 21, "mass": 1, "overshootPercent": 5 },
+        "$value": {
+          "kind": "physical",
+          "stiffness": 240,
+          "damping": 21,
+          "mass": 1,
+          "overshootPercent": 5
+        },
         "$description": "Next card, VS punch"
       },
       "soft": {
         "$type": "cpSpring",
-        "$value": { "kind": "physical", "stiffness": 195, "damping": 21, "mass": 1, "overshootPercent": 3 },
+        "$value": {
+          "kind": "physical",
+          "stiffness": 195,
+          "damping": 21,
+          "mass": 1,
+          "overshootPercent": 3
+        },
         "$description": "Day block move, burst-in"
       },
       "sheet": {
@@ -71,7 +127,11 @@
       "push": {
         "$type": "cpTransition",
         "$value": {
-          "enter": { "durationMs": 480, "easing": "{motion.easing.standard}", "spec": "in tx 100% -> 0" },
+          "enter": {
+            "durationMs": 480,
+            "easing": "{motion.easing.standard}",
+            "spec": "in tx 100% -> 0"
+          },
           "exit": { "spec": "out tx 0 -> -30% + scrim .5" },
           "back": { "durationMs": 420, "spec": "pop" }
         },

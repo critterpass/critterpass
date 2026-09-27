@@ -2,7 +2,10 @@ import { describe, expect, it } from 'vitest';
 
 import { androidLocaleQualifier, generateStringsXml } from '../src/native/strings-xml.js';
 import { generateXcstrings } from '../src/native/xcstrings.js';
-import { cfBundleLocalizations, generateAndroidLocalesConfig } from '../src/native/locales-config.js';
+import {
+  cfBundleLocalizations,
+  generateAndroidLocalesConfig,
+} from '../src/native/locales-config.js';
 import { UnsupportedNativeMessageError, parseForNative } from '../src/native/message-shape.js';
 
 // One plain message and one plural message, translated into a locale that keeps the same argument
@@ -62,10 +65,16 @@ describe('locale config', () => {
 describe('parseForNative rejections', () => {
   it('fails on select, naming the message id', () => {
     expect(() =>
-      parseForNative('{gender, select, male {He} female {She} other {They}}', 'guide.pronoun.label'),
+      parseForNative(
+        '{gender, select, male {He} female {She} other {They}}',
+        'guide.pronoun.label',
+      ),
     ).toThrow(UnsupportedNativeMessageError);
     expect(() =>
-      parseForNative('{gender, select, male {He} female {She} other {They}}', 'guide.pronoun.label'),
+      parseForNative(
+        '{gender, select, male {He} female {She} other {They}}',
+        'guide.pronoun.label',
+      ),
     ).toThrow(/guide\.pronoun\.label/);
   });
 
@@ -80,10 +89,7 @@ describe('parseForNative rejections', () => {
 
   it('fails on more than one top-level plural', () => {
     expect(() =>
-      parseForNative(
-        '{a, plural, other {#}} and {b, plural, other {#}}',
-        'trip.twoPlurals.label',
-      ),
+      parseForNative('{a, plural, other {#}} and {b, plural, other {#}}', 'trip.twoPlurals.label'),
     ).toThrow(/trip\.twoPlurals\.label/);
   });
 

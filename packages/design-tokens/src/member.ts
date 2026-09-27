@@ -21,7 +21,9 @@ function assertRingPattern(value: string): asserts value is RingPattern {
 /** `joinIndex` is 0-based (the organiser/first member is 0); throws for a negative or non-integer index. */
 export function resolveMemberStyle(joinIndex: number): MemberStyle {
   if (!Number.isInteger(joinIndex) || joinIndex < 0) {
-    throw new Error(`design-tokens: resolveMemberStyle expects a non-negative integer join index, got ${joinIndex}`);
+    throw new Error(
+      `design-tokens: resolveMemberStyle expects a non-negative integer join index, got ${joinIndex}`,
+    );
   }
   const { colors, ringPatterns } = tokens.member;
   if (colors.length === 0 || ringPatterns.length === 0) {

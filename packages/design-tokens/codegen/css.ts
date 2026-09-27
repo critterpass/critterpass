@@ -1,7 +1,7 @@
 /** Emits CSS custom properties on `:root` for `apps/web` from the flattened native-relevant leaves. */
 import type { FlatLeaf, TypographyLeafValue } from './flatten.js';
 import { pathToKebab } from './flatten.js';
-import { GENERATED_HEADER } from './generated-header.js';
+import { GENERATED_HEADER_CSS } from './generated-header.js';
 
 const FONT_FAMILY_CSS_NAME: Record<string, string> = {
   archivo: 'Archivo',
@@ -18,7 +18,9 @@ function isTypographyValue(value: unknown): value is TypographyLeafValue {
   return typeof value === 'object' && value !== null && 'fontFamily' in value;
 }
 
-function isShadowValue(value: unknown): value is { offsetX: number; offsetY: number; blur: number; spread: number; color: string } {
+function isShadowValue(
+  value: unknown,
+): value is { offsetX: number; offsetY: number; blur: number; spread: number; color: string } {
   return typeof value === 'object' && value !== null && 'offsetX' in value;
 }
 
@@ -42,10 +44,14 @@ function declarationsFor(leaf: FlatLeaf): readonly string[] {
     case 'cpFormula':
       return []; // computed from an element's own box at render time; no fixed CSS value
     case 'cubicBezier':
-      return isCubicBezier(leaf.value) ? [`--${name}: cubic-bezier(${leaf.value.join(', ')});`] : [];
+      return isCubicBezier(leaf.value)
+        ? [`--${name}: cubic-bezier(${leaf.value.join(', ')});`]
+        : [];
     case 'shadow':
       if (!isShadowValue(leaf.value)) return [];
-      return [`--${name}: ${leaf.value.offsetX}px ${leaf.value.offsetY}px ${leaf.value.blur}px ${leaf.value.spread}px ${leaf.value.color};`];
+      return [
+        `--${name}: ${leaf.value.offsetX}px ${leaf.value.offsetY}px ${leaf.value.blur}px ${leaf.value.spread}px ${leaf.value.color};`,
+      ];
     case 'typography': {
       if (!isTypographyValue(leaf.value)) return [];
       const { fontFamily, fontWeight, fontSize, lineHeight } = leaf.value;
@@ -64,5 +70,5 @@ function declarationsFor(leaf: FlatLeaf): readonly string[] {
 export function emitCss(leaves: readonly FlatLeaf[]): string {
   const lines = leaves.flatMap(declarationsFor).sort();
   const body = lines.map((line) => `  ${line}`).join('\n');
-  return `${GENERATED_HEADER}\n:root {\n${body}\n}\n`;
+  return `${GENERATED_HEADER_CSS}\n:root {\n${body}\n}\n`;
 }

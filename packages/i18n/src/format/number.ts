@@ -12,7 +12,9 @@ export function compactNumber(locale: string, value: number): string {
 
 /** `value` is a fraction (0.42, not 42); rounds to whole percent per design-system.md's hype/plan meters. */
 export function percent(locale: string, value: number): string {
-  return new Intl.NumberFormat(locale, { style: 'percent', maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat(locale, { style: 'percent', maximumFractionDigits: 0 }).format(
+    value,
+  );
 }
 
 /**
@@ -25,5 +27,7 @@ export function countdownUnit(
   value: number,
   unit: 'day' | 'hour' | 'minute' | 'second',
 ): string {
-  return new Intl.NumberFormat(locale, { style: 'unit', unit, unitDisplay: 'narrow' }).format(value);
+  return new Intl.NumberFormat(locale, { style: 'unit', unit, unitDisplay: 'narrow' }).format(
+    value,
+  );
 }

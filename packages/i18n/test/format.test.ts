@@ -31,9 +31,14 @@ describe('format.date / format.time', () => {
   const sample = new Date(Date.UTC(2026, 8, 27, 14, 5));
 
   it('formats a date per locale', () => {
-    expect(format.date('en', sample, { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })).toBe(
-      'Sep 27, 2026',
-    );
+    expect(
+      format.date('en', sample, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        timeZone: 'UTC',
+      }),
+    ).toBe('Sep 27, 2026');
   });
 
   it('respects the 12/24-hour setting', () => {

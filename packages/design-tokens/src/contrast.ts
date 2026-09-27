@@ -18,7 +18,9 @@ const RGBA_FN = /^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*(?:,\s*([\d
 function requireGroup(match: RegExpExecArray, index: number): string {
   const group = match[index];
   if (group === undefined) {
-    throw new Error(`design-tokens: expected regex capture group ${index} (unreachable if the pattern matched)`);
+    throw new Error(
+      `design-tokens: expected regex capture group ${index} (unreachable if the pattern matched)`,
+    );
   }
   return group;
 }
@@ -52,7 +54,11 @@ function srgbChannelToLinear(channel: number): number {
 
 /** WCAG relative luminance (0 = black, 1 = white); ignores alpha (contrast pairs assume opaque fills). */
 export function relativeLuminance(rgb: Rgb): number {
-  return 0.2126 * srgbChannelToLinear(rgb.r) + 0.7152 * srgbChannelToLinear(rgb.g) + 0.0722 * srgbChannelToLinear(rgb.b);
+  return (
+    0.2126 * srgbChannelToLinear(rgb.r) +
+    0.7152 * srgbChannelToLinear(rgb.g) +
+    0.0722 * srgbChannelToLinear(rgb.b)
+  );
 }
 
 /** WCAG contrast ratio between two colour literals, in [1, 21]. */
@@ -126,7 +132,9 @@ export function darkenToContrast(hex: string, backgroundHex: string, minRatio: n
     candidate = toHex(hslToRgb({ h: hsl.h, s: hsl.s, l }));
   }
   if (contrastRatio(candidate, backgroundHex) < minRatio) {
-    throw new Error(`design-tokens: cannot darken "${hex}" to reach ${minRatio}:1 against "${backgroundHex}"`);
+    throw new Error(
+      `design-tokens: cannot darken "${hex}" to reach ${minRatio}:1 against "${backgroundHex}"`,
+    );
   }
   return candidate;
 }

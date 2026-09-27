@@ -56,7 +56,10 @@ export function resolveTypeVariant(
 
   const { scaleFactor, minScale } = token.dynamicType;
   const dampenedScale = 1 + (fontScale - 1) * scaleFactor;
-  const effectiveScale = Math.min(ACCESSIBILITY_SCALE_CEILING, Math.max(minScale ?? 0, dampenedScale));
+  const effectiveScale = Math.min(
+    ACCESSIBILITY_SCALE_CEILING,
+    Math.max(minScale ?? 0, dampenedScale),
+  );
 
   const fontSize = nominalFontSize(token) * effectiveScale;
   const letterSpacing = (token.letterSpacing ?? 0) * fontSize;

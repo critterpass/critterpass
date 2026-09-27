@@ -50,7 +50,9 @@ export async function importKeys(
     body: JSON.stringify({ keys }),
   });
   if (!response.ok) {
-    throw new Error(`Tolgee key import failed: ${String(response.status)} ${response.statusText} — ${await response.text()}`);
+    throw new Error(
+      `Tolgee key import failed: ${String(response.status)} ${response.statusText} — ${await response.text()}`,
+    );
   }
 }
 
@@ -75,7 +77,9 @@ export async function exportTranslations(
 
   const response = await fetchImpl(url, { headers: { 'X-API-Key': config.apiKey } });
   if (!response.ok) {
-    throw new Error(`Tolgee export failed: ${String(response.status)} ${response.statusText} — ${await response.text()}`);
+    throw new Error(
+      `Tolgee export failed: ${String(response.status)} ${response.statusText} — ${await response.text()}`,
+    );
   }
   return response.arrayBuffer();
 }

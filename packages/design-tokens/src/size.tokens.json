@@ -6,7 +6,11 @@
       "bottom": { "$type": "dimension", "$value": 36 },
       "gap": { "$type": "dimension", "$value": 12, "$description": "Above the home indicator" }
     },
-    "tabbar": { "$type": "dimension", "$value": 88, "$description": "Includes safe area on a 844 pt frame" },
+    "tabbar": {
+      "$type": "dimension",
+      "$value": 88,
+      "$description": "Includes safe area on a 844 pt frame"
+    },
     "primaryCta": {
       "$type": "cpSizeGroup",
       "$value": { "height": 58, "radius": 29 }

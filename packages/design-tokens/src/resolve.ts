@@ -48,7 +48,12 @@ export function mergeRawTrees(trees: readonly RawTree[]): RawTree {
   for (const tree of trees) {
     for (const [key, value] of Object.entries(tree)) {
       const existing = out[key];
-      if (isPlainObject(existing) && !isTokenNode(existing) && isPlainObject(value) && !isTokenNode(value)) {
+      if (
+        isPlainObject(existing) &&
+        !isTokenNode(existing) &&
+        isPlainObject(value) &&
+        !isTokenNode(value)
+      ) {
         out[key] = mergeRawTrees([existing, value]);
       } else {
         out[key] = value;
@@ -82,7 +87,9 @@ class AliasResolver {
       throw new Error(`design-tokens: unresolved alias "{${path}}" (no token at that path)`);
     }
     if (!isTokenNode(node)) {
-      throw new Error(`design-tokens: alias "{${path}}" points to a group of tokens, not a single token`);
+      throw new Error(
+        `design-tokens: alias "{${path}}" points to a group of tokens, not a single token`,
+      );
     }
     return this.resolveKnownNode(path, node);
   }
@@ -137,15 +144,24 @@ export function resolveTokenTree(tree: RawTree): ResolveResult {
     if (isTokenNode(node)) {
       const fullPath = path.join('.');
       const value = resolver.resolveKnownNode(fullPath, node);
-      declarations.push({ path: fullPath, type: node.$type, value, description: node.$description });
+      declarations.push({
+        path: fullPath,
+        type: node.$type,
+        value,
+        description: node.$description,
+      });
       return value;
     }
     const label = path.length > 0 ? path.join('.') : '(root)';
     if (!isPlainObject(node)) {
-      throw new Error(`design-tokens: expected a token or a group of tokens at "${label}", got ${typeof node}`);
+      throw new Error(
+        `design-tokens: expected a token or a group of tokens at "${label}", got ${typeof node}`,
+      );
     }
     if (hasAnyTokenMarker(node)) {
-      throw new Error(`design-tokens: malformed token at "${label}" (has $type/$value/$description partially set)`);
+      throw new Error(
+        `design-tokens: malformed token at "${label}" (has $type/$value/$description partially set)`,
+      );
     }
     const out: Record<string, unknown> = {};
     for (const [key, child] of Object.entries(node)) out[key] = walk(child, [...path, key]);

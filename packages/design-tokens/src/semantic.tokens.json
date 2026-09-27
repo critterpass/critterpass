@@ -53,10 +53,18 @@
       }
     },
     "action": {
-      "primary": { "$type": "color", "$value": "{color.yellow}", "$description": "Primary CTA, focus/selection ring, active tab" }
+      "primary": {
+        "$type": "color",
+        "$value": "{color.yellow}",
+        "$description": "Primary CTA, focus/selection ring, active tab"
+      }
     },
     "state": {
-      "success": { "$type": "color", "$value": "{color.green.base}", "$description": "IN, PAID, online, valid, owed-to-you" },
+      "success": {
+        "$type": "color",
+        "$value": "{color.green.base}",
+        "$description": "IN, PAID, online, valid, owed-to-you"
+      },
       "urgent": {
         "$type": "color",
         "$value": "{color.pink}",
@@ -67,10 +75,18 @@
         "$value": "{color.orange}",
         "$description": "Owed money, card declined, last redraft"
       },
-      "info": { "$type": "color", "$value": "{color.blue}", "$description": "Weather, planned, flights, \"you\" dot" }
+      "info": {
+        "$type": "color",
+        "$value": "{color.blue}",
+        "$description": "Weather, planned, flights, \"you\" dot"
+      }
     },
     "brand": {
-      "passplus": { "$type": "color", "$value": "{color.yellow}", "$description": "Pass+ visa, badges" },
+      "passplus": {
+        "$type": "color",
+        "$value": "{color.yellow}",
+        "$description": "Pass+ visa, badges"
+      },
       "boost": { "$type": "color", "$value": "{color.pink}", "$description": "Boost stamp, badges" }
     },
     "increaseContrast": {

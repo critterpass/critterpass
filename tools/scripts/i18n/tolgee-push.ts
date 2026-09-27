@@ -48,12 +48,16 @@ async function main(): Promise<void> {
   const sourceLocale = values['source-locale'];
 
   const keys = collectSourceKeys(localesDir, sourceLocale);
-  console.log(`Collected ${String(keys.length)} source key(s) across ${new Set(keys.map((k) => k.namespace)).size} catalog(s).`);
+  console.log(
+    `Collected ${String(keys.length)} source key(s) across ${new Set(keys.map((k) => k.namespace)).size} catalog(s).`,
+  );
 
   const config: TolgeeConfig | undefined = loadTolgeeConfig();
   if (values.dry || !config) {
     if (!values.dry) {
-      console.log('TOLGEE_API_KEY/TOLGEE_PROJECT_ID not set — running in --dry mode (no request sent).');
+      console.log(
+        'TOLGEE_API_KEY/TOLGEE_PROJECT_ID not set — running in --dry mode (no request sent).',
+      );
     }
     console.log(JSON.stringify(keys.slice(0, 5), null, 2));
     if (keys.length > 5) console.log(`… and ${String(keys.length - 5)} more.`);

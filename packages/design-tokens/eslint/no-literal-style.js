@@ -27,11 +27,13 @@ export const noLiteralStyle = {
   meta: {
     type: 'problem',
     docs: {
-      description: 'disallow hex/rgb() colour literals and numeric fontSize/duration values outside @cp/design-tokens',
+      description:
+        'disallow hex/rgb() colour literals and numeric fontSize/duration values outside @cp/design-tokens',
     },
     schema: [],
     messages: {
-      colorLiteral: 'Colour literal "{{value}}" is not allowed; use a colour from @cp/design-tokens instead.',
+      colorLiteral:
+        'Colour literal "{{value}}" is not allowed; use a colour from @cp/design-tokens instead.',
       numericStyleValue: '"{{key}}" must come from @cp/design-tokens, not a numeric literal.',
     },
   },
@@ -54,7 +56,11 @@ export const noLiteralStyle = {
         const keyName = getStaticKeyName(node);
         if (keyName === undefined || !BANNED_NUMERIC_KEYS.has(keyName)) return;
         if (node.value.type === 'Literal' && typeof node.value.value === 'number') {
-          context.report({ node: node.value, messageId: 'numericStyleValue', data: { key: keyName } });
+          context.report({
+            node: node.value,
+            messageId: 'numericStyleValue',
+            data: { key: keyName },
+          });
         }
       },
     };

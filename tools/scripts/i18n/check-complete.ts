@@ -1,7 +1,7 @@
 /// <reference types="node" />
 /**
  * Release gate for the launch-language completeness promise (docs/code-standards.md §8: "missing
- * keys fail the build for complete locales"; product-decisions.md §7's Q-03 default lists the
+ * keys fail the build for complete locales"; product-decisions.md §7 (platform and scope) lists the
  * launch set). Compares every shipped, non-source locale's `.po` catalogs against the source
  * locale's own ids and flags a missing or empty translation, and runs a structural ICU-syntax check
  * on every non-empty message (source included, since a broken source message is still broken).
@@ -59,11 +59,19 @@ export function findFindings(options: FindFindingsOptions): Finding[] {
   const sourceCatalogs = catalogsFor(localesDir, sourceLocale);
 
   for (const catalog of sourceCatalogs) {
-    const sourceEntries = readPoEntries(readFileSync(join(localesDir, sourceLocale, `${catalog}.po`), 'utf8'));
+    const sourceEntries = readPoEntries(
+      readFileSync(join(localesDir, sourceLocale, `${catalog}.po`), 'utf8'),
+    );
     for (const entry of sourceEntries) {
       const icuError = checkIcuSyntax(entry.translation);
       if (icuError) {
-        findings.push({ kind: 'broken-icu', locale: sourceLocale, catalog, id: entry.id, detail: icuError });
+        findings.push({
+          kind: 'broken-icu',
+          locale: sourceLocale,
+          catalog,
+          id: entry.id,
+          detail: icuError,
+        });
       }
     }
 
@@ -72,7 +80,10 @@ export function findFindings(options: FindFindingsOptions): Finding[] {
       const catalogPath = join(localesDir, locale, `${catalog}.po`);
       const translated = new Map(
         existsSync(catalogPath)
-          ? readPoEntries(readFileSync(catalogPath, 'utf8')).map((entry) => [entry.id, entry.translation])
+          ? readPoEntries(readFileSync(catalogPath, 'utf8')).map((entry) => [
+              entry.id,
+              entry.translation,
+            ])
           : [],
       );
 
@@ -93,7 +104,9 @@ export function findFindings(options: FindFindingsOptions): Finding[] {
 
 export function describeFinding(finding: Finding): string {
   const where = `${finding.locale}/${finding.catalog}.po "${finding.id}"`;
-  return finding.kind === 'missing' ? `missing translation: ${where}` : `broken ICU (${finding.detail}): ${where}`;
+  return finding.kind === 'missing'
+    ? `missing translation: ${where}`
+    : `broken ICU (${finding.detail}): ${where}`;
 }
 
 function main(): void {
@@ -136,7 +149,11 @@ function main(): void {
     return;
   }
 
-  const findings = findFindings({ localesDir, registryPath, sourceLocale: values['source-locale'] });
+  const findings = findFindings({
+    localesDir,
+    registryPath,
+    sourceLocale: values['source-locale'],
+  });
 
   const annotation = mode === 'release' ? 'error' : 'warning';
   for (const finding of findings) {

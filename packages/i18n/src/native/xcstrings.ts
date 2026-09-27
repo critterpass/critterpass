@@ -1,7 +1,11 @@
 import type { NativeSegment } from './message-shape.js';
 import { argOrderOf, parseForNative } from './message-shape.js';
 
-function renderApple(segments: readonly NativeSegment[], positions: Map<string, number>, pluralArg: string | undefined): string {
+function renderApple(
+  segments: readonly NativeSegment[],
+  positions: Map<string, number>,
+  pluralArg: string | undefined,
+): string {
   return segments
     .map((segment) => {
       if (segment.kind === 'text') return segment.value;
@@ -44,7 +48,10 @@ export function generateXcstrings(options: XcstringsOptions): string {
 
       if (shape.kind === 'plain') {
         localizations[locale] = {
-          stringUnit: { state: 'translated', value: renderApple(shape.segments, positions, pluralArg) },
+          stringUnit: {
+            state: 'translated',
+            value: renderApple(shape.segments, positions, pluralArg),
+          },
         };
         continue;
       }

@@ -94,7 +94,10 @@ export default defineConfig({
     {
       name: 'surfaces',
       path: 'locales/{locale}/surfaces',
-      include: [`${repoRootPrefix}/apps/mobile/targets/**`, `${repoRootPrefix}/apps/mobile/modules/**`],
+      include: [
+        `${repoRootPrefix}/apps/mobile/targets/**`,
+        `${repoRootPrefix}/apps/mobile/modules/**`,
+      ],
       exclude: testFileExcludes,
     },
   ],

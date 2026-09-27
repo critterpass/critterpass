@@ -40,7 +40,14 @@ export const sourceLocale = 'en';
  * Ordered: source locale, shipped set, exception set, pseudo-locale.
  */
 export const locales: readonly LocaleEntry[] = [
-  { code: 'en', englishName: 'English', nativeName: 'English', script: 'Latn', direction: 'ltr', shipped: true },
+  {
+    code: 'en',
+    englishName: 'English',
+    nativeName: 'English',
+    script: 'Latn',
+    direction: 'ltr',
+    shipped: true,
+  },
   {
     code: 'zh-Hans',
     englishName: 'Chinese (Simplified)',
@@ -57,8 +64,22 @@ export const locales: readonly LocaleEntry[] = [
     direction: 'ltr',
     shipped: true,
   },
-  { code: 'ja', englishName: 'Japanese', nativeName: '日本語', script: 'Jpan', direction: 'ltr', shipped: true },
-  { code: 'es', englishName: 'Spanish', nativeName: 'Español', script: 'Latn', direction: 'ltr', shipped: true },
+  {
+    code: 'ja',
+    englishName: 'Japanese',
+    nativeName: '日本語',
+    script: 'Jpan',
+    direction: 'ltr',
+    shipped: true,
+  },
+  {
+    code: 'es',
+    englishName: 'Spanish',
+    nativeName: 'Español',
+    script: 'Latn',
+    direction: 'ltr',
+    shipped: true,
+  },
   {
     code: 'pt',
     englishName: 'Portuguese',
@@ -67,9 +88,30 @@ export const locales: readonly LocaleEntry[] = [
     direction: 'ltr',
     shipped: true,
   },
-  { code: 'fr', englishName: 'French', nativeName: 'Français', script: 'Latn', direction: 'ltr', shipped: true },
-  { code: 'ko', englishName: 'Korean', nativeName: '한국어', script: 'Kore', direction: 'ltr', shipped: true },
-  { code: 'th', englishName: 'Thai', nativeName: 'ไทย', script: 'Thai', direction: 'ltr', shipped: true },
+  {
+    code: 'fr',
+    englishName: 'French',
+    nativeName: 'Français',
+    script: 'Latn',
+    direction: 'ltr',
+    shipped: true,
+  },
+  {
+    code: 'ko',
+    englishName: 'Korean',
+    nativeName: '한국어',
+    script: 'Kore',
+    direction: 'ltr',
+    shipped: true,
+  },
+  {
+    code: 'th',
+    englishName: 'Thai',
+    nativeName: 'ไทย',
+    script: 'Thai',
+    direction: 'ltr',
+    shipped: true,
+  },
   {
     code: 'vi',
     englishName: 'Vietnamese',
@@ -81,10 +123,38 @@ export const locales: readonly LocaleEntry[] = [
   // Founder-exception locales (open question: confirming the wider 16-language set flips `shipped`
   // to true here; no other code change). Registered now so their catalog directories, Tolgee glossary
   // and native generators already work the day the exception is confirmed.
-  { code: 'de', englishName: 'German', nativeName: 'Deutsch', script: 'Latn', direction: 'ltr', shipped: false },
-  { code: 'it', englishName: 'Italian', nativeName: 'Italiano', script: 'Latn', direction: 'ltr', shipped: false },
-  { code: 'nl', englishName: 'Dutch', nativeName: 'Nederlands', script: 'Latn', direction: 'ltr', shipped: false },
-  { code: 'tr', englishName: 'Turkish', nativeName: 'Türkçe', script: 'Latn', direction: 'ltr', shipped: false },
+  {
+    code: 'de',
+    englishName: 'German',
+    nativeName: 'Deutsch',
+    script: 'Latn',
+    direction: 'ltr',
+    shipped: false,
+  },
+  {
+    code: 'it',
+    englishName: 'Italian',
+    nativeName: 'Italiano',
+    script: 'Latn',
+    direction: 'ltr',
+    shipped: false,
+  },
+  {
+    code: 'nl',
+    englishName: 'Dutch',
+    nativeName: 'Nederlands',
+    script: 'Latn',
+    direction: 'ltr',
+    shipped: false,
+  },
+  {
+    code: 'tr',
+    englishName: 'Turkish',
+    nativeName: 'Türkçe',
+    script: 'Latn',
+    direction: 'ltr',
+    shipped: false,
+  },
   {
     code: 'ms',
     englishName: 'Malay',
@@ -93,7 +163,14 @@ export const locales: readonly LocaleEntry[] = [
     direction: 'ltr',
     shipped: false,
   },
-  { code: 'pl', englishName: 'Polish', nativeName: 'Polski', script: 'Latn', direction: 'ltr', shipped: false },
+  {
+    code: 'pl',
+    englishName: 'Polish',
+    nativeName: 'Polski',
+    script: 'Latn',
+    direction: 'ltr',
+    shipped: false,
+  },
   {
     code: 'en-XA',
     englishName: 'Pseudo (dev)',

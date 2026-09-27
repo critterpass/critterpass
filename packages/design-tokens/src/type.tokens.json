@@ -14,7 +14,12 @@
           "condensed": true,
           "textTransform": "uppercase",
           "tabularNumerals": true,
-          "dynamicType": { "scaleFactor": 0.5, "minScale": 0.7, "singleLine": true, "autoFit": true }
+          "dynamicType": {
+            "scaleFactor": 0.5,
+            "minScale": 0.7,
+            "singleLine": true,
+            "autoFit": true
+          }
         },
         "$description": "KYOTO, BALI, 03:10, StandBy"
       },
@@ -31,7 +36,12 @@
           "condensed": true,
           "textTransform": "uppercase",
           "tabularNumerals": true,
-          "dynamicType": { "scaleFactor": 0.5, "minScale": 0.7, "singleLine": true, "autoFit": true }
+          "dynamicType": {
+            "scaleFactor": 0.5,
+            "minScale": 0.7,
+            "singleLine": true,
+            "autoFit": true
+          }
         },
         "$description": "Countdown, amounts, BOOSTED"
       },
@@ -48,7 +58,12 @@
           "widthStepMax": 70,
           "condensed": true,
           "textTransform": "uppercase",
-          "dynamicType": { "scaleFactor": 0.5, "minScale": 0.7, "singleLine": true, "autoFit": true }
+          "dynamicType": {
+            "scaleFactor": 0.5,
+            "minScale": 0.7,
+            "singleLine": true,
+            "autoFit": true
+          }
         },
         "$description": "DELAYED 2H 10M, BEFRIENDED!"
       }

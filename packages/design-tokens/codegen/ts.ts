@@ -16,7 +16,9 @@ function serialize(value: unknown, indent: number): string {
   if (typeof value === 'object') {
     const entries = Object.entries(value);
     if (entries.length === 0) return '{}';
-    const body = entries.map(([key, v]) => `${childPad}${JSON.stringify(key)}: ${serialize(v, indent + 1)}`).join(',\n');
+    const body = entries
+      .map(([key, v]) => `${childPad}${JSON.stringify(key)}: ${serialize(v, indent + 1)}`)
+      .join(',\n');
     return `{\n${body}\n${pad}}`;
   }
   throw new Error(`design-tokens: cannot serialise a value of type ${typeof value} to TypeScript`);

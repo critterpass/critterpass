@@ -15,7 +15,9 @@ export function isColorLiteral(value: string): boolean {
   return HEX_COLOR_PATTERN.test(value) || RGBA_COLOR_PATTERN.test(value);
 }
 
-const colorSchema = z.string().refine(isColorLiteral, { message: 'not a hex or rgba() colour literal' });
+const colorSchema = z
+  .string()
+  .refine(isColorLiteral, { message: 'not a hex or rgba() colour literal' });
 const cubicBezierSchema = z.tuple([z.number(), z.number(), z.number(), z.number()]);
 const cornerSetSchema = z.tuple([z.number(), z.number(), z.number(), z.number()]);
 
@@ -95,7 +97,11 @@ const tierSchema = z.object({
 
 const tierLockedSchema = z.object({ silhouette: colorSchema, background: colorSchema });
 
-const alphaRangeSchema = z.object({ hex: colorSchema, alphaMin: z.number().min(0).max(1), alphaMax: z.number().min(0).max(1) });
+const alphaRangeSchema = z.object({
+  hex: colorSchema,
+  alphaMin: z.number().min(0).max(1),
+  alphaMax: z.number().min(0).max(1),
+});
 const rangeSchema = z.object({ min: z.number(), max: z.number() });
 const sizeGroupSchema = z.record(z.string(), z.number());
 const listSchema = z.array(z.string());
