@@ -124,3 +124,34 @@ registerMergeRule({
 
 // A join code keeps working after its creator's anonymous uid merges: the code follows the user.
 registerMergeRule({ table: 'join_codes', userColumn: 'created_by', strategy: 'reassign' });
+
+// Devices and the notification router's tables (docs/data-model.md §3.11). The anon uid's device is
+// the one the user is holding right now, so it (and everything addressed to it) follows the user.
+// Per-date and per-dedupe-key rows collide with the existing uid's own: existing wins. Prefs are a
+// singleton per user, like user_settings.
+registerMergeRule({ table: 'devices', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({
+  table: 'notifications',
+  userColumn: 'user_id',
+  strategy: 'union',
+  conflictColumns: ['dedupe_key'],
+});
+registerMergeRule({
+  table: 'notification_prefs',
+  userColumn: 'user_id',
+  strategy: 'keep_existing',
+});
+registerMergeRule({
+  table: 'ping_ledger',
+  userColumn: 'user_id',
+  strategy: 'union',
+  conflictColumns: ['local_date'],
+});
+registerMergeRule({
+  table: 'roundups',
+  userColumn: 'user_id',
+  strategy: 'union',
+  conflictColumns: ['local_date'],
+});
+registerMergeRule({ table: 'inbox_items', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({ table: 'scheduled_deliveries', userColumn: 'user_id', strategy: 'reassign' });

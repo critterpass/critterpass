@@ -17,6 +17,16 @@ export {
   joinCodes,
 } from './links';
 export { consents, mediaObjects, userSettings, users } from './identity';
+export {
+  devices,
+  inboxItems,
+  notificationPrefs,
+  notifications,
+  pingLedger,
+  pushTokens,
+  roundups,
+  scheduledDeliveries,
+} from './notifications';
 export { clientConfig, opsAdminAudit, opsConfig } from './ops-core';
 export { cities, llmPois, mapRegions, poiEmbeddings, poiLiveChecks, pois } from './places';
 export { changeSets, guideActions, itineraryVersions, planDays, planItems } from './plan';

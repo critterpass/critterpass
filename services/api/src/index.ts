@@ -29,6 +29,7 @@ import { sessionRevokeRealtimeMiddleware } from './realtime/session-revoke-hook'
 import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerWhatsAppWebhookRoutes } from './routes/webhooks-whatsapp';
 import { createCommandRegistry } from './commands/_framework/registry';
+import { registerDeviceCommands } from './commands/device';
 import { betterAuthSessionResolver } from './commands/_framework/session';
 import { registerCmdResultsRoute } from './routes/cmd-results';
 import { registerCommandRoute } from './routes/cmd';
@@ -168,6 +169,7 @@ if (env.WHATSAPP_APP_SECRET && env.WHATSAPP_VERIFY_TOKEN) {
 // The three command doors over one registry (docs/api-contracts.md §2.2, §5.2).
 const commands = createCommandRegistry();
 commands.register(registerMediaUploadCommand);
+registerDeviceCommands(commands);
 
 // Links (docs/api-contracts.md §5.6): providers per link kind, the claim command, public routes.
 const linkProviders = createLinkProviderRegistry();

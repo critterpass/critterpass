@@ -30,13 +30,17 @@ import * as schema from './schema';
  * refreshed by on-demand live checks, read through the places API rather than replicated.
  *
  * `install_attributions` (packages/db/src/schema/user-private.ts) is the "S" shape again: a device's
- * attribution record has no app_user SELECT policy at all. Add a new entry here, with the same
- * comment style, if a later table needs the same treatment.
+ * attribution record has no app_user SELECT policy at all.
  *
  * `persona_packs` (packages/db/src/schema/ai.ts) is "S" as well: persona content reaches the guide
  * only through the `llm.persona_packs` view, never a client.
  * `scheduled_events` (packages/db/src/jobs/schema.ts) is "S" too: server timers, written through
  * `app.schedule_event` and read only by the worker.
+ *
+ * `push_tokens` (packages/db/src/schema/notifications.ts) is RLS "O (write)" but `Stream: —` in
+ * docs/data-model.md §3.11: provider tokens are only ever read by the push sender and the owner's
+ * own API calls, never replicated to a client. Add a new entry here, with the same comment style,
+ * if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'cities',
@@ -46,6 +50,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'persona_packs',
   'poi_embeddings',
   'poi_live_checks',
+  'push_tokens',
   'scheduled_events',
 ]);
 
