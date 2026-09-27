@@ -7,12 +7,14 @@
   "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
-    "./canvas2d": "./src/backends/canvas2d/index.ts"
+    "./canvas2d": "./src/backends/canvas2d/index.ts",
+    "./skia": "./src/backends/skia/index.ts"
   },
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit && tsc --noEmit -p gallery",
     "test": "vitest run --passWithNoTests",
+    "test:skia": "vitest run src/backends/skia --passWithNoTests",
     "import-data": "tsx scripts/import-design-data.ts",
     "golden": "tsx golden/run-golden.ts",
     "golden:setup": "playwright install chromium",
@@ -22,8 +24,18 @@
   "dependencies": {
     "zod": "catalog:"
   },
+  "peerDependencies": {
+    "@shopify/react-native-skia": "2.11.2"
+  },
+  "peerDependenciesMeta": {
+    "@shopify/react-native-skia": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@napi-rs/canvas": "catalog:",
+    "@shopify/react-native-skia": "2.11.2",
+    "canvaskit-wasm": "0.41.0",
     "esbuild": "catalog:",
     "playwright": "catalog:",
     "tsx": "catalog:",
