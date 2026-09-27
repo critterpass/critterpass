@@ -134,6 +134,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. xcassets imagesets (1x omitted, @2x/@3x, template rendering for mask). 2. Android density buckets. 3. Key index JSON mapping App Group keys → bundled files. 4. Config plugin copies into app, widget, notification-service/content targets (paths from phase 2 target spike) and Android `res`.
 - Tests: `pnpm --filter @cp/critter-bake test`; `pnpm --filter @cp/mobile expo prebuild --clean --no-install` then assert files exist via `pnpm --filter @cp/mobile test -- plugins/with-critter-art`
 - Done when: prebuild output contains CritterArt assets in every target and Android res; `xcodebuild -list` shows no asset catalog errors (`xcrun actool` validation passes).
+- Status: done — aa2660d (generated output is ~27MB against the ~6-10MB tier-A budget note; see phase report)
 
 ### T7 — App icons and notification small icon
 - Goal: every alternate icon and Android monochrome/small icon from the art core.
