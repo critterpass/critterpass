@@ -20,7 +20,7 @@ const DEFAULT_POWERSYNC_URL = 'https://sync.critterpass.app';
 
 /** `EXPO_PUBLIC_POWERSYNC_URL` (inlined by Metro at build time), else the production service. */
 export function resolvePowerSyncUrl(): string {
-  const fromEnv = process.env['EXPO_PUBLIC_POWERSYNC_URL'] as string | undefined;
+  const fromEnv = process.env['EXPO_PUBLIC_POWERSYNC_URL'];
   return fromEnv !== undefined && fromEnv.length > 0 ? fromEnv : DEFAULT_POWERSYNC_URL;
 }
 
