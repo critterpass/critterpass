@@ -86,8 +86,12 @@ export function isGuideSpec(spec: CritterSpec | GuideSpec): spec is GuideSpec {
   return 'k' in spec;
 }
 
-/** design/critters-data.js `PL` place tier: set size, not rarity — 0 home set, 1/2/3 by arrivals rank (C4). */
-export type PlaceTier = 0 | 1 | 2 | 3;
+/**
+ * design/critters-data.js `PL` place tier: set size, not rarity — 0 home set, 1/2/3 by arrivals
+ * rank. Named `setGroup` (not `tier`) per C4: place tier and form tier (common/rare/epic/legendary,
+ * `FormSpec.rarity`) are different concepts that must not share a name in this package.
+ */
+export type SetGroup = 0 | 1 | 2 | 3;
 
 export interface Critter {
   readonly id: string;
@@ -98,7 +102,7 @@ export interface Critter {
   readonly city: string;
   readonly place: string;
   readonly code: string;
-  readonly tier: PlaceTier;
+  readonly setGroup: SetGroup;
   readonly rank: number | null;
   readonly spec: CritterSpec | GuideSpec;
   readonly kind: string;
@@ -107,7 +111,7 @@ export interface Critter {
 export interface Place {
   readonly code: string;
   readonly name: string;
-  readonly tier: PlaceTier;
+  readonly setGroup: SetGroup;
   readonly rank: number | null;
   readonly rk: string;
   readonly critterIds: readonly string[];

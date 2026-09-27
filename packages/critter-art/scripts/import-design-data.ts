@@ -73,10 +73,12 @@ function writeGenerated(
 function main(): void {
   const dex = loadCritterDex();
 
+  // design's `tier` is the place's set size (C4); renamed `setGroup` here to avoid colliding with
+  // the form tier (common/rare/epic/legendary, `FormSpec.rarity`) the rest of the package uses.
   const places = dex.places.map((place) => ({
     code: place.code,
     name: place.name,
-    tier: place.tier,
+    setGroup: place.tier,
     rank: place.rank,
     rk: place.rk,
     critterIds: place.critters.map((c) => c.id),
@@ -91,7 +93,7 @@ function main(): void {
     city: c.city,
     place: c.place,
     code: c.code,
-    tier: c.tier,
+    setGroup: c.tier,
     rank: c.rank,
     spec: c.spec,
     kind: c.kind,
