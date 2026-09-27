@@ -92,6 +92,10 @@ streams:
           AND subject_id = subscription.parameter('trip_id')
           AND subject_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
       - |-
+        SELECT * FROM location_shares
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
         SELECT * FROM price_quotes
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)

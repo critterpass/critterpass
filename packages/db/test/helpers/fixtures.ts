@@ -257,6 +257,25 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
        VALUES ($1, $2, 'cv_matrix', '[]', 1000, 'USD')`,
       [tripId, organiser],
     );
+    // The organiser's Help share with one fix, an ETA, and one manual POI visit.
+    const { rows: shareRows } = await tx.query<{ id: string }>(
+      `INSERT INTO location_shares (trip_id, user_id, reason) VALUES ($1, $2, 'help') RETURNING id`,
+      [tripId, organiser],
+    );
+    await tx.query(
+      `INSERT INTO location_fixes (user_id, trip_id, share_id, lat, lng, accuracy_m, at)
+       VALUES ($1, $2, $3, 0, 0, 10, now())`,
+      [organiser, tripId, shareRows[0]!.id],
+    );
+    await tx.query(`INSERT INTO member_etas (trip_id, user_id, sharing) VALUES ($1, $2, 'live')`, [
+      tripId,
+      organiser,
+    ]);
+    await tx.query(
+      `INSERT INTO visits (id, user_id, trip_id, poi_id, source, arrived_at)
+       VALUES (uuidv7(), $1, $2, $3, 'manual', now())`,
+      [organiser, tripId, matrixProbePoiId],
+    );
 
     const versionId = await insertItineraryVersion(tx, {
       tripId,

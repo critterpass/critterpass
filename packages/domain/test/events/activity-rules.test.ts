@@ -11,7 +11,8 @@ import { projectActivity } from '../../src/events/activity-rules';
  * activity. `fare.dropped`, `forecast.changed` and `hazard.changed` are system signals that the tip
  * strip and the watch job turn into their own surfaces; nobody in the crew did them.
  * `moderation.decided` is an ops verdict consumed by the reported content's owner; support
- * entitlement grants concern one account.
+ * entitlement grants concern one account. A device's permission mirror and a POI visit are private
+ * to their owner (visits are owner-only by design).
  */
 const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'auth.merged',
@@ -23,6 +24,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'moderation.decided',
   'entitlement.granted',
   'entitlement.revoked',
+  'device.permissions_changed',
+  'visit.recorded',
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

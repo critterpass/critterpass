@@ -1,0 +1,11 @@
+# Location streams (docs/data-model.md §3.12): a trip's share windows sync with the trip so every
+# member sees who is sharing and until when. Fixes, ETAs and visits never sync: fixes and ETAs
+# travel over Centrifugo while a share is open, and visits stay with their owner on the server.
+
+streams:
+  trip:
+    queries:
+      - |
+        SELECT * FROM location_shares
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)

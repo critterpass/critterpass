@@ -76,6 +76,18 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     grant_id: crypto.randomUUID(),
     perk: 'pass_plus',
   },
+  'device.permissions_changed': {
+    device_id: crypto.randomUUID(),
+    push: 'quiet',
+    can_ring: false,
+    live_activities: true,
+    encounters: 'session',
+  },
+  'visit.recorded': {
+    visit_id: crypto.randomUUID(),
+    trip_id: crypto.randomUUID(),
+    source: 'manual',
+  },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

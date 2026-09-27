@@ -37,6 +37,8 @@ export const DOMAIN_EVENT_TYPES = [
   'moderation.decided',
   'entitlement.granted',
   'entitlement.revoked',
+  'device.permissions_changed',
+  'visit.recorded',
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
 export type DomainEventType = z.infer<typeof domainEventTypeSchema>;
@@ -102,6 +104,20 @@ const DOMAIN_EVENT_CATALOGUE = {
     user_id: z.uuid(),
     grant_id: z.uuid(),
     perk: grantablePerkSchema,
+  }),
+  // Aggregate is the device; only the derived capability leaves the device row, never the raw list.
+  'device.permissions_changed': z.object({
+    device_id: z.uuid(),
+    push: z.enum(['alert', 'quiet', 'inbox']),
+    can_ring: z.boolean(),
+    live_activities: z.boolean(),
+    encounters: z.enum(['background', 'session', 'off']),
+  }),
+  // Aggregate is the visit; no POI and no times here (visits are C3, owner-only).
+  'visit.recorded': z.object({
+    visit_id: z.uuid(),
+    trip_id: z.uuid(),
+    source: z.enum(['geofence', 'expense', 'manual']),
   }),
 } as const satisfies Record<DomainEventType, z.ZodType>;
 
