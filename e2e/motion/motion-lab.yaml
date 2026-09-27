@@ -8,9 +8,17 @@ appId: app.critterpass.dev
 # (apps/mobile/app.config.ts's `development` variant — same as e2e/smoke/app-launch.yaml's `appId`).
 # Waits for the home screen before deep-linking: opening the link before the JS bundle/navigation
 # container finishes mounting (fonts/i18n gate `_layout.tsx`'s first render) drops the link silently.
+# iOS shows a one-time system confirmation sheet ("Open in \"Critterpass (Dev)\"?") the first time a
+# custom-scheme link is opened from outside the app — left undismissed, it blocks the app underneath
+# indefinitely (and, since it's system UI rather than app UI, persists across separate flow files run
+# in the same `maestro test` invocation, which is why an un-dismissed sheet from island-toast.yaml
+# broke this flow's very first assertion too).
 - launchApp
 - assertVisible: 'Critterpass \(Dev\)'
 - openLink: critterpass-dev://motion-lab
+- tapOn:
+    text: 'Open'
+    optional: true
 - extendedWaitUntil:
     visible:
       id: 'motion-freeze-toggle'
