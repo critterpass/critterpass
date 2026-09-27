@@ -52,6 +52,23 @@ export const MIN_TOUCH_TARGET =
     ? sizeToken(tokens.size.minTouchTarget, 'androidHeight')
     : sizeToken(tokens.size.minTouchTarget, 'height');
 
+/**
+ * Invisible touch padding that grows a control drawn smaller than `MIN_TOUCH_TARGET` (a 40 pt header
+ * pill, a short timeline block) to the minimum target without changing how it looks. Returns
+ * `undefined` when the control already meets the minimum on both axes.
+ */
+export function touchSlop(
+  height: number | undefined,
+  width?: number,
+): { top: number; bottom: number; left: number; right: number } | undefined {
+  const vertical =
+    height === undefined ? 0 : Math.max(0, Math.ceil((MIN_TOUCH_TARGET - height) / 2));
+  const horizontal =
+    width === undefined ? 0 : Math.max(0, Math.ceil((MIN_TOUCH_TARGET - width) / 2));
+  if (vertical === 0 && horizontal === 0) return undefined;
+  return { top: vertical, bottom: vertical, left: horizontal, right: horizontal };
+}
+
 /** A rotation for a transform (`rotate: degrees(45)`), kept out of string literals. */
 export function degrees(value: number): string {
   'worklet';

@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import { registerFixture } from '../gallery/registry';
 import { Text } from '../text/Text';
-import { makeStyles } from '../theme';
+import { makeStyles, useTheme } from '../theme';
 import { Barcode } from './barcode';
 import { Engraving } from './engraving';
 import { Guilloche } from './guilloche';
@@ -41,10 +41,13 @@ function Swatch({
   children: ReactNode;
 }) {
   const styles = useStyles();
+  const theme = useTheme();
   return (
     <View style={[styles.box, styles[surface]]}>
       {children}
-      <Text variant="label">{label}</Text>
+      <Text variant="label" color={surface === 'dark' ? undefined : theme.semantic.text.onAccent}>
+        {label}
+      </Text>
     </View>
   );
 }

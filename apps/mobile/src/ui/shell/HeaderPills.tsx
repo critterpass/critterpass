@@ -34,7 +34,7 @@ function colours(theme: Theme, tone: HeaderPillTone): { background: string; text
 
 const useStyles = makeStyles((t) => ({
   pill: {
-    height: PILL_HEIGHT,
+    minHeight: PILL_HEIGHT,
     borderRadius: PILL_HEIGHT / 2,
     paddingHorizontal: t.space['14'],
     flexDirection: 'row',
@@ -66,7 +66,8 @@ export function HeaderPill({ label, tone = 'action', onPress, icon, testID }: He
     <>
       {dot ? <View style={[styles.dot, { backgroundColor: text }]} /> : null}
       {icon}
-      <Text variant="label" color={text} numberOfLines={1}>
+      {/* Action labels wrap at large text sizes rather than cut off; status words stay one line. */}
+      <Text variant="label" color={text} numberOfLines={onPress ? 2 : 1}>
         {label}
       </Text>
     </>

@@ -1,6 +1,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- dev-gallery sample copy; fixture files are loaded only by the (dev) gallery and never ship. */
 import { useState } from 'react';
 
+import { tokens } from '@cp/design-tokens';
+
 import { registerFixture } from '../gallery/registry';
 import { Row } from '../layout/Row';
 import { Stack } from '../layout/Stack';
@@ -85,7 +87,7 @@ registerFixture('QuickActionChip', 'suggestions', () => (
 ));
 registerFixture('InfoPill', 'on colour hero', () => (
   <SurfaceToneProvider value="accent">
-    <Row gap="8" padding="12">
+    <Row gap="8" padding="12" style={{ backgroundColor: tokens.color.yellow }}>
       <InfoPill accessibilityLabel="17 days, 5 hours to go">17d 05:26:47</InfoPill>
       <InfoPill variant="outline">Plan 80%</InfoPill>
     </Row>

@@ -9,7 +9,7 @@ import { Stack } from '../layout/Stack';
 import { PressScale } from '../press/PressScale';
 import { Text } from '../text/Text';
 import type { Theme } from '../theme';
-import { makeStyles, sizeToken, useTheme } from '../theme';
+import { makeStyles, MIN_TOUCH_TARGET, sizeToken, useTheme } from '../theme';
 import { useInputFont } from './use-input-font';
 
 export type FieldStatus = 'idle' | 'valid' | 'error';
@@ -51,7 +51,12 @@ const useStyles = makeStyles((t) => ({
     paddingEnd: t.space['4'],
     alignItems: 'center',
   },
-  input: { flex: 1, color: t.semantic.text.primary, paddingVertical: t.space['10'] },
+  input: {
+    flex: 1,
+    minHeight: MIN_TOUCH_TARGET,
+    color: t.semantic.text.primary,
+    paddingVertical: t.space['10'],
+  },
   clear: { alignItems: 'center', justifyContent: 'center' },
 }));
 

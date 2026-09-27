@@ -10,6 +10,7 @@ import Animated, {
 
 import { tokens } from '@cp/design-tokens';
 
+import { useFontScale } from '@/lib/a11y/use-font-scale';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
 import { Row } from '../layout/Row';
@@ -83,6 +84,7 @@ const useStyles = makeStyles((t) => ({
     justifyContent: 'center',
   },
   badge: { position: 'absolute', top: -t.space['4'], end: -t.space['4'] },
+  crew: { minHeight: MIN_TOUCH_TARGET, justifyContent: 'center' },
   caret: {
     width: 0,
     height: 0,
@@ -133,6 +135,7 @@ export function HomeHeader(props: HomeHeaderProps) {
   const styles = useStyles();
   const theme = useTheme();
   const ringStyle = useBellRing(props.unreadInbox);
+  const { isLarge } = useFontScale();
   const { name, crewName } = props;
   const chat = props.unreadChat ?? 0;
   const inbox = props.unreadInbox ?? 0;
@@ -167,9 +170,10 @@ export function HomeHeader(props: HomeHeaderProps) {
             message: `${crewName}, switch crew`,
           })}
           onPress={props.onSwitchCrew}
+          style={styles.crew}
         >
           <Row gap="8">
-            <Text variant="h3" numberOfLines={1}>
+            <Text variant="h3" numberOfLines={isLarge ? 2 : 1}>
               {crewName}
             </Text>
             <View style={styles.caret} />

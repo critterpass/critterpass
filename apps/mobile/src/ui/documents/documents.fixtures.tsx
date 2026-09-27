@@ -1,5 +1,6 @@
 /* eslint-disable lingui/no-unlocalized-strings -- dev-gallery sample copy; fixture files are loaded only by the (dev) gallery and never ship. */
 import { useState } from 'react';
+import { View } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
 
@@ -204,13 +205,24 @@ registerFixture('Receipt', 'money wrapped (3m-6)', () => (
 ));
 registerFixture('Postcard', 'flip', () => (
   <Postcard
-    front={<Icon name="temple" size={120} decorative />}
+    front={
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: color.blue,
+        }}
+      >
+        <Icon name="temple" size={120} decorative />
+      </View>
+    }
     caption="Greetings from"
     place="Bali"
     message="Temple at sunrise, then babi guling. Wish you were here."
     from="Tokek & the Bali Six"
     toLines={['Winston', 'Singapore']}
-    stamp={<Stamp title="DPS" ink={color.yellow} size={56} />}
+    stamp={<Stamp title="DPS" ink={color.rust.darkened} size={56} />}
   />
 ));
 registerFixture('ManifestCard', 'crew on the flight', () => (
