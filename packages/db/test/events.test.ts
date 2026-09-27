@@ -14,7 +14,11 @@ import {
 } from '../src/events';
 import { withSystem, withUser } from '../src/tx';
 import { anonymousActor } from './helpers/actors';
-import { startDbTestContainer, type DbTestContainer, type DbTestDatabase } from './helpers/pg-container';
+import {
+  startDbTestContainer,
+  type DbTestContainer,
+  type DbTestDatabase,
+} from './helpers/pg-container';
 import { buildTripFixture, type TripFixture } from './helpers/trip-fixture';
 
 let container: DbTestContainer;
@@ -53,13 +57,15 @@ describe('appendDomainEvent', () => {
 
     // domain_events has no app_user or app_system grant at all (only app.append_event, via owner
     // privilege, writes it), so this reads through the raw pool connection (app_owner) instead.
-    const event = await db.pool.query<{ type: string }>('SELECT type FROM domain_events WHERE id = $1', [
-      appended.id,
-    ]);
+    const event = await db.pool.query<{ type: string }>(
+      'SELECT type FROM domain_events WHERE id = $1',
+      [appended.id],
+    );
     const activity = await withSystem(db.pool, (tx) =>
-      tx.query<{ verb: string; text: string }>('SELECT verb, text FROM activity_events WHERE trip_id = $1', [
-        fixture.tripId,
-      ]),
+      tx.query<{ verb: string; text: string }>(
+        'SELECT verb, text FROM activity_events WHERE trip_id = $1',
+        [fixture.tripId],
+      ),
     );
 
     expect(event.rows).toEqual([{ type: 'trip.status_changed' }]);
@@ -155,7 +161,11 @@ describe('enqueueRealtime', () => {
   it('rejects an app_user enqueueing an unsubscribe (system/trigger only)', async () => {
     await expect(
       withUser(db.pool, fixture.memberId, anonymousActor().device, (tx) =>
-        enqueueRealtime(tx, { channel: `crew:${fixture.crewId}`, payload: {}, kind: 'unsubscribe' }),
+        enqueueRealtime(tx, {
+          channel: `crew:${fixture.crewId}`,
+          payload: {},
+          kind: 'unsubscribe',
+        }),
       ),
     ).rejects.toThrow(/only app_system or a trigger/i);
   });
@@ -163,7 +173,11 @@ describe('enqueueRealtime', () => {
   it('lets app_system enqueue an unsubscribe directly', async () => {
     await expect(
       withSystem(db.pool, (tx) =>
-        enqueueRealtime(tx, { channel: `crew:${fixture.crewId}`, payload: {}, kind: 'unsubscribe' }),
+        enqueueRealtime(tx, {
+          channel: `crew:${fixture.crewId}`,
+          payload: {},
+          kind: 'unsubscribe',
+        }),
       ),
     ).resolves.toBeDefined();
   });

@@ -51,7 +51,10 @@ describe('matrix coverage', () => {
     expect(rows.length).toBeGreaterThan(0);
     for (const row of rows) {
       expect(row.relforcerowsecurity, `${row.tablename} should FORCE RLS`).toBe(true);
-      expect(TABLE_MATRIX[row.tablename], `${row.tablename} should have a matrix entry`).toBeDefined();
+      expect(
+        TABLE_MATRIX[row.tablename],
+        `${row.tablename} should have a matrix entry`,
+      ).toBeDefined();
     }
   });
 
@@ -109,12 +112,16 @@ describe('insert/update spot-checks (one per distinct RLS shape)', () => {
     withIsolatedFixture(async (pool, fx) => {
       await expect(
         withUser(pool, fx.actors.member, anonymousActor().device, (tx) =>
-          tx.query("INSERT INTO itinerary_versions (trip_id, visibility) VALUES ($1, 'crew')", [fx.tripId]),
+          tx.query("INSERT INTO itinerary_versions (trip_id, visibility) VALUES ($1, 'crew')", [
+            fx.tripId,
+          ]),
         ),
       ).rejects.toThrow(/permission denied|row-level security/i);
       await expect(
         withUser(pool, fx.actors.coOrganiser, anonymousActor().device, (tx) =>
-          tx.query("INSERT INTO itinerary_versions (trip_id, visibility) VALUES ($1, 'crew')", [fx.tripId]),
+          tx.query("INSERT INTO itinerary_versions (trip_id, visibility) VALUES ($1, 'crew')", [
+            fx.tripId,
+          ]),
         ),
       ).resolves.toBeDefined();
     }));

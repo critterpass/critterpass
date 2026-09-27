@@ -34,9 +34,10 @@ afterAll(async () => {
 
 async function selectVersions(uid: string): Promise<readonly { id: string }[]> {
   return withUser(db.pool, uid, anonymousActor().device, async (tx) => {
-    const { rows } = await tx.query<{ id: string }>('SELECT id FROM itinerary_versions WHERE trip_id = $1', [
-      fixture.tripId,
-    ]);
+    const { rows } = await tx.query<{ id: string }>(
+      'SELECT id FROM itinerary_versions WHERE trip_id = $1',
+      [fixture.tripId],
+    );
     return rows;
   });
 }
@@ -58,9 +59,10 @@ describe('itinerary_versions RLS', () => {
 
   it('does not let a member SELECT an organiser-only draft even by id', async () => {
     const rows = await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
-      const { rows } = await tx.query<{ id: string }>('SELECT id FROM itinerary_versions WHERE id = $1', [
-        organiserDraftId,
-      ]);
+      const { rows } = await tx.query<{ id: string }>(
+        'SELECT id FROM itinerary_versions WHERE id = $1',
+        [organiserDraftId],
+      );
       return rows;
     });
     expect(rows).toHaveLength(0);

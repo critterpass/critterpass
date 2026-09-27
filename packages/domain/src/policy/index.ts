@@ -44,14 +44,26 @@ export type PolicyActionName = keyof PolicyActionResourceMap;
 // the implementation signature below (a plain PolicyActionName + the resource-map union) is never
 // visible to callers, so the internal `as` narrowing casts in its switch can never let a caller
 // pass a mismatched resource shape.
-export function can(actor: PolicyActor, action: 'rename_crew', resource: CrewRenameFacts): PolicyResult;
-export function can(actor: PolicyActor, action: 'leave_crew', resource: CrewLeaveFacts): PolicyResult;
+export function can(
+  actor: PolicyActor,
+  action: 'rename_crew',
+  resource: CrewRenameFacts,
+): PolicyResult;
+export function can(
+  actor: PolicyActor,
+  action: 'leave_crew',
+  resource: CrewLeaveFacts,
+): PolicyResult;
 export function can(
   actor: PolicyActor,
   action: 'remove_crew_member',
   resource: CrewRemoveMemberFacts,
 ): PolicyResult;
-export function can(actor: PolicyActor, action: 'create_trip', resource: TripCreateFacts): PolicyResult;
+export function can(
+  actor: PolicyActor,
+  action: 'create_trip',
+  resource: TripCreateFacts,
+): PolicyResult;
 export function can(
   actor: PolicyActor,
   action: 'transition_trip',

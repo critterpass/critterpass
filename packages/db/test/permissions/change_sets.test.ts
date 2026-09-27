@@ -122,7 +122,9 @@ describe('change_sets RLS', () => {
       });
       await expect(
         withUser(isolated.pool, fx.organiserId, anonymousActor().device, async (tx) => {
-          await tx.query("UPDATE change_sets SET approved_by_kind = 'policy' WHERE id = $1", [csId]);
+          await tx.query("UPDATE change_sets SET approved_by_kind = 'policy' WHERE id = $1", [
+            csId,
+          ]);
         }),
       ).rejects.toThrow(/only app_system may set approved_by_kind/i);
     } finally {

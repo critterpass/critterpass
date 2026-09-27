@@ -81,7 +81,9 @@ describe('guide_reader has no grant on the public schema', () => {
   it('cannot select a plain public-schema table like destinations', async () => {
     const uid = await insertUser(db.pool);
     await expect(
-      withGuideReader(db.pool, uid, anonymousActor().uid, (tx) => tx.query('SELECT * FROM destinations')),
+      withGuideReader(db.pool, uid, anonymousActor().uid, (tx) =>
+        tx.query('SELECT * FROM destinations'),
+      ),
     ).rejects.toThrow(/permission denied/i);
   });
 });
@@ -160,7 +162,9 @@ describe('ops.ops_config and its client_config projection', () => {
         "INSERT INTO ops.ops_config (key, value, is_public) VALUES ('perk.tier', '\"boost\"'::jsonb, true)",
       ),
     );
-    await withSystem(db.pool, (tx) => tx.query("DELETE FROM ops.ops_config WHERE key = 'perk.tier'"));
+    await withSystem(db.pool, (tx) =>
+      tx.query("DELETE FROM ops.ops_config WHERE key = 'perk.tier'"),
+    );
     const rows = await withUser(db.pool, anonymousActor().uid, anonymousActor().device, (tx) =>
       tx.query("SELECT 1 FROM client_config WHERE key = 'perk.tier'"),
     );

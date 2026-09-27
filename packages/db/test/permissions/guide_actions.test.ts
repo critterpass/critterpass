@@ -34,20 +34,27 @@ afterAll(async () => {
 
 describe('guide_actions RLS: T read, S write', () => {
   it('is invisible to an outsider', async () => {
-    const rows = await withUser(db.pool, fixture.outsiderId, anonymousActor().device, async (tx) => {
-      const { rows } = await tx.query<{ id: string }>('SELECT id FROM guide_actions WHERE trip_id = $1', [
-        fixture.tripId,
-      ]);
-      return rows;
-    });
+    const rows = await withUser(
+      db.pool,
+      fixture.outsiderId,
+      anonymousActor().device,
+      async (tx) => {
+        const { rows } = await tx.query<{ id: string }>(
+          'SELECT id FROM guide_actions WHERE trip_id = $1',
+          [fixture.tripId],
+        );
+        return rows;
+      },
+    );
     expect(rows).toHaveLength(0);
   });
 
   it('is readable by any crew member', async () => {
     const rows = await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
-      const { rows } = await tx.query<{ id: string }>('SELECT id FROM guide_actions WHERE trip_id = $1', [
-        fixture.tripId,
-      ]);
+      const { rows } = await tx.query<{ id: string }>(
+        'SELECT id FROM guide_actions WHERE trip_id = $1',
+        [fixture.tripId],
+      );
       return rows;
     });
     expect(rows).toEqual([{ id: guideActionId }]);
@@ -66,9 +73,10 @@ describe('guide_actions RLS: T read, S write', () => {
       tx.query("UPDATE guide_actions SET status = 'done' WHERE id = $1", [guideActionId]),
     );
     const rows = await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
-      const { rows } = await tx.query<{ status: string }>('SELECT status FROM guide_actions WHERE id = $1', [
-        guideActionId,
-      ]);
+      const { rows } = await tx.query<{ status: string }>(
+        'SELECT status FROM guide_actions WHERE id = $1',
+        [guideActionId],
+      );
       return rows;
     });
     expect(rows[0]).toMatchObject({ status: 'done' });

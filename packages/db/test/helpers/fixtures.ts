@@ -19,9 +19,21 @@ import {
   setCrewMemberStatus,
 } from './actors';
 import { claimOpId, recordCmdResult } from '../../src/events';
-import { insertChangeSet, insertItineraryVersion, insertPlanDay, insertPlanItem } from './plan-actors';
+import {
+  insertChangeSet,
+  insertItineraryVersion,
+  insertPlanDay,
+  insertPlanItem,
+} from './plan-actors';
 
-export const ACTOR_KINDS = ['outsider', 'exMember', 'member', 'organiser', 'coOrganiser', 'anonymous'] as const;
+export const ACTOR_KINDS = [
+  'outsider',
+  'exMember',
+  'member',
+  'organiser',
+  'coOrganiser',
+  'anonymous',
+] as const;
 export type ActorKind = (typeof ACTOR_KINDS)[number];
 
 export interface PermissionFixture {
@@ -79,7 +91,11 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await insertTripParticipant(tx, { tripId, userId: coOrganiser, role: 'organiser' });
     await insertTripParticipant(tx, { tripId, userId: member, role: 'member' });
 
-    const versionId = await insertItineraryVersion(tx, { tripId, visibility: 'crew', status: 'current' });
+    const versionId = await insertItineraryVersion(tx, {
+      tripId,
+      visibility: 'crew',
+      status: 'current',
+    });
     const dayId = await insertPlanDay(tx, { versionId, tripId, dayNo: 1 });
     await insertPlanItem(tx, { versionId, dayId, tripId, category: 'breakfast' });
     const changeSetId = await insertChangeSet(tx, {
@@ -94,7 +110,9 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
        VALUES (uuidv7(), $1, $2, 'user', 'joined', 'crew_member', 'activity.joined')`,
       [tripId, crewId],
     );
-    await tx.query("INSERT INTO guide_actions (trip_id, kind) VALUES ($1, 'suggest_restaurant')", [tripId]);
+    await tx.query("INSERT INTO guide_actions (trip_id, kind) VALUES ($1, 'suggest_restaurant')", [
+      tripId,
+    ]);
     await tx.query(
       `INSERT INTO ops.ops_config (key, value, is_public) VALUES ('matrix.probe', '1'::jsonb, true)
        ON CONFLICT (key) DO UPDATE SET is_public = true`,
@@ -104,7 +122,18 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await claimOpId(tx, { opId, uid: member, cmd: 'matrix_probe', payloadHash: 'h' });
     await recordCmdResult(tx, { opId, uid: member, cmd: 'matrix_probe', status: 'applied' });
 
-    return { crewId, tripId, versionId, dayId, changeSetId, organiser, coOrganiser, member, exMember, outsider };
+    return {
+      crewId,
+      tripId,
+      versionId,
+      dayId,
+      changeSetId,
+      organiser,
+      coOrganiser,
+      member,
+      exMember,
+      outsider,
+    };
   });
 
   return {

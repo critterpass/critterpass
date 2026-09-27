@@ -54,7 +54,9 @@ describe('canViewPlanVersion', () => {
 
 describe('canProposeChangeSet', () => {
   it('allows any trip member', () => {
-    expect(canProposeChangeSet(actor(MEMBER_ID), { actorIsTripMember: true })).toEqual({ ok: true });
+    expect(canProposeChangeSet(actor(MEMBER_ID), { actorIsTripMember: true })).toEqual({
+      ok: true,
+    });
   });
 
   it('denies a non-trip-member with NOT_FOUND', () => {

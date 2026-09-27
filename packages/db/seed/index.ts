@@ -39,8 +39,20 @@ interface SeedDestination {
 const DESTINATIONS: readonly SeedDestination[] = [
   { slug: 'bali', name: 'Bali', country: 'Indonesia', currency: 'IDR', tz: 'Asia/Makassar' },
   { slug: 'kyoto', name: 'Kyoto', country: 'Japan', currency: 'JPY', tz: 'Asia/Tokyo' },
-  { slug: 'iceland', name: 'Iceland', country: 'Iceland', currency: 'ISK', tz: 'Atlantic/Reykjavik' },
-  { slug: 'mexico-city', name: 'Mexico City', country: 'Mexico', currency: 'MXN', tz: 'America/Mexico_City' },
+  {
+    slug: 'iceland',
+    name: 'Iceland',
+    country: 'Iceland',
+    currency: 'ISK',
+    tz: 'Atlantic/Reykjavik',
+  },
+  {
+    slug: 'mexico-city',
+    name: 'Mexico City',
+    country: 'Mexico',
+    currency: 'MXN',
+    tz: 'America/Mexico_City',
+  },
   { slug: 'lisbon', name: 'Lisbon', country: 'Portugal', currency: 'EUR', tz: 'Europe/Lisbon' },
   { slug: 'cusco', name: 'Cusco', country: 'Peru', currency: 'PEN', tz: 'America/Lima' },
 ];
@@ -56,7 +68,13 @@ async function seedCatalogue(tx: pg.PoolClient): Promise<void> {
     await tx.query(
       `INSERT INTO destinations (slug, name, country, coverage, currency, tz)
        VALUES ($1, $2, $3, 'live', $4, $5) ON CONFLICT (slug) DO NOTHING`,
-      [destination.slug, destination.name, destination.country, destination.currency, destination.tz],
+      [
+        destination.slug,
+        destination.name,
+        destination.country,
+        destination.currency,
+        destination.tz,
+      ],
     );
   }
 }

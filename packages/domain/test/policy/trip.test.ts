@@ -78,7 +78,9 @@ describe('canTransitionTripStatus', () => {
 
 describe('canSetRsvp', () => {
   it('denies a non-participant with NOT_FOUND', () => {
-    expect(canSetRsvp(actor(OUTSIDER_ID), { actorParticipant: null, targetUserId: MEMBER_ID })).toEqual({
+    expect(
+      canSetRsvp(actor(OUTSIDER_ID), { actorParticipant: null, targetUserId: MEMBER_ID }),
+    ).toEqual({
       ok: false,
       deny: 'NOT_FOUND',
     });
@@ -86,17 +88,23 @@ describe('canSetRsvp', () => {
 
   it('allows a participant to set their own RSVP', () => {
     expect(
-      canSetRsvp(actor(MEMBER_ID), { actorParticipant: { role: 'member' }, targetUserId: MEMBER_ID }),
+      canSetRsvp(actor(MEMBER_ID), {
+        actorParticipant: { role: 'member' },
+        targetUserId: MEMBER_ID,
+      }),
     ).toEqual({ ok: true });
   });
 
-  it('denies a participant setting another member\'s RSVP', () => {
+  it("denies a participant setting another member's RSVP", () => {
     expect(
-      canSetRsvp(actor(MEMBER_ID), { actorParticipant: { role: 'member' }, targetUserId: ORGANISER_ID }),
+      canSetRsvp(actor(MEMBER_ID), {
+        actorParticipant: { role: 'member' },
+        targetUserId: ORGANISER_ID,
+      }),
     ).toEqual({ ok: false, deny: 'FORBIDDEN' });
   });
 
-  it('denies even an organiser setting someone else\'s RSVP (self-service only)', () => {
+  it("denies even an organiser setting someone else's RSVP (self-service only)", () => {
     expect(
       canSetRsvp(actor(ORGANISER_ID), {
         actorParticipant: { role: 'organiser' },

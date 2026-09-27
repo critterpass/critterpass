@@ -36,14 +36,15 @@ afterAll(async () => {
 
 async function selectDays(uid: string, versionId: string): Promise<readonly { id: string }[]> {
   return withUser(db.pool, uid, anonymousActor().device, async (tx) => {
-    const { rows } = await tx.query<{ id: string }>('SELECT id FROM plan_days WHERE version_id = $1', [
-      versionId,
-    ]);
+    const { rows } = await tx.query<{ id: string }>(
+      'SELECT id FROM plan_days WHERE version_id = $1',
+      [versionId],
+    );
     return rows;
   });
 }
 
-describe('plan_days RLS: follows the version\'s visibility', () => {
+describe("plan_days RLS: follows the version's visibility", () => {
   it('is invisible to an outsider', async () => {
     expect(await selectDays(fixture.outsiderId, fixture.versionId)).toHaveLength(0);
   });
@@ -52,7 +53,7 @@ describe('plan_days RLS: follows the version\'s visibility', () => {
     expect(await selectDays(fixture.memberId, fixture.versionId)).toHaveLength(2);
   });
 
-  it('hides an organiser-only draft\'s days from a plain member', async () => {
+  it("hides an organiser-only draft's days from a plain member", async () => {
     expect(await selectDays(fixture.memberId, draftVersionId)).toHaveLength(0);
     expect(await selectDays(fixture.organiserId, draftVersionId)).toHaveLength(1);
   });

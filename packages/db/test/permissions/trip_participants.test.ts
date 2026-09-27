@@ -62,21 +62,21 @@ describe('trip_participants RLS: read', () => {
 describe('trip_participants RLS: write', () => {
   it('lets a participant change their own rsvp', async () => {
     await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
-      await tx.query("UPDATE trip_participants SET rsvp = 'in' WHERE trip_id = $1 AND user_id = $2", [
-        fixture.tripId,
-        fixture.memberId,
-      ]);
+      await tx.query(
+        "UPDATE trip_participants SET rsvp = 'in' WHERE trip_id = $1 AND user_id = $2",
+        [fixture.tripId, fixture.memberId],
+      );
     });
     const rows = await selectRoster(fixture.organiserId);
     expect(rows.find((r) => r.user_id === fixture.memberId)).toMatchObject({ rsvp: 'in' });
   });
 
-  it('does not let a participant change someone else\'s rsvp', async () => {
+  it("does not let a participant change someone else's rsvp", async () => {
     await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
-      await tx.query("UPDATE trip_participants SET rsvp = 'out' WHERE trip_id = $1 AND user_id = $2", [
-        fixture.tripId,
-        fixture.organiserId,
-      ]);
+      await tx.query(
+        "UPDATE trip_participants SET rsvp = 'out' WHERE trip_id = $1 AND user_id = $2",
+        [fixture.tripId, fixture.organiserId],
+      );
     });
     const rows = await selectRoster(fixture.organiserId);
     expect(rows.find((r) => r.user_id === fixture.organiserId)).toMatchObject({ rsvp: 'unopened' });
@@ -84,10 +84,10 @@ describe('trip_participants RLS: write', () => {
 
   it('lets the organiser change any participant row', async () => {
     await withUser(db.pool, fixture.organiserId, anonymousActor().device, async (tx) => {
-      await tx.query("UPDATE trip_participants SET rsvp = 'maybe' WHERE trip_id = $1 AND user_id = $2", [
-        fixture.tripId,
-        fixture.memberId,
-      ]);
+      await tx.query(
+        "UPDATE trip_participants SET rsvp = 'maybe' WHERE trip_id = $1 AND user_id = $2",
+        [fixture.tripId, fixture.memberId],
+      );
     });
     const rows = await selectRoster(fixture.organiserId);
     expect(rows.find((r) => r.user_id === fixture.memberId)).toMatchObject({ rsvp: 'maybe' });
@@ -141,10 +141,10 @@ describe('trip_seats_held', () => {
       expect(before).toBe(2); // organiser + member, both default to 'unopened' (holds a seat)
 
       await withUser(isolated.pool, fx.memberId, anonymousActor().device, async (tx) => {
-        await tx.query("UPDATE trip_participants SET rsvp = 'out' WHERE trip_id = $1 AND user_id = $2", [
-          fx.tripId,
-          fx.memberId,
-        ]);
+        await tx.query(
+          "UPDATE trip_participants SET rsvp = 'out' WHERE trip_id = $1 AND user_id = $2",
+          [fx.tripId, fx.memberId],
+        );
       });
 
       expect(await seatsHeld(isolated.pool, fx.organiserId, fx.tripId)).toBe(before - 1);

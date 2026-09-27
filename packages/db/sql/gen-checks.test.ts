@@ -4,10 +4,11 @@ import { genEnumCheck } from './gen-checks';
 
 describe('genEnumCheck', () => {
   it('emits an ALTER TABLE ... CHECK statement listing every value', () => {
-    expect(genEnumCheck({ table: 'crew_members', column: 'role', values: ['organiser', 'member'] }))
-      .toBe(
-        "ALTER TABLE crew_members ADD CONSTRAINT crew_members_role_check CHECK (role IN ('organiser', 'member'));",
-      );
+    expect(
+      genEnumCheck({ table: 'crew_members', column: 'role', values: ['organiser', 'member'] }),
+    ).toBe(
+      "ALTER TABLE crew_members ADD CONSTRAINT crew_members_role_check CHECK (role IN ('organiser', 'member'));",
+    );
   });
 
   it('escapes single quotes in values', () => {

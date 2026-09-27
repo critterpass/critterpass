@@ -69,7 +69,10 @@ describe('plan_items RLS', () => {
   it('denies UPDATE from any app_user, including the organiser', async () => {
     await expect(
       withUser(db.pool, fixture.organiserId, anonymousActor().device, async (tx) => {
-        await tx.query('UPDATE plan_items SET notes = $1 WHERE id = $2', ['hijacked', fixture.items[0].id]);
+        await tx.query('UPDATE plan_items SET notes = $1 WHERE id = $2', [
+          'hijacked',
+          fixture.items[0].id,
+        ]);
       }),
     ).rejects.toThrow(/permission denied/i);
   });

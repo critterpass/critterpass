@@ -27,7 +27,8 @@ export type PolicyDenialCode = Extract<
   'FORBIDDEN' | 'NOT_FOUND' | 'NOT_ELIGIBLE' | 'STATE_INVALID'
 >;
 
-export type PolicyResult = { readonly ok: true } | { readonly ok: false; readonly deny: PolicyDenialCode };
+export type PolicyResult =
+  { readonly ok: true } | { readonly ok: false; readonly deny: PolicyDenialCode };
 
 /** A single shared `{ok: true}` value: policy results carry no payload, so one instance suffices. */
 export const ALLOW: PolicyResult = { ok: true };

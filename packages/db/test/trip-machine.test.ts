@@ -9,7 +9,11 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { withSystem } from '../src/tx';
 import { firstRow } from './helpers/actors';
 import { buildCrewFixture, type CrewFixture } from './helpers/crew-fixture';
-import { startDbTestContainer, type DbTestContainer, type DbTestDatabase } from './helpers/pg-container';
+import {
+  startDbTestContainer,
+  type DbTestContainer,
+  type DbTestDatabase,
+} from './helpers/pg-container';
 
 let container: DbTestContainer;
 let db: DbTestDatabase;

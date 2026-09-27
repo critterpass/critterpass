@@ -10,7 +10,11 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { claimOpId, recordCmdResult } from '../src/events';
 import { withUser } from '../src/tx';
 import { anonymousActor, insertUser } from './helpers/actors';
-import { startDbTestContainer, type DbTestContainer, type DbTestDatabase } from './helpers/pg-container';
+import {
+  startDbTestContainer,
+  type DbTestContainer,
+  type DbTestDatabase,
+} from './helpers/pg-container';
 
 let container: DbTestContainer;
 let db: DbTestDatabase;
@@ -80,17 +84,19 @@ describe('claimOpId / recordCmdResult', () => {
     });
 
     const ownRows = await withUser(db.pool, uid, anonymousActor().device, async (tx) => {
-      const { rows } = await tx.query<{ op_id: string }>('SELECT op_id FROM cmd_results WHERE op_id = $1', [
-        opId,
-      ]);
+      const { rows } = await tx.query<{ op_id: string }>(
+        'SELECT op_id FROM cmd_results WHERE op_id = $1',
+        [opId],
+      );
       return rows;
     });
     expect(ownRows).toHaveLength(1);
 
     const otherRows = await withUser(db.pool, other, anonymousActor().device, async (tx) => {
-      const { rows } = await tx.query<{ op_id: string }>('SELECT op_id FROM cmd_results WHERE op_id = $1', [
-        opId,
-      ]);
+      const { rows } = await tx.query<{ op_id: string }>(
+        'SELECT op_id FROM cmd_results WHERE op_id = $1',
+        [opId],
+      );
       return rows;
     });
     expect(otherRows).toHaveLength(0);

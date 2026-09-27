@@ -1,7 +1,12 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withUser } from '../../src/tx';
-import { anonymousActor, getCrewMembershipEpoch, insertCrewMember, insertUser } from '../helpers/actors';
+import {
+  anonymousActor,
+  getCrewMembershipEpoch,
+  insertCrewMember,
+  insertUser,
+} from '../helpers/actors';
 import { buildCrewFixture, type CrewFixture } from '../helpers/crew-fixture';
 import {
   startDbTestContainer,
@@ -56,17 +61,17 @@ describe('crew_members RLS: read', () => {
 describe('crew_members RLS: write', () => {
   it('lets a member update their own row', async () => {
     await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
-      await tx.query("UPDATE crew_members SET notify_level = 'muted' WHERE crew_id = $1 AND user_id = $2", [
-        fixture.crewId,
-        fixture.memberId,
-      ]);
+      await tx.query(
+        "UPDATE crew_members SET notify_level = 'muted' WHERE crew_id = $1 AND user_id = $2",
+        [fixture.crewId, fixture.memberId],
+      );
     });
     const rows = await selectMembers(fixture.organiserId);
     const row = rows.find((r) => r.user_id === fixture.memberId);
     expect(row).toMatchObject({ notify_level: 'muted' });
   });
 
-  it('does not let a member update another member\'s row (row excluded, no change)', async () => {
+  it("does not let a member update another member's row (row excluded, no change)", async () => {
     await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
       await tx.query("UPDATE crew_members SET colour = 'red' WHERE crew_id = $1 AND user_id = $2", [
         fixture.crewId,
@@ -81,10 +86,10 @@ describe('crew_members RLS: write', () => {
   it('lets a user join a crew for themselves only', async () => {
     const joiner = fixture.outsiderId;
     await withUser(db.pool, joiner, anonymousActor().device, async (tx) => {
-      await tx.query("INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'member')", [
-        fixture.crewId,
-        joiner,
-      ]);
+      await tx.query(
+        "INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'member')",
+        [fixture.crewId, joiner],
+      );
     });
     const rows = await selectMembers(fixture.organiserId);
     expect(rows.some((r) => r.user_id === joiner)).toBe(true);
@@ -93,10 +98,10 @@ describe('crew_members RLS: write', () => {
   it('rejects inserting a membership row for someone else', async () => {
     await expect(
       withUser(db.pool, fixture.outsiderId, anonymousActor().device, async (tx) => {
-        await tx.query("INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'member')", [
-          fixture.crewId,
-          fixture.memberId,
-        ]);
+        await tx.query(
+          "INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'member')",
+          [fixture.crewId, fixture.memberId],
+        );
       }),
     ).rejects.toThrow();
   });
@@ -108,17 +113,23 @@ describe('membership epoch and removal', () => {
     try {
       const fx = await buildCrewFixture(isolated.pool);
       await withUser(isolated.pool, fx.memberId, anonymousActor().device, async (tx) => {
-        await tx.query("UPDATE crew_members SET status = 'left' WHERE crew_id = $1 AND user_id = $2", [
-          fx.crewId,
-          fx.memberId,
-        ]);
+        await tx.query(
+          "UPDATE crew_members SET status = 'left' WHERE crew_id = $1 AND user_id = $2",
+          [fx.crewId, fx.memberId],
+        );
       });
-      const stillMember = await withUser(isolated.pool, fx.memberId, anonymousActor().device, async (tx) => {
-        const { rows } = await tx.query<{ ok: number }>('SELECT 1 AS ok FROM crews WHERE id = $1', [
-          fx.crewId,
-        ]);
-        return rows;
-      });
+      const stillMember = await withUser(
+        isolated.pool,
+        fx.memberId,
+        anonymousActor().device,
+        async (tx) => {
+          const { rows } = await tx.query<{ ok: number }>(
+            'SELECT 1 AS ok FROM crews WHERE id = $1',
+            [fx.crewId],
+          );
+          return rows;
+        },
+      );
       expect(stillMember).toHaveLength(0);
     } finally {
       await isolated.drop();
@@ -132,10 +143,10 @@ describe('membership epoch and removal', () => {
       const before = await getCrewMembershipEpoch(isolated.pool, fx.crewId);
 
       await withUser(isolated.pool, fx.organiserId, anonymousActor().device, async (tx) => {
-        await tx.query("UPDATE crew_members SET status = 'removed' WHERE crew_id = $1 AND user_id = $2", [
-          fx.crewId,
-          fx.memberId,
-        ]);
+        await tx.query(
+          "UPDATE crew_members SET status = 'removed' WHERE crew_id = $1 AND user_id = $2",
+          [fx.crewId, fx.memberId],
+        );
       });
 
       const after = await getCrewMembershipEpoch(isolated.pool, fx.crewId);
@@ -153,12 +164,18 @@ describe('membership epoch and removal', () => {
         payload: { user_id: fx.memberId },
       });
 
-      const exMemberSees = await withUser(isolated.pool, fx.memberId, anonymousActor().device, async (tx) => {
-        const { rows } = await tx.query<{ ok: number }>('SELECT 1 AS ok FROM crews WHERE id = $1', [
-          fx.crewId,
-        ]);
-        return rows;
-      });
+      const exMemberSees = await withUser(
+        isolated.pool,
+        fx.memberId,
+        anonymousActor().device,
+        async (tx) => {
+          const { rows } = await tx.query<{ ok: number }>(
+            'SELECT 1 AS ok FROM crews WHERE id = $1',
+            [fx.crewId],
+          );
+          return rows;
+        },
+      );
       expect(exMemberSees).toHaveLength(0);
     } finally {
       await isolated.drop();
@@ -170,22 +187,31 @@ describe('membership epoch and removal', () => {
     try {
       const fx = await buildCrewFixture(isolated.pool);
       const outsiderMemberId = await insertUser(isolated.pool);
-      await insertCrewMember(isolated.pool, { crewId: fx.crewId, userId: outsiderMemberId, role: 'member' });
+      await insertCrewMember(isolated.pool, {
+        crewId: fx.crewId,
+        userId: outsiderMemberId,
+        role: 'member',
+      });
 
       await withUser(isolated.pool, fx.memberId, anonymousActor().device, async (tx) => {
-        await tx.query("UPDATE crew_members SET status = 'removed' WHERE crew_id = $1 AND user_id = $2", [
-          fx.crewId,
-          outsiderMemberId,
-        ]);
-      });
-
-      const stillActive = await withUser(isolated.pool, outsiderMemberId, anonymousActor().device, async (tx) => {
-        const { rows } = await tx.query<{ status: string }>(
-          'SELECT status FROM crew_members WHERE crew_id = $1 AND user_id = $2',
+        await tx.query(
+          "UPDATE crew_members SET status = 'removed' WHERE crew_id = $1 AND user_id = $2",
           [fx.crewId, outsiderMemberId],
         );
-        return rows;
       });
+
+      const stillActive = await withUser(
+        isolated.pool,
+        outsiderMemberId,
+        anonymousActor().device,
+        async (tx) => {
+          const { rows } = await tx.query<{ status: string }>(
+            'SELECT status FROM crew_members WHERE crew_id = $1 AND user_id = $2',
+            [fx.crewId, outsiderMemberId],
+          );
+          return rows;
+        },
+      );
       expect(stillActive[0]).toMatchObject({ status: 'active' });
     } finally {
       await isolated.drop();

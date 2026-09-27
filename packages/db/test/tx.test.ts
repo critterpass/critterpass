@@ -2,7 +2,11 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withGuideReader, withSystem, withUser } from '../src/tx';
 import { anonymousActor, randomId } from './helpers/actors';
-import { startDbTestContainer, type DbTestContainer, type DbTestDatabase } from './helpers/pg-container';
+import {
+  startDbTestContainer,
+  type DbTestContainer,
+  type DbTestDatabase,
+} from './helpers/pg-container';
 
 let container: DbTestContainer;
 let db: DbTestDatabase;

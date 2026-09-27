@@ -22,6 +22,7 @@ export default defineConfig({
     },
   },
   dbCredentials: {
-    url: process.env['DATABASE_URL'] ?? 'postgres://app_owner:app_owner@localhost:54320/critterpass',
+    url:
+      process.env['DATABASE_URL'] ?? 'postgres://app_owner:app_owner@localhost:54320/critterpass',
   },
 });

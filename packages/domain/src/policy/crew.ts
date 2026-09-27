@@ -52,7 +52,10 @@ export interface CrewRemoveMemberFacts {
  * Only an organiser may remove someone else (RLS: `crew_members_update` USING
  * `app.is_crew_organiser(crew_id)`); removing yourself is always `canLeaveCrew`, never this rule.
  */
-export function canRemoveCrewMember(actor: PolicyActor, facts: CrewRemoveMemberFacts): PolicyResult {
+export function canRemoveCrewMember(
+  actor: PolicyActor,
+  facts: CrewRemoveMemberFacts,
+): PolicyResult {
   if (!isActiveMember(facts.actorMembership)) return deny('NOT_FOUND');
   if (facts.targetUserId === actor.uid) return deny('FORBIDDEN');
   if (facts.actorMembership.role !== 'organiser') return deny('FORBIDDEN');

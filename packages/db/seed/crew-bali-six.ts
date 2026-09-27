@@ -28,7 +28,8 @@ const MEMBERS: readonly SeedMember[] = [
 
 function firstRow<T>(rows: readonly T[]): T {
   const row = rows[0];
-  if (row === undefined) throw new Error('seed: expected at least one row back from an INSERT ... RETURNING');
+  if (row === undefined)
+    throw new Error('seed: expected at least one row back from an INSERT ... RETURNING');
   return row;
 }
 
@@ -57,10 +58,12 @@ export async function seedCrewBaliSix(pool: pg.Pool): Promise<void> {
     };
 
     const crewId = firstRow(
-      (await tx.query<{ id: string }>('INSERT INTO crews (name, created_by) VALUES ($1, $2) RETURNING id', [
-        CREW_NAME,
-        uidOf('winston'),
-      ])).rows,
+      (
+        await tx.query<{ id: string }>(
+          'INSERT INTO crews (name, created_by) VALUES ($1, $2) RETURNING id',
+          [CREW_NAME, uidOf('winston')],
+        )
+      ).rows,
     ).id;
 
     for (const member of MEMBERS) {
@@ -74,7 +77,9 @@ export async function seedCrewBaliSix(pool: pg.Pool): Promise<void> {
     const destinationId = firstRow(
       (await tx.query<{ id: string }>("SELECT id FROM destinations WHERE slug = 'bali'")).rows,
     ).id;
-    const guideId = firstRow((await tx.query<{ id: string }>("SELECT id FROM guides WHERE slug = 'tokek'")).rows).id;
+    const guideId = firstRow(
+      (await tx.query<{ id: string }>("SELECT id FROM guides WHERE slug = 'tokek'")).rows,
+    ).id;
 
     const tripId = firstRow(
       (
@@ -93,12 +98,10 @@ export async function seedCrewBaliSix(pool: pg.Pool): Promise<void> {
     }
 
     for (const member of MEMBERS) {
-      await tx.query('INSERT INTO trip_participants (trip_id, user_id, role, rsvp) VALUES ($1, $2, $3, $4)', [
-        tripId,
-        uidOf(member.username),
-        member.role,
-        member.rsvp,
-      ]);
+      await tx.query(
+        'INSERT INTO trip_participants (trip_id, user_id, role, rsvp) VALUES ($1, $2, $3, $4)',
+        [tripId, uidOf(member.username), member.role, member.rsvp],
+      );
     }
 
     const versionId = firstRow(

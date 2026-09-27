@@ -10,7 +10,11 @@ import { withSystem, withUser } from '../src/tx';
 import { anonymousActor } from './helpers/actors';
 import { insertChangeSet } from './helpers/plan-actors';
 import { buildPlanFixture, type PlanFixture } from './helpers/plan-fixture';
-import { startDbTestContainer, type DbTestContainer, type DbTestDatabase } from './helpers/pg-container';
+import {
+  startDbTestContainer,
+  type DbTestContainer,
+  type DbTestDatabase,
+} from './helpers/pg-container';
 
 let container: DbTestContainer;
 let db: DbTestDatabase;
@@ -142,7 +146,9 @@ describe('app.apply_change_set', () => {
     const stableIds = outcome.items.map((i) => i.stable_id).sort();
     expect(stableIds).toEqual([fx.items[0].stableId, newStableId].sort());
     const retimed = outcome.items.find((i) => i.stable_id === fx.items[0].stableId);
-    expect(retimed?.starts_at.toISOString()).toBe(new Date('2027-02-01T09:00:00+07:00').toISOString());
+    expect(retimed?.starts_at.toISOString()).toBe(
+      new Date('2027-02-01T09:00:00+07:00').toISOString(),
+    );
     const added = outcome.items.find((i) => i.stable_id === newStableId);
     expect(added).toMatchObject({ category: 'sunset-cruise' });
   });
@@ -186,9 +192,10 @@ describe('app.apply_change_set', () => {
     expect(firstResult).not.toBeNull();
 
     const versionCountBefore = await withSystem(db.pool, (tx) =>
-      tx.query<{ count: string }>('SELECT count(*)::text FROM itinerary_versions WHERE trip_id = $1', [
-        fx.tripId,
-      ]),
+      tx.query<{ count: string }>(
+        'SELECT count(*)::text FROM itinerary_versions WHERE trip_id = $1',
+        [fx.tripId],
+      ),
     );
 
     const staleResult = await apply(fx, staleChangeSetId);
@@ -203,16 +210,18 @@ describe('app.apply_change_set', () => {
     expect(staleRows[0]).toMatchObject({ status: 'stale', result_version_id: null });
 
     const versionCountAfter = await withSystem(db.pool, (tx) =>
-      tx.query<{ count: string }>('SELECT count(*)::text FROM itinerary_versions WHERE trip_id = $1', [
-        fx.tripId,
-      ]),
+      tx.query<{ count: string }>(
+        'SELECT count(*)::text FROM itinerary_versions WHERE trip_id = $1',
+        [fx.tripId],
+      ),
     );
     expect(versionCountAfter.rows[0]?.count).toBe(versionCountBefore.rows[0]?.count);
 
     const tripAfter = await withSystem(db.pool, (tx) =>
-      tx.query<{ current_version_id: string }>('SELECT current_version_id FROM trips WHERE id = $1', [
-        fx.tripId,
-      ]),
+      tx.query<{ current_version_id: string }>(
+        'SELECT current_version_id FROM trips WHERE id = $1',
+        [fx.tripId],
+      ),
     );
     expect(tripAfter.rows[0]).toMatchObject({ current_version_id: firstResult });
   });

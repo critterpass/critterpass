@@ -39,10 +39,11 @@ export async function insertUser(
   options: InsertUserOptions = {},
 ): Promise<string> {
   const id = options.id ?? randomId();
-  await client.query(
-    'INSERT INTO users (id, username, status) VALUES ($1, $2, $3)',
-    [id, options.username ?? null, options.status ?? 'registered'],
-  );
+  await client.query('INSERT INTO users (id, username, status) VALUES ($1, $2, $3)', [
+    id,
+    options.username ?? null,
+    options.status ?? 'registered',
+  ]);
   return id;
 }
 
@@ -146,5 +147,8 @@ export async function setTripStatus(
   client: pg.PoolClient | pg.Pool,
   options: { readonly tripId: string; readonly status: string },
 ): Promise<void> {
-  await client.query('UPDATE trips SET status = $1 WHERE id = $2', [options.status, options.tripId]);
+  await client.query('UPDATE trips SET status = $1 WHERE id = $2', [
+    options.status,
+    options.tripId,
+  ]);
 }

@@ -15,7 +15,11 @@ export interface ActivityProjection {
 const ACTIVITY_RULES: Partial<Record<DomainEventType, ActivityProjection>> = {
   'crew.member_joined': { verb: 'joined', objectKind: 'crew_member', textKey: 'activity.joined' },
   'crew.member_left': { verb: 'left', objectKind: 'crew_member', textKey: 'activity.left' },
-  'crew.member_removed': { verb: 'removed', objectKind: 'crew_member', textKey: 'activity.removed' },
+  'crew.member_removed': {
+    verb: 'removed',
+    objectKind: 'crew_member',
+    textKey: 'activity.removed',
+  },
   'trip.created': { verb: 'created', objectKind: 'trip', textKey: 'activity.trip_created' },
   'trip.status_changed': {
     verb: 'moved',
@@ -47,7 +51,11 @@ const ACTIVITY_RULES: Partial<Record<DomainEventType, ActivityProjection>> = {
     objectKind: 'change_set',
     textKey: 'activity.change_set_rejected',
   },
-  'rsvp.changed': { verb: 'rsvped', objectKind: 'trip_participant', textKey: 'activity.rsvp_changed' },
+  'rsvp.changed': {
+    verb: 'rsvped',
+    objectKind: 'trip_participant',
+    textKey: 'activity.rsvp_changed',
+  },
 };
 
 /** The activity-ticker projection for `type`, or `null` if it is a private event that never projects. */

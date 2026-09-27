@@ -12,7 +12,8 @@ const CREW_NAME = "Sana's solo trip";
 
 function firstRow<T>(rows: readonly T[]): T {
   const row = rows[0];
-  if (row === undefined) throw new Error('seed: expected at least one row back from an INSERT ... RETURNING');
+  if (row === undefined)
+    throw new Error('seed: expected at least one row back from an INSERT ... RETURNING');
   return row;
 }
 
@@ -37,10 +38,10 @@ export async function seedTripKyotoSolo(pool: pg.Pool): Promise<void> {
 
     const crewId = firstRow(
       (
-        await tx.query<{ id: string }>('INSERT INTO crews (name, created_by) VALUES ($1, $2) RETURNING id', [
-          CREW_NAME,
-          userId,
-        ])
+        await tx.query<{ id: string }>(
+          'INSERT INTO crews (name, created_by) VALUES ($1, $2) RETURNING id',
+          [CREW_NAME, userId],
+        )
       ).rows,
     ).id;
     await tx.query('INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, $3)', [
@@ -52,7 +53,9 @@ export async function seedTripKyotoSolo(pool: pg.Pool): Promise<void> {
     const destinationId = firstRow(
       (await tx.query<{ id: string }>("SELECT id FROM destinations WHERE slug = 'kyoto'")).rows,
     ).id;
-    const guideId = firstRow((await tx.query<{ id: string }>("SELECT id FROM guides WHERE slug = 'pon'")).rows).id;
+    const guideId = firstRow(
+      (await tx.query<{ id: string }>("SELECT id FROM guides WHERE slug = 'pon'")).rows,
+    ).id;
 
     const tripId = firstRow(
       (
@@ -65,12 +68,10 @@ export async function seedTripKyotoSolo(pool: pg.Pool): Promise<void> {
       ).rows,
     ).id;
 
-    await tx.query('INSERT INTO trip_participants (trip_id, user_id, role, rsvp) VALUES ($1, $2, $3, $4)', [
-      tripId,
-      userId,
-      'organiser',
-      'in',
-    ]);
+    await tx.query(
+      'INSERT INTO trip_participants (trip_id, user_id, role, rsvp) VALUES ($1, $2, $3, $4)',
+      [tripId, userId, 'organiser', 'in'],
+    );
   });
 
   console.log(`seed: created "${CREW_NAME}" (solo Kyoto trip, Pon guiding)`);

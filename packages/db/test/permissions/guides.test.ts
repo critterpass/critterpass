@@ -30,13 +30,18 @@ afterAll(async () => {
 
 describe('guides RLS: catalogue (class C0, read-all)', () => {
   it('is readable by any authenticated app_user', async () => {
-    const rows = await withUser(db.pool, anonymousActor().uid, anonymousActor().device, async (tx) => {
-      const { rows } = await tx.query<{ slug: string; colour: string }>(
-        'SELECT slug, colour FROM guides WHERE id = $1',
-        [guideId],
-      );
-      return rows;
-    });
+    const rows = await withUser(
+      db.pool,
+      anonymousActor().uid,
+      anonymousActor().device,
+      async (tx) => {
+        const { rows } = await tx.query<{ slug: string; colour: string }>(
+          'SELECT slug, colour FROM guides WHERE id = $1',
+          [guideId],
+        );
+        return rows;
+      },
+    );
     expect(rows).toEqual([{ slug: 'tokek', colour: 'yellow' }]);
   });
 
@@ -51,7 +56,9 @@ describe('guides RLS: catalogue (class C0, read-all)', () => {
   it('enforces the canonical guide palette', async () => {
     await expect(
       withSystem(db.pool, async (tx) => {
-        await tx.query("INSERT INTO guides (slug, name, colour) VALUES ('rogue', 'Rogue', 'purple')");
+        await tx.query(
+          "INSERT INTO guides (slug, name, colour) VALUES ('rogue', 'Rogue', 'purple')",
+        );
       }),
     ).rejects.toThrow();
   });

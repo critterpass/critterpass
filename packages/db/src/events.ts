@@ -46,7 +46,10 @@ export interface RecordCmdResultInput {
 }
 
 /** `app.record_cmd_result`: writes `cmd_results` + `cmd_log.result` + a `user:#uid` `cmd.result` outbox row. */
-export async function recordCmdResult(tx: pg.PoolClient, input: RecordCmdResultInput): Promise<void> {
+export async function recordCmdResult(
+  tx: pg.PoolClient,
+  input: RecordCmdResultInput,
+): Promise<void> {
   await tx.query('SELECT app.record_cmd_result($1, $2, $3, $4, $5, $6, $7)', [
     input.opId,
     input.uid,

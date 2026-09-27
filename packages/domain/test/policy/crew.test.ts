@@ -23,7 +23,9 @@ function membership(overrides: Partial<CrewMembershipFact> = {}): CrewMembership
 
 describe('canRenameCrew', () => {
   it('allows an active member', () => {
-    expect(canRenameCrew(actor(MEMBER_ID), { actorMembership: membership() })).toEqual({ ok: true });
+    expect(canRenameCrew(actor(MEMBER_ID), { actorMembership: membership() })).toEqual({
+      ok: true,
+    });
   });
 
   it('allows an active organiser', () => {
@@ -53,7 +55,7 @@ describe('canLeaveCrew', () => {
     ).toEqual({ ok: false, deny: 'NOT_FOUND' });
   });
 
-  it('denies a member leaving on someone else\'s behalf with FORBIDDEN', () => {
+  it("denies a member leaving on someone else's behalf with FORBIDDEN", () => {
     expect(
       canLeaveCrew(actor(MEMBER_ID), { actorMembership: membership(), targetUserId: ORGANISER_ID }),
     ).toEqual({ ok: false, deny: 'FORBIDDEN' });

@@ -44,12 +44,8 @@ export const crewMembers = pgTable(
     /** No FK yet: messages is created by a later phase. */
     lastReadMessageId: uuid('last_read_message_id'),
     notifyLevel: text('notify_level'),
-    createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' })
-      .notNull()
-      .defaultNow(),
-    updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' })
-      .notNull()
-      .defaultNow(),
+    createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   },
   (table) => [unique().on(table.crewId, table.userId)],
 );

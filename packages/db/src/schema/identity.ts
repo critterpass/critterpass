@@ -98,7 +98,10 @@ export const mediaObjects = pgTable('media_objects', {
 });
 
 // Crew visibility: users holds C1 (crew-visible) columns plus non-sensitive C2 (home airport/currency).
-registerTablePrivacy('users', { class: 'C1', columns: { home_airport: 'C2', home_currency: 'C2' } });
+registerTablePrivacy('users', {
+  class: 'C1',
+  columns: { home_airport: 'C2', home_currency: 'C2' },
+});
 registerTablePrivacy('user_settings', { class: 'C2' });
 registerTablePrivacy('consents', { class: 'C2' });
 registerTablePrivacy('media_objects', { class: 'C2' });

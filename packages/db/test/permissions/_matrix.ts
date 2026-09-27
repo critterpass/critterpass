@@ -47,33 +47,65 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   users: {
     selectProbe: { sql: 'SELECT 1 FROM users WHERE id = $1', params: (f) => [f.actors.organiser] },
     expectations: {
-      outsider: F, exMember: F, anonymous: F,
-      member: op(true, true, false), coOrganiser: op(true, true, false), organiser: op(true, true, true),
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, true, false),
+      coOrganiser: op(true, true, false),
+      organiser: op(true, true, true),
     },
   },
   user_settings: {
-    selectProbe: { sql: 'SELECT 1 FROM user_settings WHERE user_id = $1', params: (f) => [f.actors.organiser] },
+    selectProbe: {
+      sql: 'SELECT 1 FROM user_settings WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
     expectations: {
-      outsider: op(false, true, false), exMember: op(false, true, false), anonymous: op(false, true, false),
-      member: op(false, true, false), coOrganiser: op(false, true, false), organiser: op(true, true, true),
+      outsider: op(false, true, false),
+      exMember: op(false, true, false),
+      anonymous: op(false, true, false),
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(true, true, true),
     },
   },
   consents: {
-    selectProbe: { sql: 'SELECT 1 FROM consents WHERE user_id = $1', params: (f) => [f.actors.organiser] },
+    selectProbe: {
+      sql: 'SELECT 1 FROM consents WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
     expectations: {
-      outsider: op(false, true, false), exMember: op(false, true, false), anonymous: op(false, true, false),
-      member: op(false, true, false), coOrganiser: op(false, true, false), organiser: op(true, true, true),
+      outsider: op(false, true, false),
+      exMember: op(false, true, false),
+      anonymous: op(false, true, false),
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(true, true, true),
     },
   },
   media_objects: {
-    selectProbe: { sql: 'SELECT 1 FROM media_objects WHERE owner_id = $1', params: (f) => [f.actors.organiser] },
-    expectations: { outsider: F, exMember: F, anonymous: F, member: F, coOrganiser: F, organiser: F },
+    selectProbe: {
+      sql: 'SELECT 1 FROM media_objects WHERE owner_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
   },
   crews: {
     selectProbe: { sql: 'SELECT 1 FROM crews WHERE id = $1', params: (f) => [f.crewId] },
     expectations: {
-      outsider: op(false, true, false), exMember: F, anonymous: op(false, true, false),
-      member: op(true, false, true), coOrganiser: op(true, false, true), organiser: op(true, false, true),
+      outsider: op(false, true, false),
+      exMember: F,
+      anonymous: op(false, true, false),
+      member: op(true, false, true),
+      coOrganiser: op(true, false, true),
+      organiser: op(true, false, true),
     },
   },
   crew_members: {
@@ -82,33 +114,59 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       params: (f) => [f.crewId, f.actors.organiser],
     },
     expectations: {
-      outsider: op(false, true, false), exMember: op(false, true, false), anonymous: op(false, true, false),
-      member: op(true, true, false), coOrganiser: op(true, true, true), organiser: op(true, true, true),
+      outsider: op(false, true, false),
+      exMember: op(false, true, false),
+      anonymous: op(false, true, false),
+      member: op(true, true, false),
+      coOrganiser: op(true, true, true),
+      organiser: op(true, true, true),
     },
   },
   rt_outbox: {
-    selectProbe: { sql: "SELECT 1 FROM rt_outbox WHERE channel LIKE 'crew:%' LIMIT 1", params: () => [] },
-    expectations: { outsider: F, exMember: F, anonymous: F, member: F, coOrganiser: F, organiser: F },
+    selectProbe: {
+      sql: "SELECT 1 FROM rt_outbox WHERE channel LIKE 'crew:%' LIMIT 1",
+      params: () => [],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
   },
   destinations: {
     selectProbe: { sql: 'SELECT 1 FROM destinations LIMIT 1', params: () => [] },
     expectations: {
-      outsider: op(true, false, false), exMember: op(true, false, false), anonymous: op(true, false, false),
-      member: op(true, false, false), coOrganiser: op(true, false, false), organiser: op(true, false, false),
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
     },
   },
   guides: {
     selectProbe: { sql: 'SELECT 1 FROM guides LIMIT 1', params: () => [] },
     expectations: {
-      outsider: op(true, false, false), exMember: op(true, false, false), anonymous: op(true, false, false),
-      member: op(true, false, false), coOrganiser: op(true, false, false), organiser: op(true, false, false),
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
     },
   },
   trips: {
     selectProbe: { sql: 'SELECT 1 FROM trips WHERE id = $1', params: (f) => [f.tripId] },
     expectations: {
-      outsider: F, exMember: F, anonymous: F,
-      member: op(true, true, false), coOrganiser: op(true, true, true), organiser: op(true, true, true),
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, true, false),
+      coOrganiser: op(true, true, true),
+      organiser: op(true, true, true),
     },
   },
   trip_participants: {
@@ -117,48 +175,85 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       params: (f) => [f.tripId, f.actors.organiser],
     },
     expectations: {
-      outsider: op(false, true, false), exMember: op(false, true, false), anonymous: op(false, true, false),
-      member: op(true, true, false), coOrganiser: op(true, true, true), organiser: op(true, true, true),
+      outsider: op(false, true, false),
+      exMember: op(false, true, false),
+      anonymous: op(false, true, false),
+      member: op(true, true, false),
+      coOrganiser: op(true, true, true),
+      organiser: op(true, true, true),
     },
   },
   itinerary_versions: {
-    selectProbe: { sql: 'SELECT 1 FROM itinerary_versions WHERE id = $1', params: (f) => [f.versionId] },
+    selectProbe: {
+      sql: 'SELECT 1 FROM itinerary_versions WHERE id = $1',
+      params: (f) => [f.versionId],
+    },
     expectations: {
-      outsider: F, exMember: F, anonymous: F,
-      member: op(true, false, false), coOrganiser: op(true, true, true), organiser: op(true, true, true),
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, true, true),
+      organiser: op(true, true, true),
     },
   },
   plan_days: {
     selectProbe: { sql: 'SELECT 1 FROM plan_days WHERE id = $1', params: (f) => [f.dayId] },
     expectations: {
-      outsider: F, exMember: F, anonymous: F,
-      member: op(true, false, false), coOrganiser: op(true, true, true), organiser: op(true, true, true),
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, true, true),
+      organiser: op(true, true, true),
     },
   },
   plan_items: {
     selectProbe: { sql: 'SELECT 1 FROM plan_items WHERE day_id = $1', params: (f) => [f.dayId] },
     expectations: {
-      outsider: F, exMember: F, anonymous: F,
-      member: op(true, false, false), coOrganiser: op(true, false, false), organiser: op(true, false, false),
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
     },
   },
   change_sets: {
     selectProbe: { sql: 'SELECT 1 FROM change_sets WHERE id = $1', params: (f) => [f.changeSetId] },
     expectations: {
-      outsider: F, exMember: F, anonymous: F,
-      member: op(true, true, true), coOrganiser: op(true, true, true), organiser: op(true, true, true),
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, true, true),
+      coOrganiser: op(true, true, true),
+      organiser: op(true, true, true),
     },
   },
   guide_actions: {
-    selectProbe: { sql: 'SELECT 1 FROM guide_actions WHERE trip_id = $1', params: (f) => [f.tripId] },
+    selectProbe: {
+      sql: 'SELECT 1 FROM guide_actions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
     expectations: {
-      outsider: F, exMember: F, anonymous: F,
-      member: op(true, false, false), coOrganiser: op(true, false, false), organiser: op(true, false, false),
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
     },
   },
   cmd_log: {
     selectProbe: { sql: 'SELECT 1 FROM cmd_log LIMIT 1', params: () => [] },
-    expectations: { outsider: F, exMember: F, anonymous: F, member: F, coOrganiser: F, organiser: F },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
   },
   cmd_results: {
     // Self-only (RLS class O): the member's own row, not the organiser's — the one table where
@@ -168,26 +263,51 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       params: (f) => [f.actors.member, 'matrix_probe'],
     },
     expectations: {
-      outsider: F, exMember: F, anonymous: F, coOrganiser: F, organiser: F,
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      coOrganiser: F,
+      organiser: F,
       member: op(true, false, false),
     },
   },
   domain_events: {
     selectProbe: { sql: 'SELECT 1 FROM domain_events LIMIT 1', params: () => [] },
-    expectations: { outsider: F, exMember: F, anonymous: F, member: F, coOrganiser: F, organiser: F },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
   },
   activity_events: {
-    selectProbe: { sql: 'SELECT 1 FROM activity_events WHERE trip_id = $1', params: (f) => [f.tripId] },
+    selectProbe: {
+      sql: 'SELECT 1 FROM activity_events WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
     expectations: {
-      outsider: F, exMember: F, anonymous: F,
-      member: op(true, false, false), coOrganiser: op(true, false, false), organiser: op(true, false, false),
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
     },
   },
   client_config: {
-    selectProbe: { sql: "SELECT 1 FROM client_config WHERE key = 'matrix.probe'", params: () => [] },
+    selectProbe: {
+      sql: "SELECT 1 FROM client_config WHERE key = 'matrix.probe'",
+      params: () => [],
+    },
     expectations: {
-      outsider: op(true, false, false), exMember: op(true, false, false), anonymous: op(true, false, false),
-      member: op(true, false, false), coOrganiser: op(true, false, false), organiser: op(true, false, false),
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
     },
   },
 };
@@ -206,7 +326,9 @@ export async function probeSelect(
   fixture: PermissionFixture,
 ): Promise<boolean> {
   try {
-    const result = await withUser(pool, uid, device, (tx) => tx.query(probe.sql, [...probe.params(fixture)]));
+    const result = await withUser(pool, uid, device, (tx) =>
+      tx.query(probe.sql, [...probe.params(fixture)]),
+    );
     return (result.rowCount ?? 0) > 0;
   } catch (error) {
     if (error instanceof Error && /permission denied/i.test(error.message)) return false;

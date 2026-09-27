@@ -65,14 +65,16 @@ describe('user_settings RLS: owner-only, not even crewmates', () => {
     expect((await selectSettings(fixture.memberId))[0]).toMatchObject({ chattiness: 'chatty' });
   });
 
-  it('does not let another crewmate update the owner\'s settings', async () => {
+  it("does not let another crewmate update the owner's settings", async () => {
     await withUser(db.pool, fixture.organiserId, anonymousActor().device, async (tx) => {
       await tx.query('UPDATE user_settings SET chattiness = $1 WHERE user_id = $2', [
         'hijacked',
         fixture.memberId,
       ]);
     });
-    expect((await selectSettings(fixture.memberId))[0]).not.toMatchObject({ chattiness: 'hijacked' });
+    expect((await selectSettings(fixture.memberId))[0]).not.toMatchObject({
+      chattiness: 'hijacked',
+    });
   });
 
   it('rejects inserting settings for a different user', async () => {

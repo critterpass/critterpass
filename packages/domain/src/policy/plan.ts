@@ -27,6 +27,9 @@ export interface ChangeSetProposeFacts {
  * Deciding a proposed change set (approve/reject/vote) is delegated to the poll policy a later
  * phase adds; this file only covers what this phase's schema itself enforces.
  */
-export function canProposeChangeSet(_actor: PolicyActor, facts: ChangeSetProposeFacts): PolicyResult {
+export function canProposeChangeSet(
+  _actor: PolicyActor,
+  facts: ChangeSetProposeFacts,
+): PolicyResult {
   return facts.actorIsTripMember ? ALLOW : deny('NOT_FOUND');
 }

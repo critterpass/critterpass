@@ -57,16 +57,22 @@ describe('consents RLS: owner-only', () => {
 
   it('lets the owner revoke their own consent', async () => {
     await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
-      await tx.query("UPDATE consents SET revoked_at = now() WHERE user_id = $1 AND purpose = 'analytics'", [
-        fixture.memberId,
-      ]);
-    });
-    const { rows } = await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
-      return tx.query<{ revoked_at: Date | null }>(
-        'SELECT revoked_at FROM consents WHERE user_id = $1',
+      await tx.query(
+        "UPDATE consents SET revoked_at = now() WHERE user_id = $1 AND purpose = 'analytics'",
         [fixture.memberId],
       );
     });
+    const { rows } = await withUser(
+      db.pool,
+      fixture.memberId,
+      anonymousActor().device,
+      async (tx) => {
+        return tx.query<{ revoked_at: Date | null }>(
+          'SELECT revoked_at FROM consents WHERE user_id = $1',
+          [fixture.memberId],
+        );
+      },
+    );
     expect(rows[0]?.revoked_at).not.toBeNull();
   });
 

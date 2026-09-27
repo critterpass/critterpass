@@ -30,12 +30,18 @@ afterAll(async () => {
 
 describe('destinations RLS: catalogue (class C0, read-all)', () => {
   it('is readable by any authenticated app_user, with no crew or trip needed', async () => {
-    const rows = await withUser(db.pool, anonymousActor().uid, anonymousActor().device, async (tx) => {
-      const { rows } = await tx.query<{ slug: string }>('SELECT slug FROM destinations WHERE id = $1', [
-        destinationId,
-      ]);
-      return rows;
-    });
+    const rows = await withUser(
+      db.pool,
+      anonymousActor().uid,
+      anonymousActor().device,
+      async (tx) => {
+        const { rows } = await tx.query<{ slug: string }>(
+          'SELECT slug FROM destinations WHERE id = $1',
+          [destinationId],
+        );
+        return rows;
+      },
+    );
     expect(rows).toEqual([{ slug: 'bali' }]);
   });
 
@@ -50,7 +56,9 @@ describe('destinations RLS: catalogue (class C0, read-all)', () => {
   it('rejects an invalid coverage value', async () => {
     await expect(
       withSystem(db.pool, async (tx) => {
-        await tx.query("INSERT INTO destinations (slug, name, coverage) VALUES ('x', 'X', 'bogus')");
+        await tx.query(
+          "INSERT INTO destinations (slug, name, coverage) VALUES ('x', 'X', 'bogus')",
+        );
       }),
     ).rejects.toThrow();
   });

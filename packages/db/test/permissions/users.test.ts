@@ -43,7 +43,7 @@ describe('users RLS', () => {
     expect(await selectUser(fixture.memberId, fixture.memberId)).toHaveLength(1);
   });
 
-  it('lets a crewmate read a shared-crew member\'s row', async () => {
+  it("lets a crewmate read a shared-crew member's row", async () => {
     expect(await selectUser(fixture.organiserId, fixture.memberId)).toHaveLength(1);
     expect(await selectUser(fixture.memberId, fixture.organiserId)).toHaveLength(1);
   });
@@ -55,15 +55,21 @@ describe('users RLS', () => {
 
   it('lets a user update their own display_name', async () => {
     await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
-      await tx.query('UPDATE users SET display_name = $1 WHERE id = $2', ['New Name', fixture.memberId]);
+      await tx.query('UPDATE users SET display_name = $1 WHERE id = $2', [
+        'New Name',
+        fixture.memberId,
+      ]);
     });
     const rows = await selectUser(fixture.memberId, fixture.memberId);
     expect(rows[0]).toMatchObject({ display_name: 'New Name' });
   });
 
-  it('does not let a user update someone else\'s row', async () => {
+  it("does not let a user update someone else's row", async () => {
     await withUser(db.pool, fixture.organiserId, anonymousActor().device, async (tx) => {
-      await tx.query('UPDATE users SET display_name = $1 WHERE id = $2', ['Hijacked', fixture.memberId]);
+      await tx.query('UPDATE users SET display_name = $1 WHERE id = $2', [
+        'Hijacked',
+        fixture.memberId,
+      ]);
     });
     const rows = await selectUser(fixture.memberId, fixture.memberId);
     expect(rows[0]).not.toMatchObject({ display_name: 'Hijacked' });

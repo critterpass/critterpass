@@ -41,14 +41,26 @@ describe('cmd_results RLS: O (owner read-only)', () => {
     const validOpId = crypto.randomUUID();
     await withUser(db.pool, uid, anonymousActor().device, async (tx) => {
       await claimOpId(tx, { opId: validOpId, uid, cmd: 'x', payloadHash: 'h1' });
-      await recordCmdResult(tx, { opId: validOpId, uid, cmd: 'x', status: 'rejected', code: 'VOTE_CLOSED' });
+      await recordCmdResult(tx, {
+        opId: validOpId,
+        uid,
+        cmd: 'x',
+        status: 'rejected',
+        code: 'VOTE_CLOSED',
+      });
     });
 
     const invalidOpId = crypto.randomUUID();
     await expect(
       withUser(db.pool, uid, anonymousActor().device, async (tx) => {
         await claimOpId(tx, { opId: invalidOpId, uid, cmd: 'x', payloadHash: 'h2' });
-        await recordCmdResult(tx, { opId: invalidOpId, uid, cmd: 'x', status: 'rejected', code: 'NOT_A_CODE' });
+        await recordCmdResult(tx, {
+          opId: invalidOpId,
+          uid,
+          cmd: 'x',
+          status: 'rejected',
+          code: 'NOT_A_CODE',
+        });
       }),
     ).rejects.toThrow(/violates check constraint/i);
   });

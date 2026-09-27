@@ -58,15 +58,15 @@ describe.each(ACTOR_KINDS)('can() actor matrix: %s', (kind) => {
   const expectMembershipGate = ALLOWED_KINDS.has(kind) ? ALLOW : NOT_FOUND;
 
   it('rename_crew', () => {
-    expect(can(actorFor(kind), 'rename_crew', { actorMembership: crewMembershipFor(kind) })).toEqual(
-      expectMembershipGate,
-    );
+    expect(
+      can(actorFor(kind), 'rename_crew', { actorMembership: crewMembershipFor(kind) }),
+    ).toEqual(expectMembershipGate);
   });
 
   it('create_trip', () => {
-    expect(can(actorFor(kind), 'create_trip', { actorIsCrewMember: ALLOWED_KINDS.has(kind) })).toEqual(
-      expectMembershipGate,
-    );
+    expect(
+      can(actorFor(kind), 'create_trip', { actorIsCrewMember: ALLOWED_KINDS.has(kind) }),
+    ).toEqual(expectMembershipGate);
   });
 
   it('view_plan_version (crew-visible)', () => {
@@ -108,7 +108,10 @@ describe('can() dispatcher: self/other-targeted actions', () => {
       can(actorFor('member'), 'leave_crew', { actorMembership: membership, targetUserId: UID }),
     ).toEqual({ ok: true });
     expect(
-      can(actorFor('member'), 'leave_crew', { actorMembership: membership, targetUserId: 'someone-else' }),
+      can(actorFor('member'), 'leave_crew', {
+        actorMembership: membership,
+        targetUserId: 'someone-else',
+      }),
     ).toEqual({ ok: false, deny: 'FORBIDDEN' });
   });
 

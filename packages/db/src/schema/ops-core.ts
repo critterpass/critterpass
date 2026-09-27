@@ -11,7 +11,9 @@ import { boolean, jsonb, pgSchema, pgTable, text, timestamp, uuid } from 'drizzl
 const ops = pgSchema('ops');
 
 export const opsAdminAudit = ops.table('admin_audit', {
-  id: uuid('id').primaryKey().default(sql`uuidv7()`),
+  id: uuid('id')
+    .primaryKey()
+    .default(sql`uuidv7()`),
   adminId: uuid('admin_id'),
   action: text('action').notNull(),
   targetKind: text('target_kind').notNull(),

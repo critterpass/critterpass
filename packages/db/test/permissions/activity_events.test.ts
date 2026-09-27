@@ -35,20 +35,27 @@ afterAll(async () => {
 
 describe('activity_events RLS: T read, S write', () => {
   it('is invisible to an outsider', async () => {
-    const rows = await withUser(db.pool, fixture.outsiderId, anonymousActor().device, async (tx) => {
-      const { rows } = await tx.query<{ id: string }>('SELECT id FROM activity_events WHERE trip_id = $1', [
-        fixture.tripId,
-      ]);
-      return rows;
-    });
+    const rows = await withUser(
+      db.pool,
+      fixture.outsiderId,
+      anonymousActor().device,
+      async (tx) => {
+        const { rows } = await tx.query<{ id: string }>(
+          'SELECT id FROM activity_events WHERE trip_id = $1',
+          [fixture.tripId],
+        );
+        return rows;
+      },
+    );
     expect(rows).toHaveLength(0);
   });
 
   it('is readable by any crew member', async () => {
     const rows = await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
-      const { rows } = await tx.query<{ id: string }>('SELECT id FROM activity_events WHERE trip_id = $1', [
-        fixture.tripId,
-      ]);
+      const { rows } = await tx.query<{ id: string }>(
+        'SELECT id FROM activity_events WHERE trip_id = $1',
+        [fixture.tripId],
+      );
       return rows;
     });
     expect(rows).toEqual([{ id: activityId }]);
@@ -75,9 +82,10 @@ describe('activity_events RLS: T read, S write', () => {
       ),
     );
     const rows = await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
-      const { rows } = await tx.query<{ id: string }>('SELECT id FROM activity_events WHERE trip_id = $1', [
-        fixture.tripId,
-      ]);
+      const { rows } = await tx.query<{ id: string }>(
+        'SELECT id FROM activity_events WHERE trip_id = $1',
+        [fixture.tripId],
+      );
       return rows;
     });
     expect(rows.length).toBe(2);

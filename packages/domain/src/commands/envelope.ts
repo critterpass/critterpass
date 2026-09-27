@@ -26,7 +26,9 @@ export function isIanaTimeZone(value: unknown): value is string {
   }
 }
 
-const ianaTimeZoneSchema = z.string().refine(isIanaTimeZone, { message: 'must be an IANA time zone' });
+const ianaTimeZoneSchema = z
+  .string()
+  .refine(isIanaTimeZone, { message: 'must be an IANA time zone' });
 
 export const ACTOR_VIA_VALUES = [
   'app',
@@ -83,4 +85,6 @@ export function commandEnvelopeSchema<Payload extends z.ZodType>(payloadSchema: 
   });
 }
 
-export type CommandEnvelope<Payload> = z.infer<ReturnType<typeof commandEnvelopeSchema<z.ZodType<Payload>>>>;
+export type CommandEnvelope<Payload> = z.infer<
+  ReturnType<typeof commandEnvelopeSchema<z.ZodType<Payload>>>
+>;

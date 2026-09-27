@@ -50,7 +50,11 @@ const DOMAIN_EVENT_CATALOGUE = {
   'change_set.applied': changeSetPayloadSchema.extend({ result_version_id: z.uuid() }),
   'change_set.reverted': changeSetPayloadSchema,
   'change_set.rejected': changeSetPayloadSchema,
-  'rsvp.changed': z.object({ trip_id: z.uuid(), user_id: z.uuid(), rsvp: tripParticipantRsvpSchema }),
+  'rsvp.changed': z.object({
+    trip_id: z.uuid(),
+    user_id: z.uuid(),
+    rsvp: tripParticipantRsvpSchema,
+  }),
 } as const satisfies Record<DomainEventType, z.ZodType>;
 
 export function getDomainEventPayloadSchema(type: DomainEventType): z.ZodType {

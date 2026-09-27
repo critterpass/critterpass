@@ -32,7 +32,10 @@ export interface TripTransitionFacts {
  * `app.is_trip_organiser(id)`): a member sees `FORBIDDEN` (they already know the trip exists), an
  * outsider sees `NOT_FOUND`, and an organiser asking for an illegal pair sees `STATE_INVALID`.
  */
-export function canTransitionTripStatus(_actor: PolicyActor, facts: TripTransitionFacts): PolicyResult {
+export function canTransitionTripStatus(
+  _actor: PolicyActor,
+  facts: TripTransitionFacts,
+): PolicyResult {
   if (facts.actorParticipant === null) return deny('NOT_FOUND');
   if (facts.actorParticipant.role !== 'organiser') return deny('FORBIDDEN');
   return canTransitionTrip(facts.from, facts.to) ? ALLOW : deny('STATE_INVALID');

@@ -19,7 +19,12 @@ export async function insertItineraryVersion(
 ): Promise<string> {
   const { rows } = await client.query<{ id: string }>(
     'INSERT INTO itinerary_versions (trip_id, visibility, status, parent_id) VALUES ($1, $2, $3, $4) RETURNING id',
-    [options.tripId, options.visibility ?? 'crew', options.status ?? 'current', options.parentId ?? null],
+    [
+      options.tripId,
+      options.visibility ?? 'crew',
+      options.status ?? 'current',
+      options.parentId ?? null,
+    ],
   );
   return firstRow(rows).id;
 }

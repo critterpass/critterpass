@@ -49,7 +49,9 @@ async function main(): Promise<void> {
     const diff = diffPublication(actualTables, allowList);
 
     if (diff.missing.length === 0 && diff.unexpected.length === 0) {
-      console.log(`ok    powersync publication matches the allow-list (${allowList.length} tables)`);
+      console.log(
+        `ok    powersync publication matches the allow-list (${allowList.length} tables)`,
+      );
       return;
     }
 

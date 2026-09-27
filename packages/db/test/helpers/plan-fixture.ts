@@ -42,7 +42,10 @@ export async function buildPlanFixture(pool: pg.Pool): Promise<PlanFixture> {
       tripId: trip.tripId,
       category: 'museum',
     });
-    await tx.query('UPDATE trips SET current_version_id = $1 WHERE id = $2', [versionId, trip.tripId]);
+    await tx.query('UPDATE trips SET current_version_id = $1 WHERE id = $2', [
+      versionId,
+      trip.tripId,
+    ]);
     return { ...trip, versionId, dayIds: [day1, day2], items: [item1, item2] };
   });
 }

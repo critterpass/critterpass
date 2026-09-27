@@ -94,7 +94,9 @@ describe('trips RLS', () => {
   it('rejects creating a trip for a crew the caller does not belong to', async () => {
     await expect(
       withUser(db.pool, fixture.outsiderId, anonymousActor().device, async (tx) => {
-        await tx.query("INSERT INTO trips (crew_id, status) VALUES ($1, 'voting')", [fixture.crewId]);
+        await tx.query("INSERT INTO trips (crew_id, status) VALUES ($1, 'voting')", [
+          fixture.crewId,
+        ]);
       }),
     ).rejects.toThrow();
   });
@@ -116,12 +118,17 @@ describe('trips RLS', () => {
       await withSystem(isolated.pool, (tx) =>
         setCrewMemberStatus(tx, { crewId: fx.crewId, userId: fx.memberId, status: 'removed' }),
       );
-      const rows = await withUser(isolated.pool, fx.memberId, anonymousActor().device, async (tx) => {
-        const { rows } = await tx.query<{ id: string }>('SELECT id FROM trips WHERE id = $1', [
-          fx.tripId,
-        ]);
-        return rows;
-      });
+      const rows = await withUser(
+        isolated.pool,
+        fx.memberId,
+        anonymousActor().device,
+        async (tx) => {
+          const { rows } = await tx.query<{ id: string }>('SELECT id FROM trips WHERE id = $1', [
+            fx.tripId,
+          ]);
+          return rows;
+        },
+      );
       expect(rows).toHaveLength(0);
     } finally {
       await isolated.drop();
