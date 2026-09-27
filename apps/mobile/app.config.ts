@@ -139,6 +139,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         isAndroidForegroundServiceEnabled: true,
       },
     ],
+    'expo-sharing',
+    [
+      'expo-media-library',
+      {
+        // Share cards only ever add a new photo (`MediaLibrary.requestPermissionsAsync(true)`,
+        // write-only) — never read or delete the camera roll, so only the "add" permission string
+        // is set; there is no read-access string to configure.
+        savePhotosPermission: 'Critterpass can save a share card to your photos when you tap Save.',
+        isAccessMediaLocationEnabled: false,
+      },
+    ],
   ],
   experiments: {
     typedRoutes: true,

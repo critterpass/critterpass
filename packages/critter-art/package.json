@@ -9,7 +9,8 @@
     ".": "./src/index.ts",
     "./canvas2d": "./src/backends/canvas2d/index.ts",
     "./skia": "./src/backends/skia/index.ts",
-    "./share": "./src/share/index.ts"
+    "./share": "./src/share/index.ts",
+    "./share/templates": "./src/share/templates/index.ts"
   },
   "scripts": {
     "lint": "eslint .",
