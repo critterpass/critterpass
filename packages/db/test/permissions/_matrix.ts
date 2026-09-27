@@ -63,6 +63,16 @@ const OWNER_READ: Readonly<Record<ActorKind, TableOpExpectation>> = {
   organiser: op(true, false, false),
 };
 
+/** RLS class R, system-written: every authenticated actor reads, nobody writes. */
+const READ_ONLY_ALL: Readonly<Record<ActorKind, TableOpExpectation>> = {
+  outsider: op(true, false, false),
+  exMember: op(true, false, false),
+  anonymous: op(true, false, false),
+  member: op(true, false, false),
+  coOrganiser: op(true, false, false),
+  organiser: op(true, false, false),
+};
+
 export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   users: {
     selectProbe: { sql: 'SELECT 1 FROM users WHERE id = $1', params: (f) => [f.actors.organiser] },
@@ -327,6 +337,38 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  price_quotes: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM price_quotes WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  // Travel-data catalogue tables (RLS "R", system-written): the probe proves the app_user grant;
+  // each table's own file under this directory proves its rows and filters.
+  ...Object.fromEntries(
+    [
+      'fare_cells',
+      'weather_snapshots',
+      'crowd_forecasts',
+      'season_months',
+      'season_events',
+      'hazard_alerts',
+    ].map((table) => [
+      table,
+      {
+        selectProbe: { sql: `SELECT count(*) FROM ${table}`, params: () => [] },
+        expectations: READ_ONLY_ALL,
+      },
+    ]),
+  ),
   client_config: {
     selectProbe: {
       sql: "SELECT 1 FROM client_config WHERE key = 'matrix.probe'",

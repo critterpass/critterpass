@@ -96,6 +96,47 @@ export const QUEUES = {
   'ai.batch.poll': spec({ policy: 'stately', retryLimit: 5, retryDelay: 30, deadLetter: true }),
   'guide_action.execute': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
   'guide_action.undo_expire': spec({ policy: 'exclusive' }),
+  // Travel data (docs/api-contracts-async.md §2.3): one run at a time; a rerun inside the same
+  // night is a no-op because every cell remembers when it was last asked.
+  'fares.refresh': spec({
+    policy: 'stately',
+    retryDelay: 600,
+    expireInSeconds: 2 * 60 * 60,
+    cron: { expr: '0 2 * * *', tz: 'Asia/Singapore' },
+  }),
+  'crowds.refresh': spec({
+    policy: 'stately',
+    expireInSeconds: 60 * 60,
+    cron: { expr: '0 3 * * *', tz: 'Asia/Singapore' },
+  }),
+  // Every 15 minutes; each forecast point decides whether it is due (3 h, 1 h, or 15 min marine).
+  'weather.refresh': spec({
+    policy: 'stately',
+    retryLimit: 1,
+    expireInSeconds: 10 * 60,
+    keepCompletedSeconds: 86_400,
+    cron: { expr: '*/15 * * * *', tz: 'UTC' },
+  }),
+  // Every 15 minutes; the handler reads the feeds hourly, or every tick while a trip is under way.
+  'hazards.refresh': spec({
+    policy: 'stately',
+    retryLimit: 1,
+    expireInSeconds: 10 * 60,
+    keepCompletedSeconds: 86_400,
+    cron: { expr: '*/15 * * * *', tz: 'UTC' },
+  }),
+  'fx.refresh': spec({
+    policy: 'stately',
+    expireInSeconds: 10 * 60,
+    keepCompletedSeconds: 86_400,
+    cron: { expr: '15 * * * *', tz: 'UTC' },
+  }),
+  // Daily; the handler works on Mondays and during blossom/foliage windows only.
+  'season.ingest': spec({
+    policy: 'stately',
+    expireInSeconds: 30 * 60,
+    cron: { expr: '0 4 * * *', tz: 'Asia/Singapore' },
+  }),
   'ops.backup': spec({
     policy: 'stately',
     retryLimit: 2,

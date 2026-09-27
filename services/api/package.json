@@ -18,6 +18,7 @@
     "@better-auth/core": "1.7.6",
     "@better-auth/expo": "1.7.6",
     "@cp/ai": "workspace:*",
+    "@cp/cost-engine": "workspace:*",
     "@cp/db": "workspace:*",
     "@cp/domain": "workspace:*",
     "@cp/entitlements": "workspace:*",

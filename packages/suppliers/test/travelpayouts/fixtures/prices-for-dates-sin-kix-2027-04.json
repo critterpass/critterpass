@@ -1,0 +1,42 @@
+{
+  "data": [
+    {
+      "flight_number": "710",
+      "link": "/search/SIN1304KIX20041?t=D718076233001807696200001155SINKULKIX18082191001808253900000640KIXKULSIN_ac404221a52d2ac7f3086fb407ef1804_28524\u0026search_date=24092026\u0026expected_price_uuid=01a0d44c-8c13-8030-ef37-64244094321b\u0026static_fare_key=TY%7CP0%7CH0%7CL0%7CCH0%7CR0%7CTBC0\u0026itinerary_key=xFHUnyv0SwVovw5w3UiIaQ\u0026origin_airports=1\u0026destination_airports=0\u0026expected_price_source=share\u0026expected_price_currency=usd\u0026expected_price=336",
+      "origin_airport": "SIN",
+      "destination_airport": "KIX",
+      "departure_at": "2027-04-13T13:35:00+08:00",
+      "airline": "AK",
+      "destination": "OSA",
+      "return_at": "2027-04-20T11:05:00+09:00",
+      "origin": "SIN",
+      "price": 336,
+      "gate": "Farera",
+      "return_transfers": 1,
+      "duration": 1795,
+      "duration_to": 455,
+      "duration_back": 500,
+      "transfers": 1
+    },
+    {
+      "flight_number": "812",
+      "link": "/search/SIN0704KIX12041?t=VJ18071262001807173000000720SINSGNKIX18075216001807623600001760KIXHANSIN_d43031a7e209be6d8b95f598003fc1bf_35627\u0026search_date=21092026\u0026expected_price_uuid=01a0c3c5-2c6c-8030-e36c-0b4a8078a752\u0026static_fare_key=TY%7CP1%7CH1%7CL0%7CCH0%7CR0%7CTBC0\u0026itinerary_key=LG1EQbzoFCyiJyJfs5URyw\u0026origin_airports=1\u0026destination_airports=0\u0026expected_price_source=share\u0026expected_price_currency=usd\u0026expected_price=423",
+      "origin_airport": "SIN",
+      "destination_airport": "KIX",
+      "departure_at": "2027-04-07T19:30:00+08:00",
+      "airline": "VJ",
+      "destination": "OSA",
+      "return_at": "2027-04-12T09:20:00+09:00",
+      "origin": "SIN",
+      "price": 423,
+      "gate": "Aviakassa",
+      "return_transfers": 1,
+      "duration": 2480,
+      "duration_to": 455,
+      "duration_back": 500,
+      "transfers": 1
+    }
+  ],
+  "currency": "usd",
+  "success": true
+}

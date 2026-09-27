@@ -1,0 +1,171 @@
+{
+  "destination": "kyoto",
+  "months": [
+    {
+      "month": 1,
+      "crowd_index": 85,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart (peak Nov, trough Feb, 1.3x ratio; other months estimated within this published range)",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 2,
+      "crowd_index": 77,
+      "price_index": null,
+      "highlight_tag": "FEB CHEAPEST",
+      "colour_role": "cheapest",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart, lowest month",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 3,
+      "crowd_index": 90,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart (spring rise estimated within the published 1.3x range; blossom crowds build from late March)",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 4,
+      "crowd_index": 95,
+      "price_index": null,
+      "highlight_tag": "APR BLOSSOMS",
+      "colour_role": "peak",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart (spring peak estimated within the published 1.3x range, placed at full bloom: JMA normal full-bloom date for Kyoto falls in early April)",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 5,
+      "crowd_index": 88,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 6,
+      "crowd_index": 82,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 7,
+      "crowd_index": 85,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 8,
+      "crowd_index": 82,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 9,
+      "crowd_index": 85,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 10,
+      "crowd_index": 96,
+      "price_index": null,
+      "highlight_tag": "OCT PEAK",
+      "colour_role": "peak",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 11,
+      "crowd_index": 100,
+      "price_index": null,
+      "highlight_tag": "NOV LEAVES",
+      "colour_role": "peak",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — busiest month per official chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 12,
+      "crowd_index": 90,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "sourced_on": "2026-09-28"
+    }
+  ],
+  "events": [
+    {
+      "key": "kyoto-cherry-blossom",
+      "kind": "blossom",
+      "name": "Cherry blossom season (sakura)",
+      "starts_on": "2027-03-26",
+      "ends_on": "2027-04-10",
+      "confidence": "typical",
+      "source": "Japan Meteorological Agency normal flowering/full-bloom dates for Kyoto, summarized by Nippon.com",
+      "source_url": "https://www.nippon.com/en/japan-data/h02648/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "gion-matsuri",
+      "kind": "festival",
+      "name": "Gion Matsuri (Yamaboko Junko float parades)",
+      "starts_on": "2027-07-14",
+      "ends_on": "2027-07-24",
+      "confidence": "typical",
+      "source": "Kyoto City Tourism Association, annual Gion Matsuri schedule",
+      "source_url": "https://www.kyokanko.or.jp/survey_list/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "gozan-no-okuribi",
+      "kind": "festival",
+      "name": "Gozan no Okuribi (Daimonji bonfire)",
+      "starts_on": "2027-08-16",
+      "ends_on": "2027-08-16",
+      "confidence": "typical",
+      "source": "Kyoto City Tourism Association, annual Gozan Okuribi date",
+      "source_url": "https://www.kyokanko.or.jp/survey_list/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "kyoto-autumn-leaves",
+      "kind": "foliage",
+      "name": "Autumn leaves season (koyo)",
+      "starts_on": "2026-11-20",
+      "ends_on": "2026-12-05",
+      "confidence": "typical",
+      "source": "Japan Meteorological Corporation autumn foliage forecast, summarized by Japan Highlights",
+      "source_url": "https://www.japanhighlights.com/japan/plan-fall-foliage-trip/kyoto",
+      "sourced_on": "2026-09-28"
+    }
+  ]
+}

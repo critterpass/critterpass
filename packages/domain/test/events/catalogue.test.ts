@@ -32,6 +32,33 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     undo_action_id: crypto.randomUUID(),
     change_set_id: crypto.randomUUID(),
   },
+  'fare.dropped': {
+    crew_id: crypto.randomUUID(),
+    destination_id: crypto.randomUUID(),
+    month: '2027-04',
+    origin: 'SIN',
+    price_minor: 25_800,
+    previous_min_minor: 31_000,
+    currency: 'USD',
+    delta_pct: 17,
+  },
+  'forecast.changed': {
+    trip_id: crypto.randomUUID(),
+    destination_id: crypto.randomUUID(),
+    changes: [{ item_stable_id: crypto.randomUUID(), reason: 'rain', date: '2026-10-02' }],
+    impact: 40,
+  },
+  'hazard.changed': {
+    trip_id: crypto.randomUUID(),
+    destination_id: crypto.randomUUID(),
+    hazard_id: crypto.randomUUID(),
+    kind: 'volcano',
+    source: 'magma',
+    subject: 'Batur',
+    from_level: 1,
+    to_level: 2,
+    impact: 60,
+  },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

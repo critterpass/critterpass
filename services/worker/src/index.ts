@@ -27,6 +27,7 @@ import { pushSendJob } from './jobs/push/send';
 import { roundupBuildJob, roundupScanJob } from './jobs/roundup/build';
 import { createCopyRenderer, createPushProviders, defaultBundleId } from './push';
 import { createCentrifugoApi, rtRelayJob, startRtRelayWake, type RtRelay } from './rt-relay';
+import { travelDataJobs } from './travel-data';
 
 const env = loadWorkerEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'worker', commit: env.COMMIT_SHA } });
@@ -66,6 +67,7 @@ const jobs: AnyJobDefinition[] = [
   guideActionExecuteJob(),
   guideActionUndoExpireJob(),
   ...aiJobs(env, (error) => logger.warn({ err: error }, 'langfuse export failed')),
+  ...travelDataJobs(env, pool, logger.child({ component: 'travel-data' })),
 ];
 if (env.ANTHROPIC_API_KEY === undefined) {
   logger.warn('ai.batch.poll is disabled: ANTHROPIC_API_KEY is unset');

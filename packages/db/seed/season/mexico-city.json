@@ -1,0 +1,171 @@
+{
+  "destination": "mexico-city",
+  "months": [
+    {
+      "month": 1,
+      "crowd_index": 79,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "cheapest",
+      "source": "SECTUR/Datatur hotel occupancy for Mexico City, Jan-Apr 2025 average (55.0%) cited by ContraRéplica; January/February estimated within that flat low-season band",
+      "source_url": "https://www.contrareplica.mx/nota-Ocupacion-hotelera-baja-a-602-en-el-primer-cuatrimestre-de-2025-202520737",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 2,
+      "crowd_index": 76,
+      "price_index": null,
+      "highlight_tag": "FEB CHEAPEST",
+      "colour_role": "cheapest",
+      "source": "SECTUR/Datatur hotel occupancy for Mexico City, Jan-Apr 2025 average (55.0%) cited by ContraRéplica; February estimated as the lowest month within that band",
+      "source_url": "https://www.contrareplica.mx/nota-Ocupacion-hotelera-baja-a-602-en-el-primer-cuatrimestre-de-2025-202520737",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 3,
+      "crowd_index": 81,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "SECTUR/Datatur hotel occupancy for Mexico City, Jan-Apr 2025 average (55.0%) cited by ContraRéplica",
+      "source_url": "https://www.contrareplica.mx/nota-Ocupacion-hotelera-baja-a-602-en-el-primer-cuatrimestre-de-2025-202520737",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 4,
+      "crowd_index": 80,
+      "price_index": null,
+      "highlight_tag": "APR SEMANA SANTA",
+      "colour_role": "normal",
+      "source": "SECTUR/Datatur hotel occupancy for Mexico City, April 2025 = 54.4%, cited by ContraRéplica",
+      "source_url": "https://www.contrareplica.mx/nota-Ocupacion-hotelera-baja-a-602-en-el-primer-cuatrimestre-de-2025-202520737",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 5,
+      "crowd_index": 82,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "SECTUR/Datatur hotel occupancy monitoring for Mexico City; May estimated between the cited April and July/December data points",
+      "source_url": "https://datatur.sectur.gob.mx/SitePages/hoteleria.aspx",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 6,
+      "crowd_index": 84,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "SECTUR/Datatur hotel occupancy monitoring for Mexico City; June estimated between the cited April and July/December data points",
+      "source_url": "https://datatur.sectur.gob.mx/SitePages/hoteleria.aspx",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 7,
+      "crowd_index": 90,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "peak",
+      "source": "SECTUR/Datatur weekly hotel monitoring report, week of Jul 21-27 2025, large-cities (CDMX/Guadalajara/Monterrey) occupancy 61.1%",
+      "source_url": "https://datatur.sectur.gob.mx/SitePages/hoteleria.aspx",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 8,
+      "crowd_index": 87,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "SECTUR/Datatur hotel occupancy monitoring for Mexico City; August estimated between the cited July and Día de Muertos/December data points",
+      "source_url": "https://datatur.sectur.gob.mx/SitePages/hoteleria.aspx",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 9,
+      "crowd_index": 85,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "SECTUR/Datatur hotel occupancy monitoring for Mexico City; September estimated (Independence Day patriotic-holiday demand)",
+      "source_url": "https://datatur.sectur.gob.mx/SitePages/hoteleria.aspx",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 10,
+      "crowd_index": 88,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "SECTUR/Datatur hotel occupancy monitoring for Mexico City; October estimated, rising toward the Día de Muertos period",
+      "source_url": "https://datatur.sectur.gob.mx/SitePages/hoteleria.aspx",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 11,
+      "crowd_index": 96,
+      "price_index": null,
+      "highlight_tag": "NOV DAY OF DEAD",
+      "colour_role": "peak",
+      "source": "SECTUR/Datatur hotel occupancy monitoring for Mexico City; November estimated around the Día de Muertos demand peak",
+      "source_url": "https://datatur.sectur.gob.mx/SitePages/hoteleria.aspx",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 12,
+      "crowd_index": 100,
+      "price_index": null,
+      "highlight_tag": "DEC PEAK",
+      "colour_role": "peak",
+      "source": "SECTUR/Datatur weekly hotel monitoring report, week of Dec 15-21 2025, Mexico City occupancy 67.5%, cited by Once Noticias",
+      "source_url": "https://oncenoticias.digital/valle-de-mexico/cdmx-cierra-2025-con-incremento-en-ocupacion-hotelera/541266/",
+      "sourced_on": "2026-09-28"
+    }
+  ],
+  "events": [
+    {
+      "key": "dia-de-muertos-cdmx",
+      "kind": "festival",
+      "name": "Día de Muertos Grand Parade and citywide observances",
+      "starts_on": "2026-10-31",
+      "ends_on": "2026-11-02",
+      "confidence": "confirmed",
+      "source": "Gobierno de la Ciudad de México, Gran Desfile de Día de Muertos 2026 official date announcement, cited by El Informador",
+      "source_url": "https://www.informador.mx/cultura/dia-de-muertos-2026-confirman-fecha-del-desfile-en-cdmx-20260817-0145.html",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "semana-santa-cdmx",
+      "kind": "holiday",
+      "name": "Semana Santa (Holy Week)",
+      "starts_on": "2027-03-22",
+      "ends_on": "2027-03-28",
+      "confidence": "confirmed",
+      "source": "Liturgical calendar, Easter Sunday 2027 falls on March 28 (derived from the Corpus Christi 2027 date, 60 days after Easter)",
+      "source_url": "https://www.infobae.com/peru/2025/06/19/corpus-christi-que-es-desde-cuando-se-celebra-cada-19-de-junio-y-por-que-es-especial-en-el-cusco/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "independencia-mexico",
+      "kind": "holiday",
+      "name": "Día de la Independencia (Grito and military parade)",
+      "starts_on": "2027-09-15",
+      "ends_on": "2027-09-16",
+      "confidence": "confirmed",
+      "source": "Fixed Mexican national holiday date, Secretaría de Gobernación civic calendar",
+      "source_url": "https://www.gob.mx/segob",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "virgen-de-guadalupe",
+      "kind": "ceremony",
+      "name": "Fiesta de la Virgen de Guadalupe (Basílica pilgrimage)",
+      "starts_on": "2026-12-12",
+      "ends_on": "2026-12-12",
+      "confidence": "confirmed",
+      "source": "Fixed Catholic feast day, Basílica de Guadalupe annual pilgrimage",
+      "source_url": "https://www.virgendeguadalupe.org.mx/",
+      "sourced_on": "2026-09-28"
+    }
+  ]
+}

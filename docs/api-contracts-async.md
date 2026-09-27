@@ -130,8 +130,10 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `weather.watch` | `0 */3 * * *` (hourly within 48 h; 15 min marine/volcano alerts) | forecast watcher → `trip_watch`, `ai.replan` | 37 |
 | `fx.refresh` | `15 * * * *` | Frankfurter snapshot | 12 (snapshot fn); cron registered in 15 |
 | `fares.refresh` | `0 2 * * *` SGT | Travelpayouts calendars for active origins × candidates; price-drop detect (AI-03) | 15 |
-| `crowds.refresh` | `0 3 * * *` SGT | BestTime per active POI | 15 |
-| `season.ingest` | `0 4 * * 1` + in-season daily | bloom/legendary windows → reminder reschedule | 15, 40 |
+| `crowds.refresh` | `0 3 * * *` SGT | expires weekly crowd patterns older than 90 d (no hourly source contracted) | 15 |
+| `season.ingest` | `0 4 * * *` SGT, works Mondays and inside blossom/foliage windows | month `price_index` from fares (≥ 3 origins); bloom/legendary windows → reminder reschedule | 15, 40 |
+| `weather.refresh` (doc delta) | `*/15 * * * *`; each point due at 3 h, 1 h within 48 h of an outdoor item, 15 min marine while under way | WeatherAPI.com forecast + marine → `weather_snapshots`; `forecast.changed` on material change | 15 |
+| `hazards.refresh` (doc delta) | `*/15 * * * *`; reads hourly, every tick while a trip is under way | MAGMA / IMO / JMA / GVP → `hazard_alerts`; `hazard.changed` on a level move | 15 |
 | `briefing.build` | per user local morning (`scheduled_events`) | AI-27 | 36 |
 | `quests.generate` | per trip ~04:00 local | AI-32 → validator → publish, N-31 | 41 |
 | `roundup.build` | per tz bucket, user time −10 min (default 20:00) | AI-39 ≤5 items, template fallback, skip empty | 49 |

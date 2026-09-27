@@ -1,0 +1,160 @@
+{
+  "destination": "lisbon",
+  "months": [
+    {
+      "month": 1,
+      "crowd_index": 56,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "cheapest",
+      "source": "INE Portugal, Atividade Turística Janeiro de 2025 — Lisbon municipality overnight stays (dormidas) 892.8 thousand",
+      "source_url": "https://www.ine.pt/ngt_server/attachfileu.jsp?look_parentBoui=715185496&att_display=n&att_download=y",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 2,
+      "crowd_index": 53,
+      "price_index": null,
+      "highlight_tag": "FEB CHEAPEST",
+      "colour_role": "cheapest",
+      "source": "INE Portugal, Atividade Turística — Lisbon municipality dormidas interpolated as the year's lowest month between the January and March releases",
+      "source_url": "https://www.ine.pt/ngt_server/attachfileu.jsp?look_parentBoui=715185496&att_display=n&att_download=y",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 3,
+      "crowd_index": 63,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "INE Portugal, Atividade Turística — Lisbon municipality dormidas interpolated between the January and Maio de 2025 releases",
+      "source_url": "https://www.ine.pt/ngt_server/attachfileu.jsp?look_parentBoui=734945953&att_display=n&att_download=y",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 4,
+      "crowd_index": 72,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "INE Portugal, Atividade Turística Abril de 2025 — Grande Lisboa regional dormidas share (24.4% of a 7.1M national total)",
+      "source_url": "https://ctp.org.pt/uploads/articles/documents/30Est_Rapida_Turismo_Abr25.1749482181.pdf",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 5,
+      "crowd_index": 81,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "INE Portugal, Atividade Turística Maio de 2025 — Lisbon municipality dormidas, interpolated toward the Q3 2025 anchor",
+      "source_url": "https://www.ine.pt/ngt_server/attachfileu.jsp?look_parentBoui=734945953&att_display=n&att_download=y",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 6,
+      "crowd_index": 91,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "INE Portugal, Atividade Turística — Lisbon municipality dormidas interpolated approaching the Jul-Aug-Sep 2025 quarterly total",
+      "source_url": "https://travelbi.turismodeportugal.pt/turismo-portugal/atividade-turistica-3-trimestre-2025-ine/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 7,
+      "crowd_index": 100,
+      "price_index": null,
+      "highlight_tag": "JUL PEAK",
+      "colour_role": "peak",
+      "source": "INE Portugal, Atividade Turística 3.º trimestre 2025 — Lisbon municipality Q3 dormidas 4.7 million, split across Jul/Aug/Sep using the cited August figure",
+      "source_url": "https://travelbi.turismodeportugal.pt/turismo-portugal/atividade-turistica-3-trimestre-2025-ine/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 8,
+      "crowd_index": 100,
+      "price_index": null,
+      "highlight_tag": "AUG PEAK",
+      "colour_role": "peak",
+      "source": "INE Portugal, Atividade Turística Agosto de 2025 — Lisbon municipality overnight stays (dormidas) 1.6 million, 15.2% of the national total",
+      "source_url": "https://www.ine.pt/ngt_server/attachfileu.jsp?look_parentBoui=752985474&att_display=n&att_download=y",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 9,
+      "crowd_index": 94,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "peak",
+      "source": "INE Portugal, Atividade Turística 3.º trimestre 2025 — Lisbon municipality Q3 dormidas 4.7 million, split across Jul/Aug/Sep using the cited August figure",
+      "source_url": "https://travelbi.turismodeportugal.pt/turismo-portugal/atividade-turistica-3-trimestre-2025-ine/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 10,
+      "crowd_index": 91,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "INE Portugal, Atividade Turística — Lisbon municipality dormidas interpolated between the Q3 total and the November release",
+      "source_url": "https://www.ine.pt/ngt_server/attachfileu.jsp?look_parentBoui=769179168&att_display=n&att_download=y",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 11,
+      "crowd_index": 75,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "INE Portugal, Atividade Turística Novembro de 2025 — Lisbon municipality overnight stays (dormidas) 1.2 million, 23.8% of the national total",
+      "source_url": "https://www.ine.pt/ngt_server/attachfileu.jsp?look_parentBoui=769179168&att_display=n&att_download=y",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 12,
+      "crowd_index": 69,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "INE Portugal, Atividade Turística — Lisbon municipality dormidas interpolated between the November release and the 2024 annual total (15.74 million)",
+      "source_url": "https://www.ine.pt/ngt_server/attachfileu.jsp?look_parentBoui=769179168&att_display=n&att_download=y",
+      "sourced_on": "2026-09-28"
+    }
+  ],
+  "events": [
+    {
+      "key": "santo-antonio-lisboa",
+      "kind": "festival",
+      "name": "Santo António / Marchas Populares (Festas de Lisboa highlight night)",
+      "starts_on": "2027-06-12",
+      "ends_on": "2027-06-13",
+      "confidence": "confirmed",
+      "source": "Visit Lisboa, Santo António's Night fixed annual date",
+      "source_url": "https://www.visitlisboa.com/en/events/st-anthonys-night-12-13th-june",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "festas-de-lisboa",
+      "kind": "festival",
+      "name": "Festas de Lisboa (month-long popular saints festival)",
+      "starts_on": "2027-06-01",
+      "ends_on": "2027-06-30",
+      "confidence": "typical",
+      "source": "Visit Portugal, Festas de Lisboa annual programme",
+      "source_url": "https://www.visitportugal.com/en/content/festas-de-lisboa",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "reveillon-praca-do-comercio",
+      "kind": "holiday",
+      "name": "New Year's Eve fireworks, Praça do Comércio",
+      "starts_on": "2026-12-31",
+      "ends_on": "2027-01-01",
+      "confidence": "typical",
+      "source": "Turismo de Lisboa, annual Réveillon fireworks tradition",
+      "source_url": "https://www.visitlisboa.com/en",
+      "sourced_on": "2026-09-28"
+    }
+  ]
+}

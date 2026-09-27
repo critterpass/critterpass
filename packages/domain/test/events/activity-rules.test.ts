@@ -8,12 +8,16 @@ import { projectActivity } from '../../src/events/activity-rules';
  * docstring: "private events stay out of the crew-visible ticker"). `auth.merged` describes an
  * identity operation on one account, not something any crew member should see in a shared feed.
  * `invite.opened` and `attribution.claimed` are funnel signals about a link or a device, not crew
- * activity.
+ * activity. `fare.dropped`, `forecast.changed` and `hazard.changed` are system signals that the tip
+ * strip and the watch job turn into their own surfaces; nobody in the crew did them.
  */
 const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'auth.merged',
   'invite.opened',
   'attribution.claimed',
+  'fare.dropped',
+  'forecast.changed',
+  'hazard.changed',
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

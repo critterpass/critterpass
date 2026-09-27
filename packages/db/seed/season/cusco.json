@@ -1,0 +1,171 @@
+{
+  "destination": "cusco",
+  "months": [
+    {
+      "month": 1,
+      "crowd_index": 69,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Peru Ministry of Culture (DDC Cusco) / Mincetur, Machu Picchu monthly visitors January 2025 (111,545), cited by TreXperience",
+      "source_url": "https://trexperienceperu.com/travel-news/trips-machu-picchu-toward-one-and-half-million-visitors-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 2,
+      "crowd_index": 49,
+      "price_index": null,
+      "highlight_tag": "FEB CLOSURE",
+      "colour_role": "cheapest",
+      "source": "Peru Ministry of Culture (DDC Cusco) / Mincetur, Machu Picchu monthly visitors February 2025 (79,806) — lowest month, coincides with the Inca Trail's annual maintenance closure",
+      "source_url": "https://trexperienceperu.com/travel-news/trips-machu-picchu-toward-one-and-half-million-visitors-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 3,
+      "crowd_index": 63,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Peru Ministry of Culture (DDC Cusco) / Mincetur, Machu Picchu monthly visitors March 2025 (102,218), cited by TreXperience",
+      "source_url": "https://trexperienceperu.com/travel-news/trips-machu-picchu-toward-one-and-half-million-visitors-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 4,
+      "crowd_index": 84,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Peru Ministry of Culture (DDC Cusco) / Mincetur, Machu Picchu monthly visitors April 2025 (136,876), cited by TreXperience",
+      "source_url": "https://trexperienceperu.com/travel-news/trips-machu-picchu-toward-one-and-half-million-visitors-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 5,
+      "crowd_index": 86,
+      "price_index": null,
+      "highlight_tag": "MAY DRY SEASON",
+      "colour_role": "normal",
+      "source": "Peru Ministry of Culture (DDC Cusco) / Mincetur, Machu Picchu monthly visitors May 2025 (139,078), cited by TreXperience; start of the Andean dry season",
+      "source_url": "https://trexperienceperu.com/travel-news/trips-machu-picchu-toward-one-and-half-million-visitors-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 6,
+      "crowd_index": 80,
+      "price_index": null,
+      "highlight_tag": "JUN INTI RAYMI",
+      "colour_role": "normal",
+      "source": "Peru Ministry of Culture (DDC Cusco) / Mincetur, Machu Picchu monthly visitors June 2025 (130,796), cited by TreXperience",
+      "source_url": "https://trexperienceperu.com/travel-news/trips-machu-picchu-toward-one-and-half-million-visitors-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 7,
+      "crowd_index": 98,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "peak",
+      "source": "Peru Ministry of Culture (DDC Cusco) / Mincetur, Machu Picchu monthly visitors July 2025 (158,522), cited by TreXperience",
+      "source_url": "https://trexperienceperu.com/travel-news/trips-machu-picchu-toward-one-and-half-million-visitors-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 8,
+      "crowd_index": 99,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "peak",
+      "source": "Peru Ministry of Culture (DDC Cusco) / Mincetur, Machu Picchu monthly visitors August 2025 (160,884), cited by TreXperience",
+      "source_url": "https://trexperienceperu.com/travel-news/trips-machu-picchu-toward-one-and-half-million-visitors-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 9,
+      "crowd_index": 93,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Mincetur, Machu Picchu Jan-Sep 2025 cumulative visitors (1,170,389) minus the cited Jan-Aug monthly figures, giving September = 150,664",
+      "source_url": "https://www.peruinforma.com/machu-picchu-supero-los-1-17-millones-de-visitantes-de-enero-a-septiembre-del-2025/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 10,
+      "crowd_index": 100,
+      "price_index": null,
+      "highlight_tag": "OCT PEAK",
+      "colour_role": "peak",
+      "source": "Peru Ministry of Culture (DDC Cusco) / Mincetur, October 2025 was Machu Picchu's busiest month (162,479 visitors), cited by TreXperience",
+      "source_url": "https://trexperienceperu.com/travel-news/trips-machu-picchu-toward-one-and-half-million-visitors-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 11,
+      "crowd_index": 64,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Derived: 2025 full-year Machu Picchu total (1,542,350, per TreXperience) minus the cited Jan-Oct monthly figures leaves 209,482 for Nov-Dec; no official monthly split was published, so it is divided evenly (104,741 each)",
+      "source_url": "https://trexperienceperu.com/travel-news/trips-machu-picchu-toward-one-and-half-million-visitors-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 12,
+      "crowd_index": 64,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Derived: 2025 full-year Machu Picchu total (1,542,350, per TreXperience) minus the cited Jan-Oct monthly figures leaves 209,482 for Nov-Dec; no official monthly split was published, so it is divided evenly (104,741 each)",
+      "source_url": "https://trexperienceperu.com/travel-news/trips-machu-picchu-toward-one-and-half-million-visitors-2025",
+      "sourced_on": "2026-09-28"
+    }
+  ],
+  "events": [
+    {
+      "key": "inca-trail-february-closure",
+      "kind": "closure",
+      "name": "Inca Trail network closed for annual maintenance",
+      "starts_on": "2027-02-01",
+      "ends_on": "2027-02-28",
+      "confidence": "typical",
+      "source": "Ministerio de Cultura / Dirección Desconcentrada de Cultura Cusco, annual February closure of the Inca Trail network",
+      "source_url": "https://www.culturacusco.gob.pe/noticia/imagen/direccion-de-cultura-cusco-dispone-cierre-de-la-red-de-caminos-inka-de-machupicchu-del-01-al-29-de-febrero/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "corpus-christi-cusco",
+      "kind": "ceremony",
+      "name": "Corpus Christi Cusco",
+      "starts_on": "2027-05-27",
+      "ends_on": "2027-05-27",
+      "confidence": "confirmed",
+      "source": "Turismo Religioso, Corpus Christi 2027 date (60 days after Easter Sunday)",
+      "source_url": "https://turismoreligioso.travel/fiestas-patronales/corpus-christi-porque-se-celebra/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "inti-raymi",
+      "kind": "festival",
+      "name": "Inti Raymi (Festival of the Sun)",
+      "starts_on": "2027-06-24",
+      "ends_on": "2027-06-24",
+      "confidence": "confirmed",
+      "source": "CuscoPeru.com, Inti Raymi fixed annual date",
+      "source_url": "https://www.cuscoperu.com/en/festivities-events/may-june/inti-raymi/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "virgen-del-carmen-paucartambo",
+      "kind": "festival",
+      "name": "Virgen del Carmen festival, Paucartambo",
+      "starts_on": "2027-07-15",
+      "ends_on": "2027-07-17",
+      "confidence": "typical",
+      "source": "CuscoPeru.com, Virgen del Carmen Paucartambo fixed annual dates",
+      "source_url": "https://www.cuscoperu.com/en/news-events/schedule-of-holidays-in-cusco/",
+      "sourced_on": "2026-09-28"
+    }
+  ]
+}

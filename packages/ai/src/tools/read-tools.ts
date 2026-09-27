@@ -63,13 +63,20 @@ export const READ_TOOL_SPECS = {
     }),
   ),
   crowd_forecast: spec(
-    'Hourly crowd forecast for a place on a date.',
+    'Crowd levels for a place on a date: hourly when known (else null), plus the month level.',
     'CDR',
     'read',
     z.object({ poi_id: id, date: isoDate }),
     z.object({
-      hourly: z.array(z.number()),
+      hourly: z.array(z.number()).nullable(),
       best_window: z.object({ start: z.string(), end: z.string() }).nullable(),
+      month: z
+        .object({
+          crowd_index: z.number().int(),
+          colour_role: z.enum(['cheapest', 'peak', 'normal']),
+          highlight_tag: z.string().nullable(),
+        })
+        .nullable(),
     }),
   ),
   weather: spec(
@@ -77,14 +84,20 @@ export const READ_TOOL_SPECS = {
     'CGRB',
     'read',
     forecastInput,
-    series({ temp_c: z.number(), precip_mm: z.number(), wind_kph: z.number(), code: z.string() }),
+    series({
+      temp_c: z.number(),
+      chance_of_rain: z.number(),
+      precip_mm: z.number(),
+      wind_kph: z.number(),
+      code: z.string(),
+    }),
   ),
   marine: spec(
     'Hourly sea conditions and alerts. Copy values verbatim.',
     'CGRB',
     'read',
     forecastInput,
-    series({ wave_m: z.number(), swell_m: z.number(), sea_temp_c: z.number() }),
+    series({ wave_m: z.number(), swell_m: z.number(), sea_temp_c: z.number().nullable() }),
   ),
   route_eta: spec(
     'Travel time between points. Leave-by times come from the planner, not from you.',

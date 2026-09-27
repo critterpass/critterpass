@@ -12,6 +12,7 @@ export {
   type ChannelNamespace,
 } from './channel-names';
 export * from './realtime';
+export * from './travel-data';
 export {
   CAPABILITY_KEYS,
   capabilityKeySchema,

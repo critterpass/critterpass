@@ -323,8 +323,12 @@ No in-app money movement (C24). Boost split = IOU `ledger_entries(source_kind='b
 | `briefings` | trip_id, user_id, local_date, agent_job_id | uk (trip_id, user_id, local_date) | sys | O (per viewer) | trip_me | C2 | life |
 | `briefing_items` | briefing_id, icon, text, action (done/nudge/set/open), target_user_ids, status, source (daily_job/event), source_event_id | cascade | sys; self check | O | trip_me | C2 | life |
 | `packing_items` | trip_id, day?, owner_id? (null = shared), label, checked, checked_by, suggested_by | trip_id | mem | T (personal rows owner-only) | trip | C1 | life |
-| `weather_snapshots` | destination_id, date, hourly jsonb, marine jsonb, source (open-meteo), fetched_at | uk (destination_id, date, source) | sys | R | trip_pack | C0 | 30 d |
-| `crowd_forecasts` | poi_id, dow, hourly int[], source (besttime), fetched_at | uk (poi_id, dow) | sys | R | trip_pack | C0 | 90 d |
+| `weather_snapshots` | destination_id, point_key (`centroid`, `summit:<name>`, `g:<lat>,<lng>` 0.1° cell), lat, lng, elevation_m, date, hourly jsonb (day, hours, alerts), marine jsonb (centroid rows only), marine_fetched_at, source (weatherapi), fetched_at, checked_at (checked_at > fetched_at = last refresh failed, stale) | uk (destination_id, point_key, date, source) | sys | R | trip_pack | C0 | 30 d |
+| `crowd_forecasts` | poi_id, dow, hourly smallint[24], source (besttime), fetched_at (no hourly source contracted yet; rows expire after 90 d) | uk (poi_id, dow) | sys | R | trip_pack | C0 | 90 d |
+| `fare_cells` | origin_iata, dest_iata, destination_id, month (1st), depart_on, return_on, price_minor (null = never seen), currency (USD), transfers, duration_min, fastest_duration_min, days jsonb (cheapest per departure day), price_history jsonb (last 8 nights), found_at, fetched_at, checked_at | uk (origin_iata, dest_iata, month) | sys | R | — (HTTP only, not published) | C0 | content |
+| `season_months` | destination_id, month, crowd_index, price_index, price_index_source (editorial/fares), highlight_tag, colour_role (cheapest/peak/normal), source, source_url, sourced_on, reviewed_at (null = draft, not served) | uk (destination_id, month) | adm (`upsert_season_editorial`) / sys (`season.ingest`) | R (reviewed only) | catalog | C0 | content |
+| `season_events` | destination_id, key, kind (blossom/foliage/festival/ceremony/holiday/closure), name, starts_on, ends_on, confidence (typical/forecast/confirmed), source, source_url, sourced_on, forecast_updated_at, reviewed_at | uk (destination_id, key) | adm / sys | R (reviewed only) | catalog | C0 | content |
+| `hazard_alerts` | destination_id, kind (volcano/weather_warning), subject, level 1–4, level_label, headline, source (magma/imo/jma/gvp), source_url, issued_at, expires_at, fetched_at | uk (destination_id, source, subject) | sys | R | trip_pack | C0 | content |
 
 ### 3.13 POI, map, content catalogue
 
@@ -396,6 +400,7 @@ original row above.
 | `ops.approvals` | user_id, subject_kind, subject_id, text_shown, approved_at, op_id | self (via API) | S | C2 | 2 y |
 | `ops.partner_adapters` | partner (agoda_demand/klook_activity/trip_com_at/viator_booking/gyg_api), enabled, copy_mode, approved_at, notes | adm | S (`client_config` exposes flags) | C0 | forever |
 | `ops.admin_audit` | admin_id, action, target_kind, target_id, reason, at, ip_hash | sys | S | C2 | 2 y |
+| `ops.supplier_calls` | supplier, endpoint (fixed label, never a URL), method, attempt, outcome (ok/http_error/timeout/network_error), status, latency_ms, cost_units, at (no bodies) | sys | S | C0 | 90 d |
 | `ops.content_reviews` | release_id, item_ref, render_key, verdict, reviewer, notes | adm | S | C0 | forever |
 | `ops.dead_letters` (view over `pgboss` DLQ) | queue, job_id, error, attempts | adm | S | C2 | 30 d |
 

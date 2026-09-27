@@ -200,7 +200,7 @@ Phase owns the migration that creates the table (later phases may add columns vi
 | 12 Entitlements, money & FX primitives | `products`, `perks`, `user_entitlements`, `trip_entitlements`, `usage_counters`, `fair_use_counters`, `fx_snapshots` |
 | 13 LLM gateway, personas, tools | `llm` schema views, `agent_jobs`, `persona_packs`, `change_sets`, `guide_actions`, `guide_offers`, `guide_offer_claims` |
 | 14 POI, map, routing | `pois`, `poi_embeddings`, `poi_live_checks`, `map_regions` |
-| 15 Fares, weather, crowds | `price_quotes`, `weather_snapshots`, `crowd_forecasts` |
+| 15 Fares, weather, crowds | `price_quotes`, `fare_cells`, `weather_snapshots`, `crowd_forecasts`, `season_months`, `season_events`, `hazard_alerts`, `ops.supplier_calls` |
 | 16 Cost & constraint engine | `cost_components`, `share_calcs` |
 | 17 Back-office & ops | `ops.concierge_tasks`, `ops.approvals`, `ops.partner_adapters`, `ops.content_reviews`, `ops.dead_letters`, `moderation_reports` |
 | 18 Content factory | `content_releases`, `critter_sets`, `critters`, `critter_forms`, `spawn_rules`, `critter_public`, `phrase_cards`, `emergency_numbers`, `facilities`, `help_articles` |

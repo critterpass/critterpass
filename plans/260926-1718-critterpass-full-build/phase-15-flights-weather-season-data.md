@@ -1,7 +1,7 @@
 ---
 phase: 15
 title: Fares, weather/marine, season & crowd data
-status: pending
+status: in_progress
 depends_on: [8, 11, 13]
 wave: 7
 features: [F-033, F-034, F-035]
@@ -103,6 +103,7 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 - Steps: 1. Drizzle tables + indexes + retention columns. 2. RLS/grants; publication + stream entries. 3. Permission tests incl. trip-scoped `price_quotes` outsider denial.
 - Tests: `pnpm --fail-if-no-match --filter @cp/db test -- permissions/price-quotes permissions/fare-cells permissions/weather-snapshots permissions/crowd-forecasts permissions/season permissions/hazard-alerts`
 - Done when: tests green; publication allow-list check passes.
+- Status: done — 5efda61c
 
 ### T2 — Travelpayouts fares adapter + nightly precompute
 - Goal: fare calendars for crew origins.
@@ -111,6 +112,7 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 - Steps: 0. Suppliers core: `fetchWithEgress`, 120 s timeout, `supplier_calls` audit writer + migration. 1. Client on the core. 2. Origins × destinations × months selection query. 3. Upsert `fare_cells`; stale marking. 4. Drop detection → `fare.dropped`. 5. `GET /v1/fares` with `seen_at`; `freezeFareQuote()`. 6. `fare_calendar` executor.
 - Tests: `pnpm --fail-if-no-match --filter @cp/suppliers test -- core travelpayouts` ; `pnpm --fail-if-no-match --filter @cp/worker test -- travel-data/fares`
 - Done when: rerun same night is a no-op; empty API response yields "no recent price" (null) not zero.
+- Status: done — be60a1c5
 
 ### T3 — Season curves, events, destination composite
 - Goal: 3d-1 data and re-pricing.
@@ -118,6 +120,7 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 - Steps: 1. Author editorial month curves + events for the 6 destinations from cited public sources (JMA/JNTO blossom normals, tourism board calendars), each row with `source` + `reviewed_at`. 2. `upsert_season_editorial` admin command. 3. `season.ingest` recompute price_index from fares. 4. `/v1/destinations/{id}?origins&month` composite (months, fares per origin, fx chip, duration chip, highlights).
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- travel-data/destination`
 - Done when: Kyoto returns APR/NOV peak tags and per-origin fares for the chosen month; missing curve returns `curve:null`.
+- Status: done — a092f34b
 
 ### T4 — Crowds route and executor (hourly source on hold)
 - Goal: 3d-3 crowd chart + "GO BEFORE 7:30".
@@ -126,6 +129,7 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 - Tests: `pnpm --fail-if-no-match --filter @cp/domain test -- best-window` ; `pnpm --fail-if-no-match --filter @cp/worker test -- travel-data/crowds`
 - Done when: Fushimi Inari fixture yields early-morning best window; POI without data → `hourly:null`.
 - Scope under D21: no hourly source yet, so skip steps 1–2 (BestTime client and refresh). Ship step 4's route and `crowd_forecast` executor on the destination month curve with `hourly: null` and `best_window: null`; keep `bestWindow` (step 3) as a tested pure function for when an hourly source exists.
+- Status: done — 1ad62a89
 
 ### T5 — WeatherAPI.com weather + marine
 - Goal: hourly forecasts per trip point.
@@ -133,6 +137,7 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 - Steps: 1. Client for `forecast.json` (hourly + daily, up to the plan's forecast days) and `marine.json`, keyed by `WEATHERAPI_KEY`; summit temperatures adjusted by POI elevation. 2. Refresh cadence per rules; snapshots per destination/date; point cache. 3. Marine for boat items. 4. Routes + `weather`/`marine` executors; attribution key.
 - Tests: `pnpm --fail-if-no-match --filter @cp/worker test -- travel-data/weather`
 - Done when: Bali trip fixture stores 7-day hourly + marine; failure keeps last snapshot with `stale:true`.
+- Status: done — 2bf0bbe9
 
 ### T6 — Hazard feeds + forecast watcher
 - Goal: volcano/warning ingest and material-change events.
@@ -140,6 +145,7 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 - Steps: 1. Adapters parse official feeds (recorded fixtures). 2. Upsert `hazard_alerts`. 3. Pure `watchForecast(prev, next, planItems)` with impact scoring. 4. Emit events into `domain_events`. 5. Register `fx.refresh`, `weather.refresh`, `hazards.refresh` crons.
 - Tests: `pnpm --fail-if-no-match --filter @cp/domain test -- watch-forecast` ; `pnpm --fail-if-no-match --filter @cp/worker test -- travel-data/hazards`
 - Done when: precip flip on an outdoor item emits one event; identical rerun emits none; Batur level change emits `hazard.changed`.
+- Status: done — 972772af
 
 ### T7 — Mobile data hooks + freshness formatting
 - Goal: client read layer for later UI phases.
@@ -147,6 +153,7 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 - Steps: 1. `hc` typed queries with offline cache (last good response persisted). 2. `formatSeen()` ("seen 3h ago"), stale flags, missing-data discriminated unions. 3. Weather/crowds read from PowerSync `trip_pack` when synced, HTTP otherwise.
 - Tests: `pnpm --fail-if-no-match --filter @cp/mobile test -- data/travel-data`
 - Done when: hooks return typed `ok | stale | missing` states; offline returns cached data with stale flag.
+- Status: done — ad1b2689
 
 ### T8 — Season events research assist (web search)
 - Goal: editors review dated event proposals with sources instead of researching every festival by hand (D23).

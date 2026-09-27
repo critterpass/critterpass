@@ -1,0 +1,160 @@
+{
+  "destination": "iceland",
+  "months": [
+    {
+      "month": 1,
+      "crowd_index": 40,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "cheapest",
+      "source": "Ferðamálastofa (Icelandic Tourist Board), Ferðaþjónusta í tölum — samantekt fyrir árið 2025, seasonal share of Keflavík departures (winter Jan-Mar+Nov-Dec = 30.2% of annual total)",
+      "source_url": "https://www.ferdamalastofa.is/is/um-ferdamalastofu/frettir/ferdathjonusta-i-tolum-samantekt-fyrir-arid-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 2,
+      "crowd_index": 38,
+      "price_index": null,
+      "highlight_tag": "FEB CHEAPEST",
+      "colour_role": "cheapest",
+      "source": "Ferðamálastofa (Icelandic Tourist Board), Ferðaþjónusta í tölum — samantekt fyrir árið 2025, seasonal share of Keflavík departures; shortest average length of stay (5.4 nights) recorded in February",
+      "source_url": "https://www.ferdamalastofa.is/is/um-ferdamalastofu/frettir/ferdathjonusta-i-tolum-samantekt-fyrir-arid-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 3,
+      "crowd_index": 48,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Ferðamálastofa (Icelandic Tourist Board), Ferðaþjónusta í tölum — samantekt fyrir árið 2025, seasonal share of Keflavík departures",
+      "source_url": "https://www.ferdamalastofa.is/is/um-ferdamalastofu/frettir/ferdathjonusta-i-tolum-samantekt-fyrir-arid-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 4,
+      "crowd_index": 55,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Ferðamálastofa (Icelandic Tourist Board), Ferðaþjónusta í tölum — samantekt fyrir árið 2025, seasonal share of Keflavík departures (shoulder Apr-May+Sep-Oct = 32.4% of annual total)",
+      "source_url": "https://www.ferdamalastofa.is/is/um-ferdamalastofu/frettir/ferdathjonusta-i-tolum-samantekt-fyrir-arid-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 5,
+      "crowd_index": 65,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Ferðamálastofa (Icelandic Tourist Board), Ferðaþjónusta í tölum — samantekt fyrir árið 2025, seasonal share of Keflavík departures",
+      "source_url": "https://www.ferdamalastofa.is/is/um-ferdamalastofu/frettir/ferdathjonusta-i-tolum-samantekt-fyrir-arid-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 6,
+      "crowd_index": 80,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "peak",
+      "source": "Ferðamálastofa (Icelandic Tourist Board), Ferðaþjónusta í tölum — samantekt fyrir árið 2025, seasonal share of Keflavík departures (summer Jun-Aug = 37.4% of annual total)",
+      "source_url": "https://www.ferdamalastofa.is/is/um-ferdamalastofu/frettir/ferdathjonusta-i-tolum-samantekt-fyrir-arid-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 7,
+      "crowd_index": 93,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "peak",
+      "source": "Ferðamálastofa (Icelandic Tourist Board), Ferðaþjónusta í tölum — samantekt fyrir árið 2025; longest average stay 8.2 nights",
+      "source_url": "https://www.ferdamalastofa.is/is/um-ferdamalastofu/frettir/ferdathjonusta-i-tolum-samantekt-fyrir-arid-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 8,
+      "crowd_index": 100,
+      "price_index": null,
+      "highlight_tag": "AUG PEAK",
+      "colour_role": "peak",
+      "source": "KEF Airport / Ferðamálastofa, 2025 foreign passenger departures peaked in August (~311,000)",
+      "source_url": "https://www.kefairport.com/news/moderate-passenger-growth-2025-and-record-year-for-tourist-arrivals",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 9,
+      "crowd_index": 70,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Ferðamálastofa (Icelandic Tourist Board), Ferðaþjónusta í tölum — samantekt fyrir árið 2025, seasonal share of Keflavík departures",
+      "source_url": "https://www.ferdamalastofa.is/is/um-ferdamalastofu/frettir/ferdathjonusta-i-tolum-samantekt-fyrir-arid-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 10,
+      "crowd_index": 58,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Ferðamálastofa (Icelandic Tourist Board), Ferðaþjónusta í tölum — samantekt fyrir árið 2025, seasonal share of Keflavík departures",
+      "source_url": "https://www.ferdamalastofa.is/is/um-ferdamalastofu/frettir/ferdathjonusta-i-tolum-samantekt-fyrir-arid-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 11,
+      "crowd_index": 42,
+      "price_index": null,
+      "highlight_tag": "NOV AIRWAVES",
+      "colour_role": "normal",
+      "source": "Ferðamálastofa (Icelandic Tourist Board), Ferðaþjónusta í tölum — samantekt fyrir árið 2025, seasonal share of Keflavík departures",
+      "source_url": "https://www.ferdamalastofa.is/is/um-ferdamalastofu/frettir/ferdathjonusta-i-tolum-samantekt-fyrir-arid-2025",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "month": 12,
+      "crowd_index": 50,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Ferðamálastofa (Icelandic Tourist Board), Ferðaþjónusta í tölum — samantekt fyrir árið 2025, seasonal share of Keflavík departures",
+      "source_url": "https://www.ferdamalastofa.is/is/um-ferdamalastofu/frettir/ferdathjonusta-i-tolum-samantekt-fyrir-arid-2025",
+      "sourced_on": "2026-09-28"
+    }
+  ],
+  "events": [
+    {
+      "key": "iceland-airwaves",
+      "kind": "festival",
+      "name": "Iceland Airwaves music festival",
+      "starts_on": "2026-11-04",
+      "ends_on": "2026-11-07",
+      "confidence": "confirmed",
+      "source": "Iceland Airwaves, official 2026 lineup and dates announcement",
+      "source_url": "https://icelandairwaves.is/lineup/",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "thjodhatid-vestmannaeyjar",
+      "kind": "festival",
+      "name": "Þjóðhátíð í Eyjum (Westman Islands festival)",
+      "starts_on": "2027-07-30",
+      "ends_on": "2027-08-02",
+      "confidence": "confirmed",
+      "source": "Dalurinn.is, official Þjóðhátíð 2027 schedule",
+      "source_url": "https://www.dalurinn.is/dagskra",
+      "sourced_on": "2026-09-28"
+    },
+    {
+      "key": "reykjavik-new-year-fireworks",
+      "kind": "holiday",
+      "name": "New Year's Eve fireworks, Reykjavík",
+      "starts_on": "2026-12-31",
+      "ends_on": "2027-01-01",
+      "confidence": "typical",
+      "source": "Visit Iceland, annual New Year's Eve fireworks tradition",
+      "source_url": "https://www.ferdamalastofa.is/is",
+      "sourced_on": "2026-09-28"
+    }
+  ]
+}

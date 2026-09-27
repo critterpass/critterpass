@@ -1,0 +1,15 @@
+{
+  "source": null,
+  "attribution": {
+    "text": "Powered by WeatherAPI.com",
+    "url": "https://www.weatherapi.com/"
+  },
+  "point": null,
+  "elevation_adjusted_to": null,
+  "fetched_at": null,
+  "checked_at": null,
+  "stale": false,
+  "hourly": [],
+  "days": [],
+  "alerts": []
+}

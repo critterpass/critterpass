@@ -1,0 +1,291 @@
+{
+  "destination": {
+    "id": "01a0e460-087b-7ec2-86ff-4dce44d715d9",
+    "slug": "kyoto",
+    "name": "kyoto",
+    "currency": "JPY",
+    "tz": "Asia/Tokyo"
+  },
+  "month": "2026-11",
+  "curve": [
+    {
+      "month": 1,
+      "crowd_index": 85,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart (peak Nov, trough Feb, 1.3x ratio; other months estimated within this published range)",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "reviewed_at": "2026-09-27T19:38:14.141Z"
+    },
+    {
+      "month": 2,
+      "crowd_index": 77,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": "FEB CHEAPEST",
+      "colour_role": "cheapest",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart, lowest month",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "reviewed_at": "2026-09-27T19:38:14.141Z"
+    },
+    {
+      "month": 3,
+      "crowd_index": 90,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart (spring rise estimated within the published 1.3x range; blossom crowds build from late March)",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "reviewed_at": "2026-09-27T19:38:14.141Z"
+    },
+    {
+      "month": 4,
+      "crowd_index": 95,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": "APR BLOSSOMS",
+      "colour_role": "peak",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart (spring peak estimated within the published 1.3x range, placed at full bloom: JMA normal full-bloom date for Kyoto falls in early April)",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "reviewed_at": "2026-09-27T19:38:14.141Z"
+    },
+    {
+      "month": 5,
+      "crowd_index": 88,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "reviewed_at": "2026-09-27T19:38:14.141Z"
+    },
+    {
+      "month": 6,
+      "crowd_index": 82,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "reviewed_at": "2026-09-27T19:38:14.141Z"
+    },
+    {
+      "month": 7,
+      "crowd_index": 85,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "reviewed_at": "2026-09-27T19:38:14.141Z"
+    },
+    {
+      "month": 8,
+      "crowd_index": 82,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "reviewed_at": "2026-09-27T19:38:14.141Z"
+    },
+    {
+      "month": 9,
+      "crowd_index": 85,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "reviewed_at": "2026-09-27T19:38:14.141Z"
+    },
+    {
+      "month": 10,
+      "crowd_index": 96,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": "OCT PEAK",
+      "colour_role": "peak",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "reviewed_at": "2026-09-27T19:38:14.141Z"
+    },
+    {
+      "month": 11,
+      "crowd_index": 100,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": "NOV LEAVES",
+      "colour_role": "peak",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — busiest month per official chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "reviewed_at": "2026-09-27T19:38:14.141Z"
+    },
+    {
+      "month": 12,
+      "crowd_index": 90,
+      "price_index": null,
+      "price_index_source": "editorial",
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Kyoto City, Reiwa 7 (2025) Kyoto Tourism Comprehensive Survey summary — monthly visitor chart",
+      "source_url": "https://www.city.kyoto.lg.jp/sankan/cmsfiles/contents/0000354/354591/gaiyo.pdf",
+      "reviewed_at": "2026-09-27T19:38:14.141Z"
+    }
+  ],
+  "best_months": [],
+  "highlights": [
+    {
+      "month": 2,
+      "tag": "FEB CHEAPEST"
+    },
+    {
+      "month": 4,
+      "tag": "APR BLOSSOMS"
+    },
+    {
+      "month": 10,
+      "tag": "OCT PEAK"
+    },
+    {
+      "month": 11,
+      "tag": "NOV LEAVES"
+    }
+  ],
+  "events": [
+    {
+      "key": "kyoto-autumn-leaves",
+      "kind": "foliage",
+      "name": "Autumn leaves season (koyo)",
+      "starts_on": "2026-11-20",
+      "ends_on": "2026-12-05",
+      "confidence": "typical",
+      "source": "Japan Meteorological Corporation autumn foliage forecast, summarized by Japan Highlights",
+      "source_url": "https://www.japanhighlights.com/japan/plan-fall-foliage-trip/kyoto",
+      "forecast_updated_at": null
+    },
+    {
+      "key": "kyoto-cherry-blossom",
+      "kind": "blossom",
+      "name": "Cherry blossom season (sakura)",
+      "starts_on": "2027-03-26",
+      "ends_on": "2027-04-10",
+      "confidence": "typical",
+      "source": "Japan Meteorological Agency normal flowering/full-bloom dates for Kyoto, summarized by Nippon.com",
+      "source_url": "https://www.nippon.com/en/japan-data/h02648/",
+      "forecast_updated_at": null
+    },
+    {
+      "key": "gion-matsuri",
+      "kind": "festival",
+      "name": "Gion Matsuri (Yamaboko Junko float parades)",
+      "starts_on": "2027-07-14",
+      "ends_on": "2027-07-24",
+      "confidence": "typical",
+      "source": "Kyoto City Tourism Association, annual Gion Matsuri schedule",
+      "source_url": "https://www.kyokanko.or.jp/survey_list/",
+      "forecast_updated_at": null
+    },
+    {
+      "key": "gozan-no-okuribi",
+      "kind": "festival",
+      "name": "Gozan no Okuribi (Daimonji bonfire)",
+      "starts_on": "2027-08-16",
+      "ends_on": "2027-08-16",
+      "confidence": "typical",
+      "source": "Kyoto City Tourism Association, annual Gozan Okuribi date",
+      "source_url": "https://www.kyokanko.or.jp/survey_list/",
+      "forecast_updated_at": null
+    }
+  ],
+  "fares": [
+    {
+      "origin": "SIN",
+      "state": "ok",
+      "source": "travelpayouts",
+      "price_minor": 41000,
+      "currency": "USD",
+      "depart_on": "2026-11-11",
+      "return_on": "2026-11-19",
+      "transfers": 0,
+      "duration_min": 175,
+      "fastest_duration_min": 165,
+      "days": [
+        {
+          "depart_on": "2026-11-11",
+          "return_on": "2026-11-19",
+          "price_minor": 41000,
+          "transfers": 0
+        }
+      ],
+      "seen_at": "2026-09-27T18:38:14.261Z",
+      "fetched_at": "2026-09-27T18:38:14.261Z",
+      "checked_at": "2026-09-27T19:38:14.263Z",
+      "via_hub": null
+    },
+    {
+      "origin": "KUL",
+      "state": "ok",
+      "source": "travelpayouts",
+      "price_minor": 45500,
+      "currency": "USD",
+      "depart_on": "2026-11-11",
+      "return_on": "2026-11-19",
+      "transfers": 0,
+      "duration_min": 175,
+      "fastest_duration_min": 165,
+      "days": [
+        {
+          "depart_on": "2026-11-11",
+          "return_on": "2026-11-19",
+          "price_minor": 45500,
+          "transfers": 0
+        }
+      ],
+      "seen_at": "2026-09-27T18:38:14.389Z",
+      "fetched_at": "2026-09-27T18:38:14.389Z",
+      "checked_at": "2026-09-27T19:38:14.400Z",
+      "via_hub": null
+    },
+    {
+      "origin": "BKK",
+      "state": "missing",
+      "source": "travelpayouts",
+      "price_minor": null,
+      "currency": "USD",
+      "depart_on": null,
+      "return_on": null,
+      "transfers": null,
+      "duration_min": null,
+      "fastest_duration_min": null,
+      "days": [],
+      "seen_at": null,
+      "fetched_at": null,
+      "checked_at": null,
+      "via_hub": null
+    }
+  ],
+  "fx": {
+    "from": {
+      "amount_minor": 1000,
+      "currency": "JPY"
+    },
+    "to": {
+      "amount_minor": 671,
+      "currency": "USD"
+    },
+    "rate": 0.0067069486,
+    "snapshot_id": "01a0e460-093b-72a6-a1bf-328eb23894b0",
+    "as_of": "2026-09-27",
+    "source": "frankfurter",
+    "stale": false
+  }
+}
