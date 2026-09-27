@@ -100,6 +100,10 @@ export const apiEnvSchema = z.object({
   /** Mapbox Geocoding v6 server key (src/geocoding/mapbox.ts); omitted = forward geocoding stays
    *  local-only (our pois + cities), no Mapbox fallback for addresses. */
   MAPBOX_TOKEN: optionalString,
+  /** Public base URL the `cp-tiles` R2 bucket (or its `tiles.critterpass.app` custom domain, once
+   *  attached — infra/cloudflare/tiles/wrangler.toml) serves PMTiles/fonts/sprite from; read by
+   *  src/places/map-regions.ts to build the manifest's `url`. */
+  TILES_BASE_URL: z.url().default('https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev'),
 });
 
 export type ApiEnv = z.infer<typeof apiEnvSchema>;
