@@ -1,0 +1,22 @@
+---
+import '../styles/coming-soon-sections.css';
+import { CITY_TICKER } from '../lib/guides';
+---
+
+<div class="cs-ticker" aria-hidden="true">
+  <div class="cs-ticker__track">
+    {
+      [0, 1].map((copy) => (
+        <div class="cs-ticker__group" data-copy={copy}>
+          {CITY_TICKER.map((entry) => (
+            <span style="display:contents">
+              <span>{entry.city}</span>
+              <span class="cs-ticker__who">{entry.who}</span>
+              <span>✦</span>
+            </span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>

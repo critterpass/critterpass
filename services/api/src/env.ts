@@ -3,6 +3,7 @@ import { z } from 'zod';
 /** Env files (and unresolved platform references) write unset values as `KEY=`; treat `''` as absent. */
 const emptyAsUndefined = (value: unknown) => (value === '' ? undefined : value);
 const optionalUrl = z.preprocess(emptyAsUndefined, z.url().optional());
+const optionalString = z.preprocess(emptyAsUndefined, z.string().min(1).optional());
 
 /** Runtime configuration for the api service, validated once at boot. */
 export const apiEnvSchema = z.object({
@@ -20,6 +21,9 @@ export const apiEnvSchema = z.object({
   SENTRY_DSN: optionalUrl,
   OTEL_EXPORTER_OTLP_ENDPOINT: optionalUrl,
   COMMIT_SHA: z.preprocess(emptyAsUndefined, z.string().min(1).default('dev')),
+  /** Mapbox Geocoding v6 server key (src/geocoding/mapbox.ts); omitted = forward geocoding stays
+   *  local-only (our pois + cities), no Mapbox fallback for addresses. */
+  MAPBOX_TOKEN: optionalString,
 });
 
 export type ApiEnv = z.infer<typeof apiEnvSchema>;

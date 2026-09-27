@@ -25,6 +25,7 @@ Sources: master synthesis §0.2 (C1–C48), §1.3, §3, §8, §10.1, §10.4; cus
 | Versioning | Mutable collaborative rows carry `version int NOT NULL DEFAULT 1` (bumped by command handlers; optimistic concurrency via `base_version` in commands) |
 | JSON | `jsonb` only for bounded, schema-validated blobs (zod in `packages/domain`); never for anything filtered by policy or stream |
 | Text search | `tsvector` generated columns + `pg_trgm` GIN; embeddings `vector(1024)` (pgvector HNSW, cosine) |
+| Geo | PostGIS `geography(...)` columns (Point/Polygon/MultiPolygon, SRID 4326) with GiST indexes for near-me ranking, reverse geocoding and geofence containment (§3.13) |
 | Encryption | C3 secret fields: `bytea` AES-256-GCM envelope (`key_id`, nonce, ciphertext) via `packages/db/crypto`; lookups via `*_hash bytea` (HMAC-SHA256, pepper in Railway variables). Keys rotate yearly (re-encrypt job) |
 | Naming | snake_case plural tables; `*_id` FKs; booleans `is_*`/`has_*`; migrations `<timestamp>_<what>.sql`, no plan/phase/feature ids |
 | Privacy class | C0 public · C1 crew-visible · C2 personal · C3 sensitive (split table, owner-only, not published, not in `llm`) · C4 biometric/minors (on-device only, never stored) · C5 financial record (retained, user link anonymised on deletion) |
@@ -137,7 +138,7 @@ Epochs: every join/leave/remove increments `crews.membership_epoch` in the same 
 |---|---|---|---|---|---|---|---|
 | `trips` | crew_id, status, setup_step, phase (generated from status), destination_id?, guide_id, is_guest_guide, is_solo, start_date, end_date, tz, local_currency, seat_cap (derived 6/16), plan_progress, redrafts_used, redraft_limit (derived), current_version_id, draft_version_id, reply_by, cancelled_at | (crew_id, status) | mem read; org transitions | T | crews (header), trip | C1 | acct/crew |
 | `trip_participants` | trip_id, user_id, role (organiser/member), rsvp (unopened/opened/maybe/in/out/waitlisted), holds_seat (generated), waitlist_position, chosen_options jsonb, landed_at, countdown_target_at, egg_id | uk (trip_id, user_id); partial idx holds_seat | self (rsvp), org | T | trip | C1 status / C2 options | life |
-| `destinations` | slug, name, country, guide_id, coverage (live/guest), colour, currency, best_months int[], tz, geo bbox | uk slug | adm | R | catalog | C0 | content |
+| `destinations` | slug, name, country, guide_id, coverage (live/guest), colour, currency, best_months int[], tz, geo bbox, geofence geography(MultiPolygon,4326) (doc delta: seeded from Overture locality/division polygons at ingest, see §3.13 geo note) | uk slug | adm | R | catalog | C0 | content |
 | `guides` | slug, name, colour (C5 canonical), persona_pack_version, voice_id (ElevenLabs), local_words jsonb | uk slug | adm | R | catalog | C0 | content |
 | `pitches` | trip_id, destination_id, pitched_by, sections jsonb, quote_ids uuid[], model, prompt_version, status (pitched/on_board/queued/final/won/back_in_deck) | (trip_id) | mem | T | trip | C1 | life |
 | `polls` | crew_id, trip_id?, kind (destination/generic/day_option/changeset_approval/decision/mvp), stage (board/final), status, eligible_voter_ids uuid[] (snapshot), decider_policy (organiser/any_affected/majority_of_affected/threshold_n), threshold, closes_at, allow_change, tie_rule, winner_option_id, closed_at | (trip_id, status); (closes_at) WHERE open | mem create (kind-specific), org close | M | trip, crew_polls | C1 | life |
@@ -328,14 +329,24 @@ No in-app money movement (C24). Boost split = IOU `ledger_entries(source_kind='b
 
 | Table | Key columns | Relations / indexes | Authz | RLS | Stream | Class | Ret |
 |---|---|---|---|---|---|---|---|
-| `pois` | destination_id, name, name_local, category, geo geography(Point), address, hours jsonb, price_level, source_ids jsonb (fsq_os/overture/editorial), editorial jsonb, tags text[], fts tsvector, status, last_live_check_at | GIST geo; GIN fts, trgm name | adm / content pipeline | R | trip_pack (trip destinations), explore (param) | C0 | content |
+| `pois` | destination_id, name, name_local, category, lat/lng double precision, location geography(Point,4326) (generated from lat/lng), address, hours jsonb, hours_verified_at, price_level, source_ids jsonb (fsq_os/overture/editorial), editorial jsonb, tags text[], fts tsvector, status, curation (auto/editorial), merged_into_id, geofence geography(Polygon,4326), visit_radius_m, timezone, last_live_check_at | GIST `location`; GIN fts, trgm name; partial unique on source_ids->>fsq_os / ->>overture | adm / content pipeline | R | trip_pack (trip destinations), explore (param) | C0 | content |
 | `poi_embeddings` | poi_id, model, embedding vector(1024) | HNSW | sys | S (server search) | — | C0 | content |
 | `poi_live_checks` | poi_id, is_open_now, closed_permanently, checked_at (Foursquare live flags only; no FSQ content) | uk poi_id | sys | R | — | C0 | 7 d |
 | `place_tips` | poi_id, author_id (hidden), text, lang, moderation_status | poi_id | any | R (author column revoked) | explore | C0 | acct → anonymised |
 | `content_releases` | kind (critters/personas/places/phrases/tips/help), version, checksum, approved_by, approved_at, status (draft/review/approved/published) | uk (kind, version) | adm | S | — | C0 | forever |
 | `persona_packs` | guide_id, version, system_prompt_ref, style jsonb, lexicon jsonb, voice_settings | uk (guide_id, version) | adm | S (`llm` view) | — | C0 | forever |
 | `help_articles` | slug, locale, title, body_md, category, embedding vector(1024) | uk (slug, locale) | adm | R | help (param) | C0 | content |
-| `map_regions` | destination_id, pmtiles_key, bytes, version | destination_id | adm | R | trip_pack | C0 | content |
+| `map_regions` | destination_id, pmtiles_key, bytes, version | destination_id, uk (destination_id, version) | adm | R | trip_pack | C0 | content |
+| `cities` (doc delta) | name, country, lat/lng double precision, location geography(Point,4326) (generated from lat/lng), population, iata_nearby text[], source_id (Overture) | uk source_id; GIST `location`; trgm name | adm / content pipeline | R | — (not synced; served via `/v1/geocode*`) | C0 | content |
+
+`pois`/`cities` geo columns (doc delta): `lat double precision, lng double precision` are kept
+alongside `location geography(Point,4326)` (a `STORED GENERATED ALWAYS AS` column, PostGIS confirmed
+available on the local/test image and on PlanetScale staging) so synced clients keep reading plain
+numbers while near-me ranking, reverse geocoding and KNN ordering use `location`'s GiST index
+instead; `pois.geofence` and `destinations.geofence` (§3.3) are `geography(Polygon,4326)`/
+`geography(MultiPolygon,4326)`, per the architecture. `pois.curation`, `hours_verified_at`,
+`merged_into_id`, `geofence`, `visit_radius_m` and `timezone` are additive columns beyond the
+original row above.
 
 ### 3.14 Entitlements, purchases, boosts, codes, meters
 

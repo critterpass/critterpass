@@ -1,0 +1,43 @@
+---
+import '../styles/coming-soon.css';
+---
+
+<div class="cs-joined" data-cs="joined-panel" hidden>
+  <div class="cs-joined__top">
+    <span class="cs-joined__guide">
+      <cp-critter data-cs="joined-guide-critter" kind="gecko" seed="41" size="96" pose="cheer" sticker="#f4efe4"></cp-critter>
+    </span>
+    <div class="cs-joined__spot">
+      <span class="cs-joined__spot-label">YOUR PLACE IN LINE</span>
+      <span class="cs-joined__spot-value">#<span data-cs="spot-value">—</span></span>
+    </div>
+    <span class="cs-joined__line">
+      <span data-cs="joined-guide-name">Tokek</span>'s saving you<br />a seat in <span data-cs="joined-guide-place">Bali</span>.
+    </span>
+  </div>
+
+  <div class="cs-referral">
+    <span class="cs-referral__title">BRING YOUR CREW, SKIP THE LINE</span>
+    <p class="cs-referral__copy">
+      Every friend who joins with your link moves you 100 spots up. Three friends and you're in the first wave.
+    </p>
+    <div class="cs-referral__row">
+      <span class="cs-referral__link" data-cs="referral-link">critterpass.app/w/friend</span>
+      <button type="button" class="cs-copy-btn" data-cs="copy-link">COPY LINK</button>
+    </div>
+    <div class="cs-share-row">
+      <a href="#" target="_blank" rel="noopener" class="cs-share-btn" data-cs="share-whatsapp">WHATSAPP</a>
+      <a href="#" class="cs-share-btn" data-cs="share-messages">MESSAGES</a>
+      <button type="button" class="cs-share-btn" data-cs="share-instagram">INSTAGRAM</button>
+    </div>
+    <div class="cs-friends-row">
+      <div class="cs-friends-avatars" data-cs="friends-avatars">
+        <span class="cs-friend-avatar">+</span>
+        <span class="cs-friend-avatar">+</span>
+        <span class="cs-friend-avatar">+</span>
+      </div>
+      <span class="cs-friends-count"><span data-cs="friends-count">0</span> OF 3 FRIENDS JOINED</span>
+      <button type="button" class="cs-reset-btn" data-cs="reset-email">Use a different email</button>
+    </div>
+  </div>
+</div>

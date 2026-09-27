@@ -1,0 +1,71 @@
+---
+import '../styles/coming-soon.css';
+import { DESTINATIONS } from '../lib/waitlist';
+import { GUIDES, guideForDestination } from '../lib/guides';
+---
+
+<form data-cs="join-form" class="cs-ticket__body" novalidate>
+  <div class="cs-field-group">
+    <span class="cs-field-group__label">WHERE ARE YOU HEADED FIRST?</span>
+    <div class="cs-chips" role="group" aria-label="Choose your first destination" data-cs="chips">
+      {
+        DESTINATIONS.map((destination, index) => {
+          const guide = guideForDestination(destination.key);
+          return (
+            <button
+              type="button"
+              class="cs-chip"
+              data-cs="chip"
+              data-destination={destination.key}
+              aria-pressed={index === 0 ? 'true' : 'false'}
+              style={index === 0 ? `background:${guide.bg}` : undefined}
+            >
+              <cp-critter kind={destination.kind} seed={destination.seed} size="32" label={`${guide.name}, ${destination.city}`} />
+              {destination.city}
+            </button>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <div class="cs-form-row">
+    <input
+      type="email"
+      name="email"
+      autocomplete="email"
+      inputmode="email"
+      required
+      placeholder="you@email.com"
+      class="cs-email"
+      data-cs="email-input"
+      aria-describedby="cs-join-note"
+    />
+    <button type="submit" class="cs-submit" data-cs="join-submit">SAVE MY SEAT →</button>
+  </div>
+
+  <div class="cs-honeypot" aria-hidden="true">
+    <label for="cs-company">Company</label>
+    <input type="text" id="cs-company" name="company" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <span id="cs-join-note" class="cs-note" data-cs="join-note">
+    One email when we launch. Maybe two. Never spam.
+  </span>
+
+  <div class="cs-wave">
+    <div class="cs-wave__row">
+      <span>FIRST WAVE · <span data-cs="wave-left">4,500</span> SEATS LEFT</span>
+      <span><span data-cs="wave-count">500</span> / 5,000</span>
+    </div>
+    <div class="cs-wave__track">
+      <div class="cs-wave__fill" data-cs="wave-fill" style="width:10%"></div>
+    </div>
+  </div>
+</form>
+
+<template data-cs="guide-options">
+  {GUIDES.map((guide) => (
+    <span data-destination={guide.destinationKey} data-bg={guide.bg} data-name={guide.name} data-place={guide.place} />
+  ))}
+</template>

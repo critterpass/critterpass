@@ -5,10 +5,30 @@
  */
 import { registerTablePrivacy } from '@cp/domain';
 import { sql } from 'drizzle-orm';
-import { boolean, date, integer, jsonb, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  customType,
+  date,
+  integer,
+  jsonb,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from 'drizzle-orm/pg-core';
 
 import { crews } from './crews';
 import { users } from './identity';
+
+/**
+ * PostGIS `geography(MultiPolygon,4326)`, seeded from Overture locality/division polygons at ingest
+ * (packages/db/migrations/*_places_postgis.sql; column added by *_pois_and_map_regions.sql). Drizzle
+ * has no core-API geography type, so this is typed as its WKB-hex text wire representation, same
+ * convention `packages/db/src/schema/places.ts` uses for `pois.geofence`.
+ */
+const geographyMultiPolygon = customType<{ data: string }>({
+  dataType: () => 'geography(MultiPolygon,4326)',
+});
 
 export const destinations = pgTable('destinations', {
   id: uuid('id')
@@ -22,6 +42,8 @@ export const destinations = pgTable('destinations', {
   currency: text('currency'),
   bestMonths: integer('best_months').array(),
   tz: text('tz'),
+  /** Place-level geofence for all 61 places, reviewed in the content factory. No consumer yet. */
+  geofence: geographyMultiPolygon('geofence'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

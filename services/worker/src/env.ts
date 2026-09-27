@@ -3,6 +3,7 @@ import { z } from 'zod';
 /** Env files (and unresolved platform references) write unset values as `KEY=`; treat `''` as absent. */
 const emptyAsUndefined = (value: unknown) => (value === '' ? undefined : value);
 const optionalUrl = z.preprocess(emptyAsUndefined, z.url().optional());
+const optionalString = z.preprocess(emptyAsUndefined, z.string().min(1).optional());
 
 /** Runtime configuration for the worker service, validated once at boot. */
 export const workerEnvSchema = z.object({
@@ -17,6 +18,13 @@ export const workerEnvSchema = z.object({
   SENTRY_DSN: optionalUrl,
   OTEL_EXPORTER_OTLP_ENDPOINT: optionalUrl,
   COMMIT_SHA: z.preprocess(emptyAsUndefined, z.string().min(1).default('dev')),
+  /** Foursquare Places API key for live open/closed checks (src/places/live-check.ts); omitted =
+   *  live checks never run (no Foursquare Places API account configured). */
+  FOURSQUARE_API_KEY: optionalString,
+  /** Overrides the Overture release path in src/places/ingest.ts. */
+  OVERTURE_RELEASE: optionalString,
+  /** A parquet export standing in for FSQ OS Places' gated Iceberg catalog; unset = Overture-only ingest. */
+  FSQ_OS_PLACES_PARQUET_URI: optionalString,
 });
 
 export type WorkerEnv = z.infer<typeof workerEnvSchema>;

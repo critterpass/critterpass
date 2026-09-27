@@ -1,0 +1,157 @@
+---
+import '../styles/coming-soon-sections.css';
+import '../styles/coming-soon-cards.css';
+import { PASS_PEEK } from '../lib/hatch-pool';
+---
+
+<section class="cs-features" aria-label="What you're waiting for">
+  <div class="cs-features__inner">
+    <div class="cs-features__head">
+      <h2 class="cs-features__title">What you're<br />waiting for</h2>
+      <span class="cs-features__quip">from "idk" to wheels down ↓</span>
+    </div>
+
+    <div class="cs-cards">
+      <article class="cs-card cs-card--swipe">
+        <div class="cs-card__art">
+          <div class="cs-swipe-stack">
+            <div class="cs-swipe-stack__back-a"></div>
+            <div class="cs-swipe-stack__back-b"></div>
+            <div class="cs-swipe-stack__top">
+              <cp-critter kind="cp-005" seed="5" size="92" sticker="#f4efe4" />
+              <span class="cs-swipe-stack__city">HỘI AN</span>
+              <span class="cs-swipe-stack__tag">LANTERN TOWN</span>
+            </div>
+            <span class="cs-swipe-stack__yes">YES!</span>
+          </div>
+          <div class="cs-swipe-tally">
+            <span class="cs-swipe-tally__bars">
+              <span class="cs-swipe-tally__bar" data-filled="true"></span>
+              <span class="cs-swipe-tally__bar" data-filled="true"></span>
+              <span class="cs-swipe-tally__bar" data-filled="true"></span>
+              <span class="cs-swipe-tally__bar" data-filled="true"></span>
+              <span class="cs-swipe-tally__bar" data-filled="true"></span>
+              <span class="cs-swipe-tally__bar"></span>
+            </span>
+            5 OF 6
+          </div>
+        </div>
+        <div class="cs-card__body">
+          <span class="cs-card__index">01</span>
+          <span class="cs-card__title">SWIPE TO PICK</span>
+          <span class="cs-card__desc">Everyone swipes through the shortlist. The tally fills live and the winner is settled in minutes.</span>
+        </div>
+      </article>
+
+      <article class="cs-card cs-card--ask">
+        <div class="cs-card__art">
+          <div class="cs-chat-bubble">It's pouring. Plan B?</div>
+          <div class="cs-chat-row">
+            <div class="cs-chat-row__guide"><cp-critter kind="gecko" seed="41" size="60" pose="point" sticker="#f4efe4" /></div>
+            <div class="cs-chat-row__replies">
+              <div class="cs-chat-bubble cs-chat-bubble--reply">Cooking class at 2pm. Beach moves to Friday.</div>
+              <span class="cs-chat-status">✓ PLAN UPDATED FOR 6</span>
+            </div>
+          </div>
+        </div>
+        <div class="cs-card__body">
+          <span class="cs-card__index">02</span>
+          <span class="cs-card__title">ASK THE LOCAL</span>
+          <span class="cs-card__desc">The guide drafts the plan and answers anything, by voice or text. Rain on Thursday? It proposes a swap.</span>
+        </div>
+      </article>
+
+      <article class="cs-card cs-card--plan">
+        <div class="cs-card__art">
+          <div class="cs-plan-day">
+            <span class="cs-plan-day__date">THU 14</span>
+            <span class="cs-plan-day__editing">
+              <span class="cs-plan-day__avatars">
+                <span class="cs-plan-day__avatar" style="background:var(--color-pink)"></span>
+                <span class="cs-plan-day__avatar" style="background:var(--color-blue)"></span>
+                <span class="cs-plan-day__avatar" style="background:var(--color-paper-base)"></span>
+              </span>
+              EDITING
+            </span>
+          </div>
+          <div class="cs-plan-row"><span class="cs-plan-row__time">09:00</span>Batur sunrise hike</div>
+          <div class="cs-plan-row cs-plan-row--active">
+            <span class="cs-plan-row__time">13:00</span>Cooking class<span class="cs-plan-row__avatar">M</span>
+          </div>
+          <div class="cs-plan-row"><span class="cs-plan-row__time">18:00</span>Sunset at Uluwatu</div>
+        </div>
+        <div class="cs-card__body">
+          <span class="cs-card__index">03</span>
+          <span class="cs-card__title">PLAN TOGETHER</span>
+          <span class="cs-card__desc">Drag anything to a new slot and the rest of the day shifts to make room, for everyone at once.</span>
+        </div>
+      </article>
+
+      <article class="cs-card cs-card--split">
+        <div class="cs-card__art">
+          <div class="cs-receipt">
+            <span class="cs-receipt__title">WARUNG MADE</span>
+            <span class="cs-receipt__line"><span>Babi guling</span><span>48</span></span>
+            <span class="cs-receipt__line"><span>Nasi campur</span><span>30</span></span>
+            <span class="cs-receipt__line"><span>Es kelapa ×4</span><span>18</span></span>
+            <span class="cs-receipt__total"><span>TOTAL</span><span>$96</span></span>
+          </div>
+          <div class="cs-split-total">
+            <span class="cs-split-total__value">$24</span>
+            <span class="cs-split-total__label">EACH · 4 WAYS</span>
+            <div class="cs-split-total__avatars">
+              <span class="cs-split-total__avatar" style="background:var(--color-pink)"></span>
+              <span class="cs-split-total__avatar" style="background:var(--color-blue)"></span>
+              <span class="cs-split-total__avatar" style="background:var(--color-yellow)"></span>
+              <span class="cs-split-total__avatar" style="background:var(--color-paper-base)"></span>
+            </div>
+          </div>
+        </div>
+        <div class="cs-card__body">
+          <span class="cs-card__index">04</span>
+          <span class="cs-card__title">SPLIT IT</span>
+          <span class="cs-card__desc">Scan the receipt, split it however you like, settle up. Nobody keeps a spreadsheet.</span>
+        </div>
+      </article>
+
+      <article class="cs-card cs-card--collect">
+        <div class="cs-card__art">
+          <div class="cs-pass-peek">
+            {
+              PASS_PEEK.map((peek) => (
+                <div class="cs-pass-peek__slot">
+                  <cp-critter kind={peek.id} seed={1} size="48" sticker="#f4efe4" variant={peek.locked ? 'mask' : undefined} />
+                  <span class="cs-pass-peek__num">{peek.num}</span>
+                </div>
+              ))
+            }
+          </div>
+          <span class="cs-pass-peek__count">4 / 150</span>
+        </div>
+        <div class="cs-card__body">
+          <span class="cs-card__index">05</span>
+          <span class="cs-card__title">COLLECT THE PASS</span>
+          <span class="cs-card__desc">When you land somewhere, that place's local joins your pass. Stay a while and more of them turn up.</span>
+        </div>
+      </article>
+
+      <article class="cs-card cs-card--surprise">
+        <div class="cs-card__art">
+          <div class="cs-brief">
+            <span class="cs-brief__label">FEATURE BRIEF · v0.9</span>
+            <span class="cs-brief__line" style="width:90%"></span>
+            <span class="cs-brief__line" style="width:70%"></span>
+            <span class="cs-brief__line" style="width:82%"></span>
+            <span class="cs-brief__line" style="width:46%"></span>
+          </div>
+          <span class="cs-classified">CLASSIFIED</span>
+        </div>
+        <div class="cs-card__body">
+          <span class="cs-card__index">06</span>
+          <span class="cs-card__title">A FEW MORE SURPRISES</span>
+          <span class="cs-card__desc">There's more on board that we're not showing yet. People on the list see it first.</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
