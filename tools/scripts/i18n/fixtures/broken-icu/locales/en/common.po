@@ -1,0 +1,6 @@
+msgid ""
+msgstr ""
+"Language: en\n"
+
+msgid "trip.itemCount.label"
+msgstr "{count, plural, one {# item} other {# items}}"

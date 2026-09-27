@@ -1,0 +1,9 @@
+msgid ""
+msgstr ""
+"Language: vi\n"
+
+msgid "common.retry.label"
+msgstr "Thử lại"
+
+msgid "common.cancel.label"
+msgstr "Hủy"
