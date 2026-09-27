@@ -1,8 +1,11 @@
 /**
  * The real dependencies behind `startAppSession`: the Better Auth Expo client against this build's
  * api, the SQLCipher PowerSync database, the App Group (cp-app-group), React Native's `AppState`
- * and the persisted realtime positions. Not unit-tested itself (it only hands native modules over); the sequence it starts
- * is tested on a real database in __tests__/start-app-session.test.ts.
+ * and the persisted realtime positions. Not unit-tested itself (it only hands native modules
+ * over); the sequence it starts is tested on a real database in __tests__/start-app-session.test.tsx.
+ *
+ * The root route hands the App Group over once (`configureDeviceAppGroup`), since native modules
+ * are imported by routes only.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer: wire values and a
    developer-facing log prefix, never copy. */
@@ -10,7 +13,8 @@ import Constants from 'expo-constants';
 import { AppState } from 'react-native';
 import { createMMKV } from 'react-native-mmkv';
 
-import { createAuthDataLayer, createMobileAuthClient } from '../auth';
+import { createLinkResolverClient, type ClaimDevice } from '../../lib/links/resolver-client';
+import { createAuthDataLayer, createMobileAuthClient, type MobileAuthClient } from '../auth';
 import { createDeviceResolver } from '../commands/device';
 import type { ExtensionOutbox } from '../commands/drain-extension-outbox';
 import { resolveApiBaseUrl } from '../places/apiBaseUrl';
@@ -18,6 +22,7 @@ import { startLocalFirst } from '../powersync/db';
 import type { AppStateSource } from '../realtime/client';
 import { createDeviceRecoveryStore } from '../realtime/device-recovery-store';
 import { appEnvironment, endpointsConfigJson, resolveRealtimeUrl } from './endpoints';
+import { createLinksHttp } from './links-http';
 import { startAppSession, type AppSession } from './start-app-session';
 
 function appScheme(): string {
@@ -48,23 +53,66 @@ export interface AppGroupAccess {
   writeEndpointsConfig(json: string): void;
 }
 
+let appGroup: AppGroupAccess | null = null;
+
+export function configureDeviceAppGroup(access: AppGroupAccess): void {
+  appGroup = access;
+}
+
+let client: MobileAuthClient | null = null;
+
+function authClient(): MobileAuthClient {
+  client ??= createMobileAuthClient({ baseUrl: resolveApiBaseUrl(), scheme: appScheme() });
+  return client;
+}
+
+async function sessionHeaders(): Promise<Record<string, string>> {
+  return { cookie: await authClient().getCookie() };
+}
+
 let starting: Promise<AppSession> | null = null;
 
 /** Starts the app's session once per process; a failed start (e.g. offline) retries on next call. */
-export function startDeviceAppSession(appGroup: AppGroupAccess): Promise<AppSession> {
-  starting ??= createSession(appGroup).catch((error: unknown) => {
+export function startDeviceAppSession(): Promise<AppSession> {
+  starting ??= createSession().catch((error: unknown) => {
     starting = null;
     throw error;
   });
   return starting;
 }
 
-function createSession(appGroup: AppGroupAccess): Promise<AppSession> {
-  const client = createMobileAuthClient({ baseUrl: resolveApiBaseUrl(), scheme: appScheme() });
-  const auth = createAuthDataLayer(client);
+const deviceResolver = createDeviceResolver();
+
+/**
+ * The first-launch deferred link claim (features/launch/DeferredLinkGate.tsx). The claim is
+ * signed-in, so it waits for the session start (the deferred check bounds the wait) and goes out
+ * with whatever session exists by then.
+ */
+export const deviceLinkClaims = {
+  client: createLinkResolverClient(
+    createLinksHttp({
+      baseUrl: resolveApiBaseUrl(),
+      sessionHeaders: async () => {
+        await startDeviceAppSession().catch(() => undefined);
+        return sessionHeaders();
+      },
+    }),
+  ),
+  async device(): Promise<ClaimDevice> {
+    const device = await deviceResolver();
+    return { ...device, platform: device.platform === 'android' ? 'android' : 'ios' };
+  },
+};
+
+function createSession(): Promise<AppSession> {
+  const group = appGroup;
+  if (group === null) {
+    return Promise.reject(new Error('configureDeviceAppGroup must run before the session starts'));
+  }
+  const auth = createAuthDataLayer(authClient());
   return startAppSession({
     writeEndpoints: () =>
-      appGroup.writeEndpointsConfig(
+      group.writeEndpointsConfig(
         endpointsConfigJson({
           env: appEnvironment(Constants.expoConfig?.extra?.appVariant),
           apiBaseUrl: resolveApiBaseUrl(),
@@ -75,7 +123,7 @@ function createSession(appGroup: AppGroupAccess): Promise<AppSession> {
       ensureAnonymous: () => auth.ensureAnonymous(),
       getSyncToken: () => auth.getSyncToken(),
       getRealtimeToken: () => auth.getRealtimeToken(),
-      sessionHeaders: async () => ({ cookie: await client.getCookie() }),
+      sessionHeaders,
     },
     lastUid: {
       read: () => storage.getString(LAST_UID_KEY) ?? null,
@@ -85,9 +133,10 @@ function createSession(appGroup: AppGroupAccess): Promise<AppSession> {
       },
     },
     startLocalFirst,
-    outbox: appGroup.outbox,
-    device: createDeviceResolver(),
+    outbox: group.outbox,
+    device: deviceResolver,
     appState: deviceAppState,
+    linksHttp: createLinksHttp({ baseUrl: resolveApiBaseUrl(), sessionHeaders }),
     realtime: { url: resolveRealtimeUrl(), positions: createDeviceRecoveryStore() },
     onError: reportAppSessionError,
   });

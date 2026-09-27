@@ -12,6 +12,7 @@ import {
 } from '../../powersync/test-support/local-first-fixture';
 import { removeDir, tempDatabaseDir } from '../../powersync/test-support/open-node-database';
 import { fileOutbox, type FileOutbox } from '../../commands/test-support/file-outbox';
+import { fakeLinksHttp, standardRoutes } from '../../../lib/links/test-support/fake-links-http';
 import { createDeviceRecoveryStore } from '../../realtime/device-recovery-store';
 import { lifecycle, type Lifecycle } from '../../realtime/test-support/lifecycle';
 import { startAppSession, type AppSession, type AppSessionDeps } from '../start-app-session';
@@ -49,6 +50,8 @@ export interface SessionHarness {
   readonly outbox: FileOutbox;
   readonly endpointWrites: string[];
   readonly errors: unknown[];
+  /** Every request to the link endpoints, answered from recorded fixtures. */
+  readonly linkRequests: { method: string; path: string; body?: unknown }[];
   readonly start: () => Promise<AppSession>;
   readonly close: () => Promise<void>;
 }
@@ -66,6 +69,7 @@ export function sessionHarness(options: {
   const errors: unknown[] = [];
   const appState = lifecycle();
   const lastUid = options.lastUid ?? memoryLastUid();
+  const links = fakeLinksHttp(standardRoutes);
   const value: AppSessionDeps = {
     writeEndpoints: () => endpointWrites.push('config/endpoints.json'),
     auth: {
@@ -87,6 +91,7 @@ export function sessionHarness(options: {
     outbox,
     device: () => Promise.resolve(TEST_DEVICE),
     appState,
+    linksHttp: links.http,
     realtime: { url: UNREACHABLE_WS, positions: createDeviceRecoveryStore() },
     onError: (error) => errors.push(error),
   };
@@ -98,6 +103,7 @@ export function sessionHarness(options: {
     outbox,
     endpointWrites,
     errors,
+    linkRequests: links.requests,
     start: async () => {
       const session = await startAppSession(value);
       sessions.push(session);

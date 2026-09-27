@@ -5,7 +5,8 @@
  * 2. the anonymous-first session (an existing one is reused; offline, the last started uid);
  * 3. the local-first database, uploads and sync for that uid;
  * 4. the App Group outbox drain, now and on every return to the foreground;
- * 5. the realtime connection with its background policy.
+ * 5. the realtime connection with its background policy;
+ * 6. the link router's state checks (the resolver) and local membership lookups.
  *
  * Every native and network dependency is passed in (./device-session.ts wires the real ones), so
  * the whole sequence runs under Jest on a real database.
@@ -18,6 +19,8 @@ import {
   startExtensionOutboxDrain,
   type ExtensionOutbox,
 } from '../commands/drain-extension-outbox';
+import { createLinkResolverClient, type LinksHttp } from '../../lib/links/resolver-client';
+import { configureLinkRouter } from '../../lib/links/router';
 import type { LocalFirstAuth } from '../powersync/db';
 import type { LocalFirstContextValue } from '../powersync/local-first-context';
 import {
@@ -27,6 +30,7 @@ import {
   type RealtimeClient,
 } from '../realtime/client';
 import type { RecoveryStore } from '../realtime/recovery-store';
+import { watchLinkMembership } from './link-membership';
 
 export interface AppSessionAuth extends LocalFirstAuth {
   /** Idempotent: reuses the stored session, else creates the anonymous one. */
@@ -52,6 +56,8 @@ export interface AppSessionDeps {
   readonly outbox: ExtensionOutbox;
   readonly device: () => Promise<CommandDevice>;
   readonly appState: AppStateSource;
+  /** Signed-in HTTP for the link endpoints (previews for the router's state check). */
+  readonly linksHttp: LinksHttp;
   readonly realtime: {
     readonly url: string;
     readonly positions: RecoveryStore;
@@ -65,7 +71,7 @@ export interface AppSession {
   readonly uid: string;
   readonly localFirst: LocalFirstContextValue;
   readonly realtime: RealtimeClient;
-  /** Stops the outbox drain and the realtime connection. */
+  /** Stops the outbox drain, the realtime connection and the link router's lookups. */
   stop(): void;
 }
 
@@ -120,6 +126,9 @@ export async function startAppSession(deps: AppSessionDeps): Promise<AppSession>
   realtime.connect();
   const detachPolicy = attachAppStatePolicy(realtime, deps.appState);
 
+  configureLinkRouter({ resolver: createLinkResolverClient(deps.linksHttp) });
+  const stopMembership = watchLinkMembership(localFirst.db, uid, deps.onError);
+
   return {
     uid,
     localFirst,
@@ -128,6 +137,8 @@ export async function startAppSession(deps: AppSessionDeps): Promise<AppSession>
       stopDrain();
       detachPolicy();
       realtime.disconnect();
+      stopMembership();
+      configureLinkRouter({ resolver: null });
     },
   };
 }
