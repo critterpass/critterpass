@@ -1,14 +1,18 @@
 import { useLingui } from '@lingui/react/macro';
 import type { ErrorBoundaryProps } from 'expo-router';
-import { router } from 'expo-router';
+import Constants from 'expo-constants';
+import * as Linking from 'expo-linking';
+import { router, useNavigationContainerRef } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 import * as SplashScreen from 'expo-splash-screen';
+import * as Updates from 'expo-updates';
 import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
+import { useNavigationPersistence } from '@/lib/navigation/restore';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { ThemeProvider } from '@/lib/theme';
 import { useMotionMode } from '@/motion/motion-mode';
@@ -29,10 +33,21 @@ import {
 
 void SplashScreen.preventAutoHideAsync();
 
+/** Saved navigation is only restored into the same JS build it was saved from. */
+const BUILD = `${Constants.expoConfig?.version ?? ''}:${Updates.updateId ?? 'embedded'}`;
+
 /** Drill-down pushes by default; the `(modal)` group presents sheets and rises over the stack. */
 function RootNavigator() {
   const { motion } = useTheme();
   const [motionMode] = useMotionMode();
+  const navigationRef = useNavigationContainerRef();
+  const [launchUrl, setLaunchUrl] = useState<string | null | undefined>(undefined);
+  useEffect(() => {
+    Linking.getInitialURL()
+      .then(setLaunchUrl)
+      .catch(() => setLaunchUrl(null));
+  }, []);
+  useNavigationPersistence({ navigationRef, build: BUILD, launchUrl });
   return (
     <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
       {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route group name, not copy */}
