@@ -90,6 +90,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Deploy harness to Railway staging as `spike-auth`. 2. `@better-auth/expo` client + `expo-apple-authentication` + Google native sign-in lib pinned for SDK 58. 3. Anonymous → Apple, anonymous → Google, anonymous → phone; show uid before/after. 4. Record SIWA revoke endpoint behaviour.
 - Tests: Maestro `e2e/spikes/auth-anonymous.yaml` for the anonymous + phone path (simulator); server harness asserts uid equality from logs.
 - Done when (agent): harness screen + ADR with `Founder device run` table ready. Founder checklist: real-device Apple + Google sign-in on iPhone + Android, uid screenshots into ADR (or FAIL + fallback).
+- Status: done — 2b007cc (anonymous → phone PASS end to end on a real iOS-simulator device against a real deployed `spike-auth` Railway service, uid preserved, Maestro-tested; real Apple `apple` social provider deployed and wired but no Apple ID on this simulator to drive a genuine sign-in; Google blocked entirely — no Firebase/Google Cloud project provisioned; found and fixed a real PgBouncer session-`SET` leak onto other staging clients mid-deploy — see ADR device half for the full finding set and founder checklist)
 
 ### T4 — S-SYNC: self-hosted PowerSync end to end
 - Goal: replication, auth, upload and latency proven on staging.
