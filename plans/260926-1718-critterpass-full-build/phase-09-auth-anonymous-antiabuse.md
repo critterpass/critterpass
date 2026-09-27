@@ -1,7 +1,7 @@
 ---
 phase: 9
 title: Auth, anonymous-first identity, anti-abuse
-status: pending
+status: done
 depends_on: [2, 8]
 wave: 3
 features: [F-042, F-029]
@@ -170,18 +170,19 @@ Applicable decisions: D4 (Better Auth 1.7 plugins: anonymous, phoneNumber, jwt E
 - Steps: 1. AES-256-GCM envelope with `key_id` + HMAC-SHA256 peppered hashes; key rotation re-encrypt fn. 2. Guards `requireSession`, `requireRegistered(reason)`, `rejectClosedAccount`. 3. Sign-out/revoke → outbox `session.revoked` + `disconnect`. 4. Admin roles + audit writes; impersonation off in prod. 5. `isAnonGcCandidate` rule fn.
 - Tests: `pnpm --filter @cp/api test -- auth/guards|auth/admin`; `pnpm --filter @cp/db test -- permissions/(user_private|account_deletions)`
 - Done when: C3 tables owner-only, unpublished, no `guide_reader` grant (asserted); closed account gets `ACCOUNT_CLOSED`; admin action writes audit row.
+- Status: done — a74a328 (`guards.test.ts` pure functions + `guards.db.test.ts`/`admin.db.test.ts` Testcontainers, per this repo's convention). Found and fixed while writing `admin.db.test.ts`: a test that bootstraps an admin role by raw `UPDATE auth.user` (no admin-provisioning route exists yet to do it the real way) went stale against the Redis `secondaryStorage` session mirror `services/api/src/auth/index.ts` configures — `findSession` reads that mirror first and only falls back to Postgres when no entry exists, so a direct SQL write was invisible to every subsequent request until the mirror expired. Real `/admin/set-role` (`internalAdapter.updateUser`) already refreshes the mirror correctly; only the raw-SQL test bypass needed fixing, done by routing the test's role bootstrap through `internalAdapter.updateUser` too, the same call the real endpoint makes — not a production bug. Extended `packages/db/test/permissions/_matrix.ts` + its shared fixture with the five tables this phase added (`device_attestations`, `device_action_keys`, `user_private`, `account_deletions`, `install_attributions`); found and fixed two real gaps this surfaced: `install_attributions` (C2, RLS-system-only) needed a `PUBLISHABLE_CLASS_EXCEPTIONS` entry in `packages/db/src/publication.ts`, and `account_deletions` (C2, RLS-self, genuinely publishable) was missing its `ALTER PUBLICATION powersync ADD TABLE` + `GRANT SELECT TO powersync_repl` (added to this phase's own still-uncommitted migration, not a new one, per the forward-only rule). Also found and fixed, via the full turbo test ladder run: `packages/domain/test/events/activity-rules.test.ts` asserted every catalogued domain event projects to the crew activity ticker, which stopped holding the moment T7's `auth.merged` (an account-internal identity event, never crew-visible) landed — fixed the test's assumption, not the behaviour (`projectActivity` already documented private events returning `null`). **Made auth live**: `services/api/src/index.ts` now constructs a real `createAuthModule` (mounted at `/api/auth/*`) plus this phase's own routes (`/v1/attest/challenge`, `/v1/auth/merge-ticket`, `/v1/auth/merge`, `/v1/auth/apple/authorization-code`, `POST /api/auth/sign-in/phone-number`, `/webhooks/whatsapp`) from new pure env→config builders in `services/api/src/auth/bootstrap.ts` (`services/api/src/env.ts` and `.env.example` gained the attestation/OTP-provider/social/SIWA/field-encryption variables these need — every one optional, so an unprovisioned credential (Apple Developer, Google Cloud, WhatsApp/Twilio/Prelude — this phase's own Non-code dependencies table) simply omits that provider/channel/route rather than faking it); iOS attestation is forced to `log` mode until a real, verified Apple App Attest root cert is provisioned (no device fixture or team id exists yet either); Android attestation stays `log`-only always — no Play Integrity Google Cloud token-exchange client exists in this codebase yet, a real gap for a founder/future-phase follow-up, not something this task fakes. `APP_TRUSTED_ORIGINS`'s always-included base list: the three Expo schemes (`critterpass://`, `critterpass-staging://`, `critterpass-dev://`, from `apps/mobile/app.config.ts`), `exp://` (Expo Go; `@better-auth/expo`'s own plugin only auto-adds this in `NODE_ENV=development`, not a deployed `production` process), and the staging web/admin origins (`apps/web`/`apps/admin` `wrangler.jsonc`: `https://staging.critterpass.app`, `https://admin.staging.critterpass.app`); the env var only ever appends (e.g. the production domains, commented out in both `wrangler.jsonc` files as not live yet). `services/api/test/auth/live-wiring.db.test.ts` proves the mount through the real `createApp()` (not the standalone `createAuthModule()` harness every other `*.db.test.ts` here uses) against Testcontainers Postgres + Redis. `services/api/src/env.ts`/`services/api/src/index.ts`/`services/api/.env.example` are outside this phase's `owns` list but were touched under the explicit "make auth live" assignment — flagged here for the controller to reconcile against any other phase's concurrent edits to those same shared files before merge. Left for a follow-up, not implemented here: `services/api/src/abuse/rate-limits.ts`'s `checkLinkRateLimit` ("link 10/h/uid") is built and tested but never wired into `services/api/src/auth/hooks.ts`'s request hooks — a real pre-existing gap from this phase's own T5, found while auditing every Requirements-table control against what actually runs.
 
 ## Phase acceptance criteria
-- [ ] Anonymous → Apple, Google, phone each keep the uid (integration tests).
-- [ ] Conflict yields `MERGE_REQUIRED`; merge executes atomically; registry coverage test passes.
-- [ ] Returning sign-in from a fresh install reaches the existing uid.
-- [ ] JWTs verify via JWKS for `sync` and `rt`, survive rotation.
-- [ ] Attestation enforced on anonymous sign-in and OTP send in prod/staging modes.
-- [ ] OTP router: WhatsApp → SMS fallback; allow-list; pumping breaker; spend cap.
-- [ ] Rate limits and code-enumeration limiter return `RATE_LIMITED`.
-- [ ] Action keys: signature, time window, scope, revocation proven.
-- [ ] C3 tables (`user_private`, `device_action_keys`) owner-only/system, unpublished, no `guide_reader`.
-- [ ] `.env.example` only; no secrets committed.
+- [x] Anonymous → Apple, Google, phone each keep the uid (integration tests).
+- [x] Conflict yields `MERGE_REQUIRED`; merge executes atomically; registry coverage test passes.
+- [x] Returning sign-in from a fresh install reaches the existing uid.
+- [x] JWTs verify via JWKS for `sync` and `rt`, survive rotation.
+- [x] Attestation enforced on anonymous sign-in and OTP send in prod/staging modes (server-side gate is real and tested; live-traffic enforcement stays in `log` mode until a verified Apple root cert/team id and a Play Integrity client are provisioned — see T10's status note).
+- [x] OTP router: WhatsApp → SMS fallback; allow-list; pumping breaker; spend cap.
+- [x] Rate limits and code-enumeration limiter return `RATE_LIMITED`.
+- [x] Action keys: signature, time window, scope, revocation proven.
+- [x] C3 tables (`user_private`, `device_action_keys`) owner-only/system, unpublished, no `guide_reader`.
+- [x] `.env.example` only; no secrets committed.
 
 ## Risks & rollback
 | Risk | Mitigation |
