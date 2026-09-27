@@ -53,7 +53,7 @@ flowchart LR
     PSR["powersync-repl ×1"]
     PSA["powersync-api ×N"]
     PSS[("powersync-storage PG18")]
-    VH["Valhalla"]
+    VH["Valhalla 3.8.3 (later routing provider)"]
   end
   subgraph PS["PlanetScale Postgres 18 HA — AWS ap-southeast-1"]
     PG[("primary + 2 replicas, PgBouncer 6432, PITR, pgvector, failover-safe logical slot")]
@@ -61,7 +61,7 @@ flowchart LR
   subgraph TP["Third parties"]
     CL["Claude API"]; APNS["APNs"]; FCM["FCM v1"]; RC["RevenueCat + store notifications"]
     OTP["WhatsApp / Twilio Verify / Prelude"]; SUP["Viator, Travelpayouts, Agoda*, Klook*, Trip.com*, Grab Farefeed, WhatsApp Business"]
-    DATA["Open-Meteo, AeroDataBox, FlightAware, Frankfurter, BestTime, Foursquare, Mapbox Directions"]
+    DATA["Open-Meteo, AeroDataBox, FlightAware, Frankfurter, BestTime, Foursquare, Mapbox Directions/Matrix (launch routing provider)"]
     VOICE["Deepgram, ElevenLabs"]; OBS["Sentry, PostHog EU, Grafana Cloud, Langfuse"]; MAIL["Resend, inbound mail, PostGrid"]
   end
   IAPP & AAPP -->|HTTPS commands, SSE guide stream| API
@@ -80,8 +80,9 @@ flowchart LR
   API -->|unsubscribe / disconnect| RT
   RT --- RD; API --- RD
   PSA & RT -.->|JWKS| API
-  WK --> VH & CL & APNS & FCM & SUP & DATA
-  API --> CL & OTP & SUP & VOICE
+  WK --> CL & APNS & FCM & SUP & DATA
+  API --> CL & OTP & SUP & VOICE & DATA
+  API & WK -.->|later routing provider| VH
   RC --> API
   WEB --> API
   ADM --> API
@@ -97,7 +98,7 @@ flowchart LR
 | powersync-repl | PowerSync Service `-r sync` | exactly 1 | – |
 | powersync-api | PowerSync Service `-r api` | 1 → 25–50 (≤200 conns each, target ≤100) | `sync.critterpass.app` |
 | powersync-storage | Railway Postgres 18 (rebuildable) | 1 | – |
-| valhalla | Valhalla 3.9 + OSM tiles volume | 1 → 2 | – |
+| valhalla (later) | Valhalla 3.8.3 + OSM tiles volume; replaces Mapbox behind the routing provider when adopted. Launch routing is Mapbox Directions/Matrix from api | 1 → 2 | – |
 | media-worker | Cloudflare Worker | edge | `media.critterpass.app` |
 | web | Astro 7 on Workers | edge | `critterpass.app`, `go.critterpass.app` |
 | admin | Vite SPA on Cloudflare | edge | `admin.critterpass.app` (Better Auth admin role) |
@@ -297,7 +298,7 @@ Permission contract suite (Vitest + Testcontainers, PR-blocking): fixture actors
 
 | Env | Where | Data | Notes |
 |---|---|---|---|
-| local | `infra/docker-compose.yml`: Postgres 18 (wal_level=logical, pgvector, PostGIS), Redis 8, Centrifugo, PowerSync, Valhalla (small extract); media uses a real R2 dev bucket | seed from `packages/db/seed` | api/worker via `pnpm dev`; app via dev client |
+| local | `infra/docker-compose.yml`: Postgres 18 (wal_level=logical, pgvector, PostGIS), Redis 8, Centrifugo, PowerSync; routing calls Mapbox when `MAPBOX_TOKEN` is set, otherwise returns flagged straight-line estimates; media uses a real R2 dev bucket | seed from `packages/db/seed` | api/worker via `pnpm dev`; app via dev client |
 | preview | Railway PR environment (optional per PR touching services) + PlanetScale branch | seed | EAS Update channel `preview` |
 | staging | Railway `staging` + PlanetScale staging branch | seed + anonymised fixtures | EAS channel `staging`, TestFlight / Play internal |
 | prod | Railway `production` + PlanetScale production (HA) | real | EAS channel `production` |
@@ -336,7 +337,7 @@ sequenceDiagram
   RT-->>C: fix → map marker animates
   loop every 60 s (eta queue)
     WK->>PG: read latest fixes + meet-up (app_system)
-    WK->>WK: ETA via Valhalla / Mapbox traffic
+    WK->>WK: ETA via routing provider (Mapbox Directions/Matrix, driving-traffic at launch)
     WK->>APNs: broadcast channel update (content-state: ETAs, ready pips; p5, p10 on late/arrive)
     APNs-->>LA: update all subscribed crew LAs
   end
@@ -497,7 +498,7 @@ sequenceDiagram
 | Push | @parse/node-apn / firebase-admin | 8.1 / 14.x |
 | AI | @anthropic-ai/sdk | latest minor at bootstrap, pinned |
 | Media | @aws-sdk/client-s3 + presigner / sharp | 3.x / 0.35 |
-| Routing | Valhalla | 3.9 |
+| Routing | Mapbox Directions v5 / Matrix v1 at launch; Valhalla later | Valhalla 3.8.3 |
 | Web | Astro / Takumi / @astrojs/mdx | 7 / 2.14 / 8 |
 | Tests | Vitest / Jest / RNTL / Maestro / Playwright / Testcontainers | 5 / 30 / 14 / 2.10 / 1.63 / 12 |
 | Obs | @sentry/node / @opentelemetry/sdk-node | 10.x / 0.222 |
