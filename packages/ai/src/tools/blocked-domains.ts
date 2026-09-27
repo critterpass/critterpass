@@ -1,5 +1,5 @@
 /**
- * Supplier and OTA pages the guide's web search must never read (docs/product-decisions.md D10:
+ * Supplier and OTA pages the guide's web search must never read (docs/product-decisions.md:
  * supplier content never reaches the LLM). Sent as `blocked_domains` on every web search request
  * and checked again in code on every result and citation that comes back. Entries are bare domains
  * (subdomains included) or a domain with a path prefix, the form the API accepts.
