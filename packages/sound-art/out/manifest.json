@@ -1,0 +1,506 @@
+{
+  "generatedAt": "2026-09-27T07:34:41.218Z",
+  "sampleRate": 48000,
+  "sfx": [
+    {
+      "id": "thud.heavy",
+      "assetBasename": "thud-heavy",
+      "category": "stickers-and-stamps",
+      "kind": "sfx",
+      "durationSec": 0.22,
+      "loudnessLufs": -15.999999996732194,
+      "truePeakDb": -4.716713528059277,
+      "pcmHash": "a2f09a922d310d6dd2857b7c368d2711f4e0031f3e6a3a71dc4d1a7d1ffbdff2",
+      "files": {
+        "caf": "sfx/thud-heavy.caf",
+        "ogg": "sfx/thud-heavy.ogg"
+      }
+    },
+    {
+      "id": "thud.soft",
+      "assetBasename": "thud-soft",
+      "category": "stickers-and-stamps",
+      "kind": "sfx",
+      "durationSec": 0.22,
+      "loudnessLufs": -15.99999999788751,
+      "truePeakDb": -4.068131009590994,
+      "pcmHash": "6832eab58af8d8b275a0af58abd28f29d44b000a35b2f7d8908bcfb02a8e0a33",
+      "files": {
+        "caf": "sfx/thud-soft.caf",
+        "ogg": "sfx/thud-soft.ogg"
+      }
+    },
+    {
+      "id": "slap",
+      "assetBasename": "slap",
+      "category": "stickers-and-stamps",
+      "kind": "sfx",
+      "durationSec": 0.1,
+      "loudnessLufs": -15.999999991960875,
+      "truePeakDb": -2.2201916736122924,
+      "pcmHash": "2df8c7a2f8be07a2176c00862c758f7b06b5b3d092908290cbf598d7143ee933",
+      "files": {
+        "caf": "sfx/slap.caf",
+        "ogg": "sfx/slap.ogg"
+      }
+    },
+    {
+      "id": "peel",
+      "assetBasename": "peel",
+      "category": "stickers-and-stamps",
+      "kind": "sfx",
+      "durationSec": 0.24,
+      "loudnessLufs": -15.999999999938241,
+      "truePeakDb": -3.51347450032873,
+      "pcmHash": "080e27de6338ad601a920aacb500e0ab3337cd624f151a7cafaecbd626b4b62b",
+      "files": {
+        "caf": "sfx/peel.caf",
+        "ogg": "sfx/peel.ogg"
+      }
+    },
+    {
+      "id": "whoosh",
+      "assetBasename": "whoosh",
+      "category": "stickers-and-stamps",
+      "kind": "sfx",
+      "durationSec": 0.35,
+      "loudnessLufs": -16.000000015344785,
+      "truePeakDb": -4.107785243593741,
+      "pcmHash": "bfcce7a2f12fcefce73c4bb25c5cef60e469961c9865b60a74c19741cc83f1f2",
+      "files": {
+        "caf": "sfx/whoosh.caf",
+        "ogg": "sfx/whoosh.ogg"
+      }
+    },
+    {
+      "id": "tick",
+      "assetBasename": "tick",
+      "category": "effects",
+      "kind": "sfx",
+      "durationSec": 0.03,
+      "loudnessLufs": -18.00000003017964,
+      "truePeakDb": -4.768976580595379,
+      "pcmHash": "ca9a38f992b92e95fbb909f34a187eeedca0fe18a31f31ae52e38d026026e561",
+      "files": {
+        "caf": "sfx/tick.caf",
+        "ogg": "sfx/tick.ogg"
+      }
+    },
+    {
+      "id": "snap",
+      "assetBasename": "snap",
+      "category": "effects",
+      "kind": "sfx",
+      "durationSec": 0.045,
+      "loudnessLufs": -18.000000019607867,
+      "truePeakDb": -1.5913767379464303,
+      "pcmHash": "86e1fc00aa922f6bd7278bd8f4ba5d9ea5d5cde14b8497032b0f3fd5d32c57f8",
+      "files": {
+        "caf": "sfx/snap.caf",
+        "ogg": "sfx/snap.ogg"
+      }
+    },
+    {
+      "id": "success",
+      "assetBasename": "success",
+      "category": "effects",
+      "kind": "sfx",
+      "durationSec": 0.37,
+      "loudnessLufs": -17.999999996034056,
+      "truePeakDb": -10.132373007548996,
+      "pcmHash": "c40d3d770577f68b97ffc24c8acf2c18a40d8b5822bbfd1e0155889e4b411cfc",
+      "files": {
+        "caf": "sfx/success.caf",
+        "ogg": "sfx/success.ogg"
+      }
+    },
+    {
+      "id": "warning",
+      "assetBasename": "warning",
+      "category": "effects",
+      "kind": "sfx",
+      "durationSec": 0.3,
+      "loudnessLufs": -17.999999998422876,
+      "truePeakDb": -10.076331154033255,
+      "pcmHash": "3c3944664406939c5ae8047996073d4f451a04220d341ed23c98bc1b4cc71150",
+      "files": {
+        "caf": "sfx/warning.caf",
+        "ogg": "sfx/warning.ogg"
+      }
+    },
+    {
+      "id": "error",
+      "assetBasename": "error",
+      "category": "effects",
+      "kind": "sfx",
+      "durationSec": 0.28,
+      "loudnessLufs": -18.000000005388216,
+      "truePeakDb": -11.234909288774988,
+      "pcmHash": "2e93694f29a9a3dd67946c4223349860a6b48d5572c321a5ca27fc955ec98ad6",
+      "files": {
+        "caf": "sfx/error.caf",
+        "ogg": "sfx/error.ogg"
+      }
+    },
+    {
+      "id": "vote",
+      "assetBasename": "vote",
+      "category": "effects",
+      "kind": "sfx",
+      "durationSec": 0.14,
+      "loudnessLufs": -18.000000000052122,
+      "truePeakDb": -6.769481556143675,
+      "pcmHash": "cc16c3cc722ed40ab0cbad437d70f0e0e8426ccd028d6eae32b2ea4fda5ae947",
+      "files": {
+        "caf": "sfx/vote.caf",
+        "ogg": "sfx/vote.ogg"
+      }
+    },
+    {
+      "id": "bell",
+      "assetBasename": "bell",
+      "category": "effects",
+      "kind": "sfx",
+      "durationSec": 1,
+      "loudnessLufs": -18.0000000023473,
+      "truePeakDb": -11.792236329571582,
+      "pcmHash": "796bd7bcdb205555ff6d60371afc8c16158eeeff4fb67678e2dc60926f57f43e",
+      "files": {
+        "caf": "sfx/bell.caf",
+        "ogg": "sfx/bell.ogg"
+      }
+    },
+    {
+      "id": "alarm",
+      "assetBasename": "alarm-guide",
+      "category": "effects",
+      "kind": "sfx",
+      "durationSec": 0.67,
+      "loudnessLufs": -17.999999994470855,
+      "truePeakDb": -10.313631914368246,
+      "pcmHash": "2b51b9d77f063e48f35a6d78b163e78bb853e5251596b407c9c1d26a7932d6a7",
+      "files": {
+        "caf": "sfx/alarm-guide.caf",
+        "ogg": "sfx/alarm-guide.ogg"
+      }
+    },
+    {
+      "id": "crack",
+      "assetBasename": "egg-crack",
+      "category": "critter-voices",
+      "kind": "sfx",
+      "durationSec": 0.16,
+      "loudnessLufs": -20.000000000680384,
+      "truePeakDb": -1.549093845265502,
+      "pcmHash": "4752459fbe12ca128bec188282d3f33a58c94c3c43fd9a8c714ce555438bb2b7",
+      "files": {
+        "caf": "sfx/egg-crack.caf",
+        "ogg": "sfx/egg-crack.ogg"
+      }
+    },
+    {
+      "id": "pop",
+      "assetBasename": "egg-pop",
+      "category": "critter-voices",
+      "kind": "sfx",
+      "durationSec": 0.14,
+      "loudnessLufs": -20.00000001299983,
+      "truePeakDb": -9.276092494079412,
+      "pcmHash": "7dc9abd75fd8445574362477bbd0c2306db4b25bf231e3863471cafed38b9c20",
+      "files": {
+        "caf": "sfx/egg-pop.caf",
+        "ogg": "sfx/egg-pop.ogg"
+      }
+    },
+    {
+      "id": "chirp",
+      "assetBasename": "critter-chirp",
+      "category": "critter-voices",
+      "kind": "sfx",
+      "durationSec": 0.36,
+      "loudnessLufs": -19.999999999052008,
+      "truePeakDb": -12.662487090078772,
+      "pcmHash": "efc2c15bd32a951c9b11e9885b4ac9b6df1aa74be06414bf73112ec7d07b09da",
+      "files": {
+        "caf": "sfx/critter-chirp.caf",
+        "ogg": "sfx/critter-chirp.ogg"
+      }
+    },
+    {
+      "id": "flap",
+      "assetBasename": "flap",
+      "category": "effects",
+      "kind": "sfx",
+      "durationSec": 0.39,
+      "loudnessLufs": -22.399920472986313,
+      "truePeakDb": -1.0000001901821511,
+      "pcmHash": "aa8e1707fec88d18c3e71fd432021ac1c39585a5089eb75288e0b9ae02332e34",
+      "files": {
+        "caf": "sfx/flap.caf",
+        "ogg": "sfx/flap.ogg"
+      }
+    },
+    {
+      "id": "printer",
+      "assetBasename": "printer",
+      "category": "effects",
+      "kind": "ambient",
+      "durationSec": 0.9,
+      "loudnessLufs": -17.999999989519605,
+      "truePeakDb": -2.237657940384044,
+      "pcmHash": "175cde888e275a0383418424972d49c556a1fc0c939c1fe7a822b7b15bdb1521",
+      "files": {
+        "caf": "sfx/printer.caf",
+        "ogg": "sfx/printer.ogg"
+      }
+    },
+    {
+      "id": "scanner",
+      "assetBasename": "scanner",
+      "category": "effects",
+      "kind": "ambient",
+      "durationSec": 0.5,
+      "loudnessLufs": -18.00000000199114,
+      "truePeakDb": -13.102093492165586,
+      "pcmHash": "65c20b71766a89430a396f91c057bad2b371279ad94745e37b8e3a5bc0c820c0",
+      "files": {
+        "caf": "sfx/scanner.caf",
+        "ogg": "sfx/scanner.ogg"
+      }
+    },
+    {
+      "id": "shutter",
+      "assetBasename": "shutter",
+      "category": "effects",
+      "kind": "ambient",
+      "durationSec": 0.12,
+      "loudnessLufs": -20.814216888469577,
+      "truePeakDb": -0.9999999269660585,
+      "pcmHash": "7f5f6a97f460de433962d52c79612ede66278e9595f903c5a92efb70bbaeefe3",
+      "files": {
+        "caf": "sfx/shutter.caf",
+        "ogg": "sfx/shutter.ogg"
+      }
+    },
+    {
+      "id": "pen",
+      "assetBasename": "pen",
+      "category": "effects",
+      "kind": "ambient",
+      "durationSec": 0.55,
+      "loudnessLufs": -18.000000007963376,
+      "truePeakDb": -6.118051786861029,
+      "pcmHash": "47058915d857d3e377bde26d0b77482e21a13aab9d2fd0e8012138ec30d35e4b",
+      "files": {
+        "caf": "sfx/pen.caf",
+        "ogg": "sfx/pen.ogg"
+      }
+    },
+    {
+      "id": "page",
+      "assetBasename": "page",
+      "category": "effects",
+      "kind": "ambient",
+      "durationSec": 0.45,
+      "loudnessLufs": -17.999999992793963,
+      "truePeakDb": -11.2097879720314,
+      "pcmHash": "552ab94f5680483ea4857389ad086ed68534b1f26a5c984f7fac4fd8e2485be2",
+      "files": {
+        "caf": "sfx/page.caf",
+        "ogg": "sfx/page.ogg"
+      }
+    },
+    {
+      "id": "envelope",
+      "assetBasename": "envelope",
+      "category": "effects",
+      "kind": "ambient",
+      "durationSec": 0.5,
+      "loudnessLufs": -17.999999983845264,
+      "truePeakDb": -9.446717750065712,
+      "pcmHash": "5039af4880cc2b3767be58fecd9e8c915909fb2cbe356e094e249ff9ec644eb1",
+      "files": {
+        "caf": "sfx/envelope.caf",
+        "ogg": "sfx/envelope.ogg"
+      }
+    }
+  ],
+  "notify": [
+    {
+      "guideId": "tokek",
+      "assetBasename": "notify-tokek",
+      "durationSec": 1.71,
+      "loudnessLufs": -16.000000001972392,
+      "truePeakDb": -8.205136533015597,
+      "pcmHash": "e82f00761f0d0eb854fd6a8d37951193a6d10116ce7e6ce52d0f763540cc9b3d",
+      "files": {
+        "caf": "sfx/notify-tokek.caf",
+        "ogg": "sfx/notify-tokek.ogg"
+      }
+    },
+    {
+      "guideId": "pon",
+      "assetBasename": "notify-pon",
+      "durationSec": 1.65,
+      "loudnessLufs": -22.1678272907457,
+      "truePeakDb": -0.9999998180490571,
+      "pcmHash": "9671cba9daf31707e6d4e9a6db847642e01343e2e640ddb89abbba6be9aca6cf",
+      "files": {
+        "caf": "sfx/notify-pon.caf",
+        "ogg": "sfx/notify-pon.ogg"
+      }
+    },
+    {
+      "guideId": "lundi",
+      "assetBasename": "notify-lundi",
+      "durationSec": 1.86,
+      "loudnessLufs": -19.754247586001778,
+      "truePeakDb": -0.9999999995773936,
+      "pcmHash": "f3aaed66ea85f476e06a05aa8abf6938b4f6fbdcd87f0a1cec5e2a403b789211",
+      "files": {
+        "caf": "sfx/notify-lundi.caf",
+        "ogg": "sfx/notify-lundi.ogg"
+      }
+    },
+    {
+      "guideId": "ajo",
+      "assetBasename": "notify-ajo",
+      "durationSec": 1.17,
+      "loudnessLufs": -16.000000005427154,
+      "truePeakDb": -7.686420049294556,
+      "pcmHash": "9ab045a4df2ff31c0fe0fcf9f5b295014d94adc67f17844fb16d000ab2a2c067",
+      "files": {
+        "caf": "sfx/notify-ajo.caf",
+        "ogg": "sfx/notify-ajo.ogg"
+      }
+    },
+    {
+      "guideId": "sardi",
+      "assetBasename": "notify-sardi",
+      "durationSec": 1.44,
+      "loudnessLufs": -18.133023575357587,
+      "truePeakDb": -0.9999998180490571,
+      "pcmHash": "5f292a1ed0342c7453f60cd537b54166d274bfb786141d17c667d8b19d07b261",
+      "files": {
+        "caf": "sfx/notify-sardi.caf",
+        "ogg": "sfx/notify-sardi.ogg"
+      }
+    },
+    {
+      "guideId": "paco",
+      "assetBasename": "notify-paco",
+      "durationSec": 1.65,
+      "loudnessLufs": -15.999999998112912,
+      "truePeakDb": -8.441095712591009,
+      "pcmHash": "db621665f67940c7f522d0df7c33117427dbd2610461333ac8c21807e1ec7c30",
+      "files": {
+        "caf": "sfx/notify-paco.caf",
+        "ogg": "sfx/notify-paco.ogg"
+      }
+    }
+  ],
+  "music": [
+    {
+      "guideId": "tokek",
+      "title": "Tokek — gamelan lo-fi",
+      "styleDescription": "Bali gamelan lo-fi: interlocking kotekan metallophone ostinato in a pelog approximation over a slow gong bass.",
+      "proposalPendingApproval": false,
+      "durationSec": 77.83783783783784,
+      "loudnessLufs": -15.999999999788255,
+      "truePeakDb": -1.619823302764273,
+      "loopStartSample": 0,
+      "loopEndSample": 3736216,
+      "pcmHash": "14cf19b40a2759a5dd13376a94644a870316a1781c7ee45833e054c9c03962c2",
+      "previewPcmHash": "bccf3195d62fdff80506b7e4b433258c727cb80b81126a101d50e4dad2335046",
+      "files": {
+        "loop": "music/tokek.m4a",
+        "preview": "music/tokek-preview.m4a"
+      }
+    },
+    {
+      "guideId": "pon",
+      "title": "Pon — koto and rain",
+      "styleDescription": "Kyoto koto and rain: a spare, legato koto melody in an \"in scale\" approximation over filtered-noise rain.",
+      "proposalPendingApproval": false,
+      "durationSec": 65.45454545454545,
+      "loudnessLufs": -23.777901288567524,
+      "truePeakDb": -1.0000002900227403,
+      "loopStartSample": 0,
+      "loopEndSample": 3141818,
+      "pcmHash": "c358fc9f26e84386d612f42ed138c24ade86f9396a7ccf6af3dc615a64c4a889",
+      "previewPcmHash": "8bed15cf906d3dd863739b9f5c0512c960a0f480c86bfacfe926b76d11c525b8",
+      "files": {
+        "loop": "music/pon.m4a",
+        "preview": "music/pon-preview.m4a"
+      }
+    },
+    {
+      "guideId": "lundi",
+      "title": "Lundi — slow sea shanty",
+      "styleDescription": "Iceland slow sea shanty: a reed lead over a plucked low bass, gently swaying in a minor key.",
+      "proposalPendingApproval": false,
+      "durationSec": 82.75862068965517,
+      "loudnessLufs": -15.999999999715639,
+      "truePeakDb": -1.3211056443083917,
+      "loopStartSample": 0,
+      "loopEndSample": 3972414,
+      "pcmHash": "d4bba4942994b52d6ddccc17e3f44762acc33fec89d5954ca2e49e89347e7115",
+      "previewPcmHash": "77915924cf46580de5337cbf104e819b5987a844d6ed84c409c0b3392a470de2",
+      "files": {
+        "loop": "music/lundi.m4a",
+        "preview": "music/lundi-preview.m4a"
+      }
+    },
+    {
+      "guideId": "ajo",
+      "title": "Ajo — marimba lo-fi (proposal)",
+      "styleDescription": "Mexico City: bright syncopated marimba arpeggios over a soft plucked bass, mixolydian, upbeat and relaxed.",
+      "proposalPendingApproval": true,
+      "durationSec": 78.2608695652174,
+      "loudnessLufs": -16.333463550435923,
+      "truePeakDb": -0.9999999008713601,
+      "loopStartSample": 0,
+      "loopEndSample": 3756522,
+      "pcmHash": "b92deddef297f81fc1d990deee2d3047888a572a7436d681fbf45e4854a8be20",
+      "previewPcmHash": "f20e5c28638b1df760a8530511fe2bc4a42c7265350513ae6199d44d86a60e50",
+      "files": {
+        "loop": "music/ajo.m4a",
+        "preview": "music/ajo-preview.m4a"
+      }
+    },
+    {
+      "guideId": "sardi",
+      "title": "Sardi — fado-style plucked guitar waltz (proposal)",
+      "styleDescription": "Lisbon: a minor plucked-guitar waltz with a gentle one-two-three lilt, fado-adjacent phrasing.",
+      "proposalPendingApproval": true,
+      "durationSec": 68.57142857142857,
+      "loudnessLufs": -25.860776824922667,
+      "truePeakDb": -1.000000128597243,
+      "loopStartSample": 0,
+      "loopEndSample": 3291429,
+      "pcmHash": "031bfe3401a3cc11163729a1c166be09345db371bff86e430b4c4f3e4d0f9b3c",
+      "previewPcmHash": "7ca691f9fb7ed3132c0eb34a64fbd19e258108507dd9b826d4995bbc44dec8a2",
+      "files": {
+        "loop": "music/sardi.m4a",
+        "preview": "music/sardi-preview.m4a"
+      }
+    },
+    {
+      "guideId": "paco",
+      "title": "Paco — Andean pan flute + charango (proposal)",
+      "styleDescription": "Cusco: a breathy pan-flute melody over a fast, bright charango arpeggio, minor pentatonic and lively.",
+      "proposalPendingApproval": true,
+      "durationSec": 75,
+      "loudnessLufs": -15.999999999890228,
+      "truePeakDb": -5.3975492262046565,
+      "loopStartSample": 0,
+      "loopEndSample": 3600000,
+      "pcmHash": "2dc10846805cfc75193f4e176c0d08d40b6ec5c4886d909daaaf70f57445f438",
+      "previewPcmHash": "6adf6ff186b1b248cbb2e75d2eefdd91f6a4050622e54331068a8bfbcf2bd476",
+      "files": {
+        "loop": "music/paco.m4a",
+        "preview": "music/paco-preview.m4a"
+      }
+    }
+  ]
+}
