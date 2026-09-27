@@ -11,6 +11,15 @@
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "build": "tsx codegen/index.ts"
+  },
+  "dependencies": {
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/estree": "catalog:",
+    "eslint": "catalog:",
+    "tsx": "catalog:"
   }
 }

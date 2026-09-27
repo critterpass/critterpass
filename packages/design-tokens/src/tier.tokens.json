@@ -1,0 +1,47 @@
+{
+  "tier": {
+    "common": {
+      "$type": "cpTier",
+      "$value": { "color": "{color.ink.200}", "glyph": "●", "ring": false, "edge": null },
+      "$description": "Tier is never colour-only: always paired with the tier word or the glyph"
+    },
+    "rare": {
+      "$type": "cpTier",
+      "$value": { "color": "{color.blue}", "glyph": "◆", "ring": true, "edge": null },
+      "$description": "Recolour + blue ring"
+    },
+    "epic": {
+      "$type": "cpTier",
+      "$value": {
+        "color": "{color.pink}",
+        "glyph": "★",
+        "ring": false,
+        "edge": { "widthPt": 2, "color": "{color.pink}" }
+      },
+      "$description": "Recolour + pose + 2 pt pink die-cut edge"
+    },
+    "legendary": {
+      "$type": "cpTier",
+      "$value": {
+        "color": "{color.yellow}",
+        "glyph": "✦",
+        "ring": false,
+        "edge": { "widthPt": 3, "color": "{color.yellow}" },
+        "sparkles": true
+      },
+      "$description": "Gold recolour + 3 pt yellow edge + sparkles"
+    },
+    "locked": {
+      "default": {
+        "$type": "color",
+        "$value": "{color.ink.600}",
+        "$description": "Locked silhouette for common/rare/epic, paired with a \"?\" in tier colour"
+      },
+      "legendary": {
+        "$type": "cpTierLocked",
+        "$value": { "silhouette": "{color.gold.silhouette}", "background": "{color.gold.dark}" },
+        "$description": "Locked legendary silhouette, paired with a \"?\" in tier colour"
+      }
+    }
+  }
+}

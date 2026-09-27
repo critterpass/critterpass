@@ -1,0 +1,123 @@
+name: i18n sync
+
+# Keeps Tolgee (the translation platform) and this repo's committed .po/.ts catalogs in sync, and
+# gates shipped-locale completeness (docs/code-standards.md §8: missing keys fail the build for a
+# complete locale). tools/scripts/i18n/tolgee-push.ts and tolgee-pull.ts both fall back to reporting
+# what they would have done, exit 0, whenever TOLGEE_API_KEY / TOLGEE_PROJECT_ID aren't configured
+# as repo secrets — see packages/i18n/.env.example — so this workflow runs safely before a Tolgee
+# project exists and starts doing real work the moment those secrets are added, with no file change
+# needed here.
+#
+# The repo has no dedicated release-branch naming yet, so the completeness gate only knows to run in
+# `release` mode for a semver tag push; a future release workflow can also invoke this one with
+# `workflow_call` and an explicit `mode: release` once that convention is decided.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['v*.*.*']
+  schedule:
+    - cron: '0 19 * * *' # nightly, 03:00 Singapore
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Completeness check mode
+        type: choice
+        options: [warn, release]
+        default: warn
+  workflow_call:
+    inputs:
+      mode:
+        description: Completeness check mode
+        type: string
+        default: warn
+
+concurrency:
+  # Scoped by event too, not just ref: a nightly schedule run and a main push both target
+  # refs/heads/main and serve different purposes, so one must not cancel the other.
+  group: i18n-sync-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  TURBO_TELEMETRY_DISABLED: '1'
+
+jobs:
+  completeness:
+    name: completeness gate
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @cp/i18n run compile
+      - name: Check completeness
+        run: |
+          MODE="${{ inputs.mode }}"
+          if [ -z "$MODE" ]; then
+            case "${{ github.ref }}" in
+              refs/tags/v*) MODE=release ;;
+              *) MODE=warn ;;
+            esac
+          fi
+          pnpm tsx tools/scripts/i18n/check-complete.ts --mode "$MODE"
+
+  push-keys:
+    name: push new source keys to Tolgee
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @cp/i18n run extract
+      - run: pnpm tsx tools/scripts/i18n/tolgee-push.ts
+        env:
+          TOLGEE_API_KEY: ${{ secrets.TOLGEE_API_KEY }}
+          TOLGEE_PROJECT_ID: ${{ secrets.TOLGEE_PROJECT_ID }}
+
+  pull-translations:
+    name: pull reviewed translations, open a pull request
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm tsx tools/scripts/i18n/tolgee-pull.ts
+        env:
+          TOLGEE_API_KEY: ${{ secrets.TOLGEE_API_KEY }}
+          TOLGEE_PROJECT_ID: ${{ secrets.TOLGEE_PROJECT_ID }}
+      - run: pnpm --filter @cp/i18n run compile
+      - name: Open a pull request with any pulled changes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain -- packages/i18n/locales packages/i18n/src/catalog-registry)" ]; then
+            echo "No translation changes pulled; nothing to open a pull request for."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B i18n/tolgee-pull
+          git add packages/i18n/locales packages/i18n/src/catalog-registry
+          git commit -m "chore(i18n): pull reviewed translations from Tolgee"
+          git push --force-with-lease origin i18n/tolgee-pull
+          if [ "$(gh pr list --head i18n/tolgee-pull --json number --jq 'length')" = "0" ]; then
+            gh pr create --base main --head i18n/tolgee-pull \
+              --title "Pull reviewed translations from Tolgee" \
+              --body "Automated pull of reviewed translations from Tolgee. Review the diff per locale before merging."
+          fi

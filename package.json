@@ -30,6 +30,7 @@
     "eslint-config-prettier": "catalog:",
     "eslint-import-resolver-typescript": "catalog:",
     "eslint-plugin-boundaries": "catalog:",
+    "eslint-plugin-lingui": "catalog:",
     "eslint-plugin-react-hooks": "catalog:",
     "globals": "catalog:",
     "prettier": "catalog:",

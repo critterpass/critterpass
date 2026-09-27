@@ -1,0 +1,29 @@
+import type { Messages } from '@lingui/core';
+
+/** One loader per catalog for this locale; each import target is a literal path (see the generator comment for why). */
+export const catalogs: Record<string, () => Promise<Messages>> = {
+  "album": () => import('../../locales/en/album').then((m) => m.messages),
+  "bookings": () => import('../../locales/en/bookings').then((m) => m.messages),
+  "common": () => import('../../locales/en/common').then((m) => m.messages),
+  "community": () => import('../../locales/en/community').then((m) => m.messages),
+  "crew": () => import('../../locales/en/crew').then((m) => m.messages),
+  "critters": () => import('../../locales/en/critters').then((m) => m.messages),
+  "explore": () => import('../../locales/en/explore').then((m) => m.messages),
+  "guide": () => import('../../locales/en/guide').then((m) => m.messages),
+  "help": () => import('../../locales/en/help').then((m) => m.messages),
+  "home": () => import('../../locales/en/home').then((m) => m.messages),
+  "monetize": () => import('../../locales/en/monetize').then((m) => m.messages),
+  "money": () => import('../../locales/en/money').then((m) => m.messages),
+  "onboarding": () => import('../../locales/en/onboarding').then((m) => m.messages),
+  "plan": () => import('../../locales/en/plan').then((m) => m.messages),
+  "proposal": () => import('../../locales/en/proposal').then((m) => m.messages),
+  "recap": () => import('../../locales/en/recap').then((m) => m.messages),
+  "safety": () => import('../../locales/en/safety').then((m) => m.messages),
+  "server": () => import('../../locales/en/server').then((m) => m.messages),
+  "setup": () => import('../../locales/en/setup').then((m) => m.messages),
+  "surfaces": () => import('../../locales/en/surfaces').then((m) => m.messages),
+  "trip": () => import('../../locales/en/trip').then((m) => m.messages),
+  "vote": () => import('../../locales/en/vote').then((m) => m.messages),
+  "web": () => import('../../locales/en/web').then((m) => m.messages),
+  "you": () => import('../../locales/en/you').then((m) => m.messages),
+};

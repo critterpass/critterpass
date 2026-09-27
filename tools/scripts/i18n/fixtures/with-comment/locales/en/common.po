@@ -1,0 +1,8 @@
+msgid ""
+msgstr ""
+"Language: en\n"
+
+#. shown on the crew invite screen
+#: apps/mobile/src/app/crew/invite.tsx
+msgid "crew.invite.accept"
+msgstr "Accept"
