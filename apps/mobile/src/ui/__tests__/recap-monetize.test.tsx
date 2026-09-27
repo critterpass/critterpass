@@ -7,6 +7,8 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { fireEvent, screen } from '@testing-library/react-native';
+import { StyleSheet } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { describe, expect, it, jest } from '@jest/globals';
 
 import { tokens } from '@cp/design-tokens';
@@ -136,6 +138,40 @@ describe('monetisation', () => {
     });
     await run(screen.getByRole('tab', { name: 'Free' }), 'activate');
     expect(onHighlight).toHaveBeenCalledWith('free');
+  });
+
+  it('lays the header, every row and the highlight band on one column grid', async () => {
+    await renderUi(
+      <ComparisonTable
+        testID="compare"
+        highlighted="pass"
+        columns={[
+          { id: 'free', label: 'Free' },
+          { id: 'pass', label: 'Pass+' },
+          { id: 'boost', label: 'Boost' },
+        ]}
+        rows={[
+          { label: 'Guide chat, voice, camera', values: ['30 a day', '∞', '∞ on trip'] },
+          { label: 'Crew size', values: ['6', '6', '16'] },
+        ]}
+      />,
+    );
+    const widthOf = (node: { props: { style?: unknown } } | null) =>
+      StyleSheet.flatten(node?.props.style as StyleProp<ViewStyle>)?.width;
+    // Label two shares, each of the three plans one: 40% then 20% columns.
+    for (const tab of screen.getAllByRole('tab')) expect(widthOf(tab)).toBe('20%');
+    // Values render uppercased (the label style).
+    for (const value of ['30 A DAY', '∞', '∞ ON TRIP', '6', '16']) {
+      for (const text of screen.getAllByText(value, { includeHiddenElements: true })) {
+        expect(widthOf(text.parent)).toBe('20%');
+      }
+    }
+    expect(widthOf(screen.getByText('Crew size', { includeHiddenElements: true }))).toBe('40%');
+    const band = StyleSheet.flatten(
+      screen.getByTestId('compare-band').props.style as StyleProp<ViewStyle>,
+    );
+    // Pass+ is the second plan column: it starts after the label and the Free column.
+    expect(band).toEqual(expect.objectContaining({ start: '60%', width: '20%' }));
   });
 
   it('picks plans and billing periods as radios with their store prices', async () => {
