@@ -9,8 +9,10 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer: wire values and a
    developer-facing log prefix, never copy. */
+import * as Application from 'expo-application';
 import Constants from 'expo-constants';
-import { AppState } from 'react-native';
+import { getCalendars, getLocales } from 'expo-localization';
+import { AppState, Platform } from 'react-native';
 import { createMMKV } from 'react-native-mmkv';
 
 import { createLinkResolverClient, type ClaimDevice } from '../../lib/links/resolver-client';
@@ -19,6 +21,9 @@ import { createDeviceResolver } from '../commands/device';
 import type { ExtensionOutbox } from '../commands/drain-extension-outbox';
 import { resolveApiBaseUrl } from '../places/apiBaseUrl';
 import { startLocalFirst } from '../powersync/db';
+import { createFetchTransport } from '../powersync/transport';
+import { expoPushNative, secureInstallIdStorage } from '../push/expo-native';
+import type { PushLifecycleDeps } from '../push/use-push-lifecycle';
 import type { AppStateSource } from '../realtime/client';
 import { createDeviceRecoveryStore } from '../realtime/device-recovery-store';
 import { appEnvironment, endpointsConfigJson, resolveRealtimeUrl } from './endpoints';
@@ -141,3 +146,40 @@ function createSession(): Promise<AppSession> {
     onError: reportAppSessionError,
   });
 }
+
+function pushPlatform(): 'ios' | 'android' | null {
+  return Platform.OS === 'ios' || Platform.OS === 'android' ? Platform.OS : null;
+}
+
+function devicePushDeps(): PushLifecycleDeps | undefined {
+  const platform = pushPlatform();
+  if (platform === null) return undefined;
+  const transport = createFetchTransport({ baseUrl: resolveApiBaseUrl(), sessionHeaders });
+  const bundleId = Application.applicationId;
+  return {
+    native: expoPushNative,
+    transport: (cmd, envelope) => transport.postJson(`/v1/cmd/${cmd}`, envelope),
+    storage: secureInstallIdStorage,
+    // Registration waits for the session; before one exists (offline first launch) it skips and
+    // the next foreground tries again.
+    currentUid: () =>
+      startDeviceAppSession().then(
+        (session) => session.uid,
+        () => undefined,
+      ),
+    platform,
+    ...(bundleId !== null ? { bundleId } : {}),
+    appVersion: Constants.expoConfig?.version ?? '0.0.0',
+    osVersion: String(Platform.Version),
+    locale: () => getLocales()[0]?.languageTag ?? 'en',
+    timeZone: () => getCalendars()[0]?.timeZone ?? 'UTC',
+    subscribeAppState: (listener) => {
+      const subscription = AppState.addEventListener('change', listener);
+      return () => subscription.remove();
+    },
+    onError: reportAppSessionError,
+  };
+}
+
+/** Push registration for the root; undefined on platforms without push. */
+export const devicePush = devicePushDeps();

@@ -16,6 +16,7 @@ import {
   configureDeviceAppGroup,
   deviceAppState,
   deviceLinkClaims,
+  devicePush,
   reportAppSessionError,
   startDeviceAppSession,
 } from '@/data/app-session/device-session';
@@ -117,6 +118,7 @@ export default function RootLayout() {
             start={startDeviceAppSession}
             appState={deviceAppState}
             onError={reportAppSessionError}
+            push={devicePush}
           >
             <ScreenJoltProvider>
               <RootNavigator />
