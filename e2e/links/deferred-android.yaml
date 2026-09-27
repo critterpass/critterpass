@@ -1,0 +1,19 @@
+appId: app.critterpass.dev
+---
+# Fresh Android install from an invite link: the first launch reads the install referrer (here
+# injected as the `cp_install_referrer` launch extra, honoured in internal variants only) and lands
+# on the invite ticket without typing.
+#
+# Needs before it can pass:
+# 1. `SplashResolveGate` (apps/mobile/src/lib/links) mounted around the root stack with the
+#    cp-deferred-link primitives (including `getReferrerOverride` outside production) and the
+#    signed-in claim client.
+# 2. The invite ticket screen exposing `testID="screen-onboarding-invite-ticket"`.
+# 3. The api links routes live on the build's api with a live code `BAX6XA` seeded.
+- clearState
+- launchApp:
+    clearState: true
+    arguments:
+      cp_install_referrer: 'utm_source=critterpass&cp_link=%2Fi%2FBAX6XA'
+- assertVisible:
+    id: screen-onboarding-invite-ticket

@@ -124,6 +124,11 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await insertCrewMember(tx, { crewId, userId: exMember, role: 'member' });
     await setCrewMemberStatus(tx, { crewId, userId: exMember, status: 'removed' });
 
+    await tx.query(
+      `INSERT INTO join_codes (code, target_kind, target_id, crew_id, created_by)
+       VALUES ('M4TR9X', 'crew', $1, $1, $2)`,
+      [crewId, organiser],
+    );
     const tripId = await insertTrip(tx, { crewId, status: 'voting' });
     await insertTripParticipant(tx, { tripId, userId: organiser, role: 'organiser' });
     await insertTripParticipant(tx, { tripId, userId: coOrganiser, role: 'organiser' });

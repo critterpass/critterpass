@@ -1,0 +1,160 @@
+---
+import '../../styles/fonts.css';
+import '../../styles/tokens.css';
+import './handoff.css';
+
+import type { HandoffCopy } from '../../lib/links/handoff-copy';
+import type { HandoffModel } from '../../lib/links/handoff-model';
+import InAppBrowserEscape from './InAppBrowserEscape.astro';
+import OpenInApp from './OpenInApp.astro';
+
+export interface Props {
+  readonly model: HandoffModel | null;
+  readonly copy: HandoffCopy;
+  readonly expires: string | null;
+  /** Desktop only: a QR code of the link for the visitor's phone camera. */
+  readonly qrSvg: string | null;
+  readonly appStoreHref: string | null;
+  readonly playStoreHref: string;
+}
+
+const { model, copy, expires, qrSvg, appStoreHref, playStoreHref } = Astro.props;
+// Android goes through the intent URL and the install referrer; everywhere else the link is copied.
+const copyLink = model !== null && model.platform !== 'android' ? model.canonicalLink : null;
+const code = model?.code ?? null;
+const inviteLike = model === null || model.target.kind === 'invite' || model.target.kind === 'referral';
+const ogImage = new URL('/og-image.png', Astro.url).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{copy.pageTitle}</title>
+    <meta name="description" content={copy.pageDescription} />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#17142a" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {model?.smartAppBanner && <meta name="apple-itunes-app" content={model.smartAppBanner} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CritterPass" />
+    <meta property="og:title" content={copy.pageTitle} />
+    <meta property="og:description" content={copy.pageDescription} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body class="lh-page">
+    <header class="lh-bar">
+      <a href="/" class="lh-brand">
+        <img src="/favicon.svg" width="36" height="36" alt="" aria-hidden="true" />
+        <span>CRITTERPASS</span>
+      </a>
+    </header>
+
+    <main class="lh-main">
+      <section class="lh-ticket" aria-labelledby="lh-headline" data-testid="handoff-ticket">
+        <p class="lh-eyebrow">{copy.eyebrow}</p>
+        <h1 id="lh-headline" class="lh-headline">{copy.headline}</h1>
+        {copy.body && <p class="lh-body">{copy.body}</p>}
+        {copy.roster && <p class="lh-roster">{copy.roster}</p>}
+        {
+          copy.chips.length > 0 && (
+            <ul class="lh-chips">
+              {copy.chips.map((chip) => (
+                <li class="lh-chip">{chip}</li>
+              ))}
+            </ul>
+          )
+        }
+      </section>
+
+      <div class="lh-side">
+        <section class="lh-panel" aria-label="Get the app">
+          {
+            code !== null && (
+              <>
+                <div class="lh-panel__row">
+                  <p class="lh-eyebrow lh-eyebrow--muted">Your invite code</p>
+                  {expires && <p class="lh-expires">{expires}</p>}
+                </div>
+                <p class="lh-code" aria-label={`Invite code ${code.split('').join(' ')}`} data-testid="invite-code">
+                  {code.split('').map((glyph) => (
+                    <span class="lh-code__tile" aria-hidden="true">
+                      {glyph}
+                    </span>
+                  ))}
+                </p>
+              </>
+            )
+          }
+          {
+            qrSvg !== null && (
+              <div class="lh-desktop">
+                <div class="lh-qr" set:html={qrSvg} role="img" aria-label="QR code for this link" />
+                <div>
+                  <h2 class="lh-desktop__title">On your computer?</h2>
+                  <p class="lh-desktop__body">
+                    Scan with your phone camera. The app opens straight to this link, or the store if you
+                    don't have it yet.
+                  </p>
+                </div>
+              </div>
+            )
+          }
+          <OpenInApp
+            openHref={model?.openInAppHref ?? null}
+            copyLink={copyLink}
+            appStoreHref={appStoreHref}
+            playStoreHref={playStoreHref}
+            cta={copy.cta}
+          />
+        </section>
+
+        {
+          inviteLike && (
+            <form class="lh-code-form" data-code-form novalidate>
+              <label class="lh-code-form__title" for="lh-code-input">
+                {model === null ? 'Have a code?' : 'Got a different code?'}
+              </label>
+              <div class="lh-code-form__row">
+                <input
+                  id="lh-code-input"
+                  name="code"
+                  class="lh-code-form__input"
+                  autocomplete="off"
+                  autocapitalize="characters"
+                  spellcheck="false"
+                  maxlength="9"
+                  placeholder="ABC234"
+                />
+                <button type="submit" class="lh-code-form__submit">
+                  Find my crew
+                </button>
+              </div>
+              <p class="lh-code-form__hint">Six letters and numbers from whoever invited you.</p>
+              <p class="lh-code-form__error" role="alert">That code doesn't look right. Check each character.</p>
+            </form>
+          )
+        }
+      </div>
+    </main>
+
+    {
+      model?.inAppBrowser && (
+        <InAppBrowserEscape
+          inAppBrowser={model.inAppBrowser}
+          platform={model.platform}
+          link={model.canonicalLink}
+          openInChromeHref={model.openInChromeHref}
+        />
+      )
+    }
+
+    <script>
+      import { wireLinkHandoff } from './CopyOnTap';
+      wireLinkHandoff();
+    </script>
+  </body>
+</html>

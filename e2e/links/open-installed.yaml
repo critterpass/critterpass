@@ -1,0 +1,34 @@
+appId: app.critterpass.dev
+---
+# Installed app: every link kind lands on its screen (apps/mobile/src/lib/links/route-map.ts).
+#
+# Needs before it can pass:
+# 1. The target screens, each exposing a root `testID` of `screen-<route>`:
+#    `screen-onboarding-invite-ticket` (3a-10), `screen-home`, `screen-trip-plan`,
+#    `screen-explore-destination`, `screen-critters`, `screen-community-plan`.
+# 2. An onboarded, signed-in app state (the router holds links until onboarding completes); run
+#    after the onboarding flow or on a build with the pass already issued.
+# 3. For the Universal Link step: the web Worker deployed to staging.critterpass.app with the
+#    development app in its AASA (apps/web/src/pages/.well-known), and the api's links routes live.
+- launchApp
+- openLink: critterpass-dev://i/BAX6XA
+- assertVisible:
+    id: screen-onboarding-invite-ticket
+- openLink: critterpass-dev://plan/0199a1c2-7b3e-7c10-9a55-3f1f6e2d4b03
+- assertVisible:
+    id: screen-trip-plan
+- openLink: critterpass-dev://g/lundi
+- assertVisible:
+    id: screen-explore-destination
+- openLink: critterpass-dev://locals/bali
+- assertVisible:
+    id: screen-critters
+- openLink: critterpass-dev://p/abcdefghijklmnop
+- assertVisible:
+    id: screen-community-plan
+- openLink: critterpass-dev://i/not-a-code
+- assertVisible:
+    id: screen-home
+- openLink: https://staging.critterpass.app/i/BAX6XA
+- assertVisible:
+    id: screen-onboarding-invite-ticket

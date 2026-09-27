@@ -1,0 +1,9 @@
+{
+  "name": "cp-deferred-link",
+  "version": "1.0.0",
+  "private": true,
+  "description": "First-launch deferred link primitives: Play Install Referrer (Android, read once) and a no-alert probable-link check of the pasteboard (iOS).",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}

@@ -115,6 +115,11 @@ streams:
     query: |-
       SELECT * FROM users
       WHERE id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)
+  crew_invites:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM join_codes WHERE crew_id IN my_crews
+      - SELECT * FROM join_codes WHERE created_by = auth.user_id()
   catalog:
     auto_subscribe: true
     queries:

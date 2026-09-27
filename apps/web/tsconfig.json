@@ -5,5 +5,5 @@
     "jsxImportSource": "astro",
     "types": []
   },
-  "include": ["src", "*.mjs", "*.ts"]
+  "include": ["src", "src/pages/.well-known/*.ts", "tests", "*.mjs", "*.ts"]
 }

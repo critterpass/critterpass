@@ -1,0 +1,35 @@
+---
+export interface Props {
+  /** "Open in app" destination; null on pages without a link (not found). */
+  readonly openHref: string | null;
+  /** Copied before a tap navigates away (iOS and desktop); the app offers it back after install. */
+  readonly copyLink: string | null;
+  readonly appStoreHref: string | null;
+  readonly playStoreHref: string;
+  readonly cta: string;
+}
+
+const { openHref, copyLink, appStoreHref, playStoreHref, cta } = Astro.props;
+---
+
+<div class="lh-actions">
+  {
+    openHref !== null && (
+      <a class="lh-cta" href={openHref} data-copy-link={copyLink ?? undefined} data-testid="open-in-app">
+        {cta}
+      </a>
+    )
+  }
+  <div class="lh-stores">
+    {
+      appStoreHref !== null && (
+        <a class="lh-store" href={appStoreHref} data-copy-link={copyLink ?? undefined} data-testid="app-store">
+          App Store
+        </a>
+      )
+    }
+    <a class="lh-store" href={playStoreHref} data-testid="google-play">
+      Google Play
+    </a>
+  </div>
+</div>
