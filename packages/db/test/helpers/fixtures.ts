@@ -70,10 +70,45 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await tx.query('INSERT INTO user_settings (user_id) VALUES ($1)', [organiser]);
     await tx.query("INSERT INTO consents (user_id, purpose) VALUES ($1, 'analytics')", [organiser]);
     await tx.query('INSERT INTO user_private (user_id) VALUES ($1)', [organiser]);
+    const organiserDevice = crypto.randomUUID();
+    await tx.query(
+      `INSERT INTO devices (id, user_id, platform, app_version, locale, tz)
+       VALUES ($1, $2, 'ios', '1.0.0', 'en', 'Asia/Singapore')`,
+      [organiserDevice, organiser],
+    );
+    await tx.query(
+      `INSERT INTO push_tokens (device_id, kind, token, env) VALUES ($1, 'apns_alert', $2, 'sandbox')`,
+      [organiserDevice, `matrix-probe-${organiserDevice}`],
+    );
     await tx.query(
       `INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
        VALUES ($1, $2, $3, 'matrix-probe', ARRAY['ballot'], now() + interval '30 days')`,
-      [crypto.randomUUID(), crypto.randomUUID(), organiser],
+      [crypto.randomUUID(), organiserDevice, organiser],
+    );
+    const { rows: notificationRows } = await tx.query<{ id: string }>(
+      `INSERT INTO notifications (user_id, key, category, class, sender, template_id, title, body,
+         dedupe_key, local_date)
+       VALUES ($1, 'matrix_probe', 'cp.generic', 'budgeted', '{"kind":"system"}', 'matrix_probe',
+         'Probe', 'Probe', 'matrix-probe', CURRENT_DATE)
+       RETURNING id`,
+      [organiser],
+    );
+    await tx.query('INSERT INTO notification_prefs (user_id) VALUES ($1)', [organiser]);
+    await tx.query('INSERT INTO ping_ledger (user_id, local_date) VALUES ($1, CURRENT_DATE)', [
+      organiser,
+    ]);
+    await tx.query(
+      "INSERT INTO roundups (user_id, local_date, tz) VALUES ($1, CURRENT_DATE, 'Asia/Singapore')",
+      [organiser],
+    );
+    await tx.query(
+      "INSERT INTO inbox_items (user_id, kind, notification_id) VALUES ($1, 'matrix_probe', $2)",
+      [organiser, notificationRows[0]?.id],
+    );
+    await tx.query(
+      `INSERT INTO scheduled_deliveries (user_id, kind, target_ref, send_at_local, tz, due_at)
+       VALUES ($1, 'resend', 'matrix-probe', '2026-09-28T09:00', 'Asia/Singapore', now())`,
+      [organiser],
     );
     await tx.query(
       `INSERT INTO account_deletions (user_id, purge_at, source) VALUES ($1, now() + interval '30 days', 'app')`,

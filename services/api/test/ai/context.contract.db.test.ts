@@ -83,8 +83,13 @@ beforeAll(async () => {
         [uid, CANARIES.phone, CANARIES.email, CANARIES.passport],
       );
       await tx.query(
-        `INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
-         VALUES ($1, gen_random_uuid(), $2, $3, ARRAY['help'], now() + interval '1 day')`,
+        `WITH device AS (
+           INSERT INTO devices (id, user_id, platform, app_version, locale, tz)
+           VALUES (gen_random_uuid(), $2, 'ios', '1.0.0', 'en', 'UTC')
+           RETURNING id
+         )
+         INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
+         SELECT $1, id, $2, $3, ARRAY['help'], now() + interval '1 day' FROM device`,
         [`key-${name}`, uid, CANARIES.actionKey],
       );
     }

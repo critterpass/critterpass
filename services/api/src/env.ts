@@ -23,7 +23,8 @@ export const apiEnvSchema = z.object({
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   /** Pooled connection (PgBouncer, port 6432) used by request transactions. */
   DATABASE_URL: z.url(),
-  /** Direct connection (port 5432), read only by the pre-deploy migration step. */
+  /** Direct connection (port 5432): the pre-deploy migration step and the job producer (pg-boss needs
+   *  session-level advisory locks, which PgBouncer transaction pooling cannot give). */
   DATABASE_DIRECT_URL: optionalUrl,
   REDIS_URL: z.url(),
   PUBLIC_BASE_URL: z.url(),

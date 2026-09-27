@@ -143,14 +143,19 @@ describe('pg-boss runtime', () => {
 
     failing = false;
     expect(await redrive(boss, queue)).toBe(1);
-    await until(() => attempts.length === 4, 10_000);
+    const completed = async () => {
+      const { rows } = await pool.query<{ count: number }>(
+        "SELECT count(*)::int AS count FROM pgboss.job WHERE name = $1 AND state = 'completed'",
+        [queue],
+      );
+      return rows[0]?.count ?? 0;
+    };
+    // The handler returning is not the job being settled: pg-boss marks it completed a moment
+    // later, so wait for the settled state rather than for the handler call.
+    await until(async () => attempts.length === 4 && (await completed()) > 0, 10_000);
     expect(attempts[3]).toBe(0);
     expect(await listDeadLetters(boss, queue)).toEqual([]);
-    const { rows } = await pool.query<{ count: number }>(
-      "SELECT count(*)::int AS count FROM pgboss.job WHERE name = $1 AND state = 'completed'",
-      [queue],
-    );
-    expect(rows[0]?.count).toBe(1);
+    expect(await completed()).toBe(1);
     expect(await boss.getQueue(dlqName(queue))).not.toBeNull();
   });
 
