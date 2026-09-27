@@ -27,3 +27,6 @@ packages/i18n/src/catalog-registry/
 
 # Map tile spike build output (git-ignored by tools/spikes/tiles/.gitignore).
 tools/spikes/tiles/.output/
+
+# Design-token generator output (git-ignored; regenerated from the DTCG sources).
+packages/design-tokens/generated/
