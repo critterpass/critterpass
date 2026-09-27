@@ -24,6 +24,7 @@ import {
 import type pg from 'pg';
 
 import type { JobLogger } from '../boss/define-job';
+import { emitForecastChanges, readPointForecast } from './forecast-watch';
 import { selectWeatherPlans, type WeatherPoint } from './weather-points';
 import type { ForecastDays, WeatherPointQuery } from './weatherapi-client';
 
@@ -115,6 +116,8 @@ export interface WeatherRefreshReport {
   readonly marine: number;
   readonly failed: number;
   readonly purged: number;
+  /** `forecast.changed` events appended. */
+  readonly events: number;
 }
 
 export interface RefreshWeatherOptions {
@@ -136,6 +139,7 @@ export async function refreshWeather(
   let forecasts = 0;
   let marine = 0;
   let failed = 0;
+  let events = 0;
 
   for (const plan of plans) {
     const interval = plan.outdoorSoon ? WEATHER_REFRESH_NEAR_MINUTES : WEATHER_REFRESH_MINUTES;
@@ -159,9 +163,17 @@ export async function refreshWeather(
           { lat: point.lat, lng: point.lng, days: options.forecastDays },
           signal,
         );
-        await withSystem(pool, async (tx) => {
+        events += await withSystem(pool, async (tx) => {
+          const before = await readPointForecast(tx, plan.destinationId, point.key);
           await storeForecast(tx, plan.destinationId, point, result.days, now);
-          if (point.key !== CENTROID_POINT_KEY) return;
+          const after = await readPointForecast(tx, plan.destinationId, point.key);
+          const watch = {
+            destinationId: plan.destinationId,
+            travel: plan.travel,
+            pointKey: point.key,
+          };
+          const changed = await emitForecastChanges(tx, { ...watch, before, after });
+          if (point.key !== CENTROID_POINT_KEY) return changed;
           for (const summit of plan.travel.summits) {
             const carried = new Map(
               [...result.days].map(([date, body]) => [
@@ -182,6 +194,7 @@ export async function refreshWeather(
               now,
             );
           }
+          return changed;
         });
         forecasts += 1;
       } catch (error) {
@@ -199,7 +212,8 @@ export async function refreshWeather(
     if (!isDue(lastMarine, plan.marineLive ? MARINE_REFRESH_LIVE_MINUTES : interval, now)) continue;
     try {
       const days = await source.marine({ ...coast, days: options.marineDays }, signal);
-      await withSystem(pool, async (tx) => {
+      events += await withSystem(pool, async (tx) => {
+        const before = await readPointForecast(tx, plan.destinationId, CENTROID_POINT_KEY);
         for (const [date, body] of days) {
           await tx.query(
             `UPDATE weather_snapshots SET marine = $4, marine_fetched_at = $5
@@ -207,6 +221,14 @@ export async function refreshWeather(
             [plan.destinationId, CENTROID_POINT_KEY, date, JSON.stringify(body), now],
           );
         }
+        const after = await readPointForecast(tx, plan.destinationId, CENTROID_POINT_KEY);
+        return emitForecastChanges(tx, {
+          destinationId: plan.destinationId,
+          travel: plan.travel,
+          pointKey: CENTROID_POINT_KEY,
+          before,
+          after,
+        });
       });
       marine += 1;
     } catch (error) {
@@ -224,5 +246,5 @@ export async function refreshWeather(
     );
     return result.rowCount ?? 0;
   });
-  return { destinations: plans.length, forecasts, marine, failed, purged };
+  return { destinations: plans.length, forecasts, marine, failed, purged, events };
 }

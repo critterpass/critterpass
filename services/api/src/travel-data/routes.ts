@@ -11,6 +11,7 @@ import type { SessionResolver } from '../commands/_framework/session';
 import { registerCrowdsRoute } from './crowds-route';
 import { registerDestinationRoute } from './destination-route';
 import { registerFaresRoute } from './fares-route';
+import { registerHazardsRoute } from './hazards-route';
 import { registerWeatherRoutes } from './weather-route';
 
 export interface TravelDataRouteDeps {
@@ -26,4 +27,5 @@ export function registerTravelDataRoutes(
   registerDestinationRoute(app, deps);
   registerCrowdsRoute(app, deps);
   registerWeatherRoutes(app, deps);
+  registerHazardsRoute(app, deps);
 }

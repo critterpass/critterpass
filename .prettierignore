@@ -34,3 +34,6 @@ tools/spikes/tiles/.output/
 
 # Design-token generator output (git-ignored; regenerated from the DTCG sources).
 packages/design-tokens/generated/
+
+# Recorded hazard feed pages stay byte-for-byte as the feeds served them.
+services/worker/test/fixtures/hazards/

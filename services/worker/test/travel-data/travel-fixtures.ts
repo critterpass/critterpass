@@ -164,3 +164,21 @@ export const RECORDED_WEATHER_ROUTES: readonly RecordedRoute[] = [
     file: 'marine-bali-padang-bai-1d.json',
   },
 ];
+
+export const HAZARD_FIXTURES = path.resolve(import.meta.dirname, '../fixtures/hazards');
+
+export const RECORDED_HAZARD_ROUTES: readonly RecordedRoute[] = [
+  { path: '/v1/gunung-api/tingkat-aktivitas', params: {}, file: 'magma-tingkat-aktivitas.html' },
+  {
+    path: '/earthquakes-and-volcanism/volcanoes/vona-notifications/',
+    params: {},
+    file: 'imo-vona-notifications.html',
+  },
+  { path: '/bosai/warning/data/warning/260000.json', params: {}, file: 'jma-warning-260000.json' },
+  { path: '/news/WeeklyVolcanoRSS.xml', params: {}, file: 'gvp-weekly-volcano-rss.xml' },
+];
+
+/** A recorded file read as the feed serves it (`latin1` for the GVP report). */
+export function readHazardFixture(file: string, encoding: BufferEncoding = 'utf8'): string {
+  return readFileSync(path.join(HAZARD_FIXTURES, file), encoding);
+}

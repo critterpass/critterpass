@@ -17,6 +17,12 @@ import { defineJob, type AnyJobDefinition, type JobLogger } from '../boss/define
 import type { WorkerEnv } from '../env';
 import { crowdsRefreshJob } from './crowds-refresh';
 import { faresRefreshJob } from './fares-refresh';
+import { fxRefreshJob } from './fx-refresh';
+import { fetchGvp } from './hazards/gvp';
+import { fetchImo } from './hazards/imo';
+import { fetchJma } from './hazards/jma';
+import { fetchMagma } from './hazards/magma';
+import { isHazardTick, refreshHazards, type HazardFeeds } from './hazards/refresh';
 import { seasonIngestJob } from './season-ingest';
 import { refreshWeather, type WeatherSource } from './weather-refresh';
 import { fetchForecast, fetchMarine } from './weatherapi-client';
@@ -50,6 +56,22 @@ export function weatherRefreshJob(
   });
 }
 
+export function hazardsRefreshJob(feeds: HazardFeeds): AnyJobDefinition {
+  return defineJob({
+    queue: 'hazards.refresh',
+    schema: z.object({ force: z.boolean().optional() }).nullish(),
+    async handler(data, { pool, logger, job }) {
+      const now = new Date();
+      if (data?.force !== true && !(await withSystem(pool, (tx) => isHazardTick(tx, now)))) {
+        return { skipped: true };
+      }
+      const report = await refreshHazards({ pool, feeds, logger, now, signal: job.signal });
+      logger.info({ ...report }, 'hazards refreshed');
+      return { ...report };
+    },
+  });
+}
+
 export function travelDataJobs(
   env: Pick<
     WorkerEnv,
@@ -59,7 +81,17 @@ export function travelDataJobs(
   logger: JobLogger,
 ): AnyJobDefinition[] {
   const http = createAuditedSupplierHttp(pool, logger);
-  const jobs: AnyJobDefinition[] = [seasonIngestJob(), crowdsRefreshJob()];
+  const jobs: AnyJobDefinition[] = [
+    seasonIngestJob(),
+    crowdsRefreshJob(),
+    fxRefreshJob(),
+    hazardsRefreshJob({
+      magma: (signal) => fetchMagma(http, signal),
+      imo: (signal) => fetchImo(http, signal),
+      jma: (areaCodes, signal) => fetchJma(http, areaCodes, signal),
+      gvp: (signal) => fetchGvp(http, signal),
+    }),
+  ];
   const token = env.TRAVELPAYOUTS_TOKEN;
   if (token === undefined) {
     logger.warn({}, 'fares.refresh is disabled: TRAVELPAYOUTS_TOKEN is unset');

@@ -117,6 +117,20 @@ export const QUEUES = {
     keepCompletedSeconds: 86_400,
     cron: { expr: '*/15 * * * *', tz: 'UTC' },
   }),
+  // Every 15 minutes; the handler reads the feeds hourly, or every tick while a trip is under way.
+  'hazards.refresh': spec({
+    policy: 'stately',
+    retryLimit: 1,
+    expireInSeconds: 10 * 60,
+    keepCompletedSeconds: 86_400,
+    cron: { expr: '*/15 * * * *', tz: 'UTC' },
+  }),
+  'fx.refresh': spec({
+    policy: 'stately',
+    expireInSeconds: 10 * 60,
+    keepCompletedSeconds: 86_400,
+    cron: { expr: '15 * * * *', tz: 'UTC' },
+  }),
   // Daily; the handler works on Mondays and during blossom/foliage windows only.
   'season.ingest': spec({
     policy: 'stately',
