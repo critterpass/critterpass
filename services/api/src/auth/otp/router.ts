@@ -1,9 +1,9 @@
 /**
- * Phone OTP sender router (docs/product-decisions.md D14; phase Requirements table "Conflict →
- * merge", "SMS pumping"): WhatsApp first wherever the country allows it (the Cloud API has no
- * reachability lookup, so it is always tried, not probed), SMS (Prelude/Twilio Verify per
- * ./countries.ts) as fallback or for countries without WhatsApp. Channels with no registered
- * adapter (missing credentials, phase-9 §Non-code dependencies) are skipped, never faked.
+ * Phone OTP sender router (docs/product-decisions.md; requirements: "Conflict → merge", "SMS
+ * pumping"): WhatsApp first wherever the country allows it (the Cloud API has no reachability
+ * lookup, so it is always tried, not probed), SMS (Prelude/Twilio Verify per ./countries.ts) as
+ * fallback or for countries without WhatsApp. Channels with no registered adapter (missing
+ * credentials for this deployment) are skipped, never faked.
  */
 import { DomainError } from '@cp/domain';
 
@@ -63,8 +63,8 @@ export function createOtpRouter(deps: OtpRouterDeps): OtpRouter {
       const order = channelOrder(policy);
       const registered = order.filter((channel) => deps.adapters[channel] !== undefined);
       if (registered.length === 0) {
-        // Every channel this country could use has no credentials configured (phase-9
-        // §Non-code dependencies: "router skips unavailable channels"). Nothing to fake here.
+        // Every channel this country could use has no credentials configured for this deployment
+        // ("router skips unavailable channels"). Nothing to fake here.
         throw new DomainError('INTERNAL', { reason: 'no_otp_channel_available' });
       }
 
@@ -86,7 +86,7 @@ export function createOtpRouter(deps: OtpRouterDeps): OtpRouter {
           return;
         } catch (error) {
           lastError = error;
-          // WhatsApp sync send error falls back to SMS (phase-9 T4 done-when); the last channel in
+          // WhatsApp send error falls back to SMS; the last channel in
           // the order has nowhere left to fall back to, so its error is the one that surfaces.
           if (index === registered.length - 1) throw error;
         }

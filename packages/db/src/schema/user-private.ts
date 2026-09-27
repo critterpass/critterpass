@@ -10,7 +10,7 @@ import { sql } from 'drizzle-orm';
 import { integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 /**
- * One row per attested app install (docs/data-model.md §3.1, phase-9 F-029). `installId` has no FK
+ * One row per attested app install (docs/data-model.md §3.1). `installId` has no FK
  * to `users`: App Attest/Play Integrity attestation happens before an anonymous user necessarily
  * exists yet (it gates the very call that creates one), so this table's lifetime is the install's
  * keychain/keystore key, not an account's. RLS class S (system-only, no app_user policy at all —

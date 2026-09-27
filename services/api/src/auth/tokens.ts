@@ -4,7 +4,7 @@
  * *before* the `/api/auth/*` catch-all to `auth.handler` (services/api/src/app.ts): Better Auth's own
  * `jwt` plugin already serves `/token` and `/jwks`, but neither is what PowerSync/Centrifugo need
  * as-is — `/token` has no per-request audience, and its JWKS keys never carry `use: "sig"`, which
- * Centrifugo silently rejects (phase-9 spike finding, docs/system-architecture.md §11 S-RT).
+ * Centrifugo silently rejects (a spike finding, docs/system-architecture.md §11 S-RT).
  */
 import type { Context, Hono } from 'hono';
 
@@ -85,7 +85,7 @@ export function registerAuthTokenRoutes<E extends { Variables: object }>(
           anon: Boolean(session.user.isAnonymous),
           aud: audParam,
           // Required explicitly: the low-level signJWT primitive only calls jose's setIssuedAt()
-          // when the caller's payload includes iat (phase-9 spike finding, docs/system-architecture
+          // when the caller's payload includes iat (a spike finding, docs/system-architecture
           // .md §11 S-SYNC); PowerSync rejects a connection JWT with no iat claim.
           iat: Math.floor(Date.now() / 1000),
         },
@@ -103,7 +103,7 @@ export function registerAuthTokenRoutes<E extends { Variables: object }>(
 /**
  * Forces the jwt plugin's lazy rotation check (services/api/src/auth/config.ts's
  * `jwks.rotationInterval`/`gracePeriod`): Better Auth only mints a new signing key the next time
- * something actually needs to sign, so calling this from a scheduled job (phase 11) rotates ahead of
+ * something actually needs to sign, so calling this from a scheduled job rotates ahead of
  * traffic instead of on a live request's critical path. The minted token itself is discarded.
  */
 export async function rotateJwksIfDue(auth: AuthInstance): Promise<void> {

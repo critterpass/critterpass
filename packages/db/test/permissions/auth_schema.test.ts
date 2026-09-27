@@ -1,6 +1,6 @@
 /**
- * `auth` schema isolation (docs/data-model.md §2, phase-9 T1 done-when): no role but `auth` itself
- * ever gets `USAGE` on the schema, let alone a table grant — checked both by direct attempt
+ * `auth` schema isolation (docs/data-model.md §2): no role but `auth` itself ever gets `USAGE` on
+ * the schema, let alone a table grant — checked both by direct attempt
  * (`app_user`/`guide_reader`, reachable via `SET ROLE` from the admin connection) and by catalog
  * (`powersync_repl`, a real LOGIN role with no password provisioned in this test database, so it is
  * checked the same way packages/db/test/publication.test.ts checks it for the `ops` schema).

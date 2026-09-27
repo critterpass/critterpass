@@ -1,5 +1,5 @@
 /**
- * WhatsApp Cloud API webhook (docs/api-contracts.md §5.1, phase-9 T4): the `GET` verify-token
+ * WhatsApp Cloud API webhook (docs/api-contracts.md §5.1): the `GET` verify-token
  * handshake Meta performs once when the webhook URL is registered, and the signed `POST` status
  * callback used to detect an undelivered authentication-template message and offer SMS instead.
  */

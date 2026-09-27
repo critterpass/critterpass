@@ -1,4 +1,4 @@
--- device_attestations (docs/data-model.md §3.1, phase-9 F-029): one row per attested app install.
+-- device_attestations (docs/data-model.md §3.1): one row per attested app install.
 -- RLS class S (system-only) — no app_user policy at all, so app_user cannot see or write any row
 -- regardless of grants; app_system is the sole reader/writer (services/api/src/abuse/attestation/).
 

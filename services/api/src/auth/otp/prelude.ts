@@ -1,5 +1,5 @@
 /**
- * Prelude SMS sender (docs/product-decisions.md D14: SEA SMS fallback). Same `custom_code` approach
+ * Prelude SMS sender (docs/product-decisions.md: SEA SMS fallback). Same `custom_code` approach
  * as ./twilio-verify.ts — Prelude's `POST /v2/verification` accepts a 4-8 digit `custom_code`
  * (subject to Prelude's approval per their docs) so Better Auth's own generated code stays the one
  * code across every channel.

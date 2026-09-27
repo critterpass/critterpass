@@ -1,5 +1,5 @@
 /**
- * WhatsApp Cloud API authentication template sender (docs/product-decisions.md D14, phase-9 T4).
+ * WhatsApp Cloud API authentication template sender (docs/product-decisions.md).
  * Tried first for every allow-listed country: the Cloud API has no reachability lookup, so "is this
  * number on WhatsApp" is only knowable by attempting the send (services/api/src/auth/otp/router.ts
  * falls back to SMS on any thrown error here).

@@ -1,5 +1,5 @@
 /**
- * F-029 rate limits keyed by dimensions Better Auth's own rate limiter cannot express. Verified
+ * Anti-abuse rate limits keyed by dimensions Better Auth's own rate limiter cannot express. Verified
  * against the installed `better-auth` 1.7.6 rate-limiter source
  * (`node_modules/better-auth/dist/api/rate-limiter/index.mjs`): every bucket key it computes is
  * `(ip, path)` — `rateLimit.customRules` can only change a matched path's `window`/`max`, never the

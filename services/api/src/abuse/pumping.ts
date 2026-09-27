@@ -1,5 +1,5 @@
 /**
- * SMS-pumping defences (docs F-029): a configurable country allow-list distinct from
+ * SMS-pumping defences: a configurable country allow-list distinct from
  * services/api/src/auth/otp/countries.ts's routing table (that one only decides *which* provider
  * handles an already-allowed country; this one decides whether to attempt sending at all), a
  * per-prefix velocity breaker (auto-disables a prefix after too many sends with zero successful
@@ -8,8 +8,8 @@
  * services/api/src/abuse/rate-limits.ts and services/api/src/auth/hooks.ts's attestation gate are;
  * the spend-cap-triggers-WhatsApp-only behaviour is a reusable function
  * (`isProviderSpendCapExceeded`) rather than something forced into live adapter wiring here, since
- * no real provider credentials or cost-per-message figures are provisioned yet (phase-9 §Non-code
- * dependencies) to calibrate a real cap against.
+ * no real provider credentials or cost-per-message figures are provisioned yet to calibrate a real
+ * cap against.
  */
 import { parsePhoneNumberWithError } from 'libphonenumber-js';
 
@@ -37,8 +37,8 @@ export interface PumpingConfig {
 
 /**
  * A starter allow-list, not a business decision made here: Critterpass's SEA launch markets
- * (docs/product-decisions.md D14) plus common travel/English-speaking markets. Ops overrides this
- * via config as real usage and carrier relationships (D18 legal entity, Vietnam brandname
+ * (docs/product-decisions.md) plus common travel/English-speaking markets. Ops overrides this
+ * via config as real usage and carrier relationships (legal entity setup, Vietnam brandname
  * registration) come online — nothing about the velocity breaker or spend cap depends on this list's
  * exact contents.
  */

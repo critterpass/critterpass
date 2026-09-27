@@ -1,6 +1,6 @@
 /**
- * T1 done-when (phase-9): anonymous sign-in creates `auth.user` + `public.users` with identical
- * uuidv7; `app_user` cannot SELECT `auth.*`. Drives a real Better Auth instance over HTTP
+ * Anonymous sign-in creates `auth.user` + `public.users` with identical uuidv7; `app_user` cannot
+ * SELECT `auth.*`. Drives a real Better Auth instance over HTTP
  * (`authModule.handler`) against Testcontainers Postgres + Redis, the same way a real client would.
  */
 import {

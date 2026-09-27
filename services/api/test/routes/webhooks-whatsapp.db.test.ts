@@ -1,6 +1,6 @@
 /**
- * T4 done-when (phase-9): signed webhook `failed` status marks the delivery and emits
- * `otp.channel_failed` on `user:#uid`; unsigned/bad-signature webhook -> 401.
+ * Signed webhook `failed` status marks the delivery and emits `otp.channel_failed` on `user:#uid`;
+ * unsigned/bad-signature webhook -> 401.
  */
 import { createHmac } from 'node:crypto';
 

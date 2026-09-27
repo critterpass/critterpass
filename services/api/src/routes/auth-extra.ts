@@ -1,6 +1,6 @@
 /**
  * Auth routes that are not Better Auth endpoints (docs/api-contracts.md §5.1). Only the attestation
- * challenge lands here for phase-9 T3; `/v1/auth/merge-ticket`, `/v1/auth/merge` and
+ * challenge lands here so far; `/v1/auth/merge-ticket`, `/v1/auth/merge` and
  * `/v1/auth/apple/authorization-code` are later tasks' additions to this same file.
  */
 import { z } from 'zod';

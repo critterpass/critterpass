@@ -1,6 +1,6 @@
 /**
- * T4 done-when (phase-9): VN/SG/ID numbers route per table; blocked country -> VALIDATION with
- * `detail.reason: 'country_unsupported'`; WhatsApp sync send error falls back to SMS. Pure unit
+ * VN/SG/ID numbers route per table; blocked country -> VALIDATION with `detail.reason:
+ * 'country_unsupported'`; WhatsApp sync send error falls back to SMS. Pure unit
  * coverage for services/api/src/auth/otp/{countries,router}.ts — no Postgres, no HTTP; the full
  * Better Auth flow ("uid unchanged after verify") is auth/otp.db.test.ts.
  */

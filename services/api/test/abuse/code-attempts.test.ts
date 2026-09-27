@@ -1,6 +1,5 @@
 /**
- * T5 done-when (phase-9): enumeration of 50 codes from one IP locks out. Pure unit coverage against
- * a fake Redis.
+ * Enumeration of 50 codes from one IP locks out. Pure unit coverage against a fake Redis.
  */
 import { describe, expect, it } from 'vitest';
 

@@ -1,7 +1,7 @@
 /**
- * T2 done-when (phase-9): a token verifies by kid before and after rotation; wrong `aud` is
- * rejected; a revoked session cannot mint tokens. Drives a real HTTP server (`jose.createRemoteJWKSet`
- * fetches `/api/auth/jwks` over the network, "what PowerSync/Centrifugo do" — phase-9 spike finding).
+ * A token verifies by kid before and after rotation; wrong `aud` is rejected; a revoked session
+ * cannot mint tokens. Drives a real HTTP server (`jose.createRemoteJWKSet` fetches `/api/auth/jwks`
+ * over the network, matching what PowerSync/Centrifugo do — a spike finding).
  */
 import { serve } from '@hono/node-server';
 import {

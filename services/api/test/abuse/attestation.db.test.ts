@@ -1,8 +1,8 @@
 /**
- * T3 done-when (phase-9): `device_attestations` gets a real row from a valid attestation, an
- * assertion updates its counter, `enforce` mode blocks a bad/missing attestation while `log` mode
- * never does, and mode is not influenced by anything in the request (F-029: "chosen by env var,
- * never by client input"). Needs Postgres for the `device_attestations` writes
+ * `device_attestations` gets a real row from a valid attestation, an assertion updates its counter,
+ * `enforce` mode blocks a bad/missing attestation while `log` mode never does, and mode is not
+ * influenced by anything in the request (chosen by env var, never by client input). Needs Postgres
+ * for the `device_attestations` writes
  * (services/api/src/abuse/attestation/index.ts's `storeAttestation`/`recordAssertion`) but no HTTP
  * server: `enforceAttestation` is called directly with hand-built `Headers`, the same shape
  * services/api/src/auth/hooks.ts's `hooks.before` extracts from a real request.

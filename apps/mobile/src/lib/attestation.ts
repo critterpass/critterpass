@@ -1,7 +1,7 @@
 /**
- * App Attest (iOS) / Play Integrity (Android) wrapper (docs/data-model.md §3.1 F-029; phase-9 T3),
- * built on `@expo/app-integrity` (Expo's first-party attestation module, SDK 58; alpha as of this
- * writing — see the phase report). Produces the exact request headers
+ * App Attest (iOS) / Play Integrity (Android) wrapper (docs/data-model.md §3.1), built on
+ * `@expo/app-integrity` (Expo's first-party attestation module, SDK 58; alpha as of this writing).
+ * Produces the exact request headers
  * services/api/src/abuse/attestation/index.ts's `extractAttestationHeaders` reads
  * (`X-CP-Install-Id`, `X-CP-Platform`, `X-CP-Challenge`, plus either `X-CP-Attestation` +
  * `X-CP-Key-Id` on first attestation or `X-CP-Assertion`/`X-CP-Integrity-Token` on a later sensitive

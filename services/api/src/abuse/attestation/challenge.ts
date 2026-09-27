@@ -1,6 +1,6 @@
 /**
- * Single-use attestation challenges (docs/api-contracts.md §5.1 `POST /v1/attest/challenge`;
- * phase-9 F-029): Redis-backed, 5 min TTL, bound to the install id that requested it. Every
+ * Single-use attestation challenges (docs/api-contracts.md §5.1 `POST /v1/attest/challenge`):
+ * Redis-backed, 5 min TTL, bound to the install id that requested it. Every
  * assertion (App Attest) or integrity token (Play Integrity nonce) must consume exactly one of
  * these; a second attempt to consume the same challenge fails because `getDel` is atomic —
  * whichever caller's read wins deletes the key, so a concurrent replay finds nothing.

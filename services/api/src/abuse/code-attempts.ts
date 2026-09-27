@@ -1,6 +1,6 @@
 /**
- * Code-enumeration limiter (docs F-029), reusable across every code-guessing surface: join codes
- * (phase 21/23), gift/offer codes (phase 46). Tracks failed attempts per IP, per device and per uid
+ * Code-enumeration limiter, reusable across every code-guessing surface: join codes and gift/offer
+ * codes (not wired to any caller yet). Tracks failed attempts per IP, per device and per uid
  * independently over a sliding window; once any one dimension crosses the threshold it locks that
  * dimension out for an exponentially growing period. `hashCode` is the recommended way a caller
  * looks up a submitted code: hash it, then let the database's own index equality do the comparison

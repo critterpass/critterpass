@@ -1,6 +1,6 @@
 /**
  * Attestation enforcement for `/sign-in/anonymous` and `/phone-number/send-otp` (docs/data-model.md
- * §3.1 F-029; phase-9 T3). The client carries attestation data in request headers (`X-CP-Install-Id`,
+ * §3.1). The client carries attestation data in request headers (`X-CP-Install-Id`,
  * `X-CP-Platform`, plus either `X-CP-Attestation` + `X-CP-Key-Id` on the first attested call per
  * install, or `X-CP-Assertion` on every later sensitive call, and `X-CP-Challenge` naming the
  * single-use challenge from `POST /v1/attest/challenge` it just consumed) — neither Better Auth
@@ -35,7 +35,7 @@ export interface AttestationConfig {
   readonly iosMode: AttestationMode;
   readonly androidMode: AttestationMode;
   readonly appAttest: AppAttestConfig;
-  /** Absent when no Play Integrity credentials are provisioned yet (phase-9 §Non-code dependencies): Android attestation then always behaves as `log`, regardless of `androidMode`. */
+  /** Absent when no Play Integrity credentials are provisioned yet: Android attestation then always behaves as `log`, regardless of `androidMode`. */
   readonly android: AndroidAttestationConfig | undefined;
 }
 
@@ -234,7 +234,7 @@ async function verifyAndroidAttestation(
 
 /**
  * The single entry point `services/api/src/auth/hooks.ts`'s `hooks.before` calls. Mode is decided
- * entirely by `deps.config` (never by request input, per F-029): `log` mode still runs full
+ * entirely by `deps.config` (never by request input): `log` mode still runs full
  * verification (so failures are observable via `onAttestationFailure`) but never blocks the request.
  */
 export async function enforceAttestation(
@@ -268,8 +268,8 @@ export async function enforceAttestation(
     } else if (android) {
       await verifyAndroidAttestation(headers, deps, android);
     }
-    // else: android with no Play Integrity credentials provisioned (phase-9 §Non-code
-    // dependencies) — nothing to verify against; `mode` is already forced to `log` above.
+    // else: android with no Play Integrity credentials provisioned — nothing to verify against;
+    // `mode` is already forced to `log` above.
   } catch (error) {
     if (mode === 'enforce') throw error;
     deps.onAttestationFailure?.(error, { installId: headers.installId, platform });

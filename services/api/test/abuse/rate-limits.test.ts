@@ -1,7 +1,7 @@
 /**
- * T5 done-when (phase-9): limits return `RATE_LIMITED` with `retry_after_s`. Pure unit coverage
- * against a fake Redis (an in-memory INCR/EXPIRE/TTL implementation, not a network boundary double —
- * the atomic-counter-with-TTL logic itself is what is under test).
+ * Limits return `RATE_LIMITED` with `retry_after_s`. Pure unit coverage against a fake Redis (an
+ * in-memory INCR/EXPIRE/TTL implementation, not a network boundary double — the atomic-counter-
+ * with-TTL logic itself is what is under test).
  */
 import { describe, expect, it } from 'vitest';
 

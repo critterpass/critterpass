@@ -160,7 +160,7 @@ export interface RequestGuardsDeps {
 
 /**
  * The one `hooks.before` middleware Better Auth accepts (a single function, not an array of matcher
- * rules the way a plugin's own `hooks` are): composes attestation (F-029, `/sign-in/anonymous` +
+ * rules the way a plugin's own `hooks` are): composes attestation (`/sign-in/anonymous` +
  * `/phone-number/send-otp`), then the phone/device rate limits and country/velocity pumping
  * defences (both `/phone-number/send-otp` only — the IP dimension is Better Auth's own `customRules`
  * entry for the same path). Mode/limits live entirely in each module's own config, never in the

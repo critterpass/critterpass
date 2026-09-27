@@ -1,6 +1,6 @@
 /**
  * Apple App Attest verification (docs/developer.apple.com/documentation/devicecheck/validating_apps
- * _that_connect_to_your_server; phase-9 T3). The trusted root certificate is a config value, not a
+ * _that_connect_to_your_server). The trusted root certificate is a config value, not a
  * hard-coded constant, specifically so services/api/test/fixtures/attestation/ can drive this exact
  * function with a locally generated test root instead of Apple's real one — the same verification
  * code path Apple hardware attestations use, per code-standards.md §17's network-boundary-only test

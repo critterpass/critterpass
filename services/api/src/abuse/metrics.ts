@@ -1,5 +1,5 @@
 /**
- * `otp_sent_total{country,channel}` and `otp_verify_ratio` (docs F-029). No OpenTelemetry SDK/
+ * `otp_sent_total{country,channel}` and `otp_verify_ratio`. No OpenTelemetry SDK/
  * exporter is wired anywhere in this service yet (no `@opentelemetry/*` dependency exists in
  * services/api/package.json), so this is a small facade with the shape a real OTel `Counter`/
  * `ObservableGauge` would have: services/api/src/auth/otp/router.ts and the verify path call it

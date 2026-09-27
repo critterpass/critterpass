@@ -1,6 +1,5 @@
 /**
- * T5 done-when (phase-9): a synthetic pumping burst on one prefix trips the breaker. Pure unit
- * coverage against a fake Redis.
+ * A synthetic pumping burst on one prefix trips the breaker. Pure unit coverage against a fake Redis.
  */
 import { describe, expect, it } from 'vitest';
 

@@ -1,6 +1,6 @@
 /**
- * Android Play Integrity verification (docs/developer.android.com/google/play/integrity/verdicts;
- * phase-9 T3). The HTTP call to Google's `decodeIntegrityToken` is injectable so tests use
+ * Android Play Integrity verification (docs/developer.android.com/google/play/integrity/verdicts).
+ * The HTTP call to Google's `decodeIntegrityToken` is injectable so tests use
  * recorded-shape fixtures instead of a real service account (code-standards.md §17: test doubles
  * only at the network boundary) — everything after the response is decoded (verdict/package/nonce
  * checks) is the same real code for both.

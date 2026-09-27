@@ -1,6 +1,6 @@
 /**
- * T4 done-when (phase-9): uid unchanged after verify. Drives a real Better Auth instance
- * (Testcontainers Postgres + Redis) over HTTP the same way jwks.db.test.ts does; the WhatsApp
+ * Uid unchanged after verify. Drives a real Better Auth instance (Testcontainers Postgres + Redis)
+ * over HTTP the same way jwks.db.test.ts does; the WhatsApp
  * channel is a fake adapter (a network-boundary double, code-standards.md §17) that captures the
  * code Better Auth generated so the test can complete a real `/phone-number/verify` call with it.
  */

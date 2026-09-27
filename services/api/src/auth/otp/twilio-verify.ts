@@ -1,5 +1,5 @@
 /**
- * Twilio Verify SMS sender (docs/product-decisions.md D14: SMS fallback outside SEA). Sends Better
+ * Twilio Verify SMS sender (docs/product-decisions.md: SMS fallback outside SEA). Sends Better
  * Auth's own locally-generated code as Twilio Verify's `CustomCode` (Twilio Verify API, "Custom
  * Verification Code": 4-10 chars, enabled per-Service in the Twilio console) rather than letting
  * Twilio generate its own — this keeps one verification code and one attempt/expiry pipeline

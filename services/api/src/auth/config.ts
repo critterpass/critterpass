@@ -1,5 +1,5 @@
 /**
- * Better Auth options (docs/product-decisions.md D4: minimal plugin set, patch advisories within
+ * Better Auth options (minimal plugin set per docs/product-decisions.md; patch advisories within
  * 48 h). Built as a pure function of injected dependencies (packages/db's Drizzle instance, Redis
  * secondary storage, the OTP send port) rather than reaching for env vars itself, so
  * services/api/test/auth/*.db.test.ts can build a real instance against a Testcontainers Postgres
@@ -65,8 +65,8 @@ export interface AuthConfigDeps {
    * `window`/`max` override Better Auth's global default (100 requests / 10 s per key); `customRules`
    * (keyed by exact path or a `*`-wildcard, docs' `wildcardMatch`) win over *everything* else,
    * including Better Auth's own hard-coded defaults for sign-in-shaped paths (`/sign-in*`: 3 per 10 s
-   * — verified against the installed `better-auth` 1.7.6 rate-limiter source, not documented). F-029's
-   * real per-path limits (services/api/src/abuse/rate-limits.ts, T5) are `customRules`; tests that are
+   * — verified against the installed `better-auth` 1.7.6 rate-limiter source, not documented). The
+   * real per-path limits (services/api/src/abuse/rate-limits.ts) are `customRules`; tests that are
    * not exercising rate limiting (e.g. jwks.db.test.ts, which signs in repeatedly to test tokens)
    * relax the sign-in default the same way.
    */
@@ -77,7 +77,7 @@ export interface AuthConfigDeps {
         readonly customRules?: NonNullable<BetterAuthOptions['rateLimit']>['customRules'];
       }
     | undefined;
-  /** Request-level before/after middleware (services/api/src/auth/hooks.ts's attestation gate on `/sign-in/anonymous` and `/phone-number/send-otp`, F-029). */
+  /** Request-level before/after middleware (services/api/src/auth/hooks.ts's attestation gate on `/sign-in/anonymous` and `/phone-number/send-otp`). */
   readonly hooks?: BetterAuthOptions['hooks'];
 }
 
@@ -105,7 +105,7 @@ export function buildAuthOptions(deps: AuthConfigDeps): BetterAuthOptions {
     advanced: {
       database: { generateId: () => generateUuidV7() },
       // Railway sets x-real-ip (docs/system-architecture.md §6); 64 collapses an IPv6 /64 to one
-      // bucket for rate limiting, matching F-029's per-IP limits without a client controlling it.
+      // bucket for rate limiting, matching the per-IP limits without a client controlling it.
       ipAddress: { ipAddressHeaders: ['x-real-ip'], ipv6Subnet: 64 },
     },
     session: {
@@ -125,14 +125,14 @@ export function buildAuthOptions(deps: AuthConfigDeps): BetterAuthOptions {
         disableImplicitLinking: true,
         // Anonymous users carry a synthesized placeholder email
         // (temp-<id>@anonymous.placeholder.invalid); without this, linking a real Apple/Google
-        // identity to an anonymous session fails with LINKING_DIFFERENT_EMAILS_NOT_ALLOWED (phase-2
-        // spike finding, docs/system-architecture.md §11 S-AUTH).
+        // identity to an anonymous session fails with LINKING_DIFFERENT_EMAILS_NOT_ALLOWED (a spike
+        // finding, docs/system-architecture.md §11 S-AUTH).
         allowDifferentEmails: true,
       },
     },
     rateLimit: {
       // Better Auth only rate-limits in production by default; every environment needs it here so
-      // F-029's limits are provable in Testcontainers tests, not just in prod.
+      // these limits are provable in Testcontainers tests, not just in prod.
       enabled: true,
       storage: 'secondary-storage',
       window: deps.rateLimit?.window ?? 10,

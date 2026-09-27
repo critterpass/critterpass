@@ -1,6 +1,6 @@
 /**
- * T3 done-when (phase-9): valid fixtures pass; tampered nonce/app id/reused challenge/replayed
- * counter fail with `ATTESTATION_FAILED`. Pure unit coverage for
+ * Valid fixtures pass; tampered nonce/app id/reused challenge/replayed counter fail with
+ * `ATTESTATION_FAILED`. Pure unit coverage for
  * services/api/src/abuse/attestation/{app-attest,play-integrity,challenge}.ts — no Postgres; the
  * `device_attestations` row lifecycle and the `enforce`/`log` mode gate are
  * test/abuse/attestation.db.test.ts.
