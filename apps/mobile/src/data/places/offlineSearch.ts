@@ -1,5 +1,5 @@
 /**
- * Local POI full-text search in SQLite (F-031 "Offline packs": "PMTiles file + POI subset + local
+ * Local POI full-text search in SQLite (map spec "Offline packs": "PMTiles file + POI subset + local
  * search index") — the actual offline path once a region pack has been downloaded
  * (`useRegionPack.ts`) and no network is available (`usePlaceSearch.ts`).
  *

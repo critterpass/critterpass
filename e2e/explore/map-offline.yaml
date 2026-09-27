@@ -1,9 +1,9 @@
 appId: app.critterpass.dev
 ---
-# Region download + offline search (F-031 "Offline packs"; phase-14 T7b done-when: "Maestro
+# Region download + offline search ("Offline packs"; done when: "Maestro
 # offline search passes on iOS 26 simulator and API 36 emulator").
 #
-# BLOCKED today on two things outside phase-14's file ownership, not on this flow itself:
+# Blocked today on two things outside this flow, not on the flow itself:
 #
 # 1. No screen exists yet to open. `apps/mobile/src/app/(dev)/**` (dev harnesses, same pattern as
 #    the tiles spike's `spikes/map.tsx`) and the real Explore/map route (`mobile-route`/

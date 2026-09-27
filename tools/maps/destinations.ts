@@ -1,7 +1,7 @@
 /**
  * The 6 guide destinations (product-decisions.md §6), each with a real Geofabrik regional extract
  * to build a full-detail PMTiles region pack from and a bounding box tight enough to keep
- * planetiler's output inside the ≤80 MB per-destination budget (phase-14 open question 2). Slugs
+ * planetiler's output inside the ≤80 MB per-destination budget (still an open question). Slugs
  * match the real `destinations.slug` rows already seeded on staging (verified via
  * `railway run --service api --environment staging`, not assumed).
  *

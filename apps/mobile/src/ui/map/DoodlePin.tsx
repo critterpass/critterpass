@@ -1,6 +1,6 @@
 /**
  * A single POI pin: a hand-drawn capsule (category icon + name), enlarged with a yellow outline
- * when selected (F-031 "Pins"). Rendered inside a `ViewAnnotation` by `CpMap` at a place's
+ * when selected (map spec "Pins"). Rendered inside a `ViewAnnotation` by `CpMap` at a place's
  * lat/lng — this component itself is plain React (no MapLibre native dependency), which is what
  * lets it be unit-tested with React Native Testing Library instead of a real map engine.
  *

@@ -1,5 +1,5 @@
 /**
- * The "you are here" dot: a solid centre dot with a 2000 ms expanding ping ring (F-031 "Pins":
+ * The "you are here" dot: a solid centre dot with a 2000 ms expanding ping ring (map spec "Pins":
  * "you-dot with 2000 ms ping"). Colour is never the only signal — design-system.md §7
  * ("map 'you' dot has label") — so this always carries an accessibility label, and Reduce Motion
  * (`useReducedMotion`) drops the looping ping in favour of a static ring (fade only, no repeating

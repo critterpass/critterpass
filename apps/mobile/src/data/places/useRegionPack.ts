@@ -1,5 +1,5 @@
 /**
- * Offline region pack download/delete (F-031 "Offline packs": "per destination region download
+ * Offline region pack download/delete (map spec "Offline packs": "per destination region download
  * (PMTiles file + POI subset + local search index) into app storage; free for everyone; storage
  * shown and removable"). Downloads the PMTiles archive the same way the tiles spike proved out
  * (`expo-file-system`'s real `downloadAsync`/`FileSystem.documentDirectory`, no

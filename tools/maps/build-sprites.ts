@@ -2,7 +2,7 @@
  * Draws the map sprite sheet with real Skia rendering (`@napi-rs/canvas`, the same binding
  * `packages/critter-art` uses for its Node reference renderer): a faint background grid tile
  * (`build-style.ts`'s `background-pattern`) and one hand-drawn doodle icon per
- * `@cp/domain`'s `POI_CATEGORIES` (F-031 "doodle sprite sheet... else category icons" fallback —
+ * `@cp/domain`'s `POI_CATEGORIES` (map spec "doodle sprite sheet... else category icons" fallback —
  * no P04 critter-art asset exists for map pin icons, so these are drawn directly from the fixed
  * taxonomy rather than left unbuilt). Generalises `tools/spikes/tiles/generate-sprite.ts`'s
  * technique (real Skia primitives, 1x/2x) from two hard-coded icons to the full icon set

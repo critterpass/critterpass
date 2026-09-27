@@ -1,7 +1,7 @@
 /**
  * The reusable map surface: `critterpass-dark.json` style + PMTiles sources, doodle/avatar pins,
  * clustering, you-dot, guide sprite slot, route line, and the map-side missing states named in
- * phase-14 (F-031 "Missing states"): location denied / not in destination, no results for a
+ * the map spec ("Missing states"): location denied / not in destination, no results for a
  * filter, a pin with >3 avatars (delegated to `AvatarStackPin`), cluster expanded, list view, and
  * "region not downloaded offline" (an offline pack the caller hasn't supplied a local file for).
  *
@@ -58,7 +58,7 @@ export interface CpMapProps {
    *  (`apps/mobile/src/data/places/useRegionPack.ts`, T7b). Absent = world-only fallback. */
   readonly regionSourceUrl?: string;
   /** True once the caller knows a destination pack exists but neither a remote nor local source
-   *  is usable right now (offline, no download yet) — F-031's "region not downloaded offline". */
+   *  is usable right now (offline, no download yet) — the map spec's "region not downloaded offline". */
   readonly offlineUnavailable?: boolean;
   readonly youLocation?: LngLat;
   readonly locationStatus?: LocationStatus;

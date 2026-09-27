@@ -1,6 +1,6 @@
 /**
  * Renders a route polyline (a day's route, or the dotted line from `YouDot` to a selected pin —
- * F-031 "Pins": "dotted line to selected pin") as a real MapLibre vector layer, not a React
+ * map spec "Pins": "dotted line to selected pin") as a real MapLibre vector layer, not a React
  * overlay: `GeoJSONSource` + `Layer` scale to a route's point count far better than one
  * `ViewAnnotation` per vertex would, and dash patterns are a native paint property.
  */

@@ -3,7 +3,7 @@
  * manifest a mobile client reads before downloading a destination's PMTiles archive
  * (`apps/mobile/src/data/places/useRegionPack.ts`, T7b) — url, byte size (for the storage/progress
  * UI) and version (so a client with a stale local file knows to re-download), plus a live
- * `poi_count` so "no curated places yet" (F-030 coverage tiers) can be decided client-side without
+ * `poi_count` so "no curated places yet" (coverage tiers) can be decided client-side without
  * a second request. Reads the *latest* uploaded version for the destination (`map_regions` keeps
  * one row per `(destination_id, version)` precisely so an in-flight download is never served a
  * manifest for a file `tools/maps/upload-r2.ts` re-uploads mid-request).

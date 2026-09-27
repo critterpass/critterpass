@@ -1,6 +1,6 @@
 /**
  * A pin for a place multiple crew members are at: up to 3 overlapping avatars, "+N" beyond that
- * (F-031 "Pins": "avatar stack (≤3 + '+N')", "pin with >3 avatars" missing state). Selected state
+ * (map spec "Pins": "avatar stack (≤3 + '+N')", "pin with >3 avatars" missing state). Selected state
  * enlarges with a yellow outline, same as `DoodlePin`.
  */
 import { tokens } from '@cp/design-tokens';

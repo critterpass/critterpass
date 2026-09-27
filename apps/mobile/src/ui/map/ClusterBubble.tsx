@@ -1,6 +1,6 @@
 /**
  * Cluster bubble ("+9") for a group of nearby pins too close together to show individually at the
- * current zoom (F-031 "Pins": "cluster bubble '+9'"). Tapping expands the cluster (`onPress`,
+ * current zoom (map spec "Pins": "cluster bubble '+9'"). Tapping expands the cluster (`onPress`,
  * usually a fly-to-bounds via `useFlyTo`) — the "cluster expanded" missing state is `CpMap` no
  * longer rendering this bubble and rendering the member pins instead, not a prop on this component.
  */

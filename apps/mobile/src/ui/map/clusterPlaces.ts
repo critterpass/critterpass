@@ -1,5 +1,5 @@
 /**
- * Pure clustering logic for `CpMap` (F-031 "Pins": "cluster bubble '+9'"), split out from the
+ * Pure clustering logic for `CpMap` (map spec "Pins": "cluster bubble '+9'"), split out from the
  * component so `CpMap.tsx` stays under docs/code-standards.md's 300-line file limit and this pure
  * function stays trivially unit-testable on its own.
  *

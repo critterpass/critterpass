@@ -1,7 +1,7 @@
 /**
  * Generates `apps/mobile/assets/map-style/critterpass-dark.json` from `@cp/design-tokens` (navy
- * base, ink/paper scale, blue water, motion-adjacent doodle grid) — the hand-drawn dark style F-031
- * names. Generalises `tools/spikes/tiles/style/da-nang-dark.json` (the tiles spike's hand-authored
+ * base, ink/paper scale, blue water, motion-adjacent doodle grid) — the hand-drawn dark style the
+ * map spec names. Generalises `tools/spikes/tiles/style/da-nang-dark.json` (the tiles spike's hand-authored
  * draft, hand-verified against the real OpenMapTiles schema a planetiler build produces) from one
  * hard-coded city to two real, distinct vector schemas:
  *

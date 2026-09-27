@@ -1,5 +1,5 @@
 /**
- * Camera control for `CpMap`: fly-to on carousel swipe, fit-bounds for a day route (F-031
+ * Camera control for `CpMap`: fly-to on carousel swipe, fit-bounds for a day route (map spec
  * "Camera"). Wraps `@maplibre/maplibre-react-native`'s imperative `CameraRef` — MapLibre camera
  * moves are native-side animations, not something a declarative prop alone drives on every swipe.
  */
