@@ -615,6 +615,9 @@ importers:
         specifier: 'catalog:'
         version: 4.6.5
     devDependencies:
+      '@cp/design-tokens':
+        specifier: workspace:*
+        version: link:../design-tokens
       '@napi-rs/canvas':
         specifier: 'catalog:'
         version: 1.0.9
