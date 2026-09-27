@@ -1,0 +1,62 @@
+appId: app.critterpass.dev
+---
+- tapOn:
+    text: "Open"
+    optional: true
+- tapOn:
+    text: "Continue"
+    optional: true
+- tapOn:
+    text: ".*8098.*"
+    optional: true
+- tapOn:
+    text: "Open"
+    optional: true
+- tapOn:
+    text: "Continue"
+    optional: true
+- openLink: "critterpass-dev:///(dev)/spikes/grow-into-page"
+- tapOn:
+    text: "Open"
+    optional: true
+- tapOn:
+    text: "Continue"
+    optional: true
+- extendedWaitUntil:
+    visible: "Grow-into-page transition spike"
+    timeout: 10000
+# The dev menu sheet (from an earlier interaction) has a full-screen tap-to-dismiss backdrop that
+# would otherwise swallow the very next tap wherever it lands; dismiss it for real first.
+- tapOn:
+    point: "50%,3%"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 1500
+- takeScreenshot: teleport-before
+- tapOn:
+    point: "15%,25%"
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: teleport-mid-or-grown
+- tapOn:
+    point: "50%,50%"
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: teleport-after-close-attempt
+- tapOn: "shared-element"
+- waitForAnimationToEnd:
+    timeout: 1500
+- tapOn:
+    point: "15%,25%"
+- waitForAnimationToEnd:
+    timeout: 1500
+- takeScreenshot: shared-element-detail
+- tapOn: "apple-zoom"
+- waitForAnimationToEnd:
+    timeout: 1500
+- takeScreenshot: apple-zoom-before
+- tapOn:
+    point: "15%,25%"
+- waitForAnimationToEnd:
+    timeout: 1500
+- takeScreenshot: apple-zoom-after-tap
