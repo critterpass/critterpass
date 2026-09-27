@@ -14,6 +14,7 @@ import { moderationArea } from './moderation';
 import type { MediaUrlSigner } from './moderation-intake';
 import { operatorsArea, type OperatorStore } from './operators';
 import { partnersArea } from './partners';
+import { seasonReviewArea } from './season-review';
 import { supportArea } from './support';
 import type { AdminAreaDefinition } from './registry';
 
@@ -28,6 +29,7 @@ export interface AdminAreaDeps {
 export function adminAreas(deps: AdminAreaDeps): readonly AdminAreaDefinition[] {
   return [
     catalogueArea(deps.pool),
+    seasonReviewArea(deps.pool),
     flagsArea(deps.pool),
     partnersArea(deps.pool),
     moderationArea(deps),

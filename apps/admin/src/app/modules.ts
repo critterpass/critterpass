@@ -9,11 +9,13 @@ import { deskModule } from '../modules/desk';
 import { flagsModule } from '../modules/flags';
 import { moderationModule } from '../modules/moderation';
 import { partnersModule } from '../modules/partners';
+import { seasonModule } from '../modules/season';
 import { supportModule } from '../modules/support';
 
 export const ADMIN_MODULES: readonly AdminModule[] = [
   moderationModule,
   catalogueModule,
+  seasonModule,
   flagsModule,
   partnersModule,
   supportModule,
