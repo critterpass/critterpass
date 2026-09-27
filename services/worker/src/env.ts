@@ -31,6 +31,19 @@ export const workerEnvSchema = z.object({
   CENTRIFUGO_API_URL: optionalUrl,
   /** Same value as the Centrifugo service's CENTRIFUGO_HTTP_API_KEY. */
   CENTRIFUGO_HTTP_API_KEY: optionalString,
+  /** Nightly `ops.backup` (src/jobs/ops/backup.ts): a role that can read every schema with
+   *  BYPASSRLS. Staging and production need it and the BACKUP_S3_* set; without them the job fails
+   *  and dead-letters instead of skipping. Local development runs no backup unless they are set. */
+  BACKUP_DATABASE_URL: optionalUrl,
+  /** S3 API endpoint of the off-provider bucket (R2: `https://<account>.r2.cloudflarestorage.com`). */
+  BACKUP_S3_ENDPOINT: optionalUrl,
+  BACKUP_S3_BUCKET: optionalString,
+  BACKUP_S3_ACCESS_KEY_ID: optionalString,
+  BACKUP_S3_SECRET_ACCESS_KEY: optionalString,
+  /** R2 signs with region `auto`. */
+  BACKUP_S3_REGION: z.preprocess(emptyAsUndefined, z.string().min(1).default('auto')),
+  /** pg_dump binary (must be the server's major version or newer). */
+  BACKUP_PG_DUMP_PATH: z.preprocess(emptyAsUndefined, z.string().min(1).default('pg_dump')),
 });
 
 export type WorkerEnv = z.infer<typeof workerEnvSchema>;

@@ -212,15 +212,26 @@ export class RelayBatch {
   }
 }
 
-const CLAIM_SQL = `
-  SELECT id::text AS id, channel, payload, idem_key::text AS idem_key, kind, created_at
-  FROM rt_outbox
+const DUE_WHERE = `
   WHERE published_at IS NULL
     AND attempts < $1
-    AND created_at + make_interval(secs => ($2::float8[])[attempts + 1]) <= now()
+    AND created_at + make_interval(secs => ($2::float8[])[attempts + 1]) <= now()`;
+
+const CLAIM_SQL = `
+  SELECT id::text AS id, channel, payload, idem_key::text AS idem_key, kind, created_at
+  FROM rt_outbox ${DUE_WHERE}
   ORDER BY id
   LIMIT $3
   FOR UPDATE SKIP LOCKED`;
+
+/** Whether any row is due for a send now (the sweep's cheap check before enqueueing a drain). */
+export async function hasDueRows(tx: pg.PoolClient): Promise<boolean> {
+  const { rows } = await tx.query<{ due: boolean }>(
+    `SELECT EXISTS (SELECT 1 FROM rt_outbox ${DUE_WHERE}) AS due`,
+    [RT_RELAY_MAX_ATTEMPTS, RETRY_AFTER_SECONDS],
+  );
+  return rows[0]?.due === true;
+}
 
 export interface RelayOnceResult {
   readonly claimed: number;

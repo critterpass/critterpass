@@ -55,6 +55,7 @@ catalog:
   hono: 4.13.9
   jose: 6.2.12
   pg: 8.23.0
+  pg-boss: 12.35.0
   pino: 10.3.1
   pkijs: 3.4.1
   playwright: 1.58.2
@@ -94,3 +95,4 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@types/node@26.6.3'
   - '@cloudflare/workers-types@5.20260926.1'
+  - pg-boss@12.35.0

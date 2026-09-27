@@ -131,6 +131,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 - Steps: 1. Boot pg-boss 12 as `app_system` (schema `pgboss`), create queues from registry with retry/expire/DLQ options. 2. `defineJob({queue, schema, handler, singletonKey})`. 3. `sendInTx(tx, queue, data, opts)` via Drizzle adapter. 4. DLQ subscriber → Sentry + `redrive()`. 5. Move phase-10 relay loop into `rt.relay` handler keeping LISTEN wake.
 - Tests: `pnpm --filter @cp/worker test -- boss` (Testcontainers: rollback drops job; retry then DLQ; singleton dedupe; redrive).
 - Done when: all pass; worker starts/stops cleanly with in-flight jobs finishing or returning to queue.
+- Status: done — 27da3d0 (suite is `boss.db.test.ts`: `pnpm --filter @cp/worker test:db -- boss`; keyed queues use policy `exclusive` because pg-boss ignores `singletonKey` on `standard`; the relay test moved onto the `rt.relay` job)
 
 ### T2 — Step runner with progress and compensation
 - Goal: `runSteps` for long jobs with live progress.
@@ -138,6 +139,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 - Steps: 1. Persist step results in job output (resume skips done steps on retry). 2. Publish `job.progress` via `rt_outbox` per step with pct. 3. Reverse `compensate` on final failure. 4. `notifyOnComplete` emits domain event through `emitEvent`.
 - Tests: `pnpm --filter @cp/worker test -- steps`.
 - Done when: a job failing at step 3 on first attempt resumes at step 3; final failure compensates steps 2→1; progress rows appear in order.
+- Status: done — 3fc2e91 (suite is `steps.db.test.ts`)
 
 ### T3 — Local-time scheduling and `sched.enqueue_due`
 - Goal: per-object timers in local time.
@@ -145,6 +147,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 - Steps: 1. `localSchedule({date, time, tz})` → UTC; DST gap → next valid minute; overlap → first occurrence. 2. `scheduleEvent(tx, {kind, ref_id, local, tz})` / `cancel` / `reschedule`. 3. Cron `* * * * *` moves due rows (SKIP LOCKED) to target queues, stores `pgboss_job_id`.
 - Tests: `pnpm --filter @cp/domain test -- local-schedule` (property tests across tz list incl. Asia/Saigon, Europe/Berlin DST); `pnpm --filter @cp/worker test -- enqueue-due`.
 - Done when: DST cases pass; due events enqueue once under two concurrent workers.
+- Status: done — 822f227 (worker suite is `enqueue-due.db.test.ts`; permission test `packages/db/test/permissions/scheduled_events.test.ts`; `app.valid_tz` rejects backward-link zones such as `Asia/Saigon` in the Postgres image, so stored timers use `Asia/Ho_Chi_Minh`)
 
 ### T4 — Maintenance and ops crons
 - Goal: retention and resilience jobs.
@@ -152,6 +155,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 - Steps: 1. `retention-rules.ts` registry `{table, column, ttl, where}`; seed rules for tables existing now (`cmd_log` 30 d, `cmd_results` 14 d, `rt_outbox` 7 d after publish, `domain_events` 400 d, `notifications` 90 d, `ping_ledger` 30 d, `roundups` 30 d, `push_tokens` invalid +7 d, `scheduled_events` 30 d after fire); later phases append. 2. `maint.anon_gc` per phase-09 rules (anonymous, inactive 90 d, no crew). 3. `ops.backup`: `pg_dump -Fc` streamed to R2 with date key, keep 35 daily; fixed outbound IP not required. 4. `powersync.compact` via service admin API.
 - Tests: `pnpm --filter @cp/worker test -- maint`; backup tested against Testcontainers + MinIO (R2-compatible) restore round-trip.
 - Done when: purge deletes only expired rows in batches ≤5k; restored dump row counts match.
+- Status: done — f3253f6 (suites `maint.db.test.ts` and `backup.db.test.ts`, backup against RustFS; `powersync.compact` is a Railway cron service documented in `infra/railway/README.md`, since self-hosted PowerSync has no compaction API)
 
 ### T5 — Device registry and push token lifecycle
 - Goal: devices + tokens synced and kept fresh.
