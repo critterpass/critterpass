@@ -1,12 +1,12 @@
 ---
 phase: 13
 title: LLM gateway, personas, tool registry, autonomy policy
-status: done
+status: in_progress
 depends_on: [8, 11]
 wave: 6
 features: [F-013, F-052]
 screens: [3j-1, 3g-1, 4b-1, 3b-3, 3b-4, 3g-2, 3e-3, 3k-5]
-tasks: 12
+tasks: 13
 owns:
   - packages/ai/**
   - packages/domain/src/ai/**
@@ -230,6 +230,19 @@ Offline-first: public text created offline is checked when its command reaches t
 - Tests: `pnpm --filter @cp/ai test -- decide/compliance`; `pnpm --filter @cp/ai eval compliance`
 - Done when: eval precision ≥ 0.95 on `reject` and recall ≥ 0.95 on `self_harm` and `prompt_injection` (both languages); figurative cases pass; the injected-email fixture turn has no write tools; both providers down → `public_text` returns `review`, `guide_input` returns `pass` with the turn still wrapped; p95 added latency on a guide turn ≤ 50 ms over the context build.
 - Status: done — afd2f83
+
+### T13 — DeepSeek as the generation provider, with our own web search tool
+- Goal: every generation route runs on explicitly named DeepSeek models; costs, batch jobs, web search and evals all work without Claude-only features (D22).
+- Files: `packages/ai/src/{routing,pricing,client,batch,env}.ts`, `packages/ai/src/tools/{web-search,search-provider}.ts`, `packages/ai/src/tools/search/{tavily,index}.ts`, `packages/ai/evals/**`, `packages/ai/test/**`, `packages/domain/src/ai/routes.ts`, `services/worker/src/ai/**`, `.github/workflows/ai-evals.yml`, doc deltas (system-architecture §4.6, code-standards §15, api-contracts §6).
+- Steps:
+  1. Tier map to DeepSeek model ids (verify the current ids and prices in DeepSeek's docs); choose per route from eval results.
+  2. Pricing from DeepSeek's price list, including the cache-hit input rate; `ai_usage.cost_micros` from the response usage.
+  3. Batch jobs run as direct calls with bounded concurrency, keeping idempotency and the cost roll-up.
+  4. `web_search` becomes our own tool executor behind a small provider interface. The Tavily adapter comes first; the supplier blocklist is sent as `exclude_domains` and every URL is still screened in code; results are shown with their source links. `guest.guide` uses it.
+  5. Live evals target DeepSeek by default, with thresholds unchanged. Improve prompts and code-side checks (grounding, injection, persona) until DeepSeek meets them, and the nightly run gates again.
+  6. No Claude model id remains in code; the gateway keeps one seam where a Gemini adapter could be added later (none now).
+- Tests: `pnpm --filter @cp/ai test`; `pnpm --filter @cp/ai eval --all` in replay and live (DeepSeek); recorded Tavily fixtures for the search tool.
+- Done when: every eval suite meets its threshold live on DeepSeek; `ai_usage` costs match DeepSeek pricing; a batch job completes without the Batches API; `guest.guide` answers with blocklist-screened search sources.
 
 ## Phase acceptance criteria
 
