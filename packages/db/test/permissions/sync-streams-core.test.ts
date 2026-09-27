@@ -220,6 +220,7 @@ describe('trip_draft stream', () => {
     async (actor) => {
       const ids = idsByTable(await harness.rows('trip_draft', actor, params()));
       expect(ids).toEqual({
+        agent_jobs: [harness.fixture.agentJobId],
         itinerary_versions: [draft.versionId],
         plan_days: [draft.dayId],
         plan_items: [draft.itemId],

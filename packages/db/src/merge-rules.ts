@@ -109,3 +109,15 @@ registerMergeRule({
 // closed, so any row it somehow has carries no useful information forward.
 registerMergeRule({ table: 'user_private', userColumn: 'user_id', strategy: 'keep_existing' });
 registerMergeRule({ table: 'account_deletions', userColumn: 'user_id', strategy: 'drop' });
+
+// AI cost records (C5) follow the user who incurred them, same as any other retained ledger row.
+registerMergeRule({ table: 'ai_usage', userColumn: 'user_id', strategy: 'reassign' });
+// A durable AI job follows the user who asked for it. An offer claim is unique per (offer, user):
+// when both uids claimed the same offer the existing claim wins and the anon one is dropped.
+registerMergeRule({ table: 'agent_jobs', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({
+  table: 'guide_offer_claims',
+  userColumn: 'user_id',
+  strategy: 'union',
+  conflictColumns: ['offer_id'],
+});

@@ -32,12 +32,16 @@ import * as schema from './schema';
  * `install_attributions` (packages/db/src/schema/user-private.ts) is the "S" shape again: a device's
  * attribution record has no app_user SELECT policy at all. Add a new entry here, with the same
  * comment style, if a later table needs the same treatment.
+ *
+ * `persona_packs` (packages/db/src/schema/ai.ts) is "S" as well: persona content reaches the guide
+ * only through the `llm.persona_packs` view, never a client.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'cities',
   'fair_use_counters',
   'install_attributions',
   'media_objects',
+  'persona_packs',
   'poi_embeddings',
   'poi_live_checks',
 ]);

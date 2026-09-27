@@ -1,0 +1,14 @@
+{
+  "source": "Hand-authored to the Messages API response schema (https://platform.claude.com/docs/en/api/messages); replace with a live recording from an Anthropic API key.",
+  "response": {
+    "status": 529,
+    "body": {
+      "type": "error",
+      "error": {
+        "type": "overloaded_error",
+        "message": "Overloaded"
+      },
+      "request_id": "req_01OverloadedFixture00001"
+    }
+  }
+}
