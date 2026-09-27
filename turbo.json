@@ -24,20 +24,32 @@
     },
     "lint": {
       "dependsOn": ["^build"],
-      "outputs": []
+      "outputs": [],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/tools/lint/**",
+        "$TURBO_ROOT$/packages/design-tokens/eslint/**"
+      ]
     },
     "test": {
       "dependsOn": ["^build"],
-      "outputs": []
+      "outputs": [],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/design/**", "$TURBO_ROOT$/infra/**"]
     },
     "test:db": {
       "dependsOn": ["^build"],
-      "outputs": []
+      "outputs": [],
+      "cache": false
     },
     "dev": {
       "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
+    },
+    "@cp/scripts#test": {
+      "dependsOn": ["^build"],
+      "outputs": [],
+      "cache": false
     }
   }
 }

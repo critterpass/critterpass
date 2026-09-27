@@ -1,13 +1,9 @@
 name: ai-evals
 
 # The quality gate for prompts, personas, tools and routing (packages/ai/evals/README.md).
+# Pull requests call it from ci.yml when these same paths change, so its result feeds `ci passed`.
 on:
-  pull_request:
-    paths:
-      - 'packages/ai/**'
-      - 'packages/domain/src/ai/**'
-      - 'packages/domain/src/guide-actions/**'
-      - '.github/workflows/ai-evals.yml'
+  workflow_call:
   push:
     branches: [main]
     paths:
