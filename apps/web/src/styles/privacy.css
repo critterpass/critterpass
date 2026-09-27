@@ -1,15 +1,17 @@
-.cs-privacy {
-  background: var(--color-ink-850);
-  color: var(--color-paper-base);
-  min-height: 100vh;
-}
+/* Privacy page. Sits inside `.cs-root` (coming-soon.css) for the site's Geist body face, dark
+   ground and bare-link treatment; this file only adds the prose column and its link states. */
 .cs-privacy__inner {
-  max-width: 720px;
+  max-width: 680px;
   margin: 0 auto;
   padding: clamp(48px, 8vw, 96px) clamp(20px, 4vw, 48px);
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 40px;
+}
+.cs-privacy__head {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 .cs-privacy__title {
   margin: 0;
@@ -21,37 +23,72 @@
   color: var(--color-yellow);
   text-transform: uppercase;
 }
-.cs-privacy__updated {
-  font:
-    500 12px 'Geist Mono',
-    monospace;
-  color: var(--color-ink-200);
-}
 .cs-privacy h2 {
+  margin: 0;
   font-family: Archivo, sans-serif;
   font-weight: 900;
-  font-size: 24px;
-  line-height: 1.1;
-  font-stretch: 78%;
+  font-size: 28px;
+  line-height: 1.05;
+  font-stretch: 72%;
   color: var(--color-paper-base);
-  margin: 0 0 8px;
-}
-.cs-privacy p,
-.cs-privacy li {
-  font:
-    400 16px/1.6 Geist,
-    sans-serif;
-  color: var(--color-ink-100);
-}
-.cs-privacy ul {
-  padding-left: 20px;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
 }
 .cs-privacy section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+}
+.cs-privacy section p,
+.cs-privacy section li {
+  margin: 0;
+  font:
+    400 16px/1.6 Geist,
+    sans-serif;
+  color: var(--color-ink-100);
+  text-wrap: pretty;
+}
+.cs-privacy ul {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cs-privacy__updated {
+  margin: 0;
+  font:
+    500 12px/1.5 'Geist Mono',
+    monospace;
+  color: var(--color-ink-200);
+}
+.cs-privacy code {
+  font:
+    500 0.875em 'Geist Mono',
+    monospace;
+  color: var(--color-paper-base);
+}
+
+/* Prose links: cream text on a yellow underline, turning yellow on hover. Visited links keep the
+   same colours (one-off mailto/help links, not a list to track), and the underline stays in every
+   state so colour is never the only cue. */
+.cs-privacy section a {
+  color: var(--color-paper-base);
+  text-decoration: underline;
+  text-decoration-color: var(--color-yellow);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.cs-privacy section a:hover {
+  color: var(--color-yellow);
+}
+
+/* Footer text links (Privacy, email) inherit the footer grey; keep them underlined. */
+.cs-privacy .cs-footer__right a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Keyboard focus: a yellow ring that reads against the ink ground, for every link and button. */
+.cs-privacy a:focus-visible {
+  outline: 2px solid var(--color-yellow);
+  outline-offset: 3px;
 }
