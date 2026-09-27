@@ -735,6 +735,19 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: OWNER_READ,
   },
+  // RLS class S (docs/data-model.md §3.15): any user inserts their own report, nobody reads one
+  // back through app_user (packages/db/test/permissions/moderation-reports.test.ts).
+  moderation_reports: {
+    selectProbe: { sql: 'SELECT 1 FROM moderation_reports LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: op(false, true, false),
+      exMember: op(false, true, false),
+      anonymous: op(false, true, false),
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(false, true, false),
+    },
+  },
 };
 
 /**

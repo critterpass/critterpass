@@ -39,14 +39,17 @@ import * as schema from './schema';
  *
  * `push_tokens` (packages/db/src/schema/notifications.ts) is RLS "O (write)" but `Stream: —` in
  * docs/data-model.md §3.11: provider tokens are only ever read by the push sender and the owner's
- * own API calls, never replicated to a client. Add a new entry here, with the same comment style,
- * if a later table needs the same treatment.
+ * own API calls, never replicated to a client.
+ * `moderation_reports` (packages/db/src/schema/ops-console.ts) is "S" as well: a reporter may insert
+ * their own report but never read any report back; only the ops console reads the queue.
+ * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'cities',
   'fair_use_counters',
   'install_attributions',
   'media_objects',
+  'moderation_reports',
   'persona_packs',
   'poi_embeddings',
   'poi_live_checks',

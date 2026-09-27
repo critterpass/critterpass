@@ -28,6 +28,12 @@ export {
   scheduledDeliveries,
 } from './notifications';
 export { clientConfig, opsAdminAudit, opsConfig } from './ops-core';
+export {
+  moderationReports,
+  opsApprovals,
+  opsConciergeTasks,
+  opsPartnerAdapters,
+} from './ops-console';
 export { cities, llmPois, mapRegions, poiEmbeddings, poiLiveChecks, pois } from './places';
 export { changeSets, guideActions, itineraryVersions, planDays, planItems } from './plan';
 export { activityEvents, cmdLog, cmdResults, domainEvents, rtOutbox } from './platform';
