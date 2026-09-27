@@ -1,7 +1,7 @@
 ---
 phase: 13
 title: LLM gateway, personas, tool registry, autonomy policy
-status: in_progress
+status: done
 depends_on: [8, 11]
 wave: 6
 features: [F-013, F-052]
@@ -160,6 +160,7 @@ Undesigned states to design in code (used by later UI phases): gateway `error{co
 - Steps: 1. `defineAgentJob(kind, steps[])` → `agent_jobs` row, step progress to `agent_jobs.steps` + `job.progress` on `user:#uid`, partial results persisted. 2. Idempotency by `input_hash`; cancel on input change; retries per step. 3. Push on completion through the P11 notify router when the client is backgrounded. 4. Batch submit + poll job; results mapped back by custom_id.
 - Tests: `pnpm --filter @cp/worker test -- ai/job-runner`
 - Done when: a two-step job resumes after worker restart without duplicate side effects; cost totals equal sum of `ai_usage` rows.
+- Status: done — f9d7ebc
 
 ### T8 — Autonomy policy, GuideAction executor, undo
 - Goal: F-052 end to end on the server.
@@ -167,6 +168,7 @@ Undesigned states to design in code (used by later UI phases): gateway `error{co
 - Steps: 1. Reuse phase 08 ChangeSet op schema (incl. `source_ids`). 2. Pure decider table (Requirements) with exhaustive tests incl. C41 defaults and `closes_at` clamp to earliest hold expiry. 3. Executor: plan → decide → auto-run (same tx: `app_system` sets `approved`, `approved_by_kind='policy'`, decider audit row, then `app.apply_change_set`) or create `changeset_approval` poll draft (P26 poll engine consumes) → audit + `activity_events`. 4. Inverse registry per kind (move own item, reschedule own pickup, notify venue draft...), compensation on failure. 5. `undo_guide_action` command (authz: affected member or organiser, within `undo_until`), idempotent on op_id, "undo all" by disruption id in reverse order.
 - Tests: `pnpm --filter @cp/domain test -- decider` ; `pnpm --filter @cp/worker test -- guide-actions`
 - Done when: money- or others-affecting action never auto-runs (property test); a guide-authored ChangeSet never reaches `approved` without a decider audit row or a human decision (DB-level test attempting direct approval as `app_user` and as the executor without decider row); undo restores prior plan item bytes; replayed undo returns same `cmd_results`.
+- Status: done — f5cb742
 
 ### T9 — Evals, Langfuse, CI gate
 - Goal: measurable quality gate for every prompt/tool/routing change.
@@ -174,19 +176,20 @@ Undesigned states to design in code (used by later UI phases): gateway `error{co
 - Steps: 1. Langfuse via OTel exporter with redaction and crew/trip cost tags. 2. Suites: persona voice + chattiness (LLM-judge rubric), grounding (id existence, arithmetic), injection (malicious email/OCR/tips), autonomy (guide never claims done for needs-yes actions), refusal handling. 3. Workflow runs changed suites on PRs touching `packages/ai/**`; thresholds stored in repo; nightly full run.
 - Tests: `pnpm --filter @cp/ai eval chat` (and each suite)
 - Done when: CI fails on a seeded regression PR (lowered grounding score) and passes on main; Langfuse trace visible for a staging call with no raw C3 values.
+- Status: done — 079d006
 
 ## Phase acceptance criteria
 
-- [ ] All routes in the routing table resolve to the D5 tier; Opus used only by `draft.skeleton` (test)
-- [ ] `guide_reader` contract test: zero C3/supplier/engagement data in prompts
-- [ ] Permission tests green for all 6 new tables + `llm` views
-- [ ] SSE turn test: tokens stream, quota commit/release correct, 30/day limit with device-tz reset
-- [ ] Every model call writes `ai_usage` with `cost_micros` and a Langfuse trace id
-- [ ] Grounding validator rejects unknown ids and numbers not from tools
-- [ ] Decider property test: money/others-affecting actions never `auto`
-- [ ] `undo_guide_action` restores state and is idempotent
-- [ ] promptfoo CI workflow blocks a regression
-- [ ] No prompt strings outside `packages/ai`; no plan/feature ids in code artifacts
+- [x] All routes in the routing table resolve to the D5 tier; Opus used only by `draft.skeleton` (test)
+- [x] `guide_reader` contract test: zero C3/supplier/engagement data in prompts
+- [x] Permission tests green for all 6 new tables + `llm` views
+- [x] SSE turn test: tokens stream, quota commit/release correct, 30/day limit with device-tz reset
+- [x] Every model call writes `ai_usage` with `cost_micros` and a Langfuse trace id
+- [x] Grounding validator rejects unknown ids and numbers not from tools
+- [x] Decider property test: money/others-affecting actions never `auto`
+- [x] `undo_guide_action` restores state and is idempotent
+- [x] promptfoo CI workflow blocks a regression
+- [x] No prompt strings outside `packages/ai`; no plan/feature ids in code artifacts
 
 ## Risks & rollback
 
