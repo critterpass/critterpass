@@ -14,25 +14,17 @@ jest.mock('@legendapp/list/react-native', () => ({ LegendList: mockList.LegendLi
 
 import CritterdexGridSpikeScreen from '../(dev)/spikes/critterdex-grid';
 
-// Renders 600 real components (the mocked list has no virtualization); give this more headroom
-// than Jest's 5 s default on a loaded machine.
-const RENDER_TIMEOUT_MS = 15_000;
-
 describe('CritterdexGridSpikeScreen', () => {
-  it(
-    'renders 600 cells and can switch list implementation and cell mode',
-    async () => {
-      const { getByText } = await render(<CritterdexGridSpikeScreen />);
+  it('renders 600 cells and can switch list implementation and cell mode', async () => {
+    const { getByText } = await render(<CritterdexGridSpikeScreen />);
 
-      expect(getByText('Critterdex grid spike (600 cells)')).toBeTruthy();
-      expect(getByText('list: flash-list')).toBeTruthy();
+    expect(getByText('Critterdex grid spike (600 cells)')).toBeTruthy();
+    expect(getByText('list: flash-list')).toBeTruthy();
 
-      await fireEvent.press(getByText('list: flash-list'));
-      expect(getByText('list: legend-list')).toBeTruthy();
+    await fireEvent.press(getByText('list: flash-list'));
+    expect(getByText('list: legend-list')).toBeTruthy();
 
-      await fireEvent.press(getByText('cells: cached image'));
-      expect(getByText('cells: live redraw')).toBeTruthy();
-    },
-    RENDER_TIMEOUT_MS,
-  );
+    await fireEvent.press(getByText('cells: cached image'));
+    expect(getByText('cells: live redraw')).toBeTruthy();
+  });
 });
