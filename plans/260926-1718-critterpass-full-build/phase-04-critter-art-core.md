@@ -160,16 +160,17 @@ No DB, API, sync, push, or AI changes.
 - Steps: 1. Add `tilt`, `hop` and per-archetype raised-limb/fin/antenna pose hooks for pose-less archetypes (design in code). 2. Gallery (Vite, canvas2d backend): grid of kind × form × pose × variant × size with draw-on replay, blink toggle, dark/light backgrounds, seed switch design/stable. 3. Pixel-difference test: epic pose render differs from common pose by > 3% pixels for every archetype.
 - Tests: `pnpm --filter @cp/critter-art test`; `pnpm --filter @cp/critter-art gallery:build`
 - Done when: all 15 archetypes + 6 guides have an epic pose passing the difference test; gallery builds to static files; existing golden still green (poses opt-in).
+- Status: done — 6e5cf05 (pose mechanics) + 464b6fc (gallery) (923/923 unit tests incl. a stickered common-vs-epic render diff per archetype/guide, smallest margin 8.87% (axolotl) against the 3% bar, largest 50.54% (stand) for the tilt-posed archetypes; sit/bird/lizard and 4 of the 6 guides reuse their existing design-sourced `cheer`; the 12 pose-less archetypes plus sardine/alpaca get the new `tilt`/`hop` whole-body transform, and the 12 archetypes each get a bespoke raised-limb/fin/antenna flourish on top (`kinds/locals/poses.ts`). `pnpm --filter @cp/critter-art gallery:build` produces static files (verified with a real Chromium load: 150 cells render, rarity/search/replay controls all work, 0 console errors); golden unchanged at 1480 cases / 3 pre-existing Node-only misses (not a regression, poses are opt-in and never exercised by the existing case matrix). Found and fixed a real bug while wiring draw-on replay in the gallery: reusing one retained `<canvas>` across repeated `renderToCanvas` calls corrupts its isolated-layer/sticker compositing, since that function allocates one offscreen canvas per layer via the factory, not one overall -- replay now swaps in a fresh canvas per frame instead of repainting.)
 
 ## Phase acceptance criteria
 
-- [ ] `pnpm --filter @cp/critter-art test` and `golden` pass in CI (Chromium + Node parity, thresholds per system-architecture §4.7)
-- [ ] 150 critters, 6 guides (all designed poses), 32 icon kinds render via `build/frame` with no DOM access (package has no `lib: dom` runtime imports outside `backends/canvas2d`)
-- [ ] Draw-on frame uses prefix slicing (no trig per frame): benchmark shows frame geometry ≤ 0.1 ms/critter on Node JIT
-- [ ] Forms: zod schemas exported; designed forms fixtures render; epic poses exist for every archetype; mask/mono/stamp variants clean
-- [ ] Guide cp-ids resolve; unknown kinds throw in dev
-- [ ] No design file modified (`git diff --stat design/` empty)
-- [ ] No plan/phase/feature ids in code, test names or commits
+- [ ] `pnpm --filter @cp/critter-art test` and `golden` pass in CI (Chromium + Node parity, thresholds per system-architecture §4.7) — `test` is 923/923 green; `golden` exits non-zero on 3 pre-existing Node-only misses at 96pt locked mode (`cp-002`/`cp-088`/`cp-130`, from T5/T6), each bit-perfect (0% diff) on the gating browser comparison and documented in `golden/README.md` as a Node/Chromium Skia rasterization characteristic, not a port defect — thresholds were not touched
+- [x] 150 critters, 6 guides (all designed poses), 32 icon kinds render via `build/frame` with no DOM access (package has no `lib: dom` runtime imports outside `backends/canvas2d`) — 28 icon kinds ship, matching `design/doodles.js`'s actual `K` registry exactly (T3's own count; "32" was the phase doc's own miscount, not a gap — see T3's status note)
+- [x] Draw-on frame uses prefix slicing (no trig per frame): benchmark shows frame geometry ≤ 0.1 ms/critter on Node JIT — measured 0.025–0.030 ms/critter average across all 150 critters (stickered, 96pt) at `p` = 0.15/0.5/0.85/1, ~3.5x under budget
+- [x] Forms: zod schemas exported; designed forms fixtures render; epic poses exist for every archetype; mask/mono/stamp variants clean
+- [x] Guide cp-ids resolve; unknown kinds throw in dev
+- [x] No design file modified (`git diff --stat design/` empty)
+- [ ] No plan/phase/feature ids in code, test names or commits — clean for all T7/T8 work (self-audited and fixed); 2 small pre-existing mentions remain from earlier tasks (`kinds/locals/design-critter-reference.ts`'s own doc comment, `golden/README.md`'s T3/T4 sections), left as-is rather than editing files outside this task's ownership
 
 ## Risks & rollback
 
