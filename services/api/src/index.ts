@@ -38,6 +38,8 @@ import { createR2Client } from './media/r2';
 import { registerMediaUploadCommand } from './media/register-media-upload';
 import { mediaSigningConfigFromEnv } from './media/sign';
 import { registerMediaRoutes } from './routes/media';
+import { createMapboxRoutingProvider } from './routing/eta';
+import { MapboxRoutingClient } from './routing/mapbox';
 
 const env = loadApiEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'api', commit: env.COMMIT_SHA } });
@@ -57,6 +59,14 @@ redis
   .connect()
   .catch((error: unknown) => logger.warn({ err: error }, 'redis initial connect failed'));
 
+const routing =
+  env.MAPBOX_TOKEN !== undefined
+    ? createMapboxRoutingProvider({
+        client: new MapboxRoutingClient({ accessToken: env.MAPBOX_TOKEN }),
+        onProviderError: (error) => logger.warn({ err: error }, 'routing provider unavailable'),
+      })
+    : undefined;
+
 const app = createApp({
   service: 'api',
   version: packageJson.version,
@@ -65,6 +75,7 @@ const app = createApp({
   exposeDocs: env.APP_ENV !== 'production',
   pool,
   ...(env.MAPBOX_TOKEN !== undefined ? { mapboxToken: env.MAPBOX_TOKEN } : {}),
+  ...(routing !== undefined ? { routing } : {}),
   tilesBaseUrl: env.TILES_BASE_URL,
   readiness: {
     db: async () => {
