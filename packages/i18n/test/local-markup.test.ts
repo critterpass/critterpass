@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseLocalMarkup } from '../src/local-markup.js';
+import { parseLocalMarkup } from '../src/local-markup';
 
 describe('parseLocalMarkup', () => {
   it('returns a single untagged span for plain text', () => {

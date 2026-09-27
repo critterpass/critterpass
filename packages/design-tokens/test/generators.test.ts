@@ -3,14 +3,14 @@ import { join } from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-import { buildAndroidFonts } from '../codegen/android-fonts.js';
-import { emitCss } from '../codegen/css.js';
-import { flattenForNative } from '../codegen/flatten.js';
-import { emitFontsCss } from '../codegen/fonts-css.js';
-import { emitKotlin } from '../codegen/kotlin.js';
-import { emitSwift } from '../codegen/swift.js';
-import { emitTs } from '../codegen/ts.js';
-import { tokenDeclarations, tokens } from '../src/validate.js';
+import { buildAndroidFonts } from '../codegen/android-fonts';
+import { emitCss } from '../codegen/css';
+import { flattenForNative } from '../codegen/flatten';
+import { emitFontsCss } from '../codegen/fonts-css';
+import { emitKotlin } from '../codegen/kotlin';
+import { emitSwift } from '../codegen/swift';
+import { emitTs } from '../codegen/ts';
+import { tokenDeclarations, tokens } from '../src/validate';
 
 const leaves = flattenForNative(tokens, tokenDeclarations);
 const ts = emitTs(tokens);

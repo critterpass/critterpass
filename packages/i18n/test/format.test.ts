@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { format } from '../src/format/index.js';
+import { format } from '../src/format/index';
 
 describe('format.number', () => {
   it('formats a plain number per locale grouping', () => {

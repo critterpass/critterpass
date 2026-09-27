@@ -13,7 +13,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { locales } from '../src/locales.js';
+import { locales } from '../src/locales';
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 

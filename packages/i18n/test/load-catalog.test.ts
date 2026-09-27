@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import type { CatalogRegistry } from '../src/load-catalog.js';
-import { loadAllCatalogs, loadCatalog } from '../src/load-catalog.js';
+import type { CatalogRegistry } from '../src/load-catalog';
+import { loadAllCatalogs, loadCatalog } from '../src/load-catalog';
 
 // A fake registry, not the generated `src/catalog-registry/`: that registry's entries import real
 // compiled catalogs (`locales/<locale>/<area>.ts`), which only exist after `pnpm compile` has run.

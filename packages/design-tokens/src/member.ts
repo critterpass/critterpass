@@ -3,7 +3,7 @@
  * 6 members get the 6 accent colours solid; members 7-16 cycle the same palette with a ring
  * pattern (dashed, then double) so they stay distinguishable.
  */
-import { tokens } from './validate.js';
+import { tokens } from './validate';
 
 export type RingPattern = 'solid' | 'dashed' | 'double';
 

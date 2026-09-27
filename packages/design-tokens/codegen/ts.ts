@@ -1,6 +1,6 @@
 /** Serialises the resolved token tree to a standalone `export const tokens = {...} as const;` module. */
-import type { Tokens } from '../src/types.js';
-import { GENERATED_HEADER } from './generated-header.js';
+import type { Tokens } from '../src/types';
+import { GENERATED_HEADER } from './generated-header';
 
 function serialize(value: unknown, indent: number): string {
   const pad = '  '.repeat(indent);

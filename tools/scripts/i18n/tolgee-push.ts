@@ -10,9 +10,9 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { parseArgs } from 'node:util';
 
-import { readPoEntries } from './po-catalog.js';
-import type { TolgeeConfig, TolgeeKeyImport } from './tolgee-client.js';
-import { importKeys, loadTolgeeConfig } from './tolgee-client.js';
+import { readPoEntries } from './po-catalog';
+import type { TolgeeConfig, TolgeeKeyImport } from './tolgee-client';
+import { importKeys, loadTolgeeConfig } from './tolgee-client';
 
 export function collectSourceKeys(localesDir: string, sourceLocale: string): TolgeeKeyImport[] {
   const dir = join(localesDir, sourceLocale);

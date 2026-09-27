@@ -9,9 +9,9 @@
  * use directly; the OS Dynamic Type damping and per-script overrides stay app-side
  * (`resolveTypeVariant`, `fontFor`).
  */
-import { GUIDE_IDS } from '../src/derive.js';
-import type { DeclaredToken } from '../src/resolve.js';
-import type { Tokens } from '../src/types.js';
+import { GUIDE_IDS } from '../src/derive';
+import type { DeclaredToken } from '../src/resolve';
+import type { Tokens } from '../src/types';
 
 export type NativeLeafType =
   | 'color'

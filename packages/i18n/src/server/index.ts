@@ -1,8 +1,8 @@
 import { I18n } from '@lingui/core';
 import type { Messages } from '@lingui/core';
 
-import type { CatalogRegistry } from '../load-catalog.js';
-import { loadCatalog } from '../load-catalog.js';
+import type { CatalogRegistry } from '../load-catalog';
+import { loadCatalog } from '../load-catalog';
 
 /**
  * Renders push/email/SMS copy in a recipient's locale (design-system.md §6 "Server"). Returns a

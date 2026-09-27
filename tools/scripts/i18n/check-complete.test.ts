@@ -3,7 +3,7 @@ import { join } from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-import { describeFinding, findFindings } from './check-complete.js';
+import { describeFinding, findFindings } from './check-complete';
 
 const fixturesDir = join(import.meta.dirname, 'fixtures');
 const incomplete = {

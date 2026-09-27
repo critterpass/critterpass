@@ -1,6 +1,6 @@
 import type { Messages } from '@lingui/core';
 
-import { catalogRegistry } from './catalog-registry/index.js';
+import { catalogRegistry } from './catalog-registry/index';
 
 export type CatalogRegistry = Record<string, Record<string, () => Promise<Messages>>>;
 

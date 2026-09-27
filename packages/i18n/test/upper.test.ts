@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { upper } from '../src/upper.js';
+import { upper } from '../src/upper';
 
 describe('upper', () => {
   it('uppercases Turkish "i" to the dotted İ, not the dotless I plain toUpperCase gives', () => {

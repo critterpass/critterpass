@@ -23,6 +23,24 @@ const defaultExportAllowed = [
   '**/*.d.ts',
 ];
 
+const namedExportsOnly = {
+  selector: 'ExportDefaultDeclaration',
+  message:
+    'Use named exports. Default exports are only for route files, Astro pages, the Worker entry and tool configs.',
+};
+
+/** Metro maps neither `./x.js` to `x.ts` nor such dynamic imports: bundled code imports relatives extensionless. */
+const extensionlessRelativeImports = [
+  'ImportDeclaration',
+  'ExportNamedDeclaration',
+  'ExportAllDeclaration',
+  'ImportExpression',
+].map((node) => ({
+  selector: `${node}[source.value=/^\\..*\\.js$/]`,
+  message:
+    'Import relative TypeScript modules without an extension (Metro cannot resolve `.js` to `.ts`).',
+}));
+
 const testFiles = ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', '**/test/**', '**/__tests__/**'];
 
 export default defineConfig([
@@ -67,14 +85,7 @@ export default defineConfig([
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
       ],
-      'no-restricted-syntax': [
-        'error',
-        {
-          selector: 'ExportDefaultDeclaration',
-          message:
-            'Use named exports. Default exports are only for route files, Astro pages, the Worker entry and tool configs.',
-        },
-      ],
+      'no-restricted-syntax': ['error', namedExportsOnly],
       'max-lines': ['error', { max: 300, skipBlankLines: true, skipComments: true }],
     },
   },
@@ -91,6 +102,14 @@ export default defineConfig([
     files: ['**/*.cjs', 'apps/mobile/*.js'],
     languageOptions: { sourceType: 'commonjs', globals: { ...globals.node } },
     rules: { '@typescript-eslint/no-require-imports': 'off' },
+  },
+
+  // Everything Metro may bundle (the app and the shared packages) uses extensionless relative imports.
+  {
+    files: ['apps/mobile/**/*.{ts,tsx}', 'packages/**/*.{ts,tsx}'],
+    // Lint plugins are authored in JS for the root config and never reach Metro.
+    ignores: ['packages/*/eslint/**'],
+    rules: { 'no-restricted-syntax': ['error', namedExportsOnly, ...extensionlessRelativeImports] },
   },
 
   { files: defaultExportAllowed, rules: { 'no-restricted-syntax': 'off' } },

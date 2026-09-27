@@ -1,10 +1,10 @@
-export type { DistanceUnit, TimeFormatOptions } from './format/index.js';
-export { format } from './format/index.js';
-export type { CatalogRegistry } from './load-catalog.js';
-export { loadAllCatalogs, loadCatalog } from './load-catalog.js';
-export type { LocalMarkupSpan } from './local-markup.js';
-export { parseLocalMarkup } from './local-markup.js';
-export type { LocaleDirection, LocaleEntry, LocaleScript } from './locales.js';
+export type { DistanceUnit, TimeFormatOptions } from './format/index';
+export { format } from './format/index';
+export type { CatalogRegistry } from './load-catalog';
+export { loadAllCatalogs, loadCatalog } from './load-catalog';
+export type { LocalMarkupSpan } from './local-markup';
+export { parseLocalMarkup } from './local-markup';
+export type { LocaleDirection, LocaleEntry, LocaleScript } from './locales';
 export {
   getLocale,
   isShippedLocale,
@@ -13,7 +13,7 @@ export {
   shippedLocaleCodes,
   shippedLocales,
   sourceLocale,
-} from './locales.js';
-export type { LocaleMeta } from './meta.js';
-export { localeMeta } from './meta.js';
-export { upper } from './upper.js';
+} from './locales';
+export type { LocaleMeta } from './meta';
+export { localeMeta } from './meta';
+export { upper } from './upper';

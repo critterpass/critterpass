@@ -1,5 +1,5 @@
-import { getLocale, sourceLocale } from './locales.js';
-import type { LocaleDirection, LocaleScript } from './locales.js';
+import { getLocale, sourceLocale } from './locales';
+import type { LocaleDirection, LocaleScript } from './locales';
 
 export interface LocaleMeta {
   readonly bcp47: string;

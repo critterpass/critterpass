@@ -1,22 +1,22 @@
 import type { Messages } from '@lingui/core';
 
-import { catalogs as locale_en } from './en.js';
-import { catalogs as locale_zh_Hans } from './zh-Hans.js';
-import { catalogs as locale_id } from './id.js';
-import { catalogs as locale_ja } from './ja.js';
-import { catalogs as locale_es } from './es.js';
-import { catalogs as locale_pt } from './pt.js';
-import { catalogs as locale_fr } from './fr.js';
-import { catalogs as locale_ko } from './ko.js';
-import { catalogs as locale_th } from './th.js';
-import { catalogs as locale_vi } from './vi.js';
-import { catalogs as locale_de } from './de.js';
-import { catalogs as locale_it } from './it.js';
-import { catalogs as locale_nl } from './nl.js';
-import { catalogs as locale_tr } from './tr.js';
-import { catalogs as locale_ms } from './ms.js';
-import { catalogs as locale_pl } from './pl.js';
-import { catalogs as locale_en_XA } from './en-XA.js';
+import { catalogs as locale_en } from './en';
+import { catalogs as locale_zh_Hans } from './zh-Hans';
+import { catalogs as locale_id } from './id';
+import { catalogs as locale_ja } from './ja';
+import { catalogs as locale_es } from './es';
+import { catalogs as locale_pt } from './pt';
+import { catalogs as locale_fr } from './fr';
+import { catalogs as locale_ko } from './ko';
+import { catalogs as locale_th } from './th';
+import { catalogs as locale_vi } from './vi';
+import { catalogs as locale_de } from './de';
+import { catalogs as locale_it } from './it';
+import { catalogs as locale_nl } from './nl';
+import { catalogs as locale_tr } from './tr';
+import { catalogs as locale_ms } from './ms';
+import { catalogs as locale_pl } from './pl';
+import { catalogs as locale_en_XA } from './en-XA';
 
 /** Locale code -> catalog name -> loader, generated from the locale registry and the extracted `.po` catalogs. */
 export const catalogRegistry: Record<string, Record<string, () => Promise<Messages>>> = {

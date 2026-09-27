@@ -4,7 +4,7 @@ import { join } from 'node:path';
 
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { locatePulledFiles } from './tolgee-pull.js';
+import { locatePulledFiles } from './tolgee-pull';
 
 describe('locatePulledFiles', () => {
   let workDir: string;

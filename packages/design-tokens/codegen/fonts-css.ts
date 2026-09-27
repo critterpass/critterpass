@@ -9,7 +9,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { GENERATED_HEADER_CSS } from './generated-header.js';
+import { GENERATED_HEADER_CSS } from './generated-header';
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SOURCES_PATH = join(packageRoot, '../../tools/scripts/fonts/sources.json');

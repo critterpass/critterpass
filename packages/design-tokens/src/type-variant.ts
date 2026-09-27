@@ -7,7 +7,7 @@
  */
 import type { z } from 'zod';
 
-import type { tokenSchemas } from './schema.js';
+import type { tokenSchemas } from './schema';
 
 export type TypographyValue = z.infer<(typeof tokenSchemas)['typography']>;
 

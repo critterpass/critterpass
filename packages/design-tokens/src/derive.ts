@@ -3,10 +3,10 @@
  * each guide colour's `onPaper` variant (darkened until >= 4.5:1 on paper, design-system.md §1.2)
  * and the `contrastPairs` this package exports for the accessibility contract (§5).
  */
-import type { ContrastPair } from './contrast.js';
-import { darkenToContrast } from './contrast.js';
-import { getResolvedValue } from './resolve.js';
-import type { GuideId } from './types.js';
+import type { ContrastPair } from './contrast';
+import { darkenToContrast } from './contrast';
+import { getResolvedValue } from './resolve';
+import type { GuideId } from './types';
 
 export const GUIDE_IDS: readonly GuideId[] = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco'];
 const ON_PAPER_MIN_RATIO = 4.5;

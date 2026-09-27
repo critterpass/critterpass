@@ -1,8 +1,8 @@
 /** Emits `CpTokens`: Compose/Glance `Color`/`Dp`/`TextUnit` values for the Android surfaces module. */
-import { nativeCategoryDisplayName } from './category-names.js';
-import type { FlatLeaf, TypographyLeafValue } from './flatten.js';
-import { pathToCamel } from './flatten.js';
-import { GENERATED_HEADER } from './generated-header.js';
+import { nativeCategoryDisplayName } from './category-names';
+import type { FlatLeaf, TypographyLeafValue } from './flatten';
+import { pathToCamel } from './flatten';
+import { GENERATED_HEADER } from './generated-header';
 
 const PACKAGE_NAME = 'app.critterpass.designtokens';
 

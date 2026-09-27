@@ -1,7 +1,7 @@
 import { defineConfig } from '@lingui/conf';
 import { formatter } from '@lingui/format-po';
 
-import { localeCodes, sourceLocale } from './src/locales.js';
+import { localeCodes, sourceLocale } from './src/locales';
 
 /**
  * One catalog per feature area (code-standards.md §8, design-system.md §6): area phases each own a

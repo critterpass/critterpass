@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { readPoEntries } from './po-catalog.js';
+import { readPoEntries } from './po-catalog';
 
 describe('readPoEntries', () => {
   it('skips the header entry (empty msgid) and reads simple pairs', () => {

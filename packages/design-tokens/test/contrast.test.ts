@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { contrastRatio, darkenToContrast, parseColor, relativeLuminance } from '../src/contrast.js';
-import { contrastPairs, tokens } from '../src/validate.js';
+import { contrastRatio, darkenToContrast, parseColor, relativeLuminance } from '../src/contrast';
+import { contrastPairs, tokens } from '../src/validate';
 
 describe('parseColor', () => {
   it('parses 6-digit hex', () => {

@@ -7,7 +7,7 @@ import {
   locales,
   shippedLocaleCodes,
   sourceLocale,
-} from '../src/locales.js';
+} from '../src/locales';
 
 // product-decisions.md §7 language default: the launch gate ships these ten regardless of the wider
 // 16-language design render, pending the founder's exception confirmation (phase's own open question).

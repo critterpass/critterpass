@@ -1,12 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
-import { androidLocaleQualifier, generateStringsXml } from '../src/native/strings-xml.js';
-import { generateXcstrings } from '../src/native/xcstrings.js';
-import {
-  cfBundleLocalizations,
-  generateAndroidLocalesConfig,
-} from '../src/native/locales-config.js';
-import { UnsupportedNativeMessageError, parseForNative } from '../src/native/message-shape.js';
+import { androidLocaleQualifier, generateStringsXml } from '../src/native/strings-xml';
+import { generateXcstrings } from '../src/native/xcstrings';
+import { cfBundleLocalizations, generateAndroidLocalesConfig } from '../src/native/locales-config';
+import { UnsupportedNativeMessageError, parseForNative } from '../src/native/message-shape';
 
 // One plain message and one plural message, translated into a locale that keeps the same argument
 // order (vi) and one that also only has an "other" plural category (ja) — real shapes the surfaces

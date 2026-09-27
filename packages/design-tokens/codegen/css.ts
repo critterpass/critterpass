@@ -1,7 +1,7 @@
 /** Emits CSS custom properties on `:root` for `apps/web` from the flattened native-relevant leaves. */
-import type { FlatLeaf, TypographyLeafValue } from './flatten.js';
-import { pathToKebab } from './flatten.js';
-import { GENERATED_HEADER_CSS } from './generated-header.js';
+import type { FlatLeaf, TypographyLeafValue } from './flatten';
+import { pathToKebab } from './flatten';
+import { GENERATED_HEADER_CSS } from './generated-header';
 
 const FONT_FAMILY_CSS_NAME: Record<string, string> = {
   archivo: 'Archivo',

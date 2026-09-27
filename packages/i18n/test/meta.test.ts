@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { localeMeta } from '../src/meta.js';
+import { localeMeta } from '../src/meta';
 
 describe('localeMeta', () => {
   it('returns BCP-47, names, script and direction for a registered locale', () => {

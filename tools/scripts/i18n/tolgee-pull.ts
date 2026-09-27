@@ -14,8 +14,8 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { parseArgs } from 'node:util';
 
-import type { TolgeeConfig } from './tolgee-client.js';
-import { exportTranslations, loadTolgeeConfig } from './tolgee-client.js';
+import type { TolgeeConfig } from './tolgee-client';
+import { exportTranslations, loadTolgeeConfig } from './tolgee-client';
 
 export interface PulledFile {
   readonly locale: string;

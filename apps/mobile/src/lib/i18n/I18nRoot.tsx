@@ -10,8 +10,8 @@ import type { ReactNode } from 'react';
 // eslint-disable-next-line boundaries/dependencies -- see the comment above
 import { loadAllCatalogs, shippedLocaleCodes, sourceLocale } from '@cp/i18n';
 
-import { pickDeviceLocale } from './device-locale.js';
-import { persistedLocale } from './set-locale.js';
+import { pickDeviceLocale } from './device-locale';
+import { persistedLocale } from './set-locale';
 
 let initialActivation: Promise<void> | undefined;
 

@@ -1,5 +1,5 @@
-import type { NativeSegment } from './message-shape.js';
-import { argOrderOf, parseForNative } from './message-shape.js';
+import type { NativeSegment } from './message-shape';
+import { argOrderOf, parseForNative } from './message-shape';
 
 function renderApple(
   segments: readonly NativeSegment[],

@@ -18,7 +18,7 @@ import { mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { localeCodes } from '../src/locales.js';
+import { localeCodes } from '../src/locales';
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const registryDir = join(packageRoot, 'src', 'catalog-registry');
@@ -40,7 +40,7 @@ function writeLocaleRegistry(locale: string, catalogNames: string[]): void {
     `export const catalogs: Record<string, () => Promise<Messages>> = {`,
     ...catalogNames.map(
       (name) =>
-        `  ${JSON.stringify(name)}: () => import('../../locales/${locale}/${name}.js').then((m) => m.messages),`,
+        `  ${JSON.stringify(name)}: () => import('../../locales/${locale}/${name}').then((m) => m.messages),`,
     ),
     '};',
     '',
@@ -53,7 +53,7 @@ function writeIndex(locales: string[]): void {
     "import type { Messages } from '@lingui/core';",
     '',
     ...locales.map(
-      (locale) => `import { catalogs as ${localeIdentifier(locale)} } from './${locale}.js';`,
+      (locale) => `import { catalogs as ${localeIdentifier(locale)} } from './${locale}';`,
     ),
     '',
     '/** Locale code -> catalog name -> loader, generated from the locale registry and the extracted `.po` catalogs. */',

@@ -15,8 +15,8 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { parseArgs } from 'node:util';
 
-import { checkIcuSyntax } from './icu-check.js';
-import { readPoEntries } from './po-catalog.js';
+import { checkIcuSyntax } from './icu-check';
+import { readPoEntries } from './po-catalog';
 
 export interface LocaleRegistryEntry {
   readonly code: string;

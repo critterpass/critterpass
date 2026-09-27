@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { exportTranslations, importKeys, loadTolgeeConfig } from './tolgee-client.js';
+import { exportTranslations, importKeys, loadTolgeeConfig } from './tolgee-client';
 
 describe('loadTolgeeConfig', () => {
   it('is undefined when the api key or project id is missing', () => {

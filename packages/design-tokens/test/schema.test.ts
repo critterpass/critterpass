@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { resolveMemberStyle } from '../src/member.js';
-import type { RawTree } from '../src/resolve.js';
-import { mergeRawTrees, resolveTokenTree } from '../src/resolve.js';
-import { isKnownTokenType, tokenSchemas, validateDeclarations } from '../src/schema.js';
-import { resolveTypeVariant } from '../src/type-variant.js';
-import { tokenDeclarations, tokens } from '../src/validate.js';
+import { resolveMemberStyle } from '../src/member';
+import type { RawTree } from '../src/resolve';
+import { mergeRawTrees, resolveTokenTree } from '../src/resolve';
+import { isKnownTokenType, tokenSchemas, validateDeclarations } from '../src/schema';
+import { resolveTypeVariant } from '../src/type-variant';
+import { tokenDeclarations, tokens } from '../src/validate';
 
 describe('resolveTokenTree (alias resolution)', () => {
   it('resolves a same-file alias to its target value', () => {

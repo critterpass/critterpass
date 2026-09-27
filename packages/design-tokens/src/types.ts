@@ -5,8 +5,8 @@
  */
 import type { z } from 'zod';
 
-import type { tokenSchemas } from './schema.js';
-import type { TypographyValue } from './type-variant.js';
+import type { tokenSchemas } from './schema';
+import type { TypographyValue } from './type-variant';
 
 type Infer<K extends keyof typeof tokenSchemas> = z.infer<(typeof tokenSchemas)[K]>;
 

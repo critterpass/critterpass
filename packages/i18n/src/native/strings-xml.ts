@@ -1,5 +1,5 @@
-import type { NativeSegment } from './message-shape.js';
-import { argOrderOf, parseForNative } from './message-shape.js';
+import type { NativeSegment } from './message-shape';
+import { argOrderOf, parseForNative } from './message-shape';
 
 /** Android string resources need apostrophes and `"`/`\` escaped with a backslash, and XML's own
  * `&`/`<`/`>` entity-escaped, on top of the ICU-to-Android placeholder substitution. */

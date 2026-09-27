@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { checkIcuSyntax } from './icu-check.js';
+import { checkIcuSyntax } from './icu-check';
 
 describe('checkIcuSyntax', () => {
   it('accepts plain text with no placeholders', () => {

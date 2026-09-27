@@ -10,14 +10,14 @@ import { copyFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { tokenDeclarations, tokens } from '../src/validate.js';
-import { buildAndroidFonts } from './android-fonts.js';
-import { emitCss } from './css.js';
-import { flattenForNative } from './flatten.js';
-import { emitFontsCss } from './fonts-css.js';
-import { emitKotlin } from './kotlin.js';
-import { emitSwift } from './swift.js';
-import { emitTs } from './ts.js';
+import { tokenDeclarations, tokens } from '../src/validate';
+import { buildAndroidFonts } from './android-fonts';
+import { emitCss } from './css';
+import { flattenForNative } from './flatten';
+import { emitFontsCss } from './fonts-css';
+import { emitKotlin } from './kotlin';
+import { emitSwift } from './swift';
+import { emitTs } from './ts';
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 

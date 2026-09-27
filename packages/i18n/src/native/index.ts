@@ -3,10 +3,10 @@ export type {
   NativeSegment,
   PlainNativeMessage,
   PluralNativeMessage,
-} from './message-shape.js';
-export { UnsupportedNativeMessageError, argOrderOf, parseForNative } from './message-shape.js';
-export type { XcstringsOptions } from './xcstrings.js';
-export { generateXcstrings } from './xcstrings.js';
-export type { StringsXmlOptions } from './strings-xml.js';
-export { androidLocaleQualifier, generateStringsXml } from './strings-xml.js';
-export { cfBundleLocalizations, generateAndroidLocalesConfig } from './locales-config.js';
+} from './message-shape';
+export { UnsupportedNativeMessageError, argOrderOf, parseForNative } from './message-shape';
+export type { XcstringsOptions } from './xcstrings';
+export { generateXcstrings } from './xcstrings';
+export type { StringsXmlOptions } from './strings-xml';
+export { androidLocaleQualifier, generateStringsXml } from './strings-xml';
+export { cfBundleLocalizations, generateAndroidLocalesConfig } from './locales-config';

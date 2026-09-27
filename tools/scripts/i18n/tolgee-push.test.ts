@@ -2,7 +2,7 @@ import { join } from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-import { collectSourceKeys } from './tolgee-push.js';
+import { collectSourceKeys } from './tolgee-push';
 
 const fixturesDir = join(import.meta.dirname, 'fixtures', 'complete', 'locales');
 

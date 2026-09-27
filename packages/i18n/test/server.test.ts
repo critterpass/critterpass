@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import type { CatalogRegistry } from '../src/load-catalog.js';
-import { createServerI18n } from '../src/server/index.js';
+import type { CatalogRegistry } from '../src/load-catalog';
+import { createServerI18n } from '../src/server/index';
 
 const fixtureRegistry: CatalogRegistry = {
   en: {
