@@ -1,5 +1,3 @@
-import { Text as RNText } from 'react-native';
-
 import { Stack, Text } from '@/ui';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
@@ -18,9 +16,9 @@ export default function SheetDemoScreen() {
             Sheet demo
           </Text>
           {ROWS.map((row) => (
-            <RNText key={row} testID={`sheet-demo-${row}`}>
+            <Text key={row} variant="body" testID={`sheet-demo-${row}`}>
               {row}
-            </RNText>
+            </Text>
           ))}
         </Stack>
       </SheetScrollView>
