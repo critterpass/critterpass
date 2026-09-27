@@ -548,15 +548,18 @@ Exact patch versions live in `pnpm-lock.yaml`; bumps go through Renovate weekly 
 
 ## 11. Platform go/no-go spikes (phase 02)
 
-| Spike | Pass | Fallback (stays in this stack) |
-|---|---|---|
-| S-AUTH | anon → Apple/Google `linkSocial(idToken)` + phone `verify(updatePhoneNumber)` keep uid; conflict → merge ticket | onLinkAccount merge tx + PowerSync `disconnectAndClear` |
-| S-SYNC | self-hosted PowerSync + Better Auth JWKS; chat p95 <1 s; offline replay; **DB switchover keeps slot**; 1k synthetic conns | PowerSync Cloud; Railway Postgres HA |
-| S-DB | Railway→PlanetScale p50 <3 ms; SET LOCAL via PgBouncer; pgvector, pg_trgm, unaccent, PostGIS | Railway Postgres HA |
-| S-RT | proxy + JWKS; unsubscribe <1 s; recovery after 2 min background; 5k sockets / 2 nodes | tune Redis engine / add nodes |
-| Apple targets | fork of `@bacons/apple-targets` or in-repo config plugin signs all targets on SDK 58 / Xcode 27 / UIScene | bare workflow |
-| Renderer / motion / surfaces | mobile S1–S8 thresholds (critter parity, Critterdex scroll, LA I'M UP, NSE, dwell ring, drag snap, cold start) | adjust budgets, never scope |
-| Tiles | PMTiles on R2 served to MapLibre with offline regions | vector tile server on Railway |
+Results summary and index: [decisions/README.md](decisions/README.md).
+
+| Spike | Pass | Fallback (stays in this stack) | Result |
+|---|---|---|---|
+| S-AUTH | anon → Apple/Google `linkSocial(idToken)` + phone `verify(updatePhoneNumber)` keep uid; conflict → merge ticket | onLinkAccount merge tx + PowerSync `disconnectAndClear` | PASS (server; device phone path); Apple/Google device sign-in incomplete — [ADR](decisions/20260927-better-auth-anonymous-upgrade.md) |
+| S-SYNC | self-hosted PowerSync + Better Auth JWKS; chat p95 <1 s; offline replay; **DB switchover keeps slot**; 1k synthetic conns | PowerSync Cloud; Railway Postgres HA | PASS; FAIL on switchover slot (~34.4 s sync gap), fallback: adjusted operational expectation, same stack — [ADR](decisions/20260927-self-hosted-powersync-sync.md) |
+| S-DB | Railway→PlanetScale p50 <3 ms; SET LOCAL via PgBouncer; pgvector, pg_trgm, unaccent, PostGIS | Railway Postgres HA | PASS (p50 2.36 ms); FAIL on HNSW build on the dev tier, rerun on the launch tier — [ADR](decisions/20260927-planetscale-postgres-from-railway.md) |
+| S-RT | proxy + JWKS; unsubscribe <1 s; recovery after 2 min background; 5k sockets / 2 nodes | tune Redis engine / add nodes | PASS (unsubscribe p95 3.4 ms, 5,000 sockets) — [ADR](decisions/20260927-centrifugo-realtime-proxy.md) |
+| Apple targets | fork of `@bacons/apple-targets` or in-repo config plugin signs all targets on SDK 58 / Xcode 27 / UIScene | bare workflow | PASS on simulator signing (unmodified published package); device signing incomplete — [targets](decisions/20260927-apple-extension-targets-sdk58.md), [App Group bridge](decisions/20260927-app-group-inline-module-bridge.md) |
+| Renderer / motion / surfaces | mobile S1–S8 thresholds (critter parity, Critterdex scroll, LA I'M UP, NSE, dwell ring, drag snap, cold start) | adjust budgets, never scope | PASS on the measurable criteria; device fps, cold start and battery incomplete — [Skia](decisions/20260927-skia-critter-painter-perf.md), [motion](decisions/20260927-motion-transitions-and-startup.md), [push](decisions/20260927-apns-live-activity-push-and-action-keys.md), [Android](decisions/20260927-android-native-surfaces.md), [location](decisions/20260927-background-location-dwell-ring.md) |
+| Tiles | PMTiles on R2 served to MapLibre with offline regions | vector tile server on Railway | PASS; Android pan fps incomplete — [ADR](decisions/20260927-maplibre-pmtiles-on-r2.md) |
+| Routing | Valhalla on Railway: route p95 <300 ms; 16×16 matrix p95 <1 s | Mapbox Directions/Matrix | PASS on routes; FAIL on matrix; fallback taken: Mapbox at launch behind the routing provider, Valhalla later — [ADR](decisions/20260927-valhalla-routing-on-railway.md) |
 
 ---
 
