@@ -124,6 +124,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. zod manifest. 2. `worker_threads` pool over canvas2d backend on `@napi-rs/canvas`. 3. Variants color/mask/mono/stamp/blur (Gaussian blur stages for silhouettes). 4. PNG/WebP encode; crop face/circle. 5. Content-hash cache; `--check` mode fails if outputs are stale (CI).
 - Tests: `pnpm --filter @cp/critter-bake test && pnpm critter-bake --manifest packages/critter-bake/manifests/tier-a.json --check`
 - Done when: tier A bakes; second run writes 0 files; `--check` detects a stale output.
+- Status: done — e18f07c
 
 ### T6 — Platform writers: xcassets, Android res, config plugin
 - Goal: generated assets land in app + extension targets on prebuild.
