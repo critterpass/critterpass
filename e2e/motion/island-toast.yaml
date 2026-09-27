@@ -4,10 +4,16 @@ appId: app.critterpass.dev
 # `e2e-test` build profile's `APP_VARIANT=development` (apps/mobile/app.config.ts's `development`
 # variant — same as e2e/smoke/app-launch.yaml's `appId`). Waits for the home screen before
 # deep-linking: opening the link too early (before the JS bundle/navigation container mounts) drops
-# it silently.
+# it silently. A custom scheme with no host needs a third slash (`scheme:///path`) — `scheme://path`
+# parses "path" as the (ignored) host and routes to "/" instead.
 - launchApp
-- assertVisible: 'Critterpass \(Dev\)'
-- openLink: critterpass-dev://motion-lab
+- assertVisible:
+    text: 'Critterpass \(Dev\)'
+    timeout: 30000
+- openLink: critterpass-dev:///motion-lab
+- assertVisible:
+    id: 'show-toast-button'
+    timeout: 15000
 
 # Shows a toast (with an OPEN action) and dismisses it via the swipe-up-affordance × button.
 - tapOn:
