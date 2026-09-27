@@ -72,7 +72,9 @@ async function expectGolden(name: string, layout: CardLayout): Promise<void> {
   expect(Buffer.from(bytes).equals(golden)).toBe(true);
 }
 
-describe('share card templates (Node backend goldens)', () => {
+// Each case renders full-size cards through the real Node canvas backend (print size for the
+// postcard), which takes seconds on a shared CI runner; give the suite a matching budget.
+describe('share card templates (Node backend goldens)', { timeout: 60_000 }, () => {
   it('critter-card: post + story', async () => {
     await expectGolden('critter-card-post', buildCritterCard(critterCardFixture));
     await expectGolden('critter-card-story', buildCritterCardStory(critterCardFixture));

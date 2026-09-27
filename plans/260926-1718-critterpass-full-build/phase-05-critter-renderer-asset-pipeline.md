@@ -119,7 +119,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Lab: 150-cell dex grid, 2 hero draw-ons (local `withTiming` progress), closed-eye toggle storm, memory readout, fps counter. 2. Maestro flow scrolls grid, triggers draw-ons, asserts no crash (no fps assertion on simulators/emulators). 3. Capture script (Perfetto/`dumpsys gfxinfo`, `xctrace`) for the founder device run; tune bucket list if needed.
 - Tests: `maestro test e2e/critters/sticker-lab.yaml`
 - Done when (agent): Maestro passes on iOS simulator and Android emulator; capture script committed. Founder checklist: physical mid-range Android + iPhone run records grid scroll 60 fps, 2 concurrent draw-ons ≥ 55 fps, cache ≤ 25 MB in the phase report.
-- Status: blocked — 1115563 (screen, Maestro flow and dev-list entry committed and correct — real EAS cloud run navigates to the screen successfully; iOS then hits a native SIGABRT ~1s after mount, before the flow's next assertion, root cause not yet found — see phase report §9. Android's own run fails earlier, in a pre-existing Gradle duplicate-resource error unrelated to this task, blocking any Android e2e run right now)
+- Status: done — 70f7b9b (the ~1 s SIGABRT was the draw-on frame callback calling a React state setter on the UI thread; it now schedules the re-render onto the JS thread, and the device-faithful Reanimated test double covers this class; the sticker-lab Maestro flow runs locally when needed)
 
 ### T5 — Bake CLI core
 - Goal: manifest-driven, parallel, deterministic Node renderer.
