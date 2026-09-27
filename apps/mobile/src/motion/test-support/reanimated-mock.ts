@@ -13,6 +13,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
+import { isWorklet, registerUIRuntimeFunctions, toUIWorklet } from './ui-runtime';
+
 type Listener<Value> = (value: Value) => void;
 
 interface MutableValue<Value> {
@@ -42,14 +44,17 @@ function useSharedValue<Value>(initial: Value): MutableValue<Value> {
   return mutable;
 }
 
+// Updaters, derivations, frame callbacks and animation callbacks all run on the UI runtime on a
+// device, so they run through the same rebuild here (./ui-runtime.ts): a worklet that calls a plain
+// helper throws in a test exactly as it aborts the app on a device.
 function useAnimatedStyle<Style>(factory: () => Style): Style {
-  return factory();
+  return toUIWorklet(factory)();
 }
 
 function useDerivedValue<Value>(processor: () => Value): { value: Value } {
   return {
     get value() {
-      return processor();
+      return toUIWorklet(processor)();
     },
   };
 }
@@ -96,7 +101,7 @@ function useFrameCallback(
       const timeSincePreviousFrame =
         previousFrameAtRef.current === null ? null : now - previousFrameAtRef.current;
       previousFrameAtRef.current = now;
-      callbackRef.current({
+      toUIWorklet(callbackRef.current)({
         timestamp: now,
         timeSincePreviousFrame,
         timeSinceFirstFrame: now - firstFrameAtRef.current,
@@ -118,7 +123,7 @@ function useFrameCallback(
 type AnimationCallback = (finished: boolean) => void;
 
 function resolveAnimation<Value>(toValue: Value, callback?: AnimationCallback): Value {
-  callback?.(true);
+  if (callback !== undefined) (isWorklet(callback) ? toUIWorklet(callback) : callback)(true);
   return toValue;
 }
 
@@ -222,8 +227,7 @@ const Easing = {
 // since it is the only one this package's motion code renders directly.
 const Animated = { View, createAnimatedComponent };
 
-module.exports = {
-  __esModule: true,
+const mockExports = {
   default: Animated,
   createAnimatedComponent,
   makeMutable,
@@ -242,3 +246,7 @@ module.exports = {
   useReducedMotion,
   Easing,
 };
+
+registerUIRuntimeFunctions(Object.values(mockExports));
+
+module.exports = { __esModule: true, ...mockExports };

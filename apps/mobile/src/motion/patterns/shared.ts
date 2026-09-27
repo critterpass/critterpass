@@ -21,10 +21,14 @@ export function useReducedImpactMotion(): boolean {
  */
 export function triggerImpact(cueId: SoundCueId, andAlso?: () => void): void {
   'worklet';
-  scheduleOnRN(() => {
-    andAlso?.();
-    impact(cueId);
-  });
+  // The UI runtime can only hand the JS thread a function that was defined there, so the pair runs
+  // through a JS-thread helper rather than an arrow built inside this worklet.
+  scheduleOnRN(fireImpact, cueId, andAlso);
+}
+
+function fireImpact(cueId: SoundCueId, andAlso?: () => void): void {
+  andAlso?.();
+  impact(cueId);
 }
 
 /** A list item's stagger delay from its 0-based `index` and a `motion.duration.stagger.*` token (or a pattern's own documented stagger). */

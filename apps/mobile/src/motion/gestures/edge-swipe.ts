@@ -24,10 +24,15 @@ export const EDGE_SWIPE_SETTLE_MS = 300;
 export function commitsEdgeSwipe(
   dx: number,
   velocityPtPerMs: number,
-  commitDistancePt: number = EDGE_SWIPE_COMMIT_DISTANCE_PT,
-  commitVelocity: number = EDGE_SWIPE_COMMIT_VELOCITY_PT_PER_MS,
+  commitDistancePt?: number,
+  commitVelocity?: number,
 ): boolean {
-  return dx > commitDistancePt || velocityPtPerMs > commitVelocity;
+  'worklet';
+  // Defaults resolve in the body: a worklet's captured constants only exist once its body runs on
+  // the UI runtime, so a default parameter naming one throws there.
+  const commitDistancePtResolved = commitDistancePt ?? EDGE_SWIPE_COMMIT_DISTANCE_PT;
+  const commitVelocityResolved = commitVelocity ?? EDGE_SWIPE_COMMIT_VELOCITY_PT_PER_MS;
+  return dx > commitDistancePtResolved || velocityPtPerMs > commitVelocityResolved;
 }
 
 export const edgeSwipe = {

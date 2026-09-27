@@ -21,15 +21,17 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'dev-nav-motion-lab'
-# Motion lab's first mount does real work no earlier (dev) screen does — Skia canvases, ~24
-# Reanimated shared values, every loop preset's animation starting — on a cold EAS simulator's
-# very first render of this screen in the process. 30s (this flow's original deep-link-era value)
-# gives that real work room to finish before asserting; a shorter budget here previously caused the
-# app to be judged unresponsive.
+# Motion lab's first mount starts every loop preset and ~24 Reanimated shared values on a cold EAS
+# simulator; 30s gives that first render room before asserting.
 - extendedWaitUntil:
     visible:
       id: 'show-toast-button'
     timeout: 30000
+# Maestro waits for the screen to settle after every tap, and the idle loops never settle, so each tap
+# would stall for ~18s and the toast (6s with an action) would expire before its assertion. Motion
+# freeze stops the shared loop clock; the toast's own drop-in and dismissal still animate.
+- tapOn:
+    id: 'motion-freeze-toggle'
 
 # Shows a toast (with an OPEN action) and dismisses it via the swipe-up-affordance × button.
 - tapOn:

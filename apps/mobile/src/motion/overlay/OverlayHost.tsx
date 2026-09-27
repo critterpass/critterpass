@@ -32,6 +32,10 @@ function FlyToClone({ request }: { readonly request: FlyToRequest }) {
   const translateY = useSharedValue(from.y);
   const rotate = useSharedValue(0);
 
+  // Built on the JS thread so the completion worklet hands the JS thread a function it owns: the UI
+  // runtime cannot send back a function created inside a worklet.
+  const dismiss = () => flyToOverlay.dismiss(request.id);
+
   useEffect(() => {
     translateX.value = withSequence(
       withTiming(midX, { duration: FLY_TO_MS / 2, easing: standardEasing }),
@@ -41,7 +45,7 @@ function FlyToClone({ request }: { readonly request: FlyToRequest }) {
       withTiming(midY, { duration: FLY_TO_MS / 2, easing: standardEasing }),
       withTiming(to.y, { duration: FLY_TO_MS / 2, easing: standardEasing }, (finished) => {
         'worklet';
-        if (finished) triggerImpact(THUD_SOFT_CUE, () => flyToOverlay.dismiss(request.id));
+        if (finished) triggerImpact(THUD_SOFT_CUE, dismiss);
       }),
     );
     rotate.value = withSequence(
