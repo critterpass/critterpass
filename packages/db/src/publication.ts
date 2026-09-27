@@ -32,6 +32,10 @@ import * as schema from './schema';
  * `install_attributions` (packages/db/src/schema/user-private.ts) is the "S" shape again: a device's
  * attribution record has no app_user SELECT policy at all.
  *
+ * `content_releases`, `critter_names` and `poi_hours_proposals` (packages/db/src/schema/content.ts)
+ * are "S": releases and hours proposals are ops-console data, and critter names stay server-side
+ * until the viewer finds the critter (copied into their own collection entry, never replicated).
+ *
  * `persona_packs` (packages/db/src/schema/ai.ts) is "S" as well: persona content reaches the guide
  * only through the `llm.persona_packs` view, never a client.
  * `scheduled_events` (packages/db/src/jobs/schema.ts) is "S" too: server timers, written through
@@ -49,6 +53,8 @@ import * as schema from './schema';
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'cities',
+  'content_releases',
+  'critter_names',
   'fair_use_counters',
   'fare_cells',
   'install_attributions',
@@ -56,6 +62,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'moderation_reports',
   'persona_packs',
   'poi_embeddings',
+  'poi_hours_proposals',
   'poi_live_checks',
   'push_tokens',
   'scheduled_events',

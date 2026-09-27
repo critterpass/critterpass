@@ -115,6 +115,51 @@ streams:
           AND trip_id IN organised_trips
           AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
           AND base_version_id IN (SELECT id FROM itinerary_versions WHERE visibility = 'organiser')
+  catalog:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM critter_sets
+      - SELECT * FROM critters
+      - SELECT * FROM critter_forms
+      - SELECT * FROM legendary_windows
+      - SELECT * FROM phrase_cards
+      - SELECT * FROM emergency_numbers
+      - SELECT * FROM guides
+      - SELECT * FROM destinations
+      - SELECT *, key AS id FROM client_config
+      - SELECT *, key AS id FROM products
+      - SELECT *, key AS id FROM perks
+      - SELECT * FROM season_months WHERE reviewed_at IS NOT NULL
+      - SELECT * FROM season_events WHERE reviewed_at IS NOT NULL
+  trip_pack:
+    with:
+      trip_destination: |-
+        SELECT destination_id FROM trips
+        WHERE id = subscription.parameter('trip_id')
+          AND crew_id IN (SELECT crew_id FROM crew_members WHERE user_id = auth.user_id() AND status = 'active')
+    queries:
+      - SELECT * FROM spawn_rules WHERE destination_id IN trip_destination
+      - SELECT * FROM facilities WHERE destination_id IN trip_destination
+      - |-
+        SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
+          hours_verified_at, price_level, editorial, tags, status, curation, visit_radius_m, timezone,
+          last_live_check_at, created_at, updated_at
+        FROM pois
+        WHERE destination_id IN trip_destination
+          AND status != 'hidden'
+          AND merged_into_id IS NULL
+      - SELECT * FROM map_regions WHERE destination_id IN trip_destination
+      - SELECT * FROM weather_snapshots WHERE destination_id IN trip_destination
+      - SELECT * FROM hazard_alerts WHERE destination_id IN trip_destination
+      - |-
+        SELECT * FROM crowd_forecasts
+        WHERE poi_id IN (SELECT id FROM pois WHERE destination_id IN trip_destination)
+  help:
+    accept_potentially_dangerous_queries: true
+    query: |-
+      SELECT id, slug, locale, category, title, summary, body_md, release_id, created_at, updated_at
+      FROM help_articles
+      WHERE locale = subscription.parameter('locale')
   crews:
     auto_subscribe: true
     queries:
@@ -131,16 +176,6 @@ streams:
     queries:
       - SELECT * FROM join_codes WHERE crew_id IN my_crews
       - SELECT * FROM join_codes WHERE created_by = auth.user_id()
-  catalog:
-    auto_subscribe: true
-    queries:
-      - SELECT * FROM guides
-      - SELECT * FROM destinations
-      - SELECT *, key AS id FROM client_config
-      - SELECT *, key AS id FROM products
-      - SELECT *, key AS id FROM perks
-      - SELECT * FROM season_months WHERE reviewed_at IS NOT NULL
-      - SELECT * FROM season_events WHERE reviewed_at IS NOT NULL
   fx:
     auto_subscribe: true
     queries:
@@ -153,27 +188,6 @@ streams:
       - |-
         SELECT * FROM fx_snapshots
         WHERE quote IN (SELECT local_currency FROM trips WHERE crew_id IN my_crews)
-  trip_pack:
-    with:
-      trip_destination: |-
-        SELECT destination_id FROM trips
-        WHERE id = subscription.parameter('trip_id')
-          AND crew_id IN (SELECT crew_id FROM crew_members WHERE user_id = auth.user_id() AND status = 'active')
-    queries:
-      - |-
-        SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
-          hours_verified_at, price_level, editorial, tags, status, curation, visit_radius_m, timezone,
-          last_live_check_at, created_at, updated_at
-        FROM pois
-        WHERE destination_id IN trip_destination
-          AND status != 'hidden'
-          AND merged_into_id IS NULL
-      - SELECT * FROM map_regions WHERE destination_id IN trip_destination
-      - SELECT * FROM weather_snapshots WHERE destination_id IN trip_destination
-      - SELECT * FROM hazard_alerts WHERE destination_id IN trip_destination
-      - |-
-        SELECT * FROM crowd_forecasts
-        WHERE poi_id IN (SELECT id FROM pois WHERE destination_id IN trip_destination)
   explore:
     accept_potentially_dangerous_queries: true
     query: |-

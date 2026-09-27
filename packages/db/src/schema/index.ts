@@ -1,5 +1,20 @@
 export { agentJobs, aiUsage, guideOfferClaims, guideOffers, personaPacks } from './ai';
 export { authAccount, authJwks, authSchema, authSession, authUser, authVerification } from './auth';
+export {
+  contentReleases,
+  critterForms,
+  critterNames,
+  critterSets,
+  critters,
+  emergencyNumbers,
+  facilities,
+  helpArticles,
+  legendaryWindows,
+  opsContentReviews,
+  phraseCards,
+  poiHoursProposals,
+  spawnRules,
+} from './content';
 export { crewMembers, crews } from './crews';
 export {
   fairUseCounters,

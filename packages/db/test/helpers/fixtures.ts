@@ -150,6 +150,73 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       "INSERT INTO cities (name, country, lat, lng) VALUES ('Matrix Probe City', 'XX', 0, 0)",
     );
 
+    // Content catalogue (RLS R while the row's release is the published one).
+    const { rows: releaseRows } = await tx.query<{ id: string }>(
+      `INSERT INTO content_releases (kind, version, batch_key, title, status, stage, checksum, artifact,
+         item_count, approved_by, approved_at, published_at)
+       VALUES ('forms', 1, 'matrix-probe', 'Matrix probe', 'published', 'publish', repeat('0', 64), '{}',
+         0, $1, now(), now()) RETURNING id`,
+      [organiser],
+    );
+    const release = releaseRows[0]!.id;
+    const { rows: setRows } = await tx.query<{ id: string }>(
+      `INSERT INTO critter_sets (code, name, country, set_group, tz, currency, languages, coverage,
+         hero_critter_key, month_hints, release_id)
+       VALUES ('zz', 'Matrix Probe', 'ZZ', 3, 'Asia/Singapore', 'SGD', '{en}', 'guest', 'cp-999', '[]', $1)
+       RETURNING id`,
+      [release],
+    );
+    const { rows: critterRows } = await tx.query<{ id: string }>(
+      `INSERT INTO critters (key, set_id, no, city, species, art_params, canonical_seed, note, release_id)
+       VALUES ('cp-999', $1, 999, 'Probe City', 'Probe', '{}', 7, 'Probe.', $2) RETURNING id`,
+      [setRows[0]!.id, release],
+    );
+    const { rows: formRows } = await tx.query<{ id: string }>(
+      `INSERT INTO critter_forms (key, critter_id, rarity, palette, edge, note, requirement_copy, xp, release_id)
+       VALUES ('cp-999:legendary', $1, 'legendary', '{}', 'legendary', 'Probe.', 'Probe', 150, $2) RETURNING id`,
+      [critterRows[0]!.id, release],
+    );
+    await tx.query(
+      `INSERT INTO critter_names (critter_id, locale, name, release_id) VALUES ($1, 'en', 'Probe', $2)`,
+      [critterRows[0]!.id, release],
+    );
+    const { rows: windowRows } = await tx.query<{ id: string }>(
+      `INSERT INTO legendary_windows (key, form_id, place_line, rule, months, challenge, release_id)
+       VALUES ('matrix-probe', $1, 'Probe', '{"type":"any_day"}', '{1}', 'Probe', $2) RETURNING id`,
+      [formRows[0]!.id, release],
+    );
+    await tx.query(
+      `INSERT INTO spawn_rules (key, form_id, kind, set_id, destination_id, window_id, copy, release_id)
+       VALUES ('cp-999:legendary#1', $1, 'window', $2, $3, $4, 'Probe', $5)`,
+      [formRows[0]!.id, setRows[0]!.id, matrixProbeDestinationId, windowRows[0]!.id, release],
+    );
+    await tx.query(
+      `INSERT INTO phrase_cards (key, language, context, text, gloss, audio_status, release_id)
+       VALUES ('en:greetings:hello', 'en', 'greetings', 'Hello', 'Hello', 'pending', $1)`,
+      [release],
+    );
+    await tx.query(
+      `INSERT INTO emergency_numbers (country, numbers, source_url, retrieved_on, verified_at, release_id)
+       VALUES ('ZZ', '[]', 'https://example.org', '2026-09-28', now(), $1)`,
+      [release],
+    );
+    await tx.query(
+      `INSERT INTO facilities (key, destination_id, kind, name, lat, lng, address, source_url, retrieved_on,
+         verified_at, release_id)
+       VALUES ('matrix-probe', $1, 'pharmacy', 'Probe', 0, 0, 'Probe', 'https://example.org', '2026-09-28', now(), $2)`,
+      [matrixProbeDestinationId, release],
+    );
+    await tx.query(
+      `INSERT INTO help_articles (slug, locale, category, title, summary, body_md, release_id)
+       VALUES ('matrix-probe', 'en', 'getting_started', 'Probe', 'Probe', 'Probe', $1)`,
+      [release],
+    );
+    await tx.query(
+      `INSERT INTO poi_hours_proposals (poi_id, hours, source_url, fetched_at, batch_key)
+       VALUES ($1, '{"weekly":{}}', 'https://example.org', now(), 'matrix-probe')`,
+      [matrixProbePoiId],
+    );
+
     const crewId = await insertCrew(tx, { createdBy: organiser });
     await insertCrewMember(tx, { crewId, userId: organiser, role: 'organiser' });
     await insertCrewMember(tx, { crewId, userId: coOrganiser, role: 'organiser' });
