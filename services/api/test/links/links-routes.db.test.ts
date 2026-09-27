@@ -4,6 +4,7 @@
  * (validated links, one attribution per device, replay).
  */
 import { createSeatToken, generateUuidV7 } from '@cp/domain';
+import { Validator } from '@seriousme/openapi-schema-validator';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { createClaimAttributionCommand } from '../../src/commands/attribution/claim-attribution';
@@ -261,5 +262,17 @@ describe('POST /v1/links/claim', () => {
       body: JSON.stringify(envelope('claim_attribution', { join_code: 'BAX6XD' })),
     });
     expect(response.status).toBe(422);
+  });
+});
+
+describe('GET /openapi.json', () => {
+  it('lists the link routes in a valid OpenAPI 3.1 document', async () => {
+    const response = await harness.request('/openapi.json');
+    const document = (await response.json()) as { paths: Record<string, unknown> };
+    expect(Object.keys(document.paths)).toEqual(
+      expect.arrayContaining(['/v1/links/{token}/preview', '/v1/codes/{code}', '/v1/links/claim']),
+    );
+    const validation = await new Validator().validate(document);
+    expect(validation.errors ?? []).toEqual([]);
   });
 });
