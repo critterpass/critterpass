@@ -150,6 +150,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Toast queue, durations, OPEN action, swipe-up dismiss, live-region announcement; Dynamic Island origin on supported iPhones (safe-area heuristics), banner elsewhere. 2. Motion lab lists presets/patterns/cues with slowmo + mode switch (excluded from release bundles by the phase-1 dev-route exclusion (phase 1: Metro `blockList` on `src/app/(dev)/**` for `APP_VARIANT=production` + `check-release-bundle` CI gate)). 3. Maestro: open lab, trigger each pattern in motion-freeze, `assertScreenshot`; toast show/queue/dismiss.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/island-toast`; `maestro test e2e/motion/` on iOS simulator and Android emulator.
 - Done when: Maestro flows pass on both platforms; toast announced by screen reader test.
+- Status: JS side done (IslandToast + queue + motion-lab + Jest a11y-announcement test all green); Maestro run pending — see phase report for the eas-cloud-e2e pipeline's readiness at the time this lane reached T10
 
 ## Phase acceptance criteria
 
