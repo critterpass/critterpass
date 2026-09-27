@@ -146,6 +146,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Element: IO-lazy (rootMargin 150 px) draw-on, reduced motion = static, tap replay, disconnect frees canvas. 2. WebP buckets + srcset JSON. 3. OG atlas: packed sprite sheets + JSON index `{kind, form, pose} → rect`.
 - Tests: `pnpm --filter @cp/critter-art test -- web && pnpm --filter @cp/critter-bake test -- web og-atlas`
 - Done when: Playwright test mounts 100 elements, only visible ones allocate canvases; atlas index covers all 150 critters × designed forms + 6 guides × poses.
+- Status: done — b00384b
 
 ### T9 — Share layout model with Skia and Node backends
 - Goal: one layout description, two renderers, parity-tested.
