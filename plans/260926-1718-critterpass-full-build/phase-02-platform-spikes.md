@@ -186,7 +186,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Build Valhalla tiles for the 61 places' countries; deploy to Railway SG with volume. 2. Measure route p95 (walk, drive), 16×16 matrix, memory/cold start. 3. Write ADR. 4. Write decisions index with PASS/FAIL table and fallbacks taken; update arch §11.
 - Tests: `pnpm --filter @cp/spike-valhalla run bench`.
 - Done when: all ADRs linked from index; arch §11 shows results.
-- Status: in_progress — 41832b6 (Valhalla ADR done: PASS on walk/drive route p95, FAIL on 16x16 matrix p95 for larger metros, on a merged SEA+Japan extract only — the 4 guide-destination countries and cold-start numbers weren't obtained under a founder time/cost box; decisions index and arch §11 summary pending)
+- Status: done — 5c9ba33 (decisions index with PASS/FAIL table and fallbacks, arch §11 results column; Valhalla ADR 41832b6: routes PASS, 16x16 matrix FAIL, founder chose Mapbox at launch behind the routing provider with Valhalla later; guide-country extract and cold start not measured; Mapbox §2.10.1/§1.9 terms open for the founder)
 
 ## Phase acceptance criteria
 - [ ] One ADR per spike (S-DB, S-AUTH, S-SYNC incl. drill, S-RT, Apple targets, Android surfaces, push LA/NSE/NCE, Skia critters, motion/startup, background location, tiles, Valhalla, inline module) with numbers and verdict

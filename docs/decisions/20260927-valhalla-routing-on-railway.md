@@ -3,7 +3,9 @@
 Date: 2026-09-27
 Status: PASS on walk/drive route latency; **FAIL on the 16×16 matrix budget** for larger cities;
 self-hosted Valhalla on Railway SG is otherwise workable once two build-pipeline bugs are worked
-around (see Method/Findings)
+around (see Method/Findings). Launch routes through the routing provider on Mapbox Directions and
+Matrix; self-hosted Valhalla is the later swap behind the same provider interface (see "Decision
+2026-09-27" below)
 
 ## Context
 
@@ -201,8 +203,10 @@ vCPU per-service ceiling via `railway metrics`).
 
 ## Chosen path
 
-Keep self-hosted Valhalla on Railway (D6 stands) for the SEA + Japan + guide-destination scope,
-with three concrete changes phase 14 should carry forward:
+Launch routing runs on Mapbox Directions and Matrix behind the routing provider
+(`services/api/src/routing/`); see "Decision 2026-09-27" below. Self-hosted Valhalla on Railway
+is the later provider for the SEA + Japan + guide-destination scope, swapped in behind the same
+`RoutingProvider` interface. When it is built, carry forward three concrete changes:
 
 1. **Always pre-merge multi-country extracts with `osmium merge` before `valhalla_build_tiles`**
    (Finding 3) — never pass more than one file via `tile_urls` directly.
