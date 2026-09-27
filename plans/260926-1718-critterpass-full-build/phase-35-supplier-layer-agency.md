@@ -9,7 +9,7 @@ screens: [3h-3, 3j-1, 3c-7, 3c-8, 3c-9, 3c-12, 3f-1, 3f-3, 3f-4, 3f-6, 3f-7, 4f-
 tasks: 14
 owns:
   - infra/powersync/streams/suppliers.yaml
-  - packages/suppliers/ (except src/travelpayouts/fares/ and src/flight-status/, owned by the fares and bookings phases)
+  - packages/suppliers/ (except src/travelpayouts/fares/ and src/flight-status/, owned by the fares and bookings phases, and src/private-transport/, owned by the find-a-driver phase)
   - packages/domain/src/suppliers/
   - packages/domain/src/vendor-comms/
   - packages/db/src/schema/suppliers.ts
