@@ -123,6 +123,7 @@ Undesigned states to design in code: none in this phase (engine outputs drive UI
 - Steps: 1. Source union + clock injection. 2. `passPlus`, `boostActive`, `guideUnlimited`, `redraftLimit`, `seatCap`, `helpMap`, `sponsored`. 3. Capability table (one row per matrix line) as data with test per row × source (Free, Pass+, Boost, FTF, crew yearly). 4. Overlays (paused, cancelled, expired, grace, boost ended, refund). 5. Perk list filter by `enabled`.
 - Tests: `pnpm --filter @cp/entitlements test`
 - Done when: every product-decisions §3 matrix cell has an asserting test; Boost does not grant mailbox import or icon styles (C8); earned icons never gated (C23).
+- Status: done — deb4e1c
 
 ### T5 — Quotas, period keys, fair-use decisions
 - Goal: meter semantics shared client/server.
