@@ -6,17 +6,12 @@
  */
 import { randomUUID } from 'node:crypto';
 
-import { resetJobProducerForTests, runMigrations, withSystem, withUser } from '@cp/db';
-import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
-import pg from 'pg';
+import { withSystem, withUser } from '@cp/db';
 import type { PgBoss } from 'pg-boss';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
 import {
-  createBoss,
-  createFailureReporter,
-  DEFAULT_QUEUE_SPEC,
   defineJob,
   dlqName,
   enqueue,
@@ -24,66 +19,38 @@ import {
   ensureQueues,
   listDeadLetters,
   redrive,
-  startJobRuntime,
-  stopJobRuntime,
   type AnyJobDefinition,
   type DeadLetterAlert,
-  type QueueSpec,
 } from '../src/boss';
+import {
+  fastSpec,
+  startJobsHarness,
+  uniqueQueue,
+  until,
+  type JobsHarness,
+} from './helpers/jobs-harness';
 
-const silent = { info: () => undefined, warn: () => undefined, error: () => undefined };
-
-let postgres: StartedPostgreSqlContainer;
-let pool: pg.Pool;
-const running: PgBoss[] = [];
+let harness: JobsHarness;
+let pool: JobsHarness['pool'];
 
 beforeAll(async () => {
-  postgres = await startPostgres();
-  pool = new pg.Pool({ connectionString: postgres.getConnectionUri(), max: 8 });
-  await runMigrations(pool);
+  harness = await startJobsHarness();
+  pool = harness.pool;
 }, 240_000);
 
 afterEach(async () => {
-  await Promise.all(running.splice(0).map((boss) => stopJobRuntime(boss, 2000)));
-  resetJobProducerForTests();
+  await harness.stopAll();
 });
 
 afterAll(async () => {
-  await pool.end();
-  await postgres.stop();
+  await harness.close();
 });
 
-const fastSpec = (overrides: Partial<QueueSpec> = {}): QueueSpec => ({
-  ...DEFAULT_QUEUE_SPEC,
-  retryDelay: 0,
-  retryBackoff: false,
-  ...overrides,
-});
-
-function uniqueQueue(prefix: string): string {
-  return `test.${prefix}_${randomUUID().slice(0, 8)}`;
-}
-
-async function startRuntime(
+function startRuntime(
   jobs: readonly AnyJobDefinition[],
   alerts: DeadLetterAlert[] = [],
 ): Promise<PgBoss> {
-  const boss = createBoss({ connectionString: postgres.getConnectionUri(), logger: silent });
-  running.push(boss);
-  return startJobRuntime({
-    boss,
-    deps: { pool, logger: silent },
-    jobs,
-    report: createFailureReporter(silent, (alert) => alerts.push(alert)),
-  });
-}
-
-async function until(check: () => boolean | Promise<boolean>, timeoutMs: number): Promise<void> {
-  const deadline = Date.now() + timeoutMs;
-  while (!(await check())) {
-    if (Date.now() > deadline) throw new Error(`condition not met within ${timeoutMs} ms`);
-    await new Promise((resolve) => setTimeout(resolve, 50));
-  }
+  return harness.startRuntime(jobs, { alerts });
 }
 
 async function jobState(queue: string, id: string): Promise<string | undefined> {
@@ -254,16 +221,14 @@ describe('pg-boss runtime', () => {
     const quick = await startRuntime([job]);
     const quickId = await enqueue(quick, job, { n: 1500 });
     await until(() => started.includes(1500), 10_000);
-    await stopJobRuntime(quick, 10_000);
-    running.splice(running.indexOf(quick), 1);
+    await harness.stopRuntime(quick, 10_000);
     expect(finished).toContain(1500);
     expect(await jobState(queue, quickId ?? '')).toBe('completed');
 
     const slow = await startRuntime([job]);
     const slowId = await enqueue(slow, job, { n: 20_000 });
     await until(() => started.includes(20_000), 10_000);
-    await stopJobRuntime(slow, 300);
-    running.splice(running.indexOf(slow), 1);
+    await harness.stopRuntime(slow, 300);
     expect(['retry', 'created']).toContain(await jobState(queue, slowId ?? ''));
   }, 60_000);
 });

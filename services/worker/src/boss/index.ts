@@ -34,3 +34,10 @@ export {
   type QueueSpec,
 } from './queues';
 export { DEFAULT_STOP_TIMEOUT_MS, stopJobRuntime } from './shutdown';
+export {
+  runSteps,
+  type RunStepsOptions,
+  type Step,
+  type StepContext,
+  type StepState,
+} from './steps';
