@@ -18,6 +18,8 @@ export const SYNCED_TABLE_COLUMNS = {
   client_config: 'key value updated_at',
   cmd_results: 'op_id uid cmd status code detail result_ref server_ts',
   consents: 'user_id purpose scope granted_at revoked_at copy_version created_at updated_at',
+  cost_components:
+    'trip_id calc_version component_key kind unit is_shared:integer origin member_ids amount_minor:integer currency source quote_id label seen_at frozen_at created_at updated_at',
   crew_members:
     'crew_id user_id role colour status keep_in_chat:integer joined_epoch:integer left_at last_read_message_id notify_level created_at updated_at',
   crews:
@@ -29,6 +31,8 @@ export const SYNCED_TABLE_COLUMNS = {
   critters:
     'key set_id no:integer city species art_params canonical_seed:integer note release_id created_at updated_at',
   crowd_forecasts: 'poi_id dow:integer hourly source fetched_at created_at updated_at',
+  destination_cost_indices:
+    'destination_id stay_type nightly_minor_low:integer nightly_minor_high:integer food_pp_day_minor:integer fun_pp_day_minor:integer currency source source_url sourced_on reviewed_at created_at updated_at',
   destinations:
     'slug name country coverage colour currency best_months tz geofence created_at updated_at',
   devices:
@@ -81,12 +85,16 @@ export const SYNCED_TABLE_COLUMNS = {
     'destination_id key kind name starts_on ends_on confidence source source_url sourced_on forecast_updated_at reviewed_at created_at updated_at',
   season_months:
     'destination_id month:integer crowd_index:integer price_index:integer price_index_source highlight_tag colour_role source source_url sourced_on reviewed_at created_at updated_at',
+  share_calcs:
+    'trip_id user_id version components personal_option_deltas total_minor:integer currency fx_snapshot_id is_missing:integer is_estimated_origin:integer is_stale:integer created_at updated_at',
   spawn_rules:
     'key form_id kind set_id destination_id poi_ids geofences n:integer dwell_s:integer hold_ms:integer window_id solar min_members:integer foreground_only:integer copy release_id created_at updated_at',
   trip_entitlements:
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
   trip_participants:
     'trip_id user_id role rsvp holds_seat:integer waitlist_position:integer chosen_options landed_at countdown_target_at egg_id created_at updated_at',
+  trip_share_totals:
+    'trip_id user_id total_minor:integer currency calc_version is_missing:integer created_at updated_at',
   trips:
     'crew_id status phase setup_step destination_id guide_id is_guest_guide:integer is_solo:integer start_date end_date tz local_currency seat_cap:integer plan_progress:integer redrafts_used:integer redraft_limit:integer current_version_id draft_version_id reply_by cancelled_at created_at updated_at',
   usage_counters:

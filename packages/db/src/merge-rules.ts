@@ -180,3 +180,8 @@ registerMergeRule({
   strategy: 'reassign',
   personal: true,
 });
+
+// Derived cost rows: `cost.recompute` rebuilds a trip's share calcs and totals from its
+// participants (which merge above), so an anonymous uid's copies are dropped, never carried over.
+registerMergeRule({ table: 'share_calcs', userColumn: 'user_id', strategy: 'drop' });
+registerMergeRule({ table: 'trip_share_totals', userColumn: 'user_id', strategy: 'drop' });

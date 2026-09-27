@@ -146,6 +146,9 @@ export const QUEUES = {
   // one transaction, so jobs for the same release fold into one.
   'content.publish': spec({ policy: 'exclusive', retryLimit: 2, deadLetter: true }),
   'content.embed': spec({ policy: 'exclusive' }),
+  // Re-prices one trip; keyed per trip so a burst of input changes folds into one queued run,
+  // and the handler is a no-op when the input hash has not moved.
+  'cost.recompute': spec({ policy: 'exclusive', notify: true }),
   'ops.backup': spec({
     policy: 'stately',
     retryLimit: 2,

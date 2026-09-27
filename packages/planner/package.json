@@ -12,5 +12,12 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@cp/cost-engine": "workspace:*",
+    "@cp/domain": "workspace:*"
+  },
+  "devDependencies": {
+    "fast-check": "catalog:"
   }
 }

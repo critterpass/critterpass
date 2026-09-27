@@ -23,6 +23,7 @@
     "@cp/db": "workspace:*",
     "@cp/domain": "workspace:*",
     "@cp/entitlements": "workspace:*",
+    "@cp/planner": "workspace:*",
     "@hono/node-server": "catalog:",
     "@hono/zod-openapi": "catalog:",
     "@opentelemetry/api": "catalog:",

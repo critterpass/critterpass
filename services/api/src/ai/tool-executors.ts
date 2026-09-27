@@ -1,10 +1,11 @@
 /**
  * Registers the api's own tool executors with the gateway's tool registry: the places tools run
  * as `guide_reader` against `llm.pois` (src/places/tool-executors.ts); the travel-data tools read
- * the cached fare, weather, crowd and FX tables (src/travel-data/tool-executors.ts); and `web_search`
- * runs through the configured search provider (`TAVILY_API_KEY`) with its supplier screen. Tools
- * whose owning module lives elsewhere register there; any tool left unregistered answers
- * `TOOL_UNAVAILABLE`.
+ * the cached fare, weather, crowd and FX tables (src/travel-data/tool-executors.ts); the cost tools
+ * price plan changes and check fits with the cost engine and planner (src/cost/tool-executors.ts);
+ * and `web_search` runs through the configured search provider (`TAVILY_API_KEY`) with its supplier
+ * screen. Tools whose owning module lives elsewhere register there; any tool left unregistered
+ * answers `TOOL_UNAVAILABLE`.
  */
 import {
   createWebSearchExecutor,
@@ -16,6 +17,7 @@ import { withGuideReader } from '@cp/db';
 import type pg from 'pg';
 import type { Logger } from 'pino';
 
+import { registerCostToolExecutors } from '../cost/tool-executors';
 import { placeDetailsTool, placesSearchTool } from '../places/tool-executors';
 import { registerTravelDataToolExecutors } from '../travel-data/tool-executors';
 
@@ -86,4 +88,5 @@ export function registerApiToolExecutors(
     placeDetailsTool(pool, context.uid, tripOf(context), input),
   );
   registerTravelDataToolExecutors(registry, pool);
+  registerCostToolExecutors(registry, pool);
 }

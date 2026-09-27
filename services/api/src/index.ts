@@ -37,6 +37,7 @@ import { registerCommandRoute } from './routes/cmd';
 import { registerSyncUploadRoute } from './routes/sync-upload';
 import { registerJobsRoute } from './ai/jobs-route';
 import { registerTravelDataRoutes } from './travel-data/routes';
+import { registerCostRoutes } from './cost/routes';
 import { undoGuideActionCommand } from './ai/undo-guide-action';
 import { createR2Client } from './media/r2';
 import { registerMediaUploadCommand } from './media/register-media-upload';
@@ -241,6 +242,7 @@ registerSyncUploadRoute(app, commandDoors);
 registerCmdResultsRoute(app, commandDoors);
 registerJobsRoute(app, commandDoors);
 registerTravelDataRoutes(app, commandDoors);
+registerCostRoutes(app, commandDoors);
 registerLinkRoutes(app, {
   ...commandDoors,
   links: linkProviders,

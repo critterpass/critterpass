@@ -1,7 +1,7 @@
 ---
 phase: 16
 title: Cost & constraint engine
-status: pending
+status: done
 depends_on: [12, 13, 14, 15]
 wave: 8
 features: [F-020]
@@ -83,6 +83,7 @@ Undesigned states to design in code (engine returns discriminated results; UI ph
 - Steps: 1. Types + zod (via `domain`). 2. Stable content hash version. 3. Freeze semantics. 4. `showdown(options, crewOrigins)` incl. tie rule on frozen quotes with explanatory numbers. 5. Golden fixture (crew of 6: 4 from SIN + 2 others) → Kyoto $1,480 vs Lisbon $1,920, tie → "$440 cheaper for the four from SIN".
 - Tests: `pnpm --fail-if-no-match --filter @cp/cost-engine test -- quotes`
 - Done when: golden passes; version changes iff any component changes.
+- Status: done — a6d34f6c
 
 ### T2 — Shares, allocation, FX, display rounding
 - Goal: exact per-person shares.
@@ -90,6 +91,7 @@ Undesigned states to design in code (engine returns discriminated results; UI ph
 - Steps: 1. Largest-remainder allocation. 2. Per-origin flights + shared room/group components. 3. Personal option deltas. 4. FX with snapshot id. 5. Display rounding rules. 6. Golden: draft $1,310 each; "skip Nara −$64".
 - Tests: `pnpm --fail-if-no-match --filter @cp/cost-engine test -- shares golden`
 - Done when: property: Σ shares = Σ components (minor units) for random inputs; golden matches.
+- Status: done — 2117fcc3
 
 ### T3 — Budget sweet spot + privacy invariants
 - Goal: 3c-5 numbers without leaking maxes.
@@ -97,6 +99,7 @@ Undesigned states to design in code (engine returns discriminated results; UI ph
 - Steps: 1. `computeBudgetBand(maxes, feasibleLow)` → band/under_all/state. 2. No band below k = 3; $50 step floor on the upper edge; bucketed dots only k ≥ 4, jittered into buckets. 3. Breakdown re-flow for a knob target (flights/stays/food/fun from QuoteSet + `destination_cost_indices`). 4. Golden: $1,350 = 520 + 470 + 220 + 140, "2 ryokan nights, 5 apartment". 5. Property tests: output never contains any exact max; band high ≠ lowest max; k < 3 → no band; k < 4 → no dots; for any 3–4 member input, the set of lowest-max values consistent with the output spans ≥ one full $50 step.
 - Tests: `pnpm --fail-if-no-match --filter @cp/cost-engine test -- budget`
 - Done when: goldens + privacy properties green.
+- Status: done — 66dce8a3
 
 ### T4 — Rooms, dropout re-split, Boost split
 - Goal: 3f-7 and Boost IOU amounts.
@@ -104,6 +107,7 @@ Undesigned states to design in code (engine returns discriminated results; UI ph
 - Steps: 1. Room packing with traits + per-room allocation. 2. `dropout(state, uid)` → new state, per-member before/after, change list (room released, apartment split 6→5, per-person entries withdrawn). 3. Golden $1,310 → $1,334 (+$24). 4. Objection options golden (−$140 share big room, −$64 skip Nara → $1,170). 5. `splitBoost(total, buyer, members)` exact minor units; explicit exception to largest-remainder: the buyer absorbs the whole remainder (golden: $12.00 over 5 → 4 × $2.40 IOUs, buyer $2.40; $12.00 over 7 → 6 × $1.71 IOUs, buyer $1.74).
 - Tests: `pnpm --fail-if-no-match --filter @cp/cost-engine test -- rooms resplit boost-split`
 - Done when: goldens green; dropout of the last member is rejected with a typed error.
+- Status: done — bb83926e
 
 ### T5 — Planner feasibility + fit status
 - Goal: deterministic constraint checks for drafts, edits, must-dos.
@@ -111,6 +115,7 @@ Undesigned states to design in code (engine returns discriminated results; UI ph
 - Steps: 1. Violation codes + inputs (travel matrix injected). 2. Hours via `domain/places` open-at in POI tz. 3. Chronotype windows. 4. Must-do fit (pre-draft vs post-draft per C44). 5. ChangeSet cost delta + counts (bookings moved, must-dos touched) → 3e-3 golden "+$22 EACH, 1 booking moved, 0 must-dos touched". 6. Performance: must-do suggest fit <20 ms per candidate.
 - Tests: `pnpm --fail-if-no-match --filter @cp/planner test -- feasibility`
 - Done when: fixtures cover each violation code; 3e-3 golden green; benchmark under budget.
+- Status: done — f13d685f
 
 ### T6 — Persistence, recompute job, permissions
 - Goal: server-side single source persisted and synced.
@@ -118,6 +123,7 @@ Undesigned states to design in code (engine returns discriminated results; UI ph
 - Steps: 1. Tables (incl. `trip_share_totals` table) + RLS + stream entries; permission test: outsider cannot read `trip_share_totals`, member cannot read another member's `share_calcs`. 2. Inputs loader (fare_cells/price_quotes, rooms, participants, plan version, cost indices, fx). 3. `cost.recompute` idempotent on input hash; writes components + share_calcs version; emits `costs.updated`. 4. Seed cost indices for the 6 destinations from cited sources (reviewed_at required).
 - Tests: `pnpm --fail-if-no-match --filter @cp/db test -- permissions/share-calcs permissions/trip-share-totals` ; `pnpm --fail-if-no-match --filter @cp/worker test -- cost/recompute`
 - Done when: member cannot read another member's personal option deltas (test); rerun with same inputs writes nothing.
+- Status: done — 07ddb661
 
 ### T7 — Cost API + tool executors
 - Goal: reads and previews for app and guide.
@@ -125,15 +131,16 @@ Undesigned states to design in code (engine returns discriminated results; UI ph
 - Steps: 1. `GET /v1/trips/{id}/costs` (authz: trip member; own full share, others totals). 2. `POST /v1/trips/{id}/costs/preview` with ChangeSet ops → per-person delta. 3. Register `cost_quote` and `fit_check` executors (guide gets only engine outputs). 4. Contract test: guide tool output never includes another member's personal options or any budget max.
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- cost`
 - Done when: preview matches engine golden; tool contract test green.
+- Status: done — 743839e3
 
 ## Phase acceptance criteria
 
-- [ ] Golden chain from one fixture: $1,480/$1,920 + $440 tie note → $1,350 (520/470/220/140) → $1,310 → $1,334 (+$24); +$22 each; −$140/−$64 → $1,170
-- [ ] Property tests: allocation sums exact; no max leaks; k < 4 → no dots
-- [ ] Feasibility covers all violation codes; C44 fit visibility respected
-- [ ] `cost-engine` and `planner` have zero I/O imports (boundary lint)
-- [ ] `cost.recompute` idempotent; permission tests green
-- [ ] `cost_quote` / `fit_check` executors registered and contract-tested
+- [x] Golden chain from one fixture: $1,480/$1,920 + $440 tie note → $1,350 (520/470/220/140) → $1,310 → $1,334 (+$24); +$22 each; −$140/−$64 → $1,170
+- [x] Property tests: allocation sums exact; no max leaks; k < 4 → no dots
+- [x] Feasibility covers all violation codes; C44 fit visibility respected
+- [x] `cost-engine` and `planner` have zero I/O imports (boundary lint)
+- [x] `cost.recompute` idempotent; permission tests green
+- [x] `cost_quote` / `fit_check` executors registered and contract-tested
 
 ## Risks & rollback
 

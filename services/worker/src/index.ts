@@ -33,6 +33,7 @@ import { roundupBuildJob, roundupScanJob } from './jobs/roundup/build';
 import { createCopyRenderer, createPushProviders, defaultBundleId } from './push';
 import { createCentrifugoApi, rtRelayJob, startRtRelayWake, type RtRelay } from './rt-relay';
 import { travelDataJobs } from './travel-data';
+import { costRecomputeJob } from './cost/recompute';
 
 const env = loadWorkerEnv();
 const logger = createLogger({ level: env.LOG_LEVEL, service: 'worker', commit: env.COMMIT_SHA });
@@ -101,6 +102,7 @@ const jobs: AnyJobDefinition[] = [
   ),
   ...travelDataJobs(env, pool, logger.child({ component: 'travel-data' })),
   ...contentJobs(),
+  costRecomputeJob,
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&
