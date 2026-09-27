@@ -178,9 +178,9 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 
 | Dependency | If not ready |
 |---|---|
-| SFX library licence (thud, slap, peel, chimes, flap, ambient; ~40 in 6 families) | Launch gate, owner: founder (license or commission). Before delivery, dev builds run haptic-only for that cue; release fails `check-audio-assets --mode release` |
-| Music themes: 3 named (gamelan lo-fi, koto and rain, slow sea shanty) + 3 commissioned | Launch gate, owner: founder (commission/license). Hidden theme card is runtime safety only; release check requires all 6 |
-| Critter chirp audio (content spec) | Launch gate, owner: founder/content factory. Haptic-only fallback is runtime safety only |
+| SFX library (thud, slap, peel, chimes, flap, ambient; 23 cues + 6 per-guide notify motifs) | In-house procedural audio (`@cp/sound-art`, `docs/decisions/20260927-in-house-procedural-audio.md`), baked to `packages/sound-art/out/`. Founder listening approval via the gallery is the remaining gate; wiring into `apps/mobile/assets/sfx/` happens once this phase's asset folders and the sound-art branch are both merged (ADR "Wiring into the app"). Before that, dev builds run haptic-only for that cue; release fails `check-audio-assets --mode release` until wired |
+| Music themes: 3 named (gamelan lo-fi, koto and rain, slow sea shanty) + 3 proposed (marimba lo-fi, fado-style plucked guitar waltz, Andean pan flute + charango) | In-house procedural audio (`@cp/sound-art`), baked to `packages/sound-art/out/music/`. Founder listening approval of the 3 proposed styles (and of all 6 generally) is the remaining gate, not licensing/commissioning. Hidden theme card is runtime safety only; release check requires all 6 wired |
+| Critter chirp audio (content spec) | In-house procedural audio (`@cp/sound-art`'s `chirp` cue). Founder listening approval is the remaining gate. Haptic-only fallback is runtime safety only |
 
 ## Open questions
 
