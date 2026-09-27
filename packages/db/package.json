@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "migrate": "tsx src/client.ts"
+    "migrate": "tsx src/client.ts",
+    "seed": "tsx seed/index.ts"
   },
   "dependencies": {
     "@cp/domain": "workspace:*",

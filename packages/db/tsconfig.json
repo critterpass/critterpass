@@ -3,5 +3,5 @@
   "compilerOptions": {
     "types": ["node"]
   },
-  "include": ["src", "test", "sql", "*.ts"]
+  "include": ["src", "test", "sql", "seed", "*.ts"]
 }
