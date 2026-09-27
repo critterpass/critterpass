@@ -1,7 +1,11 @@
 /**
  * Curated POI ingest for one destination bbox: reads Overture
  * places (public S3, no auth) and FSQ OS Places, conflates (`./conflate.ts`), and upserts into
- * `pois` keyed by source id so a rerun updates existing rows instead of creating new ones.
+ * `pois` keyed by source id so a rerun updates existing rows instead of creating new ones. Upserts
+ * are batched (`INGEST_BATCH_SIZE` conflated POIs per chunk, one transaction, one existing-id lookup
+ * plus one multi-row `INSERT` and one multi-row `UPDATE`) rather than one round trip per POI — a
+ * metro-wide bbox against a remote Postgres would otherwise turn into tens of thousands of
+ * sequential round trips.
  *
  * Data sources and licences:
  * - Overture places (CDLA-P-2.0): `s3://overturemaps-us-west-2/release/<release>/theme=places/type=place/`,
@@ -27,18 +31,19 @@ import { mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import {
-  defaultVisitRadiusM,
-  editorialOverlaySchema,
-  parseOpeningHours,
-  type EditorialOverlay,
-  type PoiCuration,
-} from '@cp/domain';
 import { withSystem } from '@cp/db';
 import { DuckDBInstance, type DuckDBConnection } from '@duckdb/node-api';
 import type pg from 'pg';
 
-import { conflatePlaces, type ConflatedPoi, type ConflationCandidate } from './conflate';
+import { conflatePlaces, type ConflationCandidate } from './conflate';
+import {
+  batchUpsertConflatedPois,
+  chunk,
+  INGEST_BATCH_SIZE,
+  type EditorialOverlayInput,
+} from './ingest-upsert';
+
+export { editorialOverlayKey, type EditorialOverlayInput } from './ingest-upsert';
 
 export interface BoundingBox {
   readonly minLat: number;
@@ -181,115 +186,6 @@ function toCandidate(row: PlaceSourceRow): ConflationCandidate {
   };
 }
 
-export interface EditorialOverlayInput {
-  readonly editorial?: EditorialOverlay;
-  readonly tags?: readonly string[];
-  /** OSM `opening_hours` subset text; parsed via `parseOpeningHours` before storage. */
-  readonly hoursOsm?: string;
-  readonly hoursVerifiedAt?: Date;
-}
-
-/** Key a POI's overlay entry by whichever source id it carries: `fsq_os:<id>` or `overture:<id>`. */
-export function editorialOverlayKey(poi: ConflatedPoi): string {
-  return poi.sourceIds.fsq_os !== undefined
-    ? `fsq_os:${poi.sourceIds.fsq_os}`
-    : `overture:${poi.sourceIds.overture}`;
-}
-
-async function findExistingPoiId(
-  tx: pg.PoolClient,
-  sourceIds: ConflatedPoi['sourceIds'],
-): Promise<string | undefined> {
-  const { rows } = await tx.query<{ id: string }>(
-    `SELECT id FROM pois
-     WHERE (source_ids ->> 'fsq_os' = $1) OR (source_ids ->> 'overture' = $2)
-     LIMIT 1`,
-    [sourceIds.fsq_os ?? null, sourceIds.overture ?? null],
-  );
-  return rows[0]?.id;
-}
-
-/**
- * Upserts one conflated POI. A rerun with the same source id(s) updates the existing row (idempotent:
- * no new id) rather than inserting a duplicate. Without an overlay this run, an existing row's
- * `editorial`/`hours`/`curation` are left untouched — a later run without editorial content must
- * never erase a previous editorial pass.
- */
-async function upsertConflatedPoi(
-  pool: pg.Pool,
-  destinationId: string,
-  timezone: string | undefined,
-  poi: ConflatedPoi,
-  overlay: EditorialOverlayInput | undefined,
-): Promise<void> {
-  const hasOverlay = overlay !== undefined;
-  const editorial = editorialOverlaySchema.parse(overlay?.editorial ?? {});
-  const tags = overlay?.tags ?? [];
-  const hours =
-    overlay?.hoursOsm !== undefined ? { weekly: parseOpeningHours(overlay.hoursOsm) } : {};
-  const hoursVerifiedAt = overlay?.hoursVerifiedAt ?? null;
-  const curation: PoiCuration = hasOverlay ? 'editorial' : 'auto';
-  const visitRadiusM = defaultVisitRadiusM(poi.category);
-
-  await withSystem(pool, async (tx) => {
-    const existingId = await findExistingPoiId(tx, poi.sourceIds);
-
-    if (existingId === undefined) {
-      await tx.query(
-        `INSERT INTO pois
-           (destination_id, name, category, lat, lng, address, source_ids, editorial, tags,
-            hours, hours_verified_at, curation, visit_radius_m, timezone)
-         VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9, $10::jsonb, $11, $12, $13, $14)`,
-        [
-          destinationId,
-          poi.name,
-          poi.category,
-          poi.lat,
-          poi.lng,
-          poi.address ?? null,
-          JSON.stringify(poi.sourceIds),
-          JSON.stringify(editorial),
-          tags,
-          JSON.stringify(hours),
-          hoursVerifiedAt,
-          curation,
-          visitRadiusM,
-          timezone ?? null,
-        ],
-      );
-      return;
-    }
-
-    // Without an overlay this run, an existing row's editorial/tags/hours/curation are left exactly
-    // as they were: a later plain re-ingest must never erase a previous editorial pass.
-    await tx.query(
-      `UPDATE pois SET
-         name = $2, category = $3, lat = $4, lng = $5, address = $6, source_ids = $7::jsonb,
-         editorial = CASE WHEN $8 THEN $9::jsonb ELSE editorial END,
-         tags = CASE WHEN $8 THEN $10 ELSE tags END,
-         hours = CASE WHEN $8 THEN $11::jsonb ELSE hours END,
-         hours_verified_at = CASE WHEN $8 THEN $12 ELSE hours_verified_at END,
-         curation = CASE WHEN $8 THEN $13 ELSE curation END
-       WHERE id = $1`,
-      [
-        existingId,
-        poi.name,
-        poi.category,
-        poi.lat,
-        poi.lng,
-        poi.address ?? null,
-        JSON.stringify(poi.sourceIds),
-        hasOverlay,
-        JSON.stringify(editorial),
-        tags,
-        JSON.stringify(hours),
-        hoursVerifiedAt,
-        curation,
-      ],
-    );
-  });
-}
-
 const SPARSE_COVERAGE_THRESHOLD = 50;
 
 export interface IngestDestinationInput {
@@ -336,11 +232,14 @@ export async function ingestDestination(
 
   const conflated = conflatePlaces(fsqRows.map(toCandidate), overtureRows.map(toCandidate));
 
-  for (const poi of conflated) {
-    const overlay = input.editorialBySourceKey?.get(editorialOverlayKey(poi));
-    // Sequential: each upsert is its own small transaction, and ingest runs monthly per destination,
-    // not on a latency-sensitive path — a batched multi-row upsert would only add complexity here.
-    await upsertConflatedPoi(pool, input.destinationId, input.timezone, poi, overlay);
+  for (const batch of chunk(conflated, INGEST_BATCH_SIZE)) {
+    await batchUpsertConflatedPois(
+      pool,
+      input.destinationId,
+      input.timezone,
+      batch,
+      input.editorialBySourceKey,
+    );
   }
 
   const activeCount = await withSystem(pool, async (tx) => {
