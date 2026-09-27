@@ -61,7 +61,7 @@ Done when: after a trip a crew rates their driver and invites him; he confirms o
 | Directory (6e-1) | Filters: area (P14 regions), language, seats, day trips. Order: Wilson lower bound of loved/rated, then trip count, then listed-since; never paid, never sponsored (test). Shows only `listed` + not paused. Heart count = crews who loved it / crews who rated |
 | Detail (6e-2) | Own photo (optional upload on claim), car, languages, areas, "what he tells crews" price (his words, not ours), one recent tip (crew size + month only), MESSAGE ON WHATSAPP with a first line prefilled, Add to shortlist (P55) |
 | Empty (6e-3) | Nobody listed → widen to the nearest listed area, Ask for me (P55), Private tours (P55) |
-| Moderation | Report on listing and tip → P17 queue; automated tip check blocks phone numbers, URLs and other people's names; admin takedown with audit; anomaly flag when one account rates the same driver across trips from new crews |
+| Moderation | Report on listing and tip → P17 queue; automated tip check (P13 `checkCompliance`, surface `public_text`) blocks phone numbers, URLs and other people's names; admin takedown with audit; anomaly flag when one account rates the same driver across trips from new crews |
 
 ### Undesigned states (log in `docs/undesigned-states.md`)
 Claim OTP step; token invalid / used / expired pages; "Remove for good?" confirm; paused state in 6h-2; report sheet; photo upload field on the claim page; admin queue screens.

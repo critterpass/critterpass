@@ -1,12 +1,12 @@
 ---
 phase: 13
 title: LLM gateway, personas, tool registry, autonomy policy
-status: done
+status: in_progress
 depends_on: [8, 11]
 wave: 6
 features: [F-013, F-052]
 screens: [3j-1, 3g-1, 4b-1, 3b-3, 3b-4, 3g-2, 3e-3, 3k-5]
-tasks: 10
+tasks: 12
 owns:
   - packages/ai/**
   - packages/domain/src/ai/**
@@ -15,6 +15,7 @@ owns:
   - packages/db/migrations/*_llm_views_and_guide_reader.sql
   - packages/db/migrations/*_agent_jobs_and_persona_packs.sql
   - packages/db/migrations/*_guide_actions_undo_and_offers.sql   # expand-only on phase 08 tables + guide_offers*
+  - packages/db/migrations/*_ai_usage_decision_tier.sql
   - infra/powersync/streams/ai.yaml
   - packages/db/test/permissions/{llm-views,agent-jobs,persona-packs,change-sets,guide-actions,guide-offers}.test.ts
   - services/api/src/ai/**
@@ -28,13 +29,14 @@ owns:
 
 | Source | Section |
 |---|---|
-| `docs/product-decisions.md` | D5 (Claude only, 3 tiers), D8 (30/day), D10 (supplier content never to LLM), C3 (ChangeSet vs GuideAction vs GuideOffer), C12 (voice in meter), C27 (context guide), C41 (approval authority), C47 (queued question) |
+| `docs/product-decisions.md` | D5 (Claude for generation, 3 tiers; amended 2026-09-27: Jev for typed decisions, [decision](../../docs/decisions/20260927-jev-decision-model.md)), D8 (30/day), D10 (supplier content never to LLM), C3 (ChangeSet vs GuideAction vs GuideOffer), C12 (voice in meter), C27 (context guide), C41 (approval authority), C47 (queued question) |
 | `docs/system-architecture.md` | §4.6 AI, §5 authz, §7.b redraft sequence, §10 observability |
 | `docs/code-standards.md` | §11 logging/PII, §15 AI rules, §17 testing |
 | `docs/data-model.md` | §2 roles (`guide_reader`), §3.3 (`change_sets`, `guide_actions`, `guide_offers`, `agent_jobs`), §3.13 (`persona_packs`), §3.14 (`usage_counters`, `fair_use_counters`), §3.18 (`ai_usage`) |
 | `docs/data-model-sync-and-privacy.md` | §1 private-field strategy, §2 `llm` views |
 | `docs/api-contracts.md` | §5.3 AI routes + SSE events, §6 tool registry + callers + routing |
 | `docs/api-contracts-async.md` | §1.2 `user:#uid` `job.progress`, `usage.changed`; §2.2 `ai.*` queues |
+| TypeSafe Jev | https://docs.typesafe.ai/llms.txt: API reference, Models (limits, pricing), Jev 1.13 jaggedness, Confidence; spike `plans/reports/spike-260927-2328-jev-typesafe-decision-model-report.md` (live results + integration shape) |
 | Reports | `researcher-260926-1143-ai-guide-report.md` §4.1–4.10, §5; `fact-check-260926-1143-ai-guide-report.md` claims 5–17, omissions 2–4; master §2 rows F-013/F-052, §6 (numbers rule), §13 R1/R4/R13 |
 | Renders | `docs/design-renders/screens/3j-1_Guide_chat.png`, `4b-1_Out_of_questions.png`, `3b-4_Inbox.png`, `3g-2_Live_collab.png`, `3k-5_Flight_delayed.png`, `3e-3_Review_changes.png` |
 
@@ -80,6 +82,40 @@ Undesigned states to design in code (used by later UI phases): gateway `error{co
 | Surfaces | inbox undo rows (3b-4, P25), live-collab KEEP IT / UNDO on guide accommodation (3g-2, P29), disruption action stream (3k-5, P37) all call `undo_guide_action` |
 | Audit | every action writes `activity_events` (actor_kind=guide) and `guide_actions.audit`; visible in ops console (P17) |
 
+### Decision model (Jev) and input compliance check
+
+| Area | Behaviour |
+|---|---|
+| Scope | Typed decisions only: a closed label set (Choice, ≤255 options), a yes/no probability (Noul) or a rubric score (Score, 2–10 levels). Generation, images, counting, dates and arithmetic never go to Jev |
+| Client | `decide(route, {state, questions})` in `packages/ai/src/decide/`: plain `fetch` to the pinned origin `https://api.typesafe.ai/v1/systemone` (an ambient env var can never redirect it), model pinned `jev-1.13.0`, 800 ms timeout, one retry on 429/529 honouring `retry-after`, zod-validated answers typed from the question map. Many questions about one state go in one call (fan-out) |
+| Fallback | Every decision route names a Haiku twin (structured output, same answer shape, probabilities `null`, `confidence` from a label-only rule). Used on timeout, 429/529 after retry, transport error, or missing key; the answer carries `answered_by: 'jev' \| 'haiku'` |
+| Routing | `ROUTING` entries gain `provider: 'claude' \| 'jev'`; decision routes also carry `fallback` and per-route thresholds. Moves to Jev: `guide.chime_in_classifier`, `help.intent_classifier`, `idea.duplicate_tiebreak`; new: `compliance.check`. Consumer phases add their own decision routes the same way |
+| Thresholds | per route (and per compliance surface × category) in `packages/domain/src/ai/decision-thresholds.ts`, tuned on that route's eval set against `jev-1.13.0`; a Haiku-answered verdict uses the stricter review band |
+| Metering | decision calls are never user-metered (not guide questions); each writes `ai_usage` with `tier='jev'` (or `haiku` on fallback), `cost_micros` from input tokens only |
+| Privacy | `state` holds only the text under question (plus the minimum fields a question names); no uid, display names or trip context; Langfuse spans record route, verdict, latency and token counts, never the text |
+
+**Input compliance check** (`checkCompliance`, route `compliance.check`): one Jev call screens a piece of user or imported text and returns `{outcome: 'pass' | 'review' | 'reject', flags: [{category, p}], answered_by}`.
+
+| Category (Noul each, one request) | Meaning |
+|---|---|
+| `prompt_injection` | tries to instruct or re-rule an AI assistant, reveal its instructions or act outside travel help |
+| `harassment` | insults, threats or hate aimed at a person or group |
+| `sexual` | sexual content or solicitation |
+| `self_harm` | intent or plans to hurt oneself |
+| `violence` | threats or incitement of physical harm |
+| `illegal` | drugs, trafficking or sex tourism, wildlife trade, document or visa fraud |
+| `personal_info` | names or identifying details of a private person other than the author (phone, email, URL and ID-number patterns are caught by code first) |
+| `promotion` | ads, affiliate or supplier promotion, off-platform contact offers |
+
+| Surface | Who calls it | Categories | Outcome policy |
+|---|---|---|---|
+| `guide_input` | P32 guide chat + mentions, P42 voice transcript | injection, self_harm, violence, harassment | never blocks the question: injection → turn runs with write tools removed + logged; self_harm or violence → deterministic Help routing card (Safety row) alongside the answer; runs concurrently with context build, adds no serial latency |
+| `imported_text` | P34 forwarded emails, P33 receipt OCR, P35 vendor replies | injection | signal only: flagged input parses with no tools (already true) and its candidate needs the user's confirm before auto-actions |
+| `public_text` | P52 tips + shared-plan notes, P56 driver tips, P44 shared photo captions, P47 idea board | all | code patterns first; any category ≥ reject threshold → `CONTENT_REJECTED`; review band or low confidence → P17 `moderation_reports` queue, author sees "under review"; fail closed (Jev and Haiku both down → review) |
+| `outbound_text` | P35 vendor message drafts sent by the ops desk | harassment, sexual, illegal, personal_info | review band → ops desk sees the flags before sending; never auto-sends a flagged draft |
+
+Offline-first: public text created offline is checked when its command reaches the server (upload handler or worker job), never on device.
+
 ## Architecture & contracts
 
 | Kind | Delta |
@@ -94,7 +130,8 @@ Undesigned states to design in code (used by later UI phases): gateway `error{co
 | Centrifugo | `user:#uid` → `job.progress`, `usage.changed`; `trip_plan:{trip}` → `guide.touched` on auto-applied actions |
 | Jobs | `ai.batch.poll`; `guide_action.execute` (3 retries / DLQ, key `action_id`); `guide_action.undo_expire` (per-object schedule at `undo_until`) — **doc delta** api-contracts-async §2.2 |
 | Tools | registry per api-contracts §6: schemas + allow-lists + executor interface. Executors for data tools register from their owning phase modules (`registerToolExecutor(name, fn)`); unregistered → `TOOL_UNAVAILABLE` tool result, model told to say it cannot check |
-| Env | `ANTHROPIC_API_KEY`, `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST` in `.env.example` only |
+| Env | `ANTHROPIC_API_KEY`, `TYPESAFE_API_KEY`, `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST` in `.env.example` only (the founder's Jev key is already in the local `.env`; Railway api + worker and the evals GitHub secret still need it) |
+| Decision model | migration `<ts>_ai_usage_decision_tier.sql` widens `ai_usage_tier_check` to `('haiku','sonnet','opus','jev')`; `aiTierSchema` gains `jev`; `PRICES.jev` = 42,000 micros per Mtok input, 0 output, no cache or batch rates. **Doc delta**: api-contracts §6 routing table (provider, fallback, `compliance.check` contract + surface policy), data-model §3.18 tier values, system-architecture §4.6 (decision client beside the Claude client), code-standards §15 (decision-route rules from the decision record) |
 
 ## Tasks
 
@@ -178,6 +215,20 @@ Undesigned states to design in code (used by later UI phases): gateway `error{co
 - Done when: CI fails on a seeded regression PR (lowered grounding score) and passes on main; Langfuse trace visible for a staging call with no raw C3 values.
 - Status: done — 079d006
 
+### T10 — Decision client (Jev) with Haiku fallback
+- Goal: one typed `decide()` entry for every decision route, metered and traced like Claude calls.
+- Files: `packages/ai/src/decide/{client,questions,fallback,index}.ts`, `packages/ai/src/{routing,pricing,env}.ts`, `packages/domain/src/ai/{routes,decision-thresholds}.ts`, `packages/db/migrations/<ts>_ai_usage_decision_tier.sql`, `packages/db/src/schema/ai.ts`, `packages/db/test/permissions/ai-usage.test.ts`, `packages/ai/test/decide/{client,fallback}.test.ts`, `packages/ai/test/fixtures/typesafe/*.json`, `.env.example`.
+- Steps: 1. Question builders `choice/score/noul` whose answer types are inferred from the question map (zod parse of the response; unknown answer keys rejected). 2. Client: pinned origin + model, timeout, retry-after, error mapping to the gateway taxonomy (`AI_UNAVAILABLE`). 3. Haiku twin per route producing the same shape; `answered_by` on every result. 4. `provider`/`fallback`/thresholds on routing; move the three classifier routes, add `compliance.check`. 5. `TYPESAFE_API_KEY` in `aiEnvSchema` (never echoed). 6. Migration + `jev` tier + price; `recordUsage` for decision calls. 7. Recorded fixtures captured from the live API (network boundary only).
+- Tests: `pnpm --filter @cp/ai test -- decide routing usage`; `pnpm --filter @cp/db test -- permissions/ai-usage`; `pnpm --filter @cp/api test:db -- ai/ai-usage`
+- Done when: a fixture Choice/Score/Noul round-trips to typed answers; a 529 fixture falls back to Haiku with `answered_by='haiku'`; timeout at 800 ms falls back; `ai_usage` rows carry `tier='jev'` and correct `cost_micros`; routing test proves no generation route has `provider='jev'`.
+
+### T11 — Input compliance check
+- Goal: shared `checkCompliance({surface, text})` with per-surface policy, used by guide input, imports and every public-text phase.
+- Files: `packages/ai/src/decide/compliance.ts`, `packages/domain/src/ai/compliance.ts` (categories, surfaces, outcome policy, code patterns), `services/api/src/ai/compliance.ts`, `services/worker/src/ai/compliance-job.ts`, `packages/ai/evals/compliance/{promptfooconfig.yaml,cases-en.yaml,cases-vi.yaml}`, `packages/ai/test/decide/compliance.test.ts`.
+- Steps: 1. Deterministic pre-pass (phone, email, URL, card and ID-number patterns) → `personal_info`/`promotion` flags without a model call when decisive. 2. One Jev request with the surface's category Nouls; policy maps probabilities to `pass/review/reject`. 3. Surface rules from Requirements (guide_input never blocks; public_text fails closed; imported_text is a signal). 4. `compliance.check` worker job for offline-created public text, idempotent on the content id. 5. Wire `guide_input` into `runTurn` (concurrent with context build; injection → write tools removed for that turn). 6. Eval suite: ≥ 40 EN + 40 VI cases incl. figurative language ("killing time", "this plan is a disaster"), indirect injection in emails, names in tips, supplier promotion; thresholds recorded in `decision-thresholds.ts`.
+- Tests: `pnpm --filter @cp/ai test -- decide/compliance`; `pnpm --filter @cp/ai eval compliance`
+- Done when: eval precision ≥ 0.95 on `reject` and recall ≥ 0.95 on `self_harm` and `prompt_injection` (both languages); figurative cases pass; the injected-email fixture turn has no write tools; both providers down → `public_text` returns `review`, `guide_input` returns `pass` with the turn still wrapped; p95 added latency on a guide turn ≤ 50 ms over the context build.
+
 ## Phase acceptance criteria
 
 - [x] All routes in the routing table resolve to the D5 tier; Opus used only by `draft.skeleton` (test)
@@ -189,6 +240,8 @@ Undesigned states to design in code (used by later UI phases): gateway `error{co
 - [x] Decider property test: money/others-affecting actions never `auto`
 - [x] `undo_guide_action` restores state and is idempotent
 - [x] promptfoo CI workflow blocks a regression
+- [ ] Decision routes answer from `jev-1.13.0` with a tested Haiku fallback; no generation route runs on Jev (test)
+- [ ] Compliance eval (EN + VI) meets its thresholds; `public_text` fails closed; `guide_input` never blocks a question
 - [x] No prompt strings outside `packages/ai`; no plan/feature ids in code artifacts
 
 ## Risks & rollback
@@ -198,6 +251,9 @@ Undesigned states to design in code (used by later UI phases): gateway `error{co
 | Haiku prefix below 4096 → no cache, cost up | token-count test on layering; pad with shared global rules |
 | Sonnet 5 adaptive thinking inflates latency | per-route explicit thinking config; measure TTFT in eval run |
 | Model deprecation (Haiku 4.5) | routing table swap + full eval run; no code change |
+| Jev rate limits change without notice (vendor-documented) | Haiku twin on every decision route; alert on fallback rate > 5 % |
+| Jev version bump shifts calibration | model pinned to `jev-1.13.0`; a new version needs a full decision-eval run and re-tuned thresholds |
+| Jev weaker on Vietnamese or adversarial text | VI eval set per route; review band routes uncertainty to humans or Haiku, never a silent pass on `public_text` |
 | View ownership across phases drifts | `CREATE OR REPLACE VIEW` owned by base-table phase; contract test runs in every phase |
 | Undo inverse wrong for a new kind | kind registration requires an inverse test; non-registered kinds are `forbidden` |
 
@@ -207,6 +263,7 @@ Undesigned states to design in code (used by later UI phases): gateway `error{co
 |---|---|
 | Anthropic org + workspace, ZDR eligibility check | use standard retention; no C3 in prompts anyway |
 | Langfuse Cloud Core account | OTel spans to Grafana only; traces backfilled nothing |
+| TypeSafe account: DPA signed, ZDR requested (enterprise), key in Railway api + worker and the evals GitHub secret | decision routes run on the Haiku twin (same shape, higher cost); privacy policy lists TypeSafe before any production traffic |
 | Native-speaker vetting of local words | packs stay `draft`; only design-shown words used |
 | Founder approval of persona packs (P18 pipeline) | v0 draft packs serve staging; production requires `approved` |
 

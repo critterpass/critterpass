@@ -73,7 +73,7 @@ Done when: a trip published by crew A (after all consents) appears for crew B's 
 - Entry: recap (P43) after story, Inbox reminder once 2 d after trip end (BUDGET), place detail "Rate" for visited places.
 - Card stack of visited places for the trip (from P20 `visits` + plan items checked in; never GPS trails), photo from crew album (fallback critter-art place card), day chip, memory line (template from trip events: critter found, quest done; no LLM); LOVED IT (fly up −440 px −6° + ♥ float), FINE (right +14°), SKIP IT (left −14°), exits 380 ms, next card overshoot 420 ms; swipe gestures mirror buttons (up/right/left) with a11y actions; counter ticks.
 - Tip field "ONE TIP FOR THE NEXT CREW" (≤200 chars) → attached to that verdict; submitted in batches with `rate_places` (offline queue).
-- Moderation: Haiku classifier (PII, toxicity, spam, supplier promotion) → approve / send to P17 queue / reject (`CONTENT_REJECTED` shown gently on that card afterwards: "That tip didn't make it through. Try without names or numbers."); approved tips project into `place_tips(source=community)` (P30) anonymised ("a crew in Oct 2026"), shown on place detail and to guides only as curated tip text (not in LLM context unless moderated).
+- Moderation: P13 `checkCompliance` surface `public_text` (Jev decision model with Haiku fallback; code patterns + personal info, harassment, promotion and the rest of the category set) → approve / send to P17 queue / reject (`CONTENT_REJECTED` shown gently on that card afterwards: "That tip didn't make it through. Try without names or numbers."); approved tips project into `place_tips(source=community)` (P30) anonymised ("a crew in Oct 2026"), shown on place detail and to guides only as curated tip text (not in LLM context unless moderated).
 - End card (design in code): "All rated. Your tips are live for crews planning {dest}." + SHARE THE PLAN TOO → 3o-4. Partial progress resumes; edit past ratings from place detail.
 - Aggregates: `ratings` feed POI social proof (loved %) via nightly job into POI stats (P14 read model).
 
@@ -159,7 +159,7 @@ Done when: a trip published by crew A (after all consents) appears for crew B's 
 ### T8a — Ratings backend: command, tip moderation, aggregates
 - Goal: ratings and anonymous tips (server).
 - Files: `services/api/src/commands/community/rate-places.ts`, `services/worker/src/jobs/community/{tip-moderate,aggregate}.ts`, `packages/ai/src/routes/community/tip-moderation.ts`, `packages/ai/evals/community/tip-moderation/*`, `services/worker/test/community/{tip-moderate,aggregate}.test.ts`.
-- Steps: 1. Batch command (idempotent op_ids). 2. Moderation → P30 `place_tips(source=community)` or P17 queue. 3. Nightly aggregates. 4. Inbox reminder registration.
+- Steps: 1. Batch command (idempotent op_ids). 2. Moderation via P13 `checkCompliance` (`public_text`; tip-specific cases added to `packages/ai/evals/compliance/`) → P30 `place_tips(source=community)` or P17 queue. 3. Nightly aggregates. 4. Inbox reminder registration.
 - Tests: `pnpm --filter @cp/api test -- community/rate`; `pnpm --filter @cp/worker test -- community/tip-moderate community/aggregate`; `pnpm --filter @cp/ai eval community-tip-moderation`.
 - Done when: an approved tip lands in `place_tips` without author identity; a rejected tip returns `CONTENT_REJECTED`.
 

@@ -77,7 +77,7 @@ Done when: a guide-proposed Viator activity can be held ("{n} seats held until {
 |---|---|
 | Draft | guide `propose_vendor_message` or user action ("Ask Locavore to hold a table for 6 until 21:00? I'll draft the WhatsApp.") → `request_vendor_message` → user sees exact text (editable) |
 | Approve | `approve_vendor_message` (app or notification action) → `ops.concierge_tasks(kind=vendor_message)` → ops desk sends via WhatsApp Business Cloud API template (business-initiated) or free text inside the 24 h service window → card "Sent 10:45, waiting" |
-| Reply | `/webhooks/whatsapp` (signature) → `vendor.reply_parse` (Haiku, AI-31: intent yes/no/counter/question) → card "Locavore replied: yes" + suggested next step (ChangeSet via P13 if plan changes); raw reply shown verbatim |
+| Reply | `/webhooks/whatsapp` (signature) → `vendor.reply_parse` (AI-31: intent yes/no/counter/question as a Jev Choice decision route through P13 `decide()` with Haiku twin; the reply is also screened by P13 `checkCompliance` surface `imported_text`; any time or price mentioned is extracted by Haiku and validated in code) → card "Locavore replied: yes" + suggested next step (ChangeSet via P13 if plan changes); raw reply shown verbatim |
 | Guide copy | "I've asked…" until confirmed; never "table held" / "Made rebooked" / "Villa knows" before a reply |
 | Clinic hand-off (3k-10) | `request_concierge(kind=clinic)` → ops desk task (human calls the clinic with the user); insurance share only after `CONSENT(insurance_to_clinic)` via P34 `app.share_insurance`; copy "Ops desk is calling the clinic with you — share insurance details?"; the guide never phones |
 | Ops desk | `apps/admin` vendor desk module: queue by due time, approved text read-only, send, thread view, reply status, SLA timers, phone-hours note (07:00–23:00 SGT); outside hours the user is told "The desk answers from 07:00 SGT" |
@@ -178,7 +178,7 @@ Done when: a guide-proposed Viator activity can be held ("{n} seats held until {
 ### T10b — Vendor reply parsing + eval
 - Goal: inbound vendor replies → structured intent, treated as untrusted.
 - Files: `services/worker/src/jobs/suppliers/vendor-reply-parse.ts`, `packages/ai/src/routes/vendor-reply/`, `packages/ai/evals/vendor-reply/`, `services/worker/test/suppliers/vendor-reply.test.ts`
-- Steps: 1. AI-31 reply intent (Haiku, no tools, reply inside delimited untrusted block). 2. Eval incl. multilingual and injection cases.
+- Steps: 1. AI-31 reply intent (Jev decision route, Haiku twin, no tools, reply inside delimited untrusted block; confidence below the route threshold → ops desk). 2. Eval incl. multilingual and injection cases.
 - Tests: `pnpm --filter @cp/ai eval -- vendor-reply`; `pnpm --filter @cp/worker test -- suppliers/vendor-reply`
 - Done when: reply "ok 13:50 bisa" parses to yes + time; injection replies never change intent schema or trigger actions.
 
