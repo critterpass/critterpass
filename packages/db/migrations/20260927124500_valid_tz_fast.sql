@@ -216,3 +216,5 @@ CREATE TRIGGER plan_items_canonical_tz BEFORE INSERT OR UPDATE OF tz ON plan_ite
   FOR EACH ROW EXECUTE FUNCTION app.canonicalize_tz();
 CREATE TRIGGER pois_canonical_timezone BEFORE INSERT OR UPDATE OF timezone ON pois
   FOR EACH ROW EXECUTE FUNCTION app.canonicalize_timezone();
+CREATE TRIGGER scheduled_events_canonical_tz BEFORE INSERT OR UPDATE OF tz ON scheduled_events
+  FOR EACH ROW EXECUTE FUNCTION app.canonicalize_tz();

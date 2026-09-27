@@ -171,6 +171,21 @@ describe('tz columns store canonical ids', () => {
     expect(tripTz).toBe('Asia/Kathmandu');
   });
 
+  it('canonicalizes a scheduled timer armed with an alias', async () => {
+    const stored = await withSystem(db.pool, async (tx) => {
+      const { rows: armed } = await tx.query<{ id: string }>(
+        `SELECT app.schedule_event('tz.probe', gen_random_uuid(), '', '2026-10-01T09:00',
+                                   'Asia/Saigon', '2026-10-01T02:00Z', NULL) AS id`,
+      );
+      const { rows } = await tx.query<{ tz: string }>(
+        'SELECT tz FROM scheduled_events WHERE id = $1',
+        [firstRow(armed).id],
+      );
+      return firstRow(rows).tz;
+    });
+    expect(stored).toBe('Asia/Ho_Chi_Minh');
+  });
+
   it('canonicalizes a plan item written by apply_change_set', async () => {
     const fx = await buildPlanFixture(db.pool);
     const stableId = generateUuidV7();
