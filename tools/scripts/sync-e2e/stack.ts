@@ -32,6 +32,7 @@ export const PORTS = {
   postgres: Number(process.env['CP_E2E_PG_PORT'] ?? 54330),
   redis: Number(process.env['CP_E2E_REDIS_PORT'] ?? 63791),
   centrifugo: Number(process.env['CP_E2E_CENTRIFUGO_PORT'] ?? 8010),
+  centrifugoApi: Number(process.env['CP_E2E_CENTRIFUGO_API_PORT'] ?? 9010),
   powersync: Number(process.env['CP_E2E_POWERSYNC_PORT'] ?? 8090),
   api: Number(process.env['CP_E2E_API_PORT'] ?? 8797),
   worker: Number(process.env['CP_E2E_WORKER_PORT'] ?? 8798),
@@ -53,6 +54,7 @@ function composeEnv(): NodeJS.ProcessEnv {
     CP_E2E_PG_PORT: String(PORTS.postgres),
     CP_E2E_REDIS_PORT: String(PORTS.redis),
     CP_E2E_CENTRIFUGO_PORT: String(PORTS.centrifugo),
+    CP_E2E_CENTRIFUGO_API_PORT: String(PORTS.centrifugoApi),
     CP_E2E_POWERSYNC_PORT: String(PORTS.powersync),
     CP_E2E_API_PORT: String(PORTS.api),
   };
@@ -184,7 +186,7 @@ export async function startStack(log: (line: string) => void): Promise<Stack> {
       PORT: String(PORTS.worker),
       DATABASE_DIRECT_URL: databaseUrl,
       REDIS_URL: redisUrl,
-      CENTRIFUGO_API_URL: `http://127.0.0.1:${PORTS.centrifugo}`,
+      CENTRIFUGO_API_URL: `http://127.0.0.1:${PORTS.centrifugoApi}`,
       CENTRIFUGO_HTTP_API_KEY,
     });
     hosts.push(worker);
