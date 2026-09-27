@@ -133,7 +133,7 @@ function ToastDemoButton() {
  * Exercises the whole motion runtime for manual QA and Maestro (`e2e/motion/motion-lab.yaml`):
  * every loop preset, every feedback cue, slowmo/motion-freeze and the island toast, at any motion
  * mode. Dev-only (excluded from production per the marker above); wraps its own
- * `GestureHandlerRootView`/`SafeAreaProvider` since the app shell doesn't mount them yet (phase 7).
+ * `GestureHandlerRootView`/`SafeAreaProvider` since the app shell doesn't mount them near the root yet.
  */
 export default function MotionLabScreen() {
   return (
