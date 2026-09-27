@@ -1,0 +1,87 @@
+/**
+ * `/v1/places/*` HTTP routes (docs/api-contracts.md §5.5). Every route requires a verified session
+ * (Auth "S"); the actual session-verification middleware does not exist yet, so each handler reads
+ * `c.var.uid` (set by that future middleware, per `AppEnv` in `../app.ts`) and returns
+ * `AUTH_REQUIRED` when it is absent, rather than assuming any particular caller.
+ */
+import { DomainError, poiCategorySchema, type RouteEtaProvider } from '@cp/domain';
+import { withUser } from '@cp/db';
+import type { OpenAPIHono } from '@hono/zod-openapi';
+import type pg from 'pg';
+import { z } from 'zod';
+
+import type { AppEnv } from '../app';
+
+import { getPlaceDetail } from './detail';
+import { searchPlaces, type PlaceSearchFilters } from './search';
+
+export interface PlacesRouteDeps {
+  readonly pool: pg.Pool;
+  readonly routeEtaProvider?: RouteEtaProvider;
+}
+
+interface RequestActor {
+  readonly uid: string;
+  readonly device: string;
+}
+
+function requireActor(c: { var: { uid?: string; device?: string } }): RequestActor {
+  if (c.var.uid === undefined) throw new DomainError('AUTH_REQUIRED');
+  return { uid: c.var.uid, device: c.var.device ?? 'unknown' };
+}
+
+const nearQuerySchema = z.string().regex(/^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/, 'must be "lat,lng"');
+
+function parseNear(value: string | undefined): { lat: number; lng: number } | undefined {
+  if (value === undefined) return undefined;
+  const parsed = nearQuerySchema.parse(value);
+  const [lat, lng] = parsed.split(',').map(Number) as [number, number];
+  return { lat, lng };
+}
+
+const searchQuerySchema = z.object({
+  q: z.string().min(1).optional(),
+  near: z.string().optional(),
+  category: z.string().optional(),
+  destination_id: z.uuid().optional(),
+  open_at: z.iso.datetime({ offset: true }).optional(),
+  limit: z.coerce.number().int().positive().max(50).optional(),
+});
+
+export function registerPlacesRoutes(app: OpenAPIHono<AppEnv>, deps: PlacesRouteDeps): void {
+  app.get('/v1/places/search', async (c) => {
+    const actor = requireActor(c);
+    const query = searchQuerySchema.parse(c.req.query());
+    const category =
+      query.category !== undefined ? poiCategorySchema.parse(query.category) : undefined;
+    const near = parseNear(query.near);
+
+    const filters: PlaceSearchFilters = {
+      ...(query.q !== undefined ? { q: query.q } : {}),
+      ...(near !== undefined ? { near } : {}),
+      ...(category !== undefined ? { category } : {}),
+      ...(query.destination_id !== undefined ? { destinationId: query.destination_id } : {}),
+      ...(query.open_at !== undefined ? { openAt: new Date(query.open_at) } : {}),
+      ...(query.limit !== undefined ? { limit: query.limit } : {}),
+    };
+
+    const results = await withUser(deps.pool, actor.uid, actor.device, (tx) =>
+      searchPlaces(tx, filters),
+    );
+    return c.json({ results });
+  });
+
+  app.get('/v1/places/:id', async (c) => {
+    const actor = requireActor(c);
+    const poiId = z.uuid().parse(c.req.param('id'));
+    const tripId = c.req.query('trip_id');
+
+    const detail = await withUser(deps.pool, actor.uid, actor.device, (tx) =>
+      getPlaceDetail(tx, poiId, {
+        ...(tripId !== undefined ? { tripId } : {}),
+        ...(deps.routeEtaProvider !== undefined ? { routeEtaProvider: deps.routeEtaProvider } : {}),
+      }),
+    );
+    return c.json(detail);
+  });
+}
