@@ -38,6 +38,9 @@ services:
       CENTRIFUGO_CLIENT_ALLOWED_ORIGINS: http://localhost:8081 http://localhost:4321 http://localhost:5173
       CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_ENDPOINT: http://host.docker.internal:8787/internal/rt/subscribe
       CENTRIFUGO_CHANNEL_PROXY_PUBLISH_ENDPOINT: http://host.docker.internal:8787/internal/rt/publish
+      # Must equal RT_PROXY_SECRET in services/api/.env.example (local-only value).
+      CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_HTTP_STATIC_HEADERS: '{"x-cp-rt-proxy-secret":"local-rt-proxy-secret-for-compose-only-000"}'
+      CENTRIFUGO_CHANNEL_PROXY_PUBLISH_HTTP_STATIC_HEADERS: '{"x-cp-rt-proxy-secret":"local-rt-proxy-secret-for-compose-only-000"}'
       CENTRIFUGO_HTTP_API_KEY: local-centrifugo-api-key
       CENTRIFUGO_ENGINE_REDIS_ADDRESS: redis://redis:6379
     ports: ['8000:8000']

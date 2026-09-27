@@ -25,6 +25,7 @@ import {
   registerMergeTicketPreviewRoute,
   registerReturningPhoneSignInRoute,
 } from './routes/auth-extra';
+import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerWhatsAppWebhookRoutes } from './routes/webhooks-whatsapp';
 import { createCommandRegistry } from './commands/_framework/registry';
 import { betterAuthSessionResolver } from './commands/_framework/session';
@@ -153,6 +154,11 @@ const commandDoors = {
 registerCommandRoute(app, commandDoors);
 registerSyncUploadRoute(app, commandDoors);
 registerCmdResultsRoute(app, commandDoors);
+if (env.RT_PROXY_SECRET) {
+  registerInternalRtRoutes(app, { pool, redis, proxySecret: env.RT_PROXY_SECRET });
+} else {
+  logger.warn('Centrifugo proxies are disabled: RT_PROXY_SECRET is unset');
+}
 
 // Mounted last: Better Auth's own catch-all handler must never shadow the more specific routes
 // above (`/api/auth/sign-in/phone-number` in particular — registerReturningPhoneSignInRoute wins

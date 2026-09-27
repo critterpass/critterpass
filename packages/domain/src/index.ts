@@ -9,6 +9,7 @@ export {
   userChannel,
   type ChannelNamespace,
 } from './channel-names';
+export * from './realtime';
 export {
   CAPABILITY_KEYS,
   capabilityKeySchema,

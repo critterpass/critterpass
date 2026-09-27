@@ -104,6 +104,12 @@ export const apiEnvSchema = z.object({
    *  attached — infra/cloudflare/tiles/wrangler.toml) serves PMTiles/fonts/sprite from; read by
    *  src/places/map-regions.ts to build the manifest's `url`. */
   TILES_BASE_URL: z.url().default('https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev'),
+
+  // --- Realtime (Centrifugo proxies, docs/api-contracts.md §5.7) ---
+  /** Shared header value Centrifugo sends on subscribe/publish proxy calls (its
+   *  `CENTRIFUGO_CHANNEL_PROXY_*_HTTP_STATIC_HEADERS`); unset = the proxy routes are not mounted and
+   *  every proxied subscribe fails closed. Generate with `openssl rand -base64 32`. */
+  RT_PROXY_SECRET: z.preprocess(emptyAsUndefined, z.string().min(32).optional()),
 });
 
 export type ApiEnv = z.infer<typeof apiEnvSchema>;
