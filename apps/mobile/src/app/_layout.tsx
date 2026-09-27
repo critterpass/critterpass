@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { appGroupOutbox, writeEndpointsConfig } from '../../modules/cp-app-group';
+
 import { AppSessionRoot } from '@/data/app-session/AppSessionRoot';
 import {
   deviceAppState,
@@ -31,6 +33,9 @@ void SplashScreen.preventAutoHideAsync();
 
 // Expo Router renders this in place of the root layout when anything below it throws.
 export { RootErrorBoundary as ErrorBoundary };
+
+/** The session starts once per process with the App Group the extensions share. */
+const startSession = () => startDeviceAppSession({ outbox: appGroupOutbox, writeEndpointsConfig });
 
 /** Saved navigation is only restored into the same JS build it was saved from. */
 const BUILD = `${Constants.expoConfig?.version ?? ''}:${Updates.updateId ?? 'embedded'}`;
@@ -96,7 +101,7 @@ export default function RootLayout() {
         )}
         <ThemeProvider>
           <AppSessionRoot
-            start={startDeviceAppSession}
+            start={startSession}
             appState={deviceAppState}
             onError={reportAppSessionError}
           >

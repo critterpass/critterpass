@@ -4,10 +4,11 @@
  * straight away; both contexts stay null until the session is up. A failed start (a first launch
  * with no network) retries with backoff and on every return to the foreground.
  *
- * The session lives for the process: unmounting the root (fast refresh, StrictMode's double
- * effect) stops listening, never the session itself.
+ * The session lives for the process: the root starts it once on mount, whatever props it
+ * re-renders with, and unmounting (fast refresh, StrictMode's double effect) stops listening,
+ * never the session itself.
  */
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 import { LocalFirstContext } from '../powersync/local-first-context';
 import type { ForegroundSource } from '../commands/drain-extension-outbox';
@@ -25,8 +26,10 @@ export interface AppSessionRootProps {
 
 export function AppSessionRoot({ start, appState, onError, children }: AppSessionRootProps) {
   const [session, setSession] = useState<AppSession | null>(null);
+  const mounted = useRef({ start, appState, onError });
 
   useEffect(() => {
+    const { start, appState, onError } = mounted.current;
     let active = true;
     let attempt = 0;
     let running = false;
@@ -61,7 +64,7 @@ export function AppSessionRoot({ start, appState, onError, children }: AppSessio
       clearTimeout(timer);
       subscription.remove();
     };
-  }, [start, appState, onError]);
+  }, []);
 
   return (
     <LocalFirstContext.Provider value={session?.localFirst ?? null}>
