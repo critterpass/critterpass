@@ -112,7 +112,10 @@ export function renderShareCardNode<T extends PostStoryTemplateId>(
 ): Promise<Uint8Array> {
   const entry = POST_STORY_TEMPLATES[templateId];
   const parsed = entry.schema.parse(props);
-  const layout: CardLayout = options.format === 'story' ? callWithParsed(entry.buildStory, parsed) : callWithParsed(entry.build, parsed);
+  const layout: CardLayout =
+    options.format === 'story'
+      ? callWithParsed(entry.buildStory, parsed)
+      : callWithParsed(entry.build, parsed);
   return renderCardNode(layout);
 }
 
@@ -124,7 +127,6 @@ export function renderShareCardNode<T extends PostStoryTemplateId>(
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- see doc comment above
 function callWithParsed(build: (props: any) => CardLayout, parsed: unknown): CardLayout {
-   
   return build(parsed);
 }
 
@@ -139,7 +141,6 @@ export function shareCardAltText<T extends PostStoryTemplateId>(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- see callWithParsed's doc comment
 function callAltTextWithParsed(altText: (props: any) => string, parsed: unknown): string {
-   
   return altText(parsed);
 }
 
