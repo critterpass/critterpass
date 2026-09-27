@@ -1,0 +1,25 @@
+# Cost streams (docs/data-model.md §3.4): a trip's cost components and every member's total sync
+# with the trip; a member's own share calc (their lines and personal option deltas) syncs to that
+# member only. Reviewed editorial cost indices join the always-on catalogue.
+
+streams:
+  catalog:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM destination_cost_indices WHERE reviewed_at IS NOT NULL
+
+  trip:
+    queries:
+      - |
+        SELECT * FROM cost_components
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM trip_share_totals
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM share_calcs
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND user_id = auth.user_id()
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)

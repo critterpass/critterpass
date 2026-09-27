@@ -92,8 +92,12 @@ export function createQuoteSet(components: readonly CostComponent[]): QuoteSet {
   return { version: quoteSetVersion(components), components: [...components] };
 }
 
-/** True when the component's price was seen more than 72 h before `now`. */
+/**
+ * True when a live price was seen more than 72 h before `now`. Editorial estimates and booked
+ * prices do not age this way: one is a reviewed range, the other is what was paid.
+ */
 export function isStaleComponent(component: CostComponent, now: Date): boolean {
+  if (component.source === 'editorial' || component.source === 'booking') return false;
   const seenMs = Date.parse(component.seenAt);
   return now.getTime() - seenMs > QUOTE_STALE_AFTER_HOURS * 60 * 60 * 1000;
 }

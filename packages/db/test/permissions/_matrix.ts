@@ -351,6 +351,38 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // Cost tables (RLS "T", system-written): the crew reads components and totals; a member's own
+  // share calc (lines and personal option deltas) is readable by that member only.
+  ...Object.fromEntries(
+    ['cost_components', 'trip_share_totals'].map((table) => [
+      table,
+      {
+        selectProbe: {
+          sql: `SELECT 1 FROM ${table} WHERE trip_id = $1`,
+          params: (f) => [f.tripId],
+        },
+        expectations: {
+          outsider: F,
+          exMember: F,
+          anonymous: F,
+          member: op(true, false, false),
+          coOrganiser: op(true, false, false),
+          organiser: op(true, false, false),
+        },
+      },
+    ]),
+  ),
+  share_calcs: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM share_calcs WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: OWNER_READ,
+  },
+  destination_cost_indices: {
+    selectProbe: { sql: 'SELECT count(*) FROM destination_cost_indices', params: () => [] },
+    expectations: READ_ONLY_ALL,
+  },
   // Travel-data catalogue tables (RLS "R", system-written): the probe proves the app_user grant;
   // each table's own file under this directory proves its rows and filters.
   ...Object.fromEntries(

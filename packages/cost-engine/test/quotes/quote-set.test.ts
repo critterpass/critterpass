@@ -97,5 +97,8 @@ describe('validation and staleness', () => {
     const seen = Date.parse(first.seenAt);
     expect(isStaleComponent(first, new Date(seen + 72 * 3_600_000))).toBe(false);
     expect(isStaleComponent(first, new Date(seen + 72 * 3_600_000 + 1))).toBe(true);
+    const later = new Date(seen + 1_000 * 3_600_000);
+    expect(isStaleComponent({ ...first, source: 'editorial' }, later)).toBe(false);
+    expect(isStaleComponent({ ...first, source: 'booking' }, later)).toBe(false);
   });
 });
