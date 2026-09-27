@@ -2,7 +2,7 @@
 phase: 54
 title: Launch hardening & store submission
 status: pending
-depends_on: [19, 30, 37, 38, 42, 45, 47, 49, 50, 51, 52, 53]
+depends_on: [19, 30, 37, 38, 42, 45, 47, 49, 50, 51, 52, 53, 55, 56, 57]
 wave: 23
 features: []
 screens: [all]

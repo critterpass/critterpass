@@ -2,8 +2,8 @@
 title: Critterpass full build
 status: in_progress
 created: 2026-09-26
-phases: 54
-tasks: 543
+phases: 57
+tasks: 571
 critical_path_tasks: 249
 ---
 
@@ -14,8 +14,8 @@ critical_path_tasks: 249
 | Status | pending |
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
-| Scope | Full: all 192 master-analysis features, iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
-| Size | 54 phases, 543 tasks, 23 waves, critical path 249 tasks |
+| Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
+| Size | 57 phases, 571 tasks, 23 waves, critical path 249 tasks |
 | Docs | [docs/README.md](../../docs/README.md) (reading order), [product-decisions.md](../../docs/product-decisions.md) (decisions 1–20, final), [code-standards.md](../../docs/code-standards.md), [system-architecture.md](../../docs/system-architecture.md), [data-model.md](../../docs/data-model.md), [api-contracts.md](../../docs/api-contracts.md), [design-system.md](../../docs/design-system.md) |
 | Reports | [plans/reports/](../reports/) — master synthesis, design analyses, research, fact-checks. Backend authority: [custom Hono backend](../reports/researcher-260926-1649-custom-hono-backend-report.md). Supplier authority: [travel supplier APIs](../reports/researcher-260926-1649-travel-supplier-apis-report.md) |
 | Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude-only AI |
@@ -27,7 +27,7 @@ critical_path_tasks: 249
 |---|---|
 | Reading order | `docs/README.md` → `product-decisions.md` → `code-standards.md` (§1 agent rules, §20 DoD) → architecture / data-model / api-contracts sections the phase links → phase file (Context links, Requirements, Architecture & contracts) → the one task → the design renders it names |
 | Unit of work | A task (`### Tn`) is a checkpoint, not a session limit. One agent pass may run consecutive tasks and whole phases (e.g. a full wave lane); finish each task’s tests + done-when and commit before starting the next; stop at founder gates, failing tests or missing accounts |
-| Ownership | Change only files in the phase `owns` list + task `Files`. Needing a file outside `owns` = stop, report `NEEDS_CONTEXT` |
+| Ownership | Change only files in the phase `owns` list + task `Files`. Needing a file outside `owns` = stop, report `NEEDS_CONTEXT`. A phase may also list `mount_points`: the smallest edit (import + render/register) inside files owned by a phase that is already `done` |
 | Parallelism | All phases in one wave may run concurrently (owns lists are disjoint). Tasks inside a phase run in order unless the phase says otherwise. A phase starts only when every `depends_on` phase is `done` |
 | Undesigned flows | Build in code with the design system (D11); log the state in the phase file; founder reviews in the running app |
 | Partners not yet approved | Build the adapter + truthful fallback behind a server flag; never fake data |
@@ -96,7 +96,12 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 51 | [Web: site, invites, tips, legal, OG](./phase-51-web-site-links-og.md) | 11 | 3, 5, 9, 21, 23 | 10 | pending |
 | 52 | [Community plans](./phase-52-community.md) | 12 | 17, 28, 29, 30, 43, 44, 46, 51 | 21 | pending |
 | 53 | [Store listing & social kit](./phase-53-store-social-assets.md) | 6 | 5, 40, 43, 45, 47, 49, 50, 51 | 22 | pending |
-| 54 | [Launch hardening & submission](./phase-54-launch-hardening.md) | 12 | 19, 30, 37, 38, 42, 45, 47, 49, 50, 51, 52, 53 | 23 | pending |
+| 54 | [Launch hardening & submission](./phase-54-launch-hardening.md) | 12 | 19, 30, 37, 38, 42, 45, 47, 49, 50, 51, 52, 53, 55, 56, 57 | 23 | pending |
+| 55 | [Find a driver: ask, capture, compare, pick, private tours](./phase-55-find-a-driver.md) | 13 | 13, 16, 29, 34, 35, 36 | 18 | pending |
+| 56 | [Drivers our crews used: rating, invite, claim, directory](./phase-56-crews-drivers-directory.md) | 8 | 9, 17, 21, 43, 51, 52, 55 | 22 | pending |
+| 57 | [Share the plan with your driver: page, PDF, quote back](./phase-57-share-plan-with-driver.md) | 7 | 21, 26, 29, 51, 52, 55 | 22 | pending |
+
+**Prerequisite for 55–57, runs now (not gated):** import the driver-finder screens (6a-1 … 6k-1, 23 screens) from the Claude Design project into `design/Critterpass.dc.html`, then `pnpm --filter @cp/design-renders run render:screens` and `extract:screens`, and add the 6a–6k section blurbs to `sections.json`. Phase files reference these renders.
 
 DAG (transitive edges removed; red = critical path):
 
@@ -119,11 +124,11 @@ flowchart LR
   subgraph W15["W15"]; P29["29 plan views"]; P34["34 wallet"]; P46["46 monetization"]; end
   subgraph W16["W16"]; P32["32 guide chat"]; P35["35 suppliers"]; end
   subgraph W17["W17"]; P30["30 explore"]; P31["31 proposal+RSVP"]; P36["36 trip day"]; P38["38 help+SOS"]; end
-  subgraph W18["W18"]; P37["37 disruptions"]; P40["40 critters"]; end
+  subgraph W18["W18"]; P37["37 disruptions"]; P40["40 critters"]; P55["55 find a driver"]; end
   subgraph W19["W19"]; P41["41 quests"]; P43["43 recap"]; P48["48 Live Activities"]; end
   subgraph W20["W20"]; P42["42 voice+camera"]; P44["44 album"]; P47["47 help centre"]; P49["49 notifs+widgets"]; end
   subgraph W21["W21"]; P45["45 you"]; P50["50 Android parity"]; P52["52 community"]; end
-  subgraph W22["W22"]; P53["53 store assets"]; end
+  subgraph W22["W22"]; P53["53 store assets"]; P56["56 crews' drivers"]; P57["57 share with driver"]; end
   subgraph W23["W23"]; P54["54 launch"]; end
   P1 --> P2 & P3 & P4 & P8
   P2 --> P5 & P9 & P14
@@ -178,6 +183,11 @@ flowchart LR
   P51 --> P52 & P53
   P52 --> P54
   P53 --> P54
+  P36 --> P55
+  P55 --> P56 & P57
+  P52 --> P56 & P57
+  P56 --> P54
+  P57 --> P54
   classDef crit stroke:#d33,stroke-width:3px
   class P1,P2,P9,P10,P11,P13,P18,P22,P23,P24,P25,P26,P27,P33,P34,P35,P31,P40,P48,P49,P45,P53,P54 crit
 ```
@@ -203,13 +213,13 @@ flowchart LR
 | 15 | 29, 34, 46 | 36 | 3 |
 | 16 | 32, 35 | 23 | 2 |
 | 17 | 30, 31, 36, 38 | 38 | 4 |
-| 18 | 37, 40 | 22 | 2 |
+| 18 | 37, 40, 55 | 35 | 3 |
 | 19 | 41, 43, 48 | 26 | 3 |
 | 20 | 42, 44, 47, 49 | 36 | 4 |
 | 21 | 45, 50, 52 | 34 | 3 |
-| 22 | 53 | 6 | 1 |
+| 22 | 53, 56, 57 | 21 | 3 |
 | 23 | 54 | 12 | 1 |
-| **Total** | 54 | **543** | |
+| **Total** | 57 | **571** | |
 
 **Critical path (249 of 543 tasks, strictly sequential):** 1 (10) → 2 (15) → 9 (10) → 10 (11) → 11 (11) → 13 (10) → 18 (12) → 22 (11) → 23 (10) → 24 (8) → 25 (9) → 26 (12) → 27 (12) → 33 (12) → 34 (11) → 35 (14) → 31 (10) → 40 (11) → 48 (10) → 49 (10) → 45 (12) → 53 (6) → 54 (12).
 
@@ -224,10 +234,10 @@ Each milestone = listed phases `done` + an internal TestFlight and Play internal
 | M1 | Platform proven | 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 14 | Spikes S-AUTH, S-SYNC (incl. failover drill), S-DB pass; anonymous user writes offline, syncs, sees realtime echo; sticker renders; entitlement + FX primitives and POI/map tiles served |
 | M2 | Crew loop on device | 7, 11, 13, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25 | Onboard → passport → invite via link/code → join crew → chat → Home nudges and push; LLM gateway + content batches live; location session + POI visits; telemetry flowing |
 | M3 | Plan-it + money loop | 16, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 39, 46 | Destination vote → setup → Opus draft → private review → edit/ChangeSet → proposal → RSVP; guide chat metered at 30/day; expenses + receipt scan + settle up; wallet import; Viator booking (sandbox or live); Pass+/Boost purchase at proposal; live map |
-| M4 | Trip day works | 36, 37, 38 | Leave-by alarm, offline day, disruption replan, SOS |
+| M4 | Trip day works | 36, 37, 38, 55 | Leave-by alarm, offline day, disruption replan, SOS; find a driver from a pasted message, compare, set on days, offline ride-back card |
 | M5 | Critters, after-trip, iOS off-app | 40, 41, 42, 43, 44, 45, 47, 48, 49 | Hatch, encounters, Critterdex, quests, voice mode, recap story, album, postcards, profile/export/deletion; help centre + feedback; Live Activities / Dynamic Island, AlarmKit, actionable notifications, widgets |
 | M6 | Android parity | 50 | Android Live Updates (API 36+), MetricStyle (37+), full-screen alarm; iOS/Android feature matrix identical |
-| M7 | Web, community, store kit | 51, 52, 53 | Web invite landing + OG; community publish; store listing + social kit from real builds; each approved partner flag verified |
+| M7 | Web, community, store kit, drivers | 51, 52, 53, 56, 57 | Web invite landing + OG; community publish; driver claim → directory; driver plan page → quote → crew vote; store listing + social kit from real builds; each approved partner flag verified |
 | M8 | Launch readiness | 54 | Security review closed, counsel sign-off, store submissions approved, drills passed |
 
 ## 5. Non-code workstreams — start now
@@ -236,7 +246,7 @@ These gate flags, not code; code ships with truthful fallbacks until each lands.
 
 | Workstream | Items | Unblocks phases |
 |---|---|---|
-| Legal entity + counsel (D18) | Singapore controller entity; counsel on Vietnam PDPL, GDPR, EU AI Act Art. 50, store rules, affiliate disclosure, EU PTD linked arrangements, referral terms, mailbox/insurance/face-match/voice consents, Help/SOS + allergy wording, deletion copy, paywall/gift copy, listing claims, Terms "we never move money" | 19, 22, 23, 33–35, 38, 42, 44–46, 51–54 (launch blocker) |
+| Legal entity + counsel (D18) | Singapore controller entity; counsel on Vietnam PDPL, GDPR, EU AI Act Art. 50, store rules, affiliate disclosure, EU PTD linked arrangements, referral terms, mailbox/insurance/face-match/voice consents, Help/SOS + allergy wording, deletion copy, paywall/gift copy, listing claims, Terms "we never move money", driver directory (consent on claim, tips takedown policy, guide-licence wording) | 19, 22, 23, 33–35, 38, 42, 44–46, 51–54, 56 (launch blocker) |
 | Apple | Developer account, App IDs, App Group `group.app.critterpass` + shared Keychain, APNs .p8, Sign in with Apple service id + key, App Attest, AlarmKit, Communication Notifications, Live Activity broadcast (Channel Management), calendar usage strings, Paid Apps agreement + banking/tax, App Store Connect record | 2, 9–11, 36, 44, 46, 48, 49, 53, 54 |
 | Google | Play Console + app, Firebase project + service account, Play Integrity, OAuth clients; Play declarations: background location (+ video), exact alarm, full-screen intent, READ_CALENDAR, "Contains ads"; RTDN; physical Pixel + Samsung or Test Lab | 2, 9, 11, 20, 27, 30, 36, 39, 46, 50, 54 |
 | Mailbox / calendar verification | Google OAuth verification + CASA (gmail.readonly, calendar freebusy); Microsoft publisher verification + app registration | 27, 34 |
@@ -244,10 +254,11 @@ These gate flags, not code; code ships with truthful fallbacks until each lands.
 | Infrastructure accounts | GitHub org, Railway team (SG, private networking, static outbound IP), PlanetScale org + HA + REPLICATION role, Cloudflare (R2, Workers, Access, Email Routing), Expo/EAS, Sentry, PostHog EU, Grafana Cloud + IRM, Langfuse EU, external uptime monitor, DPAs with each | 1, 2, 8, 10, 17, 19 |
 | AI + voice vendors | Anthropic org (ZDR check, Opus/Sonnet concurrency), Voyage AI, Deepgram, ElevenLabs + one owned voice per guide (voice actors), music themes (3 named + 3 commissioned), licensed SFX | 6, 13, 18, 32, 42, 45 |
 | Data vendors | Foursquare Places, Mapbox (Directions traffic + Geocoding), Open-Meteo commercial, BestTime Pro, AeroDataBox, FlightAware AeroAPI, FSQ OS Places / Overture licence acceptance, ODbL review, hazard-feed redistribution terms, destination photo licence | 14, 15, 30, 31, 34, 36, 37 |
-| Partner applications | Travelpayouts (+ Agoda, Trip.com, Klook, GYG, Kiwitaxi, GetTransfer brand approvals), Booking.com via CJ, Viator Full + Booking (+ certification), Agoda Demand API (Fulfill Assisted), Klook Activity API, Trip.com distributor API, GYG API, Grab Farefeed, WhatsApp Business (verified number + auth and vendor templates) | 9, 15, 28, 31, 32, 35, 37 |
+| Partner applications | Travelpayouts (+ Agoda, Trip.com, Klook, GYG, Kiwitaxi, GetTransfer brand approvals), Booking.com via CJ, Viator Full + Booking (+ certification), Agoda Demand API (Fulfill Assisted), Klook Activity API, Trip.com distributor API, GYG API, Grab Farefeed, WhatsApp Business (verified number + auth and vendor templates; auth template also gates driver claims) | 9, 15, 28, 31, 32, 35, 37, 55, 56 |
 | Phone OTP | WhatsApp auth template, Twilio Verify / Prelude, Vietnam SMS brandname registration (start first; slowest) | 9 |
 | Domain + email (D20) | critterpass.app + `go.` + `media.` + `in.` hosts, AASA/assetlinks (Team ID, Play signing SHA-256), Resend DKIM/DMARC | 1, 10, 21, 34, 45, 47, 51 |
 | Content + review cadence | Founder approval slot per content-factory batch; native-speaker review (persona words, emergency/allergy phrases); translators for 9 non-en locales + Tolgee; trademark check of critter names; designer sign-off on C5 guide colours; editorial season/cost indices; real receipt (>= 40, 4 countries) and confirmation-email corpora | 3, 4, 13, 16, 18, 33, 34 |
+| Driver finder content | Extraction eval corpus: done, synthetic (`packages/ai/evals/provider-extract/fixtures/driver-messages.yaml`); pickup gaps + ask groups drafted ([seed lists](../reports/research-260927-2116-driver-finder-seed-lists-merged-report.md)), awaiting founder approval + ops logged-in URL check; ID translations for the post template, claim and plan pages | 55, 56, 57 |
 | Ops | Print-on-demand vendor (default Prodigi), ops desk staffing 07:00–23:00 SGT, founder on-call phone, Linear workspace, AWS Device Farm access | 35, 38, 44, 47, 54 |
 | External auth/permission security review | Book reviewer now; covers auth, RLS backstop, device action keys, admin surface | 54 (launch blocker) |
 
@@ -255,7 +266,7 @@ These gate flags, not code; code ships with truthful fallbacks until each lands.
 
 | Area | Criterion |
 |---|---|
-| Scope | All 543 tasks and 54 phases `done`; every one of 192 features traced to a passing Maestro/e2e flow; no deferral language anywhere |
+| Scope | All 571 tasks and 57 phases `done`; every one of 196 features traced to a passing Maestro/e2e flow; no deferral language anywhere |
 | Parity | iOS 26+ and Android API 36 feature matrix identical in-app; native surfaces present where policy allows (Live Updates gated 36+, MetricStyle 37+) |
 | Truthfulness | Stay copy says "free cancellation until {date}" / "book here" — no room holds (3c-8, 3c-12, 3f-1, 3f-3, 3f-4, 4f-1); "seats held" only for Viator timed holds; Critterpass never merchant of record; affiliate disclosure shown; commission-neutral ranking tested |
 | Supplier content | Shown verbatim only in supplier cards, never cached, never sent to the LLM (test asserts prompt payloads) |
@@ -307,3 +318,13 @@ These gate flags, not code; code ships with truthful fallbacks until each lands.
 | 21 | Face self-match in album | Flag off (manual tags) until counsel approves |
 | 22 | Device cloud; restore/failover targets | AWS Device Farm; RTO 4 h, failover 5 min |
 | 23 | Crew-visible taste tags (Q-17), minimum age (Q-95) | Counsel decides; defaults from phase 22 |
+| 24 | Driver-finder link paths: design shows `/g/{token}`, but `/g/{guide}` is taken (P21) | Driver plan page `/t/{token}`, claim page `/d/{token}`; both web-only, excluded from Universal/App Links, `noindex` |
+| 25 | "Verified" WhatsApp on the claim page (6h-1) | WhatsApp OTP to the invited number before YES, LIST ME (P9 template); without OTP the copy would be untrue |
+| 26 | "9 crews posted here" (6b-1) count | Distinct crews that opened the group after copying a post; we never read groups |
+| 27 | Viator card on 6f-1 shows OPEN VIATOR ↗ | Link-out while `supplier.viator_booking` is off; P35 in-app booking sheet when on |
+| 28 | Tokek's fit line on supplier cards (6f-1) | Deterministic templates over structured fields; never an LLM over supplier text (D10) |
+| 29 | Compare row "Klook checks" licence copy (6d-1) | Show "Klook operator" unless Klook terms confirm driver vetting; we never label a licence verified ourselves |
+| 30 | Directory ordering | Wilson lower bound of loved/rated, then trips, then listed-since; no paid or sponsored placement ever |
+| 31 | Rating eligibility | Provider assigned to ≥ 1 day of an ended trip; one combined answer per crew per driver per trip; verified-phone accounts only |
+| 32 | Driver photo (6e-2 says own upload; 6h-1 has no field) | Optional photo field under CAR on the claim page, logged as undesigned; initials avatar otherwise |
+| 33 | Removal scope | Removing a listing hard-deletes listing, stats and tips; crews keep the driver in their own trips |
