@@ -6,7 +6,7 @@ depends_on: [12, 13, 24, 29]
 wave: 16
 features: [F-093, F-094, F-097, F-098, F-099, F-160]
 screens: [3j-1, 3g-1, 4c-1, 4b-1, 3h-3, 3k-6, 3c-8, 3i-3]
-tasks: 9
+tasks: 10
 owns:
   - packages/domain/src/guide/**
   - packages/db/src/schema/guide-chat.ts
@@ -166,6 +166,13 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. Cases: numbers only from tools, no supplier text, persona, refusal, dietary privacy, prompt injection in mentions / proactive triggers / vendor replies (no out-of-policy tool call, no leak). 2. Langfuse cost per trip tags.
 - Tests: `pnpm --filter @cp/ai eval -- guide`
 - Done when: suite green and wired into `ai-evals` workflow.
+
+### T10 — Web search in guide answers
+- Goal: the guide answers fresh questions (what's on this week, holiday hours, ferry or metro strikes) with cited web results (D23).
+- Files: guide chat routing and tool wiring (owned guide chat files), eval cases under the chat suite, tests.
+- Steps: 1. Enable the gateway's `web_search` tool (phase 13 T13) on guide chat routes; answers attribute each web fact to its source link, rendered as source chips. 2. Searches count toward the 30/day meter (D8) and the fair-use caps. 3. In crew chat the guide searches only when @mentioned, never in proactive posts. 4. Web numbers are cite-only: never in plan changes or costs (D5). 5. Queries pass the privacy screen from phase 13 T13.
+- Tests: chat eval cases for fresh-fact questions (EN and VI) with recorded search fixtures; a crew-chat test proves no search without an @mention; a meter test.
+- Done when: fresh-fact questions get answers citing their sources, crew chat searches only on @mention, and searches are metered.
 
 ## Phase acceptance criteria
 - [ ] Concurrency test: exactly 30 metered answers/day on free tier.

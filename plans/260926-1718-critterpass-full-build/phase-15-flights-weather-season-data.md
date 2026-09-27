@@ -6,7 +6,7 @@ depends_on: [8, 11, 13]
 wave: 7
 features: [F-033, F-034, F-035]
 screens: [3b-2, 3b-3, 3c-1, 3c-3, 3c-5, 3d-1, 3d-3, 3e-2, 3k-2, 3k-7, 3k-8, 3l-5]
-tasks: 7
+tasks: 8
 owns:
   - infra/powersync/streams/season.yaml
   - packages/domain/src/travel-data/**
@@ -147,6 +147,13 @@ Done when: `/v1/fares`, `/v1/destinations/{id}?origins&month`, `/v1/weather`, `/
 - Steps: 1. `hc` typed queries with offline cache (last good response persisted). 2. `formatSeen()` ("seen 3h ago"), stale flags, missing-data discriminated unions. 3. Weather/crowds read from PowerSync `trip_pack` when synced, HTTP otherwise.
 - Tests: `pnpm --fail-if-no-match --filter @cp/mobile test -- data/travel-data`
 - Done when: hooks return typed `ok | stale | missing` states; offline returns cached data with stale flag.
+
+### T8 — Season events research assist (web search)
+- Goal: editors review dated event proposals with sources instead of researching every festival by hand (D23).
+- Files: `services/worker/src/travel-data/season-research.ts`, `services/api/src/travel-data/season-admin.ts`, tests with recorded search and model fixtures.
+- Steps: 1. Monthly job per destination: code builds queries from destination, month and event keywords (no user data) and calls the gateway's `web_search` tool (phase 13 T13). 2. A structured extraction returns candidate events `{name, starts_on, ends_on, source_url, fetched_at}`. 3. Candidates land in the season review queue with their sources and are deduplicated against existing `season_events`. 4. Nothing is served until a human sets `reviewed_at`.
+- Tests: `pnpm --filter @cp/worker test -- travel-data/season-research`; review-gate test (unreviewed rows never served).
+- Done when: a destination-month run proposes cited candidates into the review queue, and unreviewed rows never reach any route.
 
 ## Phase acceptance criteria
 

@@ -3,8 +3,8 @@ title: Critterpass full build
 status: in_progress
 created: 2026-09-26
 phases: 57
-tasks: 573
-critical_path_tasks: 251
+tasks: 578
+critical_path_tasks: 253
 ---
 
 # Critterpass full build
@@ -15,7 +15,7 @@ critical_path_tasks: 251
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
 | Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
-| Size | 57 phases, 574 tasks, 23 waves, critical path 251 tasks |
+| Size | 57 phases, 578 tasks, 23 waves, critical path 253 tasks |
 | Docs | [docs/README.md](../../docs/README.md) (reading order), [product-decisions.md](../../docs/product-decisions.md) (decisions 1–20, final), [code-standards.md](../../docs/code-standards.md), [system-architecture.md](../../docs/system-architecture.md), [data-model.md](../../docs/data-model.md), [api-contracts.md](../../docs/api-contracts.md), [design-system.md](../../docs/design-system.md) |
 | Reports | [plans/reports/](../reports/) — master synthesis, design analyses, research, fact-checks. Backend authority: [custom Hono backend](../reports/researcher-260926-1649-custom-hono-backend-report.md). Supplier authority: [travel supplier APIs](../reports/researcher-260926-1649-travel-supplier-apis-report.md) |
 | Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude for generation + Jev for typed decisions (D5 amended) |
@@ -57,10 +57,10 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 12 | [Entitlements, money & FX primitives](./phase-12-entitlements-money-fx.md) | 7 | 8 | 3 | done |
 | 13 | [LLM gateway, personas, autonomy](./phase-13-llm-gateway-personas-autonomy.md) | 13 | 8, 11 | 6 | in_progress |
 | 14 | [POI data, maps, routing](./phase-14-places-maps-routing.md) | 8 | 2, 3, 4, 8 | 3 | in_progress |
-| 15 | [Fares, weather, season & crowds](./phase-15-flights-weather-season-data.md) | 7 | 8, 11, 13 | 7 | pending |
+| 15 | [Fares, weather, season & crowds](./phase-15-flights-weather-season-data.md) | 8 | 8, 11, 13 | 7 | pending |
 | 16 | [Cost & constraint engine](./phase-16-cost-constraint-engine.md) | 7 | 12, 13, 14, 15 | 8 | pending |
 | 17 | [Back-office & ops console](./phase-17-back-office-admin.md) | 8 | 8, 9, 10, 12, 14 | 5 | in_progress |
-| 18 | [Content factory](./phase-18-content-factory.md) | 12 | 4, 5, 13, 14, 17 | 7 | pending |
+| 18 | [Content factory](./phase-18-content-factory.md) | 13 | 4, 5, 13, 14, 17 | 7 | pending |
 | 19 | [Analytics, experiments, observability](./phase-19-analytics-observability.md) | 10 | 1, 7, 8, 10, 11, 17 | 6 | pending |
 | 20 | [Permissions, location, POI visits](./phase-20-permissions-location-visits.md) | 11 | 2, 7, 10, 11, 14 | 6 | pending |
 | 21 | [Links & deferred deep links](./phase-21-links-deferred-deeplinks.md) | 9 | 1, 10 | 5 | in_progress |
@@ -70,11 +70,11 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 25 | [Home, inbox, nudges, tips](./phase-25-home-inbox-nudges.md) | 9 | 11, 13, 15, 23, 24 | 11 | pending |
 | 26 | [Polls & destination vote](./phase-26-polls-destination-vote.md) | 12 | 10, 13, 16, 18, 24, 25 | 12 | pending |
 | 27 | [Trip setup](./phase-27-trip-setup.md) | 12 | 10, 16, 20, 24, 25, 26 | 13 | pending |
-| 28 | [Drafting agent & redraft](./phase-28-draft-redraft-agent.md) | 10 | 13, 16, 18, 27 | 14 | pending |
+| 28 | [Drafting agent & redraft](./phase-28-draft-redraft-agent.md) | 11 | 13, 16, 18, 27 | 14 | pending |
 | 29 | [Plan views, editing, collab](./phase-29-plan-views-editing-collab.md) | 12 | 24, 26, 28 | 15 | pending |
 | 30 | [Explore](./phase-30-explore.md) | 10 | 14, 15, 16, 26, 29, 35 | 17 | pending |
 | 31 | [Proposal, RSVP, dropout re-split](./phase-31-proposal-rsvp.md) | 10 | 11, 16, 28, 29, 34, 35, 46 | 17 | pending |
-| 32 | [Guide chat, metering, phrase cards](./phase-32-guide-chat-metering.md) | 9 | 12, 13, 24, 29 | 16 | pending |
+| 32 | [Guide chat, metering, phrase cards](./phase-32-guide-chat-metering.md) | 10 | 12, 13, 24, 29 | 16 | pending |
 | 33 | [Money: ledger, receipts, settle up](./phase-33-money.md) | 12 | 10, 12, 13, 27 | 14 | pending |
 | 34 | [Bookings wallet, imports, flights](./phase-34-bookings-wallet-import.md) | 11 | 11, 13, 15, 33 | 15 | pending |
 | 35 | [Supplier layer, rides, ops desk](./phase-35-supplier-layer-agency.md) | 14 | 13, 14, 17, 29, 33, 34 | 16 | pending |
@@ -202,16 +202,16 @@ flowchart LR
 | 4 | 7, 10 | 29 | 2 |
 | 5 | 11, 17, 21 | 28 | 3 |
 | 6 | 13, 19, 20 | 34 | 3 |
-| 7 | 15, 18, 39 | 25 | 3 |
+| 7 | 15, 18, 39 | 27 | 3 |
 | 8 | 16, 22 | 18 | 2 |
 | 9 | 23 | 10 | 1 |
 | 10 | 24, 51 | 19 | 2 |
 | 11 | 25 | 9 | 1 |
 | 12 | 26 | 12 | 1 |
 | 13 | 27 | 12 | 1 |
-| 14 | 28, 33 | 22 | 2 |
+| 14 | 28, 33 | 23 | 2 |
 | 15 | 29, 34, 46 | 36 | 3 |
-| 16 | 32, 35 | 23 | 2 |
+| 16 | 32, 35 | 24 | 2 |
 | 17 | 30, 31, 36, 38 | 38 | 4 |
 | 18 | 37, 40, 55 | 35 | 3 |
 | 19 | 41, 43, 48 | 26 | 3 |
@@ -219,9 +219,9 @@ flowchart LR
 | 21 | 45, 50, 52 | 34 | 3 |
 | 22 | 53, 56, 57 | 21 | 3 |
 | 23 | 54 | 12 | 1 |
-| **Total** | 57 | **574** | |
+| **Total** | 57 | **578** | |
 
-**Critical path (251 of 545 tasks, strictly sequential):** 1 (10) → 2 (15) → 9 (10) → 10 (11) → 11 (11) → 13 (12) → 18 (12) → 22 (11) → 23 (10) → 24 (8) → 25 (9) → 26 (12) → 27 (12) → 33 (12) → 34 (11) → 35 (14) → 31 (10) → 40 (11) → 48 (10) → 49 (10) → 45 (12) → 53 (6) → 54 (12).
+**Critical path (253 of 545 tasks, strictly sequential):** 1 (10) → 2 (15) → 9 (10) → 10 (11) → 11 (11) → 13 (13) → 18 (13) → 22 (11) → 23 (10) → 24 (8) → 25 (9) → 26 (12) → 27 (12) → 33 (12) → 34 (11) → 35 (14) → 31 (10) → 40 (11) → 48 (10) → 49 (10) → 45 (12) → 53 (6) → 54 (12).
 
 Keep one agent lane on the critical path at all times; content factory (18) starts batches as soon as 13/14/17 land; single-phase waves (1, 9, 11, 12, 13, 22, 23) are critical-path bottlenecks — fill them with off-path content-factory batches and flag-gated partner adapters. A failed spike changes approach inside the stack (Railway Postgres HA, PowerSync Cloud, bare workflow), never back to Supabase.
 
@@ -286,7 +286,7 @@ These gate flags, not code; code ships with truthful fallbacks until each lands.
 | Platform entitlements (AlarmKit, Communication Notifications, LA broadcast, background location, exact alarm, full-screen intent) delayed or denied | Request first; every surface has a coded fallback path flag-gated by server config |
 | Self-hosted PowerSync + PlanetScale logical replication across failover | S-SYNC failover drill in phase 2; fallbacks Railway Postgres HA / PowerSync Cloud |
 | Partner approvals slow; all gated by legal entity | Entity first; adapters behind flags; affiliate links cover launch |
-| Critical path of 251 sequential tasks | Keep one agent lane on the critical path at all times; parallel waves fill the rest |
+| Critical path of 253 sequential tasks | Keep one agent lane on the critical path at all times; parallel waves fill the rest |
 | Founder review is the single human bottleneck (content batches, undesigned flows, milestones) | Fixed review cadence per content batch; review in running app builds, not docs |
 | Doc/plan drift: ~50 doc deltas where phases create tables/commands earlier than docs assign | Owning task updates the doc in the same PR; plan wins over docs on ownership |
 | LLM cost overrun (Opus drafts, crew-chat guide) | Silent fair-use caps, ai_cost_guard cron, kill switches |
