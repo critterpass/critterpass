@@ -79,6 +79,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. `useSharedClock()` single `useFrameCallback` driving a shared value; presets derive phase from it. 2. `useLoop(preset, {offset})` returns animated style; pauses when unfocused (`useIsFocused`) or off-screen (visibility hook). 3. `useMotionMode()` merges OS `AccessibilityInfo.isReduceMotionEnabled` with in-app setting. 4. Device tier flag (RAM/cores) for budgets. 5. Slowmo multiplier + motion-freeze in dev builds.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/__tests__/presets` (Reanimated jest utils, fake timers: phase at t, pause, reduced → static).
 - Done when: all 10 loop presets match token durations; reduced/off produce static styles.
+- Status: done — 2fa9500
 
 ### T2 — tg-motion DSL compiler
 - Goal: design keyframes compile to Reanimated descriptors so captions can be reproduced exactly.
@@ -86,6 +87,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Parser for `offset: tx ty s sx sy r o e=` segments with carry-forward. 2. Compile to `Keyframe`-compatible objects with per-segment easing from tokens. 3. `once` flag strips presentation holds. 4. Fixtures from ≥ 10 design animations (stamp, slap, hop, deal…).
 - Tests: `pnpm --filter @cp/mobile jest src/motion/dsl`.
 - Done when: every fixture compiles; round-trip values equal the design numbers.
+- Status: done — 0b4e850
 
 ### T3 — Impact patterns: stamp, thud, slap, settle, squash, flap, slideOff, deal, sheen
 - Goal: first half of the one-shot library with reduced variants.
@@ -93,6 +95,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Each pattern = hook/function returning animated props + `onImpact` frame callback that calls `impact(cue)` via `scheduleOnRN` once (never per frame). 2. `thud` applies to a screen-root shared value exposed by `ScreenJoltProvider`. 3. Reduced variant per §5 row. 4. Stagger helpers from tokens.
 - Tests: `pnpm --filter @cp/mobile jest src/motion/patterns/__tests__/impact-patterns`.
 - Done when: stamp fires `thud.heavy` exactly once at impact frame; reduced stamp = 150 ms fade without jolt.
+- Status: done — 0923e7a
 
 ### T4 — Number & text patterns: odometer, splitFlap, countUp, typewriter/stream, barGrow, storyProgress
 - Goal: numbers never jump; text reveals are word-buffered.
