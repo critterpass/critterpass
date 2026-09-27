@@ -103,6 +103,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Spec hash incl. `artVersion`. 2. Byte-sized LRU (25 MB), disk cap 60 MB with LRU sweep. 3. Memory-warning eviction. 4. `prewarm(specs[])` batching off the JS frame budget (InteractionManager/idle). 5. `exportPng` writes to a given path.
 - Tests: `pnpm --filter @cp/mobile test -- sticker/cache`
 - Done when: tests prove hit/miss, byte cap eviction, version invalidation, disk sweep; export produces a decodable PNG of correct px size.
+- Status: done — 6d68085
 
 ### T3 — `<Sticker>` component: static, draw-on, blink, locked
 - Goal: the app's single sticker component (rendering only; timing/gating come from motion).
