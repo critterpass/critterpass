@@ -119,6 +119,7 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 - Steps: 1. Patterns generated from `sound.tokens.json` haptic column. 2. Continuous ramp (intensity 0→1 driven by `holdFill` value, throttled 30 Hz). 3. SOS long pattern. 4. Engine restart on reset/interruption. 5. `isSupported()` fallback to `expo-haptics` impacts.
 - Tests: `xcodebuild test` for the module test target via CI script; `./gradlew :cp-haptics:testDebugUnitTest`.
 - Done when: both builds pass; unit tests assert pattern parameters from tokens.
+- Status: JS wrapper + Swift/Kotlin implementation + XCTest/Robolectric unit tests written and autolinking-verified (`expo-modules-autolinking search` resolves the module on both platforms); native compile/device proof pending EAS — the `ci/eas-cloud-e2e` lane's `e2e-test` profile/workflow was still uncommitted work-in-progress when this lane reached T6, so no EAS build was attempted
 
 ### T7 — Feedback bus, SFX, audio session, prefs, quiet rules
 - Goal: `impact(cue)` = haptic + SFX (+ jolt) under all prefs and mute rules.
@@ -154,15 +155,15 @@ Undesigned states to design in code: toast overflow (max 1 visible, queue drains
 
 ## Phase acceptance criteria
 
-- [ ] No `withTiming`/`withSpring` literals outside `src/motion` (lint check)
-- [ ] All §3.1 presets and §3.4 patterns implemented with reduced/off variants
-- [ ] `impact()` covers every cue id in `sound.tokens.json` (test enumerates tokens)
-- [ ] Silent switch, category volumes, quiet on the road, temple mute, SOS/alarm bypass verified in tests
-- [ ] Music crossfade, ducking and previews: Jest (fake timers) green; founder device checklist item filled in the phase report
-- [ ] Launch gate: 6 music themes, full SFX set and critter chirps delivered and licensed (`assets/*/LICENSES.md`); `check-audio-assets --mode release` passes
-- [ ] `cp-haptics` builds and tests pass on iOS and Android
-- [ ] Maestro `e2e/motion/` green on both platforms
-- [ ] Low-tier budget: ≤ 2 draw-ons, confetti ≤ 40 enforced
+- [x] No `withTiming`/`withSpring` literals outside `src/motion` (verified by `grep -rl "withTiming\|withSpring" apps/mobile/src` matching only `apps/mobile/src/motion/**` — no automated lint rule exists for this yet; `tools/lint/*` is outside this phase's owns list, so authoring one is a handoff, not blocking)
+- [x] All §3.1 presets and §3.4 patterns implemented with reduced/off variants
+- [x] `impact()` covers every cue id in `sound.tokens.json` (test enumerates tokens)
+- [x] Silent switch, category volumes, quiet on the road, temple mute, SOS/alarm bypass verified in tests
+- [x] Music crossfade, ducking and previews: Jest (fake timers) green — [ ] founder device checklist item (needs a real iPhone/Android device; unfilled, founder gate)
+- [ ] Launch gate: 6 music themes, full SFX set and critter chirps delivered and licensed (`assets/*/LICENSES.md`); `check-audio-assets --mode release` passes — blocked on the founder licensing dependency (plan §"Non-code dependencies"), not agent-side work
+- [ ] `cp-haptics` builds and tests pass on iOS and Android — JS+native code written and autolinking-verified; EAS build/device proof pending (`ci/eas-cloud-e2e` lane's profile was still uncommitted when this lane reached T6)
+- [ ] Maestro `e2e/motion/` green on both platforms — flows written; run pending the same EAS pipeline
+- [x] Low-tier budget: ≤ 2 draw-ons, confetti ≤ 40 enforced
 
 ## Risks & rollback
 
