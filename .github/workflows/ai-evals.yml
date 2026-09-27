@@ -58,4 +58,15 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           # Repository variable naming an Anthropic-compatible endpoint to grade; unset = Anthropic.
           EVAL_BASE_URL: ${{ vars.EVAL_BASE_URL }}
+          # Jev key for the compliance suite's live run (its Haiku twin uses the Claude key).
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
         run: pnpm --filter @cp/ai eval --all
+      - name: Compliance against Jev
+        # The decision suite runs live nightly on its own key, even before a Claude key exists.
+        if: github.event_name == 'schedule' || inputs.mode == 'live'
+        env:
+          EVAL_MODE: ${{ secrets.TYPESAFE_API_KEY != '' && 'live' || 'replay' }}
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          EVAL_BASE_URL: ${{ vars.EVAL_BASE_URL }}
+        run: pnpm --filter @cp/ai eval compliance

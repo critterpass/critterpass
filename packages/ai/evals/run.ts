@@ -32,6 +32,16 @@ function print(report: SuiteReport): void {
   console.log(
     `${verdict} ${report.suite} (${report.mode}): ${report.passed}/${report.graded} = ${report.score.toFixed(2)}, threshold ${report.threshold}`,
   );
+  for (const metric of report.metrics ?? []) {
+    console.log(
+      `  ${metric.ok ? 'ok  ' : 'FAIL'} ${metric.name} [${metric.lang}] ${metric.value.toFixed(2)} (n=${metric.n}, target ${metric.target})`,
+    );
+  }
+  if (report.latency) {
+    console.log(
+      `  jev latency p50 ${Math.round(report.latency.p50)} ms, p95 ${Math.round(report.latency.p95)} ms (n=${report.latency.n})`,
+    );
+  }
   for (const testCase of report.cases) {
     if (testCase.outcome === 'pass') continue;
     console.log(`  ${testCase.outcome.toUpperCase()} ${testCase.description}`);
@@ -44,13 +54,17 @@ function print(report: SuiteReport): void {
 async function main(): Promise<void> {
   const mode = process.env.EVAL_MODE === 'live' ? 'live' : 'replay';
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (mode === 'live' && !apiKey) throw new Error('EVAL_MODE=live needs ANTHROPIC_API_KEY');
+  const typesafeKey = process.env.TYPESAFE_API_KEY;
+  const suites = selected(process.argv.slice(2));
+  const claudeSuites = suites.filter((suite) => suite !== 'compliance');
+  if (mode === 'live' && claudeSuites.length > 0 && !apiKey) {
+    throw new Error('EVAL_MODE=live needs ANTHROPIC_API_KEY');
+  }
   // Only an explicitly named endpoint is graded instead of Anthropic's API (never ANTHROPIC_BASE_URL).
   const baseURL =
     mode === 'live' && process.env.EVAL_BASE_URL ? process.env.EVAL_BASE_URL : undefined;
   if (mode === 'live')
     console.log(`live against ${baseURL ? new URL(baseURL).host : 'api.anthropic.com'}`);
-  const suites = selected(process.argv.slice(2));
   if (suites.length === 0) {
     console.log('no eval suite is affected by these changes');
     return;
@@ -60,6 +74,8 @@ async function main(): Promise<void> {
     const report = await runSuite(suite, {
       mode,
       ...(apiKey ? { apiKey } : {}),
+      ...(typesafeKey ? { typesafeKey } : {}),
+      ...(process.env.EVAL_RECORD === '1' ? { record: true } : {}),
       ...(baseURL === undefined ? {} : { baseURL }),
     });
     print(report);

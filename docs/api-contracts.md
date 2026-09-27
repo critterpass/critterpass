@@ -447,7 +447,7 @@ Auth column: **S** session bearer · **A** anonymous session allowed · **K** de
 
 | Route | Auth | Stream | Notes |
 |---|---|---|---|
-| `POST /v1/guide/threads/{id}/turns` | S | SSE | `{text, mode: text\|voice, context{screen, trip_id, day?}, attachments?}`; quota reserved on start, committed on `done`, released on failure/refusal. Events: `token`, `tool_start`, `tool_result{card}`, `proposal{changeset_id}`, `audio{seq, url\|b64}` (voice), `usage{used, limit, reset_at}`, `done`, `error{code}` |
+| `POST /v1/guide/threads/{id}/turns` | S | SSE | `{text, mode: text\|voice, context{screen, trip_id, day?}, attachments?}`; quota reserved on start, committed on `done`, released on failure/refusal. Events: `token`, `tool_start`, `tool_result{card}`, `proposal{changeset_id}`, `audio{seq, url\|b64}` (voice), `usage{used, limit, reset_at}`, `help_card{topic: safety}` (the guide-input check flagged self-harm or violence; sent before `done`), `done`, `error{code}` |
 | `POST /v1/guide/crew/{crew_id}/mentions` | S | SSE + fan-out on `crew_chat` | guide in crew chat; unmetered if any member Pass+/boost, silent fair-use cap |
 | `POST /v1/pitches` | S | SSE | `{crew_id, place_id, month?}` → `sticker, headline, chip, reason, quote, alternative, done`; cache key (crew, place, month) |
 | `POST /v1/camera/menu` | S | SSE | `{ocr_lines[{id, text, bbox}], crops[media_id], trip_id}` → `item{ocr_line_id, translation, price, flags[]}`; metered |
@@ -582,6 +582,35 @@ Callers: **C** guide chat 1:1 (text/voice) · **G** guide in crew chat · **D** 
 | `schedule_nudge` | `{target_uid, reason}` | `{draft_id\|sent}` | notification router | auto-send only for own reminders | G B |
 
 Model routing (`packages/ai/src/routing.ts`): Haiku 4.5 default chat, voice, quests, parsing, micro-lines; Sonnet 5 pitch, day fan-out, redraft, vision (menu, receipt, email fallback), briefing, disruption; Opus 5.5 draft skeleton only. Traces to Langfuse; evals in promptfoo (`packages/ai/evals`).
+
+Decision routes ([decision record](decisions/20260927-jev-decision-model.md)): every route entry carries `provider: 'claude' | 'jev'`. A decision route answers a closed label set (Choice), a yes/no probability (Noul) or a rubric score (Score) and runs on TypeSafe `jev-1.13.0` through `decide(route, {state, questions})` (`packages/ai/src/decide/`); it also names a `fallback` Haiku twin that returns the same answer shape and per-route `thresholds` (`packages/domain/src/ai/decision-thresholds.ts`). No generation route may use `provider: 'jev'`.
+
+| Route | Primitive | Consumer rule on an uncertain answer |
+|---|---|---|
+| `guide.chime_in_classifier` | Noul | stay quiet |
+| `help.intent_classifier` | Choice | ask the user which topic they meant |
+| `idea.duplicate_tiebreak` | Noul | keep both ideas |
+| `compliance.check` | Noul per category | per surface policy (below) |
+
+| Behaviour | Rule |
+|---|---|
+| Endpoint | `POST https://api.typesafe.ai/v1/systemone`, pinned in code (no env override), model pinned `jev-1.13.0` |
+| Budget | 800 ms per attempt; one retry on 429/529 after `retry-after` (≤ 1 s, else no retry) |
+| Fallback | Haiku twin on timeout, 429/529 after the retry, 401/403, transport error, unreadable answer or missing `TYPESAFE_API_KEY`; the result carries `answered_by: 'jev' \| 'haiku'`; twin answers have `probabilities: null` and a label-derived `confidence`, judged against the route's stricter `haiku` band. Both down → `AI_UNAVAILABLE` |
+| Answers | zod-validated against the question map (a missing or unknown answer key is rejected); yes/no answers carry `confidence = \|2p − 1\|` |
+| Metering | never user-metered; one `ai_usage` row per call, `tier='jev'` billed on input tokens only (or the twin's `haiku` row) |
+| Privacy | `state` holds only the text under question; Langfuse records route, model, tokens, latency and typed answers, never the state |
+
+Input compliance check (`checkCompliance({surface, text})`, route `compliance.check`; policy in `packages/domain/src/ai/compliance.ts`, bands in `decision-thresholds.ts`): code patterns first (email, phone, card, passport → `personal_info`; a link → `promotion` in the review band), then one Jev request with one Noul per category the surface screens. Result `{outcome: 'pass' | 'review' | 'reject', flags: [{category, p}], answered_by: 'jev' | 'haiku' | 'code' | 'none'}`; `flags` lists categories at or above the review threshold. Categories: `prompt_injection`, `harassment`, `sexual`, `self_harm`, `violence`, `illegal`, `personal_info`, `promotion`.
+
+| Surface | Categories | Outcome | Both providers down |
+|---|---|---|---|
+| `guide_input` (guide chat, mentions, voice) | injection, self-harm, violence, harassment | never `reject`: injection → the turn's write tools are removed (or refused once the verdict lands); self-harm or violence → `help_card{topic: safety}`; the check starts before the context build and the turn waits for it at most 25 ms | `pass`, the turn still wraps untrusted text |
+| `imported_text` (emails, receipt OCR, vendor replies) | injection | `review` = the candidate needs the user's confirm before any auto-action | `review` |
+| `public_text` (tips, shared-plan notes, captions, idea board) | all | `reject` → `CONTENT_REJECTED {categories}`; `review` → moderation queue, author sees "under review"; self-harm only reviews | `review` (fails closed) |
+| `outbound_text` (ops-desk vendor drafts) | harassment, sexual, illegal, personal_info | never auto-sent when `review` | `review` |
+
+Bands (`jev-1.13.0`, tuned on the 40 EN + 40 VI eval set): review at p ≥ 0.5, reject at p ≥ 0.85; a Haiku-twin verdict rejects only on a definite `yes` and reviews from `unsure` up. Offline-created text is checked by the `compliance.check` job when it reaches the server, never on device.
 
 ## 7. Supplier adapters (`packages/suppliers`, P35; server-only)
 

@@ -12,7 +12,7 @@ import { buildMessageParams, type GatewayInput } from './client';
 import { ANTHROPIC_API_URL } from './env';
 import { GatewayConfigError, toGatewayError } from './errors';
 import { computeCostMicros, type TokenUsage } from './pricing';
-import { resolveRoute } from './routing';
+import { resolveClaudeRoute } from './routing';
 import type { Telemetry } from './telemetry/langfuse';
 import { buildUsageRecord, toTokenUsage, type AiUsageRecord, type UsageContext } from './usage';
 
@@ -124,7 +124,7 @@ export function createBatchClient(options: BatchClientOptions): BatchClient {
   return {
     async submit(routeId, requests) {
       checkRequests(requests);
-      const route = resolveRoute(routeId);
+      const route = resolveClaudeRoute(routeId);
       const params = requests.map((request) => ({
         custom_id: request.customId,
         params: buildMessageParams(route, request.input),
@@ -137,7 +137,7 @@ export function createBatchClient(options: BatchClientOptions): BatchClient {
     },
 
     async results(batchId, routeId, context = {}) {
-      const route = resolveRoute(routeId);
+      const route = resolveClaudeRoute(routeId);
       const decoder = await call(() => client.messages.batches.results(batchId));
       const at = now();
       const mapped: BatchItemResult[] = [];

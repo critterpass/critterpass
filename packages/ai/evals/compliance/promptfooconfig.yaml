@@ -1,0 +1,9 @@
+# Input compliance check: code patterns, one Jev request per text and the per-surface policy, in
+# English and Vietnamese. Gated on case outcomes plus reject precision, self-harm and injection
+# recall, and figurative talk passing (thresholds.json). Run: pnpm --filter @cp/ai eval compliance
+description: Input compliance check (EN + VI)
+providers:
+  - id: file://../lib/compliance.ts
+tests:
+  - file://cases-en.yaml
+  - file://cases-vi.yaml

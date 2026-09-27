@@ -1,3 +1,4 @@
+import { AI_TIERS } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { computePublicationAllowList } from '../../src/publication';
@@ -85,5 +86,40 @@ describe('ai_usage: RLS class S, app_system only', () => {
 
   it('is never published to PowerSync', () => {
     expect(computePublicationAllowList()).not.toContain('ai_usage');
+  });
+
+  it('records a Jev decision call', async () => {
+    await withSystem(db.pool, (tx) =>
+      tx.query(
+        `INSERT INTO ai_usage (model, tier, tokens_in, tokens_out, cache_read, cost_micros)
+         VALUES ('jev-1.13.0', 'jev', 431, 80, 0, 18)`,
+      ),
+    );
+  });
+});
+
+// A migration that adds a tier rewrites the whole CHECK list, so a list copied from an older main
+// would silently drop tiers added since; the domain's AI_TIERS is the source of truth.
+describe('ai_usage tier check', () => {
+  it('allows exactly the tiers in the domain list', async () => {
+    const result = await db.pool.query<{ def: string }>(
+      `SELECT pg_get_constraintdef(oid) AS def FROM pg_constraint
+        WHERE conrelid = 'ai_usage'::regclass AND conname = 'ai_usage_tier_check'`,
+    );
+    const allowed = [...(result.rows[0]?.def ?? '').matchAll(/'([^']+)'::text/g)].map(
+      (match) => match[1],
+    );
+    expect(allowed.sort()).toEqual([...AI_TIERS].sort());
+  });
+
+  it('rejects a tier outside the list', async () => {
+    await expect(
+      withSystem(db.pool, (tx) =>
+        tx.query(
+          `INSERT INTO ai_usage (model, tier, tokens_in, tokens_out, cache_read, cost_micros)
+           VALUES ('gpt', 'other', 1, 1, 0, 1)`,
+        ),
+      ),
+    ).rejects.toThrow(/ai_usage_tier_check/);
   });
 });

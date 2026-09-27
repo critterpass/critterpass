@@ -26,6 +26,8 @@ export type TurnEvent =
   | { readonly type: 'tool_start'; readonly tool: string; readonly id: string }
   | { readonly type: 'tool_result'; readonly id: string; readonly card: ToolCard }
   | { readonly type: 'proposal'; readonly changeset_id: string }
+  /** The Help screen's routing card, shown beside the answer (Safety: self-harm or violence). */
+  | { readonly type: 'help_card'; readonly topic: 'safety' }
   | { readonly type: 'audio'; readonly seq: number; readonly url?: string; readonly b64?: string }
   | ({ readonly type: 'usage' } & UsageSnapshot)
   | {

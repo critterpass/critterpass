@@ -4,6 +4,7 @@ import {
   computeCostMicros,
   createGateway,
   GatewayError,
+  PRICES,
   type AiUsageRecord,
   type GatewayStreamEvent,
   type TokenUsage,
@@ -56,6 +57,14 @@ describe('computeCostMicros', () => {
     const usage = { ...ZERO, inputTokens: 1000, cacheReadTokens: 1000, outputTokens: 1000 };
     expect(computeCostMicros('sonnet', usage)).toBe(12_200);
     expect(computeCostMicros('sonnet', usage, { batch: true })).toBe(6100);
+  });
+
+  it('bills a Jev decision on input tokens only at $0.042 per million', () => {
+    expect(PRICES.jev.input).toBe(42_000);
+    const usage = { ...ZERO, inputTokens: 1_000_000, outputTokens: 5_000 };
+    expect(computeCostMicros('jev', usage)).toBe(42_000);
+    expect(computeCostMicros('jev', usage, { batch: true })).toBe(42_000);
+    expect(computeCostMicros('jev', { ...ZERO, inputTokens: 431, outputTokens: 80 })).toBe(18);
   });
 });
 

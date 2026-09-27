@@ -1,7 +1,7 @@
 ---
 phase: 13
 title: LLM gateway, personas, tool registry, autonomy policy
-status: in_progress
+status: done
 depends_on: [8, 11]
 wave: 6
 features: [F-013, F-052]
@@ -221,6 +221,7 @@ Offline-first: public text created offline is checked when its command reaches t
 - Steps: 1. Question builders `choice/score/noul` whose answer types are inferred from the question map (zod parse of the response; unknown answer keys rejected). 2. Client: pinned origin + model, timeout, retry-after, error mapping to the gateway taxonomy (`AI_UNAVAILABLE`). 3. Haiku twin per route producing the same shape; `answered_by` on every result. 4. `provider`/`fallback`/thresholds on routing; move the three classifier routes, add `compliance.check`. 5. `TYPESAFE_API_KEY` in `aiEnvSchema` (never echoed). 6. Migration + `jev` tier + price; `recordUsage` for decision calls. 7. Recorded fixtures captured from the live API (network boundary only).
 - Tests: `pnpm --filter @cp/ai test -- decide routing usage`; `pnpm --filter @cp/db test -- permissions/ai-usage`; `pnpm --filter @cp/api test:db -- ai/ai-usage`
 - Done when: a fixture Choice/Score/Noul round-trips to typed answers; a 529 fixture falls back to Haiku with `answered_by='haiku'`; timeout at 800 ms falls back; `ai_usage` rows carry `tier='jev'` and correct `cost_micros`; routing test proves no generation route has `provider='jev'`.
+- Status: done — 5a8aa2c
 
 ### T11 — Input compliance check
 - Goal: shared `checkCompliance({surface, text})` with per-surface policy, used by guide input, imports and every public-text phase.
@@ -228,6 +229,7 @@ Offline-first: public text created offline is checked when its command reaches t
 - Steps: 1. Deterministic pre-pass (phone, email, URL, card and ID-number patterns) → `personal_info`/`promotion` flags without a model call when decisive. 2. One Jev request with the surface's category Nouls; policy maps probabilities to `pass/review/reject`. 3. Surface rules from Requirements (guide_input never blocks; public_text fails closed; imported_text is a signal). 4. `compliance.check` worker job for offline-created public text, idempotent on the content id. 5. Wire `guide_input` into `runTurn` (concurrent with context build; injection → write tools removed for that turn). 6. Eval suite: ≥ 40 EN + 40 VI cases incl. figurative language ("killing time", "this plan is a disaster"), indirect injection in emails, names in tips, supplier promotion; thresholds recorded in `decision-thresholds.ts`.
 - Tests: `pnpm --filter @cp/ai test -- decide/compliance`; `pnpm --filter @cp/ai eval compliance`
 - Done when: eval precision ≥ 0.95 on `reject` and recall ≥ 0.95 on `self_harm` and `prompt_injection` (both languages); figurative cases pass; the injected-email fixture turn has no write tools; both providers down → `public_text` returns `review`, `guide_input` returns `pass` with the turn still wrapped; p95 added latency on a guide turn ≤ 50 ms over the context build.
+- Status: done — afd2f83
 
 ## Phase acceptance criteria
 
@@ -240,8 +242,8 @@ Offline-first: public text created offline is checked when its command reaches t
 - [x] Decider property test: money/others-affecting actions never `auto`
 - [x] `undo_guide_action` restores state and is idempotent
 - [x] promptfoo CI workflow blocks a regression
-- [ ] Decision routes answer from `jev-1.13.0` with a tested Haiku fallback; no generation route runs on Jev (test)
-- [ ] Compliance eval (EN + VI) meets its thresholds; `public_text` fails closed; `guide_input` never blocks a question
+- [x] Decision routes answer from `jev-1.13.0` with a tested Haiku fallback; no generation route runs on Jev (test)
+- [x] Compliance eval (EN + VI) meets its thresholds; `public_text` fails closed; `guide_input` never blocks a question
 - [x] No prompt strings outside `packages/ai`; no plan/feature ids in code artifacts
 
 ## Risks & rollback

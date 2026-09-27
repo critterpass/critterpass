@@ -10,6 +10,12 @@ import { resolve } from 'node:path';
 
 import { createGateway } from '../../src/client';
 import { GRADERS, type GradeResult } from '../graders';
+import {
+  COMPLIANCE_SUITE,
+  latencyPercentiles,
+  runCompliance,
+  type MetricReport,
+} from './compliance';
 import { runCase, type EvalMode, type EvalOutput, type Pipeline } from './provider';
 import { EVALS_DIR, loadSuite, type Assertion, type EvalCase } from './suite';
 
@@ -34,6 +40,10 @@ export interface SuiteReport {
   readonly threshold: number;
   readonly ok: boolean;
   readonly cases: readonly CaseReport[];
+  /** Suite-level metrics gated beside the pass rate (the compliance suite). */
+  readonly metrics?: readonly MetricReport[];
+  /** Jev latency a live compliance run measured. */
+  readonly latency?: { readonly p50: number; readonly p95: number; readonly n: number } | null;
 }
 
 export interface RunOptions {
@@ -41,6 +51,10 @@ export interface RunOptions {
   readonly apiKey?: string;
   /** Live runs only: an Anthropic-compatible endpoint to grade instead of Anthropic's API. */
   readonly baseURL?: string;
+  /** Live decision suites: the Jev key. */
+  readonly typesafeKey?: string;
+  /** Live decision suites: store every Jev response as the replay recording. */
+  readonly record?: boolean;
   /** Swapped code-side checks (tests prove the gate fails when one regresses). */
   readonly pipeline?: Pipeline;
   /** Extra cases appended to the suite (seeded regressions in tests). */
@@ -48,10 +62,46 @@ export interface RunOptions {
   readonly root?: string;
 }
 
-type Thresholds = Record<EvalMode, Record<string, number>>;
+type Thresholds = Record<EvalMode, Record<string, number>> & {
+  readonly compliance_metrics?: unknown;
+};
 
 export function loadThresholds(root: string = EVALS_DIR): Thresholds {
   return JSON.parse(readFileSync(resolve(root, 'thresholds.json'), 'utf8')) as Thresholds;
+}
+
+async function runComplianceSuite(options: RunOptions, threshold: number): Promise<SuiteReport> {
+  const thresholds = loadThresholds(options.root);
+  const run = await runCompliance(
+    {
+      mode: options.mode,
+      ...(options.typesafeKey === undefined ? {} : { typesafeKey: options.typesafeKey }),
+      ...(options.apiKey === undefined ? {} : { anthropicKey: options.apiKey }),
+      ...(options.baseURL === undefined ? {} : { baseURL: options.baseURL }),
+      ...(options.record === undefined ? {} : { record: options.record }),
+      ...(options.root === undefined ? {} : { root: options.root }),
+    },
+    thresholds.compliance_metrics,
+  );
+  const passed = run.cases.filter((c) => c.outcome === 'pass').length;
+  const graded = run.cases.length;
+  const score = graded === 0 ? 0 : passed / graded;
+  return {
+    suite: COMPLIANCE_SUITE,
+    mode: options.mode,
+    graded,
+    passed,
+    score,
+    threshold,
+    ok: graded > 0 && score >= threshold && run.metrics.every((m) => m.ok),
+    cases: run.cases.map((c) => ({
+      description: `[${c.lang}] ${c.description}`,
+      outcome: c.outcome,
+      assertions: [{ type: 'compliance', outcome: c.outcome, reason: c.reason }],
+    })),
+    metrics: run.metrics,
+    latency: options.mode === 'live' ? latencyPercentiles(run.cases) : null,
+  };
 }
 
 const JUDGE_SYSTEM = [
@@ -142,9 +192,10 @@ async function check(
 }
 
 export async function runSuite(name: string, options: RunOptions): Promise<SuiteReport> {
-  const suite = loadSuite(name, options.root);
   const threshold = loadThresholds(options.root)[options.mode][name];
   if (threshold === undefined) throw new Error(`no ${options.mode} threshold for suite ${name}`);
+  if (name === COMPLIANCE_SUITE) return runComplianceSuite(options, threshold);
+  const suite = loadSuite(name, options.root);
   const cases: CaseReport[] = [];
   for (const testCase of [...suite.cases, ...(options.extraCases ?? [])]) {
     const output = await runCase(testCase.vars, {

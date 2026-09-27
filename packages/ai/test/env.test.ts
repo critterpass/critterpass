@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { ANTHROPIC_API_URL, createGateway, loadGatewayEnv } from '../src';
+import { ANTHROPIC_API_URL, createGateway, loadDecisionEnv, loadGatewayEnv } from '../src';
 import { fixtureTransport } from './fixture-transport';
 
 const USER_TURN = [{ role: 'user' as const, content: 'hi' }];
@@ -47,5 +47,19 @@ describe('loadGatewayEnv', () => {
       loadGatewayEnv({ ANTHROPIC_API_KEY: 'secret-value', ANTHROPIC_BASE_URL: 'not a url' });
     expect(attempt).toThrow(/ANTHROPIC_BASE_URL/);
     expect(attempt).not.toThrow(/secret-value/);
+  });
+});
+
+describe('loadDecisionEnv', () => {
+  it('reads the Jev key and treats an empty one as unset', () => {
+    expect(loadDecisionEnv({ TYPESAFE_API_KEY: 'k' })).toEqual({ apiKey: 'k' });
+    expect(loadDecisionEnv({ TYPESAFE_API_KEY: '' })).toEqual({ apiKey: undefined });
+    expect(loadDecisionEnv({})).toEqual({ apiKey: undefined });
+  });
+
+  it('accepts the key in the gateway schema without echoing it', () => {
+    expect(() =>
+      loadGatewayEnv({ ANTHROPIC_API_KEY: 'k', TYPESAFE_API_KEY: 'secret-value' }),
+    ).not.toThrow();
   });
 });

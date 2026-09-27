@@ -1,11 +1,14 @@
 /**
- * The worker's AI jobs: every agent job definition (features append theirs to `AGENT_JOBS`) and the
- * `ai.batch.poll` job that finishes their batch steps, registered once a Claude key is configured.
+ * The worker's AI jobs: every agent job definition (features append theirs to `AGENT_JOBS`), the
+ * `ai.batch.poll` job that finishes their batch steps (registered once a Claude key is configured)
+ * and `compliance.check` for offline-created text (always registered: with no model configured it
+ * still applies each surface's unavailable outcome, so public text fails closed to review).
  */
 import { createBatchClient, createLangfuseTelemetry } from '@cp/ai';
 
 import type { AnyJobDefinition } from '../boss';
 import { aiBatchPollJob } from './batch-poll';
+import { complianceCheckJob } from './compliance-job';
 import type { AgentJobDefinition } from './job-runner';
 
 export const AGENT_JOBS: readonly AgentJobDefinition[] = [];
@@ -14,6 +17,7 @@ export interface AiJobsEnv {
   readonly APP_ENV: string;
   readonly ANTHROPIC_API_KEY?: string | undefined;
   readonly ANTHROPIC_BASE_URL?: string | undefined;
+  readonly TYPESAFE_API_KEY?: string | undefined;
   readonly LANGFUSE_PUBLIC_KEY?: string | undefined;
   readonly LANGFUSE_SECRET_KEY?: string | undefined;
   readonly LANGFUSE_HOST?: string | undefined;
@@ -23,7 +27,6 @@ export function aiJobs(
   env: AiJobsEnv,
   onTelemetryError: (error: unknown) => void = () => undefined,
 ): AnyJobDefinition[] {
-  if (env.ANTHROPIC_API_KEY === undefined) return [...AGENT_JOBS];
   const telemetry = createLangfuseTelemetry({
     publicKey: env.LANGFUSE_PUBLIC_KEY,
     secretKey: env.LANGFUSE_SECRET_KEY,
@@ -31,15 +34,36 @@ export function aiJobs(
     environment: env.APP_ENV,
     onError: onTelemetryError,
   });
+  const baseURL = env.ANTHROPIC_BASE_URL === undefined ? {} : { baseURL: env.ANTHROPIC_BASE_URL };
+  const compliance = complianceCheckJob({
+    typesafeApiKey: env.TYPESAFE_API_KEY,
+    anthropic:
+      env.ANTHROPIC_API_KEY === undefined
+        ? undefined
+        : { apiKey: env.ANTHROPIC_API_KEY, ...baseURL },
+    telemetry,
+  });
+  if (env.ANTHROPIC_API_KEY === undefined) return [...AGENT_JOBS, compliance];
   const batches = createBatchClient({
     apiKey: env.ANTHROPIC_API_KEY,
     telemetry,
-    ...(env.ANTHROPIC_BASE_URL === undefined ? {} : { baseURL: env.ANTHROPIC_BASE_URL }),
+    ...baseURL,
   });
-  return [...AGENT_JOBS, aiBatchPollJob({ batches, jobs: AGENT_JOBS })];
+  return [...AGENT_JOBS, aiBatchPollJob({ batches, jobs: AGENT_JOBS }), compliance];
 }
 
 export { AI_BATCH_POLL_QUEUE, aiBatchPollJob, batchStep, type BatchStep } from './batch-poll';
+export {
+  COMPLIANCE_CHECK_QUEUE,
+  COMPLIANCE_CHECK_SPEC,
+  complianceCheckJob,
+  complianceCheckPayloadSchema,
+  registerComplianceHandler,
+  type ComplianceCheckPayload,
+  type ComplianceContent,
+  type ComplianceHandler,
+  type ComplianceJobOptions,
+} from './compliance-job';
 export {
   defineAgentJob,
   suspendStep,

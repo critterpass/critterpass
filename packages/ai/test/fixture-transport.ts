@@ -1,6 +1,7 @@
 /**
- * Replays Anthropic Messages API fixtures (test/fixtures/anthropic/*.json) at the network boundary:
- * the real SDK client runs end to end, only `fetch` is swapped. Responses are served in the order
+ * Replays recorded API fixtures at the network boundary: Anthropic Messages API responses
+ * (test/fixtures/anthropic/*.json, the default) or TypeSafe Jev responses (test/fixtures/typesafe).
+ * The real clients run end to end, only `fetch` is swapped. Responses are served in the order
  * given; every request body is kept for assertions.
  */
 import { readFileSync } from 'node:fs';
@@ -15,8 +16,13 @@ interface FixtureResponse {
   readonly jsonl?: readonly unknown[];
 }
 
-export function loadFixture(name: string): { readonly response: FixtureResponse } {
-  const url = new URL(`./fixtures/anthropic/${name}.json`, import.meta.url);
+export type FixtureDir = 'anthropic' | 'typesafe';
+
+export function loadFixture(
+  name: string,
+  dir: FixtureDir = 'anthropic',
+): { readonly response: FixtureResponse } {
+  const url = new URL(`./fixtures/${dir}/${name}.json`, import.meta.url);
   return JSON.parse(readFileSync(fileURLToPath(url), 'utf8')) as { response: FixtureResponse };
 }
 
@@ -27,7 +33,10 @@ export interface FixtureTransport {
   readonly methods: string[];
 }
 
-export function fixtureTransport(names: readonly string[]): FixtureTransport {
+export function fixtureTransport(
+  names: readonly string[],
+  options: { readonly dir?: FixtureDir } = {},
+): FixtureTransport {
   const queue = [...names];
   const requests: Record<string, unknown>[] = [];
   const urls: string[] = [];
@@ -39,7 +48,7 @@ export function fixtureTransport(names: readonly string[]): FixtureTransport {
     if (name === undefined) throw new Error('fixture transport: no response left to replay');
     const body = typeof init?.body === 'string' && init.body !== '' ? init.body : '{}';
     requests.push(JSON.parse(body) as Record<string, unknown>);
-    const { response } = loadFixture(name);
+    const { response } = loadFixture(name, options.dir);
     const headers = new Headers({ 'request-id': `req_fixture_${name}`, ...response.headers });
     if (response.sse !== undefined) {
       headers.set('content-type', 'text/event-stream');

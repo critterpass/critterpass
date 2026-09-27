@@ -10,7 +10,17 @@ import { runMigrations, withSystem } from '@cp/db';
 import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
 import pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { buildUsageRecord, computeCostMicros, recordUsage, type RunAsSystem } from '@cp/ai';
+import {
+  buildUsageRecord,
+  choice,
+  computeCostMicros,
+  createDecisionClient,
+  noul,
+  recordUsage,
+  score,
+  type RunAsSystem,
+} from '@cp/ai';
+import { fixtureTransport } from '@cp/ai/testing';
 
 let postgres: StartedPostgreSqlContainer;
 let pool: pg.Pool;
@@ -63,6 +73,51 @@ describe('recordUsage', () => {
         cache_read: 4410,
         cost_micros: 524,
         at: new Date('2026-09-27T10:00:00Z'),
+      },
+    ]);
+  });
+
+  it('writes a Jev decision call as a jev row billed on input tokens', async () => {
+    const jev = fixtureTransport(['jev-help-intent'], { dir: 'typesafe' });
+    const decisions = createDecisionClient({
+      apiKey: 'fixture-key',
+      fetch: jev.fetch,
+      onUsage: (record) => recordUsage(runAsSystem, record),
+    });
+    const decision = await decisions.decide(
+      'help.intent_classifier',
+      {
+        state:
+          'Our boat trip to Ha Long got cancelled this morning and nobody has told us how we get the money back.',
+        questions: {
+          topic: choice('Which help topic does this message need?', {
+            refund: 'getting money back for a booking or payment',
+            booking_change: 'changing dates, people or times of a booking',
+            safety: 'danger, injury, police or medical help',
+            other: null,
+          }),
+          urgent: noul('Does the writer need help within the next hour?'),
+          frustration: score('How frustrated is the writer?', ['Calm', 'Annoyed', 'Angry']),
+        },
+      },
+      { langfuseTraceId: 'trace-usage-jev' },
+    );
+    expect(decision.answered_by).toBe('jev');
+
+    const { rows } = await withSystem(pool, (tx) =>
+      tx.query<Record<string, unknown>>(
+        `SELECT model, tier, tokens_in, tokens_out, cache_read, cost_micros::int AS cost_micros
+         FROM ai_usage WHERE langfuse_trace_id = 'trace-usage-jev'`,
+      ),
+    );
+    expect(rows).toEqual([
+      {
+        model: 'jev-1.13.0',
+        tier: 'jev',
+        tokens_in: 431,
+        tokens_out: 80,
+        cache_read: 0,
+        cost_micros: 18,
       },
     ]);
   });

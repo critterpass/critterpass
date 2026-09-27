@@ -10,6 +10,7 @@ export {
 export {
   aiEnvSchema,
   ANTHROPIC_API_URL,
+  loadDecisionEnv,
   loadGatewayEnv,
   type AiEnv,
   type GatewayEnvOptions,
@@ -31,7 +32,9 @@ export {
 } from './pricing';
 export {
   CACHE_LAYERS,
+  JEV_MODEL,
   MODEL_IDS,
+  resolveClaudeRoute,
   resolveRoute,
   ROUTING,
   type CacheLayer,
@@ -125,6 +128,7 @@ export {
   createToolRegistry,
   customToolDefinitions,
   toolDefinition,
+  toolFailure,
   toStrictJsonSchema,
   type ToolCall,
   type ToolContext,
@@ -185,6 +189,7 @@ export {
   type TurnEvent,
   type UsageSnapshot,
 } from './runner/sse';
+export { DEFAULT_INPUT_CHECK_BUDGET_MS } from './runner/input-screen';
 export {
   DEFAULT_TOOL_ROUNDS,
   runTurn,
@@ -227,3 +232,4 @@ export {
   type LangfuseOptions,
   type Telemetry,
 } from './telemetry/langfuse';
+export * from './decide';

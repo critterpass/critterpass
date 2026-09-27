@@ -1,7 +1,15 @@
-import { AI_ROUTES, type AiRoute } from '@cp/domain';
+import { AI_ROUTES, DECISION_ROUTES, DECISION_THRESHOLDS, type AiRoute } from '@cp/domain';
 import { describe, expect, it } from 'vitest';
 
-import { buildMessageParams, GatewayConfigError, MODEL_IDS, resolveRoute, ROUTING } from '../src';
+import {
+  buildMessageParams,
+  GatewayConfigError,
+  JEV_MODEL,
+  MODEL_IDS,
+  resolveClaudeRoute,
+  resolveRoute,
+  ROUTING,
+} from '../src';
 
 const USER_TURN = [{ role: 'user' as const, content: 'hi' }];
 
@@ -41,6 +49,37 @@ describe('routing table', () => {
   it('gives parsers structured output and no tool class beyond M', () => {
     for (const route of ['email.parse', 'receipt.parse', 'menu.parse'] as const) {
       expect(resolveRoute(route)).toMatchObject({ caller: 'M', output: 'structured' });
+    }
+  });
+
+  it('runs only decision routes on Jev, pinned, each with a Haiku twin and thresholds', () => {
+    const onJev = AI_ROUTES.filter((route) => resolveRoute(route).provider === 'jev');
+    expect(onJev.sort()).toEqual([...DECISION_ROUTES].sort());
+    for (const route of DECISION_ROUTES) {
+      const config = resolveRoute(route);
+      expect(config).toMatchObject({ tier: 'jev', model: JEV_MODEL, caller: null });
+      expect(config.model).toBe('jev-1.13.0');
+      expect(config.fallback).toMatchObject({
+        route,
+        provider: 'claude',
+        tier: 'haiku',
+        caller: null,
+        output: 'structured',
+        delivery: 'call',
+      });
+      expect(config.thresholds).toBe(DECISION_THRESHOLDS[route]);
+      expect(resolveClaudeRoute(route)).toBe(config.fallback);
+    }
+  });
+
+  it('keeps every generation route on Claude with no fallback', () => {
+    const decisions = new Set<AiRoute>(DECISION_ROUTES);
+    for (const route of AI_ROUTES.filter((r) => !decisions.has(r))) {
+      const config = resolveRoute(route);
+      expect(config.provider, route).toBe('claude');
+      expect(config.tier, route).not.toBe('jev');
+      expect(config.fallback, route).toBeUndefined();
+      expect(resolveClaudeRoute(route)).toBe(config);
     }
   });
 

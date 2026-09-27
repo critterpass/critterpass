@@ -3,7 +3,7 @@
  * migrations (packages/db/migrations/*_ai_usage.sql and the AI tables that follow), which are the
  * source of truth for constraints, RLS and grants — not run through `drizzle-kit generate`.
  */
-import { registerTablePrivacy } from '@cp/domain';
+import { registerTablePrivacy, type AiTier } from '@cp/domain';
 import { sql } from 'drizzle-orm';
 import {
   bigint,
@@ -28,7 +28,8 @@ export const aiUsage = pgTable('ai_usage', {
   tripId: uuid('trip_id').references(() => trips.id),
   jobId: uuid('job_id').references(() => agentJobs.id, { onDelete: 'set null' }),
   model: text('model').notNull(),
-  tier: text('tier').notNull(),
+  /** A Claude tier or `jev` (CHECK `ai_usage_tier_check` mirrors AI_TIERS). */
+  tier: text('tier').$type<AiTier>().notNull(),
   tokensIn: integer('tokens_in').notNull(),
   tokensOut: integer('tokens_out').notNull(),
   cacheRead: integer('cache_read').notNull().default(0),

@@ -2,18 +2,26 @@
  * The eval suites and which changes affect which: a pull request runs only the suites its changed
  * files can move (the nightly run and pushes to main run them all).
  */
-export const SUITES = ['chat', 'persona', 'grounding', 'injection', 'autonomy'] as const;
+export const SUITES = [
+  'chat',
+  'persona',
+  'grounding',
+  'injection',
+  'autonomy',
+  'compliance',
+] as const;
 export type SuiteName = (typeof SUITES)[number];
 
 const ALL: readonly SuiteName[] = SUITES;
 
 /** Repo-relative path pattern → suites a change there can move. First match wins. */
 const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
-  [/^packages\/ai\/evals\/(chat|persona|grounding|injection|autonomy)\//u, []],
+  [/^packages\/ai\/evals\/(chat|persona|grounding|injection|autonomy|compliance)\//u, []],
   [/^packages\/ai\/evals\//u, ALL],
   [/^packages\/ai\/(personas\/|src\/(persona|prompts)\/)/u, ['chat', 'persona', 'autonomy']],
   [/^packages\/ai\/src\/tools\//u, ['chat', 'grounding', 'injection']],
   [/^packages\/ai\/src\/context\//u, ['injection', 'persona']],
+  [/^packages\/ai\/src\/decide\//u, ['compliance']],
   [/^packages\/ai\/src\/(routing|client|errors|pricing|batch)\.ts$/u, ALL],
   [/^packages\/ai\/src\/runner\//u, ['chat', 'injection']],
   [/^packages\/domain\/src\/(guide-actions|plan)\//u, ['autonomy']],

@@ -1,0 +1,13 @@
+{
+  "source": "Error envelope authored from the documented status (https://docs.typesafe.ai/api#errors) in the shape of the recorded 401; a server condition, not a model reply.",
+  "response": {
+    "status": 529,
+    "headers": {},
+    "body": {
+      "detail": {
+        "error_type": "overloaded_error",
+        "message": "Overloaded"
+      }
+    }
+  }
+}

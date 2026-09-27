@@ -36,6 +36,9 @@ export const workerEnvSchema = z.object({
   ANTHROPIC_API_KEY: optionalString,
   /** Local-development override of the Anthropic endpoint; unset = Anthropic's API. */
   ANTHROPIC_BASE_URL: optionalUrl,
+  /** TypeSafe Jev key for typed decisions (`compliance.check`, src/ai/compliance-job.ts); unset =
+   *  decisions answer from the Haiku twin. */
+  TYPESAFE_API_KEY: optionalString,
   /** Langfuse traces for model calls (packages/ai/src/telemetry/langfuse.ts); both keys unset =
    *  no traces are exported. */
   LANGFUSE_PUBLIC_KEY: optionalString,

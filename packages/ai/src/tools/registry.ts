@@ -139,12 +139,9 @@ export interface ToolRegistry {
   execute(call: ToolCall, context: ToolContext): Promise<ToolRunResult>;
 }
 
-export function createToolRegistry(
-  onExecutorError?: (name: ToolName, error: unknown) => void,
-): ToolRegistry {
-  const executors = new Map<ToolName, ToolExecutor<ToolName>>();
-
-  const failed = (call: ToolCall, failure: ToolFailure): ToolRunResult => ({
+/** A tool call answered with a failure instead of running (the model is told why). */
+export function toolFailure(call: ToolCall, failure: ToolFailure): ToolRunResult {
+  return {
     ok: false,
     name: call.name,
     failure,
@@ -154,7 +151,15 @@ export function createToolRegistry(
       is_error: true,
       content: FAILURE_TEXT[failure],
     },
-  });
+  };
+}
+
+export function createToolRegistry(
+  onExecutorError?: (name: ToolName, error: unknown) => void,
+): ToolRegistry {
+  const executors = new Map<ToolName, ToolExecutor<ToolName>>();
+
+  const failed = toolFailure;
 
   return {
     registerToolExecutor(name, executor) {

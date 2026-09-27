@@ -5,7 +5,7 @@
  * shares the cached prefix; each layer ends on a cache breakpoint (at most four).
  */
 import type Anthropic from '@anthropic-ai/sdk';
-import type { AiTier } from '@cp/domain';
+import type { ClaudeTier } from '@cp/domain';
 
 import { GLOBAL_RULES } from '../prompts/global-rules.generated';
 import type { PersonaPack } from './schema';
@@ -79,7 +79,7 @@ export function buildSystemBlocks(layers: PromptLayers): Anthropic.Messages.Text
 }
 
 /** Minimum cacheable prompt prefix per model tier (prompt caching docs). */
-export const MIN_CACHEABLE_PREFIX_TOKENS: Readonly<Record<AiTier, number>> = {
+export const MIN_CACHEABLE_PREFIX_TOKENS: Readonly<Record<ClaudeTier, number>> = {
   haiku: 4096,
   sonnet: 1024,
   opus: 512,
@@ -94,7 +94,7 @@ export function tokenLowerBound(text: string): number {
 }
 
 /** True when the always-shared layers alone (global rules + persona) clear the tier's minimum. */
-export function sharedPrefixIsCacheable(tier: AiTier, pack: PersonaPack): boolean {
+export function sharedPrefixIsCacheable(tier: ClaudeTier, pack: PersonaPack): boolean {
   const shared = `${globalRulesText()}${renderPersonaBlock(pack)}`;
   return tokenLowerBound(shared) >= MIN_CACHEABLE_PREFIX_TOKENS[tier];
 }

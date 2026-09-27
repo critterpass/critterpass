@@ -1,0 +1,28 @@
+{
+  "source": "Live recording of the Haiku twin request through the development Anthropic-compatible endpoint (ANTHROPIC_BASE_URL), 2026-09-28; the model field is what that endpoint reports.",
+  "response": {
+    "status": 200,
+    "headers": {},
+    "body": {
+      "id": "c80efc90-e06d-4c79-a24c-860c2f94653a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"topic\": {\"choice\": \"refund\", \"sure\": true}, \"urgent\": \"no\", \"frustration\": {\"level\": 1, \"sure\": false}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 316,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 40,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

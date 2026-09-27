@@ -1,0 +1,32 @@
+{
+  "source": "Live recording from https://api.typesafe.ai/v1/systemone (jev-1.13.0), 2026-09-28: guide_input check of a question that pastes the forwarded booking email with a hidden instruction.",
+  "response": {
+    "status": 200,
+    "headers": {},
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "prompt_injection": {
+          "type": "noul",
+          "noul": 0.99
+        },
+        "self_harm": {
+          "type": "noul",
+          "noul": 0
+        },
+        "violence": {
+          "type": "noul",
+          "noul": 0.01
+        },
+        "harassment": {
+          "type": "noul",
+          "noul": 0.02
+        }
+      },
+      "usage": {
+        "input_tokens": 816,
+        "output_tokens": 76
+      }
+    }
+  }
+}

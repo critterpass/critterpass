@@ -24,3 +24,5 @@ place of `fetch`, so the real SDK client parses them end to end.
 | `batch-in-progress.json` | batch retrieve while still processing |
 | `batch-ended.json` | batch retrieve once ended, with `results_url` and request counts |
 | `batch-results.json` | `.jsonl` results out of request order: two `succeeded` (batch service tier), one `errored` |
+| `haiku-decision-twin.json` | live recording of a decision route's Haiku twin through the development endpoint: JSON answer text |
+| `haiku-stream-write-tool.json` | live recording of a streamed guide turn calling `propose_plan_changes` with schema-valid input (development endpoint) |
