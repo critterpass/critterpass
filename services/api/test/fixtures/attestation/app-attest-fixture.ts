@@ -157,7 +157,9 @@ export async function buildAppAttestFixture(
     new x509.Extension(NONCE_EXTENSION_OID, false, nonceExtensionValue(nonceForExtension)),
   ]);
 
-  const attestationObject = cbor.encode({
+  // encodeAsync, not encode: cbor's synchronous encode collects its output through a stream pipe
+  // that Node 26 no longer flushes synchronously, so it returns only the first byte there.
+  const attestationObject = await cbor.encodeAsync({
     fmt: 'apple-appattest',
     attStmt: {
       x5c: [leafDer, input.root.intermediateDer],
@@ -200,7 +202,7 @@ export async function buildAppAttestAssertionFixture(
   // (r || s, fixed-length). Convert once here rather than teaching the verifier two formats.
   const derSignature = ieeeP1363ToDer(signature);
 
-  return cbor.encode({ signature: derSignature, authenticatorData });
+  return cbor.encodeAsync({ signature: derSignature, authenticatorData });
 }
 
 /** ECDSA P-256 raw (r || s, 32 bytes each) -> DER SEQUENCE { INTEGER r, INTEGER s }. */
