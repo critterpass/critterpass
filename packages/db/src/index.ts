@@ -22,3 +22,4 @@ export {
 export { withGuideReader, withSystem, withUser } from './tx';
 export { computePublicationAllowList } from './publication';
 export * as schema from './schema';
+export * as crypto from './crypto';

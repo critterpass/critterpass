@@ -12,6 +12,11 @@ import { betterAuth, type BetterAuthOptions } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin, anonymous, jwt, phoneNumber } from 'better-auth/plugins';
 
+import type { AppleProviderConfig } from './social/apple';
+import { buildAppleSocialProviderOptions } from './social/apple';
+import type { GoogleProviderConfig } from './social/google';
+import { buildGoogleSocialProviderOptions } from './social/google';
+
 const THIRTY_DAYS_SECONDS = 60 * 60 * 24 * 30;
 const ONE_DAY_SECONDS = 60 * 60 * 24;
 const NINETY_DAYS_SECONDS = 60 * 60 * 24 * 90;
@@ -79,6 +84,10 @@ export interface AuthConfigDeps {
     | undefined;
   /** Request-level before/after middleware (services/api/src/auth/hooks.ts's attestation gate on `/sign-in/anonymous` and `/phone-number/send-otp`). */
   readonly hooks?: BetterAuthOptions['hooks'];
+  /** Absent when Apple Developer credentials are not provisioned yet (non-code dependency table): the Apple button stays hidden client-side via server config, `linkSocial`/`sign-in/social` with `provider: 'apple'` then fails with Better Auth's own unsupported-provider error rather than anything faked here. */
+  readonly apple?: AppleProviderConfig | undefined;
+  /** Absent when Google Cloud OAuth client ids are not provisioned yet. */
+  readonly google?: GoogleProviderConfig | undefined;
 }
 
 export function buildAuthOptions(deps: AuthConfigDeps): BetterAuthOptions {
@@ -141,6 +150,13 @@ export function buildAuthOptions(deps: AuthConfigDeps): BetterAuthOptions {
     },
     databaseHooks: deps.databaseHooks,
     hooks: deps.hooks,
+    // Absent providers (no Apple Developer / Google Cloud credentials yet, non-code dependency
+    // table) are simply omitted here rather than faked: `link-social`/`sign-in/social` for that
+    // provider then fails with Better Auth's own "provider not configured" error.
+    socialProviders: {
+      ...(deps.apple ? { apple: buildAppleSocialProviderOptions(deps.apple) } : {}),
+      ...(deps.google ? { google: buildGoogleSocialProviderOptions(deps.google) } : {}),
+    },
     plugins: [
       anonymous(),
       phoneNumber({

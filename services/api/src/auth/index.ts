@@ -15,6 +15,7 @@ import {
   type PhoneOtpPort,
 } from './config';
 import {
+  buildAccountCreateAfterHook,
   buildDatabaseHooks,
   buildRequestAfterHook,
   buildRequestBeforeHook,
@@ -30,6 +31,8 @@ import { betterAuth } from 'better-auth';
 
 import type { AttestationConfig } from '../abuse/attestation';
 import { defaultPumpingConfig, type PumpingConfig } from '../abuse/pumping';
+import type { AppleProviderConfig } from './social/apple';
+import type { GoogleProviderConfig } from './social/google';
 
 /** The subset of node-redis's client API this module needs; real shape (not `AuthSecondaryStorage`'s simplified one) so `services/api/src/app.ts` can pass its actual `redis` client through untouched. */
 export interface AuthRedisClient {
@@ -61,6 +64,10 @@ export interface AuthModuleDeps {
   ) => void;
   /** Defaults to `defaultPumpingConfig()`; override to set real allow-listed countries and spend caps once provisioned. */
   readonly pumping?: PumpingConfig | undefined;
+  /** Absent when Apple Developer credentials are not provisioned yet (non-code dependency table). */
+  readonly apple?: AppleProviderConfig | undefined;
+  /** Absent when Google Cloud OAuth client ids are not provisioned yet. */
+  readonly google?: GoogleProviderConfig | undefined;
 }
 
 export interface AuthModule {
@@ -140,6 +147,19 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
   // is added here rather than there so services/api/src/auth/hooks.ts stays free of the in-memory
   // verification-id tracking map, which is otp-router plumbing, not a `public.users` concern.
   const databaseHooks = buildDatabaseHooks({ appPool: deps.appPool });
+  const accountCreateAfter = buildAccountCreateAfterHook({
+    appPool: deps.appPool,
+    // `authRef.current` is assigned once betterAuth() returns below; this hook is only ever invoked
+    // by a real `/link-social` or `/sign-in/social` request arriving later, same as `otp.sendOTP`.
+    getInternalAdapter: async () => {
+      const context = (await authRef.current?.$context) as unknown as {
+        internalAdapter: {
+          updateUser(userId: string, data: Record<string, unknown>): Promise<unknown>;
+        };
+      };
+      return context.internalAdapter;
+    },
+  });
   const mergedDatabaseHooks: AuthConfigDeps['databaseHooks'] = {
     ...databaseHooks,
     verification: {
@@ -148,6 +168,11 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
           verificationCreateAfter(verification);
           return Promise.resolve();
         },
+      },
+    },
+    account: {
+      create: {
+        after: (account) => accountCreateAfter(account),
       },
     },
   };
@@ -174,6 +199,8 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
       databaseHooks: mergedDatabaseHooks,
       jwksRotationIntervalSeconds: deps.jwksRotationIntervalSeconds,
       rateLimit: deps.rateLimit,
+      apple: deps.apple,
+      google: deps.google,
       hooks: {
         before: buildRequestBeforeHook(requestGuardsDeps),
         after: buildRequestAfterHook(requestGuardsDeps),

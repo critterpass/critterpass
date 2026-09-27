@@ -52,6 +52,42 @@ export function buildUserCreateAfterHook(deps: HooksDeps): (user: CreatedUser) =
   };
 }
 
+interface CreatedAccount {
+  readonly userId: string;
+  readonly providerId: string;
+}
+
+interface InternalAdapterUserUpdater {
+  updateUser(userId: string, data: Record<string, unknown>): Promise<unknown>;
+}
+
+/**
+ * Flips `auth.user.isAnonymous` and `public.users.status` to `registered` the instant a social
+ * account is linked (docs/data-model.md §3.1 Requirements: "`linkSocial` ... flips `is_anonymous
+ * =false`, `users.status='registered'`"). `account.create.after` fires for every provider Better
+ * Auth's `account` model supports (`phoneNumber` verification never creates an `auth.account` row,
+ * so `providerId` here is always a real social provider), whether the account was linked onto an
+ * anonymous session (`/link-social`) or created during `/sign-in/social` (existing-by-email link or
+ * brand-new sign-up) — flipping an already-registered user's status again is a harmless no-op.
+ * `getInternalAdapter` is a lazy accessor (services/api/src/auth/index.ts's `authRef` pattern):
+ * `auth.$context` only resolves once `betterAuth()` has returned, but `databaseHooks` must be built
+ * before that call.
+ */
+export function buildAccountCreateAfterHook(
+  deps: HooksDeps & { getInternalAdapter: () => Promise<InternalAdapterUserUpdater> },
+): (account: CreatedAccount) => Promise<void> {
+  return async (account) => {
+    if (account.providerId !== 'apple' && account.providerId !== 'google') return;
+    const internalAdapter = await deps.getInternalAdapter();
+    await internalAdapter.updateUser(account.userId, { isAnonymous: false });
+    await withSystem(deps.appPool, (tx) =>
+      tx.query(`UPDATE users SET status = 'registered' WHERE id = $1 AND status = 'anonymous'`, [
+        account.userId,
+      ]),
+    );
+  };
+}
+
 export function buildDatabaseHooks(
   deps: HooksDeps,
 ): NonNullable<BetterAuthOptions['databaseHooks']> {
