@@ -199,9 +199,8 @@ function buildContext(
 
 /**
  * Runs one command envelope through the pipeline and returns its outcome. Throws `DomainError`
- * only for failures that belong to the request rather than the op (`AUTH_REQUIRED` for an
- * anonymous session on a registered-only command, `VALIDATION` for an envelope without a usable
- * op_id) and rethrows transient failures untouched.
+ * `VALIDATION` only for an envelope without a usable op_id (nothing to record it against) and
+ * rethrows transient failures untouched.
  */
 export async function executeCommand(
   raw: unknown,
@@ -220,16 +219,6 @@ export async function executeCommand(
   };
   const definition = ctx.resolve(envelope.cmd);
   const refusal = doorRefusal(definition, ctx.door);
-
-  if (
-    definition !== undefined &&
-    refusal === undefined &&
-    ctx.actor.kind === 'user' &&
-    ctx.actor.isAnonymous &&
-    !definition.allowAnonymous
-  ) {
-    throw new DomainError('AUTH_REQUIRED', { reason: 'registered_only', cmd: envelope.cmd });
-  }
 
   const serverNow = (ctx.now ?? (() => new Date()))();
   const opId = envelope.op_id;
@@ -269,6 +258,12 @@ export async function executeCommand(
 
     if (definition === undefined || refusal !== undefined) {
       return reject(new DomainError('VALIDATION', refusal));
+    }
+
+    // Recorded like any other reject so an offline queue never stalls on it; the client asks the
+    // user to sign in and sends a fresh op.
+    if (ctx.actor.kind === 'user' && ctx.actor.isAnonymous && !definition.allowAnonymous) {
+      return reject(new DomainError('AUTH_REQUIRED', { reason: 'registered_only' }));
     }
 
     const payload = definition.schema.safeParse(envelope.payload);

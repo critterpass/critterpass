@@ -490,28 +490,30 @@ describe('executeCommand', () => {
     ).rejects.toMatchObject({ code: 'VALIDATION' });
   });
 
-  it('refuses a registered-only command for an anonymous session before claiming the op', async () => {
+  it('records AUTH_REQUIRED for a registered-only command from an anonymous session', async () => {
     const uid = await insertUser(db.pool, { status: 'anonymous' });
     const command = createCrewCommand({});
-    const envelope = envelopeFor(uid, { crew_id: generateUuidV7(), name: 'x' });
+    const crewId = generateUuidV7();
+    const anonymous = { actor: { kind: 'user', uid, isAnonymous: true } } as const;
 
-    await expect(
-      executeCommand(
-        envelope,
-        contextFor(uid, command, { actor: { kind: 'user', uid, isAnonymous: true } }),
-      ),
-    ).rejects.toMatchObject({ code: 'AUTH_REQUIRED' });
-    expect(await cmdResult(envelope.op_id)).toBeUndefined();
+    const refused = await executeCommand(
+      envelopeFor(uid, { crew_id: crewId, name: 'x' }),
+      contextFor(uid, command, anonymous),
+    );
+    expect(refused).toMatchObject({
+      status: 'rejected',
+      code: 'AUTH_REQUIRED',
+      detail: { reason: 'registered_only' },
+    });
+    expect(await cmdResult(refused.opId)).toMatchObject({
+      status: 'rejected',
+      code: 'AUTH_REQUIRED',
+    });
+    expect(await crewExists(crewId)).toBe(false);
 
     const allowed = await executeCommand(
-      envelope,
-      contextFor(
-        uid,
-        { ...command, allowAnonymous: true },
-        {
-          actor: { kind: 'user', uid, isAnonymous: true },
-        },
-      ),
+      envelopeFor(uid, { crew_id: crewId, name: 'x' }),
+      contextFor(uid, { ...command, allowAnonymous: true }, anonymous),
     );
     expect(allowed.status).toBe('applied');
   });

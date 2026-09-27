@@ -26,6 +26,11 @@ import {
   registerReturningPhoneSignInRoute,
 } from './routes/auth-extra';
 import { registerWhatsAppWebhookRoutes } from './routes/webhooks-whatsapp';
+import { createCommandRegistry } from './commands/_framework/registry';
+import { betterAuthSessionResolver } from './commands/_framework/session';
+import { registerCmdResultsRoute } from './routes/cmd-results';
+import { registerCommandRoute } from './routes/cmd';
+import { registerSyncUploadRoute } from './routes/sync-upload';
 
 const env = loadApiEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'api', commit: env.COMMIT_SHA } });
@@ -135,6 +140,19 @@ if (env.WHATSAPP_APP_SECRET && env.WHATSAPP_VERIFY_TOKEN) {
     'WhatsApp status webhook is disabled: WHATSAPP_APP_SECRET or WHATSAPP_VERIFY_TOKEN is unset',
   );
 }
+
+// The three command doors over one registry (docs/api-contracts.md §2.2, §5.2).
+const commands = createCommandRegistry();
+const commandDoors = {
+  pool,
+  registry: commands,
+  sessions: betterAuthSessionResolver(authModule.auth.api),
+  redis,
+  logger,
+};
+registerCommandRoute(app, commandDoors);
+registerSyncUploadRoute(app, commandDoors);
+registerCmdResultsRoute(app, commandDoors);
 
 // Mounted last: Better Auth's own catch-all handler must never shadow the more specific routes
 // above (`/api/auth/sign-in/phone-number` in particular — registerReturningPhoneSignInRoute wins
