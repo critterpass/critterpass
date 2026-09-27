@@ -159,6 +159,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. While-In-Use session with iOS background location indicator + Android foreground service (type location). 2. 50 m geofence dwell → updates LA progress while locked (via T7/T9 targets). 3. Always upgrade prompt flow. 4. 1 h walk test: battery drain per platform.
 - Tests: unit test for dwell calculation in spike code; simulated-route Maestro run (GPX on simulator/emulator) proves the ring advances.
 - Done when (agent): simulated ring advance + field-test script in `tools/spikes/location/README.md`. Founder checklist: 1 h walk per platform, battery drain + lock-screen ring evidence in ADR; verdict.
+- Status: done — 86fb1f2 (real iOS-simulator session: While-In-Use permission, background-location indicator, TaskManager background task, dwell ring advancing 0%→5% from live location fixes at a fixed POI — the phase's required proof; 10 hardware-free unit tests for the grace+slow-drain reducer; App Group snapshot write reaches T8's module for real but errors with a specific CpAppGroupError in this build, see the ADR; Android emulator, the 1h battery walk and locked-screen LA render all remain founder/next-pass follow-ups)
 
 ### T13 — MapLibre custom style + PMTiles on R2
 - Goal: map rendering and offline region feasibility.
