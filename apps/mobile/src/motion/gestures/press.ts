@@ -10,6 +10,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 import { tokens } from '@cp/design-tokens';
 
 import { bezierEasing } from '../easing';
+import { useReducedImpactMotion } from '../patterns/shared';
 import type { GestureHookResult } from './shared';
 
 /** docs/design-system.md §3.3: "press scale .92 (< 120 pt wide) / .96 / .975 over 130 ms press". */
@@ -45,6 +46,7 @@ export function usePress({
   onPress,
   accessibilityLabel,
 }: UsePressOptions = {}): GestureHookResult {
+  const reduced = useReducedImpactMotion();
   const scale = useSharedValue(1);
   const pressEasing = bezierEasing(tokens.motion.easing.press);
   const targetScale = PRESS_SCALE_BY_WIDTH[widthClass];
@@ -60,10 +62,14 @@ export function usePress({
     })
     .onEnd(() => {
       'worklet';
-      scale.value = withSequence(
-        withTiming(OVERSHOOT_SCALE, { duration: RELEASE_MS * 0.45 }),
-        withTiming(1, { duration: RELEASE_MS * 0.55 }),
-      );
+      // docs/design-system.md §5 Reduce Motion: "impacts fade 150 ms, no jolt/shake" — the release
+      // overshoot bounce is exactly that kind of jolt, so reduced motion settles straight to 1.
+      scale.value = reduced
+        ? withTiming(1, { duration: PRESS_DOWN_MS })
+        : withSequence(
+            withTiming(OVERSHOOT_SCALE, { duration: RELEASE_MS * 0.45 }),
+            withTiming(1, { duration: RELEASE_MS * 0.55 }),
+          );
       scheduleOnRN(fireOnPress);
     })
     .onFinalize((_event, success) => {

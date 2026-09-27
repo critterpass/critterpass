@@ -11,6 +11,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 import { tokens } from '@cp/design-tokens';
 
 import { bezierEasing } from '../easing';
+import { REDUCED_IMPACT_FADE_MS, useReducedImpactMotion } from '../patterns/shared';
 import type { GestureHookResult } from './shared';
 
 /** docs/design-system.md §3.4 `slideToConfirm`: "282 pt track, commit > 70%, else spring back 280". */
@@ -51,6 +52,7 @@ export function useSlideToConfirm({
   disabled = false,
   accessibilityLabel,
 }: UseSlideToConfirmOptions): UseSlideToConfirmResult {
+  const reduced = useReducedImpactMotion();
   const tx = useSharedValue(0);
   const progress = useDerivedValue(() => tx.value / trackWidthPt);
   const fireConfirm = () => onConfirm();
@@ -71,6 +73,9 @@ export function useSlideToConfirm({
             if (finished) scheduleOnRN(fireConfirm);
           },
         );
+      } else if (reduced) {
+        // docs/design-system.md §5: no overshoot easing under reduced motion.
+        tx.value = withTiming(0, { duration: REDUCED_IMPACT_FADE_MS });
       } else {
         tx.value = withTiming(0, {
           duration: SLIDE_TO_CONFIRM_SPRING_BACK_MS,

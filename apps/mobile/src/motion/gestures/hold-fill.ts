@@ -17,6 +17,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 // eslint-disable-next-line boundaries/dependencies -- see the comment above
 import { ramp } from '../../../modules/cp-haptics';
 import { impact } from '../feedback';
+import { useReducedImpactMotion } from '../patterns/shared';
 import type { GestureHookResult } from './shared';
 
 /** docs/design-system.md §3.4 `holdFill`: "touch fill 1500 (legendary 2400), drain 450". */
@@ -46,10 +47,12 @@ export function useHoldFill({
   disabled = false,
   accessibilityLabel,
 }: UseHoldFillOptions): GestureHookResult & { readonly progress: SharedValue<number> } {
+  const reduced = useReducedImpactMotion();
   const touchProgress = useSharedValue(0);
   const progress = externalProgress ?? touchProgress;
-  // "critter scale 1→1.3" over the fill.
-  const critterScale = useDerivedValue(() => 1 + progress.value * 0.3);
+  // "critter scale 1→1.3" over the fill — docs/design-system.md §5 "no jolt/shake" flattens this to
+  // a static pose under reduced motion (the fill ring itself, haptic and SFX still play).
+  const critterScale = useDerivedValue(() => (reduced ? 1 : 1 + progress.value * 0.3));
 
   const fireComplete = () => onComplete();
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a sound-cue id, never rendered copy.

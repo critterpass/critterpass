@@ -11,6 +11,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 import { tokens } from '@cp/design-tokens';
 
 import { bezierEasing, isPhysicalSpring, springConfig } from '../easing';
+import { REDUCED_IMPACT_FADE_MS, useReducedImpactMotion } from '../patterns/shared';
 import type { GestureHookResult } from './shared';
 
 /** docs/design-system.md §3.4 `fling`: "commit |dx| > 110". */
@@ -54,9 +55,10 @@ export function useSwipeDeck({
   disabled = false,
   accessibilityLabel,
 }: UseSwipeDeckOptions): GestureHookResult {
+  const reduced = useReducedImpactMotion();
   const tx = useSharedValue(0);
   const ty = useSharedValue(0);
-  const rotateDeg = useDerivedValue(() => tx.value / ROTATION_DIVISOR);
+  const rotateDeg = useDerivedValue(() => (reduced ? 0 : tx.value / ROTATION_DIVISOR));
 
   const fireSwiped = (direction: SwipeDirection) => onSwiped(direction);
 
@@ -72,17 +74,19 @@ export function useSwipeDeck({
       if (commitsFling(event.translationX)) {
         const direction: SwipeDirection = event.translationX > 0 ? 'right' : 'left';
         const outX = direction === 'right' ? OUT_DISTANCE_PT : -OUT_DISTANCE_PT;
-        tx.value = withTiming(
-          outX,
-          { duration: OUT_DURATION_MS, easing: slamEasing },
-          (finished) => {
-            if (finished) {
-              tx.value = 0;
-              ty.value = 0;
-              scheduleOnRN(fireSwiped, direction);
-            }
-          },
-        );
+        const outConfig = reduced
+          ? { duration: REDUCED_IMPACT_FADE_MS }
+          : { duration: OUT_DURATION_MS, easing: slamEasing };
+        tx.value = withTiming(outX, outConfig, (finished) => {
+          if (finished) {
+            tx.value = 0;
+            ty.value = 0;
+            scheduleOnRN(fireSwiped, direction);
+          }
+        });
+      } else if (reduced) {
+        tx.value = withTiming(0, { duration: REDUCED_IMPACT_FADE_MS });
+        ty.value = withTiming(0, { duration: REDUCED_IMPACT_FADE_MS });
       } else {
         tx.value = withSpring(0, gentleSpring);
         ty.value = withSpring(0, gentleSpring);

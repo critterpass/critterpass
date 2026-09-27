@@ -5,6 +5,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 import { tokens } from '@cp/design-tokens';
 
 import { bezierEasing } from '../easing';
+import { REDUCED_IMPACT_FADE_MS, useReducedImpactMotion } from '../patterns/shared';
 import type { GestureHookResult } from './shared';
 
 /**
@@ -55,6 +56,7 @@ export function useEdgeSwipeBack({
   disabled = false,
   accessibilityLabel,
 }: UseEdgeSwipeBackOptions): GestureHookResult {
+  const reduced = useReducedImpactMotion();
   const tx = useSharedValue(0);
   const startedAtEdge = useSharedValue(false);
   const fireBack = () => onBack();
@@ -75,6 +77,8 @@ export function useEdgeSwipeBack({
       const velocityPtPerMs = event.velocityX / 1000;
       if (commitsEdgeSwipe(tx.value, velocityPtPerMs)) {
         scheduleOnRN(fireBack);
+      } else if (reduced) {
+        tx.value = withTiming(0, { duration: REDUCED_IMPACT_FADE_MS });
       } else {
         tx.value = withTiming(0, { duration: EDGE_SWIPE_SETTLE_MS, easing: gestureEasing });
       }

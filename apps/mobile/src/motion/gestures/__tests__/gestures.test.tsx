@@ -28,11 +28,14 @@ import {
   useSlideToConfirm,
 } from '../slide-to-confirm';
 import { commitsFling, FLING_COMMIT_DISTANCE_PT, useSwipeDeck } from '../swipe-deck';
+import { useMotionMode } from '../../motion-mode';
+import { resetMotionModeForTests } from '../../test-support/reset-motion-mode';
 
 const mockedImpact = impact as jest.MockedFunction<typeof impact>;
 const mockedRampStart = ramp.start as jest.MockedFunction<typeof ramp.start>;
 
-beforeEach(() => {
+beforeEach(async () => {
+  await resetMotionModeForTests();
   jest.clearAllMocks();
 });
 
@@ -209,5 +212,48 @@ describe('useLongPress', () => {
     );
     expect(LONG_PRESS_DURATION_MS).toBe(320);
     expect(result.current.gesture.config.minDurationMs).toBe(LONG_PRESS_DURATION_MS);
+  });
+});
+
+describe('reduced motion (docs/design-system.md §5)', () => {
+  async function setReducedMotion() {
+    const { result, unmount } = await renderHook(() => useMotionMode());
+    await act(() => {
+      result.current[1]('reduced');
+    });
+    await unmount();
+  }
+
+  it('useSwipeDeck drops rotation under reduced motion', async () => {
+    await setReducedMotion();
+    const { result } = await renderHook(() =>
+      useSwipeDeck({ onSwiped: jest.fn(), accessibilityLabel: 'Rate' }),
+    );
+
+    await act(() => {
+      result.current.gesture.handlers.onUpdate?.({ translationX: 60, translationY: 0 } as never);
+    });
+
+    const transform = (result.current.animatedStyle as { transform: { rotate?: string }[] })
+      .transform;
+    const rotateEntry = transform.find((entry) => 'rotate' in entry);
+    expect(rotateEntry?.rotate).toBe('0deg');
+  });
+
+  it('usePress settles straight to 1 with no overshoot under reduced motion', async () => {
+    await setReducedMotion();
+    const onPress = jest.fn();
+    const { result } = await renderHook(() => usePress({ onPress, accessibilityLabel: 'Confirm' }));
+
+    await act(async () => {
+      result.current.gesture.handlers.onEnd?.({} as never, true);
+      await Promise.resolve();
+    });
+
+    // Reduced motion settles directly to 1 via a single `withTiming` — no overshoot bounce.
+    const transform = (result.current.animatedStyle as { transform: { scale: number }[] })
+      .transform;
+    expect(transform[0]?.scale).toBe(1);
+    expect(onPress).toHaveBeenCalledTimes(1);
   });
 });

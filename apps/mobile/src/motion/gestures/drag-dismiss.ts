@@ -5,6 +5,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 import { tokens } from '@cp/design-tokens';
 
 import { isPhysicalSpring, springConfig } from '../easing';
+import { REDUCED_IMPACT_FADE_MS, useReducedImpactMotion } from '../patterns/shared';
 import type { GestureHookResult } from './shared';
 
 /**
@@ -60,6 +61,7 @@ export function useDragDismiss({
   disabled = false,
   accessibilityLabel,
 }: UseDragDismissOptions): GestureHookResult {
+  const reduced = useReducedImpactMotion();
   const ty = useSharedValue(0);
   const fireDismiss = () => onDismiss();
 
@@ -73,13 +75,12 @@ export function useDragDismiss({
       'worklet';
       const velocityPtPerMs = event.velocityY / 1000;
       if (commitsDragDismiss(ty.value, velocityPtPerMs)) {
-        ty.value = withTiming(
-          DISMISS_OUT_DISTANCE_PT,
-          { duration: DISMISS_OUT_DURATION_MS },
-          (finished) => {
-            if (finished) scheduleOnRN(fireDismiss);
-          },
-        );
+        const outDuration = reduced ? REDUCED_IMPACT_FADE_MS : DISMISS_OUT_DURATION_MS;
+        ty.value = withTiming(DISMISS_OUT_DISTANCE_PT, { duration: outDuration }, (finished) => {
+          if (finished) scheduleOnRN(fireDismiss);
+        });
+      } else if (reduced) {
+        ty.value = withTiming(0, { duration: REDUCED_IMPACT_FADE_MS });
       } else {
         ty.value = withSpring(0, snappySpring);
       }

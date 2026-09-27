@@ -1,10 +1,11 @@
 import { Gesture } from 'react-native-gesture-handler';
-import { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import { useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { tokens } from '@cp/design-tokens';
 
 import { isPhysicalSpring, springConfig } from '../easing';
+import { REDUCED_IMPACT_FADE_MS, useReducedImpactMotion } from '../patterns/shared';
 import type { GestureHookResult } from './shared';
 
 const snappySpring = isPhysicalSpring(tokens.motion.spring.snappy)
@@ -38,6 +39,7 @@ export function useReorder({
   disabled = false,
   accessibilityLabel,
 }: UseReorderOptions): GestureHookResult {
+  const reduced = useReducedImpactMotion();
   const ty = useSharedValue(0);
   const isDragging = useSharedValue(false);
   const fireReorder = (fromIndex: number, toIndex: number) => onReorder(fromIndex, toIndex);
@@ -58,13 +60,18 @@ export function useReorder({
         index + Math.round(event.translationY / itemHeightPt),
         itemCount,
       );
-      ty.value = withSpring((targetIndex - index) * itemHeightPt, snappySpring, (finished) => {
+      const settle = (finished: boolean | undefined) => {
+        'worklet';
         if (finished) {
           ty.value = 0;
           isDragging.value = false;
           if (targetIndex !== index) scheduleOnRN(fireReorder, index, targetIndex);
         }
-      });
+      };
+      const target = (targetIndex - index) * itemHeightPt;
+      ty.value = reduced
+        ? withTiming(target, { duration: REDUCED_IMPACT_FADE_MS }, settle)
+        : withSpring(target, snappySpring, settle);
     });
 
   const animatedStyle = useAnimatedStyle(() => ({
