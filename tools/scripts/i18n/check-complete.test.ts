@@ -72,7 +72,8 @@ describe('describeFinding', () => {
   });
 });
 
-describe('CLI', () => {
+// Each case spawns the checker through pnpm + tsx (about 2 s per process on CI runners).
+describe('CLI', { timeout: 30_000 }, () => {
   const scriptPath = join(import.meta.dirname, 'check-complete.ts');
 
   function run(args: string[]): { status: number; stdout: string } {
