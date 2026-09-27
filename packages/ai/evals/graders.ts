@@ -3,8 +3,10 @@
  * (`value: file://../graders.ts:<name>`). Each checks our pipeline's behaviour on the case, not the
  * model's taste; taste (persona voice, warmth) is an `llm-rubric` graded in live runs.
  */
+import { isUntrustedBlock } from '../src/context/wrap-untrusted';
 import { REPO_PACKS } from '../src/persona/loader';
 import { allowedTools } from '../src/tools/allow-lists';
+import { isBlockedUrl } from '../src/tools/blocked-domains';
 import { isToolName, TOOL_SPECS } from '../src/tools/schemas';
 import { resolveRoute } from '../src/routing';
 import type { EvalOutput } from './lib/provider';
@@ -39,7 +41,7 @@ function userTextBlocks(request: Record<string, unknown>): string[] {
       typeof message.content === 'string'
         ? [message.content]
         : (message.content as { type: string; text?: string }[])
-            .filter((block) => block.type === 'text')
+            .filter((block) => block.type === 'text' && !isUntrustedBlock(block))
             .map((block) => block.text ?? ''),
     );
 }
@@ -99,6 +101,22 @@ export const GRADERS: Readonly<Record<string, Grader>> = {
       : fail(`untrusted ${leaked.map((item) => item.kind).join(', ')} leaked into plain text`);
   },
 
+  no_blocked_sources: (output) => {
+    const urls = output.text.match(/https?:\/\/[^\s,)]+/gu) ?? [];
+    const blocked = urls.filter((url) => isBlockedUrl(url));
+    return blocked.length === 0
+      ? ok(`${urls.length} source links, none on a supplier, OTA or map domain`)
+      : fail(`blocked sources shown: ${blocked.join(', ')}`);
+  },
+
+  answers_with_sources: (output) => {
+    const sources = /\n\nSources: (.+)$/u.exec(output.text)?.[1] ?? '';
+    const answered = output.answer.trim().length > 0;
+    return answered && /https?:\/\//u.test(sources)
+      ? ok('the answer carries the links it was built from')
+      : fail(answered ? 'no source links under the answer' : 'no answer after searching');
+  },
+
   refusal_mapped: (output) =>
     output.error === 'AI_REFUSED'
       ? ok('refusal surfaced as AI_REFUSED')
@@ -119,7 +137,7 @@ export const GRADERS: Readonly<Record<string, Grader>> = {
   within_chattiness: (output, vars) => {
     if (output.pack === null) return fail('no persona on this case');
     const max = output.pack.chattiness[vars.chattiness].max_sentences;
-    const count = sentences(output.text);
+    const count = sentences(output.answer);
     return count <= max
       ? ok(`${count}/${max} sentences`)
       : fail(`${count} sentences, ${vars.chattiness} allows ${max}`);

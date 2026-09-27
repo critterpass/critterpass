@@ -2,10 +2,10 @@
  * System prompt layering in cache order (tools are sent separately, ahead of all of these):
  * global rules + action policy → persona → destination pack → trip context. Every layer is
  * rendered deterministically, so the same inputs give the same bytes and every user of a guide
- * shares the cached prefix; each layer ends on a cache breakpoint (at most four).
+ * shares the cached prefix (DeepSeek caches repeated prefixes automatically; each layer also ends
+ * on an explicit cache breakpoint, at most four, for providers that take them).
  */
 import type Anthropic from '@anthropic-ai/sdk';
-import type { ClaudeTier } from '@cp/domain';
 
 import { GLOBAL_RULES } from '../prompts/global-rules.generated';
 import type { PersonaPack } from './schema';
@@ -18,7 +18,31 @@ export function globalRulesText(): string {
   return GLOBAL_RULES;
 }
 
-const REGISTER_WORDS = ['none', 'a touch', 'some', 'moderate', 'plenty', 'lots'] as const;
+/** How each register level sounds, 0–5, so the voice is described rather than scored. */
+const WARMTH = [
+  'cool and matter-of-fact',
+  'polite',
+  'friendly',
+  'warm',
+  'very warm, sunny and upbeat',
+  'bubbly and effusive',
+] as const;
+const HUMOUR = [
+  'serious',
+  'rarely joking',
+  'lightly humorous',
+  'playful',
+  'funny',
+  'a born joker',
+] as const;
+const DRYNESS = [
+  'earnest',
+  'mostly earnest',
+  'with a hint of dry wit',
+  'with a dry wit',
+  'very dry',
+  'deadpan',
+] as const;
 
 /** Renders the persona layer; fixed field order, no timestamps, no per-user data. */
 export function renderPersonaBlock(pack: PersonaPack): string {
@@ -28,18 +52,24 @@ export function renderPersonaBlock(pack: PersonaPack): string {
     `You are ${pack.name}, a ${pack.species}.`,
     pack.guest_mode === null
       ? `You are the live guide for ${pack.destination ?? 'your home destination'}.`
-      : `You are covering this destination as a guest guide. Frame what you share as ${pack.guest_mode.hedge}.`,
+      : `You are covering this destination as a guest guide. Begin every reply with "From ${pack.guest_mode.hedge}," (in the reply language) and frame what you share as ${pack.guest_mode.hedge}.`,
     `Your line: "${pack.tagline}"`,
-    `Warmth: ${REGISTER_WORDS[pack.register.warmth]}. Humour: ${REGISTER_WORDS[pack.register.humour]}. Dryness: ${REGISTER_WORDS[pack.register.dryness]}.`,
+    'Stay in character in every reply, even a one-line answer or a question: your warmth, humour and way of speaking should be recognisable in a single sentence.',
+    `Your voice: ${WARMTH[pack.register.warmth]}, ${HUMOUR[pack.register.humour]}, ${DRYNESS[pack.register.dryness]}.`,
   ];
   if (pack.catchphrases.length > 0) {
     lines.push('', 'Lines you are known for (use sparingly, never twice in a row):');
     for (const phrase of pack.catchphrases) lines.push(`- ${phrase}`);
   }
-  lines.push('', 'Local words you may use (only these, only with this meaning):');
+  lines.push(
+    '',
+    'Local words you may use (only these, only with this meaning, and no more per reply than the chattiness instruction allows, even when a tool result contains them):',
+  );
   if (pack.local_words.length === 0) lines.push('- none yet: use none.');
   for (const word of pack.local_words) {
-    lines.push(`- "${word.term}" means ${word.gloss}; use it when ${word.when}.`);
+    lines.push(
+      `- "${word.term}" means ${word.gloss}; use it when ${word.when}. Write it as "${word.term} (${word.gloss})" the first time in a reply.`,
+    );
   }
   if (pack.taboos.length > 0) {
     lines.push('', 'Never:');
@@ -76,25 +106,4 @@ export function buildSystemBlocks(layers: PromptLayers): Anthropic.Messages.Text
     blocks.push(cached(`# This trip\n\n${layers.tripContext}`));
   }
   return blocks;
-}
-
-/** Minimum cacheable prompt prefix per model tier (prompt caching docs). */
-export const MIN_CACHEABLE_PREFIX_TOKENS: Readonly<Record<ClaudeTier, number>> = {
-  haiku: 4096,
-  sonnet: 1024,
-  opus: 512,
-};
-
-/**
- * A conservative lower bound on a text's token count: every whitespace-separated chunk is at least
- * one token. The real count (count_tokens endpoint) is always at least this.
- */
-export function tokenLowerBound(text: string): number {
-  return text.split(/\s+/u).filter((chunk) => chunk.length > 0).length;
-}
-
-/** True when the always-shared layers alone (global rules + persona) clear the tier's minimum. */
-export function sharedPrefixIsCacheable(tier: ClaudeTier, pack: PersonaPack): boolean {
-  const shared = `${globalRulesText()}${renderPersonaBlock(pack)}`;
-  return tokenLowerBound(shared) >= MIN_CACHEABLE_PREFIX_TOKENS[tier];
 }

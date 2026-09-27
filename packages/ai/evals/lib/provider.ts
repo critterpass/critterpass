@@ -1,14 +1,20 @@
 /**
  * The eval provider: one case through the real request pipeline (persona layering, turn
- * directives, untrusted-data wrapping, per-route tools) and the real gateway, then through the
- * code-side checks under test (grounding validators, the autonomy decider).
+ * directives, untrusted-data wrapping, per-route tools, the requested JSON format) and the real
+ * gateway, then through the code-side checks under test (grounding validators, the autonomy
+ * decider). On a web search route the case runs the real tool loop: `web_search` calls go through
+ * the registry and the supplier-screening executor, and the answer carries its sources.
  *
  * `replay` (the default, and what CI runs): the gateway's network boundary serves the case's
- * recorded response (a fixture file or an inline answer), so the suite grades our pipeline
- * against fixed model behaviour. `live`: the same request goes to Anthropic's API, or to the
- * Anthropic-compatible endpoint named by `baseURL`. ANTHROPIC_BASE_URL is ignored, so a stand-in
- * endpoint is only ever graded when a run names it explicitly.
+ * recorded responses (fixture files, in call order, or an inline answer) and the search provider's
+ * boundary serves recorded search responses, so the suite grades our pipeline against fixed model
+ * behaviour. `live`: the same requests go to DeepSeek (or the endpoint named by `baseURL`) and to
+ * the configured search provider. A `seeded` case's answer is a deliberate model slip that the
+ * validators must catch, so it is served from the case in both modes.
  */
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
 import type Anthropic from '@anthropic-ai/sdk';
 import { decideAutonomy, type AutonomyDecision } from '@cp/domain';
 
@@ -20,14 +26,17 @@ import { buildSystemBlocks } from '../../src/persona/layering';
 import { REPO_PACKS } from '../../src/persona/loader';
 import type { PersonaPack } from '../../src/persona/schema';
 import { resolveRoute } from '../../src/routing';
+import { parseStructuredText, textOf } from '../../src/structured';
 import {
   collectGrounding,
   unverifiedTextNumbers,
   validateStructured,
   type GroundingViolation,
 } from '../../src/tools/grounding';
-import { routeTools, visibleAnswer } from '../../src/tools/web-search';
-import { loadFixture } from '../../test/fixture-transport';
+import { createToolRegistry, routeTools } from '../../src/tools/registry';
+import { createTavilySearch } from '../../src/tools/search';
+import { createWebSearchExecutor, webSources, withSources } from '../../src/tools/web-search';
+import { loadFixture, type FixtureDir } from '../../test/fixture-transport';
 import type { CaseVars } from './suite';
 
 export type EvalMode = 'replay' | 'live';
@@ -42,12 +51,14 @@ export interface Pipeline {
 export const PIPELINE: Pipeline = { validateStructured, unverifiedTextNumbers, decideAutonomy };
 
 export interface EvalOutput {
-  /** What a client would be shown (web search answers carry their allowed sources). */
+  /** What a client would be shown (web search answers carry their sources). */
   readonly text: string;
+  /** The model's answer alone (sentence and voice checks read this). */
+  readonly answer: string;
   readonly toolCalls: readonly { readonly name: string; readonly input: unknown }[];
   /** The parsed JSON answer on structured routes. */
   readonly structured: unknown;
-  /** The Messages API request the pipeline built. */
+  /** The first Messages API request the pipeline built. */
   readonly request: Record<string, unknown>;
   /** Gateway error code, when the call failed (`AI_REFUSED`, ...). */
   readonly error: string | null;
@@ -58,18 +69,19 @@ export interface EvalOutput {
 
 /** The clock autonomy cases are decided at, so a vote's `closes_at` is stable. */
 export const EVAL_NOW = new Date('2026-10-12T08:00:00Z');
+/** Model calls a live case may make (tool rounds, then the answer). */
+const MAX_ROUNDS = 4;
 
 function inlineBody(vars: CaseVars, model: string): unknown {
   const replay = vars.replay ?? {};
   const content: unknown[] = [];
-  if (replay.text !== undefined) content.push({ type: 'text', text: replay.text, citations: null });
+  if (replay.text !== undefined) content.push({ type: 'text', text: replay.text });
   (replay.tool_calls ?? []).forEach((call, index) => {
     content.push({
       type: 'tool_use',
       id: `toolu_eval_${index}`,
       name: call.name,
       input: call.input,
-      caller: { type: 'direct' },
     });
   });
   const stop = replay.stop_reason ?? (replay.tool_calls?.length ? 'tool_use' : 'end_turn');
@@ -81,30 +93,48 @@ function inlineBody(vars: CaseVars, model: string): unknown {
     content,
     stop_reason: stop,
     stop_sequence: null,
-    stop_details:
-      stop === 'refusal' ? { type: 'refusal', category: null, explanation: null } : null,
-    container: null,
-    usage: {
-      input_tokens: 0,
-      output_tokens: 0,
-      cache_creation_input_tokens: 0,
-      cache_read_input_tokens: 0,
-    },
+    usage: { input_tokens: 0, output_tokens: 0 },
   };
 }
 
-/** One recorded response at the network boundary, in place of `fetch`. */
-function replayFetch(vars: CaseVars, model: string): typeof fetch {
-  const fixture = vars.replay?.fixture ?? vars.fixture;
+function modelFixtures(vars: CaseVars): string[] {
+  const replay = vars.replay ?? {};
+  if (replay.fixtures !== undefined) return [...replay.fixtures];
+  const single = replay.fixture ?? vars.fixture;
+  return single === undefined ? [] : [single];
+}
+
+function jsonResponse(body: unknown, status = 200): Response {
+  const headers = new Headers({ 'content-type': 'application/json', 'request-id': 'req_eval' });
+  return new Response(JSON.stringify(body), { status, headers });
+}
+
+/** Serves recorded responses from `dir` in order, in place of `fetch`. */
+function replayQueue(names: readonly string[], dir: FixtureDir, what: string): typeof fetch {
+  const queue = [...names];
   return () => {
-    const headers = new Headers({ 'content-type': 'application/json', 'request-id': 'req_eval' });
-    if (fixture === undefined) {
-      return Promise.resolve(new Response(JSON.stringify(inlineBody(vars, model)), { headers }));
-    }
-    const { response } = loadFixture(fixture);
-    return Promise.resolve(
-      new Response(JSON.stringify(response.body), { status: response.status, headers }),
-    );
+    const name = queue.shift();
+    if (name === undefined) throw new Error(`eval replay: no recorded ${what} response left`);
+    const { response } = loadFixture(name, dir);
+    return Promise.resolve(jsonResponse(response.body, response.status));
+  };
+}
+
+/** Live calls that also store each response under the next name (EVAL_RECORD=1). */
+function recordingFetch(names: readonly string[], dir: FixtureDir, source: string): typeof fetch {
+  const queue = [...names];
+  return async (url, init) => {
+    const response = await fetch(url, init);
+    const name = queue.shift();
+    if (name === undefined) return response;
+    const body = (await response.clone().json()) as unknown;
+    const path = fileURLToPath(new URL(`../../test/fixtures/${dir}/${name}.json`, import.meta.url));
+    mkdirSync(fileURLToPath(new URL(`../../test/fixtures/${dir}/`, import.meta.url)), {
+      recursive: true,
+    });
+    const recorded = { source, response: { status: response.status, body } };
+    writeFileSync(path, `${JSON.stringify(recorded, null, 2)}\n`);
+    return response;
   };
 }
 
@@ -139,15 +169,16 @@ export function buildRequest(vars: CaseVars): { input: GatewayInput; pack: Perso
   const untrusted = (vars.untrusted ?? []).map(({ label, ...item }) =>
     label === undefined ? item : { ...item, label },
   );
-  const blocks = wrapAllUntrusted(untrusted, { citations: route.output !== 'structured' });
-  let messages: Anthropic.Messages.MessageParam[] = [userTurnWithData(vars.question, blocks)];
+  let messages: Anthropic.Messages.MessageParam[] = [
+    userTurnWithData(vars.question, wrapAllUntrusted(untrusted)),
+  ];
   if (pack !== null)
     messages = applyTurnDirectives(messages, pack, {
       chattiness: vars.chattiness,
       locale: vars.locale,
     });
   messages.push(...toolExchange(vars));
-  const tools = route.caller === null ? [] : routeTools(route);
+  const tools = routeTools(route);
   const system =
     pack === null
       ? undefined
@@ -161,62 +192,136 @@ export function buildRequest(vars: CaseVars): { input: GatewayInput; pack: Perso
       messages,
       ...(system === undefined ? {} : { system }),
       ...(tools.length === 0 ? {} : { tools }),
+      ...(vars.format === undefined
+        ? {}
+        : { outputFormat: { type: 'json_schema' as const, schema: vars.format } }),
     },
   };
-}
-
-function parseJson(text: string): unknown {
-  const trimmed = text.trim();
-  if (!trimmed.startsWith('{') && !trimmed.startsWith('[')) return undefined;
-  try {
-    return JSON.parse(trimmed) as unknown;
-  } catch {
-    return undefined;
-  }
 }
 
 export interface RunCaseOptions {
   readonly mode: EvalMode;
   readonly pipeline?: Pipeline;
   readonly apiKey?: string;
-  /** Live runs only: an Anthropic-compatible endpoint to grade instead of Anthropic's API. */
+  /** Live runs only: an Anthropic-format endpoint to grade instead of DeepSeek's. */
   readonly baseURL?: string;
+  /** Live runs only: the search key for web search cases. */
+  readonly searchKey?: string;
+  /** Live runs only: store the model and search responses under the case's fixture names. */
+  readonly record?: boolean;
+}
+
+const RECORDED_AT = new Date().toISOString().slice(0, 10);
+
+interface Transports {
+  readonly model: typeof fetch;
+  readonly search: typeof fetch | undefined;
+}
+
+function transportsFor(vars: CaseVars, options: RunCaseOptions, model: string): Transports {
+  const searches = vars.search_fixtures ?? [];
+  if (options.mode === 'live' && vars.seeded !== true) {
+    const record = options.record === true;
+    return {
+      model: record
+        ? recordingFetch(
+            modelFixtures(vars),
+            'deepseek',
+            `Live recording from DeepSeek (${model}) through its Anthropic-format API, ${RECORDED_AT}.`,
+          )
+        : fetch,
+      search:
+        options.searchKey === undefined
+          ? undefined
+          : record
+            ? recordingFetch(
+                searches,
+                'tavily',
+                `Live recording from Tavily's search API, ${RECORDED_AT}.`,
+              )
+            : fetch,
+    };
+  }
+  const fixtures = modelFixtures(vars);
+  return {
+    model:
+      fixtures.length === 0 || vars.seeded === true
+        ? () => Promise.resolve(jsonResponse(inlineBody(vars, model)))
+        : replayQueue(fixtures, 'deepseek', 'model'),
+    search: searches.length === 0 ? undefined : replayQueue(searches, 'tavily', 'search'),
+  };
 }
 
 export async function runCase(vars: CaseVars, options: RunCaseOptions): Promise<EvalOutput> {
   const pipeline = options.pipeline ?? PIPELINE;
   const route = resolveRoute(vars.route);
   const { input, pack } = buildRequest(vars);
-  let request: Record<string, unknown> = {};
-  const replay = replayFetch(vars, route.model);
-  const recordingFetch: typeof fetch = (url, init) => {
-    request = JSON.parse(typeof init?.body === 'string' ? init.body : '{}') as Record<
+  const live = options.mode === 'live' && vars.seeded !== true;
+  const transports = transportsFor(vars, options, route.model);
+  let request: Record<string, unknown> | undefined;
+  const capture: typeof fetch = (url, init) => {
+    request ??= JSON.parse(typeof init?.body === 'string' ? init.body : '{}') as Record<
       string,
       unknown
     >;
-    return options.mode === 'live' ? fetch(url, init) : replay(url, init);
+    return transports.model(url, init);
   };
   const gateway = createGateway({
-    apiKey: options.mode === 'live' ? (options.apiKey ?? '') : 'replay-key',
-    ...(options.mode === 'live' && options.baseURL !== undefined
-      ? { baseURL: options.baseURL }
-      : {}),
-    fetch: recordingFetch,
-    maxAttempts: options.mode === 'live' ? 3 : 1,
+    apiKey: live ? (options.apiKey ?? '') : 'replay-key',
+    ...(live && options.baseURL !== undefined ? { baseURL: options.baseURL } : {}),
+    fetch: capture,
+    maxAttempts: live ? 3 : 1,
   });
+  const registry = createToolRegistry();
+  if (route.webSearch && transports.search !== undefined) {
+    const search = createTavilySearch({
+      apiKey: options.searchKey ?? 'replay-key',
+      fetch: transports.search,
+    });
+    registry.registerToolExecutor('web_search', createWebSearchExecutor(search));
+  }
+
+  // Replay has exactly the recorded responses; live runs the turn to its answer.
+  const rounds = live ? MAX_ROUNDS : Math.max(1, modelFixtures(vars).length);
+  let messages = [...input.messages];
   let content: Anthropic.Messages.ContentBlock[] = [];
+  const toolCalls: { name: string; input: unknown }[] = [];
+  const outputs: { name: string; output: unknown }[] = [];
   let error: string | null = null;
   try {
-    content = (await gateway.callModel(vars.route, input)).message.content;
+    for (let round = 1; ; round += 1) {
+      const message = (await gateway.callModel(vars.route, { ...input, messages })).message;
+      content = message.content;
+      const calls = content.flatMap((block) => (block.type === 'tool_use' ? [block] : []));
+      toolCalls.push(...calls.map((call) => ({ name: call.name, input: call.input })));
+      // Tool calls run through the registry, as in a turn: web search through its executor, every
+      // other tool answers TOOL_UNAVAILABLE (evals have no database), and the model finishes.
+      if (message.stop_reason !== 'tool_use' || round >= rounds) break;
+      const results: Anthropic.Messages.ToolResultBlockParam[] = [];
+      for (const call of calls) {
+        const result = await registry.execute(
+          { id: call.id, name: call.name, input: call.input },
+          { uid: 'eval', tripId: null, caller: route.caller ?? 'C', route: vars.route },
+        );
+        if (result.ok) outputs.push({ name: result.name, output: result.output });
+        results.push(result.block);
+      }
+      messages = [
+        ...messages,
+        { role: 'assistant', content: content as Anthropic.Messages.ContentBlockParam[] },
+        { role: 'user', content: results },
+      ];
+    }
   } catch (caught) {
     if (!(caught instanceof GatewayError)) throw caught;
     error = caught.code;
   }
-  const text = route.webSearch
-    ? visibleAnswer(content)
-    : content.flatMap((block) => (block.type === 'text' ? [block.text] : [])).join('');
+  const answer = textOf({ content });
+  const text = route.webSearch ? withSources(answer, webSources(outputs)) : answer;
   const structured =
-    route.output === 'structured' || vars.tool_results !== undefined ? parseJson(text) : undefined;
+    route.output === 'structured' || vars.format !== undefined || vars.tool_results !== undefined
+      ? parseStructuredText(answer)
+      : undefined;
   const grounding = collectGrounding((vars.tool_results ?? []).map((result) => result.output));
   const violations =
     vars.tool_results === undefined
@@ -240,8 +345,15 @@ export async function runCase(vars: CaseVars, options: RunCaseOptions): Promise<
           },
           { now: EVAL_NOW, inTrip: action.in_trip },
         );
-  const toolCalls = content.flatMap((block) =>
-    block.type === 'tool_use' ? [{ name: block.name, input: block.input }] : [],
-  );
-  return { text, toolCalls, structured, request, error, violations, decision, pack };
+  return {
+    text,
+    answer,
+    toolCalls,
+    structured,
+    request: request ?? {},
+    error,
+    violations,
+    decision,
+    pack,
+  };
 }

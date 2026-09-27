@@ -30,8 +30,6 @@ export interface BuildContextInput {
   readonly surface: AiCaller;
   /** Crew messages, OCR, email bodies, web results and tips the caller wants the guide to see. */
   readonly untrusted?: readonly UntrustedInput[];
-  /** Off on structured-output routes (see wrap-untrusted.ts). */
-  readonly citations: boolean;
 }
 
 export interface BuildContextDeps {
@@ -137,6 +135,6 @@ export async function buildContext(
     tripContext:
       trip === undefined ? undefined : renderTripContext(redactRecord(trip, deps.redactKeys)),
     prefs: toPrefs(prefs),
-    documents: wrapAllUntrusted(input.untrusted ?? [], { citations: input.citations }),
+    documents: wrapAllUntrusted(input.untrusted ?? []),
   };
 }

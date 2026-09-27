@@ -2,11 +2,14 @@
  * `pnpm --filter @cp/ai eval <suite...> | --all | --changed <git ref>`
  *
  * Replay mode (default, CI): recorded responses, deterministic graders. Live mode
- * (`EVAL_MODE=live` with a Claude `ANTHROPIC_API_KEY`): the same cases against Anthropic's API,
- * with `llm-rubric` judged too. Exits non-zero when any suite scores below its threshold.
+ * (`EVAL_MODE=live` with the DeepSeek key in `ANTHROPIC_API_KEY`): the same cases against
+ * DeepSeek, with `llm-rubric` judged too; `TAVILY_API_KEY` runs web search cases against Tavily and
+ * `EVAL_RECORD=1` stores the responses as the replay recordings. Exits non-zero when any suite
+ * scores below its threshold.
  */
 import { execFileSync } from 'node:child_process';
 
+import { DEEPSEEK_ANTHROPIC_URL } from '../src/env';
 import { runSuite, type SuiteReport } from './lib/runner';
 import { isSuiteName, SUITES, suitesForChanges, type SuiteName } from './suites';
 
@@ -48,6 +51,8 @@ function print(report: SuiteReport): void {
     for (const a of testCase.assertions.filter((entry) => entry.outcome !== 'pass')) {
       console.log(`    ${a.outcome} ${a.type}: ${a.reason}`);
     }
+    if (testCase.output !== undefined)
+      console.log(`    output: ${JSON.stringify(testCase.output)}`);
   }
 }
 
@@ -55,16 +60,19 @@ async function main(): Promise<void> {
   const mode = process.env.EVAL_MODE === 'live' ? 'live' : 'replay';
   const apiKey = process.env.ANTHROPIC_API_KEY;
   const typesafeKey = process.env.TYPESAFE_API_KEY;
+  const searchKey = process.env.TAVILY_API_KEY;
   const suites = selected(process.argv.slice(2));
-  const claudeSuites = suites.filter((suite) => suite !== 'compliance');
-  if (mode === 'live' && claudeSuites.length > 0 && !apiKey) {
-    throw new Error('EVAL_MODE=live needs ANTHROPIC_API_KEY');
+  const generationSuites = suites.filter((suite) => suite !== 'compliance');
+  if (mode === 'live' && generationSuites.length > 0 && !apiKey) {
+    throw new Error('EVAL_MODE=live needs ANTHROPIC_API_KEY (the DeepSeek key)');
   }
-  // Only an explicitly named endpoint is graded instead of Anthropic's API (never ANTHROPIC_BASE_URL).
+  // Only an explicitly named endpoint replaces DeepSeek's (never an ambient ANTHROPIC_BASE_URL).
   const baseURL =
     mode === 'live' && process.env.EVAL_BASE_URL ? process.env.EVAL_BASE_URL : undefined;
-  if (mode === 'live')
-    console.log(`live against ${baseURL ? new URL(baseURL).host : 'api.anthropic.com'}`);
+  if (mode === 'live') {
+    console.log(`live against ${new URL(baseURL ?? DEEPSEEK_ANTHROPIC_URL).host}`);
+    if (!searchKey) console.log('TAVILY_API_KEY unset: web search cases answer without search');
+  }
   if (suites.length === 0) {
     console.log('no eval suite is affected by these changes');
     return;
@@ -75,6 +83,7 @@ async function main(): Promise<void> {
       mode,
       ...(apiKey ? { apiKey } : {}),
       ...(typesafeKey ? { typesafeKey } : {}),
+      ...(searchKey ? { searchKey } : {}),
       ...(process.env.EVAL_RECORD === '1' ? { record: true } : {}),
       ...(baseURL === undefined ? {} : { baseURL }),
     });

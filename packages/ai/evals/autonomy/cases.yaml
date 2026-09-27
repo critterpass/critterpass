@@ -22,6 +22,15 @@
     route: guide.chat
     persona: tokek
     question: Can we push dinner to 21:00?
+    trip_context: >-
+      Trip: Bali, 10-16 Oct 2026, day 3 of 7, in-trip. Crew: Rin (organiser), Maya, Dev. Tonight:
+      dinner at Locavore 19:30 for the whole crew. You are talking with Rin.
+    tool_results:
+      - tool: propose_plan_changes
+        output:
+          changeset_id: 0190f0a0-0000-7000-8000-0000000c0001
+          violations: []
+          cost_delta: null
     action:
       kind: retime_item
       affected:

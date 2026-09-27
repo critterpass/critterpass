@@ -2,6 +2,20 @@
   vars:
     route: guide.chat
     question: Two breakfast spots near the villa?
+    format: &picks
+      type: object
+      properties:
+        picks:
+          type: array
+          items:
+            type: object
+            properties:
+              poi_id: { type: string }
+              distance_m: { type: number }
+            required: [poi_id, distance_m]
+            additionalProperties: false
+      required: [picks]
+      additionalProperties: false
     tool_results: &places
       - tool: places_search
         output:
@@ -23,7 +37,9 @@
   vars:
     route: guide.chat
     question: One more breakfast spot?
+    format: *picks
     tool_results: *places
+    seeded: true
     replay:
       text: '{"picks":[{"poi_id":"0190f0a0-0000-7000-8000-00000000beef","distance_m":350}]}'
   assert:
@@ -51,6 +67,7 @@
     route: guide.chat
     question: How much is the boat each?
     tool_results: *split
+    seeded: true
     replay:
       text: The boat is $1,500 in total, so $520 each.
   assert:
@@ -67,6 +84,7 @@
           items:
             - title: Dinner at Locavore
               starts_at: '2026-10-12T21:00:00+08:00'
+    seeded: true
     replay:
       text: Dinner is at 20:30 tonight.
   assert:

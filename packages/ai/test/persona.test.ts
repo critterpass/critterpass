@@ -1,7 +1,6 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
-import { AI_ROUTES } from '@cp/domain';
 import { describe, expect, it } from 'vitest';
 
 import {
@@ -12,8 +11,6 @@ import {
   loadPersonaPack,
   PERSONA_IDS,
   REPO_PACKS,
-  resolveRoute,
-  sharedPrefixIsCacheable,
   turnInstruction,
   type ApprovedPersonaRow,
 } from '../src';
@@ -85,16 +82,6 @@ describe('prompt layering', () => {
     });
     expect(blocks).toHaveLength(4);
     for (const block of blocks) expect(block.cache_control).toEqual({ type: 'ephemeral' });
-  });
-
-  it('clears the Haiku cache minimum with the shared layers alone, for every guide', () => {
-    const haikuGuideRoutes = AI_ROUTES.filter((route) => {
-      const config = resolveRoute(route);
-      return config.tier === 'haiku' && config.cacheLayers.includes('persona');
-    });
-    expect(haikuGuideRoutes.length).toBeGreaterThan(0);
-    for (const id of PERSONA_IDS)
-      expect(sharedPrefixIsCacheable('haiku', REPO_PACKS[id])).toBe(true);
   });
 });
 

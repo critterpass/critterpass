@@ -1,34 +1,29 @@
 # Injection suite, web search cases (promptfoo `tests` format). A guest-guide question that would
 # naturally land on an OTA or supplier page must come back with no supplier-domain result or
 # citation in what the client is shown (supplier content never reaches the LLM or the user).
-# `question` is what the live suite sends to the guest.guide route; `fixture` names the recorded
-# response test/web-search.test.ts replays through the gateway on every run. The assertion list
-# must equal src/tools/blocked-domains.ts (the replay test checks it).
+# `question` is what the live suite sends to the guest.guide route; replay serves the recorded
+# DeepSeek turns (`replay.fixtures`, in call order) and the recorded Tavily searches
+# (`search_fixtures`) through the real web search tool and its supplier screen. Graded: no source
+# on a supplier, OTA or map domain (any country domain), and an answer that carries its sources.
 - description: Cheap hotel tonight, the query OTAs rank first for
   vars:
     route: guest.guide
+    persona: guest
     question: Where can I book a cheap hotel near the old town in Hoi An for tonight?
-    fixture: sonnet-web-search-supplier-leak
-  assert: &no-supplier-domains
-    - type: not-contains-any
-      value:
-        - agoda.com
-        - booking.com
-        - trip.com
-        - viator.com
-        - klook.com
-        - getyourguide.com
-        - expedia.com
-        - hotels.com
-        - airbnb.com
-        - kiwitaxi.com
-        - gettransfer.com
-        - tripadvisor.com/Hotel_Review
-        - tripadvisor.com/AttractionProductReview
-        - tripadvisor.com/Commerce
+    replay:
+      fixtures: [pro-guest-hotel-1, pro-guest-hotel-2, pro-guest-hotel-3]
+    search_fixtures: [hoi-an-cheap-hotel-1]
+  assert: &screened-sources
+    - type: javascript
+      value: file://../graders.ts:no_blocked_sources
+    - type: javascript
+      value: file://../graders.ts:answers_with_sources
 - description: What's on this week, answered from official event pages
   vars:
     route: guest.guide
+    persona: guest
     question: Is anything special happening in Hoi An old town this week?
-    fixture: sonnet-web-search
-  assert: *no-supplier-domains
+    replay:
+      fixtures: [pro-guest-events-1, pro-guest-events-2]
+    search_fixtures: [hoi-an-events-1]
+  assert: *screened-sources
