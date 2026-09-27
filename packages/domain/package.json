@@ -14,6 +14,7 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
+    "@js-temporal/polyfill": "catalog:",
     "zod": "catalog:"
   }
 }
