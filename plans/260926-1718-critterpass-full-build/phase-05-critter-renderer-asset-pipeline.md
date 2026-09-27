@@ -156,6 +156,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Model: frame, rect (radius, halftone tex), text run (font family/axis width step/weight/colour/maxLines/ellipsis), image (URI, fit, rotation), sticker spec, rotation for "slightly wrong angles". 2. Font registry from `@cp/design-tokens` font files (assert tier colours equal critter-art constants here). 3. Skia backend via Paragraph API; Node backend via `@napi-rs/canvas` `GlobalFonts`. 4. Grapheme-safe text (Vietnamese, emoji).
 - Tests: `pnpm --filter @cp/critter-art test -- share`
 - Done when: a test card renders on both backends within share tolerance (text AA band documented); tier colours asserted equal to design tokens.
+- Status: done — 7393cbb (font registry step used one bundled font file directly rather than a `@cp/design-tokens`-owned registry — design-tokens ships type-scale metadata, not font binaries, which live in `apps/mobile/assets/fonts/`; see phase report)
 
 ### T10 — Share card templates and share actions
 - Goal: all F-140 cards and the share/save flow.
