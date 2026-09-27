@@ -22,6 +22,8 @@ export interface LinkEnvironmentConfig {
   readonly scheme: string;
   /** iOS bundle id and Android application id (identical for every variant). */
   readonly appId: string;
+  /** App Store id (the `submit` profile's `ascAppId` in apps/mobile/eas.json); null when never listed. */
+  readonly appStoreId: string | null;
 }
 
 export const LINK_ENVIRONMENT_CONFIG: Readonly<Record<LinkEnvironment, LinkEnvironmentConfig>> = {
@@ -31,6 +33,7 @@ export const LINK_ENVIRONMENT_CONFIG: Readonly<Record<LinkEnvironment, LinkEnvir
     altHost: 'go.critterpass.app',
     scheme: 'critterpass',
     appId: 'app.critterpass',
+    appStoreId: '6816655856',
   },
   staging: {
     env: 'staging',
@@ -38,6 +41,7 @@ export const LINK_ENVIRONMENT_CONFIG: Readonly<Record<LinkEnvironment, LinkEnvir
     altHost: 'go.staging.critterpass.app',
     scheme: 'critterpass-staging',
     appId: 'app.critterpass.staging',
+    appStoreId: '6816656656',
   },
   // Development builds claim the staging hosts (with `?mode=developer` on iOS, so Apple's CDN
   // cache is bypassed while the association file changes).
@@ -47,6 +51,7 @@ export const LINK_ENVIRONMENT_CONFIG: Readonly<Record<LinkEnvironment, LinkEnvir
     altHost: 'go.staging.critterpass.app',
     scheme: 'critterpass-dev',
     appId: 'app.critterpass.dev',
+    appStoreId: null,
   },
 };
 

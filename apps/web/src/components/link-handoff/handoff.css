@@ -1,0 +1,400 @@
+/* Link handoff page (Site-Invite design): a yellow invite ticket beside the code and store panel. */
+.lh-page *,
+.lh-page *::before,
+.lh-page *::after {
+  box-sizing: border-box;
+}
+.lh-page {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-ink-850);
+  background-image: radial-gradient(var(--color-ink-700) 1px, transparent 1px);
+  background-size: 14px 14px;
+  color: var(--color-paper-cream);
+  font-family: Geist, system-ui, sans-serif;
+}
+
+.lh-bar {
+  border-bottom: 1px solid var(--color-ink-700);
+  background: var(--color-ink-900);
+}
+.lh-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  color: var(--color-yellow);
+  text-decoration: none;
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-stretch: 64%;
+  font-size: 26px;
+  letter-spacing: 0.01em;
+}
+
+.lh-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 72px 24px 96px;
+  align-items: start;
+}
+
+.lh-eyebrow {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.lh-eyebrow--muted {
+  color: var(--color-ink-200);
+}
+
+.lh-ticket {
+  padding: 56px 48px;
+  border-radius: 36px;
+  background-color: var(--color-yellow);
+  background-image: radial-gradient(rgba(33, 29, 24, 0.12) 1px, transparent 1px);
+  background-size: 10px 10px;
+  color: var(--color-ink-950);
+  transform: rotate(-1.5deg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+.lh-headline {
+  margin: 20px 0 0;
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-stretch: 62%;
+  font-size: clamp(56px, 7vw, 104px);
+  line-height: 0.92;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+.lh-body {
+  margin: 20px 0 0;
+  font-size: 18px;
+  line-height: 1.45;
+  max-width: 34ch;
+}
+.lh-roster {
+  margin: 28px 0 0;
+  font-family: Archivo, sans-serif;
+  font-weight: 800;
+  font-stretch: 78%;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+.lh-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.lh-chip {
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: var(--color-ink-950);
+  color: var(--color-yellow);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lh-side {
+  display: grid;
+  gap: 24px;
+}
+.lh-panel {
+  display: grid;
+  gap: 24px;
+  padding: 40px;
+  border-radius: 36px;
+  background: var(--color-ink-800);
+}
+.lh-panel__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.lh-expires {
+  margin: 0;
+  color: var(--color-orange);
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.lh-code {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.lh-code__tile {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 0.8;
+  border-radius: 14px;
+  background: var(--color-paper-cream);
+  color: var(--color-ink-950);
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-stretch: 70%;
+  font-size: clamp(36px, 4.4vw, 60px);
+  box-shadow: 0 4px 0 var(--color-paper-border);
+}
+.lh-code__tile:nth-child(odd) {
+  transform: rotate(-2deg);
+}
+.lh-code__tile:nth-child(even) {
+  transform: rotate(1.5deg);
+}
+
+.lh-desktop {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 20px;
+  align-items: center;
+}
+.lh-qr {
+  padding: 8px;
+  border-radius: 18px;
+  background: var(--color-paper-bright);
+}
+.lh-qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.lh-desktop__title {
+  margin: 0;
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-stretch: 70%;
+  font-size: 26px;
+  text-transform: uppercase;
+}
+.lh-desktop__body {
+  margin: 8px 0 0;
+  color: var(--color-ink-150);
+  line-height: 1.5;
+}
+
+.lh-actions {
+  display: grid;
+  gap: 12px;
+}
+.lh-cta,
+.lh-store {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+.lh-cta {
+  min-height: 60px;
+  background: var(--color-yellow);
+  color: var(--color-ink-950);
+  font-size: 17px;
+}
+.lh-store {
+  background: var(--color-ink-700);
+  color: var(--color-paper-cream);
+  font-size: 14px;
+}
+.lh-stores {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+.lh-cta:focus-visible,
+.lh-store:focus-visible,
+.lh-code-form__submit:focus-visible,
+.lh-escape__dismiss:focus-visible {
+  outline: 3px solid var(--color-blue-light);
+  outline-offset: 3px;
+}
+
+.lh-code-form {
+  display: grid;
+  gap: 12px;
+  padding: 28px 30px;
+  border: 2px dashed var(--color-ink-600);
+  border-radius: 32px;
+}
+.lh-code-form__title {
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-stretch: 70%;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+.lh-code-form__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+}
+.lh-code-form__input {
+  min-width: 0;
+  padding: 14px 20px;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  background: var(--color-ink-780);
+  color: var(--color-paper-cream);
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.lh-code-form__input::placeholder {
+  color: var(--color-ink-400);
+}
+.lh-code-form__input:focus-visible {
+  outline: none;
+  border-color: var(--color-yellow);
+}
+.lh-code-form__submit {
+  padding: 0 24px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--color-ink-600);
+  color: var(--color-paper-cream);
+  font: inherit;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.lh-code-form__hint {
+  margin: 0;
+  color: var(--color-ink-150);
+  font-size: 14px;
+}
+.lh-code-form__error {
+  display: none;
+  margin: 0;
+  color: var(--color-danger-border);
+  font-size: 14px;
+  font-weight: 700;
+}
+.lh-code-form[data-invalid] .lh-code-form__error {
+  display: block;
+}
+.lh-code-form[data-invalid] .lh-code-form__input {
+  border-color: var(--color-danger-border);
+}
+
+.lh-escape {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: end center;
+  padding: 16px;
+  background: rgba(11, 10, 18, 0.8);
+}
+.lh-escape[hidden] {
+  display: none;
+}
+.lh-escape__card {
+  display: grid;
+  gap: 14px;
+  width: min(100%, 460px);
+  padding: 28px;
+  border-radius: 28px;
+  background: var(--color-yellow);
+  color: var(--color-ink-950);
+}
+.lh-escape__title {
+  margin: 0;
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-stretch: 66%;
+  font-size: 40px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.lh-escape__body {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.lh-escape__actions {
+  display: grid;
+  gap: 10px;
+}
+.lh-escape .lh-cta {
+  background: var(--color-ink-950);
+  color: var(--color-yellow);
+}
+.lh-escape__dismiss {
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink-950);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.lh-copy__done,
+.lh-copy[data-copied='true'] .lh-copy__idle {
+  display: none;
+}
+.lh-copy[data-copied='true'] .lh-copy__done {
+  display: inline;
+}
+
+@media (max-width: 900px) {
+  .lh-main {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 32px 16px 64px;
+  }
+  .lh-ticket {
+    padding: 36px 28px;
+    transform: none;
+  }
+  .lh-panel {
+    padding: 28px 22px;
+  }
+  .lh-code {
+    gap: 6px;
+  }
+  .lh-code__tile {
+    border-radius: 10px;
+  }
+  .lh-code-form {
+    padding: 22px;
+  }
+  .lh-code-form__row {
+    grid-template-columns: 1fr;
+  }
+  .lh-code-form__submit {
+    min-height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lh-ticket,
+  .lh-code__tile {
+    transform: none;
+  }
+}

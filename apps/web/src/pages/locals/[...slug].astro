@@ -1,0 +1,20 @@
+---
+import Handoff from '../../components/link-handoff/Handoff.astro';
+import { loadHandoff } from '../../lib/links/load-handoff';
+
+// Link handoff page (docs/api-contracts.md §5.6): opens the app when installed, else the store.
+export const prerender = false;
+
+const loaded = await loadHandoff(Astro.request, Astro.url);
+if (loaded.kind === 'redirect') return Astro.redirect(loaded.location, 302);
+Astro.response.status = loaded.status;
+---
+
+<Handoff
+  model={loaded.model}
+  copy={loaded.copy}
+  expires={loaded.expires}
+  qrSvg={loaded.qrSvg}
+  appStoreHref={loaded.appStoreHref}
+  playStoreHref={loaded.playStoreHref}
+/>
