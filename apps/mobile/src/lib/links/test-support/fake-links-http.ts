@@ -31,6 +31,7 @@ const VIA_BY_SOURCE: Record<string, string> = {
   join_code: 'code',
   phone: 'phone',
   opened_url: 'link',
+  clip_url: 'clip',
 };
 
 /** The recorded claim, with `via` following the claim's source as the api sets it. */

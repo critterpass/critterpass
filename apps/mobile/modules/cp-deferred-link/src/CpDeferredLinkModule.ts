@@ -10,6 +10,8 @@ export declare class NativeCpDeferredLinkModule extends NativeModule {
   getInstallReferrer(): Promise<string | null>;
   /** iOS: true when the pasteboard probably holds a web URL (no alert, value not read). */
   detectLikelyLink(): Promise<boolean>;
+  /** iOS: the link the App Clip was opened with (App Group handoff), once; then null. */
+  consumeClipLink(): Promise<string | null>;
   /** Android: a referrer passed as the `cp_install_referrer` launch extra by a test run. */
   getReferrerOverride(): Promise<string | null>;
 }

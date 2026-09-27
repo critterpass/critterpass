@@ -206,9 +206,24 @@ async function downloadApp(url: string, workDir: string): Promise<string> {
   mkdirSync(extractDir);
   run('tar', ['-xzf', tarball, '-C', extractDir]);
   rmSync(tarball, { force: true });
-  const app = readdirSync(extractDir).find((name) => name.endsWith('.app'));
+  const app = hostApp(extractDir);
   if (!app) throw new Error('The build archive contains no .app bundle');
-  return path.join(extractDir, app);
+  return app;
+}
+
+/**
+ * The installable app in an extracted simulator archive. A build with an App Clip archives the
+ * whole products folder (`Release-iphonesimulator/` with the app and the clip side by side); the
+ * clip is the bundle another candidate embeds under `AppClips/`.
+ */
+export function hostApp(extractDir: string): string | undefined {
+  const entries = (dir: string) => readdirSync(dir).map((name) => path.join(dir, name));
+  const top = entries(extractDir);
+  const nested = top.filter((entry) => !entry.endsWith('.app') && statSync(entry).isDirectory());
+  const apps = [...top, ...nested.flatMap(entries)].filter((entry) => entry.endsWith('.app'));
+  const embedded = (app: string) =>
+    apps.some((other) => existsSync(path.join(other, 'AppClips', path.basename(app))));
+  return apps.find((app) => !embedded(app));
 }
 
 function createSimulator(device: string): string {

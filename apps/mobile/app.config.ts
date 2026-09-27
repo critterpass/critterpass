@@ -36,6 +36,13 @@ function resolveVariant(): AppVariant {
 }
 
 const appVariant = resolveVariant();
+
+/**
+ * Variants whose build embeds the App Clip (targets/app-clip). Development only until the clip's
+ * bundle ids are registered for staging and production (docs/decisions/
+ * 20260928-app-clip-built-behind-a-flag.md); invite pages offer it only with `links.app_clip` on.
+ */
+const APP_CLIP_VARIANTS: ReadonlySet<AppVariant> = new Set(['development']);
 const variant = VARIANTS[appVariant];
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
@@ -138,7 +145,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         android: { compileSdkVersion: 37, targetSdkVersion: 36 },
       },
     ],
-    '@bacons/apple-targets',
+    // Every directory under targets/ is an Apple target; the App Clip only in APP_CLIP_VARIANTS.
+    ['@bacons/apple-targets', { match: APP_CLIP_VARIANTS.has(appVariant) ? '*' : '!(app-clip)' }],
+    // Communication Notifications for the notification service extension (entitlement +
+    // NSUserActivityTypes).
+    './modules/cp-notifications/plugin/with-communication-notifications',
     '@maplibre/maplibre-react-native',
     'expo-apple-authentication',
     [

@@ -10,6 +10,7 @@ import {
   APP_LINK_EXCLUDED_PATHS,
   APP_LINK_PATH_PREFIXES,
   APPLE_TEAM_ID,
+  appClipBundleId,
   appIdsForHost,
 } from '@cp/domain';
 
@@ -26,18 +27,23 @@ function pathComponents(): readonly PathComponent[] {
 }
 
 export interface AppleAssociationOptions {
-  /** App Clip bundle id, present only while the App Clip flag is on. */
-  readonly appClipBundleId?: string | undefined;
+  /** The `links.app_clip` flag: only while it is on do this host's apps' clips get invoked. */
+  readonly appClip?: boolean;
 }
 
 export function appleAppSiteAssociation(host: string, options: AppleAssociationOptions = {}) {
-  const appIds = appIdsForHost(host).map((appId) => `${APPLE_TEAM_ID}.${appId}`);
+  const hostAppIds = appIdsForHost(host);
+  const appIds = hostAppIds.map((appId) => `${APPLE_TEAM_ID}.${appId}`);
   return {
     applinks: { details: [{ appIDs: appIds, components: pathComponents() }] },
     webcredentials: { apps: appIds },
-    ...(options.appClipBundleId === undefined
-      ? {}
-      : { appclips: { apps: [`${APPLE_TEAM_ID}.${options.appClipBundleId}`] } }),
+    ...(options.appClip === true && hostAppIds.length > 0
+      ? {
+          appclips: {
+            apps: hostAppIds.map((appId) => `${APPLE_TEAM_ID}.${appClipBundleId(appId)}`),
+          },
+        }
+      : {}),
   };
 }
 

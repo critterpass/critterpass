@@ -25,6 +25,7 @@ export interface DeferredLinkNative {
   getInstallReferrer(): Promise<string | null>;
   detectLikelyLink(): Promise<boolean>;
   getReferrerOverride(): Promise<string | null>;
+  consumeClipLink?(): Promise<string | null>;
 }
 
 /** The native primitives for this platform; test referrer overrides never reach production. */
@@ -37,6 +38,9 @@ export function deferredLinkPrimitives(
     platform: platform === 'android' ? 'android' : 'ios',
     getInstallReferrer: () => native.getInstallReferrer(),
     detectLikelyLink: () => native.detectLikelyLink(),
+    ...(native.consumeClipLink !== undefined
+      ? { consumeClipLink: () => native.consumeClipLink?.() ?? Promise.resolve(null) }
+      : {}),
     ...(appVariant !== 'production'
       ? { getReferrerOverride: () => native.getReferrerOverride() }
       : {}),

@@ -17,6 +17,15 @@ import {
   LINK_HOSTS,
 } from './with-links';
 
+interface ClipTargetConfig {
+  (config: { extra?: { appVariant?: string } }): { entitlements: Record<string, unknown> };
+  readonly LINK_HOSTS: Record<string, readonly string[]>;
+}
+
+// The clip's target config is CommonJS that @bacons/apple-targets loads with a plain require.
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS target config
+const clipTarget = require('../targets/app-clip/expo-target.config') as ClipTargetConfig;
+
 describe('with-links config plugin', () => {
   it('claims exactly the shared hosts and link paths', () => {
     expect(APP_LINK_PATH_PREFIXES).toEqual(DOMAIN_PREFIXES);
@@ -33,6 +42,16 @@ describe('with-links config plugin', () => {
     expect(
       associatedDomains('development').every((entry) => entry.endsWith('?mode=developer')),
     ).toBe(true);
+  });
+
+  it('invokes the App Clip from the same hosts the app links claim', () => {
+    expect(clipTarget.LINK_HOSTS).toEqual(LINK_HOSTS);
+    const clip = clipTarget({ extra: { appVariant: 'development' } });
+    expect(clip.entitlements['com.apple.developer.associated-domains']).toEqual(
+      associatedDomains('development')
+        .filter((entry) => entry.startsWith('applinks:'))
+        .map((entry) => entry.replace('applinks:', 'appclips:')),
+    );
   });
 
   it('adds one auto-verified https filter per link path covering both hosts', () => {

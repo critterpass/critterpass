@@ -6,6 +6,7 @@
  *   is the same 404, so codes cannot be enumerated by their answers.
  * - `POST /v1/links/claim`: a `claim_attribution` envelope from a signed-in (anonymous allowed)
  *   session, run through the system door for that uid.
+ * - `GET /v1/links/settings`: public link switches (the App Clip flag) for the web Worker.
  * The web handoff pages call the first two server-side; with the shared proxy secret they pass the
  * visitor's own IP and user agent, so limits and bot filtering apply to the visitor, not the Worker.
  */
@@ -13,6 +14,7 @@ import { timingSafeEqual } from 'node:crypto';
 
 import { executeCommand } from '@cp/db';
 import {
+  APP_CLIP_FLAG_KEY,
   codeLookupResponseSchema,
   DomainError,
   LINK_CHANNELS,
@@ -20,6 +22,7 @@ import {
   LINK_PATH_PREFIXES,
   linkPath,
   linkPreviewSchema,
+  linkSettingsSchema,
   normalizeJoinCode,
   parseLinkPath,
 } from '@cp/domain';
@@ -151,7 +154,34 @@ const claimRoute = createRoute({
   },
 });
 
+const settingsRoute = createRoute({
+  method: 'get',
+  path: '/v1/links/settings',
+  tags: ['links'],
+  summary: 'Public link switches the web handoff pages read',
+  responses: {
+    200: {
+      description: 'Current settings',
+      content: { 'application/json': { schema: linkSettingsSchema } },
+    },
+  },
+});
+
+/** Seconds the Worker and CDNs may reuse the settings: a flag flip reaches pages within this. */
+export const LINK_SETTINGS_MAX_AGE_S = 60;
+
 export function registerLinkRoutes(app: OpenAPIHono<AppEnv>, deps: LinkRouteDeps): void {
+  app.openapi(settingsRoute, async (c) => {
+    // `client_config` carries only public flags whose audience is everyone, so a flag scoped to
+    // a cohort never switches the clip on for the whole web.
+    const { rows } = await deps.pool.query<{ value: unknown }>(
+      'SELECT value FROM client_config WHERE key = $1',
+      [APP_CLIP_FLAG_KEY],
+    );
+    c.header('cache-control', `public, max-age=${LINK_SETTINGS_MAX_AGE_S}`);
+    return c.json({ app_clip: rows[0]?.value === true }, 200);
+  });
+
   app.openapi(
     previewRoute,
     async (c) => {

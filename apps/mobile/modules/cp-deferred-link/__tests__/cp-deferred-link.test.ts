@@ -9,15 +9,17 @@ import { Platform } from 'react-native';
 
 const mockGetInstallReferrer = jest.fn<() => Promise<string | null>>();
 const mockDetectLikelyLink = jest.fn<() => Promise<boolean>>();
+const mockConsumeClipLink = jest.fn<() => Promise<string | null>>();
 
 jest.mock('../src/CpDeferredLinkModule', () => ({
   nativeCpDeferredLinkModule: {
     getInstallReferrer: () => mockGetInstallReferrer(),
     detectLikelyLink: () => mockDetectLikelyLink(),
+    consumeClipLink: () => mockConsumeClipLink(),
   },
 }));
 
-import { detectLikelyLink, getInstallReferrer } from '..';
+import { consumeClipLink, detectLikelyLink, getInstallReferrer } from '..';
 
 function setPlatform(os: 'ios' | 'android'): void {
   Object.defineProperty(Platform, 'OS', { value: os, configurable: true });
@@ -26,6 +28,7 @@ function setPlatform(os: 'ios' | 'android'): void {
 beforeEach(() => {
   mockGetInstallReferrer.mockReset();
   mockDetectLikelyLink.mockReset();
+  mockConsumeClipLink.mockReset();
 });
 
 describe('getInstallReferrer', () => {
@@ -53,5 +56,18 @@ describe('detectLikelyLink', () => {
     setPlatform('android');
     await expect(detectLikelyLink()).resolves.toBe(false);
     expect(mockDetectLikelyLink).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('consumeClipLink', () => {
+  it('hands over the App Clip link on iOS only, and swallows native failures', async () => {
+    setPlatform('ios');
+    mockConsumeClipLink.mockResolvedValue('https://critterpass.app/i/K7M2QX');
+    await expect(consumeClipLink()).resolves.toBe('https://critterpass.app/i/K7M2QX');
+    mockConsumeClipLink.mockRejectedValue(new Error('no container'));
+    await expect(consumeClipLink()).resolves.toBeNull();
+    setPlatform('android');
+    await expect(consumeClipLink()).resolves.toBeNull();
+    expect(mockConsumeClipLink).toHaveBeenCalledTimes(2);
   });
 });

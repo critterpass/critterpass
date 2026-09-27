@@ -160,6 +160,7 @@ Done when: tapping any link route opens the right app screen on both OSes when i
 - Steps: 1. SwiftUI clip rendering invite ticket from preview API (baked art). 2. Write token to App Group; full app reads it on first launch. 3. Size ≤ 100 MB digital invocation (no App Clip Code).
 - Tests: `xcodebuild -scheme AppClip test`; Maestro `e2e/links/app-clip.yaml` using `_XCAppClipURL` launch.
 - Done when: clip builds and installs from Safari invocation on the simulator with `links.app_clip` on, the full app consumes the App Group token; with the flag off AASA has no `appclips` entry and the handoff page no clip meta (test); decision (build + flag, beta-cohort gate) recorded in `docs/decisions/`.
+- Status: done — 6e45e6df (clip opened on the simulator with `_XCAppClipURL` from the e2e-test build, ticket rendered, full app consumed the App Group handoff; embedded in development builds only until the clip bundle ids are registered; Maestro `e2e/links/app-clip.yaml` not written)
 
 ## Phase acceptance criteria
 

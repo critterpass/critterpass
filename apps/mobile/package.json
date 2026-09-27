@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "jest",
-    "test:db": "CP_DB_SUITES=1 jest --testPathPattern '\\.db\\.test\\.'"
+    "test:db": "CP_DB_SUITES=1 jest --testPathPattern '\\.db\\.test\\.'",
+    "ios:test": "swift test --package-path targets --scratch-path ../../node_modules/.cache/cp-targets-swiftpm"
   },
   "dependencies": {
     "@better-auth/expo": "1.7.6",

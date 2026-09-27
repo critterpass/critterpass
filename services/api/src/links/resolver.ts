@@ -61,6 +61,7 @@ export function readClaimSource(
   if (payload.install_referrer !== undefined) return fromReferrer(payload.install_referrer);
   if (payload.pasted_url !== undefined) return fromUrl(payload.pasted_url, 'paste', config);
   if (payload.opened_url !== undefined) return fromUrl(payload.opened_url, 'link', config);
+  if (payload.clip_url !== undefined) return fromUrl(payload.clip_url, 'clip', config);
   if (payload.join_code !== undefined) {
     const code = normalizeJoinCode(payload.join_code);
     if (code === null) throw invalid('code_malformed');

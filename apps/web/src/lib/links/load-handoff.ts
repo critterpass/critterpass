@@ -9,6 +9,7 @@ import { renderSVG } from 'uqr';
 
 import { channelOf, decideHandoff, targetOf, type HandoffModel } from './handoff-model';
 import { expiresIn, handoffCopy, NOT_FOUND_COPY, type HandoffCopy } from './handoff-copy';
+import { fetchLinkSwitches } from './link-settings';
 import { fetchLinkPreview } from './resolver-fetch';
 import { appStoreUrl, playStoreUrl } from './store-url';
 import { linkRequestContext, type LinksWebEnv } from './web-env';
@@ -44,15 +45,25 @@ export async function loadHandoff(request: Request, url: URL): Promise<LoadedHan
   if (target === null) return notFound;
 
   const userAgent = request.headers.get('user-agent');
-  const preview = await fetchLinkPreview({
-    apiBaseUrl: context.apiBaseUrl,
+  const [preview, switches] = await Promise.all([
+    fetchLinkPreview({
+      apiBaseUrl: context.apiBaseUrl,
+      target,
+      channel: channelOf(url),
+      visitorIp: request.headers.get('cf-connecting-ip'),
+      visitorUserAgent: userAgent,
+      proxySecret: webEnv.LINKS_WEB_PROXY_SECRET,
+    }),
+    fetchLinkSwitches({ apiBaseUrl: context.apiBaseUrl }),
+  ]);
+  const decision = decideHandoff({
+    url,
+    userAgent,
+    context,
     target,
-    channel: channelOf(url),
-    visitorIp: request.headers.get('cf-connecting-ip'),
-    visitorUserAgent: userAgent,
-    proxySecret: webEnv.LINKS_WEB_PROXY_SECRET,
+    preview,
+    appClip: switches.appClip,
   });
-  const decision = decideHandoff({ url, userAgent, context, target, preview });
   if (decision.kind === 'redirect') return { kind: 'redirect', location: decision.location };
   if (decision.kind === 'not_found') return notFound;
 
