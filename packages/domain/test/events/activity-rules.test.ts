@@ -1,12 +1,29 @@
 import { describe, expect, it } from 'vitest';
 
-import { DOMAIN_EVENT_TYPES } from '../../src/events/catalogue';
+import { DOMAIN_EVENT_TYPES, type DomainEventType } from '../../src/events/catalogue';
 import { projectActivity } from '../../src/events/activity-rules';
 
+/**
+ * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
+ * docstring: "private events stay out of the crew-visible ticker"). `auth.merged` describes an
+ * identity operation on one account, not something any crew member should see in a shared feed.
+ */
+const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set(['auth.merged']);
+
+function publicEventTypes(): readonly DomainEventType[] {
+  return DOMAIN_EVENT_TYPES.filter((type) => !PRIVATE_EVENT_TYPES.has(type));
+}
+
 describe('projectActivity', () => {
-  it('projects every currently-catalogued event (all are crew/trip visible, none private)', () => {
-    for (const type of DOMAIN_EVENT_TYPES) {
+  it('projects every public event (crew/trip visible)', () => {
+    for (const type of publicEventTypes()) {
       expect(projectActivity(type)).not.toBeNull();
+    }
+  });
+
+  it('never projects a private event', () => {
+    for (const type of PRIVATE_EVENT_TYPES) {
+      expect(projectActivity(type)).toBeNull();
     }
   });
 
@@ -19,7 +36,7 @@ describe('projectActivity', () => {
   });
 
   it('every text key follows the activity.<verb-ish> convention', () => {
-    for (const type of DOMAIN_EVENT_TYPES) {
+    for (const type of publicEventTypes()) {
       const projection = projectActivity(type);
       expect(projection?.textKey.startsWith('activity.')).toBe(true);
     }
