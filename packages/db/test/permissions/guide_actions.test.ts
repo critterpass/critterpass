@@ -69,9 +69,10 @@ describe('guide_actions RLS: T read, S write', () => {
   });
 
   it('is writable by app_system', async () => {
-    await withSystem(db.pool, (tx) =>
-      tx.query("UPDATE guide_actions SET status = 'done' WHERE id = $1", [guideActionId]),
-    );
+    await withSystem(db.pool, async (tx) => {
+      await tx.query("UPDATE guide_actions SET status = 'running' WHERE id = $1", [guideActionId]);
+      await tx.query("UPDATE guide_actions SET status = 'done' WHERE id = $1", [guideActionId]);
+    });
     const rows = await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
       const { rows } = await tx.query<{ status: string }>(
         'SELECT status FROM guide_actions WHERE id = $1',

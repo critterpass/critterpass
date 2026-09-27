@@ -6,8 +6,20 @@ import { createClient } from 'redis';
 import packageJson from '../package.json' with { type: 'json' };
 
 import { loadWorkerEnv } from './env';
+import {
+  createBoss,
+  createFailureReporter,
+  startJobRuntime,
+  stopJobRuntime,
+  type AnyJobDefinition,
+} from './boss';
 import { createHealthApp } from './health';
-import { createCentrifugoApi, startRtRelay, type RtRelay } from './rt-relay';
+import { anonGcJob } from './jobs/maint/anon-gc';
+import { purgeJob } from './jobs/maint/purge';
+import { backupJob } from './jobs/ops/backup';
+import { createObjectStore } from './jobs/ops/object-store';
+import { enqueueDueJob } from './jobs/sched/enqueue-due';
+import { createCentrifugoApi, rtRelayJob, startRtRelayWake, type RtRelay } from './rt-relay';
 
 const env = loadWorkerEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'worker', commit: env.COMMIT_SHA } });
@@ -40,22 +52,66 @@ const health = createHealthApp({
   },
 });
 
-let rtRelay: RtRelay | undefined;
-if (env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY) {
-  rtRelay = startRtRelay({
-    pool,
-    api: createCentrifugoApi({
-      baseUrl: env.CENTRIFUGO_API_URL,
-      apiKey: env.CENTRIFUGO_HTTP_API_KEY,
+const jobs: AnyJobDefinition[] = [enqueueDueJob(), purgeJob(), anonGcJob()];
+const backupStore =
+  env.BACKUP_S3_ENDPOINT &&
+  env.BACKUP_S3_BUCKET &&
+  env.BACKUP_S3_ACCESS_KEY_ID &&
+  env.BACKUP_S3_SECRET_ACCESS_KEY
+    ? createObjectStore({
+        endpoint: env.BACKUP_S3_ENDPOINT,
+        bucket: env.BACKUP_S3_BUCKET,
+        accessKeyId: env.BACKUP_S3_ACCESS_KEY_ID,
+        secretAccessKey: env.BACKUP_S3_SECRET_ACCESS_KEY,
+        region: env.BACKUP_S3_REGION,
+      })
+    : undefined;
+if (env.APP_ENV !== 'local' || (backupStore && env.BACKUP_DATABASE_URL)) {
+  jobs.push(
+    backupJob({
+      databaseUrl: env.BACKUP_DATABASE_URL,
+      store: backupStore,
+      pgDump: [env.BACKUP_PG_DUMP_PATH],
     }),
-    logger: logger.child({ component: 'rt-relay' }),
-    connectListener: () => new pg.Client({ connectionString: env.DATABASE_DIRECT_URL }),
-  });
+  );
+}
+const relayEnabled = Boolean(env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY);
+if (env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY) {
+  jobs.push(
+    rtRelayJob(
+      createCentrifugoApi({ baseUrl: env.CENTRIFUGO_API_URL, apiKey: env.CENTRIFUGO_HTTP_API_KEY }),
+    ),
+  );
 } else {
   logger.warn(
     'rt_outbox relay is disabled: CENTRIFUGO_API_URL or CENTRIFUGO_HTTP_API_KEY is unset',
   );
 }
+
+const jobsLogger = logger.child({ component: 'jobs' });
+const boss = createBoss({ connectionString: env.DATABASE_DIRECT_URL, logger: jobsLogger });
+let rtRelay: RtRelay | undefined;
+const runtime = startJobRuntime({
+  boss,
+  deps: { pool, logger: jobsLogger },
+  jobs,
+  report: createFailureReporter(jobsLogger),
+})
+  .then(() => {
+    jobsLogger.info({ queues: jobs.map((job) => job.queue) }, 'job runtime started');
+    if (relayEnabled) {
+      rtRelay = startRtRelayWake({
+        pool,
+        boss,
+        logger: logger.child({ component: 'rt-relay' }),
+        connectListener: () => new pg.Client({ connectionString: env.DATABASE_DIRECT_URL }),
+      });
+    }
+  })
+  .catch((error: unknown) => {
+    jobsLogger.fatal({ err: error }, 'job runtime failed to start');
+    process.exit(1);
+  });
 
 const server = serve({ fetch: health.fetch, port: env.PORT }, (info) => {
   logger.info({ port: info.port }, 'worker health listening');
@@ -67,8 +123,10 @@ function shutdown(signal: string) {
   shuttingDown = true;
   logger.info({ signal }, 'draining');
   server.close(() => {
-    void (rtRelay?.stop() ?? Promise.resolve())
-      .catch((error: unknown) => logger.error({ err: error }, 'rt relay stop failed'))
+    void runtime
+      .then(() => rtRelay?.stop())
+      .then(() => stopJobRuntime(boss))
+      .catch((error: unknown) => logger.error({ err: error }, 'job runtime stop failed'))
       .then(() =>
         Promise.allSettled([pool.end(), redis.isOpen ? redis.close() : Promise.resolve()]),
       )

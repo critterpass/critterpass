@@ -1,3 +1,6 @@
+export * from './ai/errors';
+export * from './ai/routes';
+export * from './ai/tables';
 export { ACTION_KEY_SCOPES, isActionKeyScope, type ActionKeyScope } from './auth/action-key-scopes';
 export {
   CHANNEL_NAMESPACES,
@@ -280,3 +283,11 @@ export {
   type BuildEntitlementsSnapshotInput,
   type EntitlementsSnapshot,
 } from './surfaces/entitlements';
+export {
+  localSchedule,
+  resolveLocalSchedule,
+  toLocalWallTime,
+  type LocalScheduleInput,
+  type LocalScheduleResolution,
+  type LocalScheduleResult,
+} from './time/local-schedule';

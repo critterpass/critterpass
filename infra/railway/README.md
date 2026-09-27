@@ -32,11 +32,20 @@ neither the CLI nor the API token available to agents can set a service's config
 | Service | Variables |
 |---|---|
 | api | `NODE_ENV=production`, `APP_ENV`, `DATABASE_URL` (PgBouncer `:6432`), `DATABASE_DIRECT_URL` (`:5432`, migrations only), `REDIS_URL=${{Redis.REDIS_URL}}`, `PUBLIC_BASE_URL`, `COMMIT_SHA=${{RAILWAY_GIT_COMMIT_SHA}}`, `RAILWAY_DOCKERFILE_PATH`, `SENTRY_DSN` |
-| worker | `NODE_ENV=production`, `APP_ENV`, `DATABASE_DIRECT_URL`, `REDIS_URL=${{Redis.REDIS_URL}}`, `COMMIT_SHA`, `RAILWAY_DOCKERFILE_PATH`, `SENTRY_DSN` |
+| worker | `NODE_ENV=production`, `APP_ENV`, `DATABASE_DIRECT_URL`, `REDIS_URL=${{Redis.REDIS_URL}}`, `COMMIT_SHA`, `RAILWAY_DOCKERFILE_PATH`, `SENTRY_DSN`; nightly backup: `BACKUP_DATABASE_URL` (a BYPASSRLS role that reads every schema), `BACKUP_S3_ENDPOINT`, `BACKUP_S3_BUCKET`, `BACKUP_S3_ACCESS_KEY_ID`, `BACKUP_S3_SECRET_ACCESS_KEY` (off-provider R2 bucket; the job dead-letters without them) |
 | centrifugo | `CENTRIFUGO_HTTP_API_KEY`, `CENTRIFUGO_ENGINE_REDIS_ADDRESS`, `CENTRIFUGO_CLIENT_TOKEN_JWKS_PUBLIC_ENDPOINT`, `CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_ENDPOINT`, `CENTRIFUGO_CHANNEL_PROXY_PUBLISH_ENDPOINT`, `CENTRIFUGO_CLIENT_ALLOWED_ORIGINS` |
 | powersync-* | `PS_ROLE`, `PS_DATA_SOURCE_URI` (PlanetScale replication role, `:5432`), `PS_DATA_SOURCE_SSLMODE=verify-full`, `PS_STORAGE_URI=${{Postgres.DATABASE_URL}}`, `PS_STORAGE_SSLMODE`, `PS_PORT`, `PS_JWKS_URI`, `PS_ADMIN_API_TOKEN` (diagnostics API; the service won't start without it), `PORT=8080` |
 
 Validate a service's variables with `railway run --service api pnpm env:check --service api`.
+
+### Bucket compaction (`powersync-compact`, to create)
+
+Self-hosted PowerSync has no admin API for compaction; the service image compacts buckets with its own
+`compact` command and exits. Create a Railway **cron** service `powersync-compact` next to the two PowerSync
+services, with the same image (`infra/railway/powersync.Dockerfile`), the same `PS_*` variables (it needs
+`PS_STORAGE_URI` and `PS_DATA_SOURCE_URI`), cron schedule `0 19 * * *` (daily 19:00 UTC), and start command
+`node service/lib/entry.js compact`. That start command has to replace the image entrypoint, which otherwise
+starts the service. The worker has no `powersync.compact` job.
 
 ## PlanetScale Postgres
 

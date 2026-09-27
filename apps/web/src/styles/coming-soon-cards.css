@@ -70,7 +70,7 @@
   border-radius: 8px;
   border: 2.5px solid var(--color-green-signal);
   background: var(--color-paper-base);
-  color: var(--color-green-signal);
+  color: var(--guide-on-paper-sardi);
   font:
     900 14px/1 Archivo,
     sans-serif;
@@ -127,6 +127,9 @@
 }
 .cs-card--ask .cs-card__title {
   color: var(--color-yellow);
+}
+.cs-card--ask .cs-card__desc {
+  color: var(--color-ink-100);
 }
 .cs-chat-bubble {
   padding: 10px 14px;
@@ -454,7 +457,7 @@
   border-radius: 10px;
   border: 3px solid var(--color-pink);
   background: var(--color-paper-base);
-  color: var(--color-pink);
+  color: var(--guide-on-paper-ajo);
   font-family: Archivo, sans-serif;
   font-weight: 900;
   font-size: 28px;

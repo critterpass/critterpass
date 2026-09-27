@@ -41,7 +41,7 @@
   font:
     600 26px Caveat,
     cursive;
-  color: var(--color-rust-base);
+  color: var(--color-rust-darkened);
 }
 
 /* ---------- Hatch section ---------- */
@@ -522,6 +522,9 @@
     sans-serif;
   letter-spacing: 0.1em;
   color: var(--color-paper-base);
+}
+.cs-footer__social:hover {
+  color: var(--color-yellow);
 }
 .cs-footer__right {
   display: flex;
