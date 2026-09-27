@@ -193,6 +193,7 @@ None exposed here (pipeline + registry are phase 10). Domain contracts: `Command
 - Steps: 1. Actor model `{uid, isAnonymous, roles[], via}`; facts loaded by caller. 2. Rules per Requirements. 3. Map denials to error codes (never leak existence: outsider → NOT_FOUND). 4. Table-driven tests actor × action.
 - Tests: `pnpm --filter @cp/domain test -- policy`
 - Done when: 100% branch coverage on policy files; matrix mirrors RLS outcomes for the same fixtures (shared fixture file).
+- Status: done — 186edad
 
 ### T8 — Ops core, client config, PowerSync publication + check
 - Goal: publication allow-list with CI guard; config store.
