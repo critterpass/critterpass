@@ -15,7 +15,7 @@ critical_path_tasks: 251
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
 | Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
-| Size | 57 phases, 573 tasks, 23 waves, critical path 251 tasks |
+| Size | 57 phases, 574 tasks, 23 waves, critical path 251 tasks |
 | Docs | [docs/README.md](../../docs/README.md) (reading order), [product-decisions.md](../../docs/product-decisions.md) (decisions 1–20, final), [code-standards.md](../../docs/code-standards.md), [system-architecture.md](../../docs/system-architecture.md), [data-model.md](../../docs/data-model.md), [api-contracts.md](../../docs/api-contracts.md), [design-system.md](../../docs/design-system.md) |
 | Reports | [plans/reports/](../reports/) — master synthesis, design analyses, research, fact-checks. Backend authority: [custom Hono backend](../reports/researcher-260926-1649-custom-hono-backend-report.md). Supplier authority: [travel supplier APIs](../reports/researcher-260926-1649-travel-supplier-apis-report.md) |
 | Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude for generation + Jev for typed decisions (D5 amended) |
@@ -55,7 +55,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 10 | [Offline sync, commands, realtime](./phase-10-sync-realtime-outbox.md) | 11 | 2, 8, 9, 12, 14 | 4 | done |
 | 11 | [Jobs, notification router, push](./phase-11-jobs-notifications-push.md) | 11 | 5, 10 | 5 | in_progress |
 | 12 | [Entitlements, money & FX primitives](./phase-12-entitlements-money-fx.md) | 7 | 8 | 3 | done |
-| 13 | [LLM gateway, personas, autonomy](./phase-13-llm-gateway-personas-autonomy.md) | 12 | 8, 11 | 6 | done |
+| 13 | [LLM gateway, personas, autonomy](./phase-13-llm-gateway-personas-autonomy.md) | 13 | 8, 11 | 6 | in_progress |
 | 14 | [POI data, maps, routing](./phase-14-places-maps-routing.md) | 8 | 2, 3, 4, 8 | 3 | in_progress |
 | 15 | [Fares, weather, season & crowds](./phase-15-flights-weather-season-data.md) | 7 | 8, 11, 13 | 7 | pending |
 | 16 | [Cost & constraint engine](./phase-16-cost-constraint-engine.md) | 7 | 12, 13, 14, 15 | 8 | pending |
@@ -201,7 +201,7 @@ flowchart LR
 | 3 | 5, 6, 9, 12, 14 | 45 | 5 |
 | 4 | 7, 10 | 29 | 2 |
 | 5 | 11, 17, 21 | 28 | 3 |
-| 6 | 13, 19, 20 | 33 | 3 |
+| 6 | 13, 19, 20 | 34 | 3 |
 | 7 | 15, 18, 39 | 25 | 3 |
 | 8 | 16, 22 | 18 | 2 |
 | 9 | 23 | 10 | 1 |
@@ -219,7 +219,7 @@ flowchart LR
 | 21 | 45, 50, 52 | 34 | 3 |
 | 22 | 53, 56, 57 | 21 | 3 |
 | 23 | 54 | 12 | 1 |
-| **Total** | 57 | **573** | |
+| **Total** | 57 | **574** | |
 
 **Critical path (251 of 545 tasks, strictly sequential):** 1 (10) → 2 (15) → 9 (10) → 10 (11) → 11 (11) → 13 (12) → 18 (12) → 22 (11) → 23 (10) → 24 (8) → 25 (9) → 26 (12) → 27 (12) → 33 (12) → 34 (11) → 35 (14) → 31 (10) → 40 (11) → 48 (10) → 49 (10) → 45 (12) → 53 (6) → 54 (12).
 
