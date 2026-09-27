@@ -1,0 +1,465 @@
+/* Critterpass coming-soon page: the six "what you're waiting for" feature cards' own art. */
+
+.cs-card--swipe {
+  background: var(--color-yellow);
+  transform: rotate(-1.5deg);
+  box-shadow: 0 14px 30px rgba(60, 40, 0, 0.12);
+}
+.cs-card--swipe .cs-card__art {
+  background: radial-gradient(rgba(23, 20, 42, 0.1) 1.3px, transparent 1.7px) 0 0 / 9px 9px;
+}
+.cs-card--swipe .cs-card__body {
+  background: var(--color-card-swipe-bg);
+  color: var(--color-ink-850);
+}
+.cs-card--swipe .cs-card__index {
+  color: var(--color-gold-silhouette);
+}
+.cs-swipe-stack {
+  position: relative;
+  width: 150px;
+  height: 176px;
+}
+.cs-swipe-stack__back-a,
+.cs-swipe-stack__back-b {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+}
+.cs-swipe-stack__back-a {
+  background: var(--color-orange);
+  transform: rotate(-11deg) translateX(-22px);
+}
+.cs-swipe-stack__back-b {
+  background: var(--color-blue-light);
+  transform: rotate(9deg) translateX(20px);
+}
+.cs-swipe-stack__top {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: var(--color-paper-base);
+  box-shadow: 0 12px 24px rgba(60, 40, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.cs-swipe-stack__city {
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: 22px;
+  line-height: 1.15;
+  font-stretch: 70%;
+  color: var(--color-ink-850);
+}
+.cs-swipe-stack__tag {
+  font:
+    500 10px 'Geist Mono',
+    monospace;
+  color: var(--color-paper-label);
+}
+.cs-swipe-stack__yes {
+  position: absolute;
+  left: -8px;
+  top: 12px;
+  padding: 5px 9px 4px;
+  border-radius: 8px;
+  border: 2.5px solid var(--color-green-signal);
+  background: var(--color-paper-base);
+  color: var(--color-green-signal);
+  font:
+    900 14px/1 Archivo,
+    sans-serif;
+  letter-spacing: 0.08em;
+  transform: rotate(-14deg);
+}
+.cs-swipe-tally {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: var(--color-ink-850);
+  color: var(--color-yellow);
+  font:
+    500 11px 'Geist Mono',
+    monospace;
+}
+.cs-swipe-tally__bars {
+  display: flex;
+  gap: 3px;
+}
+.cs-swipe-tally__bar {
+  width: 6px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--color-ink-600);
+}
+.cs-swipe-tally__bar[data-filled='true'] {
+  background: var(--color-green-base);
+}
+
+.cs-card--ask {
+  background: var(--color-ink-850);
+  transform: rotate(1deg);
+  box-shadow: 0 14px 30px rgba(20, 16, 40, 0.2);
+}
+.cs-card--ask .cs-card__art {
+  padding: 20px 22px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  background: radial-gradient(rgba(255, 216, 74, 0.1) 1.3px, transparent 1.7px) 0 0 / 9px 9px;
+}
+.cs-card--ask .cs-card__body {
+  background: var(--color-ink-700);
+  color: var(--color-paper-base);
+}
+.cs-card--ask .cs-card__index {
+  color: var(--color-ink-200);
+}
+.cs-card--ask .cs-card__title {
+  color: var(--color-yellow);
+}
+.cs-chat-bubble {
+  padding: 10px 14px;
+  border-radius: 16px 16px 4px 16px;
+  background: var(--color-blue-light);
+  color: var(--color-ink-850);
+  font:
+    500 14px/1.35 Geist,
+    sans-serif;
+  transform: rotate(2deg);
+  align-self: flex-end;
+  max-width: 75%;
+}
+.cs-chat-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+.cs-chat-row__guide {
+  flex: none;
+  line-height: 0;
+}
+.cs-chat-row__replies {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.cs-chat-bubble--reply {
+  border-radius: 16px 16px 16px 4px;
+  background: var(--color-yellow);
+  text-wrap: pretty;
+  transform: rotate(-1deg);
+  align-self: auto;
+}
+.cs-chat-status {
+  font:
+    500 11px 'Geist Mono',
+    monospace;
+  color: var(--color-green-base);
+}
+
+.cs-card--plan {
+  background: var(--color-orange);
+  transform: rotate(-1deg);
+  box-shadow: 0 14px 30px rgba(60, 20, 0, 0.14);
+}
+.cs-card--plan .cs-card__art {
+  padding: 20px 26px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  background: radial-gradient(rgba(23, 20, 42, 0.1) 1.3px, transparent 1.7px) 0 0 / 9px 9px;
+}
+.cs-card--plan .cs-card__body {
+  background: var(--color-card-plan-bg);
+}
+.cs-card--plan .cs-card__index {
+  color: var(--color-card-plan-label);
+}
+.cs-plan-day {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+.cs-plan-day__date {
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: 26px;
+  line-height: 1.1;
+  font-stretch: 66%;
+  color: var(--color-ink-850);
+}
+.cs-plan-day__editing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font:
+    500 11px 'Geist Mono',
+    monospace;
+  color: var(--color-card-plan-editing);
+}
+.cs-plan-day__avatars {
+  display: flex;
+}
+.cs-plan-day__avatar {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--color-orange);
+  margin-left: -5px;
+}
+.cs-plan-day__avatar:first-child {
+  margin-left: 0;
+}
+.cs-plan-row {
+  height: 36px;
+  border-radius: 11px;
+  background: var(--color-ink-850);
+  color: var(--color-paper-base);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  font:
+    600 13px Geist,
+    sans-serif;
+}
+.cs-plan-row__time {
+  font:
+    500 11px 'Geist Mono',
+    monospace;
+  color: var(--color-ink-200);
+}
+.cs-plan-row--active {
+  background: var(--color-paper-base);
+  color: var(--color-ink-850);
+  box-shadow: 0 10px 20px rgba(60, 20, 0, 0.3);
+}
+.cs-plan-row--active .cs-plan-row__time {
+  color: var(--color-paper-label);
+}
+.cs-plan-row__avatar {
+  margin-left: auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-pink);
+  font:
+    800 10px Archivo,
+    sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-card--split {
+  background: var(--color-green-base);
+  transform: rotate(1.5deg);
+  box-shadow: 0 14px 30px rgba(0, 60, 40, 0.14);
+}
+.cs-card--split .cs-card__art {
+  gap: 20px;
+  padding: 0 20px;
+  background: radial-gradient(rgba(23, 20, 42, 0.1) 1.3px, transparent 1.7px) 0 0 / 9px 9px;
+}
+.cs-card--split .cs-card__body {
+  background: var(--color-card-split-bg);
+}
+.cs-card--split .cs-card__index {
+  color: var(--color-card-split-label);
+}
+.cs-receipt {
+  width: 140px;
+  padding: 14px 14px 18px;
+  box-sizing: border-box;
+  background: var(--color-paper-cream);
+  border-radius: 6px 6px 0 0;
+  box-shadow: 0 12px 24px rgba(0, 60, 40, 0.25);
+  transform: rotate(-4deg);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font:
+    500 10.5px 'Geist Mono',
+    monospace;
+  color: var(--color-paper-body);
+  -webkit-mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - 8px) no-repeat,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 12px 8px
+      repeat-x;
+  mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - 8px) no-repeat,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 12px 8px
+      repeat-x;
+}
+.cs-receipt__title {
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: 13px;
+  line-height: 1.1;
+  font-stretch: 78%;
+  color: var(--color-ink-850);
+  text-align: center;
+}
+.cs-receipt__line {
+  display: flex;
+  justify-content: space-between;
+}
+.cs-receipt__total {
+  border-top: 1.5px dashed var(--color-card-receipt-border);
+  padding-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  color: var(--color-ink-850);
+}
+.cs-split-total {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cs-split-total__value {
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: 64px;
+  line-height: 1;
+  font-stretch: 66%;
+  color: var(--color-ink-850);
+}
+.cs-split-total__label {
+  font:
+    800 12px/1 Archivo,
+    sans-serif;
+  letter-spacing: 0.12em;
+  color: var(--color-ink-850);
+}
+.cs-split-total__avatars {
+  display: flex;
+  margin-top: 2px;
+}
+.cs-split-total__avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--color-green-base);
+  margin-left: -6px;
+}
+.cs-split-total__avatar:first-child {
+  margin-left: 0;
+}
+
+.cs-card--collect {
+  background: var(--color-blue-light);
+  transform: rotate(-1deg);
+  box-shadow: 0 14px 30px rgba(0, 30, 80, 0.14);
+}
+.cs-card--collect .cs-card__art {
+  background: radial-gradient(rgba(23, 20, 42, 0.1) 1.3px, transparent 1.7px) 0 0 / 9px 9px;
+}
+.cs-card--collect .cs-card__body {
+  background: var(--color-card-collect-bg);
+}
+.cs-card--collect .cs-card__index {
+  color: var(--color-card-collect-label);
+}
+.cs-pass-peek {
+  padding: 12px;
+  border-radius: 20px;
+  background: var(--color-ink-850);
+  box-shadow: 0 14px 28px rgba(0, 30, 80, 0.3);
+  transform: rotate(-2deg);
+  display: grid;
+  grid-template-columns: repeat(3, 62px);
+  gap: 6px;
+}
+.cs-pass-peek__slot {
+  height: 66px;
+  border-radius: 14px;
+  background: var(--color-surface-alt);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+.cs-pass-peek__num {
+  font:
+    500 9px 'Geist Mono',
+    monospace;
+  color: var(--color-ink-200);
+}
+.cs-pass-peek__count {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--color-paper-base);
+  color: var(--color-ink-850);
+  font:
+    500 11px 'Geist Mono',
+    monospace;
+  transform: rotate(4deg);
+}
+
+.cs-card--surprise {
+  border: 3px dashed var(--color-ink-850);
+  transform: rotate(1deg);
+}
+.cs-card--surprise .cs-card__art {
+  background: repeating-linear-gradient(45deg, rgba(23, 20, 42, 0.05) 0 8px, transparent 8px 16px);
+}
+.cs-card--surprise .cs-card__index {
+  color: var(--color-paper-label);
+}
+.cs-brief {
+  width: 180px;
+  padding: 16px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: var(--color-paper-cream);
+  box-shadow: 0 12px 24px rgba(23, 20, 42, 0.15);
+  transform: rotate(3deg);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cs-brief__label {
+  font:
+    500 10px 'Geist Mono',
+    monospace;
+  color: var(--color-paper-label);
+}
+.cs-brief__line {
+  height: 10px;
+  border-radius: 3px;
+  background: var(--color-ink-850);
+}
+.cs-classified {
+  position: absolute;
+  padding: 9px 14px 7px;
+  border-radius: 10px;
+  border: 3px solid var(--color-pink);
+  background: var(--color-paper-base);
+  color: var(--color-pink);
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  line-height: 1;
+  font-stretch: 66%;
+  letter-spacing: 0.06em;
+  transform: rotate(-10deg);
+}
