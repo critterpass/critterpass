@@ -129,7 +129,8 @@ Service: self-hosted PowerSync Open Edition (Railway SG), Postgres bucket storag
 | `trip_draft` | client subscribes when caller is organiser | trip_id + organiser check | `itinerary_versions`/`plan_days`/`plan_items`/`change_sets` with visibility=organiser, `agent_jobs` for the trip |
 | `trip_me` | with `trip` | trip_id + `auth.user_id()` | `briefings`, `briefing_items` (per viewer) |
 | `trip_pack` | with `trip` (pre_trip/in_trip) | destination of trip | `pois` (destination), `facilities`, `weather_snapshots`, `crowd_forecasts`, `map_regions`, `spawn_rules` (as `trip_spawns`) |
-| `catalog` | auto | none (global) | `guides`, `destinations`, `phrase_cards`, `emergency_numbers`, `critter_sets`, `critters` (via public projection: names null until found — the projection table `critter_public` is maintained by system), `critter_forms`, `products`, `perks`, `client_config`, `fx_snapshots` (last 30 d, trip currencies) |
+| `catalog` | auto | none (global) | `guides`, `destinations`, `phrase_cards`, `emergency_numbers`, `critter_sets`, `critters` (via public projection: names null until found — the projection table `critter_public` is maintained by system), `critter_forms`, `products`, `perks`, `client_config` |
+| `fx` | auto | uid (home, crew settlement and trip currencies) | `fx_snapshots` for the user's own currencies: a per-user filter can't share a stream with the parameterless `catalog` queries, and streams can't filter on `now()`, so the currency filter bounds volume instead of a 30-day window |
 | `explore` | on demand | destination_id | `pois`, `place_tips` |
 | `community` | on demand | shared_plan_id / destination | published `shared_plans`, `ratings` |
 | `help` | on demand | locale | `help_articles`, `ideas` |

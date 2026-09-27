@@ -19,7 +19,8 @@
   "dependencies": {
     "@cp/domain": "workspace:*",
     "drizzle-orm": "catalog:",
-    "pg": "catalog:"
+    "pg": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@testcontainers/postgresql": "catalog:",
