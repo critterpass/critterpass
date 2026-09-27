@@ -1,4 +1,6 @@
 # Local/placeholder bake output for manifests that don't yet target a committed consumer path
-# (apps/mobile/generated/critter-art, apps/web/public/critters, out/og-atlas — see T6/T7/T8).
-/out/
+# (apps/mobile/generated/critter-art — see T6/T7). out/og-atlas is a real, committed deliverable.
+/out/*
+!/out/og-atlas/
+!/out/og-atlas/**
 .critter-bake-cache.json

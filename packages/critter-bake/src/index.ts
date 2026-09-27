@@ -22,3 +22,9 @@ export { runPool } from './pool';
 
 export type { BakeResult, CliOptions } from './cli';
 export { bake, parseArgs } from './cli';
+
+export type { SrcsetEntry, SrcsetIndex, WebWebpResult } from './writers/web-webp';
+export { writeWebWebp } from './writers/web-webp';
+
+export type { AtlasIndex, AtlasRect, OgAtlasResult } from './writers/og-atlas';
+export { writeOgAtlas } from './writers/og-atlas';

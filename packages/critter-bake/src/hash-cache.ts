@@ -12,7 +12,7 @@ export function sha256Hex(bytes: Uint8Array): string {
 /**
  * `artVersion` = a hash of the critter-art source that actually decides pixels (kind draw
  * functions, form/tier palettes, core geometry) plus the manifest file's own content — bumping
- * either invalidates every cached output, per F-008's determinism contract.
+ * either is meant to invalidate every cached output, so a re-run always reflects current art.
  */
 export function computeArtVersion(manifestPath: string): string {
   const artEntry = nodeRequire.resolve('@cp/critter-art');

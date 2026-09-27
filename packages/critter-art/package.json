@@ -12,7 +12,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p gallery",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p gallery && tsc --noEmit -p src/web",
     "test": "vitest run --passWithNoTests",
     "test:skia": "vitest run src/backends/skia --passWithNoTests",
     "import-data": "tsx scripts/import-design-data.ts",
