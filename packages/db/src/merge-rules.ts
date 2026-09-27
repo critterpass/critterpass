@@ -1,0 +1,93 @@
+/**
+ * Registry of how each `public`-schema table with a user-owning column behaves when an anonymous
+ * uid merges into an existing uid (docs/api-contracts.md §5.1 `POST /v1/auth/merge`; this phase's
+ * "Merge rule registry" requirement: "per table with a user column → union | keep_existing | drop |
+ * reassign; coverage test fails when a table with a user column lacks a rule"). A later phase adding
+ * a new user-owned table registers its own rule here (same file, since this registry — unlike
+ * `packages/domain/src/privacy.ts`'s per-schema-module registration — has no natural per-table home
+ * to call from without a circular import between this package's schema modules).
+ */
+
+export const MERGE_STRATEGIES = ['union', 'keep_existing', 'drop', 'reassign'] as const;
+export type MergeStrategy = (typeof MERGE_STRATEGIES)[number];
+
+export interface MergeRule {
+  readonly table: string;
+  readonly userColumn: string;
+  readonly strategy: MergeStrategy;
+  /**
+   * Only meaningful for `union`/`reassign`: other columns forming a unique constraint together
+   * with `userColumn` (e.g. `crew_members`' `(crew_id, user_id)`). An anon row that would collide
+   * with an existing row on these columns is dropped instead of reassigned — the existing row wins,
+   * satisfying "unique-conflict resolution (existing wins)".
+   */
+  readonly conflictColumns?: readonly string[];
+  /**
+   * `drop`-only escape hatch for a table locked down tighter than merge execution's own app_system
+   * grant (`fair_use_counters`: no app_system grant at all by design, only its own SECURITY DEFINER
+   * function may touch it). When set, the executor calls `SELECT app.<viaFunction>($1)` with the anon
+   * uid instead of a raw `DELETE FROM <table>`.
+   */
+  readonly viaFunction?: string;
+}
+
+const registry = new Map<string, MergeRule>();
+
+/** Registers one table's merge rule. Called once, at module load. */
+export function registerMergeRule(rule: MergeRule): void {
+  if (registry.has(rule.table)) {
+    throw new Error(`merge rule already registered for table "${rule.table}"`);
+  }
+  registry.set(rule.table, rule);
+}
+
+export function getMergeRule(table: string): MergeRule | undefined {
+  return registry.get(table);
+}
+
+export function listMergeRules(): readonly MergeRule[] {
+  return [...registry.values()].sort((a, b) => a.table.localeCompare(b.table));
+}
+
+export function isRegisteredMergeTable(table: string): boolean {
+  return registry.has(table);
+}
+
+/** Test-only: clears every registration so one test file's fixtures cannot leak into another. */
+export function resetMergeRulesForTests(): void {
+  registry.clear();
+}
+
+// Every `public`-schema table with a `user_id` column as of this phase (verified against a live
+// database's information_schema.columns, not just the migration SQL — see
+// packages/db/test/merge-rules-coverage.test.ts). Tables created by phases that land after this one
+// register their own rule where they define the table.
+registerMergeRule({ table: 'user_settings', userColumn: 'user_id', strategy: 'keep_existing' });
+registerMergeRule({ table: 'consents', userColumn: 'user_id', strategy: 'keep_existing' });
+registerMergeRule({
+  table: 'crew_members',
+  userColumn: 'user_id',
+  strategy: 'union',
+  conflictColumns: ['crew_id'],
+});
+registerMergeRule({
+  table: 'trip_participants',
+  userColumn: 'user_id',
+  strategy: 'union',
+  conflictColumns: ['trip_id'],
+});
+// Entitlements/usage are re-evaluated by their owning phase once purchase history exists to weigh;
+// until then the anonymous uid's rows are the safe default (an anonymous session cannot purchase).
+registerMergeRule({ table: 'user_entitlements', userColumn: 'user_id', strategy: 'keep_existing' });
+registerMergeRule({
+  table: 'fair_use_counters',
+  userColumn: 'user_id',
+  strategy: 'drop',
+  viaFunction: 'merge_drop_fair_use_counters',
+});
+
+// Not named `user_id` (outside the coverage test's scan), but still a plain FK to `users(id)` with
+// no per-user uniqueness constraint of its own: a straight reassignment, same as `union`/`reassign`
+// tables above but never contending for a unique slot.
+registerMergeRule({ table: 'crews', userColumn: 'created_by', strategy: 'reassign' });
+registerMergeRule({ table: 'media_objects', userColumn: 'owner_id', strategy: 'reassign' });

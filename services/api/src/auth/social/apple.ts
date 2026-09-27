@@ -113,7 +113,7 @@ export async function exchangeAppleAuthorizationCode(
   return (await response.json()) as AppleTokenResponse;
 }
 
-/** Revokes a previously captured Apple refresh token (used on account deletion, phase 45, and unlink). */
+/** Revokes a previously captured Apple refresh token (used on account deletion and unlink). */
 export async function revokeAppleToken(
   refreshToken: string,
   config: AppleClientSecretConfig,

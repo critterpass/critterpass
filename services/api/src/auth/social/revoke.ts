@@ -1,9 +1,9 @@
 /**
- * Revokes a previously captured provider refresh token for a uid (docs/data-model.md §3.1
- * "`revokeApple(uid)` used by deletion (phase 45) and unlink"; same for Google). Reads/writes
- * `auth.account` through Better Auth's own `internalAdapter` (`auth.$context`), never raw SQL: the
- * `auth` Postgres schema grants only the dedicated `auth` role (packages/db/migrations/*_auth_schema
- * .sql), so this is the one supported seam for system code to touch it.
+ * Revokes a previously captured provider refresh token for a uid (docs/data-model.md §3.1: Apple and
+ * Google refresh tokens are revoked on account deletion and unlink). Reads/writes `auth.account`
+ * through Better Auth's own `internalAdapter` (`auth.$context`), never raw SQL: the `auth` Postgres
+ * schema grants only the dedicated `auth` role (packages/db/migrations/*_auth_schema.sql), so this is
+ * the one supported seam for system code to touch it.
  */
 import { crypto as dbCrypto } from '@cp/db';
 

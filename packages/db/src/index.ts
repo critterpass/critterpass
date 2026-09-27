@@ -23,3 +23,13 @@ export { withGuideReader, withSystem, withUser } from './tx';
 export { computePublicationAllowList } from './publication';
 export * as schema from './schema';
 export * as crypto from './crypto';
+export {
+  getMergeRule,
+  isRegisteredMergeTable,
+  listMergeRules,
+  MERGE_STRATEGIES,
+  registerMergeRule,
+  resetMergeRulesForTests,
+  type MergeRule,
+  type MergeStrategy,
+} from './merge-rules';

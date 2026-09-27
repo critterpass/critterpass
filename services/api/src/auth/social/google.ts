@@ -29,7 +29,7 @@ export interface GoogleHttpClient {
 
 const GOOGLE_REVOKE_ENDPOINT = 'https://oauth2.googleapis.com/revoke';
 
-/** Revokes a previously captured Google refresh/access token (used on account deletion, phase 45, and unlink). */
+/** Revokes a previously captured Google refresh/access token (used on account deletion and unlink). */
 export async function revokeGoogleToken(token: string, http: GoogleHttpClient): Promise<void> {
   const response = await http.fetch(GOOGLE_REVOKE_ENDPOINT, {
     method: 'POST',

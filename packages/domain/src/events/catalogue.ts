@@ -24,6 +24,7 @@ export const DOMAIN_EVENT_TYPES = [
   'change_set.reverted',
   'change_set.rejected',
   'rsvp.changed',
+  'auth.merged',
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
 export type DomainEventType = z.infer<typeof domainEventTypeSchema>;
@@ -55,6 +56,7 @@ const DOMAIN_EVENT_CATALOGUE = {
     user_id: z.uuid(),
     rsvp: tripParticipantRsvpSchema,
   }),
+  'auth.merged': z.object({ from_uid: z.uuid(), into_uid: z.uuid() }),
 } as const satisfies Record<DomainEventType, z.ZodType>;
 
 export function getDomainEventPayloadSchema(type: DomainEventType): z.ZodType {

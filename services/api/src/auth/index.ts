@@ -31,6 +31,7 @@ import { betterAuth } from 'better-auth';
 
 import type { AttestationConfig } from '../abuse/attestation';
 import { defaultPumpingConfig, type PumpingConfig } from '../abuse/pumping';
+import { wrapHandlerWithMergeIntercept } from './merge/intercept';
 import type { AppleProviderConfig } from './social/apple';
 import type { GoogleProviderConfig } from './social/google';
 
@@ -208,10 +209,14 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
     }),
   );
   authRef.current = auth;
+  const handler = wrapHandlerWithMergeIntercept((request) => auth.handler(request), {
+    auth,
+    secret: deps.secret,
+  });
 
   return {
     auth,
-    handler: (request) => auth.handler(request),
+    handler,
     close: () => authPool.end(),
   };
 }

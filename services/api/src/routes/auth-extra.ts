@@ -5,17 +5,30 @@
  */
 import { z } from 'zod';
 import type { Context, Hono } from 'hono';
+import type pg from 'pg';
 
 import { crypto as dbCrypto } from '@cp/db';
 import { DomainError, type ErrorResponseBody } from '@cp/domain';
 
 import { issueChallenge, type ChallengeRedisClient } from '../abuse/attestation';
+import type { AuthInstance } from '../auth/config';
+import {
+  buildMergePreview,
+  executeMerge,
+  sessionMatchesTicket,
+  signBetterAuthSessionCookie,
+  type MergePreview,
+} from '../auth/merge/execute';
+import {
+  consumeMergeTicket,
+  verifyMergeTicket,
+  type MergeTicketRedisClient,
+} from '../auth/merge/ticket';
 import {
   exchangeAppleAuthorizationCode,
   type AppleClientSecretConfig,
   type AppleHttpClient,
 } from '../auth/social/apple';
-import type { AuthInstance } from '../auth/config';
 
 const { encryptField } = dbCrypto;
 type FieldEncryptionKeyring = dbCrypto.FieldEncryptionKeyring;
@@ -27,6 +40,9 @@ export interface AuthExtraDeps {
 const challengeBodySchema = z.object({
   installId: z.uuid(),
 });
+
+/** Matches services/api/src/auth/config.ts's session.expiresIn (Better Auth's own 30-day sliding session). */
+const THIRTY_DAYS_SECONDS = 60 * 60 * 24 * 30;
 
 function errorResponse(c: Context, error: DomainError) {
   const body: ErrorResponseBody = error.toResponseBody();
@@ -120,5 +136,107 @@ export function registerAppleAuthorizationCodeRoute<E extends { Variables: objec
       refreshToken: encryptField(tokens.refresh_token, deps.keyring),
     });
     return c.json({ captured: true });
+  });
+}
+
+export interface MergeRoutesDeps {
+  readonly auth: AuthInstance;
+  readonly appPool: pg.Pool;
+  readonly redis: MergeTicketRedisClient;
+  readonly secret: string;
+}
+
+const mergeTicketBodySchema = z.object({ ticket: z.string().min(1) });
+const mergeBodySchema = z.object({
+  ticket: z.string().min(1),
+  strategy: z.literal('keep_existing'),
+});
+
+/**
+ * Resolves + validates a ticket against the caller's own session (docs/data-model.md §3.1: "preview
+ * route requires the ticket + the same anonymous session"). Returns a `DomainError` to send back
+ * verbatim on any failure — signature, expiry, or session mismatch are all reported the same way
+ * (`MERGE_REQUIRED`-adjacent `VALIDATION`/`403`), so a forged or stolen ticket never distinguishes
+ * which check it failed on ("no preview data leaked").
+ */
+async function resolveTicketForCaller(
+  c: Context,
+  deps: Pick<MergeRoutesDeps, 'auth' | 'secret'>,
+  ticket: string,
+) {
+  const payload = verifyMergeTicket(ticket, deps.secret);
+  if (!payload)
+    return { error: new DomainError('FORBIDDEN', { reason: 'invalid or expired ticket' }) };
+
+  const session = await deps.auth.api.getSession({ headers: c.req.raw.headers });
+  if (
+    !session ||
+    session.user.id !== payload.anonUid ||
+    !sessionMatchesTicket(session.session.id, payload.anonSessionId)
+  ) {
+    return {
+      error: new DomainError('FORBIDDEN', { reason: 'ticket does not match this session' }),
+    };
+  }
+  return { payload };
+}
+
+/** `POST /v1/auth/merge-ticket {ticket}` → `{crews, trips, critters, stamps}` (docs/api-contracts.md §5.1). Never consumes the ticket: repeatable while the user reviews the preview. */
+export function registerMergeTicketPreviewRoute<E extends { Variables: object }>(
+  app: Hono<E>,
+  deps: Pick<MergeRoutesDeps, 'auth' | 'appPool' | 'secret'>,
+): void {
+  app.post('/v1/auth/merge-ticket', async (c) => {
+    const parsed = mergeTicketBodySchema.safeParse(await c.req.json().catch(() => undefined));
+    if (!parsed.success) {
+      return errorResponse(c, new DomainError('VALIDATION', { issues: parsed.error.issues }));
+    }
+    const resolved = await resolveTicketForCaller(c, deps, parsed.data.ticket);
+    if (resolved.error) return errorResponse(c, resolved.error);
+
+    const preview: MergePreview = await buildMergePreview(
+      deps.appPool,
+      resolved.payload.anonUid,
+      resolved.payload.existingUid,
+    );
+    return c.json(preview);
+  });
+}
+
+/** `POST /v1/auth/merge {ticket, strategy: 'keep_existing'}` (docs/api-contracts.md §5.1): single-use, atomic, returns a working session for the existing uid. */
+export function registerMergeExecuteRoute<E extends { Variables: object }>(
+  app: Hono<E>,
+  deps: MergeRoutesDeps,
+): void {
+  app.post('/v1/auth/merge', async (c) => {
+    const parsed = mergeBodySchema.safeParse(await c.req.json().catch(() => undefined));
+    if (!parsed.success) {
+      return errorResponse(c, new DomainError('VALIDATION', { issues: parsed.error.issues }));
+    }
+    const resolved = await resolveTicketForCaller(c, deps, parsed.data.ticket);
+    if (resolved.error) return errorResponse(c, resolved.error);
+    const { payload } = resolved;
+
+    const consumed = await consumeMergeTicket(deps.redis, payload);
+    if (!consumed) {
+      return errorResponse(c, new DomainError('FORBIDDEN', { reason: 'ticket already used' }));
+    }
+
+    const result = await executeMerge(payload.anonUid, payload.existingUid, {
+      appPool: deps.appPool,
+      auth: deps.auth,
+    });
+    // Sets the same `better-auth.session_token` cookie a real sign-in response would (web/browser
+    // clients keep working immediately); the raw token is also returned in the body for the Expo
+    // client (apps/mobile/src/data/auth/), which persists tokens itself rather than relying on a
+    // cookie jar.
+    const signedCookie = encodeURIComponent(
+      signBetterAuthSessionCookie(result.sessionToken, deps.secret),
+    );
+    c.header(
+      'set-cookie',
+      `better-auth.session_token=${signedCookie}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${THIRTY_DAYS_SECONDS}`,
+    );
+    return c.json({ token: result.sessionToken, user: { id: result.existingUid } });
   });
 }
