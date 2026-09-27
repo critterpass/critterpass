@@ -2,8 +2,8 @@
 title: Critterpass full build
 status: in_progress
 created: 2026-09-26
-phases: 57
-tasks: 578
+phases: 59
+tasks: 594
 critical_path_tasks: 253
 ---
 
@@ -11,11 +11,11 @@ critical_path_tasks: 253
 
 | Field | Value |
 |---|---|
-| Status | in_progress: 8 of 57 phases done (7 more in progress, 2 waiting on founder device runs); 151 of 573 tasks done once PR #57 merges (2026-09-28 01:15). Progress and next waves: [controller report](../reports/controller-260928-0113-progress-and-upcoming-waves-report.md) |
+| Status | in_progress: 8 of 59 phases done (7 more in progress, 2 waiting on founder device runs); 151 of 594 tasks done once PR #57 merges (2026-09-28 01:15). Progress and next waves: [controller report](../reports/controller-260928-0113-progress-and-upcoming-waves-report.md) |
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
-| Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
-| Size | 57 phases, 578 tasks, 23 waves, critical path 253 tasks |
+| Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), the designed ops console (phases 58–59, added 2026-09-28), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
+| Size | 59 phases, 594 tasks, 23 waves, critical path 253 tasks |
 | Docs | [docs/README.md](../../docs/README.md) (reading order), [product-decisions.md](../../docs/product-decisions.md) (decisions 1–20, final), [code-standards.md](../../docs/code-standards.md), [system-architecture.md](../../docs/system-architecture.md), [data-model.md](../../docs/data-model.md), [api-contracts.md](../../docs/api-contracts.md), [design-system.md](../../docs/design-system.md) |
 | Reports | [plans/reports/](../reports/) — master synthesis, design analyses, research, fact-checks. Backend authority: [custom Hono backend](../reports/researcher-260926-1649-custom-hono-backend-report.md). Supplier authority: [travel supplier APIs](../reports/researcher-260926-1649-travel-supplier-apis-report.md) |
 | Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude for generation + Jev for typed decisions (D5 amended) |
@@ -77,7 +77,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 32 | [Guide chat, metering, phrase cards](./phase-32-guide-chat-metering.md) | 10 | 12, 13, 24, 29 | 16 | pending |
 | 33 | [Money: ledger, receipts, settle up](./phase-33-money.md) | 12 | 10, 12, 13, 27 | 14 | pending |
 | 34 | [Bookings wallet, imports, flights](./phase-34-bookings-wallet-import.md) | 11 | 11, 13, 15, 33 | 15 | pending |
-| 35 | [Supplier layer, rides, ops desk](./phase-35-supplier-layer-agency.md) | 14 | 13, 14, 17, 29, 33, 34 | 16 | pending |
+| 35 | [Supplier layer, rides, ops desk](./phase-35-supplier-layer-agency.md) | 14 | 13, 14, 17, 29, 33, 34, 58 | 16 | pending |
 | 36 | [Trip hub, day-of, leave-by, offline](./phase-36-trip-day-offline.md) | 11 | 11, 13, 14, 15, 18, 20, 25, 32, 34 | 17 | pending |
 | 37 | [Disruptions](./phase-37-disruptions.md) | 11 | 15, 29, 35, 36 | 18 | pending |
 | 38 | [Help hub & crew SOS](./phase-38-safety-help-sos.md) | 7 | 11, 14, 18, 20, 32, 34, 35, 39 | 17 | pending |
@@ -88,18 +88,22 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 43 | [Recap, story, awards, stamps](./phase-43-recap-stamps-memory.md) | 9 | 26, 31, 33, 40 | 19 | pending |
 | 44 | [Album, postcards, print](./phase-44-album-postcards.md) | 9 | 10, 12, 13, 43 | 20 | pending |
 | 45 | [You: profile, settings, export, deletion](./phase-45-you-profile-settings.md) | 12 | 5, 12, 22, 33, 43, 47, 49 | 21 | pending |
-| 46 | [Monetization](./phase-46-monetization.md) | 13 | 9, 11, 12, 24, 33, 39 | 15 | pending |
-| 47 | [Help centre, feedback, rating](./phase-47-help-feedback.md) | 8 | 17, 25, 43, 46 | 20 | pending |
+| 46 | [Monetization](./phase-46-monetization.md) | 13 | 9, 11, 12, 24, 33, 39, 58 | 15 | pending |
+| 47 | [Help centre, feedback, rating](./phase-47-help-feedback.md) | 8 | 17, 25, 43, 46, 58 | 20 | pending |
 | 48 | [Live Activities & Dynamic Island](./phase-48-live-activities.md) | 10 | 2, 5, 11, 34, 36, 39, 40 | 19 | pending |
 | 49 | [Actionable notifs, widgets](./phase-49-notification-surfaces-widgets.md) | 10 | 5, 11, 12, 26, 48 | 20 | pending |
 | 50 | [Android parity layer](./phase-50-android-parity.md) | 10 | 36, 48, 49 | 21 | pending |
 | 51 | [Web: site, invites, tips, legal, OG](./phase-51-web-site-links-og.md) | 11 | 3, 5, 9, 21, 23 | 10 | pending |
-| 52 | [Community plans](./phase-52-community.md) | 12 | 17, 28, 29, 30, 43, 44, 46, 51 | 21 | pending |
+| 52 | [Community plans](./phase-52-community.md) | 12 | 17, 28, 29, 30, 43, 44, 46, 51, 58 | 21 | pending |
 | 53 | [Store listing & social kit](./phase-53-store-social-assets.md) | 6 | 5, 40, 43, 45, 47, 49, 50, 51 | 22 | pending |
 | 54 | [Launch hardening & submission](./phase-54-launch-hardening.md) | 12 | 19, 30, 37, 38, 42, 45, 47, 49, 50, 51, 52, 53, 55, 56, 57 | 23 | pending |
-| 55 | [Find a driver: ask, capture, compare, pick, private tours](./phase-55-find-a-driver.md) | 13 | 13, 16, 29, 34, 35, 36 | 18 | pending |
-| 56 | [Drivers our crews used: rating, invite, claim, directory](./phase-56-crews-drivers-directory.md) | 8 | 9, 17, 21, 43, 51, 52, 55 | 22 | pending |
+| 55 | [Find a driver: ask, capture, compare, pick, private tours](./phase-55-find-a-driver.md) | 13 | 13, 16, 29, 34, 35, 36, 58 | 18 | pending |
+| 56 | [Drivers our crews used: rating, invite, claim, directory](./phase-56-crews-drivers-directory.md) | 8 | 9, 17, 21, 43, 51, 52, 55, 58 | 22 | pending |
 | 57 | [Share the plan with your driver: page, PDF, quote back](./phase-57-share-plan-with-driver.md) | 7 | 21, 26, 29, 51, 52, 55 | 22 | pending |
+| 58 | [Ops console data capture and early contracts](./phase-58-ops-console-early-contracts.md) | 7 | 11, 13, 17 | 7 | pending |
+| 59 | [Ops console designed pass](./phase-59-ops-console-designed-pass.md) | 9 | 18, 19, 35, 44, 45, 46, 47, 52, 55, 56, 58 | 23 | pending |
+
+**Ops console designs (added 2026-09-28):** the 21 `Ops - *` screens are imported into `design/` with page renders in `docs/design-renders/pages/Ops-*.png`; mapping in the three `researcher-260928-0214-ops-designs-*` reports. Phase 58 runs early as a low-priority filler lane (history that must be captured from day one + registries later panels plug into); panel-owning phases 18, 35, 45, 46, 47, 52, 55 and 56 build their panels to the renders (see each file's "Ops console design" section); phase 59 restyles the rest after the app phases.
 
 **Prerequisite for 55–57, runs now (not gated):** import the driver-finder screens (6a-1 … 6k-1, 23 screens) from the Claude Design project into `design/Critterpass.dc.html`, then `pnpm --filter @cp/design-renders run render:screens` and `extract:screens`, and add the 6a–6k section blurbs to `sections.json`. Phase files reference these renders.
 
@@ -113,7 +117,7 @@ flowchart LR
   subgraph W4["W4"]; P7["7 app shell"]; P10["10 sync+realtime"]; end
   subgraph W5["W5"]; P11["11 jobs+push"]; P17["17 back office"]; P21["21 links"]; end
   subgraph W6["W6"]; P13["13 LLM gateway"]; P19["19 analytics"]; P20["20 location"]; end
-  subgraph W7["W7"]; P15["15 fares+weather"]; P18["18 content factory"]; P39["39 live map"]; end
+  subgraph W7["W7"]; P15["15 fares+weather"]; P18["18 content factory"]; P39["39 live map"]; P58["58 ops capture"]; end
   subgraph W8["W8"]; P16["16 cost engine"]; P22["22 onboarding"]; end
   subgraph W9["W9"]; P23["23 invites+crews"]; end
   subgraph W10["W10"]; P24["24 crew chat"]; P51["51 web"]; end
@@ -129,7 +133,7 @@ flowchart LR
   subgraph W20["W20"]; P42["42 voice+camera"]; P44["44 album"]; P47["47 help centre"]; P49["49 notifs+widgets"]; end
   subgraph W21["W21"]; P45["45 you"]; P50["50 Android parity"]; P52["52 community"]; end
   subgraph W22["W22"]; P53["53 store assets"]; P56["56 crews' drivers"]; P57["57 share with driver"]; end
-  subgraph W23["W23"]; P54["54 launch"]; end
+  subgraph W23["W23"]; P54["54 launch"]; P59["59 ops designed"]; end
   P1 --> P2 & P3 & P4 & P8
   P2 --> P5 & P9 & P14
   P3 --> P5 & P6 & P14
@@ -188,6 +192,9 @@ flowchart LR
   P52 --> P56 & P57
   P56 --> P54
   P57 --> P54
+  P13 & P17 --> P58
+  P58 --> P35 & P46
+  P19 & P45 & P56 --> P59
   classDef crit stroke:#d33,stroke-width:3px
   class P1,P2,P9,P10,P11,P13,P18,P22,P23,P24,P25,P26,P27,P33,P34,P35,P31,P40,P48,P49,P45,P53,P54 crit
 ```
@@ -202,7 +209,7 @@ flowchart LR
 | 4 | 7, 10 | 29 | 2 |
 | 5 | 11, 17, 21 | 28 | 3 |
 | 6 | 13, 19, 20 | 34 | 3 |
-| 7 | 15, 18, 39 | 27 | 3 |
+| 7 | 15, 18, 39, 58 | 34 | 4 |
 | 8 | 16, 22 | 18 | 2 |
 | 9 | 23 | 10 | 1 |
 | 10 | 24, 51 | 19 | 2 |
@@ -218,8 +225,8 @@ flowchart LR
 | 20 | 42, 44, 47, 49 | 36 | 4 |
 | 21 | 45, 50, 52 | 34 | 3 |
 | 22 | 53, 56, 57 | 21 | 3 |
-| 23 | 54 | 12 | 1 |
-| **Total** | 57 | **578** | |
+| 23 | 54, 59 | 21 | 2 |
+| **Total** | 59 | **594** | |
 
 **Critical path (253 of 545 tasks, strictly sequential):** 1 (10) → 2 (15) → 9 (10) → 10 (11) → 11 (11) → 13 (13) → 18 (13) → 22 (11) → 23 (10) → 24 (8) → 25 (9) → 26 (12) → 27 (12) → 33 (12) → 34 (11) → 35 (14) → 31 (10) → 40 (11) → 48 (10) → 49 (10) → 45 (12) → 53 (6) → 54 (12).
 
@@ -239,6 +246,7 @@ Each milestone = listed phases `done` + an internal TestFlight and Play internal
 | M6 | Android parity | 50 | Android Live Updates (API 36+), MetricStyle (37+), full-screen alarm; iOS/Android feature matrix identical |
 | M7 | Web, community, store kit, drivers | 51, 52, 53, 56, 57 | Web invite landing + OG; community publish; driver claim → directory; driver plan page → quote → crew vote; store listing + social kit from real builds; each approved partner flag verified |
 | M8 | Launch readiness | 54 | Security review closed, counsel sign-off, store submissions approved, drills passed |
+| M9 | Ops console designed (may land after launch) | 58, 59 | Every `Ops - *` render matched on desktop + phone for each role; My work across all queues; Services & spend live; incident banner and maintenance mode drilled |
 
 ## 5. Non-code workstreams — start now
 
@@ -266,7 +274,7 @@ These gate flags, not code; code ships with truthful fallbacks until each lands.
 
 | Area | Criterion |
 |---|---|
-| Scope | All 573 tasks and 57 phases `done`; every one of 196 features traced to a passing Maestro/e2e flow; no deferral language anywhere |
+| Scope | Every task of phases 1–58 `done` (59, the ops console designed pass, is not a launch gate); every one of 196 features traced to a passing Maestro/e2e flow; no deferral language anywhere |
 | Parity | iOS 26+ and Android API 36 feature matrix identical in-app; native surfaces present where policy allows (Live Updates gated 36+, MetricStyle 37+) |
 | Truthfulness | Stay copy says "free cancellation until {date}" / "book here" — no room holds (3c-8, 3c-12, 3f-1, 3f-3, 3f-4, 4f-1); "seats held" only for Viator timed holds; Critterpass never merchant of record; affiliate disclosure shown; commission-neutral ranking tested |
 | Supplier content | Shown verbatim only in supplier cards, never cached, never sent to the LLM (test asserts prompt payloads) |

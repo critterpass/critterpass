@@ -67,7 +67,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 |---|---|
 | Durability | pg-boss 12 in `services/worker`; enqueue inside command tx (`sendInTx`) → exactly-once handoff |
 | Steps + progress | `runSteps(job, [{id, run, compensate?}])`: persists step state (`agent_jobs.steps` when the job is an AI job — table from phase 13; generic jobs store in pg-boss `output`), publishes `job.progress{job_id, step, pct}` via `rt_outbox` to `user:#uid` or a supplied channel (e.g. `trip_draft:{id}` for 3c-8 "Pon is drafting") |
-| Retries / DLQ | defaults `retryLimit 3, retryBackoff, retryDelay 10 s`; per-queue overrides from catalogue; `<queue>.dlq` + `redrive(queue, jobIds)` function (admin UI phase 17) |
+| Retries / DLQ | defaults `retryLimit 3, retryBackoff, retryDelay 10 s`; per-queue overrides from catalogue; `<queue>.dlq` + `redrive(queue, jobIds)` function (admin read + `redrive_jobs`: phase 58; screen: phase 59) |
 | Compensation | on final failure run `compensate` of completed steps in reverse (e.g. `quota.release`) |
 | Idempotency | `singletonKey` per catalogue; handlers re-read state; side effects keyed by `op_id`/`job_id` |
 | Completion push | `notifyOnComplete: {key, audience}` emits the mapped domain event (e.g. `draft_ready` only if app backgrounded — decided by router using device `last_seen_at` foreground flag) |

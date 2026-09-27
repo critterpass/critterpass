@@ -78,6 +78,22 @@ Undesigned (design in code, D11): admin content review screens (batch list, item
 | Factory CLI | `tools/content-factory`: `pnpm content <kind> brief|generate|validate|render|review|pull` ; `work/<kind>/<batch>/` (gitignored), validator registry, IP checker, cost report |
 | AI | routes `content.author` (Sonnet 5), `content.bulk` (Haiku 4.5 for short copy), via `packages/ai` batch; no supplier content in inputs (static check: inputs only from `packages/content`, P14 POI open data, design text) |
 
+## Ops console design
+
+Build this phase's console panel to its render (`design/Ops - Content Batches.dc.html`, `docs/design-renders/pages/Ops-Content-Batches.png`); field → table → command map in `plans/reports/researcher-260928-0214-ops-designs-content-platform-inventory-report.md`. Register the panel's `count`/`work` sources with the phase 58 registry. Sample data in the render is not a spec; AI labels follow D22 routing.
+
+| Gap in the plan | Add in this phase |
+|---|---|
+| Batch statuses REVIEW / BLOCKED / PUBLISHED / REJECTED | `content_releases.status` gains `blocked`, `rejected` |
+| Batch identity vs release ("batch 2026-09-27-forms-07" publishes "forms v4") | `batch_key`, `title` on the release row; list shows the live version per kind |
+| Pipeline stage strip, founder gate (G1–G7), blocked reason | `stage`, `gate`, `blocked_reason` columns written by the factory CLI |
+| Route, model, tokens, cost per batch | roll up from `ai_usage` by job id (`ai_usage.route` from phase 58); no new cost columns |
+| Validator WARN (non-blocking) + per-item report, IP check pill | `ops.content_reviews.report jsonb` with `severity pass\|warn\|fail`; `ip_status` on the batch |
+| KEEP / REJECT ITEM with note | new command `review_content_item {batch_id, item_ref, verdict: keep\|reject, notes?}` (content) |
+| APPROVE & PUBLISH · OWNER; Roll back | `approve_content_batch` owner-only (api-contracts row fixed by phase 58); `rollback_content_release` added to §4.17 |
+| Reads | `GET /v1/admin/content/batches`, `/content/batches/:id` |
+| My work / badges | not here: phase 58 shares this wave, so phase 59 registers `work` + `count` for batches; don't wait on 58 |
+
 ## Tasks
 
 ### T1 — Content schemas and release format

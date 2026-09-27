@@ -130,6 +130,15 @@ Done when: every 3n screen and its designed motion runs on iOS and Android again
 | Admin | `apps/admin/src/modules/account/` deletion panel (requested, purge_at, restored, purged; force-purge for legal requests with reason) registered into P17 user detail slot |
 | Content | `packages/content/voice-samples/settings/manifest.json` (guide × chattiness × locale, language lines) rendered by `tools/scripts/render-settings-voice-samples.ts` via ElevenLabs owned voices → R2 |
 
+## Ops console design
+
+Build this phase's console panel to its render (`design/Ops - Support.dc.html`, `docs/design-renders/pages/Ops-Support.png`); field → table → command map in `plans/reports/researcher-260928-0214-ops-designs-queues-people-inventory-report.md`. Register the panel's `count`/`work` sources with the phase 58 registry. Sample data in the render is not a spec; AI labels follow D22 routing.
+
+| Gap in the plan | Add in this phase |
+|---|---|
+| Deletion panel states NONE → REQUESTED → RESTORE 30 D → PURGED, last export | panel reads `account_deletions` + `data_exports`, laid out as in the render |
+| Force-purge for legal requests | name it `force_purge_account {uid, reason}` (owner) and add to §4.17 |
+
 ## Tasks
 ### T1 — Schema deltas, commands, permission tests
 - Goal: data + write paths for profile, settings, icons, history.

@@ -2,7 +2,7 @@
 phase: 46
 title: "Monetization: billing, paywall, Boost, plan management"
 status: pending
-depends_on: [9, 11, 12, 24, 33, 39]
+depends_on: [9, 11, 12, 24, 33, 39, 58]
 wave: 15
 features: [F-157, F-158, F-159, F-162, F-163, F-164, F-165, F-166, F-167, F-168, F-169]
 screens: [4e-1, 4e-2, 4e-3, 4b-1, 4b-3, 4b-4, 4b-5, 4c-1, 4c-2, 4d-1, 4d-2, 4d-3, 4d-4, 4f-1, 4f-2, 4f-3]
@@ -152,6 +152,20 @@ Not built, by design (product-decisions C32, decision 19): 4a-1 Visa page, 4a-2 
 | AI | `packages/ai/src/routes/boost-reaction/` Haiku one-liner, persona pack, 1.5 s timeout → template; promptfoo suite (no numbers invented, ≤80 chars, persona voice) |
 | Admin | `apps/admin/src/modules/billing/` + `services/api/src/admin/billing/`: user billing timeline, grant/revoke promo time (`code_grant`), partner code batch creation (records Offer Code batches for audit), webhook replay (P17 hook), FTF abuse review |
 | Mobile | `apps/mobile/src/data/billing/{revenuecat,products,purchase-machine,restore,listener}.ts`; `features/monetize/{paywall,compare,welcome,boost,boost-card,seat-cap,map-teaser,ftf-ending,plan,codes,gift,governor}/`; routes `(modal)/paywall/{index,compare,welcome}.tsx`, `(modal)/boost/{[tripId],stamped}.tsx`, `you/plan/{index,cancel,billing-issue,redeem,gift}.tsx` |
+
+## Ops console design
+
+Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, `docs/design-renders/pages/Ops-Billing.png`); field → table → command map in `plans/reports/researcher-260928-0214-ops-designs-queues-people-inventory-report.md`. Register the panel's `count`/`work` sources with the phase 58 registry. Sample data in the render is not a spec; AI labels follow D22 routing.
+
+| Gap in the plan | Add in this phase |
+|---|---|
+| Tiles: webhook lag p95, reconcile drift, failed webhooks 24 h | `GET /v1/admin/billing/health` from `billing_events` timings and the reconcile job output |
+| Failed webhook rows with error | `billing_events.error text` (C2) set by `billing.apply`; REPLAY by registering provider `revenuecat` (over `billing_events`) with phase 58's `replay_webhook` registry |
+| Offer code batches (name, store, size, redeemed, recorded by) | `offer_code_batches` table + `record_offer_code_batch {name, platform, size, notes}` (support); redemptions counted from the RevenueCat `offer_code` field on `store_transactions` |
+| GRANT PROMO TIME: Pass+ or BOOST A TRIP, stacking after store period | `grant_entitlement` gains `trip_id?` for a boost grant (writes `trip_boosts` source promo); stacking rule tested |
+| Extend App Store renewal (≤ 90 days, twice a year, "0 of 2 used") | `extend_store_renewal {uid, days, reason}` (support); quota counted from audit rows |
+| FTF review ALLOW / REVOKE GRANT | `review_ftf_grant {crew_id, decision: allow\|revoke, reason}` (support) |
+| Nav badge | register `count` (failed webhooks 24 h + FTF items to review) |
 
 ## Tasks
 ### T1 — Billing schema, RLS backstop, publication, permission tests

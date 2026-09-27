@@ -79,11 +79,13 @@ Applicable: D4 (admin plugin only; no extra Better Auth plugins beyond D4 list),
 | Module registry | `apps/admin/src/kit/registry.ts`: `defineAdminModule({id, nav, roles, routes, userPanels?, homeCounters?})`; server twin `services/api/src/admin/registry.ts`: `defineAdminArea({id, reads, commands})`. `defineQueue({kind, statuses, actions, preview})` and `defineCatalogue({kind, schema, list, upsertCommand})` helpers |
 | Hosting | `infra/cloudflare/admin/wrangler.toml` (Workers static assets), CSP `default-src 'self'; connect-src api.critterpass.app`; env `.env.example` only |
 
+Designs for the whole console arrived after this phase was planned (`design/Ops - *.dc.html`, renders `docs/design-renders/pages/Ops-*.png`). This phase still ships as specified. History that must be captured from day one and the shared registries go to phase 58; the restyle and the new screens go to phase 59.
+
 Handoff — panels later phases add under their own `apps/admin/src/modules/<area>/` + `services/api/src/admin/<area>/`:
 
 | Panel | Phase |
 |---|---|
-| jobs, DLQ redrive, `ops.dead_letters` | 11 |
+| jobs, DLQ redrive, `ops.dead_letters` | 58 (server), 59 (screen) |
 | content batches review, critters/forms, spawn rules, legendary windows, phrases, help articles, emergency/facilities | 18 |
 | avatar moderation handler | 22 |
 | vendor threads (WhatsApp Business drafts/replies/send), webhook replay, partner health | 35 |
