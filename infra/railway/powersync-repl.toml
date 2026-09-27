@@ -1,0 +1,19 @@
+# Railway config-as-code for `powersync-repl`: the PowerSync replication process (PS_ROLE=sync).
+# Exactly one replica: it owns the logical replication slot on the app database. Set this file as the
+# service's "Railway config file" in the dashboard (see README.md). Variables (names only) are listed in
+# infra/powersync/README.md; PS_DATA_SOURCE_URI must be the direct Postgres port, never PgBouncer.
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "infra/railway/powersync.Dockerfile"
+watchPatterns = ["infra/powersync/**", "infra/railway/powersync.Dockerfile", "infra/railway/powersync-repl.toml"]
+
+[deploy]
+healthcheckPath = "/probes/readiness"
+healthcheckTimeout = 300
+restartPolicyType = "ALWAYS"
+# A second replica would contend for the replication lock; keep a single, draining instance.
+overlapSeconds = 0
+drainingSeconds = 30
+
+[deploy.multiRegionConfig.asia-southeast1-eqsg3a]
+numReplicas = 1

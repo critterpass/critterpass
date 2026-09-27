@@ -77,7 +77,11 @@ services:
       PS_STORAGE_SSLMODE: disable
       PS_PORT: '8080'
       PS_JWKS_URI: http://host.docker.internal:8787/api/auth/jwks
-    volumes: ['./powersync/service.yaml:/config/service.yaml:ro']
+      PS_ADMIN_API_TOKEN: local-powersync-admin-token
+    # service.yaml loads the generated sync-streams.yaml from the same directory.
+    volumes:
+      - ./powersync/service.yaml:/config/service.yaml:ro
+      - ./powersync/sync-streams.yaml:/config/sync-streams.yaml:ro
     ports: ['8080:8080']
     extra_hosts: ['host.docker.internal:host-gateway']
     depends_on:

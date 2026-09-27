@@ -1,0 +1,44 @@
+# Entitlement, meter and FX streams (docs/data-model-sync-and-privacy.md §4). Queries join the core
+# streams of the same name; `my_crews` is the global CTE declared in core.yaml. fair_use_counters is
+# never published (silent fair use is not client-visible), so it has no stream here.
+
+streams:
+  me:
+    auto_subscribe: true
+    queries:
+      - SELECT *, user_id AS id FROM user_entitlements WHERE user_id = auth.user_id()
+      - SELECT * FROM usage_counters WHERE subject_kind = 'user' AND subject_id = auth.user_id()
+
+  trip:
+    queries:
+      - |
+        SELECT *, trip_id AS id FROM trip_entitlements
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM usage_counters
+        WHERE subject_kind = 'trip'
+          AND subject_id = subscription.parameter('trip_id')
+          AND subject_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+
+  catalog:
+    auto_subscribe: true
+    queries:
+      - SELECT *, key AS id FROM products
+      - SELECT *, key AS id FROM perks
+
+  # Rates the caller can need offline: their home currency, their crews' settlement currencies and their
+  # trips' local currencies. Stream filters cannot compare against now(), so the "recent days" window is
+  # bounded by the currency set rather than by date (one row per pair per day).
+  fx:
+    auto_subscribe: true
+    queries:
+      - |
+        SELECT * FROM fx_snapshots
+        WHERE quote IN (SELECT home_currency FROM users WHERE id = auth.user_id())
+      - |
+        SELECT * FROM fx_snapshots
+        WHERE quote IN (SELECT settlement_currency FROM crews WHERE id IN my_crews)
+      - |
+        SELECT * FROM fx_snapshots
+        WHERE quote IN (SELECT local_currency FROM trips WHERE crew_id IN my_crews)
