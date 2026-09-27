@@ -13,8 +13,8 @@ import {
   appBundleIdSchema,
   DomainError,
   getNotificationSpec,
-  isIanaTimeZone,
   isNotificationKey,
+  timeZoneIdSchema,
 } from '@cp/domain';
 import type pg from 'pg';
 import { z } from 'zod';
@@ -29,7 +29,8 @@ export const registerDevicePayloadSchema = z.object({
   push_token: z.string().min(1).max(4096).optional(),
   /** Which APNs host the token belongs to (development builds get sandbox tokens). */
   apns_env: z.enum(['sandbox', 'prod']).default('prod'),
-  tz: z.string().refine(isIanaTimeZone, { message: 'must be an IANA time zone' }),
+  /** Canonicalized on parse: Apple's `Asia/Saigon` is stored as `Asia/Ho_Chi_Minh`. */
+  tz: timeZoneIdSchema,
   locale: z.string().min(2).max(35),
   app_version: z.string().min(1).max(32),
   os_version: z.string().min(1).max(32).optional(),
@@ -69,34 +70,10 @@ export interface RegisterDeviceResult {
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-/**
- * Zones some platforms still report under their pre-rename tzdata name; Postgres's zone list (and
- * `app.valid_tz`) only knows the current one.
- */
-const RENAMED_ZONES: Readonly<Record<string, string>> = {
-  'Asia/Saigon': 'Asia/Ho_Chi_Minh',
-  'Asia/Calcutta': 'Asia/Kolkata',
-  'Asia/Katmandu': 'Asia/Kathmandu',
-  'Asia/Rangoon': 'Asia/Yangon',
-  'Asia/Ujung_Pandang': 'Asia/Makassar',
-  'Europe/Kiev': 'Europe/Kyiv',
-  'Pacific/Truk': 'Pacific/Chuuk',
-  'Pacific/Ponape': 'Pacific/Pohnpei',
-  'America/Godthab': 'America/Nuuk',
-  'Atlantic/Faeroe': 'Atlantic/Faroe',
-};
-
-async function isKnownZone(tx: pg.PoolClient, tz: string): Promise<boolean> {
+/** `VALIDATION` unless Postgres accepts `tz` (already canonical: see `timeZoneIdSchema`). */
+async function requireKnownZone(tx: pg.PoolClient, tz: string): Promise<void> {
   const { rows } = await tx.query<{ ok: boolean }>('SELECT app.valid_tz($1) AS ok', [tz]);
-  return rows[0]?.ok === true;
-}
-
-/** The zone name Postgres accepts for `tz`, or `VALIDATION` when there is none. */
-export async function canonicalZone(tx: pg.PoolClient, tz: string): Promise<string> {
-  if (await isKnownZone(tx, tz)) return tz;
-  const renamed = RENAMED_ZONES[tz];
-  if (renamed !== undefined && (await isKnownZone(tx, renamed))) return renamed;
-  throw new DomainError('VALIDATION', { reason: 'unknown_tz', tz });
+  if (rows[0]?.ok !== true) throw new DomainError('VALIDATION', { reason: 'unknown_tz', tz });
 }
 
 /**
@@ -243,7 +220,8 @@ export const registerDevice = defineCommand({
   },
   handle: async (tx, payload, ctx): Promise<RegisterDeviceResult> => {
     const deviceId = ctx.device.id.toLowerCase();
-    const tz = await canonicalZone(tx, payload.tz);
+    const tz = payload.tz;
+    await requireKnownZone(tx, tz);
     const moved = await claimInstall(tx, deviceId, ctx.uid);
     await upsertDevice(tx, deviceId, ctx.uid, tz, payload);
     await mirrorLocalNotifications(tx, ctx.uid, tz, payload.local_scheduled);

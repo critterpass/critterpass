@@ -99,6 +99,22 @@ describe('writes', () => {
     expect(moved.rowCount).toBe(0);
   });
 
+  it('stores the canonical zone for an Apple alias, whoever writes it', async () => {
+    const { actors } = harness.fixture;
+    const id = randomUUID();
+    await asUser(actors.member, (tx) =>
+      tx.query(
+        `INSERT INTO devices (id, user_id, platform, app_version, locale, tz)
+         VALUES ($1, $2, 'ios', '1.0.0', 'vi', 'Asia/Saigon')`,
+        [id, actors.member],
+      ),
+    );
+    const { rows } = await withSystem(harness.db.pool, (tx) =>
+      tx.query<{ tz: string }>('SELECT tz FROM devices WHERE id = $1', [id]),
+    );
+    expect(rows[0]?.tz).toBe('Asia/Ho_Chi_Minh');
+  });
+
   it('rejects a device with an unknown time zone or platform', async () => {
     const { actors } = harness.fixture;
     await expect(
