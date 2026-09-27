@@ -1,0 +1,154 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+GOVERNANCE
+AUDIT LOG
+
+Every console command, written in the same transaction as the change. Nobody can edit or delete a row, owners included.
+
+EXPORT CSV · OWNER
+Operator
+Everyone
+▾
+Command
+All commands
+▾
+Target
+user, task, key or op_id
+When
+Last 7 days
+▾
+WHEN · SGT
+OPERATOR
+COMMAND
+TARGET
+OP_ID
+IP HASH
+Sun 15:38
+M
+Mai
+moderate_item
+avatar in The Bali Six · hide
+01J9QK…4TZ
+a1f3…9c
+Sun 15:24
+A
+Arif
+grant_entitlement
+Maya Chen · Pass+ 30 days
+01J9R3…A1Q
+7c20…e4
+WHAT CHANGED
+perk
+—
+pass_plus
+source
+—
+code_grant
+starts
+—
+store period end
+length
+—
+30 days
+REASON GIVEN
+“Recap crash on a trip she’d already paid for. Ticket #CP-10482.”
+actor.via admin · role support · result applied · same transaction as the grant
+Sun 14:40
+L
+Linh
+upsert_catalogue_item
+guides · Tokek · v11 → v12
+01J9QW…M0S
+44bd…10
+Sun 14:12
+M
+Mai
+set_feature_flag
+la.crew_map.enabled · true → false
+01J9R1…8FD
+a1f3…9c
+Sun 14:09
+M
+Mai
+post_incident
+Push delivery degraded
+01J9R1…7XA
+a1f3…9c
+Sun 13:40
+M
+Mai
+redrive_jobs
+push.send.dlq · 12 jobs
+01J9R0…2QP
+a1f3…9c
+Sat 22:47
+D
+Dewi
+update_concierge_task
+Table for 8 in Roma Norte · waiting user
+01J9QB…6RT
+e90a…31
+Sat 21:02
+D
+Dewi
+merge_ideas
+Offline maps · 2 ideas → 1
+01J9Q9…0KD
+e90a…31
+Fri 18:30
+Q
+Quoc
+set_partner_adapter
+viator_booking · copy link → booking
+01J9MZ…Q2E
+0b7e…d2
+Fri 18:26
+Q
+Quoc
+set_feature_flag
+seat.cap_free · 5 → 6
+01J9MZ…P7N
+0b7e…d2
+Fri 09:14
+›
+Emergency CLI · Quoc
+revoke_session
+user 0192e1…f3a · 1 session
+01J9M4…1CC
+local
+2,418 rows in the last 7 days · newest first
+NEWER
+OLDER

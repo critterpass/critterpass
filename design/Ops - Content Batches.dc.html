@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script src="doodles.js"></script>
+<script src="critters-data.js"></script>
+<script src="critters-draw-1.js"></script>
+<script src="critters-draw-2.js"></script>
+<style>body{margin:0;background:#17142a;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="Content batches" style="width:1440px;display:grid;grid-template-columns:240px minmax(0,1fr);min-height:900px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif">
+<dc-import name="Ops - Nav" active="content" style="display:block;height:100%" hint-size="240px,900px"></dc-import>
+<main style="min-width:0;padding:28px 32px 40px;display:flex;flex-direction:column;gap:18px">
+<header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">CONTENT</span>
+<h1 style="margin:0;font:900 48px/.86 Archivo,sans-serif;font-stretch:70%;letter-spacing:-.01em;text-transform:uppercase">Content batches</h1>
+<p style="margin:0;font:500 14px/1.45 Geist,sans-serif;color:#a9a3c0;max-width:640px;text-wrap:pretty">Factory output waits here. Reviewers mark items; only an owner approves a batch, and approval publishes a new release.</p>
+</div>
+<div style="display:flex;align-items:center;gap:6px">
+<sc-for list="{{ stages }}" as="s" hint-placeholder-count="7">
+<span style="display:inline-flex;align-items:center;height:28px;padding:0 10px;border-radius:14px;background:{{ s.bg }};color:{{ s.fg }};box-shadow:{{ s.ring }};font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">{{ s.label }}</span>
+</sc-for>
+</div>
+</header>
+
+<div style="display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ batches }}" as="b" hint-placeholder-count="5">
+<div style="display:flex;flex-direction:column;gap:7px;padding:13px 14px;border-radius:14px;background:{{ b.bg }};box-shadow:{{ b.ring }}">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="padding:4px 6px;border-radius:5px;background:{{ b.stBg }};color:{{ b.stFg }};font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">{{ b.status }}</span><span style="font:700 11px/1 'Geist Mono',monospace;color:#a9a3c0">{{ b.gate }}</span></div>
+<span style="font:600 15px/1.25 Geist,sans-serif">{{ b.title }}</span>
+<span style="font:500 12.5px/1.35 Geist,sans-serif;color:#a9a3c0;text-wrap:pretty">{{ b.meta }}</span>
+</div>
+</sc-for>
+</div>
+
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:18px 20px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)">
+<div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+<span style="font:900 34px/.88 Archivo,sans-serif;font-stretch:68%;text-transform:uppercase">Forms · Asia set 07</span>
+<span style="font:500 12px/1.4 'Geist Mono',monospace;color:#a9a3c0">batch 2026-09-27-forms-07 · content.author on sonnet-5 via Batch API · 1.2M tokens · $4.12</span>
+</div>
+<div style="display:flex;gap:6px;flex:none">
+<span style="padding:6px 9px;border-radius:6px;background:#54d6a4;color:#17142a;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">7 PASS</span>
+<span style="padding:6px 9px;border-radius:6px;background:#ff9a4d;color:#17142a;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">3 WARN</span>
+<span style="padding:6px 9px;border-radius:6px;background:#2c2750;color:#d8d3ee;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">IP CHECK CLEAR</span>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:0">
+<div style="padding:16px 20px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;align-content:start;box-shadow:inset -1px 0 0 rgba(255,255,255,.07)">
+<sc-for list="{{ critters }}" as="c" hint-placeholder-count="10">
+<div style="display:flex;flex-direction:column;gap:6px;padding:10px 8px 10px;border-radius:14px;background:#17142a;box-shadow:{{ c.ring }}">
+<div style="position:relative;display:flex;justify-content:center;align-items:center;height:70px"><span style="line-height:0"><doodle-art kind="{{ c.kind }}" size="58" sticker="#f4efe4" anim="none"></doodle-art></span><span style="position:absolute;right:0;bottom:0;line-height:0;opacity:.95"><doodle-art kind="{{ c.kind }}" size="26" anim="none" locked="#3a3466"></doodle-art></span></div>
+<span style="font:900 17px/.9 Archivo,sans-serif;font-stretch:70%;text-transform:uppercase;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.name }}</span>
+<span style="font:500 11.5px/1.2 Geist,sans-serif;color:#a9a3c0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.city }}</span>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:4px"><span style="padding:3px 5px;border-radius:4px;background:{{ c.vBg }};color:#17142a;font:800 11px/1 Archivo,sans-serif;letter-spacing:.04em">{{ c.v }}</span><span style="font:800 12px/1 Archivo,sans-serif;color:{{ c.markColor }}">{{ c.mark }}</span></div>
+</div>
+</sc-for>
+</div>
+<div style="padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">PREVIOUS VS NEW · {{ focusName }}</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;border-radius:12px;background:#221e3d;box-shadow:inset 0 0 0 1.5px #3a3466"><span style="line-height:0;filter:hue-rotate(-40deg) saturate(.75)"><doodle-art kind="{{ focusKind }}" size="84" sticker="#f4efe4" anim="none"></doodle-art></span><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0">V3 · LIVE</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;border-radius:12px;background:#221e3d;box-shadow:inset 0 0 0 2px #ff9a4d"><span style="line-height:0"><doodle-art kind="{{ focusKind }}" size="84" sticker="#f4efe4" anim="none"></doodle-art></span><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#ff9a4d">V4 · THIS BATCH</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px;padding:12px;border-radius:12px;background:#17142a">
+<sc-for list="{{ report }}" as="r" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:16px minmax(0,1fr);gap:8px;font:500 12.5px/1.35 Geist,sans-serif;color:#c9c4dc"><span style="font:800 12px/1.35 Archivo,sans-serif;color:{{ r.color }}">{{ r.mark }}</span><span style="text-wrap:pretty">{{ r.text }}</span></div>
+</sc-for>
+</div>
+<div style="min-height:58px;padding:10px 12px;border-radius:10px;background:#120f22;box-shadow:inset 0 0 0 1.5px #5b5487;font:500 13px/1.4 Geist,sans-serif;color:#a9a3c0">Note for the regenerate run, if you reject this item</div>
+<div style="display:flex;gap:6px"><button style="flex:1;height:36px;border-radius:18px;border:0;background:#54d6a4;color:#17142a;font:900 11.5px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">KEEP V4</button><button style="flex:1;height:36px;border-radius:18px;border:1.5px solid #ff5fa8;background:transparent;color:#ff5fa8;font:900 11.5px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">REJECT ITEM</button></div>
+</div>
+</div>
+
+<div style="display:flex;align-items:center;gap:12px;padding:14px 20px;box-shadow:inset 0 1px 0 rgba(255,255,255,.07);background:#1a1731">
+<span style="font:500 13px/1.35 Geist,sans-serif;color:#c9c4dc;flex:1">Reviewers kept 7 of 10 critters; 3 warnings wait for you. Live release: forms v3, published 21 Sep. <a href="#">Roll back</a></span>
+<button style="height:42px;padding:0 18px;border-radius:21px;border:1.5px solid #5b5487;background:transparent;color:#f4efe4;font:900 12.5px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">REJECT BATCH WITH NOTES</button>
+<button style="height:42px;padding:0 20px;border-radius:21px;border:0;background:#ffd84a;color:#17142a;font:900 12.5px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">APPROVE &amp; PUBLISH V4 · OWNER</button>
+</div>
+</section>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    if (!window.CritterDex) this.t = setInterval(() => { if (window.CritterDex) { clearInterval(this.t); this.forceUpdate(); } }, 250);
+  }
+  componentWillUnmount() { clearInterval(this.t); }
+  renderVals() {
+    const dex = window.CritterDex;
+    const places = ['Japan', 'Thailand', 'South Korea', 'Malaysia', 'Singapore', 'China', 'Vietnam'];
+    let list = dex ? places.flatMap(p => dex.list.filter(c => c.place === p)).slice(0, 10) : [];
+    if (!list.length) list = ['cp-060', 'cp-061', 'cp-062', 'cp-063', 'cp-064', 'cp-065', 'cp-066', 'cp-067', 'cp-068', 'cp-069'].map(id => ({ id, kind: id, name: id, city: '' }));
+    const warn = [2, 4, 7].filter(i => i < list.length), focus = 2;
+    const critters = list.map((c, i) => ({
+      kind: c.kind, name: c.name, city: c.city,
+      v: warn.includes(i) ? 'WARN' : 'PASS', vBg: warn.includes(i) ? '#ff9a4d' : '#54d6a4',
+      mark: warn.includes(i) ? '?' : '✓', markColor: warn.includes(i) ? '#ff9a4d' : '#54d6a4',
+      ring: i === focus ? 'inset 0 0 0 2px #ffd84a' : 'inset 0 0 0 1px rgba(255,255,255,.06)'
+    }));
+    const f = list[focus] || list[0];
+    const stages = ['BRIEF', 'GENERATE', 'VALIDATE', 'RENDER', 'REVIEW', 'APPROVE', 'PUBLISH'].map((label, i) => ({
+      label: i < 4 ? '✓ ' + label : label,
+      bg: i === 4 ? '#ffd84a' : i < 4 ? '#2c2750' : 'transparent', fg: i === 4 ? '#17142a' : i < 4 ? '#a9a3c0' : '#a9a3c0', ring: i > 4 ? 'inset 0 0 0 1.5px #3a3466' : 'none'
+    }));
+    const S = { REVIEW: ['#ffd84a', '#17142a'], BLOCKED: ['#ff9a4d', '#17142a'], PUBLISHED: ['#54d6a4', '#17142a'], REJECTED: ['#2c2750', '#d8d3ee'] };
+    const b = (status, gate, title, meta, sel) => ({ status, gate, title, meta, stBg: S[status][0], stFg: S[status][1], bg: sel ? '#2c2750' : '#1f1b38', ring: sel ? 'inset 0 0 0 2px #ffd84a' : 'inset 0 0 0 1px rgba(255,255,255,.06)' });
+    return {
+      stages, critters, focusName: (f.name || '').toUpperCase(), focusKind: f.kind,
+      batches: [
+        b('REVIEW', 'G2', 'Forms · Asia set 07', '10 critters · 3 validator warnings · $4.12', true),
+        b('REVIEW', 'G3', 'Places · Kyoto', '312 places · 14 possible duplicates for a human', false),
+        b('BLOCKED', 'G6', 'Phrases · Japanese', '6 emergency and allergy cards need a native speaker', false),
+        b('PUBLISHED', 'v4', 'Critters · Thailand names', 'published 21 Sep by Quoc', false),
+        b('REJECTED', 'G5', 'Personas · 7 packs', '“Pon sounds like a hotel concierge.” Regenerating.', false)
+      ],
+      report: [
+        { mark: '!', color: '#ff9a4d', text: 'Epic form edge on dark is 3.4:1. The glyph needs 4.5:1 at 24 pt.' },
+        { mark: '✓', color: '#54d6a4', text: 'Silhouette reads at 24 pt and 96 pt.' },
+        { mark: '✓', color: '#54d6a4', text: 'Name is unique and clear of the IP denylist.' },
+        { mark: '✓', color: '#54d6a4', text: 'Palette stays inside the set’s hue band.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

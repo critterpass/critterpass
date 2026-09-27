@@ -1,0 +1,2761 @@
+CRITTERPASS · DESIGN · POLISH PASS · 28 SEP 2026
+OPS CONSOLE
+
+Built from phase 17 of the plan, the console code on main (sign-in, shell, home counters, catalogue, flags, partners) and the panels later phases hand to it. It runs on the app’s tokens: ink surfaces, Archivo headings, Geist text, Geist Mono for ids and keys.
+
+BUILT · ON MAIN, POLISHED
+P17 NEXT · T5–T8
+LATER PHASE · PANEL
+PROPOSED · NOT IN THE PLAN
+HOW IT HOLDS TOGETHER
+1
+Data first. A guide appears only on Home and when a screen is empty, blocked or broken.
+2
+Colour means time and health: pink for past SLA or down, orange for close or degraded. Queue types stay neutral.
+3
+Verdicts and user approvals get stamps, the same way the app stamps a passport.
+4
+Every write shows its diff first and leaves an audit row with an op_id.
+For the code: add work, billing, content, community, services, operators to ADMIN_AREAS. The six seed operators and all numbers are sample data.
+START
+Sign-in, the day’s overview and your own queue
+01
+SIGN IN
+BUILT
+Google behind Cloudflare Access, as a staff pass
+CRITTERPASS
+STAFF PASS · OPS CONSOLE
+NO. 0001
+CRITTERPASS
+OPS
+
+Sign in with your allow-listed work account. Cloudflare Access checks you first, and a session lasts 12 hours.
+
+G
+CONTINUE WITH GOOGLE
+P<CPOPS<<STAFF<<ADMIN<CRITTERPASS<APP<<<<
+0001<SGT<<OWNER<OPS<CONTENT<SUPPORT<<<<
+staff only ↗
+admin.critterpass.app · every action is audited
+02
+HOME
+BUILT
++ PROPOSED
+Counters kept; adds incident banner, assigned to you, admin activity, services strip
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+INCIDENT
+Push delivery degraded. APNs is returning 5xx for 3% of sends since 14:02 SGT. Sends retry on their own; Live Activities may lag.
+Mai · 14:09
+Runbook
+RESOLVE
+SUN 27 SEP · 15:42 SGT
+GOOD AFTERNOON, QUOC
+↳ Three things need a human before 6pm.
+ON CALL
+07–23 SGT
+MODERATION
+→
+12
+open · 3 past the 24 h SLA
+DESK DUE < 2 H
+→
+4
+1 overdue · 2 waiting on users
+JOBS IN DLQ
+→
+7
+push.send +5 in the last hour
+CONTENT REVIEW
+→
+2
+batches · 1 needs owner approval
+FEEDBACK NEW
+→
+9
+2 marked severe by triage
+IDEAS PENDING
+→
+5
+oldest waiting 2 days
+ASSIGNED TO YOU · 5
+All my work →
+DESK
+Airport pickup for The Bali Six
+vendor_message · Maya Chen · approved
+due 38 min
+›
+MODERATION
+Photo reported 3× in a Kuta Crew album
+photo · first report 26 h ago
+SLA passed
+›
+FEEDBACK
+#CP-10482 Recap freezes on slide 5
+bug · severe · likely dup of #CP-10411
+due 1 h 52
+›
+CONTENT
+Forms · Asia set 07
+10 critters · 3 warnings · gate G2
+owner sign-off
+›
+DESK
+Clinic hand-off for a Reykjavík crew
+clinic_handoff · waiting on user
+tomorrow 09:00
+›
+RECENT ADMIN ACTIVITY
+Audit log →
+M
+Mai hid a reported avatar
+moderate_item · avatar · 01J9QK…4TZ
+4 min
+A
+Arif granted Maya Chen 30 days of Pass+
+grant_entitlement · reason given
+18 min
+L
+Linh saved Tokek (local words)
+upsert_catalogue_item · guides · v12
+1 h
+M
+Mai redrove 12 jobs from push.send.dlq
+redrive · push.send
+2 h
+Q
+Quoc turned on Viator in-app booking
+set_partner_adapter · viator_booking
+Fri
+D
+Dewi merged two offline-maps ideas
+merge_ideas · 2 → 1
+Fri
+SERVICES
+31 OF 32 OK
+APNs degraded since 14:02
+Claude
+APNs
+FCM
+Twilio
+WhatsApp
+RevenueCat
+Mapbox
+PowerSync
+Centrifugo
+Postgres
+AI SPEND TODAY
+GUARD OK
+$184 of $400 cap
+GRAFANA
+↗
+UPTIME
+↗
+03
+MY WORK
+PROPOSED
+Everything assigned to you across queues, plus unassigned work you can take
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+YOU
+MY WORK
+
+Everything assigned to you across queues, soonest due first.
+
+ALL
+5
+DESK
+2
+MODERATION
+1
+FEEDBACK
+1
+CONTENT
+1
+OVERDUE
+1
+MODERATION
+Photo reported 3× in a Kuta Crew album
+photo · 01J9QM…8KD · first report 26 h ago
+Two reporters say nudity, one says spam. Author has one earlier removal.
+NEW
+2 h late
+24 h SLA
+OPEN
+DUE IN THE NEXT 2 HOURS
+2
+DESK
+Airport pickup for The Bali Six
+vendor_message · task 01J9QA…2WX
+Maya approved the message to Made (Bali Airport Transfers). He replied with a van quote.
+IN PROGRESS
+lands 10:40 Wed
+OPEN
+FEEDBACK
+#CP-10482 Recap freezes on slide 5
+bug · severe · iOS 26.1 · app 1.0.3 (212)
+Triage thinks it duplicates #CP-10411. Reply is due within two days of receipt.
+NEW
+1 h 52
+reply due
+OPEN
+LATER
+2
+DESK
+Clinic hand-off for a Reykjavík crew
+clinic_handoff · task 01J9P7…Q3M
+Waiting on Sigrún to approve sharing her booking with the clinic.
+WAITING USER
+Mon 09:00
+SGT
+OPEN
+CONTENT
+Forms · Asia set 07
+batch 2026-09-27-forms-07 · gate G2
+10 critters rendered. 3 validator warnings on palette contrast. Only an owner can approve.
+OWNER REVIEW
+no due time
+OPEN
+j
+k
+move
+enter
+open
+u
+hand back
+UP FOR GRABS · YOUR AREAS
+4
+COMMUNITY
+Driver listing flagged: possible rating ring
+Pak Wayan · 3 new crews · 48 h
+TAKE
+JOBS
+push.send.dlq grew by 5
+APNs 503 · last failure 15:31
+TAKE
+DESK
+Viator booking change for Lisbon crew
+partner_booking · due 17:30
+TAKE
+MODERATION
+Avatar reported in The Bali Six
+avatar · 1 report · 3 h
+TAKE
+6 DONE TODAY
+Two more and you've cleared the desk.
+QUEUES
+Keyboard-first work lists with a focused item and its actions
+04
+MODERATION
+P17 T5
+moderation_reports · moderate_item · j/k then a, h, r, b · kind handlers from P22, P44, P47, P52, P56
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+QUEUES
+MODERATION
+
+Reports from the app. Each verdict is audited and handed back to the feature that owns the content.
+
+OPEN
+12
+ACTIONED
+DISMISSED
+ALL
+12
+PHOTOS
+4
+AVATARS
+2
+NOTES
+1
+TIPS
+2
+IDEAS
+1
+LISTINGS
+1
+USERS
+1
+AVATAR · THE BALI SIX
+Profile picture, 1 report
+HIDDEN
+PHOTO · ALBUM
+26 h
+Kuta Crew · beach day
+Nudity, spam
+×3
+TIP · DRIVER
+20 h
+“Call him direct on 0812 33…”
+Phone number, held by filter
+×1
+IDEA · PENDING
+9 h
+“Dating mode for solo travellers”
+Needs review before public
+×1
+AVATAR · CREW
+6 h
+Lisboa Loves crew picture
+Offensive
+×1
+LISTING · DRIVER
+5 h
+Pak Wayan · Ubud, Kintamani
+Fake ratings, anomaly flag
+×1
+NOTE · ALBUM
+3 h
+“never again with this guy, he…”
+Harassment
+×2
+PHOTO · ALBUM
+2 h
+Kyoto crew · Fushimi Inari
+Private information
+×1
+USER
+1 h
+@rizky.p invites
+Spam invites
+×4
+PHOTO · ALBUM
+KUTA CREW · BEACH DAY
+report 01J9QM…8KD
+handler: photos (P44)
+reported photo · blurred until revealed
+signed media URL, expires in 120 s
+REVEAL PHOTO
+CAPTION
+“Beach day before the storm rolled in”
+NUDITY
+Crew member · “not ok in a shared album”
+26 h
+NUDITY
+Crew member · no note
+25 h
+SPAM
+Crew member · “same pic posted 4 times”
+4 h
+NOTE FOR THE AUDIT LOG (OPTIONAL)
+APPROVE
+a
+HIDE
+h
+REMOVE
+r
+BAN AUTHOR
+b
+AUTHOR
+R
+Rizky P.
+0192f3a4…c9d0
+Joined
+Aug 2026
+Crew
+Kuta Crew · 5 people
+Seen by
+5 crew members
+Reports
+4 against, 1 removed
+REMOVED
+12 SEP
+DISMISSED
+3 SEP
+WHAT EACH VERDICT DOES
+Approve closes the reports; the photo stays in the album.
+Hide hides it from the crew; the author sees it marked hidden.
+Remove deletes it from the album and media storage.
+Ban author removes it and opens ban_user with a reason and expiry.
+05
+CONCIERGE DESK
+P17 T7
+P35 THREAD
+SLA by due time · approval shown verbatim · sending locked without an approval
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+QUEUES
+CONCIERGE DESK
+
+Human tasks for crews. Nothing goes to a vendor until the user has approved the exact text.
+
+DESK OPEN · 07:00–23:00 SGT
++ NEW TASK
+BY DUE TIME
+6 OPEN
+VENDOR MESSAGE
+12 min late
+Late check-in note to Alaya Ubud
+NEW
+unassigned
+VENDOR MESSAGE
+38 min
+Airport pickup for The Bali Six
+IN PROGRESS
+You
+PARTNER BOOKING
+1 h 48
+Viator booking change, Lisbon crew
+NEW
+unassigned
+REVIEW
+1 h 55
+Tour guide no-show in Kyoto
+IN PROGRESS
+Dewi
+CLINIC HAND-OFF
+Mon 09:00
+Clinic hand-off for a Reykjavík crew
+WAITING USER
+Quoc
+VENDOR MESSAGE
+Mon 13:00
+Table for 8 in Roma Norte
+WAITING USER
+Mai
+VENDOR MESSAGE
+AIRPORT PICKUP FOR THE BALI SIX
+task 01J9QA…2WX · crew The Bali Six · trip Bali 14–21 Oct · 6 people
+✓ NEW
+IN PROGRESS
+WAITING USER
+DONE
+DUE IN
+Q
+You ·
+hand back
+WHAT MAYA APPROVED
+APPROVED TEXT · READ-ONLY
+
+Hi Made, this is Critterpass writing for Maya Chen. Six of us land at Denpasar on Wed 14 Oct at 10:40 (SQ938). Could you drive us to Ubud? We have about eight big bags. What would it cost?
+
+Maya Chen · Sat 26 Sep 21:14 SGT
+op 01J9Q8…M2C · sha 9f2c…41ab
+APPROVED
+26 SEP
+This is exactly what Maya saw. Sending anything else needs a new approval from her.
+NOTES
+15:02
+Mai Van quote is fair; airport runs to Ubud go for 600–800k.
+21:34
+WhatsApp Made replied. Draft reply sent to Maya for approval.
+21:20
+System Sent the approved text through WhatsApp Business.
+Made · Bali Airport Transfers
++62 812-3880-4410 · WhatsApp Business
+REPLIED
+Hi Made, this is Critterpass writing for Maya Chen. Six of us land at Denpasar on Wed 14 Oct at 10:40…
+approved text · sent 21:20 · read 21:31
+Can do. 6 people with 8 bags is one van, 750k IDR with parking. I wait at arrivals with a name sign.
+21:34
+Van for 750k works. Please confirm Wed 14 Oct, 10:40 arrival, name sign for Maya.
+DRAFT · WAITING ON MAYA
+LOCKED
+Sending needs an approval for this exact text
+ASK MAYA TO APPROVE
+EDIT
+MARK WAITING ON USER
+MARK DONE
+CANCEL TASK
+06
+FEEDBACK & IDEAS
+P47
+Ticket as the app’s paper postcard · Haiku triage · reply templates · idea curation
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+QUEUES
+FEEDBACK & IDEAS
+
+A human replies to every report within two days. Ideas go public only after review.
+
+FEEDBACK
+9
+IDEA BOARD
+14
+PENDING IDEAS
+5
+#CP-10482
+2 h
+Recap freezes on slide 5
+BUG
+SEVERE
+NEW
+#CP-10481
+3 h
+Choose which crewmates see my photos
+IDEA
+LOW
+NEW
+#CP-10479
+5 h
+Leave-by alarm went off twice
+BUG
+HIGH
+NEW
+#CP-10477
+1 d
+How do I move a boost to another trip?
+QUESTION
+—
+REPLIED
+#CP-10470
+2 d
+Kyoto map is blank offline
+BUG
+MED
+IN LINEAR
+#CP-10466
+2 d
+Pon’s temple timing saved our morning
+PRAISE
+—
+CLOSED
+POST · COURRIER
+#CP-10482
+PROBLEM
+MOOD · ANNOYED
+
+Recap story freezes on slide 5 every time. I added about 40 photos from Ubud yesterday. Closing the app doesn’t help. We wanted to watch it at dinner tonight.
+
+Maya Chen · The Bali Six · sent from a shake report
+screenshot
+private content masked
+device
+iPhone 16
+os
+iOS 26.1
+app
+1.0.3 (212)
+locale
+en-SG
+reply
+email
+sent
+Sun 13:48 SGT
+RECEIVED
+27 SEP
+TRIAGE
+haiku-4-5 · check it
+BUG
+SEVERE
+Recap story stops advancing on slide 5 after a large photo import.
+Likely duplicate of #CP-10411
+0.88
+Linear
+CP-812 · open ↗
+REPLY TO MAYA · BY EMAIL
+KNOWN ISSUE
+NEED MORE INFO
+FIXED IN…
+Hi Maya, thanks for sending this. The recap stalls after big photo imports and we’re fixing it now. I’ll write again the day the fix ships, so you can watch it with the crew.
+Tell her when it ships in
+SEND REPLY
+MERGE INTO 10411
+IDEA BOARD · CURATION
+Team notes show in the app in the guide’s voice
+VOTES
+IDEA
+STATUS
+TEAM NOTE
+—
+Dating mode for solo travellers
+pending · submitted 9 h ago · en
+PENDING
+— not public yet
+PUBLISH
+DECLINE
+—
+Train times for Japan
+pending · 0.91 like “Rail passes in Japan”
+PENDING
+— not public yet
+MERGE
+PUBLISH
+214
+Offline maps for whole regions
+38 crews · top this month
+BUILDING
+Lundi is testing it on glacier roads.
+EDIT NOTE
+STATUS
+162
+Split receipts by item
+24 crews
+PLANNED
+Coming after the money update.
+EDIT NOTE
+STATUS
+98
+Choose who sees each photo
+17 crews · 1 ticket linked
+LOOKING AT IT
+— add a note
+ADD NOTE
+STATUS
+61
+Dark mode for the pass
+fixed in 1.0.2 · voters told
+SHIPPED
+Done! Go look at it at night.
+EDIT NOTE
+STATUS
+PEOPLE & MONEY
+Find a user, fix their account, explain their billing
+07
+SUPPORT · USER
+P17 T6
+P45 PANEL
+Lookup by uid, phone, email, join code or ticket · no C3 fields · sessions, keys, trace
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+PEOPLE
+SUPPORT
+FIND
+maya.chen@gmail.com
+LOOKS LIKE AN EMAIL
+LOOK UP
+By uid, phone in +E.164, email, 6-character join code or ticket number. 1 match.
+M
+MAYA CHEN
+ACTIVE
+PASS+
+PHONE VERIFIED
+UID
+0192f3a4-7c1e…8c9d
+JOINED
+2 Aug 2026 · anon → phone
+PHONE
++65 •••• 4471
+EMAIL
+maya.chen@gmail.com
+LOCALE · TZ
+en-SG · Asia/Singapore
+CREWS
+The Bali Six · 6 people
+TRIPS
+Bali 14–21 Oct · in setup
+TICKETS
+#CP-10482 open
+REVOKE ALL SESSIONS
+BAN…
+NOT SHOWN HERE
+Budgets, payout details, insurance, dietary profile and raw location are private (C3). There is no impersonation; this view is read-only.
+ENTITLEMENTS
++ GRANT
+PASS+
+Monthly subscription · App Store
+store · renews 3 Oct 2026
+Billing ›
+BOOST
+Bali trip · First Trip Free
+ftf_grant · until 28 Oct (trip end + 7 d)
+Crew grant
+PASS+
+30 days granted by Arif
+code_grant · starts when the store period ends
+Revoke
+ACCOUNT DELETION
+panel from P45
+NONE
+REQUESTED
+RESTORE 30 D
+PURGED
+Last data export 12 Sep, link expired. Force-purge is for legal requests only and needs a reason.
+SESSIONS · 3
+30-day sessions
+iPhone 16 · Critterpass 1.0.3 (212)
+created 2 Aug · Singapore
+active now
+REVOKE
+iPad Air · Critterpass 1.0.3 (212)
+created 19 Sep · Singapore
+2 d ago
+REVOKE
+Web · critterpass.app/invite
+created 20 Sep · link preview only
+7 d ago
+REVOKE
+DEVICE ACTION KEYS · 2
+rotate every 30 days
+iPhone 16 · iOS 26.1
+key k_7Q2M… · rotated 3 d ago · scopes la.action, widget.vote
+REVOKE KEY
+iPad Air · iPadOS 26.0
+key k_R41D… · rotated 21 d ago · scopes widget.vote
+REVOKE KEY
+COMMAND TRACE
+op_id or command…
+13:47
+add_album_photos
+op 01J9R2…7HV · iPhone 16
+REJECTED
+13:47
+add_album_photos
+op 01J9R2…7HV · retry
+DUPLICATE
+12:10
+vote_poll
+op 01J9QZ…K2A
+APPLIED
+Sat
+approve_ops_action
+op 01J9Q8…M2C · desk task 01J9QA…2WX
+APPLIED
+Sat
+set_trip_dates
+op 01J9Q1…9PD
+APPLIED
+add_album_photos · rejected MEDIA_TOO_LARGE
+{ trip_id: "0193b7…e1f", photos: [40 items], caption: «C2 redacted» }
+08
+BILLING
+P46
+Billing timeline · promo grants with reason · webhook replay · offer codes · FTF review
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+PEOPLE
+BILLING
+
+Store purchases arrive through RevenueCat, but our api decides who gets what. This is where support explains and corrects it.
+
+USER TIMELINE
+WEBHOOKS
+OFFER CODES
+FTF REVIEW
+2
+WEBHOOK LAG · P95
+RevenueCat → billing.apply
+2.1s
+RECONCILE DRIFT
+nightly run 05:00 SGT, 0 fixes
+0
+FAILED WEBHOOKS · 24 H
+one waiting for a replay
+1
+M
+Maya Chen
+0192f3a4…8c9d
+Open in Support →
+Sun 15:24
+ADMIN
+30 days of Pass+ granted
+code_grant · Arif Rahman · op 01J9R3…A1Q
+“Recap crash on a trip she’d already paid for. Ticket #CP-10482.”
+24 Sep
+FTF
+First Trip Free for The Bali Six
+ftf_grant · trip entered setup with 6 seated
+Boost and Pass+ for all six until 28 Oct, the trip end plus 7 days.
+3 Sep
+STORE
+Bought Pass+ monthly
+INITIAL_PURCHASE · App Store · S$6.98 · txn 20000007…41
+Webhook applied in 1.8 s. The app had already unlocked it through client sync.
+3 Sep
+API
+Entitlements recomputed
+fulfil_purchase · source client_sync · entitlement.changed
+2 Aug
+API
+Account created
+anonymous → phone verified (+65)
+GRANT PROMO TIME
+Perk
+PASS+
+BOOST A TRIP
+Length
+7 DAYS
+30 DAYS
+90 DAYS
+She pays through the App Store, so the grant starts when that period ends on 3 Oct and runs 30 days, after Arif’s grant. It only kicks in if she turns off auto-renew.
+Reason · required
+Why, in a sentence. Link the ticket if there is one.
+GRANT 30 DAYS OF PASS+
+Needs a reason. Runs grant_entitlement and logs your name.
+Extend App Store renewal
+Service failures only. Up to 90 days, twice a year. 0 of 2 used.
+EXTEND…
+REVENUECAT WEBHOOKS
+last hour
+INITIAL_PURCHASE
+uid 0193…0c1 · 14:58 · billing.apply 500
+FAILED
+REPLAY
+RENEWAL
+uid 0193…a17 · 15:31
+APPLIED
+CANCELLATION
+uid 0192…77e · 15:12 · auto-renew off
+APPLIED
+PRODUCT_CHANGE
+uid 0192…4e0 · 14:40 · same event id
+DUPLICATE
+OFFER CODE BATCHES
++ Record
+KLOOK-OCT-2026
+App Store · 500
+212 redeemed · recorded by Quoc
+TRAVELFEST-SG
+Play · 200
+34 redeemed · recorded by Quoc
+CREATOR-SEED-01
+App Store · 50
+44 redeemed · recorded by Mai
+FIRST TRIP FREE · REVIEW
+2
+Bali Babes 2
+Same verified phone as a crew that used First Trip Free on 12 Sep.
+ALLOW
+REVOKE GRANT
+trip w the boys
+Device attestation failed for 2 of the 3 seated members.
+ALLOW
+REVOKE GRANT
+CONTENT
+What the app ships with, and what the community adds
+09
+CATALOGUE
+BUILT
+Guides get their colour panel and sticker; locked colour, versioned save, diff before save
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+CONTENT
+CATALOGUE
+
+Guides, destinations and places the app ships with. Every save is versioned; a stale save shows what changed.
+
+GUIDES
+6
+DESTINATIONS
+61
+POIS
+1,842
+Search guides by name
+GUIDE
+COLOUR
+VOICE · PERSONA
+VER.
+TOKEK
+Bali · Tokay gecko
+yellow
+el_tokek_v2
+tokek-2026.09.2
+v12
+PON
+Kyoto · Tanuki
+orange
+el_pon_v3
+pon-2026.09.1
+v9
+LUNDI
+Iceland · Atlantic puffin
+blue
+el_lundi_v1
+lundi-2026.08.4
+v7
+AJO
+Mexico City · Axolotl
+pink
+el_ajo_v1
+ajo-2026.09.1
+v6
+SARDI
+Lisbon · Sardine
+green
+el_sardi_v1
+sardi-2026.08.2
+v6
+PACO
+Cusco · Alpaca
+cream
+el_paco_v1
+paco-2026.08.2
+v5
+The six guides are fixed. Their colours are canonical and can’t be edited here.
+page 1
+GUIDE · BALI
+COLOUR LOCKED · C5
+TOKEK
+Name
+Tokek
+Voice id
+el_tokek_v2
+Persona pack version
+tokek-2026.09.3
+Local words · shown and spoken in Indonesian
+terima kasih
+thank you
+selamat pagi
+good morning
+pelan-pelan
+slowly, take it easy
+enak
+delicious
++ Add a word
+CHANGES TO SAVE · 2
+persona_pack_version
+tokek-2026.09.2
+tokek-2026.09.3
+local_words
+3 words
++ enak
+version 12 · Linh · today 14:40
+SAVE CHANGES
+10
+CONTENT BATCHES
+P18
+Contact sheet · validator report · previous vs new · owner approval publishes a release
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+CONTENT
+CONTENT BATCHES
+
+Factory output waits here. Reviewers mark items; only an owner approves a batch, and approval publishes a new release.
+
+✓ BRIEF
+✓ GENERATE
+✓ VALIDATE
+✓ RENDER
+REVIEW
+APPROVE
+PUBLISH
+REVIEW
+G2
+Forms · Asia set 07
+10 critters · 3 validator warnings · $4.12
+REVIEW
+G3
+Places · Kyoto
+312 places · 14 possible duplicates for a human
+BLOCKED
+G6
+Phrases · Japanese
+6 emergency and allergy cards need a native speaker
+PUBLISHED
+v4
+Critters · Thailand names
+published 21 Sep by Quoc
+REJECTED
+G5
+Personas · 7 packs
+“Pon sounds like a hotel concierge.” Regenerating.
+FORMS · ASIA SET 07
+batch 2026-09-27-forms-07 · content.author on sonnet-5 via Batch API · 1.2M tokens · $4.12
+7 PASS
+3 WARN
+IP CHECK CLEAR
+PON
+Kyoto
+PASS
+✓
+HACHI
+Tokyo
+PASS
+✓
+FUGU
+Osaka
+WARN
+?
+PLAKAD
+Bangkok
+PASS
+✓
+CHANG
+Chiang Mai
+WARN
+?
+CHANEE
+Phuket
+PASS
+✓
+KKACHI
+Seoul
+PASS
+✓
+GALMAEGI
+Busan
+WARN
+?
+DWAEJI
+Jeju
+PASS
+✓
+RIMAU
+Kuala Lumpur
+PASS
+✓
+PREVIOUS VS NEW · FUGU
+V3 · LIVE
+V4 · THIS BATCH
+!
+Epic form edge on dark is 3.4:1. The glyph needs 4.5:1 at 24 pt.
+✓
+Silhouette reads at 24 pt and 96 pt.
+✓
+Name is unique and clear of the IP denylist.
+✓
+Palette stays inside the set’s hue band.
+Note for the regenerate run, if you reject this item
+KEEP V4
+REJECT ITEM
+Reviewers kept 7 of 10 critters; 3 warnings wait for you. Live release: forms v3, published 21 Sep. Roll back
+REJECT BATCH WITH NOTES
+APPROVE & PUBLISH V4 · OWNER
+11
+COMMUNITY & DRIVERS
+P52 · P55 · P56
+Driver directory with anomaly flags · pickup gaps · ask groups · shared plans
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+CONTENT
+COMMUNITY & DRIVERS
+
+Shared plans, tips and the driver directory. A driver is listed only after he confirms his own listing, and only crews who rode with him can rate him.
+
+DRIVERS
+41
+SHARED PLANS
+128
+PICKUP GAPS
+23
+ASK GROUPS
+17
+DRIVER
+SPEAKS
+LISTING
+CREWS
+FLAGS
+Pak Wayan
+Ubud, Kintamani
+ID EN
+LISTED
+7 rated · 6 loved
+ANOMALY
+Ketut Ardana
+Canggu, Uluwatu
+ID EN
+LISTED
+12 rated · 11 loved
+Nyoman Sudi
+Amed, Tulamben
+ID
+LISTED
+3 rated · 2 loved
+TIP HELD
+Made Suarta
+Sanur, airport runs
+ID
+PAUSED
+4 rated · 4 loved
+Anh Tuấn
+Hội An, Đà Nẵng
+VI EN
+PENDING
+invite opened
+Bayu Pratama
+Seminyak
+ID EN
+REMOVED
+removed by him
+his own
+photo
+PAK WAYAN
+Toyota Avanza · 6 seats · Ubud, Kintamani
+VERIFIED WHATSAPP
+LISTED 9 SEP
+WHAT HE TELLS CREWS
+“650k a day with fuel, 10 hours. Sunrise at Kintamani is extra.”
+7 CREWS RATED · 6 LOVED IT · 1 FINE
+“Waited an hour at arrivals when our flight was late.”
+crew of 5 · August
+ANOMALY FLAG · RATING RING?
+One account rated him on 3 trips. Each trip belonged to a crew created less than a week before it.
+acct 0193…9f2 · Bali Sept A, Bali Sept B, Ubud Squad
+HOLD THOSE RATINGS
+TAKE DOWN
+CLEAR FLAG
+A takedown is immediate and audited. Crews who rode with him keep his contact on their own trips.
+PICKUP GAPS · BALI
++ Add gap
+Tegallalang Rice Terrace
+“Ride apps rarely pick up here after 5pm.”
+after 17:00
+ACTIVE
+Retire
+Uluwatu Temple
+“After the kecak dance, rides surge or don’t come.”
+18:00–20:00
+ACTIVE
+Retire
+Amed
+“No ride-app coverage at all.”
+all day
+ACTIVE
+Retire
+Kintamani for sunrise
+“Book a driver the night before.”
+03:00–06:00
+DRAFT
+Approve
+Grab Farefeed also reported no service on 9 legs in Bali this week.
+ASK GROUPS
++ Add group
+Bali Drivers & Tours
+Bali · link checked 3 d ago
+41 crews
+Ubud Community Board
+Bali · link checked 3 d ago
+12 crews
+Hội An Expats & Travellers
+Hội An · link broken since Thu
+Fix link
+Kyoto Visitors Help
+Kyoto · link checked 9 d ago
+6 crews
+We never read or post in these groups. Crews copy a post and paste it themselves.
+PLATFORM
+Config, suppliers, outside services and background jobs
+12
+FLAGS & CONFIG
+BUILT
+Keys grouped by purpose · audience · history · critical keys need a typed confirm (18)
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+PLATFORM
+FLAGS & CONFIG
+
+Server-side limits and switches. Public keys reach the app through client_config within seconds of a save.
+
+Filter keys
+KEY
+VALUE
+AUDIENCE
+IN THE APP
+CHANGED
+LIMITS
+shown to users
+guide.free_daily_limit
+CRITICAL
+30
+Everyone
+30
+21 Sep
+Mai
+seat.cap_free
+CRITICAL
+6
+Everyone
+6
+Fri
+Quoc
+seat.cap_boost
+CRITICAL
+16
+Everyone
+16
+12 Sep
+Quoc
+redraft.limit_free
+3
+Everyone
+3
+12 Sep
+Mai
+FAIR USE
+silent caps, never shown
+fair_use.guide_turns_per_user_day
+SERVER ONLY
+200
+Everyone
+—
+2 Sep
+Quoc
+fair_use.crew_chat_per_crew_day
+SERVER ONLY
+400
+Everyone
+—
+2 Sep
+Quoc
+fair_use.redrafts_per_trip_day
+SERVER ONLY
+20
+Everyone
+—
+2 Sep
+Quoc
+BILLING & PERKS
+billing.grace_days
+CRITICAL
+SERVER ONLY
+16
+Everyone
+—
+2 Sep
+Quoc
+perks.catalogue_version
+2026-09-b
+App ≥ 1.0.3
+2026-09-b
+19 Sep
+Linh
+SUPPLIERS
+follow the partner adapter
+supplier.viator_booking.copy_mode
+CRITICAL
+ON PARTNERS
+booking
+Everyone
+booking
+Fri
+Quoc
+supplier.klook_activity.enabled
+CRITICAL
+ON PARTNERS
+false
+Everyone
+false
+2 Sep
+seed
+Kill switches for AI, suppliers, push and sign-up live on Services & spend, next to the service they turn off.
+CRITICAL
+SYNCED TO APP
+guide.free_daily_limit
+Free guide turns per user per day. Resets at midnight on the user’s phone.
+Value
+−
+40
++
+Audience
+EVERYONE
+COHORT
+USER IDS
+APP VER.
+CHANGES TO SAVE
+value
+30
+40
+You’ll type the key to confirm.
+SAVE…
+HISTORY
+21 Sep
+Mai Tran
+25 → 30
+12 Sep
+Quoc
+20 → 25
+2 Sep
+Quoc
+set to 20
+13
+PARTNERS
+BUILT
+Adapters as tickets · shows what a crew will see before the copy switches
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+PLATFORM
+PARTNERS
+
+A supplier adapter goes live only after the partner approves and certifies us. Saving flips the adapter and the app’s copy together.
+
+LIVE
+VIATOR
+viator_booking
+Approved 18 Sep, ref VTR-22817. Tours and activities, booked inside the app.
+p95 820 ms · 0.4% errors · 212 bookings in Sep
+APP SAYS
+BOOK IN CRITTERPASS
+APPROVED · OFF
+KLOOK
+klook_activity
+Activity API approved 27 Sep. Certification call on 30 Sep.
+not called yet
+APP SAYS
+OPEN KLOOK ↗
+OFF
+AGODA
+agoda_demand
+Stays go out as affiliate links through Travelpayouts until the Demand API is approved.
+links only · 1,904 click-outs in Sep
+APP SAYS
+OPEN AGODA ↗
+OFF
+TRIP.COM
+trip_com_at
+Affiliate links through CJ. No API access requested yet.
+links only · 311 click-outs in Sep
+APP SAYS
+OPEN TRIP.COM ↗
+OFF
+GETYOURGUIDE
+gyg_api
+Applied 14 Sep. No reply yet.
+not called
+APP SAYS
+HIDDEN
+KLOOK
+klook_activity · version 3
+OFF
+Adapter live
+Calls the Klook Activity API for prices and slots
+App copy
+LINK · AFFILIATE
+BOOKING · IN-APP
+What a crew will see
+NOW
+Ubud cooking class
+OPEN KLOOK ↗
+AFTER SAVE
+Ubud cooking class · from 450k
+OPEN KLOOK ↗
+Notes · approval reference
+Activity API approved 27 Sep, ref KLK-5521. Certification call 30 Sep.
+CHANGES TO SAVE
+enabled
+false
+true
+notes
+applied 20 Sep
+approved 27 Sep…
+UPDATE ADAPTER AND APP COPY…
+Booking copy stays off until the adapter has passed certification.
+14
+SERVICES & SPEND
+PROPOSED
+P54 SWITCHES
+AI by tier and feature · every third-party service: health, quota, spend and its switch
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+PLATFORM
+SERVICES & SPEND
+
+Every outside service we call, with its health, quota and spend, and the switch that turns our use of it off. Every switch is audited.
+
+checked 30 s ago
+GRAFANA ↗
+LANGFUSE ↗
+SPEND THIS MONTH
+ON PACE
+$1,284
+of $3,000
+Heading for about $2,410 by the 30th.
+AI TODAY
+GUARD OK
+$184
+of $400 cap
+Alerts at 80%, pauses at 100%.
+SERVICES
+1 DEGRADED
+31/32
+healthy
+APNs 5xx since 14:02. Incident is open.
+OTP · SMS TODAY
+NORMAL
+$22
+alert at $60
+SMS-pumping guard blocked 41 attempts.
+CLAUDE · BY MODEL TIER · TODAY
+cost guard OK · every 5 min
+haiku-4-5
+Guide chat, voice, quests, parsing
+$41 / $120
+sonnet-5
+Proposals, redrafts, recaps, vision
+$118 / $220
+opus-5-5
+Itinerary skeleton only
+$25 / $60
+Tiers never change on their own. Near a cap, opus skeleton jobs queue instead of switching model.
+DOWNGRADE A TIER…
+AI SPEND · LAST 14 DAYS
+haiku
+sonnet
+opus
+cap $400
+14 Sep
+21 Sep
+today
+AI FEATURES · KILL SWITCHES
+today
+ai.guide_chat.enabled
+Ask the local, in text
+haiku
+4,210 turns
+$38
+ai.voice.enabled
+Talk out loud mode
+haiku
+612 min
+$9
+ai.redraft.enabled
+Plan redrafts
+sonnet
+188 runs
+$44
+ai.proposal.enabled
+Pitches to the crew
+sonnet
+61 runs
+$29
+ai.recap.enabled
+Trip recap stories
+sonnet
+34 stories
+$21
+ai.vision.enabled
+Receipts and booking scans
+sonnet
+290 scans
+$24
+ai.skeleton.enabled
+First full itinerary
+opus
+19 trips
+$25
+PRODUCT SWITCHES
+typed confirm
+la.crew_map.enabled
+Off · Mai · 14:12 · APNs incident
+la.leave_by.enabled
+Leave-by Live Activity
+widgets.push.enabled
+Widget refresh pushes
+android.fsi.enabled
+Android full-screen alarms
+signup.enabled
+New accounts
+otp.whatsapp.enabled
+WhatsApp sign-in codes
+THIRD-PARTY SERVICES · 32
+spend is month to date
+SERVICE
+WE USE IT FOR
+STATUS
+P95 · ERRORS
+USAGE
+SPEND
+SWITCH
+MESSAGING & SIGN-IN
+Prelude
+SMS sign-in codes
+OK
+1.1 s · 0.3%
+5,904 checks
+$118
+otp.sms.enabled
+Twilio Verify
+SMS fallback when Prelude fails
+OK
+1.4 s · 0.6%
+312 checks
+$14
+fallback only
+WhatsApp Business
+Sign-in codes, vendor desk
+OK
+0.9 s · 0.2%
+2,480 messages
+$61
+otp.whatsapp.enabled
+PUSH
+APNs
+Push, Live Activities, widgets
+DEGRADED
+380 ms · 3.1%
+184k sends
+—
+widgets.push · la.*
+FCM
+Android push
+OK
+210 ms · 0.2%
+61k sends
+—
+none
+PAYMENTS
+RevenueCat
+Purchases and store webhooks
+OK
+2.1 s lag · 0.1%
+1 failed webhook
+$0
+billing.enabled
+MAPS & TRAVEL DATA
+Mapbox
+Routes and ETAs
+OK
+240 ms · 0.1%
+62% of free tier
+$0
+falls back to estimates
+WeatherAPI.com
+Forecasts and marine
+OK
+180 ms · 0%
+41% of plan
+$0
+none
+AeroDataBox
+Flight status
+OK
+450 ms · 0.2%
+71% of plan
+$25
+none
+FlightAware
+Delay alerts
+OK
+— · 0%
+212 alerts
+$40
+none
+Travelpayouts
+Fares and stay links
+OK
+620 ms · 0.8%
+88k calls
+$0
+none
+Foursquare Places
+Place data import
+OK
+300 ms · 0.1%
+9% of quota
+$0
+none
+Frankfurter
+Currency rates
+OK
+90 ms · 0%
+daily pull
+free
+none
+SUPPLIERS
+Viator
+Tours, booked in the app
+OK
+820 ms · 0.4%
+212 bookings
+comm.
+supplier.viator_booking
+Grab Farefeed
+Ride price estimates
+OK
+510 ms · 1.2%
+14k quotes
+$0
+supplier.grab
+Klook · Agoda · Trip.com · GYG
+Not live yet, see Partners
+NOT LIVE
+—
+—
+—
+on Partners
+VOICE & MAIL
+ElevenLabs
+Guide voices, phrase audio
+OK
+700 ms · 0.3%
+38% of characters
+$99
+ai.voice.enabled
+Deepgram
+Speech-to-text fallback
+OK
+420 ms · 0.1%
+212 min
+$6
+none
+Resend
+Support replies, receipts
+OK
+240 ms · 0%
+1,212 emails
+$20
+none
+PostGrid
+Printed postcards
+OK
+— · 0%
+41 cards
+$74
+postcards.enabled
+INFRASTRUCTURE & OBSERVABILITY
+Railway
+api, worker, realtime, sync
+OK
+—
+5 services
+$212
+none
+PlanetScale Postgres
+Primary database, Singapore
+OK
+18 ms query · 0%
+38% of storage
+$299
+none
+Cloudflare
+Workers, R2 media, tiles
+OK
+—
+1.2 TB served
+$41
+none
+Sentry · PostHog · Grafana · Langfuse
+Errors, analytics, metrics, AI traces
+OK
+—
+all under plan
+$55
+none
+15
+JOBS & DLQ
+P11
+pg-boss queues · dead letters with redacted payloads · redrive · scheduled jobs
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+PLATFORM
+JOBS & DLQ
+
+Background queues. A job that fails three times lands in its dead-letter queue; redrive sends it back once the cause is fixed.
+
+worker ×2 · refreshed 20 s ago
+QUEUE
+ACTIVE
+QUEUED
+DONE 24 H
+FAILED
+DLQ
+NOTES
+push.send
+APNs and FCM delivery
+12
+38
+184,210
+31
+5
+APNs 503s since 14:02, retrying
+notify.route
+decide: send, roundup or drop
+4
+0
+96,402
+0
+0
+rt.relay
+outbox → realtime channels
+2
+0
+412,880
+0
+0
+lag 0.4 s
+billing.apply
+RevenueCat events → entitlements
+0
+0
+1,204
+1
+1
+INITIAL_PURCHASE failed, replay on Billing
+feedback.forward
+triage, then Linear
+0
+0
+41
+1
+1
+Linear 429 at 11:20
+ai.skeleton
+opus itinerary skeleton
+2
+0
+19
+0
+0
+held automatically if opus nears its cap
+roundup.build
+evening roundups by time zone
+0
+0
+3,180
+0
+0
+next bucket 18:50 SGT
+content.publish
+approved releases → app and db
+0
+0
+1
+0
+0
+forms v3 · 21 Sep
+idea.embed
+duplicate detection for ideas
+0
+0
+22
+0
+0
+push.send.dlq
+5 dead letters · all APNs 503 during the open incident
+REDRIVE 3 SELECTED
+REDRIVE ALL 5
+JOB
+FAILED
+LAST ERROR · PAYLOAD (REDACTED)
+TRIES
+✓
+job 01J9R4…1KQ
+15:31
+APNs 503 ServiceUnavailable
+{ notification: N-12 leave_by, device: ••••7f3a, class: ALWAYS }
+3/3
+✓
+job 01J9R4…0ZT
+15:29
+APNs 503 ServiceUnavailable
+{ notification: N-21 vote_closing, device: ••••a91c, class: NORMAL }
+3/3
+✓
+job 01J9R3…YH2
+15:18
+APNs 503 ServiceUnavailable
+{ notification: N-05 crew_joined, device: ••••0b44, class: NORMAL }
+3/3
+job 01J9R3…W8M
+15:02
+APNs 503 ServiceUnavailable
+{ liveActivity: crew_map update, channel: ••••c2 }
+3/3
+job 01J9R3…T4C
+14:47
+APNs 503 ServiceUnavailable
+{ notification: N-33 ftf_ending, device: ••••51de, class: ROUNDUP }
+3/3
+Redriven jobs keep their original singleton key, so a push that already went out will not send twice. Last redrive: Mai, 13:40, 12 jobs, all delivered.
+SCHEDULED
+sched.enqueue_due
+every minute
+OK 15:42
+ops.ai_cost_guard
+every 5 min
+OK 15:40
+billing.reconcile
+05:00 SGT daily
+OK · 0 FIXES
+ops.backup
+03:00 SGT · pg_dump to R2
+OK · 4.1 GB
+powersync.compact
+Railway cron · 04:00
+OK
+maint.anon_gc
+02:00 SGT daily
+212 REMOVED
+RETRY POLICY
+3 tries with backoff from 10 s. billing.apply retries 5 times. A DLQ insert raises a Sentry event and pages in SGT hours if the DLQ keeps growing.
+GOVERNANCE
+Who did what, and who can do what
+16
+AUDIT LOG
+P17 T8
+Append-only · filters · expanded row shows the diff and reason · CSV for owners
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+GOVERNANCE
+AUDIT LOG
+
+Every console command, written in the same transaction as the change. Nobody can edit or delete a row, owners included.
+
+EXPORT CSV · OWNER
+Operator
+Everyone
+▾
+Command
+All commands
+▾
+Target
+user, task, key or op_id
+When
+Last 7 days
+▾
+WHEN · SGT
+OPERATOR
+COMMAND
+TARGET
+OP_ID
+IP HASH
+Sun 15:38
+M
+Mai
+moderate_item
+avatar in The Bali Six · hide
+01J9QK…4TZ
+a1f3…9c
+Sun 15:24
+A
+Arif
+grant_entitlement
+Maya Chen · Pass+ 30 days
+01J9R3…A1Q
+7c20…e4
+WHAT CHANGED
+perk
+—
+pass_plus
+source
+—
+code_grant
+starts
+—
+store period end
+length
+—
+30 days
+REASON GIVEN
+“Recap crash on a trip she’d already paid for. Ticket #CP-10482.”
+actor.via admin · role support · result applied · same transaction as the grant
+Sun 14:40
+L
+Linh
+upsert_catalogue_item
+guides · Tokek · v11 → v12
+01J9QW…M0S
+44bd…10
+Sun 14:12
+M
+Mai
+set_feature_flag
+la.crew_map.enabled · true → false
+01J9R1…8FD
+a1f3…9c
+Sun 14:09
+M
+Mai
+post_incident
+Push delivery degraded
+01J9R1…7XA
+a1f3…9c
+Sun 13:40
+M
+Mai
+redrive_jobs
+push.send.dlq · 12 jobs
+01J9R0…2QP
+a1f3…9c
+Sat 22:47
+D
+Dewi
+update_concierge_task
+Table for 8 in Roma Norte · waiting user
+01J9QB…6RT
+e90a…31
+Sat 21:02
+D
+Dewi
+merge_ideas
+Offline maps · 2 ideas → 1
+01J9Q9…0KD
+e90a…31
+Fri 18:30
+Q
+Quoc
+set_partner_adapter
+viator_booking · copy link → booking
+01J9MZ…Q2E
+0b7e…d2
+Fri 18:26
+Q
+Quoc
+set_feature_flag
+seat.cap_free · 5 → 6
+01J9MZ…P7N
+0b7e…d2
+Fri 09:14
+›
+Emergency CLI · Quoc
+revoke_session
+user 0192e1…f3a · 1 session
+01J9M4…1CC
+local
+2,418 rows in the last 7 days · newest first
+NEWER
+OLDER
+17
+OPERATORS & ROLES
+PROPOSED
+A screen for set_admin_role · role matrix · how people get in and out
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+GOVERNANCE
+OPERATORS
+
+Who can sign in and what each role opens. Changing a role runs set_admin_role, which only an owner can do.
+
+OPERATOR
+ROLES · CLICK TO CHANGE
+LAST SIGN-IN
+SESSIONS
+Q
+Quoc
+quoc@critterpass.app
+OWNER
+OPS
+CONTENT
+SUPPORT
+today 07:58
+1
+you
+M
+Mai Tran
+mai@critterpass.app
+OWNER
+OPS
+CONTENT
+SUPPORT
+today 07:02
+2
+End sessions
+L
+Linh Pham
+linh@critterpass.app
+OWNER
+OPS
+CONTENT
+SUPPORT
+today 09:30
+1
+End sessions
+A
+Arif Rahman
+arif@critterpass.app
+OWNER
+OPS
+CONTENT
+SUPPORT
+today 08:15
+1
+End sessions
+D
+Dewi Santoso
+dewi@critterpass.app
+OWNER
+OPS
+CONTENT
+SUPPORT
+Sat 23:10
+0
+No sessions
+H
+Hana Sato
+hana@critterpass.app · allow-listed
+OWNER
+OPS
+CONTENT
+SUPPORT
+never
+0
+Give a role
+WHAT EACH ROLE OPENS
+owner implies every role
+AREA
+OWNER
+OPS
+CONTENT
+SUPPORT
+Home
+●
+●
+●
+●
+My work
+new area
+●
+●
+●
+●
+Moderation
+●
+●
+—
+●
+Concierge desk
+●
+●
+—
+—
+Feedback & ideas
+●
+—
+—
+●
+Support
+●
+—
+—
+●
+Billing
+new area
+●
+—
+—
+●
+Catalogue
+●
+—
+●
+—
+Content batches
+new area
+approve: owner
+●
+—
+●
+—
+Community & drivers
+new area
+●
+●
+●
+—
+Flags & config
+●
+●
+—
+—
+Partners
+●
+●
+—
+—
+Services & spend
+new area
+tier downgrade: owner
+●
+●
+—
+—
+Jobs & DLQ
+●
+●
+—
+—
+Audit log
+CSV export: owner
+●
+●
+—
+—
+Operators
+new area
+owner only
+●
+—
+—
+—
+HOW SOMEONE GETS IN
+1
+Allow-list their email
+Add it to ADMIN_ALLOWLIST in the api environment and redeploy.
+2
+They sign in
+Cloudflare Access first, then Google with that work email.
+3
+You give them a role
+Until then they can sign in but see nothing.
+Removing someone: clear their roles here first, which ends their sessions at once. Then take them off the allow-list.
+IF THE CONSOLE IS DOWN
+Owners can run any command from a laptop with the emergency CLI. It writes the same audit rows.
+pnpm admin:cmd revoke_session '{…}'
+KIT & PHONE
+Shared states, and quick check-ins from a phone
+18
+STATES, BANNERS & CONFIRMS
+BUILT KIT
++ BANNERS
+Loading, empty, error, stale save, forbidden, refused sign-in, confirms, toast
+KIT · SHARED BY EVERY SCREEN
+STATES, BANNERS & CONFIRMS
+
+A guide shows up only when something is empty, blocked or broken. Everything else stays plain so the data reads first.
+
+01 · LOADING
+02 · EMPTY QUEUE
+NOTHING WAITING
+All quiet. Go get a kopi.
+See what was handled today
+03 · ERROR
+THAT DIDN’T LOAD
+The api took too long to answer.
+504 · request 01J9R5…9QX
+TRY AGAIN
+04 · STALE SAVE
+SOMEONE ELSE SAVED FIRST
+Linh saved Tokek while you were editing. Your changes weren’t saved.
+field
+server now
+your edit
+voice_id
+el_tokek_v3
+el_tokek_v2
+local_words
+4 words
++ enak
+LOAD THE LATEST AND RE-APPLY MINE
+05 · NOT FOR YOUR ROLE
+NOT FOR YOUR ROLE
+Flags & config is for ops. Ask an owner if you need it.
+You are
+SUPPORT
+06 · SIGN-IN REFUSED
+STAFF PASS
+NOT ON THE LIST
+quoc.b@gmail.com isn’t allow-listed. Use your work account, or ask an owner.
+TRY ANOTHER ACCOUNT
+07 · BANNERS · TOP OF EVERY PAGE, NEWEST FIRST
+INCIDENT
+Push delivery degraded. APNs is returning 5xx for 3% of sends since 14:02 SGT.
+Mai · 14:09
+Runbook
+RESOLVE
+MAINTENANCE
+Database switchover Sun 4 Oct, 04:00–04:30 SGT. Sync pauses for about 35 seconds; the console stays read-only.
+Quoc · planned
+EDIT
+You’re offline. Nothing can be saved until the connection is back; what you see may be out of date.
+08 · CRITICAL CONFIRM
+CHANGE A CRITICAL SETTING
+This changes the live app for everyone it applies to, within seconds.
+value
+30
+40
+Type guide.free_daily_limit to confirm
+guide.free_dai
+CHANGE IT
+CANCEL
+09 · DESTRUCTIVE CONFIRM
+BAN RIZKY P.?
+· Ends his 2 sessions and revokes 1 device key
+· Hides his photos and notes from Kuta Crew
+· His crew keeps its plan and money records
+Reason · required
+Repeated nudity after removal
+Until
+30 days
+▾
+BAN FOR 30 DAYS
+CANCEL
+10 · SAVED
+Saved · Tokek v13
+upsert_catalogue_item · op 01J9R6…2LB
+Toasts drop from the top for 2.8 s and always carry the op_id, so anyone can find the audit row.
+19–21
+PHONE CHECK-INS
+PROPOSED
+Home, a moderation verdict and a desk task, with 44 pt+ targets
+15:42
+5G · 82%
+CRITTERPASS
+OPS
+Q
+INCIDENT
+APNs degraded since 14:02
+›
+AFTERNOON, QUOC
+3 things need a human.
+MODERATION
+12
+DESK < 2 H
+4
+DLQ
+7
+CONTENT
+2
+FEEDBACK
+9
+IDEAS
+5
+ASSIGNED TO YOU
+DESK
+Airport pickup for The Bali Six
+38 min
+MODERATION
+Photo reported 3× in Kuta Crew
+late
+FEEDBACK
+#CP-10482 Recap freezes
+1 h 52
+31/32 services OK
+AI $184 / $400
+HOME
+5
+MY WORK
+16
+QUEUES
+MORE
+19 · Home
+15:42
+5G · 82%
+‹ MODERATION
+1 of 12
+PHOTO · ALBUM
+26 h · SLA passed
+KUTA CREW · BEACH DAY
+reported photo · blurred
+HOLD TO REVEAL
+NUDITY ×2
+SPAM ×1
+R
+Rizky P. · Kuta Crew
+4 reports against, 1 removed
+APPROVE
+HIDE
+REMOVE
+BAN AUTHOR
+20 · Moderation verdict
+15:42
+5G · 82%
+‹ DESK
+DUE
+VENDOR MESSAGE · IN PROGRESS · YOU
+AIRPORT PICKUP FOR THE BALI SIX
+MAYA APPROVED THIS TEXT
+Hi Made, this is Critterpass writing for Maya Chen. Six of us land at Denpasar on Wed 14 Oct at 10:40…
+APPROVED
+Can do. One van, 750k IDR with parking. Name sign at arrivals.
+Van for 750k works. Please confirm Wed 14 Oct, 10:40.
+DRAFT · WAITING ON MAYA
+ASK MAYA TO APPROVE
+MARK WAITING ON USER
+21 · Desk task

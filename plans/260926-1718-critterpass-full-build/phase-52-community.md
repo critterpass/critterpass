@@ -2,7 +2,7 @@
 phase: 52
 title: "Community: crew plans, copy, rate, publish"
 status: pending
-depends_on: [17, 28, 29, 30, 43, 44, 46, 51]
+depends_on: [17, 28, 29, 30, 43, 44, 46, 51, 58]
 wave: 21
 features: [F-149, F-150, F-151, F-152]
 screens: [3o-1, 3o-2, 3o-3, 3o-4, 3d-1, 3e-1, 3m-1]
@@ -91,6 +91,16 @@ Done when: a trip published by crew A (after all consents) appears for crew B's 
 | AI | `packages/ai/src/routes/community/{title-tags,overlap-note,tip-moderation,pii-scrub}.ts`; promptfoo suites (no numbers invented; PII never echoed; tip moderation precision on labelled set) |
 | Planner | `packages/planner/src/community/{map-items,merge,season-check}.ts` pure fns producing ChangeSet ops |
 | Admin | `apps/admin/src/modules/community/`: published plans list, unpublish with reason, tip moderation kind handler for P17 queue, reports |
+
+## Ops console design
+
+Build this phase's console panel to its render (`design/Ops - Community.dc.html`, `docs/design-renders/pages/Ops-Community.png`); field → table → command map in `plans/reports/researcher-260928-0214-ops-designs-content-platform-inventory-report.md`. Register the panel's `count`/`work` sources with the phase 58 registry. Sample data in the render is not a spec; AI labels follow D22 routing.
+
+| Gap in the plan | Add in this phase |
+|---|---|
+| SHARED PLANS tab inside Community & drivers | render the published-plans list as a tab of the `community` area host created by phase 55 |
+| Unpublish with reason | name it `admin_unpublish_shared_plan {id, reason}` (ops) and add to §4.17 |
+| My work / badges | register `work` + `count` for shared-plan reports |
 
 ## Tasks
 ### T1 — Community schema, public projection view, permission tests

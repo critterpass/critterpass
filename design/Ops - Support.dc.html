@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#17142a;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="Support user detail" style="width:1440px;display:grid;grid-template-columns:240px minmax(0,1fr);min-height:900px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif">
+<dc-import name="Ops - Nav" active="support" style="display:block;height:100%" hint-size="240px,900px"></dc-import>
+<main style="min-width:0;padding:28px 32px 40px;display:flex;flex-direction:column;gap:18px">
+<header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">PEOPLE</span>
+<h1 style="margin:0;font:900 48px/.86 Archivo,sans-serif;font-stretch:70%;letter-spacing:-.01em;text-transform:uppercase">Support</h1>
+</div>
+</header>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:center;gap:12px;height:54px;padding:0 8px 0 18px;border-radius:16px;background:#120f22;box-shadow:inset 0 0 0 2px #ffd84a">
+<span style="font:800 11px/1 Archivo,sans-serif;letter-spacing:.14em;color:#a9a3c0">FIND</span>
+<span style="flex:1;font:600 17px/1 Geist,sans-serif;color:#f4efe4">maya.chen@gmail.com</span>
+<span style="padding:6px 8px;border-radius:6px;background:#2c2750;color:#d8d3ee;font:800 11px/1 Archivo,sans-serif;letter-spacing:.1em">LOOKS LIKE AN EMAIL</span>
+<button style="height:40px;padding:0 18px;border-radius:12px;border:0;background:#ffd84a;color:#17142a;font:900 12.5px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">LOOK UP</button>
+</div>
+<span style="padding-left:6px;font:500 12.5px/1.3 Geist,sans-serif;color:#a9a3c0">By uid, phone in +E.164, email, 6-character join code or ticket number. 1 match.</span>
+</div>
+
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:20px;align-items:center;padding:20px">
+<span style="width:72px;height:72px;border-radius:50%;background:#ff5fa8;color:#17142a;display:inline-flex;align-items:center;justify-content:center;font:900 32px/1 Archivo,sans-serif;box-shadow:0 0 0 3px #1f1b38,0 0 0 5px #ff5fa8">M</span>
+<div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="font:900 36px/.86 Archivo,sans-serif;font-stretch:70%;text-transform:uppercase">Maya Chen</span><span style="padding:5px 8px;border-radius:6px;background:#54d6a4;color:#17142a;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">ACTIVE</span><span style="padding:5px 8px;border-radius:6px;background:#ffd84a;color:#17142a;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">PASS+</span><span style="padding:5px 8px;border-radius:6px;background:#2c2750;color:#d8d3ee;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">PHONE VERIFIED</span></div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 24px">
+<sc-for list="{{ facts }}" as="f" hint-placeholder-count="8">
+<div style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0">{{ f.k }}</span><sc-if value="{{ f.mono }}"><span style="font:500 13px/1.3 'Geist Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ f.v }}</span></sc-if><sc-if value="{{ f.sans }}"><span style="font:500 13.5px/1.3 Geist,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ f.v }}</span></sc-if></div>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<button style="height:38px;padding:0 16px;border-radius:19px;border:1.5px solid #5b5487;background:transparent;color:#f4efe4;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">REVOKE ALL SESSIONS</button>
+<button style="height:38px;padding:0 16px;border-radius:19px;border:1.5px solid #ff5fa8;background:transparent;color:#ff5fa8;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">BAN…</button>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;padding:10px 20px;background:#17142a;font:500 13px/1.4 Geist,sans-serif;color:#c9c4dc"><span style="font:800 11px/1 Archivo,sans-serif;letter-spacing:.1em;color:#a9a3c0;flex:none">NOT SHOWN HERE</span>Budgets, payout details, insurance, dietary profile and raw location are private (C3). There is no impersonation; this view is read-only.</div>
+</section>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:16px">
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">ENTITLEMENTS</span><button style="height:30px;padding:0 12px;border-radius:15px;border:0;background:#ffd84a;color:#17142a;font:900 11.5px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">+ GRANT</button></div>
+<sc-for list="{{ ents }}" as="e" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:78px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<span style="justify-self:start;padding:5px 8px;border-radius:6px;background:{{ e.bg }};color:#17142a;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">{{ e.perk }}</span>
+<span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:600 14px/1.3 Geist,sans-serif">{{ e.what }}</span><span style="font:500 12px/1.3 'Geist Mono',monospace;color:#a9a3c0">{{ e.meta }}</span></span>
+<span style="font:600 12.5px/1 Geist,sans-serif;color:{{ e.actColor }}">{{ e.act }}</span>
+</div>
+</sc-for>
+</section>
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">ACCOUNT DELETION</span><span style="font:500 11.5px/1 'Geist Mono',monospace;color:#a9a3c0">panel from P45</span></div>
+<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+<span style="height:30px;padding:0 12px;border-radius:15px;background:#2c2750;color:#f4efe4;display:inline-flex;align-items:center;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;white-space:nowrap">NONE</span><span style="width:16px;height:2px;background:#3a3466"></span>
+<span style="height:30px;padding:0 12px;border-radius:15px;box-shadow:inset 0 0 0 1.5px #3a3466;color:#a9a3c0;display:inline-flex;align-items:center;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;white-space:nowrap">REQUESTED</span><span style="width:16px;height:2px;background:#3a3466"></span>
+<span style="height:30px;padding:0 12px;border-radius:15px;box-shadow:inset 0 0 0 1.5px #3a3466;color:#a9a3c0;display:inline-flex;align-items:center;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;white-space:nowrap">RESTORE 30 D</span><span style="width:16px;height:2px;background:#3a3466"></span>
+<span style="height:30px;padding:0 12px;border-radius:15px;box-shadow:inset 0 0 0 1.5px #3a3466;color:#a9a3c0;display:inline-flex;align-items:center;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;white-space:nowrap">PURGED</span>
+</div>
+<span style="font:500 13px/1.45 Geist,sans-serif;color:#a9a3c0">Last data export 12 Sep, link expired. Force-purge is for legal requests only and needs a reason.</span>
+</section>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:16px">
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">SESSIONS · 3</span><span style="font:500 12px/1 Geist,sans-serif;color:#a9a3c0">30-day sessions</span></div>
+<sc-for list="{{ sessions }}" as="s" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:14px;align-items:center;padding:11px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:600 14px/1.3 Geist,sans-serif">{{ s.device }}</span><span style="font:500 12px/1.3 'Geist Mono',monospace;color:#a9a3c0">{{ s.meta }}</span></span>
+<span style="font:500 12.5px/1 Geist,sans-serif;color:{{ s.seenColor }}">{{ s.seen }}</span>
+<button style="height:28px;padding:0 10px;border-radius:14px;border:1.5px solid #5b5487;background:transparent;color:#f4efe4;font:900 11px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">REVOKE</button>
+</div>
+</sc-for>
+</section>
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">DEVICE ACTION KEYS · 2</span><span style="font:500 12px/1 Geist,sans-serif;color:#a9a3c0">rotate every 30 days</span></div>
+<sc-for list="{{ keys }}" as="k" hint-placeholder-count="2">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;padding:11px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:600 14px/1.3 Geist,sans-serif">{{ k.device }}</span><span style="font:500 12px/1.3 'Geist Mono',monospace;color:#a9a3c0">{{ k.meta }}</span></span>
+<button style="height:28px;padding:0 10px;border-radius:14px;border:1.5px solid #5b5487;background:transparent;color:#f4efe4;font:900 11px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">REVOKE KEY</button>
+</div>
+</sc-for>
+</section>
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px 10px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">COMMAND TRACE</span><span style="height:30px;padding:0 10px;border-radius:9px;background:#120f22;box-shadow:inset 0 0 0 1.5px #3a3466;display:inline-flex;align-items:center;font:500 12px/1 'Geist Mono',monospace;color:#a9a3c0">op_id or command…</span></div>
+<sc-for list="{{ trace }}" as="c" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:12px;align-items:center;padding:9px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05);background:{{ c.bg }}">
+<span style="font:500 12px/1 'Geist Mono',monospace;color:#a9a3c0">{{ c.when }}</span>
+<span style="display:flex;flex-direction:column;gap:2px;min-width:0"><span style="font:600 13px/1.2 'Geist Mono',monospace">{{ c.cmd }}</span><span style="font:500 11.5px/1.2 'Geist Mono',monospace;color:#a9a3c0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.op }}</span></span>
+<span style="padding:4px 7px;border-radius:6px;background:{{ c.stBg }};color:{{ c.stFg }};font:800 11px/1 Archivo,sans-serif;letter-spacing:.06em">{{ c.status }}</span>
+</div>
+</sc-for>
+<div style="margin:12px 16px 16px;padding:12px 14px;border-radius:10px;background:#120f22;font:500 12.5px/1.6 'Geist Mono',monospace;color:#c9c4dc">add_album_photos · rejected MEDIA_TOO_LARGE<br>{ trip_id: "0193b7…e1f", photos: [40 items], caption: «C2 redacted» }</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const G = 'Geist', M = 'Geist Mono';
+    const S = { applied: ['APPLIED', '#2c2750', '#d8d3ee'], dup: ['DUPLICATE', '#2c2750', '#a9a3c0'], rej: ['REJECTED', '#ff5fa8', '#17142a'] };
+    const c = (when, cmd, op, s, sel) => ({ when, cmd, op, status: S[s][0], stBg: S[s][1], stFg: S[s][2], bg: sel ? '#2c2750' : 'transparent' });
+    return {
+      facts: [
+        { k: 'UID', v: '0192f3a4-7c1e…8c9d', font: M }, { k: 'JOINED', v: '2 Aug 2026 · anon → phone', font: G },
+        { k: 'PHONE', v: '+65 •••• 4471', font: M }, { k: 'EMAIL', v: 'maya.chen@gmail.com', font: G },
+        { k: 'LOCALE · TZ', v: 'en-SG · Asia/Singapore', font: G }, { k: 'CREWS', v: 'The Bali Six · 6 people', font: G },
+        { k: 'TRIPS', v: 'Bali 14–21 Oct · in setup', font: G }, { k: 'TICKETS', v: '#CP-10482 open', font: M }
+      ].map(f => ({ ...f, mono: f.font === M, sans: f.font !== M })),
+      ents: [
+        { perk: 'PASS+', bg: '#ffd84a', what: 'Monthly subscription · App Store', meta: 'store · renews 3 Oct 2026', act: 'Billing ›', actColor: '#7fb8ff' },
+        { perk: 'BOOST', bg: '#ff5fa8', what: 'Bali trip · First Trip Free', meta: 'ftf_grant · until 28 Oct (trip end + 7 d)', act: 'Crew grant', actColor: '#a9a3c0' },
+        { perk: 'PASS+', bg: '#ffd84a', what: '30 days granted by Arif', meta: 'code_grant · starts when the store period ends', act: 'Revoke', actColor: '#ff5fa8' }
+      ],
+      sessions: [
+        { device: 'iPhone 16 · Critterpass 1.0.3 (212)', meta: 'created 2 Aug · Singapore', seen: 'active now', seenColor: '#54d6a4' },
+        { device: 'iPad Air · Critterpass 1.0.3 (212)', meta: 'created 19 Sep · Singapore', seen: '2 d ago', seenColor: '#a9a3c0' },
+        { device: 'Web · critterpass.app/invite', meta: 'created 20 Sep · link preview only', seen: '7 d ago', seenColor: '#a9a3c0' }
+      ],
+      keys: [
+        { device: 'iPhone 16 · iOS 26.1', meta: 'key k_7Q2M… · rotated 3 d ago · scopes la.action, widget.vote' },
+        { device: 'iPad Air · iPadOS 26.0', meta: 'key k_R41D… · rotated 21 d ago · scopes widget.vote' }
+      ],
+      trace: [
+        c('13:47', 'add_album_photos', 'op 01J9R2…7HV · iPhone 16', 'rej', true),
+        c('13:47', 'add_album_photos', 'op 01J9R2…7HV · retry', 'dup'),
+        c('12:10', 'vote_poll', 'op 01J9QZ…K2A', 'applied'),
+        c('Sat', 'approve_ops_action', 'op 01J9Q8…M2C · desk task 01J9QA…2WX', 'applied'),
+        c('Sat', 'set_trip_dates', 'op 01J9Q1…9PD', 'applied')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

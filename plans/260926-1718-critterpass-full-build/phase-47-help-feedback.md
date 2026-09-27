@@ -2,7 +2,7 @@
 phase: 47
 title: "Help centre, feedback, idea board, rating prompt"
 status: pending
-depends_on: [17, 25, 43, 46]
+depends_on: [17, 25, 43, 46, 58]
 wave: 20
 features: [F-153, F-154, F-155, F-156]
 screens: [3p-1, 3p-2, 3p-3, 3p-4, 3p-5, 3p-6, 3n-6]
@@ -98,6 +98,23 @@ Done when: articles render offline from the `help` stream and search returns ran
 | Push/Inbox | N-38 via P11 registration + P25 inbox card kind `fix_shipped` |
 | Admin | `apps/admin/src/modules/help/`: feedback triage (status, reply templates, fixed-in version), idea curation (`set_idea_status`, `merge_ideas`, team note), pending-idea moderation |
 | Native | `cp-shake` (Swift root-VC motion hook + Kotlin SensorManager), JS event `onShake` |
+
+## Ops console design
+
+Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`, `docs/design-renders/pages/Ops-Feedback.png`); field → table → command map in `plans/reports/researcher-260928-0214-ops-designs-queues-people-inventory-report.md`. Register the panel's `count`/`work` sources with the phase 58 registry. Sample data in the render is not a spec; AI labels follow D22 routing.
+
+| Gap in the plan | Add in this phase |
+|---|---|
+| SEND REPLY with templates, "tell her when it ships in 1.0.4" | `reply_feedback {ticket_id, body, template_key?, notify_on_version?}` (support); templates as `ops_config` entries |
+| MERGE INTO #10411 | `merge_feedback_tickets {ticket_id, into_ticket_id}` (support) |
+| Ticket status NEW / REPLIED / IN LINEAR / CLOSED | `feedback_tickets.status` enum `new\|replied\|in_tracker\|closed` |
+| Triage result (category, severity, summary, likely duplicate + score) | persist triage on the ticket: `severity`, `triage_summary`, `duplicate_of`, `duplicate_score`; model label from routing (DeepSeek), not "haiku" |
+| Reply due in 2 days | `reply_due_at` = received + `feedback.reply_hours` (phase 58 key) |
+| "sent from a shake report"; "1 ticket linked" on an idea | `feedback_tickets.source shake\|settings`; `feedback_tickets.idea_id` |
+| Team note EDIT/ADD | `set_idea_status` gains `team_note?` |
+| Pending ideas PUBLISH / DECLINE | decided in this panel via `set_idea_status` (not the moderation queue); idea *reports* still go to moderation |
+| Reads | `GET /v1/admin/feedback`, `/feedback/:id`, `/ideas?status` |
+| My work / badges | register `work` (tickets by reply due) + `count` (new tickets, pending ideas) |
 
 ## Tasks
 ### T1 — Schema, vote budget fn, commands, permission tests

@@ -2,7 +2,7 @@
 phase: 56
 title: Drivers our crews used: rating, invite, claim, directory
 status: pending
-depends_on: [9, 17, 21, 43, 51, 52, 55]
+depends_on: [9, 17, 21, 43, 51, 52, 55, 58]
 wave: 22
 features: [F-195]
 screens: [6e-1, 6e-2, 6e-3, 6g-1, 6g-2, 6g-3, 6h-1, 6h-2, 3o-3]
@@ -75,6 +75,18 @@ Claim OTP step; token invalid / used / expired pages; "Remove for good?" confirm
 | Member routes | `GET /v1/driver-directory?area&lang&seats`, `GET /v1/driver-directory/{id}` |
 | Commands | `rate_driver`, `invite_driver`, `nudge_driver_invite`, `cancel_driver_invite`, `report_driver_listing`, `report_driver_tip` |
 | Jobs | `driver_invite.expire`, `driver_listing.stats`, `driver_listing.purge_removed` |
+
+## Ops console design
+
+Build this phase's console panel to its render (`design/Ops - Community.dc.html`, `docs/design-renders/pages/Ops-Community.png`); field → table → command map in `plans/reports/researcher-260928-0214-ops-designs-content-platform-inventory-report.md`. Register the panel's `count`/`work` sources with the phase 58 registry. Sample data in the render is not a spec; AI labels follow D22 routing.
+
+| Gap in the plan | Add in this phase |
+|---|---|
+| DRIVERS tab in the `community` area host | add the tab to phase 55's host |
+| LISTED date; rating breakdown loved / fine / not again | `driver_listings.listed_at`; `driver_listing_stats` gains per-answer counts |
+| ANOMALY FLAG · RATING RING? with evidence | `driver_listing_flags (listing_id, kind, evidence jsonb, status open\|cleared)` written by the anomaly check |
+| HOLD THOSE RATINGS / TAKE DOWN / CLEAR FLAG | `hold_driver_ratings {listing_id, rating_ids}` (+ `driver_ratings.status visible\|held`), `take_down_driver_listing {listing_id, reason}`, `clear_driver_flag {flag_id, reason}`, all ops |
+| My work / badges | register `work` + `count` for open listing flags |
 
 ## Tasks
 ### T1 — Schema, public projection, permission tests

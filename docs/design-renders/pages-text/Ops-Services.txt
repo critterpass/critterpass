@@ -1,0 +1,319 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+PLATFORM
+SERVICES & SPEND
+
+Every outside service we call, with its health, quota and spend, and the switch that turns our use of it off. Every switch is audited.
+
+checked 30 s ago
+GRAFANA ↗
+LANGFUSE ↗
+SPEND THIS MONTH
+ON PACE
+$1,284
+of $3,000
+Heading for about $2,410 by the 30th.
+AI TODAY
+GUARD OK
+$184
+of $400 cap
+Alerts at 80%, pauses at 100%.
+SERVICES
+1 DEGRADED
+31/32
+healthy
+APNs 5xx since 14:02. Incident is open.
+OTP · SMS TODAY
+NORMAL
+$22
+alert at $60
+SMS-pumping guard blocked 41 attempts.
+CLAUDE · BY MODEL TIER · TODAY
+cost guard OK · every 5 min
+haiku-4-5
+Guide chat, voice, quests, parsing
+$41 / $120
+sonnet-5
+Proposals, redrafts, recaps, vision
+$118 / $220
+opus-5-5
+Itinerary skeleton only
+$25 / $60
+Tiers never change on their own. Near a cap, opus skeleton jobs queue instead of switching model.
+DOWNGRADE A TIER…
+AI SPEND · LAST 14 DAYS
+haiku
+sonnet
+opus
+cap $400
+14 Sep
+21 Sep
+today
+AI FEATURES · KILL SWITCHES
+today
+ai.guide_chat.enabled
+Ask the local, in text
+haiku
+4,210 turns
+$38
+ai.voice.enabled
+Talk out loud mode
+haiku
+612 min
+$9
+ai.redraft.enabled
+Plan redrafts
+sonnet
+188 runs
+$44
+ai.proposal.enabled
+Pitches to the crew
+sonnet
+61 runs
+$29
+ai.recap.enabled
+Trip recap stories
+sonnet
+34 stories
+$21
+ai.vision.enabled
+Receipts and booking scans
+sonnet
+290 scans
+$24
+ai.skeleton.enabled
+First full itinerary
+opus
+19 trips
+$25
+PRODUCT SWITCHES
+typed confirm
+la.crew_map.enabled
+Off · Mai · 14:12 · APNs incident
+la.leave_by.enabled
+Leave-by Live Activity
+widgets.push.enabled
+Widget refresh pushes
+android.fsi.enabled
+Android full-screen alarms
+signup.enabled
+New accounts
+otp.whatsapp.enabled
+WhatsApp sign-in codes
+THIRD-PARTY SERVICES · 32
+spend is month to date
+SERVICE
+WE USE IT FOR
+STATUS
+P95 · ERRORS
+USAGE
+SPEND
+SWITCH
+MESSAGING & SIGN-IN
+Prelude
+SMS sign-in codes
+OK
+1.1 s · 0.3%
+5,904 checks
+$118
+otp.sms.enabled
+Twilio Verify
+SMS fallback when Prelude fails
+OK
+1.4 s · 0.6%
+312 checks
+$14
+fallback only
+WhatsApp Business
+Sign-in codes, vendor desk
+OK
+0.9 s · 0.2%
+2,480 messages
+$61
+otp.whatsapp.enabled
+PUSH
+APNs
+Push, Live Activities, widgets
+DEGRADED
+380 ms · 3.1%
+184k sends
+—
+widgets.push · la.*
+FCM
+Android push
+OK
+210 ms · 0.2%
+61k sends
+—
+none
+PAYMENTS
+RevenueCat
+Purchases and store webhooks
+OK
+2.1 s lag · 0.1%
+1 failed webhook
+$0
+billing.enabled
+MAPS & TRAVEL DATA
+Mapbox
+Routes and ETAs
+OK
+240 ms · 0.1%
+62% of free tier
+$0
+falls back to estimates
+WeatherAPI.com
+Forecasts and marine
+OK
+180 ms · 0%
+41% of plan
+$0
+none
+AeroDataBox
+Flight status
+OK
+450 ms · 0.2%
+71% of plan
+$25
+none
+FlightAware
+Delay alerts
+OK
+— · 0%
+212 alerts
+$40
+none
+Travelpayouts
+Fares and stay links
+OK
+620 ms · 0.8%
+88k calls
+$0
+none
+Foursquare Places
+Place data import
+OK
+300 ms · 0.1%
+9% of quota
+$0
+none
+Frankfurter
+Currency rates
+OK
+90 ms · 0%
+daily pull
+free
+none
+SUPPLIERS
+Viator
+Tours, booked in the app
+OK
+820 ms · 0.4%
+212 bookings
+comm.
+supplier.viator_booking
+Grab Farefeed
+Ride price estimates
+OK
+510 ms · 1.2%
+14k quotes
+$0
+supplier.grab
+Klook · Agoda · Trip.com · GYG
+Not live yet, see Partners
+NOT LIVE
+—
+—
+—
+on Partners
+VOICE & MAIL
+ElevenLabs
+Guide voices, phrase audio
+OK
+700 ms · 0.3%
+38% of characters
+$99
+ai.voice.enabled
+Deepgram
+Speech-to-text fallback
+OK
+420 ms · 0.1%
+212 min
+$6
+none
+Resend
+Support replies, receipts
+OK
+240 ms · 0%
+1,212 emails
+$20
+none
+PostGrid
+Printed postcards
+OK
+— · 0%
+41 cards
+$74
+postcards.enabled
+INFRASTRUCTURE & OBSERVABILITY
+Railway
+api, worker, realtime, sync
+OK
+—
+5 services
+$212
+none
+PlanetScale Postgres
+Primary database, Singapore
+OK
+18 ms query · 0%
+38% of storage
+$299
+none
+Cloudflare
+Workers, R2 media, tiles
+OK
+—
+1.2 TB served
+$41
+none
+Sentry · PostHog · Grafana · Langfuse
+Errors, analytics, metrics, AI traces
+OK
+—
+all under plan
+$55
+none

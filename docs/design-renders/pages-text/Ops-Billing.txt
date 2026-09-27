@@ -1,0 +1,133 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+PEOPLE
+BILLING
+
+Store purchases arrive through RevenueCat, but our api decides who gets what. This is where support explains and corrects it.
+
+USER TIMELINE
+WEBHOOKS
+OFFER CODES
+FTF REVIEW
+2
+WEBHOOK LAG · P95
+RevenueCat → billing.apply
+2.1s
+RECONCILE DRIFT
+nightly run 05:00 SGT, 0 fixes
+0
+FAILED WEBHOOKS · 24 H
+one waiting for a replay
+1
+M
+Maya Chen
+0192f3a4…8c9d
+Open in Support →
+Sun 15:24
+ADMIN
+30 days of Pass+ granted
+code_grant · Arif Rahman · op 01J9R3…A1Q
+“Recap crash on a trip she’d already paid for. Ticket #CP-10482.”
+24 Sep
+FTF
+First Trip Free for The Bali Six
+ftf_grant · trip entered setup with 6 seated
+Boost and Pass+ for all six until 28 Oct, the trip end plus 7 days.
+3 Sep
+STORE
+Bought Pass+ monthly
+INITIAL_PURCHASE · App Store · S$6.98 · txn 20000007…41
+Webhook applied in 1.8 s. The app had already unlocked it through client sync.
+3 Sep
+API
+Entitlements recomputed
+fulfil_purchase · source client_sync · entitlement.changed
+2 Aug
+API
+Account created
+anonymous → phone verified (+65)
+GRANT PROMO TIME
+Perk
+PASS+
+BOOST A TRIP
+Length
+7 DAYS
+30 DAYS
+90 DAYS
+She pays through the App Store, so the grant starts when that period ends on 3 Oct and runs 30 days, after Arif’s grant. It only kicks in if she turns off auto-renew.
+Reason · required
+Why, in a sentence. Link the ticket if there is one.
+GRANT 30 DAYS OF PASS+
+Needs a reason. Runs grant_entitlement and logs your name.
+Extend App Store renewal
+Service failures only. Up to 90 days, twice a year. 0 of 2 used.
+EXTEND…
+REVENUECAT WEBHOOKS
+last hour
+INITIAL_PURCHASE
+uid 0193…0c1 · 14:58 · billing.apply 500
+FAILED
+REPLAY
+RENEWAL
+uid 0193…a17 · 15:31
+APPLIED
+CANCELLATION
+uid 0192…77e · 15:12 · auto-renew off
+APPLIED
+PRODUCT_CHANGE
+uid 0192…4e0 · 14:40 · same event id
+DUPLICATE
+OFFER CODE BATCHES
++ Record
+KLOOK-OCT-2026
+App Store · 500
+212 redeemed · recorded by Quoc
+TRAVELFEST-SG
+Play · 200
+34 redeemed · recorded by Quoc
+CREATOR-SEED-01
+App Store · 50
+44 redeemed · recorded by Mai
+FIRST TRIP FREE · REVIEW
+2
+Bali Babes 2
+Same verified phone as a crew that used First Trip Free on 12 Sep.
+ALLOW
+REVOKE GRANT
+trip w the boys
+Device attestation failed for 2 of the 3 seated members.
+ALLOW
+REVOKE GRANT

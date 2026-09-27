@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#17142a;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="Operators & roles" style="width:1440px;display:grid;grid-template-columns:240px minmax(0,1fr);min-height:900px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif">
+<dc-import name="Ops - Nav" active="operators" style="display:block;height:100%" hint-size="240px,900px"></dc-import>
+<main style="min-width:0;padding:28px 32px 40px;display:flex;flex-direction:column;gap:18px">
+<header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">GOVERNANCE</span>
+<h1 style="margin:0;font:900 48px/.86 Archivo,sans-serif;font-stretch:70%;letter-spacing:-.01em;text-transform:uppercase">Operators</h1>
+<p style="margin:0;font:500 14px/1.45 Geist,sans-serif;color:#a9a3c0;max-width:640px;text-wrap:pretty">Who can sign in and what each role opens. Changing a role runs set_admin_role, which only an owner can do.</p>
+</div>
+</header>
+
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:grid;grid-template-columns:minmax(0,1.2fr) 330px 130px 90px 150px;gap:14px;padding:12px 16px;font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0;background:#17142a"><span>OPERATOR</span><span>ROLES · CLICK TO CHANGE</span><span>LAST SIGN-IN</span><span>SESSIONS</span><span></span></div>
+<sc-for list="{{ ops }}" as="o" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:minmax(0,1.2fr) 330px 130px 90px 150px;gap:14px;align-items:center;padding:12px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<span style="display:flex;align-items:center;gap:10px;min-width:0"><span style="width:34px;height:34px;border-radius:50%;background:{{ o.color }};color:#17142a;display:inline-flex;align-items:center;justify-content:center;font:900 15px/1 Archivo,sans-serif;flex:none">{{ o.initial }}</span><span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:600 14.5px/1.2 Geist,sans-serif">{{ o.name }}</span><span style="font:500 12px/1.2 'Geist Mono',monospace;color:#a9a3c0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.email }}</span></span></span>
+<span style="display:flex;gap:6px">
+<sc-for list="{{ o.roles }}" as="r" hint-placeholder-count="4"><span style="height:28px;padding:0 10px;border-radius:14px;display:inline-flex;align-items:center;background:{{ r.bg }};color:{{ r.fg }};box-shadow:{{ r.ring }};font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">{{ r.label }}</span></sc-for>
+</span>
+<span style="font:500 13px/1.3 Geist,sans-serif;color:{{ o.seenColor }}">{{ o.seen }}</span>
+<span style="font:600 13px/1 'Geist Mono',monospace;color:#c9c4dc">{{ o.sessions }}</span>
+<span style="justify-self:end;font:600 13px/1 Geist,sans-serif;color:{{ o.actColor }}">{{ o.act }}</span>
+</div>
+</sc-for>
+</section>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:16px;align-items:start">
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">WHAT EACH ROLE OPENS</span><span style="font:500 12px/1 Geist,sans-serif;color:#a9a3c0">owner implies every role</span></div>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 80px 80px 80px 80px;gap:10px;padding:10px 16px;font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0;background:#17142a"><span>AREA</span><span style="text-align:center">OWNER</span><span style="text-align:center">OPS</span><span style="text-align:center">CONTENT</span><span style="text-align:center">SUPPORT</span></div>
+<sc-for list="{{ matrix }}" as="m" hint-placeholder-count="16">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 80px 80px 80px 80px;gap:10px;align-items:center;padding:8px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<span style="display:flex;align-items:center;gap:8px;min-width:0"><span style="font:600 13.5px/1.2 Geist,sans-serif">{{ m.area }}</span><sc-if value="{{ m.isNew }}"><span style="padding:3px 5px;border-radius:4px;background:#2c2750;color:#ffd84a;font:600 11px/1 'Geist Mono',monospace">new area</span></sc-if><span style="font:500 12px/1.2 Geist,sans-serif;color:#a9a3c0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.note }}</span></span>
+<span style="text-align:center;font:900 15px/1 Archivo,sans-serif;color:#ffd84a">●</span>
+<span style="text-align:center;font:900 15px/1 Archivo,sans-serif;color:{{ m.opsC }}">{{ m.ops }}</span>
+<span style="text-align:center;font:900 15px/1 Archivo,sans-serif;color:{{ m.conC }}">{{ m.con }}</span>
+<span style="text-align:center;font:900 15px/1 Archivo,sans-serif;color:{{ m.supC }}">{{ m.sup }}</span>
+</div>
+</sc-for>
+</section>
+
+<aside style="display:flex;flex-direction:column;gap:16px">
+<section style="position:relative;border-radius:18px;background:#f4efe4 repeating-radial-gradient(circle at 50% 120%,rgba(23,20,42,.05) 0 1px,transparent 1px 7px);color:#211d18;padding:20px;display:flex;flex-direction:column;gap:14px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#6b6356">HOW SOMEONE GETS IN</span>
+<sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;align-items:start"><span style="width:32px;height:32px;border-radius:50%;background:#211d18;color:#f4efe4;display:inline-flex;align-items:center;justify-content:center;font:900 15px/1 Archivo,sans-serif">{{ s.n }}</span><span style="display:flex;flex-direction:column;gap:3px"><span style="font:700 14.5px/1.25 Geist,sans-serif">{{ s.title }}</span><span style="font:500 13px/1.45 Geist,sans-serif;color:#3d372f;text-wrap:pretty">{{ s.body }}</span></span></div>
+</sc-for>
+<div style="border-top:2px dashed #d6cfbf;padding-top:12px;font:500 13px/1.45 Geist,sans-serif;color:#3d372f;text-wrap:pretty"><b>Removing someone:</b> clear their roles here first, which ends their sessions at once. Then take them off the allow-list.</div>
+</section>
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:16px;display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">IF THE CONSOLE IS DOWN</span>
+<span style="font:500 13px/1.45 Geist,sans-serif;color:#c9c4dc;text-wrap:pretty">Owners can run any command from a laptop with the emergency CLI. It writes the same audit rows.</span>
+<span style="padding:10px 12px;border-radius:10px;background:#120f22;font:500 12.5px/1.4 'Geist Mono',monospace;color:#f4efe4">pnpm admin:cmd revoke_session '{…}'</span>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const ALL = ['OWNER', 'OPS', 'CONTENT', 'SUPPORT'];
+    const chips = (held, owner) => ALL.map(label => {
+      const on = held.includes(label), implied = owner && label !== 'OWNER';
+      return { label, bg: on ? (label === 'OWNER' ? '#ffd84a' : '#f4efe4') : 'transparent', fg: on ? '#17142a' : implied ? '#8d87a8' : '#8d87a8', ring: on ? 'none' : implied ? 'inset 0 0 0 1.5px #3a3466' : 'inset 0 0 0 1.5px #3a3466' };
+    });
+    const o = (name, initial, color, email, held, seen, sessions, act, actColor, seenColor) => ({ name, initial, color, email, roles: chips(held, held.includes('OWNER')), seen, sessions, act, actColor: actColor || '#ff5fa8', seenColor: seenColor || '#c9c4dc' });
+    const Y = '●', N = '—', on = '#f4efe4', off = '#3a3466';
+    const m = (area, ops, con, sup, note, isNew) => ({ area, note: note || '', isNew: !!isNew, ops: ops ? Y : N, opsC: ops ? on : off, con: con ? Y : N, conC: con ? on : off, sup: sup ? Y : N, supC: sup ? on : off });
+    return {
+      ops: [
+        o('Quoc', 'Q', '#ffd84a', 'quoc@critterpass.app', ['OWNER'], 'today 07:58', '1', 'you', '#a9a3c0'),
+        o('Mai Tran', 'M', '#ff5fa8', 'mai@critterpass.app', ['OPS'], 'today 07:02', '2', 'End sessions'),
+        o('Linh Pham', 'L', '#4f86ff', 'linh@critterpass.app', ['CONTENT'], 'today 09:30', '1', 'End sessions'),
+        o('Arif Rahman', 'A', '#54d6a4', 'arif@critterpass.app', ['SUPPORT'], 'today 08:15', '1', 'End sessions'),
+        o('Dewi Santoso', 'D', '#ff9a4d', 'dewi@critterpass.app', ['OPS', 'SUPPORT'], 'Sat 23:10', '0', 'No sessions', '#a9a3c0'),
+        o('Hana Sato', 'H', '#f4efe4', 'hana@critterpass.app · allow-listed', [], 'never', '0', 'Give a role', '#7fb8ff', '#ff9a4d')
+      ],
+      matrix: [
+        m('Home', 1, 1, 1), m('My work', 1, 1, 1, '', 1),
+        m('Moderation', 1, 0, 1), m('Concierge desk', 1, 0, 0), m('Feedback & ideas', 0, 0, 1),
+        m('Support', 0, 0, 1), m('Billing', 0, 0, 1, '', 1),
+        m('Catalogue', 0, 1, 0), m('Content batches', 0, 1, 0, 'approve: owner', 1), m('Community & drivers', 1, 1, 0, '', 1),
+        m('Flags & config', 1, 0, 0), m('Partners', 1, 0, 0), m('Services & spend', 1, 0, 0, 'tier downgrade: owner', 1), m('Jobs & DLQ', 1, 0, 0),
+        m('Audit log', 1, 0, 0, 'CSV export: owner'), m('Operators', 0, 0, 0, 'owner only', 1)
+      ],
+      steps: [
+        { n: '1', title: 'Allow-list their email', body: 'Add it to ADMIN_ALLOWLIST in the api environment and redeploy.' },
+        { n: '2', title: 'They sign in', body: 'Cloudflare Access first, then Google with that work email.' },
+        { n: '3', title: 'You give them a role', body: 'Until then they can sign in but see nothing.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+QUEUES
+MODERATION
+
+Reports from the app. Each verdict is audited and handed back to the feature that owns the content.
+
+OPEN
+12
+ACTIONED
+DISMISSED
+ALL
+12
+PHOTOS
+4
+AVATARS
+2
+NOTES
+1
+TIPS
+2
+IDEAS
+1
+LISTINGS
+1
+USERS
+1
+AVATAR · THE BALI SIX
+Profile picture, 1 report
+HIDDEN
+PHOTO · ALBUM
+26 h
+Kuta Crew · beach day
+Nudity, spam
+×3
+TIP · DRIVER
+20 h
+“Call him direct on 0812 33…”
+Phone number, held by filter
+×1
+IDEA · PENDING
+9 h
+“Dating mode for solo travellers”
+Needs review before public
+×1
+AVATAR · CREW
+6 h
+Lisboa Loves crew picture
+Offensive
+×1
+LISTING · DRIVER
+5 h
+Pak Wayan · Ubud, Kintamani
+Fake ratings, anomaly flag
+×1
+NOTE · ALBUM
+3 h
+“never again with this guy, he…”
+Harassment
+×2
+PHOTO · ALBUM
+2 h
+Kyoto crew · Fushimi Inari
+Private information
+×1
+USER
+1 h
+@rizky.p invites
+Spam invites
+×4
+PHOTO · ALBUM
+KUTA CREW · BEACH DAY
+report 01J9QM…8KD
+handler: photos (P44)
+reported photo · blurred until revealed
+signed media URL, expires in 120 s
+REVEAL PHOTO
+CAPTION
+“Beach day before the storm rolled in”
+NUDITY
+Crew member · “not ok in a shared album”
+26 h
+NUDITY
+Crew member · no note
+25 h
+SPAM
+Crew member · “same pic posted 4 times”
+4 h
+NOTE FOR THE AUDIT LOG (OPTIONAL)
+APPROVE
+a
+HIDE
+h
+REMOVE
+r
+BAN AUTHOR
+b
+AUTHOR
+R
+Rizky P.
+0192f3a4…c9d0
+Joined
+Aug 2026
+Crew
+Kuta Crew · 5 people
+Seen by
+5 crew members
+Reports
+4 against, 1 removed
+REMOVED
+12 SEP
+DISMISSED
+3 SEP
+WHAT EACH VERDICT DOES
+Approve closes the reports; the photo stays in the album.
+Hide hides it from the crew; the author sees it marked hidden.
+Remove deletes it from the album and media storage.
+Ban author removes it and opens ban_user with a reason and expiry.

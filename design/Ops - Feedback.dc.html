@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#17142a;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="Feedback & ideas" style="width:1440px;display:grid;grid-template-columns:240px minmax(0,1fr);min-height:900px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif">
+<dc-import name="Ops - Nav" active="feedback" style="display:block;height:100%" hint-size="240px,900px"></dc-import>
+<main style="min-width:0;padding:28px 32px 40px;display:flex;flex-direction:column;gap:18px">
+<header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">QUEUES</span>
+<h1 style="margin:0;font:900 48px/.86 Archivo,sans-serif;font-stretch:70%;letter-spacing:-.01em;text-transform:uppercase">Feedback &amp; ideas</h1>
+<p style="margin:0;font:500 14px/1.45 Geist,sans-serif;color:#a9a3c0">A human replies to every report within two days. Ideas go public only after review.</p>
+</div>
+<div style="display:flex;align-items:center;gap:4px;padding:4px;border-radius:12px;background:#120f22">
+<span style="height:32px;padding:0 12px;border-radius:9px;background:#ffd84a;color:#17142a;display:inline-flex;align-items:center;gap:6px;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">FEEDBACK <span style="font-family:'Geist Mono',monospace">9</span></span>
+<span style="height:32px;padding:0 12px;border-radius:9px;color:#d8d3ee;display:inline-flex;align-items:center;gap:6px;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">IDEA BOARD <span style="font-family:'Geist Mono',monospace;color:#a9a3c0">14</span></span>
+<span style="height:32px;padding:0 12px;border-radius:9px;color:#d8d3ee;display:inline-flex;align-items:center;gap:6px;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">PENDING IDEAS <span style="font-family:'Geist Mono',monospace;color:#a9a3c0">5</span></span>
+</div>
+</header>
+
+<div style="display:grid;grid-template-columns:320px minmax(0,1fr) 340px;gap:16px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ tickets }}" as="t" hint-placeholder-count="6">
+<div style="display:flex;flex-direction:column;gap:6px;padding:12px 14px;border-radius:14px;background:{{ t.bg }};box-shadow:{{ t.ring }}">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font:600 12px/1 'Geist Mono',monospace;color:#d8d3ee">{{ t.no }}</span><span style="font:500 12px/1 Geist,sans-serif;color:#a9a3c0">{{ t.age }}</span></div>
+<span style="font:600 14.5px/1.3 Geist,sans-serif">{{ t.title }}</span>
+<div style="display:flex;gap:6px;align-items:center"><span style="padding:4px 6px;border-radius:5px;background:#2c2750;color:#d8d3ee;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">{{ t.cat }}</span><span style="padding:4px 6px;border-radius:5px;background:{{ t.sevBg }};color:{{ t.sevFg }};font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">{{ t.sev }}</span><span style="margin-left:auto;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;color:{{ t.stColor }}">{{ t.status }}</span></div>
+</div>
+</sc-for>
+</div>
+
+<div style="position:relative;border-radius:20px;background:#f4efe4;color:#211d18;padding:22px 22px 20px;display:flex;flex-direction:column;gap:14px;transform:rotate(-.6deg);box-shadow:0 20px 40px rgba(0,0,0,.35)">
+<div style="display:flex;justify-content:space-between;align-items:baseline;font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#6b6356"><span>POST · COURRIER</span><span style="font:600 13px/1 'Geist Mono',monospace;letter-spacing:.02em;color:#211d18">#CP-10482</span></div>
+<div style="display:flex;gap:8px"><span style="padding:5px 8px;border-radius:6px;background:#211d18;color:#f4efe4;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">PROBLEM</span><span style="padding:5px 8px;border-radius:6px;box-shadow:inset 0 0 0 1.5px #d6cfbf;color:#3d372f;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">MOOD · ANNOYED</span></div>
+<p style="margin:0;font:500 17px/1.5 Geist,sans-serif;color:#211d18;text-wrap:pretty">Recap story freezes on slide 5 every time. I added about 40 photos from Ubud yesterday. Closing the app doesn’t help. We wanted to watch it at dinner tonight.</p>
+<span style="font:500 13px/1.3 Geist,sans-serif;color:#5d564b">Maya Chen · The Bali Six · sent from a shake report</span>
+<div style="display:grid;grid-template-columns:140px minmax(0,1fr);gap:14px;align-items:start">
+<div style="aspect-ratio:9/16;border-radius:12px;background:repeating-linear-gradient(135deg,rgba(23,20,42,.06) 0 8px,transparent 8px 16px),#e6dfcf;display:flex;align-items:center;justify-content:center;text-align:center;font:500 11.5px/1.4 'Geist Mono',monospace;color:#5d564b;padding:10px">screenshot<br>private content masked</div>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font:500 13px/1.3 'Geist Mono',monospace;color:#3d372f"><span style="color:#6b6356">device</span><span>iPhone 16</span><span style="color:#6b6356">os</span><span>iOS 26.1</span><span style="color:#6b6356">app</span><span>1.0.3 (212)</span><span style="color:#6b6356">locale</span><span>en-SG</span><span style="color:#6b6356">reply</span><span>email</span><span style="color:#6b6356">sent</span><span>Sun 13:48 SGT</span></div>
+</div>
+<div style="position:absolute;right:18px;bottom:22px;width:86px;height:86px;border-radius:50%;border:3px solid #a44e2f;box-shadow:inset 0 0 0 4px #f4efe4,inset 0 0 0 6px #a44e2f;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#a44e2f;transform:rotate(12deg)"><span style="font:900 16px/.9 Archivo,sans-serif;font-stretch:70%">RECEIVED</span><span style="font:700 11px/1 'Geist Mono',monospace;margin-top:4px">27 SEP</span></div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:16px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">TRIAGE</span><span style="font:500 11.5px/1 'Geist Mono',monospace;color:#a9a3c0">haiku-4-5 · check it</span></div>
+<div style="display:flex;gap:6px"><span style="padding:4px 7px;border-radius:6px;background:#2c2750;color:#f4efe4;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">BUG</span><span style="padding:4px 7px;border-radius:6px;background:#ff5fa8;color:#17142a;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">SEVERE</span></div>
+<span style="font:500 13.5px/1.45 Geist,sans-serif;color:#c9c4dc;text-wrap:pretty">Recap story stops advancing on slide 5 after a large photo import.</span>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:#17142a"><span style="font:500 13px/1.3 Geist,sans-serif">Likely duplicate of <a href="#" style="font-family:'Geist Mono',monospace">#CP-10411</a></span><span style="font:600 12px/1 'Geist Mono',monospace;color:#ffd84a">0.88</span></div>
+<div style="display:flex;justify-content:space-between;font:500 13px/1.3 Geist,sans-serif"><span style="color:#a9a3c0">Linear</span><a href="#" style="font-family:'Geist Mono',monospace">CP-812 · open ↗</a></div>
+</section>
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:16px;display:flex;flex-direction:column;gap:10px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">REPLY TO MAYA · BY EMAIL</span>
+<div style="display:flex;gap:6px;flex-wrap:wrap"><span style="height:28px;padding:0 10px;border-radius:14px;background:#f4efe4;color:#17142a;display:inline-flex;align-items:center;font:800 11px/1 Archivo,sans-serif;letter-spacing:.06em">KNOWN ISSUE</span><span style="height:28px;padding:0 10px;border-radius:14px;background:#2c2750;color:#d8d3ee;display:inline-flex;align-items:center;font:800 11px/1 Archivo,sans-serif;letter-spacing:.06em">NEED MORE INFO</span><span style="height:28px;padding:0 10px;border-radius:14px;background:#2c2750;color:#d8d3ee;display:inline-flex;align-items:center;font:800 11px/1 Archivo,sans-serif;letter-spacing:.06em">FIXED IN…</span></div>
+<div style="min-height:112px;padding:12px;border-radius:10px;background:#120f22;box-shadow:inset 0 0 0 2px #ffd84a;font:500 13.5px/1.5 Geist,sans-serif;color:#f4efe4;text-wrap:pretty">Hi Maya, thanks for sending this. The recap stalls after big photo imports and we’re fixing it now. I’ll write again the day the fix ships, so you can watch it with the crew.</div>
+<label style="display:flex;align-items:center;justify-content:space-between;gap:10px;font:500 13px/1 Geist,sans-serif;color:#a9a3c0">Tell her when it ships in<input value="1.0.4" style="width:84px;height:34px;padding:0 10px;border:0;border-radius:9px;background:#120f22;box-shadow:inset 0 0 0 1.5px #5b5487;color:#f4efe4;font:600 13px 'Geist Mono',monospace;outline:none"></label>
+<div style="display:flex;gap:8px"><button style="flex:1;height:40px;border-radius:20px;border:0;background:#ffd84a;color:#17142a;font:900 12.5px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">SEND REPLY</button><button style="height:40px;padding:0 14px;border-radius:20px;border:1.5px solid #5b5487;background:transparent;color:#f4efe4;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">MERGE INTO 10411</button></div>
+</section>
+</div>
+</div>
+
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">IDEA BOARD · CURATION</span><span style="font:500 13px/1 Geist,sans-serif;color:#a9a3c0">Team notes show in the app in the guide’s voice</span></div>
+<div style="display:grid;grid-template-columns:70px minmax(0,1.3fr) 140px minmax(0,1.2fr) 190px;gap:16px;padding:10px 18px;font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0;background:#17142a"><span>VOTES</span><span>IDEA</span><span>STATUS</span><span>TEAM NOTE</span><span></span></div>
+<sc-for list="{{ ideas }}" as="i" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:70px minmax(0,1.3fr) 140px minmax(0,1.2fr) 190px;gap:16px;align-items:center;padding:12px 18px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<span style="font:900 26px/.9 Archivo,sans-serif;font-stretch:66%;font-variant-numeric:tabular-nums">{{ i.votes }}</span>
+<span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:600 14.5px/1.3 Geist,sans-serif">{{ i.title }}</span><span style="font:500 12px/1.3 Geist,sans-serif;color:#a9a3c0">{{ i.meta }}</span></span>
+<span style="justify-self:start;padding:5px 8px;border-radius:6px;background:{{ i.bg }};color:{{ i.fg }};font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;white-space:nowrap">{{ i.status }}</span>
+<span style="font:600 20px/1.05 Caveat,cursive;color:{{ i.noteColor }}">{{ i.note }}</span>
+<span style="display:flex;gap:6px;justify-content:flex-end"><button style="height:30px;padding:0 12px;border-radius:15px;border:{{ i.aBorder }};background:{{ i.aBg }};color:{{ i.aFg }};font:900 11px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">{{ i.a }}</button><button style="height:30px;padding:0 12px;border-radius:15px;border:1.5px solid #5b5487;background:transparent;color:#f4efe4;font:900 11px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">{{ i.b }}</button></span>
+</div>
+</sc-for>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const sev = { SEVERE: ['#ff5fa8', '#17142a'], HIGH: ['#ff9a4d', '#17142a'], MED: ['#2c2750', '#d8d3ee'], LOW: ['#2c2750', '#d8d3ee'], '—': ['#2c2750', '#a9a3c0'] };
+    const tk = (no, title, cat, s, status, stColor, age, sel) => ({ no, title, cat, sev: s, sevBg: sev[s][0], sevFg: sev[s][1], status, stColor, age, bg: sel ? '#2c2750' : '#1f1b38', ring: sel ? 'inset 0 0 0 2px #ffd84a' : 'inset 0 0 0 1px rgba(255,255,255,.06)' });
+    const ST = { PENDING: ['#ffd84a', '#17142a'], 'LOOKING AT IT': ['#2c2750', '#d8d3ee'], PLANNED: ['#4f86ff', '#17142a'], BUILDING: ['#ff9a4d', '#17142a'], SHIPPED: ['#54d6a4', '#17142a'] };
+    const idea = (votes, title, meta, status, note, a, b, primary) => ({ votes, title, meta, status, bg: ST[status][0], fg: ST[status][1], note, noteColor: note.startsWith('—') ? '#6f698c' : '#ffd84a', a, b, aBg: primary ? '#ffd84a' : 'transparent', aFg: primary ? '#17142a' : '#f4efe4', aBorder: primary ? '0' : '1.5px solid #5b5487' });
+    return {
+      tickets: [
+        tk('#CP-10482', 'Recap freezes on slide 5', 'BUG', 'SEVERE', 'NEW', '#ffd84a', '2 h', true),
+        tk('#CP-10481', 'Choose which crewmates see my photos', 'IDEA', 'LOW', 'NEW', '#ffd84a', '3 h'),
+        tk('#CP-10479', 'Leave-by alarm went off twice', 'BUG', 'HIGH', 'NEW', '#ffd84a', '5 h'),
+        tk('#CP-10477', 'How do I move a boost to another trip?', 'QUESTION', '—', 'REPLIED', '#a9a3c0', '1 d'),
+        tk('#CP-10470', 'Kyoto map is blank offline', 'BUG', 'MED', 'IN LINEAR', '#7fb8ff', '2 d'),
+        tk('#CP-10466', 'Pon’s temple timing saved our morning', 'PRAISE', '—', 'CLOSED', '#a9a3c0', '2 d')
+      ],
+      ideas: [
+        idea('—', 'Dating mode for solo travellers', 'pending · submitted 9 h ago · en', 'PENDING', '— not public yet', 'PUBLISH', 'DECLINE', true),
+        idea('—', 'Train times for Japan', 'pending · 0.91 like “Rail passes in Japan”', 'PENDING', '— not public yet', 'MERGE', 'PUBLISH', true),
+        idea('214', 'Offline maps for whole regions', '38 crews · top this month', 'BUILDING', 'Lundi is testing it on glacier roads.', 'EDIT NOTE', 'STATUS'),
+        idea('162', 'Split receipts by item', '24 crews', 'PLANNED', 'Coming after the money update.', 'EDIT NOTE', 'STATUS'),
+        idea('98', 'Choose who sees each photo', '17 crews · 1 ticket linked', 'LOOKING AT IT', '— add a note', 'ADD NOTE', 'STATUS'),
+        idea('61', 'Dark mode for the pass', 'fixed in 1.0.2 · voters told', 'SHIPPED', 'Done! Go look at it at night.', 'EDIT NOTE', 'STATUS')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

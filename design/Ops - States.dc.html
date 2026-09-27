@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script src="doodles.js"></script>
+<style>body{margin:0;background:#17142a;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="States" style="width:1440px;box-sizing:border-box;padding:44px 48px 56px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif;display:flex;flex-direction:column;gap:28px">
+<header style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">KIT · SHARED BY EVERY SCREEN</span>
+<h1 style="margin:0;font:900 56px/.86 Archivo,sans-serif;font-stretch:66%;letter-spacing:-.01em;text-transform:uppercase">States, banners &amp; confirms</h1>
+<p style="margin:0;font:500 15px/1.45 Geist,sans-serif;color:#a9a3c0;max-width:760px;text-wrap:pretty">A guide shows up only when something is empty, blocked or broken. Everything else stays plain so the data reads first.</p>
+</header>
+
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 12px/1 'Geist Mono',monospace;color:#a9a3c0">01 · LOADING</span>
+<div style="height:300px;box-sizing:border-box;border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:18px;display:flex;flex-direction:column;gap:14px" aria-busy="true">
+<div style="display:flex;justify-content:space-between"><span style="width:120px;height:12px;border-radius:4px;background:#2c2750"></span><span style="width:60px;height:12px;border-radius:4px;background:#2c2750"></span></div>
+<sc-for list="{{ skel }}" as="s" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:40px minmax(0,1fr) 70px;gap:12px;align-items:center"><span style="height:40px;border-radius:10px;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 8px,transparent 8px 16px),#2c2750"></span><span style="display:flex;flex-direction:column;gap:6px"><span style="height:12px;width:{{ s.a }};border-radius:4px;background:#2c2750"></span><span style="height:10px;width:{{ s.b }};border-radius:4px;background:#241f3d"></span></span><span style="height:12px;border-radius:4px;background:#2c2750"></span></div>
+</sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 12px/1 'Geist Mono',monospace;color:#a9a3c0">02 · EMPTY QUEUE</span>
+<div style="height:300px;box-sizing:border-box;border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center" role="status">
+<span style="line-height:0"><doodle-art kind="gecko" size="128" sticker="#f4efe4" pose="sleep" seed="41"></doodle-art></span>
+<span style="font:900 30px/.9 Archivo,sans-serif;font-stretch:68%">NOTHING WAITING</span>
+<span style="font:600 23px/1.05 Caveat,cursive;color:#ffd84a;transform:rotate(-2deg)">All quiet. Go get a kopi.</span>
+<a href="#" style="font:600 13px/1 Geist,sans-serif;margin-top:4px">See what was handled today</a>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 12px/1 'Geist Mono',monospace;color:#a9a3c0">03 · ERROR</span>
+<div style="height:300px;box-sizing:border-box;border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:18px" role="alert">
+<span style="line-height:0"><doodle-art kind="puffin" size="104" sticker="#f4efe4" pose="think" seed="43"></doodle-art></span>
+<span style="font:900 30px/.9 Archivo,sans-serif;font-stretch:68%">THAT DIDN’T LOAD</span>
+<span style="font:500 14px/1.4 Geist,sans-serif;color:#c9c4dc">The api took too long to answer.</span>
+<span style="font:500 12px/1 'Geist Mono',monospace;color:#a9a3c0">504 · request 01J9R5…9QX</span>
+<button style="height:36px;padding:0 18px;border-radius:18px;border:0;background:#ffd84a;color:#17142a;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">TRY AGAIN</button>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 12px/1 'Geist Mono',monospace;color:#a9a3c0">04 · STALE SAVE</span>
+<div style="height:300px;box-sizing:border-box;border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 2px #ff9a4d;padding:20px;display:flex;flex-direction:column;gap:12px" role="alert">
+<span style="font:900 26px/.9 Archivo,sans-serif;font-stretch:68%">SOMEONE ELSE SAVED FIRST</span>
+<span style="font:500 13.5px/1.45 Geist,sans-serif;color:#c9c4dc">Linh saved Tokek while you were editing. Your changes weren’t saved.</span>
+<div style="display:grid;grid-template-columns:120px 1fr 1fr;gap:6px 10px;padding:12px;border-radius:12px;background:#17142a;font:500 12.5px/1.35 'Geist Mono',monospace"><span style="color:#a9a3c0">field</span><span style="color:#a9a3c0">server now</span><span style="color:#a9a3c0">your edit</span><span>voice_id</span><span style="color:#ff9a4d">el_tokek_v3</span><span style="color:#54d6a4">el_tokek_v2</span><span>local_words</span><span style="color:#ff9a4d">4 words</span><span style="color:#54d6a4">+ enak</span></div>
+<button style="margin-top:auto;align-self:flex-start;height:38px;padding:0 16px;border-radius:19px;border:0;background:#ffd84a;color:#17142a;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">LOAD THE LATEST AND RE-APPLY MINE</button>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 12px/1 'Geist Mono',monospace;color:#a9a3c0">05 · NOT FOR YOUR ROLE</span>
+<div style="height:300px;box-sizing:border-box;border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:18px" role="alert">
+<span style="line-height:0"><doodle-art kind="tanuki" size="104" sticker="#f4efe4" seed="51"></doodle-art></span>
+<span style="font:900 30px/.9 Archivo,sans-serif;font-stretch:68%">NOT FOR YOUR ROLE</span>
+<span style="font:500 14px/1.4 Geist,sans-serif;color:#c9c4dc;max-width:300px">Flags &amp; config is for ops. Ask an owner if you need it.</span>
+<span style="display:flex;gap:6px;align-items:center;font:500 12.5px/1 Geist,sans-serif;color:#a9a3c0">You are <span style="padding:4px 7px;border-radius:6px;background:#f4efe4;color:#17142a;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">SUPPORT</span></span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 12px/1 'Geist Mono',monospace;color:#a9a3c0">06 · SIGN-IN REFUSED</span>
+<div style="height:300px;box-sizing:border-box;border-radius:18px;background:#221e3d radial-gradient(rgba(255,216,74,.12) 1.3px,transparent 1.8px) 0 0/10px 10px;display:flex;align-items:center;justify-content:center;padding:18px">
+<div style="width:100%;border-radius:18px;background:#f4efe4;color:#211d18;padding:18px;display:flex;flex-direction:column;gap:10px;transform:rotate(-1.5deg)">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#6b6356">STAFF PASS</span>
+<span style="font:900 34px/.84 Archivo,sans-serif;font-stretch:64%">NOT ON THE LIST</span>
+<span style="font:500 14px/1.45 Geist,sans-serif;color:#3d372f;text-wrap:pretty"><b>quoc.b@gmail.com</b> isn’t allow-listed. Use your work account, or ask an owner.</span>
+<button style="align-self:flex-start;height:38px;padding:0 16px;border-radius:19px;border:0;background:#17142a;color:#ffd84a;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">TRY ANOTHER ACCOUNT</button>
+</div>
+</div>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 12px/1 'Geist Mono',monospace;color:#a9a3c0">07 · BANNERS · TOP OF EVERY PAGE, NEWEST FIRST</span>
+<div style="display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:18px;background:#1a1731">
+<div role="status" style="display:flex;align-items:center;gap:14px;padding:11px 12px 11px 14px;border-radius:14px;background:#ff9a4d radial-gradient(rgba(23,20,42,.13) 1.3px,transparent 1.7px) 0 0/8px 8px;color:#17142a"><span style="padding:6px 8px;border-radius:6px;background:#17142a;color:#ff9a4d;font:800 11px/1 Archivo,sans-serif;letter-spacing:.12em">INCIDENT</span><span style="font:600 14px/1.35 Geist,sans-serif;flex:1">Push delivery degraded. APNs is returning 5xx for 3% of sends since 14:02 SGT.</span><span style="font:500 12px/1 'Geist Mono',monospace">Mai · 14:09</span><a href="#" style="font:700 13px/1 Geist,sans-serif;color:#17142a;text-decoration:underline">Runbook</a><button style="height:32px;padding:0 14px;border-radius:16px;border:1.5px solid #17142a;background:transparent;color:#17142a;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em">RESOLVE</button></div>
+<div role="status" style="display:flex;align-items:center;gap:14px;padding:11px 12px 11px 14px;border-radius:14px;background:#7fb8ff radial-gradient(rgba(23,20,42,.12) 1.3px,transparent 1.7px) 0 0/8px 8px;color:#17142a"><span style="padding:6px 8px;border-radius:6px;background:#17142a;color:#7fb8ff;font:800 11px/1 Archivo,sans-serif;letter-spacing:.12em">MAINTENANCE</span><span style="font:600 14px/1.35 Geist,sans-serif;flex:1">Database switchover Sun 4 Oct, 04:00–04:30 SGT. Sync pauses for about 35 seconds; the console stays read-only.</span><span style="font:500 12px/1 'Geist Mono',monospace">Quoc · planned</span><button style="height:32px;padding:0 14px;border-radius:16px;border:1.5px solid #17142a;background:transparent;color:#17142a;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em">EDIT</button></div>
+<div role="status" style="display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 14px;border-radius:14px;background:#f4efe4;color:#17142a;font:600 14px/1.35 Geist,sans-serif"><span style="width:8px;height:8px;border-radius:50%;background:#ff5fa8"></span>You’re offline. Nothing can be saved until the connection is back; what you see may be out of date.</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 360px;gap:20px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 12px/1 'Geist Mono',monospace;color:#a9a3c0">08 · CRITICAL CONFIRM</span>
+<div style="position:relative;padding:28px;border-radius:18px;background:rgba(7,6,14,.5) radial-gradient(rgba(255,255,255,.03) 1px,transparent 1px) 0 0/6px 6px;box-shadow:inset 0 0 0 1px #2c2750">
+<div role="dialog" aria-label="Change a critical setting" style="border-radius:20px;background:#1f1b38;box-shadow:inset 0 0 0 1.5px #5b5487,0 20px 40px rgba(0,0,0,.4);padding:20px;display:flex;flex-direction:column;gap:14px">
+<span style="font:900 28px/.9 Archivo,sans-serif;font-stretch:68%">CHANGE A CRITICAL SETTING</span>
+<span style="font:500 13.5px/1.45 Geist,sans-serif;color:#c9c4dc">This changes the live app for everyone it applies to, within seconds.</span>
+<div style="display:grid;grid-template-columns:80px 1fr 1fr;gap:6px 10px;padding:12px;border-radius:12px;background:#17142a;font:500 13px/1.3 'Geist Mono',monospace"><span style="color:#a9a3c0">value</span><span style="color:#ff5fa8;text-decoration:line-through">30</span><span style="color:#54d6a4">40</span></div>
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font:600 12.5px/1 Geist,sans-serif;color:#a9a3c0">Type <span style="font-family:'Geist Mono',monospace;color:#f4efe4">guide.free_daily_limit</span> to confirm</span><span style="height:40px;padding:0 12px;border-radius:10px;background:#120f22;box-shadow:inset 0 0 0 2px #ffd84a;display:flex;align-items:center;font:500 13.5px/1 'Geist Mono',monospace">guide.free_dai<span style="width:2px;height:16px;background:#ffd84a;margin-left:1px"></span></span></label>
+<div style="display:flex;gap:8px"><button disabled style="height:40px;padding:0 18px;border-radius:20px;border:0;background:#ff5fa8;color:#17142a;opacity:.45;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em">CHANGE IT</button><button style="height:40px;padding:0 14px;border-radius:20px;border:0;background:transparent;color:#a9a3c0;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em">CANCEL</button></div>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 12px/1 'Geist Mono',monospace;color:#a9a3c0">09 · DESTRUCTIVE CONFIRM</span>
+<div style="position:relative;padding:28px;border-radius:18px;background:rgba(7,6,14,.5) radial-gradient(rgba(255,255,255,.03) 1px,transparent 1px) 0 0/6px 6px;box-shadow:inset 0 0 0 1px #2c2750">
+<div role="dialog" aria-label="Ban user" style="border-radius:20px;background:#1f1b38;box-shadow:inset 0 0 0 1.5px #ff5fa8,0 20px 40px rgba(0,0,0,.4);padding:20px;display:flex;flex-direction:column;gap:14px">
+<span style="font:900 28px/.9 Archivo,sans-serif;font-stretch:68%">BAN RIZKY P.?</span>
+<div style="display:flex;flex-direction:column;gap:6px;font:500 13.5px/1.4 Geist,sans-serif;color:#c9c4dc"><span>· Ends his 2 sessions and revokes 1 device key</span><span>· Hides his photos and notes from Kuta Crew</span><span>· His crew keeps its plan and money records</span></div>
+<div style="display:grid;grid-template-columns:1fr 140px;gap:10px">
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font:600 12.5px/1 Geist,sans-serif;color:#a9a3c0">Reason <span style="color:#ff5fa8">· required</span></span><span style="height:40px;padding:0 12px;border-radius:10px;background:#120f22;box-shadow:inset 0 0 0 1.5px #5b5487;display:flex;align-items:center;font:500 13.5px/1 Geist,sans-serif">Repeated nudity after removal</span></label>
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font:600 12.5px/1 Geist,sans-serif;color:#a9a3c0">Until</span><span style="height:40px;padding:0 12px;border-radius:10px;background:#120f22;box-shadow:inset 0 0 0 1.5px #5b5487;display:flex;align-items:center;justify-content:space-between;font:500 13.5px/1 Geist,sans-serif">30 days <span style="color:#a9a3c0">▾</span></span></label>
+</div>
+<div style="display:flex;gap:8px"><button style="height:40px;padding:0 18px;border-radius:20px;border:0;background:#ff5fa8;color:#17142a;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em">BAN FOR 30 DAYS</button><button style="height:40px;padding:0 14px;border-radius:20px;border:0;background:transparent;color:#a9a3c0;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em">CANCEL</button></div>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 12px/1 'Geist Mono',monospace;color:#a9a3c0">10 · SAVED</span>
+<div style="height:220px;box-sizing:border-box;border-radius:18px;background:#1a1731;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:24px;gap:14px">
+<div role="status" style="display:flex;align-items:center;gap:12px;padding:8px 18px 8px 10px;border-radius:30px;background:#0b0a12;box-shadow:0 12px 30px rgba(0,0,0,.45)"><span style="line-height:0"><doodle-art kind="check" size="30" accent="#54d6a4" ink="#54d6a4" anim="none"></doodle-art></span><span style="display:flex;flex-direction:column;gap:3px"><span style="font:700 14px/1.1 Geist,sans-serif">Saved · Tokek v13</span><span style="font:500 12px/1.1 'Geist Mono',monospace;color:#a9a3c0">upsert_catalogue_item · op 01J9R6…2LB</span></span></div>
+<span style="font:500 13px/1.45 Geist,sans-serif;color:#a9a3c0;text-align:center;max-width:280px">Toasts drop from the top for 2.8 s and always carry the op_id, so anyone can find the audit row.</span>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return { skel: [['70%', '40%'], ['55%', '30%'], ['80%', '45%'], ['60%', '35%'], ['72%', '28%']].map(([a, b]) => ({ a, b })) };
+  }
+}
+</script>
+</body>
+</html>

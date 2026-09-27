@@ -2,7 +2,7 @@
 phase: 55
 title: Find a driver: ask, capture, compare, pick, private tours
 status: pending
-depends_on: [13, 16, 29, 34, 35, 36]
+depends_on: [13, 16, 29, 34, 35, 36, 58]
 wave: 18
 features: [F-193, F-194]
 screens: [6a-1, 6a-2, 6b-1, 6c-1, 6c-2, 6c-3, 6d-1, 6d-2, 6e-4, 6f-1, 3e-1, 3h-3]
@@ -86,6 +86,19 @@ Share Extension sheet (iOS) and Android share target chooser; extraction in prog
 | AI | `provider-extract` route with schema + span validation; eval set `packages/ai/evals/provider-extract/fixtures/driver-messages.yaml` (43 synthetic cases, 6 languages; 12 rendered to WhatsApp/Facebook images, 3 cropped) at ≥ 95 % field precision, 0 invented phones |
 | Sync | stream `drivers.yaml`: trip members get intake, shortlist, assignments; contacts via existing `provider_contacts_offline` |
 | Deep links | WhatsApp: `https://wa.me/{e164}?text=` built client-side; user sends |
+
+## Ops console design
+
+Build this phase's console panel to its render (`design/Ops - Community.dc.html`, `docs/design-renders/pages/Ops-Community.png`); field → table → command map in `plans/reports/researcher-260928-0214-ops-designs-content-platform-inventory-report.md`. Register the panel's `count`/`work` sources with the phase 58 registry. Sample data in the render is not a spec; AI labels follow D22 routing.
+
+| Gap in the plan | Add in this phase |
+|---|---|
+| One screen "Community & drivers" with tabs DRIVERS / SHARED PLANS / PICKUP GAPS / ASK GROUPS | this phase creates the `community` area host (ops, content) with a tab registry; 52 and 56 add their tabs |
+| Pickup gap status ACTIVE / DRAFT, Approve / Retire | `pickup_gaps.status draft\|active\|retired`; commands `upsert_pickup_gap`, `set_pickup_gap_status {id, status}` (content) |
+| Ask-group link check ("checked 3 d ago", "broken since Thu", Fix link) | `ask_groups.link_status`, `last_checked_at`; `upsert_ask_group`, `mark_ask_group_checked {id, status}` (manual check by ops, D21: we never read groups) |
+| Farefeed "no service on 9 legs this week" | aggregate read over phase 35 no-service ride quotes |
+| Early option | the `pickup_gaps`/`ask_groups` catalogue tables and admin CRUD are server-only and may split out of this phase's migration to run early if a lane is idle |
+| Nav badge | register `count` (gaps in draft + broken links) |
 
 ## Tasks
 ### T1 — Decision + contract deltas

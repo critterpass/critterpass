@@ -1,0 +1,171 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+QUEUES
+FEEDBACK & IDEAS
+
+A human replies to every report within two days. Ideas go public only after review.
+
+FEEDBACK
+9
+IDEA BOARD
+14
+PENDING IDEAS
+5
+#CP-10482
+2 h
+Recap freezes on slide 5
+BUG
+SEVERE
+NEW
+#CP-10481
+3 h
+Choose which crewmates see my photos
+IDEA
+LOW
+NEW
+#CP-10479
+5 h
+Leave-by alarm went off twice
+BUG
+HIGH
+NEW
+#CP-10477
+1 d
+How do I move a boost to another trip?
+QUESTION
+—
+REPLIED
+#CP-10470
+2 d
+Kyoto map is blank offline
+BUG
+MED
+IN LINEAR
+#CP-10466
+2 d
+Pon’s temple timing saved our morning
+PRAISE
+—
+CLOSED
+POST · COURRIER
+#CP-10482
+PROBLEM
+MOOD · ANNOYED
+
+Recap story freezes on slide 5 every time. I added about 40 photos from Ubud yesterday. Closing the app doesn’t help. We wanted to watch it at dinner tonight.
+
+Maya Chen · The Bali Six · sent from a shake report
+screenshot
+private content masked
+device
+iPhone 16
+os
+iOS 26.1
+app
+1.0.3 (212)
+locale
+en-SG
+reply
+email
+sent
+Sun 13:48 SGT
+RECEIVED
+27 SEP
+TRIAGE
+haiku-4-5 · check it
+BUG
+SEVERE
+Recap story stops advancing on slide 5 after a large photo import.
+Likely duplicate of #CP-10411
+0.88
+Linear
+CP-812 · open ↗
+REPLY TO MAYA · BY EMAIL
+KNOWN ISSUE
+NEED MORE INFO
+FIXED IN…
+Hi Maya, thanks for sending this. The recap stalls after big photo imports and we’re fixing it now. I’ll write again the day the fix ships, so you can watch it with the crew.
+Tell her when it ships in
+SEND REPLY
+MERGE INTO 10411
+IDEA BOARD · CURATION
+Team notes show in the app in the guide’s voice
+VOTES
+IDEA
+STATUS
+TEAM NOTE
+—
+Dating mode for solo travellers
+pending · submitted 9 h ago · en
+PENDING
+— not public yet
+PUBLISH
+DECLINE
+—
+Train times for Japan
+pending · 0.91 like “Rail passes in Japan”
+PENDING
+— not public yet
+MERGE
+PUBLISH
+214
+Offline maps for whole regions
+38 crews · top this month
+BUILDING
+Lundi is testing it on glacier roads.
+EDIT NOTE
+STATUS
+162
+Split receipts by item
+24 crews
+PLANNED
+Coming after the money update.
+EDIT NOTE
+STATUS
+98
+Choose who sees each photo
+17 crews · 1 ticket linked
+LOOKING AT IT
+— add a note
+ADD NOTE
+STATUS
+61
+Dark mode for the pass
+fixed in 1.0.2 · voters told
+SHIPPED
+Done! Go look at it at night.
+EDIT NOTE
+STATUS

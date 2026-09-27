@@ -2,7 +2,7 @@
 phase: 35
 title: Supplier layer, rides, vendor comms & concierge desk
 status: pending
-depends_on: [13, 14, 17, 29, 33, 34]
+depends_on: [13, 14, 17, 29, 33, 34, 58]
 wave: 16
 features: [F-103, F-104, F-117]
 screens: [3h-3, 3j-1, 3c-7, 3c-8, 3c-9, 3c-12, 3f-1, 3f-3, 3f-4, 3f-6, 3f-7, 4f-1, 3e-2, 3k-1, 3k-5, 3k-9, 3k-10]
@@ -96,6 +96,19 @@ Done when: a guide-proposed Viator activity can be held ("{n} seats held until {
 | AI tools | executors `bookable_activity` (ids + price_from + hold_supported only), `ride_quote`, `propose_hold`, `propose_vendor_message` |
 | Adapters | `packages/suppliers/src/{core/,viator/,agoda/,klook/,tripcom/,gyg/,travelpayouts/links/,booking-cj/,transfers/,grab/,gojek/,whatsapp/}`; core: `SupplierAdapter` (api-contracts §7), `fetchWithEgress` (Railway static outbound IP), 120 s timeout, retries only on idempotent reads, `supplier_calls` audit (P15 core: `fetchWithEgress` + audit writer; this phase adds `SupplierAdapter`), flag guard, no-cache headers |
 | Copy | `packages/domain/src/suppliers/copy-rules.ts`: pure `supplierCopy(action, state, flags) → {key, params}` implementing the §5 table; consumed by P30/P31/P36/P37 UIs (not P28 — earlier wave, does not import it); catalog `packages/i18n/locales/en/suppliers/` |
+
+## Ops console design
+
+Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `docs/design-renders/pages/Ops-Desk.png`); field → table → command map in `plans/reports/researcher-260928-0214-ops-designs-queues-people-inventory-report.md`. Register the panel's `count`/`work` sources with the phase 58 registry. Sample data in the render is not a spec; AI labels follow D22 routing.
+
+| Gap in the plan | Add in this phase |
+|---|---|
+| Ops drafts a follow-up and asks the user to approve it ("ASK MAYA TO APPROVE", EDIT) | new command `propose_vendor_reply {task_id, thread_id, draft_text}` → user approval card; editing re-proposes and voids the earlier approval |
+| Desk hours pill | read `desk.hours` config key (phase 58) instead of a hard-coded 07:00–23:00 |
+| Vendor events as task notes ("Made replied…", "Sent the approved text…") | append system notes to `ops.concierge_tasks.notes` on send and on reply |
+| Approved text sha shown on the card | show `approved_text_sha256` from `ops.vendor_messages` |
+| Partner health line on Partners (`Ops - Partners`) | read `GET /v1/admin/partners/health` (p95, error rate, bookings this month, click-outs) from `supplier_calls`, `supplier_orders`, `affiliate_clicks`; phase 17 handed this here but no task had it |
+| Webhook replay (api-contracts §5.9) | register WhatsApp and Viator webhook events with phase 58's `replay_webhook` registry |
 
 ## Tasks
 ### T1 — Supplier core, schema, permission tests

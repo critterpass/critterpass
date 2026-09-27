@@ -1,0 +1,141 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+CONTENT
+COMMUNITY & DRIVERS
+
+Shared plans, tips and the driver directory. A driver is listed only after he confirms his own listing, and only crews who rode with him can rate him.
+
+DRIVERS
+41
+SHARED PLANS
+128
+PICKUP GAPS
+23
+ASK GROUPS
+17
+DRIVER
+SPEAKS
+LISTING
+CREWS
+FLAGS
+Pak Wayan
+Ubud, Kintamani
+ID EN
+LISTED
+7 rated · 6 loved
+ANOMALY
+Ketut Ardana
+Canggu, Uluwatu
+ID EN
+LISTED
+12 rated · 11 loved
+Nyoman Sudi
+Amed, Tulamben
+ID
+LISTED
+3 rated · 2 loved
+TIP HELD
+Made Suarta
+Sanur, airport runs
+ID
+PAUSED
+4 rated · 4 loved
+Anh Tuấn
+Hội An, Đà Nẵng
+VI EN
+PENDING
+invite opened
+Bayu Pratama
+Seminyak
+ID EN
+REMOVED
+removed by him
+his own
+photo
+PAK WAYAN
+Toyota Avanza · 6 seats · Ubud, Kintamani
+VERIFIED WHATSAPP
+LISTED 9 SEP
+WHAT HE TELLS CREWS
+“650k a day with fuel, 10 hours. Sunrise at Kintamani is extra.”
+7 CREWS RATED · 6 LOVED IT · 1 FINE
+“Waited an hour at arrivals when our flight was late.”
+crew of 5 · August
+ANOMALY FLAG · RATING RING?
+One account rated him on 3 trips. Each trip belonged to a crew created less than a week before it.
+acct 0193…9f2 · Bali Sept A, Bali Sept B, Ubud Squad
+HOLD THOSE RATINGS
+TAKE DOWN
+CLEAR FLAG
+A takedown is immediate and audited. Crews who rode with him keep his contact on their own trips.
+PICKUP GAPS · BALI
++ Add gap
+Tegallalang Rice Terrace
+“Ride apps rarely pick up here after 5pm.”
+after 17:00
+ACTIVE
+Retire
+Uluwatu Temple
+“After the kecak dance, rides surge or don’t come.”
+18:00–20:00
+ACTIVE
+Retire
+Amed
+“No ride-app coverage at all.”
+all day
+ACTIVE
+Retire
+Kintamani for sunrise
+“Book a driver the night before.”
+03:00–06:00
+DRAFT
+Approve
+Grab Farefeed also reported no service on 9 legs in Bali this week.
+ASK GROUPS
++ Add group
+Bali Drivers & Tours
+Bali · link checked 3 d ago
+41 crews
+Ubud Community Board
+Bali · link checked 3 d ago
+12 crews
+Hội An Expats & Travellers
+Hội An · link broken since Thu
+Fix link
+Kyoto Visitors Help
+Kyoto · link checked 9 d ago
+6 crews
+We never read or post in these groups. Crews copy a post and paste it themselves.

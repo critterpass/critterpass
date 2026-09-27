@@ -1,0 +1,161 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+PLATFORM
+FLAGS & CONFIG
+
+Server-side limits and switches. Public keys reach the app through client_config within seconds of a save.
+
+Filter keys
+KEY
+VALUE
+AUDIENCE
+IN THE APP
+CHANGED
+LIMITS
+shown to users
+guide.free_daily_limit
+CRITICAL
+30
+Everyone
+30
+21 Sep
+Mai
+seat.cap_free
+CRITICAL
+6
+Everyone
+6
+Fri
+Quoc
+seat.cap_boost
+CRITICAL
+16
+Everyone
+16
+12 Sep
+Quoc
+redraft.limit_free
+3
+Everyone
+3
+12 Sep
+Mai
+FAIR USE
+silent caps, never shown
+fair_use.guide_turns_per_user_day
+SERVER ONLY
+200
+Everyone
+—
+2 Sep
+Quoc
+fair_use.crew_chat_per_crew_day
+SERVER ONLY
+400
+Everyone
+—
+2 Sep
+Quoc
+fair_use.redrafts_per_trip_day
+SERVER ONLY
+20
+Everyone
+—
+2 Sep
+Quoc
+BILLING & PERKS
+billing.grace_days
+CRITICAL
+SERVER ONLY
+16
+Everyone
+—
+2 Sep
+Quoc
+perks.catalogue_version
+2026-09-b
+App ≥ 1.0.3
+2026-09-b
+19 Sep
+Linh
+SUPPLIERS
+follow the partner adapter
+supplier.viator_booking.copy_mode
+CRITICAL
+ON PARTNERS
+booking
+Everyone
+booking
+Fri
+Quoc
+supplier.klook_activity.enabled
+CRITICAL
+ON PARTNERS
+false
+Everyone
+false
+2 Sep
+seed
+Kill switches for AI, suppliers, push and sign-up live on Services & spend, next to the service they turn off.
+CRITICAL
+SYNCED TO APP
+guide.free_daily_limit
+Free guide turns per user per day. Resets at midnight on the user’s phone.
+Value
+−
+40
++
+Audience
+EVERYONE
+COHORT
+USER IDS
+APP VER.
+CHANGES TO SAVE
+value
+30
+40
+You’ll type the key to confirm.
+SAVE…
+HISTORY
+21 Sep
+Mai Tran
+25 → 30
+12 Sep
+Quoc
+20 → 25
+2 Sep
+Quoc
+set to 20

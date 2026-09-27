@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#17142a;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="Partners" style="width:1440px;display:grid;grid-template-columns:240px minmax(0,1fr);min-height:900px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif">
+<dc-import name="Ops - Nav" active="partners" style="display:block;height:100%" hint-size="240px,900px"></dc-import>
+<main style="min-width:0;padding:28px 32px 40px;display:flex;flex-direction:column;gap:18px">
+<header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">PLATFORM</span>
+<h1 style="margin:0;font:900 48px/.86 Archivo,sans-serif;font-stretch:70%;letter-spacing:-.01em;text-transform:uppercase">Partners</h1>
+<p style="margin:0;font:500 14px/1.45 Geist,sans-serif;color:#a9a3c0;max-width:640px;text-wrap:pretty">A supplier adapter goes live only after the partner approves and certifies us. Saving flips the adapter and the app’s copy together.</p>
+</div>
+</header>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:16px;align-items:start">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+<sc-for list="{{ partners }}" as="p" hint-placeholder-count="5">
+<div style="position:relative;display:grid;grid-template-columns:minmax(0,1fr) 128px;border-radius:18px;background:{{ p.bg }};box-shadow:{{ p.ring }}">
+<div style="display:flex;flex-direction:column;gap:10px;padding:16px 16px 16px 18px;min-width:0">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0"><span style="padding:4px 7px;border-radius:6px;background:{{ p.stBg }};color:{{ p.stFg }};font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em;white-space:nowrap">{{ p.state }}</span><span style="font:900 30px/.86 Archivo,sans-serif;font-stretch:68%;text-transform:uppercase;overflow-wrap:anywhere">{{ p.name }}</span><span style="font:500 12px/1 'Geist Mono',monospace;color:#a9a3c0">{{ p.key }}</span></div>
+<span style="font:500 13px/1.4 Geist,sans-serif;color:#c9c4dc;text-wrap:pretty">{{ p.note }}</span>
+<span style="font:500 12px/1.3 'Geist Mono',monospace;color:{{ p.healthColor }}">{{ p.health }}</span>
+</div>
+<div style="position:relative;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:14px;border-left:2px dashed #3a3466">
+<span style="position:absolute;left:-11px;top:-10px;width:20px;height:20px;border-radius:50%;background:#17142a"></span><span style="position:absolute;left:-11px;bottom:-10px;width:20px;height:20px;border-radius:50%;background:#17142a"></span>
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.14em;color:#a9a3c0">APP SAYS</span>
+<span style="font:900 17px/.95 Archivo,sans-serif;font-stretch:72%;color:{{ p.copyColor }}">{{ p.copy }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 2px #ffd84a;padding:20px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;justify-content:space-between;align-items:flex-start"><span style="display:flex;flex-direction:column;gap:5px"><span style="font:900 34px/.86 Archivo,sans-serif;font-stretch:68%">KLOOK</span><span style="font:500 12px/1 'Geist Mono',monospace;color:#a9a3c0">klook_activity · version 3</span></span><span style="padding:4px 7px;border-radius:6px;background:#2c2750;color:#d8d3ee;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">OFF</span></div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:12px;background:#17142a"><span style="display:flex;flex-direction:column;gap:3px"><span style="font:600 14.5px/1.2 Geist,sans-serif">Adapter live</span><span style="font:500 12.5px/1.3 Geist,sans-serif;color:#a9a3c0">Calls the Klook Activity API for prices and slots</span></span><span style="position:relative;width:46px;height:28px;border-radius:14px;background:#54d6a4;flex:none"><span style="position:absolute;right:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#17142a"></span></span></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font:700 12px/1 Geist,sans-serif;color:#a9a3c0">App copy</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:#120f22"><span style="height:34px;border-radius:9px;background:#f4efe4;color:#17142a;display:inline-flex;align-items:center;justify-content:center;font:800 11.5px/1 Archivo,sans-serif;letter-spacing:.06em">LINK · AFFILIATE</span><span style="height:34px;border-radius:9px;color:#d8d3ee;display:inline-flex;align-items:center;justify-content:center;font:800 11.5px/1 Archivo,sans-serif;letter-spacing:.06em">BOOKING · IN-APP</span></div></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:700 12px/1 Geist,sans-serif;color:#a9a3c0">What a crew will see</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:14px;background:#17142a;box-shadow:inset 0 0 0 1.5px #3a3466"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0">NOW</span><span style="font:600 13px/1.25 Geist,sans-serif">Ubud cooking class</span><span style="height:30px;border-radius:15px;box-shadow:inset 0 0 0 1.5px #5b5487;display:inline-flex;align-items:center;justify-content:center;font:900 11px/1 Archivo,sans-serif;letter-spacing:.06em;color:#a9a3c0">OPEN KLOOK ↗</span></div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:14px;background:#17142a;box-shadow:inset 0 0 0 1.5px #54d6a4"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#54d6a4">AFTER SAVE</span><span style="font:600 13px/1.25 Geist,sans-serif">Ubud cooking class · from 450k</span><span style="height:30px;border-radius:15px;box-shadow:inset 0 0 0 1.5px #f4efe4;display:inline-flex;align-items:center;justify-content:center;font:900 11px/1 Archivo,sans-serif;letter-spacing:.06em">OPEN KLOOK ↗</span></div>
+</div></div>
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font:700 12px/1 Geist,sans-serif;color:#a9a3c0">Notes · approval reference</span><div style="min-height:58px;padding:10px 12px;border-radius:10px;background:#120f22;box-shadow:inset 0 0 0 1.5px #5b5487;font:500 13px/1.45 'Geist Mono',monospace;color:#f4efe4">Activity API approved 27 Sep, ref KLK-5521. Certification call 30 Sep.</div></label>
+<div style="display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:12px;background:#17142a">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">CHANGES TO SAVE</span>
+<div style="display:grid;grid-template-columns:70px 1fr 1fr;gap:6px 8px;font:500 12.5px/1.3 'Geist Mono',monospace"><span style="color:#a9a3c0">enabled</span><span style="color:#ff5fa8;text-decoration:line-through">false</span><span style="color:#54d6a4">true</span><span style="color:#a9a3c0">notes</span><span style="color:#ff5fa8;text-decoration:line-through">applied 20 Sep</span><span style="color:#54d6a4">approved 27 Sep…</span></div>
+</div>
+<button style="height:44px;border-radius:22px;border:0;background:#ffd84a;color:#17142a;font:900 13px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">UPDATE ADAPTER AND APP COPY…</button>
+<span style="font:500 12px/1.4 Geist,sans-serif;color:#a9a3c0;text-align:center">Booking copy stays off until the adapter has passed certification.</span>
+</section>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const S = { LIVE: ['#54d6a4', '#17142a'], OFF: ['#2c2750', '#d8d3ee'], 'APPROVED · OFF': ['#ffd84a', '#17142a'] };
+    const p = (name, key, state, note, health, healthColor, copy, copyColor, sel) => ({ name, key, state, note, health, healthColor, copy, copyColor, stBg: S[state][0], stFg: S[state][1], bg: sel ? '#2c2750' : '#1f1b38', ring: sel ? 'inset 0 0 0 2px #ffd84a' : 'inset 0 0 0 1px rgba(255,255,255,.06)' });
+    return {
+      partners: [
+        p('Viator', 'viator_booking', 'LIVE', 'Approved 18 Sep, ref VTR-22817. Tours and activities, booked inside the app.', 'p95 820 ms · 0.4% errors · 212 bookings in Sep', '#54d6a4', 'BOOK IN CRITTERPASS', '#54d6a4'),
+        p('Klook', 'klook_activity', 'APPROVED · OFF', 'Activity API approved 27 Sep. Certification call on 30 Sep.', 'not called yet', '#a9a3c0', 'OPEN KLOOK ↗', '#f4efe4', true),
+        p('Agoda', 'agoda_demand', 'OFF', 'Stays go out as affiliate links through Travelpayouts until the Demand API is approved.', 'links only · 1,904 click-outs in Sep', '#a9a3c0', 'OPEN AGODA ↗', '#f4efe4'),
+        p('Trip.com', 'trip_com_at', 'OFF', 'Affiliate links through CJ. No API access requested yet.', 'links only · 311 click-outs in Sep', '#a9a3c0', 'OPEN TRIP.COM ↗', '#f4efe4'),
+        p('GetYourGuide', 'gyg_api', 'OFF', 'Applied 14 Sep. No reply yet.', 'not called', '#a9a3c0', 'HIDDEN', '#a9a3c0')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

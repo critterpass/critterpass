@@ -1,0 +1,129 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+CONTENT
+CONTENT BATCHES
+
+Factory output waits here. Reviewers mark items; only an owner approves a batch, and approval publishes a new release.
+
+✓ BRIEF
+✓ GENERATE
+✓ VALIDATE
+✓ RENDER
+REVIEW
+APPROVE
+PUBLISH
+REVIEW
+G2
+Forms · Asia set 07
+10 critters · 3 validator warnings · $4.12
+REVIEW
+G3
+Places · Kyoto
+312 places · 14 possible duplicates for a human
+BLOCKED
+G6
+Phrases · Japanese
+6 emergency and allergy cards need a native speaker
+PUBLISHED
+v4
+Critters · Thailand names
+published 21 Sep by Quoc
+REJECTED
+G5
+Personas · 7 packs
+“Pon sounds like a hotel concierge.” Regenerating.
+FORMS · ASIA SET 07
+batch 2026-09-27-forms-07 · content.author on sonnet-5 via Batch API · 1.2M tokens · $4.12
+7 PASS
+3 WARN
+IP CHECK CLEAR
+PON
+Kyoto
+PASS
+✓
+HACHI
+Tokyo
+PASS
+✓
+FUGU
+Osaka
+WARN
+?
+PLAKAD
+Bangkok
+PASS
+✓
+CHANG
+Chiang Mai
+WARN
+?
+CHANEE
+Phuket
+PASS
+✓
+KKACHI
+Seoul
+PASS
+✓
+GALMAEGI
+Busan
+WARN
+?
+DWAEJI
+Jeju
+PASS
+✓
+RIMAU
+Kuala Lumpur
+PASS
+✓
+PREVIOUS VS NEW · FUGU
+V3 · LIVE
+V4 · THIS BATCH
+!
+Epic form edge on dark is 3.4:1. The glyph needs 4.5:1 at 24 pt.
+✓
+Silhouette reads at 24 pt and 96 pt.
+✓
+Name is unique and clear of the IP denylist.
+✓
+Palette stays inside the set’s hue band.
+Note for the regenerate run, if you reject this item
+KEEP V4
+REJECT ITEM
+Reviewers kept 7 of 10 critters; 3 warnings wait for you. Live release: forms v3, published 21 Sep. Roll back
+REJECT BATCH WITH NOTES
+APPROVE & PUBLISH V4 · OWNER

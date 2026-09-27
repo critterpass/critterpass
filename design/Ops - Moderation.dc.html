@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#17142a;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="Moderation" style="width:1440px;display:grid;grid-template-columns:240px minmax(0,1fr);min-height:900px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif">
+<dc-import name="Ops - Nav" active="moderation" style="display:block;height:100%" hint-size="240px,900px"></dc-import>
+<main style="min-width:0;padding:28px 32px 40px;display:flex;flex-direction:column;gap:18px">
+<header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">QUEUES</span>
+<h1 style="margin:0;font:900 48px/.86 Archivo,sans-serif;font-stretch:70%;letter-spacing:-.01em;text-transform:uppercase">Moderation</h1>
+<p style="margin:0;font:500 14px/1.45 Geist,sans-serif;color:#a9a3c0">Reports from the app. Each verdict is audited and handed back to the feature that owns the content.</p>
+</div>
+<div style="display:flex;align-items:center;gap:4px;padding:4px;border-radius:12px;background:#120f22">
+<span style="height:32px;padding:0 12px;border-radius:9px;background:#ffd84a;color:#17142a;display:inline-flex;align-items:center;gap:6px;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">OPEN <span style="font-family:'Geist Mono',monospace">12</span></span>
+<span style="height:32px;padding:0 12px;border-radius:9px;color:#d8d3ee;display:inline-flex;align-items:center;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">ACTIONED</span>
+<span style="height:32px;padding:0 12px;border-radius:9px;color:#d8d3ee;display:inline-flex;align-items:center;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">DISMISSED</span>
+</div>
+</header>
+<div style="display:flex;gap:6px;flex-wrap:wrap">
+<sc-for list="{{ kinds }}" as="k" hint-placeholder-count="7">
+<span style="display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:15px;background:{{ k.bg }};color:{{ k.fg }};font:800 11.5px/1 Archivo,sans-serif;letter-spacing:.08em">{{ k.label }} <span style="font-family:'Geist Mono',monospace;opacity:.8">{{ k.n }}</span></span>
+</sc-for>
+</div>
+
+<div style="display:grid;grid-template-columns:340px minmax(0,1fr) 290px;gap:16px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="position:relative;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:#1f1b38;opacity:.55;transform:translateX(18px) rotate(1deg)">
+<span style="display:flex;flex-direction:column;gap:4px;min-width:0;flex:1"><span style="font:800 11px/1 Archivo,sans-serif;letter-spacing:.1em;color:#a9a3c0">AVATAR · THE BALI SIX</span><span style="font:600 14px/1.3 Geist,sans-serif">Profile picture, 1 report</span></span>
+<div style="width:58px;height:58px;border-radius:50%;border:2.5px solid #ff9a4d;box-shadow:inset 0 0 0 3px #1f1b38,inset 0 0 0 4.5px #ff9a4d;display:flex;align-items:center;justify-content:center;color:#ff9a4d;transform:rotate(-14deg);flex:none"><span style="font:900 14px/.9 Archivo,sans-serif;font-stretch:70%">HIDDEN</span></div>
+</div>
+<sc-for list="{{ items }}" as="i" hint-placeholder-count="8">
+<sc-if value="{{ i.focus }}"><div style="display:flex;flex-direction:column;gap:6px;padding:12px 14px;border-radius:14px;background:#2c2750;box-shadow:inset 0 0 0 2px #ffd84a">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font:800 11px/1 Archivo,sans-serif;letter-spacing:.1em;color:#ffd84a">{{ i.kind }}</span><span style="font:600 12px/1 'Geist Mono',monospace;color:{{ i.ageColor }}">{{ i.age }}</span></div>
+<span style="font:600 14.5px/1.3 Geist,sans-serif">{{ i.title }}</span>
+<span style="display:flex;gap:6px;align-items:center;font:500 12.5px/1.3 Geist,sans-serif;color:#d8d3ee">{{ i.reason }}<span style="margin-left:auto;padding:3px 6px;border-radius:5px;background:#ff5fa8;color:#17142a;font:800 11px/1 Archivo,sans-serif">×{{ i.count }}</span></span>
+</div></sc-if>
+<sc-if value="{{ i.rest }}"><div style="display:flex;flex-direction:column;gap:6px;padding:12px 14px;border-radius:14px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font:800 11px/1 Archivo,sans-serif;letter-spacing:.1em;color:#a9a3c0">{{ i.kind }}</span><span style="font:600 12px/1 'Geist Mono',monospace;color:{{ i.ageColor }}">{{ i.age }}</span></div>
+<span style="font:600 14.5px/1.3 Geist,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.title }}</span>
+<span style="display:flex;gap:6px;align-items:center;font:500 12.5px/1.3 Geist,sans-serif;color:#a9a3c0">{{ i.reason }}<span style="margin-left:auto;padding:3px 6px;border-radius:5px;background:#3a3466;color:#f4efe4;font:800 11px/1 Archivo,sans-serif">×{{ i.count }}</span></span>
+</div></sc-if>
+</sc-for>
+</div>
+
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);display:flex;flex-direction:column">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)">
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font:800 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#ffd84a">PHOTO · ALBUM</span><span style="font:900 26px/.9 Archivo,sans-serif;font-stretch:70%;text-transform:uppercase">Kuta Crew · beach day</span></div>
+<span style="font:500 12px/1.4 'Geist Mono',monospace;color:#a9a3c0;text-align:right">report 01J9QM…8KD<br>handler: photos (P44)</span>
+</div>
+<div style="padding:18px;display:flex;flex-direction:column;gap:16px">
+<div style="position:relative;aspect-ratio:16/10;border-radius:14px;overflow:hidden;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 8px,transparent 8px 16px),#2c2750;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
+<span style="font:500 12px/1.4 'Geist Mono',monospace;color:#d8d3ee;text-align:center">reported photo · blurred until revealed<br>signed media URL, expires in 120 s</span>
+<button style="height:36px;padding:0 16px;border-radius:18px;border:1.5px solid #f4efe4;background:transparent;color:#f4efe4;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">REVEAL PHOTO</button>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">CAPTION</span>
+<span style="font:500 15px/1.45 Geist,sans-serif">“Beach day before the storm rolled in”</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:0;border-radius:12px;background:#17142a;overflow:hidden">
+<sc-for list="{{ reports }}" as="r" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 14px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<span style="justify-self:start;padding:4px 7px;border-radius:6px;background:#2c2750;color:#f4efe4;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">{{ r.reason }}</span>
+<span style="font:500 13px/1.35 Geist,sans-serif;color:#c9c4dc">{{ r.note }}</span>
+<span style="font:500 12px/1 'Geist Mono',monospace;color:#a9a3c0">{{ r.when }}</span>
+</div>
+</sc-for>
+</div>
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">NOTE FOR THE AUDIT LOG (OPTIONAL)</span><input placeholder="Why this verdict" style="height:40px;padding:0 12px;border:0;border-radius:10px;background:#120f22;box-shadow:inset 0 0 0 1.5px #5b5487;color:#f4efe4;font:500 14px Geist,sans-serif;outline:none"></label>
+</div>
+<div style="margin-top:auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:14px 18px 18px;box-shadow:inset 0 1px 0 rgba(255,255,255,.07)">
+<button style="height:46px;border-radius:23px;border:0;background:#54d6a4;color:#17142a;font:900 13px/1 Archivo,sans-serif;letter-spacing:.06em;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">APPROVE <kbd style="padding:2px 5px;border-radius:4px;background:rgba(23,20,42,.15);font:600 11px/1 'Geist Mono',monospace">a</kbd></button>
+<button style="height:46px;border-radius:23px;border:0;background:#ff9a4d;color:#17142a;font:900 13px/1 Archivo,sans-serif;letter-spacing:.06em;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">HIDE <kbd style="padding:2px 5px;border-radius:4px;background:rgba(23,20,42,.15);font:600 11px/1 'Geist Mono',monospace">h</kbd></button>
+<button style="height:46px;border-radius:23px;border:0;background:#ff5fa8;color:#17142a;font:900 13px/1 Archivo,sans-serif;letter-spacing:.06em;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">REMOVE <kbd style="padding:2px 5px;border-radius:4px;background:rgba(23,20,42,.15);font:600 11px/1 'Geist Mono',monospace">r</kbd></button>
+<button style="height:46px;border-radius:23px;border:1.5px solid #ff5fa8;background:transparent;color:#ff5fa8;font:900 13px/1 Archivo,sans-serif;letter-spacing:.06em;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">BAN AUTHOR <kbd style="padding:2px 5px;border-radius:4px;background:rgba(255,95,168,.15);font:600 11px/1 'Geist Mono',monospace">b</kbd></button>
+</div>
+</section>
+
+<aside style="display:flex;flex-direction:column;gap:12px">
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:16px;display:flex;flex-direction:column;gap:12px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">AUTHOR</span>
+<div style="display:flex;align-items:center;gap:10px"><span style="width:40px;height:40px;border-radius:50%;background:#4f86ff;color:#17142a;display:inline-flex;align-items:center;justify-content:center;font:900 17px/1 Archivo,sans-serif;flex:none">R</span><span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:600 15px/1.2 Geist,sans-serif">Rizky P.</span><span style="font:500 12px/1 'Geist Mono',monospace;color:#a9a3c0">0192f3a4…c9d0</span></span></div>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font:500 13px/1.35 Geist,sans-serif"><span style="color:#a9a3c0">Joined</span><span>Aug 2026</span><span style="color:#a9a3c0">Crew</span><span>Kuta Crew · 5 people</span><span style="color:#a9a3c0">Seen by</span><span>5 crew members</span><span style="color:#a9a3c0">Reports</span><span>4 against, 1 removed</span></div>
+<div style="display:flex;gap:10px;padding-top:4px">
+<div style="width:62px;height:62px;border-radius:50%;border:2.5px solid #ff5fa8;box-shadow:inset 0 0 0 3px #1f1b38,inset 0 0 0 4.5px #ff5fa8;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#ff5fa8;transform:rotate(-10deg)"><span style="font:900 13px/.9 Archivo,sans-serif;font-stretch:70%">REMOVED</span><span style="font:700 11px/1 'Geist Mono',monospace;margin-top:3px">12 SEP</span></div>
+<div style="width:62px;height:62px;border-radius:50%;border:2.5px solid #a9a3c0;box-shadow:inset 0 0 0 3px #1f1b38,inset 0 0 0 4.5px #a9a3c0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#a9a3c0;transform:rotate(8deg)"><span style="font:900 13px/.9 Archivo,sans-serif;font-stretch:70%">DISMISSED</span><span style="font:700 11px/1 'Geist Mono',monospace;margin-top:3px">3 SEP</span></div>
+</div>
+</section>
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);padding:16px;display:flex;flex-direction:column;gap:10px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">WHAT EACH VERDICT DOES</span>
+<sc-for list="{{ verdicts }}" as="v" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:10px minmax(0,1fr);gap:10px;align-items:start"><span style="width:10px;height:10px;border-radius:50%;background:{{ v.color }};margin-top:4px"></span><span style="font:500 13px/1.4 Geist,sans-serif;color:#c9c4dc;text-wrap:pretty"><b style="color:#f4efe4;font-weight:700">{{ v.name }}</b> {{ v.does }}</span></div>
+</sc-for>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const P = '#ff5fa8', O = '#ff9a4d', D = '#a9a3c0';
+    const kinds = [['ALL', 12], ['PHOTOS', 4], ['AVATARS', 2], ['NOTES', 1], ['TIPS', 2], ['IDEAS', 1], ['LISTINGS', 1], ['USERS', 1]]
+      .map(([label, n], i) => ({ label, n, bg: i === 0 ? '#f4efe4' : '#2c2750', fg: i === 0 ? '#17142a' : '#d8d3ee' }));
+    const items = [
+      { kind: 'PHOTO · ALBUM', title: 'Kuta Crew · beach day', reason: 'Nudity, spam', count: 3, age: '26 h', ageColor: P },
+      { kind: 'TIP · DRIVER', title: '“Call him direct on 0812 33…”', reason: 'Phone number, held by filter', count: 1, age: '20 h', ageColor: O },
+      { kind: 'IDEA · PENDING', title: '“Dating mode for solo travellers”', reason: 'Needs review before public', count: 1, age: '9 h', ageColor: D },
+      { kind: 'AVATAR · CREW', title: 'Lisboa Loves crew picture', reason: 'Offensive', count: 1, age: '6 h', ageColor: D },
+      { kind: 'LISTING · DRIVER', title: 'Pak Wayan · Ubud, Kintamani', reason: 'Fake ratings, anomaly flag', count: 1, age: '5 h', ageColor: D },
+      { kind: 'NOTE · ALBUM', title: '“never again with this guy, he…”', reason: 'Harassment', count: 2, age: '3 h', ageColor: D },
+      { kind: 'PHOTO · ALBUM', title: 'Kyoto crew · Fushimi Inari', reason: 'Private information', count: 1, age: '2 h', ageColor: D },
+      { kind: 'USER', title: '@rizky.p invites', reason: 'Spam invites', count: 4, age: '1 h', ageColor: D }
+    ].map((i, n) => ({ ...i, focus: n === 0, rest: n !== 0 }));
+    return {
+      kinds, items,
+      reports: [
+        { reason: 'NUDITY', note: 'Crew member · “not ok in a shared album”', when: '26 h' },
+        { reason: 'NUDITY', note: 'Crew member · no note', when: '25 h' },
+        { reason: 'SPAM', note: 'Crew member · “same pic posted 4 times”', when: '4 h' }
+      ],
+      verdicts: [
+        { name: 'Approve', does: 'closes the reports; the photo stays in the album.', color: '#54d6a4' },
+        { name: 'Hide', does: 'hides it from the crew; the author sees it marked hidden.', color: '#ff9a4d' },
+        { name: 'Remove', does: 'deletes it from the album and media storage.', color: '#ff5fa8' },
+        { name: 'Ban author', does: 'removes it and opens ban_user with a reason and expiry.', color: '#ff5fa8' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

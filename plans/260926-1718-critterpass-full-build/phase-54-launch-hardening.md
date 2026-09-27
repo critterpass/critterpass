@@ -14,8 +14,6 @@ owns:
   - tools/scripts/perf/
   - tools/scripts/drills/
   - packages/db/test/fuzz/
-  - services/api/src/ops/kill-switches.ts
-  - services/worker/src/jobs/ops/ai-cost-guard.ts
   - infra/monitoring/alerts/
   - infra/monitoring/dashboards/launch/
   - infra/railway/scaling/
@@ -64,7 +62,7 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 
 | Area | Delta |
 |---|---|
-| Kill switches | `services/api/src/ops/kill-switches.ts`: typed registry over `ops_config` (`ai.<feature>.enabled`, `ai.tier.<model>.enabled`, `la.<kind>.enabled`, `widgets.push.enabled`, `supplier.<name>.enabled`, `android.fsi.enabled`, `signup.enabled`, `otp.<channel>.enabled`); read-through cache 30 s; toggled from admin console (17) with audit |
+| Kill switches | `services/api/src/ops/kill-switches.ts`: typed registry over `ops_config` (`ai.<feature>.enabled`, `ai.tier.<model>.enabled`, `la.<kind>.enabled`, `widgets.push.enabled`, `supplier.<name>.enabled`, `android.fsi.enabled`, `signup.enabled`, `otp.<channel>.enabled`); read-through cache 30 s; toggled from admin console (17) with audit; built early in phase 58 T5 |
 | AI cost guard | worker cron `ops.ai_cost_guard` every 5 min over `ai_usage`: per-tier spend vs caps → alert + pause (Opus skeleton jobs held in pg-boss queue with user-visible "queued" progress; other features throttled or disabled via kill switch); model downgrade only via audited founder admin toggle — doc delta: add queue to async §2.3 |
 | Alerts | `infra/monitoring/alerts/*.yaml` Grafana alert rules (P1 list in system-architecture §10) with SGT schedule routing |
 | No new tables | – |
@@ -127,12 +125,12 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 - Tests: `k6 run tools/scripts/load/centrifugo.k6.js`; `pnpm tsx tools/scripts/load/powersync.ts --staging`.
 - Done when: SLO targets met; results recorded in `docs/runbooks/capacity.md`.
 
-### T9 — AI cost guardrails + kill switches
-- Goal: bounded spend + fast off.
-- Files: `services/api/src/ops/kill-switches.ts`, `services/worker/src/jobs/ops/ai-cost-guard.ts`, tests beside.
-- Steps: 1. Registry + middleware checks. 2. Cost guard cron: alert + pause/queue (Opus skeleton jobs queued, never re-routed to another model); per-feature throttle/kill switch. 3. Founder admin toggles (incl. manual tier downgrade) audited.
+### T9 — AI cost guardrails + kill switches: launch verification
+- Goal: prove the guard and switches built early in phase 58 T5 hold at launch scale.
+- Files: none owned; the registry and cron live in phase 58 (`services/api/src/ops/kill-switches.ts`, `services/worker/src/jobs/ops/ai-cost-guard.ts`).
+- Steps: 1. Set production caps (`ai.cap.*`, `spend.month_budget_usd`) with the founder. 2. Drill: flip each kill switch on staging and confirm the app fallback. 3. Load test at a cap edge (T1 harness).
 - Tests: `pnpm --filter @cp/api test -- kill-switches`; `pnpm --filter @cp/worker test -- ai-cost-guard`.
-- Done when: exceeding a cap pauses/queues or disables within one cron tick and alerts; no code path changes a model tier without an audited admin toggle.
+- Done when: exceeding a cap pauses/queues or disables within one cron tick and alerts under load; every switch has a verified fallback; no code path changes a model tier without an audited admin toggle.
 
 ### T10 — Backups, restore drill, failover drill
 - Goal: recoverability.
@@ -185,5 +183,5 @@ Founder-owned launch gate (checklist in `docs/runbooks/release.md`, outside agen
 
 ## Open questions
 1. Journey suite device cloud (BrowserStack vs AWS Device Farm) — default AWS Device Farm.
-2. Doc delta: `ops.ai_cost_guard` cron and kill-switch key list in async §2.3 / ops_config docs.
+2. Doc delta: `ops.ai_cost_guard` cron and kill-switch key list in async §2.3 / ops_config docs (written by phase 58 T5).
 3. Restore RTO target — default 4 h; failover recovery target 5 min.

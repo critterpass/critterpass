@@ -1,0 +1,142 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+INCIDENT
+Push delivery degraded. APNs is returning 5xx for 3% of sends since 14:02 SGT. Sends retry on their own; Live Activities may lag.
+Mai · 14:09
+Runbook
+RESOLVE
+SUN 27 SEP · 15:42 SGT
+GOOD AFTERNOON, QUOC
+↳ Three things need a human before 6pm.
+ON CALL
+07–23 SGT
+MODERATION
+→
+12
+open · 3 past the 24 h SLA
+DESK DUE < 2 H
+→
+4
+1 overdue · 2 waiting on users
+JOBS IN DLQ
+→
+7
+push.send +5 in the last hour
+CONTENT REVIEW
+→
+2
+batches · 1 needs owner approval
+FEEDBACK NEW
+→
+9
+2 marked severe by triage
+IDEAS PENDING
+→
+5
+oldest waiting 2 days
+ASSIGNED TO YOU · 5
+All my work →
+DESK
+Airport pickup for The Bali Six
+vendor_message · Maya Chen · approved
+due 38 min
+›
+MODERATION
+Photo reported 3× in a Kuta Crew album
+photo · first report 26 h ago
+SLA passed
+›
+FEEDBACK
+#CP-10482 Recap freezes on slide 5
+bug · severe · likely dup of #CP-10411
+due 1 h 52
+›
+CONTENT
+Forms · Asia set 07
+10 critters · 3 warnings · gate G2
+owner sign-off
+›
+DESK
+Clinic hand-off for a Reykjavík crew
+clinic_handoff · waiting on user
+tomorrow 09:00
+›
+RECENT ADMIN ACTIVITY
+Audit log →
+M
+Mai hid a reported avatar
+moderate_item · avatar · 01J9QK…4TZ
+4 min
+A
+Arif granted Maya Chen 30 days of Pass+
+grant_entitlement · reason given
+18 min
+L
+Linh saved Tokek (local words)
+upsert_catalogue_item · guides · v12
+1 h
+M
+Mai redrove 12 jobs from push.send.dlq
+redrive · push.send
+2 h
+Q
+Quoc turned on Viator in-app booking
+set_partner_adapter · viator_booking
+Fri
+D
+Dewi merged two offline-maps ideas
+merge_ideas · 2 → 1
+Fri
+SERVICES
+31 OF 32 OK
+APNs degraded since 14:02
+Claude
+APNs
+FCM
+Twilio
+WhatsApp
+RevenueCat
+Mapbox
+PowerSync
+Centrifugo
+Postgres
+AI SPEND TODAY
+GUARD OK
+$184 of $400 cap
+GRAFANA
+↗
+UPTIME
+↗

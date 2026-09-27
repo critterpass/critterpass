@@ -1,0 +1,176 @@
+CRITTERPASS
+OPS
+Home
+My work
+5
+QUEUES
+Moderation
+12
+Concierge desk
+4
+Feedback & ideas
+9
+PEOPLE
+Support
+Billing
+CONTENT
+Catalogue
+Content batches
+2
+Community & drivers
+3
+PLATFORM
+Flags & config
+Partners
+Services & spend
+1
+Jobs & DLQ
+7
+GOVERNANCE
+Audit log
+Operators
+Q
+Quoc
+OWNER
+Sign out
+PLATFORM
+JOBS & DLQ
+
+Background queues. A job that fails three times lands in its dead-letter queue; redrive sends it back once the cause is fixed.
+
+worker ×2 · refreshed 20 s ago
+QUEUE
+ACTIVE
+QUEUED
+DONE 24 H
+FAILED
+DLQ
+NOTES
+push.send
+APNs and FCM delivery
+12
+38
+184,210
+31
+5
+APNs 503s since 14:02, retrying
+notify.route
+decide: send, roundup or drop
+4
+0
+96,402
+0
+0
+rt.relay
+outbox → realtime channels
+2
+0
+412,880
+0
+0
+lag 0.4 s
+billing.apply
+RevenueCat events → entitlements
+0
+0
+1,204
+1
+1
+INITIAL_PURCHASE failed, replay on Billing
+feedback.forward
+triage, then Linear
+0
+0
+41
+1
+1
+Linear 429 at 11:20
+ai.skeleton
+opus itinerary skeleton
+2
+0
+19
+0
+0
+held automatically if opus nears its cap
+roundup.build
+evening roundups by time zone
+0
+0
+3,180
+0
+0
+next bucket 18:50 SGT
+content.publish
+approved releases → app and db
+0
+0
+1
+0
+0
+forms v3 · 21 Sep
+idea.embed
+duplicate detection for ideas
+0
+0
+22
+0
+0
+push.send.dlq
+5 dead letters · all APNs 503 during the open incident
+REDRIVE 3 SELECTED
+REDRIVE ALL 5
+JOB
+FAILED
+LAST ERROR · PAYLOAD (REDACTED)
+TRIES
+✓
+job 01J9R4…1KQ
+15:31
+APNs 503 ServiceUnavailable
+{ notification: N-12 leave_by, device: ••••7f3a, class: ALWAYS }
+3/3
+✓
+job 01J9R4…0ZT
+15:29
+APNs 503 ServiceUnavailable
+{ notification: N-21 vote_closing, device: ••••a91c, class: NORMAL }
+3/3
+✓
+job 01J9R3…YH2
+15:18
+APNs 503 ServiceUnavailable
+{ notification: N-05 crew_joined, device: ••••0b44, class: NORMAL }
+3/3
+job 01J9R3…W8M
+15:02
+APNs 503 ServiceUnavailable
+{ liveActivity: crew_map update, channel: ••••c2 }
+3/3
+job 01J9R3…T4C
+14:47
+APNs 503 ServiceUnavailable
+{ notification: N-33 ftf_ending, device: ••••51de, class: ROUNDUP }
+3/3
+Redriven jobs keep their original singleton key, so a push that already went out will not send twice. Last redrive: Mai, 13:40, 12 jobs, all delivered.
+SCHEDULED
+sched.enqueue_due
+every minute
+OK 15:42
+ops.ai_cost_guard
+every 5 min
+OK 15:40
+billing.reconcile
+05:00 SGT daily
+OK · 0 FIXES
+ops.backup
+03:00 SGT · pg_dump to R2
+OK · 4.1 GB
+powersync.compact
+Railway cron · 04:00
+OK
+maint.anon_gc
+02:00 SGT daily
+212 REMOVED
+RETRY POLICY
+3 tries with backoff from 10 s. billing.apply retries 5 times. A DLQ insert raises a Sentry event and pages in SGT hours if the DLQ keeps growing.

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#17142a;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="Audit log" style="width:1440px;display:grid;grid-template-columns:240px minmax(0,1fr);min-height:900px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif">
+<dc-import name="Ops - Nav" active="audit" style="display:block;height:100%" hint-size="240px,900px"></dc-import>
+<main style="min-width:0;padding:28px 32px 40px;display:flex;flex-direction:column;gap:18px">
+<header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">GOVERNANCE</span>
+<h1 style="margin:0;font:900 48px/.86 Archivo,sans-serif;font-stretch:70%;letter-spacing:-.01em;text-transform:uppercase">Audit log</h1>
+<p style="margin:0;font:500 14px/1.45 Geist,sans-serif;color:#a9a3c0;max-width:640px;text-wrap:pretty">Every console command, written in the same transaction as the change. Nobody can edit or delete a row, owners included.</p>
+</div>
+<button style="height:38px;padding:0 16px;border-radius:19px;border:1.5px solid #5b5487;background:transparent;color:#f4efe4;font:900 12px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">EXPORT CSV · OWNER</button>
+</header>
+
+<div style="display:grid;grid-template-columns:180px 220px minmax(0,1fr) 190px;gap:10px">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font:700 12px/1 Geist,sans-serif;color:#a9a3c0">{{ f.label }}</span><span style="height:40px;padding:0 12px;border-radius:10px;background:#120f22;box-shadow:inset 0 0 0 1.5px #5b5487;display:flex;align-items:center;justify-content:space-between;font:500 13.5px/1 Geist,sans-serif;color:{{ f.color }}">{{ f.value }}<span style="color:#a9a3c0">{{ f.caret }}</span></span></div>
+</sc-for>
+</div>
+
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:grid;grid-template-columns:110px 150px 220px minmax(0,1fr) 150px 90px;gap:14px;padding:12px 16px;font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0;background:#17142a"><span>WHEN · SGT</span><span>OPERATOR</span><span>COMMAND</span><span>TARGET</span><span>OP_ID</span><span>IP HASH</span></div>
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="12">
+<div style="display:grid;grid-template-columns:110px 150px 220px minmax(0,1fr) 150px 90px;gap:14px;align-items:center;padding:10px 16px;background:{{ r.bg }};box-shadow:{{ r.ring }}">
+<span style="font:500 12.5px/1.2 'Geist Mono',monospace;color:#c9c4dc">{{ r.when }}</span>
+<span style="display:flex;align-items:center;gap:8px;min-width:0"><span style="width:24px;height:24px;border-radius:50%;background:{{ r.color }};color:#17142a;display:inline-flex;align-items:center;justify-content:center;font:900 11px/1 Archivo,sans-serif;flex:none">{{ r.initial }}</span><span style="font:600 13.5px/1 Geist,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.who }}</span></span>
+<span style="justify-self:start;padding:5px 8px;border-radius:6px;background:#2c2750;color:#f4efe4;font:600 12px/1 'Geist Mono',monospace;white-space:nowrap">{{ r.cmd }}</span>
+<a href="#" style="font:500 13.5px/1.3 Geist,sans-serif;color:#7fb8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.target }}</a>
+<span style="font:500 12px/1 'Geist Mono',monospace;color:#a9a3c0">{{ r.op }}</span>
+<span style="font:500 12px/1 'Geist Mono',monospace;color:#a9a3c0">{{ r.ip }}</span>
+</div>
+<sc-if value="{{ r.open }}">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;padding:14px 16px 16px 140px;background:#241f3d;box-shadow:inset 3px 0 0 #ffd84a,inset 0 -1px 0 rgba(255,255,255,.05)">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">WHAT CHANGED</span>
+<div style="display:grid;grid-template-columns:110px 1fr 1fr;gap:6px 10px;font:500 12.5px/1.35 'Geist Mono',monospace"><span style="color:#a9a3c0">perk</span><span style="color:#a9a3c0">—</span><span style="color:#54d6a4">pass_plus</span><span style="color:#a9a3c0">source</span><span style="color:#a9a3c0">—</span><span style="color:#54d6a4">code_grant</span><span style="color:#a9a3c0">starts</span><span style="color:#a9a3c0">—</span><span style="color:#54d6a4">store period end</span><span style="color:#a9a3c0">length</span><span style="color:#a9a3c0">—</span><span style="color:#54d6a4">30 days</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">REASON GIVEN</span>
+<span style="font:500 14px/1.45 Geist,sans-serif">“Recap crash on a trip she’d already paid for. Ticket #CP-10482.”</span>
+<span style="font:500 12px/1.4 'Geist Mono',monospace;color:#a9a3c0">actor.via admin · role support · result applied · same transaction as the grant</span>
+</div>
+</div>
+</sc-if>
+</sc-for>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font:500 12.5px/1 Geist,sans-serif;color:#a9a3c0;box-shadow:inset 0 1px 0 rgba(255,255,255,.07)"><span>2,418 rows in the last 7 days · newest first</span><span style="display:flex;gap:8px"><button style="height:30px;padding:0 12px;border-radius:15px;border:1.5px solid #3a3466;background:transparent;color:#a9a3c0;font:900 11px/1 Archivo,sans-serif;letter-spacing:.06em">NEWER</button><button style="height:30px;padding:0 12px;border-radius:15px;border:1.5px solid #5b5487;background:transparent;color:#f4efe4;font:900 11px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">OLDER</button></span></div>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const C = { Quoc: ['Q', '#ffd84a'], Mai: ['M', '#ff5fa8'], Linh: ['L', '#4f86ff'], Arif: ['A', '#54d6a4'], Dewi: ['D', '#ff9a4d'], CLI: ['›', '#d8d3ee'] };
+    const r = (when, who, cmd, target, op, ip, open) => ({ when, who: who === 'CLI' ? 'Emergency CLI · Quoc' : who, initial: C[who][0], color: C[who][1], cmd, target, op, ip, open: !!open, bg: open ? '#241f3d' : 'transparent', ring: open ? 'inset 3px 0 0 #ffd84a' : 'inset 0 -1px 0 rgba(255,255,255,.05)' });
+    return {
+      filters: [
+        { label: 'Operator', value: 'Everyone', caret: '▾', color: '#f4efe4' },
+        { label: 'Command', value: 'All commands', caret: '▾', color: '#f4efe4' },
+        { label: 'Target', value: 'user, task, key or op_id', caret: '', color: '#a9a3c0' },
+        { label: 'When', value: 'Last 7 days', caret: '▾', color: '#f4efe4' }
+      ],
+      rows: [
+        r('Sun 15:38', 'Mai', 'moderate_item', 'avatar in The Bali Six · hide', '01J9QK…4TZ', 'a1f3…9c'),
+        r('Sun 15:24', 'Arif', 'grant_entitlement', 'Maya Chen · Pass+ 30 days', '01J9R3…A1Q', '7c20…e4', true),
+        r('Sun 14:40', 'Linh', 'upsert_catalogue_item', 'guides · Tokek · v11 → v12', '01J9QW…M0S', '44bd…10'),
+        r('Sun 14:12', 'Mai', 'set_feature_flag', 'la.crew_map.enabled · true → false', '01J9R1…8FD', 'a1f3…9c'),
+        r('Sun 14:09', 'Mai', 'post_incident', 'Push delivery degraded', '01J9R1…7XA', 'a1f3…9c'),
+        r('Sun 13:40', 'Mai', 'redrive_jobs', 'push.send.dlq · 12 jobs', '01J9R0…2QP', 'a1f3…9c'),
+        r('Sat 22:47', 'Dewi', 'update_concierge_task', 'Table for 8 in Roma Norte · waiting user', '01J9QB…6RT', 'e90a…31'),
+        r('Sat 21:02', 'Dewi', 'merge_ideas', 'Offline maps · 2 ideas → 1', '01J9Q9…0KD', 'e90a…31'),
+        r('Fri 18:30', 'Quoc', 'set_partner_adapter', 'viator_booking · copy link → booking', '01J9MZ…Q2E', '0b7e…d2'),
+        r('Fri 18:26', 'Quoc', 'set_feature_flag', 'seat.cap_free · 5 → 6', '01J9MZ…P7N', '0b7e…d2'),
+        r('Fri 09:14', 'CLI', 'revoke_session', 'user 0192e1…f3a · 1 session', '01J9M4…1CC', 'local')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<script src="doodles.js"></script>
+<style>body{margin:0;background:#17142a;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="Catalogue" style="width:1440px;display:grid;grid-template-columns:240px minmax(0,1fr);min-height:900px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif">
+<dc-import name="Ops - Nav" active="catalogue" style="display:block;height:100%" hint-size="240px,900px"></dc-import>
+<main style="min-width:0;padding:28px 32px 40px;display:flex;flex-direction:column;gap:18px">
+<header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">CONTENT</span>
+<h1 style="margin:0;font:900 48px/.86 Archivo,sans-serif;font-stretch:70%;letter-spacing:-.01em;text-transform:uppercase">Catalogue</h1>
+<p style="margin:0;font:500 14px/1.45 Geist,sans-serif;color:#a9a3c0">Guides, destinations and places the app ships with. Every save is versioned; a stale save shows what changed.</p>
+</div>
+<div style="display:flex;align-items:center;gap:4px;padding:4px;border-radius:12px;background:#120f22">
+<span style="height:32px;padding:0 12px;border-radius:9px;background:#ffd84a;color:#17142a;display:inline-flex;align-items:center;gap:6px;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">GUIDES <span style="font-family:'Geist Mono',monospace">6</span></span>
+<span style="height:32px;padding:0 12px;border-radius:9px;color:#d8d3ee;display:inline-flex;align-items:center;gap:6px;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">DESTINATIONS <span style="font-family:'Geist Mono',monospace;color:#a9a3c0">61</span></span>
+<span style="height:32px;padding:0 12px;border-radius:9px;color:#d8d3ee;display:inline-flex;align-items:center;gap:6px;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">POIS <span style="font-family:'Geist Mono',monospace;color:#a9a3c0">1,842</span></span>
+</div>
+</header>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 480px;gap:16px;align-items:start">
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="padding:12px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><div style="height:40px;padding:0 14px;border-radius:10px;background:#120f22;box-shadow:inset 0 0 0 1.5px #5b5487;display:flex;align-items:center;font:500 14px/1 Geist,sans-serif;color:#a9a3c0">Search guides by name</div></div>
+<div style="display:grid;grid-template-columns:56px minmax(0,1fr) 110px 150px 56px;gap:14px;padding:10px 16px;font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0;background:#17142a"><span></span><span>GUIDE</span><span>COLOUR</span><span>VOICE · PERSONA</span><span style="text-align:right">VER.</span></div>
+<sc-for list="{{ guides }}" as="g" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:56px minmax(0,1fr) 110px 150px 56px;gap:14px;align-items:center;padding:10px 16px;box-shadow:{{ g.ring }};background:{{ g.bg }}">
+<span style="width:52px;height:52px;display:flex;align-items:center;justify-content:center;line-height:0"><doodle-art kind="{{ g.kind }}" size="50" sticker="#f4efe4" anim="none" seed="{{ g.seed }}"></doodle-art></span>
+<span style="display:flex;flex-direction:column;gap:4px;min-width:0"><span style="font:900 24px/.9 Archivo,sans-serif;font-stretch:70%;text-transform:uppercase">{{ g.name }}</span><span style="font:500 12.5px/1.2 Geist,sans-serif;color:#a9a3c0">{{ g.city }} · {{ g.species }}</span></span>
+<span style="display:inline-flex;align-items:center;gap:8px;font:600 13px/1 Geist,sans-serif"><span style="width:16px;height:16px;border-radius:50%;background:{{ g.color }};box-shadow:0 0 0 2px #1f1b38,0 0 0 3.5px rgba(255,255,255,.2)"></span>{{ g.colorName }}</span>
+<span style="display:flex;flex-direction:column;gap:3px;min-width:0;font:500 12px/1.2 'Geist Mono',monospace;color:#c9c4dc"><span>{{ g.voice }}</span><span style="color:#a9a3c0">{{ g.pack }}</span></span>
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#a9a3c0;text-align:right">v{{ g.v }}</span>
+</div>
+</sc-for>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font:500 12.5px/1 Geist,sans-serif;color:#a9a3c0"><span>The six guides are fixed. Their colours are canonical and can’t be edited here.</span><span style="font-family:'Geist Mono',monospace">page 1</span></div>
+</section>
+
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="position:relative;height:150px;background:#ffd84a radial-gradient(rgba(23,20,42,.13) 1.3px,transparent 1.7px) 0 0/8px 8px;border-radius:0 0 32px 32px;color:#17142a;padding:20px 22px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em">GUIDE · BALI</span><span style="padding:5px 8px;border-radius:6px;background:#17142a;color:#ffd84a;font:800 11px/1 Archivo,sans-serif;letter-spacing:.1em">COLOUR LOCKED · C5</span></div>
+<span style="font:900 64px/.8 Archivo,sans-serif;font-stretch:66%;letter-spacing:-.01em">TOKEK</span>
+<div style="position:absolute;right:18px;bottom:-34px;line-height:0;transform:rotate(6deg)"><doodle-art kind="gecko" size="132" sticker="#f4efe4" pose="wave" seed="41"></doodle-art></div>
+</div>
+<div style="padding:22px 20px 20px;display:flex;flex-direction:column;gap:14px">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font:700 12px/1 Geist,sans-serif;color:#a9a3c0">Name</span><span style="height:40px;padding:0 12px;border-radius:10px;background:#120f22;box-shadow:inset 0 0 0 1.5px #5b5487;display:flex;align-items:center;font:600 14px/1 Geist,sans-serif">Tokek</span></label>
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font:700 12px/1 Geist,sans-serif;color:#a9a3c0">Voice id</span><span style="height:40px;padding:0 12px;border-radius:10px;background:#120f22;box-shadow:inset 0 0 0 1.5px #5b5487;display:flex;align-items:center;font:500 13px/1 'Geist Mono',monospace">el_tokek_v2</span></label>
+</div>
+<label style="display:flex;flex-direction:column;gap:6px"><span style="font:700 12px/1 Geist,sans-serif;color:#a9a3c0">Persona pack version</span><span style="height:40px;padding:0 12px;border-radius:10px;background:#120f22;box-shadow:inset 0 0 0 2px #ffd84a;display:flex;align-items:center;font:500 13px/1 'Geist Mono',monospace">tokek-2026.09.3</span></label>
+<div style="display:flex;flex-direction:column;gap:6px">
+<span style="font:700 12px/1 Geist,sans-serif;color:#a9a3c0">Local words · shown and spoken in Indonesian</span>
+<div style="border-radius:12px;background:#120f22;box-shadow:inset 0 0 0 1.5px #3a3466;overflow:hidden">
+<sc-for list="{{ words }}" as="w" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:4px minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:center;padding:9px 12px 9px 0;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)"><span style="align-self:stretch;background:{{ w.mark }}"></span><span style="font:600 13.5px/1.2 Geist,sans-serif">{{ w.local }}</span><span style="font:500 13.5px/1.2 Geist,sans-serif;color:#c9c4dc">{{ w.en }}</span></div>
+</sc-for>
+<div style="padding:10px 16px;font:600 13px/1 Geist,sans-serif;color:#7fb8ff">+ Add a word</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:12px;background:#17142a">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">CHANGES TO SAVE · 2</span>
+<div style="display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1fr);gap:8px;font:500 12.5px/1.35 'Geist Mono',monospace"><span style="color:#a9a3c0">persona_pack_version</span><span style="color:#ff5fa8;text-decoration:line-through">tokek-2026.09.2</span><span style="color:#54d6a4">tokek-2026.09.3</span><span style="color:#a9a3c0">local_words</span><span style="color:#a9a3c0">3 words</span><span style="color:#54d6a4">+ enak</span></div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span style="font:500 12px/1.35 'Geist Mono',monospace;color:#a9a3c0">version 12 · Linh · today 14:40</span><button style="height:42px;padding:0 24px;border-radius:21px;border:0;background:#ffd84a;color:#17142a;font:900 13px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">SAVE CHANGES</button></div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const g = (kind, seed, name, city, species, color, colorName, voice, pack, v, sel) => ({ kind, seed, name, city, species, color, colorName, voice, pack, v, bg: sel ? '#2c2750' : 'transparent', ring: sel ? 'inset 3px 0 0 #ffd84a, inset 0 -1px 0 rgba(255,255,255,.05)' : 'inset 0 -1px 0 rgba(255,255,255,.05)' });
+    return {
+      guides: [
+        g('gecko', 41, 'Tokek', 'Bali', 'Tokay gecko', '#ffd84a', 'yellow', 'el_tokek_v2', 'tokek-2026.09.2', 12, true),
+        g('tanuki', 51, 'Pon', 'Kyoto', 'Tanuki', '#ff9a4d', 'orange', 'el_pon_v3', 'pon-2026.09.1', 9),
+        g('puffin', 43, 'Lundi', 'Iceland', 'Atlantic puffin', '#4f86ff', 'blue', 'el_lundi_v1', 'lundi-2026.08.4', 7),
+        g('axolotl', 44, 'Ajo', 'Mexico City', 'Axolotl', '#ff5fa8', 'pink', 'el_ajo_v1', 'ajo-2026.09.1', 6),
+        g('sardine', 45, 'Sardi', 'Lisbon', 'Sardine', '#54d6a4', 'green', 'el_sardi_v1', 'sardi-2026.08.2', 6),
+        g('alpaca', 46, 'Paco', 'Cusco', 'Alpaca', '#f4efe4', 'cream', 'el_paco_v1', 'paco-2026.08.2', 5)
+      ],
+      words: [
+        { local: 'terima kasih', en: 'thank you', mark: 'transparent' },
+        { local: 'selamat pagi', en: 'good morning', mark: 'transparent' },
+        { local: 'pelan-pelan', en: 'slowly, take it easy', mark: 'transparent' },
+        { local: 'enak', en: 'delicious', mark: '#54d6a4' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

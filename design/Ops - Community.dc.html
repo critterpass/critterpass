@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@600;700&family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#17142a;color:#f4efe4;font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#7fb8ff;text-decoration:none}a:hover{color:#ffd84a}</style>
+</helmet>
+<div data-screen-label="Community & drivers" style="width:1440px;display:grid;grid-template-columns:240px minmax(0,1fr);min-height:900px;background:#17142a;color:#f4efe4;font:400 14px/1.45 Geist,system-ui,sans-serif">
+<dc-import name="Ops - Nav" active="community" style="display:block;height:100%" hint-size="240px,900px"></dc-import>
+<main style="min-width:0;padding:28px 32px 40px;display:flex;flex-direction:column;gap:18px">
+<header style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">CONTENT</span>
+<h1 style="margin:0;font:900 48px/.86 Archivo,sans-serif;font-stretch:70%;letter-spacing:-.01em;text-transform:uppercase">Community &amp; drivers</h1>
+<p style="margin:0;font:500 14px/1.45 Geist,sans-serif;color:#a9a3c0;max-width:640px;text-wrap:pretty">Shared plans, tips and the driver directory. A driver is listed only after he confirms his own listing, and only crews who rode with him can rate him.</p>
+</div>
+<div style="display:flex;align-items:center;gap:4px;padding:4px;border-radius:12px;background:#120f22">
+<span style="height:32px;padding:0 12px;border-radius:9px;background:#ffd84a;color:#17142a;display:inline-flex;align-items:center;gap:6px;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">DRIVERS <span style="font-family:'Geist Mono',monospace">41</span></span>
+<span style="height:32px;padding:0 12px;border-radius:9px;color:#d8d3ee;display:inline-flex;align-items:center;gap:6px;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">SHARED PLANS <span style="font-family:'Geist Mono',monospace;color:#a9a3c0">128</span></span>
+<span style="height:32px;padding:0 12px;border-radius:9px;color:#d8d3ee;display:inline-flex;align-items:center;gap:6px;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">PICKUP GAPS <span style="font-family:'Geist Mono',monospace;color:#a9a3c0">23</span></span>
+<span style="height:32px;padding:0 12px;border-radius:9px;color:#d8d3ee;display:inline-flex;align-items:center;gap:6px;font:800 12px/1 Archivo,sans-serif;letter-spacing:.08em">ASK GROUPS <span style="font-family:'Geist Mono',monospace;color:#a9a3c0">17</span></span>
+</div>
+</header>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:16px;align-items:start">
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:grid;grid-template-columns:minmax(0,1.4fr) 80px 110px 120px minmax(0,1fr);gap:14px;padding:12px 16px;font:700 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#a9a3c0;background:#17142a"><span>DRIVER</span><span>SPEAKS</span><span>LISTING</span><span>CREWS</span><span>FLAGS</span></div>
+<sc-for list="{{ drivers }}" as="d" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:minmax(0,1.4fr) 80px 110px 120px minmax(0,1fr);gap:14px;align-items:center;padding:12px 16px;background:{{ d.bg }};box-shadow:{{ d.ring }}">
+<span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:600 14.5px/1.25 Geist,sans-serif">{{ d.name }}</span><span style="font:500 12.5px/1.2 Geist,sans-serif;color:#a9a3c0">{{ d.areas }}</span></span>
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#c9c4dc">{{ d.langs }}</span>
+<span style="justify-self:start;padding:4px 7px;border-radius:6px;background:{{ d.stBg }};color:{{ d.stFg }};font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">{{ d.status }}</span>
+<span style="font:500 13px/1.3 Geist,sans-serif;color:#c9c4dc">{{ d.crews }}</span>
+<span style="justify-self:start;padding:4px 7px;border-radius:6px;background:{{ d.flagBg }};color:#17142a;font:800 11px/1 Archivo,sans-serif;letter-spacing:.06em">{{ d.flag }}</span>
+</div>
+</sc-for>
+</section>
+
+<section style="border-radius:18px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;padding:16px">
+<div style="aspect-ratio:1;border-radius:14px;background:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 8px,transparent 8px 16px),#2c2750;display:flex;align-items:center;justify-content:center;text-align:center;font:500 11px/1.3 'Geist Mono',monospace;color:#a9a3c0">his own<br>photo</div>
+<div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+<span style="font:900 30px/.86 Archivo,sans-serif;font-stretch:68%;text-transform:uppercase">Pak Wayan</span>
+<span style="font:500 13px/1.35 Geist,sans-serif;color:#c9c4dc">Toyota Avanza · 6 seats · Ubud, Kintamani</span>
+<span style="justify-self:start;display:flex;gap:6px"><span style="padding:4px 7px;border-radius:6px;background:#54d6a4;color:#17142a;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">VERIFIED WHATSAPP</span><span style="padding:4px 7px;border-radius:6px;background:#2c2750;color:#d8d3ee;font:800 11px/1 Archivo,sans-serif;letter-spacing:.08em">LISTED 9 SEP</span></span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;padding:0 16px 16px">
+<div style="padding:12px 14px;border-radius:12px;background:#17142a;display:flex;flex-direction:column;gap:6px"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.14em;color:#a9a3c0">WHAT HE TELLS CREWS</span><span style="font:500 14px/1.4 Geist,sans-serif">“650k a day with fuel, 10 hours. Sunrise at Kintamani is extra.”</span></div>
+<div style="padding:12px 14px;border-radius:12px;background:#17142a;display:flex;flex-direction:column;gap:6px"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.14em;color:#a9a3c0">7 CREWS RATED · 6 LOVED IT · 1 FINE</span><span style="font:500 14px/1.4 Geist,sans-serif">“Waited an hour at arrivals when our flight was late.”</span><span style="font:500 12px/1 Geist,sans-serif;color:#a9a3c0">crew of 5 · August</span></div>
+<div style="padding:14px;border-radius:14px;background:#221e3d;box-shadow:inset 0 0 0 2px #ff5fa8;display:flex;flex-direction:column;gap:8px">
+<span style="font:800 11px/1 Archivo,sans-serif;letter-spacing:.12em;color:#ff5fa8">ANOMALY FLAG · RATING RING?</span>
+<span style="font:500 13.5px/1.45 Geist,sans-serif;text-wrap:pretty">One account rated him on 3 trips. Each trip belonged to a crew created less than a week before it.</span>
+<span style="font:500 12px/1.5 'Geist Mono',monospace;color:#a9a3c0">acct 0193…9f2 · Bali Sept A, Bali Sept B, Ubud Squad</span>
+<div style="display:flex;gap:6px;flex-wrap:wrap;padding-top:2px"><button style="height:32px;padding:0 12px;border-radius:16px;border:1.5px solid #5b5487;background:transparent;color:#f4efe4;font:900 11px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">HOLD THOSE RATINGS</button><button style="height:32px;padding:0 12px;border-radius:16px;border:1.5px solid #ff5fa8;background:transparent;color:#ff5fa8;font:900 11px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">TAKE DOWN</button><button style="height:32px;padding:0 10px;border-radius:16px;border:0;background:transparent;color:#a9a3c0;font:900 11px/1 Archivo,sans-serif;letter-spacing:.06em;cursor:pointer">CLEAR FLAG</button></div>
+</div>
+<span style="font:500 12px/1.4 Geist,sans-serif;color:#a9a3c0">A takedown is immediate and audited. Crews who rode with him keep his contact on their own trips.</span>
+</div>
+</section>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;align-items:start">
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">PICKUP GAPS · BALI</span><a href="#" style="font:600 13px/1 Geist,sans-serif">+ Add gap</a></div>
+<sc-for list="{{ gaps }}" as="g" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 110px 70px 60px;gap:12px;align-items:center;padding:11px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:600 14px/1.25 Geist,sans-serif">{{ g.place }}</span><span style="font:500 12.5px/1.3 Geist,sans-serif;color:#a9a3c0">“{{ g.copy }}”</span></span>
+<span style="font:600 12.5px/1 'Geist Mono',monospace;color:#c9c4dc">{{ g.window }}</span>
+<span style="justify-self:start;padding:4px 6px;border-radius:5px;background:{{ g.stBg }};color:{{ g.stFg }};font:800 11px/1 Archivo,sans-serif;letter-spacing:.06em">{{ g.status }}</span>
+<a href="#" style="font:600 12.5px/1 Geist,sans-serif;text-align:right">{{ g.act }}</a>
+</div>
+</sc-for>
+<div style="padding:10px 16px;font:500 12.5px/1.35 Geist,sans-serif;color:#a9a3c0;background:#17142a">Grab Farefeed also reported no service on 9 legs in Bali this week.</div>
+</section>
+<section style="border-radius:16px;background:#1f1b38;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.07)"><span style="font:700 11px/1 Archivo,sans-serif;letter-spacing:.16em;color:#a9a3c0">ASK GROUPS</span><a href="#" style="font:600 13px/1 Geist,sans-serif">+ Add group</a></div>
+<sc-for list="{{ groups }}" as="a" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 16px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)">
+<span style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="font:600 14px/1.25 Geist,sans-serif">{{ a.name }}</span><span style="font:500 12.5px/1.3 Geist,sans-serif;color:{{ a.checkColor }}">{{ a.meta }}</span></span>
+<span style="font:600 12.5px/1.2 'Geist Mono',monospace;color:#c9c4dc;text-align:right">{{ a.opens }}</span>
+</div>
+</sc-for>
+<div style="padding:10px 16px;font:500 12.5px/1.35 Geist,sans-serif;color:#a9a3c0;background:#17142a">We never read or post in these groups. Crews copy a post and paste it themselves.</div>
+</section>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const S = { LISTED: ['#54d6a4', '#17142a'], PAUSED: ['#2c2750', '#d8d3ee'], PENDING: ['#ffd84a', '#17142a'], REMOVED: ['#2c2750', '#a9a3c0'] };
+    const d = (name, areas, langs, status, crews, flag, flagBg, sel) => ({ name, areas, langs, status, crews, flag, flagBg, stBg: S[status][0], stFg: S[status][1], bg: sel ? '#2c2750' : 'transparent', ring: sel ? 'inset 3px 0 0 #ffd84a, inset 0 -1px 0 rgba(255,255,255,.05)' : 'inset 0 -1px 0 rgba(255,255,255,.05)' });
+    const GS = { ACTIVE: ['#2c2750', '#d8d3ee'], DRAFT: ['#ffd84a', '#17142a'] };
+    const g = (place, copy, window, status, act) => ({ place, copy, window, status, act, stBg: GS[status][0], stFg: GS[status][1] });
+    return {
+      drivers: [
+        d('Pak Wayan', 'Ubud, Kintamani', 'ID EN', 'LISTED', '7 rated · 6 loved', 'ANOMALY', '#ff5fa8', true),
+        d('Ketut Ardana', 'Canggu, Uluwatu', 'ID EN', 'LISTED', '12 rated · 11 loved', '', 'transparent'),
+        d('Nyoman Sudi', 'Amed, Tulamben', 'ID', 'LISTED', '3 rated · 2 loved', 'TIP HELD', '#ff9a4d'),
+        d('Made Suarta', 'Sanur, airport runs', 'ID', 'PAUSED', '4 rated · 4 loved', '', 'transparent'),
+        d('Anh Tuấn', 'Hội An, Đà Nẵng', 'VI EN', 'PENDING', 'invite opened', '', 'transparent'),
+        d('Bayu Pratama', 'Seminyak', 'ID EN', 'REMOVED', 'removed by him', '', 'transparent')
+      ],
+      gaps: [
+        g('Tegallalang Rice Terrace', 'Ride apps rarely pick up here after 5pm.', 'after 17:00', 'ACTIVE', 'Retire'),
+        g('Uluwatu Temple', 'After the kecak dance, rides surge or don’t come.', '18:00–20:00', 'ACTIVE', 'Retire'),
+        g('Amed', 'No ride-app coverage at all.', 'all day', 'ACTIVE', 'Retire'),
+        g('Kintamani for sunrise', 'Book a driver the night before.', '03:00–06:00', 'DRAFT', 'Approve')
+      ],
+      groups: [
+        { name: 'Bali Drivers & Tours', meta: 'Bali · link checked 3 d ago', opens: '41 crews', checkColor: '#a9a3c0' },
+        { name: 'Ubud Community Board', meta: 'Bali · link checked 3 d ago', opens: '12 crews', checkColor: '#a9a3c0' },
+        { name: 'Hội An Expats & Travellers', meta: 'Hội An · link broken since Thu', opens: 'Fix link', checkColor: '#ff5fa8' },
+        { name: 'Kyoto Visitors Help', meta: 'Kyoto · link checked 9 d ago', opens: '6 crews', checkColor: '#a9a3c0' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
