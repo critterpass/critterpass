@@ -143,6 +143,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Port Tokek draw calls to a Canvas2D-like interface over Skia. 2. Node prerender (@napi-rs/canvas) reference PNG; device snapshot diff. 3. Draw-on + blink animation on UI thread. 4. 600-cell grid (FlashList 2 vs Legend List) + 6 idle critters. 5. Scripted capture (Perfetto config + `dumpsys gfxinfo` script, `xctrace` template) runnable on Galaxy A15-class, Pixel 7a, iPhone 13 (device farm or founder device).
 - Tests: `pnpm --filter @cp/spike-skia-critter test` (pixel diff ≤2 %).
 - Done when (agent): pixel-diff test green; capture scripts + ADR template ready. Founder checklist: run captures on the three devices; ADR records fps/drop rates and the grid strategy (live vs baked thumbnails) for phases 4/5.
+- Status: done — e4f8657 (pixel-diff 0.175% vs the real design/doodles.js source, PASS; grid strategy decided: FlashList 2, confirmed clean at 600 cells + 6 bobbing critters; iOS-simulator fps real but not the phase's physical-device evidence — Android emulator not reached this pass after a real disk incident during T10's own Android build attempt, see the ADR; founder device runs still needed)
 
 ### T11 — Motion & startup (S3, S7, S8)
 - Goal: transition, drag and cold-start budgets measured.
