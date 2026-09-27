@@ -9,12 +9,8 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/open-gallery-component.yaml
     env:
-      COMPONENT: 'ChatRichCard'
-- takeScreenshot: 22-chat-rich-card
-- scroll
-- waitForAnimationToEnd:
-    timeout: 3000
-- takeScreenshot: 22-chat-rich-card-more
+      COMPONENT: 'Composer'
+- takeScreenshot: 22-chat-composer
 - runFlow:
     file: subflows/open-gallery-component.yaml
     env:

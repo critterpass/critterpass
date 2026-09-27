@@ -8,7 +8,6 @@ appId: app.critterpass.dev
       id: 'gallery-component-${COMPONENT}'
     direction: DOWN
     timeout: 90000
-    centerElement: true
 - tapOn:
     id: 'gallery-component-${COMPONENT}'
 - extendedWaitUntil:
@@ -17,3 +16,7 @@ appId: app.critterpass.dev
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 3000
+# Still on the page after settling: a component that crashes the app fails here instead of
+# producing a screenshot of the home screen.
+- assertVisible:
+    id: 'gallery-detail-${COMPONENT}'
