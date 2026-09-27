@@ -113,3 +113,33 @@ export {
   type UntrustedKind,
   type WrapOptions,
 } from './context/wrap-untrusted';
+export {
+  allowedTools,
+  isServerToolAllowed,
+  isToolAllowed,
+  SERVER_TOOL_CALLERS,
+  TOOL_ALLOW_LISTS,
+  type ServerToolName,
+} from './tools/allow-lists';
+export {
+  createToolRegistry,
+  customToolDefinitions,
+  toolDefinition,
+  toStrictJsonSchema,
+  type ToolCall,
+  type ToolContext,
+  type ToolExecutor,
+  type ToolFailure,
+  type ToolRegistry,
+  type ToolRunResult,
+} from './tools/registry';
+export {
+  isToolName,
+  TOOL_NAMES,
+  TOOL_SPECS,
+  type ToolEffect,
+  type ToolInput,
+  type ToolName,
+  type ToolOutput,
+  type ToolSpec,
+} from './tools/schemas';
