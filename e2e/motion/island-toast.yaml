@@ -1,9 +1,10 @@
-appId: ${MAESTRO_APP_ID}
+appId: app.critterpass.dev
 ---
-# IslandToast show/queue/dismiss (docs/design-system.md §4.4). `MAESTRO_SCHEME` matches the built
-# variant's `scheme` (apps/mobile/app.config.ts) — set by the CI/EAS workflow running this flow.
+# IslandToast show/queue/dismiss (docs/design-system.md §4.4). `appId`/the deep-link scheme match the
+# `e2e-test` build profile's `APP_VARIANT=development` (apps/mobile/app.config.ts's `development`
+# variant — same as e2e/smoke/app-launch.yaml's `appId`).
 - launchApp
-- openLink: ${MAESTRO_SCHEME}://motion-lab
+- openLink: critterpass-dev://motion-lab
 
 # Shows a toast (with an OPEN action) and dismisses it via the swipe-up-affordance × button.
 - tapOn:

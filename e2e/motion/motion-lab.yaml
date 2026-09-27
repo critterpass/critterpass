@@ -1,13 +1,13 @@
-appId: ${MAESTRO_APP_ID}
+appId: app.critterpass.dev
 ---
 # docs/code-standards.md §17 "Motion/visual": Maestro assertScreenshot in motion-freeze mode for key
 # screens. Opens the dev motion-lab (apps/mobile/src/app/(dev)/motion-lab.tsx) via its deep link,
 # freezes every animation at its resting frame, then walks the pattern/preset/cue list taking a
 # named screenshot per state — `maestro test` diffs named screenshots against their recorded
-# baseline. `MAESTRO_SCHEME` matches the built variant's `scheme` (apps/mobile/app.config.ts, e.g.
-# `critterpass-dev` for a development build) — set by the CI/EAS workflow running this flow.
+# baseline. `appId`/the deep-link scheme match the `e2e-test` build profile's `APP_VARIANT=development`
+# (apps/mobile/app.config.ts's `development` variant — same as e2e/smoke/app-launch.yaml's `appId`).
 - launchApp
-- openLink: ${MAESTRO_SCHEME}://motion-lab
+- openLink: critterpass-dev://motion-lab
 - tapOn:
     id: 'motion-freeze-toggle'
 - assertVisible:
