@@ -104,4 +104,12 @@ describe('architecture import rules', () => {
     );
     expect(errors).toEqual([]);
   });
+
+  it('lets the motion layer load the Android-only ogg SFX from a platform module', async () => {
+    const errors = await lintAt(
+      'apps/mobile/src/motion/feedback/probe.android.ts',
+      "import sfx from '../../../assets/sfx/thud-heavy.ogg';\nexport const x = sfx;\n",
+    );
+    expect(errors).toEqual([]);
+  });
 });
