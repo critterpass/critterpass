@@ -3,6 +3,8 @@
  * dependencies for services/api/src/index.ts. No DB, no network: each builder is a function of a
  * plain env object.
  */
+import { generateKeyPairSync } from 'node:crypto';
+
 import { describe, expect, it } from 'vitest';
 
 import {
@@ -15,6 +17,11 @@ import {
   buildOtpAdaptersFromEnv,
   buildTrustedOriginsFromEnv,
 } from '../../src/auth/bootstrap';
+
+// A throwaway ES256 key generated per run, the same shape as a Sign in with Apple .p8 key.
+const SIWA_PRIVATE_KEY_PEM = generateKeyPairSync('ec', { namedCurve: 'P-256' })
+  .privateKey.export({ type: 'pkcs8', format: 'pem' })
+  .toString();
 
 describe('buildTrustedOriginsFromEnv', () => {
   it('always includes the app schemes and staging web/admin origins', () => {
@@ -186,7 +193,7 @@ describe('buildAppleSiwaConfigFromEnv', () => {
   it('builds a full config once every credential is present', () => {
     const config = buildAppleSiwaConfigFromEnv({
       APPLE_SIWA_KEY_ID: 'key-1',
-      APPLE_SIWA_PRIVATE_KEY_PEM: '-----BEGIN PRIVATE KEY-----\nreal\n-----END PRIVATE KEY-----',
+      APPLE_SIWA_PRIVATE_KEY_PEM: SIWA_PRIVATE_KEY_PEM,
       APPLE_SIWA_REDIRECT_URI: 'https://api.critterpass.app/v1/auth/apple/authorization-code',
       APPLE_APP_ATTEST_TEAM_ID: 'TEAM123',
       APPLE_SOCIAL_CLIENT_IDS: 'app.critterpass, app.critterpass.services',
@@ -196,7 +203,7 @@ describe('buildAppleSiwaConfigFromEnv', () => {
         teamId: 'TEAM123',
         keyId: 'key-1',
         clientId: 'app.critterpass',
-        privateKeyPem: '-----BEGIN PRIVATE KEY-----\nreal\n-----END PRIVATE KEY-----',
+        privateKeyPem: SIWA_PRIVATE_KEY_PEM,
       },
       redirectUri: 'https://api.critterpass.app/v1/auth/apple/authorization-code',
     });
