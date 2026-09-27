@@ -27,10 +27,16 @@ function privacyTableColumns(): PrivacyTableColumns[] {
   return tables;
 }
 
+let registryKeys: readonly string[] | undefined;
+
+/** Every C3/C4 column name in the privacy registry (the same list the guide context strips). */
+export function privacyRedactionKeys(): readonly string[] {
+  registryKeys ??= redactionKeys(privacyTableColumns());
+  return registryKeys;
+}
+
 export function logRedactPaths(): string[] {
-  return redactPaths([
-    ...new Set([...BASE_LOG_REDACT_KEYS, ...redactionKeys(privacyTableColumns())]),
-  ]);
+  return redactPaths([...new Set([...BASE_LOG_REDACT_KEYS, ...privacyRedactionKeys()])]);
 }
 
 export function createLogger(options: {

@@ -4,7 +4,7 @@
  * offline-created text (always registered: with no model configured it still applies each
  * surface's unavailable outcome, so public text fails closed to review).
  */
-import { createLangfuseTelemetry } from '@cp/ai';
+import { createLangfuseTelemetry, type Telemetry } from '@cp/ai';
 
 import type { AnyJobDefinition } from '../boss';
 import { complianceCheckJob } from './compliance-job';
@@ -25,14 +25,18 @@ export interface AiJobsEnv {
 export function aiJobs(
   env: AiJobsEnv,
   onTelemetryError: (error: unknown) => void = () => undefined,
+  /** The process's LLM observability (obs/langfuse.ts); Langfuse-only when absent. */
+  observability?: Telemetry,
 ): AnyJobDefinition[] {
-  const telemetry = createLangfuseTelemetry({
-    publicKey: env.LANGFUSE_PUBLIC_KEY,
-    secretKey: env.LANGFUSE_SECRET_KEY,
-    host: env.LANGFUSE_HOST,
-    environment: env.APP_ENV,
-    onError: onTelemetryError,
-  });
+  const telemetry =
+    observability ??
+    createLangfuseTelemetry({
+      publicKey: env.LANGFUSE_PUBLIC_KEY,
+      secretKey: env.LANGFUSE_SECRET_KEY,
+      host: env.LANGFUSE_HOST,
+      environment: env.APP_ENV,
+      onError: onTelemetryError,
+    });
   const baseURL = env.ANTHROPIC_BASE_URL === undefined ? {} : { baseURL: env.ANTHROPIC_BASE_URL };
   const compliance = complianceCheckJob({
     typesafeApiKey: env.TYPESAFE_API_KEY,

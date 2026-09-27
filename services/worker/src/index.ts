@@ -18,7 +18,9 @@ import {
 } from './boss';
 import { guideActionExecuteJob, guideActionUndoExpireJob } from './guide-actions';
 import { createHealthApp } from './health';
+import { createWorkerLlmObservability } from './obs/langfuse';
 import { createLogger } from './obs/logger';
+import { createMetricsRecorder } from './obs/metrics';
 import { initWorkerSentry } from './obs/sentry';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
@@ -68,13 +70,35 @@ const health = createHealthApp({
   },
 });
 
+const metrics = createMetricsRecorder({ strict: env.APP_ENV === 'local' });
+const llmObservability = createWorkerLlmObservability({
+  publicKey: env.LANGFUSE_PUBLIC_KEY,
+  secretKey: env.LANGFUSE_SECRET_KEY,
+  host: env.LANGFUSE_HOST,
+  environment: env.APP_ENV,
+  metrics,
+  ...(env.POSTHOG_PROJECT_API_KEY
+    ? {
+        sink: createPostHogSink({
+          apiKey: env.POSTHOG_PROJECT_API_KEY,
+          ...(env.POSTHOG_HOST ? { host: env.POSTHOG_HOST } : {}),
+        }),
+      }
+    : {}),
+  onError: (error) => logger.warn({ err: error }, 'llm observability export failed'),
+});
+
 const jobs: AnyJobDefinition[] = [
   enqueueDueJob(),
   purgeJob(),
   anonGcJob(),
   guideActionExecuteJob(),
   guideActionUndoExpireJob(),
-  ...aiJobs(env, (error) => logger.warn({ err: error }, 'langfuse export failed')),
+  ...aiJobs(
+    env,
+    (error) => logger.warn({ err: error }, 'langfuse export failed'),
+    llmObservability,
+  ),
   ...travelDataJobs(env, pool, logger.child({ component: 'travel-data' })),
   ...contentJobs(),
 ];
