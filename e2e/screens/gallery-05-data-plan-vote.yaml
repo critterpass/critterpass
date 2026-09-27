@@ -26,3 +26,8 @@ appId: app.critterpass.dev
     env:
       COMPONENT: 'MoodPicker'
 - takeScreenshot: 20-mood-picker
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'VoteBoard'
+- takeScreenshot: 20-vote-board
