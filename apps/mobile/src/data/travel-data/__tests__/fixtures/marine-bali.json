@@ -1,0 +1,39 @@
+{
+  "source": "weatherapi",
+  "attribution": {
+    "text": "Powered by WeatherAPI.com",
+    "url": "https://www.weatherapi.com/"
+  },
+  "point": {
+    "lat": -8.53,
+    "lng": 115.51,
+    "distance_km": 0
+  },
+  "fetched_at": "2026-09-27T18:38:17.539Z",
+  "checked_at": "2026-09-27T18:38:17.539Z",
+  "stale": false,
+  "hourly": [
+    {
+      "at": "2026-10-02T03:00:00.000Z",
+      "wave_m": 0.8,
+      "swell_m": 1.5,
+      "swell_period_s": 14,
+      "water_temp_c": null
+    },
+    {
+      "at": "2026-10-02T04:00:00.000Z",
+      "wave_m": 2.5,
+      "swell_m": 1.5,
+      "swell_period_s": 14,
+      "water_temp_c": null
+    },
+    {
+      "at": "2026-10-02T05:00:00.000Z",
+      "wave_m": 2.5,
+      "swell_m": 1.5,
+      "swell_period_s": 14,
+      "water_temp_c": null
+    }
+  ],
+  "tides": null
+}

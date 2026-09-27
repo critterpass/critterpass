@@ -1,0 +1,72 @@
+{
+  "destination_id": "01a0e460-1283-75a5-87b8-7f19af3ac4f5",
+  "dest_iata": "DPS",
+  "month": "2026-11",
+  "fares": [
+    {
+      "origin": "SIN",
+      "state": "ok",
+      "source": "travelpayouts",
+      "price_minor": 13900,
+      "currency": "USD",
+      "depart_on": "2026-11-11",
+      "return_on": "2026-11-19",
+      "transfers": 0,
+      "duration_min": 175,
+      "fastest_duration_min": 165,
+      "days": [
+        {
+          "depart_on": "2026-11-11",
+          "return_on": "2026-11-19",
+          "price_minor": 13900,
+          "transfers": 0
+        }
+      ],
+      "seen_at": "2026-09-27T17:38:16.747Z",
+      "fetched_at": "2026-09-27T17:38:16.747Z",
+      "checked_at": "2026-09-27T19:38:16.753Z",
+      "via_hub": null
+    },
+    {
+      "origin": "KUL",
+      "state": "stale",
+      "source": "travelpayouts",
+      "price_minor": null,
+      "currency": "USD",
+      "depart_on": null,
+      "return_on": null,
+      "transfers": null,
+      "duration_min": null,
+      "fastest_duration_min": 165,
+      "days": [],
+      "seen_at": "2026-09-24T11:38:16.747Z",
+      "fetched_at": "2026-09-24T11:38:16.747Z",
+      "checked_at": "2026-09-27T19:38:16.800Z",
+      "via_hub": null
+    },
+    {
+      "origin": "HAN",
+      "state": "ok",
+      "source": "travelpayouts",
+      "price_minor": 31000,
+      "currency": "USD",
+      "depart_on": "2026-11-11",
+      "return_on": "2026-11-19",
+      "transfers": 0,
+      "duration_min": 175,
+      "fastest_duration_min": 165,
+      "days": [
+        {
+          "depart_on": "2026-11-11",
+          "return_on": "2026-11-19",
+          "price_minor": 31000,
+          "transfers": 0
+        }
+      ],
+      "seen_at": "2026-09-27T14:38:16.747Z",
+      "fetched_at": "2026-09-27T14:38:16.747Z",
+      "checked_at": "2026-09-27T19:38:16.815Z",
+      "via_hub": "HKG"
+    }
+  ]
+}

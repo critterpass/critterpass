@@ -1,0 +1,33 @@
+{
+  "destination_id": "01a0e460-0c46-7400-8a0d-d8e121ec2a9e",
+  "alerts": [
+    {
+      "id": "01a0e460-0d2e-7603-8052-855dbc098de2",
+      "kind": "volcano",
+      "subject": "Rinjani",
+      "level": 2,
+      "level_label": "Level II (Waspada)",
+      "headline": "Rinjani (NTB) is at Level II (Waspada)",
+      "source": "magma",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/326868",
+      "issued_at": "2026-09-26T19:38:15.176Z",
+      "expires_at": null,
+      "fetched_at": "2026-09-27T14:38:15.176Z",
+      "stale": true
+    },
+    {
+      "id": "01a0e460-0d2d-7e9f-be16-f187d0f42b81",
+      "kind": "volcano",
+      "subject": "Batur",
+      "level": 1,
+      "level_label": "Level I (Normal)",
+      "headline": "Batur (Bali) is at Level I (Normal)",
+      "source": "magma",
+      "source_url": "https://magma.esdm.go.id/v1/gunung-api/laporan/326904",
+      "issued_at": "2026-09-26T19:38:15.176Z",
+      "expires_at": null,
+      "fetched_at": "2026-09-27T19:28:15.176Z",
+      "stale": false
+    }
+  ]
+}

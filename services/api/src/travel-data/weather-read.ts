@@ -10,6 +10,9 @@ import {
   isWeatherStale,
   marineSnapshotBodySchema,
   TRAVEL_DESTINATIONS,
+  MARINE_POINT_RADIUS_KM,
+  WEATHER_ATTRIBUTION,
+  WEATHER_POINT_RADIUS_KM,
   weatherSnapshotBodySchema,
   type MarineHour,
   type Tide,
@@ -18,16 +21,6 @@ import {
   type WeatherHour,
 } from '@cp/domain';
 import type pg from 'pg';
-
-/** WeatherAPI.com asks for a visible link back on the free plan. */
-export const WEATHER_ATTRIBUTION = {
-  text: 'Powered by WeatherAPI.com',
-  url: 'https://www.weatherapi.com/',
-} as const;
-
-/** A stored point farther than this from the request does not describe it. */
-export const WEATHER_POINT_RADIUS_KM = 30;
-export const MARINE_POINT_RADIUS_KM = 60;
 
 export interface WeatherWindow {
   readonly lat: number;

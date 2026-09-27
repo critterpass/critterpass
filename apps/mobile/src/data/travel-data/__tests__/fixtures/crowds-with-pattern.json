@@ -1,0 +1,95 @@
+{
+  "poi_id": "01a0e460-0f07-7063-badf-d86b9b5ae380",
+  "date": "2027-04-05",
+  "hourly": [
+    4, 3, 2, 2, 3, 6, 10, 18, 35, 60, 80, 92, 95, 97, 94, 88, 76, 60, 45, 32, 22, 14, 9, 6
+  ],
+  "best_window": {
+    "start": "16:00",
+    "end": "18:00",
+    "level": 68
+  },
+  "source": "besttime",
+  "fetched_at": "2026-09-27T19:38:15.329Z",
+  "month": {
+    "month": 4,
+    "crowd_index": 100,
+    "colour_role": "peak",
+    "highlight_tag": "APR BLOSSOMS"
+  },
+  "curve": [
+    {
+      "month": 1,
+      "crowd_index": 50,
+      "colour_role": "normal",
+      "highlight_tag": null
+    },
+    {
+      "month": 2,
+      "crowd_index": 50,
+      "colour_role": "normal",
+      "highlight_tag": null
+    },
+    {
+      "month": 3,
+      "crowd_index": 50,
+      "colour_role": "normal",
+      "highlight_tag": null
+    },
+    {
+      "month": 4,
+      "crowd_index": 100,
+      "colour_role": "peak",
+      "highlight_tag": "APR BLOSSOMS"
+    },
+    {
+      "month": 5,
+      "crowd_index": 50,
+      "colour_role": "normal",
+      "highlight_tag": null
+    },
+    {
+      "month": 6,
+      "crowd_index": 50,
+      "colour_role": "normal",
+      "highlight_tag": null
+    },
+    {
+      "month": 7,
+      "crowd_index": 50,
+      "colour_role": "normal",
+      "highlight_tag": null
+    },
+    {
+      "month": 8,
+      "crowd_index": 50,
+      "colour_role": "normal",
+      "highlight_tag": null
+    },
+    {
+      "month": 9,
+      "crowd_index": 50,
+      "colour_role": "normal",
+      "highlight_tag": null
+    },
+    {
+      "month": 10,
+      "crowd_index": 50,
+      "colour_role": "normal",
+      "highlight_tag": null
+    },
+    {
+      "month": 11,
+      "crowd_index": 100,
+      "colour_role": "peak",
+      "highlight_tag": "NOV LEAVES"
+    },
+    {
+      "month": 12,
+      "crowd_index": 50,
+      "colour_role": "normal",
+      "highlight_tag": null
+    }
+  ],
+  "curve_source": "Kyoto City Tourism Survey"
+}

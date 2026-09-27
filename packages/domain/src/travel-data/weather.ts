@@ -51,3 +51,14 @@ export function summitPointKey(name: string): string {
 }
 
 export const CENTROID_POINT_KEY = 'centroid';
+
+/** WeatherAPI.com asks for a visible link back on the free plan; every weather surface shows it. */
+export const WEATHER_ATTRIBUTION = {
+  text: 'Powered by WeatherAPI.com',
+  url: 'https://www.weatherapi.com/',
+} as const;
+
+/** A stored forecast point farther than this from the asked-for place does not describe it. */
+export const WEATHER_POINT_RADIUS_KM = 30;
+/** The coastal marine point must be this close to the asked-for place. */
+export const MARINE_POINT_RADIUS_KM = 60;

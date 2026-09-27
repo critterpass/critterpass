@@ -5,4 +5,5 @@ export * from './fares';
 export * from './season';
 export * from './types';
 export * from './weather';
+export * from './wire';
 export * from './watch-forecast';
