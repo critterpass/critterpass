@@ -59,7 +59,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 |---|---|
 | Ingestion | manual multi-pick via PHPicker / Android Photo Picker (no library permission) is the default; optional "Add my trip photos automatically" toggle (PhotoKit limited/full, READ_MEDIA_IMAGES/partial) scans only photos taken between trip dates (Q-6C default: manual + opt-in auto) |
 | Upload | device strips EXIF GPS (C25), computes sha256 + pHash, creates `photos` row locally `pending`; `cp-media-upload` does presigned PUT (≤ 5 MB) or multipart (> 5 MB) via background URLSession / WorkManager; on completion queues `register_photo` (O); failures retry with backoff; "Uploading 12 photos from today." banner; 3k-4 offline count |
-| Server | `media.process`: thumbnails (display + thumb, sharp), dedupe by sha256 per trip, moderation hook (P17), `media_objects` manifest; publish `photo.added` |
+| Server | `media.process`: thumbnails (display + thumb, sharp), dedupe by sha256 per trip, moderation hook (P17; text captions or notes that leave the crew go through P13 `checkCompliance`, surface `public_text`), `media_objects` manifest; publish `photo.added` |
 | Reads | `POST /v1/media/read-urls` mints HMAC URLs (15 min) after trip membership check; media Worker verifies; client caches thumbnails |
 | UI | "PHOTOS" + "+ UPLOAD"; segmented BEST · n / ALL · n / BY PERSON; day sections "DAY 4 · BATUR SUNRISE" (plan day + POI); masonry (1 large 2×2 + small), uploader avatar chip; photos drop in live (y-drop + fade); picks glint (sheen sweep); long-press → who's in |
 | Viewer (undesigned) | full-screen pager, pinch zoom, uploader + time + place, save to Photos (add-only), share, delete (owner/organiser), report, pick toggle |

@@ -186,7 +186,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 ### T9 — Dropout re-split engine + intent (AI-18)
 - Goal: deterministic ChangeSet on dropout.
 - Files: `packages/planner/src/dropout/{rooms,resplit,index}.ts`, `services/worker/src/jobs/proposal/{dropout,rsvp-intent}.ts`, `packages/ai/src/routes/proposal/intent.*.ts`
-- Steps: 1. Room re-optimiser (beds, prior pairings). 2. Re-split via cost engine. 3. Ops incl. `cancel_supplier_item`. 4. Intent classifier + narrative.
+- Steps: 1. Room re-optimiser (beds, prior pairings). 2. Re-split via cost engine. 3. Ops incl. `cancel_supplier_item`. 4. RSVP intent as a Jev Choice decision route through P13 `decide()` (Haiku twin; low confidence → confirm card) + narrative (Haiku).
 - Tests: `pnpm --filter @cp/planner test -- dropout`; `pnpm --filter @cp/worker test -- proposal/dropout`
 - Done when: property test: sum of shares = total after dropout; job idempotent on `(trip_id, uid)`; an `out` intent alone never enqueues `trip.dropout` (confirm card required).
 

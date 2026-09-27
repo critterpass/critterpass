@@ -125,7 +125,7 @@ Undesigned (design in code, D11): admin content review screens (batch list, item
 ### T7 — Curated POIs + 61-place index
 - Goal: POI DB for 6 guide cities and destination index.
 - Files: `tools/content-factory/src/kinds/places/**`.
-- Steps: 1. Run P14 importer per city. 2. Editorial generation from open data. 3. Taste tag mapping. 4. Publish via `upsert_poi` batch + `content.embed`.
+- Steps: 1. Run P14 importer per city, then a cross-language duplicate sweep: auto POIs ≤ 60 m apart with name trigram < 0.6 (e.g. "Chùa Cầu" vs "Japanese Covered Bridge") go to a Jev decision route `poi.duplicate_tiebreak` (Noul, many pairs per call through P13 `decide()`); p ≥ route threshold → merge through P14 merge redirects, gray band → content review batch. 2. Editorial generation from open data. 3. Taste tag mapping. 4. Publish via `upsert_poi` batch + `content.embed`.
 - Tests: `pnpm content places validate --all`
 - Done when (agent): importer + editorial generation ran for every guide city; validators pass on every record produced; zero supplier-sourced text; review batch queued. Counts (≥ 250/city, 61 index entries) are phase acceptance, approval → G3.
 

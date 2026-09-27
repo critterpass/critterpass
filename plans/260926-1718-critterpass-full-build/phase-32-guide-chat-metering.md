@@ -100,7 +100,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 | Realtime | `guide_thread:{id}` (group), `crew_chat:{crew_id}` `guide.token`, `user:#uid` `usage.changed` |
 | Jobs | `ai.guide_mention`, `ai.queued_answer` (cron per tz bucket every 15 min), `phrase.tts` (**doc delta**), `guide.proactive` (**doc delta**; triggered by plan/weather/availability events, rate-limited) |
 | Push | N-36 passive |
-| AI routes | `guide.chat` (Haiku; Sonnet escalation on tool-heavy turns per P13 routing), `guide.mention`, `guide.proactive`, `guide.queued` |
+| AI routes | `guide.chat` (Haiku; Sonnet escalation on tool-heavy turns per P13 routing), `guide.mention`, `guide.proactive`, `guide.queued`; every user turn is screened by P13 `checkCompliance` surface `guide_input` inside `runTurn` (never blocks a question); proactive posts gate on `guide.chime_in_classifier` (Jev decision route) before spending the chattiness budget |
 
 ## Tasks
 

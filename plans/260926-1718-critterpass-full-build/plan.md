@@ -3,8 +3,8 @@ title: Critterpass full build
 status: in_progress
 created: 2026-09-26
 phases: 57
-tasks: 571
-critical_path_tasks: 249
+tasks: 573
+critical_path_tasks: 251
 ---
 
 # Critterpass full build
@@ -15,10 +15,10 @@ critical_path_tasks: 249
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
 | Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
-| Size | 57 phases, 571 tasks, 23 waves, critical path 249 tasks |
+| Size | 57 phases, 573 tasks, 23 waves, critical path 251 tasks |
 | Docs | [docs/README.md](../../docs/README.md) (reading order), [product-decisions.md](../../docs/product-decisions.md) (decisions 1–20, final), [code-standards.md](../../docs/code-standards.md), [system-architecture.md](../../docs/system-architecture.md), [data-model.md](../../docs/data-model.md), [api-contracts.md](../../docs/api-contracts.md), [design-system.md](../../docs/design-system.md) |
 | Reports | [plans/reports/](../reports/) — master synthesis, design analyses, research, fact-checks. Backend authority: [custom Hono backend](../reports/researcher-260926-1649-custom-hono-backend-report.md). Supplier authority: [travel supplier APIs](../reports/researcher-260926-1649-travel-supplier-apis-report.md) |
-| Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude-only AI |
+| Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude for generation + Jev for typed decisions (D5 amended) |
 | Design | `design/` read-only; renders in `docs/design-renders/screens/*.png` + `screens.json` |
 
 ## 1. How to execute
@@ -55,7 +55,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 10 | [Offline sync, commands, realtime](./phase-10-sync-realtime-outbox.md) | 11 | 2, 8, 9, 12, 14 | 4 | in_progress |
 | 11 | [Jobs, notification router, push](./phase-11-jobs-notifications-push.md) | 11 | 5, 10 | 5 | in_progress |
 | 12 | [Entitlements, money & FX primitives](./phase-12-entitlements-money-fx.md) | 7 | 8 | 3 | done |
-| 13 | [LLM gateway, personas, autonomy](./phase-13-llm-gateway-personas-autonomy.md) | 10 | 8, 11 | 6 | done |
+| 13 | [LLM gateway, personas, autonomy](./phase-13-llm-gateway-personas-autonomy.md) | 12 | 8, 11 | 6 | in_progress |
 | 14 | [POI data, maps, routing](./phase-14-places-maps-routing.md) | 8 | 2, 3, 4, 8 | 3 | in_progress |
 | 15 | [Fares, weather, season & crowds](./phase-15-flights-weather-season-data.md) | 7 | 8, 11, 13 | 7 | pending |
 | 16 | [Cost & constraint engine](./phase-16-cost-constraint-engine.md) | 7 | 12, 13, 14, 15 | 8 | pending |
@@ -201,7 +201,7 @@ flowchart LR
 | 3 | 5, 6, 9, 12, 14 | 45 | 5 |
 | 4 | 7, 10 | 29 | 2 |
 | 5 | 11, 17, 21 | 28 | 3 |
-| 6 | 13, 19, 20 | 31 | 3 |
+| 6 | 13, 19, 20 | 33 | 3 |
 | 7 | 15, 18, 39 | 25 | 3 |
 | 8 | 16, 22 | 18 | 2 |
 | 9 | 23 | 10 | 1 |
@@ -219,9 +219,9 @@ flowchart LR
 | 21 | 45, 50, 52 | 34 | 3 |
 | 22 | 53, 56, 57 | 21 | 3 |
 | 23 | 54 | 12 | 1 |
-| **Total** | 57 | **571** | |
+| **Total** | 57 | **573** | |
 
-**Critical path (249 of 543 tasks, strictly sequential):** 1 (10) → 2 (15) → 9 (10) → 10 (11) → 11 (11) → 13 (10) → 18 (12) → 22 (11) → 23 (10) → 24 (8) → 25 (9) → 26 (12) → 27 (12) → 33 (12) → 34 (11) → 35 (14) → 31 (10) → 40 (11) → 48 (10) → 49 (10) → 45 (12) → 53 (6) → 54 (12).
+**Critical path (251 of 545 tasks, strictly sequential):** 1 (10) → 2 (15) → 9 (10) → 10 (11) → 11 (11) → 13 (12) → 18 (12) → 22 (11) → 23 (10) → 24 (8) → 25 (9) → 26 (12) → 27 (12) → 33 (12) → 34 (11) → 35 (14) → 31 (10) → 40 (11) → 48 (10) → 49 (10) → 45 (12) → 53 (6) → 54 (12).
 
 Keep one agent lane on the critical path at all times; content factory (18) starts batches as soon as 13/14/17 land; single-phase waves (1, 9, 11, 12, 13, 22, 23) are critical-path bottlenecks — fill them with off-path content-factory batches and flag-gated partner adapters. A failed spike changes approach inside the stack (Railway Postgres HA, PowerSync Cloud, bare workflow), never back to Supabase.
 
@@ -266,7 +266,7 @@ These gate flags, not code; code ships with truthful fallbacks until each lands.
 
 | Area | Criterion |
 |---|---|
-| Scope | All 571 tasks and 57 phases `done`; every one of 196 features traced to a passing Maestro/e2e flow; no deferral language anywhere |
+| Scope | All 573 tasks and 57 phases `done`; every one of 196 features traced to a passing Maestro/e2e flow; no deferral language anywhere |
 | Parity | iOS 26+ and Android API 36 feature matrix identical in-app; native surfaces present where policy allows (Live Updates gated 36+, MetricStyle 37+) |
 | Truthfulness | Stay copy says "free cancellation until {date}" / "book here" — no room holds (3c-8, 3c-12, 3f-1, 3f-3, 3f-4, 4f-1); "seats held" only for Viator timed holds; Critterpass never merchant of record; affiliate disclosure shown; commission-neutral ranking tested |
 | Supplier content | Shown verbatim only in supplier cards, never cached, never sent to the LLM (test asserts prompt payloads) |
@@ -286,7 +286,7 @@ These gate flags, not code; code ships with truthful fallbacks until each lands.
 | Platform entitlements (AlarmKit, Communication Notifications, LA broadcast, background location, exact alarm, full-screen intent) delayed or denied | Request first; every surface has a coded fallback path flag-gated by server config |
 | Self-hosted PowerSync + PlanetScale logical replication across failover | S-SYNC failover drill in phase 2; fallbacks Railway Postgres HA / PowerSync Cloud |
 | Partner approvals slow; all gated by legal entity | Entity first; adapters behind flags; affiliate links cover launch |
-| Critical path of 249 sequential tasks | Keep one agent lane on the critical path at all times; parallel waves fill the rest |
+| Critical path of 251 sequential tasks | Keep one agent lane on the critical path at all times; parallel waves fill the rest |
 | Founder review is the single human bottleneck (content batches, undesigned flows, milestones) | Fixed review cadence per content batch; review in running app builds, not docs |
 | Doc/plan drift: ~50 doc deltas where phases create tables/commands earlier than docs assign | Owning task updates the doc in the same PR; plan wins over docs on ownership |
 | LLM cost overrun (Opus drafts, crew-chat guide) | Silent fair-use caps, ai_cost_guard cron, kill switches |
