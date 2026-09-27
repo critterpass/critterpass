@@ -19,3 +19,4 @@ Design + contracts for the full build (54 phases, plan: `plans/260926-1718-critt
 1. `product-decisions.md` §1 (what is final) → 2. `code-standards.md` §1 (how to work) → 3. `system-architecture.md` §1–5 → 4. your phase file in the plan → 5. only the sections of `data-model*.md` / `api-contracts*.md` your task names → 6. `design-system.md` + the task's design renders for UI work.
 
 Precedence on conflict: product-decisions §1 > §2 > these contracts > older reports in `plans/reports/` > design files. Canonical owners: tables = data-model; commands/errors/routes = api-contracts; channels/queues/push = api-contracts-async.
+
