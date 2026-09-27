@@ -84,3 +84,111 @@ export {
   type PersonaId,
   type PersonaPack,
 } from './persona/schema';
+export {
+  buildContext,
+  CONTEXT_QUERIES,
+  renderTripContext,
+  type BuildContextDeps,
+  type BuildContextInput,
+  type GuideContext,
+  type GuidePrefs,
+  type ReaderClient,
+  type RunAsGuideReader,
+} from './context/build';
+export {
+  pinoRedactPaths,
+  redactionKeys,
+  redactRecord,
+  type PrivacyTableColumns,
+} from './context/redact';
+export {
+  MAX_UNTRUSTED_CHARS,
+  UNTRUSTED_CONTEXT,
+  UNTRUSTED_KINDS,
+  userTurnWithData,
+  wrapAllUntrusted,
+  wrapUntrusted,
+  type UntrustedBlock,
+  type UntrustedInput,
+  type UntrustedKind,
+  type WrapOptions,
+} from './context/wrap-untrusted';
+export {
+  allowedTools,
+  isServerToolAllowed,
+  isToolAllowed,
+  SERVER_TOOL_CALLERS,
+  TOOL_ALLOW_LISTS,
+  type ServerToolName,
+} from './tools/allow-lists';
+export {
+  createToolRegistry,
+  customToolDefinitions,
+  toolDefinition,
+  toStrictJsonSchema,
+  type ToolCall,
+  type ToolContext,
+  type ToolExecutor,
+  type ToolFailure,
+  type ToolRegistry,
+  type ToolRunResult,
+} from './tools/registry';
+export {
+  isToolName,
+  TOOL_NAMES,
+  TOOL_SPECS,
+  type ToolEffect,
+  type ToolInput,
+  type ToolName,
+  type ToolOutput,
+  type ToolSpec,
+} from './tools/schemas';
+export { isBlockedUrl, SUPPLIER_BLOCKED_DOMAINS } from './tools/blocked-domains';
+export {
+  collectGrounding,
+  mergeGrounding,
+  unverifiedTextNumbers,
+  validateStructured,
+  type GroundingSet,
+  type GroundingViolation,
+  type GroundingViolationKind,
+} from './tools/grounding';
+export {
+  citedSources,
+  dropBlockedCitations,
+  routeTools,
+  screenWebSearch,
+  visibleAnswer,
+  WEB_SEARCH_MAX_USES,
+  WEB_SEARCH_TOOL_TYPE,
+  webSearchTool,
+  type WebSearchOptions,
+  type WebSearchScreen,
+} from './tools/web-search';
+export {
+  BRIEF_ANSWER_DIRECTIVE,
+  degradedRoute,
+  settleOnce,
+  type FairUseLevel,
+  type MeterHandle,
+  type MeterReservation,
+  type MeterSettlement,
+} from './runner/meter';
+export {
+  encodeSseEvent,
+  SSE_HEADERS,
+  SSE_HEARTBEAT,
+  sseStream,
+  type SseStreamOptions,
+  type ToolCard,
+  type ToolCardStatus,
+  type TurnEvent,
+  type UsageSnapshot,
+} from './runner/sse';
+export {
+  DEFAULT_TOOL_ROUNDS,
+  runTurn,
+  type RunTurnDeps,
+  type RunTurnInput,
+  type TurnHooks,
+} from './runner/turn';

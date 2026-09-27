@@ -8,6 +8,7 @@ import { z } from 'zod';
 
 import { generateUuidV7 } from '../ids';
 import { PLAN_ITEM_COST_MODELS, PLAN_ITEM_STATUSES } from '../enums/plan';
+import { timeZoneIdSchema } from '../time/canonical-tz';
 
 /** A fresh stable_id for a plan item created outside `apply_change_set` (e.g. an `add` op's target). */
 export function generateStableId(): string {
@@ -19,7 +20,7 @@ export const planItemSnapshotSchema = z.object({
   day_no: z.number().int().positive().optional(),
   starts_at: z.iso.datetime({ offset: true }).optional(),
   ends_at: z.iso.datetime({ offset: true }).optional(),
-  tz: z.string().min(1).optional(),
+  tz: timeZoneIdSchema.optional(),
   lane: z.string().min(1).optional(),
   attendee_ids: z.array(z.uuid()).optional(),
   poi_id: z.uuid().nullable().optional(),

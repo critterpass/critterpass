@@ -1,0 +1,18 @@
+appId: app.critterpass.dev
+---
+# Screenshots for `pnpm screens:capture`: the home screen, then the Developer tools list reached by
+# tapping its entry (never `openLink`, which is non-deterministic for `(dev)` routes). The reused
+# e2e-test build loads the freshly published JS before its first render, so the wait budgets for it.
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 25000
+- takeScreenshot: home
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-motion-lab'
+    timeout: 10000
+- takeScreenshot: dev-tools

@@ -40,6 +40,8 @@ Crew-visibility matrix (master §10.4, C36) maps to: `users`/`avatars`/`passes`/
 | `llm.persona_packs`, `llm.phrase_cards`, `llm.help_articles` | content | — |
 | `llm.user_prefs` | chattiness, dietary **flags** only when consented | dietary profile, health notes |
 
+View ownership: a view is created by the migration of the area that owns its base tables. The AI area created `llm.trip_context`, `llm.persona_packs` and `llm.user_prefs`; places created `llm.pois`. `llm.plan_items`, `llm.bookings`, `llm.money_summary`, `llm.chat_window`, `llm.phrase_cards` and `llm.help_articles` are added by their base-table owners, and a column that needs a later table (taste tags, budget band, dietary flags) is appended by that table's owner with `CREATE OR REPLACE VIEW`. Every such migration grants SELECT to `guide_reader` on the view only, never on its base tables, and the `guide_reader` contract test runs in every area.
+
 The AI context builder runs `SET LOCAL ROLE guide_reader` + `app.uid` + `app.trip`; views filter by those settings. Numbers, times and prices in prompts come from `cost-engine`/`planner` outputs, and the guide writes only `change_sets` / `guide_offers` / messages through command handlers.
 
 ---

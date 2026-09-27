@@ -6,12 +6,14 @@
   "description": "Server-only prompts, personas, tool schemas, model routing and evals",
   "sideEffects": false,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./testing": "./test/fixture-transport.ts"
   },
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "gen:prompts": "tsx scripts/gen-global-rules.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "catalog:",
@@ -20,6 +22,7 @@
   },
   "devDependencies": {
     "@types/pg": "catalog:",
-    "pg": "catalog:"
+    "pg": "catalog:",
+    "yaml": "catalog:"
   }
 }

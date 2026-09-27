@@ -22,6 +22,7 @@
     "env:check": "tsx tools/scripts/env-check.ts",
     "critter-bake": "tsx packages/critter-bake/src/cli.ts",
     "e2e:cloud": "tsx tools/scripts/e2e-cloud.ts",
+    "screens:capture": "tsx tools/scripts/capture-app-screens.ts",
     "renders:screens": "pnpm --filter @cp/design-renders run render:screens",
     "renders:pages": "pnpm --filter @cp/design-renders run render:pages"
   },
