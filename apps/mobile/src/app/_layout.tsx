@@ -2,6 +2,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
@@ -32,23 +33,30 @@ export default function RootLayout() {
   // active, which would swap the splash screen for a blank frame instead of keeping it up.
   if (!fontsReady || !i18nReady) return null;
 
+  // react-native-gesture-handler 3 needs exactly one GestureHandlerRootView ancestor for any
+  // GestureDetector to work, so it wraps the whole app here rather than each screen.
   return (
-    <I18nRoot>
-      {prewarmed ? null : (
-        <View pointerEvents="none" style={styles.prewarm}>
-          {BUNDLED_FONT_FAMILIES.map((family) => (
-            <Text key={family} style={{ fontFamily: family }}>
-              Aa
-            </Text>
-          ))}
-        </View>
-      )}
-      <Stack screenOptions={{ headerShown: false }} />
-    </I18nRoot>
+    <GestureHandlerRootView style={styles.root}>
+      <I18nRoot>
+        {prewarmed ? null : (
+          <View pointerEvents="none" style={styles.prewarm}>
+            {BUNDLED_FONT_FAMILIES.map((family) => (
+              <Text key={family} style={{ fontFamily: family }}>
+                Aa
+              </Text>
+            ))}
+          </View>
+        )}
+        <Stack screenOptions={{ headerShown: false }} />
+      </I18nRoot>
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
   prewarm: {
     position: 'absolute',
     opacity: 0,
