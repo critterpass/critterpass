@@ -1,0 +1,13 @@
+{
+  "op_id": "0199a1c2-7b3e-7c10-9a55-3f1f6e2d4b01",
+  "status": "applied",
+  "result": {
+    "matched": true,
+    "via": "paste",
+    "kind": "invite",
+    "state": "active",
+    "link": "/i/BAX6XD",
+    "crew_id": "0199a1c2-7b3e-7c10-9a55-3f1f6e2d4b02",
+    "replayed": false
+  }
+}
