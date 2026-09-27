@@ -9,6 +9,8 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 
 import { tokens } from '@cp/design-tokens';
 
+import * as ExpoAudio from 'expo-audio';
+
 // `apps/mobile/modules/cp-haptics` isn't yet classified in `tools/lint/boundaries.js` (owned by an
 // earlier phase) — see `gestures/hold-fill.ts`'s own comment on this pre-existing gap.
 // eslint-disable-next-line boundaries/dependencies -- see the comment above
@@ -86,6 +88,27 @@ describe('audio session', () => {
     expect(currentAudioSessionCategory()).toBe('playback');
     releaseSecond();
     expect(currentAudioSessionCategory()).toBe('ambient');
+  });
+
+  it('respects the iOS silent switch: ambient keeps playsInSilentMode false, playback (TTS/voice) sets it true', async () => {
+    const setAudioModeSpy = jest.spyOn(ExpoAudio, 'setAudioModeAsync');
+    // `audio-session.ts` serialises calls through a `pendingApply` promise chain — flush a handful
+    // of microtask ticks rather than relying on a fixed number matching its internal `.then` depth.
+    async function flushMicrotasks(times = 10) {
+      for (let i = 0; i < times; i++) await Promise.resolve();
+    }
+
+    const release = acquirePlaybackSession();
+    await flushMicrotasks();
+    expect(setAudioModeSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ playsInSilentMode: true }),
+    );
+
+    release();
+    await flushMicrotasks();
+    expect(setAudioModeSpy).toHaveBeenLastCalledWith(
+      expect.objectContaining({ playsInSilentMode: false }),
+    );
   });
 });
 
