@@ -40,6 +40,7 @@ export interface ActionPillProps {
   /** Replaces the visible label for screen readers ("Keep this change"). */
   readonly accessibilityLabel?: string;
   readonly accessibilityRole?: AccessibilityRole;
+  /** Selected (buttons) or checked (checkbox, radio and switch roles). */
   readonly selected?: boolean;
   readonly disabled?: boolean;
   /** Square circle button (icon only). */
@@ -86,7 +87,16 @@ export function ActionPill({
       widthClass="narrow"
       accessibilityLabel={accessibilityLabel ?? label}
       accessibilityRole={accessibilityRole}
-      {...(selected === undefined ? {} : { accessibilityState: { selected } })}
+      {...(selected === undefined
+        ? {}
+        : {
+            accessibilityState:
+              accessibilityRole === 'checkbox' ||
+              accessibilityRole === 'radio' ||
+              accessibilityRole === 'switch'
+                ? { checked: selected }
+                : { selected },
+          })}
       style={[
         styles.pill,
         round ? styles.round : null,
@@ -108,5 +118,36 @@ export function ActionPill({
         )}
       </Row>
     </PressScale>
+  );
+}
+
+export interface TagProps {
+  readonly label: string;
+  /** Fill colour. @default bg.control */
+  readonly color?: string;
+  /** Label colour. @default text.onAccent on a colour fill, text.primary on bg.control */
+  readonly textColor?: string;
+}
+
+/** A small static status tag ("Requested", "Paid ✓", "Leading"); part of its row's label. */
+export function Tag({ label, color, textColor }: TagProps) {
+  const theme = useTheme();
+  return (
+    <Row
+      style={{
+        backgroundColor: color ?? theme.semantic.bg.control,
+        borderRadius: theme.radius.sm,
+        paddingHorizontal: theme.space['8'],
+        paddingVertical: theme.space['4'],
+        alignSelf: 'flex-start',
+      }}
+    >
+      <Text
+        variant="label"
+        color={textColor ?? (color ? theme.semantic.text.onAccent : theme.semantic.text.primary)}
+      >
+        {label}
+      </Text>
+    </Row>
   );
 }
