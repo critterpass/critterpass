@@ -127,6 +127,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Expo module API: `writeSnapshot(key, json)`, `writeImage(key, pngBase64)`, `readOutbox()`, `reloadWidgets()`. 2. Kotlin equivalent (app-private file + Glance update broadcast). 3. Widget from T7 reads snapshot. 4. Time round-trip.
 - Tests: XCTest + JUnit for serialization; RNTL-free device timing recorded.
 - Done when: widget shows JS-written snapshot on both platforms; round-trip <50 ms.
+- Status: done — b85ba96 (iOS PASS: widget reads the App-Group snapshot this module writes for real; app builds/installs/launches clean with the module linked; file-I/O floor for the write+read cycle measured at p50 0.56 ms / p95 0.77 ms, comfortably under budget, though the literal on-device JS-thread number still needs Metro/Maestro or a founder run. Android Kotlin implemented and verified against the real expo-modules-core source but not build-verified — no Gradle/emulator run attempted; see ADR founder follow-ups)
 
 ### T9 — APNs broadcast LA, push-to-start, I'M UP, NSE/NCE
 - Goal: native push paths proven with our server library.
