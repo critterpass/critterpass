@@ -1,0 +1,10 @@
+{
+  "guides": [
+    { "guideId": "tokek", "available": false, "asset": null, "sampleAsset": null },
+    { "guideId": "pon", "available": false, "asset": null, "sampleAsset": null },
+    { "guideId": "lundi", "available": false, "asset": null, "sampleAsset": null },
+    { "guideId": "ajo", "available": false, "asset": null, "sampleAsset": null },
+    { "guideId": "sardi", "available": false, "asset": null, "sampleAsset": null },
+    { "guideId": "paco", "available": false, "asset": null, "sampleAsset": null }
+  ]
+}

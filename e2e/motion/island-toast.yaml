@@ -1,0 +1,55 @@
+appId: app.critterpass.dev
+---
+# IslandToast show/queue/dismiss (docs/design-system.md §4.4). `appId`/the deep-link scheme match the
+# `e2e-test` build profile's `APP_VARIANT=development` (apps/mobile/app.config.ts's `development`
+# variant — same as e2e/smoke/app-launch.yaml's `appId`). Waits for the home screen before
+# deep-linking: opening the link too early (before the JS bundle/navigation container mounts) drops
+# it silently. iOS shows a one-time system confirmation sheet ("Open in \"Critterpass (Dev)\"?") the
+# first time a custom-scheme link is opened from outside the app — left undismissed, it blocks the
+# app underneath indefinitely (`optional: true` since a later run in the same device session may not
+# show it again). A known Maestro/iOS-simulator flakiness (mobile-dev-inc/Maestro#2610): the first
+# openLink's URL is dropped even once "Open" is tapped and the app foregrounds (it lands back on "/",
+# not the deep-linked route) — confirmed via a failure screenshot, not a guess. Opening the same link
+# again once the scheme is already trusted (no more confirmation sheet) delivers it as a plain warm
+# Linking event once trusted, which does navigate correctly, but reopening it while the app was still
+# transitioning crashed it once (XCTestDriver "kAXErrorServerNotFound"). This attempt instead
+# cold-starts straight into the link (`stopApp` first, so no app is already foregrounded to
+# interrupt) — Expo Router resolves a cold `getInitialURL()` link differently than a warm `Linking`
+# event, and the "Open in ―?" confirmation may not even need to appear when there is no other
+# foreground app for it to interrupt.
+- stopApp
+- openLink: critterpass-dev://motion-lab
+- tapOn:
+    text: 'Open'
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'show-toast-button'
+    timeout: 30000
+
+# Shows a toast (with an OPEN action) and dismisses it via the swipe-up-affordance × button.
+- tapOn:
+    id: 'show-toast-button'
+- assertVisible:
+    id: 'island-toast-pill'
+- assertVisible: 'Pass issued'
+- tapOn:
+    id: 'island-toast-dismiss'
+- assertNotVisible:
+    id: 'island-toast-pill'
+
+# A second show while the first is still visible queues rather than overlapping (max 1 visible).
+- tapOn:
+    id: 'show-toast-button'
+- tapOn:
+    id: 'show-toast-button'
+- assertVisible:
+    id: 'island-toast-pill'
+- tapOn:
+    id: 'island-toast-dismiss'
+- assertVisible:
+    id: 'island-toast-pill'
+- tapOn:
+    id: 'island-toast-dismiss'
+- assertNotVisible:
+    id: 'island-toast-pill'
