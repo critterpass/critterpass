@@ -53,16 +53,29 @@ export async function handleUpsertPoi(
   const decision = canUpsertPoi(actor);
   if (!decision.ok) throw new DomainError(decision.deny);
 
-  const visitRadiusM = input.visit_radius_m ?? defaultVisitRadiusM(input.category);
-
   if (input.id === undefined) {
+    // Mirrors upsertPoiInputSchema's own `.refine`: re-checked here (not just trusted from a prior
+    // `.parse()`) since this handler is also directly callable by a future admin registry.
+    if (
+      input.destination_id === undefined ||
+      input.name === undefined ||
+      input.category === undefined ||
+      input.lat === undefined ||
+      input.lng === undefined
+    ) {
+      throw new DomainError('VALIDATION', {
+        reason: 'destination_id, name, category, lat and lng are required when id is omitted',
+      });
+    }
+    const visitRadiusM = input.visit_radius_m ?? defaultVisitRadiusM(input.category);
+
     const { rows } = await tx.query<{ id: string }>(
       `INSERT INTO pois
          (destination_id, name, name_local, category, lat, lng, address, hours, hours_verified_at,
           price_level, source_ids, editorial, tags, status, curation, merged_into_id, visit_radius_m,
           timezone)
        VALUES ($1, $2, $3, $4, $5, $6, $7, coalesce($8::jsonb, '{}'::jsonb), $9, $10,
-               coalesce($11::jsonb, '{}'::jsonb), coalesce($12::jsonb, '{}'::jsonb), coalesce($13, '{}'),
+               coalesce($11::jsonb, '{}'::jsonb), coalesce($12::jsonb, '{}'::jsonb), coalesce($13::text[], '{}'::text[]),
                coalesce($14, 'active'), coalesce($15, 'editorial'), $16, $17, $18)
        RETURNING id`,
       [
@@ -107,7 +120,7 @@ export async function handleUpsertPoi(
        price_level = coalesce($11, price_level),
        source_ids = coalesce($12::jsonb, source_ids),
        editorial = coalesce($13::jsonb, editorial),
-       tags = coalesce($14, tags),
+       tags = coalesce($14::text[], tags),
        status = coalesce($15, status),
        curation = coalesce($16, curation),
        merged_into_id = coalesce($17, merged_into_id),

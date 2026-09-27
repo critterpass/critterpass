@@ -43,16 +43,21 @@ const longitudeSchema = z.number().min(-180).max(180);
  * here rather than importing `packages/domain/src/places/hours.ts`'s stricter shape: this is the
  * ingest/admin write boundary, while `hours.ts` owns interpreting whatever weekly-span shape ends up
  * stored (OSM-subset spans today, without a forward dependency from this file to that one).
+ *
+ * `destination_id`/`name`/`category`/`lat`/`lng` are only required when `id` is omitted (insert): an
+ * update (`id` given) is a partial replace of only the fields the caller actually sent, matching how
+ * an ops console edit form submits just what changed — the `.refine` below enforces that split
+ * without needing a discriminated union at every call site.
  */
 export const upsertPoiInputSchema = z
   .object({
     id: uuidV7Schema.optional(),
-    destination_id: z.uuid(),
-    name: z.string().min(1),
+    destination_id: z.uuid().optional(),
+    name: z.string().min(1).optional(),
     name_local: z.string().min(1).nullable().optional(),
-    category: poiCategorySchema,
-    lat: latitudeSchema,
-    lng: longitudeSchema,
+    category: poiCategorySchema.optional(),
+    lat: latitudeSchema.optional(),
+    lng: longitudeSchema.optional(),
     address: z.string().min(1).nullable().optional(),
     hours: z.record(z.string(), z.unknown()).optional(),
     hours_verified_at: z.iso.datetime({ offset: true }).nullable().optional(),
@@ -66,7 +71,20 @@ export const upsertPoiInputSchema = z
     visit_radius_m: z.number().int().positive().nullable().optional(),
     timezone: z.string().min(1).nullable().optional(),
   })
-  .strict();
+  .strict()
+  .refine(
+    (input) =>
+      input.id !== undefined ||
+      (input.destination_id !== undefined &&
+        input.name !== undefined &&
+        input.category !== undefined &&
+        input.lat !== undefined &&
+        input.lng !== undefined),
+    {
+      message:
+        'destination_id, name, category, lat and lng are required when id is omitted (insert)',
+    },
+  );
 export type UpsertPoiInput = z.infer<typeof upsertPoiInputSchema>;
 
 export const upsertPoiResultSchema = z.object({ id: z.uuid() });
