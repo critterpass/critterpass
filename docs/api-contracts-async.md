@@ -113,6 +113,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `idea.shipped_fanout` | tracker webhook | N-38 to voters when app version ≥ fixed | 3 | idea id | 47 |
 | `content.publish` | `approve_content_batch` | write `packages/content` release, bake trigger, CDN purge | 2 | batch id | 18 |
 | `og.render` | share/invite created | Takumi OG from critter atlas → R2 | 3 | `(kind, id, version)` | 51 |
+| `poi.embed` (doc delta) | POI created/updated | `services/worker/src/places/embed.ts`: embeds searchable text, upserts `poi_embeddings`; flag-gated no-op until an embedding vendor is chosen | 3 | poi id | 14 |
+| `poi.live_check` (doc delta) | place detail open, `last_live_check_at` > 24 h | `services/worker/src/places/live-check.ts`: Foursquare open/closed check, upserts `poi_live_checks`; degrades to `gated` (no retry backoff) on the account's own credits-exhausted response | 3 | poi id | 14 |
 
 ### 2.3 Cron and per-object schedules
 
@@ -152,6 +154,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `maint.purge_reminder` | purge_at −3 d | N-52 email/SMS | 45 |
 | `powersync.compact` | `0 19 * * *` UTC | bucket compact | 11 |
 | `ops.backup` | `0 20 * * *` UTC | off-provider `pg_dump` → R2 (monthly restore drill is ops runbook) | 11 |
+| `poi.ingest` (doc delta) | monthly per destination | `services/worker/src/places/ingest.ts` via `tools/maps/ingest-cli.ts` (no pg-boss schedule wired yet — run manually/via Railway cron until this queue exists): reads Overture (+ FSQ OS Places where a source is configured) for the destination bbox, conflates, upserts `pois`, writes an attribution NOTICE; idempotent (rerun creates no new ids) | 14 |
 
 ## 3. Push contracts (P11, P48, P49)
 
