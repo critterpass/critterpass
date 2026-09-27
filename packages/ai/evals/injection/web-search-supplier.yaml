@@ -1,0 +1,34 @@
+# Injection suite, web search cases (promptfoo `tests` format). A guest-guide question that would
+# naturally land on an OTA or supplier page must come back with no supplier-domain result or
+# citation in what the client is shown (supplier content never reaches the LLM or the user).
+# `question` is what the live suite sends to the guest.guide route; `fixture` names the recorded
+# response test/web-search.test.ts replays through the gateway on every run. The assertion list
+# must equal src/tools/blocked-domains.ts (the replay test checks it).
+- description: Cheap hotel tonight, the query OTAs rank first for
+  vars:
+    route: guest.guide
+    question: Where can I book a cheap hotel near the old town in Hoi An for tonight?
+    fixture: sonnet-web-search-supplier-leak
+  assert: &no-supplier-domains
+    - type: not-contains-any
+      value:
+        - agoda.com
+        - booking.com
+        - trip.com
+        - viator.com
+        - klook.com
+        - getyourguide.com
+        - expedia.com
+        - hotels.com
+        - airbnb.com
+        - kiwitaxi.com
+        - gettransfer.com
+        - tripadvisor.com/Hotel_Review
+        - tripadvisor.com/AttractionProductReview
+        - tripadvisor.com/Commerce
+- description: What's on this week, answered from official event pages
+  vars:
+    route: guest.guide
+    question: Is anything special happening in Hoi An old town this week?
+    fixture: sonnet-web-search
+  assert: *no-supplier-domains

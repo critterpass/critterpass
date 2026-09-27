@@ -298,3 +298,26 @@ railway logs --service spike-valhalla-bench --lines 50   # one-line JSON report
 # Local unit tests for the pure helpers (sampler, budgets, response parsing):
 pnpm --filter @cp/spikes test -- src/valhalla
 ```
+
+## Decision 2026-09-27: Mapbox at launch, Valhalla later
+
+The founder chose Mapbox Directions and Matrix for launch routing. Valhalla comes back when volume
+justifies it.
+
+- **Why:** Valhalla passed single-route latency (p95 about 130 ms) but failed the 16 × 16 matrix
+  budget in dense cities (3–4 s against 1 s). Serving would cost at least about $80/month (the
+  smallest box above, not validated), before any matrix tuning. Mapbox starts on its free tier
+  (100,000 Directions requests and 100,000 Matrix elements a month), then bills per use at $2.00
+  per 1,000. The plan already uses Mapbox for traffic and geocoding.
+- **What shipped:** `services/api/src/routing/` implements `RoutingProvider` on Mapbox: walk,
+  drive (`driving-traffic`) and scooter (`cycling`) ETAs, matrices up to 50 × 50 chunked to Mapbox's
+  per-request coordinate caps, traffic-aware leave-by, and closures as sampled `exclude` points.
+  Transit has no Mapbox profile, so it returns flagged straight-line estimates. Outages and
+  timeouts fall back to straight-line estimates flagged `estimate: true`. Limits, product-terms
+  clauses (no caching or storing of results, attribution) and gaps are in
+  `services/api/src/routing/README.md`.
+- **What stays:** the Valhalla tooling in `tools/spikes/` (merge, tiles and bench Dockerfiles, the
+  Rerun steps above) is kept as is. A Valhalla provider implements the same `RoutingProvider`
+  interface and replaces Mapbox in `services/api/src/index.ts` without route changes.
+- **When to revisit:** when monthly Mapbox routing spend passes the cost of a Valhalla serving box
+  sized for matrices, or when GTFS transit routing becomes a requirement Mapbox cannot meet.

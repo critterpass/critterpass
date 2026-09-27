@@ -1,10 +1,16 @@
 /**
- * The routing fallback every ETA path uses when a real router is unreachable, or not built yet:
- * straight-line distance x mode factor + a fixed buffer, always flagged `estimate: true`. The real
- * Valhalla/Mapbox providers implement the same `RouteEtaProvider` interface and fall back to this
- * same function whenever Valhalla itself is down.
+ * The routing fallback every ETA path uses when a real router is unreachable or cannot serve the
+ * mode: straight-line distance x detour factor at a per-mode speed + a fixed buffer, always flagged
+ * `estimate: true`. The api's Mapbox provider implements the same `RouteEtaProvider` interface and
+ * falls back to this function on outage, timeout, missing token, or transit.
  */
-import type { RouteEtaInput, RouteEtaProvider, RouteEtaResult, TravelMode } from './eta-provider';
+import type {
+  EstimateReason,
+  RouteEtaInput,
+  RouteEtaProvider,
+  RouteEtaResult,
+  TravelMode,
+} from './eta-provider';
 
 const EARTH_RADIUS_M = 6_371_000;
 
@@ -16,8 +22,8 @@ const MODE_SPEED_KMH: Readonly<Record<TravelMode, number>> = {
   pedestrian: 4.5,
   motor_scooter: 25,
   auto: 28,
-  // No specific transit line to route on for a straight-line estimate; a conservative walk+wait
-  // average stands in until a real GTFS-aware multimodal router replaces it.
+  // No transit router is wired (Mapbox has no transit profile); a conservative walk + wait + ride
+  // average, always returned as an estimate.
   multimodal: 18,
 };
 
@@ -37,7 +43,10 @@ function haversineDistanceM(
   return 2 * EARTH_RADIUS_M * Math.asin(Math.sqrt(Math.min(1, h)));
 }
 
-export function estimateStraightLineEta(input: RouteEtaInput): RouteEtaResult {
+export function estimateStraightLineEta(
+  input: RouteEtaInput,
+  reason: EstimateReason = 'provider_not_configured',
+): RouteEtaResult {
   const straightLineM = haversineDistanceM(
     { lat: input.originLat, lng: input.originLng },
     { lat: input.destLat, lng: input.destLng },
@@ -49,6 +58,8 @@ export function estimateStraightLineEta(input: RouteEtaInput): RouteEtaResult {
     minutes,
     distanceM: Math.round(distanceM),
     estimate: true,
+    estimateReason: reason,
+    traffic: false,
     mode: input.mode,
     source: 'straight_line',
   };

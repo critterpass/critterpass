@@ -1,0 +1,233 @@
+/**
+ * One guide turn as a stream of wire events: stream the model, run the tools it calls through the
+ * registry (at most `maxToolRounds` rounds, then one last answer with tools off), and settle the
+ * meter exactly once: commit when `done` is sent, release on failure, refusal or a client that
+ * left. Every model call goes through the gateway, so each round writes its own usage row. The
+ * turn never throws: failures become one `error{code}` event with the gateway's taxonomy.
+ */
+import type Anthropic from '@anthropic-ai/sdk';
+import type { AiRoute } from '@cp/domain';
+
+import type { Gateway } from '../client';
+import { toGatewayError } from '../errors';
+import { resolveRoute } from '../routing';
+import {
+  collectGrounding,
+  mergeGrounding,
+  unverifiedTextNumbers,
+  type GroundingViolation,
+} from '../tools/grounding';
+import type { ToolContext, ToolRegistry, ToolRunResult } from '../tools/registry';
+import {
+  citedSources,
+  routeTools,
+  screenWebSearch,
+  type WebSearchOptions,
+} from '../tools/web-search';
+import type { UsageContext } from '../usage';
+import { BRIEF_ANSWER_DIRECTIVE, degradedRoute, settleOnce, type MeterHandle } from './meter';
+import type { ToolCard, TurnEvent } from './sse';
+
+type MessageParam = Anthropic.Messages.MessageParam;
+type ContentBlock = Anthropic.Messages.ContentBlock;
+
+export interface RunTurnInput {
+  readonly route: AiRoute;
+  readonly system: readonly Anthropic.Messages.TextBlockParam[];
+  readonly messages: readonly MessageParam[];
+  readonly tool: Omit<ToolContext, 'route' | 'signal'>;
+  readonly usage?: UsageContext;
+  /** Rows the answer may quote besides tool output (trip context, engine values). */
+  readonly groundingSources?: readonly unknown[];
+  readonly webSearch?: WebSearchOptions;
+  readonly signal?: AbortSignal;
+  /** Tool rounds before the final answer; chat surfaces use the default of 3. */
+  readonly maxToolRounds?: number;
+}
+
+export interface TurnHooks {
+  readonly onToolResult?: (result: ToolRunResult) => void;
+  readonly onGroundingFlags?: (violations: readonly GroundingViolation[]) => void;
+  readonly onBlockedSources?: (urls: readonly string[]) => void;
+  readonly onSettled?: (outcome: 'committed' | 'released', cause?: unknown) => void;
+}
+
+export interface RunTurnDeps {
+  readonly gateway: Gateway;
+  readonly registry: ToolRegistry;
+  readonly meter: MeterHandle;
+  readonly hooks?: TurnHooks;
+}
+
+export const DEFAULT_TOOL_ROUNDS = 3;
+
+function streamEvent(event: Anthropic.Messages.RawMessageStreamEvent): TurnEvent | undefined {
+  if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
+    return { type: 'token', text: event.delta.text };
+  }
+  if (event.type === 'content_block_start') {
+    const block = event.content_block;
+    if (block.type === 'tool_use' || block.type === 'server_tool_use') {
+      return { type: 'tool_start', tool: block.name, id: block.id };
+    }
+  }
+  return undefined;
+}
+
+function isEmpty(output: unknown): boolean {
+  if (Array.isArray(output)) return output.length === 0;
+  if (output !== null && typeof output === 'object') {
+    const values = Object.values(output);
+    return values.length > 0 && values.every((value) => Array.isArray(value) && value.length === 0);
+  }
+  return false;
+}
+
+function toolCard(result: ToolRunResult): ToolCard {
+  if (!result.ok) return { tool: result.name, status: 'unavailable' };
+  if (isEmpty(result.output)) return { tool: result.name, status: 'no_data' };
+  return { tool: result.name, status: 'ok', data: result.output };
+}
+
+/** Prepends a directive to the latest user turn (earlier turns stay byte-identical). */
+function withDirective(messages: readonly MessageParam[], directive: string): MessageParam[] {
+  const last = messages.findLastIndex((m) => m.role === 'user');
+  return messages.map((message, index) => {
+    if (index !== last) return message;
+    const content =
+      typeof message.content === 'string'
+        ? [{ type: 'text' as const, text: message.content }]
+        : message.content;
+    return { role: 'user', content: [{ type: 'text', text: directive }, ...content] };
+  });
+}
+
+/** Response blocks go back to the API verbatim (web-search results must round-trip unchanged). */
+function asParams(content: readonly ContentBlock[]): Anthropic.Messages.ContentBlockParam[] {
+  return content as unknown as Anthropic.Messages.ContentBlockParam[];
+}
+
+const textOf = (content: readonly ContentBlock[]): string =>
+  content.flatMap((block) => (block.type === 'text' ? [block.text] : [])).join('');
+
+export async function* runTurn(
+  input: RunTurnInput,
+  deps: RunTurnDeps,
+): AsyncGenerator<TurnEvent, void, undefined> {
+  const meter = settleOnce(deps.meter);
+  const hooks = deps.hooks ?? {};
+  let settled = false;
+  const release = async (cause?: unknown): Promise<void> => {
+    if (settled) return;
+    settled = true;
+    await meter.release();
+    hooks.onSettled?.('released', cause);
+  };
+
+  try {
+    const { reservation } = meter;
+    if (reservation.fairUse === 'busy') {
+      await release('fair_use_busy');
+      yield { type: 'error', code: 'FAIR_USE_SLOWDOWN', retryable: true };
+      return;
+    }
+    const degraded = reservation.fairUse === 'degrade_haiku';
+    const routeId = degraded ? degradedRoute(input.route) : input.route;
+    const route = resolveRoute(routeId);
+    const tools = routeTools(route, input.webSearch ?? {});
+    let messages = degraded
+      ? withDirective(input.messages, BRIEF_ANSWER_DIRECTIVE)
+      : [...input.messages];
+    const maxRounds = input.maxToolRounds ?? DEFAULT_TOOL_ROUNDS;
+    const outputs: unknown[] = [];
+    const answered: ContentBlock[] = [];
+    let finalText = '';
+
+    for (let round = 0; ; round += 1) {
+      const lastRound = round >= maxRounds;
+      let message: Anthropic.Messages.Message | undefined;
+      const stream = deps.gateway.streamModel(
+        routeId,
+        {
+          system: input.system,
+          messages,
+          ...(tools.length === 0 ? {} : { tools }),
+          ...(lastRound && tools.length > 0 ? { toolChoice: { type: 'none' } as const } : {}),
+          ...(input.signal === undefined ? {} : { signal: input.signal }),
+        },
+        input.usage ?? {},
+      );
+      for await (const part of stream) {
+        if (part.kind === 'done') {
+          message = part.result.message;
+        } else {
+          const event = streamEvent(part.event);
+          if (event !== undefined) yield event;
+        }
+      }
+      if (message === undefined) throw new Error('model stream ended without a message');
+      answered.push(...message.content);
+
+      if (message.stop_reason === 'pause_turn' && !lastRound) {
+        messages = [...messages, { role: 'assistant', content: asParams(message.content) }];
+        continue;
+      }
+      if (message.stop_reason !== 'tool_use' || lastRound) {
+        finalText = textOf(message.content);
+        break;
+      }
+
+      const results: Anthropic.Messages.ToolResultBlockParam[] = [];
+      for (const block of message.content) {
+        if (block.type !== 'tool_use') continue;
+        const result = await deps.registry.execute(
+          { id: block.id, name: block.name, input: block.input },
+          {
+            ...input.tool,
+            route: routeId,
+            ...(input.signal === undefined ? {} : { signal: input.signal }),
+          },
+        );
+        hooks.onToolResult?.(result);
+        results.push(result.block);
+        yield { type: 'tool_result', id: block.id, card: toolCard(result) };
+        if (result.ok) {
+          outputs.push(result.output);
+          if (result.name === 'propose_plan_changes') {
+            const { changeset_id } = result.output as { changeset_id: string };
+            yield { type: 'proposal', changeset_id };
+          }
+        }
+      }
+      messages = [
+        ...messages,
+        { role: 'assistant', content: asParams(message.content) },
+        { role: 'user', content: results },
+      ];
+    }
+
+    const blocked = screenWebSearch(answered).blocked;
+    if (blocked.length > 0) hooks.onBlockedSources?.(blocked);
+    const grounding = mergeGrounding(
+      collectGrounding(outputs),
+      collectGrounding(input.groundingSources ?? []),
+    );
+    const flags = unverifiedTextNumbers(finalText, grounding);
+    if (flags.length > 0) hooks.onGroundingFlags?.(flags);
+
+    settled = true;
+    const settlement = await meter.commit();
+    hooks.onSettled?.('committed');
+    if (settlement.usage !== null) yield { type: 'usage', ...settlement.usage };
+    yield { type: 'done', ai_generated: true, sources: citedSources(answered) };
+  } catch (error) {
+    await release(error);
+    // A client that left gets no error frame; everything else ends on one.
+    if (input.signal?.aborted === true) return;
+    const failure = toGatewayError(error);
+    yield { type: 'error', code: failure.code, retryable: failure.retryable };
+  } finally {
+    // Reached without settling only when the consumer stopped reading (client disconnect).
+    await release('client_disconnected');
+  }
+}

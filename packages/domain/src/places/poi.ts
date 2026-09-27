@@ -7,6 +7,7 @@ import { z } from 'zod';
 
 import { uuidV7Schema } from '../ids';
 import { ALLOW, deny, type PolicyActor, type PolicyResult } from '../policy/types';
+import { timeZoneIdSchema } from '../time/canonical-tz';
 
 import { poiCategorySchema } from './categories';
 import { editorialOverlaySchema } from './editorial';
@@ -69,7 +70,7 @@ export const upsertPoiInputSchema = z
     curation: poiCurationSchema.optional(),
     merged_into_id: z.uuid().nullable().optional(),
     visit_radius_m: z.number().int().positive().nullable().optional(),
-    timezone: z.string().min(1).nullable().optional(),
+    timezone: timeZoneIdSchema.nullable().optional(),
   })
   .strict()
   .refine(

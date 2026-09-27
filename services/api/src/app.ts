@@ -1,4 +1,4 @@
-import { DomainError, straightLineEtaProvider, type RouteEtaProvider } from '@cp/domain';
+import { DomainError } from '@cp/domain';
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { Scalar } from '@scalar/hono-api-reference';
 import { bodyLimit } from 'hono/body-limit';
@@ -9,6 +9,9 @@ import { ZodError } from 'zod';
 
 import { registerGeocodingRoutes } from './geocoding/routes';
 import { registerPlacesRoutes } from './places/routes';
+import { straightLineRoutingProvider } from './routing/eta';
+import type { RoutingProvider } from './routing/provider';
+import { registerRoutingRoutes } from './routing/routes';
 import { registerHealthRoutes, type ReadinessCheck } from './routes/health';
 
 export interface AppDeps {
@@ -23,8 +26,9 @@ export interface AppDeps {
   pool?: pg.Pool;
   /** Server key for Mapbox Geocoding v6 (forward/reverse fallback); geocoding degrades without it. */
   mapboxToken?: string;
-  /** A real Valhalla/Mapbox routing provider will replace this; defaults to the straight-line estimate. */
-  routeEtaProvider?: RouteEtaProvider;
+  /** Routing for `/v1/routes/*` and place-detail ETAs (Mapbox when a token is configured);
+   *  defaults to flagged straight-line estimates. */
+  routing?: RoutingProvider;
   /** Public base URL `cp-tiles` serves PMTiles/fonts/sprite from (env.ts `TILES_BASE_URL`); used
    *  by the `/v1/map/regions/{destination_id}` manifest route. */
   tilesBaseUrl?: string;
@@ -77,11 +81,13 @@ export function createApp(deps: AppDeps) {
   );
 
   registerHealthRoutes(app, deps);
+  const routing = deps.routing ?? straightLineRoutingProvider;
+  registerRoutingRoutes(app, { routing });
   if (deps.pool !== undefined) {
     const pool = deps.pool;
     registerPlacesRoutes(app, {
       pool,
-      routeEtaProvider: deps.routeEtaProvider ?? straightLineEtaProvider,
+      routeEtaProvider: routing,
       tilesBaseUrl: deps.tilesBaseUrl ?? DEFAULT_TILES_BASE_URL,
     });
     registerGeocodingRoutes(app, {

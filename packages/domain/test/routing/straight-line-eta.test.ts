@@ -17,6 +17,16 @@ describe('estimateStraightLineEta', () => {
     expect(result.estimate).toBe(true);
     expect(result.source).toBe('straight_line');
     expect(result.mode).toBe('pedestrian');
+    expect(result.traffic).toBe(false);
+    expect(result.estimateReason).toBe('provider_not_configured');
+  });
+
+  it('carries the reason the caller fell back for', () => {
+    const result = estimateStraightLineEta(
+      { originLat: 35.0, originLng: 135.0, destLat: 35.01, destLng: 135.01, mode: 'multimodal' },
+      'transit_unsupported',
+    );
+    expect(result.estimateReason).toBe('transit_unsupported');
   });
 
   it('returns just the buffer for the same origin and destination', () => {

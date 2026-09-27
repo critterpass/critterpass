@@ -142,6 +142,12 @@ export const guideActions = pgTable('guide_actions', {
   compensatesId: uuid('compensates_id'),
   costDeltaMinor: bigint('cost_delta_minor', { mode: 'number' }),
   audit: jsonb('audit').notNull().default({}),
+  /** The registered inverse of a reversible action, run by undo as a compensating action. */
+  inverse: jsonb('inverse'),
+  /** End of the undo window; after it the action stays as it is. */
+  undoUntil: timestamp('undo_until', { withTimezone: true, mode: 'date' }),
+  /** No FK yet: disruptions is created by a later phase. Groups "undo everything" for one disruption. */
+  disruptionId: uuid('disruption_id'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });
