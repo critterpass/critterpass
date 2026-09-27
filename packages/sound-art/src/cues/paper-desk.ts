@@ -8,14 +8,16 @@ import { createBuffer, mixInto, removeDcOffset } from '../core/signal';
 export function renderFlap(seed: string): Float32Array {
   const rng = createRng(seed);
   const clickCount = 7;
-  const clickGap = 0.05;
+  const clickGap = 0.035;
   const duration = clickCount * clickGap + 0.04;
   const out = createBuffer(duration);
   for (let c = 0; c < clickCount; c += 1) {
     const noise = whiteNoise(0.02, rng);
     const shaped = applyBiquad(noise, biquadCoeffs('bandpass', rngRange(rng, 1400, 2200), 2));
+    // A slightly longer decay than a bare click (~7ms vs ~4ms) keeps each flap audible for more of
+    // the gap between clicks — a punchier, more present clatter, and less pure silence in the file.
     for (let i = 0; i < shaped.length; i += 1)
-      shaped[i] = (shaped[i] ?? 0) * Math.exp(-i / (48000 * 0.004));
+      shaped[i] = (shaped[i] ?? 0) * Math.exp(-i / (48000 * 0.007));
     mixInto(out, shaped, 0.5, Math.round(c * clickGap * 48000));
   }
   softLimiter(out, 0.8);
@@ -70,13 +72,15 @@ export function renderScanner(seed: string): Float32Array {
 /** Photo: a two-click camera shutter (fast open/close mechanical click pair). */
 export function renderShutter(seed: string): Float32Array {
   const rng = createRng(seed);
-  const duration = 0.12;
+  const duration = 0.09;
   const out = createBuffer(duration);
-  for (const offsetSec of [0, 0.045]) {
+  // A shorter gap and a slightly longer per-click decay than the original (~4.5ms vs ~2.5ms) keeps
+  // more of this very short two-click file audibly "active" rather than silent between the clicks.
+  for (const offsetSec of [0, 0.03]) {
     const click = whiteNoise(0.015, rng);
     const shaped = applyBiquad(click, biquadCoeffs('bandpass', 2400, 2.5));
     for (let i = 0; i < shaped.length; i += 1)
-      shaped[i] = (shaped[i] ?? 0) * Math.exp(-i / (48000 * 0.0025));
+      shaped[i] = (shaped[i] ?? 0) * Math.exp(-i / (48000 * 0.0045));
     mixInto(out, shaped, 0.7, Math.round(offsetSec * 48000));
   }
   softLimiter(out, 0.85);

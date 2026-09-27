@@ -1,5 +1,6 @@
 import { schroederReverb } from '../core/effects';
-import { normalizeToLufs, integratedLufs } from '../loudness/lufs';
+import { integratedLufs } from '../loudness/lufs';
+import { matchLoudnessWithLimiter } from '../loudness/match';
 import { normalizeToTruePeak, truePeakDb } from '../loudness/peak';
 import { makeLoopSeamless, measureLoopSeam, type LoopSeamReport } from '../core/mixer';
 import { childSeed, createRng } from '../core/prng';
@@ -40,9 +41,7 @@ export interface RenderedTheme {
 const LOOP_CROSSFADE_SAMPLES = Math.round(SAMPLE_RATE * 0.02);
 const PREVIEW_DURATION_SEC = 10;
 const TARGET_MUSIC_LUFS = -16;
-// A sparse/ambient arrangement's gated integrated loudness can sit well below its transient peaks,
-// so hitting -16 LUFS exactly could demand a gain that clips. Peak safety always wins: once the loop
-// is loudness-normalised, a true-peak ceiling is applied on top, even if that leaves LUFS a bit low.
+const MUSIC_LUFS_TOLERANCE = 1; // every theme lands within +/-1 LU of the target
 const MUSIC_TRUE_PEAK_CEILING_DB = -1;
 
 /** Accumulates `buf` into `out` at integer index `startSample`, wrapping modulo `out.length` — the
@@ -104,8 +103,30 @@ export function renderTheme(spec: ThemeSpec): RenderedTheme {
   }
 
   removeDcOffset(mixed);
+  matchLoudnessWithLimiter(mixed, {
+    targetLufs: TARGET_MUSIC_LUFS,
+    toleranceLu: MUSIC_LUFS_TOLERANCE,
+    ceilingDb: MUSIC_TRUE_PEAK_CEILING_DB,
+    // Musical, transparent limiting: koto/guitar-pluck attacks are near-instant, so a short look-ahead
+    // catches them; a gentle release keeps the recovery inaudible rather than pumping.
+    lookaheadSec: 0.005,
+    releaseSec: 0.15,
+    sampleRate: SAMPLE_RATE,
+    label: `theme "${spec.guideId}"`,
+    // Narrows the gap between a sparse, plucked arrangement's peaks and its sustained level, so the
+    // limiter above doesn't have to claw back as much loudness from a wide crest factor.
+    crestReduction: { thresholdOffsetDb: -4, ratio: 2.5, attackSec: 0.006, releaseSec: 0.2 },
+  });
+  // Seal the loop wrap point once, after loudness matching (the limiter's per-sample gain can differ
+  // slightly between the two ends). The equal-power crossfade this performs can — for two correlated,
+  // near-simultaneous peaks — sum to a hair over either input's own peak, so re-check the true-peak
+  // ceiling unconditionally afterwards rather than assuming the crossfade alone preserves it.
   makeLoopSeamless(mixed, LOOP_CROSSFADE_SAMPLES);
-  normalizeToLufs(mixed, TARGET_MUSIC_LUFS, SAMPLE_RATE);
+  // The compressor/limiter chain above can reintroduce a small DC bias (asymmetric gain over time on
+  // an otherwise-balanced waveform). A uniform per-sample subtraction can't disturb the wrap-point
+  // equality `makeLoopSeamless` just guaranteed, but it can nudge an already-at-ceiling sample a hair
+  // further out, so the true-peak check runs again afterwards rather than only before.
+  removeDcOffset(mixed);
   if (truePeakDb(mixed) > MUSIC_TRUE_PEAK_CEILING_DB) {
     normalizeToTruePeak(mixed, MUSIC_TRUE_PEAK_CEILING_DB);
   }

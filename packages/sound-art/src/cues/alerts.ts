@@ -64,7 +64,7 @@ export function renderAlarmGuide(): Float32Array {
   const total = beepDur * 3 + gap * 2 + 0.05;
   const out = createBuffer(total);
   for (let b = 0; b < 3; b += 1) {
-    const beep = renderTone(beepDur, 1046.5, 'square'); // C6, cuts through
+    const beep = renderTone(beepDur, 1046.5, 'square'); // a bright, high tone that cuts through
     const shaped = applyBiquad(beep, biquadCoeffs('bandpass', 1046.5, 3));
     for (let i = 0; i < shaped.length; i += 1) {
       const t = i / 48000;

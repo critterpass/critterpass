@@ -113,11 +113,14 @@ export interface CompressorOptions {
 
 /**
  * A feed-forward bus compressor (linear-domain envelope follower + dB gain curve above `thresholdDb`).
- * Suited to sustained/bus material the envelope has time to settle on. It has no look-ahead, so a
- * hard, fast-attack transient (a Karplus-Strong pluck's onset, say) can briefly exceed the target
- * before the detector reacts — this package's theme renderer relies on `loudness/peak.ts`'s true-peak
- * ceiling, not this compressor, to keep transient-heavy cues/themes safe. Exported as a general-
- * purpose building block for material where that trade-off is fine.
+ * With `makeupDb` at its default of 0, this can only ever attenuate (`gainReductionDb <= 0`, so the
+ * output is never louder than the input at any sample) — safe to run ahead of a look-ahead limiter as
+ * a crest-factor reducer even on transient-heavy material, because there is no amount of envelope lag
+ * that can make it overshoot. A non-zero `makeupDb` reintroduces that risk: the envelope has no
+ * look-ahead, so a hard, fast attack (a Karplus-Strong pluck's onset, say) can be boosted by the full
+ * make-up gain before the detector reacts. `music/render-theme.ts` uses `makeupDb: 0` here purely to
+ * narrow the gap between a sparse arrangement's peaks and its sustained level, then lets
+ * `loudness/match.ts`'s look-ahead limiter supply the actual loudness make-up afterwards.
  */
 export function compress(buf: Float32Array, opts: CompressorOptions): void {
   const sampleRate = opts.sampleRate ?? SAMPLE_RATE;

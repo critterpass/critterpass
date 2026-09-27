@@ -3,12 +3,14 @@ import { measureLoopSeam } from '../src/core/mixer';
 import { SAMPLE_RATE } from '../src/core/signal';
 import { buildSfxRegistry } from '../src/cues/registry';
 import { renderNotify } from '../src/cues/notify';
-import { integratedLufs, normalizeToLufs } from '../src/loudness/lufs';
-import { normalizeToTruePeak, truePeakDb } from '../src/loudness/peak';
+import { integratedLufs } from '../src/loudness/lufs';
+import { matchLoudnessWithLimiter } from '../src/loudness/match';
+import { truePeakDb } from '../src/loudness/peak';
 import { buildThemeRegistry, GUIDE_IDS } from '../src/music/registry';
 import { renderTheme } from '../src/music/render-theme';
 import {
   SFX_FAMILY_TARGET_LUFS,
+  SFX_LUFS_TOLERANCE,
   SFX_TRUE_PEAK_CEILING_DB,
   type MusicManifestEntry,
   type NotifyManifestEntry,
@@ -31,19 +33,26 @@ export interface RenderedMusic {
   readonly previewPcm: Float32Array;
 }
 
-/** Loudness-normalises an SFX/notify cue to its family target, with a true-peak safety ceiling on top. */
-function normalizeSfx(pcm: Float32Array, targetLufs: number): void {
-  normalizeToLufs(pcm, targetLufs, SAMPLE_RATE);
-  if (truePeakDb(pcm) > SFX_TRUE_PEAK_CEILING_DB) {
-    normalizeToTruePeak(pcm, SFX_TRUE_PEAK_CEILING_DB);
-  }
+/** Loudness-matches an SFX/notify cue to its family target with a look-ahead limiter (see
+ * `loudness/match.ts`), so a peaky, near-instant-attack cue isn't backed off further than it needs to
+ * be to hold the true-peak ceiling. */
+function normalizeSfx(pcm: Float32Array, targetLufs: number, label: string): void {
+  matchLoudnessWithLimiter(pcm, {
+    targetLufs,
+    toleranceLu: SFX_LUFS_TOLERANCE,
+    ceilingDb: SFX_TRUE_PEAK_CEILING_DB,
+    lookaheadSec: 0.003,
+    releaseSec: 0.05,
+    sampleRate: SAMPLE_RATE,
+    label,
+  });
 }
 
 export function renderAllSfx(): RenderedSfx[] {
   return buildSfxRegistry().map((cue) => {
     const pcm = cue.render();
     const targetLufs = SFX_FAMILY_TARGET_LUFS[cue.category] ?? -18;
-    normalizeSfx(pcm, targetLufs);
+    normalizeSfx(pcm, targetLufs, `sfx "${cue.id}"`);
     return {
       pcm,
       entry: {
@@ -64,7 +73,7 @@ export function renderAllSfx(): RenderedSfx[] {
 export function renderAllNotify(): RenderedNotify[] {
   return GUIDE_IDS.map((guideId) => {
     const pcm = renderNotify(guideId);
-    normalizeSfx(pcm, SFX_FAMILY_TARGET_LUFS.notify ?? -16);
+    normalizeSfx(pcm, SFX_FAMILY_TARGET_LUFS.notify ?? -16, `notify "${guideId}"`);
     const assetBasename = `notify-${guideId}`;
     return {
       pcm,

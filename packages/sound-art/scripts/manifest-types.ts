@@ -53,3 +53,4 @@ export const SFX_FAMILY_TARGET_LUFS: Readonly<Record<string, number>> = {
 };
 
 export const SFX_TRUE_PEAK_CEILING_DB = -1;
+export const SFX_LUFS_TOLERANCE = 1.5;

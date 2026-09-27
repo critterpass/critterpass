@@ -38,10 +38,12 @@ already used for the critters (`packages/critter-art`), with no samples and no t
 | FM | `core/fm.ts` | 2-operator phase-modulation synthesis |
 | Additive | `core/additive.ts` | inharmonic-partial synthesis for bells/metallophones (gamelan, marimba) |
 | Karplus-Strong | `core/karplus-strong.ts` | plucked strings (koto, guitar, charango) |
-| Effects | `core/effects.ts` | delay, a small Schroeder reverb (parallel combs → series allpasses), a soft-clip limiter, and a linear-envelope feed-forward compressor (sustained/bus material only — no look-ahead, so it is not used for transient-heavy cues/themes; see its doc comment) |
+| Effects | `core/effects.ts` | delay, a small Schroeder reverb (parallel combs → series allpasses), a soft-clip limiter, and a linear-envelope feed-forward compressor. With `makeupDb: 0` (the only way this package uses it) it can only ever attenuate, so it is safe as a crest-factor reducer ahead of the limiter even on transient-heavy material — see its doc comment for why a non-zero make-up gain would not be |
+| Look-ahead limiter | `core/limiter.ts` | brick-wall sample-peak limiter via an O(n) forward sliding-window minimum of the per-sample "gain needed" curve (the offline equivalent of a real-time limiter's look-ahead delay line — no signal delay needed since the whole buffer is already in memory) plus a release-only recovery; provably never produces an over (see its doc comment) |
 | Mixer / loop seam | `core/mixer.ts` | multi-track mixing; `makeLoopSeamless` crossfades a loop's tail into its own head and forces the exact wrap sample equal, so a loop never clicks at the repeat point |
 | True peak | `loudness/peak.ts` | cubic-Hermite 8x oversampled peak estimate (a practical approximation of a BS.1770 true-peak meter without a resampling library) |
-| Integrated loudness | `loudness/lufs.ts` | BS.1770-4 K-weighting (standard 48 kHz coefficients) + 400 ms/75%-overlap gated blocks + absolute (-70 LUFS) and relative (-10 LU) gating |
+| Integrated loudness | `loudness/lufs.ts` | BS.1770-4 K-weighting (standard 48 kHz coefficients) + gated blocks (the standard 400 ms/100 ms block/hop when a cue is long enough to fit one; a proportionally smaller 20 ms/5 ms block/hop below that, so a short click-train cue's silent gaps are still gated rather than diluting its measured loudness) + absolute (-70 LUFS) and relative (-10 LU) gating |
+| Loudness matching | `loudness/match.ts` | `matchLoudnessWithLimiter`: iteratively re-measures loudness and applies gain + the look-ahead limiter (not a single global gain) until convergence, with an optional one-time, attenuation-only compression pass first to narrow a sparse/plucked arrangement's crest factor. This is what lets a peaky cue/theme reach its loudness target without sacrificing level the way a single static gain would — see "Loudness and peak targets" |
 
 Music (`src/music/`) adds a small sequencer (`sequencer.ts`: tempo, swing, step patterns, seeded
 humanisation of timing/velocity), a scale table (`scale.ts`: pelog, slendro, the Japanese "in" scale,
@@ -63,20 +65,59 @@ rearchitecture.
 
 ## Loudness and peak targets
 
-- **SFX/ambient/notify cues**: normalised to a **family target LUFS** (so every cue in a family reads
-  at a consistent level regardless of which one plays), then a **true-peak ceiling of −1 dBTP** is
-  applied on top, always. Family targets (`scripts/manifest-types.ts`): stickers-and-stamps −16 LUFS,
-  effects −18 LUFS, critter-voices −20 LUFS, per-guide notify motifs −16 LUFS.
-- **Music themes**: target **−16 LUFS integrated**, with the same **−1 dBTP** true-peak ceiling taking
-  precedence when they conflict. A sparse, plucked arrangement (Pon's koto, Sardi's solo guitar waltz)
-  can have gated integrated loudness far below its transient peaks; forcing exactly −16 LUFS on such a
-  piece would require a make-up gain that clips. Peak safety always wins — this is standard mastering
-  practice for dynamic/ambient material, not a shortfall. The founder report records each theme's
-  actual measured LUFS so this is visible, not hidden.
+- **SFX/ambient/notify cues**: matched to a **family target LUFS** (so every cue in a family reads at
+  a consistent level regardless of which one plays), within **±1.5 LU**, with a **true-peak ceiling of
+  −1 dBTP** that always wins if the two conflict. Family targets (`scripts/manifest-types.ts`):
+  stickers-and-stamps −16 LUFS, effects −18 LUFS, critter-voices −20 LUFS, per-guide notify motifs
+  −16 LUFS.
+- **Music themes**: matched to **−16 LUFS integrated within ±1 LU**, same **−1 dBTP** ceiling.
+- **Peak safety by limiting, not by giving up loudness.** The first version of this pipeline held the
+  peak ceiling with a single global gain reduction once loudness-normalising overshot it — correct for
+  peak safety, but it meant a sparse/plucked arrangement (Pon's koto, Sardi's solo guitar waltz, and
+  short click-train SFX like `flap`/`shutter`) landed 6–10 LU under its target, since their gated
+  integrated loudness sits far below their transient peaks and a single gain has to back off for the
+  worst peak in the whole file. `loudness/match.ts`'s `matchLoudnessWithLimiter` fixes this properly:
+  a **look-ahead brick-wall limiter** (`core/limiter.ts`) reduces gain only in the local vicinity of a
+  peak that actually needs it, so the rest of the material keeps the loudness gain the quiet parts
+  need. An optional one-time, **attenuation-only** compression pass (`makeupDb: 0`, so it can never
+  overshoot) narrows a sparse arrangement's crest factor first, for cases the limiter alone can't fully
+  close. Two things made a real difference in practice, both fixed in this pass: (1) `integratedLufs`
+  originally fell back to a plain whole-buffer mean square for any cue under BS.1770's 400 ms block —
+  true of almost every SFX cue in this package — which measured a click-train's *silence* along with
+  its clicks; it now gates with a proportionally smaller 20 ms/5 ms block/hop below 400 ms instead.
+  (2) the limiter's sample-peak ceiling needs a margin below the true (inter-sample) peak ceiling — an
+  empirically-tuned 1.4 dB for this package's material — or the final true-peak safety-net correction
+  (needed occasionally regardless) claws back most of the loudness the limiter just fought to keep.
+  Every value in the table below is from the current bake (`out/manifest.json`); none needed the
+  final safety-net correction to reach it, meaning the limiter's own ceiling already held.
+- **Keeping transients musical.** The limiter's look-ahead means its gain reduction begins before a
+  peak, not reactively after it — the opposite of a naive compressor's attack-lag artifact, and the
+  reason a Karplus-Strong pluck's attack isn't audibly softened. Release is slow enough (120–200 ms)
+  that gain recovery is inaudible rather than pumping; `core/limiter.test.ts` asserts the gain curve
+  never oscillates (dips, then rises monotonically back toward 1, never dips again mid-recovery) for a
+  single isolated transient, which is what "no pumping" means in code.
 - **Loop seams**: `makeLoopSeamless` + a bake-time check (`measureLoopSeam`) guarantee the wrap-point
   sample is bit-identical between a loop's end and its start. True seamlessness at the musical level
   (no audible discontinuity, not just no click) comes from composing whole-bar sections that already
-  repeat cleanly — the crossfade is the final safety net, not the mechanism.
+  repeat cleanly — the crossfade is the final safety net, not the mechanism. It runs after loudness
+  matching (whose per-sample limiter gain can differ a hair between the two ends), so peak safety is
+  re-checked once more afterwards rather than assumed.
+
+### Loudness table (current bake, `out/manifest.json`)
+
+| Theme | Duration | LUFS | dBTP |
+|---|---|---|---|
+| Tokek | 77.8 s | −16.00 | −2.40 |
+| Pon | 65.5 s | −16.11 | −1.00 |
+| Lundi | 82.8 s | −16.00 | −2.41 |
+| Ajo | 78.3 s | −16.01 | −2.04 |
+| Sardi | 68.6 s | −16.26 | −1.11 |
+| Paco | 75.0 s | −16.00 | −7.08 |
+
+All 6 themes land within ±0.26 LU of −16 LUFS (target ±1 LU) at ≤−1 dBTP. All 23 SFX cues land within
+±1.19 LU of their family target (target ±1.5 LU; the widest is `snap` at −19.19 LUFS vs. a −18 LUFS
+target); all 6 notify motifs land within ±0.07 LU of −16 LUFS. Full per-cue figures are in
+`out/manifest.json` and the founder report.
 
 ## Formats and the bake pipeline
 
