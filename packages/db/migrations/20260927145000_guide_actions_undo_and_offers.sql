@@ -20,6 +20,7 @@ ALTER TABLE domain_events ADD CONSTRAINT domain_events_type_check CHECK (type IN
   'change_set.proposed', 'change_set.applied', 'change_set.reverted', 'change_set.rejected',
   'rsvp.changed',
   'auth.merged',
+  'invite.opened', 'attribution.claimed',
   'guide_action.undone'
 ));
 
