@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Go/no-go platform spike harnesses (S-DB, S-AUTH, S-RT, APNs/FCM push+action-key); rerun one with pnpm --filter @cp/spikes run <spike>",
+  "description": "Go/no-go platform spike harnesses (S-DB, S-AUTH, S-SYNC, S-RT, APNs/FCM push + action key, Skia critter); rerun one with pnpm --filter @cp/spikes run <spike>",
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
@@ -12,13 +12,18 @@
     "s-db": "tsx src/s-db/run.ts",
     "s-rt": "tsx src/s-rt/run.ts",
     "s-rt:load": "tsx src/s-rt/load.ts",
+    "s-sync": "tsx src/s-sync/run.ts",
+    "s-sync:load": "tsx src/s-sync/load.ts",
+    "s-sync:drill": "tsx src/s-sync/drill.ts",
     "apns-live-activity": "tsx src/apns-live-activity/run.ts",
     "skia-critter": "tsx src/skia-critter/run.ts"
   },
   "dependencies": {
     "@hono/node-server": "catalog:",
     "@parse/node-apn": "catalog:",
+    "@powersync/node": "catalog:",
     "better-auth": "catalog:",
+    "better-sqlite3": "catalog:",
     "centrifuge": "catalog:",
     "firebase-admin": "catalog:",
     "hono": "catalog:",

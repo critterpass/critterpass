@@ -12,11 +12,13 @@ catalog:
   '@hono/node-server': 2.1.1
   '@hono/zod-openapi': 1.6.3
   '@parse/node-apn': 8.1.0
+  '@powersync/node': 1.1.0
   '@testcontainers/postgresql': 12.1.0
   '@testcontainers/redis': 12.1.0
   '@types/node': 26.6.3
   '@types/pg': 8.23.1
   'better-auth': 1.7.6
+  'better-sqlite3': 12.11.1
   centrifuge: 5.7.4
   eslint: 10.11.0
   eslint-config-prettier: 10.1.8
@@ -48,6 +50,7 @@ overrides:
 allowBuilds:
   '@firebase/util': true
   '@parcel/watcher': true
+  better-sqlite3: true
   cpu-features: false
   esbuild: true
   protobufjs: false
