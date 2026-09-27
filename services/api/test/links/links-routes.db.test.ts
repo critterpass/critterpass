@@ -265,12 +265,39 @@ describe('POST /v1/links/claim', () => {
   });
 });
 
+describe('GET /v1/links/settings', () => {
+  it('offers the App Clip only once the public flag is on for everyone', async () => {
+    const read = async () => {
+      const response = await harness.request('/v1/links/settings');
+      expect(response.headers.get('cache-control')).toBe('public, max-age=60');
+      return (await response.json()) as unknown;
+    };
+    expect(await read()).toEqual({ app_clip: false });
+    await harness.pool.query(
+      `INSERT INTO ops.ops_config (key, value, is_public, audience)
+       VALUES ('links.app_clip', 'true'::jsonb, true, '{"kind": "cohort", "cohort": "beta"}'::jsonb)`,
+    );
+    expect(await read()).toEqual({ app_clip: false });
+    await harness.pool.query(
+      `UPDATE ops.ops_config SET audience = '{"kind": "all"}'::jsonb WHERE key = 'links.app_clip'`,
+    );
+    expect(await read()).toEqual({ app_clip: true });
+    await harness.pool.query("DELETE FROM ops.ops_config WHERE key = 'links.app_clip'");
+    expect(await read()).toEqual({ app_clip: false });
+  });
+});
+
 describe('GET /openapi.json', () => {
   it('lists the link routes in a valid OpenAPI 3.1 document', async () => {
     const response = await harness.request('/openapi.json');
     const document = (await response.json()) as { paths: Record<string, unknown> };
     expect(Object.keys(document.paths)).toEqual(
-      expect.arrayContaining(['/v1/links/{token}/preview', '/v1/codes/{code}', '/v1/links/claim']),
+      expect.arrayContaining([
+        '/v1/links/{token}/preview',
+        '/v1/codes/{code}',
+        '/v1/links/claim',
+        '/v1/links/settings',
+      ]),
     );
     const validation = await new Validator().validate(document);
     expect(validation.errors ?? []).toEqual([]);

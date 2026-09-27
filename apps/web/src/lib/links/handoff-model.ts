@@ -64,6 +64,8 @@ export function decideHandoff(input: {
   readonly context: LinkRequestContext;
   readonly target: LinkTarget;
   readonly preview: PreviewOutcome;
+  /** The `links.app_clip` flag (link-settings.ts); off when absent. */
+  readonly appClip?: boolean;
 }): HandoffDecision {
   const { url, context, target } = input;
   if (input.preview.status === 'not_found') return { kind: 'not_found' };
@@ -105,7 +107,9 @@ export function decideHandoff(input: {
       openInAppHref,
       appStoreHref,
       playStoreHref,
-      smartAppBanner: smartAppBannerContent(context.config, canonicalLink),
+      smartAppBanner: smartAppBannerContent(context.config, canonicalLink, {
+        appClip: input.appClip === true,
+      }),
       openInChromeHref:
         platform === 'android' && inAppBrowser !== null
           ? openInChromeIntent({ host: context.host, path: `${url.pathname}${url.search}` })

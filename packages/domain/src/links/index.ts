@@ -26,6 +26,7 @@ export {
 export {
   ALL_LINK_HOSTS,
   APPLE_TEAM_ID,
+  appClipBundleId,
   appIdsForHost,
   isLinkHost,
   LINK_ENVIRONMENT_CONFIG,
@@ -45,6 +46,7 @@ export {
   type SeatTokenKeyring,
 } from './seat-token';
 export {
+  APP_CLIP_FLAG_KEY,
   ATTRIBUTION_VIAS,
   attributionViaSchema,
   claimAttributionPayloadSchema,
@@ -53,11 +55,13 @@ export {
   LINK_STATES,
   linkKindSchema,
   linkPreviewSchema,
+  linkSettingsSchema,
   linkStateSchema,
   type AttributionVia,
   type ClaimAttributionPayload,
   type ClaimAttributionResult,
   type CodeLookupResponse,
   type LinkPreview,
+  type LinkSettings,
   type LinkState,
 } from './wire';

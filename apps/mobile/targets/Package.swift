@@ -15,6 +15,11 @@ let package = Package(
     .target(
       name: "NotificationServiceCore",
       path: ".",
+      // Other targets, and the art `expo prebuild` copies into each target directory.
+      exclude: [
+        "widgets", "notification-content", "app-clip", "notification-service/Tests",
+        "notification-service/CritterArt.xcassets",
+      ],
       sources: [
         "_shared/SnapshotEnvelope.swift",
         "_shared/PushPayload/CPPayload.swift",
@@ -26,6 +31,21 @@ let package = Package(
       name: "NotificationServiceTests",
       dependencies: ["NotificationServiceCore"],
       path: "notification-service/Tests",
+      swiftSettings: testSettings
+    ),
+    .target(
+      name: "AppClipCore",
+      path: "app-clip",
+      exclude: [
+        "AppClip.swift", "TicketView.swift", "Assets.xcassets", "Info.plist",
+        "expo-target.config.js", "Tests",
+      ],
+      sources: ["ClipInvite.swift"]
+    ),
+    .testTarget(
+      name: "AppClipTests",
+      dependencies: ["AppClipCore"],
+      path: "app-clip/Tests",
       swiftSettings: testSettings
     ),
   ]

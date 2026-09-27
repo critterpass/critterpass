@@ -40,3 +40,16 @@ export async function getReferrerOverride(): Promise<string | null> {
     return null;
   }
 }
+
+/**
+ * iOS only: the link the App Clip was opened with, handed over through the App Group. Returned
+ * once (the handoff is cleared), or null when the person never came through the clip.
+ */
+export async function consumeClipLink(): Promise<string | null> {
+  if (Platform.OS !== 'ios' || nativeCpDeferredLinkModule === null) return null;
+  try {
+    return await nativeCpDeferredLinkModule.consumeClipLink();
+  } catch {
+    return null;
+  }
+}

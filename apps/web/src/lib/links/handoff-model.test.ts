@@ -1,9 +1,10 @@
 import { LINK_ENVIRONMENT_CONFIG } from '@cp/domain';
 import { describe, expect, it } from 'vitest';
 
-import { assetLinks, parseCertFingerprints } from './association';
+import { appleAppSiteAssociation, assetLinks, parseCertFingerprints } from './association';
 import { expiresIn, handoffCopy } from './handoff-copy';
 import { decideHandoff } from './handoff-model';
+import { clearLinkSwitchesCache, fetchLinkSwitches } from './link-settings';
 import { fetchLinkPreview } from './resolver-fetch';
 import { playStoreUrl } from './store-url';
 import { readUserAgent } from './ua';
@@ -150,5 +151,69 @@ describe('handoff copy', () => {
     expect(expiresIn('2026-10-01T02:30:00Z', now)).toBe('Expires in 4d 2h');
     expect(expiresIn('2026-09-27T01:15:00Z', now)).toBe('Expires in 1h 15m');
     expect(expiresIn('2026-09-26T00:00:00Z', now)).toBeNull();
+  });
+});
+
+describe('App Clip flag', () => {
+  it('lists the host apps’ clips in the AASA only while the flag is on', () => {
+    expect(appleAppSiteAssociation('staging.critterpass.app')).not.toHaveProperty('appclips');
+    expect(
+      appleAppSiteAssociation('staging.critterpass.app', { appClip: false }),
+    ).not.toHaveProperty('appclips');
+    expect(appleAppSiteAssociation('staging.critterpass.app', { appClip: true }).appclips).toEqual({
+      apps: ['YFND2EEW8S.app.critterpass.staging.clip', 'YFND2EEW8S.app.critterpass.dev.clip'],
+    });
+    expect(appleAppSiteAssociation('go.critterpass.app', { appClip: true }).appclips).toEqual({
+      apps: ['YFND2EEW8S.app.critterpass.clip'],
+    });
+  });
+
+  it('shows the clip card in the Smart App Banner only while the flag is on', () => {
+    const context = linkRequestContext(new URL('https://critterpass.app/i/K7M2QX'), {});
+    const banner = (appClip: boolean | undefined) => {
+      const decision = decideHandoff({
+        url: new URL('https://critterpass.app/i/K7M2QX'),
+        userAgent: IOS,
+        context,
+        target: { kind: 'invite', code: 'K7M2QX' },
+        preview: { status: 'unavailable' },
+        ...(appClip === undefined ? {} : { appClip }),
+      });
+      return decision.kind === 'render' ? decision.model.smartAppBanner : null;
+    };
+    expect(banner(undefined)).toBe(
+      'app-id=6816655856, app-argument=https://critterpass.app/i/K7M2QX',
+    );
+    expect(banner(false)).not.toContain('app-clip');
+    expect(banner(true)).toBe(
+      'app-id=6816655856, app-argument=https://critterpass.app/i/K7M2QX, app-clip-bundle-id=app.critterpass.clip, app-clip-display=card',
+    );
+  });
+
+  it('reads the flag from the api, caches it and stays off when the api cannot answer', async () => {
+    clearLinkSwitchesCache();
+    let calls = 0;
+    const answering = (body: unknown, status = 200) =>
+      (() => {
+        calls += 1;
+        return Promise.resolve(new Response(JSON.stringify(body), { status }));
+      }) as unknown as typeof fetch;
+    let now = 0;
+    const read = (fetchImpl: typeof fetch, apiBaseUrl = 'https://api.example') =>
+      fetchLinkSwitches({ apiBaseUrl, fetchImpl, now: () => now });
+
+    expect(await read(answering({ app_clip: true }))).toEqual({ appClip: true });
+    expect(await read(answering({ app_clip: false }))).toEqual({ appClip: true });
+    expect(calls).toBe(1);
+    now = 61_000;
+    expect(await read(answering({ app_clip: false }))).toEqual({ appClip: false });
+    expect(await read(answering({ error: {} }, 500), 'https://down.example')).toEqual({
+      appClip: false,
+    });
+    const failing = (() => Promise.reject(new Error('offline'))) as unknown as typeof fetch;
+    expect(await read(failing, 'https://offline.example')).toEqual({ appClip: false });
+    expect(await read(answering({ app_clip: 'yes' }), 'https://odd.example')).toEqual({
+      appClip: false,
+    });
   });
 });

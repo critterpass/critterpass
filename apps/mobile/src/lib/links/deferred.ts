@@ -1,7 +1,8 @@
 /**
  * First-launch deferred link resolution: the install brought a link, the app opens on it without
- * anyone typing. Order: Android Play Install Referrer (deterministic) → iOS probable-link check
- * (no pasteboard read, no alert) which only *offers* the system paste control → nothing, and the
+ * anyone typing. Order: Android Play Install Referrer (deterministic) → iOS App Clip handoff (the
+ * link the clip was opened with, left in the App Group) → iOS probable-link check (no pasteboard
+ * read, no alert) which only *offers* the system paste control → nothing, and the
  * normal splash with its "I have a code" entry. Whatever is claimed goes through
  * `POST /v1/links/claim`, then the router (which holds it until onboarding issues the pass).
  * Runs once per install; bounded so the splash never waits more than `timeoutMs`.
@@ -34,6 +35,8 @@ export interface DeferredPrimitives {
   getInstallReferrer(): Promise<string | null>;
   /** iOS: whether the pasteboard probably holds a link, without reading it. */
   detectLikelyLink(): Promise<boolean>;
+  /** iOS: the link the App Clip was opened with, returned once and then cleared. */
+  consumeClipLink?(): Promise<string | null>;
   /** Internal builds only: a referrer injected by a test run instead of the Play one. */
   getReferrerOverride?(): Promise<string | null>;
 }
@@ -85,7 +88,7 @@ async function claimThenRoute(
   const claim = await deps.client.claim(payload, deps.device);
   if (claim.status === 'unavailable') return followOffline(payload, via);
   if (claim.status === 'rejected' || !claim.result.matched || claim.result.link === null) {
-    return via === 'referrer'
+    return via === 'referrer' || via === 'clip'
       ? { kind: 'none' }
       : { kind: 'invalid', href: codeEntryRoute({ notice: 'invalid' }) };
   }
@@ -107,7 +110,7 @@ async function followOffline(
   const raw =
     payload.install_referrer !== undefined
       ? new URLSearchParams(payload.install_referrer).get(INSTALL_REFERRER_LINK_PARAM)
-      : (payload.pasted_url ?? null);
+      : (payload.pasted_url ?? payload.clip_url ?? null);
   const target = raw === null ? null : (parseLink(raw)?.target ?? null);
   if (target === null) return { kind: 'none' };
   const href = await routeTarget(target, { via });
@@ -151,6 +154,8 @@ async function firstLaunchWork(deps: DeferredDeps): Promise<DeferredOutcome> {
       ? claimThenRoute({ install_referrer: referrer }, 'referrer', deps)
       : { kind: 'none' };
   }
+  const clipLink = (await primitives.consumeClipLink?.()) ?? null;
+  if (clipLink !== null) return claimThenRoute({ clip_url: clipLink }, 'clip', deps);
   return (await primitives.detectLikelyLink()) ? { kind: 'offer_paste' } : { kind: 'none' };
 }
 

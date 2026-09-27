@@ -127,6 +127,43 @@ describe('resolveOnFirstLaunch on Android', () => {
   });
 });
 
+describe('iOS App Clip handoff', () => {
+  it('claims the link the App Clip was opened with, before any paste check', async () => {
+    const events: LinkFunnelEvent[] = [];
+    const detectLikelyLink = jest.fn(() => Promise.resolve(true));
+    const { deps: d, requests } = deps(
+      standardRoutes,
+      primitives({
+        platform: 'ios',
+        detectLikelyLink,
+        consumeClipLink: () => Promise.resolve('https://critterpass.app/i/BAX6XD'),
+      }),
+      events,
+    );
+    await expect(resolveOnFirstLaunch(d)).resolves.toMatchObject({
+      kind: 'claimed',
+      href: `${TICKET}clip`,
+    });
+    expect(requests[0]?.body).toMatchObject({
+      payload: { clip_url: 'https://critterpass.app/i/BAX6XD' },
+    });
+    expect(detectLikelyLink).not.toHaveBeenCalled();
+    expect(events).toContainEqual({ name: 'install_attributed', via: 'clip' });
+  });
+
+  it('falls back to the paste offer when the clip left nothing', async () => {
+    const { deps: d } = deps(
+      standardRoutes,
+      primitives({
+        platform: 'ios',
+        detectLikelyLink: () => Promise.resolve(true),
+        consumeClipLink: () => Promise.resolve(null),
+      }),
+    );
+    await expect(resolveOnFirstLaunch(d)).resolves.toEqual({ kind: 'offer_paste' });
+  });
+});
+
 describe('iOS paste and typed codes', () => {
   it('only offers the paste control, then claims what was pasted', async () => {
     const { deps: d, requests } = deps(

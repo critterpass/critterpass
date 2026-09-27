@@ -75,6 +75,17 @@ describe('readClaimSource', () => {
     ).toMatchObject({ via: 'link', target: { kind: 'plan' } });
     expect(readClaimSource({ phone: true }, config)).toBeNull();
   });
+
+  it('attributes an App Clip handoff to the clip, on this environment’s hosts only', () => {
+    expect(readClaimSource({ clip_url: 'https://critterpass.app/i/K7M2QX?c=wa' }, config)).toEqual({
+      via: 'clip',
+      target: { kind: 'invite', code: 'K7M2QX' },
+      channel: 'wa',
+    });
+    expect(
+      reason(() => readClaimSource({ clip_url: 'https://evil.example/i/K7M2QX' }, config)),
+    ).toMatchObject({ code: 'CODE_INVALID', detail: { reason: 'link_unrecognised' } });
+  });
 });
 
 describe('assertSeatToken', () => {

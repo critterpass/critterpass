@@ -6,6 +6,7 @@
  */
 import { z } from 'zod';
 
+import { APP_CLIP_FLAG_KEY } from '../links/wire';
 import { flagAudienceSchema } from './flag-audience';
 import { PARTNER_KEYS, partnerCopyModeSchema, type PartnerKey } from './ops-enums';
 
@@ -98,6 +99,12 @@ export const CONFIG_KEYS: Readonly<Record<string, ConfigKeyDefinition>> = {
     isPublic: true,
     critical: false,
     description: 'Which server-driven perk list the app shows',
+  },
+  [APP_CLIP_FLAG_KEY]: {
+    schema: z.boolean(),
+    isPublic: true,
+    critical: false,
+    description: 'Offer the iOS App Clip on invite pages (AASA appclips entry and banner card)',
   },
   ...Object.fromEntries(PARTNER_KEYS.flatMap((partner) => Object.entries(supplierKeys(partner)))),
 };

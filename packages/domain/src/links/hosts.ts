@@ -83,6 +83,11 @@ export function appIdsForHost(host: string): readonly string[] {
   );
 }
 
+/** An app's App Clip bundle id (`@bacons/apple-targets` derives it as `<app>.clip`). */
+export function appClipBundleId(appId: string): string {
+  return `${appId}.clip`;
+}
+
 /** The environment whose web deployment serves `host`; staging hosts belong to staging. */
 export function linkEnvironmentForHost(host: string): LinkEnvironment | null {
   const normalized = host.toLowerCase();

@@ -43,6 +43,7 @@ const CLAIM_SOURCES = [
   'join_code',
   'phone',
   'opened_url',
+  'clip_url',
 ] as const;
 
 /**
@@ -56,6 +57,8 @@ export const claimAttributionPayloadSchema = z
     join_code: z.string().min(1).max(16).optional(),
     phone: z.literal(true).optional(),
     opened_url: z.string().min(1).max(2048).optional(),
+    /** iOS: the link the App Clip was invoked with, handed over through the App Group. */
+    clip_url: z.string().min(1).max(2048).optional(),
   })
   .strict()
   .refine((payload) => CLAIM_SOURCES.filter((key) => payload[key] !== undefined).length === 1, {
@@ -76,3 +79,13 @@ export const claimAttributionResultSchema = z.object({
   replayed: z.boolean(),
 });
 export type ClaimAttributionResult = z.infer<typeof claimAttributionResultSchema>;
+
+/**
+ * Server flag (`ops_config`, public): whether invite pages offer the App Clip — the AASA
+ * `appclips` entry and the clip card in the Smart App Banner. Off unless set.
+ */
+export const APP_CLIP_FLAG_KEY = 'links.app_clip';
+
+/** `GET /v1/links/settings`: the link switches the web Worker needs, read per host. */
+export const linkSettingsSchema = z.object({ app_clip: z.boolean() });
+export type LinkSettings = z.infer<typeof linkSettingsSchema>;
