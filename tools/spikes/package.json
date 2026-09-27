@@ -16,6 +16,7 @@
     "s-sync:load": "tsx src/s-sync/load.ts",
     "s-sync:drill": "tsx src/s-sync/drill.ts",
     "apns-live-activity": "tsx src/apns-live-activity/run.ts",
+    "android-surfaces": "tsx src/android-surfaces/run.ts",
     "skia-critter": "tsx src/skia-critter/run.ts",
     "tiles:build": "tsx tiles/build.ts",
     "tiles:fonts": "tsx tiles/generate-fonts.ts",

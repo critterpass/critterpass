@@ -1,0 +1,52 @@
+appId: app.critterpass.dev
+---
+# Drives the T14 Android surfaces spike screen on a real (or EAS-hosted) Android device: FSI
+# permission check, exact-alarm permission check, alarm scheduling, and the Live Update push
+# receiver's local test hook (`AndroidSurfacesPushReceiver.handle`, no Firebase project in this
+# environment — see the ADR). The Glance widget itself can't be asserted from inside the app
+# (it's a separate home-screen surface); that's a founder checklist item.
+- tapOn:
+    text: 'Open'
+    optional: true
+- tapOn:
+    text: 'Continue'
+    optional: true
+- openLink: 'critterpass-dev://spikes/android-surfaces'
+- tapOn:
+    text: 'Open'
+    optional: true
+- extendedWaitUntil:
+    visible: 'Android surfaces spike'
+    timeout: 20000
+- tapOn: 'Check FSI permission'
+- extendedWaitUntil:
+    visible: 'checkFsi: ok'
+    timeout: 10000
+- takeScreenshot: android-surfaces-fsi-checked
+- tapOn: 'Check exact-alarm permission'
+- extendedWaitUntil:
+    visible: 'checkExactAlarm: ok'
+    timeout: 10000
+- tapOn: 'Start Live Update'
+- extendedWaitUntil:
+    visible: 'simulateLiveUpdatePush(start): ok'
+    timeout: 10000
+- takeScreenshot: android-surfaces-live-update-started
+- tapOn: 'Update Live Update'
+- extendedWaitUntil:
+    visible: 'simulateLiveUpdatePush(update): ok'
+    timeout: 10000
+- tapOn: 'End Live Update'
+- extendedWaitUntil:
+    visible: 'simulateLiveUpdatePush(end): ok'
+    timeout: 10000
+- tapOn:
+    text: 'Schedule alarm in 10s'
+- extendedWaitUntil:
+    visible: 'scheduleFullScreenAlarm\(10s\): ok'
+    timeout: 10000
+- tapOn: 'Cancel alarm'
+- extendedWaitUntil:
+    visible: 'cancelFullScreenAlarm: ok'
+    timeout: 10000
+- takeScreenshot: android-surfaces-alarm-scheduled-and-cancelled
