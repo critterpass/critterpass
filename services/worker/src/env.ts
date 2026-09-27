@@ -25,7 +25,7 @@ export const workerEnvSchema = z.object({
   OVERTURE_RELEASE: optionalString,
   /** A parquet export standing in for FSQ OS Places' gated Iceberg catalog; unset = Overture-only ingest. */
   FSQ_OS_PLACES_PARQUET_URI: optionalString,
-  /** Centrifugo HTTP server API base (private network, e.g. `http://centrifugo.railway.internal:8000`);
+  /** Centrifugo HTTP server API base (private network, e.g. `http://centrifugo.railway.internal:9000`);
    *  with CENTRIFUGO_HTTP_API_KEY enables the rt_outbox relay (src/rt-relay). Unset = no relay runs
    *  and realtime hints stay queued in rt_outbox. */
   CENTRIFUGO_API_URL: optionalUrl,

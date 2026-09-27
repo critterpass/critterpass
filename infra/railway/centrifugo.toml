@@ -13,6 +13,8 @@ dockerfilePath = "infra/railway/centrifugo.Dockerfile"
 watchPatterns = ["infra/centrifugo/**", "infra/railway/centrifugo.Dockerfile", "infra/railway/centrifugo.toml"]
 
 [deploy]
+# /health is served on the internal port 9000; Railway health-checks PORT, so the service sets PORT=9000
+# while its public domain targets 8000 (client websocket only).
 healthcheckPath = "/health"
 healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE"
