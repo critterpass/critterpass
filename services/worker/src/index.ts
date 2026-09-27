@@ -1,7 +1,6 @@
 import { onEventAppended } from '@cp/db';
 import { serve } from '@hono/node-server';
 import pg from 'pg';
-import { pino } from 'pino';
 import { createClient } from 'redis';
 
 import packageJson from '../package.json' with { type: 'json' };
@@ -19,6 +18,7 @@ import {
 } from './boss';
 import { guideActionExecuteJob, guideActionUndoExpireJob } from './guide-actions';
 import { createHealthApp } from './health';
+import { createLogger } from './obs/logger';
 import { initWorkerSentry } from './obs/sentry';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
@@ -33,7 +33,7 @@ import { createCentrifugoApi, rtRelayJob, startRtRelayWake, type RtRelay } from 
 import { travelDataJobs } from './travel-data';
 
 const env = loadWorkerEnv();
-const logger = pino({ level: env.LOG_LEVEL, base: { service: 'worker', commit: env.COMMIT_SHA } });
+const logger = createLogger({ level: env.LOG_LEVEL, service: 'worker', commit: env.COMMIT_SHA });
 const errors = initWorkerSentry({
   dsn: env.SENTRY_DSN,
   environment: env.APP_ENV,

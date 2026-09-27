@@ -21,4 +21,5 @@ COPY --from=build --chown=node:node /repo/services/api/dist ./dist
 COPY --from=build --chown=node:node /repo/packages/db/migrations ./dist/migrations
 USER node
 EXPOSE 8787
-CMD ["node", "--enable-source-maps", "dist/index.js"]
+# The OpenTelemetry preload registers the ESM hook before the entry loads http, pg and pino.
+CMD ["node", "--enable-source-maps", "--import", "./dist/obs/instrument.js", "dist/index.js"]

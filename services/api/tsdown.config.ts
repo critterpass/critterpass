@@ -2,7 +2,7 @@ import { defineConfig } from 'tsdown';
 
 // Workspace packages ship TypeScript sources, so they are bundled in; npm dependencies stay external.
 export default defineConfig({
-  entry: ['src/index.ts', 'src/migrate.ts'],
+  entry: ['src/index.ts', 'src/migrate.ts', 'src/obs/instrument.ts'],
   format: 'esm',
   platform: 'node',
   target: 'node24',

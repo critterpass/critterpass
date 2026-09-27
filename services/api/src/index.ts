@@ -1,6 +1,5 @@
 import { serve } from '@hono/node-server';
 import pg from 'pg';
-import { pino } from 'pino';
 import { createClient } from 'redis';
 
 import packageJson from '../package.json' with { type: 'json' };
@@ -58,10 +57,11 @@ import { buildAdminConsole } from './admin/bootstrap';
 import { registerSupportGrantSource } from './admin/entitlement-grants';
 import { mountAdminRouter } from './admin/router';
 import { createServerAnalytics } from './obs/analytics';
+import { createLogger } from './obs/logger';
 import { initSentry } from './obs/sentry';
 
 const env = loadApiEnv();
-const logger = pino({ level: env.LOG_LEVEL, base: { service: 'api', commit: env.COMMIT_SHA } });
+const logger = createLogger({ level: env.LOG_LEVEL, service: 'api', commit: env.COMMIT_SHA });
 const errors = initSentry({
   dsn: env.SENTRY_DSN,
   environment: env.APP_ENV,
