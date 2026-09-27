@@ -43,7 +43,9 @@ function trackedSourceFiles(): string[] {
     .split('\n')
     .filter(
       (file) =>
-        sourceExtensions.test(file) && !excluded.test(file) && !file.endsWith('pnpm-lock.yaml'),
+        (sourceExtensions.test(file) || file.endsWith('.env.example')) &&
+        !excluded.test(file) &&
+        !file.endsWith('pnpm-lock.yaml'),
     );
 }
 

@@ -483,6 +483,80 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: F,
     },
   },
+  // RLS class S (docs/data-model.md §3.1: attestation verdicts, never client-visible) — no app_user
+  // grant at all, same shape as fair_use_counters/device_attestations above.
+  device_attestations: {
+    selectProbe: { sql: 'SELECT 1 FROM device_attestations LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  // RLS class O, self-only (docs/data-model.md §3.1) — same shape as user_settings/consents:
+  // app_user may insert its own row anywhere, but the fixture's row (organiser's) is only
+  // selectable/updatable by the organiser.
+  device_action_keys: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM device_action_keys WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: {
+      outsider: op(false, true, false),
+      exMember: op(false, true, false),
+      anonymous: op(false, true, false),
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(true, true, true),
+    },
+  },
+  // RLS class X, self-only (docs/data-model.md §3.1: excluded from every derived view) — same
+  // self-only shape as user_settings/consents/device_action_keys above.
+  user_private: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM user_private WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: {
+      outsider: op(false, true, false),
+      exMember: op(false, true, false),
+      anonymous: op(false, true, false),
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(true, true, true),
+    },
+  },
+  // RLS class O, self-only (docs/data-model.md §3.1) — same shape as user_settings/consents above.
+  account_deletions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM account_deletions WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: {
+      outsider: op(false, true, false),
+      exMember: op(false, true, false),
+      anonymous: op(false, true, false),
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(true, true, true),
+    },
+  },
+  // RLS class S (docs/data-model.md §3.1: attribution, never client-visible) — no app_user grant at
+  // all, same shape as device_attestations/fair_use_counters above.
+  install_attributions: {
+    selectProbe: { sql: 'SELECT 1 FROM install_attributions LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
 };
 
 /**

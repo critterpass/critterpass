@@ -23,6 +23,7 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
   'change_set.reverted': { trip_id: crypto.randomUUID(), change_set_id: crypto.randomUUID() },
   'change_set.rejected': { trip_id: crypto.randomUUID(), change_set_id: crypto.randomUUID() },
   'rsvp.changed': { trip_id: crypto.randomUUID(), user_id: crypto.randomUUID(), rsvp: 'in' },
+  'auth.merged': { from_uid: crypto.randomUUID(), into_uid: crypto.randomUUID() },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

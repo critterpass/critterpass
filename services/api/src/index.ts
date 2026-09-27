@@ -7,6 +7,25 @@ import packageJson from '../package.json' with { type: 'json' };
 
 import { createApp } from './app';
 import { loadApiEnv } from './env';
+import { createAuthModule } from './auth';
+import {
+  buildAppleSiwaConfigFromEnv,
+  buildAppleSocialConfigFromEnv,
+  buildAttestationConfigFromEnv,
+  buildAuthRateLimitCustomRules,
+  buildFieldEncryptionKeyringFromEnv,
+  buildGoogleSocialConfigFromEnv,
+  buildOtpAdaptersFromEnv,
+  buildTrustedOriginsFromEnv,
+} from './auth/bootstrap';
+import {
+  registerAppleAuthorizationCodeRoute,
+  registerAuthExtraRoutes,
+  registerMergeExecuteRoute,
+  registerMergeTicketPreviewRoute,
+  registerReturningPhoneSignInRoute,
+} from './routes/auth-extra';
+import { registerWhatsAppWebhookRoutes } from './routes/webhooks-whatsapp';
 
 const env = loadApiEnv();
 const logger = pino({ level: env.LOG_LEVEL, base: { service: 'api', commit: env.COMMIT_SHA } });
@@ -45,6 +64,83 @@ const app = createApp({
   },
 });
 
+// --- Better Auth: /api/auth/*, plus this phase's own routes riding alongside it
+// (docs/api-contracts.md §5.1). Every provider/channel below is built only from the credentials
+// actually present in env — an absent one is omitted, never faked (services/api/src/auth/bootstrap.ts).
+const authModule = createAuthModule({
+  appPool: pool,
+  authDatabaseUrl: env.AUTH_DATABASE_URL,
+  redis,
+  secret: env.BETTER_AUTH_SECRET,
+  baseUrl: `${env.PUBLIC_BASE_URL}/api/auth`,
+  trustedOrigins: buildTrustedOriginsFromEnv(env),
+  otpAdapters: buildOtpAdaptersFromEnv(env),
+  rateLimit: { customRules: buildAuthRateLimitCustomRules() },
+  attestation: buildAttestationConfigFromEnv(env),
+  onAttestationFailure: (error, context) => {
+    logger.warn({ err: error, ...context }, 'attestation check failed (log mode, request allowed)');
+  },
+  apple: buildAppleSocialConfigFromEnv(env),
+  google: buildGoogleSocialConfigFromEnv(env),
+  isProduction: env.APP_ENV === 'production',
+});
+
+// This phase's own routes that are not Better Auth endpoints (docs/api-contracts.md §5.1): the
+// attestation challenge always registers (it needs only Redis), while the rest register only when
+// their own dependencies are present.
+registerAuthExtraRoutes(app, { redis });
+registerMergeTicketPreviewRoute(app, {
+  auth: authModule.auth,
+  appPool: pool,
+  secret: env.BETTER_AUTH_SECRET,
+});
+registerMergeExecuteRoute(app, {
+  auth: authModule.auth,
+  appPool: pool,
+  redis,
+  secret: env.BETTER_AUTH_SECRET,
+});
+registerReturningPhoneSignInRoute(app, {
+  auth: authModule.auth,
+  redis,
+  secret: env.BETTER_AUTH_SECRET,
+});
+
+const appleSiwaConfig = buildAppleSiwaConfigFromEnv(env);
+const fieldEncryptionKeyring = buildFieldEncryptionKeyringFromEnv(env);
+if (appleSiwaConfig && fieldEncryptionKeyring) {
+  registerAppleAuthorizationCodeRoute(app, {
+    auth: authModule.auth,
+    clientSecretConfig: appleSiwaConfig.clientSecretConfig,
+    redirectUri: appleSiwaConfig.redirectUri,
+    http: { fetch: (input, init) => fetch(input, init) },
+    keyring: fieldEncryptionKeyring,
+  });
+} else {
+  logger.info(
+    'Sign in with Apple authorization-code capture is disabled: APPLE_SIWA_* or FIELD_ENCRYPTION_KEYS is unset',
+  );
+}
+
+if (env.WHATSAPP_APP_SECRET && env.WHATSAPP_VERIFY_TOKEN) {
+  registerWhatsAppWebhookRoutes(app, {
+    appPool: pool,
+    redis,
+    appSecret: env.WHATSAPP_APP_SECRET,
+    verifyToken: env.WHATSAPP_VERIFY_TOKEN,
+  });
+} else {
+  logger.info(
+    'WhatsApp status webhook is disabled: WHATSAPP_APP_SECRET or WHATSAPP_VERIFY_TOKEN is unset',
+  );
+}
+
+// Mounted last: Better Auth's own catch-all handler must never shadow the more specific routes
+// above (`/api/auth/sign-in/phone-number` in particular — registerReturningPhoneSignInRoute wins
+// over Better Auth's own password-based endpoint of the same name only because Hono matches the
+// first registered route).
+app.on(['GET', 'POST'], '/api/auth/*', (c) => authModule.handler(c.req.raw));
+
 const server = serve({ fetch: app.fetch, port: env.PORT }, (info) => {
   logger.info({ port: info.port }, 'api listening');
 });
@@ -55,12 +151,14 @@ function shutdown(signal: string) {
   shuttingDown = true;
   logger.info({ signal }, 'draining');
   server.close(() => {
-    void Promise.allSettled([pool.end(), redis.isOpen ? redis.close() : Promise.resolve()]).then(
-      () => {
-        logger.info('stopped');
-        process.exit(0);
-      },
-    );
+    void Promise.allSettled([
+      pool.end(),
+      redis.isOpen ? redis.close() : Promise.resolve(),
+      authModule.close(),
+    ]).then(() => {
+      logger.info('stopped');
+      process.exit(0);
+    });
   });
   // Railway sends SIGKILL after its drain window; exit before that with whatever finished.
   setTimeout(() => process.exit(1), 10_000).unref();
