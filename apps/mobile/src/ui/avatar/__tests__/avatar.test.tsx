@@ -1,6 +1,6 @@
 // Skia's native renderer does not exist under Jest; see test-support/skia-double for the stand-in.
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
-jest.mock('@shopify/react-native-skia', () => require('../../test-support/skia-double'));
+jest.mock('@shopify/react-native-skia', () => require('../test-support/skia-double'));
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
 jest.mock('../../sticker/Sticker', () => require('../test-support/sticker-double'));
 jest.mock('expo-router', () => ({ useIsFocused: () => true }));
@@ -12,6 +12,7 @@ import { renderUi } from '../../test-support/render';
 import { UserAvatar, visibleAvatar, type AvatarView } from '../Avatar';
 import { AvatarPicker } from '../AvatarPicker';
 import { GUIDE_AVATAR_IDS, GUIDE_STICKERS } from '../guides';
+import { PhotoAvatar } from '../PhotoAvatar';
 
 const pending: AvatarView = {
   kind: 'photo',
@@ -115,5 +116,30 @@ describe('AvatarPicker', () => {
     expect(GUIDE_STICKERS.tokek.kind).toBe('gecko');
     expect(GUIDE_STICKERS.lundi.kind).toBe('puffin');
     expect(GUIDE_STICKERS.paco.kind).toBe('alpaca');
+  });
+});
+
+describe('PhotoAvatar', () => {
+  const propsOf = (id: string) =>
+    screen
+      .getAllByTestId(id)
+      .map((node) => (node.props as { skiaProps: Record<string, unknown> }).skiaProps);
+
+  it('traces a white sticker outline around the cut-out, under the subject', async () => {
+    await renderUi(<PhotoAvatar uri="file:///cut.png" size={120} cutout testID="p" />);
+    const images = propsOf('skia-image');
+    expect(images).toHaveLength(2);
+    expect(images.map((image) => image['image'])).toEqual([
+      { uri: 'file:///cut.png' },
+      { uri: 'file:///cut.png' },
+    ]);
+    expect(propsOf('skia-morphology')).toEqual([{ operator: 'dilate', radius: 5 }]);
+    expect(propsOf('skia-blend-color')[0]).toMatchObject({ mode: 'srcIn' });
+  });
+
+  it('shows a photo without a subject as a plain circle crop', async () => {
+    await renderUi(<PhotoAvatar uri="file:///photo.png" size={120} cutout={false} testID="p" />);
+    expect(screen.queryByTestId('skia-image')).toBeNull();
+    expect(screen.queryByTestId('skia-morphology')).toBeNull();
   });
 });

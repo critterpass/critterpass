@@ -116,3 +116,32 @@ export async function uploadAvatar(
   onProgress(1);
   return { kind: 'uploaded', mediaKey: presign.body.media_key };
 }
+
+/** The on-device lift and avatar PNG layout (cp-subject-lift's API). */
+export interface AvatarLifter {
+  /** False where the device cannot segment: every photo then takes the circle crop. */
+  readonly canLift: boolean;
+  lift(uri: string): Promise<{ readonly uri: string } | null>;
+  prepare(
+    uri: string,
+    options: { readonly cutout: boolean; readonly zoom: number },
+  ): Promise<{ readonly uri: string; readonly sha256: string }>;
+}
+
+/** The photo services over the lift, a picker, the presign HTTP and a file reader. */
+export function photoServicesFrom(
+  lifter: AvatarLifter,
+  picker: PhotoPicker,
+  http: PresignHttp,
+  readBytes: (uri: string) => Promise<Uint8Array>,
+): PhotoServices {
+  return {
+    picker,
+    lift: lifter.canLift ? { lift: (uri) => lifter.lift(uri) } : null,
+    async prepare(uri, lifted, zoom) {
+      const png = await lifter.prepare(uri, { cutout: lifted, zoom });
+      return { uri: png.uri, bytes: await readBytes(png.uri), sha256: png.sha256, cutout: lifted };
+    },
+    upload: (prepared, onProgress) => uploadAvatar(http, prepared, onProgress),
+  };
+}

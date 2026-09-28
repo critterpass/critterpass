@@ -1,7 +1,7 @@
 /**
  * The device's onboarding services: the app's one auth client, Sign in with Apple (iOS), Google
- * Sign-In, and the IP geo hint over the api. This build has no photo picker, so the real-photo
- * option is not offered (`photos: null`).
+ * Sign-In, the IP geo hint over the api, and the photo avatar pipeline where this binary has the
+ * picker and subject lift (otherwise `photos: null` and the real-photo option is not offered).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, env names and error codes, never copy. */
 import { GoogleSignin, isSuccessResponse } from '@react-native-google-signin/google-signin';
@@ -15,6 +15,8 @@ import { deviceAuth, sessionHeaders } from '@/data/app-session/device-session';
 import type { NativeIdTokenProvider } from '@/data/auth';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 
+import { devicePhotoServices } from './photo/device-photos';
+import type { AvatarLifter } from './photo/photo-pipeline';
 import type { OnboardingServices } from './services';
 
 class NotConfiguredError extends Error {
@@ -77,13 +79,14 @@ async function geoHint(): Promise<GeoHint | null> {
 
 let services: OnboardingServices | null = null;
 
-export function deviceOnboardingServices(): OnboardingServices {
+/** `lifter`: the on-device subject lift, or null in a binary built without it. */
+export function deviceOnboardingServices(lifter: AvatarLifter | null): OnboardingServices {
   services ??= {
     auth: deviceAuth(),
     apple: Platform.OS === 'ios' ? appleProvider : null,
     google: googleProvider,
     geoHint,
-    photos: null,
+    photos: devicePhotoServices(lifter),
   };
   return services;
 }

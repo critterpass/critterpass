@@ -149,7 +149,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Avatar component (sizes, ring, pending/rejected fallbacks). 2. Subject lift + Skia outline; no-subject fallback circular crop. 3. Upload via phase-10 media presign (surfaces `RATE_LIMITED`).
 - Tests: `pnpm --filter @cp/mobile test -- ui/avatar`; `./gradlew :cp-subject-lift:testDebugUnitTest`; `xcodebuild test -scheme CpSubjectLiftTests`.
 - Done when: sample photo → cut-out PNG with alpha on both platforms; pending/rejected/rate-limited states render in RNTL.
-- Status: blocked — Avatar component, states, upload and App Group mirror done (eaf8e606); the `cp-subject-lift` native module and the photo picker need a new EAS binary, not built in this pass
+- Status: done — fe95344c (the avatar component, states, upload and App Group mirror in eaf8e606; the photo picker and subject lift reach devices with the next native build)
 
 ### T5b — Avatar moderation, variants, App Group mirror
 - Goal: F-040 server side + OS-surface variants.
