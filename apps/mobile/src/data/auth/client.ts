@@ -9,6 +9,9 @@ import { createAuthClient, type BetterAuthClientPlugin } from 'better-auth/clien
 import { adminClient, anonymousClient, phoneNumberClient } from 'better-auth/client/plugins';
 import * as SecureStore from 'expo-secure-store';
 
+import type { Attestor } from '../../lib/attestation';
+import { createAttestedFetch } from './attested-fetch';
+
 export interface CreateMobileAuthClientConfig {
   readonly baseUrl: string;
   /** The app's own URL scheme (app.config.ts), for the Expo client's OAuth-redirect callback. */
@@ -17,6 +20,8 @@ export interface CreateMobileAuthClientConfig {
   readonly storage?: ExpoClientStorage;
   /** The HTTP transport; the platform `fetch` on device. */
   readonly fetchImpl?: typeof fetch;
+  /** Device attestation for anonymous sign-in and OTP send; absent -> those calls go out unattested. */
+  readonly attestor?: Attestor;
 }
 
 /** The origin the api trusts for this app variant (services/api/src/auth/bootstrap.ts). */
@@ -51,10 +56,17 @@ function expoOriginOnEveryRequest(scheme: string) {
   } satisfies BetterAuthClientPlugin;
 }
 
+function transport(config: CreateMobileAuthClientConfig): typeof fetch | undefined {
+  if (!config.attestor) return config.fetchImpl;
+  const base: typeof fetch = config.fetchImpl ?? ((input, init) => fetch(input, init));
+  return createAttestedFetch(base, config.attestor);
+}
+
 export function createMobileAuthClient(config: CreateMobileAuthClientConfig) {
+  const customFetchImpl = transport(config);
   return createAuthClient({
     baseURL: config.baseUrl,
-    ...(config.fetchImpl ? { fetchOptions: { customFetchImpl: config.fetchImpl } } : {}),
+    ...(customFetchImpl ? { fetchOptions: { customFetchImpl } } : {}),
     plugins: [
       anonymousClient(),
       phoneNumberClient(),

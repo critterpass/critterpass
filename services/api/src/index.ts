@@ -117,6 +117,9 @@ const authModule = createAuthModule({
   onAttestationFailure: (error, context) => {
     logger.warn({ err: error, ...context }, 'attestation check failed (log mode, request allowed)');
   },
+  onAttestationVerified: (context) => {
+    logger.info(context, 'attestation verified');
+  },
   apple: buildAppleSocialConfigFromEnv(env),
   google: buildGoogleSocialConfigFromEnv(env),
   isProduction: env.APP_ENV === 'production',

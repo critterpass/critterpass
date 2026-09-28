@@ -102,7 +102,7 @@ describe('enforceAttestation: enforce mode', () => {
   it('stores a real device_attestations row for a valid ios attestation', async () => {
     const installId = randomUUID();
     const { challenge } = await issueChallenge(redis, installId);
-    const challengeBuffer = Buffer.from(challenge, 'base64url');
+    const challengeBuffer = Buffer.from(challenge, 'utf8');
     const fixture = await buildAppAttestFixture({
       root,
       teamId: TEAM_ID,
@@ -183,7 +183,7 @@ describe('enforceAttestation: log mode', () => {
       root,
       teamId: TEAM_ID,
       bundleId: BUNDLE_ID,
-      challenge: Buffer.from(challenge, 'base64url'),
+      challenge: Buffer.from(challenge, 'utf8'),
     });
     const headers = new Headers({
       'x-cp-install-id': installId,
@@ -197,6 +197,50 @@ describe('enforceAttestation: log mode', () => {
       deps(appAttestConfig({ iosMode: 'log', androidMode: 'log' })),
     );
     expect(await storedAttestation(installId)).toBeDefined();
+  });
+
+  it('reports the verdict of a valid attestation via onAttestationVerified', async () => {
+    const installId = randomUUID();
+    const { challenge } = await issueChallenge(redis, installId);
+    const fixture = await buildAppAttestFixture({
+      root,
+      teamId: TEAM_ID,
+      bundleId: BUNDLE_ID,
+      challenge: Buffer.from(challenge, 'utf8'),
+    });
+    const verified: unknown[] = [];
+    await enforceAttestation(
+      new Headers({
+        'x-cp-install-id': installId,
+        'x-cp-platform': 'ios',
+        'x-cp-challenge': challenge,
+        'x-cp-attestation': fixture.attestationObject.toString('base64'),
+        'x-cp-key-id': fixture.keyId,
+      }),
+      {
+        ...deps(appAttestConfig({ iosMode: 'log', androidMode: 'log' })),
+        onAttestationVerified: (context) => void verified.push(context),
+      },
+    );
+    expect(verified).toEqual([
+      { installId, platform: 'ios', kind: 'attestation', verdict: 'development' },
+    ]);
+  });
+
+  it("passes the client's own unavailable reason to the failure report", async () => {
+    const contexts: unknown[] = [];
+    const installId = randomUUID();
+    await enforceAttestation(
+      new Headers({
+        'x-cp-install-id': installId,
+        'x-cp-platform': 'ios',
+        'x-cp-attestation-unavailable': 'unsupported',
+      }),
+      deps(appAttestConfig({ iosMode: 'log', androidMode: 'log' }), (_error, context) => {
+        contexts.push(context);
+      }),
+    );
+    expect(contexts).toEqual([{ installId, platform: 'ios', unavailableReason: 'unsupported' }]);
   });
 });
 

@@ -23,6 +23,7 @@ import {
   type AuthDataLayer,
   type MobileAuthClient,
 } from '../auth';
+import { createDeviceAttestor } from '../auth/device-attestor';
 import { createDeviceResolver } from '../commands/device';
 import type { ExtensionOutbox } from '../commands/drain-extension-outbox';
 import { resolveApiBaseUrl } from '../places/apiBaseUrl';
@@ -73,7 +74,11 @@ export function configureDeviceAppGroup(access: AppGroupAccess): void {
 let client: MobileAuthClient | null = null;
 
 function authClient(): MobileAuthClient {
-  client ??= createMobileAuthClient({ baseUrl: resolveApiBaseUrl(), scheme: appScheme() });
+  client ??= createMobileAuthClient({
+    baseUrl: resolveApiBaseUrl(),
+    scheme: appScheme(),
+    attestor: createDeviceAttestor(resolveApiBaseUrl()),
+  });
   return client;
 }
 

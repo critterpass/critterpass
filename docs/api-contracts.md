@@ -454,7 +454,7 @@ Auth column: **S** session bearer · **A** anonymous session allowed · **K** de
 | `GET /api/auth/token?aud=sync\|rt` | S | short (15 min) EdDSA JWT for PowerSync (`aud: sync`) / Centrifugo (`aud: rt`); claims `sub` (uid), `sid`, `anon`, `kid` |
 | `GET /api/auth/jwks` | P | consumed by PowerSync + Centrifugo |
 | `POST /api/auth/sign-out`, `/revoke-session(s)` | S | → `SESSION_REVOKED` fan-out on `user:#uid` + device action key revocation |
-| `POST /v1/attest/challenge` | P | `{installId}` → `{challenge}`; single-use, Redis, 5 min TTL, bound to install id; consumed by the next App Attest/Play Integrity assertion |
+| `POST /v1/attest/challenge` | P | `{installId}` → `{challenge}`; single-use, Redis, 5 min TTL, bound to install id; consumed by the next App Attest/Play Integrity assertion. Attested calls send `X-CP-Install-Id`, `X-CP-Platform`, `X-CP-Challenge` plus `X-CP-Attestation` + `X-CP-Key-Id` (first call per install) or `X-CP-Assertion` (iOS; client data hash = SHA-256 of the challenge string's UTF-8 bytes) or `X-CP-Integrity-Token` (Android standard request, request hash = the challenge); a device that cannot attest sends `X-CP-Attestation-Unavailable: <reason>` instead, logged only, the per-platform mode decides |
 | `POST /v1/auth/merge-ticket` | S | when link fails with existing identity → `{ticket, preview{crews, trips}}` |
 | `POST /v1/auth/merge` | S | `{ticket, strategy: keep_existing}` → server merges anon data into existing uid (`onLinkAccount`), mints and returns a session for the existing uid in the same response, client `disconnectAndClear()` |
 | `POST /v1/auth/apple/authorization-code` | S | capture SIWA refresh token (AES-256-GCM encrypted) for revocation on deletion; requires an already-linked Apple account |
