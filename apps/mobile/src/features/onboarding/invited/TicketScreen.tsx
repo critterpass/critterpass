@@ -175,7 +175,7 @@ export function TicketScreen() {
   const inviter = model.inviterFirstName ?? '';
 
   return (
-    <Scaffold variant="dark" edges={['top', 'bottom']} testID="invite-ticket-screen">
+    <Scaffold variant="dark" edges={['top', 'bottom']} testID="screen-onboarding-invite-ticket">
       <View style={styles.content}>
         {model.inviterFirstName !== null ? (
           <View style={styles.inviter}>
