@@ -185,3 +185,10 @@ registerMergeRule({
 // participants (which merge above), so an anonymous uid's copies are dropped, never carried over.
 registerMergeRule({ table: 'share_calcs', userColumn: 'user_id', strategy: 'drop' });
 registerMergeRule({ table: 'trip_share_totals', userColumn: 'user_id', strategy: 'drop' });
+
+// Location: share windows and POI visits follow the user; live fixes and computed ETAs are
+// minutes-lived or rebuilt by the system, so an anonymous uid's copies are dropped.
+registerMergeRule({ table: 'location_shares', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({ table: 'location_fixes', userColumn: 'user_id', strategy: 'drop' });
+registerMergeRule({ table: 'member_etas', userColumn: 'user_id', strategy: 'drop' });
+registerMergeRule({ table: 'visits', userColumn: 'user_id', strategy: 'reassign' });
