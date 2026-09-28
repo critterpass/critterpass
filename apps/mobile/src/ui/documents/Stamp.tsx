@@ -33,7 +33,19 @@ export interface StampProps {
 const useStyles = makeStyles(() => ({
   face: { alignItems: 'center', justifyContent: 'center', borderWidth: 4, padding: 6 },
   inner: { alignItems: 'center', justifyContent: 'center', borderWidth: 1.5 },
+  line: { alignSelf: 'stretch', textAlign: 'center' },
 }));
+
+/** Stamp words shrink to fit their ring rather than wrap mid-word ("ISSU/ED") or truncate. */
+const FIT = { adjustsFontSizeToFit: true, minimumFontScale: 0.45 } as const;
+
+/**
+ * Side inset of the stamp's lines: a round face narrows towards its top and bottom, so its small
+ * lines keep clear of the ring (the chord at the height they sit is about 80% of the diameter).
+ */
+export function stampLineInset(innerWidth: number, round: boolean): number {
+  return round ? Math.round(innerWidth * 0.1) : 4;
+}
 
 function Face({ title, top, bottom, ink, shape = 'round', size = 96, tilt = -8 }: StampProps) {
   const styles = useStyles();
@@ -41,6 +53,7 @@ function Face({ title, top, bottom, ink, shape = 'round', size = 96, tilt = -8 }
   const round = shape !== 'rect';
   const width = round ? size : size * 1.6;
   const radius = round ? size / 2 : theme.radius.sm;
+  const edge = { marginHorizontal: stampLineInset(width - 16, round) };
   return (
     <View
       style={[
@@ -68,15 +81,21 @@ function Face({ title, top, bottom, ink, shape = 'round', size = 96, tilt = -8 }
         ]}
       >
         {top ? (
-          <Text variant="label" color={ink}>
+          <Text variant="label" color={ink} numberOfLines={1} style={[styles.line, edge]} {...FIT}>
             {top}
           </Text>
         ) : null}
-        <Text variant="h3" color={ink} numberOfLines={2} style={{ textAlign: 'center' }}>
+        <Text
+          variant="h3"
+          color={ink}
+          numberOfLines={round ? 1 : 2}
+          style={[styles.line, { marginHorizontal: 2 }]}
+          {...FIT}
+        >
           {title}
         </Text>
         {bottom ? (
-          <Text variant="label" color={ink}>
+          <Text variant="label" color={ink} numberOfLines={1} style={[styles.line, edge]} {...FIT}>
             {bottom}
           </Text>
         ) : null}

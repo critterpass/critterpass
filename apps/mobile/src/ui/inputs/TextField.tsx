@@ -92,7 +92,7 @@ export function TextField({
           {label}
         </Text>
       )}
-      <Row style={[styles.field, { borderColor: ringColour(theme, status, focused) }]}>
+      <Row gap="10" style={[styles.field, { borderColor: ringColour(theme, status, focused) }]}>
         {leading}
         <TextInput
           {...inputProps}

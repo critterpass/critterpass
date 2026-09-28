@@ -129,10 +129,14 @@ describe('PhotoAvatar', () => {
     await renderUi(<PhotoAvatar uri="file:///cut.png" size={120} cutout testID="p" />);
     const images = propsOf('skia-image');
     expect(images).toHaveLength(2);
-    expect(images.map((image) => image['image'])).toEqual([
-      { uri: 'file:///cut.png' },
-      { uri: 'file:///cut.png' },
+    expect(images.map((image) => (image['image'] as { uri: string }).uri)).toEqual([
+      'file:///cut.png',
+      'file:///cut.png',
     ]);
+    // Bottom-anchored in the 110 pt canvas inside the ring, its flat edge sunk one outline below.
+    for (const image of images) {
+      expect(Number(image['y']) + Number(image['height'])).toBeCloseTo(115, 5);
+    }
     expect(propsOf('skia-morphology')).toEqual([{ operator: 'dilate', radius: 5 }]);
     expect(propsOf('skia-blend-color')[0]).toMatchObject({ mode: 'srcIn' });
   });

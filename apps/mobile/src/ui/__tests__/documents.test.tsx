@@ -17,7 +17,7 @@ import { PassportPage } from '../documents/PassportPage';
 import { Postcard } from '../documents/Postcard';
 import { Receipt, zigzagPath } from '../documents/Receipt';
 import { appendPoint, SignatureLayer } from '../documents/SignatureLayer';
-import { Stamp } from '../documents/Stamp';
+import { Stamp, stampLineInset } from '../documents/Stamp';
 import { Ticket } from '../documents/Ticket';
 import { Visa } from '../documents/Visa';
 import { WalletStack } from '../documents/WalletStack';
@@ -130,6 +130,26 @@ describe('document artefacts', () => {
     );
     expect(screen.getByRole('image', { name: 'Balances Paid In full' })).toBeTruthy();
     expect(JSON.stringify(screen.toJSON())).toContain('"borderStyle":"dashed"');
+  });
+
+  it('fits every stamp word on one line inside the ring instead of breaking it', async () => {
+    await renderUi(
+      <Stamp
+        title="Issued"
+        top="CRITTERPASS"
+        bottom="SEP 28, 2026"
+        ink={tokens.color.pink}
+        size={92}
+        testID="issued"
+      />,
+    );
+    for (const word of ['ISSUED', 'CRITTERPASS', 'SEP 28, 2026']) {
+      const text = screen.getByText(word);
+      expect(text.props.numberOfLines).toBe(1);
+      expect(text.props.adjustsFontSizeToFit).toBe(true);
+    }
+    expect(stampLineInset(76, true)).toBe(8);
+    expect(stampLineInset(131, false)).toBe(4);
   });
 
   it('flips a postcard and reads the side facing up', async () => {
