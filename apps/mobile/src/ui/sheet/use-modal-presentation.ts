@@ -101,6 +101,11 @@ export function useModalPresentation({
         withTiming(restFor(initialIndex), { duration: enterMs, easing: standard }),
       );
     }
+    // A modal unmounted without being dismissed (its screen left the stack, or a route stopped
+    // rendering it) releases the presenter, or every screen root would stay scaled behind nothing.
+    return () => {
+      if (!dismissing.current) presenterClosed(reduced ? REDUCED_FADE_MS : DISMISS_MS[variant]);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- the entrance runs once per presentation
   }, []);
 
