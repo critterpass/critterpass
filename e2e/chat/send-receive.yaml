@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# 3g-1, one side of a two-simulator run: this device writes to crew ${CREW_ID}, then waits for the
+# other device's reply (sent by the runner with this flow on the second simulator, MESSAGE swapped),
+# and both sides' screenshots are kept for review against the crew chat render.
+#
+# Needs before it can pass: an onboarded account on each simulator, both active members of crew
+# ${CREW_ID}, and the build's api carrying this branch's migrations.
+- launchApp
+- openLink: critterpass-dev://crew/${CREW_ID}/chat
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 15000
+- takeScreenshot: chat-3g-1-open
+- tapOn:
+    text: 'Message.*'
+- inputText: ${MESSAGE}
+- tapOn: 'Send'
+- extendedWaitUntil:
+    visible:
+      text: ${MESSAGE}
+    timeout: 10000
+- extendedWaitUntil:
+    visible:
+      text: ${REPLY}
+    timeout: 30000
+- takeScreenshot: chat-3g-1-conversation

@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# Screenshots of the crew chat's states for review against 3g-1: the timeline, the attach menu,
+# the recorder bar and the empty chat of a new crew.
+#
+# Needs before it can pass: an onboarded account in crew ${CREW_ID} with some history, and a
+# second crew ${NEW_CREW_ID} with no messages yet.
+- launchApp
+- openLink: critterpass-dev://crew/${CREW_ID}/chat
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 15000
+- takeScreenshot: chat-3g-1-timeline
+- tapOn: 'Add attachment'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-attach'
+    timeout: 5000
+- takeScreenshot: chat-attach-menu
+- tapOn: 'Voice note'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-recorder'
+    timeout: 10000
+- takeScreenshot: chat-voice-recorder
+- tapOn: 'Cancel'
+- openLink: critterpass-dev://crew/${NEW_CREW_ID}/chat
+- extendedWaitUntil:
+    visible:
+      id: 'chat-empty'
+    timeout: 15000
+- takeScreenshot: chat-empty

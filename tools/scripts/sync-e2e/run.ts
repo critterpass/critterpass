@@ -10,6 +10,7 @@
 import { parseArgs } from 'node:util';
 
 import { accountSwitch } from './scenarios/account-switch';
+import { crewChat } from './scenarios/crew-chat';
 import { memberRemoval } from './scenarios/member-removal';
 import { offlineReplay } from './scenarios/offline-replay';
 import { realtimeFanout } from './scenarios/realtime-fanout';
@@ -28,6 +29,7 @@ const SCENARIOS: readonly Scenario[] = [
   realtimeFanout,
   memberRemoval,
   accountSwitch,
+  crewChat,
 ];
 
 /** A scenario that hangs fails the run instead of stalling it. */
