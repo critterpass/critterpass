@@ -24,7 +24,7 @@ import type {
   PhoneInviteMatcher,
   ResolvedLink,
 } from '../registry';
-import { previewJoinCode, resolveJoinCode, tripSeats } from './join-code';
+import { crewPeople, previewJoinCode, resolveJoinCode, tripSeats } from './join-code';
 
 const { decryptField } = dbCrypto;
 
@@ -36,6 +36,8 @@ interface PersonalRow {
   readonly expires_at: Date;
   readonly claimed_by: string | null;
   readonly name_enc: string | null;
+  readonly home_hint: string | null;
+  readonly tags: string[] | null;
   readonly join_code_id: string | null;
 }
 
@@ -43,7 +45,8 @@ async function personalInvite(ctx: LinkProviderContext): Promise<PersonalRow | n
   const { target } = ctx;
   if (target.kind !== 'invite' || target.seat === undefined) return null;
   const { rows } = await ctx.tx.query<PersonalRow>(
-    `SELECT invite_id, crew_id, trip_id, status, expires_at, claimed_by, name_enc, join_code_id
+    `SELECT invite_id, crew_id, trip_id, status, expires_at, claimed_by, name_enc, home_hint, tags,
+            join_code_id
        FROM app.invite_for_seat($1)`,
     [seatTokenHash(target.seat)],
   );
@@ -76,13 +79,22 @@ export function createInviteLinkProvider(
       if (personal === null || generic === null) return generic;
       const status = effectiveInviteStatus(personal.status, personal.expires_at, ctx.now);
       const seats = personal.trip_id === null ? null : await tripSeats(ctx.tx, personal.trip_id);
+      const name = inviteeName(personal, ctx.now);
+      const people = await crewPeople(ctx.tx, personal.crew_id, personal.trip_id);
+      const ownSeatWaiting = isOpenInvite(status) ? 1 : 0;
       return {
         ...generic,
+        members: people.members,
+        invited_waiting: Math.max(0, people.invited_waiting - ownSeatWaiting),
         ...(seats ?? {}),
         expires_at: personal.expires_at.toISOString(),
         // A revoked or expired named seat says so; a claimed one falls back to the crew link.
         state: status === 'revoked' ? 'revoked' : status === 'expired' ? 'expired' : generic.state,
-        invitee_first_name: inviteeName(personal, ctx.now),
+        invitee_first_name: name,
+        // What the inviter prefilled travels with the named seat only while it is open.
+        ...(name === null
+          ? {}
+          : { invitee_home_hint: personal.home_hint, invitee_tags: personal.tags ?? [] }),
       };
     },
 

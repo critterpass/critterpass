@@ -18,6 +18,7 @@ const TAXONOMY = [
   'link_clicked',
   'install_attributed',
   'invite_prefill_viewed',
+  'invite_manifest_reached',
   'pass_issued',
   'onboarding_step',
   'account_saved',

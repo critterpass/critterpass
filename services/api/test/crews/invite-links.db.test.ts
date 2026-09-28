@@ -62,7 +62,11 @@ describe('personal link previews', () => {
       seats_taken: 3,
       seat_cap: 6,
       state: 'active',
+      invitee_home_hint: null,
+      invitee_tags: [],
+      invited_waiting: 0,
     });
+    expect((await preview(link.target))?.members).toHaveLength(3);
     const dev = await harness.signInAnonymously();
     await runCommand(harness, dev, 'accept_invite', { code: link.code, seat: link.seat });
     expect(await preview(link.target)).toMatchObject({

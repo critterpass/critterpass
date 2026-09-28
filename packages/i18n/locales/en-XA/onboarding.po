@@ -7,9 +7,26 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-XA\n"
 
+#. placeholder {0}: format.list(locale, names)
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.membersIn"
+msgstr ""
+
 #. placeholder {0}: movingCrews.length
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.moving"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
+msgid "onboarding.invite.code.alreadyIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.crewFullTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.fullLine"
 msgstr ""
 
 #. placeholder {0}: quiz.length
@@ -21,8 +38,96 @@ msgstr ""
 msgid "onboarding.home.hoursAway"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.revokedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.prefilled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.lineTags"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.referralTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.someWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.oneWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.allIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.count"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.minutesAway"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.titleNamedCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.titleNamed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.waitlistTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.seatOf"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/TravelChips.tsx
+msgid "onboarding.invite.pass.more"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
+msgid "onboarding.invite.code.each"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.face"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.oneOfOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.travel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.issue"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.titleGeneric"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
@@ -40,6 +145,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/photo/PhotoScreen.tsx
 msgid "onboarding.photo.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.tripClosedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.expiredLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
@@ -63,12 +180,24 @@ msgstr ""
 msgid "onboarding.save.terms"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.notFoundTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.change"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.edit"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.packedDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.notFoundLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
@@ -116,6 +245,22 @@ msgstr ""
 msgid "onboarding.phone.pickCountry"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.label"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.seatCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.a11y"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.coverTitle"
@@ -123,6 +268,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.head"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.head"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
@@ -137,6 +286,14 @@ msgstr ""
 msgid "onboarding.photo.real.lifting"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.dates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.datesOpen"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.devTools"
 msgstr ""
@@ -145,8 +302,16 @@ msgstr ""
 msgid "onboarding.tag.sitDownDining.short"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
+msgid "onboarding.invite.pass.editDone"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.each"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
@@ -165,12 +330,44 @@ msgstr ""
 msgid "onboarding.tag.easyPace"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.usedUpLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.body"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
+msgid "onboarding.invite.code.found"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.provenance"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.rateLimitedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
+msgid "onboarding.invite.pass.editName"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.givenName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
+msgid "onboarding.invite.manifest.home"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.home"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
@@ -194,6 +391,10 @@ msgstr ""
 msgid "onboarding.pass.home"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
+msgid "onboarding.invite.pass.editHome"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.summaryTitle"
 msgstr ""
@@ -206,12 +407,36 @@ msgstr ""
 msgid "onboarding.splash.invite"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestGrid.tsx
+msgid "onboarding.invite.manifest.member"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 msgid "onboarding.issued.stamp"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.issued"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.join"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.joinWaitlist"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.waitlist"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.lookAround"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestGrid.tsx
+msgid "onboarding.invite.manifest.justNow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
@@ -230,12 +455,24 @@ msgstr ""
 msgid "onboarding.tag.localLife"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.localLife.short"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.review"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.problem.startPass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.referralLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
@@ -267,6 +504,10 @@ msgstr ""
 msgid "onboarding.name.next"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.next"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.nightlife"
 msgstr ""
@@ -280,6 +521,10 @@ msgstr ""
 msgid "onboarding.home.noResults"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.wrongToast"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.offline"
 msgstr ""
@@ -290,6 +535,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.notNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestGrid.tsx
+msgid "onboarding.invite.manifest.notYet"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
@@ -312,6 +561,10 @@ msgstr ""
 msgid "onboarding.issued.body"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
+msgid "onboarding.invite.manifest.openCrew"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.open"
 msgstr ""
@@ -324,6 +577,10 @@ msgstr ""
 msgid "onboarding.phone.or"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestGrid.tsx
+msgid "onboarding.invite.manifest.organiser"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.packedDays.short"
 msgstr ""
@@ -334,6 +591,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.coverMark"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.pastedFrom"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
@@ -384,8 +645,20 @@ msgstr ""
 msgid "onboarding.saved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
+msgid "onboarding.invite.manifest.sayHi"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/phone/CountryPicker.tsx
 msgid "onboarding.phone.countrySearch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.seat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
+msgid "onboarding.invite.manifest.plan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
@@ -406,6 +679,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.returningBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.crewFullLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
@@ -468,8 +749,16 @@ msgstr ""
 msgid "onboarding.photo.real.camera"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.take"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 msgid "onboarding.issued.saveNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.lineBlank"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
@@ -492,6 +781,10 @@ msgstr ""
 msgid "onboarding.phone.expired"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.wrong"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.error.unknown"
 msgstr ""
@@ -510,6 +803,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.error.expired"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.crewLimitTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
@@ -536,6 +833,22 @@ msgstr ""
 msgid "onboarding.phone.sendFailed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.theCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.usedUpTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.expiredTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.revokedTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/TasteScreen.tsx
 msgid "onboarding.taste.title"
 msgstr ""
@@ -544,8 +857,20 @@ msgstr ""
 msgid "onboarding.merge.body"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.tripClosedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.blank"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.thrifty.short"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
@@ -555,6 +880,10 @@ msgstr ""
 #. placeholder {0}: Math.max(1, Math.ceil(retryS / 60))
 #: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
 msgid "onboarding.phone.limitedFor"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.rateLimitedTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
@@ -569,6 +898,10 @@ msgstr ""
 msgid "onboarding.tag.splurge"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.problem.retry"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.retry"
 msgstr ""
@@ -580,6 +913,10 @@ msgstr ""
 #. placeholder {0}: Math.max(1, Math.ceil(state.retryAfterS / 60))
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.limitMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.problem.typeCode"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
@@ -642,6 +979,10 @@ msgstr ""
 msgid "onboarding.phone.returningTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.welcome"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
 msgid "onboarding.name.title"
 msgstr ""
@@ -650,8 +991,40 @@ msgstr ""
 msgid "onboarding.home.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.someone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.eachLater"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.wrongCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.you"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.waitlistFirst"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.waitlistBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.crewLimitLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.offlineTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
@@ -685,6 +1058,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.tagline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.offlineLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx

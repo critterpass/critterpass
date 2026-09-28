@@ -29,6 +29,21 @@ export const linkPreviewSchema = z.object({
   trip_end: z.string().nullable().optional(),
   seats_taken: z.number().int().nonnegative().nullable().optional(),
   seat_cap: z.number().int().positive().nullable().optional(),
+  /** The crew's active members as the ticket's stubs: first name and member colour only. */
+  members: z
+    .array(z.object({ first_name: z.string(), colour: z.string().nullable() }))
+    .max(16)
+    .optional(),
+  /** Named seats still waiting on someone else (never who). */
+  invited_waiting: z.number().int().nonnegative().optional(),
+  /** Per-person estimate of the trip in minor units of `estimate_currency`. */
+  estimate_minor: z.number().int().nonnegative().nullable().optional(),
+  estimate_currency: z.string().length(3).nullable().optional(),
+  /** The trip's guide (persona slug), when a trip has one. */
+  guide_slug: z.string().nullable().optional(),
+  /** A personal link while its named seat is open: the inviter's prefill (home hint, tags). */
+  invitee_home_hint: z.string().nullable().optional(),
+  invitee_tags: z.array(z.string()).max(3).optional(),
 });
 export type LinkPreview = z.infer<typeof linkPreviewSchema>;
 
