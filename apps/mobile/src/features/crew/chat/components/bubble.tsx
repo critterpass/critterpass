@@ -1,0 +1,214 @@
+/**
+ * One timeline message: crewmates' bubbles on the left (dark, avatar and name on the first of a
+ * run, the tail corner on the last), the member's own on the right (yellow), the guide's lines in
+ * its voice and colour, system rows as a centred caption, and a tombstone for deleted messages.
+ * Own sends show their delivery state (a clock while sending; RETRY and DELETE once refused).
+ * The body of each message type comes from `renderBody`, so cards plug in without touching this.
+ */
+import { t } from '@lingui/core/macro';
+import type { ReactNode } from 'react';
+import { View } from 'react-native';
+import Animated from 'react-native-reanimated';
+
+import { useLocale } from '@/lib/i18n/use-locale';
+import { InlineAction } from '@/ui/buttons/InlineAction';
+import { Icon } from '@/ui/icons/Icon';
+import { Avatar } from '@/ui/people/Avatar';
+import { Row, Stack, Text, useTheme } from '@/ui';
+import { makeStyles } from '@/ui/theme';
+
+import type { ChatMessage } from '../data/rows';
+import { firstName } from '../data/use-typing';
+import { timeOf } from './format';
+import { useRise } from './rise';
+import { systemLine } from './system-line';
+
+export interface BubbleProps {
+  readonly message: ChatMessage;
+  readonly mine: boolean;
+  readonly first: boolean;
+  readonly last: boolean;
+  /** Crew join order of the sender (member colour); -1 when unknown. */
+  readonly joinIndex: number;
+  readonly guideColor?: string;
+  /** The viewer's zone for the time; the device zone when absent. */
+  readonly timeZone?: string;
+  /** Rise into place (a message that arrived while the chat was open). */
+  readonly animate?: boolean;
+  /** The message body for non-text types (cards, photos, voice notes). */
+  readonly renderBody?: (message: ChatMessage) => ReactNode;
+  /** Quote of the message this one replies to. */
+  readonly quote?: ReactNode;
+  readonly reactions?: ReactNode;
+  readonly onRetry?: () => void;
+  readonly onDiscard?: () => void;
+}
+
+const useStyles = makeStyles((th) => ({
+  bubble: { paddingHorizontal: th.space['14'], paddingVertical: th.space['10'], maxWidth: '82%' },
+  avatarSlot: { width: th.size.avatar.lg, alignItems: 'center' },
+  system: {
+    alignSelf: 'center',
+    paddingVertical: th.space['6'],
+    paddingHorizontal: th.space['24'],
+  },
+  meta: { gap: th.space['6'], alignItems: 'center' },
+}));
+
+export function Bubble(props: BubbleProps) {
+  const { message, mine, first, last, joinIndex, guideColor, animate = false } = props;
+  const styles = useStyles();
+  const theme = useTheme();
+  const locale = useLocale();
+  const rise = useRise(animate);
+
+  if (message.senderKind === 'system' && message.type === 'system') {
+    return (
+      <Animated.View style={[styles.system, rise]} testID={`chat-system-${message.id}`}>
+        <Text
+          variant="caption"
+          color={theme.semantic.text.secondary}
+          style={{ textAlign: 'center' }}
+        >
+          {systemLine(message.refKind, message.refName, message.body)}
+        </Text>
+      </Animated.View>
+    );
+  }
+
+  const guide = message.senderKind === 'guide';
+  const author = mine ? null : guide ? (message.senderName ?? null) : firstName(message.senderName);
+  const time = timeOf(message.createdAt, locale, props.timeZone);
+  const radii = mine ? theme.radius.chatBubble.mine : theme.radius.chatBubble.theirs;
+  const [topStart = 0, topEnd = 0, bottomEnd = 0, bottomStart = 0] = radii;
+  const tail = last
+    ? {}
+    : mine
+      ? { borderBottomEndRadius: topEnd }
+      : { borderBottomStartRadius: topStart };
+  const deleted = message.deleted;
+  const text = deleted
+    ? t({ id: 'chat.message.deleted', message: 'Message deleted' })
+    : message.body;
+  const who = author ?? t({ id: 'chat.message.you', message: 'You' });
+  const spoken = t({ id: 'chat.message.spoken', message: `${who}, ${time}: ${text}` });
+  const custom = !deleted && message.type !== 'text' ? props.renderBody?.(message) : null;
+
+  return (
+    <Animated.View style={rise} testID={`chat-message-${message.id}`}>
+      <Row gap="8" align="flex-end" justify={mine ? 'flex-end' : 'flex-start'}>
+        {mine ? null : (
+          <View style={styles.avatarSlot}>
+            {last && !guide ? (
+              <Avatar
+                name={author ?? '?'}
+                joinIndex={Math.max(0, joinIndex)}
+                size="sm"
+                decorative
+              />
+            ) : null}
+          </View>
+        )}
+        <Stack gap="4" style={{ flexShrink: 1, alignItems: mine ? 'flex-end' : 'flex-start' }}>
+          {first && author !== null ? (
+            <Text variant="label" color={guide ? guideColor : theme.semantic.text.secondary}>
+              {author}
+            </Text>
+          ) : null}
+          <View accessible accessibilityLabel={spoken}>
+            {custom ?? (
+              <Stack
+                gap="6"
+                style={[
+                  styles.bubble,
+                  {
+                    borderTopStartRadius: topStart,
+                    borderTopEndRadius: topEnd,
+                    borderBottomEndRadius: bottomEnd,
+                    borderBottomStartRadius: bottomStart,
+                    ...tail,
+                    backgroundColor:
+                      mine && !deleted ? theme.semantic.action.primary : theme.semantic.bg.raised,
+                  },
+                ]}
+              >
+                {props.quote}
+                <Text
+                  variant={guide && !deleted ? 'voice' : 'body'}
+                  color={
+                    deleted
+                      ? theme.semantic.text.tertiary
+                      : mine
+                        ? theme.semantic.text.onAccent
+                        : guide
+                          ? guideColor
+                          : undefined
+                  }
+                >
+                  {text}
+                </Text>
+              </Stack>
+            )}
+          </View>
+          {props.reactions}
+          <DeliveryLine {...props} time={time} />
+        </Stack>
+      </Row>
+    </Animated.View>
+  );
+}
+
+function DeliveryLine({
+  message,
+  mine,
+  last,
+  time,
+  onRetry,
+  onDiscard,
+}: BubbleProps & { readonly time: string }) {
+  const styles = useStyles();
+  const theme = useTheme();
+  const edited = message.edited && !message.deleted;
+  if (message.status === 'failed') {
+    return (
+      <Row style={styles.meta} testID={`chat-failed-${message.id}`}>
+        <Text variant="caption" color={theme.semantic.state.urgent}>
+          {t({ id: 'chat.status.failed', message: 'Didn’t send' })}
+        </Text>
+        {onRetry ? (
+          <InlineAction
+            label={t({ id: 'chat.status.retry', message: 'Retry' })}
+            onPress={onRetry}
+          />
+        ) : null}
+        {onDiscard ? (
+          <InlineAction
+            label={t({ id: 'chat.status.delete', message: 'Delete' })}
+            onPress={onDiscard}
+          />
+        ) : null}
+      </Row>
+    );
+  }
+  const sending = mine && message.status !== 'sent';
+  if (!sending && !edited && !last) return null;
+  const parts = [
+    ...(edited ? [t({ id: 'chat.status.edited', message: 'edited' })] : []),
+    ...(sending ? [t({ id: 'chat.status.sending', message: 'Sending' })] : [time]),
+  ];
+  return (
+    <Row style={styles.meta}>
+      {sending ? (
+        <Icon
+          name="circle"
+          size={theme.space['12']}
+          decorative
+          color={theme.semantic.state.warning}
+        />
+      ) : null}
+      <Text variant="caption" color={theme.semantic.text.tertiary}>
+        {parts.join(' · ')}
+      </Text>
+    </Row>
+  );
+}

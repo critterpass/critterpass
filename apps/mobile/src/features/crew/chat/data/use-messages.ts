@@ -98,8 +98,10 @@ export async function loadTimeline(
   const window = Math.max(1, Math.floor(limit));
   const [synced, queued, rejected, settings] = await Promise.all([
     db.getAll<MessageRow>(
-      `SELECT m.*, u.display_name AS sender_name
+      `SELECT m.*, coalesce(u.display_name, g.name) AS sender_name, r.display_name AS ref_name
          FROM messages m LEFT JOIN users u ON u.id = m.sender_id
+         LEFT JOIN guides g ON g.id = m.guide_id
+         LEFT JOIN users r ON r.id = m.ref_id AND m.sender_kind = 'system'
         WHERE m.crew_id = ${crew}
         ORDER BY m.seq DESC LIMIT ${window + 1}`,
     ),
@@ -154,16 +156,19 @@ const EMPTY: Timeline = { messages: [], hasOlder: false, lastSeq: 0 };
 export interface MessagesState extends Timeline {
   /** False until the first local read lands (the skeleton shows meanwhile). */
   readonly loaded: boolean;
+  /** The newest seq at the first read: later messages arrived while the chat was open. */
+  readonly openedSeq: number | null;
   readonly loadOlder: () => void;
 }
 
 export function useMessages(crewId: string, me: string | null): MessagesState {
   const { db } = useLocalFirst();
   const [limit, setLimit] = useState(MESSAGE_WINDOW);
-  const [state, setState] = useState<{ timeline: Timeline; loaded: boolean }>({
-    timeline: EMPTY,
-    loaded: false,
-  });
+  const [state, setState] = useState<{
+    timeline: Timeline;
+    loaded: boolean;
+    openedSeq: number | null;
+  }>({ timeline: EMPTY, loaded: false, openedSeq: null });
 
   useEffect(() => {
     if (me === null) return undefined;
@@ -171,7 +176,12 @@ export function useMessages(crewId: string, me: string | null): MessagesState {
     const load = () =>
       loadTimeline(db, crewId, me, limit).then(
         (timeline) => {
-          if (!controller.signal.aborted) setState({ timeline, loaded: true });
+          if (controller.signal.aborted) return;
+          setState((previous) => ({
+            timeline,
+            loaded: true,
+            openedSeq: previous.openedSeq ?? timeline.lastSeq,
+          }));
         },
         () => undefined,
       );
@@ -187,5 +197,5 @@ export function useMessages(crewId: string, me: string | null): MessagesState {
     if (state.timeline.hasOlder) setLimit((current) => current + MESSAGE_WINDOW);
   }, [state.timeline.hasOlder]);
 
-  return { ...state.timeline, loaded: state.loaded, loadOlder };
+  return { ...state.timeline, loaded: state.loaded, openedSeq: state.openedSeq, loadOlder };
 }

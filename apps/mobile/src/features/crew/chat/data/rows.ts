@@ -65,6 +65,8 @@ export interface MessageRow {
   readonly deleted_at: string | null;
   readonly created_at: string;
   readonly sender_name: string | null;
+  /** Display name of the member a system row is about. */
+  readonly ref_name: string | null;
 }
 
 /** Where a message stands on this device. */
@@ -78,6 +80,8 @@ export interface ChatMessage {
   readonly senderKind: 'user' | 'guide' | 'system';
   readonly senderId: string | null;
   readonly senderName: string | null;
+  /** System rows: the member the row is about. */
+  readonly refName?: string | null;
   readonly guideId: string | null;
   readonly type: MessageType;
   readonly body: string;
@@ -104,6 +108,7 @@ export function fromRow(row: MessageRow): ChatMessage {
     senderKind: row.sender_kind,
     senderId: row.sender_id,
     senderName: row.sender_name,
+    refName: row.ref_name,
     guideId: row.guide_id,
     type: row.type,
     body: row.body ?? '',

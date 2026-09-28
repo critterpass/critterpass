@@ -1,0 +1,205 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-28 21:32+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.message"
+msgstr "“{preview}” to the crew chat"
+
+#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
+msgid "chat.header.people"
+msgstr "{count, plural, one {# person} other {# people}}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/unread-badge.tsx
+msgid "chat.unread.label"
+msgstr "{count, plural, one {# unread message} other {# unread messages}}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
+msgid "chat.typing.two"
+msgstr "{first} and {second} are typing"
+
+#: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
+msgid "chat.typing.one"
+msgstr "{first} is typing"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.joined"
+msgstr "{name} joined the crew"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.left"
+msgstr "{name} left the crew"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.renamed"
+msgstr "{name} renamed the crew to {body}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
+msgid "chat.header.withGuide"
+msgstr "{people} · {guideName} is in this chat"
+
+#: ../../apps/mobile/src/features/crew/chat/components/offline-banner.tsx
+msgid "chat.offline.waiting"
+msgstr "{waiting, plural, one {# message sends when you're back} other {# messages send when you're back}}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.message.spoken"
+msgstr "{who}, {time}: {text}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
+msgid "chat.header.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
+msgid "chat.composer.cancelReply"
+msgstr "Cancel reply"
+
+#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
+msgid "chat.header.fallbackTitle"
+msgstr "Crew chat"
+
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.status.delete"
+msgstr "Delete"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.delete"
+msgstr "Deleting a message"
+
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.status.failed"
+msgstr "Didn’t send"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.edit"
+msgstr "Edit to a message"
+
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.status.edited"
+msgstr "edited"
+
+#: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
+msgid "chat.mention.guide"
+msgstr "Guide"
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-list.tsx
+msgid "chat.list.jumpToLatest"
+msgstr "Jump to latest"
+
+#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
+msgid "chat.composer.tooLong"
+msgstr "Keep it under {MESSAGE_BODY_MAX} characters."
+
+#: ../../apps/mobile/src/features/crew/chat/components/skeleton.tsx
+msgid "chat.loading"
+msgstr "Loading the chat"
+
+#: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
+msgid "chat.header.map"
+msgstr "Map"
+
+#. placeholder {0}: candidate.name
+#: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
+msgid "chat.mention.pick"
+msgstr "Mention {0}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
+msgid "chat.mention.suggestions"
+msgstr "Mention suggestions"
+
+#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
+msgid "chat.composer.placeholder"
+msgstr "Message"
+
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.message.deleted"
+msgstr "Message deleted"
+
+#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
+msgid "chat.composer.placeholderGuide"
+msgstr "Message, or @{guideName}"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.mute"
+msgstr "Muting a crewmate"
+
+#: ../../apps/mobile/src/features/crew/chat/components/unread-divider.tsx
+msgid "chat.unread.divider"
+msgstr "New"
+
+#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
+msgid "chat.composer.unsafeLink"
+msgstr "Only http and https links can be sent."
+
+#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
+msgid "chat.empty.line"
+msgstr "Plans, photos and votes all land here. Start with a hello."
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.react"
+msgstr "Reaction {emoji}"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.report"
+msgstr "Report of a message"
+
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.status.retry"
+msgstr "Retry"
+
+#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
+msgid "chat.empty.action"
+msgstr "Say hi"
+
+#: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
+msgid "chat.empty.title"
+msgstr "Say hi to the crew"
+
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.status.sending"
+msgstr "Sending"
+
+#: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
+msgid "chat.typing.many"
+msgstr "Several people are typing"
+
+#: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
+msgid "chat.system.someone"
+msgstr "Someone"
+
+#: ../../apps/mobile/src/features/crew/chat/components/skeleton.tsx
+msgid "chat.loading.slow"
+msgstr "Still syncing the chat…"
+
+#: ../../apps/mobile/src/features/crew/chat/components/day-separator.tsx
+msgid "chat.day.today"
+msgstr "Today"
+
+#: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
+msgid "chat.queued.unmute"
+msgstr "Unmuting a crewmate"
+
+#: ../../apps/mobile/src/features/crew/chat/components/day-separator.tsx
+msgid "chat.day.yesterday"
+msgstr "Yesterday"
+
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.message.you"
+msgstr "You"
+
+#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
+msgid "chat.former.detail"
+msgstr "You can still read the chat."
+
+#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
+msgid "chat.former.line"
+msgstr "You left this crew"
+
+#: ../../apps/mobile/src/features/crew/chat/components/offline-banner.tsx
+msgid "chat.offline.line"
+msgstr "You're offline. Messages send when you're back."
