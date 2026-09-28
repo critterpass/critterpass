@@ -13,6 +13,7 @@ import {
   resolveFlowFiles,
   screenshotNames,
 } from './capture-app-screens';
+import { demoStatusBar, emulatorSerials } from './capture-android-device';
 import { flowScreenshotNames } from './capture-flow-shots';
 import { CliArgsError } from './e2e-cloud';
 
@@ -27,7 +28,20 @@ describe('parseCaptureArgs', () => {
       out: '/repo/shots',
       dark: false,
       device: 'iPhone 17',
+      platform: 'ios',
     });
+  });
+
+  it('defaults the Android device to the local AVD and rejects unknown platforms', () => {
+    const options = parseCaptureArgs(
+      ['--flows', 'a.yaml', '--out', 'o', '--platform', 'android'],
+      '/r',
+    );
+    expect(options.platform).toBe('android');
+    expect(options.device).toBe('cp_pixel_api36');
+    expect(() =>
+      parseCaptureArgs(['--flows', 'a.yaml', '--out', 'o', '--platform', 'web'], '/r'),
+    ).toThrow(/--platform must be one of ios, android/);
   });
 
   it('takes shell-expanded globs after --flows as extra flows, and drops the pnpm `--`', () => {
@@ -209,5 +223,26 @@ describe('flowScreenshotNames', () => {
     for (const name of ['en-3a-2-name.png', 'en-3a-1-splash.png', 'notes.txt'])
       writeFileSync(path.join(run, name), '');
     expect(flowScreenshotNames(flow, run)).toEqual(['last', 'en-3a-1-splash', 'en-3a-2-name']);
+  });
+});
+
+describe('emulatorSerials', () => {
+  it('lists only emulators adb reports as ready', () => {
+    const out = [
+      'List of devices attached',
+      'emulator-5554\tdevice',
+      'emulator-5556\toffline',
+      'R58M123ABC\tdevice',
+      '',
+    ].join('\n');
+    expect(emulatorSerials(out)).toEqual(['emulator-5554']);
+  });
+});
+
+describe('demoStatusBar', () => {
+  it('enters demo mode first and pins the clock to 9:41', () => {
+    const [enter, clock] = demoStatusBar();
+    expect(enter?.slice(-2)).toEqual(['command', 'enter']);
+    expect(clock).toEqual(expect.arrayContaining(['clock', 'hhmm', '0941']));
   });
 });
