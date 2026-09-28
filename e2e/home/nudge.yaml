@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# A NUDGE answer in the inbox (an RSVP follow-up) asks the guide to nudge a crewmate: with the app
+# installed, the toast names the hour they usually open things; a second nudge the same day is
+# refused as too soon.
+#
+# Needs before it can pass: an onboarded account with one open inbox item whose action runs
+# `send_nudge` for crewmate ${NAME}, who has the app installed with push allowed.
+- launchApp
+- openLink: critterpass-dev://inbox
+- extendedWaitUntil:
+    visible:
+      text: 'NUDGE.*'
+    timeout: 15000
+- tapOn: 'NUDGE.*'
+- extendedWaitUntil:
+    visible:
+      text: '.* will nudge ${NAME} at \d\d:\d\d, when they open things\.'
+    timeout: 15000
+- takeScreenshot: en-nudge-scheduled

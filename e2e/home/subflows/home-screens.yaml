@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# From Home right after onboarding: first run (3b-1) with ${PREFIX} in the screenshot name, and
+# JOIN WITH A CODE opening the code screen.
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3b-1-first-run
+- tapOn:
+    id: 'home-join-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-screen'
+    timeout: 10000
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 10000

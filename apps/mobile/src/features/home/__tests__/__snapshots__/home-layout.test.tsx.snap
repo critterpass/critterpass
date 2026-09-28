@@ -1,0 +1,288 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`next-up card counts down in days, hours, minutes and seconds 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      accessibilityLabel="NEXT UP · OCT 12, BALI, plan 80 percent done"
+      accessible={true}
+      style={
+        [
+          {
+            "overflow": "hidden",
+            "padding": 16,
+          },
+          {
+            "backgroundColor": "#ffd84a",
+            "borderRadius": 22,
+          },
+          undefined,
+        ]
+      }
+      testID="home-next-up"
+    >
+      <View
+        accessibilityElementsHidden={true}
+        accessible={false}
+        importantForAccessibility="no-hide-descendants"
+        onLayout={[Function]}
+        pointerEvents="none"
+        style={
+          [
+            {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
+        }
+        testID="texture-halftone"
+      />
+      <View
+        pointerEvents="none"
+        style={
+          {
+            "end": 8,
+            "position": "absolute",
+            "top": 8,
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "opacity": 1,
+              "transform": [
+                {
+                  "translateX": 0,
+                },
+                {
+                  "translateY": 0,
+                },
+                {
+                  "rotate": "0deg",
+                },
+                {
+                  "scaleX": 1,
+                },
+                {
+                  "scaleY": 1,
+                },
+              ],
+            }
+          }
+        >
+          <View
+            accessibilityLabel="Tokek"
+            style={
+              {
+                "height": 124,
+                "width": 124,
+              }
+            }
+          />
+        </View>
+      </View>
+      <View
+        style={
+          [
+            {
+              "flexDirection": "column",
+            },
+            {
+              "gap": 8,
+            },
+            undefined,
+          ]
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          onLayout={[Function]}
+          onTextLayout={[Function]}
+          style={
+            [
+              {
+                "color": "#17142a",
+                "fontFamily": "Geist-700",
+                "fontSize": 11,
+                "fontStyle": "normal",
+                "letterSpacing": 1.76,
+                "lineHeight": 15.399999999999999,
+              },
+              undefined,
+              {
+                "marginTop": -0.2970000000000015,
+                "paddingTop": 0.2970000000000015,
+              },
+            ]
+          }
+        >
+          NEXT UP · OCT 12
+        </Text>
+        <Text
+          allowFontScaling={false}
+          onLayout={[Function]}
+          onTextLayout={[Function]}
+          style={
+            [
+              {
+                "color": "#17142a",
+                "fontFamily": "Archivo-W62-900",
+                "fontSize": 176,
+                "fontStyle": "normal",
+                "fontVariant": [
+                  "tabular-nums",
+                ],
+                "letterSpacing": -3.52,
+                "lineHeight": 151.35999999999999,
+              },
+              {
+                "paddingEnd": 32,
+              },
+              {
+                "marginTop": -71.98399999999998,
+                "paddingTop": 71.98399999999998,
+              },
+            ]
+          }
+        >
+          BALI
+        </Text>
+        <View
+          style={
+            [
+              {
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+              },
+              {
+                "alignItems": "center",
+                "gap": 8,
+              },
+              undefined,
+            ]
+          }
+        >
+          <View
+            accessibilityLabel="17 days, 5 hours to Bali"
+            accessible={true}
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "alignSelf": "flex-start",
+                  "borderRadius": 9,
+                  "borderWidth": 2,
+                  "flexDirection": "row",
+                  "gap": 6,
+                  "minHeight": 32,
+                  "paddingHorizontal": 10,
+                },
+                {
+                  "borderColor": "#17142a",
+                },
+                {
+                  "backgroundColor": "#17142a",
+                },
+              ]
+            }
+            testID="home-countdown"
+          >
+            <Text
+              allowFontScaling={false}
+              onLayout={[Function]}
+              onTextLayout={[Function]}
+              style={
+                [
+                  {
+                    "color": "#f4efe4",
+                    "fontFamily": "Geist-800",
+                    "fontSize": 11,
+                    "fontStyle": "normal",
+                    "letterSpacing": 0.88,
+                    "lineHeight": 15.399999999999999,
+                  },
+                  undefined,
+                  {
+                    "marginTop": -0.2970000000000015,
+                    "paddingTop": 0.2970000000000015,
+                  },
+                ]
+              }
+            >
+              17D 05:26:47
+            </Text>
+          </View>
+          <View
+            accessible={true}
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "alignSelf": "flex-start",
+                  "borderRadius": 9,
+                  "borderWidth": 2,
+                  "flexDirection": "row",
+                  "gap": 6,
+                  "minHeight": 32,
+                  "paddingHorizontal": 10,
+                },
+                {
+                  "borderColor": "#17142a",
+                },
+                null,
+              ]
+            }
+            testID="home-plan-progress"
+          >
+            <Text
+              allowFontScaling={false}
+              onLayout={[Function]}
+              onTextLayout={[Function]}
+              style={
+                [
+                  {
+                    "color": "#17142a",
+                    "fontFamily": "Geist-800",
+                    "fontSize": 11,
+                    "fontStyle": "normal",
+                    "letterSpacing": 0.88,
+                    "lineHeight": 15.399999999999999,
+                  },
+                  undefined,
+                  {
+                    "marginTop": -0.2970000000000015,
+                    "paddingTop": 0.2970000000000015,
+                  },
+                ]
+              }
+            >
+              PLAN 80%
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;

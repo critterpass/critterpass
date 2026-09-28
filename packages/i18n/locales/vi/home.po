@@ -6,3 +6,319 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#. placeholder {0}: cell.place
+#. placeholder {1}: sticker.name
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.guideCell"
+msgstr "{0}, cùng {1}"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.guideDid"
+msgstr "{guide} {summary}"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.guideChanged"
+msgstr "{guide} đã đổi kế hoạch"
+
+#: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
+msgid "home.nudge.inbox"
+msgstr "{guide} đã để lời nhắc trong hộp thư của {name}."
+
+#: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
+msgid "home.nudge.scheduled"
+msgstr "{guide} sẽ nhắc {name} lúc {at}, khi bạn ấy hay mở app."
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.tip"
+msgstr "{guide}: {tip}"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.memberJoined"
+msgstr "{name} đã vào {crew}"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.title"
+msgstr "{name} nhắc bạn"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.line"
+msgstr "{name} đã nhắc bạn"
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.postTrip.title"
+msgstr "Nhìn lại {place}"
+
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.spoken"
+msgstr "Còn {spoken} nữa là tới {place}"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.payment"
+msgstr "Có một khoản cần thanh toán đang chờ bạn."
+
+#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
+msgid "home.inbox.all"
+msgstr "Tất cả"
+
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.title"
+msgstr "Xong hết rồi"
+
+#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
+msgid "home.inbox.crew"
+msgstr "Nhóm"
+
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.dayLetter"
+msgstr "N"
+
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.day"
+msgstr "Ngày {day}"
+
+#: ../../apps/mobile/src/features/home/dev-tools-entry.tsx
+msgid "home.devTools"
+msgstr "Công cụ nhà phát triển"
+
+#: ../../apps/mobile/src/features/home/tip-strip.tsx
+msgid "home.tip.dismiss"
+msgstr "Ẩn mẹo"
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.earlier"
+msgstr "Trước đó"
+
+#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
+msgid "home.inbox.guides"
+msgstr "Hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.postTrip.eyebrow"
+msgstr "Chuyến đi thế nào?"
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.title"
+msgstr "Hộp thư"
+
+#: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
+msgid "home.inbox.refusedBody"
+msgstr "Mục này đã quay lại danh sách của bạn."
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.joinCode"
+msgstr "Vào bằng mã"
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.noTrip.last"
+msgstr "Chuyến trước · {last}"
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.loading"
+msgstr "Đang tải trang chủ"
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.loading"
+msgstr "Đang tải hộp thư"
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.markAll"
+msgstr "Đánh dấu đã đọc"
+
+#: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
+msgid "home.inbox.markedReadAll"
+msgstr "Đã đánh dấu đã đọc."
+
+#: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
+msgid "home.inbox.markedRead"
+msgstr "Đã đánh dấu đã đọc. {stillNeedYou} mục phía trên vẫn cần bạn."
+
+#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
+msgid "home.inbox.needsYou"
+msgstr "Cần bạn · {needsYou}"
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.nextUp.eyebrowUndated"
+msgstr "Sắp tới"
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.nextUp.eyebrow"
+msgstr "Sắp tới · {day}"
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.elsewhereBody"
+msgstr "Nơi đó chưa có hướng dẫn viên. Tokek sẽ đi cùng bạn cho tới khi có."
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.crewEmpty"
+msgstr "Nhóm chưa gửi gì."
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.guidesEmpty"
+msgstr "Hướng dẫn viên chưa gửi gì."
+
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.watching"
+msgstr "Hiện không có gì cần bạn. Tokek sẽ gọi bạn nếu {watching} thay đổi."
+
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.line"
+msgstr "Hiện không có gì cần bạn. Có gì mới Tokek sẽ gọi bạn."
+
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.awake"
+msgstr "Chưa có gì cần bạn đâu. Ngủ tiếp nhé."
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.noTrip.line"
+msgstr "Lịch còn trống. Đề xuất một nơi đi, mình sẽ mở bình chọn."
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.inTrip.open"
+msgstr "Mở chuyến đi"
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.body"
+msgstr "Chọn một hướng dẫn viên để bắt đầu chuyến đi. Cả nhóm có thể bình chọn sau."
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.noTrip.pitch"
+msgstr "Đề xuất một nơi"
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.nextUp.planSpoken"
+msgstr "kế hoạch đã xong {progress} phần trăm"
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.nextUp.plan"
+msgstr "Kế hoạch {progress}%"
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.postTrip.open"
+msgstr "Xem lại chuyến đi"
+
+#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
+msgid "home.inbox.filters"
+msgstr "Hiển thị"
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.more"
+msgstr "Xem cũ hơn"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.inviteOpened"
+msgstr "Có người đã mở lời mời của bạn"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.inviteOpenedCrew"
+msgstr "Có người đã mở lời mời vào {crew} của bạn"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.genericTitle"
+msgstr "Có việc cần bạn"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.generic"
+msgstr "Có tin mới cho bạn"
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.elsewhere"
+msgstr "Nơi khác"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.open"
+msgstr "Xem ngay"
+
+#: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
+msgid "home.inbox.refused"
+msgstr "Chưa gửi được"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.vote"
+msgstr "Cả nhóm đang chờ phiếu của bạn."
+
+#: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
+msgid "home.nudge.failed"
+msgstr "Lời nhắc chưa gửi được. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.rsvp"
+msgstr "Mọi người muốn biết bạn có đi không."
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.readiness"
+msgstr "Mọi người sắp xuất phát rồi."
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.invite"
+msgstr "Mọi người đang giữ chỗ cho bạn."
+
+#: ../../apps/mobile/src/features/home/inbox/action-card.tsx
+msgid "home.inbox.closed"
+msgstr "Mục này đã đóng."
+
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.today"
+msgstr "Hôm nay"
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.inTrip.eyebrow"
+msgstr "Hôm nay · Ngày {day}"
+
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.tokek"
+msgstr "Tokek đang ngủ"
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.postTrip.fallback"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/home/inbox/earlier-row.tsx
+msgid "home.inbox.undoLabel"
+msgstr "Hoàn tác"
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.undo"
+msgstr "Hoàn tác"
+
+#: ../../apps/mobile/src/features/home/inbox/earlier-row.tsx
+msgid "home.inbox.undoSpoken"
+msgstr "Hoàn tác: {line}"
+
+#: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
+msgid "home.inbox.undone"
+msgstr "Đã hoàn tác. Kế hoạch trở lại như cũ."
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.welcomeAnon"
+msgstr "Chào mừng"
+
+#. placeholder {0}: view.firstName
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.welcome"
+msgstr "Chào mừng, {0}"
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.title"
+msgstr "Đi đâu trước?"
+
+#: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
+msgid "home.nudge.tooSoon"
+msgstr "Bạn vừa nhắc bạn ấy rồi. Thử lại sau {when}."
+
+#: ../../apps/mobile/src/features/home/home-commands.ts
+msgid "home.queued.inboxAction"
+msgstr "Câu trả lời của bạn trong hộp thư"
+
+#: ../../apps/mobile/src/features/home/nudge/use-nudge.ts
+msgid "home.nudge.relay"
+msgstr "Nhóm đang giữ chỗ cho bạn trên CritterPass."
+
+#: ../../apps/mobile/src/features/home/nudge/use-nudge.ts
+msgid "home.nudge.relayLink"
+msgstr "Nhóm đang giữ chỗ cho bạn trên CritterPass. {url}"
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.nextUp.untitled"
+msgstr "Chuyến đi tới"

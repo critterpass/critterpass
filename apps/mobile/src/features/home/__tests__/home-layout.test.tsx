@@ -1,0 +1,89 @@
+/**
+ * Layout snapshots of Home's pieces on a pinned clock, for review against 3b-2: the next-up card
+ * counting down (17D 05:26:47), inside its last day, on its first day and mid-trip, and the tip.
+ */
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
+jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
+jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
+jest.mock('expo-router', () => ({ useIsFocused: () => true, router: { push: jest.fn() } }));
+
+import { describe, expect, it, jest } from '@jest/globals';
+import { i18n } from '@lingui/core';
+import { I18nProvider } from '@lingui/react';
+import { render, screen } from '@testing-library/react-native';
+import type { ReactElement } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import type { HomeTripInput } from '@cp/domain';
+
+import { NextUpCard } from '../next-up-card';
+
+const METRICS = {
+  frame: { x: 0, y: 0, width: 390, height: 844 },
+  insets: { top: 47, left: 0, right: 0, bottom: 34 },
+};
+
+// Pinned: 2026-09-24 10:33:13 UTC, 17 days 5:26:47 before Bali's first midnight (Oct 12, UTC+8).
+const TARGET = new Date('2026-10-11T16:00:00Z');
+const NOW = new Date(TARGET.getTime() - (17 * 86_400 + 5 * 3600 + 26 * 60 + 47) * 1000);
+
+const BALI: HomeTripInput = {
+  id: 'trip-1',
+  status: 'confirmed',
+  startDate: '2026-10-12',
+  endDate: '2026-10-19',
+  tz: 'Asia/Makassar',
+  destinationId: 'bali',
+  destinationName: 'Bali',
+  guideId: 'tokek',
+  planProgress: 80,
+  countdownTargetAt: TARGET.toISOString(),
+};
+
+async function show(ui: ReactElement) {
+  i18n.loadAndActivate({ locale: 'en', messages: {} });
+  await render(
+    <I18nProvider i18n={i18n}>
+      <SafeAreaProvider initialMetrics={METRICS}>
+        <GestureHandlerRootView>{ui}</GestureHandlerRootView>
+      </SafeAreaProvider>
+    </I18nProvider>,
+  );
+}
+
+describe('next-up card', () => {
+  it('counts down in days, hours, minutes and seconds', async () => {
+    await show(<NextUpCard trip={BALI} now={() => NOW} />);
+    expect(screen.getByText('17D 05:26:47')).toBeTruthy();
+    expect(screen.getByText('NEXT UP · OCT 12')).toBeTruthy();
+    expect(screen.getByLabelText('17 days, 5 hours to Bali')).toBeTruthy();
+    expect(screen.toJSON()).toMatchSnapshot();
+  });
+
+  it('drops the days inside the last 24 hours', async () => {
+    const lastDay = new Date(TARGET.getTime() - (3 * 3600 + 2 * 60 + 1) * 1000);
+    await show(<NextUpCard trip={BALI} now={() => lastDay} />);
+    expect(screen.getByText('03:02:01')).toBeTruthy();
+  });
+
+  it('shows TODAY on the first day and DAY n after, in the destination zone', async () => {
+    await show(<NextUpCard trip={BALI} now={() => new Date('2026-10-11T18:00:00Z')} />);
+    expect(screen.getByText('TODAY')).toBeTruthy();
+    await show(<NextUpCard trip={BALI} now={() => new Date('2026-10-13T23:30:00Z')} />);
+    expect(screen.getByText('DAY 3')).toBeTruthy();
+  });
+
+  it('reads "Your next trip" with no countdown before a place and dates are set', async () => {
+    await show(
+      <NextUpCard
+        trip={{ ...BALI, destinationName: null, startDate: null, countdownTargetAt: null }}
+        now={() => NOW}
+      />,
+    );
+    expect(screen.getByText('YOUR NEXT TRIP')).toBeTruthy();
+    expect(screen.queryByTestId('home-countdown')).toBeNull();
+    expect(screen.getByText('NEXT UP')).toBeTruthy();
+  });
+});
