@@ -1,7 +1,7 @@
 ---
 phase: 22
 title: Onboarding: passport, taste, home airport, avatar
-status: in-progress
+status: in_progress
 depends_on: [5, 7, 9, 10, 18, 20, 21]
 wave: 8
 features: [F-038, F-039, F-040, F-041]
