@@ -4,6 +4,7 @@
  * user however the issue arrives, the profile written in the same transaction, owned forms only,
  * and photo avatars queued for moderation.
  */
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
 import { withSystem } from '@cp/db';
@@ -11,10 +12,16 @@ import { generateUuidV7 } from '@cp/domain';
 import type { PgBoss } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { moderationKind } from '../../src/admin/moderation-intake';
 import { registerAvatarCommands } from '../../src/commands/avatar';
 import { registerOnboardingCommands } from '../../src/commands/onboarding';
 import { startJobProducer } from '../../src/jobs/producer';
+import { createR2Client } from '../../src/media/r2';
+import { authorizeReads } from '../../src/media/read-access';
+import { registerMediaUploadCommand } from '../../src/media/register-media-upload';
+import { mediaSigningConfigFromEnv } from '../../src/media/sign';
 import { mmdbGeoLookup, registerGeoRoutes } from '../../src/routes/geo';
+import { registerMediaRoutes } from '../../src/routes/media';
 import {
   envelope,
   startCommandDoors,
@@ -33,8 +40,26 @@ beforeAll(async () => {
     (registry) => {
       registerOnboardingCommands(registry);
       registerAvatarCommands(registry);
+      registry.register(registerMediaUploadCommand);
     },
-    (app, deps) => registerGeoRoutes(app, { ...deps, geo: () => geo }),
+    (app, deps) => {
+      registerGeoRoutes(app, { ...deps, geo: () => geo });
+      // Presigning is local signing only: the object store is never called by these tests.
+      registerMediaRoutes(app, {
+        ...deps,
+        r2: createR2Client({
+          endpoint: 'https://r2.example.test',
+          bucket: 'cp-media-test',
+          accessKeyId: 'test-access',
+          secretAccessKey: 'test-secret',
+        }),
+        signing: mediaSigningConfigFromEnv({
+          baseUrl: 'https://media.example.test',
+          keysJson: JSON.stringify({ k1: 'onboarding-test-hmac-secret-32-chars-long' }),
+          activeKeyId: 'k1',
+        }),
+      });
+    },
   );
   const { connectionString } = (
     harness.pool as unknown as { options: { connectionString: string } }
@@ -347,5 +372,84 @@ describe('GET /v1/geo/hint', () => {
 
   it('needs a session', async () => {
     expect((await hint(undefined, '81.2.69.142'))[0]).toBe(401);
+  });
+});
+
+describe('avatar uploads', () => {
+  const photo = Buffer.from('avatar-bytes');
+  function presign(session: SignedIn, device: string, purpose = 'avatar'): Promise<Response> {
+    return harness.request('/v1/media/presign', {
+      method: 'POST',
+      headers: { cookie: session.cookie, 'x-cp-install-id': device },
+      body: JSON.stringify({
+        purpose,
+        content_type: 'image/png',
+        bytes: photo.byteLength,
+        sha256: createHash('sha256').update(photo).digest('hex'),
+      }),
+    });
+  }
+
+  it('refuses the sixth avatar presign in an hour for an anonymous uid on one device', async () => {
+    const traveller = await harness.signInAnonymously();
+    for (let i = 0; i < 5; i += 1) expect((await presign(traveller, 'install-1')).status).toBe(200);
+    const refused = await presign(traveller, 'install-1');
+    expect(refused.status).toBe(429);
+    const body = (await refused.json()) as Body;
+    expect(body.error?.code).toBe('RATE_LIMITED');
+    expect(body.error?.detail?.['retry_after_s']).toBeGreaterThan(0);
+    expect((await presign(traveller, 'install-2')).status).toBe(200);
+    expect((await presign(traveller, 'install-1', 'photo')).status).toBe(200);
+  });
+});
+
+describe('avatar review in the ops console', () => {
+  async function pendingPhoto(owner: SignedIn): Promise<{ id: string; key: string }> {
+    const id = generateUuidV7();
+    const key = `u/${owner.uid}/avatar/${generateUuidV7()}`;
+    await cmd(owner, 'set_avatar', { avatar_id: id, choice: { kind: 'photo', media_key: key } });
+    await withSystem(harness.pool, (tx) =>
+      tx.query(
+        `INSERT INTO media_objects (owner_id, r2_key, kind, bytes, sha256, purpose)
+         VALUES ($1, $2, 'image/jpeg', 10, repeat('a', 64), 'avatar')`,
+        [owner.uid, key],
+      ),
+    );
+    return { id, key };
+  }
+
+  it('approving releases the photo, queues its variants and opens it to crewmates only', async () => {
+    const owner = await harness.signInAnonymously();
+    const crewmate = await harness.signInAnonymously();
+    const outsider = await harness.signInAnonymously();
+    await crewOf(owner, crewmate);
+    const { id, key } = await pendingPhoto(owner);
+    const kind = moderationKind('avatar');
+    expect(kind?.verdicts).toEqual(['approve', 'remove']);
+
+    expect(await authorizeReads(harness.pool, crewmate.uid, [key])).toBe(false);
+    await withSystem(harness.pool, (tx) => kind!.approve!(tx, id));
+    expect(await rows('SELECT moderation_status FROM avatars WHERE id = $1', [id])).toEqual([
+      { moderation_status: 'approved' },
+    ]);
+    const jobs = await harness.pool.query(
+      "SELECT 1 FROM pgboss.job WHERE name = 'avatar.render' AND data->>'avatar_id' = $1",
+      [id],
+    );
+    expect(jobs.rowCount).toBe(1);
+    expect(await authorizeReads(harness.pool, crewmate.uid, [key])).toBe(true);
+    expect(await authorizeReads(harness.pool, outsider.uid, [key])).toBe(false);
+  });
+
+  it('removing rejects the photo, which stays unreadable to the crew', async () => {
+    const owner = await harness.signInAnonymously();
+    const crewmate = await harness.signInAnonymously();
+    await crewOf(owner, crewmate);
+    const { id, key } = await pendingPhoto(owner);
+    await withSystem(harness.pool, (tx) => moderationKind('avatar')!.apply!(tx, id, 'remove'));
+    expect(
+      await rows('SELECT moderation_status, moderation_reason FROM avatars WHERE id = $1', [id]),
+    ).toEqual([{ moderation_status: 'rejected', moderation_reason: 'ops_review' }]);
+    expect(await authorizeReads(harness.pool, crewmate.uid, [key])).toBe(false);
   });
 });

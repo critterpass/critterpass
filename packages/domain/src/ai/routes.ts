@@ -35,6 +35,7 @@ export const AI_ROUTES = [
   'disruption.plan_b',
   'recap.narration',
   'photo.picks',
+  'avatar.moderate',
   'notification.templates',
   'content.factory',
   'receipt.parse',

@@ -132,5 +132,7 @@ export type AvatarVariantSize = (typeof AVATAR_VARIANT_SIZES)[number];
 /** Jobs a photo avatar goes through: moderation, then (once approved) its PNG variants. */
 export const AVATAR_MODERATE_QUEUE = 'avatar.moderate';
 export const AVATAR_RENDER_QUEUE = 'avatar.render';
+/** `ops_config` switch for the known-image hash match that runs before any model sees a photo. */
+export const AVATAR_HASH_MATCH_CONFIG_KEY = 'moderation.hash_match';
 export const avatarJobSchema = z.object({ avatar_id: z.uuid() }).strict();
 export type AvatarJob = z.infer<typeof avatarJobSchema>;

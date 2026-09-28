@@ -1,0 +1,15 @@
+{
+  "source": "PhotoDNA Cloud Service Match response in its documented shape (Status 3000 = OK); replace with a recording once enrolled.",
+  "response": {
+    "status": 200,
+    "body": {
+      "Status": {
+        "Code": 3208,
+        "Description": "Image size in pixels is not within allowed range",
+        "Exception": null
+      },
+      "IsMatch": null,
+      "TrackingId": "WUS_fixture_error"
+    }
+  }
+}

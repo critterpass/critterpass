@@ -7,6 +7,7 @@
 import { z } from 'zod';
 
 import { APP_CLIP_FLAG_KEY } from '../links/wire';
+import { AVATAR_HASH_MATCH_CONFIG_KEY } from '../pass/wire';
 import { flagAudienceSchema } from './flag-audience';
 import { PARTNER_KEYS, partnerCopyModeSchema, type PartnerKey } from './ops-enums';
 
@@ -99,6 +100,13 @@ export const CONFIG_KEYS: Readonly<Record<string, ConfigKeyDefinition>> = {
     isPublic: true,
     critical: false,
     description: 'Which server-driven perk list the app shows',
+  },
+  [AVATAR_HASH_MATCH_CONFIG_KEY]: {
+    schema: z.boolean(),
+    isPublic: false,
+    critical: true,
+    description:
+      'Known-image hash matching runs on photo avatars (on once the vendor enrolment is live); off = every photo waits for ops review',
   },
   [APP_CLIP_FLAG_KEY]: {
     schema: z.boolean(),

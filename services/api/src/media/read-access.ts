@@ -1,6 +1,7 @@
 /**
  * Who may mint a read URL for a media object (docs/api-contracts.md §5.4 "membership checked when
- * minting"): its owner, or a member of the trip it is attached to. `media_objects` is system-only
+ * minting"): its owner, a member of the trip it is attached to, or (for an approved avatar
+ * photo) anyone sharing an active crew with its owner. `media_objects` is system-only
  * (RLS class S), so the rows are read as `app_system` and trip membership is then asked of
  * `app.is_trip_member` as the caller.
  */
@@ -9,7 +10,34 @@ import type pg from 'pg';
 
 import { parseMediaKey } from './purposes';
 
-/** Keys the caller may read: own objects, or objects attached to a trip they belong to. */
+/**
+ * Whether every key is an approved photo avatar (or one of its rendered variants) the caller can
+ * see: `avatars` RLS limits the rows to their own and their active crewmates'.
+ */
+async function visibleAvatarMedia(
+  pool: pg.Pool,
+  uid: string,
+  keys: readonly string[],
+): Promise<boolean> {
+  const visible = await withUser(pool, uid, '', async (tx) => {
+    const result = await tx.query<{ key: string }>(
+      `SELECT k AS key FROM unnest($1::text[]) AS k
+       WHERE EXISTS (
+         SELECT 1 FROM avatars a
+         WHERE a.moderation_status = 'approved'
+           AND (a.media_key = k OR EXISTS (
+             SELECT 1 FROM jsonb_each_text(a.variant_keys) v WHERE v.value = k)))`,
+      [keys],
+    );
+    return new Set(result.rows.map((row) => row.key));
+  });
+  return keys.every((key) => visible.has(key));
+}
+
+/**
+ * Keys the caller may read: own objects, objects attached to a trip they belong to, or a
+ * crewmate's approved avatar photo and its variants.
+ */
 export async function authorizeReads(
   pool: pg.Pool,
   uid: string,
@@ -31,10 +59,12 @@ export async function authorizeReads(
   const byKey = new Map(rows.map((row) => [row.r2_key, row]));
   if (keys.some((key) => !byKey.has(key))) return false;
 
+  const foreign = rows.filter((row) => row.owner_id !== uid);
+  const avatarKeys = foreign.filter((row) => row.trip_id === null).map((row) => row.r2_key);
+  if (avatarKeys.length > 0 && !(await visibleAvatarMedia(pool, uid, avatarKeys))) return false;
   const tripIds = [
-    ...new Set(rows.filter((row) => row.owner_id !== uid).map((row) => row.trip_id)),
+    ...new Set(foreign.flatMap((row) => (row.trip_id === null ? [] : [row.trip_id]))),
   ];
-  if (tripIds.includes(null)) return false;
   if (tripIds.length === 0) return true;
 
   const visible = await withUser(pool, uid, '', async (tx) => {

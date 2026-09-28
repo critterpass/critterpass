@@ -10,6 +10,7 @@ import type pg from 'pg';
 
 import type { RateLimitRedisClient } from '../abuse/rate-limits';
 import type { AppEnv } from '../app';
+import { enforceAvatarUploadLimit } from '../commands/avatar/upload-limits';
 import { validationHook } from '../commands/_framework/doors';
 import type { CommandRegistry } from '../commands/_framework/registry';
 import {
@@ -83,6 +84,9 @@ export function registerMediaRoutes(app: OpenAPIHono<AppEnv>, deps: MediaRouteDe
       const { uid } = await session(c.req.raw.headers);
       const body = c.req.valid('json');
       assertUploadAllowed(body.purpose, body.content_type, body.bytes);
+      if (body.purpose === 'avatar') {
+        await enforceAvatarUploadLimit(deps.redis, uid, c.req.header('x-cp-install-id'));
+      }
       if (body.bytes > SINGLE_PUT_MAX_BYTES) {
         throw new DomainError('PAYLOAD_TOO_LARGE', {
           max_bytes: SINGLE_PUT_MAX_BYTES,
@@ -130,6 +134,9 @@ export function registerMediaRoutes(app: OpenAPIHono<AppEnv>, deps: MediaRouteDe
       const { uid } = await session(c.req.raw.headers);
       const body = c.req.valid('json');
       assertUploadAllowed(body.purpose, body.content_type, body.bytes);
+      if (body.purpose === 'avatar') {
+        await enforceAvatarUploadLimit(deps.redis, uid, c.req.header('x-cp-install-id'));
+      }
 
       const mediaKey = newMediaKey(uid, body.purpose);
       const uploadId = await deps.r2.createMultipartUpload(mediaKey, body.content_type);

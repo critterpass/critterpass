@@ -183,6 +183,7 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'pitch.place': fast(null, 1024, { delivery: 'stream', cacheLayers: JOB_LAYERS }),
   'briefing.daily': fast('B', 2048, { output: 'structured', cacheLayers: JOB_LAYERS }),
   'photo.picks': fast(null, 2048, { output: 'structured', vision: true }),
+  'avatar.moderate': fast(null, 256, { output: 'structured', vision: true }),
   'receipt.parse': fast('M', 4096, { output: 'structured', vision: true }),
   'menu.parse': fast('M', 4096, { output: 'structured', delivery: 'stream', vision: true }),
   'guide.chat_escalation': pro('C', 2048, 'low', GUIDE_STREAM),
