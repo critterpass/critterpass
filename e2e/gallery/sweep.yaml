@@ -333,6 +333,15 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
+      id: 'gallery-detail-DeniedRow'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-en-DeniedRow
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
       id: 'gallery-detail-DexHeader'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -900,6 +909,15 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
+      id: 'gallery-detail-PermissionsSection'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-en-PermissionsSection
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
       id: 'gallery-detail-PhraseCard'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -941,6 +959,24 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-en-Postcard
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-PrimerCard'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-en-PrimerCard
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-PrimerDemo'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-en-PrimerDemo
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
@@ -1793,6 +1829,15 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
+      id: 'gallery-detail-DeniedRow'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-vi-DeniedRow
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
       id: 'gallery-detail-DexHeader'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -2360,6 +2405,15 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
+      id: 'gallery-detail-PermissionsSection'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-vi-PermissionsSection
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
       id: 'gallery-detail-PhraseCard'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -2401,6 +2455,24 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-Postcard
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-PrimerCard'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-vi-PrimerCard
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-PrimerDemo'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-vi-PrimerDemo
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
