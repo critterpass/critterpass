@@ -30,6 +30,7 @@ export function deviceCrewServices(): CrewServices {
       await Linking.openURL(url);
       return true;
     },
+    referralUrl: (code) => buildLink({ kind: 'referral', code }, { host }),
     inviteUrl: (code, seat) =>
       buildLink({ kind: 'invite', code, ...(seat === undefined ? {} : { seat }) }, { host }),
   };

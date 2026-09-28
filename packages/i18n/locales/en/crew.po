@@ -32,6 +32,10 @@ msgstr "{place} · planning"
 msgid "crew.sheet.inDays"
 msgstr "{place} in {days} days"
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.beyond"
+msgstr "{stamps} stamps so far. Every one still counts."
+
 #: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
 msgid "crew.seatLimit.title"
 msgstr "{tripName} is full"
@@ -39,6 +43,10 @@ msgstr "{tripName} is full"
 #: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
 msgid "crew.seatLimit.body"
 msgstr "{tripName} is full at {cap}. {name} joins the waitlist and gets the next free seat."
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.aFriend"
+msgstr "A friend"
 
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.friend"
@@ -76,13 +84,30 @@ msgstr "Add to the waitlist"
 msgid "crew.settings.notifyAll"
 msgstr "All"
 
+#. placeholder {0}: entry.stamps
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.at"
+msgstr "At {0} stamps"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.collector"
+msgstr "Collector cover"
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.message"
 msgstr "Come to {crewName} on CritterPass: {url}"
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.copy"
+msgstr "Copy link"
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.copy"
 msgstr "Copy link"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.covers"
+msgstr "Covers"
 
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.previewCrew"
@@ -133,9 +158,21 @@ msgstr "Done"
 msgid "crew.members.ringDouble"
 msgstr "double ring"
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.body"
+msgstr "Each friend who joins and plans with a crew stamps both your passes."
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.friends"
+msgstr "Friends"
+
 #: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
 msgid "crew.composer.homeHint"
 msgstr "Home guess from their number: {homeHint}"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.howTitle"
+msgstr "How it works"
 
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.keepChat"
@@ -144,6 +181,10 @@ msgstr "If I leave, keep reading the chat history"
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.leaveRoles"
 msgstr "If you organise a trip alone, the longest-standing member takes over."
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.title"
+msgstr "Invite friends"
 
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.invite"
@@ -174,6 +215,10 @@ msgstr "Join {crew} on CritterPass: {0} (code {code})"
 msgid "crew.sheet.joinCode"
 msgstr "Join with a code"
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.joined"
+msgstr "Joined"
+
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.joined"
 msgstr "Joined ✓"
@@ -202,6 +247,10 @@ msgstr "Leave the crew"
 msgid "crew.settings.leaveTitle"
 msgstr "Leave this crew?"
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.copied"
+msgstr "Link copied"
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.copied"
 msgstr "Link copied"
@@ -226,6 +275,10 @@ msgstr "Messages"
 msgid "crew.composer.share"
 msgstr "More…"
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.navy"
+msgstr "Navy cover"
+
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.rotate"
 msgstr "New code"
@@ -238,6 +291,10 @@ msgstr "New crew: {0}"
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.noCode"
 msgstr "No live code"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.noFriends"
+msgstr "No one yet"
 
 #: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
 msgid "crew.seatLimit.notNow"
@@ -263,9 +320,25 @@ msgstr "Only used to recognise them when they join."
 msgid "crew.members.organiser"
 msgstr "Organiser"
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.pending"
+msgstr "Pending"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.shareMessage"
+msgstr "Plan trips with me on CritterPass: {url}"
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.previewA11y"
 msgstr "Preview of the invite ticket"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.stamps"
+msgstr "Referral stamps · {shown} of 5"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.terms"
+msgstr "Referral terms"
 
 #: ../../apps/mobile/src/features/crew/members/MembersList.tsx
 msgid "crew.members.removeConfirm"
@@ -295,9 +368,21 @@ msgstr "Save your pass first: invites go out from a saved account."
 msgid "crew.start.codeBody"
 msgstr "Send this code, or the link, to whoever you want in. It works for 14 days."
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.how"
+msgstr "Send your link. When a friend makes their pass through it, then joins a crew and votes, or starts a trip, you each get a referral stamp. Three stamps unlock the Navy cover, five the Collector cover."
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.share"
+msgstr "Share my link"
+
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.share"
 msgstr "Share the code"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.stamped"
+msgstr "Stamped"
 
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.title"
@@ -387,6 +472,10 @@ msgstr "WhatsApp"
 msgid "crew.composer.mode"
 msgstr "Who"
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.back"
+msgstr "You"
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.you"
 msgstr "You"
@@ -418,3 +507,7 @@ msgstr "Your code arrives once you’re back online. The crew is saved."
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.title"
 msgstr "Your crews"
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.linkPending"
+msgstr "Your link appears once you’re online and your pass is saved."

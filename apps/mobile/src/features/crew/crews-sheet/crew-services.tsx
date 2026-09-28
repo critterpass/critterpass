@@ -14,6 +14,8 @@ export interface CrewServices {
   readonly openUrl: (url: string) => Promise<boolean>;
   /** The public link for an invite code (and seat), on this build's link host. */
   readonly inviteUrl: (code: string, seat?: string) => string;
+  /** The public referral link (`/r/{code}`) on this build's link host. */
+  readonly referralUrl: (code: string) => string;
 }
 
 const CrewServicesContext = createContext<CrewServices | null>(null);

@@ -74,6 +74,7 @@ export function recordingServices(uid: string): RecordingServices {
       return Promise.resolve(true);
     },
     inviteUrl: (code) => `https://critterpass.app/i/${code}`,
+    referralUrl: (code) => `https://critterpass.app/r/${code}`,
   };
 }
 

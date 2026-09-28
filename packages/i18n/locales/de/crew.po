@@ -32,12 +32,20 @@ msgstr ""
 msgid "crew.sheet.inDays"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.beyond"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
 msgid "crew.seatLimit.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
 msgid "crew.seatLimit.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.aFriend"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
@@ -76,12 +84,29 @@ msgstr ""
 msgid "crew.settings.notifyAll"
 msgstr ""
 
+#. placeholder {0}: entry.stamps
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.at"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.collector"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.message"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.copy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.covers"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
@@ -133,8 +158,20 @@ msgstr ""
 msgid "crew.members.ringDouble"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.friends"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
 msgid "crew.composer.homeHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.howTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
@@ -143,6 +180,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.leaveRoles"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
@@ -174,6 +215,10 @@ msgstr ""
 msgid "crew.sheet.joinCode"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.joined"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.joined"
 msgstr ""
@@ -202,6 +247,10 @@ msgstr ""
 msgid "crew.settings.leaveTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.copied"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.copied"
 msgstr ""
@@ -226,6 +275,10 @@ msgstr ""
 msgid "crew.composer.share"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.navy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.rotate"
 msgstr ""
@@ -237,6 +290,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
 msgid "crew.settings.noCode"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.noFriends"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
@@ -263,8 +320,24 @@ msgstr ""
 msgid "crew.members.organiser"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.shareMessage"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.previewA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.stamps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.terms"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/members/MembersList.tsx
@@ -295,8 +368,20 @@ msgstr ""
 msgid "crew.start.codeBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.how"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.share"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.stamped"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
@@ -387,6 +472,10 @@ msgstr ""
 msgid "crew.composer.mode"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.you"
 msgstr ""
@@ -417,4 +506,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
+msgid "crew.referral.linkPending"
 msgstr ""

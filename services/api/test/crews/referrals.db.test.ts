@@ -86,6 +86,20 @@ describe('referral attribution', () => {
     expect(crewCode.status).toBe(422);
   });
 
+  it('mints one referral code per person and hands the same one back', async () => {
+    const sharer = await harness.signInAnonymously();
+    await harness.promoteToRegistered(sharer.uid);
+    const first = resultOf((await runCommand(harness, sharer, 'mint_referral_code', {})).body);
+    const again = resultOf((await runCommand(harness, sharer, 'mint_referral_code', {})).body);
+    expect(first['code']).toMatch(/^[2-9A-HJKMNP-TV-Z]{6}$/u);
+    expect(again).toEqual(first);
+    const newcomer = await harness.signInAnonymously();
+    const attributed = await runCommand(harness, newcomer, 'attribute_referral', {
+      code: String(first['code']),
+    });
+    expect(resultOf(attributed.body)).toEqual({ attributed: true });
+  });
+
   it('keeps the referee install unreadable by either party', async () => {
     const newcomer = await harness.signInAnonymously();
     await runCommand(harness, newcomer, 'attribute_referral', { code: 'REFR23' });
