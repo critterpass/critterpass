@@ -15,6 +15,8 @@ import { TextField } from '@/ui/inputs/TextField';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { tagWords } from '../../onboarding';
+
 export const NOTE_MAX = 140;
 export const TAGS_MAX = 3;
 
@@ -31,10 +33,6 @@ const useStyles = makeStyles((th) => ({
   root: { gap: th.space['12'] },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: th.space['8'] },
 }));
-
-function tagLabel(tag: TasteTag): string {
-  return tag.replace(/_/gu, ' ');
-}
 
 export function ContactFields({
   value,
@@ -96,7 +94,7 @@ export function ContactFields({
         {TASTE_TAGS.map((tag) => (
           <ChoiceChip
             key={tag}
-            label={upper(tagLabel(tag), locale)}
+            label={upper(tagWords(tag).full, locale)}
             selected={value.tags.includes(tag)}
             onPress={() => toggle(tag)}
             testID={`composer-tag-${tag}`}

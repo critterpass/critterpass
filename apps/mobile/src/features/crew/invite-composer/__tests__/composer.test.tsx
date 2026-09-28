@@ -215,6 +215,16 @@ describe('invite composer', () => {
     expect(await screen.findByTestId('composer-sign-in')).toBeTruthy();
     expect(screen.getByTestId('composer-save')).toBeTruthy();
   });
+
+  it('labels taste chips with their words, never their slugs', async () => {
+    stack = await openTestLocalFirst({ transport: recordedApi({}), uid: ME, holdUploads: true });
+    await seed(stack.db);
+    await renderWithCrew(<InviteComposerScreen />, stack, services);
+    const chip = await screen.findByTestId('composer-tag-nightlife');
+    expect(chip).toHaveTextContent('NIGHT OWL');
+    expect(screen.getByTestId('composer-tag-sit_down_dining')).toHaveTextContent('PROPER DINNERS');
+    expect(screen.queryByText(/_/u)).toBeNull();
+  });
 });
 
 describe('waitlist on the crews sheet', () => {
