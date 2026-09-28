@@ -9,6 +9,7 @@ import type { JobWithMetadata, PgBoss, SendOptions, WorkOptions } from 'pg-boss'
 import type pg from 'pg';
 import type { z } from 'zod';
 
+import { jobTraceCarrier, withJobSpan } from '../obs/job-span';
 import { queueSpec, type QueueName, type QueueSpec } from './queues';
 
 export interface JobLogger {
@@ -180,7 +181,11 @@ export async function runAttempt<Data>(
     previousOutput: job.output ?? undefined,
   };
   try {
-    const output = await def.handler(parsed.data, { ...deps, job: attempt });
+    const output = await withJobSpan(
+      { queue: def.queue, attempt: job.retryCount + 1 },
+      jobTraceCarrier(job.data),
+      () => def.handler(parsed.data, { ...deps, job: attempt }),
+    );
     return { id: job.id, status: 'completed', ...(output ? { output } : {}) };
   } catch (error) {
     if (attempt.isFinalAttempt) {

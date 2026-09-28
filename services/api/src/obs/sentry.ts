@@ -34,8 +34,12 @@ export function initSentry(options: SentryOptions): ErrorReporter {
     dsn: options.dsn,
     environment: options.environment,
     release: options.release,
+    // Errors only. Leave every trace sample option unset: any of them, even a rate of 0, turns on
+    // Sentry's http and pg span integrations, and with the OTel setup skipped those record through
+    // our tracer provider, so each request gets a second server span and pg spans double up.
+    // OpenTelemetry already registered the import hook (./instrument.ts); a second one only warns.
     skipOpenTelemetrySetup: true,
-    tracesSampleRate: 0,
+    registerEsmLoaderHooks: false,
     includeLocalVariables: false,
     serverName: 'api',
     maxBreadcrumbs: 30,
