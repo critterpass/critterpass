@@ -5,15 +5,11 @@
  */
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
-import { enqueueRealtime, withSystem } from '@cp/db';
-import { userChannel } from '@cp/domain';
 import type { Hono } from 'hono';
 import type pg from 'pg';
 
-import {
-  findDeliveryByProviderMessageId,
-  type DeliveryTrackerRedisClient,
-} from '../auth/otp/router';
+import { emitOtpChannelFailed } from '../auth/otp/channel-failed';
+import type { DeliveryTrackerRedisClient } from '../auth/otp/router';
 
 export interface WhatsAppWebhookDeps {
   readonly appPool: pg.Pool;
@@ -89,18 +85,7 @@ export function registerWhatsAppWebhookRoutes<E extends { Variables: object }>(
 
     for (const status of statuses) {
       if (!FAILED_STATUSES.has(status.status)) continue;
-      const delivery = await findDeliveryByProviderMessageId(deps.redis, status.id);
-      if (!delivery || !delivery.uid) continue;
-      await withSystem(deps.appPool, (tx) =>
-        enqueueRealtime(tx, {
-          channel: userChannel(delivery.uid as string),
-          payload: {
-            v: 1,
-            type: 'otp.channel_failed',
-            data: { verification_id: delivery.verificationId ?? null },
-          },
-        }),
-      );
+      await emitOtpChannelFailed(deps.appPool, deps.redis, status.id);
     }
 
     // Meta requires a fast 200 regardless of per-status outcome; retries are keyed by delivery

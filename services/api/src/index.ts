@@ -26,7 +26,7 @@ import {
   registerReturningPhoneSignInRoute,
 } from './routes/auth-extra';
 import { registerInternalRtRoutes } from './routes/internal-rt';
-import { registerWhatsAppWebhookRoutes } from './routes/webhooks-whatsapp';
+import { registerOtpWebhookRoutes } from './routes/otp-webhooks';
 import { betterAuthSessionResolver } from './commands/_framework/session';
 import { registerCmdResultsRoute } from './routes/cmd-results';
 import { createAppCommandRegistry } from './commands/catalogue';
@@ -164,18 +164,7 @@ if (appleSiwaConfig && fieldEncryptionKeyring) {
   );
 }
 
-if (env.WHATSAPP_APP_SECRET && env.WHATSAPP_VERIFY_TOKEN) {
-  registerWhatsAppWebhookRoutes(app, {
-    appPool: pool,
-    redis,
-    appSecret: env.WHATSAPP_APP_SECRET,
-    verifyToken: env.WHATSAPP_VERIFY_TOKEN,
-  });
-} else {
-  logger.info(
-    'WhatsApp status webhook is disabled: WHATSAPP_APP_SECRET or WHATSAPP_VERIFY_TOKEN is unset',
-  );
-}
+registerOtpWebhookRoutes(app, { env, appPool: pool, redis, logger });
 
 // Send-only pg-boss for enqueue-in-transaction (docs/api-contracts-async.md §2.1), and notification
 // routing for every domain event this process appends. Until the producer has started, a command
