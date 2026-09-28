@@ -164,6 +164,13 @@ describe('Telegram Gateway wiring', () => {
 });
 
 describe('buildAttestationConfigFromEnv', () => {
+  const noPlayIntegrity = {
+    APP_ENV: 'staging',
+    PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON: undefined,
+    PLAY_INTEGRITY_PACKAGE_NAME: undefined,
+    PLAY_INTEGRITY_CERT_SHA256_DIGESTS: undefined,
+  } as const;
+
   it('forces iosMode to log when no real root cert is configured, even if ATTESTATION_MODE is enforce', () => {
     const config = buildAttestationConfigFromEnv({
       ATTESTATION_MODE: 'enforce',
@@ -171,6 +178,7 @@ describe('buildAttestationConfigFromEnv', () => {
       APPLE_APP_ATTEST_BUNDLE_ID: undefined,
       APPLE_APP_ATTEST_ROOT_CERT_PEM: undefined,
       APPLE_APP_ATTEST_ALLOW_DEV_ENV: true,
+      ...noPlayIntegrity,
     });
     expect(config.iosMode).toBe('log');
     expect(config.androidMode).toBe('log');
@@ -185,10 +193,29 @@ describe('buildAttestationConfigFromEnv', () => {
       APPLE_APP_ATTEST_ROOT_CERT_PEM:
         '-----BEGIN CERTIFICATE-----\nreal\n-----END CERTIFICATE-----',
       APPLE_APP_ATTEST_ALLOW_DEV_ENV: false,
+      ...noPlayIntegrity,
     });
     expect(config.iosMode).toBe('enforce');
     expect(config.appAttest.teamId).toBe('TEAM123');
     expect(config.appAttest.allowDevelopmentEnvironment).toBe(false);
+  });
+
+  it('wires Play Integrity for Android once its service account is set', () => {
+    const config = buildAttestationConfigFromEnv({
+      ATTESTATION_MODE: 'log',
+      APPLE_APP_ATTEST_TEAM_ID: undefined,
+      APPLE_APP_ATTEST_BUNDLE_ID: undefined,
+      APPLE_APP_ATTEST_ROOT_CERT_PEM: undefined,
+      APPLE_APP_ATTEST_ALLOW_DEV_ENV: true,
+      ...noPlayIntegrity,
+      PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON: JSON.stringify({
+        client_email: 'play-integrity@critterpass-test.iam.gserviceaccount.com',
+        private_key: 'pem',
+      }),
+      PLAY_INTEGRITY_CERT_SHA256_DIGESTS: 'j-_Zgk1nkrEgNiXYBkUhlsXAvJXuGFr_xBY0tkfnhUw',
+    });
+    expect(config.androidMode).toBe('log');
+    expect(config.android?.playIntegrity.packageName).toBe('app.critterpass.staging');
   });
 });
 

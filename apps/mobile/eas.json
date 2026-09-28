@@ -31,6 +31,7 @@
       "extends": "preview",
       "distribution": "internal",
       "channel": "e2e-test",
+      "environment": "development",
       "withoutCredentials": true,
       "node": "24.21.0",
       "pnpm": "12.6.0",
@@ -50,6 +51,7 @@
     "staging": {
       "distribution": "store",
       "channel": "staging",
+      "environment": "preview",
       "env": {
         "APP_VARIANT": "staging",
         "EXPO_PUBLIC_API_BASE_URL": "https://api-staging-de92.up.railway.app",
@@ -71,6 +73,7 @@
   "submit": {
     "staging": {
       "android": {
+        "serviceAccountKeyPath": "../../certs/google-play-submit.json",
         "track": "internal"
       },
       "ios": {
@@ -79,6 +82,7 @@
     },
     "production": {
       "android": {
+        "serviceAccountKeyPath": "../../certs/google-play-submit.json",
         "track": "production"
       },
       "ios": {

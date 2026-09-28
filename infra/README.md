@@ -22,7 +22,11 @@ Only `.env.example` files are committed. Local values live in the git-ignored re
 | `PS_*` (replication role, storage URL, JWKS) | Railway variables | powersync-repl, powersync-api | quarterly | pending: sync phase |
 | Better Auth secret, JWT signing keys (EdDSA) | Railway variables | api | quarterly (`rotationInterval`) | pending: auth phase |
 | Apple: Sign in with Apple key, APNs `.p8` + key id, App Attest | Railway variables; EAS credentials for signing | api, worker, EAS | yearly / on staff change | pending: auth + push phases (team `YFND2EEW8S`) |
-| Google: OAuth clients, FCM service account, Play Integrity, Play service account | Railway variables; EAS submit | api, worker, EAS | yearly | pending: founder (Google Play project) |
+| Google OAuth client ids: `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` (all EAS envs), `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID` (per EAS env: development, preview = staging builds, production); api `GOOGLE_SOCIAL_CLIENT_IDS` (web + that tier's iOS client ids) | EAS env (mobile); Railway variables (api) | mobile (Google Sign-In, iOS URL scheme), api (ID token `aud`) | on leak only (public ids) | provisioned (EAS all envs, staging api) |
+| `GOOGLE_SERVICES_JSON` (EAS **file** variable, `google-services.json` for the three Android packages) | EAS env (all three) | Android builds (`android.googleServicesFile`, FCM tokens) | on Firebase app change | provisioned |
+| `FCM_SERVICE_ACCOUNT_JSON` | Railway variables (worker) | worker (FCM HTTP v1 sends) | yearly | provisioned (staging) |
+| `PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON` (+ `PLAY_INTEGRITY_CERT_SHA256_DIGESTS`, optional `PLAY_INTEGRITY_PACKAGE_NAME`) | Railway variables (api); key file `certs/play-integrity-service-account.json` (git-ignored) | api (Android attestation) | yearly | key local; Railway pending |
+| Play service account for submits | `certs/google-play-submit.json` (git-ignored, `serviceAccountKeyPath` in `apps/mobile/eas.json`) | local `eas submit` | yearly | local only |
 | `ANTHROPIC_API_KEY` (+ `ANTHROPIC_BASE_URL`), Langfuse keys | Railway variables; local `.env` | api, worker, evals | quarterly | local only |
 | `MAPBOX_SECRET_TOKEN`, `FOURSQUARE_API_KEY` | Railway variables; local `.env` | api, worker, content tools | yearly | local only |
 | RevenueCat keys + webhook secret, store notification secrets | Railway variables | api | yearly | pending: monetisation phase |

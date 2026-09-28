@@ -35,7 +35,7 @@ export interface AttestationConfig {
   readonly iosMode: AttestationMode;
   readonly androidMode: AttestationMode;
   readonly appAttest: AppAttestConfig;
-  /** Absent when no Play Integrity credentials are provisioned yet: Android attestation then always behaves as `log`, regardless of `androidMode`. */
+  /** Absent when no Play Integrity credentials are provisioned: Android attestation then always behaves as `log`, regardless of `androidMode`. */
   readonly android: AndroidAttestationConfig | undefined;
 }
 
@@ -278,5 +278,9 @@ export async function enforceAttestation(
 
 export type { AppAttestConfig } from './app-attest';
 export type { PlayIntegrityConfig, PlayIntegrityHttpClient } from './play-integrity';
-export { createGooglePlayIntegrityHttpClient } from './play-integrity';
+export {
+  createGooglePlayIntegrityHttpClient,
+  normalizeCertificateDigest,
+  parseGoogleServiceAccount,
+} from './play-integrity';
 export { issueChallenge, type ChallengeRedisClient } from './challenge';

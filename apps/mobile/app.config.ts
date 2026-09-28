@@ -38,6 +38,48 @@ function resolveVariant(): AppVariant {
 const appVariant = resolveVariant();
 
 /**
+ * Google credentials the native build embeds, all read from EAS environment variables at config
+ * time (never committed): the iOS OAuth client's reversed id as Google Sign-In's URL scheme, and
+ * the Firebase `google-services.json` EAS writes to disk for Android (FCM push tokens). Each is
+ * left out when its variable is absent (local dev, CI): the build still succeeds, Google Sign-In
+ * reports "not available" and Android registers without a push token.
+ */
+type Env = Readonly<Record<string, string | undefined>>;
+
+const IOS_CLIENT_ID_SUFFIX = '.apps.googleusercontent.com';
+const URL_SCHEME_PREFIX = 'com.googleusercontent.apps.';
+const PLUGIN = '@react-native-google-signin/google-signin';
+
+function present(value: string | undefined): string | undefined {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : undefined;
+}
+
+/** `123-abc.apps.googleusercontent.com` -> `com.googleusercontent.apps.123-abc`. */
+export function googleIosUrlScheme(iosClientId: string): string {
+  const id = iosClientId.trim();
+  if (!id.endsWith(IOS_CLIENT_ID_SUFFIX) || id.length === IOS_CLIENT_ID_SUFFIX.length) {
+    throw new Error(`EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID must end with ${IOS_CLIENT_ID_SUFFIX}`);
+  }
+  return `${URL_SCHEME_PREFIX}${id.slice(0, -IOS_CLIENT_ID_SUFFIX.length)}`;
+}
+
+/**
+ * The Google Sign-In config plugin entry (its without-Firebase form, which only adds the iOS URL
+ * scheme), or none when this build has no iOS client id.
+ */
+export function googleSignInPlugins(env: Env): [string, { iosUrlScheme: string }][] {
+  const iosClientId = present(env['EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID']);
+  return iosClientId ? [[PLUGIN, { iosUrlScheme: googleIosUrlScheme(iosClientId) }]] : [];
+}
+
+/** `android.googleServicesFile`: the path EAS gives the `GOOGLE_SERVICES_JSON` file variable. */
+export function androidGoogleServices(env: Env): { googleServicesFile?: string } {
+  const file = present(env['GOOGLE_SERVICES_JSON']);
+  return file ? { googleServicesFile: file } : {};
+}
+
+/**
  * Variants whose build embeds the App Clip (targets/app-clip). Development only until the clip's
  * bundle ids are registered for staging and production (docs/decisions/
  * 20260928-app-clip-built-behind-a-flag.md); invite pages offer it only with `links.app_clip` on.
@@ -83,6 +125,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   android: {
     package: variant.bundleIdentifier,
+    // Firebase config for FCM push tokens; Expo's prebuild applies the google-services Gradle plugin.
+    ...androidGoogleServices(process.env),
     adaptiveIcon: {
       foregroundImage: './assets/android-icon-foreground.png',
       backgroundImage: './assets/android-icon-background.png',
@@ -152,6 +196,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     './modules/cp-notifications/plugin/with-communication-notifications',
     '@maplibre/maplibre-react-native',
     'expo-apple-authentication',
+    // Google Sign-In's iOS URL scheme, from this environment's iOS OAuth client id.
+    ...googleSignInPlugins(process.env),
     [
       'expo-location',
       {
