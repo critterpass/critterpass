@@ -310,13 +310,6 @@ jobs:
     env:
       APP_VARIANT: development
       SENTRY_DISABLE_AUTO_UPLOAD: 'true'
-      # C, Objective-C and C++ objects of the pods come from ccache (the Expo Podfile reads it).
-      USE_CCACHE: '1'
-      CCACHE_DIR: ${{ github.workspace }}/.ccache
-      CCACHE_BASEDIR: ${{ github.workspace }}
-      CCACHE_SLOPPINESS: clang_index_store,file_stat_matches,include_file_ctime,include_file_mtime,ivfsoverlay,pch_defines,modules,system_headers,time_macros
-      CCACHE_FILECLONE: 'true'
-      CCACHE_MAXSIZE: 2G
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -325,9 +318,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
       # The Xcode of EAS's `latest` iOS image, which the e2e-test profile builds on.
       - run: sudo xcode-select -s /Applications/Xcode_26.6.app
-      - run: brew install ccache
       - name: Expo prebuild
         run: pnpm --filter @cp/mobile exec expo prebuild --platform ios --clean --no-install
+      # Pods only: Xcode keys DerivedData on file timestamps, which every checkout and install
+      # resets, so a restored DerivedData would rebuild everything anyway.
       - uses: actions/cache@v6
         with:
           path: |
@@ -335,13 +329,6 @@ jobs:
             ~/Library/Caches/CocoaPods
           key: pods-${{ runner.os }}-${{ hashFiles('apps/mobile/ios/Podfile', 'apps/mobile/ios/Podfile.properties.json', 'pnpm-lock.yaml', 'apps/mobile/modules/*/ios/*.podspec') }}
           restore-keys: pods-${{ runner.os }}-
-      # Xcode keys DerivedData on file timestamps, which every checkout and install resets, so a
-      # restored DerivedData rebuilds everything anyway; ccache keys on content and carries over.
-      - uses: actions/cache@v6
-        with:
-          path: .ccache
-          key: ios-compile-${{ runner.os }}-${{ github.sha }}
-          restore-keys: ios-compile-${{ runner.os }}-
       - name: Install pods
         working-directory: apps/mobile/ios
         run: pod install
@@ -353,12 +340,11 @@ jobs:
           xcodebuild build \
             -workspace "$workspace" -scheme "${workspace%.xcworkspace}" \
             -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            ARCHS=arm64 ONLY_ACTIVE_ARCH=YES COMPILER_INDEX_STORE_ENABLE=NO \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' \
-            COMPILER_INDEX_STORE_ENABLE=NO \
-            | tee "$RUNNER_TEMP/xcodebuild.log" | grep -E '(error|warning: .*Sendable|BUILD (SUCCEEDED|FAILED))' || true
-          grep -q 'BUILD SUCCEEDED' "$RUNNER_TEMP/xcodebuild.log"
-      - run: ccache --show-stats
-        if: always()
+            > "$RUNNER_TEMP/xcodebuild.log" 2>&1 || status=$?
+          grep -E ': error:|^\*\* BUILD|^\t' "$RUNNER_TEMP/xcodebuild.log" | grep -v '^\t*/' || true
+          exit "${status:-0}"
       - name: Upload the build log
         if: failure()
         uses: actions/upload-artifact@v7
