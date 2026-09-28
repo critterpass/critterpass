@@ -37,6 +37,7 @@ import { composeUrl, sendInvite, shareVia, type ComposerChannel } from './compos
 import { ContactFields, EMPTY_CONTACT, type ContactDraft } from './ContactFields';
 import { homeHintFor, toE164 } from './home-hint';
 import { JoinQr } from './JoinQr';
+import { type InviteComposerProps } from './use-contact-pick';
 import { useTagSuggestion } from './use-tag-suggestion';
 
 const useStyles = makeStyles((th) => ({
@@ -52,7 +53,7 @@ const useStyles = makeStyles((th) => ({
 
 type Mode = 'friend' | 'link';
 
-export function InviteComposerScreen() {
+export function InviteComposerScreen({ pickContact = null }: InviteComposerProps) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
@@ -105,7 +106,7 @@ export function InviteComposerScreen() {
       channel: 'contact',
       contact: {
         name: contact.name.trim(),
-        provenance: 'typed',
+        provenance: contact.picked ? 'contacts' : 'typed',
         ...(phone === null ? {} : { phone_e164: phone }),
         ...(homeHint === null ? {} : { home_hint: homeHint }),
       },
@@ -184,6 +185,7 @@ export function InviteComposerScreen() {
             value={contact}
             homeHint={homeHint}
             suggestion={suggestion}
+            pickContact={pickContact}
             onChange={setContact}
           />
         ) : null}

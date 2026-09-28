@@ -328,6 +328,10 @@ msgstr "Organiser"
 msgid "crew.referral.pending"
 msgstr "Pending"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.pick"
+msgstr "Pick from contacts"
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.shareMessage"
 msgstr "Plan trips with me on CritterPass: {url}"
@@ -519,6 +523,10 @@ msgstr "You’re number {position} for a seat on {place}"
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.codeLater"
 msgstr "Your code arrives once you’re back online. The crew is saved."
+
+#: ../../apps/mobile/src/features/crew/invite-composer/use-contact-pick.ts
+msgid "crew.composer.pickFailed"
+msgstr "Your contacts didn’t open. Type their name instead."
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
 msgid "crew.sheet.title"
