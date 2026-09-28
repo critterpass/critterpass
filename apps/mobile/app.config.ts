@@ -178,6 +178,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         isAccessMediaLocationEnabled: false,
       },
     ],
+    // Every permission string and Android permission, written last so it wins over the defaults above.
+    './plugins/with-location-permissions',
     // Last: copies the bake pipeline's generated critter art into the app + every extension target
     // (iOS) and Android res/ once every other plugin's prebuild output exists.
     './plugins/with-critter-art',
