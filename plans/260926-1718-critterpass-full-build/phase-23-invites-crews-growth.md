@@ -1,7 +1,7 @@
 ---
 phase: 23
 title: Invites, join codes, crews, referral, seat cap
-status: pending
+status: done
 depends_on: [12, 21, 22]
 wave: 9
 features: [F-043, F-045, F-190, F-046, F-161, F-047]
@@ -121,6 +121,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. Drizzle + SQL, FORCE RLS, grants; encrypted prefill fields via phase-09 crypto. 2. Matrix incl. ex-member and invitee-before-join.
 - Tests: `pnpm --filter @cp/db test -- permissions/invites permissions/invite_prefill permissions/referrals permissions/seat_waitlist_offers permissions/crew_contact_cards`.
 - Done when: prefill unreadable by any role except command path; publication check passes.
+- Status: done — 6d079688
 
 ### T2 — Crew, invite, seat and referral domain rules
 - Goal: pure rules.
@@ -128,6 +129,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. Invite state machine. 2. Seat allocation decision given counts + cap. 3. Forwarded-link rule. 4. Colour assignment + ring pattern. 5. Referral qualification + cover thresholds + velocity.
 - Tests: `pnpm --filter @cp/domain test -- crews invites referrals`.
 - Done when: table-driven tests cover every C26 case (unboosted 7th, boosted 16th, RSVP out frees seat, boost expiry freeze).
+- Status: done — 89755549
 
 ### T3 — Crew commands and membership epochs
 - Goal: create/switch/leave/remove/rename/mute/rotate.
@@ -135,6 +137,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. Handlers with authz + limits. 2. Epoch increment + `rt_outbox` unsubscribe control row. 3. Organiser hand-off on leave (Q-11).
 - Tests: `pnpm --filter @cp/api test -- crews/crew-commands`.
 - Done when: removed member's Centrifugo subscription ends (integration with Centrifugo container) and PowerSync stream drops crew rows.
+- Status: done — 8440d338
 
 ### T4 — Invite commands, seat claim, waitlist, link providers
 - Goal: server invite lifecycle.
@@ -142,6 +145,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. `create_invite` (registered users only) with seat token, code, prefill encrypt, phone hash. 2. `accept_invite` with `SELECT … FOR UPDATE` on trip, allocation from T2. 3. Waitlist offer jobs + N-43. 4. Phone-hash match handler for phase-21 claim. 5. Providers for preview/resolve.
 - Tests: `pnpm --filter @cp/db test -- concurrency/seat-claim`; `pnpm --filter @cp/api test -- crews/invites`; `pnpm --filter @cp/worker test -- jobs/invites`.
 - Done when: 50 parallel claims on 6-seat trip with 4 taken → exactly 2 seated, 48 waitlisted; anonymous invitee can accept; anonymous inviter gets `AUTH_REQUIRED`.
+- Status: done — 2f00d9f2
 
 ### T5 — Invite AI, welcome line, referral engine
 - Goal: tag inference + referral rewards.
@@ -149,6 +153,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. Prompts with enum-constrained output + validators + template fallbacks. 2. Referral attribution on claim; evaluation on vote/trip events; stamp + cover grant via phase-22 stamps; fraud void.
 - Tests: `pnpm --filter @cp/ai eval -- invite-tags crew-welcome`; `pnpm --filter @cp/worker test -- jobs/referrals`.
 - Done when: eval pass rate ≥ 95 % on 40 notes; second device of same person never qualifies.
+- Status: done — 89f2a8b7
 
 ### T6 — Invited fast path screens
 - Goal: 3a-10, 3a-11, 3a-12, 3a-13.
@@ -156,6 +161,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. Ticket with preview data + motion + states. 2. Code entry with paste + found card + errors. 3. Three-tap pass using phase-22 chips/avatar/save sheet with provenance labels. 4. Manifest stamp-in, truthful nudge line, timing metric.
 - Tests: `pnpm --filter @cp/mobile test -- features/onboarding/invited`; `maestro test e2e/invites/fast-path.yaml`.
 - Done when: every undesigned state reachable in RNTL; Maestro timing ≤ 15 s p50 on simulator.
+- Status: done — b86b8451
 
 ### T7 — Crews sheet, start a crew, crew settings
 - Goal: F-047 UI.
@@ -163,6 +169,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. Sheet with a typed `crewCardBadge` slot (P24 T4 registers the unread count; slot renders nothing until registered), invites JOIN/LATER, theme cross-fade. 2. Start flow → share. 3. Settings: rename, members, leave, remove, mute, rotate code.
 - Tests: `pnpm --filter @cp/mobile test -- features/crew`; `maestro test e2e/crew/crews-sheet.yaml`.
 - Done when: switching crew changes Home theme and data within one frame budget; leave removes crew locally after sync.
+- Status: done — 37617ca4
 
 ### T8 — Invite composer, SEAT_LIMIT routing, waitlist UI
 - Goal: F-190 + F-161 joiner/inviter UI (4f-1 sheet itself is P46).
@@ -170,6 +177,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. Composer: contact picker, prefill fields, note + inferred tags confirm, channel list, ticket preview, QR. 2. Seat-limit presenter registry + default waitlist sheet (truthful copy). 3. Invitee waitlist ("You're next for a seat") + seat-offer accept screens.
 - Tests: `pnpm --filter @cp/mobile test -- features/crew/invite-composer features/crew/seat-limit features/crew/waitlist`; `maestro test e2e/invites/seventh-seat.yaml`.
 - Done when: 7th invite yields `SEAT_LIMIT` and invokes the registered presenter (contract test with a test presenter), default presenter waitlists the invitee, never an error toast; no address book upload (network log assertion in test).
+- Status: done — fb3bcbef
 
 ### T9 — Referral dashboard
 - Goal: You > Invite friends.
@@ -177,6 +185,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. Link + copy + channels. 2. Stamp slots + covers unlock state. 3. Friends list status-only. 4. Terms link.
 - Tests: `pnpm --filter @cp/mobile test -- features/crew/referral`.
 - Done when: states pending/joined/stamped render from synced `referrals`; no referee activity text shown.
+- Status: done — b339b46b
 
 ### T10 — Growth loop end-to-end
 - Goal: prove loop across devices.
@@ -184,6 +193,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. Two-simulator run inviter → invitee (link via `simctl openurl`). 2. API test: forwarded link, revoke, RSVP out → offer → accept. 3. Referral qualification path.
 - Tests: `maestro test e2e/invites e2e/crew`; `pnpm --filter @cp/api test -- crews/growth-loop`.
 - Done when: all flows green; `time_to_manifest_ms` recorded.
+- Status: done — 50804a3b
 
 ## Phase acceptance criteria
 
