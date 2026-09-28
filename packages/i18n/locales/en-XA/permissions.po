@@ -1,0 +1,202 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-28 07:55+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en-XA\n"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.alarms.body"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.notifications.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.exactAlarmOff"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.locationAlways.action"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.locationAlways.body"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.approximate"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
+msgid "permissions.value.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
+msgid "permissions.primer.later"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.calendar.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.camera.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.location.body"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.microphone.body"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
+msgid "permissions.sheet.settingsBody"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.locationAlways.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
+msgid "permissions.primer.lastStep"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/demos/LeaveByDemo.tsx
+msgid "permissions.demo.leaveBy"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.notifications.body"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.liveActivities.body"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
+msgid "permissions.primer.go"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
+msgid "permissions.value.limited"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.limited"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.location.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.liveActivities.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.liveActivitiesOff"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.notAsked"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.restricted"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
+msgid "permissions.sheet.notNow"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
+msgid "permissions.value.off"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.off"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
+msgid "permissions.value.on"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.on"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+#: ../../apps/mobile/src/ui/permission-primer/DeniedRow.tsx
+#: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
+msgid "permissions.primer.openSettings"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
+msgid "permissions.section.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.photosRead.body"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
+msgid "permissions.value.quiet"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.provisional"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.alarms.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.photosAdd.body"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.photosAdd.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
+msgid "permissions.primer.guideLine"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.camera.body"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.calendar.body"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.microphone.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
+msgid "permissions.primer.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.photosRead.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.primer.turnOn"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.whileInUse"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
+msgid "permissions.primer.back"
+msgstr ""

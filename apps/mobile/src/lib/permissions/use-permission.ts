@@ -23,6 +23,7 @@ import {
   type KeyValueStorage,
   type PermissionReport,
   type PermissionsSnapshot,
+  type PermissionsState,
   type PermissionStore,
 } from './store';
 
@@ -103,6 +104,15 @@ export function requestWithPrimer(
 
 export function openPermissionSettings(kind: PermissionKind): Promise<boolean> {
   return requireWired().orchestrator.openSettingsFor(kind);
+}
+
+/** The whole permission picture (every kind, alarm and Live Activity capability). */
+export function usePermissionsState(): PermissionsState {
+  const store = wired?.store ?? getPermissionStore();
+  return useSyncExternalStore(
+    (listener) => store.subscribe(listener),
+    () => store.getState(),
+  );
 }
 
 const noStore = {

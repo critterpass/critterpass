@@ -1,0 +1,202 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-28 07:55+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.alarms.body"
+msgstr "A proper alarm rings when it is time to leave, even on silent."
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.notifications.title"
+msgstr "Alarms and pings"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.exactAlarmOff"
+msgstr "Alarms off. Leave-by falls back to a loud notification."
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.locationAlways.action"
+msgstr "Allow all the time"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.locationAlways.body"
+msgstr "Allow all the time and critters find you with the phone in your pocket. Trip days only, never a trail."
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.approximate"
+msgstr "Approximate only. Critters need precise location near spots."
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
+msgid "permissions.value.ask"
+msgstr "Ask"
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
+msgid "permissions.primer.later"
+msgstr "Ask me later"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.calendar.title"
+msgstr "Calendar"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.camera.title"
+msgstr "Camera"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.location.body"
+msgstr "Critters only appear where you actually are. Off when you are home."
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.microphone.body"
+msgstr "Hold to talk instead of typing. Only while you hold the button."
+
+#: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
+msgid "permissions.sheet.settingsBody"
+msgstr "It is switched off in Settings. Turn it on there and come straight back."
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.locationAlways.title"
+msgstr "Keep finding critters"
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
+msgid "permissions.primer.lastStep"
+msgstr "Last step"
+
+#: ../../apps/mobile/src/ui/permission-primer/demos/LeaveByDemo.tsx
+msgid "permissions.demo.leaveBy"
+msgstr "Leave by"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.notifications.body"
+msgstr "Leave-by alarms and votes that need you. About five a day."
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.liveActivities.body"
+msgstr "Leave-by countdowns on your lock screen. Turned on in Settings."
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
+msgid "permissions.primer.go"
+msgstr "Let’s go"
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
+msgid "permissions.value.limited"
+msgstr "Limited"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.limited"
+msgstr "Limited"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.location.title"
+msgstr "Location, on trips"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.liveActivities.title"
+msgstr "Lock screen countdowns"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.liveActivitiesOff"
+msgstr "Lock screen countdowns off. You still get a notification."
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.notAsked"
+msgstr "Not asked yet"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.restricted"
+msgstr "Not available on this phone"
+
+#: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
+msgid "permissions.sheet.notNow"
+msgstr "Not now"
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
+msgid "permissions.value.off"
+msgstr "Off"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.off"
+msgstr "Off. Turn it on in Settings."
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
+msgid "permissions.value.on"
+msgstr "On"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.on"
+msgstr "On"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+#: ../../apps/mobile/src/ui/permission-primer/DeniedRow.tsx
+#: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
+msgid "permissions.primer.openSettings"
+msgstr "Open Settings"
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
+msgid "permissions.section.title"
+msgstr "Permissions"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.photosRead.body"
+msgstr "Pick photos for the crew album. Choose all or just a few."
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
+msgid "permissions.value.quiet"
+msgstr "Quiet"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.provisional"
+msgstr "Quiet. Pings land in Notification Center."
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.alarms.title"
+msgstr "Real alarms"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.photosAdd.body"
+msgstr "Save cards and postcards to your photos. Adding only, never reading."
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.photosAdd.title"
+msgstr "Save to photos"
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
+msgid "permissions.primer.guideLine"
+msgstr "Say no to any of them. I’ll ask again when it actually matters."
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.camera.body"
+msgstr "Snap a real photo for your pass. Nothing is taken without your tap."
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.calendar.body"
+msgstr "So the guide can find a week everyone can make. Only free and busy."
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.microphone.title"
+msgstr "Talk to your guide"
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
+msgid "permissions.primer.title"
+msgstr "Three things, and why"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.photosRead.title"
+msgstr "Trip photos"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.primer.turnOn"
+msgstr "Turn on"
+
+#: ../../apps/mobile/src/ui/permission-primer/copy.ts
+msgid "permissions.state.whileInUse"
+msgstr "While using the app. Critters appear while your trip session runs."
+
+#: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
+msgid "permissions.primer.back"
+msgstr "Your pass"

@@ -1,3 +1,10 @@
+export { PERMISSION_KINDS } from '@cp/domain';
+export type {
+  DevicePermissionState,
+  PermissionKind,
+  PermissionStatus,
+  PermissionTrigger,
+} from '@cp/domain';
 export { buildMirror, createMirror, type PermissionMirror } from './mirror';
 export {
   createOrchestrator,
@@ -31,6 +38,8 @@ export {
   UPDATE_DEVICE_PERMISSIONS,
   usePermission,
   usePermissionsBridge,
+  usePermissionsState,
   type PermissionsWatcher,
   type PermissionsWiring,
 } from './use-permission';
+export { trackPermissionEvent } from './analytics';
