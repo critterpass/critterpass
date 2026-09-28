@@ -101,6 +101,8 @@ beforeEach(() => {
   services.shared.length = 0;
   services.copied.length = 0;
   services.opened.length = 0;
+  services.suggested.length = 0;
+  services.suggestion = null;
   jest.mocked(useLocalSearchParams).mockReturnValue({ crewId: CREW });
 });
 afterEach(async () => {
@@ -214,6 +216,42 @@ describe('invite composer', () => {
     await activate(screen.getByTestId('composer-send-wa'));
     expect(await screen.findByTestId('composer-sign-in')).toBeTruthy();
     expect(screen.getByTestId('composer-save')).toBeTruthy();
+  });
+
+  it("offers the guide's tags for the note and picks them only when the inviter says so", async () => {
+    services.suggestion = {
+      tags: ['markets', 'nightlife'],
+      line: 'Kai sounds like a night market person.',
+      guide: 'pon',
+      source: 'model',
+    };
+    const api = recordedApi({ create_invite: applied(SENT) });
+    stack = await openTestLocalFirst({ transport: api, uid: ME, holdUploads: true });
+    await seed(stack.db);
+    await renderWithCrew(<InviteComposerScreen />, stack, services);
+    await fireEvent.changeText(await screen.findByTestId('composer-name'), 'Kai');
+    await fireEvent.changeText(screen.getByTestId('composer-note'), 'loves night markets');
+    expect(
+      await screen.findByText('Kai sounds like a night market person.', {}, { timeout: 5000 }),
+    ).toBeTruthy();
+    expect(services.suggested).toEqual([
+      { crew_id: CREW, note: 'loves night markets', invitee_name: 'Kai' },
+    ]);
+    expect(screen.getByTestId('composer-tag-markets')).not.toBeSelected();
+    await activate(screen.getByTestId('composer-suggestion-use'));
+    expect(screen.getByTestId('composer-tag-markets')).toBeSelected();
+    expect(screen.getByTestId('composer-tag-nightlife')).toBeSelected();
+    expect(api.sent).toEqual([]);
+  });
+
+  it('shows no suggestion when the api cannot answer', async () => {
+    stack = await openTestLocalFirst({ transport: recordedApi({}), uid: ME, holdUploads: true });
+    await seed(stack.db);
+    await renderWithCrew(<InviteComposerScreen />, stack, services);
+    await fireEvent.changeText(await screen.findByTestId('composer-name'), 'Kai');
+    await fireEvent.changeText(screen.getByTestId('composer-note'), 'loves night markets');
+    await waitFor(() => expect(services.suggested).toHaveLength(1), { timeout: 5000 });
+    expect(screen.queryByTestId('composer-suggestion')).toBeNull();
   });
 
   it('labels taste chips with their words, never their slugs', async () => {

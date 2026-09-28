@@ -178,6 +178,36 @@ describe('3a-13 you’re in', () => {
     expect(router.replace).toHaveBeenCalledWith(`/${TRIP_ID}/plan`);
   });
 
+  it("types out the guide's welcome from the api for this crew and trip", async () => {
+    openInvite();
+    inviteSession.setJoined(JOINED);
+    stack = await openTestLocalFirst({ holdUploads: true, uid: ME });
+    await seedCrew(stack.db);
+    const answering = services({ status: 'not_found' }, ME, {
+      line: 'Rin, the Bali Six just got louder.',
+      source: 'model',
+    });
+    await renderInvited(<ManifestScreen />, { services: answering, stack });
+    expect(
+      await screen.findByText('Rin, the Bali Six just got louder.', {}, { timeout: 8000 }),
+    ).toBeTruthy();
+    expect(answering.welcomed).toEqual([{ crewId: CREW_ID, tripId: TRIP_ID }]);
+  });
+
+  it('keeps the scripted welcome when the api cannot answer', async () => {
+    openInvite();
+    inviteSession.setJoined(JOINED);
+    stack = await openTestLocalFirst({ holdUploads: true, uid: ME });
+    await seedCrew(stack.db);
+    await renderInvited(<ManifestScreen />, {
+      services: services({ status: 'not_found' }, ME),
+      stack,
+    });
+    expect(
+      await screen.findByText('Welcome, Rin. Glad you made it.', {}, { timeout: 8000 }),
+    ).toBeTruthy();
+  });
+
   it('tells a waitlisted joiner they are next, and shows no waiting seats', async () => {
     openInvite();
     inviteSession.setJoined({ ...JOINED, seated: false, waitlisted: true, waitlist_position: 1 });

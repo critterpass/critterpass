@@ -7,6 +7,7 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { render } from '@testing-library/react-native';
+import type { InviteTagsRequest, InviteTagsResponse } from '@cp/domain';
 import type { ReactElement } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -47,6 +48,9 @@ export const rejected = (code: string, http: number, detail?: unknown): Transpor
 });
 
 export interface RecordingServices extends CrewServices {
+  /** Every tag suggestion asked for, and the answer the next asks get (null = unreachable). */
+  readonly suggested: InviteTagsRequest[];
+  suggestion: InviteTagsResponse | null;
   readonly shared: string[];
   readonly copied: string[];
   readonly opened: string[];
@@ -56,10 +60,17 @@ export function recordingServices(uid: string): RecordingServices {
   const shared: string[] = [];
   const copied: string[] = [];
   const opened: string[] = [];
-  return {
+  const suggested: InviteTagsRequest[] = [];
+  const services: RecordingServices = {
     shared,
     copied,
     opened,
+    suggested,
+    suggestion: null,
+    inviteTags: (request) => {
+      suggested.push(request);
+      return Promise.resolve(services.suggestion);
+    },
     uid: () => Promise.resolve(uid),
     share: (message) => {
       shared.push(message);
@@ -76,6 +87,7 @@ export function recordingServices(uid: string): RecordingServices {
     inviteUrl: (code) => `https://critterpass.app/i/${code}`,
     referralUrl: (code) => `https://critterpass.app/r/${code}`,
   };
+  return services;
 }
 
 export function renderWithCrew(ui: ReactElement, stack: TestLocalFirst, services: CrewServices) {

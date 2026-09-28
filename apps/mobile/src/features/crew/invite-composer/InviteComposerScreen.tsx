@@ -36,6 +36,7 @@ import { renderSeatLimit } from '../seat-limit/registry';
 import { composeUrl, sendInvite, shareVia, type ComposerChannel } from './compose';
 import { ContactFields, EMPTY_CONTACT, type ContactDraft } from './ContactFields';
 import { homeHintFor, toE164 } from './home-hint';
+import { useTagSuggestion } from './use-tag-suggestion';
 
 const useStyles = makeStyles((th) => ({
   content: {
@@ -76,6 +77,13 @@ export function InviteComposerScreen() {
   );
   const crewName = crew?.name ?? '';
   const trip = trips.find((x) => x.id === tripId) ?? null;
+  const suggestion = useTagSuggestion({
+    enabled: mode === 'friend' && localFirst !== null,
+    crewId,
+    tripId,
+    name: contact.name,
+    note: contact.note,
+  });
   const friendReady =
     contact.name.trim().length > 0 && (contact.phone.trim() === '' || phone !== null);
   const ready = localFirst !== null && crew !== null && (mode === 'link' || friendReady);
@@ -165,7 +173,12 @@ export function InviteComposerScreen() {
           testID="composer-mode"
         />
         {mode === 'friend' ? (
-          <ContactFields value={contact} homeHint={homeHint} onChange={setContact} />
+          <ContactFields
+            value={contact}
+            homeHint={homeHint}
+            suggestion={suggestion}
+            onChange={setContact}
+          />
         ) : null}
         {trips.length > 0 ? (
           <View style={styles.chips}>

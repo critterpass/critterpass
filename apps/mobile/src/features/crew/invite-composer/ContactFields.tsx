@@ -1,12 +1,13 @@
 /**
  * The composer's "a friend" fields: their first name, their number (optional: it only ever leaves
  * the device as a hash, and sets the home airport hint), a note up to 140 characters and up to
- * three taste tags the inviter confirms for them. Nothing is read from the address book.
+ * three taste tags the inviter confirms for them (the guide may suggest some from the note).
+ * Nothing is read from the address book.
  */
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
-import { TASTE_TAGS, type TasteTag } from '@cp/domain';
+import { TASTE_TAGS, type InviteTagsResponse, type TasteTag } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -16,6 +17,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { tagWords } from '../../onboarding';
+import { TagSuggestion } from './TagSuggestion';
 
 export const NOTE_MAX = 140;
 export const TAGS_MAX = 3;
@@ -37,10 +39,13 @@ const useStyles = makeStyles((th) => ({
 export function ContactFields({
   value,
   homeHint,
+  suggestion,
   onChange,
 }: {
   readonly value: ContactDraft;
   readonly homeHint: string | null;
+  /** The guide's read of the note, once it has one. */
+  readonly suggestion: InviteTagsResponse | null;
   readonly onChange: (next: ContactDraft) => void;
 }) {
   const styles = useStyles();
@@ -87,6 +92,12 @@ export function ContactFields({
         })}
         testID="composer-note"
       />
+      {suggestion === null ? null : (
+        <TagSuggestion
+          suggestion={suggestion}
+          onUse={() => onChange({ ...value, tags: suggestion.tags.slice(0, TAGS_MAX) })}
+        />
+      )}
       <Text variant="eyebrow" color={theme.semantic.text.secondary}>
         {upper(t({ id: 'crew.composer.tags', message: 'What they’re into (up to 3)' }), locale)}
       </Text>

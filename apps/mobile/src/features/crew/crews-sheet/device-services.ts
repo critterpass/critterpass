@@ -1,6 +1,6 @@
 /**
  * The crew screens' services on a device: the session uid, the share sheet, clipboard and
- * messaging apps, and invite links on this build's host (production, staging or development).
+ * messaging apps, the guide's tag suggestions, and invite links on this build's host (production, staging or development).
  */
 import * as Clipboard from 'expo-clipboard';
 import Constants from 'expo-constants';
@@ -9,6 +9,7 @@ import { Share } from 'react-native';
 
 import { buildLink, linkHostsFor, type LinkEnvironment } from '@cp/domain';
 
+import { fetchInviteTags } from '@/data/ai/guide-lines';
 import { deviceSessionUid } from '@/data/app-session/device-session';
 import { appEnvironment } from '@/data/app-session/endpoints';
 
@@ -30,6 +31,7 @@ export function deviceCrewServices(): CrewServices {
       await Linking.openURL(url);
       return true;
     },
+    inviteTags: fetchInviteTags,
     referralUrl: (code) => buildLink({ kind: 'referral', code }, { host }),
     inviteUrl: (code, seat) =>
       buildLink({ kind: 'invite', code, ...(seat === undefined ? {} : { seat }) }, { host }),

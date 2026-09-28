@@ -154,6 +154,15 @@ export const apiEnvSchema = z.object({
    *  for `GET /v1/geo/hint`; unset = the hint answers with nulls. */
   GEOIP_CITY_MMDB: optionalString,
 
+  // --- AI (docs/api-contracts.md §5.3, §6): generation on DeepSeek's Anthropic-format API ---
+  /** The DeepSeek key (packages/ai/src/env.ts); unset = the guide lines the api serves (invite tags,
+   *  crew welcome) answer from their templates. */
+  ANTHROPIC_API_KEY: optionalString,
+  /** Override of that endpoint; unset = https://api.deepseek.com/anthropic. */
+  ANTHROPIC_BASE_URL: optionalUrl,
+  /** TypeSafe Jev key for the input compliance check; unset = it answers from the fast-tier twin. */
+  TYPESAFE_API_KEY: optionalString,
+
   // --- Links (docs/api-contracts.md §5.6) ---
   /** JSON `{"kid": "secret"}` seat-token HMAC keys (kid 1-8 of [a-z0-9], secrets 32+ chars); unset =
    *  no seat link verifies, so claims carrying a seat token are refused. */

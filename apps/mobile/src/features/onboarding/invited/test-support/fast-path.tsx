@@ -4,7 +4,7 @@
  * link preview answered the same way at the invite services boundary.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- test support; literals are wire values. */
-import type { LinkPreview, LinkTarget } from '@cp/domain';
+import type { CrewWelcomeResponse, LinkPreview, LinkTarget } from '@cp/domain';
 import type { ReactElement } from 'react';
 
 import type { SyncTransport, TransportResponse } from '@/data/powersync/transport';
@@ -46,10 +46,20 @@ export function preview(overrides: Partial<LinkPreview> = {}): LinkPreview {
 export function services(
   answer: PreviewResult | ((target: LinkTarget) => PreviewResult),
   uid = '0192e1a2-0000-7000-8000-0000000000aa',
-): InviteServices & { readonly asked: LinkTarget[] } {
+  welcome: CrewWelcomeResponse | null = null,
+): InviteServices & {
+  readonly asked: LinkTarget[];
+  readonly welcomed: { crewId: string; tripId: string | null }[];
+} {
   const asked: LinkTarget[] = [];
+  const welcomed: { crewId: string; tripId: string | null }[] = [];
   return {
     asked,
+    welcomed,
+    welcome: (crewId, tripId) => {
+      welcomed.push({ crewId, tripId });
+      return Promise.resolve(welcome);
+    },
     preview: (target) => {
       asked.push(target);
       return Promise.resolve(typeof answer === 'function' ? answer(target) : answer);
