@@ -121,8 +121,8 @@ Service: self-hosted PowerSync Open Edition (Railway SG), Postgres bucket storag
 
 | Stream | Subscribe | Parameters | Tables (rows) |
 |---|---|---|---|
-| `me` | auto | `auth.user_id()` | own rows: `users`, `user_settings`, `taste_profiles`, `passes`, `avatars`, `app_icon_unlocks`, `guide_skins`, `saved_items`, `past_trips`, `phrase_progress`, `referrals`, `poll_reveals`, `import_candidates`, `receipts`, `eggs`, `encounters`, `collection_entries`, `stickers` (user), `xp_ledger` (user), `reminders`, `recap_views`, `stamps`, `devices`, `alarms`, `notifications` (30 d), `notification_prefs`, `ping_ledger`, `roundups`, `inbox_items`, `scheduled_deliveries`, `subscriptions`, `code_redemptions`, `user_entitlements`, `usage_counters` (user), `paywall_impressions`, `rating_prompts`, `idea_votes`, `feedback_tickets`, `consents`, `account_deletions`, `data_exports`, `cmd_results` |
-| `crews` | auto | crews where caller has active `crew_members` | `crews`, `crew_members`, `crew_contact_cards`, `crew_inbound_addresses`, `trips` (headers), `ledger_entries` (crew-level), `payments`, `boost_credits`, `crew_year_grants`, `ftf_grants`, `stickers`/`xp_ledger` (crew) |
+| `me` | auto | `auth.user_id()` | own rows: `users`, `user_settings`, `taste_profiles`, `passes`, `avatars`, `app_icon_unlocks`, `guide_skins`, `saved_items`, `past_trips`, `phrase_progress`, `referrals`, `poll_reveals`, `import_candidates`, `receipts`, `eggs`, `encounters`, `collection_entries`, `stickers` (user), `xp_ledger` (user), `reminders`, `recap_views`, `stamps`, `devices`, `alarms`, `notifications` (30 d), `notification_prefs`, `ping_ledger`, `roundups`, `inbox_items`, `scheduled_deliveries`, `nudges` (sent and received), own `trip_participants` (countdown), `subscriptions`, `code_redemptions`, `user_entitlements`, `usage_counters` (user), `paywall_impressions`, `rating_prompts`, `idea_votes`, `feedback_tickets`, `consents`, `account_deletions`, `data_exports`, `cmd_results` |
+| `crews` | auto | crews where caller has active `crew_members` | `crews`, `crew_members`, `crew_contact_cards`, `crew_inbound_addresses`, `trips` (headers), `ledger_entries` (crew-level), `payments`, `boost_credits`, `crew_year_grants`, `ftf_grants`, `stickers`/`xp_ledger` (crew), `home_tips` (active) |
 | `crew_people` | auto | users sharing an active crew | co-members' `users` (C1 columns only — `users` has no C2/C3 columns beyond settings in separate tables), `taste_profiles` (unless hidden), `passes`, `avatars`, `stamps`, `crew_collection_counts` source rows |
 | `crew_invites` | auto | same crews | `invites` (status fields), `join_codes` |
 | `crew_chat` | auto | same crews (active, or former with keep_in_chat) | `messages`, `message_reactions` |
@@ -209,7 +209,7 @@ Phase owns the migration that creates the table (later phases may add columns vi
 | 22 Onboarding | `taste_profiles`, `passes`, `stamps`, `avatars` |
 | 23 Invites, crews, referral, seat cap | `invites`, `invite_prefill`, `referrals`, `seat_waitlist_offers`, `crew_contact_cards` |
 | 24 Crew chat | `messages`, `message_reactions` |
-| 25 Home, inbox, nudges | `saved_items`, `reminders` |
+| 25 Home, inbox, nudges | `saved_items`, `reminders`, `home_tips`, `nudges`, `app_open_hours` (doc delta); `inbox_items` fan-out columns |
 | 26 Polls & destination vote | `pitches`, `polls`, `poll_options`, `ballots`, `poll_reveals` |
 | 27 Trip setup | `calendar_sources`, `calendar_days`, `availability_asks`, `availability_summaries`, `date_window_options`, `budget_max_private`, `budget_defaults_private`, `trip_budget_aggregates`, `budget_plans`, `room_plans`, `room_assignments`, `must_dos`, `dietary_profiles`, `participant_dietary_flags` |
 | 28 Drafting agent | `itinerary_versions`, `plan_days`, `plan_items`, `redraft_reservations` |

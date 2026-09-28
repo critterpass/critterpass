@@ -168,6 +168,52 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     trip_id: null,
     asker_id: crypto.randomUUID(),
   },
+  'inbox.item_resolved': {
+    item_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    kind: 'guide_action.executed',
+    action: 'undo',
+  },
+  'inbox.read': { user_id: crypto.randomUUID(), count: 3 },
+  'nudge.sent': {
+    nudge_id: crypto.randomUUID(),
+    sender_id: crypto.randomUUID(),
+    target_id: crypto.randomUUID(),
+    crew_id: crypto.randomUUID(),
+    reason: 'vote',
+    channel: 'push',
+  },
+  'nudge.received': {
+    nudge_id: crypto.randomUUID(),
+    sender_id: crypto.randomUUID(),
+    target_id: crypto.randomUUID(),
+    crew_id: crypto.randomUUID(),
+    reason: 'rsvp',
+  },
+  'tip.created': { tip_id: crypto.randomUUID(), crew_id: crypto.randomUUID(), kind: 'fare_drop' },
+  'tip.dismissed': {
+    tip_id: crypto.randomUUID(),
+    crew_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+  },
+  'trip.dates_changed': { trip_id: crypto.randomUUID() },
+  'trip.destination_set': { trip_id: crypto.randomUUID(), destination_id: crypto.randomUUID() },
+  'booking.flight_added': {
+    trip_id: crypto.randomUUID(),
+    booking_id: crypto.randomUUID(),
+    user_ids: [crypto.randomUUID()],
+  },
+  'booking.flight_changed': {
+    trip_id: crypto.randomUUID(),
+    booking_id: crypto.randomUUID(),
+    user_ids: [],
+  },
+  'booking.flight_removed': {
+    trip_id: crypto.randomUUID(),
+    booking_id: crypto.randomUUID(),
+    user_ids: [crypto.randomUUID()],
+  },
+  'user.tz_changed': { user_id: crypto.randomUUID(), tz: 'Asia/Ho_Chi_Minh' },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

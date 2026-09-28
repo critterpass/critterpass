@@ -16,6 +16,7 @@ export {
   spawnRules,
 } from './content';
 export { crewChatCounters, messageReactions, messages } from './chat';
+export { appOpenHours, homeTips, nudges, reminders, savedItems } from './home';
 export { costComponents, destinationCostIndices, shareCalcs, tripShareTotals } from './cost';
 export { crewMembers, crews } from './crews';
 export {

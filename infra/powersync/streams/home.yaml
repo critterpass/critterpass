@@ -1,0 +1,24 @@
+# Home, inbox, nudge and tip streams (docs/data-model-sync-and-privacy.md §4). Filters mirror each
+# table's RLS SELECT policy. app_open_hours is never synced: the nudge send time is chosen on the
+# server.
+
+streams:
+  # The caller's saved items and reminders, nudges they sent or received, and their own participant
+  # rows on their crews' trips (the countdown target lives there, so Home counts down offline).
+  me:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM saved_items WHERE user_id = auth.user_id()
+      - SELECT * FROM reminders WHERE user_id = auth.user_id()
+      - SELECT * FROM nudges WHERE sender_id = auth.user_id()
+      - SELECT * FROM nudges WHERE target_id = auth.user_id()
+      - |
+        SELECT * FROM trip_participants
+        WHERE user_id = auth.user_id()
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+
+  # The active tips of the caller's crews; a dismissed or expired tip leaves every device.
+  crews:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM home_tips WHERE crew_id IN my_crews AND status = 'active'

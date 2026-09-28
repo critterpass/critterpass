@@ -1034,6 +1034,29 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     expectations: OWNER_READ,
   },
   // System-created, owner may only resolve (column UPDATE grant on resolved_at).
+  // Home: the organiser's own saves, reminders and app-open counts; a crew tip; a nudge from the
+  // organiser to the member, readable by those two only.
+  saved_items: { selectProbe: ownRowProbe('saved_items'), expectations: SELF_ONLY },
+  reminders: { selectProbe: ownRowProbe('reminders'), expectations: SELF_ONLY },
+  app_open_hours: { selectProbe: ownRowProbe('app_open_hours'), expectations: SELF_ONLY },
+  home_tips: {
+    selectProbe: { sql: 'SELECT 1 FROM home_tips WHERE crew_id = $1', params: (f) => [f.crewId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  nudges: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM nudges WHERE sender_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: F,
+      organiser: op(true, false, false),
+    },
+  },
   inbox_items: {
     selectProbe: {
       sql: 'SELECT 1 FROM inbox_items WHERE user_id = $1',

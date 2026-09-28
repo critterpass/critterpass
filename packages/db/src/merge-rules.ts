@@ -226,3 +226,27 @@ registerMergeRule({
   strategy: 'reassign',
   conflictColumns: ['message_id', 'emoji'],
 });
+
+// Home: saved items and reminders follow the user (an existing save of the same thing wins);
+// app-open counts and nudges an anonymous uid sent are dropped (nudges need a crew membership an
+// anonymous session rarely has, and the counts rebuild from the next opens).
+registerMergeRule({
+  table: 'saved_items',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['kind', 'ref_id'],
+  personal: true,
+});
+registerMergeRule({
+  table: 'reminders',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  personal: true,
+});
+registerMergeRule({
+  table: 'app_open_hours',
+  userColumn: 'user_id',
+  strategy: 'drop',
+  personal: true,
+});
+registerMergeRule({ table: 'nudges', userColumn: 'sender_id', strategy: 'drop' });

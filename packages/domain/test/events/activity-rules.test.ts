@@ -51,6 +51,20 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'chat.message_deleted',
   'chat.reaction_changed',
   'chat.guide_mentioned',
+  // Inbox, nudge and tip events are personal or already on Home; countdown inputs are announced by
+  // the features that change dates and bookings.
+  'inbox.item_resolved',
+  'inbox.read',
+  'nudge.sent',
+  'nudge.received',
+  'tip.created',
+  'tip.dismissed',
+  'trip.dates_changed',
+  'trip.destination_set',
+  'booking.flight_added',
+  'booking.flight_changed',
+  'booking.flight_removed',
+  'user.tz_changed',
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

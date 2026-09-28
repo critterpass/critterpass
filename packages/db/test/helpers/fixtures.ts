@@ -20,6 +20,7 @@ import {
 } from './actors';
 import { claimOpId, recordCmdResult } from '../../src/events';
 import { seedGrowthRows } from './growth-fixture';
+import { seedHomeRows } from './home-fixture';
 import {
   insertChangeSet,
   insertItineraryVersion,
@@ -298,6 +299,13 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     );
 
     await seedGrowthRows(tx, { crewId, tripId, organiser, member });
+    await seedHomeRows(tx, {
+      crewId,
+      tripId,
+      destinationId: matrixProbeDestinationId,
+      organiser,
+      member,
+    });
 
     const versionId = await insertItineraryVersion(tx, {
       tripId,
