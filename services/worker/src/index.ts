@@ -31,6 +31,7 @@ import {
   registerHomeInboxFanouts,
   registerHomeRetention,
 } from './jobs/inbox';
+import { nudgeDispatchJob, registerNudgeNotifications } from './jobs/nudges';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';
@@ -134,6 +135,7 @@ const jobs: AnyJobDefinition[] = [
   ...avatarJobs(env, aiSwitches.assertAiRoute, llmObservability),
   ...chatJobs(env),
   inboxFanoutJob(),
+  nudgeDispatchJob(),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&
@@ -189,6 +191,7 @@ onEventAppended(routeEventHook);
 onEventAppended(inboxEventHook);
 registerHomeInboxFanouts();
 registerHomeRetention();
+registerNudgeNotifications();
 registerInviteNotifications();
 registerChatNotifications();
 

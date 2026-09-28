@@ -280,6 +280,8 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'trip.seat_opened': ['seat_opened'],
   'invite.created': ['crew_invite_received'],
   'invite.nudged': ['nudge'],
+  // A crewmate's nudge, delivered by the guide at the target's engagement hour.
+  'nudge.received': ['nudge'],
   // Crew chat: a new message, to members by their per-crew level.
   'chat.message_sent': ['crew_chat'],
 };
