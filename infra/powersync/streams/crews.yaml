@@ -18,11 +18,20 @@ streams:
         FROM invites
         WHERE invitee_user_id = auth.user_id()
 
-  # Opens of the caller's own invites, and referrals the caller is either side of (status only,
-  # never the referee's install).
+  # Opens of the caller's own invites, referrals the caller is either side of (status only, never
+  # the referee's install), and the caller's own waitlist places and seat offers (so "you're next"
+  # shows before any trip is opened).
   me:
     auto_subscribe: true
     queries:
+      - |
+        SELECT * FROM trip_participants
+        WHERE user_id = auth.user_id() AND rsvp = 'waitlisted'
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM seat_waitlist_offers
+        WHERE user_id = auth.user_id()
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
       - SELECT * FROM invite_opens WHERE inviter_id = auth.user_id()
       - |
         SELECT id, referrer_id, referee_id, code, invite_id, via, status, void_reason, qualified_at,

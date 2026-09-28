@@ -22,6 +22,7 @@ import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { WaitlistCards } from '../waitlist/WaitlistCards';
 import { crewCardBadge } from './badge-slot';
 import { ACCEPT_INVITE, DEFER_INVITE, rowId, SET_ACTIVE_CREW } from './crew-commands';
 import { useCrews } from './crew-data';
@@ -177,6 +178,12 @@ export function CrewsSheet() {
             testID="crews-join-code"
           />
         </View>
+        <WaitlistCards
+          db={localFirst?.db ?? null}
+          uid={uid}
+          commands={localFirst?.commands ?? null}
+          now={now}
+        />
         {crews.map((card) => (
           <View
             key={card.id}

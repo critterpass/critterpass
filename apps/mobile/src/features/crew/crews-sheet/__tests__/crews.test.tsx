@@ -22,29 +22,28 @@ jest.mock('expo-router', () => ({
 }));
 
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { i18n } from '@lingui/core';
-import { I18nProvider } from '@lingui/react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import type { ReactElement } from 'react';
 import { Text } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { LocalFirstProvider } from '@/data/powersync/local-first-context';
 import {
   openTestLocalFirst,
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
-import type { SyncTransport, TransportResponse } from '@/data/powersync/transport';
-import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { CrewSettingsScreen } from '../../settings/CrewSettingsScreen';
 import { StartCrewScreen } from '../../start-crew/StartCrewScreen';
 import { registerCrewCardBadge } from '../badge-slot';
-import { CrewServicesProvider, type CrewServices } from '../crew-services';
 import { CrewsSheet } from '../CrewsSheet';
+import {
+  applied,
+  queuedPayload as queuedPayload_,
+  recordedApi,
+  recordingServices,
+  renderWithCrew,
+} from '../test-support/crew-harness';
 
 const ME = '0192e1a2-0000-7000-8000-0000000000aa';
 const MAYA = '0192e1a2-0000-7000-8000-0000000000bb';
@@ -54,69 +53,14 @@ const UNI = '0192e1a2-0000-7000-8000-00000000c002';
 const RAMEN = '0192e1a2-0000-7000-8000-00000000c003';
 const INVITE = '0192e1a2-0000-7000-8000-00000000e001';
 
-const METRICS = {
-  frame: { x: 0, y: 0, width: 390, height: 844 },
-  insets: { top: 47, left: 0, right: 0, bottom: 34 },
-};
 const activate = (element: Parameters<typeof fireEvent>[0]) =>
   fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
 
-function recordedApi(
-  answers: Readonly<Record<string, TransportResponse>>,
-): SyncTransport & { sent: { path: string; body: unknown }[] } {
-  const sent: { path: string; body: unknown }[] = [];
-  return {
-    sent,
-    postJson(path, body) {
-      sent.push({ path, body });
-      return Promise.resolve(answers[path.split('/').at(-1) ?? ''] ?? { status: 503, body: null });
-    },
-  };
-}
-const applied = (result: unknown): TransportResponse => ({
-  status: 200,
-  body: { status: 'applied', result },
-});
-
-const shared: string[] = [];
-const services: CrewServices = {
-  uid: () => Promise.resolve(ME),
-  share: (message) => {
-    shared.push(message);
-    return Promise.resolve();
-  },
-  inviteUrl: (code) => `https://critterpass.app/i/${code}`,
-};
-
+const services = recordingServices(ME);
+const shared = services.shared;
 let stack: TestLocalFirst | null = null;
-
-/** The payload of the first queued op for `cmd` in the local command queue. */
-async function queuedPayload(cmd: string): Promise<unknown> {
-  const rows = await stack!.db.getAll<{ envelope: string }>(
-    'SELECT envelope FROM commands WHERE cmd = ? ORDER BY seq LIMIT 1',
-    [cmd],
-  );
-  return rows[0] === undefined
-    ? undefined
-    : (JSON.parse(rows[0].envelope) as { payload: unknown }).payload;
-}
-
-async function renderCrew(ui: ReactElement) {
-  i18n.loadAndActivate({ locale: 'en', messages: {} });
-  return render(
-    <I18nProvider i18n={i18n}>
-      <SafeAreaProvider initialMetrics={METRICS}>
-        <GestureHandlerRootView>
-          <CrewServicesProvider services={services}>
-            <LocalFirstProvider value={stack!.value}>
-              <ScreenJoltProvider>{ui}</ScreenJoltProvider>
-            </LocalFirstProvider>
-          </CrewServicesProvider>
-        </GestureHandlerRootView>
-      </SafeAreaProvider>
-    </I18nProvider>,
-  );
-}
+const renderCrew = (ui: ReactElement) => renderWithCrew(ui, stack!, services);
+const queuedPayload = (cmd: string) => queuedPayload_(stack!, cmd);
 
 async function seed(db: TestLocalFirst['db']) {
   const start = new Date(Date.now() + 16 * 86_400_000).toISOString().slice(0, 10);
@@ -169,6 +113,8 @@ async function seed(db: TestLocalFirst['db']) {
 
 beforeEach(() => {
   shared.length = 0;
+  services.copied.length = 0;
+  services.opened.length = 0;
   jest.mocked(router.push).mockClear();
   jest.mocked(router.replace).mockClear();
   jest.mocked(router.back).mockClear();

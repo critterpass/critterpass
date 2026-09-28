@@ -5,6 +5,7 @@ export const CREW_ROUTES = {
   newCrew: '/crew/new',
   inviteFriends: '/crew/invite-friends',
   joinCode: '/onboarding/invite/code',
+  savePass: '/onboarding/save',
   home: '/',
 } as const;
 
