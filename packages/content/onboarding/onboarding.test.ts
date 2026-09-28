@@ -79,6 +79,7 @@ describe('home words and blocked names', () => {
     expect(dialCodesFileSchema.parse(dialCodes)['SG']).toBe('65');
     blockedNamesFileSchema.parse(blockedNames);
     expect(homeWord('MY')).toBe('RUMAH');
+    expect(homeWord('SG')).toBe('RUMAH');
     expect(homeWord('AQ')).toBe('HOME');
     expect(homeWord(null)).toBe('HOME');
   });

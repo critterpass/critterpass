@@ -9,7 +9,7 @@ import { Platform, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { upper } from '@cp/i18n';
-import { InlineAction } from '@/ui/buttons/InlineAction';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
@@ -142,7 +142,7 @@ export function SaveSheet(props: SaveSheetProps) {
               testID="save-phone"
             />
             <View style={styles.center}>
-              <InlineAction
+              <TextLink
                 label={t({ id: 'onboarding.save.notNow', message: 'Not now' })}
                 onPress={props.onNotNow}
                 disabled={busy}

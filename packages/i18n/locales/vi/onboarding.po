@@ -171,6 +171,14 @@ msgstr "Biển, không kế hoạch"
 msgid "onboarding.tag.hiking"
 msgstr "Leo núi dài"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.spending.left.line"
+msgstr "Đặt phòng suite, khỏi đi xe buýt"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.mornings.right.line"
+msgstr "Bữa sáng là một lối sống"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.thrifty"
 msgstr "Cao thủ tiết kiệm"
@@ -203,6 +211,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.library"
 msgstr "Chọn ảnh"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.natureVsCity.right.label"
+msgstr "Phố lên đèn"
 
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.search"
@@ -302,13 +314,13 @@ msgstr "Công cụ nhà phát triển"
 msgid "onboarding.tag.sitDownDining.short"
 msgstr "Nhà hàng"
 
-#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
-msgid "onboarding.invite.pass.editDone"
-msgstr ""
-
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.done"
 msgstr "Xong"
+
+#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
+msgid "onboarding.invite.pass.editDone"
+msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
 msgid "onboarding.invite.ticket.each"
@@ -338,6 +350,10 @@ msgstr ""
 msgid "onboarding.home.body"
 msgstr "Chuyến bay và ngân sách bắt đầu từ đây. Đây cũng là con dấu đầu tiên của bạn."
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.natureVsCity.left.label"
+msgstr "Rừng trước đã"
+
 #: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
 msgid "onboarding.invite.code.found"
 msgstr ""
@@ -358,6 +374,10 @@ msgstr ""
 msgid "onboarding.pass.givenName"
 msgstr "TÊN · PRÉNOM"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.pace.left.label"
+msgstr "Đi đi đi"
+
 #: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
 msgid "onboarding.invite.manifest.home"
 msgstr ""
@@ -373,6 +393,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.nature"
 msgstr "Mê thiên nhiên"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.evenings.right.line"
+msgstr "Trà thảo mộc và cuốn sách trên giường"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.hiking.short"
@@ -394,6 +418,10 @@ msgstr "NHÀ"
 #: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
 msgid "onboarding.invite.pass.editHome"
 msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.evenings.right.label"
+msgstr "Chín giờ về nhà"
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.summaryTitle"
@@ -447,6 +475,10 @@ msgstr "Giữ an toàn"
 msgid "onboarding.merge.keepNew"
 msgstr "Giữ pass mới này"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.evenings.left.label"
+msgstr "Chầu cuối"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.lateStarts.short"
 msgstr "Ngủ nướng"
@@ -482,6 +514,14 @@ msgstr "Dạo chợ"
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.markets.short"
 msgstr "Chợ"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.evenings.left.line"
+msgstr "Tapas nửa đêm, quán ồn ào"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.natureVsCity.left.line"
+msgstr "Rêu, đường đèo, không có sóng"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.museums"
@@ -557,6 +597,10 @@ msgstr "Trên pass đó"
 msgid "onboarding.taste.onYourPass"
 msgstr "Trên pass của bạn"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.pace.right.label"
+msgstr "Một khu phố"
+
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 msgid "onboarding.issued.body"
 msgstr "Mới có một con dấu. Các hướng dẫn viên sẽ giúp bạn có thêm."
@@ -621,6 +665,10 @@ msgstr "Chọn ảnh khác"
 msgid "onboarding.photo.title"
 msgstr "Chọn ảnh hộ chiếu"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.food.left.line"
+msgstr "Ghế nhựa, gọi hai phần"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.sitDownDining"
 msgstr "Bữa tối tử tế"
@@ -628,6 +676,14 @@ msgstr "Bữa tối tử tế"
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.resendIn"
 msgstr "Gửi lại sau {waitS} giây"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.natureVsCity.right.line"
+msgstr "Bar sân thượng và ga tàu điện"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.pace.right.line"
+msgstr "Cùng quán cà phê, cùng bàn góc"
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.save"
@@ -693,6 +749,10 @@ msgstr ""
 msgid "onboarding.taste.skip"
 msgstr "Bỏ qua câu này"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.mornings.right.label"
+msgstr "Ngủ tới mười giờ"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.lateStarts"
 msgstr "Sáng thong thả"
@@ -725,6 +785,10 @@ msgstr "Con dấu số 1"
 msgid "onboarding.taste.retake"
 msgstr "Làm lại"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.food.left.label"
+msgstr "Xe đẩy vỉa hè"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.streetFood"
 msgstr "Đồ ăn đường phố"
@@ -733,6 +797,14 @@ msgstr "Đồ ăn đường phố"
 msgid "onboarding.tag.streetFood.short"
 msgstr "Đường phố"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.spending.right.line"
+msgstr "Ăn vặt vỉa hè, ngủ phòng tập thể"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.spending.right.label"
+msgstr "Tiêu từng đồng"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.earlyStarts.short"
 msgstr "Bình minh"
@@ -740,6 +812,10 @@ msgstr "Bình minh"
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.earlyStarts"
 msgstr "Săn bình minh"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.mornings.left.label"
+msgstr "Đỉnh núi bình minh"
 
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.syncing"
@@ -760,6 +836,10 @@ msgstr "Mất mười giây. Không cần mật khẩu."
 #: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 msgid "onboarding.invite.pass.lineBlank"
 msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.food.right.label"
+msgstr "Thực đơn nếm thử"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.temples"
@@ -861,6 +941,10 @@ msgstr "Cách đăng nhập này thuộc về một pass bạn đã làm trướ
 msgid "onboarding.invite.problem.tripClosedTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.pace.left.line"
+msgstr "Ba thành phố, hai ngày"
+
 #: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 msgid "onboarding.invite.pass.blank"
 msgstr ""
@@ -894,17 +978,21 @@ msgstr "Thử quá nhiều lần. Gửi mã mới nhé."
 msgid "onboarding.pass.travelStyle"
 msgstr "PHONG CÁCH"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.spending.left.label"
+msgstr "Chiều bản thân"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.splurge"
 msgstr "Tự thưởng"
 
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
-msgid "onboarding.invite.problem.retry"
-msgstr ""
-
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.retry"
 msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.problem.retry"
+msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.limitLater"
@@ -922,6 +1010,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.undo"
 msgstr "Hoàn tác"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.mornings.left.line"
+msgstr "Dậy lúc 3 giờ, lên đỉnh lúc 6 giờ"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.adventure"
@@ -991,6 +1083,10 @@ msgstr "Các hướng dẫn viên nên gọi bạn là gì?"
 msgid "onboarding.home.title"
 msgstr "Nhà bạn ở đâu?"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.food.right.line"
+msgstr "Khăn trắng, đĩa bé xíu"
+
 #: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
 msgid "onboarding.invite.problem.someone"
 msgstr ""
@@ -1027,6 +1123,10 @@ msgstr ""
 msgid "onboarding.invite.problem.offlineTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.title"
+msgstr "Số của bạn"
+
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.disclosure"
 msgstr "Các nhóm của bạn sẽ thấy những thẻ này để kế hoạch hợp với mọi người. Bạn có thể ẩn chúng trong Cài đặt."
@@ -1043,18 +1143,14 @@ msgstr "Tên của bạn"
 msgid "onboarding.queued.issuePass"
 msgstr "Pass mới của bạn"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
-msgid "onboarding.phone.title"
-msgstr "Số của bạn"
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
+msgid "onboarding.issued.title"
+msgstr "Pass của bạn\nđã sẵn sàng"
 
 #. placeholder {0}: printedName || notYet
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.a11y"
 msgstr "Pass {number} của bạn: {0}, nhà {homeValue}, ngày cấp {issuedValue}, phong cách {styleValue}"
-
-#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
-msgid "onboarding.issued.title"
-msgstr "Pass của bạn đã sẵn sàng"
 
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.tagline"

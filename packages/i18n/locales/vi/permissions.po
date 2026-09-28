@@ -9,243 +9,243 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.alarms.body"
-msgstr ""
+msgstr "Báo thức thật reo khi tới giờ đi, kể cả khi máy để im lặng."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.notifications.title"
-msgstr ""
+msgstr "Báo thức và thông báo"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.exactAlarmOff"
-msgstr ""
+msgstr "Báo thức đang tắt. Giờ lên đường sẽ báo bằng một thông báo lớn."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.locationAlways.action"
-msgstr ""
+msgstr "Luôn cho phép"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.locationAlways.body"
-msgstr ""
+msgstr "Luôn cho phép thì critter tự tìm tới bạn khi điện thoại nằm trong túi. Chỉ trong ngày đi chơi, không bao giờ lưu đường đi."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.approximate"
-msgstr ""
+msgstr "Chỉ có vị trí gần đúng. Critter cần vị trí chính xác khi ở gần điểm."
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
 msgid "permissions.value.ask"
-msgstr ""
+msgstr "Hỏi"
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
 msgid "permissions.primer.later"
-msgstr ""
+msgstr "Hỏi mình sau"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.calendar.title"
-msgstr ""
+msgstr "Lịch"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.camera.title"
-msgstr ""
+msgstr "Camera"
 
 #: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
 msgid "permissions.disclosure.continue"
-msgstr ""
+msgstr "Tiếp tục"
 
 #: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
 msgid "permissions.disclosure.body"
-msgstr ""
+msgstr "CritterPass thu thập dữ liệu vị trí để tìm critter gần bạn, cập nhật bản đồ của nhóm và canh giờ nhắc lên đường, kể cả khi ứng dụng đã đóng hoặc không được sử dụng."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.location.body"
-msgstr ""
+msgstr "Critter chỉ xuất hiện ở nơi bạn thật sự có mặt. Tắt khi bạn ở nhà."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.microphone.body"
-msgstr ""
+msgstr "Giữ để nói thay vì gõ. Chỉ nghe khi bạn đang giữ nút."
 
 #: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
 msgid "permissions.sheet.settingsBody"
-msgstr ""
+msgstr "Quyền này đang tắt trong Cài đặt. Bật ở đó rồi quay lại ngay nhé."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.locationAlways.title"
-msgstr ""
+msgstr "Tiếp tục tìm critter"
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
 msgid "permissions.primer.lastStep"
-msgstr ""
+msgstr "Bước cuối"
 
 #: ../../apps/mobile/src/ui/permission-primer/demos/LeaveByDemo.tsx
 msgid "permissions.demo.leaveBy"
-msgstr ""
+msgstr "Đi lúc"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.notifications.body"
-msgstr ""
+msgstr "Báo giờ lên đường và những cuộc bình chọn cần bạn. Khoảng năm lần mỗi ngày."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.liveActivities.body"
-msgstr ""
+msgstr "Đếm ngược giờ lên đường trên màn hình khóa. Bật trong Cài đặt."
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
 msgid "permissions.primer.go"
-msgstr ""
+msgstr "Đi thôi"
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
 msgid "permissions.value.limited"
-msgstr ""
+msgstr "Giới hạn"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.limited"
-msgstr ""
+msgstr "Giới hạn"
 
 #: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
 msgid "permissions.disclosure.title"
-msgstr ""
+msgstr "Vị trí khi chạy nền"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.location.title"
-msgstr ""
+msgstr "Vị trí, khi đi chơi"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.liveActivities.title"
-msgstr ""
+msgstr "Đếm ngược trên màn hình khóa"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.liveActivitiesOff"
-msgstr ""
+msgstr "Đếm ngược trên màn hình khóa đang tắt. Bạn vẫn nhận được thông báo."
 
 #: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
 msgid "permissions.disclosure.decline"
-msgstr ""
+msgstr "Không, cảm ơn"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.notAsked"
-msgstr ""
+msgstr "Chưa hỏi"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.restricted"
-msgstr ""
+msgstr "Không có trên điện thoại này"
 
 #: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
 #: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
 msgid "permissions.sheet.notNow"
-msgstr ""
+msgstr "Để sau"
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
 msgid "permissions.value.off"
-msgstr ""
+msgstr "Tắt"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.off"
-msgstr ""
+msgstr "Đang tắt. Bật lại trong Cài đặt."
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
 msgid "permissions.value.on"
-msgstr ""
+msgstr "Bật"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.on"
-msgstr ""
+msgstr "Bật"
 
 #: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
 msgid "permissions.disclosure.limits"
-msgstr ""
+msgstr "Chỉ trong ngày đi chơi, không bao giờ ở nhà. Chúng tôi giữ những nơi bạn đã check-in, không bao giờ lưu dấu vết tọa độ. Tắt bất cứ lúc nào trong Cài đặt hoặc từ thông báo của ngày đi chơi."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 #: ../../apps/mobile/src/ui/permission-primer/DeniedRow.tsx
 #: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
 msgid "permissions.primer.openSettings"
-msgstr ""
+msgstr "Mở Cài đặt"
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
 msgid "permissions.section.title"
-msgstr ""
+msgstr "Quyền truy cập"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.photosRead.body"
-msgstr ""
+msgstr "Chọn ảnh cho album của nhóm. Chọn tất cả hoặc chỉ vài tấm."
 
 #: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
 msgid "permissions.visits.section"
-msgstr ""
+msgstr "Địa điểm"
 
 #: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
 msgid "permissions.visits.subtitle"
-msgstr ""
+msgstr "Những nơi bạn đã check-in, không bao giờ lưu dấu vết tọa độ."
 
 #: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
 msgid "permissions.visits.body"
-msgstr ""
+msgstr "Những nơi bạn đã check-in, không bao giờ lưu dấu vết tọa độ. Chúng dùng cho nhiệm vụ, giải thưởng và đánh giá chuyến đi, và bị xóa 30 ngày sau khi chuyến đi kết thúc."
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
 msgid "permissions.value.quiet"
-msgstr ""
+msgstr "Im lặng"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.provisional"
-msgstr ""
+msgstr "Im lặng. Thông báo nằm trong Trung tâm thông báo."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.alarms.title"
-msgstr ""
+msgstr "Báo thức thật"
 
 #: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
 msgid "permissions.visits.title"
-msgstr ""
+msgstr "Ghi nhớ những nơi bạn ghé"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.photosAdd.body"
-msgstr ""
+msgstr "Lưu thẻ và bưu thiếp vào ảnh của bạn. Chỉ thêm vào, không bao giờ đọc."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.photosAdd.title"
-msgstr ""
+msgstr "Lưu vào ảnh"
 
 #: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
 msgid "permissions.visits.manage"
-msgstr ""
+msgstr "Lượt ghé đã lưu"
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
 msgid "permissions.primer.guideLine"
-msgstr ""
+msgstr "Từ chối cái nào cũng được. Khi nào thật sự cần, mình sẽ hỏi lại."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.camera.body"
-msgstr ""
+msgstr "Chụp một tấm ảnh thật cho pass của bạn. Không chụp gì nếu bạn chưa bấm."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.calendar.body"
-msgstr ""
+msgstr "Để hướng dẫn viên tìm được một tuần cả nhóm cùng rảnh. Chỉ xem rảnh hay bận."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.microphone.title"
-msgstr ""
+msgstr "Nói chuyện với hướng dẫn viên"
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
 msgid "permissions.primer.title"
-msgstr ""
+msgstr "Ba điều,\nvà lý do"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.photosRead.title"
-msgstr ""
+msgstr "Ảnh chuyến đi"
 
 #: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
 msgid "permissions.visits.control"
-msgstr ""
+msgstr "Tắt bất cứ lúc nào trong Cài đặt. Các lượt ghé đã lưu vẫn xóa được."
 
 #: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
 msgid "permissions.visits.accept"
-msgstr ""
+msgstr "Bật"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.primer.turnOn"
-msgstr ""
+msgstr "Bật"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.whileInUse"
-msgstr ""
+msgstr "Khi đang dùng ứng dụng. Critter xuất hiện khi chuyến đi đang diễn ra."
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
 msgid "permissions.primer.back"
-msgstr ""
+msgstr "Pass của bạn"

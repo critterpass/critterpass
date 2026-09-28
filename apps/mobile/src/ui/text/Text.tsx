@@ -59,7 +59,22 @@ export interface TextProps extends Omit<RNTextProps, 'style' | 'children' | 'all
   readonly autoFit?: boolean | undefined;
   /** Auto-fit floor in points (default: the variant's minimum scale of its scaled size). */
   readonly autoFitMinSize?: number | undefined;
+  /**
+   * The size a render sets this string at, inside the variant's auto-fit range (h1: 40–52), in
+   * place of the variant's nominal size. Dynamic Type scales it the same way and auto-fit still
+   * shrinks from it; outside the range it is clamped.
+   */
+  readonly designSize?: number | undefined;
   readonly style?: StyleProp<TextStyle> | undefined;
+}
+
+/** Ratio of a render's size for one string to the variant's nominal size, kept inside its range. */
+function designScale(token: TypographyValue, designSize: number | undefined): number {
+  const nominal = token.fontSize ?? token.fontSizeMax;
+  if (designSize === undefined || nominal === undefined) return 1;
+  const low = token.fontSizeMin ?? nominal;
+  const high = token.fontSizeMax ?? nominal;
+  return Math.min(high, Math.max(low, designSize)) / nominal;
 }
 
 function defaultColor(theme: Theme, tone: SurfaceTone, secondary: boolean): string {
@@ -103,6 +118,7 @@ export function Text({
   color,
   autoFit,
   autoFitMinSize,
+  designSize,
   style,
   numberOfLines,
   onLayout,
@@ -136,7 +152,7 @@ export function Text({
   const text = plainText(transformed.children);
   const { singleLine, maxLines: tokenMaxLines } = token.dynamicType;
   const lineLimit = numberOfLines ?? (singleLine ? 1 : tokenMaxLines);
-  const scaledSize = resolved.fontSize * font.sizeMultiplier;
+  const scaledSize = resolved.fontSize * font.sizeMultiplier * designScale(token, designSize);
   const fit = useAutoFit({
     enabled: (autoFit ?? token.dynamicType.autoFit === true) && text !== null,
     // A line count the caller set is kept; the variant's own single line wraps at the floor.

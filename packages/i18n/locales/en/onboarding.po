@@ -171,6 +171,14 @@ msgstr "Beach, no plans"
 msgid "onboarding.tag.hiking"
 msgstr "Big hikes"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.spending.left.line"
+msgstr "Book the suite, skip the bus"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.mornings.right.line"
+msgstr "Breakfast is a lifestyle"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.thrifty"
 msgstr "Budget hacker"
@@ -203,6 +211,10 @@ msgstr "Check the code with whoever sent it, or type it in again."
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.library"
 msgstr "Choose a photo"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.natureVsCity.right.label"
+msgstr "City lights"
 
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.search"
@@ -302,12 +314,12 @@ msgstr "Developer tools"
 msgid "onboarding.tag.sitDownDining.short"
 msgstr "Dinners"
 
-#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
-msgid "onboarding.invite.pass.editDone"
-msgstr "Done"
-
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
+msgid "onboarding.invite.pass.editDone"
 msgstr "Done"
 
 #: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
@@ -338,6 +350,10 @@ msgstr "Every place on it is taken. Ask {inviter} for a new code."
 msgid "onboarding.home.body"
 msgstr "Flights and budgets start here. It’s also your first stamp."
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.natureVsCity.left.label"
+msgstr "Forest first"
+
 #: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
 msgid "onboarding.invite.code.found"
 msgstr "Found it · {inviter}’s crew"
@@ -358,6 +374,10 @@ msgstr "Given name"
 msgid "onboarding.pass.givenName"
 msgstr "GIVEN NAME · PRÉNOM"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.pace.left.label"
+msgstr "Go go go"
+
 #: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
 msgid "onboarding.invite.manifest.home"
 msgstr "Go home"
@@ -373,6 +393,10 @@ msgstr "Got a code?"
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.nature"
 msgstr "Green places"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.evenings.right.line"
+msgstr "Herbal tea and a book in bed"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.hiking.short"
@@ -394,6 +418,10 @@ msgstr "HOME"
 #: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
 msgid "onboarding.invite.pass.editHome"
 msgstr "Home airport"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.evenings.right.label"
+msgstr "Home by nine"
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.summaryTitle"
@@ -447,6 +475,10 @@ msgstr "Keep it safe"
 msgid "onboarding.merge.keepNew"
 msgstr "Keep this new pass"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.evenings.left.label"
+msgstr "Last call"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.lateStarts.short"
 msgstr "Lie-ins"
@@ -482,6 +514,14 @@ msgstr "Market wanderer"
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.markets.short"
 msgstr "Markets"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.evenings.left.line"
+msgstr "Midnight tapas, loud rooms"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.natureVsCity.left.line"
+msgstr "Moss, switchbacks, no signal"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.museums"
@@ -557,6 +597,10 @@ msgstr "On that pass"
 msgid "onboarding.taste.onYourPass"
 msgstr "On your pass so far"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.pace.right.label"
+msgstr "One neighborhood"
+
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 msgid "onboarding.issued.body"
 msgstr "One stamp so far. The guides will help with the rest."
@@ -621,6 +665,10 @@ msgstr "Pick another"
 msgid "onboarding.photo.title"
 msgstr "Pick your passport photo"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.food.left.line"
+msgstr "Plastic stool, double order"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.sitDownDining"
 msgstr "Proper dinners"
@@ -628,6 +676,14 @@ msgstr "Proper dinners"
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.resendIn"
 msgstr "Resend in {waitS} s"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.natureVsCity.right.line"
+msgstr "Rooftop bars and metro stops"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.pace.right.line"
+msgstr "Same café, same corner table"
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.save"
@@ -693,6 +749,10 @@ msgstr "Sixteen is the most a crew can hold. Ask them to make room."
 msgid "onboarding.taste.skip"
 msgstr "Skip this one"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.mornings.right.label"
+msgstr "Sleep till ten"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.lateStarts"
 msgstr "Slow mornings"
@@ -725,6 +785,10 @@ msgstr "Stamp No. 1"
 msgid "onboarding.taste.retake"
 msgstr "Start over"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.food.left.label"
+msgstr "Street cart"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.streetFood"
 msgstr "Street food"
@@ -733,6 +797,14 @@ msgstr "Street food"
 msgid "onboarding.tag.streetFood.short"
 msgstr "Street food"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.spending.right.line"
+msgstr "Street snacks, hostel dorm"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.spending.right.label"
+msgstr "Stretch a dollar"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.earlyStarts.short"
 msgstr "Sunrise"
@@ -740,6 +812,10 @@ msgstr "Sunrise"
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.earlyStarts"
 msgstr "Sunrise chaser"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.mornings.left.label"
+msgstr "Sunrise summit"
 
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.syncing"
@@ -760,6 +836,10 @@ msgstr "Takes ten seconds. No password."
 #: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 msgid "onboarding.invite.pass.lineBlank"
 msgstr "Tap what sounds like you. I’ll plan around it."
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.food.right.label"
+msgstr "Tasting menu"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.temples"
@@ -861,6 +941,10 @@ msgstr "This sign-in belongs to a pass you made before. Use that one, or keep th
 msgid "onboarding.invite.problem.tripClosedTitle"
 msgstr "This trip is over"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.pace.left.line"
+msgstr "Three cities, two days"
+
 #: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 msgid "onboarding.invite.pass.blank"
 msgstr "Three taps and you’re in the crew."
@@ -894,16 +978,20 @@ msgstr "Too many tries. Send a new code."
 msgid "onboarding.pass.travelStyle"
 msgstr "TRAVEL STYLE"
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.spending.left.label"
+msgstr "Treat yourself"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.splurge"
 msgstr "Treat yourself"
 
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
-msgid "onboarding.invite.problem.retry"
-msgstr "Try again"
-
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.problem.retry"
 msgstr "Try again"
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
@@ -922,6 +1010,10 @@ msgstr "Type a code instead"
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.undo"
 msgstr "Undo"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.mornings.left.line"
+msgstr "Up at 3, on top by 6"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.adventure"
@@ -977,7 +1069,8 @@ msgstr "We’ll ask"
 
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.returningTitle"
-msgstr "Welcome back"
+msgstr "Welcome\n"
+"back"
 
 #: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
 msgid "onboarding.invite.manifest.welcome"
@@ -990,6 +1083,10 @@ msgstr "What should the guides call you?"
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.title"
 msgstr "Where’s home?"
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.food.right.line"
+msgstr "White cloth, tiny plates"
 
 #: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
 msgid "onboarding.invite.problem.someone"
@@ -1027,6 +1124,11 @@ msgstr "You’re in ten already. Leave one and this seat is yours."
 msgid "onboarding.invite.problem.offlineTitle"
 msgstr "You’re offline"
 
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.title"
+msgstr "Your\n"
+"number"
+
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.disclosure"
 msgstr "Your crews see these tags so plans fit everyone. You can hide them in Settings."
@@ -1043,18 +1145,15 @@ msgstr "Your first name"
 msgid "onboarding.queued.issuePass"
 msgstr "Your new pass"
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
-msgid "onboarding.phone.title"
-msgstr "Your number"
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
+msgid "onboarding.issued.title"
+msgstr "Your pass\n"
+"is ready"
 
 #. placeholder {0}: printedName || notYet
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.a11y"
 msgstr "Your pass {number}: {0}, home {homeValue}, issued {issuedValue}, travel style {styleValue}"
-
-#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
-msgid "onboarding.issued.title"
-msgstr "Your pass is ready"
 
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.tagline"

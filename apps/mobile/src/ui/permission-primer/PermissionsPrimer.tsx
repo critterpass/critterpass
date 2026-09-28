@@ -12,8 +12,8 @@ import {
   usePermission,
 } from '@/lib/permissions';
 
-import { InlineAction } from '../buttons/InlineAction';
 import { PillButton } from '../buttons/PillButton';
+import { TextLink } from '../buttons/TextLink';
 import { GUIDE_STICKERS } from '../avatar/guides';
 import { type GuideId, GuideLine } from '../people/GuideLine';
 import { BackEyebrow } from '../shell/BackEyebrow';
@@ -115,7 +115,7 @@ export function PermissionsPrimer({
           </Text>
         </View>
         <Text variant="h1" accessibilityRole="header">
-          {t({ id: 'permissions.primer.title', message: 'Three things, and why' })}
+          {t({ id: 'permissions.primer.title', message: 'Three things,\nand why' })}
         </Text>
         {ONBOARDING_PRIMER_KINDS.map((kind) => (
           <PrimerToggleCard key={kind} kind={kind} />
@@ -137,7 +137,7 @@ export function PermissionsPrimer({
           block
           testID="permissions-primer-go"
         />
-        <InlineAction
+        <TextLink
           label={t({ id: 'permissions.primer.later', message: 'Ask me later' })}
           onPress={onLater}
           testID="permissions-primer-later"

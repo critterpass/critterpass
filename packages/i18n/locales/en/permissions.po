@@ -224,7 +224,8 @@ msgstr "Talk to your guide"
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
 msgid "permissions.primer.title"
-msgstr "Three things, and why"
+msgstr "Three things,\n"
+"and why"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.photosRead.title"

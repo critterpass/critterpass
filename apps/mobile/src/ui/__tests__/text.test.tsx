@@ -123,6 +123,19 @@ describe('Text', () => {
     expect(flat(screen.getByText('17D 05:26')).fontVariant).toEqual(['tabular-nums']);
   });
 
+  it('sets a headline at the size its render uses, inside the variant range', async () => {
+    const sized = (designSize?: number) =>
+      renderText(
+        <Text variant="h1" testID="h" autoFit={false} designSize={designSize}>
+          Your pass
+        </Text>,
+      );
+    expect(flat((await sized()).getByTestId('h')).fontSize).toBe(44);
+    expect(flat((await sized(48)).getByTestId('h')).fontSize).toBe(48);
+    expect(flat((await sized(80)).getByTestId('h')).fontSize).toBe(52);
+    expect(flat((await sized(20)).getByTestId('h')).fontSize).toBe(40);
+  });
+
   it('scales body text with the OS up to AX3 and damps display text', async () => {
     const body = await renderText(<Text testID="body">Body</Text>, 'en', 2);
     expect(flat(body.getByTestId('body')).fontSize).toBe(14 * 2);

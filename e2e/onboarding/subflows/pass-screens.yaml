@@ -58,6 +58,11 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'taste-card-right'
 - waitForAnimationToEnd
+# The stamped tags pile up by the sixth question; in longer languages Skip sits below the fold.
+- scrollUntilVisible:
+    element:
+      id: 'taste-skip'
+    direction: DOWN
 - tapOn:
     id: 'taste-skip'
 - extendedWaitUntil:
