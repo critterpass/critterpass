@@ -44,8 +44,12 @@ export {
 } from './always-upgrade';
 export { countryOf } from './geocode';
 export {
+  bindTempleMute,
   readLocationFlags,
   trackLocationSession,
+  trackVisitRecorded,
   useAppActive,
+  useVisitConsentRows,
   type LocationFlags,
 } from './app-wiring';
+export * from './visits';

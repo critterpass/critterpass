@@ -27,3 +27,10 @@ export { PermissionsSection, SETTINGS_PERMISSION_KINDS } from './PermissionsSect
 export { PrimerCard, type PrimerCardProps } from './PrimerCard';
 export { PrimerSheet, type PrimerSheetProps } from './PrimerSheet';
 export { PrimerSheetHost } from './PrimerSheetHost';
+export {
+  VisitConsentSheet,
+  VisitDetectionSettings,
+  type VisitConsentSheetProps,
+  type VisitDetectionSettingsProps,
+} from './VisitConsentSheet';
+export { VisitConsentHost, type VisitConsentHostProps } from './VisitConsentHost';

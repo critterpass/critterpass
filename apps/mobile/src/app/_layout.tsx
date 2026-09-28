@@ -39,13 +39,21 @@ import {
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
 import {
+  bindTempleMute,
   configureAlwaysUpgrade,
   countryOf,
+  RECORD_VISIT,
   readLocationFlags,
+  SET_CONSENT,
   trackLocationSession,
+  trackVisitRecorded,
   useAppActive,
   useExploreAtHome,
   useLocationEngineBridge,
+  useVisitBridge,
+  useVisitConsentRows,
+  visitConsentGranted,
+  visitConsentPayload,
   type RowWatcher,
 } from '@/lib/location';
 import { useNavigationPersistence } from '@/lib/navigation/restore';
@@ -61,13 +69,14 @@ import {
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { analyticsViolationBreadcrumb, initAppSentry, sentryDsnFromEnv } from '@/lib/observability';
 import { ThemeProvider } from '@/lib/theme';
+import { feedback } from '@/motion/feedback';
 import { useMotionMode } from '@/motion/motion-mode';
 import { IslandToast } from '@/motion/island-toast';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
 import { useTheme } from '@/ui';
-import { PrimerSheetHost } from '@/ui/permission-primer';
+import { PrimerSheetHost, VisitConsentHost } from '@/ui/permission-primer';
 import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
 
 void SplashScreen.preventAutoHideAsync();
@@ -129,7 +138,7 @@ function LocationBridge({ db }: { readonly db: Parameters<typeof watchRows>[0] }
     [db],
   );
   const location = usePermission('location').report;
-  useLocationEngineBridge({
+  const { engine, plan } = useLocationEngineBridge({
     session: getLocationNative(),
     upload: uploadLocationFixes,
     platform: Platform.OS === 'android' ? 'android' : 'ios',
@@ -143,8 +152,25 @@ function LocationBridge({ db }: { readonly db: Parameters<typeof watchRows>[0] }
     countryOf,
     onSessionEnded: (summary) => trackLocationSession(analytics, summary),
   });
-  return null;
+  const consentRows = useVisitConsentRows(watch);
+  const { send: sendVisit } = useCommand(RECORD_VISIT);
+  const { send: sendConsent } = useCommand(SET_CONSENT);
+  useVisitBridge({
+    engine,
+    plan,
+    consentGranted: visitConsentGranted(consentRows),
+    send: sendVisit,
+    track: (source) => trackVisitRecorded(analytics, source),
+  });
+  return (
+    <VisitConsentHost
+      decided={consentRows.length > 0}
+      onAnswer={(granted) => void sendConsent(visitConsentPayload(granted))}
+    />
+  );
 }
+
+bindTempleMute(feedback.setContextMute);
 
 function PermissionsBridge() {
   const { send } = useCommand(UPDATE_DEVICE_PERMISSIONS);
