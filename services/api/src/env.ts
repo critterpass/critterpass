@@ -45,12 +45,11 @@ export const apiEnvSchema = z.object({
   /** Comma-separated app scheme(s)/origins Better Auth accepts for OAuth redirects and the Expo plugin; mobile schemes always included regardless of this value. */
   APP_TRUSTED_ORIGINS: z.preprocess(emptyAsUndefined, z.string().min(1).optional()),
 
-  // --- Attestation (docs/data-model.md §3.1; this phase's Non-code dependencies table) ---
-  // No Apple Developer team id or a verified real device fixture exists yet, so this defaults to
-  // `log` (never blocks a sign-in) regardless of deployment tier; flip to `enforce` once
-  // APPLE_APP_ATTEST_ROOT_CERT_PEM is a real, checked-in-by-reference Apple root, not before —
-  // `services/api/src/index.ts` also forces `log` whenever that PEM is unset, so this alone cannot
-  // turn enforcement on.
+  // --- Attestation (docs/data-model.md §3.1) ---
+  // Defaults to `log` (never blocks a sign-in) in every tier; flip to `enforce` only after device
+  // runs confirm real verdicts. iOS stays `log` whenever APPLE_APP_ATTEST_ROOT_CERT_PEM is unset and
+  // Android whenever PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON or PLAY_INTEGRITY_CERT_SHA256_DIGESTS is
+  // (src/auth/bootstrap.ts), so this alone cannot turn enforcement on.
   ATTESTATION_MODE: z.enum(['enforce', 'log']).default('log'),
   APPLE_APP_ATTEST_TEAM_ID: optionalString,
   APPLE_APP_ATTEST_BUNDLE_ID: optionalString,
@@ -58,9 +57,14 @@ export const apiEnvSchema = z.object({
   APPLE_APP_ATTEST_ROOT_CERT_PEM: optionalString,
   /** Accepts Apple's development-environment attestation environment (staging default: on; App Store builds must set this to `false`). */
   APPLE_APP_ATTEST_ALLOW_DEV_ENV: boolFlag(true),
-  // No Play Integrity Google Cloud service account is provisioned yet (non-code dependency table),
-  // and this repo has no token-exchange client for it — Android attestation always runs in `log`
-  // mode until that client exists, independent of ATTESTATION_MODE.
+  /** Service-account key JSON (the whole downloaded file) for the Google Cloud project linked to
+   *  the app in Play Console; unset = Android attestation is not verified and always runs `log`. */
+  PLAY_INTEGRITY_SERVICE_ACCOUNT_JSON: optionalString,
+  /** Android package whose integrity tokens this api decodes; defaults to the APP_ENV tier's variant. */
+  PLAY_INTEGRITY_PACKAGE_NAME: optionalString,
+  /** Comma-separated SHA-256 digests of the app signing certificate(s) (Play Console colon hex or
+   *  Google's URL-safe base64); unset = Android stays in `log` mode even with ATTESTATION_MODE=enforce. */
+  PLAY_INTEGRITY_CERT_SHA256_DIGESTS: optionalString,
 
   // --- Phone OTP sender router (docs/product-decisions.md's OTP sender-router decision; each
   // channel skipped when its credentials are absent, never faked — services/api/src/auth/otp/router.ts falls back

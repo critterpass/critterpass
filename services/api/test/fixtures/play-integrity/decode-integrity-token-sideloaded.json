@@ -1,0 +1,21 @@
+{
+  "tokenPayloadExternal": {
+    "requestDetails": {
+      "requestPackageName": "app.critterpass.staging",
+      "requestHash": "Q2hhbGxlbmdlLWZyb20tdGhlLWFwaQ",
+      "timestampMillis": "1759075200000"
+    },
+    "appIntegrity": {
+      "appRecognitionVerdict": "UNRECOGNIZED_VERSION",
+      "packageName": "app.critterpass.staging",
+      "certificateSha256Digest": ["j-_Zgk1nkrEgNiXYBkUhlsXAvJXuGFr_xBY0tkfnhUw"],
+      "versionCode": "42"
+    },
+    "deviceIntegrity": {
+      "deviceRecognitionVerdict": ["MEETS_DEVICE_INTEGRITY"]
+    },
+    "accountDetails": {
+      "appLicensingVerdict": "UNLICENSED"
+    }
+  }
+}

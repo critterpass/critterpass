@@ -11,6 +11,10 @@ import type { BetterAuthOptions } from 'better-auth';
 import { crypto as dbCrypto } from '@cp/db';
 
 import type { AttestationConfig } from '../abuse/attestation';
+import {
+  buildAndroidAttestationFromEnv,
+  type PlayIntegrityEnv,
+} from '../abuse/attestation/play-integrity-env';
 import type { AppleClientSecretConfig } from './social/apple';
 import type { AppleProviderConfig } from './social/apple';
 import type { GoogleProviderConfig } from './social/google';
@@ -113,15 +117,17 @@ type AttestationEnv = Pick<
   | 'APPLE_APP_ATTEST_BUNDLE_ID'
   | 'APPLE_APP_ATTEST_ROOT_CERT_PEM'
   | 'APPLE_APP_ATTEST_ALLOW_DEV_ENV'
->;
+> &
+  PlayIntegrityEnv;
 
-/** No verified real Apple root cert is provisioned yet: mode is forced to `log` regardless of `ATTESTATION_MODE` until one is. Android always runs `log`-only — no Play Integrity Google Cloud client exists yet (this phase's Non-code dependencies table). */
+/** iOS runs `log` regardless of `ATTESTATION_MODE` until a verified Apple root cert is provisioned; Android follows `ATTESTATION_MODE` once Play Integrity credentials and signing certificate digests are set (play-integrity-env.ts), `log` before. */
 export function buildAttestationConfigFromEnv(env: AttestationEnv): AttestationConfig {
   const hasRealCert = env.APPLE_APP_ATTEST_ROOT_CERT_PEM !== undefined;
   const iosMode = hasRealCert ? env.ATTESTATION_MODE : 'log';
+  const { androidMode, android } = buildAndroidAttestationFromEnv(env);
   return {
     iosMode,
-    androidMode: 'log',
+    androidMode,
     appAttest: {
       teamId: env.APPLE_APP_ATTEST_TEAM_ID ?? 'UNCONFIGURED',
       bundleId: env.APPLE_APP_ATTEST_BUNDLE_ID ?? 'app.critterpass',
@@ -130,7 +136,7 @@ export function buildAttestationConfigFromEnv(env: AttestationEnv): AttestationC
         'unconfigured: no real Apple App Attest root provisioned yet, iosMode is forced to log',
       allowDevelopmentEnvironment: env.APPLE_APP_ATTEST_ALLOW_DEV_ENV,
     },
-    android: undefined,
+    android,
   };
 }
 

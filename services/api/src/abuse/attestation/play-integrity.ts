@@ -1,22 +1,24 @@
 /**
- * Android Play Integrity verification (docs/developer.android.com/google/play/integrity/verdicts).
- * The HTTP call to Google's `decodeIntegrityToken` is injectable so tests use
- * recorded-shape fixtures instead of a real service account (code-standards.md §17: test doubles
- * only at the network boundary) — everything after the response is decoded (verdict/package/nonce
- * checks) is the same real code for both.
+ * Android Play Integrity verification (developer.android.com/google/play/integrity/verdicts).
+ * The HTTP calls to Google's token endpoint and `decodeIntegrityToken` go through an injectable
+ * `fetch`, so tests replay recorded-shape responses (code-standards.md §17: test doubles only at
+ * the network boundary); everything after the response is decoded is the same real code.
  */
 import { DomainError } from '@cp/domain';
 import { importPKCS8, SignJWT } from 'jose';
 
 export interface PlayIntegrityConfig {
   readonly packageName: string;
-  /** SHA-256 digest(s) of the app's signing certificate(s), as Google reports them (uppercase hex, colon-free). */
+  /** SHA-256 digest(s) of the app's signing certificate(s), as Google reports them (URL-safe base64, no padding; see `normalizeCertificateDigest`). */
   readonly certificateSha256Digests: readonly string[];
 }
 
 export interface PlayIntegrityDecodedPayload {
   readonly requestDetails?: {
     readonly requestPackageName?: string;
+    /** Standard requests bind the caller's request hash (the app passes the issued challenge). */
+    readonly requestHash?: string;
+    /** Classic requests bind a nonce instead. */
     readonly nonce?: string;
     readonly timestampMillis?: string;
   };
@@ -51,6 +53,18 @@ export interface PlayIntegrityVerifyResult {
 
 const ACCEPTED_DEVICE_VERDICTS = ['MEETS_DEVICE_INTEGRITY'];
 
+/**
+ * Play Integrity reports certificate digests as URL-safe base64 without padding, while Play Console
+ * shows the app signing key's SHA-256 as colon-separated hex. Accepts either and returns Google's
+ * form, so the env value can be pasted straight from Play Console.
+ */
+export function normalizeCertificateDigest(value: string): string {
+  const trimmed = value.trim();
+  const hex = trimmed.replaceAll(':', '');
+  if (/^[0-9a-fA-F]{64}$/.test(hex)) return Buffer.from(hex, 'hex').toString('base64url');
+  return trimmed.replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/, '');
+}
+
 function fail(reason: string): never {
   throw new DomainError('ATTESTATION_FAILED', { platform: 'android', reason });
 }
@@ -63,8 +77,9 @@ export async function verifyPlayIntegrity(
     input.config.packageName,
   );
 
-  if (payload.requestDetails?.nonce !== input.expectedNonce) {
-    return fail('nonce does not match the issued challenge');
+  const bound = payload.requestDetails?.requestHash ?? payload.requestDetails?.nonce;
+  if (bound !== input.expectedNonce) {
+    return fail('request hash does not match the issued challenge');
   }
   if (payload.requestDetails?.requestPackageName !== input.config.packageName) {
     return fail('request package name does not match');
@@ -78,8 +93,11 @@ export async function verifyPlayIntegrity(
     );
   }
   const digests = payload.appIntegrity?.certificateSha256Digest ?? [];
-  if (!digests.some((digest) => input.config.certificateSha256Digests.includes(digest))) {
-    return fail('signing certificate digest does not match');
+  const accepted = input.config.certificateSha256Digests.map(normalizeCertificateDigest);
+  if (!digests.some((digest) => accepted.includes(normalizeCertificateDigest(digest)))) {
+    // Certificate digests are public; logging the reported one lets `log` mode reveal the value
+    // PLAY_INTEGRITY_CERT_SHA256_DIGESTS needs.
+    return fail(`signing certificate digest [${digests.join(', ')}] is not an accepted one`);
   }
 
   const deviceVerdict = payload.deviceIntegrity?.deviceRecognitionVerdict ?? [];
@@ -93,8 +111,8 @@ export async function verifyPlayIntegrity(
 /**
  * The real `PlayIntegrityHttpClient`: exchanges a service-account key for an OAuth2 access token
  * (JWT-bearer grant, `https://www.googleapis.com/auth/playintegrity` scope, RFC 7523) then calls
- * `POST /v1/{packageName}:decodeIntegrityToken`. This is the only concrete implementation of the
- * port above; tests inject a fake `PlayIntegrityHttpClient` instead of exercising this function.
+ * `POST /v1/{packageName}:decodeIntegrityToken`. `fetchImpl` is the network seam tests replace
+ * with recorded-shape responses.
  */
 export interface GoogleServiceAccountCredentials {
   readonly clientEmail: string;
@@ -105,6 +123,30 @@ export interface GoogleServiceAccountCredentials {
 const PLAY_INTEGRITY_SCOPE = 'https://www.googleapis.com/auth/playintegrity';
 const PLAY_INTEGRITY_API_BASE_URL = 'https://playintegrity.googleapis.com/v1';
 const ASSERTION_LIFETIME_SECONDS = 3600;
+const DEFAULT_TOKEN_URI = 'https://oauth2.googleapis.com/token';
+
+/** Reads the fields the JWT-bearer grant needs from a downloaded service-account key file. */
+export function parseGoogleServiceAccount(json: string): GoogleServiceAccountCredentials {
+  let key: unknown;
+  try {
+    key = JSON.parse(json);
+  } catch {
+    throw new Error('service account key is not valid JSON');
+  }
+  const {
+    client_email: clientEmail,
+    private_key: privateKeyPem,
+    token_uri: tokenUri,
+  } = (key ?? {}) as Record<string, unknown>;
+  if (typeof clientEmail !== 'string' || typeof privateKeyPem !== 'string') {
+    throw new Error('service account key has no client_email or private_key');
+  }
+  return {
+    clientEmail,
+    privateKeyPem,
+    tokenUri: typeof tokenUri === 'string' ? tokenUri : DEFAULT_TOKEN_URI,
+  };
+}
 
 async function signServiceAccountAssertion(
   credentials: GoogleServiceAccountCredentials,
@@ -122,11 +164,12 @@ async function signServiceAccountAssertion(
 
 export function createGooglePlayIntegrityHttpClient(
   credentials: GoogleServiceAccountCredentials,
+  fetchImpl: typeof fetch = fetch,
 ): PlayIntegrityHttpClient {
   return {
     async decodeIntegrityToken(integrityToken, packageName) {
       const assertion = await signServiceAccountAssertion(credentials);
-      const tokenResponse = await fetch(credentials.tokenUri, {
+      const tokenResponse = await fetchImpl(credentials.tokenUri, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
@@ -144,7 +187,7 @@ export function createGooglePlayIntegrityHttpClient(
         access_token: string;
       };
 
-      const decodeResponse = await fetch(
+      const decodeResponse = await fetchImpl(
         `${PLAY_INTEGRITY_API_BASE_URL}/${packageName}:decodeIntegrityToken`,
         {
           method: 'POST',
