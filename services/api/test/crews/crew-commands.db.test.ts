@@ -12,16 +12,13 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerCrewCommands } from '../../src/commands/crews';
 import { runCommand } from '../location/location-fixture';
-import {
-  startCommandDoors,
-  type CommandDoorsHarness,
-  type SignedIn,
-} from '../routes/command-doors-harness';
+import { type CommandDoorsHarness, type SignedIn } from '../routes/command-doors-harness';
+import { queuedCards, startDoorsWithJobs } from './invite-fixture';
 
 let harness: CommandDoorsHarness;
 
 beforeAll(async () => {
-  harness = await startCommandDoors(registerCrewCommands);
+  harness = await startDoorsWithJobs(registerCrewCommands);
 }, 240_000);
 
 afterAll(async () => {
@@ -142,6 +139,9 @@ describe('update, switch, notify and rotate', () => {
       { code: result['code'], status: 'revoked' },
       { code: newCode, status: 'active' },
     ]);
+    // The retired code's cached share card is purged; the new code is warmed once it is shared.
+    expect(await queuedCards(harness)).toContainEqual({ kind: 'invite', token: result['code'] });
+    expect(await queuedCards(harness)).not.toContainEqual({ kind: 'invite', token: newCode });
 
     for (const cmd of ['update_crew', 'set_active_crew', 'rotate_join_code']) {
       const denied = await runCommand(harness, outsider, cmd, { crew_id: crewId, name: 'Mine' });

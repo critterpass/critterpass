@@ -26,6 +26,7 @@ import {
 import type pg from 'pg';
 
 import { defineCommand } from '../_framework/define-command';
+import { refreshShareCard } from './share-cards';
 import { codeExpiry, liveJoinCode, mintJoinCode, requireActiveMember } from '../crews/shared';
 import { seatTokenHash, type InviteCommandDeps } from './deps';
 
@@ -197,6 +198,8 @@ export function createCreateInviteCommand(deps: InviteCommandDeps) {
         },
         crewId: payload.crew_id,
       });
+
+      await refreshShareCard(tx, 'invite', code.code);
 
       const target: LinkTarget =
         seat === undefined

@@ -1,12 +1,14 @@
 /**
  * `mint_referral_code`: the caller's own referral code (`/r/{code}`), minted once and returned as
  * is afterwards. A referral code points at its creator and belongs to no crew; it does not expire.
+ * A newly minted code has its share card drawn before the first unfurl.
  */
 import { DomainError } from '@cp/domain';
 import { z } from 'zod';
 
 import { defineCommand } from '../_framework/define-command';
 import { mintJoinCode } from '../crews/shared';
+import { refreshShareCard } from '../invites/share-cards';
 
 export const mintReferralCodeCommand = defineCommand({
   name: 'mint_referral_code',
@@ -30,6 +32,7 @@ export const mintReferralCodeCommand = defineCommand({
       rotate: false,
     });
     if (minted.code.length === 0) throw new DomainError('INTERNAL');
+    await refreshShareCard(tx, 'referral', minted.code);
     return { code: minted.code };
   },
 });

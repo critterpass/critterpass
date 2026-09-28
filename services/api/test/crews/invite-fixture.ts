@@ -1,7 +1,8 @@
 /**
  * Invite suites' shared set-up: the real crew and invite commands with test secrets (seat-token
  * keyring, field-encryption keyring, phone pepper), a crew started through `create_crew`, and a
- * trip with a given number of seats already taken.
+ * trip with a given number of seats already taken. The doors run with a job producer, since the
+ * commands enqueue share-card jobs in their transactions.
  */
 import { randomBytes } from 'node:crypto';
 
@@ -10,6 +11,8 @@ import { generateUuidV7, seatTokenKeyringFromJson } from '@cp/domain';
 
 import { registerCrewCommands } from '../../src/commands/crews';
 import { registerInviteCommands, type InviteCommandDeps } from '../../src/commands/invites';
+import type { CommandRegistry } from '../../src/commands/_framework/registry';
+import { startJobProducer } from '../../src/jobs/producer';
 import { runCommand } from '../location/location-fixture';
 import {
   startCommandDoors,
@@ -29,11 +32,38 @@ export const testInviteDeps: InviteCommandDeps = {
   phonePepper: PHONE_PEPPER,
 };
 
+/** Command doors for `register`, with the api's job producer running beside them. */
+export async function startDoorsWithJobs(
+  register: (registry: CommandRegistry) => void,
+): Promise<CommandDoorsHarness> {
+  const doors = await startCommandDoors(register);
+  const { connectionString } = (doors.pool as unknown as { options: { connectionString: string } })
+    .options;
+  const producer = await startJobProducer({ connectionString, logger: { error: () => undefined } });
+  return {
+    ...doors,
+    async stop() {
+      await producer.stop({ graceful: false });
+      await doors.stop();
+    },
+  };
+}
+
 export function startInviteHarness(): Promise<CommandDoorsHarness> {
-  return startCommandDoors((registry) => {
+  return startDoorsWithJobs((registry) => {
     registerCrewCommands(registry);
     registerInviteCommands(registry, testInviteDeps);
   });
+}
+
+/** The `og.render` jobs queued so far, oldest first. */
+export async function queuedCards(
+  harness: CommandDoorsHarness,
+): Promise<{ kind: string; token: string }[]> {
+  const { rows } = await harness.pool.query<{ data: { kind: string; token: string } }>(
+    "SELECT data FROM pgboss.job WHERE name = 'og.render' ORDER BY created_on, id",
+  );
+  return rows.map((row) => row.data);
 }
 
 export async function startCrew(harness: CommandDoorsHarness, owner: SignedIn): Promise<string> {

@@ -9,7 +9,14 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { runCommand } from '../location/location-fixture';
 import type { CommandDoorsHarness, SignedIn } from '../routes/command-doors-harness';
-import { errorOf, resultOf, startCrew, startInviteHarness, tripWithSeats } from './invite-fixture';
+import {
+  errorOf,
+  queuedCards,
+  resultOf,
+  startCrew,
+  startInviteHarness,
+  tripWithSeats,
+} from './invite-fixture';
 
 let harness: CommandDoorsHarness;
 let inviter: SignedIn;
@@ -44,6 +51,8 @@ describe('who may invite', () => {
     expect(invite.status).toBe(200);
     const { code, url } = resultOf(invite.body) as { code: string; url: string };
     expect(url).toMatch(new RegExp(`/i/${code}$`));
+    // Its share card is queued for drawing in the same transaction.
+    expect(await queuedCards(harness)).toContainEqual({ kind: 'invite', token: code });
 
     const joiner = await harness.signInAnonymously();
     const joined = await cmd(joiner, 'accept_invite', { code: code.toLowerCase() });
