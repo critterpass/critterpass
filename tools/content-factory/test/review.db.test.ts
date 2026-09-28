@@ -1,4 +1,4 @@
-import { mkdtempSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -63,5 +63,46 @@ describe('review stage with a database', () => {
       'SELECT item_ref, severity, verdict FROM ops.content_reviews',
     );
     expect(reviews.rows).toEqual([{ item_ref: 'mornings', severity: 'pass', verdict: 'pending' }]);
+  });
+});
+
+describe('review from a clean checkout', () => {
+  it('queues a committed batch from its artifact alone, without the model or work files', async () => {
+    const root = mkdtempSync(path.join(os.tmpdir(), 'factory-artifact-'));
+    const batchKey = ['artifact', 'only', 'check'].join('-');
+    const replay = replayFetch(['deepseek-quiz-mornings']);
+    await runPipeline({
+      kind: 'taste_quiz',
+      batchKey,
+      stages: ['brief', 'generate', 'validate', 'review'],
+      pool: null,
+      gateway: createGateway({ apiKey: 'test-key', fetch: replay.fetch, maxAttempts: 1 }),
+      root,
+    });
+    const artifactFile = path.join(root, 'batches', 'taste_quiz', `${batchKey}.json`);
+    const before = readFileSync(artifactFile, 'utf8');
+    rmSync(path.join(root, 'work'), { recursive: true, force: true });
+
+    const queued = await runPipeline({
+      kind: 'taste_quiz',
+      batchKey,
+      stages: ['review'],
+      pool,
+      gateway: null,
+      root,
+    });
+    expect(queued.queued?.status).toBe('review');
+    expect(readFileSync(artifactFile, 'utf8')).toBe(before);
+    const { rows } = await pool.query<{ artifact: { items: unknown[] } }>(
+      'SELECT artifact FROM content_releases WHERE batch_key = $1',
+      [batchKey],
+    );
+    expect(rows[0]?.artifact.items).toEqual((JSON.parse(before) as { items: unknown[] }).items);
+    const reviews = await pool.query(
+      `SELECT r.item_ref FROM ops.content_reviews r JOIN content_releases c ON c.id = r.release_id
+       WHERE c.batch_key = $1`,
+      [batchKey],
+    );
+    expect(reviews.rowCount).toBe(1);
   });
 });
