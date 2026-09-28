@@ -33,12 +33,19 @@ counters keep their names because their units are annotations (`{command}`). The
 ## Setup steps outside the repo
 
 1. Grafana Cloud stack (EU or Singapore region) with Synthetic Monitoring enabled; a service
-   account token (Editor) for `grafana-apply`.
-2. `monitoring_reader` password: set it on the database (`ALTER ROLE monitoring_reader PASSWORD …`)
-   and in the Alloy `MONITORING_DATABASE_URL`. If the migration logged that it could not grant
-   `pg_monitor`, grant it with the platform's admin role.
-3. Upload the media probe object `probe/health.txt` to each environment's media bucket.
-4. P1 paging is email-only until an on-call phone number exists; then add a Grafana IRM (OnCall)
+   account token (Editor) for `grafana-apply`. Email contact points only accept members of the
+   Grafana org, so invite `ONCALL_EMAIL` to the org (Viewer) and accept the invite before applying.
+2. `monitoring_reader` password: set it on the database and in the Alloy `MONITORING_DATABASE_URL`.
+   Send it as a SCRAM verifier (psql `\password monitoring_reader`), so the plain password never
+   reaches the server's statement log. On PlanetScale the login is `monitoring_reader.<branch id>`
+   (the suffix of the branch's own role usernames) on the direct port 5432 with
+   `sslmode=verify-full`. If the migration logged that it could not grant `pg_monitor`, grant it
+   with the platform's admin role.
+3. Preload `pg_stat_statements` (the migration creates the extension; the view stays empty without
+   the library). On PlanetScale: `pscale branch resize <db> <branch> --parameters
+   pgconf.shared_preload_libraries=pg_stat_statements`, which restarts the cluster.
+4. Upload the media probe object `probe/health.txt` to each environment's media bucket.
+5. P1 paging is email-only until an on-call phone number exists; then add a Grafana IRM (OnCall)
    SMS/call contact point as a second P1 receiver in `alerts/notification-policy.yaml`.
-5. Retention: PostHog 13 months, Sentry 90 days, Grafana 14 days (free) or 30 days (Pro),
+6. Retention: PostHog 13 months, Sentry 90 days, Grafana 14 days (free) or 30 days (Pro),
    Langfuse 90 days — set in each vendor's project settings.
