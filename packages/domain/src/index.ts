@@ -289,3 +289,6 @@ export * from './flags';
 export * from './obs';
 export * from './permissions';
 export * from './location';
+export * from './pass';
+export * from './taste';
+export * from './airports';

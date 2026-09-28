@@ -1,0 +1,26 @@
+[
+  {
+    "iata": "LON",
+    "city": "London",
+    "country": "GB",
+    "airports": ["LHR", "LGW", "STN", "LTN", "LCY", "SEN"]
+  },
+  { "iata": "PAR", "city": "Paris", "country": "FR", "airports": ["CDG", "ORY"] },
+  { "iata": "MIL", "city": "Milan", "country": "IT", "airports": ["MXP", "LIN", "BGY"] },
+  { "iata": "ROM", "city": "Rome", "country": "IT", "airports": ["FCO", "CIA"] },
+  { "iata": "STO", "city": "Stockholm", "country": "SE", "airports": ["ARN", "BMA", "NYO"] },
+  { "iata": "MOW", "city": "Moscow", "country": "RU", "airports": ["SVO", "DME", "VKO"] },
+  { "iata": "NYC", "city": "New York", "country": "US", "airports": ["JFK", "LGA", "EWR"] },
+  { "iata": "CHI", "city": "Chicago", "country": "US", "airports": ["ORD", "MDW"] },
+  { "iata": "WAS", "city": "Washington", "country": "US", "airports": ["IAD", "DCA", "BWI"] },
+  { "iata": "YTO", "city": "Toronto", "country": "CA", "airports": ["YYZ", "YTZ"] },
+  { "iata": "YMQ", "city": "Montreal", "country": "CA", "airports": ["YUL", "YHU"] },
+  { "iata": "SAO", "city": "São Paulo", "country": "BR", "airports": ["GRU", "CGH", "VCP"] },
+  { "iata": "RIO", "city": "Rio de Janeiro", "country": "BR", "airports": ["GIG", "SDU"] },
+  { "iata": "BUE", "city": "Buenos Aires", "country": "AR", "airports": ["EZE", "AEP"] },
+  { "iata": "TYO", "city": "Tokyo", "country": "JP", "airports": ["HND", "NRT"] },
+  { "iata": "OSA", "city": "Osaka", "country": "JP", "airports": ["KIX", "ITM", "UKB"] },
+  { "iata": "SEL", "city": "Seoul", "country": "KR", "airports": ["ICN", "GMP"] },
+  { "iata": "BJS", "city": "Beijing", "country": "CN", "airports": ["PEK", "PKX"] },
+  { "iata": "JKT", "city": "Jakarta", "country": "ID", "airports": ["CGK", "HLP"] }
+]

@@ -1,0 +1,149 @@
+{
+  "guide": "tokek",
+  "lines": [
+    {
+      "id": "name-intro",
+      "when": "intro",
+      "en": "Just a first name is fine. I’m Tokek, so I can’t judge.",
+      "vi": "Tên thôi là đủ rồi. Mình là Tokek, nên mình không phán xét đâu."
+    },
+    {
+      "id": "name-idle-1",
+      "when": "idle",
+      "en": "{name}. Sounds like someone who packs snacks.",
+      "vi": "{name}. Nghe như người luôn mang theo đồ ăn vặt."
+    },
+    {
+      "id": "name-idle-2",
+      "when": "idle",
+      "en": "{name}! The locals will learn that fast.",
+      "vi": "{name}! Dân địa phương sẽ nhớ tên này nhanh thôi."
+    },
+    {
+      "id": "name-idle-3",
+      "when": "idle",
+      "en": "Nice to meet you, {name}. I’ll carry the map.",
+      "vi": "Rất vui được gặp {name}. Để mình cầm bản đồ cho."
+    },
+    {
+      "id": "name-idle-4",
+      "when": "idle",
+      "en": "{name}. Looks great in passport ink.",
+      "vi": "{name}. Viết bằng mực hộ chiếu trông đẹp ghê."
+    },
+    {
+      "id": "name-idle-5",
+      "when": "idle",
+      "en": "Ooh, {name}. Very window-seat energy.",
+      "vi": "Ồ, {name}. Đúng kiểu người thích ngồi cạnh cửa sổ."
+    },
+    {
+      "id": "name-idle-6",
+      "when": "idle",
+      "en": "{name}, got it. I never forget a face. Or a name. Mostly.",
+      "vi": "{name}, nhớ rồi. Mình không bao giờ quên mặt. Hay tên. Thường là vậy."
+    },
+    {
+      "id": "name-idle-7",
+      "when": "idle",
+      "en": "{name}. The critters are going to love you.",
+      "vi": "{name}. Mấy bé critter sẽ quý bạn lắm đây."
+    },
+    {
+      "id": "name-idle-8",
+      "when": "idle",
+      "en": "Hi {name}! Your pass is already looking good.",
+      "vi": "Chào {name}! Tấm pass của bạn đã trông xịn rồi đó."
+    },
+    {
+      "id": "name-idle-9",
+      "when": "idle",
+      "en": "{name}. Short, sweet, fits on a luggage tag.",
+      "vi": "{name}. Ngắn gọn, dễ thương, vừa khít thẻ hành lý."
+    },
+    {
+      "id": "name-idle-10",
+      "when": "idle",
+      "en": "{name}? I once met a mango seller with that name. Legend.",
+      "vi": "{name}? Mình từng gặp một cô bán xoài tên y vậy. Huyền thoại."
+    },
+    {
+      "id": "name-long",
+      "when": "long",
+      "en": "That’s a lot of name. The pass keeps the first bit, you keep all of it.",
+      "vi": "Tên dài ghê. Tấm pass giữ phần đầu, bạn giữ trọn cả tên."
+    },
+    {
+      "id": "name-script",
+      "when": "script",
+      "en": "Beautiful. The machine line can’t spell it, but the pass can.",
+      "vi": "Đẹp quá. Dòng máy đọc không viết được, nhưng tấm pass thì được."
+    },
+    {
+      "id": "name-blocked-1",
+      "when": "blocked",
+      "en": "Hmm, the guides might giggle at that one. Something else?",
+      "vi": "Hừm, mấy bạn hướng dẫn viên sẽ cười khúc khích mất. Tên khác nhé?"
+    },
+    {
+      "id": "name-blocked-2",
+      "when": "blocked",
+      "en": "I can’t stamp that one, sorry. Try your real first name?",
+      "vi": "Cái này mình không đóng dấu được, xin lỗi nha. Thử tên thật của bạn nhé?"
+    },
+    {
+      "id": "name-blocked-3",
+      "when": "blocked",
+      "en": "Cheeky. Let’s pick one the crew can say out loud.",
+      "vi": "Tinh nghịch ghê. Chọn tên mà cả nhóm đọc to lên được nha."
+    },
+    {
+      "id": "name-empty",
+      "when": "empty",
+      "en": "Still here! Whenever you’re ready.",
+      "vi": "Mình vẫn ở đây! Lúc nào sẵn sàng thì gõ nhé."
+    },
+    {
+      "id": "photo-guide",
+      "when": "photo",
+      "en": "Good pick. You’ll earn more faces on the road.",
+      "vi": "Chọn hay đó. Đi đường bạn sẽ có thêm nhiều gương mặt nữa."
+    },
+    {
+      "id": "photo-real",
+      "when": "photo_real",
+      "en": "Look at you! Very official.",
+      "vi": "Nhìn bạn kìa! Chuẩn hộ chiếu luôn."
+    },
+    {
+      "id": "taste-start",
+      "when": "taste",
+      "en": "Tap one. There are no wrong answers, only late ones.",
+      "vi": "Chọn một thôi. Không có câu sai, chỉ có câu trễ."
+    },
+    {
+      "id": "taste-skip",
+      "when": "taste_skip",
+      "en": "Skipped. Mysterious. I like it.",
+      "vi": "Bỏ qua à. Bí ẩn ghê. Mình thích."
+    },
+    {
+      "id": "taste-done",
+      "when": "taste_done",
+      "en": "Got it. Your crew will see these, so they know what you’re into.",
+      "vi": "Xong rồi. Cả nhóm sẽ thấy những điều này để biết bạn thích gì."
+    },
+    {
+      "id": "home-far",
+      "when": "home_far",
+      "en": "A bit of a trek to the airport. Worth it though.",
+      "vi": "Ra sân bay hơi xa. Nhưng đáng mà."
+    },
+    {
+      "id": "home-picked",
+      "when": "home",
+      "en": "Home, stamped. Every trip starts here.",
+      "vi": "Nhà, đã đóng dấu. Mọi chuyến đi bắt đầu từ đây."
+    }
+  ]
+}

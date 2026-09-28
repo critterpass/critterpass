@@ -7,6 +7,9 @@
   "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
+    "./onboarding": "./onboarding/index.ts",
+    "./airports": "./airports/index.ts",
+    "./airports/schema": "./airports/schema.ts",
     "./releases/*": "./releases/*"
   },
   "scripts": {
