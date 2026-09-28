@@ -1,12 +1,17 @@
 /**
- * The Google credentials app.config.ts embeds come only from EAS environment variables; a build
- * without them (local dev, CI) must still resolve, just without the Google URL scheme or
- * Firebase file.
+ * The Google credentials app.config.ts embeds come from EAS environment variables, with a local
+ * git-ignored Firebase file as the fallback; a build without them (local dev, CI) must still
+ * resolve, just without the Google URL scheme or Firebase file.
  */
-import { afterEach, describe, expect, it } from '@jest/globals';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 import type { ConfigContext } from 'expo/config';
 
 import appConfig, {
+  LOCAL_GOOGLE_SERVICES_FILE,
   androidGoogleServices,
   googleIosUrlScheme,
   googleSignInPlugins,
@@ -24,8 +29,21 @@ function restore(key: string, value: string | undefined): void {
   else process.env[key] = value;
 }
 
+let projectRoot = '';
+let easDir = '';
+
+beforeEach(() => {
+  projectRoot = mkdtempSync(join(tmpdir(), 'cp-app-config-'));
+  easDir = mkdtempSync(join(tmpdir(), 'cp-eas-secrets-'));
+});
+
 function resolve() {
-  return appConfig({ config: {} } as ConfigContext);
+  return appConfig({ config: {}, projectRoot } as ConfigContext);
+}
+
+function writeFirebaseFile(path: string): string {
+  writeFileSync(path, '{"project_info":{}}');
+  return path;
 }
 
 function googlePlugin(plugins: unknown[] | undefined) {
@@ -33,6 +51,8 @@ function googlePlugin(plugins: unknown[] | undefined) {
 }
 
 afterEach(() => {
+  rmSync(projectRoot, { recursive: true, force: true });
+  rmSync(easDir, { recursive: true, force: true });
   restore('EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID', saved.ios);
   restore('GOOGLE_SERVICES_JSON', saved.file);
 });
@@ -62,15 +82,26 @@ describe('Google credentials in the app config', () => {
   });
 
   it('points Android at the google-services.json EAS wrote when the file variable is set', () => {
-    process.env['GOOGLE_SERVICES_JSON'] = '/home/expo/workingdir/google-services.json';
-    expect(resolve().android?.googleServicesFile).toBe(
-      '/home/expo/workingdir/google-services.json',
-    );
+    const easFile = writeFirebaseFile(join(easDir, 'secret'));
+    writeFirebaseFile(join(projectRoot, LOCAL_GOOGLE_SERVICES_FILE));
+    process.env['GOOGLE_SERVICES_JSON'] = easFile;
+    expect(resolve().android?.googleServicesFile).toBe(easFile);
   });
 
-  it('leaves googleServicesFile unset when the file variable is absent or blank', () => {
+  it('falls back to the local google-services.json so a Mac computes the same fingerprint', () => {
+    delete process.env['GOOGLE_SERVICES_JSON'];
+    writeFirebaseFile(join(projectRoot, LOCAL_GOOGLE_SERVICES_FILE));
+    expect(resolve().android?.googleServicesFile).toBe('./google-services.json');
+
+    process.env['GOOGLE_SERVICES_JSON'] = join(easDir, 'missing');
+    expect(resolve().android?.googleServicesFile).toBe('./google-services.json');
+  });
+
+  it('leaves googleServicesFile unset when neither file exists', () => {
     delete process.env['GOOGLE_SERVICES_JSON'];
     expect(resolve().android).not.toHaveProperty('googleServicesFile');
-    expect(androidGoogleServices({ GOOGLE_SERVICES_JSON: '' })).toEqual({});
+    process.env['GOOGLE_SERVICES_JSON'] = join(easDir, 'missing');
+    expect(resolve().android).not.toHaveProperty('googleServicesFile');
+    expect(androidGoogleServices({ GOOGLE_SERVICES_JSON: '' }, projectRoot)).toEqual({});
   });
 });

@@ -12,6 +12,9 @@ coverage/
 # Generated native projects (Expo continuous native generation) and tool caches
 apps/mobile/ios/
 apps/mobile/android/
+# Local copy of the Firebase config (EAS builds get it from the GOOGLE_SERVICES_JSON file variable).
+# Kept out of apps/mobile/.gitignore on purpose: that file is a native fingerprint input.
+apps/mobile/google-services.json
 # with-critter-art copies generated xcassets into each extension target's own directory on every
 # prebuild (`@bacons/apple-targets` links the whole directory into Xcode via a file-system-
 # synchronized group) — regenerated each time, not source.

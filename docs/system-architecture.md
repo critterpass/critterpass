@@ -311,9 +311,12 @@ Permission contract suite (Vitest + Testcontainers, PR-blocking): fixture actors
 | APNs .p8, FCM service account, RevenueCat, Anthropic, supplier keys, Telegram Gateway/Prelude, WhatsApp | Railway variables | quarterly / on staff change |
 | Cloudflare (R2, Workers) | Wrangler secrets + GitHub Actions secrets | quarterly |
 | EAS / store credentials | EAS secrets | yearly |
+| Firebase `google-services.json` (Android FCM) | EAS file variable `GOOGLE_SERVICES_JSON` (development, preview, production); local git-ignored copy at `apps/mobile/google-services.json` | on Firebase app change |
 | Field-encryption key | Railway variable (key id versioned) | yearly |
 
 Only `.env.example` files are committed. `pnpm env:check` validates required vars at boot (zod).
+
+**Native fingerprint and the Firebase file.** The runtime version is the native fingerprint, which hashes the `android.googleServicesFile` contents. On EAS, `app.config.ts` points at the `GOOGLE_SERVICES_JSON` file; on a Mac, where eas-cli does not download file variables, it falls back to `apps/mobile/google-services.json`. Before running `eas build` (which computes the runtime version locally at upload) or `eas update` from a checkout, copy the file there: `cp certs/google-services.json apps/mobile/google-services.json`. Without the copy, Android builds fail at "Configure expo-updates" with a runtime version mismatch, and Android updates are published under a runtime version no build has. The ignore rule sits in the root `.gitignore`, because `apps/mobile/.gitignore` is itself a fingerprint input.
 
 ---
 
