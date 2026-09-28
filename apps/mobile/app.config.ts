@@ -1,5 +1,8 @@
 import type { ConfigContext, ExpoConfig } from 'expo/config';
 
+import colorTokens from '../../packages/design-tokens/src/color.tokens.json' with { type: 'json' };
+import semanticTokens from '../../packages/design-tokens/src/semantic.tokens.json' with { type: 'json' };
+
 type AppVariant = 'development' | 'staging' | 'production';
 
 interface VariantConfig {
@@ -7,6 +10,22 @@ interface VariantConfig {
   bundleIdentifier: string;
   scheme: string;
 }
+
+// Native window / root view colour behind every screen. iOS card and sheet presentations scale the
+// presenting screen down and reveal this colour around it, so it must match the app background
+// (`semantic.bg.base`) rather than the platform's white default. Resolved from the token JSON because
+// the config loader runs under plain Node, which cannot load the tokens package's extensionless
+// TypeScript source.
+function resolveColorToken(value: string): string {
+  const alias = /^\{color\.ink\.(\d+)\}$/.exec(value);
+  if (!alias?.[1]) return value;
+  const ink: Record<string, { $value: string } | undefined> = colorTokens.color.ink;
+  const hex = ink[alias[1]]?.$value;
+  if (!hex) throw new Error(`Unknown colour token ${value}`);
+  return hex;
+}
+
+const WINDOW_BACKGROUND = resolveColorToken(semanticTokens.semantic.bg.base.$value);
 
 const EAS_PROJECT_ID = 'c06dadf1-1916-4cf8-8189-f650eaf560ee';
 const APPLE_TEAM_ID = 'YFND2EEW8S';
@@ -97,6 +116,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   orientation: 'portrait',
   icon: './assets/icon.png',
   userInterfaceStyle: 'automatic',
+  backgroundColor: WINDOW_BACKGROUND,
   runtimeVersion: { policy: 'fingerprint' },
   updates: {
     url: `https://u.expo.dev/${EAS_PROJECT_ID}`,
