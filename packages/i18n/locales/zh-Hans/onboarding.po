@@ -171,6 +171,14 @@ msgstr ""
 msgid "onboarding.tag.hiking"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.spending.left.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.mornings.right.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.thrifty"
 msgstr ""
@@ -202,6 +210,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.library"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.natureVsCity.right.label"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
@@ -302,12 +314,12 @@ msgstr ""
 msgid "onboarding.tag.sitDownDining.short"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
-msgid "onboarding.invite.pass.editDone"
-msgstr ""
-
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
+msgid "onboarding.invite.pass.editDone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
@@ -338,6 +350,10 @@ msgstr ""
 msgid "onboarding.home.body"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.natureVsCity.left.label"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
 msgid "onboarding.invite.code.found"
 msgstr ""
@@ -358,6 +374,10 @@ msgstr ""
 msgid "onboarding.pass.givenName"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.pace.left.label"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
 msgid "onboarding.invite.manifest.home"
 msgstr ""
@@ -372,6 +392,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.nature"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.evenings.right.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
@@ -393,6 +417,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
 msgid "onboarding.invite.pass.editHome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.evenings.right.label"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
@@ -447,6 +475,10 @@ msgstr ""
 msgid "onboarding.merge.keepNew"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.evenings.left.label"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.lateStarts.short"
 msgstr ""
@@ -481,6 +513,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.markets.short"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.evenings.left.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.natureVsCity.left.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
@@ -557,6 +597,10 @@ msgstr ""
 msgid "onboarding.taste.onYourPass"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.pace.right.label"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 msgid "onboarding.issued.body"
 msgstr ""
@@ -621,12 +665,24 @@ msgstr ""
 msgid "onboarding.photo.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.food.left.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.sitDownDining"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.resendIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.natureVsCity.right.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.pace.right.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
@@ -693,6 +749,10 @@ msgstr ""
 msgid "onboarding.taste.skip"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.mornings.right.label"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.lateStarts"
 msgstr ""
@@ -725,6 +785,10 @@ msgstr ""
 msgid "onboarding.taste.retake"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.food.left.label"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.streetFood"
 msgstr ""
@@ -733,12 +797,24 @@ msgstr ""
 msgid "onboarding.tag.streetFood.short"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.spending.right.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.spending.right.label"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.earlyStarts.short"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.earlyStarts"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.mornings.left.label"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
@@ -759,6 +835,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 msgid "onboarding.invite.pass.lineBlank"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.food.right.label"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
@@ -861,6 +941,10 @@ msgstr ""
 msgid "onboarding.invite.problem.tripClosedTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.pace.left.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 msgid "onboarding.invite.pass.blank"
 msgstr ""
@@ -894,16 +978,20 @@ msgstr ""
 msgid "onboarding.pass.travelStyle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.spending.left.label"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.splurge"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
-msgid "onboarding.invite.problem.retry"
-msgstr ""
-
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.problem.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
@@ -921,6 +1009,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.mornings.left.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
@@ -991,6 +1083,10 @@ msgstr ""
 msgid "onboarding.home.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
+msgid "onboarding.quiz.food.right.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
 msgid "onboarding.invite.problem.someone"
 msgstr ""
@@ -1027,6 +1123,10 @@ msgstr ""
 msgid "onboarding.invite.problem.offlineTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.disclosure"
 msgstr ""
@@ -1043,17 +1143,13 @@ msgstr ""
 msgid "onboarding.queued.issuePass"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
-msgid "onboarding.phone.title"
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
+msgid "onboarding.issued.title"
 msgstr ""
 
 #. placeholder {0}: printedName || notYet
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.a11y"
-msgstr ""
-
-#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
-msgid "onboarding.issued.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx

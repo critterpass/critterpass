@@ -23,6 +23,7 @@ import { degrees, makeStyles, useTheme } from '@/ui/theme';
 import type { QuizQuestionItem } from '../content';
 import { CARD_BOB, useOnboardingLoop } from '../motion';
 import { cardArt } from './card-art';
+import { quizCardWords } from './quiz-copy';
 
 export const FLING_PX = 480;
 const FLING_DEG = 50;
@@ -83,7 +84,7 @@ export function QuizCard({
   const drag = useSharedValue(0);
   const fling = useSharedValue(0);
   const rise = useSharedValue(full ? 0 : 1);
-  const content = question[side];
+  const content = quizCardWords(question, side);
   const top = side === 'left';
 
   useEffect(() => {
