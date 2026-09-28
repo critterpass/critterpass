@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# From the splash (3a-1) through the name page (3a-2) to the photo page (3a-3).
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- tapOn:
+    id: 'onboarding-open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-name-field'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-name-field'
+- inputText: 'Winston'
+- hideKeyboard
+- tapOn:
+    id: 'onboarding-name-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-photo'
+    timeout: 10000

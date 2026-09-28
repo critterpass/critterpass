@@ -52,3 +52,8 @@ export const blockedNamesFileSchema = z
 
 /** The quiz items the app bundles (release envelope checked by the package tests). */
 export const onboardingQuizItemsSchema = z.array(quizQuestionItemSchema).length(QUIZ_LENGTH);
+
+export const dialCodesFileSchema = z.record(
+  z.string().regex(/^[A-Z]{2}$/u),
+  z.string().regex(/^[1-9]\d{0,3}$/u),
+);

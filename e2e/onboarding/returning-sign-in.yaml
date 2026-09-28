@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# A returning user signs in from the splash instead of making a new pass. Reaching the merge step
+# needs the api's test phone number; without it the flow checks the returning sign-in page.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-sign-in'
+    timeout: 60000
+- tapOn:
+    id: 'onboarding-sign-in'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-phone'
+    timeout: 10000
+- assertVisible:
+    id: 'phone-country'
+- assertVisible:
+    id: 'phone-google'

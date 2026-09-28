@@ -1,0 +1,58 @@
+appId: app.critterpass.dev
+---
+# A new user's whole first run on iOS: 3a-1 → 3a-9 → Home, then a relaunch stays Home.
+- launchApp:
+    clearState: true
+- runFlow: subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-guides-ajo'
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+- repeat:
+    times: 6
+    commands:
+      - tapOn:
+          id: 'taste-card-right'
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'taste-done'
+- tapOn:
+    id: 'home-search'
+- inputText: 'Singapore'
+- tapOn:
+    id: 'home-row-SIN'
+- hideKeyboard
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-issued-save'
+- tapOn:
+    id: 'save-not-now'
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer-later'
+    timeout: 10000
+- tapOn:
+    id: 'permissions-primer-later'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 10000
+- assertNotVisible:
+    id: 'onboarding-open'
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- assertNotVisible:
+    id: 'onboarding-open'

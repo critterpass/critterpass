@@ -1,0 +1,45 @@
+appId: app.critterpass.dev
+---
+# The same first run on Android (arm64 emulator), with the system back gesture on the save sheet.
+- launchApp:
+    clearState: true
+- runFlow: subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+- repeat:
+    times: 6
+    commands:
+      - tapOn:
+          id: 'taste-card-left'
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'taste-done'
+- tapOn:
+    id: 'home-search'
+- inputText: 'SGN'
+- tapOn:
+    id: 'home-row-SGN'
+- hideKeyboard
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-issued-save'
+- back
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer'
+    timeout: 10000
+- tapOn:
+    id: 'permissions-primer-go'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 10000

@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# First launch with no signal: the whole pass is made and issued on the device (placeholder number
+# with SYNCING), then signal returns and the queued issue goes up.
+- setAirplaneMode: enabled
+- launchApp:
+    clearState: true
+- runFlow: subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+- repeat:
+    times: 6
+    commands:
+      - tapOn:
+          id: 'taste-skip'
+- tapOn:
+    id: 'taste-done'
+- tapOn:
+    id: 'home-search'
+- inputText: 'KUL'
+- tapOn:
+    id: 'home-row-KUL'
+- hideKeyboard
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- assertVisible:
+    text: 'CP-····'
+- setAirplaneMode: disabled

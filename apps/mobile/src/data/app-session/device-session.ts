@@ -17,7 +17,12 @@ import { createMMKV } from 'react-native-mmkv';
 
 import { createLinkResolverClient, type ClaimDevice } from '../../lib/links/resolver-client';
 import type { FixUpload } from '../../lib/location';
-import { createAuthDataLayer, createMobileAuthClient, type MobileAuthClient } from '../auth';
+import {
+  createAuthDataLayer,
+  createMobileAuthClient,
+  type AuthDataLayer,
+  type MobileAuthClient,
+} from '../auth';
 import { createDeviceResolver } from '../commands/device';
 import type { ExtensionOutbox } from '../commands/drain-extension-outbox';
 import { resolveApiBaseUrl } from '../places/apiBaseUrl';
@@ -72,8 +77,17 @@ function authClient(): MobileAuthClient {
   return client;
 }
 
-async function sessionHeaders(): Promise<Record<string, string>> {
+/** The session cookie for authenticated api requests outside the command path (presign, geo). */
+export async function sessionHeaders(): Promise<Record<string, string>> {
   return { cookie: await authClient().getCookie() };
+}
+
+let auth: AuthDataLayer | null = null;
+
+/** The auth flows screens run (save your pass, phone sign-in, returning sign-in), on the app's one client. */
+export function deviceAuth(): AuthDataLayer {
+  auth ??= createAuthDataLayer(authClient());
+  return auth;
 }
 
 let starting: Promise<AppSession> | null = null;
@@ -115,7 +129,7 @@ function createSession(): Promise<AppSession> {
   if (group === null) {
     return Promise.reject(new Error('configureDeviceAppGroup must run before the session starts'));
   }
-  const auth = createAuthDataLayer(authClient());
+  const auth = deviceAuth();
   return startAppSession({
     writeEndpoints: () =>
       group.writeEndpointsConfig(

@@ -1,7 +1,9 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import Constants from 'expo-constants';
-import { Link } from 'expo-router';
+import { Link, Redirect } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+
+import { useGateDecision } from '@/lib/navigation/gates';
 
 function readAppVariant(): string {
   const raw: unknown = Constants.expoConfig?.extra?.appVariant;
@@ -14,6 +16,8 @@ const DEV_TOOLS_ROUTE = '/(dev)';
 
 export default function HomeScreen() {
   const { t } = useLingui();
+  // New and mid-onboarding sessions start at the pass flow (3a-1) instead of Home.
+  const gate = useGateDecision();
   const appName = Constants.expoConfig?.name ?? 'CritterPass';
   const appVariant = readAppVariant();
   // Never in production: Metro still bundles this route file (it isn't under (dev)), but the
@@ -21,6 +25,8 @@ export default function HomeScreen() {
   // (tools/scripts/check-release-bundle.ts), so the entry itself must also stay hidden there
   // rather than linking to a route that no longer exists.
   const showDevTools = appVariant !== 'production';
+  if (gate.kind === 'wait') return null;
+  if (gate.kind === 'redirect') return <Redirect href={gate.href} />;
 
   return (
     <View style={styles.container}>
