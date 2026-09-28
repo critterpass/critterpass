@@ -1,7 +1,8 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { View } from 'react-native';
-import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import { GestureDetector } from 'react-native-gesture-handler';
+import type { GestureType } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
 import type { Critter } from '@cp/critter-art';
@@ -57,6 +58,12 @@ const useStyles = makeStyles((t) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  tapArea: {
+    width: FAB_SIZE + 2 * FAB_RING,
+    height: FAB_SIZE + 2 * FAB_RING,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   face: {
     width: FAB_SIZE,
     height: FAB_SIZE,
@@ -65,6 +72,23 @@ const useStyles = makeStyles((t) => ({
     justifyContent: 'center',
   },
 }));
+
+/**
+ * One gesture per native view. On iOS, gesture-handler retries attaching a handler until its view
+ * is in the window, but every handler on one view spends a shared retry budget, so a FAB mounted
+ * during a screen push lost the second gesture of a composed pair (its tap never fired). The ring
+ * carries the long-press, the full-size tap area inside it carries the tap, and the tap waits for
+ * the long-press to fail, as `Gesture.Exclusive(longPress, tap)` would on a single view.
+ */
+export function guideFabGestures(
+  longPress: GestureType,
+  tap: GestureType,
+): { readonly ring: GestureType; readonly tapArea: GestureType } {
+  return {
+    ring: longPress.withTestId('guide-fab-long-press'),
+    tapArea: tap.requireExternalGestureToFail(longPress).withTestId('guide-fab-tap'),
+  };
+}
 
 /**
  * The raised centre slot of the tab bar: the context guide's sticker on the guide colour. Tap asks
@@ -112,8 +136,10 @@ export function GuideFab() {
   ];
   const interactive = actions.length > 0;
 
+  const gestures = guideFabGestures(longPress.gesture, press.gesture);
+
   return (
-    <GestureDetector gesture={Gesture.Exclusive(longPress.gesture, press.gesture)}>
+    <GestureDetector gesture={gestures.ring}>
       <Animated.View
         testID="guide-fab"
         accessible
@@ -126,17 +152,21 @@ export function GuideFab() {
         }}
         style={[styles.ring, press.animatedStyle]}
       >
-        <View style={[styles.face, { backgroundColor: tokens.guide[guideId] }]}>
-          <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-            <Sticker
-              kind={critter.kind}
-              name={critter.name}
-              seed={canonicalSeed(critter)}
-              pose="idle"
-              size={STICKER_SIZE}
-            />
+        <GestureDetector gesture={gestures.tapArea}>
+          <View testID="guide-fab-tap-area" style={styles.tapArea}>
+            <View style={[styles.face, { backgroundColor: tokens.guide[guideId] }]}>
+              <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+                <Sticker
+                  kind={critter.kind}
+                  name={critter.name}
+                  seed={canonicalSeed(critter)}
+                  pose="idle"
+                  size={STICKER_SIZE}
+                />
+              </View>
+            </View>
           </View>
-        </View>
+        </GestureDetector>
       </Animated.View>
     </GestureDetector>
   );
