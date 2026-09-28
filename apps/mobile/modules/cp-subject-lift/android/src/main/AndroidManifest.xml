@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <application>
+    <!-- Google Play services downloads the subject segmentation model when the app is installed,
+         so the first photo avatar does not wait for it. -->
+    <meta-data
+      android:name="com.google.mlkit.vision.DEPENDENCIES"
+      android:value="subject_segment" />
+  </application>
+</manifest>

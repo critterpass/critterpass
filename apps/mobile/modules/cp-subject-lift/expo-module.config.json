@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["CpSubjectLiftModule"]
+  },
+  "android": {
+    "modules": ["app.critterpass.subjectlift.CpSubjectLiftModule"]
+  }
+}

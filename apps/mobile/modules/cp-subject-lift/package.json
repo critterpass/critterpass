@@ -1,0 +1,9 @@
+{
+  "name": "cp-subject-lift",
+  "version": "1.0.0",
+  "private": true,
+  "description": "On-device subject lift for photo avatars: iOS Vision foreground instance mask and Android ML Kit subject segmentation turn a photo into a cut-out PNG with alpha, plus the square avatar PNG (cut-out or circle crop) that gets uploaded.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}
