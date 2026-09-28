@@ -15,6 +15,7 @@ import {
   adminFlagsResponseSchema,
   auditChangeSchema,
   auditValueLabel,
+  canSetConfigKey,
   changesFrom,
   configKey,
   flagAudienceSchema,
@@ -78,6 +79,11 @@ function flagSummary(key: string, changes: readonly AuditChange[]): string {
   return `${key} · ${field}${auditValueLabel(change.before)} → ${auditValueLabel(change.after)}`;
 }
 
+/** The flags list; `services` keys (kill switches, caps, ops timings) have their own screen. */
+const flagKeys = Object.entries(CONFIG_KEYS).filter(
+  ([, definition]) => definition.group !== 'services',
+);
+
 export function flagsArea(pool: pg.Pool) {
   return defineAdminArea({
     id: 'flags',
@@ -94,7 +100,7 @@ export function flagsArea(pool: pg.Pool) {
                       cc.value AS client_value, cc.key IS NOT NULL AS projected
                FROM ops.ops_config c LEFT JOIN client_config cc ON cc.key = c.key
                WHERE c.key = ANY($1::text[])`,
-              [Object.keys(CONFIG_KEYS)],
+              [flagKeys.map(([key]) => key)],
             );
             return new Map(result.rows.map((row) => [row.key, row]));
           });
@@ -102,7 +108,7 @@ export function flagsArea(pool: pg.Pool) {
             [...rows.values()].flatMap((row) => (row.updated_by ? [row.updated_by] : [])),
           );
           return {
-            items: Object.entries(CONFIG_KEYS).map(([key, definition]) => {
+            items: flagKeys.map(([key, definition]) => {
               const row = rows.get(key);
               const audience = flagAudienceSchema.safeParse(row?.audience);
               return {
@@ -111,6 +117,9 @@ export function flagsArea(pool: pg.Pool) {
                 is_public: definition.isPublic,
                 critical: definition.critical,
                 managed_by: definition.managedBy ?? null,
+                group: definition.group,
+                roles: definition.roles ? [...definition.roles] : null,
+                note: definition.note ?? null,
                 value: row?.value ?? null,
                 audience: audience.success ? audience.data : FLAG_AUDIENCE_ALL,
                 version: row?.version ?? 0,
@@ -175,6 +184,9 @@ export function flagsArea(pool: pg.Pool) {
           if (definition === undefined) {
             throw new DomainError('VALIDATION', { reason: 'unknown_key', key: payload.key });
           }
+          const allowed = canSetConfigKey(ctx.admin.roles, definition.roles);
+          if (!allowed.ok)
+            throw new DomainError(allowed.deny, { reason: 'key_role', key: payload.key });
           if (definition.managedBy !== undefined) {
             throw new DomainError('STATE_INVALID', {
               reason: `managed_by_${definition.managedBy}`,

@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
-import { canOpenAdminArea, canRunAdminCommand, openableAdminAreas } from './policy';
+import { configKey } from './config-keys';
+import {
+  ADMIN_AREA_ROLES,
+  ADMIN_AREAS,
+  canOpenAdminArea,
+  canRunAdminCommand,
+  canSetConfigKey,
+  openableAdminAreas,
+} from './policy';
 import { parseAdminRoles, serializeAdminRoles } from './roles';
 
 describe('admin roles', () => {
@@ -35,6 +43,39 @@ describe('admin policy', () => {
   });
 
   it('lists only the areas a role may open', () => {
-    expect(openableAdminAreas(['support'])).toEqual(['home', 'moderation', 'support', 'feedback']);
+    expect(openableAdminAreas(['support'])).toEqual([
+      'home',
+      'work',
+      'moderation',
+      'support',
+      'feedback',
+      'billing',
+    ]);
+  });
+
+  it('gives every area a non-empty role list and keeps operators to the owner', () => {
+    for (const area of ADMIN_AREAS) expect(ADMIN_AREA_ROLES[area].length).toBeGreaterThan(0);
+    expect(ADMIN_AREA_ROLES.operators).toEqual(['owner']);
+    expect(canOpenAdminArea(['ops'], 'operators').ok).toBe(false);
+    expect(canOpenAdminArea(['content'], 'community').ok).toBe(true);
+  });
+
+  it('assigns the console commands their roles', () => {
+    expect(canRunAdminCommand(['ops'], 'redrive_jobs').ok).toBe(true);
+    expect(canRunAdminCommand(['support'], 'redrive_jobs').ok).toBe(false);
+    expect(canRunAdminCommand(['ops'], 'revoke_admin_sessions').ok).toBe(false);
+    expect(canRunAdminCommand(['content'], 'approve_content_batch').ok).toBe(false);
+    expect(canRunAdminCommand(['support'], 'claim_work_item').ok).toBe(true);
+  });
+});
+
+describe('per-key roles', () => {
+  it('keeps tier switches and spend caps to the owner', () => {
+    const tier = configKey('ai.tier.pro.enabled');
+    expect(canSetConfigKey(['ops'], tier?.roles)).toEqual({ ok: false, deny: 'FORBIDDEN' });
+    expect(canSetConfigKey(['owner'], tier?.roles).ok).toBe(true);
+    expect(canSetConfigKey(['ops'], configKey('ai.cap.daily_usd')?.roles).ok).toBe(false);
+    expect(canSetConfigKey(['ops'], configKey('ai.guide.chat.enabled')?.roles).ok).toBe(true);
+    expect(canSetConfigKey(['support'], undefined).ok).toBe(false);
   });
 });

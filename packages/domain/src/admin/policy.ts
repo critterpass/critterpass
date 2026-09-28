@@ -8,6 +8,7 @@ import { effectiveAdminRoles, type AdminRole } from './roles';
 
 export const ADMIN_AREAS = [
   'home',
+  'work',
   'catalogue',
   'content',
   'flags',
@@ -17,7 +18,11 @@ export const ADMIN_AREAS = [
   'desk',
   'jobs',
   'feedback',
+  'billing',
+  'community',
+  'services',
   'audit',
+  'operators',
 ] as const;
 export type AdminArea = (typeof ADMIN_AREAS)[number];
 
@@ -25,6 +30,7 @@ const EVERY_ROLE: readonly AdminRole[] = ['owner', 'ops', 'content', 'support'];
 
 export const ADMIN_AREA_ROLES: Readonly<Record<AdminArea, readonly AdminRole[]>> = {
   home: EVERY_ROLE,
+  work: EVERY_ROLE,
   catalogue: ['content'],
   content: ['content'],
   flags: ['ops'],
@@ -34,7 +40,11 @@ export const ADMIN_AREA_ROLES: Readonly<Record<AdminArea, readonly AdminRole[]>>
   desk: ['ops'],
   jobs: ['ops'],
   feedback: ['support'],
+  billing: ['support'],
+  community: ['ops', 'content'],
+  services: ['ops'],
   audit: ['owner', 'ops'],
+  operators: ['owner'],
 };
 
 /** Roles allowed to run each admin command (docs/api-contracts.md §4.17). */
@@ -61,6 +71,11 @@ export const ADMIN_COMMAND_ROLES: Readonly<Record<string, readonly AdminRole[]>>
   create_concierge_task: ['ops'],
   update_concierge_task: ['ops'],
   set_admin_role: ['owner'],
+  revoke_admin_sessions: ['owner'],
+  claim_work_item: EVERY_ROLE,
+  release_work_item: EVERY_ROLE,
+  redrive_jobs: ['ops'],
+  replay_webhook: ['ops'],
 };
 
 function holdsAny(roles: readonly AdminRole[], allowed: readonly AdminRole[]): boolean {
@@ -75,6 +90,15 @@ export function canOpenAdminArea(roles: readonly AdminRole[], area: AdminArea): 
 export function canRunAdminCommand(roles: readonly AdminRole[], command: string): PolicyResult {
   const allowed = ADMIN_COMMAND_ROLES[command] ?? ['owner'];
   return holdsAny(roles, allowed) ? ALLOW : deny('FORBIDDEN');
+}
+
+/** A config key's own roles narrow `set_feature_flag` (tier switches and spend caps: owner). */
+export function canSetConfigKey(
+  roles: readonly AdminRole[],
+  keyRoles: readonly AdminRole[] | undefined,
+): PolicyResult {
+  if (!canRunAdminCommand(roles, 'set_feature_flag').ok) return deny('FORBIDDEN');
+  return keyRoles === undefined || holdsAny(roles, keyRoles) ? ALLOW : deny('FORBIDDEN');
 }
 
 /** The areas a role set may open, in navigation order. */

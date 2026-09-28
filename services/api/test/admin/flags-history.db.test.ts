@@ -2,7 +2,7 @@
  * A config key's history: each `set_feature_flag` keeps the value it replaced and the operator's
  * reason, newest first.
  */
-import { flagHistoryResponseSchema } from '@cp/domain';
+import { adminFlagsResponseSchema, flagHistoryResponseSchema } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { startAdminHarness, type AdminHarness, type TestApp } from './harness';
@@ -77,5 +77,22 @@ describe('flag history', () => {
       [],
     );
     expect((await history('guide.free_daily_limit', support)).status).toBe(403);
+  });
+
+  it('keeps services keys off the flags list and tier switches to the owner', async () => {
+    const list = await app.request('/v1/admin/flags', { headers: { cookie: ops } });
+    const { items } = adminFlagsResponseSchema.parse(await list.json());
+    expect(items.some((item) => item.key === 'ai.tier.pro.enabled')).toBe(false);
+    expect(items.find((item) => item.key === 'seat.cap_free')).toMatchObject({ group: 'limits' });
+    const denied = await app.command(ops, 'set_feature_flag', {
+      key: 'ai.tier.pro.enabled',
+      value: false,
+      audience: { kind: 'all' },
+      version: 0,
+    });
+    expect(denied.status).toBe(403);
+    expect(await denied.json()).toMatchObject({
+      error: { code: 'FORBIDDEN', detail: { reason: 'key_role' } },
+    });
   });
 });

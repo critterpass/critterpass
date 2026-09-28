@@ -57,3 +57,15 @@ export function auditValueLabel(value: unknown): string {
   const text = JSON.stringify(value);
   return text.length > 60 ? `${text.slice(0, 59)}…` : text;
 }
+
+/** One `set_feature_flag` of a key, newest first in `GET /v1/admin/flags/{key}/history`. */
+export const flagHistoryEntrySchema = z.object({
+  at: z.iso.datetime({ offset: true }),
+  admin: z.string(),
+  summary: z.string(),
+  changes: z.array(auditChangeSchema),
+  reason: z.string().nullable(),
+  via: adminAuditViaSchema.nullable(),
+});
+export type FlagHistoryEntry = z.infer<typeof flagHistoryEntrySchema>;
+export const flagHistoryResponseSchema = z.object({ items: z.array(flagHistoryEntrySchema) });
