@@ -149,6 +149,21 @@ export const QUEUES = {
   // Re-prices one trip; keyed per trip so a burst of input changes folds into one queued run,
   // and the handler is a no-op when the input hash has not moved.
   'cost.recompute': spec({ policy: 'exclusive', notify: true }),
+  // Location retention: live fixes expire after 15 minutes (open SOS kept), visits after their
+  // trip is archived + 30 days.
+  'location.fixes_ttl': spec({
+    policy: 'stately',
+    retryLimit: 1,
+    expireInSeconds: 55,
+    keepCompletedSeconds: 3600,
+    cron: { expr: '* * * * *', tz: 'UTC' },
+  }),
+  'visits.ttl': spec({
+    policy: 'stately',
+    expireInSeconds: 10 * 60,
+    keepCompletedSeconds: 86_400,
+    cron: { expr: '5 * * * *', tz: 'UTC' },
+  }),
   'ops.backup': spec({
     policy: 'stately',
     retryLimit: 2,

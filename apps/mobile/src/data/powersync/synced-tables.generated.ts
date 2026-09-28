@@ -60,6 +60,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'code target_kind target_id crew_id created_by expires_at max_uses:integer uses:integer status created_at updated_at',
   legendary_windows:
     'key form_id place_line rule months solar challenge source_url release_id created_at updated_at',
+  location_shares: 'trip_id user_id reason starts_at ends_at paused:integer created_at updated_at',
   map_regions: 'destination_id pmtiles_key bytes:integer version created_at updated_at',
   notification_prefs:
     'user_id budget_per_day:integer roundup_time roundup_tz quiet_from quiet_to guide_tips:integer money:integer critters_nearby:integer crew_chat_mode leave_by_dnd:integer per_category voice_readout:integer created_at updated_at',

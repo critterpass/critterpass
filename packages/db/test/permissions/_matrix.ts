@@ -379,6 +379,60 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: OWNER_READ,
   },
+  // Location (RLS T for shares and ETAs; fixes have no app_user SELECT at all; visits owner-only).
+  location_shares: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM location_shares WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, true, false),
+      coOrganiser: op(true, true, false),
+      organiser: op(true, true, true),
+    },
+  },
+  location_fixes: {
+    selectProbe: { sql: 'SELECT 1 FROM location_fixes LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: op(false, true, false),
+    },
+  },
+  member_etas: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM member_etas WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  visits: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM visits WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(true, true, true),
+    },
+  },
   destination_cost_indices: {
     selectProbe: { sql: 'SELECT count(*) FROM destination_cost_indices', params: () => [] },
     expectations: READ_ONLY_ALL,

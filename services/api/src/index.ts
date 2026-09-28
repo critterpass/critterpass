@@ -27,20 +27,16 @@ import {
 } from './routes/auth-extra';
 import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerWhatsAppWebhookRoutes } from './routes/webhooks-whatsapp';
-import { createCommandRegistry } from './commands/_framework/registry';
-import { registerDeviceCommands } from './commands/device';
-import { approveOpsActionCommand } from './commands/approve-ops-action';
-import { reportContentCommand } from './commands/report-content';
 import { betterAuthSessionResolver } from './commands/_framework/session';
 import { registerCmdResultsRoute } from './routes/cmd-results';
+import { createAppCommandRegistry } from './commands/catalogue';
 import { registerCommandRoute } from './routes/cmd';
+import { registerLocationRouteFromEnv } from './routes/loc';
 import { registerSyncUploadRoute } from './routes/sync-upload';
 import { registerJobsRoute } from './ai/jobs-route';
 import { registerTravelDataRoutes } from './travel-data/routes';
 import { registerCostRoutes } from './cost/routes';
-import { undoGuideActionCommand } from './ai/undo-guide-action';
 import { createR2Client } from './media/r2';
-import { registerMediaUploadCommand } from './media/register-media-upload';
 import { mediaSigningConfigFromEnv } from './media/sign';
 import { registerMediaRoutes } from './routes/media';
 import { createMapboxRoutingProvider } from './routing/eta';
@@ -205,12 +201,7 @@ const serverAnalytics = createServerAnalytics({
 });
 
 // The three command doors over one registry (docs/api-contracts.md §2.2, §5.2).
-const commands = createCommandRegistry();
-commands.register(registerMediaUploadCommand);
-registerDeviceCommands(commands);
-commands.register(undoGuideActionCommand);
-commands.register(reportContentCommand);
-commands.register(approveOpsActionCommand);
+const commands = createAppCommandRegistry();
 
 // Links (docs/api-contracts.md §5.6): providers per link kind, the claim command, public routes.
 const linkProviders = createLinkProviderRegistry();
@@ -240,6 +231,7 @@ const commandDoors = {
 registerCommandRoute(app, commandDoors);
 registerSyncUploadRoute(app, commandDoors);
 registerCmdResultsRoute(app, commandDoors);
+registerLocationRouteFromEnv(app, commandDoors, env);
 registerJobsRoute(app, commandDoors);
 registerTravelDataRoutes(app, commandDoors);
 registerCostRoutes(app, commandDoors);

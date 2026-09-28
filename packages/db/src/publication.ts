@@ -49,6 +49,8 @@ import * as schema from './schema';
  * `fare_cells` (packages/db/src/schema/travel-data.ts) is RLS "R" but served over HTTP only
  * (`/v1/fares`, `/v1/destinations/{id}`): nightly fare cells for every origin are too many rows, and
  * too volatile, for a client to hold.
+ * `member_etas` (packages/db/src/schema/location.ts) is crew-visible (C1) but realtime only: ETAs
+ * reach the crew over Centrifugo `trip_locations:`, gated per share reason, never through sync.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -59,6 +61,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'fare_cells',
   'install_attributions',
   'media_objects',
+  'member_etas',
   'moderation_reports',
   'persona_packs',
   'poi_embeddings',

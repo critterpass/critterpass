@@ -118,6 +118,10 @@ export const apiEnvSchema = z.object({
    *  `CENTRIFUGO_CHANNEL_PROXY_*_HTTP_STATIC_HEADERS`); unset = the proxy routes are not mounted and
    *  every proxied subscribe fails closed. Generate with `openssl rand -base64 32`. */
   RT_PROXY_SECRET: z.preprocess(emptyAsUndefined, z.string().min(32).optional()),
+  /** Centrifugo HTTP server API base (same value as the worker's) and its key. Both set = live
+   *  location fixes (`POST /v1/loc`) are broadcast directly; unset = fixes are stored only. */
+  CENTRIFUGO_API_URL: optionalUrl,
+  CENTRIFUGO_HTTP_API_KEY: optionalString,
 
   // --- Media (docs/api-contracts.md §5.4): R2 over its S3-compatible API plus the HMAC key set the
   // media Worker verifies read URLs with. The media routes register only when all are set. ---

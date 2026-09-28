@@ -33,6 +33,7 @@ export {
   joinCodes,
 } from './links';
 export { consents, mediaObjects, userSettings, users } from './identity';
+export { locationFixes, locationShares, memberEtas, visits } from './location';
 export {
   devices,
   inboxItems,

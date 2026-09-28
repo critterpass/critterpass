@@ -287,3 +287,5 @@ export * from './analytics';
 export * from './redact';
 export * from './flags';
 export * from './obs';
+export * from './permissions';
+export * from './location';
