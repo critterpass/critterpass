@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-28.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "10754cc3-1846-437e-ba6e-de7a6c56f977",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"tags\":[\"beach\",\"early_starts\"],\"line\":\"Mai's a sunrise surfer, so the beach comes first.\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 171,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 29,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

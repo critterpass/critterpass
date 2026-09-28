@@ -274,7 +274,13 @@ export function notifyRouteSingletonKey(job: NotifyRouteJob): string {
  * matching audience and copy with the worker's `registerNotification`, which refuses a key that
  * is not declared here, so the api and the worker never disagree about what gets routed.
  */
-const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>> = {};
+const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>> = {
+  // Crew growth: a freed seat offered to the next person waiting, an in-app crew invite to someone
+  // already on CritterPass, and the one nudge an installed invitee gets after a day.
+  'trip.seat_opened': ['seat_opened'],
+  'invite.created': ['crew_invite_received'],
+  'invite.nudged': ['nudge'],
+};
 
 const triggers = new Map<string, Set<NotificationKey>>(
   Object.entries(NOTIFICATION_TRIGGERS).map(([event, keys]) => [event, new Set(keys)]),

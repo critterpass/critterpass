@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-28.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "7a7a72c0-8969-41a1-b0af-d59ae533ded5",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Welcome to Office Escape, Tom, the twelve of us are glad you made it."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 397,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 17,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

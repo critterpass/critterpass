@@ -40,6 +40,8 @@ const EVENT_PROPS = {
   },
   install_attributed: { via },
   invite_prefill_viewed: {},
+  // Invited fast path: link open to the crew manifest (target p50 ≤ 15 s).
+  invite_manifest_reached: { duration_ms: ms, waitlisted: flag },
   pass_issued: { path: oneOf(['new', 'invited']), duration_ms: ms },
   // The onboarding funnel: one event per step reached (resumed steps included).
   onboarding_step: {

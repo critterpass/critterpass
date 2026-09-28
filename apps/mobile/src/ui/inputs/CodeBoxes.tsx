@@ -31,6 +31,8 @@ export interface CodeBoxesProps {
   /** Accessible name ("Verification code", "Gift code"). */
   readonly label: string;
   readonly autoFocus?: boolean;
+  /** Letters as well as digits (crew join codes); a single group is digits-only by default (OTP). */
+  readonly alphanumeric?: boolean;
   readonly testID?: string;
 }
 
@@ -124,6 +126,7 @@ export function CodeBoxes({
   status = 'idle',
   label,
   autoFocus,
+  alphanumeric,
   testID,
 }: CodeBoxesProps) {
   const styles = useStyles();
@@ -131,7 +134,7 @@ export function CodeBoxes({
   const font = useInputFont('inputOtp');
   const reduced = useReducedImpactMotion();
   const length = groups.reduce((sum, size) => sum + size, 0);
-  const numeric = groups.length === 1;
+  const numeric = alphanumeric === undefined ? groups.length === 1 : !alphanumeric;
   const shake = useSharedValue(0);
   const previousStatus = useRef(status);
 

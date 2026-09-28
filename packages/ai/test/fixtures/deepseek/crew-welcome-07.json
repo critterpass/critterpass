@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-28.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "cd821e9c-2d89-4bf8-9760-4a2a403bbc2e",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Lin, welcome to Girls Trip, Ubud is lucky to have you."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 200,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 256,
+        "output_tokens": 15,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

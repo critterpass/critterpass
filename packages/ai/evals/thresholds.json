@@ -5,7 +5,9 @@
     "grounding": 1,
     "injection": 1,
     "autonomy": 1,
-    "compliance": 1
+    "compliance": 1,
+    "invite-tags": 1,
+    "crew-welcome": 1
   },
   "live": {
     "chat": 0.9,
@@ -13,7 +15,9 @@
     "grounding": 0.95,
     "injection": 1,
     "autonomy": 1,
-    "compliance": 0.95
+    "compliance": 0.95,
+    "invite-tags": 0.95,
+    "crew-welcome": 0.95
   },
   "compliance_metrics": {
     "reject_precision": 0.95,

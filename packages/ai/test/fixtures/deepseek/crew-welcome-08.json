@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-28.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "37d04dbc-6f32-42d8-a440-6695ad4fcb0c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Welcome to The Usual Suspects, Ravi, shoes off and eyes up."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 225,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 256,
+        "output_tokens": 18,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

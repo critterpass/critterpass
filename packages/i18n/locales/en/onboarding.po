@@ -7,10 +7,27 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: format.list(locale, names)
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.membersIn"
+msgstr "{0} are in."
+
 #. placeholder {0}: movingCrews.length
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.moving"
 msgstr "{0} crew from this phone will move over too."
+
+#: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
+msgid "onboarding.invite.code.alreadyIn"
+msgstr "{count} already in. {guideName} is guiding."
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.crewFullTitle"
+msgstr "{crew} is full"
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.fullLine"
+msgstr "{crew} is full at {cap}. You join the waitlist and get the next free seat."
 
 #. placeholder {0}: quiz.length
 #: ../../apps/mobile/src/features/onboarding/taste/TasteScreen.tsx
@@ -21,9 +38,97 @@ msgstr "{current} of {0}"
 msgid "onboarding.home.hoursAway"
 msgstr "{hours} h away"
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.revokedLine"
+msgstr "{inviter} cancelled this one. If that was a mistake, they can send another."
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.prefilled"
+msgstr "{inviter} filled in what they know. Change anything."
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.lineTags"
+msgstr "{inviter} gave me a hint. I picked {picked}."
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.saved"
+msgstr "{inviter} saved you a seat"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.referralTitle"
+msgstr "{inviter} sent you"
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.someWaiting"
+msgstr "{members} in. {waiting} more invites haven’t been opened yet."
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.oneWaiting"
+msgstr "{members} in. One more invite hasn’t been opened yet."
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.allIn"
+msgstr "{members} in. That’s everyone invited so far."
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.count"
+msgstr "{members} of {cap}"
+
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.minutesAway"
 msgstr "{minutes} min away"
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.titleNamedCrew"
+msgstr "{name}, {crew} wants you in"
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.titleNamed"
+msgstr "{name}, you’re coming to {place}"
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.title"
+msgstr "{name}’s in"
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.waitlistTitle"
+msgstr "{name}’s next"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.seatOf"
+msgstr "{seatNumber} of {seatCap}"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.waiting"
+msgstr "{waiting} more invited, not in yet."
+
+#: ../../apps/mobile/src/features/onboarding/invited/TravelChips.tsx
+msgid "onboarding.invite.pass.more"
+msgstr "+ More"
+
+#: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
+msgid "onboarding.invite.code.each"
+msgstr "~{each} each"
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.face"
+msgstr "1 · Your face"
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.oneOfOne"
+msgstr "1 of 1"
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.travel"
+msgstr "2 · How you travel"
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.issue"
+msgstr "3 · Issue my pass"
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.titleGeneric"
+msgstr "A seat in {crew}"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.adventure.short"
@@ -41,6 +146,18 @@ msgstr "All skipped. The guides will learn as you go."
 #: ../../apps/mobile/src/features/onboarding/photo/PhotoScreen.tsx
 msgid "onboarding.photo.body"
 msgstr "Any guide works. You’ll earn more faces on the road."
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.tripClosedLine"
+msgstr "Ask {inviter} about the next one."
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.expiredLine"
+msgstr "Ask {inviter} for a fresh link. It takes them two taps."
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.back"
+msgstr "Back"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.beach.short"
@@ -63,13 +180,25 @@ msgstr "Budget hacker"
 msgid "onboarding.save.terms"
 msgstr "By continuing you agree to the Terms and the Privacy Policy."
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.notFoundTitle"
+msgstr "Can’t find that invite"
+
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.change"
 msgstr "Change number"
 
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.edit"
+msgstr "Change your name or home"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.packedDays"
 msgstr "Chaos is fine"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.notFoundLine"
+msgstr "Check the code with whoever sent it, or type it in again."
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.library"
@@ -116,6 +245,22 @@ msgstr "Country"
 msgid "onboarding.phone.pickCountry"
 msgstr "Country code {0}"
 
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.label"
+msgstr "Crew code"
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.eyebrow"
+msgstr "Crew manifest · {crew}"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.seatCrew"
+msgstr "Crew seat"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.a11y"
+msgstr "Crew ticket for {crew}: {dates}, seat {seat}, {each} each."
+
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.coverTitle"
@@ -124,6 +269,10 @@ msgstr "CRITTERPASS"
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.head"
 msgstr "CRITTERPASS · PASSEPORT"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.head"
+msgstr "CritterPass Air · crew ticket"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.culture.short"
@@ -137,6 +286,14 @@ msgstr "Culture fix"
 msgid "onboarding.photo.real.lifting"
 msgstr "Cutting you out…"
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.dates"
+msgstr "Dates"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.datesOpen"
+msgstr "Dates to vote"
+
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.devTools"
 msgstr "Developer tools"
@@ -145,9 +302,17 @@ msgstr "Developer tools"
 msgid "onboarding.tag.sitDownDining.short"
 msgstr "Dinners"
 
+#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
+msgid "onboarding.invite.pass.editDone"
+msgstr "Done"
+
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.done"
 msgstr "Done"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.each"
+msgstr "Each"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.quietEvenings"
@@ -165,13 +330,45 @@ msgstr "Easy"
 msgid "onboarding.tag.easyPace"
 msgstr "Easy-ish pace"
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.usedUpLine"
+msgstr "Every place on it is taken. Ask {inviter} for a new code."
+
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.body"
 msgstr "Flights and budgets start here. It’s also your first stamp."
 
+#: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
+msgid "onboarding.invite.code.found"
+msgstr "Found it · {inviter}’s crew"
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.provenance"
+msgstr "From {inviter}’s contacts"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.rateLimitedLine"
+msgstr "Give it a minute, then try the code again."
+
+#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
+msgid "onboarding.invite.pass.editName"
+msgstr "Given name"
+
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.givenName"
 msgstr "GIVEN NAME · PRÉNOM"
+
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
+msgid "onboarding.invite.manifest.home"
+msgstr "Go home"
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.home"
+msgstr "Go home"
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.title"
+msgstr "Got a code?"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.nature"
@@ -194,6 +391,10 @@ msgstr "Home"
 msgid "onboarding.pass.home"
 msgstr "HOME"
 
+#: ../../apps/mobile/src/features/onboarding/invited/EditPassSheet.tsx
+msgid "onboarding.invite.pass.editHome"
+msgstr "Home airport"
+
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.summaryTitle"
 msgstr "How you travel"
@@ -206,6 +407,10 @@ msgstr "I already have a pass · Sign in"
 msgid "onboarding.splash.invite"
 msgstr "I have an invite code"
 
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestGrid.tsx
+msgid "onboarding.invite.manifest.member"
+msgstr "in"
+
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 msgid "onboarding.issued.stamp"
 msgstr "Issued"
@@ -213,6 +418,26 @@ msgstr "Issued"
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.issued"
 msgstr "ISSUED"
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.join"
+msgstr "Join {crew}"
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.joinWaitlist"
+msgstr "Join {crew}’s waitlist"
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.waitlist"
+msgstr "Join the waitlist"
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.lookAround"
+msgstr "Just look around first"
+
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestGrid.tsx
+msgid "onboarding.invite.manifest.justNow"
+msgstr "just now"
 
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.title"
@@ -230,6 +455,10 @@ msgstr "Lie-ins"
 msgid "onboarding.tag.localLife"
 msgstr "Like a local"
 
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.loading"
+msgstr "Loading your invite"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.localLife.short"
 msgstr "Local"
@@ -237,6 +466,14 @@ msgstr "Local"
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.review"
 msgstr "Looking good. Until it’s checked, your crew sees your initials."
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.problem.startPass"
+msgstr "Make my pass"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.referralLine"
+msgstr "Make your pass and you’re both in for a stamp."
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.markets"
@@ -267,6 +504,10 @@ msgstr "Nearest is {0}. {farLine}"
 msgid "onboarding.name.next"
 msgstr "Next"
 
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.next"
+msgstr "Next you’ll save it with Apple, Google or your number"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.nightlife"
 msgstr "Night owl"
@@ -280,6 +521,10 @@ msgstr "Night owl"
 msgid "onboarding.home.noResults"
 msgstr "No airport called “{0}”. Try a city or a three-letter code."
 
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.wrongToast"
+msgstr "No crew with that code"
+
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.offline"
 msgstr "No signal for the upload"
@@ -291,6 +536,10 @@ msgstr "No signal right now. Your pass is safe on this phone; try again in a mom
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.notNow"
 msgstr "Not now"
+
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestGrid.tsx
+msgid "onboarding.invite.manifest.notYet"
+msgstr "not yet"
 
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
 msgid "onboarding.pass.notYet"
@@ -312,6 +561,10 @@ msgstr "On your pass so far"
 msgid "onboarding.issued.body"
 msgstr "One stamp so far. The guides will help with the rest."
 
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
+msgid "onboarding.invite.manifest.openCrew"
+msgstr "Open the crew"
+
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.open"
 msgstr "Open your pass"
@@ -324,6 +577,10 @@ msgstr "or"
 msgid "onboarding.phone.or"
 msgstr "or"
 
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestGrid.tsx
+msgid "onboarding.invite.manifest.organiser"
+msgstr "organiser"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.packedDays.short"
 msgstr "Packed"
@@ -335,6 +592,10 @@ msgstr "Page {page} of {PAGE_COUNT}"
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.coverMark"
 msgstr "PASSPORT · PASSEPORT"
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.pastedFrom"
+msgstr "Pasted from your clipboard"
 
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.label"
@@ -384,9 +645,21 @@ msgstr "Save your pass"
 msgid "onboarding.saved"
 msgstr "Saved ✓"
 
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
+msgid "onboarding.invite.manifest.sayHi"
+msgstr "Say hi to the crew"
+
 #: ../../apps/mobile/src/features/onboarding/phone/CountryPicker.tsx
 msgid "onboarding.phone.countrySearch"
 msgstr "Search countries"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.seat"
+msgstr "Seat"
+
+#: ../../apps/mobile/src/features/onboarding/invited/ManifestScreen.tsx
+msgid "onboarding.invite.manifest.plan"
+msgstr "See the plan"
 
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.resend"
@@ -407,6 +680,14 @@ msgstr "Shops"
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.returningBody"
 msgstr "Sign in with the number, Apple ID or Google account your pass is saved to."
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.body"
+msgstr "Six letters from whoever invited you. The same code works for a crew or a single trip."
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.crewFullLine"
+msgstr "Sixteen is the most a crew can hold. Ask them to make room."
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.skip"
@@ -468,9 +749,17 @@ msgstr "SYNCING"
 msgid "onboarding.photo.real.camera"
 msgstr "Take a photo"
 
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.ticket.take"
+msgstr "Take the seat"
+
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 msgid "onboarding.issued.saveNote"
 msgstr "Takes ten seconds. No password."
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.lineBlank"
+msgstr "Tap what sounds like you. I’ll plan around it."
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.temples"
@@ -492,6 +781,10 @@ msgstr "That code doesn’t match. Try again."
 msgid "onboarding.phone.expired"
 msgstr "That code has expired. Send a new one."
 
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.wrong"
+msgstr "That code isn’t one we know. Check each letter."
+
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.error.unknown"
 msgstr "That didn’t work. Try again, or use another way."
@@ -511,6 +804,10 @@ msgstr "That sign-in isn’t available on this phone. Try another way."
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.error.expired"
 msgstr "That took a while. Sign in again to continue."
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.crewLimitTitle"
+msgstr "That’s a lot of crews"
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.limitTitle"
@@ -536,6 +833,22 @@ msgstr "The camera is off for CritterPass. You can still choose a photo."
 msgid "onboarding.phone.sendFailed"
 msgstr "The code didn’t send. Check your signal and try again."
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.theCrew"
+msgstr "The crew"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.usedUpTitle"
+msgstr "This code is used up"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.expiredTitle"
+msgstr "This invite ran out"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.revokedTitle"
+msgstr "This invite was taken back"
+
 #: ../../apps/mobile/src/features/onboarding/taste/TasteScreen.tsx
 msgid "onboarding.taste.title"
 msgstr "This or that"
@@ -544,9 +857,21 @@ msgstr "This or that"
 msgid "onboarding.merge.body"
 msgstr "This sign-in belongs to a pass you made before. Use that one, or keep the new pass on this phone."
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.tripClosedTitle"
+msgstr "This trip is over"
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.blank"
+msgstr "Three taps and you’re in the crew."
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.thrifty.short"
 msgstr "Thrifty"
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.back"
+msgstr "Ticket"
 
 #: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
 msgid "onboarding.phone.limited"
@@ -556,6 +881,10 @@ msgstr "Too many codes for now. Try again a bit later."
 #: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
 msgid "onboarding.phone.limitedFor"
 msgstr "Too many codes for now. Try again in {0} min."
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.rateLimitedTitle"
+msgstr "Too many tries"
 
 #: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
 msgid "onboarding.phone.tooMany"
@@ -569,6 +898,10 @@ msgstr "TRAVEL STYLE"
 msgid "onboarding.tag.splurge"
 msgstr "Treat yourself"
 
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.problem.retry"
+msgstr "Try again"
+
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.retry"
 msgstr "Try again"
@@ -581,6 +914,10 @@ msgstr "Try again a bit later, or pick a guide for now."
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.limitMinutes"
 msgstr "Try again in {0} min, or pick a guide for now."
+
+#: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
+msgid "onboarding.invite.problem.typeCode"
+msgstr "Type a code instead"
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.undo"
@@ -642,6 +979,10 @@ msgstr "We’ll ask"
 msgid "onboarding.phone.returningTitle"
 msgstr "Welcome back"
 
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.welcome"
+msgstr "Welcome, {name}. Glad you made it."
+
 #: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
 msgid "onboarding.name.title"
 msgstr "What should the guides call you?"
@@ -650,9 +991,41 @@ msgstr "What should the guides call you?"
 msgid "onboarding.home.title"
 msgstr "Where’s home?"
 
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.someone"
+msgstr "whoever sent it"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.eachLater"
+msgstr "Worked out together"
+
+#: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
+msgid "onboarding.invite.code.wrongCrew"
+msgstr "Wrong crew? Ask {inviter} for a new code"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.you"
+msgstr "You"
+
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.title"
 msgstr "You already have a pass"
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.waitlistFirst"
+msgstr "You’re in {crew} and next for a seat. When one frees up, you get a day to take it."
+
+#: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
+msgid "onboarding.invite.manifest.waitlistBody"
+msgstr "You’re in {crew} and number {position} for a seat. When one frees up, you get a day to take it."
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.crewLimitLine"
+msgstr "You’re in ten already. Leave one and this seat is yours."
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.offlineTitle"
+msgstr "You’re offline"
 
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.disclosure"
@@ -686,6 +1059,14 @@ msgstr "Your pass is ready"
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.tagline"
 msgstr "Your pass to every place, and the locals who live there."
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.title"
+msgstr "Your pass, three taps"
+
+#: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
+msgid "onboarding.invite.problem.offlineLine"
+msgstr "Your seat waits. Try again once you have signal."
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.zoom"

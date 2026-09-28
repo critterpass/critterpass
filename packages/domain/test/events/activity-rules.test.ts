@@ -13,7 +13,9 @@ import { projectActivity } from '../../src/events/activity-rules';
  * `moderation.decided` is an ops verdict consumed by the reported content's owner; support
  * entitlement grants concern one account. A device's permission mirror and a POI visit are private
  * to their owner (visits are owner-only by design). Pass and profile changes reach the crew as
- * synced rows and a `member.updated` hint, not as ticker lines.
+ * synced rows and a `member.updated` hint, not as ticker lines. Crew lifecycle and invite events
+ * describe a crew, a link or one person's answer, not a trip moment; seat offers and referral
+ * progress are private to the person they concern (a taken seat shows as `seat_offer.accepted`).
  */
 const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'auth.merged',
@@ -31,6 +33,18 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'profile.updated',
   'profile.taste_changed',
   'profile.avatar_changed',
+  'crew.created',
+  'crew.updated',
+  'crew.code_rotated',
+  'user.active_crew_changed',
+  'invite.created',
+  'invite.claimed',
+  'invite.deferred',
+  'invite.declined',
+  'invite.revoked',
+  'invite.nudged',
+  'trip.seat_opened',
+  'referral.progressed',
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

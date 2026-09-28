@@ -62,13 +62,13 @@ describe('crew_members RLS: write', () => {
   it('lets a member update their own row', async () => {
     await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
       await tx.query(
-        "UPDATE crew_members SET notify_level = 'muted' WHERE crew_id = $1 AND user_id = $2",
+        "UPDATE crew_members SET notify_level = 'off' WHERE crew_id = $1 AND user_id = $2",
         [fixture.crewId, fixture.memberId],
       );
     });
     const rows = await selectMembers(fixture.organiserId);
     const row = rows.find((r) => r.user_id === fixture.memberId);
-    expect(row).toMatchObject({ notify_level: 'muted' });
+    expect(row).toMatchObject({ notify_level: 'off' });
   });
 
   it("does not let a member update another member's row (row excluded, no change)", async () => {

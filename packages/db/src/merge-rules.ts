@@ -205,3 +205,14 @@ registerMergeRule({
   strategy: 'reassign',
   personal: true,
 });
+
+// Crew growth: a seat offer follows its holder (a clash with the existing account's own offer on
+// the same trip keeps the existing one); contact cards are derived from a consent and rebuilt for
+// the surviving account, so the anonymous copy is dropped.
+registerMergeRule({
+  table: 'seat_waitlist_offers',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['trip_id'],
+});
+registerMergeRule({ table: 'crew_contact_cards', userColumn: 'user_id', strategy: 'drop' });

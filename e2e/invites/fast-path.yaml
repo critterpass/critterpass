@@ -1,0 +1,39 @@
+appId: app.critterpass.dev
+---
+# The invited fast path on a fresh install: a personal invite link opens the ticket (3a-10), TAKE
+# THE SEAT goes to the three-tap pass (3a-12), ISSUE MY PASS stamps it, "Not now" on the save sheet
+# takes the seat and the crew manifest (3a-13) stamps in. Target: link open to manifest ≤ 15 s p50
+# (`invite_manifest_reached.duration_ms`).
+#
+# Needs before it can pass: the build's api carries this branch's migrations, and a personal
+# invite seeded for its crew with ${INVITE_PATH} set to its `/i/{code}/{seat}` path.
+- launchApp:
+    clearState: true
+- openLink: critterpass-dev:/${INVITE_PATH}
+- extendedWaitUntil:
+    visible:
+      id: 'screen-onboarding-invite-ticket'
+    timeout: 15000
+- assertVisible:
+    id: 'invite-ticket'
+- takeScreenshot: invites-3a-10-ticket
+- tapOn:
+    id: 'invite-take-seat'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-pass-issue'
+    timeout: 10000
+- takeScreenshot: invites-3a-12-pass
+- tapOn:
+    id: 'invite-pass-issue'
+- extendedWaitUntil:
+    visible:
+      id: 'save-not-now'
+    timeout: 10000
+- tapOn:
+    id: 'save-not-now'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-manifest-newcomer'
+    timeout: 15000
+- takeScreenshot: invites-3a-13-manifest

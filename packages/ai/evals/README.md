@@ -11,6 +11,8 @@ promptfoo's `tests` format). They gate every change to prompts, personas, tools 
 | `injection`  | untrusted text stays in data blocks, no write tools, parsers get no tools, no supplier pages                                                      |
 | `autonomy`   | the decider's verdict per action; replies never claim a change that needs a yes                                                                   |
 | `compliance` | the input compliance check on 40 EN + 40 VI texts: outcome per surface, reject precision, self-harm and injection recall, figurative talk passing |
+| `invite-tags` | 40 inviter notes (cases in `src/prompts/invite-tags/evals.yaml`): tags only from the taxonomy and supported by the note, nothing the friend avoids, injection held to three tags |
+| `crew-welcome` | 12 welcome lines (`src/prompts/crew-welcome/evals.yaml`): one line under 90 characters greeting the newcomer, nothing from a crew name that tries to instruct |
 
 ## Running
 

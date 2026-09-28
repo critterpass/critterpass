@@ -1,0 +1,31 @@
+appId: app.critterpass.dev
+---
+# The seventh named seat on a six-seat trip: the composer hands SEAT_LIMIT to the seat-limit
+# presenter (the waitlist sheet by default), never an error toast, and waitlisting sends it.
+#
+# Needs before it can pass: trip ${TRIP_ID} of crew ${CREW_ID} with six seats held, organised by
+# this saved account.
+- launchApp
+- openLink: critterpass-dev://crew/${CREW_ID}/invite
+- extendedWaitUntil:
+    visible:
+      id: 'composer-name'
+    timeout: 10000
+- tapOn:
+    id: 'composer-name'
+- inputText: 'Kai'
+- hideKeyboard
+- tapOn:
+    id: 'composer-trip-${TRIP_ID}'
+- tapOn:
+    id: 'composer-send-copy'
+- extendedWaitUntil:
+    visible:
+      id: 'seat-limit-waitlist'
+    timeout: 10000
+- tapOn:
+    id: 'seat-limit-waitlist-confirm'
+- extendedWaitUntil:
+    visible:
+      text: 'Link copied'
+    timeout: 10000

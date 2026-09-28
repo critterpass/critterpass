@@ -22,10 +22,11 @@ export const SYNCED_TABLE_COLUMNS = {
   consents: 'user_id purpose scope granted_at revoked_at copy_version created_at updated_at',
   cost_components:
     'trip_id calc_version component_key kind unit is_shared:integer origin member_ids amount_minor:integer currency source quote_id label seen_at frozen_at created_at updated_at',
+  crew_contact_cards: 'crew_id user_id phone_display created_at updated_at',
   crew_members:
     'crew_id user_id role colour status keep_in_chat:integer joined_epoch:integer left_at last_read_message_id notify_level created_at updated_at',
   crews:
-    'name settlement_currency member_ceiling:integer membership_epoch:integer created_by created_at updated_at',
+    'name art settlement_currency member_ceiling:integer membership_epoch:integer created_by created_at updated_at',
   critter_forms:
     'key critter_id rarity palette pose edge note requirement_copy xp:integer release_id created_at updated_at',
   critter_sets:
@@ -56,6 +57,10 @@ export const SYNCED_TABLE_COLUMNS = {
     'slug locale category title summary body_md embedding fts release_id created_at updated_at',
   inbox_items:
     'user_id crew_id trip_id notification_id kind needs_you:integer actions deep_link expires_at undo_until resolved_at created_at updated_at',
+  invite_opens:
+    'inviter_id open_count:integer first_opened_at last_opened_at created_at updated_at',
+  invites:
+    'crew_id trip_id inviter_id join_code_id kind seat_token_hash invitee_user_id channel status waitlist_position:integer expires_at claimed_by claimed_at nudged_at created_at updated_at',
   itinerary_versions:
     'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at',
   join_codes:
@@ -81,6 +86,8 @@ export const SYNCED_TABLE_COLUMNS = {
   price_quotes:
     'trip_id kind origin destination_id dates amount_minor:integer currency source fetched_at frozen_at version:integer created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',
+  referrals:
+    'referrer_id referee_id code invite_id via status void_reason qualified_at reward_kind reward_ref referee_device_id created_at updated_at',
   roundups:
     'user_id local_date tz guide_id notification_ids lines sent_at fallback_used:integer created_at updated_at',
   scheduled_deliveries:
@@ -89,6 +96,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'destination_id key kind name starts_on ends_on confidence source source_url sourced_on forecast_updated_at reviewed_at created_at updated_at',
   season_months:
     'destination_id month:integer crowd_index:integer price_index:integer price_index_source highlight_tag colour_role source source_url sourced_on reviewed_at created_at updated_at',
+  seat_waitlist_offers:
+    'trip_id user_id invite_id offered_at expires_at status responded_at created_at updated_at',
   share_calcs:
     'trip_id user_id version components personal_option_deltas total_minor:integer currency fx_snapshot_id is_missing:integer is_estimated_origin:integer is_stale:integer created_at updated_at',
   spawn_rules:
@@ -110,7 +119,7 @@ export const SYNCED_TABLE_COLUMNS = {
   user_entitlements:
     'user_id pass_plus:integer sources expires_at guide_unlimited_global:integer icon_styles computed_at',
   user_settings:
-    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer created_at updated_at',
+    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer active_crew_id created_at updated_at',
   users:
     'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at created_at updated_at',
   weather_snapshots:
