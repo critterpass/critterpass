@@ -3,10 +3,10 @@
  * bundle and bake read it, and regenerates packages/content/src/current.ts to import every kind
  * that has a current release.
  */
-import { readdirSync, existsSync } from 'node:fs';
+import { existsSync, readdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 
-import { CONTENT_KINDS, loadRelease, type ContentKind } from '@cp/content';
+import { CONTENT_KINDS, loadRelease, type ContentItem, type ContentKind } from '@cp/content';
 
 import { REPO_DIR, writeJson, writeText } from '../work';
 import { StageError } from './state';
@@ -21,6 +21,7 @@ export function writeCurrentRelease(
   if (artifact === undefined) throw new StageError(`no published ${kind} release to pull`);
   const release = loadRelease(artifact, kind);
   writeJson(path.join(root, 'releases', kind, 'current.json'), release);
+  if (kind === 'help') writeHelpMdx(loadRelease(artifact, 'help').items, root);
   writeText(path.join(root, 'src', 'current.ts'), renderCurrentModule(root));
   return release.version;
 }
@@ -59,4 +60,27 @@ export function currentRelease<K extends ContentKind>(kind: K): Release<K> | und
   return raw === undefined ? undefined : loadRelease(raw, kind);
 }
 `;
+}
+
+/** Help articles as MDX (mdx/help/<locale>/<slug>.mdx) for the web help centre. */
+export function writeHelpMdx(
+  articles: readonly ContentItem<'help'>[],
+  root = CONTENT_PACKAGE_DIR,
+): void {
+  const dir = path.join(root, 'mdx', 'help');
+  rmSync(dir, { recursive: true, force: true });
+  for (const article of articles) {
+    const frontmatter = [
+      '---',
+      `title: ${JSON.stringify(article.title)}`,
+      `summary: ${JSON.stringify(article.summary)}`,
+      `category: ${article.category}`,
+      '---',
+      '',
+    ].join('\n');
+    writeText(
+      path.join(dir, article.locale, `${article.slug}.mdx`),
+      `${frontmatter}${article.body_md.trim()}\n`,
+    );
+  }
 }

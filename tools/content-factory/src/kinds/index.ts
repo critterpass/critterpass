@@ -7,3 +7,5 @@ import './places/sets';
 import './places/pois';
 import './personas';
 import './phrases';
+import './help';
+import './taste-quiz';

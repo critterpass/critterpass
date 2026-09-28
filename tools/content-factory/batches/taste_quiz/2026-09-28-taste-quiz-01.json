@@ -1,0 +1,146 @@
+{
+  "kind": "taste_quiz",
+  "version": 1,
+  "items": [
+    {
+      "id": "food",
+      "order": 1,
+      "left": {
+        "label": "STREET CART",
+        "line": "Plastic stool, double order",
+        "tags": [
+          "street_food",
+          "thrifty",
+          "local_life"
+        ]
+      },
+      "right": {
+        "label": "TASTING MENU",
+        "line": "White cloth, tiny plates",
+        "tags": [
+          "sit_down_dining",
+          "splurge"
+        ]
+      },
+      "chip": "Food"
+    },
+    {
+      "id": "pace",
+      "order": 2,
+      "left": {
+        "label": "GO GO GO",
+        "line": "Three cities, two days",
+        "tags": [
+          "packed_days",
+          "adventure"
+        ]
+      },
+      "right": {
+        "label": "ONE NEIGHBORHOOD",
+        "line": "Same café, same corner table",
+        "tags": [
+          "easy_pace",
+          "coffee",
+          "local_life"
+        ]
+      },
+      "chip": "Pace"
+    },
+    {
+      "id": "mornings",
+      "order": 3,
+      "left": {
+        "label": "SUNRISE SUMMIT",
+        "line": "Up at 3, on top by 6",
+        "tags": [
+          "early_starts",
+          "hiking"
+        ]
+      },
+      "right": {
+        "label": "SLEEP TILL TEN",
+        "line": "Breakfast is a lifestyle",
+        "tags": [
+          "late_starts",
+          "easy_pace"
+        ]
+      },
+      "chip": "Mornings"
+    },
+    {
+      "id": "evenings",
+      "order": 4,
+      "left": {
+        "label": "LAST CALL",
+        "line": "Midnight tapas, loud rooms",
+        "tags": [
+          "nightlife",
+          "late_starts"
+        ]
+      },
+      "right": {
+        "label": "HOME BY NINE",
+        "line": "Herbal tea and a book in bed",
+        "tags": [
+          "quiet_evenings",
+          "wellness",
+          "easy_pace"
+        ]
+      },
+      "chip": "Evenings"
+    },
+    {
+      "id": "nature-vs-city",
+      "order": 5,
+      "left": {
+        "label": "FOREST FIRST",
+        "line": "Moss, switchbacks, no signal",
+        "tags": [
+          "nature",
+          "hiking",
+          "adventure"
+        ]
+      },
+      "right": {
+        "label": "CITY LIGHTS",
+        "line": "Rooftop bars and metro stops",
+        "tags": [
+          "nightlife",
+          "local_life",
+          "photo_spots"
+        ]
+      },
+      "chip": "Nature vs City"
+    },
+    {
+      "id": "spending",
+      "order": 6,
+      "left": {
+        "label": "TREAT YOURSELF",
+        "line": "Book the suite, skip the bus",
+        "tags": [
+          "splurge",
+          "sit_down_dining"
+        ]
+      },
+      "right": {
+        "label": "STRETCH A DOLLAR",
+        "line": "Street snacks, hostel dorm",
+        "tags": [
+          "thrifty",
+          "street_food",
+          "markets"
+        ]
+      },
+      "chip": "Budget"
+    }
+  ],
+  "generated_by": {
+    "batch_key": "2026-09-28-taste-quiz-01",
+    "route": "content.factory",
+    "model": "deepseek-v4-pro",
+    "generated_at": "2026-09-28T00:01:53.450Z"
+  },
+  "approved_by": null,
+  "checksum": "970cb731dce5de12fea8279e211e7fe668d41dff33188e3af73baeb19e73ac7d"
+}

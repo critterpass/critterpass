@@ -1,0 +1,278 @@
+{
+  "kind": "help",
+  "version": 1,
+  "items": [
+    {
+      "slug": "how-to-start-a-trip",
+      "locale": "en",
+      "category": "getting_started",
+      "title": "How to start a trip with CritterPass",
+      "summary": "Learn how to start a trip: choose a destination, get your guide, and begin planning with your crew.",
+      "body_md": "To start a trip, pick a destination for your crew. CritterPass assigns a guide based on where you're going. If your destination is Bali, Tokyo, Reykjavik, Mexico City, Lisbon, or Cusco, you'll get the live guide for that place: Tokek, Pon, Lundi, Ajo, Sardi, or Paco. For any other location, Tokek covers as a guest guide.\n\nOnce your destination is set, your guide drafts an initial plan. Your crew can vote on the plan, and the plan updates as people join the trip. Everything is organised in the app, so everyone sees the latest version.\n\nRemember, the guide is an AI and can be wrong. You can ask your guide up to 30 questions a day with a free account. The question count resets at midnight on your phone."
+    },
+    {
+      "slug": "about-guide-critters",
+      "locale": "en",
+      "category": "getting_started",
+      "title": "About your guide critter",
+      "summary": "Your guide is an AI critter that drafts plans, answers questions, and can make mistakes. Free accounts get 30 guide questions per day.",
+      "body_md": "Each CritterPass trip has a guide critter. Six live guides each cover a specific destination:\n\n- Bali: Tokek\n- Kyoto: Pon\n- Iceland: Lundi\n- Mexico City: Ajo\n- Lisbon: Sardi\n- Cusco: Paco\n\nFor destinations outside those six, Tokek acts as a guest guide. The guide is an AI, not a human. It can be wrong, so double-check important details like opening hours or travel times.\n\nFree accounts can ask the guide up to 30 questions per day. The daily limit resets at midnight on your phone. If you run out of questions, you'll need to wait until the reset."
+    },
+    {
+      "slug": "how-crew-planning-works",
+      "locale": "en",
+      "category": "getting_started",
+      "title": "How crew planning and voting work",
+      "summary": "The guide drafts a plan, your crew votes, and the plan updates automatically as people join the trip.",
+      "body_md": "When you start a trip, your guide critter drafts a plan for the whole crew. Everyone in the crew can vote on the plan. The plan updates automatically as new people join, so it stays current for the whole group.\n\nYou and your crew can discuss changes by asking the guide questions or suggesting alternatives. The guide responds with updated plan options based on the input. There's no limit to how many times a plan can be updated, as long as you have daily guide questions left.\n\nRemember, the guide is an AI and can be wrong, so always verify critical details before relying on them."
+    },
+    {
+      "slug": "inviting-your-crew",
+      "locale": "en",
+      "category": "trips_and_crews",
+      "title": "Inviting your crew",
+      "summary": "How group trips work on CritterPass and what to do if you need help inviting people.",
+      "body_md": "CritterPass plans group trips for a crew. A guide critter drafts the plan, the crew votes, and the plan updates as people join.\n\nWe don't list the exact steps to invite your crew in this help article. If you need help inviting people to your trip, email us and a human will reply within two days."
+    },
+    {
+      "slug": "group-trip-planning",
+      "locale": "en",
+      "category": "trips_and_crews",
+      "title": "How group trip planning works",
+      "summary": "A guide critter drafts your trip plan, your crew votes, and the plan updates as people join.",
+      "body_md": "When you start a trip on CritterPass, a guide critter drafts the plan for your crew. Your crew then votes on the plan.\n\nThe plan updates as people join the trip. Six live guides cover Bali (Tokek), Kyoto (Pon), Iceland (Lundi), Mexico City (Ajo), Lisbon (Sardi) and Cusco (Paco). Anywhere else, Tokek covers as a guest guide.\n\nThe guide is an AI and can be wrong. Free accounts can ask 30 guide questions a day; the count resets at midnight on the phone."
+    },
+    {
+      "slug": "splitting-costs",
+      "locale": "en",
+      "category": "trips_and_crews",
+      "title": "Splitting trip costs with your crew",
+      "summary": "Use the shared ledger to track who paid and who owes, then settle up however you like.",
+      "body_md": "CritterPass includes a shared ledger for your crew. The ledger records who paid for what and who owes whom.\n\nCritterPass does not move money between people. You and your crew settle up however you like.\n\nSome activities can be booked in the app through a partner (Viator). That partner holds the booking; refunds and changes follow the partner's policy and are requested from the partner."
+    },
+    {
+      "slug": "split-costs",
+      "locale": "en",
+      "category": "splitting_money",
+      "title": "How to split costs with your crew",
+      "summary": "Split costs in your shared ledger — who paid, who owes, then settle up your own way.",
+      "body_md": "CritterPass keeps a shared ledger for your crew on each trip. When someone records a payment, the app shows who paid and who owes.\n\nThe app does not move money between people. You settle up however you like, such as with cash or a payment app.\n\nYou can also split the cost of a Trip Boost (about $12) in the same ledger. Tap the Trip Boost option and add it to the trip's shared costs."
+    },
+    {
+      "slug": "settling-up",
+      "locale": "en",
+      "category": "splitting_money",
+      "title": "Settling up after a trip",
+      "summary": "See who owes what and settle up outside CritterPass.",
+      "body_md": "After your trip, open the shared ledger to see a summary of who paid and who owes. CritterPass calculates the balances but never moves money.\n\nYou and your crew decide how to settle up. The app does not process payments or charge anyone."
+    },
+    {
+      "slug": "split-trip-boost",
+      "locale": "en",
+      "category": "splitting_money",
+      "title": "Splitting the cost of a Trip Boost",
+      "summary": "Add a Trip Boost to your trip and split it with your crew.",
+      "body_md": "A Trip Boost unlocks extras for one trip and costs about $12. You can split the cost in your crew's shared ledger, just like any other expense.\n\nThe ledger shows who paid for the Trip Boost and who owes a share. CritterPass does not move money; you settle up yourselves.\n\nIf you bought Trip Boost through the App Store or Google Play, refunds go through Apple or Google."
+    },
+    {
+      "slug": "pass-plus",
+      "locale": "en",
+      "category": "passes_and_boosts",
+      "title": "What is Pass+?",
+      "summary": "Pass+ is a monthly or yearly subscription you can buy from the App Store or Google Play.",
+      "body_md": "Pass+ is a subscription plan for CritterPass. You can choose a monthly plan for $3.99 a month, or a yearly plan for $29.99 a year.\n\nYou buy Pass+ through the App Store (on iPhone) or Google Play (on Android). Refunds for Pass+ go through Apple or Google, not directly from CritterPass.\n\nIf you have questions about what Pass+ includes, a human will reply by email within two days."
+    },
+    {
+      "slug": "trip-boost",
+      "locale": "en",
+      "category": "passes_and_boosts",
+      "title": "What is a Trip Boost?",
+      "summary": "A Trip Boost is a one-time purchase that unlocks extras for one trip.",
+      "body_md": "A Trip Boost costs about $12 and unlocks extras for a single trip. You can split the cost with your crew using the shared ledger in the app. CritterPass does not move money between people, so you settle up however you like.\n\nTrip Boost is purchased through the App Store or Google Play. Refunds go through Apple or Google.\n\nFor questions about which extras a Trip Boost includes, a human will reply by email within two days."
+    },
+    {
+      "slug": "managing-passes-and-boosts",
+      "locale": "en",
+      "category": "passes_and_boosts",
+      "title": "Managing Pass+ and Trip Boost purchases",
+      "summary": "How to buy, cancel, or get a refund for Pass+ and Trip Boost.",
+      "body_md": "You buy Pass+ and Trip Boost through the App Store or Google Play. To cancel Pass+, manage your subscription in your device's app store settings (App Store for iPhone, Google Play for Android).\n\nRefunds for Pass+ and Trip Boost are handled by Apple or Google, not by CritterPass directly.\n\nIf you have a question that isn't covered here, a human will reply by email within two days."
+    },
+    {
+      "slug": "refunds",
+      "locale": "en",
+      "category": "refunds",
+      "title": "Getting a refund",
+      "summary": "How refunds work for stays, activities, Pass+ and Trip Boost — and who handles them.",
+      "body_md": "CritterPass is never the merchant of record. Stays are booked on partner sites through links, and CritterPass never holds a room. Some activities can be booked in the app through the partner Viator, which holds the booking. Refunds and changes for those bookings follow that partner's policy and are requested from the partner.\n\nCritterPass does not book flights. Pass+ and Trip Boost refunds go through Apple or Google, depending on where you bought them.\n\nIf your question is not covered here, a human replies by email within two days."
+    },
+    {
+      "slug": "cancel-booking",
+      "locale": "en",
+      "category": "refunds",
+      "title": "Cancelling a stay or activity",
+      "summary": "Where to request changes or cancellations for bookings made through CritterPass links or in-app activities.",
+      "body_md": "Stays are booked on partner sites through links, so any changes or cancellations are handled on that partner site. CritterPass never holds a room.\n\nActivities booked in the app go through the partner Viator, which holds the booking. Refunds and changes follow Viator's policy and are requested from Viator.\n\nCritterPass does not book flights. If your question is not covered here, a human replies by email within two days."
+    },
+    {
+      "slug": "pass-plus-refunds",
+      "locale": "en",
+      "category": "refunds",
+      "title": "Pass+ and Trip Boost refunds",
+      "summary": "How to get a refund for a Pass+ subscription or Trip Boost purchase.",
+      "body_md": "Pass+ is a subscription bought through the App Store or Google Play. Refunds for Pass+ go through Apple or Google.\n\nA Trip Boost (about $12) unlocks extras for one trip and can be split in the ledger. Refunds for Trip Boost also go through Apple or Google.\n\nCritterPass does not move money between people, and the crew settles up however they like. If your question is not covered here, a human replies by email within two days."
+    },
+    {
+      "slug": "booking-basics",
+      "locale": "en",
+      "category": "bookings",
+      "title": "Booking basics",
+      "summary": "How stays and activities are booked on CritterPass, and who holds your booking.",
+      "body_md": "CritterPass never acts as the merchant of record and never holds a room for you.\n\nFor stays, plans link you to partner sites where you complete the booking. CritterPass does not reserve the stay itself.\n\nSome activities can be booked in the app through our partner Viator. Viator holds that booking.\n\nCritterPass does not book flights, so flights are always arranged outside the app.\n\nOnce a stay or activity is booked, the partner's policy applies. You would contact the partner directly for changes or refunds."
+    },
+    {
+      "slug": "change-or-refund-booking",
+      "locale": "en",
+      "category": "bookings",
+      "title": "Changing or refunding a booking",
+      "summary": "Where to request changes or refunds for stays and activities booked through CritterPass.",
+      "body_md": "CritterPass cannot change or refund a booking because it never holds the reservation.\n\nFor stays, the booking lives on the partner site you used. Contact that partner to request changes or a refund under their policy.\n\nFor activities booked in the app through Viator, Viator holds the booking. Request changes and refunds from Viator, and their policy decides the outcome.\n\nIf you are unsure which partner to contact, a human replies by email within two days."
+    },
+    {
+      "slug": "splitting-booking-costs",
+      "locale": "en",
+      "category": "bookings",
+      "title": "Splitting booking costs with your crew",
+      "summary": "How to record what you paid for bookings in the shared ledger.",
+      "body_md": "CritterPass offers a shared ledger so your crew can track who paid and who owes.\n\nWhen someone pays for a stay or activity, they can add that cost to the trip ledger.\n\nCritterPass does not move money between people. Your crew settles up however you like.\n\nThis also works for a Trip Boost, which can be split in the ledger."
+    },
+    {
+      "slug": "buying-critters",
+      "locale": "en",
+      "category": "critters",
+      "title": "Can I buy a critter?",
+      "summary": "No. Critters can't be bought, sold, or traded — you find them by being in the right place at the right time.",
+      "body_md": "Critters are part of the adventure, not something you can purchase. There is no store, market, or trading system for critters.\n\nTo get a critter, you need to visit places where they appear. Sometimes that means being at a place at a certain time, or being there together with your crew. Check out our guide on [finding critters](/help/finding-critters) to learn more."
+    },
+    {
+      "slug": "finding-critters",
+      "locale": "en",
+      "category": "critters",
+      "title": "How do I find critters?",
+      "summary": "Critters appear when you visit places, sometimes at specific times or with your crew.",
+      "body_md": "Critters are tied to places. You find them by being physically at those places during your trip.\n\nSome critters only show up at certain times of day or during specific conditions. Others might require that you're with your whole crew. The critter itself will give hints if you ask.\n\nRemember, location is only used on trip days, and CritterPass never keeps a trail of where you went."
+    },
+    {
+      "slug": "legendary-critters",
+      "locale": "en",
+      "category": "critters",
+      "title": "What are legendary critters?",
+      "summary": "Legendary forms only appear during their special window or for the hardest thing a place has.",
+      "body_md": "Legendary critters are rare versions of regular critters. They don't appear everywhere or all the time.\n\nYou can only find a legendary form during its specific window — which might be a short time period or tied to a difficult challenge at a location. If you're looking for one, pay attention to the guide's hints and be ready to do the hardest thing a place offers."
+    },
+    {
+      "slug": "offline-maps",
+      "locale": "en",
+      "category": "offline_and_maps",
+      "title": "Using maps offline",
+      "summary": "Download maps before your trip to use them without an internet connection.",
+      "body_md": "Maps work offline once you've downloaded them. You can see places on your trip without internet. Download maps while you're online before you leave."
+    },
+    {
+      "slug": "offline-trip-pack",
+      "locale": "en",
+      "category": "offline_and_maps",
+      "title": "Your trip pack offline",
+      "summary": "Your plan, places, phrase cards, and emergency numbers are available offline after download.",
+      "body_md": "The trip pack works offline once you download it. It includes your plan, places, phrase cards, and emergency numbers. Download it while you have internet before your trip."
+    },
+    {
+      "slug": "offline-changes",
+      "locale": "en",
+      "category": "offline_and_maps",
+      "title": "Changes you make offline",
+      "summary": "Edits made without internet are saved and sent when you're back online.",
+      "body_md": "If you make changes while offline, CritterPass saves them on your phone. When your phone is back online, those changes are sent automatically. You don't need to do anything else."
+    },
+    {
+      "slug": "location-sharing",
+      "locale": "en",
+      "category": "offline_and_maps",
+      "title": "Location use and crew sharing",
+      "summary": "Location is only used on trip days, and crew location sharing is opt-in and time-limited.",
+      "body_md": "CritterPass only uses your location on trip days. It never keeps a trail of where you went. Crew location sharing is opt-in and time-limited. You choose whether to share, and sharing doesn't last forever."
+    },
+    {
+      "slug": "emergency-numbers",
+      "locale": "en",
+      "category": "safety",
+      "title": "Find local emergency numbers and nearby help",
+      "summary": "Where to find emergency numbers, hospitals, and pharmacies in CritterPass, and what to do first in an emergency.",
+      "body_md": "In an emergency, always call the local emergency number first. CritterPass does not make emergency calls for you.\n\nThe Help screen in the app shows local emergency numbers and nearby hospitals and pharmacies for your current trip location. You can open it from the main menu at any time.\n\n- Local emergency numbers\n- Nearby hospitals\n- Nearby pharmacies\n\nThese details are based on your trip destination and work with the offline trip pack once downloaded.\n\nIf you have a safety question not covered here, a human replies by email within two days."
+    },
+    {
+      "slug": "location-privacy",
+      "locale": "en",
+      "category": "safety",
+      "title": "How CritterPass uses location and keeps your trail private",
+      "summary": "Learn when location is used, why CritterPass never keeps a trail, and how crew location sharing works.",
+      "body_md": "CritterPass only uses your location on trip days. It helps with maps and the trip pack, but CritterPass never keeps a trail of where you went. Your location history is not stored or shared.\n\nCrew location sharing is opt-in and time-limited. You choose to share your location with your crew for a set period, then it stops automatically. No one can see your location unless you turn this on.\n\nIf you have a question about location privacy not covered here, a human replies by email within two days."
+    },
+    {
+      "slug": "safety-and-insurance",
+      "locale": "en",
+      "category": "safety",
+      "title": "Staying safe: Help screen, insurance guidance, and what CritterPass does not do",
+      "summary": "General insurance guidance, no insurer recommendations, and how to get help from the Help screen.",
+      "body_md": "The Help screen shows local emergency numbers and nearby hospitals and pharmacies. In an emergency, call the local number first.\n\nInsurance guidance in CritterPass is general. CritterPass does not sell insurance and does not recommend any specific insurer. You should review your own travel insurance before a trip.\n\nCritterPass is never the merchant of record for stays or activities booked through partners. Refunds and changes for partner bookings follow that partner's policy and must be requested from the partner.\n\nIf you have a safety question not covered here, a human replies by email within two days."
+    },
+    {
+      "slug": "travel-insurance",
+      "locale": "en",
+      "category": "insurance",
+      "title": "Does CritterPass offer travel insurance?",
+      "summary": "CritterPass does not sell or recommend travel insurance, but the app includes general guidance.",
+      "body_md": "CritterPass does not sell or recommend travel insurance. Insurance guidance in the app is general only.\n\nFor emergencies, the Help screen shows local emergency numbers and nearby hospitals and pharmacies. In an emergency, call the local number first."
+    },
+    {
+      "slug": "emergency-help",
+      "locale": "en",
+      "category": "insurance",
+      "title": "Where can I find emergency help in the app?",
+      "summary": "The Help screen shows local emergency numbers and nearby hospitals and pharmacies.",
+      "body_md": "Open the Help screen to see local emergency numbers and nearby hospitals and pharmacies.\n\nIn an emergency, call the local number first.\n\nCritterPass does not sell or recommend travel insurance. Insurance guidance is general."
+    },
+    {
+      "slug": "delete-account",
+      "locale": "en",
+      "category": "privacy_and_account",
+      "title": "Delete your CritterPass account",
+      "summary": "Find out how to delete your account and what the 30-day grace period means.",
+      "body_md": "You can delete your CritterPass account from Settings at any time.\n\nWhen you delete your account, there is a 30-day grace period before the deletion is final."
+    },
+    {
+      "slug": "export-data",
+      "locale": "en",
+      "category": "privacy_and_account",
+      "title": "Export your data",
+      "summary": "Save a copy of your CritterPass information from Settings.",
+      "body_md": "You can export your data from Settings.\n\nThis lets you keep a copy of your CritterPass information for your own records."
+    },
+    {
+      "slug": "location-privacy-privacy-and-account",
+      "locale": "en",
+      "category": "privacy_and_account",
+      "title": "How CritterPass uses your location",
+      "summary": "Location is only used on trip days, we never keep a trail, and crew sharing is opt-in.",
+      "body_md": "CritterPass only uses your location on trip days. We never keep a trail of where you went.\n\nCrew location sharing is opt-in and time-limited. You choose if and when to share your location with your crew."
+    }
+  ],
+  "generated_by": {
+    "batch_key": "2026-09-28-help-01",
+    "route": "content.factory",
+    "model": "deepseek-v4-pro",
+    "generated_at": "2026-09-28T00:03:42.907Z"
+  },
+  "approved_by": null,
+  "checksum": "d4c3c3b12b8b9e3ccee69ac077c645dc1e72841cf9cb44cec6be4d91162d7036"
+}
