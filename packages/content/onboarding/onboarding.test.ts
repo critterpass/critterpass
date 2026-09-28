@@ -6,9 +6,11 @@ import { describe, expect, it } from 'vitest';
 
 import { CURRENT_RELEASES, loadRelease, TASTE_TAGS } from '../src';
 import blockedNames from './blocked-names.json';
+import dialCodes from './dial-codes.json';
 import homeWords from './home-words.json';
 import {
   blockedNamesFileSchema,
+  dialCodesFileSchema,
   homeWord,
   homeWordsFileSchema,
   ONBOARDING_QUIZ_RELEASE,
@@ -74,6 +76,7 @@ describe('tokek lines', () => {
 describe('home words and blocked names', () => {
   it('validate', () => {
     homeWordsFileSchema.parse(homeWords);
+    expect(dialCodesFileSchema.parse(dialCodes)['SG']).toBe('65');
     blockedNamesFileSchema.parse(blockedNames);
     expect(homeWord('MY')).toBe('RUMAH');
     expect(homeWord('AQ')).toBe('HOME');

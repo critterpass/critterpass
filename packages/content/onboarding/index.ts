@@ -5,6 +5,7 @@
  */
 import type { QuizQuestionItem } from '../src/schemas/taste-quiz';
 import blockedNames from './blocked-names.json';
+import dialCodes from './dial-codes.json';
 import homeWords from './home-words.json';
 import quizRelease from './quiz.json';
 import type { TokekLine, TokekLineTrigger } from './schema';
@@ -37,3 +38,6 @@ export function homeWord(country: string | null): string {
   if (country === null) return 'HOME';
   return (homeWords as Record<string, string>)[country] ?? 'HOME';
 }
+
+/** Country calling code per ISO country ("SG" → "65"), for the phone sign-in country picker. */
+export const DIAL_CODES: Readonly<Record<string, string>> = dialCodes;
