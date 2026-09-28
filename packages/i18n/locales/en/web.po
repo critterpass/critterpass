@@ -11,6 +11,22 @@ msgstr ""
 msgid "web.home.chat4"
 msgstr "???"
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.categoryPageTitle"
+msgstr "{category} tips · CritterPass"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.byline"
+msgstr "{guide}, {place}"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.minShort"
+msgstr "{minutes} min"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.minRead"
+msgstr "{minutes} min read"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.eyebrowFrom"
 msgstr "{name} invited you"
@@ -103,9 +119,17 @@ msgstr "A stamp lands once they've joined and voted on, or planned, their first 
 msgid "web.home.finalAdmit"
 msgstr "Admit: the whole crew"
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.all"
+msgstr "All"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.allLegal"
 msgstr "All policies"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.allTips"
+msgstr "All tips"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.membersLabel"
@@ -159,9 +183,21 @@ msgstr "Bring your crew"
 msgid "web.referral.pageTitle"
 msgstr "Bring your crew · CritterPass"
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.bylineBy"
+msgstr "By {guide}, {place}"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.filterLabel"
+msgstr "Categories"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalName"
 msgstr "Chép"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.category.cityGuides"
+msgstr "City guides"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.collector"
@@ -171,9 +207,17 @@ msgstr "Collector cover"
 msgid "web.referral.copied"
 msgstr "Copied"
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.copied"
+msgstr "Copied"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
 msgstr "Copy"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.copyLink"
+msgstr "Copy link"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerCrew"
@@ -203,6 +247,10 @@ msgstr "CritterPass home"
 msgid "web.home.pageDescription"
 msgstr "CritterPass is a group trip planner for iPhone and Android. Swipe, vote, plan and split with your crew, guided by a local who happens to be an animal."
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.rssTitle"
+msgstr "CritterPass tips"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.deleteAccount"
 msgstr "Delete your account"
@@ -214,6 +262,14 @@ msgstr "Dev owes you"
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.appStoreBadge"
 msgstr "Download on the App Store"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.draft"
+msgstr "Draft: only visible on staging."
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.aiDisclosure"
+msgstr "Drafted with help from AI, then checked and edited by people who've been there."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop3Body"
@@ -267,6 +323,10 @@ msgstr "Everyone swipes, everyone votes, one place wins."
 msgid "web.invite.expiresIn"
 msgstr "Expires in {left}"
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.featured"
+msgstr "Featured"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.findMyCrew"
 msgstr "Find my crew"
@@ -305,6 +365,10 @@ msgstr "Get the app"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.getTheApp"
+msgstr "Get the app"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.getTheApp"
 msgstr "Get the app"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -403,6 +467,10 @@ msgstr "Join with a code"
 msgid "web.invite.joinPageTitle"
 msgstr "Join with a code · CritterPass"
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.keepReading"
+msgstr "Keep reading"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideTokek"
 msgstr "Knows which rice terraces are empty at sunrise and which warung does the best babi guling."
@@ -475,6 +543,10 @@ msgstr "Maya owes you"
 msgid "web.shell.openMenu"
 msgstr "Menu"
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.category.money"
+msgstr "Money"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyEyebrow"
 msgstr "Money · Hội An"
@@ -486,6 +558,10 @@ msgstr "Most of them end there too. CritterPass adds a guide to the crew who liv
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroNew"
 msgstr "New · iOS + Android"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.voice"
+msgstr "new every Thursday"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalEyebrow"
@@ -503,9 +579,17 @@ msgstr "No cookies here. We count page visits without knowing who you are."
 msgid "web.home.insideMoneyTitle"
 msgstr "Nobody has to be the one who asks for money."
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.emptyBody"
+msgstr "Nothing in this corner of the journal yet. Every other tip is one tap away."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanItem2"
 msgstr "Old Town walk"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.category.onTheTrip"
+msgstr "On the trip"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.desktopTitle"
@@ -518,6 +602,10 @@ msgstr "One day-by-day plan the whole crew can move around."
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Body"
 msgstr "Or add them straight to a crew. Either counts."
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.askTitle"
+msgstr "Or just ask the guide directly."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guidePaco"
@@ -551,9 +639,17 @@ msgstr "Plan the trip. Meet the locals."
 msgid "web.home.stop3Title"
 msgstr "Plan together"
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.category.planning"
+msgstr "Planning"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.privacy"
 msgstr "Privacy"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.published"
+msgstr "Published {date}"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.qrLabel"
@@ -583,6 +679,14 @@ msgstr "Scan with your phone camera. The app opens straight to this link, or the
 msgid "web.home.insideVoice"
 msgstr "scroll along the route"
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.emptyAll"
+msgstr "See all tips"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.sendToChat"
+msgstr "Send to the group chat"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Title"
 msgstr "Send your link"
@@ -594,6 +698,14 @@ msgstr "Send your link. When a friend joins and plans their first trip, you both
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsFlight"
 msgstr "SGN → DAD"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.share"
+msgstr "Share"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.lede"
+msgstr "Short, useful notes on planning with friends, sharing costs and getting the most out of a place. Written with our guides, checked by people who've been."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.codeHint"
@@ -651,9 +763,17 @@ msgstr "That code doesn't look right. Check each character."
 msgid "web.home.chatName"
 msgstr "The Bali Six"
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.eyebrow"
+msgstr "The CritterPass journal"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Body"
 msgstr "The guide drafts the plan and answers anything, by voice or text. Rain on Thursday? It proposes a swap."
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.emptyTitle"
+msgstr "The guides are still writing"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.theLocals"
@@ -698,6 +818,14 @@ msgstr "Times the tram so you miss the queue and picks the miradouro with the be
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.tips"
 msgstr "Tips"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.title"
+msgstr "Tips from the locals"
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.pageTitle"
+msgstr "Tips from the locals · CritterPass"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideName"

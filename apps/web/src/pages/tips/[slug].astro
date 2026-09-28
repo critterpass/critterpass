@@ -1,0 +1,15 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import TipArticle from '../../components/site/tips/TipArticle.astro';
+import { allTips, relatedTips } from '../../components/site/tips/tips-data';
+
+export const getStaticPaths = (async () => {
+  const tips = await allTips();
+  return tips.map((tip) => ({ params: { slug: tip.slug }, props: { tip, related: relatedTips(tips, tip) } }));
+}) satisfies GetStaticPaths;
+
+const { tip, related } = Astro.props;
+---
+
+<TipArticle tip={tip} related={related} />

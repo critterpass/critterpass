@@ -1,0 +1,27 @@
+---
+/** `<DoThis badge title>` in a tip: how to do it in the app, with the one call to action. */
+import { tipsCopy as copy } from '../copy/tips';
+import { siteTranslator } from '../i18n';
+import { SITE_PATHS } from '../site-config';
+
+export interface Props {
+  readonly badge: string;
+  readonly badgeLabel: string;
+  readonly title: string;
+}
+
+const { badge, badgeLabel, title } = Astro.props;
+const t = await siteTranslator();
+---
+
+<aside class="tip-do">
+  <span class="tip-do__badge" aria-hidden="true">
+    <span class="site-display">{badge}</span>
+    <span class="site-eyebrow">{badgeLabel}</span>
+  </span>
+  <div class="tip-do__text">
+    <h2 class="site-display tip-do__title">{title}</h2>
+    <div class="tip-do__body"><slot /></div>
+  </div>
+  <a class="site-button site-button--ink" href={SITE_PATHS.getTheApp}>{t(copy.getTheApp)}</a>
+</aside>

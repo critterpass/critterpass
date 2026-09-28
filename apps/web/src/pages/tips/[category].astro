@@ -1,0 +1,13 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import TipsIndex from '../../components/site/tips/TipsIndex.astro';
+import { TIP_CATEGORIES } from '../../components/site/tips/tips-data';
+
+export const getStaticPaths = (() =>
+  TIP_CATEGORIES.map((category) => ({ params: { category }, props: { category } }))) satisfies GetStaticPaths;
+
+const { category } = Astro.props;
+---
+
+<TipsIndex category={category} />

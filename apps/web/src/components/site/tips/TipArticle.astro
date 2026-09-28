@@ -1,0 +1,108 @@
+---
+/** Site-Tip-Article: coloured header, the MDX body, the AI disclosure, sharing and related tips. */
+import './tips.css';
+
+import { render } from 'astro:content';
+
+import Site from '../../../layouts/Site.astro';
+import { tipsCopy as copy } from '../copy/tips';
+import { siteTranslator } from '../i18n';
+import Sticker from '../Sticker.astro';
+import DoThis from './DoThis.astro';
+import PullQuote from './PullQuote.astro';
+import TipCard from './TipCard.astro';
+import { CATEGORY_COPY, TIP_COLOUR_VARS, type Tip } from './tips-data';
+
+export interface Props {
+  readonly tip: Tip;
+  readonly related: readonly Tip[];
+}
+
+const { tip, related } = Astro.props;
+const t = await siteTranslator();
+const data = tip.data;
+const { Content } = await render(tip.entry);
+const date = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+const url = new URL(`/tips/${tip.slug}`, Astro.site ?? 'https://critterpass.app').toString();
+const chatText = `${data.title} ${url}`;
+---
+
+<Site
+  title={`${data.title} · CritterPass`}
+  description={data.summary}
+  canonicalPath={`/tips/${tip.slug}`}
+  ogImage={`/og/tip/${tip.slug}.png`}
+  ogType="article"
+  noindex={data.draft}
+  active="tips"
+>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={data.published_at.toISOString()} />
+  </Fragment>
+  <header class="tip-head site-halftone" style={`--tip-bg:${TIP_COLOUR_VARS[tip.colour]}`}>
+    <div class="tip-wrap tip-head__grid">
+      <div>
+        {data.draft && <p class="tip-draft">{t(copy.draft)}</p>}
+        <a class="site-eyebrow tip-head__back" href="/tips"><span aria-hidden="true">← </span>{t(copy.allTips)}</a>
+        <p class="site-eyebrow tip-head__pill">
+          {`${t(CATEGORY_COPY[data.category])} · ${t(copy.minRead, { minutes: tip.minutes })}`}
+        </p>
+        <h1 class="site-display tip-head__title">{data.title}</h1>
+        <p class="tip-head__by">
+          <Sticker kind={tip.guideKind} size={40} drawOn={false} loading="eager" outlined={false} class="tip-head__avatar" />
+          <span>
+            <b>{t(copy.bylineBy, { guide: tip.guideName, place: tip.guidePlace })}</b>
+            <time class="site-mono" datetime={data.published_at.toISOString()}>{date.format(data.published_at)}</time>
+          </span>
+        </p>
+      </div>
+      <div class="tip-head__art" aria-hidden="true">
+        {data.bubbles.map((bubble, index) => <span class={`tip-bubble tip-bubble--${index}`}>{bubble}</span>)}
+        <Sticker kind={tip.guideKind} size={200} drawOn={false} loading="eager" />
+      </div>
+    </div>
+  </header>
+
+  <article class="tip-wrap tip-body">
+    <div class="tip-prose">
+      <Content components={{ PullQuote, DoThis }} />
+    </div>
+    {data.ai_assisted && <p class="tip-disclosure" data-testid="ai-disclosure">{t(copy.aiDisclosure)}</p>}
+    <div class="tip-share">
+      <span>{t(copy.share)}</span>
+      <button type="button" class="tip-share__chip" data-copy-only={url}>
+        <span class="tip-share__idle">{t(copy.copyLink)}</span>
+        <span class="tip-share__done">{t(copy.copied)}</span>
+      </button>
+      <a class="tip-share__chip" href={`https://wa.me/?text=${encodeURIComponent(chatText)}`} data-share-title={data.title} data-share-url={url} rel="noopener">
+        {t(copy.sendToChat)}
+      </a>
+    </div>
+  </article>
+
+  {
+    related.length > 0 && (
+      <section class="tip-wrap tip-related" aria-labelledby="tip-related-title">
+        <h2 id="tip-related-title" class="site-display tip-related__title">{t(copy.keepReading)}</h2>
+        <ul class="tip-related__list">
+          {related.map((other) => (
+            <TipCard tip={other} compact />
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</Site>
+
+<script>
+  import { wireLinkHandoff } from '../../link-handoff/CopyOnTap';
+  wireLinkHandoff();
+  // The system share sheet where there is one; the WhatsApp link otherwise.
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('a[data-share-url]')) {
+    link.addEventListener('click', (event) => {
+      if (typeof navigator.share !== 'function') return;
+      event.preventDefault();
+      void navigator.share({ title: link.dataset.shareTitle ?? '', url: link.dataset.shareUrl ?? '' }).catch(() => undefined);
+    });
+  }
+</script>

@@ -20,7 +20,9 @@ test.describe('OG cards', () => {
 
   test('a referral card renders; ids that are not codes never do', async ({ request }) => {
     expect((await request.get('/og/referral/WYNST8.png')).status()).toBe(200);
-    expect((await request.get('/og/invite/0190a6f1-7aaa-7bbb-8ccc-123456789abc.png')).status()).toBe(404);
+    expect(
+      (await request.get('/og/invite/0190a6f1-7aaa-7bbb-8ccc-123456789abc.png')).status(),
+    ).toBe(404);
     expect((await request.get('/og/invite/EXPR22.png')).status()).toBe(404);
     expect((await request.get('/og/crew/SANDY4.png')).status()).toBe(404);
   });

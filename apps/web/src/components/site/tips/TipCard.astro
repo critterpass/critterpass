@@ -1,0 +1,34 @@
+---
+import { tipsCopy as copy } from '../copy/tips';
+import { siteTranslator } from '../i18n';
+import { CATEGORY_COPY, TIP_COLOUR_VARS, type Tip } from './tips-data';
+
+export interface Props {
+  readonly tip: Tip;
+  readonly compact?: boolean;
+}
+
+const { tip, compact = false } = Astro.props;
+const t = await siteTranslator();
+const data = tip.data;
+---
+
+<li class:list={['tip-card', compact && 'tip-card--compact']} style={`--tip-bg:${TIP_COLOUR_VARS[tip.colour]}`}>
+  <a href={`/tips/${tip.slug}`} class="tip-card__link">
+    <span class="tip-card__art site-halftone">
+      {!compact && <span class="tip-card__tag">{t(CATEGORY_COPY[data.category])}</span>}
+    </span>
+    <span class="tip-card__text">
+      {compact && <span class="site-eyebrow tip-card__eyebrow">{t(CATEGORY_COPY[data.category])}</span>}
+      <span class="site-display tip-card__title">{data.title}</span>
+      {!compact && <span class="tip-card__summary">{data.summary}</span>}
+      {
+        !compact && (
+          <span class="site-mono tip-card__meta">
+            {`${t(copy.byline, { guide: tip.guideName, place: tip.guidePlace })} · ${t(copy.minShort, { minutes: tip.minutes })}`}
+          </span>
+        )
+      }
+    </span>
+  </a>
+</li>

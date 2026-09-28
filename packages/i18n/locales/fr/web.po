@@ -11,6 +11,22 @@ msgstr ""
 msgid "web.home.chat4"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.categoryPageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.byline"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.minShort"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.minRead"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.eyebrowFrom"
 msgstr ""
@@ -103,8 +119,16 @@ msgstr ""
 msgid "web.home.finalAdmit"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.all"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.allLegal"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.allTips"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -159,8 +183,20 @@ msgstr ""
 msgid "web.referral.pageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.bylineBy"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.filterLabel"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalName"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.category.cityGuides"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -171,8 +207,16 @@ msgstr ""
 msgid "web.referral.copied"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.copied"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.copyLink"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
@@ -203,6 +247,10 @@ msgstr ""
 msgid "web.home.pageDescription"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.rssTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.deleteAccount"
 msgstr ""
@@ -213,6 +261,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.appStoreBadge"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.draft"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.aiDisclosure"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -267,6 +323,10 @@ msgstr ""
 msgid "web.invite.expiresIn"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.featured"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.findMyCrew"
 msgstr ""
@@ -305,6 +365,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.getTheApp"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.getTheApp"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -403,6 +467,10 @@ msgstr ""
 msgid "web.invite.joinPageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.keepReading"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideTokek"
 msgstr ""
@@ -475,6 +543,10 @@ msgstr ""
 msgid "web.shell.openMenu"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.category.money"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyEyebrow"
 msgstr ""
@@ -485,6 +557,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroNew"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.voice"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -503,8 +579,16 @@ msgstr ""
 msgid "web.home.insideMoneyTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.emptyBody"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanItem2"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.category.onTheTrip"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -517,6 +601,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Body"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.askTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -551,8 +639,16 @@ msgstr ""
 msgid "web.home.stop3Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.category.planning"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.privacy"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.published"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -583,6 +679,14 @@ msgstr ""
 msgid "web.home.insideVoice"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.emptyAll"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.sendToChat"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Title"
 msgstr ""
@@ -593,6 +697,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsFlight"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.share"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.lede"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -651,8 +763,16 @@ msgstr ""
 msgid "web.home.chatName"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.eyebrow"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Body"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.emptyTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
@@ -697,6 +817,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.tips"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.title"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/tips.ts
+msgid "web.tips.pageTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts

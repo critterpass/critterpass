@@ -1,0 +1,124 @@
+---
+/** Site-Tips: the journal's hero, category filter, featured article, the grid and the app band. */
+import './tips.css';
+
+import type { TipCategory } from '@cp/content/tips';
+
+import Site from '../../../layouts/Site.astro';
+import { tipsCopy as copy } from '../copy/tips';
+import { siteTranslator } from '../i18n';
+import { SITE_PATHS } from '../site-config';
+import Sticker from '../Sticker.astro';
+import TipCard from './TipCard.astro';
+import { allTips, CATEGORY_COPY, TIP_CATEGORIES, TIP_COLOUR_VARS } from './tips-data';
+
+export interface Props {
+  readonly category: TipCategory | null;
+}
+
+const { category } = Astro.props;
+const t = await siteTranslator();
+const tips = (await allTips()).filter((tip) => category === null || tip.data.category === category);
+const featured = category === null ? (tips.find((tip) => tip.data.featured) ?? tips[0]) : undefined;
+const grid = tips.filter((tip) => tip !== featured);
+const title =
+  category === null ? t(copy.pageTitle) : t(copy.categoryPageTitle, { category: t(CATEGORY_COPY[category]) });
+const filters = [
+  { href: '/tips', label: t(copy.all), current: category === null },
+  ...TIP_CATEGORIES.map((key) => ({ href: `/tips/${key}`, label: t(CATEGORY_COPY[key]), current: key === category })),
+];
+const dateFormat = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+---
+
+<Site
+  title={title}
+  description={t(copy.lede)}
+  canonicalPath={category === null ? '/tips' : `/tips/${category}`}
+  active="tips"
+  alternates={[{ type: 'application/rss+xml', href: '/rss.xml', title: t(copy.rssTitle) }]}
+>
+  <section class="tips-hero">
+    <div class="site-wrap tips-hero__grid">
+      <div>
+        <p class="site-eyebrow tips-hero__eyebrow">{t(copy.eyebrow)}</p>
+        <h1 class="site-display tips-hero__title">{t(copy.title)}</h1>
+        <p class="tips-hero__lede">{t(copy.lede)}</p>
+      </div>
+      <div class="tips-hero__art" aria-hidden="true">
+        <Sticker kind="tanuki" size={110} drawOn={false} loading="eager" />
+        <Sticker kind="puffin" size={110} drawOn={false} loading="eager" />
+        <p class="site-voice tips-hero__voice">{t(copy.voice)}</p>
+      </div>
+    </div>
+    <nav class="site-wrap tips-filter" aria-label={t(copy.filterLabel)}>
+      {
+        filters.map((filter) => (
+          <a href={filter.href} class="tips-filter__chip" aria-current={filter.current ? 'page' : undefined}>
+            {filter.label}
+          </a>
+        ))
+      }
+    </nav>
+  </section>
+
+  <section class="site-wrap tips-list">
+    {
+      featured && (
+        <a
+          class="tips-featured"
+          href={`/tips/${featured.slug}`}
+          style={`--tip-bg:${TIP_COLOUR_VARS[featured.colour]}`}
+          data-testid="tips-featured"
+        >
+          <span class="tips-featured__art site-halftone">
+            <span class="tips-featured__tag">{t(copy.featured)}</span>
+            {featured.data.bubbles[0] && <span class="tips-featured__bubble">{featured.data.bubbles[0]}</span>}
+            <Sticker kind={featured.guideKind} size={200} />
+          </span>
+          <span class="tips-featured__text">
+            <span class="site-eyebrow tips-featured__eyebrow">
+              {`${t(CATEGORY_COPY[featured.data.category])} · ${t(copy.minRead, { minutes: featured.minutes })}`}
+            </span>
+            <span class="site-display tips-featured__title">{featured.data.title}</span>
+            <span class="tips-featured__summary">{featured.data.summary}</span>
+            <span class="tips-featured__by">
+              <span class="tips-featured__dot" aria-hidden="true" />
+              {`${t(copy.byline, { guide: featured.guideName, place: featured.guidePlace })} · ${dateFormat.format(featured.data.published_at)}`}
+            </span>
+          </span>
+        </a>
+      )
+    }
+    {
+      grid.length > 0 && (
+        <ul class="tips-grid">
+          {grid.map((tip) => (
+            <TipCard tip={tip} />
+          ))}
+        </ul>
+      )
+    }
+    {
+      tips.length === 0 && (
+        <div class="tips-empty" data-testid="tips-empty">
+          <Sticker kind="puffin" size={110} pose="think" />
+          <h2 class="site-display tips-empty__title">{t(copy.emptyTitle)}</h2>
+          <p>{t(copy.emptyBody)}</p>
+          {category !== null && (
+            <a class="site-button site-button--ink" href="/tips">
+              {t(copy.emptyAll)}
+            </a>
+          )}
+        </div>
+      )
+    }
+  </section>
+
+  <section class="tips-ask site-halftone">
+    <div class="site-wrap tips-ask__inner">
+      <Sticker kind="gecko" size={96} drawOn={false} />
+      <h2 class="site-display tips-ask__title">{t(copy.askTitle)}</h2>
+      <a class="site-button site-button--ink" href={SITE_PATHS.getTheApp}>{t(copy.getTheApp)}</a>
+    </div>
+  </section>
+</Site>
