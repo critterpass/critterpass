@@ -34,8 +34,12 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'home-row-SIN'
 - hideKeyboard
-- assertVisible:
-    id: 'home-stamp'
+# The stamp sits under the result list, which a short query fills past the screen.
+- scrollUntilVisible:
+    element:
+      id: 'home-stamp'
+    direction: DOWN
+    timeout: 10000
 - tapOn:
     id: 'onboarding-home-next'
 - extendedWaitUntil:

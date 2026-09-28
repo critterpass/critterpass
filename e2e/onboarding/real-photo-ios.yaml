@@ -1,0 +1,37 @@
+appId: app.critterpass.dev
+---
+# "Use a real photo" on the iOS simulator: the library picker, then the circle-crop fallback (the
+# simulator reports no subject lift), zoom and upload through the avatar presign until the sheet
+# says the photo waits for its check.
+- launchApp:
+    clearState: true
+- runFlow: subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-real'
+- extendedWaitUntil:
+    visible:
+      id: 'real-photo-library'
+    timeout: 10000
+- takeScreenshot: real-photo-sheet
+- tapOn:
+    id: 'real-photo-library'
+# One of the sample photos every iOS simulator ships with.
+- extendedWaitUntil:
+    visible: 'Photo, 13 March 2011.*'
+    timeout: 15000
+- tapOn: 'Photo, 13 March 2011.*'
+- extendedWaitUntil:
+    visible:
+      id: 'real-photo-preview'
+    timeout: 30000
+- assertVisible:
+    id: 'real-photo-no-subject'
+- waitForAnimationToEnd
+- takeScreenshot: real-photo-circle-crop
+- tapOn:
+    id: 'real-photo-use'
+- extendedWaitUntil:
+    visible:
+      id: 'real-photo-done'
+    timeout: 30000
+- takeScreenshot: real-photo-done
