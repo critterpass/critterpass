@@ -149,7 +149,7 @@ export function ManifestScreen() {
           sticker={<Sticker kind={tokek.kind} name={tokek.name} size={72} />}
           line={welcome.visibleText}
         />
-        <Text variant="displayHero" accessibilityRole="header">
+        <Text variant="h1" accessibilityRole="header">
           {upper(copy.title, locale)}
         </Text>
         <Text variant="body" color={theme.color.paper.ink}>

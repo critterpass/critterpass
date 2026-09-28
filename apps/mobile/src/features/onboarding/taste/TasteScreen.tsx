@@ -27,10 +27,9 @@ export function TasteScreen() {
   const current = nextQuestion(quiz, draft.answers) === null ? quiz.length : answered + 1;
   return (
     <OnboardingPage page={3} testID="onboarding-taste">
-      <View
-        style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}
-      >
-        <Text variant="displayHero" accessibilityRole="header">
+      {/* The title takes what the counter leaves, so a long translation wraps instead of running under it. */}
+      <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: theme.space['12'] }}>
+        <Text variant="h1" accessibilityRole="header" style={{ flex: 1 }}>
           {t({ id: 'onboarding.taste.title', message: 'This or that' })}
         </Text>
         <Text variant="eyebrow" color={theme.semantic.text.secondary} testID="taste-counter">

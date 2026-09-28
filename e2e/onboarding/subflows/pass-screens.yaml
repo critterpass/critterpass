@@ -112,6 +112,18 @@ appId: app.critterpass.dev
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3a-8-phone
+# The country code sheet (undesigned): its list must run to the bottom edge of the sheet.
+- tapOn:
+    id: 'phone-country'
+- extendedWaitUntil:
+    visible:
+      id: 'country-picker-panel'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-8-country
+- tapOn:
+    id: 'country-picker-close'
+- waitForAnimationToEnd
 - swipe:
     start: 2%, 50%
     end: 90%, 50%

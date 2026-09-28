@@ -184,7 +184,7 @@ export function PassScreen() {
             {upper(t({ id: 'onboarding.invite.pass.oneOfOne', message: '1 of 1' }), locale)}
           </Text>
         </View>
-        <Text variant="displayHero" accessibilityRole="header">
+        <Text variant="h1" accessibilityRole="header">
           {upper(
             t({ id: 'onboarding.invite.pass.title', message: 'Your pass, three taps' }),
             locale,

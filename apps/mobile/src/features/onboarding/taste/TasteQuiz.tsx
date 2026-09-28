@@ -26,7 +26,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { onboardingQuiz, tokekLine } from '../content';
 import { TokekSays } from '../tokek-says';
-import { FLING_MS, QuizCard, type Side } from './QuizCard';
+import { FLING_MS, OR_BADGE_SIZE, QuizCard, type Side } from './QuizCard';
 import { tagWords } from './tag-labels';
 import { TagSlot, TagStamp } from './TagStamp';
 
@@ -37,10 +37,10 @@ const useStyles = makeStyles((th) => ({
     position: 'absolute',
     alignSelf: 'center',
     top: '50%',
-    marginTop: -28,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    marginTop: -OR_BADGE_SIZE / 2,
+    width: OR_BADGE_SIZE,
+    height: OR_BADGE_SIZE,
+    borderRadius: OR_BADGE_SIZE / 2,
     borderWidth: 3,
     alignItems: 'center',
     justifyContent: 'center',

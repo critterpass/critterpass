@@ -57,7 +57,7 @@ const useStyles = makeStyles((th) => ({
     borderWidth: 2,
     borderColor: 'transparent',
   },
-  code: { width: 48 },
+  code: { width: 56 }, // fixed so names line up; codes shrink into it, never wrap
   rowText: { flex: 1 },
   check: {
     width: 26,
@@ -133,6 +133,9 @@ function ResultRow({
           variant="h3"
           color={selected ? theme.color.yellow : theme.semantic.text.primary}
           style={styles.code}
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.6}
         >
           {iata}
         </Text>
@@ -247,7 +250,7 @@ export function HomeScreen() {
         />
       }
     >
-      <Text variant="displayHero" accessibilityRole="header">
+      <Text variant="h1" accessibilityRole="header">
         {t({ id: 'onboarding.home.title', message: 'Where’s home?' })}
       </Text>
       <Text variant="body" color={theme.semantic.text.secondary}>
