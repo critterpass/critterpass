@@ -64,6 +64,9 @@ export type GatewayStreamEvent =
   | { readonly kind: 'delta'; readonly event: StreamEvent }
   | { readonly kind: 'done'; readonly result: GatewayResult };
 
+/** The ops kill-switch check for one route; throws `STATE_INVALID switched_off` when it is off. */
+export type AssertRouteOn = (route: AiRoute) => Promise<void>;
+
 export interface GatewayOptions {
   readonly apiKey: string;
   /** Explicit endpoint override (see ./env.ts); unset = DeepSeek's Anthropic-format API. */
@@ -79,6 +82,12 @@ export interface GatewayOptions {
   readonly sleep?: (ms: number) => Promise<void>;
   readonly random?: () => number;
   readonly now?: () => Date;
+  /**
+   * The ops kill switches: runs before any provider request and throws (`STATE_INVALID
+   * switched_off`) when the route, its tier or the cost guard has it off, so a paused call fails
+   * fast and never reaches the provider.
+   */
+  readonly assertRouteOn?: AssertRouteOn;
 }
 
 export interface Gateway {
@@ -291,6 +300,7 @@ export function createGateway(options: GatewayOptions): Gateway {
 
   return {
     async callModel(routeId, input, context = {}) {
+      await options.assertRouteOn?.(routeId);
       const route = resolveGenerationRoute(routeId);
       const params = buildMessageParams(route, input);
       const startedAt = now();
@@ -311,6 +321,7 @@ export function createGateway(options: GatewayOptions): Gateway {
     },
 
     async *streamModel(routeId, input, context = {}) {
+      await options.assertRouteOn?.(routeId);
       const route = resolveGenerationRoute(routeId);
       const params = buildMessageParams(route, input);
       const startedAt = now();

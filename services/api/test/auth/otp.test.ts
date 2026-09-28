@@ -43,6 +43,9 @@ describe('isValidSendableNumber', () => {
   });
 });
 
+/** No `ops.ops_config` rows: every channel's switch is on (a missing key is on). */
+const allOn = { isOn: () => Promise.resolve(true) };
+
 function noopTracker(): OtpDeliveryTracker {
   return { recordDelivery: () => Promise.resolve() };
 }
@@ -53,6 +56,7 @@ describe('createOtpRouter', () => {
     const router = createOtpRouter({
       adapters: { whatsapp: { send: whatsappSend } },
       tracker: noopTracker(),
+      switches: allOn,
     });
     await router.sendOTP({
       phoneE164: '+6591234567',
@@ -71,6 +75,7 @@ describe('createOtpRouter', () => {
     const router = createOtpRouter({
       adapters: { whatsapp: { send: whatsappSend }, prelude: { send: smsSend } },
       tracker: noopTracker(),
+      switches: allOn,
     });
     await router.sendOTP({
       phoneE164: '+6591234567',
@@ -83,7 +88,7 @@ describe('createOtpRouter', () => {
   });
 
   it('throws VALIDATION with country_unsupported for an unparseable number', async () => {
-    const router = createOtpRouter({ adapters: {}, tracker: noopTracker() });
+    const router = createOtpRouter({ adapters: {}, tracker: noopTracker(), switches: allOn });
     await expect(
       router.sendOTP({
         phoneE164: 'garbage',
@@ -95,7 +100,7 @@ describe('createOtpRouter', () => {
   });
 
   it('throws when no channel for the country has a registered adapter (missing credentials)', async () => {
-    const router = createOtpRouter({ adapters: {}, tracker: noopTracker() });
+    const router = createOtpRouter({ adapters: {}, tracker: noopTracker(), switches: allOn });
     await expect(
       router.sendOTP({
         phoneE164: '+6591234567',
@@ -113,6 +118,7 @@ describe('createOtpRouter', () => {
     const router = createOtpRouter({
       adapters: { whatsapp: { send: () => Promise.resolve({ providerMessageId: 'wamid.123' }) } },
       tracker: { recordDelivery },
+      switches: allOn,
     });
     await router.sendOTP({
       phoneE164: '+6591234567',

@@ -19,6 +19,7 @@ import {
   AVATAR_RENDER_QUEUE,
   avatarJobSchema,
   crewChannel,
+  switchedOffKey,
   type AvatarJob,
 } from '@cp/domain';
 import type pg from 'pg';
@@ -282,9 +283,12 @@ export function avatarModerateJob(options: AvatarModerateOptions): JobDefinition
       try {
         verdict = await classify(classifier, images.small, ctx.job.signal, avatar.user_id);
       } catch (error) {
-        // A model outage never lets a photo through: retry, then leave it to ops review.
-        if (!ctx.job.isFinalAttempt) throw error;
-        return { outcome: await review(ctx.pool, data.avatar_id, 'classifier_error') };
+        // A model outage never lets a photo through: retry, then leave it to ops review. A
+        // switched-off classifier goes to review at once (retrying cannot help).
+        const off = switchedOffKey(error) !== undefined;
+        if (!ctx.job.isFinalAttempt && !off) throw error;
+        const reason = off ? 'classifier_switched_off' : 'classifier_error';
+        return { outcome: await review(ctx.pool, data.avatar_id, reason) };
       }
       if (verdict.verdict === 'allow') {
         return { outcome: await decide(ctx.pool, data.avatar_id, 'approved', null) };

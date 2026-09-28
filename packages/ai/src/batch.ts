@@ -11,7 +11,7 @@
  * error is thrown so the job retries later from where it stopped.
  */
 import type Anthropic from '@anthropic-ai/sdk';
-import type { AiErrorCode, AiRoute } from '@cp/domain';
+import { switchedOffKey, type AiErrorCode, type AiRoute } from '@cp/domain';
 
 import type { Gateway, GatewayInput } from './client';
 import { GatewayConfigError, toGatewayError, type GatewayError } from './errors';
@@ -88,6 +88,8 @@ async function runOne(
       costMicros: result.costMicros,
     };
   } catch (caught) {
+    // A switched-off route stops the whole batch: every other item would be refused the same way.
+    if (switchedOffKey(caught) !== undefined) throw caught;
     const error = toGatewayError(caught);
     if (error.code === 'AI_REFUSED') return { customId: request.customId, type: 'refused' };
     if (isPermanent(error)) {

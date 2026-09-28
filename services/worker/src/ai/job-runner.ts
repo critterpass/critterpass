@@ -7,6 +7,10 @@
  * totals are re-summed from `ai_usage` after every step. A step may suspend the job while it waits
  * on something outside the worker: whoever finishes the wait re-enqueues it.
  *
+ * A step refused by an ops kill switch (`switched_off`: its AI route, tier or the cost guard's pause)
+ * ends the job at once: the job fails with its steps compensated, and the pg-boss job completes with
+ * `{switched_off: key}`, so the queue neither retries nor dead-letters it.
+ *
  * Steps must be idempotent on `ctx.idempotencyKey`: a crash after a step's side effect but before
  * its result is saved runs that step again.
  */
@@ -19,7 +23,7 @@ import {
   type UsageContext,
 } from '@cp/ai';
 import { emitEvent, withSystem } from '@cp/db';
-import { userChannel, type AgentJobKind, type DomainEventInput } from '@cp/domain';
+import { switchedOffKey, userChannel, type AgentJobKind, type DomainEventInput } from '@cp/domain';
 import type pg from 'pg';
 
 import {
@@ -123,7 +127,9 @@ async function runWithTries(step: AgentStep, ctx: AgentStepContext): Promise<unk
     try {
       return await step.run(ctx);
     } catch (error) {
-      if (attempt >= tries || ctx.job.signal.aborted) throw error;
+      if (attempt >= tries || ctx.job.signal.aborted || switchedOffKey(error) !== undefined) {
+        throw error;
+      }
       await new Promise((resolve) => setTimeout(resolve, STEP_RETRY_MS * attempt));
     }
   }
@@ -161,7 +167,10 @@ async function compensateAll(
 }
 
 type RunOutcome =
-  { readonly succeeded: true } | { readonly waiting: string } | { readonly skipped: string };
+  | { readonly succeeded: true }
+  | { readonly waiting: string }
+  | { readonly skipped: string }
+  | { readonly switched_off: string };
 
 async function runAgentJob(
   def: DefineAgentJobInput,
@@ -206,8 +215,10 @@ async function runAgentJob(
     try {
       outcome = await runWithTries(step, { ...base, results, idempotencyKey: `${id}:${step.id}` });
     } catch (error) {
-      state = updateStep(state, step.id, { status: 'failed', error: messageOf(error) });
-      if (ctx.job.isFinalAttempt) {
+      const switchedOff = switchedOffKey(error);
+      const message = switchedOff === undefined ? messageOf(error) : `switched_off: ${switchedOff}`;
+      state = updateStep(state, step.id, { status: 'failed', error: message });
+      if (ctx.job.isFinalAttempt || switchedOff !== undefined) {
         const errors = await compensateAll(def.steps, results, base);
         const partial =
           Object.keys(errors).length === 0 ? results : { ...results, compensation_errors: errors };
@@ -215,7 +226,12 @@ async function runAgentJob(
       } else {
         await save({ steps: state });
       }
-      throw error;
+      if (switchedOff === undefined) throw error;
+      ctx.logger.info(
+        { agent_job_id: id, step: step.id, key: switchedOff },
+        'agent job ended: switched off',
+      );
+      return { switched_off: switchedOff };
     }
 
     if (isSuspension(outcome)) {

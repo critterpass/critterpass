@@ -28,6 +28,7 @@ import {
   seasonResearchMonth,
   seasonResearchQueries,
   seasonResearchReplySchema,
+  switchedOffKey,
   TRAVEL_DESTINATIONS,
   type SeasonResearchCandidate,
 } from '@cp/domain';
@@ -185,6 +186,8 @@ export interface SeasonResearchReport {
   readonly destinations: number;
   readonly candidates: number;
   readonly queued: number;
+  /** The kill switch that stopped the run early, if one did. */
+  readonly switched_off?: string;
 }
 
 const payloadSchema = z
@@ -228,6 +231,12 @@ export async function runSeasonResearch(
       candidates += found.length;
       queued += await withSystem(pool, (tx) => queueSeasonCandidates(tx, destination.id, found));
     } catch (error) {
+      const key = switchedOffKey(error);
+      if (key !== undefined) {
+        // Switched off in the ops console: every other destination would be refused the same way.
+        logger.info({ key, month }, 'season research stopped: switched off');
+        return { month, destinations: destinations.length, candidates, queued, switched_off: key };
+      }
       // One destination's search or model failure leaves the others to finish.
       logger.warn({ err: error, destination: destination.slug, month }, 'season research failed');
     }

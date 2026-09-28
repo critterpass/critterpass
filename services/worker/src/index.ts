@@ -1,4 +1,5 @@
-import { onEventAppended } from '@cp/db';
+import { resolveRoute } from '@cp/ai';
+import { createKillSwitchReader, onEventAppended } from '@cp/db';
 import { serve } from '@hono/node-server';
 import pg from 'pg';
 import { createClient } from 'redis';
@@ -94,6 +95,9 @@ const llmObservability = createWorkerLlmObservability({
   onError: (error) => logger.warn({ err: error }, 'llm observability export failed'),
 });
 
+// One kill-switch reader per process: every AI call checks its route, tier and the cost guard's pause.
+const aiSwitches = createKillSwitchReader(pool, { tierOf: (route) => resolveRoute(route).tier });
+
 const jobs: AnyJobDefinition[] = [
   enqueueDueJob(),
   purgeJob(),
@@ -107,11 +111,17 @@ const jobs: AnyJobDefinition[] = [
     env,
     (error) => logger.warn({ err: error }, 'langfuse export failed'),
     llmObservability,
+    aiSwitches.assertAiRoute,
   ),
-  ...travelDataJobs(env, pool, logger.child({ component: 'travel-data' })),
+  ...travelDataJobs(
+    env,
+    pool,
+    logger.child({ component: 'travel-data' }),
+    aiSwitches.assertAiRoute,
+  ),
   ...contentJobs(),
   costRecomputeJob,
-  ...avatarJobs(env, llmObservability),
+  ...avatarJobs(env, aiSwitches.assertAiRoute, llmObservability),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&

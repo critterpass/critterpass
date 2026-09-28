@@ -14,7 +14,7 @@ import { getSessionFromCtx } from 'better-auth/api';
 import { APIError, type BetterAuthOptions } from 'better-auth';
 import type pg from 'pg';
 
-import { withSystem } from '@cp/db';
+import { withSystem, type KillSwitchReader } from '@cp/db';
 import { DomainError } from '@cp/domain';
 
 import { enforceAttestation, type AttestationDeps } from '../abuse/attestation';
@@ -95,13 +95,27 @@ export function buildAccountCreateAfterHook(
   };
 }
 
+export interface DatabaseHooksDeps extends HooksDeps {
+  /** The ops kill switches: `signup.enabled` off refuses every new user (returning users sign in). */
+  readonly switches: Pick<KillSwitchReader, 'assertOn'>;
+}
+
 export function buildDatabaseHooks(
-  deps: HooksDeps,
+  deps: DatabaseHooksDeps,
 ): NonNullable<BetterAuthOptions['databaseHooks']> {
   const onUserCreated = buildUserCreateAfterHook(deps);
   return {
     user: {
       create: {
+        // Every path that creates an `auth.user` (anonymous, first social or phone sign-in) passes
+        // here; a sign-in that finds its user creates nothing, so returning users are unaffected.
+        before: async () => {
+          try {
+            await deps.switches.assertOn('signup.enabled');
+          } catch (error) {
+            throw toApiError(error);
+          }
+        },
         after: async (user) => {
           await onUserCreated(user);
         },
@@ -187,7 +201,7 @@ const HTTP_STATUS_NAMES: Readonly<Record<number, Parameters<typeof APIError.from
  * same `{error: {code, message, retryable, detail}}` body (`APIError`'s `body` is serialised
  * verbatim by `better-call`'s `toResponse`, so the wire contract does not change).
  */
-function toApiError(error: unknown): unknown {
+export function toApiError(error: unknown): unknown {
   if (error instanceof DomainError) {
     return APIError.fromStatus(
       HTTP_STATUS_NAMES[error.http] ?? 'INTERNAL_SERVER_ERROR',

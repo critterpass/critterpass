@@ -73,6 +73,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 
 | Area | Delta |
 |---|---|
+| Kill switch | Widget refresh pushes check `widgets.push.enabled` before sending through the shared reader (api: `createKillSwitches(pool)` `.middleware(key)` / `.assertOn(key)`; worker: `createKillSwitchReader` from `@cp/db`); off answers `STATE_INVALID {reason: 'switched_off', key}` (api-contracts §4.17), never retried, and the app shows its existing fallback |
 | Migration `<ts>_widget_tokens_and_installs.sql` | `widget_push_tokens`, `installed_widgets` (data-model §3.11), RLS self; not published |
 | Commands | `register_widget_token`, `sync_installed_widgets`; `set_notification_prefs` full validation (budget range, roundup time, per-category mode; voice read-out requires `passPlus`) |
 | HTTP | `GET /v1/widgets/snapshot?trip_id` (S/K `read_snapshot`, ETag) — builder in `packages/domain/src/surfaces/widget-snapshot.ts`, schema versioned (`schema` int) |

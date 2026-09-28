@@ -1,9 +1,14 @@
 /**
  * Kill switches over a real migrated Postgres: a missing switch is on, a switched-off route or tier
  * answers `STATE_INVALID {reason: 'switched_off', key}` (not retryable), the cost guard's pause for
- * today stops only its tier's routes, and the middleware refuses while its switch is off.
+ * today stops only its tier's routes, and the middleware refuses while its switch is off. Through
+ * the gateway and the decision client, a switched-off call never reaches the provider (the provider
+ * HTTP boundary replays recorded fixtures and counts requests), and a flip applies within one read
+ * cache window.
  */
-import { runMigrations } from '@cp/db';
+import { createDecisionClient, createGateway, noul, toGatewayError } from '@cp/ai';
+import { fixtureTransport } from '@cp/ai/testing';
+import { KILL_SWITCH_CACHE_MS, runMigrations } from '@cp/db';
 import { startPostgres } from '@cp/db/testing';
 import { DomainError } from '@cp/domain';
 import { Hono } from 'hono';
@@ -107,5 +112,76 @@ describe('kill switches', () => {
       error: { code: 'STATE_INVALID', detail: { reason: 'switched_off', key: 'signup.enabled' } },
     });
     expect(() => switches.middleware('guide.free_daily_limit')).toThrow(/not a kill switch/);
+  });
+});
+
+describe('kill switches at the AI gateway', () => {
+  const input = { messages: [{ role: 'user' as const, content: 'hi' }] };
+
+  function gatewayWith(fixtures: readonly string[], at: () => Date = () => now) {
+    const switches = createKillSwitches(pool, { now: at });
+    const transport = fixtureTransport(fixtures);
+    const gateway = createGateway({
+      apiKey: 'fixture-key',
+      fetch: transport.fetch,
+      maxAttempts: 1,
+      assertRouteOn: switches.assertAiRoute,
+    });
+    return { gateway, transport, switches };
+  }
+
+  it('never reaches the provider for a switched-off route, called or streamed', async () => {
+    await set('ai.guide.chat.enabled', false);
+    const { gateway, transport } = gatewayWith([]);
+    const called = await refusal(() => gateway.callModel('guide.chat', input));
+    expect(called.detail).toEqual({ reason: 'switched_off', key: 'ai.guide.chat.enabled' });
+    const streamed = await refusal(async () => {
+      for await (const event of gateway.streamModel('guide.chat', input)) void event;
+    });
+    expect(streamed.detail).toMatchObject({ key: 'ai.guide.chat.enabled' });
+    expect(transport.urls).toHaveLength(0);
+    // Callers that speak the gateway taxonomy see an unavailable, not retryable, answer.
+    expect(toGatewayError(called)).toMatchObject({ code: 'AI_UNAVAILABLE', retryable: false });
+  });
+
+  it('never reaches the provider while the cost guard pauses the tier', async () => {
+    await set(AI_COST_GUARD_STATE_KEY, { day: '2026-09-28', paused: ['fast'] });
+    const { gateway, transport } = gatewayWith(['flash-basic']);
+    const error = await refusal(() => gateway.callModel('guide.chat', input));
+    expect(error.detail).toMatchObject({ key: 'ai.tier.fast.enabled', by: 'cost_guard' });
+    expect(transport.urls).toHaveLength(0);
+  });
+
+  it('refuses a switched-off decision before Jev or its twin', async () => {
+    await set('ai.compliance.check.enabled', false);
+    const { gateway, transport, switches } = gatewayWith([]);
+    const jev = fixtureTransport([], { dir: 'typesafe' });
+    const decisions = createDecisionClient({
+      apiKey: 'fixture-key',
+      gateway,
+      fetch: jev.fetch,
+      assertRouteOn: switches.assertAiRoute,
+    });
+    const error = await refusal(() =>
+      decisions.decide('compliance.check', {
+        state: 'hello',
+        questions: { spam: noul('Is this spam?') },
+      }),
+    );
+    expect(error.detail).toMatchObject({ key: 'ai.compliance.check.enabled' });
+    expect([...jev.urls, ...transport.urls]).toHaveLength(0);
+  });
+
+  it('applies a flip within one cache window', async () => {
+    let at = now.getTime();
+    const { gateway, transport } = gatewayWith(['flash-basic', 'flash-basic'], () => new Date(at));
+    await gateway.callModel('guide.chat', input);
+    await set('ai.guide.chat.enabled', false);
+    // Inside the window the cached read still says on.
+    at += KILL_SWITCH_CACHE_MS - 1;
+    await gateway.callModel('guide.chat', input);
+    at += 2;
+    await refusal(() => gateway.callModel('guide.chat', input));
+    expect(transport.urls).toHaveLength(2);
   });
 });

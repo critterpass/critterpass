@@ -17,7 +17,7 @@ import {
   type Telemetry,
   type UsageContext,
 } from '@cp/ai';
-import { withSystem } from '@cp/db';
+import { withSystem, type KillSwitchReader } from '@cp/db';
 import { DomainError, type ComplianceResult, type ComplianceSurface } from '@cp/domain';
 import type pg from 'pg';
 
@@ -31,6 +31,8 @@ export interface ApiComplianceDeps {
   readonly typesafeApiKey?: string | undefined;
   /** The api's Claude gateway (runs the Haiku twin and records its own usage). */
   readonly gateway?: Gateway | undefined;
+  /** The ops kill switches: a switched-off check takes the surface's unavailable outcome. */
+  readonly switches: Pick<KillSwitchReader, 'assertAiRoute'>;
   readonly telemetry?: Telemetry;
   readonly logger: ComplianceLogger;
   /** Network boundary override (recorded fixtures in tests). */
@@ -55,6 +57,7 @@ export interface ApiCompliance {
 export function createApiCompliance(deps: ApiComplianceDeps): ApiCompliance {
   const decisions: DecisionClient = createDecisionClient({
     apiKey: deps.typesafeApiKey,
+    assertRouteOn: deps.switches.assertAiRoute,
     ...(deps.gateway === undefined ? {} : { gateway: deps.gateway }),
     ...(deps.telemetry === undefined ? {} : { telemetry: deps.telemetry }),
     ...(deps.fetch === undefined ? {} : { fetch: deps.fetch }),

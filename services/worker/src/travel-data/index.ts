@@ -2,7 +2,13 @@
  * Travel-data jobs (docs/api-contracts-async.md §2.3): each supplier-backed refresh is registered
  * only when its key is configured, and every outbound call is audited in `ops.supplier_calls`.
  */
-import { createGateway, createTavilySearch, recordUsage, type AiUsageRecord } from '@cp/ai';
+import {
+  createGateway,
+  createTavilySearch,
+  recordUsage,
+  type AiUsageRecord,
+  type AssertRouteOn,
+} from '@cp/ai';
 import { withSystem } from '@cp/db';
 import {
   createSqlSupplierCallAudit,
@@ -87,6 +93,8 @@ export function travelDataJobs(
   >,
   pool: pg.Pool,
   logger: JobLogger,
+  /** The ops kill switches, checked before every model call. */
+  assertRouteOn: AssertRouteOn,
 ): AnyJobDefinition[] {
   const http = createAuditedSupplierHttp(pool, logger);
   const jobs: AnyJobDefinition[] = [
@@ -133,6 +141,7 @@ export function travelDataJobs(
           apiKey: modelKey,
           ...(env.ANTHROPIC_BASE_URL === undefined ? {} : { baseURL: env.ANTHROPIC_BASE_URL }),
           onUsage,
+          assertRouteOn,
         }),
         search: createTavilySearch({ apiKey: searchKey }),
       }),

@@ -3,9 +3,12 @@
  * pumping"): WhatsApp first wherever the country allows it (the Cloud API has no reachability
  * lookup, so it is always tried, not probed), SMS (Prelude/Twilio Verify per ./countries.ts) as
  * fallback or for countries without WhatsApp. Channels with no registered adapter (missing
- * credentials for this deployment) are skipped, never faked.
+ * credentials for this deployment) are skipped, never faked. A channel switched off in the ops
+ * console (`otp.<channel>.enabled`) is skipped too; only when every channel the country could use
+ * is off does the send answer `STATE_INVALID {reason: 'switched_off', key}` (the first channel's key).
  */
-import { DomainError } from '@cp/domain';
+import type { KillSwitchReader } from '@cp/db';
+import { DomainError, switchedOffError } from '@cp/domain';
 
 import { countryOtpPolicy, isValidSendableNumber, type OtpChannel } from './countries';
 
@@ -37,6 +40,8 @@ export interface OtpDeliveryTracker {
 export interface OtpRouterDeps {
   readonly adapters: Partial<Record<OtpChannel, OtpChannelAdapter>>;
   readonly tracker: OtpDeliveryTracker;
+  /** The ops kill switches (`otp.<channel>.enabled`). */
+  readonly switches: Pick<KillSwitchReader, 'isOn'>;
 }
 
 export interface OtpRouter {
@@ -67,9 +72,16 @@ export function createOtpRouter(deps: OtpRouterDeps): OtpRouter {
         // ("router skips unavailable channels"). Nothing to fake here.
         throw new DomainError('INTERNAL', { reason: 'no_otp_channel_available' });
       }
+      const switchOf = (channel: OtpChannel) => `otp.${channel}.enabled`;
+      const enabled: OtpChannel[] = [];
+      for (const channel of registered) {
+        if (await deps.switches.isOn(switchOf(channel))) enabled.push(channel);
+      }
+      const first = registered[0];
+      if (enabled.length === 0 && first !== undefined) throw switchedOffError(switchOf(first));
 
       let lastError: unknown;
-      for (const [index, channel] of registered.entries()) {
+      for (const [index, channel] of enabled.entries()) {
         const adapter = deps.adapters[channel];
         if (!adapter) continue;
         try {
@@ -88,7 +100,7 @@ export function createOtpRouter(deps: OtpRouterDeps): OtpRouter {
           lastError = error;
           // WhatsApp send error falls back to SMS; the last channel in
           // the order has nowhere left to fall back to, so its error is the one that surfaces.
-          if (index === registered.length - 1) throw error;
+          if (index === enabled.length - 1) throw error;
         }
       }
       throw lastError instanceof Error ? lastError : new DomainError('INTERNAL');

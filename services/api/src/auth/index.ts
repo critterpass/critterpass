@@ -5,6 +5,7 @@
  * surface to mount; `services/api/test/auth/*.db.test.ts` builds the same module directly against
  * Testcontainers with fake OTP/attestation ports at the network boundary.
  */
+import type { KillSwitchReader } from '@cp/db';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
 
@@ -20,6 +21,7 @@ import {
   buildRequestAfterHook,
   buildRequestBeforeHook,
   buildVerificationCreateAfterHook,
+  toApiError,
 } from './hooks';
 import {
   createOtpRouter,
@@ -31,6 +33,7 @@ import { betterAuth } from 'better-auth';
 
 import type { AttestationConfig } from '../abuse/attestation';
 import { defaultPumpingConfig, type PumpingConfig } from '../abuse/pumping';
+import { createKillSwitches } from '../ops/kill-switches';
 import { wrapHandlerWithMergeIntercept } from './merge/intercept';
 import type { AppleProviderConfig } from './social/apple';
 import type { GoogleProviderConfig } from './social/google';
@@ -71,6 +74,8 @@ export interface AuthModuleDeps {
   readonly google?: GoogleProviderConfig | undefined;
   /** Gates admin impersonation (admin.ts); defaults to `true` (fail safe). */
   readonly isProduction?: boolean | undefined;
+  /** The ops kill switches (`signup.enabled`, `otp.<channel>.enabled`); defaults to a reader on `appPool`. */
+  readonly switches?: Pick<KillSwitchReader, 'isOn' | 'assertOn'> | undefined;
   /** Receives errors from idle auth-pool connections (e.g. a database restart); defaults to a process warning. */
   readonly onPoolError?: ((error: Error) => void) | undefined;
 }
@@ -120,9 +125,11 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
     },
   };
 
+  const switches = deps.switches ?? createKillSwitches(deps.appPool);
   const otpRouter = createOtpRouter({
     adapters: deps.otpAdapters,
     tracker: createRedisOtpDeliveryTracker(deps.redis),
+    switches,
   });
 
   const { hook: verificationCreateAfter, consumePendingVerificationId } =
@@ -146,19 +153,24 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
         }
       }
       const verificationId = consumePendingVerificationId(data.phoneNumber);
-      await otpRouter.sendOTP({
-        phoneE164: data.phoneNumber,
-        code: data.code,
-        uid,
-        verificationId,
-      });
+      try {
+        await otpRouter.sendOTP({
+          phoneE164: data.phoneNumber,
+          code: data.code,
+          uid,
+          verificationId,
+        });
+      } catch (error) {
+        // A `DomainError` keeps its own status and wire body (e.g. `switched_off` is a 409).
+        throw toApiError(error);
+      }
     },
   };
 
   // buildDatabaseHooks() only ever defines `user.create.after` today; `verification.create.after`
   // is added here rather than there so services/api/src/auth/hooks.ts stays free of the in-memory
   // verification-id tracking map, which is otp-router plumbing, not a `public.users` concern.
-  const databaseHooks = buildDatabaseHooks({ appPool: deps.appPool });
+  const databaseHooks = buildDatabaseHooks({ appPool: deps.appPool, switches });
   const accountCreateAfter = buildAccountCreateAfterHook({
     appPool: deps.appPool,
     // `authRef.current` is assigned once betterAuth() returns below; this hook is only ever invoked
