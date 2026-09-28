@@ -1,0 +1,4334 @@
+{
+  "kind": "sets",
+  "version": 1,
+  "items": [
+    {
+      "code": "vn",
+      "name": "Vietnam",
+      "country": "VN",
+      "rank": null,
+      "set_group": 0,
+      "tz": "Asia/Ho_Chi_Minh",
+      "currency": "VND",
+      "languages": [
+        "vi"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-001",
+      "critter_ids": [
+        "cp-001",
+        "cp-002",
+        "cp-003",
+        "cp-004",
+        "cp-005",
+        "cp-006",
+        "cp-007",
+        "cp-008",
+        "cp-009",
+        "cp-010"
+      ],
+      "month_hints": [
+        {
+          "crowd": 80,
+          "note": "Dry season, cool north"
+        },
+        {
+          "crowd": 85,
+          "note": "Tet holiday domestic travel"
+        },
+        {
+          "crowd": 75,
+          "note": "Pleasant weather"
+        },
+        {
+          "crowd": 65,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 55,
+          "note": "Hot, early rains"
+        },
+        {
+          "crowd": 70,
+          "note": "Summer holidays, beach season"
+        },
+        {
+          "crowd": 75,
+          "note": "Hot, rainy, domestic peak"
+        },
+        {
+          "crowd": 70,
+          "note": "Monsoon rains, off-peak"
+        },
+        {
+          "crowd": 50,
+          "note": "Typhoon season central"
+        },
+        {
+          "crowd": 45,
+          "note": "Post-monsoon recovery"
+        },
+        {
+          "crowd": 65,
+          "note": "Dry season begins"
+        },
+        {
+          "crowd": 85,
+          "note": "Peak season, holidays"
+        }
+      ]
+    },
+    {
+      "code": "fr",
+      "name": "France",
+      "country": "FR",
+      "rank": 1,
+      "set_group": 1,
+      "tz": "Europe/Paris",
+      "currency": "EUR",
+      "languages": [
+        "fr"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-011",
+      "critter_ids": [
+        "cp-011",
+        "cp-012",
+        "cp-013",
+        "cp-014",
+        "cp-015"
+      ],
+      "month_hints": [
+        {
+          "crowd": 15,
+          "note": "Off-season"
+        },
+        {
+          "crowd": 20,
+          "note": "School ski holidays"
+        },
+        {
+          "crowd": 35,
+          "note": "Early spring"
+        },
+        {
+          "crowd": 55,
+          "note": "Easter holidays"
+        },
+        {
+          "crowd": 70,
+          "note": "Pleasant weather"
+        },
+        {
+          "crowd": 85,
+          "note": "Start of summer"
+        },
+        {
+          "crowd": 100,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 100,
+          "note": "Peak holidays"
+        },
+        {
+          "crowd": 75,
+          "note": "Back to school"
+        },
+        {
+          "crowd": 50,
+          "note": "Autumn foliage"
+        },
+        {
+          "crowd": 30,
+          "note": "Quiet"
+        },
+        {
+          "crowd": 45,
+          "note": "Christmas markets"
+        }
+      ]
+    },
+    {
+      "code": "es",
+      "name": "Spain",
+      "country": "ES",
+      "rank": 2,
+      "set_group": 1,
+      "tz": "Europe/Madrid",
+      "currency": "EUR",
+      "languages": [
+        "es"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-016",
+      "critter_ids": [
+        "cp-016",
+        "cp-017",
+        "cp-018",
+        "cp-019",
+        "cp-020"
+      ],
+      "month_hints": [
+        {
+          "crowd": 35,
+          "note": "Mild Canary winter sun"
+        },
+        {
+          "crowd": 40,
+          "note": "Carnival in Tenerife"
+        },
+        {
+          "crowd": 45,
+          "note": "Early spring, Semana Santa"
+        },
+        {
+          "crowd": 70,
+          "note": "Easter and spring fairs"
+        },
+        {
+          "crowd": 65,
+          "note": "Pleasant shoulder weather"
+        },
+        {
+          "crowd": 85,
+          "note": "Start of summer"
+        },
+        {
+          "crowd": 100,
+          "note": "Peak summer holidays"
+        },
+        {
+          "crowd": 100,
+          "note": "Peak summer holidays"
+        },
+        {
+          "crowd": 80,
+          "note": "Warm sea, fewer families"
+        },
+        {
+          "crowd": 55,
+          "note": "Autumn shoulder season"
+        },
+        {
+          "crowd": 30,
+          "note": "Quiet, cooler weather"
+        },
+        {
+          "crowd": 35,
+          "note": "Christmas and New Year"
+        }
+      ]
+    },
+    {
+      "code": "us",
+      "name": "United States",
+      "country": "US",
+      "rank": 3,
+      "set_group": 1,
+      "tz": "America/New_York",
+      "currency": "USD",
+      "languages": [
+        "en"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-021",
+      "critter_ids": [
+        "cp-021",
+        "cp-022",
+        "cp-023",
+        "cp-024",
+        "cp-025"
+      ],
+      "month_hints": [
+        {
+          "crowd": 55,
+          "note": "Post-holiday lull"
+        },
+        {
+          "crowd": 48,
+          "note": "Ski season, Mardi Gras"
+        },
+        {
+          "crowd": 65,
+          "note": "Spring break"
+        },
+        {
+          "crowd": 72,
+          "note": "Easter, mild weather"
+        },
+        {
+          "crowd": 78,
+          "note": "Memorial Day, mild weather"
+        },
+        {
+          "crowd": 90,
+          "note": "Summer vacation"
+        },
+        {
+          "crowd": 100,
+          "note": "Independence Day, summer"
+        },
+        {
+          "crowd": 92,
+          "note": "Summer vacation"
+        },
+        {
+          "crowd": 62,
+          "note": "Post-Labor Day lull"
+        },
+        {
+          "crowd": 58,
+          "note": "Halloween, fall foliage"
+        },
+        {
+          "crowd": 68,
+          "note": "Thanksgiving travel"
+        },
+        {
+          "crowd": 95,
+          "note": "Christmas & New Year"
+        }
+      ]
+    },
+    {
+      "code": "cn",
+      "name": "China",
+      "country": "CN",
+      "rank": 4,
+      "set_group": 1,
+      "tz": "Asia/Shanghai",
+      "currency": "CNY",
+      "languages": [
+        "zh-Hans"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-026",
+      "critter_ids": [
+        "cp-026",
+        "cp-027",
+        "cp-028",
+        "cp-029",
+        "cp-030"
+      ],
+      "month_hints": [
+        {
+          "crowd": 45,
+          "note": "Chinese New Year sometimes"
+        },
+        {
+          "crowd": 70,
+          "note": "Chinese New Year"
+        },
+        {
+          "crowd": 55,
+          "note": "Spring warming"
+        },
+        {
+          "crowd": 70,
+          "note": "Spring flowers, Qingming"
+        },
+        {
+          "crowd": 80,
+          "note": "Labour Day golden week"
+        },
+        {
+          "crowd": 60,
+          "note": "Hot, pre-summer rains"
+        },
+        {
+          "crowd": 75,
+          "note": "School summer holidays"
+        },
+        {
+          "crowd": 75,
+          "note": "School summer holidays"
+        },
+        {
+          "crowd": 65,
+          "note": "Early autumn, mild"
+        },
+        {
+          "crowd": 90,
+          "note": "National Day golden week"
+        },
+        {
+          "crowd": 55,
+          "note": "Autumn foliage"
+        },
+        {
+          "crowd": 40,
+          "note": "Winter chill"
+        }
+      ]
+    },
+    {
+      "code": "tr",
+      "name": "Türkiye",
+      "country": "TR",
+      "rank": 5,
+      "set_group": 1,
+      "tz": "Europe/Istanbul",
+      "currency": "TRY",
+      "languages": [
+        "tr"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-031",
+      "critter_ids": [
+        "cp-031",
+        "cp-032",
+        "cp-033",
+        "cp-034",
+        "cp-035"
+      ],
+      "month_hints": [
+        {
+          "crowd": 15,
+          "note": "Cold winter, low season"
+        },
+        {
+          "crowd": 18,
+          "note": "Winter chill"
+        },
+        {
+          "crowd": 28,
+          "note": "Early spring"
+        },
+        {
+          "crowd": 42,
+          "note": "Mild spring weather"
+        },
+        {
+          "crowd": 58,
+          "note": "Pleasant spring"
+        },
+        {
+          "crowd": 72,
+          "note": "Beach season starts"
+        },
+        {
+          "crowd": 92,
+          "note": "Peak summer heat"
+        },
+        {
+          "crowd": 88,
+          "note": "Holiday peak"
+        },
+        {
+          "crowd": 66,
+          "note": "Warm sea, fewer crowds"
+        },
+        {
+          "crowd": 46,
+          "note": "Mild autumn"
+        },
+        {
+          "crowd": 26,
+          "note": "Cooler, rainy"
+        },
+        {
+          "crowd": 20,
+          "note": "Winter, festive events"
+        }
+      ]
+    },
+    {
+      "code": "it",
+      "name": "Italy",
+      "country": "IT",
+      "rank": 6,
+      "set_group": 1,
+      "tz": "Europe/Rome",
+      "currency": "EUR",
+      "languages": [
+        "it"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-036",
+      "critter_ids": [
+        "cp-036",
+        "cp-037",
+        "cp-038",
+        "cp-039",
+        "cp-040"
+      ],
+      "month_hints": [
+        {
+          "crowd": 40,
+          "note": "Epiphany, low season"
+        },
+        {
+          "crowd": 55,
+          "note": "Venice Carnival"
+        },
+        {
+          "crowd": 60,
+          "note": "Start of spring"
+        },
+        {
+          "crowd": 75,
+          "note": "Easter holidays"
+        },
+        {
+          "crowd": 80,
+          "note": "Pleasant weather"
+        },
+        {
+          "crowd": 85,
+          "note": "Start of summer peak"
+        },
+        {
+          "crowd": 100,
+          "note": "Peak summer holidays"
+        },
+        {
+          "crowd": 100,
+          "note": "Ferragosto, holidays"
+        },
+        {
+          "crowd": 80,
+          "note": "Harvest, mild weather"
+        },
+        {
+          "crowd": 65,
+          "note": "Autumn shoulder"
+        },
+        {
+          "crowd": 45,
+          "note": "Rainy season"
+        },
+        {
+          "crowd": 60,
+          "note": "Christmas, New Year"
+        }
+      ]
+    },
+    {
+      "code": "mx",
+      "name": "Mexico",
+      "country": "MX",
+      "rank": 7,
+      "set_group": 1,
+      "tz": "America/Mexico_City",
+      "currency": "MXN",
+      "languages": [
+        "es"
+      ],
+      "coverage": "live",
+      "guide": "ajo",
+      "destination": "mexico-city",
+      "hero_critter_id": "cp-041",
+      "critter_ids": [
+        "cp-041",
+        "cp-042",
+        "cp-043",
+        "cp-044",
+        "cp-045"
+      ],
+      "month_hints": [
+        {
+          "crowd": 85,
+          "note": "Peak dry season"
+        },
+        {
+          "crowd": 80,
+          "note": "Peak dry season"
+        },
+        {
+          "crowd": 88,
+          "note": "Spring break"
+        },
+        {
+          "crowd": 85,
+          "note": "Semana Santa"
+        },
+        {
+          "crowd": 60,
+          "note": "Rainy season begins"
+        },
+        {
+          "crowd": 50,
+          "note": "Rainy season"
+        },
+        {
+          "crowd": 55,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 52,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 35,
+          "note": "Hurricane peak"
+        },
+        {
+          "crowd": 48,
+          "note": "Day of the Dead"
+        },
+        {
+          "crowd": 65,
+          "note": "Dry season return"
+        },
+        {
+          "crowd": 92,
+          "note": "Christmas holidays"
+        }
+      ]
+    },
+    {
+      "code": "hk",
+      "name": "Hong Kong",
+      "country": "HK",
+      "rank": 8,
+      "set_group": 1,
+      "tz": "Asia/Hong_Kong",
+      "currency": "HKD",
+      "languages": [
+        "zh-Hant",
+        "en"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-046",
+      "critter_ids": [
+        "cp-046",
+        "cp-047",
+        "cp-048",
+        "cp-049",
+        "cp-050"
+      ],
+      "month_hints": [
+        {
+          "crowd": 70,
+          "note": "Chinese New Year"
+        },
+        {
+          "crowd": 65,
+          "note": "Chinese New Year"
+        },
+        {
+          "crowd": 60,
+          "note": "Mild weather"
+        },
+        {
+          "crowd": 65,
+          "note": "Easter holidays"
+        },
+        {
+          "crowd": 55,
+          "note": "High humidity"
+        },
+        {
+          "crowd": 50,
+          "note": "Rainy season"
+        },
+        {
+          "crowd": 50,
+          "note": "Typhoon risk"
+        },
+        {
+          "crowd": 50,
+          "note": "Hot and humid"
+        },
+        {
+          "crowd": 45,
+          "note": "Typhoon season"
+        },
+        {
+          "crowd": 80,
+          "note": "Golden Week"
+        },
+        {
+          "crowd": 85,
+          "note": "Pleasant autumn"
+        },
+        {
+          "crowd": 80,
+          "note": "Christmas holidays"
+        }
+      ]
+    },
+    {
+      "code": "gb",
+      "name": "United Kingdom",
+      "country": "GB",
+      "rank": 9,
+      "set_group": 1,
+      "tz": "Europe/London",
+      "currency": "GBP",
+      "languages": [
+        "en"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-051",
+      "critter_ids": [
+        "cp-051",
+        "cp-052",
+        "cp-053",
+        "cp-054",
+        "cp-055"
+      ],
+      "month_hints": [
+        {
+          "crowd": 15,
+          "note": "Winter low"
+        },
+        {
+          "crowd": 18,
+          "note": "School half-term"
+        },
+        {
+          "crowd": 30,
+          "note": "Early spring"
+        },
+        {
+          "crowd": 45,
+          "note": "Easter holidays"
+        },
+        {
+          "crowd": 55,
+          "note": "Bank holidays"
+        },
+        {
+          "crowd": 70,
+          "note": "Start of summer"
+        },
+        {
+          "crowd": 85,
+          "note": "Peak summer"
+        },
+        {
+          "crowd": 90,
+          "note": "Summer holidays & festivals"
+        },
+        {
+          "crowd": 65,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 45,
+          "note": "Autumn colors"
+        },
+        {
+          "crowd": 25,
+          "note": "Winter low"
+        },
+        {
+          "crowd": 40,
+          "note": "Christmas markets"
+        }
+      ]
+    },
+    {
+      "code": "de",
+      "name": "Germany",
+      "country": "DE",
+      "rank": 10,
+      "set_group": 1,
+      "tz": "Europe/Berlin",
+      "currency": "EUR",
+      "languages": [
+        "de"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-056",
+      "critter_ids": [
+        "cp-056",
+        "cp-057",
+        "cp-058",
+        "cp-059",
+        "cp-060"
+      ],
+      "month_hints": [
+        {
+          "crowd": 25,
+          "note": "Cold winter"
+        },
+        {
+          "crowd": 25,
+          "note": "Cold winter"
+        },
+        {
+          "crowd": 35,
+          "note": "Early spring"
+        },
+        {
+          "crowd": 45,
+          "note": "Easter holidays"
+        },
+        {
+          "crowd": 55,
+          "note": "Pleasant spring"
+        },
+        {
+          "crowd": 75,
+          "note": "Summer begins"
+        },
+        {
+          "crowd": 85,
+          "note": "Peak summer"
+        },
+        {
+          "crowd": 90,
+          "note": "School holidays"
+        },
+        {
+          "crowd": 70,
+          "note": "Oktoberfest"
+        },
+        {
+          "crowd": 60,
+          "note": "Autumn festivals"
+        },
+        {
+          "crowd": 30,
+          "note": "Quiet month"
+        },
+        {
+          "crowd": 80,
+          "note": "Christmas markets"
+        }
+      ]
+    },
+    {
+      "code": "jp",
+      "name": "Japan",
+      "country": "JP",
+      "rank": 11,
+      "set_group": 2,
+      "tz": "Asia/Tokyo",
+      "currency": "JPY",
+      "languages": [
+        "ja"
+      ],
+      "coverage": "live",
+      "guide": "pon",
+      "destination": "kyoto",
+      "hero_critter_id": "cp-061",
+      "critter_ids": [
+        "cp-061",
+        "cp-062",
+        "cp-063"
+      ],
+      "month_hints": [
+        {
+          "crowd": 25,
+          "note": "New Year holidays"
+        },
+        {
+          "crowd": 20,
+          "note": null
+        },
+        {
+          "crowd": 55,
+          "note": "Early cherry blossom"
+        },
+        {
+          "crowd": 100,
+          "note": "Cherry blossom peak"
+        },
+        {
+          "crowd": 85,
+          "note": "Golden Week"
+        },
+        {
+          "crowd": 40,
+          "note": "Rainy season"
+        },
+        {
+          "crowd": 70,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 80,
+          "note": "Obon & summer break"
+        },
+        {
+          "crowd": 50,
+          "note": "Typhoon season"
+        },
+        {
+          "crowd": 65,
+          "note": "Autumn foliage start"
+        },
+        {
+          "crowd": 90,
+          "note": "Autumn foliage peak"
+        },
+        {
+          "crowd": 35,
+          "note": "Year-end holidays"
+        }
+      ]
+    },
+    {
+      "code": "gr",
+      "name": "Greece",
+      "country": "GR",
+      "rank": 12,
+      "set_group": 2,
+      "tz": "Europe/Athens",
+      "currency": "EUR",
+      "languages": [
+        "el"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-064",
+      "critter_ids": [
+        "cp-064",
+        "cp-065",
+        "cp-066"
+      ],
+      "month_hints": [
+        {
+          "crowd": 10,
+          "note": "Off-season, mild Athens"
+        },
+        {
+          "crowd": 10,
+          "note": "Carnival season begins"
+        },
+        {
+          "crowd": 15,
+          "note": "Spring begins"
+        },
+        {
+          "crowd": 25,
+          "note": "Easter celebrations"
+        },
+        {
+          "crowd": 50,
+          "note": "Shoulder season, warm"
+        },
+        {
+          "crowd": 75,
+          "note": "Summer begins"
+        },
+        {
+          "crowd": 95,
+          "note": "Peak summer, islands"
+        },
+        {
+          "crowd": 100,
+          "note": "Peak holidays"
+        },
+        {
+          "crowd": 70,
+          "note": "Warm sea, fewer crowds"
+        },
+        {
+          "crowd": 40,
+          "note": "Autumn shoulder"
+        },
+        {
+          "crowd": 20,
+          "note": "Low season"
+        },
+        {
+          "crowd": 15,
+          "note": "Christmas in Athens"
+        }
+      ]
+    },
+    {
+      "code": "th",
+      "name": "Thailand",
+      "country": "TH",
+      "rank": 13,
+      "set_group": 2,
+      "tz": "Asia/Bangkok",
+      "currency": "THB",
+      "languages": [
+        "th"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-067",
+      "critter_ids": [
+        "cp-067",
+        "cp-068",
+        "cp-069"
+      ],
+      "month_hints": [
+        {
+          "crowd": 90,
+          "note": "Peak dry season"
+        },
+        {
+          "crowd": 85,
+          "note": "Dry season"
+        },
+        {
+          "crowd": 70,
+          "note": "Hot season starts"
+        },
+        {
+          "crowd": 65,
+          "note": "Songkran festival"
+        },
+        {
+          "crowd": 55,
+          "note": "Start of monsoon"
+        },
+        {
+          "crowd": 45,
+          "note": "Rainy season"
+        },
+        {
+          "crowd": 50,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 55,
+          "note": "Rainy season breaks"
+        },
+        {
+          "crowd": 40,
+          "note": "Rainiest month"
+        },
+        {
+          "crowd": 45,
+          "note": "End of rains"
+        },
+        {
+          "crowd": 70,
+          "note": "Cool season begins"
+        },
+        {
+          "crowd": 95,
+          "note": "Holiday peak"
+        }
+      ]
+    },
+    {
+      "code": "at",
+      "name": "Austria",
+      "country": "AT",
+      "rank": 14,
+      "set_group": 2,
+      "tz": "Europe/Vienna",
+      "currency": "EUR",
+      "languages": [
+        "de"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-070",
+      "critter_ids": [
+        "cp-070",
+        "cp-071",
+        "cp-072"
+      ],
+      "month_hints": [
+        {
+          "crowd": 50,
+          "note": "Ski season"
+        },
+        {
+          "crowd": 70,
+          "note": "School ski holidays"
+        },
+        {
+          "crowd": 55,
+          "note": "Late skiing"
+        },
+        {
+          "crowd": 50,
+          "note": "Easter breaks"
+        },
+        {
+          "crowd": 60,
+          "note": "Spring blossoms"
+        },
+        {
+          "crowd": 75,
+          "note": "Early summer travel"
+        },
+        {
+          "crowd": 88,
+          "note": "Summer peak"
+        },
+        {
+          "crowd": 92,
+          "note": "Holiday crowds"
+        },
+        {
+          "crowd": 78,
+          "note": "Mild weather"
+        },
+        {
+          "crowd": 62,
+          "note": "Autumn colors"
+        },
+        {
+          "crowd": 40,
+          "note": "Quiet shoulder"
+        },
+        {
+          "crowd": 88,
+          "note": "Christmas markets"
+        }
+      ]
+    },
+    {
+      "code": "sa",
+      "name": "Saudi Arabia",
+      "country": "SA",
+      "rank": 15,
+      "set_group": 2,
+      "tz": "Asia/Riyadh",
+      "currency": "SAR",
+      "languages": [
+        "ar"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-073",
+      "critter_ids": [
+        "cp-073",
+        "cp-074",
+        "cp-075"
+      ],
+      "month_hints": [
+        {
+          "crowd": 75,
+          "note": "Pleasant weather"
+        },
+        {
+          "crowd": 70,
+          "note": "Mild weather"
+        },
+        {
+          "crowd": 65,
+          "note": "Spring break"
+        },
+        {
+          "crowd": 50,
+          "note": "Rising heat"
+        },
+        {
+          "crowd": 30,
+          "note": "Hot weather"
+        },
+        {
+          "crowd": 10,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 5,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 5,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 20,
+          "note": "Cooling begins"
+        },
+        {
+          "crowd": 40,
+          "note": "Pleasant evenings"
+        },
+        {
+          "crowd": 65,
+          "note": "Peak season starts"
+        },
+        {
+          "crowd": 80,
+          "note": "Holiday season"
+        }
+      ]
+    },
+    {
+      "code": "pt",
+      "name": "Portugal",
+      "country": "PT",
+      "rank": 16,
+      "set_group": 2,
+      "tz": "Europe/Lisbon",
+      "currency": "EUR",
+      "languages": [
+        "pt-PT"
+      ],
+      "coverage": "live",
+      "guide": "sardi",
+      "destination": "lisbon",
+      "hero_critter_id": "cp-076",
+      "critter_ids": [
+        "cp-076",
+        "cp-077",
+        "cp-078"
+      ],
+      "month_hints": [
+        {
+          "crowd": 20,
+          "note": "Winter low season"
+        },
+        {
+          "crowd": 20,
+          "note": "Carnival in some towns"
+        },
+        {
+          "crowd": 30,
+          "note": "Early spring"
+        },
+        {
+          "crowd": 45,
+          "note": "Easter holidays"
+        },
+        {
+          "crowd": 60,
+          "note": "Mild weather"
+        },
+        {
+          "crowd": 75,
+          "note": "Start of summer"
+        },
+        {
+          "crowd": 90,
+          "note": "Beach season peak"
+        },
+        {
+          "crowd": 95,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 75,
+          "note": "Warm sea, fewer crowds"
+        },
+        {
+          "crowd": 55,
+          "note": "Autumn shoulder"
+        },
+        {
+          "crowd": 35,
+          "note": "Cooler, rainy spells"
+        },
+        {
+          "crowd": 25,
+          "note": "Christmas markets"
+        }
+      ]
+    },
+    {
+      "code": "my",
+      "name": "Malaysia",
+      "country": "MY",
+      "rank": 17,
+      "set_group": 2,
+      "tz": "Asia/Kuala_Lumpur",
+      "currency": "MYR",
+      "languages": [
+        "ms",
+        "en"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-079",
+      "critter_ids": [
+        "cp-079",
+        "cp-080",
+        "cp-081"
+      ],
+      "month_hints": [
+        {
+          "crowd": 70,
+          "note": "Year-end holidays"
+        },
+        {
+          "crowd": 60,
+          "note": "Chinese New Year"
+        },
+        {
+          "crowd": 55,
+          "note": "Dry season east coast"
+        },
+        {
+          "crowd": 50,
+          "note": null
+        },
+        {
+          "crowd": 65,
+          "note": "Dry season begins"
+        },
+        {
+          "crowd": 80,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 85,
+          "note": "Peak summer holidays"
+        },
+        {
+          "crowd": 80,
+          "note": "European summer holidays"
+        },
+        {
+          "crowd": 60,
+          "note": "Rainy season west coast"
+        },
+        {
+          "crowd": 45,
+          "note": "Monsoon transition"
+        },
+        {
+          "crowd": 40,
+          "note": "Monsoon east coast"
+        },
+        {
+          "crowd": 85,
+          "note": "Year-end holidays"
+        }
+      ]
+    },
+    {
+      "code": "nl",
+      "name": "Netherlands",
+      "country": "NL",
+      "rank": 18,
+      "set_group": 2,
+      "tz": "Europe/Amsterdam",
+      "currency": "EUR",
+      "languages": [
+        "nl"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-082",
+      "critter_ids": [
+        "cp-082",
+        "cp-083",
+        "cp-084"
+      ],
+      "month_hints": [
+        {
+          "crowd": 30,
+          "note": "Cold, low season"
+        },
+        {
+          "crowd": 35,
+          "note": "Carnival in south"
+        },
+        {
+          "crowd": 55,
+          "note": "Keukenhof opens late March"
+        },
+        {
+          "crowd": 90,
+          "note": "Tulip peak, King's Day"
+        },
+        {
+          "crowd": 85,
+          "note": "Tulips, mild weather"
+        },
+        {
+          "crowd": 80,
+          "note": "Museums, long days"
+        },
+        {
+          "crowd": 85,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 80,
+          "note": "Warm, peak summer"
+        },
+        {
+          "crowd": 65,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 50,
+          "note": "Autumn foliage"
+        },
+        {
+          "crowd": 40,
+          "note": "Quiet, rainy"
+        },
+        {
+          "crowd": 45,
+          "note": "Christmas markets"
+        }
+      ]
+    },
+    {
+      "code": "ca",
+      "name": "Canada",
+      "country": "CA",
+      "rank": 19,
+      "set_group": 2,
+      "tz": "America/Toronto",
+      "currency": "CAD",
+      "languages": [
+        "en",
+        "fr"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-085",
+      "critter_ids": [
+        "cp-085",
+        "cp-086",
+        "cp-087"
+      ],
+      "month_hints": [
+        {
+          "crowd": 40,
+          "note": "Ski season"
+        },
+        {
+          "crowd": 45,
+          "note": "Ski season"
+        },
+        {
+          "crowd": 50,
+          "note": "Spring break"
+        },
+        {
+          "crowd": 30,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 55,
+          "note": "Spring blooms"
+        },
+        {
+          "crowd": 75,
+          "note": "Summer begins"
+        },
+        {
+          "crowd": 95,
+          "note": "Peak summer"
+        },
+        {
+          "crowd": 100,
+          "note": "Peak summer"
+        },
+        {
+          "crowd": 80,
+          "note": "Fall foliage"
+        },
+        {
+          "crowd": 60,
+          "note": "Autumn colors"
+        },
+        {
+          "crowd": 30,
+          "note": "Off-season"
+        },
+        {
+          "crowd": 45,
+          "note": "Holiday ski"
+        }
+      ]
+    },
+    {
+      "code": "pl",
+      "name": "Poland",
+      "country": "PL",
+      "rank": 20,
+      "set_group": 2,
+      "tz": "Europe/Warsaw",
+      "currency": "PLN",
+      "languages": [
+        "pl"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-088",
+      "critter_ids": [
+        "cp-088",
+        "cp-089",
+        "cp-090"
+      ],
+      "month_hints": [
+        {
+          "crowd": 20,
+          "note": "Cold, low season"
+        },
+        {
+          "crowd": 22,
+          "note": "Still winter"
+        },
+        {
+          "crowd": 30,
+          "note": "Early spring"
+        },
+        {
+          "crowd": 45,
+          "note": "Easter, mild weather"
+        },
+        {
+          "crowd": 65,
+          "note": "Pleasant spring weather"
+        },
+        {
+          "crowd": 80,
+          "note": "Start of summer"
+        },
+        {
+          "crowd": 95,
+          "note": "Peak summer holidays"
+        },
+        {
+          "crowd": 100,
+          "note": "Peak summer holidays"
+        },
+        {
+          "crowd": 75,
+          "note": "Mild weather"
+        },
+        {
+          "crowd": 50,
+          "note": "Autumn colors"
+        },
+        {
+          "crowd": 30,
+          "note": "Low season"
+        },
+        {
+          "crowd": 60,
+          "note": "Christmas markets"
+        }
+      ]
+    },
+    {
+      "code": "hr",
+      "name": "Croatia",
+      "country": "HR",
+      "rank": 21,
+      "set_group": 2,
+      "tz": "Europe/Zagreb",
+      "currency": "EUR",
+      "languages": [
+        "hr"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-091",
+      "critter_ids": [
+        "cp-091",
+        "cp-092",
+        "cp-093"
+      ],
+      "month_hints": [
+        {
+          "crowd": 5,
+          "note": null
+        },
+        {
+          "crowd": 7,
+          "note": null
+        },
+        {
+          "crowd": 15,
+          "note": "Milder weather"
+        },
+        {
+          "crowd": 30,
+          "note": "Spring blooms"
+        },
+        {
+          "crowd": 50,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 70,
+          "note": "Summer starts"
+        },
+        {
+          "crowd": 95,
+          "note": "Peak beach season"
+        },
+        {
+          "crowd": 100,
+          "note": "Holiday peak"
+        },
+        {
+          "crowd": 75,
+          "note": "Warm sea, fewer crowds"
+        },
+        {
+          "crowd": 40,
+          "note": "Autumn foliage"
+        },
+        {
+          "crowd": 15,
+          "note": "Rainy season"
+        },
+        {
+          "crowd": 10,
+          "note": "Festive period"
+        }
+      ]
+    },
+    {
+      "code": "ae",
+      "name": "United Arab Emirates",
+      "country": "AE",
+      "rank": 22,
+      "set_group": 2,
+      "tz": "Asia/Dubai",
+      "currency": "AED",
+      "languages": [
+        "ar",
+        "en"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-094",
+      "critter_ids": [
+        "cp-094",
+        "cp-095",
+        "cp-096"
+      ],
+      "month_hints": [
+        {
+          "crowd": 90,
+          "note": "New Year, shopping festival"
+        },
+        {
+          "crowd": 85,
+          "note": "Pleasant weather"
+        },
+        {
+          "crowd": 75,
+          "note": "Spring break, good weather"
+        },
+        {
+          "crowd": 60,
+          "note": "Ramadan may reduce crowds"
+        },
+        {
+          "crowd": 40,
+          "note": "Getting hot"
+        },
+        {
+          "crowd": 20,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 15,
+          "note": "Peak summer heat"
+        },
+        {
+          "crowd": 15,
+          "note": "Hot and humid"
+        },
+        {
+          "crowd": 25,
+          "note": "Heat easing slightly"
+        },
+        {
+          "crowd": 50,
+          "note": "Cooler weather returns"
+        },
+        {
+          "crowd": 80,
+          "note": "Start of peak season"
+        },
+        {
+          "crowd": 95,
+          "note": "Holidays and events"
+        }
+      ]
+    },
+    {
+      "code": "ma",
+      "name": "Morocco",
+      "country": "MA",
+      "rank": 23,
+      "set_group": 2,
+      "tz": "Africa/Casablanca",
+      "currency": "MAD",
+      "languages": [
+        "ar",
+        "fr"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-097",
+      "critter_ids": [
+        "cp-097",
+        "cp-098",
+        "cp-099"
+      ],
+      "month_hints": [
+        {
+          "crowd": 45,
+          "note": "Mild winter sun"
+        },
+        {
+          "crowd": 40,
+          "note": "Almond blossom"
+        },
+        {
+          "crowd": 60,
+          "note": "Spring blooms"
+        },
+        {
+          "crowd": 80,
+          "note": "Easter and ideal weather"
+        },
+        {
+          "crowd": 75,
+          "note": "Pleasant before heat"
+        },
+        {
+          "crowd": 55,
+          "note": "Rising temperatures"
+        },
+        {
+          "crowd": 35,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 30,
+          "note": "Peak summer heat"
+        },
+        {
+          "crowd": 55,
+          "note": "Cooling temperatures"
+        },
+        {
+          "crowd": 70,
+          "note": "Autumn mildness"
+        },
+        {
+          "crowd": 60,
+          "note": "Mild sunny days"
+        },
+        {
+          "crowd": 50,
+          "note": "Christmas and New Year"
+        }
+      ]
+    },
+    {
+      "code": "hu",
+      "name": "Hungary",
+      "country": "HU",
+      "rank": 24,
+      "set_group": 2,
+      "tz": "Europe/Budapest",
+      "currency": "HUF",
+      "languages": [
+        "hu"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-100",
+      "critter_ids": [
+        "cp-100",
+        "cp-101",
+        "cp-102"
+      ],
+      "month_hints": [
+        {
+          "crowd": 15,
+          "note": "Post-holiday lull"
+        },
+        {
+          "crowd": 20,
+          "note": "Carnival season"
+        },
+        {
+          "crowd": 35,
+          "note": "Spring awakening"
+        },
+        {
+          "crowd": 55,
+          "note": "Easter markets"
+        },
+        {
+          "crowd": 70,
+          "note": "Mild weather"
+        },
+        {
+          "crowd": 85,
+          "note": "Summer start"
+        },
+        {
+          "crowd": 100,
+          "note": "Peak summer"
+        },
+        {
+          "crowd": 100,
+          "note": "School holidays"
+        },
+        {
+          "crowd": 75,
+          "note": "Wine harvest"
+        },
+        {
+          "crowd": 55,
+          "note": "Autumn colors"
+        },
+        {
+          "crowd": 30,
+          "note": "Quiet month"
+        },
+        {
+          "crowd": 70,
+          "note": "Christmas markets"
+        }
+      ]
+    },
+    {
+      "code": "sg",
+      "name": "Singapore",
+      "country": "SG",
+      "rank": 25,
+      "set_group": 2,
+      "tz": "Asia/Singapore",
+      "currency": "SGD",
+      "languages": [
+        "en",
+        "zh-Hans",
+        "ms",
+        "ta"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-103",
+      "critter_ids": [
+        "cp-103",
+        "cp-104",
+        "cp-105"
+      ],
+      "month_hints": [
+        {
+          "crowd": 55,
+          "note": "Chinese New Year"
+        },
+        {
+          "crowd": 70,
+          "note": "Chinese New Year"
+        },
+        {
+          "crowd": 50,
+          "note": null
+        },
+        {
+          "crowd": 50,
+          "note": null
+        },
+        {
+          "crowd": 55,
+          "note": null
+        },
+        {
+          "crowd": 70,
+          "note": "School holidays"
+        },
+        {
+          "crowd": 65,
+          "note": null
+        },
+        {
+          "crowd": 55,
+          "note": "National Day"
+        },
+        {
+          "crowd": 75,
+          "note": "F1 Grand Prix"
+        },
+        {
+          "crowd": 55,
+          "note": null
+        },
+        {
+          "crowd": 60,
+          "note": null
+        },
+        {
+          "crowd": 80,
+          "note": "Year-end holidays"
+        }
+      ]
+    },
+    {
+      "code": "kr",
+      "name": "South Korea",
+      "country": "KR",
+      "rank": 26,
+      "set_group": 2,
+      "tz": "Asia/Seoul",
+      "currency": "KRW",
+      "languages": [
+        "ko"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-106",
+      "critter_ids": [
+        "cp-106",
+        "cp-107",
+        "cp-108"
+      ],
+      "month_hints": [
+        {
+          "crowd": 25,
+          "note": "Winter chill"
+        },
+        {
+          "crowd": 30,
+          "note": "Seollal holiday"
+        },
+        {
+          "crowd": 45,
+          "note": "Early spring blossoms"
+        },
+        {
+          "crowd": 95,
+          "note": "Cherry blossom peak"
+        },
+        {
+          "crowd": 85,
+          "note": "Pleasant spring weather"
+        },
+        {
+          "crowd": 60,
+          "note": "Monsoon begins"
+        },
+        {
+          "crowd": 55,
+          "note": "Heavy monsoon rains"
+        },
+        {
+          "crowd": 80,
+          "note": "Summer school holidays"
+        },
+        {
+          "crowd": 75,
+          "note": "Chuseok holiday"
+        },
+        {
+          "crowd": 100,
+          "note": "Autumn foliage peak"
+        },
+        {
+          "crowd": 70,
+          "note": "Late autumn foliage"
+        },
+        {
+          "crowd": 35,
+          "note": "Year-end festivities"
+        }
+      ]
+    },
+    {
+      "code": "eg",
+      "name": "Egypt",
+      "country": "EG",
+      "rank": 27,
+      "set_group": 2,
+      "tz": "Africa/Cairo",
+      "currency": "EGP",
+      "languages": [
+        "ar"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-109",
+      "critter_ids": [
+        "cp-109",
+        "cp-110",
+        "cp-111"
+      ],
+      "month_hints": [
+        {
+          "crowd": 85,
+          "note": "Mild weather, New Year"
+        },
+        {
+          "crowd": 80,
+          "note": "Mild weather"
+        },
+        {
+          "crowd": 75,
+          "note": "Spring weather"
+        },
+        {
+          "crowd": 70,
+          "note": "Easter holidays"
+        },
+        {
+          "crowd": 55,
+          "note": "Rising heat"
+        },
+        {
+          "crowd": 30,
+          "note": "Very hot"
+        },
+        {
+          "crowd": 20,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 25,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 45,
+          "note": "Cooling slightly"
+        },
+        {
+          "crowd": 70,
+          "note": "Pleasant autumn"
+        },
+        {
+          "crowd": 80,
+          "note": "Peak season starts"
+        },
+        {
+          "crowd": 90,
+          "note": "Christmas and New Year"
+        }
+      ]
+    },
+    {
+      "code": "id",
+      "name": "Indonesia",
+      "country": "ID",
+      "rank": 28,
+      "set_group": 2,
+      "tz": "Asia/Makassar",
+      "currency": "IDR",
+      "languages": [
+        "id"
+      ],
+      "coverage": "live",
+      "guide": "tokek",
+      "destination": "bali",
+      "hero_critter_id": "cp-112",
+      "critter_ids": [
+        "cp-112",
+        "cp-113",
+        "cp-114"
+      ],
+      "month_hints": [
+        {
+          "crowd": 55,
+          "note": "Wet season"
+        },
+        {
+          "crowd": 40,
+          "note": "Wet season"
+        },
+        {
+          "crowd": 45,
+          "note": "Wet season ends"
+        },
+        {
+          "crowd": 65,
+          "note": "Dry season begins"
+        },
+        {
+          "crowd": 70,
+          "note": "Dry season"
+        },
+        {
+          "crowd": 80,
+          "note": "School holidays"
+        },
+        {
+          "crowd": 95,
+          "note": "Peak season"
+        },
+        {
+          "crowd": 100,
+          "note": "Peak season"
+        },
+        {
+          "crowd": 75,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 65,
+          "note": "Dry season ends"
+        },
+        {
+          "crowd": 50,
+          "note": "Wet season"
+        },
+        {
+          "crowd": 90,
+          "note": "Christmas & New Year"
+        }
+      ]
+    },
+    {
+      "code": "ch",
+      "name": "Switzerland",
+      "country": "CH",
+      "rank": 29,
+      "set_group": 2,
+      "tz": "Europe/Zurich",
+      "currency": "CHF",
+      "languages": [
+        "de",
+        "fr",
+        "it"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-115",
+      "critter_ids": [
+        "cp-115",
+        "cp-116",
+        "cp-117"
+      ],
+      "month_hints": [
+        {
+          "crowd": 70,
+          "note": "Ski season"
+        },
+        {
+          "crowd": 80,
+          "note": "Ski holidays"
+        },
+        {
+          "crowd": 60,
+          "note": "Late skiing"
+        },
+        {
+          "crowd": 35,
+          "note": "Off-season"
+        },
+        {
+          "crowd": 50,
+          "note": "Spring shoulder"
+        },
+        {
+          "crowd": 65,
+          "note": "Alpine blooms"
+        },
+        {
+          "crowd": 90,
+          "note": "Summer peak"
+        },
+        {
+          "crowd": 90,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 70,
+          "note": "Autumn hiking"
+        },
+        {
+          "crowd": 55,
+          "note": "Fall foliage"
+        },
+        {
+          "crowd": 30,
+          "note": "Quiet month"
+        },
+        {
+          "crowd": 75,
+          "note": "Holiday ski & markets"
+        }
+      ]
+    },
+    {
+      "code": "cz",
+      "name": "Czechia",
+      "country": "CZ",
+      "rank": 30,
+      "set_group": 2,
+      "tz": "Europe/Prague",
+      "currency": "CZK",
+      "languages": [
+        "cs"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-118",
+      "critter_ids": [
+        "cp-118",
+        "cp-119",
+        "cp-120"
+      ],
+      "month_hints": [
+        {
+          "crowd": 30,
+          "note": "Post-holiday lull"
+        },
+        {
+          "crowd": 35,
+          "note": "Carnival season"
+        },
+        {
+          "crowd": 40,
+          "note": "Early spring"
+        },
+        {
+          "crowd": 50,
+          "note": "Spring bloom"
+        },
+        {
+          "crowd": 65,
+          "note": "Public holidays"
+        },
+        {
+          "crowd": 75,
+          "note": "Start of summer"
+        },
+        {
+          "crowd": 90,
+          "note": "Summer peak"
+        },
+        {
+          "crowd": 92,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 70,
+          "note": "Wine harvest"
+        },
+        {
+          "crowd": 55,
+          "note": "Autumn foliage"
+        },
+        {
+          "crowd": 35,
+          "note": null
+        },
+        {
+          "crowd": 80,
+          "note": "Christmas markets"
+        }
+      ]
+    },
+    {
+      "code": "al",
+      "name": "Albania",
+      "country": "AL",
+      "rank": 31,
+      "set_group": 3,
+      "tz": "Europe/Tirane",
+      "currency": "ALL",
+      "languages": [
+        "sq"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-121",
+      "critter_ids": [
+        "cp-121"
+      ],
+      "month_hints": [
+        {
+          "crowd": 15,
+          "note": "Winter quiet"
+        },
+        {
+          "crowd": 18,
+          "note": "Cold weather"
+        },
+        {
+          "crowd": 25,
+          "note": "Spring begins"
+        },
+        {
+          "crowd": 35,
+          "note": "Easter holidays"
+        },
+        {
+          "crowd": 55,
+          "note": "Pleasant weather"
+        },
+        {
+          "crowd": 75,
+          "note": "Start of summer"
+        },
+        {
+          "crowd": 95,
+          "note": "Peak summer beach"
+        },
+        {
+          "crowd": 100,
+          "note": "Holiday season"
+        },
+        {
+          "crowd": 65,
+          "note": "Post-summer"
+        },
+        {
+          "crowd": 45,
+          "note": "Autumn mild"
+        },
+        {
+          "crowd": 25,
+          "note": "Cooler weather"
+        },
+        {
+          "crowd": 20,
+          "note": "Christmas markets"
+        }
+      ]
+    },
+    {
+      "code": "tn",
+      "name": "Tunisia",
+      "country": "TN",
+      "rank": 32,
+      "set_group": 3,
+      "tz": "Africa/Tunis",
+      "currency": "TND",
+      "languages": [
+        "ar",
+        "fr"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-122",
+      "critter_ids": [
+        "cp-122"
+      ],
+      "month_hints": [
+        {
+          "crowd": 20,
+          "note": "Mild winter"
+        },
+        {
+          "crowd": 22,
+          "note": "Mild winter"
+        },
+        {
+          "crowd": 35,
+          "note": "Spring bloom"
+        },
+        {
+          "crowd": 50,
+          "note": "Pleasant weather"
+        },
+        {
+          "crowd": 65,
+          "note": "Pre-summer warmth"
+        },
+        {
+          "crowd": 80,
+          "note": "Summer start"
+        },
+        {
+          "crowd": 95,
+          "note": "Peak summer heat"
+        },
+        {
+          "crowd": 100,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 85,
+          "note": "Warm seas"
+        },
+        {
+          "crowd": 60,
+          "note": "Autumn mild"
+        },
+        {
+          "crowd": 35,
+          "note": "Cooler, rainy"
+        },
+        {
+          "crowd": 25,
+          "note": "Mild, festive"
+        }
+      ]
+    },
+    {
+      "code": "in",
+      "name": "India",
+      "country": "IN",
+      "rank": 33,
+      "set_group": 3,
+      "tz": "Asia/Kolkata",
+      "currency": "INR",
+      "languages": [
+        "hi",
+        "en"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-123",
+      "critter_ids": [
+        "cp-123"
+      ],
+      "month_hints": [
+        {
+          "crowd": 90,
+          "note": "Peak winter season"
+        },
+        {
+          "crowd": 85,
+          "note": "Pleasant weather"
+        },
+        {
+          "crowd": 70,
+          "note": "Holi festival"
+        },
+        {
+          "crowd": 40,
+          "note": "Rising temperatures"
+        },
+        {
+          "crowd": 15,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 10,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 20,
+          "note": "Monsoon rains"
+        },
+        {
+          "crowd": 25,
+          "note": "Monsoon rains"
+        },
+        {
+          "crowd": 40,
+          "note": "Monsoon tapering"
+        },
+        {
+          "crowd": 70,
+          "note": "Festive season"
+        },
+        {
+          "crowd": 95,
+          "note": "Peak tourist season"
+        },
+        {
+          "crowd": 100,
+          "note": "Winter holidays"
+        }
+      ]
+    },
+    {
+      "code": "be",
+      "name": "Belgium",
+      "country": "BE",
+      "rank": 34,
+      "set_group": 3,
+      "tz": "Europe/Brussels",
+      "currency": "EUR",
+      "languages": [
+        "nl",
+        "fr"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-124",
+      "critter_ids": [
+        "cp-124"
+      ],
+      "month_hints": [
+        {
+          "crowd": 25,
+          "note": "Post-holiday lull"
+        },
+        {
+          "crowd": 30,
+          "note": "Cold and quiet"
+        },
+        {
+          "crowd": 40,
+          "note": "Early spring blooms"
+        },
+        {
+          "crowd": 55,
+          "note": "Spring blossoms"
+        },
+        {
+          "crowd": 65,
+          "note": "Mild weather"
+        },
+        {
+          "crowd": 75,
+          "note": "Summer begins"
+        },
+        {
+          "crowd": 85,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 90,
+          "note": "Peak summer"
+        },
+        {
+          "crowd": 70,
+          "note": "Early autumn"
+        },
+        {
+          "crowd": 50,
+          "note": "Autumn colors"
+        },
+        {
+          "crowd": 35,
+          "note": "Pre-Christmas calm"
+        },
+        {
+          "crowd": 95,
+          "note": "Christmas markets"
+        }
+      ]
+    },
+    {
+      "code": "za",
+      "name": "South Africa",
+      "country": "ZA",
+      "rank": 35,
+      "set_group": 3,
+      "tz": "Africa/Johannesburg",
+      "currency": "ZAR",
+      "languages": [
+        "en",
+        "af",
+        "zu"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-125",
+      "critter_ids": [
+        "cp-125"
+      ],
+      "month_hints": [
+        {
+          "crowd": 92,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 88,
+          "note": "Peak summer"
+        },
+        {
+          "crowd": 72,
+          "note": "Late summer"
+        },
+        {
+          "crowd": 55,
+          "note": "Autumn shoulder"
+        },
+        {
+          "crowd": 38,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 25,
+          "note": "Winter rains"
+        },
+        {
+          "crowd": 20,
+          "note": "Cool and wet"
+        },
+        {
+          "crowd": 30,
+          "note": "Whale watching"
+        },
+        {
+          "crowd": 48,
+          "note": "Wildflower season"
+        },
+        {
+          "crowd": 62,
+          "note": "Spring"
+        },
+        {
+          "crowd": 78,
+          "note": "Early summer"
+        },
+        {
+          "crowd": 100,
+          "note": "Summer school holidays"
+        }
+      ]
+    },
+    {
+      "code": "do",
+      "name": "Dominican Republic",
+      "country": "DO",
+      "rank": 36,
+      "set_group": 3,
+      "tz": "America/Santo_Domingo",
+      "currency": "DOP",
+      "languages": [
+        "es"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-126",
+      "critter_ids": [
+        "cp-126"
+      ],
+      "month_hints": [
+        {
+          "crowd": 85,
+          "note": "Humpback whale season"
+        },
+        {
+          "crowd": 90,
+          "note": "Whale watching peak"
+        },
+        {
+          "crowd": 75,
+          "note": "Whales leaving"
+        },
+        {
+          "crowd": 60,
+          "note": "Easter holidays"
+        },
+        {
+          "crowd": 40,
+          "note": "Rainy season start"
+        },
+        {
+          "crowd": 25,
+          "note": "Hurricane season"
+        },
+        {
+          "crowd": 35,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 40,
+          "note": "Storm risk"
+        },
+        {
+          "crowd": 15,
+          "note": "Hurricane peak"
+        },
+        {
+          "crowd": 20,
+          "note": "Rainy season"
+        },
+        {
+          "crowd": 45,
+          "note": "Dry season start"
+        },
+        {
+          "crowd": 80,
+          "note": "Christmas holidays"
+        }
+      ]
+    },
+    {
+      "code": "uz",
+      "name": "Uzbekistan",
+      "country": "UZ",
+      "rank": 37,
+      "set_group": 3,
+      "tz": "Asia/Samarkand",
+      "currency": "UZS",
+      "languages": [
+        "uz"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-127",
+      "critter_ids": [
+        "cp-127"
+      ],
+      "month_hints": [
+        {
+          "crowd": 12,
+          "note": "Cold winter"
+        },
+        {
+          "crowd": 14,
+          "note": "Cold, quiet"
+        },
+        {
+          "crowd": 30,
+          "note": "Navruz celebrations"
+        },
+        {
+          "crowd": 65,
+          "note": "Spring blossoms, mild"
+        },
+        {
+          "crowd": 80,
+          "note": "Peak season, pleasant"
+        },
+        {
+          "crowd": 70,
+          "note": "Early summer heat"
+        },
+        {
+          "crowd": 45,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 40,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 75,
+          "note": "Autumn mild weather"
+        },
+        {
+          "crowd": 60,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 30,
+          "note": "Cooling temperatures"
+        },
+        {
+          "crowd": 18,
+          "note": "Winter, low season"
+        }
+      ]
+    },
+    {
+      "code": "tw",
+      "name": "Taiwan",
+      "country": "TW",
+      "rank": 38,
+      "set_group": 3,
+      "tz": "Asia/Taipei",
+      "currency": "TWD",
+      "languages": [
+        "zh-Hant"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-128",
+      "critter_ids": [
+        "cp-128"
+      ],
+      "month_hints": [
+        {
+          "crowd": 50,
+          "note": "Northeast monsoon rains"
+        },
+        {
+          "crowd": 75,
+          "note": "Lunar New Year crowds"
+        },
+        {
+          "crowd": 65,
+          "note": "Cherry blossom season"
+        },
+        {
+          "crowd": 70,
+          "note": "Mild, pleasant spring"
+        },
+        {
+          "crowd": 60,
+          "note": "Plum rain season"
+        },
+        {
+          "crowd": 45,
+          "note": "Hot, humid, early typhoons"
+        },
+        {
+          "crowd": 55,
+          "note": "Summer break, typhoons"
+        },
+        {
+          "crowd": 50,
+          "note": "Typhoon season peak"
+        },
+        {
+          "crowd": 45,
+          "note": "Humid, typhoon risk"
+        },
+        {
+          "crowd": 80,
+          "note": "Comfortable autumn weather"
+        },
+        {
+          "crowd": 90,
+          "note": "Best weather, clear skies"
+        },
+        {
+          "crowd": 85,
+          "note": "Cool, dry winter"
+        }
+      ]
+    },
+    {
+      "code": "au",
+      "name": "Australia",
+      "country": "AU",
+      "rank": 39,
+      "set_group": 3,
+      "tz": "Australia/Sydney",
+      "currency": "AUD",
+      "languages": [
+        "en"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-129",
+      "critter_ids": [
+        "cp-129"
+      ],
+      "month_hints": [
+        {
+          "crowd": 95,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 85,
+          "note": "Warm weather"
+        },
+        {
+          "crowd": 70,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 60,
+          "note": "Easter holidays"
+        },
+        {
+          "crowd": 55,
+          "note": "Vivid Sydney"
+        },
+        {
+          "crowd": 45,
+          "note": "Winter"
+        },
+        {
+          "crowd": 40,
+          "note": "Winter"
+        },
+        {
+          "crowd": 45,
+          "note": "Late winter"
+        },
+        {
+          "crowd": 60,
+          "note": "Spring"
+        },
+        {
+          "crowd": 70,
+          "note": "School holidays"
+        },
+        {
+          "crowd": 80,
+          "note": "Pre-summer"
+        },
+        {
+          "crowd": 100,
+          "note": "Christmas and summer"
+        }
+      ]
+    },
+    {
+      "code": "ie",
+      "name": "Ireland",
+      "country": "IE",
+      "rank": 40,
+      "set_group": 3,
+      "tz": "Europe/Dublin",
+      "currency": "EUR",
+      "languages": [
+        "en",
+        "ga"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-130",
+      "critter_ids": [
+        "cp-130"
+      ],
+      "month_hints": [
+        {
+          "crowd": 18,
+          "note": "Off-season, short days"
+        },
+        {
+          "crowd": 20,
+          "note": "Off-season"
+        },
+        {
+          "crowd": 35,
+          "note": "St. Patrick's Day"
+        },
+        {
+          "crowd": 45,
+          "note": "Spring shoulder"
+        },
+        {
+          "crowd": 60,
+          "note": "Milder weather"
+        },
+        {
+          "crowd": 82,
+          "note": "Long days, summer"
+        },
+        {
+          "crowd": 100,
+          "note": "Peak summer holidays"
+        },
+        {
+          "crowd": 95,
+          "note": "Peak summer holidays"
+        },
+        {
+          "crowd": 70,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 50,
+          "note": "Autumn colors"
+        },
+        {
+          "crowd": 28,
+          "note": "Cool and wet"
+        },
+        {
+          "crowd": 42,
+          "note": "Christmas markets"
+        }
+      ]
+    },
+    {
+      "code": "se",
+      "name": "Sweden",
+      "country": "SE",
+      "rank": 41,
+      "set_group": 3,
+      "tz": "Europe/Stockholm",
+      "currency": "SEK",
+      "languages": [
+        "sv"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-131",
+      "critter_ids": [
+        "cp-131"
+      ],
+      "month_hints": [
+        {
+          "crowd": 20,
+          "note": "Post-Christmas lull"
+        },
+        {
+          "crowd": 25,
+          "note": "School ski break"
+        },
+        {
+          "crowd": 30,
+          "note": "Melting snow, early spring"
+        },
+        {
+          "crowd": 45,
+          "note": "Spring awakening"
+        },
+        {
+          "crowd": 60,
+          "note": "Long days, mild weather"
+        },
+        {
+          "crowd": 75,
+          "note": "Midsummer celebrations"
+        },
+        {
+          "crowd": 95,
+          "note": "Peak summer, school holidays"
+        },
+        {
+          "crowd": 80,
+          "note": "Late summer, warm days"
+        },
+        {
+          "crowd": 50,
+          "note": "Autumn colors, fewer crowds"
+        },
+        {
+          "crowd": 35,
+          "note": "Autumn rains"
+        },
+        {
+          "crowd": 25,
+          "note": "Dark, quiet pre-holiday"
+        },
+        {
+          "crowd": 50,
+          "note": "Christmas markets, Lucia"
+        }
+      ]
+    },
+    {
+      "code": "kh",
+      "name": "Cambodia",
+      "country": "KH",
+      "rank": 42,
+      "set_group": 3,
+      "tz": "Asia/Phnom_Penh",
+      "currency": "KHR",
+      "languages": [
+        "km"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-132",
+      "critter_ids": [
+        "cp-132"
+      ],
+      "month_hints": [
+        {
+          "crowd": 95,
+          "note": "Peak dry season"
+        },
+        {
+          "crowd": 90,
+          "note": "Dry season"
+        },
+        {
+          "crowd": 70,
+          "note": "Hot, dry"
+        },
+        {
+          "crowd": 50,
+          "note": "Hottest month"
+        },
+        {
+          "crowd": 40,
+          "note": "Rainy season starts"
+        },
+        {
+          "crowd": 35,
+          "note": "Monsoon rains"
+        },
+        {
+          "crowd": 40,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 40,
+          "note": "Monsoon rains"
+        },
+        {
+          "crowd": 45,
+          "note": "Rainy season"
+        },
+        {
+          "crowd": 55,
+          "note": "Rains taper off"
+        },
+        {
+          "crowd": 80,
+          "note": "Dry season begins"
+        },
+        {
+          "crowd": 95,
+          "note": "Peak dry season"
+        }
+      ]
+    },
+    {
+      "code": "br",
+      "name": "Brazil",
+      "country": "BR",
+      "rank": 43,
+      "set_group": 3,
+      "tz": "America/Sao_Paulo",
+      "currency": "BRL",
+      "languages": [
+        "pt-BR"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-133",
+      "critter_ids": [
+        "cp-133"
+      ],
+      "month_hints": [
+        {
+          "crowd": 85,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 95,
+          "note": "Carnival"
+        },
+        {
+          "crowd": 60,
+          "note": "Post-Carnival lull"
+        },
+        {
+          "crowd": 50,
+          "note": null
+        },
+        {
+          "crowd": 40,
+          "note": null
+        },
+        {
+          "crowd": 45,
+          "note": "Festa Junina"
+        },
+        {
+          "crowd": 60,
+          "note": "School holidays"
+        },
+        {
+          "crowd": 55,
+          "note": "Winter break"
+        },
+        {
+          "crowd": 50,
+          "note": null
+        },
+        {
+          "crowd": 60,
+          "note": "Spring shoulder"
+        },
+        {
+          "crowd": 70,
+          "note": "Pre-summer"
+        },
+        {
+          "crowd": 90,
+          "note": "New Year celebrations"
+        }
+      ]
+    },
+    {
+      "code": "ar",
+      "name": "Argentina",
+      "country": "AR",
+      "rank": 44,
+      "set_group": 3,
+      "tz": "America/Argentina/Buenos_Aires",
+      "currency": "ARS",
+      "languages": [
+        "es"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-134",
+      "critter_ids": [
+        "cp-134"
+      ],
+      "month_hints": [
+        {
+          "crowd": 92,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 88,
+          "note": "Carnival and beach season"
+        },
+        {
+          "crowd": 70,
+          "note": "Autumn shoulder"
+        },
+        {
+          "crowd": 55,
+          "note": "Easter may boost"
+        },
+        {
+          "crowd": 40,
+          "note": null
+        },
+        {
+          "crowd": 30,
+          "note": "Winter low season"
+        },
+        {
+          "crowd": 35,
+          "note": "School winter break"
+        },
+        {
+          "crowd": 42,
+          "note": "Winter"
+        },
+        {
+          "crowd": 55,
+          "note": "Spring shoulder"
+        },
+        {
+          "crowd": 65,
+          "note": "Spring"
+        },
+        {
+          "crowd": 78,
+          "note": "Start of high season"
+        },
+        {
+          "crowd": 85,
+          "note": "Summer holidays"
+        }
+      ]
+    },
+    {
+      "code": "co",
+      "name": "Colombia",
+      "country": "CO",
+      "rank": 45,
+      "set_group": 3,
+      "tz": "America/Bogota",
+      "currency": "COP",
+      "languages": [
+        "es"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-135",
+      "critter_ids": [
+        "cp-135"
+      ],
+      "month_hints": [
+        {
+          "crowd": 85,
+          "note": "Peak dry season, holidays"
+        },
+        {
+          "crowd": 75,
+          "note": "Dry season, carnival"
+        },
+        {
+          "crowd": 60,
+          "note": "Semana Santa"
+        },
+        {
+          "crowd": 55,
+          "note": "Rainy season begins"
+        },
+        {
+          "crowd": 40,
+          "note": "Rainy season"
+        },
+        {
+          "crowd": 50,
+          "note": "Mid-year holidays"
+        },
+        {
+          "crowd": 70,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 65,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 35,
+          "note": "Rainy season, low"
+        },
+        {
+          "crowd": 40,
+          "note": "Rainy season"
+        },
+        {
+          "crowd": 45,
+          "note": "Shoulder, pre-holiday"
+        },
+        {
+          "crowd": 95,
+          "note": "Christmas & New Year"
+        }
+      ]
+    },
+    {
+      "code": "ph",
+      "name": "Philippines",
+      "country": "PH",
+      "rank": 46,
+      "set_group": 3,
+      "tz": "Asia/Manila",
+      "currency": "PHP",
+      "languages": [
+        "fil",
+        "en"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-136",
+      "critter_ids": [
+        "cp-136"
+      ],
+      "month_hints": [
+        {
+          "crowd": 80,
+          "note": "Dry season, peak travel"
+        },
+        {
+          "crowd": 75,
+          "note": "Dry season"
+        },
+        {
+          "crowd": 70,
+          "note": "Dry, hot"
+        },
+        {
+          "crowd": 85,
+          "note": "Summer holidays, dry"
+        },
+        {
+          "crowd": 60,
+          "note": "Transition to wet season"
+        },
+        {
+          "crowd": 40,
+          "note": "Wet season, typhoons"
+        },
+        {
+          "crowd": 30,
+          "note": "Peak typhoon season"
+        },
+        {
+          "crowd": 35,
+          "note": "Wet, occasional typhoons"
+        },
+        {
+          "crowd": 30,
+          "note": "Wet season"
+        },
+        {
+          "crowd": 45,
+          "note": "Wet season easing"
+        },
+        {
+          "crowd": 65,
+          "note": "Dry season begins"
+        },
+        {
+          "crowd": 90,
+          "note": "Christmas holidays, dry"
+        }
+      ]
+    },
+    {
+      "code": "jo",
+      "name": "Jordan",
+      "country": "JO",
+      "rank": 47,
+      "set_group": 3,
+      "tz": "Asia/Amman",
+      "currency": "JOD",
+      "languages": [
+        "ar"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-137",
+      "critter_ids": [
+        "cp-137"
+      ],
+      "month_hints": [
+        {
+          "crowd": 40,
+          "note": "Cool weather"
+        },
+        {
+          "crowd": 45,
+          "note": "Cool weather"
+        },
+        {
+          "crowd": 70,
+          "note": "Spring bloom"
+        },
+        {
+          "crowd": 90,
+          "note": "Peak spring"
+        },
+        {
+          "crowd": 75,
+          "note": "Warm and dry"
+        },
+        {
+          "crowd": 55,
+          "note": "Heat rising"
+        },
+        {
+          "crowd": 40,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 35,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 60,
+          "note": "Cooling down"
+        },
+        {
+          "crowd": 85,
+          "note": "Autumn peak"
+        },
+        {
+          "crowd": 70,
+          "note": "Mild autumn"
+        },
+        {
+          "crowd": 45,
+          "note": "Cool weather"
+        }
+      ]
+    },
+    {
+      "code": "cl",
+      "name": "Chile",
+      "country": "CL",
+      "rank": 48,
+      "set_group": 3,
+      "tz": "America/Santiago",
+      "currency": "CLP",
+      "languages": [
+        "es"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-138",
+      "critter_ids": [
+        "cp-138"
+      ],
+      "month_hints": [
+        {
+          "crowd": 100,
+          "note": "Peak summer trekking"
+        },
+        {
+          "crowd": 90,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 60,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 30,
+          "note": "Fall colors"
+        },
+        {
+          "crowd": 10,
+          "note": "Cold, fewer visitors"
+        },
+        {
+          "crowd": 5,
+          "note": "Winter closure risk"
+        },
+        {
+          "crowd": 5,
+          "note": "Winter"
+        },
+        {
+          "crowd": 5,
+          "note": "Winter"
+        },
+        {
+          "crowd": 15,
+          "note": "Spring thaw"
+        },
+        {
+          "crowd": 35,
+          "note": "Season opening"
+        },
+        {
+          "crowd": 65,
+          "note": "Pre-summer"
+        },
+        {
+          "crowd": 90,
+          "note": "Holiday season"
+        }
+      ]
+    },
+    {
+      "code": "qa",
+      "name": "Qatar",
+      "country": "QA",
+      "rank": 49,
+      "set_group": 3,
+      "tz": "Asia/Qatar",
+      "currency": "QAR",
+      "languages": [
+        "ar",
+        "en"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-139",
+      "critter_ids": [
+        "cp-139"
+      ],
+      "month_hints": [
+        {
+          "crowd": 85,
+          "note": "Pleasant winter weather"
+        },
+        {
+          "crowd": 80,
+          "note": "Pleasant winter weather"
+        },
+        {
+          "crowd": 70,
+          "note": "Warming up"
+        },
+        {
+          "crowd": 45,
+          "note": "Hot days"
+        },
+        {
+          "crowd": 25,
+          "note": "Very hot"
+        },
+        {
+          "crowd": 10,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 5,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 10,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 20,
+          "note": "Still hot"
+        },
+        {
+          "crowd": 40,
+          "note": "Cooling down"
+        },
+        {
+          "crowd": 70,
+          "note": "Mild weather"
+        },
+        {
+          "crowd": 90,
+          "note": "National Day & holidays"
+        }
+      ]
+    },
+    {
+      "code": "ge",
+      "name": "Georgia",
+      "country": "GE",
+      "rank": 50,
+      "set_group": 3,
+      "tz": "Asia/Tbilisi",
+      "currency": "GEL",
+      "languages": [
+        "ka"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-140",
+      "critter_ids": [
+        "cp-140"
+      ],
+      "month_hints": [
+        {
+          "crowd": 20,
+          "note": "Winter cold"
+        },
+        {
+          "crowd": 18,
+          "note": "Winter cold"
+        },
+        {
+          "crowd": 28,
+          "note": "Spring thaw"
+        },
+        {
+          "crowd": 45,
+          "note": "Spring blooms"
+        },
+        {
+          "crowd": 60,
+          "note": "Mild weather"
+        },
+        {
+          "crowd": 75,
+          "note": "Early summer"
+        },
+        {
+          "crowd": 90,
+          "note": "Summer peak"
+        },
+        {
+          "crowd": 95,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 70,
+          "note": "Pleasant autumn"
+        },
+        {
+          "crowd": 50,
+          "note": "Autumn colors"
+        },
+        {
+          "crowd": 28,
+          "note": "Late autumn chill"
+        },
+        {
+          "crowd": 22,
+          "note": "New Year's Eve"
+        }
+      ]
+    },
+    {
+      "code": "no",
+      "name": "Norway",
+      "country": "NO",
+      "rank": 51,
+      "set_group": 3,
+      "tz": "Europe/Oslo",
+      "currency": "NOK",
+      "languages": [
+        "nb"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-141",
+      "critter_ids": [
+        "cp-141"
+      ],
+      "month_hints": [
+        {
+          "crowd": 60,
+          "note": "Northern lights"
+        },
+        {
+          "crowd": 65,
+          "note": "Northern lights"
+        },
+        {
+          "crowd": 55,
+          "note": "Northern lights"
+        },
+        {
+          "crowd": 25,
+          "note": "Shoulder, snow melt"
+        },
+        {
+          "crowd": 35,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 80,
+          "note": "Midnight sun"
+        },
+        {
+          "crowd": 95,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 85,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 50,
+          "note": "Aurora season"
+        },
+        {
+          "crowd": 30,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 55,
+          "note": "Northern lights"
+        },
+        {
+          "crowd": 75,
+          "note": "Christmas, northern lights"
+        }
+      ]
+    },
+    {
+      "code": "la",
+      "name": "Laos",
+      "country": "LA",
+      "rank": 52,
+      "set_group": 3,
+      "tz": "Asia/Vientiane",
+      "currency": "LAK",
+      "languages": [
+        "lo"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-142",
+      "critter_ids": [
+        "cp-142"
+      ],
+      "month_hints": [
+        {
+          "crowd": 90,
+          "note": "Dry season, cool nights"
+        },
+        {
+          "crowd": 85,
+          "note": "Dry, warming up"
+        },
+        {
+          "crowd": 65,
+          "note": "Hot season begins"
+        },
+        {
+          "crowd": 55,
+          "note": "Pi Mai Lao New Year"
+        },
+        {
+          "crowd": 40,
+          "note": "Start of monsoon rains"
+        },
+        {
+          "crowd": 30,
+          "note": "Monsoon rains"
+        },
+        {
+          "crowd": 30,
+          "note": "Buddhist Lent begins"
+        },
+        {
+          "crowd": 25,
+          "note": "Peak monsoon rains"
+        },
+        {
+          "crowd": 20,
+          "note": "Heavy rains"
+        },
+        {
+          "crowd": 45,
+          "note": "End of rains"
+        },
+        {
+          "crowd": 75,
+          "note": "Dry season starts"
+        },
+        {
+          "crowd": 95,
+          "note": "Cool dry peak"
+        }
+      ]
+    },
+    {
+      "code": "om",
+      "name": "Oman",
+      "country": "OM",
+      "rank": 53,
+      "set_group": 3,
+      "tz": "Asia/Muscat",
+      "currency": "OMR",
+      "languages": [
+        "ar"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-143",
+      "critter_ids": [
+        "cp-143"
+      ],
+      "month_hints": [
+        {
+          "crowd": 90,
+          "note": "New Year holidays"
+        },
+        {
+          "crowd": 85,
+          "note": "Winter sun"
+        },
+        {
+          "crowd": 80,
+          "note": "Spring break"
+        },
+        {
+          "crowd": 60,
+          "note": "Easter holidays"
+        },
+        {
+          "crowd": 35,
+          "note": "Heat begins"
+        },
+        {
+          "crowd": 15,
+          "note": "Extreme heat"
+        },
+        {
+          "crowd": 10,
+          "note": "Peak summer heat"
+        },
+        {
+          "crowd": 10,
+          "note": "Peak summer heat"
+        },
+        {
+          "crowd": 20,
+          "note": "End of summer"
+        },
+        {
+          "crowd": 45,
+          "note": "Cooler weather"
+        },
+        {
+          "crowd": 70,
+          "note": "Pleasant winter"
+        },
+        {
+          "crowd": 95,
+          "note": "Christmas & New Year"
+        }
+      ]
+    },
+    {
+      "code": "nz",
+      "name": "New Zealand",
+      "country": "NZ",
+      "rank": 54,
+      "set_group": 3,
+      "tz": "Pacific/Auckland",
+      "currency": "NZD",
+      "languages": [
+        "en",
+        "mi"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-144",
+      "critter_ids": [
+        "cp-144"
+      ],
+      "month_hints": [
+        {
+          "crowd": 90,
+          "note": "Summer school holidays"
+        },
+        {
+          "crowd": 80,
+          "note": "Warm summer weather"
+        },
+        {
+          "crowd": 60,
+          "note": "Mild autumn"
+        },
+        {
+          "crowd": 40,
+          "note": "Autumn shoulder"
+        },
+        {
+          "crowd": 30,
+          "note": "Off-season"
+        },
+        {
+          "crowd": 50,
+          "note": "Ski season begins"
+        },
+        {
+          "crowd": 75,
+          "note": "Ski season peak"
+        },
+        {
+          "crowd": 70,
+          "note": "Ski season"
+        },
+        {
+          "crowd": 55,
+          "note": "Spring shoulder"
+        },
+        {
+          "crowd": 45,
+          "note": "Spring"
+        },
+        {
+          "crowd": 65,
+          "note": "Late spring"
+        },
+        {
+          "crowd": 85,
+          "note": "Summer holidays begin"
+        }
+      ]
+    },
+    {
+      "code": "pe",
+      "name": "Peru",
+      "country": "PE",
+      "rank": 55,
+      "set_group": 3,
+      "tz": "America/Lima",
+      "currency": "PEN",
+      "languages": [
+        "es",
+        "qu"
+      ],
+      "coverage": "live",
+      "guide": "paco",
+      "destination": "cusco",
+      "hero_critter_id": "cp-145",
+      "critter_ids": [
+        "cp-145"
+      ],
+      "month_hints": [
+        {
+          "crowd": 30,
+          "note": "Rainy season"
+        },
+        {
+          "crowd": 20,
+          "note": "Inca Trail closed"
+        },
+        {
+          "crowd": 35,
+          "note": "Rainy season ending"
+        },
+        {
+          "crowd": 50,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 65,
+          "note": "Dry season begins"
+        },
+        {
+          "crowd": 90,
+          "note": "Inti Raymi festival"
+        },
+        {
+          "crowd": 95,
+          "note": "Dry, peak season"
+        },
+        {
+          "crowd": 90,
+          "note": "Dry, peak season"
+        },
+        {
+          "crowd": 70,
+          "note": "Dry season ending"
+        },
+        {
+          "crowd": 55,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 40,
+          "note": "Rainy season begins"
+        },
+        {
+          "crowd": 45,
+          "note": "Christmas holidays"
+        }
+      ]
+    },
+    {
+      "code": "cr",
+      "name": "Costa Rica",
+      "country": "CR",
+      "rank": 56,
+      "set_group": 3,
+      "tz": "America/Costa_Rica",
+      "currency": "CRC",
+      "languages": [
+        "es"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-146",
+      "critter_ids": [
+        "cp-146"
+      ],
+      "month_hints": [
+        {
+          "crowd": 90,
+          "note": "Peak dry season"
+        },
+        {
+          "crowd": 85,
+          "note": "Dry season"
+        },
+        {
+          "crowd": 80,
+          "note": "Spring break"
+        },
+        {
+          "crowd": 70,
+          "note": "Easter holidays"
+        },
+        {
+          "crowd": 50,
+          "note": "Start of green season"
+        },
+        {
+          "crowd": 45,
+          "note": "Green season rains"
+        },
+        {
+          "crowd": 65,
+          "note": "US/Europe summer break"
+        },
+        {
+          "crowd": 60,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 35,
+          "note": "Heavy rains"
+        },
+        {
+          "crowd": 30,
+          "note": "Rainiest month"
+        },
+        {
+          "crowd": 55,
+          "note": "Transition to dry"
+        },
+        {
+          "crowd": 80,
+          "note": "Holiday travel"
+        }
+      ]
+    },
+    {
+      "code": "ke",
+      "name": "Kenya",
+      "country": "KE",
+      "rank": 57,
+      "set_group": 3,
+      "tz": "Africa/Nairobi",
+      "currency": "KES",
+      "languages": [
+        "sw",
+        "en"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-147",
+      "critter_ids": [
+        "cp-147"
+      ],
+      "month_hints": [
+        {
+          "crowd": 70,
+          "note": "Dry season, post-holiday travel"
+        },
+        {
+          "crowd": 65,
+          "note": "Dry season"
+        },
+        {
+          "crowd": 50,
+          "note": "Long rains begin"
+        },
+        {
+          "crowd": 35,
+          "note": "Long rains"
+        },
+        {
+          "crowd": 30,
+          "note": "Long rains"
+        },
+        {
+          "crowd": 60,
+          "note": "Safari season starts"
+        },
+        {
+          "crowd": 85,
+          "note": "Wildebeest migration"
+        },
+        {
+          "crowd": 90,
+          "note": "Migration peak"
+        },
+        {
+          "crowd": 85,
+          "note": "Migration"
+        },
+        {
+          "crowd": 75,
+          "note": "Safari, dry"
+        },
+        {
+          "crowd": 40,
+          "note": "Short rains"
+        },
+        {
+          "crowd": 80,
+          "note": "Holiday travel"
+        }
+      ]
+    },
+    {
+      "code": "is",
+      "name": "Iceland",
+      "country": "IS",
+      "rank": 58,
+      "set_group": 3,
+      "tz": "Atlantic/Reykjavik",
+      "currency": "ISK",
+      "languages": [
+        "is"
+      ],
+      "coverage": "live",
+      "guide": "lundi",
+      "destination": "iceland",
+      "hero_critter_id": "cp-148",
+      "critter_ids": [
+        "cp-148"
+      ],
+      "month_hints": [
+        {
+          "crowd": 25,
+          "note": "Northern lights"
+        },
+        {
+          "crowd": 25,
+          "note": "Northern lights"
+        },
+        {
+          "crowd": 30,
+          "note": "Northern lights"
+        },
+        {
+          "crowd": 40,
+          "note": "Spring shoulder"
+        },
+        {
+          "crowd": 60,
+          "note": "Milder weather"
+        },
+        {
+          "crowd": 85,
+          "note": "Midnight sun"
+        },
+        {
+          "crowd": 100,
+          "note": "Peak summer"
+        },
+        {
+          "crowd": 90,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 65,
+          "note": "Autumn shoulder"
+        },
+        {
+          "crowd": 40,
+          "note": "Northern lights return"
+        },
+        {
+          "crowd": 25,
+          "note": "Low season"
+        },
+        {
+          "crowd": 30,
+          "note": "Christmas holidays"
+        }
+      ]
+    },
+    {
+      "code": "cu",
+      "name": "Cuba",
+      "country": "CU",
+      "rank": 59,
+      "set_group": 3,
+      "tz": "America/Havana",
+      "currency": "CUP",
+      "languages": [
+        "es"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-149",
+      "critter_ids": [
+        "cp-149"
+      ],
+      "month_hints": [
+        {
+          "crowd": 85,
+          "note": "Dry season peak"
+        },
+        {
+          "crowd": 80,
+          "note": "Dry season peak"
+        },
+        {
+          "crowd": 75,
+          "note": "Spring break/Easter"
+        },
+        {
+          "crowd": 60,
+          "note": "Shoulder season"
+        },
+        {
+          "crowd": 45,
+          "note": "Rainy season begins"
+        },
+        {
+          "crowd": 35,
+          "note": "Hurricane season"
+        },
+        {
+          "crowd": 40,
+          "note": "Summer holidays"
+        },
+        {
+          "crowd": 35,
+          "note": "Hurricane risk"
+        },
+        {
+          "crowd": 25,
+          "note": "Hurricane peak"
+        },
+        {
+          "crowd": 30,
+          "note": "Hurricane season"
+        },
+        {
+          "crowd": 55,
+          "note": "Dry season starts"
+        },
+        {
+          "crowd": 85,
+          "note": "Christmas/New Year"
+        }
+      ]
+    },
+    {
+      "code": "tz",
+      "name": "Tanzania",
+      "country": "TZ",
+      "rank": 60,
+      "set_group": 3,
+      "tz": "Africa/Dar_es_Salaam",
+      "currency": "TZS",
+      "languages": [
+        "sw",
+        "en"
+      ],
+      "coverage": "guest",
+      "guide": null,
+      "destination": null,
+      "hero_critter_id": "cp-150",
+      "critter_ids": [
+        "cp-150"
+      ],
+      "month_hints": [
+        {
+          "crowd": 65,
+          "note": "Calving season"
+        },
+        {
+          "crowd": 70,
+          "note": "Calving season"
+        },
+        {
+          "crowd": 60,
+          "note": "Calving season"
+        },
+        {
+          "crowd": 25,
+          "note": "Long rains"
+        },
+        {
+          "crowd": 20,
+          "note": "Long rains"
+        },
+        {
+          "crowd": 75,
+          "note": "Dry season begins"
+        },
+        {
+          "crowd": 90,
+          "note": "River crossings"
+        },
+        {
+          "crowd": 95,
+          "note": "River crossings"
+        },
+        {
+          "crowd": 85,
+          "note": "River crossings"
+        },
+        {
+          "crowd": 70,
+          "note": "Dry season"
+        },
+        {
+          "crowd": 45,
+          "note": "Short rains"
+        },
+        {
+          "crowd": 55,
+          "note": "Holiday season"
+        }
+      ]
+    }
+  ],
+  "generated_by": {
+    "batch_key": "2026-09-27-sets-01",
+    "route": "content.factory",
+    "model": "deepseek-v4-pro",
+    "generated_at": "2026-09-27T23:33:19.320Z"
+  },
+  "approved_by": null,
+  "checksum": "4be0816a9998cc58fbdad6e79069e3540bef516bfe671ecba83f50c166d37d2a"
+}

@@ -1,0 +1,1 @@
+Iceland is a one-critter set: Lundi (Atlantic puffin) is the live guide. Puffins nest on sea cliffs from late spring and the pufflings fledge at night in late August on Heimaey. Notes stay factual about the birds and the island weather.

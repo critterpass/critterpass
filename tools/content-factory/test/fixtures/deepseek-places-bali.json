@@ -1,0 +1,59 @@
+{
+  "source": "api.deepseek.com 2026-09-27",
+  "request": {
+    "model": "deepseek-v4-pro",
+    "max_tokens": 16000,
+    "messages": [
+      {
+        "role": "user",
+        "content": "Destination: bali.\nAllowed tags: street_food, sit_down_dining, coffee, nightlife, quiet_evenings, early_starts, late_starts, easy_pace, packed_days, nature, hiking, beach, culture, history, temples, museums, markets, shopping, wellness, adventure, photo_spots, local_life, splurge, thrifty.\nPlaces:\n- fsq_os:fixture-uluwatu: Pura Luhur Uluwatu, temple_shrine\n- fsq_os:fixture-tegallalang: Tegallalang Rice Terrace, nature\n- fsq_os:fixture-ubud-market: Ubud Art Market, market\n- overture:fixture-uluwatu-en: Uluwatu Temple, temple_shrine\n\nReturn {\"pois\": [...]} with one entry per place."
+      }
+    ],
+    "thinking": {
+      "type": "enabled",
+      "budget_tokens": 8000
+    },
+    "system": [
+      {
+        "type": "text",
+        "text": "You write short, honest editorial notes for places in a travel app, from the place's name, category and address only.\nFor each place: why_go (one sentence, at most 160 characters), best_time (e.g. \"Early morning before tour buses\"), time_needed_min (typical visit, minutes), crowd_hint (at most 60 characters), etiquette (dress or behaviour guidance for temples, shrines and similar, otherwise null) and 1-4 taste tags from the allowed list.\nNever mention prices, booking sites, tour operators, hotels or reviews. If you do not know a place, keep the notes generic to its category rather than inventing specifics. Reply with JSON only."
+      },
+      {
+        "type": "text",
+        "text": "# Reply format\n\nReply with one JSON value only: no prose before or after it and no code fences. It must match this JSON Schema:\n{\"type\":\"object\",\"properties\":{\"pois\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"ref\":{\"type\":\"string\"},\"why_go\":{\"type\":\"string\"},\"best_time\":{\"type\":\"string\"},\"time_needed_min\":{\"type\":\"integer\"},\"crowd_hint\":{\"type\":\"string\"},\"etiquette\":{\"type\":[\"string\",\"null\"]},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"street_food\",\"sit_down_dining\",\"coffee\",\"nightlife\",\"quiet_evenings\",\"early_starts\",\"late_starts\",\"easy_pace\",\"packed_days\",\"nature\",\"hiking\",\"beach\",\"culture\",\"history\",\"temples\",\"museums\",\"markets\",\"shopping\",\"wellness\",\"adventure\",\"photo_spots\",\"local_life\",\"splurge\",\"thrifty\"]}}},\"required\":[\"ref\",\"why_go\",\"best_time\",\"time_needed_min\",\"crowd_hint\",\"etiquette\",\"tags\"],\"additionalProperties\":false}}},\"required\":[\"pois\"],\"additionalProperties\":false}"
+      }
+    ],
+    "output_config": {
+      "effort": "low"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "58c5f9fa-72ff-45b8-839e-d0ef1d7f19ea",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "We need to produce JSON with one entry per place. The places include two entries for Uluwatu temple: one fsq_os:fixture-uluwatu and another overture:fixture-uluwatu-en, both likely referring to the same physical temple but different ref? The instruction says \"one entry per place\" - but here we have two refs for what appears to be the same place. However, we must treat each given ref separately since they are listed as separate places. Probably they are different sources for same POI, but we need to output both entries as requested. So each ref gets its own object.\n\nWe have four refs:\n1. fsq_os:fixture-uluwatu: Pura Luhur Uluwatu, category temple_shrine\n2. fsq_os:fixture-tegallalang: Tegallalang Rice Terrace, category nature\n3. fsq_os:fixture-ubud-market: Ubud Art Market, category market\n4. overture:fixture-uluwatu-en: Uluwatu Temple, category temple_shrine\n\nFor each, we need: why_go (one sentence, max 160 chars), best_time, time_needed_min (integer minutes), crowd_hint (max 60 chars), etiquette (dress/behavior guidance for temples/shrines, else null), and 1-4 taste tags from allowed list.\n\nWe must not mention prices, booking sites, tour operators, hotels or reviews. Keep generic if unknown. All these are known Bali places.\n\nWrite concise, honest editorial notes. For Uluwatu temple (both entries likely same place), we can write similar but not identical? Probably identical content is fine, but we'll produce same for both refs? Since they are separate entries, we can reuse same details. The instruction says \"one entry per place\" but the places list includes two for Uluwatu, maybe they are duplicates from different sources; we'll treat them as separate identical entries. So we'll produce two entries with same content but different ref.\n\nLet's draft each:\n\n1. Pura Luhur Uluwatu (temple_shrine):\n- why_go: \"Perched on dramatic sea cliffs, this sacred sea temple offers sweeping ocean views and a stunning Kecak fire dance at sunset.\" (Check length: 160? That's about 113 characters, fine.)\n- best_time: \"Late afternoon for sunset and the Kecak dance, before tour buses leave.\" But careful not to mention tour buses? The instruction says never mention tour buses? It says \"Never mention prices, booking sites, tour operators, hotels or reviews.\" Tour buses might be borderline, but it's about timing, so probably okay. Better: \"Late afternoon to catch sunset and the performance.\" \n- time_needed_min: Typical visit maybe 60-90 minutes to explore and watch dance. Let's say 90.\n- crowd_hint: \"Can get crowded at sunset; arrive early for good views.\" (52 characters)\n- etiquette: For temple: \"Wear a sarong and sash; modest dress, no exposed shoulders or knees.\" (This is appropriate)\n- tags: Choose 1-4 from allowed. For temple: probably \"temples\", \"culture\", \"history\", \"photo_spots\" – maybe also \"quiet_evenings\" but it can be crowded for dance. I'll pick [\"temples\",\"culture\",\"history\",\"photo_spots\"].\n\n2. Tegallalang Rice Terrace (nature):\n- why_go: \"Walk among iconic terraced rice paddies sculpted into the hillside, a photographer's paradise in central Bali.\" (96 chars)\n- best_time: \"Early morning for soft light and fewer visitors.\" \n- time_needed_min: Typically 60-90 minutes for a walk. Let's say 60.\n- crowd_hint: \"Popular photo stop; paths can be narrow.\" (36 chars)\n- etiquette: null (not temple/shrine)\n- tags: \"nature\", \"photo_spots\", \"hiking\" (though hiking might be stretch, but walking trails), \"easy_pace\" or \"culture\"? It's agricultural landscape, so \"nature\" and \"photo_spots\" definitely. Also maybe \"local_life\". I'll pick [\"nature\",\"photo_spots\",\"hiking\",\"easy_pace\"].\n\n3. Ubud Art Market (market):\n- why_go: \"Browse a lively maze of stalls selling handmade crafts, textiles, and souvenirs in the heart of Ubud.\" (96 chars)\n- best_time: \"Morning before midday heat and crowds.\" \n- time_needed_min: Browsing perhaps 45-60 minutes. Let's say 45.\n- crowd_hint: \"Bargain politely; central location gets busy by late morning.\" (56 chars)\n- etiquette: null (not temple/shrine)\n- tags: \"markets\", \"shopping\", \"local_life\", \"thrifty\" (if bargaining), or \"culture\"? I'll pick [\"markets\",\"shopping\",\"local_life\",\"thrifty\"].\n\n4. Uluwatu Temple (overture ref, same as first):\n- Same as first, but distinct ref. I'll copy the same content. But to avoid exact duplication? Probably fine. I'll produce identical strings.\n\nNow verify all required fields and JSON format. Note: tags array must be from enum, and only 1-4 items. All good.\n\nProceed to output JSON only.",
+          "signature": "58c5f9fa-72ff-45b8-839e-d0ef1d7f19ea"
+        },
+        {
+          "type": "text",
+          "text": "{\n  \"pois\": [\n    {\n      \"ref\": \"fsq_os:fixture-uluwatu\",\n      \"why_go\": \"Perched on dramatic sea cliffs, this sacred sea temple offers sweeping ocean views and a stunning sunset Kecak dance.\",\n      \"best_time\": \"Late afternoon for sunset and the Kecak dance performance.\",\n      \"time_needed_min\": 90,\n      \"crowd_hint\": \"Can get crowded at sunset; arrive early for good views.\",\n      \"etiquette\": \"Wear a sarong and sash; modest dress with shoulders and knees covered.\",\n      \"tags\": [\"temples\", \"culture\", \"history\", \"photo_spots\"]\n    },\n    {\n      \"ref\": \"fsq_os:fixture-tegallalang\",\n      \"why_go\": \"Walk among iconic terraced rice paddies sculpted into the hillside, a photographer's paradise in central Bali.\",\n      \"best_time\": \"Early morning for soft light and fewer visitors.\",\n      \"time_needed_min\": 60,\n      \"crowd_hint\": \"Popular photo stop; paths can be narrow.\",\n      \"etiquette\": null,\n      \"tags\": [\"nature\", \"photo_spots\", \"hiking\", \"easy_pace\"]\n    },\n    {\n      \"ref\": \"fsq_os:fixture-ubud-market\",\n      \"why_go\": \"Browse a lively maze of stalls selling handmade crafts, textiles, and souvenirs in the heart of Ubud.\",\n      \"best_time\": \"Morning before midday heat and crowds.\",\n      \"time_needed_min\": 45,\n      \"crowd_hint\": \"Bargain politely; central location gets busy by late morning.\",\n      \"etiquette\": null,\n      \"tags\": [\"markets\", \"shopping\", \"local_life\", \"thrifty\"]\n    },\n    {\n      \"ref\": \"overture:fixture-uluwatu-en\",\n      \"why_go\": \"Perched on dramatic sea cliffs, this sacred sea temple offers sweeping ocean views and a stunning sunset Kecak dance.\",\n      \"best_time\": \"Late afternoon for sunset and the Kecak dance performance.\",\n      \"time_needed_min\": 90,\n      \"crowd_hint\": \"Can get crowded at sunset; arrive early for good views.\",\n      \"etiquette\": \"Wear a sarong and sash; modest dress with shoulders and knees covered.\",\n      \"tags\": [\"temples\", \"culture\", \"history\", \"photo_spots\"]\n    }\n  ]\n}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 590,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 1689,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

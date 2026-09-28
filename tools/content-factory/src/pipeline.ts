@@ -7,7 +7,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 import type { Gateway } from '@cp/ai';
-import { loadRelease, type ContentKind } from '@cp/content';
+import { itemRef, loadRelease, type ContentKind } from '@cp/content';
 import type pg from 'pg';
 
 import { liveArtifact, ensureAgentJob, rejectionNotes } from './db';
@@ -137,4 +137,35 @@ export function validateCommitted(
         report: runValidators(kind, release.items, module.validators),
       };
     });
+}
+
+/** Re-renders every committed batch of a kind into `outDir` and lists items without a review image. */
+export async function checkCommittedRenders(
+  kind: ContentKind,
+  outDir: string,
+  root = FACTORY_DIR,
+): Promise<{ batchKey: string; missing: string[] }[]> {
+  const module = kindModule(kind);
+  const dir = path.join(root, 'batches', kind);
+  if (module.render === undefined || !existsSync(dir)) return [];
+  const results: { batchKey: string; missing: string[] }[] = [];
+  for (const file of readdirSync(dir)
+    .filter((f) => f.endsWith('.json'))
+    .sort()) {
+    const release = loadRelease(JSON.parse(readFileSync(path.join(dir, file), 'utf8')), kind);
+    const batchKey = file.slice(0, -5);
+    const rendered = await module.render(
+      { batchKey, now: new Date(), options: {} },
+      release.items,
+      path.join(outDir, batchKey),
+    );
+    const drawn = new Set(
+      rendered.filter((r) => existsSync(path.join(outDir, batchKey, r.file))).map((r) => r.ref),
+    );
+    const missing = release.items
+      .map((item) => itemRef(kind, item))
+      .filter((ref) => !drawn.has(ref));
+    results.push({ batchKey, missing });
+  }
+  return results;
 }

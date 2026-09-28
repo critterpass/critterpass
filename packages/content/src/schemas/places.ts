@@ -109,6 +109,10 @@ export const poiItemSchema = z
     hours: hoursSchema.nullable(),
     licence: poiLicenceSchema,
     editorial: poiEditorialSchema,
+    /** The same place under another record (decided a duplicate): publishing redirects this one. */
+    merge_into: poiRefSchema.nullable(),
+    /** A nearby record that may be the same place; a reviewer decides. */
+    possible_duplicate_of: poiRefSchema.nullable(),
   })
   .strict();
 export type PoiItem = z.infer<typeof poiItemSchema>;

@@ -1,0 +1,321 @@
+/**
+ * Curated POIs for the six guide destinations. The brief reads the destination's active POIs as
+ * the importer left them (FSQ OS Places and Overture open data only: names, categories, addresses,
+ * coordinates) and runs the duplicate sweep; the model writes the editorial overlay and taste tags
+ * from those fields alone. Supplier content never enters: the only sources a POI can carry are
+ * fsq_os, overture and editorial, and editorial text naming a supplier fails validation.
+ */
+import {
+  createDecisionClient,
+  createGateway,
+  loadDecisionEnv,
+  loadGatewayEnv,
+  SUPPLIER_BRANDS,
+} from '@cp/ai';
+import { poiItemSchema, TASTE_TAGS, type ContentItem } from '@cp/content';
+import { hoursSchema } from '@cp/domain';
+import { z } from 'zod';
+
+import { openPool } from '../../db';
+import { insidePlace } from '../../data/country-bounds';
+import { PLACE_FACTS } from '../../data/place-facts';
+import { recordingFetch } from '../../record';
+import { registerKind } from '../registry';
+import type { Brief, GenerationUnit, KindModule, Prompt } from '../types';
+import { decideDuplicates, nearbyDifferentNames, type DuplicateVerdict } from './duplicates';
+
+export const MIN_POIS_PER_CITY = 250;
+const POIS_PER_CALL = 15;
+
+export const LICENCES: Readonly<
+  Record<'fsq_os' | 'overture' | 'editorial', { licence: string; attribution: string }>
+> = {
+  fsq_os: { licence: 'Apache-2.0', attribution: 'Foursquare Open Source Places' },
+  overture: { licence: 'CDLA-Permissive-2.0', attribution: 'Overture Maps Foundation' },
+  editorial: { licence: 'CritterPass editorial', attribution: 'CritterPass' },
+};
+
+export interface PoiSource {
+  readonly ref: string;
+  readonly destination: string;
+  readonly code: string;
+  readonly name: string;
+  readonly nameLocal: string | null;
+  readonly category: string;
+  readonly lat: number;
+  readonly lng: number;
+  readonly address: string | null;
+  readonly tz: string;
+  readonly hours: unknown;
+  readonly duplicate: { readonly of: string; readonly verdict: DuplicateVerdict } | null;
+}
+
+const GUIDE_DESTINATIONS = Object.entries(PLACE_FACTS).flatMap(([code, facts]) =>
+  facts.destination === null ? [] : [{ code, slug: facts.destination, tz: facts.tz }],
+);
+
+/** Network boundary for the duplicate decisions (tests replay recorded responses through it). */
+export const placesNetwork: { fetch?: typeof fetch } = {};
+
+function decisionClient() {
+  const record = process.env['CONTENT_FACTORY_RECORD'];
+  const fetchOption =
+    placesNetwork.fetch !== undefined
+      ? { fetch: placesNetwork.fetch }
+      : record
+        ? { fetch: recordingFetch(record) }
+        : {};
+  const gateway = process.env['ANTHROPIC_API_KEY']
+    ? createGateway({ ...loadGatewayEnv(), ...fetchOption })
+    : undefined;
+  return createDecisionClient({
+    apiKey: loadDecisionEnv().apiKey,
+    ...fetchOption,
+    ...(gateway ? { gateway } : {}),
+  });
+}
+
+async function poisBrief(options: Readonly<Record<string, string>>): Promise<Brief> {
+  const pool = openPool();
+  if (pool === null) throw new Error('the places brief reads imported POIs: set DATABASE_URL');
+  const wanted = options['destinations']?.split(',');
+  const client = decisionClient();
+  try {
+    const units: GenerationUnit[] = [];
+    for (const destination of GUIDE_DESTINATIONS.filter(
+      (d) => wanted === undefined || wanted.includes(d.slug),
+    )) {
+      const { rows } = await pool.query<{
+        id: string;
+        source_ids: Record<string, string>;
+        name: string;
+        name_local: string | null;
+        category: string;
+        lat: number;
+        lng: number;
+        address: string | null;
+        timezone: string | null;
+        hours: unknown;
+        hours_verified_at: Date | null;
+        destination_id: string;
+      }>(
+        `SELECT p.id, p.source_ids, p.name, p.name_local, p.category, p.lat, p.lng, p.address, p.timezone,
+           p.hours, p.hours_verified_at, p.destination_id
+         FROM pois p JOIN destinations d ON d.id = p.destination_id
+         WHERE d.slug = $1 AND p.status = 'active' AND p.merged_into_id IS NULL ORDER BY p.name`,
+        [destination.slug],
+      );
+      const destinationId = rows[0]?.destination_id;
+      if (destinationId === undefined) continue;
+      const pairs = await nearbyDifferentNames(pool, destinationId);
+      const verdicts = await decideDuplicates(client, pairs);
+      const duplicateOf = new Map<string, { of: string; verdict: DuplicateVerdict }>();
+      for (const pair of pairs) {
+        const verdict = verdicts.get(`${pair.a.ref}|${pair.b.ref}`) ?? 'review';
+        if (verdict !== 'distinct') duplicateOf.set(pair.b.ref, { of: pair.a.ref, verdict });
+      }
+      const sources: PoiSource[] = rows.flatMap((row) => {
+        const source = (['editorial', 'fsq_os', 'overture'] as const).find(
+          (s) => row.source_ids[s] !== undefined,
+        );
+        if (source === undefined) return [];
+        const ref = `${source}:${row.source_ids[source]}`;
+        return [
+          {
+            ref,
+            destination: destination.slug,
+            code: destination.code,
+            name: row.name,
+            nameLocal: row.name_local,
+            category: row.category,
+            lat: row.lat,
+            lng: row.lng,
+            address: row.address,
+            tz: row.timezone ?? destination.tz,
+            hours: row.hours_verified_at === null ? null : row.hours,
+            duplicate: duplicateOf.get(ref) ?? null,
+          },
+        ];
+      });
+      for (let start = 0; start < sources.length; start += POIS_PER_CALL) {
+        const chunk = sources.slice(start, start + POIS_PER_CALL);
+        units.push({
+          id: `${destination.slug}-${String(start / POIS_PER_CALL + 1).padStart(3, '0')}`,
+          input: chunk,
+        });
+      }
+    }
+    return { units };
+  } finally {
+    await pool.end();
+  }
+}
+
+const editorialSchema = z.object({
+  pois: z.array(
+    z.object({
+      ref: z.string(),
+      why_go: z.string().min(1).max(200),
+      best_time: z.string().min(1).max(80),
+      time_needed_min: z.number().int().min(10).max(1440),
+      crowd_hint: z.string().min(1).max(80),
+      etiquette: z.string().min(1).max(160).nullable(),
+      tags: z.array(z.enum(TASTE_TAGS)).min(1).max(4),
+    }),
+  ),
+});
+type Editorial = z.infer<typeof editorialSchema>['pois'][number];
+
+const SYSTEM = `You write short, honest editorial notes for places in a travel app, from the place's name, category and address only.
+For each place: why_go (one sentence, at most 160 characters), best_time (e.g. "Early morning before tour buses"), time_needed_min (typical visit, minutes), crowd_hint (at most 60 characters), etiquette (dress or behaviour guidance for temples, shrines and similar, otherwise null) and 1-4 taste tags from the allowed list.
+Never mention prices, booking sites, tour operators, hotels or reviews. If you do not know a place, keep the notes generic to its category rather than inventing specifics. Reply with JSON only.`;
+
+function poisPrompt(unit: GenerationUnit, brief: Brief): Prompt {
+  const pois = unit.input as PoiSource[];
+  const notes = brief.notes?.['*'];
+  const list = pois
+    .map(
+      (p) =>
+        `- ${p.ref}: ${p.name}${p.nameLocal ? ` (${p.nameLocal})` : ''}, ${p.category}${p.address ? `, ${p.address}` : ''}`,
+    )
+    .join('\n');
+  return {
+    system: SYSTEM,
+    user: `Destination: ${pois[0]?.destination ?? ''}.\nAllowed tags: ${TASTE_TAGS.join(', ')}.\n${notes ? `Reviewer notes: ${notes}\n` : ''}Places:\n${list}\n\nReturn {"pois": [...]} with one entry per place.`,
+    schema: editorialSchema,
+    jsonSchema: {
+      type: 'object',
+      properties: {
+        pois: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              ref: { type: 'string' },
+              why_go: { type: 'string' },
+              best_time: { type: 'string' },
+              time_needed_min: { type: 'integer' },
+              crowd_hint: { type: 'string' },
+              etiquette: { type: ['string', 'null'] },
+              tags: { type: 'array', items: { type: 'string', enum: [...TASTE_TAGS] } },
+            },
+            required: [
+              'ref',
+              'why_go',
+              'best_time',
+              'time_needed_min',
+              'crowd_hint',
+              'etiquette',
+              'tags',
+            ],
+            additionalProperties: false,
+          },
+        },
+      },
+      required: ['pois'],
+      additionalProperties: false,
+    },
+  };
+}
+
+export function toPoiItem(source: PoiSource, editorial: Editorial): ContentItem<'places'> {
+  const kind = source.ref.split(':')[0] as keyof typeof LICENCES;
+  const hours = hoursSchema.safeParse(source.hours);
+  return poiItemSchema.parse({
+    ref: source.ref,
+    destination: source.destination,
+    name: source.name,
+    name_local: source.nameLocal,
+    category: source.category,
+    lat: source.lat,
+    lng: source.lng,
+    address: source.address,
+    tz: source.tz,
+    tags: editorial.tags,
+    hours: hours.success ? hours.data : null,
+    licence: { source: kind, source_id: source.ref.slice(kind.length + 1), ...LICENCES[kind] },
+    editorial: {
+      why_go: editorial.why_go,
+      best_time: editorial.best_time,
+      time_needed_min: editorial.time_needed_min,
+      crowd_hint: editorial.crowd_hint,
+      etiquette: editorial.etiquette,
+    },
+    merge_into: source.duplicate?.verdict === 'merge' ? source.duplicate.of : null,
+    possible_duplicate_of: source.duplicate?.verdict === 'review' ? source.duplicate.of : null,
+  });
+}
+
+const SUPPLIER_WORDS = SUPPLIER_BRANDS.map((brand) => brand.toLowerCase());
+
+export const placesKind: KindModule<'places'> = {
+  kind: 'places',
+  title: (ctx) => `Places · ${ctx.options['destinations'] ?? 'guide cities'}`,
+  gate: 'places_review',
+  brief: (ctx) => poisBrief(ctx.options),
+  prompt: poisPrompt,
+  assemble: (_ctx, brief, outputs) =>
+    Promise.resolve(
+      brief.units.flatMap((unit) => {
+        const output = outputs.get(unit.id) as z.infer<typeof editorialSchema> | undefined;
+        if (output === undefined) return [];
+        return (unit.input as PoiSource[]).flatMap((source) => {
+          const editorial = output.pois.find((p) => p.ref === source.ref);
+          return editorial === undefined ? [] : [toPoiItem(source, editorial)];
+        });
+      }),
+    ),
+  validators: {
+    items: [
+      {
+        id: 'inside-destination',
+        severity: 'fail',
+        check: (poi) => {
+          const code =
+            Object.entries(PLACE_FACTS).find(([, f]) => f.destination === poi.destination)?.[0] ??
+            '';
+          return insidePlace(code, poi.lat, poi.lng)
+            ? []
+            : [`${poi.name} is outside ${poi.destination}'s country`];
+        },
+      },
+      {
+        id: 'no-supplier-text',
+        severity: 'fail',
+        check: (poi) => {
+          const text = Object.values(poi.editorial).join(' ').toLowerCase();
+          return SUPPLIER_WORDS.filter((word) => text.includes(word)).map(
+            (word) => `editorial names a supplier (${word})`,
+          );
+        },
+      },
+      {
+        id: 'possible-duplicate',
+        severity: 'warn',
+        check: (poi) =>
+          poi.possible_duplicate_of === null
+            ? []
+            : [`may be the same place as ${poi.possible_duplicate_of}`],
+      },
+    ],
+    batch: [
+      {
+        id: 'city-coverage',
+        severity: 'warn',
+        check: ({ items }) => {
+          const counts = new Map<string, number>();
+          for (const poi of items)
+            counts.set(poi.destination, (counts.get(poi.destination) ?? 0) + 1);
+          return [...counts]
+            .filter(([, n]) => n < MIN_POIS_PER_CITY)
+            .map(([city, n]) => ({
+              ref: null,
+              message: `${city} has ${n} curated POIs; launch needs ${MIN_POIS_PER_CITY}`,
+            }));
+        },
+      },
+    ],
+  },
+};
+
+registerKind(placesKind);

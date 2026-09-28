@@ -220,4 +220,76 @@ describe('content.publish', () => {
     const cards = await harness.pool.query('SELECT 1 FROM phrase_cards');
     expect(cards.rowCount).toBe(0);
   });
+
+  it('overlays editorial on curated POIs and redirects a decided duplicate', async () => {
+    const insert = (source: string, id: string, name: string) =>
+      harness.pool.query(
+        `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids)
+         SELECT id, $1, 'temple_shrine', -8.8291, 115.0849, jsonb_build_object($2::text, $3::text)
+         FROM destinations WHERE slug = 'bali'`,
+        [name, source, id],
+      );
+    await insert('fsq_os', 'uluwatu', 'Pura Luhur Uluwatu');
+    await insert('overture', 'uluwatu-en', 'Uluwatu Temple');
+    const poi = (ref: string, name: string, mergeInto: string | null): ContentItem<'places'> => {
+      const [source, id] = ref.split(':') as ['fsq_os' | 'overture', string];
+      return {
+        ref,
+        destination: 'bali',
+        name,
+        name_local: null,
+        category: 'temple_shrine',
+        lat: -8.8291,
+        lng: 115.0849,
+        address: null,
+        tz: 'Asia/Makassar',
+        tags: ['temples'],
+        hours: null,
+        licence: {
+          source,
+          source_id: id,
+          licence: 'Apache-2.0',
+          attribution: 'Foursquare Open Source Places',
+        },
+        editorial: {
+          why_go: 'A clifftop temple above the Indian Ocean.',
+          best_time: 'Late afternoon',
+          time_needed_min: 90,
+          crowd_hint: 'Busy at sunset',
+          etiquette: 'Wear a sarong; mind the monkeys.',
+        },
+        merge_into: mergeInto,
+        possible_duplicate_of: null,
+      };
+    };
+    await publish(
+      await approved('places', 1, [
+        poi('fsq_os:uluwatu', 'Pura Luhur Uluwatu', null),
+        poi('overture:uluwatu-en', 'Uluwatu Temple', 'fsq_os:uluwatu'),
+      ]),
+    );
+    const { rows } = await harness.pool.query<{
+      name: string;
+      curation: string;
+      merged: boolean;
+      why: string;
+    }>(
+      `SELECT name, curation, merged_into_id IS NOT NULL AS merged, editorial ->> 'why_go' AS why
+       FROM pois ORDER BY name`,
+    );
+    expect(rows).toEqual([
+      {
+        name: 'Pura Luhur Uluwatu',
+        curation: 'editorial',
+        merged: false,
+        why: 'A clifftop temple above the Indian Ocean.',
+      },
+      {
+        name: 'Uluwatu Temple',
+        curation: 'editorial',
+        merged: true,
+        why: 'A clifftop temple above the Indian Ocean.',
+      },
+    ]);
+  });
 });

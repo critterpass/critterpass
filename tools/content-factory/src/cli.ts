@@ -10,7 +10,8 @@
  * Reads DATABASE_URL, ANTHROPIC_API_KEY and TAVILY_API_KEY from the environment or `.env`
  * (`CP_ENV_FILE` points at another file).
  */
-import { existsSync } from 'node:fs';
+import { existsSync, mkdtempSync } from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 
 import { createGateway, loadGatewayEnv, type Gateway } from '@cp/ai';
@@ -19,6 +20,7 @@ import { contentKindSchema, type ContentKind } from '@cp/content';
 import { openPool, liveArtifact } from './db';
 import './kinds/index';
 import {
+  checkCommittedRenders,
   latestBatchKey,
   nextBatchKey,
   runPipeline,
@@ -134,6 +136,16 @@ export async function main(argv: readonly string[], log = console.log): Promise<
       }
       if (results.length === 0) log(`no committed ${args.kind} batches yet`);
       return results.some((r) => r.report.severity === 'fail') ? 1 : 0;
+    }
+    if (args.command === 'render' && args.check) {
+      const out = mkdtempSync(path.join(os.tmpdir(), `content-${args.kind}-`));
+      const results = await checkCommittedRenders(args.kind, out);
+      for (const { batchKey, missing } of results) {
+        log(
+          `${batchKey}: ${missing.length === 0 ? 'every item rendered' : `missing ${missing.join(', ')}`} (${out})`,
+        );
+      }
+      return results.some((r) => r.missing.length > 0) ? 1 : 0;
     }
     const now = new Date();
     const batchKey =

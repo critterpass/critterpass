@@ -1,0 +1,49 @@
+{
+  "source": "api.typesafe.ai 2026-09-27",
+  "request": {
+    "state": {
+      "pair_0": {
+        "first": {
+          "ref": "fsq_os:fixture-uluwatu",
+          "name": "Pura Luhur Uluwatu",
+          "nameLocal": null,
+          "category": "temple_shrine"
+        },
+        "second": {
+          "ref": "overture:fixture-uluwatu-en",
+          "name": "Uluwatu Temple",
+          "nameLocal": null,
+          "category": "temple_shrine"
+        },
+        "metres_apart": 16
+      }
+    },
+    "model": "jev-1.13.0",
+    "questions": {
+      "pair_0": {
+        "type": "noul",
+        "instructions": "Are pair_0's two records the same real-world place (one venue, possibly named in two languages)?",
+        "criteria": {
+          "true": "the same venue, landmark or business",
+          "false": "two different places that happen to be close together"
+        }
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "model": "jev-1.13.0",
+      "answers": {
+        "pair_0": {
+          "type": "noul",
+          "noul": 0.96
+        }
+      },
+      "usage": {
+        "input_tokens": 449,
+        "output_tokens": 22
+      }
+    }
+  }
+}

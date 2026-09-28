@@ -103,4 +103,15 @@ export async function writePlaces(
       ],
     );
   }
+  // Records decided to be the same place redirect to the one they duplicate.
+  for (const poi of items.filter((item) => item.merge_into !== null)) {
+    const [fromSource, ...fromId] = poi.ref.split(':');
+    const [toSource, ...toId] = (poi.merge_into ?? '').split(':');
+    await tx.query(
+      `UPDATE pois SET merged_into_id = target.id
+       FROM (SELECT id FROM pois WHERE source_ids ->> $3 = $4) AS target
+       WHERE pois.source_ids ->> $1 = $2 AND pois.id <> target.id`,
+      [fromSource, fromId.join(':'), toSource, toId.join(':')],
+    );
+  }
 }

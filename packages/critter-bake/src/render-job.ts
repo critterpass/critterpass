@@ -1,6 +1,7 @@
 import type { Canvas } from '@napi-rs/canvas';
 import { createCanvas } from '@napi-rs/canvas';
-import type { Critter, RenderSpec } from '@cp/critter-art';
+import { currentRelease } from '@cp/content';
+import type { Critter, FormSpec, RenderSpec } from '@cp/critter-art';
 import { build, canonicalSeed, critters, findDesignedForm, frame, layout } from '@cp/critter-art';
 import { renderToCanvas, viewportFor } from '@cp/critter-art/canvas2d';
 import type { CanvasFactory, CanvasLike } from '@cp/critter-art/canvas2d';
@@ -14,6 +15,23 @@ import type {
   RarityForm,
 } from './manifest';
 import { encodeCanvas } from './encode';
+
+/** Forms from the approved release pulled into `@cp/content` (`pnpm content forms pull`). */
+const RELEASED_FORMS = new Map(
+  (currentRelease('forms')?.items ?? []).map((item) => [
+    item.id,
+    {
+      rarity: item.rarity,
+      palette: { f: item.palette.f, dk: item.palette.dk, bl: item.palette.bl },
+      edge: item.edge,
+      ...(item.pose === null ? {} : { pose: item.pose }),
+    } satisfies FormSpec,
+  ]),
+);
+
+function releasedForm(critterId: string, rarity: RarityForm): FormSpec | undefined {
+  return RELEASED_FORMS.get(`${critterId}:${rarity}`);
+}
 
 /** One concrete file this pipeline will render — the fully expanded cross product of one manifest target. */
 export interface RenderJob {
@@ -66,9 +84,8 @@ function resolveRenderSpecForForm(
   let form: RenderSpec['form'];
   if (rarity !== 'common') {
     if (!critter) return undefined;
-    const designed = findDesignedForm(critter.id, rarity);
-    if (!designed) return undefined;
-    form = designed.form;
+    form = releasedForm(critter.id, rarity) ?? findDesignedForm(critter.id, rarity)?.form;
+    if (!form) return undefined;
   }
 
   return {

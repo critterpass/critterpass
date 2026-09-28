@@ -1,0 +1,1 @@
+Mexico's set: Ajo (axolotl) is the live guide in Mexico City, where axolotls live in the Xochimilco canals. Notes can nod to marigolds, trajineras, cenotes and reefs; keep Día de Muertos respectful, never spooky.
