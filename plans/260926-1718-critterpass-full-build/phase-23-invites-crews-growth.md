@@ -145,7 +145,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. `create_invite` (registered users only) with seat token, code, prefill encrypt, phone hash. 2. `accept_invite` with `SELECT … FOR UPDATE` on trip, allocation from T2. 3. Waitlist offer jobs + N-43. 4. Phone-hash match handler for phase-21 claim. 5. Providers for preview/resolve.
 - Tests: `pnpm --filter @cp/db test -- concurrency/seat-claim`; `pnpm --filter @cp/api test -- crews/invites`; `pnpm --filter @cp/worker test -- jobs/invites`.
 - Done when: 50 parallel claims on 6-seat trip with 4 taken → exactly 2 seated, 48 waitlisted; anonymous invitee can accept; anonymous inviter gets `AUTH_REQUIRED`.
-- Status: done — 2f00d9f2, 554359ce (the growth pushes are extracted into the notifications catalog)
+- Status: done — 2f00d9f2, b47bc60c (the growth pushes are extracted into the notifications catalog)
 
 ### T5 — Invite AI, welcome line, referral engine
 - Goal: tag inference + referral rewards.
@@ -153,7 +153,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. Prompts with enum-constrained output + validators + template fallbacks. 2. Referral attribution on claim; evaluation on vote/trip events; stamp + cover grant via phase-22 stamps; fraud void.
 - Tests: `pnpm --filter @cp/ai eval -- invite-tags crew-welcome`; `pnpm --filter @cp/worker test -- jobs/referrals`.
 - Done when: eval pass rate ≥ 95 % on 40 notes; second device of same person never qualifies.
-- Status: done — 89f2a8b7, 0eee82e8 (`POST /v1/invites/tags` and `POST /v1/crews/{id}/welcome` serve both prompts; the composer and the manifest use them, with template and scripted fallbacks)
+- Status: done — 89f2a8b7, d7431960 (`POST /v1/invites/tags` and `POST /v1/crews/{id}/welcome` serve both prompts; the composer and the manifest use them, with template and scripted fallbacks)
 
 ### T6 — Invited fast path screens
 - Goal: 3a-10, 3a-11, 3a-12, 3a-13.
@@ -169,7 +169,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. Sheet with a typed `crewCardBadge` slot (P24 T4 registers the unread count; slot renders nothing until registered), invites JOIN/LATER, theme cross-fade. 2. Start flow → share. 3. Settings: rename, members, leave, remove, mute, rotate code.
 - Tests: `pnpm --filter @cp/mobile test -- features/crew`; `maestro test e2e/crew/crews-sheet.yaml`.
 - Done when: switching crew changes Home theme and data within one frame budget; leave removes crew locally after sync.
-- Status: done — 37617ca4, 155ff3f9 (3g-3 registered from `features/crew/routes.ts`)
+- Status: done — 37617ca4, 5e9fd3d9 (3g-3 registered from `features/crew/routes.ts`)
 
 ### T8 — Invite composer, SEAT_LIMIT routing, waitlist UI
 - Goal: F-190 + F-161 joiner/inviter UI (4f-1 sheet itself is P46).
@@ -177,7 +177,7 @@ Attribution: first valid invite link/code before account creation (all invites c
 - Steps: 1. Composer: contact picker, prefill fields, note + inferred tags confirm, channel list, ticket preview, QR. 2. Seat-limit presenter registry + default waitlist sheet (truthful copy). 3. Invitee waitlist ("You're next for a seat") + seat-offer accept screens.
 - Tests: `pnpm --filter @cp/mobile test -- features/crew/invite-composer features/crew/seat-limit features/crew/waitlist`; `maestro test e2e/invites/seventh-seat.yaml`.
 - Done when: 7th invite yields `SEAT_LIMIT` and invokes the registered presenter (contract test with a test presenter), default presenter waitlists the invitee, never an error toast; no address book upload (network log assertion in test).
-- Status: done — fb3bcbef, e7fbf8fa, 44fc2d3c (localized taste chips, guide tag suggestions and QR codes in the composer and crew settings; the system contact picker waits on a native module that needs no Contacts permission)
+- Status: done — fb3bcbef, 7899feca, aa3c64d5 (localized taste chips, guide tag suggestions and QR codes in the composer and crew settings; the system contact picker waits on a native module that needs no Contacts permission)
 
 ### T9 — Referral dashboard
 - Goal: You > Invite friends.
