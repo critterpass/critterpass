@@ -43,9 +43,28 @@ const EVENT_PROPS = {
   pass_issued: { path: oneOf(['new', 'invited']), duration_ms: ms },
   account_saved: { provider: oneOf(['apple', 'google', 'phone']) },
   permission_result: {
-    perm: oneOf(['notifications', 'location', 'location_always', 'camera', 'photos', 'contacts']),
+    perm: oneOf([
+      'notifications',
+      'location',
+      'location_always',
+      'camera',
+      'photos',
+      'contacts',
+      'alarms',
+      'calendar',
+      'microphone',
+      'speech',
+      'photos_read',
+      'live_activities',
+    ]),
     context: z.string().regex(/^[a-z0-9_]{1,40}$/u),
     result: oneOf(['granted', 'denied', 'limited', 'blocked']),
+  },
+  // A primer card or just-in-time sheet shown before any OS prompt.
+  permission_primer_shown: {
+    kind: z.string().regex(/^[a-z_]{1,24}$/u),
+    trigger: z.string().regex(/^[a-z0-9_]{1,40}$/u),
+    settings_only: flag.optional(),
   },
   // Web: the only event critterpass.app sends besides page views (cookieless, anonymous).
   cta_clicked: { cta: z.string().regex(/^[a-z0-9_]{1,40}$/u) },
@@ -98,6 +117,14 @@ const EVENT_PROPS = {
   sos_triggered: {},
   sos_resolved: { time_to_responder: ms },
   // Critters / after
+  // Location engine sessions and POI visits (never a POI id or a coordinate).
+  location_session: {
+    mode: oneOf(['trip_day', 'travel_day', 'explore_at_home']),
+    minutes: count,
+    high_accuracy_minutes: count.optional(),
+    updates: count.optional(),
+  },
+  visit_recorded: { source: oneOf(['geofence', 'expense', 'manual']) },
   egg_hatched: { trigger: oneOf(['visit', 'quest', 'trip_end', 'gift']) },
   encounter_ended: {
     outcome: oneOf(['caught', 'fled', 'dismissed']),
