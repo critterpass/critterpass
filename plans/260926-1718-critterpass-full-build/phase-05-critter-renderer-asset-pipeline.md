@@ -178,7 +178,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - [ ] Prebuild places assets in app + all extension targets + Android res; app icon sets complete (iOS layered `.icon` + flat fallbacks, Android adaptive + monochrome)
 - [ ] Web element lazy + reduced-motion; OG atlas complete
 - [ ] 12 share templates, parity app/server, share sheet with save/share/Stories and error state
-- [ ] Maestro `e2e/critters/sticker-lab.yaml` passes on both platforms (iOS simulator passes as of 6cfeaa5f; Android open)
+- [ ] Maestro `e2e/critters/sticker-lab.yaml` passes on both platforms (iOS simulator passes as of 58cdc9f5; Android open)
 
 ## Risks & rollback
 
