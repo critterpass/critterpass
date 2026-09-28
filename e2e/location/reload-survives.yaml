@@ -1,0 +1,56 @@
+appId: app.critterpass.dev
+---
+# The region monitor survives JS reloads: a trip day plans regions (opening CLMonitor), then the
+# JS runtime reloads three times (the module is recreated each time, as after an OTA update) and
+# the app keeps running with its regions.
+- launchApp:
+    clearState: true
+    permissions:
+      location: inuse
+- setLocation:
+    latitude: -8.5064
+    longitude: 115.2610
+# A launch checks for an update first (the development variant's ON_LOAD), which can take a while.
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 90000
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: location-engine
+      READY: dev-location-engine
+- tapOn:
+    id: 'dev-location-start'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-location-regions'
+      text: 'regions: [1-9].*'
+    timeout: 60000
+- takeScreenshot: reload-0-regions
+- repeat:
+    times: 3
+    commands:
+      - tapOn:
+          id: 'dev-location-reload'
+      # The reload restores the open screen (navigation persistence); after an update it may
+      # land on home instead, so navigate back only when needed.
+      - extendedWaitUntil:
+          visible: '(running: false|DEVELOPER TOOLS|Developer tools)'
+          timeout: 90000
+      - runFlow:
+          when:
+            notVisible:
+              id: 'dev-location-engine'
+          file: ../permissions/subflows/open-dev-screen.yaml
+          env:
+            SCREEN: location-engine
+            READY: dev-location-engine
+      - tapOn:
+          id: 'dev-location-start'
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-location-regions'
+            text: 'regions: [1-9].*'
+          timeout: 60000
+- takeScreenshot: reload-3-still-running

@@ -5,7 +5,7 @@ appId: app.critterpass.dev
 - launchApp:
     clearState: true
     permissions:
-      location: allow
+      location: inuse
 - runFlow:
     file: ../permissions/subflows/open-dev-screen.yaml
     env:

@@ -7,16 +7,18 @@ import Foundation
 /// until the engine drains them.
 ///
 /// Expo runs async function bodies as `@Sendable` closures, so they capture only Sendable values
-/// (the stream, the monitor actor, the emitter box), never the module itself.
+/// (the stream, the monitor owner, the emitter box), never the module itself.
+///
+/// The module is recreated on every JS reload while the process lives on, so the session, the
+/// fix stream and the region monitor are process-wide; an instance only brings its own emitter.
 public class CpLocationModule: Module {
-  private let fixes = FixStream()
-  private let monitor = MonitorRotation()
   private let emitter = EventEmitter()
 
   public func definition() -> ModuleDefinition {
-    let fixes = self.fixes
-    let monitor = self.monitor
+    let fixes = FixStream.shared
+    let monitor = MonitorRotation.shared
     let emitter = self.emitter
+    let identity = ObjectIdentifier(emitter)
 
     Name("CpLocation")
 
@@ -25,11 +27,20 @@ public class CpLocationModule: Module {
     OnCreate {
       emitter.module = self
       let session = SessionManager.shared
+      // Restarting replaces a stream a previous instance left running (its sink went with it).
       if session.restoreIfNeeded() {
         fixes.start(tier: session.tier, emit: emitter.fixSink)
       }
       let sink = emitter.regionSink
-      Task { await monitor.open(onEvent: sink) }
+      Task {
+        await monitor.setSink(sink, owner: identity)
+        // Opened at launch only when the OS still holds regions; otherwise on the first plan.
+        if await monitor.hasPlan { await monitor.open() }
+      }
+    }
+
+    OnDestroy {
+      Task { await monitor.releaseSink(owner: identity) }
     }
 
     OnStartObserving {
@@ -75,7 +86,7 @@ public class CpLocationModule: Module {
         guard values.count == 3 else { return nil }
         return PlannedRegion(id: id, latitude: values[0], longitude: values[1], radius: values[2])
       }
-      return await monitor.replace(with: regions, onEvent: emitter.regionSink)
+      return await monitor.replace(with: regions)
     }
 
     AsyncFunction("clearRegions") { () async in

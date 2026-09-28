@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Button, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import * as Updates from 'expo-updates';
+import { Button, DevSettings, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { getLocationNative, hasNativeSession } from '../../../modules/cp-location';
+import { getPermissions, type KindReport } from '../../../modules/cp-permissions';
 import {
   createLocationEngine,
   createVisitDetector,
@@ -12,7 +14,6 @@ import {
   type EngineStatus,
   type VisitCandidate,
 } from '@/lib/location';
-import { usePermission } from '@/lib/permissions';
 import { VisitConsentSheet } from '@/ui/permission-primer';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
@@ -35,7 +36,9 @@ const SARASWATI: VisitCandidate = {
  * `setLocation`, and try the Always upgrade. No server calls: shares are off here.
  */
 export default function LocationEngineDevScreen() {
-  const location = usePermission('location').report;
+  // Read straight from the OS: this screen works without a signed-in session.
+  const [location, setLocation] = useState<KindReport | null>(null);
+  useEffect(() => getPermissions().watch((snapshot) => setLocation(snapshot.reports.location)), []);
   const [status, setStatus] = useState<EngineStatus | null>(null);
   const [lastFix, setLastFix] = useState<EngineFix | null>(null);
   const [regions, setRegions] = useState<readonly EngineRegionEvent[]>([]);
@@ -131,6 +134,11 @@ export default function LocationEngineDevScreen() {
         <View style={styles.buttons}>
           <Button testID="dev-location-start" title="Start trip day" onPress={() => setOn(true)} />
           <Button testID="dev-location-stop" title="Stop" onPress={() => setOn(false)} />
+          <Button
+            testID="dev-location-reload"
+            title="Reload JS"
+            onPress={() => (__DEV__ ? DevSettings.reload() : void Updates.reloadAsync())}
+          />
           <Button
             testID="dev-location-consent"
             title="Visit consent"
