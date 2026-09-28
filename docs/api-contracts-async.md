@@ -90,6 +90,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `ai.rsvp_intent` | reply text | AI-18 intent; `out` → `trip.dropout` | 3 | message id | 31 |
 | `trip.dropout` | `participant.declined` | room re-optimise, Viator cancel if applicable, re-split, waitlist promote, ChangeSet | 3 / DLQ | `(trip_id, uid)` | 31 |
 | `ai.swipe_deck` | `start_swipe_session` | deck[30] + notes | 2 | session id | 30 |
+| `chat.photo_thumbnail` (doc delta) | `send_message` with photos | 480 px JPEG per photo into R2 under the sender's photo prefix, registered in `media_objects`; `derived_key` and the photo's size written into the message's attachment | 3 | message id | 24 |
+| `chat.voice_transcode` (doc delta) | `send_message` with a voice note | ffmpeg: mono AAC 32 kbps M4A capped at 2 min, measured duration and 48 waveform peaks written into the attachment (`derived_key`, `duration_ms`, `peaks`) | 3 | message id | 24 |
 | `ai.guide_mention` | crew chat mention | AI-20 stream to `crew_chat` | 1 | message id | 32 |
 | `ai.queued_answer` | 00:00 local reset | AI-40 answer, passive push N-36 | 3 | question id | 32 |
 | `ai.receipt` | `POST /v1/receipts` | AI-25 lines + payer inference | 2 | receipt id | 33 |

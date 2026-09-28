@@ -92,6 +92,7 @@ Empty new-crew chat ("Say hi to the crew" CTA from 3a-13), loading/first sync sk
 - Steps: 1. Drizzle schema incl. doc-delta columns, `crew_chat_counters`, `crew_members.last_read_seq` ALTER, indexes `(crew_id, seq desc)`, `(message_id)` on reactions. 2. RLS policies + grants (app_user, guide_reader via `llm.chat_window` only, powersync_repl publication). 3. `llm.chat_window` view (projection above). 4. `crew_chat` stream query. 5. Testcontainers tests: member reads, non-member denied, former+keep_in_chat reads but cannot insert, removed member denied, hidden rows invisible to app_user, guide_reader cannot select base table, `llm.chat_window` exposes no attachment or card-payload column and no `supplier_order`/`proposal` rows.
 - Tests: `pnpm --filter @cp/db test -- crew-chat`
 - Done when: all permission cases pass; migration applies clean on empty DB and is reversible in test.
+- Status: done — 5f2c9be4
 
 ### T2 — Chat domain contracts and command handlers
 - Goal: idempotent chat commands.
@@ -99,6 +100,7 @@ Empty new-crew chat ("Say hi to the crew" CTA from 3a-13), loading/first sync sk
 - Steps: 1. zod payloads (body ≤4000, mentions ⊆ active members, attachments owned by sender + uploaded). 2. Handlers through P10 framework; `op_id` = message id; duplicates → `duplicate`; `send_message` locks `crew_chat_counters` and assigns `seq`. 3. Edit window + owner checks; delete → tombstone. 4. `mark_read{seq}` monotonic on `seq` (never moves backwards). 5. Emit domain events + rt_outbox rows; `mentions_guide` emits `chat.guide_mentioned`. 6. `report_message` inserts `moderation_reports`.
 - Tests: `pnpm --filter @cp/api test -- chat`
 - Done when: tests cover duplicate op_id, non-member reject (2xx + `cmd_results` rejected via `/sync/upload`), edit after window → `STATE_INVALID`, mark_read monotonic, report row created (routed to P17 `moderate_item` kind `message`); two devices with clocks skewed ±1 h and one replaying an offline queue produce gap-free `seq` in server receive order.
+- Status: done — 5f2c9be4
 
 ### T3 — Chat notifications, voice transcode, reply action
 - Goal: N-11 delivery per mode and REPLY/READ from the notification.
@@ -106,6 +108,7 @@ Empty new-crew chat ("Say hi to the crew" CTA from 3a-13), loading/first sync sk
 - Steps: 1. `chat.notify` computes recipients from `crew_members.notify_level` (exclude sender, muted, level off; mentions-only gets mentions + replies to own messages) → `notify.route` N-11, collapse-id per crew, sender avatar payload. 2. Register `cp.chat` actions in P11 action dispatcher: REPLY → `send_message`, READ → `mark_read` (scope `chat_reply`). 3. Voice transcode via ffmpeg in worker; store duration.
 - Tests: `pnpm --filter @cp/worker test -- chat`
 - Done when: tests prove level matrix (all/mentions/off × mention/reply/plain) and action-key REPLY creates exactly one message for a repeated action; worker image build test runs `ffmpeg -version`.
+- Status: done — 5f2c9be4
 
 ### T4 — Mobile chat data layer
 - Goal: local-first queries, outbox status, typing, unread.
@@ -113,6 +116,7 @@ Empty new-crew chat ("Say hi to the crew" CTA from 3a-13), loading/first sync sk
 - Steps: 1. PowerSync watched query ordered by `seq` with windowed virtualization (newest 200, load older locally); unacked sends appended in local order. 2. Send via P10 command client; status from `cmd_results` (sending/sent/failed). 3. Typing publish throttle + subscribe with 5 s expiry. 4. `useUnreadCount(crewId)` = count `seq > last_read_seq`, exported for Home and registered into the P23 crews-sheet `crewCardBadge` slot.
 - Tests: `pnpm --filter @cp/mobile test -- features/crew/chat/data`
 - Done when: hooks tested with the P10 in-memory PowerSync test DB; failed rejection surfaces RETRY state; unread count unchanged by a device with a skewed clock.
+- Status: done — e1451ca5
 
 ### T5 — Chat screen and composer
 - Goal: 3g-1 pixel-faithful screen with all states.
@@ -120,6 +124,7 @@ Empty new-crew chat ("Say hi to the crew" CTA from 3a-13), loading/first sync sk
 - Steps: 1. Inverted FlashList, grouping, day separators in viewer tz. 2. Composer with mention autocomplete, send/mic swap. 3. Motion: rise spring, typing dots kf, jump-to-latest. 4. Empty, loading, offline, former-member, no-trip header states. 5. a11y: bubble labels "Maya, 14:02: …", Dynamic Type, reduced motion.
 - Tests: `pnpm --filter @cp/mobile test -- features/crew/chat/components`; `maestro test e2e/chat/screens.yaml` (`takeScreenshot` per state, uploaded as CI artifacts for founder review against `3g-1_Crew_chat.png`).
 - Done when: RNTL tests cover send, mention insert, state rendering; RNTL layout snapshots (header, bubbles, composer) committed per state; Maestro screenshot artifacts produced on iOS and Android.
+- Status: done — 07d6a612
 
 ### T6 — Card registry, reactions, replies, edit/delete, report
 - Goal: extensible rich-card slot plus message actions.
@@ -127,6 +132,7 @@ Empty new-crew chat ("Say hi to the crew" CTA from 3a-13), loading/first sync sk
 - Steps: 1. Typed registry + unknown fallback. 2. Long-press menu (react, reply, copy, edit, delete, report, mute). 3. Swipe-to-reply gesture (Gesture Handler 3). 4. Tombstone + edited marker.
 - Tests: `pnpm --filter @cp/mobile test -- features/crew/chat/cards`
 - Done when: registering a test card type renders it without chat changes; unknown type renders fallback; all actions dispatch the right command.
+- Status: done — 60dfd6dc
 
 ### T7 — Photo and voice-note messages
 - Goal: media send/receive with progress and offline queue.
@@ -134,6 +140,7 @@ Empty new-crew chat ("Say hi to the crew" CTA from 3a-13), loading/first sync sk
 - Steps: 1. Picker/camera, compress, presign + multipart via P10 media client, progress ring. 2. Hold-to-record (slide-to-cancel, lock), waveform, playback. 3. Upload queue persisted; `send_message` only after `media_objects` confirmed. 4. Permission-denied fallbacks.
 - Tests: `pnpm --filter @cp/mobile test -- features/crew/chat/media`
 - Done when: queued photo sent offline delivers after reconnect exactly once (test toggles connectivity through the P10 sync test harness against the local docker-compose stack); voice note plays from HMAC URL.
+- Status: done — 3f77f382
 
 ### T8 — End-to-end chat flows
 - Goal: prove multi-device and offline behaviour.
@@ -141,6 +148,7 @@ Empty new-crew chat ("Say hi to the crew" CTA from 3a-13), loading/first sync sk
 - Steps: 1. Integration test against docker-compose stack: two users, message via `/sync/upload`, `crew_chat` publication received, Centrifugo hint delivered. 2. Maestro flows on iOS + Android simulators.
 - Tests: `pnpm test:int -- chat`; `maestro test e2e/chat`
 - Done when: all flows pass on both platforms.
+- Status: blocked — flows and the two-device sync-stack scenario are in 5dd81ba8; the iOS and Android device runs wait for the device lane
 
 ## Phase acceptance criteria
 
