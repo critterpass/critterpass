@@ -16,6 +16,7 @@ import { AppState, Platform } from 'react-native';
 import { createMMKV } from 'react-native-mmkv';
 
 import { createLinkResolverClient, type ClaimDevice } from '../../lib/links/resolver-client';
+import type { FixUpload } from '../../lib/location';
 import { createAuthDataLayer, createMobileAuthClient, type MobileAuthClient } from '../auth';
 import { createDeviceResolver } from '../commands/device';
 import type { ExtensionOutbox } from '../commands/drain-extension-outbox';
@@ -183,3 +184,17 @@ function devicePushDeps(): PushLifecycleDeps | undefined {
 
 /** Push registration for the root; undefined on platforms without push. */
 export const devicePush = devicePushDeps();
+
+const deviceApi = createFetchTransport({ baseUrl: resolveApiBaseUrl(), sessionHeaders });
+
+/** Live fixes for the user's open share (`POST /v1/loc`); never queued, never stored. */
+export function uploadLocationFixes(batch: FixUpload): Promise<{ readonly status: number }> {
+  return deviceApi
+    .postJson('/v1/loc', { share_id: batch.shareId, fixes: batch.fixes })
+    .then((response) => ({ status: response.status }));
+}
+
+/** The uid of the running session, once it has started. */
+export function deviceSessionUid(): Promise<string> {
+  return startDeviceAppSession().then((session) => session.uid);
+}

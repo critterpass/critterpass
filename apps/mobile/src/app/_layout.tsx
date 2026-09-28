@@ -10,21 +10,25 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { appGroupOutbox, writeEndpointsConfig } from '../../modules/cp-app-group';
 import * as cpDeferredLink from '../../modules/cp-deferred-link';
+import { getLocationNative } from '../../modules/cp-location';
 import { getPermissions } from '../../modules/cp-permissions';
 
 import { AppSessionRoot } from '@/data/app-session/AppSessionRoot';
 import {
   configureDeviceAppGroup,
   deviceAppState,
+  deviceSessionUid,
   deviceLinkClaims,
   devicePush,
   reportAppSessionError,
   startDeviceAppSession,
+  uploadLocationFixes,
 } from '@/data/app-session/device-session';
 import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/DeferredLinkGate';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { watchRows } from '@/data/status/watch-rows';
 import {
   AnalyticsProvider,
   createAnalyticsClient,
@@ -34,12 +38,23 @@ import {
 } from '@/lib/analytics';
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
+import {
+  configureAlwaysUpgrade,
+  countryOf,
+  readLocationFlags,
+  trackLocationSession,
+  useAppActive,
+  useExploreAtHome,
+  useLocationEngineBridge,
+  type RowWatcher,
+} from '@/lib/location';
 import { useNavigationPersistence } from '@/lib/navigation/restore';
 import {
   configurePermissions,
   sendMirrorThroughSession,
   trackPermissionEvent,
   UPDATE_DEVICE_PERMISSIONS,
+  usePermission,
   usePermissionsBridge,
   type DevicePermissionState,
 } from '@/lib/permissions';
@@ -91,10 +106,44 @@ configurePermissions({
   track: (event) => trackPermissionEvent(analytics, event),
 });
 
+configureAlwaysUpgrade({ allowed: () => readLocationFlags(analytics).alwaysUpsell });
+
 /** Session-scoped bridges; they need the local-first session, so they wait for it. */
 function SessionBridges() {
   const localFirst = useContext(LocalFirstContext);
-  return localFirst === null ? null : <PermissionsBridge />;
+  if (localFirst === null) return null;
+  return (
+    <>
+      <PermissionsBridge />
+      <LocationBridge db={localFirst.db} />
+    </>
+  );
+}
+
+/** The trip-day location engine over the native session, fed from synced rows. */
+function LocationBridge({ db }: { readonly db: Parameters<typeof watchRows>[0] }) {
+  const [uid, setUid] = useState<string | null>(null);
+  useEffect(() => void deviceSessionUid().then(setUid, () => setUid(null)), []);
+  const watch = useCallback<RowWatcher>(
+    (sql, tables, onRows) => watchRows(db, sql, tables, onRows),
+    [db],
+  );
+  const location = usePermission('location').report;
+  useLocationEngineBridge({
+    session: getLocationNative(),
+    upload: uploadLocationFixes,
+    platform: Platform.OS === 'android' ? 'android' : 'ios',
+    watch,
+    uid,
+    level: location?.status === 'granted' ? (location.level ?? 'none') : 'none',
+    appActive: useAppActive(),
+    deviceTz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    exploreAtHome: useExploreAtHome(),
+    androidBackgroundGeofences: readLocationFlags(analytics).androidBackgroundGeofences,
+    countryOf,
+    onSessionEnded: (summary) => trackLocationSession(analytics, summary),
+  });
+  return null;
 }
 
 function PermissionsBridge() {
