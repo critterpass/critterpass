@@ -128,7 +128,7 @@ describe('POST /v1/invites/tags', () => {
     );
     expect((await post(null, '/v1/invites/tags', { crew_id: crewId, ...NOTE })).status).toBe(401);
     const long = { crew_id: crewId, note: 'x'.repeat(141), invitee_name: 'Dev' };
-    expect((await post(owner, '/v1/invites/tags', long)).status).toBe(400);
+    expect((await post(owner, '/v1/invites/tags', long)).status).toBe(422);
   });
 });
 

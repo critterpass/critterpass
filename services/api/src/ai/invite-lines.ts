@@ -38,6 +38,7 @@ import { z } from 'zod';
 
 import type { RateLimitRedisClient } from '../abuse/rate-limits';
 import type { AppEnv } from '../app';
+import { validationHook } from '../commands/_framework/doors';
 import {
   enforceUidRateLimit,
   requireCommandSession,
@@ -77,16 +78,16 @@ async function readJson(request: Request): Promise<unknown> {
   try {
     return JSON.parse(text) as unknown;
   } catch {
-    throw new DomainError('VALIDATION', { field: 'body' });
+    throw new DomainError('VALIDATION', {
+      issues: [{ path: [], code: 'invalid_json', message: 'The body is not JSON' }],
+    });
   }
 }
 
 function parse<T>(schema: z.ZodType<T>, value: unknown): T {
   const parsed = schema.safeParse(value);
-  if (!parsed.success) {
-    throw new DomainError('VALIDATION', { field: parsed.error.issues[0]?.path.join('.') ?? '' });
-  }
-  return parsed.data;
+  validationHook(parsed);
+  return parsed.data as T;
 }
 
 /** The caller's crew as they see it (RLS decides membership), or NOT_FOUND. */
