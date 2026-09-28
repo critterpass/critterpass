@@ -45,10 +45,17 @@ const appleProvider: NativeIdTokenProvider = {
 
 const googleProvider: NativeIdTokenProvider = {
   async requestIdToken() {
+    // The web client id is the ID token's audience; iOS also needs its own client id, whose
+    // reversed form app.config.ts registers as the callback URL scheme. Android needs none.
     const webClientId = process.env['EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID'];
-    if (webClientId === undefined || webClientId.length === 0)
+    const iosClientId = process.env['EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID'];
+    if (!webClientId || (Platform.OS === 'ios' && !iosClientId))
       throw new NotConfiguredError('google');
-    GoogleSignin.configure({ webClientId, offlineAccess: false });
+    GoogleSignin.configure({
+      webClientId,
+      ...(Platform.OS === 'ios' && iosClientId ? { iosClientId } : {}),
+      offlineAccess: false,
+    });
     const result = await GoogleSignin.signIn();
     if (!isSuccessResponse(result)) return undefined;
     const idToken = result.data.idToken;
