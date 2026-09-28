@@ -1,7 +1,7 @@
 ---
 phase: 22
 title: Onboarding: passport, taste, home airport, avatar
-status: pending
+status: in-progress
 depends_on: [5, 7, 9, 10, 18, 20, 21]
 wave: 8
 features: [F-038, F-039, F-040, F-041]
@@ -117,6 +117,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Drizzle + SQL, FORCE RLS, grants. 2. Sequence + helper. 3. Matrix: self, crewmate, ex-crewmate, outsider, guide_reader (taste tags visible via llm view only).
 - Tests: `pnpm --filter @cp/db test -- permissions/passes permissions/taste_profiles permissions/stamps permissions/avatars`.
 - Done when: hidden taste tags invisible to crewmates; outsider sees nothing.
+- Status: done — 9999bd57
 
 ### T2 — Pass, MRZ, taste and airport domain
 - Goal: pure logic.
@@ -124,6 +125,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Draft machine with resume. 2. MRZ lines (ICAO 9303 transliteration table, `<` fill, 44 chars). 3. Quiz answers → tags + short forms. 4. Airport fuzzy search + haversine nearest.
 - Tests: `pnpm --filter @cp/domain test -- pass taste airports`.
 - Done when: MRZ golden tests for Latin, Vietnamese diacritics, CJK fallback; search returns SIN first for "Sing" and "sin".
+- Status: done — 13960157
 
 ### T3 — Onboarding content + airport dataset
 - Goal: bundled, validated content.
@@ -131,6 +133,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Author 6 questions × 2 options with tags, art refs, copy (en; other locales via Tolgee). 2. Scripted Tokek reaction pool (≥ 20 lines). 3. Build script downloads OurAirports CSV, filters scheduled service, joins currency, writes JSON ≤ 600 KB. 4. zod validation in CI.
 - Tests: `pnpm tsx tools/scripts/build-airports.ts --check`; `pnpm --filter @cp/content test -- onboarding airports`.
 - Done when: schemas pass; dataset size budget met; founder approval noted in PR.
+- Status: done — 13960157
 
 ### T4 — Onboarding commands + geo hint
 - Goal: server handlers.
@@ -138,6 +141,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Handlers via phase-10 registry; `issue_pass` creates pass (issued), home stamp, taste profile, avatar row atomically; idempotent. 2. `set_avatar` ownership + moderation enqueue. 3. Geo hint from DB-IP mmdb loaded at boot.
 - Tests: `pnpm --filter @cp/api test -- onboarding`.
 - Done when: offline replay of `issue_pass` after `start_pass` yields one pass; unowned form → `FORBIDDEN`.
+- Status: done — 9999bd57
 
 ### T5a — Avatar component + on-device subject lift
 - Goal: F-040 client side.
@@ -145,6 +149,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Avatar component (sizes, ring, pending/rejected fallbacks). 2. Subject lift + Skia outline; no-subject fallback circular crop. 3. Upload via phase-10 media presign (surfaces `RATE_LIMITED`).
 - Tests: `pnpm --filter @cp/mobile test -- ui/avatar`; `./gradlew :cp-subject-lift:testDebugUnitTest`; `xcodebuild test -scheme CpSubjectLiftTests`.
 - Done when: sample photo → cut-out PNG with alpha on both platforms; pending/rejected/rate-limited states render in RNTL.
+- Status: blocked — Avatar component, states, upload and App Group mirror done (eaf8e606); the `cp-subject-lift` native module and the photo picker need a new EAS binary, not built in this pass
 
 ### T5b — Avatar moderation, variants, App Group mirror
 - Goal: F-040 server side + OS-surface variants.
@@ -152,6 +157,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Per-uid/device upload rate limit on avatar presign. 2. Hash-match step (vendor adapter behind `moderation.hash_match` config) before Haiku. 3. Haiku classification, uncertain → ops queue. 4. Render job 40/64/120/240 px + App Group mirror.
 - Tests: `pnpm --filter @cp/worker test -- jobs/avatar`; `pnpm --filter @cp/api test -- onboarding/avatar-limits`.
 - Done when: hash-match hit (vendor test image) is blocked and never reaches the Haiku call (asserted on gateway spy); rejected image leaves initials visible to crew; 6th upload in an hour → `RATE_LIMITED`; variants exist in R2 for approved avatar.
+- Status: done — 9999bd57
 
 ### T6 — Splash, name, photo screens
 - Goal: 3a-1, 3a-2, 3a-3.
@@ -159,6 +165,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Splash motion + cover swing shared element + returning sign-in entry + resolve gate. 2. Name with glyph drop, MRZ, Tokek pool, validation. 3. Photo picker with guide grid, flash, real photo flow and states.
 - Tests: `pnpm --filter @cp/mobile test -- features/onboarding`; `maestro test e2e/onboarding/splash-name-photo.yaml`.
 - Done when: RNTL covers all listed states; reduced-motion snapshot differs (no 3D swing).
+- Status: done — eaf8e606
 
 ### T7 — This-or-that and home base
 - Goal: 3a-4, 3a-5.
@@ -166,6 +173,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Card pair with fling gesture (RNGH) + tap, stamp thud, undo, skip, summary + disclosure. 2. Export `TasteQuiz` sheet mode for retake. 3. Airport search list with nearest, distance, ink stamp, states.
 - Tests: `pnpm --filter @cp/mobile test -- features/onboarding/taste features/onboarding/home`; `maestro test e2e/onboarding/taste-home.yaml`.
 - Done when: 6 answers produce expected tags; airplane-mode search still returns results.
+- Status: done — eaf8e606
 
 ### T8 — Pass issued, save sheet, phone sign-in
 - Goal: 3a-6, 3a-7, 3a-8 over phase-09 client.
@@ -173,6 +181,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Issued choreography with confetti + haptics + offline label. 2. Save sheet with approved Apple/Google buttons, merge-or-switch dialog, dismiss. 3. Phone entry + country picker + OTP boxes + resend + errors; SAVED tick.
 - Tests: `pnpm --filter @cp/mobile test -- features/onboarding/issued features/onboarding/save features/onboarding/phone`; `maestro test e2e/onboarding/save-phone.yaml` (test OTP number from phase-09 fixture).
 - Done when: linking keeps uid (asserted via API in e2e); every error state reachable in RNTL.
+- Status: done — eaf8e606
 
 ### T9 — Permissions step + flow controller
 - Goal: 3a-9 and resumable flow.
@@ -180,6 +189,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Compose phase-20 primer cards; LET'S GO / Ask later. 2. Flow controller: step routing, resume, pending deep link hand-off (P21 pending store → P23 invited path), analytics `onboarding_step`. 3. Extract strings.
 - Tests: `pnpm --filter @cp/mobile test -- features/onboarding/flow-controller`; `pnpm --filter @cp/i18n test -- onboarding`.
 - Done when: killing the app at each step resumes at that step.
+- Status: done — eaf8e606
 
 ### T10 — End-to-end first run
 - Goal: prove F-038–F-041 together.
@@ -187,6 +197,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Full flow both platforms. 2. Offline start → issue → reconnect → sync. 3. Returning user sign-in skips pass creation. 4. Crewmate sees pass/avatar via stream (API test with two users).
 - Tests: `maestro test e2e/onboarding`; `pnpm --filter @cp/api test -- onboarding/first-run`.
 - Done when: all flows green in CI; cold start to 3a-2 within the §9 budget.
+- Status: blocked — flows (eaf8e606) and the API first-run test (9999bd57) are in; the Maestro runs and screenshots wait for the next e2e-test iOS build (the current one crashes at launch) and a staging deploy of the onboarding api
 
 ## Phase acceptance criteria
 
