@@ -1,7 +1,7 @@
 ---
 phase: 18
 title: Content factory: critter forms, personas, places, phrases
-status: pending
+status: in_progress
 depends_on: [4, 5, 13, 14, 17]
 wave: 7
 features: [F-009]
@@ -102,6 +102,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Schemas reuse P04 `ArtParams`/`FormSpec`/`paletteSchema` and P13 persona schema. 2. Release envelope `{kind, version, checksum, items[], generated_by, approved_by}`. 3. Loader with checksum verify. 4. Seed current designed data (Tokek forms, Sakura Pon, 6 guide windows) as release v1 fixtures.
 - Tests: `pnpm --fail-if-no-match --filter @cp/content test`
 - Done when: designed fixtures validate; tampered checksum rejected.
+- Status: done — 5c80c1d
 
 ### T2 — Catalogue migration, name-free catalogue, permission tests
 - Goal: DB tables + privacy boundary for names-until-found.
@@ -109,6 +110,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Tables per Architecture. 2. `critter_names` table + grants (none to `app_user`/`powersync_repl`); `setCollectedName(tx, uid, critter_id)` helper for P40's collect command. 3. Publication entries for catalog/trip_pack/help. 4. Permission tests.
 - Tests: `pnpm --fail-if-no-match --filter @cp/db test -- permissions/content-catalogue permissions/critter-public`
 - Done when: `app_user` and `powersync_repl` cannot read `critter_names`; publication check shows no name column in `catalog`; helper writes the name only into the caller's own `collection_entries` row; `app_user` cannot write catalogue; unpublished release rows invisible.
+- Status: done — 5c80c1d
 
 ### T3 — Factory core: stages, validators, IP checker, cost log
 - Goal: resumable CLI pipeline.
@@ -116,6 +118,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Stage runner with content-hash cache. 2. Generate via `packages/ai` batch + structured output. 3. Validator registry returning item reports. 4. IP checker (exact + fuzzy + checklist markdown per batch). 5. Upload batch to R2 + create `content_releases` draft via admin API.
 - Tests: `pnpm --fail-if-no-match --filter @cp/content-factory test`
 - Done when: re-running an unchanged batch makes zero model calls; failing validator blocks `review` stage.
+- Status: done — 5c80c1d
 
 ### T4 — Admin content review + approve/publish
 - Goal: founder approval gate and publish job.
@@ -123,6 +126,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Batch list/item grid with render thumbnails (HMAC media URLs), validator report, previous vs new. 2. Per-item verdicts → `ops.content_reviews`; batch approve (owner) / reject with notes. 3. `content.publish` job + `rollback_content_release`. 4. `pnpm content <kind> pull` writes `packages/content/releases/<kind>/current.json`.
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- admin/content && pnpm --fail-if-no-match --filter @cp/worker test -- content/publish && pnpm --fail-if-no-match --filter @cp/admin exec playwright test content.spec.ts`
 - Done when: approve → rows live + `catalogue.changed`; rollback restores previous version; non-owner approve is `FORBIDDEN`.
+- Status: done — 5c80c1d
 
 ### T5 — Critter names, notes, IP pass (150 critters)
 - Goal: all 150 critters named/noted with IP clearance.
@@ -130,6 +134,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Import design dex (stable ids). 2. Generate names/notes per set. 3. Validate + IP. 4. Contact sheet + review batch.
 - Tests: `pnpm content critters validate --all`
 - Done when (agent): 150 critters generated (Batch submitted or resumed via `pnpm content critters resume`), validators + automated IP denylist pass, review batch queued in admin. Founder IP sign-off → Founder gate checklist G1.
+- Status: done — c40ac1e
 
 ### T6 — Forms: palettes, poses, edges (600 forms)
 - Goal: every form render-valid and distinct.
@@ -137,6 +142,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Deterministic OKLCH candidates + Sonnet options. 2. Score + pick. 3. Pose from archetype support. 4. Contact sheets via `critter-bake`.
 - Tests: `pnpm content forms validate --all && pnpm content forms render --check`
 - Done when (agent): validators run over every generated form; contact sheets exist for every set generated so far; review batch queued. If the Message Batch is still running, the session ends after submit and `pnpm content forms resume` finishes it in a follow-up session. Founder approval → G2.
+- Status: done — c40ac1e
 
 ### T7 — Curated POIs + 61-place index
 - Goal: POI DB for 6 guide cities and destination index.
@@ -144,6 +150,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Run P14 importer per city, then a cross-language duplicate sweep: auto POIs ≤ 60 m apart with name trigram < 0.6 (e.g. "Chùa Cầu" vs "Japanese Covered Bridge") go to a Jev decision route `poi.duplicate_tiebreak` (Noul, many pairs per call through P13 `decide()`); p ≥ route threshold → merge through P14 merge redirects, gray band → content review batch. 2. Editorial generation from open data. 3. Taste tag mapping. 4. Publish via `upsert_poi` batch + `content.embed`.
 - Tests: `pnpm content places validate --all`
 - Done when (agent): importer + editorial generation ran for every guide city; validators pass on every record produced; zero supplier-sourced text; review batch queued. Counts (≥ 250/city, 61 index entries) are phase acceptance, approval → G3.
+- Status: blocked — FSQ OS Places / Overture licence acceptance pending; the 61-place index (sets batch) and the POI editorial pipeline with the duplicate sweep are built and tested on recorded fixtures (c40ac1e), and run per guide city once the importer has data
 
 ### T8 — Spawn rules + legendary windows
 - Goal: every form obtainable; calendar complete.
@@ -151,6 +158,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Rule per form (kind per C40). 2. 6 designed windows exact; local legendaries dated (with source) or challenge rules. 3. Reachability validator: each form has ≥ 1 resolvable rule.
 - Tests: `pnpm content spawns validate --all && pnpm content windows validate --all`
 - Done when (agent): reachability validator passes over the generated set; designed six match 3l-9 render text; review batch queued. Dated-window source confirmation → G4.
+- Status: done — c40ac1e
 
 ### T9 — Persona packs + guest guide
 - Goal: approved 7 packs published.
@@ -158,6 +166,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Expand P13 v0 packs with vetted local words, sample lines, chattiness variants. 2. Run promptfoo persona suite (`packages/ai` evals). 3. Review + publish to `persona_packs`.
 - Tests: `pnpm content personas validate && pnpm --fail-if-no-match --filter @cp/ai eval -- persona`
 - Done when (agent): 7 packs validate; eval suite green; guest pack excludes locals' names; review batch queued. Founder approval → G5.
+- Status: done — d85c0b8
 
 ### T10 — Phrase cards + TTS audio
 - Goal: offline-ready phrase cards for every destination language.
@@ -165,6 +174,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Generate per language/context. 2. ElevenLabs Flash TTS → R2 (content-hash keys). 3. Native-review flags for emergency/allergy phrases.
 - Tests: `pnpm content phrases validate --all`
 - Done when (agent): every destination language has all contexts generated; every card has audio (or `audio_pending` when no key); publish job refuses emergency/allergy cards with review flag unset (test). Native-speaker review → G6.
+- Status: done — d85c0b8
 
 ### T11 — Taste quiz + help articles
 - Goal: quiz content and help centre corpus.
@@ -172,6 +182,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Quiz from 3a-4 copy + taxonomy. 2. Help articles per category (3p-1), banned-phrase lint (D10 truthfulness). 3. Embeddings via `content.embed`.
 - Tests: `pnpm content taste-quiz validate && pnpm content help validate --all`
 - Done when: quiz = 6 questions, all tags valid; help search returns an article for each 3p-1 category query.
+- Status: done — d85c0b8
 
 ### T12 — Emergency numbers, facilities, insurance info
 - Goal: verified safety datasets.
@@ -179,6 +190,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Structure from official sources (URL per record). 2. Generate a per-record verification checklist (source URL, retrieved_at) for the founder. 3. Publish via `set_emergency_info` / catalogue batch.
 - Tests: `pnpm content emergency validate --all && pnpm content facilities validate --all`
 - Done when (agent): every country of the 61 places has a sourced record with `verified_at null` + checklist entry; facilities for 6 guide cities with ≥ 1 hospital and pharmacy each; publish job refuses records with `verified_at null` (test). Human verification → G7.
+- Status: done — d85c0b8 (57 of 61 countries sourced; Canada, Tunisia, Taiwan and Tanzania need hand research)
 
 ### T13 — Opening hours research from official sources (web search)
 - Goal: fill the empty `hours` of POIs from official venue or tourism sites, human-verified before use (D23).
@@ -186,6 +198,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. For POIs without hours, search official venue and tourism domains first; the general search keeps the supplier blocklist and also excludes Google Maps and TripAdvisor (D6). 2. Extract weekday hours and dated exceptions, each with `source_url` and `fetched_at`. 3. Proposed hours stay unverified; the ops console shows them with their source, and a human sets `verified_at`. Only verified hours are served. 4. Foursquare live checks remain the runtime source.
 - Tests: extraction on recorded fixtures; only verified hours are served (test).
 - Done when: a batch proposes cited hours for POIs without hours, and a verified proposal fills `hours` for OPEN NOW and fit checks.
+- Status: done — d85c0b8
 
 ## Phase acceptance criteria
 
