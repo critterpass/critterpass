@@ -3,13 +3,17 @@ import { contentBatchListSchema } from '@cp/domain';
 import { defineAdminModule } from '../../kit/registry';
 import { getJson } from '../../lib/api';
 import { ContentPage } from './content-page';
+import { HoursPage } from './hours-page';
 
 export const contentModule = defineAdminModule({
   id: 'content',
   area: 'content',
   label: 'Content batches',
   order: 25,
-  routes: [{ path: 'content', component: ContentPage }],
+  routes: [
+    { path: 'content', component: ContentPage },
+    { path: 'content/hours', component: HoursPage },
+  ],
   homeCounters: [
     {
       id: 'content-review',

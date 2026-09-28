@@ -197,3 +197,47 @@ test('the owner signs off the IP checklist and approves', async ({ page }) => {
       .getByRole('button', { name: /forms · Bali and Kyoto/i }),
   ).toContainText('approved');
 });
+
+test('content verifies researched opening hours, which then reach the POI', async ({ page }) => {
+  const client = new pg.Client({ connectionString: E2E_DATABASE_URL });
+  await client.connect();
+  try {
+    await client.query("DELETE FROM poi_hours_proposals WHERE batch_key = 'e2e-hours'");
+    await client.query(
+      `INSERT INTO poi_hours_proposals (poi_id, hours, source_url, fetched_at, batch_key)
+       SELECT id, $1, 'https://tegallalangriceterrace.org/hours-and-fees', now(), 'e2e-hours'
+       FROM pois WHERE name = 'Tegallalang Rice Terrace' LIMIT 1`,
+      [
+        JSON.stringify({
+          weekly: Object.fromEntries(
+            ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'].map((d) => [
+              d,
+              [{ start: '07:00', end: '18:00' }],
+            ]),
+          ),
+        }),
+      ],
+    );
+  } finally {
+    await client.end();
+  }
+  await signInAs(page, 'content');
+  await nav(page).getByRole('link', { name: 'Content batches' }).click();
+  await page.getByRole('link', { name: 'Opening hours' }).click();
+  const card = page.getByRole('article', { name: 'Hours for Tegallalang Rice Terrace' });
+  await expect(card).toContainText('07:00–18:00');
+  await expect(card.getByRole('link', { name: 'tegallalangriceterrace.org' })).toBeVisible();
+  await shot(page, 'content-hours');
+  await card.getByRole('button', { name: 'Verify hours' }).click();
+  await expect(card).toHaveCount(0);
+  const check = new pg.Client({ connectionString: E2E_DATABASE_URL });
+  await check.connect();
+  try {
+    const { rows } = await check.query<{ verified: boolean }>(
+      "SELECT hours_verified_at IS NOT NULL AS verified FROM pois WHERE name = 'Tegallalang Rice Terrace'",
+    );
+    expect(rows[0]?.verified).toBe(true);
+  } finally {
+    await check.end();
+  }
+});

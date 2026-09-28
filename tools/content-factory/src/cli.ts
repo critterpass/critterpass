@@ -27,7 +27,9 @@ import {
   validateCommitted,
   type Stage,
 } from './pipeline';
+import { poisWithoutHours, researchHours, storeProposals } from './kinds/places/hours';
 import { recordingFetch } from './record';
+import { searchFromEnv } from './search';
 import { writeCurrentRelease } from './stages/pull';
 import { REPO_DIR } from './work';
 
@@ -40,10 +42,11 @@ const COMMANDS = [
   'run',
   'resume',
   'pull',
+  'hours',
 ] as const;
 type Command = (typeof COMMANDS)[number];
 
-const STAGES_FOR: Record<Exclude<Command, 'pull'>, readonly Stage[]> = {
+const STAGES_FOR: Record<Exclude<Command, 'pull' | 'hours'>, readonly Stage[]> = {
   brief: ['brief'],
   generate: ['generate'],
   validate: ['validate'],
@@ -121,6 +124,26 @@ export async function main(argv: readonly string[], log = console.log): Promise<
       if (pool === null) throw new Error('pull reads the live release: set DATABASE_URL');
       const version = writeCurrentRelease(args.kind, await liveArtifact(pool, args.kind));
       log(`pull: packages/content/releases/${args.kind}/current.json is v${version}`);
+      return 0;
+    }
+    if (args.command === 'hours') {
+      if (args.kind !== 'places' || pool === null)
+        throw new Error('hours runs on places with DATABASE_URL set');
+      const destinations = (
+        args.options['destinations'] ?? 'bali,kyoto,iceland,mexico-city,lisbon,cusco'
+      ).split(',');
+      const now = new Date();
+      const candidates = await poisWithoutHours(pool, destinations);
+      const proposals = await researchHours(candidates, {
+        search: searchFromEnv(),
+        gateway: gatewayFromEnv(),
+        now,
+      });
+      const batchKey = args.batch ?? `${now.toISOString().slice(0, 10)}-hours`;
+      await storeProposals(pool, batchKey, proposals);
+      log(
+        `hours: ${proposals.length} of ${candidates.length} POIs have proposed hours waiting for verification`,
+      );
       return 0;
     }
     if (args.command === 'validate' && args.all) {

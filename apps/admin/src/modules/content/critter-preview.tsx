@@ -50,6 +50,8 @@ export function CritterPreview({
         ? {}
         : { form, ...(form.pose === undefined ? {} : { pose: form.pose }) }),
       ...(locked ? { variant: 'mask' as const } : {}),
+      // The die-cut sticker carries the epic and legendary edge rings.
+      ...(form !== undefined && form.edge !== 'none' ? { sticker: { color: '#fffdf6' } } : {}),
     };
     const scale = window.devicePixelRatio || 1;
     const viewport = viewportFor(layout(spec, size), scale);
