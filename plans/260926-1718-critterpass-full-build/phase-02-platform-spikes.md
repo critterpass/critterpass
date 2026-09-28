@@ -122,7 +122,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Try `@bacons/apple-targets` fork on SDK 58; if blocked, in-repo config plugin. 2. Widget ext: static widget, Live Activity (lock screen + Dynamic Island), AlarmKit alarm UI, App Intent button. 3. NSE + NCE hello. 4. App Group + Keychain group entitlements; UIScene lifecycle compatibility. 5. EAS build + install; `xctrace` widget-memory template script in `tools/spikes/apple-targets/`.
 - Tests: `eas build -p ios --profile development`; XCTest target for `_shared` snapshot decoding.
 - Done when (agent): signed EAS build with all targets; ADR picks the path. Founder checklist: install on iPhone, run the `xctrace` script, record widget memory <20 MB.
-- Status: done — 35a185a (chosen path: published `@bacons/apple-targets@5.0.0`, unmodified — no fork needed, contradicting the plan's pessimistic default; widget incl. Live Activity/AlarmKit/App Intent + NSE + NCE all build, sign-for-simulator, embed and install/launch clean under SDK 58/Xcode 27/UIScene; App Group + Keychain entitlement chain verified app+extensions. Blocked on real signing: no Apple ID/API-key session in Xcode and the only Apple Development cert is for the wrong team (S8H6HTF3KK, not YFND2EEW8S) — no EAS/device build or on-device memory/intent-latency number possible until the founder fixes accounts; see ADR)
+- Status: done — 35a185a (chosen path: published `@bacons/apple-targets@5.0.0`, unmodified — no fork needed, contradicting the plan's pessimistic default; widget incl. Live Activity/AlarmKit/App Intent + NSE + NCE all build, sign-for-simulator, embed and install/launch clean under SDK 58/Xcode 27/UIScene; App Group + Keychain entitlement chain verified app+extensions. Blocked on real signing: no Apple ID/API-key session in Xcode and the only Apple Development cert is for the wrong team (S8H6HTF3KK, not YFND2EEW8S) — no EAS/device build or on-device memory/intent-latency number possible until the founder fixes accounts; see ADR; founder installed TestFlight staging on an iPhone 15 Pro on 2026-09-28 and the widget renders; widget memory <20 MB and App Intent → Live Activity latency still have no harness)
 
 ### T8 — Inline module bridge: cp-app-group
 - Goal: JS ↔ App Group / Android shared storage bridge.
@@ -130,7 +130,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Expo module API: `writeSnapshot(key, json)`, `writeImage(key, pngBase64)`, `readOutbox()`, `reloadWidgets()`. 2. Kotlin equivalent (app-private file + Glance update broadcast). 3. Widget from T7 reads snapshot. 4. Time round-trip.
 - Tests: XCTest + JUnit for serialization; RNTL-free device timing recorded.
 - Done when: widget shows JS-written snapshot on both platforms; round-trip <50 ms.
-- Status: done — b85ba96 (iOS PASS: widget reads the App-Group snapshot this module writes for real; app builds/installs/launches clean with the module linked; file-I/O floor for the write+read cycle measured at p50 0.56 ms / p95 0.77 ms, comfortably under budget, though the literal on-device JS-thread number still needs Metro/Maestro or a founder run. Android Kotlin implemented and verified against the real expo-modules-core source but not build-verified — no Gradle/emulator run attempted; see ADR founder follow-ups)
+- Status: done — b85ba96 (iOS PASS: widget reads the App-Group snapshot this module writes for real; app builds/installs/launches clean with the module linked; file-I/O floor for the write+read cycle measured at p50 0.56 ms / p95 0.77 ms, comfortably under budget, though the literal on-device JS-thread number still needs Metro/Maestro or a founder run. Android Kotlin implemented and verified against the real expo-modules-core source but not build-verified — no Gradle/emulator run attempted; see ADR founder follow-ups; iPhone 15 Pro founder run 2026-09-28: JS round-trip under 50 ms and the home-screen widget shows the snapshot, PASS; Android build still open)
 
 ### T9 — APNs broadcast LA, push-to-start, I'M UP, NSE/NCE
 - Goal: native push paths proven with our server library.
@@ -146,7 +146,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Port Tokek draw calls to a Canvas2D-like interface over Skia. 2. Node prerender (@napi-rs/canvas) reference PNG; device snapshot diff. 3. Draw-on + blink animation on UI thread. 4. 600-cell grid (FlashList 2 vs Legend List) + 6 idle critters. 5. Scripted capture (Perfetto config + `dumpsys gfxinfo` script, `xctrace` template) runnable on Galaxy A15-class, Pixel 7a, iPhone 13 (device farm or founder device).
 - Tests: `pnpm --filter @cp/spike-skia-critter test` (pixel diff ≤2 %).
 - Done when (agent): pixel-diff test green; capture scripts + ADR template ready. Founder checklist: run captures on the three devices; ADR records fps/drop rates and the grid strategy (live vs baked thumbnails) for phases 4/5.
-- Status: done — e4f8657 (pixel-diff 0.175% vs the real design/doodles.js source, PASS; grid strategy decided: FlashList 2, confirmed clean at 600 cells + 6 bobbing critters; iOS-simulator fps real but not the phase's physical-device evidence — Android emulator not reached this pass after a real disk incident during T10's own Android build attempt, see the ADR; founder device runs still needed)
+- Status: done — e4f8657 (pixel-diff 0.175% vs the real design/doodles.js source, PASS; grid strategy decided: FlashList 2, confirmed clean at 600 cells + 6 bobbing critters; iOS-simulator fps real but not the phase's physical-device evidence — Android emulator not reached this pass after a real disk incident during T10's own Android build attempt, see the ADR; founder device runs still needed; iPhone 15 Pro founder run 2026-09-28: draw-on and 600-cell grid within target, PASS; Galaxy A15-class and Pixel 7a still open)
 
 ### T11 — Motion & startup (S3, S7, S8)
 - Goal: transition, drag and cold-start budgets measured.
@@ -154,7 +154,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Compare `Link.AppleZoom`, Reanimated shared element (flagged), custom teleport overlay for grow-into-page. 2. Timeline drag with 15-min snap via Gesture Handler 3 + haptic ticks. 3. Release builds: cold start (Android `am start -W`, iOS Instruments), download size (App Store Connect/EAS size report).
 - Tests: Maestro `e2e/spikes/motion.yaml` drives both screens; numbers captured.
 - Done when (agent): ADR names the transition approach; cold-start/size scripts committed. Founder checklist: S7/S8 numbers from release builds on the reference devices.
-- Status: done — 49bb324 (chosen path: custom teleport overlay — Link.AppleZoom confirmed inert in this expo-router release both by source and on-device, Reanimated shared element works only in-screen not across native-stack routes; teleport overlay and the 15-min timeline drag both measured zero dropped frames (16.67 ms floor) on iOS simulator; cold-start/size scripts committed but produced no number this pass — an unbounded Instruments trace risked disk again, see the ADR; release-build numbers on reference devices still needed)
+- Status: done — 49bb324 (chosen path: custom teleport overlay — Link.AppleZoom confirmed inert in this expo-router release both by source and on-device, Reanimated shared element works only in-screen not across native-stack routes; teleport overlay and the 15-min timeline drag both measured zero dropped frames (16.67 ms floor) on iOS simulator; cold-start/size scripts committed but produced no number this pass — an unbounded Instruments trace risked disk again, see the ADR; release-build numbers on reference devices still needed; iPhone 15 Pro founder run 2026-09-28: teleport overlay and timeline drag PASS; iOS download 65.9 MB / install 122 MB FAILS the 40 MB budget, size breakdown and reductions in the motion ADR; release cold start on both platforms still open)
 
 ### T12 — Background location session + dwell ring (S6)
 - Goal: prove trip-day session design and battery budget.
@@ -162,7 +162,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. While-In-Use session with iOS background location indicator + Android foreground service (type location). 2. 50 m geofence dwell → updates LA progress while locked (via T7/T9 targets). 3. Always upgrade prompt flow. 4. 1 h walk test: battery drain per platform.
 - Tests: unit test for dwell calculation in spike code; simulated-route Maestro run (GPX on simulator/emulator) proves the ring advances.
 - Done when (agent): simulated ring advance + field-test script in `tools/spikes/location/README.md`. Founder checklist: 1 h walk per platform, battery drain + lock-screen ring evidence in ADR; verdict.
-- Status: done — 86fb1f2 (real iOS-simulator session: While-In-Use permission, background-location indicator, TaskManager background task, dwell ring advancing 0%→5% from live location fixes at a fixed POI — the phase's required proof; 10 hardware-free unit tests for the grace+slow-drain reducer; App Group snapshot write reaches T8's module for real but errors with a specific CpAppGroupError in this build, see the ADR; Android emulator, the 1h battery walk and locked-screen LA render all remain founder/next-pass follow-ups)
+- Status: done — 86fb1f2 (real iOS-simulator session: While-In-Use permission, background-location indicator, TaskManager background task, dwell ring advancing 0%→5% from live location fixes at a fixed POI — the phase's required proof; 10 hardware-free unit tests for the grace+slow-drain reducer; App Group snapshot write reaches T8's module for real but errors with a specific CpAppGroupError in this build, see the ADR; Android emulator, the 1h battery walk and locked-screen LA render all remain founder/next-pass follow-ups; iPhone 15 Pro 1 h walk 2026-09-28 under 3 %/h, PASS; Android walk and lock-screen ring still open)
 
 ### T13 — MapLibre custom style + PMTiles on R2
 - Goal: map rendering and offline region feasibility.
@@ -170,7 +170,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - Steps: 1. Build PMTiles for Da Nang from OSM (planetiler/tippecanoe). 2. Upload to `cp-tiles`; serve via media-worker range reads or public bucket (compare). 3. Custom hand-drawn style draft (fonts glyphs + sprites on R2). 4. Offline pack download for city bbox. 5. Pan/zoom fps on mid Android.
 - Tests: `pnpm --filter @cp/spike-tiles run build -- --city da-nang`; fps capture script (founder checklist on mid Android).
 - Done when: offline map works in airplane mode; ADR chooses PMTiles or tile server.
-- Status: done — 609a08a (real Da Nang PMTiles extract via planetiler + Geofabrik, uploaded to the public `cp-tiles` bucket with real SDF glyphs and a canvas-drawn sprite; MapLibre RN 11 renders the custom dark style from it and, after a real on-device download, renders again from the local file with zero PMTiles-source network calls — two real bugs found and fixed getting there (a doubled `file://` scheme, `<Map>` needing a full remount to reapply `background-pattern`); media-worker range reads ruled out by reading its actual source, not guessing — see the ADR; true network-severed offline proof and Android pan/zoom fps remain founder follow-ups)
+- Status: done — 609a08a (real Da Nang PMTiles extract via planetiler + Geofabrik, uploaded to the public `cp-tiles` bucket with real SDF glyphs and a canvas-drawn sprite; MapLibre RN 11 renders the custom dark style from it and, after a real on-device download, renders again from the local file with zero PMTiles-source network calls — two real bugs found and fixed getting there (a doubled `file://` scheme, `<Map>` needing a full remount to reapply `background-pattern`); media-worker range reads ruled out by reading its actual source, not guessing — see the ADR; true network-severed offline proof and Android pan/zoom fps remain founder follow-ups; iPhone 15 Pro founder run 2026-09-28: city pack download and Airplane Mode render PASS within one session; Android pan/zoom fps still open)
 
 ### T14 — Android native surfaces (Kotlin)
 - Goal: prove Android parity surfaces before the surface phases build them.
@@ -193,9 +193,9 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - [ ] Each FAIL names a fallback inside the custom stack; no ADR proposes Supabase
 - [ ] Harnesses rerun via `pnpm --filter @cp/spike-<slug> run spike`
 - [ ] `docs/runbooks/db-switchover-drill.md` exists and was executed once
-- [ ] Signed iOS build with widget, LA, AlarmKit, NSE, NCE targets installs from EAS
+- [x] Signed iOS build with widget, LA, AlarmKit, NSE, NCE targets installs from EAS (TestFlight staging on an iPhone 15 Pro, 2026-09-28)
 - [ ] `(dev)` routes excluded from production variant (`check-release-bundle` green)
-- [ ] Every `Founder device run` table filled
+- [ ] Every `Founder device run` table filled (iPhone rows filled 2026-09-28; Android rows, Apple/Google sign-in, Instruments cold start and traces still open)
 - [ ] Spike tables dropped from staging
 
 ## Risks & rollback

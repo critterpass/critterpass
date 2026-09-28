@@ -1,9 +1,9 @@
 # Map tiles: MapLibre RN + PMTiles on R2 (Da Nang draft)
 
 Date: 2026-09-27
-Status: PASS on rendering, delivery choice and city-pack download; offline verdict PASS with a
-documented gap (no true network-severed run this pass — see Findings); pan/zoom fps is a founder
-checklist item (no Android device in this lane).
+Status: PASS on rendering, delivery choice and city-pack download. Offline PASS on an iPhone 15 Pro
+in Airplane Mode (founder run, 2026-09-28), within one app session; a cold relaunch offline is not
+covered (see Findings). Android pan/zoom fps is still a founder checklist item.
 
 ## Context
 
@@ -149,6 +149,11 @@ default. No fallback (vector tile server on Railway) needed.
 | Device | Pan/zoom fps (`dumpsys gfxinfo`) | Dropped frames | Notes |
 |---|---|---|---|
 | Samsung Galaxy A15-class | | | |
+
+| Check | Device | Date | Build | Value | Result |
+|---|---|---|---|---|---|
+| Download city pack (offline): bytes and ms | iPhone 15 Pro | 2026-09-28 | TestFlight staging | not recorded | PASS (founder reported ok) |
+| Switch to the downloaded file, Airplane Mode, pan and zoom Da Nang: map, labels and icons render | iPhone 15 Pro | 2026-09-28 | TestFlight staging | — | PASS (founder reported ok); one session only, a cold relaunch is not covered (see the offline gap above) |
 
 ## Rerun
 

@@ -1,12 +1,10 @@
 # Grow-into-page transition, timeline drag, and cold start (S3, S7, S8)
 
 Date: 2026-09-27
-Status: PASS on the transition-approach decision and the drag snap-latency criterion. INCOMPLETE on
-S7/S8's physical-device release-build numbers — this pass measured a Debug dev-client on an iOS
-simulator and an Android emulator, which the phase's own "Device evidence" rule and the nature of a
-dev-client build (fetches JS from Metro, unlike a real release bundle) both disqualify as final
-evidence; see Findings and Founder follow-ups for exactly what still needs a release build on a
-physical reference device.
+Status: PASS on the transition-approach decision and the drag snap-latency criterion, confirmed on
+an iPhone 15 Pro by the founder on 2026-09-28. **FAIL on iOS download size**: 65.9 MB against
+≤40 MB, see Size measured 2026-09-28. INCOMPLETE on release cold start (Instruments on iOS, a
+release build on mid-range Android).
 
 ## Context
 
@@ -20,10 +18,10 @@ download ≤40 MB).
 
 | # | Criterion | Result |
 |---|---|---|
-| 1 | grow-into-page transition interruptible, ≤16 ms p95 frame | PASS for the chosen approach (custom teleport overlay) — see Raw numbers |
-| 2 | Timeline drag 15-min snap + haptic tick, snap latency <1 frame | PASS — snap is UI-thread math applied in the same frame that detects the crossing; only the haptic call itself hops to JS |
+| 1 | grow-into-page transition interruptible, ≤16 ms p95 frame | PASS for the chosen approach (custom teleport overlay) — see Raw numbers; iPhone 15 Pro founder run PASS (see Founder device run) |
+| 2 | Timeline drag 15-min snap + haptic tick, snap latency <1 frame | PASS — snap is UI-thread math applied in the same frame that detects the crossing; only the haptic call itself hops to JS; iPhone 15 Pro founder run PASS |
 | 3 | Release cold start ≤1.2 s mid Android / ≤0.8 s iOS | INCOMPLETE — Debug dev-client only, see Findings |
-| 4 | iOS download ≤40 MB | INCOMPLETE — Debug .app size recorded as a directional number only, see Findings |
+| 4 | iOS download ≤40 MB | **FAIL** — TestFlight staging on iPhone 15 Pro: 65.9 MB download, 122 MB install. See Size measured 2026-09-28 |
 
 ## Method
 
@@ -178,6 +176,75 @@ the design token's exact spec (radius/fade/duration) and is interruptible by con
 - **iOS download size**: needs an actual App Store Connect / EAS build size report (thinned,
   compressed, per-device-variant) — a local unsigned `.app` bundle size is not that number and is
   recorded here only as a directional signal.
+
+## Founder device run
+
+| Check | Device | Date | Build | Value | Result |
+|---|---|---|---|---|---|
+| Grow-into-page, teleport overlay, open and close mid-animation ×10: worst frame gap (700 ms window) | iPhone 15 Pro | 2026-09-28 | TestFlight staging | not recorded; founder reported within target (≤16.6 ms) | PASS (founder reported ok) |
+| Closing mid-animation reverses smoothly, no jump | iPhone 15 Pro | 2026-09-28 | TestFlight staging | — | PASS (founder reported ok) |
+| Timeline drag: 15-minute snap with a haptic tick per step; worst frame gap while dragging | iPhone 15 Pro | 2026-09-28 | TestFlight staging | not recorded; founder reported within target (≤16.6 ms) | PASS (founder reported ok) |
+| iOS download size (App Store Connect → App File Sizes) | iPhone 15 Pro | 2026-09-28 | TestFlight staging | download 65.9 MB, install 122 MB | **FAIL** against ≤40 MB, see Size measured 2026-09-28 |
+| Release cold start ≤0.8 s | iPhone 13+ | | Instruments, local Release build | | open |
+| Release cold start ≤1.2 s | mid-range Android | | release build | | open |
+
+## Size measured 2026-09-28
+
+The founder read 65.9 MB download and 122 MB install for an iPhone 15 Pro from App Store Connect.
+To see what takes the space, the store IPA of TestFlight staging build 5 (EAS build
+`9f812d36-1a73-41d2-b3f9-a5e935969c0d`, commit `f3b27042`, 84.0 MB `.ipa`, 120.9 MB unpacked)
+was unzipped and measured with `du`, `xcrun assetutil`, `size`, `otool` and `afinfo`. Each
+component was compressed on its own with `zip -9` to estimate its share of the download. Asset
+catalogs were thinned with `assetutil -i phone -s 3 -p p3 -M 8 -g MTL3,1 -r 2023`, which is close
+to the App Store variant for an iPhone 15 Pro. The main executable's FairPlay-encrypted range
+(`cryptsize` 21.6 MB) does not compress in the store download, so it counts at full size.
+
+| Component | Raw (MB) | Thinned for iPhone 15 Pro (MB) | Est. download (MB) | Notes |
+|---|---|---|---|---|
+| Main executable (arm64) | 25.2 | 25.2 | ~23.1 | 21.6 MB encrypted `__TEXT` (17.4 MB code). Statically links RN Skia (skia, skottie, svg, sksg, skshaper, skparagraph), Sentry, MMKV, Nitro, Reanimated, Worklets, Gesture Handler, Screens and the other static pods |
+| Critter art `Assets.car`, three byte-identical copies (widgets, NSE, NCE) | 3 × 10.3 | 3 × 9.2 | 3 × 8.7 = 26.0 | 1,327 renditions each. 6.3 MB of each copy is 450 blur-stage silhouettes (120 px, 2x only, lossless). Nothing here is used today except the NSE's one guide avatar |
+| Music, 12 `.m4a` (6 guide themes + 6 previews) | 11.9 | 11.9 | 11.8 | Mono AAC-LC at ~225 kbps. Only dev routes import it today, so the production export leaves it out |
+| `React.framework` | 13.4 | 13.4 | 3.1 | |
+| `MapLibre.framework` | 8.3 | 8.3 | 3.3 | Map rendering (MapLibre, not the Mapbox SDK; Mapbox is only routing over HTTP) |
+| `hermesvm.framework` | 6.4 | 6.4 | 1.7 | |
+| `main.jsbundle` (Hermes bytecode v99) | 10.7 | 10.7 | 4.4 | No source maps bundled. Dev routes add 1.1 MB raw / 0.5 MB compressed (staging vs production export of the same commit) |
+| `ExpoModulesCore.framework` | 3.9 | 3.9 | 1.0 | |
+| Other frameworks (FileSystem, MediaLibrary, Location, Font, ModulesJSI, Worklets, PowerSync SQLite core, ReactNativeDependencies) | 5.9 | 5.9 | 1.6 | `powersync-sqlite-core` 0.8 MB raw / 0.3 MB |
+| Fonts, 27 TTFs, **two copies** (bundle root via the `expo-font` plugin and Metro `assets/fonts`) | 2 × 1.8 | 2 × 1.8 | 2 × 0.75 | 15 of them are Archivo width × weight instances |
+| Main `Assets.car` (flat 1024 px AppIcon, splash) | 1.0 | 1.0 | 1.0 | AppIcon is one flat 1024 px rendition, 0.96 MB |
+| SFX, 23 `.caf` (16-bit PCM, 48 kHz, mono) | 0.8 | 0.8 | 0.6 | |
+| Extension executables, `GoogleSignIn.bundle`, plists, signatures, JS PNGs | ~1.1 | ~1.1 | ~0.4 | |
+| **Total** | 120.9 | ~119.7 | ~79.6 | App Store Connect reports 122 MB install and 65.9 MB download |
+
+The raw thinned total matches the 122 MB install size. The download estimate is about 14 MB above
+the reported 65.9 MB. The likely reason is that the store download compresses better than `zip -9`
+or stores the three identical `Assets.car` files once. Deduplicating them would give about 62 MB.
+Treat each row's download share as an upper bound.
+
+Not in this build: the 10 alternate app icons (they arrive with the alternate-icon feature; the
+generated `.appiconset` folders are 3–4.8 MB each of raw PNGs, the layered `.icon` bundles
+124–160 KB each). No `.lproj` folders; localisation lives in the JS bundle.
+
+**Production today.** Leaving out music and dev routes gives about 53.6 MB (65.9 − 11.8 − 0.5).
+That is still 13.6 MB over the target before the guide music ships to users.
+
+### Reductions
+
+| # | Change | Est. download saved (MB) | Who decides |
+|---|---|---|---|
+| 1 | Ship critter art once and only to the targets that render it: the widgets target keeps what widgets and Live Activities draw, the NSE keeps the notification avatars, the NCE keeps what its UI shows. Alternatively, one embedded resource framework that all three extensions read with `UIImage(named:in:)` | 8.7–17.4 (17.4 if the store does not dedupe) | Engineering (no visible change) |
+| 2 | Blur-stage silhouettes: draw the blur at runtime in SwiftUI (`.blur` over the silhouette mask) or bake them lossy (`compression-type: lossy` / HEIF). Blurred images compress poorly when lossless | ~5 per remaining copy | Founder (visual parity of the blur) |
+| 3 | Guide music: re-encode 225 kbps mono AAC-LC at 96 kbps AAC-LC (~6.8 MB saved) or 64 kbps HE-AAC (~8.5 MB), or bundle only the default guide's theme and previews and download the others on first selection (~9.7 MB) | 6.8–9.7 once music ships | Founder by ear (bitrate); founder (on-demand download) |
+| 4 | Main binary: nothing in the app uses Skottie, SVG, SkParagraph or the shaper. A Skia build without them, measured with a link map (`LD_GENERATE_MAP_FILE=YES`) from a local Release build first | ~2–5 (estimate; the encrypted range counts at full size) | Engineering, after the link map confirms |
+| 5 | Alternate icons (when they ship) and the primary icon as layered `.icon` only. The minimum iOS is 26, so flat fallbacks are never used. Flat 1024 px icons cost ~0.95 MB each | Avoids ~9 MB of growth for 10 icons; ~0.8 now on the primary icon | Founder (confirm the layered rendering on device) |
+| 6 | Fonts: keep one copy. Either the native embed from the `expo-font` plugin or the Metro assets, not both. An Archivo variable font in place of the 15 static instances saves a little more | 0.75 (+~0.3) | Engineering |
+| 7 | Dev routes | 0.5 | Already excluded from production builds |
+
+Projection for production: 53.6 MB today, about 44.9 after #1 and about 40 after #2. #4 takes it
+to about 35–38, and #6 plus a primary `.icon` to about 33–36 MB before music. Guide music then adds
+about 0.9 MB (default theme and preview at 96 kbps, the rest downloaded on demand) to 5.0 MB (all 12
+files at 96 kbps). The target is reachable with #1, #2, #4 and #6 plus lower-bitrate or on-demand
+music. Without the founder decisions in #2 and #3 it is not.
 
 ## Rerun
 
