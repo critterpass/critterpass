@@ -58,6 +58,8 @@ CREATE TABLE messages (
 CREATE INDEX messages_crew_seq_desc_idx ON messages (crew_id, seq DESC);
 CREATE INDEX messages_sender_id_idx ON messages (sender_id) WHERE sender_id IS NOT NULL;
 CREATE INDEX messages_reply_to_id_idx ON messages (reply_to_id) WHERE reply_to_id IS NOT NULL;
+-- Media read checks look a key up by containment (original or derived key).
+CREATE INDEX messages_attachments_idx ON messages USING gin (attachments jsonb_path_ops);
 CREATE TRIGGER messages_touch_updated_at BEFORE UPDATE ON messages
   FOR EACH ROW EXECUTE FUNCTION app.touch_updated_at();
 
