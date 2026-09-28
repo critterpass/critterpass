@@ -15,8 +15,16 @@ streams:
       - SELECT * FROM account_deletions WHERE user_id = auth.user_id()
       - SELECT *, op_id AS id FROM cmd_results WHERE uid = auth.user_id()
       - SELECT * FROM invite_opens WHERE inviter_id = auth.user_id()
-      - SELECT * FROM referrals WHERE referrer_id = auth.user_id()
-      - SELECT * FROM referrals WHERE referee_id = auth.user_id()
+      - |-
+        SELECT id, referrer_id, referee_id, code, invite_id, via, status, void_reason, qualified_at,
+               reward_kind, reward_ref, created_at, updated_at
+        FROM referrals
+        WHERE referrer_id = auth.user_id()
+      - |-
+        SELECT id, referrer_id, referee_id, code, invite_id, via, status, void_reason, qualified_at,
+               reward_kind, reward_ref, created_at, updated_at
+        FROM referrals
+        WHERE referee_id = auth.user_id()
       - SELECT *, user_id AS id FROM user_entitlements WHERE user_id = auth.user_id()
       - SELECT * FROM usage_counters WHERE subject_kind = 'user' AND subject_id = auth.user_id()
       - SELECT * FROM devices WHERE user_id = auth.user_id()

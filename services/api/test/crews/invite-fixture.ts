@@ -86,5 +86,5 @@ export function resultOf(body: Record<string, unknown>): Record<string, unknown>
 }
 
 export function errorOf(body: Record<string, unknown>): { code?: string; detail?: unknown } {
-  return (body['error'] ?? {});
+  return body['error'] ?? {};
 }

@@ -18,13 +18,22 @@ streams:
         FROM invites
         WHERE invitee_user_id = auth.user_id()
 
-  # Opens of the caller's own invites, and referrals the caller is either side of (status only).
+  # Opens of the caller's own invites, and referrals the caller is either side of (status only,
+  # never the referee's install).
   me:
     auto_subscribe: true
     queries:
       - SELECT * FROM invite_opens WHERE inviter_id = auth.user_id()
-      - SELECT * FROM referrals WHERE referrer_id = auth.user_id()
-      - SELECT * FROM referrals WHERE referee_id = auth.user_id()
+      - |
+        SELECT id, referrer_id, referee_id, code, invite_id, via, status, void_reason, qualified_at,
+               reward_kind, reward_ref, created_at, updated_at
+        FROM referrals
+        WHERE referrer_id = auth.user_id()
+      - |
+        SELECT id, referrer_id, referee_id, code, invite_id, via, status, void_reason, qualified_at,
+               reward_kind, reward_ref, created_at, updated_at
+        FROM referrals
+        WHERE referee_id = auth.user_id()
 
   # Consented phone cards of the caller's crews.
   crews:

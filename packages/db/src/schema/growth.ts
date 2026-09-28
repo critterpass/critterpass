@@ -115,6 +115,8 @@ export const referrals = pgTable('referrals', {
   qualifiedAt: instant('qualified_at'),
   rewardKind: text('reward_kind'),
   rewardRef: uuid('reward_ref'),
+  /** Fraud checks only; outside every app_user column grant and every stream. */
+  refereeDeviceId: uuid('referee_device_id'),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

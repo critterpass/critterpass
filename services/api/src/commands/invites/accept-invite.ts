@@ -20,11 +20,13 @@ import {
   verifySeatToken,
   type AcceptInvitePayload,
   type AcceptInviteResult,
+  type CommandContext,
   type InviteStatus,
 } from '@cp/domain';
 import type pg from 'pg';
 
 import { defineCommand } from '../_framework/define-command';
+import { attributeReferral } from '../referrals/attribute';
 import type { InviteCommandDeps } from './deps';
 import { seatTokenHash } from './deps';
 import { claimTripSeat, joinCrew, type SeatClaim } from './seat-claim';
@@ -185,6 +187,30 @@ async function markInvite(
   );
 }
 
+/** A new account joining through an invite is attributed to whoever invited them. */
+async function attributeJoin(
+  tx: pg.PoolClient,
+  ctx: CommandContext,
+  target: JoinTarget,
+): Promise<void> {
+  let referrer = target.inviterId;
+  if (referrer === null && target.code !== null) {
+    const { rows } = await tx.query<{ creator: string | null }>(
+      'SELECT app.join_code_creator($1) AS creator',
+      [target.code],
+    );
+    referrer = rows[0]?.creator ?? null;
+  }
+  if (referrer === null) return;
+  await attributeReferral(tx, ctx, {
+    referrerId: referrer,
+    via: target.code === null ? 'invite' : 'code',
+    status: 'joined',
+    inviteId: target.inviteId,
+    code: target.code,
+  });
+}
+
 export function createAcceptInviteCommand(deps: InviteCommandDeps) {
   return defineCommand({
     name: 'accept_invite',
@@ -211,6 +237,7 @@ export function createAcceptInviteCommand(deps: InviteCommandDeps) {
         if (rows[0]?.used !== true) throw new DomainError('CODE_REDEEMED');
       }
 
+      if (joined) await attributeJoin(tx, ctx, target);
       if (joined) {
         await appendDomainEvent(tx, {
           type: 'crew.member_joined',

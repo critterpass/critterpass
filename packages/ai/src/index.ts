@@ -256,3 +256,15 @@ export {
   type Telemetry,
 } from './telemetry/langfuse';
 export * from './decide';
+export {
+  inferInviteTags,
+  templateInviteTags,
+  type InviteTagsInput,
+} from './prompts/invite-tags/prompt';
+export { type InviteTagsResult } from './prompts/invite-tags/schema';
+export {
+  templateCrewWelcome,
+  writeCrewWelcome,
+  type CrewWelcomeInput,
+  type CrewWelcomeResult,
+} from './prompts/crew-welcome/prompt';

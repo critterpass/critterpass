@@ -123,6 +123,8 @@ CREATE TABLE referrals (
   qualified_at timestamptz,
   reward_kind text CHECK (reward_kind IN ('stamp')),
   reward_ref uuid,
+  -- The install the referee attributed from: fraud checks only, never readable by either party.
+  referee_device_id uuid,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now(),
   CONSTRAINT referrals_not_self CHECK (referrer_id <> referee_id)
@@ -135,7 +137,8 @@ ALTER TABLE referrals FORCE ROW LEVEL SECURITY;
 CREATE POLICY referrals_party_read ON referrals FOR SELECT TO app_user
   USING (referrer_id = app.uid() OR referee_id = app.uid());
 CREATE POLICY referrals_system ON referrals FOR ALL TO app_system USING (true) WITH CHECK (true);
-GRANT SELECT ON referrals TO app_user;
+GRANT SELECT (id, referrer_id, referee_id, code, invite_id, via, status, void_reason, qualified_at,
+  reward_kind, reward_ref, created_at, updated_at) ON referrals TO app_user;
 GRANT SELECT, INSERT, UPDATE ON referrals TO app_system;
 
 -- seat_waitlist_offers: RLS class T. The system offers a freed seat to the next waitlisted
@@ -522,6 +525,38 @@ END;
 $$;
 REVOKE EXECUTE ON FUNCTION app.expire_seat_offers(timestamptz) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.expire_seat_offers(timestamptz) TO app_system;
+
+-- Records the caller's referral (first link or code wins; later ones change nothing). The caller
+-- is always the referee, so nobody can attribute someone else. Returns the new referral's id, or
+-- NULL when the caller already has one. Eligibility (a new account, not oneself) is checked by the
+-- command with packages/domain/src/referrals/qualification.ts#canAttributeReferral.
+CREATE OR REPLACE FUNCTION app.record_referral(
+  p_referrer uuid, p_via text, p_status text, p_invite uuid, p_code text, p_device uuid
+) RETURNS uuid
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+DECLARE
+  new_id uuid;
+BEGIN
+  IF app.uid() IS NULL OR p_referrer = app.uid() THEN
+    RETURN NULL;
+  END IF;
+  INSERT INTO referrals (referrer_id, referee_id, via, status, invite_id, code, referee_device_id)
+  VALUES (p_referrer, app.uid(), p_via, p_status, p_invite, p_code, p_device)
+  ON CONFLICT (referee_id) DO NOTHING
+  RETURNING id INTO new_id;
+  RETURN new_id;
+END;
+$$;
+REVOKE EXECUTE ON FUNCTION app.record_referral(uuid, text, text, uuid, text, uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.record_referral(uuid, text, text, uuid, text, uuid) TO app_user;
+
+-- Who minted a live code, for referral attribution inside a join (never returned to a client).
+CREATE OR REPLACE FUNCTION app.join_code_creator(p_code text) RETURNS uuid
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+  SELECT created_by FROM join_codes WHERE code = p_code AND status = 'active'
+$$;
+REVOKE EXECUTE ON FUNCTION app.join_code_creator(text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.join_code_creator(text) TO app_user;
 
 -- ---------------------------------------------------------------------------------------------
 -- domain_events: crew growth events join the catalogue (packages/domain/src/crews/events.ts).

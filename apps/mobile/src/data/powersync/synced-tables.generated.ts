@@ -87,7 +87,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id kind origin destination_id dates amount_minor:integer currency source fetched_at frozen_at version:integer created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',
   referrals:
-    'referrer_id referee_id code invite_id via status void_reason qualified_at reward_kind reward_ref created_at updated_at',
+    'referrer_id referee_id code invite_id via status void_reason qualified_at reward_kind reward_ref referee_device_id created_at updated_at',
   roundups:
     'user_id local_date tz guide_id notification_ids lines sent_at fallback_used:integer created_at updated_at',
   scheduled_deliveries:

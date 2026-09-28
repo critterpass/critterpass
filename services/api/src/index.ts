@@ -43,7 +43,7 @@ import { registerMediaRoutes } from './routes/media';
 import { createMapboxRoutingProvider } from './routing/eta';
 import { MapboxRoutingClient } from './routing/mapbox';
 import { createClaimAttributionCommand } from './commands/attribution/claim-attribution';
-import { registerInviteCommands, registerInviteLinkProviders } from './commands/invites';
+import { registerInvites } from './commands/invites';
 import { createLinkProviderRegistry } from './links/registry';
 import { registerLinkRoutes } from './routes/links';
 import { seatTokenKeyringFromJson, type LinkEnvironment } from '@cp/domain';
@@ -206,7 +206,6 @@ const commands = createAppCommandRegistry();
 
 // Links (docs/api-contracts.md §5.6): providers per link kind, the claim command, public routes.
 const linkProviders = createLinkProviderRegistry();
-registerInviteLinkProviders(linkProviders, fieldEncryptionKeyring ?? null);
 const LINK_ENVIRONMENT_BY_APP_ENV: Record<typeof env.APP_ENV, LinkEnvironment> = {
   production: 'production',
   staging: 'staging',
@@ -216,19 +215,12 @@ const seatKeys =
   env.SEAT_TOKEN_KEYS !== undefined && env.SEAT_TOKEN_ACTIVE_KID !== undefined
     ? seatTokenKeyringFromJson(env.SEAT_TOKEN_KEYS, env.SEAT_TOKEN_ACTIVE_KID).keys
     : {};
-registerInviteCommands(commands, {
-  linkEnv: LINK_ENVIRONMENT_BY_APP_ENV[env.APP_ENV],
-  seatKeyring:
-    env.SEAT_TOKEN_KEYS !== undefined && env.SEAT_TOKEN_ACTIVE_KID !== undefined
-      ? seatTokenKeyringFromJson(env.SEAT_TOKEN_KEYS, env.SEAT_TOKEN_ACTIVE_KID)
-      : null,
-  fieldKeyring: fieldEncryptionKeyring ?? null,
-  phonePepper: env.PHONE_HASH_PEPPER ?? null,
-});
+const linkEnv = LINK_ENVIRONMENT_BY_APP_ENV[env.APP_ENV];
+registerInvites(commands, linkProviders, env, linkEnv, fieldEncryptionKeyring);
 commands.register(
   createClaimAttributionCommand({
     registry: linkProviders,
-    config: { env: LINK_ENVIRONMENT_BY_APP_ENV[env.APP_ENV], seatKeys },
+    config: { env: linkEnv, seatKeys },
   }),
 );
 const commandDoors = {

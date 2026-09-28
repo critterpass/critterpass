@@ -7,7 +7,7 @@
 import { createHash } from 'node:crypto';
 
 import type { crypto as dbCrypto } from '@cp/db';
-import type { LinkEnvironment, SeatTokenKeyring } from '@cp/domain';
+import { seatTokenKeyringFromJson, type LinkEnvironment, type SeatTokenKeyring } from '@cp/domain';
 
 export interface InviteCommandDeps {
   readonly linkEnv: LinkEnvironment;
@@ -19,4 +19,27 @@ export interface InviteCommandDeps {
 /** Seat tokens carry 128 random bits, so a plain SHA-256 is enough to look one up by. */
 export function seatTokenHash(seat: string): string {
   return createHash('sha256').update(seat).digest('hex');
+}
+
+export interface InviteEnv {
+  readonly SEAT_TOKEN_KEYS?: string | undefined;
+  readonly SEAT_TOKEN_ACTIVE_KID?: string | undefined;
+  readonly PHONE_HASH_PEPPER?: string | undefined;
+}
+
+/** The deps from the api's environment; a missing secret turns personal invites off, never fakes one. */
+export function inviteDepsFromEnv(
+  env: InviteEnv,
+  linkEnv: LinkEnvironment,
+  fieldKeyring: dbCrypto.FieldEncryptionKeyring | null | undefined,
+): InviteCommandDeps {
+  return {
+    linkEnv,
+    seatKeyring:
+      env.SEAT_TOKEN_KEYS !== undefined && env.SEAT_TOKEN_ACTIVE_KID !== undefined
+        ? seatTokenKeyringFromJson(env.SEAT_TOKEN_KEYS, env.SEAT_TOKEN_ACTIVE_KID)
+        : null,
+    fieldKeyring: fieldKeyring ?? null,
+    phonePepper: env.PHONE_HASH_PEPPER ?? null,
+  };
 }
