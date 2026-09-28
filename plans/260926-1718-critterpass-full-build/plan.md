@@ -11,15 +11,64 @@ critical_path_tasks: 253
 
 | Field | Value |
 |---|---|
-| Status | in_progress: 8 of 59 phases done (7 more in progress, 2 waiting on founder device runs); 151 of 594 tasks done once PR #57 merges (2026-09-28 01:15). Progress and next waves: [controller report](../reports/controller-260928-0113-progress-and-upcoming-waves-report.md) |
+| Status | in_progress: 13 of 59 phases done, 13 in progress; 241 of 594 tasks done (2026-09-28 23:10). See **Progress** below |
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
 | Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), the designed ops console (phases 58–59, added 2026-09-28), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
 | Size | 59 phases, 594 tasks, 23 waves, critical path 253 tasks |
-| Docs | [docs/README.md](../../docs/README.md) (reading order), [product-decisions.md](../../docs/product-decisions.md) (decisions 1–20, final), [code-standards.md](../../docs/code-standards.md), [system-architecture.md](../../docs/system-architecture.md), [data-model.md](../../docs/data-model.md), [api-contracts.md](../../docs/api-contracts.md), [design-system.md](../../docs/design-system.md) |
+| Docs | [docs/README.md](../../docs/README.md) (reading order), [product-decisions.md](../../docs/product-decisions.md) (decisions 1–23), [code-standards.md](../../docs/code-standards.md), [system-architecture.md](../../docs/system-architecture.md), [data-model.md](../../docs/data-model.md), [api-contracts.md](../../docs/api-contracts.md), [design-system.md](../../docs/design-system.md) |
 | Reports | [plans/reports/](../reports/) — master synthesis, design analyses, research, fact-checks. Backend authority: [custom Hono backend](../reports/researcher-260926-1649-custom-hono-backend-report.md). Supplier authority: [travel supplier APIs](../reports/researcher-260926-1649-travel-supplier-apis-report.md) |
 | Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude for generation + Jev for typed decisions (D5 amended) |
 | Design | `design/` read-only; renders in `docs/design-renders/screens/*.png` + `screens.json` |
+
+## Progress (updated 2026-09-28 23:10)
+
+**241 of 594 tasks done (41%).**
+- **Phases done (13):** 1, 3, 4, 8, 9, 10, 12, 13, 15, 16, 17, 23, 58.
+- **In progress:** 13 phases.
+- **Not started:** 33 phases.
+
+The critical path has cleared onboarding (22) and invites and crews (23); crew chat (24) is being built now.
+
+| In progress | Tasks | What's left |
+|---|---|---|
+| 2 Platform spikes | 15/15 | Android device runs; 2 iPhone Instruments runs (need Xcode signed in to the team) |
+| 5 Sticker renderer | 10/10 | Android mid-range device run |
+| 6 Motion and feedback | 8/10 | Android haptics build and native tests; Android motion flows |
+| 7 App shell and components | 17/18 | Android sweep |
+| 11 Jobs, notifications, push | 10/11 | Android push end to end: FCM keys are set; needs the first Android build |
+| 14 Places, maps, routing | 7/8 | Offline region-pack flow, which waits for a map screen |
+| 18 Content factory | 12/13 | Places batch, which waits on the FSQ OS Places / Overture licence acceptance |
+| 19 Analytics and observability | 10/10 | P1 test alert (after the Grafana sign-in), Sentry device crash check, consent check |
+| 20 Permissions, location, visits | 11/11 | iOS flows and screenshots running now; Android flows |
+| 21 Links and deep links | 8/9 | Funnel verification with live analytics |
+| 22 Onboarding | 10/11 | Fixes for the founder's device test are in progress (headline truncation, white frame behind sheets, sticker borders, stamps, phone field, Apple sign-in); then device flows and EN/VI screenshots |
+| 24 Crew chat | 0/8 | Being built |
+| 51 Website | 7/11 | Web previews of proposals, recaps and plans, and web account deletion, which wait on later phases |
+
+**Being built now:**
+- crew chat (24)
+- onboarding UI fixes plus automated UI checks
+- the Apple sign-in fix
+- the database connection budget
+- the Telegram phone-code channel (Twilio dropped)
+- iOS app-size cuts
+- invites and crews follow-ups
+- Google/Firebase wiring
+- iOS device runs
+
+**Next:**
+- **Critical path:** 24 → 25 home, inbox, nudges → 26 polls and destination vote → 27 trip setup → 28 drafting agent → 29 plan views.
+- **Ready in parallel:** 39 crew live map.
+- **Native builds:** after the current fixes merge, one iOS staging build, and the first Android builds (Play internal testing, Google setup Part D).
+
+**Staging:**
+- api, worker, PowerSync, Centrifugo and the Alloy collector run current main.
+- The website is on staging.critterpass.app.
+- TestFlight is on build 5, with the onboarding crash fix as an over-the-air update.
+- Monitoring: Grafana dashboards, uptime checks and traces are live.
+
+**Founder items:** `plans/reports/founder-actions-260927-1745-open-items-for-founder-report.md` (local).
 
 ## 1. How to execute
 
@@ -44,29 +93,29 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | # | Phase | Tasks | Depends on | Wave | Status |
 |---|---|---|---|---|---|
 | 1 | [Repo & toolchain bootstrap](./phase-01-repo-toolchain-bootstrap.md) | 10 | - | 1 | done |
-| 2 | [Platform go/no-go spikes](./phase-02-platform-spikes.md) | 15 | 1 | 2 | in_progress |
+| 2 | [Platform go/no-go spikes](./phase-02-platform-spikes.md) | 15 | 1 | 2 | in_progress (15/15) |
 | 3 | [Design tokens, fonts, i18n](./phase-03-design-tokens-fonts-i18n.md) | 8 | 1 | 2 | done |
 | 4 | [Critter art core](./phase-04-critter-art-core.md) | 8 | 1 | 2 | done |
-| 5 | [Sticker renderer, bake pipeline, share images](./phase-05-critter-renderer-asset-pipeline.md) | 10 | 2, 3, 4 | 3 | in_progress |
-| 6 | [Motion, feedback bus, gestures](./phase-06-motion-feedback-gestures.md) | 10 | 3, 4 | 3 | in_progress |
-| 7 | [App shell, components, a11y](./phase-07-app-shell-component-library.md) | 18 | 5, 6 | 4 | in_progress |
+| 5 | [Sticker renderer, bake pipeline, share images](./phase-05-critter-renderer-asset-pipeline.md) | 10 | 2, 3, 4 | 3 | in_progress (10/10) |
+| 6 | [Motion, feedback bus, gestures](./phase-06-motion-feedback-gestures.md) | 10 | 3, 4 | 3 | in_progress (8/10) |
+| 7 | [App shell, components, a11y](./phase-07-app-shell-component-library.md) | 18 | 5, 6 | 4 | in_progress (17/18) |
 | 8 | [Core schema, authz + RLS, domain events](./phase-08-core-schema-authz.md) | 9 | 1 | 2 | done |
 | 9 | [Auth, anonymous-first, anti-abuse](./phase-09-auth-anonymous-antiabuse.md) | 10 | 2, 8 | 3 | done |
 | 10 | [Offline sync, commands, realtime](./phase-10-sync-realtime-outbox.md) | 11 | 2, 8, 9, 12, 14 | 4 | done |
-| 11 | [Jobs, notification router, push](./phase-11-jobs-notifications-push.md) | 11 | 5, 10 | 5 | in_progress |
+| 11 | [Jobs, notification router, push](./phase-11-jobs-notifications-push.md) | 11 | 5, 10 | 5 | in_progress (10/11) |
 | 12 | [Entitlements, money & FX primitives](./phase-12-entitlements-money-fx.md) | 7 | 8 | 3 | done |
 | 13 | [LLM gateway, personas, autonomy](./phase-13-llm-gateway-personas-autonomy.md) | 13 | 8, 11 | 6 | done |
-| 14 | [POI data, maps, routing](./phase-14-places-maps-routing.md) | 8 | 2, 3, 4, 8 | 3 | in_progress |
+| 14 | [POI data, maps, routing](./phase-14-places-maps-routing.md) | 8 | 2, 3, 4, 8 | 3 | in_progress (7/8) |
 | 15 | [Fares, weather, season & crowds](./phase-15-flights-weather-season-data.md) | 8 | 8, 11, 13 | 7 | done |
 | 16 | [Cost & constraint engine](./phase-16-cost-constraint-engine.md) | 7 | 12, 13, 14, 15 | 8 | done |
 | 17 | [Back-office & ops console](./phase-17-back-office-admin.md) | 8 | 8, 9, 10, 12, 14 | 5 | done |
-| 18 | [Content factory](./phase-18-content-factory.md) | 13 | 4, 5, 13, 14, 17 | 7 | in_progress |
-| 19 | [Analytics, experiments, observability](./phase-19-analytics-observability.md) | 10 | 1, 7, 8, 10, 11, 17 | 6 | in_progress |
-| 20 | [Permissions, location, POI visits](./phase-20-permissions-location-visits.md) | 11 | 2, 7, 10, 11, 14 | 6 | in_progress |
-| 21 | [Links & deferred deep links](./phase-21-links-deferred-deeplinks.md) | 9 | 1, 10 | 5 | in_progress |
-| 22 | [Onboarding: passport, taste, avatar](./phase-22-onboarding-pass.md) | 11 | 5, 7, 9, 10, 18, 20, 21 | 8 | in-progress |
+| 18 | [Content factory](./phase-18-content-factory.md) | 13 | 4, 5, 13, 14, 17 | 7 | in_progress (12/13) |
+| 19 | [Analytics, experiments, observability](./phase-19-analytics-observability.md) | 10 | 1, 7, 8, 10, 11, 17 | 6 | in_progress (10/10) |
+| 20 | [Permissions, location, POI visits](./phase-20-permissions-location-visits.md) | 11 | 2, 7, 10, 11, 14 | 6 | in_progress (11/11) |
+| 21 | [Links & deferred deep links](./phase-21-links-deferred-deeplinks.md) | 9 | 1, 10 | 5 | in_progress (8/9) |
+| 22 | [Onboarding: passport, taste, avatar](./phase-22-onboarding-pass.md) | 11 | 5, 7, 9, 10, 18, 20, 21 | 8 | in_progress (10/11) |
 | 23 | [Invites, crews, referral, seat cap](./phase-23-invites-crews-growth.md) | 10 | 12, 21, 22 | 9 | done |
-| 24 | [Crew chat](./phase-24-crew-chat.md) | 8 | 10, 23 | 10 | pending |
+| 24 | [Crew chat](./phase-24-crew-chat.md) | 8 | 10, 23 | 10 | in_progress (0/8) |
 | 25 | [Home, inbox, nudges, tips](./phase-25-home-inbox-nudges.md) | 9 | 11, 13, 15, 23, 24 | 11 | pending |
 | 26 | [Polls & destination vote](./phase-26-polls-destination-vote.md) | 12 | 10, 13, 16, 18, 24, 25 | 12 | pending |
 | 27 | [Trip setup](./phase-27-trip-setup.md) | 12 | 10, 16, 20, 24, 25, 26 | 13 | pending |
@@ -93,7 +142,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 48 | [Live Activities & Dynamic Island](./phase-48-live-activities.md) | 10 | 2, 5, 11, 34, 36, 39, 40 | 19 | pending |
 | 49 | [Actionable notifs, widgets](./phase-49-notification-surfaces-widgets.md) | 10 | 5, 11, 12, 26, 48 | 20 | pending |
 | 50 | [Android parity layer](./phase-50-android-parity.md) | 10 | 36, 48, 49 | 21 | pending |
-| 51 | [Web: site, invites, tips, legal, OG](./phase-51-web-site-links-og.md) | 11 | 3, 5, 9, 21, 23 | 10 | in_progress |
+| 51 | [Web: site, invites, tips, legal, OG](./phase-51-web-site-links-og.md) | 11 | 3, 5, 9, 21, 23 | 10 | in_progress (7/11) |
 | 52 | [Community plans](./phase-52-community.md) | 12 | 17, 28, 29, 30, 43, 44, 46, 51, 58 | 21 | pending |
 | 53 | [Store listing & social kit](./phase-53-store-social-assets.md) | 6 | 5, 40, 43, 45, 47, 49, 50, 51 | 22 | pending |
 | 54 | [Launch hardening & submission](./phase-54-launch-hardening.md) | 12 | 19, 30, 37, 38, 42, 45, 47, 49, 50, 51, 52, 53, 55, 56, 57 | 23 | pending |

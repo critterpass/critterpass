@@ -1,7 +1,7 @@
 ---
 phase: 24
 title: Crew chat
-status: pending
+status: in_progress
 depends_on: [10, 23]
 wave: 10
 features: [F-048]
