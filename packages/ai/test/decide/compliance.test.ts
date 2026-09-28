@@ -170,15 +170,34 @@ const WRITE_TOOLS = new Set(
 const toolNames = (request: Record<string, unknown> | undefined): string[] =>
   ((request?.['tools'] ?? []) as { name?: string }[]).flatMap((t) => (t.name ? [t.name] : []));
 
-function turnHarness(fixtures: readonly string[]) {
+/**
+ * `onResponseRead` runs once a model response body has been read to the end (1-based count), a
+ * point a runner reaches only after it has parsed every tool call in that response.
+ */
+function turnHarness(fixtures: readonly string[], onResponseRead?: (count: number) => void) {
   const transport = fixtureTransport(fixtures);
   const firstRequestAt: number[] = [];
   const gateway = createGateway({
     apiKey: 'fixture-key',
     maxAttempts: 1,
-    fetch: (input, init) => {
+    fetch: async (input, init) => {
       firstRequestAt.push(performance.now());
-      return transport.fetch(input, init);
+      const count = firstRequestAt.length;
+      const response = await transport.fetch(input, init);
+      if (!onResponseRead || !response.body) return response;
+      const reader = response.body.getReader();
+      const body = new ReadableStream<Uint8Array>({
+        async pull(controller) {
+          const chunk = await reader.read();
+          if (chunk.done) {
+            controller.close();
+            onResponseRead(count);
+            return;
+          }
+          controller.enqueue(chunk.value);
+        },
+      });
+      return new Response(body, { status: response.status, headers: response.headers });
     },
   });
   const executed: string[] = [];
@@ -201,6 +220,24 @@ async function collect(events: AsyncIterable<TurnEvent>): Promise<TurnEvent[]> {
 }
 
 const CLEAN: ComplianceResult = { outcome: 'pass', flags: [], answered_by: 'jev' };
+
+/**
+ * A compliance verdict that is still pending when the runner reaches the model's first tool call:
+ * it lands on the next macrotask after that response has been read, whatever the machine's speed
+ * (a fixed delay raced the first request on slow CI runners).
+ */
+function verdictAfterFirstResponse(verdict: ComplianceResult) {
+  let deliver: (result: ComplianceResult) => void = () => undefined;
+  const promise = new Promise<ComplianceResult>((resolve) => {
+    deliver = resolve;
+  });
+  return {
+    promise,
+    onResponseRead: (count: number) => {
+      if (count === 1) setTimeout(() => deliver(verdict), 0);
+    },
+  };
+}
 
 const later = <T>(value: T, ms: number): Promise<T> =>
   new Promise((resolve) => setTimeout(() => resolve(value), ms));
@@ -244,9 +281,13 @@ describe('guide input screening in a turn', () => {
       flags: [{ category: 'prompt_injection', p: 0.98 }],
       answered_by: 'jev',
     };
-    const h = turnHarness(['flash-stream-write-tool', 'flash-stream-after-tool']);
+    const late = verdictAfterFirstResponse(verdict);
+    const h = turnHarness(
+      ['flash-stream-write-tool', 'flash-stream-after-tool'],
+      late.onResponseRead,
+    );
     const events = await collect(
-      runTurn(turnInput('Move dinner on day 2 to 21:00.', later(verdict, 150)), {
+      runTurn(turnInput('Move dinner on day 2 to 21:00.', late.promise), {
         gateway: h.gateway,
         registry: h.registry,
         meter: UNMETERED,
@@ -265,10 +306,13 @@ describe('guide input screening in a turn', () => {
   });
 
   it('runs the write tool when the late verdict is clean', async () => {
-    const clean: ComplianceResult = { outcome: 'pass', flags: [], answered_by: 'jev' };
-    const h = turnHarness(['flash-stream-write-tool', 'flash-stream-after-tool']);
+    const late = verdictAfterFirstResponse({ outcome: 'pass', flags: [], answered_by: 'jev' });
+    const h = turnHarness(
+      ['flash-stream-write-tool', 'flash-stream-after-tool'],
+      late.onResponseRead,
+    );
     await collect(
-      runTurn(turnInput('Move dinner on day 2 to 21:00.', later(clean, 150)), {
+      runTurn(turnInput('Move dinner on day 2 to 21:00.', late.promise), {
         gateway: h.gateway,
         registry: h.registry,
         meter: UNMETERED,
