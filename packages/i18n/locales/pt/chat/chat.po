@@ -11,6 +11,17 @@ msgstr ""
 msgid "chat.queued.message"
 msgstr ""
 
+#. placeholder {0}: group.count
+#: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
+msgid "chat.reactions.count"
+msgstr ""
+
+#. placeholder {0}: group.emoji
+#. placeholder {1}: group.count
+#: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
+msgid "chat.reactions.chip"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.people"
 msgstr ""
@@ -25,6 +36,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
 msgid "chat.typing.one"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.mute.private"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
@@ -51,20 +66,52 @@ msgstr ""
 msgid "chat.message.spoken"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.alsoMute"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.harassment"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
+msgid "chat.composer.cancelEdit"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.cancelReply"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-overlays.tsx
+msgid "chat.action.copied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.action.copy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.fallbackTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.delete.confirm"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.status.delete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.action.delete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.delete.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
@@ -75,6 +122,14 @@ msgstr ""
 msgid "chat.status.failed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
+msgid "chat.quote.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.action.edit"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.edit"
 msgstr ""
@@ -83,8 +138,20 @@ msgstr ""
 msgid "chat.status.edited"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
+msgid "chat.composer.editing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.delete.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
 msgid "chat.mention.guide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.hate"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-list.tsx
@@ -117,11 +184,37 @@ msgid "chat.composer.placeholder"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.message.actions"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.message.deleted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.placeholderGuide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.message.moreActions"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
+msgid "chat.react.more"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.mute.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.action.mute"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.mute.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
@@ -136,12 +229,49 @@ msgstr ""
 msgid "chat.composer.unsafeLink"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
+msgid "chat.card.unknown.action"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
+msgid "chat.quote.photo"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.line"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.impersonation"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
+msgid "chat.react.with"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.react"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
+msgid "chat.reactions.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.action.reply"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.action.report"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
@@ -160,6 +290,10 @@ msgstr ""
 msgid "chat.empty.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.send"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.status.sending"
 msgstr ""
@@ -168,20 +302,65 @@ msgstr ""
 msgid "chat.typing.many"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.sexual"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.personalInfo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
+msgid "chat.quote.someone"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.someone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.spam"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/skeleton.tsx
 msgid "chat.loading.slow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-overlays.tsx
+msgid "chat.report.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
+msgid "chat.card.unknown.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/day-separator.tsx
 msgid "chat.day.today"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
+msgid "chat.react.anyEmoji"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.unmute"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
+msgid "chat.card.unknown.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.violence"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
+msgid "chat.quote.voice"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/day-separator.tsx
@@ -198,6 +377,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.former.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.mute.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/offline-banner.tsx

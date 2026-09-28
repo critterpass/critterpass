@@ -8,20 +8,24 @@
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
+import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useLongPress } from '@/motion/gestures/long-press';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Icon } from '@/ui/icons/Icon';
 import { Avatar } from '@/ui/people/Avatar';
 import { Row, Stack, Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
+import { cardLabel, renderCard } from '../cards/registry';
+import { SystemCard } from '../cards/system-card';
 import type { ChatMessage } from '../data/rows';
 import { firstName } from '../data/use-typing';
 import { timeOf } from './format';
 import { useRise } from './rise';
-import { systemLine } from './system-line';
+import { useSwipeToReply } from './swipe-reply';
 
 export interface BubbleProps {
   readonly message: ChatMessage;
@@ -37,6 +41,10 @@ export interface BubbleProps {
   readonly animate?: boolean;
   /** The message body for non-text types (cards, photos, voice notes). */
   readonly renderBody?: (message: ChatMessage) => ReactNode;
+  /** Opens the message's actions (long press, or the screen reader's "More actions"). */
+  readonly onActions?: () => void;
+  /** Starts a reply (swipe, or the screen reader's "Reply"). */
+  readonly onReply?: () => void;
   /** Quote of the message this one replies to. */
   readonly quote?: ReactNode;
   readonly reactions?: ReactNode;
@@ -62,16 +70,20 @@ export function Bubble(props: BubbleProps) {
   const locale = useLocale();
   const rise = useRise(animate);
 
+  const swipe = useSwipeToReply(
+    () => props.onReply?.(),
+    props.onReply !== undefined && !message.deleted,
+  );
+  const longPress = useLongPress({
+    onLongPress: () => props.onActions?.(),
+    disabled: props.onActions === undefined,
+    accessibilityLabel: t({ id: 'chat.message.actions', message: 'Message actions' }),
+  });
+
   if (message.senderKind === 'system' && message.type === 'system') {
     return (
-      <Animated.View style={[styles.system, rise]} testID={`chat-system-${message.id}`}>
-        <Text
-          variant="caption"
-          color={theme.semantic.text.secondary}
-          style={{ textAlign: 'center' }}
-        >
-          {systemLine(message.refKind, message.refName, message.body)}
-        </Text>
+      <Animated.View style={rise}>
+        <SystemCard message={message} />
       </Animated.View>
     );
   }
@@ -92,7 +104,24 @@ export function Bubble(props: BubbleProps) {
     : message.body;
   const who = author ?? t({ id: 'chat.message.you', message: 'You' });
   const spoken = t({ id: 'chat.message.spoken', message: `${who}, ${time}: ${text}` });
-  const custom = !deleted && message.type !== 'text' ? props.renderBody?.(message) : null;
+  const card = !deleted && message.type !== 'text';
+  const custom = card
+    ? (props.renderBody ?? ((m: ChatMessage) => renderCard(m, mine)))(message)
+    : null;
+  const label = card ? (cardLabel(message) ?? spoken) : spoken;
+  const a11yActions = [
+    ...(props.onReply === undefined
+      ? []
+      : [{ name: 'reply', label: t({ id: 'chat.action.reply', message: 'Reply' }) }]),
+    ...(props.onActions === undefined
+      ? []
+      : [
+          {
+            name: 'actions',
+            label: t({ id: 'chat.message.moreActions', message: 'More actions' }),
+          },
+        ]),
+  ];
 
   return (
     <Animated.View style={rise} testID={`chat-message-${message.id}`}>
@@ -115,41 +144,57 @@ export function Bubble(props: BubbleProps) {
               {author}
             </Text>
           ) : null}
-          <View accessible accessibilityLabel={spoken}>
-            {custom ?? (
-              <Stack
-                gap="6"
-                style={[
-                  styles.bubble,
-                  {
-                    borderTopStartRadius: topStart,
-                    borderTopEndRadius: topEnd,
-                    borderBottomEndRadius: bottomEnd,
-                    borderBottomStartRadius: bottomStart,
-                    ...tail,
-                    backgroundColor:
-                      mine && !deleted ? theme.semantic.action.primary : theme.semantic.bg.raised,
-                  },
-                ]}
-              >
-                {props.quote}
-                <Text
-                  variant={guide && !deleted ? 'voice' : 'body'}
-                  color={
-                    deleted
-                      ? theme.semantic.text.tertiary
-                      : mine
-                        ? theme.semantic.text.onAccent
-                        : guide
-                          ? guideColor
-                          : undefined
-                  }
+          <GestureDetector gesture={swipe.gesture}>
+            <Animated.View style={swipe.style}>
+              <GestureDetector gesture={longPress.gesture}>
+                <View
+                  accessible
+                  accessibilityLabel={label}
+                  accessibilityActions={a11yActions}
+                  onAccessibilityAction={(event) => {
+                    if (event.nativeEvent.actionName === 'reply') props.onReply?.();
+                    if (event.nativeEvent.actionName === 'actions') props.onActions?.();
+                  }}
                 >
-                  {text}
-                </Text>
-              </Stack>
-            )}
-          </View>
+                  {custom ?? (
+                    <Stack
+                      gap="6"
+                      style={[
+                        styles.bubble,
+                        {
+                          borderTopStartRadius: topStart,
+                          borderTopEndRadius: topEnd,
+                          borderBottomEndRadius: bottomEnd,
+                          borderBottomStartRadius: bottomStart,
+                          ...tail,
+                          backgroundColor:
+                            mine && !deleted
+                              ? theme.semantic.action.primary
+                              : theme.semantic.bg.raised,
+                        },
+                      ]}
+                    >
+                      {props.quote}
+                      <Text
+                        variant={guide && !deleted ? 'voice' : 'body'}
+                        color={
+                          deleted
+                            ? theme.semantic.text.tertiary
+                            : mine
+                              ? theme.semantic.text.onAccent
+                              : guide
+                                ? guideColor
+                                : undefined
+                        }
+                      >
+                        {text}
+                      </Text>
+                    </Stack>
+                  )}
+                </View>
+              </GestureDetector>
+            </Animated.View>
+          </GestureDetector>
           {props.reactions}
           <DeliveryLine {...props} time={time} />
         </Stack>

@@ -11,6 +11,17 @@ msgstr ""
 msgid "chat.queued.message"
 msgstr "“{preview}” to the crew chat"
 
+#. placeholder {0}: group.count
+#: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
+msgid "chat.reactions.count"
+msgstr "{0, plural, one {# person} other {# people}}"
+
+#. placeholder {0}: group.emoji
+#. placeholder {1}: group.count
+#: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
+msgid "chat.reactions.chip"
+msgstr "{0} {1}"
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.people"
 msgstr "{count, plural, one {# person} other {# people}}"
@@ -26,6 +37,10 @@ msgstr "{first} and {second} are typing"
 #: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
 msgid "chat.typing.one"
 msgstr "{first} is typing"
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.mute.private"
+msgstr "{name} isn't told."
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.joined"
@@ -51,21 +66,53 @@ msgstr "{waiting, plural, one {# message sends when you're back} other {# messag
 msgid "chat.message.spoken"
 msgstr "{who}, {time}: {text}"
 
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.alsoMute"
+msgstr "Also mute {senderName}"
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.back"
 msgstr "Back"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.harassment"
+msgstr "Bullying or harassment"
+
+#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
+msgid "chat.composer.cancelEdit"
+msgstr "Cancel edit"
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.cancelReply"
 msgstr "Cancel reply"
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-overlays.tsx
+msgid "chat.action.copied"
+msgstr "Copied"
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.action.copy"
+msgstr "Copy text"
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.fallbackTitle"
 msgstr "Crew chat"
 
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.delete.confirm"
+msgstr "Delete"
+
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.status.delete"
 msgstr "Delete"
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.action.delete"
+msgstr "Delete for everyone"
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.delete.title"
+msgstr "Delete this message?"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.delete"
@@ -75,6 +122,14 @@ msgstr "Deleting a message"
 msgid "chat.status.failed"
 msgstr "Didn’t send"
 
+#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
+msgid "chat.quote.missing"
+msgstr "Earlier message"
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.action.edit"
+msgstr "Edit"
+
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.edit"
 msgstr "Edit to a message"
@@ -83,9 +138,21 @@ msgstr "Edit to a message"
 msgid "chat.status.edited"
 msgstr "edited"
 
+#: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
+msgid "chat.composer.editing"
+msgstr "Editing message"
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.delete.line"
+msgstr "Everyone sees \"Message deleted\" in its place."
+
 #: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
 msgid "chat.mention.guide"
 msgstr "Guide"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.hate"
+msgstr "Hate"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-list.tsx
 msgid "chat.list.jumpToLatest"
@@ -117,12 +184,38 @@ msgid "chat.composer.placeholder"
 msgstr "Message"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.message.actions"
+msgstr "Message actions"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.message.deleted"
 msgstr "Message deleted"
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.placeholderGuide"
 msgstr "Message, or @{guideName}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+msgid "chat.message.moreActions"
+msgstr "More actions"
+
+#: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
+msgid "chat.react.more"
+msgstr "More reactions"
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.mute.confirm"
+msgstr "Mute"
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.action.mute"
+msgstr "Mute {name}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.mute.title"
+msgstr "Mute {name}?"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.mute"
@@ -136,13 +229,50 @@ msgstr "New"
 msgid "chat.composer.unsafeLink"
 msgstr "Only http and https links can be sent."
 
+#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
+msgid "chat.card.unknown.action"
+msgstr "Open in app update"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.line"
+msgstr "Our team reviews it. The sender is not told who reported it."
+
+#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
+msgid "chat.quote.photo"
+msgstr "Photo"
+
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.line"
 msgstr "Plans, photos and votes all land here. Start with a hello."
 
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.impersonation"
+msgstr "Pretending to be someone"
+
+#: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
+msgid "chat.react.with"
+msgstr "React with {emoji}"
+
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.react"
 msgstr "Reaction {emoji}"
+
+#: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
+msgid "chat.reactions.title"
+msgstr "Reactions"
+
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.action.reply"
+msgstr "Reply"
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.action.report"
+msgstr "Report"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.title"
+msgstr "Report message"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.report"
@@ -160,6 +290,10 @@ msgstr "Say hi"
 msgid "chat.empty.title"
 msgstr "Say hi to the crew"
 
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.send"
+msgstr "Send report"
+
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.status.sending"
 msgstr "Sending"
@@ -168,21 +302,66 @@ msgstr "Sending"
 msgid "chat.typing.many"
 msgstr "Several people are typing"
 
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.sexual"
+msgstr "Sexual content"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.personalInfo"
+msgstr "Sharing private information"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
+#: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
+msgid "chat.quote.someone"
+msgstr "Someone"
+
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.someone"
 msgstr "Someone"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.other"
+msgstr "Something else"
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.spam"
+msgstr "Spam"
 
 #: ../../apps/mobile/src/features/crew/chat/components/skeleton.tsx
 msgid "chat.loading.slow"
 msgstr "Still syncing the chat…"
 
+#: ../../apps/mobile/src/features/crew/chat/components/chat-overlays.tsx
+msgid "chat.report.sent"
+msgstr "Thanks. Our team will take a look."
+
+#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
+msgid "chat.card.unknown.title"
+msgstr "This message needs a newer CritterPass"
+
 #: ../../apps/mobile/src/features/crew/chat/components/day-separator.tsx
 msgid "chat.day.today"
 msgstr "Today"
 
+#: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
+msgid "chat.react.anyEmoji"
+msgstr "Type any emoji"
+
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.unmute"
 msgstr "Unmuting a crewmate"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
+msgid "chat.card.unknown.line"
+msgstr "Update the app to see it here."
+
+#: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
+msgid "chat.report.violence"
+msgstr "Violence or threats"
+
+#: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
+msgid "chat.quote.voice"
+msgstr "Voice note"
 
 #: ../../apps/mobile/src/features/crew/chat/components/day-separator.tsx
 msgid "chat.day.yesterday"
@@ -199,6 +378,10 @@ msgstr "You can still read the chat."
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.former.line"
 msgstr "You left this crew"
+
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.mute.line"
+msgstr "You won't see {name}'s messages in this chat."
 
 #: ../../apps/mobile/src/features/crew/chat/components/offline-banner.tsx
 msgid "chat.offline.line"

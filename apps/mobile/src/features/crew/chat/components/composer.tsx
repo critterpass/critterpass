@@ -36,6 +36,9 @@ export interface ChatComposerProps {
   readonly onTyping: () => void;
   readonly onAttach?: () => void;
   /** Reply being written: its preview strip, and how to cancel it. */
+  /** Editing one of the member's messages: send saves the edit instead. */
+  readonly editing?: { readonly id: string; readonly onCancel: () => void };
+  readonly onEdit?: (messageId: string, body: string) => void;
   readonly replyTo?: {
     readonly id: string;
     readonly preview: ReactNode;
@@ -102,7 +105,12 @@ export const ChatComposer = forwardRef<ChatComposerHandle, ChatComposerProps>(
         return;
       }
       if (why !== null) return;
-      onSend(draft);
+      if (props.editing === undefined) {
+        onSend(draft);
+      } else {
+        props.onEdit?.(props.editing.id, draft.body.trim());
+        props.editing.onCancel();
+      }
       setText('');
       setPicked([]);
       setProblem(null);
@@ -122,6 +130,21 @@ export const ChatComposer = forwardRef<ChatComposerHandle, ChatComposerProps>(
             setPicked((current) => [...current, candidate]);
           }}
         />
+        {props.editing === undefined ? null : (
+          <Row style={styles.reply} testID="chat-editing">
+            <Text variant="label">
+              {t({ id: 'chat.composer.editing', message: 'Editing message' })}
+            </Text>
+            <InlineAction
+              kind="ghost"
+              label={t({ id: 'chat.composer.cancelEdit', message: 'Cancel edit' })}
+              onPress={() => {
+                setText('');
+                props.editing?.onCancel();
+              }}
+            />
+          </Row>
+        )}
         {replyTo === undefined ? null : (
           <Row style={styles.reply} testID="chat-replying">
             {replyTo.preview}

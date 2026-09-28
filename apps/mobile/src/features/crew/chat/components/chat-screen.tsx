@@ -5,7 +5,7 @@
  * bottom of the timeline.
  */
 import { useLocalSearchParams } from 'expo-router';
-import { createElement, useCallback, useMemo, useRef } from 'react';
+import { createElement, useCallback, useMemo, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 
 import { useSyncStatus } from '@/data/status/use-sync-status';
@@ -17,11 +17,15 @@ import type { ChatMessage } from '../data/rows';
 import { useChatInfo } from '../data/use-chat-info';
 import { useMessages } from '../data/use-messages';
 import { useMyUid } from '../data/use-my-uid';
+import { useMessageActions } from '../data/use-message-actions';
+import { useReactions } from '../data/use-reactions';
 import { useSendMessage } from '../data/use-send-message';
 import { firstName, useChatTyping } from '../data/use-typing';
 import { useMarkRead } from '../data/use-unread-count';
 import { chatComposerHint } from '../slots';
+import { ReplyQuote } from '../cards/reply-quote';
 import { Bubble } from './bubble';
+import { ChatOverlays, type ChatOverlay } from './chat-overlays';
 import { ChatHeader } from './chat-header';
 import { ChatComposer, FormerMemberBar, type ChatComposerHandle } from './composer';
 import { dayKey } from './timeline-rows';
@@ -29,6 +33,7 @@ import { buildTimelineRows } from './timeline-rows';
 import { EmptyChat, guideIdOf } from './empty-chat';
 import type { MentionCandidate } from './mention-picker';
 import { MessageList } from './message-list';
+import { ReactionChips } from './reactions-sheet';
 import { OfflineBanner } from './offline-banner';
 import { ChatSkeleton } from './skeleton';
 import { TypingRow } from './typing-dots';
@@ -54,6 +59,15 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
   const markSeen = useMarkRead(crewId, info.lastReadSeq);
   const sync = useSyncStatus();
   const composer = useRef<ChatComposerHandle>(null);
+  const reactions = useReactions(crewId, me);
+  const { edit } = useMessageActions(crewId);
+  const [overlay, setOverlay] = useState<ChatOverlay>(null);
+  const [replyTo, setReplyTo] = useState<ChatMessage | null>(null);
+  const [editing, setEditing] = useState<ChatMessage | null>(null);
+  const byId = useMemo(
+    () => new Map(timeline.messages.map((message) => [message.id, message])),
+    [timeline.messages],
+  );
   // Messages newer than the first read rise in; the ones already there when it opened do not.
   const openedAt = timeline.openedSeq;
 
@@ -66,6 +80,7 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
     [info.members],
   );
   const typing = useChatTyping(crewId, namesByUid);
+  const former = info.myStatus === 'former';
   const guideName = info.guide?.name ?? null;
   const guideColor = info.guide?.colour ?? theme.guide[guideIdOf(info.guide?.slug)];
   const candidates = useMemo<MentionCandidate[]>(
@@ -98,7 +113,6 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
   const today = dayKey(new Date().toISOString(), zone);
   const waiting = timeline.messages.filter((message) => message.status === 'sending').length;
   const Hint = chatComposerHint();
-  const former = info.myStatus === 'former';
 
   const renderMessage = useCallback(
     (row: { message: ChatMessage; first: boolean; last: boolean }) => (
@@ -112,9 +126,34 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
         animate={openedAt !== null && (row.message.seq === null || row.message.seq > openedAt)}
         onRetry={() => void retry(row.message)}
         onDiscard={() => void discard(row.message)}
+        {...(row.message.status === 'sent' && !former
+          ? {
+              onActions: () => setOverlay({ kind: 'actions', message: row.message }),
+              onReply: () => setReplyTo(row.message),
+            }
+          : {})}
+        {...(row.message.replyToId === null
+          ? {}
+          : {
+              quote: (
+                <ReplyQuote
+                  message={byId.get(row.message.replyToId)}
+                  onDark={row.message.senderId !== me}
+                />
+              ),
+            })}
+        reactions={
+          <ReactionChips
+            groups={reactions.groups.get(row.message.id) ?? []}
+            onToggle={(emoji) => {
+              if (!former) void reactions.toggle(row.message.id, emoji);
+            }}
+            onShowAll={() => setOverlay({ kind: 'reactions', message: row.message })}
+          />
+        }
       />
     ),
-    [me, joinIndex, guideColor, openedAt, retry, discard],
+    [me, joinIndex, guideColor, openedAt, retry, discard, former, byId, reactions],
   );
 
   return (
@@ -159,12 +198,47 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
               ref={composer}
               candidates={candidates}
               guideName={guideName}
-              onSend={(draft) => void send(draft)}
+              onSend={(draft) => {
+                void send(draft);
+                setReplyTo(null);
+              }}
               onTyping={typing.notifyTyping}
+              {...(replyTo === null
+                ? {}
+                : {
+                    replyTo: {
+                      id: replyTo.id,
+                      preview: <ReplyQuote message={replyTo} />,
+                      onCancel: () => setReplyTo(null),
+                    },
+                  })}
+              {...(editing === null
+                ? {}
+                : { editing: { id: editing.id, onCancel: () => setEditing(null) } })}
+              onEdit={(messageId, body) => {
+                const message = byId.get(messageId);
+                if (message !== undefined) void edit(message, body);
+              }}
             />
           </View>
         )}
       </KeyboardAvoidingView>
+      {me === null ? null : (
+        <ChatOverlays
+          crewId={crewId}
+          me={me}
+          overlay={overlay}
+          setOverlay={setOverlay}
+          reactions={reactions.groups}
+          joinIndex={joinIndex}
+          onReact={(messageId, emoji) => void reactions.toggle(messageId, emoji)}
+          onReply={setReplyTo}
+          onEdit={(message) => {
+            setEditing(message);
+            composer.current?.prefill(message.body);
+          }}
+        />
+      )}
     </Scaffold>
   );
 }
