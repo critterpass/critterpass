@@ -157,6 +157,8 @@ export function createAdminRouter(deps: AdminRouterDeps): OpenAPIHono<AdminEnv> 
       pool: deps.pool,
       registry,
       admin: c.var.admin,
+      // The guard only accepts this scheme with a verified owner CLI token.
+      via: c.req.header('authorization')?.startsWith('CP-Admin-CLI ') ? 'cli' : 'admin',
       ...(deps.now !== undefined ? { now: deps.now } : {}),
     });
     if (outcome.status === 'rejected') throw new DomainError(outcome.code, outcome.detail);

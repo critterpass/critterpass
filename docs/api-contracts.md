@@ -408,7 +408,7 @@ All via `/v1/admin/*` (Better Auth `admin` role + role claims `ops`, `content`, 
 |---|---|---|---|---|
 | `moderate_item` | `{kind, id, verdict: approve\|hide\|remove\|ban_author, note?}`; `kind` is any registered moderation kind (`user` here; avatar, photo, note, tip, idea, public_text by their phases); verdicts limited to what the kind's handler supports | ops, support | `moderation.decided` (one per report) | 17 |
 | `report_content` | `{kind, id, reason: spam\|harassment\|hate\|sexual\|violence\|impersonation\|personal_info\|other}` via `/v1/cmd` (any user, anonymous included; offline-capable); 20 per user per rolling 24 h (`RATE_LIMITED`); a subject with an open report from the last 24 h collapses into it (`report_count` + 1, same reporter counts once) → `{report_id, collapsed}` | user | – | 17 |
-| `set_feature_flag` | `{key, value, audience}` (supplier flags, perk lists, free limit 30) | ops | `flag.changed` | 17 |
+| `set_feature_flag` | `{key, value, audience, version, reason?}` (supplier flags, perk lists, free limit 30); the audit row keeps the previous value and audience in `changes` and `reason` in `admin_audit.reason` | ops | `flag.changed` | 17 |
 | `set_perk_catalogue` | `{products[], perks[], copy_keys}` (server-driven paywall/perks) | ops | `catalogue.changed` | 46 |
 | `grant_entitlement` / `revoke_entitlement` | grant `{uid, perk: pass_plus, until (≤ 366 d ahead), reason}` → `ops.entitlement_grants` row, resolved by the entitlement engine as Pass+ time until `until` (same shape as a redeemed code) and recomputed in the same tx; revoke `{uid, perk, reason}` ends every active grant of that perk (`STATE_INVALID` when none) | support | `entitlement.granted/revoked` | 17 |
 | `revoke_session` / `ban_user` / `unban_user` | `{uid, session_id, reason}` / `{uid, reason, until: datetime\|null}` / `{uid, reason}`; through the app's Better Auth store (Redis mirror + `auth.session`), so the user's next call is 401; revoke and ban fan out `session.revoked` on `user:#uid` and revoke action keys | support | – | 17 |
@@ -563,12 +563,13 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 
 ### 5.9 Admin and ops (`/v1/admin/*`, P17)
 
-Roles via Better Auth `admin` plugin; SPA at `apps/admin`. Routes: users (lookup, sessions, grant/revoke), moderation queues, vendor desk (drafts, send, replies), content batches (review, approve), flags, catalogue, jobs (pg-boss dashboard mounted read-only at `/v1/admin/jobs`), webhooks replay, feedback/ideas, POI + emergency editor. Every mutating call = §4.17 command with `actor.via = admin`.
+Roles via Better Auth `admin` plugin; SPA at `apps/admin`. Routes: users (lookup, sessions, grant/revoke), moderation queues, vendor desk (drafts, send, replies), content batches (review, approve), flags, catalogue, jobs (pg-boss dashboard mounted read-only at `/v1/admin/jobs`), webhooks replay, feedback/ideas, POI + emergency editor. Every mutating call = §4.17 command with `actor.via = admin`; its audit row carries the standard detail `{summary, changes, via: admin|cli, roles}` (`via = cli` for the emergency CLI token).
 
 | Route (reads run as `admin_reader`) | Role | Notes |
 |---|---|---|
 | `GET /v1/admin/me` | any | operator, roles, openable areas |
 | `GET /v1/admin/catalogue/{kind}`, `/flags`, `/partners` | content / ops / ops | editors |
+| `GET /v1/admin/flags/{key}/history` | ops | that key's `set_feature_flag` rows newest first: `{at, admin, summary, changes, reason, via}` |
 | `GET /v1/admin/moderation?status=&cursor=`, `/moderation/summary` | ops, support | queue with each kind's preview (images as media Worker HMAC URLs) |
 | `GET /v1/admin/season/summary`, `/season/curves?state=&destination_id=`, `/season/events?state=&destination_id=` | content | season review: draft (`pending`) or approved month curves, interpolated months flagged from their cited source, and queued or approved dated events with source and fetched day |
 | `GET /v1/admin/costs/summary`, `/costs/indices?state=&destination_id=` | content | cost index review: draft (`pending`) or approved stay, food and fun bands per destination and stay type, rows without a source page flagged `estimated` |

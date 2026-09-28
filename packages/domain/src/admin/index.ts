@@ -10,6 +10,7 @@ export * from './moderation-kinds';
 export * from './support';
 export * from './desk';
 export * from './audit';
+export * from './audit-detail';
 export * from './cli-token';
 export * from './season-review';
 export * from './content-batches';

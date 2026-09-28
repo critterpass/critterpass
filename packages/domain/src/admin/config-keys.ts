@@ -8,6 +8,7 @@ import { z } from 'zod';
 
 import { APP_CLIP_FLAG_KEY } from '../links/wire';
 import { AVATAR_HASH_MATCH_CONFIG_KEY } from '../pass/wire';
+import { adminAuditViaSchema, auditChangeSchema } from './audit-detail';
 import { flagAudienceSchema } from './flag-audience';
 import { PARTNER_KEYS, partnerCopyModeSchema, type PartnerKey } from './ops-enums';
 
@@ -135,6 +136,8 @@ export const setFeatureFlagPayloadSchema = z
     audience: flagAudienceSchema,
     /** The version the operator edited; `0` when the key has no row yet. */
     version: z.number().int().min(0),
+    /** Why, kept in `ops.admin_audit.reason` and shown in the key's history. */
+    reason: z.string().trim().min(3).max(500).optional(),
   })
   .strict();
 export type SetFeatureFlagPayload = z.infer<typeof setFeatureFlagPayloadSchema>;
@@ -155,3 +158,15 @@ export const adminFlagSchema = z.object({
 });
 export type AdminFlag = z.infer<typeof adminFlagSchema>;
 export const adminFlagsResponseSchema = z.object({ items: z.array(adminFlagSchema) });
+
+/** One `set_feature_flag` of a key, newest first in `GET /v1/admin/flags/{key}/history`. */
+export const flagHistoryEntrySchema = z.object({
+  at: z.iso.datetime({ offset: true }),
+  admin: z.string(),
+  summary: z.string(),
+  changes: z.array(auditChangeSchema),
+  reason: z.string().nullable(),
+  via: adminAuditViaSchema.nullable(),
+});
+export type FlagHistoryEntry = z.infer<typeof flagHistoryEntrySchema>;
+export const flagHistoryResponseSchema = z.object({ items: z.array(flagHistoryEntrySchema) });

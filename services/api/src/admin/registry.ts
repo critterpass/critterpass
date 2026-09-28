@@ -14,7 +14,7 @@
  * });
  * ```
  */
-import type { AdminArea, AdminRole, CommandContext } from '@cp/domain';
+import type { AdminArea, AdminRole, AuditChange, CommandContext } from '@cp/domain';
 import type pg from 'pg';
 import type { z } from 'zod';
 
@@ -37,6 +37,10 @@ export interface AdminAuditTarget {
   readonly targetId?: string | null;
   readonly reason?: string | null;
   readonly detail?: Readonly<Record<string, unknown>>;
+  /** A human label for the audit list ("Maya Chen · Pass+ 30 days"); defaults to the action name. */
+  readonly summary?: string;
+  /** Before/after per field; defaults to the diff of `detail.before`/`detail.after` when present. */
+  readonly changes?: readonly AuditChange[];
 }
 
 export interface AdminCommandDefinition<Payload, Result> {
