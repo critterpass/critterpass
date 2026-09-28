@@ -176,6 +176,14 @@ export const QUEUES = {
     deadLetter: true,
     cron: { expr: '0 20 * * *', tz: 'UTC' },
   }),
+  // Every 5 minutes: AI spend against its caps; alerts at 80 %, pauses a tier at 100 %.
+  'ops.ai_cost_guard': spec({
+    policy: 'stately',
+    retryLimit: 1,
+    expireInSeconds: 4 * 60,
+    keepCompletedSeconds: DAY,
+    cron: { expr: '*/5 * * * *', tz: 'UTC' },
+  }),
 } as const satisfies Record<string, QueueSpec>;
 
 export type QueueName = keyof typeof QUEUES;

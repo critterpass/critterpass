@@ -27,6 +27,7 @@ import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';
 import { visitsTtlJob } from './jobs/location/visits-ttl';
+import { aiCostGuardJob } from './jobs/ops/ai-cost-guard';
 import { backupJob } from './jobs/ops/backup';
 import { createObjectStore } from './jobs/ops/object-store';
 import { enqueueDueJob } from './jobs/sched/enqueue-due';
@@ -95,6 +96,7 @@ const llmObservability = createWorkerLlmObservability({
 const jobs: AnyJobDefinition[] = [
   enqueueDueJob(),
   purgeJob(),
+  aiCostGuardJob(),
   anonGcJob(),
   fixesTtlJob(),
   visitsTtlJob(),
