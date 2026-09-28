@@ -197,7 +197,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - Steps: 1. Full flow both platforms. 2. Offline start → issue → reconnect → sync. 3. Returning user sign-in skips pass creation. 4. Crewmate sees pass/avatar via stream (API test with two users).
 - Tests: `maestro test e2e/onboarding`; `pnpm --filter @cp/api test -- onboarding/first-run`.
 - Done when: all flows green in CI; cold start to 3a-2 within the §9 budget.
-- Status: blocked — flows (eaf8e606) and the API first-run test (9999bd57) are in; the Maestro runs and screenshots wait for the next e2e-test iOS build (the current one crashes at launch) and a staging deploy of the onboarding api
+- Status: blocked — flows (eaf8e606) and the API first-run test (9999bd57) are in; on the iOS 27 simulator with e2e-test build 537c50ab (fingerprint dce23884) first-run-ios, splash-name-photo, taste-home, returning-sign-in, offline-first-launch, real-photo-ios (circle-crop fallback, upload done) and the screens-en / screens-vi captures pass. Open: save-phone, because staging's OTP send fails ("The code didn't send") until an SMS or WhatsApp sender is configured there; and the Android run
 
 ## Phase acceptance criteria
 
