@@ -37,16 +37,31 @@ export const slugSchema = z
 /** ISO 3166-1 alpha-2, upper case. */
 export const countryCodeSchema = z.string().regex(/^[A-Z]{2}$/u, 'must be ISO 3166-1 alpha-2');
 
-const KNOWN_CURRENCIES = new Set(Intl.supportedValuesOf('currency'));
+/**
+ * The runtime's own list of `key` values, or null where `Intl.supportedValuesOf` does not exist
+ * (Hermes). This module loads in the app through the taste quiz schema, so it must not throw there;
+ * content is validated at build time on Node, which has the full lists.
+ */
+function supportedValues(key: 'currency' | 'timeZone'): ReadonlySet<string> | null {
+  return typeof Intl.supportedValuesOf === 'function' ? new Set(Intl.supportedValuesOf(key)) : null;
+}
+
+const KNOWN_CURRENCIES = supportedValues('currency');
 export const currencyCodeSchema = z
   .string()
-  .refine((code) => KNOWN_CURRENCIES.has(code), 'must be an ISO 4217 currency code');
+  .refine(
+    (code) => (KNOWN_CURRENCIES ? KNOWN_CURRENCIES.has(code) : /^[A-Z]{3}$/u.test(code)),
+    'must be an ISO 4217 currency code',
+  );
 
-const KNOWN_ZONES = new Set(Intl.supportedValuesOf('timeZone'));
+const KNOWN_ZONES = supportedValues('timeZone');
 /** IANA zone the runtime can resolve (`Etc/UTC` and friends are not used for places). */
 export const timeZoneSchema = z
   .string()
-  .refine((zone) => KNOWN_ZONES.has(zone) || isResolvableZone(zone), 'must be an IANA time zone');
+  .refine(
+    (zone) => KNOWN_ZONES?.has(zone) === true || isResolvableZone(zone),
+    'must be an IANA time zone',
+  );
 
 function isResolvableZone(zone: string): boolean {
   try {
