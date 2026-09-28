@@ -1,0 +1,78 @@
+---
+import { shellCopy as copy } from './copy/shell';
+import { siteTranslator } from './i18n';
+import { SITE_PATHS, SOCIAL_LINKS } from './site-config';
+
+const t = await siteTranslator();
+const columns = [
+  {
+    title: t(copy.footerApp),
+    links: [
+      { label: t(copy.howItWorks), href: SITE_PATHS.howItWorks },
+      { label: t(copy.theLocals), href: SITE_PATHS.theLocals },
+      { label: t(copy.thePass), href: SITE_PATHS.thePass },
+    ],
+  },
+  {
+    title: t(copy.footerCrew),
+    links: [
+      { label: t(copy.tips), href: SITE_PATHS.tips },
+      { label: t(copy.bringYourCrew), href: SITE_PATHS.bringYourCrew },
+      { label: t(copy.joinWithCode), href: SITE_PATHS.joinWithCode },
+    ],
+  },
+  {
+    title: t(copy.footerLegal),
+    links: [
+      { label: t(copy.privacy), href: SITE_PATHS.privacy },
+      { label: t(copy.terms), href: SITE_PATHS.terms },
+      { label: t(copy.allLegal), href: SITE_PATHS.legal },
+    ],
+  },
+  {
+    title: t(copy.footerFollow),
+    links: SOCIAL_LINKS.flatMap((social) =>
+      social.href === null ? [] : [{ label: social.key, href: social.href }],
+    ),
+  },
+];
+---
+
+<footer class="site-footer" data-testid="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__columns">
+      {
+        columns.map((column) => (
+          <nav class="site-footer__column" aria-label={column.title}>
+            <h2 class="site-footer__title">{column.title}</h2>
+            <ul>
+              {column.links.map((link) => (
+                <li>
+                  <a href={link.href} rel={link.href.startsWith('https://') ? 'noopener' : undefined}>
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+    <p class="site-footer__note">{t(copy.noCookies)}</p>
+    <div class="site-footer__mark" aria-hidden="true">
+      <span class="site-footer__word">{t(copy.brand)}</span>
+      <img
+        class="site-footer__critter site-sticker"
+        src="/critters/gecko-common-idle-color-96pt@2x.webp"
+        width="96"
+        height="96"
+        alt=""
+        loading="lazy"
+      />
+    </div>
+  </div>
+  <div class="site-footer__bar">
+    <span>{t(copy.copyright, { year: 2026 })}</span>
+    <span>{t(copy.madeOnTheRoad)}</span>
+  </div>
+</footer>

@@ -6,3 +6,131 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.copyright"
+msgstr "© {year} CritterPass"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.allLegal"
+msgstr "All policies"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.footerApp"
+msgstr "App"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.notFound.home"
+msgstr "Back to the start"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.bringYourCrew"
+msgstr "Bring your crew"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.footerCrew"
+msgstr "Crew"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.brand"
+msgstr "CritterPass"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.homeLink"
+msgstr "CritterPass home"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.deleteAccount"
+msgstr "Delete your account"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.appStoreBadge"
+msgstr "Download on the App Store"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.notFound.eyebrow"
+msgstr "Error 404 · off the map"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.footerFollow"
+msgstr "Follow"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.googlePlayBadge"
+msgstr "Get it on Google Play"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.getTheApp"
+msgstr "Get the app"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.howItWorks"
+msgstr "How it works"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.notFound.join"
+msgstr "I have a code"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.joinWithCode"
+msgstr "Join with a code"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.language"
+msgstr "Language"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.footerLegal"
+msgstr "Legal"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.madeOnTheRoad"
+msgstr "Made on the road"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.navLabel"
+msgstr "Main"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.openMenu"
+msgstr "Menu"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.noCookies"
+msgstr "No cookies here. We count page visits without knowing who you are."
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.notFound.pageTitle"
+msgstr "Page not found"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.privacy"
+msgstr "Privacy"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.skipToContent"
+msgstr "Skip to content"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.terms"
+msgstr "Terms"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.theLocals"
+msgstr "The locals"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.thePass"
+msgstr "The pass"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.notFound.body"
+msgstr "This page isn't on the route. The locals checked every alley. Head home, or join a crew with the code a friend sent you."
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.tips"
+msgstr "Tips"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.notFound.title"
+msgstr "Wrong turn"

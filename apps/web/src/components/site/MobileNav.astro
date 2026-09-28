@@ -1,0 +1,55 @@
+---
+/**
+ * Narrow-screen navigation (undesigned; built from the header's own links and pill): a disclosure
+ * that opens a full-width drawer under the bar. `<details>` keeps it working without JavaScript;
+ * the small script closes it on Escape and after a link is followed.
+ */
+import { SITE_PATHS, type NavKey } from './site-config';
+
+export interface Props {
+  readonly items: readonly { readonly key: NavKey; readonly href: string; readonly label: string }[];
+  readonly active?: NavKey | undefined;
+  readonly ctaLabel: string;
+  readonly menuLabel: string;
+}
+
+const { items, active, ctaLabel, menuLabel } = Astro.props;
+---
+
+<details class="site-drawer" data-site-drawer>
+  <summary class="site-drawer__toggle" aria-label={menuLabel}>
+    <span class="site-drawer__bars" aria-hidden="true"></span>
+  </summary>
+  <div class="site-drawer__panel">
+    <ul class="site-drawer__list">
+      {
+        items.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="site-drawer__link"
+              aria-current={item.key === active ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a href={SITE_PATHS.getTheApp} class="site-cta site-cta--block" data-cs="nav-cta">{ctaLabel}</a>
+  </div>
+</details>
+
+<script>
+  for (const drawer of document.querySelectorAll<HTMLDetailsElement>('[data-site-drawer]')) {
+    drawer.addEventListener('click', (event) => {
+      if (event.target instanceof Element && event.target.closest('a')) drawer.open = false;
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && drawer.open) {
+        drawer.open = false;
+        drawer.querySelector('summary')?.focus();
+      }
+    });
+  }
+</script>

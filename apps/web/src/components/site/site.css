@@ -1,0 +1,438 @@
+/* CritterPass site shell (Site-Header, Site-Footer): colours, type and radii come from
+   @cp/design-tokens via tokens.css; the display face is Archivo at its bundled width steps. */
+
+.site-body {
+  margin: 0;
+  background: var(--color-ink-850);
+  -webkit-font-smoothing: antialiased;
+}
+.site-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: clip;
+  font-family: Geist, system-ui, sans-serif;
+  color: var(--color-paper-base);
+}
+.site-root [hidden] {
+  display: none !important;
+}
+.site-main {
+  flex: 1;
+}
+.site-root--paper .site-main {
+  background: var(--color-paper-base);
+  color: var(--color-ink-850);
+}
+.site-root--ink .site-main {
+  background: var(--color-ink-850);
+}
+.site-wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-inline: clamp(20px, 5vw, 48px);
+}
+.site-root :focus-visible {
+  outline: 3px solid var(--color-yellow);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+.site-skip {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--color-yellow);
+  color: var(--color-ink-850);
+  font:
+    800 14px Geist,
+    sans-serif;
+  text-decoration: none;
+}
+.site-skip:focus {
+  top: 12px;
+}
+
+/* Display type helpers shared by every page. */
+.site-display {
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 0.84;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin: 0;
+}
+.site-eyebrow {
+  font-family: Archivo, sans-serif;
+  font-weight: 800;
+  font-stretch: 100%;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0;
+}
+.site-voice {
+  font-family: Caveat, cursive;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.1;
+}
+.site-mono {
+  font-family: 'Geist Mono', monospace;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.site-sticker {
+  filter: drop-shadow(2.5px 0 0 var(--color-paper-bright))
+    drop-shadow(-2.5px 0 0 var(--color-paper-bright))
+    drop-shadow(0 2.5px 0 var(--color-paper-bright))
+    drop-shadow(0 -2.5px 0 var(--color-paper-bright)) drop-shadow(0 3px 5px rgba(0, 0, 0, 0.3));
+}
+.site-halftone {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1.2px);
+  background-size: 8px 8px;
+}
+.site-halftone--light {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1.2px);
+  background-size: 8px 8px;
+}
+
+/* Pills and buttons. */
+.site-cta,
+.site-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--color-yellow);
+  color: var(--color-ink-850);
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-stretch: 100%;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.site-cta:hover,
+.site-button:hover {
+  filter: brightness(1.06);
+}
+.site-button--ink {
+  background: var(--color-ink-850);
+  color: var(--color-yellow);
+}
+.site-button--ghost {
+  background: var(--color-ink-700);
+  color: var(--color-paper-base);
+}
+.site-cta--block {
+  width: 100%;
+  min-height: 52px;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-ink-780);
+  border-bottom: 1px solid var(--color-ink-700);
+}
+.site-header__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 12px clamp(20px, 5vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.site-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-yellow);
+  text-decoration: none;
+}
+.site-brand__word {
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-stretch: 62%;
+  font-size: 28px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.site-nav__list {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.site-nav__link {
+  position: relative;
+  display: inline-block;
+  padding: 10px 0;
+  color: var(--color-paper-base);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+}
+.site-nav__link:hover {
+  color: var(--color-yellow);
+}
+.site-nav__link[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background: var(--color-yellow);
+}
+
+.site-drawer {
+  display: none;
+}
+.site-drawer__toggle {
+  list-style: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--color-ink-700);
+  cursor: pointer;
+}
+.site-drawer__toggle::-webkit-details-marker {
+  display: none;
+}
+.site-drawer__bars,
+.site-drawer__bars::before,
+.site-drawer__bars::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-paper-base);
+  transition: transform var(--motion-duration-fast) var(--motion-easing-standard);
+}
+.site-drawer__bars {
+  position: relative;
+}
+.site-drawer__bars::before,
+.site-drawer__bars::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+.site-drawer__bars::before {
+  top: -6px;
+}
+.site-drawer__bars::after {
+  top: 6px;
+}
+.site-drawer[open] .site-drawer__bars {
+  background: transparent;
+}
+.site-drawer[open] .site-drawer__bars::before {
+  transform: translateY(6px) rotate(45deg);
+}
+.site-drawer[open] .site-drawer__bars::after {
+  transform: translateY(-6px) rotate(-45deg);
+}
+.site-drawer__panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  padding: 12px 20px 24px;
+  background: var(--color-ink-780);
+  border-bottom: 1px solid var(--color-ink-700);
+}
+.site-drawer__list {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+.site-drawer__link {
+  display: block;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--color-ink-700);
+  color: var(--color-paper-base);
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-stretch: 70%;
+  font-size: 24px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.site-drawer__link[aria-current='page'] {
+  color: var(--color-yellow);
+}
+
+@media (max-width: 900px) {
+  .site-nav {
+    display: none;
+  }
+  .site-drawer {
+    display: block;
+  }
+  .site-brand__word {
+    font-size: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-drawer__bars,
+  .site-drawer__bars::before,
+  .site-drawer__bars::after {
+    transition: none;
+  }
+}
+
+/* ---------- Store badges (official artwork; only the size changes) ---------- */
+.site-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.site-badges__link {
+  display: inline-flex;
+  border-radius: 10px;
+}
+.site-badges__apple {
+  height: 48px;
+  width: auto;
+}
+/* Google's PNG carries its own clear space: 646×250 with the badge in the middle ~84%. */
+.site-badges__google {
+  height: 71px;
+  width: auto;
+  margin: -11.5px -9px;
+}
+.site-badges--lg .site-badges__apple {
+  height: 56px;
+}
+.site-badges--lg .site-badges__google {
+  height: 83px;
+  margin: -13.5px -10.5px;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: var(--color-ink-850);
+  color: var(--color-ink-150);
+  border-top: 1px solid var(--color-ink-800);
+}
+.site-footer__inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 56px clamp(20px, 5vw, 48px) 0;
+}
+.site-footer__columns {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+}
+.site-footer__title {
+  margin: 0 0 12px;
+  color: var(--color-paper-base);
+  font-family: Archivo, sans-serif;
+  font-weight: 800;
+  font-stretch: 100%;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.site-footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.site-footer a {
+  display: inline-block;
+  padding: 4px 0;
+  color: var(--color-ink-150);
+  font-size: 14px;
+  text-decoration: none;
+}
+.site-footer a:hover {
+  color: var(--color-yellow);
+  text-decoration: underline;
+}
+.site-footer__note {
+  margin: 32px 0 0;
+  font-size: 12.5px;
+  color: var(--color-ink-200);
+}
+.site-footer__mark {
+  position: relative;
+  margin-top: 24px;
+  line-height: 0;
+}
+.site-footer__word {
+  display: block;
+  color: var(--color-yellow);
+  font-family: Archivo, sans-serif;
+  font-weight: 900;
+  font-stretch: 62%;
+  font-size: min(17.6vw, 238px);
+  line-height: 0.74;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  transform: translateY(8%);
+}
+.site-footer__critter {
+  position: absolute;
+  right: 9%;
+  top: -48%;
+  width: min(8vw, 96px);
+  height: auto;
+  transform: rotate(-8deg);
+}
+.site-footer__bar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px clamp(20px, 5vw, 48px);
+  background: var(--color-yellow);
+  color: var(--color-ink-850);
+  font-family: 'Geist Mono', monospace;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+@media (min-width: 1340px) {
+  .site-footer__bar {
+    padding-inline: calc((100% - 1240px) / 2);
+  }
+}
+@media (max-width: 720px) {
+  .site-footer__columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

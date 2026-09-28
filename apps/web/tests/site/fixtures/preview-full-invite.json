@@ -1,0 +1,11 @@
+{
+  "kind": "invite",
+  "crew_name": "Lisbon Loop",
+  "inviter_first_name": "Ana",
+  "trip_place": "Lisbon",
+  "members_count": 6,
+  "expires_at": "2099-10-01T12:00:00.000Z",
+  "state": "full",
+  "seats_taken": 6,
+  "seat_cap": 6
+}

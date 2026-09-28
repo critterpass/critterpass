@@ -860,6 +860,12 @@ importers:
       '@cp/domain':
         specifier: workspace:*
         version: link:../../packages/domain
+      '@cp/i18n':
+        specifier: workspace:*
+        version: link:../../packages/i18n
+      '@lingui/core':
+        specifier: 'catalog:'
+        version: 6.8.0(@babel/core@7.29.7(supports-color@7.2.0))
       '@sentry/browser':
         specifier: 'catalog:'
         version: 10.75.3

@@ -6,3 +6,131 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ko\n"
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.copyright"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.allLegal"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.footerApp"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.notFound.home"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.bringYourCrew"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.footerCrew"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.brand"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.homeLink"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.deleteAccount"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.appStoreBadge"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.notFound.eyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.footerFollow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.googlePlayBadge"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.getTheApp"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.howItWorks"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.notFound.join"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.joinWithCode"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.language"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.footerLegal"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.madeOnTheRoad"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.navLabel"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.openMenu"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.noCookies"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.notFound.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.privacy"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.skipToContent"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.terms"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.theLocals"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.thePass"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.notFound.body"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.shell.tips"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/shell.ts
+msgid "web.notFound.title"
+msgstr ""
