@@ -4,7 +4,9 @@
  * `X-CP-Platform`, plus either `X-CP-Attestation` + `X-CP-Key-Id` on the first attested call per
  * install, or `X-CP-Assertion` on every later sensitive call, and `X-CP-Challenge` naming the
  * single-use challenge from `POST /v1/attest/challenge` it just consumed) — neither Better Auth
- * endpoint declares a body schema attestation could otherwise ride along in.
+ * endpoint declares a body schema attestation could otherwise ride along in. A client that could
+ * not attest (simulator, no Play services, timeout) sends `X-CP-Attestation-Unavailable: <reason>`
+ * instead; that reason only enriches the failure log, the mode alone decides the outcome.
  */
 import type pg from 'pg';
 
@@ -39,17 +41,30 @@ export interface AttestationConfig {
   readonly android: AndroidAttestationConfig | undefined;
 }
 
+export interface AttestationFailureContext {
+  readonly installId: string | undefined;
+  readonly platform: string | undefined;
+  /** The client's own reason for sending no attestation, when it gave one. */
+  readonly unavailableReason: string | undefined;
+}
+
+export interface AttestationVerifiedContext {
+  readonly installId: string;
+  readonly platform: AttestationPlatform;
+  /** `attestation` stores a new key, `assertion` signs with a stored one, `integrity` is Play Integrity. */
+  readonly kind: 'attestation' | 'assertion' | 'integrity';
+  readonly verdict: string;
+}
+
 export interface AttestationDeps {
   readonly appPool: pg.Pool;
   readonly redis: ChallengeRedisClient;
   readonly config: AttestationConfig;
   /** Structured-logging seam (services/api/src/auth/index.ts wires the real logger); called only when `log` mode swallows a failure that `enforce` would have thrown. */
   readonly onAttestationFailure?:
-    | ((
-        error: unknown,
-        context: { installId: string | undefined; platform: string | undefined },
-      ) => void)
-    | undefined;
+    ((error: unknown, context: AttestationFailureContext) => void) | undefined;
+  /** Called after every verification that passed, so each platform's verdict is observable. */
+  readonly onAttestationVerified?: ((context: AttestationVerifiedContext) => void) | undefined;
 }
 
 export interface AttestationHeaders {
@@ -60,6 +75,7 @@ export interface AttestationHeaders {
   readonly keyIdBase64: string | undefined;
   readonly challenge: string | undefined;
   readonly integrityToken: string | undefined;
+  readonly unavailableReason: string | undefined;
 }
 
 function isPlatform(value: string | null): value is AttestationPlatform {
@@ -77,6 +93,7 @@ export function extractAttestationHeaders(headers: Headers): AttestationHeaders 
     keyIdBase64: headers.get('x-cp-key-id') ?? undefined,
     challenge: headers.get('x-cp-challenge') ?? undefined,
     integrityToken: headers.get('x-cp-integrity-token') ?? undefined,
+    unavailableReason: headers.get('x-cp-attestation-unavailable')?.slice(0, 64) ?? undefined,
   };
 }
 
@@ -136,7 +153,7 @@ async function verifyIosAttestation(
   headers: AttestationHeaders,
   deps: AttestationDeps,
   appAttestConfig: AppAttestConfig,
-): Promise<void> {
+): Promise<Omit<AttestationVerifiedContext, 'installId' | 'platform'>> {
   if (!headers.installId || !headers.challenge) {
     throw new DomainError('ATTESTATION_FAILED', {
       platform: 'ios',
@@ -150,7 +167,8 @@ async function verifyIosAttestation(
       reason: 'challenge invalid, expired or reused',
     });
   }
-  const challengeBuffer = Buffer.from(headers.challenge, 'base64url');
+  // `@expo/app-integrity` hashes the challenge string's UTF-8 bytes into `clientDataHash`.
+  const challengeBuffer = Buffer.from(headers.challenge, 'utf8');
 
   if (headers.attestationObjectBase64) {
     if (!headers.keyIdBase64) {
@@ -169,7 +187,7 @@ async function verifyIosAttestation(
       publicKeyPem: result.publicKeyPem,
       verdict: result.environment,
     });
-    return;
+    return { kind: 'attestation', verdict: result.environment };
   }
 
   if (headers.assertionBase64) {
@@ -188,7 +206,7 @@ async function verifyIosAttestation(
       config: appAttestConfig,
     });
     await recordAssertion(deps.appPool, headers.installId, result.counter);
-    return;
+    return { kind: 'assertion', verdict: `counter ${result.counter}` };
   }
 
   throw new DomainError('ATTESTATION_FAILED', {
@@ -201,7 +219,7 @@ async function verifyAndroidAttestation(
   headers: AttestationHeaders,
   deps: AttestationDeps,
   android: AndroidAttestationConfig,
-): Promise<void> {
+): Promise<Omit<AttestationVerifiedContext, 'installId' | 'platform'>> {
   if (!headers.installId || !headers.challenge || !headers.integrityToken) {
     throw new DomainError('ATTESTATION_FAILED', {
       platform: 'android',
@@ -230,6 +248,7 @@ async function verifyAndroidAttestation(
     publicKeyPem: '',
     verdict: result.deviceRecognitionVerdict.join(','),
   });
+  return { kind: 'integrity', verdict: result.deviceRecognitionVerdict.join(',') };
 }
 
 /**
@@ -263,16 +282,24 @@ export async function enforceAttestation(
         reason: 'missing or unrecognised platform header',
       });
     }
-    if (platform === 'ios') {
-      await verifyIosAttestation(headers, deps, deps.config.appAttest);
-    } else if (android) {
-      await verifyAndroidAttestation(headers, deps, android);
+    const verified =
+      platform === 'ios'
+        ? await verifyIosAttestation(headers, deps, deps.config.appAttest)
+        : android
+          ? await verifyAndroidAttestation(headers, deps, android)
+          : undefined;
+    if (verified && headers.installId) {
+      deps.onAttestationVerified?.({ installId: headers.installId, platform, ...verified });
     }
     // else: android with no Play Integrity credentials provisioned — nothing to verify against;
     // `mode` is already forced to `log` above.
   } catch (error) {
     if (mode === 'enforce') throw error;
-    deps.onAttestationFailure?.(error, { installId: headers.installId, platform });
+    deps.onAttestationFailure?.(error, {
+      installId: headers.installId,
+      platform,
+      unavailableReason: headers.unavailableReason,
+    });
   }
 }
 

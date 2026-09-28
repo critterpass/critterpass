@@ -31,7 +31,7 @@ import {
 import type { OtpChannel } from './otp/countries';
 import { betterAuth } from 'better-auth';
 
-import type { AttestationConfig } from '../abuse/attestation';
+import type { AttestationConfig, AttestationDeps } from '../abuse/attestation';
 import { defaultPumpingConfig, type PumpingConfig } from '../abuse/pumping';
 import { createKillSwitches } from '../ops/kill-switches';
 import { wrapHandlerWithMergeIntercept } from './merge/intercept';
@@ -64,10 +64,8 @@ export interface AuthModuleDeps {
   readonly jwksRotationIntervalSeconds?: number | undefined;
   readonly rateLimit?: AuthConfigDeps['rateLimit'];
   readonly attestation: AttestationConfig;
-  readonly onAttestationFailure?: (
-    error: unknown,
-    context: { installId: string | undefined; platform: string | undefined },
-  ) => void;
+  readonly onAttestationFailure?: AttestationDeps['onAttestationFailure'];
+  readonly onAttestationVerified?: AttestationDeps['onAttestationVerified'];
   /** Defaults to `defaultPumpingConfig()`; override to set real allow-listed countries and spend caps once provisioned. */
   readonly pumping?: PumpingConfig | undefined;
   /** Absent when Apple Developer credentials are not provisioned yet (non-code dependency table). */
@@ -212,6 +210,7 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
       redis: deps.redis,
       config: deps.attestation,
       ...(deps.onAttestationFailure ? { onAttestationFailure: deps.onAttestationFailure } : {}),
+      ...(deps.onAttestationVerified ? { onAttestationVerified: deps.onAttestationVerified } : {}),
     },
     rateLimit: { redis: deps.redis },
     pumping: { redis: deps.redis, config: deps.pumping ?? defaultPumpingConfig() },
