@@ -124,7 +124,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. SSR from link preview with `Cache-Control: private, no-store` (no edge cache/SWR). 2. All error states. 3. QR on desktop. 4. Code lookup. 5. Human-open counting in the Worker using the phase-21 bot filter (POST to the phase-21 open counter).
 - Tests: `pnpm --filter @cp/web test:e2e -- site/invite`.
 - Done when: expired/full/revoked/unknown each render designed-in-code states; an invite revoked after a first view renders the revoked state on the next request; bot UA does not increment opens; visual diff vs `Site-Invite.png`, `Site-Referral.png`.
-- Status: done — 623732db (human opens are still counted by the api preview route through the Worker's proxied visitor IP/UA and its bot filter, as api-contracts §5.6 specifies)
+- Status: done — 623732db, 3b1a8ced (a `www.` host now counts as its apex and each Wrangler environment sets `LINKS_ENV`, so production pages never link to staging; human opens are still counted by the api preview route through the Worker's proxied visitor IP/UA and its bot filter, as api-contracts §5.6 specifies)
 
 ### T5 — OG image service (base kinds: invite, referral, tip)
 - Goal: F-186 render + cache core.
@@ -132,7 +132,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Takumi wasm render with atlas sprites + static fonts. 2. Route resolves private kinds by link token only; R2 key = `HMAC(secret, kind‖id‖version)`. 3. Revoke/expiry → 404 + R2 delete (purge job on revoke event). 4. Worker pre-warm job. 5. Fallback card.
 - Tests: `pnpm --filter @cp/web test -- og` (golden PNG diff per kind + revoked-token test); `pnpm --filter @cp/worker test -- og`.
 - Done when: invite/referral/tip render 1200×630 < 300 KB; cache hit on second request (header assert); a revoked invite token returns 404 and its R2 object is gone; an internal id in the URL returns 404.
-- Status: done — 1bd74b77 (cards draw on first request and are cached in R2; the `og.render` pre-warm and revoke-purge job waits on an `og.render` queue row in packages/domain/src/jobs/catalogue.ts, its worker registration and producers in the api invite commands, all outside this phase's files; revoked or expired codes already 404 and delete their cached card on the next request)
+- Status: done — 1bd74b77, c34ac61e (cards draw on first request and are cached in R2; `og.render` warms a code's card when an invite is created or a referral code minted, and purges it when a code is rotated, an invite revoked or a code expires)
 
 ### T6 — Tips journal + RSS
 - Goal: F-184.
