@@ -1,3 +1,6 @@
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
 import type { ConfigContext, ExpoConfig } from 'expo/config';
 
 import colorTokens from '../../packages/design-tokens/src/color.tokens.json' with { type: 'json' };
@@ -92,10 +95,26 @@ export function googleSignInPlugins(env: Env): [string, { iosUrlScheme: string }
   return iosClientId ? [[PLUGIN, { iosUrlScheme: googleIosUrlScheme(iosClientId) }]] : [];
 }
 
-/** `android.googleServicesFile`: the path EAS gives the `GOOGLE_SERVICES_JSON` file variable. */
-export function androidGoogleServices(env: Env): { googleServicesFile?: string } {
-  const file = present(env['GOOGLE_SERVICES_JSON']);
-  return file ? { googleServicesFile: file } : {};
+/** Git-ignored copy of the Firebase config next to this file, for local `eas build` / `eas update`. */
+export const LOCAL_GOOGLE_SERVICES_FILE = './google-services.json';
+
+/**
+ * `android.googleServicesFile`: the file EAS writes for the `GOOGLE_SERVICES_JSON` file variable,
+ * else the local copy at {@link LOCAL_GOOGLE_SERVICES_FILE}. The native fingerprint hashes this file
+ * by contents only, so the build's runtime version matches the one computed on a Mac only when both
+ * sides resolve a file; a path that does not exist is left out rather than passed to prebuild.
+ */
+export function androidGoogleServices(
+  env: Env,
+  projectRoot: string,
+  fileExists: (path: string) => boolean = existsSync,
+): { googleServicesFile?: string } {
+  const easFile = present(env['GOOGLE_SERVICES_JSON']);
+  if (easFile && fileExists(easFile)) return { googleServicesFile: easFile };
+  if (fileExists(join(projectRoot, LOCAL_GOOGLE_SERVICES_FILE))) {
+    return { googleServicesFile: LOCAL_GOOGLE_SERVICES_FILE };
+  }
+  return {};
 }
 
 /**
@@ -106,7 +125,7 @@ export function androidGoogleServices(env: Env): { googleServicesFile?: string }
 const APP_CLIP_VARIANTS: ReadonlySet<AppVariant> = new Set(['development']);
 const variant = VARIANTS[appVariant];
 
-export default ({ config }: ConfigContext): ExpoConfig => ({
+export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
   ...config,
   name: variant.name,
   owner: 'critterpass',
@@ -146,7 +165,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     package: variant.bundleIdentifier,
     // Firebase config for FCM push tokens; Expo's prebuild applies the google-services Gradle plugin.
-    ...androidGoogleServices(process.env),
+    ...androidGoogleServices(process.env, projectRoot),
     adaptiveIcon: {
       foregroundImage: './assets/android-icon-foreground.png',
       backgroundImage: './assets/android-icon-background.png',
