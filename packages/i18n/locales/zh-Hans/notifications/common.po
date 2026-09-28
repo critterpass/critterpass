@@ -7,6 +7,30 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: zh-Hans\n"
 
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_nudge.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.crew_invite.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.seat_opened.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.crew_invite.body"
+msgstr ""
+
 #: ../../services/worker/src/push/payload.ts
 msgid "notifications.push.privateBody"
+msgstr ""
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.invite_nudge.body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.seat_opened.body"
 msgstr ""

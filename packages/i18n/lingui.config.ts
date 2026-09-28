@@ -59,6 +59,7 @@ const notificationSources = [
     include: [
       `${repoRootPrefix}/services/worker/src/push/**`,
       `${repoRootPrefix}/services/worker/src/jobs/notify/**`,
+      `${repoRootPrefix}/services/worker/src/jobs/invites/notifications.ts`,
     ],
   },
   { name: 'roundup', include: [`${repoRootPrefix}/services/worker/src/jobs/roundup/**`] },
