@@ -10,6 +10,7 @@
  */
 import { onEventAppended, registerJobProducer, sendInTx } from '@cp/db';
 import {
+  AVATAR_MODERATE_QUEUE,
   notificationKeysForEvent,
   notifyRouteSingletonKey,
   NOTIFY_ROUTE_QUEUE,
@@ -60,7 +61,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       continue;
     }
     // Queues api commands send to; the worker's queue catalogue sets their full policy at its boot.
-    for (const queue of [NOTIFY_ROUTE_QUEUE, CONTENT_PUBLISH_QUEUE]) {
+    for (const queue of [NOTIFY_ROUTE_QUEUE, CONTENT_PUBLISH_QUEUE, AVATAR_MODERATE_QUEUE]) {
       if ((await boss.getQueue(queue)) === null) {
         await boss.createQueue(queue, { policy: 'exclusive' });
       }

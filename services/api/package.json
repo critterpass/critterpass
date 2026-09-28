@@ -52,6 +52,7 @@
     "import-in-the-middle": "catalog:",
     "jose": "catalog:",
     "libphonenumber-js": "1.13.14",
+    "mmdb-lib": "catalog:",
     "pg": "catalog:",
     "pg-boss": "catalog:",
     "pino": "catalog:",

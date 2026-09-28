@@ -377,6 +377,9 @@ catalogs:
     maplibre-gl:
       specifier: 6.11.0
       version: 6.11.0
+    mmdb-lib:
+      specifier: 3.0.3
+      version: 3.0.3
     pg:
       specifier: 8.23.0
       version: 8.23.0
@@ -1238,6 +1241,9 @@ importers:
       libphonenumber-js:
         specifier: 1.13.14
         version: 1.13.14
+      mmdb-lib:
+        specifier: 'catalog:'
+        version: 3.0.3
       pg:
         specifier: 'catalog:'
         version: 8.23.0
@@ -8900,6 +8906,10 @@ packages:
     resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==}
     engines: {node: '>=10'}
     hasBin: true
+
+  mmdb-lib@3.0.3:
+    resolution: {integrity: sha512-xQPoBXcNjjHiOvOraFBKtA++uNWF6aCVHL9dRKFXEov8eI3QJwtgiw3qApsonFT5SpoqsEVISUTg3HIDs2DiXw==}
+    engines: {node: '>=10', npm: '>=6'}
 
   module-details-from-path@1.0.4:
     resolution: {integrity: sha512-EGWKgxALGMgzvxYF1UyGTy0HXX/2vHLkw6+NvDKW2jypWbHpjQuj4UMcqQWXHERJhVGKikolT06G3bcKe4fi7w==}
@@ -20888,6 +20898,8 @@ snapshots:
   mkdirp-classic@0.5.3: {}
 
   mkdirp@3.0.1: {}
+
+  mmdb-lib@3.0.3: {}
 
   module-details-from-path@1.0.4: {}
 

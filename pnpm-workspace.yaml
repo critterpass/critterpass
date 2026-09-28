@@ -79,6 +79,7 @@ catalog:
   import-in-the-middle: 3.5.1
   jose: 6.2.12
   maplibre-gl: 6.11.0
+  mmdb-lib: 3.0.3
   pg: 8.23.0
   pg-boss: 12.35.0
   pino: 10.3.1

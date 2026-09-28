@@ -137,6 +137,10 @@ export const apiEnvSchema = z.object({
   /** Key id in MEDIA_HMAC_KEYS new read URLs are signed with. */
   MEDIA_HMAC_ACTIVE_KID: optionalString,
 
+  /** DB-IP IP to City Lite (`.mmdb` or `.mmdb.gz`): a file path or an https URL, loaded at boot
+   *  for `GET /v1/geo/hint`; unset = the hint answers with nulls. */
+  GEOIP_CITY_MMDB: optionalString,
+
   // --- Links (docs/api-contracts.md §5.6) ---
   /** JSON `{"kid": "secret"}` seat-token HMAC keys (kid 1-8 of [a-z0-9], secrets 32+ chars); unset =
    *  no seat link verifies, so claims carrying a seat token are refused. */
