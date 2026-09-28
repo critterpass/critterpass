@@ -29,14 +29,16 @@ const RUNBOOK_BASE = 'https://github.com/critterpass/critterpass/blob/main/docs/
 /** Signed probe URLs are re-signed on every apply; run apply at least monthly. */
 const PROBE_TTL_SECONDS = 60 * 24 * 3600;
 
+/** Answers any 2xx or 404; other statuses throw unless the caller lists them in `handled`. */
 export type Http = (
   method: string,
   path: string,
   body?: unknown,
+  handled?: readonly number[],
 ) => Promise<{ status: number; json: unknown }>;
 
 export function httpClient(baseUrl: string, token: string, fetchImpl: typeof fetch = fetch): Http {
-  return async (method, path, body) => {
+  return async (method, path, body, handled = []) => {
     const response = await fetchImpl(new URL(path, baseUrl), {
       method,
       headers: {
@@ -48,8 +50,11 @@ export function httpClient(baseUrl: string, token: string, fetchImpl: typeof fet
     });
     const text = await response.text();
     const json: unknown = text ? JSON.parse(text) : null;
-    if (response.status >= 400 && response.status !== 404) {
-      throw new Error(`${method} ${path} failed with HTTP ${response.status}`);
+    if (response.status >= 400 && response.status !== 404 && !handled.includes(response.status)) {
+      // Grafana's error message names the rejected field; it never echoes the token.
+      const reason = (json as { message?: unknown } | null)?.message;
+      const detail = typeof reason === 'string' ? `: ${reason}` : '';
+      throw new Error(`${method} ${path} failed with HTTP ${response.status}${detail}`);
     }
     return { status: response.status, json };
   };
@@ -69,10 +74,14 @@ export async function applyGrafana(options: ApplyOptions): Promise<string[]> {
   const { config, grafana } = options;
   const log: string[] = [];
 
-  const folder = await grafana('GET', `/api/folders/${ALERT_FOLDER_UID}`);
-  if (folder.status === 404) {
-    await grafana('POST', '/api/folders', { uid: ALERT_FOLDER_UID, title: 'CritterPass alerts' });
-    log.push(`created folder ${ALERT_FOLDER_UID}`);
+  // A service account with folder-scoped access gets 403 for a folder uid that doesn't exist, and a
+  // folder it just created stays unreadable for a minute or so while permissions propagate; the
+  // create then answers 412 because the uid is taken.
+  const folder = await grafana('GET', `/api/folders/${ALERT_FOLDER_UID}`, undefined, [403]);
+  if (folder.status !== 200) {
+    const body = { uid: ALERT_FOLDER_UID, title: 'CritterPass alerts' };
+    const created = await grafana('POST', '/api/folders', body, [409, 412]);
+    if (created.status === 200) log.push(`created folder ${ALERT_FOLDER_UID}`);
   }
 
   for (const dashboard of config.dashboards) {
