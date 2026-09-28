@@ -166,6 +166,10 @@ msgstr ""
 msgid "crew.referral.friends"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.qrHint"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
 msgid "crew.composer.homeHint"
 msgstr ""
@@ -332,6 +336,10 @@ msgstr ""
 msgid "crew.composer.previewA11y"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/invite-composer/JoinQr.tsx
+msgid "crew.qr.a11y"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.stamps"
 msgstr ""
@@ -378,6 +386,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.qr"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
@@ -458,6 +470,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.nameHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/TagSuggestion.tsx
+msgid "crew.composer.useSuggestion"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx

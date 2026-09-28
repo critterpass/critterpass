@@ -2,7 +2,7 @@
  * The invite composer (undesigned; from the page, field, chip and ticket patterns): invite a
  * friend by name (a named seat, with what the inviter knows about them) or share a link anyone in
  * the crew's circle can use, for the crew alone or one of its trips; preview the ticket they will
- * see, then send it through WhatsApp, Messages, a copied link or the share sheet. A full trip goes
+ * see, then send it through WhatsApp, Messages, a copied link, a QR code to scan or the share sheet. A full trip goes
  * to the seat-limit presenter, a signed-out inviter is asked to save their pass first.
  */
 import { t } from '@lingui/core/macro';
@@ -36,6 +36,7 @@ import { renderSeatLimit } from '../seat-limit/registry';
 import { composeUrl, sendInvite, shareVia, type ComposerChannel } from './compose';
 import { ContactFields, EMPTY_CONTACT, type ContactDraft } from './ContactFields';
 import { homeHintFor, toE164 } from './home-hint';
+import { JoinQr } from './JoinQr';
 import { useTagSuggestion } from './use-tag-suggestion';
 
 const useStyles = makeStyles((th) => ({
@@ -46,6 +47,7 @@ const useStyles = makeStyles((th) => ({
   },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: th.space['8'] },
   channels: { gap: th.space['8'] },
+  qrHint: { textAlign: 'center' },
 }));
 
 type Mode = 'friend' | 'link';
@@ -70,6 +72,7 @@ export function InviteComposerScreen() {
     channel: ComposerChannel;
   } | null>(null);
   const [signIn, setSignIn] = useState(false);
+  const [qrUrl, setQrUrl] = useState<string | null>(null);
   const phone = toE164(contact.phone);
   const homeHint = useMemo(
     () => (phone === null ? null : homeHintFor(phone, DIAL_CODES, airportDataset().airports)),
@@ -116,6 +119,10 @@ export function InviteComposerScreen() {
       id: 'crew.composer.message',
       message: `Come to ${crewName} on CritterPass: ${url}`,
     });
+    if (channel === 'qr') {
+      setQrUrl(url);
+      return;
+    }
     if (channel === 'copy') {
       await services.copy(url);
       toast.show({
@@ -242,6 +249,7 @@ export function InviteComposerScreen() {
               ['wa', t({ id: 'crew.composer.whatsapp', message: 'WhatsApp' })],
               ['imsg', t({ id: 'crew.composer.messages', message: 'Messages' })],
               ['copy', t({ id: 'crew.composer.copy', message: 'Copy link' })],
+              ['qr', t({ id: 'crew.composer.qr', message: 'Show a QR code' })],
               ['share', t({ id: 'crew.composer.share', message: 'More…' })],
             ] as const
           ).map(([channel, label]) => (
@@ -257,6 +265,14 @@ export function InviteComposerScreen() {
             />
           ))}
         </View>
+        {qrUrl === null ? null : (
+          <View style={styles.channels} testID="composer-qr">
+            <JoinQr url={qrUrl} />
+            <Text variant="body" style={styles.qrHint}>
+              {t({ id: 'crew.composer.qrHint', message: 'Hold it up for them to scan.' })}
+            </Text>
+          </View>
+        )}
         {signIn ? (
           <PillButton
             label={t({ id: 'crew.composer.save', message: 'Save my pass' })}

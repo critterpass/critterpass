@@ -63,7 +63,13 @@ const renderCrew = (ui: ReactElement) => renderWithCrew(ui, stack!, services);
 const queuedPayload = (cmd: string) => queuedPayload_(stack!, cmd);
 
 async function seed(db: TestLocalFirst['db']) {
-  const start = new Date(Date.now() + 16 * 86_400_000).toISOString().slice(0, 10);
+  // The trip's local calendar date 16 days out (the sheet counts days in the device's zone).
+  const later = new Date(Date.now() + 16 * 86_400_000);
+  const start = [
+    later.getFullYear(),
+    String(later.getMonth() + 1).padStart(2, '0'),
+    String(later.getDate()).padStart(2, '0'),
+  ].join('-');
   for (const [id, name] of [
     [ME, 'Rin'],
     [MAYA, 'Maya Chen'],
@@ -230,6 +236,10 @@ describe('crew settings', () => {
     await seed(stack.db);
     await renderCrew(<CrewSettingsScreen />);
     expect(await screen.findByTestId('crew-settings-code')).toHaveTextContent('K7M2QX');
+    expect(screen.getByTestId('crew-settings-qr')).toHaveProp(
+      'accessibilityLabel',
+      'QR code for https://critterpass.app/i/K7M2QX?c=qr',
+    );
     expect(screen.getByText('Maya')).toBeTruthy();
     await fireEvent.changeText(screen.getByTestId('crew-settings-name'), 'Bali Bunch');
     await activate(screen.getByTestId('crew-settings-rename'));

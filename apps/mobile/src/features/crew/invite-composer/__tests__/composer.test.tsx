@@ -254,6 +254,23 @@ describe('invite composer', () => {
     expect(screen.queryByTestId('composer-suggestion')).toBeNull();
   });
 
+  it('shows the link as a QR code to scan, tagged as the QR channel', async () => {
+    const url = 'https://critterpass.app/i/K7M2QX?c=qr';
+    const api = recordedApi({ create_invite: applied({ ...SENT, url }) });
+    stack = await openTestLocalFirst({ transport: api, uid: ME, holdUploads: true });
+    await seed(stack.db);
+    await renderWithCrew(<InviteComposerScreen />, stack, services);
+    await screen.findByText(/^invite to the bali six$/iu);
+    await fireEvent.press(screen.getByRole('radio', { name: /a link to share/iu }));
+    await activate(screen.getByTestId('composer-send-qr'));
+    expect(await screen.findByTestId('composer-qr')).toBeTruthy();
+    expect(screen.getByLabelText(`QR code for ${url}`)).toBeTruthy();
+    const body = api.sent[0]?.body as { payload: Record<string, unknown> };
+    expect(body.payload).toMatchObject({ channel: 'link', share_via: 'qr' });
+    expect(services.opened).toEqual([]);
+    expect(services.shared).toEqual([]);
+  });
+
   it('labels taste chips with their words, never their slugs', async () => {
     stack = await openTestLocalFirst({ transport: recordedApi({}), uid: ME, holdUploads: true });
     await seed(stack.db);
