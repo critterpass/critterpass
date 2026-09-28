@@ -246,6 +246,54 @@ about 0.9 MB (default theme and preview at 96 kbps, the rest downloaded on deman
 files at 96 kbps). The target is reachable with #1, #2, #4 and #6 plus lower-bitrate or on-demand
 music. Without the founder decisions in #2 and #3 it is not.
 
+### After the critter art and font changes (2026-09-29)
+
+Reductions #1 and #6 are done, and #4 was measured. Two local Release archives of the staging
+variant (`xcodebuild archive`, generic iOS device, signing off, `LD_GENERATE_MAP_FILE=YES`) were
+built from the same tree before and after the change and measured the same way as above
+(`du`, `zip -9` per part, `assetutil`).
+
+- **Critter art.** Each extension now embeds only the imagesets its Swift code names
+  (`IOS_EXTENSION_CRITTER_ART` in `apps/mobile/plugins/with-critter-art.ts`; a Jest test scans the
+  targets' Swift for catalog names so the list cannot drift). The notification service keeps the
+  guide avatar fallback. The widgets (including the Live Activity) and the notification content
+  extension draw no critter art, so they get no catalog. An extension has no supported access to
+  the host app's bundle resources, so a shared catalog is not an option. The main app renders
+  critters with Skia at runtime and never compiled the catalog, so nothing changes there.
+- **Fonts.** The `expo-font` plugin's native embed is the only copy. `src/lib/fonts/load.ts` no
+  longer imports the TTFs as Metro assets, which `expo-font` skipped anyway because iOS and Android
+  already report the families as loaded. The family names are unchanged (each file's PostScript
+  name is its file name).
+- **Skia (#4), no change.** The link map puts the optional modules at 1.97 MB of the main
+  executable: skshaper 0.73, Skottie 0.57, libgrapheme 0.27, SkParagraph 0.18, SVG 0.17 and
+  sksg 0.05 MB. React Native Skia 2.11.2 ships them as prebuilt xcframeworks and its `JsiSkApi`
+  installs the Skottie, SVG and ParagraphBuilder factories unconditionally, so there is no
+  supported switch to leave them out. Dropping them means patching the library's C++ on every
+  upgrade, for at most about 2 MB. `libskia` itself is 5.4 MB and the RN Skia glue 2.2 MB.
+- **Also seen in the link map:** `op-sqlite` and `expo-sqlite` each link their own SQLite
+  (1.13 MB apiece). Choosing one saves about 1.1 MB (a dependency change, not made here).
+
+| Component | Before raw (MB) | After raw (MB) | Before zip (MB) | After zip (MB) |
+|---|---|---|---|---|
+| Main executable (unsigned, so it compresses here; the store counts ~23.1) | 23.92 | 23.92 | 9.20 | 9.20 |
+| Widgets `.appex` (critter art `Assets.car`) | 10.00 (9.85) | 0.15 (none) | 9.27 | 0.04 |
+| Notification service `.appex` (`Assets.car`) | 10.01 (9.85) | 0.21 (0.05) | 9.29 | 0.09 |
+| Notification content `.appex` (`Assets.car`) | 9.98 (9.85) | 0.13 (none) | 9.27 | 0.03 |
+| Fonts (27 TTFs) | 2 × 1.75 in the store IPA | 1.75 | 2 × 0.72 | 0.72 |
+| Main `Assets.car` | 0.97 | 0.97 | 0.94 | 0.94 |
+| `main.jsbundle` | 10.44 | 10.44 | 4.23 | 4.23 |
+| Frameworks | 34.60 | 34.60 | 9.90 | 9.90 |
+| Metro assets (music, SFX, images) | 12.07 | 12.07 | 11.83 | 11.83 |
+| **Whole `.app`** | 114.04 (+1.75 fonts) | 84.54 | 64.85 (+0.72) | 37.17 |
+
+The local "before" archive already had the JavaScript font change, so its second font copy comes
+from the store IPA above. With the main executable counted at the store's ~23.1 MB instead of its
+local 9.2 MB zip, the download model goes from ~79.6 MB to ~51.1 MB, a 28.5 MB cut. Applied to the
+reported 65.9 MB, the next staging build should download about 37.4 MB if the store compressed the
+three identical catalogs separately, and about 56.5 MB if it had already stored them once (then
+only one catalog copy and the font copy come off). Production drops music and dev routes, 12.3 MB
+less again. The next TestFlight build's App File Sizes settles which case holds.
+
 ## Rerun
 
 ```

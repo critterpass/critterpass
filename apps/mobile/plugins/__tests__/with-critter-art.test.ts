@@ -10,12 +10,12 @@ import { join } from 'node:path';
 
 import { describe, expect, it } from '@jest/globals';
 
+import { IOS_EXTENSION_CRITTER_ART } from '../with-critter-art';
+
 const projectRoot = join(__dirname, '..', '..');
 const iosDir = join(projectRoot, 'ios');
 const androidResDir = join(projectRoot, 'android', 'app', 'src', 'main', 'res');
 const targetsDir = join(projectRoot, 'targets');
-
-const EXTENSION_TARGET_DIRS = ['widgets', 'notification-service', 'notification-content'];
 
 function findMainAppXcassets(): string | undefined {
   if (!existsSync(iosDir)) return undefined;
@@ -39,13 +39,18 @@ describe('with-critter-art (requires a prior `expo prebuild`)', () => {
     expect(existsSync(join(xcassets!, 'Contents.json'))).toBe(true);
   });
 
-  it('copies CritterArt.xcassets into every extension target directory', () => {
-    for (const name of EXTENSION_TARGET_DIRS) {
+  it('gives each extension target only the critter art it draws', () => {
+    for (const [name, imagesets] of Object.entries(IOS_EXTENSION_CRITTER_ART)) {
       const targetDir = join(targetsDir, name);
       if (!existsSync(targetDir)) continue; // a target this checkout hasn't prebuilt yet
       const xcassets = join(targetDir, 'CritterArt.xcassets');
-      expect(existsSync(xcassets)).toBe(true);
-      expect(existsSync(join(xcassets, 'Contents.json'))).toBe(true);
+      if (imagesets.length === 0) {
+        expect(existsSync(xcassets)).toBe(false);
+        continue;
+      }
+      expect(readdirSync(xcassets).sort()).toEqual(
+        ['Contents.json', ...imagesets.map((imageset) => `${imageset}.imageset`)].sort(),
+      );
     }
   });
 
