@@ -7,9 +7,10 @@
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
+import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Row } from '@/ui/layout/Row';
@@ -51,7 +52,25 @@ function matches(item: InboxItem, filter: InboxFilter): boolean {
   return true;
 }
 
+/** The inbox waits for the session's local database, like Home. */
 export function InboxScreen() {
+  const localFirst = useContext(LocalFirstContext);
+  const { t } = useLingui();
+  if (localFirst === null) {
+    return (
+      <Scaffold variant="dark" testID="inbox-screen">
+        <Skeleton
+          preset="list"
+          repeat={4}
+          label={t({ id: 'home.inbox.loading', message: 'Loading your inbox' })}
+        />
+      </Scaffold>
+    );
+  }
+  return <InboxContent />;
+}
+
+function InboxContent() {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();

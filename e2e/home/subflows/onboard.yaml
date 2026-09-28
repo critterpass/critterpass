@@ -19,11 +19,28 @@ appId: app.critterpass.dev
       - waitForAnimationToEnd
 - tapOn:
     id: 'taste-done'
-- tapOn:
-    id: 'home-search'
-- inputText: 'Singapore'
-- tapOn:
-    id: 'home-row-SIN'
+# The nearest airports are offered first; search only when none is.
+- runFlow:
+    when:
+      visible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-row-SGN'
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-search'
+      - inputText: 'Sing'
+      - extendedWaitUntil:
+          visible:
+            id: 'home-row-SIN'
+          timeout: 10000
+      - tapOn:
+          id: 'home-row-SIN'
 - hideKeyboard
 - tapOn:
     id: 'onboarding-home-next'

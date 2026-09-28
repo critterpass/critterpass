@@ -509,208 +509,200 @@ exports[`inbox queues the answer, lets the card go and settles on Tokek asleep 1
             <View
               style={
                 {
-                  "opacity": 0,
+                  "alignItems": "center",
+                  "gap": 12,
+                  "paddingVertical": 24,
                 }
               }
+              testID="inbox-caught-up"
             >
               <View
-                style={
+                accessibilityLabel="Tokek, asleep"
+                accessibilityRole="button"
+                accessibilityState={
                   {
-                    "alignItems": "center",
-                    "gap": 12,
-                    "paddingVertical": 24,
+                    "busy": undefined,
+                    "checked": undefined,
+                    "disabled": undefined,
+                    "expanded": undefined,
+                    "selected": undefined,
                   }
                 }
-                testID="inbox-caught-up"
+                accessibilityValue={
+                  {
+                    "max": undefined,
+                    "min": undefined,
+                    "now": undefined,
+                    "text": undefined,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                focusable={true}
+                onBlur={[Function]}
+                onClick={[Function]}
+                onFocus={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                testID="inbox-tokek"
               >
                 <View
-                  accessibilityLabel="Tokek, asleep"
-                  accessibilityRole="button"
-                  accessibilityState={
-                    {
-                      "busy": undefined,
-                      "checked": undefined,
-                      "disabled": undefined,
-                      "expanded": undefined,
-                      "selected": undefined,
-                    }
+                  style={
+                    [
+                      {
+                        "opacity": 1,
+                        "transform": [
+                          {
+                            "translateX": 0,
+                          },
+                          {
+                            "translateY": 0,
+                          },
+                          {
+                            "rotate": "0deg",
+                          },
+                          {
+                            "scaleX": 1,
+                          },
+                          {
+                            "scaleY": 1,
+                          },
+                        ],
+                      },
+                      {
+                        "transform": [
+                          {
+                            "translateY": 0,
+                          },
+                        ],
+                      },
+                    ]
                   }
-                  accessibilityValue={
-                    {
-                      "max": undefined,
-                      "min": undefined,
-                      "now": undefined,
-                      "text": undefined,
-                    }
-                  }
-                  accessible={true}
-                  collapsable={false}
-                  focusable={true}
-                  onBlur={[Function]}
-                  onClick={[Function]}
-                  onFocus={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                  testID="inbox-tokek"
                 >
                   <View
+                    accessibilityLabel="Tokek"
                     style={
-                      [
-                        {
-                          "opacity": 1,
-                          "transform": [
-                            {
-                              "translateX": 0,
-                            },
-                            {
-                              "translateY": 0,
-                            },
-                            {
-                              "rotate": "0deg",
-                            },
-                            {
-                              "scaleX": 1,
-                            },
-                            {
-                              "scaleY": 1,
-                            },
-                          ],
-                        },
-                        {
-                          "transform": [
-                            {
-                              "translateY": 0,
-                            },
-                          ],
-                        },
-                      ]
-                    }
-                  >
-                    <View
-                      accessibilityLabel="Tokek"
-                      style={
-                        {
-                          "height": 150,
-                          "width": 150,
-                        }
+                      {
+                        "height": 150,
+                        "width": 150,
                       }
-                    />
-                  </View>
-                  <View
-                    pointerEvents="none"
-                    style={
-                      [
-                        {
-                          "end": -12,
-                          "position": "absolute",
-                          "top": 0,
-                        },
-                        {
-                          "opacity": 1,
-                          "transform": [
-                            {
-                              "translateX": 0,
-                            },
-                            {
-                              "translateY": 0,
-                            },
-                            {
-                              "rotate": "-2deg",
-                            },
-                            {
-                              "scaleX": 1,
-                            },
-                            {
-                              "scaleY": 1,
-                            },
-                          ],
-                        },
-                      ]
                     }
-                  >
-                    <Text
-                      allowFontScaling={false}
-                      onLayout={[Function]}
-                      onTextLayout={[Function]}
-                      style={
-                        [
-                          {
-                            "color": "#a9a3c0",
-                            "fontFamily": "Caveat-600",
-                            "fontSize": 20,
-                            "fontStyle": "normal",
-                            "letterSpacing": 0,
-                            "lineHeight": 22,
-                          },
-                          undefined,
-                          {
-                            "marginTop": -1.7999999999999994,
-                            "paddingTop": 1.7999999999999994,
-                          },
-                        ]
-                      }
-                    >
-                      z z
-                    </Text>
-                  </View>
+                  />
                 </View>
-                <Text
-                  accessibilityRole="header"
-                  allowFontScaling={false}
-                  onLayout={[Function]}
-                  onTextLayout={[Function]}
+                <View
+                  pointerEvents="none"
                   style={
                     [
                       {
-                        "color": "#f4efe4",
-                        "fontFamily": "Archivo-W70-900",
-                        "fontSize": 44,
-                        "fontStyle": "normal",
-                        "letterSpacing": -0.44,
-                        "lineHeight": 37.839999999999996,
+                        "end": -12,
+                        "position": "absolute",
+                        "top": 0,
                       },
-                      undefined,
                       {
-                        "marginTop": -17.995999999999995,
-                        "paddingTop": 17.995999999999995,
+                        "opacity": 1,
+                        "transform": [
+                          {
+                            "translateX": 0,
+                          },
+                          {
+                            "translateY": 0,
+                          },
+                          {
+                            "rotate": "-2deg",
+                          },
+                          {
+                            "scaleX": 1,
+                          },
+                          {
+                            "scaleY": 1,
+                          },
+                        ],
                       },
                     ]
                   }
                 >
-                  ALL CAUGHT UP
-                </Text>
-                <Text
-                  allowFontScaling={false}
-                  onLayout={[Function]}
-                  onTextLayout={[Function]}
-                  style={
-                    [
-                      {
-                        "color": "#a9a3c0",
-                        "fontFamily": "Geist-500",
-                        "fontSize": 14,
-                        "fontStyle": "normal",
-                        "letterSpacing": 0,
-                        "lineHeight": 19.599999999999998,
-                      },
-                      {
-                        "paddingHorizontal": 24,
-                        "textAlign": "center",
-                      },
-                      {
-                        "marginTop": -0.3780000000000019,
-                        "paddingTop": 0.3780000000000019,
-                      },
-                    ]
-                  }
-                >
-                  Nothing needs you right now. Tokek will wake you when something does.
-                </Text>
+                  <Text
+                    allowFontScaling={false}
+                    onLayout={[Function]}
+                    onTextLayout={[Function]}
+                    style={
+                      [
+                        {
+                          "color": "#a9a3c0",
+                          "fontFamily": "Caveat-600",
+                          "fontSize": 20,
+                          "fontStyle": "normal",
+                          "letterSpacing": 0,
+                          "lineHeight": 22,
+                        },
+                        undefined,
+                        {
+                          "marginTop": -1.7999999999999994,
+                          "paddingTop": 1.7999999999999994,
+                        },
+                      ]
+                    }
+                  >
+                    z z
+                  </Text>
+                </View>
               </View>
+              <Text
+                accessibilityRole="header"
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#f4efe4",
+                      "fontFamily": "Archivo-W70-900",
+                      "fontSize": 44,
+                      "fontStyle": "normal",
+                      "letterSpacing": -0.44,
+                      "lineHeight": 37.839999999999996,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -17.995999999999995,
+                      "paddingTop": 17.995999999999995,
+                    },
+                  ]
+                }
+              >
+                ALL CAUGHT UP
+              </Text>
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#a9a3c0",
+                      "fontFamily": "Geist-500",
+                      "fontSize": 14,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0,
+                      "lineHeight": 19.599999999999998,
+                    },
+                    {
+                      "paddingHorizontal": 24,
+                      "textAlign": "center",
+                    },
+                    {
+                      "marginTop": -0.3780000000000019,
+                      "paddingTop": 0.3780000000000019,
+                    },
+                  ]
+                }
+              >
+                Nothing needs you right now. Tokek will wake you when something does.
+              </Text>
             </View>
           </View>
         </RCTScrollView>

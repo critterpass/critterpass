@@ -8,6 +8,10 @@
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
 jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
+// Cross-fades are timing, not layout: snapshots see their settled content.
+jest.mock('../../fade-in-view', () => ({
+  FadeInView: ({ children }: { children: unknown }) => children,
+}));
 jest.mock(
   '@powersync/common',
   () =>

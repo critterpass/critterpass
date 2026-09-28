@@ -13,3 +13,7 @@ appId: app.critterpass.dev
     file: subflows/home-screens.yaml
     env:
       PREFIX: en
+- runFlow:
+    file: subflows/session-screens.yaml
+    env:
+      PREFIX: en

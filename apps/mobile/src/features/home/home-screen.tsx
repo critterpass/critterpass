@@ -7,10 +7,12 @@
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
+import { useContext } from 'react';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 
+import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { PillButton } from '@/ui/buttons/PillButton';
+import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { useTabBarInset } from '@/ui/shell/TabBar';
@@ -19,7 +21,12 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { useHomeState, type HomeView } from './data/use-home-state';
+import {
+  FIRST_SYNC_PATIENCE_MS,
+  useElapsed,
+  useHomeState,
+  type HomeView,
+} from './data/use-home-state';
 import { DevToolsEntry } from './dev-tools-entry';
 import { FadeInView } from './fade-in-view';
 import { FirstRunGrid, guideCells } from './first-run-grid';
@@ -36,7 +43,13 @@ const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['20'], paddingTop: t.space['8'] },
 }));
 
-function FirstRun({ view, width }: { readonly view: HomeView; readonly width: number }) {
+function FirstRun({
+  view,
+  width,
+}: {
+  readonly view: Pick<HomeView, 'firstName' | 'guideCells'>;
+  readonly width: number;
+}) {
   const { t } = useLingui();
   const locale = useLocale();
   const theme = useTheme();
@@ -50,15 +63,14 @@ function FirstRun({ view, width }: { readonly view: HomeView; readonly width: nu
         <Text variant="eyebrow" numberOfLines={1} style={{ flexShrink: 1 }}>
           {upper(welcome, locale)}
         </Text>
-        <PillButton
-          size="sm"
-          variant="secondary"
+        <InlineAction
+          kind="choice"
           label={upper(t({ id: 'home.firstRun.joinCode', message: 'Join with a code' }), locale)}
           onPress={() => router.push(HOME_ROUTES.joinCode)}
           testID="home-join-code"
         />
       </Row>
-      <Text variant="h1" accessibilityRole="header">
+      <Text variant="displayXl" numberOfLines={2} accessibilityRole="header">
         {upper(t({ id: 'home.firstRun.title', message: 'Where to first?' }), locale)}
       </Text>
       <Text variant="body" color={theme.semantic.text.secondary}>
@@ -108,10 +120,59 @@ export interface HomeScreenProps {
   readonly crewId?: string | null;
 }
 
-export function HomeScreen({ crewId = null }: HomeScreenProps) {
+/** First sync (or no session yet): skeleton blocks, and the Developer tools link stays reachable. */
+function HomeLoading() {
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
+  const inset = useTabBarInset();
+  return (
+    <Scaffold variant="dark" testID="home-loading">
+      <View style={styles.content}>
+        <Skeleton preset="lines" label={t({ id: 'home.loading', message: 'Loading your home' })} />
+        <Skeleton preset="card" />
+        <Skeleton preset="card" />
+      </View>
+      <DevToolsEntry bottom={inset + theme.space['4']} />
+    </Scaffold>
+  );
+}
+
+/** Home waits for the session's local database: until it opens there is nothing to read yet. */
+export function HomeScreen(props: HomeScreenProps) {
+  const localFirst = useContext(LocalFirstContext);
+  const patienceOver = useElapsed(FIRST_SYNC_PATIENCE_MS);
+  if (localFirst !== null) return <HomeContent {...props} />;
+  // No session yet (a first launch offline): nothing of the user's can exist locally, so after a
+  // short wait Home shows the first run rather than a skeleton that may never resolve.
+  return patienceOver ? <SessionlessFirstRun /> : <HomeLoading />;
+}
+
+const NO_CELLS: HomeView['guideCells'] = [];
+
+function SessionlessFirstRun() {
+  const styles = useStyles();
+  const theme = useTheme();
+  const inset = useTabBarInset();
+  const { width } = useWindowDimensions();
+  return (
+    <Scaffold variant="dark" testID="home-screen">
+      <ScrollView
+        contentContainerStyle={[styles.content, { paddingBottom: inset + theme.space['32'] }]}
+      >
+        <FirstRun
+          view={{ firstName: '', guideCells: NO_CELLS }}
+          width={width - 2 * theme.size.gutter}
+        />
+      </ScrollView>
+      <DevToolsEntry bottom={inset + theme.space['4']} />
+    </Scaffold>
+  );
+}
+
+function HomeContent({ crewId = null }: HomeScreenProps) {
+  const styles = useStyles();
+  const theme = useTheme();
   const view = useHomeState(crewId);
   useAppBadge(view.needsYou, view.status === 'ready');
   useRecordAppOpen();
@@ -119,21 +180,7 @@ export function HomeScreen({ crewId = null }: HomeScreenProps) {
   const { width } = useWindowDimensions();
   const contentWidth = width - 2 * theme.size.gutter;
 
-  if (view.status === 'loading') {
-    return (
-      <Scaffold variant="dark" testID="home-loading">
-        <View style={styles.content}>
-          <Skeleton
-            preset="lines"
-            label={t({ id: 'home.loading', message: 'Loading your home' })}
-          />
-          <Skeleton preset="card" />
-          <Skeleton preset="card" />
-        </View>
-        <DevToolsEntry bottom={inset + theme.space['4']} />
-      </Scaffold>
-    );
-  }
+  if (view.status === 'loading') return <HomeLoading />;
 
   const mode = view.home.mode;
   return (

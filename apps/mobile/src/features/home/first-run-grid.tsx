@@ -29,6 +29,8 @@ const CELL_HEIGHT = 132;
 const CELL_STICKER = 88;
 const COLUMNS = 3;
 const PLUS = 36;
+/** The render's flat grey guide silhouettes on the raised cell. */
+const SILHOUETTE = tokens.color.ink[400];
 
 /** The guides' home cities before the catalogue has synced (place names are data, not copy). */
 /* eslint-disable lingui/no-unlocalized-strings -- proper nouns from the content catalogue. */
@@ -113,7 +115,7 @@ function Cell({ cell, index, width }: { cell: GuideCell; index: number; width: n
       name={sticker.name}
       size={CELL_STICKER}
       variant="mask"
-      maskColor={tokens.tier.locked.default}
+      maskColor={SILHOUETTE}
       sticker={null}
     />
   );

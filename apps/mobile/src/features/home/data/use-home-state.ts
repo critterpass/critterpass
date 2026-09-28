@@ -78,10 +78,24 @@ export function useMinuteClock(now: () => Date = systemNow): string {
   return at.toISOString();
 }
 
+/** How long a first sync may hold Home on its skeleton before Home shows what it has. */
+export const FIRST_SYNC_PATIENCE_MS = 4000;
+
+/** False until `ms` have passed since mount. */
+export function useElapsed(ms: number): boolean {
+  const [elapsed, setElapsed] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setElapsed(true), ms);
+    return () => clearTimeout(timer);
+  }, [ms]);
+  return elapsed;
+}
+
 export function useHomeState(requestedCrewId: string | null = null): HomeView {
   const uid = useOwnerUid();
   const minute = useMinuteClock();
   const sync = useSyncStatus();
+  const patienceOver = useElapsed(FIRST_SYNC_PATIENCE_MS);
   const profile = useLiveRows<ProfileRow>(PROFILE_SQL, uid === null ? null : [uid], PROFILE_TABLES);
   const crews = useLiveRows<CrewRow>(CREWS_SQL, uid === null ? null : [uid], CREWS_TABLES);
   const me = profile.rows[0] ?? null;
@@ -121,7 +135,9 @@ export function useHomeState(requestedCrewId: string | null = null): HomeView {
     const nothingLocal = me === null && crews.rows.length === 0;
     const firstSync =
       sync.lastSyncedAt === null && (sync.phase === 'connecting' || sync.phase === 'catching_up');
-    const loading = uid === null || !crews.loaded || (nothingLocal && firstSync);
+    // A sync that never arrives (offline, a slow server) must not hold Home on the skeleton.
+    const waiting = uid === null || !crews.loaded || (nothingLocal && firstSync);
+    const loading = waiting && !patienceOver;
     return {
       status: loading ? 'loading' : 'ready',
       uid,
@@ -149,6 +165,7 @@ export function useHomeState(requestedCrewId: string | null = null): HomeView {
     minute,
     sync.lastSyncedAt,
     sync.phase,
+    patienceOver,
     me,
     crews,
     crewRow,
