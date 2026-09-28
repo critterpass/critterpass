@@ -15,7 +15,7 @@ let package = Package(
         "CpLocation.podspec", "CpLocationModule.swift", "SessionManager.swift",
         "MonitorRotation.swift", "FixStream.swift", "Tests",
       ],
-      sources: ["LocationPlanMath.swift"]
+      sources: ["LocationPlanMath.swift", "RegionMonitorOwner.swift"]
     ),
     .testTarget(
       name: "LocationPlanMathTests",

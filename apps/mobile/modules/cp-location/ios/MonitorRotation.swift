@@ -1,70 +1,21 @@
 import CoreLocation
 import Foundation
 
-/// A region transition from `CLMonitor`.
-struct RegionEvent: Sendable {
-  let id: String
-  let entered: Bool
-  let timestamp: Date
-}
-
-/// The planned regions on `CLMonitor` (≤ 20 conditions), replaced from the JS planner without
-/// touching unchanged ones. The monitor keeps its conditions across launches, and under Always it
-/// relaunches a terminated app on a transition; the last plan is persisted so the diff after a
-/// relaunch starts from what the OS actually holds.
-actor MonitorRotation {
-  static let monitorName = "cp-trip-regions"
+/// `CLMonitor` behind `RegionMonitorOwner`, and the one owner per process. The monitor keeps its
+/// conditions across launches, and under Always it relaunches a terminated app on a transition;
+/// the last plan is persisted so the diff after a relaunch starts from what the OS holds.
+enum MonitorRotation {
+  /// Letters only: CoreLocation asserts "Monitor name is not valid" (CLMonitor.mm:507) on a name
+  /// with hyphens, and "already in use" (CLMonitor.mm:517) on a second monitor with the same name.
+  static let monitorName = LocationPlanMath.monitorName
   private static let planKey = "cp.location.monitorPlan"
-  private var monitor: CLMonitor?
-  private var eventsTask: Task<Void, Never>?
-  private var regions: [PlannedRegion] = MonitorRotation.loadPlan()
 
-  /// Opens the monitor and starts delivering its events (idempotent).
-  func open(onEvent: @escaping @Sendable (RegionEvent) -> Void) async {
-    if monitor != nil { return }
-    let opened = await CLMonitor(Self.monitorName)
-    monitor = opened
-    eventsTask = Task {
-      do {
-        for try await event in await opened.events {
-          switch event.state {
-          case .satisfied:
-            onEvent(RegionEvent(id: event.identifier, entered: true, timestamp: event.date))
-          case .unsatisfied:
-            onEvent(RegionEvent(id: event.identifier, entered: false, timestamp: event.date))
-          default:
-            continue
-          }
-        }
-      } catch {
-        // Monitoring stops with authorization; the next session re-opens it.
-      }
-    }
-  }
-
-  func replace(with next: [PlannedRegion], onEvent: @escaping @Sendable (RegionEvent) -> Void) async -> Int {
-    await open(onEvent: onEvent)
-    guard let monitor else { return 0 }
-    let diff = LocationPlanMath.diff(current: regions, next: next)
-    for id in diff.remove { await monitor.remove(id) }
-    for region in diff.add {
-      let condition = CLMonitor.CircularGeographicCondition(
-        center: CLLocationCoordinate2D(latitude: region.latitude, longitude: region.longitude),
-        radius: region.radius)
-      await monitor.add(condition, identifier: region.id, assuming: .unsatisfied)
-    }
-    regions = Array(next.prefix(LocationPlanMath.monitorLimit))
-    Self.savePlan(regions)
-    return regions.count
-  }
-
-  func clear() async {
-    if let monitor {
-      for region in regions { await monitor.remove(region.id) }
-    }
-    regions = []
-    Self.savePlan([])
-  }
+  /// Created once per process; module instances (one per JS runtime) share it.
+  static let shared = RegionMonitorOwner(
+    initialPlan: loadPlan(),
+    savePlan: { savePlan($0) },
+    makeBackend: { await CLMonitorBackend.open(name: monitorName) }
+  )
 
   private static func loadPlan() -> [PlannedRegion] {
     guard let rows = UserDefaults.standard.array(forKey: planKey) as? [[String: Any]] else { return [] }
@@ -81,5 +32,53 @@ actor MonitorRotation {
       ["id": $0.id, "lat": $0.latitude, "lng": $0.longitude, "radius": $0.radius]
     }
     UserDefaults.standard.set(rows, forKey: planKey)
+  }
+}
+
+/// One named `CLMonitor`; the owner guarantees it is opened once per process.
+final class CLMonitorBackend: RegionMonitorBackend {
+  private let monitor: CLMonitor
+
+  private init(monitor: CLMonitor) {
+    self.monitor = monitor
+  }
+
+  static func open(name: String) async -> CLMonitorBackend {
+    CLMonitorBackend(monitor: await CLMonitor(name))
+  }
+
+  func add(_ region: PlannedRegion) async {
+    let condition = CLMonitor.CircularGeographicCondition(
+      center: CLLocationCoordinate2D(latitude: region.latitude, longitude: region.longitude),
+      radius: region.radius)
+    await monitor.add(condition, identifier: region.id, assuming: .unsatisfied)
+  }
+
+  func remove(_ id: String) async {
+    await monitor.remove(id)
+  }
+
+  func events() async -> AsyncStream<RegionEvent> {
+    let monitor = self.monitor
+    return AsyncStream { continuation in
+      let task = Task {
+        do {
+          for try await event in await monitor.events {
+            switch event.state {
+            case .satisfied:
+              continuation.yield(RegionEvent(id: event.identifier, entered: true, timestamp: event.date))
+            case .unsatisfied:
+              continuation.yield(RegionEvent(id: event.identifier, entered: false, timestamp: event.date))
+            default:
+              continue
+            }
+          }
+        } catch {
+          // Monitoring stops with authorization; the stream ends and nothing more arrives.
+        }
+        continuation.finish()
+      }
+      continuation.onTermination = { _ in task.cancel() }
+    }
   }
 }

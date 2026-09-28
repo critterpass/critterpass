@@ -15,7 +15,12 @@ struct FixEvent: Sendable {
 /// `CLLocationUpdate.liveUpdates` for the running session. The stream has no accuracy dial, so
 /// the tier picks the configuration (fitness for high accuracy near a spot) and the coarse tier is
 /// throttled; the system's own stationary signal rides along so the engine can pause.
+///
+/// One stream per process: the module is recreated on every JS reload while the process lives
+/// on, and a second live-updates loop would double every fix and drain the battery.
 final class FixStream: @unchecked Sendable {
+  static let shared = FixStream()
+
   private var task: Task<Void, Never>?
   private let lock = NSLock()
   private var tier = "balanced"

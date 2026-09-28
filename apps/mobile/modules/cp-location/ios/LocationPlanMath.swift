@@ -18,6 +18,14 @@ public struct PlannedRegion: Equatable, Sendable {
 /// Pure planning helpers shared by the monitor and the fix stream (Foundation only, so the
 /// host-side `swift test` runs them without a simulator).
 public enum LocationPlanMath {
+  /// The one `CLMonitor` name: CoreLocation accepts letters and digits only.
+  public static let monitorName = "cpTripRegions"
+
+  /// Whether CoreLocation will accept `name` for a `CLMonitor` (letters and digits only).
+  public static func isValidMonitorName(_ name: String) -> Bool {
+    !name.isEmpty && name.unicodeScalars.allSatisfy { CharacterSet.alphanumerics.contains($0) && $0.isASCII }
+  }
+
   /// `CLMonitor` holds at most 20 conditions per app.
   public static let monitorLimit = 20
 

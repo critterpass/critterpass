@@ -46,4 +46,10 @@ final class LocationPlanMathTests: XCTestCase {
     XCTAssertNil(body["speed"])
     XCTAssertEqual(body["mock"] as? Int, 2)
   }
+
+  func testTheMonitorNameIsOneCoreLocationAccepts() {
+    XCTAssertTrue(LocationPlanMath.isValidMonitorName(LocationPlanMath.monitorName))
+    XCTAssertFalse(LocationPlanMath.isValidMonitorName("cp-trip-regions"))
+    XCTAssertFalse(LocationPlanMath.isValidMonitorName(""))
+  }
 }
