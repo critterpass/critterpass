@@ -1,0 +1,45 @@
+appId: app.critterpass.dev
+---
+# Trip-day session end to end on either platform: the location primer (just-in-time, trip start)
+# before the OS prompt, then the session, fixes and a visit arrival at the planned temple.
+- launchApp:
+    clearState: true
+    permissions:
+      location: unset
+- setLocation:
+    latitude: -8.5064
+    longitude: 115.2610
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: permissions
+      READY: dev-permissions
+- tapOn:
+    id: 'dev-permission-location-primer'
+- extendedWaitUntil:
+    visible:
+      id: 'primer-sheet-accept'
+    timeout: 10000
+- tapOn:
+    id: 'primer-sheet-accept'
+- tapOn:
+    text: '(Allow While Using App|While using the app)'
+- back
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: location-engine
+      READY: dev-location-engine
+- tapOn:
+    id: 'dev-location-start'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-location-running'
+      text: 'running: true'
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: 'dev-location-visits'
+      text: '.*arrived temple_shrine.*'
+    timeout: 150000
+- takeScreenshot: trip-day-session

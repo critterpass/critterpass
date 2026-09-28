@@ -24,6 +24,11 @@ const DEV_SCREENS: readonly DevScreenEntry[] = [
   { testId: 'dev-nav-gallery', href: '/(dev)/gallery', label: 'Component gallery' },
   { testId: 'dev-nav-permissions', href: '/(dev)/permissions', label: 'Permissions (live status)' },
   {
+    testId: 'dev-nav-location-engine',
+    href: '/(dev)/location-engine',
+    label: 'Location engine (trip day)',
+  },
+  {
     testId: 'dev-nav-permissions-primer',
     href: '/(dev)/permissions-primer',
     label: 'Permissions primer (3a-9)',

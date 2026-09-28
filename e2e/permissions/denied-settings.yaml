@@ -1,0 +1,30 @@
+appId: app.critterpass.dev
+---
+# After an OS denial only the Settings path is offered: the primer sheet says it is off in
+# Settings and its action opens them; no OS prompt can appear.
+- launchApp:
+    clearState: true
+    permissions:
+      camera: deny
+- runFlow:
+    file: subflows/open-dev-screen.yaml
+    env:
+      SCREEN: permissions
+      READY: dev-permissions
+- extendedWaitUntil:
+    visible:
+      id: 'dev-permission-camera-status'
+      text: 'denied.*'
+    timeout: 10000
+- tapOn:
+    id: 'dev-permission-camera-primer'
+- extendedWaitUntil:
+    visible:
+      text: 'It is switched off in Settings.*'
+    timeout: 10000
+- assertVisible:
+    id: 'primer-sheet-accept'
+    text: 'Open Settings'
+- takeScreenshot: denied-settings
+- tapOn:
+    id: 'primer-sheet-decline'

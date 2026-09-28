@@ -1,0 +1,34 @@
+appId: app.critterpass.dev
+---
+# The Always upgrade is its own later step: offered only on While-In-Use, primer first (on
+# Android the prominent disclosure), then the system's own Always step.
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: location-engine
+      READY: dev-location-engine
+- extendedWaitUntil:
+    visible:
+      id: 'dev-location-permission'
+      text: 'location: granted wiu'
+    timeout: 15000
+- tapOn:
+    id: 'dev-location-always'
+- extendedWaitUntil:
+    visible:
+      text: '(Allow all the time|Continue)'
+    timeout: 10000
+- takeScreenshot: always-upgrade-primer
+- tapOn:
+    text: '(Allow all the time|Continue)'
+- tapOn:
+    text: '(Change to Always Allow|Allow all the time)'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-location-permission'
+      text: 'location: granted always'
+    timeout: 20000

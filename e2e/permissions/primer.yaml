@@ -1,0 +1,45 @@
+appId: app.critterpass.dev
+---
+# 3a-9 primer: every toggle starts off, the OS prompt appears only after a toggle is flipped on,
+# a grant keeps the toggle on, a refusal snaps it back and offers Settings.
+- launchApp:
+    clearState: true
+    permissions:
+      notifications: unset
+      location: unset
+- runFlow:
+    file: subflows/open-dev-screen.yaml
+    env:
+      SCREEN: permissions-primer
+      READY: permissions-primer
+- assertVisible:
+    id: 'primer-notifications-toggle'
+    checked: false
+- assertVisible:
+    id: 'primer-location-toggle'
+    checked: false
+- assertVisible:
+    id: 'primer-calendar-toggle'
+    checked: false
+- tapOn:
+    id: 'primer-notifications-toggle'
+- tapOn:
+    text: 'Allow'
+    optional: false
+- extendedWaitUntil:
+    visible:
+      id: 'primer-notifications-toggle'
+      checked: true
+    timeout: 10000
+- tapOn:
+    id: 'primer-location-toggle'
+- tapOn:
+    text: 'Don.t Allow'
+- extendedWaitUntil:
+    visible:
+      id: 'primer-location-denied'
+    timeout: 10000
+- assertVisible:
+    id: 'primer-location-toggle'
+    checked: false
+- takeScreenshot: primer-denied-location
