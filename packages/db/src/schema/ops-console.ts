@@ -91,6 +91,14 @@ export const moderationReports = pgTable('moderation_reports', {
   decidedAt: timestamp('decided_at', { withTimezone: true, mode: 'date' }),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+  /** The reported subject's author, resolved by the kind handler at intake. */
+  authorId: uuid('author_id'),
+  /** The operator working the report. */
+  assigneeAdminId: uuid('assignee_admin_id'),
+  /** First filing + `moderation.sla_hours` (default 24). */
+  dueAt: timestamp('due_at', { withTimezone: true, mode: 'date' }),
+  /** Filings per reason. */
+  reasonCounts: jsonb('reason_counts').$type<Record<string, number>>().notNull().default({}),
 });
 
 /**
@@ -109,6 +117,8 @@ export const opsModerationFilings = ops.table('moderation_filings', {
     .references(() => users.id),
   reason: text('reason').notNull(),
   filedAt: timestamp('filed_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+  /** The reporter's optional note (1-280 characters), contact details and links cut out. */
+  note: text('note'),
 });
 
 /** Support's time-boxed perk grants; active ones feed the entitlement engine as Pass+ time. */

@@ -3,7 +3,7 @@
  * migrations (packages/db/migrations/*_ai_usage.sql and the AI tables that follow), which are the
  * source of truth for constraints, RLS and grants — not run through `drizzle-kit generate`.
  */
-import { registerTablePrivacy, type AiTier } from '@cp/domain';
+import { registerTablePrivacy, type AiRoute, type AiTier } from '@cp/domain';
 import { sql } from 'drizzle-orm';
 import {
   bigint,
@@ -36,6 +36,8 @@ export const aiUsage = pgTable('ai_usage', {
   costMicros: bigint('cost_micros', { mode: 'number' }).notNull(),
   langfuseTraceId: text('langfuse_trace_id'),
   at: timestamp('at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+  /** The gateway route of the call (`guide.chat`, ...); null on rows written before routes were recorded. */
+  route: text('route').$type<AiRoute>(),
 });
 
 const createdAt = () =>
