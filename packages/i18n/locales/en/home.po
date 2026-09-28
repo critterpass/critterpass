@@ -6,3 +6,127 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#. placeholder {0}: cell.place
+#. placeholder {1}: sticker.name
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.guideCell"
+msgstr "{0}, with {1}"
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.postTrip.title"
+msgstr "{place} recap"
+
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.spoken"
+msgstr "{spoken} to {place}"
+
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.dayLetter"
+msgstr "D"
+
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.day"
+msgstr "Day {day}"
+
+#: ../../apps/mobile/src/features/home/dev-tools-entry.tsx
+msgid "home.devTools"
+msgstr "Developer tools"
+
+#: ../../apps/mobile/src/features/home/tip-strip.tsx
+msgid "home.tip.dismiss"
+msgstr "Dismiss tip"
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.postTrip.eyebrow"
+msgstr "How'd it go?"
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.joinCode"
+msgstr "Join with a code"
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.noTrip.last"
+msgstr "Last trip · {last}"
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.loading"
+msgstr "Loading your home"
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.nextUp.eyebrowUndated"
+msgstr "Next up"
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.nextUp.eyebrow"
+msgstr "Next up · {day}"
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.elsewhereBody"
+msgstr "No guide there yet. Tokek will cover until one moves in."
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.noTrip.line"
+msgstr "Nothing on the calendar yet. Pitch a place and I'll get the vote going."
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.inTrip.open"
+msgstr "Open the trip"
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.body"
+msgstr "Pick a guide to start a trip. Your crew can vote on it later."
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.noTrip.pitch"
+msgstr "Pitch a place"
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.nextUp.planSpoken"
+msgstr "plan {progress} percent done"
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.nextUp.plan"
+msgstr "Plan {progress}%"
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.postTrip.open"
+msgstr "See the recap"
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.elsewhere"
+msgstr "Somewhere else"
+
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.today"
+msgstr "Today"
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.inTrip.eyebrow"
+msgstr "Today · Day {day}"
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.postTrip.fallback"
+msgstr "Trip"
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.welcomeAnon"
+msgstr "Welcome"
+
+#. placeholder {0}: view.firstName
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.welcome"
+msgstr "Welcome, {0}"
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.title"
+msgstr "Where to first?"
+
+#: ../../apps/mobile/src/features/home/home-commands.ts
+msgid "home.queued.inboxAction"
+msgstr "Your answer in the inbox"
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.nextUp.untitled"
+msgstr "Your next trip"

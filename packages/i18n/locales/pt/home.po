@@ -6,3 +6,127 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: pt\n"
+
+#. placeholder {0}: cell.place
+#. placeholder {1}: sticker.name
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.guideCell"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.postTrip.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.spoken"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.dayLetter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/dev-tools-entry.tsx
+msgid "home.devTools"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/tip-strip.tsx
+msgid "home.tip.dismiss"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.postTrip.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.joinCode"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.noTrip.last"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.nextUp.eyebrowUndated"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.nextUp.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.elsewhereBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.noTrip.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.inTrip.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.noTrip.pitch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.nextUp.planSpoken"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+msgid "home.nextUp.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.postTrip.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/first-run-grid.tsx
+msgid "home.firstRun.elsewhere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/countdown-chip.tsx
+msgid "home.countdown.today"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.inTrip.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.postTrip.fallback"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.welcomeAnon"
+msgstr ""
+
+#. placeholder {0}: view.firstName
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.welcome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/home-screen.tsx
+msgid "home.firstRun.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/home-commands.ts
+msgid "home.queued.inboxAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/next-up-card.tsx
+#: ../../apps/mobile/src/features/home/trip-state-cards.tsx
+msgid "home.nextUp.untitled"
+msgstr ""
