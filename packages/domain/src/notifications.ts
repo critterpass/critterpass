@@ -284,6 +284,11 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'nudge.received': ['nudge'],
   // Crew chat: a new message, to members by their per-crew level.
   'chat.message_sent': ['crew_chat'],
+  // Crew live map: PING ALL / I'M ON MY WAY, and meet-up changes to the sharing crew.
+  'crew.pinged': ['crew_ping'],
+  'meetup.created': ['meetup_changed'],
+  'meetup.moved': ['meetup_changed'],
+  'meetup.crew_close': ['meetup_changed'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

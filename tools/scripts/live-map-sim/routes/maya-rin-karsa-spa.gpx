@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="critterpass live-map-sim" xmlns="http://www.topografix.com/GPX/1/1">
+  <trk><name>Karsa Spa to Campuhan Ridge (walking)</name><trkseg>
+    <trkpt lat="-8.49150" lon="115.25300"/>
+    <trkpt lat="-8.49380" lon="115.25330"/>
+    <trkpt lat="-8.49620" lon="115.25360"/>
+    <trkpt lat="-8.49860" lon="115.25400"/>
+    <trkpt lat="-8.50090" lon="115.25420"/>
+    <trkpt lat="-8.50280" lon="115.25440"/>
+  </trkseg></trk>
+</gpx>

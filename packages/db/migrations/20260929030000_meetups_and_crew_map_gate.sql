@@ -115,11 +115,15 @@ LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
   SELECT m.trip_id FROM meetups m WHERE m.id = meetup AND app.is_trip_member(m.trip_id)
 $$;
 
--- A moved meet-up starts its arrivals and "everyone is close" moment over (system-only columns).
+-- A moved meet-up starts its arrivals, "everyone is close" moment and ETAs over (system-only
+-- columns and rows), so the next recount runs at once for the new place.
 CREATE OR REPLACE FUNCTION app.reset_meetup_arrivals(meetup uuid) RETURNS void
 LANGUAGE sql VOLATILE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+  DELETE FROM member_etas e
+   USING meetups m
+   WHERE e.meetup_id = m.id AND m.id = meetup AND app.can_view_crew_map(m.trip_id);
   UPDATE meetups SET arrived = '{}'::jsonb, all_close_at = NULL
-  WHERE id = meetup AND app.can_view_crew_map(trip_id)
+  WHERE id = meetup AND app.can_view_crew_map(trip_id);
 $$;
 REVOKE ALL ON FUNCTION app.meetup_trip(uuid) FROM PUBLIC;
 REVOKE ALL ON FUNCTION app.reset_meetup_arrivals(uuid) FROM PUBLIC;

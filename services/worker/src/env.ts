@@ -56,6 +56,9 @@ export const workerEnvSchema = z.object({
   CENTRIFUGO_API_URL: optionalUrl,
   /** Same value as the Centrifugo service's CENTRIFUGO_HTTP_API_KEY. */
   CENTRIFUGO_HTTP_API_KEY: optionalString,
+  /** Valhalla base URL for crew live map ETAs (`sources_to_targets`); unset = straight-line
+   *  estimates labelled "about". */
+  VALHALLA_URL: optionalUrl,
   /** The web origin `og.render` asks for share cards (e.g. `https://critterpass.app`); unset = the
    *  primary link host of APP_ENV, and no card requests locally. */
   WEB_BASE_URL: optionalUrl,

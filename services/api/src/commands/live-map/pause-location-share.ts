@@ -12,7 +12,14 @@ import {
 } from '@cp/domain';
 
 import { defineCommand } from '../_framework/define-command';
-import { firstRow, publishLiveMap, requireCrewMapOpen } from './shared';
+import {
+  activeMeetup,
+  armMeetupEtas,
+  firstRow,
+  publishLiveMap,
+  requireCrewMapOpen,
+  tripZone,
+} from './shared';
 
 export const pauseLocationShareCommand = defineCommand({
   name: 'pause_location_share',
@@ -58,6 +65,8 @@ export const pauseLocationShareCommand = defineCommand({
         uid: ctx.uid,
         share_id: payload.share_id,
       });
+      const meetup = await activeMeetup(tx, row.trip_id);
+      if (meetup !== null) await armMeetupEtas(tx, meetup.id, await tripZone(tx, row.trip_id));
     }
     await appendDomainEvent(tx, {
       type: 'location_share.changed',
