@@ -215,6 +215,7 @@ export function createDecisionClient(options: DecisionClientOptions = {}): Decis
       null;
     await options.onUsage?.(
       buildUsageRecord({
+        route,
         model,
         tier: 'jev',
         usage,

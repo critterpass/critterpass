@@ -133,7 +133,18 @@ describe('set_feature_flag', () => {
     expect(rows).toEqual([
       {
         action: 'set_feature_flag',
-        detail: { key: 'redraft.limit_free', value: 4, audience: { kind: 'all' } },
+        detail: {
+          key: 'redraft.limit_free',
+          value: 4,
+          audience: { kind: 'all' },
+          summary: 'redraft.limit_free · — → 4',
+          changes: [
+            { field: 'value', before: null, after: 4 },
+            { field: 'audience', before: null, after: { kind: 'all' } },
+          ],
+          via: 'admin',
+          roles: ['ops'],
+        },
       },
     ]);
   });

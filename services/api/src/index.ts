@@ -293,7 +293,13 @@ if (
 }
 
 // Ops console (/v1/admin/*): its own Better Auth instance, guard and audited command pipeline.
-const adminConsole = buildAdminConsole(env, { pool, redis, logger, appAuth: authModule.auth });
+const adminConsole = buildAdminConsole(env, {
+  pool,
+  redis,
+  logger,
+  appAuth: authModule.auth,
+  jobs: { boss: () => jobProducer, redis },
+});
 if (adminConsole) {
   mountAdminRouter(app, adminConsole.router);
 } else {

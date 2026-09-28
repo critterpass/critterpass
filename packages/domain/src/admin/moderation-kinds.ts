@@ -47,6 +47,8 @@ export const reportContentPayloadSchema = z.object({
   kind: moderationSubjectKindSchema,
   id: z.uuid(),
   reason: reportReasonSchema,
+  /** The reporter's optional note; contact details and links are cut out before it is stored. */
+  note: z.string().trim().min(1).max(280).nullish(),
 });
 export type ReportContentPayload = z.infer<typeof reportContentPayloadSchema>;
 
@@ -117,3 +119,45 @@ export const moderationQueueQuerySchema = z.object({
 
 export const moderationSummarySchema = z.object({ open: z.number().int().nonnegative() });
 export type ModerationSummary = z.infer<typeof moderationSummarySchema>;
+
+export const moderationQueueEntrySchema = moderationQueueItemSchema.extend({
+  author_id: z.uuid().nullable(),
+  assignee_admin_id: z.uuid().nullable(),
+  due_at: z.iso.datetime({ offset: true }).nullable(),
+  /** Filings per reason (`{spam: 2, hate: 1}`). */
+  reason_counts: z.record(z.string(), z.number().int()),
+});
+export const moderationQueueFilterSchema = moderationQueueQuerySchema.extend({
+  kind: moderationSubjectKindSchema.optional(),
+});
+
+export const moderationAuthorSchema = z.object({
+  uid: z.uuid(),
+  display_name: z.string().nullable(),
+  username: z.string().nullable(),
+  status: z.string(),
+  joined_at: z.iso.datetime({ offset: true }),
+  crews: z.array(z.object({ id: z.uuid(), name: z.string(), role: z.string() })),
+  reports_against: z.object({ total: z.number().int(), open: z.number().int() }),
+  verdicts: z.array(
+    z.object({
+      report_id: z.uuid(),
+      target_kind: z.string(),
+      target_id: z.uuid(),
+      reason: z.string(),
+      verdict: moderationVerdictSchema,
+      decided_at: z.iso.datetime({ offset: true }),
+    }),
+  ),
+});
+
+export const moderateItemWithBanSchema = moderateItemPayloadSchema.extend({
+  /** A `ban_author` verdict's ban: its reason (default: the note) and optional end. */
+  ban: z
+    .object({
+      reason: z.string().trim().min(3).max(500),
+      expires_at: z.iso.datetime({ offset: true }).optional(),
+    })
+    .optional(),
+});
+export type ModerationAuthor = z.infer<typeof moderationAuthorSchema>;

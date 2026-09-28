@@ -53,6 +53,12 @@ const PAYLOADS: Readonly<Record<string, () => unknown>> = {
   create_concierge_task: () => ({ kind: 'review', note: 'Role matrix probe' }),
   update_concierge_task: () => ({ id: nobody(), version: 1, note: 'matrix' }),
   set_admin_role: () => ({ uid: nobody(), roles: ['support'], reason: 'matrix' }),
+  revoke_admin_sessions: () => ({ uid: nobody(), reason: 'matrix' }),
+  // Unknown queues and providers: an allowed call is refused by the handler, never by the policy.
+  claim_work_item: () => ({ queue: 'matrix_probe', item_id: nobody() }),
+  release_work_item: () => ({ queue: 'matrix_probe', item_id: nobody() }),
+  redrive_jobs: () => ({ queue: 'matrix.probe' }),
+  replay_webhook: () => ({ provider: 'matrix_probe', event_id: 'evt_matrix' }),
 };
 
 async function send(page: Page, cmd: string): Promise<number> {

@@ -94,7 +94,7 @@ Better Auth (`auth` schema; ids = UUIDv7 via `advanced.database.generateId`):
 | Table | Columns (plugins) | Notes |
 |---|---|---|
 | `auth.user` | id, name, email (nullable for phone-only; anonymous plugin temp email), email_verified, image, is_anonymous (anonymous), phone_number, phone_number_verified (phoneNumber), role, banned, ban_reason, ban_expires (admin) | uid is preserved on anonymous upgrade (`linkSocial`, phone `verify({updatePhoneNumber:true})`); merge only via `onLinkAccount` when the identity already exists |
-| `auth.session` | id, user_id, token, expires_at (30 d sliding), ip_address, user_agent, impersonated_by | Redis secondary storage for rate limits |
+| `auth.session` | id, user_id, token, expires_at (30 d sliding; console 12 h absolute), ip_address, user_agent, impersonated_by, console (true for ops console sessions, set by its Better Auth instance) | Redis secondary storage for rate limits |
 | `auth.account` | id, user_id, provider_id (apple/google/phone), account_id, access/refresh/id tokens, scope | `disableImplicitLinking`; SIWA refresh token captured for revocation on deletion |
 | `auth.verification` | identifier, value, expires_at | OTP 300 s |
 | `auth.jwks` | id, public_key, private_key (AES-GCM), created_at | EdDSA; `/jwks` for PowerSync + Centrifugo |
@@ -394,7 +394,7 @@ original row above.
 | `ideas` | title, body, status (open/planned/building/shipped), embedding, votes_count | — | adm curate; any submit | R | help | C0 | forever |
 | `idea_votes` | idea_id, user_id | uk | self | O | me | C2 | acct |
 | `feedback_tickets` | user_id, ticket_no, mood, category, body, device_info jsonb (opt-in), screenshot_key, status | (status) | self create | O | me | C2 | 2 y |
-| `moderation_reports` | reporter_id? (null only for `source = compliance`), source (user/compliance), target_kind, target_id, reason, status, report_count, last_reported_at, verdict, decided_by, decided_at | (status, last_reported_at); open rows by (target_kind, target_id) | any | S | — | C2 | 1 y |
+| `moderation_reports` | reporter_id? (null only for `source = compliance`), source (user/compliance), target_kind, target_id, reason, status, report_count, last_reported_at, verdict, decided_by, decided_at, author_id? (the kind handler's author at intake), assignee_admin_id?, due_at (first filing + `moderation.sla_hours`, default 24), reason_counts jsonb (filings per reason) | (status, last_reported_at); open rows by (target_kind, target_id); author_id; open rows by due_at | any | S | — | C2 | 1 y |
 
 ### 3.16 Ops, concierge, vendor messaging (`ops` schema)
 
@@ -405,12 +405,13 @@ original row above.
 | `ops.vendor_messages` | thread_id, direction, body, template_name, approved_by_user_id, approved_at, wa_message_id, status | adm (send only after user approval) | S | C2 | 1 y |
 | `ops.approvals` | user_id, subject_kind, subject_id, text_shown, approved_at, op_id | self (via API) | S | C2 | 2 y |
 | `ops.partner_adapters` | partner (agoda_demand/klook_activity/trip_com_at/viator_booking/gyg_api), enabled, copy_mode, approved_at, notes | adm | S (`client_config` exposes flags) | C0 | forever |
-| `ops.admin_audit` | admin_id, action, target_kind, target_id, reason, at, ip_hash | sys | S | C2 | 2 y |
+| `ops.admin_audit` | admin_id, action, target_kind, target_id, reason, at, ip_hash, op_id, detail jsonb = `{summary, changes: [{field, before, after}], via: admin\|cli, roles, …command keys}` (`auditDetailSchema`; a handler that writes its own row gets op_id and detail from the pipeline's `app.admin_audit_context` through an insert trigger, so the table stays insert-only); indexes op_id, (action, at), `detail->>'key'` | sys | S | C2 | 2 y |
 | `ops.supplier_calls` | supplier, endpoint (fixed label, never a URL), method, attempt, outcome (ok/http_error/timeout/network_error), status, latency_ms, cost_units, at (no bodies) | sys | S | C0 | 90 d |
-| `ops.moderation_filings` | report_id, reporter_id, reason, filed_at; uk (report_id, reporter_id) — one row per user filing behind a report (daily report limit, repeat reports count once) | sys | S | C2 | 1 y |
+| `ops.moderation_filings` | report_id, reporter_id, reason, note? (≤ 280, contact details and links cut out at intake), filed_at; uk (report_id, reporter_id) — one row per user filing behind a report (daily report limit, repeat reports count once) | sys | S | C2 | 1 y |
+| `ops.work_claims` | queue, item_id, admin_id, claimed_at; pk (queue, item_id) — who is working an item of a console queue (`claim_work_item`); mirrored into the source's own assignee column where it has one | adm | S | C2 | while the item is open |
 | `ops.entitlement_grants` | user_id, perk (pass_plus), until, reason, granted_by, granted_at, revoked_at?, revoked_by?, revoke_reason?; active grants read only through `app.active_entitlement_grants(uid)` (SECURITY DEFINER: app_system any uid, app_user own) by the entitlement loader | adm | S | C2 | 2 y |
 | `ops.content_reviews` | release_id, item_ref, render_key, verdict, reviewer, notes | adm | S | C0 | forever |
-| `ops.dead_letters` (view over `pgboss` DLQ) | queue, job_id, error, attempts | adm | S | C2 | 30 d |
+| dead letters (pg-boss `<queue>.dlq`, read through the pg-boss API, no view) | queue, job id, original id, last error (`sourceOutput`), attempts, payload (redacted before any console response) | adm | S | C2 | 30 d |
 
 ### 3.17 Consent, deletion, export
 
@@ -428,7 +429,7 @@ original row above.
 | `cmd_results` | op_id (pk), uid, cmd, status (applied/rejected/duplicate), code? (UPPER_SNAKE from `packages/domain/src/errors.ts`, e.g. `VOTE_CLOSED`, `VERSION_CONFLICT`, `SEAT_LIMIT`, `QUOTA_EXHAUSTED`), detail jsonb?, result_ref jsonb (created ids, new version), server_ts | Per-command outcome synced to the owner; rejects return HTTP 2xx on `/sync/upload` | O | me | 14 d |
 | `rt_outbox` | id bigserial, channel, payload jsonb, idem_key uuid, kind (publish/unsubscribe/disconnect), created_at, published_at, attempts | Written in the command txn; worker relays with `FOR UPDATE SKIP LOCKED` to Centrifugo server API | S | — | 7 d after send |
 | `domain_events` | id, type, aggregate_kind, aggregate_id, actor_kind, actor_id, payload jsonb, occurred_at | Append-only internal event log; consumers enqueue pg-boss jobs in the same txn (`boss.send` with the txn client) | S | — | 400 d (analytics export, recap) |
-| `ai_usage` | user_id?, trip_id?, job_id?, model, tier (fast/pro/jev: the DeepSeek tiers, and `jev` = a decision call billed on input tokens), tokens_in, tokens_out, cache_read, cost_micros, langfuse_trace_id, at | Cost accounting + fair-use feed | S | — | 1 y |
+| `ai_usage` | user_id?, trip_id?, job_id?, model, tier (fast/pro/jev: the DeepSeek tiers, and `jev` = a decision call billed on input tokens), route? (the gateway route, e.g. `guide.chat`, `draft.skeleton`; index (route, at); null on rows before it was recorded), tokens_in, tokens_out, cache_read, cost_micros, langfuse_trace_id, at | Cost accounting + fair-use feed | S | — | 1 y |
 | `pgboss.*` | pg-boss 12 schema (job, queue, schedule, archive) | Owned by `app_system`; queues named `<domain>.<action>` (full catalogue: api-contracts-async §2, e.g. `rt.relay`, `notify.route`, `push.send`, `ai.draft`, `maint.purge`); DLQ `<queue>.dlq` | none | — | pg-boss archive 7 d |
 
 Client-only (PowerSync local, never replicated up as tables): `commands` insert-only local table ({op_id, type, payload, summary, attempts}) drained by `uploadData` → `POST /sync/upload`; `local_private` local-only table for owner C3 data fetched over HTTPS (insurance card, own dietary, own budget max "set" flag). The local database is SQLCipher-encrypted.

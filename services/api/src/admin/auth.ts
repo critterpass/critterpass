@@ -132,6 +132,8 @@ export function buildAdminAuthOptions(
       disableSessionRefresh: true,
       storeSessionInDatabase: true,
       cookieCache: { enabled: false },
+      // Marks console sessions, so operator views and role changes never touch app sessions.
+      additionalFields: { console: { type: 'boolean', defaultValue: true, input: false } },
     },
     account: { accountLinking: { enabled: true, trustedProviders: ['google'] } },
     rateLimit: { enabled: true, storage: 'memory', window: 60, max: 30 },

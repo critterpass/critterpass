@@ -4,7 +4,7 @@
  * its `withSystem` bound to a pool, so the insert still runs inside a system-role transaction.
  */
 import type Anthropic from '@anthropic-ai/sdk';
-import type { AiTier } from '@cp/domain';
+import type { AiRoute, AiTier } from '@cp/domain';
 
 import type { TokenUsage } from './pricing';
 
@@ -35,6 +35,8 @@ export interface AiUsageRecord {
   readonly jobId: string | null;
   readonly model: string;
   readonly tier: AiTier;
+  /** The gateway route that made the call (`guide.chat`, `draft.skeleton`, ...); spend per route. */
+  readonly route: AiRoute | null;
   /** Every prompt token: uncached input + cache writes + cache reads. */
   readonly tokensIn: number;
   readonly tokensOut: number;
@@ -48,6 +50,7 @@ export interface AiUsageRecord {
 export interface BuildUsageRecordInput {
   readonly model: string;
   readonly tier: AiTier;
+  readonly route?: AiRoute | null;
   readonly usage: TokenUsage;
   readonly costMicros: number;
   readonly context: UsageContext;
@@ -62,6 +65,7 @@ export function buildUsageRecord(input: BuildUsageRecordInput): AiUsageRecord {
     jobId: context.jobId ?? null,
     model: input.model,
     tier: input.tier,
+    route: input.route ?? null,
     tokensIn: usage.inputTokens + usage.cacheWriteTokens + usage.cacheReadTokens,
     tokensOut: usage.outputTokens,
     cacheRead: usage.cacheReadTokens,
@@ -80,8 +84,8 @@ export interface SqlClient {
 export type RunAsSystem = <T>(fn: (tx: SqlClient) => Promise<T>) => Promise<T>;
 
 const INSERT_USAGE = `INSERT INTO ai_usage
-  (user_id, trip_id, job_id, model, tier, tokens_in, tokens_out, cache_read, cost_micros, langfuse_trace_id, at)
-  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
+  (user_id, trip_id, job_id, model, tier, tokens_in, tokens_out, cache_read, cost_micros, langfuse_trace_id, at, route)
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`;
 
 export async function recordUsage(runAsSystem: RunAsSystem, record: AiUsageRecord): Promise<void> {
   await runAsSystem((tx) =>
@@ -97,6 +101,7 @@ export async function recordUsage(runAsSystem: RunAsSystem, record: AiUsageRecor
       record.costMicros,
       record.langfuseTraceId,
       record.at,
+      record.route,
     ]),
   );
 }

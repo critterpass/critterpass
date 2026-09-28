@@ -263,6 +263,7 @@ export function createGateway(options: GatewayOptions): Gateway {
       }) ??
       null;
     const record = buildUsageRecord({
+      route: route.route,
       model: route.model,
       tier: route.tier,
       usage,

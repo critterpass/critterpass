@@ -1,7 +1,7 @@
 ---
 phase: 58
 title: Ops console data capture and early contracts
-status: pending
+status: done
 depends_on: [11, 13, 17]
 wave: 7
 features: [F-025]
@@ -100,6 +100,7 @@ Handoff — later phases register into the contracts above in their own files:
 - Steps: 1. `auditDetailSchema` (zod), plus a `changesFrom(before, after, fields)` helper. 2. `runAdminCommand` stamps `via` and `roles`; each existing command's `audit()` returns `summary` + `changes`. 3. `set_feature_flag` + `reason`, previous value. 4. History read. 5. CLI passes `via='cli'`.
 - Tests: `pnpm --filter @cp/api test -- admin/audit-detail admin/flags-history`
 - Done when: every P17 command's audit row passes `auditDetailSchema`; changing `guide.free_daily_limit` from 30 to 40 shows `30 → 40` in history; a CLI command row has `via='cli'`.
+- Status: done — 5e29a2c3
 
 ### T2 — Areas, config key metadata, per-key roles
 - Goal: the policy knows every designed area and which keys only the owner may change.
@@ -107,6 +108,7 @@ Handoff — later phases register into the contracts above in their own files:
 - Steps: 1. Add six areas + roles (`operators: ['owner']`). 2. `group`, `roles?`, `note` on keys; add services-group keys (kill switches, caps, `spend.month_budget_usd`, `moderation.sla_hours`, `feedback.reply_hours`, `desk.hours`, `ops.on_call`). 3. `set_feature_flag` checks key roles. 4. Command roles table deltas.
 - Tests: `pnpm --filter @cp/domain test -- admin/policy admin/config-keys`
 - Done when: `ops` can't set `ai.tier.pro.enabled` (`FORBIDDEN`); owner can; each area has a non-empty role list.
+- Status: done — 8a75a6a7
 
 ### T3 — Moderation intake data
 - Goal: reports carry what the moderation screen and author card need.
@@ -114,6 +116,7 @@ Handoff — later phases register into the contracts above in their own files:
 - Steps: 1. Kind-handler `author()` called at intake → `author_id`. 2. Note, reason counts, SLA `due_at`. 3. Kind filter + per-kind counts. 4. Author read (reports against, past verdicts). 5. `ban` payload on `ban_author` chained to `ban_user`.
 - Tests: `pnpm --filter @cp/api test -- admin/moderation-intake`
 - Done when: a re-report with another reason increments `reason_counts`; a ban verdict with an expiry bans until that time; the author read shows prior verdicts.
+- Status: done — 0471c726
 
 ### T4 — Work registry and counts
 - Goal: one assignment model and one counts poll that later phases plug into.
@@ -121,6 +124,7 @@ Handoff — later phases register into the contracts above in their own files:
 - Steps: 1. `ops.work_claims` + grants. 2. `defineAdminArea({count, work})`. 3. Desk source (reuses `assignee_admin_id`, `due_at`) and moderation source. 4. Claim/release commands (claiming an item someone else holds → `STATE_INVALID {reason: 'claimed', by}`). 5. `/work`, `/work/available`, `/counts`, done-today.
 - Tests: `pnpm --filter @cp/db test:db -- permissions/ops-work && pnpm --filter @cp/api test -- admin/work admin/counts`
 - Done when: support sees moderation items in `available` but not desk items; an overdue moderation report sorts first in `mine`; `/counts` omits areas the role can't open.
+- Status: done — 571d26ae
 
 ### T5 — AI route capture, caps, kill switches, cost guard
 - Goal: spend is attributable per route and bounded from now on.
@@ -128,6 +132,7 @@ Handoff — later phases register into the contracts above in their own files:
 - Steps: as 54 T9 steps 1–3, plus `route` capture and the last-run status record.
 - Tests: `pnpm --filter @cp/api test -- kill-switches && pnpm --filter @cp/worker test -- ai-cost-guard`
 - Done when: seeded usage over `ai.cap.pro.daily_usd` pauses pro-tier jobs within one tick and alerts; a disabled route returns `STATE_INVALID {reason: 'switched_off', key}` (retryable false; the app shows its existing fallback); no code path changes tier without an audited toggle.
+- Status: done — d6ac0131
 
 ### T6 — Jobs, DLQ and webhook replay server
 - Goal: dead jobs can be seen and redriven safely.
@@ -135,6 +140,7 @@ Handoff — later phases register into the contracts above in their own files:
 - Steps: 1. Move queue metadata to domain (worker imports it). 2. Per-queue `redact`. 3. Read (counts, DLQ, crons, heartbeat). 4. `replay_webhook` registry + command (tested with a fixture provider). 5. `redrive_jobs` (spike first: does pg-boss 12 `redrive` keep `singletonKey`, and does the DLQ copy keep the last error? If not, the failure hook also writes the error). 6. `push.send` DLQ on.
 - Tests: `pnpm --filter @cp/worker test -- boss && pnpm --filter @cp/api test -- admin/jobs`
 - Done when: a job failing 3× shows in the DLQ read with a redacted payload; redrive of 2 selected ids runs them once each and writes one audit row; two worker instances report `workers: 2`.
+- Status: done — 099d5ef5
 
 ### T7 — Operators and console sessions
 - Goal: roles can be managed without editing env, and console sessions are distinguishable.
@@ -142,14 +148,15 @@ Handoff — later phases register into the contracts above in their own files:
 - Steps: 1. Session marker via Better Auth `additionalFields` on the admin instance. 2. Operators read (accounts ∪ allow-list). 3. `set_admin_role` with last-owner guard + session purge. 4. `revoke_admin_sessions`.
 - Tests: `pnpm --filter @cp/api test -- admin/operators`
 - Done when: removing the only owner returns `STATE_INVALID {reason: 'last_owner'}`; clearing a role ends that person's console sessions but not their app sessions; an allow-listed email that never signed in appears with no last sign-in.
+- Status: done — 3756837c
 
 ## Phase acceptance criteria
 
-- [ ] All P17 and P58 commands write a detail that passes `auditDetailSchema`
-- [ ] `ops.work_claims`, `moderation_reports` columns and `auth.session.console` covered by permission tests
-- [ ] `/v1/admin/{work,counts,operators,jobs}` covered by api tests against Postgres
-- [ ] Cost guard pauses within one tick; 54 T9 updated to point here
-- [ ] api-contracts §4.17/§5.9 and data-model §3.15/§3.16/§3.18 deltas applied in the same PR
+- [x] All P17 and P58 commands write a detail that passes `auditDetailSchema`
+- [x] `ops.work_claims`, `moderation_reports` columns and `auth.session.console` covered by permission tests
+- [x] `/v1/admin/{work,counts,operators,jobs}` covered by api tests against Postgres
+- [x] Cost guard pauses within one tick; 54 T9 updated to point here
+- [x] api-contracts §4.17/§5.9 and data-model §3.15/§3.16/§3.18 deltas applied in the same PR
 
 ## Risks & rollback
 

@@ -19,8 +19,13 @@ import type { AdminAllowlist } from './allowlist';
 import { ADMIN_AUTH_BASE_PATH, type AdminAuth } from './auth';
 import { adminGuard, type AdminVariables } from './auth-guard';
 import { runAdminCommand } from './command';
+import { countsArea } from './counts';
+import { jobsArea, type JobsPanelDeps } from './jobs';
+import { webhookReplayArea } from './webhook-replay';
+import { deskQueueArea, workArea } from './work';
 import {
   createAdminRegistry,
+  type AdminRegistry,
   type AdminAreaDefinition,
   type AnyAdminRead,
   type OperatorDirectory,
@@ -47,6 +52,8 @@ export interface AdminRouterDeps {
   /** Enables the emergency CLI door (owner tokens signed with this secret). */
   readonly cliTokenSecret?: string | undefined;
   readonly areas: readonly AdminAreaDefinition[];
+  /** The jobs panel's pg-boss producer and heartbeat reader; the panel is absent without them. */
+  readonly jobs?: Omit<JobsPanelDeps, 'pool'> | undefined;
   readonly now?: () => Date;
 }
 
@@ -87,7 +94,15 @@ function registerRead(
 }
 
 export function createAdminRouter(deps: AdminRouterDeps): OpenAPIHono<AdminEnv> {
-  const registry = createAdminRegistry(deps.areas);
+  // Work and counts read every other area's queue and badge, so they see the finished registry.
+  const registry: AdminRegistry = createAdminRegistry([
+    ...deps.areas,
+    deskQueueArea(),
+    webhookReplayArea(),
+    ...(deps.jobs === undefined ? [] : [jobsArea({ pool: deps.pool, ...deps.jobs })]),
+    workArea(deps.pool, () => registry),
+    countsArea(deps.pool, () => registry),
+  ]);
   const app = new OpenAPIHono<AdminEnv>();
 
   app.use(
@@ -157,6 +172,8 @@ export function createAdminRouter(deps: AdminRouterDeps): OpenAPIHono<AdminEnv> 
       pool: deps.pool,
       registry,
       admin: c.var.admin,
+      // The guard only accepts this scheme with a verified owner CLI token.
+      via: c.req.header('authorization')?.startsWith('CP-Admin-CLI ') ? 'cli' : 'admin',
       ...(deps.now !== undefined ? { now: deps.now } : {}),
     });
     if (outcome.status === 'rejected') throw new DomainError(outcome.code, outcome.detail);

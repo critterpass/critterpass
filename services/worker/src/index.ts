@@ -27,6 +27,8 @@ import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';
 import { visitsTtlJob } from './jobs/location/visits-ttl';
+import { startWorkerHeartbeat } from './boss/heartbeat';
+import { aiCostGuardJob } from './jobs/ops/ai-cost-guard';
 import { backupJob } from './jobs/ops/backup';
 import { createObjectStore } from './jobs/ops/object-store';
 import { enqueueDueJob } from './jobs/sched/enqueue-due';
@@ -95,6 +97,7 @@ const llmObservability = createWorkerLlmObservability({
 const jobs: AnyJobDefinition[] = [
   enqueueDueJob(),
   purgeJob(),
+  aiCostGuardJob(),
   anonGcJob(),
   fixesTtlJob(),
   visitsTtlJob(),
@@ -184,6 +187,7 @@ if (env.POSTHOG_PROJECT_API_KEY && env.ANALYTICS_PID_SALT) {
 const jobsLogger = logger.child({ component: 'jobs' });
 const boss = createBoss({ connectionString: env.DATABASE_DIRECT_URL, logger: jobsLogger });
 let rtRelay: RtRelay | undefined;
+let stopHeartbeat: (() => void) | undefined;
 const runtime = startJobRuntime({
   boss,
   deps: { pool, logger: jobsLogger },
@@ -192,6 +196,7 @@ const runtime = startJobRuntime({
 })
   .then(() => {
     jobsLogger.info({ queues: jobs.map((job) => job.queue) }, 'job runtime started');
+    stopHeartbeat = startWorkerHeartbeat(redis, jobsLogger);
     if (relayEnabled) {
       rtRelay = startRtRelayWake({
         pool,
@@ -215,6 +220,7 @@ function shutdown(signal: string) {
   if (shuttingDown) return;
   shuttingDown = true;
   logger.info({ signal }, 'draining');
+  stopHeartbeat?.();
   server.close(() => {
     void runtime
       .then(() => rtRelay?.stop())

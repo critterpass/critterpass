@@ -54,6 +54,7 @@ export {
   opsModerationFilings,
   opsPartnerAdapters,
 } from './ops-console';
+export { opsWorkClaims } from './ops-work';
 export { cities, llmPois, mapRegions, poiEmbeddings, poiLiveChecks, pois } from './places';
 export { changeSets, guideActions, itineraryVersions, planDays, planItems } from './plan';
 export { activityEvents, cmdLog, cmdResults, domainEvents, rtOutbox } from './platform';
