@@ -48,7 +48,7 @@ History = size / TTL. Presence ✓ = Centrifugo presence + join/leave enabled.
 | `proposal:{proposal_id}` | recipient; organiser gets extra `engagement.summary` via `user:#uid` only | `reaction`, `hype_pct`, `rsvp.status`, `offer.published` (never per-person opens, C28) | event | – | 50 / 14 d | 31 |
 | `guide_thread:{thread_id}` | group thread: crew member; private: owner (prefer `user:#uid`) | `token`, `tool_event`, `proposal{changeset_id}` | streaming | ✓ (group) | 50 / 24 h | 32 |
 | `disruption:{disruption_id}` | affected participant | `step{action_id, status}`, `needs_yes` | per step | – | 50 / 72 h | 37 |
-| `sos:{sos_id}` | crew of trip | `sender.fix`, `responder{uid, state}`, `step`, `message`, `resolved` | sub-second fixes | ✓ | 200 / 24 h | 38 |
+| `sos:{sos_id}` (fixes: `sos:{share_id}` of the SOS `location_shares` row) | crew of trip | `sender.fix`, `responder{uid, state}`, `step`, `message`, `resolved` | sub-second fixes | ✓ | 200 / 24 h | 38 |
 | `recap:{recap_id}` | participant | `signature`, `mvp.vote`, `mvp.result` | event | – | 50 / 14 d | 43 |
 | `memory:{memory_id}` | crew | `reaction` | event | – | 50 / 14 d | 43 |
 
@@ -147,6 +147,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `reminders.conditional` | per reminder due | N-30 / N-45 only if condition holds | 40 |
 | `boarding.schedule` | per flight boarding time | N-41, flight LA push-to-start T−3 h | 34 |
 | `location.expire` | share TTL / last-day midnight | stop share, purge fixes | 39 |
+| `location.fixes_ttl` | `* * * * *` UTC | delete fixes older than 15 min unless their SOS share is open or ended < 24 h ago | 20 |
+| `visits.ttl` | `5 * * * *` UTC | visits of archived/cancelled trips get `expires_at` = now + 30 d; delete visits past `expires_at` | 20 |
 | `daybundle.build` | night before + stay geofence exit + wake | offline bundle version | 36 |
 | `recap.build` | trip end (last-day local midnight) + debounced re-run | AI-34, share renders, N-32 | 43 |
 | `anniversary.scan` | `0 1 * * *` per tz bucket | N-35 | 43 |

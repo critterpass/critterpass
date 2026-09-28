@@ -141,7 +141,8 @@ Every command also emits the generic `cmd.applied` metric; listed events are dom
 | Command | Payload summary | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
 | `register_device` | `{platform, push_token?, apns_env, tz, locale, app_version, capabilities{la, alarmkit, widget_push, live_updates}}` | self | – | `device.registered` | A | 11 |
-| `update_device_permissions` | `{perms{notif, location, calendar, camera, mic, speech, contacts, photos, la_enabled, la_frequent}}` | self | – | `device.permissions_changed` | A, O | 20 |
+| `update_device_permissions` | `{perms{notifications, alarms, location, calendar, camera, microphone, speech, photos_add, photos_read, live_activities: not_determined\|denied\|restricted\|limited\|provisional\|granted; location_level: none\|wiu\|always, location_precise, notifications_time_sensitive, exact_alarm, full_screen_intent, la_enabled, la_frequent}}` (all optional; stored on `devices.permission_state`; unchanged = no-op; contacts need no prompt) | self | – | `device.permissions_changed` (derived capability only: push alert/quiet/inbox, can_ring, live_activities, encounters) | A, O | 20 |
+| `set_consent` | `{purpose: visit_detection\|analytics\|marketing, granted, copy_version?}` (one `consents` row per purpose; withdrawal keeps `granted_at`, stamps `revoked_at`) | self | – | – | A, O | 20 |
 | `register_la_token` | `{activity_type, activity_id?, kind: push_to_start\|update, token}` | self | – | `la.token_registered` | A, L | 48 |
 | `end_la` | `{activity_id}` | self | – | `la.ended` | A, L | 48 |
 | `register_widget_token` | `{kind, token}` / `sync_installed_widgets {kinds[]}` | self | – | `widget.registered` | A | 49 |
@@ -343,7 +344,8 @@ Ride quotes (Grab Farefeed) are GET reads; "Open Grab" is a deep link — no rid
 
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
-| `record_visit` | `{trip_id, poi_id, arrived_at, left_at?, evidence{dwell_s, acc}}` (POI-level, TTL; never raw trail) | self | – | `visit.recorded` | O (bg) | 20 |
+| `record_visit` | `{visit_id, trip_id, poi_id, source: geofence\|expense\|manual, arrived_at, left_at?, evidence{dwell_s, acc, mock_flags, detection_version}}` (POI-level, TTL; never raw trail; client `visit_id` so a later call with `left_at` closes the same row; geofence needs `CONSENT(visit_detection)` and evidence: simulated/implausible flags, dwell < 60 s or acc > 50 m → `LOCATION_IMPLAUSIBLE`; accessory flag accepted; POI must be in the trip's destination) | participant (self) | – | `visit.recorded` `{visit_id, trip_id, source}` | O (bg) | 20 |
+| `delete_visit` | `{visit_id}` (owner only; already gone = `{deleted: false}`) | self | – | – | A, O | 20 |
 | `hatch_egg` | `{trip_id, trigger: landed\|arrived}` | S or self (device arrival) | – | `egg.hatched` (N-15) | S, A | 40 |
 | `start_encounter` | `{spawn_id, fix}` | participant | – | `encounter.started` | A, O | 40 |
 | `report_encounter_samples` | `{encounter_id, samples[], mock_flags}` | owner | – | – | O | 40 |
@@ -454,6 +456,7 @@ Auth column: **S** session bearer · **A** anonymous session allowed · **K** de
 | `POST /v1/actions` | K | scoped subset (async doc §4); returns fresh widget/LA snapshot |
 | `POST /v1/devices/{id}/action-keys` / `DELETE` | S | issue/rotate/revoke action key (async doc §5; built in phase 11 with `devices`) |
 | `GET /v1/cmd-results?since=` | S | fallback when sync is down |
+| `POST /v1/loc` | S | live fixes for the caller's own open share `{share_id, fixes[1..20]{lat, lng, acc, activity, at, mock}}` (`mock` = anti-spoof bits: 1 simulated, 2 accessory, 4 implausible; never a reason to reject); ≤ 1 batch / 5 s / user (SOS exempt) → 429; share not open or not the caller's → 403; stores `location_fixes` and publishes directly to Centrifugo `trip_locations:{trip_id}` (+ `sos:{share_id}` for SOS); 202 `{accepted}` |
 
 ### 5.3 AI (P13, P28, P32, P42)
 

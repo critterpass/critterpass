@@ -74,7 +74,7 @@ COMMIT;
 | `app.is_trip_member(trip uuid)` | caller is a crew member of the trip's crew (planning data is crew-visible, C1) |
 | `app.is_trip_participant(trip uuid)` | `trip_participants.rsvp NOT IN ('out')` or organiser |
 | `app.is_trip_organiser(trip uuid)` | `trip_participants.role='organiser'` |
-| `app.can_see_location(owner uuid, trip uuid)` | an active `location_shares` window (crew_map needs `boost_active`; help/sos always) |
+| `app.can_see_location(share uuid)` | the share is open (a paused crew-map share is not; Help/SOS ignore pause) and the caller is its owner or a trip participant (not `out`, still in the crew); crew_map needs `trip_entitlements.boost_active`, help/sos always. `app.shared_location_fixes(share, max_rows)` is the only read path to fixes; `app.is_own_active_share(share)` gates fix inserts; `app.delete_own_visit(visit)` is the owner's delete |
 | `app.budget_band(trip uuid)` | SECURITY DEFINER aggregate; returns band only when k ≥ 4 maxes (C3 rule) |
 
 Every user-data table: `ALTER TABLE … ENABLE ROW LEVEL SECURITY; ALTER TABLE … FORCE ROW LEVEL SECURITY;` default-deny; policies generated with Drizzle `pgPolicy` + `pgRole` (`entities.roles` in drizzle config); helper fns + publication in custom SQL migrations. Index `crew_members(user_id, crew_id) WHERE status='active'`.
@@ -263,7 +263,7 @@ No in-app money movement (C24). Boost split = IOU `ledger_entries(source_kind='b
 | `quest_signups` | quest_id, user_id | uk | self | T | trip | C1 | life |
 | `quest_progress` | quest_id, value, updated_at, source_event_ids uuid[] | uk quest_id | sys | T | trip | C1 | life |
 | `xp_ledger` | user_id?, crew_id?, amount, source_kind (quest/form/visit/settle), source_id | append-only | sys | O / M | me, crews | C1 | acct |
-| `visits` | user_id, trip_id, poi_id, arrived_at, left_at, source (geofence/expense/manual), expires_at | (user_id, trip_id) | self (opt-in `CONSENT(visit_detection)`) | X | — | C3 | TTL: trip archived + 30 d (outcomes kept as quest/award results) |
+| `visits` | id (client UUIDv7), user_id, trip_id, poi_id, arrived_at, left_at, source (geofence/expense/manual), detection_version smallint, expires_at (set to archive + 30 d by `visits.ttl`) | (user_id, trip_id) | self (opt-in `CONSENT(visit_detection)`) | X | — | C3 | TTL: trip archived + 30 d (outcomes kept as quest/award results) |
 | `reminders` | user_id, target_kind (form_window/quiet_window/legendary), target_id, fire_at, condition jsonb, status | (fire_at) WHERE pending | self | O | me | C2 | 30 d after fire |
 
 ### 3.10 Recap, stamps, album, postcards
@@ -313,8 +313,8 @@ No in-app money movement (C24). Boost split = IOU `ledger_entries(source_kind='b
 | Table | Key columns | Relations / indexes | Authz | RLS | Stream | Class | Ret |
 |---|---|---|---|---|---|---|---|
 | `location_shares` | trip_id, user_id, reason (crew_map/help/sos), starts_at, ends_at (crew map: midnight of last day; help 1 h; sos until resolved), paused | (trip_id, reason) | self; help/sos override pause with copy | T | trip | C1 | life |
-| `location_fixes` | user_id, trip_id, share_id, lat, lng, accuracy_m, activity, at | (share_id, at desc); TTL job | self write (not via PowerSync; `POST /loc` + Centrifugo) | X; readable only via `app.can_see_location` fn | — | C3 | minutes (TTL 15 min; SOS: until resolved + 24 h) |
-| `member_etas` | trip_id, meetup_id?, user_id, distance_m, eta_min, mode, status_text, progress, sharing (live/paused/off), computed_at | uk (trip_id, user_id) | sys | T (crew_map gated by boost; help session scoped) | — (Centrifugo `trip_live:`) | C1 | 1 d |
+| `location_fixes` | user_id, trip_id, share_id, lat, lng, accuracy_m, activity, mock_flags smallint (1 simulated, 2 accessory, 4 implausible), at | (share_id, at desc); TTL job | self write (not via PowerSync; `POST /loc` + Centrifugo) | X; readable only via `app.can_see_location` fn | — | C3 | minutes (TTL 15 min; SOS: until resolved + 24 h) |
+| `member_etas` | trip_id, meetup_id?, user_id, distance_m, eta_min, mode, status_text, progress, sharing (live/paused/off), computed_at | uk (trip_id, user_id) | sys | T (crew_map gated by boost; help session scoped) | — (Centrifugo `trip_locations:`; not published) | C1 | 1 d |
 | `meetups` | trip_id, poi_id, meet_at, created_by, status | trip_id | mem (boost) | T | trip | C1 | life |
 | `help_sessions` | trip_id, user_id, kind (help/sos), status (open/responding/resolved), responder_ids uuid[], summary, steps jsonb, opened_at, resolved_at | (trip_id, status) | self open; mem respond | T | trip | C1 (health detail C3 in `help_session_private`) | 1 y |
 | `help_session_private` | help_session_id, health_notes_enc | 1:1 | self + responders | X | — | C3 | 90 d |

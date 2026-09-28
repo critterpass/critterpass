@@ -24,6 +24,8 @@ import { createMetricsRecorder } from './obs/metrics';
 import { initWorkerSentry } from './obs/sentry';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
+import { fixesTtlJob } from './jobs/location/fixes-ttl';
+import { visitsTtlJob } from './jobs/location/visits-ttl';
 import { backupJob } from './jobs/ops/backup';
 import { createObjectStore } from './jobs/ops/object-store';
 import { enqueueDueJob } from './jobs/sched/enqueue-due';
@@ -93,6 +95,8 @@ const jobs: AnyJobDefinition[] = [
   enqueueDueJob(),
   purgeJob(),
   anonGcJob(),
+  fixesTtlJob(),
+  visitsTtlJob(),
   guideActionExecuteJob(),
   guideActionUndoExpireJob(),
   ...aiJobs(

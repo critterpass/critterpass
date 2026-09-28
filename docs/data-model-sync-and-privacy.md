@@ -175,7 +175,7 @@ Membership change → `rt_outbox(kind='unsubscribe'|'disconnect')` in the same t
 | `ops.backup` | `0 20 * * *` UTC | off-provider `pg_dump` → R2 |
 
 ---|---|---|
-| `location_fixes.ttl` | every minute | delete fixes older than 15 min (except open SOS) |
+| `location.fixes_ttl` | every minute | delete fixes older than 15 min (except an SOS share open or ended < 24 h ago) |
 | `share_windows.close` | every 5 min | end `location_shares` past `ends_at` |
 | `visits.ttl`, `encounter_samples.ttl`, `invite_prefill.ttl`, `inbound_emails.raw` | hourly | per data-model retention |
 | `cmd_results.gc`, `rt_outbox.gc`, `domain_events.gc`, `notifications.gc` | daily | per retention |

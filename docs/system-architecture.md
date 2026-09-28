@@ -177,7 +177,7 @@ Canonical namespace catalogue (ACL, payloads, history, presence, owning phase): 
 | Crew | `crew:{crew_id}`, `crew_chat:{crew_id}`, `crew_money:{crew_id}`, `crew_bookings:{crew_id}`, `crew_collection:{crew_id}` | typing on `crew_chat` only (publish proxy, ≤1/3 s) |
 | Trip | `trip:{trip_id}`, `trip_setup:`, `trip_draft:`, `trip_plan:`, `trip_dayof:`, `trip_watch:`, `trip_quests:`, `trip_album:`, `trip_copresence:` | no |
 | Trip ephemeral | `trip_presence:{trip_id}` (cursors ≤5 Hz, here, typing) | yes (publish proxy) |
-| Location | `trip_locations:{trip_id}` (fixes, ETAs, meet-up; share window or Help/SOS session only) | **no** (server only, from `report_location_fixes`) |
+| Location | `trip_locations:{trip_id}` (fixes, ETAs, meet-up; share window or Help/SOS session only) | **no** (server only, from `POST /v1/loc`) |
 | Objects | `poll:`, `swipe:{session_id}`, `proposal:`, `guide_thread:`, `disruption:`, `sos:`, `recap:`, `memory:` | `swipe` presence ping only |
 
 - Connection JWT: Better Auth `jwt` plugin, EdDSA, 15 min, fetched from `/api/auth/token` with `aud: rt` (PowerSync uses `aud: sync`); Centrifugo verifies via JWKS.
@@ -333,9 +333,9 @@ sequenceDiagram
   participant APNs
   participant LA as Crew Live Activities
   participant WX as Widget ext (locked phone)
-  M->>API: report_location_fixes {op_id, trip_id, fixes[]} via POST /v1/trips/{id}/fixes (share window active)
-  API->>PG: withUser: policy + insert location_fixes (C3, TTL) + rt_outbox
-  WK->>RT: rt.relay publish trip_locations:{trip} (batched fix)
+  M->>API: POST /v1/loc {share_id, fixes[]} (own share open; ≤ 1 / 5 s, SOS exempt)
+  API->>PG: withUser: insert location_fixes (C3, TTL 15 min; mock flags stored)
+  API->>RT: publish trip_locations:{trip} directly (latency path, not the outbox)
   RT-->>C: fix → map marker animates
   loop every 60 s (eta queue)
     WK->>PG: read latest fixes + meet-up (app_system)
@@ -571,7 +571,7 @@ Results summary and index: [decisions/README.md](decisions/README.md).
 
 | Data | Retention |
 |---|---|
-| location_fixes | TTL: share window end + 24 h; POI visits (not trails) kept per trip |
+| location_fixes | TTL 15 min (`location.fixes_ttl`); SOS: until resolved + 24 h. POI visits (not trails): trip archived + 30 d (`visits.ttl`) |
 | cmd_log | 30 d |
 | receipt images / menu scans | 90 d after trip end unless saved |
 | anonymous users with no crew | GC after 30 d inactive |
