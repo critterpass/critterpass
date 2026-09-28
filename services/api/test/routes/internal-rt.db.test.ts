@@ -43,10 +43,17 @@ beforeAll(async () => {
 
   await withSystem(pool, async (tx) => {
     await tx.query(
-      `INSERT INTO users (id, status, display_name, avatar_id) VALUES
-         ($1, 'registered', 'Mai', $4), ($2, 'registered', 'Organiser', NULL), ($3, 'registered', 'Out', NULL)`,
-      [member, organiser, outsider, randomUUID()],
+      `INSERT INTO users (id, status, display_name) VALUES
+         ($1, 'registered', 'Mai'), ($2, 'registered', 'Organiser'), ($3, 'registered', 'Out')`,
+      [member, organiser, outsider],
     );
+    // users.avatar_id points at a real avatars row.
+    const avatarId = randomUUID();
+    await tx.query(
+      "INSERT INTO avatars (id, user_id, kind, form_id) VALUES ($1, $2, 'critter', 'guide:tokek')",
+      [avatarId, member],
+    );
+    await tx.query('UPDATE users SET avatar_id = $1 WHERE id = $2', [avatarId, member]);
     const crew = await tx.query<{ id: string }>(
       "INSERT INTO crews (name, created_by) VALUES ('Crew', $1) RETURNING id",
       [organiser],
