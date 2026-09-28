@@ -1,6 +1,6 @@
 /**
- * `report_content {kind, id, reason}` (docs/api-contracts.md §4.17): any user, anonymous included,
- * reports a subject of a registered moderation kind. Up to 20 reports per user per rolling 24 h; a
+ * `report_content {kind, id, reason, note?}` (docs/api-contracts.md §4.17): any user, anonymous
+ * included, reports a subject of a registered moderation kind, optionally with a short note. Up to 20 reports per user per rolling 24 h; a
  * subject that already has an open report from the last 24 h collapses into it. The report itself is
  * filed as app_system (collapsing updates a row the reporter can never read back).
  */
@@ -54,6 +54,7 @@ export const reportContentCommand = defineCommand({
         reason: payload.reason,
         source: 'user',
         reporterId: ctx.uid,
+        note: payload.note ?? null,
       });
     }),
 });

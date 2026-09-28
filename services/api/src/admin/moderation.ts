@@ -1,21 +1,26 @@
 /**
- * Moderation area: the queue reads (open reports newest first, each with its kind's preview) and
- * `moderate_item`, which applies a verdict to every open report of the subject.
+ * Moderation area: the queue reads (open reports newest first, each with its kind's preview, one
+ * kind at a time or all, with counts per kind), the author card (identity, crews, reports against
+ * and past verdicts) and `moderate_item`, which applies a verdict to every open report of the
+ * subject; `ban_author` takes the ban's reason and optional expiry.
  */
 import { appendDomainEvent } from '@cp/db';
 import {
   DomainError,
   adminPageSchema,
-  moderateItemPayloadSchema,
-  moderationQueueItemSchema,
-  moderationQueueQuerySchema,
   moderationSummarySchema,
+  moderateItemWithBanSchema,
+  moderationAuthorSchema,
+  moderationQueueEntrySchema,
+  moderationQueueFilterSchema,
   reportStatusForVerdict,
+  type ModerationAuthor,
   type ModerationPreview,
   type ModerationReportSource,
   type ModerationVerdict,
 } from '@cp/domain';
 import type pg from 'pg';
+import { z } from 'zod';
 
 import type { AccountControl } from './accounts';
 import { moderationKind, type MediaUrlSigner } from './moderation-intake';
@@ -34,6 +39,10 @@ interface ReportRow {
   verdict: ModerationVerdict | null;
   decided_by: string | null;
   decided_at: Date | null;
+  author_id: string | null;
+  assignee_admin_id: string | null;
+  due_at: Date | null;
+  reason_counts: Record<string, number>;
 }
 
 export interface ModerationAreaDeps {
@@ -42,7 +51,10 @@ export interface ModerationAreaDeps {
   readonly media: MediaUrlSigner;
 }
 
-const queuePageSchema = adminPageSchema(moderationQueueItemSchema);
+const queuePageSchema = adminPageSchema(moderationQueueEntrySchema).extend({
+  /** Reports in the requested status per kind, whatever `kind` filter is applied. */
+  counts: z.record(z.string(), z.number().int()),
+});
 
 export function moderationArea(deps: ModerationAreaDeps) {
   return defineAdminArea({
@@ -52,31 +64,52 @@ export function moderationArea(deps: ModerationAreaDeps) {
         path: '/moderation',
         area: 'moderation',
         summary: 'Moderation queue by status, newest report first',
-        query: moderationQueueQuerySchema,
+        query: moderationQueueFilterSchema,
         response: queuePageSchema,
         run: async ({ admin, operators, query }) => {
           const cursor = decodeCursor(query.cursor);
-          const { rows, previews } = await withAdminReader(deps.pool, admin.uid, async (tx) => {
-            const result = await tx.query<ReportRow>(
-              `SELECT id, target_kind, target_id, source, reason, status, report_count,
-                      last_reported_at, verdict, decided_by, decided_at
+          const { rows, previews, counts } = await withAdminReader(
+            deps.pool,
+            admin.uid,
+            async (tx) => {
+              const result = await tx.query<ReportRow>(
+                `SELECT id, target_kind, target_id, source, reason, status, report_count,
+                      last_reported_at, verdict, decided_by, decided_at, author_id,
+                      assignee_admin_id, due_at, reason_counts
                FROM moderation_reports
-               WHERE status = $1 AND ($2::timestamptz IS NULL OR (last_reported_at, id) < ($2, $3::uuid))
+               WHERE status = $1 AND ($5::text IS NULL OR target_kind = $5)
+                 AND ($2::timestamptz IS NULL OR (last_reported_at, id) < ($2, $3::uuid))
                ORDER BY last_reported_at DESC, id DESC LIMIT $4`,
-              [query.status, cursor?.[0] ?? null, cursor?.[1] ?? null, query.limit + 1],
-            );
-            const page = result.rows.slice(0, query.limit);
-            const shown: ModerationPreview[] = [];
-            for (const row of page) {
-              const handler = moderationKind(row.target_kind);
-              shown.push(
-                handler === undefined
-                  ? { type: 'missing', title: `Unregistered kind ${row.target_kind}` }
-                  : await handler.preview(tx, row.target_id, deps.media),
+                [
+                  query.status,
+                  cursor?.[0] ?? null,
+                  cursor?.[1] ?? null,
+                  query.limit + 1,
+                  query.kind ?? null,
+                ],
               );
-            }
-            return { rows: result.rows, previews: shown };
-          });
+              const perKind = await tx.query<{ target_kind: string; n: number }>(
+                `SELECT target_kind, count(*)::int AS n FROM moderation_reports
+               WHERE status = $1 GROUP BY target_kind`,
+                [query.status],
+              );
+              const page = result.rows.slice(0, query.limit);
+              const shown: ModerationPreview[] = [];
+              for (const row of page) {
+                const handler = moderationKind(row.target_kind);
+                shown.push(
+                  handler === undefined
+                    ? { type: 'missing', title: `Unregistered kind ${row.target_kind}` }
+                    : await handler.preview(tx, row.target_id, deps.media),
+                );
+              }
+              return {
+                rows: result.rows,
+                previews: shown,
+                counts: Object.fromEntries(perKind.rows.map((row) => [row.target_kind, row.n])),
+              };
+            },
+          );
           const page = rows.slice(0, query.limit);
           const deciders = await operators.emails(
             page.flatMap((row) => (row.decided_by ? [row.decided_by] : [])),
@@ -88,6 +121,7 @@ export function moderationArea(deps: ModerationAreaDeps) {
               last_reported_at: row.last_reported_at.toISOString(),
               decided_at: row.decided_at?.toISOString() ?? null,
               decided_by: row.decided_by ? (deciders.get(row.decided_by) ?? row.decided_by) : null,
+              due_at: row.due_at?.toISOString() ?? null,
               verdicts: moderationKind(row.target_kind)?.verdicts ?? ['approve'],
               preview: previews[index],
             })),
@@ -95,8 +129,18 @@ export function moderationArea(deps: ModerationAreaDeps) {
               rows.length > query.limit && last
                 ? encodeCursor(last.last_reported_at.toISOString(), last.id)
                 : null,
+            counts,
           });
         },
+      }),
+      defineAdminRead({
+        path: '/moderation/authors/{uid}',
+        area: 'moderation',
+        summary: 'A reported author: identity, crews, reports against them and past verdicts',
+        params: z.object({ uid: z.uuid() }),
+        response: moderationAuthorSchema,
+        run: ({ admin, params }) =>
+          withAdminReader(deps.pool, admin.uid, (tx) => readAuthor(tx, params.uid)),
       }),
       defineAdminRead({
         path: '/moderation/summary',
@@ -116,12 +160,16 @@ export function moderationArea(deps: ModerationAreaDeps) {
     commands: [
       defineAdminCommand({
         name: 'moderate_item',
-        schema: moderateItemPayloadSchema,
-        audit: (payload) => ({
+        schema: moderateItemWithBanSchema,
+        audit: (payload, result: { reports: number }) => ({
           targetKind: payload.kind,
           targetId: payload.id,
           reason: payload.note,
-          detail: { verdict: payload.verdict },
+          detail: { verdict: payload.verdict, ...(payload.ban ? { ban: payload.ban } : {}) },
+          summary: `${payload.kind} · ${payload.verdict} (${result.reports} report${result.reports === 1 ? '' : 's'})`,
+          changes: [
+            { field: 'status', before: 'open', after: reportStatusForVerdict(payload.verdict) },
+          ],
         }),
         handle: async (tx, payload, ctx) => {
           const handler = moderationKind(payload.kind);
@@ -172,11 +220,59 @@ export function moderationArea(deps: ModerationAreaDeps) {
           }
           // Last: the account change is outside this transaction, so every check above runs first.
           if (banned !== null) {
-            await deps.accounts.ban(banned, { reason: payload.note ?? 'moderation', until: null });
+            await deps.accounts.ban(banned, {
+              reason: payload.ban?.reason ?? payload.note ?? 'moderation',
+              until: payload.ban?.expires_at ? new Date(payload.ban.expires_at) : null,
+            });
           }
           return { reports: ids.length, status: reportStatusForVerdict(payload.verdict) };
         },
       }),
     ],
   });
+}
+
+async function readAuthor(tx: pg.PoolClient, uid: string): Promise<ModerationAuthor> {
+  const { rows } = await tx.query<{
+    display_name: string | null;
+    username: string | null;
+    status: string;
+    created_at: Date;
+  }>('SELECT display_name, username, status, created_at FROM users WHERE id = $1', [uid]);
+  const user = rows[0];
+  if (user === undefined) throw new DomainError('NOT_FOUND');
+  const crews = await tx.query<{ id: string; name: string; role: string }>(
+    `SELECT c.id, c.name, m.role FROM crew_members m JOIN crews c ON c.id = m.crew_id
+     WHERE m.user_id = $1 AND m.status = 'active' ORDER BY c.name`,
+    [uid],
+  );
+  const against = await tx.query<{ total: number; open: number }>(
+    `SELECT count(*)::int AS total, count(*) FILTER (WHERE status = 'open')::int AS open
+     FROM moderation_reports WHERE author_id = $1`,
+    [uid],
+  );
+  const verdicts = await tx.query<{
+    report_id: string;
+    target_kind: string;
+    target_id: string;
+    reason: string;
+    verdict: ModerationVerdict;
+    decided_at: Date;
+  }>(
+    `SELECT id AS report_id, target_kind, target_id, reason, verdict, decided_at
+     FROM moderation_reports
+     WHERE author_id = $1 AND verdict IS NOT NULL AND decided_at IS NOT NULL
+     ORDER BY decided_at DESC LIMIT 50`,
+    [uid],
+  );
+  return {
+    uid,
+    display_name: user.display_name,
+    username: user.username,
+    status: user.status,
+    joined_at: user.created_at.toISOString(),
+    crews: crews.rows,
+    reports_against: against.rows[0] ?? { total: 0, open: 0 },
+    verdicts: verdicts.rows.map((row) => ({ ...row, decided_at: row.decided_at.toISOString() })),
+  };
 }

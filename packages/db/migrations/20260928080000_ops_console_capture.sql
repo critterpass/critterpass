@@ -32,3 +32,24 @@ END;
 $$;
 CREATE TRIGGER admin_audit_fill_context BEFORE INSERT ON ops.admin_audit
   FOR EACH ROW EXECUTE FUNCTION ops.admin_audit_fill_context();
+
+-- ---------------------------------------------------------------------------------------------
+-- moderation_reports: the reported subject's author (resolved by the kind handler at intake), who
+-- is working the report, when it is due (first filing + `moderation.sla_hours`, default 24) and how
+-- many filings gave each reason. Written by app_system only; admin_reader reads them (class C2).
+ALTER TABLE moderation_reports ADD COLUMN author_id uuid;
+ALTER TABLE moderation_reports ADD COLUMN assignee_admin_id uuid;
+ALTER TABLE moderation_reports ADD COLUMN due_at timestamptz;
+ALTER TABLE moderation_reports ADD COLUMN reason_counts jsonb NOT NULL DEFAULT '{}'::jsonb
+  CHECK (jsonb_typeof(reason_counts) = 'object');
+UPDATE moderation_reports SET
+  due_at = created_at + interval '24 hours',
+  reason_counts = jsonb_build_object(reason, report_count);
+CREATE INDEX moderation_reports_author_idx ON moderation_reports (author_id) WHERE author_id IS NOT NULL;
+CREATE INDEX moderation_reports_open_due_idx ON moderation_reports (due_at) WHERE status = 'open';
+GRANT SELECT (author_id, assignee_admin_id, due_at, reason_counts) ON moderation_reports
+  TO admin_reader;
+
+-- ops.moderation_filings.note: the reporter's optional note (≤ 280 characters, C2), with contact
+-- details and links cut out at intake.
+ALTER TABLE ops.moderation_filings ADD COLUMN note text CHECK (length(note) BETWEEN 1 AND 280);
