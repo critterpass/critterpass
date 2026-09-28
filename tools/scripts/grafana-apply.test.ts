@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url';
 
 import { describe, expect, it } from 'vitest';
 
-import { applyGrafana, applySynthetics, type Http } from './grafana-apply';
+import { applyGrafana, applySynthetics, httpClient, type Http } from './grafana-apply';
 import { loadMonitoring } from './grafana-config';
 
 const ROOT = fileURLToPath(new URL('../..', import.meta.url));
@@ -11,8 +11,21 @@ const ROOT = fileURLToPath(new URL('../..', import.meta.url));
 function fakeGrafana() {
   const calls: string[] = [];
   const store = new Map<string, unknown>();
-  const http: Http = (method, path, body) => {
+  /** Folders that exist but that the service account can't read yet (permissions propagating). */
+  const unreadable = new Set<string>();
+  /** Like httpClient, an error status rejects unless the caller said it handles it. */
+  const fail = (method: string, path: string, status: number, handled: readonly number[]) =>
+    handled.includes(status)
+      ? Promise.resolve({ status, json: null })
+      : Promise.reject(new Error(`${method} ${path} failed with HTTP ${status}`));
+  const http: Http = (method, path, body, handled = []) => {
     calls.push(`${method} ${path}`);
+    if (method === 'GET' && path.startsWith('/api/folders/')) {
+      // Folder-scoped service accounts can't tell a missing folder from one they can't read.
+      return store.has(path) && !unreadable.has(path)
+        ? Promise.resolve({ status: 200, json: store.get(path) })
+        : fail(method, path, 403, handled);
+    }
     if (method === 'GET') {
       if (path === '/api/v1/provisioning/contact-points') {
         return Promise.resolve({
@@ -41,7 +54,11 @@ function fakeGrafana() {
       );
     }
     const record = body as Record<string, unknown>;
-    if (path === '/api/folders') store.set(`/api/folders/${String(record['uid'])}`, record);
+    if (path === '/api/folders') {
+      const key = `/api/folders/${String(record['uid'])}`;
+      if (store.has(key)) return fail(method, path, 412, handled);
+      store.set(key, record);
+    }
     if (path === '/api/v1/provisioning/contact-points')
       store.set(`cp:${String(record['uid'])}`, record);
     if (path === '/api/v1/provisioning/mute-timings') {
@@ -55,7 +72,7 @@ function fakeGrafana() {
     store.set(`${method} ${path}`, body);
     return Promise.resolve({ status: 200, json: {} });
   };
-  return { http, calls, store };
+  return { http, calls, store, unreadable };
 }
 
 describe('monitoring config', () => {
@@ -133,6 +150,24 @@ describe('grafana apply', () => {
     expect(contact.settings.addresses).toBe('oncall@example.test');
   });
 
+  it('carries on when the alert folder exists but is not readable yet', async () => {
+    const grafana = fakeGrafana();
+    const options = {
+      config: loadMonitoring(ROOT),
+      grafana: grafana.http,
+      datasourceUid: 'prom',
+      oncallEmail: 'oncall@example.test',
+    };
+    await applyGrafana(options);
+    grafana.unreadable.add('/api/folders/cp-alerts');
+
+    const rerun = await applyGrafana(options);
+    expect(rerun).not.toContain('created folder cp-alerts');
+    expect(grafana.store.has('PUT /api/v1/provisioning/folder/cp-alerts/rule-groups/p1')).toBe(
+      true,
+    );
+  });
+
   it('adds synthetic checks once, from Singapore and Frankfurt, with a signed media probe', async () => {
     const config = loadMonitoring(ROOT);
     const staging = config.synthetics.find((set) => set.environment === 'staging');
@@ -145,5 +180,35 @@ describe('grafana apply', () => {
     const media = sm.store.get('check:staging-media-probe') as { target: string; probes: number[] };
     expect(media.target).toMatch(/probe\/health\.txt\?sig=signed$/u);
     expect(media.probes).toEqual([11, 22]);
+  });
+});
+
+describe('grafana http client', () => {
+  const grafanaAnswering =
+    (status: number, body: unknown): typeof fetch =>
+    () =>
+      Promise.resolve(new Response(JSON.stringify(body), { status }));
+
+  it("names Grafana's reason when a call fails", async () => {
+    const http = httpClient(
+      'https://grafana.test',
+      'token',
+      grafanaAnswering(400, { message: 'invalid settings' }),
+    );
+    await expect(http('POST', '/api/v1/provisioning/contact-points', {})).rejects.toThrow(
+      'POST /api/v1/provisioning/contact-points failed with HTTP 400: invalid settings',
+    );
+  });
+
+  it('hands back statuses the caller handles instead of throwing', async () => {
+    const http = httpClient(
+      'https://grafana.test',
+      'token',
+      grafanaAnswering(403, { message: 'Access denied' }),
+    );
+    await expect(http('GET', '/api/folders/cp-alerts', undefined, [403])).resolves.toMatchObject({
+      status: 403,
+    });
+    await expect(http('GET', '/api/folders/cp-alerts')).rejects.toThrow('HTTP 403');
   });
 });
