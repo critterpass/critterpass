@@ -10,6 +10,8 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@cp/content": "workspace:*",
+    "@cp/cost-engine": "workspace:*",
     "@cp/db": "workspace:*",
     "@cp/design-tokens": "workspace:*",
     "@cp/domain": "workspace:*",

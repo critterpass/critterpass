@@ -1531,6 +1531,12 @@ importers:
 
   tools/scripts:
     dependencies:
+      '@cp/content':
+        specifier: workspace:*
+        version: link:../../packages/content
+      '@cp/cost-engine':
+        specifier: workspace:*
+        version: link:../../packages/cost-engine
       '@cp/db':
         specifier: workspace:*
         version: link:../../packages/db
