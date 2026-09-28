@@ -2,7 +2,7 @@
  * The 3a-7 route: the finished pass with the save sheet over it. Saved → SAVED tick, then on to
  * the permissions page; "Use that pass" → the existing pass's account, straight home.
  */
-import { router } from 'expo-router';
+import { router, useIsFocused } from 'expo-router';
 import { useEffect } from 'react';
 
 import { useAnalytics } from '@/lib/analytics';
@@ -23,6 +23,9 @@ export function SaveScreen() {
   const flow = useSaveFlow();
   const analytics = useAnalytics();
   const { state } = flow;
+  // The phone page is pushed over this one: the sheet goes while it is up (so the presenter scale
+  // is released) and rises again on the way back.
+  const focused = useIsFocused();
 
   useEffect(() => {
     if (state.kind === 'saved') {
@@ -49,7 +52,7 @@ export function SaveScreen() {
   return (
     <>
       <IssuedPage choreography={false} saved={state.kind === 'saved'} />
-      {state.kind === 'saved' ? null : (
+      {state.kind === 'saved' || !focused ? null : (
         <SaveSheet
           state={state}
           onApple={() => void flow.apple()}

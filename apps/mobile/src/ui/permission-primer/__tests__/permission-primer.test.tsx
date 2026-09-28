@@ -20,6 +20,8 @@ import {
   type RequestLevel,
 } from '@/lib/permissions';
 
+import { ScreenJoltProvider } from '@/motion/patterns/thud';
+
 import { renderUi } from '../../test-support/render';
 import { PermissionsPrimer } from '../PermissionsPrimer';
 import { PermissionsSection } from '../PermissionsSection';
@@ -77,8 +79,13 @@ const METRICS = {
   insets: { top: 47, left: 0, right: 0, bottom: 34 },
 };
 
+// The primer is a screen root (Scaffold), which reads the app root's screen-jolt provider.
 const renderWithInsets = (ui: ReactElement) =>
-  renderUi(<SafeAreaProvider initialMetrics={METRICS}>{ui}</SafeAreaProvider>);
+  renderUi(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <ScreenJoltProvider>{ui}</ScreenJoltProvider>
+    </SafeAreaProvider>,
+  );
 
 const activate = (element: Parameters<typeof fireEvent>[0]) =>
   fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });

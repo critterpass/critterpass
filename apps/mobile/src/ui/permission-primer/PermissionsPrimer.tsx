@@ -16,6 +16,7 @@ import { InlineAction } from '../buttons/InlineAction';
 import { PillButton } from '../buttons/PillButton';
 import { type GuideId, GuideLine } from '../people/GuideLine';
 import { BackEyebrow } from '../shell/BackEyebrow';
+import { Scaffold } from '../surface/Scaffold';
 import { Text } from '../text/Text';
 import { useTheme } from '../theme';
 import { primerCopy, statusLine } from './copy';
@@ -95,7 +96,12 @@ export function PermissionsPrimer({
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   return (
-    <View style={[styles.root, { paddingBottom: insets.bottom + 12 }]} testID="permissions-primer">
+    <Scaffold
+      variant="dark"
+      edges={[]}
+      style={{ paddingBottom: insets.bottom + 12 }}
+      testID="permissions-primer"
+    >
       <ScrollView contentContainerStyle={[styles.content, { paddingTop: insets.top + 8 }]}>
         <View style={styles.header}>
           <BackEyebrow
@@ -134,12 +140,11 @@ export function PermissionsPrimer({
           testID="permissions-primer-later"
         />
       </View>
-    </View>
+    </Scaffold>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1 },
   content: { paddingHorizontal: 20, gap: 14, paddingBottom: 24 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   footer: { paddingHorizontal: 20, gap: 12, alignItems: 'center' },

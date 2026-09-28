@@ -2,7 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('../test-support/skia-double'));
 
-import { act } from '@testing-library/react-native';
+import { act, fireEvent, screen } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
 import { Gesture, State } from 'react-native-gesture-handler';
 import type { GestureType } from 'react-native-gesture-handler';
@@ -104,6 +104,28 @@ describe('one gesture per native view', () => {
 
     await fire(() => tap.handlers.onEnd?.({ state: State.END, x: 1 } as never, true));
     expect(onIndexChange).toHaveBeenLastCalledWith(1);
+  });
+
+  it('keeps a pill pause through a tap and resumes only after a hold', async () => {
+    await renderUi(
+      <StoryPlayer
+        segments={[
+          { id: 'a', label: 'Beach', content: <Text>Beach</Text> },
+          { id: 'b', label: 'Ridge', content: <Text>Ridge</Text> },
+        ]}
+      />,
+    );
+    const hold = gestureById('story-hold');
+    await fireEvent.press(screen.getByRole('button', { name: 'Pause' }));
+    expect(screen.getByRole('button', { name: 'Play' })).toBeTruthy();
+
+    // A tap fails the hold, which still finalizes.
+    await fire(() => hold.handlers.onFinalize?.({ state: State.FAILED } as never, false));
+    expect(screen.getByRole('button', { name: 'Play' })).toBeTruthy();
+
+    await fire(() => hold.handlers.onStart?.({ state: State.ACTIVE } as never));
+    await fire(() => hold.handlers.onFinalize?.({ state: State.END } as never, true));
+    expect(screen.getByRole('button', { name: 'Pause' })).toBeTruthy();
   });
 
   it('races the day row drag and press without either waiting', async () => {

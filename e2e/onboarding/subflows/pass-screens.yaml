@@ -21,9 +21,11 @@ appId: app.critterpass.dev
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3a-2-name
+# A second tap into the field can select the typed word (iOS), so the name is typed again whole.
 - tapOn:
     id: 'onboarding-name-field'
-- inputText: 'on'
+- eraseText
+- inputText: 'Winston'
 - hideKeyboard
 - tapOn:
     id: 'onboarding-name-next'

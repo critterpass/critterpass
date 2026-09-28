@@ -160,7 +160,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. `startTripSession()` creates `CLBackgroundActivitySession` + `CLServiceSession` in foreground; recreate on relaunch. 2. `liveUpdates` with accuracy config + stationary detection. 3. `CLMonitor` conditions (≤20) replaced from planner. 4. Temporary full accuracy request with purpose key. 5. Emit fixes/region events with mock flags.
 - Tests: `pnpm --fail-if-no-match --filter @cp/mobile ios:test-modules -- CpLocation`; GPX walk `e2e/location/walk-ubud.gpx` on simulator via `maestro test e2e/location/session-ios.yaml`.
 - Done when: simulator GPX run emits region enter/exit for planned conditions while app is backgrounded with session pill; terminated-app relaunch works only under Always.
-- Status: done — f3fd21bf, 624392e5 (plan math passes `swift test`; the session, stream and CLMonitor code type-checks under Swift 6 against the iOS 26 SDK; the GPX/Maestro simulator run waits for the new development build)
+- Status: done — f3fd21bf, 624392e5 (plan math passes `swift test`; the session, stream and CLMonitor code type-checks under Swift 6 against the iOS 26 SDK; `e2e/location/session-ios.yaml` passes on the iOS 27 simulator with e2e-test build 537c50ab (fingerprint dce23884); the Android run is open)
 
 ### T8 — cp-location Android
 - Goal: FGS location session, background geofences, mock flags, disclosure.
@@ -192,7 +192,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. Maestro flows across both platforms. 2. API e2e: device op → visit row → TTL purge. 3. Battery: simulator/emulator energy proxy (location update count + high-accuracy minutes per hour from the engine's budget accountant) recorded as artifact; on-device %/h measurement per phase-02 method is an M8 milestone checklist item. 4. Write review-notes runbook.
 - Tests: `maestro test e2e/location e2e/permissions`; `pnpm --fail-if-no-match --filter @cp/api test -- location/visit-e2e`.
 - Done when: all flows green on CI simulators/emulators; runbook lists the proxy numbers, the on-device measurement procedure and reviewer steps.
-- Status: done — 98857023 (API visit end-to-end and the battery proxy pass; the Maestro flows have not run yet: they need a development build with both native modules, and the on-device %/h check is on the M8 checklist)
+- Status: done — 98857023 (API visit end-to-end and the battery proxy pass; on iOS 27 simulator with e2e-test build 537c50ab (fingerprint dce23884) every flow in `e2e/permissions` (primer, jit-camera, denied-settings, the primer screenshots) and `e2e/location` (session-ios, trip-day-session, always-upgrade, visit-consent, reload-survives) passes; the Android run is open and the on-device %/h check is on the M8 checklist)
 
 ## Phase acceptance criteria
 

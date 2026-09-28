@@ -24,7 +24,21 @@ appId: app.critterpass.dev
     id: 'primer-sheet-accept'
 - tapOn:
     text: '(Allow While Using App|While using the app)'
-- back
+# Back to the developer tools list: the system back on Android, the edge swipe on iOS (the dev
+# screens have no header back button there).
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 1%, 50%
+          end: 80%, 50%
+          duration: 400
 - runFlow:
     file: ../permissions/subflows/open-dev-screen.yaml
     env:

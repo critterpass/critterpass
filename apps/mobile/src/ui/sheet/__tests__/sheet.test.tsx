@@ -131,6 +131,19 @@ describe('Sheet', () => {
     expect(flat(presenter.getByTestId('presenter')).transform).toEqual([{ scale: 0.93 }]);
   });
 
+  it('releases the presenter when it unmounts without being dismissed', async () => {
+    const onDismiss = jest.fn<() => void>();
+    const screen = await renderModal(
+      <Sheet onDismiss={onDismiss}>
+        <Text>body</Text>
+      </Sheet>,
+    );
+    expect(presenterProgress.value).toBe(1);
+    await act(() => screen.unmount());
+    expect(presenterProgress.value).toBe(0);
+    expect(onDismiss).not.toHaveBeenCalled();
+  });
+
   it('dismisses from the mandatory ✕, the scrim and the escape gesture', async () => {
     for (const trigger of ['close', 'scrim', 'escape'] as const) {
       resetPresenterForTests();

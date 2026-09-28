@@ -161,14 +161,20 @@ export function StoryPlayer({
     'worklet';
     scheduleOnRN(tapAt, event.x);
   });
+  // Only a hold that began resumes on release: every touch finalizes the hold (a tap fails it),
+  // and a tap must not undo a pause made with the pill.
+  const holding = useSharedValue(false);
   const hold = Gesture.LongPress()
     .minDuration(HOLD_MS)
     .onStart(() => {
       'worklet';
+      holding.value = true;
       scheduleOnRN(setPaused, true);
     })
     .onFinalize(() => {
       'worklet';
+      if (!holding.value) return;
+      holding.value = false;
       scheduleOnRN(setPaused, false);
     });
 

@@ -48,6 +48,8 @@ function DaysDemo() {
     { n: 2, w: 'Tue', title: 'Ubud centre', sub: 'Monkey Forest · cooking class' },
     { n: 3, w: 'Wed', title: 'Slow Ubud', sub: 'Terraces 7am · spa · ridge walk' },
   ]);
+  // Shows which row a tap opened, so a tap and a drag on the same row are told apart.
+  const [opened, setOpened] = useState<string | null>(null);
   return (
     <Stack gap="8">
       {days.map((day, index) => (
@@ -57,6 +59,7 @@ function DaysDemo() {
           weekday={day.w}
           title={day.title}
           summary={day.sub}
+          onPress={() => setOpened(day.title)}
           reorder={{
             index,
             count: days.length,
@@ -71,6 +74,9 @@ function DaysDemo() {
           }}
         />
       ))}
+      <Text variant="bodySm" testID="day-row-opened">
+        {opened === null ? 'Tap a day to open it' : `Opened ${opened}`}
+      </Text>
     </Stack>
   );
 }
