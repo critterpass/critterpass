@@ -98,6 +98,7 @@ test('support cannot change flags and content cannot ban, in the UI too', async 
   await page.goto('/flags');
   await expect(page.getByText('Not for your role')).toBeVisible();
   await nav(page).getByRole('button', { name: 'Sign out' }).click();
+  await expect(page).toHaveURL(/\/sign-in$/);
 
   await signInAs(page, 'content');
   await expect(nav(page).getByRole('link', { name: 'Support' })).toHaveCount(0);
