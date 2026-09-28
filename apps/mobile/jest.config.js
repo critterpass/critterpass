@@ -83,7 +83,7 @@ module.exports = {
     index === 0
       ? pattern.replace(
           'standard-navigation',
-          'standard-navigation|@lingui|@messageformat|@formatjs|@sentry',
+          'standard-navigation|@lingui|@messageformat|@formatjs|@sentry|better-auth|@better-auth|@better-fetch|nanostores|defu|jose',
         )
       : pattern,
   ),

@@ -13,7 +13,7 @@ import {
   type StartedRedisContainer,
 } from '@cp/db/testing';
 import { runMigrations } from '@cp/db';
-import { exportJWK, generateKeyPair, SignJWT } from 'jose';
+import { generateKeyPair } from 'jose';
 import pg from 'pg';
 import { createClient, type RedisClientType } from 'redis';
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
@@ -23,6 +23,7 @@ import { revokeApple } from '../../src/auth/social/revoke';
 import type { AppleClientSecretConfig, AppleHttpClient } from '../../src/auth/social/apple';
 
 import { disabledAttestationConfig } from './test-attestation-config';
+import { buildLocalIssuer, jwksResponse } from './test-id-token-issuer';
 
 const APPLE_CLIENT_ID = 'app.critterpass.test';
 const GOOGLE_CLIENT_ID = 'test-google-client-id.apps.googleusercontent.com';
@@ -36,40 +37,6 @@ let redis: RedisClientType;
 let authModule: AuthModule;
 let issueAppleToken: (claims: Record<string, unknown>) => Promise<string>;
 let issueGoogleToken: (claims: Record<string, unknown>) => Promise<string>;
-
-/**
- * Real Apple/Google JWKS keys are RSA (both providers hardcode RS256 verification); generating a
- * matching RS256 keypair and serving it as the JWKS response through a stubbed `fetch` is the
- * network-boundary double — every other step (issuer, audience, nonce, expiry, signature
- * cryptography) runs through the real `@better-auth/core` verifier untouched.
- */
-async function buildLocalIssuer(): Promise<{
-  jwks: { keys: Array<Record<string, unknown>> };
-  sign: (claims: Record<string, unknown>) => Promise<string>;
-}> {
-  const { publicKey, privateKey } = await generateKeyPair('RS256', { extractable: true });
-  const kid = crypto.randomUUID();
-  const publicJwk = await exportJWK(publicKey);
-  const jwk = { ...publicJwk, kid, alg: 'RS256', use: 'sig' };
-  return {
-    jwks: { keys: [jwk] },
-    sign: async (claims) => {
-      const now = Math.floor(Date.now() / 1000);
-      return new SignJWT({ iat: now, ...claims })
-        .setProtectedHeader({ alg: 'RS256', kid })
-        .setIssuedAt(now)
-        .setExpirationTime(now + 600)
-        .sign(privateKey);
-    },
-  };
-}
-
-function jwksResponse(jwks: { keys: Array<Record<string, unknown>> }): Response {
-  return new Response(JSON.stringify(jwks), {
-    status: 200,
-    headers: { 'content-type': 'application/json' },
-  });
-}
 
 beforeAll(async () => {
   [postgres, redisContainer] = await Promise.all([startPostgres(), startRedis()]);
