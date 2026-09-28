@@ -28,6 +28,8 @@ import { CONTENT_PUBLISH_QUEUE } from '../admin/content/commands';
 export interface StartJobProducerOptions {
   /** A direct (non-PgBouncer) connection: pg-boss takes advisory locks while it starts. */
   readonly connectionString: string;
+  /** pg-boss's own pool; enqueueing runs on the caller's transaction, so 1 is enough (default 1). */
+  readonly max?: number;
   readonly logger: Pick<Logger, 'error'>;
   /** Start attempts, 2 s apart, before giving up (default 30). */
   readonly startAttempts?: number;
@@ -49,7 +51,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       createSchema: false,
       options: '-c role=app_system',
       application_name: 'cp-api-jobs',
-      max: 2,
+      max: options.max ?? 1,
       supervise: false,
       schedule: false,
     });

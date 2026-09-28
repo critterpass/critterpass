@@ -54,6 +54,8 @@ export interface AuthRedisClient {
 export interface AuthModuleDeps {
   readonly appPool: pg.Pool;
   readonly authDatabaseUrl: string;
+  /** Better Auth's pool size (default 5). */
+  readonly authPoolMax?: number;
   readonly redis: AuthRedisClient;
   readonly secret: string;
   readonly baseUrl: string;
@@ -97,7 +99,10 @@ function extractHeaders(ctx: unknown): Headers | undefined {
 }
 
 export function createAuthModule(deps: AuthModuleDeps): AuthModule {
-  const authPool = new pg.Pool({ connectionString: deps.authDatabaseUrl, max: 10 });
+  const authPool = new pg.Pool({
+    connectionString: deps.authDatabaseUrl,
+    max: deps.authPoolMax ?? 5,
+  });
   // An idle connection that dies (database restart, failover) emits `error` on the pool; without a
   // listener that event crashes the process.
   authPool.on(

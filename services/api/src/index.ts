@@ -1,5 +1,4 @@
 import { serve } from '@hono/node-server';
-import pg from 'pg';
 import { createClient } from 'redis';
 
 import packageJson from '../package.json' with { type: 'json' };
@@ -56,17 +55,12 @@ import { registerSupportGrantSource } from './admin/entitlement-grants';
 import { mountAdminRouter } from './admin/router';
 import { createServerAnalytics } from './obs/analytics';
 import { startApiObservability } from './obs';
+import { createRequestPool } from './db-pool';
 
 const env = loadApiEnv();
 const { logger, errors } = startApiObservability(env, packageJson.version);
 
-const pool = new pg.Pool({
-  connectionString: env.DATABASE_URL,
-  max: 10,
-  connectionTimeoutMillis: 2000,
-  idleTimeoutMillis: 30_000,
-});
-pool.on('error', (error) => logger.error({ err: error }, 'idle database client error'));
+const pool = createRequestPool(env.DATABASE_URL, env.DB_POOL_MAX, logger);
 
 const redis = createClient({ url: env.REDIS_URL, socket: { connectTimeout: 2000 } });
 redis.on('error', (error: unknown) => logger.warn({ err: error }, 'redis connection error'));
@@ -112,6 +106,7 @@ const authModule = createAuthModule({
   appPool: pool,
   onPoolError: (error) => logger.error({ err: error }, 'idle auth database client error'),
   authDatabaseUrl: env.AUTH_DATABASE_URL,
+  authPoolMax: env.AUTH_POOL_MAX,
   redis,
   secret: env.BETTER_AUTH_SECRET,
   baseUrl: `${env.PUBLIC_BASE_URL}/api/auth`,
@@ -182,6 +177,7 @@ if (env.WHATSAPP_APP_SECRET && env.WHATSAPP_VERIFY_TOKEN) {
 // that must enqueue fails retryably rather than dropping its job.
 const jobProducer = startJobProducer({
   connectionString: env.DATABASE_DIRECT_URL ?? env.DATABASE_URL,
+  max: env.JOBS_POOL_MAX,
   logger,
 }).catch((error: unknown) => {
   logger.error({ err: error }, 'job producer failed to start; enqueueing commands will fail');

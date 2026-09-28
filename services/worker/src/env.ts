@@ -1,3 +1,4 @@
+import { poolMaxEnv } from '@cp/db';
 import { z } from 'zod';
 
 /** Env files (and unresolved platform references) write unset values as `KEY=`; treat `''` as absent. */
@@ -12,8 +13,17 @@ export const workerEnvSchema = z.object({
   APP_ENV: z.enum(['local', 'staging', 'production']).default('local'),
   PORT: z.coerce.number().int().positive().default(8788),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
-  /** Direct connection (port 5432): LISTEN/NOTIFY and job locking do not work through PgBouncer. */
+  /** Direct connection (port 5432) for pg-boss and the LISTEN clients: PgBouncer's transaction
+   *  pooling drops LISTEN and rejects the `-c role=` startup option pg-boss connects with. */
   DATABASE_DIRECT_URL: z.url(),
+  /** Pooled connection (PgBouncer, port 6432) for job handlers' transactions; unset = they share
+   *  the direct connection (local development). */
+  DATABASE_URL: optionalUrl,
+  /** Job handlers' pool size (through PgBouncer when DATABASE_URL is set). */
+  DB_POOL_MAX: poolMaxEnv(5),
+  /** pg-boss's own pool (fetch, settle, maintenance) on the direct connection; its LISTEN client
+   *  and the realtime relay's listener are one direct connection each on top. */
+  JOBS_POOL_MAX: poolMaxEnv(2),
   REDIS_URL: z.url(),
   SENTRY_DSN: optionalUrl,
   OTEL_EXPORTER_OTLP_ENDPOINT: optionalUrl,
