@@ -11,6 +11,7 @@ import { registerAvatarCommands } from './avatar';
 import { registerChatCommands } from './chat';
 import { registerCrewCommands } from './crews';
 import { registerDeviceCommands } from './device';
+import { registerHomeCommands } from './home';
 import { registerInboxCommands } from './inbox';
 import { registerOnboardingCommands } from './onboarding';
 import { reportContentCommand } from './report-content';
@@ -26,6 +27,7 @@ export function createAppCommandRegistry(): CommandRegistry {
   registerCrewCommands(commands);
   registerChatCommands(commands);
   registerInboxCommands(commands);
+  registerHomeCommands(commands);
   commands.register(undoGuideActionCommand);
   commands.register(reportContentCommand);
   commands.register(approveOpsActionCommand);

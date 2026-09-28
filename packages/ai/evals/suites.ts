@@ -11,6 +11,7 @@ export const SUITES = [
   'compliance',
   'invite-tags',
   'crew-welcome',
+  'tips',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -21,7 +22,8 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/evals\/(chat|persona|grounding|injection|autonomy|compliance)\//u, []],
   [/^packages\/ai\/src\/prompts\/invite-tags\//u, ['invite-tags']],
   [/^packages\/ai\/src\/prompts\/crew-welcome\//u, ['crew-welcome']],
-  [/^packages\/ai\/evals\/lib\/prompt-suites\.ts$/u, ['invite-tags', 'crew-welcome']],
+  [/^packages\/ai\/src\/prompts\/tips\//u, ['tips']],
+  [/^packages\/ai\/evals\/lib\/prompt-suites\.ts$/u, ['invite-tags', 'crew-welcome', 'tips']],
   [/^packages\/ai\/evals\//u, ALL],
   [/^packages\/ai\/(personas\/|src\/(persona|prompts)\/)/u, ['chat', 'persona', 'autonomy']],
   [/^packages\/ai\/src\/tools\//u, ['chat', 'grounding', 'injection']],

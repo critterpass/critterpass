@@ -8,7 +8,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { TASTE_TAGS } from '@cp/domain';
+import { TASTE_TAGS, TIP_KINDS } from '@cp/domain';
 import { parse } from 'yaml';
 import { z } from 'zod';
 
@@ -16,12 +16,13 @@ import { createGateway } from '../../src/client';
 import { personaIdSchema } from '../../src/persona/schema';
 import { writeCrewWelcome } from '../../src/prompts/crew-welcome/prompt';
 import { inferInviteTags } from '../../src/prompts/invite-tags/prompt';
+import { phraseTip, ungroundedTokens } from '../../src/prompts/tips/prompt';
 import { loadFixture } from '../../test/fixture-transport';
 import type { EvalMode } from './provider';
 import type { CaseReport } from './runner';
 import { jsonResponse } from './transports';
 
-export const PROMPT_SUITES = ['invite-tags', 'crew-welcome'] as const;
+export const PROMPT_SUITES = ['invite-tags', 'crew-welcome', 'tips'] as const;
 export type PromptSuite = (typeof PROMPT_SUITES)[number];
 
 export function isPromptSuite(name: string): name is PromptSuite {
@@ -46,6 +47,26 @@ const crewWelcomeCase = z.object({
   members: z.int().positive(),
   place: z.string().optional(),
   forbid: z.array(z.string()).optional(),
+});
+
+const tipFactCase = z.object({
+  kind: z.enum(TIP_KINDS),
+  place: z.string().min(1),
+  value_minor: z.int().nonnegative().nullable().default(null),
+  currency: z.string().length(3).nullable().default(null),
+  date: z.iso.date().nullable().default(null),
+  origin: z.string().length(3).nullable().default(null),
+  origin_city: z.string().optional(),
+  delta_pct: z.int().optional(),
+  event: z.string().optional(),
+  crowd_index: z.int().optional(),
+});
+const tipsCase = z.object({
+  fixture: z.string().min(1),
+  guide: personaIdSchema,
+  must: z.array(z.string()).default([]),
+  forbid: z.array(z.string()).optional(),
+  facts: z.array(tipFactCase).min(1).max(3),
 });
 
 export interface PromptRunOptions {
@@ -150,11 +171,37 @@ async function crewWelcome(raw: unknown, options: PromptRunOptions): Promise<Cas
   return report(`${c.fixture}: ${c.newcomer} → ${c.crew}`, failures, result.line);
 }
 
+async function tips(raw: unknown, options: PromptRunOptions): Promise<CaseReport> {
+  const c = tipsCase.parse(raw);
+  const facts = c.facts.map((fact) => ({
+    ...fact,
+    place_id: '0199a0f2-7c1e-7d4b-9a53-2f3c1d0e9b11',
+  }));
+  const result = await phraseTip(gatewayFor(c.fixture, options), { guide: c.guide, facts });
+  const failures: string[] = [];
+  if (result.source !== 'model') failures.push('template fallback answered');
+  const loose = ungroundedTokens(result.line, facts);
+  if (loose.length > 0) failures.push(`ungrounded ${loose.join(', ')}`);
+  for (const word of c.must) if (!result.line.includes(word)) failures.push(`no ${word}`);
+  const lower = result.line.toLowerCase();
+  const forbidden = (c.forbid ?? []).filter((word) => lower.includes(word.toLowerCase()));
+  if (forbidden.length > 0) failures.push(`forbidden ${forbidden.join(', ')}`);
+  return report(
+    `${c.fixture}: ${c.facts.map((fact) => fact.kind).join('+')}`,
+    failures,
+    result.line,
+  );
+}
+
+const RUNNERS: Readonly<
+  Record<PromptSuite, (raw: unknown, options: PromptRunOptions) => Promise<CaseReport>>
+> = { 'invite-tags': inviteTags, 'crew-welcome': crewWelcome, tips };
+
 export async function runPromptSuiteCases(
   suite: PromptSuite,
   options: PromptRunOptions,
 ): Promise<CaseReport[]> {
-  const run = suite === 'invite-tags' ? inviteTags : crewWelcome;
+  const run = RUNNERS[suite];
   const reports: CaseReport[] = [];
   for (const raw of loadCases(suite)) reports.push(await run(raw, options));
   return reports;

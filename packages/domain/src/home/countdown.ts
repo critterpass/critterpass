@@ -115,3 +115,17 @@ export function countdownDigits(
   const clock = `${pad(display.hours)}:${pad(display.minutes)}:${pad(display.seconds)}`;
   return display.days > 0 ? `${display.days}${dayLetter} ${clock}` : clock;
 }
+
+export const COUNTDOWN_RECOMPUTE_QUEUE = 'countdown.recompute';
+
+/** Events that can move a participant's countdown target; each queues one recompute. */
+export const COUNTDOWN_INPUT_EVENTS: ReadonlySet<string> = new Set([
+  'trip.created',
+  'trip.dates_changed',
+  'trip.destination_set',
+  'booking.flight_added',
+  'booking.flight_changed',
+  'booking.flight_removed',
+  'user.tz_changed',
+  'rsvp.changed',
+]);

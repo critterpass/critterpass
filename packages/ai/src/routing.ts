@@ -179,6 +179,7 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'email.parse': fast('M', 2048, { output: 'structured' }),
   'must_do.fit_line': fast(null, 128),
   'micro.line': fast(null, 128),
+  'tips.phrase': fast(null, 256),
   'season.research': fast(null, 2048, { output: 'structured' }),
   'pitch.place': fast(null, 1024, { delivery: 'stream', cacheLayers: JOB_LAYERS }),
   'briefing.daily': fast('B', 2048, { output: 'structured', cacheLayers: JOB_LAYERS }),

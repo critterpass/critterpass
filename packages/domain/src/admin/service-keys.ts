@@ -94,6 +94,12 @@ export function serviceKeys(): Record<string, ConfigKeyDefinition> {
     'billing.enabled': killSwitch('Purchases and plan changes', OWNER_ONLY),
     'postcards.enabled': killSwitch('Printed postcard orders'),
     'widgets.push.enabled': killSwitch('Widget refresh pushes'),
+    'home.tips.enabled': killSwitch("Proactive tips on crews' Home"),
+    'home.tips.min_fare_drop_pct': opsSetting(
+      z.number().int().min(5).max(80),
+      'Smallest fare drop (percent under the recent median) that makes a Home tip',
+      'Default 15',
+    ),
     'android.fsi.enabled': killSwitch('Android full-screen intent alerts'),
     'ai.cap.daily_usd': spendCap('AI spend cap per day, every tier (USD)'),
     ...Object.fromEntries(
