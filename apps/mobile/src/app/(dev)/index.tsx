@@ -22,6 +22,12 @@ const DEV_SCREENS: readonly DevScreenEntry[] = [
   { testId: 'dev-nav-motion-lab', href: '/(dev)/motion-lab', label: 'Motion lab' },
   { testId: 'dev-nav-sticker-lab', href: '/(dev)/sticker-lab', label: 'Sticker lab' },
   { testId: 'dev-nav-gallery', href: '/(dev)/gallery', label: 'Component gallery' },
+  { testId: 'dev-nav-permissions', href: '/(dev)/permissions', label: 'Permissions (live status)' },
+  {
+    testId: 'dev-nav-permissions-primer',
+    href: '/(dev)/permissions-primer',
+    label: 'Permissions primer (3a-9)',
+  },
   {
     testId: 'dev-nav-spikes-app-group',
     href: '/(dev)/spikes/app-group',

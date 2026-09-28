@@ -1,0 +1,9 @@
+{
+  "name": "cp-permissions",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Status, request and Settings paths for every OS permission the app primes: notifications, AlarmKit / exact alarms, location, calendar, camera, microphone, speech, photos and Live Activities.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}

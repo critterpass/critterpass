@@ -4,12 +4,13 @@ import { router, useNavigationContainerRef } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Updates from 'expo-updates';
-import { useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Platform, StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { appGroupOutbox, writeEndpointsConfig } from '../../modules/cp-app-group';
 import * as cpDeferredLink from '../../modules/cp-deferred-link';
+import { getPermissions } from '../../modules/cp-permissions';
 
 import { AppSessionRoot } from '@/data/app-session/AppSessionRoot';
 import {
@@ -22,6 +23,8 @@ import {
 } from '@/data/app-session/device-session';
 import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/DeferredLinkGate';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
+import { useCommand } from '@/data/commands/use-command';
+import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import {
   AnalyticsProvider,
   createAnalyticsClient,
@@ -32,6 +35,14 @@ import {
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
 import { useNavigationPersistence } from '@/lib/navigation/restore';
+import {
+  configurePermissions,
+  sendMirrorThroughSession,
+  trackPermissionEvent,
+  UPDATE_DEVICE_PERMISSIONS,
+  usePermissionsBridge,
+  type DevicePermissionState,
+} from '@/lib/permissions';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { analyticsViolationBreadcrumb, initAppSentry, sentryDsnFromEnv } from '@/lib/observability';
 import { ThemeProvider } from '@/lib/theme';
@@ -41,6 +52,7 @@ import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
 import { useTheme } from '@/ui';
+import { PrimerSheetHost } from '@/ui/permission-primer';
 import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
 
 void SplashScreen.preventAutoHideAsync();
@@ -70,6 +82,27 @@ const analytics = createAnalyticsClient({
   onViolation: analyticsViolationBreadcrumb,
 });
 registerOnSignOut(() => analytics.reset());
+
+// Every OS permission goes through one primer-first orchestrator over the native module; results
+// are mirrored to the server (update_device_permissions) through the live session.
+configurePermissions({
+  port: getPermissions(),
+  sendMirror: sendMirrorThroughSession,
+  track: (event) => trackPermissionEvent(analytics, event),
+});
+
+/** Session-scoped bridges; they need the local-first session, so they wait for it. */
+function SessionBridges() {
+  const localFirst = useContext(LocalFirstContext);
+  return localFirst === null ? null : <PermissionsBridge />;
+}
+
+function PermissionsBridge() {
+  const { send } = useCommand(UPDATE_DEVICE_PERMISSIONS);
+  const sendMirror = useCallback((perms: DevicePermissionState) => send({ perms }), [send]);
+  usePermissionsBridge(getPermissions(), sendMirror);
+  return null;
+}
 
 /** Saved navigation is only restored into the same JS build it was saved from. */
 const BUILD = `${Constants.expoConfig?.version ?? ''}:${Updates.updateId ?? 'embedded'}`;
@@ -152,7 +185,9 @@ export default function RootLayout() {
                   claims={deviceLinkClaims}
                   onReady={() => setLinksReady(true)}
                 />
+                <SessionBridges />
                 <OverlayHost />
+                <PrimerSheetHost />
                 <SharedGrowHost />
                 <IslandToast />
               </ScreenJoltProvider>

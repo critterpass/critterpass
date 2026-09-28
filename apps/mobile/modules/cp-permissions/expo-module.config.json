@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["CpPermissionsModule"]
+  },
+  "android": {
+    "modules": ["app.critterpass.permissions.CpPermissionsModule"]
+  }
+}

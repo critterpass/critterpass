@@ -79,6 +79,13 @@ export default defineConfig({
         `${repoRootPrefix}/apps/mobile/src/app/*.{ts,tsx}`,
         `${repoRootPrefix}/apps/mobile/src/app/(dev)/**`,
       ],
+      exclude: [...testFileExcludes, `${repoRootPrefix}/apps/mobile/src/ui/permission-primer/**`],
+    },
+    // Permission primers, just-in-time sheets, denied states and the location consent sheets.
+    {
+      name: 'permissions',
+      path: 'locales/{locale}/permissions',
+      include: [`${repoRootPrefix}/apps/mobile/src/ui/permission-primer/**`],
       exclude: testFileExcludes,
     },
     ...areas.map((area) => ({
