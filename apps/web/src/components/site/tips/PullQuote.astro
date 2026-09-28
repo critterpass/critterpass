@@ -1,0 +1,13 @@
+---
+/** `<PullQuote by="…">` in a tip: the guide's line in yellow on ink, signed in their hand. */
+export interface Props {
+  readonly by: string;
+}
+
+const { by } = Astro.props;
+---
+
+<figure class="tip-quote">
+  <blockquote class="site-display"><slot /></blockquote>
+  <figcaption class="site-voice">— {by}</figcaption>
+</figure>

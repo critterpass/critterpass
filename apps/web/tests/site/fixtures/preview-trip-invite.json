@@ -1,0 +1,24 @@
+{
+  "kind": "invite",
+  "crew_name": "The Bali Six",
+  "inviter_first_name": "Winston",
+  "trip_place": "Bali",
+  "members_count": 4,
+  "expires_at": "2099-10-01T12:00:00.000Z",
+  "state": "active",
+  "invitee_first_name": null,
+  "trip_start": "2026-10-12",
+  "trip_end": "2026-10-19",
+  "seats_taken": 4,
+  "seat_cap": 6,
+  "members": [
+    { "first_name": "Maya", "colour": "pink" },
+    { "first_name": "Arjun", "colour": "blue" },
+    { "first_name": "Jess", "colour": "cream" },
+    { "first_name": "Rafa", "colour": "green" }
+  ],
+  "invited_waiting": 1,
+  "estimate_minor": 124000,
+  "estimate_currency": "USD",
+  "guide_slug": "tokek"
+}

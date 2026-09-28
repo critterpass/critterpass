@@ -1,0 +1,33 @@
+---
+/**
+ * The page behind `/i/{code}`, `/j/{code}` and `/r/{code}`: a referral code gets Site-Referral,
+ * every invite state and an unknown code get Site-Invite. The personalised preview is private to
+ * this request: never stored by the edge or the browser, so a code switched off after one visit
+ * shows as switched off on the next.
+ */
+import type { LoadedHandoff } from '../../lib/links/load-handoff';
+import InviteLanding from './InviteLanding.astro';
+import ReferralLanding from './ReferralLanding.astro';
+
+export interface Props {
+  readonly loaded: Extract<LoadedHandoff, { kind: 'page' }>;
+}
+
+const { loaded } = Astro.props;
+const kind = loaded.model?.preview?.kind ?? loaded.model?.target.kind ?? null;
+---
+
+{
+  kind === 'referral' ? (
+    <ReferralLanding
+      model={loaded.model}
+      title={loaded.copy.pageTitle}
+      description={loaded.copy.pageDescription}
+      cta={loaded.copy.cta}
+      appStoreHref={loaded.appStoreHref}
+      playStoreHref={loaded.playStoreHref}
+    />
+  ) : (
+    <InviteLanding loaded={loaded} />
+  )
+}

@@ -1,0 +1,15 @@
+---
+import { LEGAL_DOC_KEYS, latestVersion } from '@cp/content/legal';
+import type { GetStaticPaths } from 'astro';
+
+import LegalDocument from '../../../components/site/legal/LegalDocument.astro';
+import { legalPage } from '../../../components/site/legal/legal-data';
+
+// The current version of each document.
+export const getStaticPaths = (() => LEGAL_DOC_KEYS.map((doc) => ({ params: { doc }, props: { doc } }))) satisfies GetStaticPaths;
+
+const { doc } = Astro.props;
+const page = await legalPage(doc, latestVersion(doc).version);
+---
+
+<LegalDocument page={page} />

@@ -9,13 +9,22 @@
     "lint": "eslint .",
     "typecheck": "astro check",
     "test": "vitest run --passWithNoTests",
-    "test:e2e": "playwright test -c tests/links/playwright.config.ts"
+    "test:e2e": "playwright test -c tests/site/playwright.config.ts"
   },
   "dependencies": {
     "@astrojs/cloudflare": "14.3.3",
+    "@astrojs/mdx": "8.0.2",
+    "@astrojs/rss": "4.0.19",
+    "@astrojs/sitemap": "3.7.4",
+    "@cp/content": "workspace:*",
     "@cp/critter-art": "workspace:*",
+    "@cp/design-tokens": "workspace:*",
     "@cp/domain": "workspace:*",
+    "@cp/i18n": "workspace:*",
+    "@lingui/core": "catalog:",
     "@sentry/browser": "catalog:",
+    "@takumi-rs/helpers": "2.14.0",
+    "@takumi-rs/wasm": "2.14.0",
     "astro": "7.3.5",
     "uqr": "catalog:"
   },

@@ -1,0 +1,42 @@
+---
+import { GUIDES } from '../../../lib/guides';
+import { homeCopy as copy } from '../copy/home';
+import { siteTranslator } from '../i18n';
+import Sticker from '../Sticker.astro';
+
+const t = await siteTranslator();
+const blurbs: Record<string, string> = {
+  gecko: t(copy.guideTokek),
+  tanuki: t(copy.guidePon),
+  puffin: t(copy.guideLundi),
+  axolotl: t(copy.guideAjo),
+  sardine: t(copy.guideSardi),
+  alpaca: t(copy.guidePaco),
+};
+---
+
+<section id="the-locals" class="home-locals" aria-labelledby="home-locals-title">
+  <div class="site-wrap">
+    <div class="home-section-head">
+      <div>
+        <h2 id="home-locals-title" class="site-display home-h2 home-locals__title">{t(copy.localsTitle)}</h2>
+        <p class="home-body home-locals__body">{t(copy.localsBody)}</p>
+      </div>
+      <p class="site-voice home-locals__voice">{t(copy.localsVoice)} <span aria-hidden="true">↓</span></p>
+    </div>
+    <ul class="home-locals__grid">
+      {
+        GUIDES.map((guide, index) => (
+          <li class="home-guide site-halftone" style={`--guide-bg:${guide.bg}`}>
+            <span class="home-guide__hello">{t(copy.localsHello)}</span>
+            <span class="site-mono home-guide__num">{`${String(index + 1).padStart(2, '0')}/06`}</span>
+            <Sticker kind={guide.kind} size={150} class="home-guide__sticker" label={`${guide.name}, ${guide.species}`} />
+            <p class="site-eyebrow home-guide__where">{`${guide.city} · ${guide.species}`}</p>
+            <h3 class="site-display home-guide__name">{guide.name}</h3>
+            <p class="home-guide__blurb">{blurbs[guide.kind]}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

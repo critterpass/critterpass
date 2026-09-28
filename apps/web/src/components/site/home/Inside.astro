@@ -1,0 +1,105 @@
+---
+/** "A look inside": six app moments as phone cards on a horizontal, snap-scrolling route. */
+import { homeCopy as copy } from '../copy/home';
+import { siteTranslator } from '../i18n';
+import Sticker from '../Sticker.astro';
+
+const t = await siteTranslator();
+---
+
+<section class="home-inside" aria-labelledby="home-inside-title">
+  <div class="site-wrap home-section-head">
+    <h2 id="home-inside-title" class="site-display home-h2">{t(copy.insideTitle)}</h2>
+    <p class="site-voice home-inside__voice">{t(copy.insideVoice)} <span aria-hidden="true">→</span></p>
+  </div>
+  <ul class="home-inside__route" tabindex="0" aria-label={t(copy.insideTitle)}>
+    <li class="home-shot home-shot--yellow">
+      <h3 class="site-display home-shot__title">{t(copy.insideVoteTitle)}</h3>
+      <p class="home-shot__body">{t(copy.insideVoteBody)}</p>
+      <div class="home-phone" aria-hidden="true">
+        <span class="home-phone__time">{t(copy.phoneTime)}</span>
+        <p class="site-eyebrow home-phone__eyebrow">{t(copy.mockVoteEyebrow)}</p>
+        <p class="site-display home-phone__title home-phone__title--yellow">{t(copy.mockVoteTitle)}</p>
+        <p class="home-phone__meta">{t(copy.mockVoteStatus)}</p>
+        <div class="home-phone__row home-phone__row--win">
+          <b>{t(copy.mockVoteHoiAn)}</b><span>{t(copy.mockVoteHoiAnCount)}</span><em>{t(copy.mockVoteWinning)}</em>
+        </div>
+        <div class="home-phone__row">
+          <b>{t(copy.mockVoteIstanbul)}</b><span>{t(copy.mockVoteIstanbulCount)}</span>
+        </div>
+      </div>
+    </li>
+    <li class="home-shot home-shot--ink">
+      <h3 class="site-display home-shot__title home-shot__title--yellow">{t(copy.insideGuideTitle)}</h3>
+      <p class="home-shot__body">{t(copy.insideGuideBody)}</p>
+      <div class="home-phone" aria-hidden="true">
+        <span class="home-phone__time">{t(copy.phoneTime)}</span>
+        <div class="home-phone__guide">
+          <Sticker kind="gecko" size={40} />
+          <span><b>{t(copy.mockGuideName)}</b><small>{t(copy.mockGuideRole)}</small></span>
+        </div>
+        <p class="home-bubble home-bubble--plan home-phone__bubble">{t(copy.mockGuideAsk)}</p>
+        <p class="home-bubble home-bubble--them home-phone__bubble">{t(copy.mockGuideAnswer)}</p>
+        <div class="home-phone__change">
+          <span>{t(copy.mockGuideChange)}</span>
+          <b class="home-phone__pill">{t(copy.mockGuideSwap)}</b>
+        </div>
+      </div>
+    </li>
+    <li class="home-shot home-shot--pink">
+      <h3 class="site-display home-shot__title">{t(copy.insideLocalTitle)}</h3>
+      <p class="home-shot__body">{t(copy.insideLocalBody)}</p>
+      <div class="home-phone home-phone--glow" aria-hidden="true">
+        <span class="home-phone__time">{t(copy.phoneTime)}</span>
+        <p class="site-eyebrow home-phone__eyebrow home-phone__eyebrow--yellow">{t(copy.mockLocalEyebrow)}</p>
+        <Sticker kind="cp-005" size={110} class="home-phone__local" />
+        <p class="site-display home-phone__title home-phone__title--yellow">{t(copy.mockLocalName)}</p>
+        <p class="home-phone__meta">{t(copy.mockLocalSpecies)}</p>
+        <b class="home-phone__chip">{t(copy.mockLocalFound)}</b>
+      </div>
+    </li>
+    <li class="home-shot home-shot--orange">
+      <h3 class="site-display home-shot__title">{t(copy.insidePlanTitle)}</h3>
+      <p class="home-shot__body">{t(copy.insidePlanBody)}</p>
+      <div class="home-phone" aria-hidden="true">
+        <span class="home-phone__time">{t(copy.phoneTime)}</span>
+        <p class="site-eyebrow home-phone__eyebrow">{t(copy.mockPlanEyebrow)}</p>
+        <p class="site-display home-phone__title home-phone__title--orange">{t(copy.mockPlanDay)}</p>
+        <div class="home-phone__slot"><span>08:30</span><b>{t(copy.mockPlanItem1)}</b></div>
+        <div class="home-phone__slot"><span>10:00</span><b>{t(copy.mockPlanItem2)}</b></div>
+        <div class="home-phone__slot home-phone__slot--lifted">
+          <span>15:00</span><b>{t(copy.mockPlanItem3)}<small>{t(copy.mockPlanMoving)}</small></b>
+        </div>
+        <div class="home-phone__slot"><span>19:00</span><b>{t(copy.mockPlanItem4)}</b></div>
+      </div>
+    </li>
+    <li class="home-shot home-shot--green">
+      <h3 class="site-display home-shot__title">{t(copy.insideMoneyTitle)}</h3>
+      <p class="home-shot__body">{t(copy.insideMoneyBody)}</p>
+      <div class="home-phone" aria-hidden="true">
+        <span class="home-phone__time">{t(copy.phoneTime)}</span>
+        <p class="site-eyebrow home-phone__eyebrow">{t(copy.mockMoneyEyebrow)}</p>
+        <p class="home-phone__meta">{t(copy.mockMoneyOwed)}</p>
+        <p class="site-display home-phone__title home-phone__title--green">{t(copy.mockMoneyTotal)}</p>
+        <div class="home-phone__row"><b>{t(copy.mockMoneyMaya)}</b><span>$42</span></div>
+        <div class="home-phone__row"><b>{t(copy.mockMoneyDev)}</b><span>$24</span></div>
+        <p class="home-phone__receipt">{t(copy.mockMoneyReceipt)}</p>
+      </div>
+    </li>
+    <li class="home-shot home-shot--blue">
+      <h3 class="site-display home-shot__title">{t(copy.insideBookingsTitle)}</h3>
+      <p class="home-shot__body">{t(copy.insideBookingsBody)}</p>
+      <div class="home-phone" aria-hidden="true">
+        <span class="home-phone__time">{t(copy.phoneTime)}</span>
+        <p class="site-eyebrow home-phone__eyebrow home-phone__eyebrow--green">{t(copy.mockBookingsEyebrow)}</p>
+        <div class="home-phone__booking">
+          <b class="site-display">{t(copy.mockBookingsFlight)}</b><small>{t(copy.mockBookingsFlightMeta)}</small>
+        </div>
+        <div class="home-phone__booking">
+          <b>{t(copy.mockBookingsStay)}</b><small>{t(copy.mockBookingsStayMeta)}</small>
+        </div>
+        <div class="home-phone__booking"><b>{t(copy.mockBookingsTickets)}</b></div>
+      </div>
+    </li>
+  </ul>
+</section>

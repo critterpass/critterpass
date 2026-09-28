@@ -1,0 +1,42 @@
+---
+/**
+ * The official App Store and Google Play badges (artwork as supplied by Apple and Google, unaltered),
+ * linking to the production listings.
+ */
+import { shellCopy as copy } from './copy/shell';
+import { siteTranslator } from './i18n';
+import { STORE_LINKS } from './site-config';
+
+export interface Props {
+  readonly size?: 'md' | 'lg';
+  readonly class?: string;
+}
+
+const { size = 'md', class: className } = Astro.props;
+const t = await siteTranslator();
+---
+
+<div class:list={['site-badges', `site-badges--${size}`, className]} data-testid="store-badges">
+  {
+    STORE_LINKS.appStore && (
+      <a href={STORE_LINKS.appStore} class="site-badges__link" rel="noopener">
+        <img
+          src="/badges/app-store-en.svg"
+          class="site-badges__apple"
+          width="120"
+          height="40"
+          alt={t(copy.appStoreBadge)}
+        />
+      </a>
+    )
+  }
+  <a href={STORE_LINKS.googlePlay} class="site-badges__link" rel="noopener">
+    <img
+      src="/badges/google-play-en.png"
+      class="site-badges__google"
+      width="646"
+      height="250"
+      alt={t(copy.googlePlayBadge)}
+    />
+  </a>
+</div>

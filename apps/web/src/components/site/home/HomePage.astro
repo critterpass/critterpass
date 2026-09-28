@@ -1,0 +1,29 @@
+---
+/** Site-Home: hero, city ticker, group chat, four stops, the locals, the pass, a look inside, final call. */
+import './home.css';
+
+import CityTicker from '../../city-ticker.astro';
+import { homeCopy as copy } from '../copy/home';
+import { siteTranslator } from '../i18n';
+import Site from '../../../layouts/Site.astro';
+import FinalCall from './FinalCall.astro';
+import GroupChat from './GroupChat.astro';
+import Hero from './Hero.astro';
+import Inside from './Inside.astro';
+import Locals from './Locals.astro';
+import Stops from './Stops.astro';
+import ThePass from './ThePass.astro';
+
+const t = await siteTranslator();
+---
+
+<Site title={t(copy.pageTitle)} description={t(copy.pageDescription)} canonicalPath="/" tone="ink">
+  <Hero />
+  <div class="home-ticker"><CityTicker /></div>
+  <GroupChat />
+  <Stops />
+  <Locals />
+  <ThePass />
+  <Inside />
+  <FinalCall />
+</Site>

@@ -1,7 +1,7 @@
 ---
 phase: 51
 title: Marketing site, invite landing, tips, legal, OG, web previews
-status: pending
+status: in_progress
 depends_on: [3, 5, 9, 21, 23]
 wave: 10
 late_block:
@@ -100,6 +100,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Token CSS import; fonts subset preload. 2. Header/Footer per renders; mobile drawer. 3. Official badges. 4. Lingui web catalog.
 - Tests: `pnpm --filter @cp/web test:e2e -- site/shell`; `pnpm --filter @cp/web build`.
 - Done when: Playwright visual diff vs `Site-Header.png`/`Site-Footer.png` within threshold at 1440 and 390 widths.
+- Status: done — d66842a2
 
 ### T2 — Home page (8 sections)
 - Goal: F-182.
@@ -107,6 +108,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Seven sections per render with `<critter-sticker>`; pricing/perks section slot left for T11. 2. Reduced motion.
 - Tests: `pnpm --filter @cp/web test:e2e -- site/home`; `pnpm --filter @cp/web lighthouse`.
 - Done when: visual diff passes for the seven sections; Lighthouse perf/a11y ≥95 mobile.
+- Status: done — f97884a1 (Lighthouse on staging, mobile: home 96 perf / 100 a11y, tips 98 / 100; pricing slot stays for T11)
 
 ### T3 — Public preview API + `public_reader` role (block B)
 - Goal: safe data for web.
@@ -114,6 +116,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. `public_reader` role + security-barrier views for proposal/recap with explicit allow-lists; grant on 52's `community.shared_plan_public`. 2. Handlers run `SET LOCAL ROLE public_reader`; kind=plan calls 52's `readPublicPlan(token)`. 3. Token validation (revoked/expired/unlisted → 404). 4. Proposal crew = count + stickers; names only with consent. 5. Rate limit + bot filter reuse from 21.
 - Tests: `pnpm --filter @cp/api test -- public-previews`; `pnpm --filter @cp/db test -- public-projections`.
 - Done when: projection test fails if any column tagged C2/C3 is selected; `public_reader` SELECT on any base table is denied; revoked token returns 404.
+- Status: blocked — the proposal, recap and plan projections need `proposals` (phase 31), `recaps` (phase 43) and `community.shared_plan_public` with `readPublicPlan` (phase 52), none of which exist yet; the locals projection needs phase 40 to settle which critter names and forms a public `/locals/<place>` page may show (names are server-only until found today)
 
 ### T4 — Invite landing + /join + referral
 - Goal: F-183.
@@ -121,6 +124,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. SSR from link preview with `Cache-Control: private, no-store` (no edge cache/SWR). 2. All error states. 3. QR on desktop. 4. Code lookup. 5. Human-open counting in the Worker using the phase-21 bot filter (POST to the phase-21 open counter).
 - Tests: `pnpm --filter @cp/web test:e2e -- site/invite`.
 - Done when: expired/full/revoked/unknown each render designed-in-code states; an invite revoked after a first view renders the revoked state on the next request; bot UA does not increment opens; visual diff vs `Site-Invite.png`, `Site-Referral.png`.
+- Status: done — 623732db (human opens are still counted by the api preview route through the Worker's proxied visitor IP/UA and its bot filter, as api-contracts §5.6 specifies)
 
 ### T5 — OG image service (base kinds: invite, referral, tip)
 - Goal: F-186 render + cache core.
@@ -128,6 +132,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Takumi wasm render with atlas sprites + static fonts. 2. Route resolves private kinds by link token only; R2 key = `HMAC(secret, kind‖id‖version)`. 3. Revoke/expiry → 404 + R2 delete (purge job on revoke event). 4. Worker pre-warm job. 5. Fallback card.
 - Tests: `pnpm --filter @cp/web test -- og` (golden PNG diff per kind + revoked-token test); `pnpm --filter @cp/worker test -- og`.
 - Done when: invite/referral/tip render 1200×630 < 300 KB; cache hit on second request (header assert); a revoked invite token returns 404 and its R2 object is gone; an internal id in the URL returns 404.
+- Status: done — 1bd74b77 (cards draw on first request and are cached in R2; the `og.render` pre-warm and revoke-purge job waits on an `og.render` queue row in packages/domain/src/jobs/catalogue.ts, its worker registration and producers in the api invite commands, all outside this phase's files; revoked or expired codes already 404 and delete their cached card on the next request)
 
 ### T6 — Tips journal + RSS
 - Goal: F-184.
@@ -135,6 +140,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Content collection from package. 2. Article layout per render with AI disclosure. 3. RSS + sitemap.
 - Tests: `pnpm --filter @cp/web test:e2e -- site/tips`; `pnpm --filter @cp/web build` (schema validation).
 - Done when: invalid frontmatter fails build; RSS validates (`pnpm tsx tools/scripts/web/validate-rss.ts`).
+- Status: done — 8897e9f9 (one designed article ships; the rest come from the content factory)
 
 ### T7 — Legal set + versioning
 - Goal: F-185 pages.
@@ -142,6 +148,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Registry + zod. 2. Pages per Site-Legal render with TOC and version history. 3. Draft docs authored from product decisions, marked `counsel_review: pending` banner until counsel sign-off flag set.
 - Tests: `pnpm --filter @cp/content test -- legal`; `pnpm --filter @cp/web test:e2e -- site/legal`.
 - Done when: every doc has latest + versioned URL; registry exposes versions to `client_config`.
+- Status: done — 41abcc4a (`legalVersions()` is exported for `client_config`; seeding the `legal.versions` ops_config key belongs with the consents work in phase 45)
 
 ### T8 — Web account deletion flow (block B)
 - Goal: store-required deletion URL usable by every non-anonymous user.
@@ -149,6 +156,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Sign-in options: phone OTP via Better Auth through the phase-09 sender router (country allow-list), Cloudflare Turnstile verified server-side, per-IP and per-number rate limits; Sign in with Apple (web Services ID) and Google (web client) via Better Auth social; CORS allow-list for web origin. 2. Anonymous-only notice ("delete in the app"). 3. Confirm screen lists what is deleted/kept (C5 records). 4. Calls `request_account_deletion`; done page with grace period.
 - Tests: `pnpm --filter @cp/web test:e2e -- site/deletion` (against local compose stack); `pnpm --filter @cp/api test -- web-otp-guard`.
 - Done when: phone, Apple and Google sign-in each create an `account_deletions` row for the signed-in uid; OTP without Turnstile token, over rate limit, or to a non-allow-listed country is rejected without sending; unauthenticated call rejected.
+- Status: blocked — needs `request_account_deletion` (phase 45, not built) and founder accounts for web sign-in: an Apple Services ID, a Google web OAuth client and Cloudflare Turnstile keys
 
 ### T9 — Web previews: proposal, recap, plan, locals (block B)
 - Goal: F-092.
@@ -156,6 +164,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Layouts derived from 3a-10/3m-9/3o-4 styles; proposal crew as count + anonymous stickers. 2. noindex for unlisted. 3. `no-store` for token pages. 4. Handoff CTA.
 - Tests: `pnpm --filter @cp/web test:e2e -- site/previews`.
 - Done when: each preview renders from seeded local stack; unlisted pages carry `noindex`; revoked token shows gone state; proposal preview shows no avatar or name without consent.
+- Status: blocked — proposal, recap and plan previews wait on T3 and phases 31, 43 and 52; the locals page waits on phase 40
 
 ### T11 — Private OG kinds, locals OG, home pricing (block B)
 - Goal: complete F-186 kinds and F-182 pricing.
@@ -163,6 +172,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Proposal/recap/plan templates keyed by link token, content from T3 projections only (no names/avatars without consent). 2. Locals template by public slug (critter forms from 40). 3. Pricing section from `/v1/catalog/perks` at build (build fails if unreachable in production; no hard-coded perks).
 - Tests: `pnpm --filter @cp/web test -- og` (golden per new kind + revoked plan link → 404); `pnpm --filter @cp/web test:e2e -- site/home`.
 - Done when: all 7 kinds render 1200×630 < 300 KB; revoked plan/recap/proposal tokens 404 with R2 purged; pricing section matches Site-Home render.
+- Status: blocked — private proposal/recap/plan cards wait on T3; the locals card on phase 40; home pricing on `/v1/catalog/perks` (phase 46)
 
 ### T10 — Deploy pipeline + link-preview verification
 - Goal: production readiness.
@@ -170,6 +180,7 @@ Block A (wave 10): T1, T2, T4, T5, T6, T7, T10. Block B (wave 19): T3, T8, T9, T
 - Steps: 1. Build + `wrangler deploy` per env. 2. Unfurl test using OG metadata parser against staging. 3. Cache headers.
 - Tests: `pnpm --filter @cp/web test:e2e -- site/unfurl`; `actionlint .github/workflows/web.yml`.
 - Done when: staging deploy green; every route has og:title/og:image/twitter:card.
+- Status: done — e42cedd9 (staging deployed and the link-preview check passes against staging.critterpass.app)
 
 ## Phase acceptance criteria
 - [ ] Site pages visually match renders at desktop + mobile widths

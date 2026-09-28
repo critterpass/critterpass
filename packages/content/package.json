@@ -10,7 +10,9 @@
     "./onboarding": "./onboarding/index.ts",
     "./airports": "./airports/index.ts",
     "./airports/schema": "./airports/schema.ts",
-    "./releases/*": "./releases/*"
+    "./releases/*": "./releases/*",
+    "./tips": "./src/tips/schema.ts",
+    "./legal": "./src/legal/index.ts"
   },
   "scripts": {
     "lint": "eslint .",

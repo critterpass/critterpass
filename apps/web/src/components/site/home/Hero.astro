@@ -1,0 +1,42 @@
+---
+import { homeCopy as copy } from '../copy/home';
+import { siteTranslator } from '../i18n';
+import StoreBadges from '../StoreBadges.astro';
+import Sticker from '../Sticker.astro';
+
+const t = await siteTranslator();
+---
+
+<section class="home-hero site-halftone--light" aria-labelledby="home-hero-title">
+  <div class="site-wrap home-hero__grid">
+    <div class="home-hero__copy">
+      <div class="home-hero__tags">
+        <span class="home-tag home-tag--muted">{t(copy.heroTag)}</span>
+        <span class="home-tag home-tag--green">{t(copy.heroNew)}</span>
+      </div>
+      <h1 id="home-hero-title" class="site-display home-hero__title">
+        <span>{t(copy.heroTitleTop)}</span><span>{t(copy.heroTitleBottom)}</span>
+      </h1>
+      <p class="home-hero__lede">{t(copy.heroLede)}</p>
+      <p class="site-voice home-hero__voice"><span aria-hidden="true">↳ </span>{t(copy.heroVoice)}</p>
+      <StoreBadges size="lg" />
+    </div>
+
+    <div class="home-pass" role="img" aria-label={t(copy.passLabel)}>
+      <div class="home-pass__card site-halftone--light">
+        <span class="site-mono home-pass__no">{t(copy.passNo)}</span>
+        <span class="site-eyebrow home-pass__place">{t(copy.passPlace)}</span>
+        <Sticker kind="gecko" size={232} class="home-pass__hero" drawOn={false} loading="eager" />
+        <span class="home-pass__stamp">
+          <span>{t(copy.passStampTop)}</span>
+          <small>{t(copy.passStampBottom)}</small>
+        </span>
+        <span class="home-pass__perf" aria-hidden="true"></span>
+      </div>
+      <Sticker kind="tanuki" size={96} drawOn={false} loading="eager" class="home-pass__s home-pass__s--tl" />
+      <Sticker kind="puffin" size={96} drawOn={false} loading="eager" class="home-pass__s home-pass__s--tr" />
+      <Sticker kind="axolotl" size={96} drawOn={false} loading="eager" class="home-pass__s home-pass__s--bl" />
+      <Sticker kind="sardine" size={96} drawOn={false} loading="eager" class="home-pass__s home-pass__s--br" />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,38 @@
+---
+/**
+ * The six-character code lookup: normalises what was typed (spaces, dashes, lower case) and goes
+ * to that code's invite page, where the api resolves it; a malformed code is caught before leaving.
+ */
+import { inviteCopy as copy } from '../site/copy/invite';
+import { siteTranslator } from '../site/i18n';
+
+export interface Props {
+  /** "Have a code?" on a page without an invite, "Got a different code?" beside one. */
+  readonly alternative: boolean;
+}
+
+const { alternative } = Astro.props;
+const t = await siteTranslator();
+---
+
+<form class="pv-join" data-code-form novalidate>
+  <label class="site-display pv-join__title" for="pv-code-input">
+    {alternative ? t(copy.differentCode) : t(copy.haveCode)}
+  </label>
+  <div class="pv-join__row">
+    <input
+      id="pv-code-input"
+      name="code"
+      class="pv-join__input"
+      autocomplete="off"
+      autocapitalize="characters"
+      spellcheck="false"
+      maxlength="9"
+      placeholder="ABC123"
+      aria-describedby="pv-code-hint"
+    />
+    <button type="submit" class="site-button pv-join__submit">{t(copy.findMyCrew)}</button>
+  </div>
+  <p id="pv-code-hint" class="pv-join__hint">{t(copy.codeHint)}</p>
+  <p class="pv-join__error" role="alert">{t(copy.codeError)}</p>
+</form>

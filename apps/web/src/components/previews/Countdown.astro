@@ -1,0 +1,45 @@
+---
+/** "Expires in 3d 23:12:04", ticking every second; server-rendered so it reads right without script. */
+import { inviteCopy as copy } from '../site/copy/invite';
+import { siteTranslator } from '../site/i18n';
+import { countdownLabel } from './invite-facts';
+
+export interface Props {
+  readonly expiresAt: string | null | undefined;
+}
+
+const { expiresAt } = Astro.props;
+const t = await siteTranslator();
+const left = countdownLabel(expiresAt, Date.now());
+// The template the script fills in; `{left}` survives translation as the placeholder.
+const template = t(copy.expiresIn, { left: '{left}' });
+---
+
+{
+  left !== null && expiresAt && (
+    <p class="site-mono pv-countdown" data-countdown={expiresAt} data-template={template} data-testid="invite-expires">
+      <time datetime={expiresAt}>{t(copy.expiresIn, { left })}</time>
+    </p>
+  )
+}
+
+<script>
+  import { countdownLabel } from './invite-facts';
+
+  for (const element of document.querySelectorAll<HTMLElement>('[data-countdown]')) {
+    const expiresAt = element.dataset.countdown ?? null;
+    const template = element.dataset.template ?? '{left}';
+    const time = element.querySelector('time');
+    const tick = (): void => {
+      const left = countdownLabel(expiresAt, Date.now());
+      if (left === null) {
+        // Expired while open: the next visit renders the expired state; until then, no stale clock.
+        clearInterval(timer);
+        element.hidden = true;
+        return;
+      }
+      if (time) time.textContent = template.replace('{left}', left);
+    };
+    const timer = setInterval(tick, 1000);
+  }
+</script>

@@ -1,0 +1,34 @@
+---
+import { homeCopy as copy } from '../copy/home';
+import { siteTranslator } from '../i18n';
+
+const t = await siteTranslator();
+const lines = [
+  { text: t(copy.chat1), side: 'them' },
+  { text: t(copy.chat2), side: 'me' },
+  { text: t(copy.chat3), side: 'them' },
+  { text: t(copy.chat4), side: 'pink' },
+  { text: t(copy.chat5), side: 'plan' },
+] as const;
+---
+
+<section class="home-chat" aria-labelledby="home-chat-title">
+  <div class="site-wrap home-chat__grid">
+    <div class="home-chat__phone" aria-hidden="true">
+      <div class="home-chat__card">
+        <div class="home-chat__head">
+          <span class="site-eyebrow">{t(copy.chatName)}</span>
+          <span class="site-eyebrow">{t(copy.chatUnread)}</span>
+        </div>
+        <ul class="home-chat__lines">
+          {lines.map((line) => <li class={`home-bubble home-bubble--${line.side}`}>{line.text}</li>)}
+        </ul>
+      </div>
+    </div>
+    <div>
+      <h2 id="home-chat-title" class="site-display home-h2">{t(copy.chatTitle)}</h2>
+      <p class="home-body">{t(copy.chatBody)}</p>
+      <p class="site-voice home-chat__voice"><span aria-hidden="true">← </span>{t(copy.chatVoice)}</p>
+    </div>
+  </div>
+</section>

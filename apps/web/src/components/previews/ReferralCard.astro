@@ -1,0 +1,91 @@
+---
+/**
+ * The pink hero of Site-Referral. With a referral link it speaks for the friend who sent it and
+ * offers their link (open in the app, or copy); on `/r` itself it explains the programme and points
+ * to where your own link lives in the app. Never shows anyone's stamps or friends: those stay in
+ * the app.
+ */
+import { inviteCopy as copy } from '../site/copy/invite';
+import { siteTranslator } from '../site/i18n';
+import StoreBadges from '../site/StoreBadges.astro';
+import Sticker from '../site/Sticker.astro';
+
+export interface Props {
+  readonly inviter: string | null;
+  /** `critterpass.app/r/CODE`, shown and copied; null on `/r`. */
+  readonly link: string | null;
+  readonly openHref: string | null;
+  readonly copyLink: string | undefined;
+  readonly cta: string;
+  readonly appStoreHref: string | null;
+  readonly playStoreHref: string;
+}
+
+const { inviter, link, openHref, copyLink, cta, appStoreHref, playStoreHref } = Astro.props;
+const t = await siteTranslator();
+---
+
+<section class="pv-referral site-halftone" aria-labelledby="pv-headline" data-testid="referral-card">
+  <div class="site-wrap pv-referral__grid">
+    <div>
+      <p class="site-eyebrow">
+        {inviter === null ? t(copy.referralEyebrow) : t(copy.referralEyebrowFrom, { name: inviter })}
+      </p>
+      <h1 id="pv-headline" class="site-display pv-referral__title">{t(copy.referralTitle)}</h1>
+      <p class="pv-referral__body">
+        {inviter === null ? t(copy.referralBody) : t(copy.referralBodyFrom, { name: inviter })}
+      </p>
+      <div class="pv-linkbox">
+        {
+          link === null ? (
+            <>
+              <p class="pv-linkbox__note">{t(copy.referralInApp)}</p>
+              <StoreBadges />
+            </>
+          ) : (
+            <>
+              <p class="site-eyebrow pv-linkbox__label">
+                {inviter === null ? t(copy.referralYourLink) : t(copy.referralTheirLink, { name: inviter })}
+              </p>
+              <div class="pv-linkbox__row">
+                <span class="site-mono pv-linkbox__link" data-testid="referral-link">
+                  {link.replace(/^https:\/\//u, '')}
+                </span>
+                <button type="button" class="site-button pv-linkbox__copy" data-copy-only={link}>
+                  <span class="pv-linkbox__idle">{t(copy.referralCopy)}</span>
+                  <span class="pv-linkbox__done">{t(copy.referralCopied)}</span>
+                </button>
+              </div>
+              <div class="pv-linkbox__actions">
+                {openHref !== null && (
+                  <a class="site-button pv-linkbox__open" href={openHref} data-copy-link={copyLink} data-testid="open-in-app">
+                    {cta}
+                  </a>
+                )}
+                {appStoreHref !== null && (
+                  <a class="pv-store" href={appStoreHref} data-copy-link={copyLink} data-testid="app-store">
+                    {t(copy.appStore)}
+                  </a>
+                )}
+                <a class="pv-store" href={playStoreHref} data-testid="google-play">
+                  {t(copy.googlePlay)}
+                </a>
+              </div>
+            </>
+          )
+        }
+      </div>
+    </div>
+    <div class="pv-covers" aria-hidden="true">
+      <div class="pv-cover pv-cover--navy">
+        <span class="site-eyebrow">{t(copy.referralCoverLabel)}</span>
+      </div>
+      <div class="pv-cover pv-cover--gold site-halftone">
+        <span class="site-eyebrow">{t(copy.referralCollector)}</span>
+        <span class="site-mono pv-cover__count">{t(copy.referralFiveStamps)}</span>
+        <Sticker kind="gecko" size={120} drawOn={false} loading="eager" />
+        <span class="site-display pv-cover__title">{t(copy.referralCrewCaptain)}</span>
+      </div>
+    </div>
+  </div>
+</section>

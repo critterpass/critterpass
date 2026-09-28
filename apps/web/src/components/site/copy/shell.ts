@@ -1,0 +1,43 @@
+/* eslint-disable lingui/no-unlocalized-strings -- Lingui message descriptors (i18n-annotated), extracted into the web catalog and rendered through it. */
+/** Header, footer, drawer, store badges and the not-found page (Site-Header, Site-Footer). */
+export const shellCopy = {
+  brand: /*i18n*/ { id: 'web.shell.brand', message: 'CritterPass' },
+  homeLink: /*i18n*/ { id: 'web.shell.homeLink', message: 'CritterPass home' },
+  skipToContent: /*i18n*/ { id: 'web.shell.skipToContent', message: 'Skip to content' },
+  navLabel: /*i18n*/ { id: 'web.shell.navLabel', message: 'Main' },
+  howItWorks: /*i18n*/ { id: 'web.shell.howItWorks', message: 'How it works' },
+  theLocals: /*i18n*/ { id: 'web.shell.theLocals', message: 'The locals' },
+  tips: /*i18n*/ { id: 'web.shell.tips', message: 'Tips' },
+  bringYourCrew: /*i18n*/ { id: 'web.shell.bringYourCrew', message: 'Bring your crew' },
+  getTheApp: /*i18n*/ { id: 'web.shell.getTheApp', message: 'Get the app' },
+  openMenu: /*i18n*/ { id: 'web.shell.openMenu', message: 'Menu' },
+  footerApp: /*i18n*/ { id: 'web.shell.footerApp', message: 'App' },
+  footerCrew: /*i18n*/ { id: 'web.shell.footerCrew', message: 'Crew' },
+  footerLegal: /*i18n*/ { id: 'web.shell.footerLegal', message: 'Legal' },
+  footerFollow: /*i18n*/ { id: 'web.shell.footerFollow', message: 'Follow' },
+  thePass: /*i18n*/ { id: 'web.shell.thePass', message: 'The pass' },
+  joinWithCode: /*i18n*/ { id: 'web.shell.joinWithCode', message: 'Join with a code' },
+  privacy: /*i18n*/ { id: 'web.shell.privacy', message: 'Privacy' },
+  terms: /*i18n*/ { id: 'web.shell.terms', message: 'Terms' },
+  allLegal: /*i18n*/ { id: 'web.shell.allLegal', message: 'All policies' },
+  deleteAccount: /*i18n*/ { id: 'web.shell.deleteAccount', message: 'Delete your account' },
+  copyright: /*i18n*/ { id: 'web.shell.copyright', message: '© {year} CritterPass' },
+  madeOnTheRoad: /*i18n*/ { id: 'web.shell.madeOnTheRoad', message: 'Made on the road' },
+  noCookies: /*i18n*/ {
+    id: 'web.shell.noCookies',
+    message: 'No cookies here. We count page visits without knowing who you are.',
+  },
+  appStoreBadge: /*i18n*/ { id: 'web.shell.appStoreBadge', message: 'Download on the App Store' },
+  googlePlayBadge: /*i18n*/ { id: 'web.shell.googlePlayBadge', message: 'Get it on Google Play' },
+  language: /*i18n*/ { id: 'web.shell.language', message: 'Language' },
+  notFoundEyebrow: /*i18n*/ { id: 'web.notFound.eyebrow', message: 'Error 404 · off the map' },
+  notFoundTitle: /*i18n*/ { id: 'web.notFound.title', message: 'Wrong turn' },
+  notFoundBody: /*i18n*/ {
+    id: 'web.notFound.body',
+    message:
+      "This page isn't on the route. The locals checked every alley. Head home, or join a crew with the code a friend sent you.",
+  },
+  notFoundHome: /*i18n*/ { id: 'web.notFound.home', message: 'Back to the start' },
+  notFoundJoin: /*i18n*/ { id: 'web.notFound.join', message: 'I have a code' },
+  notFoundPageTitle: /*i18n*/ { id: 'web.notFound.pageTitle', message: 'Page not found' },
+} as const;

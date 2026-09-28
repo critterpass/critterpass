@@ -1,0 +1,47 @@
+---
+/** `/legal`: every document with its current version, and the data credits. */
+import './legal.css';
+
+import { LEGAL_DOC_KEYS, LEGAL_DOCS, latestVersion } from '@cp/content/legal';
+
+import Site from '../../../layouts/Site.astro';
+import { legalCopy as copy } from '../copy/legal';
+import { siteTranslator } from '../i18n';
+import Sticker from '../Sticker.astro';
+import DbIpAttribution from './DbIpAttribution.astro';
+import { longDate } from './legal-data';
+
+const t = await siteTranslator();
+---
+
+<Site title={t(copy.indexPageTitle)} description={t(copy.indexLede)} canonicalPath="/legal">
+  <section class="legal-hero site-halftone--light">
+    <div class="site-wrap legal-hero__inner">
+      <div>
+        <p class="site-eyebrow legal-hero__eyebrow">{t(copy.indexEyebrow)}</p>
+        <h1 class="site-display legal-hero__title">{t(copy.indexTitle)}</h1>
+        <p class="legal-hero__lede">{t(copy.indexLede)}</p>
+      </div>
+      <Sticker kind="gecko" size={120} pose="point" class="legal-hero__critter" />
+    </div>
+  </section>
+  <div class="site-wrap legal-index">
+    <ul class="legal-index__list">
+      {
+        LEGAL_DOC_KEYS.map((doc) => {
+          const version = latestVersion(doc);
+          return (
+            <li>
+              <a href={`/legal/${doc}`} class="legal-index__card">
+                <span class="site-display legal-index__title">{LEGAL_DOCS[doc].title}</span>
+                <span>{LEGAL_DOCS[doc].summary}</span>
+                <span class="site-mono">{t(copy.historyLine, { version: version.version, date: longDate(version.effective_at) })}</span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+    <DbIpAttribution />
+  </div>
+</Site>

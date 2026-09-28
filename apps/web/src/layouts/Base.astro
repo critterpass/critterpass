@@ -1,0 +1,96 @@
+---
+/**
+ * The document shell every site page shares: tokens and fonts, the two display faces preloaded
+ * for the first paint, canonical + Open Graph + Twitter card tags, and the cookieless analytics and
+ * lazy error reporting scripts. Pages pass their own OG image (`/og/...png`) or get the site card.
+ */
+import '../styles/fonts.css';
+import '../styles/tokens.css';
+import '../components/site/site.css';
+
+export interface Props {
+  readonly title: string;
+  readonly description: string;
+  /** Path of the page's canonical URL; null for pages that must not be indexed. */
+  readonly canonicalPath: string | null;
+  /** Absolute or root-relative 1200×630 card; defaults to the site card. */
+  readonly ogImage?: string | undefined;
+  readonly ogType?: 'website' | 'article';
+  readonly noindex?: boolean;
+  readonly lang?: string;
+  /** e.g. an RSS alternate link. */
+  readonly alternates?: readonly { readonly type: string; readonly href: string; readonly title: string }[];
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  ogImage = '/og-image.png',
+  ogType = 'website',
+  noindex = false,
+  lang = 'en',
+  alternates = [],
+} = Astro.props;
+// The faces the first screen of every page sets (display, eyebrows and pills, body, nav, voice
+// line): loaded up front so text never reflows when they arrive.
+const PRELOAD_FONTS = [
+  'Archivo-W62-900',
+  'Archivo-W100-800',
+  'Archivo-W100-900',
+  'Geist-500',
+  'Geist-600',
+  'Caveat-600',
+];
+const site = Astro.site ?? new URL('https://critterpass.app');
+const canonicalUrl = canonicalPath === null ? null : new URL(canonicalPath, site).toString();
+const pageUrl = canonicalUrl ?? new URL(Astro.url.pathname, site).toString();
+const ogImageUrl = new URL(ogImage, site).toString();
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#17142a" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {
+      PRELOAD_FONTS.map((font) => (
+        <link rel="preload" href={`/fonts/${font}.woff2`} as="font" type="font/woff2" crossorigin />
+      ))
+    }
+    {alternates.map((alt) => <link rel="alternate" type={alt.type} href={alt.href} title={alt.title} />)}
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="CritterPass" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <slot name="head" />
+  </head>
+  <body class="site-body">
+    <slot />
+    <script>
+      import { installLazyErrorReporting, installWebAnalytics } from '../lib/analytics';
+
+      installLazyErrorReporting({
+        dsn: import.meta.env['PUBLIC_SENTRY_DSN'],
+        environment: import.meta.env['PUBLIC_APP_ENV'] ?? 'local',
+      });
+      installWebAnalytics({ apiKey: import.meta.env['PUBLIC_POSTHOG_KEY'] });
+    </script>
+  </body>
+</html>

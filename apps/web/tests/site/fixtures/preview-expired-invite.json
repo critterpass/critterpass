@@ -1,0 +1,9 @@
+{
+  "kind": "invite",
+  "crew_name": "Kyoto Crew",
+  "inviter_first_name": "Dev",
+  "trip_place": "Kyoto",
+  "members_count": 3,
+  "expires_at": "2026-09-01T12:00:00.000Z",
+  "state": "expired"
+}

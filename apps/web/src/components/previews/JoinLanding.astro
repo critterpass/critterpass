@@ -1,0 +1,33 @@
+---
+/** `/j` (and `/i`) without a code: the join-with-a-code page the footer links to. */
+import './previews.css';
+
+import Site from '../../layouts/Site.astro';
+import { inviteCopy as copy } from '../site/copy/invite';
+import { siteTranslator } from '../site/i18n';
+import Sticker from '../site/Sticker.astro';
+import JoinForm from './JoinForm.astro';
+
+const t = await siteTranslator();
+---
+
+<Site title={t(copy.joinPageTitle)} description={t(copy.joinBody)} canonicalPath="/j" tone="ink">
+  <section class="pv-page site-halftone--light">
+    <div class="site-wrap pv-grid">
+      <section class="pv-ticket site-halftone" aria-labelledby="pv-headline">
+        <Sticker kind="gecko" size={150} drawOn={false} loading="eager" class="pv-ticket__guide" />
+        <p class="site-eyebrow pv-ticket__eyebrow">{t(copy.joinEyebrow)}</p>
+        <h1 id="pv-headline" class="site-display pv-ticket__headline">{t(copy.joinTitle)}</h1>
+        <p class="pv-ticket__body">{t(copy.joinBody)}</p>
+      </section>
+      <div class="pv-side">
+        <JoinForm alternative={false} />
+      </div>
+    </div>
+  </section>
+</Site>
+
+<script>
+  import { wireLinkHandoff } from '../link-handoff/CopyOnTap';
+  wireLinkHandoff();
+</script>

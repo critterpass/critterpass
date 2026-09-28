@@ -1,0 +1,49 @@
+---
+import { shellCopy as copy } from './copy/shell';
+import { siteTranslator } from './i18n';
+import MobileNav from './MobileNav.astro';
+import { SITE_PATHS, type NavKey } from './site-config';
+
+export interface Props {
+  /** The section this page belongs to; its nav link gets the yellow dot. */
+  readonly active?: NavKey | undefined;
+}
+
+const { active } = Astro.props;
+const t = await siteTranslator();
+const items: readonly { readonly key: NavKey; readonly href: string; readonly label: string }[] = [
+  { key: 'howItWorks', href: SITE_PATHS.howItWorks, label: t(copy.howItWorks) },
+  { key: 'theLocals', href: SITE_PATHS.theLocals, label: t(copy.theLocals) },
+  { key: 'tips', href: SITE_PATHS.tips, label: t(copy.tips) },
+  { key: 'bringYourCrew', href: SITE_PATHS.bringYourCrew, label: t(copy.bringYourCrew) },
+];
+---
+
+<a class="site-skip" href="#main">{t(copy.skipToContent)}</a>
+<header class="site-header" data-testid="site-header">
+  <div class="site-header__inner">
+    <a href={SITE_PATHS.home} class="site-brand" aria-label={t(copy.homeLink)}>
+      <img src="/favicon.svg" width="40" height="40" alt="" />
+      <span class="site-brand__word" aria-hidden="true">{t(copy.brand)}</span>
+    </a>
+    <nav class="site-nav" aria-label={t(copy.navLabel)}>
+      <ul class="site-nav__list">
+        {
+          items.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="site-nav__link"
+                aria-current={item.key === active ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a href={SITE_PATHS.getTheApp} class="site-cta" data-cs="nav-cta">{t(copy.getTheApp)}</a>
+    </nav>
+    <MobileNav items={items} active={active} ctaLabel={t(copy.getTheApp)} menuLabel={t(copy.openMenu)} />
+  </div>
+</header>

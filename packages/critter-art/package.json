@@ -10,7 +10,8 @@
     "./canvas2d": "./src/backends/canvas2d/index.ts",
     "./skia": "./src/backends/skia/index.ts",
     "./share": "./src/share/index.ts",
-    "./share/templates": "./src/share/templates/index.ts"
+    "./share/templates": "./src/share/templates/index.ts",
+    "./web": "./src/web/register.ts"
   },
   "scripts": {
     "lint": "eslint .",

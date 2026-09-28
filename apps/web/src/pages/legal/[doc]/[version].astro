@@ -1,0 +1,15 @@
+---
+import type { GetStaticPaths } from 'astro';
+
+import LegalDocument from '../../../components/site/legal/LegalDocument.astro';
+import { everyVersion, legalPage } from '../../../components/site/legal/legal-data';
+
+// Every published version keeps its own address; an unknown version is the site's 404.
+export const getStaticPaths = (() =>
+  everyVersion().map(({ doc, version }) => ({ params: { doc, version }, props: { doc, version } }))) satisfies GetStaticPaths;
+
+const { doc, version } = Astro.props;
+const page = await legalPage(doc, version);
+---
+
+<LegalDocument page={page} />

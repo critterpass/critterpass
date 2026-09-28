@@ -1,0 +1,52 @@
+---
+import { homeCopy as copy } from '../copy/home';
+import { siteTranslator } from '../i18n';
+
+const t = await siteTranslator();
+const stops = [
+  { tone: 'yellow', art: t(copy.stop1Art), title: t(copy.stop1Title), body: t(copy.stop1Body) },
+  { tone: 'ink', art: t(copy.stop2Art), title: t(copy.stop2Title), body: t(copy.stop2Body) },
+  { tone: 'orange', art: t(copy.stop3Art), title: t(copy.stop3Title), body: t(copy.stop3Body) },
+  { tone: 'green', art: t(copy.stop4Art), title: t(copy.stop4Title), body: t(copy.stop4Body) },
+] as const;
+---
+
+<section id="how-it-works" class="home-stops" aria-labelledby="home-stops-title">
+  <div class="site-wrap">
+    <div class="home-section-head">
+      <h2 id="home-stops-title" class="site-display home-h2">{t(copy.stopsTitle)}</h2>
+      <p class="site-mono home-stops__aside">{t(copy.stopsAside)}</p>
+    </div>
+    <ol class="home-stops__list">
+      {
+        stops.map((stop, index) => (
+          <li class={`home-stop home-stop--${stop.tone}`}>
+            <div class="home-stop__art" aria-hidden="true">
+              {index === 0 && <span class="site-display home-stop__win">{stop.art}</span>}
+              {index === 1 && <span class="home-stop__bubble">{stop.art}</span>}
+              {index === 2 && (
+                <span class="home-stop__day">
+                  <span class="site-display">{stop.art}</span>
+                  <i />
+                  <i class="home-stop__lifted" />
+                  <i />
+                </span>
+              )}
+              {index === 3 && (
+                <span class="home-stop__each">
+                  <span class="site-display">{stop.art}</span>
+                  <span class="site-eyebrow">{t(copy.stop4ArtUnit)}</span>
+                </span>
+              )}
+            </div>
+            <div class="home-stop__text">
+              <p class="site-mono">{t(copy.stop, { n: String(index + 1).padStart(2, '0') })}</p>
+              <h3 class="site-display home-h3">{stop.title}</h3>
+              <p>{stop.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

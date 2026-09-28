@@ -1,0 +1,33 @@
+---
+/** A site page: the document shell, the header (with the page's section marked) and the footer. */
+import Footer from '../components/site/Footer.astro';
+import Header from '../components/site/Header.astro';
+import type { NavKey } from '../components/site/site-config';
+import Base from './Base.astro';
+
+export interface Props {
+  readonly title: string;
+  readonly description: string;
+  readonly canonicalPath: string | null;
+  readonly ogImage?: string | undefined;
+  readonly ogType?: 'website' | 'article';
+  readonly noindex?: boolean;
+  readonly active?: NavKey;
+  readonly alternates?: readonly { readonly type: string; readonly href: string; readonly title: string }[];
+  /** Background of the page between header and footer. */
+  readonly tone?: 'ink' | 'paper';
+}
+
+const { active, tone = 'paper', ...base } = Astro.props;
+---
+
+<Base {...base}>
+  <slot name="head" slot="head" />
+  <div class:list={['site-root', `site-root--${tone}`]}>
+    <Header active={active} />
+    <main id="main" class="site-main">
+      <slot />
+    </main>
+    <Footer />
+  </div>
+</Base>
