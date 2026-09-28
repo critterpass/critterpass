@@ -19,6 +19,7 @@ import {
   signInReturningPhone,
   type LocalAnonymousDataPresence,
 } from './returning';
+import { reportAuthFailureToSentry, reportingFailures, type AuthFailureReporter } from './report';
 import { ensureAnonymous, type AnonymousSessionClient } from './session';
 import { signOut, type SignOutClient } from './sign-out';
 import { createTokenCache, type TokenAudience } from './tokens';
@@ -37,7 +38,13 @@ function postJson<T>(client: MobileAuthClient, path: string, body: unknown) {
   }>;
 }
 
-export function createAuthDataLayer(client: MobileAuthClient) {
+export interface AuthDataLayerOptions {
+  /** Where failed flows report their error code; Sentry on device. */
+  readonly reportFailure?: AuthFailureReporter;
+}
+
+export function createAuthDataLayer(client: MobileAuthClient, options: AuthDataLayerOptions = {}) {
+  const report = options.reportFailure ?? reportAuthFailureToSentry;
   const tokens = createTokenCache({
     getToken: async (aud: TokenAudience) => {
       const response = await client.$fetch<{ token: string }>(`/api/auth/token?aud=${aud}`);
@@ -75,23 +82,33 @@ export function createAuthDataLayer(client: MobileAuthClient) {
 
   return {
     ensureAnonymous: () => ensureAnonymous(anonymousSessionClient),
-    linkApple: (native: NativeIdTokenProvider) => linkApple(native, linkSocialClient),
-    linkGoogle: (native: NativeIdTokenProvider) => linkGoogle(native, linkSocialClient),
-    sendOtp: (phoneNumber: string) => sendOtp(phoneNumber, sendOtpClient),
-    verifyOtp: (input: { phoneNumber: string; code: string }) => verifyOtp(input, verifyOtpClient),
+    linkApple: (native: NativeIdTokenProvider) =>
+      reportingFailures('link_apple', report, () => linkApple(native, linkSocialClient)),
+    linkGoogle: (native: NativeIdTokenProvider) =>
+      reportingFailures('link_google', report, () => linkGoogle(native, linkSocialClient)),
+    sendOtp: (phoneNumber: string) =>
+      reportingFailures('send_otp', report, () => sendOtp(phoneNumber, sendOtpClient)),
+    verifyOtp: (input: { phoneNumber: string; code: string }) =>
+      reportingFailures('verify_otp', report, () => verifyOtp(input, verifyOtpClient)),
     decideReturningFlow: (local: LocalAnonymousDataPresence) => decideReturningFlow(local),
     signInReturningPhone: (input: { phoneNumber: string; code: string }) =>
-      signInReturningPhone(input, {
-        post: (path, body) => postJson<{ user: { id: string } }>(client, path, body),
-      }),
+      reportingFailures('returning_phone', report, () =>
+        signInReturningPhone(input, {
+          post: (path, body) => postJson<{ user: { id: string } }>(client, path, body),
+        }),
+      ),
     startMerge: (ticket: string) =>
-      startMerge(ticket, {
-        post: (path, body) => postJson<MergePreviewSummary>(client, path, body),
-      }),
+      reportingFailures('merge_start', report, () =>
+        startMerge(ticket, {
+          post: (path, body) => postJson<MergePreviewSummary>(client, path, body),
+        }),
+      ),
     confirmMerge: (ticket: string) =>
-      confirmMerge(ticket, {
-        post: (path, body) => postJson<{ user: { id: string } }>(client, path, body),
-      }),
+      reportingFailures('merge_confirm', report, () =>
+        confirmMerge(ticket, {
+          post: (path, body) => postJson<{ user: { id: string } }>(client, path, body),
+        }),
+      ),
     signOut: () => signOut(signOutClient),
     getSyncToken: () => tokens.getToken('sync'),
     getRealtimeToken: () => tokens.getToken('rt'),
@@ -102,6 +119,7 @@ export function createAuthDataLayer(client: MobileAuthClient) {
 export type AuthDataLayer = ReturnType<typeof createAuthDataLayer>;
 
 export { createMobileAuthClient, type MobileAuthClient } from './client';
+export type { AuthFailure, AuthFailureReporter, AuthFlow } from './report';
 export type { NativeIdTokenProvider, NativeIdTokenResult } from './link';
 export type { LocalAnonymousDataPresence, ReturningFlowDecision } from './returning';
 export {
