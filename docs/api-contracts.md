@@ -343,9 +343,10 @@ Ride quotes (Grab Farefeed) are GET reads; "Open Grab" is a deep link — no rid
 | `respond_sos` | `{sos_id, state: coming\|seen\|calling}` | crew | – | `sos.responded` | A, N | 38 |
 | `send_sos_message` | `{sos_id, body}` | crew | – | `sos.message` | A, O | 38 |
 | `resolve_sos` | `{sos_id, note?}` | sender / responder | – | `sos.resolved` (N-48) | A, N | 38 |
-| `set_location_share` | `{trip_id, status: on\|off}` (window ends last-day midnight) | participant | `boostActive(t)` except Help/SOS | `location_share.changed` | A, O | 39 |
+| `set_location_share` | `{trip_id, status: on\|off}` (window ends last-day midnight; a `location.expire` timer announces the end and unsubscribes when the map closes; `off` always allowed) | participant | `boostActive(t)` except Help/SOS | `location_share.changed` | A, O | 39 |
+| `pause_location_share` (doc delta) | `{share_id, paused}` | share owner | resume: `boostActive(t)` + trip days; pause always | `location_share.changed` + `share.paused`/`share.resumed` on `trip_locations` | A, O | 39 |
 | `report_location_fixes` | `{trip_id, fixes[{lat, lng, acc, at, mode?}]}` via `POST /v1/trips/{id}/fixes` (TTL rows, not synced) | sharing participant | same | `trip_locations` publish | A (bg) | 39 |
-| `create_meetup` / `move_meetup` | `{trip_id, poi_id\|point, at}` / `{meetup_id, ...}` | participant | `boostActive(t)` | `meetup.created/moved` (N-47) | A | 39 |
+| `create_meetup` / `move_meetup` | `{trip_id, meetup_id?, poi_id\|point{lat, lng, name}, at}` / `{meetup_id, poi_id?\|point?, at?}`; one active meet-up per trip (`STATE_INVALID meetup_exists`) | participant | `boostActive(t)` + trip days (`NOT_ELIGIBLE outside_trip_days`) | `meetup.created/moved` (N-47) | A | 39 |
 
 ### 4.13 Critters, quests, visits (P20, P40, P41)
 
@@ -514,6 +515,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/hazards?destination_id` (doc delta) | S | `hazard_alerts` (MAGMA, IMO, JMA, GVP), highest level first, `stale` after 3 h unread | 15 min |
 | `GET /v1/fx/snapshot?base` | S | Frankfurter v2 daily | 24 h, offline bundle |
 | `GET /v1/routes/eta` | S | Valhalla (+ Mapbox traffic for leave-by) | none |
+| `GET /v1/trips/{id}/live-snapshot` (doc delta) | S | crew live map state `{trip_id, window_ends_at, members[{uid, lat, lng, acc, activity, at}], shares[{uid, share_id, paused, changed_at}], etas[], meetup}`: latest fix per open, non-paused crew-map share via `app.shared_location_fixes`; participant while `app.crew_map_open` (unboosted → 402 `ENTITLEMENT_REQUIRED`, outside trip days / off the trip → 403 `NOT_ELIGIBLE`) | none |
 | `GET /v1/budget/{trip_id}/band` | S | `trip_budget_aggregates`, written by the budget band worker job with `@cp/cost-engine` `computeBudgetBand` (band from k ≥ 3, dots from k ≥ 4; doc delta) | none |
 | `GET /v1/trips/{id}/costs?version` (doc delta) | S | stored calc as the caller may see it: own `share_calcs` row (lines, personal option deltas), every member's `trip_share_totals`, `cost_components`, freshness; `version` ≠ current → `VERSION_CONFLICT` | none |
 | `POST /v1/trips/{id}/costs/preview` (doc delta) | S | `{ops}` (ChangeSet ops) → caller's own delta, crew-wide `each_minor` when uniform, bookings moved, must-dos touched; `@cp/planner` + `@cp/cost-engine` | none |

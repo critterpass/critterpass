@@ -46,7 +46,7 @@ beforeAll(async () => {
     await moveTripIntoTripDays(db.pool, fx.tripId, { tz: 'Asia/Makassar', daysLeft: 3 });
   }
   await boostTrip(db.pool, boosted.tripId, true);
-  // First Trip Free materialises into the same boost snapshot (C9).
+  // First Trip Free materialises into the same boost snapshot.
   await boostTrip(db.pool, firstTripFree.tripId, true);
   await boostTrip(db.pool, unboosted.tripId, false);
   bystanderId = await withSystem(db.pool, async (tx) => {

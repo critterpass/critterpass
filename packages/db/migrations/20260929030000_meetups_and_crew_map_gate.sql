@@ -108,9 +108,30 @@ GRANT SELECT, INSERT ON meetups TO app_user;
 GRANT UPDATE (poi_id, place_name, lat, lng, meet_at, status) ON meetups TO app_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON meetups TO app_system;
 
+-- The trip a meet-up belongs to, for a member of that trip even while the gate hides the row, so
+-- a command can answer "Boost needed" rather than "not found".
+CREATE OR REPLACE FUNCTION app.meetup_trip(meetup uuid) RETURNS uuid
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+  SELECT m.trip_id FROM meetups m WHERE m.id = meetup AND app.is_trip_member(m.trip_id)
+$$;
+
+-- A moved meet-up starts its arrivals and "everyone is close" moment over (system-only columns).
+CREATE OR REPLACE FUNCTION app.reset_meetup_arrivals(meetup uuid) RETURNS void
+LANGUAGE sql VOLATILE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+  UPDATE meetups SET arrived = '{}'::jsonb, all_close_at = NULL
+  WHERE id = meetup AND app.can_view_crew_map(trip_id)
+$$;
+REVOKE ALL ON FUNCTION app.meetup_trip(uuid) FROM PUBLIC;
+REVOKE ALL ON FUNCTION app.reset_meetup_arrivals(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.meetup_trip(uuid) TO app_user, app_system;
+GRANT EXECUTE ON FUNCTION app.reset_meetup_arrivals(uuid) TO app_user;
+
 -- ---------------------------------------------------------------------------------------------
 -- member_etas: crew-map rows (those tied to a meet-up) need the open gate; Help rows (no meet-up)
 -- keep the crew-visible rule.
+-- `estimate`: the minutes are a straight-line estimate ("about"), not a routed path.
+-- `status_text`: the status key, or `key:place` when a place is named ("leaving_place:Karsa Spa").
+ALTER TABLE member_etas ADD COLUMN estimate boolean NOT NULL DEFAULT false;
 ALTER TABLE member_etas ADD CONSTRAINT member_etas_meetup_id_fkey
   FOREIGN KEY (meetup_id) REFERENCES meetups (id) ON DELETE CASCADE;
 CREATE INDEX member_etas_meetup_id_idx ON member_etas (meetup_id);
