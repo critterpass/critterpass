@@ -166,9 +166,9 @@ Done when: a staging run of the app + api produces catalog-valid PostHog events 
 - [x] Server export idempotent (replay → same uuids), no person profile without consent
 - [x] Flags fall back to catalog defaults when PostHog is unreachable
 - [ ] Sentry: symbolicated staging crash for iOS + Android; api `INTERNAL` returns `event_id`; payloads scrubbed
-- [ ] Grafana shows api → pg traces, PowerSync/Centrifugo/Redis metrics and slot lag
+- [x] Grafana shows api → pg traces, PowerSync/Centrifugo/Redis metrics and slot lag (staging 2026-09-28: pg spans under api request spans in Tempo; Alloy targets up; `cp_pg_slot_lag_bytes` reporting)
 - [ ] P1 test alert dispatched inside hours, muted/queued outside (API-verified); phone receipt checked at M8
-- [ ] Synthetic uptime checks green for api, sync, rt, web, media
+- [x] Synthetic uptime checks green for api, sync, rt, web, media (staging 2026-09-28, Singapore + Frankfurt probes)
 - [x] Langfuse helper masks user text and writes trace id + cost metric
 - [x] Web analytics sets no cookies (Playwright)
 - [x] Dashboards/alerts/insights reproducible from `infra/monitoring` via apply scripts
