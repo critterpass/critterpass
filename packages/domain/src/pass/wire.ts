@@ -27,6 +27,24 @@ const formIdSchema = z
   .string()
   .regex(/^(?:guide:[a-z]+|cp-\d{3}:(?:common|rare|epic|legendary))$/u, 'must be a form id');
 
+/** A critter form's rarity ring; guide forms and common forms wear none. */
+export type AvatarRing = 'rare' | 'epic' | 'legendary';
+export function ringOfForm(formId: string): AvatarRing | null {
+  const tier = /^cp-\d{3}:(rare|epic|legendary)$/u.exec(formId)?.[1];
+  return (tier as AvatarRing | undefined) ?? null;
+}
+
+const UUID = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
+/** The key `POST /v1/media/presign` returns for `purpose: avatar`: `u/<uid>/avatar/<uuidv7>`. */
+export const AVATAR_MEDIA_KEY_PATTERN = new RegExp(`^u/(${UUID})/avatar/${UUID}$`, 'u');
+export const avatarMediaKeySchema = z
+  .string()
+  .regex(AVATAR_MEDIA_KEY_PATTERN, 'must be an avatar media key');
+/** The uploader a key names, or null for anything that is not an avatar key. */
+export function avatarKeyOwner(mediaKey: string): string | null {
+  return AVATAR_MEDIA_KEY_PATTERN.exec(mediaKey)?.[1] ?? null;
+}
+
 export const AVATAR_KINDS = ['initials', 'critter', 'photo'] as const;
 export const AVATAR_MODERATION_STATUSES = ['none', 'pending', 'approved', 'rejected'] as const;
 export type AvatarModerationStatus = (typeof AVATAR_MODERATION_STATUSES)[number];
@@ -34,7 +52,7 @@ export type AvatarModerationStatus = (typeof AVATAR_MODERATION_STATUSES)[number]
 export const avatarChoiceSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('initials') }).strict(),
   z.object({ kind: z.literal('critter'), form_id: formIdSchema }).strict(),
-  z.object({ kind: z.literal('photo'), media_key: z.string().min(1).max(200) }).strict(),
+  z.object({ kind: z.literal('photo'), media_key: avatarMediaKeySchema }).strict(),
 ]);
 export type AvatarChoice = z.infer<typeof avatarChoiceSchema>;
 
@@ -44,7 +62,12 @@ const givenNameSchema = z
   .min(1)
   .refine((name) => Array.from(name).length <= GIVEN_NAME_MAX * 4, { message: 'too long' });
 
-export const startPassPayloadSchema = z.object({}).strict();
+export const startPassPayloadSchema = z
+  .object({
+    /** The client's pass id, so a later `issue_pass` (online or replayed) lands on the same row. */
+    pass_id: z.uuid().optional(),
+  })
+  .strict();
 export interface StartPassResult {
   readonly pass_id: string;
   readonly number: string;
@@ -101,3 +124,15 @@ export const geoHintSchema = z
   })
   .strict();
 export type GeoHint = z.infer<typeof geoHintSchema>;
+
+/** Pixel sizes `avatar.render` bakes for OS surfaces (NSE sender images, widgets, share sheets). */
+export const AVATAR_VARIANT_SIZES = [40, 64, 120, 240] as const;
+export type AvatarVariantSize = (typeof AVATAR_VARIANT_SIZES)[number];
+
+/** Jobs a photo avatar goes through: moderation, then (once approved) its PNG variants. */
+export const AVATAR_MODERATE_QUEUE = 'avatar.moderate';
+export const AVATAR_RENDER_QUEUE = 'avatar.render';
+/** `ops_config` switch for the known-image hash match that runs before any model sees a photo. */
+export const AVATAR_HASH_MATCH_CONFIG_KEY = 'moderation.hash_match';
+export const avatarJobSchema = z.object({ avatar_id: z.uuid() }).strict();
+export type AvatarJob = z.infer<typeof avatarJobSchema>;

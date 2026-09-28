@@ -52,6 +52,7 @@
     "pino": "catalog:",
     "posthog-node": "catalog:",
     "redis": "catalog:",
+    "sharp": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {

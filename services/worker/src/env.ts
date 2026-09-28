@@ -75,6 +75,15 @@ export const workerEnvSchema = z.object({
   BACKUP_S3_REGION: z.preprocess(emptyAsUndefined, z.string().min(1).default('auto')),
   /** pg_dump binary (must be the server's major version or newer). */
   BACKUP_PG_DUMP_PATH: z.preprocess(emptyAsUndefined, z.string().min(1).default('pg_dump')),
+  /** The media bucket (same values as the api's): avatar moderation reads uploads from it and
+   *  writes rendered variants to it. All four unset = photo avatars wait for ops review. */
+  R2_S3_ENDPOINT: optionalUrl,
+  R2_BUCKET: optionalString,
+  R2_ACCESS_KEY_ID: optionalString,
+  R2_SECRET_ACCESS_KEY: optionalString,
+  /** PhotoDNA Cloud Service key: known-image hash matching for photo avatars once ops switches
+   *  `moderation.hash_match` on; unset = photos wait for ops review. */
+  PHOTODNA_API_KEY: optionalString,
   /** APNs token auth (src/push/apns.ts): key id, team id and the .p8 contents. All three or none. */
   APNS_KEY_ID: optionalString,
   APNS_TEAM_ID: optionalString,

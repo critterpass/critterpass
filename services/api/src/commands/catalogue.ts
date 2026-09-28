@@ -7,7 +7,9 @@ import { undoGuideActionCommand } from '../ai/undo-guide-action';
 import { registerMediaUploadCommand } from '../media/register-media-upload';
 import { createCommandRegistry, type CommandRegistry } from './_framework/registry';
 import { approveOpsActionCommand } from './approve-ops-action';
+import { registerAvatarCommands } from './avatar';
 import { registerDeviceCommands } from './device';
+import { registerOnboardingCommands } from './onboarding';
 import { reportContentCommand } from './report-content';
 import { registerLocationCommands } from './visits';
 
@@ -16,6 +18,8 @@ export function createAppCommandRegistry(): CommandRegistry {
   commands.register(registerMediaUploadCommand);
   registerDeviceCommands(commands);
   registerLocationCommands(commands);
+  registerOnboardingCommands(commands);
+  registerAvatarCommands(commands);
   commands.register(undoGuideActionCommand);
   commands.register(reportContentCommand);
   commands.register(approveOpsActionCommand);

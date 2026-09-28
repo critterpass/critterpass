@@ -33,6 +33,8 @@ export interface ModerationKindHandler {
   readonly author: (tx: pg.PoolClient, id: string) => Promise<string | null>;
   /** Carries out `hide`/`remove` inside the verdict's transaction, as app_system. */
   readonly apply?: (tx: pg.PoolClient, id: string, verdict: 'hide' | 'remove') => Promise<void>;
+  /** Releases a subject held for review (e.g. a pending avatar) when approved, as app_system. */
+  readonly approve?: (tx: pg.PoolClient, id: string) => Promise<void>;
 }
 
 const kinds = new Map<string, ModerationKindHandler>();

@@ -51,6 +51,7 @@ describe('routing table', () => {
       'receipt.parse',
       'menu.parse',
       'photo.picks',
+      'avatar.moderate',
     ];
     for (const route of fast) expect(resolveRoute(route).tier, route).toBe('fast');
   });
@@ -73,6 +74,7 @@ describe('routing table', () => {
       if (config.vision) expect(VISION_TIERS.has(config.tier), route).toBe(true);
     }
     expect(AI_ROUTES.filter((route) => resolveRoute(route).vision).sort()).toEqual([
+      'avatar.moderate',
       'menu.parse',
       'photo.picks',
       'receipt.parse',

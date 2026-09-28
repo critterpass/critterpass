@@ -164,6 +164,10 @@ export const QUEUES = {
     keepCompletedSeconds: 86_400,
     cron: { expr: '5 * * * *', tz: 'UTC' },
   }),
+  // Photo avatars: moderation once per upload (keyed per avatar, dead-lettered so a stuck check
+  // alerts), then its PNG variants once approved.
+  'avatar.moderate': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
+  'avatar.render': spec({ policy: 'exclusive', notify: true }),
   'ops.backup': spec({
     policy: 'stately',
     retryLimit: 2,

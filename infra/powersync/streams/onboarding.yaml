@@ -1,0 +1,31 @@
+# Onboarding streams (docs/data-model.md §3.1, §3.10): the caller's own pass, stamps, taste profile
+# and avatars, and the same rows of everyone sharing an active crew with them. Filters mirror the
+# tables' RLS SELECT policies (app.shares_crew): both sides of the shared crew must be active. A
+# taste profile its owner hid (`visibility = 'self'`, from user_settings.hide_taste_tags) stays
+# with its owner.
+
+streams:
+  me:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM passes WHERE user_id = auth.user_id()
+      - SELECT * FROM stamps WHERE user_id = auth.user_id()
+      - SELECT * FROM taste_profiles WHERE user_id = auth.user_id()
+      - SELECT * FROM avatars WHERE user_id = auth.user_id()
+
+  crew_people:
+    auto_subscribe: true
+    queries:
+      - |
+        SELECT * FROM passes
+        WHERE user_id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)
+      - |
+        SELECT * FROM stamps
+        WHERE user_id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)
+      - |
+        SELECT * FROM taste_profiles
+        WHERE visibility = 'crew'
+          AND user_id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)
+      - |
+        SELECT * FROM avatars
+        WHERE user_id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)

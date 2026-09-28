@@ -39,6 +39,10 @@ export const DOMAIN_EVENT_TYPES = [
   'entitlement.revoked',
   'device.permissions_changed',
   'visit.recorded',
+  'pass.issued',
+  'profile.updated',
+  'profile.taste_changed',
+  'profile.avatar_changed',
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
 export type DomainEventType = z.infer<typeof domainEventTypeSchema>;
@@ -118,6 +122,19 @@ const DOMAIN_EVENT_CATALOGUE = {
     visit_id: z.uuid(),
     trip_id: z.uuid(),
     source: z.enum(['geofence', 'expense', 'manual']),
+  }),
+  // Aggregate is the pass; the rows themselves reach the crew through sync.
+  'pass.issued': z.object({ pass_id: z.uuid(), user_id: z.uuid() }),
+  // Aggregate is the user; names the fields that changed, never their values.
+  'profile.updated': z.object({
+    user_id: z.uuid(),
+    fields: z.array(z.enum(['display_name', 'home_airport'])).min(1),
+  }),
+  'profile.taste_changed': z.object({ user_id: z.uuid(), source: z.enum(['quiz', 'chips']) }),
+  'profile.avatar_changed': z.object({
+    user_id: z.uuid(),
+    avatar_id: z.uuid(),
+    kind: z.enum(['initials', 'critter', 'photo']),
   }),
 } as const satisfies Record<DomainEventType, z.ZodType>;
 

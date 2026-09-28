@@ -34,7 +34,7 @@ export const users = pgTable('users', {
   memberSince: date('member_since', { mode: 'string' })
     .notNull()
     .default(sql`CURRENT_DATE`),
-  /** No FK yet: avatars is created by a later phase. */
+  /** The current `avatars` row (FK in the onboarding migration; set null if the row goes). */
   avatarId: uuid('avatar_id'),
   appIcon: text('app_icon'),
   purgeAt: timestamp('purge_at', { withTimezone: true, mode: 'date' }),

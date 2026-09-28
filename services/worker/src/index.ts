@@ -22,6 +22,7 @@ import { createWorkerLlmObservability } from './obs/langfuse';
 import { createLogger } from './obs/logger';
 import { createMetricsRecorder } from './obs/metrics';
 import { initWorkerSentry } from './obs/sentry';
+import { avatarJobs } from './jobs/avatar';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';
@@ -107,6 +108,7 @@ const jobs: AnyJobDefinition[] = [
   ...travelDataJobs(env, pool, logger.child({ component: 'travel-data' })),
   ...contentJobs(),
   costRecomputeJob,
+  ...avatarJobs(env, llmObservability),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&

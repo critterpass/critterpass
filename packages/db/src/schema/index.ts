@@ -44,6 +44,7 @@ export {
   roundups,
   scheduledDeliveries,
 } from './notifications';
+export { avatars, passes, stamps, tasteProfiles } from './onboarding';
 export { clientConfig, opsAdminAudit, opsConfig } from './ops-core';
 export {
   moderationReports,

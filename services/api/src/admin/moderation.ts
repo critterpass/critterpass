@@ -145,6 +145,8 @@ export function moderationArea(deps: ModerationAreaDeps) {
             if (banned === null) throw new DomainError('STATE_INVALID', { reason: 'no_author' });
           } else if (payload.verdict === 'hide' || payload.verdict === 'remove') {
             await handler.apply?.(tx, payload.id, payload.verdict);
+          } else if (payload.verdict === 'approve') {
+            await handler.approve?.(tx, payload.id);
           }
           const ids = open.rows.map((row) => row.id);
           await tx.query(

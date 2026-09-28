@@ -1,0 +1,21 @@
+{
+  "source": "PhotoDNA Cloud Service Match response in its documented shape (Status 3000 = OK); replace with a recording once enrolled.",
+  "response": {
+    "status": 200,
+    "body": {
+      "Status": {
+        "Code": 3000,
+        "Description": "OK",
+        "Exception": null
+      },
+      "ContentId": null,
+      "IsMatch": false,
+      "MatchDetails": {
+        "AdvancedInfo": [],
+        "MatchFlags": []
+      },
+      "XPartnerCustomerId": null,
+      "TrackingId": "WUS_fixture_no-match"
+    }
+  }
+}

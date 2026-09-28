@@ -38,6 +38,7 @@ import { registerTravelDataRoutes } from './travel-data/routes';
 import { registerCostRoutes } from './cost/routes';
 import { createR2Client } from './media/r2';
 import { mediaSigningConfigFromEnv } from './media/sign';
+import { registerGeoRoutesFromEnv } from './routes/geo';
 import { registerMediaRoutes } from './routes/media';
 import { createMapboxRoutingProvider } from './routing/eta';
 import { MapboxRoutingClient } from './routing/mapbox';
@@ -235,6 +236,7 @@ registerLocationRouteFromEnv(app, commandDoors, env);
 registerJobsRoute(app, commandDoors);
 registerTravelDataRoutes(app, commandDoors);
 registerCostRoutes(app, commandDoors);
+registerGeoRoutesFromEnv(app, commandDoors, env.GEOIP_CITY_MMDB, logger);
 registerLinkRoutes(app, {
   ...commandDoors,
   links: linkProviders,

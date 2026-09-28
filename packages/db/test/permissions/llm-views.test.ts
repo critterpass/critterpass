@@ -60,7 +60,13 @@ describe('llm.trip_context', () => {
     );
     expect(rows.map((r) => r.trip_id)).toEqual([fixture.tripId]);
     for (const participant of rows[0]!.participants) {
-      expect(Object.keys(participant).sort()).toEqual(['display_name', 'role', 'rsvp', 'user_id']);
+      expect(Object.keys(participant).sort()).toEqual([
+        'display_name',
+        'role',
+        'rsvp',
+        'taste_tags',
+        'user_id',
+      ]);
     }
   });
 
