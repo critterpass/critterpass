@@ -57,7 +57,11 @@ beforeAll(async () => {
     secret: SECRET,
     baseUrl: 'http://localhost:8787/api/auth',
     trustedOrigins: ['app.critterpass://'],
-    otpAdapters: { whatsapp: adapter('whatsapp'), prelude: adapter('prelude') },
+    otpAdapters: {
+      whatsapp: adapter('whatsapp'),
+      telegram: adapter('telegram'),
+      prelude: adapter('prelude'),
+    },
     rateLimit: {
       customRules: {
         '/sign-in/*': { window: 1, max: 1000 },
@@ -172,14 +176,22 @@ describe('phone-code channel kill switches', () => {
     expect(sent.map((entry) => entry.channel)).toEqual(['whatsapp']);
   });
 
-  it('falls through to the next enabled channel', async () => {
+  it('falls through to Telegram when WhatsApp is switched off', async () => {
     await setSwitch('otp.whatsapp.enabled', false);
     expect((await sendOtp(phone)).status).toBe(200);
+    expect(sent.map((entry) => entry.channel)).toEqual(['telegram']);
+  });
+
+  it('falls through to SMS when WhatsApp and Telegram are switched off', async () => {
+    await setSwitch('otp.whatsapp.enabled', false);
+    await setSwitch('otp.telegram.enabled', false);
+    expect((await sendOtp('+6592100003')).status).toBe(200);
     expect(sent.map((entry) => entry.channel)).toEqual(['prelude']);
   });
 
   it('answers switched_off only when every channel is off', async () => {
     await setSwitch('otp.whatsapp.enabled', false);
+    await setSwitch('otp.telegram.enabled', false);
     await setSwitch('otp.prelude.enabled', false);
     const response = await sendOtp(phone);
     expect(response.status).toBe(409);

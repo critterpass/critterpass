@@ -1,13 +1,17 @@
 /**
- * VN/SG/ID numbers route per table; blocked country -> VALIDATION with `detail.reason:
- * 'country_unsupported'`; WhatsApp sync send error falls back to SMS. Pure unit
+ * Channel order WhatsApp -> Telegram -> Prelude for every allow-listed country, each skipped when
+ * absent or switched off; blocked country -> VALIDATION with `detail.reason: 'country_unsupported'`. Pure unit
  * coverage for services/api/src/auth/otp/{countries,router}.ts — no Postgres, no HTTP; the full
  * Better Auth flow ("uid unchanged after verify") is auth/otp.db.test.ts.
  */
 import { DomainError } from '@cp/domain';
 import { describe, expect, it, vi } from 'vitest';
 
-import { countryOtpPolicy, isValidSendableNumber } from '../../src/auth/otp/countries';
+import {
+  countryOtpPolicy,
+  isValidSendableNumber,
+  type OtpChannel,
+} from '../../src/auth/otp/countries';
 import {
   createOtpRouter,
   type OtpChannelAdapter,
@@ -16,15 +20,13 @@ import {
 
 describe('countryOtpPolicy', () => {
   it.each([
-    ['+84901234567', 'VN', 'prelude'],
-    ['+6591234567', 'SG', 'prelude'],
-    ['+6281234567890', 'ID', 'prelude'],
-    ['+14155552671', 'US', 'twilio_verify'],
-    ['+447911123456', 'GB', 'twilio_verify'],
-  ] as const)('routes %s (%s) to whatsapp + %s', (phone, _country, smsChannel) => {
-    const policy = countryOtpPolicy(phone);
-    expect(policy?.whatsappAllowed).toBe(true);
-    expect(policy?.smsChannel).toBe(smsChannel);
+    ['+84901234567', 'VN'],
+    ['+6591234567', 'SG'],
+    ['+6281234567890', 'ID'],
+    ['+14155552671', 'US'],
+    ['+447911123456', 'GB'],
+  ] as const)('orders %s (%s) WhatsApp, Telegram, then Prelude SMS', (phone, _country) => {
+    expect(countryOtpPolicy(phone)?.channels).toEqual(['whatsapp', 'telegram', 'prelude']);
   });
 
   it('returns undefined for an unparseable number', () => {
@@ -133,5 +135,92 @@ describe('createOtpRouter', () => {
       verificationId: 'verification-1',
       phoneE164: '+6591234567',
     });
+  });
+});
+
+describe('createOtpRouter channel order', () => {
+  type Behaviour = 'ok' | 'fail';
+  const context = {
+    phoneE164: '+6591234567',
+    code: '123456',
+    uid: undefined,
+    verificationId: undefined,
+  };
+
+  function recordingAdapters(behaviours: Partial<Record<OtpChannel, Behaviour>>) {
+    const calls: OtpChannel[] = [];
+    const adapters: Partial<Record<OtpChannel, OtpChannelAdapter>> = {};
+    for (const [channel, behaviour] of Object.entries(behaviours) as [OtpChannel, Behaviour][]) {
+      adapters[channel] = {
+        send: () => {
+          calls.push(channel);
+          return behaviour === 'ok'
+            ? Promise.resolve({})
+            : Promise.reject(new DomainError('SUPPLIER_UNAVAILABLE', { channel }));
+        },
+      };
+    }
+    return { adapters, calls };
+  }
+
+  it.each([
+    [{ whatsapp: 'ok', telegram: 'ok', prelude: 'ok' }, ['whatsapp']],
+    [{ telegram: 'ok', prelude: 'ok' }, ['telegram']],
+    [{ whatsapp: 'ok', prelude: 'ok' }, ['whatsapp']],
+    [{ prelude: 'ok' }, ['prelude']],
+    [{ telegram: 'ok' }, ['telegram']],
+    [{ whatsapp: 'fail', telegram: 'ok', prelude: 'ok' }, ['whatsapp', 'telegram']],
+    [{ whatsapp: 'fail', telegram: 'fail', prelude: 'ok' }, ['whatsapp', 'telegram', 'prelude']],
+    [{ whatsapp: 'fail', prelude: 'ok' }, ['whatsapp', 'prelude']],
+  ] as const)('with %j tries %j', async (behaviours, expected) => {
+    const { adapters, calls } = recordingAdapters(behaviours);
+    const router = createOtpRouter({ adapters, tracker: noopTracker(), switches: allOn });
+    await router.sendOTP(context);
+    expect(calls).toEqual(expected);
+  });
+
+  it('skips a switched-off channel and moves to the next one', async () => {
+    const { adapters, calls } = recordingAdapters({
+      whatsapp: 'ok',
+      telegram: 'ok',
+      prelude: 'ok',
+    });
+    const off = new Set(['otp.whatsapp.enabled', 'otp.telegram.enabled']);
+    const router = createOtpRouter({
+      adapters,
+      tracker: noopTracker(),
+      switches: { isOn: (key) => Promise.resolve(!off.has(key)) },
+    });
+    await router.sendOTP(context);
+    expect(calls).toEqual(['prelude']);
+  });
+
+  it('falls through a Telegram "cannot receive" error to SMS for a number outside Southeast Asia', async () => {
+    const { adapters, calls } = recordingAdapters({ telegram: 'fail', prelude: 'ok' });
+    const router = createOtpRouter({ adapters, tracker: noopTracker(), switches: allOn });
+    await router.sendOTP({ ...context, phoneE164: '+14155552671' });
+    expect(calls).toEqual(['telegram', 'prelude']);
+  });
+
+  it('surfaces the last channel error when every channel fails', async () => {
+    const { adapters } = recordingAdapters({ whatsapp: 'fail', telegram: 'fail', prelude: 'fail' });
+    const router = createOtpRouter({ adapters, tracker: noopTracker(), switches: allOn });
+    await expect(router.sendOTP(context)).rejects.toMatchObject({
+      code: 'SUPPLIER_UNAVAILABLE',
+      detail: { channel: 'prelude' },
+    });
+  });
+
+  it('records a Telegram request id against the telegram channel', async () => {
+    const recordDelivery = vi.fn<OtpDeliveryTracker['recordDelivery']>().mockResolvedValue();
+    const router = createOtpRouter({
+      adapters: { telegram: { send: () => Promise.resolve({ providerMessageId: 'req-1' }) } },
+      tracker: { recordDelivery },
+      switches: allOn,
+    });
+    await router.sendOTP({ ...context, uid: 'uid-1' });
+    expect(recordDelivery).toHaveBeenCalledWith(
+      expect.objectContaining({ providerMessageId: 'req-1', channel: 'telegram', uid: 'uid-1' }),
+    );
   });
 });

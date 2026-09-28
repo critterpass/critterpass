@@ -17,6 +17,7 @@ import {
   buildOtpAdaptersFromEnv,
   buildTrustedOriginsFromEnv,
 } from '../../src/auth/bootstrap';
+import { loadApiEnv } from '../../src/env';
 
 // A throwaway ES256 key generated per run, the same shape as a Sign in with Apple .p8 key.
 const SIWA_PRIVATE_KEY_PEM = generateKeyPairSync('ec', { namedCurve: 'P-256' })
@@ -68,10 +69,9 @@ describe('buildOtpAdaptersFromEnv', () => {
           WHATSAPP_ACCESS_TOKEN: undefined,
           WHATSAPP_TEMPLATE_NAME: undefined,
           WHATSAPP_LANGUAGE_CODE: undefined,
-          TWILIO_VERIFY_ACCOUNT_SID: undefined,
-          TWILIO_VERIFY_AUTH_TOKEN: undefined,
-          TWILIO_VERIFY_SERVICE_SID: undefined,
+          TELEGRAM_GATEWAY_TOKEN: undefined,
           PRELUDE_API_KEY: undefined,
+          PUBLIC_BASE_URL: 'https://api.example.test',
         },
         http,
       ),
@@ -85,14 +85,13 @@ describe('buildOtpAdaptersFromEnv', () => {
         WHATSAPP_ACCESS_TOKEN: 'token',
         WHATSAPP_TEMPLATE_NAME: 'auth_code',
         WHATSAPP_LANGUAGE_CODE: undefined,
-        TWILIO_VERIFY_ACCOUNT_SID: undefined,
-        TWILIO_VERIFY_AUTH_TOKEN: undefined,
-        TWILIO_VERIFY_SERVICE_SID: undefined,
+        TELEGRAM_GATEWAY_TOKEN: 'gateway-token',
         PRELUDE_API_KEY: 'prelude-key',
+        PUBLIC_BASE_URL: 'https://api.example.test',
       },
       http,
     );
-    expect(Object.keys(adapters).sort()).toEqual(['prelude', 'whatsapp']);
+    expect(Object.keys(adapters).sort()).toEqual(['prelude', 'telegram', 'whatsapp']);
   });
 
   it('skips a channel missing even one of its required credentials', () => {
@@ -102,14 +101,65 @@ describe('buildOtpAdaptersFromEnv', () => {
         WHATSAPP_ACCESS_TOKEN: undefined,
         WHATSAPP_TEMPLATE_NAME: 'auth_code',
         WHATSAPP_LANGUAGE_CODE: undefined,
-        TWILIO_VERIFY_ACCOUNT_SID: 'sid',
-        TWILIO_VERIFY_AUTH_TOKEN: 'token',
-        TWILIO_VERIFY_SERVICE_SID: undefined,
+        TELEGRAM_GATEWAY_TOKEN: undefined,
         PRELUDE_API_KEY: undefined,
+        PUBLIC_BASE_URL: 'https://api.example.test',
       },
       http,
     );
     expect(adapters).toEqual({});
+  });
+});
+
+describe('Telegram Gateway wiring', () => {
+  const otpEnv = {
+    WHATSAPP_PHONE_NUMBER_ID: undefined,
+    WHATSAPP_ACCESS_TOKEN: undefined,
+    WHATSAPP_TEMPLATE_NAME: undefined,
+    WHATSAPP_LANGUAGE_CODE: undefined,
+    TELEGRAM_GATEWAY_TOKEN: 'gateway-token',
+    PRELUDE_API_KEY: undefined,
+  };
+
+  async function sentBody(publicBaseUrl: string): Promise<Record<string, unknown>> {
+    let body: Record<string, unknown> = {};
+    const http = {
+      fetch: (_input: string, init: RequestInit) => {
+        body = JSON.parse(init.body as string) as Record<string, unknown>;
+        return Promise.resolve(
+          Response.json({ ok: true, result: { request_id: 'req-1' } }, { status: 200 }),
+        );
+      },
+    };
+    const adapters = buildOtpAdaptersFromEnv({ ...otpEnv, PUBLIC_BASE_URL: publicBaseUrl }, http);
+    await adapters.telegram?.send({ phoneE164: '+6598765432', code: '123456' });
+    return body;
+  }
+
+  it('points the delivery callback at the public HTTPS origin', async () => {
+    expect((await sentBody('https://api.example.test/')).callback_url).toBe(
+      'https://api.example.test/webhooks/telegram-gateway',
+    );
+  });
+
+  it('sends without a callback from a plain-HTTP origin (local dev)', async () => {
+    expect(await sentBody('http://localhost:8787')).not.toHaveProperty('callback_url');
+  });
+
+  it('parses the Gateway token and no longer reads any Twilio variable', () => {
+    const env = loadApiEnv({
+      DATABASE_URL: 'postgres://app@localhost:54320/app',
+      REDIS_URL: 'redis://localhost:63790',
+      PUBLIC_BASE_URL: 'http://localhost:8787',
+      AUTH_DATABASE_URL: 'postgres://auth@localhost:54320/app',
+      BETTER_AUTH_SECRET: 'test-secret-at-least-32-characters-long',
+      TELEGRAM_GATEWAY_TOKEN: 'gateway-token',
+      TWILIO_VERIFY_ACCOUNT_SID: 'ACexample',
+      TWILIO_VERIFY_AUTH_TOKEN: 'token',
+      TWILIO_VERIFY_SERVICE_SID: 'VAexample',
+    });
+    expect(env.TELEGRAM_GATEWAY_TOKEN).toBe('gateway-token');
+    expect(Object.keys(env).filter((key) => key.startsWith('TWILIO'))).toEqual([]);
   });
 });
 

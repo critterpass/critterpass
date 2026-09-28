@@ -128,11 +128,11 @@ describe('enforceOtpSendPumpingDefences', () => {
 describe('provider daily spend cap', () => {
   it('is not exceeded below the cap and is exceeded at/after it', async () => {
     const redis = new FakeRedis();
-    const config = { ...defaultPumpingConfig(), dailySpendCapMicros: { twilio_verify: 1000 } };
-    await recordProviderSpend(redis, 'twilio_verify', 400);
-    expect(await isProviderSpendCapExceeded(redis, 'twilio_verify', config)).toBe(false);
-    await recordProviderSpend(redis, 'twilio_verify', 700);
-    expect(await isProviderSpendCapExceeded(redis, 'twilio_verify', config)).toBe(true);
+    const config = { ...defaultPumpingConfig(), dailySpendCapMicros: { prelude: 1000 } };
+    await recordProviderSpend(redis, 'prelude', 400);
+    expect(await isProviderSpendCapExceeded(redis, 'prelude', config)).toBe(false);
+    await recordProviderSpend(redis, 'prelude', 700);
+    expect(await isProviderSpendCapExceeded(redis, 'prelude', config)).toBe(true);
   });
 
   it('never trips for a provider with no configured cap', async () => {

@@ -26,7 +26,7 @@ Only `.env.example` files are committed. Local values live in the git-ignored re
 | `ANTHROPIC_API_KEY` (+ `ANTHROPIC_BASE_URL`), Langfuse keys | Railway variables; local `.env` | api, worker, evals | quarterly | local only |
 | `MAPBOX_SECRET_TOKEN`, `FOURSQUARE_API_KEY` | Railway variables; local `.env` | api, worker, content tools | yearly | local only |
 | RevenueCat keys + webhook secret, store notification secrets | Railway variables | api | yearly | pending: monetisation phase |
-| OTP providers (WhatsApp, Twilio Verify, Prelude), supplier keys, data vendor keys, Resend, PostHog, Grafana | Railway variables | api, worker | quarterly | pending: owning phases |
+| OTP providers (WhatsApp, Telegram Gateway, Prelude), supplier keys, data vendor keys, Resend, PostHog, Grafana | Railway variables | api, worker | quarterly | pending: owning phases |
 | Field-encryption key (versioned key id) | Railway variables | api, worker | yearly | pending: first encrypted field |
 | EAS / store credentials | EAS (managed credentials) | EAS builds and submits | yearly | Android keystore managed by EAS; iOS pending |
 

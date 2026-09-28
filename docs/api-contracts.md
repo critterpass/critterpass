@@ -446,7 +446,7 @@ Auth column: **S** session bearer · **A** anonymous session allowed · **K** de
 | Route | Auth | Notes |
 |---|---|---|
 | `POST /api/auth/sign-in/anonymous` | P + attestation hook | App Attest / Play Integrity verified in `hooks.before`; per-IP limit |
-| `POST /api/auth/phone-number/send-otp` | A | sender router: WhatsApp → Twilio Verify / Prelude; allow-listed countries; attestation |
+| `POST /api/auth/phone-number/send-otp` | A | sender router: WhatsApp → Telegram Gateway → Prelude SMS; allow-listed countries; attestation |
 | `POST /api/auth/phone-number/verify` | A | `updatePhoneNumber: true` keeps uid when anonymous |
 | `POST /api/auth/link-social` | A/S | `{provider: apple\|google, idToken, nonce}`; links to current uid; `disableImplicitLinking` |
 | `POST /api/auth/sign-in/social` | P | only for returning users on a fresh install; never from an anonymous session (would drop uid) |
@@ -566,7 +566,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `/webhooks/aeroapi` | FlightAware AeroAPI alerts | secret token in path + source allow-list; payload re-verified by fetching `/flights/{id}` before any ALWAYS push | `flight.status_changed` → N-14/N-41, disruption agent | 34 |
 | `/webhooks/viator` | Viator (booking status, if partner push enabled) | Viator signature header per partner agreement; otherwise disabled and `supplier.viator.poll` job uses modified-since | `activity.booked/cancelled` | 35 |
 | `/webhooks/whatsapp` | WhatsApp Business Cloud API | `GET` verify challenge (`hub.verify_token`); `POST` `X-Hub-Signature-256` HMAC with app secret | OTP delivery status; vendor replies → `vendor.reply_parse` job | 9, 35 |
-| `/webhooks/twilio-verify` | Twilio (status callbacks) | `X-Twilio-Signature` | OTP deliverability metrics, sender router fallback | 9 |
+| `/webhooks/telegram-gateway` | Telegram Gateway (delivery reports to the `callback_url` each code is sent with) | `X-Request-Signature` = hex HMAC-SHA256 of `X-Request-Timestamp` + `\n` + raw body, keyed with SHA-256 of `TELEGRAM_GATEWAY_TOKEN`; reports older than 600 s are acknowledged and dropped | `expired` (refunded) or `revoked` for a tracked request → `otp.channel_failed` on `user:#uid` | 9 |
 | `/webhooks/print` | print-on-demand vendor | vendor HMAC signature header + timestamp | `postcard.status_changed` | 44 |
 | `/webhooks/tracker` | issue tracker (Linear) | `Linear-Signature` HMAC | `idea.status_changed`, feedback fixed → N-38 | 47 |
 | `/webhooks/resend` | Resend (Svix) | Svix signature headers | bounce/complaint → suppress | 45 |

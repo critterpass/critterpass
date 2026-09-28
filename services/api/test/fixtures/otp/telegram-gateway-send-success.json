@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "result": {
+    "request_id": "8f7e2c61b0a94c13",
+    "phone_number": "+6598765432",
+    "request_cost": 0.01,
+    "remaining_balance": 49.99,
+    "delivery_status": { "status": "sent", "updated_at": 1759068000 }
+  }
+}

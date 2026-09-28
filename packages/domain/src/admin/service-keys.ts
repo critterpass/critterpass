@@ -14,7 +14,7 @@ const usd = z.number().min(0).max(1_000_000);
 const clock = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'HH:MM');
 
 /** OTP sender channels a switch can turn off (`otp.<channel>.enabled`). */
-export const OTP_SWITCH_CHANNELS = ['whatsapp', 'twilio_verify', 'prelude'] as const;
+export const OTP_SWITCH_CHANNELS = ['whatsapp', 'telegram', 'prelude'] as const;
 /** Live Activity / Live Update kinds a switch can turn off (`la.<kind>.enabled`). */
 export const LIVE_ACTIVITY_SWITCH_KINDS = [
   'leave_by',

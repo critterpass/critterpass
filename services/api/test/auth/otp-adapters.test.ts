@@ -1,5 +1,5 @@
 /**
- * T4: WhatsApp/Twilio Verify/Prelude senders against recorded-shape provider responses
+ * WhatsApp, Telegram Gateway and Prelude senders against recorded-shape provider responses
  * (code-standards.md §17 — test doubles only at the network boundary: `HttpClient.fetch` is faked,
  * everything else in each adapter is the real request-building/response-parsing code).
  */
@@ -9,7 +9,7 @@ import path from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 
 import { createPreludeSender } from '../../src/auth/otp/prelude';
-import { createTwilioVerifySender } from '../../src/auth/otp/twilio-verify';
+import { createTelegramGatewaySender } from '../../src/auth/otp/telegram';
 import { createWhatsAppSender, type HttpClient } from '../../src/auth/otp/whatsapp';
 
 const FIXTURES_DIR = path.join(import.meta.dirname, '../fixtures/otp');
@@ -69,43 +69,60 @@ describe('createWhatsAppSender', () => {
   });
 });
 
-describe('createTwilioVerifySender', () => {
-  it('sends the custom code via basic auth form POST', async () => {
+describe('createTelegramGatewaySender', () => {
+  it('sends our own code once with ttl and callback, returning the request id', async () => {
     const { http, fetch } = fakeHttp(
-      new Response(fixture('twilio-verify-send-success.json'), { status: 201 }),
+      new Response(fixture('telegram-gateway-send-success.json'), { status: 200 }),
     );
-    const sender = createTwilioVerifySender({
-      accountSid: 'ACexample',
-      authToken: 'test-auth-token',
-      serviceSid: 'VAexample',
+    const sender = createTelegramGatewaySender({
+      token: 'test-gateway-token',
+      callbackUrl: 'https://api.example.test/webhooks/telegram-gateway',
       http,
     });
 
-    await sender.send({ phoneE164: '+6598765432', code: '123456' });
+    const result = await sender.send({ phoneE164: '+6598765432', code: '123456' });
 
+    expect(result.providerMessageId).toBe('8f7e2c61b0a94c13');
+    expect(fetch).toHaveBeenCalledTimes(1);
     const [url, init] = fetch.mock.calls[0] as [string, RequestInit];
-    expect(url).toContain('/Services/VAexample/Verifications');
-    const headers = init.headers as Record<string, string>;
-    expect(headers['Authorization']).toMatch(/^Basic /);
-    const body = new URLSearchParams(init.body as string);
-    expect(body.get('To')).toBe('+6598765432');
-    expect(body.get('Channel')).toBe('sms');
-    expect(body.get('CustomCode')).toBe('123456');
+    expect(url).toBe('https://gatewayapi.telegram.org/sendVerificationMessage');
+    expect(init.headers).toMatchObject({ Authorization: 'Bearer test-gateway-token' });
+    expect(JSON.parse(init.body as string)).toEqual({
+      phone_number: '+6598765432',
+      code: '123456',
+      ttl: 60,
+      callback_url: 'https://api.example.test/webhooks/telegram-gateway',
+    });
   });
 
-  it('throws SUPPLIER_UNAVAILABLE when Custom Code is not enabled for the service', async () => {
-    const { http } = fakeHttp(
-      new Response(fixture('twilio-verify-error-invalid-parameter.json'), { status: 400 }),
+  it('omits callback_url when none is configured', async () => {
+    const { http, fetch } = fakeHttp(
+      new Response(fixture('telegram-gateway-send-success.json'), { status: 200 }),
     );
-    const sender = createTwilioVerifySender({
-      accountSid: 'ACexample',
-      authToken: 'test-auth-token',
-      serviceSid: 'VAexample',
-      http,
-    });
+    const sender = createTelegramGatewaySender({ token: 'test-gateway-token', http });
+    await sender.send({ phoneE164: '+6598765432', code: '123456' });
+    const [, init] = fetch.mock.calls[0] as [string, RequestInit];
+    expect(JSON.parse(init.body as string)).not.toHaveProperty('callback_url');
+  });
+
+  it('throws SUPPLIER_UNAVAILABLE when the Gateway answers ok:false (number cannot receive codes)', async () => {
+    const { http } = fakeHttp(
+      new Response(fixture('telegram-gateway-error-phone-number-invalid.json'), { status: 400 }),
+    );
+    const sender = createTelegramGatewaySender({ token: 'test-gateway-token', http });
     await expect(sender.send({ phoneE164: '+6598765432', code: '123456' })).rejects.toMatchObject({
       code: 'SUPPLIER_UNAVAILABLE',
-      detail: { channel: 'twilio_verify' },
+      detail: { channel: 'telegram', detail: 'PHONE_NUMBER_INVALID' },
+    });
+  });
+
+  it('treats an ok:false body on HTTP 200 as a failed send', async () => {
+    const { http } = fakeHttp(
+      new Response(fixture('telegram-gateway-error-phone-number-invalid.json'), { status: 200 }),
+    );
+    const sender = createTelegramGatewaySender({ token: 'test-gateway-token', http });
+    await expect(sender.send({ phoneE164: '+6598765432', code: '123456' })).rejects.toMatchObject({
+      code: 'SUPPLIER_UNAVAILABLE',
     });
   });
 });

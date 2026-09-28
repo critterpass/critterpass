@@ -1,9 +1,10 @@
 /**
  * Phone OTP sender router (docs/product-decisions.md; requirements: "Conflict → merge", "SMS
- * pumping"): WhatsApp first wherever the country allows it (the Cloud API has no reachability
- * lookup, so it is always tried, not probed), SMS (Prelude/Twilio Verify per ./countries.ts) as
- * fallback or for countries without WhatsApp. Channels with no registered adapter (missing
- * credentials for this deployment) are skipped, never faked. A channel switched off in the ops
+ * pumping"): WhatsApp first (the Cloud API has no reachability lookup, so it is always tried, not
+ * probed), then Telegram Gateway (a number that cannot receive codes errors without a charge),
+ * then SMS through Prelude, in the order ./countries.ts gives. A channel whose send throws falls
+ * through to the next one. Channels with no registered adapter (missing credentials for this
+ * deployment) are skipped, never faked. A channel switched off in the ops
  * console (`otp.<channel>.enabled`) is skipped too; only when every channel the country could use
  * is off does the send answer `STATE_INVALID {reason: 'switched_off', key}` (the first channel's key).
  */
@@ -13,7 +14,7 @@ import { DomainError, switchedOffError } from '@cp/domain';
 import { countryOtpPolicy, isValidSendableNumber, type OtpChannel } from './countries';
 
 export interface OtpChannelAdapter {
-  /** Sends the code; resolves with a provider-assigned message id when the provider gives one (WhatsApp), throws on a synchronous send failure. */
+  /** Sends the code; resolves with a provider-assigned message id when the provider gives one (WhatsApp, Telegram Gateway), throws on a synchronous send failure. */
   send(input: { phoneE164: string; code: string }): Promise<{ providerMessageId?: string }>;
 }
 
@@ -27,7 +28,7 @@ export interface OtpSendContext {
 }
 
 export interface OtpDeliveryTracker {
-  /** Records which channel handled a verification, keyed by the provider's message id, so the WhatsApp webhook (services/api/src/routes/webhooks-whatsapp.ts) can correlate a later delivery-status callback back to a uid/verification. */
+  /** Records which channel handled a verification, keyed by the provider's message id, so the WhatsApp and Telegram Gateway webhooks (services/api/src/routes/webhooks-*.ts) can correlate a later delivery-status callback back to a uid/verification. */
   recordDelivery(input: {
     readonly providerMessageId: string;
     readonly channel: OtpChannel;
@@ -48,12 +49,6 @@ export interface OtpRouter {
   sendOTP(context: OtpSendContext): Promise<void>;
 }
 
-function channelOrder(
-  policy: NonNullable<ReturnType<typeof countryOtpPolicy>>,
-): readonly OtpChannel[] {
-  return policy.whatsappAllowed ? ['whatsapp', policy.smsChannel] : [policy.smsChannel];
-}
-
 export function createOtpRouter(deps: OtpRouterDeps): OtpRouter {
   return {
     async sendOTP(context) {
@@ -65,8 +60,7 @@ export function createOtpRouter(deps: OtpRouterDeps): OtpRouter {
         throw new DomainError('VALIDATION', { reason: 'country_unsupported' });
       }
 
-      const order = channelOrder(policy);
-      const registered = order.filter((channel) => deps.adapters[channel] !== undefined);
+      const registered = policy.channels.filter((channel) => deps.adapters[channel] !== undefined);
       if (registered.length === 0) {
         // Every channel this country could use has no credentials configured for this deployment
         // ("router skips unavailable channels"). Nothing to fake here.
@@ -98,8 +92,8 @@ export function createOtpRouter(deps: OtpRouterDeps): OtpRouter {
           return;
         } catch (error) {
           lastError = error;
-          // WhatsApp send error falls back to SMS; the last channel in
-          // the order has nowhere left to fall back to, so its error is the one that surfaces.
+          // A failed send falls through to the next channel; the last channel in the order has
+          // nowhere left to fall back to, so its error is the one that surfaces.
           if (index === enabled.length - 1) throw error;
         }
       }
@@ -124,8 +118,8 @@ export interface DeliveryTrackerRecord {
 const DELIVERY_TRACKING_TTL_SECONDS = 600;
 
 /**
- * Correlates a WhatsApp Cloud API message id back to the uid/verification that requested it, so
- * services/api/src/routes/webhooks-whatsapp.ts can turn a later `failed`/`undelivered` delivery
+ * Correlates a WhatsApp Cloud API message id or a Telegram Gateway request id back to the
+ * uid/verification that requested it, so the delivery-status webhooks can turn a later undelivered
  * status into `otp.channel_failed` on the right `user:#uid` channel. Redis-backed (not Postgres):
  * the record only matters for the life of one OTP attempt (docs/data-model.md §3.1 OTP is 300 s).
  */

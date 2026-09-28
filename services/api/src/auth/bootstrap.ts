@@ -16,8 +16,8 @@ import type { AppleProviderConfig } from './social/apple';
 import type { GoogleProviderConfig } from './social/google';
 import type { HttpClient } from './otp/whatsapp';
 import { createWhatsAppSender } from './otp/whatsapp';
-import { createTwilioVerifySender } from './otp/twilio-verify';
 import { createPreludeSender } from './otp/prelude';
+import { createTelegramGatewaySender } from './otp/telegram';
 import type { OtpChannelAdapter } from './otp/router';
 import type { OtpChannel } from './otp/countries';
 import type { ApiEnv } from '../env';
@@ -64,10 +64,9 @@ type OtpEnv = Pick<
   | 'WHATSAPP_ACCESS_TOKEN'
   | 'WHATSAPP_TEMPLATE_NAME'
   | 'WHATSAPP_LANGUAGE_CODE'
-  | 'TWILIO_VERIFY_ACCOUNT_SID'
-  | 'TWILIO_VERIFY_AUTH_TOKEN'
-  | 'TWILIO_VERIFY_SERVICE_SID'
+  | 'TELEGRAM_GATEWAY_TOKEN'
   | 'PRELUDE_API_KEY'
+  | 'PUBLIC_BASE_URL'
 >;
 
 /** One real `fetch`-backed `HttpClient` shared by every channel — a network boundary, not a double: `services/api/test/auth/otp.db.test.ts` is the one place a recorded-fixture double replaces this. */
@@ -90,16 +89,15 @@ export function buildOtpAdaptersFromEnv(
       http,
     });
   }
-  if (
-    env.TWILIO_VERIFY_ACCOUNT_SID &&
-    env.TWILIO_VERIFY_AUTH_TOKEN &&
-    env.TWILIO_VERIFY_SERVICE_SID
-  ) {
-    adapters.twilio_verify = createTwilioVerifySender({
-      accountSid: env.TWILIO_VERIFY_ACCOUNT_SID,
-      authToken: env.TWILIO_VERIFY_AUTH_TOKEN,
-      serviceSid: env.TWILIO_VERIFY_SERVICE_SID,
+  if (env.TELEGRAM_GATEWAY_TOKEN) {
+    // The Gateway only accepts an HTTPS callback; local dev (http://localhost) sends without one.
+    const callbackUrl = env.PUBLIC_BASE_URL.startsWith('https://')
+      ? `${env.PUBLIC_BASE_URL.replace(/\/$/, '')}/webhooks/telegram-gateway`
+      : undefined;
+    adapters.telegram = createTelegramGatewaySender({
+      token: env.TELEGRAM_GATEWAY_TOKEN,
       http,
+      ...(callbackUrl !== undefined ? { callbackUrl } : {}),
     });
   }
   if (env.PRELUDE_API_KEY) {
