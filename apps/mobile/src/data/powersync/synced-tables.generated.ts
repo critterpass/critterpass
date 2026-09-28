@@ -13,6 +13,8 @@ export const SYNCED_TABLE_COLUMNS = {
   activity_events: 'trip_id crew_id actor_kind actor_id verb object_kind object_id text at',
   agent_jobs:
     'trip_id user_id kind status steps partial input_hash base_version_id result_ref model tokens_in:integer tokens_out:integer cost_micros:integer pgboss_job_id created_at updated_at',
+  avatars:
+    'user_id kind form_id ring media_key moderation_status moderation_reason variant_keys created_at updated_at',
   change_sets:
     'trip_id base_version_id trigger scope author_kind author_id status poll_id cost_delta_minor:integer ops approved_by_kind approved_by result_version_id created_at updated_at',
   client_config: 'key value updated_at',
@@ -66,6 +68,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'user_id budget_per_day:integer roundup_time roundup_tz quiet_from quiet_to guide_tips:integer money:integer critters_nearby:integer crew_chat_mode leave_by_dnd:integer per_category voice_readout:integer created_at updated_at',
   notifications:
     'user_id crew_id trip_id event_id key category class sender template_id title body items ctx deep_link collapse_key thread_id dedupe_key is_private:integer needs_you:integer llm_generated:integer local_date not_before expires_at state drop_reason sent_at created_at updated_at',
+  passes: 'user_id status number issued_at cover created_at updated_at',
   perks: 'key tier copy_key is_shipped:integer sort:integer created_at updated_at',
   phrase_cards:
     'key language context text romanisation gloss audio_key audio_status native_reviewed_on release_id created_at updated_at',
@@ -90,6 +93,10 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id user_id version components personal_option_deltas total_minor:integer currency fx_snapshot_id is_missing:integer is_estimated_origin:integer is_stale:integer created_at updated_at',
   spawn_rules:
     'key form_id kind set_id destination_id poi_ids geofences n:integer dwell_s:integer hold_ms:integer window_id solar min_members:integer foreground_only:integer copy release_id created_at updated_at',
+  stamps:
+    'pass_id user_id kind seq_no:integer destination_id trip_id dates iata country ink_colour status stamped_at created_at updated_at',
+  taste_profiles:
+    'user_id answers tags tag_sources chronotype pace room_pref visibility created_at updated_at',
   trip_entitlements:
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
   trip_participants:

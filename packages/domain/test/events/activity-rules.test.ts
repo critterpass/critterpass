@@ -12,7 +12,8 @@ import { projectActivity } from '../../src/events/activity-rules';
  * strip and the watch job turn into their own surfaces; nobody in the crew did them.
  * `moderation.decided` is an ops verdict consumed by the reported content's owner; support
  * entitlement grants concern one account. A device's permission mirror and a POI visit are private
- * to their owner (visits are owner-only by design).
+ * to their owner (visits are owner-only by design). Pass and profile changes reach the crew as
+ * synced rows and a `member.updated` hint, not as ticker lines.
  */
 const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'auth.merged',
@@ -26,6 +27,10 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'entitlement.revoked',
   'device.permissions_changed',
   'visit.recorded',
+  'pass.issued',
+  'profile.updated',
+  'profile.taste_changed',
+  'profile.avatar_changed',
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

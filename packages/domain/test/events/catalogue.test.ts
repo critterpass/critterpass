@@ -88,6 +88,14 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     trip_id: crypto.randomUUID(),
     source: 'manual',
   },
+  'pass.issued': { pass_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
+  'profile.updated': { user_id: crypto.randomUUID(), fields: ['home_airport'] },
+  'profile.taste_changed': { user_id: crypto.randomUUID(), source: 'quiz' },
+  'profile.avatar_changed': {
+    user_id: crypto.randomUUID(),
+    avatar_id: crypto.randomUUID(),
+    kind: 'photo',
+  },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

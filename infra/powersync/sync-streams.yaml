@@ -23,6 +23,10 @@ streams:
       - SELECT * FROM roundups WHERE user_id = auth.user_id()
       - SELECT * FROM inbox_items WHERE user_id = auth.user_id()
       - SELECT * FROM scheduled_deliveries WHERE user_id = auth.user_id()
+      - SELECT * FROM passes WHERE user_id = auth.user_id()
+      - SELECT * FROM stamps WHERE user_id = auth.user_id()
+      - SELECT * FROM taste_profiles WHERE user_id = auth.user_id()
+      - SELECT * FROM avatars WHERE user_id = auth.user_id()
   trip:
     queries:
       - |-
@@ -186,9 +190,23 @@ streams:
       - SELECT * FROM trips WHERE crew_id IN my_crews
   crew_people:
     auto_subscribe: true
-    query: |-
-      SELECT * FROM users
-      WHERE id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)
+    queries:
+      - |-
+        SELECT * FROM users
+        WHERE id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM passes
+        WHERE user_id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM stamps
+        WHERE user_id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM taste_profiles
+        WHERE visibility = 'crew'
+          AND user_id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM avatars
+        WHERE user_id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)
   crew_invites:
     auto_subscribe: true
     queries:

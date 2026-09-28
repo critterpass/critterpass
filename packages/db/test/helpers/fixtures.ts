@@ -276,6 +276,25 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
        VALUES (uuidv7(), $1, $2, $3, 'manual', now())`,
       [organiser, tripId, matrixProbePoiId],
     );
+    // The organiser's issued pass with its home stamp, taste profile and guide avatar (all C1:
+    // the owner and active crewmates read them).
+    const { rows: passRows } = await tx.query<{ id: string }>(
+      `INSERT INTO passes (user_id, status, number, issued_at)
+       VALUES ($1, 'issued', app.format_pass_number(nextval('pass_number_seq')), now()) RETURNING id`,
+      [organiser],
+    );
+    await tx.query(
+      `INSERT INTO stamps (pass_id, user_id, kind, seq_no, iata, country, stamped_at)
+       VALUES ($1, $2, 'home', 1, 'SIN', 'SG', now())`,
+      [passRows[0]!.id, organiser],
+    );
+    await tx.query("INSERT INTO taste_profiles (user_id, tags) VALUES ($1, '{SUNRISE}')", [
+      organiser,
+    ]);
+    await tx.query(
+      "INSERT INTO avatars (user_id, kind, form_id) VALUES ($1, 'critter', 'guide:tokek')",
+      [organiser],
+    );
 
     const versionId = await insertItineraryVersion(tx, {
       tripId,

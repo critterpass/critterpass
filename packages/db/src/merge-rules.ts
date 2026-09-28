@@ -192,3 +192,16 @@ registerMergeRule({ table: 'location_shares', userColumn: 'user_id', strategy: '
 registerMergeRule({ table: 'location_fixes', userColumn: 'user_id', strategy: 'drop' });
 registerMergeRule({ table: 'member_etas', userColumn: 'user_id', strategy: 'drop' });
 registerMergeRule({ table: 'visits', userColumn: 'user_id', strategy: 'reassign' });
+
+// Onboarding: the existing account's pass, home stamp and taste profile win; an anonymous pass is
+// dropped with its stamps (they cascade from the pass). Avatars follow the user like their media,
+// and go with the account when it is deleted.
+registerMergeRule({ table: 'stamps', userColumn: 'user_id', strategy: 'keep_existing' });
+registerMergeRule({ table: 'passes', userColumn: 'user_id', strategy: 'keep_existing' });
+registerMergeRule({ table: 'taste_profiles', userColumn: 'user_id', strategy: 'keep_existing' });
+registerMergeRule({
+  table: 'avatars',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  personal: true,
+});

@@ -73,7 +73,40 @@ const READ_ONLY_ALL: Readonly<Record<ActorKind, TableOpExpectation>> = {
   organiser: op(true, false, false),
 };
 
+/** RLS "read shares-crew": the owner and active crewmates read, nobody writes directly. */
+const CREW_VISIBLE_READ: Readonly<Record<ActorKind, TableOpExpectation>> = {
+  outsider: F,
+  exMember: F,
+  anonymous: F,
+  member: op(true, false, false),
+  coOrganiser: op(true, false, false),
+  organiser: op(true, false, false),
+};
+
+/** Crew-visible read, owner insert (and update where the policy allows it). */
+function crewVisibleOwnerWrite(update: boolean): Readonly<Record<ActorKind, TableOpExpectation>> {
+  return {
+    outsider: op(false, true, false),
+    exMember: op(false, true, false),
+    anonymous: op(false, true, false),
+    member: op(true, true, false),
+    coOrganiser: op(true, true, false),
+    organiser: op(true, true, update),
+  };
+}
+
+function ownRowProbe(table: string): SelectProbe {
+  return { sql: `SELECT 1 FROM ${table} WHERE user_id = $1`, params: (f) => [f.actors.organiser] };
+}
+
 export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
+  passes: { selectProbe: ownRowProbe('passes'), expectations: CREW_VISIBLE_READ },
+  stamps: { selectProbe: ownRowProbe('stamps'), expectations: CREW_VISIBLE_READ },
+  taste_profiles: {
+    selectProbe: ownRowProbe('taste_profiles'),
+    expectations: crewVisibleOwnerWrite(true),
+  },
+  avatars: { selectProbe: ownRowProbe('avatars'), expectations: crewVisibleOwnerWrite(false) },
   users: {
     selectProbe: { sql: 'SELECT 1 FROM users WHERE id = $1', params: (f) => [f.actors.organiser] },
     expectations: {
