@@ -140,7 +140,7 @@ Handoff — later phases register into the contracts above in their own files:
 - Steps: 1. Move queue metadata to domain (worker imports it). 2. Per-queue `redact`. 3. Read (counts, DLQ, crons, heartbeat). 4. `replay_webhook` registry + command (tested with a fixture provider). 5. `redrive_jobs` (spike first: does pg-boss 12 `redrive` keep `singletonKey`, and does the DLQ copy keep the last error? If not, the failure hook also writes the error). 6. `push.send` DLQ on.
 - Tests: `pnpm --filter @cp/worker test -- boss && pnpm --filter @cp/api test -- admin/jobs`
 - Done when: a job failing 3× shows in the DLQ read with a redacted payload; redrive of 2 selected ids runs them once each and writes one audit row; two worker instances report `workers: 2`.
-- Status: done — 70878bdb
+- Status: done — 099d5ef5
 
 ### T7 — Operators and console sessions
 - Goal: roles can be managed without editing env, and console sessions are distinguishable.
@@ -148,7 +148,7 @@ Handoff — later phases register into the contracts above in their own files:
 - Steps: 1. Session marker via Better Auth `additionalFields` on the admin instance. 2. Operators read (accounts ∪ allow-list). 3. `set_admin_role` with last-owner guard + session purge. 4. `revoke_admin_sessions`.
 - Tests: `pnpm --filter @cp/api test -- admin/operators`
 - Done when: removing the only owner returns `STATE_INVALID {reason: 'last_owner'}`; clearing a role ends that person's console sessions but not their app sessions; an allow-listed email that never signed in appears with no last sign-in.
-- Status: done — 0e8fde9c
+- Status: done — 3756837c
 
 ## Phase acceptance criteria
 
