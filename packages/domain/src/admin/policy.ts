@@ -45,6 +45,7 @@ export const ADMIN_COMMAND_ROLES: Readonly<Record<string, readonly AdminRole[]>>
   upsert_poi: ['content'],
   upsert_season_editorial: ['content'],
   review_season_event: ['content'],
+  review_cost_index: ['content'],
   review_content_item: ['content'],
   reject_content_batch: ['content'],
   verify_poi_hours: ['content'],
