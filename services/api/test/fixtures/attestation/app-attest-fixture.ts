@@ -10,7 +10,7 @@
  * noted in the phase report).
  */
 import 'reflect-metadata';
-import { createHash, randomBytes } from 'node:crypto';
+import { createHash, KeyObject, randomBytes, sign } from 'node:crypto';
 
 import * as asn1js from 'asn1js';
 import * as cbor from 'cbor';
@@ -194,28 +194,12 @@ export async function buildAppAttestAssertionFixture(
     .update(Buffer.concat([authenticatorData, clientDataHash]))
     .digest();
 
-  const signature = Buffer.from(
-    await subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, input.deviceKeys.privateKey, nonce),
-  );
-  // Node's crypto.verify (used by services/api/src/abuse/attestation/app-attest.ts, via
-  // createVerify) expects a DER-encoded ECDSA signature; WebCrypto produces raw IEEE P1363
-  // (r || s, fixed-length). Convert once here rather than teaching the verifier two formats.
-  const derSignature = ieeeP1363ToDer(signature);
+  // App Attest assertions carry a DER-encoded ECDSA signature, which is what the verifier's
+  // createVerify expects. Node encodes it canonically (minimal INTEGERs); OpenSSL rejects any other.
+  const signature = sign('sha256', nonce, {
+    key: KeyObject.from(input.deviceKeys.privateKey),
+    dsaEncoding: 'der',
+  });
 
-  return cbor.encodeAsync({ signature: derSignature, authenticatorData });
-}
-
-/** ECDSA P-256 raw (r || s, 32 bytes each) -> DER SEQUENCE { INTEGER r, INTEGER s }. */
-function ieeeP1363ToDer(raw: Buffer): Buffer {
-  const half = raw.length / 2;
-  const r = new asn1js.Integer({ valueHex: toUnsigned(raw.subarray(0, half)) });
-  const s = new asn1js.Integer({ valueHex: toUnsigned(raw.subarray(half)) });
-  const sequence = new asn1js.Sequence({ value: [r, s] });
-  return Buffer.from(sequence.toBER(false));
-}
-
-/** Prefixes a leading 0x00 when the high bit is set, so the DER INTEGER is never read as negative. A plain `Uint8Array.slice()` copy is always backed by a real (non-shared) ArrayBuffer, which is what asn1js's `BufferSource` parameter type requires. */
-function toUnsigned(bytes: Buffer): ArrayBuffer {
-  const source = (bytes[0] ?? 0) & 0x80 ? Buffer.concat([Buffer.from([0]), bytes]) : bytes;
-  return Uint8Array.prototype.slice.call(source).buffer;
+  return cbor.encodeAsync({ signature, authenticatorData });
 }
