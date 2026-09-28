@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# Screenshots for `pnpm screens:capture`: the permission primer family from the component gallery.
+- runFlow:
+    file: ../screens/subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'PrimerCard'
+- takeScreenshot: 31-primer-card
+- runFlow:
+    file: ../screens/subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'DeniedRow'
+- takeScreenshot: 32-denied-row
+- runFlow:
+    file: ../screens/subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'PermissionsSection'
+- takeScreenshot: 33-permissions-section
+- runFlow:
+    file: ../screens/subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'BackgroundLocationDisclosure'
+- takeScreenshot: 34-background-location-disclosure
+- runFlow:
+    file: ../screens/subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'VisitDetectionSettings'
+- takeScreenshot: 35-visit-detection-settings
