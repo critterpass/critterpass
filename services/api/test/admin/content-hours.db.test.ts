@@ -25,6 +25,14 @@ async function propose(batchKey: string): Promise<string> {
   return rows[0]!.id;
 }
 
+async function auditRows(proposalId: string) {
+  const { rows } = await harness.pool.query<{ action: string }>(
+    "SELECT action FROM ops.admin_audit WHERE target_kind = 'poi_hours_proposal' AND target_id = $1",
+    [proposalId],
+  );
+  return rows.map((row) => row.action);
+}
+
 async function poiHours() {
   const { rows } = await harness.pool.query<{ hours: unknown; verified: boolean }>(
     'SELECT hours, hours_verified_at IS NOT NULL AS verified FROM pois WHERE id = $1',
@@ -77,6 +85,7 @@ describe('opening hours proposals', () => {
       verdict: 'reject',
     });
     expect(again.status).toBe(409);
+    expect(await auditRows(proposal!.id)).toEqual(['verify_poi_hours']);
   });
 
   it('leave the POI as it was when rejected', async () => {
@@ -87,5 +96,6 @@ describe('opening hours proposals', () => {
     );
     await app.command(content, 'verify_poi_hours', { proposal_id: id, verdict: 'reject' });
     expect(await poiHours()).toEqual({ hours: {}, verified: false });
+    expect(await auditRows(id)).toEqual(['verify_poi_hours']);
   });
 });

@@ -10,12 +10,21 @@ import { copyFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 
 import { resolveRoute } from '@cp/ai';
-import { buildRelease, itemRef, parseItems, type ContentKind, type Release } from '@cp/content';
+import {
+  buildRelease,
+  itemRef,
+  loadRelease,
+  parseItems,
+  type ContentKind,
+  type Release,
+} from '@cp/content';
 import { withSystem } from '@cp/db';
 import type pg from 'pg';
 
 import type { AnyKindModule, KindContext } from '../kinds/types';
-import { writeJson, writeText } from '../work';
+import { checkName } from '../ip/check';
+import { runValidators } from '../validators/registry';
+import { readJson, writeJson, writeText } from '../work';
 import { FACTORY_ROUTE } from './generate';
 import { required, StageError, type StageFiles } from './state';
 
@@ -45,6 +54,23 @@ async function nextVersion(tx: pg.PoolClient, kind: string, batchKey: string): P
   return (max.rows[0]?.max ?? 0) + 1;
 }
 
+/**
+ * Where the work files are missing (a clean checkout queueing a batch into another environment),
+ * the batch comes from its committed artifact: the checksum is verified and the validator report
+ * and IP screen are recomputed from its items, without any model call.
+ */
+function committedBatch(module: AnyKindModule, files: StageFiles) {
+  if (!existsSync(files.paths.artifact)) return undefined;
+  const release = loadRelease(readJson<unknown>(files.paths.artifact), module.kind);
+  const report = runValidators(module.kind, release.items, module.validators);
+  const names =
+    module.ipNames === undefined
+      ? []
+      : release.items.flatMap((item) => [...(module.ipNames?.(item) ?? [])]);
+  const ip = [...new Set(names)].map((name) => checkName(name));
+  return { release, report, ip };
+}
+
 export async function runReview(
   module: AnyKindModule,
   ctx: KindContext,
@@ -52,15 +78,17 @@ export async function runReview(
   pool: pg.Pool | null,
   log: (line: string) => void = () => undefined,
 ): Promise<QueuedBatch> {
-  const report = required(files.report(), 'validation report');
+  const committed = files.report() === undefined ? committedBatch(module, files) : undefined;
+  const report = committed?.report ?? required(files.report(), 'validation report');
   if (report.severity === 'fail') {
     throw new StageError(
       `${ctx.batchKey} failed validation (${report.counts.fail} items); it stays out of review`,
     );
   }
-  const items = parseItems(module.kind, required(files.items(), 'items'));
+  const items =
+    committed?.release.items ?? parseItems(module.kind, required(files.items(), 'items'));
   const generated = files.generate();
-  const ip = files.ip() ?? [];
+  const ip = committed?.ip ?? files.ip() ?? [];
   const blockedReason = module.blockedReason?.(items) ?? null;
   const status = blockedReason === null ? 'review' : 'blocked';
   const ipStatus =
@@ -78,7 +106,7 @@ export async function runReview(
       kind: module.kind,
       version,
       items,
-      generated_by: {
+      generated_by: committed?.release.generated_by ?? {
         batch_key: ctx.batchKey,
         route,
         model: route === null ? null : resolveRoute(FACTORY_ROUTE).model,
@@ -86,8 +114,9 @@ export async function runReview(
       },
       approved_by: null,
     });
-    writeJson(files.paths.artifact, artifact);
-    if (module.checklist !== undefined) {
+    // A batch queued from its committed artifact leaves the repo as it is.
+    if (committed === undefined) writeJson(files.paths.artifact, artifact);
+    if (committed === undefined && module.checklist !== undefined) {
       writeText(
         files.paths.artifact.replace(/\.json$/u, '.checklist.md'),
         module.checklist(ctx, items),
