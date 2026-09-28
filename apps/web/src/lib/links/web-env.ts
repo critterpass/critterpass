@@ -1,8 +1,10 @@
 /* eslint-disable lingui/no-unlocalized-strings -- env names and URLs, not UI copy. */
 /**
  * Link settings the Worker reads per request. The environment comes from the host the request
- * arrived on (so one Worker build serves both hosts of its pair correctly); unknown hosts (local
- * `wrangler dev`, previews) fall back to `LINKS_ENV`, then staging.
+ * arrived on (so one Worker build serves both hosts of its pair correctly); a `www.` host counts as
+ * its apex, so `www.critterpass.app` is production whatever `LINKS_ENV` says. Unknown hosts (local
+ * `wrangler dev`, previews, `workers.dev`) fall back to `LINKS_ENV` (set per Wrangler environment),
+ * then staging.
  */
 import {
   LINK_ENVIRONMENT_CONFIG,
@@ -44,10 +46,15 @@ function fallbackEnvironment(value: string | undefined): LinkEnvironment {
     : 'staging';
 }
 
+/** The link environment a site host belongs to; `www.` serves the same site as its apex. */
+function environmentOfHost(host: string): LinkEnvironment | null {
+  return linkEnvironmentForHost(host) ?? linkEnvironmentForHost(host.replace(/^www\./u, ''));
+}
+
 export function linkRequestContext(requestUrl: URL, env: LinksWebEnv): LinkRequestContext {
   const host = requestUrl.hostname.toLowerCase();
   const config =
-    LINK_ENVIRONMENT_CONFIG[linkEnvironmentForHost(host) ?? fallbackEnvironment(env.LINKS_ENV)];
+    LINK_ENVIRONMENT_CONFIG[environmentOfHost(host) ?? fallbackEnvironment(env.LINKS_ENV)];
   const otherHost = host === config.altHost ? config.primaryHost : config.altHost;
   const apiBaseUrl = (env.LINKS_API_BASE_URL ?? DEFAULT_API_BASE_URL[config.env]).replace(
     /\/+$/,
