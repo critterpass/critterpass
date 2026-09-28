@@ -17,6 +17,7 @@ import { projectActivity } from '../../src/events/activity-rules';
  * describe a crew, a link or one person's answer, not a trip moment; seat offers and referral
  * progress are private to the person they concern (a taken seat shows as `seat_offer.accepted`).
  * Chat events are the chat timeline itself; echoing them in the ticker would repeat every message.
+ * Live map events are realtime moments (shares, meet-ups, pings) with their own pushes.
  */
 const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'auth.merged',
@@ -65,6 +66,12 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'booking.flight_changed',
   'booking.flight_removed',
   'user.tz_changed',
+  // Crew live map moments are realtime and pushed; a ticker line would outlive the moment.
+  'location_share.changed',
+  'meetup.created',
+  'meetup.moved',
+  'meetup.crew_close',
+  'crew.pinged',
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

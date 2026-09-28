@@ -214,6 +214,30 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     user_ids: [crypto.randomUUID()],
   },
   'user.tz_changed': { user_id: crypto.randomUUID(), tz: 'Asia/Ho_Chi_Minh' },
+  'location_share.changed': {
+    trip_id: crypto.randomUUID(),
+    share_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    change: 'on',
+  },
+  'meetup.created': {
+    trip_id: crypto.randomUUID(),
+    meetup_id: crypto.randomUUID(),
+    by: crypto.randomUUID(),
+  },
+  'meetup.moved': {
+    trip_id: crypto.randomUUID(),
+    meetup_id: crypto.randomUUID(),
+    by: crypto.randomUUID(),
+  },
+  'meetup.crew_close': { trip_id: crypto.randomUUID(), meetup_id: crypto.randomUUID() },
+  'crew.pinged': {
+    trip_id: crypto.randomUUID(),
+    by: crypto.randomUUID(),
+    kind: 'on_my_way',
+    meetup_id: null,
+    eta_min: 12,
+  },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

@@ -452,6 +452,19 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // Behind the crew-map gate: the fixture trip is neither boosted nor in its trip days, so no
+  // actor reads or writes (the open-gate cases live in ./meetups.test.ts).
+  meetups: {
+    selectProbe: { sql: 'SELECT 1 FROM meetups LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
   visits: {
     selectProbe: {
       sql: 'SELECT 1 FROM visits WHERE user_id = $1',
