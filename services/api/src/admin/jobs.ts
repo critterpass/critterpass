@@ -150,7 +150,8 @@ async function lastCronRuns(pool: pg.Pool, names: readonly string[]) {
 
 async function started(deps: JobsPanelDeps): Promise<PgBoss> {
   const boss = await deps.boss();
-  if (boss === undefined) throw new DomainError('UPSTREAM_TIMEOUT', { reason: 'job_producer_starting' });
+  if (boss === undefined)
+    throw new DomainError('UPSTREAM_TIMEOUT', { reason: 'job_producer_starting' });
   return boss;
 }
 
