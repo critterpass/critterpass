@@ -69,6 +69,8 @@ export interface KindModule<K extends ContentKind> {
     outputs: ReadonlyMap<string, unknown>,
   ) => Promise<readonly unknown[]>;
   readonly validators: Validators<K>;
+  /** Units the model could not answer may stay missing (their records are researched by hand). */
+  readonly partialGeneration?: boolean;
   readonly render?: (
     ctx: KindContext,
     items: readonly ContentItem<K>[],
@@ -76,6 +78,8 @@ export interface KindModule<K extends ContentKind> {
   ) => Promise<readonly RenderedItem[]>;
   /** Names the IP screen checks (critter and form names). */
   readonly ipNames?: (item: ContentItem<K>) => readonly string[];
+  /** A per-record checklist for the person who verifies the batch (written beside the artifact). */
+  readonly checklist?: (ctx: KindContext, items: readonly ContentItem<K>[]) => string;
   /** Why the batch cannot be approved yet even though it validates (e.g. awaiting native review). */
   readonly blockedReason?: (items: readonly ContentItem<K>[]) => string | null;
 }

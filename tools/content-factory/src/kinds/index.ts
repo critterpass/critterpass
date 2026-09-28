@@ -9,3 +9,6 @@ import './personas';
 import './phrases';
 import './help';
 import './taste-quiz';
+import './emergency';
+import './facilities';
+import './insurance';

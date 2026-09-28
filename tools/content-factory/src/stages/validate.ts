@@ -42,12 +42,17 @@ export async function runValidate(
       ? report
       : {
           ...report,
-          severity: 'fail',
+          severity:
+            module.partialGeneration === true
+              ? report.severity === 'fail'
+                ? 'fail'
+                : 'warn'
+              : 'fail',
           batch: [
             ...report.batch,
             {
               id: 'generation-complete',
-              severity: 'fail',
+              severity: module.partialGeneration === true ? 'warn' : 'fail',
               message: `${missing.length} units have no output yet: ${missing
                 .slice(0, 5)
                 .map((u) => u.id)

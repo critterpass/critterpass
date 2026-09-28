@@ -15,7 +15,7 @@ import { withSystem } from '@cp/db';
 import type pg from 'pg';
 
 import type { AnyKindModule, KindContext } from '../kinds/types';
-import { writeJson } from '../work';
+import { writeJson, writeText } from '../work';
 import { FACTORY_ROUTE } from './generate';
 import { required, StageError, type StageFiles } from './state';
 
@@ -87,6 +87,12 @@ export async function runReview(
       approved_by: null,
     });
     writeJson(files.paths.artifact, artifact);
+    if (module.checklist !== undefined) {
+      writeText(
+        files.paths.artifact.replace(/\.json$/u, '.checklist.md'),
+        module.checklist(ctx, items),
+      );
+    }
     const checklist = path.join(files.paths.dir, 'ip-checklist.md');
     if (existsSync(checklist)) {
       copyFileSync(checklist, files.paths.artifact.replace(/\.json$/u, '.ip-checklist.md'));

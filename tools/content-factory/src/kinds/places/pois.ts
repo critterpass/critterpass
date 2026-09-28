@@ -5,13 +5,7 @@
  * from those fields alone. Supplier content never enters: the only sources a POI can carry are
  * fsq_os, overture and editorial, and editorial text naming a supplier fails validation.
  */
-import {
-  createDecisionClient,
-  createGateway,
-  loadDecisionEnv,
-  loadGatewayEnv,
-  SUPPLIER_BRANDS,
-} from '@cp/ai';
+import { createDecisionClient, createGateway, loadDecisionEnv, loadGatewayEnv } from '@cp/ai';
 import { poiItemSchema, TASTE_TAGS, type ContentItem } from '@cp/content';
 import { hoursSchema } from '@cp/domain';
 import { z } from 'zod';
@@ -20,6 +14,7 @@ import { openPool } from '../../db';
 import { insidePlace } from '../../data/country-bounds';
 import { PLACE_FACTS } from '../../data/place-facts';
 import { recordingFetch } from '../../record';
+import { suppliersNamed } from '../../suppliers';
 import { registerKind } from '../registry';
 import type { Brief, GenerationUnit, KindModule, Prompt } from '../types';
 import { decideDuplicates, nearbyDifferentNames, type DuplicateVerdict } from './duplicates';
@@ -246,8 +241,6 @@ export function toPoiItem(source: PoiSource, editorial: Editorial): ContentItem<
   });
 }
 
-const SUPPLIER_WORDS = SUPPLIER_BRANDS.map((brand) => brand.toLowerCase());
-
 export const placesKind: KindModule<'places'> = {
   kind: 'places',
   title: (ctx) => `Places · ${ctx.options['destinations'] ?? 'guide cities'}`,
@@ -283,8 +276,7 @@ export const placesKind: KindModule<'places'> = {
         id: 'no-supplier-text',
         severity: 'fail',
         check: (poi) => {
-          const text = Object.values(poi.editorial).join(' ').toLowerCase();
-          return SUPPLIER_WORDS.filter((word) => text.includes(word)).map(
+          return suppliersNamed(Object.values(poi.editorial).join(' ')).map(
             (word) => `editorial names a supplier (${word})`,
           );
         },
