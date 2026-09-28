@@ -30,7 +30,7 @@ let defaultEngine: SkiaEngine | undefined;
  * module never forces the native Skia JSI binding to load (e.g. under Jest, which always injects
  * its own `engine` prop instead and never reaches this function).
  */
-function getDefaultSkiaEngine(): SkiaEngine {
+export function getDefaultSkiaEngine(): SkiaEngine {
   if (!defaultEngine) {
     // eslint-disable-next-line @typescript-eslint/no-require-imports, lingui/no-unlocalized-strings -- lazy native-module load, see doc comment above
     const { Skia } = require('@shopify/react-native-skia') as typeof RNSkiaModule;

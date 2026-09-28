@@ -34,7 +34,7 @@ export type AvatarModerationStatus = (typeof AVATAR_MODERATION_STATUSES)[number]
 export const avatarChoiceSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('initials') }).strict(),
   z.object({ kind: z.literal('critter'), form_id: formIdSchema }).strict(),
-  z.object({ kind: z.literal('photo'), media_id: z.uuid() }).strict(),
+  z.object({ kind: z.literal('photo'), media_key: z.string().min(1).max(200) }).strict(),
 ]);
 export type AvatarChoice = z.infer<typeof avatarChoiceSchema>;
 
