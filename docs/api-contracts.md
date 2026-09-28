@@ -146,11 +146,12 @@ Every command also emits the generic `cmd.applied` metric; listed events are dom
 | `register_la_token` | `{activity_type, activity_id?, kind: push_to_start\|update, token}` | self | – | `la.token_registered` | A, L | 48 |
 | `end_la` | `{activity_id}` | self | – | `la.ended` | A, L | 48 |
 | `register_widget_token` | `{kind, token}` / `sync_installed_widgets {kinds[]}` | self | – | `widget.registered` | A | 49 |
-| `issue_pass` | `{given_name, avatar{kind, form_id\|media_id}, taste_answers[], home_iata}` | self | – | `pass.issued` | A, O | 22 |
-| `set_taste` | `{answers[{q_id, value}]}` | self | – | `profile.taste_changed` | A, O | 22 |
-| `set_home_airport` | `{iata}` | self | – | `profile.updated` | A, O | 22 |
+| `start_pass` (doc delta) | `{pass_id?}` → `{pass_id, number}`: reserves the pass number (`pass_number_seq`) on a draft pass; idempotent per user | self | – | – | A | 22 |
+| `issue_pass` | `{pass_id, given_name, avatar{kind: initials\|critter\|photo, form_id\|media_key}, taste_answers[], home_iata}` → `{pass_id, number, issued_at}`: issues the pass (reserved number or the next one), home stamp No. 1, taste profile, avatar, profile fields in one transaction; one pass per user however it is replayed; blocked name → `CONTENT_REJECTED` | self | – | `pass.issued` | A, O | 22 |
+| `set_taste` | `{answers[{q_id, value: left\|right\|skip}], source: quiz\|chips}` (tags re-derived on the server from the bundled quiz) | self | – | `profile.taste_changed` | A, O | 22 |
+| `set_home_airport` | `{iata}` (airport or metro group from the bundled dataset; sets home country and currency, re-inks the home stamp) | self | – | `profile.updated` | A, O | 22 |
 | `update_profile` | `{name?, username?, languages?}` | self | – (username unique) | `profile.updated` | A, O | 45 |
-| `set_avatar` | `{kind: critter\|photo, form_id?, media_id?}` | self | owned form | `profile.avatar_changed` (→ avatar render job) | A | 45 |
+| `set_avatar` | `{avatar_id, choice{kind: initials\|critter\|photo, form_id?, media_key?}}`: guide forms always owned, other forms from the collection (`FORBIDDEN` otherwise); a photo is the caller's own `avatar` upload and starts `pending` (→ `avatar.moderate`) | self | owned form | `profile.avatar_changed` | A, O | 22 (doc delta; 3n-4 screen mounts it in 45) |
 | `set_settings` | `{patch: synced settings subset}` | self | – | `settings.changed` | A, O | 45 |
 | `set_notification_prefs` | `{budget 1–10, roundup_time, quiet{from,to}, per_category{}, chattiness, voice_readout}` | self | voice_readout: Pass+ | `prefs.changed` | A, O | 49 |
 | `set_app_icon` | `{icon_id}` | self | icon unlocked (earned/free) or Pass+ | `profile.icon_changed` | A | 45 |
@@ -477,7 +478,7 @@ Auth column: **S** session bearer · **A** anonymous session allowed · **K** de
 
 | Route | Auth | Notes |
 |---|---|---|
-| `POST /v1/media/presign` | S | `{purpose: avatar\|photo\|receipt\|menu\|booking_doc\|feedback, content_type, bytes, sha256}` → `{media_key, put_url, expires_at}` (≤5 MB) |
+| `POST /v1/media/presign` | S | `{purpose: avatar\|photo\|receipt\|menu\|booking_doc\|feedback, content_type, bytes, sha256}` → `{media_key, put_url, expires_at}` (≤5 MB); `purpose: avatar` is limited to 5 an hour and 20 a day per uid + `x-cp-install-id` (`RATE_LIMITED`, anonymous included) |
 | `POST /v1/media/multipart` / `.../{key}/parts` / `.../{key}/complete` | S | >5 MB originals (parts ≥5 MiB) |
 | `POST /v1/media/read-urls` | S | `{media_keys[]}` → HMAC-signed `media.critterpass.app` URLs (membership checked when minting; TTL 15 min) |
 | media Worker `GET https://media.critterpass.app/{object_key}?v={variant}&exp={unix}&kid={key id}&sig={base64url}` | HMAC | `services/media-worker`; `sig = HMAC-SHA256(keys[kid], "{object_key}\|{variant}\|{exp}")` via `signMediaUrl`/`verifyMediaSignature` in `packages/domain`; key set `MEDIA_HMAC_KEYS` rotates by `kid`; GET/HEAD only; expired, tampered, unknown `kid` or malformed → 403, missing object → 404; `Cache-Control: private, max-age=min(exp − now, 3600)` |
@@ -488,6 +489,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 
 | Route | Auth | Source | Cache |
 |---|---|---|---|
+| `GET /v1/geo/hint` (doc delta) | A | `{country, city, point{lat,lng} (0.1°), nearest_iata[]}` from the client IP (`x-real-ip`) in DB-IP IP to City Lite (CC BY 4.0), loaded at boot from `GEOIP_CITY_MMDB`; all null without it | no-store |
 | `GET /v1/places/search?q&near&filters` | S | curated POI DB (FTS + trgm + pgvector) | 1 h |
 | `GET /v1/places/{id}?trip_id` | S | POI DB + Foursquare live check (hours) | 15 min |
 | `GET /v1/places/{id}/crowds?date` | S | `crowd_forecasts` when a weekly pattern exists, else `hourly: null` + the destination's reviewed month level (no hourly source contracted) | 24 h |

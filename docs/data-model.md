@@ -106,11 +106,11 @@ Ours:
 | `users` | status (anonymous/registered/closed/purged), display_name, username (citext unique), home_airport (IATA), home_country, home_currency, locale, tz, member_since, avatar_id, app_icon, purge_at | 1:1 `auth.user.id` (same uuid) | self | read: self or shares a crew (`app.shares_crew`) ; write: O | me, crew_people | C1 subset / C2 | acct |
 | `user_private` | phone_e164_enc, phone_hash, email_enc, passport_no_enc, sign_in_country | uk phone_hash | self | X | — | C3 | acct |
 | `user_settings` | chattiness, talk_out_loud, leave_by_through_dnd, crew_chat_mode, location_mode, email_import, price_display (home/local/both), time_format, distance_unit, app_locale, hide_lockscreen_details, hide_taste_tags, hide_collection | pk user_id-unique | self | O | me | C2 | acct |
-| `taste_profiles` | answers jsonb, tags text[], tag_sources jsonb (quiz/chips/inviter/guide), chronotype, pace, room_pref | uk user_id | self | read M-shared / write O | me, crew_people | C1 (disclosed) | acct |
+| `taste_profiles` | answers jsonb, tags text[], tag_sources jsonb (quiz/chips/inviter/guide), chronotype, pace, room_pref, visibility (crew/self, derived by trigger from `user_settings.hide_taste_tags`; doc delta) | uk user_id | self | read M-shared / write O | me, crew_people | C1 (disclosed) | acct |
 | `dietary_profiles` | diet, allergies text[], avoid text[], spice, accessibility_notes_enc, consent_at, visibility | uk user_id | self | X | — | C3 | acct |
 | `participant_dietary_flags` | trip_id, user_id, flags text[] (e.g. `no_peanuts`) | derived by system when `CONSENT(dietary_visibility)` | sys | T read | trip | C1 | life |
-| `passes` | number, issued_at, cover, mrz (derived) | uk user_id | self | read shares-crew / write S | me, crew_people | C1 | acct |
-| `avatars` | kind (initials/critter/photo), form_id, ring, media_key, moderation_status | user_id idx | self | read shares-crew; write O | me, crew_people | C1 | acct |
+| `passes` | status (draft/issued), number (`CP-0427` from `pass_number_seq`, reserved by `start_pass`), issued_at, cover; MRZ derived on read (doc delta) | uk user_id | self | read shares-crew / write S | me, crew_people | C1 | acct |
+| `avatars` | kind (initials/critter/photo), form_id, ring, media_key, moderation_status (none/pending/approved/rejected), moderation_reason, variant_keys jsonb (doc delta) | user_id idx | self | read shares-crew; write O | me, crew_people | C1 | acct |
 | `app_icon_unlocks` | icon_key, unlocked_at, source | uk (user_id, icon_key) | sys | O read | me | C2 | acct |
 | `guide_skins` | trip_id?, form_id | uk (user_id, trip_id) | self | O | me | C2 | acct |
 | `saved_items` | kind (place/plan/day), ref_id, list_name | (user_id, kind) | self | O | me | C2 | acct |
@@ -273,7 +273,7 @@ No in-app money movement (C24). Boost split = IOU `ledger_entries(source_kind='b
 | `recaps` | trip_id, status (queued/building/ready/failed), version, stats jsonb, route_legs jsonb (simplified from plan stops + ride legs; C25), receipt jsonb, cards jsonb, agent_job_id | uk (trip_id, version) | sys | T | trip | C1 | life |
 | `recap_awards` | recap_id, user_id, kind, text, opted_out | recap_id | sys; self opt-out | T | trip | C1 | life |
 | `recap_views` | recap_id, user_id, seen_at | uk | self | O | me | C2 | life |
-| `stamps` | pass_id, user_id, kind (home/issued/trip/referral), seq_no, destination_id, dates daterange, ink_colour, status (upcoming/stamped), trip_id | (user_id, seq_no) | sys | read shares-crew | me, crew_people | C1 | acct |
+| `stamps` | pass_id, user_id, kind (home/issued/trip/referral), seq_no, destination_id, dates daterange, iata, country, ink_colour, status (upcoming/stamped), stamped_at, trip_id (home stamp = No. 1; doc delta) | (user_id, seq_no) | sys | read shares-crew | me, crew_people | C1 | acct |
 | `stamp_signatures` | stamp_id, signer_id, stroke_media_key | uk (stamp_id, signer_id) | self | T | trip | C1 | acct |
 | `photos` | trip_id, uploader_id, media_key, thumb_key, taken_at, sha256, phash, width, height, quality, exif_gps_stripped bool, upload_state (pending/uploaded/failed), is_pick, faces_opt_in bool (detection on device only; no face data stored, C4) | (trip_id, taken_at) | self upload; mem read | T | trip (metadata; bytes via media-worker HMAC URLs) | C1 | trip album lifetime; uploader deletion removes |
 | `album_picks` | trip_id, photo_id, picked_by (user/guide), rank | uk (trip_id, photo_id) | mem | T | trip | C1 | life |
