@@ -162,8 +162,8 @@ export function IssuedPage({ choreography, saved = false, footer }: IssuedPagePr
         <Animated.View style={[styles.tokek, hop]}>
           <Sticker kind={tokek.kind} name={tokek.name} size={72} />
         </Animated.View>
-        <Text variant="h1" accessibilityRole="header">
-          {t({ id: 'onboarding.issued.title', message: 'Your pass is ready' })}
+        <Text variant="h1" designSize={48} accessibilityRole="header">
+          {t({ id: 'onboarding.issued.title', message: 'Your pass\nis ready' })}
         </Text>
         <Text variant="body" color={theme.semantic.text.secondary}>
           {t({

@@ -977,7 +977,7 @@ msgstr "We’ll ask"
 
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.returningTitle"
-msgstr "Welcome back"
+msgstr "Welcome\nback"
 
 #: ../../apps/mobile/src/features/onboarding/invited/manifest-copy.ts
 msgid "onboarding.invite.manifest.welcome"
@@ -1045,7 +1045,7 @@ msgstr "Your new pass"
 
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.title"
-msgstr "Your number"
+msgstr "Your\nnumber"
 
 #. placeholder {0}: printedName || notYet
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx
@@ -1054,7 +1054,7 @@ msgstr "Your pass {number}: {0}, home {homeValue}, issued {issuedValue}, travel 
 
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 msgid "onboarding.issued.title"
-msgstr "Your pass is ready"
+msgstr "Your pass\nis ready"
 
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.tagline"

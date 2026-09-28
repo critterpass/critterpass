@@ -115,7 +115,7 @@ export function PermissionsPrimer({
           </Text>
         </View>
         <Text variant="h1" accessibilityRole="header">
-          {t({ id: 'permissions.primer.title', message: 'Three things, and why' })}
+          {t({ id: 'permissions.primer.title', message: 'Three things,\nand why' })}
         </Text>
         {ONBOARDING_PRIMER_KINDS.map((kind) => (
           <PrimerToggleCard key={kind} kind={kind} />

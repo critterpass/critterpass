@@ -116,10 +116,10 @@ export function PhoneScreen() {
         <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
           <View style={styles.head}>
             <View style={styles.headText}>
-              <Text variant="h1" accessibilityRole="header">
+              <Text variant="h1" designSize={52} accessibilityRole="header">
                 {returning
-                  ? t({ id: 'onboarding.phone.returningTitle', message: 'Welcome back' })
-                  : t({ id: 'onboarding.phone.title', message: 'Your number' })}
+                  ? t({ id: 'onboarding.phone.returningTitle', message: 'Welcome\nback' })
+                  : t({ id: 'onboarding.phone.title', message: 'Your\nnumber' })}
               </Text>
               <Text variant="body" color={theme.semantic.text.secondary}>
                 {returning
