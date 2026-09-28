@@ -1,0 +1,43 @@
+appId: app.critterpass.dev
+---
+# The shortest pass flow from the splash to Home (iOS primer; Android taps "Allow" instead):
+# a name, a guide avatar, six this-or-thats, Singapore as home, no save, no permissions yet.
+- runFlow: ../../onboarding/subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-guides-ajo'
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+- repeat:
+    times: 6
+    commands:
+      - tapOn:
+          id: 'taste-card-right'
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'taste-done'
+- tapOn:
+    id: 'home-search'
+- inputText: 'Singapore'
+- tapOn:
+    id: 'home-row-SIN'
+- hideKeyboard
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-issued-save'
+- tapOn:
+    id: 'save-not-now'
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer-later'
+    timeout: 10000
+- tapOn:
+    id: 'permissions-primer-later'

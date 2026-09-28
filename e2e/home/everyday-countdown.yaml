@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# 3b-2: the crew's next trip counts down live (dd D hh:mm:ss in tabular figures) with PLAN n%, the
+# bell carries the needs-you count and the tip strip speaks for the place's guide. Offline, Home
+# renders the same from local rows and keeps counting.
+#
+# Needs before it can pass: an onboarded account whose Home crew has a confirmed trip with dates
+# and a destination, the account's countdown target set (`countdown.recompute`), one open needs-you
+# inbox item and one active tip. The runner toggles the network around the marked steps.
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-everyday'
+    timeout: 30000
+- assertVisible:
+    id: 'home-countdown'
+- assertVisible:
+    id: 'home-plan-progress'
+- assertVisible:
+    id: 'home-header-inbox-badge'
+- assertVisible:
+    id: 'home-tip'
+- waitForAnimationToEnd
+- takeScreenshot: en-3b-2-home
+# Runner: network off here.
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 30000
+- assertNotVisible:
+    id: 'home-loading'
+- takeScreenshot: en-3b-2-home-offline
+# Runner: network back on here.

@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# 3b-5: with nothing needing the user, Tokek sleeps where the cards were; a tap opens one eye (the
+# toast), and Tokek goes back to sleep.
+#
+# Needs before it can pass: an onboarded account with no open needs-you items.
+- launchApp
+- openLink: critterpass-dev://inbox
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-caught-up'
+    timeout: 15000
+- assertVisible: 'NEEDS YOU · 0'
+- tapOn:
+    id: 'inbox-tokek'
+- assertVisible: 'Nothing needs you yet. Back to sleep.'
+- takeScreenshot: en-3b-5-all-caught-up

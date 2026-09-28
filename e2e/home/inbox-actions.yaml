@@ -1,0 +1,31 @@
+appId: app.critterpass.dev
+---
+# 3b-4: needs-you cards on top, answered inline: the card pops, slides off to the right and its
+# row collapses, the NEEDS YOU count ticks down, and after the last one Tokek curls up (3b-5).
+# UNDO on a guide's change settles it. MARK ALL READ keeps the cards (read is not resolved).
+#
+# Needs before it can pass: an onboarded account with exactly one open needs-you item (a nudge,
+# answered with "Take a look"), and one guide change still inside its undo window in EARLIER.
+- launchApp
+- openLink: critterpass-dev://inbox
+- extendedWaitUntil:
+    visible:
+      text: 'NEEDS YOU · 1'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-3b-4-inbox
+- tapOn: 'MARK ALL READ'
+- assertVisible: 'Marked read. The 1 on top still need you.'
+- tapOn: 'Take a look'
+- extendedWaitUntil:
+    visible:
+      text: 'NEEDS YOU · 0'
+    timeout: 5000
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-caught-up'
+    timeout: 5000
+- waitForAnimationToEnd
+- takeScreenshot: en-3b-5-all-caught-up
+- tapOn: 'UNDO'
+- assertVisible: 'Undone. The plan is back how it was.'

@@ -1,0 +1,58 @@
+appId: app.critterpass.dev
+---
+# From Home right after onboarding, one screenshot per reachable Home state with ${PREFIX} in the
+# name: first run (3b-1), the first-ever empty inbox (3b-5), Tokek opening one eye, and the crew's
+# Home with nothing planned yet (after starting a crew).
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3b-1-first-run
+- tapOn:
+    id: 'home-join-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-screen'
+    timeout: 10000
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 10000
+- openLink: critterpass-dev://inbox
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-caught-up'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3b-5-caught-up-first-ever
+- tapOn:
+    id: 'inbox-tokek'
+- takeScreenshot: ${PREFIX}-3b-5-tokek-awake
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 10000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'The Bali Six'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+- openLink: critterpass-dev://
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-home-no-trip
