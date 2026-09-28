@@ -9,6 +9,7 @@ import { InlineAction } from './InlineAction';
 import type { PillTone } from './PillButton';
 import { PillButton } from './PillButton';
 import { SplitCtaRow } from './SplitCtaRow';
+import { TextLink } from './TextLink';
 
 const noop = () => undefined;
 const TONES: readonly PillTone[] = ['yellow', 'green', 'pink', 'orange', 'ink', 'cream'];
@@ -79,4 +80,11 @@ registerFixture('IconButton', 'surfaces and sizes', () => (
     <IconButton label="Share" icon="plane" surface="onPhoto" size={56} onPress={noop} />
     <IconButton label="Wallet" icon="wallet" disabled onPress={noop} />
   </Row>
+));
+registerFixture('TextLink', 'under a pill', () => (
+  <Stack gap="8">
+    <PillButton label="Open your pass" onPress={noop} />
+    <TextLink label="I have an invite code" onPress={noop} />
+    <TextLink label="Ask me later" onPress={noop} disabled />
+  </Stack>
 ));

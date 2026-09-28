@@ -19,7 +19,7 @@ import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback } from '@/motion/feedback';
-import { InlineAction } from '@/ui/buttons/InlineAction';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -144,7 +144,7 @@ export function TasteQuiz({ answers, onAnswersChange, onDone, mode = 'page' }: T
           onPress={onDone}
           testID="taste-done"
         />
-        <InlineAction
+        <TextLink
           label={t({ id: 'onboarding.taste.retake', message: 'Start over' })}
           onPress={() => onAnswersChange([])}
           testID="taste-retake"
@@ -187,13 +187,13 @@ export function TasteQuiz({ answers, onAnswersChange, onDone, mode = 'page' }: T
       </Text>
       {tagRow}
       <View style={styles.actions}>
-        <InlineAction
+        <TextLink
           label={t({ id: 'onboarding.taste.undo', message: 'Undo' })}
           onPress={undo}
           disabled={answeredCount === 0}
           testID="taste-undo"
         />
-        <InlineAction
+        <TextLink
           label={t({ id: 'onboarding.taste.skip', message: 'Skip this one' })}
           onPress={skip}
           testID="taste-skip"

@@ -28,8 +28,8 @@ import { useMotionMode } from '@/motion/motion-mode';
 import { sheenCycle } from '@/motion/patterns/sheen';
 import { useLoop } from '@/motion/use-loop';
 import { GUIDE_STICKERS, type GuideAvatarId } from '@/ui/avatar/guides';
-import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
@@ -261,12 +261,12 @@ export function SplashScreen() {
           sheen
           testID="onboarding-open"
         />
-        <InlineAction
+        <TextLink
           label={t({ id: 'onboarding.splash.invite', message: 'I have an invite code' })}
           onPress={() => router.push(CODE_ENTRY_ROUTE)}
           testID="onboarding-invite-code"
         />
-        <InlineAction
+        <TextLink
           label={t({ id: 'onboarding.splash.signIn', message: 'I already have a pass · Sign in' })}
           onPress={() => router.push(RETURNING_SIGN_IN)}
           testID="onboarding-sign-in"

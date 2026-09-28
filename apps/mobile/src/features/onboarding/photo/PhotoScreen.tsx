@@ -55,7 +55,7 @@ const useStyles = makeStyles((th) => ({
   },
   number: { position: 'absolute', top: 4, start: 6 },
   flash: { ...{ position: 'absolute', top: 0, bottom: 0, start: 0, end: 0 } },
-  realRow: { alignItems: 'center' },
+  realRow: { flexDirection: 'row', justifyContent: 'center' },
 }));
 
 /** ±2–4° alternating, so consecutive picks never land at the same angle. */

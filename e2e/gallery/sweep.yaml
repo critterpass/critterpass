@@ -1377,6 +1377,15 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
+      id: 'gallery-detail-TextLink'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-en-TextLink
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
       id: 'gallery-detail-Texture'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -2887,6 +2896,15 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-TextField
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-TextLink'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-vi-TextLink
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:
