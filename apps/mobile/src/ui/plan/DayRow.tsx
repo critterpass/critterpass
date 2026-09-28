@@ -2,7 +2,8 @@ import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import type { AccessibilityActionEvent } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { GestureDetector } from 'react-native-gesture-handler';
+import type { GestureType } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
 import { usePress } from '@/motion/gestures/press';
@@ -42,9 +43,9 @@ const useStyles = makeStyles((th) => ({
   row: {
     backgroundColor: th.semantic.bg.raised,
     borderRadius: th.radius.lg,
-    padding: th.space['12'],
     minHeight: MIN_TOUCH_TARGET,
   },
+  pressArea: { flexGrow: 1, padding: th.space['12'] },
   tile: {
     width: th.space['32'] + th.space['12'],
     paddingVertical: th.space['6'],
@@ -52,6 +53,23 @@ const useStyles = makeStyles((th) => ({
     alignItems: 'center',
   },
 }));
+
+/**
+ * One gesture per native view: on iOS every handler on one view spends a shared attach-retry
+ * budget, so a row mounted during a screen push could lose the second gesture of a composed pair.
+ * The row carries the reorder drag and the full-size press area inside it carries the tap. Neither
+ * waits for the other, so whichever activates first cancels the other, as `Gesture.Race` does on a
+ * single view.
+ */
+export function dayRowGestures(
+  drag: GestureType,
+  press: GestureType,
+): { readonly row: GestureType; readonly pressArea: GestureType } {
+  return {
+    row: drag.withTestId('day-row-drag'),
+    pressArea: press.withTestId('day-row-press'),
+  };
+}
 
 /** One day of a trip plan: number tile, title, summary, status; drag or move actions to reorder. */
 export function DayRow({
@@ -96,8 +114,9 @@ export function DayRow({
     if (event.nativeEvent.actionName === 'activate') press.onAccessibilityAction(event);
     else drag.onAccessibilityAction(event);
   };
+  const gestures = dayRowGestures(drag.gesture, press.gesture);
   return (
-    <GestureDetector gesture={Gesture.Race(drag.gesture, press.gesture)}>
+    <GestureDetector gesture={gestures.row}>
       <Animated.View
         testID={testID}
         accessible
@@ -107,23 +126,29 @@ export function DayRow({
         onAccessibilityAction={onAction}
         style={[styles.row, press.animatedStyle, drag.animatedStyle]}
       >
-        <Row gap="12" align="center">
-          <View style={[styles.tile, { backgroundColor: color ?? theme.semantic.action.primary }]}>
-            <Text variant="h3" color={theme.semantic.text.onAccent}>
-              {String(dayNumber)}
-            </Text>
-            <Text variant="label" color={theme.semantic.text.onAccent}>
-              {weekday}
-            </Text>
+        <GestureDetector gesture={gestures.pressArea}>
+          <View style={styles.pressArea}>
+            <Row gap="12" align="center">
+              <View
+                style={[styles.tile, { backgroundColor: color ?? theme.semantic.action.primary }]}
+              >
+                <Text variant="h3" color={theme.semantic.text.onAccent}>
+                  {String(dayNumber)}
+                </Text>
+                <Text variant="label" color={theme.semantic.text.onAccent}>
+                  {weekday}
+                </Text>
+              </View>
+              <Stack gap="2" flex={1}>
+                <Text variant="title" numberOfLines={2}>
+                  {title}
+                </Text>
+                {summary ? <SecondaryText numberOfLines={2}>{summary}</SecondaryText> : null}
+              </Stack>
+              {status}
+            </Row>
           </View>
-          <Stack gap="2" flex={1}>
-            <Text variant="title" numberOfLines={2}>
-              {title}
-            </Text>
-            {summary ? <SecondaryText numberOfLines={2}>{summary}</SecondaryText> : null}
-          </Stack>
-          {status}
-        </Row>
+        </GestureDetector>
       </Animated.View>
     </GestureDetector>
   );

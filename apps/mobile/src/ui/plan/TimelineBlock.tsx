@@ -1,6 +1,8 @@
 import { t } from '@lingui/core/macro';
 import type { AccessibilityActionEvent } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { View } from 'react-native';
+import { GestureDetector } from 'react-native-gesture-handler';
+import type { GestureType } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
 import { format } from '@cp/i18n';
@@ -35,9 +37,9 @@ const useStyles = makeStyles((th) => ({
   block: {
     position: 'absolute',
     borderRadius: th.radius.md,
-    padding: th.space['10'],
     overflow: 'hidden',
   },
+  pressArea: { flex: 1, padding: th.space['10'] },
 }));
 
 export function laneStyle(lane: TimelineBlock['lane']) {
@@ -48,6 +50,23 @@ export function laneStyle(lane: TimelineBlock['lane']) {
 
 export const clockOf = (locale: string, minutes: number) =>
   format.time(locale, new Date(2000, 0, 1, Math.floor(minutes / 60), minutes % 60));
+
+/**
+ * One gesture per native view: on iOS every handler on one view spends a shared attach-retry
+ * budget, so a block mounted during a screen push could lose the second gesture of a composed
+ * pair. The block carries the drag and the full-size press area inside it carries the tap. Neither
+ * waits for the other, so whichever activates first cancels the other, as `Gesture.Race` does on a
+ * single view.
+ */
+export function movableBlockGestures(
+  drag: GestureType,
+  press: GestureType,
+): { readonly block: GestureType; readonly pressArea: GestureType } {
+  return {
+    block: drag.withTestId('timeline-block-drag'),
+    pressArea: press.withTestId('timeline-block-press'),
+  };
+}
 
 /** A draggable, steppable block (15-minute snaps); tap selects it for the visible stepper. */
 export function MovableBlock({
@@ -97,14 +116,11 @@ export function MovableBlock({
     if (event.nativeEvent.actionName === 'activate') press.onAccessibilityAction(event);
     else drag.onAccessibilityAction(event);
   };
+  const gestures = slop
+    ? movableBlockGestures(drag.gesture.hitSlop(slop), press.gesture.hitSlop(slop))
+    : movableBlockGestures(drag.gesture, press.gesture);
   return (
-    <GestureDetector
-      gesture={
-        slop
-          ? Gesture.Race(drag.gesture.hitSlop(slop), press.gesture.hitSlop(slop))
-          : Gesture.Race(drag.gesture, press.gesture)
-      }
-    >
+    <GestureDetector gesture={gestures.block}>
       <Animated.View
         hitSlop={slop}
         accessible
@@ -125,14 +141,18 @@ export function MovableBlock({
           press.animatedStyle,
         ]}
       >
-        <Text variant="title" color={theme.semantic.text.onAccent} numberOfLines={1}>
-          {block.title}
-        </Text>
-        {block.detail ? (
-          <Text variant="bodySm" color={theme.semantic.text.onAccent} numberOfLines={1}>
-            {block.detail}
-          </Text>
-        ) : null}
+        <GestureDetector gesture={gestures.pressArea}>
+          <View hitSlop={slop} style={styles.pressArea}>
+            <Text variant="title" color={theme.semantic.text.onAccent} numberOfLines={1}>
+              {block.title}
+            </Text>
+            {block.detail ? (
+              <Text variant="bodySm" color={theme.semantic.text.onAccent} numberOfLines={1}>
+                {block.detail}
+              </Text>
+            ) : null}
+          </View>
+        </GestureDetector>
       </Animated.View>
     </GestureDetector>
   );
