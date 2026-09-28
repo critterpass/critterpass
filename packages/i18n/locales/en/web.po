@@ -39,6 +39,14 @@ msgstr "{name} wants you on CritterPass, the group trip planner. Get the app wit
 msgid "web.referral.theirLink"
 msgstr "{name}'s link"
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.pageTitle"
+msgstr "{title} · CritterPass"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.versionPageTitle"
+msgstr "{title} v{version} · CritterPass"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.copyright"
 msgstr "© {year} CritterPass"
@@ -251,6 +259,10 @@ msgstr "CritterPass is a group trip planner for iPhone and Android. Swipe, vote,
 msgid "web.tips.rssTitle"
 msgstr "CritterPass tips"
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.current"
+msgstr "Current"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.deleteAccount"
 msgstr "Delete your account"
@@ -259,9 +271,17 @@ msgstr "Delete your account"
 msgid "web.home.mockMoneyDev"
 msgstr "Dev owes you"
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.docsLabel"
+msgstr "Documents"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.appStoreBadge"
 msgstr "Download on the App Store"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.counselPending"
+msgstr "Draft copy. Needs legal review before it goes live."
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.draft"
@@ -318,6 +338,10 @@ msgstr "Everyone swipes through the shortlist. The tally fills live and the winn
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoteBody"
 msgstr "Everyone swipes, everyone votes, one place wins."
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.indexLede"
+msgstr "Everything CritterPass promises you, in plain words. Each document keeps every version it has had."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.expiresIn"
@@ -443,6 +467,10 @@ msgstr "idk u pick"
 msgid "web.invite.codeLabel"
 msgstr "Invite code {spelled}"
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.dbipCredit"
+msgstr "IP geolocation by DB-IP"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteIstanbul"
 msgstr "Istanbul"
@@ -507,9 +535,17 @@ msgstr "Lantern workshop × 4"
 msgid "web.home.mockGuideAnswer"
 msgstr "Lantern workshop at 2, it's indoors. Then cao lầu at Bà Bé, 6 min away."
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.indexTitle"
+msgstr "Legal"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerLegal"
 msgstr "Legal"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.dbipLicence"
+msgstr "licensed under CC BY 4.0"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocals"
@@ -551,6 +587,10 @@ msgstr "Money"
 msgid "web.home.mockMoneyEyebrow"
 msgstr "Money · Hội An"
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.more"
+msgstr "More"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatBody"
 msgstr "Most of them end there too. CritterPass adds a guide to the crew who lives at the destination. It drafts the plan, pitches it to everyone, and keeps the day moving once you land."
@@ -590,6 +630,10 @@ msgstr "Old Town walk"
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.onTheTrip"
 msgstr "On the trip"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.onThisPage"
+msgstr "On this page"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.desktopTitle"
@@ -654,6 +698,14 @@ msgstr "Published {date}"
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.qrLabel"
 msgstr "QR code for this link"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.questions"
+msgstr "Questions about any of this? Write to {email} and a human will answer."
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.readCurrent"
+msgstr "Read the current version"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideLundi"
@@ -767,6 +819,18 @@ msgstr "The Bali Six"
 msgid "web.tips.eyebrow"
 msgstr "The CritterPass journal"
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.indexEyebrow"
+msgstr "The fine print"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.indexPageTitle"
+msgstr "The fine print · CritterPass"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.eyebrow"
+msgstr "The fine print · updated {date}"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Body"
 msgstr "The guide drafts the plan and answers anything, by voice or text. Rain on Thursday? It proposes a swap."
@@ -786,6 +850,10 @@ msgstr "The pass"
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.thePass"
 msgstr "The pass"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.shortVersion"
+msgstr "The short version"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how2Title"
@@ -827,6 +895,14 @@ msgstr "Tips from the locals"
 msgid "web.tips.pageTitle"
 msgstr "Tips from the locals · CritterPass"
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.tldrTag"
+msgstr "TL;DR from Tokek"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.dbip"
+msgstr "To suggest airports near you, we look up the approximate city of your network address in DB-IP's free IP-to-city database."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideName"
 msgstr "Tokek"
@@ -850,6 +926,18 @@ msgstr "Type the six-character code a friend sent you. We find the crew, then th
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocked"
 msgstr "Undiscovered local number {num}, found by being there"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.updated"
+msgstr "Updated {date}: {summary}"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.historyLine"
+msgstr "Version {version} · effective {date}"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.history"
+msgstr "Version history"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsFlightMeta"
@@ -894,6 +982,10 @@ msgstr "You can't buy them. You have to go."
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyOwed"
 msgstr "You're owed"
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.olderVersion"
+msgstr "You're reading version {version}, effective {date}. The current version is {current}."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinEyebrow"

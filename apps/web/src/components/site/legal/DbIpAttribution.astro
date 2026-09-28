@@ -1,0 +1,15 @@
+---
+/** The DB-IP Lite credit its CC BY 4.0 licence requires, with links to the source and the licence. */
+import { DBIP_ATTRIBUTION } from '@cp/content/legal';
+
+import { legalCopy as copy } from '../copy/legal';
+import { siteTranslator } from '../i18n';
+
+const t = await siteTranslator();
+---
+
+<p class="legal-dbip" data-testid="dbip-attribution">
+  {t(copy.dbip)}
+  <a href={DBIP_ATTRIBUTION.href} rel="noopener">{t(copy.dbipCredit)}</a>,
+  <a href={DBIP_ATTRIBUTION.licenceHref} rel="noopener license">{t(copy.dbipLicence)}</a>.
+</p>

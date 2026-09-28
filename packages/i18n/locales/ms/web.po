@@ -39,6 +39,14 @@ msgstr ""
 msgid "web.referral.theirLink"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.versionPageTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.copyright"
 msgstr ""
@@ -251,6 +259,10 @@ msgstr ""
 msgid "web.tips.rssTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.current"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.deleteAccount"
 msgstr ""
@@ -259,8 +271,16 @@ msgstr ""
 msgid "web.home.mockMoneyDev"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.docsLabel"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.appStoreBadge"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.counselPending"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
@@ -317,6 +337,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoteBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.indexLede"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -443,6 +467,10 @@ msgstr ""
 msgid "web.invite.codeLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.dbipCredit"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteIstanbul"
 msgstr ""
@@ -507,8 +535,16 @@ msgstr ""
 msgid "web.home.mockGuideAnswer"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.indexTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerLegal"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.dbipLicence"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -551,6 +587,10 @@ msgstr ""
 msgid "web.home.mockMoneyEyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.more"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatBody"
 msgstr ""
@@ -589,6 +629,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.onTheTrip"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.onThisPage"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -653,6 +697,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.qrLabel"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.questions"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.readCurrent"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -767,6 +819,18 @@ msgstr ""
 msgid "web.tips.eyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.indexEyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.indexPageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.eyebrow"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Body"
 msgstr ""
@@ -785,6 +849,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.thePass"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.shortVersion"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -827,6 +895,14 @@ msgstr ""
 msgid "web.tips.pageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.tldrTag"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.dbip"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideName"
 msgstr ""
@@ -849,6 +925,18 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocked"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.updated"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.historyLine"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.history"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -893,6 +981,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyOwed"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/legal.ts
+msgid "web.legal.olderVersion"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts

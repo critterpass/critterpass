@@ -1,0 +1,116 @@
+---
+/**
+ * Site-Legal: one version of one document. Hero with the document tabs, a table of contents from
+ * the document's own headings, the short version, the numbered sections, the contact box and the
+ * version history. Older versions say so and link to the current one.
+ */
+import './legal.css';
+
+import type { MarkdownHeading } from 'astro';
+import { render } from 'astro:content';
+
+import Site from '../../../layouts/Site.astro';
+import { legalCopy as copy } from '../copy/legal';
+import { shellCopy } from '../copy/shell';
+import { siteTranslator } from '../i18n';
+import { CONTACT_EMAIL } from '../site-config';
+import Sticker from '../Sticker.astro';
+import DbIpAttribution from './DbIpAttribution.astro';
+import { longDate, monthYear, type LegalPageData } from './legal-data';
+
+export interface Props {
+  readonly page: LegalPageData;
+}
+
+const { page } = Astro.props;
+const t = await siteTranslator();
+const { Content, headings } = await render(page.entry);
+const sections = (headings as readonly MarkdownHeading[]).filter((heading) => heading.depth === 2);
+const data = page.entry.data as { readonly tldr: readonly string[] };
+const isCurrent = page.version.version === page.current.version;
+const tabs = [
+  { href: '/legal/privacy', label: t(shellCopy.privacy), current: page.doc === 'privacy' },
+  { href: '/legal/terms', label: t(shellCopy.terms), current: page.doc === 'terms' },
+  { href: '/legal', label: t(copy.more), current: page.doc !== 'privacy' && page.doc !== 'terms' },
+];
+const showUpdate =
+  isCurrent && page.current.material && page.versions.length > 1;
+const [emailBefore, emailAfter] = t(copy.questions, { email: '\u0000' }).split('\u0000');
+---
+
+<Site
+  title={isCurrent
+    ? t(copy.pageTitle, { title: page.title })
+    : t(copy.versionPageTitle, { title: page.title, version: page.version.version })}
+  description={`${page.title}: ${data.tldr[0] ?? ''}`.trim()}
+  canonicalPath={isCurrent ? `/legal/${page.doc}` : `/legal/${page.doc}/${page.version.version}`}
+  noindex={!isCurrent}
+>
+  <section class="legal-hero site-halftone--light">
+    <div class="site-wrap legal-hero__inner">
+      <div>
+        <p class="site-eyebrow legal-hero__eyebrow">{t(copy.eyebrow, { date: monthYear(page.version.effective_at) })}</p>
+        <h1 class="site-display legal-hero__title">{page.title}</h1>
+      </div>
+      <Sticker kind="gecko" size={120} pose="point" class="legal-hero__critter" />
+    </div>
+    <nav class="site-wrap legal-tabs" aria-label={t(copy.docsLabel)}>
+      {tabs.map((tab) => <a href={tab.href} class="legal-tabs__tab" aria-current={tab.current ? 'page' : undefined}>{tab.label}</a>)}
+    </nav>
+  </section>
+
+  <div class="site-wrap legal-layout">
+    <aside class="legal-aside">
+      <p class="site-eyebrow legal-aside__title">{t(copy.onThisPage)}</p>
+      <ol class="legal-toc">
+        {sections.map((heading, index) => (
+          <li><a href={`#${heading.slug}`}><span class="site-mono">{String(index + 1).padStart(2, '0')}</span>{heading.text}</a></li>
+        ))}
+      </ol>
+      {page.version.counsel_review === 'pending' && <p class="legal-draft" data-testid="counsel-pending">{t(copy.counselPending)}</p>}
+    </aside>
+
+    <article class="legal-article">
+      {
+        !isCurrent && (
+          <p class="legal-note" data-testid="older-version">
+            {t(copy.olderVersion, { version: page.version.version, date: longDate(page.version.effective_at), current: page.current.version })}{' '}
+            <a href={`/legal/${page.doc}`}>{t(copy.readCurrent)}</a>
+          </p>
+        )
+      }
+      {showUpdate && <p class="legal-note">{t(copy.updated, { date: longDate(page.current.effective_at), summary: page.current.summary_of_changes })}</p>}
+      {
+        data.tldr.length > 0 && (
+          <section class="legal-tldr" aria-labelledby="legal-tldr-title">
+            <span class="legal-tldr__tag">{t(copy.tldrTag)}</span>
+            <h2 id="legal-tldr-title" class="site-display legal-tldr__title">{t(copy.shortVersion)}</h2>
+            <ul>
+              {data.tldr.map((line) => <li>{line}</li>)}
+            </ul>
+          </section>
+        )
+      }
+      <div class="legal-prose">
+        <Content components={{ DbIpAttribution }} />
+      </div>
+      <p class="legal-contact">
+        {emailBefore}<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>{emailAfter}
+      </p>
+      <section class="legal-history" aria-labelledby="legal-history-title">
+        <h2 id="legal-history-title" class="site-display legal-history__title">{t(copy.history)}</h2>
+        <ol>
+          {page.versions.map((version) => (
+            <li>
+              <a href={`/legal/${page.doc}/${version.version}`} aria-current={version.version === page.version.version ? 'page' : undefined}>
+                {t(copy.historyLine, { version: version.version, date: longDate(version.effective_at) })}
+              </a>
+              {version.version === page.current.version && <span class="legal-history__current">{t(copy.current)}</span>}
+              <p>{version.summary_of_changes}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </article>
+  </div>
+</Site>
