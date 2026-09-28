@@ -16,11 +16,21 @@ msgstr "“{preview}” to the crew chat"
 msgid "chat.reactions.count"
 msgstr "{0, plural, one {# person} other {# people}}"
 
+#. placeholder {0}: item.files.length
+#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
+msgid "chat.upload.photos"
+msgstr "{0, plural, one {Photo} other {# photos}}"
+
 #. placeholder {0}: group.emoji
 #. placeholder {1}: group.count
 #: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
 msgid "chat.reactions.chip"
 msgstr "{0} {1}"
+
+#. placeholder {0}: Math.round(item.progress * 100)
+#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
+msgid "chat.upload.progress"
+msgstr "{0}% uploaded"
 
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.people"
@@ -29,6 +39,10 @@ msgstr "{count, plural, one {# person} other {# people}}"
 #: ../../apps/mobile/src/features/crew/chat/components/unread-badge.tsx
 msgid "chat.unread.label"
 msgstr "{count, plural, one {# unread message} other {# unread messages}}"
+
+#: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
+msgid "chat.photo.many"
+msgstr "{count} photos"
 
 #: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
 msgid "chat.typing.two"
@@ -66,6 +80,18 @@ msgstr "{waiting, plural, one {# message sends when you're back} other {# messag
 msgid "chat.message.spoken"
 msgstr "{who}, {time}: {text}"
 
+#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
+msgid "chat.voice.rate15"
+msgstr "1.5×"
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
+msgid "chat.voice.rate1"
+msgstr "1×"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.title"
+msgstr "Add to the chat"
+
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.alsoMute"
 msgstr "Also mute {senderName}"
@@ -77,6 +103,14 @@ msgstr "Back"
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.harassment"
 msgstr "Bullying or harassment"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.camera"
+msgstr "Camera"
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
+msgid "chat.voice.cancel"
+msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.cancelEdit"
@@ -98,12 +132,13 @@ msgstr "Copy text"
 msgid "chat.header.fallbackTitle"
 msgstr "Crew chat"
 
-#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
-msgid "chat.delete.confirm"
+#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
+msgid "chat.status.delete"
 msgstr "Delete"
 
-#: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
-msgid "chat.status.delete"
+#: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
+msgid "chat.delete.confirm"
 msgstr "Delete"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
@@ -121,6 +156,10 @@ msgstr "Deleting a message"
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.status.failed"
 msgstr "Didn’t send"
+
+#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
+msgid "chat.upload.failed"
+msgstr "Didn’t upload"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
 msgid "chat.quote.missing"
@@ -233,17 +272,53 @@ msgstr "Only http and https links can be sent."
 msgid "chat.card.unknown.action"
 msgstr "Open in app update"
 
+#: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
+msgid "chat.photo.open"
+msgstr "Open photo"
+
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.line"
 msgstr "Our team reviews it. The sender is not told who reported it."
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
+msgid "chat.voice.pause"
+msgstr "Pause voice note"
+
+#: ../../apps/mobile/src/features/crew/chat/media/media-viewer.tsx
+msgid "chat.photo.full"
+msgstr "Photo"
+
+#: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
+msgid "chat.photo.one"
+msgstr "Photo"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
 msgid "chat.quote.photo"
 msgstr "Photo"
 
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.photosOff"
+msgstr "Photo access is off"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.library"
+msgstr "Photo library"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.useLibrary"
+msgstr "Pick from the library"
+
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.line"
 msgstr "Plans, photos and votes all land here. Start with a hello."
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
+msgid "chat.voice.play"
+msgstr "Play voice note"
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
+msgid "chat.voice.speed"
+msgstr "Playback speed {rate}×"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.impersonation"
@@ -260,6 +335,10 @@ msgstr "Reaction {emoji}"
 #: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
 msgid "chat.reactions.title"
 msgstr "Reactions"
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
+msgid "chat.voice.releaseToSend"
+msgstr "Release to send"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
@@ -279,6 +358,7 @@ msgid "chat.queued.report"
 msgstr "Report of a message"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
+#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.status.retry"
 msgstr "Retry"
 
@@ -289,6 +369,10 @@ msgstr "Say hi"
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.title"
 msgstr "Say hi to the crew"
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
+msgid "chat.voice.send"
+msgstr "Send"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.send"
@@ -309,6 +393,10 @@ msgstr "Sexual content"
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.personalInfo"
 msgstr "Sharing private information"
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
+msgid "chat.voice.slideToCancel"
+msgstr "Slide to cancel"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
 #: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
@@ -331,9 +419,21 @@ msgstr "Spam"
 msgid "chat.loading.slow"
 msgstr "Still syncing the chat…"
 
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.useCamera"
+msgstr "Take a photo instead"
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-overlays.tsx
 msgid "chat.report.sent"
 msgstr "Thanks. Our team will take a look."
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.cameraOff"
+msgstr "The camera is off"
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
+msgid "chat.voice.deniedTitle"
+msgstr "The microphone is off"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
 msgid "chat.card.unknown.title"
@@ -343,9 +443,21 @@ msgstr "This message needs a newer CritterPass"
 msgid "chat.day.today"
 msgstr "Today"
 
+#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
+msgid "chat.voice.deniedBody"
+msgstr "Turn it on in Settings to send voice notes."
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.deniedBody"
+msgstr "Turn it on in Settings to share photos with the crew."
+
 #: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
 msgid "chat.react.anyEmoji"
 msgstr "Type any emoji"
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
+msgid "chat.voice.typeInstead"
+msgstr "Type instead"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.unmute"
@@ -355,13 +467,33 @@ msgstr "Unmuting a crewmate"
 msgid "chat.card.unknown.line"
 msgstr "Update the app to see it here."
 
+#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
+msgid "chat.upload.uploading"
+msgstr "Uploading"
+
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.violence"
 msgstr "Violence or threats"
 
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.voice"
+msgstr "Voice note"
+
+#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
+msgid "chat.upload.voice"
+msgstr "Voice note"
+
 #: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
 msgid "chat.quote.voice"
 msgstr "Voice note"
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
+msgid "chat.voice.label"
+msgstr "Voice note, {length}"
+
+#: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
+msgid "chat.upload.waiting"
+msgstr "Waiting for signal"
 
 #: ../../apps/mobile/src/features/crew/chat/components/day-separator.tsx
 msgid "chat.day.yesterday"

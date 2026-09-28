@@ -20,6 +20,8 @@ import { useMyUid } from '../data/use-my-uid';
 import { useMessageActions } from '../data/use-message-actions';
 import { useReactions } from '../data/use-reactions';
 import { useSendMessage } from '../data/use-send-message';
+import '../media/register';
+import { useMediaControls } from '../media/use-media-controls';
 import { firstName, useChatTyping } from '../data/use-typing';
 import { useMarkRead } from '../data/use-unread-count';
 import { chatComposerHint } from '../slots';
@@ -58,6 +60,7 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
   const { send, retry, discard } = useSendMessage(crewId);
   const markSeen = useMarkRead(crewId, info.lastReadSeq);
   const sync = useSyncStatus();
+  const mediaControls = useMediaControls(crewId, sync.phase !== 'offline');
   const composer = useRef<ChatComposerHandle>(null);
   const reactions = useReactions(crewId, me);
   const { edit } = useMessageActions(crewId);
@@ -183,7 +186,12 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
               rows={rows}
               today={today}
               renderMessage={renderMessage}
-              footer={<TypingRow names={typing.names} />}
+              footer={
+                <>
+                  {mediaControls.uploads}
+                  <TypingRow names={typing.names} />
+                </>
+              }
               onLoadOlder={timeline.loadOlder}
               onSeenLatest={markSeen}
             />
@@ -194,6 +202,7 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
         ) : (
           <View style={{ backgroundColor: theme.semantic.bg.base }}>
             {Hint === null ? null : createElement(Hint, { crewId })}
+            {mediaControls.bar}
             <ChatComposer
               ref={composer}
               candidates={candidates}
@@ -203,6 +212,7 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
                 setReplyTo(null);
               }}
               onTyping={typing.notifyTyping}
+              {...mediaControls.composer}
               {...(replyTo === null
                 ? {}
                 : {
@@ -223,6 +233,7 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
           </View>
         )}
       </KeyboardAvoidingView>
+      {mediaControls.sheet}
       {me === null ? null : (
         <ChatOverlays
           crewId={crewId}
