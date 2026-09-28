@@ -14,6 +14,12 @@ export const OVERFLOW_SHRINK_STEP = 0.92;
 /** docs/design-system.md §5: auto-fit never shrinks below .7 of the variant's scaled size. */
 export const AUTO_FIT_MIN_SCALE = 0.7;
 
+/**
+ * docs/design-system.md §5: auto-fit text that still overflows at its floor wraps (up to three
+ * lines) instead of being cut with an ellipsis.
+ */
+export const AUTO_FIT_WRAP_LINES = 3;
+
 const SIZE_SEARCH_STEP_PT = 0.5;
 
 export interface MeasureInput {
@@ -83,28 +89,57 @@ export function isOverflowing(
 
 export interface UseAutoFitOptions extends Omit<FitInput, 'width'> {
   readonly enabled: boolean;
+  /**
+   * The line limit is the variant's own, not the caller's: it is measured unlimited and wraps onto
+   * more lines once the floor is reached. A caller's `numberOfLines` is always rendered as given.
+   */
+  readonly wrapAtFloor?: boolean;
 }
 
 export interface AutoFitResult {
   readonly fontSize: number;
+  /**
+   * The `numberOfLines` to render with. While fitting there is none: iOS reports a line it
+   * truncated with its full text, so only an unlimited layout shows the real line count. The limit
+   * comes back only when the text still overflows at its floor.
+   */
+  readonly numberOfLines: number | undefined;
+  /** The text overflowed at its floor and is shown cut at `numberOfLines`. */
+  readonly overflowed: boolean;
   readonly onLayout: (event: LayoutChangeEvent) => void;
-  readonly onTextLayout: (event: TextLayoutEvent) => void;
+  /** Returns true while it is still correcting, i.e. this layout is not the settled one. */
+  readonly onTextLayout: (event: TextLayoutEvent) => boolean;
 }
 
 interface Correction {
   readonly key: string;
   readonly steps: number;
+  readonly wrapped: boolean;
+  readonly overflowed: boolean;
+}
+
+function finite(lines: number): number | undefined {
+  return Number.isFinite(lines) ? lines : undefined;
 }
 
 /**
  * Two-pass auto-fit: estimate from the laid-out width, then shrink in small steps while the
- * platform still reports overflow. Corrections reset whenever the text, width or size range changes.
+ * platform still lays the text out on more lines than allowed; at the floor a single-line style
+ * wraps (up to three lines), and only then is the text cut. Corrections reset whenever the text,
+ * width or size range changes.
  */
-export function useAutoFit({ enabled, ...fit }: UseAutoFitOptions): AutoFitResult {
+export function useAutoFit({
+  enabled,
+  wrapAtFloor = false,
+  ...fit
+}: UseAutoFitOptions): AutoFitResult {
   const [width, setWidth] = useState<number | null>(null);
-  const [correction, setCorrection] = useState<Correction>({ key: '', steps: 0 });
+  const fresh = (key: string): Correction => ({ key, steps: 0, wrapped: false, overflowed: false });
+  const [correction, setCorrection] = useState<Correction>(fresh(''));
   const key = `${fit.text}|${width ?? ''}|${fit.maxSize}|${fit.maxLines}`;
-  const steps = correction.key === key ? correction.steps : 0;
+  const current = correction.key === key ? correction : fresh(key);
+  const { steps, wrapped, overflowed } = current;
+  const maxLines = wrapped ? Math.max(fit.maxLines, AUTO_FIT_WRAP_LINES) : fit.maxLines;
 
   const estimated = enabled && width !== null ? fitFontSize({ ...fit, width }) : fit.maxSize;
   const fontSize = Math.max(fit.minSize, estimated * OVERFLOW_SHRINK_STEP ** steps);
@@ -116,11 +151,27 @@ export function useAutoFit({ enabled, ...fit }: UseAutoFitOptions): AutoFitResul
   };
 
   const onTextLayout = (event: TextLayoutEvent) => {
-    if (!enabled || fontSize <= fit.minSize) return;
-    if (isOverflowing(event.nativeEvent.lines, fit.text, fit.maxLines)) {
-      setCorrection({ key, steps: steps + 1 });
+    if (!enabled || overflowed) return false;
+    // The first layout runs before the width is known: the fit hasn't started yet.
+    if (width === null) return true;
+    if (!isOverflowing(event.nativeEvent.lines, fit.text, maxLines)) return false;
+    if (fontSize > fit.minSize) {
+      setCorrection({ ...current, steps: steps + 1 });
+    } else if (wrapAtFloor && !wrapped && maxLines < AUTO_FIT_WRAP_LINES) {
+      setCorrection({ ...current, wrapped: true });
+    } else {
+      setCorrection({ ...current, overflowed: true });
     }
+    return true;
   };
 
-  return { fontSize, onLayout, onTextLayout };
+  return {
+    fontSize,
+    numberOfLines: finite(
+      !enabled || !wrapAtFloor || overflowed ? maxLines : Number.POSITIVE_INFINITY,
+    ),
+    overflowed,
+    onLayout,
+    onTextLayout,
+  };
 }

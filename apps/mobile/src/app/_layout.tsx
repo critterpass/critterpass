@@ -1,10 +1,15 @@
 import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
-import { router, useNavigationContainerRef } from 'expo-router';
+import {
+  DarkTheme,
+  router,
+  ThemeProvider as NavigationThemeProvider,
+  useNavigationContainerRef,
+} from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Updates from 'expo-updates';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Platform, StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -185,9 +190,18 @@ function PermissionsBridge() {
 /** Saved navigation is only restored into the same JS build it was saved from. */
 const BUILD = `${Constants.expoConfig?.version ?? ''}:${Updates.updateId ?? 'embedded'}`;
 
+/**
+ * Screens scale to .93 under a sheet, so whatever sits behind a card shows at the edges: every card
+ * and the navigator itself stay on the app's ink, never the navigation library's light grey.
+ */
+function inkNavigationTheme(ink: string) {
+  return { ...DarkTheme, colors: { ...DarkTheme.colors, background: ink, card: ink } };
+}
+
 /** Drill-down pushes by default; the `(modal)` group presents sheets and rises over the stack. */
 function RootNavigator() {
-  const { motion } = useTheme();
+  const { motion, color } = useTheme();
+  const navigationTheme = useMemo(() => inkNavigationTheme(color.ink['950']), [color.ink]);
   const [motionMode] = useMotionMode();
   const navigationRef = useNavigationContainerRef();
   const [launchUrl, setLaunchUrl] = useState<string | null | undefined>(undefined);
@@ -199,10 +213,12 @@ function RootNavigator() {
   useNavigationPersistence({ navigationRef, build: BUILD, launchUrl });
   useScreenTracking(useAnalytics());
   return (
-    <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
-      {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route group name, not copy */}
-      <Stack.Screen name="(modal)" options={modalGroupOptions()} />
-    </Stack>
+    <NavigationThemeProvider value={navigationTheme}>
+      <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
+        {/* eslint-disable-next-line lingui/no-unlocalized-strings -- a route group name, not copy */}
+        <Stack.Screen name="(modal)" options={modalGroupOptions()} />
+      </Stack>
+    </NavigationThemeProvider>
   );
 }
 
