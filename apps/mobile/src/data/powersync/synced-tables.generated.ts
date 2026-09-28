@@ -24,7 +24,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id calc_version component_key kind unit is_shared:integer origin member_ids amount_minor:integer currency source quote_id label seen_at frozen_at created_at updated_at',
   crew_contact_cards: 'crew_id user_id phone_display created_at updated_at',
   crew_members:
-    'crew_id user_id role colour status keep_in_chat:integer joined_epoch:integer left_at last_read_message_id notify_level created_at updated_at',
+    'crew_id user_id role colour status keep_in_chat:integer joined_epoch:integer left_at last_read_seq:integer notify_level created_at updated_at',
   crews:
     'name art settlement_currency member_ceiling:integer membership_epoch:integer created_by created_at updated_at',
   critter_forms:
@@ -69,6 +69,9 @@ export const SYNCED_TABLE_COLUMNS = {
     'key form_id place_line rule months solar challenge source_url release_id created_at updated_at',
   location_shares: 'trip_id user_id reason starts_at ends_at paused:integer created_at updated_at',
   map_regions: 'destination_id pmtiles_key bytes:integer version created_at updated_at',
+  message_reactions: 'message_id crew_id user_id emoji created_at',
+  messages:
+    'crew_id trip_id seq:integer sender_kind sender_id guide_id type body ref_kind ref_id reply_to_id mentions mentions_guide:integer attachments edited_at deleted_at hidden_at created_at updated_at',
   notification_prefs:
     'user_id budget_per_day:integer roundup_time roundup_tz quiet_from quiet_to guide_tips:integer money:integer critters_nearby:integer crew_chat_mode leave_by_dnd:integer per_category voice_readout:integer created_at updated_at',
   notifications:
@@ -119,7 +122,7 @@ export const SYNCED_TABLE_COLUMNS = {
   user_entitlements:
     'user_id pass_plus:integer sources expires_at guide_unlimited_global:integer icon_styles computed_at',
   user_settings:
-    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer active_crew_id created_at updated_at',
+    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer active_crew_id muted_uids created_at updated_at',
   users:
     'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at created_at updated_at',
   weather_snapshots:

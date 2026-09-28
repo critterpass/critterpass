@@ -851,6 +851,46 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // Probed on the fixture crew's system rows (members joining); a sender updates only their own rows.
+  messages: {
+    selectProbe: { sql: 'SELECT 1 FROM messages WHERE crew_id = $1', params: (f) => [f.crewId] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, true, false),
+      coOrganiser: op(true, true, false),
+      organiser: op(true, true, false),
+    },
+  },
+  message_reactions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM message_reactions WHERE crew_id = $1',
+      params: (f) => [f.crewId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(false, true, false),
+    },
+  },
+  crew_chat_counters: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM crew_chat_counters WHERE crew_id = $1',
+      params: (f) => [f.crewId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
   crew_contact_cards: {
     selectProbe: {
       sql: 'SELECT 1 FROM crew_contact_cards WHERE crew_id = $1',

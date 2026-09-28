@@ -16,6 +16,7 @@ import { projectActivity } from '../../src/events/activity-rules';
  * synced rows and a `member.updated` hint, not as ticker lines. Crew lifecycle and invite events
  * describe a crew, a link or one person's answer, not a trip moment; seat offers and referral
  * progress are private to the person they concern (a taken seat shows as `seat_offer.accepted`).
+ * Chat events are the chat timeline itself; echoing them in the ticker would repeat every message.
  */
 const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'auth.merged',
@@ -45,6 +46,11 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'invite.nudged',
   'trip.seat_opened',
   'referral.progressed',
+  'chat.message_sent',
+  'chat.message_edited',
+  'chat.message_deleted',
+  'chat.reaction_changed',
+  'chat.guide_mentioned',
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

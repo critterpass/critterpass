@@ -5,7 +5,16 @@
  */
 import { registerTablePrivacy } from '@cp/domain';
 import { sql } from 'drizzle-orm';
-import { boolean, integer, pgTable, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core';
+import {
+  bigint,
+  boolean,
+  integer,
+  pgTable,
+  text,
+  timestamp,
+  unique,
+  uuid,
+} from 'drizzle-orm/pg-core';
 
 import { users } from './identity';
 
@@ -42,8 +51,8 @@ export const crewMembers = pgTable(
     /** Stamped by the app.crew_members_epoch trigger; never set directly by app_user. */
     joinedEpoch: integer('joined_epoch'),
     leftAt: timestamp('left_at', { withTimezone: true, mode: 'date' }),
-    /** No FK yet: messages is created by a later phase. */
-    lastReadMessageId: uuid('last_read_message_id'),
+    /** Highest chat `seq` the member has read; only ever moves forward (`mark_read`). */
+    lastReadSeq: bigint('last_read_seq', { mode: 'number' }).notNull().default(0),
     notifyLevel: text('notify_level'),
     createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),

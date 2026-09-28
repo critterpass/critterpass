@@ -15,6 +15,7 @@ export {
   poiHoursProposals,
   spawnRules,
 } from './content';
+export { crewChatCounters, messageReactions, messages } from './chat';
 export { costComponents, destinationCostIndices, shareCalcs, tripShareTotals } from './cost';
 export { crewMembers, crews } from './crews';
 export {

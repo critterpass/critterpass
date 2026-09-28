@@ -1,0 +1,17 @@
+# Crew chat stream (docs/data-model-sync-and-privacy.md §4): the full history of every crew the caller
+# is an active member of, plus crews they left while keeping the chat (read-only on the device).
+# Filters mirror messages / message_reactions RLS (app.is_crew_chat_member); moderation-hidden
+# messages never sync, and hiding one removes it from every device.
+
+streams:
+  crew_chat:
+    auto_subscribe: true
+    with:
+      kept_chats: |
+        SELECT crew_id FROM crew_members
+        WHERE user_id = auth.user_id() AND status = 'former' AND keep_in_chat = true
+    queries:
+      - SELECT * FROM messages WHERE crew_id IN my_crews AND hidden_at IS NULL
+      - SELECT * FROM messages WHERE crew_id IN kept_chats AND hidden_at IS NULL
+      - SELECT * FROM message_reactions WHERE crew_id IN my_crews
+      - SELECT * FROM message_reactions WHERE crew_id IN kept_chats
