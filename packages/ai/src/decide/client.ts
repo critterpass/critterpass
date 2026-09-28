@@ -71,6 +71,8 @@ export interface DecisionClientOptions {
   readonly now?: () => Date;
   /** Monotonic milliseconds for latency. */
   readonly clock?: () => number;
+  /** The ops kill switches: a switched-off route (or paused tier) throws before Jev or the twin. */
+  readonly assertRouteOn?: (route: DecisionRoute) => Promise<void>;
 }
 
 export interface DecisionClient {
@@ -271,6 +273,7 @@ export function createDecisionClient(options: DecisionClientOptions = {}): Decis
         throw new GatewayConfigError(`route ${route} is not a decision route`);
       }
       validateQuestions(input.questions);
+      await options.assertRouteOn?.(route);
       const started = clock();
       if (options.apiKey === undefined || options.apiKey === '') {
         return answerWithTwin(route, input, 'missing_key', context, started);

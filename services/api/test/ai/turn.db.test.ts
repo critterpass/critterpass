@@ -21,6 +21,7 @@ import { pino } from 'pino';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { deviceTzFrom, streamGuideTurn } from '../../src/ai/sse-route-helper';
+import { createKillSwitches } from '../../src/ops/kill-switches';
 import { requireCommandSession } from '../../src/commands/_framework/session';
 import { startCommandDoors, type CommandDoorsHarness } from '../routes/command-doors-harness';
 
@@ -28,6 +29,8 @@ const TZ = 'Asia/Ho_Chi_Minh';
 let harness: CommandDoorsHarness;
 let transport: FixtureTransport;
 let gateway: Gateway;
+/** The kill-switch reader's clock: moved past its cache window after each flip. */
+let switchClock = Date.now();
 
 function useFixtures(names: readonly string[]): void {
   transport = fixtureTransport(names);
@@ -44,6 +47,7 @@ beforeAll(async () => {
   harness = await startCommandDoors(
     () => undefined,
     (app, deps) => {
+      const switches = createKillSwitches(deps.pool, { now: () => new Date(switchClock) });
       app.post('/test/guide-turn', async (c) => {
         const session = await requireCommandSession(deps.sessions, c.req.raw.headers);
         const body = await c.req.json<{ text: string; route?: string }>();
@@ -52,6 +56,7 @@ beforeAll(async () => {
           {
             pool: deps.pool,
             gateway,
+            switches,
             registry,
             logger: pino({ level: 'silent' }),
             heartbeatMs: 60_000,
@@ -241,6 +246,41 @@ describe('guide turn over SSE', () => {
     expect(resetAt.toISOString()).toMatch(/T17:00:00\.000Z$/u);
     expect(transport.requests).toHaveLength(0);
     expect(await used(me.uid)).toBe(30);
+  });
+});
+
+describe('guide turn kill switch', () => {
+  async function flip(value: boolean | null): Promise<void> {
+    await harness.pool.query("DELETE FROM ops.ops_config WHERE key = 'ai.guide.chat.enabled'");
+    if (value !== null) {
+      await harness.pool.query(
+        "INSERT INTO ops.ops_config (key, value) VALUES ('ai.guide.chat.enabled', $1::jsonb)",
+        [JSON.stringify(value)],
+      );
+    }
+    switchClock += 10_000;
+  }
+
+  it('refuses a switched-off route before the meter and the model', async () => {
+    const me = await harness.signInAnonymously();
+    await flip(false);
+    useFixtures([]);
+    const response = await ask(me.cookie, 'Hi');
+    expect(response.status).toBe(409);
+    expect(await response.json()).toMatchObject({
+      error: {
+        code: 'STATE_INVALID',
+        retryable: false,
+        detail: { reason: 'switched_off', key: 'ai.guide.chat.enabled' },
+      },
+    });
+    expect(transport.requests).toHaveLength(0);
+    expect(await used(me.uid)).toBe(0);
+
+    await flip(null);
+    useFixtures(['flash-stream']);
+    const frames = parseFrames(await (await ask(me.cookie, 'Hi')).text());
+    expect(shape(frames)).toEqual(['token', 'usage', 'done']);
   });
 });
 

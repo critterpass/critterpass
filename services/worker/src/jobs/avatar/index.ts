@@ -3,7 +3,7 @@
  * Without the media bucket nothing can be read or written, so every photo waits for ops review
  * (moderation still files the report) and no variants are rendered.
  */
-import { createGateway, type GatewayEnvOptions, type Telemetry } from '@cp/ai';
+import { createGateway, type AssertRouteOn, type GatewayEnvOptions, type Telemetry } from '@cp/ai';
 
 import type { AnyJobDefinition } from '../../boss';
 import { photoDnaMatcher } from './hash-match';
@@ -21,7 +21,12 @@ export interface AvatarJobsEnv {
   readonly ANTHROPIC_BASE_URL?: string | undefined;
 }
 
-export function avatarJobs(env: AvatarJobsEnv, telemetry?: Telemetry): AnyJobDefinition[] {
+export function avatarJobs(
+  env: AvatarJobsEnv,
+  /** The ops kill switches, checked before every model call. */
+  assertRouteOn: AssertRouteOn,
+  telemetry?: Telemetry,
+): AnyJobDefinition[] {
   const store =
     env.R2_S3_ENDPOINT && env.R2_BUCKET && env.R2_ACCESS_KEY_ID && env.R2_SECRET_ACCESS_KEY
       ? createAvatarMediaStore({
@@ -53,6 +58,7 @@ export function avatarJobs(env: AvatarJobsEnv, telemetry?: Telemetry): AnyJobDef
                 ...generation,
                 ...(telemetry === undefined ? {} : { telemetry }),
                 onUsage,
+                assertRouteOn,
               }),
     }),
   ];

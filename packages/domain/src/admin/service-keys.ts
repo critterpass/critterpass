@@ -6,6 +6,7 @@
 import { z } from 'zod';
 
 import { AI_ROUTES, GENERATION_TIERS } from '../ai/routes';
+import { DomainError } from '../errors';
 import type { ConfigKeyDefinition } from './config-keys';
 import type { AdminRole } from './roles';
 
@@ -118,4 +119,21 @@ export function serviceKeys(): Record<string, ConfigKeyDefinition> {
     ),
     'ops.on_call': opsSetting(z.string().trim().min(1).max(200), 'Who is on call for ops alerts'),
   };
+}
+
+/** The refusal of a switched-off feature: `STATE_INVALID {reason: 'switched_off', key}`, never retried. */
+export function switchedOffError(
+  key: string,
+  extra: Readonly<Record<string, unknown>> = {},
+): DomainError {
+  return new DomainError('STATE_INVALID', { reason: 'switched_off', key, ...extra });
+}
+
+/** The switch key when `error` is a switched-off refusal, otherwise `undefined`. */
+export function switchedOffKey(error: unknown): string | undefined {
+  if (!(error instanceof DomainError) || error.code !== 'STATE_INVALID') return undefined;
+  const detail = error.detail as { reason?: unknown; key?: unknown } | undefined;
+  return detail?.reason === 'switched_off' && typeof detail.key === 'string'
+    ? detail.key
+    : undefined;
 }

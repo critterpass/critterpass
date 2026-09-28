@@ -5,7 +5,7 @@
  * reject with 400 for a known reason) and is never shown to users.
  */
 import { APIConnectionError, APIError } from '@anthropic-ai/sdk';
-import { AI_ERRORS, type AiErrorCode } from '@cp/domain';
+import { AI_ERRORS, switchedOffKey, type AiErrorCode } from '@cp/domain';
 
 export class GatewayError extends Error {
   readonly code: AiErrorCode;
@@ -15,12 +15,17 @@ export class GatewayError extends Error {
   constructor(
     code: AiErrorCode,
     message: string,
-    options: { detail?: Readonly<Record<string, unknown>>; cause?: unknown } = {},
+    options: {
+      detail?: Readonly<Record<string, unknown>>;
+      cause?: unknown;
+      /** Overrides the code's default (a switched-off route is unavailable, but not retryable). */
+      retryable?: boolean;
+    } = {},
   ) {
     super(message, options.cause === undefined ? undefined : { cause: options.cause });
     this.name = 'GatewayError';
     this.code = code;
-    this.retryable = AI_ERRORS[code].retryable;
+    this.retryable = options.retryable ?? AI_ERRORS[code].retryable;
     this.detail = options.detail;
   }
 }
@@ -49,6 +54,15 @@ export function isRetryableProviderError(error: unknown): boolean {
 /** Maps any provider/transport failure onto the gateway taxonomy. */
 export function toGatewayError(error: unknown): GatewayError {
   if (error instanceof GatewayError) return error;
+  const switchKey = switchedOffKey(error);
+  if (switchKey !== undefined) {
+    // Switched off in the ops console (or paused by the cost guard): the fallback, never a retry.
+    return new GatewayError('AI_UNAVAILABLE', 'AI route switched off', {
+      detail: { reason: 'switched_off', key: switchKey, transient: false },
+      retryable: false,
+      cause: error,
+    });
+  }
   if (error instanceof APIConnectionError) {
     return new GatewayError('AI_UNAVAILABLE', 'model provider unreachable', { cause: error });
   }

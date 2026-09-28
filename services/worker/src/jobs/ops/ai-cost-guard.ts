@@ -8,7 +8,7 @@
  * (system actor), and every run stores its result in `ops.ai_cost_guard` for the console's
  * "guard OK" status.
  */
-import { withSystem } from '@cp/db';
+import { AI_COST_GUARD_STATE_KEY, withSystem } from '@cp/db';
 import { AI_TIERS, GENERATION_TIERS } from '@cp/domain';
 import type pg from 'pg';
 import { z } from 'zod';
@@ -16,7 +16,7 @@ import { z } from 'zod';
 import { defineJob, type AnyJobDefinition, type JobLogger } from '../../boss/define-job';
 
 export const AI_COST_GUARD_QUEUE = 'ops.ai_cost_guard';
-export const AI_COST_GUARD_STATE_KEY = 'ops.ai_cost_guard';
+export { AI_COST_GUARD_STATE_KEY };
 export const AI_COST_ALERT_RATIO = 0.8;
 
 export interface CostAlert {

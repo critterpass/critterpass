@@ -64,3 +64,11 @@ export {
   type ScheduleEventInput,
   type SendInTxOptions,
 } from './jobs';
+export {
+  AI_COST_GUARD_STATE_KEY,
+  assertKillSwitchKey,
+  createKillSwitchReader,
+  KILL_SWITCH_CACHE_MS,
+  type KillSwitchReader,
+  type KillSwitchReaderOptions,
+} from './kill-switches';

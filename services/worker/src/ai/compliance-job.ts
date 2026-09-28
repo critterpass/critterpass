@@ -15,6 +15,7 @@ import {
   createGateway,
   recordUsage,
   type AiUsageRecord,
+  type AssertRouteOn,
   type GatewayEnvOptions,
   type Telemetry,
 } from '@cp/ai';
@@ -72,6 +73,8 @@ export interface ComplianceJobOptions {
    *  every check takes the surface's unavailable outcome. */
   readonly generation?: GatewayEnvOptions | undefined;
   readonly telemetry?: Telemetry;
+  /** The ops kill switches: a switched-off check takes the surface's unavailable outcome. */
+  readonly assertRouteOn?: AssertRouteOn | undefined;
 }
 
 export function complianceCheckJob(
@@ -92,14 +95,17 @@ export function complianceCheckJob(
       const onUsage = (record: AiUsageRecord) =>
         recordUsage((fn) => withSystem(ctx.pool, fn), record);
       const telemetry = options.telemetry === undefined ? {} : { telemetry: options.telemetry };
+      const gate =
+        options.assertRouteOn === undefined ? {} : { assertRouteOn: options.assertRouteOn };
       const gateway =
         options.generation === undefined
           ? {}
-          : { gateway: createGateway({ ...options.generation, ...telemetry, onUsage }) };
+          : { gateway: createGateway({ ...options.generation, ...telemetry, ...gate, onUsage }) };
       const decisions = createDecisionClient({
         apiKey: options.typesafeApiKey,
         ...gateway,
         ...telemetry,
+        ...gate,
         onUsage,
         onFallback: (route, reason) =>
           ctx.logger.warn({ route, reason }, 'decision answered by the fast-tier twin'),

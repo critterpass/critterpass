@@ -1,6 +1,7 @@
 export {
   buildMessageParams,
   createGateway,
+  type AssertRouteOn,
   type Gateway,
   type GatewayInput,
   type GatewayOptions,
