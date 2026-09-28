@@ -13,6 +13,7 @@ export const MEDIA_PURPOSES = [
   'menu',
   'booking_doc',
   'feedback',
+  'voice',
 ] as const;
 export const mediaPurposeSchema = z.enum(MEDIA_PURPOSES);
 export type MediaPurpose = z.infer<typeof mediaPurposeSchema>;
@@ -26,14 +27,16 @@ export const MULTIPART_MIN_PART_BYTES = 5 * MiB;
 export const MULTIPART_PART_BYTES = 8 * MiB;
 
 const IMAGES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'] as const;
+/** Voice notes as the phones record them (AAC in an MP4/M4A container, or raw ADTS AAC). */
+const VOICE = ['audio/mp4', 'audio/m4a', 'audio/x-m4a', 'audio/aac'] as const;
 
 interface PurposeRule {
   readonly contentTypes: readonly string[];
   readonly maxBytes: number;
 }
 
-// Sizes cover full-resolution phone originals (photos), multi-page scans (documents) and short
-// screen recordings (feedback); avatars are cropped on device before upload.
+// Sizes cover full-resolution phone originals (photos), multi-page scans (documents), short screen
+// recordings (feedback) and chat voice notes; avatars are cropped on device before upload.
 const PURPOSE_RULES: Record<MediaPurpose, PurposeRule> = {
   avatar: { contentTypes: IMAGES, maxBytes: 5 * MiB },
   photo: { contentTypes: IMAGES, maxBytes: 50 * MiB },
@@ -41,6 +44,8 @@ const PURPOSE_RULES: Record<MediaPurpose, PurposeRule> = {
   menu: { contentTypes: IMAGES, maxBytes: 10 * MiB },
   booking_doc: { contentTypes: [...IMAGES, 'application/pdf'], maxBytes: 20 * MiB },
   feedback: { contentTypes: [...IMAGES, 'video/mp4', 'video/quicktime'], maxBytes: 50 * MiB },
+  // A two-minute crew chat voice note at the recorder's 64 kbps is about 1 MB.
+  voice: { contentTypes: VOICE, maxBytes: 5 * MiB },
 };
 
 export function purposeRule(purpose: MediaPurpose): PurposeRule {

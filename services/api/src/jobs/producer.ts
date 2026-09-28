@@ -12,6 +12,8 @@ import { onEventAppended, registerJobProducer, sendInTx } from '@cp/db';
 import {
   AVATAR_MODERATE_QUEUE,
   AVATAR_RENDER_QUEUE,
+  CHAT_PHOTO_THUMBNAIL_QUEUE,
+  CHAT_VOICE_TRANSCODE_QUEUE,
   notificationKeysForEvent,
   notifyRouteSingletonKey,
   NOTIFY_ROUTE_QUEUE,
@@ -67,6 +69,8 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       CONTENT_PUBLISH_QUEUE,
       AVATAR_MODERATE_QUEUE,
       AVATAR_RENDER_QUEUE,
+      CHAT_PHOTO_THUMBNAIL_QUEUE,
+      CHAT_VOICE_TRANSCODE_QUEUE,
     ]) {
       if ((await boss.getQueue(queue)) === null) {
         await boss.createQueue(queue, { policy: 'exclusive' });
