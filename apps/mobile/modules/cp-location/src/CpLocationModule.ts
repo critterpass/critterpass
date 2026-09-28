@@ -1,6 +1,6 @@
 import { NativeModule, requireOptionalNativeModule } from 'expo';
 
-import type { LocationFix, MonitoredRegion, RegionTransition } from './types';
+import type { LocationFix, RegionTransition } from './types';
 
 type CpLocationEvents = {
   onFix: (fix: LocationFix) => void;
@@ -16,7 +16,11 @@ export declare class NativeCpLocationModule extends NativeModule<CpLocationEvent
   stopTripSession(): Promise<void>;
   setAccuracy(tier: string): void;
   isSessionRunning(): boolean;
-  monitorRegions(regions: readonly MonitoredRegion[]): Promise<number>;
+  /** Parallel arrays: region ids and `[lat, lng, radiusM]` per region. */
+  monitorRegions(
+    ids: readonly string[],
+    coordinates: readonly (readonly number[])[],
+  ): Promise<number>;
   clearRegions(): Promise<void>;
   isLowPowerMode(): boolean;
   drainRegionEvents(): RegionTransition[];

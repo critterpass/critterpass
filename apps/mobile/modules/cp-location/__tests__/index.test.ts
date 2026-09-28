@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import { fromNativeModule, getLocationNative, hasNativeSession } from '../index';
 import type { NativeCpLocationModule } from '../src/CpLocationModule';
-import type { LocationFix, MonitoredRegion, RegionTransition } from '../src/types';
+import type { LocationFix, RegionTransition } from '../src/types';
 
 /** The native module is the boundary: a recording stand-in with its event emitter. */
 function fakeNative() {
@@ -19,9 +19,9 @@ function fakeNative() {
     },
     setAccuracy: (tier: string) => void calls.push(`tier:${tier}`),
     isSessionRunning: () => true,
-    monitorRegions: (regions: readonly MonitoredRegion[]) => {
-      calls.push(`regions:${regions.map((r) => r.id).join(',')}`);
-      return Promise.resolve(regions.length);
+    monitorRegions: (ids: readonly string[], coordinates: readonly (readonly number[])[]) => {
+      calls.push(`regions:${ids.join(',')}:${coordinates.map((c) => c.join('/')).join(',')}`);
+      return Promise.resolve(ids.length);
     },
     clearRegions: () => Promise.resolve(),
     isLowPowerMode: () => true,
@@ -47,7 +47,7 @@ describe('cp-location JS face', () => {
     location.setAccuracy('high');
     expect(await location.monitorRegions([{ id: 'stay:v', lat: 0, lng: 0, radiusM: 150 }])).toBe(1);
     await location.stopTripSession();
-    expect(calls).toEqual(['start:balanced', 'tier:high', 'regions:stay:v', 'stop']);
+    expect(calls).toEqual(['start:balanced', 'tier:high', 'regions:stay:v:0/0/150', 'stop']);
     expect(location.isLowPowerMode()).toBe(true);
     expect(location.drainRegionEvents()).toHaveLength(1);
   });

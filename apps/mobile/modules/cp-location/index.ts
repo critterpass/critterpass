@@ -22,7 +22,11 @@ export function fromNativeModule(native: NativeCpLocationModule): LocationNative
     stopTripSession: () => native.stopTripSession(),
     setAccuracy: (tier) => native.setAccuracy(tier),
     isSessionRunning: () => native.isSessionRunning(),
-    monitorRegions: (regions) => native.monitorRegions(regions),
+    monitorRegions: (regions) =>
+      native.monitorRegions(
+        regions.map((region) => region.id),
+        regions.map((region) => [region.lat, region.lng, region.radiusM]),
+      ),
     clearRegions: () => native.clearRegions(),
     isLowPowerMode: () => native.isLowPowerMode(),
     drainRegionEvents: () => native.drainRegionEvents(),

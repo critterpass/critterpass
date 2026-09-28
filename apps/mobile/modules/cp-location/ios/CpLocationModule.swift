@@ -5,32 +5,39 @@ import Foundation
 /// session, stream fixes at the engine's accuracy tier, and keep the planner's regions on
 /// `CLMonitor`. Region events that arrive before JS listens (a relaunch under Always) are held
 /// until the engine drains them.
+///
+/// Expo runs async function bodies as `@Sendable` closures, so they capture only Sendable values
+/// (the stream, the monitor actor, the emitter box), never the module itself.
 public class CpLocationModule: Module {
   private let fixes = FixStream()
   private let monitor = MonitorRotation()
-  private let buffer = RegionBuffer()
+  private let emitter = EventEmitter()
 
   public func definition() -> ModuleDefinition {
+    let fixes = self.fixes
+    let monitor = self.monitor
+    let emitter = self.emitter
+
     Name("CpLocation")
 
     Events("onFix", "onRegion")
 
     OnCreate {
+      emitter.module = self
       let session = SessionManager.shared
       if session.restoreIfNeeded() {
-        self.fixes.start(tier: session.tier, emit: self.fixSink())
+        fixes.start(tier: session.tier, emit: emitter.fixSink)
       }
-      let sink = self.regionSink()
-      let monitor = self.monitor
+      let sink = emitter.regionSink
       Task { await monitor.open(onEvent: sink) }
     }
 
     OnStartObserving {
-      self.buffer.setObserving(true)
+      emitter.setObserving(true)
     }
 
     OnStopObserving {
-      self.buffer.setObserving(false)
+      emitter.setObserving(false)
     }
 
     // Created on the main queue while the app is in the foreground (the session's own rule).
@@ -38,12 +45,12 @@ public class CpLocationModule: Module {
       let session = SessionManager.shared
       session.start()
       session.tier = tier
-      self.fixes.start(tier: tier, emit: self.fixSink())
+      fixes.start(tier: tier, emit: emitter.fixSink)
       return true
     }.runOnQueue(.main)
 
     AsyncFunction("stopTripSession") {
-      self.fixes.stop()
+      fixes.stop()
       SessionManager.shared.stop()
     }.runOnQueue(.main)
 
@@ -52,9 +59,9 @@ public class CpLocationModule: Module {
       session.tier = tier
       guard session.isRunning else { return }
       if tier == "paused" {
-        self.fixes.stop()
+        fixes.stop()
       } else {
-        self.fixes.start(tier: tier, emit: self.fixSink())
+        fixes.start(tier: tier, emit: emitter.fixSink)
       }
     }
 
@@ -62,18 +69,17 @@ public class CpLocationModule: Module {
       SessionManager.shared.isRunning
     }
 
-    AsyncFunction("monitorRegions") { (rows: [[String: Any]]) async -> Int in
-      let regions = rows.compactMap { row -> PlannedRegion? in
-        guard let id = row["id"] as? String, let lat = row["lat"] as? Double,
-          let lng = row["lng"] as? Double, let radius = row["radiusM"] as? Double
-        else { return nil }
-        return PlannedRegion(id: id, latitude: lat, longitude: lng, radius: radius)
+    AsyncFunction("monitorRegions") { (ids: [String], coordinates: [[Double]]) async -> Int in
+      // Parallel arrays of Sendable values: `[id]` and `[[lat, lng, radiusM]]`.
+      let regions = zip(ids, coordinates).compactMap { id, values -> PlannedRegion? in
+        guard values.count == 3 else { return nil }
+        return PlannedRegion(id: id, latitude: values[0], longitude: values[1], radius: values[2])
       }
-      return await self.monitor.replace(with: regions, onEvent: self.regionSink())
+      return await monitor.replace(with: regions, onEvent: emitter.regionSink)
     }
 
-    AsyncFunction("clearRegions") {
-      await self.monitor.clear()
+    AsyncFunction("clearRegions") { () async in
+      await monitor.clear()
     }
 
     Function("isLowPowerMode") { () -> Bool in
@@ -81,13 +87,27 @@ public class CpLocationModule: Module {
     }
 
     Function("drainRegionEvents") { () -> [[String: Any]] in
-      self.buffer.drain()
+      emitter.drain()
     }
   }
+}
 
-  private func fixSink() -> @Sendable (FixEvent) -> Void {
-    { [weak self] fix in
-      self?.sendEvent(
+/// Sends the module's events from any thread: a Sendable box around a weak module reference, with
+/// the region events held while nobody listens (JS not loaded yet after a background relaunch).
+final class EventEmitter: @unchecked Sendable {
+  private let lock = NSLock()
+  private weak var owner: Module?
+  private var observing = false
+  private var held: [[String: Any]] = []
+
+  var module: Module? {
+    get { lock.withLock { owner } }
+    set { lock.withLock { owner = newValue } }
+  }
+
+  var fixSink: @Sendable (FixEvent) -> Void {
+    { [self] fix in
+      module?.sendEvent(
         "onFix",
         LocationPlanMath.fixBody(
           latitude: fix.latitude, longitude: fix.longitude,
@@ -96,30 +116,22 @@ public class CpLocationModule: Module {
     }
   }
 
-  private func regionSink() -> @Sendable (RegionEvent) -> Void {
-    { [weak self] event in
-      guard let self else { return }
+  var regionSink: @Sendable (RegionEvent) -> Void {
+    { [self] event in
       let body: [String: Any] = [
         "id": event.id,
         "event": event.entered ? "enter" : "exit",
         "at": event.timestamp.timeIntervalSince1970 * 1000,
       ]
-      if self.buffer.hold(body) { return }
-      self.sendEvent("onRegion", body)
+      if hold(body) { return }
+      module?.sendEvent("onRegion", body)
     }
   }
-}
-
-/// Region events kept while nobody listens (JS not loaded yet after a background relaunch).
-final class RegionBuffer: @unchecked Sendable {
-  private let lock = NSLock()
-  private var observing = false
-  private var held: [[String: Any]] = []
 
   func setObserving(_ value: Bool) { lock.withLock { observing = value } }
 
   /// True when the event was held instead of sent.
-  func hold(_ body: [String: Any]) -> Bool {
+  private func hold(_ body: [String: Any]) -> Bool {
     lock.withLock {
       guard !observing else { return false }
       held.append(body)

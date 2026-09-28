@@ -53,8 +53,12 @@ class CpLocationModule : Module() {
 
     Function("isSessionRunning") { SessionStore.isActive(context) }
 
-    AsyncFunction("monitorRegions") { rows: List<Map<String, Any?>>, promise: Promise ->
-      monitor(rows.mapNotNull(::toFence), promise)
+    // Parallel arrays, the same shape iOS takes: `[id]` and `[[lat, lng, radiusM]]`.
+    AsyncFunction("monitorRegions") { ids: List<String>, coordinates: List<List<Double>>, promise: Promise ->
+      val fences = ids.zip(coordinates).mapNotNull { (id, values) ->
+        if (values.size == 3) PlannedGeofence(id, values[0], values[1], values[2]) else null
+      }
+      monitor(fences, promise)
     }
 
     AsyncFunction("clearRegions") { promise: Promise ->
@@ -74,14 +78,6 @@ class CpLocationModule : Module() {
 
   private val context: Context
     get() = requireNotNull(appContext.reactContext) { "React context is not available" }
-
-  private fun toFence(row: Map<String, Any?>): PlannedGeofence? {
-    val id = row["id"] as? String ?: return null
-    val lat = (row["lat"] as? Number)?.toDouble() ?: return null
-    val lng = (row["lng"] as? Number)?.toDouble() ?: return null
-    val radius = (row["radiusM"] as? Number)?.toDouble() ?: return null
-    return PlannedGeofence(id, lat, lng, radius)
-  }
 
   private fun geofenceIntent(): PendingIntent =
     PendingIntent.getBroadcast(
