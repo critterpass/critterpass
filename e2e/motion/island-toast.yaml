@@ -8,11 +8,14 @@ appId: app.critterpass.dev
 # failure screenshot in an earlier pass of this flow, not a guess), and iOS's one-time "Open in
 # ―?" confirmation sheet for a custom-scheme link adds another source of flakiness this sidesteps
 # entirely.
-- launchApp
+# A plain relaunch reopens the last screen, so state is cleared; the launch then fetches the
+# freshly published JS before its first render.
+- launchApp:
+    clearState: true
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
-    timeout: 25000
+    timeout: 60000
 - tapOn:
     id: 'dev-tools-entry'
 - extendedWaitUntil:

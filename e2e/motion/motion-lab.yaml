@@ -10,11 +10,14 @@ appId: app.critterpass.dev
 # entirely. Freezes every animation at its resting frame, then walks the pattern/preset/cue list
 # taking a named screenshot per state — `maestro test` diffs named screenshots against their
 # recorded baseline.
-- launchApp
+# A plain relaunch reopens the last screen, so state is cleared; the launch then fetches the
+# freshly published JS before its first render.
+- launchApp:
+    clearState: true
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
-    timeout: 25000
+    timeout: 60000
 - tapOn:
     id: 'dev-tools-entry'
 - extendedWaitUntil:
