@@ -16,3 +16,4 @@ export * from './season-review';
 export * from './content-batches';
 export * from './cost-review';
 export * from './work';
+export * from './operators';

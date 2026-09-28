@@ -2,7 +2,8 @@
  * Console capture tables and columns (docs/data-model.md §3.15, §3.16): `ops.work_claims` is
  * written by app_system, read by admin_reader and unreachable for app_user; the moderation intake
  * columns are system-written and admin_reader-readable; a pipeline-published audit context fills a
- * self-written audit row on insert.
+ * self-written audit row on insert; `auth.session.console` defaults to false and stays outside
+ * every app role's reach.
  */
 import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -179,5 +180,21 @@ describe('ops.admin_audit context', () => {
         },
       },
     ]);
+  });
+});
+
+describe('auth.session.console', () => {
+  it('defaults to false and is unreadable to admin_reader, app_user and app_system', async () => {
+    const { rows } = await db.pool.query<{ column_default: string; is_nullable: string }>(
+      `SELECT column_default, is_nullable FROM information_schema.columns
+       WHERE table_schema = 'auth' AND table_name = 'session' AND column_name = 'console'`,
+    );
+    expect(rows).toEqual([{ column_default: 'false', is_nullable: 'NO' }]);
+    for (const role of ['admin_reader', 'app_user', 'app_system']) {
+      await expect(
+        asRole(role, (tx) => tx.query('SELECT console FROM auth.session LIMIT 1')),
+        role,
+      ).rejects.toThrow(/permission denied/i);
+    }
   });
 });

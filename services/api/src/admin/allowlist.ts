@@ -8,6 +8,8 @@ import { adminRoleSchema, type AdminRole } from '@cp/domain';
 export interface AdminAllowlist {
   allows(email: string): boolean;
   initialRoles(email: string): readonly AdminRole[];
+  /** Every listed e-mail with its seed roles (the operators list shows who never signed in). */
+  entries?(): readonly { readonly email: string; readonly roles: readonly AdminRole[] }[];
 }
 
 export function parseAdminAllowlist(raw: string | undefined): AdminAllowlist {
@@ -26,5 +28,6 @@ export function parseAdminAllowlist(raw: string | undefined): AdminAllowlist {
   return {
     allows: (email) => entries.has(email.toLowerCase()),
     initialRoles: (email) => entries.get(email.toLowerCase()) ?? [],
+    entries: () => [...entries].map(([email, roles]) => ({ email, roles })),
   };
 }

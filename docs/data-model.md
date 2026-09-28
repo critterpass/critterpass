@@ -94,7 +94,7 @@ Better Auth (`auth` schema; ids = UUIDv7 via `advanced.database.generateId`):
 | Table | Columns (plugins) | Notes |
 |---|---|---|
 | `auth.user` | id, name, email (nullable for phone-only; anonymous plugin temp email), email_verified, image, is_anonymous (anonymous), phone_number, phone_number_verified (phoneNumber), role, banned, ban_reason, ban_expires (admin) | uid is preserved on anonymous upgrade (`linkSocial`, phone `verify({updatePhoneNumber:true})`); merge only via `onLinkAccount` when the identity already exists |
-| `auth.session` | id, user_id, token, expires_at (30 d sliding), ip_address, user_agent, impersonated_by | Redis secondary storage for rate limits |
+| `auth.session` | id, user_id, token, expires_at (30 d sliding; console 12 h absolute), ip_address, user_agent, impersonated_by, console (true for ops console sessions, set by its Better Auth instance) | Redis secondary storage for rate limits |
 | `auth.account` | id, user_id, provider_id (apple/google/phone), account_id, access/refresh/id tokens, scope | `disableImplicitLinking`; SIWA refresh token captured for revocation on deletion |
 | `auth.verification` | identifier, value, expires_at | OTP 300 s |
 | `auth.jwks` | id, public_key, private_key (AES-GCM), created_at | EdDSA; `/jwks` for PowerSync + Centrifugo |

@@ -74,3 +74,10 @@ CREATE POLICY work_claims_admin_reader ON ops.work_claims FOR SELECT TO admin_re
   USING (true);
 GRANT SELECT, INSERT, UPDATE, DELETE ON ops.work_claims TO app_system;
 GRANT SELECT ON ops.work_claims TO admin_reader;
+
+-- ---------------------------------------------------------------------------------------------
+-- auth.session.console: set by the ops console's Better Auth instance (`additionalFields`), so
+-- the operators view counts console sessions and clearing an operator's roles ends only those,
+-- never the person's app sessions.
+ALTER TABLE auth.session ADD COLUMN console boolean NOT NULL DEFAULT false;
+CREATE INDEX session_console_user_idx ON auth.session (user_id, created_at DESC) WHERE console;

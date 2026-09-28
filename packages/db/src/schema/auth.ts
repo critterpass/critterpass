@@ -59,6 +59,8 @@ export const authSession = authSchema.table('session', {
   userAgent: text('user_agent'),
   /** admin plugin: the admin user id impersonating this session, when impersonation is active. */
   impersonatedBy: uuid('impersonated_by'),
+  /** Set by the ops console's Better Auth instance (`additionalFields`); app sessions are false. */
+  console: boolean('console').notNull().default(false),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });
