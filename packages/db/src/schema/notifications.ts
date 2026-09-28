@@ -173,12 +173,22 @@ export const inboxItems = pgTable('inbox_items', {
   tripId: uuid('trip_id').references(() => trips.id),
   notificationId: uuid('notification_id').references(() => notifications.id),
   kind: text('kind').notNull(),
+  /** Filter group: `crew` (a crewmate did it), `guide` or `system`. */
+  source: text('source').notNull().default('system'),
+  actorId: uuid('actor_id').references(() => users.id),
+  /** The domain event that created the row; one row per (event, user). */
+  sourceEventId: uuid('source_event_id'),
+  /** Resolves the row when the thing it asks about is settled on any surface. */
+  resolveKey: text('resolve_key'),
+  /** Ids and short values the kind renderer turns into the line and live body. */
+  data: jsonb('data').notNull().default({}),
   needsYou: boolean('needs_you').notNull().default(false),
   actions: jsonb('actions').notNull().default([]),
   deepLink: text('deep_link'),
   expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }),
   undoUntil: timestamp('undo_until', { withTimezone: true, mode: 'date' }),
   resolvedAt: timestamp('resolved_at', { withTimezone: true, mode: 'date' }),
+  readAt: timestamp('read_at', { withTimezone: true, mode: 'date' }),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

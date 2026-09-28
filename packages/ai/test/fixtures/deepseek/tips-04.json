@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-28.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "40ca4004-04c4-463f-85cd-e6fed01de0be",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Flights from Singapore to Iceland just dipped to $640 for January 2027 — your guide in Iceland says pack wool."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 395,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 25,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

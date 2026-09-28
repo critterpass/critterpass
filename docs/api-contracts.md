@@ -197,13 +197,14 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
-| `act_inbox_item` | `{item_id, action}` (dispatches to the target command, same op_id namespace) | owner | per target | `inbox.item_resolved` | A, O, N | 25 |
-| `mark_inbox_read` | `{item_ids[]\|all}` | owner | – | `inbox.read` | A, O | 25 |
-| `send_nudge` | `{target_uid, reason, context{kind,id}}` | member | ≤1/pair/24 h | `nudge.sent` | A, O, W | 25 |
+| `act_inbox_item` | `{item_id, action}` (runs the action's stored command through its own authorize/entitle/handle in the same transaction and op_id, then settles the item; an item settled elsewhere answers `{outcome: 'already_resolved'}`; action-key scope `inbox`) | owner | per target | `inbox.item_resolved` | A, O, N | 25 |
+| `mark_inbox_read` | `{item_ids[]}` or `{all: true}` → `{count}` (read never resolves) | owner | – | `inbox.read` | A, O | 25 |
+| `send_nudge` | `{target_uid, reason, context?{kind,id}}` → `{outcome: 'scheduled', send_at, send_at_local, tz, guide, target_name}` (installed with push) \| `{outcome: 'inbox', …}` (installed, push denied) \| `{outcome: 'relay', relay: 'share_sheet', text, url, …}` (never installed; nothing sent by us). Target may be an active crewmate or an in-app invitee | member | ≤1/pair/24 h (`NUDGE_TOO_SOON`), ≤2 received/day, never in quiet hours | `nudge.sent`, `nudge.received` (at delivery) | A, O, W | 25 |
+| `record_app_open` (doc delta) | `{hour_local}` fire-and-forget on foreground; counts once per hour | self | – | – | A, O | 25 |
 | `undo_guide_action` | `{action_id}` | affected member or organiser | within undo window | `guide_action.undone` | A, O, N | 25 |
 | `dismiss_tip` | `{tip_id}` | self | – | `tip.dismissed` | A, O | 25 |
 | `save_place` / `unsave_place` | `{place_id}` | self | – | `place.saved/unsaved` | A, O | 30 |
-| `create_trip` | `{crew_id?, place_id, solo: bool}` | member / self | FTF auto-grant check | `trip.created` | A, O | 25 |
+| `create_trip` | `{crew_id?, place_id, solo: bool}` | member / self | FTF auto-grant check | `trip.created` | A, O | 26 |
 
 ### 4.4 Polls, votes, decisions (P26, P29, P37)
 

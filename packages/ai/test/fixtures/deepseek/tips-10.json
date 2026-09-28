@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-28.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "04274bd4-44be-4773-83d1-4bf8e42cbb0a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "From what Tokek knows so far, Marrakech is at its quietest in January — not my island, but I've done my homework."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 398,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 128,
+        "output_tokens": 30,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

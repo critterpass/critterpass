@@ -79,6 +79,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `push.la` | LA transitions, readiness, ETA | APNs `liveactivity` update/end/start or broadcast; FCM Live Update data | 3 | `(activity_id, seq)` | 48 |
 | `push.widget` | vote/balance/plan/forecast/crew change | APNs `widgets` content-changed; FCM data → Glance; budget ~40–70/day/device | 2 | `(device_id, kind, 5-min bucket)` | 49 |
 | `inbox.fanout` | domain events | inbox items + badge recompute | 3 | `(event_id, uid)` | 25 |
+| `countdown.recompute` (doc delta) | `trip.created`, `trip.dates_changed`, `trip.destination_set`, `booking.flight_added/changed/removed`, `rsvp.changed`, `user.tz_changed` | `trip_participants.countdown_target_at` per C14 (flights through the `FlightSegmentsSource` port), `trip.summary` on `crew:` | 3 | event id | 25 |
 | `ai.pitch` | pitch cache miss (background prewarm) | AI-01 | 2 | `(crew, place, month)` | 26 |
 | `ai.draft` | `start_draft` | load → prefetch → pro-tier skeleton → pro-tier day fan-out → validate → repair ≤2 → persist version → events | 2 / DLQ | `trip_id + draft_seq` | 28 |
 | `avatar.moderate` (doc delta) | `set_avatar` / `issue_pass` with a photo | known-image hash match first (`moderation.hash_match` ops switch + PhotoDNA key; off = ops review): a hit rejects, quarantines the upload and reports it, never reaching a model; then DeepSeek fast-tier image classification (`avatar.moderate` route): allow → approved + `avatar.render`, reject → rejected, uncertain → ops queue (`moderate_item` kind `avatar`) | 3 / DLQ | avatar id | 22 |
@@ -147,7 +148,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `poll.close` | at `closes_at`; reminders −24 h / −2 h | `close_poll` (system), N-02/N-03, vote LA | 26 |
 | `proposal.reply_by` | reply_by −24 h, at reply_by | N-09, close | 31 |
 | `followup.deliver` | recipient local `at` | N-08 | 31 |
-| `nudge.dispatch` | engagement-hour model | N-12 | 25 |
+| `nudge.dispatch` | `scheduled_events` timer at the target's engagement hour (modal open hour of 14 d, fallback 19:00, moved out of quiet hours) | marks sent, `nudge.received` → inbox item + N-12 | 25 |
+| `tips.generate` (doc delta) | `0 6 * * *` SGT + per crew on `fare.dropped` | detectors (fare drop ≥ `home.tips.min_fare_drop_pct` vs stored-night median, book-by, season peak, crowd dip) → `tips.phrase` line validated against facts, template fallback; ≤1 new tip/crew/day; `home.tips.enabled` kill switch | 25 |
 | `reminders.conditional` | per reminder due | N-30 / N-45 only if condition holds | 40 |
 | `boarding.schedule` | per flight boarding time | N-41, flight LA push-to-start T−3 h | 34 |
 | `location.expire` | share TTL / last-day midnight | stop share, purge fixes | 39 |

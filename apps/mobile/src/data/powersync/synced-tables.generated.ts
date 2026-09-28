@@ -55,8 +55,10 @@ export const SYNCED_TABLE_COLUMNS = {
     'destination_id kind subject level:integer level_label headline source source_url issued_at expires_at fetched_at created_at updated_at',
   help_articles:
     'slug locale category title summary body_md embedding fts release_id created_at updated_at',
+  home_tips:
+    'crew_id guide_id kind text facts place_id dedupe_key valid_until status dismissed_by dismissed_at created_at updated_at',
   inbox_items:
-    'user_id crew_id trip_id notification_id kind needs_you:integer actions deep_link expires_at undo_until resolved_at created_at updated_at',
+    'user_id crew_id trip_id notification_id kind source actor_id source_event_id resolve_key data needs_you:integer actions deep_link expires_at undo_until resolved_at read_at created_at updated_at',
   invite_opens:
     'inviter_id open_count:integer first_opened_at last_opened_at created_at updated_at',
   invites:
@@ -76,6 +78,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'user_id budget_per_day:integer roundup_time roundup_tz quiet_from quiet_to guide_tips:integer money:integer critters_nearby:integer crew_chat_mode leave_by_dnd:integer per_category voice_readout:integer created_at updated_at',
   notifications:
     'user_id crew_id trip_id event_id key category class sender template_id title body items ctx deep_link collapse_key thread_id dedupe_key is_private:integer needs_you:integer llm_generated:integer local_date not_before expires_at state drop_reason sent_at created_at updated_at',
+  nudges:
+    'sender_id target_id crew_id trip_id reason context channel scheduled_delivery_id send_at sent_at created_at updated_at',
   passes: 'user_id status number issued_at cover created_at updated_at',
   perks: 'key tier copy_key is_shipped:integer sort:integer created_at updated_at',
   phrase_cards:
@@ -91,8 +95,11 @@ export const SYNCED_TABLE_COLUMNS = {
   products: 'key store_ids type grants created_at updated_at',
   referrals:
     'referrer_id referee_id code invite_id via status void_reason qualified_at reward_kind reward_ref referee_device_id created_at updated_at',
+  reminders:
+    'user_id target_kind target_id fire_at condition status fired_at created_at updated_at',
   roundups:
     'user_id local_date tz guide_id notification_ids lines sent_at fallback_used:integer created_at updated_at',
+  saved_items: 'user_id kind ref_id list_name created_at updated_at',
   scheduled_deliveries:
     'user_id kind target_ref send_at_local tz due_at payload status created_at updated_at',
   season_events:

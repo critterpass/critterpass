@@ -295,5 +295,6 @@ export * from './taste';
 export * from './airports';
 export * from './chat';
 export * from './crews';
+export * from './home';
 export * from './invites';
 export * from './referrals';

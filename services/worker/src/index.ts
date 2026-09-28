@@ -25,6 +25,15 @@ import { createMetricsRecorder } from './obs/metrics';
 import { initWorkerSentry } from './obs/sentry';
 import { avatarJobs } from './jobs/avatar';
 import { chatJobs, registerChatNotifications } from './jobs/chat';
+import {
+  inboxEventHook,
+  inboxFanoutJob,
+  registerHomeInboxFanouts,
+  registerHomeRetention,
+} from './jobs/inbox';
+import { nudgeDispatchJob, registerNudgeNotifications } from './jobs/nudges';
+import { countdownEventHook, countdownRecomputeJob } from './jobs/countdown';
+import { tipsEventHook, tipsJobs } from './jobs/tips';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';
@@ -127,6 +136,10 @@ const jobs: AnyJobDefinition[] = [
   costRecomputeJob,
   ...avatarJobs(env, aiSwitches.assertAiRoute, llmObservability),
   ...chatJobs(env),
+  inboxFanoutJob(),
+  nudgeDispatchJob(),
+  countdownRecomputeJob(),
+  ...tipsJobs(env, aiSwitches.assertAiRoute, llmObservability),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&
@@ -179,6 +192,12 @@ jobs.push(
   roundupScanJob(roundupBuild),
 );
 onEventAppended(routeEventHook);
+onEventAppended(inboxEventHook);
+onEventAppended(countdownEventHook);
+onEventAppended(tipsEventHook);
+registerHomeInboxFanouts();
+registerHomeRetention();
+registerNudgeNotifications();
 registerInviteNotifications();
 registerChatNotifications();
 

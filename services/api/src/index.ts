@@ -43,6 +43,7 @@ import { createMapboxRoutingProvider } from './routing/eta';
 import { MapboxRoutingClient } from './routing/mapbox';
 import { createClaimAttributionCommand } from './commands/attribution/claim-attribution';
 import { registerInvites } from './commands/invites';
+import { registerNudgeCommands } from './commands/nudges';
 import { createLinkProviderRegistry } from './links/registry';
 import { registerLinkRoutes } from './routes/links';
 import { seatTokenKeyringFromJson, type LinkEnvironment } from '@cp/domain';
@@ -205,6 +206,7 @@ const seatKeys =
     : {};
 const linkEnv = LINK_ENVIRONMENT_BY_APP_ENV[env.APP_ENV];
 registerInvites(commands, linkProviders, env, linkEnv, fieldEncryptionKeyring);
+registerNudgeCommands(commands, { linkEnv });
 commands.register(
   createClaimAttributionCommand({
     registry: linkProviders,

@@ -240,6 +240,18 @@ export const QUEUES = {
     keepCompletedSeconds: DAY,
     cron: { expr: '*/5 * * * *', tz: 'UTC' },
   }),
+  // Home: one inbox fan-out per domain event (idempotent per (event, user) in the table), a nudge
+  // delivered at its target's engagement hour, the morning tip scan (and a rerun per crew when a
+  // fare drops), and the countdown target recomputed when its inputs change.
+  'inbox.fanout': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
+  'nudge.dispatch': spec({ policy: 'exclusive', deadLetter: true }),
+  'tips.generate': spec({
+    policy: 'exclusive',
+    retryLimit: 2,
+    expireInSeconds: 30 * 60,
+    cron: { expr: '0 6 * * *', tz: 'Asia/Singapore' },
+  }),
+  'countdown.recompute': spec({ policy: 'exclusive', notify: true }),
 } as const satisfies Record<string, QueueSpec>;
 
 export type QueueName = keyof typeof QUEUES;
@@ -288,6 +300,10 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'ops.backup': 'Backs the database up to object storage',
   'ops.ai_cost_guard': 'Checks AI spend against its caps; pauses a tier over its cap',
   'compliance.check': 'Screens text created offline',
+  'inbox.fanout': "Files a domain event's inbox items and settles the ones it answers",
+  'nudge.dispatch': "Delivers a nudge at its target's engagement hour",
+  'tips.generate': "Finds data-backed tips for crews' Home strip",
+  'countdown.recompute': "Recomputes trip participants' countdown targets",
 };
 
 export type JobPayloadRedactor = (data: unknown) => unknown;

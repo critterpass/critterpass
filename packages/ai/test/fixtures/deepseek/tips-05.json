@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-28.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "46a48d9a-3beb-47ae-9ccd-c98f0276a70c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Día de Muertos hits Mexico City around November 1, so book early and bring your appetite for pan de muerto."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 387,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 26,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -14,6 +14,8 @@ import {
   AVATAR_RENDER_QUEUE,
   CHAT_PHOTO_THUMBNAIL_QUEUE,
   CHAT_VOICE_TRANSCODE_QUEUE,
+  COUNTDOWN_RECOMPUTE_QUEUE,
+  INBOX_FANOUT_QUEUE,
   notificationKeysForEvent,
   notifyRouteSingletonKey,
   NOTIFY_ROUTE_QUEUE,
@@ -25,6 +27,8 @@ import { PgBoss } from 'pg-boss';
 import type { Logger } from 'pino';
 
 import { CONTENT_PUBLISH_QUEUE } from '../admin/content/commands';
+import { enqueueCountdownRecompute } from '../commands/home';
+import { enqueueInboxFanout } from '../commands/inbox';
 
 export interface StartJobProducerOptions {
   /** A direct (non-PgBouncer) connection: pg-boss takes advisory locks while it starts. */
@@ -75,6 +79,8 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       CHAT_PHOTO_THUMBNAIL_QUEUE,
       CHAT_VOICE_TRANSCODE_QUEUE,
       OG_RENDER_QUEUE,
+      INBOX_FANOUT_QUEUE,
+      COUNTDOWN_RECOMPUTE_QUEUE,
     ]) {
       if ((await boss.getQueue(queue)) === null) {
         await boss.createQueue(queue, { policy: 'exclusive' });
@@ -99,4 +105,6 @@ export async function enqueueNotificationRouting(
 /** Registers the routing hook on every domain event this process appends (once, at boot). */
 export function routeNotificationsFromApiEvents(): void {
   onEventAppended(enqueueNotificationRouting);
+  onEventAppended(enqueueInboxFanout);
+  onEventAppended(enqueueCountdownRecompute);
 }

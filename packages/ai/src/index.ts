@@ -268,3 +268,14 @@ export {
   type CrewWelcomeInput,
   type CrewWelcomeResult,
 } from './prompts/crew-welcome/prompt';
+export {
+  phraseTip,
+  templateTip,
+  TIP_LINE_MAX,
+  TIP_ROUTE,
+  ungroundedTokens,
+  validateTipLine,
+  type TipFact,
+  type TipInput,
+  type TipResult,
+} from './prompts/tips/prompt';

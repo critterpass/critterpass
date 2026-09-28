@@ -51,9 +51,12 @@ import * as schema from './schema';
  * too volatile, for a client to hold.
  * `member_etas` (packages/db/src/schema/location.ts) is crew-visible (C1) but realtime only: ETAs
  * reach the crew over Centrifugo `trip_locations:`, gated per share reason, never through sync.
+ * `app_open_hours` (packages/db/src/schema/home.ts) is RLS "X": per-hour app-open counts feed the
+ * nudge send time on the server and are never replicated, not even to their owner.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
+  'app_open_hours',
   'cities',
   'content_releases',
   'critter_names',

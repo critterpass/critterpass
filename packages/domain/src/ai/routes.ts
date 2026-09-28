@@ -23,6 +23,7 @@ export const AI_ROUTES = [
   'email.parse',
   'must_do.fit_line',
   'micro.line',
+  'tips.phrase',
   'season.research',
   // Pitches, drafting, redrafts, proposals, briefings, recaps, parsers and the guest guide.
   'guide.chat_escalation',
