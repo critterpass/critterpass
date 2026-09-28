@@ -19,6 +19,7 @@ const TAXONOMY = [
   'install_attributed',
   'invite_prefill_viewed',
   'pass_issued',
+  'onboarding_step',
   'account_saved',
   'permission_result',
   'permission_primer_shown',

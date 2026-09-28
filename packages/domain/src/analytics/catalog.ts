@@ -41,6 +41,22 @@ const EVENT_PROPS = {
   install_attributed: { via },
   invite_prefill_viewed: {},
   pass_issued: { path: oneOf(['new', 'invited']), duration_ms: ms },
+  // The onboarding funnel: one event per step reached (resumed steps included).
+  onboarding_step: {
+    step: oneOf([
+      'splash',
+      'name',
+      'photo',
+      'taste',
+      'home',
+      'issued',
+      'save',
+      'phone',
+      'permissions',
+      'done',
+    ]),
+    path: oneOf(['new', 'invited', 'returning']).optional(),
+  },
   account_saved: { provider: oneOf(['apple', 'google', 'phone']) },
   permission_result: {
     perm: oneOf([

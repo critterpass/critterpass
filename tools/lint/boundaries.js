@@ -56,7 +56,9 @@ const mobilePackages = [
 /** Workspace packages each app, service or mobile layer may import. */
 export const consumerDeps = {
   'mobile-route': ['domain', 'i18n'],
-  'mobile-feature': mobilePackages,
+  // 'content' for the bundled onboarding content (quiz, Tokek lines, airports) read through its
+  // node-free subpaths `@cp/content/onboarding` and `@cp/content/airports`.
+  'mobile-feature': [...mobilePackages, 'content'],
   'mobile-ui': ['design-tokens', 'critter-art', 'i18n'],
   'mobile-motion': ['design-tokens'],
   // 'cost-engine' added for the shared money formatter (apps/mobile/src/data/money): formatting is
@@ -64,7 +66,7 @@ export const consumerDeps = {
   // rather than promoting the whole hook into a feature (docs/system-architecture.md §3).
   'mobile-data': ['domain', 'cost-engine', 'entitlements'],
   'mobile-lib': ['domain'],
-  mobile: mobilePackages,
+  mobile: [...mobilePackages, 'content'],
   web: ['domain', 'design-tokens', 'critter-art', 'i18n', 'content'],
   admin: ['domain', 'design-tokens', 'i18n', 'critter-art', 'content'],
   service: [

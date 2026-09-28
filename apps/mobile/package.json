@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@better-auth/expo": "1.7.6",
+    "@cp/content": "workspace:*",
     "@cp/cost-engine": "workspace:*",
     "@cp/critter-art": "workspace:*",
     "@cp/design-tokens": "workspace:*",
