@@ -1,0 +1,9 @@
+{
+  "name": "cp-location",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Trip-day location session (iOS background activity + service session, Android location foreground service), live fixes with anti-spoof flags, and OS region monitoring for the planner's geofences.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}
