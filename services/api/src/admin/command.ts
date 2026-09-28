@@ -79,6 +79,10 @@ export async function runAdminCommand(
       })),
     });
   }
+  // The role policy goes first, so a role outside it gets FORBIDDEN for any command name, whether
+  // or not the api serves that command; the pipeline's `authorize` checks it again in the tx.
+  const decision = canRunAdminCommand(deps.admin.roles, envelope.data.cmd);
+  if (!decision.ok) throw new DomainError(decision.deny, { reason: 'role' });
   return executeCommand(envelope.data, {
     pool: deps.pool,
     resolve: (name) => {

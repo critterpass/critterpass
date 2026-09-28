@@ -36,6 +36,7 @@ for (const size of WIDTHS) {
     await expect(page.getByText('Not for your role')).toBeVisible();
     await shot(page, 'forbidden-support', size.name);
     await nav(page).getByRole('button', { name: 'Sign out' }).click();
+    await expect(page).toHaveURL(/\/sign-in$/);
 
     await signInAs(page, 'owner');
     await shot(page, 'shell-owner', size.name);

@@ -73,6 +73,8 @@ jobs:
       ai_evals: ${{ steps.filter.outputs.ai_evals }}
       lockfile: ${{ steps.filter.outputs.lockfile }}
       sync_e2e: ${{ steps.filter.outputs.sync_e2e }}
+      ios_native: ${{ steps.filter.outputs.ios_native }}
+      admin_e2e: ${{ steps.filter.outputs.admin_e2e }}
     steps:
       - uses: actions/checkout@v7
       - uses: dorny/paths-filter@v4
@@ -135,6 +137,23 @@ jobs:
               - 'tools/scripts/sync-e2e/**'
               - 'pnpm-lock.yaml'
               - '.github/workflows/sync-e2e.yml'
+            ios_native:
+              - 'apps/mobile/modules/*/ios/**'
+              - 'apps/mobile/modules/*/expo-module.config.json'
+              - 'apps/mobile/targets/**'
+              - 'apps/mobile/plugins/**'
+              - 'apps/mobile/app.config.ts'
+              - 'apps/mobile/package.json'
+              - 'pnpm-lock.yaml'
+              - '.github/workflows/ci.yml'
+            admin_e2e:
+              - 'apps/admin/**'
+              - 'services/api/src/admin/**'
+              - 'packages/domain/src/admin/**'
+              - 'packages/db/migrations/**'
+              - 'infra/docker/postgres/**'
+              - 'pnpm-lock.yaml'
+              - '.github/workflows/ci.yml'
 
   critter-art-golden:
     name: critter art golden (Chromium + Node parity)
@@ -278,6 +297,109 @@ jobs:
     if: github.event_name == 'pull_request' && needs.changes.outputs.sync_e2e == 'true'
     uses: ./.github/workflows/sync-e2e.yml
 
+  # Compiles the iOS app the way the e2e-test EAS profile does (development variant, simulator SDK)
+  # so a native compile error (Swift 6 concurrency in a local module, a target or a config plugin)
+  # fails its pull request instead of a paid EAS build. Swift language modes come from the generated
+  # project and each module's podspec, exactly as on EAS.
+  ios-native:
+    name: iOS native compile (simulator, development variant)
+    needs: changes
+    if: needs.changes.outputs.ios_native == 'true'
+    runs-on: macos-26
+    timeout-minutes: 60
+    env:
+      APP_VARIANT: development
+      SENTRY_DISABLE_AUTO_UPLOAD: 'true'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      # The Xcode of EAS's `latest` iOS image, which the e2e-test profile builds on.
+      - run: sudo xcode-select -s /Applications/Xcode_26.6.app
+      - name: Expo prebuild
+        run: pnpm --filter @cp/mobile exec expo prebuild --platform ios --clean --no-install
+      # Pods only: Xcode keys DerivedData on file timestamps, which every checkout and install
+      # resets, so a restored DerivedData would rebuild everything anyway.
+      - uses: actions/cache@v6
+        with:
+          path: |
+            apps/mobile/ios/Pods
+            ~/Library/Caches/CocoaPods
+          key: pods-${{ runner.os }}-${{ hashFiles('apps/mobile/ios/Podfile', 'apps/mobile/ios/Podfile.properties.json', 'pnpm-lock.yaml', 'apps/mobile/modules/*/ios/*.podspec') }}
+          restore-keys: pods-${{ runner.os }}-
+      - name: Install pods
+        working-directory: apps/mobile/ios
+        run: pod install
+      - name: Build for the simulator
+        working-directory: apps/mobile/ios
+        run: |
+          set -o pipefail
+          workspace=$(ls -d *.xcworkspace | head -1)
+          xcodebuild build \
+            -workspace "$workspace" -scheme "${workspace%.xcworkspace}" \
+            -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            ARCHS=arm64 ONLY_ACTIVE_ARCH=YES COMPILER_INDEX_STORE_ENABLE=NO \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' \
+            > "$RUNNER_TEMP/xcodebuild.log" 2>&1 || status=$?
+          grep -E ': error:|^\*\* BUILD|^\t' "$RUNNER_TEMP/xcodebuild.log" | grep -v '^\t*/' || true
+          exit "${status:-0}"
+      - name: Upload the build log
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ios-native-xcodebuild-log
+          path: ${{ runner.temp }}/xcodebuild.log
+          retention-days: 7
+
+  # The ops console Playwright suite against its own throwaway Postgres (the Testcontainers image),
+  # the api and the Vite dev server, exactly as `pnpm --filter @cp/admin e2e` runs it locally.
+  admin-e2e:
+    name: admin console e2e (Playwright, Chromium)
+    needs: changes
+    if: needs.changes.outputs.admin_e2e == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      redis:
+        image: redis:8.8.3-alpine
+        ports: ['63790:6379']
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - uses: docker/setup-buildx-action@v4
+      - name: Build the test Postgres image
+        uses: docker/build-push-action@v7
+        with:
+          context: infra/docker/postgres
+          tags: critterpass-postgres:test
+          load: true
+          cache-from: type=gha,scope=critterpass-postgres
+          cache-to: type=gha,scope=critterpass-postgres,mode=max
+      - name: Playwright version
+        id: pw
+        run: echo "version=$(pnpm --filter @cp/admin exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-${{ steps.pw.outputs.version }}
+      - name: Install Chromium
+        timeout-minutes: 5
+        run: pnpm --filter @cp/admin exec playwright install --with-deps --only-shell chromium
+      - name: Console suite
+        run: pnpm --filter @cp/admin e2e
+      - name: Upload traces
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: admin-e2e-traces
+          path: apps/admin/test-results/
+          retention-days: 7
+
   # The single required check for merging: every job above reports on every pull request, and a job
   # skipped by its path filter counts as passing.
   ci-passed:
@@ -296,6 +418,8 @@ jobs:
       - ai-evals
       - osv
       - sync-e2e
+      - ios-native
+      - admin-e2e
     runs-on: ubuntu-latest
     steps:
       - name: Every needed job passed or was skipped

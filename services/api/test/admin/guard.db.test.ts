@@ -126,6 +126,25 @@ describe('role policy on reads and commands', () => {
     await app.close();
   });
 
+  it('forbids a role outside the policy before looking the command up', async () => {
+    const app = harness.app({ areas: [probeArea] });
+    const ops = await app.signIn('ops@critterpass.test');
+    const owner = await app.signIn('owner@critterpass.test');
+
+    // Unlisted names fall to the owner-only default, and a policy-listed command the api doesn't
+    // serve is refused the same way, so a forbidden role never learns which commands exist.
+    for (const cmd of ['no_such_command', 'approve_content_batch']) {
+      const forbidden = await app.command(ops, cmd, {});
+      expect(forbidden.status, cmd).toBe(403);
+      expect(await errorCode(forbidden)).toBe('FORBIDDEN');
+    }
+
+    const unknown = await app.command(owner, 'no_such_command', {});
+    expect(unknown.status).toBe(422);
+    expect(await errorCode(unknown)).toBe('VALIDATION');
+    await app.close();
+  });
+
   it('lets owner run every command', async () => {
     const app = harness.app({ areas: [probeArea] });
     const owner = await app.signIn('owner@critterpass.test');
