@@ -183,11 +183,13 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 | `revoke_invite` (doc delta) | `{invite_id}` | inviter or crew organiser | – | `invite.revoked` | A | 23 |
 | `accept_seat_offer` (doc delta) | `{offer_id}` | the offered member, within 24 h | seats held < cap → else `SEAT_LIMIT` | `seat_offer.accepted` | A | 23 |
 | `set_crew_notify` (doc delta) | `{crew_id, level: all\|mentions\|off}` | member | – | – | A, O | 23 |
-| `send_message` | `{crew_id, body, mentions[], reply_to?, attachments[media_id]}` (`op_id` = client msg id) | member | guide mention → guide meter of asker (§6) | `chat.message_sent` | A, O, N (reply) | 24 |
-| `edit_message` / `delete_message` | `{message_id, body?}` | owner | – | `chat.message_edited/deleted` | A, O | 24 |
-| `react_message` | `{message_id, emoji}` | member | – | `chat.reaction_changed` | A, O | 24 |
-| `mark_read` | `{crew_id, message_id}` | member | – | `chat.read` | A, O, N | 24 |
-| `set_chat_mode` | `{crew_id, mode: all\|mentions\|off}` | member | – | `prefs.changed` | A, O | 24 |
+| `send_message` | `{crew_id, body ≤4000, mentions[] (active members), mentions_guide?, reply_to?, attachments[{media_key, kind: photo\|voice, w?, h?, duration_ms?, peaks?}] ≤10}` (`op_id` = message id; server assigns `seq`; http/https links only; one voice note ≤2 min alone) | active member | guide mention → guide meter of asker (§6) | `chat.message_sent`, `chat.guide_mentioned` | A, O, N (reply) | 24 |
+| `edit_message` | `{message_id, body, mentions?, mentions_guide?}` within `chat.edit_window_minutes` (default 15) | sender | – | `chat.message_edited` | A, O | 24 |
+| `delete_message` | `{message_id}` → tombstone (body and attachments cleared) | sender | – | `chat.message_deleted` | A, O | 24 |
+| `react_message` | `{message_id, emoji, on?}` (absent `on` toggles) | active member | – | `chat.reaction_changed` | A, O | 24 |
+| `mark_read` | `{crew_id, seq}` → `crew_members.last_read_seq = GREATEST(…)`, clamped to the last seq | member or kept-chat former member | – | – | A, O, N | 24 |
+| `report_message` | `{message_id, reason, note?}` → `moderation_reports` kind `message` (`report_content` rules) | active member, not the sender | – | – | A, O | 24 |
+| `mute_member` | `{crew_id, uid, muted}` → `user_settings.muted_uids` (own devices only) | active member | – | – | A, O | 24 |
 | `take_guide_offer` | `{action_id}` | member | – | `guide_action.taken` | A, O | 24 |
 | `add_comment` / `plusone_comment` | `{target{kind,id}, body}` / `{comment_id}` | participant | – | `comment.added` / `comment.plusoned` | A, O | 29 |
 
