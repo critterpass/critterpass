@@ -68,7 +68,7 @@ describe('timeline', () => {
 
     expect(await screen.findByText(/^the bali six$/iu)).toBeTruthy();
     expect(screen.getByText('3 people · Tokek is in this chat')).toBeTruthy();
-    expect(screen.getByText(/^today$/iu)).toBeTruthy();
+    expect(await screen.findByText(/^today$/iu)).toBeTruthy();
     expect(screen.getByText('Leo joined the crew')).toBeTruthy();
     expect(screen.getByTestId('chat-unread-divider')).toBeTruthy();
     expect(screen.getByText('Message deleted')).toBeTruthy();

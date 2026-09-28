@@ -6,7 +6,7 @@
  * emoji and toggle with an explicit outcome; muted crewmates drop out of the timeline.
  */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { act, renderHook, waitFor } from '@testing-library/react-native';
+import { act, configure, renderHook, waitFor } from '@testing-library/react-native';
 
 import {
   openTestLocalFirst,
@@ -27,6 +27,9 @@ jest.mock(
       '../../../../../data/powersync/test-support/node-realm',
     ).powersyncCommon,
 );
+
+// Live queries on the encrypted database settle slower on CI runners than on a laptop.
+configure({ asyncUtilTimeout: 5000 });
 
 const CREW = '0192f000-0000-7000-8000-00000000c1e0';
 const MAYA = '0192f000-0000-7000-8000-0000000000a1';

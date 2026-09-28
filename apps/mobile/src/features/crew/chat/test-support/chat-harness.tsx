@@ -6,7 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- test support; literals are fixtures and SQL. */
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { render } from '@testing-library/react-native';
+import { configure, render } from '@testing-library/react-native';
 import type { ReactElement } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -15,6 +15,10 @@ import { LocalFirstProvider } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { TestLocalFirst } from '@/data/powersync/test-support/local-first-fixture';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
+
+// The chat screens settle through several live queries on an encrypted database; CI runners are
+// about three times slower than a laptop, so async queries wait up to 5 s instead of 1 s.
+configure({ asyncUtilTimeout: 5000 });
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },

@@ -148,6 +148,7 @@ export function createChatUploadQueue(deps: UploadQueueDeps) {
   }
 
   async function drain(): Promise<void> {
+    if (!deps.network.isOnline()) return;
     for (const item of await listUploads(db)) {
       if (!deps.network.isOnline()) return;
       if (item.state === 'failed') continue;
