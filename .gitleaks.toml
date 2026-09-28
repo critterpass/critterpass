@@ -1,0 +1,10 @@
+# gitleaks rules: the default set, plus allowances for values that only look like keys.
+[extend]
+useDefault = true
+
+# Content factory batch ids (`2026-09-28-help-01`) stored under `batch_key` in generated release
+# artifacts are dates and slugs, not credentials.
+[[allowlists]]
+description = "content factory batch ids"
+regexTarget = "line"
+regexes = ['''"batch_key": "\d{4}-\d{2}-\d{2}-[a-z-]+-\d{2}"''']
