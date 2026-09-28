@@ -60,7 +60,7 @@ flowchart LR
   end
   subgraph TP["Third parties"]
     CL["DeepSeek API"]; APNS["APNs"]; FCM["FCM v1"]; RC["RevenueCat + store notifications"]
-    OTP["WhatsApp / Twilio Verify / Prelude"]; SUP["Viator, Travelpayouts, Agoda*, Klook*, Trip.com*, Grab Farefeed, WhatsApp Business"]
+    OTP["WhatsApp / Telegram Gateway / Prelude"]; SUP["Viator, Travelpayouts, Agoda*, Klook*, Trip.com*, Grab Farefeed, WhatsApp Business"]
     DATA["Open-Meteo, AeroDataBox, FlightAware, Frankfurter, BestTime, Foursquare, Mapbox Directions/Matrix (launch routing provider)"]
     VOICE["Deepgram, ElevenLabs"]; OBS["Sentry, PostHog EU, Grafana Cloud, Langfuse"]; MAIL["Resend, inbound mail, PostGrid"]
   end
@@ -308,7 +308,7 @@ Permission contract suite (Vitest + Testcontainers, PR-blocking): fixture actors
 | Secret | Store | Rotation |
 |---|---|---|
 | DB URLs, Redis, Centrifugo API key, HMAC keys, Better Auth secret, JWT keys | Railway variables (reference vars) | quarterly (JWT via `rotationInterval`) |
-| APNs .p8, FCM service account, RevenueCat, Anthropic, supplier keys, Twilio/Prelude, WhatsApp | Railway variables | quarterly / on staff change |
+| APNs .p8, FCM service account, RevenueCat, Anthropic, supplier keys, Telegram Gateway/Prelude, WhatsApp | Railway variables | quarterly / on staff change |
 | Cloudflare (R2, Workers) | Wrangler secrets + GitHub Actions secrets | quarterly |
 | EAS / store credentials | EAS secrets | yearly |
 | Field-encryption key | Railway variable (key id versioned) | yearly |
