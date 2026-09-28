@@ -119,7 +119,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 - Steps: 1. Lab: 150-cell dex grid, 2 hero draw-ons (local `withTiming` progress), closed-eye toggle storm, memory readout, fps counter. 2. Maestro flow scrolls grid, triggers draw-ons, asserts no crash (no fps assertion on simulators/emulators). 3. Capture script (Perfetto/`dumpsys gfxinfo`, `xctrace`) for the founder device run; tune bucket list if needed.
 - Tests: `maestro test e2e/critters/sticker-lab.yaml`
 - Done when (agent): Maestro passes on iOS simulator and Android emulator; capture script committed. Founder checklist: physical mid-range Android + iPhone run records grid scroll 60 fps, 2 concurrent draw-ons ≥ 55 fps, cache ≤ 25 MB in the phase report.
-- Status: done — 70f7b9b (the ~1 s SIGABRT was the draw-on frame callback calling a React state setter on the UI thread; it now schedules the re-render onto the JS thread, and the device-faithful Reanimated test double covers this class; the sticker-lab Maestro flow runs locally when needed)
+- Status: done — 70f7b9b (the ~1 s SIGABRT was the draw-on frame callback calling a React state setter on the UI thread; it now schedules the re-render onto the JS thread, and the device-faithful Reanimated test double covers this class; the sticker-lab Maestro flow runs locally when needed; iPhone 15 Pro founder run 2026-09-28: grid scroll, 2 concurrent draw-ons and cache ≤25 MB within target, PASS, recorded in the skia-critter ADR; mid-range Android and Instruments traces still open)
 
 ### T5 — Bake CLI core
 - Goal: manifest-driven, parallel, deterministic Node renderer.
@@ -173,7 +173,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 
 - [ ] Skia backend within golden thresholds vs canvas2d
 - [ ] `<Sticker>`: cache limits enforced, `drawProgress` + `closedEyes` rendering, static path under reduce motion, a11y labels
-- [ ] Founder device run recorded: Critterdex grid 60 fps; 2 draw-ons ≥ 55 fps mid-range Android (physical device)
+- [ ] Founder device run recorded: Critterdex grid 60 fps; 2 draw-ons ≥ 55 fps mid-range Android (physical device) (iPhone 15 Pro PASS 2026-09-28; Android open)
 - [ ] `pnpm critter-bake --check` green in CI; outputs deterministic
 - [ ] Prebuild places assets in app + all extension targets + Android res; app icon sets complete (iOS layered `.icon` + flat fallbacks, Android adaptive + monochrome)
 - [ ] Web element lazy + reduced-motion; OG atlas complete

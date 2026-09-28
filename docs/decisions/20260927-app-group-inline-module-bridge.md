@@ -1,8 +1,10 @@
 # cp-app-group: inline module bridge from JS to the App Group container
 
 Date: 2026-09-27
-Status: PASS (iOS). Android Kotlin implemented and code-reviewed against the real
-expo-modules-core Kotlin source but **not build-verified** in this pass — see Founder follow-ups.
+Status: PASS (iOS), including the on-device JS round-trip and the home-screen widget reading the
+snapshot on an iPhone 15 Pro (founder run, 2026-09-28). Android Kotlin implemented and code-reviewed
+against the real expo-modules-core Kotlin source but **not build-verified** in this pass — see
+Founder follow-ups.
 
 ## Context
 
@@ -20,7 +22,7 @@ its surface at exactly four functions: `writeSnapshot(key, json)`, `writeImage(k
 | 1 | Expo module exposes `writeSnapshot`, `writeImage`, `readOutbox`, `reloadWidgets` | PASS |
 | 2 | Kotlin equivalent (app-private file + Glance update broadcast) | PASS (implemented, real API usage verified against source) — **not build-verified**, see below |
 | 3 | Widget from T7 reads the snapshot this module writes | PASS |
-| 4 | Round-trip from JS < 50 ms | **PASS on the measured floor (p50 0.56 ms / p95 0.77 ms file I/O); the literal JS-thread number needs Metro + Maestro or a founder run** — see Method/Findings |
+| 4 | Round-trip from JS < 50 ms | **PASS** — file-I/O floor p50 0.56 ms / p95 0.77 ms, and the on-screen JS round-trip under 50 ms on an iPhone 15 Pro (founder run, 2026-09-28) |
 
 ## Method
 
@@ -140,6 +142,14 @@ side rather than only trusting the source-level review recorded here.
   live Metro bundler on a device/simulator (or drive it with a Maestro flow) and record the
   on-screen "writeSnapshot round-trip … ms" figure in this ADR to close out criterion 4 with the
   literal number the phase asks for, not only the file-I/O floor.
+
+## Founder device run
+
+| Check | Device | Date | Build | Value | Result |
+|---|---|---|---|---|---|
+| Spike: App group, `writeSnapshot` round-trip ×5 (target <50 ms) | iPhone 15 Pro | 2026-09-28 | TestFlight staging | not recorded; founder reported within target | PASS (founder reported ok) |
+| Reload widgets; the CritterPass (Staging) home-screen widget shows the snapshot | iPhone 15 Pro | 2026-09-28 | TestFlight staging | — | PASS (founder reported ok) |
+| Android build and Glance widget | Android | | | | open |
 
 ## Rerun
 

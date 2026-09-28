@@ -8,6 +8,8 @@ build — see Raw numbers). INCOMPLETE on the Android emulator pass (not reached
 the skia-critter ADR's disk incident) and on the 1 h battery-drain walk and on-lock-screen ring
 evidence, both physical-device-only per phase-02's own rule (a Mac's simulator or a desktop-hosted
 emulator has no battery to drain regardless).
+Update 2026-09-28: the iOS 1 h walk PASSED on an iPhone 15 Pro (founder run, under 3 %/h); see
+Founder device run.
 
 ## Context
 
@@ -24,7 +26,7 @@ upgrade path that only prompts after the user is already using the While-In-Use 
 | 1 | Trip-day While-In-Use session with iOS background location indicator + Android foreground service (type location) | PASS on iOS (real status-bar indicator + TaskManager notification, see Raw numbers); Android not reached this pass (no emulator build — see Founder follow-ups) |
 | 2 | 50 m dwell ring updates LA progress while locked (via T7/T9 targets) | PARTIAL — the dwell ring genuinely calls T8's `writeSnapshot`/`reloadWidgets` on every progress tier, but the call itself failed in this exact build/simulator with a real `CpAppGroupError` (see Findings); the locked-screen Live Activity render is T7/T9's own target and is separately blocked on the Apple-account/`.p8` gaps those ADRs record |
 | 3 | Always upgrade prompt flow | PASS — separate, later prompt; never combined with the first ask |
-| 4 | 1 h walk test: battery drain per platform | INCOMPLETE — physical-device-only, no device in this environment |
+| 4 | 1 h walk test: battery drain per platform | **iOS: PASS** (iPhone 15 Pro, founder 1 h walk, 2026-09-28: under 3 %/h); **Android: INCOMPLETE** |
 
 ## Method
 
@@ -172,6 +174,16 @@ default, Always as an explicit, separately-prompted upgrade.
 - **Always-upgrade prompt copy/timing** is a product/UX call, not something a spike should decide;
   the current copy in `apps/mobile/app.config.ts`'s `expo-location` plugin entry is a reasonable
   starting draft, not a final string.
+
+## Founder device run
+
+| Check | Device | Date | Build | Value | Result |
+|---|---|---|---|---|---|
+| While-In-Use → Always → POI → trip-day session, 1 h locked walk: battery drain (target <3 %/h) | iPhone 15 Pro | 2026-09-28 | TestFlight staging | not recorded; founder reported within target | PASS (founder reported ok) |
+| Settings → Battery figure for CritterPass (Staging) | iPhone 15 Pro | 2026-09-28 | TestFlight staging | not recorded; founder reported within target | PASS (founder reported ok) |
+| Dwell ring value on screen after the walk | iPhone 15 Pro | 2026-09-28 | TestFlight staging | not recorded | PASS (founder reported ok) |
+| 1 h walk, `dumpsys batterystats` (target <3 %/h) | Android | | | | open |
+| Lock-screen dwell ring on the Live Activity | iPhone | | | | open (needs the APNs `.p8` key) |
 
 ## Rerun
 
