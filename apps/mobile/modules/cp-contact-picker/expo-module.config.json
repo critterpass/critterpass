@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["CpContactPickerModule"]
+  },
+  "android": {
+    "modules": ["app.critterpass.contactpicker.CpContactPickerModule"]
+  }
+}

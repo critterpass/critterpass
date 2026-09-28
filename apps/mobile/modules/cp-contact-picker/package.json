@@ -1,0 +1,9 @@
+{
+  "name": "cp-contact-picker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The system contact picker for one person (name and the chosen phone number) with no Contacts permission: CNContactPickerViewController on iOS, ACTION_PICK on a phone row on Android.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}
