@@ -14,7 +14,7 @@ public class CpPermissionsModule: Module {
     Name("CpPermissions")
 
     AsyncFunction("getStatus") { (kind: String) async -> [String: Any] in
-      await probes.status(kind)
+      await self.probes.status(kind)
     }
 
     AsyncFunction("request") { (kind: String, level: String?) async -> [String: Any] in
