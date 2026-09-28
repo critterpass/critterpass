@@ -19,6 +19,7 @@ import { registerCmdResultsRoute } from '../../../services/api/src/routes/cmd-re
 import { registerCommandRoute } from '../../../services/api/src/routes/cmd';
 import { registerInternalRtRoutes } from '../../../services/api/src/routes/internal-rt';
 import { registerSyncUploadRoute } from '../../../services/api/src/routes/sync-upload';
+import { registerChatCommands } from '../../../services/api/src/commands/chat';
 import { registerE2eCommands } from './commands';
 
 type Logger = Parameters<typeof createApp>[0]['logger'];
@@ -99,6 +100,7 @@ const authModule = createAuthModule({
 
 const registry = createCommandRegistry();
 registerE2eCommands(registry);
+registerChatCommands(registry);
 const doors = {
   pool,
   registry,

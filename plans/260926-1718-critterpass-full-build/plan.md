@@ -43,7 +43,7 @@ The critical path has cleared onboarding (22) and invites and crews (23); crew c
 | 20 Permissions, location, visits | 11/11 | iOS flows and screenshots running now; Android flows |
 | 21 Links and deep links | 8/9 | Funnel verification with live analytics |
 | 22 Onboarding | 10/11 | Fixes for the founder's device test are in progress (headline truncation, white frame behind sheets, sticker borders, stamps, phone field, Apple sign-in); then device flows and EN/VI screenshots |
-| 24 Crew chat | 0/8 | Being built |
+| 24 Crew chat | 7/8 | Built; device runs of the chat flows wait for the device lane |
 | 51 Website | 7/11 | Web previews of proposals, recaps and plans, and web account deletion, which wait on later phases |
 
 **Being built now:**
@@ -115,7 +115,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 21 | [Links & deferred deep links](./phase-21-links-deferred-deeplinks.md) | 9 | 1, 10 | 5 | in_progress (8/9) |
 | 22 | [Onboarding: passport, taste, avatar](./phase-22-onboarding-pass.md) | 11 | 5, 7, 9, 10, 18, 20, 21 | 8 | in_progress (10/11) |
 | 23 | [Invites, crews, referral, seat cap](./phase-23-invites-crews-growth.md) | 10 | 12, 21, 22 | 9 | done |
-| 24 | [Crew chat](./phase-24-crew-chat.md) | 8 | 10, 23 | 10 | in_progress (0/8) |
+| 24 | [Crew chat](./phase-24-crew-chat.md) | 8 | 10, 23 | 10 | in_progress (7/8) |
 | 25 | [Home, inbox, nudges, tips](./phase-25-home-inbox-nudges.md) | 9 | 11, 13, 15, 23, 24 | 11 | pending |
 | 26 | [Polls & destination vote](./phase-26-polls-destination-vote.md) | 12 | 10, 13, 16, 18, 24, 25 | 12 | pending |
 | 27 | [Trip setup](./phase-27-trip-setup.md) | 12 | 10, 16, 20, 24, 25, 26 | 13 | pending |

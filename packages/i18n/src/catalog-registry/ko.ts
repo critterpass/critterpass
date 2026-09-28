@@ -4,6 +4,7 @@ import type { Messages } from '@lingui/core';
 export const catalogs: Record<string, () => Promise<Messages>> = {
   "album": () => import('../../locales/ko/album').then((m) => m.messages),
   "bookings": () => import('../../locales/ko/bookings').then((m) => m.messages),
+  "chat/chat": () => import('../../locales/ko/chat/chat').then((m) => m.messages),
   "common": () => import('../../locales/ko/common').then((m) => m.messages),
   "community": () => import('../../locales/ko/community').then((m) => m.messages),
   "crew": () => import('../../locales/ko/crew').then((m) => m.messages),

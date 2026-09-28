@@ -1,0 +1,2566 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`chat layout bubble: edited 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "opacity": 1,
+          "transform": [
+            {
+              "translateY": 0,
+            },
+          ],
+        }
+      }
+      testID="chat-message-m-5"
+    >
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+            },
+            {
+              "alignItems": "flex-end",
+              "gap": 8,
+              "justifyContent": "flex-start",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "width": 32,
+            }
+          }
+        >
+          <View
+            accessibilityElementsHidden={true}
+            importantForAccessibility="no-hide-descendants"
+            style={
+              [
+                {
+                  "borderRadius": 18,
+                  "padding": 0,
+                },
+                null,
+                null,
+              ]
+            }
+          >
+            <View
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                    "overflow": "hidden",
+                  },
+                  {
+                    "backgroundColor": "#ff5fa8",
+                    "borderColor": "#17142a",
+                    "borderRadius": 18,
+                    "borderWidth": 2,
+                    "height": 22,
+                    "opacity": 1,
+                    "width": 22,
+                  },
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#17142a",
+                      "fontFamily": "Geist-800",
+                      "fontSize": 11,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0.88,
+                      "lineHeight": 15.399999999999999,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.2970000000000015,
+                      "paddingTop": 0.2970000000000015,
+                    },
+                  ]
+                }
+              >
+                M
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            [
+              {
+                "flexDirection": "column",
+              },
+              {
+                "gap": 4,
+              },
+              {
+                "alignItems": "flex-start",
+                "flexShrink": 1,
+              },
+            ]
+          }
+        >
+          <Text
+            allowFontScaling={false}
+            onLayout={[Function]}
+            onTextLayout={[Function]}
+            style={
+              [
+                {
+                  "color": "#a9a3c0",
+                  "fontFamily": "Geist-800",
+                  "fontSize": 11,
+                  "fontStyle": "normal",
+                  "letterSpacing": 0.88,
+                  "lineHeight": 15.399999999999999,
+                },
+                undefined,
+                {
+                  "marginTop": -0.2970000000000015,
+                  "paddingTop": 0.2970000000000015,
+                },
+              ]
+            }
+          >
+            MAYA
+          </Text>
+          <View
+            collapsable={false}
+            style={
+              {
+                "transform": [
+                  {
+                    "translateX": 0,
+                  },
+                ],
+              }
+            }
+          >
+            <View
+              accessibilityActions={[]}
+              accessibilityLabel="Maya, 07:02 AM: sunset instead?"
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+            >
+              <View
+                style={
+                  [
+                    {
+                      "flexDirection": "column",
+                    },
+                    {
+                      "gap": 6,
+                    },
+                    [
+                      {
+                        "maxWidth": "82%",
+                        "paddingHorizontal": 14,
+                        "paddingVertical": 10,
+                      },
+                      {
+                        "backgroundColor": "#1f1b38",
+                        "borderBottomEndRadius": 18,
+                        "borderBottomStartRadius": 4,
+                        "borderTopEndRadius": 18,
+                        "borderTopStartRadius": 18,
+                      },
+                    ],
+                  ]
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#f4efe4",
+                        "fontFamily": "Geist-500",
+                        "fontSize": 14,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0,
+                        "lineHeight": 19.599999999999998,
+                      },
+                      undefined,
+                      {
+                        "marginTop": -0.3780000000000019,
+                        "paddingTop": 0.3780000000000019,
+                      },
+                    ]
+                  }
+                >
+                  sunset instead?
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "nowrap",
+                },
+                {
+                  "alignItems": "center",
+                },
+                {
+                  "alignItems": "center",
+                  "gap": 6,
+                },
+              ]
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              onLayout={[Function]}
+              onTextLayout={[Function]}
+              style={
+                [
+                  {
+                    "color": "#a9a3c0",
+                    "fontFamily": "Geist-500",
+                    "fontSize": 11.5,
+                    "fontStyle": "normal",
+                    "letterSpacing": 0,
+                    "lineHeight": 16.099999999999998,
+                  },
+                  undefined,
+                  {
+                    "marginTop": -0.31050000000000155,
+                    "paddingTop": 0.31050000000000155,
+                  },
+                ]
+              }
+            >
+              edited · 07:02 AM
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`chat layout bubble: failed 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "opacity": 1,
+          "transform": [
+            {
+              "translateY": 0,
+            },
+          ],
+        }
+      }
+      testID="chat-message-m-8"
+    >
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+            },
+            {
+              "alignItems": "flex-end",
+              "gap": 8,
+              "justifyContent": "flex-end",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "flexDirection": "column",
+              },
+              {
+                "gap": 4,
+              },
+              {
+                "alignItems": "flex-end",
+                "flexShrink": 1,
+              },
+            ]
+          }
+        >
+          <View
+            collapsable={false}
+            style={
+              {
+                "transform": [
+                  {
+                    "translateX": 0,
+                  },
+                ],
+              }
+            }
+          >
+            <View
+              accessibilityActions={[]}
+              accessibilityLabel="You, 07:02 AM: hello?"
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+            >
+              <View
+                style={
+                  [
+                    {
+                      "flexDirection": "column",
+                    },
+                    {
+                      "gap": 6,
+                    },
+                    [
+                      {
+                        "maxWidth": "82%",
+                        "paddingHorizontal": 14,
+                        "paddingVertical": 10,
+                      },
+                      {
+                        "backgroundColor": "#ffd84a",
+                        "borderBottomEndRadius": 4,
+                        "borderBottomStartRadius": 18,
+                        "borderTopEndRadius": 18,
+                        "borderTopStartRadius": 18,
+                      },
+                    ],
+                  ]
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#17142a",
+                        "fontFamily": "Geist-500",
+                        "fontSize": 14,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0,
+                        "lineHeight": 19.599999999999998,
+                      },
+                      undefined,
+                      {
+                        "marginTop": -0.3780000000000019,
+                        "paddingTop": 0.3780000000000019,
+                      },
+                    ]
+                  }
+                >
+                  hello?
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "nowrap",
+                },
+                {
+                  "alignItems": "center",
+                },
+                {
+                  "alignItems": "center",
+                  "gap": 6,
+                },
+              ]
+            }
+            testID="chat-failed-m-8"
+          >
+            <Text
+              allowFontScaling={false}
+              onLayout={[Function]}
+              onTextLayout={[Function]}
+              style={
+                [
+                  {
+                    "color": "#ff5fa8",
+                    "fontFamily": "Geist-500",
+                    "fontSize": 11.5,
+                    "fontStyle": "normal",
+                    "letterSpacing": 0,
+                    "lineHeight": 16.099999999999998,
+                  },
+                  undefined,
+                  {
+                    "marginTop": -0.31050000000000155,
+                    "paddingTop": 0.31050000000000155,
+                  },
+                ]
+              }
+            >
+              Didn’t send
+            </Text>
+            <View
+              accessibilityActions={
+                [
+                  {
+                    "label": "Retry",
+                    "name": "activate",
+                  },
+                ]
+              }
+              accessibilityLabel="Retry"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "disabled": false,
+                  "selected": false,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+              style={
+                [
+                  {
+                    "minHeight": 44,
+                    "minWidth": 44,
+                  },
+                  {
+                    "alignItems": "flex-start",
+                    "justifyContent": "center",
+                  },
+                  {
+                    "transform": [
+                      {
+                        "scale": 1,
+                      },
+                    ],
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  [
+                    {
+                      "borderRadius": 16,
+                      "justifyContent": "center",
+                      "minHeight": 32,
+                      "paddingHorizontal": 14,
+                    },
+                    {
+                      "backgroundColor": "#2c2750",
+                    },
+                  ]
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#f4efe4",
+                        "fontFamily": "Archivo-W100-800",
+                        "fontSize": 14,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0.84,
+                        "lineHeight": 12.04,
+                      },
+                      undefined,
+                      {
+                        "marginTop": -5.725999999999999,
+                        "paddingTop": 5.725999999999999,
+                      },
+                    ]
+                  }
+                >
+                  RETRY
+                </Text>
+              </View>
+            </View>
+            <View
+              accessibilityActions={
+                [
+                  {
+                    "label": "Delete",
+                    "name": "activate",
+                  },
+                ]
+              }
+              accessibilityLabel="Delete"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "disabled": false,
+                  "selected": false,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+              style={
+                [
+                  {
+                    "minHeight": 44,
+                    "minWidth": 44,
+                  },
+                  {
+                    "alignItems": "flex-start",
+                    "justifyContent": "center",
+                  },
+                  {
+                    "transform": [
+                      {
+                        "scale": 1,
+                      },
+                    ],
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  [
+                    {
+                      "borderRadius": 16,
+                      "justifyContent": "center",
+                      "minHeight": 32,
+                      "paddingHorizontal": 14,
+                    },
+                    {
+                      "backgroundColor": "#2c2750",
+                    },
+                  ]
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#f4efe4",
+                        "fontFamily": "Archivo-W100-800",
+                        "fontSize": 14,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0.84,
+                        "lineHeight": 12.04,
+                      },
+                      undefined,
+                      {
+                        "marginTop": -5.725999999999999,
+                        "paddingTop": 5.725999999999999,
+                      },
+                    ]
+                  }
+                >
+                  DELETE
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`chat layout bubble: guide 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "opacity": 1,
+          "transform": [
+            {
+              "translateY": 0,
+            },
+          ],
+        }
+      }
+      testID="chat-message-m-2"
+    >
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+            },
+            {
+              "alignItems": "flex-end",
+              "gap": 8,
+              "justifyContent": "flex-start",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "width": 32,
+            }
+          }
+        />
+        <View
+          style={
+            [
+              {
+                "flexDirection": "column",
+              },
+              {
+                "gap": 4,
+              },
+              {
+                "alignItems": "flex-start",
+                "flexShrink": 1,
+              },
+            ]
+          }
+        >
+          <Text
+            allowFontScaling={false}
+            onLayout={[Function]}
+            onTextLayout={[Function]}
+            style={
+              [
+                {
+                  "color": "#f4efe4",
+                  "fontFamily": "Geist-800",
+                  "fontSize": 11,
+                  "fontStyle": "normal",
+                  "letterSpacing": 0.88,
+                  "lineHeight": 15.399999999999999,
+                },
+                undefined,
+                {
+                  "marginTop": -0.2970000000000015,
+                  "paddingTop": 0.2970000000000015,
+                },
+              ]
+            }
+          >
+            TOKEK
+          </Text>
+          <View
+            collapsable={false}
+            style={
+              {
+                "transform": [
+                  {
+                    "translateX": 0,
+                  },
+                ],
+              }
+            }
+          >
+            <View
+              accessibilityActions={[]}
+              accessibilityLabel="Tokek, 07:02 AM: Karsa Spa has three slots at 14:00."
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+            >
+              <View
+                style={
+                  [
+                    {
+                      "flexDirection": "column",
+                    },
+                    {
+                      "gap": 6,
+                    },
+                    [
+                      {
+                        "maxWidth": "82%",
+                        "paddingHorizontal": 14,
+                        "paddingVertical": 10,
+                      },
+                      {
+                        "backgroundColor": "#1f1b38",
+                        "borderBottomEndRadius": 18,
+                        "borderBottomStartRadius": 4,
+                        "borderTopEndRadius": 18,
+                        "borderTopStartRadius": 18,
+                      },
+                    ],
+                  ]
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#f4efe4",
+                        "fontFamily": "Caveat-600",
+                        "fontSize": 20,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0,
+                        "lineHeight": 22,
+                      },
+                      undefined,
+                      {
+                        "marginTop": -1.7999999999999994,
+                        "paddingTop": 1.7999999999999994,
+                      },
+                    ]
+                  }
+                >
+                  Karsa Spa has three slots at 14:00.
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "nowrap",
+                },
+                {
+                  "alignItems": "center",
+                },
+                {
+                  "alignItems": "center",
+                  "gap": 6,
+                },
+              ]
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              onLayout={[Function]}
+              onTextLayout={[Function]}
+              style={
+                [
+                  {
+                    "color": "#a9a3c0",
+                    "fontFamily": "Geist-500",
+                    "fontSize": 11.5,
+                    "fontStyle": "normal",
+                    "letterSpacing": 0,
+                    "lineHeight": 16.099999999999998,
+                  },
+                  undefined,
+                  {
+                    "marginTop": -0.31050000000000155,
+                    "paddingTop": 0.31050000000000155,
+                  },
+                ]
+              }
+            >
+              07:02 AM
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`chat layout bubble: mine 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "opacity": 1,
+          "transform": [
+            {
+              "translateY": 0,
+            },
+          ],
+        }
+      }
+      testID="chat-message-m-6"
+    >
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+            },
+            {
+              "alignItems": "flex-end",
+              "gap": 8,
+              "justifyContent": "flex-end",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "flexDirection": "column",
+              },
+              {
+                "gap": 4,
+              },
+              {
+                "alignItems": "flex-end",
+                "flexShrink": 1,
+              },
+            ]
+          }
+        >
+          <View
+            collapsable={false}
+            style={
+              {
+                "transform": [
+                  {
+                    "translateX": 0,
+                  },
+                ],
+              }
+            }
+          >
+            <View
+              accessibilityActions={[]}
+              accessibilityLabel="You, 07:02 AM: @tokek can we catch sunset somewhere after?"
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+            >
+              <View
+                style={
+                  [
+                    {
+                      "flexDirection": "column",
+                    },
+                    {
+                      "gap": 6,
+                    },
+                    [
+                      {
+                        "maxWidth": "82%",
+                        "paddingHorizontal": 14,
+                        "paddingVertical": 10,
+                      },
+                      {
+                        "backgroundColor": "#ffd84a",
+                        "borderBottomEndRadius": 4,
+                        "borderBottomStartRadius": 18,
+                        "borderTopEndRadius": 18,
+                        "borderTopStartRadius": 18,
+                      },
+                    ],
+                  ]
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#17142a",
+                        "fontFamily": "Geist-500",
+                        "fontSize": 14,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0,
+                        "lineHeight": 19.599999999999998,
+                      },
+                      undefined,
+                      {
+                        "marginTop": -0.3780000000000019,
+                        "paddingTop": 0.3780000000000019,
+                      },
+                    ]
+                  }
+                >
+                  @tokek can we catch sunset somewhere after?
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "nowrap",
+                },
+                {
+                  "alignItems": "center",
+                },
+                {
+                  "alignItems": "center",
+                  "gap": 6,
+                },
+              ]
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              onLayout={[Function]}
+              onTextLayout={[Function]}
+              style={
+                [
+                  {
+                    "color": "#a9a3c0",
+                    "fontFamily": "Geist-500",
+                    "fontSize": 11.5,
+                    "fontStyle": "normal",
+                    "letterSpacing": 0,
+                    "lineHeight": 16.099999999999998,
+                  },
+                  undefined,
+                  {
+                    "marginTop": -0.31050000000000155,
+                    "paddingTop": 0.31050000000000155,
+                  },
+                ]
+              }
+            >
+              07:02 AM
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`chat layout bubble: sending 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "opacity": 1,
+          "transform": [
+            {
+              "translateY": 0,
+            },
+          ],
+        }
+      }
+      testID="chat-message-m-7"
+    >
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+            },
+            {
+              "alignItems": "flex-end",
+              "gap": 8,
+              "justifyContent": "flex-end",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "flexDirection": "column",
+              },
+              {
+                "gap": 4,
+              },
+              {
+                "alignItems": "flex-end",
+                "flexShrink": 1,
+              },
+            ]
+          }
+        >
+          <View
+            collapsable={false}
+            style={
+              {
+                "transform": [
+                  {
+                    "translateX": 0,
+                  },
+                ],
+              }
+            }
+          >
+            <View
+              accessibilityActions={[]}
+              accessibilityLabel="You, 07:02 AM: we made it!!"
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+            >
+              <View
+                style={
+                  [
+                    {
+                      "flexDirection": "column",
+                    },
+                    {
+                      "gap": 6,
+                    },
+                    [
+                      {
+                        "maxWidth": "82%",
+                        "paddingHorizontal": 14,
+                        "paddingVertical": 10,
+                      },
+                      {
+                        "backgroundColor": "#ffd84a",
+                        "borderBottomEndRadius": 4,
+                        "borderBottomStartRadius": 18,
+                        "borderTopEndRadius": 18,
+                        "borderTopStartRadius": 18,
+                      },
+                    ],
+                  ]
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#17142a",
+                        "fontFamily": "Geist-500",
+                        "fontSize": 14,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0,
+                        "lineHeight": 19.599999999999998,
+                      },
+                      undefined,
+                      {
+                        "marginTop": -0.3780000000000019,
+                        "paddingTop": 0.3780000000000019,
+                      },
+                    ]
+                  }
+                >
+                  we made it!!
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "nowrap",
+                },
+                {
+                  "alignItems": "center",
+                },
+                {
+                  "alignItems": "center",
+                  "gap": 6,
+                },
+              ]
+            }
+          >
+            <View
+              accessibilityElementsHidden={true}
+              accessible={false}
+              importantForAccessibility="no-hide-descendants"
+              pointerEvents="none"
+              style={
+                [
+                  {
+                    "height": 6,
+                    "width": 12,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <View
+                accessible={false}
+                skiaProps={
+                  {
+                    "style": {
+                      "height": 6,
+                      "width": 12,
+                    },
+                  }
+                }
+                testID="skia-canvas"
+              >
+                <View
+                  accessible={false}
+                  skiaProps={
+                    {
+                      "transform": [
+                        {
+                          "scale": 0.12,
+                        },
+                      ],
+                    }
+                  }
+                  testID="skia-group"
+                />
+              </View>
+            </View>
+            <Text
+              allowFontScaling={false}
+              onLayout={[Function]}
+              onTextLayout={[Function]}
+              style={
+                [
+                  {
+                    "color": "#a9a3c0",
+                    "fontFamily": "Geist-500",
+                    "fontSize": 11.5,
+                    "fontStyle": "normal",
+                    "letterSpacing": 0,
+                    "lineHeight": 16.099999999999998,
+                  },
+                  undefined,
+                  {
+                    "marginTop": -0.31050000000000155,
+                    "paddingTop": 0.31050000000000155,
+                  },
+                ]
+              }
+            >
+              Sending
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`chat layout bubble: system 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "opacity": 1,
+          "transform": [
+            {
+              "translateY": 0,
+            },
+          ],
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "alignSelf": "center",
+            "paddingHorizontal": 24,
+            "paddingVertical": 6,
+          }
+        }
+        testID="chat-system-m-3"
+      >
+        <Text
+          allowFontScaling={false}
+          onLayout={[Function]}
+          onTextLayout={[Function]}
+          style={
+            [
+              {
+                "color": "#a9a3c0",
+                "fontFamily": "Geist-500",
+                "fontSize": 11.5,
+                "fontStyle": "normal",
+                "letterSpacing": 0,
+                "lineHeight": 16.099999999999998,
+              },
+              {
+                "textAlign": "center",
+              },
+              {
+                "marginTop": -0.31050000000000155,
+                "paddingTop": 0.31050000000000155,
+              },
+            ]
+          }
+        >
+          Leo joined the crew
+        </Text>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`chat layout bubble: theirs 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "opacity": 1,
+          "transform": [
+            {
+              "translateY": 0,
+            },
+          ],
+        }
+      }
+      testID="chat-message-m-1"
+    >
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+            },
+            {
+              "alignItems": "flex-end",
+              "gap": 8,
+              "justifyContent": "flex-start",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "width": 32,
+            }
+          }
+        >
+          <View
+            accessibilityElementsHidden={true}
+            importantForAccessibility="no-hide-descendants"
+            style={
+              [
+                {
+                  "borderRadius": 18,
+                  "padding": 0,
+                },
+                null,
+                null,
+              ]
+            }
+          >
+            <View
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                    "overflow": "hidden",
+                  },
+                  {
+                    "backgroundColor": "#ff5fa8",
+                    "borderColor": "#17142a",
+                    "borderRadius": 18,
+                    "borderWidth": 2,
+                    "height": 22,
+                    "opacity": 1,
+                    "width": 22,
+                  },
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#17142a",
+                      "fontFamily": "Geist-800",
+                      "fontSize": 11,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0.88,
+                      "lineHeight": 15.399999999999999,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.2970000000000015,
+                      "paddingTop": 0.2970000000000015,
+                    },
+                  ]
+                }
+              >
+                M
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            [
+              {
+                "flexDirection": "column",
+              },
+              {
+                "gap": 4,
+              },
+              {
+                "alignItems": "flex-start",
+                "flexShrink": 1,
+              },
+            ]
+          }
+        >
+          <Text
+            allowFontScaling={false}
+            onLayout={[Function]}
+            onTextLayout={[Function]}
+            style={
+              [
+                {
+                  "color": "#a9a3c0",
+                  "fontFamily": "Geist-800",
+                  "fontSize": 11,
+                  "fontStyle": "normal",
+                  "letterSpacing": 0.88,
+                  "lineHeight": 15.399999999999999,
+                },
+                undefined,
+                {
+                  "marginTop": -0.2970000000000015,
+                  "paddingTop": 0.2970000000000015,
+                },
+              ]
+            }
+          >
+            MAYA
+          </Text>
+          <View
+            collapsable={false}
+            style={
+              {
+                "transform": [
+                  {
+                    "translateX": 0,
+                  },
+                ],
+              }
+            }
+          >
+            <View
+              accessibilityActions={[]}
+              accessibilityLabel="Maya, 07:02 AM: who’s up for the spa on day 3?"
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+            >
+              <View
+                style={
+                  [
+                    {
+                      "flexDirection": "column",
+                    },
+                    {
+                      "gap": 6,
+                    },
+                    [
+                      {
+                        "maxWidth": "82%",
+                        "paddingHorizontal": 14,
+                        "paddingVertical": 10,
+                      },
+                      {
+                        "backgroundColor": "#1f1b38",
+                        "borderBottomEndRadius": 18,
+                        "borderBottomStartRadius": 4,
+                        "borderTopEndRadius": 18,
+                        "borderTopStartRadius": 18,
+                      },
+                    ],
+                  ]
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#f4efe4",
+                        "fontFamily": "Geist-500",
+                        "fontSize": 14,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0,
+                        "lineHeight": 19.599999999999998,
+                      },
+                      undefined,
+                      {
+                        "marginTop": -0.3780000000000019,
+                        "paddingTop": 0.3780000000000019,
+                      },
+                    ]
+                  }
+                >
+                  who’s up for the spa on day 3?
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "nowrap",
+                },
+                {
+                  "alignItems": "center",
+                },
+                {
+                  "alignItems": "center",
+                  "gap": 6,
+                },
+              ]
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              onLayout={[Function]}
+              onTextLayout={[Function]}
+              style={
+                [
+                  {
+                    "color": "#a9a3c0",
+                    "fontFamily": "Geist-500",
+                    "fontSize": 11.5,
+                    "fontStyle": "normal",
+                    "letterSpacing": 0,
+                    "lineHeight": 16.099999999999998,
+                  },
+                  undefined,
+                  {
+                    "marginTop": -0.31050000000000155,
+                    "paddingTop": 0.31050000000000155,
+                  },
+                ]
+              }
+            >
+              07:02 AM
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`chat layout bubble: tombstone 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "opacity": 1,
+          "transform": [
+            {
+              "translateY": 0,
+            },
+          ],
+        }
+      }
+      testID="chat-message-m-4"
+    >
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+            },
+            {
+              "alignItems": "flex-end",
+              "gap": 8,
+              "justifyContent": "flex-start",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "width": 32,
+            }
+          }
+        >
+          <View
+            accessibilityElementsHidden={true}
+            importantForAccessibility="no-hide-descendants"
+            style={
+              [
+                {
+                  "borderRadius": 18,
+                  "padding": 0,
+                },
+                null,
+                null,
+              ]
+            }
+          >
+            <View
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                    "overflow": "hidden",
+                  },
+                  {
+                    "backgroundColor": "#ff5fa8",
+                    "borderColor": "#17142a",
+                    "borderRadius": 18,
+                    "borderWidth": 2,
+                    "height": 22,
+                    "opacity": 1,
+                    "width": 22,
+                  },
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#17142a",
+                      "fontFamily": "Geist-800",
+                      "fontSize": 11,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0.88,
+                      "lineHeight": 15.399999999999999,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.2970000000000015,
+                      "paddingTop": 0.2970000000000015,
+                    },
+                  ]
+                }
+              >
+                M
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            [
+              {
+                "flexDirection": "column",
+              },
+              {
+                "gap": 4,
+              },
+              {
+                "alignItems": "flex-start",
+                "flexShrink": 1,
+              },
+            ]
+          }
+        >
+          <Text
+            allowFontScaling={false}
+            onLayout={[Function]}
+            onTextLayout={[Function]}
+            style={
+              [
+                {
+                  "color": "#a9a3c0",
+                  "fontFamily": "Geist-800",
+                  "fontSize": 11,
+                  "fontStyle": "normal",
+                  "letterSpacing": 0.88,
+                  "lineHeight": 15.399999999999999,
+                },
+                undefined,
+                {
+                  "marginTop": -0.2970000000000015,
+                  "paddingTop": 0.2970000000000015,
+                },
+              ]
+            }
+          >
+            MAYA
+          </Text>
+          <View
+            collapsable={false}
+            style={
+              {
+                "transform": [
+                  {
+                    "translateX": 0,
+                  },
+                ],
+              }
+            }
+          >
+            <View
+              accessibilityActions={[]}
+              accessibilityLabel="Maya, 07:02 AM: Message deleted"
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+            >
+              <View
+                style={
+                  [
+                    {
+                      "flexDirection": "column",
+                    },
+                    {
+                      "gap": 6,
+                    },
+                    [
+                      {
+                        "maxWidth": "82%",
+                        "paddingHorizontal": 14,
+                        "paddingVertical": 10,
+                      },
+                      {
+                        "backgroundColor": "#1f1b38",
+                        "borderBottomEndRadius": 18,
+                        "borderBottomStartRadius": 4,
+                        "borderTopEndRadius": 18,
+                        "borderTopStartRadius": 18,
+                      },
+                    ],
+                  ]
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#a9a3c0",
+                        "fontFamily": "Geist-500",
+                        "fontSize": 14,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0,
+                        "lineHeight": 19.599999999999998,
+                      },
+                      undefined,
+                      {
+                        "marginTop": -0.3780000000000019,
+                        "paddingTop": 0.3780000000000019,
+                      },
+                    ]
+                  }
+                >
+                  Message deleted
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "nowrap",
+                },
+                {
+                  "alignItems": "center",
+                },
+                {
+                  "alignItems": "center",
+                  "gap": 6,
+                },
+              ]
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              onLayout={[Function]}
+              onTextLayout={[Function]}
+              style={
+                [
+                  {
+                    "color": "#a9a3c0",
+                    "fontFamily": "Geist-500",
+                    "fontSize": 11.5,
+                    "fontStyle": "normal",
+                    "letterSpacing": 0,
+                    "lineHeight": 16.099999999999998,
+                  },
+                  undefined,
+                  {
+                    "marginTop": -0.31050000000000155,
+                    "paddingTop": 0.31050000000000155,
+                  },
+                ]
+              }
+            >
+              07:02 AM
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`chat layout composer 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "flexDirection": "column",
+          },
+          {},
+          {
+            "gap": 8,
+            "paddingHorizontal": 12,
+            "paddingTop": 6,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+            },
+            {
+              "alignItems": "center",
+            },
+            {
+              "alignItems": "center",
+              "gap": 8,
+            },
+          ]
+        }
+        testID="chat-composer"
+      >
+        <View
+          accessibilityActions={
+            [
+              {
+                "label": "Add attachment",
+                "name": "activate",
+              },
+            ]
+          }
+          accessibilityLabel="Add attachment"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "disabled": false,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          onAccessibilityAction={[Function]}
+          style={
+            [
+              {
+                "minHeight": 44,
+                "minWidth": 44,
+              },
+              [
+                {
+                  "alignItems": "center",
+                  "borderRadius": 44,
+                  "height": 48,
+                  "justifyContent": "center",
+                  "width": 48,
+                },
+                {
+                  "backgroundColor": "#1f1b38",
+                },
+              ],
+              {
+                "transform": [
+                  {
+                    "scale": 1,
+                  },
+                ],
+              },
+            ]
+          }
+        >
+          <Text
+            allowFontScaling={false}
+            onLayout={[Function]}
+            onTextLayout={[Function]}
+            style={
+              [
+                {
+                  "color": "#f4efe4",
+                  "fontFamily": "Archivo-W78-900",
+                  "fontSize": 28,
+                  "fontStyle": "normal",
+                  "letterSpacing": 0.56,
+                  "lineHeight": 24.08,
+                },
+                undefined,
+                {
+                  "marginTop": -11.451999999999998,
+                  "paddingTop": 11.451999999999998,
+                },
+              ]
+            }
+          >
+            +
+          </Text>
+        </View>
+        <View
+          style={
+            {
+              "backgroundColor": "#1f1b38",
+              "borderRadius": 44,
+              "flex": 1,
+              "justifyContent": "center",
+              "minHeight": 48,
+              "paddingHorizontal": 16,
+            }
+          }
+        >
+          <TextInput
+            accessibilityLabel="Message, or @Tokek"
+            multiline={true}
+            onChangeText={[Function]}
+            placeholder="Message, or @Tokek"
+            placeholderTextColor="#a9a3c0"
+            style={
+              {
+                "color": "#f4efe4",
+                "fontFamily": "Geist-500",
+                "fontSize": 15,
+                "minHeight": 44,
+                "paddingVertical": 12,
+              }
+            }
+            value=""
+          />
+        </View>
+        <View
+          accessibilityActions={
+            [
+              {
+                "label": "Record a voice message",
+                "name": "activate",
+              },
+            ]
+          }
+          accessibilityLabel="Record a voice message"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "selected": false,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          onAccessibilityAction={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "borderRadius": 44,
+                "height": 48,
+                "justifyContent": "center",
+                "width": 48,
+              },
+              {
+                "backgroundColor": "#f4efe4",
+              },
+            ]
+          }
+        >
+          <View
+            collapsable={false}
+            style={
+              {
+                "alignItems": "center",
+                "height": "100%",
+                "justifyContent": "center",
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              importantForAccessibility="no-hide-descendants"
+              style={
+                {
+                  "alignItems": "center",
+                }
+              }
+            >
+              <View
+                style={
+                  [
+                    {
+                      "borderRadius": 6,
+                      "height": 14,
+                      "width": 10,
+                    },
+                    {
+                      "backgroundColor": "#211d18",
+                    },
+                  ]
+                }
+              />
+              <View
+                style={
+                  [
+                    {
+                      "borderBottomEndRadius": 8,
+                      "borderBottomStartRadius": 8,
+                      "borderTopWidth": 0,
+                      "borderWidth": 2,
+                      "height": 8,
+                      "marginTop": -4,
+                      "width": 16,
+                    },
+                    {
+                      "borderColor": "#211d18",
+                    },
+                  ]
+                }
+              />
+              <View
+                style={
+                  [
+                    {
+                      "height": 4,
+                      "width": 2,
+                    },
+                    {
+                      "backgroundColor": "#211d18",
+                    },
+                  ]
+                }
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`chat layout header with the trip guide 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "flexDirection": "row",
+            "flexWrap": "nowrap",
+          },
+          {
+            "alignItems": "center",
+          },
+          {
+            "alignItems": "center",
+            "gap": 8,
+            "paddingHorizontal": 12,
+            "paddingVertical": 8,
+          },
+        ]
+      }
+      testID="chat-header"
+    >
+      <View
+        accessibilityActions={
+          [
+            {
+              "label": "Back",
+              "name": "activate",
+            },
+          ]
+        }
+        accessibilityLabel="Back"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        onAccessibilityAction={[Function]}
+        style={
+          [
+            {
+              "minHeight": 44,
+              "minWidth": 44,
+            },
+            [
+              {
+                "alignItems": "center",
+                "justifyContent": "center",
+                "overflow": "hidden",
+              },
+              {
+                "backgroundColor": "#2c2750",
+                "borderRadius": 22,
+                "height": 44,
+                "opacity": 1,
+                "width": 44,
+              },
+            ],
+            {
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+            },
+          ]
+        }
+        testID="chat-back"
+      >
+        <View
+          accessibilityElementsHidden={true}
+          accessible={false}
+          importantForAccessibility="no-hide-descendants"
+          pointerEvents="none"
+          style={
+            [
+              {
+                "height": 8,
+                "width": 20,
+              },
+              {
+                "transform": [
+                  {
+                    "scaleX": -1,
+                  },
+                ],
+              },
+            ]
+          }
+        >
+          <View
+            accessible={false}
+            skiaProps={
+              {
+                "style": {
+                  "height": 8,
+                  "width": 20,
+                },
+              }
+            }
+            testID="skia-canvas"
+          >
+            <View
+              accessible={false}
+              skiaProps={
+                {
+                  "transform": [
+                    {
+                      "scale": 0.2,
+                    },
+                  ],
+                }
+              }
+              testID="skia-group"
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          [
+            {
+              "flexDirection": "column",
+            },
+            {
+              "gap": 2,
+            },
+            {
+              "flex": 1,
+            },
+          ]
+        }
+      >
+        <Text
+          accessibilityRole="header"
+          allowFontScaling={false}
+          numberOfLines={1}
+          onLayout={[Function]}
+          onTextLayout={[Function]}
+          style={
+            [
+              {
+                "color": "#f4efe4",
+                "fontFamily": "Archivo-W78-900",
+                "fontSize": 28,
+                "fontStyle": "normal",
+                "letterSpacing": 0.56,
+                "lineHeight": 24.08,
+              },
+              undefined,
+              {
+                "marginTop": -11.451999999999998,
+                "paddingTop": 11.451999999999998,
+              },
+            ]
+          }
+        >
+          THE BALI SIX
+        </Text>
+        <Text
+          allowFontScaling={false}
+          numberOfLines={1}
+          onLayout={[Function]}
+          onTextLayout={[Function]}
+          style={
+            [
+              {
+                "color": "#a9a3c0",
+                "fontFamily": "Geist-500",
+                "fontSize": 11.5,
+                "fontStyle": "normal",
+                "letterSpacing": 0,
+                "lineHeight": 16.099999999999998,
+              },
+              undefined,
+              {
+                "marginTop": -0.31050000000000155,
+                "paddingTop": 0.31050000000000155,
+              },
+            ]
+          }
+        >
+          6 people · Tokek is in this chat
+        </Text>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`chat layout header without a trip 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "flexDirection": "row",
+            "flexWrap": "nowrap",
+          },
+          {
+            "alignItems": "center",
+          },
+          {
+            "alignItems": "center",
+            "gap": 8,
+            "paddingHorizontal": 12,
+            "paddingVertical": 8,
+          },
+        ]
+      }
+      testID="chat-header"
+    >
+      <View
+        accessibilityActions={
+          [
+            {
+              "label": "Back",
+              "name": "activate",
+            },
+          ]
+        }
+        accessibilityLabel="Back"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        onAccessibilityAction={[Function]}
+        style={
+          [
+            {
+              "minHeight": 44,
+              "minWidth": 44,
+            },
+            [
+              {
+                "alignItems": "center",
+                "justifyContent": "center",
+                "overflow": "hidden",
+              },
+              {
+                "backgroundColor": "#2c2750",
+                "borderRadius": 22,
+                "height": 44,
+                "opacity": 1,
+                "width": 44,
+              },
+            ],
+            {
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+            },
+          ]
+        }
+        testID="chat-back"
+      >
+        <View
+          accessibilityElementsHidden={true}
+          accessible={false}
+          importantForAccessibility="no-hide-descendants"
+          pointerEvents="none"
+          style={
+            [
+              {
+                "height": 8,
+                "width": 20,
+              },
+              {
+                "transform": [
+                  {
+                    "scaleX": -1,
+                  },
+                ],
+              },
+            ]
+          }
+        >
+          <View
+            accessible={false}
+            skiaProps={
+              {
+                "style": {
+                  "height": 8,
+                  "width": 20,
+                },
+              }
+            }
+            testID="skia-canvas"
+          >
+            <View
+              accessible={false}
+              skiaProps={
+                {
+                  "transform": [
+                    {
+                      "scale": 0.2,
+                    },
+                  ],
+                }
+              }
+              testID="skia-group"
+            />
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          [
+            {
+              "flexDirection": "column",
+            },
+            {
+              "gap": 2,
+            },
+            {
+              "flex": 1,
+            },
+          ]
+        }
+      >
+        <Text
+          accessibilityRole="header"
+          allowFontScaling={false}
+          numberOfLines={1}
+          onLayout={[Function]}
+          onTextLayout={[Function]}
+          style={
+            [
+              {
+                "color": "#f4efe4",
+                "fontFamily": "Archivo-W78-900",
+                "fontSize": 28,
+                "fontStyle": "normal",
+                "letterSpacing": 0.56,
+                "lineHeight": 24.08,
+              },
+              undefined,
+              {
+                "marginTop": -11.451999999999998,
+                "paddingTop": 11.451999999999998,
+              },
+            ]
+          }
+        >
+          THE BALI SIX
+        </Text>
+        <Text
+          allowFontScaling={false}
+          numberOfLines={1}
+          onLayout={[Function]}
+          onTextLayout={[Function]}
+          style={
+            [
+              {
+                "color": "#a9a3c0",
+                "fontFamily": "Geist-500",
+                "fontSize": 11.5,
+                "fontStyle": "normal",
+                "letterSpacing": 0,
+                "lineHeight": 16.099999999999998,
+              },
+              undefined,
+              {
+                "marginTop": -0.31050000000000155,
+                "paddingTop": 0.31050000000000155,
+              },
+            ]
+          }
+        >
+          3 people
+        </Text>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;

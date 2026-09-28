@@ -46,6 +46,13 @@ const testFileExcludes = [
   `${repoRootPrefix}/**/__tests__/**`,
 ];
 
+// Crew chat keeps its own catalog inside the crew area (nested `chat/chat`), so the chat and the
+// rest of the crew area never edit the same file.
+const chatSources = [
+  `${repoRootPrefix}/apps/mobile/src/features/crew/chat/**`,
+  `${repoRootPrefix}/apps/mobile/src/app/crew/*/chat/**`,
+];
+
 const notificationSources = [
   {
     name: 'common',
@@ -95,8 +102,14 @@ export default defineConfig({
         `${repoRootPrefix}/apps/mobile/src/app/${area}/**`,
         `${repoRootPrefix}/apps/mobile/src/features/${area}/**`,
       ],
-      exclude: testFileExcludes,
+      exclude: area === 'crew' ? [...testFileExcludes, ...chatSources] : testFileExcludes,
     })),
+    {
+      name: 'chat/chat',
+      path: 'locales/{locale}/chat/chat',
+      include: chatSources,
+      exclude: testFileExcludes,
+    },
     {
       name: 'web',
       path: 'locales/{locale}/web',
