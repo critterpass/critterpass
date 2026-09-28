@@ -1,3 +1,4 @@
+import { poolMaxEnv } from '@cp/db';
 import { z } from 'zod';
 
 /** Env files (and unresolved platform references) write unset values as `KEY=`; treat `''` as absent. */
@@ -23,9 +24,18 @@ export const apiEnvSchema = z.object({
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   /** Pooled connection (PgBouncer, port 6432) used by request transactions. */
   DATABASE_URL: z.url(),
-  /** Direct connection (port 5432): the pre-deploy migration step and the job producer (pg-boss needs
-   *  session-level advisory locks, which PgBouncer transaction pooling cannot give). */
+  /** Direct connection (port 5432): the pre-deploy migration step and the job producer (pg-boss
+   *  sets its role with a `-c role=` startup option, which PgBouncer rejects). */
   DATABASE_DIRECT_URL: optionalUrl,
+  /** Request pool size (through PgBouncer; its server pool caps real connections). */
+  DB_POOL_MAX: poolMaxEnv(10),
+  /** Better Auth's pool for app sign-in (through PgBouncer). */
+  AUTH_POOL_MAX: poolMaxEnv(5),
+  /** The ops console's Better Auth pool (through PgBouncer). */
+  ADMIN_AUTH_POOL_MAX: poolMaxEnv(2),
+  /** The send-only pg-boss producer's own pool: direct connections, used only while it starts
+   *  (enqueueing runs inside the command's transaction), so one is enough. */
+  JOBS_POOL_MAX: poolMaxEnv(1),
   REDIS_URL: z.url(),
   PUBLIC_BASE_URL: z.url(),
   SENTRY_DSN: optionalUrl,

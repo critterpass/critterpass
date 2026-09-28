@@ -37,3 +37,16 @@ rules:
     op: gt
     threshold: 0.05
     summary: More than 5 % of push sends fail.
+  - uid: cp-p2-db-connections
+    title: Database connections over 80 % of max_connections
+    severity: P2
+    runbook: db-connections
+    for: 10m
+    expr: >-
+      max(sum by (env) (cp_pg_connections_count{role!="system"})
+      / on (env) max by (env) (pg_settings_max_connections))
+    op: gt
+    threshold: 0.8
+    summary: >-
+      Client connections are above 80 % of max_connections; new connections soon fail with
+      "remaining connection slots are reserved".

@@ -48,6 +48,8 @@ export interface AdminGoogleConfig {
 
 export interface AdminAuthDeps {
   readonly authDatabaseUrl: string;
+  /** The console's Better Auth pool size (default 2). */
+  readonly poolMax?: number;
   /** The api's Better Auth secret; the console derives its own signing secret from it. */
   readonly secret: string;
   /** Public origin the console is served from, e.g. `https://admin.critterpass.app`. */
@@ -174,7 +176,7 @@ export function buildAdminAuthOptions(
 }
 
 export function createAdminAuth(deps: AdminAuthDeps): AdminAuth {
-  const pool = new pg.Pool({ connectionString: deps.authDatabaseUrl, max: 4 });
+  const pool = new pg.Pool({ connectionString: deps.authDatabaseUrl, max: deps.poolMax ?? 2 });
   pool.on(
     'error',
     deps.onPoolError ??

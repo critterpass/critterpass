@@ -51,9 +51,10 @@ const errors = initWorkerSentry({
   release: `worker@${packageJson.version}+${env.COMMIT_SHA}`,
 });
 
+// Handlers' transactions carry no session state (SET LOCAL only), so they go through PgBouncer.
 const pool = new pg.Pool({
-  connectionString: env.DATABASE_DIRECT_URL,
-  max: 10,
+  connectionString: env.DATABASE_URL ?? env.DATABASE_DIRECT_URL,
+  max: env.DB_POOL_MAX,
   connectionTimeoutMillis: 2000,
   idleTimeoutMillis: 30_000,
 });
@@ -201,7 +202,11 @@ if (env.POSTHOG_PROJECT_API_KEY && env.ANALYTICS_PID_SALT) {
 }
 
 const jobsLogger = logger.child({ component: 'jobs' });
-const boss = createBoss({ connectionString: env.DATABASE_DIRECT_URL, logger: jobsLogger });
+const boss = createBoss({
+  connectionString: env.DATABASE_DIRECT_URL,
+  max: env.JOBS_POOL_MAX,
+  logger: jobsLogger,
+});
 let rtRelay: RtRelay | undefined;
 let stopHeartbeat: (() => void) | undefined;
 const runtime = startJobRuntime({

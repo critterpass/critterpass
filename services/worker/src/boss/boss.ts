@@ -2,7 +2,8 @@
  * The pg-boss runtime (docs/system-architecture.md §4.4, docs/api-contracts-async.md §2). pg-boss
  * runs in the `pgboss` schema as app_system: its pool connects with the service URL and sets the
  * session role at connect, so every table pg-boss installs or migrates is owned by app_system, as
- * docs/data-model.md §2 requires. It needs a direct connection (LISTEN, advisory locks).
+ * docs/data-model.md §2 requires. It needs a direct connection: PgBouncer rejects that `-c role=`
+ * startup option and its transaction pooling would drop the LISTEN that wakes workers.
  */
 import { registerJobProducer } from '@cp/db';
 import { PgBoss } from 'pg-boss';
@@ -34,7 +35,7 @@ export function createBoss(options: CreateBossOptions): PgBoss {
     createSchema: false,
     options: '-c role=app_system',
     application_name: options.applicationName ?? 'cp-worker-jobs',
-    max: options.max ?? 6,
+    max: options.max ?? 2,
     useListenNotify: true,
     persistWarnings: false,
   });

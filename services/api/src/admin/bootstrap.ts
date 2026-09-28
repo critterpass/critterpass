@@ -64,6 +64,7 @@ export function buildAdminConsole(env: ApiEnv, deps: AdminConsoleDeps): AdminCon
   const allowlist = parseAdminAllowlist(env.ADMIN_ALLOWLIST);
   const auth = createAdminAuth({
     authDatabaseUrl: env.AUTH_DATABASE_URL,
+    poolMax: env.ADMIN_AUTH_POOL_MAX,
     secret: env.BETTER_AUTH_SECRET,
     publicOrigin: env.ADMIN_PUBLIC_ORIGIN.replace(/\/$/, ''),
     allowlist,

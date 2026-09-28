@@ -47,8 +47,8 @@ at `https://backboard.railway.com/graphql/v2`, authenticated with the logged-in 
 
 | Service | Variables |
 |---|---|
-| api | `NODE_ENV=production`, `APP_ENV`, `DATABASE_URL` (PgBouncer `:6432`), `DATABASE_DIRECT_URL` (`:5432`, migrations only), `REDIS_URL=${{Redis.REDIS_URL}}`, `PUBLIC_BASE_URL`, `COMMIT_SHA=${{RAILWAY_GIT_COMMIT_SHA}}`, `RAILWAY_DOCKERFILE_PATH`, `SENTRY_DSN` |
-| worker | `NODE_ENV=production`, `APP_ENV`, `DATABASE_DIRECT_URL`, `REDIS_URL=${{Redis.REDIS_URL}}`, `COMMIT_SHA`, `RAILWAY_DOCKERFILE_PATH`, `SENTRY_DSN`; nightly backup: `BACKUP_DATABASE_URL` (a BYPASSRLS role that reads every schema), `BACKUP_S3_ENDPOINT`, `BACKUP_S3_BUCKET`, `BACKUP_S3_ACCESS_KEY_ID`, `BACKUP_S3_SECRET_ACCESS_KEY` (off-provider R2 bucket; the job dead-letters without them) |
+| api | `NODE_ENV=production`, `APP_ENV`, `DATABASE_URL` (PgBouncer `:6432`), `DATABASE_DIRECT_URL` (`:5432`, migrations and the pg-boss producer), `REDIS_URL=${{Redis.REDIS_URL}}`, `PUBLIC_BASE_URL`, `COMMIT_SHA=${{RAILWAY_GIT_COMMIT_SHA}}`, `RAILWAY_DOCKERFILE_PATH`, `SENTRY_DSN`; pool sizes `DB_POOL_MAX`, `AUTH_POOL_MAX`, `ADMIN_AUTH_POOL_MAX`, `JOBS_POOL_MAX` (see Database connection budget) |
+| worker | `NODE_ENV=production`, `APP_ENV`, `DATABASE_DIRECT_URL` (`:5432`, pg-boss and the LISTEN clients), `DATABASE_URL` (PgBouncer `:6432`, job handlers), pool sizes `DB_POOL_MAX`, `JOBS_POOL_MAX`, `REDIS_URL=${{Redis.REDIS_URL}}`, `COMMIT_SHA`, `RAILWAY_DOCKERFILE_PATH`, `SENTRY_DSN`; nightly backup: `BACKUP_DATABASE_URL` (a BYPASSRLS role that reads every schema), `BACKUP_S3_ENDPOINT`, `BACKUP_S3_BUCKET`, `BACKUP_S3_ACCESS_KEY_ID`, `BACKUP_S3_SECRET_ACCESS_KEY` (off-provider R2 bucket; the job dead-letters without them) |
 | api (realtime) | `RT_PROXY_SECRET` (same value as the `x-cp-rt-proxy-secret` header Centrifugo sends; unset = `/internal/rt/*` is not mounted) |
 | worker (realtime) | `CENTRIFUGO_API_URL=http://centrifugo.railway.internal:9000`, `CENTRIFUGO_HTTP_API_KEY` (same value as Centrifugo's); both set = the `rt_outbox` relay runs |
 | centrifugo | `RAILWAY_DOCKERFILE_PATH`, `PORT=9000` (Railway health-checks `PORT`; Centrifugo itself ignores it and listens on 8000 public, 9000 internal), `CENTRIFUGO_HTTP_API_KEY`, `CENTRIFUGO_ENGINE_REDIS_ADDRESS=${{Redis.REDIS_URL}}`, `CENTRIFUGO_CLIENT_TOKEN_JWKS_PUBLIC_ENDPOINT=http://api.railway.internal:8787/api/auth/jwks`, `CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_ENDPOINT` / `CENTRIFUGO_CHANNEL_PROXY_PUBLISH_ENDPOINT` (`http://api.railway.internal:8787/internal/rt/subscribe\|publish`), `CENTRIFUGO_CHANNEL_PROXY_SUBSCRIBE_HTTP_STATIC_HEADERS` / `CENTRIFUGO_CHANNEL_PROXY_PUBLISH_HTTP_STATIC_HEADERS` (`{"x-cp-rt-proxy-secret": <api RT_PROXY_SECRET>}`), `CENTRIFUGO_CLIENT_ALLOWED_ORIGINS` (space-separated web origins, staging `https://staging.critterpass.app`; native clients send no `Origin`) |
@@ -93,7 +93,53 @@ Org `critterpass`, database `critterpass`, AWS `ap-southeast-1`, Postgres 18.
   RLS roles, the api). Credentials only in Railway variables; rotate with `pscale role reset <db> <branch> <role-id>`.
 - Connection: host `aws-ap-southeast-1-2.pg.psdb.cloud`, database `postgres`, `sslmode=verify-full`;
   port `6432` = PgBouncer (request transactions), `5432` = direct (migrations, worker LISTEN, replication).
+- PgBouncer (transaction mode) settings per branch: `pgbouncer.max_db_connections` caps its server connections
+  for all users together (see Database connection budget); read them with `pscale branch parameters <db> <branch>`.
 - Enabled on both branches: `vector`, `pg_trgm`, `unaccent`, `pgcrypto`; publication `powersync` (empty; tables
   are added by schema migrations).
 - Backups: PlanetScale default policies (every 12 h, 2-day retention). Extend retention to 14–30 days and add the
   nightly off-provider `pg_dump` to R2 before launch.
+
+## Database connection budget
+
+Every Postgres connection counts against the branch's `max_connections`; `superuser_reserved_connections` of
+them are kept for superusers, and a full database refuses new logins with `remaining connection slots are
+reserved for roles with the SUPERUSER attribute`. Railway starts a new instance before it stops the old one, so
+every direct connection a service holds doubles during a deploy. PgBouncer's server connections do not double:
+it is shared, and `max_db_connections` caps them however many clients wait in its queue.
+
+What must stay on the direct port: pg-boss (it connects with the `-c role=app_system` startup option, which
+PlanetScale's PgBouncer rejects with `unsupported startup parameter in options: role`, and its LISTEN wake-up
+needs a session), the realtime relay's `LISTEN rt_outbox`, migrations and PowerSync replication. Everything
+else runs through PgBouncer: the app pools only use `SET LOCAL` and transaction-scoped advisory locks.
+
+| Pool | Port | Size variable (default) | Held |
+|---|---|---|---|
+| api request pool (commands, reads, kill switches) | 6432 | `DB_POOL_MAX` (10) | client side only |
+| api Better Auth (app sign-in) | 6432 | `AUTH_POOL_MAX` (5) | client side only |
+| api Better Auth (ops console) | 6432 | `ADMIN_AUTH_POOL_MAX` (2) | client side only |
+| api pg-boss producer (`cp-api-jobs`) | 5432 | `JOBS_POOL_MAX` (1) | while it starts, then idle-closed |
+| worker job handlers | 6432 | `DB_POOL_MAX` (5) | client side only |
+| worker pg-boss (`cp-worker-jobs`) | 5432 | `JOBS_POOL_MAX` (2) | always (polling) |
+| worker pg-boss LISTEN | 5432 | 1 | always |
+| worker realtime relay LISTEN | 5432 | 1 | when the relay runs |
+| migrations (api pre-deploy) | 5432 | 1 | during the pre-deploy step |
+
+Staging tally against `max_connections = 25` with 3 reserved (22 usable), one instance per service:
+
+| Consumer | Steady | Deploy overlap (api and worker together) |
+|---|---|---|
+| PlanetScale platform (admin, Patroni, exporter) | 4 | 4 |
+| Alloy `monitoring_reader` | 1 | 1 |
+| PowerSync replication | 2 | 2 |
+| worker direct (pg-boss 2 + LISTEN 1 + relay 1) | 4 | 8 |
+| api direct (producer 1) | 1 | 2 |
+| PgBouncer server connections (`pgbouncer.max_db_connections = 4`) | 4 | 4 |
+| **Total** | **16** (headroom 6) | **21** (headroom 1) |
+
+Rules that keep it holding: each extra worker replica adds 4 direct connections and each api replica 1; raise
+`max_db_connections` only by what the tally leaves free; with PgBouncer's defaults (`default_pool_size` 20 per
+user, `max_db_connections` 0 = unlimited) the api and auth users alone can take every slot, so the cap must be
+set on every branch. Production sizes the same table against its own `max_connections` (`pscale branch
+parameters critterpass main`). The P2 alert `cp-p2-db-connections` fires when client connections stay above
+80 % of `max_connections` for 10 minutes (runbook `docs/runbooks/alerts/db-connections.md`).
