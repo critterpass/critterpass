@@ -1,78 +1,49 @@
 /**
- * Registers every bundled font file with `expo-font` (design-system.md §1.3). The `expo-font` config
- * plugin (apps/mobile/app.config.ts) embeds these as native assets, so there is no network fetch;
- * `useFonts` still performs the `Font.loadAsync` registration, the same way in Expo Go, a dev client
- * and a standalone build.
+ * The bundled font families (design-system.md §1.3). The `expo-font` config plugin
+ * (apps/mobile/app.config.ts) embeds apps/mobile/assets/fonts/*.ttf in the native app: iOS
+ * registers them from `UIAppFonts` and Android reads them from `assets/fonts/` before any JS runs.
+ * Each file's PostScript name equals its file name, which is the `fontFamily` value `fontFor`
+ * (resolve.ts) returns, so text can use them from the first frame.
  *
- * Metro resolves asset imports by static analysis, so each font needs its own literal import; this
- * list mirrors tools/scripts/fonts/build-fonts.py's output and must stay in sync with
- * apps/mobile/assets/fonts/*.ttf.
+ * The files are deliberately not imported here: a Metro asset import ships every font a second
+ * time among the JS bundle's assets, and `expo-font` never reads that copy because it skips
+ * families the native side already reports as loaded. load.test.ts keeps this list, the plugin's
+ * list and the font directory in step (tools/scripts/fonts/build-fonts.py writes the files).
  */
-import { useFonts } from 'expo-font';
+export const BUNDLED_FONT_FAMILIES: readonly string[] = [
+  'Archivo-W62-700',
+  'Archivo-W62-800',
+  'Archivo-W62-900',
+  'Archivo-W66-700',
+  'Archivo-W66-800',
+  'Archivo-W66-900',
+  'Archivo-W70-700',
+  'Archivo-W70-800',
+  'Archivo-W70-900',
+  'Archivo-W78-700',
+  'Archivo-W78-800',
+  'Archivo-W78-900',
+  'Archivo-W100-700',
+  'Archivo-W100-800',
+  'Archivo-W100-900',
+  'Geist-400',
+  'Geist-500',
+  'Geist-600',
+  'Geist-700',
+  'Geist-800',
+  'GeistMono-400',
+  'GeistMono-500',
+  'GeistMono-700',
+  'Caveat-600',
+  'Caveat-700',
+  'NotoSansThai-400',
+  'NotoSansThai-900',
+];
 
-import archivoW62700 from '../../../assets/fonts/Archivo-W62-700.ttf';
-import archivoW62800 from '../../../assets/fonts/Archivo-W62-800.ttf';
-import archivoW62900 from '../../../assets/fonts/Archivo-W62-900.ttf';
-import archivoW66700 from '../../../assets/fonts/Archivo-W66-700.ttf';
-import archivoW66800 from '../../../assets/fonts/Archivo-W66-800.ttf';
-import archivoW66900 from '../../../assets/fonts/Archivo-W66-900.ttf';
-import archivoW70700 from '../../../assets/fonts/Archivo-W70-700.ttf';
-import archivoW70800 from '../../../assets/fonts/Archivo-W70-800.ttf';
-import archivoW70900 from '../../../assets/fonts/Archivo-W70-900.ttf';
-import archivoW78700 from '../../../assets/fonts/Archivo-W78-700.ttf';
-import archivoW78800 from '../../../assets/fonts/Archivo-W78-800.ttf';
-import archivoW78900 from '../../../assets/fonts/Archivo-W78-900.ttf';
-import archivoW100700 from '../../../assets/fonts/Archivo-W100-700.ttf';
-import archivoW100800 from '../../../assets/fonts/Archivo-W100-800.ttf';
-import archivoW100900 from '../../../assets/fonts/Archivo-W100-900.ttf';
-import geist400 from '../../../assets/fonts/Geist-400.ttf';
-import geist500 from '../../../assets/fonts/Geist-500.ttf';
-import geist600 from '../../../assets/fonts/Geist-600.ttf';
-import geist700 from '../../../assets/fonts/Geist-700.ttf';
-import geist800 from '../../../assets/fonts/Geist-800.ttf';
-import geistMono400 from '../../../assets/fonts/GeistMono-400.ttf';
-import geistMono500 from '../../../assets/fonts/GeistMono-500.ttf';
-import geistMono700 from '../../../assets/fonts/GeistMono-700.ttf';
-import caveat600 from '../../../assets/fonts/Caveat-600.ttf';
-import caveat700 from '../../../assets/fonts/Caveat-700.ttf';
-import notoSansThai400 from '../../../assets/fonts/NotoSansThai-400.ttf';
-import notoSansThai900 from '../../../assets/fonts/NotoSansThai-900.ttf';
-
-const FONT_ASSETS = {
-  'Archivo-W62-700': archivoW62700,
-  'Archivo-W62-800': archivoW62800,
-  'Archivo-W62-900': archivoW62900,
-  'Archivo-W66-700': archivoW66700,
-  'Archivo-W66-800': archivoW66800,
-  'Archivo-W66-900': archivoW66900,
-  'Archivo-W70-700': archivoW70700,
-  'Archivo-W70-800': archivoW70800,
-  'Archivo-W70-900': archivoW70900,
-  'Archivo-W78-700': archivoW78700,
-  'Archivo-W78-800': archivoW78800,
-  'Archivo-W78-900': archivoW78900,
-  'Archivo-W100-700': archivoW100700,
-  'Archivo-W100-800': archivoW100800,
-  'Archivo-W100-900': archivoW100900,
-  'Geist-400': geist400,
-  'Geist-500': geist500,
-  'Geist-600': geist600,
-  'Geist-700': geist700,
-  'Geist-800': geist800,
-  'GeistMono-400': geistMono400,
-  'GeistMono-500': geistMono500,
-  'GeistMono-700': geistMono700,
-  'Caveat-600': caveat600,
-  'Caveat-700': caveat700,
-  'NotoSansThai-400': notoSansThai400,
-  'NotoSansThai-900': notoSansThai900,
-} as const;
-
-/** Every bundled family name `fontFor` (resolve.ts) can return, for the splash-hide prewarm pass. */
-export const BUNDLED_FONT_FAMILIES: readonly string[] = Object.keys(FONT_ASSETS);
-
-/** `true` once every bundled font is registered and ready for `fontFamily` styles to use. */
+/**
+ * `true` once every bundled font is ready for `fontFamily` styles. The native embed registers them
+ * before JS starts, so they are ready on the first render.
+ */
 export function useFontsReady(): boolean {
-  const [loaded] = useFonts(FONT_ASSETS);
-  return loaded;
+  return true;
 }
