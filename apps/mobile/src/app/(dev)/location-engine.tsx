@@ -14,6 +14,7 @@ import {
   type EngineStatus,
   type VisitCandidate,
 } from '@/lib/location';
+import { getPermissionStore } from '@/lib/permissions';
 import { VisitConsentSheet } from '@/ui/permission-primer';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
@@ -36,9 +37,18 @@ const SARASWATI: VisitCandidate = {
  * `setLocation`, and try the Always upgrade. No server calls: shares are off here.
  */
 export default function LocationEngineDevScreen() {
-  // Read straight from the OS: this screen works without a signed-in session.
+  // Read straight from the OS: this screen works without a signed-in session. The snapshot also
+  // goes into the permission store, which the Always offer checks and which only the session's
+  // permissions bridge fills otherwise.
   const [location, setLocation] = useState<KindReport | null>(null);
-  useEffect(() => getPermissions().watch((snapshot) => setLocation(snapshot.reports.location)), []);
+  useEffect(
+    () =>
+      getPermissions().watch((snapshot) => {
+        getPermissionStore().setSnapshot(snapshot);
+        setLocation(snapshot.reports.location);
+      }),
+    [],
+  );
   const [status, setStatus] = useState<EngineStatus | null>(null);
   const [lastFix, setLastFix] = useState<EngineFix | null>(null);
   const [regions, setRegions] = useState<readonly EngineRegionEvent[]>([]);
