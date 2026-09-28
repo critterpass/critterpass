@@ -28,6 +28,7 @@ import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/Defe
 import { PassSync } from '@/features/onboarding/flow-controller/pass-sync';
 import '@/features/onboarding/routes';
 import '@/features/crew/chat/register';
+import '@/features/crew/routes';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
