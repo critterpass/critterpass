@@ -26,7 +26,7 @@ counters keep their names because their units are annotations (`{command}`). The
 
 | Where | Variables |
 |---|---|
-| api, worker (Railway) | `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_EXPORTER_OTLP_HEADERS` (Grafana Cloud OTLP basic auth), `SENTRY_DSN`, `POSTHOG_PROJECT_API_KEY`, `POSTHOG_HOST`, `ANALYTICS_PID_SALT`; api also `POSTHOG_FLAGS_SECRET_KEY` |
+| api, worker (Railway) | `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_EXPORTER_OTLP_HEADERS` (Grafana Cloud OTLP basic auth), `SENTRY_DSN`, `POSTHOG_PROJECT_API_KEY`, `POSTHOG_HOST`, `ANALYTICS_PID_SALT`; api also `POSTHOG_PROJECT_SECRET_KEY` |
 | alloy (Railway) | `APP_ENV`, `GRAFANA_PROM_REMOTE_WRITE_URL`, `GRAFANA_PROM_USERNAME`, `GRAFANA_CLOUD_TOKEN`, `POWERSYNC_API_METRICS_ADDR` / `POWERSYNC_REPL_METRICS_ADDR` (`powersync-*.railway.internal:9464`), `CENTRIFUGO_METRICS_ADDR` (`centrifugo.railway.internal:9000`), `REDIS_ADDR`, `REDIS_PASSWORD`, `MONITORING_DATABASE_URL` (the `monitoring_reader` login) |
 | apply scripts (local or CI) | `GRAFANA_URL`, `GRAFANA_TOKEN`, `GRAFANA_PROM_DATASOURCE_UID`, `ONCALL_EMAIL`, `GRAFANA_SM_URL`, `GRAFANA_SM_TOKEN`, `MEDIA_HMAC_KEYS`, `MEDIA_HMAC_ACTIVE_KID`; `POSTHOG_PERSONAL_API_KEY`, `POSTHOG_PROJECT_ID` |
 

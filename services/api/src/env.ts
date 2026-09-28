@@ -34,7 +34,7 @@ export const apiEnvSchema = z.object({
   POSTHOG_PROJECT_API_KEY: optionalString,
   POSTHOG_HOST: optionalUrl,
   /** PostHog feature-flags secure key for local flag evaluation. */
-  POSTHOG_FLAGS_SECRET_KEY: optionalString,
+  POSTHOG_PROJECT_SECRET_KEY: optionalString,
   /** HMAC key for the pseudonymous analytics `user_pid` (shared with the worker). */
   ANALYTICS_PID_SALT: z.preprocess(emptyAsUndefined, z.string().min(16).optional()),
   COMMIT_SHA: z.preprocess(emptyAsUndefined, z.string().min(1).default('dev')),
