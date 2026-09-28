@@ -9,10 +9,13 @@ import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { airportDataset } from '../content';
 import { countryList } from './phone-number';
 
 const useStyles = makeStyles((th) => ({
-  body: { paddingHorizontal: th.space['20'], gap: th.space['12'], height: 480 },
+  // The list runs to the sheet's bottom edge; the sheet already pads for the home indicator.
+  body: { flex: 1, paddingHorizontal: th.space['20'], gap: th.space['12'] },
+  list: { flex: 1 },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -32,7 +35,10 @@ export function CountryPicker({
   const theme = useTheme();
   const locale = useLocale();
   const [query, setQuery] = useState('');
-  const all = useMemo(() => countryList(locale), [locale]);
+  const all = useMemo(
+    () => countryList(locale, (code) => airportDataset().countries[code]?.name),
+    [locale],
+  );
   const q = query.trim().toLowerCase();
   const rows =
     q.length === 0
@@ -58,6 +64,7 @@ export function CountryPicker({
           label={t({ id: 'onboarding.phone.countrySearch', message: 'Search countries' })}
         />
         <FlatList
+          style={styles.list}
           data={rows}
           keyExtractor={(row) => row.code}
           keyboardShouldPersistTaps="handled"

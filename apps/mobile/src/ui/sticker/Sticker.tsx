@@ -10,6 +10,9 @@ import type { SharedValue } from 'react-native-reanimated';
 
 import type { Blend, FormSpec, Pose, RenderSpec, StickerSpec, Variant } from '@cp/critter-art';
 import type { SkiaEngine } from '@cp/critter-art/skia';
+import { tokens } from '@cp/design-tokens';
+
+import { reportUiQa, UI_QA_ENABLED } from '../qa/ui-qa';
 
 import { stickerLabel, stickerPoseLabel } from './a11y';
 import { nearestBucket } from './bucket';
@@ -112,6 +115,11 @@ export interface StickerProps {
   /** Composite for the art's washes: `srcOver` is design's `blend="source-over"` (icons on dark UI). */
   readonly blend?: Blend;
   readonly size: number;
+  /**
+   * The die-cut edge. Every critter the design draws wears the paper-white sticker edge, so that is
+   * the default; `null` draws the bare art (silhouettes and masked icons, which the design leaves
+   * without an edge).
+   */
   readonly sticker?: StickerSpec | null;
   readonly seed?: number;
   readonly closedEyes?: boolean;
@@ -126,6 +134,18 @@ export interface StickerProps {
   readonly engine?: SkiaEngine;
   /** Test/integration seam — defaults to a lazily-constructed on-device cache. */
   readonly cache?: StickerCache;
+}
+
+/** docs/design-system.md: the sticker edge is `paper.base`. */
+export const DEFAULT_STICKER_EDGE: StickerSpec = { color: tokens.color.paper.base };
+
+/** The edge a sticker is drawn with: the paper edge unless it opts out, or it is a mask. */
+export function resolveStickerEdge(
+  sticker: StickerSpec | null | undefined,
+  variant: Variant | undefined,
+): StickerSpec | null {
+  if (sticker !== undefined) return sticker;
+  return variant === 'mask' ? null : DEFAULT_STICKER_EDGE;
 }
 
 function buildRenderSpec(props: StickerProps): RenderSpec {
@@ -149,7 +169,7 @@ function buildRenderSpec(props: StickerProps): RenderSpec {
     ...(variant ? { variant } : {}),
     ...(maskColor ? { maskColor } : {}),
     ...(blend ? { blend } : {}),
-    ...(sticker !== undefined ? { sticker } : {}),
+    sticker: resolveStickerEdge(sticker, variant),
   };
 }
 
@@ -172,6 +192,13 @@ export function Sticker(props: StickerProps): React.JSX.Element {
   const key = specKey(spec, bucketPt, deviceScale, closedEyes, artVersion);
 
   const [image, setImage] = useState<SkImage | null>(null);
+
+  useEffect(() => {
+    if (UI_QA_ENABLED && spec.sticker === null && spec.variant !== 'mask') {
+      // eslint-disable-next-line lingui/no-unlocalized-strings -- a report code, never shown to a user
+      reportUiQa('STICKER_NO_OUTLINE', `${props.kind}:${name}`);
+    }
+  }, [spec, props.kind, name]);
 
   // Re-renders every native frame while a draw-on is in flight so `drawProgress.value` (read fresh
   // below) drives the live picture; under Jest's reanimated double this callback never fires

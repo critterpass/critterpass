@@ -14,8 +14,10 @@ import {
 
 import { InlineAction } from '../buttons/InlineAction';
 import { PillButton } from '../buttons/PillButton';
+import { GUIDE_STICKERS } from '../avatar/guides';
 import { type GuideId, GuideLine } from '../people/GuideLine';
 import { BackEyebrow } from '../shell/BackEyebrow';
+import { Sticker } from '../sticker/Sticker';
 import { Scaffold } from '../surface/Scaffold';
 import { Text } from '../text/Text';
 import { useTheme } from '../theme';
@@ -112,7 +114,7 @@ export function PermissionsPrimer({
             {t({ id: 'permissions.primer.lastStep', message: 'Last step' })}
           </Text>
         </View>
-        <Text variant="displayHero" accessibilityRole="header">
+        <Text variant="h1" accessibilityRole="header">
           {t({ id: 'permissions.primer.title', message: 'Three things, and why' })}
         </Text>
         {ONBOARDING_PRIMER_KINDS.map((kind) => (
@@ -121,6 +123,7 @@ export function PermissionsPrimer({
         <GuideLine
           guide={guide}
           name={guideName}
+          sticker={<Sticker kind={GUIDE_STICKERS[guide].kind} name={guideName} size={44} />}
           line={t({
             id: 'permissions.primer.guideLine',
             message: 'Say no to any of them. I’ll ask again when it actually matters.',

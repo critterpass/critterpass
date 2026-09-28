@@ -148,7 +148,7 @@ export function CodeScreen() {
             />
           ) : null}
         </View>
-        <Text variant="displayHero" accessibilityRole="header">
+        <Text variant="h1" accessibilityRole="header">
           {upper(t({ id: 'onboarding.invite.code.title', message: 'Got a code?' }), locale)}
         </Text>
         <Text variant="body" color={theme.semantic.text.secondary}>

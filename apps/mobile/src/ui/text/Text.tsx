@@ -11,6 +11,8 @@ import { fontFor } from '@/lib/fonts';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useThemeSettings } from '@/lib/theme';
 
+import { textLayoutProblems } from '../qa/text-layout-check';
+import { reportUiQa, UI_QA_ENABLED } from '../qa/ui-qa';
 import type { SurfaceTone } from '../surface/Scaffold';
 import { useSurfaceTone } from '../surface/Scaffold';
 import type { Theme } from '../theme';
@@ -137,6 +139,8 @@ export function Text({
   const scaledSize = resolved.fontSize * font.sizeMultiplier;
   const fit = useAutoFit({
     enabled: (autoFit ?? token.dynamicType.autoFit === true) && text !== null,
+    // A line count the caller set is kept; the variant's own single line wraps at the floor.
+    wrapAtFloor: numberOfLines === undefined,
     text: text ?? '',
     maxSize: scaledSize,
     minSize: Math.min(
@@ -173,14 +177,23 @@ export function Text({
     <RNText
       {...rest}
       allowFontScaling={false}
-      numberOfLines={lineLimit}
+      numberOfLines={fit.numberOfLines}
       style={[variantStyle, style, room]}
       onLayout={(event) => {
         fit.onLayout(event);
         onLayout?.(event);
       }}
       onTextLayout={(event) => {
-        fit.onTextLayout(event);
+        const adjusting = fit.onTextLayout(event);
+        if (UI_QA_ENABLED && !adjusting && text !== null) {
+          const problems = textLayoutProblems({
+            lines: event.nativeEvent.lines,
+            text,
+            truncationIsBug: numberOfLines === undefined,
+            cutByFit: fit.overflowed,
+          });
+          for (const code of problems) reportUiQa(code, rest.testID ?? text.slice(0, 40), variant);
+        }
         onTextLayout?.(event);
       }}
     >

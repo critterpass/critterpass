@@ -193,7 +193,7 @@ export function TicketScreen() {
           />
         ) : seatOpen || shownProblem === null ? (
           <>
-            <Text variant="displayHero" accessibilityRole="header">
+            <Text variant="h1" accessibilityRole="header">
               {headline(model, locale)}
             </Text>
             <InviteTicket model={model} arrive />

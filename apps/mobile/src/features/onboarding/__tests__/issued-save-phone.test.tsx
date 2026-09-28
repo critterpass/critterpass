@@ -21,7 +21,7 @@ import { isOnboardingComplete, setOnboardingComplete } from '@/lib/links/pending
 import { clearDraftForTests, readDraft, updateDraft } from '../flow-controller/draft-store';
 import { IssuedScreen } from '../issued/IssuedScreen';
 import { PhoneScreen } from '../phone/PhoneScreen';
-import { formatE164, resendWaitS, toE164 } from '../phone/phone-number';
+import { countryList, formatE164, resendWaitS, toE164 } from '../phone/phone-number';
 import { SaveScreen } from '../save/SaveScreen';
 import { fakeServices, recordingAnalytics, renderOnboarding } from '../test-support/harness';
 import type { OnboardingServices } from '../services';
@@ -167,6 +167,15 @@ describe('3a-8 phone sign-in', () => {
     expect(toE164('SG', '12')).toBeNull();
     expect(formatE164('SG', '91234567')).toBe('+65 9123 4567');
     expect([1, 2, 3, 4].map(resendWaitS)).toEqual([30, 60, 120, 120]);
+  });
+
+  it('names countries even where the runtime only knows the codes', () => {
+    const names = { VN: 'Vietnam', SG: 'Singapore' } as Record<string, string>;
+    const list = countryList('en', (code) => names[code]);
+    const vn = list.find((row) => row.code === 'VN');
+    expect(vn?.dial).toBe('84');
+    expect(vn?.name).not.toBe('VN');
+    expect(list.every((row) => row.name.length > 0)).toBe(true);
   });
 
   async function sendCode(services: OnboardingServices, number = '91234567') {

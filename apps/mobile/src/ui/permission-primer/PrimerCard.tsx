@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { Card } from '../cards/Card';
 import { Toggle } from '../inputs/Toggle';
 import { Text } from '../text/Text';
+import { useTheme } from '../theme';
 
 export interface PrimerCardProps {
   readonly title: string;
@@ -31,15 +32,18 @@ export function PrimerCard({
   busy = false,
   testID,
 }: PrimerCardProps) {
+  const theme = useTheme();
   return (
     <Card tone="raised" {...(testID ? { testID } : {})}>
       <View style={styles.row}>
         {demo}
         <View style={styles.copy}>
-          <Text variant="h3" accessibilityRole="header">
+          <Text variant="title" accessibilityRole="header">
             {title}
           </Text>
-          <Text variant="bodySm">{body}</Text>
+          <Text variant="bodySm" color={theme.semantic.text.secondary}>
+            {body}
+          </Text>
         </View>
         <Toggle
           value={value}

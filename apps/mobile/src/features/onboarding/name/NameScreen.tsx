@@ -89,7 +89,7 @@ export function NameScreen() {
           />
         }
       />
-      <Text variant="displayHero" accessibilityRole="header">
+      <Text variant="h1" accessibilityRole="header">
         {t({ id: 'onboarding.name.title', message: 'What should the guides call you?' })}
       </Text>
       <TextField

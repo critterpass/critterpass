@@ -70,7 +70,9 @@ describe('Text', () => {
     const maxSize = 44 * 1.5; // h1 damps AX3 (2x) to 1.5x
     expect(style.fontSize).toBeLessThanOrEqual(maxSize);
     expect(style.fontSize).toBeGreaterThanOrEqual(maxSize * 0.7);
-    expect(screen.getByTestId('title').props.numberOfLines).toBe(3);
+    // Unlimited while fitting, so the platform reports the real line count (iOS reports a
+    // truncated line with its full text); the fit keeps it within the 3 lines below.
+    expect(screen.getByTestId('title').props.numberOfLines).toBeUndefined();
     const lines = estimateLineCount({
       text: LONG_TITLE.toUpperCase(),
       fontSize: style.fontSize ?? 0,

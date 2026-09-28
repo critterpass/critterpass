@@ -164,6 +164,24 @@ describe('Sheet', () => {
     }
   });
 
+  it('keeps the presenter while another sheet is up and releases it with the last one', async () => {
+    resetPresenterForTests();
+    const sheet = (id: string) => (
+      <Sheet key={id} onDismiss={() => {}} testID={id}>
+        <Text>{id}</Text>
+      </Sheet>
+    );
+    const screen = await render(tree(<>{[sheet('photo'), sheet('country')]}</>));
+    expect(presenterProgress.value).toBe(1);
+    // A DONE that clears the state showing the sheet: the other one still holds the presenter.
+    await screen.rerender(tree(<>{[sheet('country')]}</>));
+    expect(presenterProgress.value).toBe(1);
+    await screen.rerender(tree(<></>));
+    expect(presenterProgress.value).toBe(0);
+    const presenter = await renderModal(<Scaffold testID="presenter" />);
+    expect(flat(presenter.getByTestId('presenter')).transform).toEqual([{ scale: 1 }]);
+  });
+
   it('closes on Android system back', async () => {
     const handlers: Parameters<typeof BackHandler.addEventListener>[1][] = [];
     jest.spyOn(BackHandler, 'addEventListener').mockImplementation((_event, handler) => {

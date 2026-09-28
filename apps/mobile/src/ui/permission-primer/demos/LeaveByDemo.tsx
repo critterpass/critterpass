@@ -27,10 +27,24 @@ export function LeaveByDemo() {
       importantForAccessibility="no-hide-descendants"
     >
       <Animated.View style={[styles.card, { backgroundColor: theme.color.ink['950'] }, cardStyle]}>
-        <Text variant="eyebrow" color={theme.color.yellow}>
+        <Text
+          variant="eyebrow"
+          color={theme.color.yellow}
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.6}
+        >
           {t({ id: 'permissions.demo.leaveBy', message: 'Leave by' })}
         </Text>
-        <Text variant="monoData">03:10</Text>
+        <Text
+          variant="title"
+          color={theme.color.paper.base}
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.6}
+        >
+          03:10
+        </Text>
       </Animated.View>
     </View>
   );

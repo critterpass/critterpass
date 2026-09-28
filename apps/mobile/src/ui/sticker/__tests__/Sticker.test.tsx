@@ -12,7 +12,10 @@ import type { SharedValue } from 'react-native-reanimated';
 
 import { DiskLruCache, MemoryLruCache, StickerCache } from '../cache';
 import type { StickerDiskFs } from '../cache';
-import { Sticker } from '../Sticker';
+import { tokens } from '@cp/design-tokens';
+
+import { setUiQaSink } from '../../qa/ui-qa';
+import { DEFAULT_STICKER_EDGE, resolveStickerEdge, Sticker } from '../Sticker';
 
 // canvaskit-wasm's Emscripten glue decodes some internal strings as "utf-16le"; jest-expo's
 // TextDecoder polyfill only supports UTF-8 (see export-png.test.ts for the same fix).
@@ -236,5 +239,57 @@ describe('<Sticker>', () => {
       Array.isArray(node) ? undefined : node?.props.style;
     expect(sizeOf(outerBefore)).toEqual({ width: 96, height: 96 });
     expect(sizeOf(outerAfter)).toEqual({ width: 96, height: 96 });
+  });
+
+  it('wears the paper sticker edge by default; masks and an explicit null stay bare', () => {
+    expect(DEFAULT_STICKER_EDGE).toEqual({ color: tokens.color.paper.base });
+    expect(resolveStickerEdge(undefined, undefined)).toBe(DEFAULT_STICKER_EDGE);
+    expect(resolveStickerEdge(undefined, 'mask')).toBeNull();
+    expect(resolveStickerEdge(null, undefined)).toBeNull();
+    const gold = { color: tokens.color.yellow, w: 3 };
+    expect(resolveStickerEdge(gold, undefined)).toBe(gold);
+  });
+
+  it('draws the edged and the bare art as different images and reports a bare critter', async () => {
+    const reports: string[] = [];
+    setUiQaSink((line) => reports.push(line));
+    try {
+      const fs = createFakeFs();
+      const cache = new StickerCache(
+        new MemoryLruCache(1024 * 1024),
+        new DiskLruCache(fs, 1024 * 1024),
+      );
+      await render(<Sticker kind="gecko" name="Tokek" size={96} engine={engine} cache={cache} />);
+      await waitFor(() => expect(fs.files.size).toBe(1));
+      expect(reports).toEqual([]);
+
+      await render(
+        <Sticker
+          kind="gecko"
+          name="Tokek"
+          size={96}
+          sticker={null}
+          engine={engine}
+          cache={cache}
+        />,
+      );
+      await waitFor(() => expect(fs.files.size).toBe(2));
+      expect(reports).toEqual(['[ui-qa] STICKER_NO_OUTLINE "gecko:Tokek"']);
+
+      await render(
+        <Sticker
+          kind="gecko"
+          name="Tokek"
+          size={96}
+          variant="mask"
+          maskColor={tokens.color.ink[600]}
+          engine={engine}
+          cache={cache}
+        />,
+      );
+      expect(reports).toHaveLength(1);
+    } finally {
+      setUiQaSink(null);
+    }
   });
 });

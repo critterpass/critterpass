@@ -12,7 +12,7 @@ appId: app.critterpass.dev
     visible:
       id: 'real-photo-library'
     timeout: 10000
-- takeScreenshot: real-photo-sheet
+- takeScreenshot: 3a-3-real-photo-sheet
 - tapOn:
     id: 'real-photo-library'
 # One of the sample photos every iOS simulator ships with.
@@ -27,11 +27,11 @@ appId: app.critterpass.dev
 - assertVisible:
     id: 'real-photo-no-subject'
 - waitForAnimationToEnd
-- takeScreenshot: real-photo-circle-crop
+- takeScreenshot: 3a-3-real-photo-circle-crop
 - tapOn:
     id: 'real-photo-use'
 - extendedWaitUntil:
     visible:
       id: 'real-photo-done'
     timeout: 30000
-- takeScreenshot: real-photo-done
+- takeScreenshot: 3a-3-real-photo-done

@@ -9,6 +9,7 @@ import Constants from 'expo-constants';
 import { Link, router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
+import type { ViewStyle } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -45,11 +46,16 @@ const COVER_H = 320;
 const SWING_LIFT_MS = 260;
 const SWING_OPEN_MS = 420;
 
-/** Where the five floating guides sit around the passport (fractions of the stage). */
+/**
+ * Where the five floating guides sit around the passport, as fractions of the stage: `y` places a
+ * guide's top edge, `bottom` its bottom edge (Paco stands just under the passport and must never
+ * reach down into the tagline, whatever the stage height).
+ */
 const FLOATERS: readonly {
   guide: GuideAvatarId;
   x: number;
-  y: number;
+  y?: number;
+  bottom?: number;
   size: number;
   offset: number;
 }[] = [
@@ -57,7 +63,7 @@ const FLOATERS: readonly {
   { guide: 'lundi', x: 0.78, y: 0.1, size: 70, offset: 0.2 },
   { guide: 'ajo', x: 0.0, y: 0.6, size: 80, offset: 0.4 },
   { guide: 'sardi', x: 0.8, y: 0.6, size: 64, offset: 0.6 },
-  { guide: 'paco', x: 0.42, y: 0.9, size: 76, offset: 0.8 },
+  { guide: 'paco', x: 0.42, bottom: 0.01, size: 76, offset: 0.8 },
 ];
 
 const useStyles = makeStyles((th) => ({
@@ -109,12 +115,17 @@ const useStyles = makeStyles((th) => ({
   devTools: { marginTop: th.space['4'] },
 }));
 
-function Floater({ guide, x, y, size, offset }: (typeof FLOATERS)[number]) {
+function Floater({ guide, x, y, bottom, size, offset }: (typeof FLOATERS)[number]) {
   const styles = useStyles();
   const float = useLoop('float', { offset });
   const info = GUIDE_STICKERS[guide];
+  const vertical: ViewStyle =
+    bottom === undefined ? { top: `${(y ?? 0) * 100}%` } : { bottom: `${bottom * 100}%` };
   return (
-    <Animated.View style={[styles.floater, { left: `${x * 100}%`, top: `${y * 100}%` }, float]}>
+    <Animated.View
+      style={[styles.floater, { left: `${x * 100}%` }, vertical, float]}
+      testID={`splash-floater-${guide}`}
+    >
       <Sticker kind={info.kind} name={info.name} size={size} />
     </Animated.View>
   );

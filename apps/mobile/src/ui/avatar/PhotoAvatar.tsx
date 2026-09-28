@@ -8,6 +8,7 @@ import {
 import { Image, View } from 'react-native';
 
 import { makeStyles, useTheme } from '../theme';
+import { cutoutFrame } from './cutout-frame';
 
 export interface PhotoAvatarProps {
   /** A cut-out PNG (subject with alpha) or a circle-cropped photo. */
@@ -49,16 +50,16 @@ function CutoutSticker({
   readonly color: string;
 }) {
   const image = useImage(uri);
-  const frame = { x: outline, y: outline, width: side - outline * 2, height: side - outline * 2 };
+  const frame = image === null ? null : cutoutFrame(side, outline, image.width(), image.height());
   return (
     <Canvas style={{ width: side, height: side }}>
-      {image === null ? null : (
+      {image === null || frame === null ? null : (
         <>
-          <SkiaImage image={image} fit="contain" {...frame}>
+          <SkiaImage image={image} fit="fill" {...frame}>
             <BlendColor color={color} mode="srcIn" />
             <Morphology operator="dilate" radius={outline} />
           </SkiaImage>
-          <SkiaImage image={image} fit="contain" {...frame} />
+          <SkiaImage image={image} fit="fill" {...frame} />
         </>
       )}
     </Canvas>

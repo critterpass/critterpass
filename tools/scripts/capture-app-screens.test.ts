@@ -13,6 +13,7 @@ import {
   resolveFlowFiles,
   screenshotNames,
 } from './capture-app-screens';
+import { flowScreenshotNames } from './capture-flow-shots';
 import { CliArgsError } from './e2e-cloud';
 
 const REPO = path.resolve(import.meta.dirname, '../..');
@@ -187,5 +188,26 @@ describe('hostApp', () => {
   it('finds nothing in an archive without an app', () => {
     writeFileSync(path.join(dir, 'readme.txt'), 'no app');
     expect(hostApp(dir)).toBeUndefined();
+  });
+});
+
+describe('flowScreenshotNames', () => {
+  let dir: string;
+  beforeEach(() => {
+    dir = mkdtempSync(path.join(tmpdir(), 'cp-shots-'));
+  });
+  afterEach(() => rmSync(dir, { recursive: true, force: true }));
+
+  it('adds the screenshots a subflow took under env-built names', () => {
+    const flow = path.join(dir, 'screens-en.yaml');
+    writeFileSync(
+      flow,
+      'appId: a\n---\n- runFlow:\n    file: subflows/pass.yaml\n- takeScreenshot: last\n',
+    );
+    const run = path.join(dir, 'run');
+    mkdirSync(run);
+    for (const name of ['en-3a-2-name.png', 'en-3a-1-splash.png', 'notes.txt'])
+      writeFileSync(path.join(run, name), '');
+    expect(flowScreenshotNames(flow, run)).toEqual(['last', 'en-3a-1-splash', 'en-3a-2-name']);
   });
 });

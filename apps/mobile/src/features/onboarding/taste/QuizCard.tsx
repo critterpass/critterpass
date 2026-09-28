@@ -27,6 +27,8 @@ const FLING_DEG = 50;
 export const FLING_MS = 560;
 const RISE_MS = 460;
 const SWIPE_PICK_PX = 80;
+/** Diameter of the OR badge that sits on the seam between the two cards. */
+export const OR_BADGE_SIZE = 56;
 
 const useStyles = makeStyles((th) => ({
   card: {
@@ -37,8 +39,16 @@ const useStyles = makeStyles((th) => ({
     overflow: 'hidden',
   },
   cardRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' },
-  lineEnd: { alignSelf: 'flex-end' },
-  labelEnd: { textAlign: 'right' },
+  // The lines sit beside the seam the OR badge covers: each keeps to its own half of the card and
+  // stops a badge radius plus a gap short of the centre.
+  lineStart: { width: '50%', paddingEnd: OR_BADGE_SIZE / 2 + th.space['8'] },
+  lineEnd: {
+    width: '50%',
+    alignSelf: 'flex-end',
+    paddingStart: OR_BADGE_SIZE / 2 + th.space['8'],
+  },
+  lineEndText: { textAlign: 'right' },
+  labelEnd: { flex: 1, textAlign: 'right' },
 }));
 
 export type Side = 'left' | 'right';
@@ -126,17 +136,21 @@ export function QuizCard({
                   {label}
                 </Text>
                 <View style={styles.cardRow}>
-                  <Text variant="body" color={theme.color.ink['950']}>
-                    {content.line}
-                  </Text>
+                  <View style={styles.lineStart}>
+                    <Text variant="body" color={theme.color.ink['950']}>
+                      {content.line}
+                    </Text>
+                  </View>
                   <Sticker kind={tokek.kind} name={tokek.name} size={84} />
                 </View>
               </>
             ) : (
               <>
-                <Text variant="body" color={theme.color.ink['950']} style={styles.lineEnd}>
-                  {content.line}
-                </Text>
+                <View style={styles.lineEnd}>
+                  <Text variant="body" color={theme.color.ink['950']} style={styles.lineEndText}>
+                    {content.line}
+                  </Text>
+                </View>
                 <View style={styles.cardRow}>
                   <Sticker kind={tokek.kind} name={tokek.name} size={84} closedEyes />
                   <Text variant="displayXl" color={theme.color.ink['950']} style={styles.labelEnd}>

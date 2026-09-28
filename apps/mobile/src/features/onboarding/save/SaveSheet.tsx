@@ -91,7 +91,7 @@ export function SaveSheet(props: SaveSheetProps) {
             <Text variant="eyebrow" color={theme.color.yellow}>
               {upper(t({ id: 'onboarding.save.eyebrow', message: 'Save your pass' }), locale)}
             </Text>
-            <Text variant="displayHero" accessibilityRole="header">
+            <Text variant="h1" accessibilityRole="header">
               {t({ id: 'onboarding.save.title', message: 'Keep it safe' })}
             </Text>
             <Text variant="body" color={theme.semantic.text.secondary}>

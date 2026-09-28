@@ -148,7 +148,7 @@ export function PhotoScreen() {
           />
         }
       >
-        <Text variant="displayHero" accessibilityRole="header">
+        <Text variant="h1" accessibilityRole="header">
           {t({ id: 'onboarding.photo.title', message: 'Pick your passport photo' })}
         </Text>
         <Text variant="body" color={theme.semantic.text.secondary}>

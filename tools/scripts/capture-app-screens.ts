@@ -7,7 +7,9 @@
  * (never starts an EAS build: builds cost money), republishes the current JS to the `e2e-test`
  * channel exactly like the cloud e2e workflow does (that variant loads the update before its first
  * render), then runs each Maestro flow locally on a throwaway simulator and collects every
- * `takeScreenshot` PNG into --out. The simulator, the downloaded tarball and the extracted .app are
+ * `takeScreenshot` PNG into --out. The app's runtime UI checks (`[ui-qa]` reports: truncated
+ * headlines, words split across lines, critters without their sticker edge) are collected after
+ * every flow into --out/ui-qa.log, and any report fails the run. The simulator, the downloaded tarball and the extracted .app are
  * always removed, including on failure or Ctrl-C.
  */
 import { spawnSync, type SpawnSyncOptions } from 'node:child_process';
@@ -17,7 +19,6 @@ import {
   mkdirSync,
   mkdtempSync,
   readdirSync,
-  readFileSync,
   rmSync,
   statSync,
   writeFileSync,
@@ -26,7 +27,9 @@ import { homedir, tmpdir } from 'node:os';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
+import { flowScreenshotNames, planCopies, type FlowScreens } from './capture-flow-shots';
 import { CliArgsError } from './e2e-cloud';
+import { failOnUiQa, recordFlowUiQa, type UiQaReport } from './ui-qa-scan';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../..');
 const MOBILE_DIR = path.join(REPO_ROOT, 'apps/mobile');
@@ -85,41 +88,7 @@ export function resolveFlowFiles(flows: string[]): string[] {
   return [...new Set(files)];
 }
 
-/** Screenshot names a flow takes, from `takeScreenshot: name` or `takeScreenshot:\n  path: name`. */
-export function screenshotNames(flowYaml: string): string[] {
-  const names: string[] = [];
-  const lines = flowYaml.split('\n');
-  lines.forEach((line, index) => {
-    const match = /^\s*-?\s*takeScreenshot:\s*(.*)$/.exec(line);
-    if (!match) return;
-    let value = (match[1] ?? '').replace(/\s+#.*$/, '').trim();
-    if (!value) value = /^\s*path:\s*(.+)$/.exec(lines[index + 1] ?? '')?.[1]?.trim() ?? '';
-    value = value.replace(/^['"]|['"]$/g, '').replace(/\.png$/, '');
-    if (value) names.push(value);
-  });
-  return names;
-}
-
-export interface FlowScreens {
-  flow: string;
-  /** Directory Maestro ran in (screenshots land relative to it). */
-  dir: string;
-  names: string[];
-}
-
-/** Maps each expected screenshot to its output file; names shared across flows get the flow name as prefix. */
-export function planCopies(results: FlowScreens[], out: string): { from: string; to: string }[] {
-  const counts = new Map<string, number>();
-  for (const { names } of results)
-    for (const name of names) counts.set(name, (counts.get(name) ?? 0) + 1);
-  return results.flatMap(({ flow, dir, names }) =>
-    names.map((name) => {
-      const flowName = path.basename(flow).replace(/\.ya?ml$/, '');
-      const file = (counts.get(name) ?? 0) > 1 ? `${flowName}-${name}.png` : `${name}.png`;
-      return { from: path.join(dir, `${name}.png`), to: path.join(out, file) };
-    }),
-  );
-}
+export { planCopies, screenshotNames, type FlowScreens } from './capture-flow-shots';
 
 export interface SimRuntime {
   identifier: string;
@@ -273,7 +242,8 @@ function cleanup(udid: string | undefined, workDir: string): void {
   rmSync(workDir, { recursive: true, force: true });
 }
 
-async function capture(options: CaptureOptions): Promise<void> {
+/** Runs the flows and writes their screenshots (and ui-qa.log) to `options.out`. */
+export async function capture(options: CaptureOptions): Promise<void> {
   const flows = resolveFlowFiles(options.flows);
   if (!existsSync(MAESTRO)) throw new Error(`Maestro not found at ${MAESTRO}`);
 
@@ -302,6 +272,7 @@ async function capture(options: CaptureOptions): Promise<void> {
     prepareSimulator(udid, appPath, options.dark);
 
     const failed: string[] = [];
+    const uiQa = new Map<string, UiQaReport[]>();
     const results: FlowScreens[] = flows.map((flow, index) => {
       const dir = path.join(workDir, `flow-${String(index)}`);
       mkdirSync(dir);
@@ -317,7 +288,8 @@ async function capture(options: CaptureOptions): Promise<void> {
       } catch {
         failed.push(path.relative(REPO_ROOT, flow));
       }
-      return { flow, dir, names: screenshotNames(readFileSync(flow, 'utf8')) };
+      recordFlowUiQa(uiQa, flow, udid ?? '');
+      return { flow, dir, names: flowScreenshotNames(flow, dir) };
     });
 
     mkdirSync(options.out, { recursive: true });
@@ -333,6 +305,7 @@ async function capture(options: CaptureOptions): Promise<void> {
     // Screenshots from flows that did pass are kept; a failing flow still fails the command.
     if (failed.length > 0) throw new Error(`Maestro flow(s) failed: ${failed.join(', ')}`);
     if (missing.length > 0) throw new Error(`Screenshots not written: ${missing.join(', ')}`);
+    failOnUiQa(uiQa, options.out);
   } finally {
     cleanup(udid, workDir);
     process.off('SIGINT', onSignal).off('SIGTERM', onSignal);
