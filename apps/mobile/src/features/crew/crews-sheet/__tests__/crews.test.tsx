@@ -63,13 +63,8 @@ const renderCrew = (ui: ReactElement) => renderWithCrew(ui, stack!, services);
 const queuedPayload = (cmd: string) => queuedPayload_(stack!, cmd);
 
 async function seed(db: TestLocalFirst['db']) {
-  // The trip's local calendar date 16 days out (the sheet counts days in the device's zone).
-  const later = new Date(Date.now() + 16 * 86_400_000);
-  const start = [
-    later.getFullYear(),
-    String(later.getMonth() + 1).padStart(2, '0'),
-    String(later.getDate()).padStart(2, '0'),
-  ].join('-');
+  // Sixteen local calendar days after the pinned clock (the sheet counts days in the device's zone).
+  const start = TRIP_START;
   for (const [id, name] of [
     [ME, 'Rin'],
     [MAYA, 'Maya Chen'],
@@ -117,7 +112,31 @@ async function seed(db: TestLocalFirst['db']) {
   ]);
 }
 
+/** Local noon on a fixed day, so "in N days" never depends on when or where the suite runs. */
+const NOW = new Date(2026, 8, 28, 12, 0);
+const TRIP_START = '2026-10-14';
+
 beforeEach(() => {
+  // Only Date is pinned: renders, sync and timers still run for real.
+  jest.useFakeTimers({
+    now: NOW,
+    doNotFake: [
+      'hrtime',
+      'nextTick',
+      'performance',
+      'queueMicrotask',
+      'requestAnimationFrame',
+      'cancelAnimationFrame',
+      'requestIdleCallback',
+      'cancelIdleCallback',
+      'setImmediate',
+      'clearImmediate',
+      'setInterval',
+      'clearInterval',
+      'setTimeout',
+      'clearTimeout',
+    ],
+  });
   shared.length = 0;
   services.copied.length = 0;
   services.opened.length = 0;
@@ -126,6 +145,7 @@ beforeEach(() => {
   jest.mocked(router.back).mockClear();
 });
 afterEach(async () => {
+  jest.useRealTimers();
   await stack?.close();
   if (stack) removeDir(stack.dir);
   stack = null;
