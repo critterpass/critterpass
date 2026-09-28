@@ -1,111 +1,198 @@
 /**
- * App Attest (iOS) / Play Integrity (Android) wrapper (docs/data-model.md §3.1), built on
- * `@expo/app-integrity` (Expo's first-party attestation module, SDK 58; alpha as of this writing).
- * Produces the exact request headers
- * services/api/src/abuse/attestation/index.ts's `extractAttestationHeaders` reads
- * (`X-CP-Install-Id`, `X-CP-Platform`, `X-CP-Challenge`, plus either `X-CP-Attestation` +
- * `X-CP-Key-Id` on first attestation or `X-CP-Assertion`/`X-CP-Integrity-Token` on a later sensitive
- * call). `platform` and `native` are both injected rather than read from `react-native`'s `Platform`
- * or the real module here, so this file's logic is unit-testable against a fake native module
- * boundary (code-standards.md §17) with no native build in this lane.
+ * App Attest (iOS) / Play Integrity (Android) for the calls the api attests (docs/data-model.md
+ * §3.1), built on `@expo/app-integrity`. Produces the exact request headers
+ * services/api/src/abuse/attestation/index.ts's `extractAttestationHeaders` reads:
+ * `X-CP-Install-Id`, `X-CP-Platform`, `X-CP-Challenge`, plus `X-CP-Attestation` + `X-CP-Key-Id` on
+ * the first attested call per install, `X-CP-Assertion` on every later one (iOS), or
+ * `X-CP-Integrity-Token` (Android). When attestation cannot run (simulator, no Play services, an
+ * error, a timeout) the request still goes out with `X-CP-Attestation-Unavailable: <reason>`
+ * instead: the api's per-platform mode decides, the app never blocks sign-in on it.
+ *
+ * The native module, key storage and challenge fetch are injected, so this file is unit-tested
+ * against a fake native boundary (code-standards.md §17).
  */
 
 export type AttestationPlatform = 'ios' | 'android';
 
-/** The subset of `@expo/app-integrity`'s API this wrapper calls. */
+/** The subset of `@expo/app-integrity`'s API this module calls. */
 export interface AttestationNativeModule {
-  readonly isSupported: boolean;
+  /** iOS only: whether this device provides App Attest (false on the Simulator). */
+  readonly isSupported?: boolean | undefined;
   generateKeyAsync(): Promise<string>;
   attestKeyAsync(keyId: string, challenge: string): Promise<string>;
   generateAssertionAsync(keyId: string, challenge: string): Promise<string>;
-  prepareIntegrityTokenProviderAsync(cloudProjectNumber: number): Promise<void>;
+  prepareIntegrityTokenProviderAsync(cloudProjectNumber: string): Promise<void>;
   requestIntegrityCheckAsync(requestHash: string): Promise<string>;
 }
 
-export interface AttestationHeaders {
-  readonly 'X-CP-Install-Id': string;
-  readonly 'X-CP-Platform': AttestationPlatform;
-  readonly 'X-CP-Challenge': string;
-  readonly 'X-CP-Attestation'?: string;
-  readonly 'X-CP-Key-Id'?: string;
-  readonly 'X-CP-Assertion'?: string;
-  readonly 'X-CP-Integrity-Token'?: string;
+/** Where the App Attest key id lives once the api has accepted its attestation (SecureStore on device). */
+export interface AttestationKeyStore {
+  get(): Promise<string | null>;
+  set(keyId: string): Promise<void>;
+  clear(): Promise<void>;
 }
 
-export interface BuildAttestationHeadersInput {
-  readonly platform: AttestationPlatform;
+export interface AttestorDeps {
+  readonly platform: string;
   readonly native: AttestationNativeModule;
-  readonly installId: string;
-  readonly challenge: string;
-  /**
-   * iOS only: the key id from a previous `attestKeyAsync` call. Present -> sign an assertion with
-   * the already-attested key (a later sensitive call); absent -> attest a fresh key (first call per
-   * install). Caching this id across launches (until reinstall) is the caller's job, not this
-   * wrapper's — the same "attest once per install, assertion per sensitive call" split
-   * docs/data-model.md §3.1 describes.
-   */
-  readonly existingKeyId?: string;
-  /** Android only: required on the very first call per install to initialise the token provider. */
-  readonly cloudProjectNumber?: number;
+  readonly installId: () => Promise<string>;
+  /** `POST /v1/attest/challenge`: a single-use challenge bound to the install id. */
+  readonly fetchChallenge: (installId: string) => Promise<string>;
+  readonly keyStore: AttestationKeyStore;
+  /** Android only: the Google Cloud project number linked to Play Integrity. */
+  readonly cloudProjectNumber?: string | undefined;
+  /** Upper bound for challenge + native work; past it the request goes out unattested. */
+  readonly timeoutMs?: number;
 }
 
-/** Throws when `platform` names a value neither this wrapper nor the server's attestation config understands. */
-export class UnsupportedAttestationPlatformError extends Error {
-  constructor(platform: string) {
-    super(`attestation is not supported on platform "${platform}"`);
-    this.name = 'UnsupportedAttestationPlatformError';
+/** What the attested request's response said about the attestation it carried. */
+export interface AttestedResponse {
+  readonly ok: boolean;
+  /** The wire error code (`{error: {code}}`) of a failed response, when it has one. */
+  readonly errorCode?: string | undefined;
+}
+
+export interface AttestationTicket {
+  readonly headers: Readonly<Record<string, string>>;
+  /** Records the outcome; `true` asks the caller to resend once with a fresh ticket. */
+  settle(response: AttestedResponse): Promise<boolean>;
+}
+
+export interface Attestor {
+  attest(): Promise<AttestationTicket>;
+}
+
+export const DEFAULT_ATTESTATION_TIMEOUT_MS = 5_000;
+const UNAVAILABLE_HEADER = 'X-CP-Attestation-Unavailable';
+const INVALID_KEY_CODE = 'ERR_APP_INTEGRITY_INVALID_KEY';
+const PROVIDER_INVALID_CODE = 'ERR_APP_INTEGRITY_PROVIDER_INVALID';
+
+class AttestationUnavailable extends Error {
+  constructor(readonly reason: string) {
+    super(reason);
+    this.name = 'AttestationUnavailable';
   }
 }
 
-async function buildIosHeaders(input: BuildAttestationHeadersInput): Promise<AttestationHeaders> {
-  const base = {
-    'X-CP-Install-Id': input.installId,
-    'X-CP-Platform': 'ios' as const,
-    'X-CP-Challenge': input.challenge,
-  };
-  if (input.existingKeyId) {
-    const assertion = await input.native.generateAssertionAsync(
-      input.existingKeyId,
-      input.challenge,
-    );
-    return { ...base, 'X-CP-Assertion': assertion };
-  }
-  const keyId = await input.native.generateKeyAsync();
-  const attestation = await input.native.attestKeyAsync(keyId, input.challenge);
-  return { ...base, 'X-CP-Attestation': attestation, 'X-CP-Key-Id': keyId };
+function errorCode(error: unknown): string | undefined {
+  if (typeof error !== 'object' || error === null || !('code' in error)) return undefined;
+  const code = error.code;
+  return typeof code === 'string' ? code : undefined;
 }
 
-async function buildAndroidHeaders(
-  input: BuildAttestationHeadersInput,
-): Promise<AttestationHeaders> {
-  if (input.cloudProjectNumber !== undefined) {
-    await input.native.prepareIntegrityTokenProviderAsync(input.cloudProjectNumber);
+/** A short, header-safe reason: the native error code when there is one. */
+function unavailableReason(error: unknown): string {
+  if (error instanceof AttestationUnavailable) return error.reason;
+  const code = errorCode(error);
+  return code !== undefined ? code.replace(/[^A-Za-z0-9_]/g, '').slice(0, 64) : 'error';
+}
+
+function withTimeout<T>(work: Promise<T>, ms: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new AttestationUnavailable('timeout')), ms);
+  });
+  return Promise.race([work, timeout]).finally(() => clearTimeout(timer));
+}
+
+const settleNothing = () => Promise.resolve(false);
+
+export function createAttestor(deps: AttestorDeps): Attestor {
+  const timeoutMs = deps.timeoutMs ?? DEFAULT_ATTESTATION_TIMEOUT_MS;
+  // One Play Integrity provider per app session; a failed prepare is retried on the next call.
+  let prepared: Promise<void> | null = null;
+
+  function prepareOnce(): Promise<void> {
+    if (!deps.cloudProjectNumber) throw new AttestationUnavailable('no_cloud_project');
+    prepared ??= deps.native
+      .prepareIntegrityTokenProviderAsync(deps.cloudProjectNumber)
+      .catch((error: unknown) => {
+        prepared = null;
+        throw error;
+      });
+    return prepared;
   }
-  const integrityToken = await input.native.requestIntegrityCheckAsync(input.challenge);
+
+  async function android(base: Record<string, string>): Promise<AttestationTicket> {
+    await prepareOnce();
+    const challenge = await deps.fetchChallenge(base['X-CP-Install-Id'] ?? '');
+    let token: string;
+    try {
+      token = await deps.native.requestIntegrityCheckAsync(challenge);
+    } catch (error) {
+      if (errorCode(error) === PROVIDER_INVALID_CODE) prepared = null;
+      throw error;
+    }
+    return {
+      headers: { ...base, 'X-CP-Challenge': challenge, 'X-CP-Integrity-Token': token },
+      settle: settleNothing,
+    };
+  }
+
+  async function attestFreshKey(
+    base: Record<string, string>,
+    challenge: string,
+  ): Promise<AttestationTicket> {
+    const keyId = await deps.native.generateKeyAsync();
+    const attestation = await deps.native.attestKeyAsync(keyId, challenge);
+    return {
+      headers: {
+        ...base,
+        'X-CP-Challenge': challenge,
+        'X-CP-Attestation': attestation,
+        'X-CP-Key-Id': keyId,
+      },
+      // Kept only once the api accepted it, so a lost or rejected attestation is redone next time.
+      settle: async (response) => {
+        if (response.ok) await deps.keyStore.set(keyId);
+        return false;
+      },
+    };
+  }
+
+  async function ios(base: Record<string, string>): Promise<AttestationTicket> {
+    if (deps.native.isSupported !== true) throw new AttestationUnavailable('unsupported');
+    const challenge = await deps.fetchChallenge(base['X-CP-Install-Id'] ?? '');
+    const keyId = await deps.keyStore.get();
+    if (keyId === null) return attestFreshKey(base, challenge);
+    let assertion: string;
+    try {
+      assertion = await deps.native.generateAssertionAsync(keyId, challenge);
+    } catch (error) {
+      // The Keychain outlives a reinstall but App Attest keys do not: attest a new one.
+      if (errorCode(error) !== INVALID_KEY_CODE) throw error;
+      await deps.keyStore.clear();
+      return attestFreshKey(base, challenge);
+    }
+    return {
+      headers: { ...base, 'X-CP-Challenge': challenge, 'X-CP-Assertion': assertion },
+      // The api no longer knows this key (lost row, reset environment): forget it and resend.
+      settle: async (response) => {
+        if (response.ok || response.errorCode !== 'ATTESTATION_FAILED') return false;
+        await deps.keyStore.clear();
+        return true;
+      },
+    };
+  }
+
   return {
-    'X-CP-Install-Id': input.installId,
-    'X-CP-Platform': 'android',
-    'X-CP-Challenge': input.challenge,
-    'X-CP-Integrity-Token': integrityToken,
+    async attest() {
+      const base: Record<string, string> = { 'X-CP-Platform': deps.platform };
+      try {
+        base['X-CP-Install-Id'] = await deps.installId();
+        const work =
+          deps.platform === 'ios'
+            ? ios(base)
+            : deps.platform === 'android'
+              ? android(base)
+              : Promise.reject(new AttestationUnavailable('unsupported_platform'));
+        return await withTimeout(work, timeoutMs);
+      } catch (error) {
+        return {
+          headers: { ...base, [UNAVAILABLE_HEADER]: unavailableReason(error) },
+          settle: settleNothing,
+        };
+      }
+    },
   };
-}
-
-/**
- * Builds the attestation headers for one request. `existingKeyId`/`cloudProjectNumber` come from
- * wherever the caller (apps/mobile/src/data/auth/, a later task) keeps per-install state.
- */
-export async function buildAttestationHeaders(
-  input: BuildAttestationHeadersInput,
-): Promise<AttestationHeaders> {
-  if (!input.native.isSupported) {
-    throw new Error('attestation is not supported on this device');
-  }
-  switch (input.platform) {
-    case 'ios':
-      return buildIosHeaders(input);
-    case 'android':
-      return buildAndroidHeaders(input);
-    default:
-      throw new UnsupportedAttestationPlatformError(input.platform);
-  }
 }
