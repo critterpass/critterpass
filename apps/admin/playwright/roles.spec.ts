@@ -36,6 +36,7 @@ const PAYLOADS: Readonly<Record<string, () => unknown>> = {
   upsert_poi: () => ({ id: nobody(), name: 'Nowhere' }),
   upsert_season_editorial: () => ({ destination_id: nobody(), months: [], events: [] }),
   review_season_event: () => ({ event_id: nobody(), decision: 'approve' }),
+  review_cost_index: () => ({ index_id: nobody() }),
   moderate_item: () => ({ kind: 'user', id: nobody(), verdict: 'approve', note: null }),
   grant_entitlement: () => ({ uid: nobody(), perk: 'pass_plus', until: soon(), reason: 'matrix' }),
   revoke_entitlement: () => ({ uid: nobody(), perk: 'pass_plus', reason: 'matrix' }),

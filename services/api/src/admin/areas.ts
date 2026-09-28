@@ -9,6 +9,7 @@ import type { AdminAllowlist } from './allowlist';
 import { auditArea } from './audit-read';
 import { catalogueArea } from './catalogue';
 import { contentArea } from './content';
+import { costReviewArea } from './cost-review';
 import { deskArea } from './desk';
 import { flagsArea } from './flags';
 import { moderationArea } from './moderation';
@@ -31,6 +32,7 @@ export function adminAreas(deps: AdminAreaDeps): readonly AdminAreaDefinition[] 
   return [
     catalogueArea(deps.pool),
     seasonReviewArea(deps.pool),
+    costReviewArea(deps.pool),
     contentArea(deps.pool),
     flagsArea(deps.pool),
     partnersArea(deps.pool),
