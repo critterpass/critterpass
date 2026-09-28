@@ -73,9 +73,8 @@ export const apiEnvSchema = z.object({
   WHATSAPP_APP_SECRET: optionalString,
   /** Echoed back on Meta's one-time `GET /webhooks/whatsapp` verification handshake. */
   WHATSAPP_VERIFY_TOKEN: optionalString,
-  TWILIO_VERIFY_ACCOUNT_SID: optionalString,
-  TWILIO_VERIFY_AUTH_TOKEN: optionalString,
-  TWILIO_VERIFY_SERVICE_SID: optionalString,
+  /** Telegram Gateway API token: sends sign-in codes and keys the delivery-report signature on `POST /webhooks/telegram-gateway`. */
+  TELEGRAM_GATEWAY_TOKEN: optionalString,
   PRELUDE_API_KEY: optionalString,
 
   // --- Social sign-in (Apple/Google ID-token linking); button hidden client-side via server config

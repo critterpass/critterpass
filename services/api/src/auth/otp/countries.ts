@@ -1,36 +1,25 @@
 /**
- * OTP provider-per-country routing (docs/product-decisions.md open question default: "WhatsApp
- * first everywhere allowed; SMS: Prelude for SEA, Twilio Verify elsewhere"). A code table, not an
- * env var or DB row: missing provider credentials only ever remove a channel from availability,
- * never change which provider a country prefers.
+ * OTP channel order per country (docs/product-decisions.md, the OTP sender-router decision):
+ * WhatsApp authentication template, then Telegram Gateway, then SMS through Prelude, for every
+ * allow-listed country. A code table, not an env var or DB row: missing provider credentials only
+ * ever remove a channel from availability, never change the order a country prefers.
  */
 import { type CountryCode, parsePhoneNumberWithError } from 'libphonenumber-js';
 
-export type OtpChannel = 'whatsapp' | 'twilio_verify' | 'prelude';
+export type OtpChannel = 'whatsapp' | 'telegram' | 'prelude';
 
 export interface CountryOtpPolicy {
-  readonly whatsappAllowed: boolean;
-  readonly smsChannel: Extract<OtpChannel, 'twilio_verify' | 'prelude'>;
+  /** Channels to try, first to last; the router skips any without credentials or switched off. */
+  readonly channels: readonly OtpChannel[];
 }
 
-const SEA_PRELUDE_COUNTRIES: readonly CountryCode[] = [
-  'VN',
-  'SG',
-  'ID',
-  'MY',
-  'TH',
-  'PH',
-  'KH',
-  'LA',
-  'MM',
-  'BN',
-];
+const DEFAULT_CHANNEL_ORDER: readonly OtpChannel[] = ['whatsapp', 'telegram', 'prelude'];
 
 /** Countries excluded from OTP entirely (SMS-pumping risk: premium/unmonitored ranges, no verified deliverability). */
 const BLOCKED_COUNTRIES: ReadonlySet<CountryCode> = new Set<CountryCode>([]);
 
 /**
- * Resolves the channel preference for an E.164 phone number's country, or `undefined` when the
+ * Resolves the channel order for an E.164 phone number's country, or `undefined` when the
  * number cannot be parsed / its country is blocked — the caller turns that into
  * `VALIDATION` with `detail.reason: 'country_unsupported'`.
  */
@@ -42,10 +31,7 @@ export function countryOtpPolicy(phoneE164: string): CountryOtpPolicy | undefine
     return undefined;
   }
   if (!country || BLOCKED_COUNTRIES.has(country)) return undefined;
-  return {
-    whatsappAllowed: true,
-    smsChannel: SEA_PRELUDE_COUNTRIES.includes(country) ? 'prelude' : 'twilio_verify',
-  };
+  return { channels: DEFAULT_CHANNEL_ORDER };
 }
 
 /** Structural validity + type check (code-standards.md §18, an SMS-pumping defence): rejects numbers libphonenumber-js cannot validate as a real, non-premium line before any provider is ever called. */
