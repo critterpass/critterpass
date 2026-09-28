@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 
+import { resolveFlags } from '@cp/domain';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { createFlagService, type FlagService } from '../../src/obs/flags';
@@ -8,6 +9,9 @@ const definitions = readFileSync(
   new URL('../fixtures/posthog/flags-definitions.json', import.meta.url),
   'utf8',
 );
+
+/** Every catalog flag at its default; the fixture's definitions only cover `analytics.replay`. */
+const DEFAULTS = resolveFlags(undefined);
 
 type Fetch = NonNullable<Parameters<typeof createFlagService>[0]['fetch']>;
 
@@ -43,9 +47,11 @@ describe('server flags', () => {
       return response(200, definitions);
     });
     expect(await flags.evaluate({ distinctId: 'pid-1', platform: 'ios' })).toEqual({
+      ...DEFAULTS,
       'analytics.replay': true,
     });
     expect(await flags.evaluate({ distinctId: 'pid-2', platform: 'android' })).toEqual({
+      ...DEFAULTS,
       'analytics.replay': false,
     });
     expect(urls.every((url) => url.startsWith('https://eu.i.posthog.com/flags/definitions'))).toBe(
@@ -56,6 +62,7 @@ describe('server flags', () => {
   it('falls back to catalog defaults when PostHog is down', async () => {
     const flags = serviceWith(() => Promise.reject(new Error('ECONNREFUSED')));
     expect(await flags.evaluate({ distinctId: 'pid-1', platform: 'ios' })).toEqual({
+      ...DEFAULTS,
       'analytics.replay': false,
     });
   });
@@ -63,12 +70,16 @@ describe('server flags', () => {
   it('falls back to catalog defaults on server errors', async () => {
     const flags = serviceWith(() => response(503, '{"detail":"unavailable"}'));
     expect(await flags.evaluate({ distinctId: 'pid-1', platform: 'ios' })).toEqual({
+      ...DEFAULTS,
       'analytics.replay': false,
     });
   });
 
   it('returns defaults without credentials', async () => {
     const flags = createFlagService({ projectApiKey: undefined, flagsSecretKey: undefined });
-    expect(await flags.evaluate({ distinctId: 'pid-1' })).toEqual({ 'analytics.replay': false });
+    expect(await flags.evaluate({ distinctId: 'pid-1' })).toEqual({
+      ...DEFAULTS,
+      'analytics.replay': false,
+    });
   });
 });

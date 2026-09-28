@@ -78,5 +78,6 @@ describe('no plan bookkeeping ids in source', () => {
       });
     }
     expect(findings).toEqual([]);
-  });
+    // Reads every tracked source file; CI runners are about 3x slower than a dev machine.
+  }, 60_000);
 });
