@@ -87,28 +87,10 @@ export function statesFlow(groups: readonly StateGroup[]): string {
     '- tapOn:',
     "    id: 'gallery-states'",
     waitFor('gallery-states-page'),
-    ...states.map((state) =>
+    ...states.map((state, index) =>
       lines(
-        '- scrollUntilVisible:',
-        '    element:',
-        `      id: 'state-${state.screen}'`,
-        '    direction: UP',
-        '    timeout: 20000',
-        // Centred: a chip stopped under the status bar would take a scroll-to-top tap instead.
-        '    centerElement: true',
-        // A tap while the scroll is still coasting only stops the scroll on iOS.
-        '- waitForAnimationToEnd:',
-        '    timeout: 2000',
-        '- tapOn:',
-        `    id: 'state-${state.screen}'`,
-        '- scrollUntilVisible:',
-        '    element:',
-        `      id: 'state-view-${state.screen}'`,
-        '    direction: DOWN',
-        '    timeout: 20000',
-        '    visibilityPercentage: 5',
-        '- waitForAnimationToEnd:',
-        '    timeout: 2000',
+        ...(index === 0 ? [] : ['- tapOn:', "    id: 'state-next'"]),
+        waitFor(`state-view-${state.screen}`),
         `- takeScreenshot: state-${state.screen}`,
       ),
     ),

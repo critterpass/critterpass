@@ -59,8 +59,8 @@ function StateChip({
 }
 
 /**
- * The prototype's state groups: pick a screen state and the fixtures its screen composes render
- * below, under the gallery's font-scale and contrast settings.
+ * The prototype's state groups: the selected screen state's fixtures render at the top (Next steps
+ * through them), the chips below pick any state, under the gallery's text and contrast settings.
  */
 export default function GalleryStatesScreen() {
   loadAllFixtures();
@@ -69,28 +69,29 @@ export default function GalleryStatesScreen() {
   const settings = useGallerySettings();
   const first = STATE_GROUPS[0]?.states[0];
   const [selected, setSelected] = useState<GroupState | undefined>(first);
+  const all = STATE_GROUPS.flatMap((group) => group.states);
+  const next = all[all.findIndex((state) => state.screen === selected?.screen) + 1];
 
   return (
     <Scaffold testID="gallery-states-page">
       <ScrollView contentContainerStyle={styles.content}>
-        <Text variant="h2" accessibilityRole="header">
-          State groups
-        </Text>
-        {STATE_GROUPS.map((group) => (
-          <Stack key={group.title} gap="6">
-            <Text variant="eyebrow">{group.title}</Text>
-            <Row gap="8" wrap>
-              {group.states.map((state) => (
-                <StateChip
-                  key={state.screen}
-                  state={state}
-                  selected={state.screen === selected?.screen}
-                  onPress={() => setSelected(state)}
-                />
-              ))}
-            </Row>
-          </Stack>
-        ))}
+        <Row gap="12" justify="space-between">
+          <Text variant="h2" accessibilityRole="header">
+            State groups
+          </Text>
+          {next ? (
+            // Screenshot flows step through every state here without scrolling to its chip.
+            <Pressable
+              testID="state-next"
+              accessibilityRole="button"
+              accessibilityLabel={`Next: ${next.screen} ${next.label}`}
+              style={styles.chip}
+              onPress={() => setSelected(next)}
+            >
+              <Text variant="label">Next</Text>
+            </Pressable>
+          ) : null}
+        </Row>
         {selected ? (
           <Stack gap="16" testID={`state-view-${selected.screen}`}>
             <Text variant="h3" accessibilityRole="header">
@@ -109,6 +110,21 @@ export default function GalleryStatesScreen() {
             </ThemeProvider>
           </Stack>
         ) : null}
+        {STATE_GROUPS.map((group) => (
+          <Stack key={group.title} gap="6">
+            <Text variant="eyebrow">{group.title}</Text>
+            <Row gap="8" wrap>
+              {group.states.map((state) => (
+                <StateChip
+                  key={state.screen}
+                  state={state}
+                  selected={state.screen === selected?.screen}
+                  onPress={() => setSelected(state)}
+                />
+              ))}
+            </Row>
+          </Stack>
+        ))}
       </ScrollView>
     </Scaffold>
   );
