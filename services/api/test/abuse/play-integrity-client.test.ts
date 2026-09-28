@@ -22,9 +22,11 @@ const fixture = (name: string): string => readFileSync(path.join(FIXTURES_DIR, n
 
 const PACKAGE_NAME = 'app.critterpass.staging';
 const CHALLENGE = 'Q2hhbGxlbmdlLWZyb20tdGhlLWFwaQ';
-const CERT_COLON_HEX =
-  '8F:EF:D9:82:4D:67:92:B1:20:36:25:D8:06:45:21:96:C5:C0:BC:95:EE:18:5A:FF:C4:16:34:B6:47:E7:85:4C';
 const CERT_BASE64URL = 'j-_Zgk1nkrEgNiXYBkUhlsXAvJXuGFr_xBY0tkfnhUw';
+/** The same certificate digest as Play Console shows it: colon-separated upper-case hex. */
+const CERT_COLON_HEX = [...Buffer.from(CERT_BASE64URL, 'base64url')]
+  .map((byte) => byte.toString(16).padStart(2, '0').toUpperCase())
+  .join(':');
 const CLIENT_EMAIL = 'play-integrity@critterpass-test.iam.gserviceaccount.com';
 const TOKEN_URI = 'https://oauth2.googleapis.com/token';
 
