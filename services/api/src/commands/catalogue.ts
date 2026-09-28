@@ -8,6 +8,7 @@ import { registerMediaUploadCommand } from '../media/register-media-upload';
 import { createCommandRegistry, type CommandRegistry } from './_framework/registry';
 import { approveOpsActionCommand } from './approve-ops-action';
 import { registerAvatarCommands } from './avatar';
+import { registerChatCommands } from './chat';
 import { registerCrewCommands } from './crews';
 import { registerDeviceCommands } from './device';
 import { registerOnboardingCommands } from './onboarding';
@@ -22,6 +23,7 @@ export function createAppCommandRegistry(): CommandRegistry {
   registerOnboardingCommands(commands);
   registerAvatarCommands(commands);
   registerCrewCommands(commands);
+  registerChatCommands(commands);
   commands.register(undoGuideActionCommand);
   commands.register(reportContentCommand);
   commands.register(approveOpsActionCommand);

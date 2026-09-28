@@ -280,6 +280,8 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'trip.seat_opened': ['seat_opened'],
   'invite.created': ['crew_invite_received'],
   'invite.nudged': ['nudge'],
+  // Crew chat: a new message, to members by their per-crew level.
+  'chat.message_sent': ['crew_chat'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

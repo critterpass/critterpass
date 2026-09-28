@@ -53,6 +53,8 @@ jobs:
       - uses: actions/setup-node@v7
         with: { node-version: 26, cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      # The worker's chat voice-note suite runs the real ffmpeg, as the worker image does.
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
       # Only the builds the suites depend on come from cache; turbo.json never caches test:db.
       - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
         with:

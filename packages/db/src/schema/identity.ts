@@ -61,6 +61,11 @@ export const userSettings = pgTable('user_settings', {
   hideCollection: boolean('hide_collection').notNull().default(false),
   /** The crew Home shows; FK to crews in SQL (not mirrored here to keep the import graph acyclic). */
   activeCrewId: uuid('active_crew_id'),
+  /** Crewmates whose chat messages this user hides on their own devices (`mute_member`). */
+  mutedUids: uuid('muted_uids')
+    .array()
+    .notNull()
+    .default(sql`'{}'::uuid[]`),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

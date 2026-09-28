@@ -216,3 +216,13 @@ registerMergeRule({
   conflictColumns: ['trip_id'],
 });
 registerMergeRule({ table: 'crew_contact_cards', userColumn: 'user_id', strategy: 'drop' });
+
+// Crew chat: an anonymous uid's messages and reactions follow the user; a reaction the existing
+// account already made with the same emoji on the same message wins.
+registerMergeRule({ table: 'messages', userColumn: 'sender_id', strategy: 'reassign' });
+registerMergeRule({
+  table: 'message_reactions',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['message_id', 'emoji'],
+});

@@ -293,6 +293,7 @@ export * from './location';
 export * from './pass';
 export * from './taste';
 export * from './airports';
+export * from './chat';
 export * from './crews';
 export * from './invites';
 export * from './referrals';

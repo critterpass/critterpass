@@ -14,6 +14,7 @@ import { moderationVerdictSchema } from '../admin/ops-enums';
 import { grantablePerkSchema } from '../admin/support';
 import { itineraryVersionVisibilitySchema } from '../enums/plan';
 import { TRAVEL_DATA_EVENT_PAYLOADS } from '../travel-data/events';
+import { CHAT_EVENT_PAYLOADS, CHAT_EVENT_TYPES } from '../chat/events';
 import { GROWTH_EVENT_PAYLOADS, GROWTH_EVENT_TYPES } from '../crews/events';
 
 export const DOMAIN_EVENT_TYPES = [
@@ -45,6 +46,7 @@ export const DOMAIN_EVENT_TYPES = [
   'profile.taste_changed',
   'profile.avatar_changed',
   ...GROWTH_EVENT_TYPES,
+  ...CHAT_EVENT_TYPES,
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
 export type DomainEventType = z.infer<typeof domainEventTypeSchema>;
@@ -139,6 +141,7 @@ const DOMAIN_EVENT_CATALOGUE = {
     kind: z.enum(['initials', 'critter', 'photo']),
   }),
   ...GROWTH_EVENT_PAYLOADS,
+  ...CHAT_EVENT_PAYLOADS,
 } as const satisfies Record<DomainEventType, z.ZodType>;
 
 export function getDomainEventPayloadSchema(type: DomainEventType): z.ZodType {

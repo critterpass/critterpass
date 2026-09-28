@@ -36,7 +36,7 @@ Crew-visibility matrix (master §10.4, C36) maps to: `users`/`avatars`/`passes`/
 | `llm.pois` | curated POI DB (`pois`, `poi_live_checks` flags) | supplier content |
 | `llm.bookings` | type, times, status, free_cancel_until, visibility=crew only | barcodes, attachments, personal bookings of others |
 | `llm.money_summary` | per-member net balances, category totals | payout methods |
-| `llm.chat_window(crew, n)` (SQL fn) | last n crew messages, sender display names | private guide threads |
+| `llm.chat_window` view + `llm.chat_window(crew, n)` (last n ≤200, oldest first) | seq, author kind (member/guide), author display name, type, body of visible `text` rows of crews the asker is an active member of; callers wrap rows as untrusted user data | attachments, every card payload (poll, expense, supplier_order, proposal, changeset, boost_card, meetup), system rows, hidden and deleted rows, private guide threads |
 | `llm.persona_packs`, `llm.phrase_cards`, `llm.help_articles` | content | — |
 | `llm.user_prefs` | chattiness, dietary **flags** only when consented | dietary profile, health notes |
 

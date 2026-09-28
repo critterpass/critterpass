@@ -174,6 +174,10 @@ export const QUEUES = {
   // alerts), then its PNG variants once approved.
   'avatar.moderate': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
   'avatar.render': spec({ policy: 'exclusive', notify: true }),
+  // Crew chat media: one thumbnail per photo message and one normalised AAC per voice note, keyed
+  // per message.
+  'chat.photo_thumbnail': spec({ policy: 'exclusive', notify: true }),
+  'chat.voice_transcode': spec({ policy: 'exclusive', notify: true, expireInSeconds: 5 * 60 }),
   // Crew growth: hourly invite and code expiry with prefill purge, the minute waitlist sweep that
   // offers freed seats, lapsing unanswered offers, the one-day nudge to installed invitees, and
   // moving referrals towards their reward.
@@ -265,6 +269,8 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'visits.ttl': 'Expires visits of archived trips',
   'avatar.moderate': 'Moderates one uploaded photo avatar',
   'avatar.render': "Renders an approved avatar's PNG variants",
+  'chat.photo_thumbnail': "Renders a chat photo's thumbnail",
+  'chat.voice_transcode': 'Normalises a chat voice note to AAC and measures it',
   'maint.codes': 'Expires invites and codes; purges old invite prefill',
   'waitlist.offer': 'Offers freed trip seats to the next person waiting',
   'waitlist.offer_expire': 'Lapses unanswered seat offers and offers the seat on',

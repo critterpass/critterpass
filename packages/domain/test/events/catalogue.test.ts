@@ -144,6 +144,30 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     user_id: crypto.randomUUID(),
   },
   'referral.progressed': { referral_id: crypto.randomUUID(), status: 'qualified' },
+  'chat.message_sent': {
+    crew_id: crypto.randomUUID(),
+    message_id: crypto.randomUUID(),
+    seq: 7,
+    type: 'text',
+    sender_id: crypto.randomUUID(),
+    mentions: [crypto.randomUUID()],
+    mentions_guide: false,
+    reply_to_sender_id: null,
+  },
+  'chat.message_edited': { crew_id: crypto.randomUUID(), message_id: crypto.randomUUID() },
+  'chat.message_deleted': { crew_id: crypto.randomUUID(), message_id: crypto.randomUUID() },
+  'chat.reaction_changed': {
+    crew_id: crypto.randomUUID(),
+    message_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    added: true,
+  },
+  'chat.guide_mentioned': {
+    crew_id: crypto.randomUUID(),
+    message_id: crypto.randomUUID(),
+    trip_id: null,
+    asker_id: crypto.randomUUID(),
+  },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {
