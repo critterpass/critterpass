@@ -1,0 +1,113 @@
+---
+/**
+ * Site-Invite inside the site shell: the invite ticket, the code with its live expiry, a QR code on
+ * desktop, "open in the app" and the two stores, and the code form. Also the not-found state (an
+ * unknown or malformed code) and the in-app-browser escape. Rendered per request, never cached.
+ */
+import '../link-handoff/handoff.css';
+import './previews.css';
+
+import type { LoadedHandoff } from '../../lib/links/load-handoff';
+import Site from '../../layouts/Site.astro';
+import InAppBrowserEscape from '../link-handoff/InAppBrowserEscape.astro';
+import { inviteCopy as copy } from '../site/copy/invite';
+import { siteTranslator } from '../site/i18n';
+import Countdown from './Countdown.astro';
+import InviteCard from './InviteCard.astro';
+import JoinForm from './JoinForm.astro';
+import Qr from './Qr.astro';
+
+export interface Props {
+  readonly loaded: Extract<LoadedHandoff, { kind: 'page' }>;
+}
+
+const { loaded } = Astro.props;
+const { model, copy: words, qrSvg } = loaded;
+const t = await siteTranslator();
+const preview = model?.preview ?? null;
+const code = model?.code ?? null;
+// Android goes through the intent URL and the install referrer; everywhere else the link is copied.
+const copyLink = model !== null && model.platform !== 'android' ? model.canonicalLink : undefined;
+const ogImage = code === null ? undefined : `/og/invite/${code}.png`;
+---
+
+<Site
+  title={words.pageTitle}
+  description={words.pageDescription}
+  canonicalPath={null}
+  noindex
+  ogImage={ogImage}
+  tone="ink"
+>
+  <Fragment slot="head">
+    {model?.smartAppBanner && <meta name="apple-itunes-app" content={model.smartAppBanner} />}
+  </Fragment>
+  <section class="pv-page site-halftone--light">
+    <div class="site-wrap pv-grid">
+      <InviteCard copy={words} preview={preview} />
+      <div class="pv-side">
+        <section class="pv-panel" aria-label={t(copy.getTheApp)}>
+          {
+            code !== null && (
+              <>
+                <div class="pv-panel__row">
+                  <p class="site-eyebrow pv-panel__label">{t(copy.yourCode)}</p>
+                  {preview?.state === 'active' && <Countdown expiresAt={preview.expires_at} />}
+                </div>
+                <p
+                  class="pv-code"
+                  aria-label={t(copy.codeLabel, { spelled: code.split('').join(' ') })}
+                  data-testid="invite-code"
+                >
+                  {code.split('').map((glyph) => (
+                    <span class="pv-code__tile" aria-hidden="true">
+                      {glyph}
+                    </span>
+                  ))}
+                </p>
+              </>
+            )
+          }
+          {qrSvg !== null && <Qr svg={qrSvg} crewName={preview?.crew_name ?? null} />}
+          <div class="pv-actions">
+            {
+              model !== null && (
+                <a class="site-button pv-actions__open" href={model.openInAppHref} data-copy-link={copyLink} data-testid="open-in-app">
+                  {words.cta}
+                </a>
+              )
+            }
+            <div class="pv-actions__stores">
+              {
+                loaded.appStoreHref !== null && (
+                  <a class="pv-store" href={loaded.appStoreHref} data-copy-link={copyLink} data-testid="app-store">
+                    {t(copy.appStore)}
+                  </a>
+                )
+              }
+              <a class="pv-store" href={loaded.playStoreHref} data-testid="google-play">
+                {t(copy.googlePlay)}
+              </a>
+            </div>
+          </div>
+        </section>
+        <JoinForm alternative={model !== null} />
+      </div>
+    </div>
+  </section>
+  {
+    model?.inAppBrowser && (
+      <InAppBrowserEscape
+        inAppBrowser={model.inAppBrowser}
+        platform={model.platform}
+        link={model.canonicalLink}
+        openInChromeHref={model.openInChromeHref}
+      />
+    )
+  }
+</Site>
+
+<script>
+  import { wireLinkHandoff } from '../link-handoff/CopyOnTap';
+  wireLinkHandoff();
+</script>

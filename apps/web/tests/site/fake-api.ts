@@ -23,11 +23,11 @@ function preview(path: string): unknown {
 const PREVIEWS = new Map<string, unknown>([
   ['BAX6XA', preview('../links/fixtures/preview-active-invite.json')],
   ['BAX6XC', preview('../links/fixtures/preview-revoked-invite.json')],
-  ['SUNNY4', preview('./fixtures/preview-trip-invite.json')],
+  ['SANDY4', preview('./fixtures/preview-trip-invite.json')],
   ['EXPR22', preview('./fixtures/preview-expired-invite.json')],
-  ['FULL33', preview('./fixtures/preview-full-invite.json')],
-  ['WINST8', preview('./fixtures/preview-referral.json')],
-  ['FLIP44', preview('./fixtures/preview-trip-invite.json')],
+  ['FAWN33', preview('./fixtures/preview-full-invite.json')],
+  ['WYNST8', preview('./fixtures/preview-referral.json')],
+  ['FRAP44', preview('./fixtures/preview-trip-invite.json')],
 ]);
 const REVOKED = preview('../links/fixtures/preview-revoked-invite.json');
 const NOT_FOUND = fixture('../links/fixtures/error-not-found.json');

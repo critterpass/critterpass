@@ -11,8 +11,24 @@ msgstr ""
 msgid "web.home.chat4"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.eyebrowFrom"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.bodyFrom"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.theirLink"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.copyright"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.estimateEach"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -21,6 +37,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyTotal"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.tier1"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -43,8 +63,20 @@ msgstr ""
 msgid "web.home.mockVoteStatus"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.tier3"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteHoiAnCount"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.fiveStamps"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.tier5"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -59,6 +91,14 @@ msgstr ""
 msgid "web.home.insideTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.waitingSeat"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.how2Body"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalAdmit"
 msgstr ""
@@ -67,8 +107,16 @@ msgstr ""
 msgid "web.shell.allLegal"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.membersLabel"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.appStore"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -99,16 +147,40 @@ msgstr ""
 msgid "web.home.mockBookingsEyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.eyebrow"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.bringYourCrew"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.pageTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalName"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.collector"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.copied"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.copy"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerCrew"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.crewCaptain"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -191,6 +263,14 @@ msgstr ""
 msgid "web.home.insideVoteBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.expiresIn"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.findMyCrew"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsBody"
 msgstr ""
@@ -219,8 +299,20 @@ msgstr ""
 msgid "web.shell.googlePlayBadge"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.getTheApp"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.getTheApp"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.googlePlay"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.differentCode"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -233,6 +325,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideAjo"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.haveCode"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -255,6 +351,10 @@ msgstr ""
 msgid "web.home.stop1Art"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.howTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.howItWorks"
 msgstr ""
@@ -275,6 +375,10 @@ msgstr ""
 msgid "web.home.chat2"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.codeLabel"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteIstanbul"
 msgstr ""
@@ -287,8 +391,16 @@ msgstr ""
 msgid "web.home.stop2Art"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.joinTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.joinWithCode"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.joinPageTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -395,8 +507,16 @@ msgstr ""
 msgid "web.home.mockPlanItem2"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.desktopTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insidePlanBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.how1Body"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -415,6 +535,10 @@ msgstr ""
 msgid "web.home.passNo"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.coverLabel"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlaces"
 msgstr ""
@@ -431,20 +555,48 @@ msgstr ""
 msgid "web.shell.privacy"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.qrLabel"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideLundi"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.finePrintTerms"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Body"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.desktopBodyCrew"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.desktopBody"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoice"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.how1Title"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.body"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsFlight"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.codeHint"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
@@ -461,6 +613,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Title"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.finePrint"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
@@ -487,6 +643,10 @@ msgstr ""
 msgid "web.shell.terms"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.codeError"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatName"
 msgstr ""
@@ -505,6 +665,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.thePass"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.how2Title"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.how3Body"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
@@ -543,6 +711,14 @@ msgstr ""
 msgid "web.home.heroVoice"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.title"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.joinBody"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passLocked"
 msgstr ""
@@ -579,6 +755,10 @@ msgstr ""
 msgid "web.notFound.title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.how3Title"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passTitle"
 msgstr ""
@@ -587,6 +767,22 @@ msgstr ""
 msgid "web.home.mockMoneyOwed"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.joinEyebrow"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideRole"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.yourCode"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.yourLink"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.referral.inApp"
 msgstr ""

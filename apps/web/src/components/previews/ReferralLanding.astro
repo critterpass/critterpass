@@ -1,0 +1,92 @@
+---
+/** Site-Referral: `/r/{code}` for a friend's referral link, `/r` for the programme itself. */
+import '../link-handoff/handoff.css';
+import './previews.css';
+
+import type { HandoffModel } from '../../lib/links/handoff-model';
+import Site from '../../layouts/Site.astro';
+import InAppBrowserEscape from '../link-handoff/InAppBrowserEscape.astro';
+import { inviteCopy as copy } from '../site/copy/invite';
+import { siteTranslator } from '../site/i18n';
+import { SITE_PATHS } from '../site/site-config';
+import ReferralCard from './ReferralCard.astro';
+
+export interface Props {
+  readonly model: HandoffModel | null;
+  readonly title: string;
+  readonly description: string;
+  readonly cta: string;
+  readonly appStoreHref: string | null;
+  readonly playStoreHref: string;
+}
+
+const { model, title, description, cta, appStoreHref, playStoreHref } = Astro.props;
+const t = await siteTranslator();
+const code = model?.code ?? null;
+const steps = [
+  { tone: 'ink', title: t(copy.how1Title), body: t(copy.how1Body) },
+  { tone: 'yellow', title: t(copy.how2Title), body: t(copy.how2Body) },
+  { tone: 'green', title: t(copy.how3Title), body: t(copy.how3Body) },
+] as const;
+---
+
+<Site
+  title={title}
+  description={description}
+  canonicalPath={model === null ? SITE_PATHS.bringYourCrew : null}
+  noindex={model !== null}
+  ogImage={code === null ? undefined : `/og/referral/${code}.png`}
+  active="bringYourCrew"
+>
+  <Fragment slot="head">
+    {model?.smartAppBanner && <meta name="apple-itunes-app" content={model.smartAppBanner} />}
+  </Fragment>
+  <ReferralCard
+    inviter={model?.preview?.inviter_first_name ?? null}
+    link={model?.canonicalLink ?? null}
+    openHref={model?.openInAppHref ?? null}
+    copyLink={model !== null && model.platform !== 'android' ? model.canonicalLink : undefined}
+    cta={cta}
+    appStoreHref={appStoreHref}
+    playStoreHref={playStoreHref}
+  />
+  <section class="pv-how" aria-labelledby="pv-how-title">
+    <div class="site-wrap">
+      <ul class="pv-tiers">
+        <li>{t(copy.tier1)}</li>
+        <li>{t(copy.tier3)}</li>
+        <li class="pv-tiers__top">{t(copy.tier5)}</li>
+      </ul>
+      <h2 id="pv-how-title" class="site-display pv-how__title">{t(copy.howTitle)}</h2>
+      <ol class="pv-how__steps">
+        {
+          steps.map((step, index) => (
+            <li class={`pv-step pv-step--${step.tone}`}>
+              <span class="site-display pv-step__n">{index + 1}</span>
+              <h3 class="site-display pv-step__title">{step.title}</h3>
+              <p>{step.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="pv-how__fine">
+        {t(copy.finePrint)} <a href="/legal/referral-terms">{t(copy.finePrintTerms)}</a>
+      </p>
+    </div>
+  </section>
+  {
+    model?.inAppBrowser && (
+      <InAppBrowserEscape
+        inAppBrowser={model.inAppBrowser}
+        platform={model.platform}
+        link={model.canonicalLink}
+        openInChromeHref={model.openInChromeHref}
+      />
+    )
+  }
+</Site>
+
+<script>
+  import { wireLinkHandoff } from '../link-handoff/CopyOnTap';
+  wireLinkHandoff();
+</script>

@@ -1,0 +1,23 @@
+---
+/** Desktop only: the link as a QR code for the visitor's phone camera, with what happens next. */
+import { inviteCopy as copy } from '../site/copy/invite';
+import { siteTranslator } from '../site/i18n';
+
+export interface Props {
+  readonly svg: string;
+  readonly crewName: string | null;
+}
+
+const { svg, crewName } = Astro.props;
+const t = await siteTranslator();
+---
+
+<div class="pv-qr">
+  <div class="pv-qr__code" set:html={svg} role="img" aria-label={t(copy.qrLabel)} />
+  <div>
+    <h2 class="site-display pv-qr__title">{t(copy.desktopTitle)}</h2>
+    <p class="pv-qr__body">
+      {crewName === null ? t(copy.desktopBody) : t(copy.desktopBodyCrew, { crew: crewName })}
+    </p>
+  </div>
+</div>

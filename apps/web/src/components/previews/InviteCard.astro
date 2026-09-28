@@ -1,0 +1,74 @@
+---
+/**
+ * The yellow ticket of Site-Invite: who invited you and where, the crew already in (first names as
+ * member-colour initials, never photos), and the trip's dates, per-person estimate and crew as
+ * chips. Closed invites (expired, switched off, full) keep the ticket and say why.
+ */
+import type { HandoffCopy } from '../../lib/links/handoff-copy';
+import type { LinkPreview } from '@cp/domain';
+
+import { inviteCopy as copy } from '../site/copy/invite';
+import { siteTranslator } from '../site/i18n';
+import Sticker from '../site/Sticker.astro';
+import { estimateEach, guideKind, memberStubs, tripDates } from './invite-facts';
+
+export interface Props {
+  readonly copy: HandoffCopy;
+  readonly preview: LinkPreview | null;
+}
+
+const { copy: words, preview } = Astro.props;
+const t = await siteTranslator();
+const closed = preview !== null && preview.state !== 'active';
+const members = memberStubs(preview);
+const waiting = closed ? 0 : Math.min(preview?.invited_waiting ?? 0, 3);
+const dates = tripDates(preview);
+const estimate = estimateEach(preview);
+const chips = [
+  dates,
+  estimate === null ? null : t(copy.estimateEach, { amount: estimate }),
+  preview?.crew_name ?? null,
+].filter((chip): chip is string => chip !== null);
+const chipList = chips.length > 0 ? chips : words.chips;
+---
+
+<section
+  class:list={['pv-ticket', 'site-halftone', closed && 'pv-ticket--closed']}
+  aria-labelledby="pv-headline"
+  data-testid="handoff-ticket"
+>
+  <Sticker kind={guideKind(preview?.guide_slug)} size={150} pose={closed ? 'think' : undefined} class="pv-ticket__guide" />
+  <p class="site-eyebrow pv-ticket__eyebrow">{words.eyebrow}</p>
+  <h1 id="pv-headline" class="site-display pv-ticket__headline">{words.headline}</h1>
+  {words.body && <p class="pv-ticket__body">{words.body}</p>}
+  {
+    (members.length > 0 || words.roster) && (
+      <div class="pv-ticket__roster">
+        {members.length > 0 && (
+          <ul class="pv-avatars" aria-label={t(copy.membersLabel, { names: members.map((m) => m.name).join(', ') })}>
+            {members.map((member) => (
+              <li class={`pv-avatar pv-avatar--${member.ring}`} style={`--member:${member.colour}`} aria-hidden="true">
+                {member.initial}
+              </li>
+            ))}
+            {Array.from({ length: waiting }, () => (
+              <li class="pv-avatar pv-avatar--open" title={t(copy.waitingSeat)} aria-hidden="true">
+                ?
+              </li>
+            ))}
+          </ul>
+        )}
+        {words.roster && <p class="site-display pv-ticket__roster-text">{words.roster}</p>}
+      </div>
+    )
+  }
+  {
+    chipList.length > 0 && (
+      <ul class="pv-chips">
+        {chipList.map((chip) => (
+          <li class="pv-chip">{chip}</li>
+        ))}
+      </ul>
+    )
+  }
+</section>

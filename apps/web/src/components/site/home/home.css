@@ -846,7 +846,7 @@
   .home-hero__grid,
   .home-chat__grid,
   .home-ticket {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .home-pass {
     justify-self: center;

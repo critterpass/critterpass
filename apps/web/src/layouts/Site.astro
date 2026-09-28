@@ -9,7 +9,7 @@ export interface Props {
   readonly title: string;
   readonly description: string;
   readonly canonicalPath: string | null;
-  readonly ogImage?: string;
+  readonly ogImage?: string | undefined;
   readonly ogType?: 'website' | 'article';
   readonly noindex?: boolean;
   readonly active?: NavKey;
