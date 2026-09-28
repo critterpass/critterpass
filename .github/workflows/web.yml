@@ -1,0 +1,85 @@
+name: web
+
+# The site (apps/web) end to end: on pull requests that touch it, the whole Playwright suite runs
+# against a local production bundle (link pages, site pages, OG cards, link-preview tags). After
+# every staging deploy (deploy-edge.yml), the link-preview check runs again against
+# staging.critterpass.app. Deploys themselves stay in deploy-edge.yml.
+on:
+  pull_request:
+    paths:
+      - 'apps/web/**'
+      - 'packages/content/**'
+      - 'packages/critter-art/**'
+      - 'packages/design-tokens/**'
+      - 'packages/domain/src/links/**'
+      - 'packages/i18n/locales/*/web.*'
+      - '.github/workflows/web.yml'
+  workflow_run:
+    workflows: ['deploy edge']
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Site to check link previews on
+        default: https://staging.critterpass.app
+
+concurrency:
+  group: web-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  site-e2e:
+    name: site e2e (Playwright, Chromium)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Playwright version
+        id: pw
+        run: echo "version=$(pnpm --filter @cp/web exec playwright --version | awk '{print $2}')" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-${{ steps.pw.outputs.version }}
+      - name: Install Chromium
+        timeout-minutes: 5
+        run: pnpm --filter @cp/web exec playwright install --with-deps --only-shell chromium
+      - name: Site suite
+        env:
+          # Any value: the cookieless-analytics check needs the capture script in the bundle.
+          PUBLIC_POSTHOG_KEY: phc_e2e
+        run: pnpm --filter @cp/web test:e2e
+      - name: Upload traces
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: web-e2e-traces
+          path: apps/web/test-results/
+          retention-days: 7
+
+  unfurl:
+    name: link previews on the deployed site
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      UNFURL_BASE_URL: ${{ github.event.inputs.base_url || 'https://staging.critterpass.app' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Link previews
+        run: pnpm --filter @cp/web exec playwright test -c tests/site/unfurl.config.ts
