@@ -12,6 +12,10 @@ export const MAX_ACTIVE_CREWS_PER_USER = 10;
 export const CREW_NOTIFY_LEVELS = ['all', 'mentions', 'off'] as const;
 export const crewNotifyLevelSchema = z.enum(CREW_NOTIFY_LEVELS);
 export type CrewNotifyLevel = z.infer<typeof crewNotifyLevelSchema>;
+export function isCrewNotifyLevel(value: string): value is CrewNotifyLevel {
+  return (CREW_NOTIFY_LEVELS as readonly string[]).includes(value);
+}
+
 /** A member who never chose reads as `mentions`. */
 export const DEFAULT_CREW_NOTIFY_LEVEL: CrewNotifyLevel = 'mentions';
 

@@ -204,6 +204,14 @@ streams:
       - SELECT * FROM crew_members WHERE crew_id IN my_crews
       - SELECT * FROM trips WHERE crew_id IN my_crews
       - SELECT * FROM crew_contact_cards WHERE crew_id IN my_crews
+      - |-
+        SELECT * FROM crews
+        WHERE id IN (SELECT crew_id FROM invites
+                     WHERE invitee_user_id = auth.user_id() AND status = 'pending')
+      - |-
+        SELECT * FROM crews
+        WHERE id IN (SELECT crew_id FROM invites
+                     WHERE invitee_user_id = auth.user_id() AND status = 'later')
   crew_people:
     auto_subscribe: true
     queries:

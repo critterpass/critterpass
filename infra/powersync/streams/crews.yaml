@@ -35,11 +35,20 @@ streams:
         FROM referrals
         WHERE referee_id = auth.user_id()
 
-  # Consented phone cards of the caller's crews.
+  # Consented phone cards of the caller's crews, and the header of a crew that invited the caller
+  # in-app (its name on the crews sheet) while that invite is open.
   crews:
     auto_subscribe: true
     queries:
       - SELECT * FROM crew_contact_cards WHERE crew_id IN my_crews
+      - |
+        SELECT * FROM crews
+        WHERE id IN (SELECT crew_id FROM invites
+                     WHERE invitee_user_id = auth.user_id() AND status = 'pending')
+      - |
+        SELECT * FROM crews
+        WHERE id IN (SELECT crew_id FROM invites
+                     WHERE invitee_user_id = auth.user_id() AND status = 'later')
 
   # Seat offers on one trip, for its crew's members.
   trip:

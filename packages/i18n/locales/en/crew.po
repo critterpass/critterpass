@@ -6,3 +6,247 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#. placeholder {0}: card.members.length
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.members"
+msgstr "{0} members"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.createdTitle"
+msgstr "{crew} is on"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.invitedBy"
+msgstr "{inviter} invited you"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.planning"
+msgstr "{place} · planning"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.inDays"
+msgstr "{place} in {days} days"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.somewhere"
+msgstr "A trip"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.notifyAll"
+msgstr "All"
+
+#. placeholder {0}: code.split('').join(' ')
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.codeA11y"
+msgstr "Crew code {0}"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.name"
+msgstr "Crew name"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.name"
+msgstr "Crew name"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
+msgid "crew.queued.rename"
+msgstr "Crew name change"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
+msgid "crew.queued.notify"
+msgstr "Crew notification setting"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.art"
+msgstr "Crew sticker"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.back"
+msgstr "Crews"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.back"
+msgstr "Crews"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.ringDashed"
+msgstr "dashed ring"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.ringDouble"
+msgstr "double ring"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.keepChat"
+msgstr "If I leave, keep reading the chat history"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leaveRoles"
+msgstr "If you organise a trip alone, the longest-standing member takes over."
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.invite"
+msgstr "Invite someone"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.join"
+msgstr "Join"
+
+#. placeholder {0}: services.inviteUrl(code)
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.shareMessage"
+msgstr "Join {crew} on CritterPass: {0} (code {code})"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.joinCode"
+msgstr "Join with a code"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.joined"
+msgstr "Joined ✓"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.later"
+msgstr "Later"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.laterSection"
+msgstr "Later"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leaveConfirm"
+msgstr "Leave"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leave"
+msgstr "Leave the crew"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leaveTitle"
+msgstr "Leave this crew?"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.member"
+msgstr "Member"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.title"
+msgstr "Members"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.notifyMentions"
+msgstr "Mentions"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.rotate"
+msgstr "New code"
+
+#. placeholder {0}: p.name
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-commands.ts
+msgid "crew.queued.create"
+msgstr "New crew: {0}"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.noCode"
+msgstr "No live code"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.nothingPlanned"
+msgstr "Nothing planned yet"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.notify"
+msgstr "Notifications"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.notifyOff"
+msgstr "Off"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.organiser"
+msgstr "Organiser"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.removeConfirm"
+msgstr "Remove"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.remove"
+msgstr "Remove {name}"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.removeTitle"
+msgstr "Remove {removingName}?"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.rename"
+msgstr "Save name"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.codeBody"
+msgstr "Send this code, or the link, to whoever you want in. It works for 14 days."
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.share"
+msgstr "Share the code"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.title"
+msgstr "Start a crew"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.start"
+msgstr "Start a crew"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.create"
+msgstr "Start the crew"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.failed"
+msgstr "That didn’t go through. Try again with signal."
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.failed"
+msgstr "That didn’t go through. You may be in ten crews already."
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.joinFailed"
+msgstr "That invite can’t be joined now"
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.removeTrips"
+msgstr "They leave the crew’s trips; their seat opens for the waitlist."
+
+#: ../../apps/mobile/src/features/crew/members/MembersList.tsx
+msgid "crew.members.removeAccess"
+msgstr "They stop seeing the crew’s chat, plans and money right away."
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.missing"
+msgstr "This crew isn’t on your phone yet. It shows up once it syncs."
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.nameHint"
+msgstr "Up to {max} characters"
+
+#: ../../apps/mobile/src/features/crew/settings/CrewSettingsScreen.tsx
+msgid "crew.settings.leaveTrips"
+msgstr "You leave its trips; your seat opens for the waitlist."
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.joinedToast"
+msgstr "You’re in {crewName}"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.codeLater"
+msgstr "Your code arrives once you’re back online. The crew is saved."
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+msgid "crew.sheet.title"
+msgstr "Your crews"

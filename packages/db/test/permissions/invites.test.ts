@@ -52,6 +52,9 @@ describe('invites: who reads', () => {
       'SELECT id FROM invites',
     );
     expect(rows.map((row) => row.id)).toEqual([inAppInvite]);
+    // The crew that invited them shows its header (name) while the invite is open.
+    const crews = await as<{ id: string }>(harness.fixture.actors.outsider, 'SELECT id FROM crews');
+    expect(crews.rows.map((row) => row.id)).toEqual([harness.fixture.crewId]);
   });
 });
 

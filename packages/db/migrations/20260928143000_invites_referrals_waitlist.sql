@@ -58,6 +58,11 @@ CREATE POLICY invites_update ON invites FOR UPDATE TO app_user
   WITH CHECK (app.is_crew_member(crew_id) OR invitee_user_id = app.uid());
 CREATE POLICY invites_system ON invites FOR ALL TO app_system USING (true) WITH CHECK (true);
 GRANT SELECT, INSERT ON invites TO app_user;
+-- A crew that invited someone in-app shows them its header (name, art) while the invite is open.
+CREATE POLICY crews_invitee_read ON crews FOR SELECT TO app_user
+  USING (EXISTS (SELECT 1 FROM invites i
+                  WHERE i.crew_id = crews.id AND i.invitee_user_id = app.uid()
+                    AND i.status IN ('pending', 'later')));
 GRANT UPDATE (status, waitlist_position, claimed_by, claimed_at) ON invites TO app_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON invites TO app_system;
 
