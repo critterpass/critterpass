@@ -5,11 +5,14 @@ appId: app.critterpass.dev
 # navigation and 3-button navigation (set before the run with
 # `adb shell cmd overlay enable com.android.internal.systemui.navbar.gestural` or
 # `...navbar.threebutton`); on iOS it checks the same against the home indicator.
-- launchApp
+# A plain relaunch reopens the last screen, so state is cleared; the launch then fetches the
+# freshly published JS before its first render.
+- launchApp:
+    clearState: true
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
-    timeout: 25000
+    timeout: 60000
 - tapOn:
     id: 'dev-tools-entry'
 - extendedWaitUntil:

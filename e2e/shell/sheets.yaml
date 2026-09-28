@@ -5,11 +5,14 @@ appId: app.critterpass.dev
 # `openLink` into a (dev) route: see e2e/critters/sticker-lab.yaml). Covers the mandatory ✕,
 # drag-dismiss from the grab zone, a short drag that springs back, detent snapping and, on
 # Android, system back closing the sheet.
-- launchApp
+# A plain relaunch reopens the last screen, so state is cleared; the launch then fetches the
+# freshly published JS before its first render.
+- launchApp:
+    clearState: true
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
-    timeout: 25000
+    timeout: 60000
 - tapOn:
     id: 'dev-tools-entry'
 - extendedWaitUntil:

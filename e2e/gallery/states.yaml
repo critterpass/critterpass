@@ -1,0 +1,554 @@
+appId: app.critterpass.dev
+---
+# Generated from src/ui/gallery/state-groups.ts by src/ui/__tests__/gallery-sweep.test.ts
+# (`CP_WRITE_SWEEP=1 pnpm --filter @cp/mobile test -- gallery-sweep`); do not edit by hand.
+- runFlow: ../screens/subflows/open-gallery.yaml
+- tapOn:
+    id: 'gallery-freeze-on'
+- tapOn:
+    id: 'gallery-locale-en'
+- scrollUntilVisible:
+    element:
+      id: 'gallery-states'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'gallery-states'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-states-page'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- scrollUntilVisible:
+    element:
+      id: 'state-3b-1'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3b-1'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3b-1'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3b-1
+- scrollUntilVisible:
+    element:
+      id: 'state-3b-2'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3b-2'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3b-2'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3b-2
+- scrollUntilVisible:
+    element:
+      id: 'state-3b-6'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3b-6'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3b-6'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3b-6
+- scrollUntilVisible:
+    element:
+      id: 'state-3b-4'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3b-4'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3b-4'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3b-4
+- scrollUntilVisible:
+    element:
+      id: 'state-3b-5'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3b-5'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3b-5'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3b-5
+- scrollUntilVisible:
+    element:
+      id: 'state-3c-1'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3c-1'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3c-1'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3c-1
+- scrollUntilVisible:
+    element:
+      id: 'state-3c-2'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3c-2'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3c-2'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3c-2
+- scrollUntilVisible:
+    element:
+      id: 'state-3c-3'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3c-3'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3c-3'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3c-3
+- scrollUntilVisible:
+    element:
+      id: 'state-3c-4'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3c-4'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3c-4'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3c-4
+- scrollUntilVisible:
+    element:
+      id: 'state-3c-8'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3c-8'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3c-8'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3c-8
+- scrollUntilVisible:
+    element:
+      id: 'state-3c-9'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3c-9'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3c-9'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3c-9
+- scrollUntilVisible:
+    element:
+      id: 'state-3f-6'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3f-6'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3f-6'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3f-6
+- scrollUntilVisible:
+    element:
+      id: 'state-3f-7'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3f-7'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3f-7'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3f-7
+- scrollUntilVisible:
+    element:
+      id: 'state-3i-3'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3i-3'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3i-3'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3i-3
+- scrollUntilVisible:
+    element:
+      id: 'state-3i-4'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3i-4'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3i-4'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3i-4
+- scrollUntilVisible:
+    element:
+      id: 'state-3j-1'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3j-1'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3j-1'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3j-1
+- scrollUntilVisible:
+    element:
+      id: 'state-3j-2'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3j-2'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3j-2'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3j-2
+- scrollUntilVisible:
+    element:
+      id: 'state-3j-3'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3j-3'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3j-3'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3j-3
+- scrollUntilVisible:
+    element:
+      id: 'state-3k-1'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3k-1'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3k-1'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3k-1
+- scrollUntilVisible:
+    element:
+      id: 'state-3k-5'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3k-5'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3k-5'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3k-5
+- scrollUntilVisible:
+    element:
+      id: 'state-3k-2'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3k-2'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3k-2'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3k-2
+- scrollUntilVisible:
+    element:
+      id: 'state-3k-3'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3k-3'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3k-3'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3k-3
+- scrollUntilVisible:
+    element:
+      id: 'state-3k-4'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3k-4'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3k-4'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3k-4
+- scrollUntilVisible:
+    element:
+      id: 'state-3l-4'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3l-4'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3l-4'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3l-4
+- scrollUntilVisible:
+    element:
+      id: 'state-3l-5'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-3l-5'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-3l-5'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-3l-5
+- scrollUntilVisible:
+    element:
+      id: 'state-4a-1'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-4a-1'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-4a-1'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-4a-1
+- scrollUntilVisible:
+    element:
+      id: 'state-4a-2'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-4a-2'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-4a-2'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-4a-2
+- scrollUntilVisible:
+    element:
+      id: 'state-4a-3'
+    direction: UP
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    id: 'state-4a-3'
+- scrollUntilVisible:
+    element:
+      id: 'state-view-4a-3'
+    direction: DOWN
+    timeout: 20000
+    visibilityPercentage: 5
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: state-4a-3

@@ -1,4 +1,5 @@
 import { Link } from 'expo-router';
+import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { Pressable, ScrollView } from 'react-native';
 
@@ -6,6 +7,7 @@ import { setLocale } from '@/lib/i18n/set-locale';
 import { useLocale } from '@/lib/i18n/use-locale';
 import type { MotionMode } from '@/motion/motion-mode';
 import { useMotionMode } from '@/motion/motion-mode';
+import { setMotionFreeze } from '@/motion/slowmo';
 import { makeStyles, MIN_TOUCH_TARGET, Row, Scaffold, Stack, Text, useTheme } from '@/ui';
 import {
   listComponents,
@@ -20,6 +22,16 @@ export const __CP_DEV_ROUTE__ = true;
 
 const GALLERY_LOCALES = ['en', 'en-XA', 'vi', 'ja', 'th'] as const;
 const SHELL_DEMOS = [
+  {
+    href: '/(dev)/gallery/states',
+    testID: 'gallery-states',
+    label: 'State groups: one screen, every state',
+  },
+  {
+    href: '/(dev)/gallery/shell-demo',
+    testID: 'gallery-shell-demo',
+    label: 'Shell: every transition + cold entry',
+  },
   {
     href: '/(dev)/gallery/tabs',
     testID: 'gallery-shell-tabs',
@@ -102,6 +114,8 @@ export default function GalleryIndexScreen() {
   const locale = useLocale();
   const [motionMode, setMotionMode] = useMotionMode();
   const settings = useGallerySettings();
+  // Screenshot sweeps freeze every loop at its resting frame.
+  const [frozen, setFrozen] = useState(false);
 
   return (
     <Scaffold testID="gallery-index">
@@ -139,6 +153,20 @@ export default function GalleryIndexScreen() {
               label={mode}
               selected={motionMode === mode}
               onPress={() => setMotionMode(mode)}
+            />
+          ))}
+        </Switcher>
+        <Switcher title="Loops">
+          {[false, true].map((freeze) => (
+            <Choice
+              key={String(freeze)}
+              testID={`gallery-freeze-${freeze ? 'on' : 'off'}`}
+              label={freeze ? 'frozen' : 'running'}
+              selected={frozen === freeze}
+              onPress={() => {
+                setMotionFreeze(freeze);
+                setFrozen(freeze);
+              }}
             />
           ))}
         </Switcher>

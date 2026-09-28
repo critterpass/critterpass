@@ -25,9 +25,6 @@ jest.mock('../sticker/Sticker', () => {
   };
 });
 
-import { readdirSync } from 'node:fs';
-import path from 'node:path';
-
 import { afterAll, beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { AccessibilityInfo, Pressable, StyleSheet, View } from 'react-native';
 import * as reanimated from 'react-native-reanimated';
@@ -42,6 +39,7 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { allFixtures } from '../gallery/registry';
 import type { Fixture } from '../gallery/types';
+import { loadFixtureFiles } from '../test-support/load-fixtures';
 import { renderUi } from '../test-support/render';
 import { Text as UiText } from '../text/Text';
 import { MIN_TOUCH_TARGET } from '../theme';
@@ -60,21 +58,7 @@ interface StickerStandInProps {
   readonly onPress?: () => void;
 }
 
-const UI_DIR = path.resolve(__dirname, '..');
-
-function fixtureFiles(dir: string): string[] {
-  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) return entry.name === '__tests__' ? [] : fixtureFiles(full);
-    return entry.name.endsWith('.fixtures.tsx') ? [full] : [];
-  });
-}
-
-const FILES = fixtureFiles(UI_DIR);
-FILES.forEach((file) => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports -- the audit loads every fixture file on disk, the way the gallery's require.context does in Metro
-  require(file);
-});
+const FILES = loadFixtureFiles();
 const FIXTURES = allFixtures();
 
 /**
