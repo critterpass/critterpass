@@ -223,6 +223,22 @@ describe('inputs', () => {
     expect(screen.getByLabelText('Rp 450,000, ≈ $28.42')).toBeTruthy();
   });
 
+  it('renders the keypad amount where Intl has no formatToParts (Hermes on iOS)', async () => {
+    const formatToParts = jest
+      .spyOn(Intl.NumberFormat.prototype, 'formatToParts')
+      .mockImplementation(() => {
+        throw new TypeError('formatToParts is not supported');
+      });
+    try {
+      await renderUi(
+        <KeypadAmount value={450000} currency="Rp" approx="≈ $28.42" label="Rp 450,000" />,
+      );
+      expect(screen.getByLabelText('Rp 450,000, ≈ $28.42')).toBeTruthy();
+    } finally {
+      formatToParts.mockRestore();
+    }
+  });
+
   it('adjusts sliders and segment budgets by screen-reader actions', async () => {
     const onSlide = jest.fn();
     const onBudget = jest.fn();
