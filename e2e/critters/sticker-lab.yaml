@@ -8,11 +8,14 @@ appId: app.critterpass.dev
 # closed-eye storm toggle — asserting only that nothing crashes and the screen stays responsive, per
 # the phase's own "no fps assertion on simulators/emulators" scope: real fps/memory numbers come
 # from the founder's physical-device run (e2e/critters/capture-perf.sh), not this cloud flow.
-- launchApp
+# A plain relaunch reopens the last screen, so state is cleared; the launch then fetches the
+# freshly published JS before its first render.
+- launchApp:
+    clearState: true
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
-    timeout: 25000
+    timeout: 60000
 - tapOn:
     id: 'dev-tools-entry'
 - extendedWaitUntil:

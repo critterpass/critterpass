@@ -206,6 +206,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. Label generators (guide, critter, locked). 2. Live region helper (iOS announcement / Android `accessibilityLiveRegion`). 3. Audit test iterates every gallery fixture: role present, label present for interactive, hit target ≥ 44/48, renders at font scale 2.0 without overflow of primary action, reduced-motion render. 4. Contrast checker on fixture props against token pairs.
 - Tests: `pnpm --filter @cp/mobile jest src/ui/__tests__/a11y-audit`; `maestro test e2e/gallery/a11y-smoke.yaml`.
 - Done when: audit passes for 100 % of fixtures.
+- Status: done — 2bdee4e9 (audit green for every fixture at 1x, 2x and Reduce Motion; a11y-smoke passes on the iOS simulator)
 
 ### T14 — Gallery completion + Maestro visual sweep
 - Goal: founder-reviewable gallery and regression screenshots.
@@ -213,6 +214,7 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. State-group view: the 12 prototype state groups as fixture sets. 2. Shell demo exercising every transition. 3. Maestro sweep in motion-freeze mode with `assertScreenshot` per fixture on iOS + Android (baselines committed). 4. Cold-entry flow: open a registered screen via dev deep link → back walks synthesized stack.
 - Tests: `maestro test e2e/gallery/ e2e/shell/`.
 - Done when: sweeps pass on both platforms; baselines committed.
+- Status: blocked — iOS done in 6702b859, 71969917, cec13279 (sweep of all 161 component pages in EN + VI, states and deep-cold-entry pass on the iOS simulator). Open: Android run (no emulator lane); committed `assertScreenshot` baselines need Maestro ≥ 2.1 (installed 2.0.10 has no `assertScreenshot`) and a decision on storing ~160 PNG baselines per platform; `e2e/shell/tabs.yaml` fails on iOS because a tap on the guide FAB never opens the guide (long-press works, plain PressScale taps work)
 
 ## Phase acceptance criteria
 

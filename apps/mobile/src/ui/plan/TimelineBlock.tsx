@@ -10,7 +10,7 @@ import { usePress } from '@/motion/gestures/press';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import { Text } from '../text/Text';
-import { makeStyles, useTheme } from '../theme';
+import { makeStyles, touchSlop, useTheme } from '../theme';
 
 export interface TimelineBlock {
   readonly id: string;
@@ -73,6 +73,9 @@ export function MovableBlock({
   const range = `${clockOf(locale, block.start)}–${clockOf(locale, block.end)}`;
   const label = [block.title, range, block.detail].filter(Boolean).join(', ');
   const duration = block.end - block.start;
+  const height = duration * pointsPerMinute;
+  // A short slot keeps its time-true height; slop brings its touch target to the minimum.
+  const slop = touchSlop(height);
   const drag = useDragSnap({
     initialMinutes: block.start,
     pointsPerMinute,
@@ -95,8 +98,15 @@ export function MovableBlock({
     else drag.onAccessibilityAction(event);
   };
   return (
-    <GestureDetector gesture={Gesture.Race(drag.gesture, press.gesture)}>
+    <GestureDetector
+      gesture={
+        slop
+          ? Gesture.Race(drag.gesture.hitSlop(slop), press.gesture.hitSlop(slop))
+          : Gesture.Race(drag.gesture, press.gesture)
+      }
+    >
       <Animated.View
+        hitSlop={slop}
         accessible
         accessibilityRole="adjustable"
         accessibilityLabel={block.title}
@@ -107,7 +117,7 @@ export function MovableBlock({
         style={[
           styles.block,
           laneStyle(block.lane),
-          { top, height: duration * pointsPerMinute, backgroundColor: block.color },
+          { top, height, backgroundColor: block.color },
           selected
             ? { borderWidth: theme.ring.focus.widthPt, borderColor: theme.ring.focus.color }
             : null,

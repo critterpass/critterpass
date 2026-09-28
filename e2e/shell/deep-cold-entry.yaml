@@ -1,0 +1,62 @@
+appId: app.critterpass.dev
+---
+# Cold entry into a screen three levels deep (Pon's draft, 3c-9) the way a deep link opens it: the
+# back stack is synthesized from the designed parents, so back walks 3c-7 → 3c-6 → 3c-5 → 3c-3 →
+# 3c-2 → Home. Screens no area has registered yet stand in as the gallery's shell-target screen,
+# labelled with their design id. Reached through "Developer tools" (never `openLink`).
+- runFlow: ../screens/subflows/open-gallery.yaml
+- scrollUntilVisible:
+    element:
+      id: 'gallery-shell-demo'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'gallery-shell-demo'
+- extendedWaitUntil:
+    visible:
+      id: 'shell-demo-cold-entry'
+    timeout: 15000
+- tapOn:
+    id: 'shell-demo-cold-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'shell-target-3c-9'
+    timeout: 15000
+- takeScreenshot: cold-entry-3c-9
+- tapOn:
+    id: 'shell-target-back'
+- extendedWaitUntil:
+    visible:
+      id: 'shell-target-3c-7'
+    timeout: 10000
+- tapOn:
+    id: 'shell-target-back'
+- extendedWaitUntil:
+    visible:
+      id: 'shell-target-3c-6'
+    timeout: 10000
+- tapOn:
+    id: 'shell-target-back'
+- extendedWaitUntil:
+    visible:
+      id: 'shell-target-3c-5'
+    timeout: 10000
+- tapOn:
+    id: 'shell-target-back'
+- extendedWaitUntil:
+    visible:
+      id: 'shell-target-3c-3'
+    timeout: 10000
+- tapOn:
+    id: 'shell-target-back'
+- extendedWaitUntil:
+    visible:
+      id: 'shell-target-3c-2'
+    timeout: 10000
+- tapOn:
+    id: 'shell-target-back'
+- extendedWaitUntil:
+    visible:
+      id: 'shell-target-3b-2'
+    timeout: 10000
+- takeScreenshot: cold-entry-home

@@ -43,16 +43,24 @@ function Column({
   const style = useAnimatedStyle(() => ({
     transform: [{ translateY: -(((value.value % 10) + 10) % 10) * height }],
   }));
+  // Display faces draw numerals above their tight line box (the text's glyph-room margin). Each
+  // cell gives that room back as padding so a digit sits whole inside its window, and the window
+  // is lifted by the same amount so the digits line up with the currency beside them.
+  const [room, setRoom] = useState(0);
   return (
-    <View style={[styles.clip, { height }]}>
-      <Text variant="displayHero" style={{ opacity: 0 }}>
+    <View style={[styles.clip, { height, marginTop: -room }]}>
+      <Text
+        variant="displayHero"
+        style={{ opacity: 0 }}
+        onLayout={(event) => setRoom(Math.max(0, -event.nativeEvent.layout.y))}
+      >
         0
       </Text>
       <Animated.View style={[styles.strip, style]}>
         {DIGITS.map((digit, index) => (
-          <Text key={index} variant="displayHero" style={{ height }}>
-            {digit}
-          </Text>
+          <View key={index} style={{ height, paddingTop: room }}>
+            <Text variant="displayHero">{digit}</Text>
+          </View>
         ))}
       </Animated.View>
     </View>
@@ -60,8 +68,10 @@ function Column({
 }
 
 function groupSeparator(locale: string): string {
-  const part = new Intl.NumberFormat(locale).formatToParts(1000).find((p) => p.type === 'group');
-  return part?.value ?? ',';
+  // Hermes on iOS has no `NumberFormat#formatToParts`; the separator is whatever 1000 formats with
+  // besides its digits (",", ".", a narrow no-break space…).
+  const separator = new Intl.NumberFormat(locale).format(1000).replace(/\d/g, '');
+  return separator || ',';
 }
 
 /** The keypad's rolling amount (odometer digits, locale grouping) with the ≈ conversion line. */

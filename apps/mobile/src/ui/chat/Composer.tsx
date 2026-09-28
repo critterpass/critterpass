@@ -149,6 +149,8 @@ export function Composer({
           accessibilityLabel={placeholder}
           multiline
           style={{
+            minHeight: MIN_TOUCH_TARGET,
+            paddingVertical: theme.space['12'],
             color: theme.semantic.text.primary,
             fontSize: resolved.fontSize * font.sizeMultiplier,
             ...(font.fontFamily === 'system' ? {} : { fontFamily: font.fontFamily }),

@@ -1,10 +1,11 @@
-import { useLocalSearchParams } from 'expo-router';
-import { ScrollView } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router';
+import { Pressable, ScrollView } from 'react-native';
 
 import { ThemeProvider } from '@/lib/theme';
-import { makeStyles, Scaffold, Stack, Text } from '@/ui';
+import { makeStyles, MIN_TOUCH_TARGET, Row, Scaffold, Stack, Text } from '@/ui';
 import {
   fixturesFor,
+  listComponents,
   loadAllFixtures,
   useFixtureRegistry,
   useGallerySettings,
@@ -20,6 +21,13 @@ const useStyles = makeStyles((t) => ({
     borderColor: t.semantic.border.decorative,
     padding: t.space['12'],
   },
+  next: {
+    minHeight: MIN_TOUCH_TARGET,
+    paddingHorizontal: t.space['14'],
+    borderRadius: t.radius.md,
+    backgroundColor: t.semantic.bg.control,
+    justifyContent: 'center',
+  },
 }));
 
 /** Every registered state of one component, previewed under the gallery's current settings. */
@@ -30,13 +38,34 @@ export default function GalleryComponentScreen() {
   const { component } = useLocalSearchParams<{ component: string }>();
   const settings = useGallerySettings();
   const states = fixturesFor(component);
+  const components = listComponents();
+  const next = components[components.indexOf(component) + 1];
 
   return (
     <Scaffold testID={`gallery-detail-${component}`}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text variant="h2" accessibilityRole="header">
-          {component}
-        </Text>
+        <Row gap="12" justify="space-between">
+          <Text variant="h2" accessibilityRole="header" style={{ flexShrink: 1 }}>
+            {component}
+          </Text>
+          {next ? (
+            // Screenshot sweeps walk every component page in order without relaunching the app.
+            <Pressable
+              testID="gallery-next"
+              accessibilityRole="button"
+              accessibilityLabel={`Next: ${next}`}
+              style={styles.next}
+              onPress={() =>
+                router.replace({
+                  pathname: '/(dev)/gallery/[component]',
+                  params: { component: next },
+                })
+              }
+            >
+              <Text variant="label">Next</Text>
+            </Pressable>
+          ) : null}
+        </Row>
         <Text variant="caption">
           {`${settings.fontScale}x · ${settings.contrast} contrast · ${states.length} states`}
         </Text>

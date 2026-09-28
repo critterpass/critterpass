@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { StyleSheet } from 'react-native';
 import type {
   AccessibilityRole,
   AccessibilityState,
@@ -12,7 +13,7 @@ import Animated from 'react-native-reanimated';
 import { usePress } from '@/motion/gestures/press';
 import type { PressWidthClass } from '@/motion/gestures/press';
 
-import { MIN_TOUCH_TARGET } from '../theme';
+import { MIN_TOUCH_TARGET, touchSlop } from '../theme';
 
 export interface PressScaleProps {
   readonly onPress?: (() => void) | undefined;
@@ -54,10 +55,19 @@ export function PressScale({
     ...(widthClass ? { widthClass } : {}),
     ...(onPress ? { onPress } : {}),
   });
+  // A control drawn below the minimum (a 40 pt pill) keeps its look and gains invisible slop instead.
+  const drawn: ViewStyle = StyleSheet.flatten(style) ?? {};
+  const drawnHeight = typeof drawn.height === 'number' ? drawn.height : drawn.minHeight;
+  const slop = touchSlop(
+    typeof drawnHeight === 'number' ? drawnHeight : undefined,
+    typeof drawn.width === 'number' ? drawn.width : undefined,
+  );
+  const gesture = slop ? press.gesture.hitSlop(slop) : press.gesture;
   return (
-    <GestureDetector gesture={press.gesture}>
+    <GestureDetector gesture={gesture}>
       <Animated.View
         testID={testID}
+        hitSlop={slop}
         accessible
         accessibilityRole={accessibilityRole}
         accessibilityLabel={accessibilityLabel}

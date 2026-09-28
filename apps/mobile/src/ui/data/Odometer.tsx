@@ -26,13 +26,26 @@ function DigitColumn({
   readonly color: string | undefined;
 }) {
   const style = useAnimatedStyle(() => ({ transform: [{ translateY: -value.value * height }] }));
+  // Display faces draw numerals above their tight line box (the text's glyph-room margin). Each
+  // cell gives that room back as padding so a digit sits whole inside its window, and the window
+  // is lifted by the same amount so the digits line up with the static text beside them.
+  const [room, setRoom] = useState(0);
   return (
-    <View style={{ height, overflow: 'hidden' }}>
+    <View style={{ height, overflow: 'hidden', marginTop: -room }}>
+      <Text
+        variant={variant}
+        style={{ position: 'absolute', opacity: 0 }}
+        onLayout={(event) => setRoom(Math.max(0, -event.nativeEvent.layout.y))}
+      >
+        0
+      </Text>
       <Animated.View style={style}>
         {DIGITS.map((digit) => (
-          <Text key={digit} variant={variant} color={color} style={{ height }}>
-            {digit}
-          </Text>
+          <View key={digit} style={{ height, paddingTop: room }}>
+            <Text variant={variant} color={color}>
+              {digit}
+            </Text>
+          </View>
         ))}
       </Animated.View>
     </View>
