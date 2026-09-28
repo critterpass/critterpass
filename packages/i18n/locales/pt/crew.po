@@ -328,6 +328,10 @@ msgstr ""
 msgid "crew.referral.pending"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
+msgid "crew.composer.pick"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.shareMessage"
 msgstr ""
@@ -518,6 +522,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.codeLater"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/invite-composer/use-contact-pick.ts
+msgid "crew.composer.pickFailed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx

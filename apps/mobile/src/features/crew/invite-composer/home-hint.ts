@@ -37,3 +37,22 @@ export function toE164(typed: string): string | null {
   const e164 = digits.startsWith('+') ? digits : `+${digits}`;
   return /^\+[1-9]\d{6,14}$/u.test(e164) ? e164 : null;
 }
+
+/**
+ * A number picked from the address book as E.164. Cards often store numbers in the owner's local
+ * format ("0901 234 567"), which dial into the device's own region, so those take its calling code
+ * with the trunk zero dropped; `+` and `00` prefixes are already international. Null when the
+ * number cannot be placed.
+ */
+export function pickedToE164(
+  raw: string,
+  deviceRegion: string | null,
+  dialCodes: Readonly<Record<string, string>>,
+): string | null {
+  const compact = raw.replace(/[^\d+]/gu, '');
+  if (compact.startsWith('+')) return toE164(compact);
+  if (compact.startsWith('00')) return toE164(`+${compact.slice(2)}`);
+  const code = deviceRegion === null ? undefined : dialCodes[deviceRegion];
+  if (code === undefined) return null;
+  return toE164(`+${code}${compact.replace(/^0+/u, '')}`);
+}
