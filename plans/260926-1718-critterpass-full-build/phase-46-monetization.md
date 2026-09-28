@@ -139,6 +139,7 @@ Not built, by design (product-decisions C32, decision 19): 4a-1 Visa page, 4a-2 
 ## Architecture & contracts
 | Area | Delta |
 |---|---|
+| Kill switch | Purchases, plan changes and boost checkout check `billing.enabled` first through the shared reader (api: `createKillSwitches(pool)` `.middleware(key)` / `.assertOn(key)`; worker: `createKillSwitchReader` from `@cp/db`); off answers `STATE_INVALID {reason: 'switched_off', key}` (api-contracts §4.17), never retried, and the app shows its existing fallback |
 | Migrations | `<ts>_billing_subscriptions_transactions.sql`: `subscriptions`, `store_transactions`, `billing_events` (data-model §3.14 verbatim). `<ts>_boosts_grants_codes.sql`: `boost_intents` (partial uk trip_id where open/purchasing), `trip_boosts`, `boost_credits`, `crew_year_grants`, `ftf_grants`, `codes`, `code_redemptions`; expand `expenses.boost_id` fk (P33 table). `<ts>_paywall_impressions.sql`: `paywall_impressions` |
 | RLS backstop | `subscriptions`, `code_redemptions`, `paywall_impressions` O read; `boost_intents`, `trip_boosts` T; `boost_credits`, `crew_year_grants`, `ftf_grants` M; `store_transactions`, `billing_events`, `codes` S (no `app_user` grant, unpublished, no `guide_reader`) |
 | Publication | add `subscriptions`, `code_redemptions`, `paywall_impressions` (me), `boost_intents`, `trip_boosts` (trip), `boost_credits`, `crew_year_grants`, `ftf_grants` (crews) — allow-list in `packages/db/src/publication.ts` via its own migration |

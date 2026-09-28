@@ -94,6 +94,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 
 | Area | Delta |
 |---|---|
+| Kill switch | Postcard ordering checks `postcards.enabled` before an order is taken or sent to print through the shared reader (api: `createKillSwitches(pool)` `.middleware(key)` / `.assertOn(key)`; worker: `createKillSwitchReader` from `@cp/db`); off answers `STATE_INVALID {reason: 'switched_off', key}` (api-contracts §4.17), never retried, and the app shows its existing fallback |
 | Tables | create `photos`, `album_picks`, `postcards`, `postcard_mailings`, `mailing_addresses` (data-model §3.10; `memories`/`memory_reactions` moved to P43 — doc delta); doc delta: `photo_people(photo_id, user_id, source self_match|manual, created_at)` uk (photo_id, user_id); `photos.quality jsonb` (blur, exposure, dup_cluster, face_count); `mailing_consents` folded into `consents` kind `postcard_recipient` |
 | RLS backstop | photos/picks/postcards/photo_people readable by trip participants; insert own; delete own photo (organiser may hide); `mailing_addresses` self only, never `guide_reader` or `powersync_repl`; `postcard_mailings` status columns only via view |
 | Sync | `trip`: photos (metadata), album_picks, photo_people, postcards, postcard_mailings status view; `me`: own mailing address presence flag only (not fields) |

@@ -70,6 +70,7 @@ FSI: requested only for the user-set leave-by alarm, user-granted via settings, 
 
 | Area | Delta |
 |---|---|
+| Kill switch | Full-screen intent alerts check `android.fsi.enabled` before sending (off falls back to a normal high-priority notification) through the shared reader (api: `createKillSwitches(pool)` `.middleware(key)` / `.assertOn(key)`; worker: `createKillSwitchReader` from `@cp/db`); off answers `STATE_INVALID {reason: 'switched_off', key}` (api-contracts §4.17), never retried, and the app shows its existing fallback |
 | FCM payloads | `services/worker/src/push/fcm-surfaces.ts` maps phase-48 builders → `{type: "la.<kind>", op, state}` and phase-49 → `widget.refresh`; same content builders (DRY) |
 | Android contract | `packages/domain/src/surfaces/android-live-update.ts`: zod `ProgressSpec {segments[], points[], progress, chip, style: progress\|metric}` derived from ContentState; generated Kotlin data classes |
 | Native module | `modules/cp-android-surfaces` (Kotlin): LiveUpdateRenderer, NotificationActionReceiver, ActionWorker (signed `/v1/actions`), AlarmFullScreenActivity (Compose), SOS channel + DND-access flow, Glance widgets, DreamService, keyguard support probe, pin-widget API, permission state reporter → `update_device_permissions` |
