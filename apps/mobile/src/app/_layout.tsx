@@ -8,7 +8,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import { Platform, StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import { appGroupOutbox, writeEndpointsConfig } from '../../modules/cp-app-group';
+import { appGroupOutbox, writeEndpointsConfig, writeImage } from '../../modules/cp-app-group';
 import * as cpDeferredLink from '../../modules/cp-deferred-link';
 import { getLocationNative } from '../../modules/cp-location';
 import { getPermissions } from '../../modules/cp-permissions';
@@ -25,6 +25,8 @@ import {
   uploadLocationFixes,
 } from '@/data/app-session/device-session';
 import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/DeferredLinkGate';
+import { PassSync } from '@/features/onboarding/flow-controller/pass-sync';
+import '@/features/onboarding/routes';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
@@ -261,6 +263,7 @@ export default function RootLayout() {
                   onReady={() => setLinksReady(true)}
                 />
                 <SessionBridges />
+                <PassSync writeAppGroupImage={writeImage} />
                 <OverlayHost />
                 <PrimerSheetHost />
                 <SharedGrowHost />

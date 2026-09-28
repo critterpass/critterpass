@@ -6,3 +6,687 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#. placeholder {0}: movingCrews.length
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.moving"
+msgstr "{0} nhóm trên điện thoại này cũng sẽ được chuyển sang."
+
+#. placeholder {0}: quiz.length
+#: ../../apps/mobile/src/features/onboarding/taste/TasteScreen.tsx
+msgid "onboarding.taste.counter"
+msgstr "{current} / {0}"
+
+#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
+msgid "onboarding.home.hoursAway"
+msgstr "cách {hours} giờ"
+
+#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
+msgid "onboarding.home.minutesAway"
+msgstr "cách {minutes} phút"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.adventure.short"
+msgstr "Phiêu lưu"
+
+#. placeholder {0}: row.metro.city
+#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
+msgid "onboarding.home.metro"
+msgstr "Tất cả sân bay ở {0}"
+
+#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
+msgid "onboarding.taste.noTags"
+msgstr "Bỏ qua hết rồi. Các hướng dẫn viên sẽ hiểu bạn dần dần."
+
+#: ../../apps/mobile/src/features/onboarding/photo/PhotoScreen.tsx
+msgid "onboarding.photo.body"
+msgstr "Hướng dẫn viên nào cũng được. Đi đường bạn sẽ có thêm nhiều gương mặt nữa."
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.beach.short"
+msgstr "Biển"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.beach"
+msgstr "Biển, không kế hoạch"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.hiking"
+msgstr "Leo núi dài"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.thrifty"
+msgstr "Cao thủ tiết kiệm"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.terms"
+msgstr "Khi tiếp tục, bạn đồng ý với Điều khoản và Chính sách quyền riêng tư."
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.change"
+msgstr "Đổi số"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.packedDays"
+msgstr "Lịch dày cũng được"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.library"
+msgstr "Chọn ảnh"
+
+#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
+msgid "onboarding.home.search"
+msgstr "Thành phố, sân bay hoặc mã"
+
+#. placeholder {0}: formatE164(country, number)
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.sentSms"
+msgstr "Đã gửi mã tới {0} qua SMS"
+
+#. placeholder {0}: formatE164(country, number)
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.sentWhatsapp"
+msgstr "Đã gửi mã tới {0} qua WhatsApp"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.coffee.short"
+msgstr "Cà phê"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.coffee"
+msgstr "Ghé quán cà phê"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.apple"
+msgstr "Tiếp tục với Apple"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.google"
+msgstr "Tiếp tục với Google"
+
+#: ../../apps/mobile/src/features/onboarding/phone/CountryPicker.tsx
+msgid "onboarding.phone.country"
+msgstr "Quốc gia"
+
+#. placeholder {0}: formatE164(country, '')
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.pickCountry"
+msgstr "Mã quốc gia {0}"
+
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
+msgid "onboarding.splash.coverTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
+msgid "onboarding.pass.head"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.culture.short"
+msgstr "Văn hoá"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.culture"
+msgstr "Mê văn hoá"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.lifting"
+msgstr "Đang cắt hình bạn…"
+
+#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
+msgid "onboarding.splash.devTools"
+msgstr "Công cụ nhà phát triển"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.sitDownDining.short"
+msgstr "Nhà hàng"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.done"
+msgstr "Xong"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.quietEvenings"
+msgstr "Ngủ sớm"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.quietEvenings.short"
+msgstr "Ngủ sớm"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.easyPace.short"
+msgstr "Thong thả"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.easyPace"
+msgstr "Nhịp thong thả"
+
+#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
+msgid "onboarding.home.body"
+msgstr "Chuyến bay và ngân sách bắt đầu từ đây. Đây cũng là con dấu đầu tiên của bạn."
+
+#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
+msgid "onboarding.pass.givenName"
+msgstr "TÊN · PRÉNOM"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.nature"
+msgstr "Mê thiên nhiên"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.hiking.short"
+msgstr "Leo núi"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.history.short"
+msgstr "Lịch sử"
+
+#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
+msgid "onboarding.home.stampHome"
+msgstr "Nhà"
+
+#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
+msgid "onboarding.pass.home"
+msgstr "NHÀ"
+
+#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
+msgid "onboarding.taste.summaryTitle"
+msgstr "Bạn đi du lịch thế nào"
+
+#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
+msgid "onboarding.splash.signIn"
+msgstr "Tôi đã có pass · Đăng nhập"
+
+#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
+msgid "onboarding.splash.invite"
+msgstr "Tôi có mã mời"
+
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
+msgid "onboarding.issued.stamp"
+msgstr "Đã cấp"
+
+#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
+msgid "onboarding.pass.issued"
+msgstr "NGÀY CẤP"
+
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.title"
+msgstr "Giữ an toàn"
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.keepNew"
+msgstr "Giữ pass mới này"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.lateStarts.short"
+msgstr "Ngủ nướng"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.localLife"
+msgstr "Sống như dân địa phương"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.localLife.short"
+msgstr "Địa phương"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.review"
+msgstr "Đẹp lắm. Cho tới khi ảnh được duyệt, cả nhóm sẽ thấy chữ cái đầu tên bạn."
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.markets"
+msgstr "Dạo chợ"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.markets.short"
+msgstr "Chợ"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.museums"
+msgstr "Bảo tàng"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.museums.short"
+msgstr "Bảo tàng"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.nature.short"
+msgstr "Thiên nhiên"
+
+#. placeholder {0}: driveLabel(results.farMinutes)
+#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
+msgid "onboarding.home.far"
+msgstr "Sân bay gần nhất {0}. {farLine}"
+
+#: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
+msgid "onboarding.name.next"
+msgstr "Tiếp"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.nightlife"
+msgstr "Cú đêm"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.nightlife.short"
+msgstr "Cú đêm"
+
+#. placeholder {0}: query.trim()
+#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
+msgid "onboarding.home.noResults"
+msgstr "Không có sân bay nào tên “{0}”. Thử tên thành phố hoặc mã ba chữ cái."
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.offline"
+msgstr "Không có sóng để tải ảnh lên"
+
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.error.network"
+msgstr "Hiện không có sóng. Pass của bạn vẫn an toàn trên điện thoại này; thử lại sau chút nhé."
+
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.notNow"
+msgstr "Để sau"
+
+#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
+msgid "onboarding.pass.notYet"
+msgstr "Chưa có"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.history"
+msgstr "Chuyện xưa"
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.existing"
+msgstr "Trên pass đó"
+
+#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
+msgid "onboarding.taste.onYourPass"
+msgstr "Trên pass của bạn"
+
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
+msgid "onboarding.issued.body"
+msgstr "Mới có một con dấu. Các hướng dẫn viên sẽ giúp bạn có thêm."
+
+#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
+msgid "onboarding.splash.open"
+msgstr "Mở pass của bạn"
+
+#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
+msgid "onboarding.taste.or"
+msgstr "hay"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.or"
+msgstr "hoặc"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.packedDays.short"
+msgstr "Dày lịch"
+
+#: ../../apps/mobile/src/features/onboarding/page-chrome.tsx
+msgid "onboarding.page"
+msgstr "Trang {page} / {PAGE_COUNT}"
+
+#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
+msgid "onboarding.splash.coverMark"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.label"
+msgstr "Điện thoại"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.photoSpots"
+msgstr "Chụp ảnh thả ga"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.photoSpots.short"
+msgstr "Ảnh"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.pickGuide"
+msgstr "Chọn hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.again"
+msgstr "Chọn ảnh khác"
+
+#: ../../apps/mobile/src/features/onboarding/photo/PhotoScreen.tsx
+msgid "onboarding.photo.title"
+msgstr "Chọn ảnh hộ chiếu"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.sitDownDining"
+msgstr "Bữa tối tử tế"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.resendIn"
+msgstr "Gửi lại sau {waitS} giây"
+
+#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
+msgid "onboarding.taste.save"
+msgstr "Lưu"
+
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
+msgid "onboarding.issued.save"
+msgstr "Lưu pass của tôi"
+
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.eyebrow"
+msgstr "Lưu pass của bạn"
+
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
+msgid "onboarding.saved"
+msgstr "Đã lưu ✓"
+
+#: ../../apps/mobile/src/features/onboarding/phone/CountryPicker.tsx
+msgid "onboarding.phone.countrySearch"
+msgstr "Tìm quốc gia"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.resend"
+msgstr "Gửi mã mới"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.send"
+msgstr "Gửi mã"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.shopping"
+msgstr "Túi mua sắm"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.shopping.short"
+msgstr "Mua sắm"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.returningBody"
+msgstr "Đăng nhập bằng số điện thoại, Apple ID hoặc tài khoản Google đã lưu pass của bạn."
+
+#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
+msgid "onboarding.taste.skip"
+msgstr "Bỏ qua câu này"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.lateStarts"
+msgstr "Sáng thong thả"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.body"
+msgstr "Để pass của bạn vẫn còn khi mất điện thoại. Một tài khoản cho mọi nhóm, chuyến đi và critter."
+
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.body"
+msgstr "Để pass, critter và các nhóm của bạn vẫn còn khi mất điện thoại. Chúng tôi không bao giờ đăng gì thay bạn."
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.wellness.short"
+msgstr "Spa"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.wellness"
+msgstr "Ngày đi spa"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.splurge.short"
+msgstr "Chịu chi"
+
+#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
+msgid "onboarding.home.stampNo"
+msgstr "Con dấu số 1"
+
+#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
+msgid "onboarding.taste.retake"
+msgstr "Làm lại"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.streetFood"
+msgstr "Đồ ăn đường phố"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.streetFood.short"
+msgstr "Đường phố"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.earlyStarts.short"
+msgstr "Bình minh"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.earlyStarts"
+msgstr "Săn bình minh"
+
+#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
+msgid "onboarding.pass.syncing"
+msgstr "ĐANG ĐỒNG BỘ"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.camera"
+msgstr "Chụp ảnh"
+
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
+msgid "onboarding.issued.saveNote"
+msgstr "Mất mười giây. Không cần mật khẩu."
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.temples"
+msgstr "Đền chùa"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.temples.short"
+msgstr "Đền chùa"
+
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.error.email"
+msgstr "Tài khoản đó dùng email khác. Thử cách khác nhé."
+
+#: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
+msgid "onboarding.phone.wrong"
+msgstr "Mã không khớp. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
+msgid "onboarding.phone.expired"
+msgstr "Mã đã hết hạn. Gửi mã mới nhé."
+
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.error.unknown"
+msgstr "Không được rồi. Thử lại, hoặc dùng cách khác."
+
+#: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
+msgid "onboarding.phone.invalid"
+msgstr "Số này có vẻ ngắn. Kiểm tra lại rồi thử nhé."
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.failed"
+msgstr "Ảnh đó chưa tải lên được"
+
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.error.unavailable"
+msgstr "Cách đăng nhập này không có trên điện thoại này. Thử cách khác nhé."
+
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.error.expired"
+msgstr "Hơi lâu rồi. Đăng nhập lại để tiếp tục."
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.limitTitle"
+msgstr "Nhiều ảnh quá rồi"
+
+#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
+msgid "onboarding.home.next"
+msgstr "Đây là nhà"
+
+#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
+msgid "onboarding.taste.done"
+msgstr "Đúng là tôi"
+
+#: ../../apps/mobile/src/features/onboarding/photo/PhotoScreen.tsx
+msgid "onboarding.photo.next"
+msgstr "Đúng là tôi"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.cameraDenied"
+msgstr "Camera đang tắt với CritterPass. Bạn vẫn có thể chọn ảnh."
+
+#: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
+msgid "onboarding.phone.sendFailed"
+msgstr "Mã chưa gửi được. Kiểm tra sóng rồi thử lại nhé."
+
+#: ../../apps/mobile/src/features/onboarding/taste/TasteScreen.tsx
+msgid "onboarding.taste.title"
+msgstr "Cái này hay cái kia"
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.body"
+msgstr "Cách đăng nhập này thuộc về một pass bạn đã làm trước đây. Dùng pass đó, hoặc giữ pass mới trên điện thoại này."
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.thrifty.short"
+msgstr "Tiết kiệm"
+
+#: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
+msgid "onboarding.phone.limited"
+msgstr "Tạm thời gửi quá nhiều mã. Thử lại sau chút nhé."
+
+#. placeholder {0}: Math.max(1, Math.ceil(retryS / 60))
+#: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
+msgid "onboarding.phone.limitedFor"
+msgstr "Tạm thời gửi quá nhiều mã. Thử lại sau {0} phút."
+
+#: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
+msgid "onboarding.phone.tooMany"
+msgstr "Thử quá nhiều lần. Gửi mã mới nhé."
+
+#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
+msgid "onboarding.pass.travelStyle"
+msgstr "PHONG CÁCH"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.splurge"
+msgstr "Tự thưởng"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.limitLater"
+msgstr "Thử lại sau chút, hoặc chọn một hướng dẫn viên trước."
+
+#. placeholder {0}: Math.max(1, Math.ceil(state.retryAfterS / 60))
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.limitMinutes"
+msgstr "Thử lại sau {0} phút, hoặc chọn một hướng dẫn viên trước."
+
+#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
+msgid "onboarding.taste.undo"
+msgstr "Hoàn tác"
+
+#: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
+msgid "onboarding.tag.adventure"
+msgstr "Gì cũng chơi"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.uploading"
+msgstr "Đang tải lên"
+
+#: ../../apps/mobile/src/features/onboarding/photo/PhotoScreen.tsx
+msgid "onboarding.photo.real"
+msgstr "Dùng ảnh thật"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.title"
+msgstr "Dùng ảnh thật"
+
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.phone"
+msgstr "Dùng số điện thoại"
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.useExisting"
+msgstr "Dùng pass đó"
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.use"
+msgstr "Dùng ảnh này"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.code"
+msgstr "Mã xác minh"
+
+#: ../../apps/mobile/src/features/onboarding/phone/phone-copy.ts
+msgid "onboarding.phone.unsupported"
+msgstr "Chúng tôi chưa gửi mã tới quốc gia này được. Hãy dùng Apple hoặc Google."
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.noSubject"
+msgstr "Không tìm thấy bạn trong ảnh này, nên ảnh được cắt tròn."
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.body"
+msgstr "Chúng tôi cắt hình bạn như một nhãn dán, ngay trên điện thoại. Cả nhóm sẽ thấy sau khi ảnh được duyệt."
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.neverPost"
+msgstr "Chúng tôi không bao giờ đăng gì thay bạn."
+
+#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
+msgid "onboarding.pass.weWillAsk"
+msgstr "Sẽ hỏi bạn"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.returningTitle"
+msgstr "Chào mừng trở lại"
+
+#: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
+msgid "onboarding.name.title"
+msgstr "Các hướng dẫn viên nên gọi bạn là gì?"
+
+#: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
+msgid "onboarding.home.title"
+msgstr "Nhà bạn ở đâu?"
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.title"
+msgstr "Bạn đã có pass rồi"
+
+#: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
+msgid "onboarding.taste.disclosure"
+msgstr "Các nhóm của bạn sẽ thấy những thẻ này để kế hoạch hợp với mọi người. Bạn có thể ẩn chúng trong Cài đặt."
+
+#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
+msgid "onboarding.splash.cover"
+msgstr "Hộ chiếu CritterPass của bạn"
+
+#: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
+msgid "onboarding.name.label"
+msgstr "Tên của bạn"
+
+#: ../../apps/mobile/src/features/onboarding/flow-controller/pass-sync.tsx
+msgid "onboarding.queued.issuePass"
+msgstr "Pass mới của bạn"
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.title"
+msgstr "Số của bạn"
+
+#. placeholder {0}: printedName || notYet
+#: ../../apps/mobile/src/features/onboarding/pass-view.tsx
+msgid "onboarding.pass.a11y"
+msgstr "Pass {number} của bạn: {0}, nhà {homeValue}, ngày cấp {issuedValue}, phong cách {styleValue}"
+
+#: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
+msgid "onboarding.issued.title"
+msgstr "Pass của bạn đã sẵn sàng"
+
+#: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
+msgid "onboarding.splash.tagline"
+msgstr "Tấm pass tới mọi nơi, và những người dân sống ở đó."
+
+#: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
+msgid "onboarding.photo.real.zoom"
+msgstr "Thu phóng"

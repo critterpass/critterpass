@@ -85,6 +85,12 @@ export function updatePassSync(change: Partial<PassSyncState>): void {
   notify();
 }
 
+/** A relaunch: the in-memory copies go, what was persisted stays. */
+export function forgetCachedDraftForTests(): void {
+  cachedDraft = undefined;
+  cachedSync = undefined;
+}
+
 export function clearDraftForTests(): void {
   storage.remove(DRAFT_KEY);
   storage.remove(SYNC_KEY);
