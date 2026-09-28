@@ -37,6 +37,12 @@ const PAYLOADS: Readonly<Record<string, () => unknown>> = {
   upsert_season_editorial: () => ({ destination_id: nobody(), months: [], events: [] }),
   review_season_event: () => ({ event_id: nobody(), decision: 'approve' }),
   review_cost_index: () => ({ index_id: nobody() }),
+  review_content_item: () => ({ batch_id: nobody(), item_ref: 'matrix', verdict: 'keep' }),
+  reject_content_batch: () => ({ batch_id: nobody(), notes: 'Role matrix probe' }),
+  verify_poi_hours: () => ({ proposal_id: nobody(), verdict: 'reject' }),
+  approve_content_batch: () => ({ batch_id: nobody() }),
+  // No release has version 999, so an allowed rollback finds nothing to restore.
+  rollback_content_release: () => ({ kind: 'sets', to_version: 999 }),
   moderate_item: () => ({ kind: 'user', id: nobody(), verdict: 'approve', note: null }),
   grant_entitlement: () => ({ uid: nobody(), perk: 'pass_plus', until: soon(), reason: 'matrix' }),
   revoke_entitlement: () => ({ uid: nobody(), perk: 'pass_plus', reason: 'matrix' }),
