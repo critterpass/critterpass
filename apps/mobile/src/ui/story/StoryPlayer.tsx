@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import type { GestureType } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
@@ -49,6 +50,7 @@ const HOLD_MS = 200;
 
 const useStyles = makeStyles((th) => ({
   root: { flex: 1, overflow: 'hidden', backgroundColor: th.color.ink['930'] },
+  stage: { flex: 1 },
   bars: {
     flexDirection: 'row',
     gap: th.space['4'],
@@ -94,6 +96,22 @@ function ProgressBar({
       <Animated.View style={[styles.fill, style]} />
     </View>
   );
+}
+
+/**
+ * One gesture per native view: on iOS every handler on one view spends a shared attach-retry
+ * budget, so a player mounted during a screen push could lose the second gesture of a composed
+ * pair. The slide carries the hold, the full-size tap area inside it carries the tap, and the tap
+ * waits for the hold to fail, as `Gesture.Exclusive(hold, tap)` would on a single view.
+ */
+export function storyPlayerGestures(
+  hold: GestureType,
+  tap: GestureType,
+): { readonly slide: GestureType; readonly tapArea: GestureType } {
+  return {
+    slide: hold.withTestId('story-hold'),
+    tapArea: tap.requireExternalGestureToFail(hold).withTestId('story-tap'),
+  };
 }
 
 /**
@@ -154,6 +172,8 @@ export function StoryPlayer({
       scheduleOnRN(setPaused, false);
     });
 
+  const gestures = storyPlayerGestures(hold, tap);
+
   const n = index + 1;
   const position = t({ id: 'common.story.position', message: `Slide ${n} of ${total}` });
   const pauseLabel = paused
@@ -166,9 +186,9 @@ export function StoryPlayer({
       style={styles.root}
       onLayout={(e) => setWidth(e.nativeEvent.layout.width)}
     >
-      <GestureDetector gesture={Gesture.Exclusive(hold, tap)}>
+      <GestureDetector gesture={gestures.slide}>
         <Animated.View
-          style={[{ flex: 1 }, pushIn]}
+          style={[styles.stage, pushIn]}
           accessible
           accessibilityRole="adjustable"
           accessibilityLabel={segment ? `${position}. ${segment.label}` : position}
@@ -184,7 +204,9 @@ export function StoryPlayer({
             if (event.nativeEvent.actionName === 'decrement') go(index - 1);
           }}
         >
-          {segment?.content}
+          <GestureDetector gesture={gestures.tapArea}>
+            <View style={styles.stage}>{segment?.content}</View>
+          </GestureDetector>
         </Animated.View>
       </GestureDetector>
       <Stack style={styles.chrome} gap="10">

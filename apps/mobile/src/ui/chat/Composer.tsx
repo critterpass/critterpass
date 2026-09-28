@@ -1,6 +1,7 @@
 import { t } from '@lingui/core/macro';
 import { TextInput, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import type { GestureType } from 'react-native-gesture-handler';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { resolveTypeVariant } from '@cp/design-tokens';
@@ -43,6 +44,7 @@ const useStyles = makeStyles((th) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  micTapArea: { width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center' },
   mic: { alignItems: 'center' },
   capsule: { width: th.space['10'], height: th.space['14'], borderRadius: th.space['6'] },
   cradle: {
@@ -75,6 +77,22 @@ function MicGlyph({ color }: { readonly color: string }) {
       <View style={[styles.stand, { backgroundColor: color }]} />
     </View>
   );
+}
+
+/**
+ * One gesture per native view: on iOS every handler on one view spends a shared attach-retry
+ * budget, so a composer mounted during a screen push could lose the second gesture of a composed
+ * pair. The mic button carries the hold, the full-size tap area inside it carries the tap, and the
+ * tap waits for the hold to fail, as `Gesture.Exclusive(hold, tap)` would on a single view.
+ */
+export function composerMicGestures(
+  hold: GestureType,
+  tap: GestureType,
+): { readonly button: GestureType; readonly tapArea: GestureType } {
+  return {
+    button: hold.withTestId('composer-mic-hold'),
+    tapArea: tap.requireExternalGestureToFail(hold).withTestId('composer-mic-tap'),
+  };
 }
 
 /** Chat input bar: + attach, text field, and a mic (tap, or hold to talk) that becomes send. */
@@ -124,6 +142,7 @@ export function Composer({
     'worklet';
     scheduleOnRN(tap);
   });
+  const micGestures = composerMicGestures(hold, micTap);
   const micLabel = recording
     ? t({ id: 'common.chat.stopRecording', message: 'Stop and send voice message' })
     : t({ id: 'common.chat.recordVoice', message: 'Record a voice message' });
@@ -172,7 +191,7 @@ export function Composer({
           />
         </PressScale>
       ) : (
-        <GestureDetector gesture={Gesture.Exclusive(hold, micTap)}>
+        <GestureDetector gesture={micGestures.button}>
           <View
             accessible
             accessibilityRole="button"
@@ -187,7 +206,13 @@ export function Composer({
               { backgroundColor: recording ? theme.semantic.state.urgent : theme.color.paper.base },
             ]}
           >
-            <MicGlyph color={recording ? theme.semantic.text.onAccent : theme.color.paper.ink} />
+            <GestureDetector gesture={micGestures.tapArea}>
+              <View style={styles.micTapArea}>
+                <MicGlyph
+                  color={recording ? theme.semantic.text.onAccent : theme.color.paper.ink}
+                />
+              </View>
+            </GestureDetector>
           </View>
         </GestureDetector>
       )}
