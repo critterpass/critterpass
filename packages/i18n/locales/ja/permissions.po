@@ -47,6 +47,14 @@ msgstr ""
 msgid "permissions.camera.title"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.continue"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.body"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.location.body"
 msgstr ""
@@ -91,6 +99,10 @@ msgstr ""
 msgid "permissions.state.limited"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.title"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.location.title"
 msgstr ""
@@ -103,6 +115,10 @@ msgstr ""
 msgid "permissions.state.liveActivitiesOff"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.decline"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.notAsked"
 msgstr ""
@@ -112,6 +128,7 @@ msgid "permissions.state.restricted"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
 msgid "permissions.sheet.notNow"
 msgstr ""
 
@@ -131,6 +148,10 @@ msgstr ""
 msgid "permissions.state.on"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.limits"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 #: ../../apps/mobile/src/ui/permission-primer/DeniedRow.tsx
 #: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
@@ -145,6 +166,18 @@ msgstr ""
 msgid "permissions.photosRead.body"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.section"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.subtitle"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.body"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
 msgid "permissions.value.quiet"
 msgstr ""
@@ -157,12 +190,20 @@ msgstr ""
 msgid "permissions.alarms.title"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.title"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.photosAdd.body"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.photosAdd.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.manage"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
@@ -187,6 +228,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.photosRead.title"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.control"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.accept"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts

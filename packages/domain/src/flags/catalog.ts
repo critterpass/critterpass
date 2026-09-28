@@ -37,6 +37,20 @@ export const FLAG_CATALOG = {
     description:
       'Masked, sampled session replay of onboarding and paywall; off until counsel review.',
   },
+  'location.always_upsell': {
+    kind: 'boolean',
+    default: true,
+    owner: 'trip',
+    description:
+      'Offer the Always location upgrade after a first encounter or turning on the crew map; off = While-In-Use sessions only (kill switch if review pushes back).',
+  },
+  'location.android_background_geofences': {
+    kind: 'boolean',
+    default: false,
+    owner: 'trip',
+    description:
+      'Android background geofences (needs "Allow all the time"); off until the Play background-location declaration is approved. The foreground-service session ships regardless.',
+  },
 } as const satisfies FlagCatalog;
 
 export type FlagKey = keyof typeof FLAG_CATALOG;

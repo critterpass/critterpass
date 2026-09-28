@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { requestWithPrimer, type PermissionTrigger } from '@/lib/permissions';
+
 import {
   getPermissions,
   PERMISSION_KINDS,
@@ -16,6 +18,20 @@ export const __CP_DEV_ROUTE__ = true;
  * Live status of every permission kind straight from cp-permissions (no primer): request, open
  * the kind's Settings screen, and watch the list refresh when the app returns from Settings.
  */
+/** The just-in-time trigger each kind is asked at (Settings for the ones asked from there). */
+const TRIGGER: Readonly<Record<PermissionKind, PermissionTrigger>> = {
+  notifications: 'first_vote',
+  alarms: 'first_leave_by',
+  location: 'trip_start',
+  calendar: 'date_finding',
+  camera: 'real_photo',
+  microphone: 'voice',
+  speech: 'voice',
+  photos_add: 'save_image',
+  photos_read: 'album_ingest',
+  live_activities: 'settings',
+};
+
 export default function PermissionsDevScreen() {
   const [snapshot, setSnapshot] = useState<PermissionSnapshot | null>(null);
   const api = getPermissions();
@@ -51,6 +67,11 @@ export default function PermissionsDevScreen() {
                   }`}
             </Text>
             <View style={styles.buttons}>
+              <Button
+                testID={`dev-permission-${kind}-primer`}
+                title="Primer"
+                onPress={() => void requestWithPrimer(kind, TRIGGER[kind]).then(refresh)}
+              />
               <Button title="Request" onPress={() => void ask(kind)} />
               {kind === 'location' ? (
                 <Button title="Always" onPress={() => void ask(kind, 'always')} />

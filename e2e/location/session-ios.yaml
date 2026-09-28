@@ -1,0 +1,58 @@
+appId: app.critterpass.dev
+---
+# iOS trip-day session on the simulator: While-In-Use, the session starts from visible UI, fixes
+# flow (with the background activity session the status-bar location pill stays while the app is
+# in the background), the planner hands CLMonitor its regions, and arriving at the temple is seen.
+# The same walk as e2e/location/walk-ubud.gpx, driven with setLocation/travel.
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+- setLocation:
+    latitude: -8.5096
+    longitude: 115.2638
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: location-engine
+      READY: dev-location-engine
+- assertVisible:
+    id: 'dev-location-native'
+    text: 'native session'
+- tapOn:
+    id: 'dev-location-start'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-location-running'
+      text: 'running: true'
+    timeout: 15000
+- travel:
+    points:
+      - -8.5096,115.2638
+      - -8.5080,115.2624
+      - -8.5064,115.2610
+    speed: 20
+- extendedWaitUntil:
+    visible:
+      id: 'dev-location-regions'
+      text: 'regions: [1-9].*'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'dev-location-visits'
+      text: '.*arrived temple_shrine.*'
+    timeout: 150000
+- pressKey: home
+- setLocation:
+    latitude: -8.5024
+    longitude: 115.2574
+- launchApp:
+    stopApp: false
+- extendedWaitUntil:
+    visible:
+      id: 'dev-location-visits'
+      text: '.*left.*'
+    timeout: 240000
+- takeScreenshot: session-ios-visit
+- tapOn:
+    id: 'dev-location-stop'

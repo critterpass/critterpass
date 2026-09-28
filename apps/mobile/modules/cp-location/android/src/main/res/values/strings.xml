@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="cp_location_channel">Trip day location</string>
+  <string name="cp_location_title">CritterPass is on for your trip day</string>
+  <string name="cp_location_text">Finding critters and timing your leave-by. Stops at the end of the day.</string>
+  <string name="cp_location_stop">Stop</string>
+</resources>

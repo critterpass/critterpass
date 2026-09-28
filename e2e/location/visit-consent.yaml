@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# The visit consent sheet: what is kept (places, never a trail of coordinates) and the answer.
+- launchApp:
+    clearState: true
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: location-engine
+      READY: dev-location-engine
+- tapOn:
+    id: 'dev-location-consent'
+- extendedWaitUntil:
+    visible:
+      id: 'visit-consent-accept'
+    timeout: 10000
+- assertVisible:
+    text: '.*never a trail of coordinates.*'
+- takeScreenshot: visit-consent
+- tapOn:
+    id: 'visit-consent-accept'
+- assertVisible:
+    id: 'dev-location-consent-answer'
+    text: 'consent: on'

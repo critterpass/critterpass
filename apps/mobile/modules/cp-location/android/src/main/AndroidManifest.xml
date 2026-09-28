@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <application>
+    <service
+      android:name="app.critterpass.location.TripLocationService"
+      android:exported="false"
+      android:foregroundServiceType="location" />
+    <receiver
+      android:name="app.critterpass.location.GeofenceReceiver"
+      android:exported="false" />
+  </application>
+</manifest>

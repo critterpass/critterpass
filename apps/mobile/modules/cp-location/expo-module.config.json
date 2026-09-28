@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["CpLocationModule"]
+  },
+  "android": {
+    "modules": ["app.critterpass.location.CpLocationModule"]
+  }
+}

@@ -1,0 +1,31 @@
+appId: app.critterpass.dev
+---
+# Just-in-time: "Use a real photo" asks for the camera with the primer sheet first; the OS prompt
+# appears only after "Turn on".
+- launchApp:
+    clearState: true
+    permissions:
+      camera: unset
+- runFlow:
+    file: subflows/open-dev-screen.yaml
+    env:
+      SCREEN: permissions
+      READY: dev-permissions
+- tapOn:
+    id: 'dev-permission-camera-primer'
+- extendedWaitUntil:
+    visible:
+      id: 'primer-sheet-accept'
+    timeout: 10000
+- assertNotVisible:
+    text: 'Don.t Allow'
+- takeScreenshot: jit-camera-primer
+- tapOn:
+    id: 'primer-sheet-accept'
+- tapOn:
+    text: '(Allow|OK)'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-permission-camera-status'
+      text: 'granted.*'
+    timeout: 10000

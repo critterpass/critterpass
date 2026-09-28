@@ -1,0 +1,38 @@
+appId: app.critterpass.dev
+---
+# Android trip-day session on the emulator: the location foreground service starts from visible
+# UI with its ongoing notification, and every fix from the emulator's mock provider carries the
+# simulated flag (mock=1).
+- launchApp:
+    clearState: true
+    permissions:
+      location: allow
+      notifications: allow
+- setLocation:
+    latitude: -8.5096
+    longitude: 115.2638
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: location-engine
+      READY: dev-location-engine
+- tapOn:
+    id: 'dev-location-start'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-location-running'
+      text: 'running: true'
+    timeout: 15000
+- travel:
+    points:
+      - -8.5096,115.2638
+      - -8.5064,115.2610
+    speed: 20
+- extendedWaitUntil:
+    visible:
+      id: 'dev-location-fix'
+      text: '.*mock=1.*'
+    timeout: 30000
+- takeScreenshot: session-android-mock
+- tapOn:
+    id: 'dev-location-stop'

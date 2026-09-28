@@ -2,11 +2,13 @@
 import { useState } from 'react';
 
 import { registerFixture } from '../gallery/registry';
+import { BackgroundLocationDisclosure } from './BackgroundLocationDisclosure';
 import { exactAlarmOffLine, primerCopy, statusLine } from './copy';
 import { DeniedRow } from './DeniedRow';
 import { CalendarFitDemo, CameraDemo, CritterPingDemo, LeaveByDemo, MicDemo } from './demos';
 import { PermissionsSection } from './PermissionsSection';
 import { PrimerCard } from './PrimerCard';
+import { VisitDetectionSettings } from './VisitConsentSheet';
 
 const noop = () => undefined;
 
@@ -67,3 +69,11 @@ registerFixture('DeniedRow', 'exact alarms off', () => (
   <DeniedRow line={exactAlarmOffLine()} onOpenSettings={noop} />
 ));
 registerFixture('PermissionsSection', 'live status', () => <PermissionsSection />);
+registerFixture('BackgroundLocationDisclosure', 'android always upgrade', () => (
+  <BackgroundLocationDisclosure onContinue={noop} onDecline={noop} />
+));
+function VisitSettingsFixture() {
+  const [granted, setGranted] = useState(false);
+  return <VisitDetectionSettings granted={granted} onChange={setGranted} onManage={noop} />;
+}
+registerFixture('VisitDetectionSettings', 'off by default', () => <VisitSettingsFixture />);

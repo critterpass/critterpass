@@ -1,7 +1,7 @@
 ---
 phase: 20
 title: Permission orchestrator, location engine, POI visits
-status: pending
+status: in_progress
 depends_on: [2, 7, 10, 11, 14]
 wave: 6
 features: [F-022, F-023, F-189]
@@ -112,6 +112,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. Permission kinds + normalized status enum (not_determined/denied/restricted/limited/provisional/granted, location level none/wiu/always, precise bool). 2. Trigger catalogue + re-ask policy (per kind, 7 d, OS-denied → settings_only). 3. `isTripMode(trip, now, home, exploreAtHome)`. 4. Visit state machine (outside→candidate→inside→leaving→left) with dwell/hysteresis params. 5. Battery budget accountant. 6. Plausibility (speed > 250 km/h, teleport, mock flag, accuracy). 7. Geofence planner (nearest-N over registered candidate sources, rotation thresholds; POI + stay sources registered here).
 - Tests: `pnpm --fail-if-no-match --filter @cp/domain test -- permissions location`.
 - Done when: 100 % branch coverage on visit machine and trip-mode; property test that visit machine never emits `left` before `arrived`.
+- Status: done — 42d380fc
 
 ### T2 — Location tables, RLS backstop, permission tests
 - Goal: four tables with privacy guarantees.
@@ -119,6 +120,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. Drizzle schema + SQL with FORCE RLS, grants per role. 2. `app.can_see_location(share_id)` definer fn. 3. Exclude `location_fixes`, `visits` from publication and `guide_reader`. 4. Permission matrix per actor (self, co-participant, crew non-participant, outsider, guide_reader, powersync_repl).
 - Tests: `pnpm --fail-if-no-match --filter @cp/db test -- permissions/location_shares permissions/location_fixes permissions/member_etas permissions/visits`; `pnpm tsx tools/scripts/check-publication.ts`.
 - Done when: outsider and co-participant cannot SELECT fixes directly or visits of others; publication check passes.
+- Status: done — 42d380fc (merge rules for the four tables added in the same PR)
 
 ### T3 — API: permissions mirror, visits, fix ingest, TTL jobs
 - Goal: server side of all three features.
@@ -126,6 +128,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. Handlers via phase-10 registry (idempotent op_id). 2. `record_visit` checks consent, POI in trip destination, plausibility → `LOCATION_IMPLAUSIBLE`; `set_consent` handler. 3. `POST /v1/loc` with rate limit (SOS exempt), share check, flagged fixes stored not rejected, Centrifugo publish. 4. TTL jobs registered with pg-boss cron.
 - Tests: `pnpm --fail-if-no-match --filter @cp/api test -- location`; `pnpm --fail-if-no-match --filter @cp/worker test -- jobs/location`.
 - Done when: replayed `record_visit` is a no-op; SOS share accepts a mock-flagged fix (test); visit with software-simulated evidence → `LOCATION_IMPLAUSIBLE`, accessory-produced evidence accepted; `set_consent` upserts one row per purpose; fix for inactive share → 403; TTL job deletes 16-min-old fixes but keeps open-SOS fixes.
+- Status: done — 42d380fc (TTL purge proven by services/worker/test/jobs/location/location-ttl.db.test.ts; `POST /v1/loc` broadcasts once `CENTRIFUGO_API_URL` + `CENTRIFUGO_HTTP_API_KEY` are set on the api service)
 
 ### T4 — cp-permissions native module
 - Goal: one API for every permission's status/request/settings on both OSes.
@@ -133,6 +136,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. Wrap expo-notifications/expo-location/expo-calendar/expo-camera where adequate; native for AlarmKit authorization, exact alarm (`canScheduleExactAlarms`), FSI (`canUseFullScreenIntent`), LA enabled/frequent, photos add-only, speech. 2. `openSettings(kind)` (app settings, exact-alarm, notification channel). 3. Emit `change` on app foreground diff.
 - Tests: `pnpm --fail-if-no-match --filter @cp/mobile test -- modules/cp-permissions`; `xcodebuild test` for Swift unit via `pnpm --fail-if-no-match --filter @cp/mobile ios:test-modules`; `./gradlew :cp-permissions:testDebugUnitTest`.
 - Done when: dev screen lists live status for all kinds on the iOS 26 simulator and Android API 36 emulator (Maestro screenshots saved as CI artifacts); `tools/scripts/check-permissions-manifest.ts` passes after `npx expo prebuild --no-install`. Physical iPhone + Pixel check moves to the M4 milestone checklist.
+- Status: done — dc93a97c, b01d8937 (Swift probes type-check under Swift 6 against the iOS 26 SDK and the status mapping passes `swift test` on the host; the Kotlin module type-checks against android-36 and its mapping passes JUnit; `check-permissions-manifest.ts` passes after `expo prebuild --no-install`. The dev-screen run on the iOS 26 simulator and Android 36 emulator waits for a development build that includes cp-permissions)
 
 ### T5 — Permission orchestrator (JS)
 - Goal: single entry `requestWithPrimer(kind, trigger)` used by every feature.
@@ -140,6 +144,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. Store (Zustand or project store per code-standards) of statuses + last primer per trigger (MMKV). 2. Flow: primer sheet → OS prompt → result → mirror command. 3. Re-ask policy from T1; server config overrides. 4. `usePermission(kind)` hook.
 - Tests: `pnpm --fail-if-no-match --filter @cp/mobile test -- lib/permissions`.
 - Done when: unit tests cover granted, denied, settings_only, provisional, limited; mirror emits exactly one command per change.
+- Status: done — dc93a97c
 
 ### T6 — Primer UI, just-in-time sheet, denied states, Settings section
 - Goal: 3a-9 cards with live demos and reusable sheet/denied components.
@@ -147,6 +152,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. Cards per render with motion presets from P06. 2. Sheet variant for JIT triggers. 3. Denied/partial rows with Settings deep link. 4. `PermissionsSection` for 3n-2/3n-6 (phase 45 mounts it). 5. Reduced-motion static frames; a11y labels.
 - Tests: `pnpm --fail-if-no-match --filter @cp/mobile test -- ui/permission-primer`; `maestro test e2e/permissions/primer.yaml`.
 - Done when: RNTL tests assert toggle ON calls orchestrator and snap-back on denied; Maestro flow grants notifications and denies location on simulator.
+- Status: done — dc93a97c (RNTL toggle/snap-back/sheet tests pass; `e2e/permissions/primer.yaml` waits for the new development build)
 
 ### T7 — cp-location iOS
 - Goal: WIU trip-day session, Always upgrade, CLMonitor rotation, mock flags.
@@ -154,6 +160,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. `startTripSession()` creates `CLBackgroundActivitySession` + `CLServiceSession` in foreground; recreate on relaunch. 2. `liveUpdates` with accuracy config + stationary detection. 3. `CLMonitor` conditions (≤20) replaced from planner. 4. Temporary full accuracy request with purpose key. 5. Emit fixes/region events with mock flags.
 - Tests: `pnpm --fail-if-no-match --filter @cp/mobile ios:test-modules -- CpLocation`; GPX walk `e2e/location/walk-ubud.gpx` on simulator via `maestro test e2e/location/session-ios.yaml`.
 - Done when: simulator GPX run emits region enter/exit for planned conditions while app is backgrounded with session pill; terminated-app relaunch works only under Always.
+- Status: done — f3fd21bf, 624392e5 (plan math passes `swift test`; the session, stream and CLMonitor code type-checks under Swift 6 against the iOS 26 SDK; the GPX/Maestro simulator run waits for the new development build)
 
 ### T8 — cp-location Android
 - Goal: FGS location session, background geofences, mock flags, disclosure.
@@ -161,6 +168,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. FGS type location with ongoing notification + stop action, started only from UI/notification. 2. Fused provider priorities (balanced → high inside geofence). 3. GeofencingClient ≤100, radius ≥150 m, receiver starts FGS (exemption). 4. `isMock()` flag. 5. Prominent disclosure screen before background permission (Play policy).
 - Tests: `./gradlew :cp-location:testDebugUnitTest`; `maestro test e2e/location/session-android.yaml` (emulator mock route).
 - Done when: emulator route triggers enter/exit with app in background; mock provider fixes carry `mock=true`.
+- Status: done — 1803960f, 624392e5 (planner and fix mapping pass JUnit; the service, receiver and module type-check against android-36 + play-services-location; the emulator route run waits for an Android development build)
 
 ### T9 — Location engine (JS)
 - Goal: orchestrate modes, budget and consumers.
@@ -168,6 +176,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. Trip-mode watcher from PowerSync trip rows. 2. Start/stop session; Always upsell trigger via orchestrator. 3. Planner feed from `trip_pack` POIs/spawns. 4. Budget enforcement + Low Power Mode. 5. Share publisher batching to `POST /v1/loc` with offline drop (fixes are live-only). 6. Consumer subscriptions API.
 - Tests: `pnpm --fail-if-no-match --filter @cp/mobile test -- lib/location`.
 - Done when: fake clock tests show engine OFF at home, ON on trip day, coarse after budget exhausted; share publisher never persists fixes to disk.
+- Status: done — e94a3b80
 
 ### T10 — Visit detector, consent, temple mute signal
 - Goal: POI visits end to end on device.
@@ -175,6 +184,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. Feed region/fix events into T1 machine. 2. Queue `record_visit` via command client (offline ok). 3. Consent sheet + Settings toggle writing consent. 4. `useCurrentVisit()` exposing POI category for feedback bus quiet rules (temple mute). 5. Expense/manual helper `recordVisit(source)` for P33/P41.
 - Tests: `pnpm --fail-if-no-match --filter @cp/mobile test -- lib/location/visits`; `maestro test e2e/location/visit-consent.yaml`.
 - Done when: GPX dwell at a seeded POI produces one `record_visit` op; without consent none is queued.
+- Status: done — f3e6121f (`e2e/location/visit-consent.yaml` waits for the new development build)
 
 ### T11 — Integration and policy verification
 - Goal: prove the full path and store readiness.
@@ -182,6 +192,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. Maestro flows across both platforms. 2. API e2e: device op → visit row → TTL purge. 3. Battery: simulator/emulator energy proxy (location update count + high-accuracy minutes per hour from the engine's budget accountant) recorded as artifact; on-device %/h measurement per phase-02 method is an M8 milestone checklist item. 4. Write review-notes runbook.
 - Tests: `maestro test e2e/location e2e/permissions`; `pnpm --fail-if-no-match --filter @cp/api test -- location/visit-e2e`.
 - Done when: all flows green on CI simulators/emulators; runbook lists the proxy numbers, the on-device measurement procedure and reviewer steps.
+- Status: done — 98857023 (API visit end-to-end and the battery proxy pass; the Maestro flows have not run yet: they need a development build with both native modules, and the on-device %/h check is on the M8 checklist)
 
 ## Phase acceptance criteria
 

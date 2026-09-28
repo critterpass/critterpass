@@ -47,6 +47,14 @@ msgstr "Calendar"
 msgid "permissions.camera.title"
 msgstr "Camera"
 
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.continue"
+msgstr "Continue"
+
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.body"
+msgstr "CritterPass collects location data to find critters near you, keep your crew map current and time your leave-by alerts, even when the app is closed or not in use."
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.location.body"
 msgstr "Critters only appear where you actually are. Off when you are home."
@@ -91,6 +99,10 @@ msgstr "Limited"
 msgid "permissions.state.limited"
 msgstr "Limited"
 
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.title"
+msgstr "Location in the background"
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.location.title"
 msgstr "Location, on trips"
@@ -103,6 +115,10 @@ msgstr "Lock screen countdowns"
 msgid "permissions.state.liveActivitiesOff"
 msgstr "Lock screen countdowns off. You still get a notification."
 
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.decline"
+msgstr "No thanks"
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.notAsked"
 msgstr "Not asked yet"
@@ -112,6 +128,7 @@ msgid "permissions.state.restricted"
 msgstr "Not available on this phone"
 
 #: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
 msgid "permissions.sheet.notNow"
 msgstr "Not now"
 
@@ -131,6 +148,10 @@ msgstr "On"
 msgid "permissions.state.on"
 msgstr "On"
 
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.limits"
+msgstr "Only on trip days, never at home. We keep the places you checked in at, never a trail of coordinates. Turn it off any time in Settings or from the trip-day notification."
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 #: ../../apps/mobile/src/ui/permission-primer/DeniedRow.tsx
 #: ../../apps/mobile/src/ui/permission-primer/PrimerSheet.tsx
@@ -145,6 +166,18 @@ msgstr "Permissions"
 msgid "permissions.photosRead.body"
 msgstr "Pick photos for the crew album. Choose all or just a few."
 
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.section"
+msgstr "Places"
+
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.subtitle"
+msgstr "Places you checked in at, never a trail of coordinates."
+
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.body"
+msgstr "Places you checked in at, never a trail of coordinates. They power quests, awards and your trip rating, and are deleted 30 days after the trip ends."
+
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
 msgid "permissions.value.quiet"
 msgstr "Quiet"
@@ -157,6 +190,10 @@ msgstr "Quiet. Pings land in Notification Center."
 msgid "permissions.alarms.title"
 msgstr "Real alarms"
 
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.title"
+msgstr "Remember places you visit"
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.photosAdd.body"
 msgstr "Save cards and postcards to your photos. Adding only, never reading."
@@ -164,6 +201,10 @@ msgstr "Save cards and postcards to your photos. Adding only, never reading."
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.photosAdd.title"
 msgstr "Save to photos"
+
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.manage"
+msgstr "Saved visits"
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
 msgid "permissions.primer.guideLine"
@@ -188,6 +229,14 @@ msgstr "Three things, and why"
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.photosRead.title"
 msgstr "Trip photos"
+
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.control"
+msgstr "Turn it off any time in Settings. Visits already saved stay deletable."
+
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.accept"
+msgstr "Turn on"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.primer.turnOn"
