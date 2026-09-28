@@ -19,6 +19,7 @@ import {
   setCrewMemberStatus,
 } from './actors';
 import { claimOpId, recordCmdResult } from '../../src/events';
+import { seedGrowthRows } from './growth-fixture';
 import {
   insertChangeSet,
   insertItineraryVersion,
@@ -295,6 +296,8 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       "INSERT INTO avatars (user_id, kind, form_id) VALUES ($1, 'critter', 'guide:tokek')",
       [organiser],
     );
+
+    await seedGrowthRows(tx, { crewId, tripId, organiser, member });
 
     const versionId = await insertItineraryVersion(tx, {
       tripId,

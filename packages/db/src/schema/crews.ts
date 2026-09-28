@@ -14,6 +14,7 @@ export const crews = pgTable('crews', {
     .primaryKey()
     .default(sql`uuidv7()`),
   name: text('name').notNull(),
+  art: text('art'),
   settlementCurrency: text('settlement_currency'),
   memberCeiling: integer('member_ceiling').notNull().default(16),
   membershipEpoch: integer('membership_epoch').notNull().default(0),

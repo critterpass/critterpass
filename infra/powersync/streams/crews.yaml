@@ -1,0 +1,41 @@
+# Crew growth streams (docs/data-model-sync-and-privacy.md §4): invites, invite opens, referrals,
+# contact cards and seat waitlist offers. Filters mirror each table's RLS SELECT policy.
+
+streams:
+  # Invites of the caller's crews, plus in-app invites addressed to the caller before they join.
+  # Both queries select the same columns: never the seat token hash, never nudge timing.
+  crew_invites:
+    auto_subscribe: true
+    queries:
+      - |
+        SELECT id, crew_id, trip_id, inviter_id, join_code_id, kind, invitee_user_id, channel,
+               status, waitlist_position, expires_at, claimed_by, claimed_at, created_at, updated_at
+        FROM invites
+        WHERE crew_id IN my_crews
+      - |
+        SELECT id, crew_id, trip_id, inviter_id, join_code_id, kind, invitee_user_id, channel,
+               status, waitlist_position, expires_at, claimed_by, claimed_at, created_at, updated_at
+        FROM invites
+        WHERE invitee_user_id = auth.user_id()
+
+  # Opens of the caller's own invites, and referrals the caller is either side of (status only).
+  me:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM invite_opens WHERE inviter_id = auth.user_id()
+      - SELECT * FROM referrals WHERE referrer_id = auth.user_id()
+      - SELECT * FROM referrals WHERE referee_id = auth.user_id()
+
+  # Consented phone cards of the caller's crews.
+  crews:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM crew_contact_cards WHERE crew_id IN my_crews
+
+  # Seat offers on one trip, for its crew's members.
+  trip:
+    queries:
+      - |
+        SELECT * FROM seat_waitlist_offers
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)

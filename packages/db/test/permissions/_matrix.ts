@@ -789,6 +789,82 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   },
   // RLS class M: active crew members read their crew's codes (the fixture code is the crew's own);
   // writes belong to app_system. Non-members resolve a code only via app.lookup_join_code.
+  // Growth (RLS M invites, O inviter opens, X prefill, O either-party referrals, T seat offers,
+  // M contact cards); packages/db/test/permissions/{invites,...}.test.ts prove each in full.
+  invites: {
+    selectProbe: { sql: 'SELECT 1 FROM invites WHERE crew_id = $1', params: (f) => [f.crewId] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, true, true),
+      coOrganiser: op(true, true, true),
+      organiser: op(true, true, true),
+    },
+  },
+  invite_opens: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM invite_opens WHERE inviter_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
+  invite_prefill: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM invite_prefill WHERE inviter_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(false, true, false),
+    },
+  },
+  referrals: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM referrals WHERE referrer_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: F,
+      organiser: op(true, false, false),
+    },
+  },
+  seat_waitlist_offers: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM seat_waitlist_offers WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, true),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
+  crew_contact_cards: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM crew_contact_cards WHERE crew_id = $1',
+      params: (f) => [f.crewId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
   join_codes: {
     selectProbe: {
       sql: 'SELECT 1 FROM join_codes WHERE crew_id = $1',
