@@ -343,7 +343,8 @@ jobs:
             ARCHS=arm64 ONLY_ACTIVE_ARCH=YES COMPILER_INDEX_STORE_ENABLE=NO \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' \
             > "$RUNNER_TEMP/xcodebuild.log" 2>&1 || status=$?
-          grep -E ': error:|^\*\* BUILD|^\t' "$RUNNER_TEMP/xcodebuild.log" | grep -v '^\t*/' || true
+          # Compiler errors, the result line and the failed-command summary, each once.
+          grep -E ': error:|^\*\* BUILD|^\t[A-Za-z]' "$RUNNER_TEMP/xcodebuild.log" | awk '!seen[$0]++' || true
           exit "${status:-0}"
       - name: Upload the build log
         if: failure()
