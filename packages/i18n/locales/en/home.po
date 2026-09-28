@@ -21,6 +21,14 @@ msgstr "{guide} {summary}"
 msgid "home.inbox.guideChanged"
 msgstr "{guide} changed the plan"
 
+#: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
+msgid "home.nudge.inbox"
+msgstr "{guide} left {name} a nudge in their inbox."
+
+#: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
+msgid "home.nudge.scheduled"
+msgstr "{guide} will nudge {name} at {at}, when they open things."
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.tip"
 msgstr "{guide}: {tip}"
@@ -229,6 +237,10 @@ msgstr "That didn't go through"
 msgid "home.inbox.nudge.vote"
 msgstr "The crew is waiting on your vote."
 
+#: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
+msgid "home.nudge.failed"
+msgstr "The nudge didn't go through. Try again."
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.rsvp"
 msgstr "They'd love to know if you're in."
@@ -290,9 +302,21 @@ msgstr "Welcome, {0}"
 msgid "home.firstRun.title"
 msgstr "Where to first?"
 
+#: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
+msgid "home.nudge.tooSoon"
+msgstr "You nudged them recently. Try again after {when}."
+
 #: ../../apps/mobile/src/features/home/home-commands.ts
 msgid "home.queued.inboxAction"
 msgstr "Your answer in the inbox"
+
+#: ../../apps/mobile/src/features/home/nudge/use-nudge.ts
+msgid "home.nudge.relay"
+msgstr "Your crew is saving you a spot on CritterPass."
+
+#: ../../apps/mobile/src/features/home/nudge/use-nudge.ts
+msgid "home.nudge.relayLink"
+msgstr "Your crew is saving you a spot on CritterPass. {url}"
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx

@@ -25,6 +25,7 @@ import { FadeInView } from './fade-in-view';
 import { FirstRunGrid, guideCells } from './first-run-grid';
 import { HomeHeaderBar } from './home-header';
 import { useAppBadge } from './inbox/use-app-badge';
+import { useRecordAppOpen } from './nudge/use-record-app-open';
 import { NextUpCard } from './next-up-card';
 import { HOME_ROUTES } from './routes';
 import { homeVoteSlot } from './slots';
@@ -113,6 +114,7 @@ export function HomeScreen({ crewId = null }: HomeScreenProps) {
   const { t } = useLingui();
   const view = useHomeState(crewId);
   useAppBadge(view.needsYou, view.status === 'ready');
+  useRecordAppOpen();
   const inset = useTabBarInset();
   const { width } = useWindowDimensions();
   const contentWidth = width - 2 * theme.size.gutter;

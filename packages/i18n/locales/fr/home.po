@@ -21,6 +21,14 @@ msgstr ""
 msgid "home.inbox.guideChanged"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
+msgid "home.nudge.inbox"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
+msgid "home.nudge.scheduled"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.tip"
 msgstr ""
@@ -229,6 +237,10 @@ msgstr ""
 msgid "home.inbox.nudge.vote"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
+msgid "home.nudge.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.rsvp"
 msgstr ""
@@ -290,8 +302,20 @@ msgstr ""
 msgid "home.firstRun.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
+msgid "home.nudge.tooSoon"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/home-commands.ts
 msgid "home.queued.inboxAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/nudge/use-nudge.ts
+msgid "home.nudge.relay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/nudge/use-nudge.ts
+msgid "home.nudge.relayLink"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/next-up-card.tsx

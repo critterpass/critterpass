@@ -36,6 +36,7 @@ import {
   renderHome,
   seedCrew,
   seedInboxItem,
+  settleMotion,
   until,
 } from '../../test-support/home-harness';
 import { InboxScreen } from '../inbox-screen';
@@ -99,6 +100,7 @@ describe('inbox', () => {
     expect(screen.getByText('Jordan joined The Bali Six')).toBeTruthy();
     expect(screen.getByText("Tokek moved Rin's pickup to 22:40")).toBeTruthy();
     expect(screen.getByText('UNDO')).toBeTruthy();
+    await settleMotion();
     expect(screen.toJSON()).toMatchSnapshot();
   });
 
@@ -113,6 +115,7 @@ describe('inbox', () => {
     await until(() => screen.queryByText('NEEDS YOU · 0') !== null);
     await until(() => screen.queryByTestId('inbox-caught-up') !== null);
     expect(screen.queryByTestId(`inbox-card-${nudge}`)).toBeNull();
+    await settleMotion();
     expect(screen.toJSON()).toMatchSnapshot();
   });
 

@@ -14,6 +14,7 @@ import { useRejectedCommands } from '@/data/status/use-rejected-commands';
 import { toast } from '@/motion/island-toast';
 
 import { actInboxItemCommand, markInboxReadCommand } from '../home-commands';
+import { useNudge } from '../nudge/use-nudge';
 import type { InboxItem } from './inbox-data';
 
 export interface InboxActions {
@@ -30,6 +31,7 @@ export function useInboxActions(): InboxActions {
   const act = useCommand(actInboxItemCommand);
   const read = useCommand(markInboxReadCommand);
   const rejected = useRejectedCommands();
+  const nudges = useNudge();
   const sent = useRef(new Set<string>());
   const [leaving, setLeaving] = useState<ReadonlyMap<string, InboxItem>>(new Map());
 
@@ -56,6 +58,14 @@ export function useInboxActions(): InboxActions {
 
   const answer = useCallback(
     async (item: InboxItem, action: InboxAction) => {
+      if (action.command === 'send_nudge') {
+        // A nudge answers online: the sender sees when it lands, or gets the share sheet.
+        const outcome = await nudges.nudgeFromInbox(item.id, action.id);
+        if (outcome.kind !== 'failed' && outcome.kind !== 'too_soon') {
+          setLeaving((current) => new Map(current).set(item.id, item));
+        }
+        return;
+      }
       if (action.style !== 'undo') {
         setLeaving((current) => new Map(current).set(item.id, item));
       }
@@ -68,7 +78,7 @@ export function useInboxActions(): InboxActions {
         });
       }
     },
-    [act, t],
+    [act, nudges, t],
   );
 
   const markAllRead = useCallback(

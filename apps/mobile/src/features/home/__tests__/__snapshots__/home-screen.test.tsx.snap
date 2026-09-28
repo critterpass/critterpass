@@ -79,7 +79,7 @@ exports[`modes renders first run with the six guides and the code entry 1`] = `
             <View
               style={
                 {
-                  "opacity": 0,
+                  "opacity": 1,
                 }
               }
             >
@@ -3803,7 +3803,7 @@ exports[`modes renders the recap card for two weeks after the last day 1`] = `
             <View
               style={
                 {
-                  "opacity": 0,
+                  "opacity": 1,
                 }
               }
             >

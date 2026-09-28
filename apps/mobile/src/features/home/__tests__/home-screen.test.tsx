@@ -52,6 +52,7 @@ import {
   seedInboxItem,
   seedMe,
   seedTrip,
+  settleMotion,
   until,
 } from '../test-support/home-harness';
 
@@ -119,6 +120,7 @@ describe('modes', () => {
     await fireEvent.press(screen.getByTestId('home-somewhere-else'));
     expect(push).toHaveBeenCalledWith('/place-search');
     expect(screen.getByTestId('dev-tools-entry')).toBeTruthy();
+    await settleMotion();
     expect(screen.toJSON()).toMatchSnapshot();
   });
   it('renders everyday with a ticking countdown, plan progress, the bell count and the tip', async () => {
@@ -167,6 +169,7 @@ describe('modes', () => {
       await renderHome(<HomeScreen />, s);
       await until(() => screen.queryByTestId('home-mode-final_vote') !== null);
       expect(screen.getByTestId('vote-slot')).toBeTruthy();
+      await settleMotion();
       expect(screen.toJSON()).toMatchSnapshot();
     } finally {
       unregister();
@@ -178,6 +181,7 @@ describe('modes', () => {
     await seedCrew(s);
     await renderHome(<HomeScreen />, s);
     await until(() => screen.queryByTestId('home-no-trip') !== null);
+    await settleMotion();
     expect(screen.toJSON()).toMatchSnapshot();
   });
 
@@ -192,6 +196,7 @@ describe('modes', () => {
     await renderHome(<HomeScreen />, s);
     await until(() => screen.queryByTestId('home-mode-post_trip') !== null);
     expect(screen.getByText('BALI RECAP')).toBeTruthy();
+    await settleMotion();
     expect(screen.toJSON()).toMatchSnapshot();
   });
   it('renders the in-trip card during the trip and opens the hub', async () => {

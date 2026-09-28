@@ -61,6 +61,11 @@ export async function until(check: () => boolean, timeoutMs = 5000): Promise<voi
   }
 }
 
+/** Lets entrance fades and slides finish before a layout snapshot (they run on real timers). */
+export function settleMotion(): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, 700));
+}
+
 /** Me (Winston) bound as the owner, with my own user row synced. */
 export async function seedMe(stack: TestLocalFirst): Promise<void> {
   await stack.db.execute('INSERT OR REPLACE INTO local_state (id, value) VALUES (?, ?)', [
