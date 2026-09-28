@@ -1,4 +1,8 @@
 export {
+  BackgroundLocationDisclosure,
+  type BackgroundLocationDisclosureProps,
+} from './BackgroundLocationDisclosure';
+export {
   exactAlarmOffLine,
   liveActivitiesOffLine,
   primerCopy,

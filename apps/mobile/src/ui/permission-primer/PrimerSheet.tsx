@@ -1,5 +1,5 @@
 import { t } from '@lingui/core/macro';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 
 import type { PrimerAnswer, PrimerRequest } from '@/lib/permissions';
 
@@ -7,6 +7,7 @@ import { InlineAction } from '../buttons/InlineAction';
 import { PillButton } from '../buttons/PillButton';
 import { Sheet } from '../sheet/Sheet';
 import { Text } from '../text/Text';
+import { BackgroundLocationDisclosure } from './BackgroundLocationDisclosure';
 import { primerCopy } from './copy';
 import { demoFor } from './demos';
 
@@ -23,6 +24,23 @@ export interface PrimerSheetProps {
 export function PrimerSheet({ request, onAnswer }: PrimerSheetProps) {
   const copy = primerCopy(request.kind, request.level === 'always');
   const settings = request.mode === 'settings';
+  // Google Play: background location needs its prominent disclosure before the system step.
+  const disclosure = !settings && request.level === 'always' && Platform.OS === 'android';
+  if (disclosure) {
+    return (
+      <Sheet
+        detents={['fit']}
+        onDismiss={() => onAnswer('decline')}
+        accessibilityLabel={copy.title}
+        testID="primer-sheet"
+      >
+        <BackgroundLocationDisclosure
+          onContinue={() => onAnswer('accept')}
+          onDecline={() => onAnswer('decline')}
+        />
+      </Sheet>
+    );
+  }
   return (
     <Sheet
       detents={['fit']}

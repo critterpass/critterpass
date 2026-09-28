@@ -47,6 +47,14 @@ msgstr ""
 msgid "permissions.camera.title"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.continue"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.body"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.location.body"
 msgstr ""
@@ -91,6 +99,10 @@ msgstr ""
 msgid "permissions.state.limited"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.title"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.location.title"
 msgstr ""
@@ -101,6 +113,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.liveActivitiesOff"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.decline"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
@@ -129,6 +145,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.on"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.limits"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts

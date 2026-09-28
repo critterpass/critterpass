@@ -47,6 +47,14 @@ msgstr "Calendar"
 msgid "permissions.camera.title"
 msgstr "Camera"
 
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.continue"
+msgstr "Continue"
+
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.body"
+msgstr "CritterPass collects location data to find critters near you, keep your crew map current and time your leave-by alerts, even when the app is closed or not in use."
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.location.body"
 msgstr "Critters only appear where you actually are. Off when you are home."
@@ -91,6 +99,10 @@ msgstr "Limited"
 msgid "permissions.state.limited"
 msgstr "Limited"
 
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.title"
+msgstr "Location in the background"
+
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.location.title"
 msgstr "Location, on trips"
@@ -102,6 +114,10 @@ msgstr "Lock screen countdowns"
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.liveActivitiesOff"
 msgstr "Lock screen countdowns off. You still get a notification."
+
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.decline"
+msgstr "No thanks"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.notAsked"
@@ -130,6 +146,10 @@ msgstr "On"
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.state.on"
 msgstr "On"
+
+#: ../../apps/mobile/src/ui/permission-primer/BackgroundLocationDisclosure.tsx
+msgid "permissions.disclosure.limits"
+msgstr "Only on trip days, never at home. We keep the places you checked in at, never a trail of coordinates. Turn it off any time in Settings or from the trip-day notification."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 #: ../../apps/mobile/src/ui/permission-primer/DeniedRow.tsx

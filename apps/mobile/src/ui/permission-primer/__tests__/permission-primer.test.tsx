@@ -6,6 +6,7 @@ jest.mock('expo-router', () => ({ useIsFocused: () => true, router: { back: () =
 import { act, fireEvent, screen } from '@testing-library/react-native';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { ReactElement } from 'react';
+import { Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import {
@@ -160,6 +161,29 @@ describe('just-in-time primer sheet', () => {
     await fireEvent.press(screen.getByTestId('primer-sheet-decline'));
     await expect(outcome).resolves.toEqual({ result: 'declined' });
     expect(prompts).toEqual([]);
+  });
+});
+
+describe('Android background location disclosure', () => {
+  it('shows the prominent disclosure before the Always step, and only then prompts', async () => {
+    const original = Platform.OS;
+    Object.defineProperty(Platform, 'OS', { value: 'android', configurable: true });
+    try {
+      os.set('location', { ...base('location'), status: 'granted', level: 'wiu' });
+      answers.location = { ...base('location'), status: 'granted', level: 'always' };
+      await renderWithInsets(<PrimerSheetHost />);
+      let outcome: Promise<unknown> = Promise.resolve();
+      await act(() => {
+        outcome = requestWithPrimer('location', 'always_upgrade', { level: 'always' });
+      });
+      expect(screen.getByTestId('background-location-disclosure')).toBeTruthy();
+      expect(prompts).toEqual([]);
+      await fireEvent.press(screen.getByTestId('background-location-disclosure-continue'));
+      await expect(outcome).resolves.toMatchObject({ result: 'granted' });
+      expect(prompts).toEqual([['location', 'always']]);
+    } finally {
+      Object.defineProperty(Platform, 'OS', { value: original, configurable: true });
+    }
   });
 });
 

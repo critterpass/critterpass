@@ -1,0 +1,17 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'app.critterpass.location'
+version = '1.0.0'
+
+android {
+  namespace 'app.critterpass.location'
+}
+
+dependencies {
+  implementation 'androidx.core:core-ktx:1.19.1'
+  implementation 'com.google.android.gms:play-services-location:21.0.1'
+  testImplementation 'junit:junit:4.13.2'
+}
