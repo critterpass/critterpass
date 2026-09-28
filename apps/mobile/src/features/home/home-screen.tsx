@@ -8,11 +8,6 @@ import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
-import type { ReactNode } from 'react';
-import { useEffect } from 'react';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-
-import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -26,30 +21,19 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { useHomeState, type HomeView } from './data/use-home-state';
 import { DevToolsEntry } from './dev-tools-entry';
+import { FadeInView } from './fade-in-view';
 import { FirstRunGrid, guideCells } from './first-run-grid';
 import { HomeHeaderBar } from './home-header';
+import { useAppBadge } from './inbox/use-app-badge';
 import { NextUpCard } from './next-up-card';
 import { HOME_ROUTES } from './routes';
 import { homeVoteSlot } from './slots';
 import { TipStrip } from './tip-strip';
 import { InTripCard, NoTripCard, PostTripCard } from './trip-state-cards';
 
-const CROSS_FADE_MS = 300;
-
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['20'], paddingTop: t.space['8'] },
 }));
-
-/** Fades its content in when it mounts: keyed by crew and mode, a switch cross-fades. */
-function FadeInView({ children }: { readonly children: ReactNode }) {
-  const reduced = useReducedImpactMotion();
-  const opacity = useSharedValue(reduced ? 1 : 0);
-  useEffect(() => {
-    opacity.value = withTiming(1, { duration: reduced ? 0 : CROSS_FADE_MS });
-  }, [opacity, reduced]);
-  const style = useAnimatedStyle(() => ({ opacity: opacity.value }));
-  return <Animated.View style={style}>{children}</Animated.View>;
-}
 
 function FirstRun({ view, width }: { readonly view: HomeView; readonly width: number }) {
   const { t } = useLingui();
@@ -128,6 +112,7 @@ export function HomeScreen({ crewId = null }: HomeScreenProps) {
   const theme = useTheme();
   const { t } = useLingui();
   const view = useHomeState(crewId);
+  useAppBadge(view.needsYou, view.status === 'ready');
   const inset = useTabBarInset();
   const { width } = useWindowDimensions();
   const contentWidth = width - 2 * theme.size.gutter;

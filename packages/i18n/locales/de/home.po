@@ -13,12 +13,52 @@ msgstr ""
 msgid "home.firstRun.guideCell"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.guideDid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.guideChanged"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.tip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.memberJoined"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/countdown-chip.tsx
 msgid "home.countdown.spoken"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.payment"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
+msgid "home.inbox.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
+msgid "home.inbox.crew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/countdown-chip.tsx
@@ -37,8 +77,24 @@ msgstr ""
 msgid "home.tip.dismiss"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.earlier"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
+msgid "home.inbox.guides"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
+msgid "home.inbox.refusedBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/home-screen.tsx
@@ -53,6 +109,26 @@ msgstr ""
 msgid "home.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.markAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
+msgid "home.inbox.markedReadAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
+msgid "home.inbox.markedRead"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
+msgid "home.inbox.needsYou"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/next-up-card.tsx
 msgid "home.nextUp.eyebrowUndated"
 msgstr ""
@@ -63,6 +139,26 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/first-run-grid.tsx
 msgid "home.firstRun.elsewhereBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.crewEmpty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.guidesEmpty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.watching"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.awake"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
@@ -93,8 +189,60 @@ msgstr ""
 msgid "home.postTrip.open"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
+msgid "home.inbox.filters"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.more"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.inviteOpened"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.inviteOpenedCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.genericTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.generic"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/first-run-grid.tsx
 msgid "home.firstRun.elsewhere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
+msgid "home.inbox.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.vote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.rsvp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.readiness"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.nudge.invite"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/action-card.tsx
+msgid "home.inbox.closed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/countdown-chip.tsx
@@ -105,8 +253,28 @@ msgstr ""
 msgid "home.inTrip.eyebrow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/inbox/all-caught-up.tsx
+msgid "home.inbox.caughtUp.tokek"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.fallback"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/earlier-row.tsx
+msgid "home.inbox.undoLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
+msgid "home.inbox.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/earlier-row.tsx
+msgid "home.inbox.undoSpoken"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/inbox/use-inbox-actions.ts
+msgid "home.inbox.undone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/home-screen.tsx
