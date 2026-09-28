@@ -1,0 +1,59 @@
+{
+  "source": "api.deepseek.com 2026-09-28",
+  "request": {
+    "model": "deepseek-v4-pro",
+    "max_tokens": 16000,
+    "messages": [
+      {
+        "role": "user",
+        "content": "Venue: Pura Luhur Uluwatu (bali).\nSearch results:\n[1] https://uluwatutemple.id\nUluwatu Temple - The Iconic Cliffside Temple of Bali: Uluwatu Temple is open daily from 7:00 AM to 7:00 PM. The Kecak Dance performance starts at 6:00 PM, with gates opening at 4:00 PM. International Visitors: Adult IDR 50,000 | Child IDR 30,000 Domestic Visitors: Adult IDR 30,000 | Child IDR 20,000 Kecak Dance Ticket: Adult IDR 150,000 | Child IDR 75,000 As a sacred site, visitors must wear a sarong and sash, which are provided at the entrance. Dress modestly and cover your shoulders and knees. [...] As the official managing body of these attractions, we are committed to preserving their cultural heritage, natural beauty, and sustainab\n[2] https://theungasan.com/blog/your-guide-to-uluwatu-temple\nYour guide to Uluwatu Temple - The Ungasan: Temple opening hours: 08.00 AM to 07.00 PM Kecak dance show: daily at 06.00 PM Best time to visit: just before sunset Guide: not needed, but an Uluwatu guide can help you learn more Valuables: do not wear loose jewellery or carry other valuables openly Suggested duration: 1 to 2 hours Entrance fee: Rp 30,000 per adult and Rp 15,000 per child ## Q&A Question: Why is Uluwatu Temple considered a must-visit in Bali? [...] Question: What are the dress code, etiquette, hours, showtime, and fees? Short answer: Men and women must wear a sarong and a sash tied around the waist, and these are p\n[3] https://finnsbeachclub.com/guides/uluwatu-temple-bali\nThe Complete Guide To Uluwatu Temple: Everything You Need To Know When You Visit Uluwatu Temple: You can visit Uluwatu Temple at any time of the year. While it’s slightly cooler and less likely to rain during the dry season, it’s fine to go during the wet season (it doesn’t rain all day long), and the humidity isn’t unbearable. ## When Is Uluwatu Temple Open? The opening hours at Uluwatu Temple are from 7 a.m. to 6 p.m. every day of the year. [...] Please be aware that during Balinese festivals, this temple can get very busy, indeed, as it’s an active place of worship and not something preserved to keep tourists happy. In fact, Balinese pilgrims are allowed access to the temple 24 hour\n[4] https://www.uluwatubali.com/link/opening-hours-and-best-time-to-visit-uluwatu-temple.html\nOpening Hours and Best Time to Visit Uluwatu Temple | www.uluwatubali.com: []( # ULUWATU BALI # ULUWATU BALI Home All About Uluwatu + Location of Uluwatu Temple Bali + History of Uluwatu Temple + Attractiveness of Uluwatu Temple Bali + Opening Hours and Best Time to Visit Uluwatu Temple + Entrance Fee and Kecak Dance Ticket at Uluwatu Temple + Uluwatu Temple Bali Dress Code + 5 Tips When Visiting to Uluwatu Temple + Pujawali Ceremony Time at Uluwatu Temple + 4 Prohibitions When Visiting Uluwatu Temple + Kecak Dance at Uluwatu Bali Blog [...] Home All About Uluwatu + - Location of Uluwatu Temple Bali + - History of Uluwatu Temple \n\nReturn {\"found\", \"source_url\", \"weekly\", \"exceptions\"}."
+      }
+    ],
+    "thinking": {
+      "type": "enabled",
+      "budget_tokens": 8000
+    },
+    "system": [
+      {
+        "type": "text",
+        "text": "You read a venue's opening hours from search results. Use only a result that states the hours (prefer the venue's own site or an official tourism site) and copy its URL exactly as source_url. Give weekly spans per weekday (mo..su) in 24-hour HH:MM (end may be 24:00; an empty list means closed that day) and dated exceptions (YYYY-MM-DD) only if stated. If no result states the hours, return found false with empty spans. Reply with JSON only."
+      },
+      {
+        "type": "text",
+        "text": "# Reply format\n\nReply with one JSON value only: no prose before or after it and no code fences. It must match this JSON Schema:\n{\"type\":\"object\",\"properties\":{\"found\":{\"type\":\"boolean\"},\"source_url\":{\"type\":[\"string\",\"null\"]},\"weekly\":{\"type\":\"object\",\"properties\":{\"mo\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"tu\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"we\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"th\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"fr\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"sa\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"su\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}}},\"required\":[\"mo\",\"tu\",\"we\",\"th\",\"fr\",\"sa\",\"su\"],\"additionalProperties\":false},\"exceptions\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"date\":{\"type\":\"string\"},\"spans\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"note\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"date\",\"spans\",\"note\"],\"additionalProperties\":false}}},\"required\":[\"found\",\"source_url\",\"weekly\",\"exceptions\"],\"additionalProperties\":false}"
+      }
+    ],
+    "output_config": {
+      "effort": "low"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "56d386d6-feee-4a9a-8793-7fb9cde41194",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "We need answer JSON only. Need parse hours. Venue Pura Luhur Uluwatu (bali). Search results. Need use only a result that states hours, prefer venue's own site or official tourism site. Result [1] is uluwatutemple.id, likely official? Says open daily from 7:00 AM to 7:00 PM. Need return weekly spans per weekday mo..su, 24h HH:MM. Use source_url [1]. Found true. Weekly: all days 07:00-19:00. Exceptions empty. Need ensure JSON schema. source_url exactly \"https://uluwatutemple.id\". Weekly object mo..su arrays with object start/end. exceptions []. Format: no prose.",
+          "signature": "56d386d6-feee-4a9a-8793-7fb9cde41194"
+        },
+        {
+          "type": "text",
+          "text": "{\"found\":true,\"source_url\":\"https://uluwatutemple.id\",\"weekly\":{\"mo\":[{\"start\":\"07:00\",\"end\":\"19:00\"}],\"tu\":[{\"start\":\"07:00\",\"end\":\"19:00\"}],\"we\":[{\"start\":\"07:00\",\"end\":\"19:00\"}],\"th\":[{\"start\":\"07:00\",\"end\":\"19:00\"}],\"fr\":[{\"start\":\"07:00\",\"end\":\"19:00\"}],\"sa\":[{\"start\":\"07:00\",\"end\":\"19:00\"}],\"su\":[{\"start\":\"07:00\",\"end\":\"19:00\"}]},\"exceptions\":[]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1447,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 298,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

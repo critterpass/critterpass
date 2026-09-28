@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
 import { buildRelease, currentRelease, type ContentItem, type ContentKind } from '@cp/content';
+import { REPO_PACKS } from '@cp/ai';
 import { withSystem } from '@cp/db';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
@@ -289,6 +290,33 @@ describe('content.publish', () => {
         curation: 'editorial',
         merged: true,
         why: 'A clifftop temple above the Indian Ocean.',
+      },
+    ]);
+  });
+
+  it('publishes persona packs for live guides, read back through the persona loader shape', async () => {
+    await harness.pool.query(
+      "INSERT INTO guides (slug, name, colour) VALUES ('tokek', 'Tokek', 'yellow')",
+    );
+    const pack = { ...REPO_PACKS.tokek, version: 'content-test', status: 'draft' };
+    const item: ContentItem<'personas'> = {
+      id: 'tokek',
+      pack,
+      ai_disclosure: 'I’m an AI guide and can be wrong.',
+      fixtures: [{ prompt: 'Hi', expect_any: ['hi'], forbid: [] }],
+    };
+    const guest: ContentItem<'personas'> = { ...item, id: 'guest', pack: { ...REPO_PACKS.guest } };
+    await publish(await approved('personas', 1, [item, guest]));
+    const { rows } = await harness.pool.query<{
+      version: string;
+      status: string;
+      lexicon: { local_words: unknown[] };
+    }>('SELECT version, status, lexicon FROM persona_packs');
+    expect(rows).toEqual([
+      {
+        version: 'content-v1',
+        status: 'approved',
+        lexicon: { local_words: REPO_PACKS.tokek.local_words },
       },
     ]);
   });

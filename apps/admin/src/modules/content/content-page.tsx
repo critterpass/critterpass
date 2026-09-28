@@ -16,6 +16,7 @@ import { EmptyState, ErrorState, LoadingState } from '../../kit/states';
 import { POLL_MS } from '../../kit/table';
 import { getJson } from '../../lib/api';
 import { BatchPanel } from './batch-panel';
+import { ContentTabs } from './content-tabs';
 import { formatUsd, GATE_LABEL, STAGES } from './items';
 import './content.css';
 
@@ -105,6 +106,7 @@ export function ContentPage() {
         title="Content batches"
         subtitle="Factory output waits here. Reviewers mark items; only an owner approves a batch, and approval publishes a new release."
       />
+      <ContentTabs current="batches" />
       <StageStrip stage={summary?.stage} />
       {list.isPending ? (
         <LoadingState />

@@ -1,0 +1,59 @@
+{
+  "source": "api.deepseek.com 2026-09-28",
+  "request": {
+    "model": "deepseek-v4-pro",
+    "max_tokens": 16000,
+    "messages": [
+      {
+        "role": "user",
+        "content": "Venue: Ubud Art Market (bali).\nSearch results:\n[1] https://www.baliholidaysecrets.com/ubud-art-market\nComplete Guide to Ubud Art Market (2026 Visitor Info): If you’re arriving by scooter, parking usually costs around IDR 2,000. Car parking is typically about IDR 10,000, depending on where you park nearby. ## Opening Hours & When to Visit The official opening hours for the Ubud Art Market are 9:00 AM to 5:00 PM, but those times are more of a guideline than a rule. If you’re aiming for the best time to visit, late morning to early afternoon is usually the sweet spot. By then, most stalls are fully set up, but the crowds haven’t peaked yet. [...] The market is open every day from 8:00 am until 9:00 pm, some vendors will close around 5:00 or 6:00pm\n[2] https://www.ubudcenter.com/ubud-art-market\nUbud Art Market - Entrance Fee,Opening hours,Timings & Location: Location: Jl. Raya Ubud, Ubud, Gianyar, Bali Opening Hours: 08:00 AM – 06:00 PM (some stalls open earlier) Ubud Art Market Entrance Fee: Free Best Time to Visit: 08:00 – 10:00 AM Average Visit Duration: 1–2 hours The Ubud Art Market is located in the center of Ubud, directly across from Ubud Palace and within walking distance of Saraswati Temple. It is one of the most popular traditional markets in Ubud for buying souvenirs and handmade Balinese crafts. [...] The market is open daily from 08:00 to 18:00, and some of the stalls are even open until late at night. The market is divided into t\n[3] https://finnsbeachclub.com/guides/ubud-art-market\nUbud Art Market in Bali: Everything You Should Know Before You Visit: There is no bad time of year to visit the Ubud Traditional Art Market. Ubud is cooler than the rest of Bali for most of the year, and while it does see rain during the rainy season, it doesn’t rain all day long, either. However, we do recommend going to the market early in the day. This helps you avoid crowds and surprisingly get better prices, too. ### Ubud Market Opening Times The Ubud Art Market is open from 10 a.m. to 5 p.m. nearly every day of the year. [...] ## Where Is Ubud Art Market? Ubud Art Market is in the centre of Ubud, which is in Central Bali. It’s a short walk from most ho\n[4] https://www.cntraveler.com/shops/bali/ubud-art-market\nUbud Art Market, Ubud, Bali, Indonesia - Shop Review | Condé Nast Traveler: Sounds exciting. Tell us a bit more about what we might see here. Pasar Seni Ubud, as the locals call this outdoor market, is open every day (6 a.m. to 6 p.m.) and stocks handmade products that originate in surrounding villages like Pengosekan, Tegallalang, Payangan, and Peliatan. You'll see Balinese crafts on display here, from hand-painted rattan stacking boxes and crocheted bikinis to masks and textile-clad duffel bags. [...] Set the scene for us. What's this place all about? The Ubud Art Market is a one-stop living kaleidoscope of Balinese wood carvings, stone carvings, silver-hammered\n\nReturn {\"found\", \"source_url\", \"weekly\", \"exceptions\"}."
+      }
+    ],
+    "thinking": {
+      "type": "enabled",
+      "budget_tokens": 8000
+    },
+    "system": [
+      {
+        "type": "text",
+        "text": "You read a venue's opening hours from search results. Use only a result that states the hours (prefer the venue's own site or an official tourism site) and copy its URL exactly as source_url. Give weekly spans per weekday (mo..su) in 24-hour HH:MM (end may be 24:00; an empty list means closed that day) and dated exceptions (YYYY-MM-DD) only if stated. If no result states the hours, return found false with empty spans. Reply with JSON only."
+      },
+      {
+        "type": "text",
+        "text": "# Reply format\n\nReply with one JSON value only: no prose before or after it and no code fences. It must match this JSON Schema:\n{\"type\":\"object\",\"properties\":{\"found\":{\"type\":\"boolean\"},\"source_url\":{\"type\":[\"string\",\"null\"]},\"weekly\":{\"type\":\"object\",\"properties\":{\"mo\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"tu\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"we\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"th\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"fr\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"sa\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"su\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}}},\"required\":[\"mo\",\"tu\",\"we\",\"th\",\"fr\",\"sa\",\"su\"],\"additionalProperties\":false},\"exceptions\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"date\":{\"type\":\"string\"},\"spans\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"note\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"date\",\"spans\",\"note\"],\"additionalProperties\":false}}},\"required\":[\"found\",\"source_url\",\"weekly\",\"exceptions\"],\"additionalProperties\":false}"
+      }
+    ],
+    "output_config": {
+      "effort": "low"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "af98aa20-6559-46d6-b188-dad90979e177",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "We need answer only JSON. Need parse. Need choose source that states hours prefer venue own or official tourism. Search results have conflicting hours. Need only result states hours. Need copy URL exactly as source_url. Need weekly spans per weekday mo..su. No dated exceptions stated. Need determine hours. Which source to use? Result [4] cntraveler says open every day (6 a.m. to 6 p.m.). Prefer venue's own or official tourism site; none are official? baliholidaysecrets says official 9-5, then open every day 8am-9pm conflict. ubudcenter says 08:00-18:00. finns says 10-5. cntraveler 6-6. We need use only a result that states hours (prefer venue's own site or an official tourism site). None are official? Maybe ubudcenter.com? Not official. baliholidaysecrets? Not official. Need maybe choose one? The task: \"You read a venue's opening hours from search results. Use only a result that states the hours (prefer the venue's own site or an official tourism site) and copy its URL exactly as source_url.\" This implies among search results, choose one. If no result states hours? But they do. Need use only a result that states hours. Prefer own site or official tourism, but none. Should we maybe found false because no official? Hmm prompt: \"Use only a result that states the hours (prefer the venue's own site or an official tourism site)\". It doesn't demand official, just prefer. But conflicting. We need maybe pick one? Which is best? Search result [2] ubudcenter.com maybe an Ubud center site? Not official tourism. [4] cntraveler reputable. [1] says official opening hours 9am-5pm but then daily 8am-9pm. Inconsistent within. [2] consistent daily 8-6. [3] 10-5 nearly every day. [4] daily 6-6.\n\nNeed maybe include source_url and weekly for chosen result. But if conflicting, maybe \"found\" false? The JSON schema requires weekly object always. But if found false, weekly empty spans perhaps. However prompt: \"If no result states the hours, return found false with empty spans.\" There are results stating hours, but conflicting. We need decide one. Could use result [4] Conde Nast Traveler? It states daily 6 a.m. to 6 p.m. Not official but authoritative. Need output weekly all days 06:00-18:00, source_url [4]. Exceptions empty. But maybe \"open every day\" means weekly. Let's see if any source preferred venue own site? No. Official tourism site maybe baliholidaysecrets? No. Could maybe \"ubudcenter.com\" seems like a guide. \"finnsbeachclub.com\" not. \"cntraveler.com\" not. Hmm.\n\nBut maybe there is an official Ubud Art Market site not listed. Search results only four. Need use only results. The instruction: \"Use only a result that states the hours (prefer the venue's own site or an official tourism site)\" Could interpret: if no venue/official tourism, we can use any result that states hours. So pick most plausible? Need maybe hourly. The venue known: Ubud Art Market open daily 08:00-18:00 maybe common. Result [2] says 08:00 AM – 06:00 PM daily, some stalls open earlier/later. That is plausible. Result [1] says official 9-5 but actual daily 8am-9pm, some close 5-6. Result [4] 6am-6pm. Hmm.\n\nNeed consider \"Ubud Art Market (bali).\" Common hours: daily 8am-6pm? Yes many sources say 8am-6pm, but some say 6am-6pm. I need produce one JSON. Maybe include source [2] because it gives opening hours 08:00-18:00 explicitly and is Ubud Center, perhaps a local guide. Could use that. But preference official: none. Could maybe schedule from [2], source_url exactly. weekly daily 08:00-18:00. Exceptions [].\n\nLet's parse [2]: \"Opening Hours: 08:00 AM – 06:00 PM (some stalls open earlier)\" then \"The market is open daily from 08:00 to 18:00\". So clearly daily. Use [2]. Output found true, source_url \"https://www.ubudcenter.com/ubud-art-market\", weekly: each day [{\"start\":\"08:00\",\"end\":\"18:00\"}]. exceptions [].\n\nNeed ensure JSON only, no markdown. Should we include note? Schema exceptions items note string or null. Empty list.\n\nBut maybe result [2] URL exactly copy. Yes.\n\nLet's craft final.",
+          "signature": "af98aa20-6559-46d6-b188-dad90979e177"
+        },
+        {
+          "type": "text",
+          "text": "{\"found\":true,\"source_url\":\"https://www.ubudcenter.com/ubud-art-market\",\"weekly\":{\"mo\":[{\"start\":\"08:00\",\"end\":\"18:00\"}],\"tu\":[{\"start\":\"08:00\",\"end\":\"18:00\"}],\"we\":[{\"start\":\"08:00\",\"end\":\"18:00\"}],\"th\":[{\"start\":\"08:00\",\"end\":\"18:00\"}],\"fr\":[{\"start\":\"08:00\",\"end\":\"18:00\"}],\"sa\":[{\"start\":\"08:00\",\"end\":\"18:00\"}],\"su\":[{\"start\":\"08:00\",\"end\":\"18:00\"}]},\"exceptions\":[]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 888,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 512,
+        "output_tokens": 1196,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

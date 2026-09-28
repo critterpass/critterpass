@@ -31,7 +31,10 @@ const SCRIPT_LETTERS: Readonly<Record<string, RegExp>> = {
 export function inScript(text: string, script: string): boolean {
   const pattern = SCRIPT_LETTERS[script];
   if (pattern === undefined) return false;
-  const letters = [...text].filter((ch) => /\p{L}/u.test(ch));
+  // Script-neutral marks (the Japanese long-vowel mark ー, combining marks) count for any script.
+  const letters = [...text].filter(
+    (ch) => /\p{L}/u.test(ch) && !/[\p{Script=Common}\p{Script=Inherited}]/u.test(ch),
+  );
   return letters.length > 0 && letters.every((ch) => pattern.test(ch));
 }
 

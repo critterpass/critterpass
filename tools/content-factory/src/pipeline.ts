@@ -46,12 +46,17 @@ export interface PipelineResult {
 
 export async function runPipeline(opts: PipelineOptions): Promise<PipelineResult> {
   const module = kindModule(opts.kind);
+  const files = stageFiles(opts.kind, opts.batchKey, opts.root);
+  const given = opts.options ?? {};
   const ctx: KindContext = {
     batchKey: opts.batchKey,
     now: opts.now ?? new Date(),
-    options: opts.options ?? {},
+    // A batch keeps the options it was briefed with unless the command gives new ones.
+    options:
+      Object.keys(given).length > 0 || opts.stages.includes('brief')
+        ? given
+        : (files.brief()?.options ?? {}),
   };
-  const files = stageFiles(opts.kind, opts.batchKey, opts.root);
   const log = opts.log ?? (() => undefined);
   writeText(path.join(path.dirname(files.paths.dir), 'latest'), opts.batchKey);
   let report: BatchReport | undefined;

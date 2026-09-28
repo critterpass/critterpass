@@ -1395,7 +1395,7 @@ importers:
         version: 1.0.20
       drizzle-orm:
         specifier: 'catalog:'
-        version: 0.45.2(@cloudflare/workers-types@5.20260926.1)(@op-engineering/op-sqlite@18.2.5(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0))(@opentelemetry/api@1.9.1)(@types/better-sqlite3@9.6.0)(@types/pg@8.23.1)(better-sqlite3@12.11.1)(expo-sqlite@58.0.6(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0))(kysely@0.29.6)(pg@8.23.0)
+        version: 0.45.2(@cloudflare/workers-types@5.20260926.1)(@op-engineering/op-sqlite@18.2.5(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@10.2.2))(react@19.3.0)(supports-color@10.2.2))(react@19.3.0))(@opentelemetry/api@1.9.1)(@types/better-sqlite3@9.6.0)(@types/pg@8.23.1)(better-sqlite3@12.11.1)(expo-sqlite@58.0.6(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@10.2.2))(react@19.3.0)(supports-color@10.2.2))(react@19.3.0))(kysely@0.29.6)(pg@8.23.0)
       firebase-admin:
         specifier: 'catalog:'
         version: 14.5.0(supports-color@10.2.2)
@@ -1463,6 +1463,9 @@ importers:
       '@napi-rs/canvas':
         specifier: 'catalog:'
         version: 1.0.9
+      aws4fetch:
+        specifier: 'catalog:'
+        version: 1.0.20
       pg:
         specifier: 'catalog:'
         version: 8.23.0

@@ -1,0 +1,59 @@
+{
+  "source": "api.deepseek.com 2026-09-28",
+  "request": {
+    "model": "deepseek-v4-pro",
+    "max_tokens": 16000,
+    "messages": [
+      {
+        "role": "user",
+        "content": "Venue: Tegallalang Rice Terrace (bali).\nSearch results:\n[1] https://tegallalangriceterrace.org\nTegallalang Rice Terrace (Ubud) — Plan Your Visit: ### Hours & Fees Tegallalang Rice Terrace is open daily from 07:00 AM to 06:00 PM. Arriving between 07:00 AM and 09:00 AM is recommended to avoid the peak heat and the large tour buses that typically arrive after 10:00 AM. | Category | Price | --- | | General Entry | 25,000 IDR | [...] No advance booking is required. Visitors purchase tickets on-site at the official booths for 25,000 IDR. Ensure you bring cash, as the ticket counters and donation points do not accept credit cards. What is the best time to visit the Tegallalang Rice Terraces? Arrive between 07:00 AM and 09:00 AM to avoid \n[2] https://tegallalangriceterrace.org/hours-and-fees\nTegallalang Rice Terrace Opening Hours & Fees: ## Opening Hours Tegallalang Rice Terrace operates daily from 07:00 AM to 06:00 PM. Arrive between 07:00 AM and 09:00 AM to beat the intense valley humidity and avoid the large tour buses that pull in after 10:00 AM. Heavy overnight rain can leave the lower valley paths completely impassable the next morning. | Day | Hours | Note | --- | Monday–Sunday | 07:00 AM – 06:00 PM | Visits average 1 to 1.5 hours; arrive early for the best conditions. | 📅 [...] About All ToursSwing Tours Directions Hours & Fees Language EnglishBahasa Indonesiaไทย日本語简体中文繁體中文한국어Bahasa MelayuFrançaisEspañol (Latino\n[3] https://www.baliholidaysecrets.com/tegalalang-rice-terraces\nTegalalang Rice Terraces Bali: Complete 2026 Visitor Guide: ### What are the opening hours of Tegalalang Rice Terrace? The terraces are open 7 days a week, typically from 6:00 AM to 6:00 PM. There are no gates, so early risers can enjoy the view before the crowds roll in, perfect for sunrise photographers and peaceful morning walks. Cafes and swings usually open closer to 8:00–9:00 AM. ### Where to park & how much does it cost? There are several paid parking lots right along the main road near the terraces. Expect to pay: [...] Tegalalang is located in Tegallalang village, north of Ubud in central Bali, along Jalan Raya Tegallalang. ### How much i\n[4] https://www.sunshineseeker.com/indonesia/bali/tegalalang-rice-terrace-ubud-where-how-best-photos\nUpdated: Tegalalang Rice Terrace swing & sunrise photo spot (2026): I have read online that Tegalalang opens at 6:00 am, 7:00 am and even 8:00 am. But in my experience, there isn’t an official opening time. As mentioned above, we got there around 6:15 am and found several open entrances. If the first one you try is closed, just go to the next. The popular Instagram sunrise photo location in Tegalalang Rice Terrace, Ubud The Instafamous sunrise photo spot in Tegalalang Rice Terraces ## How to get to Tegalalang Rice Terrace [...] ## Best time to visit Tegalalang Rice Terrace The best time to visit Tegalalang Rice Terrace is between 6:00 and 7:00 am on a clea\n\nReturn {\"found\", \"source_url\", \"weekly\", \"exceptions\"}."
+      }
+    ],
+    "thinking": {
+      "type": "enabled",
+      "budget_tokens": 8000
+    },
+    "system": [
+      {
+        "type": "text",
+        "text": "You read a venue's opening hours from search results. Use only a result that states the hours (prefer the venue's own site or an official tourism site) and copy its URL exactly as source_url. Give weekly spans per weekday (mo..su) in 24-hour HH:MM (end may be 24:00; an empty list means closed that day) and dated exceptions (YYYY-MM-DD) only if stated. If no result states the hours, return found false with empty spans. Reply with JSON only."
+      },
+      {
+        "type": "text",
+        "text": "# Reply format\n\nReply with one JSON value only: no prose before or after it and no code fences. It must match this JSON Schema:\n{\"type\":\"object\",\"properties\":{\"found\":{\"type\":\"boolean\"},\"source_url\":{\"type\":[\"string\",\"null\"]},\"weekly\":{\"type\":\"object\",\"properties\":{\"mo\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"tu\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"we\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"th\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"fr\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"sa\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"su\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}}},\"required\":[\"mo\",\"tu\",\"we\",\"th\",\"fr\",\"sa\",\"su\"],\"additionalProperties\":false},\"exceptions\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"date\":{\"type\":\"string\"},\"spans\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"start\":{\"type\":\"string\"},\"end\":{\"type\":\"string\"}},\"required\":[\"start\",\"end\"],\"additionalProperties\":false}},\"note\":{\"type\":[\"string\",\"null\"]}},\"required\":[\"date\",\"spans\",\"note\"],\"additionalProperties\":false}}},\"required\":[\"found\",\"source_url\",\"weekly\",\"exceptions\"],\"additionalProperties\":false}"
+      }
+    ],
+    "output_config": {
+      "effort": "low"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "0680956f-b2e9-4524-a8a9-3b0cefbb6842",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "We need answer JSON only. Need decide source. Results 1 and 2 from official tegallalangriceterrace.org say daily 07:00-18:00. Result 3 says 06:00-18:00. Result 4 says no official. Prefer venue's own site? Result 1/2 likely official? domain tegallalangriceterrace.org maybe venue site? The instruction: use only a result that states hours (prefer venue's own site or official tourism site). Result 1 and 2 are same domain, probably venue site. Need copy URL exactly as source_url. Use result [2] maybe specific hours page. But result [1] also states hours. Prefer venue's own site. Choose source_url https://tegallalangriceterrace.org/hours-and-fees perhaps. Weekly: mo-su 07:00-18:00 each. Exceptions empty. JSON only.\n\nNeed ensure format: weekly object all days required arrays. Times \"07:00\", \"18:00\". End may be 24:00 but here 18:00. Exceptions [].\n\nLet's produce.",
+          "signature": "0680956f-b2e9-4524-a8a9-3b0cefbb6842"
+        },
+        {
+          "type": "text",
+          "text": "{\"found\":true,\"source_url\":\"https://tegallalangriceterrace.org/hours-and-fees\",\"weekly\":{\"mo\":[{\"start\":\"07:00\",\"end\":\"18:00\"}],\"tu\":[{\"start\":\"07:00\",\"end\":\"18:00\"}],\"we\":[{\"start\":\"07:00\",\"end\":\"18:00\"}],\"th\":[{\"start\":\"07:00\",\"end\":\"18:00\"}],\"fr\":[{\"start\":\"07:00\",\"end\":\"18:00\"}],\"sa\":[{\"start\":\"07:00\",\"end\":\"18:00\"}],\"su\":[{\"start\":\"07:00\",\"end\":\"18:00\"}]},\"exceptions\":[]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1431,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 386,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

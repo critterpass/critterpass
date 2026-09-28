@@ -58,7 +58,9 @@ export async function research(
     `${sha256Hex(screened).slice(0, 32)}.json`,
   );
   const cached = readJsonIfExists<ResearchHit[]>(file);
-  if (cached !== undefined) return cached;
+  // Cut results never leave half a surrogate pair behind (the model API rejects such text).
+  if (cached !== undefined)
+    return cached.map((hit) => ({ ...hit, content: hit.content.toWellFormed() }));
   if (provider === null) throw new Error(`search needed for "${screened}": set TAVILY_API_KEY`);
   const hits: readonly SearchHit[] = await provider.search({
     query: screened,
@@ -69,7 +71,7 @@ export async function research(
   const trimmed = hits.map((hit) => ({
     url: hit.url,
     title: hit.title,
-    content: hit.content.slice(0, 600),
+    content: [...hit.content].slice(0, 600).join('').toWellFormed(),
   }));
   writeJson(file, trimmed);
   return trimmed;

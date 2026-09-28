@@ -132,3 +132,22 @@ export const rollbackContentReleasePayloadSchema = z.object({
   kind: contentReleaseKindSchema,
   to_version: z.number().int().min(1),
 });
+
+/** Opening hours researched from official sites, waiting for a person to verify them. */
+export const hoursProposalSchema = z.object({
+  id: z.uuid(),
+  poi_id: z.uuid(),
+  poi_name: z.string(),
+  destination: z.string(),
+  hours: z.record(z.string(), z.unknown()),
+  source_url: z.string(),
+  fetched_at: z.iso.datetime({ offset: true }),
+  batch_key: z.string(),
+});
+export type HoursProposalRow = z.infer<typeof hoursProposalSchema>;
+export const hoursProposalListSchema = z.object({ items: z.array(hoursProposalSchema) });
+
+export const verifyPoiHoursPayloadSchema = z.object({
+  proposal_id: z.uuid(),
+  verdict: z.enum(['verify', 'reject']),
+});
