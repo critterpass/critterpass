@@ -216,6 +216,14 @@ export const QUEUES = {
     keepCompletedSeconds: 86_400,
     cron: { expr: '15 * * * *', tz: 'UTC' },
   }),
+  // Share cards: warmed when an invite or referral code is shared, purged when it stops resolving.
+  'og.render': spec({
+    policy: 'stately',
+    retryLimit: 3,
+    retryDelay: 30,
+    expireInSeconds: 60,
+    keepCompletedSeconds: 86_400,
+  }),
   'ops.backup': spec({
     policy: 'stately',
     retryLimit: 2,
@@ -276,6 +284,7 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'waitlist.offer_expire': 'Lapses unanswered seat offers and offers the seat on',
   'referral.evaluate': 'Qualifies, voids and rewards referrals',
   'invites.nudge': 'Nudges installed invitees once after a day',
+  'og.render': 'Draws or purges one invite or referral share card',
   'ops.backup': 'Backs the database up to object storage',
   'ops.ai_cost_guard': 'Checks AI spend against its caps; pauses a tier over its cap',
   'compliance.check': 'Screens text created offline',

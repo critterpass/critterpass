@@ -17,6 +17,7 @@ import {
   notificationKeysForEvent,
   notifyRouteSingletonKey,
   NOTIFY_ROUTE_QUEUE,
+  OG_RENDER_QUEUE,
   type NotifyRouteJob,
 } from '@cp/domain';
 import type pg from 'pg';
@@ -73,6 +74,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       AVATAR_RENDER_QUEUE,
       CHAT_PHOTO_THUMBNAIL_QUEUE,
       CHAT_VOICE_TRANSCODE_QUEUE,
+      OG_RENDER_QUEUE,
     ]) {
       if ((await boss.getQueue(queue)) === null) {
         await boss.createQueue(queue, { policy: 'exclusive' });

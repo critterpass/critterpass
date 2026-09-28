@@ -1,6 +1,6 @@
 /**
  * 3a-13 "You're in": the crew manifest with the newcomer's card ringed, confetti, the guide's
- * welcome typing out and a truthful line about who is still to come (a count, never a name; we
+ * welcome typing out (the api's line when it comes in time, else the scripted one) and a truthful line about who is still to come (a count, never a name; we
  * never claim a nudge we did not send). A waitlisted joiner reads "you're next for a seat" instead.
  * SEE THE PLAN opens the trip; "Say hi" opens the crew. Members appear as their rows sync; until
  * then the newcomer's own card stands alone.
@@ -34,6 +34,7 @@ import { ManifestGrid, type ManifestMember } from './ManifestGrid';
 import { manifestCopy } from './manifest-copy';
 import { watchCrewMembers, type MemberRow } from './manifest-query';
 import { HANDOFF_ROUTES, tripPlanRoute } from './routes';
+import { useWelcomeLine } from './use-welcome-line';
 
 const useStyles = makeStyles((th) => ({
   content: {
@@ -113,7 +114,7 @@ export function ManifestScreen() {
     waitlisted: joined?.waitlisted ?? false,
     position: joined?.waitlist_position ?? null,
   });
-  const welcome = useTypewriter({ text: copy.welcome });
+  const welcome = useTypewriter({ text: useWelcomeLine(joined, copy.welcome) });
 
   if (joined === null) {
     return (

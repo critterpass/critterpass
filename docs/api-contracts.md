@@ -481,6 +481,8 @@ Auth column: **S** session bearer · **A** anonymous session allowed · **K** de
 | `POST /v1/receipts` | S | job | `{trip_id, media_id, ocr_lines[]}` → `{receipt_id, job_id}`; result synced (`receipts`, `receipt_lines`) |
 | `POST /v1/stt/token` | S | – | Android: short-lived Deepgram token (iOS uses SpeechAnalyzer on device) |
 | `GET /v1/jobs/{id}` | S | – | poll fallback for any AI job (`agent_jobs.steps`) |
+| `POST /v1/invites/tags` | S (crew member) | – | `{crew_id, trip_id?, note (≤140), invitee_name}` → `{tags (≤3 taste tags), line (≤70), guide, source: model\|template}`; route `micro.line` in the trip guide's voice; the note is screened (`guide_input`) beside the call and a flagged note, a switched-off route or a failed call answers the keyword template; 20/min/uid |
+| `POST /v1/crews/{crew_id}/welcome` | S (crew member) | – | `{trip_id?}` → `{line (≤90), source}`: the caller's welcome on the crew manifest (3a-13), route `micro.line`, template on any failure; 20/min/uid shared with invite tags |
 | `POST /v1/proposals/{id}/private/reason` | S | SSE | private objection options (AI-16) |
 | `GET /v1/guides/{id}/samples?locale&kind` | P | – | pre-rendered TTS samples (CDN) |
 

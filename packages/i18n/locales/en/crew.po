@@ -166,6 +166,10 @@ msgstr "Each friend who joins and plans with a crew stamps both your passes."
 msgid "crew.referral.friends"
 msgstr "Friends"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.qrHint"
+msgstr "Hold it up for them to scan."
+
 #: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
 msgid "crew.composer.homeHint"
 msgstr "Home guess from their number: {homeHint}"
@@ -332,6 +336,10 @@ msgstr "Plan trips with me on CritterPass: {url}"
 msgid "crew.composer.previewA11y"
 msgstr "Preview of the invite ticket"
 
+#: ../../apps/mobile/src/features/crew/invite-composer/JoinQr.tsx
+msgid "crew.qr.a11y"
+msgstr "QR code for {url}"
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.stamps"
 msgstr "Referral stamps · {shown} of 5"
@@ -379,6 +387,10 @@ msgstr "Share my link"
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.share"
 msgstr "Share the code"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
+msgid "crew.composer.qr"
+msgstr "Show a QR code"
 
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.stamped"
@@ -459,6 +471,10 @@ msgstr "This crew isn’t on your phone yet. It shows up once it syncs."
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.nameHint"
 msgstr "Up to {max} characters"
+
+#: ../../apps/mobile/src/features/crew/invite-composer/TagSuggestion.tsx
+msgid "crew.composer.useSuggestion"
+msgstr "Use {words}"
 
 #: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
 msgid "crew.composer.tags"

@@ -2,7 +2,7 @@
  * Crew settings (undesigned; built from the settings group, text field, segmented control and
  * confirm sheet): rename the crew, see its members (and remove one, for whoever manages the crew),
  * the one per-crew notification level (all, mentions or off; mentions until chosen), the crew code
- * with rotate and invite, and leave, optionally keeping the chat history.
+ * with its QR code to scan, rotate and invite, and leave, optionally keeping the chat history.
  */
 import { t } from '@lingui/core/macro';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -40,8 +40,11 @@ import {
   rowId,
 } from '../crews-sheet/crew-commands';
 import { useCrews } from '../crews-sheet/crew-data';
+import { useCrewServices } from '../crews-sheet/crew-services';
 import { useSessionUid } from '../crews-sheet/CrewsSheet';
 import { CREW_ROUTES, crewInviteRoute } from '../crews-sheet/routes';
+import { JoinQr } from '../invite-composer/JoinQr';
+import { qrChannelLink } from '../invite-composer/qr-path';
 import { MembersList } from '../members/MembersList';
 
 const useStyles = makeStyles((th) => ({
@@ -62,6 +65,7 @@ export function CrewSettingsScreen() {
   const styles = useStyles();
   const locale = useLocale();
   const localFirst = useContext(LocalFirstContext);
+  const services = useCrewServices();
   const uid = useSessionUid();
   const { crewId = '' } = useLocalSearchParams<{ crewId?: string }>();
   const snapshot = useCrews(localFirst?.db ?? null, uid);
@@ -171,6 +175,13 @@ export function CrewSettingsScreen() {
             testID="crew-settings-rotate"
           />
         </View>
+        {code === null ? null : (
+          <JoinQr
+            url={qrChannelLink(services.inviteUrl(code))}
+            size={160}
+            testID="crew-settings-qr"
+          />
+        )}
         <PillButton
           label={t({ id: 'crew.settings.invite', message: 'Invite someone' })}
           onPress={() => router.push(crewInviteRoute(crewId))}

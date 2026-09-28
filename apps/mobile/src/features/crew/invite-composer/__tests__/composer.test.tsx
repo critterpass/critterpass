@@ -101,6 +101,8 @@ beforeEach(() => {
   services.shared.length = 0;
   services.copied.length = 0;
   services.opened.length = 0;
+  services.suggested.length = 0;
+  services.suggestion = null;
   jest.mocked(useLocalSearchParams).mockReturnValue({ crewId: CREW });
 });
 afterEach(async () => {
@@ -214,6 +216,69 @@ describe('invite composer', () => {
     await activate(screen.getByTestId('composer-send-wa'));
     expect(await screen.findByTestId('composer-sign-in')).toBeTruthy();
     expect(screen.getByTestId('composer-save')).toBeTruthy();
+  });
+
+  it("offers the guide's tags for the note and picks them only when the inviter says so", async () => {
+    services.suggestion = {
+      tags: ['markets', 'nightlife'],
+      line: 'Kai sounds like a night market person.',
+      guide: 'pon',
+      source: 'model',
+    };
+    const api = recordedApi({ create_invite: applied(SENT) });
+    stack = await openTestLocalFirst({ transport: api, uid: ME, holdUploads: true });
+    await seed(stack.db);
+    await renderWithCrew(<InviteComposerScreen />, stack, services);
+    await fireEvent.changeText(await screen.findByTestId('composer-name'), 'Kai');
+    await fireEvent.changeText(screen.getByTestId('composer-note'), 'loves night markets');
+    expect(
+      await screen.findByText('Kai sounds like a night market person.', {}, { timeout: 5000 }),
+    ).toBeTruthy();
+    expect(services.suggested).toEqual([
+      { crew_id: CREW, note: 'loves night markets', invitee_name: 'Kai' },
+    ]);
+    expect(screen.getByTestId('composer-tag-markets')).not.toBeSelected();
+    await activate(screen.getByTestId('composer-suggestion-use'));
+    expect(screen.getByTestId('composer-tag-markets')).toBeSelected();
+    expect(screen.getByTestId('composer-tag-nightlife')).toBeSelected();
+    expect(api.sent).toEqual([]);
+  });
+
+  it('shows no suggestion when the api cannot answer', async () => {
+    stack = await openTestLocalFirst({ transport: recordedApi({}), uid: ME, holdUploads: true });
+    await seed(stack.db);
+    await renderWithCrew(<InviteComposerScreen />, stack, services);
+    await fireEvent.changeText(await screen.findByTestId('composer-name'), 'Kai');
+    await fireEvent.changeText(screen.getByTestId('composer-note'), 'loves night markets');
+    await waitFor(() => expect(services.suggested).toHaveLength(1), { timeout: 5000 });
+    expect(screen.queryByTestId('composer-suggestion')).toBeNull();
+  });
+
+  it('shows the link as a QR code to scan, tagged as the QR channel', async () => {
+    const url = 'https://critterpass.app/i/K7M2QX?c=qr';
+    const api = recordedApi({ create_invite: applied({ ...SENT, url }) });
+    stack = await openTestLocalFirst({ transport: api, uid: ME, holdUploads: true });
+    await seed(stack.db);
+    await renderWithCrew(<InviteComposerScreen />, stack, services);
+    await screen.findByText(/^invite to the bali six$/iu);
+    await fireEvent.press(screen.getByRole('radio', { name: /a link to share/iu }));
+    await activate(screen.getByTestId('composer-send-qr'));
+    expect(await screen.findByTestId('composer-qr')).toBeTruthy();
+    expect(screen.getByLabelText(`QR code for ${url}`)).toBeTruthy();
+    const body = api.sent[0]?.body as { payload: Record<string, unknown> };
+    expect(body.payload).toMatchObject({ channel: 'link', share_via: 'qr' });
+    expect(services.opened).toEqual([]);
+    expect(services.shared).toEqual([]);
+  });
+
+  it('labels taste chips with their words, never their slugs', async () => {
+    stack = await openTestLocalFirst({ transport: recordedApi({}), uid: ME, holdUploads: true });
+    await seed(stack.db);
+    await renderWithCrew(<InviteComposerScreen />, stack, services);
+    const chip = await screen.findByTestId('composer-tag-nightlife');
+    expect(chip).toHaveTextContent('NIGHT OWL');
+    expect(screen.getByTestId('composer-tag-sit_down_dining')).toHaveTextContent('PROPER DINNERS');
+    expect(screen.queryByText(/_/u)).toBeNull();
   });
 });
 

@@ -11,7 +11,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { runCommand } from '../location/location-fixture';
 import type { CommandDoorsHarness, SignedIn } from '../routes/command-doors-harness';
-import { resultOf, startCrew, startInviteHarness } from './invite-fixture';
+import { queuedCards, resultOf, startCrew, startInviteHarness } from './invite-fixture';
 
 let harness: CommandDoorsHarness;
 let inviter: SignedIn;
@@ -93,6 +93,9 @@ describe('referral attribution', () => {
     const again = resultOf((await runCommand(harness, sharer, 'mint_referral_code', {})).body);
     expect(first['code']).toMatch(/^[2-9A-HJKMNP-TV-Z]{6}$/u);
     expect(again).toEqual(first);
+    expect(
+      (await queuedCards(harness)).filter((card) => card.token === String(first['code'])),
+    ).toEqual([{ kind: 'referral', token: first['code'] }]);
     const newcomer = await harness.signInAnonymously();
     const attributed = await runCommand(harness, newcomer, 'attribute_referral', {
       code: String(first['code']),

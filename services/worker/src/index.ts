@@ -108,7 +108,7 @@ const jobs: AnyJobDefinition[] = [
   anonGcJob(),
   fixesTtlJob(),
   visitsTtlJob(),
-  ...inviteJobs(),
+  ...inviteJobs(env),
   guideActionExecuteJob(),
   guideActionUndoExpireJob(),
   ...aiJobs(

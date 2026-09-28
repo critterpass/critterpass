@@ -15,6 +15,7 @@ import {
 import type pg from 'pg';
 
 import { defineCommand } from '../_framework/define-command';
+import { refreshShareCard } from './share-cards';
 
 interface InviteRow {
   readonly crew_id: string;
@@ -107,5 +108,14 @@ export const revokeInviteCommand = defineCommand({
     );
     if (rows[0]?.organiser !== true) throw new DomainError('FORBIDDEN', { reason: 'not_inviter' });
   },
-  handle: (tx, payload, ctx) => answer(tx, payload.invite_id, 'revoked', ctx),
+  handle: async (tx, payload, ctx) => {
+    const answered = await answer(tx, payload.invite_id, 'revoked', ctx);
+    const { rows } = await tx.query<{ code: string }>(
+      `SELECT c.code FROM invites i JOIN join_codes c ON c.id = i.join_code_id WHERE i.id = $1`,
+      [payload.invite_id],
+    );
+    const code = rows[0]?.code;
+    if (code !== undefined) await refreshShareCard(tx, 'invite', code);
+    return answered;
+  },
 });

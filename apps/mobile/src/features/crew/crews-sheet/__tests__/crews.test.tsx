@@ -63,7 +63,8 @@ const renderCrew = (ui: ReactElement) => renderWithCrew(ui, stack!, services);
 const queuedPayload = (cmd: string) => queuedPayload_(stack!, cmd);
 
 async function seed(db: TestLocalFirst['db']) {
-  const start = new Date(Date.now() + 16 * 86_400_000).toISOString().slice(0, 10);
+  // Sixteen local calendar days after the pinned clock (the sheet counts days in the device's zone).
+  const start = TRIP_START;
   for (const [id, name] of [
     [ME, 'Rin'],
     [MAYA, 'Maya Chen'],
@@ -111,7 +112,31 @@ async function seed(db: TestLocalFirst['db']) {
   ]);
 }
 
+/** Local noon on a fixed day, so "in N days" never depends on when or where the suite runs. */
+const NOW = new Date(2026, 8, 28, 12, 0);
+const TRIP_START = '2026-10-14';
+
 beforeEach(() => {
+  // Only Date is pinned: renders, sync and timers still run for real.
+  jest.useFakeTimers({
+    now: NOW,
+    doNotFake: [
+      'hrtime',
+      'nextTick',
+      'performance',
+      'queueMicrotask',
+      'requestAnimationFrame',
+      'cancelAnimationFrame',
+      'requestIdleCallback',
+      'cancelIdleCallback',
+      'setImmediate',
+      'clearImmediate',
+      'setInterval',
+      'clearInterval',
+      'setTimeout',
+      'clearTimeout',
+    ],
+  });
   shared.length = 0;
   services.copied.length = 0;
   services.opened.length = 0;
@@ -120,6 +145,7 @@ beforeEach(() => {
   jest.mocked(router.back).mockClear();
 });
 afterEach(async () => {
+  jest.useRealTimers();
   await stack?.close();
   if (stack) removeDir(stack.dir);
   stack = null;
@@ -230,6 +256,10 @@ describe('crew settings', () => {
     await seed(stack.db);
     await renderCrew(<CrewSettingsScreen />);
     expect(await screen.findByTestId('crew-settings-code')).toHaveTextContent('K7M2QX');
+    expect(screen.getByTestId('crew-settings-qr')).toHaveProp(
+      'accessibilityLabel',
+      'QR code for https://critterpass.app/i/K7M2QX?c=qr',
+    );
     expect(screen.getByText('Maya')).toBeTruthy();
     await fireEvent.changeText(screen.getByTestId('crew-settings-name'), 'Bali Bunch');
     await activate(screen.getByTestId('crew-settings-rename'));

@@ -16,7 +16,7 @@ export const CREATE_INVITE = defineClientCommand<CreateInvitePayload>({
   offline: false,
 });
 
-export const COMPOSER_CHANNELS = ['wa', 'imsg', 'copy', 'share'] as const;
+export const COMPOSER_CHANNELS = ['wa', 'imsg', 'copy', 'qr', 'share'] as const;
 export type ComposerChannel = (typeof COMPOSER_CHANNELS)[number];
 
 export type SendOutcome =
@@ -48,7 +48,7 @@ export async function sendInvite(
 }
 
 /** The link-channel tag recorded on the invite (the share sheet leaves it open). */
-export function shareVia(channel: ComposerChannel): 'wa' | 'imsg' | 'copy' | undefined {
+export function shareVia(channel: ComposerChannel): 'wa' | 'imsg' | 'copy' | 'qr' | undefined {
   return channel === 'share' ? undefined : channel;
 }
 

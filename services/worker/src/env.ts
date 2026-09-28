@@ -56,6 +56,9 @@ export const workerEnvSchema = z.object({
   CENTRIFUGO_API_URL: optionalUrl,
   /** Same value as the Centrifugo service's CENTRIFUGO_HTTP_API_KEY. */
   CENTRIFUGO_HTTP_API_KEY: optionalString,
+  /** The web origin `og.render` asks for share cards (e.g. `https://critterpass.app`); unset = the
+   *  primary link host of APP_ENV, and no card requests locally. */
+  WEB_BASE_URL: optionalUrl,
   /** The DeepSeek key: generation runs through DeepSeek's Anthropic-format API
    *  (packages/ai/src/env.ts); unset = decision fallbacks and AI job steps have no model. */
   ANTHROPIC_API_KEY: optionalString,

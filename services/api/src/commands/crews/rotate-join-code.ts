@@ -1,13 +1,15 @@
 /**
  * `rotate_join_code` (docs/api-contracts.md §4.2): any active member retires the crew's live code
  * (or one trip's, with `trip_id`) and mints a fresh one for 14 days. Links carrying the old code
- * stop resolving at once; personal invites keep working through their own invite rows.
+ * stop resolving at once (their cached share cards are purged); personal invites keep working
+ * through their own invite rows.
  */
 import { appendDomainEvent, outbox } from '@cp/db';
 import { crewChannel, DomainError, type RotateJoinCodeResult } from '@cp/domain';
 import { z } from 'zod';
 
 import { defineCommand } from '../_framework/define-command';
+import { refreshShareCard } from '../invites/share-cards';
 import { codeExpiry, mintJoinCode, requireActiveMember } from './shared';
 
 const rotateJoinCodePayloadSchema = z.object({
@@ -32,12 +34,18 @@ export const rotateJoinCodeCommand = defineCommand({
   },
   handle: async (tx, payload, ctx): Promise<RotateJoinCodeResult> => {
     const expiresAt = codeExpiry(ctx.clock.serverNow);
+    const kind = payload.trip_id === undefined ? 'crew' : 'trip';
+    const { rows: retired } = await tx.query<{ code: string }>(
+      `SELECT code FROM join_codes WHERE target_kind = $1 AND target_id = $2 AND status = 'active'`,
+      [kind, payload.trip_id ?? payload.crew_id],
+    );
     const minted = await mintJoinCode(tx, {
-      kind: payload.trip_id === undefined ? 'crew' : 'trip',
+      kind,
       ref: payload.trip_id ?? payload.crew_id,
       expiresAt,
       rotate: true,
     });
+    for (const old of retired) await refreshShareCard(tx, 'invite', old.code);
     await appendDomainEvent(tx, {
       type: 'crew.code_rotated',
       aggregateKind: 'crew',

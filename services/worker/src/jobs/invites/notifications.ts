@@ -1,8 +1,8 @@
 /**
  * Crew growth pushes: a freed seat offered to someone waiting (from the trip's guide), an in-app
  * crew invite to someone already on CritterPass (from the inviter), and the single nudge an
- * installed invitee gets after a day (from the guide). Copy is templated here and rendered in each
- * recipient's locale by the router; the guide-voice rewrite may restyle guide-sent copy. Deep
+ * installed invitee gets after a day (from the guide). Copy is templated here, marked for extraction
+ * into the `notifications/common` catalog, and rendered in each recipient's locale by the router; the guide-voice rewrite may restyle guide-sent copy. Deep
  * links are in-app routes; the app resolves them against its own scheme.
  */
 import type pg from 'pg';
@@ -57,8 +57,11 @@ export function registerInviteNotifications(): void {
       const tripId = payloadId(event, 'trip_id');
       const expiresAt = payloadId(event, 'expires_at');
       return {
-        title: { id: 'notifications.seat_opened.title', message: 'A seat just opened' },
-        body: {
+        title: /*i18n*/ {
+          id: 'notifications.seat_opened.title',
+          message: 'A seat just opened',
+        },
+        body: /*i18n*/ {
           id: 'notifications.seat_opened.body',
           message: "You're next on {crew}'s trip. The seat is yours if you take it within a day.",
         },
@@ -85,8 +88,11 @@ export function registerInviteNotifications(): void {
       );
       const inviter = rows[0]?.display_name?.trim().split(/\s+/)[0] ?? '';
       return {
-        title: { id: 'notifications.crew_invite.title', message: '{inviter} wants you in {crew}' },
-        body: {
+        title: /*i18n*/ {
+          id: 'notifications.crew_invite.title',
+          message: '{inviter} wants you in {crew}',
+        },
+        body: /*i18n*/ {
           id: 'notifications.crew_invite.body',
           message: 'Join now, or save it for later.',
         },
@@ -105,11 +111,11 @@ export function registerInviteNotifications(): void {
     audience: onlyUser('invitee_user_id'),
     async compose(tx, event) {
       return {
-        title: {
+        title: /*i18n*/ {
           id: 'notifications.invite_nudge.title',
           message: '{crew} is still saving you a spot',
         },
-        body: {
+        body: /*i18n*/ {
           id: 'notifications.invite_nudge.body',
           message: 'Tap to join them. It takes a few seconds.',
         },

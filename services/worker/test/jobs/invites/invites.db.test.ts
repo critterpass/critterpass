@@ -9,12 +9,13 @@ import { randomUUID } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { expireInvitesAndCodes } from '../../../src/jobs/invites/expire';
+import { OG_WARM_USER_AGENT, ogRenderJob } from '../../../src/jobs/og/render';
 import { registerInviteNotifications } from '../../../src/jobs/invites/notifications';
 import { nudgeInvitees } from '../../../src/jobs/invites/nudge';
 import { lapseSeatOffers } from '../../../src/jobs/invites/offer-expire';
 import { offerFreedSeats, tripsWithWaiters } from '../../../src/jobs/invites/waitlist-offer';
 import { getRegistration } from '../../../src/jobs/notify/register';
-import { startJobsHarness, type JobsHarness } from '../../helpers/jobs-harness';
+import { startJobsHarness, until, type JobsHarness } from '../../helpers/jobs-harness';
 
 let harness: JobsHarness;
 let owner: string;
@@ -94,8 +95,29 @@ describe('maint.codes', () => {
       [crewId, owner],
     );
 
+    // The web Worker, answering 404 for a code that stopped resolving (and dropping its card).
+    const asked: { url: string; userAgent: string | null }[] = [];
+    const web: typeof fetch = (input, init) => {
+      asked.push({
+        url: input instanceof Request ? input.url : input.toString(),
+        userAgent: new Headers(init?.headers).get('user-agent'),
+      });
+      return Promise.resolve(new Response('Not found', { status: 404 }));
+    };
+    const boss = await harness.startRuntime([
+      ogRenderJob({ webBaseUrl: 'https://critterpass.test', fetch: web }),
+    ]);
+
     const report = await expireInvitesAndCodes(harness.pool);
     expect(report).toMatchObject({ invitesExpired: 1, codesExpired: 1, prefillPurged: 1 });
+    await until(() => asked.length === 1, 20_000);
+    expect(asked).toEqual([
+      {
+        url: 'https://critterpass.test/og/invite/XPRD22.png?warm=1',
+        userAgent: OG_WARM_USER_AGENT,
+      },
+    ]);
+    await harness.stopRuntime(boss);
     expect(await q('SELECT status FROM invites WHERE id = $1', [lapsed])).toEqual([
       { status: 'expired' },
     ]);

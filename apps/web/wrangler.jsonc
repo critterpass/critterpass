@@ -23,7 +23,7 @@
   "r2_buckets": [{ "binding": "OG_CACHE", "bucket_name": "cp-og" }],
   "env": {
     "staging": {
-      "vars": { "SITE_MODE": "site" },
+      "vars": { "SITE_MODE": "site", "LINKS_ENV": "staging" },
       "r2_buckets": [{ "binding": "OG_CACHE", "bucket_name": "cp-og" }],
       "routes": [
         { "pattern": "staging.critterpass.app", "custom_domain": true },
@@ -40,7 +40,7 @@
     },
     "production": {
       // The coming-soon page and its waitlist stay the front door until launch.
-      "vars": { "SITE_MODE": "coming-soon" },
+      "vars": { "SITE_MODE": "coming-soon", "LINKS_ENV": "production" },
       "r2_buckets": [{ "binding": "OG_CACHE", "bucket_name": "cp-og" }],
       "routes": [
         { "pattern": "critterpass.app", "custom_domain": true },

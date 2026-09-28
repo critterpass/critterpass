@@ -1,10 +1,12 @@
 /**
  * `maint.codes` (hourly, docs/api-contracts-async.md §2.3): open invites past their expiry become
- * `expired`; crew, trip and referral codes past theirs stop resolving; invite prefill is purged 7
+ * `expired`; crew, trip and referral codes past theirs stop resolving (and `og.render` purges their
+ * cached share cards); invite prefill is purged 7
  * days after its invite is claimed, declined, revoked or expired; answered invites go 90 days
  * after they closed (their opens and prefill with them, referrals keep only their own row).
  */
-import { withSystem } from '@cp/db';
+import { sendInTx, withSystem } from '@cp/db';
+import { OG_RENDER_QUEUE, ogRenderSingletonKey, type OgRenderJob } from '@cp/domain';
 import type pg from 'pg';
 import { z } from 'zod';
 
@@ -30,11 +32,19 @@ export async function expireInvitesAndCodes(
         WHERE status IN ('pending', 'later') AND expires_at <= $1`,
       [now],
     );
-    const codes = await tx.query(
+    const codes = await tx.query<{ code: string; target_kind: string }>(
       `UPDATE join_codes SET status = 'expired'
-        WHERE status = 'active' AND expires_at IS NOT NULL AND expires_at <= $1`,
+        WHERE status = 'active' AND expires_at IS NOT NULL AND expires_at <= $1
+        RETURNING code, target_kind`,
       [now],
     );
+    for (const row of codes.rows) {
+      const job: OgRenderJob = {
+        kind: row.target_kind === 'referral' ? 'referral' : 'invite',
+        token: row.code,
+      };
+      await sendInTx(tx, OG_RENDER_QUEUE, job, { singletonKey: ogRenderSingletonKey(job) });
+    }
     const prefill = await tx.query(
       `DELETE FROM invite_prefill p USING invites i
         WHERE i.id = p.invite_id

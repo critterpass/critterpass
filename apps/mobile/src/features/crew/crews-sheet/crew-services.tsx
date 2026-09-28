@@ -1,7 +1,9 @@
 /**
- * What the crew screens need beyond the database and the command queue: the signed-in uid and
- * the system share sheet (a native boundary). Tests swap in a double here only.
+ * What the crew screens need beyond the database and the command queue: the signed-in uid, the
+ * system share sheet (a native boundary) and the guide's tag suggestions from the api. Tests swap
+ * in a double here only.
  */
+import type { InviteTagsRequest, InviteTagsResponse } from '@cp/domain';
 import { createContext, useContext, type ReactNode } from 'react';
 
 export interface CrewServices {
@@ -16,6 +18,8 @@ export interface CrewServices {
   readonly inviteUrl: (code: string, seat?: string) => string;
   /** The public referral link (`/r/{code}`) on this build's link host. */
   readonly referralUrl: (code: string) => string;
+  /** `POST /v1/invites/tags`: the guide's tags and line for a note; null when unreachable. */
+  readonly inviteTags: (request: InviteTagsRequest) => Promise<InviteTagsResponse | null>;
 }
 
 const CrewServicesContext = createContext<CrewServices | null>(null);
