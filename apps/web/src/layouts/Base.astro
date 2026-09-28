@@ -32,6 +32,16 @@ const {
   lang = 'en',
   alternates = [],
 } = Astro.props;
+// The faces the first screen of every page sets (display, eyebrows and pills, body, nav, voice
+// line): loaded up front so text never reflows when they arrive.
+const PRELOAD_FONTS = [
+  'Archivo-W62-900',
+  'Archivo-W100-800',
+  'Archivo-W100-900',
+  'Geist-500',
+  'Geist-600',
+  'Caveat-600',
+];
 const site = Astro.site ?? new URL('https://critterpass.app');
 const canonicalUrl = canonicalPath === null ? null : new URL(canonicalPath, site).toString();
 const pageUrl = canonicalUrl ?? new URL(Astro.url.pathname, site).toString();
@@ -50,8 +60,11 @@ const ogImageUrl = new URL(ogImage, site).toString();
     <meta name="theme-color" content="#17142a" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="preload" href="/fonts/Archivo-W62-900.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/Geist-500.woff2" as="font" type="font/woff2" crossorigin />
+    {
+      PRELOAD_FONTS.map((font) => (
+        <link rel="preload" href={`/fonts/${font}.woff2`} as="font" type="font/woff2" crossorigin />
+      ))
+    }
     {alternates.map((alt) => <link rel="alternate" type={alt.type} href={alt.href} title={alt.title} />)}
 
     <meta property="og:type" content={ogType} />

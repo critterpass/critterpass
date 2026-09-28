@@ -17,8 +17,11 @@
       "migrations_dir": "migrations",
     },
   ],
+  // `/` shows the full site unless SITE_MODE is `coming-soon` (src/components/site/site-mode.ts).
+  "vars": { "SITE_MODE": "site" },
   "env": {
     "staging": {
+      "vars": { "SITE_MODE": "site" },
       "routes": [
         { "pattern": "staging.critterpass.app", "custom_domain": true },
         { "pattern": "go.staging.critterpass.app", "custom_domain": true },
@@ -33,6 +36,8 @@
       ],
     },
     "production": {
+      // The coming-soon page and its waitlist stay the front door until launch.
+      "vars": { "SITE_MODE": "coming-soon" },
       "routes": [
         { "pattern": "critterpass.app", "custom_domain": true },
         { "pattern": "www.critterpass.app", "custom_domain": true },

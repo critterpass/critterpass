@@ -1,17 +1,29 @@
 ---
+import { env } from 'cloudflare:workers';
+
 import BaseLayout from '../layouts/base-layout.astro';
 import ComingSoonPage from '../components/coming-soon-page.astro';
+import HomePage from '../components/site/home/HomePage.astro';
+import { siteMode } from '../components/site/site-mode';
 
 // SSR (not prerendered): the `www.critterpass.app` -> apex redirect lives in src/middleware.ts,
-// which only runs for server-rendered routes. The page itself still renders the same static markup
-// on every request; live data (counts, join state) is fetched client-side either way.
+// which only runs for server-rendered routes, and the front door depends on the Worker's
+// `SITE_MODE`: production keeps the coming-soon page and its waitlist until launch.
 export const prerender = false;
+
+const mode = siteMode((env as unknown as { SITE_MODE?: string }).SITE_MODE);
 ---
 
-<BaseLayout
-  title="CritterPass — Group trips, planned with the locals"
-  description="CritterPass is a group trip planner coming soon to iOS and Android. The locals happen to be animals. Join the waitlist."
-  canonicalPath="/"
->
-  <ComingSoonPage referredBy={null} />
-</BaseLayout>
+{
+  mode === 'coming-soon' ? (
+    <BaseLayout
+      title="CritterPass — Group trips, planned with the locals"
+      description="CritterPass is a group trip planner coming soon to iOS and Android. The locals happen to be animals. Join the waitlist."
+      canonicalPath="/"
+    >
+      <ComingSoonPage referredBy={null} />
+    </BaseLayout>
+  ) : (
+    <HomePage />
+  )
+}

@@ -1,0 +1,84 @@
+---
+/**
+ * A critter as a die-cut sticker: `<critter-sticker>` (lazy canvas, draw-on when it scrolls into
+ * view, a static final frame under reduced motion, tap to replay). Guides with a baked WebP show it
+ * first, so the sticker is there before any script runs; other critters draw once visible.
+ */
+import srcset from '../../../public/critters/srcset.json';
+
+export interface Props {
+  readonly kind: string;
+  readonly size: number;
+  readonly seed?: number;
+  readonly pose?: 'idle' | 'wave' | 'cheer' | 'think' | 'point' | 'tilt' | 'hop';
+  readonly variant?: 'color' | 'mask' | 'mono';
+  /** Accessible name; decorative stickers leave it out. */
+  readonly label?: string;
+  readonly class?: string;
+  readonly style?: string;
+  /** Die-cut white edge (off for silhouettes). */
+  readonly outlined?: boolean;
+  /**
+   * false: the baked WebP only, no script (first-screen stickers, where the draw-on would compete
+   * with the first paint). Needs a guide critter with a baked image.
+   */
+  readonly drawOn?: boolean;
+  readonly loading?: 'eager' | 'lazy';
+}
+
+const {
+  kind,
+  size,
+  seed,
+  pose,
+  variant,
+  label,
+  class: className,
+  style,
+  outlined = true,
+  drawOn = true,
+  loading = 'lazy',
+} = Astro.props;
+const baked = (srcset as Record<string, readonly { sizePt: number; scale: number; url: string }[]>)[
+  `${kind}-common-idle`
+];
+const webp =
+  (pose === undefined || pose === 'idle') && (variant === undefined || variant === 'color')
+    ? (baked?.find((entry) => entry.sizePt >= size && entry.scale === 2) ?? baked?.at(-1))?.url
+    : undefined;
+if (!drawOn && webp === undefined) throw new Error(`Sticker: "${kind}" has no baked image to show`);
+---
+
+{
+  !drawOn ? (
+    <img
+      src={webp}
+      width={size}
+      height={size}
+      alt={label ?? ''}
+      loading={loading}
+      decoding="async"
+      class:list={[outlined && 'site-sticker', 'site-sticker-in', className]}
+      style={style}
+    />
+  ) : (
+<critter-sticker
+  kind={kind}
+  size={size}
+  seed={seed}
+  pose={pose}
+  variant={variant}
+  webp-src={webp}
+  alt={label ?? ''}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  class:list={[outlined && 'site-sticker', className]}
+  style={`width:${size}px;height:${size}px;display:inline-block;${style ?? ''}`}></critter-sticker>
+  )
+}
+
+<script>
+  import { registerCritterSticker } from '@cp/critter-art/web';
+  registerCritterSticker();
+</script>

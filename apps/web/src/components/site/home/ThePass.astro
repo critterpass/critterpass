@@ -1,0 +1,59 @@
+---
+import { critters, places } from '@cp/critter-art';
+
+import { homeCopy as copy } from '../copy/home';
+import { siteTranslator } from '../i18n';
+import Sticker from '../Sticker.astro';
+
+const t = await siteTranslator();
+// Twenty locked locals from across the set: the pass shows what's out there, never who.
+const LOCKED = [1, 5, 11, 16, 21, 26, 29, 31, 36, 41, 46, 51, 56, 61, 71, 81, 91, 101, 111, 121];
+const locked = LOCKED.flatMap((no) => {
+  const critter = critters.find((entry) => entry.no === no);
+  return critter === undefined ? [] : [{ kind: critter.kind, num: critter.num }];
+});
+---
+
+<section id="the-pass" class="home-pass-section site-halftone" aria-labelledby="home-pass-title">
+  <div class="site-wrap">
+    <div class="home-section-head home-pass-section__head">
+      <div>
+        <p class="site-eyebrow">{t(copy.passEyebrow)}</p>
+        <h2 id="home-pass-title" class="site-display home-h2 home-pass-section__title">{t(copy.passTitle)}</h2>
+      </div>
+      <dl class="home-pass-section__stats">
+        <div>
+          <dt class="site-eyebrow">{t(copy.passLocals)}</dt>
+          <dd class="site-display">{critters.length}</dd>
+        </div>
+        <div>
+          <dt class="site-eyebrow">{t(copy.passPlaces)}</dt>
+          <dd class="site-display">{places.length}</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="home-pass-book">
+      <div class="home-pass-book__egg">
+        <Sticker kind="egg" size={170} seed={12} />
+        <h3 class="site-display home-pass-book__title">{t(copy.passHatchTitle)}</h3>
+        <p>{t(copy.passHatchBody)}</p>
+      </div>
+      <ul class="home-pass-book__grid">
+        {
+          locked.map((entry) => (
+            <li class="home-pass-book__tile">
+              <Sticker
+                kind={entry.kind}
+                size={64}
+                variant="mask"
+                outlined={false}
+                label={t(copy.passLocked, { num: entry.num })}
+              />
+              <span class="site-mono">{entry.num}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

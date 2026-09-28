@@ -7,9 +7,61 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chat4"
+msgstr "???"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.copyright"
 msgstr "© {year} CritterPass"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop4Art"
+msgstr "$24"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockMoneyTotal"
+msgstr "$66"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteIstanbulCount"
+msgstr "1 vote"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockLocalFound"
+msgstr "10 / 150 found"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chatUnread"
+msgstr "247 unread"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockBookingsStayMeta"
+msgstr "3 nights · HRV-2291"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteStatus"
+msgstr "3 of 4 voted · closes tonight"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteHoiAnCount"
+msgstr "3 votes"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.phoneTime"
+msgstr "9:41"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passLabel"
+msgstr "A CritterPass passport with Tokek the gecko and four more locals stuck on it"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideTitle"
+msgstr "A look inside"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.finalAdmit"
+msgstr "Admit: the whole crew"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.allLegal"
@@ -19,41 +71,149 @@ msgstr "All policies"
 msgid "web.shell.footerApp"
 msgstr "App"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideGuideTitle"
+msgstr "Ask the gecko. It's been everywhere."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop2Title"
+msgstr "Ask the local"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
 msgstr "Back to the start"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passPlace"
+msgstr "Bali"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanItem1"
+msgstr "Bánh mì Phượng"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.finalEyebrow"
+msgstr "Boarding pass"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockBookingsEyebrow"
+msgstr "Bookings · offline · all saved"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.bringYourCrew"
 msgstr "Bring your crew"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockLocalName"
+msgstr "Chép"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerCrew"
 msgstr "Crew"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.heroTitleTop"
+msgstr "Critter"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.brand"
 msgstr "CritterPass"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.pageTitle"
+msgstr "CritterPass · Group trips, planned with the locals"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.homeLink"
 msgstr "CritterPass home"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.pageDescription"
+msgstr "CritterPass is a group trip planner for iPhone and Android. Swipe, vote, plan and split with your crew, guided by a local who happens to be an animal."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.deleteAccount"
 msgstr "Delete your account"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockMoneyDev"
+msgstr "Dev owes you"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.appStoreBadge"
 msgstr "Download on the App Store"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop3Body"
+msgstr "Drag anything to a new slot and the rest of the day shifts to make room, for everyone at once."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop4ArtUnit"
+msgstr "each"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.localsBody"
+msgstr "Each destination has its own guide with its own colour and voice. They know the place the way someone who grew up there would."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.eyebrow"
 msgstr "Error 404 · off the map"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passStampBottom"
+msgstr "Est. 2026"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideBookingsTitle"
+msgstr "Every booking. Even with no signal."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideLocalBody"
+msgstr "Every city has a critter to hatch. 150 to collect, and you have to be there."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insidePlanTitle"
+msgstr "Every day planned. Drag to change it."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.localsTitle"
+msgstr "Every place has a local"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chatTitle"
+msgstr "Every trip starts in the group chat."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop1Body"
+msgstr "Everyone swipes through the shortlist. The tally fills live and the winner is settled in minutes."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideVoteBody"
+msgstr "Everyone swipes, everyone votes, one place wins."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideBookingsBody"
+msgstr "Flights, stays and tickets in one wallet, pulled in from your email."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerFollow"
 msgstr "Follow"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stopsAside"
+msgstr "Four stops on the route"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.finalBody"
+msgstr "Free on iPhone and Android. Start a crew, or join one with the code a friend sent you."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stopsTitle"
+msgstr "From “idk” to wheels down"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.finalGate"
+msgstr "Gate ✦ anywhere"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.googlePlayBadge"
@@ -63,25 +223,125 @@ msgstr "Get it on Google Play"
 msgid "web.shell.getTheApp"
 msgstr "Get the app"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.heroTag"
+msgstr "Group trip planner"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.heroLede"
+msgstr "Group trips, planned with the locals. The locals happen to be animals."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.guideAjo"
+msgstr "Has a taco stand for every neighbourhood and a trajinera booked before you ask."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.localsHello"
+msgstr "Hello, I'm"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteHoiAn"
+msgstr "Hội An"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanEyebrow"
+msgstr "Hội An · day 2 of 4"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockBookingsStay"
+msgstr "Hội An Riverside"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop1Art"
+msgstr "Hội An wins"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.howItWorks"
 msgstr "How it works"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.finalCode"
+msgstr "I have a code"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.join"
 msgstr "I have a code"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chat5"
+msgstr "I've got a plan. Vote by Friday?"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chat2"
+msgstr "idk u pick"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteIstanbul"
+msgstr "Istanbul"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockGuideAsk"
+msgstr "It's pouring in Hội An. Plan B?"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop2Art"
+msgstr "It's pouring. Plan B?"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.joinWithCode"
 msgstr "Join with a code"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.guideTokek"
+msgstr "Knows which rice terraces are empty at sunrise and which warung does the best babi guling."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.guidePon"
+msgstr "Knows which temples open at 6am, which ramen lines are worth it, and where the deer won't mug you."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideLocalTitle"
+msgstr "Land somewhere new. Meet a local."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.language"
 msgstr "Language"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanItem4"
+msgstr "Lantern boat ride"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockLocalSpecies"
+msgstr "Lantern carp · #005"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanItem3"
+msgstr "Lantern workshop"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockBookingsTickets"
+msgstr "Lantern workshop × 4"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockGuideAnswer"
+msgstr "Lantern workshop at 2, it's indoors. Then cao lầu at Bà Bé, 6 min away."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerLegal"
 msgstr "Legal"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passLocals"
+msgstr "Locals"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passStampTop"
+msgstr "Locals only"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideMoneyBody"
+msgstr "Log it or scan it. The split is done for you."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.madeOnTheRoad"
@@ -91,33 +351,157 @@ msgstr "Made on the road"
 msgid "web.shell.navLabel"
 msgstr "Main"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanMoving"
+msgstr "Maya is moving this"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockMoneyMaya"
+msgstr "Maya owes you"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.openMenu"
 msgstr "Menu"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockMoneyEyebrow"
+msgstr "Money · Hội An"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chatBody"
+msgstr "Most of them end there too. CritterPass adds a guide to the crew who lives at the destination. It drafts the plan, pitches it to everyone, and keeps the day moving once you land."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.heroNew"
+msgstr "New · iOS + Android"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockLocalEyebrow"
+msgstr "New local · Hội An"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteEyebrow"
+msgstr "Next trip · voting"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.noCookies"
 msgstr "No cookies here. We count page visits without knowing who you are."
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideMoneyTitle"
+msgstr "Nobody has to be the one who asks for money."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanItem2"
+msgstr "Old Town walk"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insidePlanBody"
+msgstr "One day-by-day plan the whole crew can move around."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.guidePaco"
+msgstr "Paces the altitude for you and knows the trail to the ruins nobody else takes."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
 msgstr "Page not found"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.heroTitleBottom"
+msgstr "Pass"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passNo"
+msgstr "Pass · No. 010"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passPlaces"
+msgstr "Places"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.finalTitle"
+msgstr "Plan the trip. Meet the locals."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop3Title"
+msgstr "Plan together"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.privacy"
 msgstr "Privacy"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.guideLundi"
+msgstr "Reads the weather better than the forecast and always has a hot pool in mind for the evening."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop4Body"
+msgstr "Scan the receipt, split it however you like, settle up. Nobody keeps a spreadsheet."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideVoice"
+msgstr "scroll along the route"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockBookingsFlight"
+msgstr "SGN → DAD"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.skipToContent"
 msgstr "Skip to content"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chat1"
+msgstr "so where r we going"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockMoneyReceipt"
+msgstr "Split 4 ways · $24 each"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop4Title"
+msgstr "Split it"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop"
+msgstr "Stop {n}"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideVoteTitle"
+msgstr "Stop planning trips in the group chat."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockGuideSwap"
+msgstr "Swap it in"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop1Title"
+msgstr "Swipe to pick"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.localsVoice"
+msgstr "tap one to say hi"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.terms"
 msgstr "Terms"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chatName"
+msgstr "The Bali Six"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop2Body"
+msgstr "The guide drafts the plan and answers anything, by voice or text. Rain on Thursday? It proposes a swap."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.theLocals"
 msgstr "The locals"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passEyebrow"
+msgstr "The pass"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.thePass"
@@ -127,10 +511,82 @@ msgstr "The pass"
 msgid "web.notFound.body"
 msgstr "This page isn't on the route. The locals checked every alley. Head home, or join a crew with the code a friend sent you."
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop3Art"
+msgstr "Thu 14"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockGuideChange"
+msgstr "Thu 14: Beach day → Lantern workshop"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanDay"
+msgstr "Thursday"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.guideSardi"
+msgstr "Times the tram so you miss the queue and picks the miradouro with the best sunset."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.tips"
 msgstr "Tips"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockGuideName"
+msgstr "Tokek"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideGuideBody"
+msgstr "Tokek answers by text, voice or camera, and can rework the plan for you."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.heroVoice"
+msgstr "Tokek's already found you a villa."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passLocked"
+msgstr "Undiscovered local number {num}, found by being there"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockBookingsFlightMeta"
+msgstr "VN 128 · Thu 06:40 · 14A"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chat3"
+msgstr "we said this in march"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chatVoice"
+msgstr "we've all been in this chat"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passHatchTitle"
+msgstr "Wheels down, egg hatches"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passHatchBody"
+msgstr "When you land somewhere, that place's local joins your pass. Stay a while and more of them turn up."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteTitle"
+msgstr "Where to?"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteWinning"
+msgstr "Winning"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.title"
 msgstr "Wrong turn"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passTitle"
+msgstr "You can't buy them. You have to go."
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockMoneyOwed"
+msgstr "You're owed"
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockGuideRole"
+msgstr "Your guide · Hội An"

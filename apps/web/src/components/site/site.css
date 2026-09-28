@@ -93,6 +93,21 @@
     drop-shadow(0 2.5px 0 var(--color-paper-bright))
     drop-shadow(0 -2.5px 0 var(--color-paper-bright)) drop-shadow(0 3px 5px rgba(0, 0, 0, 0.3));
 }
+/* First-screen stickers slap on instead of drawing on (no script before the first paint). */
+.site-sticker-in {
+  animation: site-sticker-in var(--motion-duration-slow) var(--motion-easing-back) both;
+}
+@keyframes site-sticker-in {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-sticker-in {
+    animation: none;
+  }
+}
 .site-halftone {
   background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1.2px);
   background-size: 8px 8px;

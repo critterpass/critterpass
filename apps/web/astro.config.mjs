@@ -7,4 +7,6 @@ export default defineConfig({
   site: 'https://critterpass.app',
   output: 'static',
   adapter: cloudflare({ imageService: 'compile' }),
+  // Every page's CSS ships inside its HTML: no render-blocking stylesheet requests on first load.
+  build: { inlineStylesheets: 'always' },
 });

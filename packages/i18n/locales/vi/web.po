@@ -7,8 +7,60 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chat4"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.copyright"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop4Art"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockMoneyTotal"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteIstanbulCount"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockLocalFound"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chatUnread"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockBookingsStayMeta"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteStatus"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteHoiAnCount"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.phoneTime"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passLabel"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.finalAdmit"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
@@ -19,40 +71,148 @@ msgstr ""
 msgid "web.shell.footerApp"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideGuideTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop2Title"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passPlace"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanItem1"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.finalEyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockBookingsEyebrow"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.bringYourCrew"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockLocalName"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerCrew"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.heroTitleTop"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.brand"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.pageTitle"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.homeLink"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.pageDescription"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.deleteAccount"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockMoneyDev"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.appStoreBadge"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop3Body"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop4ArtUnit"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.localsBody"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.eyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passStampBottom"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideBookingsTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideLocalBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insidePlanTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.localsTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chatTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop1Body"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideVoteBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideBookingsBody"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerFollow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stopsAside"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.finalBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stopsTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.finalGate"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
@@ -63,24 +223,124 @@ msgstr ""
 msgid "web.shell.getTheApp"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.heroTag"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.heroLede"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.guideAjo"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.localsHello"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteHoiAn"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanEyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockBookingsStay"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop1Art"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.howItWorks"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.finalCode"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.join"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chat5"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chat2"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteIstanbul"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockGuideAsk"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop2Art"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.joinWithCode"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.guideTokek"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.guidePon"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideLocalTitle"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.language"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanItem4"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockLocalSpecies"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanItem3"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockBookingsTickets"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockGuideAnswer"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerLegal"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passLocals"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passStampTop"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideMoneyBody"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
@@ -91,32 +351,156 @@ msgstr ""
 msgid "web.shell.navLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanMoving"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockMoneyMaya"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.openMenu"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockMoneyEyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chatBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.heroNew"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockLocalEyebrow"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteEyebrow"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.noCookies"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideMoneyTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanItem2"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insidePlanBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.guidePaco"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.heroTitleBottom"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passNo"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passPlaces"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.finalTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop3Title"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.privacy"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.guideLundi"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop4Body"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideVoice"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockBookingsFlight"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.skipToContent"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chat1"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockMoneyReceipt"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop4Title"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideVoteTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockGuideSwap"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop1Title"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.localsVoice"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.terms"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chatName"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop2Body"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.theLocals"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passEyebrow"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
@@ -127,10 +511,82 @@ msgstr ""
 msgid "web.notFound.body"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.stop3Art"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockGuideChange"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockPlanDay"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.guideSardi"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.tips"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockGuideName"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.insideGuideBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.heroVoice"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passLocked"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockBookingsFlightMeta"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chat3"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.chatVoice"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passHatchTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passHatchBody"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockVoteWinning"
+msgstr ""
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.title"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.passTitle"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockMoneyOwed"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/home.ts
+msgid "web.home.mockGuideRole"
 msgstr ""
