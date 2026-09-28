@@ -262,22 +262,23 @@ $$;
 REVOKE EXECUTE ON FUNCTION app.issue_join_code(text, text, uuid, timestamptz, integer, boolean) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.issue_join_code(text, text, uuid, timestamptz, integer, boolean) TO app_user;
 
--- Counts one use of a live code; false when it is no longer live. Marks it exhausted on its last use.
-CREATE OR REPLACE FUNCTION app.redeem_join_code(p_code_id uuid) RETURNS boolean
+-- Counts one use of the live code with this value (anyone holding a code may use it); false when
+-- no live code has it. Marks the code exhausted on its last use.
+CREATE OR REPLACE FUNCTION app.redeem_join_code(p_code text) RETURNS boolean
 LANGUAGE sql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
   WITH used AS (
     UPDATE join_codes
        SET uses = uses + 1,
            status = CASE WHEN max_uses IS NOT NULL AND uses + 1 >= max_uses THEN 'exhausted' ELSE status END
-     WHERE id = p_code_id AND status = 'active'
+     WHERE code = p_code AND status = 'active'
        AND (expires_at IS NULL OR expires_at > now())
        AND (max_uses IS NULL OR uses < max_uses)
     RETURNING 1
   )
   SELECT EXISTS (SELECT 1 FROM used)
 $$;
-REVOKE EXECUTE ON FUNCTION app.redeem_join_code(uuid) FROM PUBLIC;
-GRANT EXECUTE ON FUNCTION app.redeem_join_code(uuid) TO app_user, app_system;
+REVOKE EXECUTE ON FUNCTION app.redeem_join_code(text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.redeem_join_code(text) TO app_user, app_system;
 
 -- Serialises joins to one crew: locks the crew row for the rest of the transaction and reports
 -- its active headcount against its ceiling. Lock order everywhere is crew, then trip.
@@ -298,6 +299,23 @@ END;
 $$;
 REVOKE EXECUTE ON FUNCTION app.lock_crew_membership(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.lock_crew_membership(uuid) TO app_user, app_system;
+
+-- Brings the caller's own former membership of a crew back to active (a rejoin through a new
+-- invite). A former member cannot read their old row through RLS, so this runs as definer and
+-- touches only the caller's row. False when there is no inactive row to revive.
+CREATE OR REPLACE FUNCTION app.reactivate_membership(p_crew uuid) RETURNS boolean
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+BEGIN
+  IF app.uid() IS NULL THEN
+    RETURN false;
+  END IF;
+  UPDATE crew_members SET status = 'active', role = 'member', keep_in_chat = false, left_at = NULL
+   WHERE crew_id = p_crew AND user_id = app.uid() AND status <> 'active';
+  RETURN FOUND;
+END;
+$$;
+REVOKE EXECUTE ON FUNCTION app.reactivate_membership(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.reactivate_membership(uuid) TO app_user;
 
 -- Serialises seat claims on one trip: locks the trip row for the rest of the transaction and
 -- reports seats held, the cap (trip_entitlements, 6 until computed), open seat offers and the
@@ -432,6 +450,78 @@ END;
 $$;
 REVOKE EXECUTE ON FUNCTION app.hand_off_organiser(uuid, uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.hand_off_organiser(uuid, uuid) TO app_user, app_system;
+
+-- Offers each free seat of a live trip to the next person waiting (lowest waitlist position
+-- first, nobody with an open offer twice), for `p_window`. A free seat is one nobody holds and no
+-- open offer promises; a trip whose boost ended with more than its cap seated has none. System
+-- only: the waitlist sweep and the promote_waitlist system command call it. Mirrors
+-- packages/domain/src/invites/seat-allocation.ts#offersToMake.
+CREATE OR REPLACE FUNCTION app.offer_freed_seats(p_trip uuid, p_window interval)
+RETURNS TABLE (offer_id uuid, offered_user uuid, offer_expires_at timestamptz)
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+DECLARE
+  seats record;
+  free integer;
+BEGIN
+  IF app.uid() IS NOT NULL THEN
+    RAISE EXCEPTION 'seat offers are made by the system' USING ERRCODE = 'insufficient_privilege';
+  END IF;
+  SELECT * INTO seats FROM app.lock_trip_seats(p_trip);
+  IF seats.crew_id IS NULL OR seats.trip_status IN ('cancelled', 'archived', 'post_trip') THEN
+    RETURN;
+  END IF;
+  free := greatest(0, seats.seat_cap - seats.seats_held - seats.open_offers);
+  IF free = 0 THEN
+    RETURN;
+  END IF;
+  RETURN QUERY
+    INSERT INTO seat_waitlist_offers (trip_id, user_id, invite_id, expires_at)
+    SELECT p_trip, tp.user_id,
+           (SELECT i.id FROM invites i
+             WHERE i.trip_id = p_trip AND i.claimed_by = tp.user_id AND i.status = 'waitlisted'
+             ORDER BY i.claimed_at DESC LIMIT 1),
+           now() + p_window
+      FROM trip_participants tp
+     WHERE tp.trip_id = p_trip AND tp.rsvp = 'waitlisted'
+       AND NOT EXISTS (SELECT 1 FROM seat_waitlist_offers o
+                        WHERE o.trip_id = p_trip AND o.user_id = tp.user_id AND o.status = 'offered')
+     ORDER BY tp.waitlist_position NULLS LAST, tp.created_at, tp.id
+     LIMIT free
+    RETURNING id, user_id, expires_at;
+END;
+$$;
+REVOKE EXECUTE ON FUNCTION app.offer_freed_seats(uuid, interval) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.offer_freed_seats(uuid, interval) TO app_system;
+
+-- Lapses every open offer past its window: the offer expires and its holder goes to the back of
+-- that trip's waitlist, so the seat passes to the next person. Returns the trips touched. System only.
+CREATE OR REPLACE FUNCTION app.expire_seat_offers(p_now timestamptz)
+RETURNS TABLE (lapsed_trip uuid)
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+DECLARE
+  lapsed record;
+BEGIN
+  IF app.uid() IS NOT NULL THEN
+    RAISE EXCEPTION 'seat offers are lapsed by the system' USING ERRCODE = 'insufficient_privilege';
+  END IF;
+  FOR lapsed IN
+    UPDATE seat_waitlist_offers SET status = 'expired'
+     WHERE status = 'offered' AND expires_at <= p_now
+    RETURNING trip_id, user_id
+  LOOP
+    PERFORM 1 FROM trips WHERE id = lapsed.trip_id FOR UPDATE;
+    UPDATE trip_participants tp
+       SET waitlist_position = (SELECT coalesce(max(w.waitlist_position), 0) + 1
+                                  FROM trip_participants w
+                                 WHERE w.trip_id = lapsed.trip_id AND w.rsvp = 'waitlisted')
+     WHERE tp.trip_id = lapsed.trip_id AND tp.user_id = lapsed.user_id AND tp.rsvp = 'waitlisted';
+    lapsed_trip := lapsed.trip_id;
+    RETURN NEXT;
+  END LOOP;
+END;
+$$;
+REVOKE EXECUTE ON FUNCTION app.expire_seat_offers(timestamptz) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.expire_seat_offers(timestamptz) TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- domain_events: crew growth events join the catalogue (packages/domain/src/crews/events.ts).

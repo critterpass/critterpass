@@ -22,6 +22,13 @@ export const linkPreviewSchema = z.object({
   members_count: z.number().int().nonnegative().nullable(),
   expires_at: z.string().nullable(),
   state: linkStateSchema,
+  /** A personal link while its named seat is open: the invitee's first name, never after a claim. */
+  invitee_first_name: z.string().nullable().optional(),
+  /** A trip invite: the trip's dates (local calendar days) and its seats. */
+  trip_start: z.string().nullable().optional(),
+  trip_end: z.string().nullable().optional(),
+  seats_taken: z.number().int().nonnegative().nullable().optional(),
+  seat_cap: z.number().int().positive().nullable().optional(),
 });
 export type LinkPreview = z.infer<typeof linkPreviewSchema>;
 

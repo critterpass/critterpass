@@ -174,6 +174,44 @@ export const QUEUES = {
   // alerts), then its PNG variants once approved.
   'avatar.moderate': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
   'avatar.render': spec({ policy: 'exclusive', notify: true }),
+  // Crew growth: hourly invite and code expiry with prefill purge, the minute waitlist sweep that
+  // offers freed seats, lapsing unanswered offers, the one-day nudge to installed invitees, and
+  // moving referrals towards their reward.
+  'maint.codes': spec({
+    policy: 'stately',
+    retryLimit: 2,
+    expireInSeconds: 10 * 60,
+    keepCompletedSeconds: 86_400,
+    cron: { expr: '0 * * * *', tz: 'UTC' },
+  }),
+  'waitlist.offer': spec({
+    policy: 'stately',
+    retryLimit: 1,
+    expireInSeconds: 55,
+    keepCompletedSeconds: 3600,
+    cron: { expr: '* * * * *', tz: 'UTC' },
+  }),
+  'waitlist.offer_expire': spec({
+    policy: 'stately',
+    retryLimit: 1,
+    expireInSeconds: 4 * 60,
+    keepCompletedSeconds: 3600,
+    cron: { expr: '*/5 * * * *', tz: 'UTC' },
+  }),
+  'referral.evaluate': spec({
+    policy: 'stately',
+    retryLimit: 2,
+    expireInSeconds: 10 * 60,
+    keepCompletedSeconds: 86_400,
+    cron: { expr: '*/15 * * * *', tz: 'UTC' },
+  }),
+  'invites.nudge': spec({
+    policy: 'stately',
+    retryLimit: 2,
+    expireInSeconds: 10 * 60,
+    keepCompletedSeconds: 86_400,
+    cron: { expr: '15 * * * *', tz: 'UTC' },
+  }),
   'ops.backup': spec({
     policy: 'stately',
     retryLimit: 2,
@@ -227,6 +265,11 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'visits.ttl': 'Expires visits of archived trips',
   'avatar.moderate': 'Moderates one uploaded photo avatar',
   'avatar.render': "Renders an approved avatar's PNG variants",
+  'maint.codes': 'Expires invites and codes; purges old invite prefill',
+  'waitlist.offer': 'Offers freed trip seats to the next person waiting',
+  'waitlist.offer_expire': 'Lapses unanswered seat offers and offers the seat on',
+  'referral.evaluate': 'Qualifies, voids and rewards referrals',
+  'invites.nudge': 'Nudges installed invitees once after a day',
   'ops.backup': 'Backs the database up to object storage',
   'ops.ai_cost_guard': 'Checks AI spend against its caps; pauses a tier over its cap',
   'compliance.check': 'Screens text created offline',

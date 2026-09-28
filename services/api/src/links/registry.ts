@@ -30,6 +30,8 @@ export interface LinkProvider {
   preview(ctx: LinkProviderContext): Promise<LinkPreview | null>;
   /** Server-side facts the claim and the app router need; null when the target does not exist. */
   resolve(ctx: LinkProviderContext): Promise<ResolvedLink | null>;
+  /** Records one bot-filtered human open (per-invite open counts for the inviter). */
+  recordOpen?(ctx: LinkProviderContext): Promise<void>;
 }
 
 /**

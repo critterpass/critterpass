@@ -42,6 +42,7 @@ export async function previewLink(
     const preview = await provider.preview(ctx);
     if (preview === null) throw new DomainError('NOT_FOUND');
     if (!request.humanOpen || preview.kind !== 'invite') return preview;
+    await provider.recordOpen?.(ctx);
 
     const resolved = await provider.resolve(ctx);
     if (resolved === null || resolved.joinCodeId === null) return preview;

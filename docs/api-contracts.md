@@ -170,16 +170,19 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 
 | Command | Payload summary | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
-| `create_crew` | `{name, art?}` | self | crew ceiling | `crew.created` | A, O | 23 |
+| `create_crew` | `{crew_id, name (1–32), art?}` → `{crew_id, code, code_expires_at}` | self | 10 active crews per person (`crews.max_active`) → `STATE_INVALID{reason: crew_limit}` | `crew.created` | A, O | 23 |
 | `update_crew` | `{crew_id, name?, art?}` | member | – | `crew.updated` | A, O | 23 |
-| `create_invite` | `{crew_id, trip_id?, channel: link\|code\|contact, note?, contact_hint?}` → `{url, code, expires_at}` | member | `seatCap(trip)` → `SEAT_LIMIT` or waitlist | `invite.created` | A | 23 |
-| `rotate_join_code` | `{crew_id}` | member | – | `crew.code_rotated` | A | 23 |
-| `accept_invite` | `{token\|code}` (transactional seat allocation) | self (anon ok) | `seatCap` → `WAITLISTED` | `crew.member_joined`, `referral.progressed` | A | 23 |
+| `create_invite` | `{crew_id, trip_id?, channel: link\|code\|contact, share_via?, contact?{name, phone_e164?, home_hint?, provenance}, invitee_uid?, note? (≤140), tags? (≤3), ttl_days?, on_full?: waitlist}` → `{invite_id, code, link, url, expires_at, waitlisted}` (doc delta) | member, signed in | `seatCap(trip)` counting open named seats → `SEAT_LIMIT{cap, offer, trip_id, invitee, seats_taken}` unless `on_full: waitlist` | `invite.created` | A | 23 |
+| `rotate_join_code` | `{crew_id, trip_id?}` → `{crew_id, code, expires_at}` | member | – | `crew.code_rotated` | A | 23 |
+| `accept_invite` | `{code, seat?} \| {invite_id}` (transactional seat allocation) → `{crew_id, trip_id, invite_id, joined, seated, waitlisted, waitlist_position, forwarded}` | self (anon ok) | crew ceiling → `STATE_INVALID{reason: crew_full}`; `seatCap` → waitlisted (result flag) | `crew.member_joined`, `invite.claimed`, `referral.progressed` | A | 23 |
 | `defer_invite` / `decline_invite` | `{invite_id}` | invitee | – | `invite.deferred` / `invite.declined` | A, N | 23 |
 | `leave_crew` | `{crew_id}` | member | – | `crew.member_left` (→ Centrifugo unsubscribe) | A | 23 |
 | `remove_member` | `{crew_id, uid}` | organiser of active trip or crew creator | – | `crew.member_removed` | A | 23 |
 | `set_active_crew` | `{crew_id}` | member | – | `user.active_crew_changed` | A, O, I | 23 |
 | `promote_waitlist` | `{trip_id}` | S | seatCap | `trip.seat_opened` (N-43) | S | 23 |
+| `revoke_invite` (doc delta) | `{invite_id}` | inviter or crew organiser | – | `invite.revoked` | A | 23 |
+| `accept_seat_offer` (doc delta) | `{offer_id}` | the offered member, within 24 h | seats held < cap → else `SEAT_LIMIT` | `seat_offer.accepted` | A | 23 |
+| `set_crew_notify` (doc delta) | `{crew_id, level: all\|mentions\|off}` | member | – | – | A, O | 23 |
 | `send_message` | `{crew_id, body, mentions[], reply_to?, attachments[media_id]}` (`op_id` = client msg id) | member | guide mention → guide meter of asker (§6) | `chat.message_sent` | A, O, N (reply) | 24 |
 | `edit_message` / `delete_message` | `{message_id, body?}` | owner | – | `chat.message_edited/deleted` | A, O | 24 |
 | `react_message` | `{message_id, emoji}` | member | – | `chat.reaction_changed` | A, O | 24 |

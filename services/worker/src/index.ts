@@ -30,6 +30,7 @@ import { fixesTtlJob } from './jobs/location/fixes-ttl';
 import { visitsTtlJob } from './jobs/location/visits-ttl';
 import { startWorkerHeartbeat } from './boss/heartbeat';
 import { aiCostGuardJob } from './jobs/ops/ai-cost-guard';
+import { inviteJobs, registerInviteNotifications } from './jobs/invites';
 import { backupJob } from './jobs/ops/backup';
 import { createObjectStore } from './jobs/ops/object-store';
 import { enqueueDueJob } from './jobs/sched/enqueue-due';
@@ -105,6 +106,7 @@ const jobs: AnyJobDefinition[] = [
   anonGcJob(),
   fixesTtlJob(),
   visitsTtlJob(),
+  ...inviteJobs(),
   guideActionExecuteJob(),
   guideActionUndoExpireJob(),
   ...aiJobs(
@@ -174,6 +176,7 @@ jobs.push(
   roundupScanJob(roundupBuild),
 );
 onEventAppended(routeEventHook);
+registerInviteNotifications();
 
 // Domain events → PostHog (consent-gated, idempotent on the event id).
 let analyticsExport: ExportLoop | undefined;
