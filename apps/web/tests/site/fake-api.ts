@@ -28,6 +28,7 @@ const PREVIEWS = new Map<string, unknown>([
   ['FAWN33', preview('./fixtures/preview-full-invite.json')],
   ['WYNST8', preview('./fixtures/preview-referral.json')],
   ['FRAP44', preview('./fixtures/preview-trip-invite.json')],
+  ['VANE55', preview('./fixtures/preview-trip-invite.json')],
 ]);
 const REVOKED = preview('../links/fixtures/preview-revoked-invite.json');
 const NOT_FOUND = fixture('../links/fixtures/error-not-found.json');

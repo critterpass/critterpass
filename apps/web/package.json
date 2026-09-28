@@ -14,10 +14,13 @@
   "dependencies": {
     "@astrojs/cloudflare": "14.3.3",
     "@cp/critter-art": "workspace:*",
+    "@cp/design-tokens": "workspace:*",
     "@cp/domain": "workspace:*",
     "@cp/i18n": "workspace:*",
     "@lingui/core": "catalog:",
     "@sentry/browser": "catalog:",
+    "@takumi-rs/helpers": "2.14.0",
+    "@takumi-rs/wasm": "2.14.0",
     "astro": "7.3.5",
     "uqr": "catalog:"
   },

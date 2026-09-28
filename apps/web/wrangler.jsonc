@@ -19,9 +19,12 @@
   ],
   // `/` shows the full site unless SITE_MODE is `coming-soon` (src/components/site/site-mode.ts).
   "vars": { "SITE_MODE": "site" },
+  // Rendered Open Graph cards (src/lib/og). OG_CACHE_SECRET is a Wrangler secret per environment.
+  "r2_buckets": [{ "binding": "OG_CACHE", "bucket_name": "cp-og" }],
   "env": {
     "staging": {
       "vars": { "SITE_MODE": "site" },
+      "r2_buckets": [{ "binding": "OG_CACHE", "bucket_name": "cp-og" }],
       "routes": [
         { "pattern": "staging.critterpass.app", "custom_domain": true },
         { "pattern": "go.staging.critterpass.app", "custom_domain": true },
@@ -38,6 +41,7 @@
     "production": {
       // The coming-soon page and its waitlist stay the front door until launch.
       "vars": { "SITE_MODE": "coming-soon" },
+      "r2_buckets": [{ "binding": "OG_CACHE", "bucket_name": "cp-og" }],
       "routes": [
         { "pattern": "critterpass.app", "custom_domain": true },
         { "pattern": "www.critterpass.app", "custom_domain": true },
