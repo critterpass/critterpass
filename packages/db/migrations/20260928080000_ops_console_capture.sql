@@ -53,3 +53,24 @@ GRANT SELECT (author_id, assignee_admin_id, due_at, reason_counts) ON moderation
 -- ops.moderation_filings.note: the reporter's optional note (≤ 280 characters, C2), with contact
 -- details and links cut out at intake.
 ALTER TABLE ops.moderation_filings ADD COLUMN note text CHECK (length(note) BETWEEN 1 AND 280);
+
+-- ---------------------------------------------------------------------------------------------
+-- ops.work_claims: who is working an item of a console queue (desk, moderation and the queues
+-- later areas register). One holder per item; written by console commands as app_system, read by
+-- the console as admin_reader; app_user has no access (ops schema). Class C2 (operator ids).
+CREATE TABLE ops.work_claims (
+  queue text NOT NULL CHECK (queue ~ '^[a-z][a-z0-9_]*$' AND length(queue) <= 40),
+  item_id uuid NOT NULL,
+  admin_id uuid NOT NULL,
+  claimed_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (queue, item_id)
+);
+CREATE INDEX work_claims_admin_idx ON ops.work_claims (admin_id);
+ALTER TABLE ops.work_claims ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ops.work_claims FORCE ROW LEVEL SECURITY;
+CREATE POLICY work_claims_system ON ops.work_claims FOR ALL TO app_system
+  USING (true) WITH CHECK (true);
+CREATE POLICY work_claims_admin_reader ON ops.work_claims FOR SELECT TO admin_reader
+  USING (true);
+GRANT SELECT, INSERT, UPDATE, DELETE ON ops.work_claims TO app_system;
+GRANT SELECT ON ops.work_claims TO admin_reader;

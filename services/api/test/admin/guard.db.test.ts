@@ -59,7 +59,7 @@ describe('console session', () => {
     expect(response.status).toBe(200);
     const me = adminMeSchema.parse(await response.json());
     expect(me.roles).toEqual(['support']);
-    expect(me.areas).toEqual(['home', 'moderation', 'support', 'feedback']);
+    expect(me.areas).toEqual(['home', 'work', 'moderation', 'support', 'feedback', 'billing']);
     await app.close();
   });
 

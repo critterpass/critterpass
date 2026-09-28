@@ -4,10 +4,12 @@
  *
  * A phase that owns reportable content registers one handler for its kind (`registerModerationKind`):
  * whether a subject exists, its preview, its author (for `ban_author`) and how `hide`/`remove` are
- * carried out. This phase ships the `user` kind (approve or ban the account).
+ * carried out. The `user` kind (approve or ban the account) ships here. Also reads the author card.
  */
 import {
+  DomainError,
   REPORT_COLLAPSE_WINDOW_HOURS,
+  type ModerationAuthor,
   stripPatterns,
   type ModerationPreview,
   type ModerationReportSource,
@@ -195,4 +197,53 @@ export async function recordModerationReport(
     );
   }
   return { report_id: reportId, collapsed: false };
+}
+
+/** The author card: identity, active crews, reports against them and past verdicts (admin_reader). */
+export async function readModerationAuthor(
+  tx: pg.PoolClient,
+  uid: string,
+): Promise<ModerationAuthor> {
+  const { rows } = await tx.query<{
+    display_name: string | null;
+    username: string | null;
+    status: string;
+    created_at: Date;
+  }>('SELECT display_name, username, status, created_at FROM users WHERE id = $1', [uid]);
+  const user = rows[0];
+  if (user === undefined) throw new DomainError('NOT_FOUND');
+  const crews = await tx.query<{ id: string; name: string; role: string }>(
+    `SELECT c.id, c.name, m.role FROM crew_members m JOIN crews c ON c.id = m.crew_id
+     WHERE m.user_id = $1 AND m.status = 'active' ORDER BY c.name`,
+    [uid],
+  );
+  const against = await tx.query<{ total: number; open: number }>(
+    `SELECT count(*)::int AS total, count(*) FILTER (WHERE status = 'open')::int AS open
+     FROM moderation_reports WHERE author_id = $1`,
+    [uid],
+  );
+  const verdicts = await tx.query<{
+    report_id: string;
+    target_kind: string;
+    target_id: string;
+    reason: string;
+    verdict: ModerationVerdict;
+    decided_at: Date;
+  }>(
+    `SELECT id AS report_id, target_kind, target_id, reason, verdict, decided_at
+     FROM moderation_reports
+     WHERE author_id = $1 AND verdict IS NOT NULL AND decided_at IS NOT NULL
+     ORDER BY decided_at DESC LIMIT 50`,
+    [uid],
+  );
+  return {
+    uid,
+    display_name: user.display_name,
+    username: user.username,
+    status: user.status,
+    joined_at: user.created_at.toISOString(),
+    crews: crews.rows,
+    reports_against: against.rows[0] ?? { total: 0, open: 0 },
+    verdicts: verdicts.rows.map((row) => ({ ...row, decided_at: row.decided_at.toISOString() })),
+  };
 }

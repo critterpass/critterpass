@@ -14,7 +14,6 @@ import {
   moderationQueueEntrySchema,
   moderationQueueFilterSchema,
   reportStatusForVerdict,
-  type ModerationAuthor,
   type ModerationPreview,
   type ModerationReportSource,
   type ModerationVerdict,
@@ -23,9 +22,15 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import type { AccountControl } from './accounts';
-import { moderationKind, type MediaUrlSigner } from './moderation-intake';
+import { moderationKind, readModerationAuthor, type MediaUrlSigner } from './moderation-intake';
 import { decodeCursor, encodeCursor, withAdminReader } from './reads';
-import { defineAdminArea, defineAdminCommand, defineAdminRead } from './registry';
+import {
+  defineAdminArea,
+  defineAdminCommand,
+  defineAdminRead,
+  type AdminWorkSource,
+} from './registry';
+import { openItemsCount } from './work';
 
 interface ReportRow {
   id: string;
@@ -56,9 +61,49 @@ const queuePageSchema = adminPageSchema(moderationQueueEntrySchema).extend({
   counts: z.record(z.string(), z.number().int()),
 });
 
+/** Open reports as a claimable queue, due soonest first, assigned through `assignee_admin_id`. */
+function moderationWorkSource(): AdminWorkSource {
+  return {
+    queue: 'moderation',
+    area: 'moderation',
+    closes: { action: 'moderate_item' },
+    async open(tx, ids) {
+      const { rows } = await tx.query<{
+        id: string;
+        target_kind: string;
+        reason: string;
+        report_count: number;
+        due_at: Date | null;
+        assignee_admin_id: string | null;
+      }>(
+        `SELECT id, target_kind, reason, report_count, due_at, assignee_admin_id
+         FROM moderation_reports
+         WHERE status = 'open' AND ($1::uuid[] IS NULL OR id = ANY($1::uuid[]))
+         ORDER BY due_at NULLS LAST, id LIMIT 500`,
+        [ids ?? null],
+      );
+      return rows.map((row) => ({
+        item_id: row.id,
+        title: `${row.target_kind.replace(/_/g, ' ')} · ${row.reason} (${row.report_count})`,
+        due_at: row.due_at,
+        assignee: row.assignee_admin_id,
+      }));
+    },
+    async assign(tx, itemId, adminUid) {
+      await tx.query('UPDATE moderation_reports SET assignee_admin_id = $2 WHERE id = $1', [
+        itemId,
+        adminUid,
+      ]);
+    },
+  };
+}
+
 export function moderationArea(deps: ModerationAreaDeps) {
+  const work = moderationWorkSource();
   return defineAdminArea({
     id: 'moderation',
+    work,
+    count: { area: 'moderation', run: async (tx, now) => openItemsCount(await work.open(tx), now) },
     reads: [
       defineAdminRead({
         path: '/moderation',
@@ -140,7 +185,7 @@ export function moderationArea(deps: ModerationAreaDeps) {
         params: z.object({ uid: z.uuid() }),
         response: moderationAuthorSchema,
         run: ({ admin, params }) =>
-          withAdminReader(deps.pool, admin.uid, (tx) => readAuthor(tx, params.uid)),
+          withAdminReader(deps.pool, admin.uid, (tx) => readModerationAuthor(tx, params.uid)),
       }),
       defineAdminRead({
         path: '/moderation/summary',
@@ -230,49 +275,4 @@ export function moderationArea(deps: ModerationAreaDeps) {
       }),
     ],
   });
-}
-
-async function readAuthor(tx: pg.PoolClient, uid: string): Promise<ModerationAuthor> {
-  const { rows } = await tx.query<{
-    display_name: string | null;
-    username: string | null;
-    status: string;
-    created_at: Date;
-  }>('SELECT display_name, username, status, created_at FROM users WHERE id = $1', [uid]);
-  const user = rows[0];
-  if (user === undefined) throw new DomainError('NOT_FOUND');
-  const crews = await tx.query<{ id: string; name: string; role: string }>(
-    `SELECT c.id, c.name, m.role FROM crew_members m JOIN crews c ON c.id = m.crew_id
-     WHERE m.user_id = $1 AND m.status = 'active' ORDER BY c.name`,
-    [uid],
-  );
-  const against = await tx.query<{ total: number; open: number }>(
-    `SELECT count(*)::int AS total, count(*) FILTER (WHERE status = 'open')::int AS open
-     FROM moderation_reports WHERE author_id = $1`,
-    [uid],
-  );
-  const verdicts = await tx.query<{
-    report_id: string;
-    target_kind: string;
-    target_id: string;
-    reason: string;
-    verdict: ModerationVerdict;
-    decided_at: Date;
-  }>(
-    `SELECT id AS report_id, target_kind, target_id, reason, verdict, decided_at
-     FROM moderation_reports
-     WHERE author_id = $1 AND verdict IS NOT NULL AND decided_at IS NOT NULL
-     ORDER BY decided_at DESC LIMIT 50`,
-    [uid],
-  );
-  return {
-    uid,
-    display_name: user.display_name,
-    username: user.username,
-    status: user.status,
-    joined_at: user.created_at.toISOString(),
-    crews: crews.rows,
-    reports_against: against.rows[0] ?? { total: 0, open: 0 },
-    verdicts: verdicts.rows.map((row) => ({ ...row, decided_at: row.decided_at.toISOString() })),
-  };
 }

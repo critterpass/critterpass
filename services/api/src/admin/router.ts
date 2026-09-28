@@ -19,8 +19,11 @@ import type { AdminAllowlist } from './allowlist';
 import { ADMIN_AUTH_BASE_PATH, type AdminAuth } from './auth';
 import { adminGuard, type AdminVariables } from './auth-guard';
 import { runAdminCommand } from './command';
+import { countsArea } from './counts';
+import { deskQueueArea, workArea } from './work';
 import {
   createAdminRegistry,
+  type AdminRegistry,
   type AdminAreaDefinition,
   type AnyAdminRead,
   type OperatorDirectory,
@@ -87,7 +90,13 @@ function registerRead(
 }
 
 export function createAdminRouter(deps: AdminRouterDeps): OpenAPIHono<AdminEnv> {
-  const registry = createAdminRegistry(deps.areas);
+  // Work and counts read every other area's queue and badge, so they see the finished registry.
+  const registry: AdminRegistry = createAdminRegistry([
+    ...deps.areas,
+    deskQueueArea(),
+    workArea(deps.pool, () => registry),
+    countsArea(deps.pool, () => registry),
+  ]);
   const app = new OpenAPIHono<AdminEnv>();
 
   app.use(

@@ -1,6 +1,7 @@
 /**
  * The console's server-side module registry: each area (`defineAdminArea`) contributes read routes
- * under `/v1/admin/*` and commands under `/v1/admin/cmd/:name`. Later areas (jobs, moderation,
+ * under `/v1/admin/*` and commands under `/v1/admin/cmd/:name`, and optionally a badge (`count`)
+ * and a claimable work queue (`work`). Later areas (jobs, moderation,
  * support, desk, feedback, ...) plug in here without touching the router, mirroring the console's
  * `apps/admin/src/kit/registry.ts`.
  *
@@ -14,7 +15,7 @@
  * });
  * ```
  */
-import type { AdminArea, AdminRole, AuditChange, CommandContext } from '@cp/domain';
+import type { AdminArea, AdminRole, AreaCount, AuditChange, CommandContext } from '@cp/domain';
 import type pg from 'pg';
 import type { z } from 'zod';
 
@@ -98,10 +99,42 @@ export function defineAdminRead<Query, Params, Response>(
   return definition as unknown as AnyAdminRead;
 }
 
+/** One open item of a work queue, as its source reads it. */
+export interface WorkSourceItem {
+  readonly item_id: string;
+  readonly title: string;
+  readonly due_at: Date | null;
+  /** The source's own assignee column, when it has one (desk tasks, moderation reports). */
+  readonly assignee: string | null;
+}
+
+/**
+ * A queue whose items operators claim (`claim_work_item`) and see in `/work`. `open` runs as
+ * admin_reader in reads and as app_system in commands; `assign` mirrors a claim into the source's
+ * own assignee column, inside the command's transaction.
+ */
+export interface AdminWorkSource {
+  readonly queue: string;
+  /** Who may see and claim its items: whoever may open this area. */
+  readonly area: AdminArea;
+  open(tx: pg.PoolClient, ids?: readonly string[]): Promise<readonly WorkSourceItem[]>;
+  assign?(tx: pg.PoolClient, itemId: string, adminUid: string | null): Promise<void>;
+  /** Audit actions that close an item, for "done today" (optionally only with these statuses). */
+  readonly closes: { readonly action: string; readonly statuses?: readonly string[] };
+}
+
+/** An area's badge for `/v1/admin/counts`; runs as admin_reader. */
+export interface AdminAreaCount {
+  readonly area: AdminArea;
+  run(tx: pg.PoolClient, now: Date): Promise<AreaCount>;
+}
+
 export interface AdminAreaDefinition {
   readonly id: string;
   readonly reads: readonly AnyAdminRead[];
   readonly commands: readonly AnyAdminCommand[];
+  readonly count?: AdminAreaCount;
+  readonly work?: AdminWorkSource;
 }
 
 export function defineAdminArea(definition: AdminAreaDefinition): AdminAreaDefinition {
@@ -112,13 +145,22 @@ export interface AdminRegistry {
   command(name: string): AnyAdminCommand | undefined;
   commandNames(): readonly string[];
   reads(): readonly AnyAdminRead[];
+  counts(): readonly AdminAreaCount[];
+  workSources(): readonly AdminWorkSource[];
 }
 
 export function createAdminRegistry(areas: readonly AdminAreaDefinition[]): AdminRegistry {
   const commands = new Map<string, AnyAdminCommand>();
   const reads: AnyAdminRead[] = [];
   const paths = new Set<string>();
+  const counts: AdminAreaCount[] = [];
+  const work = new Map<string, AdminWorkSource>();
   for (const area of areas) {
+    if (area.count !== undefined) counts.push(area.count);
+    if (area.work !== undefined) {
+      if (work.has(area.work.queue)) throw new Error(`work queue ${area.work.queue} is registered`);
+      work.set(area.work.queue, area.work);
+    }
     for (const command of area.commands) {
       if (commands.has(command.name)) {
         throw new Error(`admin command ${command.name} is already registered`);
@@ -135,5 +177,7 @@ export function createAdminRegistry(areas: readonly AdminAreaDefinition[]): Admi
     command: (name) => commands.get(name),
     commandNames: () => [...commands.keys()].sort(),
     reads: () => reads,
+    counts: () => counts,
+    workSources: () => [...work.values()],
   };
 }
