@@ -165,11 +165,11 @@ GRANT UPDATE (read_at) ON inbox_items TO app_user;
 -- can refresh those users' badge counts. Called by the fan-out (as app_system) when an event
 -- settles something; a command settles its own item through the owner's column grant instead.
 CREATE OR REPLACE FUNCTION app.resolve_inbox_items(keys text[], at timestamptz)
-RETURNS TABLE (user_id uuid)
+RETURNS TABLE (id uuid, user_id uuid)
 LANGUAGE sql VOLATILE SECURITY INVOKER SET search_path = pg_catalog, public AS $$
   UPDATE inbox_items i SET resolved_at = at
   WHERE i.resolve_key = ANY (keys) AND i.resolved_at IS NULL
-  RETURNING i.user_id
+  RETURNING i.id, i.user_id
 $$;
 REVOKE EXECUTE ON FUNCTION app.resolve_inbox_items(text[], timestamptz) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.resolve_inbox_items(text[], timestamptz) TO app_system;
