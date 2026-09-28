@@ -38,10 +38,7 @@ export function EditPassSheet({ name, homeIata, onDone, onClose }: EditPassSheet
   const [draftName, setDraftName] = useState(name);
   const [home, setHome] = useState(homeIata);
   const [query, setQuery] = useState('');
-  const rows = useMemo(
-    () => homeResults(airportDataset(), query, null).rows.slice(0, MAX_ROWS),
-    [query],
-  );
+  const rows = useMemo(() => homeResults(airportDataset(), query, null, MAX_ROWS).rows, [query]);
   const problem = givenNameProblem(draftName, BLOCKED_NAME_WORDS);
 
   return (

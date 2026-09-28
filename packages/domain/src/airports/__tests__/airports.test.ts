@@ -43,6 +43,11 @@ describe('searchAirports', () => {
     expect(foldForSearch('Đà Nẵng')).toBe('da nang');
   });
 
+  it('matches a country name prefix and a city spelt without its spaces', () => {
+    expect(hitIata(searchAirports(DATASET, 'Malay')[0]!)).toBe('JHB');
+    expect(hitIata(searchAirports(DATASET, 'hanoi')[0]!)).toBe('HAN');
+  });
+
   it('offers the metro group under a city', () => {
     const hits = searchAirports(DATASET, 'Lond').map(hitIata);
     expect(hits.slice(0, 3)).toEqual(['LGW', 'LHR', 'LON']);
