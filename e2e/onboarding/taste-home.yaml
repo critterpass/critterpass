@@ -1,0 +1,45 @@
+appId: app.critterpass.dev
+---
+# 3a-4 → 3a-5: five answers and one skip land on the pass, then home base from the bundled
+# airport search, which also works in airplane mode.
+- launchApp:
+    clearState: true
+- runFlow: subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+- repeat:
+    times: 5
+    commands:
+      - tapOn:
+          id: 'taste-card-left'
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'taste-skip'
+- assertVisible:
+    id: 'taste-disclosure'
+- tapOn:
+    id: 'taste-done'
+- setAirplaneMode: enabled
+- tapOn:
+    id: 'home-search'
+- inputText: 'sin'
+- extendedWaitUntil:
+    visible:
+      id: 'home-row-SIN'
+    timeout: 10000
+- tapOn:
+    id: 'home-row-SIN'
+- hideKeyboard
+- assertVisible:
+    id: 'home-stamp'
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- setAirplaneMode: disabled

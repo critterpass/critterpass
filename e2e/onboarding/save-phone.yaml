@@ -1,0 +1,56 @@
+appId: app.critterpass.dev
+---
+# 3a-7 → 3a-8: the save sheet over the issued pass, the phone number step, then "Not now" to the
+# permissions page. Completing an OTP needs the api's test number; without it the flow stops at
+# the code-sent state.
+- launchApp:
+    clearState: true
+- runFlow: subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+- repeat:
+    times: 6
+    commands:
+      - tapOn:
+          id: 'taste-skip'
+- tapOn:
+    id: 'taste-done'
+- tapOn:
+    id: 'home-search'
+- inputText: 'SIN'
+- tapOn:
+    id: 'home-row-SIN'
+- hideKeyboard
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-issued-save'
+- tapOn:
+    id: 'save-phone'
+- tapOn:
+    id: 'phone-number'
+- inputText: '91234567'
+- hideKeyboard
+- tapOn:
+    id: 'phone-send'
+- extendedWaitUntil:
+    visible:
+      id: 'phone-sent'
+    timeout: 20000
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+- tapOn:
+    id: 'save-not-now'
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer'
+    timeout: 10000

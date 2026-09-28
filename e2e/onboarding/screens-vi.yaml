@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# The same screens in Vietnamese: the dev gallery switches the running app's language (not
+# persisted), then two back swipes return to the splash.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+- waitForAnimationToEnd
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+- runFlow:
+    file: subflows/pass-screens.yaml
+    env:
+      PREFIX: vi

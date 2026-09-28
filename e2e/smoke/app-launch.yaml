@@ -7,9 +7,10 @@ appId: app.critterpass.dev
 # reading its build marker is this suite's proof that the JS actually running is current, even on
 # a reused native build (fingerprint-based build reuse ignores JS-only changes).
 - launchApp
+# A new install opens on the pass splash (3a-1); both it and Home carry the Developer tools entry.
 - extendedWaitUntil:
     visible:
-      text: 'Critterpass \(Dev\)'
+      id: 'dev-tools-entry'
     timeout: 25000
 - tapOn:
     id: 'dev-tools-entry'

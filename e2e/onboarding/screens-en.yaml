@@ -1,0 +1,9 @@
+appId: app.critterpass.dev
+---
+# Screenshots of every onboarding screen in English for `pnpm screens:capture`.
+- launchApp:
+    clearState: true
+- runFlow:
+    file: subflows/pass-screens.yaml
+    env:
+      PREFIX: en

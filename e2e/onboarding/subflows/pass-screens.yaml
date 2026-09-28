@@ -1,0 +1,127 @@
+appId: app.critterpass.dev
+---
+# Walks the whole pass flow from the splash, taking one screenshot per designed screen (3a-1 …
+# 3a-9) with ${PREFIX} in each name. Pass numbers and the nearest-airport hint depend on the api
+# the app points at; offline they show the designed placeholder states instead.
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-1-splash
+- tapOn:
+    id: 'onboarding-open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-name-field'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-name-field'
+- inputText: 'Winst'
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-2-name
+- tapOn:
+    id: 'onboarding-name-field'
+- inputText: 'on'
+- hideKeyboard
+- tapOn:
+    id: 'onboarding-name-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-photo'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-3-photo
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+# Street cart, then one neighbourhood: the designed "3 OF 6" with two tags on the pass.
+- tapOn:
+    id: 'taste-card-left'
+- waitForAnimationToEnd
+- tapOn:
+    id: 'taste-card-right'
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-4-this-or-that
+- tapOn:
+    id: 'taste-card-left'
+- waitForAnimationToEnd
+- tapOn:
+    id: 'taste-card-left'
+- waitForAnimationToEnd
+- tapOn:
+    id: 'taste-card-right'
+- waitForAnimationToEnd
+- tapOn:
+    id: 'taste-skip'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-summary'
+    timeout: 10000
+- takeScreenshot: ${PREFIX}-3a-4-summary
+- tapOn:
+    id: 'taste-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-search'
+    timeout: 10000
+- tapOn:
+    id: 'home-search'
+- inputText: 'Sing'
+- extendedWaitUntil:
+    visible:
+      id: 'home-row-SIN'
+    timeout: 10000
+- tapOn:
+    id: 'home-row-SIN'
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-5-home
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: ${PREFIX}-3a-6-issued
+- tapOn:
+    id: 'onboarding-issued-save'
+- extendedWaitUntil:
+    visible:
+      id: 'save-phone'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-7-save
+- tapOn:
+    id: 'save-phone'
+- extendedWaitUntil:
+    visible:
+      id: 'phone-number'
+    timeout: 10000
+- tapOn:
+    id: 'phone-number'
+- inputText: '91234567'
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-8-phone
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'save-not-now'
+    timeout: 10000
+- tapOn:
+    id: 'save-not-now'
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-9-permissions
