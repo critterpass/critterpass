@@ -10,11 +10,11 @@
  */
 import { z } from 'zod';
 
-import { AI_ROUTES, GENERATION_TIERS } from '../ai/routes';
 import { APP_CLIP_FLAG_KEY } from '../links/wire';
 import { AVATAR_HASH_MATCH_CONFIG_KEY } from '../pass/wire';
 import { flagAudienceSchema } from './flag-audience';
 import { PARTNER_KEYS, partnerCopyModeSchema, type PartnerKey } from './ops-enums';
+import { serviceKeys } from './service-keys';
 import { adminRoleSchema, type AdminRole } from './roles';
 
 export const CONFIG_KEY_GROUPS = [
@@ -40,119 +40,6 @@ export interface ConfigKeyDefinition {
 }
 
 const limit = (max: number) => z.number().int().min(0).max(max);
-const usd = z.number().min(0).max(1_000_000);
-const clock = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'HH:MM');
-
-/** OTP sender channels a switch can turn off (`otp.<channel>.enabled`). */
-export const OTP_SWITCH_CHANNELS = ['whatsapp', 'twilio_verify', 'prelude'] as const;
-/** Live Activity / Live Update kinds a switch can turn off (`la.<kind>.enabled`). */
-export const LIVE_ACTIVITY_SWITCH_KINDS = [
-  'leave_by',
-  'meet_up',
-  'flight',
-  'vote',
-  'critter_nearby',
-  'storm',
-  'sos',
-  'alarm',
-] as const;
-
-const OWNER_ONLY: readonly AdminRole[] = ['owner'];
-
-function killSwitch(description: string, roles?: readonly AdminRole[]): ConfigKeyDefinition {
-  return {
-    schema: z.boolean(),
-    isPublic: false,
-    critical: true,
-    description,
-    group: 'services',
-    note: 'Off returns STATE_INVALID switched_off; the app shows its fallback',
-    ...(roles !== undefined ? { roles } : {}),
-  };
-}
-
-function spendCap(description: string): ConfigKeyDefinition {
-  return {
-    schema: usd,
-    isPublic: false,
-    critical: true,
-    description,
-    group: 'services',
-    roles: OWNER_ONLY,
-    note: 'Alert at 80 %, pause at 100 %; never re-routes to another model',
-  };
-}
-
-/** Kill switches, spend caps and ops timings: the services group. */
-function serviceKeys(): Record<string, ConfigKeyDefinition> {
-  return {
-    ...Object.fromEntries(
-      AI_ROUTES.map((route) => [`ai.${route}.enabled`, killSwitch(`AI route ${route}`)]),
-    ),
-    ...Object.fromEntries(
-      GENERATION_TIERS.map((tier) => [
-        `ai.tier.${tier}.enabled`,
-        killSwitch(`Every AI route on the ${tier} tier`, OWNER_ONLY),
-      ]),
-    ),
-    ...Object.fromEntries(
-      OTP_SWITCH_CHANNELS.map((channel) => [
-        `otp.${channel}.enabled`,
-        killSwitch(`Sign-in codes over ${channel}`),
-      ]),
-    ),
-    ...Object.fromEntries(
-      LIVE_ACTIVITY_SWITCH_KINDS.map((kind) => [
-        `la.${kind}.enabled`,
-        killSwitch(`Live Activity pushes for ${kind}`),
-      ]),
-    ),
-    'signup.enabled': killSwitch('New account sign-ups'),
-    'billing.enabled': killSwitch('Purchases and plan changes', OWNER_ONLY),
-    'postcards.enabled': killSwitch('Printed postcard orders'),
-    'widgets.push.enabled': killSwitch('Widget refresh pushes'),
-    'android.fsi.enabled': killSwitch('Android full-screen intent alerts'),
-    'ai.cap.daily_usd': spendCap('AI spend cap per day, every tier (USD)'),
-    ...Object.fromEntries(
-      GENERATION_TIERS.map((tier) => [
-        `ai.cap.${tier}.daily_usd`,
-        spendCap(`AI spend cap per day on the ${tier} tier (USD)`),
-      ]),
-    ),
-    'spend.month_budget_usd': spendCap('Monthly AI spend budget (USD)'),
-    'moderation.sla_hours': {
-      schema: z.number().int().min(1).max(720),
-      isPublic: false,
-      critical: false,
-      description: 'Hours from the first filing until a report is due',
-      group: 'services',
-      note: 'Default 24',
-    },
-    'feedback.reply_hours': {
-      schema: z.number().int().min(1).max(720),
-      isPublic: false,
-      critical: false,
-      description: 'Hours until a feedback ticket is due a reply',
-      group: 'services',
-      note: 'Default 48',
-    },
-    'desk.hours': {
-      schema: z.object({ open: clock, close: clock }).strict(),
-      isPublic: false,
-      critical: false,
-      description: 'Concierge desk staffed hours (Asia/Singapore)',
-      group: 'services',
-    },
-    'ops.on_call': {
-      schema: z.string().trim().min(1).max(200),
-      isPublic: false,
-      critical: false,
-      description: 'Who is on call for ops alerts',
-      group: 'services',
-    },
-  };
-}
-
 function supplierKeys(partner: PartnerKey): Record<string, ConfigKeyDefinition> {
   return {
     [`supplier.${partner}.enabled`]: {
