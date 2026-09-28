@@ -48,14 +48,10 @@ const useStyles = makeStyles((th) => ({
   // The design sets each label in two short lines beside the art, never one long line.
   title: { maxWidth: '56%' },
   titleEnd: { maxWidth: '56%', textAlign: 'right' },
-  // The lines sit beside the seam the OR badge covers: each keeps to its own half of the card and
-  // stops a badge radius plus a gap short of the centre.
+  // The OR badge covers the seam. The top card's line keeps to its own half and stops a badge
+  // radius plus a gap short of the centre; the bottom card's line starts below the badge instead.
   lineStart: { width: '50%', paddingEnd: OR_BADGE_SIZE / 2 + th.space['8'] },
-  lineEnd: {
-    width: '50%',
-    alignSelf: 'flex-end',
-    paddingStart: OR_BADGE_SIZE / 2 + th.space['8'],
-  },
+  lineEnd: { width: '62%', marginTop: th.space['16'] },
   lineEndText: { textAlign: 'right' },
 }));
 
@@ -162,7 +158,7 @@ export function QuizCard({
                 </View>
                 <View style={styles.cardRow}>
                   <View style={styles.lineStart}>
-                    <Text variant="body" color={theme.color.ink['950']}>
+                    <Text variant="bodySm" color={theme.color.ink['950']}>
                       {content.line}
                     </Text>
                   </View>
@@ -174,7 +170,11 @@ export function QuizCard({
                 <View style={styles.topRow}>
                   {doodle ?? <View />}
                   <View style={styles.lineEnd}>
-                    <Text variant="body" color={theme.color.ink['950']} style={styles.lineEndText}>
+                    <Text
+                      variant="bodySm"
+                      color={theme.color.ink['950']}
+                      style={styles.lineEndText}
+                    >
                       {content.line}
                     </Text>
                   </View>
