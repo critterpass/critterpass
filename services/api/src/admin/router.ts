@@ -20,6 +20,8 @@ import { ADMIN_AUTH_BASE_PATH, type AdminAuth } from './auth';
 import { adminGuard, type AdminVariables } from './auth-guard';
 import { runAdminCommand } from './command';
 import { countsArea } from './counts';
+import { jobsArea, type JobsPanelDeps } from './jobs';
+import { webhookReplayArea } from './webhook-replay';
 import { deskQueueArea, workArea } from './work';
 import {
   createAdminRegistry,
@@ -50,6 +52,8 @@ export interface AdminRouterDeps {
   /** Enables the emergency CLI door (owner tokens signed with this secret). */
   readonly cliTokenSecret?: string | undefined;
   readonly areas: readonly AdminAreaDefinition[];
+  /** The jobs panel's pg-boss producer and heartbeat reader; the panel is absent without them. */
+  readonly jobs?: Omit<JobsPanelDeps, 'pool'> | undefined;
   readonly now?: () => Date;
 }
 
@@ -94,6 +98,8 @@ export function createAdminRouter(deps: AdminRouterDeps): OpenAPIHono<AdminEnv> 
   const registry: AdminRegistry = createAdminRegistry([
     ...deps.areas,
     deskQueueArea(),
+    webhookReplayArea(),
+    ...(deps.jobs === undefined ? [] : [jobsArea({ pool: deps.pool, ...deps.jobs })]),
     workArea(deps.pool, () => registry),
     countsArea(deps.pool, () => registry),
   ]);

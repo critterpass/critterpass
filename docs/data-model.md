@@ -411,7 +411,7 @@ original row above.
 | `ops.work_claims` | queue, item_id, admin_id, claimed_at; pk (queue, item_id) — who is working an item of a console queue (`claim_work_item`); mirrored into the source's own assignee column where it has one | adm | S | C2 | while the item is open |
 | `ops.entitlement_grants` | user_id, perk (pass_plus), until, reason, granted_by, granted_at, revoked_at?, revoked_by?, revoke_reason?; active grants read only through `app.active_entitlement_grants(uid)` (SECURITY DEFINER: app_system any uid, app_user own) by the entitlement loader | adm | S | C2 | 2 y |
 | `ops.content_reviews` | release_id, item_ref, render_key, verdict, reviewer, notes | adm | S | C0 | forever |
-| `ops.dead_letters` (view over `pgboss` DLQ) | queue, job_id, error, attempts | adm | S | C2 | 30 d |
+| dead letters (pg-boss `<queue>.dlq`, read through the pg-boss API, no view) | queue, job id, original id, last error (`sourceOutput`), attempts, payload (redacted before any console response) | adm | S | C2 | 30 d |
 
 ### 3.17 Consent, deletion, export
 

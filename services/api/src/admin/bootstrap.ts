@@ -15,7 +15,7 @@ import { parseAdminAllowlist } from './allowlist';
 import { adminAreas } from './areas';
 import { createAdminAuth } from './auth';
 import type { MediaUrlSigner } from './moderation-intake';
-import { createAdminRouter } from './router';
+import { createAdminRouter, type AdminRouterDeps } from './router';
 
 export interface AdminConsole {
   readonly router: ReturnType<typeof createAdminRouter>;
@@ -28,6 +28,8 @@ export interface AdminConsoleDeps {
   readonly logger: Pick<Logger, 'error' | 'warn'>;
   /** The app's own Better Auth instance: account actions must go through its session store. */
   readonly appAuth: AppAuthHandle;
+  /** The jobs panel's pg-boss producer and worker heartbeat reader. */
+  readonly jobs?: AdminRouterDeps['jobs'];
 }
 
 /** Signed media Worker URLs for moderation previews, when media signing is configured. */
@@ -81,6 +83,7 @@ export function buildAdminConsole(env: ApiEnv, deps: AdminConsoleDeps): AdminCon
     access,
     ipHashSecret: env.BETTER_AUTH_SECRET,
     cliTokenSecret: env.BETTER_AUTH_SECRET,
+    jobs: deps.jobs,
     areas: adminAreas({
       pool: deps.pool,
       accounts: createAccountControl(deps.appAuth, deps.pool),
