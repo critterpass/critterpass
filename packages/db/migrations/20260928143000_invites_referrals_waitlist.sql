@@ -434,6 +434,28 @@ REVOKE EXECUTE ON FUNCTION app.hand_off_organiser(uuid, uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.hand_off_organiser(uuid, uuid) TO app_user, app_system;
 
 -- ---------------------------------------------------------------------------------------------
+-- domain_events: crew growth events join the catalogue (packages/domain/src/crews/events.ts).
+ALTER TABLE domain_events DROP CONSTRAINT domain_events_type_check;
+ALTER TABLE domain_events ADD CONSTRAINT domain_events_type_check CHECK (type IN (
+  'crew.member_joined', 'crew.member_left', 'crew.member_removed',
+  'trip.created', 'trip.status_changed',
+  'plan.version_created',
+  'change_set.proposed', 'change_set.applied', 'change_set.reverted', 'change_set.rejected',
+  'rsvp.changed',
+  'auth.merged',
+  'invite.opened', 'attribution.claimed',
+  'guide_action.undone',
+  'fare.dropped', 'forecast.changed', 'hazard.changed',
+  'moderation.decided',
+  'entitlement.granted', 'entitlement.revoked',
+  'device.permissions_changed', 'visit.recorded',
+  'pass.issued', 'profile.updated', 'profile.taste_changed', 'profile.avatar_changed',
+  'crew.created', 'crew.updated', 'crew.code_rotated', 'user.active_crew_changed',
+  'invite.created', 'invite.claimed', 'invite.deferred', 'invite.declined', 'invite.revoked',
+  'invite.nudged', 'trip.seat_opened', 'seat_offer.accepted', 'referral.progressed'
+));
+
+-- ---------------------------------------------------------------------------------------------
 -- PowerSync publication (docs/code-standards.md §13), hand-copied from
 -- packages/db/src/publication.ts#computePublicationAllowList. invite_prefill (C3) stays out.
 DO $$

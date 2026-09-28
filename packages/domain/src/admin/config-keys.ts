@@ -83,6 +83,20 @@ export const CONFIG_KEYS: Readonly<Record<string, ConfigKeyDefinition>> = {
     critical: true,
     description: 'Crew seats with a boost',
   },
+  'crews.max_active': {
+    schema: limit(100),
+    isPublic: true,
+    critical: false,
+    group: 'limits',
+    description: 'Active crews one person may belong to',
+  },
+  'referrals.rewards_paused': {
+    schema: z.boolean(),
+    isPublic: false,
+    critical: true,
+    group: 'services',
+    description: 'Hold referral stamps without voiding referrals (fraud response)',
+  },
   'redraft.limit_free': {
     group: 'limits',
     schema: limit(100),
