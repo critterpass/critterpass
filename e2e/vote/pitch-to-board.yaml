@@ -50,8 +50,22 @@ appId: app.critterpass.dev
     visible:
       id: 'guest-pitch'
     timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'guest-pitch'
+    direction: DOWN
+    timeout: 20000
 - tapOn:
     id: 'guest-pitch'
+# Until the new crew has synced the page asks which crew to pitch to; pick it there.
+- runFlow:
+    when:
+      visible:
+        id: 'crew-picker'
+    commands:
+      - tapOn:
+          id: 'crew-pick-.*'
+          index: 0
 - extendedWaitUntil:
     visible:
       id: 'pitch-sheet'

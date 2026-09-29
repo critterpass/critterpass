@@ -36,6 +36,17 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: 'start-crew-done'
+# Make the new crew the active one, so Home's chat button opens its chat.
+- openLink: critterpass-dev://crew
+- extendedWaitUntil:
+    visible:
+      id: 'crews-sheet'
+    timeout: 10000
+- tapOn: 'Quiet Crew'
+- extendedWaitUntil:
+    notVisible:
+      id: 'crews-sheet'
+    timeout: 10000
 - extendedWaitUntil:
     visible:
       id: 'home-header-chat'

@@ -15,6 +15,12 @@ appId: app.critterpass.dev
       id: 'invite-code-screen'
     timeout: 10000
 - runFlow: ../../onboarding/subflows/back.yaml
+# On Android the first back may only close the code keyboard.
+- runFlow:
+    when:
+      visible:
+        id: 'invite-code-screen'
+    file: ../../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-first-run'
