@@ -34,6 +34,12 @@ import {
 } from './jobs/inbox';
 import { nudgeDispatchJob, registerNudgeNotifications } from './jobs/nudges';
 import { countdownEventHook, countdownRecomputeJob } from './jobs/countdown';
+import {
+  pollBoardAdvanceJob,
+  pollCloseJob,
+  pollRemindJob,
+  registerPollFanouts,
+} from './jobs/polls';
 import { tipsEventHook, tipsJobs } from './jobs/tips';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
@@ -141,6 +147,9 @@ const jobs: AnyJobDefinition[] = [
   inboxFanoutJob(),
   nudgeDispatchJob(),
   countdownRecomputeJob(),
+  pollCloseJob(),
+  pollBoardAdvanceJob(),
+  pollRemindJob(),
   ...tipsJobs(env, aiSwitches.assertAiRoute, llmObservability),
 ];
 const backupStore =
@@ -200,6 +209,7 @@ onEventAppended(tipsEventHook);
 registerHomeInboxFanouts();
 registerHomeRetention();
 registerNudgeNotifications();
+registerPollFanouts();
 registerInviteNotifications();
 registerChatNotifications();
 registerLiveMapNotifications();

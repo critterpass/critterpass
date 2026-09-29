@@ -21,6 +21,7 @@ export const POLL_EVENT_TYPES = [
   'poll.reveal_seen',
   'poll.lead_changed',
   'poll.closing_soon',
+  'poll.pick_needed',
   'ballot.cast',
   'ballot.changed',
   'ballot.retracted',
@@ -66,6 +67,8 @@ export const POLL_EVENT_PAYLOADS = {
   'poll.lead_changed': pollRef.extend({ leader_option_id: z.uuid() }),
   // A reminder timer fired for the voters who have not voted yet (`slot`: 24h or 2h).
   'poll.closing_soon': pollRef.extend({ slot: z.enum(['24h', '2h']) }),
+  // The board's deadline found a tie for a final spot: the organiser picks.
+  'poll.pick_needed': pollRef.extend({ tied_option_ids: z.array(z.uuid()) }),
   'ballot.cast': ballotRef.extend({ option_id: z.uuid(), source: ballotSourceSchema }),
   'ballot.changed': ballotRef.extend({ option_id: z.uuid(), source: ballotSourceSchema }),
   'ballot.retracted': ballotRef,

@@ -32,7 +32,7 @@ History = size / TTL. Presence ✓ = Centrifugo presence + join/leave enabled.
 | `crew_money:{crew_id}` | member | `expense.*`, `balances.updated`, `payment.status`, `reward.granted{server_ts}` | event | – | 100 / 72 h | 33 |
 | `crew_bookings:{crew_id}` | member | `import.candidate`, `booking.*`, `flight.status` | event | – | 50 / 72 h | 34 |
 | `crew_collection:{crew_id}` | member | `critter.befriended`, `sighting`, `first_spotter` | event | – | 50 / 7 d | 40 |
-| `poll:{poll_id}` | eligible voter (+ creator) | `ballot.upserted{option_tallies, pending_count}`, `poll.closed`, `poll.result`, `changeset.tally{yes, needed}` | per ballot | – | 50 / 7 d | 26 |
+| `poll:{poll_id}` | anyone who can read the poll (its crew, or its trip's crew) | `ballot.upserted{poll_id, option_tallies, pending_count, eligible_count}`, `poll.updated{…, stage?}` (candidate added/removed, board ↔ final), `poll.closed{…, winner_option_id}`, `changeset.tally{yes, needed}`; the same counts are mirrored as `poll.tally` on `crew_chat:` | per ballot | – | 50 / 72 h | 26 |
 | `trip:{trip_id}` | participant | hub ticker `activity`, `tiles`, `boost.state`, `boost.intent_lock{by_uid, until}`, `redraft.counter`, `seat.count` | event | – | 100 / 72 h | 36 |
 | `trip_setup:{trip_id}` | participant | `step.status`, `calendar.sync_count`, `budget.band{count, dots[] (crew ≥4), band}`, `rooms.changed`, `must_do.row{fit_status}` | event | ✓ | 50 / 72 h | 27 |
 | `trip_draft:{trip_id}` | organiser | `draft.step`, `draft.day_title`, `draft.done`, `redraft.result`, `import.progress` | ~1/s during job | – | 100 / 24 h | 28 |
@@ -79,6 +79,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `push.la` | LA transitions, readiness, ETA | APNs `liveactivity` update/end/start or broadcast; FCM Live Update data | 3 | `(activity_id, seq)` | 48 |
 | `push.widget` | vote/balance/plan/forecast/crew change | APNs `widgets` content-changed; FCM data → Glance; budget ~40–70/day/device | 2 | `(device_id, kind, 5-min bucket)` | 49 |
 | `inbox.fanout` | domain events | inbox items + badge recompute | 3 | `(event_id, uid)` | 25 |
+| `inbox.fanout` poll kinds (doc delta) | `poll.created` → `poll.vote_needed` (up to 3 answers inline, `cast_ballot`); `poll.stage_changed` to final → `poll.final_open` (pending voters); `poll.pick_needed` → organiser card; `poll.closed` → `poll.result` | settled by the voter's `ballot.cast`/`ballot.changed` (key `poll:{uid}:{poll_id}`, also the nudge key about the poll) and by the close | 3 | `(event_id, uid)` | 26 |
 | `countdown.recompute` (doc delta) | `trip.created`, `trip.dates_changed`, `trip.destination_set`, `booking.flight_added/changed/removed`, `rsvp.changed`, `user.tz_changed` | `trip_participants.countdown_target_at` per C14 (flights through the `FlightSegmentsSource` port), `trip.summary` on `crew:` | 3 | event id | 25 |
 | `ai.pitch` | pitch cache miss (background prewarm) | AI-01 | 2 | `(crew, place, month)` | 26 |
 | `ai.draft` | `start_draft` | load → prefetch → pro-tier skeleton → pro-tier day fan-out → validate → repair ≤2 → persist version → events | 2 / DLQ | `trip_id + draft_seq` | 28 |
@@ -145,7 +146,9 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `quests.generate` | per trip ~04:00 local | AI-32 → validator → publish, N-31 | 41 |
 | `roundup.build` | per tz bucket, user time −10 min (default 20:00) | AI-39 ≤5 items, template fallback, skip empty | 49 |
 | `leaveby.schedule` | per LeaveBy: start T−≤8 h (push-to-start), T−15 relevance, T0, end | LA + alarm re-sync background push; crew knock at 2nd snooze/T0+N | 36, 48 |
-| `poll.close` | at `closes_at`; reminders −24 h / −2 h | `close_poll` (system), N-02/N-03, vote LA | 26 |
+| `poll.close` | `scheduled_events` timer at a non-board poll's `closes_at` | closes under the poll row lock with the tie rule (a moved deadline or an earlier close: no-op); destination → trip `won`, reveals, N-03 | 26 |
+| `poll.board_advance` (doc delta) | timer at a destination board's `closes_at` (7 d after it opened) | top two → final (N-01 + `poll.final_open` to those who must vote again); tied final spot → `poll.pick_needed` inbox item to the organiser and one more day; one place → it wins; empty board → another 7 d | 26 |
+| `poll.remind` (doc delta) | timers −24 h / −2 h before a non-board `closes_at` | `poll.closing_soon` → N-02 to voters still pending | 26 |
 | `proposal.reply_by` | reply_by −24 h, at reply_by | N-09, close | 31 |
 | `followup.deliver` | recipient local `at` | N-08 | 31 |
 | `nudge.dispatch` | `scheduled_events` timer at the target's engagement hour (modal open hour of 14 d, fallback 19:00, moved out of quiet hours) | marks sent, `nudge.received` → inbox item + N-12 | 25 |

@@ -168,7 +168,7 @@ describe('cast_ballot', () => {
             cmd: 'cast_ballot',
             v: 1,
             actor: { uid: crew.members[1]!.uid, via: 'offline' },
-            device: { id: 'd1', platform: 'ios', app_version: '1.0.0', tz: 'Asia/Saigon' },
+            device: { id: 'device-offline', platform: 'ios', app_version: '1.0.0', tz: 'Asia/Saigon' },
             client_ts: new Date().toISOString(),
             payload: { poll_id: pollId, option_id: options[0] },
           },

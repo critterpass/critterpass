@@ -267,6 +267,7 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
   'poll.reveal_seen': { poll_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
   'poll.lead_changed': { poll_id: crypto.randomUUID(), leader_option_id: crypto.randomUUID() },
   'poll.closing_soon': { poll_id: crypto.randomUUID(), slot: '24h' },
+  'poll.pick_needed': { poll_id: crypto.randomUUID(), tied_option_ids: [crypto.randomUUID()] },
   'ballot.cast': {
     poll_id: crypto.randomUUID(),
     user_id: crypto.randomUUID(),

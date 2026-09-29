@@ -10,7 +10,9 @@ import {
   earliestToCount,
   majorityOriginOf,
   pickWinner,
+  pollVoteResolveKey,
   POLL_REMINDERS,
+  userChannel,
   tallyWire,
   type FrozenPrice,
   type MajorityOrigin,
@@ -20,6 +22,7 @@ import {
 } from '@cp/domain';
 import type pg from 'pg';
 
+import { outbox } from '../command/outbox';
 import { appendDomainEvent } from '../events';
 import { cancelScheduledEvent } from '../jobs';
 import { optionOrder, publishPollHints, tallyOf, type PollState } from './state';
@@ -219,6 +222,28 @@ async function settleDestination(
   });
 }
 
+/** Settles every voter's open "vote needed" card for the poll and refreshes their badges. */
+async function settleVoteCards(tx: pg.PoolClient, state: PollState, now: Date): Promise<void> {
+  const keys = state.poll.eligible_voter_ids.map((uid) => pollVoteResolveKey(uid, state.poll.id));
+  if (keys.length === 0) return;
+  const { rows } = await tx.query<{ user_id: string }>(
+    'SELECT DISTINCT user_id FROM app.resolve_inbox_items($1::text[], $2)',
+    [keys, now],
+  );
+  for (const { user_id: uid } of rows) {
+    const counts = await tx.query<{ needs_you: number; unread: number }>(
+      'SELECT needs_you, unread FROM app.inbox_badge_counts($1, $2)',
+      [uid, now],
+    );
+    await outbox(
+      tx,
+      userChannel(uid),
+      'badge.counts',
+      counts.rows[0] ?? { needs_you: 0, unread: 0 },
+    );
+  }
+}
+
 export async function closePollInTx(
   tx: pg.PoolClient,
   state: PollState,
@@ -241,6 +266,7 @@ export async function closePollInTx(
     [poll.id, winnerOptionId, input.now, input.reason, JSON.stringify(result)],
   );
   await cancelTimers(tx, poll.id);
+  await settleVoteCards(tx, state, input.now);
   if (poll.kind === 'destination') await settleDestination(tx, state, winnerOptionId, input);
   await appendDomainEvent(tx, {
     type: 'poll.closed',

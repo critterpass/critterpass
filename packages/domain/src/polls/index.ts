@@ -8,3 +8,5 @@ export * from './decider';
 export * from './tie-rules';
 export * from './board-layout';
 export * from './commands';
+export * from './inbox-kinds';
+export * from './templates';

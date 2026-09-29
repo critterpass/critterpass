@@ -289,6 +289,12 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'meetup.created': ['meetup_changed'],
   'meetup.moved': ['meetup_changed'],
   'meetup.crew_close': ['meetup_changed'],
+  // Polls: a vote that needs you (a new poll, or the destination final), the reminders before it
+  // closes to those who have not voted, and the destination winner.
+  'poll.created': ['vote_needs_you'],
+  'poll.stage_changed': ['vote_needs_you'],
+  'poll.closing_soon': ['vote_closing'],
+  'poll.closed': ['winner_revealed'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

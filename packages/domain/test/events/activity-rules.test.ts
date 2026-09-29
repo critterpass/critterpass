@@ -80,6 +80,7 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'poll.reveal_seen',
   'poll.lead_changed',
   'poll.closing_soon',
+  'poll.pick_needed',
   'ballot.cast',
   'ballot.changed',
   'ballot.retracted',
