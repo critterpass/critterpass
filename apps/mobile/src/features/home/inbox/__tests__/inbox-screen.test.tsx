@@ -20,11 +20,12 @@ jest.mock(
 );
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true) },
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
+import { router } from 'expo-router';
 
 import {
   openTestLocalFirst,
@@ -106,6 +107,16 @@ describe('inbox', () => {
     expect(screen.getByText('UNDO')).toBeTruthy();
     await settleMotion();
     expect(screen.toJSON()).toMatchSnapshot();
+  });
+
+  it('goes back to Home, or opens Home when the inbox was opened cold', async () => {
+    const s = await open();
+    await renderHome(<InboxScreen />, s);
+    await fireEvent.press(screen.getByRole('button', { name: 'Back to Home' }));
+    expect(router.back).toHaveBeenCalledTimes(1);
+    jest.mocked(router.canGoBack).mockReturnValueOnce(false);
+    await fireEvent.press(screen.getByTestId('inbox-back'));
+    expect(router.replace).toHaveBeenCalledWith('/');
   });
 
   it('queues the answer, lets the card go and settles on Tokek asleep', async () => {

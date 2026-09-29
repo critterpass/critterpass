@@ -3,6 +3,8 @@
  * shift it), relative times for the inbox's EARLIER list, guide tones and colours.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values and token names, never copy. */
+import { t } from '@lingui/core/macro';
+
 import { tokens } from '@cp/design-tokens';
 import { format } from '@cp/i18n';
 
@@ -18,20 +20,22 @@ export function tripDay(locale: string, date: string): string {
   });
 }
 
-/** "12m", "1h", "3d": the EARLIER list's compact age. */
-export function shortAge(locale: string, at: Date, now: Date): string {
+/**
+ * "12m", "1h", "3d": the EARLIER list's compact age, from the catalogue rather than
+ * `Intl.NumberFormat`'s unit style, which Hermes on iOS renders as seconds ("7,200 sec").
+ */
+export function shortAge(at: Date, now: Date): string {
   const minutes = Math.max(0, Math.round((now.getTime() - at.getTime()) / 60_000));
-  const unit =
-    minutes < 60
-      ? { value: Math.max(1, minutes), unit: 'minute' as const }
-      : minutes < 60 * 24
-        ? { value: Math.round(minutes / 60), unit: 'hour' as const }
-        : { value: Math.round(minutes / (60 * 24)), unit: 'day' as const };
-  return format.number(locale, unit.value, {
-    style: 'unit',
-    unit: unit.unit,
-    unitDisplay: 'narrow',
-  });
+  if (minutes < 60) {
+    const count = Math.max(1, minutes);
+    return t({ id: 'home.age.minutes', message: `${count}m` });
+  }
+  if (minutes < 60 * 24) {
+    const count = Math.round(minutes / 60);
+    return t({ id: 'home.age.hours', message: `${count}h` });
+  }
+  const count = Math.round(minutes / (60 * 24));
+  return t({ id: 'home.age.days', message: `${count}d` });
 }
 
 const GUIDE_TONES: Readonly<Record<GuideId, CardTone>> = {

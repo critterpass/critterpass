@@ -72,6 +72,130 @@ exports[`inbox queues the answer, lets the card go and settles on Tokek asleep 1
         >
           <View>
             <View
+              accessibilityLabel="Back to Home"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "flex-start",
+                  "flexDirection": "row",
+                  "gap": 6,
+                  "minHeight": 44,
+                }
+              }
+              testID="inbox-back"
+            >
+              <View
+                accessibilityElementsHidden={true}
+                importantForAccessibility="no-hide-descendants"
+                style={
+                  [
+                    {
+                      "height": 9,
+                      "justifyContent": "center",
+                      "width": 11,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "scaleX": 1,
+                        },
+                      ],
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    [
+                      {
+                        "borderRadius": 1,
+                        "height": 2,
+                      },
+                      {
+                        "backgroundColor": "#a9a3c0",
+                      },
+                    ]
+                  }
+                />
+                <View
+                  style={
+                    [
+                      {
+                        "borderBottomWidth": 2,
+                        "borderStartWidth": 2,
+                        "height": 6,
+                        "position": "absolute",
+                        "start": 1,
+                        "transform": [
+                          {
+                            "rotate": "45deg",
+                          },
+                        ],
+                        "width": 6,
+                      },
+                      {
+                        "borderColor": "#a9a3c0",
+                      },
+                    ]
+                  }
+                />
+              </View>
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#a9a3c0",
+                      "fontFamily": "Geist-700",
+                      "fontSize": 11,
+                      "fontStyle": "normal",
+                      "letterSpacing": 1.76,
+                      "lineHeight": 15.399999999999999,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.2970000000000015,
+                      "paddingTop": 0.2970000000000015,
+                    },
+                  ]
+                }
+              >
+                HOME
+              </Text>
+            </View>
+            <View
               style={
                 [
                   {
@@ -83,7 +207,7 @@ exports[`inbox queues the answer, lets the card go and settles on Tokek asleep 1
                     "justifyContent": "space-between",
                   },
                   {
-                    "paddingTop": 8,
+                    "gap": 12,
                   },
                 ]
               }
@@ -103,7 +227,9 @@ exports[`inbox queues the answer, lets the card go and settles on Tokek asleep 1
                       "letterSpacing": -0.64,
                       "lineHeight": 55.04,
                     },
-                    undefined,
+                    {
+                      "flexShrink": 1,
+                    },
                     {
                       "marginTop": -26.175999999999995,
                       "paddingTop": 26.175999999999995,
@@ -241,8 +367,10 @@ exports[`inbox queues the answer, lets the card go and settles on Tokek asleep 1
                       {
                         "alignItems": "center",
                         "borderRadius": 22,
-                        "flex": 1,
+                        "flexBasis": "auto",
                         "flexDirection": "row",
+                        "flexGrow": 1,
+                        "flexShrink": 1,
                         "gap": 4,
                         "justifyContent": "center",
                         "paddingHorizontal": 8,
@@ -261,6 +389,7 @@ exports[`inbox queues the answer, lets the card go and settles on Tokek asleep 1
               >
                 <Text
                   allowFontScaling={false}
+                  numberOfLines={1}
                   onLayout={[Function]}
                   onTextLayout={[Function]}
                   style={
@@ -314,8 +443,10 @@ exports[`inbox queues the answer, lets the card go and settles on Tokek asleep 1
                       {
                         "alignItems": "center",
                         "borderRadius": 22,
-                        "flex": 1,
+                        "flexBasis": "auto",
                         "flexDirection": "row",
+                        "flexGrow": 1,
+                        "flexShrink": 1,
                         "gap": 4,
                         "justifyContent": "center",
                         "paddingHorizontal": 8,
@@ -336,6 +467,7 @@ exports[`inbox queues the answer, lets the card go and settles on Tokek asleep 1
               >
                 <Text
                   allowFontScaling={false}
+                  numberOfLines={1}
                   onLayout={[Function]}
                   onTextLayout={[Function]}
                   style={
@@ -389,8 +521,10 @@ exports[`inbox queues the answer, lets the card go and settles on Tokek asleep 1
                       {
                         "alignItems": "center",
                         "borderRadius": 22,
-                        "flex": 1,
+                        "flexBasis": "auto",
                         "flexDirection": "row",
+                        "flexGrow": 1,
+                        "flexShrink": 1,
                         "gap": 4,
                         "justifyContent": "center",
                         "paddingHorizontal": 8,
@@ -409,6 +543,7 @@ exports[`inbox queues the answer, lets the card go and settles on Tokek asleep 1
               >
                 <Text
                   allowFontScaling={false}
+                  numberOfLines={1}
                   onLayout={[Function]}
                   onTextLayout={[Function]}
                   style={
@@ -462,8 +597,10 @@ exports[`inbox queues the answer, lets the card go and settles on Tokek asleep 1
                       {
                         "alignItems": "center",
                         "borderRadius": 22,
-                        "flex": 1,
+                        "flexBasis": "auto",
                         "flexDirection": "row",
+                        "flexGrow": 1,
+                        "flexShrink": 1,
                         "gap": 4,
                         "justifyContent": "center",
                         "paddingHorizontal": 8,
@@ -482,6 +619,7 @@ exports[`inbox queues the answer, lets the card go and settles on Tokek asleep 1
               >
                 <Text
                   allowFontScaling={false}
+                  numberOfLines={1}
                   onLayout={[Function]}
                   onTextLayout={[Function]}
                   style={
@@ -784,6 +922,130 @@ exports[`inbox shows the needs-you card above the quiet EARLIER list 1`] = `
         >
           <View>
             <View
+              accessibilityLabel="Back to Home"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": undefined,
+                  "expanded": undefined,
+                  "selected": undefined,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                {
+                  "alignItems": "center",
+                  "alignSelf": "flex-start",
+                  "flexDirection": "row",
+                  "gap": 6,
+                  "minHeight": 44,
+                }
+              }
+              testID="inbox-back"
+            >
+              <View
+                accessibilityElementsHidden={true}
+                importantForAccessibility="no-hide-descendants"
+                style={
+                  [
+                    {
+                      "height": 9,
+                      "justifyContent": "center",
+                      "width": 11,
+                    },
+                    {
+                      "transform": [
+                        {
+                          "scaleX": 1,
+                        },
+                      ],
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    [
+                      {
+                        "borderRadius": 1,
+                        "height": 2,
+                      },
+                      {
+                        "backgroundColor": "#a9a3c0",
+                      },
+                    ]
+                  }
+                />
+                <View
+                  style={
+                    [
+                      {
+                        "borderBottomWidth": 2,
+                        "borderStartWidth": 2,
+                        "height": 6,
+                        "position": "absolute",
+                        "start": 1,
+                        "transform": [
+                          {
+                            "rotate": "45deg",
+                          },
+                        ],
+                        "width": 6,
+                      },
+                      {
+                        "borderColor": "#a9a3c0",
+                      },
+                    ]
+                  }
+                />
+              </View>
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#a9a3c0",
+                      "fontFamily": "Geist-700",
+                      "fontSize": 11,
+                      "fontStyle": "normal",
+                      "letterSpacing": 1.76,
+                      "lineHeight": 15.399999999999999,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.2970000000000015,
+                      "paddingTop": 0.2970000000000015,
+                    },
+                  ]
+                }
+              >
+                HOME
+              </Text>
+            </View>
+            <View
               style={
                 [
                   {
@@ -795,7 +1057,7 @@ exports[`inbox shows the needs-you card above the quiet EARLIER list 1`] = `
                     "justifyContent": "space-between",
                   },
                   {
-                    "paddingTop": 8,
+                    "gap": 12,
                   },
                 ]
               }
@@ -815,7 +1077,9 @@ exports[`inbox shows the needs-you card above the quiet EARLIER list 1`] = `
                       "letterSpacing": -0.64,
                       "lineHeight": 55.04,
                     },
-                    undefined,
+                    {
+                      "flexShrink": 1,
+                    },
                     {
                       "marginTop": -26.175999999999995,
                       "paddingTop": 26.175999999999995,
@@ -953,8 +1217,10 @@ exports[`inbox shows the needs-you card above the quiet EARLIER list 1`] = `
                       {
                         "alignItems": "center",
                         "borderRadius": 22,
-                        "flex": 1,
+                        "flexBasis": "auto",
                         "flexDirection": "row",
+                        "flexGrow": 1,
+                        "flexShrink": 1,
                         "gap": 4,
                         "justifyContent": "center",
                         "paddingHorizontal": 8,
@@ -973,6 +1239,7 @@ exports[`inbox shows the needs-you card above the quiet EARLIER list 1`] = `
               >
                 <Text
                   allowFontScaling={false}
+                  numberOfLines={1}
                   onLayout={[Function]}
                   onTextLayout={[Function]}
                   style={
@@ -1026,8 +1293,10 @@ exports[`inbox shows the needs-you card above the quiet EARLIER list 1`] = `
                       {
                         "alignItems": "center",
                         "borderRadius": 22,
-                        "flex": 1,
+                        "flexBasis": "auto",
                         "flexDirection": "row",
+                        "flexGrow": 1,
+                        "flexShrink": 1,
                         "gap": 4,
                         "justifyContent": "center",
                         "paddingHorizontal": 8,
@@ -1048,6 +1317,7 @@ exports[`inbox shows the needs-you card above the quiet EARLIER list 1`] = `
               >
                 <Text
                   allowFontScaling={false}
+                  numberOfLines={1}
                   onLayout={[Function]}
                   onTextLayout={[Function]}
                   style={
@@ -1101,8 +1371,10 @@ exports[`inbox shows the needs-you card above the quiet EARLIER list 1`] = `
                       {
                         "alignItems": "center",
                         "borderRadius": 22,
-                        "flex": 1,
+                        "flexBasis": "auto",
                         "flexDirection": "row",
+                        "flexGrow": 1,
+                        "flexShrink": 1,
                         "gap": 4,
                         "justifyContent": "center",
                         "paddingHorizontal": 8,
@@ -1121,6 +1393,7 @@ exports[`inbox shows the needs-you card above the quiet EARLIER list 1`] = `
               >
                 <Text
                   allowFontScaling={false}
+                  numberOfLines={1}
                   onLayout={[Function]}
                   onTextLayout={[Function]}
                   style={
@@ -1174,8 +1447,10 @@ exports[`inbox shows the needs-you card above the quiet EARLIER list 1`] = `
                       {
                         "alignItems": "center",
                         "borderRadius": 22,
-                        "flex": 1,
+                        "flexBasis": "auto",
                         "flexDirection": "row",
+                        "flexGrow": 1,
+                        "flexShrink": 1,
                         "gap": 4,
                         "justifyContent": "center",
                         "paddingHorizontal": 8,
@@ -1194,6 +1469,7 @@ exports[`inbox shows the needs-you card above the quiet EARLIER list 1`] = `
               >
                 <Text
                   allowFontScaling={false}
+                  numberOfLines={1}
                   onLayout={[Function]}
                   onTextLayout={[Function]}
                   style={

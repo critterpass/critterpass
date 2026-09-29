@@ -13,6 +13,18 @@ msgstr ""
 msgid "home.firstRun.guideCell"
 msgstr "{0}, cùng {1}"
 
+#: ../../apps/mobile/src/features/home/format.ts
+msgid "home.age.days"
+msgstr "{count} ngày"
+
+#: ../../apps/mobile/src/features/home/format.ts
+msgid "home.age.hours"
+msgstr "{count} giờ"
+
+#: ../../apps/mobile/src/features/home/format.ts
+msgid "home.age.minutes"
+msgstr "{count} phút"
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.guideDid"
 msgstr "{guide} {summary}"
@@ -92,6 +104,10 @@ msgstr "Trước đó"
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.guides"
 msgstr "Hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
+msgid "home.inbox.back"
+msgstr "Trang chủ"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.eyebrow"
