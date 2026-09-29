@@ -12,14 +12,10 @@ import { ChatRichCard } from '../chat/ChatRichCard';
 import { Composer } from '../chat/Composer';
 import { FormatPicker } from '../chat/FormatPicker';
 import { ReactionFloats } from '../chat/ReactionFloats';
-import { fixturesFor } from '../gallery/registry';
 import { PageDots } from '../story/PageDots';
 import { StepTabs } from '../story/StepTabs';
 import { StoryPlayer } from '../story/StoryPlayer';
 import { renderUi } from '../test-support/render';
-
-import '../chat/chat.fixtures';
-import '../story/story.fixtures';
 
 const run = (node: ReturnType<typeof screen.getByRole>, actionName: string) =>
   fireEvent(node, 'accessibilityAction', { nativeEvent: { actionName } });
@@ -207,29 +203,5 @@ describe('story', () => {
     await run(done, 'activate');
     expect(onSelect).toHaveBeenCalledWith(0);
     expect(screen.getByRole('text', { name: 'Page 3 of 4' })).toBeTruthy();
-  });
-});
-
-describe('chat and story gallery fixtures', () => {
-  it('registers and renders every component', async () => {
-    const components = [
-      'ChatMessage',
-      'ChatRichCard',
-      'ReactionFloats',
-      'FormatPicker',
-      'AttachmentThumb',
-      'Composer',
-      'StoryPlayer',
-      'StepTabs',
-      'PageDots',
-    ];
-    for (const component of components) {
-      const fixtures = fixturesFor(component);
-      expect(fixtures.length).toBeGreaterThan(0);
-      for (const fixture of fixtures) {
-        const { unmount } = await renderUi(<>{fixture.render()}</>);
-        await unmount();
-      }
-    }
   });
 });

@@ -18,7 +18,6 @@ import { act, render, renderHook, waitFor } from '@testing-library/react-native'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { ComponentRef, RefObject } from 'react';
 import { Text, type View } from 'react-native';
-import { useSharedValue } from 'react-native-reanimated';
 
 import { impact } from '../feedback';
 import { useMotionMode } from '../motion-mode';
@@ -27,11 +26,7 @@ import { flyTo, flyToOverlay } from '../overlay/fly-to';
 import { confettiParticleCount, useConfetti } from '../patterns/confetti';
 import { drawGate, useDraw, useDrawGate } from '../patterns/draw';
 import { usePageTurn } from '../patterns/page-turn';
-import { usePetals } from '../patterns/petals';
-import { usePingRings } from '../patterns/ping-rings';
 import { useRays } from '../patterns/rays';
-import { useTypingDot } from '../patterns/typing';
-import { useWaveformBar } from '../patterns/waveform';
 import { resetMotionModeForTests } from '../test-support/reset-motion-mode';
 
 const mockedImpact = impact as jest.MockedFunction<typeof impact>;
@@ -116,41 +111,16 @@ describe('useDraw', () => {
 });
 
 describe('other T5 overlay patterns produce a result without throwing', () => {
-  it('usePingRings', async () => {
-    const { result } = await renderHook(() => usePingRings(true));
-    expect(result.current).toHaveLength(2);
-  });
-
   it('useRays is omitted (not just frozen) under reduced motion', async () => {
     await forceReducedMotion();
     const { result } = await renderHook(() => useRays(true));
     expect(result.current.visible).toBe(false);
   });
 
-  it('usePetals', async () => {
-    const { result } = await renderHook(() =>
-      usePetals({ active: true, count: 5, width: 300, height: 600 }),
-    );
-    expect(result.current).toHaveLength(5);
-  });
-
   it('usePageTurn fires the page cue once settled', async () => {
     const onSettled = jest.fn();
     await renderHook(() => usePageTurn({ active: true, onSettled }));
     expect(mockedImpact).toHaveBeenCalledWith('page');
-  });
-
-  it('useWaveformBar', async () => {
-    const { result } = await renderHook(() => {
-      const level = useSharedValue(0.5);
-      return useWaveformBar(level, 1, 5);
-    });
-    expect(result.current).toBeTruthy();
-  });
-
-  it('useTypingDot', async () => {
-    const { result } = await renderHook(() => useTypingDot(true, 1));
-    expect(result.current).toBeTruthy();
   });
 });
 

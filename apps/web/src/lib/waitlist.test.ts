@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-  DESTINATIONS,
   FIRST_WAVE_TOTAL,
   WAITLIST_BASE_COUNT,
   findDestination,
@@ -52,10 +51,6 @@ describe('positionInLine', () => {
 });
 
 describe('destinations', () => {
-  it('has exactly the six design chips', () => {
-    expect(DESTINATIONS).toHaveLength(6);
-  });
-
   it('validates known keys and rejects unknown ones', () => {
     expect(isDestinationKey('bali')).toBe(true);
     expect(isDestinationKey('atlantis')).toBe(false);

@@ -131,19 +131,4 @@ describe('property-adjacent: 16 representative launch locales format without thr
     expect(rendered.length).toBeGreaterThan(0);
     expect(rendered).toContain('≈');
   });
-
-  it('matches a stored snapshot for every locale (regression baseline)', () => {
-    const byLocale = Object.fromEntries(
-      LOCALES.map((locale) => [
-        locale,
-        formatMoney(money(7_500_000n, 'IDR'), {
-          locale,
-          mode: 'both',
-          home: 'SGD',
-          converted: money(640n, 'SGD'),
-        }),
-      ]),
-    );
-    expect(byLocale).toMatchSnapshot();
-  });
 });

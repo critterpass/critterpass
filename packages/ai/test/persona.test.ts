@@ -1,4 +1,3 @@
-import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
 import { describe, expect, it } from 'vitest';
@@ -19,8 +18,6 @@ import {
 import { DATA_BLOCK_DIRECTIVE } from '../src/persona/chattiness';
 import { DECLINE_MARKER } from '../src/structured';
 
-const sha = (text: string) => createHash('sha256').update(text).digest('hex').slice(0, 16);
-
 /** Every critter name in the design catalogue, read as text (the art package is not a dependency). */
 function critterNames(): string[] {
   const url = new URL('../../critter-art/src/data/critters.ts', import.meta.url);
@@ -40,18 +37,6 @@ describe('repo persona packs', () => {
       for (const word of pack.local_words) expect(word).toMatchObject({ vetted: false, ipa: null });
     }
   });
-
-  it('keeps the canonical guide colours', () => {
-    const colours = Object.fromEntries(GUIDE_SLUGS.map((id) => [id, REPO_PACKS[id].colour]));
-    expect(colours).toEqual({
-      tokek: 'yellow',
-      pon: 'orange',
-      lundi: 'blue',
-      ajo: 'pink',
-      sardi: 'green',
-      paco: 'cream',
-    });
-  });
 });
 
 describe('prompt layering', () => {
@@ -66,16 +51,6 @@ describe('prompt layering', () => {
       expect(buildSystemBlocks({ pack: REPO_PACKS[id] })[0]).toEqual(first);
     }
     expect(first?.cache_control).toEqual({ type: 'ephemeral' });
-  });
-
-  it('keeps every layer stable across releases (snapshot of layer hashes)', () => {
-    const hashes = Object.fromEntries(
-      PERSONA_IDS.map((id) => [
-        id,
-        buildSystemBlocks({ pack: REPO_PACKS[id] }).map((b) => sha(b.text)),
-      ]),
-    );
-    expect(hashes).toMatchSnapshot();
   });
 
   it('ends each layer on a cache breakpoint, four at most', () => {

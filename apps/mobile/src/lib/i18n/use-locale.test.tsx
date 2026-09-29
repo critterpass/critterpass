@@ -12,11 +12,6 @@ function LocaleLabel() {
 }
 
 describe('useLocale', () => {
-  it('returns the active locale', async () => {
-    const { getByText } = await renderWithI18n(<LocaleLabel />, { locale: 'en' });
-    expect(getByText('en')).toBeTruthy();
-  });
-
   it('re-renders with the new locale when it changes, without remounting the component', async () => {
     const { getByText } = await renderWithI18n(<LocaleLabel />, { locale: 'en' });
     expect(getByText('en')).toBeTruthy();

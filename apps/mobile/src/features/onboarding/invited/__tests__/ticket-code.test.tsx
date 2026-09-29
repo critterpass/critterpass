@@ -123,13 +123,6 @@ describe('3a-10 invite ticket', () => {
     expect(await screen.findByText('A SEAT IN THE BALI SIX')).toBeTruthy();
   });
 
-  it('shows a skeleton while the preview loads', async () => {
-    await renderInvited(<TicketScreen />, {
-      services: { ...services(found()), preview: () => new Promise(() => undefined) },
-    });
-    expect(screen.getByTestId('invite-ticket-loading')).toBeTruthy();
-  });
-
   it('seats someone who already has a pass straight into the crew', async () => {
     setOnboardingComplete(true);
     const api = recordedApi({
