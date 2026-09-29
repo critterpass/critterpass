@@ -8,7 +8,7 @@ import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
 import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { CURATED_BUCKETS, selectCurated, selectionCandidates } from '../src/kinds/places/select';
+import { selectCurated, selectionCandidates } from '../src/kinds/places/select';
 import { replayFetch } from './fixture-fetch';
 import { seedSelectFixture } from './places-select-fixture';
 
@@ -36,22 +36,15 @@ const namesOf = async (ids: readonly string[]) =>
     .sort();
 
 describe('curated POI selection', () => {
-  it('leaves chains out and puts places both datasets list first', async () => {
+  it("leaves chains out, lists a bucket's first category first, then places both datasets list", async () => {
     const food = await selectionCandidates(pool, destinationId, ['food', 'market']);
     expect(food.map((c) => c.name)).toEqual(['Nishiki Market']);
-    const all = await selectionCandidates(
-      pool,
-      destinationId,
-      CURATED_BUCKETS.flatMap((bucket) => bucket.categories),
-    );
-    const firstLoose = all.findIndex((c) => !c.corroborated);
-    expect(
-      all
-        .slice(0, firstLoose)
-        .map((c) => c.name)
-        .sort(),
-    ).toEqual(['Kinkaku-ji', 'Kyoto Station', 'Nishiki Market']);
-    expect(all.slice(firstLoose).every((c) => !c.corroborated)).toBe(true);
+    const sights = await selectionCandidates(pool, destinationId, ['museum', 'other']);
+    expect(sights[0]?.name).toBe('Kyoto National Museum');
+    expect(sights).toHaveLength(5);
+    const temples = await selectionCandidates(pool, destinationId, ['temple_shrine']);
+    expect(temples[0]).toMatchObject({ name: 'Kinkaku-ji', corroborated: true });
+    expect(temples.slice(1).every((c) => !c.corroborated)).toBe(true);
   });
 
   it('keeps the places the model scores highest and answers a rerun from the cache', async () => {

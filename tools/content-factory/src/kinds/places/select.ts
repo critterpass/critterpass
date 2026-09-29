@@ -2,8 +2,9 @@
  * Which imported POIs of a destination become curated. The importer keeps every open-data place in
  * the destination's bbox (tens to hundreds of thousands per city); the curated set is a few hundred
  * spread over sights, temples, food, nightlife, nature and practical stops. Candidates come from the
- * database (chains, i.e. a name used three or more times in the destination, are left out; places
- * both open datasets agree on come first), the model scores each candidate's interest to a visitor
+ * database (chains, i.e. a name used three or more times in a bucket, are left out; a bucket's
+ * first category comes first, so museums and monuments precede the catch-all, then places both
+ * open datasets agree on), the model scores each candidate's interest to a visitor
  * from its name, category and address alone, and each bucket takes its share of the city target by
  * score. Scores are cached per request, so a rerun makes no model calls.
  */
@@ -53,19 +54,20 @@ export async function selectionCandidates(
   limit = MAX_CANDIDATES_PER_BUCKET,
 ): Promise<SelectionCandidate[]> {
   const { rows } = await pool.query<SelectionCandidate>(
-    `WITH chains AS (
-       SELECT lower(name) AS name FROM pois
+    `WITH counted AS (
+       SELECT id, name, category, address, source_ids, curation,
+         count(*) OVER (PARTITION BY lower(name)) AS same_name
+       FROM pois
        WHERE destination_id = $1 AND status = 'active' AND merged_into_id IS NULL
-       GROUP BY lower(name) HAVING count(*) >= 3
+         AND category = ANY($2::text[]) AND char_length(name) >= 3
      )
      SELECT id, name, category, address,
        (source_ids ? 'fsq_os' AND source_ids ? 'overture') AS corroborated,
        curation = 'editorial' AS editorial
-     FROM pois
-     WHERE destination_id = $1 AND status = 'active' AND merged_into_id IS NULL
-       AND category = ANY($2::text[]) AND char_length(name) >= 3
-       AND (curation = 'editorial' OR lower(name) NOT IN (SELECT name FROM chains))
-     ORDER BY curation = 'editorial' DESC, corroborated DESC, address IS NOT NULL DESC, md5(source_ids::text), id
+     FROM counted
+     WHERE curation = 'editorial' OR same_name < 3
+     ORDER BY curation = 'editorial' DESC, array_position($2::text[], category),
+       corroborated DESC, address IS NOT NULL DESC, md5(source_ids::text), id
      LIMIT $3`,
     [destinationId, categories, limit],
   );
@@ -164,7 +166,7 @@ export async function scoreCandidates(
       },
     })),
     {
-      concurrency: options.concurrency ?? 6,
+      concurrency: options.concurrency ?? 8,
       signal: abort.signal,
       onResult: (result) => {
         const entry = pending[Number(result.customId.slice(1))];
