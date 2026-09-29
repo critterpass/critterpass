@@ -63,7 +63,12 @@ export function libpqEnv(databaseUrl: string): Record<string, string> {
   return env;
 }
 
-/** Streams `pg_dump -Fc` output; the iterator throws if pg_dump exits non-zero. */
+/**
+ * Streams `pg_dump -Fc` output; the iterator throws if pg_dump fails or the job is aborted. pg_dump
+ * closes its output before it disconnects and exits, so the end of the output is not the end of
+ * the process: it is only killed when the consumer stops early (a failed upload), and then the
+ * consumer's own error is the one that propagates.
+ */
 async function* dumpStream(
   argv: readonly string[],
   databaseUrl: string,
@@ -84,12 +89,20 @@ async function* dumpStream(
     child.once('close', resolve);
   });
   exited.catch(() => undefined);
+  let drained = false;
   try {
     for await (const chunk of child.stdout) yield chunk as Uint8Array;
+    drained = true;
   } finally {
-    if (child.exitCode === null) child.kill();
+    if (!drained && child.exitCode === null) child.kill();
   }
-  const code = await exited;
+  const code = await exited.catch((error: unknown) => {
+    if (signal?.aborted !== true) throw error;
+    return null;
+  });
+  if (signal?.aborted === true) {
+    throw new Error(`backup aborted: ${String(signal.reason)}`, { cause: signal.reason });
+  }
   if (code !== 0) {
     throw new Error(`pg_dump exited with ${String(code)}: ${stderr.join('').trim().slice(-500)}`);
   }
