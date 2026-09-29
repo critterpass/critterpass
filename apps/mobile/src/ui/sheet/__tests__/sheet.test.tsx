@@ -148,6 +148,40 @@ describe('Sheet', () => {
     expect(onDismiss).toHaveBeenCalledTimes(1);
   });
 
+  it('heads with a title that wraps rather than cuts, beside its action and the ✕', async () => {
+    const screen = await renderModal(
+      <Sheet
+        onDismiss={() => {}}
+        title="Your crews"
+        headerEnd={<Text testID="join">Join with a code</Text>}
+      >
+        <Text>body</Text>
+      </Sheet>,
+    );
+    const row = screen.getByTestId('sheet-header');
+    expect(flat(row)).toMatchObject({ flexDirection: 'row', alignItems: 'flex-start' });
+    const title = within(row).getByRole('header');
+    expect(title.props.numberOfLines).toBeUndefined();
+    expect(within(row).getByTestId('join')).toBeTruthy();
+    expect(within(row).getByTestId('sheet-close')).toBeTruthy();
+  });
+
+  it('hides the ✕ on a sheet the grabber dismisses', async () => {
+    const titled = await renderModal(
+      <Sheet onDismiss={() => {}} title="Your crews" closable={false}>
+        <Text>body</Text>
+      </Sheet>,
+    );
+    expect(titled.queryByTestId('sheet-close')).toBeNull();
+    await act(() => titled.unmount());
+    const bare = await renderModal(
+      <Sheet onDismiss={() => {}} closable={false}>
+        <Text>body</Text>
+      </Sheet>,
+    );
+    expect(bare.queryByTestId('sheet-close')).toBeNull();
+  });
+
   it('keeps the ✕ floating at the corner when there is no header', async () => {
     const screen = await renderModal(
       <Sheet onDismiss={() => {}}>

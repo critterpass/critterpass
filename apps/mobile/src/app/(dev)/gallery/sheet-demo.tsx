@@ -1,5 +1,6 @@
-import { Row, Stack, Text } from '@/ui';
-import { InlineAction } from '@/ui/buttons/InlineAction';
+import { useLocale } from '@/lib/i18n/use-locale';
+import { Stack, Text } from '@/ui';
+import { HeaderPill } from '@/ui/shell/HeaderPills';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 
@@ -7,30 +8,26 @@ export const __CP_DEV_ROUTE__ = true;
 
 const ROWS = Array.from({ length: 30 }, (_, index) => `Row ${index + 1}`);
 
+/** The crews sheet's own copy (3g-3) in the gallery's language; the Vietnamese title runs longer. */
+const COPY = {
+  en: { title: 'Your crews', join: 'Join with a code' },
+  vi: { title: 'Nhóm của bạn', join: 'Vào bằng mã' },
+} as const;
+
 /**
- * Sheet demo: medium and large detents over the gallery, with scrollable content, and a header row
- * (a long title and a trailing action) sharing its line with the ✕.
+ * Sheet demo: medium and large detents over the gallery, with scrollable content, headed like the
+ * crews sheet (3g-3): a title that wraps beside its trailing action and the ✕.
  */
 export default function SheetDemoScreen() {
+  const locale = useLocale();
+  const copy = locale.startsWith('vi') ? COPY.vi : COPY.en;
   return (
     <Sheet
       detents={['medium', 'large']}
       initialDetent="medium"
       accessibilityLabel="Sheet demo"
-      header={
-        <Row gap="12" justify="space-between">
-          <Text
-            variant="h2"
-            accessibilityRole="header"
-            autoFit
-            numberOfLines={1}
-            style={{ flexShrink: 1 }}
-          >
-            Your crews and trips
-          </Text>
-          <InlineAction label="Join with a code" onPress={() => undefined} />
-        </Row>
-      }
+      title={copy.title}
+      headerEnd={<HeaderPill label={copy.join} onPress={() => undefined} />}
     >
       <SheetScrollView testID="sheet-demo-scroll">
         <Stack gap="12" padding="20">

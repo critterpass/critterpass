@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { SurfaceToneProvider } from '../surface/Scaffold';
 import { makeStyles } from '../theme';
+import { Text } from '../text/Text';
 import { CloseButton } from './CloseButton';
 import { Grabber, GRABBER_ZONE_HEIGHT } from './Grabber';
 import { PresentedSurfaceContext } from './presenter';
@@ -61,17 +62,28 @@ const useStyles = makeStyles((t) => ({
     paddingEnd: t.space['12'],
   },
   headerContent: { flex: 1, minWidth: 0 },
+  titled: { alignItems: 'flex-start' },
+  headerEnd: { flexShrink: 0 },
   contentUnderHeader: { paddingTop: t.space['8'] },
 }));
 
 export interface SheetProps {
   readonly children: ReactNode;
   /**
-   * The sheet's title row (a title, a trailing action such as JOIN WITH A CODE, a search field). It
-   * shares one row with the ✕, which sits in flow at its end, centres aligned, so they can never
-   * overlap; the header gets the width that is left. Without it the ✕ floats at the top corner.
+   * The sheet's title (3g-3 "YOUR CREWS"): h1, fitted and wrapped (up to three lines), never cut.
+   * It heads one row with `headerEnd` and the ✕, which keep their own width and sit level with its
+   * first line, so nothing overlaps.
+   */
+  readonly title?: string | undefined;
+  /** A trailing action beside the title (3g-3 JOIN WITH A CODE). */
+  readonly headerEnd?: ReactNode | undefined;
+  /**
+   * A custom header row (a search field, 3b-7) that shares its line with the ✕, centres aligned;
+   * it gets the width that is left. Use `title` for a title.
    */
   readonly header?: ReactNode | undefined;
+  /** Whether the ✕ shows; sheets whose design dismisses by the grabber alone (3g-3, 3b-7) hide it. @default true */
+  readonly closable?: boolean | undefined;
   readonly detents?: readonly SheetDetent[] | undefined;
   readonly initialDetent?: SheetDetent | undefined;
   /** Called after the dismiss animation; defaults to going back (sheets are `(modal)` routes). */
@@ -88,7 +100,10 @@ export interface SheetProps {
  */
 export function Sheet({
   children,
+  title,
+  headerEnd,
   header,
+  closable = true,
   detents = ['large'],
   initialDetent,
   onDismiss,
@@ -100,6 +115,7 @@ export function Sheet({
   const { height: screenHeight } = useWindowDimensions();
   const [fitHeight, setFitHeight] = useState<number | null>(null);
   const [headerHeight, setHeaderHeight] = useState(0);
+  const hasHeader = title !== undefined || header !== undefined;
   const heights = detentHeights(detents, screenHeight, fitHeight);
   const initialHeight = detentHeights(
     [initialDetent ?? detents[0] ?? 'large'],
@@ -143,14 +159,25 @@ export function Sheet({
               style={[styles.panel, { height: maxHeight }, presentation.panelStyle]}
             >
               <Grabber />
-              {header !== undefined ? (
+              {hasHeader ? (
                 <View
-                  style={styles.header}
+                  style={[styles.header, title !== undefined ? styles.titled : null]}
                   testID={`${testID}-header`}
                   onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}
                 >
-                  <View style={styles.headerContent}>{header}</View>
-                  <CloseButton onPress={dismiss} testID={`${testID}-close`} />
+                  <View style={styles.headerContent}>
+                    {title !== undefined ? (
+                      <Text variant="h1" accessibilityRole="header">
+                        {title}
+                      </Text>
+                    ) : (
+                      header
+                    )}
+                  </View>
+                  {title !== undefined && headerEnd !== undefined ? (
+                    <View style={styles.headerEnd}>{headerEnd}</View>
+                  ) : null}
+                  {closable ? <CloseButton onPress={dismiss} testID={`${testID}-close`} /> : null}
                 </View>
               ) : null}
               <SheetScrollContext.Provider
@@ -159,7 +186,7 @@ export function Sheet({
                 <View
                   style={[
                     styles.content,
-                    header !== undefined ? styles.contentUnderHeader : null,
+                    hasHeader ? styles.contentUnderHeader : null,
                     fitOnly ? null : { flex: 1 },
                     { paddingBottom: Math.max(insets.bottom, keyboardInset) },
                   ]}
@@ -173,7 +200,7 @@ export function Sheet({
                   {children}
                 </View>
               </SheetScrollContext.Provider>
-              {header === undefined ? (
+              {!hasHeader && closable ? (
                 <CloseButton onPress={dismiss} style={styles.close} testID={`${testID}-close`} />
               ) : null}
             </Animated.View>
