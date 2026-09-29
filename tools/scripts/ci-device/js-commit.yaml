@@ -9,8 +9,16 @@ appId: app.critterpass.dev
     visible:
       id: 'dev-tools-entry'
     timeout: 90000
-- tapOn:
-    id: 'dev-tools-entry'
+# On a slow runner a tap during the splash's entrance can land before the entry responds; retry it.
+- retry:
+    maxRetries: 2
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-build-marker'
+          timeout: 20000
 - assertVisible:
     id: 'dev-build-marker'
     text: '.*js:${JS_COMMIT}.*'
