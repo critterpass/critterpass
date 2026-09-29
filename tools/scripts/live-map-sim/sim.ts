@@ -92,7 +92,9 @@ export async function startCrew(
     ...signedIn.map(({ member, session }) => ({ uid: session.uid, name: member.name })),
     ...(options.join === undefined ? [] : [{ uid: options.join, name: 'You' }]),
   ]);
-  log(`seeded crew ${crew.crewId}: boosted trip ${crew.boostedTripId}`);
+  log(
+    `seeded crew ${crew.crewId}: boosted trip ${crew.boostedTripId}, unboosted trip ${crew.unboostedTripId}`,
+  );
   const riders: Rider[] = [];
   for (const { member, session } of signedIn) {
     const share = await command(http, session, 'set_location_share', {

@@ -1,0 +1,42 @@
+appId: app.critterpass.dev
+---
+# The same crew live map screenshots in Vietnamese: the dev gallery switches the running app's
+# language (not persisted), then back to the list and into the live map scenes.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-live-map'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-live-map'
+- extendedWaitUntil:
+    visible:
+      id: 'live-map-scene-live'
+    timeout: 20000
+- runFlow:
+    file: subflows/scenes.yaml
+    env:
+      PREFIX: vi

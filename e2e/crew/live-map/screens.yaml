@@ -1,0 +1,15 @@
+appId: app.critterpass.dev
+---
+# Screenshots of the crew live map for review against 3g-4, in English: the designed view and each
+# state around it, drawn by the real screen from fixed scenes (developer tools, no backend).
+- launchApp:
+    clearState: true
+- runFlow:
+    file: ../../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: live-map
+      READY: live-map-scene-live
+- runFlow:
+    file: subflows/scenes.yaml
+    env:
+      PREFIX: en

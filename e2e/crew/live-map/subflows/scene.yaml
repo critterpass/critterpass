@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# Opens one crew live map scene from the dev list (apps/mobile/src/app/(dev)/live-map.tsx), lets
+# the map tiles settle, takes `${SHOT}` and goes back to the list.
+- tapOn:
+    id: 'live-map-scene-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: 'live-map-screen'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${SHOT}
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'live-map-scene-${SCENE}'
+    timeout: 10000

@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# An unboosted trip in its trip days shows the Boost gate over a frozen map: no crewmates, no
+# positions.
+#
+# Needs before it can pass: the sim's seed (its unboosted trip ${UNBOOSTED_TRIP_ID}, with ${UID}
+# joined).
+- launchApp
+- openLink: critterpass-dev://map/${UNBOOSTED_TRIP_ID}
+- extendedWaitUntil:
+    visible:
+      id: 'live-gate-boost_required'
+    timeout: 20000
+- assertNotVisible:
+    id: 'live-bunch'
+- takeScreenshot: live-map-gate-unboosted

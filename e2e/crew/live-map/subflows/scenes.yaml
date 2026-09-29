@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# Every crew live map scene, prefixed with the language (`${PREFIX}`): the designed view (3g-4)
+# and the states around it.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: live, SHOT: '${PREFIX}-3g-4-crew-map' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: bunch-sheet, SHOT: '${PREFIX}-live-map-member-sheet' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: boost-gate, SHOT: '${PREFIX}-live-map-boost-gate' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: not-started, SHOT: '${PREFIX}-live-map-not-started' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: offline, SHOT: '${PREFIX}-live-map-offline' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: paused, SHOT: '${PREFIX}-live-map-paused' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: no-meetup, SHOT: '${PREFIX}-live-map-no-meetup' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: arrived, SHOT: '${PREFIX}-live-map-arrived' }

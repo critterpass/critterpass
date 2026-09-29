@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# Pausing takes your pin off the crew's map at once and the header turns grey; resuming brings it
+# back. The runner checks the peer side through the api: the live snapshot no longer lists ${UID}
+# while paused (`GET /v1/trips/${TRIP_ID}/live-snapshot` as a crewmate).
+#
+# Needs before it can pass: the share-and-meetup setup (seeded trip, simulated crew, location set).
+- launchApp:
+    permissions:
+      location: inuse
+- openLink: critterpass-dev://map/${TRIP_ID}
+- extendedWaitUntil:
+    visible:
+      id: 'live-pause-chip'
+    timeout: 20000
+- tapOn:
+    id: 'live-pause-chip'
+- extendedWaitUntil:
+    visible:
+      text: 'PAUSED'
+    timeout: 10000
+- takeScreenshot: live-map-paused
+- tapOn:
+    id: 'live-pause-chip'
+- extendedWaitUntil:
+    visible:
+      text: 'LIVE'
+    timeout: 10000
