@@ -5,6 +5,7 @@
  * leaves its part empty rather than holding up the draft.
  */
 import { withSystem } from '@cp/db';
+import type { UsageContext } from '@cp/ai';
 import type { ClosureRecord } from '@cp/domain';
 import type pg from 'pg';
 
@@ -53,6 +54,7 @@ export async function seasonSignal(pool: pg.Pool, trip: DraftTripData): Promise<
 export type ClosureCheck = (
   trip: DraftTripData,
   places: readonly { id: string; name: string }[],
+  usage?: UsageContext,
 ) => Promise<ClosureRecord[]>;
 
 export const noClosureCheck: ClosureCheck = () => Promise.resolve([]);
@@ -67,10 +69,11 @@ export async function prefetch(
   trip: DraftTripData,
   places: readonly { id: string; name: string }[],
   closures: ClosureCheck,
+  usage?: UsageContext,
 ): Promise<PrefetchResult> {
   const [signal, found] = await Promise.all([
     withTimeout(seasonSignal(pool, trip), null),
-    withTimeout(closures(trip, places), [], 20_000),
+    withTimeout(closures(trip, places, usage), [], 20_000),
   ]);
   return { signal, closures: found };
 }

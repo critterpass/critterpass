@@ -1,0 +1,227 @@
+{
+  "source": "Live recordings, 2026-09-30: four Tavily searches for a Hanoi trip over Tet (15 to 19 February 2026) and the DeepSeek fast-tier closure extraction over their pages.",
+  "tavily": [
+    {
+      "status": 200,
+      "body": {
+        "query": "Hanoi closures and public holidays February 2026",
+        "follow_up_questions": null,
+        "answer": null,
+        "images": [],
+        "results": [
+          {
+            "url": "https://vn.usembassy.gov/tet-2026-holiday-schedule",
+            "title": "Tet 2026 Holiday Schedule - U.S. Embassy & Consulate in Vietnam",
+            "content": "The Nonimmigrant Visa (NIV) Units of the U.S. Embassy Hanoi and the U.S. Consulate General Ho Chi Minh City will be closed to the public beginning Monday, February 16, 2026,through Friday, February 20, 2026.  Please note, the visa delivery service and visa mail-in renewal submission locations will be open until Friday, February 13, 2026.  If your visa application is approved and you do not receive your passport back by Friday, February 13, 2026, you will receive them by courier after the Tet [...] The Immigrant Visa (IV) Unit of the Consulate General Ho Chi Minh City will be closed to the public from Monday, February 16, 2026,through Friday, February 20, 2026.  Immigrant visa applicants will not be able to submit additional requested documentation during this period.  The IV Unit will continue conducting visa interviews through Friday, February 13, 2026.  However, the delivery of visas will be paused during the Tet closure.  If you have an urgent need to travel, please notify our office [...] Visit Travel.State.gov for More Information\n\nTet 2026 Holiday Schedule\n\nBy U.S. Mission Vietnam\n\n5 MINUTE READ\n\nJanuary 21, 2026\n\nU.S. Mission Vietnam’s consular offices will be closed for the Tet (Lunar New Year) holiday:\n\nMonday, February 16, 2026 – Friday, February 20, 2026",
+            "score": 0.8755427,
+            "raw_content": null,
+            "published_date": "Wed, 21 Jan 2026 07:22:07 GMT",
+            "id": "de9a0b-00"
+          },
+          {
+            "url": "https://www.vietnam-briefing.com/doing-business-guide/vietnam/human-resources-and-payroll/a-guide-to-public-holiday-s-in-vietnam",
+            "title": "A Guide to Public Holiday's and Leaves in Vietnam - Vietnam Guide | Doing Business in Vietnam",
+            "content": "| Wednesday, February 18, 2026 | Public holiday |\n| Thursday, February 19, 2026 | Public holiday |\n| Friday, February 20, 2026 | Public holiday |\n| Saturday, February 21, 2026 | Weekend |\n| Sunday, February 22, 2026 | Weekend |\n| Hung Kings Commemoration Day | Sunday, April 26, 2026 (make-up day on Monday, April 27) | Public holiday | 1 |\n| Reunification Day – International Labor Day | Thursday, April 30, 2026 | Public holiday | 4 |\n| Friday, May 1, 2026 | Public holiday | [...] |  |  |  |  |\n ---  --- |\n| Name | Date | Type | Days off |\n| New Year’s Holiday | Thursday, January 1, 2026 | Public holiday | 4 |\n| Friday, January 2, 2026 | Public holiday |\n| Saturday, January 3, 2026 | Weekend |\n| Sunday, January 4, 2026 | Weekend |\n| Lunar New Year (Tet) Holidays | Saturday, February 14, 2026 | Weekend | 9 |\n| Sunday, February 15, 2026 | Weekend |\n| Monday, February 16, 2026 | Public holiday |\n| Tuesday, February 17, 2026 | Public holiday | [...] | 2 days at end of old year + 3 at start of new year | Sunday, February 15 → Thursday, February 19, 2026 | Sunday, February 15 | Friday, February 20 | 6 consecutive days | 1 make-up day added |\n| 3 days at end of old year + 2 at start of new year | Saturday, February 14 → Wednesday, February 18, 2026 | Saturday, February 14 and Sunday, February 15 | Thursday, February 19 and Friday, February 20 | 7 consecutive days | 2 make-up days added |",
+            "score": 0.8449346,
+            "raw_content": null,
+            "published_date": "Mon, 05 Jan 2026 00:00:00 GMT",
+            "id": "b5accf-01"
+          },
+          {
+            "url": "https://evisasvietnam.com/blog/vietnam-public-holidays-2026",
+            "title": "Vietnam Public Holidays 2026: Dates, Closures & Travel Tips | evisas vietnam",
+            "content": "|  |  |  |\n --- \n| Holiday | Date in 2026 | Notes |\n| New Year’s Day | January 1, 2026 | 1 day |\n| Tết (Lunar New Year) | February 16-20, 2026 | Official 5-day holiday for public employees; longer breaks may apply with weekends |\n| Hùng Kings’ Commemoration Day | April 26, 2026 | Falls on Sunday; compensatory day off usually applies |\n| Reunification Day | April 30, 2026 | 1 day |\n| International Labour Day | May 1, 2026 | 1 day | [...] Vietnamese employees are entitled to 11 paid public holiday days each year under the Labour Code, including 2 days for National Day and 1 day for Hùng Kings’ Commemoration Day. [...] If you are travelling to Vietnam in 2026, public holidays are more than just dates on a calendar. They can affect flight prices, hotel availability, local transport, government office closures, and most importantly, Vietnam e-visa processing times.\n\nThis guide explains the key Vietnam public holidays in 2026, how they may affect your trip, and what to do if your travel dates fall close to a holiday.\n\n## Vietnam Public Holidays 2026 at a Glance",
+            "score": 0.82761955,
+            "raw_content": null,
+            "published_date": "Fri, 24 Apr 2026 02:16:39 GMT",
+            "id": "a6a1df-02"
+          },
+          {
+            "url": "https://www.myvietnamvisa.com/public-holidays.html",
+            "title": "Vietnam Public Holidays 2026 & 2027",
+            "content": "| Year | Date | Public Holiday | Day | Holiday Duration |\n ---  --- \n| 2026 | February 16 – 24 | Lunar New Year (Tết) | Monday–Friday | 9 days |\n| April 26 | Hung Kings Commemoration Day | Sunday | 2 days (Apr 26–27) |\n| April 27 | Hung Kings Holiday | Monday |\n| April 30 | Reunification Day | Thursday | 1 day |\n| May 1 | Labor Day | Friday | 1 day |\n| September 2 | National Day | Wednesday | 1 day |\n| November 24 | Vietnamese Cultural Day | Tuesday | 1 day | [...] - In 2026, Vietnam will have a total of 26 days off for public holidays and Tet, including 11 official public holidays and 14 weekly days off adjusted through rescheduling. Specifically, New Year’s Day will be 4 days, Tet Nguyen Dan (Lunar New Year) 9 days, Hung Kings’ Commemoration Day 3 days, Reunification Day and International Labor Day (April 30-May 1) 4 days, and National Day 5 days (Sept-02), Cultural Day 1 Day (Nov-24). [...] Vietnam has seven public holidays: New Year (1-4 days), Lunar New Year (7-9 days), Hung Kings’ Festival (1-3 days), Reunification Day and International Labour Day (5-7 days), National Day (3-5 days), and the newly added Vietnamese Cultural Day (1 day). In 2026, Vietnam will observe a total of 26 official public holiday days. However, the actual number of days may vary depending on how these holidays align with weekends.\n\nNews & Update:",
+            "score": 0.8131201,
+            "raw_content": null,
+            "published_date": "Sun, 16 Aug 2026 08:00:00 GMT",
+            "id": "bb2ed2-03"
+          }
+        ],
+        "response_time": 1.64,
+        "request_id": "8a5c637d-d9c8-435c-ab36-117befe46de5"
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "query": "Dong Xuan Market Hanoi closed February 2026",
+        "follow_up_questions": null,
+        "answer": null,
+        "images": [],
+        "results": [
+          {
+            "url": "https://www.facebook.com/groups/1808998326147976/posts/2667358143645319",
+            "title": "Feb 05.2026 Temporary market in Hanoi VIETNAM",
+            "content": "Dong Xuan Market – the biggest market in Hanoi Address: Dong Xuan ... closed or services or amenities unavailable from 14 to 25 February 2026.",
+            "score": 0.9385817,
+            "raw_content": null,
+            "published_date": "Tue, 03 Mar 2026 19:00:00 GMT",
+            "id": "0665a5-00"
+          },
+          {
+            "url": "https://www.bestpricetravel.com/travel-guide/dong-xuan-market.html",
+            "title": "Dong Xuan Market Hanoi: Travel Information 2026 | BestPrice Travel",
+            "content": "Hu Tieu\n\nBecause the shop is located in a narrow market lane, tourists have to walk from the beginning of Hang Chieu Street. When the market is closed, the stalls here also stop selling, so you should come to enjoy it before 5 pm.\n\nAddress: Alley Dong Xuan Market, Hang Chieu Street, Hoan Kiem District, Hanoi\n\nOpening hours: 07:00 - 17:00\n\nPrice range: 25,000 - 30,000 VND\n\n Co Am Shrimp Fritter - Dong Xuan Alley [...] On February 14, 1947, market was the place affected by the war of Hanoi army against French colonialism. In 1997, the market once again caught fire, causing heavy damage. Standing by Hanoi people many ups and downs in history, Dong Xuan Market has been renovated 3 times. Today, it still has the old design but equipped with emergency exit doors and fire equipment. This is also considered the most beautiful and largest market in Hanoi.\n\nDong Xuan Market\n\n## Dong Xuan Day Market [...] Address: Alley Dong Xuan, Hang Chieu Stress, Hoan Kiem District, Hanoi\n\nOpening hours: 14:30 - 17:00\n\nPrice range: 10,000 - 50,000 VND\n\n Long Vi Dung Beef Jerky Salad",
+            "score": 0.81875163,
+            "raw_content": null,
+            "published_date": null,
+            "id": "036faf-01"
+          },
+          {
+            "url": "https://www.youtube.com/watch?v=ALpnH-StXJI",
+            "title": "Dong Xuan Market in the Old Quarter - Vietnam 2026",
+            "content": "... market endured significant upheaval. In February ... Dong Xuan Market in the Old Quarter - Hanoi's Largest Indoor Market - Vietnam 2026.",
+            "score": 0.81595254,
+            "raw_content": null,
+            "published_date": "Sun, 30 Aug 2026 19:00:00 GMT",
+            "id": "f53359-02"
+          },
+          {
+            "url": "https://en.wikipedia.org/wiki/%C4%90%E1%BB%93ng_Xu%C3%A2n_Market",
+            "title": "Đồng Xuân Market - Wikipedia",
+            "content": "Map\n\nĐồng Xuân Market (Vietnamese: Chợ Đồng Xuân; chữ Nôm: 𢄂同春) is a market in the center district Hoàn Kiếm of Hanoi, Vietnam. Originally built by the French administration in 1889, Đồng Xuân Market has been renovated several times with the latest being in 1994 after a fire that almost destroyed the market. Nowadays, Đồng Xuân Market is the largest covered market of Hanoi where the wholesale traders sell everything from clothes and household goods to foodstuffs.\n\n## History [...] # Đồng Xuân Market\n\n| Dong Xuan Market | |\n --- |\n| Chợ Đồng Xuân | |\n| Đồng Xuân Market | |\n| Map Interactive map of the Dong Xuan Market area | |\n| Alternative names | Springfield Market |\n| General information | |\n| Type | Market |\n| Location | Hanoi, Vietnam |\n| Coordinates | 21°02′17″N 105°51′00″E﻿ / ﻿21.038164°N 105.850031°E﻿ / 21.038164; 105.850031 |\n| Construction started | 1889 |\n| Renovated | 1994 |\n| Owner | Đồng Xuân Shareholding Company |\n\nMap [...] Nowadays, the market is run by the Đồng Xuân Shareholding Company (Công ty cổ phần Đồng Xuân), its three stories are divided into stalls for wholesale and small traders who sell clothes or household goods, foodstuffs of every kind from fresh vegetables to Vietnamese dishes are also found at the rear of the market. As the biggest wholesale market of Hanoi, Đồng Xuân Market has to face problems such as counterfeit consumer goods and pollution. Đồng Xuân Market's busy trading activities have",
+            "score": 0.5622973,
+            "raw_content": null,
+            "published_date": "Fri, 20 Mar 2026 02:58:31 GMT",
+            "id": "fd75a4-03"
+          }
+        ],
+        "response_time": 1.42,
+        "request_id": "689a4089-6ca9-49f5-b6b2-592dffb2dff9"
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "query": "Temple of Literature Hanoi closed February 2026",
+        "follow_up_questions": null,
+        "answer": null,
+        "images": [],
+        "results": [
+          {
+            "url": "https://www.facebook.com/nonstophawaii/videos/stepping-into-temple-of-literature/912948311281876",
+            "title": "Stepping into Temple of Literature! | Non-Stop Travel",
+            "content": "Feb 5, 2026· Hanoi's centuries old symbol of learning and tradition. This video provides a brief tour of the Temple of Literature in Hanoi, a",
+            "score": 0.751375,
+            "raw_content": null,
+            "published_date": "Tue, 03 Mar 2026 19:00:00 GMT",
+            "id": "f1cd5a-00"
+          },
+          {
+            "url": "https://localbeansroastery.com/temple-of-literature.htm",
+            "title": "Temple of Literature: History, tickets, and self-guided tour 2026",
+            "content": "The Temple of Literature is an 11th-century complex in Hanoi founded in 1070 by Emperor Lý Thánh Tông to honor Confucius, later serving as Vietnam's first university from 1076 to 1779. Today, it operates as a premier historical landmark showcasing classical Vietnamese architecture. [...] Visit the final courtyard, Nha Thai Hoc. This area previously functioned as the actual classrooms of the Imperial Academy. Reconstructed in the year 2000, it now houses a massive traditional drum and an immense bronze bell historically used to initiate academic ceremonies. [...] 📌 Good to know:\n\nVisit during Tết (late Jan/early Feb) to witness annual calligraphy ceremonies where locals purchase red paper scrolls with wishes for wisdom and success, costing around 120,000 to 180,000 VND.",
+            "score": 0.7272211,
+            "raw_content": null,
+            "published_date": "Thu, 26 Mar 2026 00:00:00 GMT",
+            "id": "d53bf2-01"
+          },
+          {
+            "url": "https://templeofliterature.com",
+            "title": "Temple of Literature ✦ Hanoi’s Timeless Icon Since 1070",
+            "content": "\"A THOUSAND YEARS OF HERITAGE\" EXHIBITION  \n   \n Exhibition Period: August 8 – September 5, 2026  \n   \n The exhibition presents more than 120 artworks by 50 artists of different generations, created using a wide range of materials and techniques, including lacquer, silk, dó paper, woodcut, watercolor, gouache, Aqyla, and more. [...] The website provides information about Văn Miếu - Quốc Tử Giám. We are not the management authority and do not sell tickets for the Văn Miếu - Quốc Tử Giám cultural heritage site.\n\n© templeofliterature.com 2026\n\nCopyright © 2026. All rights reserved. [...] The Temple of Literature, Vietnam's first university, operated for nearly 1,000 years and remains one of Hanoi's most significant historical landmarks. Despite changes across dynasties, the Temple of Literature - Quoc Tu Giam has always been highly valued and developed.\n\nThis site has undergone key milestones throughout history:",
+            "score": 0.6989468,
+            "raw_content": null,
+            "published_date": null,
+            "id": "05a63d-02"
+          },
+          {
+            "url": "https://www.30sundays.club/blog/temple-of-literature",
+            "title": "Temple of Literature: An Honest & Complete Travel Guide",
+            "content": "Location: It is located at 58 Quốc Tử Giám Street in the Văn Miếu area of Hanoi, which is a peaceful part of the city and easy to reach by car or scooter.\n Entry Fee: The cost of the entry to the Temple of Literature is ₹120 (30,000 VND). It is very affordable and worth it for quiet and peaceful vibes with a lot of historical charm.\n Opening Hours: The temple opens at 8:00 AM and closes at 5:00 AM. It may also close during lunch break, so plan your visit accordingly. [...] Just about 2 km away from the temple, this museum was once a French colonial prison and is one of the most powerful places to visit in Hanoi. It’s often called the “Hanoi Hilton,” which was given by American POWs during the Vietnam War. The exhibits are heavy and raw: prison cells, personal stories, and striking details from both colonial rule and wartime. After the calm and order of the Temple of Literature, this place hits differently, as it’s sobering, emotional, and incredibly human.\n\n‍ [...] Table of content\n\nFrom peaceful courtyards lined with trees to centuries old stone steles honoring scholars, a visit to the Temple of Literature is not just about seeing a tourist site, it’s about stepping into Vietnam’s intellectual soul.\n\nIt was Vietnam’s first national university which is dedicated to Confucius, sages, and scholars, and situated in the center of Hanoi. Away from the chaos of the city, this site gives you a chance to take a break, relax and interact with Vietnamese culture.",
+            "score": 0.54317886,
+            "raw_content": null,
+            "published_date": null,
+            "id": "321d1e-03"
+          }
+        ],
+        "response_time": 1.93,
+        "request_id": "fff2de11-d702-4590-a1cd-be4a013a2f9d"
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "query": "Vietnam Museum of Ethnology Hanoi closed February 2026",
+        "follow_up_questions": null,
+        "answer": null,
+        "images": [],
+        "results": [
+          {
+            "url": "https://www.reddit.com/r/hanoi/comments/1rawu41/is_the_museum_of_ethnology_open_tomorrow_22nd_feb",
+            "title": "Is the museum of Ethnology open tomorrow (22nd Feb)",
+            "content": "22nd Feb they open. Also noted that 23rd is Monday and they will be closed again. Edited: also look like they will have some activities for the",
+            "score": 0.6729558,
+            "raw_content": null,
+            "published_date": "Tue, 03 Mar 2026 19:00:00 GMT",
+            "id": "549e94-00"
+          },
+          {
+            "url": "https://www.tripadvisor.in/Attraction_Review-g21375824-d447352-Reviews-Vietnam_Museum_of_Ethnology-Cau_Giay_Hanoi.html",
+            "title": "Vietnam Museum of Ethnology - Hanoi",
+            "content": "It is very educational and well-organized, making it one of the best museums in Hanoi for both adults and families. Read more. Written 27 June 2026",
+            "score": 0.568057,
+            "raw_content": null,
+            "published_date": null,
+            "id": "e4ccc3-01"
+          },
+          {
+            "url": "https://hanoifreeprivatetourguide.com/vietnam-museum-of-ethnology-a-cultural-journey",
+            "title": "Vietnam Museum of Ethnology: A Cultural Journey",
+            "content": "Nestled in the heart of Hanoi, Vietnam, the Vietnam Museum of Ethnology stands as a tribute to the cultural diversity and richness of this fascinating country. With its extensive collection of artifacts, exhibitions, and interactive displays, the museum offers visitors a unique opportunity to embark on a captivating journey through the traditions, customs, and heritage of Vietnam’s diverse ethnic groups. From the vibrant costumes to the traditional crafts, the museum showcases the complexity [...] The Vietnam Museum of Ethnology is a captivating cultural institution that celebrates the diverse ethnic groups that make up the tapestry of Vietnam. Through its extensive collections, interactive experiences, and vibrant events, the museum offers visitors a deeper understanding and appreciation of the country’s cultural mosaic. This museum aims to preserve and promote the heritage of Vietnam’s ethnic communities. It becomes a bridge that connects past, present, and future generations. That’s [...] Vietnam is home to 54 different ethnic groups, each with its distinct traditions, languages, and lifestyles. The Vietnam Museum of Ethnology was established in 1997. It aims to preserve and promote the unique heritage of these diverse ethnic communities. This cultural institution serves as a bridge for visitors to gain a deeper understanding and appreciation of Vietnam’s cultural mosaic.",
+            "score": 0.56517935,
+            "raw_content": null,
+            "published_date": "Mon, 17 Jul 2023 09:28:14 GMT",
+            "id": "e63564-02"
+          },
+          {
+            "url": "https://www.audleytravel.com/us/vietnam/things-to-do/half-day-trip-to-the-museum-of-ethnology",
+            "title": "Museum of Ethnology visit",
+            "content": "Vietnam menu\n\nTwenty minutes outside Hanoi on the road toward the airport, the Museum of Ethnology is a fascinating insight into the cultural diversity of Vietnam. It is a newly built, hands-on museum with displays of art and everyday objects from various tribes.\n\nThe exhibits are well labeled in English and it is rewarding to just wander round in your own time. There are live displays of processes such as conical hat making and Tay minority shamanic ceremonies. [...] Best vacation destinations for 2026\n       Short breaks\n       Trip finder\n       Where's hot, when?\n       Audley Traveler magazine\n       Private stays & experiences\n       Travel videos\n       Audley's Global Travel Service\n\n   About us\n\nAbout us\n\nMain menu\n       \n           Image 5\n           Image 6\n           Image 7\n           Image 8\n\n       Overview\n       Our specialists\n       Responsible travel\n       Reviews\n       History\n       Video appointments\n       Why book with us [...] Image 47: Conde Nast Traveller Top Travel Specialists 2026\n\nImage 48: United States Tour Operators Association\n\nImage 49: BBB Accredited Business Logo\n\nAll prices are in USD unless otherwise stated\n\nCST#2117258-20 | UBI#604-089-463 | Fla. Seller of Travel Ref. No. ST39468\n\n© 2026 Audley Travel | Audley Travel US, Inc. (Delaware 5398866)\n\nImage 51\n\nImage 52: Audley Travel\n\n## Personalize your browsing experience",
+            "score": 0.45682228,
+            "raw_content": null,
+            "published_date": "Wed, 13 Apr 2022 22:30:05 GMT",
+            "id": "b1a5b2-03"
+          }
+        ],
+        "response_time": 2.16,
+        "request_id": "c474a9b5-5c2a-482a-a734-5f0c1f71f6af"
+      }
+    }
+  ],
+  "deepseek": [
+    {
+      "status": 200,
+      "body": {
+        "id": "bbaa4b93-ca38-4a83-b3ca-5d4ad5f151a3",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"closures\":[{\"place\":\"p1\",\"area\":\"Dong Xuan Market\",\"closed_from\":\"2026-02-15\",\"closed_to\":\"2026-02-19\",\"reason\":\"closed or services or amenities unavailable from 14 to 25 February 2026\",\"source_url\":\"https://www.facebook.com/groups/1808998326147976/posts/2667358143645319\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 5485,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 85,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -28,3 +28,10 @@ export {
 } from './skeleton';
 export { templateSummary, writeDraftSummary, type SummaryInput } from './summary';
 export { derivedUuid } from './ids';
+export {
+  checkClosures,
+  closureQueries,
+  CLOSURES_ROUTE,
+  type ClosureCheckDeps,
+  type ClosureCheckInput,
+} from './closures';

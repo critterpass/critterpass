@@ -9,6 +9,7 @@
  */
 import {
   createGateway,
+  createTavilySearch,
   gatewayModel,
   recordUsage,
   writeDraftSummary,
@@ -27,6 +28,7 @@ import type pg from 'pg';
 
 import { defineAgentJob, type AgentJobDefinition } from '../../ai/job-runner';
 import type { AnyJobDefinition } from '../../boss';
+import { webClosureCheck } from './draft/closures';
 import { daysStage } from './draft/fan-out';
 import {
   giveBack,
@@ -89,8 +91,15 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
         run: async (ctx) => {
           await hint(ctx, 'check_season', 'running');
           const { trip, input } = await load(ctx);
-          const places = [...input.pois.values()].map((p) => ({ id: p.id, name: p.name }));
-          const found = await prefetch(ctx.pool, trip, places, closures);
+          const mustDoPlaces = input.pools.mustDos.flatMap((slot) => {
+            const poi = input.pois.get(slot.poiId);
+            return poi === undefined ? [] : [poi];
+          });
+          const places = [...mustDoPlaces, ...input.pools.activities].map((p) => ({
+            id: p.id,
+            name: p.name,
+          }));
+          const found = await prefetch(ctx.pool, trip, places, closures, ctx.usage);
           const label = seasonLabel(found.signal);
           await hint(ctx, 'check_season', 'done', label);
           return { label, signal: found.signal, closures: found.closures };
@@ -239,6 +248,7 @@ export function draftJob(deps: DraftJobDeps): AgentJobDefinition {
 export interface DraftJobsEnv {
   readonly ANTHROPIC_API_KEY?: string | undefined;
   readonly ANTHROPIC_BASE_URL?: string | undefined;
+  readonly TAVILY_API_KEY?: string | undefined;
 }
 
 export interface DraftJobsDeps {
@@ -262,8 +272,13 @@ export function draftJobs(env: DraftJobsEnv, deps: DraftJobsDeps): AnyJobDefinit
           assertRouteOn: deps.assertRouteOn,
         });
   const model = gateway === undefined ? undefined : gatewayDraftModel(gateway);
+  const closures =
+    deps.closures ??
+    (gateway === undefined || env.TAVILY_API_KEY === undefined
+      ? undefined
+      : webClosureCheck({ search: createTavilySearch({ apiKey: env.TAVILY_API_KEY }), gateway }));
   return [
-    draftJob({ model, ...(deps.closures === undefined ? {} : { closures: deps.closures }) }),
+    draftJob({ model, ...(closures === undefined ? {} : { closures }) }),
     redraftJob({ model }),
   ];
 }
