@@ -11,7 +11,7 @@ critical_path_tasks: 253
 
 | Field | Value |
 |---|---|
-| Status | in_progress: 13 of 59 phases done, 17 in progress; 269 of 594 tasks done (2026-09-29 14:40). See **Progress** below |
+| Status | in_progress: 13 of 59 phases done, 17 in progress; 281 of 594 tasks done (2026-09-29 20:35). See **Progress** below |
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
 | Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), the designed ops console (phases 58–59, added 2026-09-28), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
@@ -21,62 +21,67 @@ critical_path_tasks: 253
 | Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude for generation + Jev for typed decisions (D5 amended) |
 | Design | `design/` read-only; renders in `docs/design-renders/screens/*.png` + `screens.json` |
 
-## Progress (updated 2026-09-29 14:40)
+## Progress (updated 2026-09-29 20:35)
 
-**269 of 594 tasks done (45%).**
+**281 of 594 tasks done (47%).**
 - **Phases done (13):** 1, 3, 4, 8, 9, 10, 12, 13, 15, 16, 17, 23, 58.
 - **In progress:** 17.
 - **Not started:** 29.
 
-The critical path has reached 27 (trip setup): its server half is being built, on top of the merged polls and destination vote (26).
+The critical path is at 27 (trip setup). The server half is merged and deployed (#147); the app screens are being built.
 
 **Today (29 Sep):**
-- **Polls and destination vote (26):** both halves are merged (#137 server, #141 app).
-- **Crew live map (39):** the server is merged (#133). The app is in UI review (#136); the Bali offline map pack is published.
-- **TestFlight build 9:**
-  - The encrypted local database finally links on iOS. Every earlier iOS build had plain SQLite, so app sessions never started.
-  - An update the same day fixed the session itself: the token path, a push-token loop and sign-in backoff.
+- **Features:**
+  - Polls and destination vote (#137, #141).
+  - Crew live map, reviewed against the design in EN and VI (#133, #136).
+  - Trip setup server: availability, private budgets with the k≥4 privacy guard, rooms, must-dos (#147).
+- **TestFlight:**
+  - Build 9: the encrypted local database finally links on iOS.
+  - Two updates on build 9: the app session fix, then the live map, vote screens, readable Developer tools and the time zone fix.
+  - Build 10 is building: the database moves to Apple's crypto, so TestFlight no longer asks the encryption question.
+- **Device testing:** device runs moved to GitHub Actions (#150). iOS simulators run in parallel, and every run is isolated. Android follows (#156) with an x86_64 test build (#159).
 - **Staging:**
-  - a demo-data seed and test phone numbers;
-  - Grafana alerting live (13 rules, test alert delivered);
-  - Sentry fixes: no api crash on a dropped connection, no 4xx noise, no simulator reports;
-  - the nightly backup fix, in review.
-- **Build 10, held until the pending JS reaches build 9:** the iOS database moves to Apple's crypto, which also ends the TestFlight encryption question.
+  - Content: all 13 content batches published (staging only). Place search has 151 destinations.
+  - Monitoring: Grafana alerts are live and the nightly backup is verified. Sentry issues fixed: no api crash on a dropped connection, no 4xx noise, no simulator reports.
+  - Onboarding: the rejected pass-number and time zone fix (#154).
+  - Android setup: Play upload, App Links and Play Integrity are wired.
+- **Quality:**
+  - The Android sweep fixes (#151): text fit, island toast for screen readers, timeline tap, Google cancel notice.
+  - Two new guards: a wrapped-label check and a lint rule requiring the library Text.
+  - The toast no longer covers the status bar (#160).
+  - Flaky tests fixed at the root (#138, #152, #153).
 
 | In progress | Tasks | What's left |
 |---|---|---|
 | 2 Platform spikes | 15/15 | 2 iPhone Instruments runs (Xcode sign-in) |
-| 5 Sticker renderer | 10/10 | Close-out: the Android sticker lab passed |
-| 6 Motion and feedback | 8/10 | Android timeline tap target (a near-miss isn't selected); haptics tests |
-| 7 App shell and components | 17/18 | Android island toast for screen readers; ui-qa text fixes from the Android sweep |
-| 11 Jobs, notifications, push | 10/11 | Android push end to end, after the Play upload and FCM token check |
+| 5 Sticker renderer | 10/10 | Close-out |
+| 6 Motion and feedback | 8/10 | Android check of the island toast and timeline tap on the new test build; haptics tests |
+| 7 App shell and components | 17/18 | Android check of the text-fit fixes on the new test build |
+| 11 Jobs, notifications, push | 10/11 | Android push end to end (Play upload done; FCM token check) |
 | 14 Places, maps, routing | 8/8 | Offline region-pack flow on the live map screen |
 | 18 Content factory | 12/13 | Places batch, which waits on the FSQ OS Places / Overture licence acceptance |
 | 19 Analytics and observability | 10/10 | Sentry device crash check and consent check (alerts are live) |
-| 20 Permissions, location, visits | 11/11 | Close-out: the Android location flows passed |
+| 20 Permissions, location, visits | 11/11 | Close-out |
 | 21 Links and deep links | 8/9 | Funnel verification with live analytics |
-| 22 Onboarding | 10/11 | Device check of the photo cut-out |
-| 24 Crew chat | 7/8 | Chat flows on the next Android test build (build 10 batch) and two devices |
-| 25 Home, inbox, nudges | 8/9 | Seeded Home flows (running on iOS now) |
-| 26 Polls and destination vote | 11/12 | Vote flows, which wait on a destination-vote demo seed; design/device sheets being captured |
-| 27 Trip setup | 0/12 | Server half being built (schema, date windows, budget and rooms maths done); app next |
-| 39 Crew live map | 5/6 | App in UI review (#136); data-backed device flows after the staging seed |
+| 22 Onboarding | 10/11 | Photo cut-out device check; Android EN/VI onboarding screenshots |
+| 24 Crew chat | 7/8 | Chat flows on the new Android test build, and two devices |
+| 25 Home, inbox, nudges | 8/9 | Seeded Home flows pass on iOS; re-run on the GitHub device runs |
+| 26 Polls and destination vote | 11/12 | Vote flows and sheets on the GitHub device runs (the staging places are now published) |
+| 27 Trip setup | 7/12 | App screens and the calendar module (T7–T11) being built |
+| 39 Crew live map | 5/6 | Device data flows (share, pause, gate, window end) |
 | 51 Website | 7/11 | Web previews and web account deletion, which wait on later phases |
 
 **Being built now:**
-- trip setup server (27);
-- live map app fixes (39);
-- the vote demo seed and sheets (26);
-- the Developer tools restyle;
-- the nightly backup fix;
-- Android device runs.
+- the trip setup app (27);
+- Android device runs on GitHub;
+- two gallery UI-check fixes;
+- iOS build 10 and the Android test build.
 
-**Next on the critical path:** 27 trip setup (app after the server) → 28 drafting agent → 29 plan views.
+**Next on the critical path:** 27 trip setup app → 28 drafting agent → 29 plan views.
 
 **Staging:**
-- api and worker on current main;
-- the website at staging.critterpass.app;
-- TestFlight build 9 plus the 13:20 update.
+- api, worker, PowerSync, website and ops console on current main;
+- TestFlight build 9 with its evening update; build 10 on its way.
 
 **Founder items:** `plans/reports/founder-actions-260927-1745-open-items-for-founder-report.md` (local).
 
