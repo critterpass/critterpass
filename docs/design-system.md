@@ -77,7 +77,7 @@ Increase-contrast variants (auto when OS Increase Contrast is on): `border.contr
 | `brand.passplus` | yellow | Pass+ visa, badges |
 | `brand.boost` | pink | Boost stamp, badges |
 
-**Guide / place colours (canonical, C5):** `guide.tokek` yellow (Bali), `guide.pon` orange (Kyoto), `guide.lundi` blue (Iceland), `guide.ajo` pink (Mexico City), `guide.sardi` green (Lisbon), `guide.paco` cream (Cusco). `place.color = guide.color`. Non-guide places get a colour from `critters-data` set order cycling the 6 accents; stamp ink = destination colour, home stamp = orange (C7). Guide voice lines (Caveat) use the guide colour; on paper use darkened variants (`*.onPaper`, ≥ 4.5:1).
+**Guide / place colours (canonical, C5):** `guide.tokek` yellow (Bali), `guide.pon` orange (Kyoto), `guide.lundi` blue (Iceland), `guide.ajo` pink (Mexico City), `guide.sardi` green (Lisbon), `guide.paco` cream (Cusco). `place.color = guide.color`. Non-guide places get a colour from `critters-data` set order cycling the 6 accents; stamp ink = destination colour, home stamp = orange (C7). Guide voice lines (Mynerve) use the guide colour; on paper use darkened variants (`*.onPaper`, ≥ 4.5:1).
 
 **Tier colours:** `tier.common #a9a3c0`, `tier.rare #4f86ff`, `tier.epic #ff5fa8`, `tier.legendary #ffd84a`. Rare = recolour + blue ring; epic = recolour + pose + 2 pt pink die-cut edge; legendary = gold recolour + 3 pt yellow edge + sparkles. Locked = `ink.600` silhouette (legendary: `gold.silhouette` on `gold.dark`) + "?" in tier colour. Tier is never colour-only: always paired with the tier word or a shape glyph (● common, ◆ rare, ★ epic, ✦ legendary) in dots and rings.
 
@@ -85,7 +85,7 @@ Increase-contrast variants (auto when OS Increase Contrast is on): `border.contr
 
 ### 1.3 Typography
 
-Fonts bundled (subset): Archivo variable (`wdth 62–100`, `wght 700–900`), Geist 400–800, Geist Mono 400–700, Caveat 600–700. Instrument Serif is web-only. Fonts prewarmed before first hero paint.
+Fonts bundled (subset): Archivo variable (`wdth 62–100`, `wght 700–900`), Geist 400–800, Geist Mono 400–700, Mynerve 400 (guide voice; Latin and full Vietnamese), Noto Sans Thai 400/900. Instrument Serif is web-only. Caveat 600 is used only for map place-name labels. Fonts prewarmed before first hero paint.
 
 **Archivo width steps (only these):** `w62` hero/mega, `w66` hero, `w70` h1/h2, `w78` titles, `w100` buttons. Design values 58/60/64/68/72/74/76/80/84 snap to the nearest step.
 
@@ -107,9 +107,9 @@ Fonts bundled (subset): Archivo variable (`wdth 62–100`, `wght 700–900`), Ge
 | `caption` | Geist 500, 11.5 | Captions (min 11) |
 | `input` | Geist 600, 18; OTP Geist 700 24 | Inputs |
 | `mono.data` | Geist Mono 500, 11–12.5, .06em; tabular | MRZ, times, codes, receipts |
-| `voice` | Caveat 600, 20/1.1 (postcard 26, signatures 22) | Guide voice, signatures |
+| `voice` | Mynerve 400, 20/1.1 (postcard 26, signatures 22) | Guide voice, signatures |
 
-Rules: uppercase applied at render (`textTransform` with locale rules), strings stored sentence case; tabular numerals on every countdown, amount, odometer and flap; minimum informational size 11 pt (design micro 7–9.5 px → 11); "plain text for guide" setting swaps Caveat for Geist 500 italic.
+Rules: uppercase applied at render (`textTransform` with locale rules), strings stored sentence case; tabular numerals on every countdown, amount, odometer and flap; minimum informational size 11 pt (design micro 7–9.5 px → 11); "plain text for guide" setting swaps Mynerve for Geist 500 italic.
 
 ### 1.4 Spacing, layout, sizes
 
@@ -219,7 +219,7 @@ Flat sticker language; rings over shadows.
 | `CritterAvatar` | tier ring (+ glyph) | 3n-1, 3n-4 |
 | `EmptySeat` | dashed, pulsing | 3a-13, 4f-1 |
 | `Sticker` | baked bitmap by default; runtime Skia draw-on for heroes (≤ 2 concurrent); blink via 2 cached frames; locked silhouette; tier edge | everywhere |
-| `GuideLine` | sticker + Caveat line in guide colour; optional bubble | most screens |
+| `GuideLine` | sticker + Mynerve line in guide colour (Noto Sans Thai italic for Thai, OS italic for CJK); optional bubble | most screens |
 | `SilhouetteSlot` | grey/gold "?" breathing | 3l-2, 3l-8 |
 
 ### 2.5 Cards and surfaces
@@ -390,7 +390,7 @@ Earcons for voice mode start/stop listening. All SFX mapped in `packages/design-
 | Screen readers | Generated labels: guide "{name}, {pose}"; critter "{name}, {form} form"; locked "Undiscovered local, found by being in {city}"; decorative icons hidden; composites grouped (passport, stamps, tickets, charts with text summary); MRZ hidden; live regions for countdown (interval), streaming guide text (on completion), toasts |
 | Gesture alternatives | Slide-to-board → "Board" action; hold ring → custom action (delete → confirm dialog); drag-reorder → move up/down; timeline → time stepper; swipe/rate stacks → buttons; hold-to-talk → mic tap; shake-to-report → tile; every sheet has ✕ |
 | Media | Captions/transcripts for narrated recap and voice replies; SOS long buzz + visual + VoiceOver announcement |
-| Script font | "Plain text for guide" swaps Caveat for Geist |
+| Script font | "Plain text for guide" swaps Mynerve for Geist |
 | Focus order | Declared per screen in reading order; focus ring = `ring.focus` |
 
 ---
@@ -401,7 +401,7 @@ Earcons for voice mode start/stop listening. All SFX mapped in `packages/design-
 |---|---|
 | Casing | Strings stored sentence case in Lingui catalogs; uppercase at render via `Intl`-aware transform (Turkish İ, German ß→SS, Greek accents dropped); no-op for CJK, Thai, Korean |
 | Line-height per script | Latin display .86; Vietnamese and Thai display ≥ 1.0; CJK ≥ 1.15; body 1.4 all |
-| Fallback stacks | Display: Archivo → Noto Sans CJK / Noto Sans Thai (Black/Heavy, no width axis, own size table ~0.85×); body: Geist → Noto Sans (script); mono: Geist Mono → Noto Sans Mono; voice: Caveat → plain body italic (CJK/Thai/Vietnamese if glyphs missing) |
+| Fallback stacks | Display: Archivo → Noto Sans CJK / Noto Sans Thai (Black/Heavy, no width axis, own size table ~0.85×); body: Geist → Noto Sans (script); mono: Geist Mono → Noto Sans Mono; voice: Mynerve (Latin, Vietnamese) → Noto Sans Thai italic (Thai) / OS face italic (CJK) |
 | Condensed style | Uppercase-condensed applies to Latin + Vietnamese (with lh ≥ 1.0); CJK/Thai use heavy non-condensed display |
 | Expansion | +40% budget: h1 auto-fits (40–52, then wraps to 3 lines); hero words single-line auto-fit per string (exonyms: Kioto, 京都, 교토); buttons wrap to 2 lines rather than truncate; tab labels shrink to 9 pt min then hide |
 | Numbers & currency | ICU via `Intl`; three currencies (home, local, crew settlement) + display mode HOME/LOCAL/BOTH; currency formatted in UI locale with unambiguous symbol (S$, US$, ¥, Rp); compact notation per locale; IDR/JPY no decimals; offline FX shows rate date |
@@ -419,7 +419,7 @@ Agents design these in code with existing components; founder reviews in the run
 
 | State | Pattern | Copy voice | Components |
 |---|---|---|---|
-| Empty | Context guide sleeping/idle pose + h3 + one line + one primary action; never a blank list | Guide speaks in Caveat: "Nothing here yet. Want me to find something?" | `EmptyState`, `GuideLine`, `PillButton` |
+| Empty | Context guide sleeping/idle pose + h3 + one line + one primary action; never a blank list | Guide speaks in the voice font: "Nothing here yet. Want me to find something?" | `EmptyState`, `GuideLine`, `PillButton` |
 | Loading | Skeletons with `tex.hatch` blocks matching final layout; > 2 s: guide thinking pose + `typing`; AI jobs use `ChecklistProgress` (fold transition) with real progress from pg-boss | "Pon's on it" | `Card`, `StreamText`, `ChecklistProgress` |
 | Error | "Three ways forward" sheet (3i-4 pattern): retry, alternative path, back; never raw error codes; `shake` + `error` haptic only on user-caused errors | Plain, blame-free | `Sheet`, `RadioCard`, `PillButton` |
 | Offline | `NO SIGNAL` status pill; writes land in `OutboxList` with clock icon, tick when synced ("SENDS WHEN YOU'RE BACK"); read-only surfaces show last-synced time; online-only actions (AI, purchases, supplier) disabled with "Needs signal" | Calm | `HeaderPills`, `OutboxList` |
