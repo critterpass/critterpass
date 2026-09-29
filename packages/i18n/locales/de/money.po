@@ -6,3 +6,307 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.changedBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.deletedBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.editedBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/components/ExpenseListRow.tsx
+msgid "money.row.leftOut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/components/ExpenseListRow.tsx
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.row.paid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.settle.taps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/data/commands.ts
+msgid "money.queued.deleteExpense"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/data/commands.ts
+msgid "money.queued.addExpenseNoName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/data/commands.ts
+msgid "money.queued.markPaid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.tile.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.empty.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.hero.square"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/data/commands.ts
+msgid "money.queued.editExpense"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
+msgid "money.currency.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.tile.budget"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.history"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
+msgid "money.detail.deleteConfirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.delete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
+msgid "money.detail.deleteTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/components/ExpenseListRow.tsx
+msgid "money.row.pendingDelete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/history/HistoryView.tsx
+msgid "money.history.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
+msgid "money.currency.doneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/history/HistoryView.tsx
+msgid "money.history.everyone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
+msgid "money.detail.deleteLedger"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
+msgid "money.detail.deletedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/data/commands.ts
+msgid "money.queued.addExpense"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/components/category.ts
+msgid "money.category.food"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/components/category.ts
+msgid "money.category.fun"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.bars.owed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.latest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.leftOut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
+msgid "money.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.empty.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+#: ../../apps/mobile/src/features/money/history/HistoryView.tsx
+msgid "money.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.header.spent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
+msgid "money.noCrew.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/history/HistoryView.tsx
+msgid "money.history.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.empty.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
+msgid "money.noTrip.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.latest.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.settle.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
+msgid "money.noTrip.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
+msgid "money.currency.organiserOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/components/category.ts
+msgid "money.category.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.bars.owes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.rateNoDate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.rate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.tile.scan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.latest.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
+msgid "money.detail.goneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
+msgid "money.currency.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.receipt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
+msgid "money.noCrew.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/components/category.ts
+msgid "money.category.stays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
+msgid "money.currency.switch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
+msgid "money.currency.error"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.field.amount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.field.category"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
+msgid "money.currency.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
+msgid "money.detail.deleteHistory"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.field.when"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.field.what"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.field.split"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
+msgid "money.detail.goneTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/components/category.ts
+msgid "money.category.transit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
+#: ../../apps/mobile/src/features/money/balances/TripSheet.tsx
+msgid "money.trips.unnamed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/components/ExpenseListRow.tsx
+msgid "money.row.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/TripSheet.tsx
+msgid "money.trips.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.shares"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
+msgid "money.detail.field.payer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.bars.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.hero.owes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.hero.owed"
+msgstr ""
