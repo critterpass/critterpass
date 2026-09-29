@@ -88,6 +88,19 @@ describe('seedDemoData', () => {
     expect(JSON.parse(requests[0]?.init.body as string)).toEqual({ scenario: 'inbox' });
   });
 
+  it('waits for the destination vote as well when a vote scenario opened one', async () => {
+    const poll = '01920000-0000-7000-8000-000000000004';
+    await deliver();
+    const withVote = deps(200, { ...SEEDED, scenario: 'vote', poll_id: poll });
+    await expect(seedDemoData(withVote, 'vote')).resolves.toMatchObject({ synced: false });
+    await local.db.execute('INSERT INTO polls (id, crew_id, kind) VALUES (?, ?, ?)', [
+      poll,
+      SEEDED.crew_id,
+      'destination',
+    ]);
+    await expect(seedDemoData(withVote, 'vote')).resolves.toMatchObject({ synced: true });
+  });
+
   it('reports rows that have not synced in time', async () => {
     await expect(seedDemoData(deps(200, SEEDED))).resolves.toMatchObject({ synced: false });
   });

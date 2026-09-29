@@ -6,7 +6,9 @@
  *
  * - `everyday`: Maya's nudge ("Take a look") and Rin's missing RSVP (NUDGE, runs `send_nudge`);
  * - `inbox`: Maya's nudge only;
- * - `caught_up`: nothing needs the caller.
+ * - `caught_up`: nothing needs the caller;
+ * - `vote` and `vote_final`: the `everyday` inbox beside the crew's destination vote
+ *   (./demo-vote.ts), on its board or already in its final.
  *
  * Every scenario keeps the EARLIER rows: a crewmate joined, an invite was opened, Tokek's plan
  * change (UNDO) and a fare drop.
@@ -24,7 +26,7 @@ import { z } from 'zod';
 import type { DemoGuideAction } from './demo-plan';
 import type { DemoWorld } from './demo-world';
 
-export const demoScenarioSchema = z.enum(['everyday', 'inbox', 'caught_up']);
+export const demoScenarioSchema = z.enum(['everyday', 'inbox', 'caught_up', 'vote', 'vote_final']);
 export type DemoScenario = z.infer<typeof demoScenarioSchema>;
 
 const TIP_TEXT = 'Fares to Bali dipped 18% this week. A good moment to book.';
@@ -172,7 +174,7 @@ function demoItems(
       minutesAgo: 12,
     });
   }
-  if (scenario === 'everyday') {
+  if (scenario === 'everyday' || scenario === 'vote' || scenario === 'vote_final') {
     // Rin joined but has not said if they are in: the RSVP follow-up asks the guide to nudge.
     items.push({
       kind: INBOX_KIND.memberJoined,

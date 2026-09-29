@@ -8,7 +8,7 @@
    developer-facing errors, never copy. */
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 
-export type DemoScenario = 'everyday' | 'inbox' | 'caught_up';
+export type DemoScenario = 'everyday' | 'inbox' | 'caught_up' | 'vote' | 'vote_final';
 
 export interface SeedDemoDeps {
   readonly baseUrl: string;
@@ -32,18 +32,21 @@ interface SeedDemoResponse {
   readonly trip_id: string;
   readonly created: boolean;
   readonly inbox_item_ids: readonly string[];
+  readonly poll_id?: string;
 }
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function arrived(db: SeedDemoDeps['db'], seeded: SeedDemoResponse): Promise<boolean> {
   const ids = [seeded.crew_id, seeded.trip_id, ...seeded.inbox_item_ids];
+  if (seeded.poll_id !== undefined) ids.push(seeded.poll_id);
   const marks = ids.map(() => '?').join(', ');
   const rows = await db.getAll<{ id: string }>(
     `SELECT id FROM crews WHERE id IN (${marks})
      UNION ALL SELECT id FROM trips WHERE id IN (${marks})
-     UNION ALL SELECT id FROM inbox_items WHERE id IN (${marks})`,
-    [...ids, ...ids, ...ids],
+     UNION ALL SELECT id FROM inbox_items WHERE id IN (${marks})
+     UNION ALL SELECT id FROM polls WHERE id IN (${marks})`,
+    [...ids, ...ids, ...ids, ...ids],
   );
   return rows.length === ids.length;
 }
@@ -65,7 +68,7 @@ export async function seedDemoData(
     throw new Error(`seed-demo failed: HTTP ${response.status} ${body?.error?.code ?? ''}`.trim());
   }
   const seeded = (await response.json()) as SeedDemoResponse;
-  const deadline = Date.now() + (deps.syncTimeoutMs ?? 30_000);
+  const deadline = Date.now() + (deps.syncTimeoutMs ?? 90_000);
   let synced = await arrived(deps.db, seeded);
   while (!synced && Date.now() < deadline) {
     await wait(deps.pollMs ?? 500);
