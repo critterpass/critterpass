@@ -1,0 +1,45 @@
+appId: app.critterpass.dev
+---
+# From Home after onboarding: the crews sheet over Home, START A CREW and JOIN WITH A CODE opened
+# from it (pages over an open sheet), each with ${PREFIX} in its screenshot name.
+- openLink: critterpass-dev://crew
+- extendedWaitUntil:
+    visible:
+      id: 'crews-sheet'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3g-3-crews-sheet
+- tapOn:
+    id: 'crews-start'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-start-crew
+- runFlow: ../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'crews-join-code'
+    timeout: 10000
+- tapOn:
+    id: 'crews-join-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-screen'
+    timeout: 10000
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-join-code-from-crews
+# Back to Home: off the code page, then the sheet's ✕.
+- runFlow: ../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'crews-sheet'
+    timeout: 10000
+- tapOn:
+    id: 'crews-sheet-close'
+- extendedWaitUntil:
+    notVisible:
+      id: 'crews-sheet'
+    timeout: 10000
