@@ -9,6 +9,7 @@ import { useTheme } from '../theme';
 import { DOODLES } from './generated';
 import type { DoodleName } from './generated';
 import { DOODLE_A11Y } from './labels';
+import { checkIconDraws } from '../qa/icon-check';
 
 export interface IconProps {
   readonly name: DoodleName;
@@ -84,6 +85,10 @@ export function Icon({
     if (paint === 'accent') return accentColor;
     return tokenColor(theme, paint);
   };
+  checkIconDraws(
+    name,
+    def.layers.map((layer) => ({ fill: paintFor(layer.paint), opacity: layer.opacity })),
+  );
 
   return (
     <View
