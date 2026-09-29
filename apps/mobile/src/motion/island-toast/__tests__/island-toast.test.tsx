@@ -6,6 +6,7 @@ import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
 import { renderWithI18n } from '../../../lib/i18n/testing';
 import { hasDynamicIsland, IslandToast } from '../IslandToast';
+import type { ToastTextProps } from '../IslandToast';
 import { toastQueue, useToastQueue } from '../queue';
 
 const bannerMetrics: Metrics = {
@@ -17,11 +18,16 @@ const islandMetrics: Metrics = {
   insets: { top: 59, left: 0, right: 0, bottom: 34 },
 };
 
+/** Motion sits below the component library; the app root passes the library `Text`. */
+function ToastText({ variant, ...props }: ToastTextProps) {
+  return <Text {...props} testID={`toast-text-${variant}`} />;
+}
+
 async function renderToast(initialMetrics: Metrics = bannerMetrics) {
   return renderWithI18n(
     <GestureHandlerRootView>
       <SafeAreaProvider initialMetrics={initialMetrics}>
-        <IslandToast />
+        <IslandToast Text={ToastText} />
       </SafeAreaProvider>
     </GestureHandlerRootView>,
   );
@@ -138,6 +144,56 @@ describe('IslandToast', () => {
     expect(getByText('Tap to view')).toBeTruthy();
     await fireEvent.press(getByText('Open'));
     expect(onPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps Open and Dismiss beside the alert, so a folded Android alert node leaves them reachable', async () => {
+    await act(() => {
+      toastQueue.show({
+        id: 'a',
+        title: 'Pass issued',
+        action: { label: 'Open', onPress: jest.fn() },
+      });
+    });
+    const { getByTestId } = await renderToast();
+
+    const message = await waitFor(() => getByTestId('island-toast-message'));
+    expect(message.props.accessibilityRole).toBe('alert');
+    for (const id of ['island-toast-open', 'island-toast-dismiss']) {
+      const button = getByTestId(id);
+      let node = button.parent;
+      while (node && node !== message) node = node.parent;
+      expect(node).toBeNull();
+      expect(button.props.accessibilityRole).toBe('button');
+    }
+  });
+
+  it('offers Open and Dismiss as screen-reader actions on the alert', async () => {
+    const onPress = jest.fn();
+    await act(() => {
+      toastQueue.show({ id: 'a', title: 'Pass issued', action: { label: 'Open', onPress } });
+    });
+    const { getByTestId } = await renderToast();
+
+    const message = await waitFor(() => getByTestId('island-toast-message'));
+    expect(message.props.accessibilityActions).toEqual([
+      { name: 'open', label: 'Open' },
+      { name: 'dismiss', label: 'Dismiss' },
+    ]);
+    await fireEvent(message, 'accessibilityAction', { nativeEvent: { actionName: 'open' } });
+    expect(onPress).toHaveBeenCalledTimes(1);
+    await fireEvent(message, 'accessibilityAction', { nativeEvent: { actionName: 'dismiss' } });
+    expect(toastQueue.getCurrent()).toBeNull();
+  });
+
+  it('offers only Dismiss when the toast has no action', async () => {
+    await act(() => {
+      toastQueue.show({ id: 'a', title: 'Pass issued' });
+    });
+    const { getByTestId, queryByTestId } = await renderToast();
+
+    const message = await waitFor(() => getByTestId('island-toast-message'));
+    expect(message.props.accessibilityActions).toEqual([{ name: 'dismiss', label: 'Dismiss' }]);
+    expect(queryByTestId('island-toast-open')).toBeNull();
   });
 
   it('announces the toast for screen readers', async () => {

@@ -85,7 +85,7 @@ import { IslandToast } from '@/motion/island-toast';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
-import { useTheme } from '@/ui';
+import { Text, useTheme } from '@/ui';
 import { PrimerSheetHost, VisitConsentHost } from '@/ui/permission-primer';
 import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
 
@@ -286,7 +286,7 @@ export default function RootLayout() {
                 <OverlayHost />
                 <PrimerSheetHost />
                 <SharedGrowHost />
-                <IslandToast />
+                <IslandToast Text={Text} />
               </ScreenJoltProvider>
             </AppSessionRoot>
           </AnalyticsProvider>

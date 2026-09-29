@@ -203,7 +203,7 @@ export default function MotionLabScreen() {
             </Text>
             <ToastDemoButton />
           </ScrollView>
-          <IslandToast />
+          <IslandToast Text={Text} />
         </Scaffold>
       </SafeAreaProvider>
     </GestureHandlerRootView>
