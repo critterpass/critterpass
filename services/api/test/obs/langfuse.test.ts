@@ -68,7 +68,7 @@ const span: GenerationSpan = {
   crewId: CREW,
   output: {
     question: 'can we skip the temple, Anna is allergic to incense',
-    budget_max: 900,
+    budget_max: 987_654_321,
     action: 'swap',
   },
 };
@@ -84,7 +84,8 @@ describe('llm observability', () => {
     expect(requests[0]?.url).toBe('https://cloud.langfuse.com/api/public/otel/v1/traces');
     expect(requests[0]?.body).toContain(traceId);
     expect(requests[0]?.body).not.toContain('incense');
-    expect(requests[0]?.body).not.toContain('900');
+    // Long enough that random trace ids and timestamps never contain it by chance.
+    expect(requests[0]?.body).not.toContain('987654321');
 
     expect(points).toEqual([
       {
