@@ -46,7 +46,8 @@ const useStyles = makeStyles((th) => ({
     paddingVertical: th.space['4'],
   },
   art: { alignItems: 'center', paddingVertical: th.space['8'] },
-  owners: { position: 'absolute', end: th.space['14'], bottom: th.space['14'] },
+  nameRow: { alignItems: 'flex-end', gap: th.space['8'] },
+  name: { flex: 1, minWidth: 0 },
   fact: {
     flex: 1,
     backgroundColor: th.semantic.bg.raised,
@@ -92,11 +93,17 @@ export function CritterDetail({
             <Text variant="h3">{`#${dexNumber}`}</Text>
           </Row>
           <View style={styles.art}>{sticker}</View>
-          <Text variant="displayXl" autoFit>
-            {name}
-          </Text>
+          {/* The owners keep their own width beside the name, which fits (then wraps) into the
+              rest, so the two never overlap (3l-3). */}
+          <Row style={styles.nameRow}>
+            <View style={styles.name}>
+              <Text variant="displayXl" autoFit>
+                {name}
+              </Text>
+            </View>
+            {owners ?? null}
+          </Row>
         </Stack>
-        {owners ? <View style={styles.owners}>{owners}</View> : null}
       </Card>
       {fieldNote ? (
         <Stack gap="4">

@@ -3,7 +3,9 @@
 jest.mock('@shopify/react-native-skia', () => require('../test-support/skia-double'));
 jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
-import { fireEvent, screen } from '@testing-library/react-native';
+import { fireEvent, screen, within } from '@testing-library/react-native';
+import { StyleSheet, View } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { describe, expect, it, jest } from '@jest/globals';
 
 import { tokens } from '@cp/design-tokens';
@@ -134,6 +136,27 @@ describe('critter moments', () => {
       screen.getByRole('header', { name: 'Temple Tokek, Rare, Water temples, Number 112' }),
     ).toBeTruthy();
     expect(screen.getByLabelText('Where: Tirta Empul')).toBeTruthy();
+  });
+
+  it('lays the owners beside the name, in flow, so they never cover it', async () => {
+    await renderUi(
+      <CritterDetail
+        name="Temple Tokek"
+        tier="rare"
+        dexNumber={112}
+        sticker={null}
+        owners={<View testID="owners" />}
+      />,
+    );
+    const owners = screen.getByTestId('owners');
+    const row = owners.parent;
+    const flat = (node: typeof row) =>
+      StyleSheet.flatten(node?.props.style as StyleProp<ViewStyle>) ?? {};
+    expect(flat(owners).position).toBeUndefined();
+    expect(flat(row).flexDirection).toBe('row');
+    expect(
+      within(row as never).getByText('TEMPLE TOKEK', { includeHiddenElements: true }),
+    ).toBeTruthy();
   });
 
   it('selects found forms and keeps locked ones unselectable with their requirement', async () => {
