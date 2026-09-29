@@ -1,0 +1,34 @@
+appId: app.critterpass.dev
+---
+# From Home with the staging demo crew's destination vote in its final (Kyoto against Lisbon,
+# 2–2, the account still to vote): Home's split card (3b-6), the showdown with both finalists
+# (3c-1), then the account's deciding vote and the winner reveal (3c-2). ${PREFIX} names the
+# screenshots by language.
+- extendedWaitUntil:
+    visible:
+      id: 'final-split-open'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'final-split-open'
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3b-6-final
+- tapOn:
+    id: 'final-split-open'
+- extendedWaitUntil:
+    visible:
+      id: 'showdown'
+    timeout: 10000
+- assertVisible: 'KYOTO'
+- assertVisible: 'LISBON'
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3c-1-showdown
+- tapOn:
+    id: 'showdown-half-0'
+- extendedWaitUntil:
+    visible:
+      id: 'winner-reveal'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3c-2-reveal

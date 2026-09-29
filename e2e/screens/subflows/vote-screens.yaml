@@ -2,7 +2,8 @@ appId: app.critterpass.dev
 ---
 # From Home with the staging demo crew: place search (3b-7) for a country nobody guides, the guest
 # guide's page (3b-8) with its solo confirm, then PITCH TO THE CREW: the streamed pitch (3b-3) and,
-# once added, the board on Home (3b-1). ${PREFIX} names the screenshots by language.
+# once added, the board on Home (3b-1); last, the board's PITCH A PLACE sheet with the keyboard up
+# and its matches as place chips. ${PREFIX} names the screenshots by language.
 #
 # Home with a crew has no search entry, so the search opens by link; iOS asks once whether the app
 # may open its own link, and a dialog left open would cover the next flow's first screen.
@@ -73,3 +74,16 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3b-1-board
+- tapOn:
+    id: 'board-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 10000
+- inputText: 'hong'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3b-3-search
