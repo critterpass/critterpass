@@ -24,7 +24,7 @@ import path from 'node:path';
 import { parseArgs } from 'node:util';
 
 import { flowScreenshotNames, planCopies, type FlowScreens } from '../capture-flow-shots';
-import { failOnUiQa, recordFlowUiQa, scanUiQa, type UiQaReport } from '../ui-qa-scan';
+import { failOnUiQa, pullUiQaLog, recordFlowUiQa, scanUiQa, type UiQaReport } from '../ui-qa-scan';
 import type { DevicePlatform } from './plan-shards';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
@@ -155,7 +155,7 @@ export function runShard(options: ShardOptions): {
       captureFailure(options, slug);
     }
     if (options.platform === 'ios') {
-      recordFlowUiQa(uiQa, flow, options.device);
+      recordFlowUiQa(uiQa, flow, (appId) => pullUiQaLog(options.device, appId));
     } else {
       uiQa.set(label, scanUiQa(adb(options.device, ['logcat', '-d', '-s', 'ReactNativeJS:V'])));
     }
