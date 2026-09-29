@@ -64,22 +64,24 @@ export function KeyboardFooter({ children, inset = 'gutter', style, testID }: Ke
   }));
 
   return (
-    <Animated.View
-      testID={testID}
-      style={[
-        styles.root,
-        inset === 'gutter' ? styles.gutter : null,
-        { backgroundColor: background },
-        lift,
-      ]}
-    >
+    <>
       <FooterFade color={background} testID={testID ? `${testID}-fade` : undefined} />
       <Animated.View
-        pointerEvents="none"
-        testID={testID ? `${testID}-edge` : undefined}
-        style={[styles.edge, { backgroundColor: theme.semantic.border.decorative }, edge]}
-      />
-      <View style={[styles.content, style]}>{children}</View>
-    </Animated.View>
+        testID={testID}
+        style={[
+          styles.root,
+          inset === 'gutter' ? styles.gutter : null,
+          { backgroundColor: background },
+          lift,
+        ]}
+      >
+        <Animated.View
+          pointerEvents="none"
+          testID={testID ? `${testID}-edge` : undefined}
+          style={[styles.edge, { backgroundColor: theme.semantic.border.decorative }, edge]}
+        />
+        <View style={[styles.content, style]}>{children}</View>
+      </Animated.View>
+    </>
   );
 }

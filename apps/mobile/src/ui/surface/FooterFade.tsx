@@ -17,13 +17,9 @@ const BANDS = 12;
 const BAND_PT = FOOTER_FADE_PT / BANDS;
 
 const useStyles = makeStyles(() => ({
-  fade: {
-    position: 'absolute',
-    bottom: '100%',
-    start: 0,
-    end: 0,
-    height: FOOTER_FADE_PT,
-  },
+  // In flow, pulled up over the end of whatever sits above it: a view drawn outside its parent's
+  // bounds can be clipped on Android, so the fade overlaps its sibling instead.
+  fade: { height: FOOTER_FADE_PT, marginTop: -FOOTER_FADE_PT, alignSelf: 'stretch' },
   band: { height: BAND_PT },
 }));
 
@@ -34,8 +30,8 @@ export interface FooterFadeProps {
 }
 
 /**
- * Drop in as the first child of any sticky footer (which must not clip its overflow): it draws
- * above the footer's top edge, takes no space and ignores touches.
+ * Place it directly before a sticky footer, as its sibling: it overlaps the last FOOTER_FADE_PT of
+ * the content above (so it takes no space) and ignores touches, which pass through to the content.
  */
 export function FooterFade({ color, testID }: FooterFadeProps) {
   const styles = useStyles();

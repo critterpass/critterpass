@@ -62,10 +62,10 @@ describe('KeyboardFooter', () => {
 describe('scrolling under the footer', () => {
   it("fades the content into the page over the footer's top edge, without taking space", async () => {
     await renderFooter();
+    // Pulled up over the content's end by its own height: it takes no space in the layout.
     expect(flat('footer-fade')).toMatchObject({
-      position: 'absolute',
-      bottom: '100%',
       height: FOOTER_FADE_PT,
+      marginTop: -FOOTER_FADE_PT,
     });
   });
 
