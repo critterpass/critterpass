@@ -258,7 +258,7 @@ jobs:
       - name: Run the flows
         uses: reactivecircus/android-emulator-runner@v2
         env:
-          FLOWS: ${{ matrix.flows }}
+          FLOWS: tools/scripts/ci-device/js-commit.yaml ${{ matrix.flows }}
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
@@ -267,10 +267,13 @@ jobs:
           target: google_apis
           arch: x86_64
           profile: pixel_7
+          cores: 4
           disk-size: 6000M
           ram-size: 4096M
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot -no-metrics
           disable-animations: true
+          # The emulator connects to an adb server that is already running, instead of racing to start one.
+          pre-emulator-launch-script: adb start-server
           script: tools/scripts/ci-device/android-device.sh "$RUNNER_TEMP/app.apk" "$RUNNER_TEMP/out" "$FLOWS"
       - uses: actions/upload-artifact@v7
         if: always()
