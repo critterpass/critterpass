@@ -13,6 +13,16 @@ const PAYMENT = {
 
 const BOOKING = { trip_id: crypto.randomUUID(), booking_id: crypto.randomUUID() };
 const SEGMENT = { ...BOOKING, segment_id: crypto.randomUUID() };
+const BOOST_INTENT = {
+  trip_id: crypto.randomUUID(),
+  crew_id: crypto.randomUUID(),
+  intent_id: crypto.randomUUID(),
+};
+const BOOST = {
+  trip_id: crypto.randomUUID(),
+  crew_id: crypto.randomUUID(),
+  boost_id: crypto.randomUUID(),
+};
 
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
   'crew.member_joined': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
@@ -489,6 +499,65 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     user_id: crypto.randomUUID(),
     policy_id: crypto.randomUUID(),
     help_session_id: crypto.randomUUID(),
+  },
+  'boost.intent_locked': { ...BOOST_INTENT, buyer_id: crypto.randomUUID() },
+  'boost.intent_released': { ...BOOST_INTENT, reason: 'expired' },
+  'boost.activated': { ...BOOST, buyer_id: null, source: 'first_trip_free', split: false },
+  'boost.split_added': { ...BOOST, expense_id: crypto.randomUUID() },
+  'boost.ended': BOOST,
+  'boost.moved': {
+    crew_id: crypto.randomUUID(),
+    boost_id: crypto.randomUUID(),
+    from_trip_id: crypto.randomUUID(),
+    to_trip_id: null,
+    credit_id: crypto.randomUUID(),
+  },
+  'boost.revoked': { ...BOOST, reason: 'refund' },
+  'boost.thanked': { ...BOOST, buyer_id: crypto.randomUUID(), by_uid: crypto.randomUUID() },
+  'subscription.changed': {
+    user_id: crypto.randomUUID(),
+    subscription_id: crypto.randomUUID(),
+    product_key: 'pass_monthly',
+    status: 'grace',
+    previous_status: 'active',
+  },
+  'purchase.fulfilled': {
+    user_id: crypto.randomUUID(),
+    store_transaction_id: crypto.randomUUID(),
+    product_key: 'boost_trip',
+  },
+  'purchase.revoked': {
+    user_id: null,
+    store_transaction_id: crypto.randomUUID(),
+    product_key: 'pass_yearly',
+    reason: 'refund',
+  },
+  'ftf.granted': {
+    crew_id: crypto.randomUUID(),
+    trip_id: crypto.randomUUID(),
+    grant_id: crypto.randomUUID(),
+  },
+  'ftf.reviewed': {
+    crew_id: crypto.randomUUID(),
+    grant_id: crypto.randomUUID(),
+    decision: 'review',
+  },
+  'crew_year.granted': {
+    crew_id: crypto.randomUUID(),
+    grant_id: crypto.randomUUID(),
+    buyer_id: crypto.randomUUID(),
+  },
+  'crew_year.rebound': {
+    grant_id: crypto.randomUUID(),
+    buyer_id: crypto.randomUUID(),
+    from_crew_id: crypto.randomUUID(),
+    to_crew_id: crypto.randomUUID(),
+  },
+  'paywall.event': {
+    user_id: crypto.randomUUID(),
+    trip_id: null,
+    entry_point: 'guide_limit',
+    outcome: 'quiet_no',
   },
 };
 

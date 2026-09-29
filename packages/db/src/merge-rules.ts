@@ -367,3 +367,20 @@ registerMergeRule({
   strategy: 'reassign',
   personal: true,
 });
+// Billing: purchases, credits, redemptions and paywall history follow the account (a store product
+// or a code already held by the surviving account keeps its row).
+registerMergeRule({
+  table: 'subscriptions',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['platform', 'product_key'],
+});
+registerMergeRule({ table: 'store_transactions', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({ table: 'boost_credits', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({
+  table: 'code_redemptions',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['code_id'],
+});
+registerMergeRule({ table: 'paywall_impressions', userColumn: 'user_id', strategy: 'reassign' });

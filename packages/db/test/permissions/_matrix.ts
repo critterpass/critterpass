@@ -63,6 +63,16 @@ const OWNER_READ: Readonly<Record<ActorKind, TableOpExpectation>> = {
   organiser: op(true, false, false),
 };
 
+/** RLS class S: no app_user grant at all; nobody reads or writes through the request role. */
+const SYSTEM_ONLY: Readonly<Record<ActorKind, TableOpExpectation>> = {
+  outsider: F,
+  exMember: F,
+  anonymous: F,
+  member: F,
+  coOrganiser: F,
+  organiser: F,
+};
+
 /** RLS class R, system-written: every authenticated actor reads, nobody writes. */
 const READ_ONLY_ALL: Readonly<Record<ActorKind, TableOpExpectation>> = {
   outsider: op(true, false, false),
@@ -1357,6 +1367,59 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       coOrganiser: F,
       organiser: F,
     },
+  },
+  // Billing: owners read their subscriptions, redemptions and paywall history; the crew reads a
+  // trip's boost intents and boosts and the crew's credits and grants; store transactions, billing
+  // events and codes are the server's alone. Every write is the server's.
+  subscriptions: { selectProbe: ownRowProbe('subscriptions'), expectations: OWNER_READ },
+  code_redemptions: { selectProbe: ownRowProbe('code_redemptions'), expectations: OWNER_READ },
+  paywall_impressions: {
+    selectProbe: ownRowProbe('paywall_impressions'),
+    expectations: OWNER_READ,
+  },
+  boost_intents: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM boost_intents WHERE trip_id = $1 AND buyer_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  trip_boosts: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM trip_boosts WHERE trip_id = $1 AND buyer_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  boost_credits: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM boost_credits WHERE crew_id = $1',
+      params: (f) => [f.crewId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  crew_year_grants: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM crew_year_grants WHERE crew_id = $1',
+      params: (f) => [f.crewId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  ftf_grants: {
+    selectProbe: { sql: 'SELECT 1 FROM ftf_grants WHERE crew_id = $1', params: (f) => [f.crewId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  store_transactions: {
+    selectProbe: { sql: 'SELECT 1 FROM store_transactions LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  billing_events: {
+    selectProbe: { sql: 'SELECT 1 FROM billing_events LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  codes: {
+    selectProbe: { sql: 'SELECT 1 FROM codes LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
   },
   // RLS class S (docs/data-model.md §3.15): any user inserts their own report, nobody reads one
   // back through app_user (packages/db/test/permissions/moderation-reports.test.ts).

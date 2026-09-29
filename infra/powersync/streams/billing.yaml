@@ -1,0 +1,32 @@
+# Billing streams (docs/data-model-sync-and-privacy.md §4): a member's own subscriptions, code
+# redemptions and paywall impressions ride me; a trip's boost intent lock and boosts ride trip to
+# every active member of its crew; the crew's boost credits, crew yearly grants and first-trip-free
+# grant ride crews. Store transactions, billing events and codes are never published.
+
+streams:
+  me:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM subscriptions WHERE user_id = auth.user_id()
+      - SELECT * FROM code_redemptions WHERE user_id = auth.user_id()
+      - SELECT * FROM paywall_impressions WHERE user_id = auth.user_id()
+      - SELECT * FROM crew_year_grants WHERE buyer_id = auth.user_id()
+      - SELECT * FROM boost_credits WHERE user_id = auth.user_id()
+
+  crews:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM boost_credits WHERE crew_id IN my_crews
+      - SELECT * FROM crew_year_grants WHERE crew_id IN my_crews
+      - SELECT * FROM ftf_grants WHERE crew_id IN my_crews
+
+  trip:
+    queries:
+      - |
+        SELECT * FROM boost_intents
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM trip_boosts
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)

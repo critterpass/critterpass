@@ -6,6 +6,7 @@ import { SETUP_EVENT_TYPES } from '../../src/setup/events';
 import { MONEY_EVENT_TYPES } from '../../src/money/events';
 import { DRAFT_EVENT_TYPES } from '../../src/itinerary/events';
 import { BOOKING_EVENT_TYPES } from '../../src/bookings/events';
+import { BILLING_EVENT_TYPES } from '../../src/billing/events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -102,6 +103,9 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   ...DRAFT_EVENT_TYPES,
   // Bookings have their own surfaces (the wallet stack, the flight card, the import banner).
   ...BOOKING_EVENT_TYPES,
+  // Billing speaks through its own surfaces (the boost card, the BOOSTED pill, Your plan);
+  // purchases, subscriptions and paywall events concern one account.
+  ...BILLING_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

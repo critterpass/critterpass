@@ -22,12 +22,17 @@ export const SYNCED_TABLE_COLUMNS = {
     'booking_id trip_id owner_id crew_visible:integer media_key kind sha256 created_at',
   bookings:
     'trip_id owner_id type title starts_at ends_at tz location traveller_ids price_minor:integer currency paid_by source supplier supplier_ref free_cancel_until cancel_policy_text status visibility flight_crew_visible:integer details barcode_payload_enc barcode_format supplier_order_id deleted_at version:integer created_at updated_at',
+  boost_credits:
+    'crew_id user_id reason from_boost_id store_transaction_id expires_at consumed_by_boost_id consumed_at revoked_at created_at',
+  boost_intents:
+    'trip_id crew_id buyer_id product_key split_mode split_member_ids status expires_at created_at updated_at',
   budget_plans:
     'trip_id target_minor:integer currency band_low_minor:integer band_high_minor:integer breakdown stay_mix planned_by_day quote_version is_stale:integer locked_at locked_by version:integer created_at updated_at',
   change_sets:
     'trip_id base_version_id trigger scope author_kind author_id status poll_id cost_delta_minor:integer ops approved_by_kind approved_by result_version_id created_at updated_at',
   client_config: 'key value updated_at',
   cmd_results: 'op_id uid cmd status code detail result_ref server_ts',
+  code_redemptions: 'code_id user_id redeemed_at applied_as starts_at new_period_end created_at',
   consents: 'user_id purpose scope granted_at revoked_at copy_version created_at updated_at',
   cost_components:
     'trip_id calc_version component_key kind unit is_shared:integer origin member_ids amount_minor:integer currency source quote_id label seen_at frozen_at created_at updated_at',
@@ -35,6 +40,8 @@ export const SYNCED_TABLE_COLUMNS = {
   crew_inbound_addresses: 'crew_id local_part status rotated_at created_at',
   crew_members:
     'crew_id user_id role colour status keep_in_chat:integer joined_epoch:integer left_at last_read_seq:integer notify_level created_at updated_at',
+  crew_year_grants:
+    'crew_id buyer_id subscription_id original_transaction_id intent_id split_expense_id valid_from valid_to rebound_for_period_end revoked_at created_at updated_at',
   crews:
     'name art settlement_currency member_ceiling:integer membership_epoch:integer created_by created_at updated_at',
   critter_forms:
@@ -63,6 +70,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'key destination_id kind name lat:real lng:real address phone open_24h:integer source_url retrieved_on verified_at release_id created_at updated_at',
   flight_segments:
     'booking_id trip_id owner_id crew_visible:integer segment_no:integer carrier flight_no dep_airport arr_airport sched_dep_at sched_arr_at est_dep_at est_arr_at act_dep_at act_arr_at boarding_at boarding_estimated:integer gate terminal status delay_min:integer status_source status_at la_phase version:integer created_at updated_at',
+  ftf_grants:
+    'crew_id trip_id organiser_id starts_at ends_at member_overlap_hash abuse_decision reviewed_at created_at updated_at',
   fx_snapshots: 'base quote rate as_of source created_at',
   guide_actions:
     'trip_id change_set_id kind target_provider_id channel status reversible:integer compensates_id cost_delta_minor:integer audit inverse undo_until disruption_id created_at updated_at',
@@ -111,6 +120,8 @@ export const SYNCED_TABLE_COLUMNS = {
   passes: 'user_id status number issued_at cover created_at updated_at',
   payments:
     'crew_id trip_id from_id to_id amount_minor:integer currency method status requested_at last_nudged_at marked_at confirmed_at auto_confirmed:integer disputed_at dispute_note reissued_from_id created_by version:integer created_at updated_at',
+  paywall_impressions:
+    'user_id trip_id entry_point outcome channel governed:integer shown_at local_date suppressed_until created_at',
   perks: 'key tier copy_key is_shipped:integer sort:integer created_at updated_at',
   phrase_cards:
     'key language context text romanisation gloss audio_key audio_status native_reviewed_on release_id created_at updated_at',
@@ -160,8 +171,12 @@ export const SYNCED_TABLE_COLUMNS = {
   stamps:
     'pass_id user_id kind seq_no:integer destination_id trip_id dates iata country ink_colour status stamped_at created_at updated_at',
   stickers: 'user_id crew_id trip_id kind granted_at created_at',
+  subscriptions:
+    'user_id platform rc_customer_id original_transaction_id product_key status auto_renew:integer period_start period_end grace_ends_at paused_from resume_at storefront environment last_event_at created_at updated_at',
   taste_profiles:
     'user_id answers tags tag_sources chronotype pace room_pref visibility created_at updated_at',
+  trip_boosts:
+    'trip_id crew_id buyer_id source store_transaction_id intent_id crew_year_grant_id split_mode split_member_ids starts_at ends_at status moved_from_trip_id moved_from_boost_id expense_id thanked_by revoked_at revoke_reason created_at updated_at',
   trip_budget_aggregates:
     'trip_id currency maxes_count:integer member_count:integer band_low_minor:integer band_high_minor:integer step_minor:integer track_high_minor:integer bucketed_dots under_all_ok:integer infeasible:integer computed_at created_at updated_at',
   trip_entitlements:

@@ -55,11 +55,14 @@ import * as schema from './schema';
  * nudge send time on the server and are never replicated, not even to their owner.
  * `flight_watches` (packages/db/src/schema/bookings.ts) is "S": provider alert subscriptions are
  * the server's; travellers see their effect in `flight_segments`.
+ * `codes` (packages/db/src/schema/billing.ts) is "S": gift and promo codes are only ever checked by
+ * the server (a hash lookup); a client sees its own `code_redemptions`, never a code row.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'app_open_hours',
   'cities',
+  'codes',
   'content_releases',
   'critter_names',
   'fair_use_counters',

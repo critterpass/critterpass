@@ -23,6 +23,7 @@ import { seedGrowthRows } from './growth-fixture';
 import { seedHomeRows } from './home-fixture';
 import { seedMoneyRows } from './money-fixture';
 import { seedBookingRows } from './bookings-fixture';
+import { seedBillingRows } from './billing-fixture';
 import { seedPollRows } from './poll-fixture';
 import { seedSetupRows } from './setup-fixture';
 import {
@@ -322,6 +323,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await seedSetupRows(tx, { tripId, organiser, member });
     await seedMoneyRows(tx, { crewId, tripId, organiser, member });
     await seedBookingRows(tx, { crewId, tripId, organiser, member });
+    await seedBillingRows(tx, { crewId, tripId, organiser, member });
 
     const versionId = await insertItineraryVersion(tx, {
       tripId,
