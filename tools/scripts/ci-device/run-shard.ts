@@ -4,14 +4,21 @@
  *   tsx tools/scripts/ci-device/run-shard.ts --platform ios --device <udid|serial> --out <dir> \
  *     [--env OTP_TEST_CODE --env JS_COMMIT] <flow.yaml…>
  *
- * Writes to --out: `junit/*.xml` and `maestro/<flow>/` (Maestro's logs and failure screenshots) per
- * flow, `screenshots/*.png` (every `takeScreenshot`, named as `pnpm screens:capture` names them) and
- * `ui-qa.log`. Like the local capture tool, a failed flow or any `[ui-qa]` report fails the shard;
+ * Writes to --out: `junit/*.xml` and `maestro/<flow>/` (Maestro's run directory and logs) per flow,
+ * `failures/` (the screen and the app's log after each failed flow), `screenshots/*.png` (every
+ * `takeScreenshot`, named as `pnpm screens:capture` names them) and `ui-qa.log`. Like the local capture tool, a failed flow or any `[ui-qa]` report fails the shard;
  * on GitHub Actions each also becomes an error annotation and a line in the job summary.
  * `--env NAME` forwards that environment variable to every flow as `-e NAME=value` when it is set.
  */
 import { spawnSync } from 'node:child_process';
-import { appendFileSync, copyFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs';
+import {
+  appendFileSync,
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs';
 import { homedir } from 'node:os';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
@@ -94,7 +101,7 @@ export function runShard(options: ShardOptions): {
   uiQa: Map<string, UiQaReport[]>;
 } {
   if (!existsSync(MAESTRO)) throw new Error(`Maestro not found at ${MAESTRO}`);
-  const work = path.join(options.out, 'work');
+  const work = path.join(options.out, 'maestro');
   const shots = path.join(options.out, 'screenshots');
   for (const dir of [work, shots, path.join(options.out, 'junit')])
     mkdirSync(dir, { recursive: true });
@@ -120,8 +127,11 @@ export function runShard(options: ShardOptions): {
         'junit',
         '--output',
         path.join(options.out, 'junit', `${slug}.xml`),
+        '--test-output-dir',
+        dir,
         '--debug-output',
-        path.join(options.out, 'maestro', slug),
+        dir,
+        '--flatten-debug-output',
         ...envArgs,
       ],
       {
@@ -137,6 +147,7 @@ export function runShard(options: ShardOptions): {
     if (!passed) {
       failed.push(label);
       console.log(annotation('error', `Maestro flow failed (${options.platform})`, label));
+      captureFailure(options, slug);
     }
     if (options.platform === 'ios') {
       recordFlowUiQa(uiQa, flow, options.device);
@@ -150,6 +161,25 @@ export function runShard(options: ShardOptions): {
     if (existsSync(from)) copyFileSync(from, to);
   }
   return { failed, uiQa };
+}
+
+/** The device's screen and the app's recent log after a failed flow, into `<out>/failures/`. */
+function captureFailure(options: ShardOptions, slug: string): void {
+  const dir = path.join(options.out, 'failures');
+  mkdirSync(dir, { recursive: true });
+  const save = (file: string, command: string, args: string[]) => {
+    const result = spawnSync(command, args, { maxBuffer: 256 * 1024 * 1024 });
+    if (result.status === 0) writeFileSync(path.join(dir, file), result.stdout);
+  };
+  if (options.platform === 'android') {
+    save(`${slug}.png`, 'adb', ['-s', options.device, 'exec-out', 'screencap', '-p']);
+    save(`${slug}.logcat.txt`, 'adb', ['-s', options.device, 'logcat', '-d', '-t', '3000']);
+  } else {
+    save(`${slug}.png`, 'xcrun', ['simctl', 'io', options.device, 'screenshot', '-']);
+    const predicate = 'process BEGINSWITH "CritterPass" OR subsystem == "com.facebook.react.log"';
+    const logArgs = ['simctl', 'spawn', options.device, 'log', 'show', '--last', '10m'];
+    save(`${slug}.log.txt`, 'xcrun', [...logArgs, '--style', 'compact', '--predicate', predicate]);
+  }
 }
 
 function summary(line: string): void {
