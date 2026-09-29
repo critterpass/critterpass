@@ -95,7 +95,9 @@ export async function openAndroidDevice(
   let disposed = false;
   const handle: CaptureDevice = {
     id: serial,
-    maestroEnv: {},
+    // Maestro installs and starts its driver app on the emulator first; a busy Mac can pass the
+    // two-minute default.
+    maestroEnv: { MAESTRO_DRIVER_STARTUP_TIMEOUT: '360000' },
     readUiQa: () => {
       const log = adb(serial, 'logcat', '-d', '-v', 'raw', 'ReactNativeJS:W', '*:S');
       adb(serial, 'logcat', '-c');
@@ -116,6 +118,8 @@ export async function openAndroidDevice(
   adb(serial, 'install', '-r', apk);
   rmSync(apk, { force: true });
   adb(serial, 'shell', 'cmd', 'uimode', 'night', dark ? 'yes' : 'no');
+  // A loaded emulator raises "isn't responding" dialogs for system apps over the app under test.
+  adb(serial, 'shell', 'settings', 'put', 'global', 'hide_error_dialogs', '1');
   adb(serial, 'shell', 'settings', 'put', 'global', 'sysui_demo_allowed', '1');
   for (const broadcast of demoStatusBar()) adb(serial, 'shell', ...broadcast);
   adb(serial, 'logcat', '-c');
