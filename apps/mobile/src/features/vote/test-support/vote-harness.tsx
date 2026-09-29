@@ -16,6 +16,9 @@ import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { TestLocalFirst } from '@/data/powersync/test-support/local-first-fixture';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
+import { VoteServicesProvider, type VoteServices } from '../data/vote-services';
+import { replayServices } from './replay-services';
+
 configure({ asyncUtilTimeout: 5000 });
 
 const METRICS = {
@@ -32,14 +35,20 @@ export const KYOTO = '0192f000-0000-7000-8000-0000000000d2';
 export const LISBON = '0192f000-0000-7000-8000-0000000000d3';
 export const BALI = '0192f000-0000-7000-8000-0000000000d1';
 
-export function renderVote(ui: ReactElement, stack: TestLocalFirst) {
+export function renderVote(
+  ui: ReactElement,
+  stack: TestLocalFirst,
+  services: VoteServices = replayServices({}),
+) {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
   return render(
     <I18nProvider i18n={i18n}>
       <SafeAreaProvider initialMetrics={METRICS}>
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
-            <ScreenJoltProvider>{ui}</ScreenJoltProvider>
+            <VoteServicesProvider services={services}>
+              <ScreenJoltProvider>{ui}</ScreenJoltProvider>
+            </VoteServicesProvider>
           </LocalFirstProvider>
         </GestureHandlerRootView>
       </SafeAreaProvider>
@@ -48,12 +57,13 @@ export function renderVote(ui: ReactElement, stack: TestLocalFirst) {
 }
 
 /** Waits until `check` passes (5 s at most), flushing the live queries' updates each round. */
-export async function until(check: () => boolean, timeoutMs = 5000): Promise<void> {
+export async function until(check: () => boolean, timeoutMs = 5000, label = ''): Promise<void> {
   const deadline = Date.now() + timeoutMs;
   for (;;) {
     await new Promise((resolve) => setTimeout(resolve, 100));
     if (check()) return;
-    if (Date.now() > deadline) throw new Error('timed out waiting for the screen to settle');
+    if (Date.now() > deadline)
+      throw new Error(`timed out waiting for the screen to settle ${label}`);
   }
 }
 

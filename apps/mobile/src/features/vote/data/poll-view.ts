@@ -118,7 +118,7 @@ function parseTie(value: unknown): TiePreview | null {
     return null;
   }
   const text = (key: string, fallback: string) =>
-    typeof tie[key] === 'string' ? (tie[key]) : fallback;
+    typeof tie[key] === 'string' ? tie[key] : fallback;
   return {
     winnerOptionId: tie['winner_option_id'],
     cheaperByMinor: Number(tie['cheaper_by_minor'] ?? 0),
