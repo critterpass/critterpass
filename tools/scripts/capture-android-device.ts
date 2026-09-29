@@ -60,10 +60,14 @@ function adb(serial: string, ...args: string[]): string {
 
 async function bootEmulator(avd: string): Promise<string> {
   const before = new Set(emulatorSerials(run(ADB, ['devices'])));
-  const child = spawn(EMULATOR, ['-avd', avd, '-no-snapshot-save', '-no-audio', '-no-boot-anim'], {
-    detached: true,
-    stdio: 'ignore',
-  });
+  const child = spawn(
+    EMULATOR,
+    ['-avd', avd, '-gpu', 'host', '-no-snapshot-save', '-no-audio', '-no-boot-anim'],
+    {
+      detached: true,
+      stdio: 'ignore',
+    },
+  );
   child.unref();
   const deadline = Date.now() + BOOT_TIMEOUT_MS;
   while (Date.now() < deadline) {

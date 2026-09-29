@@ -61,9 +61,12 @@ appId: app.critterpass.dev
       id: 'gallery-tab-index'
     timeout: 5000
 
-# FAB tap → guide sheet lookup.
+# FAB tap → guide sheet lookup. No tap retry: on a slow Android emulator the push hasn't changed
+# the screen when Maestro checks, and its retry lands a second touch on the FAB mid-transition,
+# which opens Help instead.
 - tapOn:
     id: 'guide-fab'
+    retryTapIfNoChange: false
 - extendedWaitUntil:
     visible:
       id: 'shell-target-guide'
