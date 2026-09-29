@@ -214,18 +214,18 @@ Undesigned states/flows to design in code here: web-style 404 in app (`+not-foun
 - Steps: 1. State-group view: the 12 prototype state groups as fixture sets. 2. Shell demo exercising every transition. 3. Maestro sweep in motion-freeze mode with `assertScreenshot` per fixture on iOS + Android (baselines committed). 4. Cold-entry flow: open a registered screen via dev deep link → back walks synthesized stack.
 - Tests: `maestro test e2e/gallery/ e2e/shell/`.
 - Done when: sweeps pass on both platforms; baselines committed.
-- Status: blocked — iOS complete: 6702b859, 71969917, cec13279 and fedcb500 (the guide FAB tap: its tap and long-press now sit on separate native views, because iOS dropped the second gesture of the composed pair; the chat composer mic, story player, day row and timeline block got the same split afterwards; `e2e/gallery/gestures.yaml` checks each tap against its hold or drag on the iOS 27 simulator with e2e-test build 537c50ab, where `e2e/shell/` edge-to-edge, sheets, tabs and zoom, `e2e/gallery/states.yaml`, `e2e/motion/` and `e2e/critters/sticker-lab.yaml` pass again, and a11y-smoke waits for a rerun on a less loaded machine). The sweep of all 161 component pages in EN + VI, states, deep-cold-entry, a11y-smoke and every `e2e/shell/` flow including `tabs.yaml` pass on the iOS simulator. Open: the Android run, done later in a separate lane once disk space is freed; committed `assertScreenshot` baselines need Maestro ≥ 2.1 (installed 2.0.10 has no `assertScreenshot`) and a decision on storing ~160 PNG baselines per platform
+- Status: blocked — iOS complete: 6702b859, 71969917, cec13279 and fedcb500 (the guide FAB tap: its tap and long-press now sit on separate native views, because iOS dropped the second gesture of the composed pair; the chat composer mic, story player, day row and timeline block got the same split afterwards; `e2e/gallery/gestures.yaml` checks each tap against its hold or drag on the iOS 27 simulator with e2e-test build 537c50ab, where `e2e/shell/` edge-to-edge, sheets, tabs and zoom, `e2e/gallery/states.yaml`, `e2e/motion/` and `e2e/critters/sticker-lab.yaml` pass again, and a11y-smoke waits for a rerun on a less loaded machine). The sweep of all 161 component pages in EN + VI, states, deep-cold-entry, a11y-smoke and every `e2e/shell/` flow including `tabs.yaml` pass on the iOS simulator. Android emulator (e2e-test build 4ecd0486, 2026-09-29): every `e2e/shell/` flow passes (tabs once its FAB tap stopped retrying mid-transition; edge-to-edge in gesture and 3-button navigation), as do states, a11y-smoke, deep-cold-entry and the EN sweep of all 168 pages; `e2e/gallery/gestures.yaml` has Android coordinates now, and its mic, story and day-row checks pass but the timeline slop tap fails: RNGH on Android can't extend the inner press area's hitSlop past its parent block, so a tap 2 dp above a short block doesn't select it. The EN sweep's ui-qa scan (now read from logcat on Android) raises word breaks in TileGrid, RecapStatTiles, ImportTiles, the tier labels and the gallery's own component-name titles, plus the displayMega truncation on the Text page. Open: committed `assertScreenshot` baselines need Maestro ≥ 2.1 (installed 2.0.10 has no `assertScreenshot`) and a decision on storing ~160 PNG baselines per platform
 
 ## Phase acceptance criteria
 
 - [ ] Shell: tabs, FAB tap/hold, push/sheet/rise/zoom/burst/fold/flip/tab/fade transitions work on iOS + Android; reduced motion cross-fades
-- [ ] Sheets: detents, drag-dismiss, ✕, Android system back
+- [x] Sheets: detents, drag-dismiss, ✕, Android system back
 - [ ] Back-stack synthesis tests reproduce PARENT chains
 - [ ] Every design-system §2.1–2.10 component (minus Sticker and map family) exists with gallery fixtures and §7 states
 - [ ] a11y audit green for all fixtures at font scale 1.0 and 2.0; gesture alternatives present
 - [ ] No hex/number style literals, no unlocalised strings in `src/ui` (lint)
 - [ ] `(dev)` routes absent from release bundle (`check-release-bundle` green)
-- [ ] Android edge-to-edge: shell clears nav bar in gesture and 3-button modes
+- [x] Android edge-to-edge: shell clears nav bar in gesture and 3-button modes
 - [ ] Maestro `e2e/shell`, `e2e/gallery` green on both platforms
 
 ## Risks & rollback

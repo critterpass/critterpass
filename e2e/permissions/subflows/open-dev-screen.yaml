@@ -3,10 +3,12 @@ appId: app.critterpass.dev
 # Opens one (dev) screen through the home screen's "Developer tools" entry and its list
 # (apps/mobile/src/app/(dev)/index.tsx), never `openLink`. `SCREEN` is the list entry's test id
 # suffix, `READY` the screen's own test id.
+# A cleared app fetches the freshly published JS before its first render: up to a minute on a
+# loaded emulator.
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
-    timeout: 25000
+    timeout: 60000
 - tapOn:
     id: 'dev-tools-entry'
 - scrollUntilVisible:

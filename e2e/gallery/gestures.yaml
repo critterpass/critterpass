@@ -2,7 +2,8 @@ appId: app.critterpass.dev
 ---
 # Each component that pairs two gestures on one control: the tap and the other gesture both
 # still fire on the device, and one never triggers the other. Every screenshot shows the state an
-# action left behind. Coordinates are iPhone 17 points on the gallery pages as laid out today.
+# action left behind. Coordinates are iPhone 17 points, and on Android the matching pixels on the
+# 1080 × 2400 Pixel emulator (420 dpi), on the gallery pages as laid out today.
 
 # Composer mic: a tap starts recording; a hold records only while held (so it stops on release),
 # and a hold longer than a tap never counts as one.
@@ -63,10 +64,22 @@ appId: app.critterpass.dev
       text: 'Opened Ubud centre'
     timeout: 5000
 - takeScreenshot: gesture-day-row-tap-opens
-- swipe:
-    start: 200, 265
-    end: 200, 440
-    duration: 1500
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 200, 265
+          end: 200, 440
+          duration: 1500
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - swipe:
+          start: 540, 676
+          end: 540, 1135
+          duration: 1500
 - extendedWaitUntil:
     visible: 'Day 3, Mon, Arrive \+ pool.*'
     timeout: 5000
@@ -81,16 +94,38 @@ appId: app.critterpass.dev
     file: ../screens/subflows/open-gallery-component.yaml
     env:
       COMPONENT: 'DayTimeline'
-- tapOn:
-    point: 148, 387
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          point: 148, 387
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          point: 390, 996
 - extendedWaitUntil:
     visible: 'Lunch · Biah Biah · 11:30.AM'
     timeout: 5000
 - takeScreenshot: gesture-timeline-slop-tap-selects
-- swipe:
-    start: 148, 407
-    end: 148, 443
-    duration: 1500
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 148, 407
+          end: 148, 443
+          duration: 1500
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - swipe:
+          start: 390, 1048
+          end: 390, 1143
+          duration: 1500
 # The pan activation distance eats part of the swipe, so the block lands 45 or 60 minutes later.
 - extendedWaitUntil:
     visible: 'Lunch · Biah Biah · 12:(15|30).PM'

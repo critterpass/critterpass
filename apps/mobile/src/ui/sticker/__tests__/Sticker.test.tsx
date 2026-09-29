@@ -250,7 +250,7 @@ describe('<Sticker>', () => {
     expect(resolveStickerEdge(gold, undefined)).toBe(gold);
   });
 
-  it('draws the edged and the bare art as different images and reports a bare critter', async () => {
+  it('draws the edged and the bare art as different images and reports a bare critter, not a bare icon', async () => {
     const reports: string[] = [];
     setUiQaSink((line) => reports.push(line));
     try {
@@ -283,6 +283,19 @@ describe('<Sticker>', () => {
           size={96}
           variant="mask"
           maskColor={tokens.color.ink[600]}
+          engine={engine}
+          cache={cache}
+        />,
+      );
+      expect(reports).toHaveLength(1);
+
+      await render(
+        <Sticker
+          kind="egg"
+          name="egg"
+          size={24}
+          sticker={null}
+          blend="srcOver"
           engine={engine}
           cache={cache}
         />,

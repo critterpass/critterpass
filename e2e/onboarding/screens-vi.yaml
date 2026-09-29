@@ -22,13 +22,9 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'gallery-locale-vi'
-- swipe:
-    start: 2%, 50%
-    end: 90%, 50%
+- runFlow: subflows/back.yaml
 - waitForAnimationToEnd
-- swipe:
-    start: 2%, 50%
-    end: 90%, 50%
+- runFlow: subflows/back.yaml
 - runFlow:
     file: subflows/pass-screens.yaml
     env:

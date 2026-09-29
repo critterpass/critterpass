@@ -2,10 +2,24 @@ appId: app.critterpass.dev
 ---
 # The Always upgrade is its own later step: offered only on While-In-Use, primer first (on
 # Android the prominent disclosure), then the system's own Always step.
-- launchApp:
-    clearState: true
-    permissions:
-      location: inuse
+# While-In-Use to start from: `inuse` on iOS; on Android `allow` grants the foreground location
+# permissions only (background location is its own later grant).
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: inuse
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp:
+          clearState: true
+          permissions:
+            location: allow
 - runFlow:
     file: ../permissions/subflows/open-dev-screen.yaml
     env:
@@ -27,6 +41,12 @@ appId: app.critterpass.dev
     text: '(Allow all the time|Continue)'
 - tapOn:
     text: '(Change to Always Allow|Allow all the time)'
+# Android 11+ grants Always on the app's location settings page; back returns to the app.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
 - extendedWaitUntil:
     visible:
       id: 'dev-location-permission'

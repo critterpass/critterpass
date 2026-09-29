@@ -23,7 +23,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'primer-sheet-accept'
 - tapOn:
-    text: '(Allow|OK)'
+    text: '(Allow|OK|While using the app)'
 - extendedWaitUntil:
     visible:
       id: 'dev-permission-camera-status'

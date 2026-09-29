@@ -11,6 +11,36 @@ appId: app.critterpass.dev
     env:
       SCREEN: permissions
       READY: dev-permissions
+# Android can't tell a revoked permission from one never asked until the app asks: refuse the
+# system dialog until the denial is final (or the ask lands straight on the app's settings page).
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - repeat:
+          while:
+            notVisible:
+              id: 'dev-permission-camera-status'
+              text: 'denied.*'
+          times: 3
+          commands:
+            - tapOn:
+                id: 'dev-permission-camera-primer'
+            - tapOn:
+                id: 'primer-sheet-accept'
+            - extendedWaitUntil:
+                visible: '(Don.t allow|App info)'
+                timeout: 10000
+            - runFlow:
+                when:
+                  visible: 'Don.t allow'
+                commands:
+                  - tapOn: 'Don.t allow'
+            - runFlow:
+                when:
+                  visible: 'App info'
+                commands:
+                  - back
 - extendedWaitUntil:
     visible:
       id: 'dev-permission-camera-status'

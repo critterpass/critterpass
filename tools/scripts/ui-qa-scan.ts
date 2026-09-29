@@ -5,8 +5,8 @@
  *
  * Development and e2e builds write every `[ui-qa]` report (a headline cut with an ellipsis, a word
  * split across lines, a critter drawn without its sticker edge) to `<documents>/ui-qa.log` in the
- * app's container. `pnpm screens:capture` pulls that file after each flow with `pullUiQaLog`, and
- * fails the run when `scanUiQa` finds anything.
+ * app's container (and logs it, which is how an Android emulator run reads it back from logcat).
+ * `pnpm screens:capture` pulls the reports after each flow, and fails the run when `scanUiQa` finds anything.
  */
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -73,14 +73,18 @@ export function flowAppId(flowYaml: string): string | undefined {
   return /^appId:\s*['"]?([\w.-]+)['"]?\s*$/m.exec(flowYaml)?.[1];
 }
 
-/** After a flow (a Maestro file): pulls what the app reported during it into `byFlow`. */
+/**
+ * After a flow (a Maestro file): pulls what the app reported during it into `byFlow`. `readLog`
+ * returns (and clears) the device's report source for an app id: `pullUiQaLog` on a simulator,
+ * logcat on an Android emulator.
+ */
 export function recordFlowUiQa(
   byFlow: Map<string, UiQaReport[]>,
   flow: string,
-  udid: string,
+  readLog: (appId: string) => string,
 ): void {
   const appId = flowAppId(readFileSync(flow, 'utf8'));
-  if (appId) byFlow.set(path.relative(REPO_ROOT, flow), scanUiQa(pullUiQaLog(udid, appId)));
+  if (appId) byFlow.set(path.relative(REPO_ROOT, flow), scanUiQa(readLog(appId)));
 }
 
 /** Writes `<out>/ui-qa.log` (empty when clean) and throws when the app reported anything. */

@@ -148,7 +148,7 @@ Empty new-crew chat ("Say hi to the crew" CTA from 3a-13), loading/first sync sk
 - Steps: 1. Integration test against docker-compose stack: two users, message via `/sync/upload`, `crew_chat` publication received, Centrifugo hint delivered. 2. Maestro flows on iOS + Android simulators.
 - Tests: `pnpm test:int -- chat`; `maestro test e2e/chat`
 - Done when: all flows pass on both platforms.
-- Status: blocked — flows and the two-device sync-stack scenario are in 5dd81ba8; the iOS and Android device runs wait for the device lane
+- Status: blocked — flows and the two-device sync-stack scenario are in 5dd81ba8; the iOS and Android device runs wait for the device lane; Android is blocked until an Android e2e-test build from current main, because the demo-data seed the flows start from is newer JS than build 4ecd0486's native fingerprint accepts
 
 ## Phase acceptance criteria
 

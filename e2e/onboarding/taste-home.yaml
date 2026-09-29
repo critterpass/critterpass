@@ -33,7 +33,12 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'home-row-SIN'
-- hideKeyboard
+# Android's hideKeyboard presses back when picking the row already closed the keyboard.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
 # The stamp sits under the result list, which a short query fills past the screen.
 - scrollUntilVisible:
     element:

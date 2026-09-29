@@ -1,18 +1,21 @@
 /**
- * Captures real iOS simulator screenshots of the mobile app for pull requests.
+ * Captures real device screenshots of the mobile app for pull requests.
  *
- *   pnpm screens:capture -- --flows e2e/screens/*.yaml --out ./screens [--dark] [--device "iPhone 17"]
+ *   pnpm screens:capture -- --flows e2e/screens/*.yaml --out ./screens [--dark]
+ *     [--platform ios|android] [--device "iPhone 17" | --device cp_pixel_api36]
  *
- * Reuses the finished `e2e-test` iOS simulator build for the project's current native fingerprint
- * (never starts an EAS build: builds cost money), republishes the current JS to the `e2e-test`
- * channel exactly like the cloud e2e workflow does (that variant loads the update before its first
- * render), then runs each Maestro flow locally on a throwaway simulator and collects every
- * `takeScreenshot` PNG into --out. The app's runtime UI checks (`[ui-qa]` reports: truncated
- * headlines, words split across lines, critters without their sticker edge) are collected after
- * every flow into --out/ui-qa.log, and any report fails the run. The simulator, the downloaded tarball and the extracted .app are
- * always removed, including on failure or Ctrl-C.
+ * Reuses the finished `e2e-test` build for the project's current native fingerprint on that
+ * platform (never starts an EAS build: builds cost money), republishes the current JS to the
+ * `e2e-test` channel exactly like the cloud e2e workflow does (that variant loads the update before
+ * its first render), then runs each Maestro flow locally and collects every `takeScreenshot` PNG
+ * into --out. iOS runs on a throwaway simulator of the `--device` type; Android runs on the emulator
+ * that is already running, or boots the `--device` AVD for the run. The app's runtime UI checks
+ * (`[ui-qa]` reports: truncated headlines, words split across lines, critters without their sticker
+ * edge) are collected after every flow into --out/ui-qa.log, and any report fails the run. What the
+ * run created (simulator, booted emulator, downloads) is always removed, including on failure or
+ * Ctrl-C.
  */
-import { spawnSync, type SpawnSyncOptions } from 'node:child_process';
+import type { SpawnSyncOptions } from 'node:child_process';
 import {
   copyFileSync,
   existsSync,
@@ -21,13 +24,15 @@ import {
   readdirSync,
   rmSync,
   statSync,
-  writeFileSync,
 } from 'node:fs';
 import { homedir, tmpdir } from 'node:os';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
+import { openAndroidDevice } from './capture-android-device';
 import { flowScreenshotNames, planCopies, type FlowScreens } from './capture-flow-shots';
+import { openIosDevice } from './capture-ios-device';
+import { run, type CaptureDevice } from './capture-process';
 import { CliArgsError } from './e2e-cloud';
 import { failOnUiQa, recordFlowUiQa, type UiQaReport } from './ui-qa-scan';
 
@@ -35,7 +40,12 @@ const REPO_ROOT = path.resolve(import.meta.dirname, '../..');
 const MOBILE_DIR = path.join(REPO_ROOT, 'apps/mobile');
 const MAESTRO = path.join(homedir(), '.maestro/bin/maestro');
 const PROFILE = 'e2e-test';
-const DEFAULT_DEVICE = 'iPhone 17';
+const PLATFORMS = ['ios', 'android'] as const;
+export type CapturePlatform = (typeof PLATFORMS)[number];
+const DEFAULT_DEVICE: Record<CapturePlatform, string> = {
+  ios: 'iPhone 17',
+  android: 'cp_pixel_api36',
+};
 
 export interface CaptureOptions {
   /** Absolute paths of the Maestro flow files or directories to run, in order. */
@@ -43,7 +53,10 @@ export interface CaptureOptions {
   /** Absolute output directory for the collected PNGs. */
   out: string;
   dark: boolean;
+  /** iOS: a simulator device type. Android: the AVD to boot when no emulator is running. */
   device: string;
+  /** Defaults to iOS. */
+  platform?: CapturePlatform;
 }
 
 /** Pure arg parsing. Shell globs expand `--flows e2e/screens/*.yaml` into trailing positionals. */
@@ -57,8 +70,13 @@ export function parseCaptureArgs(argv: string[], baseDir: string): CaptureOption
       out: { type: 'string' },
       dark: { type: 'boolean', default: false },
       device: { type: 'string' },
+      platform: { type: 'string', default: 'ios' },
     },
   });
+  const platform = values.platform as CapturePlatform;
+  if (!PLATFORMS.includes(platform)) {
+    throw new CliArgsError(`--platform must be one of ${PLATFORMS.join(', ')}, got "${platform}"`);
+  }
   const flows = [...(values.flows ?? []), ...positionals];
   if (flows.length === 0)
     throw new CliArgsError('--flows is required (Maestro flow files or directories)');
@@ -67,7 +85,8 @@ export function parseCaptureArgs(argv: string[], baseDir: string): CaptureOption
     flows: flows.map((flow) => path.resolve(baseDir, flow)),
     out: path.resolve(baseDir, values.out),
     dark: values.dark,
-    device: values.device ?? DEFAULT_DEVICE,
+    device: values.device ?? DEFAULT_DEVICE[platform],
+    platform,
   };
 }
 
@@ -90,38 +109,13 @@ export function resolveFlowFiles(flows: string[]): string[] {
 
 export { planCopies, screenshotNames, type FlowScreens } from './capture-flow-shots';
 
-export interface SimRuntime {
-  identifier: string;
-  version: string;
-  platform?: string;
-  isAvailable?: boolean;
-}
-
-/** Newest available iOS runtime from `xcrun simctl list runtimes -j`. */
-export function pickIosRuntime(runtimes: SimRuntime[]): SimRuntime | undefined {
-  return runtimes
-    .filter((runtime) => runtime.isAvailable !== false && (runtime.platform ?? 'iOS') === 'iOS')
-    .sort((a, b) => b.version.localeCompare(a.version, 'en', { numeric: true }))[0];
-}
+export { hostApp, pickIosRuntime, type SimRuntime } from './capture-ios-device';
 
 /** Parses eas-cli `--json` output, which can be preceded by plain-text environment notices. */
 export function parseEasJson(stdout: string): unknown {
   const start = stdout.search(/^[[{]/m);
   if (start < 0) throw new Error(`eas-cli produced no JSON output: ${stdout.slice(0, 200)}`);
   return JSON.parse(stdout.slice(start));
-}
-
-function run(command: string, args: string[], options: SpawnSyncOptions = {}): string {
-  const result = spawnSync(command, args, {
-    encoding: 'utf8',
-    stdio: ['ignore', 'pipe', 'inherit'],
-    maxBuffer: 64 * 1024 * 1024,
-    ...options,
-  });
-  if (result.error) throw result.error;
-  const label = `${command} ${args.slice(0, 3).join(' ')}`;
-  if (result.status !== 0) throw new Error(`${label} failed (exit ${String(result.status)})`);
-  return typeof result.stdout === 'string' ? result.stdout : '';
 }
 
 /**
@@ -137,8 +131,8 @@ function eas(command: string, extra: string[] = [], options: SpawnSyncOptions = 
 }
 
 /** Same fingerprint the cloud workflow's `fingerprint` job computes (environment: development). */
-function iosFingerprint(): string {
-  const out = eas('fingerprint:generate --platform ios --environment development --json');
+function nativeFingerprint(platform: CapturePlatform): string {
+  const out = eas(`fingerprint:generate --platform ${platform} --environment development --json`);
   const hash = (parseEasJson(out) as { hash?: unknown }).hash;
   if (typeof hash !== 'string') throw new Error('eas fingerprint:generate returned no hash');
   return hash;
@@ -146,9 +140,12 @@ function iosFingerprint(): string {
 
 type BuildRecord = { id?: unknown; artifacts?: Record<string, unknown> } | undefined;
 
-/** Mirrors the workflow's `get-build` job: the latest finished e2e-test iOS build for a fingerprint. */
-function findBuild(fingerprint: string): { id: string; archiveUrl: string } | undefined {
-  const filters = `--platform ios --build-profile ${PROFILE} --status finished`;
+/** Mirrors the workflow's `get-build` job: the latest finished e2e-test build for a fingerprint. */
+function findBuild(
+  platform: CapturePlatform,
+  fingerprint: string,
+): { id: string; archiveUrl: string } | undefined {
+  const filters = `--platform ${platform} --build-profile ${PROFILE} --status finished`;
   const out = eas(`build:list ${filters} --fingerprint-hash ${fingerprint} --limit 1 --json`);
   const builds = parseEasJson(out);
   const build = Array.isArray(builds) ? (builds[0] as BuildRecord) : undefined;
@@ -158,88 +155,12 @@ function findBuild(fingerprint: string): { id: string; archiveUrl: string } | un
 }
 
 /** Mirrors the workflow's `publish_update` job so the reused build runs the current JS. */
-function publishCurrentJs(fingerprint: string): void {
-  const update = `update --channel ${PROFILE} --platform ios --environment development`;
+function publishCurrentJs(platform: CapturePlatform, fingerprint: string): void {
+  const update = `update --channel ${PROFILE} --platform ${platform} --environment development`;
   const message = `screenshot freshness for fingerprint ${fingerprint}`;
   eas(update, ['--non-interactive', '--message', message], {
     stdio: ['ignore', 'inherit', 'inherit'],
   });
-}
-
-async function downloadApp(url: string, workDir: string): Promise<string> {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`Build download failed: HTTP ${String(response.status)}`);
-  const tarball = path.join(workDir, 'build.tar.gz');
-  writeFileSync(tarball, Buffer.from(await response.arrayBuffer()));
-  const extractDir = path.join(workDir, 'app');
-  mkdirSync(extractDir);
-  run('tar', ['-xzf', tarball, '-C', extractDir]);
-  rmSync(tarball, { force: true });
-  const app = hostApp(extractDir);
-  if (!app) throw new Error('The build archive contains no .app bundle');
-  return app;
-}
-
-/**
- * The installable app in an extracted simulator archive. A build with an App Clip archives the
- * whole products folder (`Release-iphonesimulator/` with the app and the clip side by side); the
- * clip is the bundle another candidate embeds under `AppClips/`.
- */
-export function hostApp(extractDir: string): string | undefined {
-  const entries = (dir: string) => readdirSync(dir).map((name) => path.join(dir, name));
-  const top = entries(extractDir);
-  const nested = top.filter((entry) => !entry.endsWith('.app') && statSync(entry).isDirectory());
-  const apps = [...top, ...nested.flatMap(entries)].filter((entry) => entry.endsWith('.app'));
-  const embedded = (app: string) =>
-    apps.some((other) => existsSync(path.join(other, 'AppClips', path.basename(app))));
-  return apps.find((app) => !embedded(app));
-}
-
-function createSimulator(device: string): string {
-  const { runtimes } = JSON.parse(run('xcrun', ['simctl', 'list', 'runtimes', '-j'])) as {
-    runtimes: SimRuntime[];
-  };
-  const runtime = pickIosRuntime(runtimes);
-  if (!runtime)
-    throw new Error('No iOS simulator runtime is installed (Xcode > Settings > Components)');
-  const udid = run('xcrun', [
-    'simctl',
-    'create',
-    `CritterPass screens ${String(process.pid)}`,
-    device,
-    runtime.identifier,
-  ]).trim();
-  console.log(`Simulator: ${device}, iOS ${runtime.version} (${udid})`);
-  return udid;
-}
-
-function prepareSimulator(udid: string, appPath: string, dark: boolean): void {
-  run('xcrun', ['simctl', 'boot', udid]);
-  run('xcrun', ['simctl', 'bootstatus', udid, '-b'], { stdio: ['ignore', 'ignore', 'inherit'] });
-  run('xcrun', ['simctl', 'ui', udid, 'appearance', dark ? 'dark' : 'light']);
-  const bar = ['--time', '9:41', '--batteryState', 'charged', '--batteryLevel', '100'];
-  const radios = [
-    '--cellularMode',
-    'active',
-    '--cellularBars',
-    '4',
-    '--wifiMode',
-    'active',
-    '--wifiBars',
-    '3',
-    '--dataNetwork',
-    'wifi',
-  ];
-  run('xcrun', ['simctl', 'status_bar', udid, 'override', ...bar, ...radios]);
-  run('xcrun', ['simctl', 'install', udid, appPath]);
-}
-
-function cleanup(udid: string | undefined, workDir: string): void {
-  if (udid) {
-    spawnSync('xcrun', ['simctl', 'shutdown', udid], { stdio: 'ignore' });
-    spawnSync('xcrun', ['simctl', 'delete', udid], { stdio: 'ignore' });
-  }
-  rmSync(workDir, { recursive: true, force: true });
 }
 
 /** Runs the flows and writes their screenshots (and ui-qa.log) to `options.out`. */
@@ -247,29 +168,38 @@ export async function capture(options: CaptureOptions): Promise<void> {
   const flows = resolveFlowFiles(options.flows);
   if (!existsSync(MAESTRO)) throw new Error(`Maestro not found at ${MAESTRO}`);
 
-  console.log('Computing the iOS native fingerprint…');
-  const fingerprint = iosFingerprint();
-  const build = findBuild(fingerprint);
+  const platform = options.platform ?? 'ios';
+  const label = platform === 'ios' ? 'iOS' : 'Android';
+
+  console.log(`Computing the ${label} native fingerprint…`);
+  const fingerprint = nativeFingerprint(platform);
+  const build = findBuild(platform, fingerprint);
   if (!build) {
     throw new Error(
-      `No finished iOS "${PROFILE}" build matches the current fingerprint ${fingerprint}.\n` +
+      `No finished ${label} "${PROFILE}" build matches the current fingerprint ${fingerprint}.\n` +
         'This script never starts an EAS build; one has to be run for this fingerprint first.',
     );
   }
   console.log(`Using build ${build.id} (fingerprint ${fingerprint}). Publishing the current JS…`);
-  publishCurrentJs(fingerprint);
+  publishCurrentJs(platform, fingerprint);
 
   const workDir = mkdtempSync(path.join(tmpdir(), 'cp-screens-'));
-  let udid: string | undefined;
+  let device: CaptureDevice | undefined;
+  const cleanup = () => {
+    device?.dispose();
+    rmSync(workDir, { recursive: true, force: true });
+  };
   const onSignal = () => {
-    cleanup(udid, workDir);
+    cleanup();
     process.exit(130);
   };
   process.once('SIGINT', onSignal).once('SIGTERM', onSignal);
   try {
-    const appPath = await downloadApp(build.archiveUrl, workDir);
-    udid = createSimulator(options.device);
-    prepareSimulator(udid, appPath, options.dark);
+    const open = platform === 'ios' ? openIosDevice : openAndroidDevice;
+    const track = (opened: CaptureDevice) => {
+      device = opened;
+    };
+    const target = await open(build.archiveUrl, workDir, options.device, options.dark, track);
 
     const failed: string[] = [];
     const uiQa = new Map<string, UiQaReport[]>();
@@ -278,17 +208,15 @@ export async function capture(options: CaptureOptions): Promise<void> {
       mkdirSync(dir);
       console.log(`Running ${path.relative(REPO_ROOT, flow)}…`);
       try {
-        run(MAESTRO, ['--device', udid ?? '', 'test', flow], {
+        run(MAESTRO, ['--device', target.id, 'test', flow], {
           cwd: dir,
-          // A fresh simulator installs and launches the XCTest driver first; on a busy Mac that alone
-          // can pass Maestro's two-minute default.
-          env: { ...process.env, MAESTRO_DRIVER_STARTUP_TIMEOUT: '360000' },
+          env: { ...process.env, ...target.maestroEnv },
           stdio: ['ignore', 'inherit', 'inherit'],
         });
       } catch {
         failed.push(path.relative(REPO_ROOT, flow));
       }
-      recordFlowUiQa(uiQa, flow, udid ?? '');
+      recordFlowUiQa(uiQa, flow, target.readUiQa);
       return { flow, dir, names: flowScreenshotNames(flow, dir) };
     });
 
@@ -307,7 +235,7 @@ export async function capture(options: CaptureOptions): Promise<void> {
     if (missing.length > 0) throw new Error(`Screenshots not written: ${missing.join(', ')}`);
     failOnUiQa(uiQa, options.out);
   } finally {
-    cleanup(udid, workDir);
+    cleanup();
     process.off('SIGINT', onSignal).off('SIGTERM', onSignal);
   }
 }
