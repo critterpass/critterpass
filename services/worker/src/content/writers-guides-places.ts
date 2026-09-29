@@ -44,14 +44,15 @@ export async function writePersonas(
 }
 
 /**
- * `source_ids ->> '<source>'` as a literal, so the per-source unique indexes serve the lookup; with
- * the key as a bind parameter Postgres scans every POI of every destination for each row.
+ * A match on one source id, written so the per-source unique indexes serve it: the key is a literal
+ * and the `?` guard repeats the indexes' partial predicate. Without either, Postgres scans every POI
+ * of every destination for each published row.
  */
-function sourceIdSql(source: string): string {
+function sourceIdMatch(source: string, param: string): string {
   if (source !== 'fsq_os' && source !== 'overture' && source !== 'editorial') {
     throw new PublishRefusedError(`unknown POI source ${source}`);
   }
-  return `source_ids ->> '${source}'`;
+  return `source_ids ? '${source}' AND source_ids ->> '${source}' = ${param}`;
 }
 
 /**
@@ -78,7 +79,7 @@ export async function writePlaces(
          curation = 'editorial', timezone = $7,
          hours = COALESCE($8::jsonb, hours),
          hours_verified_at = CASE WHEN $8::jsonb IS NULL THEN hours_verified_at ELSE now() END
-       WHERE ${sourceIdSql(source)} = $1`,
+       WHERE ${sourceIdMatch(source, '$1')}`,
       [
         source_id,
         poi.name,
@@ -119,8 +120,8 @@ export async function writePlaces(
     const [toSource, ...toId] = (poi.merge_into ?? '').split(':');
     await tx.query(
       `UPDATE pois SET merged_into_id = target.id
-       FROM (SELECT id FROM pois WHERE ${sourceIdSql(toSource ?? '')} = $2) AS target
-       WHERE ${sourceIdSql(fromSource ?? '')} = $1 AND pois.id <> target.id`,
+       FROM (SELECT id FROM pois WHERE ${sourceIdMatch(toSource ?? '', '$2')}) AS target
+       WHERE ${sourceIdMatch(fromSource ?? '', '$1')} AND pois.id <> target.id`,
       [fromId.join(':'), toId.join(':')],
     );
   }
