@@ -1,0 +1,68 @@
+- description: a som tam shop in Bangkok (baht, Thai script, cash and change)
+  fixture: receipt-parse-08
+  currency_hint: THB
+  lines:
+    - { id: l0, text: 'ร้านส้มตำ ป้าแดง' }
+    - { id: l1, text: 'วันที่ 12/10/2569 12:30' }
+    - { id: l2, text: 'ส้มตำไทย 2 x 60.00 120.00' }
+    - { id: l3, text: 'ไก่ย่าง 1 150.00' }
+    - { id: l4, text: 'ข้าวเหนียว 3 30.00' }
+    - { id: l5, text: 'น้ำเปล่า 2 20.00' }
+    - { id: l6, text: 'รวม 320.00' }
+    - { id: l7, text: 'เงินสด 500.00' }
+    - { id: l8, text: 'ทอน 180.00' }
+  expect:
+    currency: THB
+    total_minor: 32000
+    matches_total: true
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 12000 }
+      - { line_id: l3, kind: item, amount_minor: 15000 }
+      - { line_id: l4, kind: item, amount_minor: 3000 }
+      - { line_id: l5, kind: item, amount_minor: 2000 }
+- description: a rooftop bar with service, VAT and a tip
+  fixture: receipt-parse-09
+  currency_hint: THB
+  lines:
+    - { id: l0, text: 'OCTAVE ROOFTOP BAR' }
+    - { id: l1, text: 'Marriott Sukhumvit' }
+    - { id: l2, text: 'Mojito 2 x 420 840.00' }
+    - { id: l3, text: 'Craft Beer 1 x 290 290.00' }
+    - { id: l4, text: 'Truffle Fries 350.00' }
+    - { id: l5, text: 'Subtotal 1,480.00' }
+    - { id: l6, text: 'Service Charge 10% 148.00' }
+    - { id: l7, text: 'VAT 7% 113.96' }
+    - { id: l8, text: 'Tip 100.00' }
+    - { id: l9, text: 'Grand Total 1,841.96' }
+  expect:
+    currency: THB
+    total_minor: 184196
+    matches_total: true
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 84000 }
+      - { line_id: l3, kind: item, amount_minor: 29000 }
+      - { line_id: l4, kind: item, amount_minor: 35000 }
+      - { line_id: l6, kind: service, amount_minor: 14800 }
+      - { line_id: l7, kind: tax, amount_minor: 11396 }
+      - { line_id: l8, kind: tip, amount_minor: 10000 }
+- description: a 7-Eleven slip with VAT already included (not a charge)
+  fixture: receipt-parse-10
+  currency_hint: THB
+  lines:
+    - { id: l0, text: '7-ELEVEN สาขา สีลม' }
+    - { id: l1, text: 'ใบกำกับภาษีอย่างย่อ' }
+    - { id: l2, text: 'น้ำดื่ม 600ML 7.00' }
+    - { id: l3, text: 'นมเย็น 25.00' }
+    - { id: l4, text: 'ข้าวกะเพราไก่ 45.00' }
+    - { id: l5, text: 'รวม 3 ชิ้น 77.00' }
+    - { id: l6, text: 'VAT 7% INCLUDED 5.04' }
+    - { id: l7, text: 'เงินสด 100.00' }
+    - { id: l8, text: 'เงินทอน 23.00' }
+  expect:
+    currency: THB
+    total_minor: 7700
+    matches_total: true
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 700 }
+      - { line_id: l3, kind: item, amount_minor: 2500 }
+      - { line_id: l4, kind: item, amount_minor: 4500 }

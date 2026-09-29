@@ -1,0 +1,46 @@
+- description: Phở Thìn, Hà Nội (dong, cash and change lines)
+  fixture: receipt-parse-06
+  currency_hint: VND
+  lines:
+    - { id: l0, text: 'PHỞ THÌN BỜ HỒ' }
+    - { id: l1, text: '13 Lò Đúc, Hà Nội' }
+    - { id: l2, text: 'Ngày: 05/10/2026 08:15' }
+    - { id: l3, text: 'Phở bò tái 3 x 60.000 180.000' }
+    - { id: l4, text: 'Quẩy 4 x 5.000 20.000' }
+    - { id: l5, text: 'Trà đá 3 x 5.000 15.000' }
+    - { id: l6, text: 'Tổng cộng: 215.000' }
+    - { id: l7, text: 'Tiền khách đưa: 500.000' }
+    - { id: l8, text: 'Tiền thừa: 285.000' }
+  expect:
+    currency: VND
+    total_minor: 215000
+    matches_total: true
+    lines:
+      - { line_id: l3, kind: item, amount_minor: 180000 }
+      - { line_id: l4, kind: item, amount_minor: 20000 }
+      - { line_id: l5, kind: item, amount_minor: 15000 }
+- description: a Saigon restaurant with service and VAT
+  fixture: receipt-parse-07
+  currency_hint: VND
+  lines:
+    - { id: l0, text: 'NHÀ HÀNG NGON' }
+    - { id: l1, text: '160 Pasteur, Q.1, TP.HCM' }
+    - { id: l2, text: 'Gỏi cuốn tôm thịt 2 95.000' }
+    - { id: l3, text: 'Cơm tấm sườn bì chả 1 85.000' }
+    - { id: l4, text: 'Bún chả Hà Nội 2 170.000' }
+    - { id: l5, text: 'Nước chanh 3 75.000' }
+    - { id: l6, text: 'Cộng tiền hàng 425.000' }
+    - { id: l7, text: 'Phí phục vụ 5% 21.250' }
+    - { id: l8, text: 'VAT 8% 35.700' }
+    - { id: l9, text: 'Tổng thanh toán 481.950' }
+  expect:
+    currency: VND
+    total_minor: 481950
+    matches_total: true
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 95000 }
+      - { line_id: l3, kind: item, amount_minor: 85000 }
+      - { line_id: l4, kind: item, amount_minor: 170000 }
+      - { line_id: l5, kind: item, amount_minor: 75000 }
+      - { line_id: l7, kind: service, amount_minor: 21250 }
+      - { line_id: l8, kind: tax, amount_minor: 35700 }

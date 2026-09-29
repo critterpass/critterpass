@@ -1,0 +1,44 @@
+- description: an izakaya in Kyoto (yen, tax added)
+  fixture: receipt-parse-04
+  currency_hint: JPY
+  lines:
+    - { id: l0, text: '居酒屋 とりまる 京都' }
+    - { id: l1, text: '2026/10/03 19:42' }
+    - { id: l2, text: '生ビール ×4 ¥2,400' }
+    - { id: l3, text: '焼き鳥盛り合わせ ×2 ¥1,980' }
+    - { id: l4, text: '枝豆 ¥450' }
+    - { id: l5, text: '小計 ¥4,830' }
+    - { id: l6, text: '消費税(10%) ¥483' }
+    - { id: l7, text: '合計 ¥5,313' }
+  expect:
+    currency: JPY
+    total_minor: 5313
+    matches_total: true
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 2400 }
+      - { line_id: l3, kind: item, amount_minor: 1980 }
+      - { line_id: l4, kind: item, amount_minor: 450 }
+      - { line_id: l6, kind: tax, amount_minor: 483 }
+- description: a convenience store with tax already in the prices (not a charge)
+  fixture: receipt-parse-05
+  currency_hint: JPY
+  lines:
+    - { id: l0, text: 'セブン-イレブン 京都四条店' }
+    - { id: l1, text: '2026年10月04日(土) 07:58' }
+    - { id: l2, text: 'おにぎり 鮭 ¥160' }
+    - { id: l3, text: 'おにぎり ツナマヨ ¥150' }
+    - { id: l4, text: '緑茶 500ml ¥140' }
+    - { id: l5, text: 'サンドイッチ ¥398' }
+    - { id: l6, text: '合計 ¥848' }
+    - { id: l7, text: '(内消費税等 ¥62)' }
+    - { id: l8, text: 'お預り ¥1,000' }
+    - { id: l9, text: 'お釣 ¥152' }
+  expect:
+    currency: JPY
+    total_minor: 848
+    matches_total: true
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 160 }
+      - { line_id: l3, kind: item, amount_minor: 150 }
+      - { line_id: l4, kind: item, amount_minor: 140 }
+      - { line_id: l5, kind: item, amount_minor: 398 }

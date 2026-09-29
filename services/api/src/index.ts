@@ -42,7 +42,7 @@ import { mediaSigningConfigFromEnv } from './media/sign';
 import { registerDevRoutesFromEnv } from './dev/routes';
 import { registerGeoRoutesFromEnv } from './routes/geo';
 import { registerMediaRoutes } from './routes/media';
-import { registerMoneyRoutes } from './money/routes';
+import { registerMoneyRoutes, registerReceiptRoutesFromEnv } from './money/routes';
 import { createMapboxRoutingProvider } from './routing/eta';
 import { MapboxRoutingClient } from './routing/mapbox';
 import { createClaimAttributionCommand } from './commands/attribution/claim-attribution';
@@ -237,6 +237,7 @@ registerVoteRoutesFromEnv(app, { ...commandDoors, cache: redis }, env);
 registerTravelDataRoutes(app, commandDoors);
 registerCostRoutes(app, commandDoors);
 registerSetupRoutes(app, { ...commandDoors, store: redis, env: process.env });
+registerReceiptRoutesFromEnv(app, commandDoors, process.env);
 registerGeoRoutesFromEnv(app, commandDoors, env.GEOIP_CITY_MMDB, logger);
 registerDevRoutesFromEnv(app, { ...commandDoors, logger }, env);
 registerLinkRoutes(app, {

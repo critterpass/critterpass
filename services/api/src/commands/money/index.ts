@@ -2,6 +2,7 @@
 import type { CommandRegistry } from '../_framework/registry';
 import { addExpenseCommand } from './add-expense';
 import { setCrewSettlementCurrencyCommand, setTripBudgetCommand } from './budget-and-currency';
+import { commitReceiptCommand } from './commit-receipt';
 import { confirmPaidCommand, disputePaymentCommand } from './confirm-paid';
 import { deleteExpenseCommand, editExpenseCommand } from './edit-expense';
 import { markPaidCommand } from './mark-paid';
@@ -23,4 +24,5 @@ export function registerMoneyCommands(registry: CommandRegistry): void {
   registry.register(markPaidCommand);
   registry.register(confirmPaidCommand);
   registry.register(disputePaymentCommand);
+  registry.register(commitReceiptCommand);
 }

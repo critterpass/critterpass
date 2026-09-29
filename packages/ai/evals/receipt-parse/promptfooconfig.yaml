@@ -1,0 +1,11 @@
+# Receipt parse: OCR lines keyed by line id → validated charge lines and total. Every amount must be
+# printed on the line it cites (code re-parses it from there); totals must reconcile. Cases live in
+# cases/*.yaml and run through the real parseReceipt (see suite.ts); seeded cases grade the
+# validator on deliberate model slips. The founder's photographed receipts join as they arrive.
+# Run: pnpm --filter @cp/ai eval receipt-parse
+description: Receipt parse keyed by OCR line id
+prompts:
+  - '{{lines}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

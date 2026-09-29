@@ -5,3 +5,4 @@ export * from './events';
 export * from './queues';
 export * from './payment-state';
 export * from './templates';
+export * from './receipts';
