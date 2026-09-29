@@ -1,8 +1,8 @@
 appId: app.critterpass.dev
 ---
 # Screenshots for `pnpm screens:capture` and `screens:compare`: the guide's voice line (Mynerve,
-# with Noto Sans Thai italic for Thai) on the GuideLine gallery page and on Home's first run (3b-1),
-# in English, Vietnamese and Thai.
+# with Noto Sans Thai italic for Thai) on the GuideLine gallery page, Home's tip strip (3b-2) and the
+# all-caught-up inbox (3b-5), in English, Vietnamese and Thai.
 - runFlow:
     file: subflows/open-gallery-component-in.yaml
     env:
@@ -25,17 +25,14 @@ appId: app.critterpass.dev
       SCALE: '1'
 - takeScreenshot: guide-line-th
 - runFlow:
-    file: subflows/first-run-in.yaml
+    file: subflows/home-voice-in.yaml
     env:
       LOCALE: 'en'
-- takeScreenshot: en-3b-1-first-run
 - runFlow:
-    file: subflows/first-run-in.yaml
+    file: subflows/home-voice-in.yaml
     env:
       LOCALE: 'vi'
-- takeScreenshot: vi-3b-1-first-run
 - runFlow:
-    file: subflows/first-run-in.yaml
+    file: subflows/home-voice-in.yaml
     env:
       LOCALE: 'th'
-- takeScreenshot: th-3b-1-first-run

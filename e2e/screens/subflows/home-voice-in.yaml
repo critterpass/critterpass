@@ -1,8 +1,10 @@
 appId: app.critterpass.dev
 ---
-# Home's first run (3b-1) in another language: the dev gallery switches the running app's language
-# (`LOCALE`, a gallery locale code; not persisted), two back swipes return to the splash, and the
-# onboarding reaches Home.
+# The guide's voice on real screens in another language: the dev gallery switches the running app's
+# language (`LOCALE`, a gallery locale code; not persisted), two back swipes return to the splash,
+# onboarding reaches Home, and the staging demo seed (no inbox cards) gives Home a Bali trip with
+# its tip strip (3b-2, `${LOCALE}-3b-2-home`); the inbox then shows Tokek's all-caught-up line (3b-5,
+# `${LOCALE}-3b-5-all-caught-up`).
 - runFlow: open-gallery.yaml
 - tapOn:
     id: 'gallery-locale-${LOCALE}'
@@ -51,9 +53,24 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'permissions-primer-later'
+- runFlow:
+    file: ../../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
 - extendedWaitUntil:
     visible:
-      id: 'home-first-run'
+      id: 'home-tip'
     timeout: 30000
 - waitForAnimationToEnd:
     timeout: 3000
+- takeScreenshot: ${LOCALE}-3b-2-home
+- openLink: critterpass-dev://inbox
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-caught-up'
+    timeout: 15000
+- tapOn:
+    id: 'inbox-tokek'
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: ${LOCALE}-3b-5-all-caught-up
