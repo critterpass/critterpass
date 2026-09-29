@@ -14,7 +14,6 @@ appId: app.critterpass.dev
     visible:
       id: 'onboarding-phone'
     timeout: 10000
-- hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: en-3a-8-phone
 - runFlow:
@@ -24,6 +23,9 @@ appId: app.critterpass.dev
       LOCALE: 'vi'
       SCALE: '1'
 - takeScreenshot: vi-large-title
+# Component page → gallery → Developer tools → splash.
+- runFlow: ../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
 - runFlow: ../onboarding/subflows/back.yaml
 - waitForAnimationToEnd
 - runFlow: ../onboarding/subflows/back.yaml
@@ -37,6 +39,5 @@ appId: app.critterpass.dev
     visible:
       id: 'onboarding-phone'
     timeout: 10000
-- hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: vi-3a-8-phone
