@@ -46,15 +46,12 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - hideKeyboard
-- extendedWaitUntil:
-    visible:
-      id: 'guest-pitch'
-    timeout: 30000
+# The pitch action sits below the guest guide's brief.
 - scrollUntilVisible:
     element:
       id: 'guest-pitch'
     direction: DOWN
-    timeout: 20000
+    timeout: 30000
 - tapOn:
     id: 'guest-pitch'
 # Until the new crew has synced the page asks which crew to pitch to; pick it there.

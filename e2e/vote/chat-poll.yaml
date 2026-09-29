@@ -39,6 +39,17 @@ appId: app.critterpass.dev
 - inputText: 'Ramen'
 - waitForAnimationToEnd
 - takeScreenshot: chat-new-poll
+# Android keeps the keyboard up over POST.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: 'new-poll-post'
+    direction: DOWN
+    timeout: 10000
 - tapOn:
     id: 'new-poll-post'
 - extendedWaitUntil:
