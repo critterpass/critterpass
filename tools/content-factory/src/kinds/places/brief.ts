@@ -1,0 +1,138 @@
+/**
+ * The places brief: for each guide destination, the curated selection (./select) of the POIs the
+ * importer left, their duplicate sweep (./duplicates) and generation units of open-data fields only.
+ */
+import { createDecisionClient, createGateway, loadDecisionEnv, loadGatewayEnv } from '@cp/ai';
+
+import { openPool } from '../../db';
+import { PLACE_FACTS } from '../../data/place-facts';
+import { recordingFetch } from '../../record';
+import type { Brief, GenerationUnit } from '../types';
+import { decideDuplicates, nearbyDifferentNames, type DuplicateVerdict } from './duplicates';
+import type { PoiSource } from './pois';
+import { DEFAULT_POIS_PER_CITY, selectCurated } from './select';
+
+const POIS_PER_CALL = 15;
+
+const GUIDE_DESTINATIONS = Object.entries(PLACE_FACTS).flatMap(([code, facts]) =>
+  facts.destination === null ? [] : [{ code, slug: facts.destination, tz: facts.tz }],
+);
+
+/** Network boundary for the duplicate decisions (tests replay recorded responses through it). */
+export const placesNetwork: { fetch?: typeof fetch } = {};
+
+function fetchOption(): { fetch?: typeof fetch } {
+  const record = process.env['CONTENT_FACTORY_RECORD'];
+  return placesNetwork.fetch !== undefined
+    ? { fetch: placesNetwork.fetch }
+    : record
+      ? { fetch: recordingFetch(record) }
+      : {};
+}
+
+function briefGateway() {
+  return process.env['ANTHROPIC_API_KEY']
+    ? createGateway({ ...loadGatewayEnv(), ...fetchOption() })
+    : null;
+}
+
+function decisionClient(gateway: ReturnType<typeof briefGateway>) {
+  return createDecisionClient({
+    apiKey: loadDecisionEnv().apiKey,
+    ...fetchOption(),
+    ...(gateway ? { gateway } : {}),
+  });
+}
+
+export async function poisBrief(options: Readonly<Record<string, string>>): Promise<Brief> {
+  const pool = openPool();
+  if (pool === null) throw new Error('the places brief reads imported POIs: set DATABASE_URL');
+  const wanted = options['destinations']?.split(',');
+  const gateway = briefGateway();
+  const client = decisionClient(gateway);
+  const target = Number(options['pois_per_city'] ?? DEFAULT_POIS_PER_CITY);
+  const maxCostMicros = Math.round(Number(options['selection_max_usd'] ?? 5) * 1_000_000);
+  try {
+    const units: GenerationUnit[] = [];
+    for (const destination of GUIDE_DESTINATIONS.filter(
+      (d) => wanted === undefined || wanted.includes(d.slug),
+    )) {
+      const found = await pool.query<{ id: string }>(
+        'SELECT id FROM destinations WHERE slug = $1',
+        [destination.slug],
+      );
+      const destinationId = found.rows[0]?.id;
+      if (destinationId === undefined) continue;
+      const curated = await selectCurated(
+        pool,
+        { id: destinationId, slug: destination.slug },
+        target,
+        {
+          gateway,
+          maxCostMicros,
+          log: console.log,
+        },
+      );
+      const { rows } = await pool.query<{
+        id: string;
+        source_ids: Record<string, string>;
+        name: string;
+        name_local: string | null;
+        category: string;
+        lat: number;
+        lng: number;
+        address: string | null;
+        timezone: string | null;
+        hours: unknown;
+        hours_verified_at: Date | null;
+      }>(
+        `SELECT p.id, p.source_ids, p.name, p.name_local, p.category, p.lat, p.lng, p.address, p.timezone,
+           p.hours, p.hours_verified_at
+         FROM pois p JOIN destinations d ON d.id = p.destination_id
+         WHERE d.slug = $1 AND p.id = ANY($2::uuid[]) AND p.status = 'active' AND p.merged_into_id IS NULL
+         ORDER BY p.name`,
+        [destination.slug, curated],
+      );
+      const pairs = await nearbyDifferentNames(pool, destinationId, curated);
+      const verdicts = await decideDuplicates(client, pairs);
+      const duplicateOf = new Map<string, { of: string; verdict: DuplicateVerdict }>();
+      for (const pair of pairs) {
+        const verdict = verdicts.get(`${pair.a.ref}|${pair.b.ref}`) ?? 'review';
+        if (verdict !== 'distinct') duplicateOf.set(pair.b.ref, { of: pair.a.ref, verdict });
+      }
+      const sources: PoiSource[] = rows.flatMap((row) => {
+        const source = (['editorial', 'fsq_os', 'overture'] as const).find(
+          (s) => row.source_ids[s] !== undefined,
+        );
+        if (source === undefined) return [];
+        const ref = `${source}:${row.source_ids[source]}`;
+        return [
+          {
+            ref,
+            destination: destination.slug,
+            code: destination.code,
+            name: row.name,
+            nameLocal: row.name_local,
+            category: row.category,
+            lat: row.lat,
+            lng: row.lng,
+            address: row.address,
+            tz: row.timezone ?? destination.tz,
+            hours: row.hours_verified_at === null ? null : row.hours,
+            duplicate: duplicateOf.get(ref) ?? null,
+          },
+        ];
+      });
+      for (let start = 0; start < sources.length; start += POIS_PER_CALL) {
+        const chunk = sources.slice(start, start + POIS_PER_CALL);
+        units.push({
+          id: `${destination.slug}-${String(start / POIS_PER_CALL + 1).padStart(3, '0')}`,
+          input: chunk,
+        });
+      }
+    }
+    return { units };
+  } finally {
+    await pool.end();
+  }
+}

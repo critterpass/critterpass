@@ -83,6 +83,19 @@ function resolveCategory(candidate: ConflationCandidate): PoiCategory {
 }
 
 /**
+ * Spatial buckets for candidate lookup: cells at least `DISTANCE_THRESHOLD_M` wide in both axes, so
+ * every match lies in a candidate's own cell or one of its eight neighbours. A metro bbox carries
+ * hundreds of thousands of rows per source; comparing every pair would never finish.
+ */
+const CELL_LAT_DEG = 0.001; // about 111 m
+function cellSizes(rows: readonly ConflationCandidate[]): { lat: number; lng: number } {
+  let maxAbsLat = 0;
+  for (const row of rows) maxAbsLat = Math.max(maxAbsLat, Math.abs(row.lat));
+  const cos = Math.max(0.1, Math.cos(toRadians(Math.min(maxAbsLat, 89))));
+  return { lat: CELL_LAT_DEG, lng: CELL_LAT_DEG / cos };
+}
+
+/**
  * Matches FSQ OS Places rows against Overture rows for the same bbox and merges every matched pair
  * into one conflated POI carrying both source ids; unmatched rows from either source become their
  * own conflated POI with a single source id. FSQ's name/address win on a match; Overture only fills
@@ -94,26 +107,49 @@ export function conflatePlaces(
 ): readonly ConflatedPoi[] {
   const matchedOvertureIndexes = new Set<number>();
   const conflated: ConflatedPoi[] = [];
+  const overtureCategories = overtureCandidates.map(resolveCategory);
+  const cell = cellSizes([...fsqCandidates, ...overtureCandidates]);
+  const cellOf = (row: { readonly lat: number; readonly lng: number }) =>
+    [Math.floor(row.lat / cell.lat), Math.floor(row.lng / cell.lng)] as const;
+  const buckets = new Map<string, number[]>();
+  overtureCandidates.forEach((overture, index) => {
+    const [y, x] = cellOf(overture);
+    const key = `${y}:${x}`;
+    const bucket = buckets.get(key);
+    if (bucket === undefined) buckets.set(key, [index]);
+    else bucket.push(index);
+  });
 
   for (const fsq of fsqCandidates) {
     const fsqCategory = resolveCategory(fsq);
     let bestIndex = -1;
     let bestScore = -1;
 
-    overtureCandidates.forEach((overture, index) => {
-      if (matchedOvertureIndexes.has(index)) return;
-      if (!categoriesCompatible(fsqCategory, resolveCategory(overture))) return;
+    const [y, x] = cellOf(fsq);
+    const nearby: number[] = [];
+    for (let dy = -1; dy <= 1; dy += 1) {
+      for (let dx = -1; dx <= 1; dx += 1)
+        nearby.push(...(buckets.get(`${y + dy}:${x + dx}`) ?? []));
+    }
+    // Ascending index order keeps the first-seen candidate on a score tie.
+    nearby.sort((a, b) => a - b);
+    for (const index of nearby) {
+      const overture = overtureCandidates[index];
+      const overtureCategory = overtureCategories[index];
+      if (overture === undefined || overtureCategory === undefined) continue;
+      if (matchedOvertureIndexes.has(index)) continue;
+      if (!categoriesCompatible(fsqCategory, overtureCategory)) continue;
       const distanceM = haversineDistanceM(fsq, overture);
-      if (distanceM > DISTANCE_THRESHOLD_M) return;
+      if (distanceM > DISTANCE_THRESHOLD_M) continue;
       const similarity = trigramSimilarity(fsq.name, overture.name);
-      if (similarity < NAME_SIMILARITY_THRESHOLD) return;
+      if (similarity < NAME_SIMILARITY_THRESHOLD) continue;
       // Among several passing candidates, prefer the closer and more name-similar one.
       const score = similarity - distanceM / (DISTANCE_THRESHOLD_M * 10);
       if (score > bestScore) {
         bestScore = score;
         bestIndex = index;
       }
-    });
+    }
 
     if (bestIndex === -1) {
       conflated.push({
@@ -144,7 +180,7 @@ export function conflatePlaces(
     if (matchedOvertureIndexes.has(index)) return;
     conflated.push({
       name: overture.name,
-      category: resolveCategory(overture),
+      category: overtureCategories[index] ?? resolveCategory(overture),
       lat: overture.lat,
       lng: overture.lng,
       address: overture.address,

@@ -44,6 +44,17 @@ export async function writePersonas(
 }
 
 /**
+ * `source_ids ->> '<source>'` as a literal, so the per-source unique indexes serve the lookup; with
+ * the key as a bind parameter Postgres scans every POI of every destination for each row.
+ */
+function sourceIdSql(source: string): string {
+  if (source !== 'fsq_os' && source !== 'overture' && source !== 'editorial') {
+    throw new PublishRefusedError(`unknown POI source ${source}`);
+  }
+  return `source_ids ->> '${source}'`;
+}
+
+/**
  * Overlays editorial text, taste tags and verified hours onto curated POIs, matched by source id;
  * a POI the importer has not brought in yet is created from the release item.
  */
@@ -63,13 +74,12 @@ export async function writePlaces(
     const { source, source_id } = poi.licence;
     const editorial = JSON.stringify(poi.editorial);
     const updated = await tx.query(
-      `UPDATE pois SET name = $3, name_local = $4, category = $5, tags = $6, editorial = editorial || $7::jsonb,
-         curation = 'editorial', timezone = $8,
-         hours = COALESCE($9::jsonb, hours),
-         hours_verified_at = CASE WHEN $9::jsonb IS NULL THEN hours_verified_at ELSE now() END
-       WHERE source_ids ->> $1 = $2`,
+      `UPDATE pois SET name = $2, name_local = $3, category = $4, tags = $5, editorial = editorial || $6::jsonb,
+         curation = 'editorial', timezone = $7,
+         hours = COALESCE($8::jsonb, hours),
+         hours_verified_at = CASE WHEN $8::jsonb IS NULL THEN hours_verified_at ELSE now() END
+       WHERE ${sourceIdSql(source)} = $1`,
       [
-        source,
         source_id,
         poi.name,
         poi.name_local,
@@ -109,9 +119,9 @@ export async function writePlaces(
     const [toSource, ...toId] = (poi.merge_into ?? '').split(':');
     await tx.query(
       `UPDATE pois SET merged_into_id = target.id
-       FROM (SELECT id FROM pois WHERE source_ids ->> $3 = $4) AS target
-       WHERE pois.source_ids ->> $1 = $2 AND pois.id <> target.id`,
-      [fromSource, fromId.join(':'), toSource, toId.join(':')],
+       FROM (SELECT id FROM pois WHERE ${sourceIdSql(toSource ?? '')} = $2) AS target
+       WHERE ${sourceIdSql(fromSource ?? '')} = $1 AND pois.id <> target.id`,
+      [fromId.join(':'), toId.join(':')],
     );
   }
 }

@@ -169,4 +169,50 @@ describe('conflatePlaces', () => {
     const result = conflatePlaces(fsq, []);
     expect(result).toEqual([expect.objectContaining({ category: 'other' })]);
   });
+
+  it('matches across a spatial cell boundary', () => {
+    // 0.001 degree cells: these two rows sit about 22 m apart on either side of a cell edge.
+    const fsq = [candidate({ sourceId: 'fsq-1', name: 'Kiyomizu', lat: 34.9999, lng: 135.7849 })];
+    const overture = [
+      candidate({ sourceId: 'overture-1', name: 'Kiyomizu', lat: 35.0001, lng: 135.7851 }),
+    ];
+    expect(conflatePlaces(fsq, overture)).toEqual([
+      expect.objectContaining({ sourceIds: { fsq_os: 'fsq-1', overture: 'overture-1' } }),
+    ]);
+  });
+
+  it('matches near the edge of the distance threshold at high latitude', () => {
+    // Reykjavik: 55 m due east is a much larger longitude step than at the equator.
+    const lat = 64.1466;
+    const lngStep = 55 / (111_320 * Math.cos((lat * Math.PI) / 180));
+    const fsq = [candidate({ sourceId: 'fsq-1', name: 'Hallgrimskirkja', lat, lng: -21.9266 })];
+    const overture = [
+      candidate({
+        sourceId: 'overture-1',
+        name: 'Hallgrimskirkja',
+        lat,
+        lng: -21.9266 + lngStep,
+      }),
+    ];
+    expect(conflatePlaces(fsq, overture)).toHaveLength(1);
+  });
+
+  it('conflates a metro-sized input without comparing every pair', () => {
+    const rows = (prefix: string, count: number) =>
+      Array.from({ length: count }, (_, i) =>
+        candidate({
+          sourceId: `${prefix}-${i}`,
+          name: `Place ${i}`,
+          lat: 35 + Math.floor(i / 400) * 0.0008,
+          lng: 135 + (i % 400) * 0.0008,
+        }),
+      );
+    const started = performance.now();
+    const result = conflatePlaces(rows('fsq', 40_000), rows('overture', 40_000));
+    expect(result).toHaveLength(40_000);
+    expect(
+      result.every((poi) => poi.sourceIds.fsq_os?.slice(4) === poi.sourceIds.overture?.slice(9)),
+    ).toBe(true);
+    expect(performance.now() - started).toBeLessThan(10_000);
+  });
 });
