@@ -19,7 +19,18 @@ appId: app.critterpass.dev
 - tapOn: ${SEND}
 - inputText: 'ok'
 - tapOn: ${SEND}
-- inputText: 'see you all at the villa before sunset, I will bring the snacks and the speaker'
+# A draft long enough to grow the composer. Maestro types slowly into Android's keyboard (a long
+# string runs past its two-minute driver deadline), so Android gets a shorter one that still wraps.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - inputText: 'see you all at the villa before sunset, I will bring the snacks and the speaker'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - inputText: 'villa at six, bring snacks and speaker'
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3g-1-keyboard
 - tapOn: ${SEND}
