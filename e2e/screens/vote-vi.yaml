@@ -4,6 +4,12 @@ appId: app.critterpass.dev
 # (not persisted), two back swipes return to the splash, then the same walk as vote.yaml.
 - launchApp:
     clearState: true
+# A link dialog an earlier flow left open covers the first screen.
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'

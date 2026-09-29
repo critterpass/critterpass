@@ -14,8 +14,9 @@ appId: app.critterpass.dev
     file: ../_shared/seed-demo.yaml
     env:
       SEED: dev-seed-demo-vote
-- extendedWaitUntil:
-    visible:
+# The board sits below the next-up card: scroll its GO TO THE FINAL clear of the tab bar first.
+- scrollUntilVisible:
+    element:
       id: 'board-go-to-final'
     timeout: 20000
 - tapOn:
