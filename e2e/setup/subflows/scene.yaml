@@ -17,8 +17,14 @@ appId: app.critterpass.dev
     when:
       platform: Android
     commands:
-      - hideKeyboard:
-          optional: true
+      - back
+# A scene with the keyboard up spends the first back on closing it.
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'setup-scene-list'
+    commands:
       - back
 - runFlow:
     when:

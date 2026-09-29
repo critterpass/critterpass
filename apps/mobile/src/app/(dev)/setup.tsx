@@ -54,7 +54,7 @@ export default function SetupScenes() {
     );
   }
   return (
-    <ScrollView contentContainerStyle={styles.list}>
+    <ScrollView contentContainerStyle={styles.list} testID="setup-scene-list">
       {SETUP_SCENES.map(({ name }) => (
         <Pressable
           key={name}
