@@ -1,4 +1,7 @@
 appId: app.critterpass.dev
+# Signal comes back even when a step fails, so the next flow on this device starts online.
+onFlowComplete:
+  - setAirplaneMode: disabled
 ---
 # 3a-4 → 3a-5: five answers and one skip land on the pass, then home base from the bundled
 # airport search, which also works in airplane mode.
