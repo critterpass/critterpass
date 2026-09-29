@@ -99,8 +99,15 @@ appId: app.critterpass.dev
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-3a-4-summary
-- tapOn:
-    id: 'taste-done'
+- repeat:
+    while:
+      notVisible:
+        id: 'home-search'
+    times: 3
+    commands:
+      - tapOn:
+          id: 'taste-done'
+      - waitForAnimationToEnd
 - extendedWaitUntil:
     visible:
       id: 'home-search'

@@ -6,7 +6,7 @@ appId: app.critterpass.dev
     file: subflows/start.yaml
     env:
       LANG: en
-- runFlow: ../../home/subflows/onboard.yaml
+- runFlow: subflows/onboard.yaml
 - runFlow:
     file: ../../_shared/seed-demo.yaml
     env:

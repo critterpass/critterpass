@@ -1,0 +1,98 @@
+appId: app.critterpass.dev
+---
+# The quickest new pass from the splash to Home, with no screenshots: a name, Ajo as the photo,
+# six taste answers, a home airport, then "Not now" on saving and "Later" on permissions. Waits for
+# each step to settle before the next tap, so it holds on a slow emulator too.
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- tapOn:
+    id: 'onboarding-open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-name-field'
+    timeout: 15000
+- tapOn:
+    id: 'onboarding-name-field'
+- inputText: 'Winston'
+- hideKeyboard
+- tapOn:
+    id: 'onboarding-name-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-photo-guides-ajo'
+    timeout: 15000
+- tapOn:
+    id: 'onboarding-photo-guides-ajo'
+- tapOn:
+    id: 'onboarding-photo-next'
+- repeat:
+    while:
+      notVisible:
+        id: 'taste-summary'
+    times: 8
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'taste-card-right'
+          timeout: 10000
+      - tapOn:
+          id: 'taste-card-right'
+      - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'taste-done'
+    timeout: 15000
+- waitForAnimationToEnd
+- repeat:
+    while:
+      notVisible:
+        id: 'home-search'
+    times: 3
+    commands:
+      - tapOn:
+          id: 'taste-done'
+      - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'home-search'
+    timeout: 15000
+- tapOn:
+    id: 'home-search'
+- inputText: 'Sing'
+- extendedWaitUntil:
+    visible:
+      id: 'home-row-SIN'
+    timeout: 15000
+- tapOn:
+    id: 'home-row-SIN'
+- hideKeyboard
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-home-next'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 15000
+- tapOn:
+    id: 'onboarding-issued-save'
+- extendedWaitUntil:
+    visible:
+      id: 'save-not-now'
+    timeout: 15000
+- tapOn:
+    id: 'save-not-now'
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer-later'
+    timeout: 15000
+- tapOn:
+    id: 'permissions-primer-later'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
