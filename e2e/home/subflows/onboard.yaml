@@ -7,16 +7,6 @@ appId: app.critterpass.dev
     id: 'onboarding-photo-guides-ajo'
 - tapOn:
     id: 'onboarding-photo-next'
-# A tap that lands while the page is still moving can miss: once everything has settled, tap Next
-# again only if the photo page is still up (never when the quiz already opened).
-- waitForAnimationToEnd
-- runFlow:
-    when:
-      visible:
-        id: 'onboarding-photo-next'
-    commands:
-      - tapOn:
-          id: 'onboarding-photo-next'
 - extendedWaitUntil:
     visible:
       id: 'taste-card-left'
