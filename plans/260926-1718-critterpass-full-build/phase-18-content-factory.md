@@ -150,7 +150,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Run P14 importer per city, then a cross-language duplicate sweep: auto POIs ≤ 60 m apart with name trigram < 0.6 (e.g. "Chùa Cầu" vs "Japanese Covered Bridge") go to a Jev decision route `poi.duplicate_tiebreak` (Noul, many pairs per call through P13 `decide()`); p ≥ route threshold → merge through P14 merge redirects, gray band → content review batch. 2. Editorial generation from open data. 3. Taste tag mapping. 4. Publish via `upsert_poi` batch + `content.embed`.
 - Tests: `pnpm content places validate --all`
 - Done when (agent): importer + editorial generation ran for every guide city; validators pass on every record produced; zero supplier-sourced text; review batch queued. Counts (≥ 250/city, 61 index entries) are phase acceptance, approval → G3.
-- Status: blocked — FSQ OS Places / Overture licence acceptance pending; the 61-place index (sets batch) and the POI editorial pipeline with the duplicate sweep are built and tested on recorded fixtures (c40ac1e), and run per guide city once the importer has data
+- Status: in_progress — the founder accepted the FSQ OS Places / Overture licences (2026-09-29), and the places batch run is next; the 61-place index (sets batch) and the POI editorial pipeline with the duplicate sweep are built and tested on recorded fixtures (c40ac1e), and run per guide city once the importer has data
 
 ### T8 — Spawn rules + legendary windows
 - Goal: every form obtainable; calendar complete.

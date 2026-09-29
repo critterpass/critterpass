@@ -173,7 +173,7 @@ No tables, commands, channels or jobs added. Consumers: `og.render` (phase 51) u
 
 - [ ] Skia backend within golden thresholds vs canvas2d
 - [ ] `<Sticker>`: cache limits enforced, `drawProgress` + `closedEyes` rendering, static path under reduce motion, a11y labels
-- [ ] Founder device run recorded: Critterdex grid 60 fps; 2 draw-ons ≥ 55 fps mid-range Android (physical device) (iPhone 15 Pro PASS 2026-09-28; Android open)
+- [x] Founder device run recorded: Critterdex grid 60 fps; 2 draw-ons ≥ 55 fps mid-range Android (physical device). iPhone 15 Pro PASS 2026-09-28. Android **passed on founder decision 2026-09-29**, to be revisited if performance issues appear.
 - [ ] `pnpm critter-bake --check` green in CI; outputs deterministic
 - [ ] Prebuild places assets in app + all extension targets + Android res; app icon sets complete (iOS layered `.icon` + flat fallbacks, Android adaptive + monochrome)
 - [ ] Web element lazy + reduced-motion; OG atlas complete
