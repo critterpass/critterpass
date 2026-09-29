@@ -3,6 +3,8 @@
  * country, then the device region) and a loose E.164 check. The server's OTP route is the real
  * validator; this only stops obvious typos before a code is sent.
  */
+import { AsYouType, type CountryCode } from 'libphonenumber-js/min';
+
 import { DIAL_CODES } from '@cp/content/onboarding';
 
 export function dialCodeFor(country: string | null): string | null {
@@ -32,9 +34,44 @@ export function toE164(country: string, input: string): string | null {
 
 /** "+65 9123 4567": the number as the code-sent line prints it. */
 export function formatE164(country: string, input: string): string {
-  const digits = nationalDigits(input);
-  const groups = digits.match(/.{1,4}/gu) ?? [];
-  return `+${DIAL_CODES[country] ?? ''} ${groups.join(' ')}`.trim();
+  return `+${DIAL_CODES[country] ?? ''} ${formatNational(country, nationalDigits(input))}`.trim();
+}
+
+/** The national number grouped the way the country writes it ("9123 4567" for Singapore). */
+export function formatNational(country: string, input: string): string {
+  const digits = input.replace(/\D/gu, '');
+  if (digits.length === 0) return '';
+  return new AsYouType(country as CountryCode).input(digits);
+}
+
+/**
+ * The field's next value after an edit, formatted as the user types: a pasted or typed
+ * international number ("+84 949 840 370") switches the country and keeps its national part;
+ * deleting only a space takes the digit before it with it (otherwise the space comes straight
+ * back and the delete key seems to do nothing).
+ */
+export function typedNumber(
+  country: string,
+  previous: string,
+  next: string,
+): { readonly country: string; readonly number: string } {
+  if (next.trimStart().startsWith('+')) {
+    const typed = new AsYouType();
+    typed.input(next);
+    const found = typed.getCountry();
+    const national = typed.getNumber()?.nationalNumber;
+    if (found !== undefined && national !== undefined && DIAL_CODES[found] !== undefined) {
+      return { country: found, number: formatNational(found, national) };
+    }
+  }
+  let digits = next.replace(/\D/gu, '');
+  if (next.length < previous.length && digits === previous.replace(/\D/gu, '')) {
+    let at = 0;
+    while (at < next.length && next[at] === previous[at]) at += 1;
+    const before = previous.slice(0, at).replace(/\D/gu, '').length;
+    digits = before === 0 ? digits : digits.slice(0, before - 1) + digits.slice(before);
+  }
+  return { country, number: formatNational(country, digits) };
 }
 
 /** Resend waits 30 s, then 60 s, then 120 s. */
