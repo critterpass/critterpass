@@ -31,6 +31,11 @@ export interface PillButtonProps {
   /** Stretch to the parent's width (bottom CTAs). @default true for `lg` */
   readonly block?: boolean;
   readonly leading?: ReactNode;
+  /**
+   * `sentence` sets the label as written, in the row-title face (the 3a-7 sign-in buttons);
+   * `upper` is the button face, uppercased. @default 'upper'
+   */
+  readonly casing?: 'upper' | 'sentence';
   readonly accessibilityHint?: string;
   readonly testID?: string;
 }
@@ -94,6 +99,7 @@ export function PillButton({
   disabled = false,
   block,
   leading,
+  casing = 'upper',
   accessibilityHint,
   testID,
 }: PillButtonProps) {
@@ -138,7 +144,7 @@ export function PillButton({
       ) : (
         <Animated.View style={flap ? flapped.style : undefined}>
           <Text
-            variant={size === 'lg' ? 'buttonLg' : 'buttonSm'}
+            variant={casing === 'sentence' ? 'rowTitle' : size === 'lg' ? 'buttonLg' : 'buttonSm'}
             color={textColor}
             numberOfLines={2}
             singleLine

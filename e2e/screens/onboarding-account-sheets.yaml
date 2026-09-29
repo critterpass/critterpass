@@ -1,0 +1,8 @@
+appId: app.critterpass.dev
+---
+# The onboarding save and merge sheets in English.
+- runFlow: subflows/open-gallery.yaml
+- runFlow:
+    file: subflows/account-sheets.yaml
+    env:
+      PREFIX: en

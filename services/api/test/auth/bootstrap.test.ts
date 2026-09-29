@@ -49,12 +49,38 @@ describe('buildTrustedOriginsFromEnv', () => {
   });
 });
 
+const baseEnv = (): Record<string, string> => ({
+  DATABASE_URL: 'postgres://app@localhost:54320/app',
+  REDIS_URL: 'redis://localhost:63790',
+  PUBLIC_BASE_URL: 'http://localhost:8787',
+  AUTH_DATABASE_URL: 'postgres://auth@localhost:54320/app',
+  BETTER_AUTH_SECRET: 'test-secret-at-least-32-characters-long',
+});
+
 describe('buildAuthRateLimitCustomRules', () => {
-  it('rate-limits anonymous sign-in and send-otp to 10/h/IP', () => {
-    expect(buildAuthRateLimitCustomRules()).toEqual({
+  it('rate-limits anonymous sign-in and send-otp to 10/h/IP by default', () => {
+    const env = loadApiEnv(baseEnv());
+    expect(buildAuthRateLimitCustomRules(env)).toEqual({
       '/sign-in/anonymous': { window: 3600, max: 10 },
       '/phone-number/send-otp': { window: 3600, max: 10 },
     });
+  });
+
+  it('reads each hourly cap from env, treating an empty value as the default', () => {
+    const env = loadApiEnv({
+      ...baseEnv(),
+      AUTH_ANON_RATE_LIMIT_PER_HOUR: '200',
+      AUTH_OTP_RATE_LIMIT_PER_HOUR: '',
+    });
+    expect(buildAuthRateLimitCustomRules(env)).toEqual({
+      '/sign-in/anonymous': { window: 3600, max: 200 },
+      '/phone-number/send-otp': { window: 3600, max: 10 },
+    });
+  });
+
+  it('rejects a cap that is not a positive whole number', () => {
+    expect(() => loadApiEnv({ ...baseEnv(), AUTH_OTP_RATE_LIMIT_PER_HOUR: '0' })).toThrow();
+    expect(() => loadApiEnv({ ...baseEnv(), AUTH_ANON_RATE_LIMIT_PER_HOUR: 'lots' })).toThrow();
   });
 });
 
