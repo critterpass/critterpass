@@ -118,6 +118,7 @@ const authModule = createAuthModule({
   otpAdapters: buildOtpAdaptersFromEnv(env),
   fixedCodes: fixedCodeNumbersFromEnv(env, (warning) => logger.warn(warning)),
   onFixedCode: (use) => logger.warn(use, 'fixed-code phone number used for sign-in'),
+  onOtpChannelFailure: (failure) => logger.warn(failure, 'otp channel send failed'),
   rateLimit: { customRules: buildAuthRateLimitCustomRules() },
   attestation: buildAttestationConfigFromEnv(env),
   onAttestationFailure: (error, context) => {

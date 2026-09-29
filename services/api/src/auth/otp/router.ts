@@ -43,6 +43,39 @@ export interface OtpRouterDeps {
   readonly tracker: OtpDeliveryTracker;
   /** The ops kill switches (`otp.<channel>.enabled`). */
   readonly switches: Pick<KillSwitchReader, 'isOn'>;
+  /** Told about every channel whose send failed, so the reason reaches the logs (never the number). */
+  readonly onChannelFailure?: ((failure: OtpChannelFailure) => void) | undefined;
+}
+
+export interface OtpChannelFailure {
+  readonly channel: OtpChannel;
+  /** The error code (`SUPPLIER_UNAVAILABLE`, …) or the error's name. */
+  readonly code: string;
+  /** Provider HTTP status, when the adapter reported one. */
+  readonly status?: number | undefined;
+  /** Provider reason with any digit run long enough to be a phone number masked. */
+  readonly reason?: string | undefined;
+}
+
+/** Summarises a failed send for logs: code, provider status and reason, with phone-like digits masked. */
+export function describeChannelFailure(channel: OtpChannel, error: unknown): OtpChannelFailure {
+  const mask = (value: string) => value.replace(/\+?\d[\d\s-]{5,}\d/g, '…').slice(0, 300);
+  if (error instanceof DomainError) {
+    const detail = (error.detail ?? {}) as { status?: unknown; detail?: unknown };
+    return {
+      channel,
+      code: error.code,
+      ...(typeof detail.status === 'number' ? { status: detail.status } : {}),
+      ...(typeof detail.detail === 'string' && detail.detail !== ''
+        ? { reason: mask(detail.detail) }
+        : {}),
+    };
+  }
+  return {
+    channel,
+    code: error instanceof Error ? error.name : 'unknown',
+    ...(error instanceof Error ? { reason: mask(error.message) } : {}),
+  };
 }
 
 export interface OtpRouter {
@@ -92,6 +125,7 @@ export function createOtpRouter(deps: OtpRouterDeps): OtpRouter {
           return;
         } catch (error) {
           lastError = error;
+          deps.onChannelFailure?.(describeChannelFailure(channel, error));
           // A failed send falls through to the next channel; the last channel in the order has
           // nowhere left to fall back to, so its error is the one that surfaces.
           if (index === enabled.length - 1) throw error;
