@@ -17,7 +17,9 @@ appId: app.critterpass.dev
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-start-crew
+# Back from the page closes the crew area onto Home; the sheet opens again for the code.
 - runFlow: ../../onboarding/subflows/back.yaml
+- openLink: critterpass-dev://crew
 - extendedWaitUntil:
     visible:
       id: 'crews-join-code'
@@ -31,15 +33,9 @@ appId: app.critterpass.dev
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-join-code-from-crews
-# Back to Home: off the code page, then the sheet's ✕.
+# Back to Home from the code page.
 - runFlow: ../../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
-      id: 'crews-sheet-panel'
-    timeout: 10000
-- tapOn:
-    id: 'crews-sheet-close'
-- extendedWaitUntil:
-    notVisible:
-      id: 'crews-sheet-panel'
+      id: 'home-first-run'
     timeout: 10000
