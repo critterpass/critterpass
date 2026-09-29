@@ -24,6 +24,7 @@ import {
   registerMergeTicketPreviewRoute,
   registerReturningPhoneSignInRoute,
 } from './routes/auth-extra';
+import { fixedCodeNumbersFromEnv } from './auth/otp/fixed-codes';
 import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerOtpWebhookRoutes } from './routes/otp-webhooks';
 import { betterAuthSessionResolver } from './commands/_framework/session';
@@ -113,6 +114,8 @@ const authModule = createAuthModule({
   baseUrl: `${env.PUBLIC_BASE_URL}/api/auth`,
   trustedOrigins: buildTrustedOriginsFromEnv(env),
   otpAdapters: buildOtpAdaptersFromEnv(env),
+  fixedCodes: fixedCodeNumbersFromEnv(env),
+  onFixedCode: (use) => logger.warn(use, 'fixed-code phone number used for sign-in'),
   rateLimit: { customRules: buildAuthRateLimitCustomRules() },
   attestation: buildAttestationConfigFromEnv(env),
   onAttestationFailure: (error, context) => {
@@ -125,6 +128,10 @@ const authModule = createAuthModule({
   google: buildGoogleSocialConfigFromEnv(env),
   isProduction: env.APP_ENV === 'production',
 });
+
+if (env.APP_ENV === 'production' && env.OTP_TEST_NUMBERS !== undefined) {
+  logger.warn('OTP_TEST_NUMBERS is set but production never honours test numbers');
+}
 
 // This phase's own routes that are not Better Auth endpoints (docs/api-contracts.md §5.1): the
 // attestation challenge always registers (it needs only Redis), while the rest register only when
