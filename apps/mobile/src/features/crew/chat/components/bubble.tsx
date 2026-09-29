@@ -214,20 +214,13 @@ export function Bubble(props: BubbleProps) {
       {/* Under the bubble, not beside the avatar: the avatar lines up with the bubble's foot. */}
       <View style={[styles.under, mine ? styles.underMine : styles.underTheirs]}>
         {props.reactions}
-        <DeliveryLine {...props} time={time} />
+        <DeliveryLine {...props} />
       </View>
     </Animated.View>
   );
 }
 
-function DeliveryLine({
-  message,
-  mine,
-  last,
-  time,
-  onRetry,
-  onDiscard,
-}: BubbleProps & { readonly time: string }) {
+function DeliveryLine({ message, mine, onRetry, onDiscard }: BubbleProps) {
   const styles = useStyles();
   const theme = useTheme();
   const edited = message.edited && !message.deleted;
@@ -252,11 +245,13 @@ function DeliveryLine({
       </Row>
     );
   }
+  // 3g-1 shows no per-message times (the day divider carries the date, the time is in each
+  // bubble's spoken label); only the delivery state and edits are written under a bubble.
   const sending = mine && message.status !== 'sent';
-  if (!sending && !edited && !last) return null;
+  if (!sending && !edited) return null;
   const parts = [
     ...(edited ? [t({ id: 'chat.status.edited', message: 'edited' })] : []),
-    ...(sending ? [t({ id: 'chat.status.sending', message: 'Sending' })] : [time]),
+    ...(sending ? [t({ id: 'chat.status.sending', message: 'Sending' })] : []),
   ];
   return (
     <Row style={styles.meta}>

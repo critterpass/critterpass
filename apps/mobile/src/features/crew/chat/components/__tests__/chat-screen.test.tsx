@@ -74,7 +74,7 @@ describe('timeline', () => {
     expect(screen.getByText('Message deleted')).toBeTruthy();
     // Leo's two messages form one run: his name shows once.
     expect(screen.getAllByText(/^leo$/iu)).toHaveLength(1);
-    expect(screen.getByText(/^edited · /u)).toBeTruthy();
+    expect(screen.getByText('edited')).toBeTruthy();
     expect(screen.getByLabelText(/^Maya, [^,]+: who’s up for the spa on day 3\?$/u)).toBeTruthy();
   });
 });

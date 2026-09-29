@@ -6,6 +6,7 @@ import { plural, t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { I18nManager, Pressable, View } from 'react-native';
 
+import { Icon } from '@/ui/icons/Icon';
 import { HeaderPill } from '@/ui/shell/HeaderPills';
 import { Row, Stack, Text, useTheme } from '@/ui';
 import { degrees, makeStyles, MIN_TOUCH_TARGET } from '@/ui/theme';
@@ -21,6 +22,8 @@ export function peopleLine(count: number, guideName: string | null): string {
   return t({ id: 'chat.header.withGuide', message: `${people} · ${guideName} is in this chat` });
 }
 
+/** 3g-1 sets the crew name at the foot of the h3 range: a compact one-line header. */
+const TITLE_SIZE = 20;
 const ARROW_WIDTH = 18;
 const ARROW_STROKE = 2;
 const ARROW_HEAD = 10;
@@ -96,7 +99,7 @@ export function ChatHeader({
         <BackArrow color={theme.semantic.text.primary} />
       </Pressable>
       <Stack style={styles.titles} gap="2">
-        <Text variant="h3" numberOfLines={1} accessibilityRole="header">
+        <Text variant="h3" designSize={TITLE_SIZE} numberOfLines={1} accessibilityRole="header">
           {title}
         </Text>
         {people > 0 ? (
@@ -109,6 +112,7 @@ export function ChatHeader({
         <View>
           <HeaderPill
             label={t({ id: 'chat.header.map', message: 'Map' })}
+            icon={<Icon name="pin" size={theme.space['16']} decorative />}
             onPress={() => map(crewId)}
             testID="chat-map"
           />
