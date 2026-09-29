@@ -7,6 +7,230 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: nl\n"
 
-#: ../../apps/mobile/src/features/setup/budget/budget-step.tsx
+#. placeholder {0}: part.nights
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stayNights"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.counted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/fx-preview.ts
+msgid "setup.budget.member.approx"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.underCounted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.underAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.infeasible.shorter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
+msgid "setup.budget.own.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stay.apartment"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.change"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.infeasible.dates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.captionWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.caption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lineWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.flights"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.missingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.food"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.fun"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stay.guesthouse"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stay.hostel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stay.hotel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lock.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.cta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.infeasible.hostels"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.never"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.fit.noTarget"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.missingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.infeasible.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.infeasible.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.over"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stay.ryokan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.queued"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.set"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.stays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.a11yStatus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.amountA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lock.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lock.overBand"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.captionNoDots"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.fit.fits"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.fit.over"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lock.rateLimited"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.everyTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stay.villa"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.yourMax"
 msgstr ""
