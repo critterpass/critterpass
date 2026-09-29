@@ -46,12 +46,7 @@ import { usePhoneFlow } from './use-phone-flow';
 export const PHONE_ADVANCE_MS = 2150;
 
 const useStyles = makeStyles((th) => ({
-  // The headline's cap room reaches above its line box, and a scroll view cuts what lies above
-  // its top edge: the view starts under the empty lower part of the status bar instead, padded
-  // back down, so the headline sits where the design puts it with its caps whole.
-  scroll: { marginTop: -th.space['24'] },
   content: {
-    paddingTop: th.space['24'],
     paddingHorizontal: th.space['20'],
     gap: th.space['14'],
     paddingBottom: th.space['24'],
@@ -118,11 +113,7 @@ export function PhoneScreen() {
   return (
     <>
       <Scaffold variant="dark" edges={['top', 'bottom']} testID="onboarding-phone">
-        <ScrollView
-          style={styles.scroll}
-          contentContainerStyle={styles.content}
-          keyboardShouldPersistTaps="handled"
-        >
+        <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
           <View style={styles.head}>
             <View style={styles.headText}>
               <Text variant="h1" designSize={52} accessibilityRole="header">
