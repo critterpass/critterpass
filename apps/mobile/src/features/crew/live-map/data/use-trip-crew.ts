@@ -29,6 +29,8 @@ export interface TripCrew {
   readonly crewId: string;
   readonly crewName: string;
   readonly destinationId: string | null;
+  /** The destination's slug: its region tiles live under it. */
+  readonly destinationSlug: string | null;
   readonly status: string;
   readonly startDate: string | null;
   readonly endDate: string | null;
@@ -54,6 +56,7 @@ const TABLES = [
 interface TripRow {
   crew_id: string;
   destination_id: string | null;
+  destination_slug: string | null;
   crew_name: string | null;
   status: string;
   start_date: string | null;
@@ -99,9 +102,10 @@ export async function loadTripCrew(
 ): Promise<TripCrew | null> {
   const trip = quoted(tripId);
   const row = await db.getOptional<TripRow>(
-    `SELECT t.crew_id, t.destination_id, c.name AS crew_name, t.status, t.start_date, t.end_date, t.tz,
+    `SELECT t.crew_id, t.destination_id, d.slug AS destination_slug, c.name AS crew_name, t.status, t.start_date, t.end_date, t.tz,
             e.boost_active
        FROM trips t LEFT JOIN crews c ON c.id = t.crew_id
+       LEFT JOIN destinations d ON d.id = t.destination_id
        LEFT JOIN trip_entitlements e ON e.trip_id = t.id
       WHERE t.id = ${trip}`,
   );
@@ -132,6 +136,7 @@ export async function loadTripCrew(
     crewId: row.crew_id,
     crewName: row.crew_name ?? '',
     destinationId: row.destination_id,
+    destinationSlug: row.destination_slug,
     status: row.status,
     startDate: row.start_date,
     endDate: row.end_date,

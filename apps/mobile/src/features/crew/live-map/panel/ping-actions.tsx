@@ -40,24 +40,26 @@ export function PingActions({
   return (
     <Stack gap="8">
       <Row style={{ gap: theme.space['8'] }}>
-        <View style={{ flex: 3 }}>
+        <View style={{ flex: 1 }}>
           <PillButton
             label={t({ id: 'liveMap.actions.pingAll', message: 'Ping all' })}
             variant="secondary"
             disabled={offline || pending}
 
             onPress={() => onPing('ping')}
+            size="sm"
             block
             testID="live-ping-all"
           />
         </View>
-        <View style={{ flex: 5 }}>
+        <View style={{ flex: 1 }}>
           <PillButton
             label={t({ id: 'liveMap.actions.onMyWay', message: "I'm on my way" })}
             tone="yellow"
             disabled={offline || pending}
             // eslint-disable-next-line lingui/no-unlocalized-strings -- a wire value, never copy.
             onPress={() => onPing('on_my_way')}
+            size="sm"
             block
             testID="live-on-my-way"
           />

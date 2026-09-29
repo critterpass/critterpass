@@ -5,6 +5,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -15,7 +16,8 @@ import { LiveMapServicesProvider, type LiveMapServices } from './data/services';
 import { lockScreenStarter } from './gate-slot';
 import { BunchPill } from './map/bunch-pill';
 import { HeaderPill } from './map/header-pill';
-import { boundsOf, LiveMapCanvas, type CanvasPin } from './map/live-map-canvas';
+import { declutter, fitProjection, type LabelBox } from './map/label-layout';
+import { boundsOf, LiveMapCanvas, regionTilesUrl, type CanvasPin } from './map/live-map-canvas';
 import { MeetupPin } from './map/meetup-pin';
 import { MemberPin } from './map/member-pin';
 import type { LiveMapModel } from './model';
@@ -65,6 +67,44 @@ function canvasPins(m: LiveMapModel): CanvasPin[] {
   });
 }
 
+/** Widest pin label, points: the right edge of the framed strip keeps it on screen. */
+const PIN_WIDTH = 200;
+const PIN_HEIGHT = 54;
+
+/** Lifts pin labels that would draw over the meet-up or each other (north first). */
+function placeLabels(
+  pins: CanvasPin[],
+  m: LiveMapModel,
+  framed: readonly (readonly [number, number])[],
+  view: Parameters<typeof fitProjection>[1],
+): CanvasPin[] {
+  if (framed.length < 2) return pins;
+  const project = fitProjection(framed, view);
+  const boxes: LabelBox[] = [];
+  if (m.meetup !== null) {
+    boxes.push({
+      key: 'meetup',
+      lng: m.meetup.lng,
+      lat: m.meetup.lat,
+      left: -160,
+      width: 270,
+      height: 64,
+    });
+  }
+  for (const pin of [...pins].sort((a, b) => b.target.lat - a.target.lat)) {
+    boxes.push({
+      key: pin.key,
+      lng: pin.target.lng,
+      lat: pin.target.lat,
+      left: 0,
+      width: PIN_WIDTH,
+      height: PIN_HEIGHT,
+    });
+  }
+  const offsets = declutter(boxes, project);
+  return pins.map((pin) => ({ ...pin, offset: offsets.get(pin.key) }));
+}
+
 function formatDay(at: Date, locale: string, tz: string | null): string {
   return new Intl.DateTimeFormat(locale, {
     month: 'short',
@@ -84,7 +124,7 @@ export function LiveMapView({
   readonly onBack?: () => void;
 }) {
   const insets = useSafeAreaInsets();
-  const { height } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const theme = useTheme();
   const open = m.gate === 'open' || m.gate === 'loading';
   const view = m.view;
@@ -97,10 +137,21 @@ export function LiveMapView({
         : DEFAULT_CENTER;
   const you =
     m.ownFix === null || meSharing === 'off' ? null : ([m.ownFix.lng, m.ownFix.lat] as const);
-  const pins = canvasPins(m);
-  const framed: (readonly [number, number])[] = pins.map((pin) => [pin.target.lng, pin.target.lat]);
+  const [panelHeight, setPanelHeight] = useState(Math.round(height * 0.42));
+  const padding = {
+    top: insets.top + 110,
+    bottom: panelHeight + 16,
+    left: 24,
+    right: PIN_WIDTH - 24,
+  };
+  const rawPins = canvasPins(m);
+  const framed: (readonly [number, number])[] = rawPins.map((pin) => [
+    pin.target.lng,
+    pin.target.lat,
+  ]);
   if (m.meetup !== null) framed.push([m.meetup.lng, m.meetup.lat]);
   if (you !== null) framed.push(you);
+  const pins = placeLabels(rawPins, m, framed, { width, height, padding });
   const lastUpdate = m.updatedAt === null ? null : clock(m.updatedAt, m.tz, m.locale);
   const lock = lockScreenStarter();
   const footer =
@@ -118,12 +169,8 @@ export function LiveMapView({
       <LiveMapCanvas
         center={center}
         bounds={boundsOf(framed)}
-        padding={{
-          top: insets.top + 130,
-          bottom: Math.round(height * 0.66),
-          left: 120,
-          right: 190,
-        }}
+        padding={padding}
+        regionSourceUrl={m.destinationSlug === null ? undefined : regionTilesUrl(m.destinationSlug)}
         pins={pins}
         trails={m.trails}
         joinIndexOf={(uid) => view?.people.find((person) => person.uid === uid)?.joinIndex ?? 0}
@@ -176,6 +223,7 @@ export function LiveMapView({
           paddingHorizontal: theme.space['12'],
           paddingBottom: insets.bottom + theme.space['8'],
         }}
+        onLayout={(event) => setPanelHeight(Math.round(event.nativeEvent.layout.height))}
       >
         {open ? (
           <Panel

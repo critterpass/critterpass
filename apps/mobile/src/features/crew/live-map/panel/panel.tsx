@@ -29,7 +29,7 @@ const useStyles = makeStyles((th) => ({
   },
   head: { alignItems: 'center', gap: th.space['12'] },
   headText: { flex: 1 },
-  rows: { maxHeight: 330 },
+  rows: { maxHeight: 190 },
   pending: {
     alignSelf: 'flex-start',
     borderRadius: CAPSULE_RADIUS,

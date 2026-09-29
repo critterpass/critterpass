@@ -26,6 +26,7 @@ export interface LiveMapModel {
   readonly me: string | null;
   readonly crewName: string;
   readonly destinationId: string | null;
+  readonly destinationSlug: string | null;
   readonly gate: LiveGate;
   readonly offline: boolean;
   /** Epoch ms of the last snapshot or publication. */

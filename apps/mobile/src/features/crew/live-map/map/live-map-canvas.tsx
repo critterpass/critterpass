@@ -7,11 +7,12 @@
 import { tokens } from '@cp/design-tokens';
 import {
   Camera,
+  type CameraRef,
   Map as MapLibreMap,
   ViewAnnotation,
   type StyleSpecification,
 } from '@maplibre/maplibre-react-native';
-import { useMemo, type ReactElement } from 'react';
+import { useEffect, useMemo, useRef, type ReactElement } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { RouteLine } from '@/ui/map/RouteLine';
@@ -23,17 +24,25 @@ import { TrailLayer } from './trail-layer';
 import { useGlide, type GlidePoint } from './use-glide';
 
 const darkStyle = criterpassDarkStyleJson as unknown as StyleSpecification;
+const WORLD_URL = (darkStyle.sources['world'] as { url: string }).url;
+
+/** The destination's published region tiles, beside the world tiles (`<base>/<slug>/tiles-v1`). */
+export function regionTilesUrl(slug: string): string {
+  return WORLD_URL.replace(/^pmtiles:\/\//, '').replace('/world/', `/${slug}/`);
+}
 
 export interface CanvasPin {
   readonly key: string;
   readonly target: GlidePoint;
   readonly node: ReactElement;
+  /** Lift that keeps this label clear of the ones placed before it (./label-layout.ts). */
+  readonly offset?: [number, number] | undefined;
 }
 
 function GlidingPin({ pin }: { readonly pin: CanvasPin }) {
   const lngLat = useGlide(pin.target);
   return (
-    <ViewAnnotation lngLat={lngLat} anchor="bottom-left">
+    <ViewAnnotation lngLat={lngLat} anchor="bottom-left" offset={pin.offset ?? [0, 0]}>
       {pin.node}
     </ViewAnnotation>
   );
@@ -82,21 +91,39 @@ export function LiveMapCanvas({
   readonly onMeetupDragged?: ((point: { lat: number; lng: number }) => void) | undefined;
   readonly onMeetupDragStart?: (() => void) | undefined;
 }) {
-  const style = useMemo((): StyleSpecification => {
-    if (regionSourceUrl === undefined) return darkStyle;
-    return {
+  const style = useMemo(
+    (): StyleSpecification => ({
       ...darkStyle,
       sources: {
         ...darkStyle.sources,
-        region: { type: 'vector', url: `pmtiles://${regionSourceUrl}` },
+        region: {
+          type: 'vector',
+          url: regionSourceUrl === undefined ? WORLD_URL : `pmtiles://${regionSourceUrl}`,
+        },
       },
-    };
-  }, [regionSourceUrl]);
+    }),
+    [regionSourceUrl],
+  );
+  const camera = useRef<CameraRef>(null);
+  // Re-frame once the panel has measured itself (its height is the bottom padding).
+  useEffect(() => {
+    if (bounds !== null) camera.current?.fitBounds(bounds, { padding });
+    // Only a new panel height or header inset re-frames; later fixes never yank the camera.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [padding.top, padding.bottom]);
+  // The attribution and logo stay visible above the panel (map data licences need both).
+  const ornamentBottom = padding.bottom - 8;
 
   return (
     <View style={StyleSheet.absoluteFill} testID="live-map-canvas">
-      <MapLibreMap style={StyleSheet.absoluteFill} mapStyle={style}>
+      <MapLibreMap
+        style={StyleSheet.absoluteFill}
+        mapStyle={style}
+        attributionPosition={{ bottom: ornamentBottom, right: 12 }}
+        logoPosition={{ bottom: ornamentBottom, left: 12 }}
+      >
         <Camera
+          ref={camera}
           initialViewState={
             bounds === null
               ? { center: [center[0], center[1]], zoom: 14.5, padding }

@@ -47,7 +47,7 @@ msgstr "{rounded} m"
 
 #: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
 msgid "liveMap.header.sharing"
-msgstr "{sharing}/{members} đang chia sẻ · chỉ trong ngày đi"
+msgstr "{sharing}/{members} đang chia sẻ · chỉ ngày đi"
 
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.a11y.aboutMinutesAway"
