@@ -19,7 +19,7 @@ jest.mock(
 );
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true) },
   useLocalSearchParams: jest.fn(() => ({})),
 }));
 
@@ -56,7 +56,7 @@ import {
 } from '../../test-support/vote-harness';
 import { FinalSplitCard } from '../final-split-card';
 import { ShowdownView } from '../showdown-screen';
-import { WinnerRevealView } from '../winner-reveal';
+import { WinnerRevealScreen, WinnerRevealView } from '../winner-reveal';
 
 const OPT_KYOTO = '0192f000-0000-7000-8000-000000000711';
 const OPT_LISBON = '0192f000-0000-7000-8000-000000000712';
@@ -79,6 +79,7 @@ async function open(): Promise<TestLocalFirst> {
 afterEach(async () => {
   (router.push as jest.Mock).mockClear();
   (router.replace as jest.Mock).mockClear();
+  (router.back as jest.Mock).mockClear();
   toastQueue.dismiss();
   await stack?.close();
   if (stack) removeDir(stack.dir);
@@ -273,6 +274,15 @@ describe('winner reveal', () => {
     await renderVote(<HomeGate />, s);
     await settleMotion();
     expect(router.push).not.toHaveBeenCalled();
+  });
+
+  it('leaves instead of replaying a reveal seen before the screen opened', async () => {
+    const s = await open();
+    await seedClosed(s, [{ userId: MAYA, optionId: OPT_KYOTO }], MAYA, '2026-10-02T10:00:00Z');
+    await renderVote(<WinnerRevealScreen pollId={POLL} />, s);
+    await until(() => (router.back as jest.Mock).mock.calls.length > 0);
+    expect(screen.queryByTestId('winner-reveal')).toBeNull();
+    expect(await queued(s, 'mark_reveal_seen')).toEqual([]);
   });
 
   it('opens a pending reveal from Home once', async () => {
