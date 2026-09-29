@@ -153,15 +153,13 @@ export type LiveSnapshot = z.infer<typeof liveSnapshotSchema>;
 // ---------------------------------------------------------------------------------------------
 // `trip_locations:{trip_id}` publications
 
-/** `POST /v1/loc` publishes this object as-is (no envelope): the latency path. */
-export const fixesMessageSchema = z.object({
-  type: z.literal('fixes'),
-  share_id: z.uuid(),
-  reason: z.string(),
-  fixes: z.array(liveFixWireSchema),
-});
-
 export const liveMapEnvelopeDataSchemas = {
+  /** Published by `POST /v1/loc` straight to Centrifugo: the latency path. */
+  fixes: z.object({
+    share_id: z.uuid(),
+    reason: z.string(),
+    fixes: z.array(liveFixWireSchema),
+  }),
   eta: z.object({
     meetup_id: z.uuid(),
     computed_at: z.string(),
@@ -182,25 +180,19 @@ export const liveMapEnvelopeDataSchemas = {
 } as const;
 export type LiveMapEnvelopeType = keyof typeof liveMapEnvelopeDataSchemas;
 
-export type LiveMapMessage =
-  | { readonly type: 'fixes'; readonly fixes: readonly LiveFixWire[] }
-  | {
-      readonly [K in LiveMapEnvelopeType]: {
-        readonly type: K;
-        readonly data: z.infer<(typeof liveMapEnvelopeDataSchemas)[K]>;
-      };
-    }[LiveMapEnvelopeType];
+export type LiveMapMessage = {
+  readonly [K in LiveMapEnvelopeType]: {
+    readonly type: K;
+    readonly data: z.infer<(typeof liveMapEnvelopeDataSchemas)[K]>;
+  };
+}[LiveMapEnvelopeType];
 
 /**
- * Parses one publication on `trip_locations:` — the raw `fixes` object or a `{v, id, type, at,
- * data}` envelope. Unknown or malformed messages return null (the app ignores them).
+ * Parses one publication on `trip_locations:` (the `data` of a `{v, id, type, at, data}`
+ * envelope, by its `type`). Unknown or malformed messages return null (the app ignores them).
  */
-export function parseLiveMapMessage(raw: unknown): LiveMapMessage | null {
-  const fixes = fixesMessageSchema.safeParse(raw);
-  if (fixes.success) return { type: 'fixes', fixes: fixes.data.fixes };
-  if (typeof raw !== 'object' || raw === null) return null;
-  const { type, data } = raw as { type?: unknown; data?: unknown };
-  if (typeof type !== 'string' || !(type in liveMapEnvelopeDataSchemas)) return null;
+export function parseLiveMapMessage(type: string, data: unknown): LiveMapMessage | null {
+  if (!Object.hasOwn(liveMapEnvelopeDataSchemas, type)) return null;
   const schema = liveMapEnvelopeDataSchemas[type as LiveMapEnvelopeType];
   const parsed = schema.safeParse(data);
   return parsed.success ? ({ type, data: parsed.data } as LiveMapMessage) : null;

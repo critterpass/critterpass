@@ -27,30 +27,27 @@ describe('live map payloads', () => {
     ).toBe(true);
   });
 
-  it('parses raw fixes and envelopes, and drops anything else', () => {
-    expect(
-      parseLiveMapMessage({
-        type: 'fixes',
+  it('parses publications by type and drops anything else', () => {
+    const fixes = {
+      share_id: share,
+      reason: 'crew_map',
+      fixes: [
+        { uid, lat: 1, lng: 2, acc: 5, at: '2026-10-18T09:00:00Z', activity: 'walking', mock: 0 },
+      ],
+    };
+    expect(parseLiveMapMessage('fixes', fixes)).toEqual({
+      type: 'fixes',
+      data: {
         share_id: share,
         reason: 'crew_map',
-        fixes: [
-          { uid, lat: 1, lng: 2, acc: 5, at: '2026-10-18T09:00:00Z', activity: 'walking', mock: 0 },
-        ],
-      }),
-    ).toEqual({
-      type: 'fixes',
-      fixes: [{ uid, lat: 1, lng: 2, acc: 5, at: '2026-10-18T09:00:00Z', activity: 'walking' }],
+        fixes: [{ uid, lat: 1, lng: 2, acc: 5, at: '2026-10-18T09:00:00Z', activity: 'walking' }],
+      },
     });
     expect(
-      parseLiveMapMessage({
-        v: 1,
-        id: share,
-        type: 'share.paused',
-        at: '2026-10-18T09:00:00Z',
-        data: { uid, share_id: share, at: '2026-10-18T09:00:00Z' },
-      }),
+      parseLiveMapMessage('share.paused', { uid, share_id: share, at: '2026-10-18T09:00:00Z' }),
     ).toEqual({ type: 'share.paused', data: { uid, share_id: share, at: '2026-10-18T09:00:00Z' } });
-    expect(parseLiveMapMessage({ type: 'mystery', data: {} })).toBeNull();
-    expect(parseLiveMapMessage('nope')).toBeNull();
+    expect(parseLiveMapMessage('mystery', {})).toBeNull();
+    expect(parseLiveMapMessage('ping', 'nope')).toBeNull();
+    expect(parseLiveMapMessage('toString', {})).toBeNull();
   });
 });

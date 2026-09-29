@@ -12,6 +12,7 @@ import { withUser } from '@cp/db';
 import {
   checkPlausibility,
   DomainError,
+  generateUuidV7,
   locationBatchSchema,
   MOCK_FLAG_ACCESSORY,
   MOCK_FLAG_SIMULATED,
@@ -139,19 +140,26 @@ export function registerLocationRoute(app: OpenAPIHono<AppEnv>, deps: LocationRo
 
       const publish = deps.publish;
       if (publish !== undefined) {
+        // The realtime envelope every hint carries (`{v, id, type, at, data}`), so the app's
+        // channel layer dedupes and validates fixes like any other publication.
         const data = {
+          v: 1,
+          id: generateUuidV7(),
           type: 'fixes',
-          share_id: body.share_id,
-          reason: share.reason,
-          fixes: fixes.map((fix) => ({
-            uid: session.uid,
-            lat: fix.lat,
-            lng: fix.lng,
-            acc: fix.acc,
-            at: fix.at,
-            activity: fix.activity,
-            mock: fix.mock,
-          })),
+          at: new Date().toISOString(),
+          data: {
+            share_id: body.share_id,
+            reason: share.reason,
+            fixes: fixes.map((fix) => ({
+              uid: session.uid,
+              lat: fix.lat,
+              lng: fix.lng,
+              acc: fix.acc,
+              at: fix.at,
+              activity: fix.activity,
+              mock: fix.mock,
+            })),
+          },
         };
         const channels = [`trip_locations:${share.trip_id}`];
         if (share.reason === 'sos') channels.push(`sos:${body.share_id}`);
