@@ -257,6 +257,9 @@ jobs:
           FLOWS: tools/scripts/ci-device/js-commit.yaml ${{ matrix.flows }}
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
+          # The crew the push fixtures and chat flows address (repository variables).
+          CREW_ID: ${{ vars.E2E_CREW_ID }}
+          CREW_NAME: ${{ vars.E2E_CREW_NAME }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
         run: tools/scripts/ci-device/ios-device.sh "$BUILD_URL" "$RUNNER_TEMP/bundles/ios" "$RUNNER_TEMP/out" "$FLOWS"
       - uses: actions/upload-artifact@v7
@@ -306,6 +309,9 @@ jobs:
           FLOWS: tools/scripts/ci-device/js-commit.yaml ${{ matrix.flows }}
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
+          # The crew the push fixtures and chat flows address (repository variables).
+          CREW_ID: ${{ vars.E2E_CREW_ID }}
+          CREW_NAME: ${{ vars.E2E_CREW_NAME }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
         with:
           api-level: 35

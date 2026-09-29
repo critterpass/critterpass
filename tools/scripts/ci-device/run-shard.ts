@@ -12,7 +12,7 @@
  * on GitHub Actions each also becomes an error annotation and a line in the job summary.
  * `--env NAME` forwards that environment variable to every flow as `-e NAME=value` when it is set.
  */
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import {
   appendFileSync,
   copyFileSync,
@@ -207,10 +207,34 @@ function summary(line: string): void {
   if (file) appendFileSync(file, `${line}\n`);
 }
 
+/** Serves ./runner-actions (push fixtures, network off/on) to the flows while they run. */
+function startRunnerActions(options: ShardOptions): () => void {
+  const child = spawn(
+    process.execPath,
+    [
+      ...process.execArgv,
+      path.join(import.meta.dirname, 'runner-actions.ts'),
+      '--platform',
+      options.platform,
+      '--device',
+      options.device,
+    ],
+    { stdio: 'inherit', env: process.env },
+  );
+  return () => child.kill();
+}
+
 function main(): void {
   const options = parseShardArgs(process.argv.slice(2), process.cwd());
   summary(`### ${options.platform} shard\n\n| result | flow | time |\n| --- | --- | --- |`);
-  const { failed, uiQa } = runShard(options);
+  const stopActions = startRunnerActions(options);
+  let shard: ReturnType<typeof runShard>;
+  try {
+    shard = runShard(options);
+  } finally {
+    stopActions();
+  }
+  const { failed, uiQa } = shard;
   for (const [flow, reports] of uiQa) {
     for (const report of reports)
       console.log(annotation('error', `ui-qa ${report.code}`, `${flow}: ${report.line}`));

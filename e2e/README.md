@@ -84,6 +84,23 @@ The prepare job fails when the exported bundle does not carry the commit, and ev
 first runs `tools/scripts/ci-device/js-commit.yaml`, which reads the Developer tools build marker
 (`update:embedded js:<commit>`) to prove the app runs this run's JS.
 
+### Runner actions (push fixtures, network)
+
+A flow can't run a shell command, so each shard serves device actions on `127.0.0.1:7788` while
+its flows run (`tools/scripts/ci-device/runner-actions.ts`). At the step a flow's comments mark
+"Runner: …", call it from a script:
+
+```yaml
+- evalScript: ${http.post('http://127.0.0.1:7788/push?fixture=e2e/notifications/fixtures/android-crew-chat.json').status}
+- evalScript: ${http.post('http://127.0.0.1:7788/network?state=off').status}
+```
+
+`/push` fills the fixture's `${CREW_ID}` and `${CREW_NAME}` from the repository variables
+`E2E_CREW_ID` and `E2E_CREW_NAME` (also passed to every flow) and delivers it with
+`xcrun simctl push` on iOS or the FCM receive broadcast (as root) on Android. `/network` turns
+Wi-Fi and mobile data off or on (Android only; iOS answers 501). Each call answers 200 once done,
+and logs a line in the shard's output.
+
 ### Android emulators
 
 Each Android shard boots a fresh `system-images;android-35;google_apis;x86_64` emulator (Pixel 7
