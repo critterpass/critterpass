@@ -1,0 +1,102 @@
+appId: app.critterpass.dev
+---
+# From Home with the staging demo crew: the crew chat (3g-1) with the seeded messages, the
+# keyboard open over short sends and a long draft, the sent run, the back arrow to Home, then the
+# empty chat of a crew started here. ${PREFIX} names the screenshots by language and ${SEND} is
+# the send button's label in that language.
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-list'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3g-1-chat
+# The field sits between the attach and mic buttons, at the composer's centre.
+- tapOn:
+    id: 'chat-composer'
+- inputText: 'heh'
+- tapOn: ${SEND}
+- inputText: 'ok'
+- tapOn: ${SEND}
+# A draft long enough to grow the composer. On the Android emulator Maestro types about one
+# character every ten seconds against a two-minute deadline, so Android gets a short draft.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - inputText: 'see you all at the villa before sunset, I will bring the snacks and the speaker'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - inputText: 'at six?'
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3g-1-keyboard
+- tapOn: ${SEND}
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3g-1-sent
+- tapOn:
+    id: 'chat-back'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-crew'
+    timeout: 15000
+# A crew of one has no messages yet: start one and open its chat.
+- tapOn:
+    id: 'home-header-crew'
+- extendedWaitUntil:
+    visible:
+      id: 'crews-start'
+    timeout: 15000
+- tapOn:
+    id: 'crews-start'
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Quiet Crew'
+# Return closes the single-line field's keyboard (hideKeyboard can leave it up over CREATE).
+- pressKey: Enter
+- waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      id: 'start-crew-create'
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+# Done does not always make the new crew the current one: choose it on the crews sheet.
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      notVisible:
+        id: 'crews-sheet'
+    commands:
+      - tapOn:
+          id: 'home-header-crew'
+- extendedWaitUntil:
+    visible:
+      id: 'crews-sheet'
+    timeout: 15000
+- tapOn:
+    text: '(?i).*quiet crew.*'
+- extendedWaitUntil:
+    notVisible:
+      id: 'crews-sheet'
+    timeout: 10000
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 15000
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-empty'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-chat-empty

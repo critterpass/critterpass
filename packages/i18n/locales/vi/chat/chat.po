@@ -9,512 +9,512 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.message"
-msgstr ""
+msgstr "“{preview}” gửi vào nhóm chat"
 
 #. placeholder {0}: group.count
 #: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
 msgid "chat.reactions.count"
-msgstr ""
+msgstr "{0, plural, other {# người}}"
 
 #. placeholder {0}: item.files.length
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.upload.photos"
-msgstr ""
+msgstr "{0, plural, one {Ảnh} other {# ảnh}}"
 
 #. placeholder {0}: group.emoji
 #. placeholder {1}: group.count
 #: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
 msgid "chat.reactions.chip"
-msgstr ""
+msgstr "{0} {1}"
 
 #. placeholder {0}: Math.round(item.progress * 100)
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.upload.progress"
-msgstr ""
+msgstr "Đã tải lên {0}%"
 
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.people"
-msgstr ""
+msgstr "{count, plural, other {# người}}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/unread-badge.tsx
 msgid "chat.unread.label"
-msgstr ""
+msgstr "{count, plural, other {# tin chưa đọc}}"
 
 #: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
 msgid "chat.photo.many"
-msgstr ""
+msgstr "{count} ảnh"
 
 #: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
 msgid "chat.typing.two"
-msgstr ""
+msgstr "{first} và {second} đang nhắn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
 msgid "chat.typing.one"
-msgstr ""
+msgstr "{first} đang nhắn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.mute.private"
-msgstr ""
+msgstr "{name} sẽ không được báo."
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.joined"
-msgstr ""
+msgstr "{name} đã vào nhóm"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.left"
-msgstr ""
+msgstr "{name} đã rời nhóm"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.renamed"
-msgstr ""
+msgstr "{name} đã đổi tên nhóm thành {body}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.withGuide"
-msgstr ""
+msgstr "{people} · {guideName} cũng ở đây"
 
 #: ../../apps/mobile/src/features/crew/chat/components/offline-banner.tsx
 msgid "chat.offline.waiting"
-msgstr ""
+msgstr "{waiting, plural, other {# tin sẽ gửi khi có mạng lại}}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.message.spoken"
-msgstr ""
+msgstr "{who}, {time}: {text}"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
 msgid "chat.voice.rate15"
-msgstr ""
+msgstr "1.5×"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
 msgid "chat.voice.rate1"
-msgstr ""
+msgstr "1×"
 
 #: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
 msgid "chat.attach.title"
-msgstr ""
+msgstr "Thêm vào chat"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.alsoMute"
-msgstr ""
+msgstr "Tắt tiếng {senderName} luôn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.back"
-msgstr ""
+msgstr "Quay lại"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.harassment"
-msgstr ""
+msgstr "Bắt nạt hoặc quấy rối"
 
 #: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
 msgid "chat.attach.camera"
-msgstr ""
+msgstr "Máy ảnh"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.cancel"
-msgstr ""
+msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.cancelEdit"
-msgstr ""
+msgstr "Huỷ sửa"
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.cancelReply"
-msgstr ""
+msgstr "Huỷ trả lời"
 
 #: ../../apps/mobile/src/features/crew/chat/components/chat-overlays.tsx
 msgid "chat.action.copied"
-msgstr ""
+msgstr "Đã chép"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.action.copy"
-msgstr ""
+msgstr "Chép chữ"
 
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.fallbackTitle"
-msgstr ""
+msgstr "Chat nhóm"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.status.delete"
-msgstr ""
+msgstr "Xoá"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.delete.confirm"
-msgstr ""
+msgstr "Xoá"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.action.delete"
-msgstr ""
+msgstr "Xoá với mọi người"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.delete.title"
-msgstr ""
+msgstr "Xoá tin nhắn này?"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.delete"
-msgstr ""
+msgstr "Xoá một tin nhắn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.status.failed"
-msgstr ""
+msgstr "Chưa gửi được"
 
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.upload.failed"
-msgstr ""
+msgstr "Chưa tải lên được"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
 msgid "chat.quote.missing"
-msgstr ""
+msgstr "Tin nhắn trước đó"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.action.edit"
-msgstr ""
+msgstr "Sửa"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.edit"
-msgstr ""
+msgstr "Sửa một tin nhắn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.status.edited"
-msgstr ""
+msgstr "đã sửa"
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.editing"
-msgstr ""
+msgstr "Đang sửa tin nhắn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.delete.line"
-msgstr ""
+msgstr "Mọi người sẽ thấy \"Tin nhắn đã bị xoá\" ở chỗ này."
 
 #: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
 msgid "chat.mention.guide"
-msgstr ""
+msgstr "Hướng dẫn viên"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.hate"
-msgstr ""
+msgstr "Thù ghét"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-list.tsx
 msgid "chat.list.jumpToLatest"
-msgstr ""
+msgstr "Xuống tin mới nhất"
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.tooLong"
-msgstr ""
+msgstr "Viết ngắn hơn {MESSAGE_BODY_MAX} ký tự nhé."
 
 #: ../../apps/mobile/src/features/crew/chat/components/skeleton.tsx
 msgid "chat.loading"
-msgstr ""
+msgstr "Đang tải chat"
 
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.map"
-msgstr ""
+msgstr "Bản đồ"
 
 #. placeholder {0}: candidate.name
 #: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
 msgid "chat.mention.pick"
-msgstr ""
+msgstr "Nhắc tới {0}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
 msgid "chat.mention.suggestions"
-msgstr ""
+msgstr "Gợi ý người để nhắc"
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.placeholder"
-msgstr ""
+msgstr "Nhắn tin"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.message.actions"
-msgstr ""
+msgstr "Tuỳ chọn tin nhắn"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.message.deleted"
-msgstr ""
+msgstr "Tin nhắn đã bị xoá"
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.placeholderGuide"
-msgstr ""
+msgstr "Nhắn tin, hoặc @{guideName}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.message.moreActions"
-msgstr ""
+msgstr "Thêm tuỳ chọn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
 msgid "chat.react.more"
-msgstr ""
+msgstr "Thêm biểu cảm"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.mute.confirm"
-msgstr ""
+msgstr "Tắt tiếng"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.action.mute"
-msgstr ""
+msgstr "Tắt tiếng {name}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.mute.title"
-msgstr ""
+msgstr "Tắt tiếng {name}?"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.mute"
-msgstr ""
+msgstr "Tắt tiếng một bạn trong nhóm"
 
 #: ../../apps/mobile/src/features/crew/chat/components/unread-divider.tsx
 msgid "chat.unread.divider"
-msgstr ""
+msgstr "Mới"
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.unsafeLink"
-msgstr ""
+msgstr "Chỉ gửi được liên kết http và https."
 
 #: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
 msgid "chat.card.unknown.action"
-msgstr ""
+msgstr "Mở trang cập nhật"
 
 #: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
 msgid "chat.photo.open"
-msgstr ""
+msgstr "Mở ảnh"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.line"
-msgstr ""
+msgstr "Đội ngũ của chúng mình sẽ xem xét. Người gửi không biết ai đã báo cáo."
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
 msgid "chat.voice.pause"
-msgstr ""
+msgstr "Dừng tin nhắn thoại"
 
 #: ../../apps/mobile/src/features/crew/chat/media/media-viewer.tsx
 msgid "chat.photo.full"
-msgstr ""
+msgstr "Ảnh"
 
 #: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
 msgid "chat.photo.one"
-msgstr ""
+msgstr "Ảnh"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
 msgid "chat.quote.photo"
-msgstr ""
+msgstr "Ảnh"
 
 #: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
 msgid "chat.attach.photosOff"
-msgstr ""
+msgstr "Quyền truy cập ảnh đang tắt"
 
 #: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
 msgid "chat.attach.library"
-msgstr ""
+msgstr "Thư viện ảnh"
 
 #: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
 msgid "chat.attach.useLibrary"
-msgstr ""
+msgstr "Chọn từ thư viện"
 
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.line"
-msgstr ""
+msgstr "Kế hoạch, ảnh và bình chọn đều về đây. Chào nhau một câu trước nhé."
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
 msgid "chat.voice.play"
-msgstr ""
+msgstr "Phát tin nhắn thoại"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
 msgid "chat.voice.speed"
-msgstr ""
+msgstr "Tốc độ phát {rate}×"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.impersonation"
-msgstr ""
+msgstr "Giả mạo người khác"
 
 #: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
 msgid "chat.react.with"
-msgstr ""
+msgstr "Thả {emoji}"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.react"
-msgstr ""
+msgstr "Biểu cảm {emoji}"
 
 #: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
 msgid "chat.reactions.title"
-msgstr ""
+msgstr "Biểu cảm"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.releaseToSend"
-msgstr ""
+msgstr "Thả tay để gửi"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.action.reply"
-msgstr ""
+msgstr "Trả lời"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.action.report"
-msgstr ""
+msgstr "Báo cáo"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.title"
-msgstr ""
+msgstr "Báo cáo tin nhắn"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.report"
-msgstr ""
+msgstr "Báo cáo một tin nhắn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.status.retry"
-msgstr ""
+msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.action"
-msgstr ""
+msgstr "Chào nhóm"
 
 #: ../../apps/mobile/src/features/crew/chat/components/empty-chat.tsx
 msgid "chat.empty.title"
-msgstr ""
+msgstr "Chào cả nhóm đi"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.send"
-msgstr ""
+msgstr "Gửi"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.send"
-msgstr ""
+msgstr "Gửi báo cáo"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.status.sending"
-msgstr ""
+msgstr "Đang gửi"
 
 #: ../../apps/mobile/src/features/crew/chat/components/typing-dots.tsx
 msgid "chat.typing.many"
-msgstr ""
+msgstr "Vài người đang nhắn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.sexual"
-msgstr ""
+msgstr "Nội dung tình dục"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.personalInfo"
-msgstr ""
+msgstr "Chia sẻ thông tin riêng tư"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.slideToCancel"
-msgstr ""
+msgstr "Trượt để huỷ"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
 #: ../../apps/mobile/src/features/crew/chat/components/reactions-sheet.tsx
 msgid "chat.quote.someone"
-msgstr ""
+msgstr "Ai đó"
 
 #: ../../apps/mobile/src/features/crew/chat/components/system-line.ts
 msgid "chat.system.someone"
-msgstr ""
+msgstr "Ai đó"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.other"
-msgstr ""
+msgstr "Lý do khác"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.spam"
-msgstr ""
+msgstr "Spam"
 
 #: ../../apps/mobile/src/features/crew/chat/components/skeleton.tsx
 msgid "chat.loading.slow"
-msgstr ""
+msgstr "Vẫn đang đồng bộ chat…"
 
 #: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
 msgid "chat.attach.useCamera"
-msgstr ""
+msgstr "Chụp ảnh thay vào đó"
 
 #: ../../apps/mobile/src/features/crew/chat/components/chat-overlays.tsx
 msgid "chat.report.sent"
-msgstr ""
+msgstr "Cảm ơn bạn. Đội ngũ của chúng mình sẽ xem ngay."
 
 #: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
 msgid "chat.attach.cameraOff"
-msgstr ""
+msgstr "Máy ảnh đang tắt"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.deniedTitle"
-msgstr ""
+msgstr "Micro đang tắt"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
 msgid "chat.card.unknown.title"
-msgstr ""
+msgstr "Tin nhắn này cần CritterPass bản mới hơn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/day-separator.tsx
 msgid "chat.day.today"
-msgstr ""
+msgstr "Hôm nay"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.deniedBody"
-msgstr ""
+msgstr "Bật trong Cài đặt để gửi tin nhắn thoại."
 
 #: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
 msgid "chat.attach.deniedBody"
-msgstr ""
+msgstr "Bật trong Cài đặt để chia sẻ ảnh với nhóm."
 
 #: ../../apps/mobile/src/features/crew/chat/components/reaction-bar.tsx
 msgid "chat.react.anyEmoji"
-msgstr ""
+msgstr "Gõ emoji bất kỳ"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-recorder.tsx
 msgid "chat.voice.typeInstead"
-msgstr ""
+msgstr "Gõ chữ thay vào đó"
 
 #: ../../apps/mobile/src/features/crew/chat/data/chat-commands.ts
 msgid "chat.queued.unmute"
-msgstr ""
+msgstr "Bật lại tiếng một bạn trong nhóm"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
 msgid "chat.card.unknown.line"
-msgstr ""
+msgstr "Cập nhật app để xem ở đây."
 
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.upload.uploading"
-msgstr ""
+msgstr "Đang tải lên"
 
 #: ../../apps/mobile/src/features/crew/chat/components/report-sheet.tsx
 msgid "chat.report.violence"
-msgstr ""
+msgstr "Bạo lực hoặc đe doạ"
 
 #: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
 msgid "chat.attach.voice"
-msgstr ""
+msgstr "Tin nhắn thoại"
 
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.upload.voice"
-msgstr ""
+msgstr "Tin nhắn thoại"
 
 #: ../../apps/mobile/src/features/crew/chat/cards/reply-quote.tsx
 msgid "chat.quote.voice"
-msgstr ""
+msgstr "Tin nhắn thoại"
 
 #: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
 msgid "chat.voice.label"
-msgstr ""
+msgstr "Tin nhắn thoại, {length}"
 
 #: ../../apps/mobile/src/features/crew/chat/media/pending-uploads.tsx
 msgid "chat.upload.waiting"
-msgstr ""
+msgstr "Đang chờ có mạng"
 
 #: ../../apps/mobile/src/features/crew/chat/components/day-separator.tsx
 msgid "chat.day.yesterday"
-msgstr ""
+msgstr "Hôm qua"
 
 #: ../../apps/mobile/src/features/crew/chat/components/bubble.tsx
 msgid "chat.message.you"
-msgstr ""
+msgstr "Bạn"
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.former.detail"
-msgstr ""
+msgstr "Bạn vẫn đọc được chat."
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.former.line"
-msgstr ""
+msgstr "Bạn đã rời nhóm này"
 
 #: ../../apps/mobile/src/features/crew/chat/components/message-actions-sheet.tsx
 msgid "chat.mute.line"
-msgstr ""
+msgstr "Bạn sẽ không thấy tin nhắn của {name} trong chat này."
 
 #: ../../apps/mobile/src/features/crew/chat/components/offline-banner.tsx
 msgid "chat.offline.line"
-msgstr ""
+msgstr "Bạn đang ngoại tuyến. Tin nhắn sẽ gửi khi có mạng lại."
