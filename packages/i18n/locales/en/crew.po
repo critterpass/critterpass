@@ -7,8 +7,8 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
-#. placeholder {0}: card.members.length
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+#. placeholder {0}: members.length
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.members"
 msgstr "{0} members"
 
@@ -32,6 +32,14 @@ msgstr "{place} · planning"
 msgid "crew.sheet.inDays"
 msgstr "{place} in {days} days"
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.voteFinalLeader"
+msgstr "{place} vote in the final"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.new"
+msgstr "{shown} new"
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.beyond"
 msgstr "{stamps} stamps so far. Every one still counts."
@@ -43,6 +51,10 @@ msgstr "{tripName} is full"
 #: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
 msgid "crew.seatLimit.body"
 msgstr "{tripName} is full at {cap}. {name} joins the waitlist and gets the next free seat."
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.unreadSpoken"
+msgstr "{unread} new messages"
 
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.aFriend"
@@ -112,6 +124,10 @@ msgstr "Covers"
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.previewCrew"
 msgstr "Crew"
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.codeLabel"
+msgstr "Crew code"
 
 #. placeholder {0}: code.split('').join(' ')
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
@@ -279,6 +295,10 @@ msgstr "Messages"
 msgid "crew.composer.share"
 msgstr "More…"
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.startBody"
+msgstr "Name it and share the code. The guide comes with the first trip."
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.navy"
 msgstr "Navy cover"
@@ -384,6 +404,14 @@ msgstr "Send this code, or the link, to whoever you want in. It works for 14 day
 msgid "crew.referral.how"
 msgstr "Send your link. When a friend makes their pass through it, then joins a crew and votes, or starts a trip, you each get a referral stamp. Three stamps unlock the Navy cover, five the Collector cover."
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.lastPhoto"
+msgstr "sent a photo"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.lastVoice"
+msgstr "sent a voice note"
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.share"
 msgstr "Share my link"
@@ -404,7 +432,7 @@ msgstr "Stamped"
 msgid "crew.start.title"
 msgstr "Start a crew"
 
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.start"
 msgstr "Start a crew"
 
@@ -479,6 +507,10 @@ msgstr "Up to {max} characters"
 #: ../../apps/mobile/src/features/crew/invite-composer/TagSuggestion.tsx
 msgid "crew.composer.useSuggestion"
 msgstr "Use {words}"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.voteOpen"
+msgstr "vote open"
 
 #: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
 msgid "crew.composer.tags"

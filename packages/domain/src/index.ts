@@ -169,6 +169,7 @@ export {
   WEEKDAYS,
   hoursExceptionSchema,
   hoursSchema,
+  knownHours,
   parseOpeningHours,
   timeSpanSchema,
   type Hours,
@@ -292,3 +293,5 @@ export * from './airports';
 export * from './crew-areas';
 export * from './setup';
 export * from './itinerary';
+export * from './money';
+export * from './payout';

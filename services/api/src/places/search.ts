@@ -4,7 +4,7 @@
  * vendor is chosen — this ships FTS + trigram only for now. `saved`/`crew picks` filters need tables
  * that do not exist yet and are not implemented here.
  */
-import { openAt, poiCategorySchema, type Hours, type PoiCategory } from '@cp/domain';
+import { knownHours, openAt, poiCategorySchema, type Hours, type PoiCategory } from '@cp/domain';
 import type pg from 'pg';
 
 const DEFAULT_LIMIT = 20;
@@ -69,11 +69,12 @@ function toResultItem(row: PlaceSearchRow): PlaceSearchResultItem {
   };
 }
 
-/** Evaluates the stored weekly-hours schedule; `null` (unknown) when no destination/POI tz resolves. */
+/** Evaluates the stored weekly-hours schedule; `null` (unknown) when no tz resolves or no hours are known. */
 function isOpenAtInstant(row: PlaceSearchRow, instant: Date): boolean | null {
   const tz = row.timezone ?? row.destination_tz;
-  if (tz === null) return null;
-  return openAt(row.hours, tz, instant);
+  const hours = knownHours(row.hours);
+  if (tz === null || hours === null) return null;
+  return openAt(hours, tz, instant);
 }
 
 /**

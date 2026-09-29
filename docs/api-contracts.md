@@ -158,7 +158,7 @@ Every command also emits the generic `cmd.applied` metric; listed events are dom
 | `set_guide_skin` | `{guide_id, form_id}` | self | form owned | `profile.guide_skin_changed` | A, O | 40 |
 | `set_dietary_profile` (C3) | `{restrictions[], allergies[], notes?}` | self | – | `profile.dietary_changed` (no payload in event) | A, O | 22 |
 | `set_mailing_address` (C3, encrypted) | `{address fields}` | self | – | `profile.address_set` | A | 44 |
-| `set_payout_method` (C3, encrypted) | `{kind: paynow\|bank\|wallet\|link, details}` | self | – | `profile.payout_set` | A | 33 |
+| `set_payout_method` (C3, encrypted) | `{kind: bank\|paynow\|promptpay\|vietqr\|duitnow\|wise_link\|cash, country?, details (per-kind schema in `packages/domain/src/payout/catalogue.ts`), remove?}` → `{method_id, kind, removed}` (doc delta); details AES-GCM encrypted, one live method per kind; a validation reject names field paths only | self | – | `profile.payout_set` | A | 33 |
 | `request_data_export` | `{}` | self | – | `account.export_requested` → job | A | 45 |
 | `request_account_deletion` | `{reason?}` | self | – | `account.closed` (revoke sessions, schedule purge) | A | 45 |
 | `restore_account` | `{}` | self | within grace | `account.restored` | A | 45 |
@@ -294,16 +294,18 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
-| `add_expense` | `{trip_id, amount_minor, currency, fx_snapshot_id, payer_uid, split{mode, shares[]}, category, note?, receipt_id?}` | participant | – | `expense.added`, `balances.recomputed` | A, O | 33 |
-| `edit_expense` | `{expense_id, base_version, patch}` | payer or creator | – | `expense.edited` | A, O | 33 |
-| `delete_expense` | `{expense_id}` | payer or creator | – | `expense.deleted` | A, O | 33 |
-| `commit_receipt` | `{receipt_id, lines[{line_id, assignment[]}], payer_uid}` (payer confirmed) | participant | – (exempt) | `expense.added` | A, O | 33 |
-| `request_payment` | `{trip_id, to_uid, amount_minor, currency}` | payee | – | `payment.requested` | A, O | 33 |
-| `nudge_payment` | `{payment_id}` | payee | ≤1/pair/24 h | `payment.nudged` (N-16) | A, O, W, N | 33 |
-| `mark_paid` | `{payment_id, method}` | payer | – | `payment.marked_paid` | A, O, N | 33 |
-| `confirm_paid` | `{payment_id}` | payee | – | `payment.confirmed`; last one → `trip.settled` (reward, same server ts) | A, O, N | 33 |
-| `remind_all_payments` | `{trip_id}` | participant | ≤1/24 h | `payment.reminded` | A | 33 |
-| `set_trip_budget` | `{trip_id, target_minor}` (group target, not private max) | organiser | – | `budget.target_changed` | A, O | 33 |
+| `add_expense` | `{expense_id (client UUIDv7), trip_id, amount_minor, currency, fx_snapshot_id (required when currency ≠ crew currency; the server converts with the same run), payer_uid, split{mode: equal\|weights\|fixed, shares[{user_id, weight?, fixed_minor?}]}, category, description, merchant?, spent_at?, poi_id?}` (doc delta) → `{expense_id, version, crew_amount_minor, crew_currency}`; payer and split members must be trip participants | participant | – | `expense.added` (+ `crew_money` `expense.added`, `balances.updated`; crew chat card `messages(type=expense)`) | A, O | 33 |
+| `edit_expense` | `{expense_id, base_version, patch{amount_minor?, currency?, fx_snapshot_id?, payer_uid?, split?, category?, description?, merchant?, spent_at?}}`; a money change reverses and re-derives the ledger; an itemised split's total changes only with a new split (`STATE_INVALID{itemised_needs_split}`) | creator, payer or organiser | – | `expense.edited` | A, O | 33 |
+| `delete_expense` | `{expense_id, base_version?}` → hides the expense, reverses its entries | creator, payer or organiser | – | `expense.deleted` | A, O | 33 |
+| `commit_receipt` | `{receipt_id, expense_id (client UUIDv7), payer_uid (payer confirmed), lines[{line_id, assignment[] (empty = everyone)}], keep_total?, category?}` (doc delta) → expense `split_mode=items`; amounts come from the server's validated `receipts.parsed`, never the client; service/tax/tip (and `keep_total`'s gap) shared by item share | participant | – (exempt) | `expense.added` | A, O | 33 |
+| `request_payment` | `{payment_id (client UUIDv7), trip_id, from_uid, amount_minor, currency (crew currency)}` (doc delta: the caller is the payee; one open request per pair, else `STATE_INVALID{already_requested}`) | payee | – | `payment.requested` | A, O | 33 |
+| `nudge_payment` | `{payment_id}` (pending/requested) | payee | ≤1/pair/24 h → `NUDGE_TOO_SOON{next_at}` | `payment.nudged` (N-16) | A, O, W, N | 33 |
+| `mark_paid` | `{payment_id, method (bank/paynow/promptpay/vietqr/duitnow/wise/cash/other), amount_minor? (partial: the rest stays open as a new payment), create?{trip_id, to_uid, amount_minor, currency} (pays a planned transfer nobody requested)}` → `{payment_id, status, version, remainder_payment_id?}` (doc delta) | payer | – | `payment.marked_paid` | A, O, N | 33 |
+| `confirm_paid` | `{payment_id}` → `{payment_id, status, version, settled_at?}`; writes the payment's ledger entry; the confirm that clears the trip grants every participant `stickers(kind=settled)` with one `granted_at` (`app.grant_settled_if_square`, trip row lock: racing confirms grant once) | payee | – | `payment.confirmed`; last one → `trip.settled` (reward, same server ts) | A, O, N | 33 |
+| `dispute_payment` (doc delta) | `{payment_id, note?}` (marked_paid → disputed; the payer can mark it paid again) | payee | – | `payment.disputed` | A, O | 33 |
+| `remind_all_payments` | `{trip_id}` → `{trip_id, reminded}` (pushes each payer of a pending/requested payment) | participant | ≤1/24 h per trip → `RATE_LIMITED{retry_after_s}` | `payment.reminded` | A | 33 |
+| `set_trip_budget` | `{trip_id, target_minor}` (group target, not private max; kept in the plan's currency) | organiser | – | `budget.target_changed` | A, O | 33 |
+| `set_crew_settlement_currency` (doc delta) | `{crew_id, currency}` → `{crew_id, currency, changed}`; queues `money.rerate` | crew organiser | – | `crew.settlement_currency_changed` | A | 33 |
 | `write_off_debt` | `{trip_id, from_uid, to_uid, amount}` | S (deletion) or payee | – | `ledger.written_off` | A, S | 45 |
 
 ### 4.10 Bookings, flights (P34)
@@ -492,7 +494,7 @@ Auth column: **S** session bearer · **A** anonymous session allowed · **K** de
 | `POST /v1/pitches` | S (crew member) | SSE | `{crew_id, place_id, month?}` → `sticker{place_id, name, country, coverage, guide}`, `chip{kind: price\|flight\|best_months\|event\|prices_pending, …}` (code-built from the pitch tools), then the model's validated `headline{text}`, `reason{text, tag, member_ids}`, `quote{text}`, then `alternative{place_id, name, kind: cheaper\|nearby, delta_minor, currency}` and `done{pitch_id, cached, ai_generated}`; route `pitch.place`; tools (code-run, never the model): fare calendar from the crew's home airports, travel time, season events, crew-visible taste tags, curated alternatives, never budgets or supplier content; a line with a number or month not in the tool output is dropped and asked for once more; cached per (crew, place, month) until its fares change (`pitches.fare_snapshot_id`); unmetered; switched off / no model → numbers-free template headline (`ai_generated: false`); 30/min/uid |
 | `POST /v1/places/{id}/guest-brief` (doc delta) | S | SSE | `{crew_id?}` → `place{place_id, name, country, currency, best_months[], fx{base, quote, rate, as_of}\|null, stops\|null, locals[{id, hint}]}` (code, at once), then `fact{icon, text ≤90, url, domain}` ×3–5 and `done{cached, ai_generated, hidden, sources[]}`; route `guest.guide`; the code searches (`web_search` provider) only the allow-list in `packages/ai/src/prompts/guest-brief/domains.ts` (tourism boards, government advisories, Wikivoyage/Wikipedia, weather sources; never supplier or OTA domains) and passes pages as untrusted data; each fact cites one fetched allow-listed page and keeps a number only if the page has it; cached per place × crew-size bucket (1, 2–4, 5–8, 9+) for 7 d; kill switch `vote.guest_brief.enabled` (or no model/search key) → `hidden: true`; 20/min/uid |
 | `POST /v1/camera/menu` | S | SSE | `{ocr_lines[{id, text, bbox}], crops[media_id], trip_id}` → `item{ocr_line_id, translation, price, flags[]}`; metered |
-| `POST /v1/receipts` | S | job | `{trip_id, media_id, ocr_lines[]}` → `{receipt_id, job_id}`; result synced (`receipts`, `receipt_lines`) |
+| `POST /v1/receipts` | S | job | `{receipt_id (client UUIDv7), trip_id, media_key?, ocr_lines[{id l{n}, text, bbox?, conf?}], quality_issue?, ocr_status: ok\|unsupported_script\|no_text}` → 202 `{receipt_id, job_id, status}` (doc delta); `ai.receipt` writes `receipts.parsed` (validated lines, total, currency; no separate `receipt_lines` table) and `receipts.suggestions` (dietary exclusions with reasons, scanner as payer, adjustments by share), synced on `me`; silent fair-use cap (`vision_calls`, 40/day) → `failed{fair_use}`; behind flag `money.receipts` (`STATE_INVALID{receipts_off}`) |
 | `POST /v1/stt/token` | S | – | Android: short-lived Deepgram token (iOS uses SpeechAnalyzer on device) |
 | `GET /v1/jobs/{id}` | S | – | poll fallback for any AI job (`agent_jobs.steps`) |
 | `POST /v1/invites/tags` | S (crew member) | – | `{crew_id, trip_id?, note (≤140), invitee_name}` → `{tags (≤3 taste tags), line (≤70), guide, source: model\|template}`; route `micro.line` in the trip guide's voice; the note is screened (`guide_input`) beside the call and a flagged note, a switched-off route or a failed call answers the keyword template; 20/min/uid |
@@ -525,7 +527,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/destinations/{id}?origins&month` | S | POI + Travelpayouts + season | 6 h |
 | `GET /v1/fares?origins&dest&month` | S | Travelpayouts calendar (cached, "seen {time}") | 6 h |
 | `GET /v1/weather?lat&lng&from&to[&elevation_m]` / `/marine` | S | stored WeatherAPI.com snapshots nearest the point (30 km; marine 60 km), `stale` flag, attribution | 1 h |
-| `GET /v1/hazards?destination_id` (doc delta) | S | `hazard_alerts` (MAGMA, IMO, JMA, GVP), highest level first, `stale` after 3 h unread | 15 min |
+| `GET /v1/hazards?destination_id` (doc delta) | S | `hazard_alerts` (MAGMA, IMO, JMA, CENAPRED, GDACS), highest level first, `stale` after 3 h unread | 15 min |
 | `GET /v1/fx/snapshot?base` | S | Frankfurter v2 daily | 24 h, offline bundle |
 | `GET /v1/routes/eta` | S | Valhalla (+ Mapbox traffic for leave-by) | none |
 | `GET /v1/trips/{id}/live-snapshot` (doc delta) | S | crew live map state `{trip_id, window_ends_at, members[{uid, lat, lng, acc, activity, at}], shares[{uid, share_id, paused, changed_at}], etas[], meetup}`: latest fix per open, non-paused crew-map share via `app.shared_location_fixes`; participant while `app.crew_map_open` (unboosted → 402 `ENTITLEMENT_REQUIRED`, outside trip days / off the trip → 403 `NOT_ELIGIBLE`) | none |
@@ -553,6 +555,8 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/me/rating-eligibility?trip_id` | S | heuristic flag | – |
 | `GET /v1/me/export/{id}` | S | signed URL | – |
 | `GET /v1/me/private/{kind}` | S | owner-only C3 (insurance, dietary, budget max, emergency info) → client `local_private` table; never synced. Doc delta: `budget_max?trip_id` → `{trip_id, amount_minor, currency, source, updated_at}` through `app.my_budget_max` (the caller's own only; `NOT_FOUND` when not set) and `budget_default` → `{amount_minor, currency, updated_at}` | – |
+| `GET /v1/payments/{id}/payout` (doc delta) | S | the payer of an open payment → the payee's methods with decrypted details, through `app.reveal_payout` (audited in `ops.reveal_audit`); anyone else `NOT_FOUND`; online only, `Cache-Control: no-store`, never persisted on the device | – |
+| `GET /v1/me/payout-methods` (doc delta) | S | the caller's own payout methods with details, for the editor; `no-store` | – |
 | `GET /v1/setup/{trip_id}/own-fit` (doc delta) | S | `{trip_id, state: no_max\|no_target\|fits\|over}`: the caller's own max (crew currency) against the organiser's locked target; setup members only; never about anyone else | none |
 
 ### 5.6 Links and deep links (P21, P51)

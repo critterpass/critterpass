@@ -1,7 +1,7 @@
 /**
  * `hazards.refresh`: reads the curated official feeds each live destination watches (MAGMA for
- * Bali's volcanoes, the Icelandic Met Office, JMA warnings for Kyoto, the GVP weekly report as the
- * fallback) and keeps one current `hazard_alerts` row per (destination, feed, subject). A level
+ * Bali's volcanoes, the Icelandic Met Office, JMA warnings for Kyoto, CENAPRED's Popocatépetl light,
+ * GDACS volcano events as the worldwide fallback) and keeps one current `hazard_alerts` row per (destination, feed, subject). A level
  * move is a `hazard.changed` event for every active trip there (a first sighting only when it is
  * above normal); an unchanged level only refreshes `fetched_at`. A feed that fails or stops parsing
  * leaves its last values in place and is logged for ops. The cron fires every 15 minutes; the job
@@ -37,7 +37,8 @@ export interface HazardFeeds {
   readonly magma: (signal?: AbortSignal) => Promise<HazardReading[]>;
   readonly imo: (signal?: AbortSignal) => Promise<HazardReading[]>;
   readonly jma: (areaCodes: readonly string[], signal?: AbortSignal) => Promise<HazardReading[]>;
-  readonly gvp: (signal?: AbortSignal) => Promise<HazardReading[]>;
+  readonly cenapred: (signal?: AbortSignal) => Promise<HazardReading[]>;
+  readonly gdacs: (signal?: AbortSignal) => Promise<HazardReading[]>;
 }
 
 const normalise = (value: string) =>

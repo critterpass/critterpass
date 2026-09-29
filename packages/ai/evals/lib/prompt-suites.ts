@@ -20,6 +20,7 @@ import { phraseTip, ungroundedTokens } from '../../src/prompts/tips/prompt';
 import { loadFixture } from '../../test/fixture-transport';
 import type { EvalMode } from './provider';
 import { runGuestBriefCase } from './guest-brief-suite';
+import { loadReceiptCases, runReceiptCase } from '../receipt-parse/suite';
 import { runAskCase, runFitCase, runReplyCase, type SetupSuiteDeps } from './setup-suites';
 import { runPitchCase } from './stream-suites';
 import type { CaseReport } from './runner';
@@ -34,6 +35,7 @@ export const PROMPT_SUITES = [
   'availability-ask',
   'ask-reply',
   'fit-note',
+  'receipt-parse',
 ] as const;
 export type PromptSuite = (typeof PROMPT_SUITES)[number];
 
@@ -126,6 +128,7 @@ function gatewayFor(fixture: string, options: PromptRunOptions) {
 }
 
 function loadCases(suite: PromptSuite): unknown[] {
+  if (suite === 'receipt-parse') return loadReceiptCases();
   const text = readFileSync(resolve(PROMPTS_DIR, suite, 'evals.yaml'), 'utf8');
   const cases = parse(text) as unknown;
   if (!Array.isArray(cases) || cases.length === 0) throw new Error(`${suite}: no cases`);
@@ -220,6 +223,7 @@ const RUNNERS: Readonly<
   'availability-ask': (raw, options) => runAskCase(raw, setupDeps(options)),
   'ask-reply': (raw, options) => runReplyCase(raw, setupDeps(options)),
   'fit-note': (raw, options) => runFitCase(raw, setupDeps(options)),
+  'receipt-parse': (raw, options) => runReceiptCase(raw, setupDeps(options)),
 };
 
 export async function runPromptSuiteCases(

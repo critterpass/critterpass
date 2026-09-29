@@ -1,0 +1,34 @@
+appId: app.critterpass.dev
+---
+# A guide nudge and a crewmate's chat message arrive in Notification Centre under their sender.
+#
+# Needs before it can pass: notification permission granted to the app, and crew values for the
+# fixtures: ${CREW_ID} and ${CREW_NAME}. The runner delivers each fixture at the marked step, after
+# envsubst: `xcrun simctl push <udid> app.critterpass.dev fixtures/ios-*.json`. simctl adds the
+# request straight to Notification Centre without running the notification service extension,
+# so this flow checks the delivered title and body; the sender avatar (Communication
+# Notification) needs the same payload sent through the APNs sandbox.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp
+      - pressKey: Home
+      # Runner: deliver fixtures/ios-guide-nudge.json and fixtures/ios-crew-chat.json here.
+      - swipe:
+          start: 20%, 0%
+          end: 20%, 70%
+      - extendedWaitUntil:
+          visible:
+            text: '.*Tokek.*'
+          timeout: 60000
+      - assertVisible: '.*Your crew has a vote waiting in the inbox\..*'
+      - extendedWaitUntil:
+          visible:
+            text: '.*Mai.*'
+          timeout: 60000
+      - assertVisible: '.*Landing at 6, who.s up for dinner\?.*'
+      - takeScreenshot: notifications-ios-sender
+      - swipe:
+          start: 50%, 95%
+          end: 50%, 20%

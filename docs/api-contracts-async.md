@@ -29,7 +29,7 @@ History = size / TTL. Presence ✓ = Centrifugo presence + join/leave enabled.
 | `user:#{uid}` | self | `inbox.*`, `badge.counts`, `entitlement.changed`, `usage.changed{used, limit, reset_at}`, `job.progress{job_id, step, pct}`, `guide.private_message`, `cmd.result`, `session.revoked`, `otp.channel_failed{verification_id}` | event | – | 100 / 24 h | 9, 10 |
 | `crew:{crew_id}` | member | `member.joined/left/updated`, `invite.opened`, `boost.state`, `trip.summary`, `home.badges` | event | ✓ | 50 / 24 h | 23 |
 | `crew_chat:{crew_id}` | member | `message.created/edited/deleted`, `reaction`, `typing{uid\|guide}`, `guide.token{stream_id, seq, text}`, `poll.tally`, `guide_offer.taken`, `boost_card` | per msg; typing ≤0.33 Hz/user; tokens ~20/s | ✓ | 200 / 72 h | 24 |
-| `crew_money:{crew_id}` | member | `expense.*`, `balances.updated`, `payment.status`, `reward.granted{server_ts}` | event | – | 100 / 72 h | 33 |
+| `crew_money:{crew_id}` | member | `expense.added/edited/deleted{expense_id, trip_id}`, `balances.updated{crew_id}`, `payment.status{payment_id, status, reissued_as?}`, `reward.granted{trip_id, kind, server_ts}`, `currency.changed{crew_id, currency}`, `budget.updated{trip_id}` (doc delta) | event | – | 100 / 72 h | 33 |
 | `crew_bookings:{crew_id}` | member | `import.candidate`, `booking.*`, `flight.status` | event | – | 50 / 72 h | 34 |
 | `crew_collection:{crew_id}` | member | `critter.befriended`, `sighting`, `first_spotter` | event | – | 50 / 7 d | 40 |
 | `poll:{poll_id}` | anyone who can read the poll (its crew, or its trip's crew) | `ballot.upserted{poll_id, option_tallies, pending_count, eligible_count}`, `poll.updated{…, stage?}` (candidate added/removed, board ↔ final), `poll.closed{…, winner_option_id}`, `changeset.tally{yes, needed}`; the same counts are mirrored as `poll.tally` on `crew_chat:` | per ballot | – | 50 / 72 h | 26 |
@@ -102,7 +102,9 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `chat.voice_transcode` (doc delta) | `send_message` with a voice note | ffmpeg: mono AAC 32 kbps M4A capped at 2 min, measured duration and 48 waveform peaks written into the attachment (`derived_key`, `duration_ms`, `peaks`) | 3 | message id | 24 |
 | `ai.guide_mention` | crew chat mention | AI-20 stream to `crew_chat` | 1 | message id | 32 |
 | `ai.queued_answer` | 00:00 local reset | AI-40 answer, passive push N-36 | 3 | question id | 32 |
-| `ai.receipt` | `POST /v1/receipts` | AI-25 lines + payer inference | 2 | receipt id | 33 |
+| `ai.receipt` | `POST /v1/receipts` | server transcription (`s{n}` lines) when the device read nothing or an unsupported script → `receipt.parse` keyed by line id → every amount re-parsed from its cited line (unprinted amounts rejected) → lines vs total → suggestions → `receipts` row + `user:#uid` `receipt.parsed` (doc delta) | 2 / DLQ | receipt id | 33 |
+| `money.rerate` (doc delta) | `set_crew_settlement_currency` | every live expense re-expressed in the new currency (its own FX run when it relates the pair, else the newest): old entries reversed, new ones derived from the stored shares; confirmed payments' entries moved the same way; open requests cancelled; marked-paid and disputed payments restated; idempotent | 3 / DLQ | crew id | 33 |
+| `money.autoconfirm` (doc delta) | cron `0 4 * * *` SGT | payments marked paid ≥ 7 d ago and not disputed → confirmed (`auto_confirmed`), ledger entry, Settled Tokek when it clears the trip (`app.grant_settled_if_square`) | 2 | – | 33 |
 | `mail.parse` | inbound email | sanitize → JSON-LD/Microdata → fast-tier extract (no tools) → validate → dedupe → candidate → N-13 | 3 / DLQ | message-id header hash | 34 |
 | `import.parse` | `import_paste`, `import_scan` | same parser path | 3 | op_id | 34 |
 | `flight.event` | AeroAPI webhook | status diff → N-14/N-41, LA, `ai.disruption`, landed → `hatch_egg` | 5 | `(flight_id, alert_id)` | 34 |
@@ -147,7 +149,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `season.ingest` | `0 4 * * *` SGT, works Mondays and inside blossom/foliage windows | month `price_index` from fares (≥ 3 origins); bloom/legendary windows → reminder reschedule | 15, 40 |
 | `season.research` | `0 5 1 * *` SGT | per live destination, code-built `web_search` queries (destination, month three ahead, event keywords) → `season.research` extraction → cited candidates in the season review queue (`season_events`, `reviewed_at` null, deduplicated); served only once a content reviewer approves (D23) | 15 |
 | `weather.refresh` (doc delta) | `*/15 * * * *`; each point due at 3 h, 1 h within 48 h of an outdoor item, 15 min marine while under way | WeatherAPI.com forecast + marine → `weather_snapshots`; `forecast.changed` on material change | 15 |
-| `hazards.refresh` (doc delta) | `*/15 * * * *`; reads hourly, every tick while a trip is under way | MAGMA / IMO / JMA / GVP → `hazard_alerts`; `hazard.changed` on a level move | 15 |
+| `hazards.refresh` (doc delta) | `*/15 * * * *`; reads hourly, every tick while a trip is under way | MAGMA / IMO / JMA / CENAPRED / GDACS → `hazard_alerts`; `hazard.changed` on a level move | 15 |
 | `briefing.build` | per user local morning (`scheduled_events`) | AI-27 | 36 |
 | `quests.generate` | per trip ~04:00 local | AI-32 → validator → publish, N-31 | 41 |
 | `roundup.build` | per tz bucket, user time −10 min (default 20:00) | AI-39 ≤5 items, template fallback, skip empty | 49 |

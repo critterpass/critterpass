@@ -3,6 +3,14 @@ import { z } from 'zod';
 
 import { DOMAIN_EVENT_TYPES, getDomainEventPayloadSchema } from '../../src/events/catalogue';
 
+const PAYMENT = {
+  crew_id: crypto.randomUUID(),
+  trip_id: null,
+  payment_id: crypto.randomUUID(),
+  from_id: crypto.randomUUID(),
+  to_id: crypto.randomUUID(),
+};
+
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
   'crew.member_joined': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
   'crew.member_left': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
@@ -386,6 +394,48 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     version_id: crypto.randomUUID(),
   },
   'redraft.reverted': { trip_id: crypto.randomUUID(), redraft_id: crypto.randomUUID() },
+  'expense.added': {
+    trip_id: crypto.randomUUID(),
+    crew_id: crypto.randomUUID(),
+    expense_id: crypto.randomUUID(),
+    payer_id: crypto.randomUUID(),
+    source: 'receipt',
+  },
+  'expense.edited': {
+    trip_id: crypto.randomUUID(),
+    crew_id: crypto.randomUUID(),
+    expense_id: crypto.randomUUID(),
+    version: 2,
+  },
+  'expense.deleted': {
+    trip_id: crypto.randomUUID(),
+    crew_id: crypto.randomUUID(),
+    expense_id: crypto.randomUUID(),
+  },
+  'crew.settlement_currency_changed': { crew_id: crypto.randomUUID(), currency: 'SGD' },
+  'budget.target_changed': { trip_id: crypto.randomUUID() },
+  'payment.requested': PAYMENT,
+  'payment.nudged': PAYMENT,
+  'payment.marked_paid': PAYMENT,
+  'payment.confirmed': { ...PAYMENT, auto: true },
+  'payment.disputed': PAYMENT,
+  'payment.reminded': {
+    crew_id: crypto.randomUUID(),
+    trip_id: crypto.randomUUID(),
+    payment_ids: [crypto.randomUUID()],
+  },
+  'trip.settled': {
+    crew_id: crypto.randomUUID(),
+    trip_id: crypto.randomUUID(),
+    granted_at: '2026-10-20T09:00:00.000Z',
+    user_ids: [crypto.randomUUID()],
+  },
+  'profile.payout_set': { user_id: crypto.randomUUID(), kind: 'paynow', removed: false },
+  'receipt.parsed': {
+    receipt_id: crypto.randomUUID(),
+    trip_id: crypto.randomUUID(),
+    status: 'partial',
+  },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

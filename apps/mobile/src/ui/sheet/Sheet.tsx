@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { SurfaceToneProvider } from '../surface/Scaffold';
 import { makeStyles } from '../theme';
+import { Text } from '../text/Text';
 import { CloseButton } from './CloseButton';
 import { Grabber, GRABBER_ZONE_HEIGHT } from './Grabber';
 import { PresentedSurfaceContext } from './presenter';
@@ -53,10 +54,36 @@ const useStyles = makeStyles((t) => ({
   },
   close: { position: 'absolute', top: t.space['12'], end: t.space['12'] },
   content: { paddingTop: t.space['16'] },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: t.space['12'],
+    paddingStart: t.size.gutter,
+    paddingEnd: t.space['12'],
+  },
+  headerContent: { flex: 1, minWidth: 0 },
+  titled: { alignItems: 'flex-start' },
+  headerEnd: { flexShrink: 0 },
+  contentUnderHeader: { paddingTop: t.space['8'] },
 }));
 
 export interface SheetProps {
   readonly children: ReactNode;
+  /**
+   * The sheet's title (3g-3 "YOUR CREWS"): h1, fitted and wrapped (up to three lines), never cut.
+   * It heads one row with `headerEnd` and the ✕, which keep their own width and sit level with its
+   * first line, so nothing overlaps.
+   */
+  readonly title?: string | undefined;
+  /** A trailing action beside the title (3g-3 JOIN WITH A CODE). */
+  readonly headerEnd?: ReactNode | undefined;
+  /**
+   * A custom header row (a search field, 3b-7) that shares its line with the ✕, centres aligned;
+   * it gets the width that is left. Use `title` for a title.
+   */
+  readonly header?: ReactNode | undefined;
+  /** Whether the ✕ shows; sheets whose design dismisses by the grabber alone (3g-3, 3b-7) hide it. @default true */
+  readonly closable?: boolean | undefined;
   readonly detents?: readonly SheetDetent[] | undefined;
   readonly initialDetent?: SheetDetent | undefined;
   /** Called after the dismiss animation; defaults to going back (sheets are `(modal)` routes). */
@@ -73,6 +100,10 @@ export interface SheetProps {
  */
 export function Sheet({
   children,
+  title,
+  headerEnd,
+  header,
+  closable = true,
   detents = ['large'],
   initialDetent,
   onDismiss,
@@ -83,6 +114,8 @@ export function Sheet({
   const insets = useSafeAreaInsets();
   const { height: screenHeight } = useWindowDimensions();
   const [fitHeight, setFitHeight] = useState<number | null>(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const hasHeader = title !== undefined || header !== undefined;
   const heights = detentHeights(detents, screenHeight, fitHeight);
   const initialHeight = detentHeights(
     [initialDetent ?? detents[0] ?? 'large'],
@@ -126,25 +159,50 @@ export function Sheet({
               style={[styles.panel, { height: maxHeight }, presentation.panelStyle]}
             >
               <Grabber />
+              {hasHeader ? (
+                <View
+                  style={[styles.header, title !== undefined ? styles.titled : null]}
+                  testID={`${testID}-header`}
+                  onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}
+                >
+                  <View style={styles.headerContent}>
+                    {title !== undefined ? (
+                      <Text variant="h1" accessibilityRole="header">
+                        {title}
+                      </Text>
+                    ) : (
+                      header
+                    )}
+                  </View>
+                  {title !== undefined && headerEnd !== undefined ? (
+                    <View style={styles.headerEnd}>{headerEnd}</View>
+                  ) : null}
+                  {closable ? <CloseButton onPress={dismiss} testID={`${testID}-close`} /> : null}
+                </View>
+              ) : null}
               <SheetScrollContext.Provider
                 value={{ scroll: presentation.scroll, scrollY: presentation.scrollY }}
               >
                 <View
                   style={[
                     styles.content,
+                    hasHeader ? styles.contentUnderHeader : null,
                     fitOnly ? null : { flex: 1 },
                     { paddingBottom: Math.max(insets.bottom, keyboardInset) },
                   ]}
                   onLayout={(event) => {
                     if (!fitOnly) return;
-                    const measured = event.nativeEvent.layout.height + GRABBER_ZONE_HEIGHT;
+                    const measured =
+                      event.nativeEvent.layout.height + GRABBER_ZONE_HEIGHT + headerHeight;
                     if (measured !== fitHeight) setFitHeight(measured);
                   }}
                 >
                   {children}
                 </View>
               </SheetScrollContext.Provider>
-              <CloseButton onPress={dismiss} style={styles.close} testID={`${testID}-close`} />
+              {!hasHeader && closable ? (
+                <CloseButton onPress={dismiss} style={styles.close} testID={`${testID}-close`} />
+              ) : null}
             </Animated.View>
           </GestureDetector>
         </View>

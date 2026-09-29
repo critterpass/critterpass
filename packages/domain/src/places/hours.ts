@@ -66,6 +66,18 @@ export type Hours = z.infer<typeof hoursSchema>;
 
 export const EMPTY_HOURS: Hours = { weekly: {} };
 
+/**
+ * A POI's stored `hours` as a schedule, or null when nothing is known. The column defaults to `{}`
+ * and open-data imports rarely carry hours; an unknown schedule must read as "unknown", never as
+ * "closed all week".
+ */
+export function knownHours(stored: unknown): Hours | null {
+  const parsed = hoursSchema.safeParse(stored);
+  if (!parsed.success) return null;
+  const hasSpans = Object.values(parsed.data.weekly).some((spans) => (spans?.length ?? 0) > 0);
+  return hasSpans ? parsed.data : null;
+}
+
 function expandDayToken(token: string): readonly Weekday[] {
   const rangeMatch = /^([a-z]{2})-([a-z]{2})$/i.exec(token);
   if (rangeMatch) {

@@ -21,6 +21,7 @@ import {
 import { claimOpId, recordCmdResult } from '../../src/events';
 import { seedGrowthRows } from './growth-fixture';
 import { seedHomeRows } from './home-fixture';
+import { seedMoneyRows } from './money-fixture';
 import { seedPollRows } from './poll-fixture';
 import { seedSetupRows } from './setup-fixture';
 import {
@@ -316,6 +317,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       member,
     });
     await seedSetupRows(tx, { tripId, organiser, member });
+    await seedMoneyRows(tx, { crewId, tripId, organiser, member });
 
     const versionId = await insertItineraryVersion(tx, {
       tripId,

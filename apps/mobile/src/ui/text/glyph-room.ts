@@ -52,7 +52,12 @@ function numeric(value: unknown): number | undefined {
  * The caller's own top padding and margin are kept and added to; a non-numeric one (`'auto'`, a
  * percentage) can't be offset, so the text is left as the caller set it.
  */
-export function glyphRoomStyle(room: number, style: StyleProp<TextStyle>): TextStyle | null {
+export function glyphRoomStyle(
+  room: number,
+  style: StyleProp<TextStyle>,
+  /** Keep the room inside the text's own slot instead of pulling it up (see `Text`). */
+  flush = false,
+): TextStyle | null {
   if (room <= 0) return null;
   const flat = StyleSheet.flatten(style) ?? {};
   const padding = flat.paddingTop ?? flat.paddingVertical ?? flat.padding ?? 0;
@@ -60,5 +65,5 @@ export function glyphRoomStyle(room: number, style: StyleProp<TextStyle>): TextS
   const paddingTop = numeric(padding);
   const marginTop = numeric(margin);
   if (paddingTop === undefined || marginTop === undefined) return null;
-  return { paddingTop: paddingTop + room, marginTop: marginTop - room };
+  return { paddingTop: paddingTop + room, marginTop: flush ? marginTop : marginTop - room };
 }

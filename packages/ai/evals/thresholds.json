@@ -14,7 +14,8 @@
     "availability-ask": 1,
     "ask-reply": 1,
     "fit-note": 1,
-    "draft": 1
+    "draft": 1,
+    "receipt-parse": 1
   },
   "live": {
     "chat": 0.9,
@@ -31,7 +32,8 @@
     "availability-ask": 0.9,
     "ask-reply": 0.9,
     "fit-note": 0.9,
-    "draft": 1
+    "draft": 1,
+    "receipt-parse": 0.95
   },
   "compliance_metrics": {
     "reject_precision": 0.95,

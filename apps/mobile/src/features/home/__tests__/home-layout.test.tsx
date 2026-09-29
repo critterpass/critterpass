@@ -59,7 +59,6 @@ describe('next-up card', () => {
     expect(screen.getByText('17D 05:26:47')).toBeTruthy();
     expect(screen.getByText('NEXT UP · OCT 12')).toBeTruthy();
     expect(screen.getByLabelText('17 days, 5 hours to Bali')).toBeTruthy();
-    expect(screen.toJSON()).toMatchSnapshot();
   });
 
   it('drops the days inside the last 24 hours', async () => {

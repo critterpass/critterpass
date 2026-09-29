@@ -4,10 +4,12 @@
  */
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { upper } from '@cp/i18n';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
+import { KeyboardScrollView } from '@/ui/layout/KeyboardScrollView';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -26,7 +28,7 @@ const useStyles = makeStyles((th) => ({
   dots: { flexDirection: 'row', gap: th.space['6'], alignItems: 'center' },
   dot: { height: 8, borderRadius: 4 },
   content: { paddingHorizontal: th.space['20'], paddingTop: th.space['12'], gap: th.space['16'] },
-  footer: { paddingHorizontal: th.space['20'], paddingBottom: th.space['8'], gap: th.space['12'] },
+  footer: { gap: th.space['12'] },
 }));
 
 export function PageDots({ page }: { readonly page: number }) {
@@ -72,28 +74,27 @@ export function OnboardingPage({
   const locale = useLocale();
   const theme = useTheme();
   const pageLabel = t({ id: 'onboarding.page', message: `Page ${page} of ${PAGE_COUNT}` });
-  const body = <View style={styles.content}>{children}</View>;
   return (
-    <Scaffold variant="dark" edges={['top', 'bottom']} {...(testID ? { testID } : {})}>
-      <KeyboardAvoidingView
-        style={styles.root}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
-        <View style={styles.top}>
-          <Text variant="eyebrow" color={theme.semantic.text.secondary}>
-            {upper(pageLabel, locale)}
-          </Text>
-          {topEnd ?? <PageDots page={page} />}
-        </View>
-        {scroll ? (
-          <ScrollView keyboardShouldPersistTaps="handled" style={styles.root}>
-            {body}
-          </ScrollView>
-        ) : (
-          <View style={styles.root}>{body}</View>
-        )}
-        {footer ? <View style={styles.footer}>{footer}</View> : null}
-      </KeyboardAvoidingView>
+    // The footer pads the bottom inset itself and rides the keyboard; without one, the page does.
+    <Scaffold
+      variant="dark"
+      edges={footer ? ['top'] : ['top', 'bottom']}
+      {...(testID ? { testID } : {})}
+    >
+      <View style={styles.top}>
+        <Text variant="eyebrow" color={theme.semantic.text.secondary}>
+          {upper(pageLabel, locale)}
+        </Text>
+        {topEnd ?? <PageDots page={page} />}
+      </View>
+      {scroll ? (
+        <KeyboardScrollView style={styles.root} contentContainerStyle={styles.content}>
+          {children}
+        </KeyboardScrollView>
+      ) : (
+        <View style={[styles.root, styles.content]}>{children}</View>
+      )}
+      {footer ? <KeyboardFooter style={styles.footer}>{footer}</KeyboardFooter> : null}
     </Scaffold>
   );
 }

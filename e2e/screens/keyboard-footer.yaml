@@ -1,0 +1,39 @@
+appId: app.critterpass.dev
+---
+# Screens whose bottom actions ride the keyboard (KeyboardFooter), in English then Vietnamese, with
+# the keyboard down and up.
+- launchApp:
+    clearState: true
+- runFlow:
+    file: subflows/keyboard-footer-screens.yaml
+    env:
+      PREFIX: en
+# Vietnamese: the dev gallery switches the running app's language (not persisted), then two back
+# swipes return to the splash.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    file: subflows/keyboard-footer-screens.yaml
+    env:
+      PREFIX: vi

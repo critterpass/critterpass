@@ -1,0 +1,94 @@
+- description: Ibu Oka, Ubud (rupiah with dot thousands and a service line)
+  fixture: receipt-parse-01
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: 'IBU OKA · UBUD' }
+    - { id: l1, text: '14/10 · 13:12 · meja 4' }
+    - { id: l2, text: 'Babi guling x5 850.000' }
+    - { id: l3, text: 'Es kelapa x6 130.000' }
+    - { id: l4, text: 'Service 10% 100.000' }
+    - { id: l5, text: 'TOTAL 1.080.000' }
+  expect:
+    currency: IDR
+    total_minor: 108000000
+    matches_total: true
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 85000000 }
+      - { line_id: l3, kind: item, amount_minor: 13000000 }
+      - { line_id: l4, kind: service, amount_minor: 10000000 }
+- description: Clear Cafe, Ubud (subtotal, service and PB1 tax)
+  fixture: receipt-parse-02
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: 'CLEAR CAFE UBUD' }
+    - { id: l1, text: 'Jl. Hanoman, Ubud' }
+    - { id: l2, text: 'Smoothie Bowl 2 @75.000 150.000' }
+    - { id: l3, text: 'Avocado Toast 85.000' }
+    - { id: l4, text: 'Young Coconut 3 @35.000 105.000' }
+    - { id: l5, text: 'Subtotal 340.000' }
+    - { id: l6, text: 'Service 5% 17.000' }
+    - { id: l7, text: 'PB1 10% 35.700' }
+    - { id: l8, text: 'Total 392.700' }
+  expect:
+    currency: IDR
+    total_minor: 39270000
+    matches_total: true
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 15000000 }
+      - { line_id: l3, kind: item, amount_minor: 8500000 }
+      - { line_id: l4, kind: item, amount_minor: 10500000 }
+      - { line_id: l6, kind: service, amount_minor: 1700000 }
+      - { line_id: l7, kind: tax, amount_minor: 3570000 }
+- description: a crumpled receipt whose item lines did not read cleanly
+  fixture: receipt-parse-03
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: 'IBU OKA' }
+    - { id: l1, text: 'Babi gul... x5 85?.000' }
+    - { id: l2, text: 'Es kela...' }
+    - { id: l3, text: 'TOTAL 1.080.000' }
+  expect:
+    currency: IDR
+    total_minor: 108000000
+    matches_total: false
+    lines: []
+- description: seeded, an amount its line does not print is rejected
+  currency_hint: IDR
+  lines:
+    - { id: l2, text: 'Babi guling x5 850.000' }
+    - { id: l3, text: 'Es kelapa x6 130.000' }
+    - { id: l5, text: 'TOTAL 1.080.000' }
+  reply:
+    merchant: null
+    datetime: null
+    currency: IDR
+    lines:
+      - { line_id: l2, label: Babi guling, qty: 5, amount: '900.000', kind: item }
+      - { line_id: l3, label: Es kelapa, qty: 6, amount: '130.000', kind: item }
+    total: { line_id: l5, amount: '1.080.000' }
+  expect:
+    currency: IDR
+    total_minor: 108000000
+    matches_total: false
+    lines:
+      - { line_id: l3, kind: item, amount_minor: 13000000 }
+    rejected: [l2]
+- description: seeded, a line id that does not exist and the total moved onto an item are rejected
+  currency_hint: IDR
+  lines:
+    - { id: l2, text: 'Babi guling x5 850.000' }
+    - { id: l5, text: 'TOTAL 1.080.000' }
+  reply:
+    merchant: Ibu Oka
+    datetime: null
+    currency: IDR
+    lines:
+      - { line_id: l2, label: Babi guling, qty: 5, amount: '1.080.000', kind: item }
+      - { line_id: l9, label: Es kelapa, qty: 6, amount: '130.000', kind: item }
+    total: { line_id: l5, amount: '1.080.000' }
+  expect:
+    currency: IDR
+    total_minor: 108000000
+    matches_total: false
+    lines: []
+    rejected: [l2, l9]

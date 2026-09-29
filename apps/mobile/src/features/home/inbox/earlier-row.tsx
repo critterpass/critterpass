@@ -92,7 +92,7 @@ export function EarlierRow({ item, renderer, ctx, onUndo, onOpen }: EarlierRowPr
         <Icon name="check" size={18} color={theme.semantic.state.success} decorative />
       ) : null}
       <Text variant="caption" color={theme.semantic.text.secondary}>
-        {shortAge(locale, item.createdAt, ctx.now)}
+        {shortAge(item.createdAt, ctx.now)}
       </Text>
     </Pressable>
   );

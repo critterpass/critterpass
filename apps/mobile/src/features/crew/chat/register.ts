@@ -1,8 +1,9 @@
 /**
- * Crew chat's registrations into other areas, imported once by the root layout: the unread badge
- * on each crew card of the crews sheet.
+ * Crew chat's registrations into other areas, imported once by the root layout: each crew card of
+ * the crews sheet reads its unread count and last message through these hooks.
  */
-import { registerCrewCardBadge } from '../crews-sheet/badge-slot';
-import { UnreadBadge } from './components/unread-badge';
+import { registerCrewCardChat } from '../crews-sheet/badge-slot';
+import { useLastMessage } from './data/use-last-message';
+import { useUnreadCount } from './data/use-unread-count';
 
-registerCrewCardBadge(UnreadBadge);
+registerCrewCardChat({ useUnread: (crewId) => useUnreadCount(crewId), useLastMessage });

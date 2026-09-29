@@ -21,6 +21,7 @@ import { LIVE_MAP_EVENT_PAYLOADS, LIVE_MAP_EVENT_TYPES } from '../live-map/event
 import { POLL_EVENT_PAYLOADS, POLL_EVENT_TYPES } from '../polls/events';
 import { SETUP_EVENT_PAYLOADS, SETUP_EVENT_TYPES } from '../setup/events';
 import { DRAFT_EVENT_PAYLOADS, DRAFT_EVENT_TYPES } from '../itinerary/events';
+import { MONEY_EVENT_PAYLOADS, MONEY_EVENT_TYPES } from '../money/events';
 
 export const DOMAIN_EVENT_TYPES = [
   'crew.member_joined',
@@ -57,6 +58,7 @@ export const DOMAIN_EVENT_TYPES = [
   ...POLL_EVENT_TYPES,
   ...SETUP_EVENT_TYPES,
   ...DRAFT_EVENT_TYPES,
+  ...MONEY_EVENT_TYPES,
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
 export type DomainEventType = z.infer<typeof domainEventTypeSchema>;
@@ -157,6 +159,7 @@ const DOMAIN_EVENT_CATALOGUE = {
   ...POLL_EVENT_PAYLOADS,
   ...SETUP_EVENT_PAYLOADS,
   ...DRAFT_EVENT_PAYLOADS,
+  ...MONEY_EVENT_PAYLOADS,
 } as const satisfies Record<DomainEventType, z.ZodType>;
 
 export function getDomainEventPayloadSchema(type: DomainEventType): z.ZodType {

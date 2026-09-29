@@ -1,0 +1,59 @@
+{
+  "source": "api.deepseek.com 2026-09-29",
+  "request": {
+    "model": "deepseek-v4-pro",
+    "max_tokens": 16000,
+    "messages": [
+      {
+        "role": "user",
+        "content": "Destination: kyoto.\nPlaces:\n1. Kyoto National Museum · museum\n2. Mori Real Estate · other\n3. Coin Parking 12 · other\n4. Shimogyo Tax Office · other\n5. Hanamikoji Street · other\n6. Kinkaku-ji · temple_shrine\n7. Fushimi Inari Taisha · temple_shrine\n8. Tanaka Family Shrine · temple_shrine\n9. Nishiki Market · market\n10. Pontocho Alley · nightlife\n11. Arashiyama Bamboo Grove · nature\n12. Kyoto Station · transit\n13. Sunrise Dental Clinic · health"
+      }
+    ],
+    "thinking": {
+      "type": "enabled",
+      "budget_tokens": 8000
+    },
+    "system": [
+      {
+        "type": "text",
+        "text": "You pick places worth a traveller's time from a numbered list of open-data places in one destination (name, category, address).\nScore each place you would put in a curated city guide: 3 = famous landmark or must-see, 2 = well known or locally loved, 1 = a solid, useful choice. Leave out places you do not recognise as notable, generic businesses, offices, residential buildings and anything that looks like a data error.\nFor practical places (stations, hospitals, pharmacies) score the ones a visitor would realistically need. Reply with JSON only: {\"picks\": [{\"n\": <number>, \"score\": <1-3>}]}."
+      },
+      {
+        "type": "text",
+        "text": "# Reply format\n\nReply with one JSON value only: no prose before or after it and no code fences. It must match this JSON Schema:\n{\"type\":\"object\",\"properties\":{\"picks\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"n\":{\"type\":\"integer\"},\"score\":{\"type\":\"integer\"}},\"required\":[\"n\",\"score\"],\"additionalProperties\":false}}},\"required\":[\"picks\"],\"additionalProperties\":false}"
+      }
+    ],
+    "output_config": {
+      "effort": "low"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "a7040e06-f77f-474e-a4f5-8f97e8e1a52c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "We need answer JSON only. Need evaluate places for Kyoto curated guide. Need score 1-3 for picks, exclude generic? Let's list:\n\n1. Kyoto National Museum · museum: notable museum, likely 2? It is major museum, maybe 2 or 3? Famous? I'd say 2.\n2. Mori Real Estate · other: generic office, exclude.\n3. Coin Parking 12 · other: parking, exclude.\n4. Shimogyo Tax Office · other: exclude.\n5. Hanamikoji Street · other: iconic street in Gion, famous, score 3? It's a must-see street. Score 3.\n6. Kinkaku-ji · temple_shrine: Golden Pavilion, famous landmark, score 3.\n7. Fushimi Inari Taisha · temple_shrine: iconic torii gates, must-see, score 3.\n8. Tanaka Family Shrine · temple_shrine: small shrine? likely not notable, maybe local? \"Tanaka Family Shrine\" sounds private/family shrine, exclude or 1? Probably exclude as not notable.\n9. Nishiki Market · market: famous food market, score 3? Must-see for food, score 3.\n10. Pontocho Alley · nightlife: famous alley, score 3? Well known, maybe 2 or 3. I'd say 3 as iconic nightlife street.\n11. Arashiyama Bamboo Grove · nature: famous, score 3.\n12. Kyoto Station · transit: practical for visitors, score 1? It's major station, visitor realistically need, but not a sight? The prompt says for practical places score ones visitor would realistically need. Kyoto Station is main hub, score 1? Maybe 2? It's a major transit hub and architecturally notable, but category transit. I'd score 1 or 2. Probably 1? But as practical essential, score 1. Actually can score 2 if architecturally notable? But it's transit. The instruction: practical places (stations, hospitals, pharmacies) score the ones a visitor would realistically need. So Kyoto Station is needed, score 1? It's a solid useful choice. I'll score 1.\n13. Sunrise Dental Clinic · health: dental clinic, not needed by typical visitor, exclude.\n\nNeed ensure only picks. JSON: {\"picks\":[{\"n\":1,\"score\":2},{\"n\":5,\"score\":3},{\"n\":6,\"score\":3},{\"n\":7,\"score\":3},{\"n\":9,\"score\":3},{\"n\":10,\"score\":3},{\"n\":11,\"score\":3},{\"n\":12,\"score\":1}]}\n\nCheck if any other: 8 exclude. 2,3,4,13 exclude. Kyoto National Museum score 2. Maybe Hanamikoji Street is other category but famous. Good.\n\nNeed no prose.",
+          "signature": "a7040e06-f77f-474e-a4f5-8f97e8e1a52c"
+        },
+        {
+          "type": "text",
+          "text": "{\"picks\":[{\"n\":1,\"score\":2},{\"n\":5,\"score\":3},{\"n\":6,\"score\":3},{\"n\":7,\"score\":3},{\"n\":9,\"score\":3},{\"n\":10,\"score\":3},{\"n\":11,\"score\":3},{\"n\":12,\"score\":1}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 367,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 675,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@ critical_path_tasks: 253
 
 | Field | Value |
 |---|---|
-| Status | in_progress: 13 of 59 phases done, 17 in progress; 281 of 594 tasks done (2026-09-29 20:35). See **Progress** below |
+| Status | in_progress: 15 of 59 phases done, 15 in progress; 283 of 594 tasks done (2026-09-30 01:45). See **Progress** below |
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
 | Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), the designed ops console (phases 58–59, added 2026-09-28), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
@@ -21,69 +21,62 @@ critical_path_tasks: 253
 | Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude for generation + Jev for typed decisions (D5 amended) |
 | Design | `design/` read-only; renders in `docs/design-renders/screens/*.png` + `screens.json` |
 
-## Progress (updated 2026-09-29 20:35)
+## Progress (updated 2026-09-30 01:45)
 
-**281 of 594 tasks done (47%).**
-- **Phases done (13):** 1, 3, 4, 8, 9, 10, 12, 13, 15, 16, 17, 23, 58.
-- **In progress:** 17.
+**283 of 594 tasks done (48%).**
+- **Phases done (15):** 1, 3, 4, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 23, 58.
+- **In progress:** 15.
 - **Not started:** 29.
 
-The critical path is at 27 (trip setup). The server half is merged and deployed (#147); the app screens are being built.
+Last night went mostly to fixing what the founder found on build 10, and to making reviews and CI faster. Those fixes don't tick plan tasks, which is why the count moved little.
 
-**Today (29 Sep):**
-- **Features:**
-  - Polls and destination vote (#137, #141).
-  - Crew live map, reviewed against the design in EN and VI (#133, #136).
-  - Trip setup server: availability, private budgets with the k≥4 privacy guard, rooms, must-dos (#147).
-- **TestFlight:**
-  - Build 9: the encrypted local database finally links on iOS.
-  - Two updates on build 9: the app session fix, then the live map, vote screens, readable Developer tools and the time zone fix.
-  - Build 10 is building: the database moves to Apple's crypto, so TestFlight no longer asks the encryption question.
-- **Device testing:** device runs moved to GitHub Actions (#150). iOS simulators run in parallel, and every run is isolated. Android follows (#156) with an x86_64 test build (#159).
-- **Staging:**
-  - Content: all 13 content batches published (staging only). Place search has 151 destinations.
-  - Monitoring: Grafana alerts are live and the nightly backup is verified. Sentry issues fixed: no api crash on a dropped connection, no 4xx noise, no simulator reports.
-  - Onboarding: the rejected pass-number and time zone fix (#154).
-  - Android setup: Play upload, App Links and Play Integrity are wired.
-- **Quality:**
-  - The Android sweep fixes (#151): text fit, island toast for screen readers, timeline tap, Google cancel notice.
-  - Two new guards: a wrapped-label check and a lint rule requiring the library Text.
-  - The toast no longer covers the status bar (#160).
-  - Flaky tests fixed at the root (#138, #152, #153).
+**Critical path:** 27 trip setup (app screens in review, #163) → 28 drafting agent → 29 plan views. Wave 14 has started: the server halves of 28 (drafting agent) and 33 (money: ledger, receipts, settle up) are being built. Their app screens start when the UI fix lanes free up.
+
+**Night of 29–30 Sep:**
+- **Fixes live on staging:**
+  - Final votes land now: closing a poll no longer rejects the deciding ballot (#180).
+  - Phone sign-in: Prelude's API host, failure logging, the code sent in the right field, and resends counted as sent (#165, #174, #182). SMS works once Prelude enables custom codes on the account (founder has asked their support).
+  - Volcano levels come from GDACS and Mexico's CENAPRED, since the Smithsonian feed blocks cloud servers (#184).
+  - Phones sync only curated places. The open-data import holds 100k–500k per city, and search reaches the rest over HTTP (#189).
+- **Merged:**
+  - Android sender notifications and tap routing (#192, phase 11 done).
+  - The shared sheet header, icons and back buttons (#175).
+  - The places catalogue at city scale (#188).
+  - Phase 14 closed, with its region download screen moved to Explore (#191).
+- **Faster work:**
+  - GitHub Team plan (60 parallel jobs).
+  - Device checks run on Android unless a change is iPhone-specific (#187).
+  - CI runs once instead of twice.
+  - A lean test policy: only tests that protect behaviour (#185), with about 200 low-value tests removed (#186).
+- **Being fixed after review against the designs:** chat (#166), onboarding (#167), keyboard footer (#168), home and crews (#170), modal sheets (#172), vote (#173), stickers (#177), heading clipping (#178), Android text fit (#179), critter detail (#181), ticket (#183), trip setup (#163). None merges until its device sheets pass review.
+- **In progress:**
+  - The guide's handwriting font changes from Caveat to Mynerve, which has Vietnamese (founder's choice).
+  - The curated places batch (400 per guide city) is publishing on staging.
 
 | In progress | Tasks | What's left |
 |---|---|---|
-| 2 Platform spikes | 15/15 | The founder signed off the Instruments runs (29 Sep); the Android and Apple/Google sign-in rows of the device tables remain |
-| 5 Sticker renderer | 10/10 | Close-out (the founder signed off the Android fps check, 29 Sep) |
-| 6 Motion and feedback | 8/10 | Android check of the island toast and timeline tap on the new test build; haptics tests |
-| 7 App shell and components | 17/18 | Android check of the text-fit fixes on the new test build |
-| 11 Jobs, notifications, push | 10/11 | Android push end to end (Play upload done; FCM token check) |
-| 14 Places, maps, routing | 8/8 | Offline region-pack flow on the live map screen |
-| 18 Content factory | 12/13 | Run the places batch (the licences were accepted 29 Sep) |
-| 19 Analytics and observability | 10/10 | Sentry device crash check and consent check (alerts are live) |
+| 2 Platform spikes | 15/15 | The Android and Apple/Google sign-in rows of the device tables |
+| 5 Sticker renderer | 10/10 | Close-out |
+| 6 Motion and feedback | 8/10 | Android check of the island toast and timeline tap; haptics tests |
+| 7 App shell and components | 17/18 | Android check of the text-fit fixes (#179) |
+| 18 Content factory | 12/13 | The places batch is publishing (DeepSeek topped up 30 Sep) |
+| 19 Analytics and observability | 10/10 | Consent check on device (the PostHog key is now in the app's staging environment) |
 | 20 Permissions, location, visits | 11/11 | Close-out |
 | 21 Links and deep links | 8/9 | Funnel verification with live analytics |
-| 22 Onboarding | 10/11 | End-to-end first-run flow on the current build (the photo cut-out was signed off 29 Sep) |
-| 24 Crew chat | 7/8 | Chat flows on the new Android test build, and two devices |
-| 25 Home, inbox, nudges | 8/9 | Seeded Home flows pass on iOS; re-run on the GitHub device runs |
-| 26 Polls and destination vote | 11/12 | Vote flows and sheets on the GitHub device runs (the staging places are now published) |
-| 27 Trip setup | 7/12 | App screens and the calendar module (T7–T11) being built |
+| 22 Onboarding | 10/11 | End-to-end first-run flow after #167 |
+| 24 Crew chat | 7/8 | Chat flows on Android after #166 |
+| 25 Home, inbox, nudges | 8/9 | Home flows after #170 |
+| 26 Polls and destination vote | 11/12 | Vote flows and sheets after #173 |
+| 27 Trip setup | 7/12 | App screens in review (#163); the calendar module needs the next native build |
+| 33 Money | 6/12 | Server done: ledger, expenses, settle up, payout methods and the receipt pipeline (behind `money.receipts`; its eval gate waits on the founder's receipt photos); app screens and `cp-ocr` (T5, T7–T11) in a later lane |
 | 39 Crew live map | 5/6 | Device data flows (share, pause, gate, window end) |
 | 51 Website | 7/11 | Web previews and web account deletion, which wait on later phases |
 
-**Being built now:**
-- the trip setup app (27);
-- Android device runs on GitHub;
-- two gallery UI-check fixes;
-- iOS build 10 and the Android test build.
+**Upcoming waves:** 14: 28 drafting agent, 33 money · 15: 29 plan views, 34 bookings wallet, 46 monetization · 16: 32 guide chat, 35 suppliers and ops desk · 17: 30 Explore, 31 proposal/RSVP, 36 trip hub, 38 help and SOS · 18–20: disruptions, critters, find a driver, quests, recap, Live Activities, voice, album, help centre, widgets · 21–23: profile, Android parity, community, store kit, drivers, launch hardening, ops console.
 
-**Next on the critical path:** 27 trip setup app → 28 drafting agent → 29 plan views.
+**Next native build** (EAS, batched to save cost): the trip setup calendar module and Android messaging. It brings iOS build 11 on TestFlight and fresh e2e test builds.
 
-**Staging:**
-- api, worker, PowerSync, website and ops console on current main;
-- TestFlight build 9 with its evening update; build 10 on its way.
-
-**Founder items:** `plans/reports/founder-actions-260927-1745-open-items-for-founder-report.md` (local).
+**Founder items:** `plans/reports/founder-actions-260927-1745-open-items-for-founder-report.md` (local). Open now: Prelude custom-code approval.
 
 ## 1. How to execute
 
@@ -117,10 +110,10 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 8 | [Core schema, authz + RLS, domain events](./phase-08-core-schema-authz.md) | 9 | 1 | 2 | done |
 | 9 | [Auth, anonymous-first, anti-abuse](./phase-09-auth-anonymous-antiabuse.md) | 10 | 2, 8 | 3 | done |
 | 10 | [Offline sync, commands, realtime](./phase-10-sync-realtime-outbox.md) | 11 | 2, 8, 9, 12, 14 | 4 | done |
-| 11 | [Jobs, notification router, push](./phase-11-jobs-notifications-push.md) | 11 | 5, 10 | 5 | in_progress (10/11) |
+| 11 | [Jobs, notification router, push](./phase-11-jobs-notifications-push.md) | 11 | 5, 10 | 5 | done |
 | 12 | [Entitlements, money & FX primitives](./phase-12-entitlements-money-fx.md) | 7 | 8 | 3 | done |
 | 13 | [LLM gateway, personas, autonomy](./phase-13-llm-gateway-personas-autonomy.md) | 13 | 8, 11 | 6 | done |
-| 14 | [POI data, maps, routing](./phase-14-places-maps-routing.md) | 8 | 2, 3, 4, 8 | 3 | in_progress (7/8) |
+| 14 | [POI data, maps, routing](./phase-14-places-maps-routing.md) | 8 | 2, 3, 4, 8 | 3 | done |
 | 15 | [Fares, weather, season & crowds](./phase-15-flights-weather-season-data.md) | 8 | 8, 11, 13 | 7 | done |
 | 16 | [Cost & constraint engine](./phase-16-cost-constraint-engine.md) | 7 | 12, 13, 14, 15 | 8 | done |
 | 17 | [Back-office & ops console](./phase-17-back-office-admin.md) | 8 | 8, 9, 10, 12, 14 | 5 | done |
@@ -139,7 +132,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 30 | [Explore](./phase-30-explore.md) | 10 | 14, 15, 16, 26, 29, 35 | 17 | pending |
 | 31 | [Proposal, RSVP, dropout re-split](./phase-31-proposal-rsvp.md) | 10 | 11, 16, 28, 29, 34, 35, 46 | 17 | pending |
 | 32 | [Guide chat, metering, phrase cards](./phase-32-guide-chat-metering.md) | 10 | 12, 13, 24, 29 | 16 | pending |
-| 33 | [Money: ledger, receipts, settle up](./phase-33-money.md) | 12 | 10, 12, 13, 27 | 14 | pending |
+| 33 | [Money: ledger, receipts, settle up](./phase-33-money.md) | 12 | 10, 12, 13, 27 | 14 | in_progress |
 | 34 | [Bookings wallet, imports, flights](./phase-34-bookings-wallet-import.md) | 11 | 11, 13, 15, 33 | 15 | pending |
 | 35 | [Supplier layer, rides, ops desk](./phase-35-supplier-layer-agency.md) | 14 | 13, 14, 17, 29, 33, 34, 58 | 16 | pending |
 | 36 | [Trip hub, day-of, leave-by, offline](./phase-36-trip-day-offline.md) | 11 | 11, 13, 14, 15, 18, 20, 25, 32, 34 | 17 | pending |

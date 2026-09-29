@@ -1,8 +1,9 @@
 /**
  * `GET /v1/hazards?destination_id` (doc delta beside docs/api-contracts.md §5.5): the destination's
  * current curated hazard alerts (volcano levels, weather warnings), highest level first, each with
- * its official source link, issue time and when it was last read. Expired readings (the GVP weekly
- * report's) are left out; an alert not read for three hours is flagged stale, never dropped.
+ * its official source link, issue time and when it was last read. Expired readings (a CENAPRED
+ * report or GDACS event past its expiry) are left out; an alert not read for three hours is flagged
+ * stale, never dropped.
  */
 import { withUser } from '@cp/db';
 import type { OpenAPIHono } from '@hono/zod-openapi';

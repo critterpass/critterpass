@@ -168,7 +168,7 @@ const CATALOGUE = [
   spec('guide_acted', 'budgeted', 'cp.changeset', 'cp_guide', 'guide', 'guide_action:{action_id}'),
   // Money.
   spec('money_event', 'budgeted', 'cp.money', 'cp_money', 'member', { variant: 'small_to_roundup', pref: 'money', private: true }),
-  spec('settled_reward', 'budgeted', 'cp.generic', 'cp_critters', 'guide'),
+  spec('settled_reward', 'always', 'cp.generic', 'cp_critters', 'guide'),
   // Critters, quests, memories.
   spec('critter_nearby', 'budgeted', 'cp.generic', 'cp_critters', 'guide', { pref: 'critters_nearby', ttlSeconds: HOUR }),
   spec('critter_window_reminder', 'local', 'cp.generic', 'cp_critters', 'guide', { variant: 'local_or_budgeted' }),
@@ -306,6 +306,16 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'lottery.reminder_due': ['lottery_deadline'],
   // Drafting: the organiser's draft is ready (pushed only when the app is in the background).
   'draft.ready': ['draft_ready'],
+  // Money: a new expense to the members it splits with, requests, nudges, reminders and
+  // confirmations to the other side of each payment, and the Settled Tokek to everyone at once.
+  'expense.added': ['money_event'],
+  'payment.requested': ['money_event'],
+  'payment.nudged': ['money_event'],
+  'payment.reminded': ['money_event'],
+  'payment.marked_paid': ['money_event'],
+  'payment.confirmed': ['money_event'],
+  'payment.disputed': ['money_event'],
+  'trip.settled': ['settled_reward'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

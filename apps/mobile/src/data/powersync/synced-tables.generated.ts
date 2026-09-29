@@ -49,6 +49,11 @@ export const SYNCED_TABLE_COLUMNS = {
     'user_id platform bundle_id os_version app_version locale tz permission_state attribution capabilities la_enabled:integer la_frequent:integer foreground:integer last_seen_at created_at updated_at',
   emergency_numbers:
     'country numbers source_url retrieved_on verified_at release_id created_at updated_at',
+  expense_edits: 'expense_id trip_id editor_id kind before after at',
+  expense_shares:
+    'expense_id trip_id user_id weight:integer fixed_minor:integer computed_minor:integer crew_computed_minor:integer excluded_reason created_at',
+  expenses:
+    'crew_id trip_id payer_id amount_minor:integer currency fx_snapshot_id crew_amount_minor:integer crew_currency split_mode category description merchant local_date trip_day:integer spent_at poi_id booking_id ride_id boost_id receipt_id source created_by deleted_at deleted_by version:integer created_at updated_at',
   facilities:
     'key destination_id kind name lat:real lng:real address phone open_24h:integer source_url retrieved_on verified_at release_id created_at updated_at',
   fx_snapshots: 'base quote rate as_of source created_at',
@@ -74,6 +79,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at metrics coverage',
   join_codes:
     'code target_kind target_id crew_id created_by expires_at max_uses:integer uses:integer status created_at updated_at',
+  ledger_entries:
+    'crew_id trip_id debtor_id creditor_id amount_minor:integer currency source_kind source_id reverses_id created_at',
   legendary_windows:
     'key form_id place_line rule months solar challenge source_url release_id created_at updated_at',
   location_shares: 'trip_id user_id reason starts_at ends_at paused:integer created_at updated_at',
@@ -93,6 +100,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'sender_id target_id crew_id trip_id reason context channel scheduled_delivery_id send_at sent_at created_at updated_at',
   participant_dietary_flags: 'trip_id user_id flags created_at updated_at',
   passes: 'user_id status number issued_at cover created_at updated_at',
+  payments:
+    'crew_id trip_id from_id to_id amount_minor:integer currency method status requested_at last_nudged_at marked_at confirmed_at auto_confirmed:integer disputed_at dispute_note reissued_from_id created_by version:integer created_at updated_at',
   perks: 'key tier copy_key is_shipped:integer sort:integer created_at updated_at',
   phrase_cards:
     'key language context text romanisation gloss audio_key audio_status native_reviewed_on release_id created_at updated_at',
@@ -112,6 +121,8 @@ export const SYNCED_TABLE_COLUMNS = {
   price_quotes:
     'trip_id kind origin destination_id dates amount_minor:integer currency source fetched_at frozen_at version:integer created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',
+  receipts:
+    'user_id trip_id crew_id expense_id media_key status quality_issue ocr_source ocr_lines parsed suggestions failure_reason parsed_at created_at updated_at',
   redraft_reservations:
     'trip_id agent_job_id status free_reason quota_period_key settled_at created_at updated_at',
   referrals:
@@ -139,6 +150,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'key form_id kind set_id destination_id poi_ids geofences n:integer dwell_s:integer hold_ms:integer window_id solar min_members:integer foreground_only:integer copy release_id created_at updated_at',
   stamps:
     'pass_id user_id kind seq_no:integer destination_id trip_id dates iata country ink_colour status stamped_at created_at updated_at',
+  stickers: 'user_id crew_id trip_id kind granted_at created_at',
   taste_profiles:
     'user_id answers tags tag_sources chronotype pace room_pref visibility created_at updated_at',
   trip_budget_aggregates:

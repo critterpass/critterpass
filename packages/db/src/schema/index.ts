@@ -51,6 +51,15 @@ export { consents, mediaObjects, userSettings, users } from './identity';
 export { locationFixes, locationShares, memberEtas, visits } from './location';
 export { meetups } from './meetups';
 export {
+  expenseEdits,
+  expenseShares,
+  expenses,
+  ledgerEntries,
+  payments,
+  payoutMethods,
+  receipts,
+} from './money';
+export {
   devices,
   inboxItems,
   notificationPrefs,
@@ -101,6 +110,7 @@ export {
   seasonMonths,
   weatherSnapshots,
 } from './travel-data';
+export { stickers } from './stickers';
 export { destinations, guides, tripParticipants, trips } from './trips';
 export {
   accountDeletions,

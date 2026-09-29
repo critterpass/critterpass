@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# Shared headers, in English then Vietnamese: a pushed screen's large title with its back button and
+# an action, every doodle icon drawn with only a colour, the chat composer's send arrow, and a sheet
+# whose header row shares its line with the ✕.
+- runFlow:
+    file: subflows/header-screens.yaml
+    env:
+      LOCALE: en
+- runFlow:
+    file: subflows/header-screens.yaml
+    env:
+      LOCALE: vi

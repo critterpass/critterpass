@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# A guide nudge and a crewmate's chat message show in the tray as messages from their sender
+# (MessagingStyle with the sender's Person; the guide carries the AI disclosure), each filed
+# under its conversation.
+#
+# Needs before it can pass: an e2e-test build carrying the app's messaging service, and crew
+# values for the fixtures: ${CREW_ID} and ${CREW_NAME}. The runner delivers each fixture as an FCM
+# data message at the marked step. On a Google APIs emulator, without a Firebase send:
+#   adb root
+#   adb shell am broadcast -a com.google.android.c2dm.intent.RECEIVE \
+#     -n app.critterpass.dev/com.google.firebase.iid.FirebaseInstanceIdReceiver \
+#     --es <key> '<value>' …   (one --es per key of fixtures/android-*.json, after envsubst)
+# or through FCM HTTP v1 with the device's push token (`message.data` = the fixture).
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - launchApp
+      - pressKey: Home
+      # Runner: deliver fixtures/android-guide-nudge.json and fixtures/android-crew-chat.json here.
+      - swipe:
+          start: 50%, 0%
+          end: 50%, 80%
+      - extendedWaitUntil:
+          visible:
+            text: 'Tokek · AI guide'
+          timeout: 60000
+      - assertVisible: 'Your crew has a vote waiting in the inbox.'
+      - extendedWaitUntil:
+          visible:
+            text: '${CREW_NAME}'
+          timeout: 60000
+      - assertVisible: '.*Landing at 6, who.s up for dinner\?.*'
+      - takeScreenshot: notifications-android-sender
+      - pressKey: Back

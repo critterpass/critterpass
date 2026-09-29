@@ -76,6 +76,7 @@ jobs:
       lockfile: ${{ steps.filter.outputs.lockfile }}
       sync_e2e: ${{ steps.filter.outputs.sync_e2e }}
       ios_native: ${{ steps.filter.outputs.ios_native }}
+      android_native: ${{ steps.filter.outputs.android_native }}
       admin_e2e: ${{ steps.filter.outputs.admin_e2e }}
     steps:
       - uses: actions/checkout@v7
@@ -144,6 +145,16 @@ jobs:
               - 'apps/mobile/modules/*/expo-module.config.json'
               - 'apps/mobile/targets/**'
               - 'apps/mobile/plugins/**'
+              - 'apps/mobile/app.config.ts'
+              - 'apps/mobile/package.json'
+              - 'pnpm-lock.yaml'
+              - '.github/workflows/ci.yml'
+            android_native:
+              - 'apps/mobile/modules/*/android/**'
+              - 'apps/mobile/modules/*/expo-module.config.json'
+              - 'apps/mobile/modules/*/package.json'
+              - 'apps/mobile/plugins/**'
+              - 'apps/mobile/modules/*/plugin/**'
               - 'apps/mobile/app.config.ts'
               - 'apps/mobile/package.json'
               - 'pnpm-lock.yaml'
@@ -356,6 +367,34 @@ jobs:
           path: ${{ runner.temp }}/xcodebuild.log
           retention-days: 7
 
+  # The Android counterpart: prebuilds the development variant, runs the local modules' JVM unit
+  # tests and compiles the app's Kotlin, so a native compile error fails its pull request instead
+  # of a paid EAS build. arm64-v8a only, like every EAS Android build of the app.
+  android-native:
+    name: Android native compile (debug, unit tests)
+    needs: changes
+    if: needs.changes.outputs.android_native == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      APP_VARIANT: development
+      SENTRY_DISABLE_AUTO_UPLOAD: 'true'
+      ORG_GRADLE_PROJECT_reactNativeArchitectures: arm64-v8a
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - uses: actions/setup-java@v6
+        with: { distribution: temurin, java-version: 17 }
+      - uses: gradle/actions/setup-gradle@v6
+      - run: pnpm install --frozen-lockfile
+      - name: Expo prebuild
+        run: pnpm --filter @cp/mobile exec expo prebuild --platform android --clean --no-install
+      - name: Unit tests and Kotlin compile
+        working-directory: apps/mobile/android
+        run: ./gradlew --no-daemon :cp-notifications:testDebugUnitTest :app:compileDebugKotlin
+
   # The ops console Playwright suite against its own throwaway Postgres (the Testcontainers image),
   # the api and the Vite dev server, exactly as `pnpm --filter @cp/admin e2e` runs it locally.
   admin-e2e:
@@ -422,6 +461,7 @@ jobs:
       - osv
       - sync-e2e
       - ios-native
+      - android-native
       - admin-e2e
     runs-on: ubuntu-latest
     steps:

@@ -1216,6 +1216,56 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, true, true),
     },
   },
+  // Money: the crew reads a trip's expenses and the crew's ledger and payments; the server writes.
+  expenses: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM expenses WHERE trip_id = $1 AND payer_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  expense_shares: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM expense_shares WHERE trip_id = $1 AND user_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  expense_edits: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM expense_edits WHERE trip_id = $1 AND editor_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  ledger_entries: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM ledger_entries WHERE crew_id = $1 AND debtor_id = $2',
+      params: (f) => [f.crewId, f.actors.member],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  payments: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM payments WHERE crew_id = $1 AND to_id = $2',
+      params: (f) => [f.crewId, f.actors.organiser],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  // A receipt scan is its scanner's until committed to an expense; any crew member uploads theirs.
+  receipts: {
+    selectProbe: ownRowProbe('receipts'),
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(true, true, false),
+    },
+  },
+  payout_methods: { selectProbe: ownRowProbe('payout_methods'), expectations: SELF_ONLY },
+  stickers: { selectProbe: ownRowProbe('stickers'), expectations: OWNER_READ },
   inbox_items: {
     selectProbe: {
       sql: 'SELECT 1 FROM inbox_items WHERE user_id = $1',

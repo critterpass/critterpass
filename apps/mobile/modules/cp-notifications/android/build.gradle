@@ -1,0 +1,35 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'app.critterpass.notifications'
+version = '1.0.0'
+
+android {
+  namespace 'app.critterpass.notifications'
+}
+
+// The messaging service extends expo-notifications' own, so token rotation and non-CritterPass
+// messages keep flowing through it. Autolinking ships expo-notifications as a prebuilt artifact in
+// its package's local Maven repo (or as a source project when built from source); the version is
+// the installed package's.
+def expoNotificationsProject = rootProject.findProject(':expo-notifications')
+def expoNotificationsVersion = providers.exec {
+  workingDir projectDir
+  commandLine 'node', '--print', "require('expo-notifications/package.json').version"
+}.standardOutput.asText.get().trim()
+
+dependencies {
+  if (expoNotificationsProject != null) {
+    implementation expoNotificationsProject
+  } else {
+    implementation "host.exp.exponent:expo.modules.notifications:${expoNotificationsVersion}"
+  }
+  implementation 'com.google.firebase:firebase-messaging:25.0.1'
+  implementation 'androidx.core:core-ktx:1.19.1'
+  implementation 'androidx.lifecycle:lifecycle-process:2.9.3'
+  testImplementation 'junit:junit:4.13.2'
+  // android.jar's org.json is a stub under plain JUnit; the real one parses payload fixtures.
+  testImplementation 'org.json:json:20240303'
+}

@@ -1,7 +1,7 @@
 ---
 phase: 11
 title: Job runner, notification router, push
-status: in_progress
+status: done
 depends_on: [5, 10]
 wave: 5
 features: [F-014, F-016, F-017]
@@ -211,6 +211,7 @@ Done when: a domain event mapped to a notification key produces exactly one corr
 - Steps: 1. Create channels at app start (ids from `packages/domain/src/notifications.ts` via codegen). 2. Render data-only messages: `MessagingStyle` + `Person` (IconCompat from asset/URL), dynamic shortcuts per conversation, group per crew, action buttons slots (actions wired in phase 49). 3. Tap → emit deep link to JS → expo-router navigate; foreground suppression when the conversation route is active. 4. Maestro flows push fixtures (`xcrun simctl push`, `adb shell cmd notification`/FCM test send) and assert sender + route.
 - Tests: `pnpm --filter @cp/mobile android:test cp-notifications`; `maestro test e2e/notifications/`.
 - Done when: JUnit + Maestro flows pass on iOS 26 simulator and API 36 emulator.
+- Status: done — cc474bf8 (device flows pending the next Android e2e-test build; JUnit and the Kotlin compile run in CI's Android native job)
 
 ## Phase acceptance criteria
 

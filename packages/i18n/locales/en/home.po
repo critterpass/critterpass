@@ -13,6 +13,18 @@ msgstr ""
 msgid "home.firstRun.guideCell"
 msgstr "{0}, with {1}"
 
+#: ../../apps/mobile/src/features/home/format.ts
+msgid "home.age.days"
+msgstr "{count}d"
+
+#: ../../apps/mobile/src/features/home/format.ts
+msgid "home.age.hours"
+msgstr "{count}h"
+
+#: ../../apps/mobile/src/features/home/format.ts
+msgid "home.age.minutes"
+msgstr "{count}m"
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.guideDid"
 msgstr "{guide} {summary}"

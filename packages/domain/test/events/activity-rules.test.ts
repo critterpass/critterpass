@@ -3,6 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { DOMAIN_EVENT_TYPES, type DomainEventType } from '../../src/events/catalogue';
 import { projectActivity } from '../../src/events/activity-rules';
 import { SETUP_EVENT_TYPES } from '../../src/setup/events';
+import { MONEY_EVENT_TYPES } from '../../src/money/events';
+import { DRAFT_EVENT_TYPES } from '../../src/itinerary/events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -92,6 +94,11 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   // Setup progress shows on the wizard itself (live on its realtime channel); availability, asks,
   // budget counts and calendar nudges are private to the member they concern.
   ...SETUP_EVENT_TYPES,
+  // Money has its own feed (Money's LATEST row, the chat card, the settle list); payments and
+  // nudges are between two members.
+  ...MONEY_EVENT_TYPES,
+  // Drafts are private to the trip's organisers until the proposal goes out.
+  ...DRAFT_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

@@ -15,15 +15,12 @@ import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { PillButton } from '@/ui/buttons/PillButton';
-import { CrewCard } from '@/ui/cards/CrewCard';
-import { DashedAddCard } from '@/ui/cards/DashedAddCard';
-import { AvatarStack } from '@/ui/people/AvatarStack';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { WaitlistCards } from '../waitlist/WaitlistCards';
-import { crewCardBadge } from './badge-slot';
+import { CrewSheetCard, StartCrewCard } from './crew-sheet-cards';
 import { ACCEPT_INVITE, DEFER_INVITE, rowId, SET_ACTIVE_CREW } from './crew-commands';
 import { useCrews } from './crew-data';
 import { useCrewServices } from './crew-services';
@@ -38,8 +35,6 @@ import { CREW_ROUTES } from './routes';
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], gap: th.space['12'], paddingBottom: th.space['32'] },
-  head: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  active: { borderWidth: 2, borderColor: th.semantic.action.primary, borderRadius: th.radius.lg },
   invite: {
     borderWidth: 2,
     borderStyle: 'dashed',
@@ -127,7 +122,6 @@ export function CrewsSheet() {
   const now = new Date();
   const crews = crewCards(snapshot);
   const invites = inviteCards(snapshot, now);
-  const Badge = crewCardBadge();
 
   const pick = (crewId: string) => {
     if (localFirst === null) return;
@@ -162,22 +156,21 @@ export function CrewsSheet() {
   return (
     <Sheet
       detents={['large']}
+      title={upper(t({ id: 'crew.sheet.title', message: 'Your crews' }), locale)}
+      headerEnd={
+        <PillButton
+          size="sm"
+          variant="secondary"
+          label={t({ id: 'crew.sheet.joinCode', message: 'Join with a code' })}
+          onPress={() => router.push(CREW_ROUTES.joinCode)}
+          testID="crews-join-code"
+        />
+      }
+      closable={false}
       accessibilityLabel={t({ id: 'crew.sheet.title', message: 'Your crews' })}
       testID="crews-sheet"
     >
       <ScrollView contentContainerStyle={styles.body}>
-        <View style={styles.head}>
-          <Text variant="displayXl" accessibilityRole="header">
-            {upper(t({ id: 'crew.sheet.title', message: 'Your crews' }), locale)}
-          </Text>
-          <PillButton
-            size="sm"
-            variant="secondary"
-            label={t({ id: 'crew.sheet.joinCode', message: 'Join with a code' })}
-            onPress={() => router.push(CREW_ROUTES.joinCode)}
-            testID="crews-join-code"
-          />
-        </View>
         <WaitlistCards
           db={localFirst?.db ?? null}
           uid={uid}
@@ -185,33 +178,15 @@ export function CrewsSheet() {
           now={now}
         />
         {crews.map((card) => (
-          <View
+          <CrewSheetCard
             key={card.id}
-            style={card.active ? styles.active : null}
-            testID={`crew-card-${card.id}`}
-          >
-            <CrewCard
-              name={card.name}
-              detail={statusLine(card, locale, now)}
-              members={
-                <AvatarStack
-                  members={card.members.map((m, index) => ({
-                    key: `${index}`,
-                    name: m.name,
-                    joinIndex: index,
-                  }))}
-                  max={6}
-                  size="sm"
-                />
-              }
-              membersLabel={t({
-                id: 'crew.sheet.members',
-                message: `${card.members.length} members`,
-              })}
-              status={Badge === null ? undefined : <Badge crewId={card.id} />}
-              onPress={() => pick(card.id)}
-            />
-          </View>
+            crewId={card.id}
+            name={card.name}
+            detail={statusLine(card, locale, now)}
+            members={card.members}
+            active={card.active}
+            onPress={() => pick(card.id)}
+          />
         ))}
         {open.map((invite) => (
           <InviteCard
@@ -236,11 +211,7 @@ export function CrewsSheet() {
             onLater={() => later(invite)}
           />
         ))}
-        <DashedAddCard
-          label={t({ id: 'crew.sheet.start', message: 'Start a crew' })}
-          onPress={() => router.push(CREW_ROUTES.newCrew)}
-          testID="crews-start"
-        />
+        <StartCrewCard onPress={() => router.push(CREW_ROUTES.newCrew)} />
       </ScrollView>
     </Sheet>
   );

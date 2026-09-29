@@ -43,6 +43,8 @@ const refOf = (sourceIds: Record<string, string>): string => {
 export async function nearbyDifferentNames(
   pool: pg.Pool,
   destinationId: string,
+  /** Only pairs where both places are among these (the curated set). */
+  poiIds: readonly string[],
 ): Promise<DuplicatePair[]> {
   const { rows } = await pool.query<{
     a_ids: Record<string, string>;
@@ -62,9 +64,10 @@ export async function nearbyDifferentNames(
        AND ST_DWithin(a.location, b.location, $2)
      WHERE a.destination_id = $1 AND a.status = 'active' AND b.status = 'active'
        AND a.merged_into_id IS NULL AND b.merged_into_id IS NULL
+       AND a.id = ANY($4::uuid[]) AND b.id = ANY($4::uuid[])
        AND similarity(a.name, b.name) < $3
      ORDER BY distance`,
-    [destinationId, DUPLICATE_DISTANCE_M, DUPLICATE_MAX_NAME_SIMILARITY],
+    [destinationId, DUPLICATE_DISTANCE_M, DUPLICATE_MAX_NAME_SIMILARITY, poiIds],
   );
   return rows
     .map((row) => ({

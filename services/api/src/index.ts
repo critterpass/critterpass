@@ -42,6 +42,7 @@ import { mediaSigningConfigFromEnv } from './media/sign';
 import { registerDevRoutesFromEnv } from './dev/routes';
 import { registerGeoRoutesFromEnv } from './routes/geo';
 import { registerMediaRoutes } from './routes/media';
+import { registerMoneyRoutes, registerReceiptRoutesFromEnv } from './money/routes';
 import { createMapboxRoutingProvider } from './routing/eta';
 import { MapboxRoutingClient } from './routing/mapbox';
 import { createClaimAttributionCommand } from './commands/attribution/claim-attribution';
@@ -236,6 +237,7 @@ registerVoteRoutesFromEnv(app, { ...commandDoors, cache: redis }, env);
 registerTravelDataRoutes(app, commandDoors);
 registerCostRoutes(app, commandDoors);
 registerSetupRoutes(app, { ...commandDoors, store: redis, env: process.env });
+registerReceiptRoutesFromEnv(app, commandDoors, process.env);
 registerGeoRoutesFromEnv(app, commandDoors, env.GEOIP_CITY_MMDB, logger);
 registerDevRoutesFromEnv(app, { ...commandDoors, logger }, env);
 registerLinkRoutes(app, {
@@ -247,16 +249,11 @@ registerLinkRoutes(app, {
 // Device action keys and the doors they open (docs/api-contracts-async.md §5): keys are stored
 // envelope-encrypted, so every route here needs the field-encryption keyring.
 if (fieldEncryptionKeyring) {
-  const actionDeps = {
-    pool,
-    registry: commands,
-    sessions: commandDoors.sessions,
-    redis,
-    keyring: fieldEncryptionKeyring,
-  };
+  const actionDeps = { ...commandDoors, keyring: fieldEncryptionKeyring };
   registerActionKeyRoutes(app, actionDeps);
   registerActionsRoute(app, { ...actionDeps, analytics: serverAnalytics });
   registerNotificationRoutes(app, actionDeps);
+  registerMoneyRoutes(app, actionDeps);
 } else {
   logger.warn('Device action keys and /v1/actions are disabled: FIELD_ENCRYPTION_KEYS is unset');
 }

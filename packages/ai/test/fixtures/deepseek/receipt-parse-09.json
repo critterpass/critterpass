@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "96814159-1711-4fb8-9cf8-d5f566a31356",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"OCTAVE ROOFTOP BAR\",\"datetime\":null,\"currency\":\"THB\",\"lines\":[{\"line_id\":\"l2\",\"label\":\"Mojito\",\"qty\":2,\"amount\":\"840.00\",\"kind\":\"item\"},{\"line_id\":\"l3\",\"label\":\"Craft Beer\",\"qty\":1,\"amount\":\"290.00\",\"kind\":\"item\"},{\"line_id\":\"l4\",\"label\":\"Truffle Fries\",\"qty\":null,\"amount\":\"350.00\",\"kind\":\"item\"},{\"line_id\":\"l6\",\"label\":\"Service Charge 10%\",\"qty\":null,\"amount\":\"148.00\",\"kind\":\"service\"},{\"line_id\":\"l7\",\"label\":\"VAT 7%\",\"qty\":null,\"amount\":\"113.96\",\"kind\":\"tax\"},{\"line_id\":\"l8\",\"label\":\"Tip\",\"qty\":null,\"amount\":\"100.00\",\"kind\":\"tip\"}],\"total\":{\"line_id\":\"l9\",\"amount\":\"1,841.96\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 365,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 512,
+        "output_tokens": 212,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

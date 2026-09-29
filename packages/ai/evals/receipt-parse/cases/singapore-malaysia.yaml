@@ -1,0 +1,45 @@
+- description: a Singapore seafood dinner with service charge and GST
+  fixture: receipt-parse-11
+  currency_hint: SGD
+  lines:
+    - { id: l0, text: 'JUMBO SEAFOOD' }
+    - { id: l1, text: 'Riverside Point' }
+    - { id: l2, text: 'Chilli Crab 1.2kg 110.40' }
+    - { id: l3, text: 'Mantou x10 12.00' }
+    - { id: l4, text: 'Cereal Prawns 38.00' }
+    - { id: l5, text: 'Subtotal 160.40' }
+    - { id: l6, text: 'Service Charge 10% 16.04' }
+    - { id: l7, text: 'GST 9% 15.88' }
+    - { id: l8, text: 'TOTAL 192.32' }
+  expect:
+    currency: SGD
+    total_minor: 19232
+    matches_total: true
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 11040 }
+      - { line_id: l3, kind: item, amount_minor: 1200 }
+      - { line_id: l4, kind: item, amount_minor: 3800 }
+      - { line_id: l6, kind: service, amount_minor: 1604 }
+      - { line_id: l7, kind: tax, amount_minor: 1588 }
+- description: a Kuala Lumpur nasi kandar with a member discount and SST
+  fixture: receipt-parse-12
+  currency_hint: MYR
+  lines:
+    - { id: l0, text: 'NASI KANDAR PELITA' }
+    - { id: l1, text: 'KLCC' }
+    - { id: l2, text: 'Nasi Kandar Ayam 2 x 12.50 25.00' }
+    - { id: l3, text: 'Teh Tarik 2 x 3.20 6.40' }
+    - { id: l4, text: 'Roti Canai 3 x 1.80 5.40' }
+    - { id: l5, text: 'Diskaun Ahli -3.68' }
+    - { id: l6, text: 'SST 6% 2.00' }
+    - { id: l7, text: 'JUMLAH 35.12' }
+  expect:
+    currency: MYR
+    total_minor: 3512
+    matches_total: true
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 2500 }
+      - { line_id: l3, kind: item, amount_minor: 640 }
+      - { line_id: l4, kind: item, amount_minor: 540 }
+      - { line_id: l5, kind: discount, amount_minor: 368 }
+      - { line_id: l6, kind: tax, amount_minor: 200 }
