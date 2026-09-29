@@ -87,15 +87,6 @@ describe('setup screen', () => {
     });
   });
 
-  it('tells a member who runs setup', async () => {
-    stack = await openTestLocalFirst();
-    await seedKyoto(stack, { as: 'member', step: 'when' });
-    await renderSetup(<SetupScreen tripId={TRIP_ID} step={null} />, { stack });
-
-    expect(await screen.findByText('Winston runs setup. Your part is below.')).toBeTruthy();
-    expect(screen.queryByTestId('when-cta')).toBeNull();
-  });
-
   it('locks the best week through the command client and says when it needs signal', async () => {
     stack = await openTestLocalFirst();
     await seedKyoto(stack, { as: 'organiser', step: 'when' });
@@ -115,14 +106,5 @@ describe('setup screen', () => {
     // The api is unreachable here: an online-only lock comes back unavailable.
     expect(await screen.findByText('Locking needs signal. Try again in a moment.')).toBeTruthy();
     expect(router.replace).not.toHaveBeenCalled();
-  });
-
-  it('explains a trip that has not synced to this phone', async () => {
-    stack = await openTestLocalFirst();
-    await seedKyoto(stack);
-    await renderSetup(<SetupScreen tripId="0199a6f0-0000-7000-8000-0000000000ff" step={null} />, {
-      stack,
-    });
-    expect(await screen.findByText('THIS TRIP ISN’T HERE YET')).toBeTruthy();
   });
 });

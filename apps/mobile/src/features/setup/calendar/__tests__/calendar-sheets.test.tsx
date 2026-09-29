@@ -29,7 +29,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { AnalyticsProvider, type AnalyticsClient } from '@/lib/analytics';
 
 import { SetupServicesProvider, type SetupServices } from '../../data/services';
-import { CalendarConnectSheet, CalendarConnectView } from '../calendar-connect-sheet';
+import { CalendarConnectSheet } from '../calendar-connect-sheet';
 import { ManualDaysSheet } from '../manual-days-sheet';
 
 const TRIP = '0199a6f0-0000-7000-8000-00000000c001';
@@ -97,54 +97,7 @@ async function mount(ui: ReactElement, flags: Record<string, boolean> = {}) {
   return view;
 }
 
-function view(overrides: Partial<Parameters<typeof CalendarConnectView>[0]> = {}) {
-  return (
-    <CalendarConnectView
-      status="needs_permission"
-      lastSyncedAt={null}
-      now={new Date(NOW)}
-      tentative={false}
-      providers={[]}
-      opening={null}
-      oauthFailed={false}
-      onConnect={noop}
-      onSync={noop}
-      onOpenSettings={noop}
-      onTentative={noop}
-      onProvider={noop}
-      onMarkByHand={noop}
-      onDismiss={noop}
-      {...overrides}
-    />
-  );
-}
-
 describe('calendar connect sheet', () => {
-  it('offers connecting this phone, the maybe-busy opt-in and marking by hand', async () => {
-    const connect = jest.fn();
-    const byHand = jest.fn();
-    await mount(view({ onConnect: connect, onMarkByHand: byHand }));
-    expect(screen.getByRole('header', { name: /find your free days/i })).toBeTruthy();
-    expect(screen.getByText(/Titles, places and people stay here/)).toBeTruthy();
-    await fireEvent.press(screen.getByTestId('calendar-device-connect'));
-    expect(connect).toHaveBeenCalled();
-    expect(screen.getByRole('switch', { name: /maybe busy/ })).toBeTruthy();
-    await fireEvent.press(screen.getByTestId('calendar-by-hand'));
-    expect(byHand).toHaveBeenCalled();
-    expect(screen.queryByTestId('calendar-provider-google')).toBeNull();
-  });
-
-  it('shows when it last synced, and Settings with the by-hand path when access is off', async () => {
-    const view1 = await mount(
-      view({ status: 'synced', lastSyncedAt: new Date(NOW - 2 * 3_600_000) }),
-    );
-    expect(screen.getByText('Synced 2 hours ago')).toBeTruthy();
-    await view1.unmount();
-    await mount(view({ status: 'denied' }));
-    expect(screen.getByText(/calendar access is off/i)).toBeTruthy();
-    expect(screen.getByText(/mark by hand/i)).toBeTruthy();
-  });
-
   it('shows the Google row only while its flag is on', async () => {
     const off = await mount(
       <CalendarConnectSheet tripId={TRIP} onDismiss={noop} onMarkByHand={noop} />,

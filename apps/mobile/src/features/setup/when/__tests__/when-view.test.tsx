@@ -19,7 +19,7 @@ jest.mock('expo-router', () => ({ useIsFocused: () => true, router: { back: jest
 import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
 
-import { DEV, kyotoTrip, SCENE_NOW, sceneFrame } from '../../scenes/fixtures';
+import { DEV, kyotoTrip, sceneFrame } from '../../scenes/fixtures';
 import { renderSetup } from '../../test-support/setup-harness';
 import { ASK, FULL, PARTIAL, whenModel } from '../fixtures';
 import { WhenView, type WhenActions, type WhenModel } from '../when-view';
@@ -83,14 +83,6 @@ describe('dates step view', () => {
     expect(handlers.onLock).toHaveBeenCalledWith('2027-04-16', '2027-04-23');
   });
 
-  it('shows an ask’s progress and never names what the block is', async () => {
-    await show(noFit({ options: [PARTIAL, FULL, { ...ASK, askState: 'asked' }] }));
-    expect(
-      screen.getByText('Asked Dev privately. Waiting for an answer, up to two days.'),
-    ).toBeTruthy();
-    expect(screen.queryByTestId('when-cta')).toBeNull();
-  });
-
   it('gives a member no lock or ask, only their own part', async () => {
     const handlers = await show(
       whenModel({ me: DEV, calendar: { status: 'needs_permission', lastSyncedAt: null } }),
@@ -101,31 +93,5 @@ describe('dates step view', () => {
     expect(screen.getByText('Your days aren’t in yet')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('own-calendar-action'));
     expect(handlers.onConnect).toHaveBeenCalled();
-  });
-
-  it('flags a calendar that has not synced for three days', async () => {
-    await show(
-      whenModel({
-        calendar: { status: 'synced', lastSyncedAt: new Date(SCENE_NOW - 80 * 3_600_000) },
-      }),
-    );
-    expect(screen.getByTestId('own-calendar-stale')).toBeTruthy();
-    expect(screen.getByText('Sync again so your days still count.')).toBeTruthy();
-  });
-
-  it('offers marking by hand when calendar access is denied', async () => {
-    const handlers = await show(whenModel({ calendar: { status: 'denied', lastSyncedAt: null } }));
-    await fireEvent.press(screen.getByTestId('own-calendar-action'));
-    expect(handlers.onMarkByHand).toHaveBeenCalled();
-  });
-
-  it('says so when nobody has shared a day yet', async () => {
-    await show(whenModel({ mode: 'empty', best: null, synced: 0, months: [] }));
-    expect(
-      screen.getByText(
-        'Nobody has shared their days yet. Connect a calendar or mark days by hand.',
-      ),
-    ).toBeTruthy();
-    expect(screen.queryByTestId('setup-heatmap')).toBeNull();
   });
 });

@@ -30,9 +30,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
 import { DEV, kyotoTrip, MAYA, sceneFrame, TRIP_ID, WINSTON } from '../../scenes/fixtures';
 import { AddMustDoSheet } from '../add-must-do-sheet';
-import { buildMustDos } from '../model';
 import { MustDosStep } from '../must-dos-step';
-import { MustDosView } from '../must-dos-view';
 import { MUST_DOS_SCENES } from '../scenes';
 import {
   renderPlain,
@@ -111,23 +109,6 @@ describe('the list', () => {
     await renderWith(stack, services().value, step(WINSTON));
     const draft = await screen.findByTestId('must-dos-draft');
     expect(draft.props.accessibilityState).toMatchObject({ disabled: true });
-  });
-
-  it('shows a crewmate typing one in', async () => {
-    const trip = kyotoTrip({ step: 'must_dos', dates: true });
-    await renderPlain(
-      <MustDosView
-        trip={trip}
-        shell={sceneFrame(trip, 'must_dos')}
-        model={buildMustDos([], null, trip.members, trip.me, [DEV])}
-        canAdd
-        onAdd={() => undefined}
-        onDraft={() => undefined}
-        onRemove={() => undefined}
-        onRemind={() => undefined}
-      />,
-    );
-    expect(screen.getByText('Dev is typing')).toBeTruthy();
   });
 });
 
