@@ -156,10 +156,10 @@ export function SplashScreen() {
     passport.start(goToName);
   };
 
-  // The cover turns on its spine (left edge): shift the pivot there, rotate, shift back. Edge-on
-  // it is gone, so its back never shows.
+  // The cover turns on its spine (left edge): shift the pivot there, rotate, shift back. It fades
+  // over its last 30°, so no edge-on sliver lingers over the page and its back never shows.
   const coverStyle = useAnimatedStyle(() => ({
-    opacity: passport.swing.value <= -89 ? 0 : 1,
+    opacity: Math.min(1, Math.max(0, (passport.swing.value + 90) / 30)),
     transform: [
       { perspective: 1600 },
       { translateX: -COVER_W / 2 },
