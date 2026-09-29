@@ -149,8 +149,10 @@ async function storeTip(
   const lead = plan.facts[0];
   if (lead === undefined) return null;
   const { rows } = await tx.query<{ id: string }>(
-    `INSERT INTO home_tips (crew_id, guide_id, kind, text, facts, place_id, dedupe_key, valid_until)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    // Dated by the job's clock, the same one the once-a-day check in planCrew reads.
+    `INSERT INTO home_tips (crew_id, guide_id, kind, text, facts, place_id, dedupe_key, valid_until,
+       created_at)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
      ON CONFLICT (crew_id, dedupe_key) DO NOTHING RETURNING id`,
     [
       plan.crewId,
@@ -161,6 +163,7 @@ async function storeTip(
       lead.place_id,
       tipDedupeKey(plan.facts),
       new Date(now.getTime() + TIP_VALID_DAYS * 86_400_000),
+      now,
     ],
   );
   const id = rows[0]?.id;
