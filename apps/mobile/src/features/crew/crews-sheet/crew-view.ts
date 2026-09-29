@@ -36,6 +36,19 @@ export function daysUntil(startDate: string | null, now: Date): number | null {
   return Math.ceil((start - now.getTime()) / DAY_MS);
 }
 
+/**
+ * The trip a crew card talks about: the earliest dated trip with a destination (the one Home
+ * counts down to), else any trip with a destination, else the first one (a trip still voting on
+ * where to go).
+ */
+function nextTrip(trips: readonly TripHeader[]): TripHeader | null {
+  const placed = trips.filter((trip) => trip.place !== null);
+  const dated = placed
+    .filter((trip) => trip.start_date !== null)
+    .sort((a, b) => (a.start_date ?? '').localeCompare(b.start_date ?? ''));
+  return dated[0] ?? placed[0] ?? trips[0] ?? null;
+}
+
 export function crewCards(snapshot: CrewsSnapshot): CrewCardView[] {
   const memberOf = new Set(snapshot.members.map((m) => m.crew_id));
   return snapshot.crews
@@ -46,7 +59,7 @@ export function crewCards(snapshot: CrewsSnapshot): CrewCardView[] {
       members: snapshot.members
         .filter((m) => m.crew_id === crew.id)
         .map((m) => ({ name: firstName(m.display_name), colour: m.colour })),
-      nextTrip: snapshot.trips.find((trip) => trip.crew_id === crew.id) ?? null,
+      nextTrip: nextTrip(snapshot.trips.filter((trip) => trip.crew_id === crew.id)),
       active: snapshot.activeCrewId === crew.id,
     }));
 }

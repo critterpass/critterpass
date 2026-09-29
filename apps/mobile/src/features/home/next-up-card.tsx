@@ -61,6 +61,7 @@ export function NextUpCard({ trip, now, testID = 'home-next-up' }: NextUpCardPro
       eyebrow={upper(eyebrow, locale)}
       title={upper(place, locale)}
       metaLabel={t({ id: 'home.nextUp.planSpoken', message: `plan ${progress} percent done` })}
+      stickerSize={NEXT_UP_STICKER}
       sticker={
         <Animated.View style={bob}>
           <Sticker kind={sticker.kind} name={sticker.name} size={NEXT_UP_STICKER} pose="wave" />

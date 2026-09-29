@@ -25,8 +25,8 @@ import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import type { ReactElement } from 'react';
-import { Text } from 'react-native';
 
+import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import {
   openTestLocalFirst,
   type TestLocalFirst,
@@ -35,7 +35,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
 import { CrewSettingsScreen } from '../../settings/CrewSettingsScreen';
 import { StartCrewScreen } from '../../start-crew/StartCrewScreen';
-import { registerCrewCardBadge } from '../badge-slot';
+import '../../chat/register';
 import { CrewsSheet } from '../CrewsSheet';
 import {
   applied,
@@ -155,15 +155,32 @@ describe('3g-3 your crews', () => {
   it('lists each crew with its members and next trip, and the invite waiting for me', async () => {
     stack = await openTestLocalFirst({ holdUploads: true, uid: ME });
     await seed(stack.db);
-    const stop = registerCrewCardBadge(({ crewId }) => <Text testID={`badge-${crewId}`}>5</Text>);
+    // The device's signed-in owner, which chat's unread count reads.
+    await stack.db.execute('INSERT OR REPLACE INTO local_state (id, value) VALUES (?, ?)', [
+      OWNER_UID_KEY,
+      ME,
+    ]);
+    // A trip still voting on where to go must not hide the dated Bali trip.
+    await stack.db.execute("INSERT INTO trips (id, crew_id, status) VALUES ('t-0', ?, 'voting')", [
+      BALI,
+    ]);
+    for (const [seq, body] of [
+      [1, 'is anyone up?'],
+      [2, "who's up for the spa on day 3?"],
+    ] as const) {
+      await stack.db.execute(
+        "INSERT INTO messages (id, crew_id, seq, sender_kind, sender_id, type, body, created_at) VALUES (?, ?, ?, 'user', ?, 'text', ?, '2026-09-20T10:00:00Z')",
+        [`m-${seq}`, BALI, seq, MAYA, body],
+      );
+    }
     await renderCrew(<CrewsSheet />);
     expect(await screen.findByText(/^the bali six$/iu)).toBeTruthy();
     expect(screen.getByText('Bali in 16 days')).toBeTruthy();
     expect(screen.getByText('Nothing planned yet')).toBeTruthy();
-    expect(screen.getByTestId(`badge-${BALI}`)).toBeTruthy();
+    expect(await screen.findByText('2 NEW')).toBeTruthy();
+    expect(await screen.findByText(/who's up for the spa on day 3\?/u)).toBeTruthy();
     expect(screen.getByText(/^ramen club$/iu)).toBeTruthy();
     expect(screen.getByText('Dev invited you')).toBeTruthy();
-    stop();
   });
 
   it('switches the active crew through the offline queue and closes', async () => {

@@ -92,7 +92,8 @@ function SlideOffDemo() {
   );
 }
 
-const guide = <Sticker kind="gecko" name="Tokek" size={96} pose="wave" />;
+const GUIDE_STICKER_SIZE = 96;
+const guide = <Sticker kind="gecko" name="Tokek" size={GUIDE_STICKER_SIZE} pose="wave" />;
 
 registerFixture('Card', 'raised', () => (
   <Card>
@@ -159,6 +160,7 @@ registerFixture('CountdownCard', 'next trip', () => (
     eyebrow="Next up · Oct 12"
     title="Bali"
     sticker={guide}
+    stickerSize={GUIDE_STICKER_SIZE}
     meta={
       <>
         <Chip>17d 05:26:47</Chip>

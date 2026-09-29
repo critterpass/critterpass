@@ -1,5 +1,10 @@
 /** Home's public surface for other features: the vote slot, inbox renderers and nudging. */
-export { registerHomeVoteSlot, type HomeVoteSlotRegistration, type VoteSlotProps } from './slots';
+export {
+  registerHomeVoteSlot,
+  useHomeVote,
+  type HomeVoteSlotRegistration,
+  type VoteSlotProps,
+} from './slots';
 export {
   registerInboxRenderer,
   type InboxCardCopy,

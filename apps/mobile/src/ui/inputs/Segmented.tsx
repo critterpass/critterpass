@@ -33,8 +33,12 @@ const useStyles = makeStyles((t) => ({
     gap: t.space['4'],
   },
   caption: { paddingHorizontal: t.space['10'] },
+  // Content-weighted: each segment starts at its label's width and the spare room is shared, so a
+  // longer label ("NEEDS YOU · 3") takes more of the track instead of wrapping.
   segment: {
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 'auto',
     flexDirection: 'row',
     gap: t.space['4'],
     alignItems: 'center',
@@ -94,6 +98,7 @@ export function Segmented<Value extends string>({
             <Text
               variant="label"
               color={selected ? theme.semantic.text.onAccent : theme.semantic.text.secondary}
+              numberOfLines={1}
             >
               {segment.label}
             </Text>

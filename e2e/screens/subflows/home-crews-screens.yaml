@@ -1,0 +1,141 @@
+appId: app.critterpass.dev
+---
+# From Home right after onboarding, in whatever language the app is running: first-run Home (3b-1),
+# the empty inbox (3b-5) and its back eyebrow, Start a crew empty, named and created, the crews
+# sheet with one crew, then the staging demo crew in its final vote: Home (3b-6), the crews sheet
+# with an active and an unselected crew (3g-3), the inbox with cards (3b-4) and the chat's new-poll
+# sheet (another segmented control). ${PREFIX} names the screenshots by language.
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3b-1-first-run
+# First-run Home has no bell, so the inbox opens by link; iOS asks once whether the app may open
+# its own link.
+- openLink: critterpass-dev://inbox
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-caught-up'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3b-5-inbox-empty
+- tapOn:
+    id: 'inbox-back'
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 10000
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-start-crew-empty
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Lombok Gang'
+# Return closes the keyboard (hideKeyboard does not reliably on iOS).
+- pressKey: Enter
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-start-crew-named
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-start-crew-created
+- tapOn:
+    id: 'start-crew-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-crew'
+    timeout: 30000
+- tapOn:
+    id: 'home-header-crew'
+- extendedWaitUntil:
+    visible:
+      id: 'crews-join-code'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3g-3-crews-one
+# 3g-3 has no ✕: the grabber drag dismisses it.
+- swipe:
+    start: 50%, 15%
+    end: 50%, 90%
+- extendedWaitUntil:
+    notVisible:
+      id: 'crews-sheet'
+    timeout: 10000
+- runFlow:
+    file: ../../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-vote-final
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-crew'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3b-6-home
+- tapOn:
+    id: 'home-header-crew'
+- extendedWaitUntil:
+    visible:
+      id: 'crews-join-code'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3g-3-crews
+# 3g-3 has no ✕: the grabber drag dismisses it.
+- swipe:
+    start: 50%, 15%
+    end: 50%, 90%
+- extendedWaitUntil:
+    notVisible:
+      id: 'crews-sheet'
+    timeout: 10000
+- tapOn:
+    id: 'home-header-inbox'
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-filters'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3b-4-inbox
+- tapOn:
+    id: 'inbox-back'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 10000
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 15000
+# The composer's + has no test id; its text is the only handle.
+- tapOn:
+    text: '\+'
+- tapOn: ${POLL}
+- extendedWaitUntil:
+    visible:
+      id: 'new-poll'
+    timeout: 10000
+# The question field takes focus; put the keyboard away to show the deadline's segmented control.
+- waitForAnimationToEnd
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: 'new-poll-deadline'
+    direction: DOWN
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-new-poll-sheet

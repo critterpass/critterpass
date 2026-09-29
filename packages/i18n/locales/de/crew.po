@@ -7,8 +7,8 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
 
-#. placeholder {0}: card.members.length
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+#. placeholder {0}: members.length
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.members"
 msgstr ""
 
@@ -32,6 +32,14 @@ msgstr ""
 msgid "crew.sheet.inDays"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.voteFinalLeader"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.new"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.beyond"
 msgstr ""
@@ -42,6 +50,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
 msgid "crew.seatLimit.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.unreadSpoken"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
@@ -111,6 +123,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/invite-composer/InviteComposerScreen.tsx
 msgid "crew.composer.previewCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.codeLabel"
 msgstr ""
 
 #. placeholder {0}: code.split('').join(' ')
@@ -279,6 +295,10 @@ msgstr ""
 msgid "crew.composer.share"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.startBody"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.navy"
 msgstr ""
@@ -384,6 +404,14 @@ msgstr ""
 msgid "crew.referral.how"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.lastPhoto"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.lastVoice"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.share"
 msgstr ""
@@ -404,7 +432,7 @@ msgstr ""
 msgid "crew.start.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.start"
 msgstr ""
 
@@ -478,6 +506,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/invite-composer/TagSuggestion.tsx
 msgid "crew.composer.useSuggestion"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.voteOpen"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx

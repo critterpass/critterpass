@@ -82,3 +82,21 @@ registerFixture('HomeHeader', 'all caught up', () => (
     onOpenInbox={noop}
   />
 ));
+
+registerFixture('HomeHeader', 'long crew name, five faces', () => (
+  <HomeHeader
+    name="Khanh"
+    crewName="Bali demo crew for the long weekend"
+    members={[
+      ...CREW,
+      { initial: 'R', color: tokens.color.orange },
+      { initial: 'D', color: tokens.color.blue },
+    ]}
+    unreadChat={12}
+    unreadInbox={4}
+    onOpenProfile={noop}
+    onSwitchCrew={noop}
+    onOpenChat={noop}
+    onOpenInbox={noop}
+  />
+));
