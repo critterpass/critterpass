@@ -168,7 +168,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. FGS type location with ongoing notification + stop action, started only from UI/notification. 2. Fused provider priorities (balanced → high inside geofence). 3. GeofencingClient ≤100, radius ≥150 m, receiver starts FGS (exemption). 4. `isMock()` flag. 5. Prominent disclosure screen before background permission (Play policy).
 - Tests: `./gradlew :cp-location:testDebugUnitTest`; `maestro test e2e/location/session-android.yaml` (emulator mock route).
 - Done when: emulator route triggers enter/exit with app in background; mock provider fixes carry `mock=true`.
-- Status: done — 1803960f, 624392e5 (planner and fix mapping pass JUnit; the service, receiver and module type-check against android-36 + play-services-location; the emulator route run waits for an Android development build)
+- Status: done — 1803960f, 624392e5 (planner and fix mapping pass JUnit; the service, receiver and module type-check against android-36 + play-services-location; `e2e/location/session-android.yaml` passes on the Android emulator with e2e-test build 4ecd0486)
 
 ### T9 — Location engine (JS)
 - Goal: orchestrate modes, budget and consumers.
@@ -192,7 +192,7 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 - Steps: 1. Maestro flows across both platforms. 2. API e2e: device op → visit row → TTL purge. 3. Battery: simulator/emulator energy proxy (location update count + high-accuracy minutes per hour from the engine's budget accountant) recorded as artifact; on-device %/h measurement per phase-02 method is an M8 milestone checklist item. 4. Write review-notes runbook.
 - Tests: `maestro test e2e/location e2e/permissions`; `pnpm --fail-if-no-match --filter @cp/api test -- location/visit-e2e`.
 - Done when: all flows green on CI simulators/emulators; runbook lists the proxy numbers, the on-device measurement procedure and reviewer steps.
-- Status: done — 98857023 (API visit end-to-end and the battery proxy pass; on iOS 27 simulator with e2e-test build 537c50ab (fingerprint dce23884) every flow in `e2e/permissions` (primer, jit-camera, denied-settings, the primer screenshots) and `e2e/location` (session-ios, trip-day-session, always-upgrade, visit-consent, reload-survives) passes; the Android run is open and the on-device %/h check is on the M8 checklist)
+- Status: done — 98857023 (API visit end-to-end and the battery proxy pass; on iOS 27 simulator with e2e-test build 537c50ab (fingerprint dce23884) every flow in `e2e/permissions` (primer, jit-camera, denied-settings, the primer screenshots) and `e2e/location` (session-ios, trip-day-session, always-upgrade, visit-consent, reload-survives) passes; on the Android emulator with e2e-test build 4ecd0486 primer, jit-camera, denied-settings, session-android, trip-day-session, always-upgrade and visit-consent pass after Android flow fixes (dialog labels, the settings-page Always grant, back navigation, a longer cold start); reload-survives is iOS-only; the on-device %/h check is on the M8 checklist)
 
 ## Phase acceptance criteria
 
