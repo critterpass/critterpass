@@ -5,7 +5,7 @@ import type { StyleProp, TextProps as RNTextProps, TextStyle } from 'react-nativ
 
 import type { TypographyValue } from '@cp/design-tokens';
 import { resolveTypeVariant, tokens } from '@cp/design-tokens';
-import { upper } from '@cp/i18n';
+import { upperKeepingCurrency } from '@cp/i18n';
 
 import { fontFor } from '@/lib/fonts';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -102,7 +102,8 @@ function transformChildren(
 ): { children: ReactNode; hasElements: boolean } {
   let hasElements = false;
   const mapped = Children.map(children, (child) => {
-    if (typeof child === 'string') return upper(child, locale);
+    // Amounts keep their currency symbol as written ("Rp 450.000", never "RP").
+    if (typeof child === 'string') return upperKeepingCurrency(child, locale);
     if (isValidElement(child)) hasElements = true;
     return child;
   });
