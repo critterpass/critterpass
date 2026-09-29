@@ -83,7 +83,7 @@ export function ReactionChips({
   const theme = useTheme();
   if (groups.length === 0) return null;
   return (
-    <Row gap="4" wrap testID="chat-reaction-chips">
+    <Row gap="4" wrap style={{ paddingTop: theme.space['4'] }} testID="chat-reaction-chips">
       {groups.map((group) => (
         <Text
           key={group.emoji}

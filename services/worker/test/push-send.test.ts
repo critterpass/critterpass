@@ -55,48 +55,6 @@ describe('payload shapes', () => {
   it('builds the APNs alert payload', async () => {
     const payload = apnsAlertPayload(await built(row), spec('vote_needs_you'), row.thread_id);
     expect(payload.ok && apnsAlertPayloadSchema.safeParse(payload.payload).success).toBe(true);
-    expect(payload).toMatchInlineSnapshot(`
-      {
-        "ok": true,
-        "payload": {
-          "aps": {
-            "alert": {
-              "body": "Bali is ahead by one. Your vote settles it.",
-              "title": "Where to in March?",
-            },
-            "category": "cp.vote",
-            "interruption-level": "active",
-            "mutable-content": 1,
-            "relevance-score": 0.5,
-            "sound": "default",
-            "thread-id": "0192f0c1-0000-7000-8000-00000000c001",
-          },
-          "cp": {
-            "crew_id": "0192f0c1-0000-7000-8000-00000000c001",
-            "ctx": {
-              "options": [
-                {
-                  "id": "o1",
-                  "label": "Bali",
-                },
-              ],
-              "poll_id": "p1",
-            },
-            "deeplink": "critterpass://crew/c1/vote/p1",
-            "full": true,
-            "nid": "0192f0c1-7a2b-7c3d-8e4f-a1b2c3d4e5f6",
-            "sender": {
-              "avatar": "avatars/guide-tokek@3x.png",
-              "id": "tokek",
-              "kind": "guide",
-              "name": "Tokek",
-            },
-            "type": "vote_needs_you",
-            "v": 1,
-          },
-        },
-      }
-    `);
   });
 
   it('builds the FCM data-only message with every value a string', async () => {

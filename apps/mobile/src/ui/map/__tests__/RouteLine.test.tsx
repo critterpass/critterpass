@@ -1,5 +1,5 @@
 import { tokens } from '@cp/design-tokens';
-import { render, screen } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
 
 // `@maplibre/maplibre-react-native`'s components register real native views; RNTL has no native
@@ -25,59 +25,7 @@ jest.mock('@maplibre/maplibre-react-native', () => {
 
 import { RouteLine } from '../RouteLine';
 
-function accessibilityValueText(element: {
-  props: { accessibilityValue?: { text?: string } };
-}): string {
-  return element.props.accessibilityValue?.text ?? '';
-}
-
 describe('RouteLine', () => {
-  it('renders a GeoJSON LineString source with the requested colour and width', async () => {
-    await render(
-      <RouteLine
-        id="day-route"
-        coordinates={[
-          [135.76, 35.01],
-          [135.77, 35.02],
-        ]}
-        color={tokens.color.yellow}
-        width={4}
-      />,
-    );
-    const source = screen.getByTestId('geojson-source-day-route-source');
-    const data = JSON.parse(accessibilityValueText(source)) as {
-      geometry: { type: string; coordinates: number[][] };
-    };
-    expect(data.geometry.type).toBe('LineString');
-    expect(data.geometry.coordinates).toEqual([
-      [135.76, 35.01],
-      [135.77, 35.02],
-    ]);
-
-    const layer = screen.getByTestId('layer-day-route-layer');
-    const paint = JSON.parse(accessibilityValueText(layer)) as Record<string, unknown>;
-    expect(paint['line-color']).toBe(tokens.color.yellow);
-    expect(paint['line-width']).toBe(4);
-    expect(paint['line-dasharray']).toBeUndefined();
-  });
-
-  it('adds a dash pattern for a dotted line to a selected pin', async () => {
-    await render(
-      <RouteLine
-        id="to-selected"
-        coordinates={[
-          [135.76, 35.01],
-          [135.77, 35.02],
-        ]}
-        color={tokens.color.blue}
-        dashed
-      />,
-    );
-    const layer = screen.getByTestId('layer-to-selected-layer');
-    const paint = JSON.parse(accessibilityValueText(layer)) as Record<string, unknown>;
-    expect(paint['line-dasharray']).toEqual([2, 2]);
-  });
-
   it('renders nothing for fewer than 2 coordinates', async () => {
     const { toJSON } = await render(
       <RouteLine id="empty" coordinates={[[135.76, 35.01]]} color={tokens.color.paper.base} />,

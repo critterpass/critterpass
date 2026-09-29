@@ -252,20 +252,22 @@ Forbidden: Redux, MobX, React Context for frequently changing values, duplicatin
 
 | Change type | Required tests |
 |---|---|
-| Pure package logic (cost-engine, planner, entitlements, domain) | Vitest unit incl. edge cases; property tests for money/splits/scheduling |
-| New/changed command | contract test (zod), handler integration test via Testcontainers (happy, policy deny, idempotent replay, validation reject via sync door) |
+| Pure package logic (cost-engine, planner, entitlements, domain) | Vitest unit for the rules and their edge cases; property tests only for money, splits and scheduling |
+| New/changed command | one handler integration test via Testcontainers covering the happy path and the policy deny; idempotent replay and door validation are covered once by the doors' own tests (`services/api/test/routes/cmd.db.test.ts`, `sync-upload.db.test.ts`), so add a case only for a command with its own replay or validation logic |
 | New table / column / policy | permission contract test per actor + C3 publication/guide_reader assertions |
 | Sync stream change | stream test: member sees, outsider doesn't |
 | Centrifugo channel | proxy decision test per actor + unsubscribe on removal |
-| Screen / component | RNTL render + interaction + a11y roles; states: loading, empty, error, offline |
-| User flow | Maestro flow in `e2e/<area>/` (happy path + offline where relevant) |
-| Motion/visual | reduce-motion test; Maestro `assertScreenshot` in motion-freeze mode for key screens |
+| Screen / component | no render or snapshot tests: the runtime ui-qa guards and the design \| device sheets (UI QA ladder below) are the UI check. RNTL tests only for interaction logic with branches (state machines, gesture thresholds, form validation) |
+| User flow | Maestro flow in `e2e/<area>/` for the happy path, plus offline where the feature syncs |
+| Motion/visual | reduce-motion is honoured by the shared motion hooks and tested there once; no per-screen screenshot asserts |
 | Critter art | golden diff vs Chromium references |
 | Prompt/tool | promptfoo suite pass |
 | Supplier adapter | recorded-response contract test + error/timeout mapping |
 | Native module/extension | XCTest/JUnit for logic; build in CI; Maestro where reachable |
-| Web route | Playwright (incl. AASA/assetlinks, OG render) |
-| Bug fix | failing regression test first |
+| Web route | Playwright for AASA/assetlinks and the OG render |
+| Bug fix | a failing regression test first for a logic bug; a UI bug gets its screen into a device flow instead |
+
+**Never add:** snapshot tests; tests that restate markup, copy, constants or types; tests of a library's or framework's own behaviour; the same behaviour tested at two layers (keep the cheapest layer that still catches the bug); tests of throwaway spikes. Delete an existing test of these kinds when you touch its file.
 
 Test doubles: only at network boundaries (DeepSeek, Tavily, Jev, suppliers, APNs/FCM, RevenueCat) using recorded fixtures; never mock the database.
 

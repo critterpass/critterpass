@@ -14,7 +14,6 @@ import Animated from 'react-native-reanimated';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLongPress } from '@/motion/gestures/long-press';
 import { InlineAction } from '@/ui/buttons/InlineAction';
-import { Icon } from '@/ui/icons/Icon';
 import { Avatar } from '@/ui/people/Avatar';
 import { Row, Stack, Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';
@@ -53,14 +52,22 @@ export interface BubbleProps {
 }
 
 const useStyles = makeStyles((th) => ({
-  bubble: { paddingHorizontal: th.space['14'], paddingVertical: th.space['10'], maxWidth: '82%' },
+  bubble: { paddingHorizontal: th.space['14'], paddingVertical: th.space['10'] },
+  // The width cap sits on the column, whose parent is the full-width row: a percentage on the
+  // bubble itself resolves against its content-sized wrappers and squeezes short words apart.
+  column: { flexShrink: 1 },
+  textColumn: { maxWidth: '82%' },
   avatarSlot: { width: th.size.avatar.lg, alignItems: 'center' },
   system: {
     alignSelf: 'center',
     paddingVertical: th.space['6'],
     paddingHorizontal: th.space['24'],
   },
-  meta: { gap: th.space['6'], alignItems: 'center' },
+  meta: { gap: th.space['6'], alignItems: 'center', paddingTop: th.space['4'] },
+  under: { alignItems: 'flex-start' },
+  pending: { width: th.space['6'], height: th.space['6'], borderRadius: th.space['6'] },
+  underMine: { alignItems: 'flex-end' },
+  underTheirs: { paddingStart: (th.size.avatar.lg ?? 0) + th.space['8'] },
 }));
 
 export function Bubble(props: BubbleProps) {
@@ -138,7 +145,14 @@ export function Bubble(props: BubbleProps) {
             ) : null}
           </View>
         )}
-        <Stack gap="4" style={{ flexShrink: 1, alignItems: mine ? 'flex-end' : 'flex-start' }}>
+        <Stack
+          gap="4"
+          style={[
+            styles.column,
+            custom === null ? styles.textColumn : null,
+            { alignItems: mine ? 'flex-end' : 'flex-start' },
+          ]}
+        >
           {first && author !== null ? (
             <Text variant="label" color={guide ? guideColor : theme.semantic.text.secondary}>
               {author}
@@ -195,22 +209,18 @@ export function Bubble(props: BubbleProps) {
               </GestureDetector>
             </Animated.View>
           </GestureDetector>
-          {props.reactions}
-          <DeliveryLine {...props} time={time} />
         </Stack>
       </Row>
+      {/* Under the bubble, not beside the avatar: the avatar lines up with the bubble's foot. */}
+      <View style={[styles.under, mine ? styles.underMine : styles.underTheirs]}>
+        {props.reactions}
+        <DeliveryLine {...props} />
+      </View>
     </Animated.View>
   );
 }
 
-function DeliveryLine({
-  message,
-  mine,
-  last,
-  time,
-  onRetry,
-  onDiscard,
-}: BubbleProps & { readonly time: string }) {
+function DeliveryLine({ message, mine, onRetry, onDiscard }: BubbleProps) {
   const styles = useStyles();
   const theme = useTheme();
   const edited = message.edited && !message.deleted;
@@ -235,21 +245,18 @@ function DeliveryLine({
       </Row>
     );
   }
+  // 3g-1 shows no per-message times (the day divider carries the date, the time is in each
+  // bubble's spoken label); only the delivery state and edits are written under a bubble.
   const sending = mine && message.status !== 'sent';
-  if (!sending && !edited && !last) return null;
+  if (!sending && !edited) return null;
   const parts = [
     ...(edited ? [t({ id: 'chat.status.edited', message: 'edited' })] : []),
-    ...(sending ? [t({ id: 'chat.status.sending', message: 'Sending' })] : [time]),
+    ...(sending ? [t({ id: 'chat.status.sending', message: 'Sending' })] : []),
   ];
   return (
     <Row style={styles.meta}>
       {sending ? (
-        <Icon
-          name="circle"
-          size={theme.space['12']}
-          decorative
-          color={theme.semantic.state.warning}
-        />
+        <View style={[styles.pending, { backgroundColor: theme.semantic.state.warning }]} />
       ) : null}
       <Text variant="caption" color={theme.semantic.text.tertiary}>
         {parts.join(' · ')}

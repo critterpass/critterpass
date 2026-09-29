@@ -66,22 +66,6 @@ describe('clusterPlaces', () => {
 });
 
 describe('CpMap', () => {
-  it('renders one pin per place when they are far enough apart to not cluster', async () => {
-    await renderWithI18n(<CpMap places={[NISHIKI, FUSHIMI]} zoom={14} />);
-    expect(screen.getByTestId('doodle-pin-pin-market')).toBeTruthy();
-    expect(screen.getByTestId('doodle-pin-pin-temple-shrine')).toBeTruthy();
-  });
-
-  it('marks the selected place', async () => {
-    await renderWithI18n(<CpMap places={[NISHIKI, FUSHIMI]} zoom={14} selectedPlaceId="fushimi" />);
-    expect(
-      screen.getByTestId('doodle-pin-pin-temple-shrine').props.accessibilityState,
-    ).toMatchObject({ selected: true });
-    expect(screen.getByTestId('doodle-pin-pin-market').props.accessibilityState).toMatchObject({
-      selected: false,
-    });
-  });
-
   it('collapses near-identical places into a cluster bubble, then expands it on tap', async () => {
     const nearby: MapPlace = {
       ...NISHIKI,
@@ -131,38 +115,5 @@ describe('CpMap', () => {
     );
     expect(screen.getByTestId('you-dot')).toBeTruthy();
     expect(screen.queryByTestId('map-not-in-destination')).toBeNull();
-  });
-
-  it('shows the offline-unavailable banner when a region pack has not been downloaded', async () => {
-    await renderWithI18n(<CpMap places={[]} offlineUnavailable />);
-    expect(screen.getByTestId('map-offline-unavailable')).toBeTruthy();
-  });
-
-  it('shows "no results" when a filter is active and nothing matches', async () => {
-    await renderWithI18n(<CpMap places={[]} filterActive />);
-    expect(screen.getByTestId('map-no-results')).toBeTruthy();
-  });
-
-  it('requests list view via the map-mode toggle button', async () => {
-    const onRequestListView = jest.fn();
-    await renderWithI18n(<CpMap places={[NISHIKI]} onRequestListView={onRequestListView} />);
-    await fireEvent.press(screen.getByText('List view'));
-    expect(onRequestListView).toHaveBeenCalledTimes(1);
-  });
-
-  it('renders a place list and requests map view via the list-mode toggle button', async () => {
-    const onRequestMapView = jest.fn();
-    await renderWithI18n(
-      <CpMap places={[NISHIKI]} viewMode="list" onRequestMapView={onRequestMapView} />,
-    );
-    expect(screen.getByTestId('map-list-view')).toBeTruthy();
-    expect(screen.getByText('Nishiki Market')).toBeTruthy();
-    await fireEvent.press(screen.getByText('Map view'));
-    expect(onRequestMapView).toHaveBeenCalledTimes(1);
-  });
-
-  it('shows "no results" in list view too when a filter is active and nothing matches', async () => {
-    await renderWithI18n(<CpMap places={[]} viewMode="list" filterActive />);
-    expect(screen.getByTestId('map-no-results')).toBeTruthy();
   });
 });

@@ -6,10 +6,10 @@
  */
 import { useLocalSearchParams } from 'expo-router';
 import { createElement, useCallback, useMemo, useRef, useState } from 'react';
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
+import { View } from 'react-native';
 
 import { useSyncStatus } from '@/data/status/use-sync-status';
-import { useTheme } from '@/ui';
+import { KeyboardFooter, useTheme } from '@/ui';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { makeStyles } from '@/ui/theme';
 
@@ -160,11 +160,8 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
   );
 
   return (
-    <Scaffold variant="dark" edges={['top', 'bottom']} testID="chat-screen">
-      <KeyboardAvoidingView
-        style={styles.root}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
+    <Scaffold variant="dark" edges={['top']} testID="chat-screen">
+      <View style={styles.root}>
         <ChatHeader
           crewId={crewId}
           crewName={info.crewName}
@@ -197,42 +194,45 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
             />
           )}
         </View>
-        {former ? (
-          <FormerMemberBar />
-        ) : (
-          <View style={{ backgroundColor: theme.semantic.bg.base }}>
-            {Hint === null ? null : createElement(Hint, { crewId })}
-            {mediaControls.bar}
-            <ChatComposer
-              ref={composer}
-              candidates={candidates}
-              guideName={guideName}
-              onSend={(draft) => {
-                void send(draft);
-                setReplyTo(null);
-              }}
-              onTyping={typing.notifyTyping}
-              {...mediaControls.composer}
-              {...(replyTo === null
-                ? {}
-                : {
-                    replyTo: {
-                      id: replyTo.id,
-                      preview: <ReplyQuote message={replyTo} />,
-                      onCancel: () => setReplyTo(null),
-                    },
-                  })}
-              {...(editing === null
-                ? {}
-                : { editing: { id: editing.id, onCancel: () => setEditing(null) } })}
-              onEdit={(messageId, body) => {
-                const message = byId.get(messageId);
-                if (message !== undefined) void edit(message, body);
-              }}
-            />
-          </View>
-        )}
-      </KeyboardAvoidingView>
+        {/* The composer rides the keyboard on both platforms and pads the home indicator itself. */}
+        <KeyboardFooter inset="none" testID="chat-footer">
+          {former ? (
+            <FormerMemberBar />
+          ) : (
+            <>
+              {Hint === null ? null : createElement(Hint, { crewId })}
+              {mediaControls.bar}
+              <ChatComposer
+                ref={composer}
+                candidates={candidates}
+                guideName={guideName}
+                onSend={(draft) => {
+                  void send(draft);
+                  setReplyTo(null);
+                }}
+                onTyping={typing.notifyTyping}
+                {...mediaControls.composer}
+                {...(replyTo === null
+                  ? {}
+                  : {
+                      replyTo: {
+                        id: replyTo.id,
+                        preview: <ReplyQuote message={replyTo} />,
+                        onCancel: () => setReplyTo(null),
+                      },
+                    })}
+                {...(editing === null
+                  ? {}
+                  : { editing: { id: editing.id, onCancel: () => setEditing(null) } })}
+                onEdit={(messageId, body) => {
+                  const message = byId.get(messageId);
+                  if (message !== undefined) void edit(message, body);
+                }}
+              />
+            </>
+          )}
+        </KeyboardFooter>
+      </View>
       {mediaControls.sheet}
       {me === null ? null : (
         <ChatOverlays

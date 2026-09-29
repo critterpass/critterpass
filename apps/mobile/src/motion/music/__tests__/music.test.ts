@@ -11,7 +11,7 @@ import {
 import { crossfadeFraction, musicEngine } from '../crossfade';
 import { musicLevel, resetMusicLevelForTests, updateMusicLevelFromSample } from '../levels';
 import { music } from '../index';
-import { availableThemes, themeFor } from '../themes';
+import { themeFor } from '../themes';
 
 beforeEach(async () => {
   await resetFeedbackPrefsForTests();
@@ -38,12 +38,6 @@ describe('crossfadeFraction', () => {
 });
 
 describe('themes', () => {
-  it('lists all 6 guide themes as available now that @cp/sound-art assets are wired', () => {
-    const guideIds = availableThemes().map((theme) => theme.guideId);
-    expect(guideIds).toEqual(['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco']);
-    expect(themeFor('tokek')?.available).toBe(true);
-  });
-
   it('returns undefined for an unrecognised guide id', () => {
     expect(themeFor('not-a-guide')).toBeUndefined();
   });

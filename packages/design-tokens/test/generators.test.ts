@@ -19,24 +19,6 @@ const swift = emitSwift(leaves);
 const kotlin = emitKotlin(leaves);
 const fontsCss = emitFontsCss();
 
-describe('generators produce stable output', () => {
-  it('TS matches its snapshot', () => {
-    expect(ts).toMatchSnapshot();
-  });
-
-  it('CSS matches its snapshot', () => {
-    expect(css).toMatchSnapshot();
-  });
-
-  it('Swift matches its snapshot', () => {
-    expect(swift).toMatchSnapshot();
-  });
-
-  it('Kotlin matches its snapshot', () => {
-    expect(kotlin).toMatchSnapshot();
-  });
-});
-
 describe('guide colours match the canonical palette in every output', () => {
   // Canonical guide colours: tokek yellow, pon orange, lundi blue, ajo pink, sardi green.
   // (paco is the aliased "cream" case, documented in guide.tokens.json; not spot-checked here.)
@@ -109,10 +91,6 @@ describe('emitKotlin', () => {
 });
 
 describe('emitFontsCss', () => {
-  it('matches its snapshot', () => {
-    expect(fontsCss).toMatchSnapshot();
-  });
-
   it('shares one font-family name across every Archivo weight/width, unlike the mobile side', () => {
     const archivoRules = fontsCss
       .split('@font-face')

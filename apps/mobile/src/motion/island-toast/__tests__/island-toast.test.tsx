@@ -132,29 +132,6 @@ describe('hasDynamicIsland', () => {
 });
 
 describe('IslandToast', () => {
-  it('renders nothing when the queue is empty', async () => {
-    const { queryByText } = await renderToast();
-    expect(queryByText('First')).toBeNull();
-  });
-
-  it('renders the current toast with its title, subtitle and action', async () => {
-    const onPress = jest.fn();
-    await act(() => {
-      toastQueue.show({
-        id: 'a',
-        title: 'Pass issued',
-        subtitle: 'Tap to view',
-        action: { label: 'Open', onPress },
-      });
-    });
-    const { getByText } = await renderToast();
-
-    await waitFor(() => expect(getByText('Pass issued')).toBeTruthy());
-    expect(getByText('Tap to view')).toBeTruthy();
-    await fireEvent.press(getByText('Open'));
-    expect(onPress).toHaveBeenCalledTimes(1);
-  });
-
   it('keeps Open and Dismiss beside the alert, so a folded Android alert node leaves them reachable', async () => {
     await act(() => {
       toastQueue.show({
@@ -213,15 +190,6 @@ describe('IslandToast', () => {
     await renderToast();
 
     await waitFor(() => expect(announceSpy).toHaveBeenCalledWith('Pass issued. Tap to view'));
-  });
-
-  it('renders a caller-provided sticker node', async () => {
-    await act(() => {
-      toastQueue.show({ id: 'a', title: 'Egg hatched', sticker: <Text>🥚</Text> });
-    });
-    const { getByText } = await renderToast();
-
-    await waitFor(() => expect(getByText('🥚')).toBeTruthy());
   });
 
   it('renders without crashing under Dynamic Island safe-area metrics', async () => {

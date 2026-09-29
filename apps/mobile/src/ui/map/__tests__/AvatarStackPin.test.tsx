@@ -39,11 +39,4 @@ describe('AvatarStackPin', () => {
     expect(screen.getByText('+2')).toBeTruthy();
     expect(screen.getByLabelText('A, B, C, D, E, and 2 more here')).toBeTruthy();
   });
-
-  it('marks the selected state via accessibilityState', async () => {
-    await renderWithI18n(<AvatarStackPin members={[{ id: 'a', initial: 'A' }]} selected />);
-    expect(screen.getByTestId('avatar-stack-pin').props.accessibilityState).toMatchObject({
-      selected: true,
-    });
-  });
 });

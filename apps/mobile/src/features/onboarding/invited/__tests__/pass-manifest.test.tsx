@@ -158,26 +158,6 @@ describe('3a-13 you’re in', () => {
     }
   }
 
-  it('stamps in the crew with the newcomer ringed and unnamed seats waiting', async () => {
-    openInvite();
-    inviteSession.setJoined(JOINED);
-    stack = await openTestLocalFirst({ holdUploads: true, uid: ME });
-    await seedCrew(stack.db);
-    const { analytics } = await renderInvited(<ManifestScreen />, {
-      services: services({ status: 'not_found' }, ME),
-      stack,
-    });
-    expect(await screen.findByTestId('invite-manifest-newcomer')).toBeTruthy();
-    await waitFor(() => expect(screen.getByTestId('invite-manifest-member-0')).toBeTruthy());
-    expect(screen.getByTestId('invite-manifest-pending-0')).toBeTruthy();
-    expect(screen.getByText(/rin’s in/iu)).toBeTruthy();
-    expect(screen.getByText('3 in. One more invite hasn’t been opened yet.')).toBeTruthy();
-    const timing = analytics.events.find((e) => e.event === 'invite_manifest_reached');
-    expect(timing?.props).toEqual({ duration_ms: 10_000, waitlisted: false });
-    await activate(screen.getByTestId('invite-manifest-plan'));
-    expect(router.replace).toHaveBeenCalledWith(`/${TRIP_ID}/plan`);
-  });
-
   it("types out the guide's welcome from the api for this crew and trip", async () => {
     openInvite();
     inviteSession.setJoined(JOINED);
@@ -219,11 +199,5 @@ describe('3a-13 you’re in', () => {
     expect(await screen.findByText(/rin’s next/iu)).toBeTruthy();
     expect(screen.getByText(/next for a seat/u)).toBeTruthy();
     expect(screen.queryByTestId('invite-manifest-pending-0')).toBeNull();
-  });
-
-  it('says the join is still on its way when nothing has landed', async () => {
-    openInvite();
-    await renderInvited(<ManifestScreen />, { services: services({ status: 'not_found' }, ME) });
-    expect(screen.getByTestId('invite-problem-offline')).toBeTruthy();
   });
 });

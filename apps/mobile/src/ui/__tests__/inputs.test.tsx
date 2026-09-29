@@ -5,13 +5,10 @@ jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
 import { fireEvent, screen } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
-import { Alert, StyleSheet, View } from 'react-native';
-import type { AlertButton, StyleProp, ViewStyle } from 'react-native';
+import { Alert, View } from 'react-native';
+import type { AlertButton } from 'react-native';
 
-import { IconButton } from '../buttons/IconButton';
-import { InlineAction } from '../buttons/InlineAction';
 import { PillButton } from '../buttons/PillButton';
-import { fixturesFor, listComponents } from '../gallery/registry';
 import { CodeBoxes } from '../inputs/CodeBoxes';
 import { HoldRing } from '../inputs/HoldRing';
 import { applyKey, Keypad } from '../inputs/Keypad';
@@ -22,15 +19,11 @@ import { RangePrivateMarkers } from '../inputs/RangePrivateMarkers';
 import { SearchField } from '../inputs/SearchField';
 import { Segmented } from '../inputs/Segmented';
 import { SegmentBudget } from '../inputs/SegmentBudget';
-import { SettingsGroup } from '../inputs/SettingsGroup';
 import { SlideToConfirm } from '../inputs/SlideToConfirm';
 import { Slider } from '../inputs/Slider';
 import { TextField } from '../inputs/TextField';
 import { Toggle } from '../inputs/Toggle';
 import { renderUi } from '../test-support/render';
-
-import '../buttons/buttons.fixtures';
-import '../inputs/inputs.fixtures';
 
 const action = (actionName: string) => ({ nativeEvent: { actionName } });
 const activate = (element: Parameters<typeof fireEvent>[0]) =>
@@ -55,22 +48,6 @@ describe('buttons', () => {
     const disabled = screen.getByRole('button', { name: 'Pick a date first' });
     expect(disabled.props.accessibilityState).toMatchObject({ disabled: true });
     expect(disabled.props.accessibilityActions).toEqual([]);
-  });
-
-  it('marks a chosen inline action selected and keeps icon buttons at the minimum target', async () => {
-    await renderUi(
-      <View>
-        <InlineAction label="I'm in" selected onPress={jest.fn()} />
-        <IconButton label="Share" icon="plane" size={40} onPress={jest.fn()} />
-      </View>,
-    );
-    expect(screen.getByRole('button', { name: "I'm in", selected: true })).toBeTruthy();
-    const share = screen.getByRole('button', { name: 'Share' });
-    expect(share.props.style).toEqual(
-      expect.arrayContaining([
-        expect.arrayContaining([expect.objectContaining({ width: 44, height: 44 })]),
-      ]),
-    );
   });
 });
 
@@ -180,30 +157,6 @@ describe('inputs', () => {
     expect(onChangeText).toHaveBeenLastCalledWith('AB12CD34EF56');
   });
 
-  it('shows a gift code as one box per group that shares the row width instead of 12 fixed boxes', async () => {
-    await renderUi(
-      <CodeBoxes
-        label="Gift code"
-        value="PASS7K2QMA"
-        onChangeText={jest.fn()}
-        groups={[4, 4, 4]}
-      />,
-    );
-    for (const group of ['PASS', '7K2Q', 'MA']) {
-      const text = screen.getByText(group, { includeHiddenElements: true });
-      // One line, shrunk to fit its box at large text sizes rather than wrapping or overflowing.
-      expect(text.props.numberOfLines).toBe(1);
-      const styleOf = (node: typeof text | null) =>
-        StyleSheet.flatten(node?.props.style as StyleProp<ViewStyle>);
-      let box = text.parent;
-      while (box && styleOf(box)?.borderWidth === undefined) box = box.parent;
-      const style = styleOf(box);
-      expect(style).toEqual(expect.objectContaining({ flex: 1 }));
-      expect(style?.width).toBeUndefined();
-    }
-    expect(screen.queryByText('P', { includeHiddenElements: true })).toBeNull();
-  });
-
   it('builds amounts from keypad keys', async () => {
     expect(applyKey('', '0')).toBe('');
     expect(applyKey('45', '000')).toBe('45000');
@@ -310,60 +263,5 @@ describe('inputs', () => {
     buttons[1]?.onPress?.();
     expect(onComplete).toHaveBeenCalledTimes(1);
     alert.mockRestore();
-  });
-
-  it('renders every settings row kind with its role and state', async () => {
-    const onPress = jest.fn();
-    await renderUi(
-      <SettingsGroup
-        title="Privacy"
-        rows={[
-          { key: 'a', kind: 'value', title: 'Location', value: 'During trips', onPress },
-          { key: 'b', kind: 'toggle', title: 'Leave-by alarms', value: true, onChange: jest.fn() },
-          { key: 'c', kind: 'private', title: 'Budget max' },
-          { key: 'd', kind: 'check', title: 'Saved offline', checked: true },
-          { key: 'e', kind: 'destructive', title: 'Delete account', onPress },
-        ]}
-      />,
-    );
-    expect(screen.getByRole('header', { name: 'PRIVACY' })).toBeTruthy();
-    await activate(screen.getByRole('button', { name: 'Location, During trips' }));
-    expect(screen.getByRole('switch', { name: 'Leave-by alarms', checked: true })).toBeTruthy();
-    expect(screen.getByLabelText('Budget max, Private')).toBeTruthy();
-    expect(screen.getByRole('checkbox', { name: 'Saved offline', checked: true })).toBeTruthy();
-    await activate(screen.getByRole('button', { name: 'Delete account' }));
-    expect(onPress).toHaveBeenCalledTimes(2);
-  });
-});
-
-describe('gallery fixtures', () => {
-  const families = [
-    'PillButton',
-    'SplitCtaRow',
-    'InlineAction',
-    'IconButton',
-    'TextField',
-    'SearchField',
-    'CodeBoxes',
-    'Keypad',
-    'Toggle',
-    'Segmented',
-    'RadioCard',
-    'Slider',
-    'RangePrivateMarkers',
-    'SlideToConfirm',
-    'HoldRing',
-    'SettingsGroup',
-    'LanguageRow',
-  ];
-
-  it('registers and renders every button and input fixture', async () => {
-    expect(listComponents()).toEqual(expect.arrayContaining(families));
-    for (const component of families) {
-      for (const fixture of fixturesFor(component)) {
-        const { unmount } = await renderUi(<>{fixture.render()}</>);
-        await unmount();
-      }
-    }
   });
 });

@@ -3,7 +3,7 @@
  * command client): the timeline orders by server `seq` and appends this device's unacknowledged
  * sends in queue order whatever the device clock says; a refused send turns into a failed entry
  * that RETRY queues again; unread counts and the read marker key on `seq`; reactions group per
- * emoji and toggle with an explicit outcome; muted crewmates drop out of the timeline.
+ * emoji and toggle with an explicit outcome; muted crewmates drop out of the timeline, at once when muted on this device.
  */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act, configure, renderHook, waitFor } from '@testing-library/react-native';
@@ -16,6 +16,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import type { SyncTransport } from '@/data/powersync/transport';
 
 import { loadReactions, useReactions } from '../use-reactions';
+import { useMessageActions } from '../use-message-actions';
 import { loadTimeline, useMessages } from '../use-messages';
 import { draftProblem, useSendMessage } from '../use-send-message';
 import { MARK_READ_DEBOUNCE_MS, unreadCount, useMarkRead } from '../use-unread-count';
@@ -153,6 +154,23 @@ describe('timeline', () => {
     ]);
     const timeline = await loadTimeline(stack.db, CREW, stack.uid);
     expect(timeline.messages.map((m) => m.body)).toEqual(['from maya', 'from me']);
+  });
+
+  it('hides a crewmate muted on this device before the setting syncs back', async () => {
+    const stack = await open();
+    await seed(stack);
+    await synced(stack, 1, MAYA, 'from maya');
+    await synced(stack, 2, LEO, 'from leo');
+    const { result } = await renderHook(() => useMessageActions(CREW), { wrapper: stack.wrapper });
+
+    await result.current.mute(LEO, true);
+    const muted = await loadTimeline(stack.db, CREW, stack.uid);
+    expect(muted.messages.map((m) => m.body)).toEqual(['from maya']);
+
+    // A later unmute in the same queue wins.
+    await result.current.mute(LEO, false);
+    const unmuted = await loadTimeline(stack.db, CREW, stack.uid);
+    expect(unmuted.messages.map((m) => m.body)).toEqual(['from maya', 'from leo']);
   });
 });
 

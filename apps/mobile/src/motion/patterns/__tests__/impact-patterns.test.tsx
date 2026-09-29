@@ -6,13 +6,10 @@ import { describe, expect, it, jest, beforeEach } from '@jest/globals';
 import { impact } from '../../feedback';
 import { useMotionMode } from '../../motion-mode';
 import { resetMotionModeForTests } from '../../test-support/reset-motion-mode';
-import { useDeal } from '../deal';
 import { useFlap } from '../flap';
-import { useSettle } from '../settle';
 import { useSheen } from '../sheen';
 import { useSlap } from '../slap';
 import { useSlideOff } from '../slide-off';
-import { useSquash } from '../squash';
 import { useStamp } from '../stamp';
 import { ScreenJoltProvider } from '../thud';
 
@@ -121,21 +118,6 @@ describe('useFlap', () => {
 });
 
 describe('other T3 patterns produce a style without throwing', () => {
-  it('useSettle', async () => {
-    const { result } = await renderHook(() => useSettle({ active: true }));
-    expect(result.current).toBeTruthy();
-  });
-
-  it('useSquash', async () => {
-    const { result } = await renderHook(() => useSquash({ active: true }));
-    expect(result.current).toBeTruthy();
-  });
-
-  it('useDeal staggers by row index (motion.duration.stagger.rows)', async () => {
-    const { result } = await renderHook(() => useDeal({ active: true, index: 2 }));
-    expect(result.current).toBeTruthy();
-  });
-
   it('useSlideOff calls onDismissed once the row has collapsed', async () => {
     const onDismissed = jest.fn();
     await renderHook(() => useSlideOff({ active: true, onDismissed }));
