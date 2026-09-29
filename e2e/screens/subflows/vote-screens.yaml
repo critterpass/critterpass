@@ -61,19 +61,20 @@ appId: app.critterpass.dev
 - takeScreenshot: ${PREFIX}-3b-3-pitch
 - tapOn:
     id: 'pitch-add'
-# Back to Home by edge swipes: a link to Home keeps the pushed screens.
+# Back to Home by edge swipes (a link to Home keeps the pushed screens). Stop on Home itself: one
+# more back there leaves the app on Android. The board sits below the fold.
 - repeat:
     while:
       notVisible:
-        id: 'destination-board'
+        id: 'dev-tools-entry'
     times: 4
     commands:
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
       - waitForAnimationToEnd
-- extendedWaitUntil:
-    visible:
+- scrollUntilVisible:
+    element:
       id: 'destination-board'
     timeout: 30000
 - waitForAnimationToEnd
