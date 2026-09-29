@@ -39,6 +39,9 @@ const CHAT: readonly { readonly from: DemoMember['key'] | 'me'; readonly body: s
   { from: 'maya', body: 'Rin still has to say if they are in 👀' },
 ];
 
+/** Maya's answer when a reseed finds the caller's own message last in the chat. */
+export const DEMO_REPLY = 'Got it, see you there 👋';
+
 export interface DemoWorld {
   readonly crewId: string;
   readonly tripId: string;
@@ -214,6 +217,28 @@ async function postChat(
   }
 }
 
+/**
+ * A crewmate answering on another device: when the caller's own message is the newest in the demo
+ * chat, Maya replies to it, so a device run can see a second participant's message arrive.
+ */
+async function answerCaller(
+  tx: pg.PoolClient,
+  world: Pick<DemoWorld, 'crewId' | 'tripId' | 'members'>,
+  uid: string,
+): Promise<void> {
+  const { rows } = await tx.query<{ sender_id: string }>(
+    `SELECT sender_id FROM messages WHERE crew_id = $1 AND sender_kind = 'user'
+      ORDER BY seq DESC LIMIT 1`,
+    [world.crewId],
+  );
+  if (rows[0]?.sender_id !== uid) return;
+  await tx.query(
+    `INSERT INTO messages (crew_id, trip_id, sender_kind, sender_id, type, body)
+     VALUES ($1, $2, 'user', $3, 'text', $4)`,
+    [world.crewId, world.tripId, world.members.maya, DEMO_REPLY],
+  );
+}
+
 /** Finds or builds the caller's demo crew and trip; dates always move to three weeks out. */
 export async function ensureDemoWorld(
   tx: pg.PoolClient,
@@ -232,6 +257,7 @@ export async function ensureDemoWorld(
       members: await memberIds(tx, existing.crew_id, uid),
       created: false,
     };
+    await answerCaller(tx, world, uid);
   } else {
     const { crewId, members } = await createCrew(tx, uid);
     const tripId = await createTrip(

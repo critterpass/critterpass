@@ -11,6 +11,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { undoGuideActionCommand } from '../../src/ai/undo-guide-action';
 import { registerInboxCommands } from '../../src/commands/inbox';
 import { registerNudgeCommands } from '../../src/commands/nudges';
+import { DEMO_REPLY } from '../../src/dev/demo-world';
 import { registerDevRoutes, registerDevRoutesFromEnv } from '../../src/dev/routes';
 import { routeNotificationsFromApiEvents, startJobProducer } from '../../src/jobs/producer';
 import {
@@ -173,6 +174,37 @@ describe('demo seed', { timeout: 120_000 }, () => {
 
     await seed(caller, { scenario: 'caught_up' });
     expect((await openInbox(caller.uid)).filter((item) => item.needs_you)).toEqual([]);
+  });
+
+  it("has Maya answer on a reseed when the caller's message is the newest", async () => {
+    const writer = await harness.signInAnonymously();
+    const world = await seed(writer);
+    const latest = async () => {
+      const { rows } = await harness.pool.query<{ sender_id: string; body: string }>(
+        `SELECT sender_id, body FROM messages WHERE crew_id = $1 ORDER BY seq DESC LIMIT 1`,
+        [world.crew_id],
+      );
+      return rows[0];
+    };
+    await seed(writer);
+    expect((await latest())?.body).not.toBe(DEMO_REPLY);
+
+    await harness.pool.query(
+      `INSERT INTO messages (crew_id, trip_id, sender_kind, sender_id, type, body)
+       VALUES ($1, $2, 'user', $3, 'text', 'landing at 6')`,
+      [world.crew_id, world.trip_id, writer.uid],
+    );
+    await seed(writer);
+    const reply = await latest();
+    expect(reply?.body).toBe(DEMO_REPLY);
+    expect(reply?.sender_id).not.toBe(writer.uid);
+
+    await seed(writer);
+    const { rows } = await harness.pool.query<{ replies: number }>(
+      'SELECT count(*)::int AS replies FROM messages WHERE crew_id = $1 AND body = $2',
+      [world.crew_id, DEMO_REPLY],
+    );
+    expect(rows[0]?.replies).toBe(1);
   });
 
   it('seeds answers that run the real commands, and a reseed makes them answerable again', async () => {
