@@ -43,10 +43,14 @@ export function NameScreen() {
   });
   const reactions = useRef(0);
 
-  // The field mounts again with autoFocus once the page is in (TextField takes no ref).
+  // The field mounts again with autoFocus once the page is in (TextField takes no ref), unless
+  // the user already tapped into it: a remount then would drop the letters being typed.
   const [focusReady, setFocusReady] = useState(false);
+  const userFocused = useRef(false);
   useEffect(() => {
-    const timer = setTimeout(() => setFocusReady(true), NAME_FOCUS_DELAY_MS);
+    const timer = setTimeout(() => {
+      if (!userFocused.current) setFocusReady(true);
+    }, NAME_FOCUS_DELAY_MS);
     return () => clearTimeout(timer);
   }, []);
 
@@ -112,6 +116,9 @@ export function NameScreen() {
         onChangeText={onChange}
         key={focusReady ? 'focus' : 'wait'}
         autoFocus={focusReady}
+        onFocus={() => {
+          userFocused.current = true;
+        }}
         autoCapitalize="words"
         autoCorrect={false}
         textContentType="givenName"
