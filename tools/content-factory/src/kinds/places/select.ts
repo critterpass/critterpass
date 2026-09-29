@@ -154,40 +154,52 @@ export async function scoreCandidates(
   let costMicros = 0;
   let failed = 0;
   const abort = new AbortController();
-  await runBatch(
-    options.gateway,
-    SELECTION_ROUTE,
-    pending.map((entry, index) => ({
-      customId: `s${index}`,
-      input: {
-        system: entry.request.system,
-        messages: [{ role: 'user', content: entry.request.user }],
-        outputFormat: { type: 'json_schema', schema: entry.request.jsonSchema },
-      },
-    })),
-    {
-      concurrency: options.concurrency ?? 8,
-      signal: abort.signal,
-      onResult: (result) => {
-        const entry = pending[Number(result.customId.slice(1))];
-        if (entry === undefined || result.type !== 'succeeded') {
-          failed += 1;
+  let batchError: unknown = null;
+  try {
+    await runBatch(
+      options.gateway,
+      SELECTION_ROUTE,
+      pending.map((entry, index) => ({
+        customId: `s${index}`,
+        input: {
+          system: entry.request.system,
+          messages: [{ role: 'user', content: entry.request.user }],
+          outputFormat: { type: 'json_schema', schema: entry.request.jsonSchema },
+        },
+      })),
+      {
+        concurrency: options.concurrency ?? 8,
+        signal: abort.signal,
+        onResult: (result) => {
+          const entry = pending[Number(result.customId.slice(1))];
+          if (entry === undefined || result.type !== 'succeeded') {
+            failed += 1;
+            return Promise.resolve();
+          }
+          costMicros += result.costMicros;
+          const parsed = scoresSchema.safeParse(parseJson(textOf(result.message)));
+          if (parsed.success) {
+            apply(entry.chunk, parsed.data);
+            writeJson(cacheFile(cacheDir, entry.request), parsed.data);
+          } else failed += 1;
+          if (costMicros >= options.maxCostMicros) abort.abort();
           return Promise.resolve();
-        }
-        costMicros += result.costMicros;
-        const parsed = scoresSchema.safeParse(parseJson(textOf(result.message)));
-        if (parsed.success) {
-          apply(entry.chunk, parsed.data);
-          writeJson(cacheFile(cacheDir, entry.request), parsed.data);
-        } else failed += 1;
-        if (costMicros >= options.maxCostMicros) abort.abort();
-        return Promise.resolve();
+        },
       },
-    },
-  );
-  if (abort.signal.aborted || failed > 0) {
+    );
+  } catch (error) {
+    // An aborted batch (cost cap) rejects its in-flight calls; the message below covers it.
+    if (!abort.signal.aborted) batchError = error;
+  }
+  if (abort.signal.aborted || failed > 0 || batchError !== null) {
+    const inner =
+      batchError instanceof Error && batchError.cause instanceof Error
+        ? ` (${batchError.cause.message})`
+        : '';
+    const cause = batchError instanceof Error ? `; ${batchError.message}${inner}` : '';
     throw new Error(
-      `POI selection for ${destination} stopped (${failed} failed calls, $${(costMicros / 1e6).toFixed(2)} spent): rerun to finish from the cache`,
+      `POI selection for ${destination} stopped (${failed} failed calls, $${(costMicros / 1e6).toFixed(2)} spent${cause}): rerun to finish from the cache`,
+      { cause: batchError },
     );
   }
   options.log?.(
