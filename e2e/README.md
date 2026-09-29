@@ -28,6 +28,7 @@ x86_64 Google APIs image). No local simulator is involved.
 | `build_url`  | EAS artifact URL(s) to install instead of the fingerprint-matched e2e-test build: `.tar.gz` for iOS, `.apk` for Android, space-separated for both.   |
 | `shards`     | Parallel shards per platform (default 3).                                                                                                            |
 | `appearance` | `light` or `dark`.                                                                                                                                    |
+| `preset`     | `sweep` runs the UI sweep (below) in `compare` mode; with `pr` empty the images go to the "Nightly UI sweep" issue.                                   |
 
 Every shard uploads an artifact `device-<platform>-shard-<n>` with JUnit reports, Maestro's logs
 and failure screenshots, the flows' `takeScreenshot` images and `ui-qa.log`. As with
@@ -35,6 +36,19 @@ and failure screenshots, the flows' `takeScreenshot` images and `ui-qa.log`. As 
 as an annotation and in the job summary. In `capture` and `compare` modes the images go to the
 orphan `screenshots` branch under `<pr>/run-<run id>/`, and one comment on the pull request
 embeds them.
+
+Every screenshot a shard takes also goes through three pixel checks
+(`tools/scripts/ci-device/screen-checks.ts`), and any finding fails the shard like a `[ui-qa]`
+report, lands in `screen-checks.log` and is listed at the top of the pull request comment:
+
+- `SCREEN_FRAME`: both side edges are one colour that isn't the app background (`semantic.bg.base`)
+  and give way to the screen at the same inset down most of its height: the screen sits in an inset
+  card or a dark frame.
+- `KEYBOARD_BAND`: with the keyboard up, a full-width band of one colour that isn't the screen's
+  own background sits right above it (a footer pushed up with a black gap under it).
+- `EMPTY_SCREEN`: under a quarter of the screen's rows show anything but its background.
+
+`pnpm tsx tools/scripts/ci-device/screen-scan.ts <dir>` runs them on any folder of screenshots.
 
 The workflow needs the `EXPO_TOKEN` secret (build lookup by fingerprint, and the EAS
 `development` environment's `EXPO_PUBLIC_*` values for the bundle) and `OTP_TEST_CODE`
@@ -76,3 +90,33 @@ translation, which is slower. A shard takes about 3 minutes to boot and install,
 minutes per gallery flow.
 
 The scripts live in `tools/scripts/ci-device/`.
+
+## UI sweep
+
+`e2e/screens/sweep/` visits every user-facing screen and sheet the app can reach, in English and
+Vietnamese: one flow per demo seed scenario (`onboarding`, `first-run` for an account with no crew,
+then the `everyday`, `inbox`, `caught_up`, `vote` and `vote_final` seeds of
+`e2e/_shared/seed-demo.yaml`), with the keyboard up wherever a screen has a field. The steps live in
+`subflows/<scenario>.yaml` and name each screenshot `<lang>-<design id>-<state>` (or a route name
+for screens without a design), so `compare` mode pairs it with its render. The top-level flows are
+generated: after adding a scenario, run `pnpm tsx tools/scripts/ci-device/sweep-coverage.ts
+--write`. The sweep is outside the full suite (`e2e/*/*.yaml`) and runs:
+
+- on demand: `gh workflow run device.yml -f preset=sweep -f shards=7 [-f pr=<n>]`;
+- every night on main (the `schedule` trigger), posting its sheets, the check findings and the
+  coverage report to the open "Nightly UI sweep" issue.
+
+`sweep-coverage.ts` (no flags) prints the coverage report: the screens the app registers
+(`registerScreens`) and the routes under `apps/mobile/src/app` with no sweep screenshot. Every
+route is listed in its `ROUTE_SHOTS` table with the screenshots that show it, or why the sweep can't
+reach it. Gaps don't fail CI (other areas add screens at their own pace); they show in every sweep
+comment, so add the missing steps to the sweep when a new screen or route appears there.
+
+## UI review gate
+
+`.github/workflows/ui-review.yml` adds the `ui-reviewed` check to every pull request. When the pull
+request changes `apps/mobile/src/app/**`, `features/**` or `ui/**` (tests, mocks, snapshots and
+test support aside), the check fails until the pull request carries the `ui-reviewed` label. The
+reviewer applies it only after reading the pull request's design | device sheets (device workflow,
+`mode: compare`, or `preset: sweep` for broad changes). A later push that changes those files
+again removes the label, so the new sheets need a new review.

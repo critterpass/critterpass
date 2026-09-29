@@ -1,0 +1,29 @@
+appId: app.critterpass.dev
+---
+# Closes the sheet ${ID}: its close button when it has one, else a swipe down, else back.
+- runFlow:
+    when:
+      visible:
+        id: '${ID}-close'
+    commands:
+      - tapOn:
+          id: '${ID}-close'
+- runFlow:
+    when:
+      visible:
+        id: '${ID}'
+    commands:
+      - swipe:
+          start: 50%, 35%
+          end: 50%, 95%
+      - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: '${ID}'
+    commands:
+      - runFlow: back.yaml
+- extendedWaitUntil:
+    notVisible:
+      id: '${ID}'
+    timeout: 10000

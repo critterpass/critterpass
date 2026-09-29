@@ -1,0 +1,221 @@
+appId: app.critterpass.dev
+---
+# A new account with no crew yet, from the first-run Home: the first-ever inbox (3b-5), place
+# search (3b-7) and the guest guide's page (3b-8), then a crew of its own (start a crew, its code,
+# Home with nothing planned, the crews sheet 3g-3, the empty chat, the pitch sheet 3b-3), the
+# referral page and the not-found screen. Last, a fresh install opens that crew's invite link: the
+# ticket (3a-10), the three-tap pass (3a-12) and the manifest (3a-13). ${LANG} prefixes the
+# screenshots.
+- runFlow:
+    file: open-link.yaml
+    env:
+      URL: critterpass-dev://inbox
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-caught-up'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-5-first-ever
+- runFlow: home.yaml
+- runFlow:
+    file: open-link.yaml
+    env:
+      URL: critterpass-dev://places/search
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-7-search-empty
+- tapOn:
+    id: 'place-search-field'
+- inputText: 'morocc'
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-unguided'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-7-search-keyboard
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-7-search
+- tapOn: 'MARRAKECH'
+- extendedWaitUntil:
+    visible:
+      id: 'guest-locals'
+    timeout: 30000
+- extendedWaitUntil:
+    notVisible:
+      id: 'guest-brief-loading'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-8-guest
+- scrollUntilVisible:
+    element:
+      id: 'guest-solo'
+- tapOn:
+    id: 'guest-solo'
+- extendedWaitUntil:
+    visible:
+      id: 'solo-confirm'
+    timeout: 5000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-8-solo-confirm
+- tapOn:
+    id: 'solo-cancel'
+- runFlow: home.yaml
+- runFlow:
+    file: open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-crew-new-empty
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'The Bali Six'
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-crew-new-keyboard
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-crew-new-code
+- copyTextFrom:
+    id: 'start-crew-code'
+- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '')}
+- tapOn:
+    id: 'start-crew-done'
+- runFlow: home.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-home-no-trip
+- tapOn:
+    id: 'home-header-crew'
+- extendedWaitUntil:
+    visible:
+      id: 'crews-sheet'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3g-3-crews-one
+- tapOn:
+    id: 'crews-join-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-boxes'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-11-code-signed-in-keyboard
+- hideKeyboard
+- runFlow: back.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'crews-sheet'
+    commands:
+      - runFlow:
+          file: dismiss.yaml
+          env:
+            ID: crews-sheet
+- runFlow: home.yaml
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-empty'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3g-1-chat-empty
+- tapOn:
+    id: 'chat-composer'
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3g-1-chat-empty-keyboard
+- hideKeyboard
+- runFlow: home.yaml
+- tapOn:
+    id: 'home-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-3-pitch-search
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'hong'
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: ${LANG}-3b-3-pitch-search-keyboard
+- hideKeyboard
+- runFlow:
+    file: dismiss.yaml
+    env:
+      ID: pitch-sheet
+- runFlow: home.yaml
+- runFlow:
+    file: open-link.yaml
+    env:
+      URL: critterpass-dev://crew/invite-friends
+- extendedWaitUntil:
+    visible:
+      id: 'referral-dashboard'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-crew-invite-friends
+- runFlow: home.yaml
+- runFlow:
+    file: open-link.yaml
+    env:
+      URL: critterpass-dev://nowhere-at-all
+- extendedWaitUntil:
+    visible:
+      id: 'not-found'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-not-found
+- runFlow:
+    file: start.yaml
+    env:
+      LANG: ${LANG}
+- runFlow:
+    file: open-link.yaml
+    env:
+      URL: critterpass-dev://i/${output.crewCode}
+- extendedWaitUntil:
+    visible:
+      id: 'invite-take-seat'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-10-ticket
+- tapOn:
+    id: 'invite-take-seat'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-pass-issue'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-12-pass
+- tapOn:
+    id: 'invite-pass-issue'
+- extendedWaitUntil:
+    visible:
+      id: 'save-not-now'
+    timeout: 10000
+- tapOn:
+    id: 'save-not-now'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-manifest-screen'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-13-manifest

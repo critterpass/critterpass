@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# The `caught_up` seed: nothing needs you. Home, then the inbox where Tokek sleeps (3b-5) and
+# opens one eye when tapped.
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-2-caught-up
+- tapOn:
+    id: 'home-header-inbox'
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-caught-up'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-5-caught-up
+- tapOn:
+    id: 'inbox-tokek'
+- takeScreenshot: ${LANG}-3b-5-tokek-awake

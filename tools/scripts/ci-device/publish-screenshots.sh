@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-# Publishes a device run's images to a pull request.
+# Publishes a device run's images to a pull request (or an issue: the nightly sweep's).
 #
-#   tools/scripts/ci-device/publish-screenshots.sh <pr> <images dir> <heading>
+#   tools/scripts/ci-device/publish-screenshots.sh <pr or issue> <images dir> <heading>
 #
 # Pushes every PNG under <images dir> (kept in its subfolders, e.g. ios/, android/, ios-sheets/) to
 # the orphan `screenshots` branch under <pr>/run-<run id>/ (never merged into main; a fresh folder
 # per run so raw.githubusercontent.com never serves a cached older image), then posts one PR comment
-# embedding them. Needs GH_TOKEN (contents: write, pull-requests: write), GITHUB_REPOSITORY and
-# GITHUB_RUN_ID; set RUN_URL to link the run.
+# embedding them. Needs GH_TOKEN (contents: write, issues: write, pull-requests: write),
+# GITHUB_REPOSITORY and GITHUB_RUN_ID; set RUN_URL to link the run and SUMMARY_FILE to put a
+# markdown summary (the run's check findings) above the images.
 set -euo pipefail
 
 pr=$1
@@ -35,23 +36,28 @@ git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 mkdir -p "$run_dir"
 (cd "$images" && find . -name '*.png' -print0 | xargs -0 -I{} rsync -R {} "$work/branch/$run_dir/")
 count=$(find "$run_dir" -name '*.png' | wc -l | tr -d ' ')
-if [ "$count" = 0 ]; then
+summary=${SUMMARY_FILE:-}
+[ -n "$summary" ] && [ ! -s "$summary" ] && summary=''
+if [ "$count" = 0 ] && [ -z "$summary" ]; then
   echo "No images to publish"
   exit 0
 fi
-git add -A
-git commit -q -m "docs: device run screenshots for #$pr"
-for attempt in 1 2 3; do
-  git push -q origin "$branch" && break
-  [ "$attempt" = 3 ] && exit 1
-  git pull -q --rebase origin "$branch"
-done
+if [ "$count" != 0 ]; then
+  git add -A
+  git commit -q -m "docs: device run screenshots for #$pr"
+  for attempt in 1 2 3; do
+    git push -q origin "$branch" && break
+    [ "$attempt" = 3 ] && exit 1
+    git pull -q --rebase origin "$branch"
+  done
+fi
 
 body="$work/comment.md"
 {
   echo "## $heading"
   echo
   [ -n "${RUN_URL:-}" ] && echo "From [this run]($RUN_URL), $count image(s)." && echo
+  [ -n "$summary" ] && cat "$summary" && echo
   for folder in $(find "$run_dir" -name '*.png' -exec dirname {} \; | sort -u); do
     echo "<details open><summary><b>${folder#"$run_dir"/}</b></summary>"
     echo
@@ -66,5 +72,21 @@ body="$work/comment.md"
     echo
   done
 } >"$body"
-gh pr comment "$pr" --repo "$repo" --body-file "$body"
+# A comment holds at most 65536 characters: past that, embed only the index sheets and link the rest.
+if [ "$(wc -c <"$body")" -gt 64000 ]; then
+  {
+    echo "## $heading"
+    echo
+    [ -n "${RUN_URL:-}" ] && echo "From [this run]($RUN_URL), $count image(s)." && echo
+    [ -n "$summary" ] && head -c 40000 "$summary" && echo
+    echo "Every image: https://github.com/$repo/tree/$branch/$run_dir"
+    echo
+    for file in $(find "$run_dir" -name 'index.png' | sort); do
+      echo "<img src=\"https://raw.githubusercontent.com/$repo/$branch/$file\" width=\"720\" alt=\"$file\">"
+      echo
+    done
+  } >"$body"
+fi
+# `gh issue comment` posts to pull requests too.
+gh issue comment "$pr" --repo "$repo" --body-file "$body"
 echo "Published $count image(s) to #$pr"
