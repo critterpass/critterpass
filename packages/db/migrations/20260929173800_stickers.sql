@@ -26,7 +26,9 @@ CREATE POLICY stickers_select ON stickers FOR SELECT TO app_user
   USING (user_id = app.uid() OR (user_id IS NULL AND app.is_crew_member(crew_id)));
 CREATE POLICY stickers_system ON stickers FOR ALL TO app_system USING (true) WITH CHECK (true);
 GRANT SELECT ON stickers TO app_user;
-GRANT SELECT, INSERT ON stickers TO app_system;
+GRANT SELECT, INSERT, DELETE ON stickers TO app_system;
+-- An account merge moves a member's stickers to the surviving account.
+GRANT UPDATE (user_id) ON stickers TO app_system;
 GRANT SELECT (created_at, crew_id, granted_at, id, kind, trip_id, user_id) ON stickers TO admin_reader;
 CREATE POLICY stickers_admin_reader ON stickers FOR SELECT TO admin_reader USING (true);
 
