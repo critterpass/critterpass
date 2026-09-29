@@ -6,3 +6,119 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/setup/shell/setup-shell.tsx
+msgid "setup.shell.back"
+msgstr "{destination} setup"
+
+#: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
+msgid "setup.tag.won"
+msgstr "{destination} won {won}–{next}"
+
+#: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
+msgid "setup.tag.doneA11y"
+msgstr "{label}, done"
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.status.here"
+msgstr "{organiser} is setting up right now."
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.status.away"
+msgstr "{organiser} runs setup. Your part is below."
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.ask"
+msgstr "Asking about a maybe block"
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.swap"
+msgstr "Asking to swap rooms"
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.missing.home"
+msgstr "Back home"
+
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.budget"
+msgstr "Budget"
+
+#: ../../apps/mobile/src/features/setup/notifications.ts
+msgid "setup.push.notMovable"
+msgstr "Can’t move it"
+
+#: ../../apps/mobile/src/features/setup/notifications.ts
+msgid "setup.push.freed"
+msgstr "Freed it"
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.missing.line"
+msgstr "It shows up once your phone has synced. Try again in a moment."
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.loading"
+msgstr "Loading trip setup"
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.lottery"
+msgstr "Lottery reminders"
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.step"
+msgstr "Moving setup along"
+
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.mustDos"
+msgstr "Must-dos"
+
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.rooms"
+msgstr "Rooms"
+
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.a11y"
+msgstr "Step {n}, {title}"
+
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.a11yDone"
+msgstr "Step {n}, {title}, done"
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.missing.title"
+msgstr "This trip isn’t here yet"
+
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.when"
+msgstr "When"
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.rooms"
+msgstr "Who sleeps where"
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.answer"
+msgstr "Your answer about those days"
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.availability"
+msgstr "Your free days"
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.mustDos"
+msgstr "Your must-dos"
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.budgetMax"
+msgstr "Your private max"
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.roomPrefs"
+msgstr "Your room wishes"
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.stay"
+msgstr "Your stay pick"
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.budgetDefault"
+msgstr "Your usual max"

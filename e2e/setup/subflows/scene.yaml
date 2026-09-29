@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# Opens one trip setup scene from the dev list (apps/mobile/src/app/(dev)/setup.tsx), lets its
+# motion settle, takes `${PREFIX}-${SCENE}` and goes back to the list through the corner button.
+- scrollUntilVisible:
+    element:
+      id: 'setup-scene-${SCENE}'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'setup-scene-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-scene-back'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${PREFIX}-${SCENE}
+- tapOn:
+    id: 'setup-scene-back'

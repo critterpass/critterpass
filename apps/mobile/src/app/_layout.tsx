@@ -38,6 +38,8 @@ import '@/features/crew/chat/register';
 import '@/features/crew/live-map/register';
 import '@/features/crew/routes';
 import '@/features/vote/register';
+import { SetupNotificationActions } from '@/features/setup/notifications';
+import '@/features/setup/register';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
@@ -139,6 +141,7 @@ function SessionBridges() {
     <>
       <PermissionsBridge />
       <LocationBridge db={localFirst.db} />
+      <SetupNotificationActions />
     </>
   );
 }

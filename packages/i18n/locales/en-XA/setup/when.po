@@ -1,0 +1,289 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-29 19:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en-XA\n"
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.pick.askFirst"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.checked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.fareRise"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.fareDrop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.pick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.days"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.countWord"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.notMovable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.freed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.askLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.partMisses"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.partLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.privacy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.partTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.windowPill"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.allTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
+msgid "setup.when.cellA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.cta.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.askTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.asked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.notMovable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.change"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.connect"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.noneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.allFree"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.allPastSeason"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.pick.fullCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reason.fareDrop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.computing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.freed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.some"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.cta.lock"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.fail.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.byHand"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.deniedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.pick.partial"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
+msgid "setup.when.nextMonth"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.timedOut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.denied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.noFit.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.longer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.shorter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.syncedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.syncingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.words"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.pickAnyway"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.pickOther"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
+msgid "setup.when.prevMonth"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.staleLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.syncing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.thanks"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.fail.generic"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reason.fullCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reason.seasonPeak"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.fail.rate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.errorLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.error"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.synced"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.stale"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.none"
+msgstr ""

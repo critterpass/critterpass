@@ -6,3 +6,119 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: fr\n"
+
+#: ../../apps/mobile/src/features/setup/shell/setup-shell.tsx
+msgid "setup.shell.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
+msgid "setup.tag.won"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/header-tag.tsx
+msgid "setup.tag.doneA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.status.here"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.status.away"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.swap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.missing.home"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.budget"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/notifications.ts
+msgid "setup.push.notMovable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/notifications.ts
+msgid "setup.push.freed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.missing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.lottery"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.step"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.mustDos"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.rooms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.a11yDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.missing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/stepper.tsx
+msgid "setup.stepper.when"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.rooms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.answer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.availability"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.mustDos"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.budgetMax"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.roomPrefs"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.stay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/data/commands.ts
+msgid "setup.queued.budgetDefault"
+msgstr ""

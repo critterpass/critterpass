@@ -1,0 +1,289 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-29 19:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.pick.askFirst"
+msgstr "“Có thể bận” thường là dời được. Đáng hỏi một câu."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.checked"
+msgstr "{count} lịch, đã xem đến hết {until}. Không tuần nào hoàn hảo."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.fareRise"
+msgstr "{first} Vé máy bay đắt hơn {delta}."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.fareDrop"
+msgstr "{first} Vé máy bay rẻ hơn {delta}."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.pick"
+msgstr "{guide} chọn"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.days"
+msgstr "{length} ngày"
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.countWord"
+msgstr "{n, plural, =0 {không ai} other {#}}"
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.notMovable"
+msgstr "{name} không dời được. Chọn tuần khác nhé."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.freed"
+msgstr "{name} đã dời được. Giờ ai cũng đi được."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.askLine"
+msgstr "{name} có khoảng có thể bận trong tuần đó. Mình sẽ hỏi riêng."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.partMisses"
+msgstr "{names} không đi trọn được và sẽ lỡ {list}."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.partLine"
+msgstr "{names} không đi trọn được."
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.privacy"
+msgstr "{organiser} chỉ biết tuần đó có ổn không. Không bao giờ biết đó là việc gì."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.partTitle"
+msgstr "{range} · {free}/{total} người"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.windowPill"
+msgstr "{range} · cả {everyone} đều rảnh"
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.allTitle"
+msgstr "{range} · đủ {total}"
+
+#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
+msgid "setup.when.cellA11y"
+msgstr "{when}, {free} trên {total} người rảnh"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.free"
+msgstr "{who}/{all} người đi được trọn tuần."
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.title"
+msgstr "Về mấy ngày có thể bận"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.cta.ask"
+msgstr "Hỏi {name}"
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.askTitle"
+msgstr "Hỏi {name} trước"
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.asked"
+msgstr "Đã hỏi riêng {name}. Đang chờ trả lời, tối đa hai ngày."
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.notMovable"
+msgstr "Không dời được"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.change"
+msgstr "Đổi"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.connect"
+msgstr "Kết nối"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.noneLine"
+msgstr "Kết nối lịch của bạn. Chỉ chia sẻ rảnh hay bận theo ngày, không bao giờ nội dung."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.allFree"
+msgstr "Tuần đó ai cũng rảnh."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.allPastSeason"
+msgstr "Ai cũng rảnh, nhưng đã qua mùa đẹp nhất của {place}."
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.pick.fullCrew"
+msgstr "Đi đủ cả nhóm hơn một tuần hoàn hảo. Mình chọn cái này."
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reason.fareDrop"
+msgstr "Ai cũng rảnh, và vé máy bay tuần đó rẻ hơn."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.computing"
+msgstr "Đang tìm tuần hợp nhất"
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.freed"
+msgstr "Đã dời được"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.some"
+msgstr "Từ {synced} lịch đã đồng bộ. Còn {left} người nữa."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.all"
+msgstr "Từ {synced} lịch đã đồng bộ. Đủ cả rồi."
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.cta.lock"
+msgstr "Chốt {range}"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.fail.offline"
+msgstr "Cần có mạng để chốt. Thử lại sau chút nhé."
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.byHand"
+msgstr "Đánh dấu tay"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.deniedLine"
+msgstr "Hãy đánh dấu những ngày bạn không đi được."
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.pick.partial"
+msgstr "Gần đủ cả nhóm, đúng mùa đẹp. Người còn lại có thể đi một phần."
+
+#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
+msgid "setup.when.nextMonth"
+msgstr "Tháng sau"
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.timedOut"
+msgstr "{name} không trả lời sau hai ngày, nên mình gác lựa chọn này lại."
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.denied"
+msgstr "Không truy cập được lịch"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.noFit.title"
+msgstr "Không tuần nào đủ cả {total} người"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.none"
+msgstr "Chưa ai chia sẻ ngày rảnh. Kết nối lịch hoặc đánh dấu tay nhé."
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.longer"
+msgstr "Thêm một ngày"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.shorter"
+msgstr "Bớt một ngày"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.syncedLine"
+msgstr "Chỉ chia sẻ rảnh hay bận theo ngày."
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.syncingLine"
+msgstr "Chỉ có rảnh hay bận theo ngày rời khỏi điện thoại."
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.words"
+msgstr "Hoặc nhắn {name} bằng lời của bạn"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.title"
+msgstr "Chọn một tuần"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.pickAnyway"
+msgstr "Vẫn chọn một tuần"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.pickOther"
+msgstr "Chọn tuần khác"
+
+#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
+msgid "setup.when.prevMonth"
+msgstr "Tháng trước"
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.line"
+msgstr "Hỏi nhanh: khoảng có thể bận của bạn là thứ duy nhất ngăn cả nhóm đến {place}. Bạn dời được không?"
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.send"
+msgstr "Gửi"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.staleLine"
+msgstr "Đồng bộ lại để ngày của bạn vẫn được tính."
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.syncing"
+msgstr "Đang đồng bộ lịch"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.line"
+msgstr "Chạm vào ngày đầu tiên. Chỉnh số ngày bên dưới."
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.thanks"
+msgstr "Cảm ơn nhé. Mình chỉ báo {organiser} tuần đó có ổn không."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.fail.generic"
+msgstr "Chưa gửi được. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reason.fullCrew"
+msgstr "Tuần đầu tiên cả nhóm đều rảnh. Chốt trước khi lịch kín."
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reason.seasonPeak"
+msgstr "Tuần này rơi vào mùa đẹp nhất của {place}, và ai cũng rảnh. Được cả hai."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.fail.rate"
+msgstr "Thử nhiều quá rồi. Đợi vài phút nhé."
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.errorLine"
+msgstr "Thử lại, hoặc đánh dấu ngày bằng tay."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.title"
+msgstr "Khi nào cả nhóm đi được?"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.error"
+msgstr "Lịch của bạn chưa đồng bộ được"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.synced"
+msgstr "Lịch của bạn đã vào · {ago}"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.stale"
+msgstr "Lịch của bạn đồng bộ {ago}"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.none"
+msgstr "Ngày của bạn chưa có"

@@ -1,0 +1,1 @@
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"setup.addMustDo.title\":[\"Add a must-do\"],\"setup.mustDos.title\":[\"One must-do each\"]}")as Messages;

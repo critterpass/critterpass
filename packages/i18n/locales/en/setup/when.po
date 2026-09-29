@@ -1,0 +1,289 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-29 19:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.pick.askFirst"
+msgstr "“Maybe” usually means it can move. Worth one message."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.checked"
+msgstr "{count} calendars, checked through {until}. Nobody's week is perfect."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.fareRise"
+msgstr "{first} Flights cost {delta} more."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.fareDrop"
+msgstr "{first} Flights drop {delta}."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.pick"
+msgstr "{guide}'s pick"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.days"
+msgstr "{length} days"
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.countWord"
+msgstr "{n, plural, =0 {none} =1 {one} =2 {two} =3 {three} =4 {four} =5 {five} =6 {six} =7 {seven} =8 {eight} =9 {nine} =10 {ten} =11 {eleven} =12 {twelve} other {#}}"
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.notMovable"
+msgstr "{name} can’t move it. Pick another week."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.freed"
+msgstr "{name} freed it. Everyone fits now."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.askLine"
+msgstr "{name} has a maybe block that week. I’ll ask privately."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.partMisses"
+msgstr "{names} can’t make all of it and would miss {list}."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.partLine"
+msgstr "{names} can’t make all of it."
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.privacy"
+msgstr "{organiser} only hears whether the week works. Never what the block is."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.partTitle"
+msgstr "{range} · {free} of {total}"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.windowPill"
+msgstr "{range} · all {everyone} free"
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.allTitle"
+msgstr "{range} · all {total}"
+
+#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
+msgid "setup.when.cellA11y"
+msgstr "{when}, {free} of {total} free"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.free"
+msgstr "{who} of {all} can make every day of it."
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.title"
+msgstr "About your maybe days"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.cta.ask"
+msgstr "Ask {name}"
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.askTitle"
+msgstr "Ask {name} first"
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.asked"
+msgstr "Asked {name} privately. Waiting for an answer, up to two days."
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.notMovable"
+msgstr "Can’t move it"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.change"
+msgstr "Change"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.connect"
+msgstr "Connect"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.noneLine"
+msgstr "Connect your calendar. Only free or busy per day is shared, never what’s in it."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.allFree"
+msgstr "Everyone is free that week."
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.allPastSeason"
+msgstr "Everyone is free, but it’s past {place}’s best season."
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.pick.fullCrew"
+msgstr "Everyone together beats the perfect week. That’s my pick."
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reason.fareDrop"
+msgstr "Everyone’s free, and flights are cheaper that week."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.computing"
+msgstr "Finding the best week"
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.freed"
+msgstr "Freed it"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.some"
+msgstr "From {synced} synced calendars. {left} still to come."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.all"
+msgstr "From {synced} synced calendars. Everyone’s in."
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.cta.lock"
+msgstr "Lock {range}"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.fail.offline"
+msgstr "Locking needs signal. Try again in a moment."
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.byHand"
+msgstr "Mark by hand"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.deniedLine"
+msgstr "Mark the days you can’t go instead."
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.pick.partial"
+msgstr "Most of you, at the best time. The rest can join for part of it."
+
+#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
+msgid "setup.when.nextMonth"
+msgstr "Next month"
+
+#: ../../apps/mobile/src/features/setup/when/window-options.tsx
+msgid "setup.when.option.timedOut"
+msgstr "No answer from {name} in two days, so I set this one aside."
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.denied"
+msgstr "No calendar access"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.noFit.title"
+msgstr "No week fits all {total}"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.none"
+msgstr "Nobody has shared their days yet. Connect a calendar or mark days by hand."
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.longer"
+msgstr "One day longer"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.shorter"
+msgstr "One day shorter"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.syncedLine"
+msgstr "Only free or busy per day is shared."
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.syncingLine"
+msgstr "Only free or busy per day leaves your phone."
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.words"
+msgstr "Or tell {name} in your words"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.title"
+msgstr "Pick a week"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.pickAnyway"
+msgstr "Pick a week anyway"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.pickOther"
+msgstr "Pick another week"
+
+#: ../../apps/mobile/src/features/setup/when/heatmap.tsx
+msgid "setup.when.prevMonth"
+msgstr "Previous month"
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.line"
+msgstr "Quick one: your maybe block is the only thing between the crew and {place}. Could you free it?"
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.send"
+msgstr "Send"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.staleLine"
+msgstr "Sync again so your days still count."
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.syncing"
+msgstr "Syncing your calendar"
+
+#: ../../apps/mobile/src/features/setup/when/week-picker.tsx
+msgid "setup.when.picker.line"
+msgstr "Tap the first day. Set how long below."
+
+#: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
+msgid "setup.ask.thanks"
+msgstr "Thanks. I’ll only tell {organiser} whether the week works."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.fail.generic"
+msgstr "That didn’t go through. Try again."
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reason.fullCrew"
+msgstr "The first week the whole crew is free. Lock it before calendars fill up."
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reason.seasonPeak"
+msgstr "This week sits in {place}'s best season, and everyone's free. It gets you both."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.fail.rate"
+msgstr "Too many tries. Give it a few minutes."
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.errorLine"
+msgstr "Try again, or mark your days by hand."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.title"
+msgstr "When can everyone go?"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.error"
+msgstr "Your calendar didn’t sync"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.synced"
+msgstr "Your calendar is in · {ago}"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.stale"
+msgstr "Your calendar synced {ago}"
+
+#: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
+msgid "setup.when.own.none"
+msgstr "Your days aren’t in yet"

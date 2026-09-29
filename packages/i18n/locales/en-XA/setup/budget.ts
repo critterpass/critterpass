@@ -1,0 +1,1 @@
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"setup.budget.title\":[\"   Ŵĥàţ ƒēēĺś ćōḿƒŷ?   \"]}")as Messages;
