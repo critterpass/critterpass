@@ -262,6 +262,13 @@ export const QUEUES = {
   'poll.close': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
   'poll.board_advance': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
   'poll.remind': spec({ policy: 'exclusive' }),
+  // Every morning: fresh guide pitches for the places waiting in crews' decks.
+  'ai.pitch': spec({
+    policy: 'stately',
+    retryLimit: 1,
+    expireInSeconds: 30 * 60,
+    cron: { expr: '0 5 * * *', tz: 'Asia/Singapore' },
+  }),
 } as const satisfies Record<string, QueueSpec>;
 
 export type QueueName = keyof typeof QUEUES;
@@ -319,6 +326,7 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'poll.close': 'Closes a poll at its deadline and settles the destination vote',
   'poll.board_advance': "Moves a destination board to its two-place final at the board's deadline",
   'poll.remind': 'Reminds voters who have not voted before a poll closes',
+  'ai.pitch': "Refreshes guide pitches for the places in crews' decks when their fares move",
 };
 
 export type JobPayloadRedactor = (data: unknown) => unknown;

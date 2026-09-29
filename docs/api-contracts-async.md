@@ -149,6 +149,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `poll.close` | `scheduled_events` timer at a non-board poll's `closes_at` | closes under the poll row lock with the tie rule (a moved deadline or an earlier close: no-op); destination → trip `won`, reveals, N-03 | 26 |
 | `poll.board_advance` (doc delta) | timer at a destination board's `closes_at` (7 d after it opened) | top two → final (N-01 + `poll.final_open` to those who must vote again); tied final spot → `poll.pick_needed` inbox item to the organiser and one more day; one place → it wins; empty board → another 7 d | 26 |
 | `poll.remind` (doc delta) | timers −24 h / −2 h before a non-board `closes_at` | `poll.closing_soon` → N-02 to voters still pending | 26 |
+| `ai.pitch` (doc delta) | cron 05:00 Asia/Singapore | fresh pitches (≤20 per run) for places in crews' decks (queued, or back in the deck within 30 d) whose fares moved; no model key → nothing | 26 |
 | `proposal.reply_by` | reply_by −24 h, at reply_by | N-09, close | 31 |
 | `followup.deliver` | recipient local `at` | N-08 | 31 |
 | `nudge.dispatch` | `scheduled_events` timer at the target's engagement hour (modal open hour of 14 d, fallback 19:00, moved out of quiet hours) | marks sent, `nudge.received` → inbox item + N-12 | 25 |

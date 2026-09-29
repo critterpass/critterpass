@@ -6,3 +6,4 @@ export * from './invites';
 export * from './live-map';
 export * from './polls';
 export * from './referrals';
+export * from './pitches';

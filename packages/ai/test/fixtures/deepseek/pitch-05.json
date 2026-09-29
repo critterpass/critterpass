@@ -1,0 +1,1815 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "sse": [
+      {
+        "event": "message_start",
+        "data": {
+          "type": "message_start",
+          "message": {
+            "id": "ee5a20c0-4aa2-4b91-a638-3ba5256aecc8",
+            "type": "message",
+            "role": "assistant",
+            "model": "deepseek-flash",
+            "content": [],
+            "stop_reason": null,
+            "stop_sequence": null,
+            "usage": {
+              "input_tokens": 486,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 128,
+              "output_tokens": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      },
+      {
+        "event": "content_block_start",
+        "data": {
+          "type": "content_block_start",
+          "index": 0,
+          "content_block": {
+            "type": "text",
+            "text": ""
+          }
+        }
+      },
+      {
+        "event": "ping",
+        "data": {
+          "type": "ping"
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "{\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "s"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "head"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "line"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "text"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "C"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "us"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "co"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " in"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " June"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ":"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " Int"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "i"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " ("
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "the"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " sun"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " ("
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "Que"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "ch"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "ua"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "))"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " and"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " stairs"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " gal"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "ore"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\"}\n"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "{\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "s"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "reason"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "tag"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "H"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "IK"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "ING"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "text"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "June"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " sits"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " in"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " the"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " best"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " months"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ","
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " and"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " those"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " Andes"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " trails"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " are"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " all"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " yours"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ","
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " all"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " "
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "4"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " of"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " you"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\"}\n"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "{\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "s"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "reason"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "tag"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "H"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "IST"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "ORY"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "text"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "Int"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "i"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " Ray"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "mi"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " starts"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " June"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " "
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "24"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ","
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " so"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " "
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "2"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " of"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " you"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " get"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " old"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " stones"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " and"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " big"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " crowds"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\"}\n"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "{\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "s"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "reason"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "tag"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "null"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "text"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "Fl"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "ights"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " from"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " SIN"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " run"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " "
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "28"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " hours"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " with"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " "
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "2"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " stops"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ","
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " return"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " fare"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " $"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "1"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ","
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "620"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " each"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\"}\n"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "{\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "s"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "quote"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "text"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "Your"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " guide"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " in"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " C"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "us"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "co"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ":"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " bring"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " lungs"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ","
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " bring"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " layers"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ","
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " and"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " let"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " Int"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "i"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " do"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " the"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " rest"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ".\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "}"
+          }
+        }
+      },
+      {
+        "event": "content_block_stop",
+        "data": {
+          "type": "content_block_stop",
+          "index": 0
+        }
+      },
+      {
+        "event": "message_delta",
+        "data": {
+          "type": "message_delta",
+          "delta": {
+            "stop_reason": "end_turn",
+            "stop_sequence": null
+          },
+          "usage": {
+            "input_tokens": 486,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 128,
+            "output_tokens": 158,
+            "service_tier": "standard"
+          }
+        }
+      },
+      {
+        "event": "message_stop",
+        "data": {
+          "type": "message_stop"
+        }
+      }
+    ]
+  }
+}
