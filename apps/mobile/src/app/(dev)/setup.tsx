@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { BackHandler, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
-import { SETUP_SCENES } from '@/features/setup/scenes';
+import { sceneExit, SETUP_SCENES } from '@/features/setup/scenes';
 import { Text } from '@/ui';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
@@ -30,6 +30,16 @@ export function ErrorBoundary({ error, retry }: { error: Error; retry: () => Pro
 export default function SetupScenes() {
   const [scene, setScene] = useState<string | null>(null);
   const shown = SETUP_SCENES.find((candidate) => candidate.name === scene);
+  // Android's back returns to the list (screenshot flows press it between scenes).
+  useEffect(() => {
+    sceneExit.current = () => setScene(null);
+    if (scene === null) return undefined;
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      setScene(null);
+      return true;
+    });
+    return () => sub.remove();
+  }, [scene]);
   if (shown !== undefined) {
     return (
       <View style={styles.fill}>

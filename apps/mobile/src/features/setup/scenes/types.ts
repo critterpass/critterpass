@@ -6,3 +6,10 @@ export interface SetupScene {
   readonly name: string;
   readonly render: () => ReactNode;
 }
+
+/** The developer scene list sets this; a scene's sheet calls it when dismissed (✕, back). */
+export const sceneExit: { current: () => void } = { current: () => undefined };
+
+export function exitScene(): void {
+  sceneExit.current();
+}

@@ -7,7 +7,7 @@
 import type { TripSetupStep } from '@cp/domain';
 
 import { ALEX, DEV, JORDAN, kyotoTrip, MAYA, RIN, sceneFrame, WINSTON } from '../scenes/fixtures';
-import type { SetupScene } from '../scenes/types';
+import { exitScene, type SetupScene } from '../scenes/types';
 import { AddSheetView } from './add-sheet-view';
 import { buildMustDos, type MustDoRow } from './model';
 import { MustDosView } from './must-dos-view';
@@ -109,7 +109,7 @@ function sheetScene(name: string, query: string, search: SearchState): SetupScen
           onQuery={() => undefined}
           onPickPlace={() => undefined}
           onKeepText={() => undefined}
-          onDismiss={() => undefined}
+          onDismiss={exitScene}
         />
       );
     },

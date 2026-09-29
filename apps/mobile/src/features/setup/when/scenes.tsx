@@ -5,7 +5,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- fixture data and scene ids, never copy. */
 import { useState } from 'react';
 
-import type { SetupScene } from '../scenes/types';
+import { exitScene, type SetupScene } from '../scenes/types';
 import { DEV, kyotoTrip, MAYA, SCENE_NOW, sceneFrame, WINSTON } from '../scenes/fixtures';
 import { ASK, FULL, PARTIAL, summaries, whenModel } from './fixtures';
 import { heatMonths, type WindowOption } from './model';
@@ -152,7 +152,7 @@ export const WHEN_SCENES: readonly SetupScene[] = [
             lengthDays={8}
             busy={false}
             onLock={() => undefined}
-            onDismiss={() => undefined}
+            onDismiss={exitScene}
           />
         </>
       );
@@ -171,7 +171,7 @@ export const WHEN_SCENES: readonly SetupScene[] = [
           busy={false}
           onAnswer={() => undefined}
           onWords={() => undefined}
-          onDismiss={() => undefined}
+          onDismiss={exitScene}
         />
       </>
     ),
@@ -189,7 +189,7 @@ export const WHEN_SCENES: readonly SetupScene[] = [
           busy={false}
           onAnswer={() => undefined}
           onWords={() => undefined}
-          onDismiss={() => undefined}
+          onDismiss={exitScene}
         />
       </>
     ),

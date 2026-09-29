@@ -9,7 +9,7 @@ import { ROOMS_SCENES } from '../rooms/scenes';
 import { WHEN_SCENES } from '../when/scenes';
 import type { SetupScene } from './types';
 
-export type { SetupScene } from './types';
+export { sceneExit, type SetupScene } from './types';
 
 export const SETUP_SCENES: readonly SetupScene[] = [
   ...WHEN_SCENES,

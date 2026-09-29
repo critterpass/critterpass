@@ -7,7 +7,7 @@
 import { Scaffold } from '@/ui/surface/Scaffold';
 
 import { SCENE_NOW } from '../scenes/fixtures';
-import type { SetupScene } from '../scenes/types';
+import { exitScene, type SetupScene } from '../scenes/types';
 import { CalendarConnectView, type CalendarConnectViewProps } from './calendar-connect-sheet';
 import { ManualDaysView } from './manual-days-sheet';
 
@@ -30,7 +30,7 @@ function connect(overrides: Partial<CalendarConnectViewProps>) {
         onTentative={noop}
         onProvider={noop}
         onMarkByHand={noop}
-        onDismiss={noop}
+        onDismiss={exitScene}
         {...overrides}
       />
     </Scaffold>
@@ -71,7 +71,7 @@ export const CALENDAR_SCENES: readonly SetupScene[] = [
           onPage={noop}
           onToggle={noop}
           onSave={noop}
-          onDismiss={noop}
+          onDismiss={exitScene}
         />
       </Scaffold>
     ),
