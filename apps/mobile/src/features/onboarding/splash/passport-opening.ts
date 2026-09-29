@@ -5,7 +5,9 @@
  *   0 ms     the bob eases to rest, the cover lifts (−12°), the guides and footer fade out
  *   260 ms   the cover swings open on its spine to edge-on (−90°), baring the paper page under it
  *   560 ms   the page grows from the cover's frame into the pass card's place on the name page
- *   1020 ms  the name page cross-fades in over it (the stack's fade), card on card
+ *   680 ms   the cover is edge-on: page one is pushed now, so the time it takes to mount runs
+ *            under the rest of the grow and its fade lands as the page arrives (pushing at the
+ *            end left the bare page waiting on screen for the mount)
  *
  * The stage stays opened while the name page is up, and closes again only when the splash is
  * focused again, so it never snaps back in view.
@@ -39,9 +41,6 @@ export const OPENING_MS = {
   growDelay: 560,
   grow: tokens.motion.duration.medium,
 } as const;
-
-/** When the name page takes over: the page has reached the card's place. */
-export const OPENING_TOTAL_MS = OPENING_MS.growDelay + OPENING_MS.grow;
 
 /**
  * Where 3a-2's pass card sits in the page body (below the safe area): the "PAGE 1 OF 4" row
@@ -123,14 +122,14 @@ export function usePassportOpening(focused: boolean): PassportOpening {
     chrome.value = withTiming(0, { duration: OPENING_MS.lift, easing: exit });
     swing.value = withSequence(
       withTiming(-12, { duration: OPENING_MS.lift, easing: Easing.out(Easing.quad) }),
-      withTiming(-90, { duration: OPENING_MS.swing, easing: Easing.in(Easing.quad) }),
+      withTiming(-90, { duration: OPENING_MS.swing, easing: Easing.in(Easing.quad) }, (done) => {
+        'worklet';
+        if (done) scheduleOnRN(onDone);
+      }),
     );
     grow.value = withDelay(
       OPENING_MS.growDelay,
-      withTiming(1, { duration: OPENING_MS.grow, easing: standard }, (finished) => {
-        'worklet';
-        if (finished) scheduleOnRN(onDone);
-      }),
+      withTiming(1, { duration: OPENING_MS.grow, easing: standard }),
     );
   };
 
