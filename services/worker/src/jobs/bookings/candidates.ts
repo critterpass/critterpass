@@ -131,6 +131,8 @@ export interface CandidateTarget {
   readonly inboundEmailId?: string | null;
   /** The client's id for the first candidate (paste and scan create it `parsing`). */
   readonly candidateId?: string | undefined;
+  /** A wallet booking this is known to be a copy of (a boarding pass for a flight already added). */
+  readonly knownBookingId?: string | undefined;
 }
 
 async function walletCopy(
@@ -165,7 +167,7 @@ export async function writeCandidates(
       target.tripId ??
       (target.crewId === null ? null : await tripForBooking(tx, target.crewId, booking.starts_at));
     const key = dedupeKey(target.scope, booking);
-    const inWallet = await walletCopy(tx, target, booking);
+    const inWallet = target.knownBookingId ?? (await walletCopy(tx, target, booking));
     const fields = {
       user_id: target.userId,
       crew_id: target.crewId,

@@ -23,6 +23,8 @@ import type { ReaderDeps } from './candidates';
 import { deadlineReminderJob, registerDeadlinePush } from './deadline-reminder';
 import { bookingFlightSegments } from './flight-segments-source';
 import { mailParseJob } from './mail-parse';
+import { importParseJob } from './paste-parse';
+import { nodeFetchDeps } from './safe-fetch';
 import { registerFoundPush } from './pushes';
 
 /** The worker env keys this area reads (the DeepSeek key for the extractor, R2 for raw mail). */
@@ -122,5 +124,9 @@ export function bookingsJobs(
           secretAccessKey: env.R2_SECRET_ACCESS_KEY,
         })
       : undefined;
-  return [deadlineReminderJob(), mailParseJob({ ...reader, store })];
+  return [
+    deadlineReminderJob(),
+    mailParseJob({ ...reader, store }),
+    importParseJob({ ...reader, fetch: nodeFetchDeps }),
+  ];
 }
