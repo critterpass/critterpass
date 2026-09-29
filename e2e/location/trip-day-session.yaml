@@ -24,12 +24,17 @@ appId: app.critterpass.dev
     id: 'primer-sheet-accept'
 - tapOn:
     text: '(Allow While Using App|While using the app)'
-# Back to the developer tools list: the system back on Android, the edge swipe on iOS (the dev
-# screens have no header back button there).
+# Back to the home screen: the system back on Android (once to the developer tools list, once
+# more to home), the edge swipe on iOS (the dev screens have no header back button there).
 - runFlow:
     when:
       platform: Android
     commands:
+      - back
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-nav-location-engine'
+          timeout: 10000
       - back
 - runFlow:
     when:
