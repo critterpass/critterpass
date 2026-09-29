@@ -12,6 +12,13 @@ import { createUploadQueue, type BackoffPolicy, type UploadQueue } from '../uplo
 /** Deterministic, fast backoff: 20 ms doubling to 400 ms, always the full delay. */
 export const TEST_BACKOFF: BackoffPolicy = { baseMs: 20, maxMs: 400, random: () => 1 };
 
+/**
+ * A backoff that parks every retry for an hour, so a test can read the state a failure left
+ * behind before the retry starts, then run the retry itself with `retryNow()`. With a delay of
+ * tens of ms the timer can fire between `flush()` and the next read on a loaded runner.
+ */
+export const HELD_BACKOFF: BackoffPolicy = { baseMs: 3_600_000, maxMs: 3_600_000, random: () => 1 };
+
 export function testEnvelope(uid: string, cmd: string, payload: unknown) {
   return {
     op_id: generateUuidV7(),
@@ -50,8 +57,9 @@ export function queueWith(
   db: AbstractPowerSyncDatabase,
   transport: SyncTransport,
   onSessionRevoked: () => Promise<void> = () => Promise.resolve(),
+  backoff: BackoffPolicy = TEST_BACKOFF,
 ): UploadQueue {
-  const queue = createUploadQueue({ db, transport, onSessionRevoked, backoff: TEST_BACKOFF });
+  const queue = createUploadQueue({ db, transport, onSessionRevoked, backoff });
   openQueues.add(queue);
   return queue;
 }
