@@ -67,6 +67,14 @@ CREATE POLICY redraft_reservations_system ON redraft_reservations FOR ALL TO app
   USING (true) WITH CHECK (true);
 GRANT SELECT ON redraft_reservations TO app_user;
 GRANT SELECT, INSERT, UPDATE ON redraft_reservations TO app_system;
+GRANT SELECT (agent_job_id, created_at, free_reason, id, quota_period_key, settled_at, status,
+  trip_id, updated_at) ON redraft_reservations TO admin_reader;
+CREATE POLICY redraft_reservations_admin_reader ON redraft_reservations FOR SELECT TO admin_reader
+  USING (true);
+
+-- The ops console reads the new drafting columns like the rest of the plan tables.
+GRANT SELECT (metrics, coverage) ON itinerary_versions TO admin_reader;
+GRANT SELECT (locked_reason) ON plan_items TO admin_reader;
 
 -- `redrafts`: a redraft is its agent job (`redraft_id` = agent_jobs.id) with its reservation and
 -- candidate version. security_invoker, so the caller's RLS on both tables applies.
