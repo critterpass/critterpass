@@ -103,3 +103,54 @@ export async function useFixedCode(ctx: unknown, phoneE164: string, code: string
 export function maskedNumber(phoneE164: string): string {
   return `…${phoneE164.slice(-4)}`;
 }
+
+interface UserPhoneWriter {
+  updateMany(query: {
+    model: 'user';
+    where: { field: 'phoneNumber'; value: string }[];
+    update: { phoneNumber: null; phoneNumberVerified: false };
+  }): Promise<unknown>;
+}
+
+const PHONE_VERIFY_PATH = '/phone-number/verify';
+
+/**
+ * Staging test numbers are shared by every automated run, so saving one to a new pass takes it
+ * from whichever test account held it before; otherwise the second run would be asked to merge
+ * into the first. Only the save path (`/phone-number/verify` with `updatePhoneNumber`) recycles:
+ * a returning sign-in with the number still reaches the account that holds it. App Review
+ * numbers are never recycled.
+ */
+export function withTestNumberRecycling(
+  handler: (request: Request) => Promise<Response>,
+  deps: {
+    readonly numbers: FixedCodeNumbers | undefined;
+    readonly users: () => Promise<UserPhoneWriter>;
+  },
+): (request: Request) => Promise<Response> {
+  const { numbers } = deps;
+  if (numbers === undefined) return handler;
+  return async (request) => {
+    if (request.method === 'POST' && new URL(request.url).pathname.endsWith(PHONE_VERIFY_PATH)) {
+      const body = (await request
+        .clone()
+        .json()
+        .catch(() => null)) as { phoneNumber?: unknown; updatePhoneNumber?: unknown } | null;
+      const phone = typeof body?.phoneNumber === 'string' ? body.phoneNumber : null;
+      if (
+        body?.updatePhoneNumber === true &&
+        phone !== null &&
+        numbers.match(phone)?.kind === 'test'
+      ) {
+        await (
+          await deps.users()
+        ).updateMany({
+          model: 'user',
+          where: [{ field: 'phoneNumber', value: phone }],
+          update: { phoneNumber: null, phoneNumberVerified: false },
+        });
+      }
+    }
+    return handler(request);
+  };
+}
