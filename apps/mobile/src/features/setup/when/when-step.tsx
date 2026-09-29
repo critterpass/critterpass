@@ -10,6 +10,9 @@ import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 
+import { CalendarConnectSheet } from '../calendar/calendar-connect-sheet';
+import { ManualDaysSheet } from '../calendar/manual-days-sheet';
+import { useCalendarSync } from '../calendar/use-calendar-sync';
 import { askAvailabilityCommand, lockTripDatesCommand } from '../data/commands';
 import { useSetupServices } from '../data/services';
 import { setupRoutes } from '../routes';
@@ -27,7 +30,7 @@ import { useWhenData } from './use-when-data';
 import { WeekPicker } from './week-picker';
 import { WhenView, type WhenFailure } from './when-view';
 
-type Overlay = 'picker' | null;
+type Overlay = 'calendar' | 'manual' | 'picker' | null;
 
 const DEFAULT_LENGTH_DAYS = 7;
 
@@ -40,6 +43,7 @@ function failureOf(code: string): WhenFailure {
 export function WhenStep({ trip, shell }: StepProps) {
   const services = useSetupServices();
   const data = useWhenData(trip.tripId);
+  const calendar = useCalendarSync(trip.tripId);
   const lock = useCommand(lockTripDatesCommand);
   const ask = useCommand(askAvailabilityCommand);
   const [overlay, setOverlay] = useState<Overlay>(null);
@@ -103,7 +107,7 @@ export function WhenStep({ trip, shell }: StepProps) {
           options: noFit,
           selectedId,
           mustDoTitles: data.mustDoTitles,
-          calendar: { status: 'unavailable', lastSyncedAt: null },
+          calendar: { status: calendar.status, lastSyncedAt: calendar.lastSyncedAt },
           now: new Date(services.now()),
           busy: lock.pending || ask.pending,
           failure,
@@ -113,10 +117,20 @@ export function WhenStep({ trip, shell }: StepProps) {
           onLock,
           onAsk,
           onPickWeek: () => setOverlay('picker'),
-          onConnect: () => undefined,
-          onMarkByHand: () => undefined,
+          onConnect: () => setOverlay('calendar'),
+          onMarkByHand: () => setOverlay('manual'),
         }}
       />
+      {overlay === 'calendar' ? (
+        <CalendarConnectSheet
+          tripId={trip.tripId}
+          onDismiss={() => setOverlay(null)}
+          onMarkByHand={() => setOverlay('manual')}
+        />
+      ) : null}
+      {overlay === 'manual' ? (
+        <ManualDaysSheet tripId={trip.tripId} onDismiss={() => setOverlay(null)} />
+      ) : null}
       {overlay === 'picker' ? (
         <WeekPicker
           months={months}

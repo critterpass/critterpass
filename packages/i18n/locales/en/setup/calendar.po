@@ -6,3 +6,163 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.dayA11y"
+msgstr "{dayName}, {state}"
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.back"
+msgstr "Back to setup"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.busy"
+msgstr "Busy"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.deniedTitle"
+msgstr "Calendar access is off"
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.doneTitle"
+msgstr "Calendar connected"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.connect"
+msgstr "Connect"
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.connectingTitle"
+msgstr "Connecting…"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.error"
+msgstr "Couldn’t read your calendar."
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.title"
+msgstr "Find your free days"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.free"
+msgstr "Free"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.freeBusyOnly"
+msgstr "Free and busy only"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.google"
+msgstr "Google Calendar"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.byHandShort"
+msgstr "Mark by hand"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.byHand"
+msgstr "Mark days by hand"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.title"
+msgstr "Mark your days"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.maybe"
+msgstr "Maybe"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.unavailable"
+msgstr "Needs the latest app update. Mark your days by hand for now."
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.next"
+msgstr "Next month"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.notConnected"
+msgstr "Not connected"
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.deniedTitle"
+msgstr "Not connected"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.unmarked"
+msgstr "Not marked"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.promise"
+msgstr "Only free and busy days leave your phone. Titles, places and people stay here."
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.microsoft"
+msgstr "Outlook Calendar"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.previous"
+msgstr "Previous month"
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.connectingLine"
+msgstr "Reading free and busy days only."
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.syncing"
+msgstr "Reading your free days…"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.save"
+msgstr "Save my days"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.tentative"
+msgstr "Share tentative events as “maybe busy”"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.syncNow"
+msgstr "Sync now"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.synced"
+msgstr "Synced {age}"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.line"
+msgstr "Tap a day to mark it free, tap again for busy, then maybe."
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.oauthFailed"
+msgstr "That calendar didn’t open. Check your signal and try again."
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.failedTitle"
+msgstr "That didn’t work"
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.failedLine"
+msgstr "The calendar didn’t connect. Try again from setup in a moment."
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.device"
+msgstr "This phone’s calendar"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.deniedBody"
+msgstr "Turn it on in Settings, or mark the days you can do by hand."
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.deniedLine"
+msgstr "You said no to the calendar. Connect this phone’s calendar or mark days by hand instead."
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.tentativeHint"
+msgstr "Your crew sees “maybe busy”, never the event."
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.doneLine"
+msgstr "Your free days count now. Event details never leave your calendar."
