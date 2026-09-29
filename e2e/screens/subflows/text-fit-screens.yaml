@@ -1,0 +1,41 @@
+appId: app.critterpass.dev
+---
+# The text-fit screens in ${LOCALE}: a long pill CTA on two lines, the Text page at 2× with its MRZ
+# line kept whole and the long h1 wrapping, and the visa paywall's MRZ.
+- runFlow:
+    file: open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'PillButton'
+      LOCALE: ${LOCALE}
+      SCALE: '1'
+- scrollUntilVisible:
+    element:
+      text: 'BOOK THE RYOKAN.*'
+    direction: DOWN
+    timeout: 20000
+- takeScreenshot: ${LOCALE}-pill-long-label
+- runFlow:
+    file: open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'Text'
+      LOCALE: ${LOCALE}
+      SCALE: '2'
+- scrollUntilVisible:
+    element:
+      text: 'P<IDN.*'
+    direction: DOWN
+    timeout: 20000
+- takeScreenshot: ${LOCALE}-text-2x-mrz
+- scrollUntilVisible:
+    element:
+      text: 'YOUR WHOLE CREW.*'
+    direction: DOWN
+    timeout: 30000
+- takeScreenshot: ${LOCALE}-text-2x-long-h1
+- runFlow:
+    file: open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'VisaPaywall'
+      LOCALE: ${LOCALE}
+      SCALE: '1'
+- takeScreenshot: ${LOCALE}-visa-paywall
