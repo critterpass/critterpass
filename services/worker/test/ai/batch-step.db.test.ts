@@ -123,8 +123,19 @@ describe('batch step', () => {
     expect(row).toMatchObject({ tokens_in: 222, tokens_out: 212, cost_micros: 160 });
     expect(row.model).toBe('deepseek-flash');
 
-    // A redelivered job finds it finished: nothing is called, applied or billed again.
+    // A redelivered job finds it finished: nothing is called, applied or billed again. The agent
+    // job reads `succeeded` as soon as the handler commits, a moment before pg-boss completes the
+    // queue job; until then the exclusive queue refuses a second job for the same agent job.
+    await until(async () => {
+      const { rows } = await harness.pool.query<{ open: number }>(
+        `SELECT count(*)::int AS open FROM pgboss.job
+          WHERE name = $1 AND state IN ('created', 'retry', 'active')`,
+        [queue],
+      );
+      return rows[0]?.open === 0;
+    }, 10_000);
     const again = await enqueue(boss, job, { agent_job_id: id, input });
+    expect(again).not.toBeNull();
     await until(async () => {
       const { rows } = await harness.pool.query<{ state: string }>(
         'SELECT state FROM pgboss.job WHERE name = $1 AND id = $2',
