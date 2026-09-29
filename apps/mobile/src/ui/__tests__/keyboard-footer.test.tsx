@@ -8,7 +8,8 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { keyboardForTests } from '@/motion/test-support/reanimated-mock';
 import { tokens } from '@cp/design-tokens';
 
-import { KeyboardFooter } from '../layout/KeyboardFooter';
+import { FOOTER_FADE_PT, KeyboardFooter } from '../layout/KeyboardFooter';
+import { KeyboardScrollView } from '../layout/KeyboardScrollView';
 import { Scaffold } from '../surface/Scaffold';
 import { renderUi } from '../test-support/render';
 
@@ -55,5 +56,27 @@ describe('KeyboardFooter', () => {
     await renderFooter();
     expect(flat('footer').paddingBottom).toBe(336 + tokens.space['8']);
     expect(flat('footer-edge')).toMatchObject({ opacity: 1, height: StyleSheet.hairlineWidth });
+  });
+});
+
+describe('scrolling under the footer', () => {
+  it("fades the content into the page over the footer's top edge, without taking space", async () => {
+    await renderFooter();
+    expect(flat('footer-fade')).toMatchObject({
+      position: 'absolute',
+      bottom: '100%',
+      height: FOOTER_FADE_PT,
+    });
+  });
+
+  it("ends the scroll content past the fade, on top of the content's own padding", async () => {
+    await renderUi(
+      <KeyboardScrollView contentContainerStyle={{ padding: 20 }} testID="body">
+        <Text testID="last">Last item</Text>
+      </KeyboardScrollView>,
+    );
+    const content = screen.getByTestId('last').parent;
+    const style = StyleSheet.flatten(content?.props.style as StyleProp<ViewStyle>) ?? {};
+    expect(style.paddingBottom).toBe(20 + FOOTER_FADE_PT);
   });
 });

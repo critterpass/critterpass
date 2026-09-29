@@ -1,9 +1,10 @@
 import { useRef } from 'react';
 import type { ComponentRef, ReactNode } from 'react';
-import { ScrollView, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import type { ScrollViewProps, StyleProp, ViewStyle } from 'react-native';
 
 import { useTheme } from '../theme';
+import { FOOTER_FADE_PT } from './KeyboardFooter';
 
 export interface KeyboardScrollViewProps extends Omit<ScrollViewProps, 'contentContainerStyle'> {
   readonly children: ReactNode;
@@ -13,7 +14,8 @@ export interface KeyboardScrollViewProps extends Omit<ScrollViewProps, 'contentC
 /**
  * The scrolling body above a `KeyboardFooter`: whenever its height changes (the footer riding the
  * keyboard up, frame by frame) it keeps the focused text field inside it in view, just above the
- * footer, so typing never happens behind the button.
+ * footer, so typing never happens behind the button. Its content ends `FOOTER_FADE_PT` further
+ * down, so the last item scrolls clear of the footer's fade.
  */
 export function KeyboardScrollView({
   children,
@@ -28,6 +30,10 @@ export function KeyboardScrollView({
   const offset = useRef(0);
   const height = useRef(0);
   const margin = theme.space['16'];
+  // The footer's fade covers the last FOOTER_FADE_PT of the view: pad past it so the end scrolls clear.
+  const flat = StyleSheet.flatten(contentContainerStyle) ?? {};
+  const ownEnd = flat.paddingBottom ?? flat.paddingVertical ?? flat.padding;
+  const endInset = { paddingBottom: (typeof ownEnd === 'number' ? ownEnd : 0) + FOOTER_FADE_PT };
 
   const revealFocused = () => {
     const input = TextInput.State.currentlyFocusedInput();
@@ -64,7 +70,7 @@ export function KeyboardScrollView({
         onLayout?.(event);
       }}
     >
-      <View ref={content} collapsable={false} style={contentContainerStyle}>
+      <View ref={content} collapsable={false} style={[contentContainerStyle, endInset]}>
         {children}
       </View>
     </ScrollView>
