@@ -126,6 +126,7 @@ export function SaveSheet(props: SaveSheetProps) {
               <PillButton
                 label={t({ id: 'onboarding.save.apple', message: 'Continue with Apple' })}
                 tone="cream"
+                casing="sentence"
                 leading={
                   <Text variant="buttonLg" color={theme.color.ink['950']}>
                     {''}
@@ -140,6 +141,7 @@ export function SaveSheet(props: SaveSheetProps) {
             <PillButton
               label={t({ id: 'onboarding.save.google', message: 'Continue with Google' })}
               variant="secondary"
+              casing="sentence"
               leading={<ProviderMark provider="google" color={theme.semantic.text.primary} />}
               onPress={props.onGoogle}
               loading={working === 'google'}
@@ -149,6 +151,7 @@ export function SaveSheet(props: SaveSheetProps) {
             <PillButton
               label={t({ id: 'onboarding.save.phone', message: 'Use my phone number' })}
               variant="secondary"
+              casing="sentence"
               onPress={props.onPhone}
               disabled={busy}
               testID="save-phone"

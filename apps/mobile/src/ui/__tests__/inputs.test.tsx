@@ -49,6 +49,17 @@ describe('buttons', () => {
     expect(disabled.props.accessibilityState).toMatchObject({ disabled: true });
     expect(disabled.props.accessibilityActions).toEqual([]);
   });
+
+  it('sets a sentence-case label as written instead of uppercasing it', async () => {
+    await renderUi(
+      <View>
+        <PillButton label="Continue with Google" onPress={jest.fn()} casing="sentence" />
+        <PillButton label="Send code" onPress={jest.fn()} />
+      </View>,
+    );
+    expect(screen.getByText('Continue with Google')).toBeTruthy();
+    expect(screen.getByText('SEND CODE')).toBeTruthy();
+  });
 });
 
 describe('inputs', () => {
