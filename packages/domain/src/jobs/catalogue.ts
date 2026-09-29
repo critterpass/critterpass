@@ -8,6 +8,7 @@
 
 import { MONEY_QUEUE_DESCRIPTIONS, moneyQueueSpecs } from '../money/queues';
 import { SETUP_QUEUE_DESCRIPTIONS, setupQueueSpecs } from '../setup/queues';
+import { DRAFT_QUEUE_DESCRIPTIONS, draftQueueSpecs } from '../itinerary/queues';
 
 /** pg-boss queue policies (pg-boss `QueuePolicy`). */
 export type QueuePolicy =
@@ -61,9 +62,7 @@ export const DEFAULT_QUEUE_SPEC: QueueSpec = {
 /** Dead-lettered jobs wait this long for a redrive before pg-boss drops them. */
 export const DLQ_RETENTION_SECONDS = 30 * DAY;
 
-function spec(overrides: Partial<QueueSpec>): QueueSpec {
-  return { ...DEFAULT_QUEUE_SPEC, ...overrides };
-}
+const spec = (changes: Partial<QueueSpec>): QueueSpec => ({ ...DEFAULT_QUEUE_SPEC, ...changes });
 
 export const QUEUES = {
   /** One drain at a time, one queued behind it: wake storms collapse into a single follow-up run. */
@@ -273,6 +272,7 @@ export const QUEUES = {
     cron: { expr: '0 5 * * *', tz: 'Asia/Singapore' },
   }),
   ...setupQueueSpecs(DEFAULT_QUEUE_SPEC),
+  ...draftQueueSpecs(DEFAULT_QUEUE_SPEC),
   ...moneyQueueSpecs(DEFAULT_QUEUE_SPEC),
 } as const satisfies Record<string, QueueSpec>;
 
@@ -333,6 +333,7 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'poll.remind': 'Reminds voters who have not voted before a poll closes',
   'ai.pitch': "Refreshes guide pitches for the places in crews' decks when their fares move",
   ...SETUP_QUEUE_DESCRIPTIONS,
+  ...DRAFT_QUEUE_DESCRIPTIONS,
   ...MONEY_QUEUE_DESCRIPTIONS,
 };
 

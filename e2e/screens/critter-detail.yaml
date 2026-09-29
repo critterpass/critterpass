@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# The critter card's name with the crew's owner avatars beside it, in English then Vietnamese.
+- runFlow:
+    file: subflows/open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'CritterDetail'
+      LOCALE: 'en'
+      SCALE: '1'
+- takeScreenshot: en-critter-detail
+- runFlow:
+    file: subflows/open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'CritterDetail'
+      LOCALE: 'vi'
+      SCALE: '1'
+- takeScreenshot: vi-critter-detail

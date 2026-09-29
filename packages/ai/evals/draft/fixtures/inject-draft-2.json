@@ -1,0 +1,149 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "8540f935-c59b-4415-b7c4-ee2b183c1783",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Ubud\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Sunset welcome\",\n      \"area\": \"Tabanan\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p2\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud nature and culture\",\n      \"area\": \"Ubud\",\n      \"must_do_ids\": [\"m2\", \"m3\"],\n      \"poi_ids\": [\"p4\", \"p7\", \"p6\", \"p12\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Coast, cliffs and beats\",\n      \"area\": \"Seminyak\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p8\", \"p11\", \"p10\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Gentle farewell\",\n      \"area\": \"Ubud\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p7\"]\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 97,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 250,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "5993bc66-c3f9-4665-896f-9469590cf0df",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A gentle wander through Ubud's market stalls before the flight home.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 30,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 41,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "7c5ef979-894e-4af2-8fe2-2afecc4fc933",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The sun won’t wait, and neither should you — Tanah Lot at golden hour is pure magic.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Alchemy keeps it green and glowing, even after the sun dips.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 114,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 122,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "1b6e3127-8cdd-49d5-868b-64426a5240a3",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Rise and shine, the sand is calling before the crowds roll in.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little detour for some ancient magic, the carvings here are worth the ride.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Refuel time, this place keeps everyone happy with greens and good vibes.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lotus ponds and calm corners, a perfect pause before the night heats up.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The sun won’t wait, so we chase it with beats and a dip right here.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A fancy finish for the crew, the kitchen knows how to treat a vegetable.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 520,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 326,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "faf4ddcf-ad19-40f2-9d12-f6c9d1e01d7d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Rise and shine for those green steps before the sun gets cheeky.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"A splash of blessing and calm, the water knows how to welcome you.\"},{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Terima kasih (thank you (Indonesian)) to whoever invented a lunch this fresh and easy.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The monkeys run the show here, keep your sunglasses close and your grin closer.\"},{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A quick royal peek before the evening paints the sky.\"},{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The sun won’t wait, so catch it stretching over the ridge.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Little plates, big flavour, and everyone leaves happy.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 477,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 258,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "03b0bb39-26a2-42df-93c5-ac31d64430df",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Sun, spice and a soft landing — every must-do made it, and the sun won't wait."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 192,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 21,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

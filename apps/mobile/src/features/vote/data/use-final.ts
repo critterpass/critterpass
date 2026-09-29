@@ -7,7 +7,7 @@
 import { airportDataset } from '@cp/content/airports';
 import { homeBaseFor, pitchSectionsSchema, type PitchSections } from '@cp/domain';
 import { router, useIsFocused } from 'expo-router';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { voteRoutes } from '../routes';
 
@@ -71,6 +71,32 @@ export function usePendingReveal(me: string | null): string | null {
 
 /** Reveals already opened in this app session, so a slow `mark_reveal_seen` never shows one twice. */
 const opened = new Set<string>();
+
+const REVEAL_SEEN_SQL = `SELECT 1 AS seen FROM poll_reveals
+    WHERE poll_id = ? AND user_id = ? AND seen_at IS NOT NULL
+  UNION ALL
+  SELECT 1 AS seen FROM commands
+    WHERE cmd = 'mark_reveal_seen' AND json_extract(envelope, '$.payload.poll_id') = ?`;
+
+/**
+ * Whether this user had already seen the reveal (here or on another device) when the reveal screen
+ * opened: `null` until the first local read. Latched, so the screen's own `mark_reveal_seen` does
+ * not change the answer. A reveal the Home gate opened in this session counts as unseen.
+ */
+export function useRevealSeenOnOpen(pollId: string, me: string | null): boolean | null {
+  const { rows, loaded } = useLiveRows<{ seen: number }>(
+    REVEAL_SEEN_SQL,
+    me === null ? null : [pollId, me, pollId],
+    REVEAL_TABLES,
+  );
+  const [latched, setLatched] = useState<boolean | null>(null);
+  if (latched === null && loaded) setLatched(rows.length > 0 && !opened.has(pollId));
+  useEffect(() => {
+    // Showing it now counts as opened, so a remount in this session does not send it away.
+    if (latched === false) opened.add(pollId);
+  }, [latched, pollId]);
+  return latched;
+}
 
 /**
  * The reveal-once gate: while Home is on screen, a closed destination poll this user has not seen

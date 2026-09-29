@@ -144,7 +144,9 @@ export function ErrorSheet({
                     </Text>
                   )}
                 </View>
-                <Text variant="body">{fact.text}</Text>
+                <Text variant="body" style={{ flexShrink: 1 }}>
+                  {fact.text}
+                </Text>
               </Row>
             ))}
           </Stack>

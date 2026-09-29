@@ -18,15 +18,14 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'onboarding-name-field'
 - inputText: 'Winst'
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-2-name-keyboard
+# The rest of the name while the field still has focus: a second tap can select the typed word
+# (iOS), and erasing it again stalls Android's driver.
+- inputText: 'on'
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3a-2-name
-# A second tap into the field can select the typed word (iOS), so the name is typed again whole.
-- tapOn:
-    id: 'onboarding-name-field'
-- eraseText
-- inputText: 'Winston'
-- hideKeyboard
 - tapOn:
     id: 'onboarding-name-next'
 - extendedWaitUntil:
@@ -59,10 +58,15 @@ appId: app.critterpass.dev
     id: 'taste-card-right'
 - waitForAnimationToEnd
 # The stamped tags pile up by the sixth question; in longer languages Skip sits below the fold.
+# The last pick's cards are still settling, so wait before looking for it.
+- waitForAnimationToEnd
 - scrollUntilVisible:
     element:
       id: 'taste-skip'
     direction: DOWN
+    centerElement: true
+    timeout: 20000
+- waitForAnimationToEnd
 - tapOn:
     id: 'taste-skip'
 - extendedWaitUntil:
@@ -119,6 +123,8 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'phone-number'
 - inputText: '91234567'
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-8-phone-keyboard
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3a-8-phone

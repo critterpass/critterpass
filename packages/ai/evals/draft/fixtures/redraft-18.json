@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "ace220c0-47fd-4b58-af6b-bd5aa4f640f0",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A Sunday Close to Home\",\n  \"summary\": \"A relaxed day wandering the historic heart and nearby markets, with churros to keep everyone sweet.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Kept as the crew's must-do, the big history fix before the day slows down.\",\n      \"must_do_id\": \"m1\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A sweet, quick refuel after the pyramids, because churros make any walk better.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for the far-flung market, keeping the history lovers close to the centre.\"\n    },\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short, free stroll through the Zócalo to soak up local life without a long ride.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The market stop stays, now a short walk from the square instead of a trek across town.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper taco dinner nearby, because no one should end a market day hungry.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 36,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 383,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

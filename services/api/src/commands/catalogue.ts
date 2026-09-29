@@ -19,6 +19,7 @@ import { registerOnboardingCommands } from './onboarding';
 import { registerPollCommands } from './polls';
 import { reportContentCommand } from './report-content';
 import { registerSetupCommands } from './setup';
+import { registerDraftCommands } from './draft';
 
 // The setup routes register the calendar commands with their runtime dependencies.
 export { registerSetupRoutes } from '../setup/routes';
@@ -38,6 +39,7 @@ export function createAppCommandRegistry(): CommandRegistry {
   registerLiveMapCommands(commands);
   registerPollCommands(commands);
   registerSetupCommands(commands);
+  registerDraftCommands(commands);
   registerMoneyCommands(commands);
   commands.register(undoGuideActionCommand);
   commands.register(reportContentCommand);

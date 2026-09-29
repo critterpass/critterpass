@@ -16,11 +16,12 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { MergeChoice } from './MergeChoice';
+import { DeclinedMergeNote } from './MergeSheet';
+import { ProviderMark } from './ProviderMark';
 import type { SaveError, SaveState } from './use-save-flow';
 
 const useStyles = makeStyles((th) => ({
   body: { gap: th.space['12'], paddingHorizontal: th.space['20'], paddingBottom: th.space['16'] },
-  google: { fontWeight: '800' },
   center: { alignItems: 'center' },
 }));
 
@@ -67,6 +68,10 @@ export interface SaveSheetProps {
   readonly onNotNow: () => void;
   readonly onUseExisting: () => void;
   readonly onKeepNew: () => void;
+  /** Closes the "kept" explanation. */
+  readonly onKeptDone: () => void;
+  /** Back to the merge choice after the new pass was kept. */
+  readonly onReopenMerge: () => void;
 }
 
 export function SaveSheet(props: SaveSheetProps) {
@@ -84,12 +89,15 @@ export function SaveSheet(props: SaveSheetProps) {
       testID="save-sheet"
     >
       <View style={styles.body}>
-        {state.kind === 'merge' || state.kind === 'merging' ? (
+        {state.kind === 'merge' || state.kind === 'merging' || state.kind === 'kept' ? (
           <MergeChoice
+            provider={state.provider}
             preview={state.preview}
+            mode={state.kind === 'kept' ? 'kept' : 'choose'}
             busy={state.kind === 'merging'}
             onUseExisting={props.onUseExisting}
             onKeepNew={props.onKeepNew}
+            onDone={props.onKeptDone}
           />
         ) : (
           <>
@@ -111,10 +119,14 @@ export function SaveSheet(props: SaveSheetProps) {
                 {saveErrorLine(state.reason)}
               </Text>
             ) : null}
+            {state.kind === 'declined' ? (
+              <DeclinedMergeNote state={state} onSwitch={props.onReopenMerge} />
+            ) : null}
             {Platform.OS === 'ios' ? (
               <PillButton
                 label={t({ id: 'onboarding.save.apple', message: 'Continue with Apple' })}
                 tone="cream"
+                casing="sentence"
                 leading={
                   <Text variant="buttonLg" color={theme.color.ink['950']}>
                     {''}
@@ -129,11 +141,8 @@ export function SaveSheet(props: SaveSheetProps) {
             <PillButton
               label={t({ id: 'onboarding.save.google', message: 'Continue with Google' })}
               variant="secondary"
-              leading={
-                <Text variant="buttonLg" color={theme.color.blue} style={styles.google}>
-                  G
-                </Text>
-              }
+              casing="sentence"
+              leading={<ProviderMark provider="google" color={theme.semantic.text.primary} />}
               onPress={props.onGoogle}
               loading={working === 'google'}
               disabled={busy}
@@ -142,6 +151,7 @@ export function SaveSheet(props: SaveSheetProps) {
             <PillButton
               label={t({ id: 'onboarding.save.phone', message: 'Use my phone number' })}
               variant="secondary"
+              casing="sentence"
               onPress={props.onPhone}
               disabled={busy}
               testID="save-phone"

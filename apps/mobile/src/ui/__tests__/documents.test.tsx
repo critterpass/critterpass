@@ -3,9 +3,10 @@
 jest.mock('@shopify/react-native-skia', () => require('../test-support/skia-double'));
 jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
-import { fireEvent, screen } from '@testing-library/react-native';
+import { fireEvent, screen, within } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
 
@@ -75,6 +76,35 @@ describe('document artefacts', () => {
       ).toBeTruthy();
     },
   );
+
+  it('keeps the ticket sticker beside the fields, in flow, so it never covers a value', async () => {
+    await renderUi(
+      <Ticket
+        testID="ticket"
+        headStart="Critterpass Air"
+        from={{ code: 'SIN' }}
+        to={{ code: 'KIX' }}
+        fields={[
+          { key: 'p', label: 'Passenger', value: 'Rin Sato' },
+          { key: 's', label: 'Seat', value: 'Window, by Maya' },
+        ]}
+        sticker={<View testID="raccoon" />}
+        stubText="Boarding group"
+        accessibilityLabel="Boarding pass, SIN to KIX"
+      />,
+    );
+    const slot = screen.getByTestId('ticket-sticker', { includeHiddenElements: true });
+    const flat = (node: { props: { style?: unknown } } | null) =>
+      StyleSheet.flatten(node?.props.style as StyleProp<ViewStyle>) ?? {};
+    expect(flat(slot).position).toBeUndefined();
+    const row = slot.parent;
+    expect(flat(row).flexDirection).toBe('row');
+    const value = within(row as never).getByText('WINDOW, BY MAYA', {
+      includeHiddenElements: true,
+    });
+    // Beside the sticker a long value wraps rather than being cut.
+    expect(value.props.numberOfLines).toBeUndefined();
+  });
 
   it('groups tickets, visas, receipts and gift cards under one label each', async () => {
     await renderUi(

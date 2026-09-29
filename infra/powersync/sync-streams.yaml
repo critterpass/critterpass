@@ -238,6 +238,11 @@ streams:
           AND trip_id IN organised_trips
           AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
           AND base_version_id IN (SELECT id FROM itinerary_versions WHERE visibility = 'organiser')
+      - |-
+        SELECT * FROM redraft_reservations
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN organised_trips
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
   crew_chat:
     auto_subscribe: true
     with:

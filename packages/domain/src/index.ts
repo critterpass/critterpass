@@ -292,5 +292,6 @@ export * from './taste';
 export * from './airports';
 export * from './crew-areas';
 export * from './setup';
+export * from './itinerary';
 export * from './money';
 export * from './payout';

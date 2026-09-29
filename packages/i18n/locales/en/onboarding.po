@@ -7,15 +7,15 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: movingCrews.length
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.movingCount"
+msgstr "{0, plural, one {# crew from this phone comes with you.} other {# crews from this phone come with you.}}"
+
 #. placeholder {0}: format.list(locale, names)
 #: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
 msgid "onboarding.invite.ticket.membersIn"
 msgstr "{0} are in."
-
-#. placeholder {0}: movingCrews.length
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.moving"
-msgstr "{0} crew from this phone will move over too."
 
 #: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
 msgid "onboarding.invite.code.alreadyIn"
@@ -37,6 +37,18 @@ msgstr "{current} of {0}"
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.hoursAway"
 msgstr "{hours} h away"
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.bodyFor"
+msgstr "{identity} is saved to a pass you made before. Switch to it to pick up where you left off."
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.keptBody"
+msgstr "{identity} stays with your old pass, and this phone keeps the new one. To save the new pass, use a different sign-in."
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
+msgid "onboarding.merge.declinedLine"
+msgstr "{identity} stays with your old pass. Use another sign-in to save this one."
 
 #: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
 msgid "onboarding.invite.problem.revokedLine"
@@ -394,6 +406,10 @@ msgstr "Google sign-in didn’t finish. Try again, or use another way."
 msgid "onboarding.invite.code.title"
 msgstr "Got a code?"
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.keptDone"
+msgstr "Got it"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.nature"
 msgstr "Green places"
@@ -478,6 +494,11 @@ msgstr "Keep it safe"
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.keepNew"
 msgstr "Keep this new pass"
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
+msgid "onboarding.merge.keptTitle"
+msgstr "Keeping the new pass"
 
 #: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
 msgid "onboarding.quiz.evenings.left.label"
@@ -737,6 +758,10 @@ msgstr "Shopping bags"
 msgid "onboarding.tag.shopping.short"
 msgstr "Shops"
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.eyebrow"
+msgstr "Sign in"
+
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.returningBody"
 msgstr "Sign in with the number, Apple ID or Google account your pass is saved to."
@@ -937,10 +962,6 @@ msgstr "This invite was taken back"
 msgid "onboarding.taste.title"
 msgstr "This or that"
 
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.body"
-msgstr "This sign-in belongs to a pass you made before. Use that one, or keep the new pass on this phone."
-
 #: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
 msgid "onboarding.invite.problem.tripClosedTitle"
 msgstr "This trip is over"
@@ -1035,13 +1056,18 @@ msgstr "Use a real photo"
 msgid "onboarding.photo.real.title"
 msgstr "Use a real photo"
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.useOld"
+msgstr "Use my old pass"
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
+msgid "onboarding.merge.switchBack"
+msgstr "Use my old pass instead"
+
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.phone"
 msgstr "Use my phone number"
-
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.useExisting"
-msgstr "Use that pass"
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.use"
@@ -1109,6 +1135,7 @@ msgid "onboarding.invite.ticket.you"
 msgstr "You"
 
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.title"
 msgstr "You already have a pass"
 
@@ -1133,6 +1160,10 @@ msgid "onboarding.phone.title"
 msgstr "Your\n"
 "number"
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.identity.apple"
+msgstr "Your Apple ID"
+
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.disclosure"
 msgstr "Your crews see these tags so plans fit everyone. You can hide them in Settings."
@@ -1145,9 +1176,17 @@ msgstr "Your CritterPass passport"
 msgid "onboarding.name.label"
 msgstr "Your first name"
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.identity.google"
+msgstr "Your Google account"
+
 #: ../../apps/mobile/src/features/onboarding/flow-controller/pass-sync.tsx
 msgid "onboarding.queued.issuePass"
 msgstr "Your new pass"
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.identity.phone"
+msgstr "Your number"
 
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 msgid "onboarding.issued.title"

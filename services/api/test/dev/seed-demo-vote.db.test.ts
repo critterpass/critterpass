@@ -5,6 +5,7 @@
  * in the final, and a reseed puts a final back on its board.
  */
 import type { PgBoss } from 'pg-boss';
+import { pitchSectionsSchema } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerPollCommands } from '../../src/commands/polls';
@@ -119,6 +120,31 @@ describe('demo seed destination vote', { timeout: 120_000 }, () => {
     });
     expect(ballot.status).toBe(200);
     expect(await poll(poll_id)).toMatchObject({ status: 'closed', winner: 'kyoto' });
+  });
+
+  it("gives the finalists' pitches the guide's quote and the tool chips, once", async () => {
+    const { poll_id } = await seed('vote_final');
+    const sectionsOf = async () => {
+      const { rows } = await harness.pool.query<{ slug: string; sections: unknown }>(
+        `SELECT d.slug, p.sections FROM poll_options o
+           JOIN destinations d ON d.id = o.ref_id JOIN pitches p ON p.id = o.pitch_id
+          WHERE o.poll_id = $1 AND o.eliminated_at IS NULL ORDER BY d.slug`,
+        [poll_id],
+      );
+      return rows;
+    };
+    const finalists = await sectionsOf();
+    expect(finalists.map((row) => row.slug)).toEqual(['kyoto', 'lisbon']);
+    for (const row of finalists) {
+      const sections = pitchSectionsSchema.parse(row.sections);
+      expect(sections.quote).not.toBeNull();
+      expect(sections.chips.map((chip) => chip.kind)).toEqual(['flight', 'price', 'best_months']);
+    }
+    expect(pitchSectionsSchema.parse(finalists[0]?.sections).quote).toBe(
+      'Come in April. The blossoms are ridiculous.',
+    );
+    await seed('vote_final');
+    expect(await sectionsOf()).toEqual(finalists);
   });
 
   it('starts a new vote in its final, and a reseed puts it back on the board', async () => {

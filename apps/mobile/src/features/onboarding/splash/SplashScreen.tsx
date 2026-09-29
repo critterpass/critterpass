@@ -1,23 +1,17 @@
 /**
  * 3a-1 Splash: the passport bobs with a sheen across its cover, Tokek hangs off the top edge and
  * pops up every few seconds, and five guides float around it. OPEN YOUR PASS swings the cover open
- * on its spine (3D, ≈1600 perspective, 260 + 420 ms) into page one, with a medium haptic and the
- * page SFX. Everything here is bundled, so a first launch without signal looks the same.
+ * on its spine (3D, 1600 perspective) and the paper page under it grows into page one's pass card
+ * (./passport-opening.ts), with a soft thud and the page SFX. Everything here is bundled, so a
+ * first launch without signal looks the same.
  */
 import { t } from '@lingui/core/macro';
 import Constants from 'expo-constants';
-import { Link, router } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { Pressable, View } from 'react-native';
-import type { ViewStyle } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withSequence,
-  withTiming,
-} from 'react-native-reanimated';
-import { scheduleOnRN } from 'react-native-worklets';
+import { Link, router, useIsFocused } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
+import type { LayoutRectangle } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 
 import { upper } from '@cp/i18n';
 
@@ -26,8 +20,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback } from '@/motion/feedback';
 import { useMotionMode } from '@/motion/motion-mode';
 import { sheenCycle } from '@/motion/patterns/sheen';
-import { useLoop } from '@/motion/use-loop';
-import { GUIDE_STICKERS, type GuideAvatarId } from '@/ui/avatar/guides';
+import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -36,35 +29,22 @@ import { Text } from '@/ui/text/Text';
 import { Halftone } from '@/ui/textures/halftone';
 import { degrees, makeStyles, useTheme } from '@/ui/theme';
 
+import type { PassDraft } from '@cp/domain';
+
 import { ensureDraft } from '../flow-controller/draft-store';
 import { ONBOARDING_ROUTES } from '../flow-controller/steps';
 import { useTrackStep } from '../flow-controller/track';
 import { PASSPORT_BOB, TOKEK_POP, useOnboardingLoop } from '../motion';
-
-const COVER_W = 240;
-const COVER_H = 320;
-const SWING_LIFT_MS = 260;
-const SWING_OPEN_MS = 420;
-
-/**
- * Where the five floating guides sit around the passport, as fractions of the stage: `y` places a
- * guide's top edge, `bottom` its bottom edge (Paco stands just under the passport and must never
- * reach down into the tagline, whatever the stage height).
- */
-const FLOATERS: readonly {
-  guide: GuideAvatarId;
-  x: number;
-  y?: number;
-  bottom?: number;
-  size: number;
-  offset: number;
-}[] = [
-  { guide: 'pon', x: 0.02, y: 0.06, size: 76, offset: 0 },
-  { guide: 'lundi', x: 0.78, y: 0.1, size: 70, offset: 0.2 },
-  { guide: 'ajo', x: 0.0, y: 0.6, size: 80, offset: 0.4 },
-  { guide: 'sardi', x: 0.8, y: 0.6, size: 64, offset: 0.6 },
-  { guide: 'paco', x: 0.42, bottom: 0.01, size: 76, offset: 0.8 },
-];
+import { OnboardingPassCard } from '../pass-view';
+import { FLOATERS, Floater } from './Floaters';
+import {
+  COVER_H,
+  COVER_W,
+  coverFrame,
+  nameCardFrame,
+  usePassportOpening,
+  type Frame,
+} from './passport-opening';
 
 const useStyles = makeStyles((th) => ({
   stage: { flex: 1, alignItems: 'center', justifyContent: 'center' },
@@ -105,7 +85,11 @@ const useStyles = makeStyles((th) => ({
     backgroundColor: th.color.paper.base,
   },
   tokek: { position: 'absolute', top: -58, alignSelf: 'center' },
-  floater: { position: 'absolute' },
+  page: {
+    position: 'absolute',
+    overflow: 'hidden',
+    backgroundColor: th.color.paper.base,
+  },
   footer: {
     paddingHorizontal: th.space['20'],
     paddingBottom: th.space['8'],
@@ -114,22 +98,6 @@ const useStyles = makeStyles((th) => ({
   },
   devTools: { marginTop: th.space['4'] },
 }));
-
-function Floater({ guide, x, y, bottom, size, offset }: (typeof FLOATERS)[number]) {
-  const styles = useStyles();
-  const float = useLoop('float', { offset });
-  const info = GUIDE_STICKERS[guide];
-  const vertical: ViewStyle =
-    bottom === undefined ? { top: `${(y ?? 0) * 100}%` } : { bottom: `${bottom * 100}%` };
-  return (
-    <Animated.View
-      style={[styles.floater, { left: `${x * 100}%` }, vertical, float]}
-      testID={`splash-floater-${guide}`}
-    >
-      <Sticker kind={info.kind} name={info.name} size={size} />
-    </Animated.View>
-  );
-}
 
 function readAppVariant(): string {
   const raw: unknown = Constants.expoConfig?.extra?.appVariant;
@@ -147,7 +115,9 @@ export function SplashScreen() {
   const theme = useTheme();
   const locale = useLocale();
   const [mode] = useMotionMode();
-  const bob = useOnboardingLoop(PASSPORT_BOB);
+  const focused = useIsFocused();
+  const passport = usePassportOpening(focused);
+  const bob = useOnboardingLoop(PASSPORT_BOB, 0, passport.settle);
   const pop = useOnboardingLoop(TOKEK_POP);
   const sheen = useSharedValue(0);
   useEffect(() => {
@@ -155,8 +125,14 @@ export function SplashScreen() {
     sheen.value = mode === 'full' ? sheenCycle() : -1;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
-  const swing = useSharedValue(0);
-  const [opening, setOpening] = useState(false);
+  // One opening per visit: a second tap mid-swing does nothing; the splash coming back re-arms it.
+  const opening = useRef(false);
+  const [printed, setPrinted] = useState<PassDraft | null>(null);
+  useEffect(() => {
+    if (focused) opening.current = false;
+  }, [focused]);
+  const [stage, setStage] = useState<Frame | null>(null);
+  const [bodyWidth, setBodyWidth] = useState(0);
   const tokek = GUIDE_STICKERS.tokek;
 
   const goToName = () => {
@@ -165,40 +141,50 @@ export function SplashScreen() {
   };
 
   const open = () => {
-    if (opening) return;
-    setOpening(true);
+    if (opening.current) return;
+    opening.current = true;
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a sound cue id.
     feedback.emit('thud.soft');
     feedback.emit('page');
-    if (mode !== 'full') {
+    if (mode !== 'full' || stage === null) {
       goToName();
-      setOpening(false);
       return;
     }
-    swing.value = withSequence(
-      withTiming(-12, { duration: SWING_LIFT_MS, easing: Easing.out(Easing.quad) }),
-      withTiming(-110, { duration: SWING_OPEN_MS, easing: Easing.in(Easing.quad) }, (done) => {
-        'worklet';
-        if (done) scheduleOnRN(goToName);
-      }),
-    );
-    setTimeout(
-      () => {
-        swing.value = 0;
-        setOpening(false);
-      },
-      SWING_LIFT_MS + SWING_OPEN_MS + 400,
-    );
+    // Page one's card, printed on the page as it lands, so the page is never bare while the
+    // name page mounts.
+    setPrinted(ensureDraft());
+    passport.start(goToName);
   };
 
-  // The cover turns on its spine (left edge): shift the pivot there, rotate, shift back.
+  // The cover turns on its spine (left edge): shift the pivot there, rotate, shift back. It fades
+  // over its last 30°, so no edge-on sliver lingers over the page and its back never shows.
   const coverStyle = useAnimatedStyle(() => ({
+    opacity: Math.min(1, Math.max(0, (passport.swing.value + 90) / 30)),
     transform: [
       { perspective: 1600 },
       { translateX: -COVER_W / 2 },
-      { rotateY: `${swing.value}deg` },
+      { rotateY: `${passport.swing.value}deg` },
       { translateX: COVER_W / 2 },
     ],
+  }));
+  // The page under the cover, from the cover's frame to page one's card (both in the page body).
+  const from = stage === null ? null : coverFrame(stage);
+  const to = nameCardFrame(bodyWidth, stage?.y ?? 0);
+  const pageStyle = useAnimatedStyle(() => {
+    const g = passport.grow.value;
+    if (from === null) return { width: COVER_W, height: COVER_H, borderRadius: 18 };
+    return {
+      left: (to.x - from.x) * g,
+      top: (to.y - from.y) * g,
+      width: COVER_W + (to.width - COVER_W) * g,
+      height: COVER_H + (to.height - COVER_H) * g,
+      borderRadius: 18 + (theme.radius.lg - 18) * g,
+    };
+  });
+  const chromeStyle = useAnimatedStyle(() => ({ opacity: passport.chrome.value }));
+  // The card prints over the last 40% of the page's travel.
+  const printStyle = useAnimatedStyle(() => ({
+    opacity: Math.min(1, Math.max(0, (passport.grow.value - 0.6) / 0.4)),
   }));
   const sheenStyle = useAnimatedStyle(() => ({
     opacity: sheen.value < 0 ? 0 : 0.22,
@@ -208,6 +194,12 @@ export function SplashScreen() {
     ],
   }));
 
+  const onStageLayout = ({ nativeEvent }: { nativeEvent: { layout: LayoutRectangle } }) => {
+    const { x, y, width, height } = nativeEvent.layout;
+    setStage({ x, y, width, height });
+    setBodyWidth(width);
+  };
+
   return (
     <Scaffold
       variant="dark"
@@ -215,11 +207,24 @@ export function SplashScreen() {
       background={<Halftone variant="dark" />}
       testID="onboarding-splash"
     >
-      <View style={styles.stage}>
-        {FLOATERS.map((floater) => (
-          <Floater key={floater.guide} {...floater} />
-        ))}
+      <View style={styles.stage} onLayout={onStageLayout} testID="onboarding-stage">
+        <Animated.View style={[StyleSheet.absoluteFill, chromeStyle]} pointerEvents="none">
+          {FLOATERS.map((floater) => (
+            <Floater key={floater.guide} {...floater} />
+          ))}
+        </Animated.View>
         <Animated.View style={bob}>
+          <Animated.View
+            style={[styles.page, pageStyle]}
+            pointerEvents="none"
+            testID="onboarding-first-page"
+          >
+            {printed === null ? null : (
+              <Animated.View style={[{ width: to.width }, printStyle]}>
+                <OnboardingPassCard draft={printed} />
+              </Animated.View>
+            )}
+          </Animated.View>
           <Animated.View style={coverStyle} testID="onboarding-cover">
             <View
               style={styles.cover}
@@ -243,12 +248,15 @@ export function SplashScreen() {
               <Animated.View style={[styles.sheen, sheenStyle]} pointerEvents="none" />
             </View>
           </Animated.View>
-          <Animated.View style={[styles.tokek, pop]}>
-            <Sticker kind={tokek.kind} name={tokek.name} size={84} />
+          {/* Fading and popping are two animated styles on two views: on one they fight over opacity. */}
+          <Animated.View style={[styles.tokek, chromeStyle]}>
+            <Animated.View style={pop}>
+              <Sticker kind={tokek.kind} name={tokek.name} size={84} />
+            </Animated.View>
           </Animated.View>
         </Animated.View>
       </View>
-      <View style={styles.footer}>
+      <Animated.View style={[styles.footer, chromeStyle]}>
         <Text variant="bodyLg" style={{ textAlign: 'center' }}>
           {t({
             id: 'onboarding.splash.tagline',
@@ -282,7 +290,7 @@ export function SplashScreen() {
             </Pressable>
           </Link>
         ) : null}
-      </View>
+      </Animated.View>
     </Scaffold>
   );
 }

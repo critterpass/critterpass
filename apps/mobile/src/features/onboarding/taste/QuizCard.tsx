@@ -47,7 +47,14 @@ const useStyles = makeStyles((th) => ({
   topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   // The design sets each label in two short lines beside the art, never one long line.
   title: { maxWidth: '56%' },
-  titleEnd: { maxWidth: '56%', textAlign: 'right' },
+  // Right-aligned lines end flush with the text box, and iOS cuts ink past it (the bowl of a P,
+  // a Vietnamese horn), so the box reaches into the card's padding by as much as it pads.
+  titleEnd: {
+    maxWidth: '58%',
+    textAlign: 'right',
+    paddingEnd: th.space['8'],
+    marginEnd: -th.space['8'],
+  },
   // The OR badge covers the seam. The top card's line keeps to its own half and stops a badge
   // radius plus a gap short of the centre; the bottom card's line starts below the badge instead.
   lineStart: { width: '50%', paddingEnd: OR_BADGE_SIZE / 2 + th.space['8'] },

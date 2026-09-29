@@ -14,6 +14,7 @@ import {
   type UsageMetric,
 } from '@cp/domain';
 import {
+  fairUseDecision,
   guideMeterSubject,
   periodKey,
   periodResetAt,
@@ -240,6 +241,28 @@ export interface RedraftRequirement {
   readonly tripId: string;
 }
 
+/** Silent daily redraft cap on trips without a visible limit (docs/product-decisions.md §3). */
+export const REDRAFT_FAIR_USE_CAP = 20;
+
+/**
+ * Counts one redraft against the requester's silent daily cap on an unlimited trip: past the cap
+ * the redraft is refused as busy until the next UTC day (never a paywall, never shown as a limit).
+ */
+async function redraftFairUse(tx: pg.PoolClient, ctx: EntitleContext): Promise<void> {
+  const now = ctx.now ?? new Date();
+  const day = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  const { rows } = await tx.query<{ bump: { count: number; cap: number } }>(
+    "SELECT app.bump_fair_use($1, 'redrafts', $2, $3) AS bump",
+    [ctx.uid, day, REDRAFT_FAIR_USE_CAP],
+  );
+  const bump = rows[0]?.bump;
+  if (bump === undefined || fairUseDecision(bump.count, bump.cap) === 'ok') return;
+  const next = day.getTime() + 86_400_000;
+  throw new DomainError('RATE_LIMITED', {
+    retry_after_s: Math.ceil((next - now.getTime()) / 1000),
+  });
+}
+
 /** Redrafts have no daily reset (a per-trip lifetime cap, docs/product-decisions.md §3): one fixed
  * bucket per trip rather than a device-tz period_key, and a reset_at far enough out to never matter
  * (the NOT NULL column still needs a value; nothing ever reads it for this metric). */
@@ -248,6 +271,7 @@ const REDRAFT_NEVER_RESETS_AT = new Date('9999-12-31T23:59:59.000Z');
 
 async function reserveRedraft(
   tx: pg.PoolClient,
+  ctx: EntitleContext,
   req: RedraftRequirement,
 ): Promise<QuotaReservation | undefined> {
   const { rows } = await tx.query<{ redraft_limit: number }>(
@@ -256,9 +280,8 @@ async function reserveRedraft(
   );
   const limit = fromStoredRedraftLimit(rows[0]?.redraft_limit ?? 3);
   if (limit === Infinity) {
-    // Boost/FTF/crew-year: no visible cap to reserve against. Fair-use throttling for these trips is
-    // a separate, silent mechanism (packages/entitlements/src/fair-use.ts) wired by whichever
-    // surface actually submits redrafts.
+    // Boost/FTF/crew-year: no visible cap to reserve against, only the silent fair-use cap.
+    await redraftFairUse(tx, ctx);
     return undefined;
   }
 
@@ -320,6 +343,6 @@ export async function entitle(
       await checkSeat(tx, requirement);
       return undefined;
     case 'redraft':
-      return reserveRedraft(tx, requirement);
+      return reserveRedraft(tx, ctx, requirement);
   }
 }

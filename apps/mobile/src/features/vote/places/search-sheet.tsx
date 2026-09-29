@@ -2,18 +2,21 @@
  * Somewhere else (3b-7): the search sheet rises with the keyboard up and results arrive as you
  * type, each with the silhouette of a local that lives there. A country nobody guides yet is
  * headed NO LIVE GUIDE YET with the guest guide's word under the list. Tapping a live-guide place
- * opens its destination page; a guest place opens the guest guide's page. Nothing found offers to
+ * opens its destination page; a guest place opens the guest guide's page, and the keyboard's GO
+ * opens the top result. Nothing found offers to
  * ask for the place; offline says search waits for the connection.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
+import { Keyboard, View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { toast } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { SearchField } from '@/ui/inputs/SearchField';
+import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { Sheet } from '@/ui/sheet/Sheet';
@@ -31,7 +34,15 @@ import { ResultRow } from './result-row';
 const GUEST = GUIDE_STICKERS.tokek;
 
 const useStyles = makeStyles((th) => ({
-  body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'], gap: th.space['12'] },
+  body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['24'], gap: th.space['12'] },
+  // The header row ends 12 pt from the edge (room for a ✕ this sheet does not show); this evens
+  // the field with the list's gutter.
+  field: { marginEnd: th.size.gutter - th.space['12'] },
+  results: {
+    backgroundColor: th.semantic.bg.control,
+    borderRadius: th.radius.lg,
+    paddingHorizontal: th.space['14'],
+  },
 }));
 
 /** The one country every result shares when none has a live guide ("MOROCCO"), else null. */
@@ -52,12 +63,15 @@ export function SearchSheet({ crewId }: { readonly crewId: string | undefined })
   const search = useDestinationSearch(query);
   const request = useCommand(requestPlaceCommand);
   const country = unguidedCountry(search.results);
-  const open = (result: PlaceResult) =>
+  // The keyboard goes down with the sheet's job done, so the place page opens uncovered.
+  const open = (result: PlaceResult) => {
+    Keyboard.dismiss();
     router.push(
       result.coverage === 'live'
         ? voteRoutes.destination(result.place_id, crewId)
         : voteRoutes.place(result.place_id, crewId),
     );
+  };
   const ask = async () => {
     const q = search.query;
     const sent = await request.send({ query: q });
@@ -72,28 +86,49 @@ export function SearchSheet({ crewId }: { readonly crewId: string | undefined })
     <Sheet
       detents={['large']}
       accessibilityLabel={t({ id: 'vote.search.title', message: 'Search places' })}
-      testID="place-search"
-    >
-      <SheetScrollView keyboardShouldPersistTaps="handled">
-        <Stack style={styles.body}>
+      header={
+        <View style={styles.field}>
           <SearchField
             value={query}
             onChangeText={setQuery}
             label={t({ id: 'vote.search.label', message: 'A city or a country' })}
+            returnKeyType="go"
+            onSubmit={() => {
+              const top = search.results[0];
+              if (top !== undefined) open(top);
+            }}
             autoFocus
             testID="place-search-field"
           />
+        </View>
+      }
+      closable={false}
+      testID="place-search"
+    >
+      <SheetScrollView keyboardShouldPersistTaps="handled">
+        <Stack style={styles.body}>
           {country === null ? null : (
-            <Stack gap="2" testID="place-search-unguided">
-              <Text variant="h2">{upper(country, i18n.locale)}</Text>
-              <Text variant="label" color={theme.color.pink}>
+            <Row justify="space-between" align="center" gap="8" testID="place-search-unguided">
+              <Text variant="eyebrow" color={theme.semantic.text.secondary} numberOfLines={1}>
+                {upper(country, i18n.locale)}
+              </Text>
+              <Text variant="label" color={theme.color.orange}>
                 {upper(t({ id: 'vote.search.noGuide', message: 'No live guide yet' }), i18n.locale)}
               </Text>
-            </Stack>
+            </Row>
           )}
-          {search.results.map((result) => (
-            <ResultRow key={result.place_id} result={result} onPress={open} />
-          ))}
+          {search.results.length === 0 ? null : (
+            <View style={styles.results} testID="place-search-results">
+              {search.results.map((result, index) => (
+                <ResultRow
+                  key={result.place_id}
+                  result={result}
+                  onPress={open}
+                  last={index === search.results.length - 1}
+                />
+              ))}
+            </View>
+          )}
           {country === null ? null : (
             <GuideLine
               guide="tokek"

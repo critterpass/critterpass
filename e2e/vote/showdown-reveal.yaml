@@ -26,6 +26,11 @@ env:
     visible:
       id: 'showdown'
     timeout: 10000
+# Both finalists are on screen before the account has voted for either.
+- assertVisible: 'KYOTO'
+- assertVisible: 'LISBON'
+- waitForAnimationToEnd
+- takeScreenshot: 3c-1
 - tapOn:
     id: 'showdown-half-${SIDE}'
 - extendedWaitUntil:

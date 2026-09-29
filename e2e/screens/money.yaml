@@ -1,0 +1,25 @@
+appId: app.critterpass.dev
+---
+# Screenshots of every money screen for `pnpm screens:compare`: the money lab's scenes over the
+# Bali Six fixtures, named by design id (3i-1…3i-6) and by state.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: ../money/subflows/open-lab.yaml
+- runFlow:
+    file: ../money/subflows/home-scenes.yaml
+    env: { PREFIX: en }
+- runFlow:
+    file: ../money/subflows/scan-scenes.yaml
+    env: { PREFIX: en }
+- runFlow:
+    file: ../money/subflows/settle-scenes.yaml
+    env: { PREFIX: en }
+- runFlow:
+    file: ../money/subflows/budget-scenes.yaml
+    env: { PREFIX: en }

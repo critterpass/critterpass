@@ -267,7 +267,7 @@ describe('entitle: redraft', () => {
     ).rejects.toMatchObject({ code: 'REDRAFT_LIMIT', detail: { used: 3, limit: 3 } });
   });
 
-  it('never reserves (or throws) for an unlimited trip', async () => {
+  it('never reserves a visible unit for an unlimited trip (only the silent fair-use count)', async () => {
     const { tripId } = await insertCrewWithTrip(pool, 1);
     await withSystem(pool, (tx) =>
       tx.query(
@@ -276,8 +276,9 @@ describe('entitle: redraft', () => {
       ),
     );
 
+    const uid = await insertUser(pool);
     const reservation = await withSystem(pool, (tx) =>
-      entitle(tx, { uid: randomId(), deviceTz: 'UTC' }, { kind: 'redraft', tripId }),
+      entitle(tx, { uid, deviceTz: 'UTC' }, { kind: 'redraft', tripId }),
     );
     expect(reservation).toBeUndefined();
     expect(await usageRow('trip', tripId, 'redrafts')).toBeUndefined();

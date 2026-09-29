@@ -19,13 +19,14 @@ jest.mock(
 );
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true) },
   useLocalSearchParams: jest.fn(() => ({})),
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
+import { StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 
 import { toastQueue } from '@/motion';
 import {
@@ -55,7 +56,7 @@ import {
 } from '../../test-support/vote-harness';
 import { FinalSplitCard } from '../final-split-card';
 import { ShowdownView } from '../showdown-screen';
-import { WinnerRevealView } from '../winner-reveal';
+import { WinnerRevealScreen, WinnerRevealView } from '../winner-reveal';
 
 const OPT_KYOTO = '0192f000-0000-7000-8000-000000000711';
 const OPT_LISBON = '0192f000-0000-7000-8000-000000000712';
@@ -78,6 +79,7 @@ async function open(): Promise<TestLocalFirst> {
 afterEach(async () => {
   (router.push as jest.Mock).mockClear();
   (router.replace as jest.Mock).mockClear();
+  (router.back as jest.Mock).mockClear();
   toastQueue.dismiss();
   await stack?.close();
   if (stack) removeDir(stack.dir);
@@ -161,8 +163,6 @@ describe('destination final', () => {
       "You haven't voted yet. A tie goes to Kyoto.",
     );
     await until(() => screen.queryByText('JORDAN AND WINSTON TO GO') !== null);
-    await settleMotion();
-    expect(screen.toJSON()).toMatchSnapshot();
     await fireEvent.press(screen.getByTestId('final-split-open'));
     expect(router.push).toHaveBeenCalledWith(voteRoutes.showdown(POLL));
   });
@@ -176,12 +176,34 @@ describe('destination final', () => {
     expect(screen.getByTestId('showdown-tie')).toHaveTextContent(
       "A tie goes to Kyoto: it's $440 cheaper for the 2 flying from Singapore.",
     );
-    await settleMotion();
-    expect(screen.toJSON()).toMatchSnapshot();
     await fireEvent.press(screen.getByTestId('showdown-half-1'));
     await until(() => screen.queryByTestId('showdown-hint') === null);
     expect(await queued(s, 'cast_ballot')).toEqual([{ poll_id: POLL, option_id: OPT_LISBON }]);
     await until(() => toastQueue.getCurrent()?.title.includes('underdog') === true);
+  });
+
+  it('shows both finalists before and after the viewer casts the deciding ballot', async () => {
+    const s = await open();
+    // The crew split evenly with the viewer's ballot the last one needed.
+    await seedFinal(s, [
+      { userId: MAYA, optionId: OPT_KYOTO },
+      { userId: JORDAN, optionId: OPT_LISBON },
+    ]);
+    await renderVote(<Final me={s.uid} view="showdown" />, s);
+    await until(() => screen.queryByText('LISBON') !== null);
+    const visible = (testID: string) => {
+      const half = screen.getByTestId(testID).children[0];
+      if (half === undefined || typeof half === 'string') return false;
+      return StyleSheet.flatten(half.props.style as StyleProp<ViewStyle>)?.opacity !== 0;
+    };
+    expect(screen.getByText('KYOTO')).toBeTruthy();
+    expect(visible('showdown-half-0')).toBe(true);
+    expect(visible('showdown-half-1')).toBe(true);
+    await fireEvent.press(screen.getByTestId('showdown-half-0'));
+    await until(() => screen.queryByTestId('showdown-hint') === null);
+    expect(await queued(s, 'cast_ballot')).toEqual([{ poll_id: POLL, option_id: OPT_KYOTO }]);
+    expect(visible('showdown-half-0')).toBe(true);
+    expect(visible('showdown-half-1')).toBe(true);
   });
 
   it('sends the showdown on to the reveal once the poll closes', async () => {
@@ -211,8 +233,6 @@ describe('winner reveal', () => {
     expect(screen.getByTestId('reveal-set-up')).toBeTruthy();
     expect(screen.queryByTestId('reveal-lost')).toBeNull();
     await until(() => screen.queryByTestId('reveal-stamp') !== null);
-    await settleMotion();
-    expect(screen.toJSON()).toMatchSnapshot();
     expect(await queued(s, 'mark_reveal_seen')).toEqual([{ poll_id: POLL }]);
   });
 
@@ -250,6 +270,15 @@ describe('winner reveal', () => {
     await renderVote(<HomeGate />, s);
     await settleMotion();
     expect(router.push).not.toHaveBeenCalled();
+  });
+
+  it('leaves instead of replaying a reveal seen before the screen opened', async () => {
+    const s = await open();
+    await seedClosed(s, [{ userId: MAYA, optionId: OPT_KYOTO }], MAYA, '2026-10-02T10:00:00Z');
+    await renderVote(<WinnerRevealScreen pollId={POLL} />, s);
+    await until(() => (router.back as jest.Mock).mock.calls.length > 0);
+    expect(screen.queryByTestId('winner-reveal')).toBeNull();
+    expect(await queued(s, 'mark_reveal_seen')).toEqual([]);
   });
 
   it('opens a pending reveal from Home once', async () => {

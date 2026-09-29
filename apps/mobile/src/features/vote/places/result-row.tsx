@@ -16,11 +16,8 @@ import type { PlaceResult } from '../data/use-destination-search';
 import { guideOr, upper } from '../format';
 
 const useStyles = makeStyles((th) => ({
-  row: {
-    paddingVertical: th.space['12'],
-    borderBottomWidth: 1,
-    borderBottomColor: th.semantic.border.decorative,
-  },
+  row: { paddingVertical: th.space['12'] },
+  divider: { borderBottomWidth: 1, borderBottomColor: th.semantic.border.decorative },
   silhouette: {
     width: 44,
     height: 44,
@@ -34,9 +31,12 @@ const useStyles = makeStyles((th) => ({
 export function ResultRow({
   result,
   onPress,
+  last = false,
 }: {
   readonly result: PlaceResult;
   readonly onPress: (result: PlaceResult) => void;
+  /** The last row of the list draws no divider under it. */
+  readonly last?: boolean;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -57,7 +57,7 @@ export function ResultRow({
       onPress={() => onPress(result)}
       testID={`place-result-${result.place_id}`}
     >
-      <Row gap="12" align="center" style={styles.row}>
+      <Row gap="12" align="center" style={[styles.row, last ? null : styles.divider]}>
         <View style={styles.silhouette} importantForAccessibility="no-hide-descendants">
           <Text variant="title" color={theme.semantic.text.secondary}>
             ?

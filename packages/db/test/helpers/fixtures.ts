@@ -50,6 +50,8 @@ export interface PermissionFixture {
   readonly changeSetId: string;
   /** A running `agent_jobs` row the member asked for on the trip. */
   readonly agentJobId: string;
+  /** The organiser-only redraft reservation on that job. */
+  readonly redraftReservationId: string;
   readonly actors: Readonly<Record<ActorKind, string>>;
 }
 
@@ -372,6 +374,12 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       [tripId, member],
     );
     const agentJobId = jobRows[0]!.id;
+    // A redraft reservation on the trip: organiser-only, like the drafts it meters.
+    const { rows: reservationRows } = await tx.query<{ id: string }>(
+      'INSERT INTO redraft_reservations (trip_id, agent_job_id) VALUES ($1, $2) RETURNING id',
+      [tripId, agentJobId],
+    );
+    const redraftReservationId = reservationRows[0]!.id;
     const { rows: offerRows } = await tx.query<{ id: string }>(
       "INSERT INTO guide_offers (trip_id, kind, slots_total) VALUES ($1, 'join_activity', 3) RETURNING id",
       [tripId],
@@ -397,6 +405,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       dayId,
       changeSetId,
       agentJobId,
+      redraftReservationId,
       organiser,
       coOrganiser,
       member,
@@ -423,6 +432,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     dayId: built.dayId,
     changeSetId: built.changeSetId,
     agentJobId: built.agentJobId,
+    redraftReservationId: built.redraftReservationId,
     actors: {
       outsider: built.outsider,
       exMember: built.exMember,

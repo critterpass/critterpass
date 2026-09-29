@@ -65,9 +65,16 @@ function StatusLine({ poll }: { readonly poll: PollView }) {
   const count = poll.votedCount;
   const total = poll.eligibleIds.length;
   return (
-    <Row gap="6" align="center">
+    // Shrinks beside the heading and wraps to a second line rather than running off the screen.
+    <Row gap="6" align="center" style={{ flexShrink: 1 }}>
       <Animated.View style={[styles.dot, blink]} />
-      <Text variant="label" color={theme.color.pink} numberOfLines={1} testID="board-status">
+      <Text
+        variant="label"
+        color={theme.color.pink}
+        numberOfLines={2}
+        style={{ flexShrink: 1 }}
+        testID="board-status"
+      >
         {upper(
           t({ id: 'vote.board.status', message: `Vote open · ${count} of ${total} in` }),
           i18n.locale,

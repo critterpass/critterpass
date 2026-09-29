@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "c7993362-158e-4494-bdc4-12aac718282d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"Day in Kyoto, pocket-sized\",\n  \"summary\": \"A slower loop through gold, cedar and lantern light, with stops kept close and bellies kept happy.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"KEEP. Shoes off, phone down, eyes up. The gold pavilion earns the early start.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A short ride from Kinkaku-ji, and a hall of a thousand faces. Worth one quiet message home.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch inside Tenryu-ji's grounds. A kaiseki (multi-course Kyoto meal) that suits the vegetarians, and the budget gets a gentle nod.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Right next to lunch. Garden first, then the path back toward town. No long ride needed.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Evening in Gion, close to the ryokan (traditional Japanese inn) side of town. Lanterns do the heavy lifting.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at the old soba house. Vegetarian options, warm broth, and a short stroll from Hanamikoji.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A nightcap of an alley, close to dinner. The deer will cope without you. The lanterns won't wait.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 15,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 474,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

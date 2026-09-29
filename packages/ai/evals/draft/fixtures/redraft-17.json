@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "10a38c2f-92ac-41bd-a547-a5f6737f03ad",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A slower, tastier Mexico City\",\n  \"summary\": \"Swap the grand halls for market bustle, a leafy wander, and a long canal ride, with vegan tacos to keep everyone smiling.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one keeper, and rightly so: old stones, big stories, and a photo spot that earns its fame.\",\n      \"start\": \"09:00\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Swapped in for a palace: market chatter, strange fruits, and the city's real pulse.\",\n      \"start\": \"11:00\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with a clear conscience and a full belly: vegan tacos that even carnivores eye with envy.\",\n      \"start\": \"12:30\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle wander through Roma Norte instead of another museum: street art, coffee smells, and zero queues.\",\n      \"start\": \"14:00\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The big swap: floating gardens and mariachi instead of castle steps. Slow water, loud colour.\",\n      \"start\": \"16:00\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at a place that treats vegetables like royalty; a long, unhurried end to the day.\",\n      \"start\": \"19:30\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 82,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 451,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

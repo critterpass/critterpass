@@ -1,0 +1,101 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "2d9f8792-6333-43ff-bb4b-aba29c2511cf",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Bairro Alto\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Nightlife and street food\",\n      \"area\": \"Bairro Alto and Cais do Sodré\",\n      \"must_do_ids\": [\"m1\", \"m2\"],\n      \"poi_ids\": [\"p11\", \"p13\", \"p3\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Morning views and local life\",\n      \"area\": \"Alfama and Graça\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p9\", \"p12\"]\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 30,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 149,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "32f5a04d-a506-48bb-b55b-e79ff04b8a0c",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The best morning view in Lisbon, and it doesn't cost a single sardine.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 548,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 66,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "a6cf2a50-12b8-41d2-ab06-dddcbc45538d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Street food heaven, even for a sardine with standards.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Bairro Alto wakes up late, just like you two night owls.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A proper seafood feast to keep the night rolling.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 93,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 156,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "f34485a7-596a-4730-8a07-4fc4485c28af",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Come for the grilled sardines, stay for the grilled sardines — then a sunrise over the hills and the real local buzz."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 292,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 26,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

@@ -12,7 +12,7 @@ import type { CodeStatus } from '@/ui/inputs/CodeBoxes';
 
 import type { useSaveFlow } from '../save/use-save-flow';
 import type { OnboardingAuth } from '../services';
-import { resendWaitS, toE164 } from './phone-number';
+import { formatNational, resendWaitS, toE164, typedNumber } from './phone-number';
 
 export type PhoneProblem =
   | 'invalid_number'
@@ -118,10 +118,16 @@ export function usePhoneFlow({ auth, save }: PhoneFlowDeps, initialCountry: stri
 
   return {
     country,
-    setCountry,
+    /** A new country regroups the digits already typed. */
+    setCountry: (next: string) => {
+      setCountry(next);
+      setNumber((typed) => formatNational(next, typed));
+    },
     number,
     setNumber: (next: string) => {
-      setNumber(next);
+      const typed = typedNumber(country, number, next);
+      if (typed.country !== country) setCountry(typed.country);
+      setNumber(typed.number);
       setProblem(null);
     },
     sent,

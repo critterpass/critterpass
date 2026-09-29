@@ -1,0 +1,149 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "7919e090-31c9-484a-a6ef-cbae8145aa4b",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stay_area\": \"Ubud\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Sunset arrival and beach ease\",\n      \"area\": \"Seminyak\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p8\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Ubud nature and temple calm\",\n      \"area\": \"Ubud\",\n      \"must_do_ids\": [\"m2\", \"m3\"],\n      \"poi_ids\": [\"p4\", \"p10\", \"p12\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Clifftop temple and photo views\",\n      \"area\": \"Uluwatu\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p2\", \"p7\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Morning market and palace\",\n      \"area\": \"Ubud\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p9\", \"p6\"]\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 91,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 254,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "a4ce9ccd-1496-4e60-be9c-6a149a094238",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Morning market buzz before the flight home.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 427,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 35,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "5913c50c-8e8b-42ef-a839-14db6d9cf37d",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The sun won’t wait, so we slide into Potato Head for golden hour and easy beats.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Warung Biah Biah keeps everyone happy, even the pickiest herbivores.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 488,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 123,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "8671e047-301d-4bc7-b693-342fda070bdc",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Rise and shine for the sea temple, the tide makes it magical.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Clifftop views and cheeky monkeys, keep your sunglasses close.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A breezy lunch spot where even the tofu feels fancy.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A green ridge walk to stretch the legs and the soul.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick peek at royal history, the carvings are lovely.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner that loves you back, all plants and good vibes.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 536,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 307,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "5661b721-31af-4bac-aa91-353ae8d86a0f",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"Rise and shine, the terraces glow best before the crowds.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"A cleansing dip for the soul, and the early birds get the calmest water.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The elephant cave whispers old stories if you listen.\"},{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Terima kasih (thank you (Indonesian)) to whoever invented vegan nachos this good.\"},{\"poi_id\":\"p4\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Hold your sunglasses tight, the monkeys have sticky fingers.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Lotus petals and temple calm, a perfect golden hour pause.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"The sun won’t wait, but this raw cacao bowl is worth lingering over.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 607,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 257,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "60f17a95-c8e0-4207-a2eb-60aa0089d958",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Sun, temples, markets and a soft landing — every must-do tucked in."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 201,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 16,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

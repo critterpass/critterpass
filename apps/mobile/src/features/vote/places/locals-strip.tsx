@@ -40,7 +40,7 @@ function LocalSlot({
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
-  const breathe = useLoop('grow', { offset: index * 0.3 });
+  const breathe = useLoop('pulse', { offset: index * 0.3 });
   return (
     <Pressable
       accessibilityRole="button"

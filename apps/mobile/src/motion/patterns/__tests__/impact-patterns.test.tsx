@@ -83,6 +83,23 @@ describe('useSlap', () => {
     const style = asStyle(result.current);
     expect(style.transform?.find((entry) => 'rotate' in entry)?.rotate).toBe('-8deg');
   });
+
+  it('reduced motion: fades in at full size and its resting rotation', async () => {
+    function useHarness({ active }: { active: boolean }) {
+      const [, setReduced] = useReduced();
+      return { style: useSlap({ active, direction: -1 }), setReduced };
+    }
+    const { result, rerender } = await renderHook(useHarness, { initialProps: { active: false } });
+    await act(() => {
+      result.current.setReduced('reduced');
+    });
+    await rerender({ active: true });
+    await rerender({ active: true });
+    const style = asStyle(result.current.style);
+    expect(style.opacity).toBe(1);
+    expect(style.transform?.find((entry) => 'scale' in entry)?.scale).toBe(1);
+    expect(style.transform?.find((entry) => 'rotate' in entry)?.rotate).toBe('-8deg');
+  });
 });
 
 describe('useFlap', () => {

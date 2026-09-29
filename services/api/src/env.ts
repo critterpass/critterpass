@@ -90,6 +90,16 @@ export const apiEnvSchema = z.object({
   /** Telegram Gateway API token: sends sign-in codes and keys the delivery-report signature on `POST /webhooks/telegram-gateway`. */
   TELEGRAM_GATEWAY_TOKEN: optionalString,
   PRELUDE_API_KEY: optionalString,
+  /** Per-IP hourly caps on anonymous sign-in and send-otp (Better Auth's limiter). Staging raises
+   *  them for automated device runs; production keeps the defaults. */
+  AUTH_ANON_RATE_LIMIT_PER_HOUR: z.preprocess(
+    emptyAsUndefined,
+    z.coerce.number().int().positive().default(10),
+  ),
+  AUTH_OTP_RATE_LIMIT_PER_HOUR: z.preprocess(
+    emptyAsUndefined,
+    z.coerce.number().int().positive().default(10),
+  ),
   /** Comma-separated E.164 numbers that sign in with OTP_TEST_CODE and are never sent a message
    *  (automated device flows); ignored when APP_ENV is production (src/auth/otp/fixed-codes.ts). */
   OTP_TEST_NUMBERS: optionalString,

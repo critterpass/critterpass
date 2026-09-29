@@ -10,8 +10,12 @@ appId: app.critterpass.dev
     visible:
       id: 'chat-composer'
     timeout: 15000
-- tapOn:
-    id: 'chat-attach'
+# The composer's + button, by its label; `chat-attach` is the menu sheet it opens.
+- tapOn: 'Add attachment'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-attach'
+    timeout: 5000
 - tapOn: 'Poll'
 - extendedWaitUntil:
     visible:

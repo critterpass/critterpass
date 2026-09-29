@@ -197,7 +197,9 @@ describe('conflatePlaces', () => {
     expect(conflatePlaces(fsq, overture)).toHaveLength(1);
   });
 
-  it('conflates a metro-sized input without comparing every pair', () => {
+  // 40k × 40k places: an all-pairs comparison would run for minutes, so a generous budget still
+  // catches that regression while staying stable on CI runners (about 3× slower than a dev Mac).
+  it('conflates a metro-sized input without comparing every pair', { timeout: 60_000 }, () => {
     const rows = (prefix: string, count: number) =>
       Array.from({ length: count }, (_, i) =>
         candidate({
@@ -213,6 +215,6 @@ describe('conflatePlaces', () => {
     expect(
       result.every((poi) => poi.sourceIds.fsq_os?.slice(4) === poi.sourceIds.overture?.slice(9)),
     ).toBe(true);
-    expect(performance.now() - started).toBeLessThan(10_000);
+    expect(performance.now() - started).toBeLessThan(30_000);
   });
 });

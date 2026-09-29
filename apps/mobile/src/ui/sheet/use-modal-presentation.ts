@@ -11,7 +11,12 @@ import { bezierEasing } from '@/motion/easing';
 import { dragDismiss } from '@/motion/gestures/drag-dismiss';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
-import { presenterClosed, presenterFollow, presenterOpened } from './presenter';
+import {
+  presenterClosed,
+  presenterFollow,
+  presenterOpened,
+  useHostedPresentation,
+} from './presenter';
 
 export type ModalVariant = 'sheet' | 'rise';
 
@@ -89,6 +94,8 @@ export function useModalPresentation({
   const startTy = useSharedValue(0);
   const dragging = useSharedValue(false);
   const inGrabZone = useSharedValue(false);
+
+  useHostedPresentation();
 
   useEffect(() => {
     const enterMs = reduced ? REDUCED_FADE_MS : ENTER_MS[variant];

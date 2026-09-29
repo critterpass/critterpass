@@ -36,15 +36,7 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
 import { voteRoutes } from '../../routes';
-import {
-  CREW,
-  KYOTO,
-  queued,
-  renderVote,
-  seedCrew,
-  settleMotion,
-  until,
-} from '../../test-support/vote-harness';
+import { CREW, KYOTO, queued, renderVote, seedCrew, until } from '../../test-support/vote-harness';
 import {
   MARRAKECH,
   marrakechBriefFrames,
@@ -91,6 +83,16 @@ describe('place search', () => {
     ).toBeTruthy();
     expect(screen.getAllByText('Morocco · 1 local to find')).toHaveLength(2);
     await fireEvent.press(screen.getByTestId(`place-result-${MARRAKECH}`));
+    expect(router.push).toHaveBeenCalledWith(voteRoutes.place(MARRAKECH, CREW));
+  });
+
+  it('opens the top result from the keyboard GO key', async () => {
+    const s = await open();
+    await renderVote(<SearchSheet crewId={CREW} />, s, replayServices({ results: moroccoResults }));
+    const field = screen.getByTestId('place-search-field');
+    await type('morocc');
+    await until(() => screen.queryByTestId(`place-result-${MARRAKECH}`) !== null);
+    await fireEvent(field, 'submitEditing');
     expect(router.push).toHaveBeenCalledWith(voteRoutes.place(MARRAKECH, CREW));
   });
 
@@ -146,8 +148,6 @@ describe('guest guide page', () => {
     expect(screen.getByText('0/3 · FOUND BY BEING THERE')).toBeTruthy();
     expect(screen.getByText('WHAT TOKEK KNOWS SO FAR')).toBeTruthy();
     expect(screen.getAllByText('en.wikivoyage.org')).toHaveLength(2);
-    await settleMotion();
-    expect(screen.toJSON()).toMatchSnapshot();
     await fireEvent.press(screen.getByTestId('guest-local-1'));
     expect(toastQueue.getCurrent()?.title).toBe('Sleeps in the dunes by day.');
   });

@@ -1,7 +1,7 @@
 ---
 phase: 33
 title: Money: ledger, expenses, receipt scan, settle up, budget
-status: in_progress
+status: done
 depends_on: [10, 12, 13, 27]
 wave: 14
 features: [F-105, F-106, F-107, F-108, F-109]
@@ -172,6 +172,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. iOS: Vision text recognition (accurate, language hints from trip) exposed as a react-native-vision-camera frame-processor plugin (live boxes for the sweep; no DataScanner), document camera, barcode PDF417/Aztec/QR. 2. Android: ML Kit text recognition v2 (Latin, Japanese, Chinese, Korean, Devanagari scripts bundled; no Thai → return `unsupported_script` so T6 uses server OCR), barcode, Document Scanner. 3. Quality heuristics (Laplacian blur, glare ratio, text-line curvature for folds, bbox clipping). 4. Stable line ids (`l{index}` ordered top-to-bottom).
 - Tests: `pnpm --filter @cp/mobile test -- cp-ocr`; `xcodebuild test -scheme CpOcrTests` and `./gradlew :cp-ocr:testDebugUnitTest` on bundled real receipt photos in `apps/mobile/modules/cp-ocr/fixtures/` (photographed by the founder)
 - Done when: both platforms return identical-shape results on the fixture set; Thai fixture on Android returns `unsupported_script`; module builds in EAS dev client.
+- Status: done — 0a1a085e (Vision / ML Kit on a still image plus the platform document scanner, no live frame-processor plugin; native code first compiled by CI; the founder's receipt photos go in `fixtures/`)
 
 ### T6 — Receipt pipeline: upload, Sonnet parse, assignment suggestions, commit
 - Goal: server turns OCR lines into validated itemised lines + suggestions.
@@ -187,6 +188,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. Segmented layout (C29; bookings segment route slot filled by P34). 2. Balances hero odometer, diverging bars, tiles, LATEST. 3. History + detail + edit/delete entry points; FX line; receipt thumb via signed read. 4. Empty/all-square/you-owe/offline/pending states. 5. Currency chip sheet. 6. a11y: bars as a table for VoiceOver/TalkBack.
 - Tests: `pnpm --filter @cp/mobile test -- features/money/balances`; `maestro test e2e/money/balances.yaml`
 - Done when: two simulators show the same balances after an offline expense syncs; RNTL snapshot of empty + populated states matches render proportions.
+- Status: done — fce200ea
 
 ### T8 — Add expense with split editors (3i-2)
 - Goal: fast keypad entry with EVENLY / BY SHARE / CUSTOM.
@@ -194,6 +196,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. Keypad with exponent-aware input + odometer digits. 2. Live conversion/per-share line (engine). 3. Payer ring spring. 4. Split editors + mismatch guard. 5. Category auto-suggest from current plan item. 6. Submit via command client (outbox); edit mode reuses screen.
 - Tests: `pnpm --filter @cp/mobile test -- features/money/add-expense`; `maestro test e2e/money/add-expense.yaml`
 - Done when: Rp 450.000 across 6 shows "≈ $28.42 · $4.74 each" at the 3i-2 rate; CUSTOM with mismatch cannot submit; works in airplane mode.
+- Status: done — cbd04ff5
 
 ### T9 — Receipt scan + failure path UI (3i-3, 3i-4)
 - Goal: camera → sweep → itemised review → commit, with the three-way failure sheet.
@@ -201,6 +204,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. Vision camera + `cp-ocr` frame-processor live lines; sweep + highlight animation (Reanimated). 2. Upload + job progress via `cmd_results`/`receipts` sync. 3. Review sheet with avatar stagger, line picker, payer picker. 4. Failure sheet by quality reason; TYPE THE LINES editor prefilled; RETAKE auto-capture; SPLIT EVENLY. 5. Permission-denied + offline ("Saved — Tokek reads it when you're back online", queued upload).
 - Tests: `pnpm --filter @cp/mobile test -- features/money/receipt`; `maestro test e2e/money/receipt.yaml` (uses a real receipt photo injected into the simulator camera roll via the library-pick path)
 - Done when: fixture receipt produces the 3i-3 assignment; crumpled fixture shows 3i-4 with total locked.
+- Status: done — ec373b6b (behind `money.receipts`; captured from the money lab over the drawn receipt)
 
 ### T10 — Settle up, payment detail, payout methods (3i-5)
 - Goal: settle screen for payee and payer, reward ceremony.
@@ -208,6 +212,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. Settle list with statuses, NUDGE/REMIND flaps + toasts. 2. Payer detail: reveal (online), QR (Skia), copy, deep links (bank app / Wise), MARK PAID. 3. Payee CONFIRM/DISPUTE. 4. Payout method editor with country catalogue. 5. Stamp + slide-left, silhouette progress, confetti ceremony on `reward.granted` (foreground now, else on next foreground from unseen `stickers` row).
 - Tests: `pnpm --filter @cp/mobile test -- features/money/settle`; `maestro test e2e/money/settle.yaml`
 - Done when: 3-payment scenario completes across two devices and both show the Settled Tokek; payout details never persisted in SQLite (test asserts).
+- Status: done — 249cebde
 
 ### T11 — Budget & forecast (3i-6)
 - Goal: spent vs planned with day/category bars and a deterministic forecast line.
@@ -215,6 +220,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. Aggregate actuals by category/day (trip tz). 2. Forecast from remaining plan items + `BookedCostProvider` (empty until P34); finish delta; biggest remaining item. 3. Persona template line from content pack. 4. UI with staggered bars, TODAY marker, dashed plan line, over-plan colour, no-budget CTA, pre-trip state. 5. `set_trip_budget` edit sheet (organiser).
 - Tests: `pnpm --filter @cp/cost-engine test -- forecast` (golden 3i-6: $4,812 / $7,440, categories, "$210 under"); `maestro test e2e/money/budget.yaml`
 - Done when: golden passes; forecast updates within 1 s of a new expense on device.
+- Status: done — 256e41be
 
 ## Phase acceptance criteria
 - [ ] All golden money tests (3i-1, 3i-3, 3i-4, 3i-6) pass; property tests prove shares and balances sum exactly.

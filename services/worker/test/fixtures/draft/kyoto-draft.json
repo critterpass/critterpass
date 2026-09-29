@@ -1,0 +1,1306 @@
+{
+  "source": "The kyoto-3 golden crew and its live DeepSeek recording from the draft eval suite (packages/ai/evals/draft).",
+  "city": {
+    "guide": "pon",
+    "destination": "Kyoto, Japan",
+    "tz": "Asia/Tokyo",
+    "bands": {
+      "food_pp_day_minor": 5500,
+      "fun_pp_day_minor": 4000
+    },
+    "pois": [
+      {
+        "id": "0199b000-0001-7000-8000-000000000001",
+        "name": "Fushimi Inari Taisha",
+        "category": "temple_shrine",
+        "lat": 34.9671,
+        "lng": 135.7727,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 90,
+        "tags": ["photo_spot"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000002",
+        "name": "Kinkaku-ji",
+        "category": "temple_shrine",
+        "lat": 35.0394,
+        "lng": 135.7292,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 75,
+        "tags": [],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000003",
+        "name": "Kiyomizu-dera",
+        "category": "temple_shrine",
+        "lat": 34.9949,
+        "lng": 135.785,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 90,
+        "tags": ["viewpoint"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000004",
+        "name": "Nishiki Market",
+        "category": "market",
+        "lat": 35.005,
+        "lng": 135.7649,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": ["street_food", "local_life"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000005",
+        "name": "Arashiyama Bamboo Grove",
+        "category": "nature",
+        "lat": 35.017,
+        "lng": 135.6713,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 60,
+        "tags": ["photo_spot"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000006",
+        "name": "Tenryu-ji",
+        "category": "temple_shrine",
+        "lat": 35.0156,
+        "lng": 135.6738,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 75,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000007",
+        "name": "Hanamikoji Street, Gion",
+        "category": "other",
+        "lat": 35.0037,
+        "lng": 135.7751,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 60,
+        "tags": ["history", "local_life"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000008",
+        "name": "Philosopher's Path",
+        "category": "nature",
+        "lat": 35.0223,
+        "lng": 135.7945,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 60,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000009",
+        "name": "Ginkaku-ji",
+        "category": "temple_shrine",
+        "lat": 35.027,
+        "lng": 135.7982,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000010",
+        "name": "Nijo Castle",
+        "category": "museum",
+        "lat": 35.0142,
+        "lng": 135.7481,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": ["history"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000011",
+        "name": "Kyoto National Museum",
+        "category": "museum",
+        "lat": 34.99,
+        "lng": 135.7732,
+        "hours": {
+          "weekly": {
+            "tu": [
+              {
+                "start": "09:30",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:30",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:30",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:30",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:30",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:30",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 120,
+        "tags": ["history"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000012",
+        "name": "Sanjusangen-do",
+        "category": "temple_shrine",
+        "lat": 34.9879,
+        "lng": 135.7716,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 45,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000013",
+        "name": "Pontocho Alley",
+        "category": "nightlife",
+        "lat": 35.0063,
+        "lng": 135.771,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ],
+            "tu": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ],
+            "we": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ],
+            "th": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ],
+            "sa": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000014",
+        "name": "Kyoto Railway Museum",
+        "category": "museum",
+        "lat": 34.9871,
+        "lng": 135.7424,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 120,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000015",
+        "name": "Nishiki Tofu Kitchen",
+        "category": "food",
+        "lat": 35.0052,
+        "lng": 135.7655,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegetarian", "vegan_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000016",
+        "name": "Shigetsu",
+        "category": "food",
+        "lat": 35.0157,
+        "lng": 135.674,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ]
+          }
+        },
+        "price_level": 3,
+        "duration_min": 75,
+        "tags": ["vegan"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000017",
+        "name": "Menya Inoichi",
+        "category": "food",
+        "lat": 35.0036,
+        "lng": 135.765,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000018",
+        "name": "Kichi Kichi Omurice",
+        "category": "food",
+        "lat": 35.0094,
+        "lng": 135.7714,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ],
+            "tu": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ],
+            "we": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ],
+            "th": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ],
+            "sa": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000019",
+        "name": "Ain Soph Journey",
+        "category": "food",
+        "lat": 35.0068,
+        "lng": 135.7662,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegan", "vegetarian", "halal_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000020",
+        "name": "Honke Owariya",
+        "category": "food",
+        "lat": 35.0118,
+        "lng": 135.7613,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 60,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000021",
+        "name": "Torito Yakitori",
+        "category": "food",
+        "lat": 35.0015,
+        "lng": 135.7626,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000022",
+        "name": "Gyoza Hohei",
+        "category": "food",
+        "lat": 35.0036,
+        "lng": 135.7744,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      }
+    ]
+  },
+  "crew": {
+    "id": "kyoto-3",
+    "city": "kyoto",
+    "start": "2027-03-28",
+    "days": 4,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["nature", "hiking"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["temples"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Tom",
+        "tastes": ["nightlife"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Ana",
+        "tastes": ["street_food"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Leo",
+        "tastes": ["easy_pace"],
+        "chronotype": null
+      },
+      {
+        "name": "Sam",
+        "tastes": ["shopping"],
+        "chronotype": null
+      }
+    ],
+    "diets": ["vegan"],
+    "budget_days_pp_minor": null,
+    "stay_type": "apartment",
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000005",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000003",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000013",
+        "owner": 2
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000009",
+        "owner": 3
+      }
+    ],
+    "wishes": []
+  },
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "db62d820-e688-4935-a375-a5bae78446f7",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Gion\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"soft landing in lantern light\",\n      \"area\": \"Gion\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p7\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"temples and quiet paths\",\n      \"area\": \"Higashiyama\",\n      \"must_do_ids\": [\"m2\", \"m4\"],\n      \"poi_ids\": [\"p8\", \"p12\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"bamboo, shrines and market bites\",\n      \"area\": \"Arashiyama\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p6\", \"p1\", \"p4\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"golden goodbye\",\n      \"area\": \"Kita\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p2\"]\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 27,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 243,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "63efc1be-47d1-4bf0-af97-dde59811a490",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Shoes off, phone down, eyes up. The golden goodbye starts here.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 313,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 66,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "ab2eb20e-b9bb-4954-9929-72fb5a1b0ce5",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Shoes off, phone down, eyes up. The old street does the rest.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A soft vegan dinner before the lanterns wake up.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The alley glows best when you stop checking the time.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 393,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 162,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "c6e5b98c-b372-4ee6-b380-818145019707",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Shoes off, phone down, eyes up. The grove does the rest.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Gardens that make you want to whisper, even outdoors.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A kaiseki (multi-course Kyoto meal) that happens to be kind to leaves.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Tiny bites, big opinions. Pace yourselves.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner for the night owls, vegan enough for the early birds.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 450,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 263,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "27e7a91b-2a87-4d41-8718-a2c6439077fb",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Shoes off, phone down, eyes up. The wooden stage earns its view.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet stroll under the blossoms. The deer will cope without you.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"The silver pavilion is a lesson in restraint. Worth one message.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A kaiseki (multi-course Kyoto meal) that treats vegetables like royalty.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A thousand wooden faces, all patiently waiting for you to look up.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Tofu done so well it might convert the night owls before sunset.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 460,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 319,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "8ac0b249-2d37-4f7f-a189-999700f5761b",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Lantern-lit landing, quiet temple paths, bamboo and market bites, then a golden farewell — every must-do tucked in, shoes off and eyes up."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 221,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 31,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

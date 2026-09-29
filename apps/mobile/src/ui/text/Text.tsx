@@ -50,8 +50,11 @@ export const TEXT_VARIANTS = {
 
 export type TextVariant = keyof typeof TEXT_VARIANTS;
 
-/** Variants the design sets on one line: button, pill, chip and tag labels. */
-const ONE_LINE_VARIANTS: ReadonlySet<TextVariant> = new Set(['buttonLg', 'buttonSm', 'label']);
+/**
+ * Variants the design sets on one line: small pill, chip and tag labels. Large CTAs wrap to a second
+ * line rather than truncate (docs/design-system.md, expansion).
+ */
+const ONE_LINE_VARIANTS: ReadonlySet<TextVariant> = new Set(['buttonSm', 'label']);
 
 export interface TextProps extends Omit<RNTextProps, 'style' | 'children' | 'allowFontScaling'> {
   readonly variant?: TextVariant | undefined;
@@ -106,6 +109,9 @@ function transformChildren(
   return { children: mapped, hasElements };
 }
 
+/** Vietnamese letters with marks above (Ặ, Ỗ, Ế…), which rise past the capitals' height. */
+const STACKED_MARKS = /[\u1EA0-\u1EF9]/u;
+
 function plainText(children: ReactNode): string | null {
   const parts: string[] = [];
   let plain = true;
@@ -146,6 +152,9 @@ export function Text({
 
   const widthStep = token.widthStep ?? token.widthStepMin;
   const fallback = plainGuideText ? token.plainTextFallback : undefined;
+  // Vietnamese words set in another language's UI (a hero "ĐÀ NẴNG" in English) still need the
+  // leading their stacked marks do, or the marks run into the line above.
+  const scriptLocale = STACKED_MARKS.test(plainText(children) ?? '') ? 'vi' : locale;
   const font = fontFor(
     {
       fontFamily: fallback?.fontFamily ?? token.fontFamily,
@@ -154,7 +163,7 @@ export function Text({
       lineHeightMultiplier: resolved.lineHeightMultiplier,
       condensed: token.condensed,
     },
-    locale,
+    scriptLocale,
   );
 
   const uppercase = token.textTransform === 'uppercase';
@@ -173,7 +182,11 @@ export function Text({
     wrapAtFloor: numberOfLines === undefined,
     // Uppercase headings and labels are short words in tight boxes: one too wide shrinks to the
     // floor rather than splitting mid-word.
-    keepWordsWhole: uppercase && text !== null,
+    // Codes (monoData: MRZ lines, booking refs) are never split either.
+    keepWordsWhole: text === null ? false : variant === 'monoData' ? 'code' : uppercase,
+    // Past the default text size, a heading that still overflows at its floor keeps wrapping:
+    // enlarged text is never cut.
+    neverCut: fontScale > 1,
     text: text ?? '',
     maxSize: scaledSize,
     minSize: Math.min(

@@ -24,6 +24,7 @@ export function moneyFloatGuardConfig() {
         'packages/cost-engine/src/fx/**/*.ts',
         'packages/cost-engine/src/ledger/**/*.ts',
         'packages/cost-engine/src/settle/**/*.ts',
+        'packages/cost-engine/src/forecast/**/*.ts',
         'services/worker/src/fx/**/*.ts',
       ],
       rules: {

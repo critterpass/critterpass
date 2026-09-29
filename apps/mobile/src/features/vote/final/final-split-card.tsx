@@ -8,7 +8,7 @@
 import { tokens } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -32,29 +32,28 @@ import { stackOf, usePeople } from '../data/use-people';
 import type { PollOptionView, PollView } from '../data/poll-view';
 import { deadlineParts, upper } from '../format';
 import { voteRoutes } from '../routes';
+import { CARD_HEIGHT, diagonalStyle } from './diagonal';
 import { pendingByName, useFinalLines } from './tie-line';
 
-const CARD_HEIGHT = 262;
 const RISE = 70;
 const ENTER = bezierEasing(tokens.motion.easing.enter);
-/** The diagonal between the halves (3b-6's 62/38 split). */
-// eslint-disable-next-line lingui/no-unlocalized-strings -- style values, never copy.
-const DIAGONAL = { left: '56%', transform: [{ rotate: '12deg' }] } as const;
 
 const useStyles = makeStyles((th) => ({
   card: {
     height: CARD_HEIGHT,
     borderRadius: th.radius.cardBig,
     overflow: 'hidden',
-    flexDirection: 'row',
   },
-  half: { justifyContent: 'space-between', padding: th.space['16'] },
-  divider: {
+  // Each half's content keeps to its own side of the diagonal.
+  half: {
     position: 'absolute',
-    top: -CARD_HEIGHT / 2,
-    bottom: -CARD_HEIGHT / 2,
-    width: CARD_HEIGHT,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'space-between',
+    padding: th.space['16'],
   },
+  firstHalf: { start: 0, width: '58%' },
+  secondHalf: { end: 0, width: '48%' },
   vsWrap: {
     position: 'absolute',
     top: 0,
@@ -87,14 +86,12 @@ const useStyles = makeStyles((th) => ({
 function Half({
   option,
   place,
-  width,
   alignEnd,
   people,
   wiggleOffset,
 }: {
   readonly option: PollOptionView;
   readonly place: BoardPlace | undefined;
-  readonly width: `${number}%`;
   readonly alignEnd: boolean;
   readonly people: ReturnType<typeof usePeople>;
   readonly wiggleOffset: number;
@@ -105,31 +102,38 @@ function Half({
   const wiggle = useLoop('wiggle', { offset: wiggleOffset });
   const guide = GUIDE_STICKERS[place?.guide ?? 'tokek'];
   const ink = theme.semantic.text.onAccent;
+  const name = (
+    <Text variant="h1" color={ink} numberOfLines={1} autoFit>
+      {upper(place?.name ?? option.label, i18n.locale)}
+    </Text>
+  );
+  const sticker = (
+    <Animated.View style={wiggle}>
+      <LiveSticker kind={guide.kind} name={guide.name} size={96} drawOn={false} />
+    </Animated.View>
+  );
+  const votes = (
+    <Row gap="6" align="center">
+      {option.voterIds.length > 0 ? (
+        <AvatarStack members={stackOf(people, option.voterIds)} size="sm" max={4} />
+      ) : null}
+      <Text variant="title" color={ink}>
+        {String(option.votes)}
+      </Text>
+    </Row>
+  );
   return (
     <View
+      pointerEvents="none"
       style={[
         styles.half,
-        {
-          width,
-          backgroundColor: place?.colour ?? theme.color.yellow,
-          alignItems: alignEnd ? 'flex-end' : 'flex-start',
-        },
+        alignEnd ? styles.secondHalf : styles.firstHalf,
+        { alignItems: alignEnd ? 'flex-end' : 'flex-start' },
       ]}
     >
-      <Text variant="h1" color={ink} numberOfLines={1}>
-        {upper(place?.name ?? option.label, i18n.locale)}
-      </Text>
-      <Animated.View style={wiggle}>
-        <LiveSticker kind={guide.kind} name={guide.name} size={96} drawOn={false} />
-      </Animated.View>
-      <Row gap="6" align="center">
-        {option.voterIds.length > 0 ? (
-          <AvatarStack members={stackOf(people, option.voterIds)} size="sm" max={4} />
-        ) : null}
-        <Text variant="title" color={ink}>
-          {String(option.votes)}
-        </Text>
-      </Row>
+      {alignEnd ? sticker : name}
+      {alignEnd ? votes : sticker}
+      {alignEnd ? name : votes}
     </View>
   );
 }
@@ -143,6 +147,7 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
   const lines = useFinalLines(poll, places, people);
   const pulse = useLoop('pulse');
   const blink = useLoop('blink');
+  const [width, setWidth] = useState(0);
   const reduced = useReducedImpactMotion();
   const rise = useSharedValue(reduced ? 0 : RISE);
   const fade = useSharedValue(reduced ? 1 : 0);
@@ -190,9 +195,14 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
         <Text variant="h2" accessibilityRole="header">
           {upper(t({ id: 'vote.board.title', message: 'Where next?' }), i18n.locale)}
         </Text>
-        <Row gap="6" align="center">
+        <Row gap="6" align="center" style={{ flexShrink: 1 }}>
           <Animated.View style={[styles.dot, blink]} />
-          <Text variant="label" color={theme.color.pink} numberOfLines={1}>
+          <Text
+            variant="label"
+            color={theme.color.pink}
+            numberOfLines={2}
+            style={{ flexShrink: 1 }}
+          >
             {upper(status, i18n.locale)}
           </Text>
         </Row>
@@ -207,11 +217,19 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
           onPress={() => router.push(voteRoutes.showdown(poll.id))}
           testID="final-split-open"
         >
-          <View style={styles.card}>
+          <View
+            style={[styles.card, { backgroundColor: secondColour }]}
+            onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
+          >
+            {width > 0 ? (
+              <View
+                pointerEvents="none"
+                style={[diagonalStyle(width), { backgroundColor: firstColour }]}
+              />
+            ) : null}
             <Half
               option={first}
               place={placeOf(first)}
-              width="62%"
               alignEnd={false}
               people={people}
               wiggleOffset={0}
@@ -219,14 +237,9 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
             <Half
               option={second}
               place={placeOf(second)}
-              width="38%"
               alignEnd
               people={people}
               wiggleOffset={0.2}
-            />
-            <View
-              pointerEvents="none"
-              style={[styles.divider, DIAGONAL, { backgroundColor: secondColour, zIndex: -1 }]}
             />
             <View pointerEvents="none" style={styles.vsWrap}>
               <Animated.View style={[styles.vs, pulse]}>
@@ -259,7 +272,12 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
         <Row justify="space-between" align="center" gap="8">
           <Stack gap="2" style={{ flex: 1 }}>
             {lines.toGo === null ? null : (
-              <Text variant="label" color={theme.semantic.action.primary}>
+              <Text
+                variant="label"
+                color={theme.semantic.action.primary}
+                numberOfLines={2}
+                testID="final-to-go"
+              >
                 {upper(lines.toGo, i18n.locale)}
               </Text>
             )}

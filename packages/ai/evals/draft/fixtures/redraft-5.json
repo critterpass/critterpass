@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "7b0acfc4-c035-4752-9fd1-b7d1558623dc",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"A Lazy Sunday Beyond the Temples\",\n  \"summary\": \"We trade temple steps for market stalls, a monkey forest, and a long sandy afternoon, with easy vegetarian meals to keep the crew smiling.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The one we keep, because those green steps are pure postcard gold and the sun won’t wait.\",\n      \"note\": \"The one we keep, because those green steps are pure postcard gold and the sun won’t wait.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A little haggling and local colour instead of another temple, and I know a guy with the best woven baskets.\"\n    },\n    {\n      \"poi_id\": \"p17\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Lunch with proper veggie options before the afternoon gets too sleepy.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Monkeys over temples, Leo. They steal sunglasses, not your patience.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A long stretch of sand for the beach lovers and night owls to do absolutely nothing, beautifully.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Dinner at a warung that keeps the vegetarians happy and the budget light.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 670,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 407,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

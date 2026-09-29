@@ -1,0 +1,239 @@
+/**
+ * Turns the golden crews (golden/*.json) into the drafting pipeline's inputs exactly as the job
+ * builds them: the city's places as `DraftPoi`s, the trip frame, the planner's candidate pools and
+ * the straight-line travel matrix. Member and must-do ids are derived from the case id, so a
+ * recording stays valid across runs.
+ */
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import type { Itinerary } from '@cp/domain';
+import {
+  candidatePools,
+  dayWindow,
+  scheduleDay,
+  straightLineMatrix,
+  type DayChoice,
+  type DraftPoi,
+  type TripFrame,
+} from '@cp/planner';
+import { z } from 'zod';
+
+import type { DraftPlanInput } from '../../src/prompts/draft/context';
+import { derivedUuid } from '../../src/prompts/draft/ids';
+import { personaIdSchema } from '../../src/persona/schema';
+
+const GOLDEN = fileURLToPath(new URL('./golden/', import.meta.url));
+
+const hoursSchema = z
+  .object({
+    weekly: z.record(z.string(), z.array(z.object({ start: z.string(), end: z.string() }))),
+  })
+  .nullable();
+
+const citySchema = z.object({
+  guide: personaIdSchema,
+  destination: z.string(),
+  tz: z.string(),
+  bands: z.object({ food_pp_day_minor: z.int(), fun_pp_day_minor: z.int() }),
+  pois: z.array(
+    z.object({
+      id: z.uuid(),
+      name: z.string(),
+      category: z.string(),
+      lat: z.number(),
+      lng: z.number(),
+      hours: hoursSchema,
+      price_level: z.int().nullable(),
+      duration_min: z.int(),
+      tags: z.array(z.string()),
+      must_see: z.boolean(),
+      editorial: z.boolean(),
+    }),
+  ),
+});
+
+export const crewCaseSchema = z.object({
+  id: z.string(),
+  city: z.string(),
+  start: z.iso.date(),
+  days: z.int().min(1).max(7),
+  arrival_min: z.int().nullable(),
+  departure_min: z.int().nullable(),
+  members: z.array(
+    z.object({
+      name: z.string(),
+      tastes: z.array(z.string()),
+      chronotype: z.enum(['early_bird', 'night_owl']).nullable(),
+    }),
+  ),
+  diets: z.array(z.string()),
+  budget_days_pp_minor: z.int().nullable(),
+  stay_type: z.string().nullable(),
+  must_dos: z.array(z.object({ poi_id: z.uuid(), owner: z.int() })),
+  wishes: z.array(z.string()),
+});
+export type CrewCase = z.infer<typeof crewCaseSchema>;
+
+export const redraftCaseSchema = z.object({
+  id: z.string(),
+  crew: z.string(),
+  day: z.int().positive(),
+  reasons: z.array(
+    z.enum(['slower', 'cheaper', 'less_train', 'more_food', 'swap_it_out', 'surprise_me']),
+  ),
+  note: z.string().nullable(),
+  chat: z.array(z.object({ author: z.string(), text: z.string() })),
+});
+export type RedraftCase = z.infer<typeof redraftCaseSchema>;
+
+function load<T>(file: string, schema: z.ZodType<T>): T {
+  return schema.parse(JSON.parse(readFileSync(resolve(GOLDEN, file), 'utf8')));
+}
+
+export const CITIES = load('cities.json', z.record(z.string(), citySchema));
+export const CREWS = load('crews.json', z.array(crewCaseSchema));
+export const INJECTION_DRAFTS = load('injection-drafts.json', z.array(crewCaseSchema));
+export const REDRAFTS = load('redrafts.json', z.array(redraftCaseSchema));
+
+function datesFrom(start: string, days: number): string[] {
+  return Array.from({ length: days }, (_, i) => {
+    const at = new Date(`${start}T00:00:00Z`);
+    at.setUTCDate(at.getUTCDate() + i);
+    return at.toISOString().slice(0, 10);
+  });
+}
+
+export function planInput(
+  crew: CrewCase,
+  skeletonRoute: DraftPlanInput['skeletonRoute'] = 'draft.skeleton',
+): DraftPlanInput {
+  const city = CITIES[crew.city];
+  if (city === undefined) throw new Error(`no golden city ${crew.city}`);
+  const pois = new Map<string, DraftPoi>(
+    city.pois.map((p) => [
+      p.id,
+      {
+        id: p.id,
+        name: p.name,
+        category: p.category,
+        lat: p.lat,
+        lng: p.lng,
+        tz: city.tz,
+        hours: p.hours,
+        priceLevel: p.price_level,
+        tags: p.tags,
+        durationMin: p.duration_min,
+        editorial: p.editorial,
+        mustSee: p.must_see,
+      },
+    ]),
+  );
+  const members = crew.members.map((_, i) => derivedUuid(`${crew.id}:member:${i}`));
+  const frame: TripFrame = {
+    tz: city.tz,
+    currency: 'USD',
+    dates: datesFrom(crew.start, crew.days),
+    members,
+    chronotypes: Object.fromEntries(
+      crew.members.flatMap((m, i): [string, 'early_bird' | 'night_owl'][] =>
+        m.chronotype === null ? [] : [[members[i] as string, m.chronotype]],
+      ),
+    ),
+    diets: crew.diets,
+    arrivalMin: crew.arrival_min,
+    departureMin: crew.departure_min,
+    budgetPpMinor: crew.budget_days_pp_minor,
+    mustDos: crew.must_dos.map((m, i) => ({
+      id: derivedUuid(`${crew.id}:must_do:${i}`),
+      ownerId: members[m.owner] ?? (members[0] as string),
+      poiId: m.poi_id,
+      title: pois.get(m.poi_id)?.name ?? 'must-do',
+    })),
+    closures: [],
+  };
+  const tastes: Record<string, number> = {};
+  for (const member of crew.members) {
+    for (const tag of member.tastes) tastes[tag] = (tastes[tag] ?? 0) + 1;
+  }
+  return {
+    guide: city.guide,
+    destination: city.destination,
+    frame,
+    pois,
+    pools: candidatePools({ pois: [...pois.values()], frame, tastes }),
+    tastes,
+    bands: {
+      foodPpDayMinor: city.bands.food_pp_day_minor,
+      funPpDayMinor: city.bands.fun_pp_day_minor,
+    },
+    travel: straightLineMatrix(pois),
+    stayType: crew.stay_type,
+    names: Object.fromEntries(
+      crew.members.map((m, i): [string, string] => [members[i] as string, m.name]),
+    ),
+    wishes: crew.wishes.map((text, i) => ({ id: derivedUuid(`${crew.id}:wish:${i}`), text })),
+    idFor: (key) => derivedUuid(`${crew.id}:${key}`),
+    skeletonRoute,
+  };
+}
+
+/**
+ * A plain draft built by code, the base a redraft case starts from: must-dos on the lightest day
+ * they are open, then the pool's activities and a lunch and dinner place, scheduled by the planner.
+ */
+export function baselineItinerary(input: DraftPlanInput): Itinerary {
+  const { frame, pools } = input;
+  const used = new Set<string>();
+  const byDay: DayChoice[][] = frame.dates.map(() => []);
+  for (const slot of pools.mustDos) {
+    const day = [...slot.openDays].sort(
+      (a, b) => (byDay[a - 1]?.length ?? 0) - (byDay[b - 1]?.length ?? 0),
+    )[0];
+    if (day === undefined) continue;
+    const poi = input.pois.get(slot.poiId);
+    byDay[day - 1]?.push({
+      poiId: slot.poiId,
+      kind: poi?.category === 'food' ? 'meal' : 'activity',
+      mustDoId: slot.mustDoId,
+      note: null,
+    });
+    used.add(slot.poiId);
+  }
+  const days = frame.dates.map((date, index) => {
+    const choices = byDay[index] ?? [];
+    const open = (id: string) =>
+      (pools.openDays.get(id) ?? []).includes(index + 1) && !used.has(id);
+    const window = dayWindow(frame, index);
+    const room = Math.max(0, Math.floor((window.endMin - window.startMin) / 150) - choices.length);
+    for (const poi of pools.activities.filter((p) => open(p.id)).slice(0, Math.min(2, room))) {
+      choices.push({ poiId: poi.id, kind: 'activity', mustDoId: null, note: null });
+      used.add(poi.id);
+    }
+    const meal = pools.meals.find((p) => open(p.id));
+    if (meal !== undefined && window.endMin - window.startMin >= 240) {
+      choices.splice(Math.min(1, choices.length), 0, {
+        poiId: meal.id,
+        kind: 'meal',
+        mustDoId: null,
+        note: null,
+      });
+      used.add(meal.id);
+    }
+    return scheduleDay({
+      dayNo: index + 1,
+      date,
+      theme: `Day in ${input.destination.split(',')[0] ?? 'town'}`,
+      choices,
+      pois: input.pois,
+      window,
+      travel: input.travel,
+      bands: input.bands,
+      currency: frame.currency,
+      tz: frame.tz,
+      idFor: (choice, i) => input.idFor(`base:${index + 1}:${i}:${choice.poiId}`),
+    });
+  });
+  return { currency: frame.currency, days };
+}

@@ -96,6 +96,11 @@ export function serviceKeys(): Record<string, ConfigKeyDefinition> {
     'widgets.push.enabled': killSwitch('Widget refresh pushes'),
     'home.tips.enabled': killSwitch("Proactive tips on crews' Home"),
     'vote.guest_brief.enabled': killSwitch("The guest guide's brief on place pages"),
+    'ai.draft.skeleton_model': opsSetting(
+      z.enum(['pro', 'fast']),
+      'Tier that outlines a trip draft (the day plans always run on the pro tier)',
+      'Default pro',
+    ),
     'home.tips.min_fare_drop_pct': opsSetting(
       z.number().int().min(5).max(80),
       'Smallest fare drop (percent under the recent median) that makes a Home tip',

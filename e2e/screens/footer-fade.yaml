@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# A long step under a sticky footer: the cards fade into the page above the footer, then the list
+# scrolled to its end clears the fade. English, then Vietnamese.
+- runFlow:
+    file: subflows/open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'KeyboardFooter'
+      LOCALE: 'en'
+      SCALE: '1'
+- takeScreenshot: en-footer-fade
+- scrollUntilVisible:
+    element:
+      text: 'The villa holds the dates.*'
+    direction: DOWN
+    timeout: 10000
+- swipe:
+    start: 50%, 60%
+    end: 50%, 30%
+- waitForAnimationToEnd
+- takeScreenshot: en-footer-fade-scrolled-to-end
+- runFlow:
+    file: subflows/open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'KeyboardFooter'
+      LOCALE: 'vi'
+      SCALE: '1'
+- takeScreenshot: vi-footer-fade

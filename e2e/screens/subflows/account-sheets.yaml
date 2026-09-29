@@ -1,0 +1,81 @@
+appId: app.critterpass.dev
+---
+# The onboarding save and merge sheets in every merge state, from the gallery's account sheets
+# page (the real sheets with injected state; nothing signs in). ${PREFIX} names each screenshot:
+# the save sheet's states pair with 3a-7, the phone page's with 3a-8. Starts on the gallery index.
+- scrollUntilVisible:
+    element:
+      id: 'gallery-account-sheets'
+    direction: DOWN
+- tapOn:
+    id: 'gallery-account-sheets'
+- extendedWaitUntil:
+    visible:
+      id: 'account-sheets-demo'
+    timeout: 10000
+# The save sheet with its Apple and Google marks.
+- tapOn:
+    id: 'account-sheets-save-idle'
+- extendedWaitUntil:
+    visible:
+      id: 'save-google'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-7-save-marks
+- tapOn:
+    id: 'save-sheet-close'
+- waitForAnimationToEnd
+# The Google account already has a pass: the choice, then keeping the new pass, then the line
+# that still offers the switch.
+- tapOn:
+    id: 'account-sheets-save-merge'
+- extendedWaitUntil:
+    visible:
+      id: 'merge-choice'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-7-merge
+- tapOn:
+    id: 'merge-keep-new'
+- extendedWaitUntil:
+    visible:
+      id: 'merge-kept'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-7-merge-kept
+- tapOn:
+    id: 'merge-kept-done'
+- extendedWaitUntil:
+    visible:
+      id: 'merge-declined'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-7-merge-declined
+- tapOn:
+    id: 'save-sheet-close'
+- waitForAnimationToEnd
+# The same choice over the phone page, in its own sheet.
+- tapOn:
+    id: 'account-sheets-phone-merge'
+- extendedWaitUntil:
+    visible:
+      id: 'merge-choice'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-8-merge
+- tapOn:
+    id: 'merge-keep-new'
+- extendedWaitUntil:
+    visible:
+      id: 'merge-kept'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-8-merge-kept
+- tapOn:
+    id: 'merge-kept-done'
+- extendedWaitUntil:
+    visible:
+      id: 'account-sheets-phone-declined'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-8-merge-declined

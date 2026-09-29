@@ -68,7 +68,7 @@ Last night went mostly to fixing what the founder found on build 10, and to maki
 | 25 Home, inbox, nudges | 8/9 | Home flows after #170 |
 | 26 Polls and destination vote | 11/12 | Vote flows and sheets after #173 |
 | 27 Trip setup | 7/12 | App screens in review (#163); the calendar module needs the next native build |
-| 33 Money | 6/12 | Server done: ledger, expenses, settle up, payout methods and the receipt pipeline (behind `money.receipts`; its eval gate waits on the founder's receipt photos); app screens and `cp-ocr` (T5, T7–T11) in a later lane |
+| 33 Money | 12/12 | Server and app done: ledger, expenses, settle up, payout methods, budget and forecast, receipt scan and `cp-ocr` (behind `money.receipts`; its eval gate waits on the founder's receipt photos) |
 | 39 Crew live map | 5/6 | Device data flows (share, pause, gate, window end) |
 | 51 Website | 7/11 | Web previews and web account deletion, which wait on later phases |
 
@@ -127,12 +127,12 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 25 | [Home, inbox, nudges, tips](./phase-25-home-inbox-nudges.md) | 9 | 11, 13, 15, 23, 24 | 11 | in_progress (8/9) |
 | 26 | [Polls & destination vote](./phase-26-polls-destination-vote.md) | 12 | 10, 13, 16, 18, 24, 25 | 12 | in_progress (11/12) |
 | 27 | [Trip setup](./phase-27-trip-setup.md) | 12 | 10, 16, 20, 24, 25, 26 | 13 | pending |
-| 28 | [Drafting agent & redraft](./phase-28-draft-redraft-agent.md) | 11 | 13, 16, 18, 27 | 14 | pending |
+| 28 | [Drafting agent & redraft](./phase-28-draft-redraft-agent.md) | 11 | 13, 16, 18, 27 | 14 | in_progress (server T1–T5 done) |
 | 29 | [Plan views, editing, collab](./phase-29-plan-views-editing-collab.md) | 12 | 24, 26, 28 | 15 | pending |
 | 30 | [Explore](./phase-30-explore.md) | 10 | 14, 15, 16, 26, 29, 35 | 17 | pending |
 | 31 | [Proposal, RSVP, dropout re-split](./phase-31-proposal-rsvp.md) | 10 | 11, 16, 28, 29, 34, 35, 46 | 17 | pending |
 | 32 | [Guide chat, metering, phrase cards](./phase-32-guide-chat-metering.md) | 10 | 12, 13, 24, 29 | 16 | pending |
-| 33 | [Money: ledger, receipts, settle up](./phase-33-money.md) | 12 | 10, 12, 13, 27 | 14 | in_progress |
+| 33 | [Money: ledger, receipts, settle up](./phase-33-money.md) | 12 | 10, 12, 13, 27 | 14 | done |
 | 34 | [Bookings wallet, imports, flights](./phase-34-bookings-wallet-import.md) | 11 | 11, 13, 15, 33 | 15 | pending |
 | 35 | [Supplier layer, rides, ops desk](./phase-35-supplier-layer-agency.md) | 14 | 13, 14, 17, 29, 33, 34, 58 | 16 | pending |
 | 36 | [Trip hub, day-of, leave-by, offline](./phase-36-trip-day-offline.md) | 11 | 11, 13, 14, 15, 18, 20, 25, 32, 34 | 17 | pending |

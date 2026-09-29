@@ -1,0 +1,39 @@
+appId: app.critterpass.dev
+---
+# Money against the staging api: a fresh account onboards, takes the demo crew (a Bali trip with
+# four crewmates), opens WALLET and sees the crew's money with no expense yet. The history and the
+# currency sheet open from it. Needs an api with DEV_SEED_ENABLED on and the money tables deployed.
+- launchApp:
+    clearState: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- assertVisible:
+    id: 'money-empty'
+- assertVisible:
+    id: 'money-currency-chip'
+- takeScreenshot: en-3i-1-balances-empty
+- tapOn:
+    id: 'money-currency-chip'
+- extendedWaitUntil:
+    visible:
+      id: 'money-currency'
+    timeout: 5000
+- takeScreenshot: en-3i-1-currency-sheet

@@ -1,7 +1,7 @@
 ---
 phase: 28
 title: Drafting agent, private draft review, redraft diff
-status: pending
+status: in_progress
 depends_on: [13, 16, 18, 27]
 wave: 14
 features: [F-074, F-075, F-076]
@@ -110,6 +110,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. `ALTER TABLE` for `locked_reason`, `metrics`, `coverage`; create `redraft_reservations` + RLS. 2. Stream appends. 3. zod `Itinerary`, `PlanDay`, `PlanItem`, `RedraftResult`. 4. New test files add draft-specific cases on top of P8's plan-table suites (P8 files untouched).
 - Tests: `pnpm --filter @cp/db test -- permissions/draft-organiser-visibility permissions/redraft-reservations permissions/itinerary_versions permissions/plan_items`
 - Done when: migration contains no `CREATE TABLE` for P8 tables; P8 plan permission suites still green; member reads 0 organiser-visibility rows or draft `agent_jobs` directly and via sync replica; organiser reads all; `redraft_reservations` writable only via handler.
+- Status: done — c17663cb
 
 ### T2 — Draft validator, repair targeting, diff metrics
 - Goal: pure planner pieces for the draft pipeline.
@@ -117,6 +118,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. Candidate pool shaping from prefetch data (per must-do/interest/day). 2. Validator: hours in dest tz, travel time from matrix, 15-min grid, capacity, must-do coverage, dietary, budget ≤ target, flight arrival/departure buffers. 3. Repair targets = violating days + reasons. 4. `redraftDiff(base, candidate)` on stable ids + metrics (transit Δ, pace Δ, must-dos kept, cost Δ).
 - Tests: `pnpm --filter @cp/planner test -- draft`
 - Done when: 3c-12 fixture yields 3 changes and "90 MIN LESS ON TRAINS · SAME PACE · ALL 5 MUST-DOS KEPT"; validator catches each injected violation class.
+- Status: done — 2c9fd3b8
 
 ### T3 — Draft prompts and schemas + promptfoo suite
 - Goal: skeleton/day/repair/summary/redraft prompts with evals.
@@ -124,6 +126,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. Persona-aware prompts (persona pack from P18) with strict JSON output keyed by POI ids; chat memory and member notes inside an untrusted-data block. 2. Golden set: ~30 crews across 6 guide cities + 20 redraft requests + 10 injection cases (crew messages / notes that try to override instructions, add links, reveal budgets or change other days). 3. Asserts run the planner validator + no-unknown-id + no numeric claims in prose + injection cases leave output schema, scope and constraints unchanged.
 - Tests: `pnpm --filter @cp/ai eval -- draft`
 - Done when: pass rate ≥ 90% on validator-clean first pass and 100% after repair; zero unknown POI ids; injection eval 100 %.
+- Status: done — 1f5e0772
 
 ### T4a — `start_draft`/`cancel_draft` + job shell (load, prefetch, steps, persist)
 - Goal: durable job frame with truthful progress.
@@ -131,6 +134,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. Command: organiser policy, one active job, agent_jobs row + `boss.send` in one tx. 2. Load via `guide_reader` views (no C3); parallel prefetch with per-call timeouts. 3. Steps writer + `trip_draft:` rt_outbox; persist version + coverage + metrics idempotently. 4. Push on completion; failure path marks steps failed; cancel.
 - Tests: `pnpm --filter @cp/worker test -- jobs/ai/draft/shell`; `pnpm --filter @cp/api test -- commands/draft/start-draft`
 - Done when: second `start_draft` while one runs → rejected; killing the worker mid-job resumes or fails cleanly without duplicate versions; step labels match the copy list (no hold/price claims).
+- Status: done — 02b57afb
 
 ### T4b — Model stages: skeleton, day fan-out, validate/repair + bench
 - Goal: Opus skeleton → Sonnet days → validator repair loop.
@@ -138,6 +142,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. Opus skeleton; `Promise.all` Sonnet days streaming `draft.day_title` + day cards. 2. Validate/repair ≤2 then drop-and-flag. 3. Routing flag `ai.draft.skeleton_model` (opus / sonnet). 4. Bench script records p50/p95 and time to first day card per model route.
 - Tests: `pnpm --filter @cp/worker test -- jobs/ai/draft/stages`; `pnpm --filter @cp/worker bench:draft`
 - Done when: integration test with Anthropic recorded fixtures (recorded from real calls, replayed) produces a valid version; staging bench over 10 runs recorded in the PR for both routes; first streamed day card ≤ 8 s p50. p50 ≤ 20 s is tracked as a P54 launch gate (fallback = routing flag to all-Sonnet).
+- Status: done — b29060e5 (bench recorded on the golden crews; the staging run waits for a drafted staging trip)
 
 ### T5 — Redraft pipeline + quota
 - Goal: `request_redraft`, `ai.redraft`, keep/revert, restore.
@@ -145,6 +150,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. Atomic reserve (`SELECT … FOR UPDATE` on `trip_entitlements`/count) → `REDRAFT_LIMIT`. 2. Sonnet day job → diff + metrics + reasons → candidate version. 3. Commit on delivery, release on failure/identical. 4. Free fit-in redraft for late must-dos (Q-34) flagged `free_reason`. 5. `trip:` `redraft.counter` event. 6. Redraft fair-use for unlimited trips (20/trip/day): the entitlements phase closed `fair_use_counters.metric` to `guide_tokens`/`voice_seconds`/`vision_calls`, so this phase's `*_draft_metrics_and_redraft_reservations.sql` migration widens that check with `redrafts`, and `entitle()`'s `redraft` kind calls `app.bump_fair_use` for unlimited trips.
 - Tests: `pnpm --filter @cp/api test -- commands/draft/redraft-quota`; `pnpm --filter @cp/worker test -- jobs/ai/redraft`
 - Done when: 10 concurrent requests with 1 remaining produce exactly 1 accepted; failed job releases; boosted trip unlimited but capped by fair-use counter.
+- Status: done — 81d5381a
 
 ### T6 — Drafting screen (3c-8)
 - Goal: progress UI tied to real steps.
@@ -173,6 +179,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. Stay affiliate link via P15 Travelpayouts client (`affiliate_clicks` sub_id via API) + "~$X estimate" from P16 cost bands. 2. Viator product match for must-dos; availability check behind `supplier.viator_booking` through the `packages/suppliers` availability port (P35 registers the Viator adapter; wiring + live check in P35). 3. Show free-cancel date only from an imported booking or a live Demand-adapter rate.
 - Tests: `pnpm --filter @cp/worker test -- jobs/ai/draft/suppliers`
 - Done when: supplier text never enters prompts (test asserts prompt payloads contain only ids/prices from our DB); contract test against the availability port with a recorded Viator `availability/check` fixture flags "Slot available"; flag off or no adapter registered → links only; no stay row shows free-cancel without an imported booking.
+- Status: blocked — server half done in e03f9a58 (stay rows from our cost bands, free-cancel only from an imported booking, prompts free of supplier content, slot-check seam defaulting to links only); the Viator availability contract test waits for the Viator adapter, a poi-to-product mapping and a recorded sandbox response; the stay/activity rows are the app lane's
 
 ### T10 — Pre-draft closure and holiday check (web search)
 - Goal: catch closures and public holidays on the trip dates before the skeleton is drafted (D23).
@@ -180,6 +187,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. In the prefetch step, code builds queries from destination, trip dates and candidate POI names (no user data) and calls `web_search`. 2. Extraction writes closure records `{poi_or_area, closed_from, closed_to, reason, source_url}` stored with the draft. 3. The planner reads the records, never raw snippets, and avoids or flags affected POIs. 4. The draft shows "closed {date}" with its source.
 - Tests: a fixture trip over Tết avoids a POI with a cited closure; no search text enters the skeleton prompt.
 - Done when: drafts avoid or flag cited closures on their dates, and each shown closure links its source.
+- Status: done — dcc34157
 
 ## Phase acceptance criteria
 

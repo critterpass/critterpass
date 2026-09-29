@@ -1,0 +1,15 @@
+# Drafting: the trip outline, the day plans, repair and redrafts on the pro tier, the summary line
+# on the fast tier. Cases are golden crews (golden/crews.json) across the six guide cities, redraft
+# requests (golden/redrafts.json) and injection cases (planted instructions in must-do wishes,
+# redraft notes and crew chat). Each runs the real pipeline and is graded by asserts/draft-asserts.ts:
+# validator-clean after repair, no invented ids, words-only prose, must-dos kept, injections inert;
+# and at least 90% of drafts pass the validator on the first try. The runner is ./suite.ts.
+# Run: pnpm --filter @cp/ai eval draft
+# Record: EVAL_MODE=live EVAL_RECORD=1 ANTHROPIC_API_KEY=<deepseek key> pnpm --filter @cp/ai eval draft
+description: Drafting agent and redrafts
+providers:
+  - id: file://../lib/provider.ts
+tests:
+  - file://golden/crews.json
+  - file://golden/injection-drafts.json
+  - file://golden/redrafts.json

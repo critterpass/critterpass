@@ -44,6 +44,11 @@ const SHELL_DEMOS = [
     testID: 'gallery-shell-zoom',
     label: 'Shell: zoom (shared grow)',
   },
+  {
+    href: '/(dev)/gallery/account-sheets-demo',
+    testID: 'gallery-account-sheets',
+    label: 'Onboarding: save and merge sheets',
+  },
 ] as const;
 
 const MOTION_MODES: readonly MotionMode[] = ['full', 'reduced', 'off'];
