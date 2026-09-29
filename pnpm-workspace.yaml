@@ -107,6 +107,7 @@ overrides:
   '@bacons/xcode>@expo/plist': 0.10.0
   '@esbuild-kit/core-utils>esbuild': 0.25.12
   sharp: 0.35.4
+  undici@7.29.0: 7.29.1
 
 # pnpm refuses dependency install scripts unless they are listed here.
 allowBuilds:
