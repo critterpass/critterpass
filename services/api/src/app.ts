@@ -1,7 +1,8 @@
-import { DomainError } from '@cp/domain';
+import { DomainError, type ErrorCode } from '@cp/domain';
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { Scalar } from '@scalar/hono-api-reference';
 import { bodyLimit } from 'hono/body-limit';
+import { HTTPException } from 'hono/http-exception';
 import { requestId, type RequestIdVariables } from 'hono/request-id';
 import type pg from 'pg';
 import type { Logger } from 'pino';
@@ -52,6 +53,29 @@ export type AppEnv = { Variables: RequestIdVariables & AuthVariables };
 /** Wire error body shared by every route (docs/api-contracts.md §1, §3). */
 function errorBody(code: string, message: string, retryable: boolean) {
   return { error: { code, message, retryable } };
+}
+
+/** Wire codes for the client errors Hono's own middleware throws (malformed JSON is a 400). */
+const HTTP_CLIENT_ERROR_CODES: Readonly<Record<number, ErrorCode>> = {
+  401: 'AUTH_REQUIRED',
+  403: 'FORBIDDEN',
+  404: 'NOT_FOUND',
+  413: 'PAYLOAD_TOO_LARGE',
+  429: 'RATE_LIMITED',
+};
+
+/**
+ * The wire error for a client mistake Hono raised (malformed JSON, a missing credential), or
+ * undefined for anything else. These are the caller's to fix: logged, never reported to Sentry,
+ * which only hears about server faults.
+ */
+export function httpClientError(error: unknown): DomainError | undefined {
+  if (!(error instanceof HTTPException) || error.status >= 500) return undefined;
+  return new DomainError(
+    HTTP_CLIENT_ERROR_CODES[error.status] ?? 'VALIDATION',
+    undefined,
+    error.message || 'Invalid request',
+  );
 }
 
 const MAX_BODY_BYTES = 1024 * 1024;
@@ -126,6 +150,14 @@ export function createApp(deps: AppDeps) {
     }
     if (error instanceof ZodError) {
       return c.json(errorBody('VALIDATION', 'Invalid request', false), 422);
+    }
+    const clientError = httpClientError(error);
+    if (clientError !== undefined) {
+      deps.logger.info(
+        { req_id: c.var.requestId, code: clientError.code, reason: clientError.message },
+        'client error',
+      );
+      return c.json(clientError.toResponseBody(), clientError.http as Parameters<typeof c.json>[1]);
     }
     const eventId = errors.captureInternal(error, { reqId: c.var.requestId });
     deps.logger.error(
