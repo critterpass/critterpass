@@ -5,6 +5,7 @@ import { projectActivity } from '../../src/events/activity-rules';
 import { SETUP_EVENT_TYPES } from '../../src/setup/events';
 import { MONEY_EVENT_TYPES } from '../../src/money/events';
 import { DRAFT_EVENT_TYPES } from '../../src/itinerary/events';
+import { BOOKING_EVENT_TYPES } from '../../src/bookings/events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -99,6 +100,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   ...MONEY_EVENT_TYPES,
   // Drafts are private to the trip's organisers until the proposal goes out.
   ...DRAFT_EVENT_TYPES,
+  // Bookings have their own surfaces (the wallet stack, the flight card, the import banner).
+  ...BOOKING_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

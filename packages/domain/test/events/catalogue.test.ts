@@ -11,6 +11,9 @@ const PAYMENT = {
   to_id: crypto.randomUUID(),
 };
 
+const BOOKING = { trip_id: crypto.randomUUID(), booking_id: crypto.randomUUID() };
+const SEGMENT = { ...BOOKING, segment_id: crypto.randomUUID() };
+
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
   'crew.member_joined': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
   'crew.member_left': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
@@ -435,6 +438,57 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     receipt_id: crypto.randomUUID(),
     trip_id: crypto.randomUUID(),
     status: 'partial',
+  },
+  'booking.added': { ...BOOKING, kind: 'stay', source: 'forward' },
+  'booking.edited': { ...BOOKING, version: 2 },
+  'booking.deleted': BOOKING,
+  'booking.visibility_changed': { ...BOOKING, visibility: 'crew' },
+  'booking.deadline_due': { ...BOOKING, user_id: crypto.randomUUID() },
+  'import.requested': {
+    candidate_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    trip_id: null,
+    source: 'paste',
+  },
+  'import.candidate_created': {
+    candidate_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    crew_id: crypto.randomUUID(),
+    trip_id: crypto.randomUUID(),
+    source: 'forward',
+    status: 'pending',
+  },
+  'import.resolved': {
+    candidate_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    action: 'add',
+    booking_id: crypto.randomUUID(),
+    by_uid: crypto.randomUUID(),
+  },
+  'import.quarantined': { crew_id: crypto.randomUUID(), inbound_email_id: crypto.randomUUID() },
+  'import.sender_linked': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
+  'crew.inbound_rotated': { crew_id: crypto.randomUUID() },
+  'mailbox.connected': {
+    user_id: crypto.randomUUID(),
+    connection_id: crypto.randomUUID(),
+    provider: 'gmail',
+  },
+  'mailbox.disconnected': {
+    user_id: crypto.randomUUID(),
+    connection_id: crypto.randomUUID(),
+    provider: 'microsoft',
+    revoked: true,
+  },
+  'flight.watch_started': SEGMENT,
+  'flight.status_changed': { ...SEGMENT, change: 'delay', status: 'delayed' },
+  'flight.boarding_open': { ...SEGMENT, estimated: true },
+  'flight.landed': { ...SEGMENT, user_ids: [crypto.randomUUID()], source: 'provider' },
+  'insurance.saved': { user_id: crypto.randomUUID(), policy_id: crypto.randomUUID() },
+  'insurance.deleted': { user_id: crypto.randomUUID(), policy_id: crypto.randomUUID() },
+  'insurance.shared': {
+    user_id: crypto.randomUUID(),
+    policy_id: crypto.randomUUID(),
+    help_session_id: crypto.randomUUID(),
   },
 };
 

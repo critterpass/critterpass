@@ -18,6 +18,10 @@ export const SYNCED_TABLE_COLUMNS = {
   avatars:
     'user_id kind form_id ring media_key moderation_status moderation_reason variant_keys created_at updated_at',
   ballots: 'poll_id option_id crew_id trip_id user_id source op_id cast_at created_at updated_at',
+  booking_attachments:
+    'booking_id trip_id owner_id crew_visible:integer media_key kind sha256 created_at',
+  bookings:
+    'trip_id owner_id type title starts_at ends_at tz location traveller_ids price_minor:integer currency paid_by source supplier supplier_ref free_cancel_until cancel_policy_text status visibility flight_crew_visible:integer details barcode_payload_enc barcode_format supplier_order_id deleted_at version:integer created_at updated_at',
   budget_plans:
     'trip_id target_minor:integer currency band_low_minor:integer band_high_minor:integer breakdown stay_mix planned_by_day quote_version is_stale:integer locked_at locked_by version:integer created_at updated_at',
   change_sets:
@@ -28,6 +32,7 @@ export const SYNCED_TABLE_COLUMNS = {
   cost_components:
     'trip_id calc_version component_key kind unit is_shared:integer origin member_ids amount_minor:integer currency source quote_id label seen_at frozen_at created_at updated_at',
   crew_contact_cards: 'crew_id user_id phone_display created_at updated_at',
+  crew_inbound_addresses: 'crew_id local_part status rotated_at created_at',
   crew_members:
     'crew_id user_id role colour status keep_in_chat:integer joined_epoch:integer left_at last_read_seq:integer notify_level created_at updated_at',
   crews:
@@ -56,6 +61,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'crew_id trip_id payer_id amount_minor:integer currency fx_snapshot_id crew_amount_minor:integer crew_currency split_mode category description merchant local_date trip_day:integer spent_at poi_id booking_id ride_id boost_id receipt_id source created_by deleted_at deleted_by version:integer created_at updated_at',
   facilities:
     'key destination_id kind name lat:real lng:real address phone open_24h:integer source_url retrieved_on verified_at release_id created_at updated_at',
+  flight_segments:
+    'booking_id trip_id owner_id crew_visible:integer segment_no:integer carrier flight_no dep_airport arr_airport sched_dep_at sched_arr_at est_dep_at est_arr_at act_dep_at act_arr_at boarding_at boarding_estimated:integer gate terminal status delay_min:integer status_source status_at la_phase version:integer created_at updated_at',
   fx_snapshots: 'base quote rate as_of source created_at',
   guide_actions:
     'trip_id change_set_id kind target_provider_id channel status reversible:integer compensates_id cost_delta_minor:integer audit inverse undo_until disruption_id created_at updated_at',
@@ -69,6 +76,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'slug locale category title summary body_md embedding fts release_id created_at updated_at',
   home_tips:
     'crew_id guide_id kind text facts place_id dedupe_key valid_until status dismissed_by dismissed_at created_at updated_at',
+  import_candidates:
+    'user_id crew_id trip_id source extracted confidence:real dedupe_key status crew_visible:integer needs_confirm:integer failure_reason duplicate_of_id booking_id inbound_email_id resolved_by resolved_at created_at updated_at',
   inbox_items:
     'user_id crew_id trip_id notification_id kind source actor_id source_event_id resolve_key data needs_you:integer actions deep_link expires_at undo_until resolved_at read_at created_at updated_at',
   invite_opens:

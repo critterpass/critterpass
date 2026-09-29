@@ -295,3 +295,4 @@ export * from './setup';
 export * from './itinerary';
 export * from './money';
 export * from './payout';
+export * from './bookings';
