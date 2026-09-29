@@ -50,8 +50,11 @@ export const TEXT_VARIANTS = {
 
 export type TextVariant = keyof typeof TEXT_VARIANTS;
 
-/** Variants the design sets on one line: button, pill, chip and tag labels. */
-const ONE_LINE_VARIANTS: ReadonlySet<TextVariant> = new Set(['buttonLg', 'buttonSm', 'label']);
+/**
+ * Variants the design sets on one line: small pill, chip and tag labels. Large CTAs wrap to a second
+ * line rather than truncate (docs/design-system.md, expansion).
+ */
+const ONE_LINE_VARIANTS: ReadonlySet<TextVariant> = new Set(['buttonSm', 'label']);
 
 export interface TextProps extends Omit<RNTextProps, 'style' | 'children' | 'allowFontScaling'> {
   readonly variant?: TextVariant | undefined;
@@ -173,7 +176,11 @@ export function Text({
     wrapAtFloor: numberOfLines === undefined,
     // Uppercase headings and labels are short words in tight boxes: one too wide shrinks to the
     // floor rather than splitting mid-word.
-    keepWordsWhole: uppercase && text !== null,
+    // Codes (monoData: MRZ lines, booking refs) are never split either.
+    keepWordsWhole: (uppercase || variant === 'monoData') && text !== null,
+    // Past the default text size, a heading that still overflows at its floor keeps wrapping:
+    // enlarged text is never cut.
+    neverCut: fontScale > 1,
     text: text ?? '',
     maxSize: scaledSize,
     minSize: Math.min(

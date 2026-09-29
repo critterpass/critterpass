@@ -84,8 +84,9 @@ const useStyles = makeStyles((t) => ({
 
 /**
  * The pill CTA family: primary (six fills), secondary outline, tertiary link and destructive, with
- * sheen, label flap, loading and disabled states. Labels wrap to two lines rather than truncate;
- * at the default text size a wrapped label is reported to UI QA, as the design keeps it on one.
+ * sheen, label flap, loading and disabled states. Labels wrap to two lines rather than truncate; a
+ * small (40 pt) pill's label is designed for one line, so at the default text size its wrap is
+ * reported to UI QA.
  */
 export function PillButton({
   label,
@@ -147,7 +148,7 @@ export function PillButton({
             variant={casing === 'sentence' ? 'rowTitle' : size === 'lg' ? 'buttonLg' : 'buttonSm'}
             color={textColor}
             numberOfLines={2}
-            singleLine
+            singleLine={size === 'sm'}
             style={styles.label}
           >
             {shown}

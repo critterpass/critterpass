@@ -102,6 +102,8 @@ export interface UseAutoFitOptions extends Omit<FitInput, 'width'> {
    * limit and the first-pass estimate alone.
    */
   readonly keepWordsWhole?: boolean;
+  /** At the floor, keep wrapping past the line limit instead of cutting (enlarged text). */
+  readonly neverCut?: boolean;
 }
 
 export interface AutoFitResult {
@@ -140,6 +142,7 @@ export function useAutoFit({
   enabled,
   wrapAtFloor = false,
   keepWordsWhole = false,
+  neverCut = false,
   ...fit
 }: UseAutoFitOptions): AutoFitResult {
   const active = enabled || keepWordsWhole;
@@ -181,10 +184,10 @@ export function useAutoFit({
   return {
     fontSize,
     numberOfLines: finite(
-      !enabled || !wrapAtFloor || overflowed ? maxLines : Number.POSITIVE_INFINITY,
+      !enabled || !wrapAtFloor || (overflowed && !neverCut) ? maxLines : Number.POSITIVE_INFINITY,
     ),
     // A word still split at the floor is reported as broken, not as cut.
-    overflowed: enabled && overflowed,
+    overflowed: enabled && overflowed && !(neverCut && wrapAtFloor),
     onLayout,
     onTextLayout,
   };
