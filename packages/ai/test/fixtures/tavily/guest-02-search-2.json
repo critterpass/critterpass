@@ -1,0 +1,52 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Tbilisi Georgia best time to visit weather",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "title": "Tbilisi Climate, Weather By Month, Average Temperature (Georgia)",
+          "url": "https://weatherspark.com/y/103478/Average-Weather-in-Tbilisi-Georgia-Year-Round",
+          "content": "| 13.4h | 14.6h | 15.2h | 14.8h | 13.8h | 12.4h | 11.0h | 9.8h | 9.2h |  is not observed in Tbilisi during 2026. , and night are indicated by the color bands from yellow to gray. ADVERTISEMENT The figure below presents a compact representation of the sun's elevation (the angle of the sun above the horizon) and azimuth (its compass bearing) for every hour of every day in the reporting period. The horizontal axis is the day of the year and the vertical axis is the hour of the day. For a given day [...] on our Terms of Service page.Image 6 #### Tbilisi T'bilisi, Georgia Image 7: Map Image 8: Marker © OpenStreetMap contributors Full Year Sep Today    SpringSummerFallWinter    JanFebMarAprMayJunJulAugSepOctNovDec Summary Temperature Clouds Precipitation Sun Moon Humidity Wind Best Time to Visit Growing Season Solar Energy Topography Data Sources    Hide Ads Data Download License Charts [...] skies, and to 1 for fully overcast skies. Our _precipitation score_, which is based on the three-hour precipitation centered on the hour in question, is 10 for no precipitation, falling linearly to 9 for trace precipitation, and to 0 for _0.04 inches_ of precipitation or more. Our _tourism temperature score_ is 0 for perceived temperatures below _50°F_, rising linearly to 9 for _65°F_, to 10 for _75°F_, falling linearly to 9 for _80°F_, and to 1 for _90°F_ or hotter. Our _beach/pool temperature",
+          "score": 0.70580584,
+          "raw_content": null,
+          "published_date": null,
+          "id": "6a4c76-00"
+        },
+        {
+          "title": "Tbilisi climate: Weather Tbilisi & temperature by month",
+          "url": "https://en.climate-data.org/asia/georgia/tbilisi/tbilisi-6303",
+          "content": "Tbilisi is located in the northern hemisphere.\nSummer begins at the end of June and ends in September. The months of summer are: June, July, August, September.\nIt is recommended that the optimal period for embarking on a journey would be during June, July, August.\n\n## Climograph Tbilisi\n\nClimograph, Tbilisi\nClimograph, Tbilisi\nHotel Room with Beach View [...] |  | Avg. Temperature °C (°F) | Min. Temperature °C (°F) | Max. Temperature °C (°F) | Precipitation / Rainfall mm (in) | Humidity (%) | Rainy days (d) | avg. Sun hours (hours) |\n ---  ---  ---  --- |\n| January | -0.5  (31.1) | -4.7  (23.5) | 4.7  (40.4) | 30  (1.2) | 70% | 4 | 7.0 |\n| February | 1.1  (33.9) | -3.7  (25.4) | 6.3  (43.3) | 35  (1.4) | 70% | 5 | 7.0 |\n| March | 5  (41) | -0.5  (31.1) | 10.5  (50.9) | 67  (2.6) | 69% | 8 | 8.0 | [...] | Max. Temperature °C (°F) | 4.7 °C  (40.4) °F | 6.3 °C  (43.3) °F | 10.5 °C  (50.9) °F | 15.3 °C  (59.5) °F | 20.2 °C  (68.3) °F | 25.1 °C  (77.1) °F | 28.6 °C  (83.4) °F | 29.2 °C  (84.6) °F | 23.5 °C  (74.3) °F | 17 °C  (62.6) °F | 10.5 °C  (50.9) °F | 5.9 °C  (42.6) °F |\n| Precipitation / Rainfall mm (in) | 30  (1) | 35  (1) | 67  (2) | 111  (4) | 117  (4) | 79  (3) | 50  (1) | 51  (2) | 55  (2) | 70  (2) | 47  (1) | 33  (1) |",
+          "score": 0.4475333,
+          "raw_content": null,
+          "published_date": null,
+          "id": "a7610e-01"
+        },
+        {
+          "title": "Tbilisi International (Georgia) weather - Met Office",
+          "url": "https://weather.metoffice.gov.uk/forecast/szrvnu5wf",
+          "content": "| Time | 1am | 4am | 7am | 10am | 1pm | 4pm | 7pm | 10pm |\n| Humidity | 78% | 81% | 83% | 68% | 58% | 53% | 65% | 75% |\n\n### Rain and snow\n\n## Rain and snow\n\nChance of rain and snow shows how likely it is that rain, snow, or hail will fall during the hour shown.\n\n| Time | 8pm | 9pm | 10pm | 11pm |\n| Chance | 20% | 40% | 60% | 70% | [...] - No risk of UV   \n It’s safe to stay outside. 1-2 Low   \nYou can safely stay outside. Consider sunscreen in direct sunlight. 3-5 Moderate   \n Take care during midday hours and do not spend too much time in the sun unprotected. Sunscreen advised. 6-7 High   \n Seek shade during midday hours, cover up and wear sunscreen. 8-10 Very high   \n Spend time in the shade between 11am and 3pm. Shirt, sunscreen and hat are essential. 11 Extreme [...] | Time | 1am | 4am | 7am | 10am | 1pm | 4pm | 7pm | 10pm |\n| Temperature (°C) | 19° | 18° | 17° | 19° | 22° | 23° | 21° | 19° |\n\n| Time | 8pm | 9pm | 10pm | 11pm |\n| Feels like (°C) | 26° | 25° | 25° | 24° |",
+          "score": 0.4187688,
+          "raw_content": null,
+          "published_date": null,
+          "id": "1e590b-02"
+        },
+        {
+          "title": "Tbilisi – Travel guide at Wikivoyage",
+          "url": "https://en.wikivoyage.org/wiki/Tbilisi",
+          "content": "41.7247344.7892124 Obrigado Tasco (ობრიგადო), 4b Akaki Tsereteli Ave, ☏ +995 593 18 39 60, obrigadotbs@gmail.com. W 19:00-23:00; Th-Sa 18:00-23:00; Su 17:00-23:00; M-Tu closed. Cozy and authentic Portuguese restaurant focused on traditional petiscos, francesinha, bifana, and Portuguese wines, hosted by a welcoming Portuguese owner. OSM directions (updated Jul 2026) [...] Baku – Rail service between Tbilisi and Baku resumed on May 26, 2026. The train departs Tbilisi at 21:00 and arrives in Baku at 06:24. From Baku, it departs at 23:10 and arrives in Tbilisi at 08:41. The train makes 6 stops along the route. Due to high demand, purchasing tickets is quite difficult. [...] 41.6954844.8064316 Cafe Leila, Ioane Shavteli Str.18 (near the \"Clock Tower\"), ☏ +995 593 28 10 85. Daily 12:00-02:00. Charming pescatarian cafe with vegan options. Serves vegan wine. Tables outside and good decor inside. 10-12 lari. OSM directions (updated Jun 2026)",
+          "score": 0.39578846,
+          "raw_content": null,
+          "published_date": null,
+          "id": "ca5440-03"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "40f2c7d4-318a-470a-bb30-2ea631e27c66"
+    }
+  }
+}

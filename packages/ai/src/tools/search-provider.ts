@@ -10,6 +10,8 @@ export interface SearchQuery {
   readonly maxResults: number;
   /** Bare domains (subdomains included) the provider must leave out. */
   readonly excludeDomains: readonly string[];
+  /** Bare domains to search within, when a route allows only an explicit list. */
+  readonly includeDomains?: readonly string[];
   /** `news` narrows to recent reporting (closures, events, strikes). */
   readonly topic: 'general' | 'news';
   /** Only pages published within this window, when set. */

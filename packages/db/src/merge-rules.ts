@@ -252,3 +252,19 @@ registerMergeRule({
   personal: true,
 });
 registerMergeRule({ table: 'nudges', userColumn: 'sender_id', strategy: 'drop' });
+
+// Polls: an anonymous uid's ballots and winner reveals follow the user; where the existing account
+// already voted on (or saw) the same poll, its own row wins.
+registerMergeRule({
+  table: 'ballots',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['poll_id'],
+});
+registerMergeRule({
+  table: 'poll_reveals',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['poll_id'],
+  personal: true,
+});

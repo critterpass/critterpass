@@ -43,6 +43,8 @@ export const savedItems = pgTable('saved_items', {
   kind: text('kind').notNull(),
   refId: uuid('ref_id').notNull(),
   listName: text('list_name'),
+  /** A city request's search text (`kind = 'request'`). */
+  note: text('note'),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 });

@@ -15,6 +15,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id user_id kind status steps partial input_hash base_version_id result_ref model tokens_in:integer tokens_out:integer cost_micros:integer pgboss_job_id created_at updated_at',
   avatars:
     'user_id kind form_id ring media_key moderation_status moderation_reason variant_keys created_at updated_at',
+  ballots: 'poll_id option_id crew_id trip_id user_id source op_id cast_at created_at updated_at',
   change_sets:
     'trip_id base_version_id trigger scope author_kind author_id status poll_id cost_delta_minor:integer ops approved_by_kind approved_by result_version_id created_at updated_at',
   client_config: 'key value updated_at',
@@ -37,7 +38,7 @@ export const SYNCED_TABLE_COLUMNS = {
   destination_cost_indices:
     'destination_id stay_type nightly_minor_low:integer nightly_minor_high:integer food_pp_day_minor:integer fun_pp_day_minor:integer currency source source_url sourced_on reviewed_at created_at updated_at',
   destinations:
-    'slug name country coverage colour currency best_months tz geofence created_at updated_at',
+    'slug name country coverage colour currency best_months tz geofence critter_set_id created_at updated_at',
   devices:
     'user_id platform bundle_id os_version app_version locale tz permission_state attribution capabilities la_enabled:integer la_frequent:integer foreground:integer last_seen_at created_at updated_at',
   emergency_numbers:
@@ -88,10 +89,17 @@ export const SYNCED_TABLE_COLUMNS = {
     'key language context text romanisation gloss audio_key audio_status native_reviewed_on release_id created_at updated_at',
   ping_ledger:
     'user_id local_date sent_budgeted:integer sent_always:integer sent_local:integer paywall_sent:integer queued:integer created_at updated_at',
+  pitches:
+    'crew_id trip_id destination_id pitched_by month:integer sections quote_ids model prompt_version cache_key fare_snapshot_id status created_at updated_at',
   plan_days: 'version_id trip_id day_no:integer date theme weather_ref created_at updated_at',
   plan_items:
     'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at',
   pois: 'destination_id name name_local category lat:real lng:real location address hours hours_verified_at price_level:integer source_ids editorial tags fts status curation merged_into_id geofence visit_radius_m:integer timezone last_live_check_at created_at updated_at',
+  poll_options:
+    'poll_id crew_id trip_id kind ref_id label frozen_quote_id pitch_id proposed_by position:integer eliminated_at created_at updated_at',
+  poll_reveals: 'poll_id user_id seen_at created_at updated_at',
+  polls:
+    'crew_id trip_id kind stage status question created_by eligible_voter_ids decider_policy threshold:integer closes_at allow_change:integer tie_rule winner_option_id result close_reason closed_at stage_changed_at version:integer created_at updated_at',
   price_quotes:
     'trip_id kind origin destination_id dates amount_minor:integer currency source fetched_at frozen_at version:integer created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',
@@ -101,7 +109,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'user_id target_kind target_id fire_at condition status fired_at created_at updated_at',
   roundups:
     'user_id local_date tz guide_id notification_ids lines sent_at fallback_used:integer created_at updated_at',
-  saved_items: 'user_id kind ref_id list_name created_at updated_at',
+  saved_items: 'user_id kind ref_id list_name note created_at updated_at',
   scheduled_deliveries:
     'user_id kind target_ref send_at_local tz due_at payload status created_at updated_at',
   season_events:

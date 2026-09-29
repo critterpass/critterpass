@@ -75,3 +75,16 @@ registerNamespace({
   acl: aclForSql(CREW_MAP_CHANNEL_ACL_SQL),
   presence: false,
 });
+
+// `poll:{id}`: live tallies for anyone who can read the poll (RLS: its crew, or its trip's crew).
+registerNamespace({
+  name: 'poll',
+  acl: async (_uid, id, tx) => {
+    const { rows } = await tx.query<{ allowed: boolean }>(
+      'SELECT EXISTS (SELECT 1 FROM polls WHERE id = $1::uuid) AS allowed',
+      [id],
+    );
+    return rows[0]?.allowed === true;
+  },
+  presence: false,
+});

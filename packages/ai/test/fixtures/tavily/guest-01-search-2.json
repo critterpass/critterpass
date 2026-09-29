@@ -1,0 +1,52 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Marrakech Morocco best time to visit weather",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://weatherspark.com/y/32742/Average-Weather-in-Marrakesh-Morocco-Year-Round",
+          "title": "Marrakesh Climate, Weather By Month, Average Temperature (Morocco)",
+          "content": "in Marrakesh during 2026, starting in the spring on _February 15_, lasting _1.2 months_, and ending in the fall on _March 22_. , and night are indicated by the color bands from yellow to gray. The transitions to and from daylight saving time are indicated by the 'DST' labels. ADVERTISEMENT The figure below presents a compact representation of the sun's elevation (the angle of the sun above the horizon) and azimuth (its compass bearing) for every hour of every day in the reporting period. The [...] speed in Marrakesh experiences _mild_ seasonal variation over the course of the year. The _windier_ part of the year lasts for _4.7 months_, from _March 30_ to _August 21_, with average wind speeds of more than _7.3 miles per hour_. The _windiest_ month of the year in Marrakesh is _June_, with an average hourly wind speed of _8.1 miles per hour_. The _calmer_ time of year lasts for _7.3 months_, from _August 21_ to _March 30_. The _calmest_ month of the year in Marrakesh is _January_, with an [...] a particular set of preferences that may not agree with those of any particular reader. Please review our full terms contained on our Terms of Service page.Image 6 #### Marrakesh Marrakech, Marrakesh-Safi, Morocco Image 7: Map Image 8: Marker © OpenStreetMap contributors Full Year Sep Today    SpringSummerFallWinter    JanFebMarAprMayJunJulAugSepOctNovDec Summary Temperature Clouds Precipitation Sun Moon Humidity Wind Best Time to Visit Growing Season Solar Energy Topography Data Sources",
+          "score": 0.7917732,
+          "raw_content": null,
+          "published_date": null,
+          "id": "a70da0-00"
+        },
+        {
+          "url": "https://weatherspark.com/m/32742/9/Average-Weather-in-September-in-Marrakesh-Morocco",
+          "title": "Marrakesh September Weather, Average Temperature (Morocco)",
+          "content": "| Sep 2026 |  | Illumination | Moonrise | Moonset | Moonrise | Meridian Passing | Distance |\n ---  ---  ---  --- |\n| 1 |  | 83%  11:21 AM | WNW | 10:13 PM | ENE | 4:27 AM | S | 234,503 mi |\n| 2 |  | 74%  12:28 PM | WNW | 10:54 PM | ENE | 5:17 AM | S | 232,854 mi |\n| 3 |  | 63%  1:37 PM | WNW | 11:42 PM | ENE | 6:12 AM | S | 231,426 mi |\n| 4 |  | 50%  2:46 PM | WNW  7:12 AM | S | 230,247 mi |\n| 5 |  | 39% | 12:38 AM | ENE | 3:50 PM | WNW  8:14 AM | S | 229,373 mi | [...] For reference, on _June 19_, the _windiest day_ of the year, the daily average wind speed is _8.1 miles per hour_, while on _January 16_, the _calmest day_ of the year, the daily average wind speed is _6.4 miles per hour_.\n\n, with 25th to 75th and 10th to 90th percentile bands. \n\n. \n\nADVERTISEMENT\n\n in the year (the calendar year in the Northern Hemisphere, or from July 1 until June 30 in the Southern Hemisphere). [...] | 25 |  | 97%  6:01 AM | W | 6:41 PM | E | 12:06 AM | S | 240,401 mi |\n| 26 |  | 100%  7:01 AM | W | 7:10 PM | E | 12:50 AM | S | 237,573 mi |\n| 27 |  | 100%  8:04 AM | W | 7:40 PM | ENE | 1:35 AM | S | 235,003 mi |\n| 28 |  | 98%  9:09 AM | WNW | 8:14 PM | ENE | 2:22 AM | S | 232,853 mi |\n| 29 |  | 93%  10:18 AM | WNW | 8:53 PM | ENE | 3:12 AM | S | 231,221 mi |\n| 30 |  | 86%  11:28 AM | WNW | 9:39 PM | ENE | 4:07 AM | S | 230,143 mi |",
+          "score": 0.60610276,
+          "raw_content": null,
+          "published_date": null,
+          "id": "87d3dd-01"
+        },
+        {
+          "url": "https://weather.metoffice.gov.uk/forecast/evd7cwp61",
+          "title": "Marrakech (Morocco) weather - Met Office",
+          "content": "| Time | 12am | 1am | 2am | 3am | 4am | 5am | 6am | 7am | 8am | 9am | 10am | 11am | 12pm | 1pm | 2pm | 3pm | 4pm | 5pm | 6pm | 7pm | 8pm | 9pm | 10pm | 11pm |\n| Chance of precipitation | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | 10% | <5% | <5% | <5% | [...] | Time | 12am | 1am | 2am | 3am | 4am | 5am | 6am | 7am | 8am | 9am | 10am | 11am | 12pm | 1pm | 2pm | 3pm | 4pm | 5pm | 6pm | 7pm | 8pm | 9pm | 10pm | 11pm |\n| Chance of precipitation | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% |\n\n| Time | 12am | 1am | 4am | 7am | 10am | 1pm | 4pm | 7pm | 10pm |\n| Chance of precipitation | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | <5% | [...] - No risk of UV   \n It’s safe to stay outside. 1-2 Low   \nYou can safely stay outside. Consider sunscreen in direct sunlight. 3-5 Moderate   \n Take care during midday hours and do not spend too much time in the sun unprotected. Sunscreen advised. 6-7 High   \n Seek shade during midday hours, cover up and wear sunscreen. 8-10 Very high   \n Spend time in the shade between 11am and 3pm. Shirt, sunscreen and hat are essential. 11 Extreme",
+          "score": 0.30148593,
+          "raw_content": null,
+          "published_date": null,
+          "id": "1f8165-02"
+        },
+        {
+          "url": "https://weatherspark.com/countries/MA",
+          "title": "Morocco Climate, Weather By Month, Average Temperature",
+          "content": "5.1d | 0.7d | 0.0d | | Marrakesh | 0.0d | 0.0d | 0.0d | 0.0d | 0.0d | 0.2d | 0.9d | 1.3d | 0.8d | 0.3d | 0.0d | 0.0d | | Tangier | 0.0d | 0.0d | 0.0d | 0.0d | 0.1d | 1.8d | 8.3d | 13.0d | 8.1d | 1.6d | 0.1d | 0.0d | ADVERTISEMENT  | Jan | Feb | Mar | Apr | May | Jun | Jul | Aug | Sep | Oct | Nov | Dec |  ---  ---  ---  ---  ---  ---  | Rabat | 8.7 | 8.9 | 9.0 | 9.4 | 8.9 | 8.2 | 7.9 | 7.6 | 7.7 | 8.2 | 8.9 | 9.0 | | Marrakesh | 6.5 | 6.8 | 7.1 | 7.5 | 7.8 | 8.1 | 7.7 | 7.3 | 7.0 | 6.8 | 6.8 | [...] | 7.0 | 6.8 | 6.8 | 6.8 | | Tangier | 10.5 | 10.8 | 10.9 | 10.5 | 9.8 | 9.4 | 9.3 | 8.7 | 9.1 | 9.6 | 10.3 | 10.6 | .  in the year (the calendar year in the Northern Hemisphere, or from July 1 until June 30 in the Southern Hemisphere). . ADVERTISEMENT  | Jan | Feb | Mar | Apr | May | Jun | Jul | Aug | Sep | Oct | Nov | Dec |  ---  ---  ---  ---  ---  ---  | Rabat | 3.1 | 4.0 | 5.3 | 6.5 | 7.4 | 8.0 | 7.9 | 7.2 | 5.9 | 4.4 | 3.2 | 2.8 | | Marrakesh | 3.7 | 4.6 | 5.8 | 7.1 | 7.8 | 8.2 | 8.0 | 7.3 [...] | Mar | Apr | May | Jun | Jul | Aug | Sep | Oct | Nov | Dec |  ---  ---  ---  ---  ---  ---  | Rabat | 62% | 63% | 64% | 68% | 71% | 83% | 94% | 89% | 70% | 60% | 60% | 59% | | Marrakesh | 64% | 66% | 66% | 70% | 74% | 86% | 95% | 90% | 72% | 62% | 63% | 63% | | Tangier | 61% | 62% | 63% | 65% | 68% | 81% | 93% | 88% | 69% | 58% | 58% | 59% | ADVERTISEMENT . ADVERTISEMENT ### Humidity Comfort Levels in Rabat Link Download Compare:History ### Humidity Comfort Levels in Marrakesh Link Download",
+          "score": 0.270214,
+          "raw_content": null,
+          "published_date": "Thu, 08 May 2025 23:15:48 GMT",
+          "id": "f5783d-03"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "32c11d48-c128-4b83-9e75-3182957e3aa9"
+    }
+  }
+}

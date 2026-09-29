@@ -1,0 +1,38 @@
+# Poll engine and destination vote streams (docs/data-model-sync-and-privacy.md §4). Filters mirror
+# the tables' RLS SELECT policies (app.can_read_poll_scope): a trip poll is readable by every active
+# member of the trip's crew, exactly like a crew poll, so crew_polls carries every poll, option,
+# ballot and pitch of the caller's crews (Home and chat need them without opening the trip); the
+# per-trip stream carries the trip's own as well. The caller's own winner reveals ride me.
+
+streams:
+  me:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM poll_reveals WHERE user_id = auth.user_id()
+
+  crew_polls:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM polls WHERE crew_id IN my_crews
+      - SELECT * FROM poll_options WHERE crew_id IN my_crews
+      - SELECT * FROM ballots WHERE crew_id IN my_crews
+      - SELECT * FROM pitches WHERE crew_id IN my_crews
+
+  trip:
+    queries:
+      - |
+        SELECT * FROM polls
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM poll_options
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM ballots
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM pitches
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)

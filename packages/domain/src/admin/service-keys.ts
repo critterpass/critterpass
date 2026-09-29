@@ -95,6 +95,7 @@ export function serviceKeys(): Record<string, ConfigKeyDefinition> {
     'postcards.enabled': killSwitch('Printed postcard orders'),
     'widgets.push.enabled': killSwitch('Widget refresh pushes'),
     'home.tips.enabled': killSwitch("Proactive tips on crews' Home"),
+    'vote.guest_brief.enabled': killSwitch("The guest guide's brief on place pages"),
     'home.tips.min_fare_drop_pct': opsSetting(
       z.number().int().min(5).max(80),
       'Smallest fare drop (percent under the recent median) that makes a Home tip',

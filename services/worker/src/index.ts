@@ -34,7 +34,14 @@ import {
 } from './jobs/inbox';
 import { nudgeDispatchJob, registerNudgeNotifications } from './jobs/nudges';
 import { countdownEventHook, countdownRecomputeJob } from './jobs/countdown';
+import {
+  pollBoardAdvanceJob,
+  pollCloseJob,
+  pollRemindJob,
+  registerPollFanouts,
+} from './jobs/polls';
 import { tipsEventHook, tipsJobs } from './jobs/tips';
+import { pitchJobs, registerPitchTipCandidates } from './jobs/pitches';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';
@@ -141,7 +148,11 @@ const jobs: AnyJobDefinition[] = [
   inboxFanoutJob(),
   nudgeDispatchJob(),
   countdownRecomputeJob(),
+  pollCloseJob(),
+  pollBoardAdvanceJob(),
+  pollRemindJob(),
   ...tipsJobs(env, aiSwitches.assertAiRoute, llmObservability),
+  ...pitchJobs(env, aiSwitches.assertAiRoute, llmObservability),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&
@@ -200,6 +211,8 @@ onEventAppended(tipsEventHook);
 registerHomeInboxFanouts();
 registerHomeRetention();
 registerNudgeNotifications();
+registerPollFanouts();
+registerPitchTipCandidates();
 registerInviteNotifications();
 registerChatNotifications();
 registerLiveMapNotifications();

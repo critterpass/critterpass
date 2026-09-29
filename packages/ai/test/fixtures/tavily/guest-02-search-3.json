@@ -1,0 +1,52 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Tbilisi Georgia travel advice",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.mfa.gov.sg/travelling-overseas/travel-advisories-notices-and-visa-information/georgia",
+          "title": "Georgia | Ministry of Foreign Affairs",
+          "content": "Singaporeans should be aware that political demonstrations and public gatherings may occur, especially in central areas of Tbilisi, and can lead to traffic disruptions and occasional confrontations. Travellers are advised to avoid demonstration areas, monitor local developments closely, and follow the instructions of the local authorities.\n\nLocal Laws [...] Local Laws \n\nSingaporeans in Georgia are subject to local laws and regulations. Penalties for drug-related offences in Georgia can be severe. Travellers should avoid carrying prohibited substances and should exercise caution when bringing medications into Georgia.\n\nTravellers should also avoid photographing sensitive sites such as military installations and critical infrastructure. [...] Travellers should exercise caution when travelling outside major cities, particularly at night or in mountainous and remote areas. Weather conditions such as heavy rain or snow may affect road safety and accessibility in certain regions.\n\nGeneral Travel Advice\n\nPlease refer to MFA’s general travel advice for Singaporeans ↗ (opens in new tab) before you travel overseas.\n\n## Travelling to Georgia?",
+          "score": 0.81347597,
+          "raw_content": null,
+          "published_date": "Fri, 04 Sep 2026 13:00:00 GMT",
+          "id": "5556a7-00"
+        },
+        {
+          "url": "https://www.smartraveller.gov.au/destinations/europe/georgia",
+          "title": "Georgia Travel Advice & Safety | Smartraveller",
+          "content": "Political rallies are common in Georgia, including Tbilisi. They can turn violent. Stay away from public protests and demonstrations. Check media for updates and follow the instructions of authorities.\n Don't travel to South Ossetia or Abkhazia. There's a high risk of terrorist attacks, unexploded landmines and violence in these regions. Our ability to provide consular assistance in these regions is extremely limited. [...] Full travel advice: Local contacts\n\n## Full advice\n\n### Safety\n\n#### Civil unrest and political tension\n\nPublic protests and events that draw large groups of people can turn violent.\n\nPolitical rallies are common including Tbilisi.\n\nTo stay safe during periods of unrest:\n\n stay away from public protests and rallies\n check local media and other sources for possible threats\n follow the instructions of local authorities\n\nMore information:\n\n Protests and civil unrest [...] Latest update:Protests are common in Georgia, including Tbilisi. Stay away from public protests and demonstrations. Transport and other services may be disrupted. Monitor the media and follow the instructions of local authorities (see 'Safety').",
+          "score": 0.7882741,
+          "raw_content": null,
+          "published_date": "Wed, 05 Aug 2026 00:00:00 GMT",
+          "id": "f39e48-01"
+        },
+        {
+          "url": "https://en.wikivoyage.org/wiki/Tbilisi",
+          "title": "Tbilisi – Travel guide at Wikivoyage",
+          "content": "Antiques & other miscellaneous gifts – in Georgia you will be able to find many antiques from Georgia, the Middle East, Mediterranean, Russia and Europe.\n Gold, silver, precious stones, and other jewellery – Many foreigners visit Georgia to buy jewellery, because of its cheap cost and superior quality, there is a dizzying selection available upstairs in one of the malls N/W of station square metro. [...] Tbilisi (formerly called 'Tiflis' after its Russian name) lies in the centre of eastern Georgia, in the foothills of the Trialeti mountain range. According to Georgian legends, it was founded in the 5th century by King Vakhtang Gorgasali who, while hunting, shot a pheasant which fell into a warm spring and was either boiled or healed. Either way, the king was inspired to found a city on the site, and the name of the city derives from the Georgian word tbili meaning \"warm\". Although the city has [...] remote areas of Georgia. Be prepared to wait a while at the Magti store, however; bring something to read. And don't forget to bring your passport.",
+          "score": 0.6796259,
+          "raw_content": null,
+          "published_date": null,
+          "id": "24bad7-02"
+        },
+        {
+          "url": "https://en.wikivoyage.org/wiki/Northwestern_Georgia",
+          "title": "Northwestern Georgia – Travel guide at Wikivoyage",
+          "content": "The culture of Svaneti is intriguing, offering some of Georgia's most solemn and mysterious dances, and the most complex polyphonic singing in the Caucasus—a tradition dating back over two millennia. There are absolutely no regular performances of any kind, and there are no performance venues besides the open air under the Greater Caucasus, or perhaps in someone's modest home. You are more likely to experience Svan performances in Tbilisi, but a really great guide may set something up with the [...] ### By marshrutka\n\nMarshrutkas head to Zugdidi and on to Abkhazia from the bus stations in Batumi and Kutaisi, and Tbilisi. Poti is the easiest destination to get to, and is widely served by public transport. Marshrutkas also make the long, steep climb from Kutaisi and Tbilisi to the Svan capital, Mestia.\n\n### By train [...] ### By train\n\nNight trains (8 hr) between Zugdidi and Tbilisi are co-ordinated with early morning (06:00-08:00) marshrutka departures (15 lari) from Zugdidi to Mestia, which take a bit over 3-4 hr. Booking in advance for the train recommended.\n\n### By plane\n\nQueen Tamar Airport offers flights to Mestia that are operated by Serviceair.\n\n## Get around\n\n### By marshrutka",
+          "score": 0.49318945,
+          "raw_content": null,
+          "published_date": "Tue, 04 Aug 2026 05:39:16 GMT",
+          "id": "1957f7-03"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "4d19435b-da47-410c-b852-c19bb25d3b6e"
+    }
+  }
+}

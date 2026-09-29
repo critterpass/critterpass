@@ -49,6 +49,9 @@ export function createTavilySearch(options: TavilyOptions): SearchProvider {
         topic: query.topic,
         max_results: clamp(query.maxResults, 1, TAVILY_MAX_RESULTS),
         exclude_domains: [...query.excludeDomains],
+        ...(query.includeDomains === undefined
+          ? {}
+          : { include_domains: [...query.includeDomains] }),
         include_answer: false,
         include_raw_content: false,
         include_images: false,

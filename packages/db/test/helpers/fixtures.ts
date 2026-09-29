@@ -21,6 +21,7 @@ import {
 import { claimOpId, recordCmdResult } from '../../src/events';
 import { seedGrowthRows } from './growth-fixture';
 import { seedHomeRows } from './home-fixture';
+import { seedPollRows } from './poll-fixture';
 import {
   insertChangeSet,
   insertItineraryVersion,
@@ -300,6 +301,13 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
 
     await seedGrowthRows(tx, { crewId, tripId, organiser, member });
     await seedHomeRows(tx, {
+      crewId,
+      tripId,
+      destinationId: matrixProbeDestinationId,
+      organiser,
+      member,
+    });
+    await seedPollRows(tx, {
       crewId,
       tripId,
       destinationId: matrixProbeDestinationId,

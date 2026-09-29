@@ -257,6 +257,18 @@ export const QUEUES = {
     cron: { expr: '0 6 * * *', tz: 'Asia/Singapore' },
   }),
   'countdown.recompute': spec({ policy: 'exclusive', notify: true }),
+  // Polls: per-poll timers from `scheduled_events` (the close at the deadline, the board's move
+  // to its final, and the reminders to voters who have not voted 24 h and 2 h before the close).
+  'poll.close': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
+  'poll.board_advance': spec({ policy: 'exclusive', deadLetter: true, notify: true }),
+  'poll.remind': spec({ policy: 'exclusive' }),
+  // Every morning: fresh guide pitches for the places waiting in crews' decks.
+  'ai.pitch': spec({
+    policy: 'stately',
+    retryLimit: 1,
+    expireInSeconds: 30 * 60,
+    cron: { expr: '0 5 * * *', tz: 'Asia/Singapore' },
+  }),
 } as const satisfies Record<string, QueueSpec>;
 
 export type QueueName = keyof typeof QUEUES;
@@ -311,6 +323,10 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'nudge.dispatch': "Delivers a nudge at its target's engagement hour",
   'tips.generate': "Finds data-backed tips for crews' Home strip",
   'countdown.recompute': "Recomputes trip participants' countdown targets",
+  'poll.close': 'Closes a poll at its deadline and settles the destination vote',
+  'poll.board_advance': "Moves a destination board to its two-place final at the board's deadline",
+  'poll.remind': 'Reminds voters who have not voted before a poll closes',
+  'ai.pitch': "Refreshes guide pitches for the places in crews' decks when their fares move",
 };
 
 export type JobPayloadRedactor = (data: unknown) => unknown;

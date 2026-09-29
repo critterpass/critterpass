@@ -1,0 +1,52 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Hanoi Vietnam best time to visit weather",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://weatherspark.com/h/m/116009/2026/1/Historical-Weather-in-January-2026-in-Hanoi-Vietnam",
+          "title": "Hanoi January 2026 Historical Weather Data (Vietnam) - Weather Spark",
+          "content": "overlays indicate night and civil twilight.  Stay in Hanoi Jan 8 - 10 Nights: 2  Sun  Mon  Jul 2026  Fri  Sat  Sun  Mon  Aug 2026  Fri  Sat  Sun  Mon  Sep 2026  Fri  Sat  Sun  Mon  Oct 2026  Fri  Sat  Sun  Mon  Nov 2026  Fri  Sat  Sun  Mon  Dec 2026  Fri  Sat  Sun  Mon  Jan 2027  Fri  Sat  Sun  Mon  Feb 2027  Fri  Sat  Sun  Mon  Mar 2027  Fri  Sat  Sun  Mon  Apr 2027  Fri  Sat  Sun  Mon  May 2027  Fri  Sat  Sun  Mon  Jun 2027  Fri  Sat  Adults  Children 2-17  Infants 0-2  Rooms  ExpediaExpedia [...] moons (dark gray lines) and full moons (blue lines) indicated. The shaded overlays indicate night and civil twilight.  | Jan 2026 |  | Illumination | Moonrise | | Moonset | | Moonrise | | Meridian Passing | | Distance |  ---  ---  ---  ---  ---  --- | | 1 |  | 95%  | 4:05 AM | WNW | 3:04 PM | ENE | 10:08 PM | N | 223,951 mi | | 2 |  | 99%  | 5:15 AM | WNW | 4:09 PM | ENE | 11:16 PM | N | 224,228 mi | | 3 |  | 100%  | 6:21 AM | WNW | 5:18 PM | ENE   | 4 |  | 100%  | 7:21 AM | WNW | 6:27 PM | ENE [...] | January 2026 Weather History in Hanoi Vietnam The data for this report comes from the Noi Bai International Airport. See all nearby weather stations   Hourly Temperature in January 2026 in Hanoi Winter 2026  Link  Download  Compare  Averages  History:JanFMAMJJASOND2025202420232022    frigid   15°F freezing   32°F very cold   45°F cold   55°F cool   65°F comfortable   75°F warm   85°F hot   95°F sweltering  The hourly reported temperature, color coded into bands. The shaded overlays indicate",
+          "score": 0.7128128,
+          "raw_content": null,
+          "published_date": null,
+          "id": "22b14a-00"
+        },
+        {
+          "url": "https://weatherspark.com/m/116009/2/Average-Weather-in-February-in-Hanoi-Vietnam",
+          "title": "Hanoi February Weather, Average Temperature (Vietnam)",
+          "content": "| Feb 2026 |  | Illumination | Moonrise | Moonset | Moonrise | Meridian Passing | Distance |\n ---  ---  ---  --- |\n| 1 |  | 99%  5:59 AM | WNW | 5:11 PM | ENE  - |\n| 2 |  | 100%  6:46 AM | WNW | 6:14 PM | ENE | 12:01 AM | S | 230,300 mi |\n| 3 |  | 99%  7:27 AM | WNW | 7:14 PM | E | 12:53 AM | S | 232,824 mi |\n| 4 |  | 96%  8:04 AM | W | 8:10 PM | E | 1:41 AM | S | 235,885 mi |\n| 5 |  | 90%  8:38 AM | W | 9:03 PM | E | 2:25 AM | S | 239,230 mi | [...] We further caution that our travel scores are only as good as the data that underpin them, that weather conditions at any given location and time are unpredictable and variable, and that the definition of the scores reflects a particular set of preferences that may not agree with those of any particular reader.\n\nPlease review our full terms contained on our Terms of Service page.Image 5\n\n#### Hanoi\n\nQuận Hoàn Kiếm, Ha Nội, Vietnam\n\nImage 6: Map Image 7: Marker © OpenStreetMap contributors",
+          "score": 0.59033114,
+          "raw_content": null,
+          "published_date": null,
+          "id": "e99f2b-01"
+        },
+        {
+          "url": "https://weatherspark.com/m/116009/9/Average-Weather-in-September-in-Hanoi-Vietnam",
+          "title": "Hanoi September Weather, Average Temperature (Vietnam)",
+          "content": "| Sep 2026 |  | Illumination | Moonrise | Moonset | Moonrise | Meridian Passing | Distance |\n ---  ---  ---  --- |\n| 1 |  | 86%  9:10 AM | WNW | 8:44 PM | ENE | 2:35 AM | S | 235,069 mi |\n| 2 |  | 77%  10:11 AM | WNW | 9:27 PM | ENE | 3:25 AM | S | 233,353 mi |\n| 3 |  | 66%  11:14 AM | WNW | 10:17 PM | ENE | 4:18 AM | N | 231,853 mi |\n| 4 |  | 50%  12:20 PM | WNW | 11:14 PM | ENE | 5:17 AM | N | 230,591 mi |\n| 5 |  | 43%  1:24 PM | WNW  6:19 AM | N | 229,612 mi | [...] The average surface water temperature in Hanoi is _essentially constant_ during September, remaining within _1°F_ of _84°F_ throughout.\n\n, with 25th to 75th and 10th to 90th percentile bands. \n\n in the year (the calendar year in the Northern Hemisphere, or from July 1 until June 30 in the Southern Hemisphere). [...] We further caution that our travel scores are only as good as the data that underpin them, that weather conditions at any given location and time are unpredictable and variable, and that the definition of the scores reflects a particular set of preferences that may not agree with those of any particular reader.\n\nPlease review our full terms contained on our Terms of Service page.Image 5\n\n#### Hanoi\n\nQuận Hoàn Kiếm, Ha Nội, Vietnam\n\nImage 6: Map Image 7: Marker © OpenStreetMap contributors",
+          "score": 0.5780915,
+          "raw_content": null,
+          "published_date": null,
+          "id": "32fc64-02"
+        },
+        {
+          "url": "https://weatherspark.com/m/116009/6/Average-Weather-in-June-in-Hanoi-Vietnam",
+          "title": "Hanoi June Weather, Average Temperature (Vietnam)",
+          "content": "| Jun 2026 |  | Illumination | Moonrise | Moonset | Moonrise | Meridian Passing | Distance |\n ---  ---  ---  --- |\n| 1 |  | 100%  5:32 AM | WSW | 7:35 PM | ESE | 12:07 AM | S | 252,455 mi |\n| 2 |  | 98%  6:23 AM | WSW | 8:25 PM | ESE | 12:59 AM | S | 252,436 mi |\n| 3 |  | 95%  7:16 AM | WSW | 9:12 PM | ESE | 1:51 AM | S | 251,939 mi |\n| 4 |  | 90%  8:11 AM | WSW | 9:54 PM | ESE | 2:42 AM | S | 250,924 mi |\n| 5 |  | 83%  9:05 AM | WSW | 10:33 PM | ESE | 3:30 AM | S | 249,353 mi | [...] We further caution that our travel scores are only as good as the data that underpin them, that weather conditions at any given location and time are unpredictable and variable, and that the definition of the scores reflects a particular set of preferences that may not agree with those of any particular reader.\n\nPlease review our full terms contained on our Terms of Service page.Image 5\n\n#### Hanoi\n\nQuận Hoàn Kiếm, Ha Nội, Vietnam\n\nImage 6: Map Image 7: Marker © OpenStreetMap contributors [...] The average surface water temperature in Hanoi is _gradually increasing_ during June, _rising_ by _2°F_, from _83°F_ to _85°F_, over the course of the month.\n\n, with 25th to 75th and 10th to 90th percentile bands. \n\n in the year (the calendar year in the Northern Hemisphere, or from July 1 until June 30 in the Southern Hemisphere).",
+          "score": 0.5749443,
+          "raw_content": null,
+          "published_date": null,
+          "id": "13eb83-03"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "a950880a-5397-4ffa-aed5-c0c5847b7ce1"
+    }
+  }
+}

@@ -279,3 +279,4 @@ export {
   type TipInput,
   type TipResult,
 } from './prompts/tips/prompt';
+export * from './prompts/vote';

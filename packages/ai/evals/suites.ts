@@ -12,6 +12,8 @@ export const SUITES = [
   'invite-tags',
   'crew-welcome',
   'tips',
+  'pitch',
+  'guest-brief',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -23,7 +25,14 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/src\/prompts\/invite-tags\//u, ['invite-tags']],
   [/^packages\/ai\/src\/prompts\/crew-welcome\//u, ['crew-welcome']],
   [/^packages\/ai\/src\/prompts\/tips\//u, ['tips']],
-  [/^packages\/ai\/evals\/lib\/prompt-suites\.ts$/u, ['invite-tags', 'crew-welcome', 'tips']],
+  [/^packages\/ai\/src\/prompts\/pitch\//u, ['pitch']],
+  [/^packages\/ai\/src\/prompts\/guest-brief\//u, ['guest-brief']],
+  [/^packages\/ai\/evals\/lib\/guest-brief-suite\.ts$/u, ['guest-brief']],
+  [/^packages\/ai\/evals\/lib\/stream-suites\.ts$/u, ['pitch', 'guest-brief']],
+  [
+    /^packages\/ai\/evals\/lib\/prompt-suites\.ts$/u,
+    ['invite-tags', 'crew-welcome', 'tips', 'pitch'],
+  ],
   [/^packages\/ai\/evals\//u, ALL],
   [/^packages\/ai\/(personas\/|src\/(persona|prompts)\/)/u, ['chat', 'persona', 'autonomy']],
   [/^packages\/ai\/src\/tools\//u, ['chat', 'grounding', 'injection']],
@@ -32,6 +41,7 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/src\/(routing|client|errors|pricing|batch)\.ts$/u, ALL],
   [/^packages\/ai\/src\/runner\//u, ['chat', 'injection']],
   [/^packages\/domain\/src\/(guide-actions|plan)\//u, ['autonomy']],
+  [/^packages\/domain\/src\/pitches\//u, ['pitch']],
   [/^packages\/domain\/src\/ai\//u, ALL],
 ];
 
