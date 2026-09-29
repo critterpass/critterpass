@@ -188,6 +188,13 @@ describe('inputs', () => {
     });
     await fireEvent(cellsNode(), 'layout', layoutAt(330));
     expect(direction()).toBe('row');
+    // Each group is set at the size that fills its box, never cut to "PA…".
+    const pass = screen.getByText('PASS', { includeHiddenElements: true });
+    const size = StyleSheet.flatten(
+      pass.props.style as StyleProp<ViewStyle & { fontSize?: number }>,
+    )?.fontSize;
+    expect(size).toBeLessThanOrEqual(24);
+    expect(size).toBeGreaterThan(16);
     // So narrow that side by side each group would drop below a readable size.
     await fireEvent(cellsNode(), 'layout', layoutAt(150));
     expect(direction()).toBe('column');

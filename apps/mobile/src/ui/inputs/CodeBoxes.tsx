@@ -9,10 +9,11 @@ import Animated, {
 
 import { tokens } from '@cp/design-tokens';
 
+import { useThemeSettings } from '@/lib/theme';
 import { impact } from '@/motion/feedback';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
-import { Text } from '../text/Text';
+import { Text, TEXT_VARIANTS } from '../text/Text';
 import type { Theme } from '../theme';
 import { makeStyles, sizeToken, useTheme } from '../theme';
 import { useInputFont } from './use-input-font';
@@ -41,6 +42,8 @@ const { duration } = tokens.motion;
 const CODE_ADVANCE_EM = 0.72;
 /** Below this a gift-code group would be hard to read beside the others: the groups stack instead. */
 const GROUP_MIN_FONT_PT = tokens.space['16'];
+/** The OTP style's own line height, per em, kept when a group is set smaller. */
+const OTP_LEADING = TEXT_VARIANTS.inputOtp.lineHeight ?? 1.4;
 
 /**
  * The size at which `chars` characters fill a group box `boxWidth` wide (its padding and border
@@ -94,14 +97,17 @@ function Box({
   char,
   border,
   grouped = false,
-  minSize,
+  fitSize,
 }: {
   readonly char: string;
   readonly border: string;
   /** One box holding a whole gift-code group, sized from the row's width rather than per character. */
   readonly grouped?: boolean;
-  /** Smallest size a grouped code may shrink to; it is chosen so the group always fits. */
-  readonly minSize?: number | undefined;
+  /**
+   * The size a grouped code is set at so it fills its box without being cut (Android reports an
+   * ellipsized line with its full text, so the auto-fit can't see the cut there).
+   */
+  readonly fitSize?: number | undefined;
 }) {
   const styles = useStyles();
   const reduced = useReducedImpactMotion();
@@ -117,7 +123,15 @@ function Box({
     <View style={[grouped ? styles.group : styles.box, { borderColor: border }]}>
       <Animated.View style={style}>
         {grouped ? (
-          <Text variant="inputOtp" numberOfLines={1} autoFit autoFitMinSize={minSize}>
+          <Text
+            variant="inputOtp"
+            numberOfLines={1}
+            style={
+              fitSize === undefined
+                ? undefined
+                : { fontSize: fitSize, lineHeight: fitSize * OTP_LEADING }
+            }
+          >
             {char}
           </Text>
         ) : (
@@ -188,6 +202,8 @@ export function CodeBoxes({
   // A gift code's groups share one row and shrink to fit it; when even that would drop below a
   // readable size (large text on a small phone) they stack, each group whole on its own line.
   const [rowWidth, setRowWidth] = useState(0);
+  const { fontScale } = useThemeSettings();
+  const otpSize = (TEXT_VARIANTS.inputOtp.fontSize ?? 24) * fontScale;
   const widest = Math.max(...groups);
   const inset = 2 * (theme.space['8'] + theme.ring.input.idle.widthPt);
   const dashes = (groups.length - 1) * (theme.space['8'] + 2 * theme.space['8']);
@@ -219,7 +235,7 @@ export function CodeBoxes({
               {grouped ? (
                 <Box
                   grouped
-                  {...(rowWidth > 0 ? { minSize: groupMin } : {})}
+                  {...(rowWidth > 0 ? { fitSize: Math.min(otpSize, groupMin) } : {})}
                   char={value.slice(start, end)}
                   border={borderFor(
                     theme,
