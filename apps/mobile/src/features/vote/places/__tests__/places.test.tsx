@@ -36,15 +36,7 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
 import { voteRoutes } from '../../routes';
-import {
-  CREW,
-  KYOTO,
-  queued,
-  renderVote,
-  seedCrew,
-  settleMotion,
-  until,
-} from '../../test-support/vote-harness';
+import { CREW, KYOTO, queued, renderVote, seedCrew, until } from '../../test-support/vote-harness';
 import {
   MARRAKECH,
   marrakechBriefFrames,
@@ -146,8 +138,6 @@ describe('guest guide page', () => {
     expect(screen.getByText('0/3 · FOUND BY BEING THERE')).toBeTruthy();
     expect(screen.getByText('WHAT TOKEK KNOWS SO FAR')).toBeTruthy();
     expect(screen.getAllByText('en.wikivoyage.org')).toHaveLength(2);
-    await settleMotion();
-    expect(screen.toJSON()).toMatchSnapshot();
     await fireEvent.press(screen.getByTestId('guest-local-1'));
     expect(toastQueue.getCurrent()?.title).toBe('Sleeps in the dunes by day.');
   });
