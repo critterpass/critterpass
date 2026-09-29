@@ -2,7 +2,8 @@
  * Somewhere else (3b-7): the search sheet rises with the keyboard up and results arrive as you
  * type, each with the silhouette of a local that lives there. A country nobody guides yet is
  * headed NO LIVE GUIDE YET with the guest guide's word under the list. Tapping a live-guide place
- * opens its destination page; a guest place opens the guest guide's page. Nothing found offers to
+ * opens its destination page; a guest place opens the guest guide's page, and the keyboard's GO
+ * opens the top result. Nothing found offers to
  * ask for the place; offline says search waits for the connection.
  */
 import { useLingui } from '@lingui/react/macro';
@@ -93,6 +94,11 @@ export function SearchSheet({ crewId }: { readonly crewId: string | undefined })
             value={query}
             onChangeText={setQuery}
             label={t({ id: 'vote.search.label', message: 'A city or a country' })}
+            returnKeyType="go"
+            onSubmit={() => {
+              const top = search.results[0];
+              if (top !== undefined) open(top);
+            }}
             autoFocus
             testID="place-search-field"
           />
