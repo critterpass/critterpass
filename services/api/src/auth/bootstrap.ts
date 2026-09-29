@@ -53,12 +53,12 @@ export function buildTrustedOriginsFromEnv(env: Pick<ApiEnv, 'APP_TRUSTED_ORIGIN
 }
 
 /** Better Auth's own rate limiter only ever keys by `(ip, path)` (services/api/src/abuse/rate-limits.ts) — the IP-dimensioned half of this phase's Requirements table. */
-export function buildAuthRateLimitCustomRules(): NonNullable<
-  BetterAuthOptions['rateLimit']
->['customRules'] {
+export function buildAuthRateLimitCustomRules(
+  env: Pick<ApiEnv, 'AUTH_ANON_RATE_LIMIT_PER_HOUR' | 'AUTH_OTP_RATE_LIMIT_PER_HOUR'>,
+): NonNullable<BetterAuthOptions['rateLimit']>['customRules'] {
   return {
-    '/sign-in/anonymous': { window: 3600, max: 10 },
-    '/phone-number/send-otp': { window: 3600, max: 10 },
+    '/sign-in/anonymous': { window: 3600, max: env.AUTH_ANON_RATE_LIMIT_PER_HOUR },
+    '/phone-number/send-otp': { window: 3600, max: env.AUTH_OTP_RATE_LIMIT_PER_HOUR },
   };
 }
 

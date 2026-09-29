@@ -61,7 +61,12 @@ beforeAll(async () => {
     baseUrl: 'http://localhost:8787/api/auth',
     trustedOrigins: buildTrustedOriginsFromEnv({ APP_TRUSTED_ORIGINS: undefined }),
     otpAdapters: {},
-    rateLimit: { customRules: buildAuthRateLimitCustomRules() },
+    rateLimit: {
+      customRules: buildAuthRateLimitCustomRules({
+        AUTH_ANON_RATE_LIMIT_PER_HOUR: 10,
+        AUTH_OTP_RATE_LIMIT_PER_HOUR: 10,
+      }),
+    },
     attestation: disabledAttestationConfig(),
   });
 
