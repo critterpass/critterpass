@@ -137,7 +137,8 @@ describe('createPreludeSender', () => {
     await sender.send({ phoneE164: '+84901234567', code: '654321' });
 
     const [url, init] = fetch.mock.calls[0] as [string, RequestInit];
-    expect(url).toContain('/verification');
+    // Prelude's API lives on prelude.dev; the company site's domain (prelude.so) has no API host.
+    expect(url).toBe('https://api.prelude.dev/v2/verification');
     expect(init.headers).toMatchObject({ Authorization: 'Bearer test-api-key' });
     const body = JSON.parse(init.body as string) as {
       target: { type: string; value: string };
@@ -145,6 +146,17 @@ describe('createPreludeSender', () => {
     };
     expect(body.target).toEqual({ type: 'phone_number', value: '+84901234567' });
     expect(body.custom_code).toBe('654321');
+  });
+
+  it('treats a 200 with status "blocked" as a failed send', async () => {
+    const { http } = fakeHttp(
+      new Response(fixture('prelude-verification-blocked.json'), { status: 200 }),
+    );
+    const sender = createPreludeSender({ apiKey: 'test-api-key', http });
+    await expect(sender.send({ phoneE164: '+84901234567', code: '654321' })).rejects.toMatchObject({
+      code: 'SUPPLIER_UNAVAILABLE',
+      detail: { channel: 'prelude', detail: 'blocked' },
+    });
   });
 
   it('throws SUPPLIER_UNAVAILABLE for an invalid target', async () => {

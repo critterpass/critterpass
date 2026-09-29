@@ -16,7 +16,7 @@ export interface PreludeConfig {
   readonly apiBaseUrl?: string;
 }
 
-const DEFAULT_API_BASE_URL = 'https://api.prelude.so/v2';
+const DEFAULT_API_BASE_URL = 'https://api.prelude.dev/v2';
 
 export function createPreludeSender(config: PreludeConfig): OtpChannelAdapter {
   const baseUrl = config.apiBaseUrl ?? DEFAULT_API_BASE_URL;
@@ -39,6 +39,16 @@ export function createPreludeSender(config: PreludeConfig): OtpChannelAdapter {
           channel: 'prelude',
           status: response.status,
           detail,
+        });
+      }
+      // Prelude answers 200 for numbers its fraud checks stop, with `status: "blocked"` (or
+      // "retry") and no message sent, so only "success" counts as a delivered code.
+      const body = (await response.json().catch(() => null)) as { status?: unknown } | null;
+      if (body?.status !== 'success') {
+        throw new DomainError('SUPPLIER_UNAVAILABLE', {
+          channel: 'prelude',
+          status: response.status,
+          detail: typeof body?.status === 'string' ? body.status : 'unexpected response',
         });
       }
       return {};
