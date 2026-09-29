@@ -1,6 +1,7 @@
 import { act, fireEvent, renderHook, waitFor } from '@testing-library/react-native';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { AccessibilityInfo, Platform, Text } from 'react-native';
+import { AccessibilityInfo, Platform, StyleSheet, Text } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider, type Metrics } from 'react-native-safe-area-context';
 
@@ -8,6 +9,14 @@ import { renderWithI18n } from '../../../lib/i18n/testing';
 import { hasDynamicIsland, IslandToast } from '../IslandToast';
 import type { ToastTextProps } from '../IslandToast';
 import { toastQueue, useToastQueue } from '../queue';
+
+/** The iOS status bar's native module, which `StatusBar` drives; React Native ships it untyped. */
+interface StatusBarManager {
+  setHidden: (hidden: boolean, animation: string) => void;
+}
+const statusBarManager = jest.requireActual<{ default: StatusBarManager }>(
+  'react-native/Libraries/Components/StatusBar/NativeStatusBarManagerIOS',
+).default;
 
 const bannerMetrics: Metrics = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -221,6 +230,40 @@ describe('IslandToast', () => {
     });
     const { toJSON } = await renderToast(islandMetrics);
     await waitFor(() => expect(toJSON()).toBeTruthy());
+  });
+
+  /** What the native status bar was last told: the component stack flushes on the next tick. */
+  async function lastHidden() {
+    await act(() => {
+      jest.advanceTimersByTime(1);
+    });
+    const calls = jest.mocked(statusBarManager.setHidden).mock.calls;
+    return calls.at(-1);
+  }
+
+  it('hides the status bar under a Dynamic Island toast and brings it back on dismiss', async () => {
+    jest.spyOn(statusBarManager, 'setHidden');
+    await act(() => {
+      toastQueue.show({ id: 'a', title: 'Pass issued' });
+    });
+    const screen = await renderToast(islandMetrics);
+
+    expect(await lastHidden()).toEqual([true, 'fade']);
+    await fireEvent.press(screen.getByLabelText('Dismiss'));
+    expect(await lastHidden()).toEqual([false, 'fade']);
+  });
+
+  it('drops in below the status bar and leaves it shown on a phone without an island', async () => {
+    jest.spyOn(statusBarManager, 'setHidden');
+    await act(() => {
+      toastQueue.show({ id: 'a', title: 'Pass issued' });
+    });
+    const screen = await renderToast(bannerMetrics);
+
+    const pill = await waitFor(() => screen.getByTestId('island-toast-pill'));
+    expect(await lastHidden()).toBeUndefined();
+    const host = StyleSheet.flatten(pill.parent?.props.style as StyleProp<ViewStyle>);
+    expect(host?.top).toBe(bannerMetrics.insets.top);
   });
 
   it('the dismiss action clears the current toast', async () => {

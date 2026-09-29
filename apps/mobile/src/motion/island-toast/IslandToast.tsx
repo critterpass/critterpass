@@ -1,10 +1,11 @@
 import { t } from '@lingui/core/macro';
 import { useEffect } from 'react';
 import type { ComponentType } from 'react';
-import { AccessibilityInfo, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { AccessibilityInfo, Platform, Pressable, StatusBar, StyleSheet, View } from 'react-native';
 import type { AccessibilityActionEvent, StyleProp, TextStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { scheduleOnRN } from 'react-native-worklets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { tokens } from '@cp/design-tokens';
@@ -77,6 +78,8 @@ export function IslandToast({ Text }: IslandToastProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- re-runs only when a new toast becomes current (by id).
   }, [toast?.id]);
 
+  const dismissCurrent = () => toastQueue.dismiss();
+
   const gesture = Gesture.Pan()
     .onUpdate((event) => {
       'worklet';
@@ -88,7 +91,10 @@ export function IslandToast({ Text }: IslandToastProps) {
       const velocityPtPerMs = event.velocityY / 1000;
       if (-dragY.value > DISMISS_DISTANCE_PT || -velocityPtPerMs > DISMISS_VELOCITY_PT_PER_MS) {
         // eslint-disable-next-line react-hooks/immutability -- see the comment above.
-        progress.value = withTiming(0, { duration: REDUCED_IMPACT_FADE_MS });
+        progress.value = withTiming(0, { duration: REDUCED_IMPACT_FADE_MS }, (finished) => {
+          // Swiped away: the toast leaves the queue, which also brings the status bar back.
+          if (finished) scheduleOnRN(dismissCurrent);
+        });
       } else {
         // eslint-disable-next-line react-hooks/immutability -- see the comment above.
         dragY.value = withTiming(0, { duration: REDUCED_IMPACT_FADE_MS });
@@ -103,7 +109,14 @@ export function IslandToast({ Text }: IslandToastProps) {
     ],
   }));
 
-  if (!toast) return null;
+  // On a Dynamic Island phone the pill grows out of the island, where the clock and signal sit:
+  // the status bar fades out while a toast shows and fades back when it leaves. It stays mounted
+  // so the return animates too. Elsewhere the toast drops in below the status bar.
+  const statusBar = island ? (
+    <StatusBar hidden={toast !== null} animated showHideTransition="fade" />
+  ) : null;
+
+  if (!toast) return <>{statusBar}</>;
 
   const dismissLabel = t({ id: 'motion.islandToast.dismiss', message: 'Dismiss' });
   const action = toast.action;
@@ -113,61 +126,64 @@ export function IslandToast({ Text }: IslandToastProps) {
   };
 
   return (
-    <View
-      pointerEvents="box-none"
-      style={[styles.host, island ? styles.hostIsland : styles.hostBanner]}
-    >
-      <GestureDetector gesture={gesture}>
-        <Animated.View testID="island-toast-pill" style={[styles.pill, animatedStyle]}>
-          <View
-            testID="island-toast-message"
-            accessibilityRole="alert"
-            accessibilityLiveRegion="polite"
-            accessibilityActions={[
-              ...(action ? [{ name: OPEN_ACTION, label: action.label }] : []),
-              { name: DISMISS_ACTION, label: dismissLabel },
-            ]}
-            onAccessibilityAction={onAccessibilityAction}
-            style={styles.message}
-          >
-            {toast.sticker}
-            <View style={styles.textColumn}>
-              <Text variant="rowTitle" numberOfLines={1} style={styles.onPill}>
-                {toast.title}
-              </Text>
-              {toast.subtitle ? (
-                <Text variant="bodySm" numberOfLines={1} style={styles.subtitle}>
-                  {toast.subtitle}
-                </Text>
-              ) : null}
-            </View>
-          </View>
-          {action ? (
-            <Pressable
-              testID="island-toast-open"
-              accessibilityRole="button"
-              accessibilityLabel={action.label}
-              onPress={action.onPress}
+    <>
+      {statusBar}
+      <View
+        pointerEvents="box-none"
+        style={[styles.host, island ? styles.hostIsland : { top: insets.top }]}
+      >
+        <GestureDetector gesture={gesture}>
+          <Animated.View testID="island-toast-pill" style={[styles.pill, animatedStyle]}>
+            <View
+              testID="island-toast-message"
+              accessibilityRole="alert"
+              accessibilityLiveRegion="polite"
+              accessibilityActions={[
+                ...(action ? [{ name: OPEN_ACTION, label: action.label }] : []),
+                { name: DISMISS_ACTION, label: dismissLabel },
+              ]}
+              onAccessibilityAction={onAccessibilityAction}
+              style={styles.message}
             >
-              <Text variant="buttonSm" style={styles.onPill}>
-                {action.label}
+              {toast.sticker}
+              <View style={styles.textColumn}>
+                <Text variant="rowTitle" numberOfLines={1} style={styles.onPill}>
+                  {toast.title}
+                </Text>
+                {toast.subtitle ? (
+                  <Text variant="bodySm" numberOfLines={1} style={styles.subtitle}>
+                    {toast.subtitle}
+                  </Text>
+                ) : null}
+              </View>
+            </View>
+            {action ? (
+              <Pressable
+                testID="island-toast-open"
+                accessibilityRole="button"
+                accessibilityLabel={action.label}
+                onPress={action.onPress}
+              >
+                <Text variant="buttonSm" style={styles.onPill}>
+                  {action.label}
+                </Text>
+              </Pressable>
+            ) : null}
+            <Pressable
+              testID="island-toast-dismiss"
+              accessibilityRole="button"
+              accessibilityLabel={dismissLabel}
+              hitSlop={12}
+              onPress={() => toastQueue.dismiss()}
+            >
+              <Text variant="rowTitle" style={styles.dismissGlyph}>
+                ×
               </Text>
             </Pressable>
-          ) : null}
-          <Pressable
-            testID="island-toast-dismiss"
-            accessibilityRole="button"
-            accessibilityLabel={dismissLabel}
-            hitSlop={12}
-            onPress={() => toastQueue.dismiss()}
-          >
-            <Text variant="rowTitle" style={styles.dismissGlyph}>
-              ×
-            </Text>
-          </Pressable>
-        </Animated.View>
-      </GestureDetector>
-    </View>
+          </Animated.View>
+        </GestureDetector>
+      </View>
+    </>
   );
 }
 
@@ -183,9 +199,6 @@ const styles = StyleSheet.create({
   },
   hostIsland: {
     top: 8,
-  },
-  hostBanner: {
-    top: 0,
   },
   pill: {
     flexDirection: 'row',
