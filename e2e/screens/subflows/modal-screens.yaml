@@ -33,8 +33,16 @@ appId: app.critterpass.dev
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-join-code-from-crews
-# Back to Home from the code page.
+# Back to Home from the code page (closing the sheet if back lands on it).
 - runFlow: ../../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'crews-sheet-panel'
+    commands:
+      - tapOn:
+          id: 'crews-sheet-close'
 - extendedWaitUntil:
     visible:
       id: 'home-first-run'
