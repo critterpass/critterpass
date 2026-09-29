@@ -8,12 +8,14 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
+import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { toast } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { SearchField } from '@/ui/inputs/SearchField';
+import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { Sheet } from '@/ui/sheet/Sheet';
@@ -31,7 +33,18 @@ import { ResultRow } from './result-row';
 const GUEST = GUIDE_STICKERS.tokek;
 
 const useStyles = makeStyles((th) => ({
-  body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'], gap: th.space['12'] },
+  // The top padding keeps the search field clear of the sheet's ✕ (top-end, 40 pt).
+  body: {
+    paddingHorizontal: th.space['20'],
+    paddingTop: th.space['32'],
+    paddingBottom: th.space['24'],
+    gap: th.space['12'],
+  },
+  results: {
+    backgroundColor: th.semantic.bg.control,
+    borderRadius: th.radius.lg,
+    paddingHorizontal: th.space['14'],
+  },
 }));
 
 /** The one country every result shares when none has a live guide ("MOROCCO"), else null. */
@@ -84,16 +97,27 @@ export function SearchSheet({ crewId }: { readonly crewId: string | undefined })
             testID="place-search-field"
           />
           {country === null ? null : (
-            <Stack gap="2" testID="place-search-unguided">
-              <Text variant="h2">{upper(country, i18n.locale)}</Text>
-              <Text variant="label" color={theme.color.pink}>
+            <Row justify="space-between" align="center" gap="8" testID="place-search-unguided">
+              <Text variant="eyebrow" color={theme.semantic.text.secondary} numberOfLines={1}>
+                {upper(country, i18n.locale)}
+              </Text>
+              <Text variant="label" color={theme.color.orange}>
                 {upper(t({ id: 'vote.search.noGuide', message: 'No live guide yet' }), i18n.locale)}
               </Text>
-            </Stack>
+            </Row>
           )}
-          {search.results.map((result) => (
-            <ResultRow key={result.place_id} result={result} onPress={open} />
-          ))}
+          {search.results.length === 0 ? null : (
+            <View style={styles.results} testID="place-search-results">
+              {search.results.map((result, index) => (
+                <ResultRow
+                  key={result.place_id}
+                  result={result}
+                  onPress={open}
+                  last={index === search.results.length - 1}
+                />
+              ))}
+            </View>
+          )}
           {country === null ? null : (
             <GuideLine
               guide="tokek"
