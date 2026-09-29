@@ -1,0 +1,19 @@
+appId: app.critterpass.dev
+---
+# The crew boarding pass (3f-5) and flight ticket with their guide sticker beside the fields, in
+# English then Vietnamese. The invited ticket screen (3a-10) renders this same Ticket; reaching it
+# needs a seeded personal invite, so the gallery page stands in for it here.
+- runFlow:
+    file: subflows/open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'Ticket'
+      LOCALE: 'en'
+      SCALE: '1'
+- takeScreenshot: en-ticket
+- runFlow:
+    file: subflows/open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'Ticket'
+      LOCALE: 'vi'
+      SCALE: '1'
+- takeScreenshot: vi-ticket

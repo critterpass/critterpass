@@ -77,7 +77,8 @@ const useStyles = makeStyles((t) => ({
     borderRadius: NOTCH / 2,
   },
   barcode: { height: 44 },
-  sticker: { position: 'absolute', end: t.space['12'], bottom: t.space['8'] },
+  fields: { flex: 1, minWidth: 0 },
+  sticker: { flexShrink: 0 },
   code: { flexShrink: 1 },
 }));
 
@@ -126,14 +127,22 @@ export function Ticket({
               {to.time ? <Text variant="monoData">{to.time}</Text> : null}
             </Stack>
           </Row>
-          <Row wrap gap="12">
-            {fields.map((field) => (
-              <View key={field.key} style={{ width: '45%' }}>
-                <DocField label={field.label} value={field.value} />
+          {/* The sticker keeps its size at the end of the fields' row, which lay out in the width
+              left beside it, so a long value ("WINDOW, BY MAYA") wraps instead of running under it. */}
+          <Row align="flex-end" gap="8">
+            <Row wrap gap="12" style={styles.fields}>
+              {fields.map((field) => (
+                <View key={field.key} style={{ width: '45%' }}>
+                  <DocField label={field.label} value={field.value} wrap />
+                </View>
+              ))}
+            </Row>
+            {sticker ? (
+              <View style={styles.sticker} testID={testID ? `${testID}-sticker` : undefined}>
+                {sticker}
               </View>
-            ))}
+            ) : null}
           </Row>
-          {sticker ? <View style={styles.sticker}>{sticker}</View> : null}
         </View>
         <View style={{ backgroundColor: fill }}>
           <View style={[styles.tear, { borderColor: theme.semantic.bg.base }]} />
