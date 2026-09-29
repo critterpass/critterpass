@@ -7,6 +7,10 @@ WORKDIR /repo
 COPY . .
 # Install only this service's dependency graph: a workspace-wide fetch would also download and
 # build other apps' native tooling (e.g. the mobile app's SQLCipher test driver needs Python).
+# drizzle-orm lists better-sqlite3 as an optional peer, and the mobile app's test driver puts it in
+# the lockfile, so it lands in this graph. The service never loads it, and building it needs a
+# prebuilt download or Python, so the image turns its install scripts off.
+RUN sed -i -E 's/^  (better-sqlite3(-multiple-ciphers)?): true$/  \1: false/' pnpm-workspace.yaml
 RUN pnpm install --frozen-lockfile --filter "@cp/api..."
 RUN pnpm --filter @cp/api build
 RUN pnpm --filter @cp/api deploy --prod --legacy /out
