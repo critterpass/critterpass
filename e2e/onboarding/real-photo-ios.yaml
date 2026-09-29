@@ -15,11 +15,12 @@ appId: app.critterpass.dev
 - takeScreenshot: 3a-3-real-photo-sheet
 - tapOn:
     id: 'real-photo-library'
-# One of the sample photos every iOS simulator ships with.
+# One of the sample photos every iOS simulator ships with; its label follows the simulator's region
+# date format (13 March 2011 in en_GB, March 13, 2011 in en_US).
 - extendedWaitUntil:
-    visible: 'Photo, 13 March 2011.*'
+    visible: 'Photo, (13 March|March 13,) 2011.*'
     timeout: 15000
-- tapOn: 'Photo, 13 March 2011.*'
+- tapOn: 'Photo, (13 March|March 13,) 2011.*'
 - extendedWaitUntil:
     visible:
       id: 'real-photo-preview'
