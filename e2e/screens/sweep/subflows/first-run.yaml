@@ -53,12 +53,17 @@ appId: app.critterpass.dev
 - scrollUntilVisible:
     element:
       id: 'guest-solo'
+    centerElement: true
 - tapOn:
     id: 'guest-solo'
 - extendedWaitUntil:
     visible:
       id: 'solo-confirm'
     timeout: 5000
+- scrollUntilVisible:
+    element:
+      id: 'solo-cancel'
+    centerElement: true
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-3b-8-solo-confirm
 - tapOn:

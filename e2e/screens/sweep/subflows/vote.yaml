@@ -11,6 +11,7 @@ appId: app.critterpass.dev
 - scrollUntilVisible:
     element:
       id: 'board-pitch'
+    centerElement: true
 - tapOn:
     id: 'board-pitch'
 - extendedWaitUntil:
@@ -28,6 +29,7 @@ appId: app.critterpass.dev
     element:
       id: 'board-go-to-final'
     timeout: 20000
+    centerElement: true
 - waitForAnimationToEnd
 - tapOn:
     id: 'board-go-to-final'
