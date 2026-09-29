@@ -1,0 +1,135 @@
+{
+  "description": "App Store Pass+ yearly refunded by Apple support",
+  "steps": [
+    {
+      "now": "2026-10-01T00:01:00Z",
+      "webhook": {
+        "api_version": "1.0",
+        "event": {
+          "id": "rc-evt-0301",
+          "type": "INITIAL_PURCHASE",
+          "app_id": "app_fixture",
+          "app_user_id": "$UID",
+          "original_app_user_id": "$UID",
+          "aliases": ["$UID"],
+          "product_id": "pass_yearly",
+          "entitlement_ids": ["pass_plus"],
+          "period_type": "NORMAL",
+          "purchased_at_ms": 1790812800000,
+          "expiration_at_ms": 1822348800000,
+          "environment": "SANDBOX",
+          "store": "APP_STORE",
+          "transaction_id": "2000000300000001",
+          "original_transaction_id": "2000000300000001",
+          "is_family_share": false,
+          "country_code": "SG",
+          "currency": "SGD",
+          "price": 2.99,
+          "price_in_purchased_currency": 3.98,
+          "event_timestamp_ms": 1790812805000,
+          "subscriber_attributes": {}
+        }
+      },
+      "subscriber": {
+        "request_date_ms": 0,
+        "subscriber": {
+          "original_app_user_id": "$UID",
+          "first_seen": "2026-10-01T00:00:00Z",
+          "management_url": "https://apps.apple.com/account/subscriptions",
+          "subscriptions": {
+            "pass_yearly": {
+              "auto_resume_date": null,
+              "billing_issues_detected_at": null,
+              "expires_date": "2027-10-01T00:00:00Z",
+              "grace_period_expires_date": null,
+              "is_sandbox": true,
+              "original_purchase_date": "2026-10-01T00:00:00Z",
+              "ownership_type": "PURCHASED",
+              "period_type": "normal",
+              "purchase_date": "2026-10-01T00:00:00Z",
+              "refunded_at": null,
+              "store": "app_store",
+              "store_transaction_id": "2000000300000001",
+              "unsubscribe_detected_at": null
+            }
+          },
+          "non_subscriptions": {},
+          "subscriber_attributes": {},
+          "entitlements": {}
+        }
+      },
+      "expect": {
+        "product": "pass_yearly",
+        "status": "active",
+        "pass_plus": true,
+        "transactions": 1
+      }
+    },
+    {
+      "now": "2026-10-20T00:01:00Z",
+      "webhook": {
+        "api_version": "1.0",
+        "event": {
+          "id": "rc-evt-0302",
+          "type": "CANCELLATION",
+          "app_id": "app_fixture",
+          "app_user_id": "$UID",
+          "original_app_user_id": "$UID",
+          "aliases": ["$UID"],
+          "product_id": "pass_yearly",
+          "entitlement_ids": ["pass_plus"],
+          "period_type": "NORMAL",
+          "purchased_at_ms": 1790812800000,
+          "expiration_at_ms": 1822348800000,
+          "environment": "SANDBOX",
+          "store": "APP_STORE",
+          "transaction_id": "2000000300000001",
+          "original_transaction_id": "2000000300000001",
+          "is_family_share": false,
+          "country_code": "SG",
+          "currency": "SGD",
+          "price": 2.99,
+          "price_in_purchased_currency": 3.98,
+          "event_timestamp_ms": 1792454405000,
+          "subscriber_attributes": {},
+          "cancel_reason": "CUSTOMER_SUPPORT"
+        }
+      },
+      "subscriber": {
+        "request_date_ms": 0,
+        "subscriber": {
+          "original_app_user_id": "$UID",
+          "first_seen": "2026-10-01T00:00:00Z",
+          "management_url": "https://apps.apple.com/account/subscriptions",
+          "subscriptions": {
+            "pass_yearly": {
+              "auto_resume_date": null,
+              "billing_issues_detected_at": null,
+              "expires_date": "2026-10-20T00:00:00Z",
+              "grace_period_expires_date": null,
+              "is_sandbox": true,
+              "original_purchase_date": "2026-10-01T00:00:00Z",
+              "ownership_type": "PURCHASED",
+              "period_type": "normal",
+              "purchase_date": "2026-10-01T00:00:00Z",
+              "refunded_at": "2026-10-20T00:00:00Z",
+              "store": "app_store",
+              "store_transaction_id": "2000000300000001",
+              "unsubscribe_detected_at": "2026-10-20T00:00:00Z"
+            }
+          },
+          "non_subscriptions": {},
+          "subscriber_attributes": {},
+          "entitlements": {}
+        }
+      },
+      "expect": {
+        "product": "pass_yearly",
+        "status": "revoked",
+        "pass_plus": false,
+        "transactions": 1,
+        "revoked_transaction": "2000000300000001"
+      }
+    }
+  ]
+}

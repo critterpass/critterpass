@@ -7,8 +7,8 @@
 -- `billing_events` are system-only records (C5, kept for accounting), never granted to app_user.
 
 -- ---------------------------------------------------------------------------------------------
--- subscriptions: RLS class O (C2). One row per store subscription (keyed by its original
--- transaction) or per server-side grant of Pass+ time.
+-- subscriptions: RLS class O (C2). One row per store subscription (per product and account) or
+-- per server-side grant of Pass+ time.
 CREATE TABLE subscriptions (
   id uuid PRIMARY KEY DEFAULT uuidv7(),
   user_id uuid NOT NULL REFERENCES users (id),
@@ -33,11 +33,15 @@ CREATE TABLE subscriptions (
   last_event_at timestamptz,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now(),
-  -- A store subscription always names its original transaction; our own grants never do.
-  CHECK ((platform IN ('app_store', 'play')) = (original_transaction_id IS NOT NULL)),
+  -- Our own grants never name a store transaction.
+  CHECK (platform IN ('app_store', 'play') OR original_transaction_id IS NULL),
   CHECK (grace_ends_at IS NULL OR status IN ('grace', 'billing_retry', 'on_hold', 'expired'))
 );
-CREATE UNIQUE INDEX subscriptions_store_uk ON subscriptions (platform, original_transaction_id)
+-- One row per store product per account: a lapsed subscription bought again, or moved to another
+-- plan of the same group, updates its row (store_transactions keeps every transaction).
+CREATE UNIQUE INDEX subscriptions_store_uk ON subscriptions (user_id, platform, product_key)
+  WHERE platform IN ('app_store', 'play');
+CREATE INDEX subscriptions_original_transaction_idx ON subscriptions (platform, original_transaction_id)
   WHERE original_transaction_id IS NOT NULL;
 CREATE INDEX subscriptions_user_status_idx ON subscriptions (user_id, status);
 CREATE INDEX subscriptions_product_key_idx ON subscriptions (product_key);

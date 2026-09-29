@@ -133,6 +133,22 @@ REVOKE EXECUTE ON FUNCTION app.trip_boosts_transition() FROM PUBLIC;
 CREATE TRIGGER trip_boosts_transition BEFORE UPDATE OF status ON trip_boosts
   FOR EACH ROW EXECUTE FUNCTION app.trip_boosts_transition();
 
+-- When a boost (or first trip free) on a trip stops: the end of the trip's last day + 7 days in the
+-- trip's own time zone; a trip with no dates yet gets a provisional 180 days from `p_from`,
+-- recomputed the moment its dates are set.
+CREATE OR REPLACE FUNCTION app.boost_window_end(p_trip uuid, p_from timestamptz)
+RETURNS timestamptz
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+  SELECT CASE
+           WHEN t.end_date IS NULL THEN p_from + interval '180 days'
+           ELSE ((t.end_date + 8)::timestamp AT TIME ZONE coalesce(t.tz, d.tz, 'UTC'))
+         END
+    FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
+   WHERE t.id = p_trip
+$$;
+REVOKE EXECUTE ON FUNCTION app.boost_window_end(uuid, timestamptz) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.boost_window_end(uuid, timestamptz) TO app_system;
+
 -- A boost's split is an expense the boost points back at.
 ALTER TABLE expenses ADD CONSTRAINT expenses_boost_id_fkey
   FOREIGN KEY (boost_id) REFERENCES trip_boosts (id);
@@ -144,13 +160,13 @@ CREATE INDEX store_transactions_boost_intent_id_idx ON store_transactions (boost
 
 -- ---------------------------------------------------------------------------------------------
 -- boost_credits: RLS class M / O (C2). A boost with nowhere to go (its trip was cancelled with no
--- later trip, or a second purchase for an already boosted trip). Credits never expire; any member
+-- later trip, a second purchase for an already boosted trip, or a purchase no trip lock matched). Credits never expire; any member
 -- of the crew spends one on a trip.
 CREATE TABLE boost_credits (
   id uuid PRIMARY KEY DEFAULT uuidv7(),
   crew_id uuid REFERENCES crews (id),
   user_id uuid REFERENCES users (id),
-  reason text NOT NULL CHECK (reason IN ('trip_cancelled', 'duplicate_purchase')),
+  reason text NOT NULL CHECK (reason IN ('trip_cancelled', 'duplicate_purchase', 'unassigned')),
   from_boost_id uuid REFERENCES trip_boosts (id),
   store_transaction_id uuid REFERENCES store_transactions (id),
   expires_at timestamptz,

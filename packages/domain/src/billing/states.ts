@@ -99,7 +99,8 @@ export function canMoveBoost(from: TripBoostState, to: TripBoostState): boolean 
 /** A boost window stays open this long after the trip's last day. */
 export const BOOST_WINDOW_DAYS_AFTER_TRIP = 7;
 
-export const BOOST_CREDIT_REASONS = ['trip_cancelled', 'duplicate_purchase'] as const;
+/** `unassigned`: a boost purchase no trip lock could be matched to (the buyer applies it). */
+export const BOOST_CREDIT_REASONS = ['trip_cancelled', 'duplicate_purchase', 'unassigned'] as const;
 export const boostCreditReasonSchema = z.enum(BOOST_CREDIT_REASONS);
 export type BoostCreditReason = z.infer<typeof boostCreditReasonSchema>;
 
