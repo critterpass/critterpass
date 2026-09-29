@@ -292,16 +292,17 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
-| `add_expense` | `{trip_id, amount_minor, currency, fx_snapshot_id, payer_uid, split{mode, shares[]}, category, note?, receipt_id?}` | participant | – | `expense.added`, `balances.recomputed` | A, O | 33 |
-| `edit_expense` | `{expense_id, base_version, patch}` | payer or creator | – | `expense.edited` | A, O | 33 |
-| `delete_expense` | `{expense_id}` | payer or creator | – | `expense.deleted` | A, O | 33 |
+| `add_expense` | `{expense_id (client UUIDv7), trip_id, amount_minor, currency, fx_snapshot_id (required when currency ≠ crew currency; the server converts with the same run), payer_uid, split{mode: equal\|weights\|fixed, shares[{user_id, weight?, fixed_minor?}]}, category, description, merchant?, spent_at?, poi_id?}` (doc delta) → `{expense_id, version, crew_amount_minor, crew_currency}`; payer and split members must be trip participants | participant | – | `expense.added` (+ `crew_money` `expense.added`, `balances.updated`; crew chat card `messages(type=expense)`) | A, O | 33 |
+| `edit_expense` | `{expense_id, base_version, patch{amount_minor?, currency?, fx_snapshot_id?, payer_uid?, split?, category?, description?, merchant?, spent_at?}}`; a money change reverses and re-derives the ledger; an itemised split's total changes only with a new split (`STATE_INVALID{itemised_needs_split}`) | creator, payer or organiser | – | `expense.edited` | A, O | 33 |
+| `delete_expense` | `{expense_id, base_version?}` → hides the expense, reverses its entries | creator, payer or organiser | – | `expense.deleted` | A, O | 33 |
 | `commit_receipt` | `{receipt_id, lines[{line_id, assignment[]}], payer_uid}` (payer confirmed) | participant | – (exempt) | `expense.added` | A, O | 33 |
 | `request_payment` | `{trip_id, to_uid, amount_minor, currency}` | payee | – | `payment.requested` | A, O | 33 |
 | `nudge_payment` | `{payment_id}` | payee | ≤1/pair/24 h | `payment.nudged` (N-16) | A, O, W, N | 33 |
 | `mark_paid` | `{payment_id, method}` | payer | – | `payment.marked_paid` | A, O, N | 33 |
 | `confirm_paid` | `{payment_id}` | payee | – | `payment.confirmed`; last one → `trip.settled` (reward, same server ts) | A, O, N | 33 |
 | `remind_all_payments` | `{trip_id}` | participant | ≤1/24 h | `payment.reminded` | A | 33 |
-| `set_trip_budget` | `{trip_id, target_minor}` (group target, not private max) | organiser | – | `budget.target_changed` | A, O | 33 |
+| `set_trip_budget` | `{trip_id, target_minor}` (group target, not private max; kept in the plan's currency) | organiser | – | `budget.target_changed` | A, O | 33 |
+| `set_crew_settlement_currency` (doc delta) | `{crew_id, currency}` → `{crew_id, currency, changed}`; queues `money.rerate` | crew organiser | – | `crew.settlement_currency_changed` | A | 33 |
 | `write_off_debt` | `{trip_id, from_uid, to_uid, amount}` | S (deletion) or payee | – | `ledger.written_off` | A, S | 45 |
 
 ### 4.10 Bookings, flights (P34)

@@ -299,6 +299,39 @@ REVOKE EXECUTE ON FUNCTION app.pseudonymise_user(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.pseudonymise_user(uuid) TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
+-- domain_events: the money events join the catalogue (packages/domain/src/money/events.ts).
+ALTER TABLE domain_events DROP CONSTRAINT domain_events_type_check;
+ALTER TABLE domain_events ADD CONSTRAINT domain_events_type_check CHECK (type IN (
+  'crew.member_joined', 'crew.member_left', 'crew.member_removed', 'trip.created',
+  'trip.status_changed', 'plan.version_created', 'change_set.proposed', 'change_set.applied',
+  'change_set.reverted', 'change_set.rejected', 'rsvp.changed', 'auth.merged', 'invite.opened',
+  'attribution.claimed', 'guide_action.undone', 'fare.dropped', 'forecast.changed',
+  'hazard.changed', 'moderation.decided', 'entitlement.granted', 'entitlement.revoked',
+  'device.permissions_changed', 'visit.recorded', 'pass.issued', 'profile.updated',
+  'profile.taste_changed', 'profile.avatar_changed', 'crew.created', 'crew.updated',
+  'crew.code_rotated', 'user.active_crew_changed', 'invite.created', 'invite.claimed',
+  'invite.deferred', 'invite.declined', 'invite.revoked', 'invite.nudged', 'trip.seat_opened',
+  'seat_offer.accepted', 'referral.progressed', 'chat.message_sent', 'chat.message_edited',
+  'chat.message_deleted', 'chat.reaction_changed', 'chat.guide_mentioned', 'inbox.item_resolved',
+  'inbox.read', 'nudge.sent', 'nudge.received', 'tip.created', 'tip.dismissed',
+  'trip.dates_changed', 'trip.destination_set', 'booking.flight_added', 'booking.flight_changed',
+  'booking.flight_removed', 'user.tz_changed', 'location_share.changed', 'meetup.created',
+  'meetup.moved', 'meetup.crew_close', 'crew.pinged', 'poll.created', 'poll.candidate_added',
+  'poll.candidate_removed', 'poll.stage_changed', 'poll.closed', 'poll.cancelled',
+  'poll.reveal_seen', 'poll.lead_changed', 'poll.closing_soon', 'poll.pick_needed', 'ballot.cast',
+  'ballot.changed', 'ballot.retracted', 'pitch.created', 'pitch.queued', 'place.saved',
+  'place.unsaved', 'availability.updated', 'calendar.connected', 'calendar.disconnected',
+  'calendar.stale', 'availability_ask.created', 'availability_ask.answered',
+  'availability_ask.timed_out', 'setup.step_changed', 'budget.submission_counted', 'budget.locked',
+  'rooms.changed', 'rooms.locked', 'room_swap.requested', 'stay.chosen', 'must_dos.changed',
+  'must_do.fit_checked', 'must_do.prompted', 'lottery.tracked', 'lottery.reminder_due',
+  'expense.added', 'expense.edited', 'expense.deleted', 'crew.settlement_currency_changed',
+  'budget.target_changed', 'payment.requested', 'payment.nudged', 'payment.marked_paid',
+  'payment.confirmed', 'payment.disputed', 'payment.reminded', 'trip.settled', 'profile.payout_set',
+  'receipt.parsed'
+));
+
+-- ---------------------------------------------------------------------------------------------
 -- PowerSync publication (docs/code-standards.md §13), hand-copied from
 -- packages/db/src/publication.ts#computePublicationAllowList.
 DO $$

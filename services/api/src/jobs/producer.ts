@@ -20,6 +20,7 @@ import {
   notifyRouteSingletonKey,
   NOTIFY_ROUTE_QUEUE,
   OG_RENDER_QUEUE,
+  MONEY_QUEUES,
   SETUP_QUEUES,
   type NotifyRouteJob,
 } from '@cp/domain';
@@ -84,6 +85,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       INBOX_FANOUT_QUEUE,
       COUNTDOWN_RECOMPUTE_QUEUE,
       ...Object.values(SETUP_QUEUES),
+      ...Object.values(MONEY_QUEUES),
       'cost.recompute',
     ]) {
       if ((await boss.getQueue(queue)) === null) {
