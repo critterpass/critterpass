@@ -5,7 +5,7 @@ appId: app.critterpass.dev
 - openLink: critterpass-dev://crew
 - extendedWaitUntil:
     visible:
-      id: 'crews-sheet'
+      id: 'crews-sheet-panel'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3g-3-crews-sheet
@@ -35,11 +35,11 @@ appId: app.critterpass.dev
 - runFlow: ../../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
-      id: 'crews-sheet'
+      id: 'crews-sheet-panel'
     timeout: 10000
 - tapOn:
     id: 'crews-sheet-close'
 - extendedWaitUntil:
     notVisible:
-      id: 'crews-sheet'
+      id: 'crews-sheet-panel'
     timeout: 10000
