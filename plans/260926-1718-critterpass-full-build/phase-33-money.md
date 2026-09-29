@@ -179,6 +179,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. Presign (`purpose=receipt`) + `POST /v1/receipts` → job. 2. Sonnet structured output keyed by line id (server-OCR fallback path: Sonnet vision transcribes lines to `s{index}` first, then the same parse); code-side number re-parse and cross-check; lines-vs-total check; quality classification merge. 3. Suggestions: presence from plan item attendees, consented dietary flags via `guide_reader`-safe `crew_profiles`, pro-rata service; reason strings from templates. 4. `receipts.parsed` update → synced. 5. `commit_receipt` → expense(split_mode=items). 6. Fair-use bump. 7. Purge rule registration.
 - Tests: `pnpm --filter @cp/api test -- money/receipts`; `pnpm --filter @cp/ai eval -- receipt-parse` (grader: every amount appears in its cited OCR line; totals reconcile)
 - Done when: eval pass rate ≥ 95 % on line amounts for the fixture set (Thai cases via server-OCR path); any hallucinated amount is rejected by code (seeded test).
+- Status: done — b1e059fc (pipeline, recorded DeepSeek fixtures and a 14-case eval merged behind `money.receipts`, off by default; the eval gate on the founder's photographed receipt set is still pending, and the flag stays off until it passes)
 
 ### T7 — Money home, history, expense detail (3i-1)
 - Goal: Wallet tab with BOOKINGS | MONEY segment and the Balances screen.

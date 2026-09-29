@@ -68,7 +68,7 @@ Last night went mostly to fixing what the founder found on build 10, and to maki
 | 25 Home, inbox, nudges | 8/9 | Home flows after #170 |
 | 26 Polls and destination vote | 11/12 | Vote flows and sheets after #173 |
 | 27 Trip setup | 7/12 | App screens in review (#163); the calendar module needs the next native build |
-| 33 Money | 5/12 | Server: ledger, expenses, settle up and payout methods; receipt pipeline (T6) next, its eval gate waits on the founder's receipt photos; app screens and `cp-ocr` (T5, T7–T11) in a later lane |
+| 33 Money | 6/12 | Server done: ledger, expenses, settle up, payout methods and the receipt pipeline (behind `money.receipts`; its eval gate waits on the founder's receipt photos); app screens and `cp-ocr` (T5, T7–T11) in a later lane |
 | 39 Crew live map | 5/6 | Device data flows (share, pause, gate, window end) |
 | 51 Website | 7/11 | Web previews and web account deletion, which wait on later phases |
 
