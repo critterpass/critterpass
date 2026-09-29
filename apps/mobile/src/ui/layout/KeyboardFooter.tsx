@@ -1,8 +1,9 @@
+import { useContext } from 'react';
 import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import Animated, { useAnimatedKeyboard, useAnimatedStyle } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 import { FooterFade } from '../surface/FooterFade';
 import { useSurfaceBackground } from '../surface/Scaffold';
@@ -49,11 +50,11 @@ const useStyles = makeStyles((th) => ({
 export function KeyboardFooter({ children, inset = 'gutter', style, testID }: KeyboardFooterProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
+  // Outside a safe-area provider (a gallery fixture under test) there is no inset to clear.
+  const home = useContext(SafeAreaInsetsContext)?.bottom ?? 0;
   const background = useSurfaceBackground() ?? theme.semantic.bg.base;
   const keyboard = useAnimatedKeyboard();
   const gap = theme.space['8'];
-  const home = insets.bottom;
 
   const lift = useAnimatedStyle(() => ({
     // The keyboard's height counts from the bottom of the screen, home indicator included.
