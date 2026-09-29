@@ -12,12 +12,9 @@ import { useSurfaceBackground } from './Scaffold';
  */
 export const FOOTER_FADE_PT = tokens.space['24'];
 
-/** A top-to-bottom gradient from clear into `color` (a `#rrggbb` token colour). */
-function fadeInto(color: string): string {
-  const clear = /^#[0-9a-f]{6}$/iu.test(color) ? `${color}00` : 'transparent';
-  // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never shown to a user
-  return `linear-gradient(to bottom, ${clear}, ${color})`;
-}
+/** Bands the fade is drawn with: 12 steps of 2 pt read as a smooth ramp at phone densities. */
+const BANDS = 12;
+const BAND_PT = FOOTER_FADE_PT / BANDS;
 
 const useStyles = makeStyles(() => ({
   fade: {
@@ -27,6 +24,7 @@ const useStyles = makeStyles(() => ({
     end: 0,
     height: FOOTER_FADE_PT,
   },
+  band: { height: BAND_PT },
 }));
 
 export interface FooterFadeProps {
@@ -44,11 +42,17 @@ export function FooterFade({ color, testID }: FooterFadeProps) {
   const theme = useTheme();
   const surface = useSurfaceBackground();
   const background = color ?? surface ?? theme.semantic.bg.base;
+  // Solid bands of rising opacity rather than a native gradient, so the ramp draws the same on every
+  // platform and version.
   return (
-    <View
-      pointerEvents="none"
-      testID={testID}
-      style={[styles.fade, { backgroundImage: fadeInto(background) }]}
-    />
+    <View pointerEvents="none" testID={testID} style={styles.fade}>
+      {Array.from({ length: BANDS }, (_, index) => (
+        <View
+          // eslint-disable-next-line lingui/no-unlocalized-strings -- a React key
+          key={`band-${String(index)}`}
+          style={[styles.band, { backgroundColor: background, opacity: (index + 1) / BANDS }]}
+        />
+      ))}
+    </View>
   );
 }
