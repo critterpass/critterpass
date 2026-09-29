@@ -1,4 +1,4 @@
-import { Children, isValidElement } from 'react';
+import { Children, isValidElement, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Text as RNText } from 'react-native';
 import type { StyleProp, TextProps as RNTextProps, TextStyle } from 'react-native';
@@ -140,6 +140,7 @@ export function Text({
   const tone = useSurfaceTone();
   const locale = useLocale();
   const { fontScale, plainGuideText } = useThemeSettings();
+  const [flush, setFlush] = useState(false);
   const token = TEXT_VARIANTS[variant];
   const resolved = resolveTypeVariant(token, { fontScale });
 
@@ -200,10 +201,8 @@ export function Text({
   };
 
   // Tight display leading would otherwise clip cap tops and stacked marks (Ệ, Ữ) off the first line.
-  const room = glyphRoomStyle(
-    topGlyphRoomEm(font.fontFamily, font.lineHeightMultiplier) * fontSize,
-    style,
-  );
+  const roomPt = topGlyphRoomEm(font.fontFamily, font.lineHeightMultiplier) * fontSize;
+  const room = glyphRoomStyle(roomPt, style, flush);
 
   return (
     <RNText
@@ -212,6 +211,9 @@ export function Text({
       numberOfLines={fit.numberOfLines}
       style={[variantStyle, style, room]}
       onLayout={(event) => {
+        // Pulled up above its parent's top edge (the first line of a scroll view's content, which
+        // clips there), the room would be cut off with the glyphs it makes room for: keep it inside.
+        if (!flush && roomPt > 0 && event.nativeEvent.layout.y < -0.5) setFlush(true);
         fit.onLayout(event);
         onLayout?.(event);
       }}
