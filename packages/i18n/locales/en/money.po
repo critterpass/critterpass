@@ -7,6 +7,14 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorShares.tsx
+msgid "money.add.evenlyA11y"
+msgstr "{count} in the split"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.each"
+msgstr "{each} each"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.changedBy"
 msgstr "{editor} changed {what} · {on}"
@@ -18,6 +26,14 @@ msgstr "{editor} deleted it · {on}"
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.editedBy"
 msgstr "{editor} edited it · {on}"
+
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorCustom.tsx
+msgid "money.add.leftToAssign"
+msgstr "{leftText} left to assign"
+
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorCustom.tsx
+msgid "money.add.overAssigned"
+msgstr "{leftText} too much"
 
 #: ../../apps/mobile/src/features/money/components/ExpenseListRow.tsx
 msgid "money.row.leftOut"
@@ -31,6 +47,14 @@ msgstr "{payer} paid"
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.settle.taps"
 msgstr "{taps, plural, one {Settle in # tap} other {Settle in # taps}}"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.approx"
+msgstr "≈ {total}"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.approxEach"
+msgstr "≈ {total} · {each} each"
 
 #: ../../apps/mobile/src/features/money/data/commands.ts
 msgid "money.queued.deleteExpense"
@@ -48,9 +72,29 @@ msgstr "A payment marked paid"
 msgid "money.tile.add"
 msgstr "Add"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.addEmpty"
+msgstr "Add"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.add"
+msgstr "Add {short}"
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.empty.add"
 msgstr "Add an expense"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.addedEachToast"
+msgstr "Added {full}, {each} each."
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.addedToast"
+msgstr "Added {full}."
+
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorCustom.tsx
+msgid "money.add.allAssigned"
+msgstr "All assigned"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.hero.square"
@@ -68,9 +112,29 @@ msgstr "Balances now in {currency}"
 msgid "money.tile.budget"
 msgstr "Budget"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.byShare"
+msgstr "By share"
+
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.category"
+msgstr "Category"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.history"
 msgstr "Changes"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.noRate"
+msgstr "Converts once this phone has a rate"
+
+#: ../../apps/mobile/src/features/money/add-expense/AmountEntry.tsx
+msgid "money.add.currencyA11y"
+msgstr "Currency {currency}, change"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.custom"
+msgstr "Custom"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.deleteConfirm"
@@ -88,9 +152,21 @@ msgstr "Delete this expense?"
 msgid "money.row.pendingDelete"
 msgstr "Deleting when you are back online"
 
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.done"
+msgstr "Done"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.edit"
 msgstr "Edit"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.editEyebrow"
+msgstr "Edit expense · {crew}"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.evenly"
+msgstr "Evenly"
 
 #: ../../apps/mobile/src/features/money/history/HistoryView.tsx
 msgid "money.history.title"
@@ -144,6 +220,7 @@ msgstr "Loading the money"
 msgid "money.empty.line"
 msgstr "Log what the crew spends and I'll keep who-owes-who straight. Nobody does maths."
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 #: ../../apps/mobile/src/features/money/history/HistoryView.tsx
@@ -157,6 +234,18 @@ msgstr "Money · {spent} spent"
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 msgid "money.noCrew.title"
 msgstr "Money is for crews"
+
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.name"
+msgstr "Name"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.detailsA11y"
+msgstr "Name, category and day"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.eyebrow"
+msgstr "New expense · {crew}"
 
 #: ../../apps/mobile/src/features/money/history/HistoryView.tsx
 msgid "money.history.empty"
@@ -182,6 +271,14 @@ msgstr "Nothing to settle"
 msgid "money.noTrip.line"
 msgstr "Once the crew has a trip, every expense lands here and I keep the tally."
 
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorShares.tsx
+msgid "money.add.fewer"
+msgstr "One share fewer for {name}"
+
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorShares.tsx
+msgid "money.add.more"
+msgstr "One share more for {name}"
+
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.organiserOnly"
 msgstr "Only an organiser can switch it."
@@ -190,9 +287,21 @@ msgstr "Only an organiser can switch it."
 msgid "money.category.other"
 msgstr "Other"
 
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorShares.tsx
+msgid "money.add.out"
+msgstr "Out"
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.bars.owes"
 msgstr "Owes"
+
+#: ../../apps/mobile/src/features/money/add-expense/PayerPicker.tsx
+msgid "money.add.paidBy"
+msgstr "Paid by"
+
+#: ../../apps/mobile/src/features/money/add-expense/CurrencyPicker.tsx
+msgid "money.add.currencyTitle"
+msgstr "Paid in"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.rateNoDate"
@@ -202,13 +311,29 @@ msgstr "Rate 1 {from} = {rate} {to}"
 msgid "money.detail.rate"
 msgstr "Rate 1 {from} = {rate} {to} on {on}"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.save"
+msgstr "Save"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.savedToast"
+msgstr "Saved. Balances re-count."
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.tile.scan"
 msgstr "Scan"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.scanInstead"
+msgstr "Scan instead"
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.latest.all"
 msgstr "See all"
+
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.namePlaceholder"
+msgstr "Smoothie bowls, Clear Café"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.goneLine"
@@ -217,6 +342,10 @@ msgstr "Someone deleted it. The balances already left it out."
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.body"
 msgstr "Spend in any currency. Balances and settling up use this one, at the rate on the day each expense was added."
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.split"
+msgstr "Split"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.receipt"
@@ -270,6 +399,14 @@ msgstr "the split"
 msgid "money.detail.goneTitle"
 msgstr "This expense is gone"
 
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.today"
+msgstr "Today"
+
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorCustom.tsx
+msgid "money.add.total"
+msgstr "Total"
+
 #: ../../apps/mobile/src/features/money/components/category.ts
 msgid "money.category.transit"
 msgstr "Transit"
@@ -287,6 +424,15 @@ msgstr "Waiting to sync"
 msgid "money.row.pending"
 msgstr "Waiting to sync"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.detailsTitle"
+msgstr "What was it?"
+
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.when"
+msgstr "When"
+
 #: ../../apps/mobile/src/features/money/balances/TripSheet.tsx
 msgid "money.trips.title"
 msgstr "Which trip?"
@@ -298,6 +444,10 @@ msgstr "Who owes what"
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.payer"
 msgstr "who paid"
+
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.yesterday"
+msgstr "Yesterday"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.bars.you"

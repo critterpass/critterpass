@@ -7,6 +7,14 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorShares.tsx
+msgid "money.add.evenlyA11y"
+msgstr "{count} người trong phần chia"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.each"
+msgstr "{each} mỗi người"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.changedBy"
 msgstr "{editor} đã đổi {what} · {on}"
@@ -18,6 +26,14 @@ msgstr "{editor} đã xoá · {on}"
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.editedBy"
 msgstr "{editor} đã sửa · {on}"
+
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorCustom.tsx
+msgid "money.add.leftToAssign"
+msgstr "Còn {leftText} chưa chia"
+
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorCustom.tsx
+msgid "money.add.overAssigned"
+msgstr "Dư {leftText}"
 
 #: ../../apps/mobile/src/features/money/components/ExpenseListRow.tsx
 msgid "money.row.leftOut"
@@ -31,6 +47,14 @@ msgstr "{payer} trả"
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.settle.taps"
 msgstr "{taps, plural, other {Thanh toán trong # chạm}}"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.approx"
+msgstr "≈ {total}"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.approxEach"
+msgstr "≈ {total} · {each} mỗi người"
 
 #: ../../apps/mobile/src/features/money/data/commands.ts
 msgid "money.queued.deleteExpense"
@@ -48,9 +72,29 @@ msgstr "Một khoản đã đánh dấu trả"
 msgid "money.tile.add"
 msgstr "Thêm"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.addEmpty"
+msgstr "Thêm"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.add"
+msgstr "Thêm {short}"
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.empty.add"
 msgstr "Thêm khoản chi"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.addedEachToast"
+msgstr "Đã thêm {full}, {each} mỗi người."
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.addedToast"
+msgstr "Đã thêm {full}."
+
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorCustom.tsx
+msgid "money.add.allAssigned"
+msgstr "Đã chia đủ"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.hero.square"
@@ -68,9 +112,29 @@ msgstr "Số dư giờ tính bằng {currency}"
 msgid "money.tile.budget"
 msgstr "Ngân sách"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.byShare"
+msgstr "Theo phần"
+
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.category"
+msgstr "Danh mục"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.history"
 msgstr "Thay đổi"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.noRate"
+msgstr "Sẽ quy đổi khi máy có tỷ giá"
+
+#: ../../apps/mobile/src/features/money/add-expense/AmountEntry.tsx
+msgid "money.add.currencyA11y"
+msgstr "Tiền tệ {currency}, đổi"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.custom"
+msgstr "Tuỳ chỉnh"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.deleteConfirm"
@@ -88,9 +152,21 @@ msgstr "Xoá khoản chi này?"
 msgid "money.row.pendingDelete"
 msgstr "Sẽ xoá khi bạn có mạng lại"
 
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.done"
+msgstr "Xong"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.edit"
 msgstr "Sửa"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.editEyebrow"
+msgstr "Sửa khoản chi · {crew}"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.evenly"
+msgstr "Đều"
 
 #: ../../apps/mobile/src/features/money/history/HistoryView.tsx
 msgid "money.history.title"
@@ -144,6 +220,7 @@ msgstr "Đang tải tiền nong"
 msgid "money.empty.line"
 msgstr "Cứ ghi lại cả nhóm chi gì, mình sẽ lo ai nợ ai. Không ai phải tính nhẩm."
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 #: ../../apps/mobile/src/features/money/history/HistoryView.tsx
@@ -157,6 +234,18 @@ msgstr "Tiền · đã chi {spent}"
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 msgid "money.noCrew.title"
 msgstr "Tiền nong là chuyện của nhóm"
+
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.name"
+msgstr "Tên"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.detailsA11y"
+msgstr "Tên, danh mục và ngày"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.eyebrow"
+msgstr "Khoản chi mới · {crew}"
 
 #: ../../apps/mobile/src/features/money/history/HistoryView.tsx
 msgid "money.history.empty"
@@ -182,6 +271,14 @@ msgstr "Không có gì để thanh toán"
 msgid "money.noTrip.line"
 msgstr "Khi nhóm có chuyến đi, mọi khoản chi sẽ về đây và mình giữ sổ."
 
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorShares.tsx
+msgid "money.add.fewer"
+msgstr "Bớt một phần cho {name}"
+
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorShares.tsx
+msgid "money.add.more"
+msgstr "Thêm một phần cho {name}"
+
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.organiserOnly"
 msgstr "Chỉ người tổ chức mới đổi được."
@@ -190,9 +287,21 @@ msgstr "Chỉ người tổ chức mới đổi được."
 msgid "money.category.other"
 msgstr "Khác"
 
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorShares.tsx
+msgid "money.add.out"
+msgstr "Không tham gia"
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.bars.owes"
 msgstr "Nợ"
+
+#: ../../apps/mobile/src/features/money/add-expense/PayerPicker.tsx
+msgid "money.add.paidBy"
+msgstr "Người trả"
+
+#: ../../apps/mobile/src/features/money/add-expense/CurrencyPicker.tsx
+msgid "money.add.currencyTitle"
+msgstr "Trả bằng"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.rateNoDate"
@@ -202,13 +311,29 @@ msgstr "Tỷ giá 1 {from} = {rate} {to}"
 msgid "money.detail.rate"
 msgstr "Tỷ giá 1 {from} = {rate} {to} ngày {on}"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.save"
+msgstr "Lưu"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+msgid "money.add.savedToast"
+msgstr "Đã lưu. Số dư được tính lại."
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.tile.scan"
 msgstr "Quét"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.scanInstead"
+msgstr "Quét thay"
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.latest.all"
 msgstr "Xem hết"
+
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.namePlaceholder"
+msgstr "Sinh tố bowl, Clear Café"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.goneLine"
@@ -217,6 +342,10 @@ msgstr "Có người đã xoá nó. Số dư đã bỏ khoản này ra."
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.body"
 msgstr "Chi bằng tiền gì cũng được. Số dư và thanh toán dùng đồng này, theo tỷ giá ngày thêm từng khoản."
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.split"
+msgstr "Chia"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.receipt"
@@ -270,6 +399,14 @@ msgstr "cách chia"
 msgid "money.detail.goneTitle"
 msgstr "Khoản chi này không còn"
 
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.today"
+msgstr "Hôm nay"
+
+#: ../../apps/mobile/src/features/money/add-expense/SplitEditorCustom.tsx
+msgid "money.add.total"
+msgstr "Tổng"
+
 #: ../../apps/mobile/src/features/money/components/category.ts
 msgid "money.category.transit"
 msgstr "Đi lại"
@@ -287,6 +424,15 @@ msgstr "Đang chờ đồng bộ"
 msgid "money.row.pending"
 msgstr "Đang chờ đồng bộ"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.detailsTitle"
+msgstr "Chi cho gì?"
+
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.when"
+msgstr "Khi nào"
+
 #: ../../apps/mobile/src/features/money/balances/TripSheet.tsx
 msgid "money.trips.title"
 msgstr "Chuyến nào?"
@@ -298,6 +444,10 @@ msgstr "Ai nợ bao nhiêu"
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.payer"
 msgstr "người trả"
+
+#: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
+msgid "money.add.yesterday"
+msgstr "Hôm qua"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.bars.you"
