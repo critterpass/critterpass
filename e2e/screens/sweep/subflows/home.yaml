@@ -1,14 +1,15 @@
 appId: app.critterpass.dev
 ---
-# Back to Home from anywhere: back steps until the Developer tools entry at the bottom of Home shows.
+# Back to Home from anywhere: back steps until Home's screen shows (never one more, which would
+# leave the app on Android).
 - repeat:
     while:
       notVisible:
-        id: 'dev-tools-entry'
+        id: 'home-screen'
     times: 5
     commands:
       - runFlow: back.yaml
 - extendedWaitUntil:
     visible:
-      id: 'dev-tools-entry'
+      id: 'home-screen'
     timeout: 15000
