@@ -6,6 +6,13 @@
 # reused EAS e2e-test build with expo-updates turned off, so no run ever loads JS another run
 # published to the shared e2e-test update channel.
 name: device
+# Tells queued runs apart: mode, branch, pull request, platform and flows (GitHub cuts a long title).
+run-name: >-
+  ${{ github.event_name == 'pull_request'
+  && format('device flows · {0} · #{1}', github.head_ref, github.event.pull_request.number)
+  || format('device {0} · {1}{2} · {3}{4}', inputs.mode,
+  github.ref_name, inputs.pr && format(' · #{0}', inputs.pr) || '', inputs.platform,
+  inputs.flows && format(' · {0}', inputs.flows) || '') }}
 
 on:
   workflow_dispatch:
@@ -44,8 +51,12 @@ on:
   pull_request:
     types: [labeled, opened, synchronize, reopened]
 
+# A pull request's runs supersede each other; so does re-dispatching the same flows on a branch.
 concurrency:
-  group: device-${{ github.event.pull_request.number || github.run_id }}
+  group: >-
+    ${{ github.event_name == 'workflow_dispatch'
+    && format('device-{0}-{1}-{2}-{3}', github.ref_name, inputs.mode, inputs.platform, inputs.flows)
+    || format('device-{0}', github.event.pull_request.number || github.run_id) }}
   cancel-in-progress: true
 
 permissions:
@@ -305,17 +316,26 @@ jobs:
           MODE: ${{ needs.prepare.outputs.mode }}
         run: |
           images=$RUNNER_TEMP/images
+          mkdir -p "$images"
           for platform in ios android; do
             dirs=$(ls -d "$RUNNER_TEMP/shards/device-$platform-shard-"*/screenshots 2>/dev/null || true)
             [ -z "$dirs" ] && continue
             mkdir -p "$RUNNER_TEMP/device/$platform"
             for dir in $dirs; do cp "$dir"/*.png "$RUNNER_TEMP/device/$platform/" 2>/dev/null || true; done
+            [ -z "$(ls "$RUNNER_TEMP/device/$platform")" ] && continue
             if [ "$MODE" = compare ]; then
-              pnpm screens:compare -- --from "$RUNNER_TEMP/device/$platform" --out "$images/$platform-sheets"
-            else
+              pnpm screens:compare -- --from "$RUNNER_TEMP/device/$platform" --out "$images/$platform-sheets" || true
+            fi
+            # No sheets (no design-id names, or the compare failed): post the screenshots themselves.
+            if [ "$MODE" != compare ] || ! find "$images/$platform-sheets" -name '*.png' 2>/dev/null | grep -q .; then
+              [ "$MODE" = compare ] && echo "SHEETLESS=true" >> "$GITHUB_ENV"
+              rm -rf "$images/$platform-sheets"
               mkdir -p "$images/$platform" && cp -R "$RUNNER_TEMP/device/$platform/." "$images/$platform/"
             fi
           done
+          if ! find "$images" -name '*.png' | grep -q .; then
+            echo "::notice title=No screenshots::No shard captured a screenshot, so nothing is published."
+          fi
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
@@ -324,5 +344,6 @@ jobs:
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          heading=$([ "$MODE" = compare ] && echo "Design | device sheets" || echo "Device screenshots")
+          heading="Device screenshots"
+          [ "$MODE" = compare ] && [ "${SHEETLESS:-}" != true ] && heading="Design | device sheets"
           tools/scripts/ci-device/publish-screenshots.sh "$PR" "$RUNNER_TEMP/images" "$heading ($JS_COMMIT)"
