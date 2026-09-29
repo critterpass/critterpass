@@ -7,6 +7,7 @@
  */
 
 import { MONEY_QUEUE_DESCRIPTIONS, moneyQueueSpecs } from '../money/queues';
+import { BOOKINGS_QUEUE_DESCRIPTIONS, bookingsQueueSpecs } from '../bookings/queues';
 import { SETUP_QUEUE_DESCRIPTIONS, setupQueueSpecs } from '../setup/queues';
 import { DRAFT_QUEUE_DESCRIPTIONS, draftQueueSpecs } from '../itinerary/queues';
 
@@ -274,6 +275,7 @@ export const QUEUES = {
   ...setupQueueSpecs(DEFAULT_QUEUE_SPEC),
   ...draftQueueSpecs(DEFAULT_QUEUE_SPEC),
   ...moneyQueueSpecs(DEFAULT_QUEUE_SPEC),
+  ...bookingsQueueSpecs(DEFAULT_QUEUE_SPEC),
 } as const satisfies Record<string, QueueSpec>;
 
 export type QueueName = keyof typeof QUEUES;
@@ -335,6 +337,7 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   ...SETUP_QUEUE_DESCRIPTIONS,
   ...DRAFT_QUEUE_DESCRIPTIONS,
   ...MONEY_QUEUE_DESCRIPTIONS,
+  ...BOOKINGS_QUEUE_DESCRIPTIONS,
 };
 
 export type JobPayloadRedactor = (data: unknown) => unknown;
@@ -375,7 +378,4 @@ export function jobPayloadRedactor(queue: string): JobPayloadRedactor {
   return QUEUE_REDACTORS[base] ?? redactJobPayload;
 }
 
-/** Each worker instance refreshes `<prefix><instance>` (with a TTL) and joins the instance set. */
-export const WORKER_HEARTBEAT_KEY_PREFIX = 'worker:heartbeat:';
-export const WORKER_HEARTBEAT_SET = 'worker:heartbeats';
-export const WORKER_HEARTBEAT_TTL_SECONDS = 30;
+export * from './heartbeat';

@@ -165,7 +165,7 @@ CREATE TABLE import_candidates (
   needs_confirm boolean NOT NULL DEFAULT false,
   failure_reason text CHECK (failure_reason IN ('unreadable', 'unsupported_attachment', 'empty',
                                                 'no_booking', 'fetch_failed', 'blocked_url')),
-  duplicate_of_id uuid REFERENCES import_candidates (id),
+  duplicate_of_id uuid REFERENCES import_candidates (id) ON DELETE SET NULL,
   booking_id uuid REFERENCES bookings (id),
   inbound_email_id uuid REFERENCES inbound_emails (id) ON DELETE SET NULL,
   resolved_by uuid REFERENCES users (id),

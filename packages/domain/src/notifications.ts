@@ -153,6 +153,7 @@ const CATALOGUE = [
   spec('bookings_found', 'roundup_only', 'cp.import', 'cp_trip', 'guide'),
   spec('flight_changed', 'always', 'cp.generic', 'cp_always', 'guide', 'flight:{flight_id}'),
   spec('boarding_open', 'always', 'cp.generic', 'cp_always', 'guide', 'flight:{flight_id}'),
+  spec('booking_deadline', 'always', 'cp.generic', 'cp_always', 'guide', 'deadline:{booking_id}'),
   spec('landed_egg_hatch', 'budgeted', 'cp.generic', 'cp_critters', 'guide'),
   spec('leave_by_la_start', 'silent', 'cp.leaveby', 'cp_trip', 'system', 'leave_by:{leave_by_id}'),
   spec('leave_by_alarm', 'local', 'cp.leaveby', 'cp_alarm', 'guide', { variant: 'local_or_always', collapse: 'leave_by:{leave_by_id}' }),
@@ -317,6 +318,13 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'payment.confirmed': ['money_event'],
   'payment.disputed': ['money_event'],
   'trip.settled': ['settled_reward'],
+  // Bookings: a new import candidate (the evening roundup's "found n bookings" line), a flight
+  // delay, gate change, cancel or divert and boarding to the traveller, and the day-before reminder
+  // of a free-cancellation deadline to the booking's owner.
+  'import.candidate_created': ['bookings_found'],
+  'flight.status_changed': ['flight_changed'],
+  'flight.boarding_open': ['boarding_open'],
+  'booking.deadline_due': ['booking_deadline'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

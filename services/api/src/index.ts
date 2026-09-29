@@ -43,6 +43,7 @@ import { registerDevRoutesFromEnv } from './dev/routes';
 import { registerGeoRoutesFromEnv } from './routes/geo';
 import { registerMediaRoutes } from './routes/media';
 import { registerMoneyRoutes, registerReceiptRoutesFromEnv } from './money/routes';
+import { registerBookings } from './bookings/register';
 import { createMapboxRoutingProvider } from './routing/eta';
 import { MapboxRoutingClient } from './routing/mapbox';
 import { createClaimAttributionCommand } from './commands/attribution/claim-attribution';
@@ -230,6 +231,7 @@ const commandDoors = {
 registerCommandRoute(app, commandDoors);
 registerSyncUploadRoute(app, commandDoors);
 registerCmdResultsRoute(app, commandDoors);
+registerBookings(app, commandDoors, fieldEncryptionKeyring, authModule.auth);
 registerLocationRouteFromEnv(app, commandDoors, env);
 registerLiveMapRoutes(app, commandDoors);
 registerAiRoutes(app, commandDoors, env, logger);
