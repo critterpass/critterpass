@@ -33,5 +33,11 @@ appId: app.critterpass.dev
     timeout: 5000
 - waitForAnimationToEnd
 - takeScreenshot: en-3b-5-all-caught-up
-- tapOn: 'UNDO'
-- assertVisible: 'Undone. The plan is back how it was.'
+- tapOn:
+    id: 'inbox-undo-.*'
+# The row settles (its UNDO turns into a check) once the undo has gone through.
+- extendedWaitUntil:
+    notVisible:
+      id: 'inbox-undo-.*'
+    timeout: 15000
+- takeScreenshot: en-3b-4-undone

@@ -103,6 +103,12 @@ const SEED_SCENARIOS: readonly {
     testId: 'dev-seed-demo-caught-up',
     label: 'Seed demo data: all caught up',
   },
+  { scenario: 'vote', testId: 'dev-seed-demo-vote', label: 'Seed demo data: destination vote' },
+  {
+    scenario: 'vote_final',
+    testId: 'dev-seed-demo-vote-final',
+    label: 'Seed demo data: destination vote in its final',
+  },
 ];
 
 type SeedState =

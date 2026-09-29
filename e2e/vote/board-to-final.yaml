@@ -4,10 +4,16 @@ appId: app.critterpass.dev
 # board into the split card on Home (the two leaders, the tally strip, who is still to vote and
 # where a tie goes); tapping it opens the showdown (3c-1).
 #
-# Needs before it can pass: the account organises crew ${CREW_ID}'s open destination vote with at
-# least two places on the board (pitch-to-board.yaml twice, or the demo seed's vote scenario).
-- launchApp
-- openLink: critterpass-dev://
+# Data: a fresh account onboards, then the staging demo seed's `vote` scenario gives it Bali Demo
+# Crew's open destination vote, organised by the account: four places on the board, Kyoto and
+# Lisbon two ballots each, so GO TO THE FINAL needs no pick.
+- launchApp:
+    clearState: true
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-vote
 - extendedWaitUntil:
     visible:
       id: 'board-go-to-final'

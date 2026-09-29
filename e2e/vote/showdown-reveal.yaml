@@ -1,14 +1,21 @@
 appId: app.critterpass.dev
+env:
+  SIDE: '0'
 ---
-# 3c-1 → 3c-2, run on two simulators signed in as two members of the same crew: each taps a
-# showdown half (the half squashes, the VS disc punches toward it); when the last vote lands the
-# poll closes and each app opens the winner reveal once: the stamp, the tally, SET UP for the
-# organiser and "Setup is with …" for everyone else. Relaunching does not show it again.
+# 3c-1 → 3c-2: the account taps a showdown half (the half squashes, the VS disc punches toward
+# it); its vote is the last one needed, so the poll closes and the app opens the winner reveal
+# once: the stamp, the tally and SET UP for the organiser. Relaunching does not show it again.
 #
-# Needs before it can pass: crew ${CREW_ID}'s destination vote in its final (board-to-final.yaml)
-# with every other eligible member already voted, and ${SIDE} set to 0 or 1 per simulator.
-- launchApp
-- openLink: critterpass-dev://
+# Data: a fresh account onboards, then the staging demo seed's `vote_final` scenario puts Bali
+# Demo Crew's destination vote in its final, Kyoto against Lisbon, with the four crewmates already
+# voted 2–2. ${SIDE} (0 or 1) picks the half, and so the winner.
+- launchApp:
+    clearState: true
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-vote-final
 - extendedWaitUntil:
     visible:
       id: 'final-split-open'

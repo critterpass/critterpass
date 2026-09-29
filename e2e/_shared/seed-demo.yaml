@@ -2,9 +2,10 @@ appId: app.critterpass.dev
 ---
 # Gives the signed-in account the api's staging demo world (a crew with four fake crewmates, a
 # confirmed Bali trip three weeks out, chat, a tip and an inbox), waits until sync has put it on
-# the device and relaunches to Home. Run from Home after onboarding. ${SEED} picks the inbox:
+# the device and returns to Home. Run from Home after onboarding. ${SEED} picks the inbox:
 # `dev-seed-demo` (two cards need you), `dev-seed-demo-inbox` (one card) or
-# `dev-seed-demo-caught-up` (none). Needs an api with DEV_SEED_ENABLED on.
+# `dev-seed-demo-caught-up` (none); `dev-seed-demo-vote` and `dev-seed-demo-vote-final` add the
+# crew's destination vote on its board or in its final. Needs an api with DEV_SEED_ENABLED on.
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
@@ -20,6 +21,12 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       id: 'dev-seed-demo-done'
-    timeout: 60000
-- stopApp
-- launchApp
+    timeout: 120000
+# Back to Home with the edge swipe (a relaunch would restore this screen).
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 15000

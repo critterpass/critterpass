@@ -2,7 +2,8 @@
  * `POST /v1/dev/seed-demo`: gives the signed-in caller (anonymous included) a realistic demo world
  * on staging so device testing never lands on empty states: a crew with four fake crewmates, a
  * confirmed trip three weeks out, a started plan, chat, a tip and an inbox for the chosen
- * scenario (`{"scenario": "everyday" | "inbox" | "caught_up"}`, default `everyday`).
+ * scenario (`{"scenario": "everyday" | "inbox" | "caught_up" | "vote" | "vote_final"}`, default
+ * `everyday`); the vote scenarios add the crew's destination vote (./demo-vote.ts).
  *
  * Mounted only when APP_ENV is not production and DEV_SEED_ENABLED is on; the handler refuses on
  * production again whatever mounted it. Idempotent: the crew and trip are built once per caller,
@@ -24,6 +25,7 @@ import {
 } from '../commands/_framework/session';
 import { demoScenarioSchema, resetDemoInbox } from './demo-inbox';
 import { ensureUndoableGuideAction } from './demo-plan';
+import { ensureDemoVote } from './demo-vote';
 import { ensureDemoWorld } from './demo-world';
 
 export interface DevRouteDeps {
@@ -47,6 +49,8 @@ export interface SeedDemoResult {
   readonly created: boolean;
   /** The fresh inbox items, so a client can wait until sync has delivered them. */
   readonly inbox_item_ids: readonly string[];
+  /** The destination vote the `vote` scenarios opened. */
+  readonly poll_id?: string;
 }
 
 /** Builds (or resets) the caller's demo world in one system transaction. */
@@ -60,12 +64,17 @@ export async function seedDemoFor(
     const world = await ensureDemoWorld(tx, uid, now);
     const guideAction = await ensureUndoableGuideAction(tx, world, uid, now);
     const items = await resetDemoInbox(tx, world, uid, scenario, guideAction, now);
+    const vote =
+      scenario === 'vote' || scenario === 'vote_final'
+        ? await ensureDemoVote(tx, world, uid, scenario === 'vote' ? 'board' : 'final', now)
+        : null;
     return {
       crew_id: world.crewId,
       trip_id: world.tripId,
       scenario,
       created: world.created,
       inbox_item_ids: items,
+      ...(vote === null ? {} : { poll_id: vote.pollId }),
     };
   });
 }
