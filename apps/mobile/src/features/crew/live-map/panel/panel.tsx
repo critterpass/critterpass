@@ -13,6 +13,8 @@ import { PressScale } from '@/ui/press/PressScale';
 import { Row, Stack, Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
+import { CAPSULE_RADIUS } from '../map/capsule';
+
 import { MemberRow, type RowModel } from './member-row';
 import { PingActions } from './ping-actions';
 
@@ -27,10 +29,10 @@ const useStyles = makeStyles((th) => ({
   },
   head: { alignItems: 'center', gap: th.space['12'] },
   headText: { flex: 1 },
-  rows: { maxHeight: 280 },
+  rows: { maxHeight: 330 },
   pending: {
     alignSelf: 'flex-start',
-    borderRadius: th.radius.pill,
+    borderRadius: CAPSULE_RADIUS,
     backgroundColor: th.semantic.bg.control,
     paddingHorizontal: th.space['8'],
     paddingVertical: th.space['2'],
@@ -91,7 +93,7 @@ export function Panel(props: PanelProps) {
             <Text variant="eyebrow" color={tokens.color.yellow}>
               {t({ id: 'liveMap.panel.meetupEyebrow', message: `Meet-up · ${meetup.time}` })}
             </Text>
-            <Text variant="h3" numberOfLines={1} style={{ textTransform: 'uppercase' }}>
+            <Text variant="title" numberOfLines={2} style={{ textTransform: 'uppercase' }}>
               {meetup.place}
             </Text>
             {meetup.pending ? (

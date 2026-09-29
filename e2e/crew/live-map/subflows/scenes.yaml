@@ -4,25 +4,22 @@ appId: app.critterpass.dev
 # and the states around it.
 - runFlow:
     file: scene.yaml
-    env: { SCENE: live, SHOT: '${PREFIX}-3g-4-crew-map' }
+    env: { SCENE: live, SHOT: '${PREFIX}-3g-4-crew-map', READY: live-map-screen }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: bunch-sheet, SHOT: '${PREFIX}-live-map-member-sheet' }
+    env: { SCENE: boost-gate, SHOT: '${PREFIX}-live-map-boost-gate', READY: live-map-screen }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: boost-gate, SHOT: '${PREFIX}-live-map-boost-gate' }
+    env: { SCENE: not-started, SHOT: '${PREFIX}-live-map-not-started', READY: live-map-screen }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: not-started, SHOT: '${PREFIX}-live-map-not-started' }
+    env: { SCENE: offline, SHOT: '${PREFIX}-live-map-offline', READY: live-map-screen }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: offline, SHOT: '${PREFIX}-live-map-offline' }
+    env: { SCENE: paused, SHOT: '${PREFIX}-live-map-paused', READY: live-map-screen }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: paused, SHOT: '${PREFIX}-live-map-paused' }
+    env: { SCENE: no-meetup, SHOT: '${PREFIX}-live-map-no-meetup', READY: live-map-screen }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: no-meetup, SHOT: '${PREFIX}-live-map-no-meetup' }
-- runFlow:
-    file: scene.yaml
-    env: { SCENE: arrived, SHOT: '${PREFIX}-live-map-arrived' }
+    env: { SCENE: arrived, SHOT: '${PREFIX}-live-map-arrived', READY: live-map-screen }

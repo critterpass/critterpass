@@ -8,9 +8,11 @@ import { PressScale } from '@/ui/press/PressScale';
 import { Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
+import { CAPSULE_RADIUS } from '../map/capsule';
+
 const useStyles = makeStyles((th) => ({
   chip: {
-    borderRadius: th.radius.pill,
+    borderRadius: CAPSULE_RADIUS,
     borderWidth: 1.5,
     paddingHorizontal: th.space['12'],
     paddingVertical: th.space['6'],

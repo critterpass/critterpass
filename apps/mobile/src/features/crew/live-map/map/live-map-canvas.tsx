@@ -39,8 +39,20 @@ function GlidingPin({ pin }: { readonly pin: CanvasPin }) {
   );
 }
 
+/** `[west, south, east, north]` around every point, or null for fewer than two. */
+export function boundsOf(
+  points: readonly (readonly [number, number])[],
+): [number, number, number, number] | null {
+  if (points.length < 2) return null;
+  const lngs = points.map((p) => p[0]);
+  const lats = points.map((p) => p[1]);
+  return [Math.min(...lngs), Math.min(...lats), Math.max(...lngs), Math.max(...lats)];
+}
+
 export function LiveMapCanvas({
   center,
+  bounds,
+  padding,
   regionSourceUrl,
   pins,
   trails,
@@ -52,6 +64,10 @@ export function LiveMapCanvas({
   onMeetupDragStart,
 }: {
   readonly center: readonly [number, number];
+  /** Frames every pin, the meet-up and you when there are at least two of them. */
+  readonly bounds: [number, number, number, number] | null;
+  /** Keeps the framed points clear of the header and the panel. */
+  readonly padding: { top: number; bottom: number; left: number; right: number };
   readonly regionSourceUrl?: string | undefined;
   readonly pins: readonly CanvasPin[];
   readonly trails: readonly VisibleTrail[];
@@ -80,7 +96,13 @@ export function LiveMapCanvas({
   return (
     <View style={StyleSheet.absoluteFill} testID="live-map-canvas">
       <MapLibreMap style={StyleSheet.absoluteFill} mapStyle={style}>
-        <Camera initialViewState={{ center: [center[0], center[1]], zoom: 14.5 }} />
+        <Camera
+          initialViewState={
+            bounds === null
+              ? { center: [center[0], center[1]], zoom: 14.5, padding }
+              : { bounds, padding }
+          }
+        />
         <TrailLayer trails={trails} joinIndexOf={joinIndexOf} />
         {you !== null && meetup !== null ? (
           <RouteLine

@@ -5,7 +5,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { router, useLocalSearchParams } from 'expo-router';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Stack, useTheme } from '@/ui';
@@ -15,7 +15,7 @@ import { LiveMapServicesProvider, type LiveMapServices } from './data/services';
 import { lockScreenStarter } from './gate-slot';
 import { BunchPill } from './map/bunch-pill';
 import { HeaderPill } from './map/header-pill';
-import { LiveMapCanvas, type CanvasPin } from './map/live-map-canvas';
+import { boundsOf, LiveMapCanvas, type CanvasPin } from './map/live-map-canvas';
 import { MeetupPin } from './map/meetup-pin';
 import { MemberPin } from './map/member-pin';
 import type { LiveMapModel } from './model';
@@ -77,11 +77,14 @@ function formatDay(at: Date, locale: string, tz: string | null): string {
 export function LiveMapView({
   model: m,
   fromChat,
+  onBack = () => router.back(),
 }: {
   readonly model: LiveMapModel;
   readonly fromChat: boolean;
+  readonly onBack?: () => void;
 }) {
   const insets = useSafeAreaInsets();
+  const { height } = useWindowDimensions();
   const theme = useTheme();
   const open = m.gate === 'open' || m.gate === 'loading';
   const view = m.view;
@@ -94,6 +97,10 @@ export function LiveMapView({
         : DEFAULT_CENTER;
   const you =
     m.ownFix === null || meSharing === 'off' ? null : ([m.ownFix.lng, m.ownFix.lat] as const);
+  const pins = canvasPins(m);
+  const framed: (readonly [number, number])[] = pins.map((pin) => [pin.target.lng, pin.target.lat]);
+  if (m.meetup !== null) framed.push([m.meetup.lng, m.meetup.lat]);
+  if (you !== null) framed.push(you);
   const lastUpdate = m.updatedAt === null ? null : clock(m.updatedAt, m.tz, m.locale);
   const lock = lockScreenStarter();
   const footer =
@@ -110,7 +117,14 @@ export function LiveMapView({
     <View style={{ flex: 1, backgroundColor: theme.color.map.base }} testID="live-map-screen">
       <LiveMapCanvas
         center={center}
-        pins={canvasPins(m)}
+        bounds={boundsOf(framed)}
+        padding={{
+          top: insets.top + 130,
+          bottom: Math.round(height * 0.66),
+          left: 120,
+          right: 190,
+        }}
+        pins={pins}
         trails={m.trails}
         joinIndexOf={(uid) => view?.people.find((person) => person.uid === uid)?.joinIndex ?? 0}
         meetup={
@@ -141,10 +155,11 @@ export function LiveMapView({
         <HeaderPill
           crewName={m.crewName}
           sharing={view?.sharingCount ?? 0}
-          members={view?.memberCount ?? 0}
+          members={open ? (view?.memberCount ?? 0) : 0}
+          closed={!open}
           paused={meSharing === 'paused'}
           fromChat={fromChat}
-          onBack={() => router.back()}
+          onBack={onBack}
         />
         {m.offline ? <OfflineNote lastUpdate={lastUpdate} /> : null}
         {open && m.whileInUse && meSharing === 'live' ? (

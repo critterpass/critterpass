@@ -23,7 +23,6 @@ import recorded from './test-support/snapshot.fixture.json';
 
 export const LIVE_MAP_SCENES = [
   'live',
-  'bunch-sheet',
   'boost-gate',
   'not-started',
   'offline',
@@ -155,7 +154,9 @@ function sceneModel(
     tz,
     locale,
     now: NOW,
-    endsOn: 'Oct 19',
+    endsOn: new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric' }).format(
+      new Date('2026-10-19T04:00:00Z'),
+    ),
     windowStartsAt: scene === 'not-started' ? new Date('2026-10-14T16:00:00Z') : null,
     windowEnded: false,
     locationOff: false,
@@ -174,15 +175,14 @@ function sceneModel(
   };
 }
 
-export function LiveMapScene({ scene }: { readonly scene: LiveMapSceneName }) {
+export function LiveMapScene({
+  scene,
+  onBack,
+}: {
+  readonly scene: LiveMapSceneName;
+  readonly onBack: () => void;
+}) {
   const [overlay, setOverlay] = useState<Overlay>({ kind: 'none' });
   const model = useMemo(() => sceneModel(scene, overlay, setOverlay), [scene, overlay]);
-  const withSheet = useMemo(() => {
-    if (scene !== 'bunch-sheet' || overlay.kind !== 'none') return model;
-    const pin = model.view?.pins[0];
-    return pin?.kind === 'bunch'
-      ? { ...model, overlay: { kind: 'person' as const, people: pin.people } }
-      : model;
-  }, [scene, overlay, model]);
-  return <LiveMapView model={withSheet} fromChat />;
+  return <LiveMapView model={model} fromChat onBack={onBack} />;
 }

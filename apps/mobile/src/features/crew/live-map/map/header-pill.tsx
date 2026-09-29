@@ -12,12 +12,14 @@ import { PressScale } from '@/ui/press/PressScale';
 import { Row, Stack, Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
+import { CAPSULE_RADIUS } from './capsule';
+
 const useStyles = makeStyles((th) => ({
   bar: {
     alignItems: 'center',
     gap: th.space['12'],
     backgroundColor: th.semantic.bg.sunken,
-    borderRadius: th.radius.pill,
+    borderRadius: CAPSULE_RADIUS,
     paddingVertical: th.space['8'],
     paddingLeft: th.space['16'],
     paddingRight: th.space['8'],
@@ -30,7 +32,7 @@ const useStyles = makeStyles((th) => ({
     alignItems: 'center',
     gap: th.space['6'],
     backgroundColor: th.semantic.bg.control,
-    borderRadius: th.radius.pill,
+    borderRadius: CAPSULE_RADIUS,
     paddingHorizontal: th.space['12'],
     paddingVertical: th.space['8'],
   },
@@ -49,6 +51,7 @@ export function HeaderPill({
   sharing,
   members,
   paused,
+  closed = false,
   fromChat,
   onBack,
 }: {
@@ -56,6 +59,8 @@ export function HeaderPill({
   readonly sharing: number;
   readonly members: number;
   readonly paused: boolean;
+  /** The map is closed (gate): no counts, no LIVE pill. */
+  readonly closed?: boolean;
   readonly fromChat: boolean;
   readonly onBack: () => void;
 }) {
@@ -72,6 +77,7 @@ export function HeaderPill({
         accessibilityRole="button"
         accessibilityLabel={backLabel}
         style={styles.back}
+        testID="live-back"
       >
         <Text
           variant="buttonSm"
@@ -91,25 +97,27 @@ export function HeaderPill({
           {crewName}
         </Text>
         {members === 0 ? null : (
-          <Text variant="caption" color={theme.semantic.text.secondary} numberOfLines={1}>
+          <Text variant="caption" color={theme.semantic.text.secondary} numberOfLines={2}>
             {sharingLine(sharing, members)}
           </Text>
         )}
       </Stack>
-      <Row style={styles.live} accessible accessibilityRole="text" testID="live-status">
-        {paused ? (
-          <View style={[styles.dot, { backgroundColor: theme.semantic.text.secondary }]} />
-        ) : (
-          <Animated.View
-            style={[styles.dot, { backgroundColor: tokens.color.green.base }, blink]}
-          />
-        )}
-        <Text variant="buttonSm" style={{ textTransform: 'uppercase' }}>
-          {paused
-            ? t({ id: 'liveMap.header.paused', message: 'Paused' })
-            : t({ id: 'liveMap.header.live', message: 'Live' })}
-        </Text>
-      </Row>
+      {closed ? null : (
+        <Row style={styles.live} accessible accessibilityRole="text" testID="live-status">
+          {paused ? (
+            <View style={[styles.dot, { backgroundColor: theme.semantic.text.secondary }]} />
+          ) : (
+            <Animated.View
+              style={[styles.dot, { backgroundColor: tokens.color.green.base }, blink]}
+            />
+          )}
+          <Text variant="buttonSm" style={{ textTransform: 'uppercase' }}>
+            {paused
+              ? t({ id: 'liveMap.header.paused', message: 'Paused' })
+              : t({ id: 'liveMap.header.live', message: 'Live' })}
+          </Text>
+        </Row>
+      )}
     </Row>
   );
 }

@@ -19,17 +19,21 @@ export function clock(at: number, tz: string | null, locale: string): string {
   }).format(new Date(at));
 }
 
-/** "900 m", "2 km", "2.4 km". */
+/**
+ * "900 m", "2 km", "2.4 km". Written with the number formatter and the unit in the copy: Intl's
+ * unit style converts to the locale's preferred units on some platforms (miles on en-US iOS).
+ */
 export function distanceText(meters: number, locale: string): string {
   if (meters < 1000) {
-    const rounded = Math.max(10, Math.round(meters / 10) * 10);
-    return new Intl.NumberFormat(locale, { style: 'unit', unit: 'meter' }).format(rounded);
+    const rounded = new Intl.NumberFormat(locale).format(
+      Math.max(10, Math.round(meters / 10) * 10),
+    );
+    return t({ id: 'liveMap.distance.meters', message: `${rounded} m` });
   }
-  return new Intl.NumberFormat(locale, {
-    style: 'unit',
-    unit: 'kilometer',
+  const km = new Intl.NumberFormat(locale, {
     maximumFractionDigits: meters < 10_000 ? 1 : 0,
   }).format(meters / 1000);
+  return t({ id: 'liveMap.distance.kilometers', message: `${km} km` });
 }
 
 function withDistance(line: string, eta: MemberEtaWire, locale: string, out: boolean): string {

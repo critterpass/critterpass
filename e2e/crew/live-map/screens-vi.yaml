@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
 # The same crew live map screenshots in Vietnamese: the dev gallery switches the running app's
-# language (not persisted), then back to the list and into the live map scenes.
+# language (not persisted), then back through the developer tools into the scenes.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -25,6 +25,14 @@ appId: app.critterpass.dev
 - swipe:
     start: 2%, 50%
     end: 90%, 50%
+# The back swipe lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
 - scrollUntilVisible:
     element:
       id: 'dev-nav-live-map'

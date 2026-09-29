@@ -12,6 +12,8 @@ import { Avatar } from '@/ui/people/Avatar';
 import { Row, Stack, Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
+import { CAPSULE_RADIUS } from './capsule';
+
 import type { PersonView } from '../data/view-model';
 import { usePopIn } from './use-pop-in';
 
@@ -20,7 +22,7 @@ export const usePinStyles = makeStyles((th) => ({
     alignItems: 'center',
     gap: th.space['8'],
     backgroundColor: th.semantic.bg.sunken,
-    borderRadius: th.radius.pill,
+    borderRadius: CAPSULE_RADIUS,
     borderWidth: 2,
     paddingVertical: th.space['4'],
     paddingLeft: th.space['4'],

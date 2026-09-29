@@ -13,6 +13,10 @@ msgid "liveMap.bunch.more"
 msgstr "{0} + {more}"
 
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.distance.kilometers"
+msgstr "{km} km"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.status.withDistance"
 msgstr "{line}, {distance}"
 
@@ -37,6 +41,10 @@ msgstr "{names}, {place}, {eta}"
 msgid "liveMap.a11y.row"
 msgstr "{names}, {status}, {0}"
 
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.distance.meters"
+msgstr "{rounded} m"
+
 #: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
 msgid "liveMap.header.sharing"
 msgstr "{sharing}/{members} đang chia sẻ · chỉ trong ngày đi"
@@ -48,6 +56,11 @@ msgstr "còn khoảng {minutes} phút"
 #: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
 msgid "liveMap.chip.approximate"
 msgstr "Gần đúng"
+
+#. placeholder {0}: row.clock
+#: ../../apps/mobile/src/features/crew/live-map/panel/member-row.tsx
+msgid "liveMap.row.arrives"
+msgstr "Tới lúc {0}"
 
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.status.atPlace"
@@ -78,7 +91,7 @@ msgstr "Gọi {0}"
 msgid "liveMap.header.chat"
 msgstr "Chat"
 
-#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+#: ../../apps/mobile/src/features/crew/live-map/use-live-map-screen.ts
 msgid "liveMap.toast.pingOffline"
 msgstr "Chưa gửi được cho cả nhóm. Thử lại nhé."
 
@@ -179,6 +192,10 @@ msgstr "Đổi điểm hẹn"
 #: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
 msgid "liveMap.queued.moveMeetup"
 msgstr "Đang đổi điểm hẹn"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/member-row.tsx
+msgid "liveMap.row.noEta"
+msgstr "Chưa có giờ tới"
 
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.a11y.noEta"

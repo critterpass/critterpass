@@ -17,7 +17,7 @@ const useStyles = makeStyles((th) => ({
   row: {
     alignItems: 'center',
     gap: th.space['12'],
-    paddingVertical: th.space['10'],
+    paddingVertical: th.space['8'],
     borderBottomWidth: 1,
     borderBottomColor: th.color.divider,
   },

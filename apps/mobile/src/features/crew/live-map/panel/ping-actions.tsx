@@ -39,8 +39,8 @@ export function PingActions({
   const theme = useTheme();
   return (
     <Stack gap="8">
-      <Row style={{ gap: theme.space['10'] }}>
-        <View style={{ flex: 1 }}>
+      <Row style={{ gap: theme.space['8'] }}>
+        <View style={{ flex: 3 }}>
           <PillButton
             label={t({ id: 'liveMap.actions.pingAll', message: 'Ping all' })}
             variant="secondary"
@@ -51,7 +51,7 @@ export function PingActions({
             testID="live-ping-all"
           />
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 5 }}>
           <PillButton
             label={t({ id: 'liveMap.actions.onMyWay', message: "I'm on my way" })}
             tone="yellow"
