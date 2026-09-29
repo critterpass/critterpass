@@ -1,0 +1,9 @@
+{
+  "name": "cp-calendar",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Date-level free/maybe/busy from the device's calendars, reduced on the device (EventKit on iOS, CalendarContract on Android): no title, attendee, place or time crosses to JS.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}
