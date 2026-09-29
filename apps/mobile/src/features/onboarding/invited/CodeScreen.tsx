@@ -23,6 +23,7 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { CodeBoxes, type CodeStatus } from '@/ui/inputs/CodeBoxes';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Skeleton } from '@/ui/states/Skeleton';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
@@ -42,12 +43,7 @@ const useStyles = makeStyles((th) => ({
   content: { flex: 1, paddingHorizontal: th.space['20'], gap: th.space['16'] },
   top: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   paste: { width: 140, height: MIN_TOUCH_TARGET },
-  footer: {
-    paddingHorizontal: th.space['20'],
-    paddingBottom: th.space['8'],
-    gap: th.space['8'],
-    alignItems: 'center',
-  },
+  footer: { alignItems: 'center' },
 }));
 
 export function CodeScreen() {
@@ -132,8 +128,14 @@ export function CodeScreen() {
 
   const crew = model.crewName ?? '';
   const inviter = model.inviterFirstName ?? '';
+  const joinable = found && problem === null;
   return (
-    <Scaffold variant="dark" edges={['top', 'bottom']} testID="invite-code-screen">
+    // The join footer pads the bottom inset itself and rides the keyboard; without it, the screen does.
+    <Scaffold
+      variant="dark"
+      edges={joinable ? ['top'] : ['top', 'bottom']}
+      testID="invite-code-screen"
+    >
       <View style={styles.content}>
         <View style={styles.top}>
           <BackEyebrow label={t({ id: 'onboarding.invite.code.back', message: 'Back' })} />
@@ -197,8 +199,8 @@ export function CodeScreen() {
           <FoundCrewCard model={model} />
         ) : null}
       </View>
-      {found && problem === null ? (
-        <View style={styles.footer}>
+      {joinable ? (
+        <KeyboardFooter style={styles.footer}>
           <PillButton
             label={
               model.status === 'full'
@@ -220,7 +222,7 @@ export function CodeScreen() {
             })}
             onPress={() => setTyped('')}
           />
-        </View>
+        </KeyboardFooter>
       ) : null}
     </Scaffold>
   );

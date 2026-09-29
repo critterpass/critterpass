@@ -25,6 +25,13 @@ export function useSurfaceTone(): SurfaceTone {
 
 export const SurfaceToneProvider = SurfaceToneContext.Provider;
 
+const SurfaceBackgroundContext = createContext<string | null>(null);
+
+/** The colour of the screen a component sits on (the nearest `Scaffold`), or null outside one. */
+export function useSurfaceBackground(): string | null {
+  return useContext(SurfaceBackgroundContext);
+}
+
 const TONE: Readonly<Record<ScaffoldVariant, SurfaceTone>> = {
   dark: 'dark',
   paper: 'paper',
@@ -88,6 +95,7 @@ export function Scaffold({
   const joltStyle = useScreenJoltStyle();
   const presenterStyle = usePresenterStyle();
   const tone = TONE[variant];
+  const backgroundColor = backgroundFor(variant, theme, accent);
 
   const padding: ViewStyle = {
     paddingTop: edges.includes('top') ? insets.top : 0,
@@ -96,23 +104,20 @@ export function Scaffold({
 
   return (
     <SurfaceToneProvider value={tone}>
-      <Animated.View
-        testID={testID}
-        style={[
-          styles.root,
-          { backgroundColor: backgroundFor(variant, theme, accent) },
-          style,
-          presenterStyle,
-        ]}
-      >
-        <StatusBar barStyle={tone === 'dark' ? 'light-content' : 'dark-content'} />
-        {background ? (
-          <View style={StyleSheet.absoluteFill} pointerEvents="none">
-            {background}
-          </View>
-        ) : null}
-        <Animated.View style={[styles.content, padding, joltStyle]}>{children}</Animated.View>
-      </Animated.View>
+      <SurfaceBackgroundContext.Provider value={backgroundColor}>
+        <Animated.View
+          testID={testID}
+          style={[styles.root, { backgroundColor }, style, presenterStyle]}
+        >
+          <StatusBar barStyle={tone === 'dark' ? 'light-content' : 'dark-content'} />
+          {background ? (
+            <View style={StyleSheet.absoluteFill} pointerEvents="none">
+              {background}
+            </View>
+          ) : null}
+          <Animated.View style={[styles.content, padding, joltStyle]}>{children}</Animated.View>
+        </Animated.View>
+      </SurfaceBackgroundContext.Provider>
     </SurfaceToneProvider>
   );
 }

@@ -227,6 +227,16 @@ const Easing = {
 // since it is the only one this package's motion code renders directly.
 const Animated = { View, createAnimatedComponent };
 
+/**
+ * The on-screen keyboard as `useAnimatedKeyboard` reports it: closed until a test sets `height`
+ * (points it covers from the bottom of the screen) and `state` (0 closed … 2 open).
+ */
+export const keyboardForTests = { height: makeMutable(0), state: makeMutable(0) };
+
+function useAnimatedKeyboard(): typeof keyboardForTests {
+  return keyboardForTests;
+}
+
 const mockExports = {
   default: Animated,
   createAnimatedComponent,
@@ -244,6 +254,8 @@ const mockExports = {
   withSequence,
   cancelAnimation,
   useReducedMotion,
+  useAnimatedKeyboard,
+  keyboardForTests,
   Easing,
 };
 
