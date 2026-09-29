@@ -8,6 +8,10 @@ appId: app.critterpass.dev
     visible:
       id: 'final-split-open'
     timeout: 30000
+# Lift the card and its tally strip above the tab bar.
+- swipe:
+    start: 50%, 70%
+    end: 50%, 45%
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3b-6-final
 - tapOn:

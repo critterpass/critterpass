@@ -24,7 +24,8 @@ appId: app.critterpass.dev
     timeout: 20000
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3b-7-search
-- tapOn: 'MARRAKECH'
+# The row's accessible name leads with the place ("Marrakech, Morocco · …") in every language.
+- tapOn: 'Marrakech,.*'
 - extendedWaitUntil:
     visible:
       id: 'guest-locals'
