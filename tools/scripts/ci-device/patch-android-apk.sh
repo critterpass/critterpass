@@ -3,8 +3,9 @@
 #
 #   tools/scripts/ci-device/patch-android-apk.sh <in.apk> <index.android.bundle> <out.apk>
 #
-# Replaces assets/index.android.bundle, sets expo.modules.updates.ENABLED to false (and
-# extractNativeLibs to true) in the compiled manifest (so the app never loads whatever was last published to the shared e2e-test channel), then
+# Replaces assets/index.android.bundle and, in the compiled manifest, sets
+# expo.modules.updates.ENABLED to false (so the app never loads whatever was last published to the
+# shared e2e-test channel) and extractNativeLibs to true; then
 # zipaligns and signs the APK with a throwaway debug key. Needs ANDROID_HOME (build-tools), Java and
 # `npx tsx`. New image assets that the APK's resources lack cannot be added this way: Android
 # resolves bundled images from compiled resources.
