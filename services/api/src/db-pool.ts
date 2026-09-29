@@ -1,3 +1,4 @@
+import { watchPoolErrors } from '@cp/db';
 import pg from 'pg';
 import type { Logger } from 'pino';
 
@@ -13,6 +14,7 @@ export function createRequestPool(
     connectionTimeoutMillis: 2000,
     idleTimeoutMillis: 30_000,
   });
-  pool.on('error', (error) => logger.error({ err: error }, 'idle database client error'));
-  return pool;
+  return watchPoolErrors(pool, (error) =>
+    logger.error({ err: error, pool: 'request' }, 'database client error'),
+  );
 }

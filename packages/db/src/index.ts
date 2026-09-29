@@ -1,6 +1,7 @@
 export {
   createPool,
   runMigrations,
+  watchPoolErrors,
   type CreatePoolOptions,
   type MigrationResult,
   type RunMigrationsOptions,

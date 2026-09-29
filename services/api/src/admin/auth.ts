@@ -9,7 +9,7 @@
  */
 import { createHmac } from 'node:crypto';
 
-import { schema } from '@cp/db';
+import { schema, watchPoolErrors } from '@cp/db';
 import { generateUuidV7, serializeAdminRoles } from '@cp/domain';
 import { betterAuth, type BetterAuthOptions, type BetterAuthPlugin } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
@@ -177,10 +177,10 @@ export function buildAdminAuthOptions(
 
 export function createAdminAuth(deps: AdminAuthDeps): AdminAuth {
   const pool = new pg.Pool({ connectionString: deps.authDatabaseUrl, max: deps.poolMax ?? 2 });
-  pool.on(
-    'error',
+  watchPoolErrors(
+    pool,
     deps.onPoolError ??
-      ((error) => process.emitWarning(`idle admin auth database client error: ${error.message}`)),
+      ((error) => process.emitWarning(`admin auth database client error: ${error.message}`)),
   );
   const auth = betterAuth(buildAdminAuthOptions(deps, drizzle(pool)));
   return {

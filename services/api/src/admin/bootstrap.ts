@@ -73,7 +73,7 @@ export function buildAdminConsole(env: ApiEnv, deps: AdminConsoleDeps): AdminCon
         ? { clientId: env.ADMIN_GOOGLE_CLIENT_ID, clientSecret: env.ADMIN_GOOGLE_CLIENT_SECRET }
         : undefined,
     devSignIn: env.ADMIN_DEV_SIGN_IN,
-    onPoolError: (error) => deps.logger.error({ err: error }, 'idle admin auth client error'),
+    onPoolError: (error) => deps.logger.error({ err: error }, 'admin auth database client error'),
   });
   const router = createAdminRouter({
     pool: deps.pool,

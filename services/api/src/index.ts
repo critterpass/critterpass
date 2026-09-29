@@ -1,5 +1,4 @@
 import { serve } from '@hono/node-server';
-import { createClient } from 'redis';
 
 import packageJson from '../package.json' with { type: 'json' };
 
@@ -61,14 +60,14 @@ import { mountAdminRouter } from './admin/router';
 import { createServerAnalytics } from './obs/analytics';
 import { startApiObservability } from './obs';
 import { createRequestPool } from './db-pool';
+import { createRedisClient } from './redis-client';
 
 const env = loadApiEnv();
 const { logger, errors } = startApiObservability(env, packageJson.version);
 
 const pool = createRequestPool(env.DATABASE_URL, env.DB_POOL_MAX, logger);
 
-const redis = createClient({ url: env.REDIS_URL, socket: { connectTimeout: 2000 } });
-redis.on('error', (error: unknown) => logger.warn({ err: error }, 'redis connection error'));
+const redis = createRedisClient(env.REDIS_URL, logger);
 // Connect in the background: readiness reports Redis until it is reachable, boot never blocks on it.
 redis
   .connect()
@@ -109,7 +108,7 @@ const app = createApp({
 // actually present in env — an absent one is omitted, never faked (services/api/src/auth/bootstrap.ts).
 const authModule = createAuthModule({
   appPool: pool,
-  onPoolError: (error) => logger.error({ err: error }, 'idle auth database client error'),
+  onPoolError: (error) => logger.error({ err: error }, 'auth database client error'),
   authDatabaseUrl: env.AUTH_DATABASE_URL,
   authPoolMax: env.AUTH_POOL_MAX,
   redis,

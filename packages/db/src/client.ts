@@ -16,8 +16,27 @@ export interface CreatePoolOptions {
   readonly connectionString: string;
   /** Defaults to 10; keep low for services (per-replica) and lower still for tests. */
   readonly max?: number;
-  /** Receives errors from idle connections (e.g. a database restart); defaults to a process warning. */
+  /** Receives connection errors (e.g. a database restart), idle or checked out; defaults to a process warning. */
   readonly onIdleError?: (error: Error) => void;
+}
+
+/**
+ * Keeps a pool's connection errors from crashing the process. pg re-emits a socket error (a TLS
+ * `read ETIMEDOUT`, a failover reset) as an `error` event on the client even while a query is in
+ * flight, and pg-pool listens only while the client sits idle; a checked-out client whose socket
+ * dies with nobody listening throws an uncaught exception. So every client gets its own listener
+ * for its whole life, and the pool's idle-client event, which repeats the same error, is absorbed.
+ * The failed client is not queryable any more: its query rejects, and the pool discards it on
+ * release and opens a fresh connection for the next caller.
+ *
+ * `onError` receives the error only (pg errors carry no connection string or password).
+ */
+export function watchPoolErrors(pool: pg.Pool, onError: (error: Error) => void): pg.Pool {
+  pool.on('connect', (client) => {
+    client.on('error', onError);
+  });
+  pool.on('error', () => undefined);
+  return pool;
 }
 
 /** A pooled connection; the pool itself carries no session state (every helper uses `SET LOCAL`). */
@@ -28,13 +47,11 @@ export function createPool(options: CreatePoolOptions | string): pg.Pool {
     connectionString: resolved.connectionString,
     max: resolved.max ?? 10,
   });
-  // Without a listener, an idle connection's `error` event (database restart, failover) crashes the process.
-  pool.on(
-    'error',
+  return watchPoolErrors(
+    pool,
     resolved.onIdleError ??
-      ((error) => process.emitWarning(`idle database client error: ${error.message}`)),
+      ((error) => process.emitWarning(`database client error: ${error.message}`)),
   );
-  return pool;
 }
 
 export interface RunMigrationsOptions {

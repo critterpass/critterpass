@@ -1,5 +1,5 @@
 import { resolveRoute } from '@cp/ai';
-import { createKillSwitchReader, onEventAppended } from '@cp/db';
+import { createKillSwitchReader, onEventAppended, watchPoolErrors } from '@cp/db';
 import { serve } from '@hono/node-server';
 import pg from 'pg';
 import { createClient } from 'redis';
@@ -75,7 +75,9 @@ const pool = new pg.Pool({
   connectionTimeoutMillis: 2000,
   idleTimeoutMillis: 30_000,
 });
-pool.on('error', (error) => logger.error({ err: error }, 'idle database client error'));
+watchPoolErrors(pool, (error) =>
+  logger.error({ err: error, pool: 'jobs' }, 'database client error'),
+);
 
 const redis = createClient({ url: env.REDIS_URL, socket: { connectTimeout: 2000 } });
 redis.on('error', (error: unknown) => logger.warn({ err: error }, 'redis connection error'));

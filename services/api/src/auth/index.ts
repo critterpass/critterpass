@@ -5,7 +5,7 @@
  * surface to mount; `services/api/test/auth/*.db.test.ts` builds the same module directly against
  * Testcontainers with fake OTP/attestation ports at the network boundary.
  */
-import type { KillSwitchReader } from '@cp/db';
+import { watchPoolErrors, type KillSwitchReader } from '@cp/db';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
 
@@ -111,12 +111,12 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
     connectionString: deps.authDatabaseUrl,
     max: deps.authPoolMax ?? 5,
   });
-  // An idle connection that dies (database restart, failover) emits `error` on the pool; without a
+  // A connection that dies (database restart, failover, network timeout) emits `error`; without a
   // listener that event crashes the process.
-  authPool.on(
-    'error',
+  watchPoolErrors(
+    authPool,
     deps.onPoolError ??
-      ((error) => process.emitWarning(`idle auth database client error: ${error.message}`)),
+      ((error) => process.emitWarning(`auth database client error: ${error.message}`)),
   );
   const db = drizzle(authPool);
 
