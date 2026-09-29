@@ -194,7 +194,9 @@ export function Sticker(props: StickerProps): React.JSX.Element {
   const [image, setImage] = useState<SkImage | null>(null);
 
   useEffect(() => {
-    if (UI_QA_ENABLED && spec.sticker === null && spec.variant !== 'mask') {
+    // Icons draw bare by design: masks, and the `srcOver` line icons on dark UI (the egg tab icon).
+    const icon = spec.variant === 'mask' || spec.blend === 'srcOver';
+    if (UI_QA_ENABLED && spec.sticker === null && !icon) {
       // eslint-disable-next-line lingui/no-unlocalized-strings -- a report code, never shown to a user
       reportUiQa('STICKER_NO_OUTLINE', `${props.kind}:${name}`);
     }
