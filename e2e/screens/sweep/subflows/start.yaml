@@ -3,6 +3,9 @@ appId: app.critterpass.dev
 # A fresh install on the splash, in ${LANG} (en or vi). Vietnamese is switched from the dev
 # gallery's language row (kept in memory only: it survives links, not a relaunch), then two back
 # swipes return to the splash.
+# The keychain outlives a cleared install on iOS: without this the new pass signs back in to the
+# account an earlier flow on this simulator made (and seeded).
+- clearKeychain
 - launchApp:
     clearState: true
 # A link dialog an earlier flow left open covers the first screen.

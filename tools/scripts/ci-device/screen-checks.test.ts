@@ -14,7 +14,8 @@ import {
 } from './screen-checks';
 import { appBackground } from './screen-scan';
 
-// Founder device screenshots (downscaled; reviewer marks painted out where they crossed an edge).
+// Founder device screenshots and one CI simulator capture (downscaled; reviewer marks painted out
+// where they crossed an edge).
 const FIXTURES = path.join(import.meta.dirname, '__fixtures__/screens');
 const load = (name: string) => decodePng(readFileSync(path.join(FIXTURES, `${name}.png`)));
 const BG = appBackground();
@@ -96,6 +97,12 @@ describe('screen checks', { timeout: 60_000 }, () => {
       const band = findKeyboardBand(image);
       expect(band?.code).toBe('KEYBOARD_BAND');
       expect(band?.detail).toContain('#000000');
+    });
+
+    it('reads a light number pad (its grey tray too) as the keyboard, not a band', () => {
+      const pad = load('phone-number-pad');
+      expect(keyboardTop(pad)).not.toBeNull();
+      expect(findKeyboardBand(pad)).toBeNull();
     });
 
     it('passes a screen whose own background runs down to the keyboard', () => {

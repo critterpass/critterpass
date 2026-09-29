@@ -148,7 +148,7 @@ function rowSamples(image: RgbaImage, y: number, from = 0.02, to = 0.98, count =
 function isKeyboardRow(image: RgbaImage, y: number): boolean {
   const samples = rowSamples(image, y, 0.06, 0.94, 60);
   const neutral = samples.filter(
-    (c) => Math.max(...c) - Math.min(...c) <= 12 && Math.max(...c) >= 24,
+    (c) => Math.max(...c) - Math.min(...c) <= 16 && Math.max(...c) >= 24,
   );
   return neutral.length >= samples.length * 0.7;
 }
