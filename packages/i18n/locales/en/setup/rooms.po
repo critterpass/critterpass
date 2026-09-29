@@ -7,6 +7,239 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
-#: ../../apps/mobile/src/features/setup/rooms/rooms-step.tsx
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.each"
+msgstr " each"
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.to"
+msgstr " to "
+
+#. placeholder {0}: organiser?.name ?? ''
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.waitingStay"
+msgstr "{0} is picking the stay. The rooms show up here."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.line.two"
+msgstr "{guide} grouped {a} and {b}. Drag anyone to swap."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.line.one"
+msgstr "{guide} grouped {a}. Drag anyone to swap."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.line.plain"
+msgstr "{guide} made the rooms. Drag anyone to swap."
+
+#: ../../apps/mobile/src/features/setup/rooms/draggable-avatar.tsx
+msgid "setup.rooms.a11y.selected"
+msgstr "{name}, picked. Tap a room to move them."
+
+#: ../../apps/mobile/src/features/setup/rooms/draggable-avatar.tsx
+msgid "setup.rooms.a11y.person"
+msgstr "{name}. Tap to move to another room."
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
+msgid "setup.rooms.nights"
+msgstr "{nights} nights"
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
+msgid "setup.rooms.datesNights"
+msgstr "{range} · {nights} nights"
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
+msgid "setup.rooms.samePairs"
+msgstr "{rooms} rooms. Same pairs as the {first}."
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-picker.tsx
+msgid "setup.rooms.estimate"
+msgstr "About {estimate} a room a night, estimate"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.stay.apartment"
+msgstr "Apartment"
+
+#: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
+msgid "setup.rooms.askSwap"
+msgstr "Ask to swap"
+
+#: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
+msgid "setup.rooms.swapSent"
+msgstr "Asked {organiser} for a swap."
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.unequal"
+msgstr "Bigger rooms cost their people a bit more."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.tag"
+msgstr "Budget"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.trait.couple"
+msgstr "Couple"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.chip.dontCare"
+msgstr "Don’t care"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.chip.earlyBird"
+msgstr "Early bird"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.trait.earlyRisers"
+msgstr "Early risers"
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.equal"
+msgstr "Every room splits the same way."
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
+msgid "setup.rooms.freeCancel"
+msgstr "Free cancellation until {until}"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.stay.guesthouse"
+msgstr "Guesthouse"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.line.member"
+msgstr "Here’s where you sleep. {organiser} sets the rooms; ask if you’d like a swap."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.stay.hostel"
+msgstr "Hostel"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.stay.hotel"
+msgstr "Hotel"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.chip.snorer"
+msgstr "I snore"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-plan.tsx
+msgid "setup.rooms.unplaced.organiser"
+msgstr "Joined after the rooms were made. Drop them into a room."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.chip.lightSleeper"
+msgstr "Light sleeper"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.trait.lightSleepers"
+msgstr "Light sleepers"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.offline"
+msgstr "Locking the rooms needs signal."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.lock"
+msgstr "Looks good"
+
+#: ../../apps/mobile/src/features/setup/rooms/room-row.tsx
+msgid "setup.rooms.a11y.moveHere"
+msgstr "Move here: {spoken}"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.chip.nightOwl"
+msgstr "Night owl"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.trait.nightOwls"
+msgstr "Night owls"
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-picker.tsx
+msgid "setup.rooms.noStays"
+msgstr "No stay prices for this place yet. The rooms split evenly for now."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-plan.tsx
+msgid "setup.rooms.unplaced.member"
+msgstr "Not in a room yet."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.evenSplit"
+msgstr "One room for everyone, so the stay splits evenly. You can skip this step."
+
+#: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
+msgid "setup.rooms.wishesMissing"
+msgstr "Pick any that fit you. Nobody sees them; they only shape the rooms."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.pickStay"
+msgstr "Pick where you’ll stay and {guide} splits the rooms."
+
+#: ../../apps/mobile/src/features/setup/rooms/room-row.tsx
+msgid "setup.rooms.room"
+msgstr "Room {n}"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.noDates"
+msgstr "Rooms come once the dates are locked, so the nights add up."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.stay.ryokan"
+msgstr "Ryokan"
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
+msgid "setup.rooms.separate"
+msgstr "Set these rooms separately"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.skip"
+msgstr "Skip rooms"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.conflict"
+msgstr "Someone else just moved people. Here’s the latest."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.lockFailed"
+msgstr "That didn’t lock. Pick a stay and try again."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-plan.tsx
+msgid "setup.rooms.full"
+msgstr "That room is full. Move someone out of it first."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.stayFailed"
+msgstr "That stay didn’t go through. Check the dates are locked and try again."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.stayGone"
+msgstr "That stay isn’t on offer for these dates any more. Pick another."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.traitIn.couple"
+msgstr "the couple"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.traitIn.earlyRisers"
+msgstr "the early risers"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.traitIn.lightSleepers"
+msgstr "the light sleepers"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.traitIn.nightOwls"
+msgstr "the night owls"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.stay.villa"
+msgstr "Villa"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.title"
 msgstr "Who sleeps where?"
+
+#: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
+msgid "setup.rooms.wishes"
+msgstr "Your room wishes"
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.mine"
+msgstr "Your share of the rooms:"

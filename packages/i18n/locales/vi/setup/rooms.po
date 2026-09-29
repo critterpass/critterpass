@@ -7,6 +7,239 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#: ../../apps/mobile/src/features/setup/rooms/rooms-step.tsx
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.each"
+msgstr " mỗi người"
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.to"
+msgstr " đến "
+
+#. placeholder {0}: organiser?.name ?? ''
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.waitingStay"
+msgstr "{0} đang chọn chỗ ở. Phòng sẽ hiện ở đây."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.line.two"
+msgstr "{guide} xếp {a} và {b} chung phòng. Kéo ai cũng được để đổi."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.line.one"
+msgstr "{guide} xếp {a} chung phòng. Kéo ai cũng được để đổi."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.line.plain"
+msgstr "{guide} đã chia phòng. Kéo ai cũng được để đổi."
+
+#: ../../apps/mobile/src/features/setup/rooms/draggable-avatar.tsx
+msgid "setup.rooms.a11y.selected"
+msgstr "{name}, đã chọn. Chạm vào một phòng để chuyển."
+
+#: ../../apps/mobile/src/features/setup/rooms/draggable-avatar.tsx
+msgid "setup.rooms.a11y.person"
+msgstr "{name}. Chạm để chuyển sang phòng khác."
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
+msgid "setup.rooms.nights"
+msgstr "{nights} đêm"
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
+msgid "setup.rooms.datesNights"
+msgstr "{range} · {nights} đêm"
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
+msgid "setup.rooms.samePairs"
+msgstr "{rooms} phòng. Ghép cặp như ở {first}."
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-picker.tsx
+msgid "setup.rooms.estimate"
+msgstr "Khoảng {estimate} một phòng một đêm, ước tính"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.stay.apartment"
+msgstr "Căn hộ"
+
+#: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
+msgid "setup.rooms.askSwap"
+msgstr "Xin đổi phòng"
+
+#: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
+msgid "setup.rooms.swapSent"
+msgstr "Đã nhờ {organiser} đổi phòng."
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.unequal"
+msgstr "Phòng rộng hơn thì người ở trả nhỉnh hơn."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.tag"
+msgstr "Ngân sách"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.trait.couple"
+msgstr "Cặp đôi"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.chip.dontCare"
+msgstr "Sao cũng được"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.chip.earlyBird"
+msgstr "Dậy sớm"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.trait.earlyRisers"
+msgstr "Dậy sớm"
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.equal"
+msgstr "Phòng nào cũng chia đều như nhau."
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
+msgid "setup.rooms.freeCancel"
+msgstr "Hủy miễn phí đến {until}"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.stay.guesthouse"
+msgstr "Nhà nghỉ"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.line.member"
+msgstr "Đây là chỗ bạn ngủ. {organiser} xếp phòng; muốn đổi thì cứ hỏi."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.stay.hostel"
+msgstr "Hostel"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.stay.hotel"
+msgstr "Khách sạn"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.chip.snorer"
+msgstr "Mình ngáy"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-plan.tsx
+msgid "setup.rooms.unplaced.organiser"
+msgstr "Vào nhóm sau khi đã chia phòng. Thả họ vào một phòng."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.chip.lightSleeper"
+msgstr "Ngủ tỉnh"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.trait.lightSleepers"
+msgstr "Ngủ tỉnh"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.offline"
+msgstr "Cần có sóng để chốt phòng."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.lock"
+msgstr "Ổn rồi"
+
+#: ../../apps/mobile/src/features/setup/rooms/room-row.tsx
+msgid "setup.rooms.a11y.moveHere"
+msgstr "Chuyển vào đây: {spoken}"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.chip.nightOwl"
+msgstr "Cú đêm"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.trait.nightOwls"
+msgstr "Cú đêm"
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-picker.tsx
+msgid "setup.rooms.noStays"
+msgstr "Chưa có giá chỗ ở cho nơi này. Tạm thời chia phòng đều."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-plan.tsx
+msgid "setup.rooms.unplaced.member"
+msgstr "Chưa có phòng."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.evenSplit"
+msgstr "Cả nhóm một phòng nên chia đều. Bạn có thể bỏ qua bước này."
+
+#: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
+msgid "setup.rooms.wishesMissing"
+msgstr "Chọn cái nào hợp với bạn. Không ai thấy đâu; chỉ dùng để xếp phòng."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.pickStay"
+msgstr "Chọn chỗ ở rồi {guide} sẽ chia phòng."
+
+#: ../../apps/mobile/src/features/setup/rooms/room-row.tsx
+msgid "setup.rooms.room"
+msgstr "Phòng {n}"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.noDates"
+msgstr "Chốt ngày xong mới chia phòng, để số đêm khớp."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.stay.ryokan"
+msgstr "Ryokan"
+
+#: ../../apps/mobile/src/features/setup/rooms/stay-card.tsx
+msgid "setup.rooms.separate"
+msgstr "Xếp riêng phòng ở đây"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.skip"
+msgstr "Bỏ qua phòng"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.conflict"
+msgstr "Có người vừa đổi phòng. Đây là bản mới nhất."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.lockFailed"
+msgstr "Chưa chốt được. Chọn chỗ ở rồi thử lại."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-plan.tsx
+msgid "setup.rooms.full"
+msgstr "Phòng đó đã đủ người. Chuyển bớt một người ra trước."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.stayFailed"
+msgstr "Chưa chọn được chỗ ở. Kiểm tra đã chốt ngày chưa rồi thử lại."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.stayGone"
+msgstr "Chỗ ở đó không còn cho những ngày này. Chọn chỗ khác nhé."
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.traitIn.couple"
+msgstr "cặp đôi"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.traitIn.earlyRisers"
+msgstr "những người dậy sớm"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.traitIn.lightSleepers"
+msgstr "những người ngủ tỉnh"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.traitIn.nightOwls"
+msgstr "những cú đêm"
+
+#: ../../apps/mobile/src/features/setup/rooms/copy.ts
+msgid "setup.rooms.stay.villa"
+msgstr "Biệt thự"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.title"
-msgstr ""
+msgstr "Ai ngủ đâu?"
+
+#: ../../apps/mobile/src/features/setup/rooms/member-tools.tsx
+msgid "setup.rooms.wishes"
+msgstr "Mong muốn về phòng"
+
+#: ../../apps/mobile/src/features/setup/rooms/price-line.tsx
+msgid "setup.rooms.price.mine"
+msgstr "Phần tiền phòng của bạn:"
