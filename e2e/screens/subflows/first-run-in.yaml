@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# Home's first run (3b-1) in another language: the dev gallery switches the running app's language
+# (`LOCALE`, a gallery locale code; not persisted), two back swipes return to the splash, and the
+# shortest onboarding pass reaches Home.
+- runFlow: open-gallery.yaml
+- tapOn:
+    id: 'gallery-locale-${LOCALE}'
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+- waitForAnimationToEnd
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+- runFlow: ../../home/subflows/onboard.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 3000
