@@ -204,16 +204,16 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 | `undo_guide_action` | `{action_id}` | affected member or organiser | within undo window | `guide_action.undone` | A, O, N | 25 |
 | `dismiss_tip` | `{tip_id}` | self | – | `tip.dismissed` | A, O | 25 |
 | `save_place` / `unsave_place` | `{place_id}` | self | – | `place.saved/unsaved` | A, O | 30 |
-| `create_trip` | `{crew_id?, place_id, solo: bool}` | member / self | FTF auto-grant check | `trip.created` | A, O | 26 |
+| `create_trip` | `{trip_id?, crew_id?, place_id, solo: bool, pitch_id?, month?}` → `{trip_id, status, poll_id, solo, ftf_eligible}`. Crew: `voting` trip + destination poll (board) + the place as first candidate (plus queued pitches) in one transaction; an open vote takes the place instead (same as `add_poll_candidate`). Solo: `setup`, one seat, no poll or RSVP; `crew_id` defaults to the caller's active crew | member / self | FTF eligibility (`ftfEligible`: crew trips only, never solo) | `trip.created`, `trip.status_changed`, `poll.created`, `poll.candidate_added` | A, O | 26 |
 
 ### 4.4 Polls, votes, decisions (P26, P29, P37)
 
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
-| `create_poll` | `{crew_id, trip_id?, kind: destination\|generic\|changeset\|decision, question, options[], closes_at}` | member (changeset/decision: S or organiser) | – | `poll.created` | A, O, S | 26 |
-| `add_poll_candidate` | `{poll_id, place_id, pitch_id?}` | member | – | `poll.candidate_added` | A, O | 26 |
-| `cast_ballot` | `{poll_id, option_id}` (upsert) | voter | – (always free) | `ballot.cast` / `ballot.changed` | A, O, N, W, L, I | 26 |
-| `retract_ballot` | `{poll_id}` | voter | – | `ballot.retracted` | A, O | 26 |
+| `create_poll` | `{poll_id?, crew_id, trip_id?, kind: generic\|day_option\|changeset_approval\|decision, question ≤140, options[2..6]{label ≤80, kind?, ref_id?}, closes_at? (5 min–30 d), allow_change, decider_policy?, threshold?, affected_user_ids?}` → `{poll_id}`; posts the poll card in crew chat; destination polls start with `create_trip` | member (changeset_approval/decision: S or organiser) | – | `poll.created` | A, O, S | 26 |
+| `add_poll_candidate` | `{crew_id, poll_id?, place_id, pitch_id?, month?, trip_id?}` → `{outcome: board_created\|added\|already_on_board\|queued, poll_id, trip_id, option_id, pitch_id, pitch_status, voted, eligible}`; no open vote → starts one (voting trip + poll in one transaction); final in progress → pitch `queued` (joins the next board); the candidate's fare is frozen for the crew's majority home airport; ≤8 places (`STATE_INVALID board_full`) | member | – | `poll.candidate_added`, `pitch.queued` | A, O | 26 |
+| `cast_ballot` | `{poll_id, option_id}` (upsert) → `{poll_id, status, stage, option_tallies, pending_count, eligible_count, my_option_id, winner_option_id}`; poll row lock serialises ballots and closes; after the close or deadline `VOTE_CLOSED` with `detail.result`; not in the snapshot `NOT_ELIGIBLE`; the last ballot needed closes the poll (plurality: all voted; approvals: decider); action-key scope `ballot` | voter | – (always free) | `ballot.cast` / `ballot.changed`, `poll.lead_changed` | A, O, N, W, L, I | 26 |
+| `retract_ballot` | `{poll_id}` → tallies (as `cast_ballot`); not on a poll that forbids changes | voter | – | `ballot.retracted` | A, O | 26 |
 | `close_poll` | `{poll_id}` | creator / organiser / S at `closes_at` | – | `poll.closed`, `poll.result_computed` | A, S | 26 |
 | `mark_reveal_seen` | `{poll_id}` | voter | – | `poll.reveal_seen` | A, O | 26 |
 | `create_vote_from_guide` | `{draft_id}` (after user taps PROPOSE TO GROUP) | member | – | `poll.created` | A | 32 |

@@ -7,3 +7,4 @@ export * from './eligibility';
 export * from './decider';
 export * from './tie-rules';
 export * from './board-layout';
+export * from './commands';

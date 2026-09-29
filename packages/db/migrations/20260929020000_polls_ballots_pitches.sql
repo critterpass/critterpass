@@ -348,6 +348,68 @@ GRANT SELECT, INSERT (id, poll_id, user_id, seen_at) ON poll_reveals TO app_user
 GRANT UPDATE (seen_at) ON poll_reveals TO app_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON poll_reveals TO app_system;
 
+-- Crew membership follows open polls: a member who joins while a destination board is open gets a
+-- vote on it; a member who leaves loses their ballot on every open poll of the crew and drops out
+-- of the eligible count (the bar denominator).
+CREATE OR REPLACE FUNCTION app.crew_members_poll_eligibility() RETURNS trigger
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public, app AS $$
+BEGIN
+  IF NEW.status = 'active' AND (TG_OP = 'INSERT' OR OLD.status <> 'active') THEN
+    UPDATE polls SET eligible_voter_ids = array_append(eligible_voter_ids, NEW.user_id)
+     WHERE crew_id = NEW.crew_id AND status = 'open' AND kind = 'destination' AND stage = 'board'
+       AND NOT (NEW.user_id = ANY (eligible_voter_ids));
+  ELSIF TG_OP = 'UPDATE' AND OLD.status = 'active' AND NEW.status <> 'active' THEN
+    DELETE FROM ballots b USING polls p
+     WHERE b.poll_id = p.id AND p.crew_id = NEW.crew_id AND p.status = 'open'
+       AND b.user_id = NEW.user_id;
+    UPDATE polls SET eligible_voter_ids = array_remove(eligible_voter_ids, NEW.user_id)
+     WHERE crew_id = NEW.crew_id AND status = 'open' AND NEW.user_id = ANY (eligible_voter_ids);
+  END IF;
+  RETURN NULL;
+END;
+$$;
+REVOKE EXECUTE ON FUNCTION app.crew_members_poll_eligibility() FROM PUBLIC;
+CREATE TRIGGER crew_members_poll_eligibility AFTER INSERT OR UPDATE OF status ON crew_members
+  FOR EACH ROW EXECUTE FUNCTION app.crew_members_poll_eligibility();
+
+-- A member's command may publish a poll's live tallies on `poll:{id}` (the relay's only object
+-- namespace so far); everything else about `app.enqueue_rt` is unchanged.
+CREATE OR REPLACE FUNCTION app.enqueue_rt(channel text, payload jsonb, kind text DEFAULT 'publish') RETURNS bigint
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public, app AS $$
+DECLARE
+  caller_uid uuid := app.uid();
+  new_id bigint;
+BEGIN
+  IF kind NOT IN ('publish', 'unsubscribe', 'disconnect') THEN
+    RAISE EXCEPTION 'invalid rt_outbox kind: %', kind USING ERRCODE = 'invalid_parameter_value';
+  END IF;
+
+  IF kind <> 'publish' AND caller_uid IS NOT NULL THEN
+    RAISE EXCEPTION 'only app_system or a trigger may enqueue kind %', kind USING ERRCODE = 'insufficient_privilege';
+  END IF;
+
+  IF caller_uid IS NOT NULL THEN
+    IF NOT (
+      channel = app.channel_name('user', caller_uid::text)
+      OR (channel LIKE 'crew%:%' AND app.is_crew_member(split_part(channel, ':', 2)::uuid))
+      OR (channel LIKE 'trip%:%' AND app.is_trip_member(split_part(channel, ':', 2)::uuid))
+      OR (channel LIKE 'poll:%' AND EXISTS (
+        SELECT 1 FROM polls p
+         WHERE p.id = split_part(channel, ':', 2)::uuid
+           AND app.can_read_poll_scope(p.crew_id, p.trip_id)
+      ))
+    ) THEN
+      RAISE EXCEPTION 'not permitted to publish on channel %', channel USING ERRCODE = 'insufficient_privilege';
+    END IF;
+  END IF;
+
+  INSERT INTO rt_outbox (channel, payload, idem_key, kind)
+  VALUES (channel, payload, gen_random_uuid(), kind)
+  RETURNING id INTO new_id;
+  RETURN new_id;
+END;
+$$;
+
 -- change_sets.poll_id now has its table.
 ALTER TABLE change_sets ADD CONSTRAINT change_sets_poll_id_fk FOREIGN KEY (poll_id) REFERENCES polls (id);
 CREATE INDEX change_sets_poll_id_idx ON change_sets (poll_id) WHERE poll_id IS NOT NULL;

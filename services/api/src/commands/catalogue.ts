@@ -15,6 +15,7 @@ import { registerHomeCommands } from './home';
 import { registerInboxCommands } from './inbox';
 import { registerLiveMapCommands } from './live-map';
 import { registerOnboardingCommands } from './onboarding';
+import { registerPollCommands } from './polls';
 import { reportContentCommand } from './report-content';
 import { registerLocationCommands } from './visits';
 
@@ -30,6 +31,7 @@ export function createAppCommandRegistry(): CommandRegistry {
   registerInboxCommands(commands);
   registerHomeCommands(commands);
   registerLiveMapCommands(commands);
+  registerPollCommands(commands);
   commands.register(undoGuideActionCommand);
   commands.register(reportContentCommand);
   commands.register(approveOpsActionCommand);

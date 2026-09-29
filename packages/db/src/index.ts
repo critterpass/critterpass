@@ -73,3 +73,4 @@ export {
   type KillSwitchReaderOptions,
 } from './kill-switches';
 export { poolMaxEnv, POOL_MAX_LIMIT } from './pool-env';
+export * from './polls';

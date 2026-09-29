@@ -42,3 +42,4 @@ export {
   type TripBoostSource,
   type TripBoostStatus,
 } from './sources';
+export { ftfEligible, type FtfEligibilityInput } from './ftf';
