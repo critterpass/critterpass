@@ -25,7 +25,9 @@ import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import type { ReactElement } from 'react';
-import { Text } from 'react-native';
+import { StyleSheet, Text, type StyleProp, type ViewStyle } from 'react-native';
+
+import { tokens } from '@cp/design-tokens';
 
 import {
   openTestLocalFirst,
@@ -164,6 +166,25 @@ describe('3g-3 your crews', () => {
     expect(screen.getByText(/^ramen club$/iu)).toBeTruthy();
     expect(screen.getByText('Dev invited you')).toBeTruthy();
     stop();
+  });
+
+  it('rings every crew card, the active one in the selection yellow', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true, uid: ME });
+    await seed(stack.db);
+    await renderCrew(<CrewsSheet />);
+    await screen.findByText(/^uni housemates$/iu);
+    const ring = (id: string): ViewStyle =>
+      StyleSheet.flatten(
+        screen.getByTestId(`crew-card-${id}`).props.style as StyleProp<ViewStyle>,
+      ) ?? {};
+    const active = ring(BALI);
+    const other = ring(UNI);
+    expect(active.borderWidth).toBe(other.borderWidth);
+    expect(other.borderWidth).toBeGreaterThan(0);
+    expect(other.backgroundColor).toBeDefined();
+    expect(active.borderColor).toBe(tokens.color.yellow);
+    expect(other.borderColor).not.toBe(active.borderColor);
+    expect(other.borderColor).not.toBe(other.backgroundColor);
   });
 
   it('switches the active crew through the offline queue and closes', async () => {
