@@ -1,0 +1,325 @@
+# Maestro device runs on GitHub-hosted runners: flows, screenshot captures and design | device sheets,
+# sharded across parallel simulators and emulators. See e2e/README.md ("Device runs on GitHub Actions").
+#
+# Every run is isolated: the prepare job exports this commit's JS once per platform (Hermes bytecode,
+# with the commit inlined as EXPO_PUBLIC_JS_COMMIT), and each shard swaps it into its own copy of the
+# reused EAS e2e-test build with expo-updates turned off, so no run ever loads JS another run
+# published to the shared e2e-test update channel.
+name: device
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Platform
+        type: choice
+        options: [ios, android, both]
+        default: ios
+      flows:
+        description: Flow files, directories or globs (space or comma separated); empty runs the full suite
+        type: string
+        default: ''
+      mode:
+        description: flows (pass/fail), capture (screenshots to the PR) or compare (design | device sheets to the PR)
+        type: choice
+        options: [flows, capture, compare]
+        default: flows
+      pr:
+        description: Pull request number to publish screenshots to (capture and compare modes)
+        type: string
+        default: ''
+      build_url:
+        description: EAS artifact URL(s) to use instead of the fingerprint-matched e2e-test build (.apk for Android, .tar.gz for iOS)
+        type: string
+        default: ''
+      shards:
+        description: Parallel shards per platform
+        type: string
+        default: '3'
+      appearance:
+        description: Device appearance
+        type: choice
+        options: [light, dark]
+        default: light
+  pull_request:
+    types: [labeled, opened, synchronize, reopened]
+
+concurrency:
+  group: device-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  TSX_VERSION: 4.23.15
+  EAS_CLI: eas-cli@24.8.0
+  MAESTRO_VERSION: 2.0.10
+  # Pull requests run the head commit's JS, not the merge commit.
+  CHECKOUT_REF: ${{ github.event.pull_request.head.sha || github.sha }}
+
+jobs:
+  prepare:
+    name: prepare (builds, bundles, shards)
+    # Manual runs, or same-repo pull requests labelled `device-run` (never forks).
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       contains(github.event.pull_request.labels.*.name, 'device-run') &&
+       (github.event.action != 'labeled' || github.event.label.name == 'device-run'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      ios: ${{ steps.settings.outputs.ios }}
+      android: ${{ steps.settings.outputs.android }}
+      mode: ${{ steps.settings.outputs.mode }}
+      pr: ${{ steps.settings.outputs.pr }}
+      appearance: ${{ steps.settings.outputs.appearance }}
+      js_commit: ${{ steps.settings.outputs.js_commit }}
+      ios_url: ${{ steps.ios_build.outputs.url }}
+      android_url: ${{ steps.android_build.outputs.url }}
+      ios_matrix: ${{ steps.ios_shards.outputs.matrix }}
+      android_matrix: ${{ steps.android_shards.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v7
+        with: { ref: '${{ env.CHECKOUT_REF }}' }
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Settings
+        id: settings
+        env:
+          EVENT: ${{ github.event_name }}
+          IN_PLATFORM: ${{ inputs.platform }}
+          IN_FLOWS: ${{ inputs.flows }}
+          IN_MODE: ${{ inputs.mode }}
+          IN_PR: ${{ inputs.pr }}
+          IN_BUILD_URL: ${{ inputs.build_url }}
+          IN_SHARDS: ${{ inputs.shards }}
+          IN_APPEARANCE: ${{ inputs.appearance }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          if [ "$EVENT" = pull_request ]; then
+            # A labelled pull request runs the full suite on iOS, pass/fail only. Android runs are opt-in
+            # (workflow_dispatch with platform android or both) until they are proven stable.
+            platform=ios flows='' mode=flows pr=$PR_NUMBER build_url='' shards=3 appearance=light
+          else
+            platform=$IN_PLATFORM flows=$IN_FLOWS mode=$IN_MODE pr=$IN_PR build_url=$IN_BUILD_URL
+            shards=$IN_SHARDS appearance=$IN_APPEARANCE
+          fi
+          if [ "$mode" != flows ] && ! [[ "$pr" =~ ^[0-9]+$ ]]; then
+            echo "::error::mode $mode publishes to a pull request: set pr"; exit 1
+          fi
+          [[ "$shards" =~ ^[1-9][0-9]*$ ]] || { echo "::error::shards must be a positive number"; exit 1; }
+          {
+            echo "ios=$([ "$platform" != android ] && echo true || echo false)"
+            echo "android=$([ "$platform" != ios ] && echo true || echo false)"
+            echo "mode=$mode"; echo "pr=$pr"; echo "appearance=$appearance"; echo "shards=$shards"
+            echo "js_commit=$(git rev-parse --short=12 HEAD)"
+            echo "flows<<EOF"; echo "$flows"; echo "EOF"
+            echo "build_url<<EOF"; echo "$build_url"; echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+      - name: Resolve the iOS build
+        id: ios_build
+        if: steps.settings.outputs.ios == 'true'
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          OVERRIDE: ${{ steps.settings.outputs.build_url }}
+        run: pnpm exec tsx tools/scripts/ci-device/resolve-build.ts --platform ios --override "$OVERRIDE"
+      - name: Resolve the Android build
+        id: android_build
+        if: steps.settings.outputs.android == 'true'
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          OVERRIDE: ${{ steps.settings.outputs.build_url }}
+        run: pnpm exec tsx tools/scripts/ci-device/resolve-build.ts --platform android --override "$OVERRIDE"
+      - name: Plan iOS shards
+        id: ios_shards
+        if: steps.settings.outputs.ios == 'true'
+        env:
+          FLOWS: ${{ steps.settings.outputs.flows }}
+          SHARDS: ${{ steps.settings.outputs.shards }}
+        run: pnpm exec tsx tools/scripts/ci-device/plan-shards.ts --platform ios --shards "$SHARDS" --flows "$FLOWS"
+      - name: Plan Android shards
+        id: android_shards
+        if: steps.settings.outputs.android == 'true'
+        env:
+          FLOWS: ${{ steps.settings.outputs.flows }}
+          SHARDS: ${{ steps.settings.outputs.shards }}
+        run: pnpm exec tsx tools/scripts/ci-device/plan-shards.ts --platform android --shards "$SHARDS" --flows "$FLOWS"
+      - name: Export the JS bundles
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          IOS: ${{ steps.settings.outputs.ios }}
+          ANDROID: ${{ steps.settings.outputs.android }}
+          EXPO_PUBLIC_JS_COMMIT: ${{ steps.settings.outputs.js_commit }}
+        working-directory: apps/mobile
+        run: |
+          export APP_VARIANT=development NODE_ENV=production
+          out=$RUNNER_TEMP/bundles
+          for platform in ios android; do
+            [ "$platform" = ios ] && [ "$IOS" != true ] && continue
+            [ "$platform" = android ] && [ "$ANDROID" != true ] && continue
+            file=$([ "$platform" = ios ] && echo main.jsbundle || echo index.android.bundle)
+            mkdir -p "$out/$platform"
+            cmd="pnpm exec expo export:embed --platform $platform --dev false --minify true --bytecode --entry-file node_modules/expo-router/entry.js --bundle-output $out/$platform/$file --assets-dest $out/$platform"
+            # The EAS development environment's EXPO_PUBLIC_* values, as the e2e-test build had them.
+            if [ -n "$EXPO_TOKEN" ]; then
+              npx --yes "$EAS_CLI" env:exec development "$cmd" --non-interactive
+            else
+              echo "::warning::No EXPO_TOKEN: the bundle uses code defaults for EXPO_PUBLIC_* values"
+              $cmd
+            fi
+            grep -q "$EXPO_PUBLIC_JS_COMMIT" "$out/$platform/$file" ||
+              { echo "::error::The $platform bundle does not carry $EXPO_PUBLIC_JS_COMMIT"; exit 1; }
+          done
+      - uses: actions/upload-artifact@v7
+        with:
+          name: device-bundles
+          path: ${{ runner.temp }}/bundles
+          retention-days: 3
+
+  ios:
+    name: ios shard ${{ matrix.shard }}
+    needs: prepare
+    if: needs.prepare.outputs.ios == 'true'
+    # Xcode 26.6 on macOS 26: the image the e2e-test build is made on. Three at a time, leaving two
+    # of the plan's five macOS slots to CI.
+    runs-on: macos-26
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix: ${{ fromJSON(needs.prepare.outputs.ios_matrix) }}
+    steps:
+      - uses: actions/checkout@v7
+        with: { ref: '${{ env.CHECKOUT_REF }}' }
+      - uses: actions/setup-node@v7
+        with: { node-version: 24 }
+      - uses: actions/setup-java@v6
+        with: { distribution: temurin, java-version: 17 }
+      - run: sudo xcode-select -s /Applications/Xcode_26.6.app
+      - uses: actions/download-artifact@v8
+        with: { name: device-bundles, path: '${{ runner.temp }}/bundles' }
+      - name: Install Maestro
+        run: |
+          curl -fsSL https://get.maestro.mobile.dev | bash
+          "$HOME/.maestro/bin/maestro" --version
+      - name: Run the flows
+        env:
+          BUILD_URL: ${{ needs.prepare.outputs.ios_url }}
+          FLOWS: tools/scripts/ci-device/js-commit.yaml ${{ matrix.flows }}
+          JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
+          OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
+          APPEARANCE: ${{ needs.prepare.outputs.appearance }}
+        run: tools/scripts/ci-device/ios-device.sh "$BUILD_URL" "$RUNNER_TEMP/bundles/ios" "$RUNNER_TEMP/out" "$FLOWS"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: device-ios-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/out
+          retention-days: 14
+
+  android:
+    name: android shard ${{ matrix.shard }}
+    needs: prepare
+    if: needs.prepare.outputs.android == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.android_matrix) }}
+    steps:
+      - uses: actions/checkout@v7
+        with: { ref: '${{ env.CHECKOUT_REF }}' }
+      - uses: actions/setup-node@v7
+        with: { node-version: 24 }
+      - uses: actions/setup-java@v6
+        with: { distribution: temurin, java-version: 17 }
+      - uses: actions/download-artifact@v8
+        with: { name: device-bundles, path: '${{ runner.temp }}/bundles' }
+      - name: Patch the APK with this commit's JS
+        env:
+          BUILD_URL: ${{ needs.prepare.outputs.android_url }}
+        run: |
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/e2e-test.apk" "$BUILD_URL"
+          tools/scripts/ci-device/patch-android-apk.sh "$RUNNER_TEMP/e2e-test.apk" \
+            "$RUNNER_TEMP/bundles/android/index.android.bundle" "$RUNNER_TEMP/app.apk"
+      - name: Install Maestro
+        run: |
+          curl -fsSL https://get.maestro.mobile.dev | bash
+          "$HOME/.maestro/bin/maestro" --version
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Run the flows
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          FLOWS: ${{ matrix.flows }}
+          JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
+          OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
+          APPEARANCE: ${{ needs.prepare.outputs.appearance }}
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_7
+          disk-size: 6000M
+          ram-size: 4096M
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-snapshot
+          disable-animations: true
+          script: tools/scripts/ci-device/android-device.sh "$RUNNER_TEMP/app.apk" "$RUNNER_TEMP/out" "$FLOWS"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: device-android-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/out
+          retention-days: 14
+
+  publish:
+    name: publish images to the PR
+    needs: [prepare, ios, android]
+    if: always() && needs.prepare.result == 'success' && needs.prepare.outputs.mode != 'flows'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+        with: { ref: '${{ env.CHECKOUT_REF }}' }
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v8
+        with: { pattern: 'device-*-shard-*', path: '${{ runner.temp }}/shards' }
+      - name: Collect the screenshots
+        env:
+          MODE: ${{ needs.prepare.outputs.mode }}
+        run: |
+          images=$RUNNER_TEMP/images
+          for platform in ios android; do
+            dirs=$(ls -d "$RUNNER_TEMP/shards/device-$platform-shard-"*/screenshots 2>/dev/null || true)
+            [ -z "$dirs" ] && continue
+            mkdir -p "$RUNNER_TEMP/device/$platform"
+            for dir in $dirs; do cp "$dir"/*.png "$RUNNER_TEMP/device/$platform/" 2>/dev/null || true; done
+            if [ "$MODE" = compare ]; then
+              pnpm screens:compare -- --from "$RUNNER_TEMP/device/$platform" --out "$images/$platform-sheets"
+            else
+              mkdir -p "$images/$platform" && cp -R "$RUNNER_TEMP/device/$platform/." "$images/$platform/"
+            fi
+          done
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ needs.prepare.outputs.pr }}
+          MODE: ${{ needs.prepare.outputs.mode }}
+          JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          heading=$([ "$MODE" = compare ] && echo "Design | device sheets" || echo "Device screenshots")
+          tools/scripts/ci-device/publish-screenshots.sh "$PR" "$RUNNER_TEMP/images" "$heading ($JS_COMMIT)"

@@ -123,8 +123,10 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
  * currently published JS rather than whatever an older reused e2e-test build happened to embed.
  */
 function buildMarkerLabel(): string {
-  if (Updates.updateId) return `update:${Updates.updateId}`;
-  return 'update:embedded';
+  const bundle = Updates.updateId ? `update:${Updates.updateId}` : 'update:embedded';
+  // Device runs on CI export the JS with the commit inlined, and assert it here.
+  const commit = process.env['EXPO_PUBLIC_JS_COMMIT'];
+  return commit ? `${bundle} js:${commit}` : bundle;
 }
 
 const SEED_SCENARIOS: readonly {

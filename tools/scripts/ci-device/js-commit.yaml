@@ -1,0 +1,27 @@
+appId: app.critterpass.dev
+---
+# The device-run workflow's first flow in every shard: proves the app runs the JS exported for this
+# run (the commit inlined as EXPO_PUBLIC_JS_COMMIT, shown by the Developer tools build marker) and
+# not an embedded or published bundle from another commit. Run with `-e JS_COMMIT=<short sha>`.
+# Always the first flow on a fresh simulator, so the app starts from a clean install.
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 90000
+# On a slow runner a tap during the splash's entrance can land before the entry responds; retry it.
+- retry:
+    maxRetries: 2
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-build-marker'
+          timeout: 20000
+- assertVisible:
+    id: 'dev-build-marker'
+    text: '.*js:${JS_COMMIT}.*'
+# Leave the app as a fresh install for the shard's next flow.
+- stopApp
+- clearState
