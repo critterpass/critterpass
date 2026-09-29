@@ -45,7 +45,9 @@ const SCRIPT_BY_LANGUAGE: Readonly<Record<string, Script>> = {
 /** display.mega/hero/xl, h1/h2/h3, title, button.lg/sm all set `condensed: true`; matches design-system.md §1.3/§6. */
 const DISPLAY_LINE_HEIGHT: Readonly<Record<Script, number>> = {
   latin: 0.86,
-  vietnamese: 1.0,
+  // Archivo's stacked marks (Ặ, Ỗ) rise 1.06 em above the baseline: 1.12 keeps a line's marks clear
+  // of the capitals above it instead of touching them (1.0 overlapped by ~0.06 em).
+  vietnamese: 1.12,
   thai: 1.0,
   cjk: 1.15,
 };

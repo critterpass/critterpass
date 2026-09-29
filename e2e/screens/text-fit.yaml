@@ -1,0 +1,12 @@
+appId: app.critterpass.dev
+---
+# Text that fits: long CTAs wrap, codes stay whole, enlarged headings wrap, in English then
+# Vietnamese.
+- runFlow:
+    file: subflows/text-fit-screens.yaml
+    env:
+      LOCALE: en
+- runFlow:
+    file: subflows/text-fit-screens.yaml
+    env:
+      LOCALE: vi

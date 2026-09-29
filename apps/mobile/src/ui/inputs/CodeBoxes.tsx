@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -9,10 +9,11 @@ import Animated, {
 
 import { tokens } from '@cp/design-tokens';
 
+import { useThemeSettings } from '@/lib/theme';
 import { impact } from '@/motion/feedback';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
-import { Text } from '../text/Text';
+import { Text, TEXT_VARIANTS } from '../text/Text';
 import type { Theme } from '../theme';
 import { makeStyles, sizeToken, useTheme } from '../theme';
 import { useInputFont } from './use-input-font';
@@ -37,6 +38,20 @@ export interface CodeBoxesProps {
 }
 
 const { duration } = tokens.motion;
+/** Bold Geist capitals' advance per em, a little generous so a fitted group never runs to its edges. */
+const CODE_ADVANCE_EM = 0.72;
+/** Below this a gift-code group would be hard to read beside the others: the groups stack instead. */
+const GROUP_MIN_FONT_PT = tokens.space['16'];
+/** The OTP style's own line height, per em, kept when a group is set smaller. */
+const OTP_LEADING = TEXT_VARIANTS.inputOtp.lineHeight ?? 1.4;
+
+/**
+ * The size at which `chars` characters fill a group box `boxWidth` wide (its padding and border
+ * taken off), so a code shrinks to its box instead of being cut.
+ */
+export function groupFitSize(boxWidth: number, chars: number, inset: number): number {
+  return Math.max(0, boxWidth - inset) / (Math.max(1, chars) * CODE_ADVANCE_EM);
+}
 const DROP_PT = 10;
 const SHAKE_PT = 8;
 
@@ -51,6 +66,7 @@ const useStyles = makeStyles((t) => ({
   row: { flexDirection: 'row', alignItems: 'center', gap: t.space['8'] },
   groupedRow: { alignSelf: 'stretch' },
   groupedCells: { flex: 1 },
+  stackedCells: { flexDirection: 'column', alignItems: 'stretch' },
   box: {
     width: sizeToken(t.size.otpBox, 'width'),
     height: sizeToken(t.size.otpBox, 'height'),
@@ -81,11 +97,17 @@ function Box({
   char,
   border,
   grouped = false,
+  fitSize,
 }: {
   readonly char: string;
   readonly border: string;
   /** One box holding a whole gift-code group, sized from the row's width rather than per character. */
   readonly grouped?: boolean;
+  /**
+   * The size a grouped code is set at so it fills its box without being cut (Android reports an
+   * ellipsized line with its full text, so the auto-fit can't see the cut there).
+   */
+  readonly fitSize?: number | undefined;
 }) {
   const styles = useStyles();
   const reduced = useReducedImpactMotion();
@@ -101,7 +123,15 @@ function Box({
     <View style={[grouped ? styles.group : styles.box, { borderColor: border }]}>
       <Animated.View style={style}>
         {grouped ? (
-          <Text variant="inputOtp" numberOfLines={1} autoFit>
+          <Text
+            variant="inputOtp"
+            numberOfLines={1}
+            style={
+              fitSize === undefined
+                ? undefined
+                : { fontSize: fitSize, lineHeight: fitSize * OTP_LEADING }
+            }
+          >
             {char}
           </Text>
         ) : (
@@ -169,11 +199,30 @@ export function CodeBoxes({
   };
 
   const grouped = groups.length > 1;
+  // A gift code's groups share one row and shrink to fit it; when even that would drop below a
+  // readable size (large text on a small phone) they stack, each group whole on its own line.
+  const [rowWidth, setRowWidth] = useState(0);
+  const { fontScale } = useThemeSettings();
+  const otpSize = (TEXT_VARIANTS.inputOtp.fontSize ?? 24) * fontScale;
+  const widest = Math.max(...groups);
+  const inset = 2 * (theme.space['8'] + theme.ring.input.idle.widthPt);
+  const dashes = (groups.length - 1) * (theme.space['8'] + 2 * theme.space['8']);
+  const sideBySide = groupFitSize((rowWidth - dashes) / groups.length, widest, inset);
+  const stacked = grouped && rowWidth > 0 && sideBySide < GROUP_MIN_FONT_PT;
+  const groupMin = stacked ? groupFitSize(rowWidth, widest, inset) : sideBySide;
 
   return (
     <Animated.View style={[styles.row, grouped ? styles.groupedRow : null, shakeStyle]}>
       <View
-        style={[styles.row, grouped ? styles.groupedCells : null]}
+        style={[
+          styles.row,
+          grouped ? styles.groupedCells : null,
+          stacked ? styles.stackedCells : null,
+        ]}
+        testID={testID ? `${testID}-cells` : undefined}
+        onLayout={(event) => {
+          if (grouped && !stacked) setRowWidth(event.nativeEvent.layout.width);
+        }}
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       >
@@ -182,10 +231,11 @@ export function CodeBoxes({
           const end = start + size;
           return (
             <Fragment key={start}>
-              {groupIndex > 0 ? <View style={styles.dash} /> : null}
+              {groupIndex > 0 && !stacked ? <View style={styles.dash} /> : null}
               {grouped ? (
                 <Box
                   grouped
+                  {...(rowWidth > 0 ? { fitSize: Math.min(otpSize, groupMin) } : {})}
                   char={value.slice(start, end)}
                   border={borderFor(
                     theme,

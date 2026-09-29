@@ -89,6 +89,14 @@ export function isOverflowing(
   return rendered < fullText.replace(/\s+/g, '').length;
 }
 
+/**
+ * True when a line ends without a space, so the next continues the same run: for a code (an MRZ
+ * line, a booking ref) any such break splits it, whatever the characters either side.
+ */
+export function hasUnspacedBreak(lines: readonly { readonly text: string }[]): boolean {
+  return lines.slice(0, -1).some((line) => line.text.length > 0 && !/\s$/u.test(line.text));
+}
+
 export interface UseAutoFitOptions extends Omit<FitInput, 'width'> {
   readonly enabled: boolean;
   /**
@@ -101,7 +109,9 @@ export interface UseAutoFitOptions extends Omit<FitInput, 'width'> {
    * "RES"): a label word wider than its box. Works without `enabled`, and then leaves the line
    * limit and the first-pass estimate alone.
    */
-  readonly keepWordsWhole?: boolean;
+  readonly keepWordsWhole?: boolean | 'code';
+  /** At the floor, keep wrapping past the line limit instead of cutting (enlarged text). */
+  readonly neverCut?: boolean;
 }
 
 export interface AutoFitResult {
@@ -140,9 +150,10 @@ export function useAutoFit({
   enabled,
   wrapAtFloor = false,
   keepWordsWhole = false,
+  neverCut = false,
   ...fit
 }: UseAutoFitOptions): AutoFitResult {
-  const active = enabled || keepWordsWhole;
+  const active = enabled || keepWordsWhole !== false;
   const [width, setWidth] = useState<number | null>(null);
   const fresh = (key: string): Correction => ({ key, steps: 0, wrapped: false, overflowed: false });
   const [correction, setCorrection] = useState<Correction>(fresh(''));
@@ -167,7 +178,9 @@ export function useAutoFit({
     if (enabled && width === null) return true;
     const { lines } = event.nativeEvent;
     const overflowing = enabled && isOverflowing(lines, fit.text, maxLines);
-    if (!overflowing && !(keepWordsWhole && hasWordBreak(lines))) return false;
+    const split =
+      keepWordsWhole === 'code' ? hasUnspacedBreak(lines) : keepWordsWhole && hasWordBreak(lines);
+    if (!overflowing && !split) return false;
     if (fontSize > fit.minSize) {
       setCorrection({ ...current, steps: steps + 1 });
     } else if (overflowing && wrapAtFloor && !wrapped && maxLines < AUTO_FIT_WRAP_LINES) {
@@ -181,10 +194,10 @@ export function useAutoFit({
   return {
     fontSize,
     numberOfLines: finite(
-      !enabled || !wrapAtFloor || overflowed ? maxLines : Number.POSITIVE_INFINITY,
+      !enabled || !wrapAtFloor || (overflowed && !neverCut) ? maxLines : Number.POSITIVE_INFINITY,
     ),
     // A word still split at the floor is reported as broken, not as cut.
-    overflowed: enabled && overflowed,
+    overflowed: enabled && overflowed && !(neverCut && wrapAtFloor),
     onLayout,
     onTextLayout,
   };

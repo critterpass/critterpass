@@ -7,6 +7,9 @@ import type { TextStyle } from 'react-native';
 import { tokens } from '@cp/design-tokens';
 
 import { renderWithI18n } from '../../lib/i18n/testing';
+import { PillButton } from '../buttons/PillButton';
+import { setUiQaSink } from '../qa/ui-qa';
+import { renderUi } from '../test-support/render';
 import { ThemeProvider } from '../../lib/theme';
 import { fixturesFor, listComponents } from '../gallery/registry';
 import { estimateLineCount, fitFontSize, isOverflowing } from '../text/auto-fit';
@@ -255,5 +258,151 @@ describe('gallery registry', () => {
       expect(screen.toJSON()).not.toBeNull();
       await act(() => screen.unmount());
     }
+  });
+});
+
+describe('text fit on larger screens and larger text', () => {
+  const lines = (...texts: string[]) => ({
+    nativeEvent: { lines: texts.map((text) => ({ text })) },
+  });
+  const sizeOf = (element: { props: { style?: unknown } }) =>
+    (StyleSheet.flatten(element.props.style as TextStyle) ?? {}).fontSize ?? 0;
+  const at = (scale: number, ui: ReactElement) =>
+    renderWithI18n(<ThemeProvider fontScale={scale}>{ui}</ThemeProvider>);
+
+  it('keeps a code on one piece: an MRZ line split mid-word shrinks instead', async () => {
+    const screen = await at(
+      2,
+      <Text variant="monoData" testID="mrz">
+        P&lt;IDNWINSTON&lt;&lt;CRITTER&lt;&lt;&lt;&lt;&lt;&lt;
+      </Text>,
+    );
+    const start = sizeOf(screen.getByTestId('mrz'));
+    // Split between two filler marks, as Android laid it out at 2×: still a split code.
+    await fireEvent(
+      screen.getByTestId('mrz'),
+      'textLayout',
+      lines('P<IDNWINSTON<<CRITTER<', '<<<<<'),
+    );
+    expect(sizeOf(screen.getByTestId('mrz'))).toBeLessThan(start);
+  });
+
+  it('never cuts an enlarged heading: past three lines at its floor it keeps wrapping', async () => {
+    const screen = await at(
+      2,
+      <Text variant="h1" testID="t">
+        Your whole crew is going to Kyoto in cherry blossom season
+      </Text>,
+    );
+    await fireEvent(screen.getByTestId('t'), 'layout', {
+      nativeEvent: { layout: { x: 0, y: 0, width: 350, height: 0 } },
+    });
+    const tooMany = lines(
+      'YOUR WHOLE ',
+      'CREW IS ',
+      'GOING TO ',
+      'KYOTO IN ',
+      'CHERRY ',
+      'BLOSSOM SEASON',
+    );
+    for (let i = 0; i < 20; i += 1) {
+      await fireEvent(screen.getByTestId('t'), 'textLayout', tooMany);
+    }
+    expect(screen.getByTestId('t').props.numberOfLines).toBeUndefined();
+  });
+
+  it('still cuts at three lines at the default text size, as the design sets h1', async () => {
+    const screen = await at(
+      1,
+      <Text variant="h1" testID="t">
+        Your whole crew is going to Kyoto in cherry blossom season
+      </Text>,
+    );
+    await fireEvent(screen.getByTestId('t'), 'layout', {
+      nativeEvent: { layout: { x: 0, y: 0, width: 350, height: 0 } },
+    });
+    const tooMany = lines(
+      'YOUR WHOLE ',
+      'CREW IS ',
+      'GOING TO ',
+      'KYOTO IN ',
+      'CHERRY ',
+      'BLOSSOM SEASON',
+    );
+    for (let i = 0; i < 20; i += 1) {
+      await fireEvent(screen.getByTestId('t'), 'textLayout', tooMany);
+    }
+    expect(screen.getByTestId('t').props.numberOfLines).toBe(3);
+  });
+});
+
+describe('pill labels', () => {
+  it('lets a large CTA wrap to its second line, and reports a small pill that wraps', async () => {
+    const reports: string[] = [];
+    setUiQaSink((line) => reports.push(line));
+    try {
+      const wrap = {
+        nativeEvent: { lines: [{ text: 'BOOK THE RYOKAN ' }, { text: 'FOR ALL SIX' }] },
+      };
+      const large = await renderUi(
+        <ThemeProvider fontScale={1}>
+          <PillButton label="Book the ryokan for all six" onPress={() => {}} />
+        </ThemeProvider>,
+      );
+      await fireEvent(large.getByText('BOOK THE RYOKAN FOR ALL SIX'), 'textLayout', wrap);
+      expect(reports).toEqual([]);
+      await act(() => large.unmount());
+
+      const small = await renderUi(
+        <ThemeProvider fontScale={1}>
+          <PillButton size="sm" label="Book the ryokan for all six" onPress={() => {}} />
+        </ThemeProvider>,
+      );
+      await fireEvent(small.getByText('BOOK THE RYOKAN FOR ALL SIX'), 'textLayout', wrap);
+      expect(reports).toEqual(['[ui-qa] TEXT_WRAPPED "BOOK THE RYOKAN FOR ALL SIX" buttonSm']);
+    } finally {
+      setUiQaSink(null);
+    }
+  });
+});
+
+describe('two-line CTA', () => {
+  it('opens the leading and pads the pill once its label wraps', async () => {
+    const screen = await renderUi(
+      <ThemeProvider fontScale={1}>
+        <PillButton label="Book the ryokan for all six" onPress={() => {}} testID="cta" />
+      </ThemeProvider>,
+    );
+    const label = () => screen.getByText('BOOK THE RYOKAN FOR ALL SIX');
+    const flatOf = (node: { props: { style?: unknown } }) =>
+      StyleSheet.flatten(node.props.style as TextStyle) ?? {};
+    const single = flatOf(label()).lineHeight ?? 0;
+    await fireEvent(label(), 'textLayout', {
+      nativeEvent: { lines: [{ text: 'BOOK THE RYOKAN ' }, { text: 'FOR ALL SIX' }] },
+    });
+    expect(flatOf(label()).lineHeight).toBeGreaterThan(single);
+    expect(flatOf(label()).lineHeight).toBeCloseTo((flatOf(label()).fontSize ?? 0) * 1.2, 5);
+    expect(flatOf(screen.getByTestId('cta')).paddingVertical).toBeGreaterThan(0);
+  });
+});
+
+describe('Vietnamese stacked marks', () => {
+  it('opens the display leading for Vietnamese words, whatever the app language', async () => {
+    const screen = await renderWithI18n(
+      <ThemeProvider fontScale={1}>
+        <Text variant="displayXl" autoFit={false} testID="vi">
+          Việt Nam · đặt chỗ
+        </Text>
+        <Text variant="displayXl" autoFit={false} testID="en">
+          Kyoto
+        </Text>
+      </ThemeProvider>,
+    );
+    const leading = (id: string) => {
+      const style = StyleSheet.flatten(screen.getByTestId(id).props.style as TextStyle) ?? {};
+      return (style.lineHeight ?? 0) / (style.fontSize ?? 1);
+    };
+    expect(leading('vi')).toBeCloseTo(1.12, 5);
+    expect(leading('en')).toBeCloseTo(0.86, 5);
   });
 });

@@ -1,14 +1,19 @@
+import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { ActivityIndicator } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { useFlap } from '@/motion/patterns/flap';
+import { useThemeSettings } from '@/lib/theme';
 
 import { PressScale } from '../press/PressScale';
-import { Text } from '../text/Text';
+import { Text, TEXT_VARIANTS } from '../text/Text';
 import { Sheen } from '../textures/sheen';
 import type { Theme } from '../theme';
 import { makeStyles, sizeToken, useTheme } from '../theme';
+
+/** Line height of a two-line label, per em. */
+const TWO_LINE_LEADING = 1.2;
 
 export type PillTone = 'yellow' | 'green' | 'pink' | 'orange' | 'ink' | 'cream';
 export type PillVariant = 'primary' | 'secondary' | 'tertiary' | 'destructive';
@@ -80,12 +85,16 @@ const useStyles = makeStyles((t) => ({
   outline: { borderWidth: 2, borderColor: t.semantic.border.control },
   disabled: { opacity: 0.4 },
   label: { textAlign: 'center', flexShrink: 1 },
+  // A label on two lines gets body-like leading and room above and below, so it never meets the
+  // pill's edges (a one-line label keeps the tight display leading).
+  twoLines: { paddingVertical: t.space['10'] },
 }));
 
 /**
  * The pill CTA family: primary (six fills), secondary outline, tertiary link and destructive, with
- * sheen, label flap, loading and disabled states. Labels wrap to two lines rather than truncate;
- * at the default text size a wrapped label is reported to UI QA, as the design keeps it on one.
+ * sheen, label flap, loading and disabled states. Labels wrap to two lines rather than truncate; a
+ * small (40 pt) pill's label is designed for one line, so at the default text size its wrap is
+ * reported to UI QA.
  */
 export function PillButton({
   label,
@@ -119,6 +128,11 @@ export function PillButton({
         ? theme.semantic.text.primary
         : onFill;
   const inactive = disabled || loading;
+  const { fontScale } = useThemeSettings();
+  const [wrapped, setWrapped] = useState(false);
+  const labelVariant = casing === 'sentence' ? 'rowTitle' : size === 'lg' ? 'buttonLg' : 'buttonSm';
+  const labelToken = TEXT_VARIANTS[labelVariant];
+  const labelSize = (labelToken.fontSize ?? labelToken.fontSizeMax ?? 14) * fontScale;
   return (
     <PressScale
       testID={testID}
@@ -135,6 +149,7 @@ export function PillButton({
         variant === 'secondary' ? styles.outline : null,
         (block ?? size === 'lg') ? { alignSelf: 'stretch' } : { alignSelf: 'flex-start' },
         disabled ? styles.disabled : null,
+        wrapped ? styles.twoLines : null,
       ]}
     >
       {sheen && variant === 'primary' && !inactive ? <Sheen /> : null}
@@ -144,11 +159,15 @@ export function PillButton({
       ) : (
         <Animated.View style={flap ? flapped.style : undefined}>
           <Text
-            variant={casing === 'sentence' ? 'rowTitle' : size === 'lg' ? 'buttonLg' : 'buttonSm'}
+            variant={labelVariant}
             color={textColor}
             numberOfLines={2}
-            singleLine
-            style={styles.label}
+            singleLine={size === 'sm'}
+            style={[styles.label, wrapped ? { lineHeight: labelSize * TWO_LINE_LEADING } : null]}
+            onTextLayout={(event) => {
+              const next = event.nativeEvent.lines.length > 1;
+              if (next !== wrapped) setWrapped(next);
+            }}
           >
             {shown}
           </Text>

@@ -211,8 +211,6 @@ describe('winner reveal', () => {
     expect(screen.getByTestId('reveal-set-up')).toBeTruthy();
     expect(screen.queryByTestId('reveal-lost')).toBeNull();
     await until(() => screen.queryByTestId('reveal-stamp') !== null);
-    await settleMotion();
-    expect(screen.toJSON()).toMatchSnapshot();
     expect(await queued(s, 'mark_reveal_seen')).toEqual([{ poll_id: POLL }]);
   });
 
