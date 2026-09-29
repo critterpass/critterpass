@@ -21,9 +21,9 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'home-search'
 - inputText: 'SGN'
+# Picking the row closes the keyboard; Android's hideKeyboard would press back with no keyboard up.
 - tapOn:
     id: 'home-row-SGN'
-- hideKeyboard
 - tapOn:
     id: 'onboarding-home-next'
 - extendedWaitUntil:
