@@ -1,0 +1,9 @@
+{
+  "name": "cp-ocr",
+  "version": "1.0.0",
+  "private": true,
+  "description": "On-device receipt OCR: iOS Vision text recognition and Android ML Kit text recognition v2 return line boxes and image quality signals, plus PDF417/Aztec/QR barcode reading and the platform document scanner (VisionKit document camera, ML Kit Document Scanner).",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}

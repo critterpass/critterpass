@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["CpOcrModule"]
+  },
+  "android": {
+    "modules": ["app.critterpass.ocr.CpOcrModule"]
+  }
+}

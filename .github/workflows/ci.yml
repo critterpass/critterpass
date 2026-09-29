@@ -388,7 +388,7 @@ jobs:
         run: pnpm --filter @cp/mobile exec expo prebuild --platform android --clean --no-install
       - name: Unit tests and Kotlin compile
         working-directory: apps/mobile/android
-        run: ./gradlew --no-daemon :cp-notifications:testDebugUnitTest :app:compileDebugKotlin
+        run: ./gradlew --no-daemon :cp-notifications:testDebugUnitTest :cp-ocr:testDebugUnitTest :app:compileDebugKotlin
 
   # The ops console Playwright suite against its own throwaway Postgres (the Testcontainers image),
   # the api and the Vite dev server, exactly as `pnpm --filter @cp/admin e2e` runs it locally.
