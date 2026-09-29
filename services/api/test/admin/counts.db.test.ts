@@ -53,6 +53,7 @@ describe('admin counts', () => {
   it('omits areas the role cannot open', async () => {
     expect(await counts('support@critterpass.test')).toEqual({
       moderation: { count: 2, tone: 'urgent' },
+      billing: { count: 0, tone: 'plain' },
       work: { count: 0, tone: 'plain' },
     });
     expect(await counts('content@critterpass.test')).toEqual({

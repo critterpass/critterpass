@@ -7,6 +7,7 @@ import { BILLING_QUEUES, reconcileResultSchema, type ReconcileResult } from '@cp
 import { z } from 'zod';
 
 import { defineJob } from '../../boss';
+import type { MetricsRecorder } from '../../obs/metrics';
 import type { BillingDoor } from './door-client';
 
 export const RECONCILE_BATCH = 100;
@@ -31,13 +32,16 @@ export async function runReconcile(
   return { ...totals, complete: after === null };
 }
 
-export function billingReconcileJob(door: BillingDoor) {
+export function billingReconcileJob(door: BillingDoor, metrics?: Pick<MetricsRecorder, 'record'>) {
   return defineJob({
     queue: BILLING_QUEUES.reconcile,
     schema: z.unknown(),
     handler: async (_data, ctx) => {
       const totals = await runReconcile(door);
       ctx.logger.info(totals, 'billing reconcile finished');
+      for (const result of ['checked', 'drifted', 'failed'] as const) {
+        metrics?.record('cp_billing_reconcile_customers', totals[result], { result });
+      }
       return totals;
     },
   });

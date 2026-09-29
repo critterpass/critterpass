@@ -22,10 +22,13 @@ function jobWith(responses: Array<{ status: number; body: unknown }>) {
 
 describe('billing.apply', () => {
   it('applies the stored event through the api with the shared secret', async () => {
-    const { job, calls } = jobWith([{ status: 200, body: { result: 'applied' } }]);
+    const { job, calls } = jobWith([
+      { status: 200, body: { result: { outcome: 'applied', lag_ms: 1200 } } },
+    ]);
     const { ctx } = jobContext();
     await expect(job.handler({ billing_event_id: EVENT }, ctx)).resolves.toEqual({
       outcome: 'applied',
+      lag_ms: 1200,
     });
     expect(calls).toEqual([
       {

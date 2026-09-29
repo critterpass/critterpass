@@ -82,9 +82,11 @@ describe('POST /webhooks/revenuecat', () => {
       });
     expect((await door('not-the-door-secret-000000')).status).toBe(401);
     const applied = await door(DOOR_SECRET);
-    expect(await applied.json()).toEqual({ result: 'applied' });
+    expect(await applied.json()).toMatchObject({ result: { outcome: 'applied' } });
     expect((await stateOf(harness.pool, user.uid)).passPlus).toBe(true);
-    expect(await (await door(DOOR_SECRET)).json()).toEqual({ result: 'duplicate' });
+    expect(await (await door(DOOR_SECRET)).json()).toMatchObject({
+      result: { outcome: 'duplicate' },
+    });
   });
 
   it('checks the signature when signing is on', async () => {

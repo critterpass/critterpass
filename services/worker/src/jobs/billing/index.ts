@@ -6,6 +6,7 @@
 import { z } from 'zod';
 
 import type { AnyJobDefinition } from '../../boss';
+import type { MetricsRecorder } from '../../obs/metrics';
 import { billingApplyJob } from './apply';
 import { boostExpireJob, ftfGrantJob, tripChangedJob } from './boost-expire';
 import { createBillingDoor, type BillingDoor } from './door-client';
@@ -20,10 +21,13 @@ const envSchema = z.object({
   ),
 });
 
-export function billingJobsFor(door: BillingDoor): AnyJobDefinition[] {
+export function billingJobsFor(
+  door: BillingDoor,
+  metrics?: Pick<MetricsRecorder, 'record'>,
+): AnyJobDefinition[] {
   return [
-    billingApplyJob(door),
-    billingReconcileJob(door),
+    billingApplyJob(door, metrics),
+    billingReconcileJob(door, metrics),
     intentExpiryJob(door),
     boostExpireJob(door),
     ftfGrantJob(door),
@@ -34,6 +38,7 @@ export function billingJobsFor(door: BillingDoor): AnyJobDefinition[] {
 export function billingJobs(
   env: Readonly<Record<string, string | undefined>>,
   logger: { warn(message: string): void },
+  metrics?: Pick<MetricsRecorder, 'record'>,
 ): AnyJobDefinition[] {
   const parsed = envSchema.parse(env);
   if (parsed.API_INTERNAL_URL === undefined || parsed.BILLING_INTERNAL_SECRET === undefined) {
@@ -42,5 +47,6 @@ export function billingJobs(
   }
   return billingJobsFor(
     createBillingDoor({ baseUrl: parsed.API_INTERNAL_URL, secret: parsed.BILLING_INTERNAL_SECRET }),
+    metrics,
   );
 }

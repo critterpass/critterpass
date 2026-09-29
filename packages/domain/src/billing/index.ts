@@ -5,3 +5,4 @@ export * from './products';
 export * from './states';
 export * from './subscription-state';
 export * from './queues';
+export * from './admin';

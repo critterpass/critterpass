@@ -89,9 +89,15 @@ export function billingOps(deps: BillingProcessDeps): Partial<Record<string, Bil
     apply_event: async (body) => {
       const { billing_event_id: id } = body as { billing_event_id: string };
       try {
-        return await withSystem(deps.pool, (tx) =>
-          applyBillingEvent(tx, { revenuecat: deps.revenuecat }, id),
-        );
+        return await withSystem(deps.pool, async (tx) => {
+          const outcome = await applyBillingEvent(tx, { revenuecat: deps.revenuecat }, id);
+          const { rows } = await tx.query<{ lag_ms: number }>(
+            `SELECT (extract(epoch FROM now() - received_at) * 1000)::float8 AS lag_ms
+               FROM billing_events WHERE id = $1`,
+            [id],
+          );
+          return { outcome, lag_ms: Math.max(0, Math.round(rows[0]?.lag_ms ?? 0)) };
+        });
       } catch (error) {
         const message = error instanceof Error ? error.message.slice(0, 1000) : 'failed';
         await withSystem(deps.pool, (tx) =>

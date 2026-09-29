@@ -411,6 +411,10 @@ Ride quotes (Grab Farefeed) are GET reads; "Open Grab" is a deep link — no rid
 | `create_gift` | `{transaction_id, recipient_hint?, note}` → code + link | buyer | IAP-funded | `gift.created` (N-44) | A | 46 |
 | `set_pause_intent` | `{resume_at}` (emulated pause) | self | Pass+ monthly | `subscription.pause_intended` (N-37) | A | 46 |
 | `record_paywall_event` | `{entry_point, trip_id?, kind: shown\|dismissed\|quiet_no}` | self | – | `paywall.event` (governor) | A, O | 46 |
+| `thank_boost` (doc delta) | `{boost_id}`: a crewmate thanks the buyer once (`thanked_by`); `STATE_INVALID already_thanked` | crew member, not the buyer | – | `boost.thanked` | A, O | 46 |
+| `rebind_crew_year` (doc delta) | `{grant_id, crew_id}`: once per paid period (`STATE_INVALID rebind_used`) | buyer, member of the target crew | – | `crew_year.rebound` | A | 46 |
+
+Doc delta (as built): `create_boost_intent` is `{intent_id, trip_id, product_key: boost_trip\|boost_crew_year, split_mode: cover\|split, member_uids[]}` → `{intent_id, subscriber_attribute: {key: boost_intent_id, value}, app_account_token, expires_at}`; a holder re-opening replaces their own lock; `STATE_INVALID` reasons `trip_ended`, `already_boosted`. `fulfil_purchase` from the app is `{source: client_sync, platform, transaction_id, store_product_id, intent_id?}` → `{status: fulfilled\|pending, product_key, pass_plus, boost_id}` (`pending`: a boost bought before any lock matched is a credit); it answers `STATE_INVALID transaction_unverified` until RevenueCat lists the transaction and `OWNED_BY_OTHER_ACCOUNT` for another account's purchase. The RevenueCat path is the `billing.apply` job, not a command. `revoke_purchase` is internal (system door). `record_paywall_event` also takes the client's `id`, `channel` and `local_date`. `move_boost` is `{boost_id, to_trip_id}` (buyer); `apply_boost_credit` `{credit_id, trip_id}` (a member of the credit's crew, or the buyer of an unassigned credit).
 
 Store purchase itself: StoreKit 2 / Play Billing via RevenueCat SDK; `appAccountToken` / `obfuscatedAccountId` = uid; boost intents carry `intent_id` in RevenueCat subscriber attributes.
 
@@ -603,6 +607,8 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `/webhooks/print` | print-on-demand vendor | vendor HMAC signature header + timestamp | `postcard.status_changed` | 44 |
 | `/webhooks/tracker` | issue tracker (Linear) | `Linear-Signature` HMAC | `idea.status_changed`, feedback fixed → N-38 | 47 |
 | `/webhooks/resend` | Resend (Svix) | Svix signature headers | bounce/complaint → suppress | 45 |
+
+Doc delta (as built): `/webhooks/revenuecat` stores the event in `billing_events` (unique `source, event_id`; also verifies `X-RevenueCat-Webhook-Signature` when a signing secret is set) and queues `billing.apply`; nothing changes until the job re-reads the customer (`GET /v1/subscribers/{uid}`, RevenueCat's recommended read). Worker billing jobs call the api's internal door `POST /internal/billing/{apply_event|reconcile|expire_boost|expire_intent|grant_ftf|trip_changed}` over the private network with `x-cp-billing-secret` (200 result, 422 permanent refusal, 5xx retry): the engine lives in the api with the entitlement materialiser. Console (support): `GET /v1/admin/billing/users/{uid}`, `/billing/health`, `/billing/offer-batches`, `/billing/ftf-review`; commands `record_offer_code_batch`, `review_ftf_grant {grant_id, decision: allow\|revoke, reason}`, `grant_trip_boost {trip_id, days ≤ 60, reason}` (in place of a `trip_id` on `grant_entitlement`), `extend_store_renewal {uid, days ≤ 90, reason}` (App Store only, two per 365 days from the audit log); `replay_webhook` provider `revenuecat`.
 
 ### 5.9 Admin and ops (`/v1/admin/*`, P17)
 

@@ -164,7 +164,7 @@ const jobs: AnyJobDefinition[] = [
   ...draftJobs(env, { pool, assertRouteOn: aiSwitches.assertAiRoute, telemetry: llmObservability }),
   ...moneyJobs(env, { pool, assertRouteOn: aiSwitches.assertAiRoute, telemetry: llmObservability }),
   ...bookingsJobs(env, pool, aiSwitches.assertAiRoute, llmObservability),
-  ...billingJobs(process.env, logger),
+  ...billingJobs(process.env, logger, metrics),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&
