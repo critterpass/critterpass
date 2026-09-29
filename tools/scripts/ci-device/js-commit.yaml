@@ -14,3 +14,6 @@ appId: app.critterpass.dev
 - assertVisible:
     id: 'dev-build-marker'
     text: '.*js:${JS_COMMIT}.*'
+# Leave the app as a fresh install for the shard's next flow.
+- stopApp
+- clearState

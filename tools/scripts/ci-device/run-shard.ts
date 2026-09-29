@@ -160,9 +160,12 @@ export function runShard(options: ShardOptions): {
       uiQa.set(label, scanUiQa(adb(options.device, ['logcat', '-d', '-s', 'ReactNativeJS:V'])));
     }
     summary(`| ${passed ? 'pass' : '**fail**'} | \`${label}\` | ${String(seconds)}s |`);
-    // Maestro's own `screenshot-❌-…` failure images stay in the flow's run directory.
-    const names = flowScreenshotNames(flow, dir).filter((name) => !isMaestroFailureShot(name));
-    return { flow, dir, names };
+    // With --test-output-dir, `takeScreenshot` writes to its `screenshots/` folder; Maestro's own
+    // `screenshot-❌-…` failure images are left out.
+    const taken = path.join(dir, 'screenshots');
+    mkdirSync(taken, { recursive: true });
+    const names = flowScreenshotNames(flow, taken).filter((name) => !isMaestroFailureShot(name));
+    return { flow, dir: taken, names };
   });
   for (const { from, to } of planCopies(results, shots)) {
     if (existsSync(from)) copyFileSync(from, to);
