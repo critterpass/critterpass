@@ -53,7 +53,11 @@ export interface BubbleProps {
 }
 
 const useStyles = makeStyles((th) => ({
-  bubble: { paddingHorizontal: th.space['14'], paddingVertical: th.space['10'], maxWidth: '82%' },
+  bubble: { paddingHorizontal: th.space['14'], paddingVertical: th.space['10'] },
+  // The width cap sits on the column, whose parent is the full-width row: a percentage on the
+  // bubble itself resolves against its content-sized wrappers and squeezes short words apart.
+  column: { flexShrink: 1 },
+  textColumn: { maxWidth: '82%' },
   avatarSlot: { width: th.size.avatar.lg, alignItems: 'center' },
   system: {
     alignSelf: 'center',
@@ -138,7 +142,14 @@ export function Bubble(props: BubbleProps) {
             ) : null}
           </View>
         )}
-        <Stack gap="4" style={{ flexShrink: 1, alignItems: mine ? 'flex-end' : 'flex-start' }}>
+        <Stack
+          gap="4"
+          style={[
+            styles.column,
+            custom === null ? styles.textColumn : null,
+            { alignItems: mine ? 'flex-end' : 'flex-start' },
+          ]}
+        >
           {first && author !== null ? (
             <Text variant="label" color={guide ? guideColor : theme.semantic.text.secondary}>
               {author}
@@ -249,6 +260,7 @@ function DeliveryLine({
           size={theme.space['12']}
           decorative
           color={theme.semantic.state.warning}
+          accent={theme.semantic.state.warning}
         />
       ) : null}
       <Text variant="caption" color={theme.semantic.text.tertiary}>

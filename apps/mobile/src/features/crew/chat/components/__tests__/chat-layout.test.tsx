@@ -10,7 +10,9 @@ jest.mock('expo-router', () => ({ useIsFocused: () => true, router: { back: jest
 import { describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { render } from '@testing-library/react-native';
+import { fireEvent, render, screen, within } from '@testing-library/react-native';
+import { router } from 'expo-router';
+import { StyleSheet } from 'react-native';
 import type { ReactElement } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -116,6 +118,46 @@ describe('chat layout', () => {
         />,
       ),
     ).toMatchSnapshot();
+  });
+
+  it('the back arrow is a plain touch target that goes back', async () => {
+    await snapshot(<ChatHeader crewId="c-1" crewName="The Bali Six" people={6} guideName={null} />);
+    const back = screen.getByTestId('chat-back');
+    expect(back.props.accessibilityLabel).toBe('Back');
+    const style = StyleSheet.flatten(back.props.style) as { backgroundColor?: string };
+    expect(style.backgroundColor).toBeUndefined();
+    await fireEvent.press(back);
+    expect(router.back).toHaveBeenCalledTimes(1);
+  });
+
+  it('caps a text message on its column, never on the content-sized bubble', async () => {
+    await snapshot(
+      <Bubble
+        message={message({
+          id: 'short',
+          senderId: 'me',
+          seq: null,
+          status: 'sending',
+          body: 'heh',
+        })}
+        mine
+        first
+        last
+        joinIndex={1}
+      />,
+    );
+    const capped = [];
+    for (let node = screen.getByText('heh').parent; node !== null; node = node.parent) {
+      const style = StyleSheet.flatten(node.props.style as never) as { maxWidth?: unknown } | null;
+      if (style?.maxWidth !== undefined) capped.push(node);
+      if (node.props.testID === 'chat-message-short') break;
+    }
+    expect(capped).toHaveLength(1);
+    expect(StyleSheet.flatten(capped[0]?.props.style as never)).toMatchObject({ maxWidth: '82%' });
+    // The capped view is the column holding the delivery line, not the bubble around the text.
+    const column = capped[0];
+    if (column === undefined) throw new Error('no capped view');
+    expect(within(column).queryByText('Sending')).not.toBeNull();
   });
 
   it('composer', async () => {
