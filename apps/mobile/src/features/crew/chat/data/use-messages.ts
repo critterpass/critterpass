@@ -9,9 +9,16 @@
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 import { useCallback, useEffect, useState } from 'react';
 
+import type { MuteMemberPayload } from '@cp/domain';
+
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
-import { payloadFromSummary, SEND_MESSAGE, type OutgoingMessage } from './chat-commands';
+import {
+  muteMemberCommand,
+  payloadFromSummary,
+  SEND_MESSAGE,
+  type OutgoingMessage,
+} from './chat-commands';
 import {
   fromRow,
   parseList,
@@ -96,7 +103,7 @@ export async function loadTimeline(
 ): Promise<Timeline> {
   const crew = quoted(crewId);
   const window = Math.max(1, Math.floor(limit));
-  const [synced, queued, rejected, settings] = await Promise.all([
+  const [synced, queued, rejected, settings, muting] = await Promise.all([
     db.getAll<MessageRow>(
       `SELECT m.*, coalesce(u.display_name, g.name) AS sender_name, r.display_name AS ref_name
          FROM messages m LEFT JOIN users u ON u.id = m.sender_id
@@ -119,8 +126,11 @@ export async function loadTimeline(
     db.getOptional<{ muted_uids: string | null }>(
       `SELECT muted_uids FROM user_settings WHERE user_id = ${quoted(me)}`,
     ),
+    db.getAll<{ envelope: string }>(
+      `SELECT envelope FROM commands WHERE cmd = '${muteMemberCommand.name}' ORDER BY seq`,
+    ),
   ]);
-  const muted = new Set(parseList(settings?.muted_uids));
+  const muted = withPendingMutes(parseList(settings?.muted_uids), muting);
   const hasOlder = synced.length > window;
   const visible = synced
     .slice(0, window)
@@ -149,6 +159,24 @@ export async function loadTimeline(
     hasOlder,
     lastSeq: synced[0] === undefined ? 0 : Number(synced[0].seq),
   };
+}
+
+/**
+ * The synced mute list with this device's mute and unmute commands applied in queue order, so a
+ * crewmate muted here drops out of the timeline at once rather than when the setting syncs back.
+ */
+function withPendingMutes(
+  synced: readonly string[],
+  commands: readonly { envelope: string }[],
+): Set<string> {
+  const muted = new Set(synced);
+  for (const row of commands) {
+    const payload = (JSON.parse(row.envelope) as { payload?: Partial<MuteMemberPayload> }).payload;
+    if (typeof payload?.uid !== 'string') continue;
+    if (payload.muted === true) muted.add(payload.uid);
+    else muted.delete(payload.uid);
+  }
+  return muted;
 }
 
 const EMPTY: Timeline = { messages: [], hasOlder: false, lastSeq: 0 };
