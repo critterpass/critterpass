@@ -34,12 +34,14 @@ export interface TimelineBlock {
 export const GUTTER = 32;
 
 const useStyles = makeStyles((th) => ({
+  touchArea: { position: 'absolute' },
+  pressArea: { flex: 1 },
   block: {
-    position: 'absolute',
+    flex: 1,
     borderRadius: th.radius.md,
     overflow: 'hidden',
+    padding: th.space['10'],
   },
-  pressArea: { flex: 1, padding: th.space['10'] },
 }));
 
 export function laneStyle(lane: TimelineBlock['lane']) {
@@ -93,8 +95,11 @@ export function MovableBlock({
   const label = [block.title, range, block.detail].filter(Boolean).join(', ');
   const duration = block.end - block.start;
   const height = duration * pointsPerMinute;
-  // A short slot keeps its time-true height; slop brings its touch target to the minimum.
+  // A short slot keeps its time-true height; its touch area grows past it to the minimum target.
+  // The area is a real view rather than gesture hit slop: Android never hit-tests a child's slop
+  // outside its parent, so a tap just above a short block would miss it.
   const slop = touchSlop(height);
+  const reach = slop?.top ?? 0;
   const drag = useDragSnap({
     initialMinutes: block.start,
     pointsPerMinute,
@@ -116,13 +121,11 @@ export function MovableBlock({
     if (event.nativeEvent.actionName === 'activate') press.onAccessibilityAction(event);
     else drag.onAccessibilityAction(event);
   };
-  const gestures = slop
-    ? movableBlockGestures(drag.gesture.hitSlop(slop), press.gesture.hitSlop(slop))
-    : movableBlockGestures(drag.gesture, press.gesture);
+  const gestures = movableBlockGestures(drag.gesture, press.gesture);
   return (
     <GestureDetector gesture={gestures.block}>
       <Animated.View
-        hitSlop={slop}
+        testID={`timeline-block-${block.id}`}
         accessible
         accessibilityRole="adjustable"
         accessibilityLabel={block.title}
@@ -131,26 +134,34 @@ export function MovableBlock({
         accessibilityActions={actions}
         onAccessibilityAction={onAction}
         style={[
-          styles.block,
+          styles.touchArea,
           laneStyle(block.lane),
-          { top, height, backgroundColor: block.color },
-          selected
-            ? { borderWidth: theme.ring.focus.widthPt, borderColor: theme.ring.focus.color }
-            : null,
+          { top: top - reach, height: height + 2 * reach },
           drag.animatedStyle,
           press.animatedStyle,
         ]}
       >
         <GestureDetector gesture={gestures.pressArea}>
-          <View hitSlop={slop} style={styles.pressArea}>
-            <Text variant="title" color={theme.semantic.text.onAccent} numberOfLines={1}>
-              {block.title}
-            </Text>
-            {block.detail ? (
-              <Text variant="bodySm" color={theme.semantic.text.onAccent} numberOfLines={1}>
-                {block.detail}
+          <View style={[styles.pressArea, { paddingVertical: reach }]}>
+            <View
+              testID={`timeline-block-${block.id}-face`}
+              style={[
+                styles.block,
+                { backgroundColor: block.color },
+                selected
+                  ? { borderWidth: theme.ring.focus.widthPt, borderColor: theme.ring.focus.color }
+                  : null,
+              ]}
+            >
+              <Text variant="title" color={theme.semantic.text.onAccent} numberOfLines={1}>
+                {block.title}
               </Text>
-            ) : null}
+              {block.detail ? (
+                <Text variant="bodySm" color={theme.semantic.text.onAccent} numberOfLines={1}>
+                  {block.detail}
+                </Text>
+              ) : null}
+            </View>
           </View>
         </GestureDetector>
       </Animated.View>
