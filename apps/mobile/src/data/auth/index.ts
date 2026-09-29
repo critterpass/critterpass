@@ -25,37 +25,63 @@ import { signOut, type SignOutClient } from './sign-out';
 import { createTokenCache, type TokenAudience } from './tokens';
 import type { MergePreviewSummary } from './types';
 
+/** Better Auth's base path: the client prefixes it to every relative `$fetch` path. */
+const AUTH_BASE_PATH = '/api/auth';
+
 /**
- * Generic `POST` adapter for the two custom, non-Better-Auth-generated routes
- * (services/api/src/routes/auth-extra.ts's `/v1/auth/merge*` and `/api/auth/sign-in/phone-number`):
- * `client.$fetch` already carries the Expo client's cookie storage/injection, so these go through it
- * too rather than a bare `fetch`.
+ * Where `client.$fetch` sends one of the api's own auth routes (services/api/src/routes/auth-extra.ts).
+ * The client prefixes Better Auth's base path to relative paths, so routes mounted under it
+ * (`/api/auth/sign-in/phone-number`, `/api/auth/token`) go relative to it, and the routes beside it
+ * (`/v1/auth/merge*`) go as absolute URLs, which the client passes through unchanged.
  */
-function postJson<T>(client: MobileAuthClient, path: string, body: unknown) {
-  return client.$fetch(path, { method: 'POST', body }) as unknown as Promise<{
+export function authRouteUrl(apiBaseUrl: string, path: string): string {
+  return path.startsWith(`${AUTH_BASE_PATH}/`)
+    ? path.slice(AUTH_BASE_PATH.length)
+    : new URL(path, apiBaseUrl).href;
+}
+
+/**
+ * Generic `POST` adapter for the custom, non-Better-Auth-generated routes: `client.$fetch` already
+ * carries the Expo client's cookie storage/injection, so these go through it too rather than a
+ * bare `fetch`.
+ */
+function postJson<T>(client: MobileAuthClient, url: string, body: unknown) {
+  return client.$fetch(url, { method: 'POST', body }) as unknown as Promise<{
     data: T | null;
     error: { status?: number; code?: string; detail?: { retry_after_s?: number } } | null;
   }>;
 }
 
 export interface AuthDataLayerOptions {
+  /** The api origin the client was created for; the merge routes live beside Better Auth's. */
+  readonly apiBaseUrl: string;
   /** Where failed flows report their error code; Sentry on device. */
   readonly reportFailure?: AuthFailureReporter;
 }
 
-export function createAuthDataLayer(client: MobileAuthClient, options: AuthDataLayerOptions = {}) {
+/** A JWT's `exp` in milliseconds; `atob` because React Native has no `Buffer`. */
+export function jwtExpiresAtMs(token: string): number {
+  const segment = (token.split('.')[1] ?? '').replace(/-/gu, '+').replace(/_/gu, '/');
+  const payload = JSON.parse(atob(segment.padEnd(Math.ceil(segment.length / 4) * 4, '='))) as {
+    exp?: number;
+  };
+  return (payload.exp ?? 0) * 1000;
+}
+
+export function createAuthDataLayer(client: MobileAuthClient, options: AuthDataLayerOptions) {
   const report = options.reportFailure ?? reportAuthFailureToSentry;
+  const route = (path: string) => authRouteUrl(options.apiBaseUrl, path);
   const tokens = createTokenCache({
     getToken: async (aud: TokenAudience) => {
-      const response = await client.$fetch<{ token: string }>(`/api/auth/token?aud=${aud}`);
+      const response = await client.$fetch<{ token: string }>(
+        route(`${AUTH_BASE_PATH}/token?aud=${aud}`),
+      );
       if (response.error || !response.data) {
         const status = response.error?.status ?? 'UNKNOWN';
         throw new Error(`failed to mint a ${aud} token: ${status}`);
       }
-      const payload = JSON.parse(
-        Buffer.from(response.data.token.split('.')[1] ?? '', 'base64url').toString('utf8'),
-      ) as { exp?: number };
-      return { token: response.data.token, expiresAtMs: (payload.exp ?? 0) * 1000 };
+      const { token } = response.data;
+      return { token, expiresAtMs: jwtExpiresAtMs(token) };
     },
   });
 
@@ -94,19 +120,19 @@ export function createAuthDataLayer(client: MobileAuthClient, options: AuthDataL
     signInReturningPhone: (input: { phoneNumber: string; code: string }) =>
       reportingFailures('returning_phone', report, () =>
         signInReturningPhone(input, {
-          post: (path, body) => postJson<{ user: { id: string } }>(client, path, body),
+          post: (path, body) => postJson<{ user: { id: string } }>(client, route(path), body),
         }),
       ),
     startMerge: (ticket: string) =>
       reportingFailures('merge_start', report, () =>
         startMerge(ticket, {
-          post: (path, body) => postJson<MergePreviewSummary>(client, path, body),
+          post: (path, body) => postJson<MergePreviewSummary>(client, route(path), body),
         }),
       ),
     confirmMerge: (ticket: string) =>
       reportingFailures('merge_confirm', report, () =>
         confirmMerge(ticket, {
-          post: (path, body) => postJson<{ user: { id: string } }>(client, path, body),
+          post: (path, body) => postJson<{ user: { id: string } }>(client, route(path), body),
         }),
       ),
     signOut: () => signOut(signOutClient),

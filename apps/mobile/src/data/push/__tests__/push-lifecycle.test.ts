@@ -214,6 +214,60 @@ describe('createPushLifecycle', () => {
     expect(sent).toHaveLength(3);
   });
 
+  it('never registers in a loop when every token read also fires the rotation listener (iOS)', async () => {
+    let listener: ((token: NativeDevicePushToken) => void) | undefined;
+    let reads = 0;
+    let current = 'abc123';
+    const native: PushNative = {
+      ...fakeNative().native,
+      // What expo-notifications does on iOS: the read registers with APNs, whose answer resolves
+      // the read and fires the token listener with the same token.
+      getDevicePushToken: () => {
+        reads += 1;
+        const data = current;
+        setTimeout(() => listener?.({ type: 'ios', data }), 0);
+        return Promise.resolve({ type: 'ios', data });
+      },
+      onTokenChange: (next) => {
+        listener = next;
+        return () => {
+          listener = undefined;
+        };
+      },
+    };
+    const { sent, transport } = recordingTransport();
+    const lifecycle = createPushLifecycle({
+      native,
+      transport,
+      storage: memoryStorage({ 'cp.install_id': INSTALL }),
+      currentUid: () => Promise.resolve(UID),
+      platform: 'ios',
+      appVersion: '1.0.0',
+      locale: () => 'en',
+      timeZone: () => 'UTC',
+      subscribeAppState: () => () => undefined,
+    });
+    await lifecycle.start();
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    await lifecycle.trigger('foreground');
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(reads).toBe(2);
+    expect(sent).toHaveLength(1);
+
+    current = 'rotated';
+    listener?.({ type: 'ios', data: 'rotated' });
+    await lifecycle.trigger('background');
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(sent.map((envelope) => envelope.payload['push_token'])).toEqual([
+      'abc123',
+      'rotated',
+      'rotated',
+    ]);
+    // The rotation registered the token it carried; only the background report read it again.
+    expect(reads).toBe(3);
+    lifecycle.stop();
+  });
+
   it('never registers before a session exists', async () => {
     const { native } = fakeNative();
     const { sent, transport } = recordingTransport();
