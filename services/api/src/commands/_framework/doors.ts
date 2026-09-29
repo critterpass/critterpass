@@ -18,7 +18,7 @@ export interface CommandDoorDeps {
   readonly registry: CommandRegistry;
   readonly sessions: SessionResolver;
   readonly redis: RateLimitRedisClient;
-  readonly logger: Pick<Logger, 'error'>;
+  readonly logger: Pick<Logger, 'error' | 'info'>;
 }
 
 export const ErrorBodySchema = z

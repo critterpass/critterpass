@@ -57,6 +57,16 @@ const commandRoute = createRoute({
   },
 });
 
+/** `VALIDATION` detail's issue paths (`device.tz`), so a reject is diagnosable from the log. */
+function issuePaths(detail: unknown): string[] | undefined {
+  const issues = (detail as { issues?: unknown } | undefined)?.issues;
+  if (!Array.isArray(issues)) return undefined;
+  return issues.map((issue) => {
+    const path = (issue as { path?: unknown }).path;
+    return Array.isArray(path) ? path.map(String).join('.') : '';
+  });
+}
+
 export function registerCommandRoute(app: OpenAPIHono<AppEnv>, deps: CommandDoorDeps): void {
   app.openapi(
     commandRoute,
@@ -77,9 +87,24 @@ export function registerCommandRoute(app: OpenAPIHono<AppEnv>, deps: CommandDoor
         door: 'cmd',
       });
 
-      if (outcome.status === 'rejected') throw new DomainError(outcome.code, outcome.detail);
-      if (outcome.status === 'duplicate' && outcome.original === 'rejected') {
-        throw new DomainError(outcome.code ?? 'INTERNAL', outcome.detail);
+      const rejection =
+        outcome.status === 'rejected'
+          ? { code: outcome.code, detail: outcome.detail }
+          : outcome.status === 'duplicate' && outcome.original === 'rejected'
+            ? { code: outcome.code ?? 'INTERNAL', detail: outcome.detail }
+            : undefined;
+      if (rejection !== undefined) {
+        // The code and the failing field paths only: never payload values.
+        deps.logger.info(
+          {
+            req_id: c.var.requestId,
+            cmd,
+            code: rejection.code,
+            fields: issuePaths(rejection.detail),
+          },
+          'command rejected',
+        );
+        throw new DomainError(rejection.code, rejection.detail);
       }
       return c.json(outcomeBody(outcome), 200);
     },
