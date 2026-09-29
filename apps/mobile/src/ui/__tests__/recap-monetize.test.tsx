@@ -29,6 +29,7 @@ import { MemoryHero } from '../recap/MemoryHero';
 import { RecapStatTiles } from '../recap/RecapStatTiles';
 import { RouteRider } from '../recap/RouteRider';
 import { StampSpread } from '../recap/StampSpread';
+import { setUiQaSink } from '../qa/ui-qa';
 import { renderUi } from '../test-support/render';
 
 import '../monetize/monetize.fixtures';
@@ -138,6 +139,27 @@ describe('monetisation', () => {
     });
     await run(screen.getByRole('tab', { name: 'Free' }), 'activate');
     expect(onHighlight).toHaveBeenCalledWith('free');
+  });
+
+  it('lets a table value take a second line without a UI QA report', async () => {
+    const reports: string[] = [];
+    setUiQaSink((line) => reports.push(line));
+    try {
+      await renderUi(
+        <ComparisonTable
+          highlighted="boost"
+          columns={[{ id: 'boost', label: 'Boost' }]}
+          rows={[{ label: 'Guide chat', values: ['∞ on trip'] }]}
+        />,
+      );
+      const value = screen.getByText('∞ ON TRIP', { includeHiddenElements: true });
+      await fireEvent(value, 'textLayout', {
+        nativeEvent: { lines: [{ text: '∞ ON ' }, { text: 'TRIP' }] },
+      });
+      expect(reports).toEqual([]);
+    } finally {
+      setUiQaSink(null);
+    }
   });
 
   it('lays the header, every row and the highlight band on one column grid', async () => {

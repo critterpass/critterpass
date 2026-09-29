@@ -116,6 +116,8 @@ export function ComparisonTable({
               <View key={column.id} style={[styles.cell, cellWidth]}>
                 <Text
                   variant="label"
+                  // Table values may take a second line in their narrow column, by design.
+                  singleLine={false}
                   style={styles.value}
                   color={
                     column.id === highlighted ? theme.color.paper.ink : theme.color.paper.muted
