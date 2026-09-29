@@ -27,6 +27,7 @@ import type pg from 'pg';
 import { asSystemRole } from '../admin/command';
 import { publishMoney } from '../commands/money/shared';
 import { loadFxContext, writeLedgerEntries } from './ledger';
+import { reissueStaleRequests } from './settle';
 
 export interface ShareRow {
   readonly userId: string;
@@ -257,5 +258,6 @@ export async function createExpense(
       source: expense.source,
     },
   });
+  await reissueStaleRequests(tx, expense.crewId, expense.tripId, expense.crewCurrency);
   return result(expense, priced, 1);
 }

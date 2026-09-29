@@ -29,7 +29,7 @@ History = size / TTL. Presence ✓ = Centrifugo presence + join/leave enabled.
 | `user:#{uid}` | self | `inbox.*`, `badge.counts`, `entitlement.changed`, `usage.changed{used, limit, reset_at}`, `job.progress{job_id, step, pct}`, `guide.private_message`, `cmd.result`, `session.revoked`, `otp.channel_failed{verification_id}` | event | – | 100 / 24 h | 9, 10 |
 | `crew:{crew_id}` | member | `member.joined/left/updated`, `invite.opened`, `boost.state`, `trip.summary`, `home.badges` | event | ✓ | 50 / 24 h | 23 |
 | `crew_chat:{crew_id}` | member | `message.created/edited/deleted`, `reaction`, `typing{uid\|guide}`, `guide.token{stream_id, seq, text}`, `poll.tally`, `guide_offer.taken`, `boost_card` | per msg; typing ≤0.33 Hz/user; tokens ~20/s | ✓ | 200 / 72 h | 24 |
-| `crew_money:{crew_id}` | member | `expense.*`, `balances.updated`, `payment.status`, `reward.granted{server_ts}` | event | – | 100 / 72 h | 33 |
+| `crew_money:{crew_id}` | member | `expense.added/edited/deleted{expense_id, trip_id}`, `balances.updated{crew_id}`, `payment.status{payment_id, status, reissued_as?}`, `reward.granted{trip_id, kind, server_ts}`, `currency.changed{crew_id, currency}`, `budget.updated{trip_id}` (doc delta) | event | – | 100 / 72 h | 33 |
 | `crew_bookings:{crew_id}` | member | `import.candidate`, `booking.*`, `flight.status` | event | – | 50 / 72 h | 34 |
 | `crew_collection:{crew_id}` | member | `critter.befriended`, `sighting`, `first_spotter` | event | – | 50 / 7 d | 40 |
 | `poll:{poll_id}` | anyone who can read the poll (its crew, or its trip's crew) | `ballot.upserted{poll_id, option_tallies, pending_count, eligible_count}`, `poll.updated{…, stage?}` (candidate added/removed, board ↔ final), `poll.closed{…, winner_option_id}`, `changeset.tally{yes, needed}`; the same counts are mirrored as `poll.tally` on `crew_chat:` | per ballot | – | 50 / 72 h | 26 |
@@ -103,6 +103,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `ai.guide_mention` | crew chat mention | AI-20 stream to `crew_chat` | 1 | message id | 32 |
 | `ai.queued_answer` | 00:00 local reset | AI-40 answer, passive push N-36 | 3 | question id | 32 |
 | `ai.receipt` | `POST /v1/receipts` | AI-25 lines + payer inference | 2 | receipt id | 33 |
+| `money.rerate` (doc delta) | `set_crew_settlement_currency` | every live expense re-expressed in the new currency (its own FX run when it relates the pair, else the newest): old entries reversed, new ones derived from the stored shares; confirmed payments' entries moved the same way; open requests cancelled; marked-paid and disputed payments restated; idempotent | 3 / DLQ | crew id | 33 |
+| `money.autoconfirm` (doc delta) | cron `0 4 * * *` SGT | payments marked paid ≥ 7 d ago and not disputed → confirmed (`auto_confirmed`), ledger entry, Settled Tokek when it clears the trip (`app.grant_settled_if_square`) | 2 | – | 33 |
 | `mail.parse` | inbound email | sanitize → JSON-LD/Microdata → fast-tier extract (no tools) → validate → dedupe → candidate → N-13 | 3 / DLQ | message-id header hash | 34 |
 | `import.parse` | `import_paste`, `import_scan` | same parser path | 3 | op_id | 34 |
 | `flight.event` | AeroAPI webhook | status diff → N-14/N-41, LA, `ai.disruption`, landed → `hatch_egg` | 5 | `(flight_id, alert_id)` | 34 |

@@ -299,6 +299,16 @@ REVOKE EXECUTE ON FUNCTION app.pseudonymise_user(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.pseudonymise_user(uuid) TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
+-- "Remind everyone" runs at most once a day per trip: when it last ran, from the event log.
+CREATE OR REPLACE FUNCTION app.last_payments_reminder_at(p_trip uuid) RETURNS timestamptz
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+  SELECT max(e.occurred_at) FROM domain_events e
+   WHERE e.type = 'payment.reminded' AND e.trip_id = p_trip
+$$;
+REVOKE EXECUTE ON FUNCTION app.last_payments_reminder_at(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.last_payments_reminder_at(uuid) TO app_system;
+
+-- ---------------------------------------------------------------------------------------------
 -- domain_events: the money events join the catalogue (packages/domain/src/money/events.ts).
 ALTER TABLE domain_events DROP CONSTRAINT domain_events_type_check;
 ALTER TABLE domain_events ADD CONSTRAINT domain_events_type_check CHECK (type IN (

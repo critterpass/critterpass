@@ -296,11 +296,12 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 | `edit_expense` | `{expense_id, base_version, patch{amount_minor?, currency?, fx_snapshot_id?, payer_uid?, split?, category?, description?, merchant?, spent_at?}}`; a money change reverses and re-derives the ledger; an itemised split's total changes only with a new split (`STATE_INVALID{itemised_needs_split}`) | creator, payer or organiser | – | `expense.edited` | A, O | 33 |
 | `delete_expense` | `{expense_id, base_version?}` → hides the expense, reverses its entries | creator, payer or organiser | – | `expense.deleted` | A, O | 33 |
 | `commit_receipt` | `{receipt_id, lines[{line_id, assignment[]}], payer_uid}` (payer confirmed) | participant | – (exempt) | `expense.added` | A, O | 33 |
-| `request_payment` | `{trip_id, to_uid, amount_minor, currency}` | payee | – | `payment.requested` | A, O | 33 |
-| `nudge_payment` | `{payment_id}` | payee | ≤1/pair/24 h | `payment.nudged` (N-16) | A, O, W, N | 33 |
-| `mark_paid` | `{payment_id, method}` | payer | – | `payment.marked_paid` | A, O, N | 33 |
-| `confirm_paid` | `{payment_id}` | payee | – | `payment.confirmed`; last one → `trip.settled` (reward, same server ts) | A, O, N | 33 |
-| `remind_all_payments` | `{trip_id}` | participant | ≤1/24 h | `payment.reminded` | A | 33 |
+| `request_payment` | `{payment_id (client UUIDv7), trip_id, from_uid, amount_minor, currency (crew currency)}` (doc delta: the caller is the payee; one open request per pair, else `STATE_INVALID{already_requested}`) | payee | – | `payment.requested` | A, O | 33 |
+| `nudge_payment` | `{payment_id}` (pending/requested) | payee | ≤1/pair/24 h → `NUDGE_TOO_SOON{next_at}` | `payment.nudged` (N-16) | A, O, W, N | 33 |
+| `mark_paid` | `{payment_id, method (bank/paynow/promptpay/vietqr/duitnow/wise/cash/other), amount_minor? (partial: the rest stays open as a new payment), create?{trip_id, to_uid, amount_minor, currency} (pays a planned transfer nobody requested)}` → `{payment_id, status, version, remainder_payment_id?}` (doc delta) | payer | – | `payment.marked_paid` | A, O, N | 33 |
+| `confirm_paid` | `{payment_id}` → `{payment_id, status, version, settled_at?}`; writes the payment's ledger entry; the confirm that clears the trip grants every participant `stickers(kind=settled)` with one `granted_at` (`app.grant_settled_if_square`, trip row lock: racing confirms grant once) | payee | – | `payment.confirmed`; last one → `trip.settled` (reward, same server ts) | A, O, N | 33 |
+| `dispute_payment` (doc delta) | `{payment_id, note?}` (marked_paid → disputed; the payer can mark it paid again) | payee | – | `payment.disputed` | A, O | 33 |
+| `remind_all_payments` | `{trip_id}` → `{trip_id, reminded}` (pushes each payer of a pending/requested payment) | participant | ≤1/24 h per trip → `RATE_LIMITED{retry_after_s}` | `payment.reminded` | A | 33 |
 | `set_trip_budget` | `{trip_id, target_minor}` (group target, not private max; kept in the plan's currency) | organiser | – | `budget.target_changed` | A, O | 33 |
 | `set_crew_settlement_currency` (doc delta) | `{crew_id, currency}` → `{crew_id, currency, changed}`; queues `money.rerate` | crew organiser | – | `crew.settlement_currency_changed` | A | 33 |
 | `write_off_debt` | `{trip_id, from_uid, to_uid, amount}` | S (deletion) or payee | – | `ledger.written_off` | A, S | 45 |

@@ -25,6 +25,7 @@ import {
   type ExpenseFields,
 } from './expense-writer';
 import { liveEntries, writeLedgerEntries } from './ledger';
+import { reissueStaleRequests } from './settle';
 
 export interface StoredExpense extends ExpenseFields {
   readonly version: number;
@@ -205,6 +206,7 @@ export async function updateExpense(
     tripId: next.tripId,
     payload: { trip_id: next.tripId, crew_id: next.crewId, expense_id: next.id, version },
   });
+  await reissueStaleRequests(tx, next.crewId, next.tripId, next.crewCurrency);
   return result(next, priced, version);
 }
 
@@ -243,5 +245,6 @@ export async function deleteExpense(
     tripId: expense.tripId,
     payload: { trip_id: expense.tripId, crew_id: expense.crewId, expense_id: expense.id },
   });
+  await reissueStaleRequests(tx, expense.crewId, expense.tripId, expense.crewCurrency);
   return { expense_id: expense.id, version };
 }

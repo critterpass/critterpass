@@ -30,6 +30,48 @@ GRANT SELECT, INSERT ON stickers TO app_system;
 GRANT SELECT (id, user_id, crew_id, trip_id, kind, granted_at, created_at) ON stickers TO admin_reader;
 CREATE POLICY stickers_admin_reader ON stickers FOR SELECT TO admin_reader USING (true);
 
+-- The Settled Tokek: once a trip has no open payment and every participant's trip balance is zero,
+-- every participant (not out, still in the crew) gets the sticker with the one `p_at`. The trip
+-- row lock serialises the check, so of two confirms racing to clear the last payments exactly one
+-- sees the trip square; the unique index makes a repeat call grant nobody. Returns who got it now.
+CREATE OR REPLACE FUNCTION app.grant_settled_if_square(p_trip uuid, p_at timestamptz)
+RETURNS TABLE (granted_user uuid)
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+DECLARE
+  trip_crew uuid;
+BEGIN
+  SELECT t.crew_id INTO trip_crew FROM trips t WHERE t.id = p_trip FOR UPDATE;
+  IF trip_crew IS NULL THEN
+    RETURN;
+  END IF;
+  IF EXISTS (
+    SELECT 1 FROM payments p
+     WHERE p.trip_id = p_trip AND p.status IN ('pending', 'requested', 'marked_paid', 'disputed')
+  ) OR NOT EXISTS (SELECT 1 FROM ledger_entries e WHERE e.trip_id = p_trip) OR EXISTS (
+    SELECT 1 FROM (
+      SELECT e.creditor_id AS member, e.currency, e.amount_minor AS delta
+        FROM ledger_entries e WHERE e.trip_id = p_trip
+      UNION ALL
+      SELECT e.debtor_id, e.currency, -e.amount_minor FROM ledger_entries e WHERE e.trip_id = p_trip
+    ) moves
+    GROUP BY moves.member, moves.currency
+    HAVING sum(moves.delta) <> 0
+  ) THEN
+    RETURN;
+  END IF;
+  RETURN QUERY
+    INSERT INTO stickers AS s (user_id, crew_id, trip_id, kind, granted_at)
+    SELECT tp.user_id, trip_crew, p_trip, 'settled', p_at
+      FROM trip_participants tp
+      JOIN crew_members m ON m.crew_id = trip_crew AND m.user_id = tp.user_id AND m.status = 'active'
+     WHERE tp.trip_id = p_trip AND tp.rsvp <> 'out'
+    ON CONFLICT (user_id, trip_id) WHERE kind = 'settled' DO NOTHING
+    RETURNING s.user_id;
+END;
+$$;
+REVOKE EXECUTE ON FUNCTION app.grant_settled_if_square(uuid, timestamptz) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.grant_settled_if_square(uuid, timestamptz) TO app_system;
+
 -- PowerSync publication (docs/code-standards.md §13), hand-copied from
 -- packages/db/src/publication.ts#computePublicationAllowList.
 DO $$
