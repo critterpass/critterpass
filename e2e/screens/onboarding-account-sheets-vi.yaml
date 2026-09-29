@@ -1,0 +1,11 @@
+appId: app.critterpass.dev
+---
+# The onboarding save and merge sheets in Vietnamese (the gallery switches the running app's
+# language, not persisted).
+- runFlow: subflows/open-gallery.yaml
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow:
+    file: subflows/account-sheets.yaml
+    env:
+      PREFIX: vi

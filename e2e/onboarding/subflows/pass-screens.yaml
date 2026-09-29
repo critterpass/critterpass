@@ -18,6 +18,8 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'onboarding-name-field'
 - inputText: 'Winst'
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-2-name-keyboard
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3a-2-name
@@ -59,10 +61,15 @@ appId: app.critterpass.dev
     id: 'taste-card-right'
 - waitForAnimationToEnd
 # The stamped tags pile up by the sixth question; in longer languages Skip sits below the fold.
+# The last pick's cards are still settling, so wait before looking for it.
+- waitForAnimationToEnd
 - scrollUntilVisible:
     element:
       id: 'taste-skip'
     direction: DOWN
+    centerElement: true
+    timeout: 20000
+- waitForAnimationToEnd
 - tapOn:
     id: 'taste-skip'
 - extendedWaitUntil:
@@ -119,6 +126,8 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'phone-number'
 - inputText: '91234567'
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-8-phone-keyboard
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3a-8-phone
