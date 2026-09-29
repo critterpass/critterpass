@@ -5,8 +5,8 @@ jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
 import { fireEvent, screen } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
-import { Alert, View } from 'react-native';
-import type { AlertButton } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
+import type { AlertButton, StyleProp, ViewStyle } from 'react-native';
 
 import { PillButton } from '../buttons/PillButton';
 import { CodeBoxes, groupFitSize } from '../inputs/CodeBoxes';
