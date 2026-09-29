@@ -50,6 +50,8 @@ afterAll(async () => {
 afterEach(async () => {
   await authModule?.close();
   authModule = undefined;
+  // Each case starts inside fresh per-number send limits (3 per 10 minutes).
+  await redis.flushAll();
 });
 
 function buildModule(env: FixedCodeEnv): AuthModule {
@@ -157,6 +159,27 @@ describe('fixed-code phone numbers', { timeout: 60_000 }, () => {
     const test = await sendAndVerify(authModule, TEST_NUMBER, '246810');
     expect(test.verify.status).toBe(400);
     expect(sent).toEqual([TEST_NUMBER]);
+  });
+
+  it('moves a test number to the newest pass that saves it, never an App Review number', async () => {
+    const review = '+6580000002';
+    authModule = buildModule({ ...STAGING, OTP_REVIEW_NUMBER: review });
+    const first = await sendAndVerify(authModule, TEST_NUMBER, '246810');
+    expect(first.verify.status).toBe(200);
+    const second = await sendAndVerify(authModule, TEST_NUMBER, '246810');
+    expect(second.verify.status).toBe(200);
+    const { rows } = await pool.query<{ id: string; phone: string | null }>(
+      'SELECT id::text AS id, phone_number AS phone FROM auth."user" WHERE id::text = ANY ($1::text[])',
+      [[first.uid, second.uid]],
+    );
+    expect(Object.fromEntries(rows.map((row) => [row.id, row.phone]))).toEqual({
+      [first.uid]: null,
+      [second.uid]: TEST_NUMBER,
+    });
+
+    expect((await sendAndVerify(authModule, review, '135790')).verify.status).toBe(200);
+    const taken = await sendAndVerify(authModule, review, '135790');
+    expect(taken.verify.status).toBe(409);
   });
 
   it('delivers a random code to every other number', async () => {

@@ -32,6 +32,7 @@ import type { OtpChannel } from './otp/countries';
 import {
   maskedNumber,
   useFixedCode,
+  withTestNumberRecycling,
   type FixedCodeKind,
   type FixedCodeNumbers,
 } from './otp/fixed-codes';
@@ -254,10 +255,16 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
     }),
   );
   authRef.current = auth;
-  const handler = wrapHandlerWithMergeIntercept((request) => auth.handler(request), {
-    auth,
-    secret: deps.secret,
-  });
+  const handler = withTestNumberRecycling(
+    wrapHandlerWithMergeIntercept((request) => auth.handler(request), {
+      auth,
+      secret: deps.secret,
+    }),
+    {
+      numbers: deps.fixedCodes,
+      users: async () => ((await auth.$context) as unknown as { adapter: never }).adapter,
+    },
+  );
 
   return {
     auth,
