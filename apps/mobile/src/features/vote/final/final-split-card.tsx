@@ -8,7 +8,7 @@
 import { tokens } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -37,24 +37,46 @@ import { pendingByName, useFinalLines } from './tie-line';
 const CARD_HEIGHT = 262;
 const RISE = 70;
 const ENTER = bezierEasing(tokens.motion.easing.enter);
-/** The diagonal between the halves (3b-6's 62/38 split). */
-// eslint-disable-next-line lingui/no-unlocalized-strings -- style values, never copy.
-const DIAGONAL = { left: '56%', transform: [{ rotate: '12deg' }] } as const;
+/** Where the diagonal meets the top and bottom edges (3b-6's 62/38 split), as card fractions. */
+const DIAGONAL_TOP = 0.62;
+const DIAGONAL_BOTTOM = 0.38;
+
+/**
+ * The first place's colour cut by the diagonal: a tall band whose end edge passes through the
+ * card's centre, turned about that point so the edge runs from 62 % at the top to 38 % at the
+ * bottom.
+ */
+function diagonalStyle(width: number) {
+  const degrees =
+    (Math.atan(((DIAGONAL_TOP - DIAGONAL_BOTTOM) * width) / CARD_HEIGHT) * 180) / Math.PI;
+  return {
+    position: 'absolute',
+    start: -width,
+    end: width / 2,
+    top: -CARD_HEIGHT,
+    bottom: -CARD_HEIGHT,
+    transformOrigin: 'right',
+    transform: [{ rotate: `${degrees}deg` }],
+  } as const;
+}
 
 const useStyles = makeStyles((th) => ({
   card: {
     height: CARD_HEIGHT,
     borderRadius: th.radius.cardBig,
     overflow: 'hidden',
-    flexDirection: 'row',
   },
-  half: { justifyContent: 'space-between', padding: th.space['16'] },
-  divider: {
+  // Each half's content keeps to its own side of the diagonal: the first place's name and guide
+  // top-start, the second's guide top-end and its name bottom-end, votes on the outer edges.
+  half: {
     position: 'absolute',
-    top: -CARD_HEIGHT / 2,
-    bottom: -CARD_HEIGHT / 2,
-    width: CARD_HEIGHT,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'space-between',
+    padding: th.space['16'],
   },
+  firstHalf: { start: 0, width: '58%' },
+  secondHalf: { end: 0, width: '48%' },
   vsWrap: {
     position: 'absolute',
     top: 0,
@@ -87,14 +109,12 @@ const useStyles = makeStyles((th) => ({
 function Half({
   option,
   place,
-  width,
   alignEnd,
   people,
   wiggleOffset,
 }: {
   readonly option: PollOptionView;
   readonly place: BoardPlace | undefined;
-  readonly width: `${number}%`;
   readonly alignEnd: boolean;
   readonly people: ReturnType<typeof usePeople>;
   readonly wiggleOffset: number;
@@ -105,31 +125,38 @@ function Half({
   const wiggle = useLoop('wiggle', { offset: wiggleOffset });
   const guide = GUIDE_STICKERS[place?.guide ?? 'tokek'];
   const ink = theme.semantic.text.onAccent;
+  const name = (
+    <Text variant="h1" color={ink} numberOfLines={1} autoFit>
+      {upper(place?.name ?? option.label, i18n.locale)}
+    </Text>
+  );
+  const sticker = (
+    <Animated.View style={wiggle}>
+      <LiveSticker kind={guide.kind} name={guide.name} size={96} drawOn={false} />
+    </Animated.View>
+  );
+  const votes = (
+    <Row gap="6" align="center">
+      {option.voterIds.length > 0 ? (
+        <AvatarStack members={stackOf(people, option.voterIds)} size="sm" max={4} />
+      ) : null}
+      <Text variant="title" color={ink}>
+        {String(option.votes)}
+      </Text>
+    </Row>
+  );
   return (
     <View
+      pointerEvents="none"
       style={[
         styles.half,
-        {
-          width,
-          backgroundColor: place?.colour ?? theme.color.yellow,
-          alignItems: alignEnd ? 'flex-end' : 'flex-start',
-        },
+        alignEnd ? styles.secondHalf : styles.firstHalf,
+        { alignItems: alignEnd ? 'flex-end' : 'flex-start' },
       ]}
     >
-      <Text variant="h1" color={ink} numberOfLines={1}>
-        {upper(place?.name ?? option.label, i18n.locale)}
-      </Text>
-      <Animated.View style={wiggle}>
-        <LiveSticker kind={guide.kind} name={guide.name} size={96} drawOn={false} />
-      </Animated.View>
-      <Row gap="6" align="center">
-        {option.voterIds.length > 0 ? (
-          <AvatarStack members={stackOf(people, option.voterIds)} size="sm" max={4} />
-        ) : null}
-        <Text variant="title" color={ink}>
-          {String(option.votes)}
-        </Text>
-      </Row>
+      {alignEnd ? sticker : name}
+      {alignEnd ? votes : sticker}
+      {alignEnd ? name : votes}
     </View>
   );
 }
@@ -143,6 +170,7 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
   const lines = useFinalLines(poll, places, people);
   const pulse = useLoop('pulse');
   const blink = useLoop('blink');
+  const [width, setWidth] = useState(0);
   const reduced = useReducedImpactMotion();
   const rise = useSharedValue(reduced ? 0 : RISE);
   const fade = useSharedValue(reduced ? 1 : 0);
@@ -207,11 +235,19 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
           onPress={() => router.push(voteRoutes.showdown(poll.id))}
           testID="final-split-open"
         >
-          <View style={styles.card}>
+          <View
+            style={[styles.card, { backgroundColor: secondColour }]}
+            onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
+          >
+            {width > 0 ? (
+              <View
+                pointerEvents="none"
+                style={[diagonalStyle(width), { backgroundColor: firstColour }]}
+              />
+            ) : null}
             <Half
               option={first}
               place={placeOf(first)}
-              width="62%"
               alignEnd={false}
               people={people}
               wiggleOffset={0}
@@ -219,14 +255,9 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
             <Half
               option={second}
               place={placeOf(second)}
-              width="38%"
               alignEnd
               people={people}
               wiggleOffset={0.2}
-            />
-            <View
-              pointerEvents="none"
-              style={[styles.divider, DIAGONAL, { backgroundColor: secondColour, zIndex: -1 }]}
             />
             <View pointerEvents="none" style={styles.vsWrap}>
               <Animated.View style={[styles.vs, pulse]}>
