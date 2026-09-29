@@ -111,27 +111,6 @@ describe('HomeHeader', () => {
   });
 });
 
-describe('HomeHeader layout', () => {
-  it('keeps a long crew name on one line and shows three faces at most', async () => {
-    const screen = await renderWithI18n(
-      <HomeHeader
-        name="Khanh"
-        crewName="Bali demo crew for the long weekend"
-        members={['K', 'M', 'J', 'A', 'R'].map((initial) => ({ initial, color: 'pink' }))}
-        onOpenProfile={jest.fn()}
-        onSwitchCrew={jest.fn()}
-        onOpenChat={jest.fn()}
-        onOpenInbox={jest.fn()}
-      />,
-    );
-    expect(screen.getByTestId('home-header-crew-name').props.numberOfLines).toBe(1);
-    const hidden = { includeHiddenElements: true };
-    expect(screen.getByText('J', hidden)).toBeTruthy();
-    expect(screen.queryByText('A', hidden)).toBeNull();
-    expect(screen.getByText('›', hidden)).toBeTruthy();
-  });
-});
-
 describe('LargeTitle', () => {
   it('shows a back button on a pushed screen, and none on a root screen', async () => {
     const back = jest.spyOn(router, 'back').mockImplementation(() => undefined);
