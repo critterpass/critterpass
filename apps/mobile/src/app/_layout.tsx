@@ -17,6 +17,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { appGroupOutbox, writeEndpointsConfig, writeImage } from '../../modules/cp-app-group';
 import * as cpDeferredLink from '../../modules/cp-deferred-link';
 import { getLocationNative } from '../../modules/cp-location';
+import { cpNotifications } from '../../modules/cp-notifications/src';
 import { getPermissions } from '../../modules/cp-permissions';
 
 import { AppSessionRoot } from '@/data/app-session/AppSessionRoot';
@@ -40,6 +41,7 @@ import '@/features/vote/register';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { usePushNotifications } from '@/data/push/use-push-notifications';
 import { watchRows } from '@/data/status/watch-rows';
 import {
   AnalyticsProvider,
@@ -216,6 +218,7 @@ function RootNavigator() {
   }, []);
   useNavigationPersistence({ navigationRef, build: BUILD, launchUrl });
   useScreenTracking(useAnalytics());
+  usePushNotifications(cpNotifications);
   return (
     <NavigationThemeProvider value={navigationTheme}>
       <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
