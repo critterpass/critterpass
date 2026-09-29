@@ -175,6 +175,7 @@ export function BalancesView(props: BalancesViewProps) {
                   direction: line.direction,
                   fraction: line.fraction,
                   amountLabel: formatSigned(line.netMinor, props.currency, locale),
+                  highlight: line.me,
                 }))}
               />
             </Card>

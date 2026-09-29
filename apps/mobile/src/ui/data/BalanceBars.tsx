@@ -14,6 +14,8 @@ export interface Balance {
   readonly fraction: number;
   /** Pre-formatted signed amount ("+186.40", "−41.00"). */
   readonly amountLabel: string;
+  /** The viewer's own row: its bar and amount are drawn in the accent yellow. */
+  readonly highlight?: boolean;
 }
 
 export interface BalanceBarsProps {
@@ -88,11 +90,23 @@ export function BalanceBars({ balances, owesHeading, owedHeading, testID }: Bala
           <View style={styles.half}>
             {balance.direction === 'owed' ? (
               <View style={[styles.bar, { width: `${Math.min(1, balance.fraction) * 100}%` }]}>
-                <GrowBar fraction={1} color={theme.semantic.state.success} index={index} />
+                <GrowBar
+                  fraction={1}
+                  color={
+                    balance.highlight === true
+                      ? theme.semantic.action.primary
+                      : theme.semantic.state.success
+                  }
+                  index={index}
+                />
               </View>
             ) : null}
           </View>
-          <Text variant="monoData" style={styles.amount}>
+          <Text
+            variant="monoData"
+            style={styles.amount}
+            color={balance.highlight === true ? theme.semantic.action.primary : undefined}
+          >
             {balance.amountLabel}
           </Text>
         </Row>
