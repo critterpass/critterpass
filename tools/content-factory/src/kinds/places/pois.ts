@@ -45,21 +45,22 @@ export interface PoiSource {
 }
 
 const editorialSchema = z.object({
-  pois: z.array(
-    z.object({
-      ref: z.string(),
-      why_go: z.string().min(1).max(200),
-      best_time: z.string().min(1).max(80),
-      // Model replies occasionally overshoot these bounds; clamp rather than regenerate the unit.
-      time_needed_min: z.number().transform((n) => Math.min(1440, Math.max(10, Math.round(n)))),
-      crowd_hint: z.string().min(1).max(80),
-      etiquette: z.string().min(1).max(160).nullable(),
-      tags: z
-        .array(z.enum(TASTE_TAGS))
-        .min(1)
-        .transform((tags) => tags.slice(0, 4)),
-    }),
-  ),
+  // A place no taste tag fits (a hospital, say) comes back untagged; it is left out of the curated
+  // set rather than failing the unit or getting an invented tag.
+  pois: z
+    .array(
+      z.object({
+        ref: z.string(),
+        why_go: z.string().min(1).max(200),
+        best_time: z.string().min(1).max(80),
+        // Model replies occasionally overshoot these bounds; clamp rather than regenerate the unit.
+        time_needed_min: z.number().transform((n) => Math.min(1440, Math.max(10, Math.round(n)))),
+        crowd_hint: z.string().min(1).max(80),
+        etiquette: z.string().min(1).max(160).nullable(),
+        tags: z.array(z.enum(TASTE_TAGS)).transform((tags) => tags.slice(0, 4)),
+      }),
+    )
+    .transform((pois) => pois.filter((poi) => poi.tags.length > 0)),
 });
 type Editorial = z.infer<typeof editorialSchema>['pois'][number];
 

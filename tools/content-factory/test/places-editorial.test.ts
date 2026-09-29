@@ -46,6 +46,11 @@ describe('POI editorial replies', () => {
     expect(parsed.pois[0]?.tags).toEqual(['photo_spots', 'culture', 'history', 'local_life']);
   });
 
+  it('leaves out a place the model could give no taste tag', () => {
+    const parsed = schema?.parse(reply({ tags: [] })) as { pois: unknown[] };
+    expect(parsed.pois).toEqual([]);
+  });
+
   it('stores an empty open-data address as none', () => {
     const parsed = schema?.parse(reply({})) as { pois: Parameters<typeof toPoiItem>[1][] };
     const editorial = parsed.pois[0];
