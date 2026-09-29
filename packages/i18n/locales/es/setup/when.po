@@ -140,6 +140,10 @@ msgid "setup.when.line.some"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.oneMissing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.line.all"
 msgstr ""
 

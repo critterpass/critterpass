@@ -55,7 +55,7 @@ describe('dates step view', () => {
   it('shows the week everyone can make, reads each day as a count and locks it', async () => {
     const handlers = await show(whenModel({}));
     expect(screen.getByText('WHEN CAN EVERYONE GO?')).toBeTruthy();
-    expect(screen.getByText('From five synced calendars. One still to come.')).toBeTruthy();
+    expect(screen.getByText('From five synced calendars. Dev hasn’t connected yet.')).toBeTruthy();
     expect(screen.getByLabelText('April 2, 6 of 6 free')).toBeTruthy();
     expect(screen.getByLabelText('April 27, 1 of 6 free')).toBeTruthy();
     expect(screen.getByTestId('heatmap-window')).toBeTruthy();

@@ -44,6 +44,8 @@ export interface WhenModel {
   readonly members: readonly SetupMember[];
   readonly total: number;
   readonly synced: number;
+  /** Names of people who have not shared a day, when the api could say (online). */
+  readonly unsyncedNames: readonly string[];
   readonly months: readonly HeatMonth[];
   readonly startMonth: number;
   readonly best: WindowOption | null;
@@ -96,6 +98,14 @@ function syncedLine(model: WhenModel): string {
     return t({
       id: 'setup.when.line.all',
       message: `From ${synced} synced calendars. Everyone’s in.`,
+    });
+  }
+  const only =
+    model.unsyncedNames.length === 1 && missing === 1 ? model.unsyncedNames[0] : undefined;
+  if (only !== undefined) {
+    return t({
+      id: 'setup.when.line.oneMissing',
+      message: `From ${synced} synced calendars. ${only} hasn’t connected yet.`,
     });
   }
   const left = sentenceStart(countWord(missing));

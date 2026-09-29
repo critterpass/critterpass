@@ -140,6 +140,10 @@ msgid "setup.when.line.some"
 msgstr "From {synced} synced calendars. {left} still to come."
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.oneMissing"
+msgstr "From {synced} synced calendars. {only} hasn’t connected yet."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.line.all"
 msgstr "From {synced} synced calendars. Everyone’s in."
 

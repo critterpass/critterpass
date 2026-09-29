@@ -37,7 +37,12 @@ export async function computeWindows(
   tripId: string,
   lengthDays: number,
   today: string,
-): Promise<{ options: WindowOptionWire[]; memberCount: number; syncedCount: number }> {
+): Promise<{
+  options: WindowOptionWire[];
+  memberCount: number;
+  syncedCount: number;
+  unsyncedIds: string[];
+}> {
   const to = addDays(today, AVAILABILITY_HORIZON_DAYS);
   const source = await asSystemRole(tx, async () => {
     const { rows } = await tx.query<{ inputs: SetupWindowSource }>(
@@ -53,6 +58,8 @@ export async function computeWindows(
   return {
     memberCount: source.members.length,
     syncedCount: source.members.filter((m) => Object.keys(m.days).length > 0).length,
+    // Who has not shared a single day (the crew already sees the count; the step names them).
+    unsyncedIds: source.members.filter((m) => Object.keys(m.days).length === 0).map((m) => m.uid),
     options: options.map((option) => ({
       kind: option.kind,
       start_date: option.start,
@@ -90,6 +97,7 @@ export function registerWindowsRoute(app: OpenAPIHono<AppEnv>, deps: WindowsRout
           length_days: length,
           member_count: computed.memberCount,
           synced_count: computed.syncedCount,
+          unsynced_member_ids: computed.unsyncedIds,
           options: computed.options,
         };
       },

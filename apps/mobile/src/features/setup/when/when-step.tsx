@@ -28,6 +28,7 @@ import {
 } from './model';
 import { useWhenData } from './use-when-data';
 import { WeekPicker } from './week-picker';
+import { useUnsyncedMembers } from './use-unsynced';
 import { WhenView, type WhenFailure } from './when-view';
 
 type Overlay = 'calendar' | 'manual' | 'picker' | null;
@@ -47,6 +48,7 @@ export function WhenStep({ trip, shell }: StepProps) {
   const lock = useCommand(lockTripDatesCommand);
   const ask = useCommand(askAvailabilityCommand);
   const [overlay, setOverlay] = useState<Overlay>(null);
+  const unsynced = useUnsyncedMembers(trip.tripId, services);
   const [chosen, setChosen] = useState<string | null>(null);
   const [failure, setFailure] = useState<WhenFailure | null>(null);
 
@@ -101,6 +103,9 @@ export function WhenStep({ trip, shell }: StepProps) {
           members: trip.members,
           total,
           synced,
+          unsyncedNames: trip.members
+            .filter((member) => unsynced.includes(member.uid))
+            .map((member) => member.name),
           months,
           startMonth,
           best,

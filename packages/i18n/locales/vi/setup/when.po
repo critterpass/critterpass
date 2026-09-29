@@ -140,6 +140,10 @@ msgid "setup.when.line.some"
 msgstr "Từ {synced} lịch đã đồng bộ. Còn {left} người nữa."
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.oneMissing"
+msgstr "Từ {synced} lịch đã đồng bộ. {only} chưa kết nối."
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.line.all"
 msgstr "Từ {synced} lịch đã đồng bộ. Đủ cả rồi."
 

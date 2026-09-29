@@ -96,6 +96,7 @@ export function whenModel(overrides: Partial<WhenModel> & { readonly me?: string
     members: trip.members,
     total: 6,
     synced: 5,
+    unsyncedNames: ['Dev'],
     months,
     startMonth: initialMonth(months, BEST),
     best: BEST,

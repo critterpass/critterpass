@@ -160,5 +160,7 @@ export interface WindowsResult {
   readonly length_days: number;
   readonly member_count: number;
   readonly synced_count: number;
+  /** Members who have not shared a single day yet (named on the dates step). */
+  readonly unsynced_member_ids: readonly string[];
   readonly options: readonly WindowOptionWire[];
 }
