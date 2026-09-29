@@ -1,0 +1,419 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-29 07:38+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#. placeholder {0}: first ?? ''
+#: ../../apps/mobile/src/features/crew/live-map/map/bunch-pill.tsx
+msgid "liveMap.bunch.more"
+msgstr "{0} + {more}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.distance.kilometers"
+msgstr "{km} km"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.withDistance"
+msgstr "{line}, {distance}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.withDistanceOut"
+msgstr "{line}, {distance} out"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.minutesAway"
+msgstr "{minutes} minutes away"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.pin"
+msgstr "{names}, {eta}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.pinAtPlace"
+msgstr "{names}, {place}, {eta}"
+
+#. placeholder {0}: etaSpoken(lead.sharing === 'live' ? eta : null)
+#: ../../apps/mobile/src/features/crew/live-map/data/use-member-etas.ts
+msgid "liveMap.a11y.row"
+msgstr "{names}, {status}, {0}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.distance.meters"
+msgstr "{rounded} m"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.sharing"
+msgstr "{sharing} of {members} sharing · trip days only"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.aboutMinutesAway"
+msgstr "about {minutes} minutes away"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.chip.approximate"
+msgstr "Approximate"
+
+#. placeholder {0}: row.clock
+#: ../../apps/mobile/src/features/crew/live-map/panel/member-row.tsx
+msgid "liveMap.row.arrives"
+msgstr "Arrives {0}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.atPlace"
+msgstr "At {poi}"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
+msgid "liveMap.noTrip.back"
+msgstr "Back to the chat"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.boostLine"
+msgstr "Boost this trip to share live locations on trip days. Nobody's history is kept."
+
+#: ../../apps/mobile/src/features/crew/live-map/states/member-sheet.tsx
+msgid "liveMap.sheet.call"
+msgstr "Call"
+
+#. placeholder {0}: person.name
+#: ../../apps/mobile/src/features/crew/live-map/states/member-sheet.tsx
+msgid "liveMap.sheet.callName"
+msgstr "Call {0}"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.chat"
+msgstr "Chat"
+
+#: ../../apps/mobile/src/features/crew/live-map/use-live-map-screen.ts
+msgid "liveMap.toast.pingOffline"
+msgstr "Couldn't reach the crew. Try again."
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.cycling"
+msgstr "Cycling"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.droppedPin"
+msgstr "Dropped pin"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/all-arrived.tsx
+msgid "liveMap.arrived.title"
+msgstr "Everyone's here"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.here"
+msgstr "here"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.arrived"
+msgstr "Here"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.actions.onMyWay"
+msgstr "I'm on my way"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.inMinutes"
+msgstr "In {minutes} min"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.driving"
+msgstr "In a car"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.keepTime"
+msgstr "Keep {currentTime}"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.always.banner"
+msgstr "Keep sharing when your phone is locked"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.lastSeen"
+msgstr "Last seen {minutes} min ago"
+
+#. placeholder {0}: time(person.position.at)
+#: ../../apps/mobile/src/features/crew/live-map/states/member-sheet.tsx
+msgid "liveMap.sheet.lastSeen"
+msgstr "Last seen {minutes} min ago, at {0}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.leaving"
+msgstr "Leaving {poi}"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.live"
+msgstr "Live"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/member-row.tsx
+msgid "liveMap.row.locationOff"
+msgstr "Location off · Settings"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/meetup-pin.tsx
+msgid "liveMap.meetup.pinTime"
+msgstr "MEET {time}"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.title"
+msgstr "Meet-up"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.noMeetupEyebrow"
+msgstr "Meet-up"
+
+#. placeholder {0}: meetup.time
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.meetupEyebrow"
+msgstr "Meet-up · {0}"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/meetup-pin.tsx
+msgid "liveMap.meetup.pinLabel"
+msgstr "Meet-up at {place}, {time}"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.move"
+msgstr "Move it"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.moveIt"
+msgstr "Move it"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.moveTitle"
+msgstr "Move the meet-up"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.moveMeetup"
+msgstr "Moving the meet-up"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/member-row.tsx
+msgid "liveMap.row.noEta"
+msgstr "No arrival time"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.noEta"
+msgstr "no ETA"
+
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
+msgid "liveMap.noTrip.title"
+msgstr "No trip on the map yet"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.notStartedTitle"
+msgstr "Not a trip day yet"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.still"
+msgstr "Not moving"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.off"
+msgstr "Not sharing"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.offline.last"
+msgstr "Offline · last update {lastUpdate}"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.offline.none"
+msgstr "Offline · waiting for the crew"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.onTheRoad"
+msgstr "On the road"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.onScooter"
+msgstr "On the scooter"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/share-primer.tsx
+msgid "liveMap.primer.line"
+msgstr "Only on trip days, only with this crew. Pause any time."
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.offTripLine"
+msgstr "Only people on the trip see the crew map."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
+msgid "liveMap.pause.pause"
+msgstr "Pause"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
+msgid "liveMap.pause.pauseLabel"
+msgstr "Pause sharing your location"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.paused"
+msgstr "Paused"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.paused"
+msgstr "Paused sharing at {at}"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.pause"
+msgstr "Pausing live location"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.noMeetupLine"
+msgstr "Pick a place and the crew sees who is close."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.actions.pingAll"
+msgstr "Ping all"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.toast.pingedMeetup"
+msgstr "Pinged everyone: {place} at {time}."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.toast.pinged"
+msgstr "Pinged everyone."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.actions.needsSignal"
+msgstr "Pings need a signal."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.lockScreen"
+msgstr "Put this on the lock screen"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
+msgid "liveMap.pause.resume"
+msgstr "Resume"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
+msgid "liveMap.pause.resumeLabel"
+msgstr "Resume sharing your location"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.resume"
+msgstr "Resuming live location"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.chip.savingBattery"
+msgstr "Saving battery"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.search"
+msgstr "Search places"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.boostAction"
+msgstr "See Boost"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.boostTitle"
+msgstr "See the crew live"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.pending"
+msgstr "Sends when you’re back online"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.createTitle"
+msgstr "Set a meet-up"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.setMeetup"
+msgstr "Set a meet-up"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.set"
+msgstr "Set meet-up"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.createMeetup"
+msgstr "Setting the meet-up"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/share-primer.tsx
+msgid "liveMap.primer.action"
+msgstr "Share my location"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/share-primer.tsx
+msgid "liveMap.primer.title"
+msgstr "Share where you are with the crew?"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.sharing"
+msgstr "Sharing live"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.startsOn"
+msgstr "Sharing opens on {startsOn}."
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.notStartedLine"
+msgstr "Sharing opens on your first trip day."
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.endedLine"
+msgstr "Sharing switched itself off at midnight."
+
+#. placeholder {0}: m.endsOn
+#: ../../apps/mobile/src/features/crew/live-map/screen.tsx
+msgid "liveMap.panel.footer"
+msgstr "Sharing switches itself off on {0} at midnight."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.toast.onMyWay"
+msgstr "The crew can see you coming."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.toast.onMyWayEta"
+msgstr "The crew can see you coming. {minutes} minutes."
+
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
+msgid "liveMap.noTrip.line"
+msgstr "The crew map opens on the days of a trip you take together."
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.endedTitle"
+msgstr "Trip days are over"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.shareOff"
+msgstr "Turning off live location"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.shareOn"
+msgstr "Turning on live location"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/member-sheet.tsx
+msgid "liveMap.sheet.justNow"
+msgstr "Updated just now"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.always.now"
+msgstr "Updates when you open the app"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.useSpot"
+msgstr "Use this spot"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.waiting"
+msgstr "Waiting for a location"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.walking"
+msgstr "Walking"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.when"
+msgstr "When"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/use-member-etas.ts
+msgid "liveMap.row.you"
+msgstr "You"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.offTripTitle"
+msgstr "You're not on this trip"

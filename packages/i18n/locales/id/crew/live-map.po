@@ -1,0 +1,419 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-29 07:38+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: id\n"
+
+#. placeholder {0}: first ?? ''
+#: ../../apps/mobile/src/features/crew/live-map/map/bunch-pill.tsx
+msgid "liveMap.bunch.more"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.distance.kilometers"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.withDistance"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.withDistanceOut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.minutesAway"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.pin"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.pinAtPlace"
+msgstr ""
+
+#. placeholder {0}: etaSpoken(lead.sharing === 'live' ? eta : null)
+#: ../../apps/mobile/src/features/crew/live-map/data/use-member-etas.ts
+msgid "liveMap.a11y.row"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.distance.meters"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.sharing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.aboutMinutesAway"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.chip.approximate"
+msgstr ""
+
+#. placeholder {0}: row.clock
+#: ../../apps/mobile/src/features/crew/live-map/panel/member-row.tsx
+msgid "liveMap.row.arrives"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.atPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
+msgid "liveMap.noTrip.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.boostLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/member-sheet.tsx
+msgid "liveMap.sheet.call"
+msgstr ""
+
+#. placeholder {0}: person.name
+#: ../../apps/mobile/src/features/crew/live-map/states/member-sheet.tsx
+msgid "liveMap.sheet.callName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.chat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/use-live-map-screen.ts
+msgid "liveMap.toast.pingOffline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.cycling"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.droppedPin"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/all-arrived.tsx
+msgid "liveMap.arrived.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.here"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.arrived"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.actions.onMyWay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.inMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.driving"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.keepTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.always.banner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.lastSeen"
+msgstr ""
+
+#. placeholder {0}: time(person.position.at)
+#: ../../apps/mobile/src/features/crew/live-map/states/member-sheet.tsx
+msgid "liveMap.sheet.lastSeen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.leaving"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.live"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/member-row.tsx
+msgid "liveMap.row.locationOff"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/map/meetup-pin.tsx
+msgid "liveMap.meetup.pinTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.noMeetupEyebrow"
+msgstr ""
+
+#. placeholder {0}: meetup.time
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.meetupEyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/map/meetup-pin.tsx
+msgid "liveMap.meetup.pinLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.move"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.moveIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.moveTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.moveMeetup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/member-row.tsx
+msgid "liveMap.row.noEta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.noEta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
+msgid "liveMap.noTrip.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.notStartedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.still"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.off"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.offline.last"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.offline.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.onTheRoad"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.onScooter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/share-primer.tsx
+msgid "liveMap.primer.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.offTripLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
+msgid "liveMap.pause.pause"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
+msgid "liveMap.pause.pauseLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.paused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.paused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.pause"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.noMeetupLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.actions.pingAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.toast.pingedMeetup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.toast.pinged"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.actions.needsSignal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.lockScreen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
+msgid "liveMap.pause.resume"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
+msgid "liveMap.pause.resumeLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.resume"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.chip.savingBattery"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.boostAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.boostTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.createTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.setMeetup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.set"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.createMeetup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/share-primer.tsx
+msgid "liveMap.primer.action"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/share-primer.tsx
+msgid "liveMap.primer.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.sharing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.startsOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.notStartedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.endedLine"
+msgstr ""
+
+#. placeholder {0}: m.endsOn
+#: ../../apps/mobile/src/features/crew/live-map/screen.tsx
+msgid "liveMap.panel.footer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.toast.onMyWay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.toast.onMyWayEta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
+msgid "liveMap.noTrip.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.endedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.shareOff"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.shareOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/member-sheet.tsx
+msgid "liveMap.sheet.justNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.always.now"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.useSpot"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.walking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.when"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/data/use-member-etas.ts
+msgid "liveMap.row.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.offTripTitle"
+msgstr ""

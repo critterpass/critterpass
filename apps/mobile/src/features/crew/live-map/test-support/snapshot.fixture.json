@@ -1,0 +1,136 @@
+{
+  "trip_id": "0199a6f0-0000-7000-8000-00000000e001",
+  "window_ends_at": "2026-10-19T16:00:00.000Z",
+  "members": [
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a1",
+      "lat": -8.4916,
+      "lng": 115.2531,
+      "acc": 8,
+      "activity": "walking",
+      "at": "2026-10-18T08:37:40.000Z"
+    },
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a2",
+      "lat": -8.49165,
+      "lng": 115.2532,
+      "acc": 9,
+      "activity": "walking",
+      "at": "2026-10-18T08:37:30.000Z"
+    },
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a3",
+      "lat": -8.5069,
+      "lng": 115.2625,
+      "acc": 6,
+      "activity": "stationary",
+      "at": "2026-10-18T08:37:55.000Z"
+    },
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a4",
+      "lat": -8.5095,
+      "lng": 115.2795,
+      "acc": 12,
+      "activity": "automotive",
+      "at": "2026-10-18T08:26:00.000Z"
+    }
+  ],
+  "shares": [
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a1",
+      "share_id": "0199a6f0-0000-7000-8000-0000000f0001",
+      "paused": false,
+      "changed_at": "2026-10-18T08:30:00.000Z"
+    },
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a2",
+      "share_id": "0199a6f0-0000-7000-8000-0000000f0002",
+      "paused": false,
+      "changed_at": "2026-10-18T08:30:00.000Z"
+    },
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a3",
+      "share_id": "0199a6f0-0000-7000-8000-0000000f0003",
+      "paused": false,
+      "changed_at": "2026-10-18T08:30:00.000Z"
+    },
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a4",
+      "share_id": "0199a6f0-0000-7000-8000-0000000f0004",
+      "paused": false,
+      "changed_at": "2026-10-18T08:30:00.000Z"
+    },
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a5",
+      "share_id": "0199a6f0-0000-7000-8000-0000000f0005",
+      "paused": false,
+      "changed_at": "2026-10-18T07:00:00.000Z"
+    }
+  ],
+  "etas": [
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a1",
+      "min": 3,
+      "distance_m": 1350,
+      "mode": "pedestrian",
+      "estimate": false,
+      "status": {
+        "key": "leaving_place",
+        "poi": "Karsa Spa",
+        "distance_m": 1350
+      },
+      "arrived": false
+    },
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a2",
+      "min": 3,
+      "distance_m": 1360,
+      "mode": "pedestrian",
+      "estimate": false,
+      "status": {
+        "key": "leaving_place",
+        "poi": "Karsa Spa",
+        "distance_m": 1360
+      },
+      "arrived": false
+    },
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a3",
+      "min": 17,
+      "distance_m": 900,
+      "mode": "pedestrian",
+      "estimate": false,
+      "status": {
+        "key": "at_place",
+        "poi": "Warung Pondok",
+        "distance_m": 900
+      },
+      "arrived": false
+    },
+    {
+      "uid": "0199a6f0-0000-7000-8000-0000000000a4",
+      "min": 11,
+      "distance_m": 2040,
+      "mode": "auto",
+      "estimate": true,
+      "status": {
+        "key": "on_scooter",
+        "poi": null,
+        "distance_m": 2040
+      },
+      "arrived": false
+    }
+  ],
+  "meetup": {
+    "id": "0199a6f0-0000-7000-8000-00000000d001",
+    "trip_id": "0199a6f0-0000-7000-8000-00000000e001",
+    "poi_id": null,
+    "place_name": "Campuhan Ridge",
+    "lat": -8.5031,
+    "lng": 115.2544,
+    "meet_at": "2026-10-18T09:00:00.000Z",
+    "created_by": "0199a6f0-0000-7000-8000-0000000000a1",
+    "status": "active",
+    "arrived": {}
+  }
+}
