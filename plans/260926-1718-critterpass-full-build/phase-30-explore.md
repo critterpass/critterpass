@@ -48,6 +48,9 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 
 ## Requirements
 
+- Carried in from phase 14 (30 Sep): the region download UI (progress, storage size, delete) over `useRegionPack` and the airplane-mode offline search device flow (`e2e/explore/map-offline.yaml`, tapping through the map, never `openLink`); the hooks and local FTS are built and tested (phase 14 T7b, 0a12bcb).
+
+
 ### F-063 Destination guide (3d-1, 3b-8)
 
 | Area | Behaviour |

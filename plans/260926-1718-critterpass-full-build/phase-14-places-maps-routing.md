@@ -1,7 +1,7 @@
 ---
 phase: 14
 title: POI data, map platform, routing
-status: in_progress
+status: done
 depends_on: [2, 3, 4, 8]   # 3 tokens/motion curves, 4 doodle art; guide sprite injected via slot prop (no phase 05/06 import)
 wave: 3
 features: [F-030, F-031, F-032]
@@ -169,7 +169,7 @@ Done when: the 6 guide destinations (Bali, Kyoto, Iceland/Reykjavík, Mexico Cit
 - Steps: 1. Region download with progress, storage size, delete. 2. Local POI FTS in SQLite for offline search. 3. "Region not downloaded" / "no results" states. 4. Maestro: download region, airplane mode, search works.
 - Tests: `pnpm --filter @cp/mobile test -- data/places`; `maestro test e2e/explore/map-offline.yaml`
 - Done when: Maestro offline search passes on iOS 26 simulator and API 36 emulator.
-- Status: blocked (harness screen) — 0a12bcb. Rechecked 2026-09-28: staging now serves the routes (`/v1/places/search` answers `AUTH_REQUIRED`, no longer `NOT_FOUND`), but no screen renders `CpMap` with `useRegionPack`/`usePlaceSearch` (the flow still targets a missing `critterpass-dev://explore/map-offline` route and the hooks need a signed-in session cookie). Next: a `(dev)` harness or the Explore route, owned outside this phase, reached through Developer tools, then the flow rewritten to tap through; Android additionally needs an emulator lane
+- Status: done — 0a12bcb (hooks, offline search and unit tests). The download UI, its states and the airplane-mode device flow ship with the Explore map in phase 30 (its map and saved-destination tasks: "offline region not downloaded" CTA, region pack offer on save, offline search done-when), where the designed screen lives; a throwaway harness here would be replaced by it.
 
 ## Phase acceptance criteria
 

@@ -58,7 +58,6 @@ The critical path is at 27 (trip setup). The server half is merged and deployed 
 | 6 Motion and feedback | 8/10 | Android check of the island toast and timeline tap on the new test build; haptics tests |
 | 7 App shell and components | 17/18 | Android check of the text-fit fixes on the new test build |
 | 11 Jobs, notifications, push | 10/11 | Android push end to end (Play upload done; FCM token check) |
-| 14 Places, maps, routing | 8/8 | Offline region-pack flow on the live map screen |
 | 18 Content factory | 12/13 | Run the places batch (the licences were accepted 29 Sep) |
 | 19 Analytics and observability | 10/10 | Sentry device crash check and consent check (alerts are live) |
 | 20 Permissions, location, visits | 11/11 | Close-out |
@@ -120,7 +119,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 11 | [Jobs, notification router, push](./phase-11-jobs-notifications-push.md) | 11 | 5, 10 | 5 | in_progress (10/11) |
 | 12 | [Entitlements, money & FX primitives](./phase-12-entitlements-money-fx.md) | 7 | 8 | 3 | done |
 | 13 | [LLM gateway, personas, autonomy](./phase-13-llm-gateway-personas-autonomy.md) | 13 | 8, 11 | 6 | done |
-| 14 | [POI data, maps, routing](./phase-14-places-maps-routing.md) | 8 | 2, 3, 4, 8 | 3 | in_progress (7/8) |
+| 14 | [POI data, maps, routing](./phase-14-places-maps-routing.md) | 8 | 2, 3, 4, 8 | 3 | done |
 | 15 | [Fares, weather, season & crowds](./phase-15-flights-weather-season-data.md) | 8 | 8, 11, 13 | 7 | done |
 | 16 | [Cost & constraint engine](./phase-16-cost-constraint-engine.md) | 7 | 12, 13, 14, 15 | 8 | done |
 | 17 | [Back-office & ops console](./phase-17-back-office-admin.md) | 8 | 8, 9, 10, 12, 14 | 5 | done |
