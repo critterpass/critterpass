@@ -4,9 +4,11 @@ appId: app.critterpass.dev
 # a city opens the guest guide's page with the place facts, the locals as hints and what the guest
 # guide read up on; SAVE flaps to SAVED; SOLO TRIP confirms and starts a trip for one.
 #
-# Needs before it can pass: an onboarded account and an api with the place index (the 61 places
-# and their cities) and the guest brief enabled.
-- launchApp
+# Data: a fresh account onboards. Needs an api with the place index (the 61 places and their
+# cities) and the guest brief enabled.
+- launchApp:
+    clearState: true
+- runFlow: ../home/subflows/onboard.yaml
 - openLink: critterpass-dev://places/search
 - extendedWaitUntil:
     visible:

@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# Offline, a message shows at once as sending under the "send when you're back" banner; back
+# online it is delivered once, in order after what was already there. Android only: Maestro's
+# airplane mode cannot cut the iOS simulator's network.
+- runFlow: subflows/open-demo-chat.yaml
+- setAirplaneMode: enabled
+- extendedWaitUntil:
+    visible:
+      id: 'chat-offline'
+    timeout: 20000
+- tapOn:
+    text: 'Message.*'
+- inputText: 'we made it!!'
+- tapOn: 'Send'
+- assertVisible: 'Sending'
+- takeScreenshot: chat-3k-4-offline-sending
+- setAirplaneMode: disabled
+- extendedWaitUntil:
+    notVisible:
+      text: 'Sending'
+    timeout: 60000
+- assertVisible: 'we made it!!'
+- takeScreenshot: chat-offline-delivered

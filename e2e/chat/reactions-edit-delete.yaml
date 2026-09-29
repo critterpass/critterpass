@@ -2,14 +2,7 @@ appId: app.critterpass.dev
 ---
 # Long press a message: react from the emoji bar, edit it, then delete it for everyone, which leaves
 # the "Message deleted" tombstone in its place.
-#
-# Needs before it can pass: an onboarded account that is an active member of crew ${CREW_ID}.
-- launchApp
-- openLink: critterpass-dev://crew/${CREW_ID}/chat
-- extendedWaitUntil:
-    visible:
-      id: 'chat-composer'
-    timeout: 15000
+- runFlow: subflows/open-demo-chat.yaml
 - tapOn:
     text: 'Message.*'
 - inputText: 'sunset at 6?'

@@ -4,10 +4,29 @@ appId: app.critterpass.dev
 # streams in section by section (sticker, chips, headline, reasons, quote); ADD TO THE VOTE puts
 # the place on the crew's board and Home shows WHERE NEXT? with its sticker.
 #
-# Needs before it can pass: an onboarded account that is the only-crew member of ${CREW_ID}, with
-# no open destination vote, and an api with the place index and the pitch route enabled.
-- launchApp
-- openLink: critterpass-dev://places/search?crewId=${CREW_ID}
+# Data: a fresh account onboards and starts its only crew, so the crew has no destination vote yet
+# and a pitch goes straight to it. Needs an api with the place index and the pitch route enabled.
+- launchApp:
+    clearState: true
+- runFlow: ../home/subflows/onboard.yaml
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 10000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Pitch Crew'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 20000
+- tapOn:
+    id: 'start-crew-done'
+- openLink: critterpass-dev://places/search
 - extendedWaitUntil:
     visible:
       id: 'place-search-field'
