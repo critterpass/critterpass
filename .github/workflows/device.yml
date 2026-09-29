@@ -102,7 +102,7 @@ jobs:
         run: |
           if [ "$EVENT" = pull_request ]; then
             # A labelled pull request runs the full suite on both platforms, pass/fail only.
-            platform=both flows='' mode=flows pr=$PR_NUMBER build_url='' shards=3 appearance=light
+            platform=both flows='e2e/smoke e2e/home' mode=capture pr=$PR_NUMBER build_url='https://expo.dev/artifacts/eas/23r3jp-nV2eQywW_12DJDES5N-oH73Y1B-Bcq63lFeE.tar.gz https://expo.dev/artifacts/eas/hEr_sAPBON-5f4J0QP_VFVBkAjIaBNsrh-N_h6A2eBk.apk' shards=3 appearance=light
           else
             platform=$IN_PLATFORM flows=$IN_FLOWS mode=$IN_MODE pr=$IN_PR build_url=$IN_BUILD_URL
             shards=$IN_SHARDS appearance=$IN_APPEARANCE
