@@ -1,0 +1,419 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-29 07:38+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#. placeholder {0}: first ?? ''
+#: ../../apps/mobile/src/features/crew/live-map/map/bunch-pill.tsx
+msgid "liveMap.bunch.more"
+msgstr "{0} + {more}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.distance.kilometers"
+msgstr "{km} km"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.withDistance"
+msgstr "{line}, {distance}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.withDistanceOut"
+msgstr "{line}, còn {distance}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.minutesAway"
+msgstr "còn {minutes} phút"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.pin"
+msgstr "{names}, {eta}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.pinAtPlace"
+msgstr "{names}, {place}, {eta}"
+
+#. placeholder {0}: etaSpoken(lead.sharing === 'live' ? eta : null)
+#: ../../apps/mobile/src/features/crew/live-map/data/use-member-etas.ts
+msgid "liveMap.a11y.row"
+msgstr "{names}, {status}, {0}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.distance.meters"
+msgstr "{rounded} m"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.sharing"
+msgstr "{sharing}/{members} chia sẻ · chỉ ngày đi"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.aboutMinutesAway"
+msgstr "còn khoảng {minutes} phút"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.chip.approximate"
+msgstr "Gần đúng"
+
+#. placeholder {0}: row.clock
+#: ../../apps/mobile/src/features/crew/live-map/panel/member-row.tsx
+msgid "liveMap.row.arrives"
+msgstr "Tới lúc {0}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.atPlace"
+msgstr "Ở {poi}"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
+msgid "liveMap.noTrip.back"
+msgstr "Về đoạn chat"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.boostLine"
+msgstr "Boost chuyến đi để chia sẻ vị trí trực tiếp trong các ngày đi. Không lưu lịch sử của ai."
+
+#: ../../apps/mobile/src/features/crew/live-map/states/member-sheet.tsx
+msgid "liveMap.sheet.call"
+msgstr "Gọi"
+
+#. placeholder {0}: person.name
+#: ../../apps/mobile/src/features/crew/live-map/states/member-sheet.tsx
+msgid "liveMap.sheet.callName"
+msgstr "Gọi {0}"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.chat"
+msgstr "Chat"
+
+#: ../../apps/mobile/src/features/crew/live-map/use-live-map-screen.ts
+msgid "liveMap.toast.pingOffline"
+msgstr "Chưa gửi được cho cả nhóm. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.cycling"
+msgstr "Đang đạp xe"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.droppedPin"
+msgstr "Điểm đã ghim"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/all-arrived.tsx
+msgid "liveMap.arrived.title"
+msgstr "Cả nhóm đã đến"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.here"
+msgstr "đã đến"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.arrived"
+msgstr "Đã đến"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.actions.onMyWay"
+msgstr "Mình đang tới"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.inMinutes"
+msgstr "{minutes} phút nữa"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.driving"
+msgstr "Đang đi ô tô"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.keepTime"
+msgstr "Giữ {currentTime}"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.always.banner"
+msgstr "Vẫn chia sẻ khi khoá màn hình"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.lastSeen"
+msgstr "Thấy lần cuối {minutes} phút trước"
+
+#. placeholder {0}: time(person.position.at)
+#: ../../apps/mobile/src/features/crew/live-map/states/member-sheet.tsx
+msgid "liveMap.sheet.lastSeen"
+msgstr "Thấy lần cuối {minutes} phút trước, lúc {0}"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.leaving"
+msgstr "Rời {poi}"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.live"
+msgstr "Trực tiếp"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/member-row.tsx
+msgid "liveMap.row.locationOff"
+msgstr "Vị trí đang tắt · Cài đặt"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/meetup-pin.tsx
+msgid "liveMap.meetup.pinTime"
+msgstr "HẸN {time}"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.title"
+msgstr "Điểm hẹn"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.noMeetupEyebrow"
+msgstr "Điểm hẹn"
+
+#. placeholder {0}: meetup.time
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.meetupEyebrow"
+msgstr "Điểm hẹn · {0}"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/meetup-pin.tsx
+msgid "liveMap.meetup.pinLabel"
+msgstr "Điểm hẹn ở {place}, {time}"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.move"
+msgstr "Đổi chỗ"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.moveIt"
+msgstr "Đổi chỗ"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.moveTitle"
+msgstr "Đổi điểm hẹn"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.moveMeetup"
+msgstr "Đang đổi điểm hẹn"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/member-row.tsx
+msgid "liveMap.row.noEta"
+msgstr "Chưa có giờ tới"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.a11y.noEta"
+msgstr "chưa có giờ tới"
+
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
+msgid "liveMap.noTrip.title"
+msgstr "Chưa có chuyến nào trên bản đồ"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.notStartedTitle"
+msgstr "Chưa tới ngày đi"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.still"
+msgstr "Đang đứng yên"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.off"
+msgstr "Không chia sẻ"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.offline.last"
+msgstr "Ngoại tuyến · cập nhật lúc {lastUpdate}"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.offline.none"
+msgstr "Ngoại tuyến · đang chờ cả nhóm"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.onTheRoad"
+msgstr "Đang trên đường"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.onScooter"
+msgstr "Đang đi xe máy"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/share-primer.tsx
+msgid "liveMap.primer.line"
+msgstr "Chỉ trong ngày đi, chỉ với nhóm này. Tạm dừng lúc nào cũng được."
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.offTripLine"
+msgstr "Chỉ người đi chuyến này mới xem được bản đồ nhóm."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
+msgid "liveMap.pause.pause"
+msgstr "Tạm dừng"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
+msgid "liveMap.pause.pauseLabel"
+msgstr "Tạm dừng chia sẻ vị trí"
+
+#: ../../apps/mobile/src/features/crew/live-map/map/header-pill.tsx
+msgid "liveMap.header.paused"
+msgstr "Tạm dừng"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.paused"
+msgstr "Tạm dừng chia sẻ lúc {at}"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.pause"
+msgstr "Đang tạm dừng vị trí trực tiếp"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.noMeetupLine"
+msgstr "Chọn một chỗ để cả nhóm biết ai sắp tới."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.actions.pingAll"
+msgstr "Gọi cả nhóm"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.toast.pingedMeetup"
+msgstr "Đã gọi cả nhóm: {place} lúc {time}."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.toast.pinged"
+msgstr "Đã gọi cả nhóm."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.actions.needsSignal"
+msgstr "Cần có sóng để gọi nhóm."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.lockScreen"
+msgstr "Đưa lên màn hình khoá"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
+msgid "liveMap.pause.resume"
+msgstr "Tiếp tục"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/pause-chip.tsx
+msgid "liveMap.pause.resumeLabel"
+msgstr "Tiếp tục chia sẻ vị trí"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.resume"
+msgstr "Đang tiếp tục vị trí trực tiếp"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.chip.savingBattery"
+msgstr "Đang tiết kiệm pin"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.search"
+msgstr "Tìm địa điểm"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.boostAction"
+msgstr "Xem Boost"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.boostTitle"
+msgstr "Xem cả nhóm trực tiếp"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.pending"
+msgstr "Sẽ gửi khi có mạng lại"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.createTitle"
+msgstr "Đặt điểm hẹn"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/panel.tsx
+msgid "liveMap.panel.setMeetup"
+msgstr "Đặt điểm hẹn"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.set"
+msgstr "Đặt điểm hẹn"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.createMeetup"
+msgstr "Đang đặt điểm hẹn"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/share-primer.tsx
+msgid "liveMap.primer.action"
+msgstr "Chia sẻ vị trí"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/share-primer.tsx
+msgid "liveMap.primer.title"
+msgstr "Chia sẻ vị trí với cả nhóm?"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.sharing"
+msgstr "Đang chia sẻ"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.startsOn"
+msgstr "Mở chia sẻ vào {startsOn}."
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.notStartedLine"
+msgstr "Mở chia sẻ vào ngày đầu của chuyến đi."
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.endedLine"
+msgstr "Chia sẻ đã tự tắt lúc nửa đêm."
+
+#. placeholder {0}: m.endsOn
+#: ../../apps/mobile/src/features/crew/live-map/screen.tsx
+msgid "liveMap.panel.footer"
+msgstr "Chia sẻ tự tắt lúc nửa đêm {0}."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.toast.onMyWay"
+msgstr "Cả nhóm thấy bạn đang tới."
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/ping-actions.tsx
+msgid "liveMap.toast.onMyWayEta"
+msgstr "Cả nhóm thấy bạn đang tới. {minutes} phút nữa."
+
+#: ../../apps/mobile/src/features/crew/live-map/crew-map-redirect.tsx
+msgid "liveMap.noTrip.line"
+msgstr "Bản đồ nhóm mở vào những ngày cả nhóm đi chung."
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.endedTitle"
+msgstr "Đã hết ngày đi"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.shareOff"
+msgstr "Đang tắt vị trí trực tiếp"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/live-commands.ts
+msgid "liveMap.queued.shareOn"
+msgstr "Đang bật vị trí trực tiếp"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/member-sheet.tsx
+msgid "liveMap.sheet.justNow"
+msgstr "Vừa cập nhật"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/map-banners.tsx
+msgid "liveMap.always.now"
+msgstr "Cập nhật khi bạn mở ứng dụng"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.useSpot"
+msgstr "Dùng chỗ này"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.waiting"
+msgstr "Đang chờ vị trí"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.status.walking"
+msgstr "Đang đi bộ"
+
+#: ../../apps/mobile/src/features/crew/live-map/panel/meetup-editor.tsx
+msgid "liveMap.editor.when"
+msgstr "Khi nào"
+
+#: ../../apps/mobile/src/features/crew/live-map/data/use-member-etas.ts
+msgid "liveMap.row.you"
+msgstr "Bạn"
+
+#: ../../apps/mobile/src/features/crew/live-map/states/gate-card.tsx
+msgid "liveMap.gate.offTripTitle"
+msgstr "Bạn không đi chuyến này"

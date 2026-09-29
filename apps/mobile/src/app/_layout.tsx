@@ -34,6 +34,7 @@ import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/Defe
 import { PassSync } from '@/features/onboarding/flow-controller/pass-sync';
 import '@/features/onboarding/routes';
 import '@/features/crew/chat/register';
+import '@/features/crew/live-map/register';
 import '@/features/crew/routes';
 import '@/features/vote/register';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';

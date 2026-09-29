@@ -37,6 +37,11 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
       { testId: 'dev-nav-motion-lab', href: '/(dev)/motion-lab', label: 'Motion lab' },
       { testId: 'dev-nav-sticker-lab', href: '/(dev)/sticker-lab', label: 'Sticker lab' },
       { testId: 'dev-nav-gallery', href: '/(dev)/gallery', label: 'Component gallery' },
+      {
+        testId: 'dev-nav-live-map',
+        href: '/(dev)/live-map',
+        label: 'Crew live map (3g-4 scenes)',
+      },
     ],
   },
   {

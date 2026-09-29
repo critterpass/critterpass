@@ -8,6 +8,7 @@ export const catalogs: Record<string, () => Promise<Messages>> = {
   "common": () => import('../../locales/ms/common').then((m) => m.messages),
   "community": () => import('../../locales/ms/community').then((m) => m.messages),
   "crew": () => import('../../locales/ms/crew').then((m) => m.messages),
+  "crew/live-map": () => import('../../locales/ms/crew/live-map').then((m) => m.messages),
   "critters": () => import('../../locales/ms/critters').then((m) => m.messages),
   "explore": () => import('../../locales/ms/explore').then((m) => m.messages),
   "guide": () => import('../../locales/ms/guide').then((m) => m.messages),

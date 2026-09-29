@@ -53,6 +53,12 @@ const chatSources = [
   `${repoRootPrefix}/apps/mobile/src/app/crew/*/chat/**`,
 ];
 
+// The crew live map keeps its own catalog inside the crew area (nested `crew/live-map`).
+const liveMapSources = [
+  `${repoRootPrefix}/apps/mobile/src/features/crew/live-map/**`,
+  `${repoRootPrefix}/apps/mobile/src/app/(trip)/map/**`,
+];
+
 const notificationSources = [
   {
     name: 'common',
@@ -103,12 +109,21 @@ export default defineConfig({
         `${repoRootPrefix}/apps/mobile/src/app/${area}/**`,
         `${repoRootPrefix}/apps/mobile/src/features/${area}/**`,
       ],
-      exclude: area === 'crew' ? [...testFileExcludes, ...chatSources] : testFileExcludes,
+      exclude:
+        area === 'crew'
+          ? [...testFileExcludes, ...chatSources, ...liveMapSources]
+          : testFileExcludes,
     })),
     {
       name: 'chat/chat',
       path: 'locales/{locale}/chat/chat',
       include: chatSources,
+      exclude: testFileExcludes,
+    },
+    {
+      name: 'crew/live-map',
+      path: 'locales/{locale}/crew/live-map',
+      include: liveMapSources,
       exclude: testFileExcludes,
     },
     {
