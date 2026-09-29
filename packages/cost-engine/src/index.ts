@@ -108,9 +108,11 @@ export {
 } from './budget/band';
 export { bucketDots, bucketWidth, type DotTrack } from './budget/dots';
 export {
+  breakdownBars,
   budgetBreakdown,
   feasibleLow,
   type Breakdown,
+  type BreakdownBars,
   type BreakdownCategory,
   type BreakdownInput,
   type CostIndex,
@@ -135,6 +137,21 @@ export {
   type RoomSlot,
   type SwapDelta,
 } from './rooms/pack';
+export {
+  groupRooms,
+  type ProposedRoom,
+  type RoomChip,
+  type RoomGuest,
+  type RoomSpace,
+  type RoomTraitLabel,
+} from './rooms/group';
+export {
+  splitStay,
+  splitStays,
+  type PricedRoom,
+  type PricedStay,
+  type RoomSplit,
+} from './rooms/split';
 export {
   dropout,
   type DropoutChange,
