@@ -276,7 +276,10 @@ real switchovers (planned maintenance) during low-traffic windows.
   was near-instant for 121 rows; the ~30 s reconnect/detection delay is likely dataset-size-
   independent, but the *snapshot* phase scales with table size, and large published tables could
   push the total gap well past what was measured here.
-- **Ask PlanetScale support directly** whether a logical-slot-preserving failover mode exists or
+- **Answered 2026-09-29: it exists.** Failover-enabled slots registered in the cluster's Logical slot
+  name parameter, with `hot_standby_feedback` and `sync_replication_slots` on, survive a switchover;
+  the production procedure is in `docs/runbooks/db-switchover-drill.md` ("Keeping the slot through a
+  switchover"). Original follow-up: **Ask PlanetScale support directly** whether a logical-slot-preserving failover mode exists or
   is planned (Postgres 17's slot synchronization between primary and physical replicas needs to be
   explicitly enabled and is not observed in effect on this PS-5 branch) — the phase's own non-code
   dependency table anticipated needing this ask.

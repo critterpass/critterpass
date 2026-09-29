@@ -19,7 +19,8 @@ the RPO/RTO budget) rather than to assert it never happens.
   the old primary's logical replication slot at all — PowerSync detects the slot is missing after
   its own retry/backoff window and creates a new one, forcing a full re-snapshot of every synced
   table. Treat this as the **expected** outcome on PlanetScale Postgres today, not a surprise
-  each quarter, until support confirms otherwise (see the ADR's founder follow-ups).
+  each quarter, until failover-safe slots are enabled (see "Keeping the slot through a switchover"
+  below).
 - **Bar that still must hold regardless:** total sync-path gap stays comfortably inside RPO ≤5 min
   / RTO ≤2 h (system-architecture.md §10) for whatever data volume is under test — a re-snapshot
   taking minutes-to-hours because the published tables have grown large is the real regression to
@@ -27,6 +28,38 @@ the RPO/RTO budget) rather than to assert it never happens.
   (direct to Postgres, not through the replication connection) should barely be affected.
 - No data loss for rows written before or during the gap: once replication resumes, every row
   the app successfully wrote is present.
+
+## Keeping the slot through a switchover
+
+Confirmed 2026-09-29 from PlanetScale's own "Logical replication needs your attention" notices and
+its docs (Postgres → Integrations → Logical replication and CDC, "Enabling failover on an existing
+replication slot"): PlanetScale Postgres keeps a logical slot through a switchover or failover
+when all four of these hold, and then holds the cutover until the named slot is in sync on the
+standby (for a grace period, after which the cutover proceeds without it):
+
+1. Cluster parameter `hot_standby_feedback = on` (one-time, covers every slot).
+2. Cluster parameter `sync_replication_slots = on` (one-time).
+3. The slot has `failover = true`.
+4. The slot's name is listed in the cluster's **Logical slot name** parameter.
+
+PowerSync creates its slot without `failover` and names a new one (`powersync_<n>_<suffix>`) for
+every sync-config change, dropping the old one once the new copy is live. So production needs
+this step after each sync-config deploy, once the new slot exists:
+
+```sql
+-- session 1, over a replication connection (append replication=database to the URL);
+-- blocks until the slot's walsender disconnects:
+ALTER_REPLICATION_SLOT <new slot> (FAILOVER true);
+-- session 2: release it; PowerSync reconnects on its own within seconds:
+SELECT pg_terminate_backend(active_pid) FROM pg_replication_slots
+ WHERE slot_name = '<new slot>' AND active_pid IS NOT NULL;
+```
+
+Then replace the old slot name with the new one in **Logical slot name** (dashboard or the
+branch change-request API) and confirm `failover` and `synced` in `pg_replication_slots` on the
+primary. Staging keeps the re-snapshot behaviour: its sync config changes several times a day,
+PlanetScale sends one notice per new slot, and a switchover there costs one automatic re-copy.
+After enabling this on production, re-run this drill there and expect `slotNameStable: true`.
 
 ## Prerequisites
 
