@@ -105,10 +105,6 @@ msgstr "Trước đó"
 msgid "home.inbox.guides"
 msgstr "Hướng dẫn viên"
 
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
-msgid "home.inbox.back"
-msgstr "Trang chủ"
-
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.eyebrow"
 msgstr "Chuyến đi thế nào?"

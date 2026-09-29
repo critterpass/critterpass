@@ -63,12 +63,14 @@ appId: app.critterpass.dev
     id: 'home-header-crew'
 - extendedWaitUntil:
     visible:
-      id: 'crews-sheet-head'
+      id: 'crews-join-code'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3g-3-crews-one
-- tapOn:
-    id: 'crews-sheet-close'
+# 3g-3 has no ✕: the grabber drag dismisses it.
+- swipe:
+    start: 50%, 15%
+    end: 50%, 90%
 - extendedWaitUntil:
     notVisible:
       id: 'crews-sheet'
@@ -87,12 +89,14 @@ appId: app.critterpass.dev
     id: 'home-header-crew'
 - extendedWaitUntil:
     visible:
-      id: 'crews-sheet-head'
+      id: 'crews-join-code'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3g-3-crews
-- tapOn:
-    id: 'crews-sheet-close'
+# 3g-3 has no ✕: the grabber drag dismisses it.
+- swipe:
+    start: 50%, 15%
+    end: 50%, 90%
 - extendedWaitUntil:
     notVisible:
       id: 'crews-sheet'

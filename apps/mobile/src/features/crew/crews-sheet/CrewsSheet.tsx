@@ -9,7 +9,6 @@ import { router } from 'expo-router';
 import { useContext, useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
-import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
@@ -21,7 +20,7 @@ import { DashedAddCard } from '@/ui/cards/DashedAddCard';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
 
 import { WaitlistCards } from '../waitlist/WaitlistCards';
 import { crewCardBadge } from './badge-slot';
@@ -37,20 +36,10 @@ import {
 } from './crew-view';
 import { CREW_ROUTES } from './routes';
 
-/** The sheet's ✕ sits over the top end corner; the header's action starts below it. */
-const CLOSE_CLEARANCE = sizeToken(tokens.size.headerPill, 'height');
 const CARD_RING = 2;
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], gap: th.space['12'], paddingBottom: th.space['32'] },
-  head: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: th.space['12'],
-    paddingBottom: th.space['4'],
-  },
-  title: { flex: 1, minWidth: 0 },
-  headAction: { paddingTop: CLOSE_CLEARANCE },
   // Crew cards sit on the sheet's raised surface: a sunken fill and a decorative ring set each one
   // apart, and the active crew swaps the ring for the selection yellow (design-system §1.6).
   card: {
@@ -183,24 +172,21 @@ export function CrewsSheet() {
   return (
     <Sheet
       detents={['large']}
+      title={upper(t({ id: 'crew.sheet.title', message: 'Your crews' }), locale)}
+      headerEnd={
+        <PillButton
+          size="sm"
+          variant="secondary"
+          label={t({ id: 'crew.sheet.joinCode', message: 'Join with a code' })}
+          onPress={() => router.push(CREW_ROUTES.joinCode)}
+          testID="crews-join-code"
+        />
+      }
+      closable={false}
       accessibilityLabel={t({ id: 'crew.sheet.title', message: 'Your crews' })}
       testID="crews-sheet"
     >
       <ScrollView contentContainerStyle={styles.body}>
-        <View style={styles.head} testID="crews-sheet-head">
-          <Text variant="h1" accessibilityRole="header" style={styles.title}>
-            {upper(t({ id: 'crew.sheet.title', message: 'Your crews' }), locale)}
-          </Text>
-          <View style={styles.headAction}>
-            <PillButton
-              size="sm"
-              variant="secondary"
-              label={t({ id: 'crew.sheet.joinCode', message: 'Join with a code' })}
-              onPress={() => router.push(CREW_ROUTES.joinCode)}
-              testID="crews-join-code"
-            />
-          </View>
-        </View>
         <WaitlistCards
           db={localFirst?.db ?? null}
           uid={uid}

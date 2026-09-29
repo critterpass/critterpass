@@ -13,7 +13,7 @@ import { ScrollView, View } from 'react-native';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { InlineAction } from '@/ui/buttons/InlineAction';
-import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { BackButton } from '@/ui/shell/BackButton';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -46,6 +46,8 @@ export const EMPTY_AFTER_MS = 380;
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['32'], gap: t.space['16'] },
   header: { gap: t.space['12'] },
+  // The back arrow's 44 pt target is centred on the arrow; pull it so the arrow meets the gutter.
+  back: { alignSelf: 'flex-start', marginStart: -t.space['12'], marginBottom: -t.space['8'] },
   title: { flexShrink: 1 },
 }));
 
@@ -115,11 +117,9 @@ function InboxContent() {
   return (
     <Scaffold variant="dark" testID="inbox-screen">
       <ScrollView contentContainerStyle={styles.content}>
-        <BackEyebrow
-          label={t({ id: 'home.inbox.back', message: 'Home' })}
-          onPress={backToHome}
-          testID="inbox-back"
-        />
+        <View style={styles.back}>
+          <BackButton onPress={backToHome} testID="inbox-back" />
+        </View>
         <Row justify="space-between" align="center" style={styles.header}>
           <Text variant="displayXl" accessibilityRole="header" style={styles.title}>
             {upper(t({ id: 'home.inbox.title', message: 'Inbox' }), locale)}

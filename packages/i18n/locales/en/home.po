@@ -105,10 +105,6 @@ msgstr "Earlier"
 msgid "home.inbox.guides"
 msgstr "Guides"
 
-#: ../../apps/mobile/src/features/home/inbox/inbox-screen.tsx
-msgid "home.inbox.back"
-msgstr "Home"
-
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.eyebrow"
 msgstr "How'd it go?"

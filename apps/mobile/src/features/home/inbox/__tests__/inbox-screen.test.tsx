@@ -109,7 +109,7 @@ describe('inbox', () => {
   it('goes back to Home, or opens Home when the inbox was opened cold', async () => {
     const s = await open();
     await renderHome(<InboxScreen />, s);
-    await fireEvent.press(screen.getByRole('button', { name: 'Back to Home' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Back' }));
     expect(router.back).toHaveBeenCalledTimes(1);
     jest.mocked(router.canGoBack).mockReturnValueOnce(false);
     await fireEvent.press(screen.getByTestId('inbox-back'));
