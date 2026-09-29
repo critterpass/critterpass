@@ -24,7 +24,8 @@ export function upper(text: string, locale: string): string {
  * an amount, not a word, so an all-caps display style leaves them as written ("Rp 450.000", never
  * "RP 450.000"). A symbol only counts as one when it stands alone or sits next to the number.
  */
-const CURRENCY_SYMBOL = /(?<![\p{L}])(Rp|kr|zł|Kč|Ft|lei|лв)(?=$|[\s\u00a0\u202f]*[\d.,\-−]|[\s\u00a0\u202f]*$)/gu;
+const CURRENCY_SYMBOL =
+  /(?<![\p{L}])(Rp|kr|zł|Kč|Ft|lei|лв)(?=$|[\s\u00a0\u202f]*[\d.,\-−]|[\s\u00a0\u202f]*$)/gu;
 
 /** `upper`, keeping mixed-case currency symbols of amounts as written. */
 export function upperKeepingCurrency(text: string, locale: string): string {
