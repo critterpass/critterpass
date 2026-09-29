@@ -4,6 +4,7 @@
  * opened: any locked step, and the step setup is on now. A chip pops as its step locks.
  */
 import { t } from '@lingui/core/macro';
+import { useState } from 'react';
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
@@ -62,7 +63,9 @@ interface ChipProps {
 function Chip({ step, index, state, onPress }: ChipProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const pop = patterns.useSquash({ active: state === 'done' });
+  // Pops only as the step locks, not when the screen opens on an already-locked step.
+  const [openedDone] = useState(state === 'done');
+  const pop = patterns.useSquash({ active: state === 'done' && !openedDone });
   const title = stepTitle(step);
   const n = index + 1;
   const label = state === 'done' ? `✓ ${title}` : `${n} ${title}`;
@@ -78,7 +81,7 @@ function Chip({ step, index, state, onPress }: ChipProps) {
       ? t({ id: 'setup.stepper.a11yDone', message: `Step ${n}, ${title}, done` })
       : t({ id: 'setup.stepper.a11y', message: `Step ${n}, ${title}` });
   const face = (
-    <Animated.View style={[styles.chip, { backgroundColor: fill }, state === 'done' ? pop : null]}>
+    <Animated.View style={[styles.chip, { backgroundColor: fill }, state === 'done' && !openedDone ? pop : null]}>
       <Text
         variant="label"
         color={ink}

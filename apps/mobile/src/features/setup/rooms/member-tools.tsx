@@ -31,18 +31,10 @@ const useStyles = makeStyles((th) => ({
 
 export function MemberRoomTools({
   chips,
-  canSwap,
-  swapAsked,
-  organiser,
   onToggleChip,
-  onAskSwap,
 }: {
   readonly chips: readonly RoomChipKey[];
-  readonly canSwap: boolean;
-  readonly swapAsked: boolean;
-  readonly organiser: string;
   readonly onToggleChip: (chip: RoomChipKey) => void;
-  readonly onAskSwap: () => void;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -69,25 +61,32 @@ export function MemberRoomTools({
           />
         ))}
       </Row>
-      {canSwap ? (
-        swapAsked ? (
-          <Text
-            variant="bodySm"
-            color={theme.semantic.state.success}
-            testID="setup-rooms-swap-sent"
-          >
-            {t({ id: 'setup.rooms.swapSent', message: `Asked ${organiser} for a swap.` })}
-          </Text>
-        ) : (
-          <PillButton
-            label={t({ id: 'setup.rooms.askSwap', message: 'Ask to swap' })}
-            onPress={onAskSwap}
-            variant="secondary"
-            block
-            testID="setup-rooms-ask-swap"
-          />
-        )
-      ) : null}
     </Stack>
+  );
+}
+
+/** The member's swap request, in the step's footer: the button, then who it went to. */
+export function MemberSwapAction({
+  swapAsked,
+  organiser,
+  onAskSwap,
+}: {
+  readonly swapAsked: boolean;
+  readonly organiser: string;
+  readonly onAskSwap: () => void;
+}) {
+  const theme = useTheme();
+  return swapAsked ? (
+    <Text variant="bodySm" color={theme.semantic.state.success} testID="setup-rooms-swap-sent">
+      {t({ id: 'setup.rooms.swapSent', message: `Asked ${organiser} for a swap.` })}
+    </Text>
+  ) : (
+    <PillButton
+      label={t({ id: 'setup.rooms.askSwap', message: 'Ask to swap' })}
+      onPress={onAskSwap}
+      variant="secondary"
+      block
+      testID="setup-rooms-ask-swap"
+    />
   );
 }

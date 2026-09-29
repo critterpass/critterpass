@@ -200,7 +200,7 @@ export function WhenView({
             mustDoTitles: model.mustDoTitles,
           }}
         />
-        <GuideNote guide={model.guide} line={pickReasonLine(pick)} bubble />
+        <GuideNote guide={model.guide} line={pickReasonLine(pick)} note />
         {failure}
         {own}
       </SetupShell>

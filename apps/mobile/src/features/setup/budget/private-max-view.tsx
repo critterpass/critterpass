@@ -8,6 +8,7 @@ import type { FxContext } from '@cp/cost-engine';
 import type { OwnFitState } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { useState } from 'react';
+import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -47,6 +48,9 @@ export interface PrivateMaxViewProps {
   readonly onSave: (amountMinor: number, currency: string, everyTrip: boolean) => void;
   readonly onChange: () => void;
 }
+
+/** Digits the keypad amount shows at full size inside the card. */
+const FIT_DIGITS = 7;
 
 const useStyles = makeStyles((th) => ({
   card: { padding: th.space['16'], gap: th.space['12'] },
@@ -172,12 +176,15 @@ export function PrivateMaxView({ shell, dates, model, onSave, onChange }: Privat
             message: 'Never shown to anyone, guides included',
           })}
         </Text>
-        <KeypadAmount
-          value={whole}
-          currency={currencySymbol(locale, model.entryCurrency)}
-          {...(approx === undefined ? {} : { approx })}
-          label={money(locale, amountMinor, model.entryCurrency)}
-        />
+        {/* Long amounts (dong, rupiah) scale down to stay inside the card. */}
+        <View style={{ transform: [{ scale: Math.min(1, FIT_DIGITS / String(whole).length) }] }}>
+          <KeypadAmount
+            value={whole}
+            currency={currencySymbol(locale, model.entryCurrency)}
+            {...(approx === undefined ? {} : { approx })}
+            label={money(locale, amountMinor, model.entryCurrency)}
+          />
+        </View>
       </Card>
       <Keypad onKey={(key) => setDigits((current) => applyKey(current, key, 9))} />
       <Row justify="space-between" align="center" style={styles.row}>

@@ -17,6 +17,8 @@ appId: app.critterpass.dev
     when:
       platform: Android
     commands:
+      - hideKeyboard:
+          optional: true
       - back
 - runFlow:
     when:

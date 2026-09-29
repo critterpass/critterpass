@@ -126,6 +126,7 @@ export function AddSheetView({
   return (
     <Sheet
       {...(onDismiss === undefined ? {} : { onDismiss })}
+      closable={false}
       accessibilityLabel={title}
       testID="add-must-do"
     >

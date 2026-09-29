@@ -20,7 +20,7 @@ import { SetupShell } from '../shell/setup-shell';
 import { memberLine, organiserLine } from './copy';
 import { traitsOf, type PerPerson, type PlanStay, type RoomsPlan } from './model';
 import { PriceLine } from './price-line';
-import { MemberRoomTools, type RoomChipKey } from './member-tools';
+import { MemberRoomTools, MemberSwapAction, type RoomChipKey } from './member-tools';
 import { RoomsPlanCards } from './rooms-plan';
 import { StayPicker, type StayOption } from './stay-picker';
 
@@ -153,6 +153,12 @@ export function RoomsView({
         />
       ) : null}
     </>
+  ) : plan !== null && trip.startDate !== null ? (
+    <MemberSwapAction
+      swapAsked={model.swapAsked}
+      organiser={organiser?.name ?? ''}
+      onAskSwap={actions.onAskSwap}
+    />
   ) : undefined;
 
   return (
@@ -187,14 +193,7 @@ export function RoomsView({
         </Text>
       )}
       {!editable && trip.startDate !== null ? (
-        <MemberRoomTools
-          chips={model.myChips}
-          canSwap={plan !== null}
-          swapAsked={model.swapAsked}
-          organiser={organiser?.name ?? ''}
-          onToggleChip={actions.onToggleChip}
-          onAskSwap={actions.onAskSwap}
-        />
+        <MemberRoomTools chips={model.myChips} onToggleChip={actions.onToggleChip} />
       ) : null}
     </SetupShell>
   );

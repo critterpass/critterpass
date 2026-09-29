@@ -6,7 +6,6 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- card tone keys, never copy. */
 import { t } from '@lingui/core/macro';
-import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Card } from '@/ui/cards/Card';
@@ -136,14 +135,17 @@ export function StayCard({
           </Stack>
         )}
         {index > 0 && onSeparate !== undefined ? (
-          <View>
+          <Row justify="space-between" align="center" gap="12">
+            <Text variant="bodySm" style={{ flexShrink: 1 }}>
+              {t({ id: 'setup.rooms.separate', message: 'Set these rooms separately' })}
+            </Text>
             <Toggle
               value={!mirrored}
               onValueChange={onSeparate}
               label={t({ id: 'setup.rooms.separate', message: 'Set these rooms separately' })}
               testID={`setup-rooms-separate-${stay.key}`}
             />
-          </View>
+          </Row>
         ) : null}
         {until !== null && index === 0 ? (
           <Text variant="bodySm" testID="setup-rooms-free-cancel">
