@@ -1,5 +1,6 @@
 import { act, fireEvent } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
+import { router } from 'expo-router';
 import type * as ReactNativeModule from 'react-native';
 
 import { renderWithI18n } from '../../../lib/i18n/testing';
@@ -92,6 +93,30 @@ describe('HomeHeader', () => {
 });
 
 describe('LargeTitle', () => {
+  it('shows a back button on a pushed screen, and none on a root screen', async () => {
+    const back = jest.spyOn(router, 'back').mockImplementation(() => undefined);
+    const canGoBack = jest.spyOn(router, 'canGoBack').mockReturnValue(true);
+    const pushed = await renderWithI18n(<LargeTitle title="Inbox" />);
+    await fireEvent.press(pushed.getByRole('button', { name: 'Back' }));
+    expect(back).toHaveBeenCalledTimes(1);
+    await act(() => pushed.unmount());
+
+    canGoBack.mockReturnValue(false);
+    const root = await renderWithI18n(<LargeTitle title="Inbox" />);
+    expect(root.queryByRole('button', { name: 'Back' })).toBeNull();
+    jest.restoreAllMocks();
+  });
+
+  it('truncates the compact title between the slots instead of running under them', async () => {
+    const screen = await renderWithI18n(
+      <LargeTitle title="Your crews and every trip you are planning" collapsed end={<></>} />,
+    );
+    const compact = screen.getAllByText('YOUR CREWS AND EVERY TRIP YOU ARE PLANNING', {
+      includeHiddenElements: true,
+    })[0];
+    expect(compact?.props.numberOfLines).toBe(1);
+  });
+
   it('exposes one header to screen readers for each collapse state', async () => {
     const expanded = await renderWithI18n(<LargeTitle title="Settings" />);
     expect(expanded.getAllByRole('header')).toHaveLength(1);

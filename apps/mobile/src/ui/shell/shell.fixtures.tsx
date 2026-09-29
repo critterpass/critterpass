@@ -3,6 +3,7 @@ import { tokens } from '@cp/design-tokens';
 
 import { registerFixture } from '../gallery/registry';
 import { Stack } from '../layout/Stack';
+import { BackButton } from './BackButton';
 import { BackEyebrow } from './BackEyebrow';
 import { HeaderPill, HeaderPills } from './HeaderPills';
 import { HomeHeader } from './HomeHeader';
@@ -19,6 +20,14 @@ registerFixture('BackEyebrow', 'default', () => <BackEyebrow label="Profile" onP
 
 registerFixture('LargeTitle', 'expanded', () => (
   <LargeTitle title="Settings" start={<BackEyebrow label="Profile" onPress={noop} />} />
+));
+
+registerFixture('LargeTitle', 'pushed, long title and an action', () => (
+  <LargeTitle
+    title="Everything your crew needs from you"
+    start={<BackButton onPress={noop} />}
+    end={<HeaderPill label="Mark all read" onPress={noop} />}
+  />
 ));
 
 registerFixture('HeaderPills', 'all tones', () => (
