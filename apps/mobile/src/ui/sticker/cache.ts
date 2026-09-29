@@ -82,8 +82,17 @@ export class DiskLruCache {
     return this.fs.readBytes(path);
   }
 
+  /** Bytes on disk as of the last full sweep plus writes since; null until the first sweep. */
+  #knownBytes: number | null = null;
+
   async set(key: string, bytes: Uint8Array): Promise<void> {
     await this.fs.writeBytes(this.#pathFor(key), bytes);
+    // A full sweep reads every cached file's size; after the first one, a running total says when
+    // the next is due, so writing a screen of stickers doesn't stat the whole cache per sticker.
+    if (this.#knownBytes !== null) {
+      this.#knownBytes += bytes.byteLength;
+      if (this.#knownBytes <= this.maxBytes) return;
+    }
     await this.sweep();
   }
 
@@ -94,6 +103,7 @@ export class DiskLruCache {
       files.map(async (name) => ({ name, ...(await this.fs.statFile(`${this.#dir}${name}`)) })),
     );
     let total = stats.reduce((sum, s) => sum + s.size, 0);
+    this.#knownBytes = total;
     if (total <= this.maxBytes) return;
 
     const oldestFirst = [...stats].sort((a, b) => a.modifiedMs - b.modifiedMs);
@@ -102,6 +112,7 @@ export class DiskLruCache {
       await this.fs.deleteFile(`${this.#dir}${file.name}`);
       total -= file.size;
     }
+    this.#knownBytes = total;
   }
 }
 
@@ -127,20 +138,40 @@ export class StickerCache {
     return this.memory.bytes;
   }
 
-  async getOrRender(key: string, render: () => Promise<Uint8Array>): Promise<Uint8Array> {
-    const cached = this.memory.get(key);
-    if (cached) return cached;
+  readonly #inFlight = new Map<string, Promise<Uint8Array>>();
+  #writes: Promise<void> = Promise.resolve();
 
+  /**
+   * The key's PNG from memory, then disk, else rendered. Mounts asking for the same key at once share
+   * one load. Persisting a render (the disk write and its LRU sweep, which reads every cached file's
+   * size) runs behind the screen, one write at a time: a sticker never waits on it, or a screen of
+   * fresh stickers would each wait on every other's sweep and stay blank for seconds.
+   */
+  getOrRender(key: string, render: () => Promise<Uint8Array>): Promise<Uint8Array> {
+    const cached = this.memory.get(key);
+    if (cached) return Promise.resolve(cached);
+    const pending = this.#inFlight.get(key);
+    if (pending) return pending;
+    const load = this.#load(key, render).finally(() => this.#inFlight.delete(key));
+    this.#inFlight.set(key, load);
+    return load;
+  }
+
+  async #load(key: string, render: () => Promise<Uint8Array>): Promise<Uint8Array> {
     const onDisk = await this.disk.get(key);
     if (onDisk) {
       this.memory.set(key, onDisk);
       return onDisk;
     }
-
     const bytes = await render();
     this.memory.set(key, bytes);
-    await this.disk.set(key, bytes);
+    this.#writes = this.#writes.then(() => this.disk.set(key, bytes)).catch(() => undefined);
     return bytes;
+  }
+
+  /** Resolves once every render so far is on disk (tests, and a caller about to read the disk). */
+  whenWritten(): Promise<void> {
+    return this.#writes;
   }
 
   /** Clears the memory tier only — the disk tier survives a low-memory warning. */
