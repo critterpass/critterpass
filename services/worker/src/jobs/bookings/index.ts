@@ -12,7 +12,7 @@ import {
   type Telemetry,
 } from '@cp/ai';
 import { currencyExponent, ISO_CURRENCIES } from '@cp/cost-engine';
-import { withSystem } from '@cp/db';
+import { crypto as dbCrypto, withSystem } from '@cp/db';
 import { registerFlightSegmentsSource, type DecisionRoute } from '@cp/domain';
 import type pg from 'pg';
 
@@ -22,6 +22,7 @@ import { registerRetentionRule } from '../maint/retention-rules';
 import type { ReaderDeps } from './candidates';
 import { deadlineReminderJob, registerDeadlinePush } from './deadline-reminder';
 import { bookingFlightSegments } from './flight-segments-source';
+import { mailboxScanJob, type MailboxScanDeps } from './mailbox-scan';
 import { mailParseJob } from './mail-parse';
 import { importParseJob } from './paste-parse';
 import { nodeFetchDeps } from './safe-fetch';
@@ -125,8 +126,37 @@ export function bookingsJobs(
         })
       : undefined;
   return [
+    mailboxScanJob(mailboxDepsFromEnv(process.env, reader)),
     deadlineReminderJob(),
     mailParseJob({ ...reader, store }),
     importParseJob({ ...reader, fetch: nodeFetchDeps }),
   ];
+}
+
+/** Mailbox scans need the field keyring (sealed refresh tokens) and each provider's client. */
+export function mailboxDepsFromEnv(
+  source: Readonly<Record<string, string | undefined>>,
+  reader: ReaderDeps,
+): MailboxScanDeps {
+  const keys = source['FIELD_ENCRYPTION_KEYS'];
+  const active = source['FIELD_ENCRYPTION_ACTIVE_KEY_ID'];
+  const parsed =
+    keys === undefined || keys === '' ? undefined : dbCrypto.parseFieldEncryptionKeys(keys);
+  const keyring =
+    parsed !== undefined && active !== undefined && active in parsed
+      ? { activeKeyId: active, keys: parsed }
+      : undefined;
+  const pair = (id?: string, secret?: string) =>
+    id && secret ? { clientId: id, clientSecret: secret } : undefined;
+  const gmail = pair(source['GOOGLE_MAILBOX_CLIENT_ID'], source['GOOGLE_MAILBOX_CLIENT_SECRET']);
+  const microsoft = pair(
+    source['MICROSOFT_MAILBOX_CLIENT_ID'],
+    source['MICROSOFT_MAILBOX_CLIENT_SECRET'],
+  );
+  return {
+    ...reader,
+    keyring,
+    clients: { ...(gmail ? { gmail } : {}), ...(microsoft ? { microsoft } : {}) },
+    fetch: (input, init) => fetch(input, init),
+  };
 }
