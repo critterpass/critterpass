@@ -9,6 +9,7 @@
 import { sentryScrubbing } from '@cp/domain';
 import * as Sentry from '@sentry/react-native';
 import * as Application from 'expo-application';
+import { isDevice } from 'expo-device';
 import * as Updates from 'expo-updates';
 
 /** The DSN (a public client key), inlined by Metro from `EXPO_PUBLIC_SENTRY_DSN`. */
@@ -38,12 +39,20 @@ export interface AppSentryOptions {
   readonly dsn: string | undefined;
   /** `development` | `staging` | `production` (the app.config variant). */
   readonly environment: string;
+  /**
+   * False on a simulator or emulator (default: expo-device). Those runs are test harness load
+   * (e2e flows, overloaded emulators), so their hangs and ANRs never reach Sentry; every real
+   * device reports, in every variant.
+   */
+  readonly isDevice?: boolean;
 }
 
 export function sentryOptions(options: AppSentryOptions): Sentry.ReactNativeOptions {
+  // A simulator runs exactly like a build without a DSN, so the native SDK stays silent too.
+  const dsn = (options.isDevice ?? isDevice) ? options.dsn : undefined;
   return {
-    dsn: options.dsn ?? '',
-    enabled: options.dsn !== undefined,
+    dsn: dsn ?? '',
+    enabled: dsn !== undefined,
     environment: options.environment,
     ...appRelease(),
     enableAutoSessionTracking: true,
