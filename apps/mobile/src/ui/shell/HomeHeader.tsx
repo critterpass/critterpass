@@ -50,8 +50,7 @@ const MAX_FACES = 3;
 
 const useStyles = makeStyles((t) => ({
   root: { paddingHorizontal: t.size.gutter, paddingVertical: t.space['8'] },
-  // The greeting sits tight over the crew row; its hit area grows past the row, not into it.
-  greeting: { alignSelf: 'flex-start', paddingVertical: t.space['4'] },
+  greeting: { alignSelf: 'flex-start', minHeight: MIN_TOUCH_TARGET, justifyContent: 'center' },
   avatar: {
     width: SMALL_AVATAR,
     height: SMALL_AVATAR,
@@ -148,7 +147,7 @@ export function HomeHeader(props: HomeHeaderProps) {
   const faces = props.members.slice(0, MAX_FACES);
 
   return (
-    <Stack style={styles.root} gap="2">
+    <Stack style={styles.root}>
       <Pressable
         testID="home-header-profile"
         accessibilityRole="button"
