@@ -157,6 +157,8 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
     appleTeamId: APPLE_TEAM_ID,
     supportsTablet: false,
     usesAppleSignIn: true,
+    // All encryption is Apple's OS crypto (CryptoKit, and SQLCipher built on CommonCrypto).
+    config: { usesNonExemptEncryption: false },
     entitlements: {
       'com.apple.security.application-groups': ['group.app.critterpass'],
       'keychain-access-groups': ['$(AppIdentifierPrefix)app.critterpass.shared'],
