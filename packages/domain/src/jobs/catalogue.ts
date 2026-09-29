@@ -62,9 +62,7 @@ export const DEFAULT_QUEUE_SPEC: QueueSpec = {
 /** Dead-lettered jobs wait this long for a redrive before pg-boss drops them. */
 export const DLQ_RETENTION_SECONDS = 30 * DAY;
 
-function spec(overrides: Partial<QueueSpec>): QueueSpec {
-  return { ...DEFAULT_QUEUE_SPEC, ...overrides };
-}
+const spec = (changes: Partial<QueueSpec>): QueueSpec => ({ ...DEFAULT_QUEUE_SPEC, ...changes });
 
 export const QUEUES = {
   /** One drain at a time, one queued behind it: wake storms collapse into a single follow-up run. */
