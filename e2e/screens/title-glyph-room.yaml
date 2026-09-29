@@ -1,0 +1,42 @@
+appId: app.critterpass.dev
+---
+# Headings that are the first line of a scroll view keep their cap tops: the phone sign-in page
+# (3a-8) in English and Vietnamese, and a large title page in the gallery.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-sign-in'
+    timeout: 60000
+- tapOn:
+    id: 'onboarding-sign-in'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-phone'
+    timeout: 10000
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: en-3a-8-phone
+- runFlow:
+    file: subflows/open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'LargeTitle'
+      LOCALE: 'vi'
+      SCALE: '1'
+- takeScreenshot: vi-large-title
+- runFlow: ../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-sign-in'
+    timeout: 15000
+- tapOn:
+    id: 'onboarding-sign-in'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-phone'
+    timeout: 10000
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: vi-3a-8-phone
