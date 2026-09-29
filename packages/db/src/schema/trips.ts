@@ -84,6 +84,8 @@ export const trips = pgTable('trips', {
   tz: text('tz'),
   localCurrency: text('local_currency'),
   seatCap: integer('seat_cap').notNull().default(6),
+  /** The length the setup date windows slide over (the vote's, until dates lock). */
+  tripLengthDays: integer('trip_length_days'),
   planProgress: integer('plan_progress').notNull().default(0),
   redraftsUsed: integer('redrafts_used').notNull().default(0),
   redraftLimit: integer('redraft_limit').notNull().default(3),

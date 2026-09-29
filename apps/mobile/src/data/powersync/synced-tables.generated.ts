@@ -140,7 +140,7 @@ export const SYNCED_TABLE_COLUMNS = {
   taste_profiles:
     'user_id answers tags tag_sources chronotype pace room_pref visibility created_at updated_at',
   trip_budget_aggregates:
-    'trip_id currency maxes_count:integer member_count:integer band_low_minor:integer band_high_minor:integer step_minor:integer bucketed_dots under_all_ok:integer infeasible:integer computed_at created_at updated_at',
+    'trip_id currency maxes_count:integer member_count:integer band_low_minor:integer band_high_minor:integer step_minor:integer track_high_minor:integer bucketed_dots under_all_ok:integer infeasible:integer computed_at created_at updated_at',
   trip_entitlements:
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
   trip_participants:
@@ -148,7 +148,7 @@ export const SYNCED_TABLE_COLUMNS = {
   trip_share_totals:
     'trip_id user_id total_minor:integer currency calc_version is_missing:integer created_at updated_at',
   trips:
-    'crew_id status phase setup_step destination_id guide_id is_guest_guide:integer is_solo:integer start_date end_date tz local_currency seat_cap:integer plan_progress:integer redrafts_used:integer redraft_limit:integer current_version_id draft_version_id reply_by cancelled_at created_at updated_at',
+    'crew_id status phase setup_step destination_id guide_id is_guest_guide:integer is_solo:integer start_date end_date tz local_currency seat_cap:integer trip_length_days:integer plan_progress:integer redrafts_used:integer redraft_limit:integer current_version_id draft_version_id reply_by cancelled_at created_at updated_at',
   usage_counters:
     'subject_kind subject_id metric period_key count:integer limit_at_time:integer reset_at started_at',
   user_entitlements:
