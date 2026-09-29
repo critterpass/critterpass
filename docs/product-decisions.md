@@ -342,7 +342,7 @@ Flags in `feature_flags` (server): `supplier.viator_booking`, `supplier.agoda_de
 | Q-64 | C39 | N |
 | Q-65 | Every local has a legendary form with a window or challenge rule from the content factory | N |
 | Q-66 | Personal XP + crew level; common 50, rare 150, epic 400, legendary 1000 | N |
-| Q-67 | Signatures auto-generated in Caveat with seeded jitter; optional drawn signature in You | N |
+| Q-67 | Signatures auto-generated in the guide voice font (Mynerve since 30 Sep 2026, replacing Caveat, which lacks Vietnamese) with seeded jitter; optional drawn signature in You | N |
 | Q-68 | Per-user "no teasing awards" opt-out; validator bans health, diet, body references | N |
 | Q-69 | Face tagging off by default, opt-in; published plans exclude photos with faces unless every tagged person consents | Y (counsel) |
 | Q-6A | C38 | N |
