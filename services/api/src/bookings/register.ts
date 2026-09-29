@@ -6,19 +6,26 @@
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
 
+import type { RateLimitRedisClient } from '../abuse/rate-limits';
 import type { AppEnv } from '../app';
 import { registerBookingCommands } from '../commands/bookings';
+import { rotateInboundAddressCommand } from '../commands/bookings/rotate-inbound-address';
+import { createVerifySenderEmailCommand } from '../commands/bookings/verify-sender-email';
 import type { FieldKeyring } from '../commands/bookings/deps';
 import type { CommandRegistry } from '../commands/_framework/registry';
 import type { SessionResolver } from '../commands/_framework/session';
 import { mediaSigningConfigFromEnv, type MediaSigningConfig } from '../media/sign';
+import { registerInboundEmailWebhook } from '../routes/webhooks/inbound-email';
 import { registerBookedCosts } from './booked-costs';
 import { registerOfflineBundleRoute } from './offline-bundle';
+import { betterAuthAccountLookup } from './sender-allow-list';
 
 export interface BookingsDoors {
   readonly pool: pg.Pool;
   readonly registry: CommandRegistry;
   readonly sessions: SessionResolver;
+  readonly redis: RateLimitRedisClient;
+  readonly logger: { info(message: string): void };
 }
 
 export type BookingsEnv = Readonly<Record<string, string | undefined>>;
@@ -41,11 +48,28 @@ export function registerBookings(
   app: OpenAPIHono<AppEnv>,
   doors: BookingsDoors,
   keyring: FieldKeyring | undefined,
-  auth: unknown,
+  auth: { readonly $context: Promise<unknown> },
   env: BookingsEnv = process.env,
 ): void {
-  void auth;
   registerBookingCommands(doors.registry, { keyring });
+  doors.registry.register(rotateInboundAddressCommand);
   registerBookedCosts();
   registerOfflineBundleRoute(app, { ...doors, keyring, signing: signingFromEnv(env) });
+  // Crew forward addresses: the Worker's webhook and the reply-code link need the shared secret
+  // and the pepper sender addresses are hashed with.
+  const secret = env['INBOUND_EMAIL_HMAC_SECRET'];
+  const pepper = env['INBOUND_SENDER_PEPPER'];
+  if (secret !== undefined && secret.length >= 32 && pepper !== undefined && pepper.length >= 16) {
+    doors.registry.register(createVerifySenderEmailCommand({ pepper, redis: doors.redis }));
+    registerInboundEmailWebhook(app, {
+      pool: doors.pool,
+      secret,
+      pepper,
+      lookup: betterAuthAccountLookup(auth),
+    });
+  } else {
+    doors.logger.info(
+      'Inbound email is disabled: INBOUND_EMAIL_HMAC_SECRET or INBOUND_SENDER_PEPPER is unset',
+    );
+  }
 }

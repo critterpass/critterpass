@@ -926,6 +926,24 @@ importers:
         specifier: 4.141.0
         version: 4.141.0(@cloudflare/workers-types@5.20260926.1)(@types/node@26.6.3)
 
+  infra/cloudflare/inbound-email:
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: 5.20260926.1
+        version: 5.20260926.1
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.3
+      tsx:
+        specifier: 'catalog:'
+        version: 4.23.15
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.2(@opentelemetry/api@1.9.1)(@types/node@26.6.3)(jsdom@20.0.3(supports-color@10.2.2))(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      wrangler:
+        specifier: 4.141.0
+        version: 4.141.0(@cloudflare/workers-types@5.20260926.1)(@types/node@26.6.3)
+
   packages/ai:
     dependencies:
       '@anthropic-ai/sdk':

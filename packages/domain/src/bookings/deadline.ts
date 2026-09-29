@@ -1,6 +1,6 @@
 /**
- * Free-cancellation deadlines from the traveller's own confirmation (docs/product-decisions.md
- * D10: real deadlines, never invented ones). The owner is reminded a day before the deadline, or
+ * Free-cancellation deadlines from the traveller’s own confirmation (real deadlines only, never
+ * invented ones: we are never the merchant of record). The owner is reminded a day before the deadline, or
  * at once when a booking lands with less than a day left; a deadline that has passed is quiet.
  */
 export const DEADLINE_REMINDER_LEAD_HOURS = 24;

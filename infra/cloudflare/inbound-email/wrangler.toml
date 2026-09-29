@@ -1,0 +1,36 @@
+# Email Worker for crew forward addresses (`{crew}@in.critterpass.app`). Cloudflare Email Routing
+# sends every address of the zone's `in.` subdomain here (a catch-all rule, see README.md); the
+# Worker keeps the raw message in R2 for 7 days (bucket lifecycle rule) and posts signed metadata to
+# the api, which decides accept / quarantine / reject. Secrets are Wrangler secrets:
+# `INBOUND_EMAIL_HMAC_SECRET` (shared with the api).
+name = "cp-inbound-email"
+main = "src/index.ts"
+compatibility_date = "2026-08-01"
+
+[vars]
+INBOUND_DOMAIN = "in.critterpass.app"
+API_BASE_URL = "http://localhost:8787"
+# Imports switch: anything but "true" bounces mail with a friendly reply.
+IMPORTS_MAIL_ENABLED = "false"
+
+[[r2_buckets]]
+binding = "RAW_MAIL"
+bucket_name = "cp-inbound-mail-dev"
+
+[env.staging.vars]
+INBOUND_DOMAIN = "in.staging.critterpass.app"
+API_BASE_URL = "https://api.staging.critterpass.app"
+IMPORTS_MAIL_ENABLED = "true"
+
+[[env.staging.r2_buckets]]
+binding = "RAW_MAIL"
+bucket_name = "cp-inbound-mail-staging"
+
+[env.production.vars]
+INBOUND_DOMAIN = "in.critterpass.app"
+API_BASE_URL = "https://api.critterpass.app"
+IMPORTS_MAIL_ENABLED = "true"
+
+[[env.production.r2_buckets]]
+binding = "RAW_MAIL"
+bucket_name = "cp-inbound-mail-prod"
