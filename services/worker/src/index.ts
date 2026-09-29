@@ -43,6 +43,7 @@ import {
 import { tipsEventHook, tipsJobs } from './jobs/tips';
 import { pitchJobs, registerPitchTipCandidates } from './jobs/pitches';
 import { registerSetupPushes, setupJobs } from './jobs/setup';
+import { draftJobs } from './jobs/ai/draft';
 import { moneyJobs, registerMoneyPushes } from './jobs/money';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
@@ -158,6 +159,7 @@ const jobs: AnyJobDefinition[] = [
   ...tipsJobs(env, aiSwitches.assertAiRoute, llmObservability),
   ...pitchJobs(env, aiSwitches.assertAiRoute, llmObservability),
   ...setupJobs(env, { pool, assertRouteOn: aiSwitches.assertAiRoute, telemetry: llmObservability }),
+  ...draftJobs(env, { pool, assertRouteOn: aiSwitches.assertAiRoute, telemetry: llmObservability }),
   ...moneyJobs(env, { pool, assertRouteOn: aiSwitches.assertAiRoute, telemetry: llmObservability }),
 ];
 const backupStore =

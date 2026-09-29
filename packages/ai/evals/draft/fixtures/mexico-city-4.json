@@ -1,0 +1,101 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "1e250780-6bbb-4d91-bd81-185ae7e2dfd7",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Centro Histórico\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Landing stroll and splurge dinner\",\n      \"area\": \"Polanco\",\n      \"must_do_ids\": [\n        \"m2\"\n      ],\n      \"poi_ids\": [\n        \"p13\",\n        \"p10\"\n      ]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Culture and museums before flight\",\n      \"area\": \"Centro Histórico\",\n      \"must_do_ids\": [\n        \"m1\"\n      ],\n      \"poi_ids\": [\n        \"p4\",\n        \"p3\"\n      ]\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 86,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 158,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "5f14dcd6-8bb3-487f-aab7-1503f97f5c76",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"A marble palace of murals and song, the perfect farewell to the city.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 498,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 44,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "163c1501-5482-4cd5-b64c-04a547b90bbd",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p13\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A leafy welcome to the city, perfect for shaking off the flight.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A quick, tasty bite that keeps the budget smiling.\"},{\"poi_id\":\"p17\",\"kind\":\"activity\",\"must_do_id\":\"m2\",\"note\":\"The big splurge, where every bite feels like a tiny celebration.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 535,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 110,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "52597520-2ea3-44cb-9921-8af56be2d539",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "A gentle landing, a fancy bite, then culture before you fly — every must-do tucked in, nice and tight."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 222,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 24,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

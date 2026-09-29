@@ -1,0 +1,29 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "redraft": {
+      "status": 200,
+      "body": {
+        "id": "9c42f220-aac5-4d71-8040-08ab2c04cb48",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"title\": \"Day in Kyoto, purse strings loosened\",\n  \"summary\": \"A gentle day of free and low-cost wandering, keeping the railway museum and swapping the rest for lantern-lit alleys and a quiet temple.\",\n  \"stops\": [\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Kept for the train fans, though it is the priciest thing today. Worth it for the roundhouse alone.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A modest temple fee, not a museum ticket, and the silver pavilion is better with fewer crowds.\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Pontocho after dark costs nothing to stroll, and the lanterns do the photography for you.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 497,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 241,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

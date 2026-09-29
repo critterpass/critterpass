@@ -1,0 +1,125 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "763902ce-c7d4-47bc-ae71-47cfa724e237",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stay_area\": \"Ubud\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"soft landing in Ubud\",\n      \"area\": \"Ubud\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p6\", \"p12\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"wellness and green walks\",\n      \"area\": \"Ubud\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p7\", \"p5\", \"p9\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"gentle temples before flight\",\n      \"area\": \"Ubud\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\", \"p6\"]\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 20,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 188,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "a56c4aa8-61ea-45e3-acb7-fe92df2b708c",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Old stone whispers and a cave full of calm before the flight.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A gentle bite where the sambal smiles and the price is kind.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 508,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 76,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "437105b8-7744-4a4d-9cd9-c1d9c9ac82dd",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A royal welcome to Ubud, and it won't cost you a rupiah.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lotus ponds and carved stone, the kind of calm you flew here for.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle vegan dinner to settle in, terima kasih (thank you (Indonesian)) to your body.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 586,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 175,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "775cd215-f7c5-420e-aac1-0f1e52fdaa69",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p7\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Rise and shine, the ridge walk is the best way to greet the morning.\"},{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A cleansing dip at Tirta Empul, the water will wash the city right off you.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Alchemy for lunch, the kind of green food that makes you glow.\"},{\"poi_id\":\"p9\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The market is a lovely wander, just smile and the prices will follow.\"},{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Clear Cafe for dinner, terima kasih (thank you (Indonesian)) to a day well spent.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 46,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 199,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "f49294cb-ef2a-46a4-a3c0-dc9954fb47d1",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "A gentle Bali blend of Ubud calm, green wellness and soft temple farewells — and yes, every must-do made it in."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 318,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 27,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

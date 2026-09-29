@@ -20,6 +20,7 @@ import { HOME_EVENT_PAYLOADS, HOME_EVENT_TYPES } from '../home/events';
 import { LIVE_MAP_EVENT_PAYLOADS, LIVE_MAP_EVENT_TYPES } from '../live-map/events';
 import { POLL_EVENT_PAYLOADS, POLL_EVENT_TYPES } from '../polls/events';
 import { SETUP_EVENT_PAYLOADS, SETUP_EVENT_TYPES } from '../setup/events';
+import { DRAFT_EVENT_PAYLOADS, DRAFT_EVENT_TYPES } from '../itinerary/events';
 import { MONEY_EVENT_PAYLOADS, MONEY_EVENT_TYPES } from '../money/events';
 
 export const DOMAIN_EVENT_TYPES = [
@@ -56,6 +57,7 @@ export const DOMAIN_EVENT_TYPES = [
   ...LIVE_MAP_EVENT_TYPES,
   ...POLL_EVENT_TYPES,
   ...SETUP_EVENT_TYPES,
+  ...DRAFT_EVENT_TYPES,
   ...MONEY_EVENT_TYPES,
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
@@ -156,6 +158,7 @@ const DOMAIN_EVENT_CATALOGUE = {
   ...LIVE_MAP_EVENT_PAYLOADS,
   ...POLL_EVENT_PAYLOADS,
   ...SETUP_EVENT_PAYLOADS,
+  ...DRAFT_EVENT_PAYLOADS,
   ...MONEY_EVENT_PAYLOADS,
 } as const satisfies Record<DomainEventType, z.ZodType>;
 

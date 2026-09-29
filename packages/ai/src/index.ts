@@ -281,4 +281,5 @@ export {
 } from './prompts/tips/prompt';
 export * from './prompts/vote';
 export * from './prompts/setup-prompts';
+export * from './prompts/draft/index';
 export * from './routes/receipt-parse';

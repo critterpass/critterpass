@@ -1,0 +1,6003 @@
+{
+  "kyoto": {
+    "guide": "pon",
+    "destination": "Kyoto, Japan",
+    "tz": "Asia/Tokyo",
+    "bands": {
+      "food_pp_day_minor": 5500,
+      "fun_pp_day_minor": 4000
+    },
+    "pois": [
+      {
+        "id": "0199b000-0001-7000-8000-000000000001",
+        "name": "Fushimi Inari Taisha",
+        "category": "temple_shrine",
+        "lat": 34.9671,
+        "lng": 135.7727,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 90,
+        "tags": ["photo_spot"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000002",
+        "name": "Kinkaku-ji",
+        "category": "temple_shrine",
+        "lat": 35.0394,
+        "lng": 135.7292,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 75,
+        "tags": [],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000003",
+        "name": "Kiyomizu-dera",
+        "category": "temple_shrine",
+        "lat": 34.9949,
+        "lng": 135.785,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "06:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 90,
+        "tags": ["viewpoint"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000004",
+        "name": "Nishiki Market",
+        "category": "market",
+        "lat": 35.005,
+        "lng": 135.7649,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": ["street_food", "local_life"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000005",
+        "name": "Arashiyama Bamboo Grove",
+        "category": "nature",
+        "lat": 35.017,
+        "lng": 135.6713,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 60,
+        "tags": ["photo_spot"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000006",
+        "name": "Tenryu-ji",
+        "category": "temple_shrine",
+        "lat": 35.0156,
+        "lng": 135.6738,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 75,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000007",
+        "name": "Hanamikoji Street, Gion",
+        "category": "other",
+        "lat": 35.0037,
+        "lng": 135.7751,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 60,
+        "tags": ["history", "local_life"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000008",
+        "name": "Philosopher's Path",
+        "category": "nature",
+        "lat": 35.0223,
+        "lng": 135.7945,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 60,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000009",
+        "name": "Ginkaku-ji",
+        "category": "temple_shrine",
+        "lat": 35.027,
+        "lng": 135.7982,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000010",
+        "name": "Nijo Castle",
+        "category": "museum",
+        "lat": 35.0142,
+        "lng": 135.7481,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:45",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": ["history"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000011",
+        "name": "Kyoto National Museum",
+        "category": "museum",
+        "lat": 34.99,
+        "lng": 135.7732,
+        "hours": {
+          "weekly": {
+            "tu": [
+              {
+                "start": "09:30",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:30",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:30",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:30",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:30",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:30",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 120,
+        "tags": ["history"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000012",
+        "name": "Sanjusangen-do",
+        "category": "temple_shrine",
+        "lat": 34.9879,
+        "lng": 135.7716,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:30",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 45,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000013",
+        "name": "Pontocho Alley",
+        "category": "nightlife",
+        "lat": 35.0063,
+        "lng": 135.771,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ],
+            "tu": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ],
+            "we": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ],
+            "th": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ],
+            "sa": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "17:00",
+                "end": "23:30"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000014",
+        "name": "Kyoto Railway Museum",
+        "category": "museum",
+        "lat": 34.9871,
+        "lng": 135.7424,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 120,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000015",
+        "name": "Nishiki Tofu Kitchen",
+        "category": "food",
+        "lat": 35.0052,
+        "lng": 135.7655,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegetarian", "vegan_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000016",
+        "name": "Shigetsu",
+        "category": "food",
+        "lat": 35.0157,
+        "lng": 135.674,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "14:00"
+              }
+            ]
+          }
+        },
+        "price_level": 3,
+        "duration_min": 75,
+        "tags": ["vegan"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000017",
+        "name": "Menya Inoichi",
+        "category": "food",
+        "lat": 35.0036,
+        "lng": 135.765,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "15:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000018",
+        "name": "Kichi Kichi Omurice",
+        "category": "food",
+        "lat": 35.0094,
+        "lng": 135.7714,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ],
+            "tu": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ],
+            "we": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ],
+            "th": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ],
+            "sa": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "17:30",
+                "end": "21:30"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000019",
+        "name": "Ain Soph Journey",
+        "category": "food",
+        "lat": 35.0068,
+        "lng": 135.7662,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:30",
+                "end": "21:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegan", "vegetarian", "halal_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000020",
+        "name": "Honke Owariya",
+        "category": "food",
+        "lat": 35.0118,
+        "lng": 135.7613,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "19:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 60,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000021",
+        "name": "Torito Yakitori",
+        "category": "food",
+        "lat": 35.0015,
+        "lng": 135.7626,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "17:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0001-7000-8000-000000000022",
+        "name": "Gyoza Hohei",
+        "category": "food",
+        "lat": 35.0036,
+        "lng": 135.7744,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      }
+    ]
+  },
+  "bali": {
+    "guide": "tokek",
+    "destination": "Bali, Indonesia",
+    "tz": "Asia/Makassar",
+    "bands": {
+      "food_pp_day_minor": 3000,
+      "fun_pp_day_minor": 3500
+    },
+    "pois": [
+      {
+        "id": "0199b000-0002-7000-8000-000000000001",
+        "name": "Tanah Lot",
+        "category": "temple_shrine",
+        "lat": -8.6212,
+        "lng": 115.0868,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 90,
+        "tags": ["viewpoint"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000002",
+        "name": "Uluwatu Temple",
+        "category": "temple_shrine",
+        "lat": -8.8291,
+        "lng": 115.0849,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:00",
+                "end": "19:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 90,
+        "tags": ["viewpoint"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000003",
+        "name": "Tegallalang Rice Terrace",
+        "category": "nature",
+        "lat": -8.4312,
+        "lng": 115.2793,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 90,
+        "tags": ["photo_spot"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000004",
+        "name": "Sacred Monkey Forest Sanctuary",
+        "category": "nature",
+        "lat": -8.5188,
+        "lng": 115.2585,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000005",
+        "name": "Tirta Empul",
+        "category": "temple_shrine",
+        "lat": -8.4152,
+        "lng": 115.3155,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 90,
+        "tags": ["wellness"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000006",
+        "name": "Ubud Palace",
+        "category": "museum",
+        "lat": -8.5069,
+        "lng": 115.2625,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ]
+          }
+        },
+        "price_level": 0,
+        "duration_min": 45,
+        "tags": ["history"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000007",
+        "name": "Campuhan Ridge Walk",
+        "category": "nature",
+        "lat": -8.503,
+        "lng": 115.254,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 90,
+        "tags": ["hiking"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000008",
+        "name": "Seminyak Beach",
+        "category": "beach",
+        "lat": -8.6912,
+        "lng": 115.1583,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 150,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000009",
+        "name": "Ubud Art Market",
+        "category": "market",
+        "lat": -8.5071,
+        "lng": 115.2631,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": ["shopping", "local_life"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000010",
+        "name": "Goa Gajah",
+        "category": "temple_shrine",
+        "lat": -8.5234,
+        "lng": 115.2869,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": ["history"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000011",
+        "name": "Tukad Cepung Waterfall",
+        "category": "nature",
+        "lat": -8.439,
+        "lng": 115.389,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 90,
+        "tags": ["adventure"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000012",
+        "name": "Pura Taman Saraswati",
+        "category": "temple_shrine",
+        "lat": -8.5063,
+        "lng": 115.2605,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "19:00"
+              }
+            ]
+          }
+        },
+        "price_level": 0,
+        "duration_min": 45,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000013",
+        "name": "Potato Head Beach Club",
+        "category": "nightlife",
+        "lat": -8.6795,
+        "lng": 115.1528,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "23:30"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "23:30"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "23:30"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "23:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "23:30"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "23:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "23:30"
+              }
+            ]
+          }
+        },
+        "price_level": 3,
+        "duration_min": 150,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000014",
+        "name": "Clear Cafe",
+        "category": "food",
+        "lat": -8.5075,
+        "lng": 115.265,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegan", "vegetarian", "halal_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000015",
+        "name": "Warung Biah Biah",
+        "category": "food",
+        "lat": -8.5094,
+        "lng": 115.2659,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000016",
+        "name": "Alchemy",
+        "category": "food",
+        "lat": -8.5033,
+        "lng": 115.2548,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:00",
+                "end": "21:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:00",
+                "end": "21:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:00",
+                "end": "21:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:00",
+                "end": "21:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:00",
+                "end": "21:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:00",
+                "end": "21:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:00",
+                "end": "21:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 60,
+        "tags": ["vegan"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000017",
+        "name": "Sisterfields",
+        "category": "food",
+        "lat": -8.6867,
+        "lng": 115.1636,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000018",
+        "name": "Naughty Nuris",
+        "category": "food",
+        "lat": -8.5018,
+        "lng": 115.2582,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000019",
+        "name": "Warung Nasi Ayam Bu Oki",
+        "category": "food",
+        "lat": -8.789,
+        "lng": 115.17,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": ["halal"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0002-7000-8000-000000000020",
+        "name": "Locavore NXT",
+        "category": "food",
+        "lat": -8.5089,
+        "lng": 115.264,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "18:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 4,
+        "duration_min": 150,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      }
+    ]
+  },
+  "lisbon": {
+    "guide": "sardi",
+    "destination": "Lisbon, Portugal",
+    "tz": "Europe/Lisbon",
+    "bands": {
+      "food_pp_day_minor": 4500,
+      "fun_pp_day_minor": 3500
+    },
+    "pois": [
+      {
+        "id": "0199b000-0003-7000-8000-000000000001",
+        "name": "Belém Tower",
+        "category": "museum",
+        "lat": 38.6916,
+        "lng": -9.216,
+        "hours": {
+          "weekly": {
+            "tu": [
+              {
+                "start": "09:30",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:30",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:30",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:30",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:30",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:30",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 60,
+        "tags": ["history"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000002",
+        "name": "Jerónimos Monastery",
+        "category": "temple_shrine",
+        "lat": 38.6979,
+        "lng": -9.2068,
+        "hours": {
+          "weekly": {
+            "tu": [
+              {
+                "start": "09:30",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:30",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:30",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:30",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:30",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:30",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": ["history"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000003",
+        "name": "Alfama walk",
+        "category": "other",
+        "lat": 38.7115,
+        "lng": -9.13,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 90,
+        "tags": ["local_life", "photo_spot"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000004",
+        "name": "São Jorge Castle",
+        "category": "museum",
+        "lat": 38.7139,
+        "lng": -9.1334,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": ["viewpoint", "history"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000005",
+        "name": "LX Factory",
+        "category": "shopping",
+        "lat": 38.7036,
+        "lng": -9.1784,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 90,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000006",
+        "name": "Oceanário de Lisboa",
+        "category": "museum",
+        "lat": 38.7635,
+        "lng": -9.0937,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "20:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "20:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "20:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "20:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "20:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "20:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "20:00"
+              }
+            ]
+          }
+        },
+        "price_level": 3,
+        "duration_min": 120,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000007",
+        "name": "MAAT",
+        "category": "museum",
+        "lat": 38.6958,
+        "lng": -9.1932,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "19:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "19:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "19:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "19:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "19:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "19:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000008",
+        "name": "Calouste Gulbenkian Museum",
+        "category": "museum",
+        "lat": 38.7372,
+        "lng": -9.1545,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 120,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000009",
+        "name": "Miradouro da Senhora do Monte",
+        "category": "nature",
+        "lat": 38.7191,
+        "lng": -9.1325,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 30,
+        "tags": ["viewpoint"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000010",
+        "name": "Tram 28 ride",
+        "category": "other",
+        "lat": 38.7106,
+        "lng": -9.1406,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000011",
+        "name": "Bairro Alto",
+        "category": "nightlife",
+        "lat": 38.7133,
+        "lng": -9.1459,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "18:00",
+                "end": "23:59"
+              }
+            ],
+            "tu": [
+              {
+                "start": "18:00",
+                "end": "23:59"
+              }
+            ],
+            "we": [
+              {
+                "start": "18:00",
+                "end": "23:59"
+              }
+            ],
+            "th": [
+              {
+                "start": "18:00",
+                "end": "23:59"
+              }
+            ],
+            "fr": [
+              {
+                "start": "18:00",
+                "end": "23:59"
+              }
+            ],
+            "sa": [
+              {
+                "start": "18:00",
+                "end": "23:59"
+              }
+            ],
+            "su": [
+              {
+                "start": "18:00",
+                "end": "23:59"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 120,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000012",
+        "name": "Feira da Ladra",
+        "category": "market",
+        "lat": 38.7155,
+        "lng": -9.1253,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 90,
+        "tags": ["local_life"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000013",
+        "name": "Time Out Market",
+        "category": "market",
+        "lat": 38.7069,
+        "lng": -9.1458,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "23:59"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "23:59"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "23:59"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "23:59"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "23:59"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "23:59"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "23:59"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["street_food"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000014",
+        "name": "Pastéis de Belém",
+        "category": "food",
+        "lat": 38.6975,
+        "lng": -9.2032,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 45,
+        "tags": ["vegetarian"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000015",
+        "name": "Cervejaria Ramiro",
+        "category": "food",
+        "lat": 38.721,
+        "lng": -9.136,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "12:00",
+                "end": "23:59"
+              }
+            ],
+            "tu": [
+              {
+                "start": "12:00",
+                "end": "23:59"
+              }
+            ],
+            "we": [
+              {
+                "start": "12:00",
+                "end": "23:59"
+              }
+            ],
+            "th": [
+              {
+                "start": "12:00",
+                "end": "23:59"
+              }
+            ],
+            "fr": [
+              {
+                "start": "12:00",
+                "end": "23:59"
+              }
+            ],
+            "sa": [
+              {
+                "start": "12:00",
+                "end": "23:59"
+              }
+            ],
+            "su": [
+              {
+                "start": "12:00",
+                "end": "23:59"
+              }
+            ]
+          }
+        },
+        "price_level": 3,
+        "duration_min": 90,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000016",
+        "name": "Ao 26 Vegan Food Project",
+        "category": "food",
+        "lat": 38.7094,
+        "lng": -9.1427,
+        "hours": {
+          "weekly": {
+            "tu": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegan"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000017",
+        "name": "O Trevo",
+        "category": "food",
+        "lat": 38.7127,
+        "lng": -9.1433,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "23:59"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "23:59"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "23:59"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "23:59"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "23:59"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "23:59"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "23:59"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 45,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000018",
+        "name": "Jardim dos Sentidos",
+        "category": "food",
+        "lat": 38.7189,
+        "lng": -9.145,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegetarian", "vegan_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000019",
+        "name": "Bengal Tandoori",
+        "category": "food",
+        "lat": 38.7155,
+        "lng": -9.1419,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 75,
+        "tags": ["halal", "vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0003-7000-8000-000000000020",
+        "name": "Taberna da Rua das Flores",
+        "category": "food",
+        "lat": 38.7098,
+        "lng": -9.1432,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      }
+    ]
+  },
+  "iceland": {
+    "guide": "lundi",
+    "destination": "Reykjavik, Iceland",
+    "tz": "Atlantic/Reykjavik",
+    "bands": {
+      "food_pp_day_minor": 9000,
+      "fun_pp_day_minor": 7000
+    },
+    "pois": [
+      {
+        "id": "0199b000-0004-7000-8000-000000000001",
+        "name": "Hallgrímskirkja",
+        "category": "temple_shrine",
+        "lat": 64.1417,
+        "lng": -21.9266,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 45,
+        "tags": ["viewpoint"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000002",
+        "name": "Harpa Concert Hall",
+        "category": "other",
+        "lat": 64.1502,
+        "lng": -21.9326,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 0,
+        "duration_min": 45,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000003",
+        "name": "Sky Lagoon",
+        "category": "wellness",
+        "lat": 64.1123,
+        "lng": -21.9474,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 4,
+        "duration_min": 150,
+        "tags": ["wellness"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000004",
+        "name": "Perlan",
+        "category": "museum",
+        "lat": 64.129,
+        "lng": -21.9185,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "09:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "09:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 3,
+        "duration_min": 120,
+        "tags": ["viewpoint"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000005",
+        "name": "National Museum of Iceland",
+        "category": "museum",
+        "lat": 64.1418,
+        "lng": -21.9485,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": ["history"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000006",
+        "name": "Sun Voyager",
+        "category": "other",
+        "lat": 64.1476,
+        "lng": -21.9223,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 20,
+        "tags": ["photo_spot"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000007",
+        "name": "Þingvellir National Park",
+        "category": "nature",
+        "lat": 64.2559,
+        "lng": -21.1299,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 150,
+        "tags": ["hiking"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000008",
+        "name": "Gullfoss",
+        "category": "nature",
+        "lat": 64.3271,
+        "lng": -20.1199,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 75,
+        "tags": [],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000009",
+        "name": "Geysir",
+        "category": "nature",
+        "lat": 64.3104,
+        "lng": -20.3024,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 60,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000010",
+        "name": "Blue Lagoon",
+        "category": "wellness",
+        "lat": 63.8804,
+        "lng": -22.4495,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 4,
+        "duration_min": 180,
+        "tags": ["wellness"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000011",
+        "name": "Whales of Iceland",
+        "category": "museum",
+        "lat": 64.154,
+        "lng": -21.951,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 3,
+        "duration_min": 75,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000012",
+        "name": "Kolaportið flea market",
+        "category": "market",
+        "lat": 64.1493,
+        "lng": -21.9403,
+        "hours": {
+          "weekly": {
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 0,
+        "duration_min": 60,
+        "tags": ["local_life"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000013",
+        "name": "Grótta Lighthouse",
+        "category": "beach",
+        "lat": 64.164,
+        "lng": -22.022,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 60,
+        "tags": ["nature"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000014",
+        "name": "Laugavegur shopping street",
+        "category": "shopping",
+        "lat": 64.1439,
+        "lng": -21.9294,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000015",
+        "name": "Glo",
+        "category": "food",
+        "lat": 64.1453,
+        "lng": -21.9275,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "21:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 60,
+        "tags": ["vegan", "vegetarian"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000016",
+        "name": "Grillmarkaðurinn",
+        "category": "food",
+        "lat": 64.147,
+        "lng": -21.9392,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "17:00",
+                "end": "22:30"
+              }
+            ],
+            "tu": [
+              {
+                "start": "17:00",
+                "end": "22:30"
+              }
+            ],
+            "we": [
+              {
+                "start": "17:00",
+                "end": "22:30"
+              }
+            ],
+            "th": [
+              {
+                "start": "17:00",
+                "end": "22:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "17:00",
+                "end": "22:30"
+              }
+            ],
+            "sa": [
+              {
+                "start": "17:00",
+                "end": "22:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "17:00",
+                "end": "22:30"
+              }
+            ]
+          }
+        },
+        "price_level": 4,
+        "duration_min": 105,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000017",
+        "name": "Kaffi Loki",
+        "category": "food",
+        "lat": 64.1421,
+        "lng": -21.927,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:00",
+                "end": "21:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 60,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000018",
+        "name": "Sandholt",
+        "category": "food",
+        "lat": 64.1452,
+        "lng": -21.931,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 45,
+        "tags": ["vegetarian"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000019",
+        "name": "Messinn",
+        "category": "food",
+        "lat": 64.1482,
+        "lng": -21.9412,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:30",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:30",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:30",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:30",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:30",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:30",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:30",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 3,
+        "duration_min": 75,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0004-7000-8000-000000000020",
+        "name": "Hlemmur Mathöll",
+        "category": "food",
+        "lat": 64.1433,
+        "lng": -21.9178,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 60,
+        "tags": ["vegetarian_options", "halal_options"],
+        "must_see": false,
+        "editorial": true
+      }
+    ]
+  },
+  "cusco": {
+    "guide": "paco",
+    "destination": "Cusco, Peru",
+    "tz": "America/Lima",
+    "bands": {
+      "food_pp_day_minor": 2500,
+      "fun_pp_day_minor": 3000
+    },
+    "pois": [
+      {
+        "id": "0199b000-0005-7000-8000-000000000001",
+        "name": "Plaza de Armas",
+        "category": "other",
+        "lat": -13.5163,
+        "lng": -71.9785,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 45,
+        "tags": ["history", "photo_spot"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000002",
+        "name": "Qorikancha",
+        "category": "temple_shrine",
+        "lat": -13.5197,
+        "lng": -71.9751,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:30",
+                "end": "17:30"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:30",
+                "end": "17:30"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:30",
+                "end": "17:30"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:30",
+                "end": "17:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:30",
+                "end": "17:30"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:30",
+                "end": "17:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:30",
+                "end": "17:30"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["history"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000003",
+        "name": "Sacsayhuamán",
+        "category": "museum",
+        "lat": -13.5094,
+        "lng": -71.9817,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 120,
+        "tags": ["history"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000004",
+        "name": "San Pedro Market",
+        "category": "market",
+        "lat": -13.522,
+        "lng": -71.9837,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "06:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "06:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "06:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "06:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "06:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "06:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "06:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 0,
+        "duration_min": 75,
+        "tags": ["local_life", "street_food"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000005",
+        "name": "Cusco Cathedral",
+        "category": "temple_shrine",
+        "lat": -13.5165,
+        "lng": -71.9786,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 60,
+        "tags": ["history"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000006",
+        "name": "San Blas neighbourhood",
+        "category": "other",
+        "lat": -13.5147,
+        "lng": -71.9745,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 75,
+        "tags": ["local_life", "shopping"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000007",
+        "name": "ChocoMuseo",
+        "category": "museum",
+        "lat": -13.5152,
+        "lng": -71.9811,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "09:00",
+                "end": "19:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "09:00",
+                "end": "19:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:00",
+                "end": "19:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:00",
+                "end": "19:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:00",
+                "end": "19:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:00",
+                "end": "19:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:00",
+                "end": "19:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000008",
+        "name": "Museo Inka",
+        "category": "museum",
+        "lat": -13.5153,
+        "lng": -71.9779,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 75,
+        "tags": ["history"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000009",
+        "name": "Pisac ruins",
+        "category": "museum",
+        "lat": -13.418,
+        "lng": -71.847,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:00",
+                "end": "17:30"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 150,
+        "tags": ["hiking"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000010",
+        "name": "Maras salt mines",
+        "category": "nature",
+        "lat": -13.304,
+        "lng": -72.156,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 90,
+        "tags": ["photo_spot"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000011",
+        "name": "Moray terraces",
+        "category": "nature",
+        "lat": -13.329,
+        "lng": -72.197,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 75,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000012",
+        "name": "Cristo Blanco",
+        "category": "nature",
+        "lat": -13.51,
+        "lng": -71.974,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 45,
+        "tags": ["viewpoint"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000013",
+        "name": "Cusco Planetarium",
+        "category": "museum",
+        "lat": -13.507,
+        "lng": -71.987,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "18:00",
+                "end": "20:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "18:00",
+                "end": "20:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "18:00",
+                "end": "20:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "18:00",
+                "end": "20:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "18:00",
+                "end": "20:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "18:00",
+                "end": "20:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "18:00",
+                "end": "20:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000014",
+        "name": "Cicciolina",
+        "category": "food",
+        "lat": -13.5159,
+        "lng": -71.977,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000015",
+        "name": "Green Point",
+        "category": "food",
+        "lat": -13.5139,
+        "lng": -71.974,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": ["vegan", "vegetarian"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000016",
+        "name": "Chicha por Gastón Acurio",
+        "category": "food",
+        "lat": -13.517,
+        "lng": -71.9798,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 3,
+        "duration_min": 75,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000017",
+        "name": "Pachapapa",
+        "category": "food",
+        "lat": -13.5142,
+        "lng": -71.9747,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "11:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000018",
+        "name": "La Bodega 138",
+        "category": "food",
+        "lat": -13.5157,
+        "lng": -71.9764,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "12:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": ["vegetarian"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0005-7000-8000-000000000019",
+        "name": "Morena Peruvian Kitchen",
+        "category": "food",
+        "lat": -13.5168,
+        "lng": -71.9803,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "12:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegetarian_options", "halal_options"],
+        "must_see": false,
+        "editorial": true
+      }
+    ]
+  },
+  "mexico-city": {
+    "guide": "ajo",
+    "destination": "Mexico City, Mexico",
+    "tz": "America/Mexico_City",
+    "bands": {
+      "food_pp_day_minor": 3000,
+      "fun_pp_day_minor": 2500
+    },
+    "pois": [
+      {
+        "id": "0199b000-0006-7000-8000-000000000001",
+        "name": "Museo Nacional de Antropología",
+        "category": "museum",
+        "lat": 19.426,
+        "lng": -99.1863,
+        "hours": {
+          "weekly": {
+            "tu": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 150,
+        "tags": ["history"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000002",
+        "name": "Museo Frida Kahlo",
+        "category": "museum",
+        "lat": 19.3551,
+        "lng": -99.1624,
+        "hours": {
+          "weekly": {
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": [],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000003",
+        "name": "Zócalo",
+        "category": "other",
+        "lat": 19.4326,
+        "lng": -99.1332,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 45,
+        "tags": ["history"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000004",
+        "name": "Templo Mayor",
+        "category": "museum",
+        "lat": 19.4351,
+        "lng": -99.1313,
+        "hours": {
+          "weekly": {
+            "tu": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 90,
+        "tags": ["history"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000005",
+        "name": "Palacio de Bellas Artes",
+        "category": "museum",
+        "lat": 19.4352,
+        "lng": -99.1412,
+        "hours": {
+          "weekly": {
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000006",
+        "name": "Chapultepec Castle",
+        "category": "museum",
+        "lat": 19.4205,
+        "lng": -99.1818,
+        "hours": {
+          "weekly": {
+            "tu": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 120,
+        "tags": ["history", "viewpoint"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000007",
+        "name": "Xochimilco trajineras",
+        "category": "nature",
+        "lat": 19.2574,
+        "lng": -99.103,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 150,
+        "tags": ["local_life"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000008",
+        "name": "Teotihuacan",
+        "category": "museum",
+        "lat": 19.6925,
+        "lng": -98.8438,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 210,
+        "tags": ["history"],
+        "must_see": true,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000009",
+        "name": "Mercado de Coyoacán",
+        "category": "market",
+        "lat": 19.3502,
+        "lng": -99.1622,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 0,
+        "duration_min": 60,
+        "tags": ["street_food", "local_life"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000010",
+        "name": "Roma Norte walk",
+        "category": "other",
+        "lat": 19.418,
+        "lng": -99.161,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 90,
+        "tags": ["local_life"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000011",
+        "name": "Arena México lucha libre",
+        "category": "nightlife",
+        "lat": 19.425,
+        "lng": -99.151,
+        "hours": {
+          "weekly": {
+            "tu": [
+              {
+                "start": "19:30",
+                "end": "22:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "19:30",
+                "end": "22:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "19:30",
+                "end": "22:30"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 150,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000012",
+        "name": "Mercado de San Juan",
+        "category": "market",
+        "lat": 19.431,
+        "lng": -99.144,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": ["local_life"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000013",
+        "name": "Bosque de Chapultepec",
+        "category": "nature",
+        "lat": 19.42,
+        "lng": -99.189,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 90,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000014",
+        "name": "Taquería El Huequito",
+        "category": "food",
+        "lat": 19.433,
+        "lng": -99.14,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 45,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000015",
+        "name": "Por Siempre Vegana Taquería",
+        "category": "food",
+        "lat": 19.419,
+        "lng": -99.162,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "13:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "13:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "13:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "13:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "13:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "13:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "13:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 45,
+        "tags": ["vegan", "vegetarian"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000016",
+        "name": "Contramar",
+        "category": "food",
+        "lat": 19.419,
+        "lng": -99.166,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "12:30",
+                "end": "18:30"
+              }
+            ],
+            "tu": [
+              {
+                "start": "12:30",
+                "end": "18:30"
+              }
+            ],
+            "we": [
+              {
+                "start": "12:30",
+                "end": "18:30"
+              }
+            ],
+            "th": [
+              {
+                "start": "12:30",
+                "end": "18:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "12:30",
+                "end": "18:30"
+              }
+            ],
+            "sa": [
+              {
+                "start": "12:30",
+                "end": "18:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "12:30",
+                "end": "18:30"
+              }
+            ]
+          }
+        },
+        "price_level": 3,
+        "duration_min": 105,
+        "tags": [],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000017",
+        "name": "Pujol",
+        "category": "food",
+        "lat": 19.432,
+        "lng": -99.197,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "13:30",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "13:30",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "13:30",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "13:30",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "13:30",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "13:30",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "13:30",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 4,
+        "duration_min": 150,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000018",
+        "name": "Churrería El Moro",
+        "category": "food",
+        "lat": 19.433,
+        "lng": -99.142,
+        "hours": null,
+        "price_level": 1,
+        "duration_min": 30,
+        "tags": ["vegetarian"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000019",
+        "name": "Lalo!",
+        "category": "food",
+        "lat": 19.42,
+        "lng": -99.16,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0006-7000-8000-000000000020",
+        "name": "Al-Andalus",
+        "category": "food",
+        "lat": 19.428,
+        "lng": -99.13,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "18:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["halal", "vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      }
+    ]
+  }
+}

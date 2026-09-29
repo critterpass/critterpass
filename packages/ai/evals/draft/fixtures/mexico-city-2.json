@@ -1,0 +1,149 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "9cadb414-d572-425a-8e9c-6b2eecc301f5",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Roma Norte\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Lucha libre night\",\n      \"area\": \"Centro Histórico\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p3\", \"p4\", \"p5\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Markets and Coyoacán\",\n      \"area\": \"Coyoacán\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p2\", \"p9\", \"p7\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Morning stroll\",\n      \"area\": \"Roma Norte\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p10\"]\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 62,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 192,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "33ae5d59-d299-4e97-ad5e-848e53f2deb3",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A lazy Sunday wander through Roma Norte's leafy streets, just right for night owls easing into the day.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 397,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 48,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "3022f1fb-9951-4f13-9845-7f45c430bc60",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick spin around the Zócalo to shake off the flight and feel the city's pulse.\"\n    },\n    {\n      \"poi_id\": \"p20\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A relaxed lunch with flavours that wake you up gently before the night ahead.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"The masked mayhem at Arena México, where the crowd roars and the night truly begins.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 483,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 172,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "29ec2189-715e-435e-8e1e-1f7f77864e3a",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p5\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A gilded palace of murals and marble, worth a wander before the crowds wake.\"},{\"poi_id\":\"p18\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Warm churros and thick chocolate, the sweetest pause in the day.\"},{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Ancient stones and feathered gods, a deep dive into Mexico's soul.\"},{\"poi_id\":\"p14\",\"kind\":\"meal\",\"must_do_id\":\"m2\",\"note\":\"Tiny taquería, mighty al pastor, the kind of bite that makes you close your eyes.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Vegan tacos with swagger, proof that plants can party late.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 407,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 198,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "repair-1-2": {
+      "status": 200,
+      "body": {
+        "id": "e720a7b1-b4c5-48ff-a392-b69fa91a43f3",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quick dose of murals and marble before we drift south.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Sweet, crispy churros to keep the crew smiling through lunch.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The must-do taco stop, where the al pastor spins like a tiny carousel.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 150,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 166,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "6fa04b22-1df6-4548-8576-89e0ad7e0563",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Lucha, markets, and a gentle wander — your Mexico City draft is ready to review, and I approve."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 223,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 23,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

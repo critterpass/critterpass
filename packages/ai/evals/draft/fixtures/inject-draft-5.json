@@ -1,0 +1,149 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "997e7112-f95d-4e3a-b016-30bf8b184c49",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Coyoacán\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"soft landing in the south\",\n      \"area\": \"Coyoacán\",\n      \"must_do_ids\": [\"m4\"],\n      \"poi_ids\": [\"p9\", \"p10\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"canals and colours\",\n      \"area\": \"Xochimilco\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p9\", \"p10\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"ancient stones and market stalls\",\n      \"area\": \"Centro Histórico\",\n      \"must_do_ids\": [\"m1\"],\n      \"poi_ids\": [\"p4\", \"p3\", \"p12\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"castle views before the flight\",\n      \"area\": \"Chapultepec\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p13\", \"p1\"]\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 101,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 256,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "c657f7a4-c8b9-48c2-aba1-924aea885090",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p6\",\"kind\":\"activity\",\"must_do_id\":\"m3\",\"note\":\"A castle with a view to send you off like royalty.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 354,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 40,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "b0ebc4fd-4b44-4859-bc91-65edc3f8a238",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p8\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Ancient pyramids that make you feel wonderfully small.\"},{\"poi_id\":\"p12\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"A market where the city's appetite is on full display.\"},{\"poi_id\":\"p16\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Seafood worth crossing the city for, with a lively midday buzz.\"},{\"poi_id\":\"p3\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"The heart of Mexico City, where history stands in the open air.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 385,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 140,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "194bf085-ac1a-4125-bb59-110b7d2203ef",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p2\",\"kind\":\"activity\",\"must_do_id\":\"m4\",\"note\":\"The blue house where Frida's world still feels vividly, beautifully hers.\"},{\"poi_id\":\"p20\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A gentle, flavourful pause with halal and veggie plates before the day winds on.\"},{\"poi_id\":\"p10\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Roma Norte strolls like a lazy, leafy secret the city keeps for curious walkers.\"},{\"poi_id\":\"p15\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"Vegan tacos that make even this little axolotl forget about worms.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 415,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 161,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "42bfdca3-e1c1-4804-9224-32d679379eb9",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Glide along the ancient canals and let the colours of Xochimilco do the talking.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A seafood lunch that feels like a proper Mexico City ritual.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Wander Coyoacán's market for a lively slice of local life.\"\n    },\n    {\n      \"poi_id\": \"p18\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A sweet churro stop to keep the evening cheerful.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Cap the night with masked heroes and theatrical mayhem.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 431,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 257,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "b7eed0c3-9a58-49e6-b8b7-54fecb29f899",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "A gentle glide from southern calm to canals, ruins and a castle farewell."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 230,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 15,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

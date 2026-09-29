@@ -1,0 +1,1445 @@
+[
+  {
+    "id": "kyoto-1",
+    "city": "kyoto",
+    "start": "2026-11-02",
+    "days": 3,
+    "arrival_min": 600,
+    "departure_min": 1200,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["temples", "culture"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["street_food", "markets"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["photo_spots"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Ana",
+        "tastes": ["temples"],
+        "chronotype": "early_bird"
+      }
+    ],
+    "diets": ["vegetarian"],
+    "budget_days_pp_minor": 40000,
+    "stay_type": "ryokan",
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000001",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000002",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000004",
+        "owner": 2
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "kyoto-2",
+    "city": "kyoto",
+    "start": "2026-11-15",
+    "days": 2,
+    "arrival_min": 720,
+    "departure_min": 1140,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["museums"],
+        "chronotype": null
+      },
+      {
+        "name": "Rin",
+        "tastes": ["history"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000011",
+        "owner": 0
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "kyoto-3",
+    "city": "kyoto",
+    "start": "2027-03-28",
+    "days": 4,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["nature", "hiking"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["temples"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Tom",
+        "tastes": ["nightlife"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Ana",
+        "tastes": ["street_food"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Leo",
+        "tastes": ["easy_pace"],
+        "chronotype": null
+      },
+      {
+        "name": "Sam",
+        "tastes": ["shopping"],
+        "chronotype": null
+      }
+    ],
+    "diets": ["vegan"],
+    "budget_days_pp_minor": null,
+    "stay_type": "apartment",
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000005",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000003",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000013",
+        "owner": 2
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000009",
+        "owner": 3
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "kyoto-4",
+    "city": "kyoto",
+    "start": "2027-01-05",
+    "days": 3,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["culture", "history"],
+        "chronotype": null
+      },
+      {
+        "name": "Rin",
+        "tastes": ["splurge"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["coffee"],
+        "chronotype": "early_bird"
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": 26000,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000010",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000012",
+        "owner": 1
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "kyoto-5",
+    "city": "kyoto",
+    "start": "2026-12-09",
+    "days": 5,
+    "arrival_min": 540,
+    "departure_min": 1260,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["packed_days", "temples"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["museums"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Tom",
+        "tastes": ["markets"],
+        "chronotype": null
+      },
+      {
+        "name": "Ana",
+        "tastes": ["local_life"],
+        "chronotype": null
+      },
+      {
+        "name": "Leo",
+        "tastes": ["photo_spots"],
+        "chronotype": "night_owl"
+      }
+    ],
+    "diets": ["halal"],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000001",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000014",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000006",
+        "owner": 2
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000002",
+        "owner": 3
+      },
+      {
+        "poi_id": "0199b000-0001-7000-8000-000000000004",
+        "owner": 4
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "bali-1",
+    "city": "bali",
+    "start": "2026-11-07",
+    "days": 4,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["beach", "wellness"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["nature"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Tom",
+        "tastes": ["temples"],
+        "chronotype": null
+      },
+      {
+        "name": "Ana",
+        "tastes": ["nightlife"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Leo",
+        "tastes": ["photo_spots"],
+        "chronotype": null
+      },
+      {
+        "name": "Sam",
+        "tastes": ["adventure"],
+        "chronotype": "early_bird"
+      }
+    ],
+    "diets": ["vegetarian"],
+    "budget_days_pp_minor": null,
+    "stay_type": "villa",
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0002-7000-8000-000000000001",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0002-7000-8000-000000000003",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0002-7000-8000-000000000005",
+        "owner": 2
+      },
+      {
+        "poi_id": "0199b000-0002-7000-8000-000000000013",
+        "owner": 3
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "bali-2",
+    "city": "bali",
+    "start": "2027-02-14",
+    "days": 3,
+    "arrival_min": 900,
+    "departure_min": 1080,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["wellness", "easy_pace"],
+        "chronotype": null
+      },
+      {
+        "name": "Rin",
+        "tastes": ["coffee"],
+        "chronotype": "early_bird"
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": 13000,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0002-7000-8000-000000000007",
+        "owner": 1
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "bali-3",
+    "city": "bali",
+    "start": "2026-12-20",
+    "days": 5,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["adventure", "hiking"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["nature"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Tom",
+        "tastes": ["beach"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Ana",
+        "tastes": ["local_life"],
+        "chronotype": null
+      }
+    ],
+    "diets": ["halal"],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0002-7000-8000-000000000011",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0002-7000-8000-000000000002",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0002-7000-8000-000000000004",
+        "owner": 2
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "bali-4",
+    "city": "bali",
+    "start": "2027-03-03",
+    "days": 2,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["culture"],
+        "chronotype": null
+      },
+      {
+        "name": "Rin",
+        "tastes": ["shopping", "markets"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["street_food"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0002-7000-8000-000000000009",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0002-7000-8000-000000000006",
+        "owner": 2
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "bali-5",
+    "city": "bali",
+    "start": "2026-11-21",
+    "days": 3,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["splurge"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["sit_down_dining"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Tom",
+        "tastes": ["nightlife"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Ana",
+        "tastes": ["beach"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Leo",
+        "tastes": ["late_starts"],
+        "chronotype": "night_owl"
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": "villa",
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0002-7000-8000-000000000008",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0002-7000-8000-000000000020",
+        "owner": 1
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "lisbon-1",
+    "city": "lisbon",
+    "start": "2026-11-09",
+    "days": 3,
+    "arrival_min": 660,
+    "departure_min": 1260,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["history", "culture"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["museums"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["photo_spots"],
+        "chronotype": null
+      },
+      {
+        "name": "Ana",
+        "tastes": ["street_food"],
+        "chronotype": "night_owl"
+      }
+    ],
+    "diets": ["vegetarian"],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000001",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000002",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000003",
+        "owner": 2
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "lisbon-2",
+    "city": "lisbon",
+    "start": "2027-01-17",
+    "days": 2,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["nightlife"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["street_food"],
+        "chronotype": "night_owl"
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000011",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000013",
+        "owner": 1
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "lisbon-3",
+    "city": "lisbon",
+    "start": "2026-12-01",
+    "days": 4,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["museums"],
+        "chronotype": null
+      },
+      {
+        "name": "Rin",
+        "tastes": ["culture"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["coffee"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Ana",
+        "tastes": ["shopping"],
+        "chronotype": null
+      },
+      {
+        "name": "Leo",
+        "tastes": ["markets"],
+        "chronotype": "early_bird"
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": 32000,
+    "stay_type": "apartment",
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000008",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000005",
+        "owner": 3
+      },
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000006",
+        "owner": 1
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "lisbon-4",
+    "city": "lisbon",
+    "start": "2027-03-12",
+    "days": 3,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["photo_spots", "easy_pace"],
+        "chronotype": null
+      },
+      {
+        "name": "Rin",
+        "tastes": ["local_life"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["thrifty"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": 14000,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000010",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000009",
+        "owner": 1
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "lisbon-5",
+    "city": "lisbon",
+    "start": "2026-11-27",
+    "days": 5,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["history"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["sit_down_dining"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["splurge"],
+        "chronotype": null
+      },
+      {
+        "name": "Ana",
+        "tastes": ["museums"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Leo",
+        "tastes": ["nightlife"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Sam",
+        "tastes": ["photo_spots"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Kai",
+        "tastes": ["markets"],
+        "chronotype": null
+      }
+    ],
+    "diets": ["halal"],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000004",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000007",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000001",
+        "owner": 2
+      },
+      {
+        "poi_id": "0199b000-0003-7000-8000-000000000015",
+        "owner": 3
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "iceland-1",
+    "city": "iceland",
+    "start": "2026-11-12",
+    "days": 3,
+    "arrival_min": 780,
+    "departure_min": 1080,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["nature", "hiking"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["wellness"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["photo_spots"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000007",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000003",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000001",
+        "owner": 2
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "iceland-2",
+    "city": "iceland",
+    "start": "2027-02-06",
+    "days": 4,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["adventure"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["nature"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Tom",
+        "tastes": ["museums"],
+        "chronotype": null
+      },
+      {
+        "name": "Ana",
+        "tastes": ["coffee"],
+        "chronotype": null
+      }
+    ],
+    "diets": ["vegetarian"],
+    "budget_days_pp_minor": null,
+    "stay_type": "apartment",
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000008",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000009",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000004",
+        "owner": 2
+      },
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000012",
+        "owner": 3
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "iceland-3",
+    "city": "iceland",
+    "start": "2026-12-18",
+    "days": 2,
+    "arrival_min": 600,
+    "departure_min": 1200,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["wellness", "splurge"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["sit_down_dining"],
+        "chronotype": "night_owl"
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000010",
+        "owner": 0
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "iceland-4",
+    "city": "iceland",
+    "start": "2027-03-20",
+    "days": 3,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["culture", "history"],
+        "chronotype": null
+      },
+      {
+        "name": "Rin",
+        "tastes": ["museums"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["thrifty"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Ana",
+        "tastes": ["local_life"],
+        "chronotype": null
+      },
+      {
+        "name": "Leo",
+        "tastes": ["photo_spots"],
+        "chronotype": "early_bird"
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": 40000,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000005",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000011",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000006",
+        "owner": 2
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "iceland-5",
+    "city": "iceland",
+    "start": "2026-11-28",
+    "days": 5,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["nature"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["hiking"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Tom",
+        "tastes": ["wellness"],
+        "chronotype": null
+      },
+      {
+        "name": "Ana",
+        "tastes": ["shopping"],
+        "chronotype": null
+      },
+      {
+        "name": "Leo",
+        "tastes": ["nightlife"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Sam",
+        "tastes": ["coffee"],
+        "chronotype": null
+      }
+    ],
+    "diets": ["vegan"],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000007",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000008",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000010",
+        "owner": 2
+      },
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000013",
+        "owner": 3
+      },
+      {
+        "poi_id": "0199b000-0004-7000-8000-000000000014",
+        "owner": 4
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "cusco-1",
+    "city": "cusco",
+    "start": "2026-11-03",
+    "days": 4,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["history", "culture"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["hiking"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Tom",
+        "tastes": ["markets"],
+        "chronotype": null
+      },
+      {
+        "name": "Ana",
+        "tastes": ["photo_spots"],
+        "chronotype": null
+      }
+    ],
+    "diets": ["vegetarian"],
+    "budget_days_pp_minor": null,
+    "stay_type": "hotel",
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000003",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000002",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000009",
+        "owner": 2
+      },
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000004",
+        "owner": 3
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "cusco-2",
+    "city": "cusco",
+    "start": "2027-01-10",
+    "days": 2,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["museums"],
+        "chronotype": null
+      },
+      {
+        "name": "Rin",
+        "tastes": ["coffee"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000008",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000007",
+        "owner": 1
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "cusco-3",
+    "city": "cusco",
+    "start": "2026-12-12",
+    "days": 3,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["nature", "photo_spots"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["adventure"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Tom",
+        "tastes": ["local_life"],
+        "chronotype": null
+      },
+      {
+        "name": "Ana",
+        "tastes": ["thrifty"],
+        "chronotype": null
+      },
+      {
+        "name": "Leo",
+        "tastes": ["easy_pace"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": 14000,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000010",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000011",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000012",
+        "owner": 2
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "cusco-4",
+    "city": "cusco",
+    "start": "2027-02-20",
+    "days": 3,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["sit_down_dining", "splurge"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["culture"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["history"],
+        "chronotype": null
+      }
+    ],
+    "diets": ["halal"],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000016",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000005",
+        "owner": 1
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "cusco-5",
+    "city": "cusco",
+    "start": "2026-11-24",
+    "days": 5,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["history"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["hiking", "nature"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Tom",
+        "tastes": ["markets"],
+        "chronotype": null
+      },
+      {
+        "name": "Ana",
+        "tastes": ["nightlife"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Leo",
+        "tastes": ["museums"],
+        "chronotype": null
+      },
+      {
+        "name": "Sam",
+        "tastes": ["coffee"],
+        "chronotype": null
+      },
+      {
+        "name": "Kai",
+        "tastes": ["local_life"],
+        "chronotype": null
+      },
+      {
+        "name": "Noa",
+        "tastes": ["photo_spots"],
+        "chronotype": "early_bird"
+      }
+    ],
+    "diets": ["vegan"],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000002",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000003",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000013",
+        "owner": 2
+      },
+      {
+        "poi_id": "0199b000-0005-7000-8000-000000000006",
+        "owner": 3
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "mexico-city-1",
+    "city": "mexico-city",
+    "start": "2026-11-04",
+    "days": 3,
+    "arrival_min": 720,
+    "departure_min": 1200,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["history", "museums"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["street_food"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["culture"],
+        "chronotype": null
+      },
+      {
+        "name": "Ana",
+        "tastes": ["photo_spots"],
+        "chronotype": null
+      }
+    ],
+    "diets": ["vegetarian"],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000001",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000004",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000009",
+        "owner": 2
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "mexico-city-2",
+    "city": "mexico-city",
+    "start": "2027-01-15",
+    "days": 3,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["nightlife"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["street_food"],
+        "chronotype": "night_owl"
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000011",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000014",
+        "owner": 1
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "mexico-city-3",
+    "city": "mexico-city",
+    "start": "2026-12-05",
+    "days": 4,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["history"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Rin",
+        "tastes": ["nature"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Tom",
+        "tastes": ["local_life"],
+        "chronotype": null
+      },
+      {
+        "name": "Ana",
+        "tastes": ["markets"],
+        "chronotype": null
+      },
+      {
+        "name": "Leo",
+        "tastes": ["museums"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": "apartment",
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000008",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000007",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000006",
+        "owner": 2
+      },
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000002",
+        "owner": 3
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "mexico-city-4",
+    "city": "mexico-city",
+    "start": "2027-03-01",
+    "days": 2,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["culture", "splurge"],
+        "chronotype": null
+      },
+      {
+        "name": "Rin",
+        "tastes": ["sit_down_dining"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["museums"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": 25000,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000005",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000017",
+        "owner": 1
+      }
+    ],
+    "wishes": []
+  },
+  {
+    "id": "mexico-city-5",
+    "city": "mexico-city",
+    "start": "2026-11-19",
+    "days": 5,
+    "arrival_min": null,
+    "departure_min": null,
+    "members": [
+      {
+        "name": "Mai",
+        "tastes": ["street_food", "markets"],
+        "chronotype": null
+      },
+      {
+        "name": "Rin",
+        "tastes": ["thrifty"],
+        "chronotype": null
+      },
+      {
+        "name": "Tom",
+        "tastes": ["local_life"],
+        "chronotype": null
+      },
+      {
+        "name": "Ana",
+        "tastes": ["history"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Leo",
+        "tastes": ["photo_spots"],
+        "chronotype": "early_bird"
+      },
+      {
+        "name": "Sam",
+        "tastes": ["nightlife"],
+        "chronotype": "night_owl"
+      }
+    ],
+    "diets": ["halal"],
+    "budget_days_pp_minor": 24000,
+    "stay_type": null,
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000003",
+        "owner": 0
+      },
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000012",
+        "owner": 1
+      },
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000010",
+        "owner": 2
+      },
+      {
+        "poi_id": "0199b000-0006-7000-8000-000000000001",
+        "owner": 3
+      }
+    ],
+    "wishes": []
+  }
+]

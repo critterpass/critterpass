@@ -1,0 +1,173 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "cd9bea6a-e04d-44ac-85f4-7a94c6b971b0",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stay_area\":\"Central Kyoto near Nishiki Market\",\"days\":[{\"day_no\":1,\"theme\":\"Soft landing and lantern light\",\"area\":\"Fushimi\",\"must_do_ids\":[\"m1\"],\"poi_ids\":[\"p1\"]},{\"day_no\":2,\"theme\":\"Imperial history and market bites\",\"area\":\"Central Kyoto\",\"must_do_ids\":[\"m5\",\"m2\"],\"poi_ids\":[\"p10\",\"p13\"]},{\"day_no\":3,\"theme\":\"Eastern hills and old lanes\",\"area\":\"Higashiyama\",\"must_do_ids\":[\"m3\"],\"poi_ids\":[\"p3\",\"p8\",\"p9\",\"p7\"]},{\"day_no\":4,\"theme\":\"Golden pavilion and riverside calm\",\"area\":\"Northwest Kyoto\",\"must_do_ids\":[\"m4\"],\"poi_ids\":[\"p5\",\"p12\"]},{\"day_no\":5,\"theme\":\"Museum morning before the flight\",\"area\":\"Central Kyoto\",\"must_do_ids\":[],\"poi_ids\":[\"p11\"]}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 72,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1280,
+          "output_tokens": 221,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "8b70f82a-b530-4771-be5f-3a76e2e30520",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p1\",\"kind\":\"activity\",\"must_do_id\":\"m1\",\"note\":\"Shoes off, phone down, eyes up. The torii gates do the talking.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A gentle, halal-friendly plate after all those steps. Even the lanterns seem to approve.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 233,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 88,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-5": {
+      "status": 200,
+      "body": {
+        "id": "e4269f92-cbee-4a24-87f8-e9d77b00f09a",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"stops\":[{\"poi_id\":\"p11\",\"kind\":\"activity\",\"must_do_id\":null,\"note\":\"Shoes off, phone down, eyes up. History waits for no one, not even a flight.\"},{\"poi_id\":\"p19\",\"kind\":\"meal\",\"must_do_id\":null,\"note\":\"A gentle lunch before the airport shuffle. Halal-friendly and kind to the belly.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 231,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 87,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "4aebb975-74f9-4ca6-b394-aaea9fa6f222",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"Shoes off, phone down, eyes up. The gold leaf does the talking.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The deer will cope without you. The blossoms won’t wait.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle, plant-based pause that suits everyone at the table.\"\n    },\n    {\n      \"poi_id\": \"p12\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A long hop east, but a thousand quiet faces make it worth the ride.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 307,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 217,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "19adefca-400c-44dc-b4ef-916ada1150ee",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Shoes off, phone down, eyes up. The nightingale floors will tattle on you anyway.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m5\",\n      \"note\": \"Tentative usually means a dentist. Here it means one more sample of pickled something.\",\n      \"must_do_id\": \"m5\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet vegan lunch to keep the crew halal and happy.\",\n      \"must_do_id\": null\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"Big iron, small humans. The deer will cope without you.\",\n      \"must_do_id\": \"m2\"\n    },\n    {\n      \"poi_id\": \"p13\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Lanterns come on, the alley wakes up. Walk slow, look up.\",\n      \"must_do_id\": null\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 344,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 326,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "a40c1ae1-3cb8-4d98-bb75-1d400230fb38",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Shoes off, phone down, eyes up. The stage is set before the crowds find it.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle stroll under the trees. The deer will cope without you. The blossoms won't wait.\"\n    },\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"The silver pavilion whispers where the golden one shouts.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet, plant-based pause that suits everyone at the table.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The garden does the talking here. Let it.\"\n    },\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Old wooden facades and the echo of geta on stone. Keep your camera ready, but your feet slower.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 360,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 640,
+          "output_tokens": 324,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "a8ab368f-94fe-48d2-9b6e-313ada72feac",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Shoes off, phone down, eyes up — gentle Kyoto days, every must-do tucked in, and a soft landing by lantern light."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 231,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 128,
+          "output_tokens": 29,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

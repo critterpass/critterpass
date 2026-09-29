@@ -1,0 +1,149 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "calls": {
+    "skeleton": {
+      "status": 200,
+      "body": {
+        "id": "2a517970-6c61-4a5f-b393-de25d43a8f48",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stay_area\": \"Centro Histórico\",\n  \"days\": [\n    {\n      \"day_no\": 1,\n      \"theme\": \"Gentle landing and golden hour\",\n      \"area\": \"Centro Histórico\",\n      \"must_do_ids\": [\"m2\"],\n      \"poi_ids\": [\"p1\", \"p12\"]\n    },\n    {\n      \"day_no\": 2,\n      \"theme\": \"Inca stones and market colours\",\n      \"area\": \"Centro Histórico\",\n      \"must_do_ids\": [\"m1\", \"m4\"],\n      \"poi_ids\": [\"p5\", \"p8\", \"p6\"]\n    },\n    {\n      \"day_no\": 3,\n      \"theme\": \"Sacred Valley photo loop\",\n      \"area\": \"Pisac and Maras\",\n      \"must_do_ids\": [\"m3\"],\n      \"poi_ids\": [\"p10\", \"p11\"]\n    },\n    {\n      \"day_no\": 4,\n      \"theme\": \"Sweet farewell before flight\",\n      \"area\": \"Centro Histórico\",\n      \"must_do_ids\": [],\n      \"poi_ids\": [\"p7\"]\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 27,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1152,
+          "output_tokens": 260,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-4": {
+      "status": 200,
+      "body": {
+        "id": "d18973f7-e10f-4e06-9665-aff6f5d15931",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"stops\": [\n    {\n      \"poi_id\": \"p7\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A sweet little farewell among chocolate aromas before the flight.\"\n    }\n  ]\n}\n```"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 357,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 512,
+          "output_tokens": 61,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-1": {
+      "status": 200,
+      "body": {
+        "id": "d279989a-a27e-4aa9-b448-d9816df6b303",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p1\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A gentle first breath of Cusco, where the plaza hums with history and the light begins to turn golden.\"\n    },\n    {\n      \"poi_id\": \"p2\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m2\",\n      \"note\": \"The old sun temple still holds its quiet power; let the stones tell their story before the day cools.\"\n    },\n    {\n      \"poi_id\": \"p19\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A warm, easy dinner with plenty of green on the plate, and a good excuse to sit and swap first impressions.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 37,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 186,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-3": {
+      "status": 200,
+      "body": {
+        "id": "8ced0723-54b4-4d6c-88c9-1da4fa014723",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p9\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m3\",\n      \"note\": \"The old stones up here have stories to tell, and Inti (the sun (Quechua)) lights them just right for your cameras.\"\n    },\n    {\n      \"poi_id\": \"p10\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A patchwork of white salt pools that looks like snow decided to visit the valley.\"\n    },\n    {\n      \"poi_id\": \"p11\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Those circular terraces are the Incas showing off their love of a good curve.\"\n    },\n    {\n      \"poi_id\": \"p15\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"Green Point keeps everyone happy with plates that are kind to veggies and full of flavour.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 81,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 232,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "day-2": {
+      "status": 200,
+      "body": {
+        "id": "429cd734-d3d4-44dd-a588-637b4a0cdbb0",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"stops\": [\n    {\n      \"poi_id\": \"p3\",\n      \"kind\": \"activity\",\n      \"must_do_id\": \"m1\",\n      \"note\": \"Big stones and bigger stories up at Sacsayhuamán, with Inti (the sun (Quechua)) on your shoulders.\"\n    },\n    {\n      \"poi_id\": \"p8\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"A quiet wander through Inca gold, cloth and clever knots.\"\n    },\n    {\n      \"poi_id\": \"p14\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A civilised lunch stop with plenty of green things on the plate.\"\n    },\n    {\n      \"poi_id\": \"p5\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Step inside the cathedral and let the gold leaf do the talking.\"\n    },\n    {\n      \"poi_id\": \"p4\",\n      \"kind\": \"meal\",\n      \"must_do_id\": \"m4\",\n      \"note\": \"San Pedro Market: colours, chatter and the best fruit juice in town.\"\n    },\n    {\n      \"poi_id\": \"p6\",\n      \"kind\": \"activity\",\n      \"must_do_id\": null,\n      \"note\": \"Cobbled lanes and little workshops in San Blas, perfect for a slow stroll.\"\n    },\n    {\n      \"poi_id\": \"p16\",\n      \"kind\": \"meal\",\n      \"must_do_id\": null,\n      \"note\": \"A fancy finish to the day, with vegetarian plates that still feel like a treat.\"\n    }\n  ]\n}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 35,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 1024,
+          "output_tokens": 376,
+          "service_tier": "standard"
+        }
+      }
+    },
+    "summary": {
+      "status": 200,
+      "body": {
+        "id": "6d575ac0-5bfa-48a2-9b85-455b8d451d94",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "A soft landing, old stones, bright markets and a sweet goodbye — your Cusco trip is all wrapped up, amigo."
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 272,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 27,
+          "service_tier": "standard"
+        }
+      }
+    }
+  }
+}

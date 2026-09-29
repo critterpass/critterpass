@@ -139,7 +139,7 @@ describe('routing table', () => {
 
 describe('buildMessageParams', () => {
   it('rejects a tool choice the provider would not honour', () => {
-    const skeleton = resolveRoute('draft.skeleton');
+    const skeleton = resolveRoute('proposal.personal');
     const chat = resolveRoute('guide.chat');
     const any = { type: 'any' as const };
     const forced = { type: 'tool' as const, name: 'x' };
@@ -165,18 +165,23 @@ describe('buildMessageParams', () => {
     ).toBe(GUIDE_TEMPERATURE);
     const input = { messages: USER_TURN, temperature: 0 };
     expect(buildMessageParams(resolveRoute('micro.line'), input).temperature).toBe(0);
-    expect(buildMessageParams(resolveRoute('draft.skeleton'), input)).not.toHaveProperty(
+    expect(buildMessageParams(resolveRoute('proposal.personal'), input)).not.toHaveProperty(
       'temperature',
     );
   });
 
   it('sends explicit thinking, with effort only when thinking', () => {
-    const skeleton = buildMessageParams(resolveRoute('draft.skeleton'), { messages: USER_TURN });
-    expect(skeleton).toMatchObject({
+    const proposal = buildMessageParams(resolveRoute('proposal.personal'), {
+      messages: USER_TURN,
+    });
+    expect(proposal).toMatchObject({
       model: 'deepseek-v4-pro',
       thinking: { type: 'enabled' },
-      output_config: { effort: 'high' },
+      output_config: { effort: 'low' },
     });
+    const skeleton = buildMessageParams(resolveRoute('draft.skeleton'), { messages: USER_TURN });
+    expect(skeleton).toMatchObject({ model: 'deepseek-v4-pro', thinking: { type: 'disabled' } });
+    expect(skeleton).not.toHaveProperty('output_config');
     const chat = buildMessageParams(resolveRoute('guide.chat'), { messages: USER_TURN });
     expect(chat).toMatchObject({ model: MODEL_IDS.fast, thinking: { type: 'disabled' } });
     expect(chat).not.toHaveProperty('output_config');
