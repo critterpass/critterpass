@@ -1,0 +1,38 @@
+# Merge gate for app UI changes: a pull request that changes apps/mobile/src/app, features or ui
+# (tests aside) fails the `ui-reviewed` check until it carries the `ui-reviewed` label, applied after
+# its design | device sheets (device workflow, mode compare) were reviewed. A later push that changes
+# those files again removes the label. See e2e/README.md ("UI review gate").
+name: ui review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+concurrency:
+  group: ui-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  ui-reviewed:
+    name: ui-reviewed
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: tools/scripts/ci-device
+      - uses: actions/setup-node@v7
+        with: { node-version: 24 }
+      - name: Check the UI review label
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          EVENT_ACTION: ${{ github.event.action }}
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.event.after }}
+        run: node tools/scripts/ci-device/ui-review-gate.ts
