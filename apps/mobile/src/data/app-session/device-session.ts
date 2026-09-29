@@ -36,6 +36,7 @@ import { createDeviceRecoveryStore } from '../realtime/device-recovery-store';
 import { appEnvironment, endpointsConfigJson, resolveRealtimeUrl } from './endpoints';
 import { createLinksHttp } from './links-http';
 import { startAppSession, type AppSession } from './start-app-session';
+import { startOnce } from './start-once';
 
 function appScheme(): string {
   const scheme = Constants.expoConfig?.scheme;
@@ -95,16 +96,11 @@ export function deviceAuth(): AuthDataLayer {
   return auth;
 }
 
-let starting: Promise<AppSession> | null = null;
-
-/** Starts the app's session once per process; a failed start (e.g. offline) retries on next call. */
-export function startDeviceAppSession(): Promise<AppSession> {
-  starting ??= createSession().catch((error: unknown) => {
-    starting = null;
-    throw error;
-  });
-  return starting;
-}
+/**
+ * Starts the app's session once per process. A failed start (e.g. offline) is tried again by the
+ * next call after a short, growing cooldown (./start-once.ts); calls inside it get the failure back.
+ */
+export const startDeviceAppSession: () => Promise<AppSession> = startOnce(() => createSession());
 
 const deviceResolver = createDeviceResolver();
 
