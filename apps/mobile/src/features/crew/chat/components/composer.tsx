@@ -51,12 +51,7 @@ export interface ChatComposerProps {
 }
 
 const useStyles = makeStyles((th) => ({
-  wrap: {
-    paddingHorizontal: th.space['12'],
-    paddingTop: th.space['6'],
-    paddingBottom: th.space['8'],
-    gap: th.space['8'],
-  },
+  wrap: { paddingHorizontal: th.space['12'], gap: th.space['8'] },
   reply: {
     alignItems: 'center',
     justifyContent: 'space-between',
