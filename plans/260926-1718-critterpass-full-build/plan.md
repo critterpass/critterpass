@@ -60,7 +60,7 @@ The critical path has reached 27 (trip setup): its server half is being built, o
 | 25 Home, inbox, nudges | 8/9 | Seeded Home flows (running on iOS now) |
 | 26 Polls and destination vote | 11/12 | Vote flows, which wait on a destination-vote demo seed; design/device sheets being captured |
 | 27 Trip setup | 0/12 | Server half being built (schema, date windows, budget and rooms maths done); app next |
-| 39 Crew live map | 0/6 | App in UI review (#136) |
+| 39 Crew live map | 5/6 | App in UI review (#136); data-backed device flows after the staging seed |
 | 51 Website | 7/11 | Web previews and web account deletion, which wait on later phases |
 
 **Being built now:**
@@ -140,7 +140,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 36 | [Trip hub, day-of, leave-by, offline](./phase-36-trip-day-offline.md) | 11 | 11, 13, 14, 15, 18, 20, 25, 32, 34 | 17 | pending |
 | 37 | [Disruptions](./phase-37-disruptions.md) | 11 | 15, 29, 35, 36 | 18 | pending |
 | 38 | [Help hub & crew SOS](./phase-38-safety-help-sos.md) | 7 | 11, 14, 18, 20, 32, 34, 35, 39 | 17 | pending |
-| 39 | [Crew live map](./phase-39-crew-live-map.md) | 6 | 12, 14, 20 | 7 | in_progress (0/6) |
+| 39 | [Crew live map](./phase-39-crew-live-map.md) | 6 | 12, 14, 20 | 7 | in_progress (5/6) |
 | 40 | [Critters: hatch, Critterdex, legendaries](./phase-40-critters-collect.md) | 11 | 5, 6, 9, 14, 15, 18, 20, 25, 31, 34 | 18 | pending |
 | 41 | [Quests, XP, stickers](./phase-41-quests-stickers.md) | 7 | 13, 33, 40 | 19 | pending |
 | 42 | [Voice, point-and-ask, phrases](./phase-42-voice-camera-phrases.md) | 9 | 32, 41 | 20 | pending |
