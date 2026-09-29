@@ -22,8 +22,8 @@ bypasses RLS, so a stream's WHERE clause is the only thing that keeps a row off 
 | `crew_people` | auto | active co-members | `users` |
 | `trip` | client, `{trip_id}` | trip of an active crew | `trips`, `trip_participants`, crew-visible `itinerary_versions`/`plan_days`/`plan_items`/`change_sets`, `guide_actions`, `activity_events`, `trip_entitlements`, `usage_counters` (trip) |
 | `trip_draft` | client, `{trip_id}` | organiser seat + active crew | organiser-visible `itinerary_versions`/`plan_days`/`plan_items`/`change_sets` |
-| `trip_pack` | client, `{trip_id}` | destination of a member trip | `pois` (not hidden, not merged), `map_regions` |
-| `explore` | client, `{destination_id}` | public | `pois` (not hidden, not merged) |
+| `trip_pack` | client, `{trip_id}` | destination of a member trip | `pois` (editorial, not hidden, not merged), `map_regions` |
+| `explore` | client, `{destination_id}` | public | `pois` (editorial, not hidden, not merged) |
 | `catalog` | auto | none | `guides`, `destinations`, `client_config`, `products`, `perks` |
 | `fx` | auto | home, settlement and trip currencies | `fx_snapshots` |
 
