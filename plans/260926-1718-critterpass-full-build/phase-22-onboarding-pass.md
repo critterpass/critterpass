@@ -205,7 +205,7 @@ Done when: a new user reaches Home through 3a-1→3a-9 offline-tolerant (pass is
 - [ ] Returning sign-in reachable from splash
 - [ ] Pass issuable offline; exactly one pass after sync
 - [ ] Taste quiz 6 questions; tags crew-visible unless hidden
-- [ ] Photo avatar cut out on device, moderated, variants baked; initials fallback
+- [ ] Photo avatar cut out on device, moderated, variants baked; initials fallback. The on-device cut-out **passed the founder's check on TestFlight build 10 (2026-09-29)**.
 - [ ] Airport search works offline; nearest from IP hint without GPS prompt
 - [ ] Permission tests green for 4 tables
 

@@ -53,17 +53,17 @@ The critical path is at 27 (trip setup). The server half is merged and deployed 
 
 | In progress | Tasks | What's left |
 |---|---|---|
-| 2 Platform spikes | 15/15 | 2 iPhone Instruments runs (Xcode sign-in) |
-| 5 Sticker renderer | 10/10 | Close-out |
+| 2 Platform spikes | 15/15 | The founder signed off the Instruments runs (29 Sep); the Android and Apple/Google sign-in rows of the device tables remain |
+| 5 Sticker renderer | 10/10 | Close-out (the founder signed off the Android fps check, 29 Sep) |
 | 6 Motion and feedback | 8/10 | Android check of the island toast and timeline tap on the new test build; haptics tests |
 | 7 App shell and components | 17/18 | Android check of the text-fit fixes on the new test build |
 | 11 Jobs, notifications, push | 10/11 | Android push end to end (Play upload done; FCM token check) |
 | 14 Places, maps, routing | 8/8 | Offline region-pack flow on the live map screen |
-| 18 Content factory | 12/13 | Places batch, which waits on the FSQ OS Places / Overture licence acceptance |
+| 18 Content factory | 12/13 | Run the places batch (the licences were accepted 29 Sep) |
 | 19 Analytics and observability | 10/10 | Sentry device crash check and consent check (alerts are live) |
 | 20 Permissions, location, visits | 11/11 | Close-out |
 | 21 Links and deep links | 8/9 | Funnel verification with live analytics |
-| 22 Onboarding | 10/11 | Photo cut-out device check; Android EN/VI onboarding screenshots |
+| 22 Onboarding | 10/11 | End-to-end first-run flow on the current build (the photo cut-out was signed off 29 Sep) |
 | 24 Crew chat | 7/8 | Chat flows on the new Android test build, and two devices |
 | 25 Home, inbox, nudges | 8/9 | Seeded Home flows pass on iOS; re-run on the GitHub device runs |
 | 26 Polls and destination vote | 11/12 | Vote flows and sheets on the GitHub device runs (the staging places are now published) |

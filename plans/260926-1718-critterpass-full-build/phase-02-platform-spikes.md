@@ -195,7 +195,7 @@ Undesigned states: none shipped to users; spike screens live under `(dev)/spikes
 - [ ] `docs/runbooks/db-switchover-drill.md` exists and was executed once
 - [x] Signed iOS build with widget, LA, AlarmKit, NSE, NCE targets installs from EAS (TestFlight staging on an iPhone 15 Pro, 2026-09-28)
 - [ ] `(dev)` routes excluded from production variant (`check-release-bundle` green)
-- [ ] Every `Founder device run` table filled (iPhone rows filled 2026-09-28; Android rows, Apple/Google sign-in, Instruments cold start and traces still open)
+- [ ] Every `Founder device run` table filled. iPhone rows were filled 2026-09-28. The Instruments cold start and traces **passed on founder decision 2026-09-29**: iOS feels fine on the iPhone 15 Pro, no Instruments numbers were recorded, and they get revisited if performance issues appear. The Android rows and the Apple/Google sign-in rows are still open.
 - [ ] Spike tables dropped from staging
 
 ## Risks & rollback
