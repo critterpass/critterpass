@@ -33,6 +33,7 @@ jest.mock('expo-router', () => ({
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
+import { StyleSheet } from 'react-native';
 
 import { toastQueue } from '@/motion';
 import {
@@ -46,6 +47,7 @@ import { PitchSheet } from '../pitch-sheet';
 import { usePoll } from '../../data/use-poll';
 import {
   kyotoPitchFrames,
+  moroccoResults,
   PITCH_ID,
   replayServices,
   type HeldStream,
@@ -162,6 +164,27 @@ describe('destination board', () => {
 });
 
 describe('pitch sheet', () => {
+  it('lists matches as wrapping place chips and offers ADD TO THE VOTE once one is picked', async () => {
+    const s = await open();
+    await seedBoard(s);
+    await renderVote(
+      <PitchSheet crewId={CREW} />,
+      s,
+      replayServices({ results: moroccoResults, pitch: kyotoPitchFrames(s.uid) }),
+    );
+    await fireEvent.changeText(screen.getByTestId('pitch-search'), 'morocc');
+    await until(() => screen.queryByTestId('pitch-result-1') !== null);
+    expect(StyleSheet.flatten(screen.getByTestId('pitch-results').props.style)).toMatchObject({
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+    });
+    expect(screen.getByText('Marrakech · Morocco')).toBeTruthy();
+    expect(screen.queryByTestId('pitch-add')).toBeNull();
+    await fireEvent.press(screen.getByTestId('pitch-result-0'));
+    await until(() => screen.queryByTestId('pitch-add') !== null);
+    expect(screen.queryByTestId('pitch-results')).toBeNull();
+  });
+
   it('streams the pitch section by section, then adds the place with its pitch', async () => {
     const s = await open();
     await seedBoard(s);
