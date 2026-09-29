@@ -1,6 +1,6 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { act, fireEvent, render, renderHook } from '@testing-library/react-native';
+import { act, fireEvent, render, renderHook, within } from '@testing-library/react-native';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { cloneElement } from 'react';
 import type { ReactElement } from 'react';
@@ -129,6 +129,33 @@ describe('Sheet', () => {
 
     const presenter = await renderModal(<Scaffold testID="presenter" />);
     expect(flat(presenter.getByTestId('presenter')).transform).toEqual([{ scale: 0.93 }]);
+  });
+
+  it('lays a header and the ✕ out in one row, so a trailing action never sits under the ✕', async () => {
+    const onDismiss = jest.fn<() => void>();
+    const screen = await renderModal(
+      <Sheet onDismiss={onDismiss} header={<Text>Your crews</Text>}>
+        <Text>body</Text>
+      </Sheet>,
+    );
+    const row = screen.getByTestId('sheet-header');
+    const close = screen.getByTestId('sheet-close');
+    expect(flat(row)).toMatchObject({ flexDirection: 'row', alignItems: 'center' });
+    expect(within(row).getByTestId('sheet-close')).toBeTruthy();
+    expect(flat(close).position).toBeUndefined();
+    expect(screen.getByText('Your crews')).toBeTruthy();
+    await fireEvent.press(close);
+    expect(onDismiss).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the ✕ floating at the corner when there is no header', async () => {
+    const screen = await renderModal(
+      <Sheet onDismiss={() => {}}>
+        <Text>body</Text>
+      </Sheet>,
+    );
+    expect(screen.queryByTestId('sheet-header')).toBeNull();
+    expect(flat(screen.getByTestId('sheet-close')).position).toBe('absolute');
   });
 
   it('releases the presenter when it unmounts without being dismissed', async () => {

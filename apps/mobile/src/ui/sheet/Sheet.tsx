@@ -53,10 +53,25 @@ const useStyles = makeStyles((t) => ({
   },
   close: { position: 'absolute', top: t.space['12'], end: t.space['12'] },
   content: { paddingTop: t.space['16'] },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: t.space['12'],
+    paddingStart: t.size.gutter,
+    paddingEnd: t.space['12'],
+  },
+  headerContent: { flex: 1, minWidth: 0 },
+  contentUnderHeader: { paddingTop: t.space['8'] },
 }));
 
 export interface SheetProps {
   readonly children: ReactNode;
+  /**
+   * The sheet's title row (a title, a trailing action such as JOIN WITH A CODE, a search field). It
+   * shares one row with the ✕, which sits in flow at its end, centres aligned, so they can never
+   * overlap; the header gets the width that is left. Without it the ✕ floats at the top corner.
+   */
+  readonly header?: ReactNode | undefined;
   readonly detents?: readonly SheetDetent[] | undefined;
   readonly initialDetent?: SheetDetent | undefined;
   /** Called after the dismiss animation; defaults to going back (sheets are `(modal)` routes). */
@@ -73,6 +88,7 @@ export interface SheetProps {
  */
 export function Sheet({
   children,
+  header,
   detents = ['large'],
   initialDetent,
   onDismiss,
@@ -83,6 +99,7 @@ export function Sheet({
   const insets = useSafeAreaInsets();
   const { height: screenHeight } = useWindowDimensions();
   const [fitHeight, setFitHeight] = useState<number | null>(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
   const heights = detentHeights(detents, screenHeight, fitHeight);
   const initialHeight = detentHeights(
     [initialDetent ?? detents[0] ?? 'large'],
@@ -126,25 +143,39 @@ export function Sheet({
               style={[styles.panel, { height: maxHeight }, presentation.panelStyle]}
             >
               <Grabber />
+              {header !== undefined ? (
+                <View
+                  style={styles.header}
+                  testID={`${testID}-header`}
+                  onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}
+                >
+                  <View style={styles.headerContent}>{header}</View>
+                  <CloseButton onPress={dismiss} testID={`${testID}-close`} />
+                </View>
+              ) : null}
               <SheetScrollContext.Provider
                 value={{ scroll: presentation.scroll, scrollY: presentation.scrollY }}
               >
                 <View
                   style={[
                     styles.content,
+                    header !== undefined ? styles.contentUnderHeader : null,
                     fitOnly ? null : { flex: 1 },
                     { paddingBottom: Math.max(insets.bottom, keyboardInset) },
                   ]}
                   onLayout={(event) => {
                     if (!fitOnly) return;
-                    const measured = event.nativeEvent.layout.height + GRABBER_ZONE_HEIGHT;
+                    const measured =
+                      event.nativeEvent.layout.height + GRABBER_ZONE_HEIGHT + headerHeight;
                     if (measured !== fitHeight) setFitHeight(measured);
                   }}
                 >
                   {children}
                 </View>
               </SheetScrollContext.Provider>
-              <CloseButton onPress={dismiss} style={styles.close} testID={`${testID}-close`} />
+              {header === undefined ? (
+                <CloseButton onPress={dismiss} style={styles.close} testID={`${testID}-close`} />
+              ) : null}
             </Animated.View>
           </GestureDetector>
         </View>
