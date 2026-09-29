@@ -15,8 +15,8 @@ x86_64 Google APIs image). No local simulator is involved.
 
 - **Manually:** Actions → device → Run workflow, or
   `gh workflow run device.yml -f platform=ios -f flows="e2e/smoke e2e/home"`.
-- **On a pull request:** add the `device-run` label. The run covers the full suite on both
-  platforms in `flows` mode, and repeats on every push while the label stays. Pull requests from
+- **On a pull request:** add the `device-run` label. The run covers the full suite on iOS in
+  `flows` mode (Android runs are manual, `platform: android` or `both`), and repeats on every push while the label stays. Pull requests from
   forks never run it.
 
 | Input        | Meaning                                                                                                                                               |
@@ -56,5 +56,9 @@ once could load each other's JS. The workflow never publishes an update:
    `expo.modules.updates.ENABLED` to false in the compiled manifest, zipaligns and signs it with a
    throwaway debug key, and installs it on its own emulator. Image assets new since the build are
    missing on Android (they live in the APK's compiled resources); iOS gets them with the bundle.
+
+The prepare job fails when the exported bundle does not carry the commit, and every iOS shard
+first runs `tools/scripts/ci-device/js-commit.yaml`, which reads the Developer tools build marker
+(`update:embedded js:<commit>`) to prove the app runs this run's JS.
 
 The scripts live in `tools/scripts/ci-device/`.

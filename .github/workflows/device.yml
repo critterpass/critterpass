@@ -171,6 +171,8 @@ jobs:
               echo "::warning::No EXPO_TOKEN: the bundle uses code defaults for EXPO_PUBLIC_* values"
               $cmd
             fi
+            grep -q "$EXPO_PUBLIC_JS_COMMIT" "$out/$platform/$file" ||
+              { echo "::error::The $platform bundle does not carry $EXPO_PUBLIC_JS_COMMIT"; exit 1; }
           done
       - uses: actions/upload-artifact@v7
         with:
@@ -207,7 +209,7 @@ jobs:
       - name: Run the flows
         env:
           BUILD_URL: ${{ needs.prepare.outputs.ios_url }}
-          FLOWS: ${{ matrix.flows }}
+          FLOWS: tools/scripts/ci-device/js-commit.yaml ${{ matrix.flows }}
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
