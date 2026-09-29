@@ -72,6 +72,8 @@ function StatusLine({ poll }: { readonly poll: PollView }) {
         variant="label"
         color={theme.color.pink}
         numberOfLines={2}
+        // Beside WHERE NEXT? the status wraps to a second line where the language runs long.
+        singleLine={false}
         style={{ flexShrink: 1 }}
         testID="board-status"
       >
