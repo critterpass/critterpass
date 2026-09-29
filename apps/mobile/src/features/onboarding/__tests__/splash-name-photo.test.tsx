@@ -14,7 +14,8 @@ jest.mock('expo-router', () => ({
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
-import { AccessibilityInfo } from 'react-native';
+import { AccessibilityInfo, StyleSheet } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 
 import { mrzLines } from '@cp/domain';
 
@@ -55,13 +56,31 @@ describe('3a-1 splash', () => {
     });
   });
 
-  it('swings the cover open on its spine; reduced motion opens the page without it', async () => {
+  it('swings the cover open, grows the page into page one; reduced motion skips both', async () => {
     const rotation = () =>
       JSON.stringify(screen.getAllByTestId('onboarding-cover').at(-1)!.props.style);
+    const page = (): ViewStyle =>
+      StyleSheet.flatten(
+        screen.getAllByTestId('onboarding-first-page').at(-1)!.props.style as StyleProp<ViewStyle>,
+      ) ?? {};
     await renderOnboarding(<SplashScreen />);
+    // A 390 pt wide body; the passport stage above the footer. Laying it out again after the tap
+    // re-renders, so the animated styles read the finished animation.
+    const layOut = (width: number) =>
+      fireEvent(screen.getByTestId('onboarding-stage'), 'layout', {
+        nativeEvent: { layout: { x: 0, y: 0, width, height: 520 } },
+      });
+    await layOut(390);
     await activate(screen.getByTestId('onboarding-open'));
+    await layOut(391);
+    await layOut(390);
     expect(rotation()).toContain('rotateY');
-    expect(rotation()).toContain('-110deg');
+    expect(rotation()).toContain('-90deg');
+    // Page one's card: 20 pt margins, 36 pt down the body, in the render's proportions.
+    expect(page().width).toBeCloseTo(350);
+    expect(page().height).toBeCloseTo(248);
+    expect(page().top).toBeCloseTo(36 - (520 - 320) / 2);
+    expect(page().left).toBeCloseTo(20 - (390 - 240) / 2);
     expect(router.push).toHaveBeenCalledWith('/onboarding/name');
 
     jest.mocked(router.push).mockClear();
@@ -71,7 +90,7 @@ describe('3a-1 splash', () => {
       await Promise.resolve();
     });
     await activate(screen.getAllByTestId('onboarding-open').at(-1)!);
-    expect(rotation()).not.toContain('-110deg');
+    expect(rotation()).not.toContain('-90deg');
     expect(router.push).toHaveBeenCalledWith('/onboarding/name');
     expect(readDraft()?.step).toBe('name');
   });

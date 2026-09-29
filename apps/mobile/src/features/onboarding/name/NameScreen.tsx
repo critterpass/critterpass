@@ -25,6 +25,12 @@ import { TokekSays } from '../tokek-says';
 import { nameReaction, reactionDelayMs } from './name-reaction';
 import type { TokekLineTrigger } from '../content';
 
+/**
+ * The keyboard rises once page one has faded in over the opened passport, not while it is still
+ * crossing: the stack's fade takes 300 ms, a beat more lets the pass card settle first.
+ */
+export const NAME_FOCUS_DELAY_MS = 450;
+
 export function NameScreen() {
   useTrackStep('name');
   const theme = useTheme();
@@ -36,6 +42,13 @@ export function NameScreen() {
     pick: 0,
   });
   const reactions = useRef(0);
+
+  // The field mounts again with autoFocus once the page is in (TextField takes no ref).
+  const [focusReady, setFocusReady] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setFocusReady(true), NAME_FOCUS_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, []);
 
   const typed = useRef(false);
   useEffect(() => {
@@ -97,7 +110,8 @@ export function NameScreen() {
         labelHidden
         value={name}
         onChangeText={onChange}
-        autoFocus
+        key={focusReady ? 'focus' : 'wait'}
+        autoFocus={focusReady}
         autoCapitalize="words"
         autoCorrect={false}
         textContentType="givenName"

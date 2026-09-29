@@ -4,7 +4,7 @@
  * from the shared clock like the presets and parked at rest under reduced motion.
  */
 import { useIsFocused } from 'expo-router';
-import { useAnimatedStyle } from 'react-native-reanimated';
+import { useAnimatedStyle, type SharedValue } from 'react-native-reanimated';
 
 import { useSharedClock } from '@/motion/clock';
 import { useMotionMode } from '@/motion/motion-mode';
@@ -57,7 +57,11 @@ export const STAMP_BREATHE: OnboardingLoop = {
   ],
 };
 
-export function useOnboardingLoop(loop: OnboardingLoop, offset = 0) {
+/**
+ * `settle` (0 → 1) eases the loop out to a still, upright pose, so a choreography that starts
+ * mid-loop (the splash passport opening) begins from rest without a jump.
+ */
+export function useOnboardingLoop(loop: OnboardingLoop, offset = 0, settle?: SharedValue<number>) {
   const clock = useSharedClock();
   const focused = useIsFocused();
   const [mode] = useMotionMode();
@@ -74,14 +78,15 @@ export function useOnboardingLoop(loop: OnboardingLoop, offset = 0) {
       mode === 'full' && focused
         ? sampleLoopPreset(def, clock.value / def.durationMs + offset)
         : rest;
+    const k = 1 - (settle?.value ?? 0);
     return {
-      opacity: t.o,
+      opacity: 1 - (1 - t.o) * k,
       transform: [
-        { translateX: t.tx },
-        { translateY: t.ty },
-        { rotate: `${t.r}deg` },
-        { scaleX: t.sx },
-        { scaleY: t.sy },
+        { translateX: t.tx * k },
+        { translateY: t.ty * k },
+        { rotate: `${t.r * k}deg` },
+        { scaleX: 1 + (t.sx - 1) * k },
+        { scaleY: 1 + (t.sy - 1) * k },
       ],
     };
   });
