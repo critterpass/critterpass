@@ -17,7 +17,12 @@ import {
   tallyOf,
   type PollState,
 } from '@cp/db';
-import { ballotSourceForVia, generateUuidV7 } from '@cp/domain';
+import {
+  ballotSourceForVia,
+  generateUuidV7,
+  pitchSectionsSchema,
+  type PitchSections,
+} from '@cp/domain';
 import type pg from 'pg';
 
 import { openDestinationPoll } from '../commands/polls/candidates';
@@ -36,6 +41,13 @@ interface VotePlace {
   readonly tz: string;
   readonly pitchedBy: Voter;
   readonly backers: readonly DemoMember['key'][];
+  /** What the finalists' guides said and the tools found, for the showdown's bubble and chips. */
+  readonly pitch?: {
+    readonly flightMin: number;
+    readonly priceMinor: number;
+    readonly bestMonths: readonly number[];
+    readonly quote: string;
+  };
 }
 
 /** The caller's pitch first: whoever starts the vote organises it. */
@@ -48,6 +60,12 @@ const VOTE_PLACES: readonly VotePlace[] = [
     tz: 'Asia/Tokyo',
     pitchedBy: 'me',
     backers: ['maya', 'jordan'],
+    pitch: {
+      flightMin: 420,
+      priceMinor: 148_000,
+      bestMonths: [4],
+      quote: 'Come in April. The blossoms are ridiculous.',
+    },
   },
   {
     slug: 'lisbon',
@@ -57,6 +75,12 @@ const VOTE_PLACES: readonly VotePlace[] = [
     tz: 'Europe/Lisbon',
     pitchedBy: 'maya',
     backers: ['alex', 'rin'],
+    pitch: {
+      flightMin: 960,
+      priceMinor: 192_000,
+      bestMonths: [6],
+      quote: 'Grilled sardines. Every. Single. Night.',
+    },
   },
   {
     slug: 'iceland',
@@ -97,6 +121,60 @@ async function placeId(tx: pg.PoolClient, place: VotePlace): Promise<string> {
   return id;
 }
 
+/** The home the demo crew flies from. */
+const DEMO_ORIGIN = 'SIN';
+
+/**
+ * Stores a finalist's pitch the way a streamed one is stored: the sticker from the destination
+ * (its guide and country), the tool chips and the guide's quote. A pitch that already has
+ * sections keeps them, so reseeding changes nothing.
+ */
+async function fillPitchSections(
+  tx: pg.PoolClient,
+  optionId: string,
+  pitch: NonNullable<VotePlace['pitch']>,
+): Promise<void> {
+  const { rows } = await tx.query<{
+    pitch_id: string | null;
+    empty: boolean;
+    place_id: string;
+    name: string;
+    country: string | null;
+    coverage: 'live' | 'guest';
+    guide: string;
+  }>(
+    `SELECT o.pitch_id, coalesce(p.sections, '{}'::jsonb) = '{}'::jsonb AS empty, d.id AS place_id,
+            d.name, d.country, d.coverage, coalesce(s.guide_slug, 'tokek') AS guide
+       FROM poll_options o
+       JOIN destinations d ON d.id = o.ref_id
+       LEFT JOIN critter_sets s ON s.id = d.critter_set_id
+       LEFT JOIN pitches p ON p.id = o.pitch_id
+      WHERE o.id = $1`,
+    [optionId],
+  );
+  const row = rows[0];
+  if (row?.pitch_id == null || !row.empty) return;
+  const sections: PitchSections = pitchSectionsSchema.parse({
+    sticker: {
+      place_id: row.place_id,
+      name: row.name,
+      country: row.country,
+      coverage: row.coverage,
+      guide: row.guide,
+    },
+    headline: null,
+    chips: [
+      { kind: 'flight', minutes: pitch.flightMin, origin: DEMO_ORIGIN },
+      { kind: 'price', amount_minor: pitch.priceMinor, currency: 'USD', origin: DEMO_ORIGIN },
+      { kind: 'best_months', months: pitch.bestMonths },
+    ],
+    reasons: [],
+    quote: pitch.quote,
+    alternatives: [],
+  });
+  await tx.query('UPDATE pitches SET sections = $2 WHERE id = $1', [row.pitch_id, sections]);
+}
+
 async function state(tx: pg.PoolClient, pollId: string): Promise<PollState> {
   const found = await loadPollState(tx, pollId, 'update');
   if (found === undefined) throw new Error('demo seed: the vote vanished');
@@ -128,7 +206,10 @@ async function boardWithBallots(
       throw new Error(`demo seed: ${place.name} was ${result.outcome}, not put to the vote`);
     }
     vote ??= { pollId: result.poll_id, tripId: result.trip_id };
-    if (result.option_id !== null) optionBySlug.set(place.slug, result.option_id);
+    if (result.option_id !== null) {
+      optionBySlug.set(place.slug, result.option_id);
+      if (place.pitch !== undefined) await fillPitchSections(tx, result.option_id, place.pitch);
+    }
   }
   if (vote === undefined) throw new Error('demo seed: no vote was opened');
 
