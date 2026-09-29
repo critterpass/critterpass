@@ -33,3 +33,10 @@ appId: app.critterpass.dev
     timeout: 5000
 - waitForAnimationToEnd
 - takeScreenshot: ${LOCALE}-sheet-header
+- runFlow:
+    file: open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'BackEyebrow'
+      LOCALE: ${LOCALE}
+      SCALE: '1'
+- takeScreenshot: ${LOCALE}-back-eyebrow
