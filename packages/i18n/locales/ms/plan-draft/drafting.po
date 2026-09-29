@@ -1,0 +1,156 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 06:30+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ms\n"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.failedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.stays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.daysPlanned"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.readProfiles"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.balance"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.days"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.season"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.seasonNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.check"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.hours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.season"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.dayCard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.again"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.stoppedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.food"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.blocked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.fail.model"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.fail.places"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.noDates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.stopped"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.blockedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.outline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.profiles"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.saving"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.pace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.fail.setup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.slow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.fail.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.offlineTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.saved"
+msgstr ""

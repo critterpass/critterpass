@@ -1,0 +1,244 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 06:30+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
+msgid "planDraft.member.title"
+msgstr "{count, plural, other {{names} đang lên kế hoạch}}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.sub"
+msgstr "{dates}, mỗi người {cost}. Sửa gì thì sửa trước khi cả nhóm thấy."
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.days"
+msgstr "{days} ngày"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.daysCost"
+msgstr "{days} ngày · mỗi người {cost}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.back"
+msgstr "Chuẩn bị {destination}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.redrafting"
+msgstr "{guideName} đang soạn lại một ngày."
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.title"
+msgstr "Bản nháp của {guideName}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.some"
+msgstr "{made}/{total} việc phải làm có mặt"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
+msgid "planDraft.stay.line"
+msgstr "{nights, plural, other {# đêm · {kind} · khoảng {price} mỗi người một đêm}}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.missing"
+msgstr "{title} ({owner}): {reason}"
+
+#: ../../apps/mobile/src/features/plan/draft/data/quota-copy.ts
+msgid "planDraft.counter"
+msgstr "Đã dùng {used}/{limit} lượt soạn lại"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.lottery"
+msgstr "{wd} · {first}, kết quả bốc thăm {date}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.one"
+msgstr "{wd} · {name} lúc {at}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.two"
+msgstr "{wd} · {name} lúc {at}, {next}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.free"
+msgstr "{wd} · Không xếp gì, cố ý đấy"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.all"
+msgstr "Đủ cả {total} việc phải làm"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.changeDay"
+msgstr "Nhờ {guideName} đổi một ngày"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.propose"
+msgstr "Lập đề xuất"
+
+#: ../../apps/mobile/src/features/plan/draft/review/closure-notes.tsx
+msgid "planDraft.closure.line"
+msgstr "Đóng cửa {when}: {area}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.miss.closed"
+msgstr "đóng cửa vào ngày của bạn"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.current"
+msgstr "Hiện tại"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.a11y"
+msgstr "Ngày {n}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.redraftReadyDay"
+msgstr "Ngày {redraftDay} soạn lại xong rồi."
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.draft"
+msgstr "Lên nháp chuyến đi"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.made"
+msgstr "Bản nháp lúc {when}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
+msgid "planDraft.history.restored"
+msgstr "Đã khôi phục bản nháp cũ"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.history"
+msgstr "Các bản nháp trước"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.title"
+msgstr "Các bản nháp trước"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
+msgid "planDraft.stay.estimate"
+msgstr "Giá ước tính. Chưa giữ chỗ nào."
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.line"
+msgstr "Xong phần chuẩn bị là {guideName} lên nháp cả chuyến cho bạn."
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.miss.unknown"
+msgstr "mình không tìm ra chỗ đó"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.miss.dropped"
+msgstr "nó làm hỏng cả ngày"
+
+#: ../../apps/mobile/src/features/plan/draft/data/commands.ts
+msgid "planDraft.queued.keep"
+msgstr "Giữ một ngày soạn lại"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.line"
+msgstr "Có thay đổi từ lúc đó: {what}."
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.free"
+msgstr "Có thay đổi từ lúc đó: {what}. Thêm việc phải làm mới thì miễn phí."
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.title"
+msgstr "Chưa có bản nháp"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.miss.noTime"
+msgstr "không còn chỗ trong lịch"
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.failedLine"
+msgstr "Chưa ai thấy và chưa tốn gì. Để mình thử lại nhé?"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.onlyYou"
+msgstr "Chỉ bạn thấy"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.redraftOpen"
+msgstr "Mở"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.optional"
+msgstr "Tùy chọn"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.overBudget"
+msgstr "Vượt ngân sách {amount} mỗi người. Nhờ mình tìm ngày rẻ hơn nhé."
+
+#: ../../apps/mobile/src/features/plan/draft/data/commands.ts
+msgid "planDraft.queued.revert"
+msgstr "Trả một ngày về như cũ"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.cta"
+msgstr "Soạn lại các ngày bị ảnh hưởng"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.restore"
+msgstr "Khôi phục"
+
+#: ../../apps/mobile/src/features/plan/draft/data/commands.ts
+msgid "planDraft.queued.restore"
+msgstr "Khôi phục bản nháp cũ"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.title"
+msgstr "Phần chuẩn bị đã đổi từ bản nháp này"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.closedNote"
+msgstr "Có chỗ đóng cửa vào ngày này"
+
+#: ../../apps/mobile/src/features/plan/draft/review/closure-notes.tsx
+msgid "planDraft.closure.source"
+msgstr "Nguồn"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
+msgid "planDraft.history.restoredSub"
+msgstr "Vẫn chỉ mình bạn thấy."
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.budget"
+msgstr "ngân sách"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.dates"
+msgstr "ngày đi"
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.failedTitle"
+msgstr "Bản nháp chưa xong"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.mustDos"
+msgstr "việc phải làm"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.rooms"
+msgstr "phòng"
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
+msgid "planDraft.member.line"
+msgstr "Bạn sẽ thấy kế hoạch ngay khi nó được gửi cho cả nhóm."
+
+#: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
+msgid "planDraft.stay.freeCancel"
+msgstr "Đặt chỗ của bạn: hủy miễn phí tới {until}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.redraftReady"
+msgstr "Bản soạn lại xong rồi."

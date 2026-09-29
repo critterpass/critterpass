@@ -1,0 +1,267 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 06:30+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
+msgid "planDraft.metric.cheaper"
+msgstr "{amount} less each"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
+msgid "planDraft.metric.dearer"
+msgstr "{amount} more each"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.eyebrow"
+msgstr "{destination} · {guideName}’s draft"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
+msgid "planDraft.last.eyebrow"
+msgstr "{destination} · Redraft {n} of {limit}"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.thinkingAny"
+msgstr "{guideName} is redrafting"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.thinking"
+msgstr "{guideName} is redrafting day {n}"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.backEyebrow"
+msgstr "{guideName}’s draft"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
+msgid "planDraft.metric.someKept"
+msgstr "{kept} of {total} must-dos kept"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
+msgid "planDraft.metric.transitLess"
+msgstr "{minutes} min less on trains"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
+msgid "planDraft.metric.transitMore"
+msgstr "{minutes} min more on trains"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
+msgid "planDraft.last.pips"
+msgstr "{n} of {limit}"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-card.tsx
+msgid "planDraft.change.shifts"
+msgstr "{shifted, plural, one {One stop moves by up to {maxMin} min} other {# stops move by up to {maxMin} min}}"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
+msgid "planDraft.metric.allKept"
+msgstr "{total, plural, one {Must-do kept} other {All # must-dos kept}}"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.settledTitle"
+msgstr "Already sorted"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
+msgid "planDraft.redraft.open"
+msgstr "Another redraft is still waiting for you. Keep it or put it back first."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.note"
+msgstr "Anything else?"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.back"
+msgstr "Back to the draft"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
+msgid "planDraft.last.boost"
+msgstr "Boost · unlimited redrafts"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/boost-offer.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.spent.boost"
+msgstr "Boost for unlimited redrafts"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.title"
+msgstr "Change a day"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
+msgid "planDraft.reason.cheaper"
+msgstr "Cheaper"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.identicalTitle"
+msgstr "Couldn’t beat this day"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.dayTitle"
+msgstr "Day {n} · {title}"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+msgid "planDraft.diff.keptToast"
+msgstr "Day {n} is {title} now."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.identical"
+msgstr "Day {n} is already the best I can do. That one didn’t count."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+msgid "planDraft.diff.revertedToast"
+msgstr "Day {n} is back as it was."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.dayChip"
+msgstr "Day {n}, {wd}"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.title"
+msgstr "Day {n}, redrafted"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
+msgid "planDraft.metric.fuller"
+msgstr "Fuller pace"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
+msgid "planDraft.redraft.busy"
+msgstr "I need a breather. Ask me again in a little while."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.failed"
+msgstr "It didn’t count. Try again, maybe with another reason."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.keep"
+msgstr "Keep it"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-card.tsx
+msgid "planDraft.change.keep"
+msgstr "Keep this change"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
+msgid "planDraft.last.title"
+msgstr "Last free redraft"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-card.tsx
+msgid "planDraft.change.skip"
+msgstr "Leave this one as it was"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
+msgid "planDraft.reason.lessTrain"
+msgstr "Less train"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
+msgid "planDraft.last.line"
+msgstr "Make it count. Or boost the trip and I’ll keep redrafting until everyone’s happy."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
+msgid "planDraft.last.lineNoBoost"
+msgstr "Make it count. This is the last one on this trip."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
+msgid "planDraft.reason.moreFood"
+msgstr "More food"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-screen.tsx
+msgid "planDraft.diff.keptSub"
+msgstr "Nobody else has seen it yet."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.empty"
+msgstr "Nothing booked, on purpose"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.onlyYou"
+msgstr "Only you see this"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.optional"
+msgstr "Optional"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.putBack"
+msgstr "Put {old} back"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.putBackDay"
+msgstr "Put the day back"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.cta"
+msgstr "Redraft day {day}"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
+msgid "planDraft.redraft.offline"
+msgstr "Redrafting needs signal. Nothing was used up."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/boost-offer.tsx
+#: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
+msgid "planDraft.spent.reset"
+msgstr "Redrafts reset every trip."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
+msgid "planDraft.metric.samePace"
+msgstr "Same pace"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
+msgid "planDraft.metric.transitSame"
+msgstr "Same time on trains"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
+msgid "planDraft.reason.slower"
+msgstr "Slower"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/metric-chips.tsx
+msgid "planDraft.metric.slower"
+msgstr "Slower pace"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.keeps"
+msgstr "Stays put: {keeps}"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
+msgid "planDraft.reason.surprise"
+msgstr "Surprise me"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/reason-chips.tsx
+msgid "planDraft.reason.swap"
+msgstr "Swap it out"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-card.tsx
+msgid "planDraft.change.dropped"
+msgstr "Taken out"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
+msgid "planDraft.redraft.failed"
+msgstr "That didn’t go through. Nothing was used up."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.failedTitle"
+msgstr "That redraft didn’t work"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/boost-offer.tsx
+msgid "planDraft.spent.line"
+msgstr "That’s every free redraft on this trip."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
+msgid "planDraft.last.use"
+msgstr "Use my last one"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.what"
+msgstr "What should change?"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
+msgid "planDraft.change.which"
+msgstr "Which day?"
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
+msgid "planDraft.diff.settled"
+msgstr "You’ve kept or put back this redraft already."
+
+#: ../../apps/mobile/src/features/plan/draft/redraft/outcome-copy.ts
+msgid "planDraft.redraft.conflict"
+msgstr "Your draft changed since you opened this. Check the day and ask again."

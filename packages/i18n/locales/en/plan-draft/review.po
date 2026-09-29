@@ -1,0 +1,244 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 06:30+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
+msgid "planDraft.member.title"
+msgstr "{count, plural, one {{names} is planning} other {{names} are planning}}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.sub"
+msgstr "{dates}, {cost} each. Fix anything before the crew sees it."
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.days"
+msgstr "{days} days"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.daysCost"
+msgstr "{days} days · {cost} each"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.back"
+msgstr "{destination} setup"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.redrafting"
+msgstr "{guideName} is redrafting a day."
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.title"
+msgstr "{guideName}’s draft"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.some"
+msgstr "{made} of {total} must-dos made it"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
+msgid "planDraft.stay.line"
+msgstr "{nights, plural, one {One night · {kind} · about {price} a night each} other {# nights · {kind} · about {price} a night each}}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.missing"
+msgstr "{title} ({owner}): {reason}"
+
+#: ../../apps/mobile/src/features/plan/draft/data/quota-copy.ts
+msgid "planDraft.counter"
+msgstr "{used} of {limit} redrafts used"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.lottery"
+msgstr "{wd} · {first}, lottery result {date}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.one"
+msgstr "{wd} · {name} at {at}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.two"
+msgstr "{wd} · {name} at {at}, {next}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.free"
+msgstr "{wd} · Nothing booked, on purpose"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.all"
+msgstr "All {total} must-dos made it"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.changeDay"
+msgstr "Ask {guideName} to change a day"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.propose"
+msgstr "Build the proposal"
+
+#: ../../apps/mobile/src/features/plan/draft/review/closure-notes.tsx
+msgid "planDraft.closure.line"
+msgstr "Closed {when}: {area}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.miss.closed"
+msgstr "closed on your dates"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.current"
+msgstr "Current"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.a11y"
+msgstr "Day {n}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.redraftReadyDay"
+msgstr "Day {redraftDay}, redrafted, is ready."
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.draft"
+msgstr "Draft my trip"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.made"
+msgstr "Draft of {when}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
+msgid "planDraft.history.restored"
+msgstr "Earlier draft restored"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.history"
+msgstr "Earlier drafts"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.title"
+msgstr "Earlier drafts"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
+msgid "planDraft.stay.estimate"
+msgstr "Estimate. Nothing is held yet."
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.line"
+msgstr "Finish setup and {guideName} drafts the whole trip for you."
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.miss.unknown"
+msgstr "I couldn’t find the place"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.miss.dropped"
+msgstr "it broke the day around it"
+
+#: ../../apps/mobile/src/features/plan/draft/data/commands.ts
+msgid "planDraft.queued.keep"
+msgstr "Keeping a redrafted day"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.line"
+msgstr "New since then: {what}."
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.free"
+msgstr "New since then: {what}. Fitting a new must-do in is free."
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.title"
+msgstr "No draft yet"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.miss.noTime"
+msgstr "no room in the days"
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.failedLine"
+msgstr "Nobody saw it and nothing was used up. Want me to try again?"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.onlyYou"
+msgstr "Only you see this"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.redraftOpen"
+msgstr "Open"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.optional"
+msgstr "Optional"
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.overBudget"
+msgstr "Over the budget by {amount} each. Ask me for a cheaper day."
+
+#: ../../apps/mobile/src/features/plan/draft/data/commands.ts
+msgid "planDraft.queued.revert"
+msgstr "Putting a day back"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.cta"
+msgstr "Redraft affected days"
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.restore"
+msgstr "Restore"
+
+#: ../../apps/mobile/src/features/plan/draft/data/commands.ts
+msgid "planDraft.queued.restore"
+msgstr "Restoring an earlier draft"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.title"
+msgstr "Setup changed since this draft"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.closedNote"
+msgstr "Something here is closed that day"
+
+#: ../../apps/mobile/src/features/plan/draft/review/closure-notes.tsx
+msgid "planDraft.closure.source"
+msgstr "Source"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
+msgid "planDraft.history.restoredSub"
+msgstr "Still only you can see it."
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.budget"
+msgstr "the budget"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.dates"
+msgstr "the dates"
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.failedTitle"
+msgstr "The draft didn’t finish"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.mustDos"
+msgstr "the must-dos"
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.rooms"
+msgstr "the rooms"
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
+msgid "planDraft.member.line"
+msgstr "You’ll see the plan as soon as it’s sent to the crew."
+
+#: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
+msgid "planDraft.stay.freeCancel"
+msgstr "Your booking: free cancellation until {until}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.redraftReady"
+msgstr "Your redraft is ready."

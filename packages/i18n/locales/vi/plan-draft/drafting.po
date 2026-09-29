@@ -1,0 +1,156 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 06:30+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.title"
+msgstr "{days, plural, other {{guideName} đang lên nháp # ngày của bạn}}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.offline"
+msgstr "{days, plural, other {Có sóng lại là mình bắt tay vào # ngày của bạn ngay.}}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.failedTitle"
+msgstr "{guideName} chưa làm xong"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.stays"
+msgstr "{n, plural, other {Đã chọn # chỗ {stayType} ở {area}}}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.daysPlanned"
+msgstr "{n, plural, other {Đã lên # ngày}}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.readProfiles"
+msgstr "{n, plural, other {Đã đọc # hồ sơ sở thích}}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.line"
+msgstr "Khoảng 20 giây. Bạn duyệt trước khi ai khác thấy."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.back"
+msgstr "Về phần chuẩn bị"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.balance"
+msgstr "Cân {early} người dậy sớm và {late} cú đêm"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.days"
+msgstr "Đang cân các ngày"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.season"
+msgstr "Đã xem {signal}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.seasonNone"
+msgstr "Đã xem mùa"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.check"
+msgstr "Đang xem đồ ăn và giờ mở cửa"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.hours"
+msgstr "Đang xem giờ mở cửa"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.season"
+msgstr "Đang xem mùa"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.dayCard"
+msgstr "Ngày {n} · {theme}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.again"
+msgstr "Lên nháp lại"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.stoppedTitle"
+msgstr "Đã dừng bản nháp"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.food"
+msgstr "Đang tìm đồ ăn {dietary} cho {name}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.blocked"
+msgstr "Mình chưa bắt đầu được. Xong phần chuẩn bị rồi thử lại nhé."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.fail.model"
+msgstr "Mình không mở được sổ tay. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.fail.places"
+msgstr "Mình chưa biết đủ chỗ ở đó."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.noDates"
+msgstr "Chốt ngày trước đã, rồi mình lên nháp."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.failed"
+msgstr "Chưa ai thấy và chưa tốn gì. Để mình thử lại nhé?"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.stopped"
+msgstr "Chưa ai thấy. Muốn lúc nào thì bắt đầu lại."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.blockedTitle"
+msgstr "Chưa sẵn sàng"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.outline"
+msgstr "Đang chọn chỗ ở"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.profiles"
+msgstr "Đang đọc hồ sơ sở thích"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.saving"
+msgstr "Đang lưu bản nháp"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.pace"
+msgstr "Đang chỉnh nhịp đi"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.fail.setup"
+msgstr "Phần chuẩn bị chưa xong."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.cancel"
+msgstr "Dừng lên nháp"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.slow"
+msgstr "Lâu hơn thường lệ một chút. Xong mình báo bạn."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.fail.other"
+msgstr "Bước này chưa ổn."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.offlineTitle"
+msgstr "Đang chờ sóng"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.saved"
+msgstr "Bản nháp đã sẵn sàng"
