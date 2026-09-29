@@ -65,8 +65,12 @@ appId: app.critterpass.dev
 # scrim. Edge swipes overshoot on Android, where a back on Home leaves the app.
 - extendedWaitUntil:
     visible:
-      id: 'guest-back'
+      id: 'guest-pitch'
     timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'guest-back'
+    direction: UP
 - tapOn:
     id: 'guest-back'
 - extendedWaitUntil:
