@@ -671,7 +671,9 @@ exports[`destination board draws a sticker per place with its votes and queues a
                       "letterSpacing": 0.88,
                       "lineHeight": 15.399999999999999,
                     },
-                    undefined,
+                    {
+                      "textAlign": "center",
+                    },
                     {
                       "marginTop": -0.2970000000000015,
                       "paddingTop": 0.2970000000000015,
