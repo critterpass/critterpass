@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# From the splash: the name page with the keyboard up (its NEXT footer riding the keyboard), then
+# the join-code page with the keyboard up. ${PREFIX} names each screenshot.
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- tapOn:
+    id: 'onboarding-open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-name-field'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-2-name-keyboard-down
+- tapOn:
+    id: 'onboarding-name-field'
+- inputText: 'Winston'
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3a-2-name-keyboard-up
+- hideKeyboard
+- runFlow: ../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-invite-code'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-invite-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-screen'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-join-code-keyboard-up
