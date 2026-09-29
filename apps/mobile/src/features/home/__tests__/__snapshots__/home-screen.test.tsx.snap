@@ -1331,6 +1331,7 @@ exports[`modes renders no trip with the pitch control when nothing is planned 1`
               },
               {
                 "alignItems": "center",
+                "gap": 12,
                 "justifyContent": "space-between",
               },
               {
@@ -1448,6 +1449,34 @@ exports[`modes renders no trip with the pitch control when nothing is planned 1`
                 </View>
                 <Text
                   allowFontScaling={false}
+                  numberOfLines={1}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#a9a3c0",
+                        "fontFamily": "Geist-700",
+                        "fontSize": 11,
+                        "fontStyle": "normal",
+                        "letterSpacing": 1.76,
+                        "lineHeight": 15.399999999999999,
+                      },
+                      {
+                        "flexShrink": 1,
+                      },
+                      {
+                        "marginTop": -0.2970000000000015,
+                        "paddingTop": 0.2970000000000015,
+                      },
+                    ]
+                  }
+                >
+                  HEY WINSTON
+                </Text>
+                <Text
+                  accessibilityElementsHidden={true}
+                  allowFontScaling={false}
                   onLayout={[Function]}
                   onTextLayout={[Function]}
                   style={
@@ -1468,7 +1497,7 @@ exports[`modes renders no trip with the pitch control when nothing is planned 1`
                     ]
                   }
                 >
-                  HEY WINSTON
+                  ›
                 </Text>
               </View>
             </View>
@@ -1506,6 +1535,7 @@ exports[`modes renders no trip with the pitch control when nothing is planned 1`
               onStartShouldSetResponder={[Function]}
               style={
                 {
+                  "alignSelf": "stretch",
                   "justifyContent": "center",
                   "minHeight": 44,
                 }
@@ -1537,18 +1567,21 @@ exports[`modes renders no trip with the pitch control when nothing is planned 1`
                       {
                         "color": "#f4efe4",
                         "fontFamily": "Archivo-W78-900",
-                        "fontSize": 28,
+                        "fontSize": 22,
                         "fontStyle": "normal",
-                        "letterSpacing": 0.56,
-                        "lineHeight": 24.08,
+                        "letterSpacing": 0.44,
+                        "lineHeight": 18.919999999999998,
                       },
-                      undefined,
                       {
-                        "marginTop": -11.451999999999998,
-                        "paddingTop": 11.451999999999998,
+                        "flexShrink": 1,
+                      },
+                      {
+                        "marginTop": -8.997999999999998,
+                        "paddingTop": 8.997999999999998,
                       },
                     ]
                   }
+                  testID="home-header-crew-name"
                 >
                   THE BALI SIX
                 </Text>
@@ -1652,11 +1685,11 @@ exports[`modes renders no trip with the pitch control when nothing is planned 1`
                       {
                         "alignItems": "center",
                         "borderColor": "#2c2750",
-                        "borderRadius": 13,
+                        "borderRadius": 11,
                         "borderWidth": 2,
-                        "height": 26,
+                        "height": 22,
                         "justifyContent": "center",
-                        "width": 26,
+                        "width": 22,
                       },
                       null,
                       {
@@ -1696,14 +1729,14 @@ exports[`modes renders no trip with the pitch control when nothing is planned 1`
                       {
                         "alignItems": "center",
                         "borderColor": "#2c2750",
-                        "borderRadius": 13,
+                        "borderRadius": 11,
                         "borderWidth": 2,
-                        "height": 26,
+                        "height": 22,
                         "justifyContent": "center",
-                        "width": 26,
+                        "width": 22,
                       },
                       {
-                        "marginStart": -8,
+                        "marginStart": -7,
                       },
                       {
                         "backgroundColor": "#ff5fa8",
@@ -1742,14 +1775,14 @@ exports[`modes renders no trip with the pitch control when nothing is planned 1`
                       {
                         "alignItems": "center",
                         "borderColor": "#2c2750",
-                        "borderRadius": 13,
+                        "borderRadius": 11,
                         "borderWidth": 2,
-                        "height": 26,
+                        "height": 22,
                         "justifyContent": "center",
-                        "width": 26,
+                        "width": 22,
                       },
                       {
-                        "marginStart": -8,
+                        "marginStart": -7,
                       },
                       {
                         "backgroundColor": "#4f86ff",
@@ -2231,6 +2264,7 @@ exports[`modes renders the final vote through the registered slot 1`] = `
               },
               {
                 "alignItems": "center",
+                "gap": 12,
                 "justifyContent": "space-between",
               },
               {
@@ -2348,6 +2382,34 @@ exports[`modes renders the final vote through the registered slot 1`] = `
                 </View>
                 <Text
                   allowFontScaling={false}
+                  numberOfLines={1}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#a9a3c0",
+                        "fontFamily": "Geist-700",
+                        "fontSize": 11,
+                        "fontStyle": "normal",
+                        "letterSpacing": 1.76,
+                        "lineHeight": 15.399999999999999,
+                      },
+                      {
+                        "flexShrink": 1,
+                      },
+                      {
+                        "marginTop": -0.2970000000000015,
+                        "paddingTop": 0.2970000000000015,
+                      },
+                    ]
+                  }
+                >
+                  HEY WINSTON
+                </Text>
+                <Text
+                  accessibilityElementsHidden={true}
+                  allowFontScaling={false}
                   onLayout={[Function]}
                   onTextLayout={[Function]}
                   style={
@@ -2368,7 +2430,7 @@ exports[`modes renders the final vote through the registered slot 1`] = `
                     ]
                   }
                 >
-                  HEY WINSTON
+                  ›
                 </Text>
               </View>
             </View>
@@ -2406,6 +2468,7 @@ exports[`modes renders the final vote through the registered slot 1`] = `
               onStartShouldSetResponder={[Function]}
               style={
                 {
+                  "alignSelf": "stretch",
                   "justifyContent": "center",
                   "minHeight": 44,
                 }
@@ -2437,18 +2500,21 @@ exports[`modes renders the final vote through the registered slot 1`] = `
                       {
                         "color": "#f4efe4",
                         "fontFamily": "Archivo-W78-900",
-                        "fontSize": 28,
+                        "fontSize": 22,
                         "fontStyle": "normal",
-                        "letterSpacing": 0.56,
-                        "lineHeight": 24.08,
+                        "letterSpacing": 0.44,
+                        "lineHeight": 18.919999999999998,
                       },
-                      undefined,
                       {
-                        "marginTop": -11.451999999999998,
-                        "paddingTop": 11.451999999999998,
+                        "flexShrink": 1,
+                      },
+                      {
+                        "marginTop": -8.997999999999998,
+                        "paddingTop": 8.997999999999998,
                       },
                     ]
                   }
+                  testID="home-header-crew-name"
                 >
                   THE BALI SIX
                 </Text>
@@ -2552,11 +2618,11 @@ exports[`modes renders the final vote through the registered slot 1`] = `
                       {
                         "alignItems": "center",
                         "borderColor": "#2c2750",
-                        "borderRadius": 13,
+                        "borderRadius": 11,
                         "borderWidth": 2,
-                        "height": 26,
+                        "height": 22,
                         "justifyContent": "center",
-                        "width": 26,
+                        "width": 22,
                       },
                       null,
                       {
@@ -2596,14 +2662,14 @@ exports[`modes renders the final vote through the registered slot 1`] = `
                       {
                         "alignItems": "center",
                         "borderColor": "#2c2750",
-                        "borderRadius": 13,
+                        "borderRadius": 11,
                         "borderWidth": 2,
-                        "height": 26,
+                        "height": 22,
                         "justifyContent": "center",
-                        "width": 26,
+                        "width": 22,
                       },
                       {
-                        "marginStart": -8,
+                        "marginStart": -7,
                       },
                       {
                         "backgroundColor": "#ff5fa8",
@@ -2642,14 +2708,14 @@ exports[`modes renders the final vote through the registered slot 1`] = `
                       {
                         "alignItems": "center",
                         "borderColor": "#2c2750",
-                        "borderRadius": 13,
+                        "borderRadius": 11,
                         "borderWidth": 2,
-                        "height": 26,
+                        "height": 22,
                         "justifyContent": "center",
-                        "width": 26,
+                        "width": 22,
                       },
                       {
-                        "marginStart": -8,
+                        "marginStart": -7,
                       },
                       {
                         "backgroundColor": "#4f86ff",
@@ -3205,6 +3271,7 @@ exports[`modes renders the recap card for two weeks after the last day 1`] = `
               },
               {
                 "alignItems": "center",
+                "gap": 12,
                 "justifyContent": "space-between",
               },
               {
@@ -3322,6 +3389,34 @@ exports[`modes renders the recap card for two weeks after the last day 1`] = `
                 </View>
                 <Text
                   allowFontScaling={false}
+                  numberOfLines={1}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#a9a3c0",
+                        "fontFamily": "Geist-700",
+                        "fontSize": 11,
+                        "fontStyle": "normal",
+                        "letterSpacing": 1.76,
+                        "lineHeight": 15.399999999999999,
+                      },
+                      {
+                        "flexShrink": 1,
+                      },
+                      {
+                        "marginTop": -0.2970000000000015,
+                        "paddingTop": 0.2970000000000015,
+                      },
+                    ]
+                  }
+                >
+                  HEY WINSTON
+                </Text>
+                <Text
+                  accessibilityElementsHidden={true}
+                  allowFontScaling={false}
                   onLayout={[Function]}
                   onTextLayout={[Function]}
                   style={
@@ -3342,7 +3437,7 @@ exports[`modes renders the recap card for two weeks after the last day 1`] = `
                     ]
                   }
                 >
-                  HEY WINSTON
+                  ›
                 </Text>
               </View>
             </View>
@@ -3380,6 +3475,7 @@ exports[`modes renders the recap card for two weeks after the last day 1`] = `
               onStartShouldSetResponder={[Function]}
               style={
                 {
+                  "alignSelf": "stretch",
                   "justifyContent": "center",
                   "minHeight": 44,
                 }
@@ -3411,18 +3507,21 @@ exports[`modes renders the recap card for two weeks after the last day 1`] = `
                       {
                         "color": "#f4efe4",
                         "fontFamily": "Archivo-W78-900",
-                        "fontSize": 28,
+                        "fontSize": 22,
                         "fontStyle": "normal",
-                        "letterSpacing": 0.56,
-                        "lineHeight": 24.08,
+                        "letterSpacing": 0.44,
+                        "lineHeight": 18.919999999999998,
                       },
-                      undefined,
                       {
-                        "marginTop": -11.451999999999998,
-                        "paddingTop": 11.451999999999998,
+                        "flexShrink": 1,
+                      },
+                      {
+                        "marginTop": -8.997999999999998,
+                        "paddingTop": 8.997999999999998,
                       },
                     ]
                   }
+                  testID="home-header-crew-name"
                 >
                   THE BALI SIX
                 </Text>
@@ -3526,11 +3625,11 @@ exports[`modes renders the recap card for two weeks after the last day 1`] = `
                       {
                         "alignItems": "center",
                         "borderColor": "#2c2750",
-                        "borderRadius": 13,
+                        "borderRadius": 11,
                         "borderWidth": 2,
-                        "height": 26,
+                        "height": 22,
                         "justifyContent": "center",
-                        "width": 26,
+                        "width": 22,
                       },
                       null,
                       {
@@ -3570,14 +3669,14 @@ exports[`modes renders the recap card for two weeks after the last day 1`] = `
                       {
                         "alignItems": "center",
                         "borderColor": "#2c2750",
-                        "borderRadius": 13,
+                        "borderRadius": 11,
                         "borderWidth": 2,
-                        "height": 26,
+                        "height": 22,
                         "justifyContent": "center",
-                        "width": 26,
+                        "width": 22,
                       },
                       {
-                        "marginStart": -8,
+                        "marginStart": -7,
                       },
                       {
                         "backgroundColor": "#ff5fa8",
@@ -3616,14 +3715,14 @@ exports[`modes renders the recap card for two weeks after the last day 1`] = `
                       {
                         "alignItems": "center",
                         "borderColor": "#2c2750",
-                        "borderRadius": 13,
+                        "borderRadius": 11,
                         "borderWidth": 2,
-                        "height": 26,
+                        "height": 22,
                         "justifyContent": "center",
-                        "width": 26,
+                        "width": 22,
                       },
                       {
-                        "marginStart": -8,
+                        "marginStart": -7,
                       },
                       {
                         "backgroundColor": "#4f86ff",
