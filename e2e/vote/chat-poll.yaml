@@ -52,9 +52,10 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'new-poll-post'
+# The card sets the question in capitals.
 - extendedWaitUntil:
     visible:
-      text: 'Dinner tonight?'
+      text: '(?i)dinner tonight\?'
     timeout: 15000
 - tapOn:
     id: 'poll-option-0'
