@@ -1,7 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
 import { artifactOf, overrideFor } from './resolve-build';
-import { annotation, flowSlug, maestroEnvArgs, parseShardArgs } from './run-shard';
+import {
+  annotation,
+  flowSlug,
+  isMaestroFailureShot,
+  maestroEnvArgs,
+  parseShardArgs,
+} from './run-shard';
 
 describe('parseShardArgs', () => {
   it('splits the flow list and resolves paths against the working directory', () => {
@@ -49,6 +55,11 @@ describe('parseShardArgs', () => {
 describe('shard helpers', () => {
   it('names a flow after its path', () => {
     expect(flowSlug('/repo/e2e/home/first-run.yaml', '/repo')).toBe('e2e__home__first-run');
+  });
+
+  it("tells Maestro's failure screenshots from the flow's own", () => {
+    expect(isMaestroFailureShot('screenshot-❌-1790674881552-(app-launch)')).toBe(true);
+    expect(isMaestroFailureShot('en-3b-1-first-run')).toBe(false);
   });
 
   it('forwards only the variables that are set', () => {

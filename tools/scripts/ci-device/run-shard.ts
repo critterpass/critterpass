@@ -80,6 +80,11 @@ export function maestroEnvArgs(names: readonly string[], env: NodeJS.ProcessEnv)
   });
 }
 
+/** Maestro names the screenshot it takes when a flow fails `screenshot-❌-<time>-(<flow>)`. */
+export function isMaestroFailureShot(name: string): boolean {
+  return name.startsWith('screenshot-❌-');
+}
+
 /** A GitHub Actions workflow command, with its data escaped. */
 export function annotation(level: 'error' | 'warning', title: string, message: string): string {
   const escape = (text: string) =>
@@ -155,7 +160,9 @@ export function runShard(options: ShardOptions): {
       uiQa.set(label, scanUiQa(adb(options.device, ['logcat', '-d', '-s', 'ReactNativeJS:V'])));
     }
     summary(`| ${passed ? 'pass' : '**fail**'} | \`${label}\` | ${String(seconds)}s |`);
-    return { flow, dir, names: flowScreenshotNames(flow, dir) };
+    // Maestro's own `screenshot-❌-…` failure images stay in the flow's run directory.
+    const names = flowScreenshotNames(flow, dir).filter((name) => !isMaestroFailureShot(name));
+    return { flow, dir, names };
   });
   for (const { from, to } of planCopies(results, shots)) {
     if (existsSync(from)) copyFileSync(from, to);
@@ -173,7 +180,8 @@ function captureFailure(options: ShardOptions, slug: string): void {
   };
   if (options.platform === 'android') {
     save(`${slug}.png`, 'adb', ['-s', options.device, 'exec-out', 'screencap', '-p']);
-    save(`${slug}.logcat.txt`, 'adb', ['-s', options.device, 'logcat', '-d', '-t', '3000']);
+    save(`${slug}.logcat.txt`, 'adb', ['-s', options.device, 'logcat', '-d', '-b', 'all']);
+    save(`${slug}.crash.txt`, 'adb', ['-s', options.device, 'logcat', '-d', '-b', 'crash']);
   } else {
     save(`${slug}.png`, 'xcrun', ['simctl', 'io', options.device, 'screenshot', '-']);
     const predicate = 'process BEGINSWITH "CritterPass" OR subsystem == "com.facebook.react.log"';
