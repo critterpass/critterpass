@@ -45,6 +45,9 @@ appId: app.critterpass.dev
     visible:
       id: 'solo-confirm'
     timeout: 5000
+- scrollUntilVisible:
+    element:
+      id: 'solo-cancel'
 - takeScreenshot: ${PREFIX}-3b-8-solo-confirm
 - tapOn:
     id: 'solo-cancel'
