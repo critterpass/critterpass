@@ -38,6 +38,7 @@ import { registerTravelDataRoutes } from './travel-data/routes';
 import { registerCostRoutes } from './cost/routes';
 import { createR2Client } from './media/r2';
 import { mediaSigningConfigFromEnv } from './media/sign';
+import { registerDevRoutesFromEnv } from './dev/routes';
 import { registerGeoRoutesFromEnv } from './routes/geo';
 import { registerMediaRoutes } from './routes/media';
 import { createMapboxRoutingProvider } from './routing/eta';
@@ -235,6 +236,9 @@ registerAiRoutes(app, commandDoors, env, logger);
 registerTravelDataRoutes(app, commandDoors);
 registerCostRoutes(app, commandDoors);
 registerGeoRoutesFromEnv(app, commandDoors, env.GEOIP_CITY_MMDB, logger);
+if (registerDevRoutesFromEnv(app, { ...commandDoors, logger }, env)) {
+  logger.warn('POST /v1/dev/seed-demo is mounted (DEV_SEED_ENABLED)');
+}
 registerLinkRoutes(app, {
   ...commandDoors,
   links: linkProviders,

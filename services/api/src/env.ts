@@ -109,6 +109,8 @@ export const apiEnvSchema = z.object({
       .regex(/^\d{6}$/)
       .optional(),
   ),
+  /** Mounts `POST /v1/dev/seed-demo` (src/dev/routes.ts); refused whenever APP_ENV is production. */
+  DEV_SEED_ENABLED: boolFlag(false),
 
   // --- Social sign-in (Apple/Google ID-token linking); button hidden client-side via server config
   // when unset, `link-social`/`sign-in/social` for that provider fails with Better Auth's own
