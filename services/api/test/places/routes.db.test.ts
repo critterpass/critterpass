@@ -17,6 +17,7 @@ let postgres: StartedPostgreSqlContainer;
 let pool: pg.Pool;
 let destinationId: string;
 let poiId: string;
+let noHoursPoiId: string;
 
 const TEST_UID = '00000000-0000-7000-8000-000000000001';
 
@@ -64,11 +65,13 @@ beforeAll(async () => {
     'INSERT INTO poi_live_checks (poi_id, is_open_now, checked_at) VALUES ($1, true, now())',
     [poiId],
   );
-  await pool.query(
+  const { rows: noHoursRows } = await pool.query<{ id: string }>(
     `INSERT INTO pois (destination_id, name, category, lat, lng)
-     VALUES ($1, 'Fushimi Inari Taisha', 'temple_shrine', 34.9671, 135.7727)`,
+     VALUES ($1, 'Fushimi Inari Taisha', 'temple_shrine', 34.9671, 135.7727)
+     RETURNING id`,
     [destinationId],
   );
+  noHoursPoiId = noHoursRows[0]!.id;
 }, 180_000);
 
 afterAll(async () => {
@@ -135,6 +138,15 @@ describe('GET /v1/places/:id', () => {
     expect(body.name).toBe('Nishiki Market');
     expect(body.liveIsOpenNow).toBe(true);
     expect(body.hoursVerifiedAt).not.toBeNull();
+  });
+
+  it('answers for a POI with no stored hours, with opening state unknown', async () => {
+    const app = buildTestApp();
+    const response = await app.request(`/v1/places/${noHoursPoiId}`);
+    expect(response.status).toBe(200);
+    const body = (await response.json()) as { openNow: boolean | null; nextOpenAt: string | null };
+    expect(body.openNow).toBeNull();
+    expect(body.nextOpenAt).toBeNull();
   });
 
   it('returns 404 NOT_FOUND for an unknown POI', async () => {
