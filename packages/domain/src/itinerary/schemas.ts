@@ -15,8 +15,8 @@ const instant = z.iso.datetime({ offset: true });
 const minor = z.number().int().nonnegative();
 const currency = z.string().regex(/^[A-Z]{3}$/u);
 
-/** What a drafted item is; stored in `plan_items.category`. */
-export const DRAFT_ITEM_KINDS = ['activity', 'meal', 'stay'] as const;
+/** What a drafted item is; stored in `plan_items.category`. Stays are night blocks on the version. */
+export const DRAFT_ITEM_KINDS = ['activity', 'meal'] as const;
 export const draftItemKindSchema = z.enum(DRAFT_ITEM_KINDS);
 export type DraftItemKind = z.infer<typeof draftItemKindSchema>;
 
@@ -26,12 +26,11 @@ export const lockedReasonSchema = z.enum(LOCKED_REASONS);
 export type LockedReason = z.infer<typeof lockedReasonSchema>;
 
 /**
- * Item flags the review screen shows. `over_budget` and `closed_on_date` are warnings the planner
- * raised; `slot_available` is set only
- * from a supplier's availability answer; `estimate` marks a price from our cost bands.
+ * Item flags the review screen shows. `closed_on_date` marks a stop in an area a cited closure
+ * names; `slot_available` is set only from a supplier's availability answer; `estimate` marks a
+ * price from our cost bands.
  */
 export const DRAFT_ITEM_FLAGS = [
-  'over_budget',
   'closed_on_date',
   'slot_available',
   'estimate',
