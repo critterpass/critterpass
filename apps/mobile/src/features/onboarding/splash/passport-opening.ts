@@ -67,10 +67,18 @@ export function coverFrame(stage: Frame): Frame {
   };
 }
 
-/** The name page's card frame inside a page body `bodyWidth` wide. */
-export function nameCardFrame(bodyWidth: number): Frame {
+/**
+ * The name page's card frame in the stage's parent, `bodyWidth` wide, whose content starts
+ * `bodyTop` down (the safe-area padding the stage sits under).
+ */
+export function nameCardFrame(bodyWidth: number, bodyTop: number): Frame {
   const width = bodyWidth - NAME_CARD.side * 2;
-  return { x: NAME_CARD.side, y: NAME_CARD.top, width, height: width * NAME_CARD.aspect };
+  return {
+    x: NAME_CARD.side,
+    y: bodyTop + NAME_CARD.top,
+    width,
+    height: width * NAME_CARD.aspect,
+  };
 }
 
 export interface PassportOpening {

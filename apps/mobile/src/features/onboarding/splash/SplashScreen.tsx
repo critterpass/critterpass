@@ -161,7 +161,7 @@ export function SplashScreen() {
   }));
   // The page under the cover, from the cover's frame to page one's card (both in the page body).
   const from = stage === null ? null : coverFrame(stage);
-  const to = nameCardFrame(bodyWidth);
+  const to = nameCardFrame(bodyWidth, stage?.y ?? 0);
   const pageStyle = useAnimatedStyle(() => {
     const g = passport.grow.value;
     if (from === null) return { width: COVER_W, height: COVER_H, borderRadius: 18 };
@@ -230,8 +230,11 @@ export function SplashScreen() {
               <Animated.View style={[styles.sheen, sheenStyle]} pointerEvents="none" />
             </View>
           </Animated.View>
-          <Animated.View style={[styles.tokek, pop, chromeStyle]}>
-            <Sticker kind={tokek.kind} name={tokek.name} size={84} />
+          {/* Fading and popping are two animated styles on two views: on one they fight over opacity. */}
+          <Animated.View style={[styles.tokek, chromeStyle]}>
+            <Animated.View style={pop}>
+              <Sticker kind={tokek.kind} name={tokek.name} size={84} />
+            </Animated.View>
           </Animated.View>
         </Animated.View>
       </View>
