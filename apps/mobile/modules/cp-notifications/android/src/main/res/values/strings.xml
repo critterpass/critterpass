@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Notification channel names and descriptions, shown in the system notification settings. -->
+  <string name="cp_channel_always">Can\'t wait</string>
+  <string name="cp_channel_always_description">Flight changes, deadlines and crew pings that need you now</string>
+  <string name="cp_channel_alarm">Leave-by alarms</string>
+  <string name="cp_channel_alarm_description">The alarm that tells you when to head out</string>
+  <string name="cp_channel_crew_chat">Crew chat</string>
+  <string name="cp_channel_crew_chat_description">Messages from your crews</string>
+  <string name="cp_channel_votes">Votes</string>
+  <string name="cp_channel_votes_description">Polls that need your pick and their winners</string>
+  <string name="cp_channel_money">Money</string>
+  <string name="cp_channel_money_description">Expenses, splits and settle-ups</string>
+  <string name="cp_channel_trip">Trip updates</string>
+  <string name="cp_channel_trip_description">Plans, RSVPs and who\'s joined</string>
+  <string name="cp_channel_guide">Guide tips</string>
+  <string name="cp_channel_guide_description">Nudges and tips from your guide</string>
+  <string name="cp_channel_critters">Critters</string>
+  <string name="cp_channel_critters_description">Eggs hatching and critters found</string>
+  <string name="cp_channel_roundup">Evening roundup</string>
+  <string name="cp_channel_roundup_description">One quiet summary of what\'s next</string>
+  <string name="cp_channel_sos">SOS</string>
+  <string name="cp_channel_sos_description">Emergency alerts from your crew</string>
+  <!-- The reader of a conversation notification (MessagingStyle's own person). -->
+  <string name="cp_sender_you">You</string>
+  <!-- A guide persona's name as a notification sender, with the AI disclosure. -->
+  <string name="cp_sender_guide_display_name">%1$s · AI guide</string>
+</resources>

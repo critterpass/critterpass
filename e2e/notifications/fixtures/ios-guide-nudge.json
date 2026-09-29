@@ -1,0 +1,18 @@
+{
+  "Simulator Target Bundle": "app.critterpass.dev",
+  "aps": {
+    "alert": { "title": "Tokek", "body": "Your crew has a vote waiting in the inbox." },
+    "category": "cp.generic",
+    "interruption-level": "active",
+    "relevance-score": 0.5,
+    "mutable-content": 1
+  },
+  "cp": {
+    "v": 1,
+    "nid": "0199a1c2-7b3e-7c10-9a55-3f1f6e2d4c01",
+    "type": "nudge",
+    "deeplink": "/inbox",
+    "sender": { "kind": "guide", "id": "tokek", "name": "Tokek", "avatar": "guide-tokek" },
+    "full": true
+  }
+}

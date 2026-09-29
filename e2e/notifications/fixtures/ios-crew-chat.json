@@ -1,0 +1,20 @@
+{
+  "Simulator Target Bundle": "app.critterpass.dev",
+  "aps": {
+    "alert": { "title": "Mai · ${CREW_NAME}", "body": "Landing at 6, who's up for dinner?" },
+    "category": "cp.chat",
+    "thread-id": "${CREW_ID}",
+    "interruption-level": "active",
+    "relevance-score": 0.5,
+    "mutable-content": 1
+  },
+  "cp": {
+    "v": 1,
+    "nid": "0199a1c2-7b3e-7c10-9a55-3f1f6e2d4c02",
+    "type": "crew_chat",
+    "deeplink": "/crew/${CREW_ID}/chat",
+    "crew_id": "${CREW_ID}",
+    "sender": { "kind": "member", "id": "0199a1c2-7b3e-7c10-9a55-3f1f6e2d4c10", "name": "Mai" },
+    "full": true
+  }
+}
