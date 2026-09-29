@@ -66,6 +66,13 @@ const ACTIVITY_RULES: Partial<Record<DomainEventType, ActivityProjection>> = {
     objectKind: 'trip_participant',
     textKey: 'activity.seat_taken',
   },
+  'poll.created': { verb: 'asked', objectKind: 'poll', textKey: 'activity.poll_created' },
+  'poll.candidate_added': {
+    verb: 'pitched',
+    objectKind: 'poll_option',
+    textKey: 'activity.poll_candidate_added',
+  },
+  'poll.closed': { verb: 'decided', objectKind: 'poll', textKey: 'activity.poll_closed' },
 };
 
 /** The activity-ticker projection for `type`, or `null` if it is a private event that never projects. */

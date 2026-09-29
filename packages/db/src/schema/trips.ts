@@ -44,6 +44,8 @@ export const destinations = pgTable('destinations', {
   tz: text('tz'),
   /** Place-level geofence for all 61 places, reviewed in the content factory. No consumer yet. */
   geofence: geographyMultiPolygon('geofence'),
+  /** The place (critter set) this destination belongs to; no FK here to keep the modules acyclic. */
+  critterSetId: uuid('critter_set_id'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

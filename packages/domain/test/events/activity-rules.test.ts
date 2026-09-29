@@ -72,6 +72,21 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'meetup.moved',
   'meetup.crew_close',
   'crew.pinged',
+  // Single ballots, stage moves and reveals are the vote's own UI; a pitch reaches the ticker once
+  // it is on the board, and saved places are personal.
+  'poll.candidate_removed',
+  'poll.stage_changed',
+  'poll.cancelled',
+  'poll.reveal_seen',
+  'poll.lead_changed',
+  'poll.closing_soon',
+  'ballot.cast',
+  'ballot.changed',
+  'ballot.retracted',
+  'pitch.created',
+  'pitch.queued',
+  'place.saved',
+  'place.unsaved',
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

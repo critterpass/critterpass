@@ -54,6 +54,7 @@ streams:
       - SELECT * FROM stamps WHERE user_id = auth.user_id()
       - SELECT * FROM taste_profiles WHERE user_id = auth.user_id()
       - SELECT * FROM avatars WHERE user_id = auth.user_id()
+      - SELECT * FROM poll_reveals WHERE user_id = auth.user_id()
   trip:
     queries:
       - |-
@@ -133,6 +134,22 @@ streams:
           AND trip_id IN (SELECT trip_id FROM trip_entitlements WHERE boost_active = true)
       - |-
         SELECT * FROM location_shares
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT * FROM polls
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT * FROM poll_options
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT * FROM ballots
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT * FROM pitches
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
       - |-
@@ -301,3 +318,10 @@ streams:
       WHERE destination_id = subscription.parameter('destination_id')
         AND status != 'hidden'
         AND merged_into_id IS NULL
+  crew_polls:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM polls WHERE crew_id IN my_crews
+      - SELECT * FROM poll_options WHERE crew_id IN my_crews
+      - SELECT * FROM ballots WHERE crew_id IN my_crews
+      - SELECT * FROM pitches WHERE crew_id IN my_crews

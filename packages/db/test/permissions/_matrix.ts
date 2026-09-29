@@ -1070,6 +1070,35 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // Polls on the fixture trip: crew-visible, written by commands only, except the voter's own
+  // ballot (the organiser voted; everyone else may insert only while eligible) and reveal.
+  pitches: {
+    selectProbe: { sql: 'SELECT 1 FROM pitches WHERE crew_id = $1', params: (f) => [f.crewId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  polls: {
+    selectProbe: { sql: 'SELECT 1 FROM polls WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  poll_options: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM poll_options WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  ballots: {
+    selectProbe: { sql: 'SELECT 1 FROM ballots WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, true, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, true),
+    },
+  },
+  poll_reveals: { selectProbe: ownRowProbe('poll_reveals'), expectations: SELF_ONLY },
   inbox_items: {
     selectProbe: {
       sql: 'SELECT 1 FROM inbox_items WHERE user_id = $1',
