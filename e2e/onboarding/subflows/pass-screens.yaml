@@ -85,7 +85,12 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'home-row-SIN'
-- hideKeyboard
+# Android's hideKeyboard presses back when picking the row already closed the keyboard.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3a-5-home
 - tapOn:
@@ -129,9 +134,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'country-picker-close'
 - waitForAnimationToEnd
-- swipe:
-    start: 2%, 50%
-    end: 90%, 50%
+- runFlow: back.yaml
 - extendedWaitUntil:
     visible:
       id: 'save-not-now'

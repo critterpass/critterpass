@@ -24,7 +24,12 @@ appId: app.critterpass.dev
 - inputText: 'SIN'
 - tapOn:
     id: 'home-row-SIN'
-- hideKeyboard
+# Android's hideKeyboard presses back when picking the row already closed the keyboard.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
 - tapOn:
     id: 'onboarding-home-next'
 - extendedWaitUntil:
