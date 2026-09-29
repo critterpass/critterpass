@@ -82,6 +82,12 @@ export {
   calendarDays,
   calendarSources,
   dateWindowOptions,
+  dietaryProfiles,
+  mustDos,
+  participantDietaryFlags,
+  roomAssignments,
+  roomPlans,
+  roomPrefs,
   tripBudgetAggregates,
 } from './setup';
 export { changeSets, guideActions, itineraryVersions, planDays, planItems } from './plan';

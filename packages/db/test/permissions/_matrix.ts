@@ -1154,6 +1154,52 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: CREW_VISIBLE_READ,
   },
+  room_plans: {
+    selectProbe: { sql: 'SELECT 1 FROM room_plans WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  room_assignments: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM room_assignments WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  participant_dietary_flags: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM participant_dietary_flags WHERE trip_id = $1 AND user_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  // Own room chips and dietary profile: the owner alone; room chips only on a trip of their crew.
+  room_prefs: {
+    selectProbe: ownRowProbe('room_prefs'),
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(true, true, true),
+    },
+  },
+  dietary_profiles: { selectProbe: ownRowProbe('dietary_profiles'), expectations: SELF_ONLY },
+  // Must-dos: the crew reads them; a member adds and edits only their own.
+  must_dos: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM must_dos WHERE trip_id = $1 AND owner_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, true, false),
+      coOrganiser: op(true, true, false),
+      organiser: op(true, true, true),
+    },
+  },
   inbox_items: {
     selectProbe: {
       sql: 'SELECT 1 FROM inbox_items WHERE user_id = $1',

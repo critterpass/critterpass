@@ -1,7 +1,8 @@
 /**
  * Trip setup rows for the shared permission fixture: the organiser's own calendar source, day,
- * budget max and default, a private ask to the organiser, and one derived row of each crew-level
- * setup table on the fixture trip.
+ * budget max and default, room chips, must-do and consented dietary profile (whose flags derive
+ * onto the fixture trip), a private ask to the organiser, and one row of each crew-level setup
+ * table on the fixture trip.
  */
 import type pg from 'pg';
 
@@ -58,5 +59,28 @@ export async function seedSetupRows(tx: pg.PoolClient, input: SetupFixtureInput)
   await tx.query(
     `INSERT INTO budget_plans (trip_id, target_minor, currency) VALUES ($1, 120000, 'USD')`,
     [tripId],
+  );
+  await tx.query(
+    `INSERT INTO room_plans (trip_id, rooms, currency, nights)
+     VALUES ($1, '[{"stay_key":"main","key":"a","capacity":2,"nightly_minor":12000}]', 'USD', 7)`,
+    [tripId],
+  );
+  await tx.query(
+    `INSERT INTO room_assignments (trip_id, room_key, user_id, trait_label)
+     VALUES ($1, 'a', $2, 'early_risers')`,
+    [tripId, organiser],
+  );
+  await tx.query(
+    `INSERT INTO room_prefs (trip_id, user_id, chips) VALUES ($1, $2, '{early_bird}')`,
+    [tripId, organiser],
+  );
+  await tx.query(
+    `INSERT INTO must_dos (trip_id, owner_id, title, freeform) VALUES ($1, $2, 'Fushimi Inari', true)`,
+    [tripId, organiser],
+  );
+  await tx.query(
+    `INSERT INTO dietary_profiles (user_id, diet, allergies, visibility, consent_at)
+     VALUES ($1, 'vegetarian', '{peanuts}', 'crew_flags', now())`,
+    [organiser],
   );
 }

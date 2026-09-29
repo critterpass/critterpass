@@ -83,12 +83,15 @@ export const SYNCED_TABLE_COLUMNS = {
   message_reactions: 'message_id crew_id user_id emoji created_at',
   messages:
     'crew_id trip_id seq:integer sender_kind sender_id guide_id type body ref_kind ref_id reply_to_id mentions mentions_guide:integer attachments edited_at deleted_at hidden_at created_at updated_at',
+  must_dos:
+    'trip_id owner_id title poi_id freeform:integer priority:integer co_owner_ids fit_status fit_note target_day:integer external_action external_deadline external_url fit_checked_at deleted_at version:integer created_at updated_at',
   notification_prefs:
     'user_id budget_per_day:integer roundup_time roundup_tz quiet_from quiet_to guide_tips:integer money:integer critters_nearby:integer crew_chat_mode leave_by_dnd:integer per_category voice_readout:integer created_at updated_at',
   notifications:
     'user_id crew_id trip_id event_id key category class sender template_id title body items ctx deep_link collapse_key thread_id dedupe_key is_private:integer needs_you:integer llm_generated:integer local_date not_before expires_at state drop_reason sent_at created_at updated_at',
   nudges:
     'sender_id target_id crew_id trip_id reason context channel scheduled_delivery_id send_at sent_at created_at updated_at',
+  participant_dietary_flags: 'trip_id user_id flags created_at updated_at',
   passes: 'user_id status number issued_at cover created_at updated_at',
   perks: 'key tier copy_key is_shipped:integer sort:integer created_at updated_at',
   phrase_cards:
@@ -113,6 +116,10 @@ export const SYNCED_TABLE_COLUMNS = {
     'referrer_id referee_id code invite_id via status void_reason qualified_at reward_kind reward_ref referee_device_id created_at updated_at',
   reminders:
     'user_id target_kind target_id fire_at condition status fired_at created_at updated_at',
+  room_assignments: 'trip_id stay_key room_key user_id trait_label created_at updated_at',
+  room_plans:
+    'trip_id stay_option_id rooms currency nights:integer stay_booking_id free_cancel_until same_pairs_all_stays:integer is_stale:integer locked_at locked_by version:integer created_at updated_at',
+  room_prefs: 'trip_id user_id chips partner_id created_at updated_at',
   roundups:
     'user_id local_date tz guide_id notification_ids lines sent_at fallback_used:integer created_at updated_at',
   saved_items: 'user_id kind ref_id list_name note created_at updated_at',

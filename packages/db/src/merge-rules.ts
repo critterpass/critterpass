@@ -298,3 +298,31 @@ registerMergeRule({
   strategy: 'keep_existing',
   personal: true,
 });
+// Rooms, must-dos and dietary data follow the user the same way; derived dietary flags are dropped
+// and re-derived from the surviving profile.
+registerMergeRule({
+  table: 'room_assignments',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['trip_id', 'stay_key'],
+});
+registerMergeRule({
+  table: 'room_prefs',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['trip_id'],
+  personal: true,
+});
+registerMergeRule({
+  table: 'must_dos',
+  userColumn: 'owner_id',
+  strategy: 'reassign',
+  conflictColumns: ['trip_id', 'priority'],
+});
+registerMergeRule({
+  table: 'dietary_profiles',
+  userColumn: 'user_id',
+  strategy: 'keep_existing',
+  personal: true,
+});
+registerMergeRule({ table: 'participant_dietary_flags', userColumn: 'user_id', strategy: 'drop' });
