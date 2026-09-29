@@ -13,6 +13,7 @@ export const SUITES = [
   'crew-welcome',
   'tips',
   'pitch',
+  'guest-brief',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -25,7 +26,9 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/src\/prompts\/crew-welcome\//u, ['crew-welcome']],
   [/^packages\/ai\/src\/prompts\/tips\//u, ['tips']],
   [/^packages\/ai\/src\/prompts\/pitch\//u, ['pitch']],
-  [/^packages\/ai\/evals\/lib\/stream-suites\.ts$/u, ['pitch']],
+  [/^packages\/ai\/src\/prompts\/guest-brief\//u, ['guest-brief']],
+  [/^packages\/ai\/evals\/lib\/guest-brief-suite\.ts$/u, ['guest-brief']],
+  [/^packages\/ai\/evals\/lib\/stream-suites\.ts$/u, ['pitch', 'guest-brief']],
   [
     /^packages\/ai\/evals\/lib\/prompt-suites\.ts$/u,
     ['invite-tags', 'crew-welcome', 'tips', 'pitch'],

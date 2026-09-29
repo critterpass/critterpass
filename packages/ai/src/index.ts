@@ -279,14 +279,4 @@ export {
   type TipInput,
   type TipResult,
 } from './prompts/tips/prompt';
-export {
-  buildPitchRequest,
-  describeFacts,
-  parsePitchLine,
-  PITCH_PROMPT_VERSION,
-  PITCH_ROUTE,
-  pitchPersona,
-  streamPitch,
-  templatePitch,
-  type PitchModelSection,
-} from './prompts/pitch/prompt';
+export * from './prompts/vote';

@@ -15,6 +15,7 @@ promptfoo's `tests` format). They gate every change to prompts, personas, tools 
 | `crew-welcome` | 12 welcome lines (`src/prompts/crew-welcome/evals.yaml`): one line under 90 characters greeting the newcomer, nothing from a crew name that tries to instruct |
 | `tips` | 10 Home tip lines (`src/prompts/tips/evals.yaml`): one line under 120 characters naming the place, every number and month from the detector's facts, nothing from an event name that tries to instruct |
 | `pitch` | 10 guide pitches (`src/prompts/pitch/evals.yaml`): a streamed headline, two or three reasons and a quote from the model, every number and month from the pitch tools (grounding 100 %), no budget or supplier names, nothing obeyed from text in the data |
+| `guest-brief` | 15 guest-guide briefs (`src/prompts/guest-brief/evals.yaml`): 3 places searched on the allow-list (recorded Tavily) and 12 with a poisoned page; facts cite only fetched allow-listed pages, numbers only from their page, every line keeps the schema, and no injected instruction gets through |
 
 ## Running
 

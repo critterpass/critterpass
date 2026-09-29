@@ -19,11 +19,18 @@ import { inferInviteTags } from '../../src/prompts/invite-tags/prompt';
 import { phraseTip, ungroundedTokens } from '../../src/prompts/tips/prompt';
 import { loadFixture } from '../../test/fixture-transport';
 import type { EvalMode } from './provider';
+import { runGuestBriefCase } from './guest-brief-suite';
 import { runPitchCase } from './stream-suites';
 import type { CaseReport } from './runner';
 import { jsonResponse } from './transports';
 
-export const PROMPT_SUITES = ['invite-tags', 'crew-welcome', 'tips', 'pitch'] as const;
+export const PROMPT_SUITES = [
+  'invite-tags',
+  'crew-welcome',
+  'tips',
+  'pitch',
+  'guest-brief',
+] as const;
 export type PromptSuite = (typeof PROMPT_SUITES)[number];
 
 export function isPromptSuite(name: string): name is PromptSuite {
@@ -196,7 +203,13 @@ async function tips(raw: unknown, options: PromptRunOptions): Promise<CaseReport
 
 const RUNNERS: Readonly<
   Record<PromptSuite, (raw: unknown, options: PromptRunOptions) => Promise<CaseReport>>
-> = { 'invite-tags': inviteTags, 'crew-welcome': crewWelcome, tips, pitch: runPitchCase };
+> = {
+  'invite-tags': inviteTags,
+  'crew-welcome': crewWelcome,
+  tips,
+  pitch: runPitchCase,
+  'guest-brief': runGuestBriefCase,
+};
 
 export async function runPromptSuiteCases(
   suite: PromptSuite,

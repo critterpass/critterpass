@@ -1,0 +1,52 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Hanoi Vietnam travel guide",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://en.wikivoyage.org/wiki/en:Hanoi",
+          "title": "Hanoi – Travel guide at Wikivoyage",
+          "content": "Hanoi (Vietnamese: Hà Nội), the capital of Vietnam and its second-largest city, is a fascinating blend of East and West, with Chinese influence from centuries of dominance, and French je ne sais quoi from its colonial past. It was largely unspoiled by the modern architecture of the 1970s and 80s, and is now undergoing a rapid transformation that makes it a rising star in Southeast Asia.\n\n## Understand\n\n[edit] [...] Cao Bang, featuring the beautiful Ban Gioc Waterfall, is five hours away by bus, near the Chinese border.\n Cuc Phuong National Park, is the largest national park in Vietnam and an easy day-trip from Hanoi.\n Co Loa is the oldest ancient capital in the region; a little-visited site slightly northeast of Hanoi. [...] The first Western-style universities in Vietnam were founded in Hanoi, and today, it is the leading centre of scientific study and research in the country. It trades the commercial boom and sprawl of Ho Chi Minh City in the south for a more understated charm, worth enjoying for an extra day or two; and with countless transport options and travel agents, it makes a perfect base for exploration of the North.",
+          "score": 0.8124067,
+          "raw_content": null,
+          "published_date": null,
+          "id": "fba656-00"
+        },
+        {
+          "url": "https://en.wikivoyage.org/wiki/Hanoi",
+          "title": "Hanoi – Travel guide at Wikivoyage",
+          "content": "Hanoi (Vietnamese: Hà Nội), the capital of Vietnam and its second-largest city, is a fascinating blend of East and West, with Chinese influence from centuries of dominance, and French je ne sais quoi from its colonial past. It was largely unspoiled by the modern architecture of the 1970s and 80s, and is now undergoing a rapid transformation that makes it a rising star in Southeast Asia.\n\n## Understand\n\n[edit] [...] Cao Bang, featuring the beautiful Ban Gioc Waterfall, is five hours away by bus, near the Chinese border.\n Cuc Phuong National Park, is the largest national park in Vietnam and an easy day-trip from Hanoi.\n Co Loa is the oldest ancient capital in the region; a little-visited site slightly northeast of Hanoi. [...] The first Western-style universities in Vietnam were founded in Hanoi, and today, it is the leading centre of scientific study and research in the country. It trades the commercial boom and sprawl of Ho Chi Minh City in the south for a more understated charm, worth enjoying for an extra day or two; and with countless transport options and travel agents, it makes a perfect base for exploration of the North.",
+          "score": 0.8124067,
+          "raw_content": null,
+          "published_date": "Mon, 15 Jun 2026 00:00:00 GMT",
+          "id": "c83a26-01"
+        },
+        {
+          "url": "https://zh.wikivoyage.org/wiki/en:Hanoi",
+          "title": "Hanoi – Travel guide at Wikivoyage",
+          "content": "Hanoi (Vietnamese: Hà Nội), the capital of Vietnam and its second-largest city, is a fascinating blend of East and West, with Chinese influence from centuries of dominance, and French je ne sais quoi from its colonial past. It was largely unspoiled by the modern architecture of the 1970s and 80s, and is now undergoing a rapid transformation that makes it a rising star in Southeast Asia.\n\n## Understand\n\n[edit] [...] Cao Bang, featuring the beautiful Ban Gioc Waterfall, is five hours away by bus, near the Chinese border.\n Cuc Phuong National Park, is the largest national park in Vietnam and an easy day-trip from Hanoi.\n Co Loa is the oldest ancient capital in the region; a little-visited site slightly northeast of Hanoi. [...] The first Western-style universities in Vietnam were founded in Hanoi, and today, it is the leading centre of scientific study and research in the country. It trades the commercial boom and sprawl of Ho Chi Minh City in the south for a more understated charm, worth enjoying for an extra day or two; and with countless transport options and travel agents, it makes a perfect base for exploration of the North.",
+          "score": 0.8124067,
+          "raw_content": null,
+          "published_date": null,
+          "id": "2113c0-02"
+        },
+        {
+          "url": "https://en.wikivoyage.org/w/index.php?title=Hanoi&useparsoid=0",
+          "title": "Hanoi – Travel guide at Wikivoyage",
+          "content": "Cao Bang, featuring the beautiful Ban Gioc Waterfall, is five hours away by bus, near the Chinese border.\n Cuc Phuong National Park, is the largest national park in Vietnam and an easy day-trip from Hanoi.\n Co Loa is the oldest ancient capital in the region; a little-visited site slightly northeast of Hanoi. [...] Hanoi (Vietnamese: Hà Nội), the capital of Vietnam and its second-largest city, is a fascinating blend of East and West, with Chinese influence from centuries of dominance, and French je ne sais quoi from its colonial past. It was largely unspoiled by the modern architecture of the 1970s and 80s, and is now undergoing a rapid transformation that makes it a rising star in Southeast Asia.\n\n## Understand\n\n[edit]\n\n\n\nHanoi Opera House\n\n\n\nHanoi's Temple of Literature [...] The first Western-style universities in Vietnam were founded in Hanoi, and today, it is the leading centre of scientific study and research in the country. It trades the commercial boom and sprawl of Ho Chi Minh City in the south for a more understated charm, worth enjoying for an extra day or two; and with countless transport options and travel agents, it makes a perfect base for exploration of the North.",
+          "score": 0.79484755,
+          "raw_content": null,
+          "published_date": null,
+          "id": "02423a-03"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "423e4651-8566-4593-998e-f18cd79ea6b9"
+    }
+  }
+}

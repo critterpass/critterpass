@@ -12,6 +12,7 @@ export const SSE_RESPONSE_HEADERS: Readonly<Record<string, string>> = {
 
 export interface SseFrame {
   readonly type: string;
+  readonly [field: string]: unknown;
 }
 
 export function encodeFrame(frame: SseFrame, id: number): string {

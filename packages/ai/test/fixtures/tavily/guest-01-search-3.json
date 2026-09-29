@@ -1,0 +1,52 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Marrakech Morocco travel advice",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.visitmorocco.com/en/travel/marrakesh",
+          "title": "Marrakech - Marrakech - Vacations, travel tours, visits | Moroccan National Tourist Office",
+          "content": "You will be able to admire all the architectural richness of the Medina, upon visiting one of its many riads, small oriental palaces overlooking a beautiful patio. You can also relax and recharge at the Menara, a vast garden with an emblematic basin. Marrakech shower its visitors by its splendour and its diversity, you just have to leave the ramparts to be immersed in modern Morocco. The districts of Gueliz and Hivernage offer the most modern infrastructures, luxury boutiques and international [...] Being a growing economic bustling city, Marrakech has special festive and cultural places, such as the « Palais des Congres » and the splendid Royal Theater. Enjoy Marrakech at night by discovering the many themed venues, trendy clubs and traditional evenings that reflect the lively part of the city.\n\nIn 2016, Marrakech will host the Cop22 to help adress climate change issues, as a recognition of its new international stature and its considerable reception capacity. [...] ##### Shopping\n\n##### Wellness\n\n#####\n\n##### Cruises\n\n##### Desert break\n\n##### Imperial cities\n\n##### Road of 1000 Kasbahs\n\n##### Honey tour\n\n##### Great tour of Morocco\n\n##### Golf\n\n##### MICE\n\n#####\n\n##### Getting to Morocco\n\n##### Accomodation\n\n##### Getting around Morocco\n\n##### Kingdom of light\n\n##### Food & drinks\n\n##### MUST-KNOW THINGS\n\n##### Guide\n\n##### Kingdom of football\n\n#####\n\n##### Climate and seasons\n\n##### Formalities\n\n##### Moroccan National Tourist Office",
+          "score": 0.77055156,
+          "raw_content": null,
+          "published_date": null,
+          "id": "e6df17-00"
+        },
+        {
+          "url": "https://en.wikivoyage.org/wiki/Marrakech",
+          "title": "Marrakech – Travel guide at Wikivoyage",
+          "content": "Most other foreign embassies and consulates in Morocco are in Rabat, with a few more consulates in Casablanca.\n\n## Stay safe\n\n[edit]\n\nMarrakech is a generally safe city, with police presence. However, staying alert about your surroundings and taking general safety precautions is always a good idea like everywhere. Here are some tips: [...] Marrakech (Arabic: مراكش, Berber: ⴰⵎⵓⵔⴰⴽⵓⵛ), also spelt Marrakesh, is one of the imperial cities of Morocco. Marrakech is the main tourist destination in Morocco. The city is divided into two parts: the Medina, the historical city, and the new European modern district called Gueliz or Ville Nouvelle. The Medina is full of intertwining narrow passageways and local shops full of character; it also contains the large square Djemaa El-Fna, where many hotels are located and tourists, locals and [...] As the country's main tourist destination, Marrakech is where many Moroccans try to become rich fast by ripping off tourists. This mentality is so widespread that even Moroccans are now ripped off whenever possible so that they call the city \"Marrakech, Arnakech\" – which rhymes in French and translates to \"Marrakech, Scam\" (see Touts and scams below).",
+          "score": 0.74385756,
+          "raw_content": null,
+          "published_date": null,
+          "id": "781bfd-01"
+        },
+        {
+          "url": "https://travel.gc.ca/destinations/morocco",
+          "title": "Travel advice and advisories for Morocco",
+          "content": "### Morocco - Exercise a high degree of caution\n\nExercise a high degree of caution in Morocco due to the threat of terrorism.\n\n### Western Sahara border regions - Avoid all travel\n\nAvoid all travel to the following areas due to the heavy military presence and the unstable and unpredictable security situation :\n\n within 30 km west of the militarized zone of the Berm\n between the Berm and neighbouring countries on the eastern and southern sides\n\n### Border with Algeria - Avoid all travel [...] ### Air travel\n\nWe don't make assessments on the compliance of foreign domestic airlines with international safety standards.\n\nInformation about foreign domestic airlines\n\n### Internet romances\n\nExercise caution if travelling to Morocco for romance, especially in cases of relationships initiated on the Internet.\n\nFind out beforehand about the country’s customs and laws on conjugal relations and marriage. [...] Drones and surveillance equipment are prohibited and will be confiscated by the authorities upon entry.\n\n### Monarchy\n\nThe Moroccan constitution states that the person of the King is inviolable and respect is due to him. It is expected that people avoid any criticism of the monarchy.\n\n### 2SLGBTQI+ persons\n\nThe laws of Morocco prohibit sexual acts between individuals of the same sex.\n\n2SLGBTQI+ persons should carefully consider the risks of travelling to Morocco.",
+          "score": 0.6636041,
+          "raw_content": null,
+          "published_date": "Fri, 16 Nov 2012 00:00:00 GMT",
+          "id": "3e6bc0-02"
+        },
+        {
+          "url": "https://visitmorocco.com/en/blog/there%E2%80%99s-more-morocco-marrakech",
+          "title": "THERE’S MORE TO MOROCCO THAN MARRAKECH | Moroccan National Tourist Office",
+          "content": "Back in Marrakech at the end of the day with a newly bought map, I am making plans. Tomorrow I’m going to head over the Atlas Mountains to the ancient city of Ouarzazate; stunning and otherworldly, the gateway to the Sahara and made famous by films and TV shows like James Bond, Game of Thrones and Gladiator. The day after that will be north to Ouzda and the Roman ruins and waterfalls and maybe on to Fez to buy a hat.\n\nSo it’s true that Marrakech is not Morocco – there is so very much more. [...] Speeding is not advised. You will pass through a speed trap every 30 miles or so, the Moroccan police are keen to ensure you drive safely. The urban speed limit is 60kmh and sometimes 80kmh, the national limit is 100kmh and motorway is 125kmh. Generally signage for speed is good, although signage for destinations is not so good. If you are caught speeding and think you are in the right, ask to see the picture. The police on the whole are friendly and polite and a smile goes a long way to easing [...] So many of us have been to Marrakech. So many now consider that they have ‘done’ Morocco. I was beginning to feel that. It isn’t that it hasn’t got loads of charisma and charm; it’s just I want more, I want different. I want to dabble my feet in the Atlantic, see tree-climbing goats, drive over mountain passes, just more. So with no real plan and no map, I rent a car.\n\nNote on car rental:",
+          "score": 0.61279696,
+          "raw_content": null,
+          "published_date": null,
+          "id": "a2a4ab-03"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "c6d8a9d0-8eee-4700-b1a9-ef195a638cdb"
+    }
+  }
+}

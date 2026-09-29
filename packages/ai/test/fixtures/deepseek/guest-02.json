@@ -1,0 +1,1243 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "sse": [
+      {
+        "event": "message_start",
+        "data": {
+          "type": "message_start",
+          "message": {
+            "id": "55a84bd0-67b6-4c5b-9f4d-d6024c8d70b9",
+            "type": "message",
+            "role": "assistant",
+            "model": "deepseek-v4-pro",
+            "content": [],
+            "stop_reason": null,
+            "stop_sequence": null,
+            "usage": {
+              "input_tokens": 2974,
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 256,
+              "output_tokens": 0,
+              "service_tier": "standard"
+            }
+          }
+        }
+      },
+      {
+        "event": "content_block_start",
+        "data": {
+          "type": "content_block_start",
+          "index": 0,
+          "content_block": {
+            "type": "text",
+            "text": ""
+          }
+        }
+      },
+      {
+        "event": "ping",
+        "data": {
+          "type": "ping"
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "{\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "icon"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "walk"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "text"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "The"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " Chronicle"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " of"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " Georgia"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " memorial"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " offers"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " a"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " great"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " view"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " across"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " T"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "bil"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "isi"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " and"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " its"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " lake"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "."
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "source"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "1"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "}\n"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "{\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "icon"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "money"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "text"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "Good"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "s"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " and"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " services"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " must"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " be"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " paid"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " for"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " in"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " local"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " currency"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ","
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " the"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " l"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "ari"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "."
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "source"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "2"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "}\n"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "{\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "icon"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "star"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "text"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "T"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "bil"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "isi"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " is"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " the"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " leading"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " tourist"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " destination"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " in"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " the"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " region"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "."
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "source"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "3"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "}\n"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "{\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "icon"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "sun"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "text"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "June"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": ","
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " July"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " and"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " August"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " are"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " recommended"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " as"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " the"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " optimal"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " travel"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": " period"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "."
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\",\""
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "source"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "\":"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "6"
+          }
+        }
+      },
+      {
+        "event": "content_block_delta",
+        "data": {
+          "type": "content_block_delta",
+          "index": 0,
+          "delta": {
+            "type": "text_delta",
+            "text": "}"
+          }
+        }
+      },
+      {
+        "event": "content_block_stop",
+        "data": {
+          "type": "content_block_stop",
+          "index": 0
+        }
+      },
+      {
+        "event": "message_delta",
+        "data": {
+          "type": "message_delta",
+          "delta": {
+            "stop_reason": "end_turn",
+            "stop_sequence": null
+          },
+          "usage": {
+            "input_tokens": 2974,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 256,
+            "output_tokens": 106,
+            "service_tier": "standard"
+          }
+        }
+      },
+      {
+        "event": "message_stop",
+        "data": {
+          "type": "message_stop"
+        }
+      }
+    ]
+  }
+}
