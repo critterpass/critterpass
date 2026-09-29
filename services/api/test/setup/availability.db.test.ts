@@ -37,7 +37,7 @@ let replies: string[] = [];
 let gateOn = true;
 
 const replay: typeof fetch = (input, init) => {
-  const url = (input instanceof Request ? input.url : input.toString());
+  const url = input instanceof Request ? input.url : input.toString();
   calls.push({ url, body: typeof init?.body === 'string' ? init.body : '' });
   const next = replies.shift();
   if (next === undefined) throw new Error(`unexpected provider call ${url}`);

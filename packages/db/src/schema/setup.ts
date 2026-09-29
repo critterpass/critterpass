@@ -159,6 +159,7 @@ export const tripBudgetAggregates = pgTable('trip_budget_aggregates', {
   bandLowMinor: minor('band_low_minor'),
   bandHighMinor: minor('band_high_minor'),
   stepMinor: minor('step_minor'),
+  trackHighMinor: minor('track_high_minor'),
   bucketedDots: jsonb('bucketed_dots'),
   underAllOk: boolean('under_all_ok'),
   infeasible: boolean('infeasible'),

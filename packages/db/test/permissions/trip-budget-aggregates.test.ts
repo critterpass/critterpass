@@ -61,10 +61,15 @@ describe('trip_budget_aggregates', () => {
     await expect(writeBand(3, 145_000)).rejects.toThrow(/check constraint/i);
   });
 
-  it('never lets the band reach the lowest max', async () => {
+  it('never lets the band reach the lowest max, and lets a count move without re-banding', async () => {
     await expect(writeBand(4, MAXES.organiser)).rejects.toThrow(/below every max/);
     await expect(writeBand(4, MAXES.organiser + 5_000)).rejects.toThrow(/below every max/);
     await writeBand(4, 145_000);
+    await withSystem(harness.db.pool, (tx) =>
+      tx.query('UPDATE trip_budget_aggregates SET maxes_count = 5 WHERE trip_id = $1', [
+        harness.fixture.tripId,
+      ]),
+    );
   });
 
   it('shows the band to the crew and the guide only from four maxes, never a max', async () => {
@@ -94,6 +99,6 @@ describe('trip_budget_aggregates', () => {
     await withSystem(harness.db.pool, (tx) =>
       setCrewMemberStatus(tx, { crewId, userId: fourth, status: 'left' }),
     );
-    await expect(writeBand(4, 145_000)).rejects.toThrow(/needs four maxes/);
+    await expect(writeBand(4, 140_000)).rejects.toThrow(/needs four maxes/);
   });
 });

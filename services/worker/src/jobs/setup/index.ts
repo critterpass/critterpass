@@ -24,6 +24,7 @@ import { calendarSyncJob } from '../calendar/sync';
 import { calendarSyncConfigFromEnv } from '../calendar/config';
 import { askReplyJob, availabilityAskJob, type AskLineWriter } from './availability-ask';
 import { availabilityAskTimeoutJob } from './availability-ask-timeout';
+import { budgetRecomputeJob } from './budget-recompute';
 import { windowRecomputeJob } from './window-recompute';
 
 export { registerSetupPushes } from './pushes';
@@ -72,6 +73,7 @@ export function setupJobs(env: SetupJobsEnv, deps: SetupJobsDeps): AnyJobDefinit
         });
   return [
     windowRecomputeJob(),
+    budgetRecomputeJob(),
     availabilityAskJob(write),
     askReplyJob(decisions),
     availabilityAskTimeoutJob(),

@@ -232,8 +232,9 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 | `ask_availability` | `{trip_id, target_uid, range, option_id}` (doc delta: only through the trip's `ask_first` window option for that member, range inside it; the member must have askable `maybe` days there) | organiser | – | the `setup.availability_ask` job writes the guide's line and files `availability_ask.created` (N-05, to the member only); 48 h timer `availability_ask.timeout` | A, O | 27 |
 | `answer_availability_ask` | `{ask_id, answer?: freed\|not_movable, text?}` (doc delta: `text` instead of `note`; a written reply is read by `setup.ask_reply` on `availability.reply_intent` and then erased) | the ask's member (action-key scope `inbox`) | – | `availability_ask.answered` (N-46 to whoever asked; `freed` turns their `maybe` days in the block `free`) | A, O, N | 27 |
 | `lock_trip_dates` | `{trip_id, start, end}` (≤ 30 days, not in the past) | organiser | – | `trip.dates_changed` (doc delta: the existing countdown input, instead of `trip.dates_locked`) + boost window recompute; a `won` trip enters setup; step moves past WHEN; a move marks the budget plan, room plan and must-do fits stale | A | 27 |
-| `submit_budget_max` (C3, write-only) | `{trip_id, amount_minor, currency}` | participant | – | `budget.submission_counted` (count only) | A, O | 27 |
-| `lock_budget_target` | `{trip_id, target_minor}` (server checks "under all N maxes") | organiser | – | `budget.locked` | A | 27 |
+| `submit_budget_max` (C3, write-only) | `{trip_id, amount_minor, currency, source?: entered\|profile_default}` → `{trip_id, set: true}` (doc delta: converted into the crew currency through the latest FX run; the answer never echoes the amount) | setup member (the crew less anyone who said no) | – | `budget.submission_counted{trip_id, maxes_count}` (count only) + `budget.count` on `trip_setup:`; the band moves only on the debounced `setup.budget_recompute` | A, O | 27 |
+| `set_budget_default` (doc delta) | `{amount_minor \| null, currency}` | self | – | – (the member's own default, prefilled into each trip; `null` forgets it) | A, O | 27 |
+| `lock_budget_target` | `{trip_id, target_minor}` (doc delta: a whole $50 step in the crew currency, else `VALIDATION{off_step}`; from 4 maxes checked against the published band only: above it `STATE_INVALID{over_band}` with no distance, no sweet spot `STATE_INVALID{infeasible}`; below 4 maxes no cross-member check; every attempt counts toward 3 an hour and 10 a day per trip → `RATE_LIMITED`) | organiser | – | `budget.locked{trip_id, checked_against_band}`; `budget_plans` (target, band, breakdown, stay mix); step → rooms | A | 27 |
 | `set_setup_step` (doc delta) | `{trip_id, step}` | organiser | – | `setup.step_changed` (+ `trip.status_changed` won → setup on the first step); back to any earlier step re-opens it (downstream marked stale), forward only past a step that does not apply (budget for a crew under two, rooms for a solo trip or one room, must-dos once one exists) | A, O | 27 |
 | `set_room_assignment` | `{trip_id, base_version, rooms[{stay_id, uids[]}]}` | organiser | – | `rooms.changed` | A, O | 27 |
 | `lock_rooms` | `{trip_id}` | organiser | – | `rooms.locked` | A | 27 |
@@ -547,7 +548,8 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/me/deletion/preflight` | S | balances, organiser roles, subscription source | – |
 | `GET /v1/me/rating-eligibility?trip_id` | S | heuristic flag | – |
 | `GET /v1/me/export/{id}` | S | signed URL | – |
-| `GET /v1/me/private/{kind}` | S | owner-only C3 (insurance, dietary, budget max, emergency info) → client `local_private` table; never synced | – |
+| `GET /v1/me/private/{kind}` | S | owner-only C3 (insurance, dietary, budget max, emergency info) → client `local_private` table; never synced. Doc delta: `budget_max?trip_id` → `{trip_id, amount_minor, currency, source, updated_at}` through `app.my_budget_max` (the caller's own only; `NOT_FOUND` when not set) and `budget_default` → `{amount_minor, currency, updated_at}` | – |
+| `GET /v1/setup/{trip_id}/own-fit` (doc delta) | S | `{trip_id, state: no_max\|no_target\|fits\|over}`: the caller's own max (crew currency) against the organiser's locked target; setup members only; never about anyone else | none |
 
 ### 5.6 Links and deep links (P21, P51)
 

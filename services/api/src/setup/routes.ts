@@ -10,18 +10,21 @@ import type pg from 'pg';
 import type { AppEnv } from '../app';
 import { calendarOAuthConfigFromEnv, flagGate } from '../calendar-oauth/config';
 import { registerCalendarOAuthRoutes } from '../calendar-oauth/routes';
+import type { RateLimitRedisClient } from '../abuse/rate-limits';
 import type { OAuthStateStore } from '../calendar-oauth/state';
+import { createLockBudgetTargetCommand } from '../commands/setup/lock-budget-target';
 import { registerCalendarCommands } from '../commands/setup';
 import type { CommandRegistry } from '../commands/_framework/registry';
 import type { SessionResolver } from '../commands/_framework/session';
 import { createFlagService } from '../obs/flags';
+import { registerBudgetRoutes } from './budget-band-route';
 import { registerWindowsRoute } from './windows-route';
 
 export interface SetupRouteDeps {
   readonly pool: pg.Pool;
   readonly registry: CommandRegistry;
   readonly sessions: SessionResolver;
-  readonly store: OAuthStateStore;
+  readonly store: OAuthStateStore & RateLimitRedisClient;
   readonly env: Readonly<Record<string, string | undefined>>;
 }
 
@@ -41,4 +44,6 @@ export function registerSetupRoutes(app: OpenAPIHono<AppEnv>, deps: SetupRouteDe
   registerCalendarCommands(deps.registry, { config, store: deps.store, gate });
   registerCalendarOAuthRoutes(app, { sessions: deps.sessions, store: deps.store, config, gate });
   registerWindowsRoute(app, deps);
+  deps.registry.register(createLockBudgetTargetCommand({ redis: deps.store }));
+  registerBudgetRoutes(app, deps);
 }

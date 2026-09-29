@@ -339,9 +339,10 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON budget_max_private TO app_system;
 
 -- The caller's own max for one trip, for their own device's private cache; nobody else's, ever.
 CREATE OR REPLACE FUNCTION app.my_budget_max(p_trip uuid)
-RETURNS TABLE (amount_minor bigint, currency char(3), source text, updated_at timestamptz)
+RETURNS TABLE (amount_minor bigint, currency char(3), amount_trip_minor bigint,
+  trip_currency char(3), source text, updated_at timestamptz)
 LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public, app AS $$
-  SELECT b.amount_minor, b.currency, b.source, b.updated_at
+  SELECT b.amount_minor, b.currency, b.amount_trip_minor, b.trip_currency, b.source, b.updated_at
     FROM budget_max_private b
    WHERE b.trip_id = p_trip AND app.uid() IS NOT NULL AND b.user_id = app.uid()
 $$;
@@ -383,6 +384,8 @@ CREATE TABLE trip_budget_aggregates (
   band_low_minor bigint CHECK (band_low_minor >= 0),
   band_high_minor bigint CHECK (band_high_minor >= 0),
   step_minor bigint CHECK (step_minor > 0),
+  -- The dots' track runs from 0 to this amount (the top of the highest max's bucket).
+  track_high_minor bigint CHECK (track_high_minor > 0),
   bucketed_dots jsonb CHECK (bucketed_dots IS NULL OR jsonb_typeof(bucketed_dots) = 'array'),
   under_all_ok boolean,
   infeasible boolean,
@@ -390,8 +393,8 @@ CREATE TABLE trip_budget_aggregates (
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now(),
   CHECK (maxes_count >= 4 OR (band_low_minor IS NULL AND band_high_minor IS NULL
-    AND step_minor IS NULL AND bucketed_dots IS NULL AND under_all_ok IS NULL
-    AND infeasible IS NULL)),
+    AND step_minor IS NULL AND track_high_minor IS NULL AND bucketed_dots IS NULL
+    AND under_all_ok IS NULL AND infeasible IS NULL)),
   CHECK ((band_low_minor IS NULL) = (band_high_minor IS NULL))
 );
 CREATE TRIGGER trip_budget_aggregates_touch_updated_at BEFORE UPDATE ON trip_budget_aggregates
@@ -405,8 +408,9 @@ CREATE POLICY trip_budget_aggregates_system ON trip_budget_aggregates FOR ALL TO
 GRANT SELECT ON trip_budget_aggregates TO app_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON trip_budget_aggregates TO app_system;
 
--- Backstop for the band edge rule, whatever computed it: a band needs four maxes from current setup
--- members, and its upper edge sits strictly below the lowest of them.
+-- Backstop for the band edge rule, whatever computed it: a band written needs four maxes from
+-- current setup members, and its upper edge sits strictly below the lowest of them. A count-only
+-- update (a new submission between recomputes) leaves the published band as it was.
 CREATE OR REPLACE FUNCTION app.trip_budget_aggregates_guard() RETURNS trigger
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public, app AS $$
 DECLARE
@@ -414,6 +418,10 @@ DECLARE
   lowest bigint;
 BEGIN
   IF NEW.band_high_minor IS NULL THEN
+    RETURN NEW;
+  END IF;
+  IF TG_OP = 'UPDATE' AND NEW.band_high_minor IS NOT DISTINCT FROM OLD.band_high_minor
+     AND NEW.band_low_minor IS NOT DISTINCT FROM OLD.band_low_minor THEN
     RETURN NEW;
   END IF;
   SELECT count(*), min(b.amount_trip_minor) INTO maxes, lowest
@@ -444,6 +452,53 @@ LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public, app A
 $$;
 REVOKE EXECUTE ON FUNCTION app.budget_band(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.budget_band(uuid) TO app_user, app_system;
+
+-- What the budget step prices a trip with (public price data only, never a max): the crew's
+-- currency, the locked dates, each setup member's home airport, cached fares from those airports
+-- for the start month, the latest FX run, and the destination's reviewed cost indices.
+CREATE OR REPLACE FUNCTION app.setup_budget_inputs(p_trip uuid) RETURNS jsonb
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public, app AS $$
+  WITH trip AS (
+    SELECT t.id, t.destination_id, t.start_date, t.end_date,
+           coalesce(c.settlement_currency, 'USD') AS currency
+      FROM trips t JOIN crews c ON c.id = t.crew_id WHERE t.id = p_trip
+  ),
+  members AS (
+    SELECT m.user_id, upper(u.home_airport) AS home
+      FROM app.setup_member_ids(p_trip) AS m(user_id) JOIN users u ON u.id = m.user_id
+  )
+  SELECT jsonb_build_object(
+    'currency', t.currency,
+    'start_date', t.start_date::text,
+    'end_date', t.end_date::text,
+    'members', (SELECT coalesce(jsonb_agg(jsonb_build_object('uid', m.user_id, 'home', m.home)
+                  ORDER BY m.user_id), '[]'::jsonb) FROM members m),
+    'fares', (
+      SELECT coalesce(jsonb_agg(jsonb_build_object('origin', f.origin_iata, 'month', f.month::text,
+               'price_minor', f.price_minor, 'currency', f.currency, 'days', f.days)), '[]'::jsonb)
+        FROM fare_cells f
+       WHERE f.destination_id = t.destination_id AND t.start_date IS NOT NULL
+         AND f.month = date_trunc('month', t.start_date)::date
+         AND f.origin_iata IN (SELECT home FROM members WHERE home IS NOT NULL)
+    ),
+    'indices', (
+      SELECT coalesce(jsonb_agg(jsonb_build_object('stay_type', i.stay_type,
+               'nightly_low_minor', i.nightly_minor_low, 'nightly_high_minor', i.nightly_minor_high,
+               'food_pp_day_minor', i.food_pp_day_minor, 'fun_pp_day_minor', i.fun_pp_day_minor,
+               'currency', i.currency) ORDER BY i.stay_type), '[]'::jsonb)
+        FROM destination_cost_indices i
+       WHERE i.destination_id = t.destination_id AND i.reviewed_at IS NOT NULL
+    ),
+    'fx', (
+      SELECT coalesce(jsonb_agg(jsonb_build_object('id', x.id, 'base', x.base, 'quote', x.quote,
+               'rate', x.rate::text, 'as_of', x.as_of::text, 'source', x.source)), '[]'::jsonb)
+        FROM fx_snapshots x WHERE x.as_of = (SELECT max(as_of) FROM fx_snapshots)
+    )
+  )
+  FROM trip t
+$$;
+REVOKE EXECUTE ON FUNCTION app.setup_budget_inputs(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.setup_budget_inputs(uuid) TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- budget_plans: RLS class T. The organiser's locked target with its breakdown and stay mix;

@@ -119,6 +119,19 @@ export {
 } from './budget/breakdown';
 export { chooseStayMix, type StayMix, type StayMixPart, type StayRate } from './budget/stay-mix';
 export {
+  budgetAggregate,
+  type BudgetAggregate,
+  type BudgetAggregateInput,
+} from './budget/aggregate';
+export {
+  budgetEstimates,
+  crewFeasibleLow,
+  fxContextOf,
+  planBreakdown,
+  type BudgetEstimateSource,
+  type BudgetEstimates,
+} from './budget/estimates';
+export {
   checkLockTarget,
   isInfeasible,
   isOnStep,

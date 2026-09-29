@@ -8,6 +8,7 @@ import {
 } from './connect-calendar';
 import { lockTripDatesCommand, setSetupStepCommand } from './lock-trip-dates';
 import { setAvailabilityCommand } from './set-availability';
+import { setBudgetDefaultCommand, submitBudgetMaxCommand } from './submit-budget-max';
 
 export function registerSetupCommands(registry: CommandRegistry): void {
   registry.register(setAvailabilityCommand);
@@ -15,6 +16,8 @@ export function registerSetupCommands(registry: CommandRegistry): void {
   registry.register(answerAvailabilityAskCommand);
   registry.register(lockTripDatesCommand);
   registry.register(setSetupStepCommand);
+  registry.register(submitBudgetMaxCommand);
+  registry.register(setBudgetDefaultCommand);
 }
 
 /** The calendar connection commands need the OAuth config, the state store and the flag gate. */

@@ -60,7 +60,7 @@ export async function markStale(
   }
 }
 
-async function moveStep(
+export async function moveStep(
   tx: pg.PoolClient,
   trip: SetupTrip,
   to: TripSetupStep,

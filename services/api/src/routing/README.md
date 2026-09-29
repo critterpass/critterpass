@@ -9,17 +9,17 @@ routes. Without `MAPBOX_TOKEN` the api serves straight-line estimates only.
 ## Mapbox product terms check (2026-09-27)
 
 Source: [Mapbox Product Terms, July 21, 2026](https://www.mapbox.com/legal/product-terms)
-([PDF](https://cdn.prod.website-files.com/609ed46055e27a02ffc0749b/6a60463142f6478d57642594_Mapbox%20Product%20Terms%20(July%2021%2C%202026).pdf)),
+([PDF](<https://cdn.prod.website-files.com/609ed46055e27a02ffc0749b/6a60463142f6478d57642594_Mapbox%20Product%20Terms%20(July%2021%2C%202026).pdf>)),
 read in full for the clauses below.
 
-| Clause | Text (abridged) | What we do |
-|---|---|---|
-| §2.10.1 Navigation APIs | "Customer shall not export, download, cache or store results from any request to a Navigation API." Directions and Matrix are Navigation APIs ([docs.mapbox.com/api/navigation](https://docs.mapbox.com/api/navigation/)). | No response cache at any layer: no Redis, no table, no CDN. Every ETA is a live call. Clients show results and drop them; they don't persist them. |
-| §1.9 Default restrictions | Query "only … in response to human user queries and human application interactions", no "bulk or automated queries", and do not "cache or store Licensed Map Content or other results". | Routes run per user request. Background jobs that re-query on a timer need a founder decision (see Open questions). |
-| §1.4.1 Mandatory attribution | Mapbox logo, "© Mapbox" linking to mapbox.com/about/maps, "© OpenStreetMap" linking to openstreetmap.org/about, shown prominently (§1.4.3). | Responses with `source: "mapbox"` carry `attribution` (label + URL pairs, `routes.ts`). Clients must render them, plus the Mapbox logo, wherever a Mapbox ETA or route appears. |
-| §1.10 No redistribution | No passing Mapbox results on to third parties. | ETAs go only to the requesting user's app, never to partners, exports or public links. |
-| §2.12 Mapbox Traffic Data | Restricts the raw road-speed dataset product (§3.42). | Not used. `driving-traffic` routing results fall under §2.10, not §2.12. |
-| §2.11 Studio styles | Studio styles may only be used on a Mapbox Map. | Not used. Our map is MapLibre with our own style; route results carry no style. |
+| Clause                       | Text (abridged)                                                                                                                                                                                                            | What we do                                                                                                                                                                      |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| §2.10.1 Navigation APIs      | "Customer shall not export, download, cache or store results from any request to a Navigation API." Directions and Matrix are Navigation APIs ([docs.mapbox.com/api/navigation](https://docs.mapbox.com/api/navigation/)). | No response cache at any layer: no Redis, no table, no CDN. Every ETA is a live call. Clients show results and drop them; they don't persist them.                              |
+| §1.9 Default restrictions    | Query "only … in response to human user queries and human application interactions", no "bulk or automated queries", and do not "cache or store Licensed Map Content or other results".                                    | Routes run per user request. Background jobs that re-query on a timer need a founder decision (see Open questions).                                                             |
+| §1.4.1 Mandatory attribution | Mapbox logo, "© Mapbox" linking to mapbox.com/about/maps, "© OpenStreetMap" linking to openstreetmap.org/about, shown prominently (§1.4.3).                                                                                | Responses with `source: "mapbox"` carry `attribution` (label + URL pairs, `routes.ts`). Clients must render them, plus the Mapbox logo, wherever a Mapbox ETA or route appears. |
+| §1.10 No redistribution      | No passing Mapbox results on to third parties.                                                                                                                                                                             | ETAs go only to the requesting user's app, never to partners, exports or public links.                                                                                          |
+| §2.12 Mapbox Traffic Data    | Restricts the raw road-speed dataset product (§3.42).                                                                                                                                                                      | Not used. `driving-traffic` routing results fall under §2.10, not §2.12.                                                                                                        |
+| §2.11 Studio styles          | Studio styles may only be used on a Mapbox Map.                                                                                                                                                                            | Not used. Our map is MapLibre with our own style; route results carry no style.                                                                                                 |
 
 Nothing in the terms forbids showing Directions results on a MapLibre/OSM map. The geocoding
 client (`../geocoding/mapbox.ts`) is separate: it uses `permanent=true` geocodes, which §2.7.3
@@ -27,12 +27,12 @@ allows us to store.
 
 ## Modes
 
-| Wire `mode` | Domain mode | Mapbox profile | Notes |
-|---|---|---|---|
-| `walk` | `pedestrian` | `walking` | |
-| `drive` | `auto` | `driving-traffic` | Live traffic. A future `depart_at` gives predicted traffic. |
-| `scooter` | `motor_scooter` | `cycling` | Mapbox has no scooter profile. `cycling` stays off motorways, where scooters are banned in most of our SEA destinations, and uses the lanes scooters take. It assumes bicycle speed, so scooter ETAs run long, never short. |
-| `transit` | `multimodal` | none | Mapbox has no transit routing. Returns a straight-line walk + wait + ride estimate with `estimate: true, estimate_reason: "transit_unsupported"` and makes no Mapbox call. |
+| Wire `mode` | Domain mode     | Mapbox profile    | Notes                                                                                                                                                                                                                       |
+| ----------- | --------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `walk`      | `pedestrian`    | `walking`         |                                                                                                                                                                                                                             |
+| `drive`     | `auto`          | `driving-traffic` | Live traffic. A future `depart_at` gives predicted traffic.                                                                                                                                                                 |
+| `scooter`   | `motor_scooter` | `cycling`         | Mapbox has no scooter profile. `cycling` stays off motorways, where scooters are banned in most of our SEA destinations, and uses the lanes scooters take. It assumes bicycle speed, so scooter ETAs run long, never short. |
+| `transit`   | `multimodal`    | none              | Mapbox has no transit routing. Returns a straight-line walk + wait + ride estimate with `estimate: true, estimate_reason: "transit_unsupported"` and makes no Mapbox call.                                                  |
 
 ## Estimates and fallback
 
@@ -58,10 +58,10 @@ itself only exists on the `driving` profile (no traffic), so we don't use it.
 
 ## Matrix
 
-| Profile | Coordinates per request | Requests per minute |
-|---|---|---|
-| `walking`, `cycling`, `driving` | 25 | 60 |
-| `driving-traffic` | 10 | 30 |
+| Profile                         | Coordinates per request | Requests per minute |
+| ------------------------------- | ----------------------- | ------------------- |
+| `walking`, `cycling`, `driving` | 25                      | 60                  |
+| `driving-traffic`               | 10                      | 30                  |
 
 Source: [Matrix API docs](https://docs.mapbox.com/api/navigation/matrix/). The api accepts up to
 50 × 50. `matrix.ts` splits larger requests into origin × destination blocks whose coordinate
