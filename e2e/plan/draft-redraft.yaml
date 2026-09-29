@@ -1,0 +1,311 @@
+appId: app.critterpass.dev
+---
+# Change a day (3c-11), the last free redraft (4f-3) and the redraft diff (3c-12) with their states,
+# in English, from the fixed developer scenes.
+- launchApp:
+    clearState: true
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: draft
+      READY: draft-scene-list
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-3c-11-change-a-day'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-3c-11-change-a-day'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-3c-11-change-a-day
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-change-day-no-reason'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-change-day-no-reason'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-change-day-no-reason
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-change-day-spent'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-change-day-spent'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-change-day-spent
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-change-day-conflict'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-change-day-conflict'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-change-day-conflict
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-4f-3-last-redraft'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-4f-3-last-redraft'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-4f-3-last-redraft
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-3c-12-redraft'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-3c-12-redraft'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-3c-12-redraft
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-redraft-thinking'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-redraft-thinking'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-redraft-thinking
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-redraft-identical'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-redraft-identical'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-redraft-identical
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-redraft-failed'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-redraft-failed'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-redraft-failed
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-redraft-small-shifts'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-redraft-small-shifts'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-redraft-small-shifts
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'

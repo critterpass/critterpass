@@ -1,0 +1,976 @@
+appId: app.critterpass.dev
+---
+# Every drafting scene in Vietnamese: the dev gallery switches the running app's language (not
+# persisted), then back through the developer tools into the scenes.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+# The back swipe lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-draft'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'draft-scene-list'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-3c-8-drafting'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-3c-8-drafting'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-3c-8-drafting
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-starting'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-starting'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-drafting-starting
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-slow'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-slow'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-drafting-slow
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-partial'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-partial'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-drafting-partial
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-failed'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-failed'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-drafting-failed
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-offline'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-offline'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-drafting-offline
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-stopped'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-stopped'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-drafting-stopped
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-no-dates'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-no-dates'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-drafting-no-dates
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-3c-9-draft'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-3c-9-draft'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-3c-9-draft
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-must-do-missing'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-must-do-missing'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-draft-must-do-missing
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-over-budget'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-over-budget'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-draft-over-budget
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-stale'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-stale'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-draft-stale
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-stays-closures'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-stays-closures'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-draft-stays-closures
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-redraft-waiting'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-redraft-waiting'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-draft-redraft-waiting
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-redrafting'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-redrafting'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-draft-redrafting
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-offline'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-offline'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-draft-offline
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-quota-reached'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-quota-reached'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-draft-quota-reached
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-history'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-history'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-draft-history
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-empty'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-empty'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-draft-empty
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-failed'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-failed'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-draft-failed
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-member'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-member'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-draft-member
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-3c-11-change-a-day'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-3c-11-change-a-day'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-3c-11-change-a-day
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-change-day-no-reason'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-change-day-no-reason'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-change-day-no-reason
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-change-day-spent'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-change-day-spent'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-change-day-spent
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-change-day-conflict'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-change-day-conflict'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-change-day-conflict
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-4f-3-last-redraft'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-4f-3-last-redraft'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-4f-3-last-redraft
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-3c-12-redraft'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-3c-12-redraft'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-3c-12-redraft
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-redraft-thinking'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-redraft-thinking'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-redraft-thinking
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-redraft-identical'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-redraft-identical'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-redraft-identical
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-redraft-failed'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-redraft-failed'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-redraft-failed
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-redraft-small-shifts'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-redraft-small-shifts'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-redraft-small-shifts
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
