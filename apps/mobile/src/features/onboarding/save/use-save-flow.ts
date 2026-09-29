@@ -21,13 +21,22 @@ export type SaveState =
   | { readonly kind: 'switched' }
   | { readonly kind: 'error'; readonly provider: SaveProvider; readonly reason: SaveError };
 
-export type SaveError = 'network' | 'different_email' | 'unavailable' | 'merge_expired' | 'unknown';
+export type SaveError =
+  'network' | 'different_email' | 'unavailable' | 'cancelled' | 'merge_expired' | 'unknown';
 
 function errorOf(code: string): SaveError {
   if (code === 'NETWORK' || code === 'FETCH_ERROR') return 'network';
-  if (code === 'NOT_CONFIGURED') return 'unavailable';
+  if (code === 'NOT_CONFIGURED' || code === 'PLAY_SERVICES_NOT_AVAILABLE') return 'unavailable';
+  if (code === 'SIGN_IN_CANCELLED') return 'cancelled';
   return 'unknown';
 }
+
+/** Codes a native provider throws that name why it stopped; anything else reads as no signal. */
+const PROVIDER_CODES = new Set([
+  'NOT_CONFIGURED',
+  'PLAY_SERVICES_NOT_AVAILABLE',
+  'SIGN_IN_CANCELLED',
+]);
 
 export function useSaveFlow() {
   const services = useOnboardingServices();
@@ -78,13 +87,13 @@ export function useSaveFlow() {
       setState({ kind: 'working', provider });
       const outcome = await (
         provider === 'apple' ? services.auth.linkApple(native) : services.auth.linkGoogle(native)
-      ).catch((error: unknown): LinkOutcome => ({
-        kind: 'error',
-        code:
-          (error as { code?: unknown } | null)?.code === 'NOT_CONFIGURED'
-            ? 'NOT_CONFIGURED'
-            : 'NETWORK',
-      }));
+      ).catch((error: unknown): LinkOutcome => {
+        const code = (error as { code?: unknown } | null)?.code;
+        return {
+          kind: 'error',
+          code: typeof code === 'string' && PROVIDER_CODES.has(code) ? code : 'NETWORK',
+        };
+      });
       await handle(provider, outcome);
     },
     [services, handle],

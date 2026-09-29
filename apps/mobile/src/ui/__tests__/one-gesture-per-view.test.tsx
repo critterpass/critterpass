@@ -7,7 +7,8 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { Gesture, State } from 'react-native-gesture-handler';
 import type { GestureType } from 'react-native-gesture-handler';
 import { getByGestureTestId } from 'react-native-gesture-handler/jest-utils';
-import { Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
 
@@ -16,6 +17,7 @@ import { DayRow, dayRowGestures } from '../plan/DayRow';
 import { MovableBlock, movableBlockGestures } from '../plan/TimelineBlock';
 import { StoryPlayer, storyPlayerGestures } from '../story/StoryPlayer';
 import { renderUi } from '../test-support/render';
+import { MIN_TOUCH_TARGET } from '../theme';
 
 /** The components build declarative `Gesture.*()` objects; the lookup also covers the hook kind. */
 function gestureById(testId: string): GestureType {
@@ -152,7 +154,7 @@ describe('one gesture per native view', () => {
     expect(onPress).toHaveBeenCalledTimes(1);
   });
 
-  it('races the timeline block drag and press, keeping the short-slot slop on both', async () => {
+  it('races the timeline block drag and press over a touch area grown past a short slot', async () => {
     const onSelect = jest.fn();
     await renderUi(
       <MovableBlock
@@ -178,8 +180,19 @@ describe('one gesture per native view', () => {
     for (const gesture of [press, drag]) {
       expect(waitsFor(gesture)).toEqual([]);
       expect(otherRelations(gesture)).toEqual([]);
-      expect(gesture.config.hitSlop).toEqual(expect.objectContaining({ top: expect.any(Number) }));
     }
+    // A 15-minute slot at 1 pt a minute draws 15 pt tall; Android ignores hit slop past a parent,
+    // so the gesture views themselves span the minimum target, centred on the drawn block.
+    const reach = Math.ceil((MIN_TOUCH_TARGET - 15) / 2);
+    const area = StyleSheet.flatten(
+      screen.getByTestId('timeline-block-walk').props.style as StyleProp<ViewStyle>,
+    );
+    expect(area).toEqual(expect.objectContaining({ top: -reach, height: 15 + 2 * reach }));
+    expect(area?.height).toBeGreaterThanOrEqual(MIN_TOUCH_TARGET);
+    const face = screen.getByTestId('timeline-block-walk-face');
+    expect(StyleSheet.flatten(face.parent?.props.style as StyleProp<ViewStyle>)).toEqual(
+      expect.objectContaining({ paddingVertical: reach }),
+    );
 
     await fire(endTap(press));
     expect(onSelect).toHaveBeenCalledTimes(1);

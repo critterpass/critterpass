@@ -43,7 +43,9 @@ const useStyles = makeStyles((th) => ({
     flex: 1,
     alignItems: 'center',
     gap: th.space['4'],
-    padding: th.space['10'],
+    // Four cells share a row: a narrow side inset leaves the tier word ("✦ LEGENDARY") its width.
+    paddingVertical: th.space['10'],
+    paddingHorizontal: th.space['4'],
     borderRadius: th.radius.md,
     backgroundColor: th.semantic.bg.raised,
     borderWidth: th.space['2'],
@@ -93,7 +95,7 @@ function FormCell({
         ]}
       >
         {form.sticker}
-        <TierWord tier={form.tier} />
+        <TierWord tier={form.tier} glyph={false} />
         <SecondaryText variant="caption" style={{ textAlign: 'center' }}>
           {form.requirement}
         </SecondaryText>

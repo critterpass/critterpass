@@ -144,6 +144,35 @@ export default defineConfig([
     rules: { 'critterpass/no-literal-style': 'error' },
   },
 
+  // Screens, features and motion set text through the library `Text` (token typography per locale
+  // script, Dynamic Type, auto-fit and the UI QA layout checks); only apps/mobile/src/ui wraps the
+  // React Native primitive. The typescript-eslint twin keeps the core rule free for the
+  // server-only import guard in tools/lint/boundaries.js.
+  {
+    files: [
+      'apps/mobile/src/app/**/*.{ts,tsx}',
+      'apps/mobile/src/features/**/*.{ts,tsx}',
+      'apps/mobile/src/motion/**/*.{ts,tsx}',
+    ],
+    ignores: testFiles,
+    rules: {
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react-native',
+              importNames: ['Text'],
+              allowTypeImports: true,
+              message:
+                "Use `Text` from '@/ui': it carries the type tokens, Dynamic Type and the UI QA checks.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+
   // User-visible text must go through Lingui catalogs, not literals (docs/code-standards.md §8);
   // ids follow the project's `area.screen.element` convention (docs/code-standards.md §3) rather
   // than Lingui's default generated hash ids, which `require-explicit-id` enforces at the same time.

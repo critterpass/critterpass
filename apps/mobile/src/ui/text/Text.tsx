@@ -50,6 +50,9 @@ export const TEXT_VARIANTS = {
 
 export type TextVariant = keyof typeof TEXT_VARIANTS;
 
+/** Variants the design sets on one line: button, pill, chip and tag labels. */
+const ONE_LINE_VARIANTS: ReadonlySet<TextVariant> = new Set(['buttonLg', 'buttonSm', 'label']);
+
 export interface TextProps extends Omit<RNTextProps, 'style' | 'children' | 'allowFontScaling'> {
   readonly variant?: TextVariant | undefined;
   readonly children?: ReactNode;
@@ -65,6 +68,12 @@ export interface TextProps extends Omit<RNTextProps, 'style' | 'children' | 'all
    * shrinks from it; outside the range it is clamped.
    */
   readonly designSize?: number | undefined;
+  /**
+   * The design sets this text on one line, so a second line at the default text size is reported
+   * as a layout bug (a `numberOfLines` above one stays the larger-text fallback). Defaults to on
+   * for the button and label variants.
+   */
+  readonly singleLine?: boolean | undefined;
   readonly style?: StyleProp<TextStyle> | undefined;
 }
 
@@ -110,7 +119,8 @@ function plainText(children: ReactNode): string | null {
 /**
  * The app's only text primitive: token typography per locale script (`fontFor`), uppercase at
  * render, tabular numerals where the token asks for them, Dynamic Type scaled per variant (display
- * and h1 damped to 0.5×, capped at AX3) and auto-fit for display/h1 strings.
+ * and h1 damped to 0.5×, capped at AX3), auto-fit for display/h1 strings, and uppercase words kept
+ * whole by shrinking to the auto-fit floor.
  */
 export function Text({
   variant = 'body',
@@ -119,6 +129,7 @@ export function Text({
   autoFit,
   autoFitMinSize,
   designSize,
+  singleLine: oneLineIntent,
   style,
   numberOfLines,
   onLayout,
@@ -151,12 +162,17 @@ export function Text({
     : { children, hasElements: false };
   const text = plainText(transformed.children);
   const { singleLine, maxLines: tokenMaxLines } = token.dynamicType;
-  const lineLimit = numberOfLines ?? (singleLine ? 1 : tokenMaxLines);
+  const fitting = (autoFit ?? token.dynamicType.autoFit === true) && text !== null;
+  // A single-line variant keeps one line by fitting to it; with fitting off it wraps, never cut.
+  const lineLimit = numberOfLines ?? (singleLine && fitting ? 1 : tokenMaxLines);
   const scaledSize = resolved.fontSize * font.sizeMultiplier * designScale(token, designSize);
   const fit = useAutoFit({
-    enabled: (autoFit ?? token.dynamicType.autoFit === true) && text !== null,
+    enabled: fitting,
     // A line count the caller set is kept; the variant's own single line wraps at the floor.
     wrapAtFloor: numberOfLines === undefined,
+    // Uppercase headings and labels are short words in tight boxes: one too wide shrinks to the
+    // floor rather than splitting mid-word.
+    keepWordsWhole: uppercase && text !== null,
     text: text ?? '',
     maxSize: scaledSize,
     minSize: Math.min(
@@ -207,6 +223,8 @@ export function Text({
             text,
             truncationIsBug: numberOfLines === undefined,
             cutByFit: fit.overflowed,
+            // Larger text sizes wrap labels by design (docs/design-system.md, Dynamic Type).
+            singleLine: (oneLineIntent ?? ONE_LINE_VARIANTS.has(variant)) && fontScale <= 1,
           });
           for (const code of problems) reportUiQa(code, rest.testID ?? text.slice(0, 40), variant);
         }

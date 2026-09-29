@@ -3,8 +3,8 @@ import Constants from 'expo-constants';
 
 /**
  * Runtime UI checks for development and e2e builds: shared components report layout problems the
- * design never allows (a headline cut with an ellipsis, a word split across lines, a critter
- * without its sticker edge). Each report is a `[ui-qa]` console warning plus a line in
+ * design never allows (a headline cut with an ellipsis, a word split across lines, a one-line
+ * label that wrapped, a critter without its sticker edge). Each report is a `[ui-qa]` console warning plus a line in
  * `<documents>/ui-qa.log`, which `pnpm screens:capture` reads back after every Maestro flow and
  * fails on. Store builds (staging, production) never report: the gate is read once at load.
  */
@@ -13,7 +13,8 @@ export const UI_QA_LOG_FILE = 'ui-qa.log';
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a log tag, never shown to a user
 export const UI_QA_TAG = '[ui-qa]';
 
-export type UiQaCode = 'TEXT_TRUNCATED' | 'TEXT_WORD_BROKEN' | 'STICKER_NO_OUTLINE';
+export type UiQaCode =
+  'TEXT_TRUNCATED' | 'TEXT_WORD_BROKEN' | 'TEXT_WRAPPED' | 'STICKER_NO_OUTLINE';
 
 function readVariant(): unknown {
   return Constants.expoConfig?.extra?.appVariant;

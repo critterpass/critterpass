@@ -47,6 +47,8 @@ export interface TextLayoutCheck {
    * text, so the lines alone can't show that cut.
    */
   readonly cutByFit?: boolean;
+  /** The design sets this text on one line (button, pill and chip labels): a second line is a bug. */
+  readonly singleLine?: boolean;
 }
 
 /** The problems one settled text layout shows. */
@@ -55,11 +57,13 @@ export function textLayoutProblems({
   text,
   truncationIsBug,
   cutByFit = false,
+  singleLine = false,
 }: TextLayoutCheck): UiQaCode[] {
   const problems: UiQaCode[] = [];
   /* eslint-disable lingui/no-unlocalized-strings -- report codes, never shown to a user */
   if (truncationIsBug && (cutByFit || isTruncated(lines, text))) problems.push('TEXT_TRUNCATED');
   if (hasWordBreak(lines)) problems.push('TEXT_WORD_BROKEN');
+  if (singleLine && lines.length > 1) problems.push('TEXT_WRAPPED');
   /* eslint-enable lingui/no-unlocalized-strings */
   return problems;
 }

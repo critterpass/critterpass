@@ -156,6 +156,8 @@ describe('critter moments', () => {
     expect(epic.props.accessibilityState).toMatchObject({ checked: false });
     await run(epic, 'activate');
     expect(onSelect).toHaveBeenCalledTimes(1);
+    // Four cells share a row: the tier word stands alone there, as 3l-3 sets it.
+    expect(screen.getByText('RARE', { includeHiddenElements: true })).toBeTruthy();
   });
 
   it('reads encounter, befriend, wander, quest, egg and shelf', async () => {

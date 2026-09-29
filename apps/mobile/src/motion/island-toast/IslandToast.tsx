@@ -1,6 +1,8 @@
 import { t } from '@lingui/core/macro';
 import { useEffect } from 'react';
-import { AccessibilityInfo, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import type { ComponentType } from 'react';
+import { AccessibilityInfo, Platform, Pressable, StyleSheet, View } from 'react-native';
+import type { AccessibilityActionEvent, StyleProp, TextStyle } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -25,12 +27,36 @@ export function hasDynamicIsland(topInset: number): boolean {
   return Platform.OS === 'ios' && topInset >= DYNAMIC_ISLAND_MIN_TOP_INSET_PT;
 }
 
+/** The slice of the component library's `Text` the toast sets its copy with. */
+export interface ToastTextProps {
+  readonly variant: 'rowTitle' | 'bodySm' | 'buttonSm';
+  readonly numberOfLines?: number;
+  readonly style?: StyleProp<TextStyle>;
+  readonly children: string;
+}
+
+export interface IslandToastProps {
+  /**
+   * The library `Text` (`@/ui`). Motion sits below the component library, so the app root hands
+   * it in rather than this module importing it.
+   */
+  readonly Text: ComponentType<ToastTextProps>;
+}
+
+/** Accessibility action names (the labels screen readers read come from the toast and catalog). */
+const OPEN_ACTION = 'open';
+const DISMISS_ACTION = 'dismiss';
+
 /**
  * Drops from the top (Dynamic Island area on supported iPhones, a banner elsewhere/Android),
- * docs/design-system.md §4.4. Mounted once near the app root by the shell phase (this phase only
- * owns the component and its queue) — `motion-lab.tsx` mounts its own copy for the dev preview.
+ * docs/design-system.md §4.4. Mounted once near the app root — `motion-lab.tsx` mounts its own
+ * copy for the dev preview.
+ *
+ * The alert (live region) wraps only the sticker and text: Android folds an alert into one
+ * screen-reader node, and the Open and Dismiss buttons sit beside it so they stay reachable. The
+ * alert also carries both as accessibility actions, so TalkBack lists them on the folded node.
  */
-export function IslandToast() {
+export function IslandToast({ Text }: IslandToastProps) {
   const toast = useToastQueue();
   const insets = useSafeAreaInsets();
   const reduced = useReducedImpactMotion();
@@ -79,46 +105,65 @@ export function IslandToast() {
 
   if (!toast) return null;
 
+  const dismissLabel = t({ id: 'motion.islandToast.dismiss', message: 'Dismiss' });
+  const action = toast.action;
+  const onAccessibilityAction = (event: AccessibilityActionEvent) => {
+    if (event.nativeEvent.actionName === OPEN_ACTION) action?.onPress();
+    if (event.nativeEvent.actionName === DISMISS_ACTION) toastQueue.dismiss();
+  };
+
   return (
     <View
       pointerEvents="box-none"
       style={[styles.host, island ? styles.hostIsland : styles.hostBanner]}
     >
       <GestureDetector gesture={gesture}>
-        <Animated.View
-          testID="island-toast-pill"
-          accessibilityRole="alert"
-          accessibilityLiveRegion="polite"
-          style={[styles.pill, animatedStyle]}
-        >
-          {toast.sticker}
-          <View style={styles.textColumn}>
-            <Text numberOfLines={1} style={styles.title}>
-              {toast.title}
-            </Text>
-            {toast.subtitle ? (
-              <Text numberOfLines={1} style={styles.subtitle}>
-                {toast.subtitle}
+        <Animated.View testID="island-toast-pill" style={[styles.pill, animatedStyle]}>
+          <View
+            testID="island-toast-message"
+            accessibilityRole="alert"
+            accessibilityLiveRegion="polite"
+            accessibilityActions={[
+              ...(action ? [{ name: OPEN_ACTION, label: action.label }] : []),
+              { name: DISMISS_ACTION, label: dismissLabel },
+            ]}
+            onAccessibilityAction={onAccessibilityAction}
+            style={styles.message}
+          >
+            {toast.sticker}
+            <View style={styles.textColumn}>
+              <Text variant="rowTitle" numberOfLines={1} style={styles.onPill}>
+                {toast.title}
               </Text>
-            ) : null}
+              {toast.subtitle ? (
+                <Text variant="bodySm" numberOfLines={1} style={styles.subtitle}>
+                  {toast.subtitle}
+                </Text>
+              ) : null}
+            </View>
           </View>
-          {toast.action ? (
+          {action ? (
             <Pressable
+              testID="island-toast-open"
               accessibilityRole="button"
-              accessibilityLabel={toast.action.label}
-              onPress={toast.action.onPress}
+              accessibilityLabel={action.label}
+              onPress={action.onPress}
             >
-              <Text style={styles.actionLabel}>{toast.action.label}</Text>
+              <Text variant="buttonSm" style={styles.onPill}>
+                {action.label}
+              </Text>
             </Pressable>
           ) : null}
           <Pressable
             testID="island-toast-dismiss"
             accessibilityRole="button"
-            accessibilityLabel={t({ id: 'motion.islandToast.dismiss', message: 'Dismiss' })}
+            accessibilityLabel={dismissLabel}
             hitSlop={12}
             onPress={() => toastQueue.dismiss()}
           >
-            <Text style={styles.dismissGlyph}>×</Text>
+            <Text variant="rowTitle" style={styles.dismissGlyph}>
+              ×
+            </Text>
           </Pressable>
         </Animated.View>
       </GestureDetector>
@@ -151,20 +196,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     backgroundColor: 'black',
   },
+  message: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flexShrink: 1,
+  },
   textColumn: {
     flexShrink: 1,
   },
-  title: {
+  onPill: {
     color: 'white',
-    fontWeight: '600',
   },
   subtitle: {
     color: 'white',
     opacity: 0.8,
-  },
-  actionLabel: {
-    color: 'white',
-    fontWeight: '700',
   },
   dismissGlyph: {
     color: 'white',

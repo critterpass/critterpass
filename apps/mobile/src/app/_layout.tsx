@@ -10,6 +10,7 @@ import { Stack } from 'expo-router/js-stack';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Updates from 'expo-updates';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports -- the font preload draws each bundled family raw, before any theme or locale exists
 import { Platform, StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -85,7 +86,7 @@ import { IslandToast } from '@/motion/island-toast';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
-import { useTheme } from '@/ui';
+import { Text, useTheme } from '@/ui';
 import { PrimerSheetHost, VisitConsentHost } from '@/ui/permission-primer';
 import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
 
@@ -286,7 +287,7 @@ export default function RootLayout() {
                 <OverlayHost />
                 <PrimerSheetHost />
                 <SharedGrowHost />
-                <IslandToast />
+                <IslandToast Text={Text} />
               </ScreenJoltProvider>
             </AppSessionRoot>
           </AnalyticsProvider>

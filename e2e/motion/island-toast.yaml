@@ -35,19 +35,31 @@ appId: app.critterpass.dev
 # freeze stops the shared loop clock; the toast's own drop-in and dismissal still animate.
 - tapOn:
     id: 'motion-freeze-toggle'
+# The toast demo sits below the fold of the motion lab.
+- scrollUntilVisible:
+    element:
+      id: 'show-toast-button'
+    direction: DOWN
+    timeout: 20000
 
 # Shows a toast (with an OPEN action) and dismisses it via the swipe-up-affordance × button.
 - tapOn:
     id: 'show-toast-button'
 - assertVisible:
     id: 'island-toast-pill'
-- assertVisible: 'Pass issued'
+# Android folds the alert (sticker, title, subtitle) into one node whose text joins both lines.
+- assertVisible: 'Pass issued.*'
 - tapOn:
     id: 'island-toast-dismiss'
 - assertNotVisible:
     id: 'island-toast-pill'
 
 # A second show while the first is still visible queues rather than overlapping (max 1 visible).
+- scrollUntilVisible:
+    element:
+      id: 'show-toast-button'
+    direction: DOWN
+    timeout: 20000
 - tapOn:
     id: 'show-toast-button'
 - tapOn:
