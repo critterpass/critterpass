@@ -17,6 +17,11 @@ export interface CountdownCardProps {
   readonly meta?: ReactNode;
   /** Guide sticker in the top end corner. */
   readonly sticker?: ReactNode;
+  /**
+   * The sticker's width in points: the title keeps clear of it and auto-fits to the width left,
+   * so the sticker never covers the destination's last letters.
+   */
+  readonly stickerSize?: number;
   /** Destination colour. @default 'yellow' */
   readonly tone?: CardTone;
   /** Screen-reader summary of `meta` ("17 days to go, plan 80 percent done"). */
@@ -36,6 +41,7 @@ export function CountdownCard({
   title,
   meta,
   sticker,
+  stickerSize,
   tone = 'yellow',
   metaLabel,
   onPress,
@@ -59,7 +65,13 @@ export function CountdownCard({
       ) : null}
       <Stack gap="8">
         <Text variant="eyebrow">{eyebrow}</Text>
-        <Text variant="displayMega" style={styles.title}>
+        <Text
+          variant="displayMega"
+          style={[
+            styles.title,
+            sticker && stickerSize !== undefined ? { paddingEnd: stickerSize } : null,
+          ]}
+        >
           {title}
         </Text>
         {meta ? (

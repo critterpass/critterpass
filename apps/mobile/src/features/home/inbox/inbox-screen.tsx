@@ -8,7 +8,7 @@ import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useContext, useMemo, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -19,7 +19,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 
 import { useOwnerUid } from '../data/session-rows';
 import { HOME_ROUTES } from '../routes';
@@ -49,6 +49,7 @@ const useStyles = makeStyles((t) => ({
   // The back arrow's 44 pt target is centred on the arrow; pull it so the arrow meets the gutter.
   back: { alignSelf: 'flex-start', marginStart: -t.space['12'], marginBottom: -t.space['8'] },
   title: { flexShrink: 1 },
+  markAll: { minHeight: MIN_TOUCH_TARGET, justifyContent: 'center', paddingVertical: t.space['4'] },
 }));
 
 /** Back to Home: one screen back when Home is under the inbox, else Home itself (a cold open). */
@@ -115,7 +116,7 @@ function InboxContent() {
   const caughtUp = shownCards.length === 0 && (active === 'needs_you' || shownEarlier.length === 0);
 
   return (
-    <Scaffold variant="dark" testID="inbox-screen">
+    <Scaffold variant="dark" edges={['top', 'bottom']} testID="inbox-screen">
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.back}>
           <BackButton onPress={backToHome} testID="inbox-back" />
@@ -124,12 +125,18 @@ function InboxContent() {
           <Text variant="displayXl" accessibilityRole="header" style={styles.title}>
             {upper(t({ id: 'home.inbox.title', message: 'Inbox' }), locale)}
           </Text>
-          <InlineAction
+          {/* 3b-4 sets this as a quiet text action, not a pill. */}
+          <Pressable
             testID="inbox-mark-all-read"
-            kind="ghost"
-            label={upper(t({ id: 'home.inbox.markAll', message: 'Mark all read' }), locale)}
+            accessibilityRole="button"
             onPress={() => void actions.markAllRead(needsYou)}
-          />
+            style={styles.markAll}
+            hitSlop={styles.markAll.paddingVertical}
+          >
+            <Text variant="eyebrow" color={theme.semantic.text.secondary}>
+              {upper(t({ id: 'home.inbox.markAll', message: 'Mark all read' }), locale)}
+            </Text>
+          </Pressable>
         </Row>
         <FilterTabs value={active} needsYou={needsYou} onChange={setFilter} />
         {!loaded ? (

@@ -41,8 +41,8 @@ const SMALL_AVATAR = sizeToken(tokens.size.avatar, 'sm');
 /** The pill's faces: a small avatar inside its cut-out ring, overlapping like `AvatarStack`. */
 const FACE = SMALL_AVATAR + tokens.ring.cutout.widthPt * 2;
 const FACE_OVERLAP = -7;
-/** The crew name's size in the render (h3 runs 20–28); long names shrink toward h3's floor. */
-const CREW_NAME_SIZE = 22;
+/** The crew name is h2 (the design system's crew-name size); long names shrink to this floor. */
+const CREW_NAME_MIN = 18;
 const ICON = tokens.space['20'];
 const CARET = tokens.space['6'];
 const RING_DEG = 14;
@@ -50,7 +50,8 @@ const MAX_FACES = 3;
 
 const useStyles = makeStyles((t) => ({
   root: { paddingHorizontal: t.size.gutter, paddingVertical: t.space['8'] },
-  target: { minHeight: MIN_TOUCH_TARGET, justifyContent: 'center' },
+  // The greeting sits tight over the crew row; its hit area grows past the row, not into it.
+  greeting: { alignSelf: 'flex-start', paddingVertical: t.space['4'] },
   avatar: {
     width: SMALL_AVATAR,
     height: SMALL_AVATAR,
@@ -88,7 +89,7 @@ const useStyles = makeStyles((t) => ({
     justifyContent: 'center',
   },
   badge: { position: 'absolute', top: -t.space['4'], end: -t.space['4'] },
-  crew: { minHeight: MIN_TOUCH_TARGET, justifyContent: 'center', alignSelf: 'stretch' },
+  crew: { flex: 1, minHeight: MIN_TOUCH_TARGET, justifyContent: 'center' },
   crewName: { flexShrink: 1 },
   caret: {
     width: 0,
@@ -147,29 +148,29 @@ export function HomeHeader(props: HomeHeaderProps) {
   const faces = props.members.slice(0, MAX_FACES);
 
   return (
-    <Row style={styles.root} justify="space-between" align="center" gap="12">
-      <Stack gap="2" flex={1}>
-        <Pressable
-          testID="home-header-profile"
-          accessibilityRole="button"
-          accessibilityLabel={t({ id: 'common.home.greeting', message: `Hey ${name}` })}
-          onPress={props.onOpenProfile}
-          style={styles.target}
-        >
-          <Row gap="6">
-            <View style={styles.avatar}>
-              <Text variant="label" color={theme.color.paper.ink}>
-                {name.slice(0, 1)}
-              </Text>
-            </View>
-            <Text variant="eyebrow" numberOfLines={1} style={styles.crewName}>
-              {t({ id: 'common.home.greeting', message: `Hey ${name}` })}
+    <Stack style={styles.root} gap="2">
+      <Pressable
+        testID="home-header-profile"
+        accessibilityRole="button"
+        accessibilityLabel={t({ id: 'common.home.greeting', message: `Hey ${name}` })}
+        onPress={props.onOpenProfile}
+        style={styles.greeting}
+      >
+        <Row gap="6">
+          <View style={styles.avatar}>
+            <Text variant="label" color={theme.color.paper.ink}>
+              {name.slice(0, 1)}
             </Text>
-            <Text variant="eyebrow" accessibilityElementsHidden>
-              {I18nManager.isRTL ? '‹' : '›'}
-            </Text>
-          </Row>
-        </Pressable>
+          </View>
+          <Text variant="eyebrow" numberOfLines={1} style={styles.crewName}>
+            {t({ id: 'common.home.greeting', message: `Hey ${name}` })}
+          </Text>
+          <Text variant="eyebrow" accessibilityElementsHidden>
+            {I18nManager.isRTL ? '‹' : '›'}
+          </Text>
+        </Row>
+      </Pressable>
+      <Row justify="space-between" align="center" gap="12">
         <Pressable
           testID="home-header-crew"
           accessibilityRole="button"
@@ -182,9 +183,9 @@ export function HomeHeader(props: HomeHeaderProps) {
         >
           <Row gap="8">
             <Text
-              variant="h3"
-              designSize={CREW_NAME_SIZE}
+              variant="h2"
               autoFit
+              autoFitMinSize={CREW_NAME_MIN}
               numberOfLines={isLarge ? 2 : 1}
               style={styles.crewName}
               testID="home-header-crew-name"
@@ -194,59 +195,59 @@ export function HomeHeader(props: HomeHeaderProps) {
             <View style={styles.caret} />
           </Row>
         </Pressable>
-      </Stack>
-      <Row gap="8">
-        <Pressable
-          testID="home-header-chat"
-          accessibilityRole="button"
-          accessibilityLabel={
-            chat > 0
-              ? t({ id: 'common.home.chatUnread', message: `Crew chat, ${chat} new` })
-              : t({ id: 'common.home.chat', message: 'Crew chat' })
-          }
-          onPress={props.onOpenChat}
-          style={styles.crewPill}
-        >
-          <Row accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-            {faces.map((member, index) => (
-              <View
-                key={`${member.initial}-${index}`}
-                style={[
-                  styles.face,
-                  index > 0 ? styles.overlap : null,
-                  { backgroundColor: member.color },
-                ]}
-              >
-                <Text variant="label" color={theme.semantic.text.onAccent}>
-                  {member.initial}
-                </Text>
-              </View>
-            ))}
-          </Row>
-          <Glyph kind="chat" color={theme.semantic.text.primary} />
-          {chat > 0 ? (
-            <ShellBadge count={chat} style={styles.badge} testID="home-header-chat-badge" />
-          ) : null}
-        </Pressable>
-        <Pressable
-          testID="home-header-inbox"
-          accessibilityRole="button"
-          accessibilityLabel={
-            inbox > 0
-              ? t({ id: 'common.home.inboxUnread', message: `Inbox, ${inbox} new` })
-              : t({ id: 'common.home.inbox', message: 'Inbox' })
-          }
-          onPress={props.onOpenInbox}
-          style={styles.bell}
-        >
-          <Animated.View style={ringStyle}>
-            <Glyph kind="bell" color={theme.semantic.text.primary} />
-          </Animated.View>
-          {inbox > 0 ? (
-            <ShellBadge count={inbox} style={styles.badge} testID="home-header-inbox-badge" />
-          ) : null}
-        </Pressable>
+        <Row gap="8">
+          <Pressable
+            testID="home-header-chat"
+            accessibilityRole="button"
+            accessibilityLabel={
+              chat > 0
+                ? t({ id: 'common.home.chatUnread', message: `Crew chat, ${chat} new` })
+                : t({ id: 'common.home.chat', message: 'Crew chat' })
+            }
+            onPress={props.onOpenChat}
+            style={styles.crewPill}
+          >
+            <Row accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+              {faces.map((member, index) => (
+                <View
+                  key={`${member.initial}-${index}`}
+                  style={[
+                    styles.face,
+                    index > 0 ? styles.overlap : null,
+                    { backgroundColor: member.color },
+                  ]}
+                >
+                  <Text variant="label" color={theme.semantic.text.onAccent}>
+                    {member.initial}
+                  </Text>
+                </View>
+              ))}
+            </Row>
+            <Glyph kind="chat" color={theme.semantic.text.primary} />
+            {chat > 0 ? (
+              <ShellBadge count={chat} style={styles.badge} testID="home-header-chat-badge" />
+            ) : null}
+          </Pressable>
+          <Pressable
+            testID="home-header-inbox"
+            accessibilityRole="button"
+            accessibilityLabel={
+              inbox > 0
+                ? t({ id: 'common.home.inboxUnread', message: `Inbox, ${inbox} new` })
+                : t({ id: 'common.home.inbox', message: 'Inbox' })
+            }
+            onPress={props.onOpenInbox}
+            style={styles.bell}
+          >
+            <Animated.View style={ringStyle}>
+              <Glyph kind="bell" color={theme.semantic.text.primary} />
+            </Animated.View>
+            {inbox > 0 ? (
+              <ShellBadge count={inbox} style={styles.badge} testID="home-header-inbox-badge" />
+            ) : null}
+          </Pressable>
+        </Row>
       </Row>
-    </Row>
+    </Stack>
   );
 }

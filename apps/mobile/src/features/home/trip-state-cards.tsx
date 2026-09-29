@@ -92,6 +92,7 @@ export function InTripCard({ trip, now }: { readonly trip: HomeTripInput; readon
       tone={guideTone(guide)}
       eyebrow={upper(t({ id: 'home.inTrip.eyebrow', message: `Today · Day ${day}` }), locale)}
       title={upper(place, locale)}
+      stickerSize={NEXT_UP_STICKER}
       sticker={
         <Animated.View style={bob}>
           <Sticker kind={sticker.kind} name={sticker.name} size={NEXT_UP_STICKER} pose="cheer" />
@@ -120,6 +121,7 @@ export function PostTripCard({ trip }: { readonly trip: HomeTripInput }) {
       tone={guideTone(guide)}
       eyebrow={upper(t({ id: 'home.postTrip.eyebrow', message: "How'd it go?" }), locale)}
       title={upper(t({ id: 'home.postTrip.title', message: `${place} recap` }), locale)}
+      stickerSize={NEXT_UP_STICKER}
       sticker={
         <Sticker kind={sticker.kind} name={sticker.name} size={NEXT_UP_STICKER} pose="hop" />
       }
