@@ -1,8 +1,7 @@
-/* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 /** Budget step words that depend on data: stay types, the stay mix line, dates, lock answers. */
 import { t, plural } from '@lingui/core/macro';
 
-import { format } from '@cp/i18n';
+import { dayRange } from '../data/date-range';
 
 function stayType(type: string): string {
   switch (type) {
@@ -46,9 +45,5 @@ export function datesLabel(
   end: string | null,
 ): string | null {
   if (start === null || end === null) return null;
-  return format.dateInterval(locale, new Date(`${start}T00:00:00Z`), new Date(`${end}T00:00:00Z`), {
-    month: 'short',
-    day: 'numeric',
-    timeZone: 'UTC',
-  });
+  return dayRange(locale, start, end);
 }

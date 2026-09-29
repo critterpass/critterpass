@@ -18,6 +18,7 @@ import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 import { format } from '@cp/i18n';
 
+import { dayRange } from '../data/date-range';
 import { stayName } from './copy';
 import type { PlanStay } from './model';
 import { RoomRow, type RoomRowPerson } from './room-row';
@@ -81,14 +82,7 @@ export function StayCard({
   const tone = toneOf(index);
   const accent = cardBackground(theme, tone);
   const nights = stay.nights;
-  const range =
-    dates === null
-      ? null
-      : format.dateInterval(locale, day(dates.from), day(dates.to), {
-          month: 'short',
-          day: 'numeric',
-          timeZone: 'UTC',
-        });
+  const range = dates === null ? null : dayRange(locale, dates.from, dates.to);
   const when =
     range === null
       ? t({ id: 'setup.rooms.nights', message: `${nights} nights` })

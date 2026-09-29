@@ -8,17 +8,14 @@ import { plural, t } from '@lingui/core/macro';
 
 import { format } from '@cp/i18n';
 
+import { dayRange } from '../data/date-range';
 import { dateValue, type WindowOption } from './model';
 
 const UTC = 'UTC';
 
 /** "Apr 2 – 9" (locale range formatting). */
 export function rangeLabel(locale: string, start: string, end: string): string {
-  return format.dateInterval(locale, dateValue(start), dateValue(end), {
-    month: 'short',
-    day: 'numeric',
-    timeZone: UTC,
-  });
+  return dayRange(locale, start, end);
 }
 
 /** "April 2027". */

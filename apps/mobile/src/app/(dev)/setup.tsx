@@ -8,6 +8,24 @@ import { Text } from '@/ui';
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
 export const __CP_DEV_ROUTE__ = true;
 
+/** A scene that throws shows its error here (dev only), so a device run's screenshot names it. */
+export function ErrorBoundary({ error, retry }: { error: Error; retry: () => Promise<void> }) {
+  return (
+    <View style={styles.fill}>
+      <ScrollView contentContainerStyle={styles.list} testID="setup-scene-error">
+        <Text variant="rowTitle">{error.message}</Text>
+        <Text variant="caption">{error.stack ?? ''}</Text>
+      </ScrollView>
+      <Pressable
+        testID="setup-scene-back"
+        accessibilityLabel="Back to scenes"
+        style={styles.back}
+        onPress={() => void retry()}
+      />
+    </View>
+  );
+}
+
 /** Trip setup scenes (3c-3…3c-10 and their states) over fixed data, for review and screenshots. */
 export default function SetupScenes() {
   const [scene, setScene] = useState<string | null>(null);
@@ -43,7 +61,7 @@ export default function SetupScenes() {
 
 const styles = StyleSheet.create({
   fill: { flex: 1 },
-  back: { position: 'absolute', bottom: 0, start: 0, width: 28, height: 28 },
+  back: { position: 'absolute', top: 0, end: 0, width: 44, height: 44 },
   list: { padding: 16, gap: 8, paddingTop: 64 },
   row: { padding: 14, borderRadius: 10, backgroundColor: '#1f1b38' },
 });

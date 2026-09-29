@@ -57,14 +57,16 @@ function minorToMajor(amountMinor: number, currency: string): number {
   return Math.round(amountMinor / 10 ** digits);
 }
 
+/** "−$90" / "+$90" (the sign is added here: Hermes's NumberFormat has no `signDisplay`). */
 export function deltaLabel(locale: string, amountMinor: number, currency: string): string {
-  return format.number(locale, minorToMajor(amountMinor, currency), {
+  const amount = format.number(locale, minorToMajor(Math.abs(amountMinor), currency), {
     style: 'currency',
     currency,
     currencyDisplay: 'narrowSymbol',
     maximumFractionDigits: 0,
-    signDisplay: 'exceptZero',
   });
+  if (amountMinor === 0) return amount;
+  return `${amountMinor < 0 ? '−' : '+'}${amount}`;
 }
 
 function nameOf(people: OptionPeople, uid: string | null): string {
@@ -123,7 +125,7 @@ export function optionLine(locale: string, option: WindowOption, people: OptionP
   const delta =
     option.priceDeltaMinor === null || option.priceDeltaMinor === 0 || option.currency === null
       ? null
-      : deltaLabel(locale, Math.abs(option.priceDeltaMinor), option.currency).replace(/^\+/u, '');
+      : deltaLabel(locale, Math.abs(option.priceDeltaMinor), option.currency).slice(1);
   if (option.freeCount >= option.memberCount) {
     const place = people.place;
     const first =

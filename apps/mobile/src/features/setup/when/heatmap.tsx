@@ -47,8 +47,9 @@ const useStyles = makeStyles((th) => ({
     paddingVertical: th.space['4'],
   },
   paging: { gap: th.space['4'] },
-  grid: { flexDirection: 'row', flexWrap: 'wrap' },
-  slot: { width: `${100 / COLUMNS}%`, padding: th.space['2'] },
+  // Whole rows of seven flexible cells: percentage widths round past 100% on iOS and wrap.
+  week: { flexDirection: 'row' },
+  slot: { flex: 1, padding: th.space['2'] },
   weekday: { alignItems: 'center', paddingBottom: th.space['2'] },
   cell: {
     height: th.space['32'] + th.space['8'],
@@ -125,6 +126,18 @@ function Cell({ day, total, highlighted, order, count, progress, label, onPress 
     >
       {face}
     </PressScale>
+  );
+}
+
+/** The month as Monday-first weeks of seven, blanks as null. */
+export function weeksOf(month: HeatMonth): (HeatDay | null)[][] {
+  const cells: (HeatDay | null)[] = [
+    ...Array.from({ length: month.leadingBlanks }, () => null),
+    ...month.days,
+  ];
+  while (cells.length % COLUMNS !== 0) cells.push(null);
+  return Array.from({ length: cells.length / COLUMNS }, (_, row) =>
+    cells.slice(row * COLUMNS, row * COLUMNS + COLUMNS),
   );
 }
 
@@ -205,7 +218,7 @@ export function Heatmap({
           </View>
         )}
       </Row>
-      <View style={styles.grid} importantForAccessibility="no-hide-descendants">
+      <View style={styles.week} importantForAccessibility="no-hide-descendants">
         {letters.map((letter, column) => (
           <View key={`w${column}`} style={[styles.slot, styles.weekday]}>
             <Text variant="label" color={theme.semantic.text.secondary}>
@@ -214,28 +227,28 @@ export function Heatmap({
           </View>
         ))}
       </View>
-      <View style={styles.grid}>
-        {Array.from({ length: month.leadingBlanks }, (_, blank) => (
-          <View key={`b${blank}`} style={styles.slot} />
-        ))}
-        {month.days.map((day) => {
-          const order = windowDays.findIndex((candidate) => candidate.date === day.date);
-          return (
-            <View key={day.date} style={styles.slot}>
-              <Cell
-                day={day}
-                total={total}
-                highlighted={order >= 0}
-                order={order}
-                count={windowDays.length}
-                progress={drawing.progress}
-                label={cellLabel(day)}
-                onPress={onSelectDay === undefined ? undefined : () => onSelectDay(day.date)}
-              />
-            </View>
-          );
-        })}
-      </View>
+      {weeksOf(month).map((week, row) => (
+        <View key={`r${row}`} style={styles.week}>
+          {week.map((day, column) => {
+            if (day === null) return <View key={column} style={styles.slot} />;
+            const order = windowDays.findIndex((candidate) => candidate.date === day.date);
+            return (
+              <View key={day.date} style={styles.slot}>
+                <Cell
+                  day={day}
+                  total={total}
+                  highlighted={order >= 0}
+                  order={order}
+                  count={windowDays.length}
+                  progress={drawing.progress}
+                  label={cellLabel(day)}
+                  onPress={onSelectDay === undefined ? undefined : () => onSelectDay(day.date)}
+                />
+              </View>
+            );
+          })}
+        </View>
+      ))}
     </View>
   );
 }
