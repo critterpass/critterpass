@@ -23,8 +23,8 @@ renderer — the production painter and its full pixel-parity suite land with th
 | # | Criterion | Result |
 |---|---|---|
 | 1 | ≤2 % pixel diff vs Node prerender | **PASS — 0.175 %** (70/40,000 px), measured against the real, unmodified `design/doodles.js` source, not just self-consistency — see Method |
-| 2 | Draw-on 120 fps iPhone 13+, ≥55 fps low/mid Android | **iPhone: PASS** (iPhone 15 Pro founder run, 2026-09-28, see Founder device run); **Android: INCOMPLETE** (no physical device; Android emulator not reached — see Raw numbers). iOS **simulator**: 60 fps idle → 14.3 fps during a single critter's 1.5 s draw-on in a Debug dev-client |
-| 3 | 150×4 grid scroll + 6 idle critters, dropped frames ≤2 % Android | **iPhone: PASS** (≥60 fps, iPhone 15 Pro founder run); **Android: INCOMPLETE** on both the physical-device and the Android-emulator number (not reached this pass); iOS **simulator** real evidence: 600-cell grid + 6 continuously-bobbing critters holds 60 fps idle and ~52–53 fps during synthetic scroll when cells share one cached image — see Findings for why "live redraw" mode did not reproduce a comparable per-frame cost (it isn't animated) |
+| 2 | Draw-on 120 fps iPhone 13+, ≥55 fps low/mid Android | **iPhone: PASS** (iPhone 15 Pro founder run, 2026-09-28, see Founder device run); **Android: passed — founder decision 2026-09-29; revisit if performance issues appear** (no physical-device numbers recorded, see Founder device run). iOS **simulator**: 60 fps idle → 14.3 fps during a single critter's 1.5 s draw-on in a Debug dev-client |
+| 3 | 150×4 grid scroll + 6 idle critters, dropped frames ≤2 % Android | **iPhone: PASS** (≥60 fps, iPhone 15 Pro founder run); **Android: passed — founder decision 2026-09-29; revisit if performance issues appear** (no physical-device or emulator numbers recorded); iOS **simulator** real evidence: 600-cell grid + 6 continuously-bobbing critters holds 60 fps idle and ~52–53 fps during synthetic scroll when cells share one cached image — see Findings for why "live redraw" mode did not reproduce a comparable per-frame cost (it isn't animated) |
 | 4 | Grid strategy decision (FlashList 2 vs Legend List, code-standards.md Unresolved Q3) | **Decided: FlashList 2** — see Chosen path |
 
 ## Method
@@ -236,10 +236,10 @@ this spike). On-screen readouts, TestFlight staging.
 | Sticker lab: 150-critter grid scroll, lowest fps (target 60) | iPhone 15 Pro | 2026-09-28 | TestFlight staging | not recorded; founder reported within target | PASS (founder reported ok) |
 | Sticker lab: 2 concurrent draw-ons, lowest fps (target ≥55) | iPhone 15 Pro | 2026-09-28 | TestFlight staging | not recorded; founder reported within target | PASS (founder reported ok) |
 | Sticker lab: closed-eye storm + scroll, highest cache MB (target ≤25 MB) | iPhone 15 Pro | 2026-09-28 | TestFlight staging | not recorded; founder reported within target | PASS (founder reported ok) |
-| Draw-on ≥55 fps, grid dropped frames ≤2 % | Galaxy A15-class | | | | open |
-| Draw-on ≥55 fps, grid dropped frames ≤2 % | Pixel 7a | | | | open |
-| Sticker lab 60 fps / ≥55 fps / ≤25 MB (`e2e/critters/capture-perf.sh android`) | mid-range Android | | | | open |
-| Sticker lab Instruments traces (`e2e/critters/capture-perf.sh ios`) | iPhone | | local Release build | | open |
+| Draw-on ≥55 fps, grid dropped frames ≤2 % | Galaxy A15-class | 2026-09-29 | | not recorded | passed — founder decision 2026-09-29; revisit if performance issues appear |
+| Draw-on ≥55 fps, grid dropped frames ≤2 % | Pixel 7a | 2026-09-29 | | not recorded | passed — founder decision 2026-09-29; revisit if performance issues appear |
+| Sticker lab 60 fps / ≥55 fps / ≤25 MB (`e2e/critters/capture-perf.sh android`) | mid-range Android | 2026-09-29 | | not recorded | passed — founder decision 2026-09-29; revisit if performance issues appear |
+| Sticker lab Instruments traces (`e2e/critters/capture-perf.sh ios`) | iPhone 15 Pro | 2026-09-29 | TestFlight staging | not recorded; no Instruments traces by the founder's choice | passed — founder decision 2026-09-29; revisit if performance issues appear |
 
 ## Rerun
 

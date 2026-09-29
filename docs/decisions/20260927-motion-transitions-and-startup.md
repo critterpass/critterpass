@@ -3,8 +3,8 @@
 Date: 2026-09-27
 Status: PASS on the transition-approach decision and the drag snap-latency criterion, confirmed on
 an iPhone 15 Pro by the founder on 2026-09-28. **FAIL on iOS download size**: 65.9 MB against
-≤40 MB, see Size measured 2026-09-28. INCOMPLETE on release cold start (Instruments on iOS, a
-release build on mid-range Android).
+≤40 MB, see Size measured 2026-09-28. Release cold start on iOS passed — founder decision 2026-09-29 (no Instruments numbers, by their
+choice; revisit if performance issues appear); mid-range Android release cold start is still open.
 
 ## Context
 
@@ -20,7 +20,7 @@ download ≤40 MB).
 |---|---|---|
 | 1 | grow-into-page transition interruptible, ≤16 ms p95 frame | PASS for the chosen approach (custom teleport overlay) — see Raw numbers; iPhone 15 Pro founder run PASS (see Founder device run) |
 | 2 | Timeline drag 15-min snap + haptic tick, snap latency <1 frame | PASS — snap is UI-thread math applied in the same frame that detects the crossing; only the haptic call itself hops to JS; iPhone 15 Pro founder run PASS |
-| 3 | Release cold start ≤1.2 s mid Android / ≤0.8 s iOS | INCOMPLETE — Debug dev-client only, see Findings |
+| 3 | Release cold start ≤1.2 s mid Android / ≤0.8 s iOS | iOS: passed — founder decision 2026-09-29, see Founder device run; Android: INCOMPLETE — Debug dev-client only, see Findings |
 | 4 | iOS download ≤40 MB | **FAIL** — TestFlight staging on iPhone 15 Pro: 65.9 MB download, 122 MB install. See Size measured 2026-09-28 |
 
 ## Method
@@ -185,7 +185,7 @@ the design token's exact spec (radius/fade/duration) and is interruptible by con
 | Closing mid-animation reverses smoothly, no jump | iPhone 15 Pro | 2026-09-28 | TestFlight staging | — | PASS (founder reported ok) |
 | Timeline drag: 15-minute snap with a haptic tick per step; worst frame gap while dragging | iPhone 15 Pro | 2026-09-28 | TestFlight staging | not recorded; founder reported within target (≤16.6 ms) | PASS (founder reported ok) |
 | iOS download size (App Store Connect → App File Sizes) | iPhone 15 Pro | 2026-09-28 | TestFlight staging | download 65.9 MB, install 122 MB | **FAIL** against ≤40 MB, see Size measured 2026-09-28 |
-| Release cold start ≤0.8 s | iPhone 13+ | | Instruments, local Release build | | open |
+| Release cold start ≤0.8 s | iPhone 15 Pro | 2026-09-29 | TestFlight staging | not recorded; founder reported iOS feels fine, no Instruments numbers by their choice | passed — founder decision 2026-09-29; revisit if performance issues appear |
 | Release cold start ≤1.2 s | mid-range Android | | release build | | open |
 
 ## Size measured 2026-09-28
