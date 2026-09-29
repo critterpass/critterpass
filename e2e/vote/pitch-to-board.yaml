@@ -1,0 +1,45 @@
+appId: app.critterpass.dev
+---
+# 3b-3 → 3b-1: from a guest place, PITCH TO THE CREW opens the pitch sheet; the guide's pitch
+# streams in section by section (sticker, chips, headline, reasons, quote); ADD TO THE VOTE puts
+# the place on the crew's board and Home shows WHERE NEXT? with its sticker.
+#
+# Needs before it can pass: an onboarded account that is the only-crew member of ${CREW_ID}, with
+# no open destination vote, and an api with the place index and the pitch route enabled.
+- launchApp
+- openLink: critterpass-dev://places/search?crewId=${CREW_ID}
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 15000
+- inputText: 'lisbon'
+- extendedWaitUntil:
+    visible:
+      text: 'LISBON'
+    timeout: 10000
+- tapOn: 'LISBON'
+- extendedWaitUntil:
+    visible:
+      id: 'guest-pitch'
+    timeout: 30000
+- tapOn:
+    id: 'guest-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-sheet'
+    timeout: 10000
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: 3b-3
+- tapOn:
+    id: 'pitch-add'
+- openLink: critterpass-dev://
+- extendedWaitUntil:
+    visible:
+      id: 'board-sticker-0'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: 3b-1

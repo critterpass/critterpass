@@ -1,0 +1,37 @@
+appId: app.critterpass.dev
+---
+# 3c-1 → 3c-2, run on two simulators signed in as two members of the same crew: each taps a
+# showdown half (the half squashes, the VS disc punches toward it); when the last vote lands the
+# poll closes and each app opens the winner reveal once: the stamp, the tally, SET UP for the
+# organiser and "Setup is with …" for everyone else. Relaunching does not show it again.
+#
+# Needs before it can pass: crew ${CREW_ID}'s destination vote in its final (board-to-final.yaml)
+# with every other eligible member already voted, and ${SIDE} set to 0 or 1 per simulator.
+- launchApp
+- openLink: critterpass-dev://
+- extendedWaitUntil:
+    visible:
+      id: 'final-split-open'
+    timeout: 20000
+- tapOn:
+    id: 'final-split-open'
+- extendedWaitUntil:
+    visible:
+      id: 'showdown'
+    timeout: 10000
+- tapOn:
+    id: 'showdown-half-${SIDE}'
+- extendedWaitUntil:
+    visible:
+      id: 'winner-reveal'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: 3c-2
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 25000
+- assertNotVisible:
+    id: 'winner-reveal'
