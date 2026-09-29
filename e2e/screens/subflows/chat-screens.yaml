@@ -19,8 +19,8 @@ appId: app.critterpass.dev
 - tapOn: ${SEND}
 - inputText: 'ok'
 - tapOn: ${SEND}
-# A draft long enough to grow the composer. Maestro types slowly into Android's keyboard (a long
-# string runs past its two-minute driver deadline), so Android gets a shorter one that still wraps.
+# A draft long enough to grow the composer. On the Android emulator Maestro types about one
+# character every ten seconds against a two-minute deadline, so Android gets a short draft.
 - runFlow:
     when:
       platform: iOS
@@ -30,7 +30,7 @@ appId: app.critterpass.dev
     when:
       platform: Android
     commands:
-      - inputText: 'villa at six, bring snacks and speaker'
+      - inputText: 'at six?'
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3g-1-keyboard
 - tapOn: ${SEND}
