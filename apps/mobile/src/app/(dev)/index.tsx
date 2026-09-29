@@ -1,6 +1,11 @@
 import { Link } from 'expo-router';
 import * as Updates from 'expo-updates';
+import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+
+import { sessionHeaders, startDeviceAppSession } from '@/data/app-session/device-session';
+import { seedDemoData, type DemoScenario } from '@/data/dev/seed-demo';
+import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -87,6 +92,70 @@ function buildMarkerLabel(): string {
   return 'update:embedded';
 }
 
+const SEED_SCENARIOS: readonly {
+  readonly scenario: DemoScenario;
+  readonly testId: string;
+  readonly label: string;
+}[] = [
+  { scenario: 'everyday', testId: 'dev-seed-demo', label: 'Seed demo data' },
+  { scenario: 'inbox', testId: 'dev-seed-demo-inbox', label: 'Seed demo data: one card needs you' },
+  {
+    scenario: 'caught_up',
+    testId: 'dev-seed-demo-caught-up',
+    label: 'Seed demo data: all caught up',
+  },
+];
+
+type SeedState =
+  | { readonly kind: 'idle' }
+  | { readonly kind: 'seeding' }
+  | { readonly kind: 'done'; readonly synced: boolean }
+  | { readonly kind: 'failed'; readonly message: string };
+
+/**
+ * Staging only: gives this account the api's demo world (a crew, a trip three weeks out, chat, a
+ * tip and an inbox) and waits until sync has delivered it. `dev-seed-demo-done` appears once the
+ * rows are on the device; Maestro flows wait for it (e2e/_shared/seed-demo.yaml).
+ */
+function SeedDemoData() {
+  const [state, setState] = useState<SeedState>({ kind: 'idle' });
+  const seed = async (scenario: DemoScenario) => {
+    setState({ kind: 'seeding' });
+    try {
+      const session = await startDeviceAppSession();
+      const outcome = await seedDemoData(
+        { baseUrl: resolveApiBaseUrl(), sessionHeaders, db: session.localFirst.db },
+        scenario,
+      );
+      setState({ kind: 'done', synced: outcome.synced });
+    } catch (error) {
+      setState({ kind: 'failed', message: error instanceof Error ? error.message : String(error) });
+    }
+  };
+  return (
+    <View style={styles.list}>
+      {SEED_SCENARIOS.map((entry) => (
+        <Pressable
+          key={entry.scenario}
+          testID={entry.testId}
+          style={styles.row}
+          disabled={state.kind === 'seeding'}
+          onPress={() => void seed(entry.scenario)}
+        >
+          <Text>{entry.label}</Text>
+        </Pressable>
+      ))}
+      {state.kind === 'seeding' ? <Text testID="dev-seed-demo-busy">Seeding…</Text> : null}
+      {state.kind === 'done' ? (
+        <Text testID={state.synced ? 'dev-seed-demo-done' : 'dev-seed-demo-unsynced'}>
+          {state.synced ? 'Demo data is on this device.' : 'Seeded; still waiting for sync.'}
+        </Text>
+      ) : null}
+      {state.kind === 'failed' ? <Text testID="dev-seed-demo-failed">{state.message}</Text> : null}
+    </View>
+  );
+}
+
 /**
  * Landing screen for every (dev) route, linked from the home screen's "Developer tools" entry
  * (apps/mobile/src/app/index.tsx, hidden outside development/staging). Dev-only (excluded from
@@ -102,6 +171,7 @@ export default function DevToolsIndexScreen() {
       <Text testID="dev-build-marker" style={styles.marker}>
         {buildMarkerLabel()}
       </Text>
+      <SeedDemoData />
       <View style={styles.list}>
         {DEV_SCREENS.map((entry) => (
           <Link key={entry.href} href={entry.href} asChild>
