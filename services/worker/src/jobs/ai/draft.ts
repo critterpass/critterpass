@@ -29,6 +29,7 @@ import type pg from 'pg';
 import { defineAgentJob, type AgentJobDefinition } from '../../ai/job-runner';
 import type { AnyJobDefinition } from '../../boss';
 import { webClosureCheck } from './draft/closures';
+import { registerDraftPushes } from './draft/pushes';
 import { daysStage } from './draft/fan-out';
 import {
   giveBack,
@@ -258,8 +259,12 @@ export interface DraftJobsDeps {
   readonly closures?: ClosureCheck;
 }
 
-/** The drafting jobs with the process's gateway (every call billed to its job's `ai_usage`). */
+/**
+ * The drafting jobs with the process's gateway (every call billed to its job's `ai_usage`), and
+ * the draft-ready push they trigger. Called once at worker boot.
+ */
 export function draftJobs(env: DraftJobsEnv, deps: DraftJobsDeps): AnyJobDefinition[] {
+  registerDraftPushes();
   const apiKey = env.ANTHROPIC_API_KEY;
   const gateway =
     apiKey === undefined
