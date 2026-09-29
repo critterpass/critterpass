@@ -32,6 +32,7 @@ jest.mock('expo-network', () => ({
 }));
 
 const BASE_URL = 'https://api.staging.test/api/auth';
+const API_URL = 'https://api.staging.test';
 const SESSION_COOKIE = 'better-auth.session_token=anon-session.sig';
 
 interface RecordedRequest {
@@ -160,7 +161,10 @@ describe('auth failure reporting', () => {
     );
     await client.signIn.anonymous();
     const reported: AuthFailure[] = [];
-    const auth = createAuthDataLayer(client, { reportFailure: (f) => void reported.push(f) });
+    const auth = createAuthDataLayer(client, {
+      apiBaseUrl: API_URL,
+      reportFailure: (f) => void reported.push(f),
+    });
 
     const outcome = await auth.linkApple({
       requestIdToken: () => Promise.resolve({ idToken: 'apple-id-token', nonce: 'raw-nonce' }),
@@ -173,7 +177,10 @@ describe('auth failure reporting', () => {
   it('reports a native failure by its code only, and still rejects', async () => {
     build(anonymousThenOk);
     const reported: AuthFailure[] = [];
-    const auth = createAuthDataLayer(client, { reportFailure: (f) => void reported.push(f) });
+    const auth = createAuthDataLayer(client, {
+      apiBaseUrl: API_URL,
+      reportFailure: (f) => void reported.push(f),
+    });
     const nativeError = Object.assign(new Error('The operation couldn’t be completed.'), {
       code: 'ERR_REQUEST_UNKNOWN',
     });
@@ -187,7 +194,10 @@ describe('auth failure reporting', () => {
   it('reports nothing when the user cancels the native sheet', async () => {
     build(anonymousThenOk);
     const reported: AuthFailure[] = [];
-    const auth = createAuthDataLayer(client, { reportFailure: (f) => void reported.push(f) });
+    const auth = createAuthDataLayer(client, {
+      apiBaseUrl: API_URL,
+      reportFailure: (f) => void reported.push(f),
+    });
 
     await expect(
       auth.linkApple({ requestIdToken: () => Promise.resolve(undefined) }),

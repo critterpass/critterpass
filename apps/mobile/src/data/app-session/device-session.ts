@@ -91,7 +91,7 @@ let auth: AuthDataLayer | null = null;
 
 /** The auth flows screens run (save your pass, phone sign-in, returning sign-in), on the app's one client. */
 export function deviceAuth(): AuthDataLayer {
-  auth ??= createAuthDataLayer(authClient());
+  auth ??= createAuthDataLayer(authClient(), { apiBaseUrl: resolveApiBaseUrl() });
   return auth;
 }
 
