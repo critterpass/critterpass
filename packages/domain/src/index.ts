@@ -169,6 +169,7 @@ export {
   WEEKDAYS,
   hoursExceptionSchema,
   hoursSchema,
+  knownHours,
   parseOpeningHours,
   timeSpanSchema,
   type Hours,

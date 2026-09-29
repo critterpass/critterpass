@@ -8,7 +8,7 @@
  * run server-side... C3 data excluded (tools run as guide_reader)"), never `public.pois` directly,
  * and never persist anything.
  */
-import { openAt, poiCategorySchema, type Hours, type PoiCategory } from '@cp/domain';
+import { knownHours, openAt, poiCategorySchema, type Hours, type PoiCategory } from '@cp/domain';
 import { withGuideReader } from '@cp/db';
 import type pg from 'pg';
 import { z } from 'zod';
@@ -113,11 +113,14 @@ export async function placesSearchTool(
 
     const filtered =
       input.open_at !== undefined
-        ? rows.filter(
-            (row) =>
+        ? rows.filter((row) => {
+            const hours = knownHours(row.hours);
+            return (
               row.timezone !== null &&
-              openAt(row.hours, row.timezone, new Date(input.open_at as string)),
-          )
+              hours !== null &&
+              openAt(hours, row.timezone, new Date(input.open_at as string))
+            );
+          })
         : rows;
 
     return filtered.slice(0, limit).map((row) => ({

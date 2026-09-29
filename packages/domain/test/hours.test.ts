@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { DomainError } from '../src/errors';
-import { parseOpeningHours, type Hours } from '../src/places/hours';
+import { knownHours, parseOpeningHours, type Hours } from '../src/places/hours';
 import { closesSoon, nextOpen, openAt } from '../src/places/open-at';
 
 function hoursFrom(source: string): Hours {
@@ -216,5 +216,18 @@ describe('nextOpen', () => {
     // 2026-09-30T05:00:00Z would be open (14:00 JST) under the weekly pattern, but the exception
     // closes the whole day.
     expect(openAt(hours, 'Asia/Tokyo', new Date('2026-09-30T05:00:00Z'))).toBe(false);
+  });
+});
+
+describe('knownHours', () => {
+  it('reads the column default and an empty week as unknown, not closed', () => {
+    expect(knownHours({})).toBeNull();
+    expect(knownHours({ weekly: {} })).toBeNull();
+    expect(knownHours(null)).toBeNull();
+  });
+
+  it('returns a schedule that has at least one span', () => {
+    const hours = { weekly: parseOpeningHours('Mo-Fr 09:00-18:00') };
+    expect(knownHours(hours)).toEqual(hours);
   });
 });

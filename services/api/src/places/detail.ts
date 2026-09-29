@@ -7,6 +7,8 @@
  */
 import {
   editorialOverlaySchema,
+  EMPTY_HOURS,
+  knownHours,
   nextOpen,
   openAt,
   poiCategorySchema,
@@ -102,8 +104,9 @@ export async function getPlaceDetail(
 
   const now = options.now ?? new Date();
   const tz = row.timezone ?? row.destination_tz;
-  const openNow = tz !== null ? openAt(row.hours, tz, now) : null;
-  const nextOpenAt = tz !== null ? nextOpen(row.hours, tz, now) : null;
+  const hours = knownHours(row.hours);
+  const openNow = tz !== null && hours !== null ? openAt(hours, tz, now) : null;
+  const nextOpenAt = tz !== null && hours !== null ? nextOpen(hours, tz, now) : null;
 
   const result: PlaceDetailResult = {
     id: row.id,
@@ -116,7 +119,7 @@ export async function getPlaceDetail(
     priceLevel: row.price_level,
     tags: row.tags,
     editorial: editorialOverlaySchema.parse(row.editorial),
-    hours: row.hours,
+    hours: hours ?? EMPTY_HOURS,
     hoursVerifiedAt: row.hours_verified_at?.toISOString() ?? null,
     openNow,
     nextOpenAt: nextOpenAt?.toISOString() ?? null,
