@@ -31,7 +31,7 @@ jest.mock('@/ui/transitions/use-shared-source', () => ({
   zoomTo: jest.fn(() => Promise.resolve()),
 }));
 
-import { afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
+import { afterAll, afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import { Text } from 'react-native';
@@ -43,6 +43,7 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { registerScreens } from '@/lib/navigation/screen-registry';
+import { motionFreeze } from '@/motion/slowmo';
 import { zoomTo } from '@/ui/transitions/use-shared-source';
 
 import { HomeScreen } from '../home-screen';
@@ -70,11 +71,19 @@ async function open(): Promise<TestLocalFirst> {
 }
 
 beforeAll(() => {
+  // Idle loops sample one shared clock that ticks on real timers, so a late re-render would
+  // snapshot a critter mid-float. Motion freeze (the Maestro screenshot mode) holds the clock at
+  // its first frame, so every snapshot sees the same pose however long the screen took to settle.
+  motionFreeze.value = true;
   registerScreens({
     '3d-1': (params) => `/place/${params['placeId'] ?? ''}`,
     '3b-7': '/place-search',
     '3k-1': (params) => `/trip/${params['tripId'] ?? ''}`,
   });
+});
+
+afterAll(() => {
+  motionFreeze.value = false;
 });
 
 afterEach(async () => {
