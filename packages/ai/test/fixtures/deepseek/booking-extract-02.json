@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "36c2904e-b31e-4586-9919-2e136bddd590",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"activity\",\"title\":\"Nusa Penida West Island Snorkeling Tour\",\"supplier_name\":\"Klook\",\"confirmation_code\":\"KLK-88213457\",\"starts_local\":\"2026-10-14T07:30\",\"ends_local\":null,\"timezone\":\"Asia/Makassar\",\"location\":\"your hotel in Ubud area\",\"price\":{\"amount\":\"267.00\",\"currency\":\"SGD\"},\"travellers\":[\"3 adults\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"Cancellation: non-refundable.\",\"flights\":[],\"room\":null,\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 308,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 144,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

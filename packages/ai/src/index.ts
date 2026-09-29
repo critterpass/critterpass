@@ -283,3 +283,4 @@ export * from './prompts/vote';
 export * from './prompts/setup-prompts';
 export * from './prompts/draft/index';
 export * from './routes/receipt-parse';
+export * from './routes/booking-extract';

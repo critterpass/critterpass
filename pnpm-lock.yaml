@@ -395,6 +395,9 @@ catalogs:
     playwright:
       specifier: 1.58.2
       version: 1.58.2
+    postal-mime:
+      specifier: 3.0.1
+      version: 3.0.1
     posthog-node:
       specifier: 5.54.1
       version: 5.54.1
@@ -1490,6 +1493,9 @@ importers:
       pino:
         specifier: 'catalog:'
         version: 10.3.1
+      postal-mime:
+        specifier: 'catalog:'
+        version: 3.0.1
       posthog-node:
         specifier: 'catalog:'
         version: 5.54.1
@@ -9498,6 +9504,9 @@ packages:
   pofile-ts@4.0.3:
     resolution: {integrity: sha512-sz1pnjgEfPyZ+QvaeX3NtCmbYnEvG01LZRLoN/uXoLtPZtxCIH5IctL7yXXc0fFyk/fqV6K8g3hlNfr6IJwupA==}
     engines: {node: '>=20'}
+
+  postal-mime@3.0.1:
+    resolution: {integrity: sha512-N86EnYOxZjW1uHQIgSXnnRdnJz+wxmtDsnk3C4R/9rQ1utj8A2znauXZ3Q3+stCHxG5ckY4/NrO09WiPU6rcdQ==}
 
   postcss@8.5.28:
     resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==}
@@ -21555,6 +21564,8 @@ snapshots:
   pngjs@7.0.0: {}
 
   pofile-ts@4.0.3: {}
+
+  postal-mime@3.0.1: {}
 
   postcss@8.5.28:
     dependencies:

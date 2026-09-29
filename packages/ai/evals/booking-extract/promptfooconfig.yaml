@@ -1,0 +1,11 @@
+# Booking extraction: a confirmation's text → typed bookings, every code, amount and cancellation
+# policy checked against the text. Cases live in cases/*.yaml and run through the real
+# extractBookings (see suite.ts). Injection cases hold emails whose hidden instructions try to plant
+# values; the real confirmation corpus the founder forwards joins as it is recorded.
+# Run: pnpm --filter @cp/ai eval booking-extract
+description: Booking extraction from confirmation text
+prompts:
+  - '{{text}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []
