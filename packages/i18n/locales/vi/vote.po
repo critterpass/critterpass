@@ -6,3 +6,668 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#. placeholder {0}: alternative.name
+#. placeholder {1}: money(i18n.locale, alternative.delta_minor, alternative.currency)
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.cheaper"
+msgstr "{0} · rẻ hơn {1}"
+
+#. placeholder {0}: alternative.name
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.nearby"
+msgstr "{0} · gần đó"
+
+#. placeholder {0}: money(locale, chip.amount_minor, chip.currency)
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+msgid "vote.showdown.each"
+msgstr "{0} mỗi người"
+
+#. placeholder {0}: money(locale, chip.amount_minor, chip.currency)
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.chipPrice"
+msgstr "{0} mỗi người"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.underdog"
+msgstr "{0} thích cửa dưới. Chọn gan đấy."
+
+#. placeholder {0}: poll.votedCount
+#. placeholder {1}: poll.eligibleIds.length
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.voted"
+msgstr "{0}/{1} đã bầu"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.byline"
+msgstr "{0} giới thiệu"
+
+#. placeholder {0}: place.stops
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.stops"
+msgstr "Nối chuyến {0} lần từ nhà"
+
+#. placeholder {0}: poll.pendingIds.length
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.toGoCount"
+msgstr "Còn {0} người"
+
+#. placeholder {0}: listNames(pending, and)
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.toGo"
+msgstr "Còn {0}"
+
+#. placeholder {0}: loserGuide.name
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.consolation"
+msgstr "{0} chịu thua vui vẻ. Đang rủ chuyến sau rồi."
+
+#. placeholder {0}: option.votes
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.votes"
+msgstr "{0} phiếu"
+
+#. placeholder {0}: option.votes
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+msgid "vote.showdown.votes"
+msgstr "{0} phiếu"
+
+#. placeholder {0}: option.votes
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+msgid "vote.showdown.count"
+msgstr "{0} phiếu"
+
+#. placeholder {0}: option.votes
+#: ../../apps/mobile/src/features/vote/board/pick-sheet.tsx
+msgid "vote.pick.votes"
+msgstr "{0} phiếu"
+
+#. placeholder {0}: option.votes
+#: ../../apps/mobile/src/features/vote/board/sticker.tsx
+msgid "vote.board.votes"
+msgstr "{0} phiếu"
+
+#. placeholder {0}: poll.votedCount
+#. placeholder {1}: lines.toGo ?? ''
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.tally"
+msgstr "{0} phiếu · {1}"
+
+#. placeholder {0}: winner.label
+#: ../../apps/mobile/src/features/vote/poll/poll-result.tsx
+msgid "vote.result.won"
+msgstr "{0} thắng {score}"
+
+#. placeholder {0}: flightHours(chip.minutes)
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+msgid "vote.showdown.flight"
+msgstr "Bay {0} tiếng"
+
+#. placeholder {0}: flightHours(chip.minutes)
+#. placeholder {1}: chip.origin
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.chipFlight"
+msgstr "{0} tiếng từ {1}"
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.byline"
+msgstr "Bình chọn của {askerName}"
+
+#: ../../apps/mobile/src/features/vote/places/result-row.tsx
+msgid "vote.search.localMany"
+msgstr "{count} bạn bản địa chờ tìm"
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.finalists"
+msgstr "{first} hay {second}"
+
+#: ../../apps/mobile/src/features/vote/places/result-row.tsx
+msgid "vote.search.liveGuide"
+msgstr "{guide} dẫn đường ở đây"
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.pickBody"
+msgstr "{guide} cần bạn chọn suất cuối."
+
+#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
+msgid "vote.guest.reading"
+msgstr "{guideName} đang tìm hiểu…"
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.body"
+msgstr "{guideName} lên kế hoạch cùng bạn. Không bình chọn, không cần xác nhận. Chuyến một mình không dùng suất chuyến đầu miễn phí của nhóm."
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.backInDeck"
+msgstr "{loserName} quay lại bộ bài cho lần sau"
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.voteBody"
+msgstr "{name} hỏi cả nhóm"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.queuedToast"
+msgstr "Đã giới thiệu {name}. Nơi này vào vòng bình chọn sau."
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.voteTitle"
+msgstr "{name} mở một cuộc bình chọn"
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.voteLine"
+msgstr "{name} mở một cuộc bình chọn"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.addedToast"
+msgstr "{name} đã lên bảng. {count}/{total} người đã bầu."
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.result"
+msgstr "{winner} thắng {score}"
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.save"
+msgstr "♡ Lưu"
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.saved"
+msgstr "♥ Đã lưu"
+
+#: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
+msgid "vote.guest.found"
+msgstr "0/{total} · tìm thấy khi tới nơi"
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.day"
+msgstr "1 ngày"
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.hour"
+msgstr "1 giờ"
+
+#: ../../apps/mobile/src/features/vote/places/result-row.tsx
+msgid "vote.search.localOne"
+msgstr "1 bạn bản địa chờ tìm"
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.oneStop"
+msgstr "Nối chuyến 1 lần từ nhà"
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.threeDays"
+msgstr "3 ngày"
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.label"
+msgstr "Một thành phố hoặc quốc gia"
+
+#: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
+msgid "vote.guest.localHint"
+msgstr "Một bạn bản địa. Gợi ý: {hint}"
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.pickTitle"
+msgstr "Hòa suất vào chung kết"
+
+#. placeholder {0}: money(i18n.locale, tie.cheaperByMinor, tie.currency)
+#. placeholder {1}: originCity(tie.origin)
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.tieFull"
+msgstr "Nếu hòa, {tiePlace} thắng: rẻ hơn {0} cho {count} người bay từ {1}."
+
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.tieShort"
+msgstr "Nếu hòa, {tiePlace} thắng."
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.addOption"
+msgstr "Thêm lựa chọn"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.add"
+msgstr "Thêm vào bình chọn"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.onBoard"
+msgstr "Đã có trên bảng"
+
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.and"
+msgstr "và"
+
+#. placeholder {0}: index + 1
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.option"
+msgstr "Lựa chọn {0}"
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.idle"
+msgstr "Thành phố nào cũng được. Hướng dẫn viên lo vài nơi, khách mời lo phần còn lại."
+
+#. placeholder {0}: search.query
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.ask"
+msgstr "Đề xuất {0}"
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.back"
+msgstr "Quay lại"
+
+#. placeholder {0}: chip.months.map((m) => monthShort(locale, m)).join(' · ')
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+msgid "vote.showdown.best"
+msgstr "Đẹp nhất {0}"
+
+#. placeholder {0}: chip.months.map((month) => monthShort(locale, month)).join(' · ')
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.chipBest"
+msgstr "Đẹp nhất: {0}"
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.best"
+msgstr "Đẹp nhất: {months}"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.errorBody"
+msgstr "Kiểm tra kết nối rồi hỏi lại nhé."
+
+#. placeholder {0}: winner.label
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.closedWinner"
+msgstr "Đã đóng. {0} thắng."
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.closedNoWinner"
+msgstr "Đã đóng. Không ai bầu."
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.deadline"
+msgstr "Đóng sau"
+
+#. placeholder {0}: deadline.day
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.closesDay"
+msgstr "Đóng {0}"
+
+#. placeholder {0}: deadline.day
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.closesDay"
+msgstr "Đóng {0}"
+
+#. placeholder {0}: deadline.hours
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.closesHours"
+msgstr "Đóng sau {0} giờ"
+
+#. placeholder {0}: deadline.hours
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.closesHours"
+msgstr "Đóng sau {0} giờ"
+
+#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
+msgid "vote.guest.briefError"
+msgstr "Chưa tìm hiểu xong được lúc này."
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.direct"
+msgstr "Bay thẳng từ nhà"
+
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.allIn"
+msgstr "Mọi người đã bầu"
+
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+msgid "vote.final.status"
+msgstr "Chung kết"
+
+#. placeholder {0}: deadline.day
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+msgid "vote.final.statusDay"
+msgstr "Chung kết · đóng {0}"
+
+#. placeholder {0}: deadline.hours
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+msgid "vote.final.statusHours"
+msgstr "Chung kết · đóng sau {0} giờ"
+
+#. placeholder {0}: placeOf(first)?.name ?? first.label
+#. placeholder {1}: placeOf(second)?.name ?? second.label
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+msgid "vote.final.open"
+msgstr "Chung kết: {0} hay {1}"
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.finalLine"
+msgstr "Chung kết: {both}"
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.goToFinal"
+msgstr "Vào chung kết"
+
+#. placeholder {0}: GUEST.name
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.guestGuide"
+msgstr "Hướng dẫn khách mời: {0}"
+
+#. placeholder {0}: money(i18n.locale, tie.cheaperByMinor, tie.currency)
+#. placeholder {1}: tie.memberCount
+#. placeholder {2}: originCity(tie.origin)
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.tie"
+msgstr "Hai bên hòa. {winnerName} thắng: rẻ hơn {0} cho {1} người bay từ {2}."
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.title"
+msgstr "Chỉ mình bạn, {placeName}"
+
+#: ../../apps/mobile/src/features/vote/poll/chat-poll-card.tsx
+msgid "vote.poll.loading"
+msgstr "Đang tải bình chọn"
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.title"
+msgstr "Bình chọn mới"
+
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.back"
+msgstr "Chuyến tới · chung kết"
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.noGuide"
+msgstr "Chưa có hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.guestLine"
+msgstr "Chưa ai dẫn đường ở {country}, nên mình lo. Các bạn bản địa vẫn xuất hiện."
+
+#: ../../apps/mobile/src/features/vote/poll/poll-result.tsx
+msgid "vote.result.none"
+msgstr "Không ai bầu"
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.line"
+msgstr "Không phải đảo của mình, nhưng mình đã làm bài tập rồi."
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.cancel"
+msgstr "Để sau"
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.requested"
+msgstr "Đã ghi nhận. Bọn mình sẽ xem {q}."
+
+#. placeholder {0}: search.query
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.none"
+msgstr "Chưa có nơi nào tên “{0}”."
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.open"
+msgstr "Mở bình chọn"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.orTry"
+msgstr "Hoặc thử"
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.allowChange"
+msgstr "Được đổi phiếu"
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.pick"
+msgstr "Chọn một"
+
+#: ../../apps/mobile/src/features/vote/board/pick-sheet.tsx
+msgid "vote.pick.title"
+msgstr "Chọn đội vào chung kết cuối"
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.pickLine"
+msgstr "Chọn suất cuối vào chung kết"
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.pitchCta"
+msgstr "Giới thiệu một nơi"
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.pitch"
+msgstr "Giới thiệu một nơi"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.title"
+msgstr "Giới thiệu một nơi"
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.pitch"
+msgstr "Giới thiệu cho nhóm"
+
+#: ../../apps/mobile/src/features/vote/places/crew-picker.tsx
+msgid "vote.guest.noCrew"
+msgstr "Giới thiệu cần có nhóm. Lập một nhóm ở mục Nhóm, hoặc đi một mình."
+
+#: ../../apps/mobile/src/features/vote/register-chat-cards.ts
+msgid "vote.chat.attach"
+msgstr "Bình chọn"
+
+#. placeholder {0}: message.body
+#: ../../apps/mobile/src/features/vote/register-chat-cards.ts
+msgid "vote.chat.label"
+msgstr "Bình chọn: {0}"
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.post"
+msgstr "Đăng bình chọn"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.chipPending"
+msgstr "Đang chờ giá"
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.question"
+msgstr "Câu hỏi"
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.remove"
+msgstr "Gỡ"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.search"
+msgstr "Tìm một nơi"
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.title"
+msgstr "Tìm địa điểm"
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.setUp"
+msgstr "Lên kế hoạch {winnerName}"
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.setupWith"
+msgstr "{organiserName} sẽ lên kế hoạch."
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.solo"
+msgstr "Đi một mình"
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.started"
+msgstr "Đã bắt đầu chuyến một mình tới {placeName}."
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.start"
+msgstr "Bắt đầu chuyến một mình"
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.removeTitle"
+msgstr "Gỡ {name} khỏi bảng?"
+
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "vote.queued.remove"
+msgstr "Đang gỡ một nơi khỏi bảng"
+
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "vote.queued.retract"
+msgstr "Đang rút phiếu của bạn"
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.emptyLine"
+msgstr "Bảng còn trống. Giới thiệu một nơi đi, mình mang số liệu tới."
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.finalFailed"
+msgstr "Chưa vào được chung kết. Thử lại sau chút nhé."
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.finalTitle"
+msgstr "Chung kết bắt đầu"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.loading"
+msgstr "Hướng dẫn viên đang lo"
+
+#: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
+msgid "vote.guest.locals"
+msgstr "Các bạn bản địa"
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.setupWithOrganiser"
+msgstr "Người tổ chức sẽ lên kế hoạch tiếp."
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.errorTitle"
+msgstr "Lời giới thiệu chưa tới"
+
+#: ../../apps/mobile/src/features/vote/board/pick-sheet.tsx
+msgid "vote.pick.body"
+msgstr "Mấy nơi này đang hòa suất cuối. Bạn là người tổ chức, bạn quyết."
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.error"
+msgstr "Nơi này chưa tải được. Thử lại nhé?"
+
+#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
+msgid "vote.guest.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.retryPlace"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.finalShort"
+msgstr "Còn hai nơi"
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.status"
+msgstr "Đang bình chọn · {count}/{total} đã bầu"
+
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.final.vs"
+msgstr "vs"
+
+#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
+msgid "vote.guest.knows"
+msgstr "Những gì {guideName} biết đến giờ"
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.never"
+msgstr "Khi mọi người đã bầu"
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.untitled"
+msgstr "Đi đâu tiếp?"
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+msgid "vote.board.title"
+msgstr "Đi đâu tiếp?"
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.header"
+msgstr "Đi đâu tiếp? · Chung kết"
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.whereNext"
+msgstr "Đi đâu tiếp? Tới lượt bạn"
+
+#: ../../apps/mobile/src/features/vote/places/crew-picker.tsx
+msgid "vote.guest.whichCrew"
+msgstr "Giới thiệu cho nhóm nào?"
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.why"
+msgstr "Vì sao nhóm bạn có thể mê"
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.winner"
+msgstr "thắng"
+
+#. placeholder {0}: pollScore(poll)
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.wins"
+msgstr "Thắng {0}"
+
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+msgid "vote.final.notVoted"
+msgstr "Bạn chưa bầu."
+
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.hint"
+msgstr "Bạn chưa bầu. Chạm một bên nhé."
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.missed"
+msgstr "Bạn lỡ lượt bầu này. Nhóm đã chọn {winnerName}."
+
+#. placeholder {0}: nameOf(poll, places, poll.myOptionId)
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.youVoted"
+msgstr "Bạn đã bầu {0}."
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.offline"
+msgstr "Bạn đang ngoại tuyến. Có mạng lại là tìm được."
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.offline"
+msgstr "Bạn đang ngoại tuyến. Có mạng lại là tìm được."
+
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "vote.queued.trip"
+msgstr "Chuyến mới của bạn"
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lost"
+msgstr "Lựa chọn của bạn thua lần này. Chốt {winnerName}."
+
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "vote.queued.pitch"
+msgstr "Lời giới thiệu của bạn"
+
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "vote.queued.poll"
+msgstr "Bình chọn của bạn"
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.yours"
+msgstr "phiếu của bạn"
+
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+msgid "vote.showdown.yours"
+msgstr "phiếu của bạn"
+
+#: ../../apps/mobile/src/features/vote/board/sticker.tsx
+msgid "vote.board.yours"
+msgstr "phiếu của bạn"
+
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "vote.queued.ballot"
+msgstr "Phiếu của bạn"

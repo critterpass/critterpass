@@ -1,0 +1,46 @@
+appId: app.critterpass.dev
+---
+# 3b-7 → 3b-8: search finds a country nobody guides (NO LIVE GUIDE YET, the guest guide's line),
+# a city opens the guest guide's page with the place facts, the locals as hints and what the guest
+# guide read up on; SAVE flaps to SAVED; SOLO TRIP confirms and starts a trip for one.
+#
+# Needs before it can pass: an onboarded account and an api with the place index (the 61 places
+# and their cities) and the guest brief enabled.
+- launchApp
+- openLink: critterpass-dev://places/search
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 15000
+- inputText: 'morocc'
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-unguided'
+    timeout: 10000
+- assertVisible: 'NO LIVE GUIDE YET'
+- waitForAnimationToEnd
+- takeScreenshot: 3b-7
+- tapOn: 'MARRAKECH'
+- extendedWaitUntil:
+    visible:
+      id: 'guest-brief'
+    timeout: 30000
+- assertVisible: 'GUEST GUIDE: TOKEK'
+- waitForAnimationToEnd
+- takeScreenshot: 3b-8
+- tapOn:
+    id: 'guest-save'
+- assertVisible: '♥ SAVED'
+- scrollUntilVisible:
+    element:
+      id: 'guest-solo'
+- tapOn:
+    id: 'guest-solo'
+- assertVisible:
+    id: 'solo-confirm'
+- tapOn:
+    id: 'solo-start'
+- extendedWaitUntil:
+    notVisible:
+      id: 'solo-confirm'
+    timeout: 10000

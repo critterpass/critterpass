@@ -1,0 +1,30 @@
+appId: app.critterpass.dev
+---
+# 3b-1 → 3b-6: with two places or more on the board, the organiser's GO TO THE FINAL folds the
+# board into the split card on Home (the two leaders, the tally strip, who is still to vote and
+# where a tie goes); tapping it opens the showdown (3c-1).
+#
+# Needs before it can pass: the account organises crew ${CREW_ID}'s open destination vote with at
+# least two places on the board (pitch-to-board.yaml twice, or the demo seed's vote scenario).
+- launchApp
+- openLink: critterpass-dev://
+- extendedWaitUntil:
+    visible:
+      id: 'board-go-to-final'
+    timeout: 20000
+- tapOn:
+    id: 'board-go-to-final'
+- extendedWaitUntil:
+    visible:
+      id: 'final-split'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: 3b-6
+- tapOn:
+    id: 'final-split-open'
+- extendedWaitUntil:
+    visible:
+      id: 'showdown'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: 3c-1

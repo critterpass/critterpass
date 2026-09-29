@@ -1,0 +1,691 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`destination board draws a sticker per place with its votes and queues a ballot on a tap 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "flexDirection": "column",
+          },
+          {
+            "gap": 12,
+          },
+          undefined,
+        ]
+      }
+      testID="destination-board"
+    >
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "nowrap",
+            },
+            {
+              "alignItems": "center",
+              "gap": 8,
+              "justifyContent": "space-between",
+            },
+            undefined,
+          ]
+        }
+      >
+        <Text
+          accessibilityRole="header"
+          allowFontScaling={false}
+          numberOfLines={3}
+          onLayout={[Function]}
+          onTextLayout={[Function]}
+          style={
+            [
+              {
+                "color": "#f4efe4",
+                "fontFamily": "Archivo-W70-900",
+                "fontSize": 36,
+                "fontStyle": "normal",
+                "letterSpacing": 0,
+                "lineHeight": 30.96,
+              },
+              undefined,
+              {
+                "marginTop": -14.723999999999997,
+                "paddingTop": 14.723999999999997,
+              },
+            ]
+          }
+        >
+          WHERE NEXT?
+        </Text>
+        <View
+          style={
+            [
+              {
+                "flexDirection": "row",
+                "flexWrap": "nowrap",
+              },
+              {
+                "alignItems": "center",
+                "gap": 6,
+              },
+              undefined,
+            ]
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#ff5fa8",
+                  "borderRadius": 4,
+                  "height": 8,
+                  "width": 8,
+                },
+                {},
+              ]
+            }
+          />
+          <Text
+            allowFontScaling={false}
+            numberOfLines={1}
+            onLayout={[Function]}
+            onTextLayout={[Function]}
+            style={
+              [
+                {
+                  "color": "#ff5fa8",
+                  "fontFamily": "Geist-800",
+                  "fontSize": 11,
+                  "fontStyle": "normal",
+                  "letterSpacing": 0.88,
+                  "lineHeight": 15.399999999999999,
+                },
+                undefined,
+                {
+                  "marginTop": -0.2970000000000015,
+                  "paddingTop": 0.2970000000000015,
+                },
+              ]
+            }
+            testID="board-status"
+          >
+            VOTE OPEN · 2 OF 3 IN
+          </Text>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={
+          {
+            "backgroundColor": "#1f1b38",
+            "borderRadius": 22,
+            "overflow": "hidden",
+            "padding": 8,
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "height": 582.9599999999999,
+            }
+          }
+        >
+          <View
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "position": "absolute",
+                },
+                {
+                  "left": 40.06727480978465,
+                  "top": 23.142240776315887,
+                  "transform": [
+                    {
+                      "rotate": "2deg",
+                    },
+                  ],
+                  "width": 209.8656,
+                },
+              ]
+            }
+          >
+            <View
+              accessibilityLabel="Kyoto, 1 votes"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": false,
+                  "expanded": undefined,
+                  "selected": false,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              testID="board-sticker-0"
+            >
+              <View
+                style={{}}
+              >
+                <View
+                  accessibilityLabel="Tokek"
+                  style={
+                    {
+                      "height": 163.695168,
+                      "width": 163.695168,
+                    }
+                  }
+                />
+              </View>
+              <View
+                style={
+                  [
+                    {
+                      "borderColor": "#17142a",
+                      "borderRadius": 14,
+                      "borderWidth": 2,
+                      "marginTop": -12,
+                      "paddingHorizontal": 10,
+                      "paddingVertical": 4,
+                    },
+                    {
+                      "backgroundColor": "#ffd84a",
+                    },
+                    {
+                      "transform": [
+                        {
+                          "scale": 1,
+                        },
+                      ],
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    [
+                      {
+                        "flexDirection": "row",
+                        "flexWrap": "nowrap",
+                      },
+                      {
+                        "alignItems": "center",
+                        "gap": 6,
+                      },
+                      undefined,
+                    ]
+                  }
+                >
+                  <Text
+                    allowFontScaling={false}
+                    numberOfLines={1}
+                    onLayout={[Function]}
+                    onTextLayout={[Function]}
+                    style={
+                      [
+                        {
+                          "color": "#17142a",
+                          "fontFamily": "Geist-800",
+                          "fontSize": 11,
+                          "fontStyle": "normal",
+                          "letterSpacing": 0.88,
+                          "lineHeight": 15.399999999999999,
+                        },
+                        undefined,
+                        {
+                          "marginTop": -0.2970000000000015,
+                          "paddingTop": 0.2970000000000015,
+                        },
+                      ]
+                    }
+                  >
+                    KYOTO
+                  </Text>
+                  <View
+                    accessibilityLabel="Maya"
+                    accessible={true}
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                      }
+                    }
+                  >
+                    <View
+                      style={null}
+                    >
+                      <View
+                        accessibilityElementsHidden={true}
+                        importantForAccessibility="no-hide-descendants"
+                        style={
+                          [
+                            {
+                              "borderRadius": 18,
+                              "padding": 0,
+                            },
+                            null,
+                            null,
+                          ]
+                        }
+                      >
+                        <View
+                          style={
+                            [
+                              {
+                                "alignItems": "center",
+                                "justifyContent": "center",
+                                "overflow": "hidden",
+                              },
+                              {
+                                "backgroundColor": "#ff5fa8",
+                                "borderColor": "#17142a",
+                                "borderRadius": 18,
+                                "borderWidth": 2,
+                                "height": 22,
+                                "opacity": 1,
+                                "width": 22,
+                              },
+                            ]
+                          }
+                        >
+                          <Text
+                            allowFontScaling={false}
+                            onLayout={[Function]}
+                            onTextLayout={[Function]}
+                            style={
+                              [
+                                {
+                                  "color": "#17142a",
+                                  "fontFamily": "Geist-800",
+                                  "fontSize": 11,
+                                  "fontStyle": "normal",
+                                  "letterSpacing": 0.88,
+                                  "lineHeight": 15.399999999999999,
+                                },
+                                undefined,
+                                {
+                                  "marginTop": -0.2970000000000015,
+                                  "paddingTop": 0.2970000000000015,
+                                },
+                              ]
+                            }
+                          >
+                            M
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "alignItems": "center",
+                  "position": "absolute",
+                },
+                {
+                  "left": 397.1434892123227,
+                  "top": 48.360945225776945,
+                  "transform": [
+                    {
+                      "rotate": "2deg",
+                    },
+                  ],
+                  "width": 209.8656,
+                },
+              ]
+            }
+          >
+            <View
+              accessibilityLabel="Lisbon, 1 votes, your vote"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": undefined,
+                  "checked": undefined,
+                  "disabled": false,
+                  "expanded": undefined,
+                  "selected": true,
+                }
+              }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              focusable={true}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onFocus={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              testID="board-sticker-1"
+            >
+              <View
+                style={{}}
+              >
+                <View
+                  accessibilityLabel="Tokek"
+                  style={
+                    {
+                      "height": 163.695168,
+                      "width": 163.695168,
+                    }
+                  }
+                />
+              </View>
+              <View
+                style={
+                  [
+                    {
+                      "borderColor": "#17142a",
+                      "borderRadius": 14,
+                      "borderWidth": 2,
+                      "marginTop": -12,
+                      "paddingHorizontal": 10,
+                      "paddingVertical": 4,
+                    },
+                    {
+                      "backgroundColor": "#ffd84a",
+                    },
+                    {
+                      "transform": [
+                        {
+                          "scale": 1,
+                        },
+                      ],
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    [
+                      {
+                        "flexDirection": "row",
+                        "flexWrap": "nowrap",
+                      },
+                      {
+                        "alignItems": "center",
+                        "gap": 6,
+                      },
+                      undefined,
+                    ]
+                  }
+                >
+                  <Text
+                    allowFontScaling={false}
+                    numberOfLines={1}
+                    onLayout={[Function]}
+                    onTextLayout={[Function]}
+                    style={
+                      [
+                        {
+                          "color": "#17142a",
+                          "fontFamily": "Geist-800",
+                          "fontSize": 11,
+                          "fontStyle": "normal",
+                          "letterSpacing": 0.88,
+                          "lineHeight": 15.399999999999999,
+                        },
+                        undefined,
+                        {
+                          "marginTop": -0.2970000000000015,
+                          "paddingTop": 0.2970000000000015,
+                        },
+                      ]
+                    }
+                  >
+                    LISBON
+                  </Text>
+                  <View
+                    accessibilityLabel="Winston Tan"
+                    accessible={true}
+                    style={
+                      {
+                        "alignItems": "center",
+                        "flexDirection": "row",
+                      }
+                    }
+                  >
+                    <View
+                      style={null}
+                    >
+                      <View
+                        accessibilityElementsHidden={true}
+                        importantForAccessibility="no-hide-descendants"
+                        style={
+                          [
+                            {
+                              "borderRadius": 18,
+                              "padding": 0,
+                            },
+                            null,
+                            null,
+                          ]
+                        }
+                      >
+                        <View
+                          style={
+                            [
+                              {
+                                "alignItems": "center",
+                                "justifyContent": "center",
+                                "overflow": "hidden",
+                              },
+                              {
+                                "backgroundColor": "#ffd84a",
+                                "borderColor": "#17142a",
+                                "borderRadius": 18,
+                                "borderWidth": 2,
+                                "height": 22,
+                                "opacity": 1,
+                                "width": 22,
+                              },
+                            ]
+                          }
+                        >
+                          <Text
+                            allowFontScaling={false}
+                            onLayout={[Function]}
+                            onTextLayout={[Function]}
+                            style={
+                              [
+                                {
+                                  "color": "#17142a",
+                                  "fontFamily": "Geist-800",
+                                  "fontSize": 11,
+                                  "fontStyle": "normal",
+                                  "letterSpacing": 0.88,
+                                  "lineHeight": 15.399999999999999,
+                                },
+                                undefined,
+                                {
+                                  "marginTop": -0.2970000000000015,
+                                  "paddingTop": 0.2970000000000015,
+                                },
+                              ]
+                            }
+                          >
+                            W
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "left": 214.7873149765715,
+                "position": "absolute",
+                "top": 311.66676680340106,
+              }
+            }
+          >
+            <View
+              accessibilityActions={
+                [
+                  {
+                    "label": "Pitch a place",
+                    "name": "activate",
+                  },
+                ]
+              }
+              accessibilityLabel="Pitch a place"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+              style={
+                [
+                  {
+                    "minHeight": 44,
+                    "minWidth": 44,
+                  },
+                  [
+                    {
+                      "alignItems": "center",
+                      "borderColor": "#3a3466",
+                      "borderStyle": "dashed",
+                      "borderWidth": 2,
+                      "gap": 4,
+                      "justifyContent": "center",
+                      "padding": 12,
+                    },
+                    {
+                      "borderRadius": 104.9328,
+                      "height": 209.8656,
+                      "width": 209.8656,
+                    },
+                  ],
+                  {
+                    "transform": [
+                      {
+                        "scale": 1,
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="board-pitch"
+            >
+              <Text
+                accessibilityElementsHidden={true}
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#f4efe4",
+                      "fontFamily": "Archivo-W78-900",
+                      "fontSize": 28,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0.56,
+                      "lineHeight": 24.08,
+                    },
+                    {
+                      "color": "#f4efe4",
+                    },
+                    {
+                      "marginTop": -11.451999999999998,
+                      "paddingTop": 11.451999999999998,
+                    },
+                  ]
+                }
+              >
+                +
+              </Text>
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#a9a3c0",
+                      "fontFamily": "Geist-800",
+                      "fontSize": 11,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0.88,
+                      "lineHeight": 15.399999999999999,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.2970000000000015,
+                      "paddingTop": 0.2970000000000015,
+                    },
+                  ]
+                }
+              >
+                PITCH A PLACE
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;
