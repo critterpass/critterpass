@@ -28,7 +28,7 @@ appId: app.critterpass.dev
 - takeScreenshot: ${LOCALE}-text-2x-mrz
 - scrollUntilVisible:
     element:
-      text: 'YOUR WHOLE CREW.*'
+      text: '.*AUTO-FIT LONG TITLE.*'
     direction: DOWN
     timeout: 30000
 - takeScreenshot: ${LOCALE}-text-2x-long-h1

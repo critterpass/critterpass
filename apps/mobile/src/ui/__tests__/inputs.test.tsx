@@ -9,7 +9,7 @@ import { Alert, View } from 'react-native';
 import type { AlertButton } from 'react-native';
 
 import { PillButton } from '../buttons/PillButton';
-import { CodeBoxes } from '../inputs/CodeBoxes';
+import { CodeBoxes, groupFitSize } from '../inputs/CodeBoxes';
 import { HoldRing } from '../inputs/HoldRing';
 import { applyKey, Keypad } from '../inputs/Keypad';
 import { KeypadAmount } from '../inputs/KeypadAmount';
@@ -166,6 +166,31 @@ describe('inputs', () => {
     expect(gift.props['aria-invalid']).toBe(true);
     await fireEvent.changeText(gift, 'ab12-cd34-ef56-gh');
     expect(onChangeText).toHaveBeenLastCalledWith('AB12CD34EF56');
+  });
+
+  it('fits a gift code group to its box, and stacks the groups when that would be too small', async () => {
+    // Four bold capitals in a 100 pt box with 20 pt of padding and border: 80 / (4 × .72).
+    expect(groupFitSize(100, 4, 20)).toBeCloseTo(27.78, 1);
+    await renderUi(
+      <CodeBoxes
+        value="PASS7K2QMAYA"
+        onChangeText={() => {}}
+        groups={[4, 4, 4]}
+        label="Gift code"
+        testID="gift"
+      />,
+    );
+    const cellsNode = () => screen.getByTestId('gift-cells', { includeHiddenElements: true });
+    const direction = () =>
+      StyleSheet.flatten(cellsNode().props.style as StyleProp<ViewStyle>)?.flexDirection;
+    const layoutAt = (width: number) => ({
+      nativeEvent: { layout: { x: 0, y: 0, width, height: 60 } },
+    });
+    await fireEvent(cellsNode(), 'layout', layoutAt(330));
+    expect(direction()).toBe('row');
+    // So narrow that side by side each group would drop below a readable size.
+    await fireEvent(cellsNode(), 'layout', layoutAt(150));
+    expect(direction()).toBe('column');
   });
 
   it('builds amounts from keypad keys', async () => {

@@ -62,10 +62,10 @@ describe('fontFor — display-class Archivo variant (h1)', () => {
     });
   });
 
-  it('keeps Vietnamese on Archivo (full glyph coverage) but raises the line height to 1.0', () => {
+  it('keeps Vietnamese on Archivo (full glyph coverage) but opens the leading for stacked marks', () => {
     const resolved = fontFor(displayH1, 'vi');
     expect(resolved.fontFamily).toBe('Archivo-W70-900');
-    expect(resolved.lineHeightMultiplier).toBe(1.0);
+    expect(resolved.lineHeightMultiplier).toBe(1.12);
     expect(resolved.condensedUpper).toBe(true);
   });
 

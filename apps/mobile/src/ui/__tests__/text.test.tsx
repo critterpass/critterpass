@@ -278,10 +278,11 @@ describe('text fit on larger screens and larger text', () => {
       </Text>,
     );
     const start = sizeOf(screen.getByTestId('mrz'));
+    // Split between two filler marks, as Android laid it out at 2×: still a split code.
     await fireEvent(
       screen.getByTestId('mrz'),
       'textLayout',
-      lines('P<IDNWINSTON<<CRITTE', 'R<<<<<<'),
+      lines('P<IDNWINSTON<<CRITTER<', '<<<<<'),
     );
     expect(sizeOf(screen.getByTestId('mrz'))).toBeLessThan(start);
   });
@@ -362,5 +363,25 @@ describe('pill labels', () => {
     } finally {
       setUiQaSink(null);
     }
+  });
+});
+
+describe('two-line CTA', () => {
+  it('opens the leading and pads the pill once its label wraps', async () => {
+    const screen = await renderUi(
+      <ThemeProvider fontScale={1}>
+        <PillButton label="Book the ryokan for all six" onPress={() => {}} testID="cta" />
+      </ThemeProvider>,
+    );
+    const label = () => screen.getByText('BOOK THE RYOKAN FOR ALL SIX');
+    const flatOf = (node: { props: { style?: unknown } }) =>
+      StyleSheet.flatten(node.props.style as TextStyle) ?? {};
+    const single = flatOf(label()).lineHeight ?? 0;
+    await fireEvent(label(), 'textLayout', {
+      nativeEvent: { lines: [{ text: 'BOOK THE RYOKAN ' }, { text: 'FOR ALL SIX' }] },
+    });
+    expect(flatOf(label()).lineHeight).toBeGreaterThan(single);
+    expect(flatOf(label()).lineHeight).toBeCloseTo((flatOf(label()).fontSize ?? 0) * 1.2, 5);
+    expect(flatOf(screen.getByTestId('cta')).paddingVertical).toBeGreaterThan(0);
   });
 });

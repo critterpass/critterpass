@@ -177,7 +177,7 @@ export function Text({
     // Uppercase headings and labels are short words in tight boxes: one too wide shrinks to the
     // floor rather than splitting mid-word.
     // Codes (monoData: MRZ lines, booking refs) are never split either.
-    keepWordsWhole: (uppercase || variant === 'monoData') && text !== null,
+    keepWordsWhole: text === null ? false : variant === 'monoData' ? 'code' : uppercase,
     // Past the default text size, a heading that still overflows at its floor keeps wrapping:
     // enlarged text is never cut.
     neverCut: fontScale > 1,
