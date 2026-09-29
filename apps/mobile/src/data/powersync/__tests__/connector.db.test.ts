@@ -30,8 +30,8 @@ import {
   commandRows,
   enqueue,
   eventually,
+  HELD_BACKOFF,
   queueWith,
-  TEST_BACKOFF,
   stopQueues,
 } from '../test-support/queue-fixtures';
 import { startApiHarness, type ApiHarness } from '../test-support/start-api-harness';
@@ -113,18 +113,20 @@ describe('upload queue → POST /sync/upload', () => {
     const first = await enqueue(db, session.uid, 'create_test_crew', a);
     const flaky = await enqueue(db, session.uid, 'flaky_test_op', { key: generateUuidV7() });
     const last = await enqueue(db, session.uid, 'create_test_crew', b);
-    const queue = queueWith(db, realTransport());
+    // The retry waits until the test has read what the failure left; the backoff timer itself is
+    // covered by the offline test below.
+    const queue = queueWith(db, realTransport(), undefined, HELD_BACKOFF);
 
     await queue.flush();
 
-    expect(queue.getState()).toMatchObject({ failures: 1, retryDelayMs: TEST_BACKOFF.baseMs });
+    expect(queue.getState()).toMatchObject({ failures: 1, retryDelayMs: HELD_BACKOFF.baseMs });
     expect(await commandRows(db)).toEqual([
       { id: first, status: 'done', attempts: 1 },
       { id: flaky, status: 'queued', attempts: 1 },
       { id: last, status: 'queued', attempts: 1 },
     ]);
 
-    await eventually(async () => (await commandRows(db)).every((row) => row.status === 'done'));
+    await queue.retryNow();
     expect(await commandRows(db)).toEqual([
       { id: first, status: 'done', attempts: 1 },
       { id: flaky, status: 'done', attempts: 2 },
@@ -160,7 +162,11 @@ describe('upload queue → POST /sync/upload', () => {
     await queue.flush();
     await eventually(() => Promise.resolve(delays.length >= 4));
     expect(delays.slice(0, 4)).toEqual([20, 40, 80, 160]);
-    expect(await commandRows(db)).toMatchObject([{ id: first, status: 'queued' }]);
+    // The timers keep firing here, so the op may be mid-attempt; either way nothing reached the api.
+    expect(await commandRows(db)).toMatchObject([
+      { id: first, status: expect.stringMatching(/^(queued|sending)$/) },
+    ]);
+    expect(await api.crewCount(a.crew_id)).toBe(0);
 
     online = true;
     await queue.retryNow();
@@ -176,16 +182,21 @@ describe('upload queue → POST /sync/upload', () => {
     const lost = await enqueue(db, session.uid, 'create_test_crew', a);
     const real = realTransport();
     let dropNextResponse = true;
-    const queue = queueWith(db, {
-      async postJson(path, body) {
-        const response = await real.postJson(path, body);
-        if (dropNextResponse) {
-          dropNextResponse = false;
-          throw new Error('connection reset after the server answered');
-        }
-        return response;
+    const queue = queueWith(
+      db,
+      {
+        async postJson(path, body) {
+          const response = await real.postJson(path, body);
+          if (dropNextResponse) {
+            dropNextResponse = false;
+            throw new Error('connection reset after the server answered');
+          }
+          return response;
+        },
       },
-    });
+      undefined,
+      HELD_BACKOFF,
+    );
 
     await queue.flush();
     expect(await commandRows(db)).toMatchObject([{ id: lost, status: 'queued' }]);
