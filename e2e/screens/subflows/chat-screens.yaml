@@ -58,19 +58,25 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'start-crew-done'
-# A new crew becomes the current one. Done can land on the crews sheet: choose it there.
+# Done does not always make the new crew the current one: choose it on the crews sheet.
 - waitForAnimationToEnd
 - runFlow:
     when:
-      visible:
+      notVisible:
         id: 'crews-sheet'
     commands:
       - tapOn:
-          text: '(?i).*quiet crew.*'
-      - extendedWaitUntil:
-          notVisible:
-            id: 'crews-sheet'
-          timeout: 10000
+          id: 'home-header-crew'
+- extendedWaitUntil:
+    visible:
+      id: 'crews-sheet'
+    timeout: 15000
+- tapOn:
+    text: '(?i).*quiet crew.*'
+- extendedWaitUntil:
+    notVisible:
+      id: 'crews-sheet'
+    timeout: 10000
 - extendedWaitUntil:
     visible:
       id: 'home-header-chat'

@@ -14,7 +14,6 @@ import Animated from 'react-native-reanimated';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLongPress } from '@/motion/gestures/long-press';
 import { InlineAction } from '@/ui/buttons/InlineAction';
-import { Icon } from '@/ui/icons/Icon';
 import { Avatar } from '@/ui/people/Avatar';
 import { Row, Stack, Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';
@@ -66,6 +65,7 @@ const useStyles = makeStyles((th) => ({
   },
   meta: { gap: th.space['6'], alignItems: 'center', paddingTop: th.space['4'] },
   under: { alignItems: 'flex-start' },
+  pending: { width: th.space['6'], height: th.space['6'], borderRadius: th.space['6'] },
   underMine: { alignItems: 'flex-end' },
   underTheirs: { paddingStart: (th.size.avatar.lg ?? 0) + th.space['8'] },
 }));
@@ -256,13 +256,7 @@ function DeliveryLine({ message, mine, onRetry, onDiscard }: BubbleProps) {
   return (
     <Row style={styles.meta}>
       {sending ? (
-        <Icon
-          name="circle"
-          size={theme.space['12']}
-          decorative
-          color={theme.semantic.state.warning}
-          accent={theme.semantic.state.warning}
-        />
+        <View style={[styles.pending, { backgroundColor: theme.semantic.state.warning }]} />
       ) : null}
       <Text variant="caption" color={theme.semantic.text.tertiary}>
         {parts.join(' · ')}
