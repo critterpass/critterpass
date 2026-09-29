@@ -3,3 +3,6 @@ export * from './availability';
 export * from './budget';
 export * from './events';
 export * from './steps';
+export * from './calendar';
+export * from './templates';
+export * from './queues';

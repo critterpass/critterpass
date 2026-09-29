@@ -1,0 +1,13 @@
+{
+  "source": "Google OAuth 2.0 token endpoint (oauth2.googleapis.com/token) authorization_code response, shape per developers.google.com/identity/protocols/oauth2/native-app#exchange-authorization-code; token values replaced.",
+  "response": {
+    "status": 200,
+    "body": {
+      "access_token": "ya29.a0AfB_byFixtureAccessTokenValue0001",
+      "expires_in": 3599,
+      "refresh_token": "1//0gFixtureRefreshTokenValue0001",
+      "scope": "https://www.googleapis.com/auth/calendar.freebusy",
+      "token_type": "Bearer"
+    }
+  }
+}

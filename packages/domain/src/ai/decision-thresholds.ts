@@ -55,6 +55,12 @@ export const DECISION_THRESHOLDS: Readonly<Record<DecisionRoute, DecisionThresho
     jev: { yes: 0.85, no: 0.3, minConfidence: 0.5 },
     fast: TWIN_BAND,
   },
+  // A written reply to the guide's private availability ask: below the floor the ask stays open
+  // and the member is shown the two quick replies again.
+  'availability.reply_intent': {
+    jev: { yes: 0.7, no: 0.3, minConfidence: 0.6 },
+    fast: TWIN_BAND,
+  },
 };
 
 export function decisionBand(route: DecisionRoute, answeredBy: DecisionAnswerer): DecisionBand {

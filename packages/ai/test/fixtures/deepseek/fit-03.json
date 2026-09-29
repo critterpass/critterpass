@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "eb35f876-289a-4c3c-8284-f191ff6cad4d",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tanah Lot clashes: it's closed on your trip dates, so save it for next time."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 457,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 20,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

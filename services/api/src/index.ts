@@ -28,7 +28,7 @@ import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerOtpWebhookRoutes } from './routes/otp-webhooks';
 import { betterAuthSessionResolver } from './commands/_framework/session';
 import { registerCmdResultsRoute } from './routes/cmd-results';
-import { createAppCommandRegistry } from './commands/catalogue';
+import { createAppCommandRegistry, registerSetupRoutes } from './commands/catalogue';
 import { registerCommandRoute } from './routes/cmd';
 import { registerLocationRouteFromEnv } from './routes/loc';
 import { registerLiveMapRoutes } from './routes/live-map';
@@ -234,6 +234,7 @@ registerAiRoutes(app, commandDoors, env, logger);
 registerVoteRoutesFromEnv(app, { ...commandDoors, cache: redis }, env);
 registerTravelDataRoutes(app, commandDoors);
 registerCostRoutes(app, commandDoors);
+registerSetupRoutes(app, { ...commandDoors, store: redis, env: process.env });
 registerGeoRoutesFromEnv(app, commandDoors, env.GEOIP_CITY_MMDB, logger);
 registerDevRoutesFromEnv(app, { ...commandDoors, logger }, env);
 registerLinkRoutes(app, {

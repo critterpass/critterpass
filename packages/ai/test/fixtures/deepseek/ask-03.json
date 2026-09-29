@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "2d3d611a-78e6-40e0-83ed-fc769f60d085",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Jordan, any chance you could shift that maybe block in {dates} for our Lisbon trip? No pressure, grilled sardines will wait for you."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 465,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 30,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

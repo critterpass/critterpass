@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "1ff603a3-18d6-4ea9-9706-e761251f2e98",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Belém Tower is tight, so book at least 14 days ahead before it sells out."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 445,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 19,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

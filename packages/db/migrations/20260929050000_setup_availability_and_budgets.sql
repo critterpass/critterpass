@@ -238,6 +238,10 @@ CREATE TABLE availability_asks (
   block_end date NOT NULL,
   status text NOT NULL DEFAULT 'asked' CHECK (status IN ('asked', 'replied', 'timed_out')),
   intent text CHECK (intent IN ('freed', 'not_movable')),
+  -- The guide's line to the member ({dates} filled in on delivery), and a written reply held only
+  -- until its intent is read.
+  ask_line text CHECK (char_length(ask_line) <= 400),
+  reply_text text CHECK (char_length(reply_text) <= 500),
   expires_at timestamptz NOT NULL,
   replied_at timestamptz,
   created_at timestamptz NOT NULL DEFAULT now(),
@@ -262,6 +266,38 @@ CREATE POLICY availability_asks_system ON availability_asks FOR ALL TO app_syste
   USING (true) WITH CHECK (true);
 GRANT SELECT ON availability_asks TO app_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON availability_asks TO app_system;
+
+-- Settles an open ask with the member's answer: the ask is replied, its window option shows the
+-- outcome, and a freed block turns the member's own `maybe` days in it into `free`. Returns what
+-- the caller needs for the realtime hint and the recount; nothing when the ask was not open.
+CREATE OR REPLACE FUNCTION app.resolve_availability_ask(p_ask uuid, p_intent text)
+RETURNS TABLE (trip_id uuid, option_id uuid, target_user_id uuid, requested_by uuid)
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public, app AS $$
+DECLARE
+  ask availability_asks;
+BEGIN
+  IF p_intent NOT IN ('freed', 'not_movable') THEN
+    RAISE EXCEPTION 'invalid ask intent: %', p_intent USING ERRCODE = 'invalid_parameter_value';
+  END IF;
+  UPDATE availability_asks a
+     SET status = 'replied', intent = p_intent, replied_at = now(), reply_text = NULL
+   WHERE a.id = p_ask AND a.status = 'asked'
+  RETURNING * INTO ask;
+  IF NOT FOUND THEN
+    RETURN;
+  END IF;
+  UPDATE date_window_options o SET ask_status = p_intent
+   WHERE o.id = ask.option_id AND o.ask_user_id = ask.target_user_id;
+  IF p_intent = 'freed' THEN
+    UPDATE calendar_days d SET state = 'free', guide_may_ask = false
+     WHERE d.user_id = ask.target_user_id AND d.state = 'maybe'
+       AND d.date BETWEEN ask.block_start AND ask.block_end;
+  END IF;
+  RETURN QUERY SELECT ask.trip_id, ask.option_id, ask.target_user_id, ask.requested_by;
+END;
+$$;
+REVOKE EXECUTE ON FUNCTION app.resolve_availability_ask(uuid, text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.resolve_availability_ask(uuid, text) TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- budget_max_private: RLS class X, write-only. A member inserts and updates their own max for a
@@ -496,6 +532,19 @@ LEFT JOIN destinations d ON d.id = t.destination_id
 LEFT JOIN guides g ON g.id = t.guide_id
 WHERE t.id = nullif(current_setting('app.trip', true), '')::uuid
   AND app.is_trip_member(t.id);
+
+-- When the server last filed a setup event of `p_type` about one member of one trip (the stale
+-- calendar nudge and the must-do prompt go out once per period, not once per run). app_system
+-- reads no event log otherwise.
+CREATE OR REPLACE FUNCTION app.last_setup_event_at(p_type text, p_trip uuid, p_user uuid)
+RETURNS timestamptz
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public, app AS $$
+  SELECT max(e.occurred_at) FROM domain_events e
+   WHERE e.type = p_type AND e.type IN ('calendar.stale', 'must_do.prompted')
+     AND e.trip_id = p_trip AND e.payload->>'user_id' = p_user::text
+$$;
+REVOKE EXECUTE ON FUNCTION app.last_setup_event_at(text, uuid, uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.last_setup_event_at(text, uuid, uuid) TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- domain_events: the setup events join the catalogue (packages/domain/src/setup/events.ts).

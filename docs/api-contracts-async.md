@@ -34,10 +34,10 @@ History = size / TTL. Presence ✓ = Centrifugo presence + join/leave enabled.
 | `crew_collection:{crew_id}` | member | `critter.befriended`, `sighting`, `first_spotter` | event | – | 50 / 7 d | 40 |
 | `poll:{poll_id}` | anyone who can read the poll (its crew, or its trip's crew) | `ballot.upserted{poll_id, option_tallies, pending_count, eligible_count}`, `poll.updated{…, stage?}` (candidate added/removed, board ↔ final), `poll.closed{…, winner_option_id}`, `changeset.tally{yes, needed}`; the same counts are mirrored as `poll.tally` on `crew_chat:` | per ballot | – | 50 / 72 h | 26 |
 | `trip:{trip_id}` | participant | hub ticker `activity`, `tiles`, `boost.state`, `boost.intent_lock{by_uid, until}`, `redraft.counter`, `seat.count` | event | – | 100 / 72 h | 36 |
-| `trip_setup:{trip_id}` | participant | `step.status`, `calendar.sync_count`, `budget.band{count, dots[] (crew ≥4), band}`, `rooms.changed`, `must_do.row{fit_status}` | event | ✓ | 50 / 72 h | 27 |
+| `trip_setup:{trip_id}` | trip crew member (`trip_member`, doc delta: any active member of the trip's crew, RSVP or not, as the `trip` stream and the setup tables' RLS; setup runs before anyone answers) | `step.status{step, from}`, `calendar.sync_count{synced, of}`, `availability.updated{dates}` (counts moved; rows sync), `windows.updated`, `ask.status{option_id, status}`, `budget.count{maxes_count, of}`, `budget.band{maxes_count, of, band?}` (band only from 4 maxes, never a max), `budget.locked`, `rooms.changed{version}`, `rooms.locked`, `room_swap.requested{user_id}`, `must_do.row{must_do_id, fit_status}` (doc delta: payloads) | event | ✓ | 50 / 72 h | 27 |
 | `trip_draft:{trip_id}` | organiser | `draft.step`, `draft.day_title`, `draft.done`, `redraft.result`, `import.progress` | ~1/s during job | – | 100 / 24 h | 28 |
 | `trip_plan:{trip_id}` | participant | `plan.ops{version, ops}`, `guide.touched`, `forecast.band`, `match.inserted`, `changeset.*` | per op | – | 200 / 72 h | 29 |
-| `trip_presence:{trip_id}` | participant | client publish: `here{screen, day}`, `cursor{anchor}`, `typing` | ≤5 Hz/client | ✓ | none | 29 |
+| `trip_presence:{trip_id}` | trip crew member (`trip_member`, doc delta: setup presence `here{screen:'setup', step}` and must-do typing come from members before they RSVP; every publish carries only what they already sync) | client publish: `here{screen, day}`, `cursor{anchor}`, `typing` | ≤5 Hz/client | ✓ | none | 29 |
 | `trip_dayof:{trip_id}` | participant | `readiness{leave_by_id, up[], total}`, `packing.checked`, `leave_by.changed` | event | – | 50 / 24 h | 36 |
 | `trip_watch:{trip_id}` | participant | `watch.item`, `watch.status`, `forecast.updated` | per run | – | 50 / 72 h | 37 |
 | `trip_copresence:{trip_id}` | participant with active visit at spot | `copresence{spot_id, in_count, total}` (no coordinates) | event, TTL 30 min | – | none | 40 |
@@ -87,7 +87,11 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `avatar.render` (doc delta) | avatar approved (job or ops) | 40/64/120/240 px circle + ring PNGs into R2 under the owner's avatar prefix, registered in `media_objects`, keys in `avatars.variant_keys` | 3 | avatar id | 22 |
 | `compliance.check` | public, imported or outbound text created offline reaches the server (upload handler or command) | the content kind's registered handler loads the text, `checkCompliance` screens it (code patterns, one Jev call, fast-tier twin fallback), the handler applies the verdict idempotently (publish, moderation review, `CONTENT_REJECTED`); payload holds ids only | 3 / DLQ | `(content_kind, content_id)` | 13 |
 | `ai.redraft` | `request_redraft`, `import_shared_plan` | day-scoped pipeline + diff; release quota on failure | 2 | `redraft_id` | 28, 52 |
-| `ai.fit_check` | `set_must_dos` | planner fit per must-do | 3 | `(trip_id, must_do_hash)` | 27 |
+| `ai.fit_check` | `set_must_dos`, `lock_trip_dates`, a re-opened step | planner fit per must-do | 3 | `(trip_id, must_do_hash)` | 27 |
+| `setup.window_recompute` (doc delta) | `set_availability`, a calendar sync, an ask answered, a member joining or leaving | `app.recompute_availability` + the planner's window options into `date_window_options` (an ask's outcome kept on its option); `calendar.sync_count`, `availability.updated`, `windows.updated` on `trip_setup:` | 3 (stately: one queued + one running per trip) | trip id | 27 |
+| `setup.availability_ask` (doc delta) | `ask_availability` | the guide's line (fast tier `micro.line`, `{dates}` filled at delivery so no calendar reaches the model; template when off) → `availability_ask.created` → N-05 | 3 / DLQ | ask id | 27 |
+| `setup.ask_reply` (doc delta) | `answer_availability_ask` with `text` | intent on `availability.reply_intent` → settles like a quick reply, or leaves the ask open; the text is erased | 3 / DLQ | ask id | 27 |
+| `calendar.sync` (doc delta) | `connect_calendar`, setup opening, daily from `calendar.stale_nudge` | refresh the token when due, Google `freeBusy` / Graph `calendarView` (`showAs`, times, all-day only) → date-level days in the member's zone (manual marks win; tentative as `maybe` only with consent); a revoked grant marks the source `error`; queues the member's window recomputes | 3 | source id | 27 |
 | `ai.proposal_versions` | `create_proposal` | one child per recipient (AI-15), costs injected | 3 each | `(proposal_id, uid)` | 31 |
 | `ai.rsvp_intent` | reply text | AI-18 intent; `out` → `trip.dropout` | 3 | message id | 31 |
 | `trip.dropout` | `participant.declined` | room re-optimise, Viator cancel if applicable, re-split, waitlist promote, ChangeSet | 3 / DLQ | `(trip_id, uid)` | 31 |
@@ -166,7 +170,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `billing.reconcile` | `0 5 * * *` | RevenueCat REST drift check, grace expiry (server 7 d) | 46 |
 | `pause.remind` | resume −N d | N-37 | 46 |
 | `mailbox.scan` | per Pass+ user daily local morning | Gmail/Graph incremental | 34 |
-| `calendar.stale_nudge` | `0 9 * * *` local | stale sync nudges | 27 |
+| `calendar.stale_nudge` | `0 * * * *` UTC (doc delta: hourly, acting on members whose local time is 09:xx) | members of trips still choosing dates whose calendar is missing or older than 72 h: one `calendar.stale` (N `setup_task`) per stale period; queues the daily `calendar.sync` of OAuth calendars not synced for 24 h | 27 |
+| `availability_ask.timeout` (doc delta) | `scheduled_events` timer 48 h after `ask_availability` | an ask still open times out: its option shows `timed_out`, `availability_ask.timed_out` → N-46 to whoever asked | 27 |
 | `maint.purge` | `30 3 * * *` SGT | retention: fixes TTL, visits, encounter samples, receipts/menu images, face data, `cmd_log` 30 d, `cmd_results` 14 d, `rt_outbox` 7 d after send, `domain_events` 400 d, `notifications` 90 d, media orphans, invites + PII | 11 |
 | `maint.anon_gc` | `0 4 * * *` | delete anonymous accounts inactive 90 d with no crew | 11 (rules from 09) |
 | `maint.tokens` | `0 */6 * * *` | LA token hygiene, APNs channel GC (≤10k channels/env), ended activities | 48 |

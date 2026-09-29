@@ -1373,6 +1373,9 @@ importers:
       '@cp/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n
+      '@cp/planner':
+        specifier: workspace:*
+        version: link:../../packages/planner
       '@cp/suppliers':
         specifier: workspace:*
         version: link:../../packages/suppliers

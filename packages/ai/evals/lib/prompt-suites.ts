@@ -20,6 +20,7 @@ import { phraseTip, ungroundedTokens } from '../../src/prompts/tips/prompt';
 import { loadFixture } from '../../test/fixture-transport';
 import type { EvalMode } from './provider';
 import { runGuestBriefCase } from './guest-brief-suite';
+import { runAskCase, runFitCase, runReplyCase, type SetupSuiteDeps } from './setup-suites';
 import { runPitchCase } from './stream-suites';
 import type { CaseReport } from './runner';
 import { jsonResponse } from './transports';
@@ -30,6 +31,9 @@ export const PROMPT_SUITES = [
   'tips',
   'pitch',
   'guest-brief',
+  'availability-ask',
+  'ask-reply',
+  'fit-note',
 ] as const;
 export type PromptSuite = (typeof PROMPT_SUITES)[number];
 
@@ -201,6 +205,10 @@ async function tips(raw: unknown, options: PromptRunOptions): Promise<CaseReport
   );
 }
 
+function setupDeps(options: PromptRunOptions): SetupSuiteDeps {
+  return { gatewayFor: (fixture) => gatewayFor(fixture, options), report };
+}
+
 const RUNNERS: Readonly<
   Record<PromptSuite, (raw: unknown, options: PromptRunOptions) => Promise<CaseReport>>
 > = {
@@ -209,6 +217,9 @@ const RUNNERS: Readonly<
   tips,
   pitch: runPitchCase,
   'guest-brief': runGuestBriefCase,
+  'availability-ask': (raw, options) => runAskCase(raw, setupDeps(options)),
+  'ask-reply': (raw, options) => runReplyCase(raw, setupDeps(options)),
+  'fit-note': (raw, options) => runFitCase(raw, setupDeps(options)),
 };
 
 export async function runPromptSuiteCases(

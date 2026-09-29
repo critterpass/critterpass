@@ -295,6 +295,14 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'poll.stage_changed': ['vote_needs_you'],
   'poll.closing_soon': ['vote_closing'],
   'poll.closed': ['winner_revealed'],
+  // Trip setup: the guide's private ask to one member and its answer (or timeout) to whoever asked,
+  // the stale-calendar and must-do prompts, and a tracked lottery's reminders.
+  'availability_ask.created': ['guide_availability_ask'],
+  'availability_ask.answered': ['availability_reply'],
+  'availability_ask.timed_out': ['availability_reply'],
+  'calendar.stale': ['setup_task'],
+  'must_do.prompted': ['setup_task'],
+  'lottery.reminder_due': ['lottery_deadline'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

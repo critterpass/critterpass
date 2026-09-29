@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "f260b18c-f959-47d7-a9bf-2b08e5012d2c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"intent\": {\"choice\": \"freed\", \"sure\": true}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 275,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 17,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

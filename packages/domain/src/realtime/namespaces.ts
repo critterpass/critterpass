@@ -14,7 +14,8 @@ import type { ChannelNamespace } from '../channel-names';
  * model.md §2), run as `app_user` with `app.uid` set, so the subscribe proxy and RLS can never
  * disagree about membership.
  */
-export type RtAclRule = 'self' | 'crew_member' | 'trip_participant' | 'trip_organiser';
+export type RtAclRule =
+  'self' | 'crew_member' | 'trip_member' | 'trip_participant' | 'trip_organiser';
 
 /**
  * The predicate each rule evaluates, with the channel id as `$1`. Shared as text so the permission
@@ -25,6 +26,9 @@ export type RtAclRule = 'self' | 'crew_member' | 'trip_participant' | 'trip_orga
 export const RT_ACL_RULE_SQL: Readonly<Record<RtAclRule, string>> = {
   self: 'SELECT $1::uuid = app.uid() AS allowed',
   crew_member: 'SELECT app.is_crew_member($1::uuid) AS allowed',
+  // Any active member of the trip's crew, RSVP or not: what the trip stream and the setup tables'
+  // RLS already show them (trip setup happens before anyone has answered).
+  trip_member: 'SELECT app.is_trip_member($1::uuid) AS allowed',
   trip_participant: `SELECT app.is_trip_member($1::uuid) AND (
       app.is_trip_organiser($1::uuid)
       OR EXISTS (
@@ -131,7 +135,7 @@ export const RT_CORE_NAMESPACES: readonly RtNamespaceSpec[] = [
   },
   {
     name: 'trip_setup',
-    acl: 'trip_participant',
+    acl: 'trip_member',
     history: { size: 50, ttlSeconds: 3 * DAY },
     presence: true,
   },
@@ -173,7 +177,7 @@ export const RT_CORE_NAMESPACES: readonly RtNamespaceSpec[] = [
   },
   {
     name: 'trip_presence',
-    acl: 'trip_participant',
+    acl: 'trip_member',
     history: null,
     presence: true,
     clientPublish: {
@@ -194,7 +198,8 @@ export const RT_CREW_SCOPED_NAMESPACES: readonly ChannelNamespace[] = RT_CORE_NA
 
 /** Trip-id-keyed core namespaces: leaving a crew or declining a trip unsubscribes from every one. */
 export const RT_TRIP_SCOPED_NAMESPACES: readonly ChannelNamespace[] = RT_CORE_NAMESPACES.filter(
-  (spec) => spec.acl === 'trip_participant' || spec.acl === 'trip_organiser',
+  (spec) =>
+    spec.acl === 'trip_member' || spec.acl === 'trip_participant' || spec.acl === 'trip_organiser',
 ).map((spec) => spec.name);
 
 export interface RtChannel {

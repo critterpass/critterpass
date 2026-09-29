@@ -6,6 +6,8 @@
  * Later features append rows.
  */
 
+import { SETUP_QUEUE_DESCRIPTIONS, setupQueueSpecs } from '../setup/queues';
+
 /** pg-boss queue policies (pg-boss `QueuePolicy`). */
 export type QueuePolicy =
   'standard' | 'short' | 'singleton' | 'stately' | 'exclusive' | 'key_strict_fifo';
@@ -269,6 +271,7 @@ export const QUEUES = {
     expireInSeconds: 30 * 60,
     cron: { expr: '0 5 * * *', tz: 'Asia/Singapore' },
   }),
+  ...setupQueueSpecs(DEFAULT_QUEUE_SPEC),
 } as const satisfies Record<string, QueueSpec>;
 
 export type QueueName = keyof typeof QUEUES;
@@ -327,6 +330,7 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'poll.board_advance': "Moves a destination board to its two-place final at the board's deadline",
   'poll.remind': 'Reminds voters who have not voted before a poll closes',
   'ai.pitch': "Refreshes guide pitches for the places in crews' decks when their fares move",
+  ...SETUP_QUEUE_DESCRIPTIONS,
 };
 
 export type JobPayloadRedactor = (data: unknown) => unknown;

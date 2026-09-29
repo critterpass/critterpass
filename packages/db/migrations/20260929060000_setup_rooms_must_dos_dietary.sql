@@ -286,6 +286,68 @@ CREATE TRIGGER trips_sync_dietary_flags AFTER INSERT OR UPDATE OF status ON trip
   FOR EACH ROW EXECUTE FUNCTION app.trips_sync_dietary_flags();
 
 -- ---------------------------------------------------------------------------------------------
+-- What the date-window engine reads for one trip, as the server only: each setup member's reported
+-- days and askable `maybe` days over [p_from, p_to], the destination's reviewed season months and
+-- events, cached fares from members' home airports, and the trip's must-dos with their places'
+-- hours. The engine (packages/planner) turns it into window options; only those reach the crew.
+CREATE OR REPLACE FUNCTION app.setup_window_inputs(p_trip uuid, p_from date, p_to date)
+RETURNS jsonb
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, public, app AS $$
+  WITH trip AS (SELECT id, destination_id FROM trips WHERE id = p_trip),
+  members AS (
+    SELECT m.user_id, upper(u.home_airport) AS home
+      FROM app.setup_member_ids(p_trip) AS m(user_id)
+      JOIN users u ON u.id = m.user_id
+  )
+  SELECT jsonb_build_object(
+    'members', (
+      SELECT coalesce(jsonb_agg(jsonb_build_object(
+        'uid', m.user_id,
+        'home', m.home,
+        'days', (
+          SELECT coalesce(jsonb_object_agg(d.date::text, d.state), '{}'::jsonb)
+            FROM calendar_days d
+           WHERE d.user_id = m.user_id AND d.date BETWEEN p_from AND p_to AND d.state <> 'unknown'
+        ),
+        'askable', (
+          SELECT coalesce(jsonb_agg(d.date::text ORDER BY d.date), '[]'::jsonb)
+            FROM calendar_days d
+           WHERE d.user_id = m.user_id AND d.date BETWEEN p_from AND p_to AND d.guide_may_ask
+        )
+      ) ORDER BY m.user_id), '[]'::jsonb)
+      FROM members m
+    ),
+    'months', (
+      SELECT coalesce(jsonb_agg(jsonb_build_object('month', s.month, 'role', s.colour_role)), '[]'::jsonb)
+        FROM season_months s JOIN trip t ON t.destination_id = s.destination_id
+       WHERE s.reviewed_at IS NOT NULL
+    ),
+    'events', (
+      SELECT coalesce(jsonb_agg(jsonb_build_object(
+               'kind', e.kind, 'starts_on', e.starts_on::text, 'ends_on', e.ends_on::text)), '[]'::jsonb)
+        FROM season_events e JOIN trip t ON t.destination_id = e.destination_id
+       WHERE e.reviewed_at IS NOT NULL AND e.ends_on >= p_from AND e.starts_on <= p_to
+    ),
+    'fares', (
+      SELECT coalesce(jsonb_agg(jsonb_build_object(
+               'origin', f.origin_iata, 'month', f.month::text, 'price_minor', f.price_minor,
+               'days', f.days)), '[]'::jsonb)
+        FROM fare_cells f JOIN trip t ON t.destination_id = f.destination_id
+       WHERE f.origin_iata IN (SELECT home FROM members WHERE home IS NOT NULL)
+         AND f.month BETWEEN date_trunc('month', p_from)::date AND p_to
+    ),
+    'must_dos', (
+      SELECT coalesce(jsonb_agg(jsonb_build_object(
+               'id', md.id, 'owner_id', md.owner_id, 'hours', p.hours) ORDER BY md.id), '[]'::jsonb)
+        FROM must_dos md LEFT JOIN pois p ON p.id = md.poi_id
+       WHERE md.trip_id = p_trip AND md.deleted_at IS NULL
+    )
+  )
+$$;
+REVOKE EXECUTE ON FUNCTION app.setup_window_inputs(uuid, date, date) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.setup_window_inputs(uuid, date, date) TO app_system;
+
+-- ---------------------------------------------------------------------------------------------
 -- reminders: a tracked lottery or book-ahead must-do reminds its owner (never enters for them).
 ALTER TABLE reminders DROP CONSTRAINT reminders_target_kind_check;
 ALTER TABLE reminders ADD CONSTRAINT reminders_target_kind_check

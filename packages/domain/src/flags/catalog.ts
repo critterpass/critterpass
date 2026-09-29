@@ -51,6 +51,27 @@ export const FLAG_CATALOG = {
     description:
       'Android background geofences (needs "Allow all the time"); off until the Play background-location declaration is approved. The foreground-service session ships regardless.',
   },
+  'calendar.oauth_google': {
+    kind: 'boolean',
+    default: false,
+    owner: 'trip',
+    description:
+      'Show "Connect Google Calendar" in trip setup (free/busy only); off until Google verifies the restricted calendar scope. Device calendars and manual days work regardless.',
+  },
+  'calendar.oauth_microsoft': {
+    kind: 'boolean',
+    default: false,
+    owner: 'trip',
+    description:
+      'Show "Connect Outlook Calendar" in trip setup (free/busy only); off until the Microsoft app registration and publisher verification exist.',
+  },
+  'setup.budget_dots': {
+    kind: 'boolean',
+    default: false,
+    owner: 'trip',
+    description:
+      'Show the anonymous bucketed budget dots on the setup budget track (from four maxes); off hides them without a release, the band itself stays.',
+  },
 } as const satisfies FlagCatalog;
 
 export type FlagKey = keyof typeof FLAG_CATALOG;

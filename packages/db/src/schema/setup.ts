@@ -1,8 +1,7 @@
 /**
- * Trip setup tables (docs/data-model.md §3.1, §3.3, §3.4). Typed mirror of the setup migrations,
- * which are the applied source of truth for columns, constraints, RLS and grants. Privacy is by
- * table; generically named columns of the C3 tables (`date`, `state`, `kind`, `status`, …) are
- * classed C2 only so the key-name redaction list does not blank the same keys on other tables.
+ * Trip setup tables (docs/data-model.md §3.1, §3.3, §3.4), a typed mirror of the setup migrations.
+ * Privacy is by table; generic column names of C3 tables (`date`, `state`, `kind`, …) are classed
+ * C2 only so the key-name redaction list does not blank the same keys on other tables.
  */
 import { registerTablePrivacy } from '@cp/domain';
 import { sql } from 'drizzle-orm';
@@ -38,10 +37,7 @@ const tripId = () =>
   uuid('trip_id')
     .notNull()
     .references(() => trips.id);
-const userId = () =>
-  uuid('user_id')
-    .notNull()
-    .references(() => users.id);
+const userId = () => userRef('user_id').notNull();
 const minor = (name: string) => bigint(name, { mode: 'bigint' });
 const uuids = (name: string) =>
   uuid(name)
@@ -126,6 +122,8 @@ export const availabilityAsks = pgTable('availability_asks', {
   blockEnd: day('block_end').notNull(),
   status: text('status').notNull().default('asked'),
   intent: text('intent'),
+  askLine: text('ask_line'),
+  replyText: text('reply_text'),
   expiresAt: at('expires_at').notNull(),
   repliedAt: at('replied_at'),
   ...stamps(),

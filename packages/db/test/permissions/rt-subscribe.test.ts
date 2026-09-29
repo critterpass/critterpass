@@ -13,7 +13,13 @@ import {
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem, withUser } from '../../src/tx';
-import { anonymousActor, insertTripParticipant, setCrewMemberStatus } from '../helpers/actors';
+import {
+  anonymousActor,
+  insertCrewMember,
+  insertTripParticipant,
+  insertUser,
+  setCrewMemberStatus,
+} from '../helpers/actors';
 import {
   ACTOR_KINDS,
   buildPermissionFixture,
@@ -60,6 +66,7 @@ function channelIdFor(rule: RtAclRule, f: PermissionFixture): string {
       return f.actors.organiser;
     case 'crew_member':
       return f.crewId;
+    case 'trip_member':
     case 'trip_participant':
     case 'trip_organiser':
       return f.tripId;
@@ -69,6 +76,7 @@ function channelIdFor(rule: RtAclRule, f: PermissionFixture): string {
 const ALLOWED: Readonly<Record<RtAclRule, readonly ActorKind[]>> = {
   self: ['organiser'],
   crew_member: ['member', 'organiser', 'coOrganiser'],
+  trip_member: ['member', 'organiser', 'coOrganiser'],
   trip_participant: ['member', 'organiser', 'coOrganiser'],
   trip_organiser: ['organiser', 'coOrganiser'],
 };
@@ -119,6 +127,29 @@ describe('subscribe edge cases', () => {
           fixture.tripId,
         ]),
       );
+    }
+  });
+
+  it('lets a crew member with no participant row follow setup, and nobody outside the crew', async () => {
+    const { tripId, crewId, actors } = fixture;
+    const newcomer = await withSystem(db.pool, async (tx) => {
+      const uid = await insertUser(tx);
+      await insertCrewMember(tx, { crewId, userId: uid });
+      return uid;
+    });
+    for (const namespace of ['trip_setup', 'trip_presence'] as const) {
+      const channel = channelName(namespace, tripId);
+      expect(await canSubscribe(newcomer, channel), namespace).toBe(true);
+      expect(await canSubscribe(actors.outsider, channel), namespace).toBe(false);
+      expect(await canSubscribe(actors.exMember, channel), namespace).toBe(false);
+      expect(await canSubscribe(actors.anonymous, channel), namespace).toBe(false);
+    }
+    expect(await canSubscribe(newcomer, channelName('trip_plan', tripId))).toBe(false);
+    await withSystem(db.pool, (tx) =>
+      setCrewMemberStatus(tx, { crewId, userId: newcomer, status: 'removed' }),
+    );
+    for (const namespace of ['trip_setup', 'trip_presence'] as const) {
+      expect(await canSubscribe(newcomer, channelName(namespace, tripId)), namespace).toBe(false);
     }
   });
 

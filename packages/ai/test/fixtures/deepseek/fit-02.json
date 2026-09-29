@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "02f386e0-3dee-44e6-9573-875803261c17",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Kinkaku-ji fits, but the free stretch is short, so go early."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 251,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 256,
+        "output_tokens": 18,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

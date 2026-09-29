@@ -19,3 +19,11 @@ export {
   type WindowOptionsInput,
   type WindowReason,
 } from './no-fit-options';
+export {
+  fareLookup,
+  openDates,
+  seasonScorer,
+  windowInputFrom,
+  type SetupWindowSource,
+  type WindowInputOptions,
+} from './window-inputs';

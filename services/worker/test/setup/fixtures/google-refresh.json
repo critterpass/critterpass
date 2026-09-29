@@ -1,0 +1,12 @@
+{
+  "source": "Google OAuth 2.0 token endpoint refresh_token grant response (no new refresh token), shape per developers.google.com/identity/protocols/oauth2/native-app#offline; token value replaced.",
+  "response": {
+    "status": 200,
+    "body": {
+      "access_token": "ya29.a0AfB_byFixtureRefreshedAccessToken0002",
+      "expires_in": 3599,
+      "scope": "https://www.googleapis.com/auth/calendar.freebusy",
+      "token_type": "Bearer"
+    }
+  }
+}

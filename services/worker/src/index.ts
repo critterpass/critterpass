@@ -42,6 +42,7 @@ import {
 } from './jobs/polls';
 import { tipsEventHook, tipsJobs } from './jobs/tips';
 import { pitchJobs, registerPitchTipCandidates } from './jobs/pitches';
+import { registerSetupPushes, setupJobs } from './jobs/setup';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';
@@ -155,6 +156,7 @@ const jobs: AnyJobDefinition[] = [
   pollRemindJob(),
   ...tipsJobs(env, aiSwitches.assertAiRoute, llmObservability),
   ...pitchJobs(env, aiSwitches.assertAiRoute, llmObservability),
+  ...setupJobs(env, { pool, assertRouteOn: aiSwitches.assertAiRoute, telemetry: llmObservability }),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&
@@ -218,6 +220,7 @@ registerPitchTipCandidates();
 registerInviteNotifications();
 registerChatNotifications();
 registerLiveMapNotifications();
+registerSetupPushes();
 
 // Domain events → PostHog (consent-gated, idempotent on the event id).
 let analyticsExport: ExportLoop | undefined;

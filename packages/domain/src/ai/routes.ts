@@ -51,6 +51,7 @@ export const AI_ROUTES = [
   'idea.duplicate_tiebreak',
   'poi.duplicate_tiebreak',
   'compliance.check',
+  'availability.reply_intent',
 ] as const;
 export const aiRouteSchema = z.enum(AI_ROUTES);
 export type AiRoute = z.infer<typeof aiRouteSchema>;
@@ -62,6 +63,7 @@ export const DECISION_ROUTES = [
   'idea.duplicate_tiebreak',
   'poi.duplicate_tiebreak',
   'compliance.check',
+  'availability.reply_intent',
 ] as const satisfies readonly AiRoute[];
 export type DecisionRoute = (typeof DECISION_ROUTES)[number];
 
