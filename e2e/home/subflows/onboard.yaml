@@ -41,7 +41,13 @@ appId: app.critterpass.dev
           timeout: 10000
       - tapOn:
           id: 'home-row-SIN'
-- hideKeyboard
+# The page footer rides the keyboard, so NEXT is reachable with it up. On Android hideKeyboard is a
+# BACK press when no keyboard is open, which leaves this page for the taste result.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
 - tapOn:
     id: 'onboarding-home-next'
 - extendedWaitUntil:
