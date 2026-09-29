@@ -1,7 +1,9 @@
 // Public surface of the component library. The dev gallery registry (`./gallery/registry`) is
 // deliberately not re-exported: it loads every fixture file and must stay out of release bundles.
 export type { KeyboardFooterProps } from './layout/KeyboardFooter';
-export { FOOTER_FADE_PT, KeyboardFooter } from './layout/KeyboardFooter';
+export { KeyboardFooter } from './layout/KeyboardFooter';
+export type { FooterFadeProps } from './surface/FooterFade';
+export { FOOTER_FADE_PT, FooterFade } from './surface/FooterFade';
 export type { KeyboardScrollViewProps } from './layout/KeyboardScrollView';
 export { KeyboardScrollView } from './layout/KeyboardScrollView';
 export type { RowProps } from './layout/Row';

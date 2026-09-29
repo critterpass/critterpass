@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import type { ScrollViewProps, StyleProp, ViewStyle } from 'react-native';
 
 import { useTheme } from '../theme';
-import { FOOTER_FADE_PT } from './KeyboardFooter';
+import { FOOTER_FADE_PT } from '../surface/FooterFade';
 
 export interface KeyboardScrollViewProps extends Omit<ScrollViewProps, 'contentContainerStyle'> {
   readonly children: ReactNode;

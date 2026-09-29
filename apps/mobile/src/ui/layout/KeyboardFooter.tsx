@@ -4,27 +4,14 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import Animated, { useAnimatedKeyboard, useAnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { tokens } from '@cp/design-tokens';
-
+import { FooterFade } from '../surface/FooterFade';
 import { useSurfaceBackground } from '../surface/Scaffold';
 import { makeStyles, useTheme } from '../theme';
 
 /** How far the keyboard rises past the home indicator before the top edge is fully drawn. */
 const EDGE_FADE_PT = 32;
 
-/**
- * Height of the fade above the footer: scroll content passing under it fades into the page
- * instead of being cut off by the footer's edge, so a partly hidden card reads as "more below".
- * A `KeyboardScrollView` pads its content's end by this much, so the last item scrolls clear.
- */
-export const FOOTER_FADE_PT = tokens.space['24'];
-
-/** A top-to-bottom gradient from clear into `color` (a `#rrggbb` token colour). */
-function fadeInto(color: string): string {
-  const clear = /^#[0-9a-f]{6}$/iu.test(color) ? `${color}00` : 'transparent';
-  // eslint-disable-next-line lingui/no-unlocalized-strings -- a CSS gradient, never shown to a user
-  return `linear-gradient(to bottom, ${clear}, ${color})`;
-}
+export { FOOTER_FADE_PT } from '../surface/FooterFade';
 
 export interface KeyboardFooterProps {
   /** The footer's actions: a primary button, a composer, a button and an inline link. */
@@ -40,13 +27,6 @@ const useStyles = makeStyles((th) => ({
   root: { paddingTop: th.space['12'] },
   content: { gap: th.space['8'] },
   gutter: { paddingHorizontal: th.size.gutter },
-  fade: {
-    position: 'absolute',
-    bottom: '100%',
-    start: 0,
-    end: 0,
-    height: FOOTER_FADE_PT,
-  },
   edge: {
     position: 'absolute',
     top: 0,
@@ -93,11 +73,7 @@ export function KeyboardFooter({ children, inset = 'gutter', style, testID }: Ke
         lift,
       ]}
     >
-      <View
-        pointerEvents="none"
-        testID={testID ? `${testID}-fade` : undefined}
-        style={[styles.fade, { backgroundImage: fadeInto(background) }]}
-      />
+      <FooterFade color={background} testID={testID ? `${testID}-fade` : undefined} />
       <Animated.View
         pointerEvents="none"
         testID={testID ? `${testID}-edge` : undefined}
