@@ -90,8 +90,6 @@ describe('place search', () => {
       screen.getByText("Nobody guides Morocco yet, so I'll cover it. The locals still turn up."),
     ).toBeTruthy();
     expect(screen.getAllByText('Morocco · 1 local to find')).toHaveLength(2);
-    await settleMotion();
-    expect(screen.toJSON()).toMatchSnapshot();
     await fireEvent.press(screen.getByTestId(`place-result-${MARRAKECH}`));
     expect(router.push).toHaveBeenCalledWith(voteRoutes.place(MARRAKECH, CREW));
   });

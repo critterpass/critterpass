@@ -1,0 +1,42 @@
+appId: app.critterpass.dev
+---
+# The header screens with the gallery switched to ${LOCALE}; each screenshot is named with it.
+- runFlow:
+    file: open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'LargeTitle'
+      LOCALE: ${LOCALE}
+      SCALE: '1'
+- takeScreenshot: ${LOCALE}-large-title
+- runFlow:
+    file: open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'Icon'
+      LOCALE: ${LOCALE}
+      SCALE: '1'
+- takeScreenshot: ${LOCALE}-icons
+- runFlow:
+    file: open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'Composer'
+      LOCALE: ${LOCALE}
+      SCALE: '1'
+- takeScreenshot: ${LOCALE}-composer
+- runFlow: open-gallery.yaml
+- tapOn:
+    id: 'gallery-locale-${LOCALE}'
+- tapOn:
+    id: 'gallery-shell-sheet'
+- extendedWaitUntil:
+    visible:
+      id: 'sheet-header'
+    timeout: 5000
+- waitForAnimationToEnd
+- takeScreenshot: ${LOCALE}-sheet-header
+- runFlow:
+    file: open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'BackEyebrow'
+      LOCALE: ${LOCALE}
+      SCALE: '1'
+- takeScreenshot: ${LOCALE}-back-eyebrow

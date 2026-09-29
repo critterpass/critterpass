@@ -184,6 +184,10 @@ msgstr "arrives {eta}"
 msgid "common.shell.fabAsk"
 msgstr "Ask {guide}"
 
+#: ../../apps/mobile/src/ui/shell/BackButton.tsx
+msgid "common.shell.back"
+msgstr "Back"
+
 #: ../../apps/mobile/src/ui/shell/BackEyebrow.tsx
 msgid "common.shell.backTo"
 msgstr "Back to {section}"

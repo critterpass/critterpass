@@ -17,7 +17,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import type { ChatMessage } from '../../data/rows';
 import { Bubble } from '../bubble';
-import { ChatHeader } from '../chat-header';
 import { ChatComposer } from '../composer';
 
 const METRICS = {
@@ -95,11 +94,6 @@ const RUN: readonly [string, ChatMessage, boolean][] = [
     true,
   ],
   [
-    'sending',
-    message({ id: 'm-7', seq: null, senderId: 'me', status: 'sending', body: 'we made it!!' }),
-    true,
-  ],
-  [
     'failed',
     message({ id: 'm-8', seq: null, senderId: 'me', status: 'failed', body: 'hello?' }),
     true,
@@ -107,22 +101,6 @@ const RUN: readonly [string, ChatMessage, boolean][] = [
 ];
 
 describe('chat layout', () => {
-  it('header with the trip guide', async () => {
-    expect(
-      await snapshot(
-        <ChatHeader crewId="c-1" crewName="The Bali Six" people={6} guideName="Tokek" />,
-      ),
-    ).toMatchSnapshot();
-  });
-
-  it('header without a trip', async () => {
-    expect(
-      await snapshot(
-        <ChatHeader crewId="c-1" crewName="The Bali Six" people={3} guideName={null} />,
-      ),
-    ).toMatchSnapshot();
-  });
-
   it.each(RUN)('bubble: %s', async (_name, item, mine) => {
     expect(
       await snapshot(

@@ -184,6 +184,10 @@ msgstr ""
 msgid "common.shell.fabAsk"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/shell/BackButton.tsx
+msgid "common.shell.back"
+msgstr "Quay lại"
+
 #: ../../apps/mobile/src/ui/shell/BackEyebrow.tsx
 msgid "common.shell.backTo"
 msgstr ""

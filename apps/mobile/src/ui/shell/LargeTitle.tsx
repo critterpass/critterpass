@@ -10,6 +10,7 @@ import { tokens } from '@cp/design-tokens';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
 import { Text } from '../text/Text';
+import { BackButton, canGoBack } from './BackButton';
 import { makeStyles, MIN_TOUCH_TARGET } from '../theme';
 
 /** Scroll distance over which the large title hands over to the compact header title. */
@@ -43,8 +44,12 @@ const useStyles = makeStyles((t) => ({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  side: { flex: 1 },
-  end: { flex: 1, alignItems: 'flex-end' },
+  // The slots keep their content's width (a back button, pills); the compact title takes what is
+  // left and truncates, so the actions are never squeezed.
+  side: { minWidth: MIN_TOUCH_TARGET, alignItems: 'flex-start' },
+  end: { minWidth: MIN_TOUCH_TARGET, alignItems: 'flex-end' },
+  compact: { flex: 1, minWidth: 0, paddingHorizontal: t.space['8'] },
+  compactText: { textAlign: 'center' },
   large: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['8'] },
 }));
 
@@ -53,13 +58,15 @@ export interface LargeTitleProps {
   readonly collapse?: SharedValue<number> | undefined;
   /** Whether the compact title is showing (for screen readers, which ignore opacity). */
   readonly collapsed?: boolean | undefined;
+  /** Leading slot; defaults to a back button whenever there is a screen to go back to. */
   readonly start?: ReactNode;
   readonly end?: ReactNode;
 }
 
 /**
  * Screen header: a condensed h1 that collapses into a small centred title as content scrolls
- * (3n-6), with optional start (back eyebrow) and end (pills) slots.
+ * (3n-6), with a start slot (a back button on any pushed screen unless one is given) and an end slot
+ * (pills). The compact title truncates between the slots, so they never overlap.
  */
 export function LargeTitle({ title, collapse, collapsed = false, start, end }: LargeTitleProps) {
   const styles = useStyles();
@@ -76,13 +83,18 @@ export function LargeTitle({ title, collapse, collapsed = false, start, end }: L
   return (
     <View>
       <View style={styles.bar}>
-        <View style={styles.side}>{start}</View>
+        <View style={styles.side}>{start ?? (canGoBack() ? <BackButton /> : null)}</View>
         <Animated.View
-          style={compactStyle}
+          style={[styles.compact, compactStyle]}
           accessibilityElementsHidden={!collapsed}
           importantForAccessibility={collapsed ? 'auto' : 'no-hide-descendants'}
         >
-          <Text variant="title" accessibilityRole={collapsed ? 'header' : undefined}>
+          <Text
+            variant="title"
+            numberOfLines={1}
+            style={styles.compactText}
+            accessibilityRole={collapsed ? 'header' : undefined}
+          >
             {title}
           </Text>
         </Animated.View>
@@ -93,6 +105,8 @@ export function LargeTitle({ title, collapse, collapsed = false, start, end }: L
         accessibilityElementsHidden={collapsed}
         importantForAccessibility={collapsed ? 'no-hide-descendants' : 'auto'}
       >
+        {/* A long title fits and wraps (h1's auto-fit, up to three lines) rather than running
+            under the end slot, which sits in the bar above it. */}
         <Text variant="h1" accessibilityRole="header">
           {title}
         </Text>

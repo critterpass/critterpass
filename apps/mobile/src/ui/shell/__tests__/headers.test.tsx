@@ -1,10 +1,16 @@
 import { act, fireEvent } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
+import { router } from 'expo-router';
+import { StyleSheet } from 'react-native';
 import type * as ReactNativeModule from 'react-native';
+import type { StyleProp, TextStyle } from 'react-native';
+
+import { tokens } from '@cp/design-tokens';
 
 import { renderWithI18n } from '../../../lib/i18n/testing';
 import { fixturesFor } from '../../gallery/registry';
 import { BackEyebrow } from '../BackEyebrow';
+import { SurfaceToneProvider } from '../../surface/Scaffold';
 import { HeaderPill } from '../HeaderPills';
 import { HomeHeader } from '../HomeHeader';
 import { LargeTitle } from '../LargeTitle';
@@ -27,6 +33,20 @@ describe('BackEyebrow', () => {
     expect(screen.getByText('PROFILE')).toBeTruthy();
     await fireEvent.press(button);
     expect(onPress).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('BackEyebrow on colour', () => {
+  it('inks the arrow and label in the on-accent colour on a colour surface', async () => {
+    const screen = await renderWithI18n(
+      <SurfaceToneProvider value="accent">
+        <BackEyebrow label="Next trip · Final" onPress={() => {}} />
+      </SurfaceToneProvider>,
+    );
+    const label = screen.getByText('NEXT TRIP · FINAL');
+    expect(StyleSheet.flatten(label.props.style as StyleProp<TextStyle>)?.color).toBe(
+      tokens.semantic.text.onAccent,
+    );
   });
 });
 
@@ -92,6 +112,30 @@ describe('HomeHeader', () => {
 });
 
 describe('LargeTitle', () => {
+  it('shows a back button on a pushed screen, and none on a root screen', async () => {
+    const back = jest.spyOn(router, 'back').mockImplementation(() => undefined);
+    const canGoBack = jest.spyOn(router, 'canGoBack').mockReturnValue(true);
+    const pushed = await renderWithI18n(<LargeTitle title="Inbox" />);
+    await fireEvent.press(pushed.getByRole('button', { name: 'Back' }));
+    expect(back).toHaveBeenCalledTimes(1);
+    await act(() => pushed.unmount());
+
+    canGoBack.mockReturnValue(false);
+    const root = await renderWithI18n(<LargeTitle title="Inbox" />);
+    expect(root.queryByRole('button', { name: 'Back' })).toBeNull();
+    jest.restoreAllMocks();
+  });
+
+  it('truncates the compact title between the slots instead of running under them', async () => {
+    const screen = await renderWithI18n(
+      <LargeTitle title="Your crews and every trip you are planning" collapsed end={<></>} />,
+    );
+    const compact = screen.getAllByText('YOUR CREWS AND EVERY TRIP YOU ARE PLANNING', {
+      includeHiddenElements: true,
+    })[0];
+    expect(compact?.props.numberOfLines).toBe(1);
+  });
+
   it('exposes one header to screen readers for each collapse state', async () => {
     const expanded = await renderWithI18n(<LargeTitle title="Settings" />);
     expect(expanded.getAllByRole('header')).toHaveLength(1);
