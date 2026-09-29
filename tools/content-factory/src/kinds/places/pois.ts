@@ -1,26 +1,25 @@
 /**
- * Curated POIs for the six guide destinations. The brief reads the destination's active POIs as
- * the importer left them (FSQ OS Places and Overture open data only: names, categories, addresses,
+ * Curated POIs for the six guide destinations. The brief (./brief) picks the curated few hundred of
+ * each destination's active POIs as the importer left them (FSQ OS Places and Overture open data only: names, categories, addresses,
  * coordinates) and runs the duplicate sweep; the model writes the editorial overlay and taste tags
  * from those fields alone. Supplier content never enters: the only sources a POI can carry are
  * fsq_os, overture and editorial, and editorial text naming a supplier fails validation.
  */
-import { createDecisionClient, createGateway, loadDecisionEnv, loadGatewayEnv } from '@cp/ai';
 import { poiItemSchema, TASTE_TAGS, type ContentItem } from '@cp/content';
 import { hoursSchema } from '@cp/domain';
 import { z } from 'zod';
 
-import { openPool } from '../../db';
 import { insidePlace } from '../../data/country-bounds';
 import { PLACE_FACTS } from '../../data/place-facts';
-import { recordingFetch } from '../../record';
 import { suppliersNamed } from '../../suppliers';
 import { registerKind } from '../registry';
 import type { Brief, GenerationUnit, KindModule, Prompt } from '../types';
-import { decideDuplicates, nearbyDifferentNames, type DuplicateVerdict } from './duplicates';
+import { poisBrief } from './brief';
+import type { DuplicateVerdict } from './duplicates';
+
+export { placesNetwork } from './brief';
 
 export const MIN_POIS_PER_CITY = 250;
-const POIS_PER_CALL = 15;
 
 export const LICENCES: Readonly<
   Record<'fsq_os' | 'overture' | 'editorial', { licence: string; attribution: string }>
@@ -43,107 +42,6 @@ export interface PoiSource {
   readonly tz: string;
   readonly hours: unknown;
   readonly duplicate: { readonly of: string; readonly verdict: DuplicateVerdict } | null;
-}
-
-const GUIDE_DESTINATIONS = Object.entries(PLACE_FACTS).flatMap(([code, facts]) =>
-  facts.destination === null ? [] : [{ code, slug: facts.destination, tz: facts.tz }],
-);
-
-/** Network boundary for the duplicate decisions (tests replay recorded responses through it). */
-export const placesNetwork: { fetch?: typeof fetch } = {};
-
-function decisionClient() {
-  const record = process.env['CONTENT_FACTORY_RECORD'];
-  const fetchOption =
-    placesNetwork.fetch !== undefined
-      ? { fetch: placesNetwork.fetch }
-      : record
-        ? { fetch: recordingFetch(record) }
-        : {};
-  const gateway = process.env['ANTHROPIC_API_KEY']
-    ? createGateway({ ...loadGatewayEnv(), ...fetchOption })
-    : undefined;
-  return createDecisionClient({
-    apiKey: loadDecisionEnv().apiKey,
-    ...fetchOption,
-    ...(gateway ? { gateway } : {}),
-  });
-}
-
-async function poisBrief(options: Readonly<Record<string, string>>): Promise<Brief> {
-  const pool = openPool();
-  if (pool === null) throw new Error('the places brief reads imported POIs: set DATABASE_URL');
-  const wanted = options['destinations']?.split(',');
-  const client = decisionClient();
-  try {
-    const units: GenerationUnit[] = [];
-    for (const destination of GUIDE_DESTINATIONS.filter(
-      (d) => wanted === undefined || wanted.includes(d.slug),
-    )) {
-      const { rows } = await pool.query<{
-        id: string;
-        source_ids: Record<string, string>;
-        name: string;
-        name_local: string | null;
-        category: string;
-        lat: number;
-        lng: number;
-        address: string | null;
-        timezone: string | null;
-        hours: unknown;
-        hours_verified_at: Date | null;
-        destination_id: string;
-      }>(
-        `SELECT p.id, p.source_ids, p.name, p.name_local, p.category, p.lat, p.lng, p.address, p.timezone,
-           p.hours, p.hours_verified_at, p.destination_id
-         FROM pois p JOIN destinations d ON d.id = p.destination_id
-         WHERE d.slug = $1 AND p.status = 'active' AND p.merged_into_id IS NULL ORDER BY p.name`,
-        [destination.slug],
-      );
-      const destinationId = rows[0]?.destination_id;
-      if (destinationId === undefined) continue;
-      const pairs = await nearbyDifferentNames(pool, destinationId);
-      const verdicts = await decideDuplicates(client, pairs);
-      const duplicateOf = new Map<string, { of: string; verdict: DuplicateVerdict }>();
-      for (const pair of pairs) {
-        const verdict = verdicts.get(`${pair.a.ref}|${pair.b.ref}`) ?? 'review';
-        if (verdict !== 'distinct') duplicateOf.set(pair.b.ref, { of: pair.a.ref, verdict });
-      }
-      const sources: PoiSource[] = rows.flatMap((row) => {
-        const source = (['editorial', 'fsq_os', 'overture'] as const).find(
-          (s) => row.source_ids[s] !== undefined,
-        );
-        if (source === undefined) return [];
-        const ref = `${source}:${row.source_ids[source]}`;
-        return [
-          {
-            ref,
-            destination: destination.slug,
-            code: destination.code,
-            name: row.name,
-            nameLocal: row.name_local,
-            category: row.category,
-            lat: row.lat,
-            lng: row.lng,
-            address: row.address,
-            tz: row.timezone ?? destination.tz,
-            hours: row.hours_verified_at === null ? null : row.hours,
-            duplicate: duplicateOf.get(ref) ?? null,
-          },
-        ];
-      });
-      for (let start = 0; start < sources.length; start += POIS_PER_CALL) {
-        const chunk = sources.slice(start, start + POIS_PER_CALL);
-        units.push({
-          id: `${destination.slug}-${String(start / POIS_PER_CALL + 1).padStart(3, '0')}`,
-          input: chunk,
-        });
-      }
-    }
-    return { units };
-  } finally {
-    await pool.end();
-  }
 }
 
 const editorialSchema = z.object({
