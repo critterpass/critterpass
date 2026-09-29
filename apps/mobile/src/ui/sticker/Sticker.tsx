@@ -136,6 +136,15 @@ export interface StickerProps {
   readonly cache?: StickerCache;
 }
 
+/** How long a static sticker may take to reach the screen before UI QA calls it blank. */
+const STICKER_EMPTY_AFTER_MS = 5000;
+
+/** A short, single-line reason for a failed render (the error's own message, never user data). */
+function errorDetail(error: unknown): string {
+  const message = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+  return message.replace(/\s+/gu, ' ').slice(0, 160);
+}
+
 /** docs/design-system.md: the sticker edge is `paper.base`. */
 export const DEFAULT_STICKER_EDGE: StickerSpec = { color: tokens.color.paper.base };
 
@@ -219,16 +228,35 @@ export function Sticker(props: StickerProps): React.JSX.Element {
   useEffect(() => {
     if (isLive) return;
     let cancelled = false;
+    let settled = false;
+    const subject = `${props.kind}:${name}`;
+    // A render that never settles leaves the sticker blank as surely as one that throws.
+    const watchdog = UI_QA_ENABLED
+      ? setTimeout(() => {
+          // eslint-disable-next-line lingui/no-unlocalized-strings -- a report detail, never shown to a user
+          if (!cancelled && !settled) reportUiQa('STICKER_EMPTY', subject, 'no image after 5 s');
+        }, STICKER_EMPTY_AFTER_MS)
+      : undefined;
     void cache
       .getOrRender(key, () =>
         Promise.resolve(renderStickerPng(spec, bucketPt, deviceScale, engine)),
       )
       .then((bytes) => {
+        settled = true;
         if (cancelled) return;
-        setImage(engine.Image.MakeImageFromEncoded(bytes));
+        const decoded = engine.Image.MakeImageFromEncoded(bytes);
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- a report detail, never shown to a user
+        if (decoded === null) reportUiQa('STICKER_EMPTY', subject, 'undecodable');
+        setImage(decoded);
+      })
+      .catch((error: unknown) => {
+        settled = true;
+        // A render that throws leaves the sticker blank: report it rather than fail silently.
+        if (!cancelled) reportUiQa('STICKER_EMPTY', subject, errorDetail(error));
       });
     return () => {
       cancelled = true;
+      clearTimeout(watchdog);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- `spec`/`engine`/`cache` are stable per key; re-running on `key` alone avoids re-rendering identical work every frame
   }, [key, isLive]);

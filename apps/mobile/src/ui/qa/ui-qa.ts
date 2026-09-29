@@ -14,7 +14,11 @@ export const UI_QA_LOG_FILE = 'ui-qa.log';
 export const UI_QA_TAG = '[ui-qa]';
 
 export type UiQaCode =
-  'TEXT_TRUNCATED' | 'TEXT_WORD_BROKEN' | 'TEXT_WRAPPED' | 'STICKER_NO_OUTLINE';
+  | 'TEXT_TRUNCATED'
+  | 'TEXT_WORD_BROKEN'
+  | 'TEXT_WRAPPED'
+  | 'STICKER_NO_OUTLINE'
+  | 'STICKER_EMPTY';
 
 function readVariant(): unknown {
   return Constants.expoConfig?.extra?.appVariant;
