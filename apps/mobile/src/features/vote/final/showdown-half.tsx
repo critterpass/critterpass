@@ -70,8 +70,17 @@ const useStyles = makeStyles((th) => ({
     flex: 1,
     padding: th.space['20'],
     overflow: 'hidden',
-    justifyContent: 'center',
     gap: th.space['10'],
+  },
+  // Each half's content gathers at the VS disc, clear of it, so the screen header above and the
+  // tally card below never cover a name or its voters.
+  top: {
+    justifyContent: 'flex-end',
+    paddingBottom: sizeToken(th.size.fab, 'size') / 2 + th.space['16'],
+  },
+  bottom: {
+    justifyContent: 'flex-start',
+    paddingTop: sizeToken(th.size.fab, 'size') / 2 + th.space['16'],
   },
   ghost: { position: 'absolute', opacity: 0.35 },
   mine: {
@@ -180,6 +189,7 @@ export function ShowdownHalf({
       <Animated.View
         style={[
           styles.half,
+          alignEnd ? styles.bottom : styles.top,
           {
             backgroundColor: place?.colour ?? theme.color.yellow,
             alignItems: alignEnd ? 'flex-end' : 'flex-start',
