@@ -39,8 +39,8 @@ export const MONO_STYLE: TextRunStyle = {
   fontSize: 26,
 };
 export const SCRIPT_STYLE: TextRunStyle = {
-  fontFamily: 'Caveat',
-  fontWeight: 600,
+  fontFamily: 'Mynerve',
+  fontWeight: 400,
   color: INK,
   fontSize: 40,
 };

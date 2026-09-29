@@ -47,7 +47,7 @@ beforeAll(() => {
     { family: 'Archivo', bytes: new Uint8Array(readFileSync(`${fontsDir}Archivo-W66-800.ttf`)) },
     { family: 'Geist', bytes: new Uint8Array(readFileSync(`${fontsDir}Geist-400.ttf`)) },
     { family: 'GeistMono', bytes: new Uint8Array(readFileSync(`${fontsDir}GeistMono-400.ttf`)) },
-    { family: 'Caveat', bytes: new Uint8Array(readFileSync(`${fontsDir}Caveat-600.ttf`)) },
+    { family: 'Mynerve', bytes: new Uint8Array(readFileSync(`${fontsDir}Mynerve-400.ttf`)) },
   ]);
 });
 
