@@ -84,8 +84,16 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'cue-sos'
 
-# The island toast demo button shows a toast (covered end to end in island-toast.yaml).
+# The island toast demo button shows a toast (covered end to end in island-toast.yaml). It sits
+# below the fold, under the cue grid.
+- scrollUntilVisible:
+    element:
+      id: 'show-toast-button'
+    direction: DOWN
+    timeout: 20000
 - tapOn:
     id: 'show-toast-button'
-- assertVisible:
-    id: 'island-toast-pill'
+- extendedWaitUntil:
+    visible:
+      id: 'island-toast-pill'
+    timeout: 5000
