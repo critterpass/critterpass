@@ -4,3 +4,4 @@ export * from './ids';
 export * from './commands';
 export * from './events';
 export * from './queues';
+export * from './templates';
