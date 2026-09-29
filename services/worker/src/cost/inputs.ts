@@ -16,6 +16,7 @@ import {
   type FxSnapshot,
 } from '@cp/cost-engine';
 import type pg from 'pg';
+import { loadRoomComponents, pricedByRooms } from '../jobs/setup/room-costs';
 
 /** Currency a trip is priced in when its crew has not picked a settlement currency yet. */
 export const DEFAULT_TRIP_CURRENCY: CurrencyCode = 'USD';
@@ -276,11 +277,15 @@ export async function loadCostInputs(
     ...quotes,
     ...(await loadFares(tx, trip, unquoted)),
     ...(await loadPlanItems(tx, trip.version_id)),
-    ...(await loadIndexEstimates(
-      tx,
+    ...pricedByRooms(
+      await loadIndexEstimates(
+        tx,
+        trip,
+        quotes.some((q) => q.kind === 'stay'),
+      ),
+      await loadRoomComponents(tx, tripId),
       trip,
-      quotes.some((q) => q.kind === 'stay'),
-    )),
+    ),
   ];
   const needsFx = components.some((c) => c.currency !== currency);
   const fx = needsFx ? await loadFx(tx, currency) : null;

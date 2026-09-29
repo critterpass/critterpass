@@ -9,6 +9,9 @@ import {
 import { lockTripDatesCommand, setSetupStepCommand } from './lock-trip-dates';
 import { setAvailabilityCommand } from './set-availability';
 import { setBudgetDefaultCommand, submitBudgetMaxCommand } from './submit-budget-max';
+import { setMustDosCommand, trackLotteryCommand } from './must-dos';
+import { requestRoomSwapCommand, setRoomPrefsCommand } from './room-prefs';
+import { lockRoomsCommand, setRoomAssignmentCommand, setStayChoiceCommand } from './rooms';
 
 export function registerSetupCommands(registry: CommandRegistry): void {
   registry.register(setAvailabilityCommand);
@@ -18,6 +21,13 @@ export function registerSetupCommands(registry: CommandRegistry): void {
   registry.register(setSetupStepCommand);
   registry.register(submitBudgetMaxCommand);
   registry.register(setBudgetDefaultCommand);
+  registry.register(setStayChoiceCommand);
+  registry.register(setRoomAssignmentCommand);
+  registry.register(lockRoomsCommand);
+  registry.register(setRoomPrefsCommand);
+  registry.register(requestRoomSwapCommand);
+  registry.register(setMustDosCommand);
+  registry.register(trackLotteryCommand);
 }
 
 /** The calendar connection commands need the OAuth config, the state store and the flag gate. */

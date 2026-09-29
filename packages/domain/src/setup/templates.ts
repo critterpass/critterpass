@@ -49,6 +49,11 @@ export const MUST_DO_PROMPT_BODY = copy(
   "{name}, what's the one thing {place} isn't complete without?",
 );
 
+export const ROOM_SWAP_BODY = copy(
+  'notifications.setup.rooms.swap',
+  '{name} would like to swap rooms. Have a look before you lock them.',
+);
+
 export const LOTTERY_REMINDER_BODY = {
   deadline: copy(
     'notifications.setup.lottery.deadline',

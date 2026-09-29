@@ -1,6 +1,6 @@
 /**
- * Trip setup jobs: window recomputes, the guide's private ask and its reply, the ask's timeout,
- * calendar syncs and the stale-calendar nudge. Without a DeepSeek key the ask goes out in its
+ * Trip setup jobs: window and budget recomputes, the guide's private ask and its reply, the ask's
+ * timeout, calendar syncs, the stale-calendar nudge, must-do fit checks and lottery reminders. Without a DeepSeek key the ask goes out in its
  * template wording and written replies wait for a quick reply; without a Jev key, reply intents
  * are read by the fast-tier twin.
  */
@@ -9,6 +9,8 @@ import {
   createGateway,
   recordUsage,
   templateAskLine,
+  templateFitNote,
+  writeFitNote,
   writeAskLine,
   type AiUsageRecord,
   type AssertRouteOn,
@@ -24,7 +26,9 @@ import { calendarSyncJob } from '../calendar/sync';
 import { calendarSyncConfigFromEnv } from '../calendar/config';
 import { askReplyJob, availabilityAskJob, type AskLineWriter } from './availability-ask';
 import { availabilityAskTimeoutJob } from './availability-ask-timeout';
+import { fitCheckJob, type FitNoteWriter } from '../ai/fit-check';
 import { budgetRecomputeJob } from './budget-recompute';
+import { lotteryRemindJob } from './lottery-remind';
 import { windowRecomputeJob } from './window-recompute';
 
 export { registerSetupPushes } from './pushes';
@@ -61,6 +65,8 @@ export function setupJobs(env: SetupJobsEnv, deps: SetupJobsDeps): AnyJobDefinit
         });
   const write: AskLineWriter = (input) =>
     gateway === undefined ? Promise.resolve(templateAskLine(input)) : writeAskLine(gateway, input);
+  const note: FitNoteWriter = (input) =>
+    gateway === undefined ? Promise.resolve(templateFitNote(input)) : writeFitNote(gateway, input);
   const decisions =
     gateway === undefined && env.TYPESAFE_API_KEY === undefined
       ? undefined
@@ -79,5 +85,7 @@ export function setupJobs(env: SetupJobsEnv, deps: SetupJobsDeps): AnyJobDefinit
     availabilityAskTimeoutJob(),
     calendarSyncJob(calendarSyncConfigFromEnv(deps.source ?? process.env)),
     calendarStaleNudgeJob(),
+    fitCheckJob(note),
+    lotteryRemindJob(),
   ];
 }

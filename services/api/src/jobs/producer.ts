@@ -84,6 +84,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       INBOX_FANOUT_QUEUE,
       COUNTDOWN_RECOMPUTE_QUEUE,
       ...Object.values(SETUP_QUEUES),
+      'cost.recompute',
     ]) {
       if ((await boss.getQueue(queue)) === null) {
         await boss.createQueue(queue, { policy: 'exclusive' });

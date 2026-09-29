@@ -6,3 +6,5 @@ export * from './steps';
 export * from './calendar';
 export * from './templates';
 export * from './queues';
+export * from './rooms';
+export * from './must-dos';

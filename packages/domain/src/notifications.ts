@@ -302,6 +302,7 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'availability_ask.timed_out': ['availability_reply'],
   'calendar.stale': ['setup_task'],
   'must_do.prompted': ['setup_task'],
+  'room_swap.requested': ['setup_task'],
   'lottery.reminder_due': ['lottery_deadline'],
 };
 

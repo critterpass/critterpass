@@ -116,6 +116,33 @@ export async function moveStep(
     step: to,
     from: entering ? null : trip.setup_step,
   });
+  if (to === 'must_dos') await promptMustDos(tx, trip);
+}
+
+/**
+ * "What's the one thing {place} isn't complete without?": once per member per trip, to every
+ * setup member without a must-do yet, when setup reaches must-dos. Runs as the server.
+ */
+async function promptMustDos(tx: pg.PoolClient, trip: SetupTrip): Promise<void> {
+  const { rows } = await tx.query<{ uid: string }>(
+    `SELECT m.uid FROM app.setup_member_ids($1) AS m(uid)
+      WHERE app.last_setup_event_at('must_do.prompted', $1, m.uid) IS NULL
+        AND NOT EXISTS (SELECT 1 FROM must_dos d
+                         WHERE d.trip_id = $1 AND d.owner_id = m.uid AND d.deleted_at IS NULL)`,
+    [trip.id],
+  );
+  for (const { uid } of rows) {
+    await emitEvent(tx, {
+      type: 'must_do.prompted',
+      aggregateKind: 'trip',
+      aggregateId: trip.id,
+      actorKind: 'guide',
+      actorId: null,
+      crewId: trip.crew_id,
+      tripId: trip.id,
+      payload: { trip_id: trip.id, user_id: uid },
+    });
+  }
 }
 
 export const lockTripDatesCommand = defineCommand({
