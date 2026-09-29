@@ -113,6 +113,10 @@ msgstr ""
 msgid "crew.composer.previewCrew"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
+msgid "crew.start.codeLabel"
+msgstr "Mã nhóm"
+
 #. placeholder {0}: code.split('').join(' ')
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.codeA11y"
