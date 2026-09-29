@@ -5,7 +5,7 @@
  * (`resolveTypeVariant(tokens.type.h1)`) themselves and pass in the plain fields `fontFor` needs.
  */
 
-export type LogicalFontFamily = 'archivo' | 'geist' | 'geistMono' | 'caveat';
+export type LogicalFontFamily = 'archivo' | 'geist' | 'geistMono' | 'voice';
 
 /** The subset of `@cp/design-tokens`' `ResolvedTypeVariant` this module needs, taken structurally. */
 export interface BaseTypeStyle {
@@ -81,25 +81,26 @@ function geistFamilyFileName(base: LogicalFontFamily, weight: number): string {
 }
 
 /**
- * Caveat (the guide-voice script face) has no non-Latin coverage at all (verified by
- * tools/scripts/fonts/build-fonts.py's coverage check); every non-Latin script falls back to
- * Geist regular weight in italic, matching the "plain text for guide" rule (design-system.md §1.3).
+ * The guide voice is Mynerve, one weight, covering Latin and Vietnamese in full (tools/scripts/fonts/
+ * build-fonts.py fails the build on a missing Vietnamese letter). It has no Thai or CJK, so those
+ * scripts get the body face their text would use anyway, in italic to keep the voice apart
+ * (design-system.md §6): Noto Sans Thai for Thai, the OS face for CJK.
  */
-function resolveCaveat(script: Script): ResolvedFont {
+function resolveVoice(base: BaseTypeStyle, script: Script): ResolvedFont {
   if (script === 'latin' || script === 'vietnamese') {
     return {
-      fontFamily: 'Caveat-600',
+      fontFamily: 'Mynerve-400',
       fontStyle: 'normal',
       sizeMultiplier: 1,
-      lineHeightMultiplier: 1.1,
+      lineHeightMultiplier: base.lineHeightMultiplier,
       condensedUpper: false,
     };
   }
   return {
-    fontFamily: 'Geist-500',
+    fontFamily: script === 'thai' ? 'NotoSansThai-400' : 'system',
     fontStyle: 'italic',
     sizeMultiplier: 1,
-    lineHeightMultiplier: 1.1,
+    lineHeightMultiplier: base.lineHeightMultiplier,
     condensedUpper: false,
   };
 }
@@ -150,6 +151,6 @@ function resolveLatinFamily(base: BaseTypeStyle, script: Script): ResolvedFont {
 /** Resolves a token's logical family/weight/width to the concrete face a given locale should render. */
 export function fontFor(base: BaseTypeStyle, locale: string): ResolvedFont {
   const script = scriptForLocale(locale);
-  if (base.fontFamily === 'caveat') return resolveCaveat(script);
+  if (base.fontFamily === 'voice') return resolveVoice(base, script);
   return resolveLatinFamily(base, script);
 }

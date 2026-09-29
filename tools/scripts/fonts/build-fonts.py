@@ -7,12 +7,13 @@ subsets every family to its declared unicode ranges keeping the `tnum`/`case` la
 writes:
   - apps/mobile/assets/fonts/*.ttf   (bundled via the expo-font config plugin)
   - apps/web/public/fonts/*.woff2    (apps/web/src/styles/fonts.css @font-face)
+  - tools/maps/fonts/*.ttf           (map label glyphs, tools/maps/build-glyphs.ts)
   - packages/design-tokens/fonts/manifest.json + OFL-<Family>.txt licence copies
 
 Usage:
   python3 build-fonts.py            build everything
   python3 build-fonts.py --check    build, then verify the rebuild is byte-identical and that
-                                     Vietnamese (Archivo) and Thai (Noto Sans Thai) coverage holds
+                                     Vietnamese (Archivo, Mynerve) and Thai (Noto Sans Thai) coverage holds
 """
 
 from __future__ import annotations
@@ -45,6 +46,7 @@ SOURCES_PATH = SCRIPT_DIR / "sources.json"
 CACHE_DIR = SCRIPT_DIR / ".font-cache"
 MOBILE_FONTS_DIR = REPO_ROOT / "apps/mobile/assets/fonts"
 WEB_FONTS_DIR = REPO_ROOT / "apps/web/public/fonts"
+MAPS_FONTS_DIR = REPO_ROOT / "tools/maps/fonts"
 LICENSE_DIR = REPO_ROOT / "packages/design-tokens/fonts"
 MANIFEST_PATH = LICENSE_DIR / "manifest.json"
 MOBILE_BUDGET_BYTES = 3 * 1024 * 1024
@@ -154,11 +156,18 @@ def check_coverage_for_range(font: TTFont, required: set[int]) -> dict[str, Any]
     }
 
 
-def check_coverage(font: TTFont, sources: dict[str, Any], range_names: list[str]) -> dict[str, Any]:
+def check_coverage(
+    font: TTFont, sources: dict[str, Any], range_names: list[str], critical_range_names: list[str]
+) -> dict[str, Any]:
     """Per-range coverage breakdown (e.g. `vietnamese` reported separately from `currencyExtra`),
-    since only some ranges are a hard pass/fail gate for a given family (see `criticalRanges`)."""
+    since only some ranges are a hard pass/fail gate for a given family (see `criticalRanges`).
+    A critical range need not be one the family subsets to (Mynerve's `vietnameseLetters` is
+    `vietnamese` without the dong sign), so every critical range gets its own entry too."""
     definitions = sources["unicodeRangeDefinitions"]
-    by_range = {name: check_coverage_for_range(font, parse_unicode_ranges(definitions[name])) for name in range_names}
+    by_range = {
+        name: check_coverage_for_range(font, parse_unicode_ranges(definitions[name]))
+        for name in dict.fromkeys([*range_names, *critical_range_names])
+    }
     combined = resolve_family_ranges(sources, range_names)
     overall = check_coverage_for_range(font, combined)
     return {"overall": overall, "byRange": by_range}
@@ -295,9 +304,9 @@ def build_one_instance(name: str, spec: dict[str, Any], sources: dict[str, Any],
         source_font = open_font(source_bytes)
         font = build_static_font(source_bytes, instance.file_stem, instance.weight)
 
-    coverage = check_coverage(source_font, sources, spec["unicodeRanges"])
+    coverage = check_coverage(source_font, sources, spec["unicodeRanges"], spec.get("criticalRanges", []))
     subset_font(font, codepoints, keep_features)
-    ttf_bytes = save_ttf_bytes(font) if "mobile" in targets else b""
+    ttf_bytes = save_ttf_bytes(font) if "mobile" in targets or "maps" in targets else b""
     woff2_bytes = save_woff2_bytes(font) if "web" in targets else None
     return BuiltInstance(
         family_key=name,
@@ -312,6 +321,7 @@ def build_one_instance(name: str, spec: dict[str, Any], sources: dict[str, Any],
 
 def write_outputs(all_instances: dict[str, list[BuiltInstance]], sources: dict[str, Any]) -> dict[str, Any]:
     MOBILE_FONTS_DIR.mkdir(parents=True, exist_ok=True)
+    MAPS_FONTS_DIR.mkdir(parents=True, exist_ok=True)
     WEB_FONTS_DIR.mkdir(parents=True, exist_ok=True)
     LICENSE_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -327,7 +337,13 @@ def write_outputs(all_instances: dict[str, list[BuiltInstance]], sources: dict[s
                 "width": instance.width,
                 "coverage": instance.coverage,
             }
-            if instance.ttf_bytes:
+            targets = sources["families"][family_key]["targets"]
+            if instance.ttf_bytes and "maps" in targets:
+                maps_path = MAPS_FONTS_DIR / f"{instance.file_stem}.ttf"
+                maps_path.write_bytes(instance.ttf_bytes)
+                entry["mapsFile"] = maps_path.name
+                entry["mapsContentHash"] = canonical_font_content_hash(instance.ttf_bytes)
+            if instance.ttf_bytes and "mobile" in targets:
                 ttf_path = MOBILE_FONTS_DIR / f"{instance.file_stem}.ttf"
                 ttf_path.write_bytes(instance.ttf_bytes)
                 entry["mobileFile"] = ttf_path.name
@@ -397,8 +413,8 @@ def run_build() -> dict[str, Any]:
 
 def verify_coverage(manifest: dict[str, Any]) -> list[str]:
     """Hard-fails only on each family's `criticalRanges` (Vietnamese for Archivo, Thai for Noto Sans
-    Thai, per the Thai coverage requirement); other gaps (e.g. Caveat's designed Vietnamese fallback to Geist
-    italic, or a handful of rarely-used Latin Extended-A letters in Geist) are recorded in the
+    Thai, per the Thai coverage requirement, Vietnamese letters for Mynerve); other gaps (e.g. Mynerve's
+    missing dong sign, or a handful of rarely-used Latin Extended-A letters in Geist) are recorded in the
     manifest for review but don't block the build."""
     problems: list[str] = []
     for family_key, family in manifest["families"].items():
@@ -423,6 +439,8 @@ def hash_manifest_outputs(manifest: dict[str, Any]) -> dict[str, str]:
         for instance in family["instances"]:
             if "mobileContentHash" in instance:
                 hashes[f"{family_key}/{instance['fileStem']}.ttf"] = instance["mobileContentHash"]
+            if "mapsContentHash" in instance:
+                hashes[f"{family_key}/{instance['fileStem']}.maps.ttf"] = instance["mapsContentHash"]
             if "webContentHash" in instance:
                 hashes[f"{family_key}/{instance['fileStem']}.woff2"] = instance["webContentHash"]
     return hashes

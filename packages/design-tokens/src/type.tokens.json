@@ -305,8 +305,8 @@
       "base": {
         "$type": "typography",
         "$value": {
-          "fontFamily": "caveat",
-          "fontWeight": 600,
+          "fontFamily": "voice",
+          "fontWeight": 400,
           "fontSize": 20,
           "lineHeight": 1.1,
           "condensed": false,
@@ -319,8 +319,8 @@
       "postcard": {
         "$type": "typography",
         "$value": {
-          "fontFamily": "caveat",
-          "fontWeight": 600,
+          "fontFamily": "voice",
+          "fontWeight": 400,
           "fontSize": 26,
           "lineHeight": 1.1,
           "condensed": false,
@@ -332,8 +332,8 @@
       "signature": {
         "$type": "typography",
         "$value": {
-          "fontFamily": "caveat",
-          "fontWeight": 600,
+          "fontFamily": "voice",
+          "fontWeight": 400,
           "fontSize": 22,
           "lineHeight": 1.1,
           "condensed": false,

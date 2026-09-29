@@ -23,6 +23,7 @@ and the one-table summary.
 | [Valhalla routing on Railway](20260927-valhalla-routing-on-railway.md) | Self-hosted routing latency, matrix, build cost; Mapbox-at-launch decision |
 | [In-house procedural audio](20260927-in-house-procedural-audio.md) | Founder decision (not a spike): SFX and music synthesised in `@cp/sound-art` |
 | [App Clip built behind a flag](20260928-app-clip-built-behind-a-flag.md) | D15: native clip built now, offered only with `links.app_clip` on |
+| [Guide voice font: Mynerve](20260930-guide-voice-mynerve.md) | Founder decision (not a spike): Mynerve replaces Caveat so the guide speaks Vietnamese |
 
 ## Spike results
 
