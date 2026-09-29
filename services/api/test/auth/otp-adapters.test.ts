@@ -128,7 +128,7 @@ describe('createTelegramGatewaySender', () => {
 });
 
 describe('createPreludeSender', () => {
-  it('sends the custom code as a phone_number target', async () => {
+  it('sends our code as options.custom_code to a phone_number target', async () => {
     const { http, fetch } = fakeHttp(
       new Response(fixture('prelude-verification-send-success.json'), { status: 201 }),
     );
@@ -142,10 +142,41 @@ describe('createPreludeSender', () => {
     expect(init.headers).toMatchObject({ Authorization: 'Bearer test-api-key' });
     const body = JSON.parse(init.body as string) as {
       target: { type: string; value: string };
-      custom_code: string;
+      options: { custom_code: string };
     };
     expect(body.target).toEqual({ type: 'phone_number', value: '+84901234567' });
-    expect(body.custom_code).toBe('654321');
+    // Prelude reads the code from `options`; a top-level custom_code is ignored and it sends its own.
+    expect(body).not.toHaveProperty('custom_code');
+    expect(body.options.custom_code).toBe('654321');
+  });
+
+  it.each(['retry', 'shadow_blocked'])(
+    'counts a 200 with status "%s" as a sent code',
+    async (status) => {
+      const { http } = fakeHttp(
+        new Response(JSON.stringify({ id: 'vfy_01examplepreludeexamplexxxxxxx', status }), {
+          status: 200,
+        }),
+      );
+      const sender = createPreludeSender({ apiKey: 'test-api-key', http });
+      await expect(sender.send({ phoneE164: '+84901234567', code: '654321' })).resolves.toEqual({});
+    },
+  );
+
+  it('treats a 200 with status "challenged" as a failed send', async () => {
+    const { http } = fakeHttp(
+      new Response(
+        JSON.stringify({ id: 'vfy_01examplepreludeexamplexxxxxxx', status: 'challenged' }),
+        {
+          status: 200,
+        },
+      ),
+    );
+    const sender = createPreludeSender({ apiKey: 'test-api-key', http });
+    await expect(sender.send({ phoneE164: '+84901234567', code: '654321' })).rejects.toMatchObject({
+      code: 'SUPPLIER_UNAVAILABLE',
+      detail: { channel: 'prelude', detail: 'challenged' },
+    });
   });
 
   it('treats a 200 with status "blocked" as a failed send', async () => {

@@ -138,7 +138,8 @@ describe('Telegram Gateway then Prelude SMS', () => {
       '/v2/verification',
     ]);
     const telegramCode = calls[0]?.body['code'];
-    const smsCode = calls[1]?.body['custom_code'];
+    const smsCode = (calls[1]?.body['options'] as { custom_code?: string } | undefined)
+      ?.custom_code;
     expect(smsCode).toBe(telegramCode);
 
     const verify = await authRequest(
