@@ -19,6 +19,7 @@ import { fixturesFor, listComponents } from '../gallery/registry';
 import { DOODLES } from '../icons/generated';
 import type { DoodleName } from '../icons/generated';
 import { Icon } from '../icons/Icon';
+import { StraightArrow } from '../icons/StraightArrow';
 import { DOODLE_A11Y } from '../icons/labels';
 import { barsPath, dotGridPath, parseDotLayer, ringsPath, wedgesPath } from '../textures/geometry';
 import { Halftone } from '../textures/halftone';
@@ -36,6 +37,35 @@ const skiaProps = (node: { props: Record<string, unknown> }) =>
   node.props.skiaProps as Record<string, unknown>;
 
 describe('doodle icon set', () => {
+  it('draws every doodle with only a brush colour, none of them blank', async () => {
+    for (const name of NAMES) {
+      const { unmount } = await renderUi(<Icon name={name} color={tokens.color.ink['850']} />);
+      const painted = skiaPaths().filter((path) => skiaProps(path)['color'] !== undefined);
+      expect({ name, painted: painted.length > 0 }).toEqual({ name, painted: true });
+      await act(() => unmount());
+    }
+  });
+
+  it('draws the straight arrow in its colour, turned to its direction', async () => {
+    await renderUi(<StraightArrow direction="up" color={tokens.color.ink['850']} testID="send" />);
+    const box = screen.getByTestId('send', { includeHiddenElements: true });
+    expect(box.props.style).toEqual(
+      expect.arrayContaining([expect.objectContaining({ width: 20, height: 20 })]),
+    );
+    expect(
+      JSON.stringify(
+        box.children.map((part) => (typeof part === 'string' ? part : part.props['style'])),
+      ),
+    ).toContain(tokens.color.ink['850']);
+  });
+
+  it('draws an accent-only doodle (the arrow) in its brush colour', async () => {
+    await renderUi(<Icon name="arrow" color={tokens.color.ink['850']} />);
+    const colors = skiaPaths().map((path) => skiaProps(path)['color']);
+    expect(colors.length).toBe(DOODLES.arrow.layers.length);
+    expect(new Set(colors)).toEqual(new Set([tokens.color.ink['850']]));
+  });
+
   it('gives every extracted doodle a registry entry and drawable layers', () => {
     expect(NAMES.length).toBeGreaterThanOrEqual(28);
     for (const name of NAMES) {

@@ -11,7 +11,7 @@ import { fontFor } from '@/lib/fonts';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useThemeSettings } from '@/lib/theme';
 
-import { Icon } from '../icons/Icon';
+import { StraightArrow } from '../icons/StraightArrow';
 import { Row } from '../layout/Row';
 import { PressScale } from '../press/PressScale';
 import { Text } from '../text/Text';
@@ -183,11 +183,11 @@ export function Composer({
           widthClass="narrow"
           style={[styles.circle, { backgroundColor: theme.semantic.action.primary }]}
         >
-          <Icon
-            name="arrow"
+          <StraightArrow
+            direction="up"
             size={theme.space['20']}
-            decorative
             color={theme.semantic.text.onAccent}
+            testID="composer-send-arrow"
           />
         </PressScale>
       ) : (

@@ -16,7 +16,10 @@ export interface IconProps {
   readonly size?: number;
   /** Brush-stroke colour; defaults to the surface's primary text colour. */
   readonly color?: string;
-  /** Wash colour behind the strokes; star, flame, sun, spark and heart have a default. */
+  /**
+   * Wash colour behind the strokes; star, flame, sun, spark and heart have a default, and doodles
+   * drawn only in this layer (arrow, circle, squiggle, underline) default to `color`.
+   */
   readonly accent?: string;
   /** Overrides the registry label with the specific meaning ("Flight to Bali"). */
   readonly label?: string;
@@ -66,7 +69,11 @@ export function Icon({
   const height = (size * vbHeight) / vbWidth;
   const ink = color ?? inkFor(theme, tone);
   const accentColor =
-    accent ?? (def.defaultAccent ? tokenColor(theme, def.defaultAccent) : undefined);
+    accent ??
+    (def.defaultAccent ? tokenColor(theme, def.defaultAccent) : undefined) ??
+    // A doodle drawn only in its accent layer (arrow, circle, squiggle, underline) would otherwise
+    // draw nothing: without an accent it is drawn in the brush colour.
+    (def.layers.some((layer) => layer.paint === 'ink') ? undefined : ink);
   const resolvedLabel = label ?? a11y.label?.();
   const hidden = decorative === true || (a11y.decorative && label === undefined);
   const mirror = a11y.mirrorInRtl && I18nManager.isRTL;

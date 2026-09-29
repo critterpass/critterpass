@@ -206,3 +206,16 @@ registerFixture('AttachmentThumb', 'screenshot and add', () => (
   </Row>
 ));
 registerFixture('Composer', 'idle and typing', () => <ComposerDemo />);
+registerFixture('Composer', 'ready to send', () => (
+  <Composer
+    value="See you at the ferry at 9"
+    onChangeText={noop}
+    onSend={noop}
+    placeholder="Message, or @tokek"
+    onAttach={noop}
+    recording={false}
+    onMicTap={noop}
+    onHoldStart={noop}
+    onHoldEnd={noop}
+  />
+));
