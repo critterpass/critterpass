@@ -4,10 +4,16 @@ appId: app.critterpass.dev
 # bell carries the needs-you count and the tip strip speaks for the place's guide. Offline, Home
 # renders the same from local rows and keeps counting.
 #
-# Needs before it can pass: an onboarded account whose Home crew has a confirmed trip with dates
-# and a destination, the account's countdown target set (`countdown.recompute`), one open needs-you
-# inbox item and one active tip. The runner toggles the network around the marked steps.
-- launchApp
+# Data: a fresh account onboards, then the staging demo seed (e2e/_shared/seed-demo.yaml) gives
+# it Bali Demo Crew with a confirmed Bali trip three weeks out, its countdown target, open needs-you
+# items and an active tip. The runner toggles the network around the marked steps.
+- launchApp:
+    clearState: true
+- runFlow: subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo
 - extendedWaitUntil:
     visible:
       id: 'home-mode-everyday'

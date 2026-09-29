@@ -14,9 +14,9 @@ import * as SecureStore from 'expo-secure-store';
 
 import { runOnSignOutHooks } from '../auth/sign-out-hooks';
 import { createDeviceResolver } from '../commands/device';
+import { resolvePowerSyncUrl } from '../app-session/endpoints';
 import { resolveApiBaseUrl } from '../places/apiBaseUrl';
 import { createExpoNetworkSource, retryWhenOnline } from '../status/network';
-import { resolvePowerSyncUrl } from './connector';
 import { loadOrCreateDatabaseKey } from './encryption-key';
 import { assembleLocalFirstCore, connectLocalFirst } from './local-first';
 import type { LocalFirstContextValue } from './local-first-context';

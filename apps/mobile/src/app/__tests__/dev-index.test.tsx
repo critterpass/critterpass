@@ -19,6 +19,14 @@ describe('DevToolsIndexScreen', () => {
     expect(getByTestId('dev-nav-spikes-timeline-drag')).toBeTruthy();
   });
 
+  it('offers the staging demo data seed for each inbox scenario', async () => {
+    const { getByTestId } = await render(<DevToolsIndexScreen />);
+
+    expect(getByTestId('dev-seed-demo')).toHaveTextContent('Seed demo data');
+    expect(getByTestId('dev-seed-demo-inbox')).toBeTruthy();
+    expect(getByTestId('dev-seed-demo-caught-up')).toBeTruthy();
+  });
+
   it('shows a build marker proving which JS bundle is running (embedded, absent an EAS Update)', async () => {
     const { getByTestId } = await render(<DevToolsIndexScreen />);
 

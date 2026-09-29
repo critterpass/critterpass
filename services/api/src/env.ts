@@ -90,6 +90,27 @@ export const apiEnvSchema = z.object({
   /** Telegram Gateway API token: sends sign-in codes and keys the delivery-report signature on `POST /webhooks/telegram-gateway`. */
   TELEGRAM_GATEWAY_TOKEN: optionalString,
   PRELUDE_API_KEY: optionalString,
+  /** Comma-separated E.164 numbers that sign in with OTP_TEST_CODE and are never sent a message
+   *  (automated device flows); ignored when APP_ENV is production (src/auth/otp/fixed-codes.ts). */
+  OTP_TEST_NUMBERS: optionalString,
+  OTP_TEST_CODE: z.preprocess(
+    emptyAsUndefined,
+    z
+      .string()
+      .regex(/^\d{6}$/)
+      .optional(),
+  ),
+  /** One App Review number and its fixed code; honoured in every tier, rotated after each review. */
+  OTP_REVIEW_NUMBER: optionalString,
+  OTP_REVIEW_CODE: z.preprocess(
+    emptyAsUndefined,
+    z
+      .string()
+      .regex(/^\d{6}$/)
+      .optional(),
+  ),
+  /** Mounts `POST /v1/dev/seed-demo` (src/dev/routes.ts); refused whenever APP_ENV is production. */
+  DEV_SEED_ENABLED: boolFlag(false),
 
   // --- Social sign-in (Apple/Google ID-token linking); button hidden client-side via server config
   // when unset, `link-social`/`sign-in/social` for that provider fails with Better Auth's own

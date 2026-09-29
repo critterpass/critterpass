@@ -29,6 +29,12 @@ import {
   type OtpChannelAdapter,
 } from './otp/router';
 import type { OtpChannel } from './otp/countries';
+import {
+  maskedNumber,
+  useFixedCode,
+  type FixedCodeKind,
+  type FixedCodeNumbers,
+} from './otp/fixed-codes';
 import { betterAuth } from 'better-auth';
 
 import type { AttestationConfig, AttestationDeps } from '../abuse/attestation';
@@ -61,6 +67,10 @@ export interface AuthModuleDeps {
   readonly baseUrl: string;
   readonly trustedOrigins: readonly string[];
   readonly otpAdapters: Partial<Record<OtpChannel, OtpChannelAdapter>>;
+  /** Test and App Review numbers that sign in with a fixed code and are never sent one. */
+  readonly fixedCodes?: FixedCodeNumbers | undefined;
+  /** Told about every fixed-code sign-in attempt (the api logs it). */
+  readonly onFixedCode?: ((use: { kind: FixedCodeKind; number: string }) => void) | undefined;
   readonly jwksRotationIntervalSeconds?: number | undefined;
   readonly rateLimit?: AuthConfigDeps['rateLimit'];
   readonly attestation: AttestationConfig;
@@ -156,6 +166,12 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
         }
       }
       const verificationId = consumePendingVerificationId(data.phoneNumber);
+      const fixed = deps.fixedCodes?.match(data.phoneNumber);
+      if (fixed !== undefined) {
+        await useFixedCode(ctx, data.phoneNumber, fixed.code);
+        deps.onFixedCode?.({ kind: fixed.kind, number: maskedNumber(data.phoneNumber) });
+        return;
+      }
       try {
         await otpRouter.sendOTP({
           phoneE164: data.phoneNumber,

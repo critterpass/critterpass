@@ -24,6 +24,7 @@ import {
   registerMergeTicketPreviewRoute,
   registerReturningPhoneSignInRoute,
 } from './routes/auth-extra';
+import { fixedCodeNumbersFromEnv } from './auth/otp/fixed-codes';
 import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerOtpWebhookRoutes } from './routes/otp-webhooks';
 import { betterAuthSessionResolver } from './commands/_framework/session';
@@ -38,6 +39,7 @@ import { registerTravelDataRoutes } from './travel-data/routes';
 import { registerCostRoutes } from './cost/routes';
 import { createR2Client } from './media/r2';
 import { mediaSigningConfigFromEnv } from './media/sign';
+import { registerDevRoutesFromEnv } from './dev/routes';
 import { registerGeoRoutesFromEnv } from './routes/geo';
 import { registerMediaRoutes } from './routes/media';
 import { createMapboxRoutingProvider } from './routing/eta';
@@ -114,6 +116,8 @@ const authModule = createAuthModule({
   baseUrl: `${env.PUBLIC_BASE_URL}/api/auth`,
   trustedOrigins: buildTrustedOriginsFromEnv(env),
   otpAdapters: buildOtpAdaptersFromEnv(env),
+  fixedCodes: fixedCodeNumbersFromEnv(env, (warning) => logger.warn(warning)),
+  onFixedCode: (use) => logger.warn(use, 'fixed-code phone number used for sign-in'),
   rateLimit: { customRules: buildAuthRateLimitCustomRules() },
   attestation: buildAttestationConfigFromEnv(env),
   onAttestationFailure: (error, context) => {
@@ -230,6 +234,7 @@ registerAiRoutes(app, commandDoors, env, logger);
 registerTravelDataRoutes(app, commandDoors);
 registerCostRoutes(app, commandDoors);
 registerGeoRoutesFromEnv(app, commandDoors, env.GEOIP_CITY_MMDB, logger);
+registerDevRoutesFromEnv(app, { ...commandDoors, logger }, env);
 registerLinkRoutes(app, {
   ...commandDoors,
   links: linkProviders,
