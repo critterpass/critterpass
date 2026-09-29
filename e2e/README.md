@@ -52,6 +52,13 @@ report, lands in `screen-checks.log` and is listed at the top of the pull reques
 
 `pnpm tsx tools/scripts/ci-device/screen-scan.ts <dir>` runs them on any folder of screenshots.
 
+The app's own `[ui-qa]` reports come from dev and e2e builds (`apps/mobile/src/ui/qa`): cut or
+split text, one-line labels that wrapped, stickers without their edge or image, Home header controls
+that overlap or leave the screen, pushed screens with no back or close control, and icons that
+draw nothing. A label the design does set on two lines says so on its `Text` with
+`singleLine={false}`, the one exemption from the wrap check; `git grep 'singleLine={false}'` lists
+every one for review.
+
 Each run is titled after its mode, branch, pull request, platform and flows, and dispatching the
 same flows on the same branch again cancels the older run. When no e2e-test build matches the
 native fingerprint the prepare job stops (it never falls back to another build) and names the
