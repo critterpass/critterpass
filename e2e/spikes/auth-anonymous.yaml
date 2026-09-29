@@ -16,10 +16,12 @@ appId: app.critterpass.dev
     timeout: 25000
 - tapOn:
     id: 'dev-tools-entry'
-- extendedWaitUntil:
-    visible:
+# The spikes sit below the demo data, labs and live checks sections.
+- scrollUntilVisible:
+    element:
       id: 'dev-nav-spikes-auth'
-    timeout: 10000
+    direction: DOWN
+    timeout: 20000
 - tapOn:
     id: 'dev-nav-spikes-auth'
 - extendedWaitUntil:

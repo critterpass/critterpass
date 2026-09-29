@@ -1,9 +1,12 @@
 import { GoogleSignin, isSuccessResponse } from '@react-native-google-signin/google-signin';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { useCallback, useEffect, useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, View } from 'react-native';
 
 import { authClient } from './auth-client';
+import { Scaffold, Stack, Text } from '@/ui';
+import { Card } from '@/ui/cards/Card';
+import { TextField } from '@/ui/inputs/TextField';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -166,84 +169,81 @@ export default function AuthSpikeScreen() {
   }, [appendLog, phoneCode, refreshSession, testPhoneNumber, user]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text accessibilityRole="header" style={styles.title}>
-        S-AUTH on device spike
-      </Text>
-      <Text style={styles.body}>server: {SPIKE_AUTH_BASE_URL}</Text>
-
-      <View style={styles.resultBox}>
-        <Text style={styles.resultLabel}>current session</Text>
-        <Text style={styles.body}>uid: {user?.id ?? '(none)'}</Text>
-        <Text style={styles.body}>isAnonymous: {String(user?.isAnonymous ?? 'n/a')}</Text>
-        <Text style={styles.body}>phoneNumber: {user?.phoneNumber ?? '(none)'}</Text>
-        {uidBefore !== null ? (
-          <Text style={styles.body}>
-            uid before last action: {uidBefore} ({uidBefore === user?.id ? 'unchanged' : 'CHANGED'})
-          </Text>
-        ) : null}
-      </View>
-
-      <View style={styles.buttonRow}>
-        <Button title="Sign in anonymously" onPress={signInAnonymously} />
-      </View>
-      <View style={styles.buttonRow}>
-        <Button title="Upgrade: Sign in with Apple" onPress={signInWithApple} />
-      </View>
-      <View style={styles.buttonRow}>
-        <Button title="Upgrade: Sign in with Google" onPress={signInWithGoogle} />
-      </View>
-
-      <View style={styles.resultBox}>
-        <Text style={styles.resultLabel}>
-          phone upgrade (test number {testPhoneNumber ?? '(sign in first)'})
+    <Scaffold edges={['top', 'bottom']}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text accessibilityRole="header" variant="h3">
+          S-AUTH on device spike
         </Text>
-        <View style={styles.buttonRow}>
-          <Button title="Send code" onPress={sendPhoneOtp} />
-        </View>
-        <TextInput
-          style={styles.input}
-          value={phoneCode}
-          onChangeText={setPhoneCode}
-          placeholder="OTP code"
-          keyboardType="number-pad"
-        />
-        <View style={styles.buttonRow}>
-          <Button title="Verify code" onPress={verifyPhoneOtp} disabled={phoneCode.length === 0} />
-        </View>
-      </View>
+        <Text variant="bodySm">server: {SPIKE_AUTH_BASE_URL}</Text>
 
-      {siwaRevoked ? <Text style={styles.body}>SIWA revoke event received</Text> : null}
+        <Card>
+          <Stack gap="4">
+            <Text variant="eyebrow">current session</Text>
+            <Text variant="bodySm">uid: {user?.id ?? '(none)'}</Text>
+            <Text variant="bodySm">isAnonymous: {String(user?.isAnonymous ?? 'n/a')}</Text>
+            <Text variant="bodySm">phoneNumber: {user?.phoneNumber ?? '(none)'}</Text>
+            {uidBefore !== null ? (
+              <Text variant="bodySm">
+                uid before last action: {uidBefore} (
+                {uidBefore === user?.id ? 'unchanged' : 'CHANGED'})
+              </Text>
+            ) : null}
+          </Stack>
+        </Card>
 
-      <View style={styles.resultBox}>
-        <Text style={styles.resultLabel}>log</Text>
-        {log.map((line, index) => (
-          <Text key={index} style={styles.body}>
-            {line}
-          </Text>
-        ))}
-      </View>
-    </ScrollView>
+        <View style={styles.buttonRow}>
+          <Button title="Sign in anonymously" onPress={signInAnonymously} />
+        </View>
+        <View style={styles.buttonRow}>
+          <Button title="Upgrade: Sign in with Apple" onPress={signInWithApple} />
+        </View>
+        <View style={styles.buttonRow}>
+          <Button title="Upgrade: Sign in with Google" onPress={signInWithGoogle} />
+        </View>
+
+        <Card>
+          <Stack gap="4">
+            <Text variant="eyebrow">
+              phone upgrade (test number {testPhoneNumber ?? '(sign in first)'})
+            </Text>
+            <View style={styles.buttonRow}>
+              <Button title="Send code" onPress={sendPhoneOtp} />
+            </View>
+            <TextField
+              label="OTP code"
+              value={phoneCode}
+              onChangeText={setPhoneCode}
+              placeholder="OTP code"
+              keyboardType="number-pad"
+            />
+            <View style={styles.buttonRow}>
+              <Button
+                title="Verify code"
+                onPress={verifyPhoneOtp}
+                disabled={phoneCode.length === 0}
+              />
+            </View>
+          </Stack>
+        </Card>
+
+        {siwaRevoked ? <Text variant="bodySm">SIWA revoke event received</Text> : null}
+
+        <Card>
+          <Stack gap="4">
+            <Text variant="eyebrow">log</Text>
+            {log.map((line, index) => (
+              <Text key={index} variant="bodySm">
+                {line}
+              </Text>
+            ))}
+          </Stack>
+        </Card>
+      </ScrollView>
+    </Scaffold>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flexGrow: 1, gap: 10, padding: 16 },
-  title: { fontSize: 18, fontWeight: '600' },
-  body: { fontSize: 13 },
   buttonRow: { alignSelf: 'flex-start' },
-  resultBox: {
-    gap: 4,
-    borderRadius: 8,
-    borderWidth: StyleSheet.hairlineWidth,
-    padding: 12,
-    alignSelf: 'stretch',
-  },
-  resultLabel: { fontSize: 12, textTransform: 'uppercase', opacity: 0.6 },
-  input: {
-    borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 6,
-    padding: 8,
-    alignSelf: 'stretch',
-  },
 });

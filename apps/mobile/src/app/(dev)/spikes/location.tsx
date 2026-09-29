@@ -1,6 +1,6 @@
 import * as Location from 'expo-location';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, View } from 'react-native';
 
 import { reloadWidgets, writeSnapshot } from '../../../../modules/cp-app-group';
 import type { DwellState } from './dwell-ring';
@@ -12,6 +12,8 @@ import {
   getDwellSnapshot,
   subscribeDwellUpdates,
 } from './dwell-location-task';
+import { Scaffold, Stack, Text } from '@/ui';
+import { Card } from '@/ui/cards/Card';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -127,92 +129,83 @@ export default function LocationDwellSpikeScreen() {
       : null;
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text accessibilityRole="header" style={styles.title}>
-        Background location + dwell ring spike
-      </Text>
-      <Text style={styles.body}>permission: {permission}</Text>
+    <Scaffold edges={['top', 'bottom']}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text accessibilityRole="header" variant="h3">
+          Background location + dwell ring spike
+        </Text>
+        <Text variant="bodySm">permission: {permission}</Text>
 
-      <View style={styles.buttonRow}>
-        <Button
-          title="Enable location (While-In-Use)"
-          onPress={() => void requestForeground()}
-          disabled={permission !== 'unknown' && permission !== 'denied'}
-        />
-      </View>
-      {permission === 'foreground' || permission === 'always' ? (
         <View style={styles.buttonRow}>
           <Button
-            title="Enable background tracking (Always)"
-            onPress={() => void requestAlways()}
-            disabled={permission === 'always'}
+            title="Enable location (While-In-Use)"
+            onPress={() => void requestForeground()}
+            disabled={permission !== 'unknown' && permission !== 'denied'}
           />
         </View>
-      ) : null}
-      <View style={styles.buttonRow}>
-        <Button
-          title="Use current location as POI"
-          onPress={() => void setPoiFromCurrentLocation()}
-          disabled={permission === 'unknown' || permission === 'denied'}
-        />
-      </View>
-      <View style={styles.buttonRow}>
-        <Button
-          title={tracking ? 'Stop trip-day session' : 'Start trip-day session'}
-          onPress={() => void (tracking ? stopTracking() : startTracking())}
-          disabled={!poi}
-        />
-      </View>
+        {permission === 'foreground' || permission === 'always' ? (
+          <View style={styles.buttonRow}>
+            <Button
+              title="Enable background tracking (Always)"
+              onPress={() => void requestAlways()}
+              disabled={permission === 'always'}
+            />
+          </View>
+        ) : null}
+        <View style={styles.buttonRow}>
+          <Button
+            title="Use current location as POI"
+            onPress={() => void setPoiFromCurrentLocation()}
+            disabled={permission === 'unknown' || permission === 'denied'}
+          />
+        </View>
+        <View style={styles.buttonRow}>
+          <Button
+            title={tracking ? 'Stop trip-day session' : 'Start trip-day session'}
+            onPress={() => void (tracking ? stopTracking() : startTracking())}
+            disabled={!poi}
+          />
+        </View>
 
-      {poi ? (
-        <Text style={styles.body}>
-          POI: {poi.lat.toFixed(6)}, {poi.lon.toFixed(6)} (radius{' '}
-          {DEFAULT_DWELL_CONFIG.radiusMeters} m)
-        </Text>
-      ) : (
-        <Text style={styles.body}>No POI set yet.</Text>
-      )}
-      {fix ? (
-        <Text style={styles.body}>
-          last fix: {fix.coords.latitude.toFixed(6)}, {fix.coords.longitude.toFixed(6)} (±
-          {fix.coords.accuracy?.toFixed(0) ?? '?'} m) at{' '}
-          {new Date(fix.timestamp).toLocaleTimeString()}
-        </Text>
-      ) : null}
-      {distanceMeters !== null ? (
-        <Text style={styles.body}>distance to POI: {distanceMeters.toFixed(1)} m</Text>
-      ) : null}
+        {poi ? (
+          <Text variant="bodySm">
+            POI: {poi.lat.toFixed(6)}, {poi.lon.toFixed(6)} (radius{' '}
+            {DEFAULT_DWELL_CONFIG.radiusMeters} m)
+          </Text>
+        ) : (
+          <Text variant="bodySm">No POI set yet.</Text>
+        )}
+        {fix ? (
+          <Text variant="bodySm">
+            last fix: {fix.coords.latitude.toFixed(6)}, {fix.coords.longitude.toFixed(6)} (±
+            {fix.coords.accuracy?.toFixed(0) ?? '?'} m) at{' '}
+            {new Date(fix.timestamp).toLocaleTimeString()}
+          </Text>
+        ) : null}
+        {distanceMeters !== null ? (
+          <Text variant="bodySm">distance to POI: {distanceMeters.toFixed(1)} m</Text>
+        ) : null}
 
-      <View style={styles.resultBox}>
-        <Text style={styles.resultLabel}>dwell ring</Text>
-        <Text style={styles.resultValue}>
-          {dwell ? `${(dwell.progress * 100).toFixed(0)}%` : '0%'}
-        </Text>
-        <Text style={styles.body}>
-          {dwell
-            ? `${dwell.dwellSeconds.toFixed(0)}s / ${DEFAULT_DWELL_CONFIG.thresholdSeconds}s`
-            : ''}
-        </Text>
-      </View>
-      {snapshotMs !== null ? (
-        <Text style={styles.body}>last App Group snapshot write: {snapshotMs.toFixed(2)} ms</Text>
-      ) : null}
-    </ScrollView>
+        <Card>
+          <Stack gap="4">
+            <Text variant="eyebrow">dwell ring</Text>
+            <Text variant="rowTitle">{dwell ? `${(dwell.progress * 100).toFixed(0)}%` : '0%'}</Text>
+            <Text variant="bodySm">
+              {dwell
+                ? `${dwell.dwellSeconds.toFixed(0)}s / ${DEFAULT_DWELL_CONFIG.thresholdSeconds}s`
+                : ''}
+            </Text>
+          </Stack>
+        </Card>
+        {snapshotMs !== null ? (
+          <Text variant="bodySm">last App Group snapshot write: {snapshotMs.toFixed(2)} ms</Text>
+        ) : null}
+      </ScrollView>
+    </Scaffold>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flexGrow: 1, gap: 10, padding: 16, alignItems: 'flex-start' },
-  title: { fontSize: 20, fontWeight: '600' },
-  body: { fontSize: 13 },
   buttonRow: { alignSelf: 'stretch' },
-  resultBox: {
-    gap: 4,
-    borderRadius: 8,
-    borderWidth: StyleSheet.hairlineWidth,
-    padding: 12,
-    alignSelf: 'stretch',
-  },
-  resultLabel: { fontSize: 12, textTransform: 'uppercase', opacity: 0.6 },
-  resultValue: { fontSize: 28, fontWeight: '700' },
 });

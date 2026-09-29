@@ -1,6 +1,6 @@
 import { Link } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from 'react-native';
 import Animated, {
   Extrapolation,
   interpolate,
@@ -13,6 +13,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { Scaffold, Text } from '@/ui';
+import { InlineAction } from '@/ui/buttons/InlineAction';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -135,8 +137,10 @@ function TeleportOverlay({
         accessibilityLabel="Close detail"
       >
         <Animated.View style={[styles.detailContent, contentStyle]}>
-          <Text style={styles.detailTitle}>Detail (teleport overlay)</Text>
-          <Text style={styles.detailBody}>
+          <Text variant="h3" style={styles.detailText}>
+            Detail (teleport overlay)
+          </Text>
+          <Text variant="bodySm" style={styles.detailText}>
             Tap anywhere to close — reverses the same shared progress value mid-flight.
           </Text>
         </Animated.View>
@@ -187,8 +191,12 @@ function SharedElementDemo({
         style={[styles.detailFill, { backgroundColor: CARD_COLORS[selected] }]}
       >
         <View style={styles.detailContent}>
-          <Text style={styles.detailTitle}>Detail (Reanimated shared element)</Text>
-          <Text style={styles.detailBody}>Tap anywhere to close.</Text>
+          <Text variant="h3" style={styles.detailText}>
+            Detail (Reanimated shared element)
+          </Text>
+          <Text variant="bodySm" style={styles.detailText}>
+            Tap anywhere to close.
+          </Text>
         </View>
       </Animated.View>
     </Pressable>
@@ -222,89 +230,73 @@ export default function GrowIntoPageScreen() {
   );
 
   return (
-    <View style={styles.root}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text accessibilityRole="header" style={styles.title}>
-          Grow-into-page transition spike
-        </Text>
-        <View style={styles.buttonRow}>
-          {MODES.map((m) => (
-            <Pressable
-              key={m}
-              onPress={() => setMode(m)}
-              style={[styles.modeButton, mode === m && styles.modeButtonActive]}
-            >
-              <Text style={[styles.modeLabel, mode === m && styles.modeLabelActive]}>{m}</Text>
-            </Pressable>
-          ))}
-        </View>
-        <Text style={styles.body}>
-          worst frame gap (700 ms window): {p95FrameMs.toFixed(2)} ms (budget 16.6 ms @60fps)
-        </Text>
-
-        {mode === 'teleport-overlay' && (
-          <View style={styles.grid}>
-            {CARD_COLORS.map((color, i) => (
-              <GrowCard key={i} color={color} index={i} onPress={handleCardPress} />
+    <Scaffold edges={['top', 'bottom']}>
+      <View style={styles.root}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text accessibilityRole="header" variant="h3">
+            Grow-into-page transition spike
+          </Text>
+          <View style={styles.buttonRow}>
+            {MODES.map((m) => (
+              <InlineAction key={m} label={m} selected={mode === m} onPress={() => setMode(m)} />
             ))}
           </View>
-        )}
-        {mode === 'shared-element' && (
-          <SharedElementDemo selected={sharedSelected} onSelect={setSharedSelected} />
-        )}
-        {mode === 'apple-zoom' && (
-          <View style={styles.grid}>
-            <Link href="/(dev)/spikes/grow-into-page-detail" asChild>
-              <Pressable accessibilityRole="button" accessibilityLabel="Open with Apple Zoom">
-                <Link.Trigger withAppleZoom>
-                  {/* Link.Trigger forwards this child through expo-router's <Slot>, which throws on
-                   * an array `style` prop — flatten it first (a real, source-verified constraint,
-                   * not an assumption; see the ADR). */}
-                  <Animated.View
-                    style={StyleSheet.flatten([styles.card, { backgroundColor: CARD_COLORS[0] }])}
-                  />
-                </Link.Trigger>
-              </Pressable>
-            </Link>
-            <Text style={styles.body}>
-              Link.AppleZoom is wired above; see the ADR — expo-router 58.0.8 hard-codes its
-              enabling flag to false, so this currently navigates with the plain push transition,
-              not a zoom.
-            </Text>
-          </View>
-        )}
-      </ScrollView>
+          <Text variant="bodySm">
+            worst frame gap (700 ms window): {p95FrameMs.toFixed(2)} ms (budget 16.6 ms @60fps)
+          </Text>
 
-      {teleport ? (
-        <TeleportOverlay
-          sourceRect={teleport.rect}
-          color={CARD_COLORS[teleport.index] ?? '#4f86ff'}
-          onClosed={() => setTeleport(null)}
-        />
-      ) : null}
-    </View>
+          {mode === 'teleport-overlay' && (
+            <View style={styles.grid}>
+              {CARD_COLORS.map((color, i) => (
+                <GrowCard key={i} color={color} index={i} onPress={handleCardPress} />
+              ))}
+            </View>
+          )}
+          {mode === 'shared-element' && (
+            <SharedElementDemo selected={sharedSelected} onSelect={setSharedSelected} />
+          )}
+          {mode === 'apple-zoom' && (
+            <View style={styles.grid}>
+              <Link href="/(dev)/spikes/grow-into-page-detail" asChild>
+                <Pressable accessibilityRole="button" accessibilityLabel="Open with Apple Zoom">
+                  <Link.Trigger withAppleZoom>
+                    {/* Link.Trigger forwards this child through expo-router's <Slot>, which throws on
+                     * an array `style` prop — flatten it first (a real, source-verified constraint,
+                     * not an assumption; see the ADR). */}
+                    <Animated.View
+                      style={StyleSheet.flatten([styles.card, { backgroundColor: CARD_COLORS[0] }])}
+                    />
+                  </Link.Trigger>
+                </Pressable>
+              </Link>
+              <Text variant="bodySm">
+                Link.AppleZoom is wired above; see the ADR — expo-router 58.0.8 hard-codes its
+                enabling flag to false, so this currently navigates with the plain push transition,
+                not a zoom.
+              </Text>
+            </View>
+          )}
+        </ScrollView>
+
+        {teleport ? (
+          <TeleportOverlay
+            sourceRect={teleport.rect}
+            color={CARD_COLORS[teleport.index] ?? '#4f86ff'}
+            onClosed={() => setTeleport(null)}
+          />
+        ) : null}
+      </View>
+    </Scaffold>
   );
 }
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
   container: { flexGrow: 1, gap: 12, padding: 16 },
-  title: { fontSize: 20, fontWeight: '600' },
-  body: { fontSize: 13 },
   buttonRow: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
-  modeButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 8,
-    borderWidth: StyleSheet.hairlineWidth,
-  },
-  modeButtonActive: { backgroundColor: '#221e19' },
-  modeLabel: { fontSize: 13 },
-  modeLabelActive: { color: '#fff' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
   card: { width: 100, height: 100, borderRadius: CARD_RADIUS },
   detailFill: { flex: 1, minHeight: 400 },
   detailContent: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8, padding: 24 },
-  detailTitle: { fontSize: 20, fontWeight: '700', color: '#fff', textAlign: 'center' },
-  detailBody: { fontSize: 14, color: '#fff', textAlign: 'center' },
+  detailText: { color: '#fff', textAlign: 'center' },
 });

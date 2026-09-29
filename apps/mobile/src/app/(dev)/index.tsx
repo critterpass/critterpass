@@ -1,10 +1,13 @@
-import { Link } from 'expo-router';
+import { router, type Href } from 'expo-router';
 import * as Updates from 'expo-updates';
-import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useState, type ReactNode } from 'react';
+import { ScrollView } from 'react-native';
 
 import { seedDemoData, type DemoScenario } from '@/data/dev/seed-demo';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
+import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
+import { ListCard } from '@/ui/cards/ListCard';
+import { SecondaryText } from '@/ui/cards/SecondaryText';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -12,71 +15,99 @@ export const __CP_DEV_ROUTE__ = true;
 
 interface DevScreenEntry {
   readonly testId: string;
-  readonly href: string;
+  readonly href: Href;
   readonly label: string;
+}
+
+interface DevScreenSection {
+  readonly title: string;
+  readonly entries: readonly DevScreenEntry[];
 }
 
 // Every real (dev) screen, listed once here rather than deep-linked to directly: Maestro's
 // `openLink` into a (dev) route is non-deterministic on EAS-hosted simulators (upstream
 // mobile-dev-inc/Maestro#2610 — confirmed via a failure screenshot in an earlier pass of this
 // flow), so `e2e/**` flows tap through this list instead. Grouped in the order a developer would
-// scan them: the motion lab first (most-used), then every spike screen. `grow-into-page-detail`
-// isn't listed: it's a sub-route `grow-into-page` navigates to itself, not a top-level entry.
-const DEV_SCREENS: readonly DevScreenEntry[] = [
-  { testId: 'dev-nav-motion-lab', href: '/(dev)/motion-lab', label: 'Motion lab' },
-  { testId: 'dev-nav-sticker-lab', href: '/(dev)/sticker-lab', label: 'Sticker lab' },
-  { testId: 'dev-nav-gallery', href: '/(dev)/gallery', label: 'Component gallery' },
-  { testId: 'dev-nav-permissions', href: '/(dev)/permissions', label: 'Permissions (live status)' },
+// scan them: the labs first (most-used), then the live checks, then every spike screen.
+// `grow-into-page-detail` isn't listed: it's a sub-route `grow-into-page` navigates to itself.
+const DEV_SECTIONS: readonly DevScreenSection[] = [
   {
-    testId: 'dev-nav-location-engine',
-    href: '/(dev)/location-engine',
-    label: 'Location engine (trip day)',
+    title: 'Labs',
+    entries: [
+      { testId: 'dev-nav-motion-lab', href: '/(dev)/motion-lab', label: 'Motion lab' },
+      { testId: 'dev-nav-sticker-lab', href: '/(dev)/sticker-lab', label: 'Sticker lab' },
+      { testId: 'dev-nav-gallery', href: '/(dev)/gallery', label: 'Component gallery' },
+    ],
   },
   {
-    testId: 'dev-nav-permissions-primer',
-    href: '/(dev)/permissions-primer',
-    label: 'Permissions primer (3a-9)',
+    title: 'Live checks',
+    entries: [
+      {
+        testId: 'dev-nav-permissions',
+        href: '/(dev)/permissions',
+        label: 'Permissions (live status)',
+      },
+      {
+        testId: 'dev-nav-location-engine',
+        href: '/(dev)/location-engine',
+        label: 'Location engine (trip day)',
+      },
+      {
+        testId: 'dev-nav-permissions-primer',
+        href: '/(dev)/permissions-primer',
+        label: 'Permissions primer (3a-9)',
+      },
+    ],
   },
   {
-    testId: 'dev-nav-spikes-app-group',
-    href: '/(dev)/spikes/app-group',
-    label: 'Spike: App group',
-  },
-  {
-    testId: 'dev-nav-spikes-auth',
-    href: '/(dev)/spikes/auth',
-    label: 'Spike: Auth (anonymous upgrade)',
-  },
-  { testId: 'dev-nav-spikes-critter', href: '/(dev)/spikes/critter', label: 'Spike: Critter draw' },
-  {
-    testId: 'dev-nav-spikes-critterdex-grid',
-    href: '/(dev)/spikes/critterdex-grid',
-    label: 'Spike: Critterdex grid',
-  },
-  {
-    testId: 'dev-nav-spikes-grow-into-page',
-    href: '/(dev)/spikes/grow-into-page',
-    label: 'Spike: Grow-into-page transitions',
-  },
-  {
-    testId: 'dev-nav-spikes-live-activity',
-    href: '/(dev)/spikes/live-activity',
-    label: 'Spike: Live Activity',
-  },
-  {
-    testId: 'dev-nav-spikes-location',
-    href: '/(dev)/spikes/location',
-    label: 'Spike: Location dwell',
-  },
-  {
-    testId: 'dev-nav-spikes-map',
-    href: '/(dev)/spikes/map',
-    label: 'Spike: Map offline (PMTiles)',
-  },
-  {
-    testId: 'dev-nav-spikes-timeline-drag',
-    href: '/(dev)/spikes/timeline-drag',
-    label: 'Spike: Timeline drag',
+    title: 'Spikes',
+    entries: [
+      {
+        testId: 'dev-nav-spikes-app-group',
+        href: '/(dev)/spikes/app-group',
+        label: 'Spike: App group',
+      },
+      {
+        testId: 'dev-nav-spikes-auth',
+        href: '/(dev)/spikes/auth',
+        label: 'Spike: Auth (anonymous upgrade)',
+      },
+      {
+        testId: 'dev-nav-spikes-critter',
+        href: '/(dev)/spikes/critter',
+        label: 'Spike: Critter draw',
+      },
+      {
+        testId: 'dev-nav-spikes-critterdex-grid',
+        href: '/(dev)/spikes/critterdex-grid',
+        label: 'Spike: Critterdex grid',
+      },
+      {
+        testId: 'dev-nav-spikes-grow-into-page',
+        href: '/(dev)/spikes/grow-into-page',
+        label: 'Spike: Grow-into-page transitions',
+      },
+      {
+        testId: 'dev-nav-spikes-live-activity',
+        href: '/(dev)/spikes/live-activity',
+        label: 'Spike: Live Activity',
+      },
+      {
+        testId: 'dev-nav-spikes-location',
+        href: '/(dev)/spikes/location',
+        label: 'Spike: Location dwell',
+      },
+      {
+        testId: 'dev-nav-spikes-map',
+        href: '/(dev)/spikes/map',
+        label: 'Spike: Map offline (PMTiles)',
+      },
+      {
+        testId: 'dev-nav-spikes-timeline-drag',
+        href: '/(dev)/spikes/timeline-drag',
+        label: 'Spike: Timeline drag',
+      },
+    ],
   },
 ];
 
@@ -141,79 +172,102 @@ function SeedDemoData() {
     }
   };
   return (
-    <View style={styles.list}>
+    <Stack gap="8">
       {SEED_SCENARIOS.map((entry) => (
-        <Pressable
+        <ListCard
           key={entry.scenario}
           testID={entry.testId}
-          style={styles.row}
-          disabled={state.kind === 'seeding'}
-          onPress={() => void seed(entry.scenario)}
-        >
-          <Text>{entry.label}</Text>
-        </Pressable>
+          title={entry.label}
+          chevron={false}
+          {...(state.kind === 'seeding' ? {} : { onPress: () => void seed(entry.scenario) })}
+        />
       ))}
-      {state.kind === 'seeding' ? <Text testID="dev-seed-demo-busy">Seeding…</Text> : null}
-      {state.kind === 'done' ? (
-        <Text testID={state.synced ? 'dev-seed-demo-done' : 'dev-seed-demo-unsynced'}>
+      <SeedStatus state={state} />
+    </Stack>
+  );
+}
+
+/** One readable line under the seed buttons, in the state colour of the outcome. */
+function SeedStatus({ state }: { readonly state: SeedState }) {
+  const theme = useTheme();
+  const { success, warning, urgent } = theme.semantic.state;
+  switch (state.kind) {
+    case 'idle':
+      return null;
+    case 'seeding':
+      return (
+        <SecondaryText variant="body" testID="dev-seed-demo-busy">
+          Seeding…
+        </SecondaryText>
+      );
+    case 'done':
+      return (
+        <Text
+          testID={state.synced ? 'dev-seed-demo-done' : 'dev-seed-demo-unsynced'}
+          color={state.synced ? success : warning}
+        >
           {state.synced ? 'Demo data is on this device.' : 'Seeded; still waiting for sync.'}
         </Text>
-      ) : null}
-      {state.kind === 'failed' ? <Text testID="dev-seed-demo-failed">{state.message}</Text> : null}
-    </View>
+      );
+    case 'failed':
+      return (
+        <Text testID="dev-seed-demo-failed" color={urgent}>
+          {state.message}
+        </Text>
+      );
+  }
+}
+
+function Section({ title, children }: { readonly title: string; readonly children: ReactNode }) {
+  return (
+    <Stack gap="8">
+      <Text variant="eyebrow" accessibilityRole="header">
+        {title}
+      </Text>
+      {children}
+    </Stack>
   );
 }
 
 /**
  * Landing screen for every (dev) route, linked from the home screen's "Developer tools" entry
- * (apps/mobile/src/app/index.tsx, hidden outside development/staging). Dev-only (excluded from
- * production per the marker above); plain StyleSheet, no @cp/design-tokens import — route files
- * don't import tokens directly (docs/system-architecture.md §3).
+ * (apps/mobile/src/features/home/dev-tools-entry.tsx, hidden in production). Built from the app's
+ * own components so it stays legible on the dark app background; route files don't import tokens
+ * directly (docs/system-architecture.md §3).
  */
 export default function DevToolsIndexScreen() {
+  const styles = useStyles();
   return (
-    <ScrollView contentContainerStyle={styles.content}>
-      <Text accessibilityRole="header" style={styles.heading}>
-        Developer tools
-      </Text>
-      <Text testID="dev-build-marker" style={styles.marker}>
-        {buildMarkerLabel()}
-      </Text>
-      <SeedDemoData />
-      <View style={styles.list}>
-        {DEV_SCREENS.map((entry) => (
-          <Link key={entry.href} href={entry.href} asChild>
-            <Pressable testID={entry.testId} style={styles.row}>
-              <Text>{entry.label}</Text>
-            </Pressable>
-          </Link>
+    <Scaffold edges={['top', 'bottom']}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <Stack gap="4">
+          <Text variant="h2" accessibilityRole="header">
+            Developer tools
+          </Text>
+          <SecondaryText variant="caption" testID="dev-build-marker">
+            {buildMarkerLabel()}
+          </SecondaryText>
+        </Stack>
+        <Section title="Demo data">
+          <SeedDemoData />
+        </Section>
+        {DEV_SECTIONS.map((section) => (
+          <Section key={section.title} title={section.title}>
+            {section.entries.map((entry) => (
+              <ListCard
+                key={entry.testId}
+                testID={entry.testId}
+                title={entry.label}
+                onPress={() => router.push(entry.href)}
+              />
+            ))}
+          </Section>
         ))}
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </Scaffold>
   );
 }
 
-const styles = StyleSheet.create({
-  content: {
-    padding: 16,
-    gap: 8,
-  },
-  heading: {
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  marker: {
-    opacity: 0.6,
-    marginBottom: 8,
-  },
-  list: {
-    gap: 8,
-  },
-  row: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-  },
-});
+const useStyles = makeStyles((t) => ({
+  content: { padding: t.size.gutter, gap: t.space['24'] },
+}));

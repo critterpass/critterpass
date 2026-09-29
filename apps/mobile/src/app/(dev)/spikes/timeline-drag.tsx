@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { useCallback, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
@@ -8,6 +8,7 @@ import Animated, {
   useFrameCallback,
   useSharedValue,
 } from 'react-native-reanimated';
+import { Scaffold, Text, useTheme } from '@/ui';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -38,6 +39,7 @@ function triggerTick() {
 }
 
 export default function TimelineDragScreen() {
+  const theme = useTheme();
   const rawX = useSharedValue(0);
   const startX = useSharedValue(0);
   const lastStepIndex = useSharedValue(0);
@@ -89,33 +91,34 @@ export default function TimelineDragScreen() {
   const fillStyle = useAnimatedStyle(() => ({ width: Math.round(rawX.value / STEP_PX) * STEP_PX }));
 
   return (
-    <View style={styles.container}>
-      <Text accessibilityRole="header" style={styles.title}>
-        Timeline drag spike
-      </Text>
-      <Text style={styles.body}>
-        Drag the handle — snaps to 15-minute steps with a haptic tick on every crossing.
-      </Text>
-      <Text style={styles.time}>{formatTime(stepIndex)}</Text>
-      <View style={styles.track}>
-        <Animated.View style={[styles.fill, fillStyle]} />
-        <GestureDetector gesture={pan}>
-          <Animated.View style={[styles.thumb, thumbStyle]} />
-        </GestureDetector>
+    <Scaffold edges={['top', 'bottom']}>
+      <View style={styles.container}>
+        <Text accessibilityRole="header" variant="h3">
+          Timeline drag spike
+        </Text>
+        <Text variant="bodySm">
+          Drag the handle — snaps to 15-minute steps with a haptic tick on every crossing.
+        </Text>
+        <Text variant="h2">{formatTime(stepIndex)}</Text>
+        <View style={styles.track}>
+          <Animated.View style={[styles.fill, fillStyle]} />
+          <GestureDetector gesture={pan}>
+            <Animated.View
+              style={[styles.thumb, { backgroundColor: theme.semantic.action.primary }, thumbStyle]}
+            />
+          </GestureDetector>
+        </View>
+        <Text variant="bodySm">
+          worst frame gap while dragging (700 ms window): {worstFrameMs.toFixed(2)} ms (budget 16.6
+          ms @60fps)
+        </Text>
       </View>
-      <Text style={styles.body}>
-        worst frame gap while dragging (700 ms window): {worstFrameMs.toFixed(2)} ms (budget 16.6 ms
-        @60fps)
-      </Text>
-    </View>
+    </Scaffold>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, gap: 16, padding: 16, alignItems: 'flex-start' },
-  title: { fontSize: 20, fontWeight: '600' },
-  body: { fontSize: 13 },
-  time: { fontSize: 32, fontWeight: '700', fontVariant: ['tabular-nums'] },
   track: {
     width: TRACK_WIDTH,
     height: 8,
@@ -137,6 +140,5 @@ const styles = StyleSheet.create({
     width: THUMB_SIZE,
     height: THUMB_SIZE,
     borderRadius: THUMB_SIZE / 2,
-    backgroundColor: '#221e19',
   },
 });

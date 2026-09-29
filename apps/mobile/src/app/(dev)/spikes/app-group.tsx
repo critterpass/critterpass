@@ -1,7 +1,9 @@
 import { useCallback, useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, View } from 'react-native';
 
 import { readOutboxActions, reloadWidgets, writeSnapshot } from '../../../../modules/cp-app-group';
+import { Scaffold, Stack, Text, useTheme } from '@/ui';
+import { Card } from '@/ui/cards/Card';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -16,6 +18,7 @@ interface RoundTripResult {
 }
 
 export default function AppGroupSpikeScreen() {
+  const theme = useTheme();
   const [result, setResult] = useState<RoundTripResult | null>(null);
   const [outboxJson, setOutboxJson] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -61,42 +64,48 @@ export default function AppGroupSpikeScreen() {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text accessibilityRole="header" style={styles.title}>
-        cp-app-group spike
-      </Text>
-      <Text style={styles.body}>
-        Writes a snapshot to the App Group, times the native call, reloads widgets, and reads back
-        whatever an extension queued into the shared outbox.
-      </Text>
+    <Scaffold edges={['top', 'bottom']}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text accessibilityRole="header" variant="h3">
+          cp-app-group spike
+        </Text>
+        <Text variant="bodySm">
+          Writes a snapshot to the App Group, times the native call, reloads widgets, and reads back
+          whatever an extension queued into the shared outbox.
+        </Text>
 
-      <View style={styles.buttonRow}>
-        <Button title="Write hello snapshot" onPress={writeHelloSnapshot} />
-      </View>
-      <View style={styles.buttonRow}>
-        <Button title="Reload widgets" onPress={refreshWidgets} />
-      </View>
-      <View style={styles.buttonRow}>
-        <Button title="Read outbox" onPress={readOutbox} />
-      </View>
-
-      {result ? (
-        <View style={styles.resultBox}>
-          <Text style={styles.resultLabel}>writeSnapshot round-trip</Text>
-          <Text style={styles.resultValue}>{result.writeMs.toFixed(2)} ms</Text>
-          <Text style={styles.body}>{result.message}</Text>
+        <View style={styles.buttonRow}>
+          <Button title="Write hello snapshot" onPress={writeHelloSnapshot} />
         </View>
-      ) : null}
-
-      {outboxJson !== null ? (
-        <View style={styles.resultBox}>
-          <Text style={styles.resultLabel}>pending-actions.json</Text>
-          <Text style={styles.body}>{outboxJson}</Text>
+        <View style={styles.buttonRow}>
+          <Button title="Reload widgets" onPress={refreshWidgets} />
         </View>
-      ) : null}
+        <View style={styles.buttonRow}>
+          <Button title="Read outbox" onPress={readOutbox} />
+        </View>
 
-      {error ? <Text style={styles.error}>{error}</Text> : null}
-    </ScrollView>
+        {result ? (
+          <Card>
+            <Stack gap="4">
+              <Text variant="eyebrow">writeSnapshot round-trip</Text>
+              <Text variant="rowTitle">{result.writeMs.toFixed(2)} ms</Text>
+              <Text variant="bodySm">{result.message}</Text>
+            </Stack>
+          </Card>
+        ) : null}
+
+        {outboxJson !== null ? (
+          <Card>
+            <Stack gap="4">
+              <Text variant="eyebrow">pending-actions.json</Text>
+              <Text variant="bodySm">{outboxJson}</Text>
+            </Stack>
+          </Card>
+        ) : null}
+
+        {error ? <Text color={theme.semantic.state.urgent}>{error}</Text> : null}
+      </ScrollView>
+    </Scaffold>
   );
 }
 
@@ -106,32 +115,7 @@ const styles = StyleSheet.create({
     gap: 12,
     padding: 16,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  body: {
-    fontSize: 14,
-  },
   buttonRow: {
     alignSelf: 'flex-start',
-  },
-  resultBox: {
-    gap: 4,
-    borderRadius: 8,
-    borderWidth: StyleSheet.hairlineWidth,
-    padding: 12,
-  },
-  resultLabel: {
-    fontSize: 12,
-    textTransform: 'uppercase',
-    opacity: 0.6,
-  },
-  resultValue: {
-    fontSize: 24,
-    fontWeight: '700',
-  },
-  error: {
-    color: '#B00020',
   },
 });

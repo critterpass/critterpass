@@ -1,11 +1,33 @@
-import { render } from '@testing-library/react-native';
-import { describe, expect, it } from '@jest/globals';
+// Skia's native renderer does not exist under Jest; see test-support/skia-double for the stand-in.
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
+jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
+
+import { describe, expect, it, jest } from '@jest/globals';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { ScreenJoltProvider } from '@/motion/patterns/thud';
+import { renderUi } from '@/ui/test-support/render';
 
 import DevToolsIndexScreen from '../(dev)/index';
 
+const METRICS = {
+  frame: { x: 0, y: 0, width: 390, height: 844 },
+  insets: { top: 47, left: 0, right: 0, bottom: 34 },
+};
+
+function renderScreen() {
+  return renderUi(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <ScreenJoltProvider>
+        <DevToolsIndexScreen />
+      </ScreenJoltProvider>
+    </SafeAreaProvider>,
+  );
+}
+
 describe('DevToolsIndexScreen', () => {
   it('lists every real (dev) screen for Maestro to tap into instead of using openLink', async () => {
-    const { getByTestId } = await render(<DevToolsIndexScreen />);
+    const { getByTestId } = await renderScreen();
 
     expect(getByTestId('dev-nav-motion-lab')).toBeTruthy();
     expect(getByTestId('dev-nav-spikes-auth')).toBeTruthy();
@@ -19,8 +41,28 @@ describe('DevToolsIndexScreen', () => {
     expect(getByTestId('dev-nav-spikes-timeline-drag')).toBeTruthy();
   });
 
+  it('groups the entries under demo data, labs, live checks and spikes headings', async () => {
+    const { getAllByRole, getByTestId } = await renderScreen();
+
+    const headings = getAllByRole('header');
+    ['DEVELOPER TOOLS', 'DEMO DATA', 'LABS', 'LIVE CHECKS', 'SPIKES'].forEach((title, index) => {
+      expect(headings[index]).toHaveTextContent(title);
+    });
+    expect(headings).toHaveLength(5);
+    for (const id of [
+      'dev-nav-sticker-lab',
+      'dev-nav-gallery',
+      'dev-nav-permissions',
+      'dev-nav-location-engine',
+      'dev-nav-permissions-primer',
+    ]) {
+      expect(getByTestId(id)).toBeTruthy();
+    }
+    expect(getByTestId('dev-nav-gallery')).toHaveTextContent(/^Component gallery/);
+  });
+
   it('offers the staging demo data seed for each inbox scenario', async () => {
-    const { getByTestId } = await render(<DevToolsIndexScreen />);
+    const { getByTestId } = await renderScreen();
 
     expect(getByTestId('dev-seed-demo')).toHaveTextContent('Seed demo data');
     expect(getByTestId('dev-seed-demo-inbox')).toBeTruthy();
@@ -28,7 +70,7 @@ describe('DevToolsIndexScreen', () => {
   });
 
   it('shows a build marker proving which JS bundle is running (embedded, absent an EAS Update)', async () => {
-    const { getByTestId } = await render(<DevToolsIndexScreen />);
+    const { getByTestId } = await renderScreen();
 
     expect(getByTestId('dev-build-marker')).toHaveTextContent('update:embedded');
   });

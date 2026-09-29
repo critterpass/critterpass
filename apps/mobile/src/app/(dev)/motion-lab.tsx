@@ -1,7 +1,7 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useState, type ReactNode } from 'react';
+import { Pressable, ScrollView, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -23,6 +23,7 @@ import {
   type SlowmoMultiplier,
   type SoundCueId,
 } from '@/motion';
+import { makeStyles, Scaffold, Text, useTheme } from '@/ui';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -31,7 +32,24 @@ export const __CP_DEV_ROUTE__ = true;
 const MOTION_MODES: readonly MotionMode[] = ['full', 'reduced', 'off'];
 const SLOWMO_VALUES: readonly SlowmoMultiplier[] = [1, 2, 4];
 
+/** A chip label that stays legible on the selected chip's accent fill. */
+function ChipLabel({
+  active = false,
+  children,
+}: {
+  readonly active?: boolean;
+  readonly children: ReactNode;
+}) {
+  const theme = useTheme();
+  return (
+    <Text variant="bodySm" color={active ? theme.semantic.text.onAccent : undefined}>
+      {children}
+    </Text>
+  );
+}
+
 function ModeRow() {
+  const styles = useStyles();
   const [mode, setMode] = useMotionMode();
   return (
     <View style={styles.row}>
@@ -42,7 +60,7 @@ function ModeRow() {
           onPress={() => setMode(value)}
           style={[styles.chip, mode === value && styles.chipActive]}
         >
-          <Text style={styles.chipLabel}>{value}</Text>
+          <ChipLabel active={mode === value}>{value}</ChipLabel>
         </Pressable>
       ))}
     </View>
@@ -50,6 +68,7 @@ function ModeRow() {
 }
 
 function SlowmoRow() {
+  const styles = useStyles();
   const [multiplier, setMultiplier] = useState<SlowmoMultiplier>(slowmoMultiplier.value);
   const [frozen, setFrozen] = useState(motionFreeze.value);
   return (
@@ -64,7 +83,7 @@ function SlowmoRow() {
           }}
           style={[styles.chip, multiplier === value && styles.chipActive]}
         >
-          <Text style={styles.chipLabel}>{value}x</Text>
+          <ChipLabel active={multiplier === value}>{value}x</ChipLabel>
         </Pressable>
       ))}
       <Pressable
@@ -76,33 +95,38 @@ function SlowmoRow() {
         }}
         style={[styles.chip, frozen && styles.chipActive]}
       >
-        <Text style={styles.chipLabel}>
+        <ChipLabel active={frozen}>
           <Trans id="motion.motionLab.freeze">freeze</Trans>
-        </Text>
+        </ChipLabel>
       </Pressable>
     </View>
   );
 }
 
 function LoopTile({ id }: { readonly id: LoopPresetId }) {
+  const styles = useStyles();
   const animatedStyle = useLoop(id);
   return (
     <View style={styles.tile} testID={`loop-${id}`}>
       <Animated.View style={[styles.tileSwatch, animatedStyle]} />
-      <Text style={styles.tileLabel}>{id}</Text>
+      <Text variant="caption" style={styles.tileLabel}>
+        {id}
+      </Text>
     </View>
   );
 }
 
 function CueButton({ id }: { readonly id: SoundCueId }) {
+  const styles = useStyles();
   return (
     <Pressable testID={`cue-${id}`} onPress={() => impact(id)} style={styles.cueChip}>
-      <Text style={styles.chipLabel}>{id}</Text>
+      <ChipLabel>{id}</ChipLabel>
     </Pressable>
   );
 }
 
 function ToastDemoButton() {
+  const styles = useStyles();
   return (
     <Pressable
       testID="show-toast-button"
@@ -122,9 +146,9 @@ function ToastDemoButton() {
       }
       style={styles.chip}
     >
-      <Text style={styles.chipLabel}>
+      <ChipLabel>
         <Trans id="motion.motionLab.showToast">show toast</Trans>
-      </Text>
+      </ChipLabel>
     </Pressable>
   );
 }
@@ -136,102 +160,97 @@ function ToastDemoButton() {
  * `GestureHandlerRootView`/`SafeAreaProvider` since the app shell doesn't mount them near the root yet.
  */
 export default function MotionLabScreen() {
+  const styles = useStyles();
   return (
     <GestureHandlerRootView style={styles.flex}>
       <SafeAreaProvider>
-        <ScrollView contentContainerStyle={styles.content}>
-          <Text accessibilityRole="header" style={styles.heading}>
-            <Trans id="motion.motionLab.title">Motion lab</Trans>
-          </Text>
+        <Scaffold edges={['top', 'bottom']}>
+          <ScrollView contentContainerStyle={styles.content}>
+            <Text accessibilityRole="header" variant="h2" style={styles.heading}>
+              <Trans id="motion.motionLab.title">Motion lab</Trans>
+            </Text>
 
-          <Text style={styles.sectionTitle}>
-            <Trans id="motion.motionLab.mode">Motion mode</Trans>
-          </Text>
-          <ModeRow />
+            <Text variant="title" style={styles.sectionTitle}>
+              <Trans id="motion.motionLab.mode">Motion mode</Trans>
+            </Text>
+            <ModeRow />
 
-          <Text style={styles.sectionTitle}>
-            <Trans id="motion.motionLab.slowmo">Slowmo</Trans>
-          </Text>
-          <SlowmoRow />
+            <Text variant="title" style={styles.sectionTitle}>
+              <Trans id="motion.motionLab.slowmo">Slowmo</Trans>
+            </Text>
+            <SlowmoRow />
 
-          <Text style={styles.sectionTitle}>
-            <Trans id="motion.motionLab.loops">Loop presets</Trans>
-          </Text>
-          <View style={styles.grid}>
-            {LOOP_PRESET_IDS.map((id) => (
-              <LoopTile key={id} id={id} />
-            ))}
-          </View>
+            <Text variant="title" style={styles.sectionTitle}>
+              <Trans id="motion.motionLab.loops">Loop presets</Trans>
+            </Text>
+            <View style={styles.grid}>
+              {LOOP_PRESET_IDS.map((id) => (
+                <LoopTile key={id} id={id} />
+              ))}
+            </View>
 
-          <Text style={styles.sectionTitle}>
-            <Trans id="motion.motionLab.cues">Feedback cues</Trans>
-          </Text>
-          <View style={styles.grid}>
-            {SOUND_CUE_IDS.map((id) => (
-              <CueButton key={id} id={id} />
-            ))}
-          </View>
+            <Text variant="title" style={styles.sectionTitle}>
+              <Trans id="motion.motionLab.cues">Feedback cues</Trans>
+            </Text>
+            <View style={styles.grid}>
+              {SOUND_CUE_IDS.map((id) => (
+                <CueButton key={id} id={id} />
+              ))}
+            </View>
 
-          <Text style={styles.sectionTitle}>
-            <Trans id="motion.motionLab.toast">Island toast</Trans>
-          </Text>
-          <ToastDemoButton />
-        </ScrollView>
-        <IslandToast />
+            <Text variant="title" style={styles.sectionTitle}>
+              <Trans id="motion.motionLab.toast">Island toast</Trans>
+            </Text>
+            <ToastDemoButton />
+          </ScrollView>
+          <IslandToast />
+        </Scaffold>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }
 
-// Dev-only route (see the marker above); plain StyleSheet, no @cp/design-tokens import — route files
-// don't import tokens directly (docs/system-architecture.md §3), matching `(dev)/_probe.tsx`.
-const styles = StyleSheet.create({
+// Dev-only route (see the marker above): themed through the component library, never
+// @cp/design-tokens directly (docs/system-architecture.md §3).
+const useStyles = makeStyles((t) => ({
   flex: {
     flex: 1,
   },
   content: {
-    padding: 16,
-    gap: 8,
+    padding: t.size.gutter,
+    gap: t.space['8'],
   },
   heading: {
-    // No explicit fontSize (route files may not import @cp/design-tokens; see (dev)/_probe.tsx) —
-    // weight alone distinguishes it from body text at the platform default size.
-    fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: t.space['8'],
   },
   sectionTitle: {
-    fontWeight: '600',
-    marginTop: 12,
+    marginTop: t.space['12'],
   },
   row: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    gap: t.space['8'],
   },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    gap: t.space['8'],
   },
   chip: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 16,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    borderRadius: t.radius.md,
+    paddingVertical: t.space['6'],
+    paddingHorizontal: t.space['12'],
+    backgroundColor: t.semantic.bg.control,
   },
   chipActive: {
-    backgroundColor: 'black',
-  },
-  chipLabel: {
-    color: 'black',
+    backgroundColor: t.semantic.action.primary,
   },
   cueChip: {
     borderWidth: 1,
-    borderColor: 'darkgray',
-    borderRadius: 12,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+    borderColor: t.semantic.border.control,
+    borderRadius: t.radius.md,
+    paddingVertical: t.space['4'],
+    paddingHorizontal: t.space['8'],
   },
   tile: {
     alignItems: 'center',
@@ -240,11 +259,11 @@ const styles = StyleSheet.create({
   tileSwatch: {
     width: 40,
     height: 40,
-    borderRadius: 8,
+    borderRadius: t.radius.md,
     backgroundColor: 'slateblue',
   },
   tileLabel: {
-    marginTop: 4,
+    marginTop: t.space['4'],
     textAlign: 'center',
   },
-});
+}));
