@@ -50,10 +50,14 @@ const editorialSchema = z.object({
       ref: z.string(),
       why_go: z.string().min(1).max(200),
       best_time: z.string().min(1).max(80),
-      time_needed_min: z.number().int().min(10).max(1440),
+      // Model replies occasionally overshoot these bounds; clamp rather than regenerate the unit.
+      time_needed_min: z.number().transform((n) => Math.min(1440, Math.max(10, Math.round(n)))),
       crowd_hint: z.string().min(1).max(80),
       etiquette: z.string().min(1).max(160).nullable(),
-      tags: z.array(z.enum(TASTE_TAGS)).min(1).max(4),
+      tags: z
+        .array(z.enum(TASTE_TAGS))
+        .min(1)
+        .transform((tags) => tags.slice(0, 4)),
     }),
   ),
 });
@@ -122,7 +126,8 @@ export function toPoiItem(source: PoiSource, editorial: Editorial): ContentItem<
     category: source.category,
     lat: source.lat,
     lng: source.lng,
-    address: source.address,
+    // Some open-data rows carry an empty address string rather than none.
+    address: source.address === '' ? null : source.address,
     tz: source.tz,
     tags: editorial.tags,
     hours: hours.success ? hours.data : null,
