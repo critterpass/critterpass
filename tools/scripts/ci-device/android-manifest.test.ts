@@ -1,6 +1,16 @@
 import { describe, expect, it } from 'vitest';
 
-import { readMetaDataBoolean, setMetaDataBoolean } from './android-manifest';
+import {
+  parseTarget,
+  readManifestBoolean,
+  setManifestBoolean,
+  type BooleanTarget,
+} from './android-manifest';
+
+const readMetaDataBoolean = (manifest: Buffer, name: string) =>
+  readManifestBoolean(manifest, { metaData: name });
+const setMetaDataBoolean = (manifest: Buffer, name: string, value: boolean) =>
+  setManifestBoolean(manifest, { metaData: name }, value);
 
 /** Minimal compiled XML: a string pool, then one start-element chunk per `<meta-data>`. */
 function compiledManifest(
@@ -108,5 +118,30 @@ describe('setMetaDataBoolean input checks', () => {
     expect(() => setMetaDataBoolean(Buffer.from('<manifest/>xx'), ENABLED, false)).toThrow(
       /Not a compiled/,
     );
+  });
+});
+
+describe('element attributes', () => {
+  it('targets an attribute of the first matching element', () => {
+    const manifest = compiledManifest([{ name: ENABLED, value: false }], true);
+    const target: BooleanTarget = { element: 'meta-data', attribute: 'value' };
+    expect(readManifestBoolean(manifest, target)).toBe(false);
+    expect(readManifestBoolean(setManifestBoolean(manifest, target, true), target)).toBe(true);
+    expect(() =>
+      setManifestBoolean(
+        manifest,
+        { element: 'application', attribute: 'extractNativeLibs' },
+        true,
+      ),
+    ).toThrow(/No <application android:extractNativeLibs>/);
+  });
+
+  it('parses target specs', () => {
+    expect(parseTarget('meta-data:expo.modules.updates.ENABLED')).toEqual({ metaData: ENABLED });
+    expect(parseTarget('application@extractNativeLibs')).toEqual({
+      element: 'application',
+      attribute: 'extractNativeLibs',
+    });
+    expect(parseTarget('application')).toBeUndefined();
   });
 });

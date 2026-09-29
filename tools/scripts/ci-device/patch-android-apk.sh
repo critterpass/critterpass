@@ -3,8 +3,8 @@
 #
 #   tools/scripts/ci-device/patch-android-apk.sh <in.apk> <index.android.bundle> <out.apk>
 #
-# Replaces assets/index.android.bundle, sets expo.modules.updates.ENABLED to false in the compiled
-# manifest (so the app never loads whatever was last published to the shared e2e-test channel), then
+# Replaces assets/index.android.bundle, sets expo.modules.updates.ENABLED to false (and
+# extractNativeLibs to true) in the compiled manifest (so the app never loads whatever was last published to the shared e2e-test channel), then
 # zipaligns and signs the APK with a throwaway debug key. Needs ANDROID_HOME (build-tools), Java and
 # `npx tsx`. New image assets that the APK's resources lack cannot be added this way: Android
 # resolves bundled images from compiled resources.
@@ -21,8 +21,12 @@ trap 'rm -rf "$work"' EXIT
 
 cp "$in_apk" "$work/app.apk"
 (cd "$work" && unzip -q -o app.apk AndroidManifest.xml)
-npx --yes "tsx@${TSX_VERSION:-4}" "$here/android-manifest.ts" "$work/AndroidManifest.xml" \
-  expo.modules.updates.ENABLED false
+manifest() { npx --yes "tsx@${TSX_VERSION:-4}" "$here/android-manifest.ts" "$work/AndroidManifest.xml" "$@"; }
+manifest meta-data:expo.modules.updates.ENABLED false
+# The build ships arm64-v8a libraries only, stored uncompressed and loaded straight from the APK.
+# On an x86_64 emulator SoLoader then looks for lib/x86_64 in the APK and fails; extracted, the
+# libraries land in the app's lib/arm64 directory, where ARM translation loads them.
+manifest application@extractNativeLibs true
 
 mkdir -p "$work/assets"
 cp "$bundle" "$work/assets/index.android.bundle"
