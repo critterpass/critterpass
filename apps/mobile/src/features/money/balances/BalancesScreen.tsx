@@ -17,6 +17,8 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { makeStyles } from '@/ui/theme';
 
 import { expenseItems } from '../data/expense-items';
+import { useMoneyServices } from '../data/services';
+import { useReceiptQueueDrain } from '../receipt/receipt-queue';
 import { selectTrip, useSelectedTrip } from '../data/selected-trip';
 import { useMoneyContext } from '../data/use-money-context';
 import { useTripMoney } from '../data/use-trip-money';
@@ -79,6 +81,7 @@ export function MoneyNoTrip({ crew }: { readonly crew: boolean }) {
 
 export function BalancesScreen() {
   const selected = useSelectedTrip();
+  useReceiptQueueDrain(useMoneyServices());
   const ctx = useMoneyContext(selected);
   const rows = useTripMoney(ctx.crew?.id ?? null, ctx.trip?.id ?? null);
   const sync = useSyncStatus();

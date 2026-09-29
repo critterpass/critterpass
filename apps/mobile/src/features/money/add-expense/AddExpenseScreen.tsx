@@ -3,7 +3,6 @@
  * Balances and toasts "Added Rp 450.000, US$4.74 each."; a refused ADD shakes the amount and
  * buzzes. SCAN INSTEAD swaps to the receipt scan in place.
  */
-import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -13,50 +12,35 @@ import { feedback } from '@/motion';
 import { toast } from '@/motion/island-toast';
 
 import { MoneyLoading } from '../balances/BalancesScreen';
-import { formatAmount, formatShort } from '../format';
+import { formatAmount } from '../format';
 import { MONEY_ROUTES } from '../routes';
 import { AddExpenseView } from './AddExpenseView';
 import { CurrencyPicker } from './CurrencyPicker';
 import { DetailsSheet, shiftDays } from './DetailsSheet';
 import { amountMinorOf, draftProblem } from './draft';
+import { useAddLabels } from './labels';
 import { useExpenseDraft } from './useExpenseDraft';
 
-export function AddExpenseScreen({ editId }: { readonly editId: string | null }) {
-  const state = useExpenseDraft(editId);
+export function AddExpenseScreen({
+  editId,
+  prefillName = null,
+}: {
+  readonly editId: string | null;
+  readonly prefillName?: string | null;
+}) {
+  const state = useExpenseDraft(editId, prefillName);
   const locale = useLocale();
   const { t } = useLingui();
   const [sheet, setSheet] = useState<'currency' | 'details' | null>(null);
   const [shake, setShake] = useState(0);
   const [daysBack, setDaysBack] = useState(0);
   const { draft, preview, crewCurrency, ctx } = state;
+  const labels = useAddLabels(draft, preview, crewCurrency, state.editing);
 
   if (!state.ready || ctx.crew === null) return <MoneyLoading />;
 
   const amountMinor = amountMinorOf(draft);
-  const total = preview === null ? '' : formatAmount(preview.crewTotalMinor, crewCurrency, locale);
-  const each =
-    preview?.eachMinor == null ? null : formatAmount(preview.eachMinor, crewCurrency, locale);
-  const foreign = draft.currency !== crewCurrency;
-  let approx: string | undefined;
-  if (preview !== null && foreign && !preview.converted) {
-    approx = t({ id: 'money.add.noRate', message: 'Converts once this phone has a rate' });
-  } else if (preview !== null && foreign) {
-    approx =
-      each === null
-        ? t({ id: 'money.add.approx', message: `≈ ${total}` })
-        : t({ id: 'money.add.approxEach', message: `≈ ${total} · ${each} each` });
-  } else if (each !== null) {
-    approx = t({ id: 'money.add.each', message: `${each} each` });
-  }
-  const short = formatShort(amountMinor, draft.currency, locale);
-  const ctaLabel = upper(
-    state.editing
-      ? t({ id: 'money.add.save', message: 'Save' })
-      : amountMinor === 0n
-        ? t({ id: 'money.add.addEmpty', message: 'Add' })
-        : t({ id: 'money.add.add', message: `Add ${short}` }),
-    locale,
-  );
+  const { approx, ctaLabel, each } = labels;
   const members = ctx.members.filter((member) => draft.memberIds.includes(member.userId));
 
   async function onSubmit() {

@@ -1,0 +1,14 @@
+appId: app.critterpass.dev
+---
+# From the developer tools list to the money lab.
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-money-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-money-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'money-lab-balances'
+    timeout: 15000

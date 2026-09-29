@@ -48,7 +48,10 @@ export interface ExpenseDraftState {
 
 const EMPTY = newDraft({ currency: 'USD', payerId: '', memberIds: [] });
 
-export function useExpenseDraft(editId: string | null): ExpenseDraftState {
+export function useExpenseDraft(
+  editId: string | null,
+  prefillName: string | null = null,
+): ExpenseDraftState {
   const ctx = useMoneyContext(useSelectedTrip());
   const rows = useTripMoney(ctx.crew?.id ?? null, ctx.trip?.id ?? null);
   const crewCurrency = ctx.crew?.settlementCurrency ?? 'USD';
@@ -75,9 +78,11 @@ export function useExpenseDraft(editId: string | null): ExpenseDraftState {
       payerId: ctx.uid,
       memberIds: memberIds.includes(ctx.uid) ? memberIds : [ctx.uid, ...memberIds],
     });
+    if (prefillName !== null)
+      return draftReducer(fresh, { type: 'description', text: prefillName });
     const suggestion = suggestFromPlan(plan.rows, new Date());
     return suggestion === null ? fresh : draftReducer(fresh, { type: 'suggest', ...suggestion });
-  }, [ready, ctx, editId, editRow, rows.shares, crewCurrency, plan.rows]);
+  }, [ready, ctx, editId, editRow, rows.shares, crewCurrency, plan.rows, prefillName]);
 
   // The member's changes; until the first one the draft follows the seed.
   const [changed, setChanged] = useState<ExpenseDraft | null>(null);

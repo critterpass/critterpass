@@ -7,11 +7,15 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
+msgid "money.review.title"
+msgstr "{count, plural, one {Tokek read # line} other {Tokek read # lines}}"
+
 #: ../../apps/mobile/src/features/money/add-expense/SplitEditorShares.tsx
 msgid "money.add.evenlyA11y"
 msgstr "{count} in the split"
 
-#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+#: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.each"
 msgstr "{each} each"
 
@@ -39,6 +43,11 @@ msgstr "{leftText} too much"
 msgid "money.row.leftOut"
 msgstr "{names} left out"
 
+#: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
+#: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
+msgid "money.review.pays"
+msgstr "{names} pays"
+
 #: ../../apps/mobile/src/features/money/components/ExpenseListRow.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.row.paid"
@@ -48,11 +57,11 @@ msgstr "{payer} paid"
 msgid "money.settle.taps"
 msgstr "{taps, plural, one {Settle in # tap} other {Settle in # taps}}"
 
-#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+#: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.approx"
 msgstr "≈ {total}"
 
-#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+#: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.approxEach"
 msgstr "≈ {total} · {each} each"
 
@@ -72,13 +81,17 @@ msgstr "A payment marked paid"
 msgid "money.tile.add"
 msgstr "Add"
 
-#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+#: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.addEmpty"
 msgstr "Add"
 
-#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+#: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.add"
 msgstr "Add {short}"
+
+#: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
+msgid "money.typeLines.add"
+msgstr "Add a line"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.empty.add"
@@ -92,6 +105,10 @@ msgstr "Added {full}, {each} each."
 msgid "money.add.addedToast"
 msgstr "Added {full}."
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.waiting"
+msgstr "Adding it up. Who had what comes next."
+
 #: ../../apps/mobile/src/features/money/add-expense/SplitEditorCustom.tsx
 msgid "money.add.allAssigned"
 msgstr "All assigned"
@@ -104,6 +121,18 @@ msgstr "All square"
 msgid "money.queued.editExpense"
 msgstr "An expense edit"
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.autoOff"
+msgstr "Auto-split off"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.autoOn"
+msgstr "Auto-split on"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.back"
+msgstr "Back to Money"
+
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.done"
 msgstr "Balances now in {currency}"
@@ -111,6 +140,11 @@ msgstr "Balances now in {currency}"
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.tile.budget"
 msgstr "Budget"
+
+#: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
+#: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
+msgid "money.review.byShare"
+msgstr "By share"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.byShare"
@@ -124,7 +158,11 @@ msgstr "Category"
 msgid "money.detail.history"
 msgstr "Changes"
 
-#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+#: ../../apps/mobile/src/features/money/receipt/ScanCamera.tsx
+msgid "money.scan.close"
+msgstr "Close the scan"
+
+#: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.noRate"
 msgstr "Converts once this phone has a rate"
 
@@ -135,6 +173,10 @@ msgstr "Currency {currency}, change"
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.custom"
 msgstr "Custom"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.cutOff"
+msgstr "Cut off"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.deleteConfirm"
@@ -151,6 +193,14 @@ msgstr "Delete this expense?"
 #: ../../apps/mobile/src/features/money/components/ExpenseListRow.tsx
 msgid "money.row.pendingDelete"
 msgstr "Deleting when you are back online"
+
+#: ../../apps/mobile/src/features/money/receipt/MemberPicker.tsx
+msgid "money.picker.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.done"
+msgstr "Done"
 
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.done"
@@ -176,9 +226,28 @@ msgstr "Every expense"
 msgid "money.currency.doneLine"
 msgstr "Every expense re-counts at the rate on the day it was spent."
 
+#: ../../apps/mobile/src/features/money/receipt/MemberPicker.tsx
+msgid "money.picker.everyone"
+msgstr "Everyone"
+
+#: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
+#: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
+msgid "money.review.everyone"
+msgstr "Everyone"
+
 #: ../../apps/mobile/src/features/money/history/HistoryView.tsx
 msgid "money.history.everyone"
 msgstr "Everyone"
+
+#: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
+#: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
+msgid "money.review.everyoneElse"
+msgstr "Everyone else"
+
+#: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
+#: ../../apps/mobile/src/features/money/receipt/TypeLinesScreen.tsx
+msgid "money.typeLines.everyone"
+msgstr "Everyone had it"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.deleteLedger"
@@ -200,17 +269,77 @@ msgstr "Food"
 msgid "money.category.fun"
 msgstr "Fun"
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.glare"
+msgstr "Glare"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.retakeBody"
+msgstr "Hold it on the table. Tokek will wait"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.deniedLine"
+msgstr "I need the camera to read receipts. A photo from your library works too."
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.bars.owed"
 msgstr "Is owed"
+
+#: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
+msgid "money.review.keepTotal"
+msgstr "Keep total"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.latest"
 msgstr "Latest"
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.aimTitle"
+msgstr "Lay the receipt flat"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.leftOut"
 msgstr "Left out"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.missedGlare"
+msgstr "Line items: lost in the glare"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.missedCut"
+msgstr "Line items: part of the paper is cut off"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.missedFold"
+msgstr "Line items: the fold hides them"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.missed"
+msgstr "Line items: Tokek could not read them"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.missedBlur"
+msgstr "Line items: too blurry to read"
+
+#: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
+msgid "money.typeLines.name"
+msgstr "Line name"
+
+#: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
+msgid "money.review.mismatch"
+msgstr "Lines add up to {linesText}, the receipt says {printedText}."
+
+#: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
+msgid "money.typeLines.countNoTotal"
+msgstr "Lines: {typedText}"
+
+#: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
+msgid "money.typeLines.count"
+msgstr "Lines: {typedText} of {totalText}. The rest is shared by share."
+
+#: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
+msgid "money.typeLines.over"
+msgstr "Lines: {typedText}, more than the {totalText} on the receipt"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 msgid "money.loading"
@@ -259,6 +388,11 @@ msgstr "No expenses yet"
 msgid "money.noTrip.title"
 msgstr "No trip to split yet"
 
+#: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
+#: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
+msgid "money.review.not"
+msgstr "Not {names}"
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.latest.empty"
 msgstr "Nothing spent yet. Add the first expense and Tokek keeps the tally."
@@ -283,6 +417,10 @@ msgstr "One share more for {name}"
 msgid "money.currency.organiserOnly"
 msgstr "Only an organiser can switch it."
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.settings"
+msgstr "Open Settings"
+
 #: ../../apps/mobile/src/features/money/components/category.ts
 msgid "money.category.other"
 msgstr "Other"
@@ -303,6 +441,10 @@ msgstr "Paid by"
 msgid "money.add.currencyTitle"
 msgstr "Paid in"
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.pick"
+msgstr "Pick a photo"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.rateNoDate"
 msgstr "Rate 1 {from} = {rate} {to}"
@@ -311,9 +453,25 @@ msgstr "Rate 1 {from} = {rate} {to}"
 msgid "money.detail.rate"
 msgstr "Rate 1 {from} = {rate} {to} on {on}"
 
-#: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.reading"
+msgstr "Reading the lines…"
+
+#: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
+msgid "money.typeLines.back"
+msgstr "Receipt"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.retake"
+msgstr "Retake, flatter"
+
+#: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.save"
 msgstr "Save"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.savedTitle"
+msgstr "Saved"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
 msgid "money.add.savedToast"
@@ -327,6 +485,10 @@ msgstr "Scan"
 msgid "money.add.scanInstead"
 msgstr "Scan instead"
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.scan"
+msgstr "Scan the receipt"
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.latest.all"
 msgstr "See all"
@@ -339,6 +501,10 @@ msgstr "Smoothie bowls, Clear Café"
 msgid "money.detail.goneLine"
 msgstr "Someone deleted it. The balances already left it out."
 
+#: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
+msgid "money.review.changePayer"
+msgstr "Someone else paid?"
+
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.body"
 msgstr "Spend in any currency. Balances and settling up use this one, at the rate on the day each expense was added."
@@ -347,9 +513,30 @@ msgstr "Spend in any currency. Balances and settling up use this one, at the rat
 msgid "money.add.split"
 msgstr "Split"
 
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.even"
+msgstr "Split evenly · {each} each"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
+msgid "money.scan.splitEven"
+msgstr "Split evenly. Balances re-count."
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.receipt"
 msgstr "Split from a receipt scan"
+
+#: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
+#: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
+msgid "money.review.commit"
+msgstr "Split it · {payer} paid"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
+msgid "money.scan.committed"
+msgstr "Split. Balances re-count."
+
+#: ../../apps/mobile/src/features/money/receipt/TypeLinesScreen.tsx
+msgid "money.typeLines.added"
+msgstr "Split. Balances re-count."
 
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 msgid "money.noCrew.line"
@@ -363,9 +550,17 @@ msgstr "Stays"
 msgid "money.currency.switch"
 msgstr "Switch the crew currency"
 
+#: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
+msgid "money.review.hint"
+msgstr "Tap a line to change who had it."
+
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.error"
 msgstr "That didn't go through. Check your connection and try again."
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.failedTitle"
+msgstr "That didn't upload"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.amount"
@@ -395,6 +590,10 @@ msgstr "the name"
 msgid "money.detail.field.split"
 msgstr "the split"
 
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.title"
+msgstr "The total, not the lines"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.goneTitle"
 msgstr "This expense is gone"
@@ -403,9 +602,41 @@ msgstr "This expense is gone"
 msgid "money.add.today"
 msgstr "Today"
 
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.typeBody"
+msgstr "Tokek fills in the prices it could read"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.eyebrow"
+msgstr "Tokek got half of it"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.savedLine"
+msgstr "Tokek reads it when you're back online. You can close this."
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.aimLine"
+msgstr "Tokek snaps it when the paper is flat and still, then reads every line."
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.blurry"
+msgstr "Too blurry"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.crumpled"
+msgstr "Too crumpled"
+
 #: ../../apps/mobile/src/features/money/add-expense/SplitEditorCustom.tsx
 msgid "money.add.total"
 msgstr "Total"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.total"
+msgstr "Total: {total}"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.totalAt"
+msgstr "Total: {total} at {merchant}"
 
 #: ../../apps/mobile/src/features/money/components/category.ts
 msgid "money.category.transit"
@@ -416,6 +647,22 @@ msgstr "Transit"
 msgid "money.trips.unnamed"
 msgstr "Trip"
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.failedLine"
+msgstr "Try again, or type it in. Nothing was added."
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.typeInstead"
+msgstr "Type it in instead"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.type"
+msgstr "Type the lines"
+
+#: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
+msgid "money.typeLines.title"
+msgstr "Type the lines"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.pending"
 msgstr "Waiting to sync"
@@ -423,6 +670,10 @@ msgstr "Waiting to sync"
 #: ../../apps/mobile/src/features/money/components/ExpenseListRow.tsx
 msgid "money.row.pending"
 msgstr "Waiting to sync"
+
+#: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
+msgid "money.typeLines.namePlaceholder"
+msgstr "What was it?"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
@@ -437,6 +688,10 @@ msgstr "When"
 msgid "money.trips.title"
 msgstr "Which trip?"
 
+#: ../../apps/mobile/src/features/money/receipt/TypeLinesScreen.tsx
+msgid "money.typeLines.who"
+msgstr "Who had it?"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.shares"
 msgstr "Who owes what"
@@ -444,6 +699,10 @@ msgstr "Who owes what"
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.payer"
 msgstr "who paid"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
+msgid "money.scan.whoPaid"
+msgstr "Who paid?"
 
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.yesterday"
