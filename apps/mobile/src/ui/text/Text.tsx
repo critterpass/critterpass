@@ -50,6 +50,9 @@ export const TEXT_VARIANTS = {
 
 export type TextVariant = keyof typeof TEXT_VARIANTS;
 
+/** Variants the design sets on one line: button, pill, chip and tag labels. */
+const ONE_LINE_VARIANTS: ReadonlySet<TextVariant> = new Set(['buttonLg', 'buttonSm', 'label']);
+
 export interface TextProps extends Omit<RNTextProps, 'style' | 'children' | 'allowFontScaling'> {
   readonly variant?: TextVariant | undefined;
   readonly children?: ReactNode;
@@ -65,6 +68,12 @@ export interface TextProps extends Omit<RNTextProps, 'style' | 'children' | 'all
    * shrinks from it; outside the range it is clamped.
    */
   readonly designSize?: number | undefined;
+  /**
+   * The design sets this text on one line, so a second line at the default text size is reported
+   * as a layout bug (a `numberOfLines` above one stays the larger-text fallback). Defaults to on
+   * for the button and label variants.
+   */
+  readonly singleLine?: boolean | undefined;
   readonly style?: StyleProp<TextStyle> | undefined;
 }
 
@@ -119,6 +128,7 @@ export function Text({
   autoFit,
   autoFitMinSize,
   designSize,
+  singleLine: oneLineIntent,
   style,
   numberOfLines,
   onLayout,
@@ -207,6 +217,8 @@ export function Text({
             text,
             truncationIsBug: numberOfLines === undefined,
             cutByFit: fit.overflowed,
+            // Larger text sizes wrap labels by design (docs/design-system.md, Dynamic Type).
+            singleLine: (oneLineIntent ?? ONE_LINE_VARIANTS.has(variant)) && fontScale <= 1,
           });
           for (const code of problems) reportUiQa(code, rest.testID ?? text.slice(0, 40), variant);
         }

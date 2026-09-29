@@ -7,6 +7,8 @@ import type { TextStyle } from 'react-native';
 import { tokens } from '@cp/design-tokens';
 
 import { renderWithI18n } from '../../../lib/i18n/testing';
+import { PillButton } from '../../buttons/PillButton';
+import { renderUi } from '../../test-support/render';
 import { ThemeProvider } from '../../../lib/theme';
 import { AUTO_FIT_WRAP_LINES } from '../../text/auto-fit';
 import { Text } from '../../text/Text';
@@ -22,8 +24,8 @@ beforeEach(() => {
 });
 afterEach(() => setUiQaSink(null));
 
-async function renderText(ui: ReactElement, locale = 'en') {
-  return renderWithI18n(<ThemeProvider fontScale={1}>{ui}</ThemeProvider>, { locale });
+async function renderText(ui: ReactElement, locale = 'en', fontScale = 1) {
+  return renderWithI18n(<ThemeProvider fontScale={fontScale}>{ui}</ThemeProvider>, { locale });
 }
 
 function flat(element: { props: { style?: unknown } }): TextStyle {
@@ -74,6 +76,22 @@ describe('layout checks', () => {
     const cut = { lines: [{ text: 'HO CHI MINH…' }], text: 'HO CHI MINH CITY' };
     expect(textLayoutProblems({ ...cut, truncationIsBug: false })).toEqual([]);
     expect(textLayoutProblems({ ...cut, truncationIsBug: true })).toEqual(['TEXT_TRUNCATED']);
+  });
+
+  it('finds a one-line label laid out on two lines', () => {
+    const wrapped = { lines: [{ text: 'PING ' }, { text: 'ALL' }], text: 'PING ALL' };
+    expect(textLayoutProblems({ ...wrapped, truncationIsBug: false, singleLine: true })).toEqual([
+      'TEXT_WRAPPED',
+    ]);
+    expect(textLayoutProblems({ ...wrapped, truncationIsBug: false })).toEqual([]);
+    expect(
+      textLayoutProblems({
+        lines: [{ text: 'PING ALL' }],
+        text: 'PING ALL',
+        truncationIsBug: false,
+        singleLine: true,
+      }),
+    ).toEqual([]);
   });
 });
 
@@ -162,6 +180,42 @@ describe('Text guards', () => {
       nativeEvent: { layout: { x: 0, y: 0, width: CONTENT_WIDTH, height: 0 } },
     });
     await fireEvent(screen.getByTestId('t'), 'textLayout', lines('WHERE’S HOME?'));
+    expect(reports).toEqual([]);
+  });
+});
+
+describe('one-line label guard', () => {
+  it('reports a label variant that wrapped at the default text size', async () => {
+    const screen = await renderText(<Text variant="label">Ping all</Text>);
+    await fireEvent(screen.getByText('PING ALL'), 'textLayout', lines('PING ', 'ALL'));
+    expect(reports).toEqual(['[ui-qa] TEXT_WRAPPED "PING ALL" label']);
+  });
+
+  it('reports a pill button label that wrapped, though the pill allows a second line', async () => {
+    const screen = await renderUi(
+      <ThemeProvider fontScale={1}>
+        <PillButton label="Ping all" size="sm" onPress={() => {}} />
+      </ThemeProvider>,
+    );
+    await fireEvent(screen.getByText('PING ALL'), 'textLayout', lines('PING ', 'ALL'));
+    expect(reports).toEqual(['[ui-qa] TEXT_WRAPPED "PING ALL" buttonSm']);
+  });
+
+  it('stays quiet for wrapping body copy, an opted-out label and larger text sizes', async () => {
+    const body = await renderText(<Text variant="body">Ping everyone on the trip</Text>);
+    await fireEvent(
+      body.getByText('Ping everyone on the trip'),
+      'textLayout',
+      lines('Ping everyone ', 'on the trip'),
+    );
+    const optedOut = await renderText(
+      <Text variant="label" singleLine={false}>
+        Ping all
+      </Text>,
+    );
+    await fireEvent(optedOut.getByText('PING ALL'), 'textLayout', lines('PING ', 'ALL'));
+    const large = await renderText(<Text variant="label">Ping crew</Text>, 'en', 2);
+    await fireEvent(large.getByText('PING CREW'), 'textLayout', lines('PING ', 'CREW'));
     expect(reports).toEqual([]);
   });
 });
