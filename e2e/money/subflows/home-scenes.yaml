@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# Balances (3i-1), its states, the history, an expense and adding one (3i-2), prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: balances, READY: money-balances, SHOT: '${PREFIX}-3i-1-balances' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: balances-owes, READY: money-balances, SHOT: '${PREFIX}-money-balances-owes' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: balances-square, READY: money-balances, SHOT: '${PREFIX}-money-balances-square' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: balances-empty, READY: money-empty, SHOT: '${PREFIX}-money-balances-empty' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: balances-offline, READY: money-offline, SHOT: '${PREFIX}-money-balances-offline' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: balances-loading, READY: money-loading, SHOT: '${PREFIX}-money-balances-loading' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: history, READY: money-history, SHOT: '${PREFIX}-money-history' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: expense, READY: money-expense-detail, SHOT: '${PREFIX}-money-expense' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: add, READY: money-add, SHOT: '${PREFIX}-3i-2-add' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: add-by-share, READY: money-split-shares, SHOT: '${PREFIX}-money-add-by-share' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: add-custom, READY: money-split-custom, SHOT: '${PREFIX}-money-add-custom' }

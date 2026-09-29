@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# Settle up in the money lab over the Bali Six: the payee's list (3i-5), the payer's payment with
+# a PayNow QR, a disputed payment, nothing to settle, the square trip and the payout editor.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/settle-scenes.yaml
+    env:
+      PREFIX: en

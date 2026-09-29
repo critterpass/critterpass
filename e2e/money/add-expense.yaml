@@ -1,0 +1,90 @@
+appId: app.critterpass.dev
+---
+# Adding an expense on the keypad against the staging api: the demo crew's Bali trip, Rp 450.000
+# split evenly, ADD, and the new row in LATEST on Balances. Then the same in airplane mode (Android):
+# the expense queues, shows as pending and syncs once the network is back.
+- launchApp:
+    clearState: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- tapOn:
+    id: 'money-empty'
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-add'
+    commands:
+      - tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- tapOn: '4'
+- tapOn: '5'
+- tapOn: '0'
+- tapOn: '000'
+- assertVisible:
+    id: 'money-add-approx'
+- takeScreenshot: en-3i-2-add
+- tapOn:
+    id: 'money-add-split'
+    optional: true
+- tapOn: 'CUSTOM'
+- tapOn:
+    id: 'money-custom-0'
+- tapOn: '1'
+- tapOn: '000'
+- takeScreenshot: en-3i-2-custom-left
+- tapOn:
+    id: 'money-add-submit'
+# A mismatch cannot be added: still on the keypad.
+- assertVisible:
+    id: 'money-add-keypad'
+- tapOn: 'EVENLY'
+- tapOn:
+    id: 'money-add-submit'
+- extendedWaitUntil:
+    visible:
+      id: 'money-latest-row'
+    timeout: 15000
+- takeScreenshot: en-3i-1-balances-after-add
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - setAirplaneMode: enabled
+      - tapOn: 'ADD'
+      - extendedWaitUntil:
+          visible:
+            id: 'money-add-keypad'
+          timeout: 10000
+      - tapOn: '1'
+      - tapOn: '2'
+      - tapOn: '000'
+      - tapOn:
+          id: 'money-add-submit'
+      - extendedWaitUntil:
+          visible:
+            id: 'money-latest-row'
+          timeout: 15000
+      - takeScreenshot: en-3i-1-offline-pending
+      - setAirplaneMode: disabled

@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# The receipt scan (3i-3, 3i-4) and the steps around it, prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: scan-review, READY: money-review, SHOT: '${PREFIX}-3i-3-scan' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: scan-failure, READY: money-failure, SHOT: '${PREFIX}-3i-4-cant-read' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: scan-aim, READY: money-scan-aim, SHOT: '${PREFIX}-money-scan-aim' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: scan-denied, READY: money-scan-denied, SHOT: '${PREFIX}-money-scan-denied' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: scan-reading, READY: money-scan-reading, SHOT: '${PREFIX}-money-scan-reading' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: scan-offline, READY: money-scan-offline, SHOT: '${PREFIX}-money-scan-offline' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: scan-type-lines, READY: money-type-lines, SHOT: '${PREFIX}-money-type-lines' }
