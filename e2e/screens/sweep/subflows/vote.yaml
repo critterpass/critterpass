@@ -23,6 +23,7 @@ appId: app.critterpass.dev
     file: dismiss.yaml
     env:
       ID: pitch-sheet
+      MARK: pitch-search
 - scrollUntilVisible:
     element:
       id: 'board-go-to-final'

@@ -5,7 +5,11 @@ appId: app.critterpass.dev
 # swipes return to the splash.
 # The keychain outlives a cleared install on iOS: without this the new pass signs back in to the
 # account an earlier flow on this simulator made (and seeded).
-- clearKeychain
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - clearKeychain
 - launchApp:
     clearState: true
 # A link dialog an earlier flow left open covers the first screen.

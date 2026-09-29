@@ -15,9 +15,11 @@ x86_64 Google APIs image). No local simulator is involved.
 
 - **Manually:** Actions → device → Run workflow, or
   `gh workflow run device.yml -f platform=ios -f flows="e2e/smoke e2e/home"`.
-- **On a pull request:** add the `device-run` label. The run covers the full suite on iOS in
-  `flows` mode and repeats on every push while the label stays. Android runs are manual
-  (`platform: android` or `both`). Pull requests from forks never run it.
+- **On a pull request:** add the `device-run` label. The run covers the full suite on Android in
+  `flows` mode and repeats on every push while the label stays. iOS runs are manual
+  (`platform: ios` or `both`): GitHub gives the plan only a couple of macOS runners, so anything
+  that isn't iOS-specific (safe areas, the keyboard, modal presentation) runs on Android. Pull
+  requests from forks never run it.
 
 | Input        | Meaning                                                                                                                                               |
 | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -49,6 +51,11 @@ report, lands in `screen-checks.log` and is listed at the top of the pull reques
 - `EMPTY_SCREEN`: under a quarter of the screen's rows show anything but its background.
 
 `pnpm tsx tools/scripts/ci-device/screen-scan.ts <dir>` runs them on any folder of screenshots.
+
+Each run is titled after its mode, branch, pull request, platform and flows, and dispatching the
+same flows on the same branch again cancels the older run. When no e2e-test build matches the
+native fingerprint the prepare job stops (it never falls back to another build) and names the
+latest build's URL to pass as `build_url` if its native code still fits.
 
 The workflow needs the `EXPO_TOKEN` secret (build lookup by fingerprint, and the EAS
 `development` environment's `EXPO_PUBLIC_*` values for the bundle) and `OTP_TEST_CODE`
@@ -102,9 +109,10 @@ for screens without a design), so `compare` mode pairs it with its render. The t
 generated: after adding a scenario, run `pnpm tsx tools/scripts/ci-device/sweep-coverage.ts
 --write`. The sweep is outside the full suite (`e2e/*/*.yaml`) and runs:
 
-- on demand: `gh workflow run device.yml -f preset=sweep -f shards=7 [-f pr=<n>]`;
-- every night on main (the `schedule` trigger), posting its sheets, the check findings and the
-  coverage report to the open "Nightly UI sweep" issue.
+- on demand: `gh workflow run device.yml -f preset=sweep -f platform=android -f shards=7 [-f pr=<n>]`;
+- every night on main (the `schedule` trigger): the whole sweep on Android, and its English flows
+  on one iOS shard, posting the sheets, the check findings and the coverage report to the open
+  "Nightly UI sweep" issue.
 
 `sweep-coverage.ts` (no flags) prints the coverage report: the screens the app registers
 (`registerScreens`) and the routes under `apps/mobile/src/app` with no sweep screenshot. Every

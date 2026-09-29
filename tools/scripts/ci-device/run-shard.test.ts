@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { artifactOf, overrideFor } from './resolve-build';
+import { artifactOf, noMatchMessage, overrideFor } from './resolve-build';
 import {
   annotation,
   flowSlug,
@@ -92,5 +92,14 @@ describe('build resolution', () => {
     });
     expect(artifactOf({ id: 'b3', artifacts: {} })).toBeUndefined();
     expect(artifactOf(undefined)).toBeUndefined();
+  });
+});
+
+describe('noMatchMessage', () => {
+  it('names the latest build as the build_url to pass, and never falls back to it', () => {
+    const message = noMatchMessage('android', 'abc', { id: 'b1', url: 'https://x/app.apk' });
+    expect(message).toContain('fingerprint abc');
+    expect(message).toContain('build_url=https://x/app.apk');
+    expect(noMatchMessage('android', 'abc', undefined)).toContain('Run an e2e-test build');
   });
 });

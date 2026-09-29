@@ -38,6 +38,26 @@ export function artifactOf(
   return { id: build.id, url };
 }
 
+/**
+ * Why a run stops when no build matches the native fingerprint, naming the latest build of the
+ * profile as the `build_url` to pass when its native code still fits. Never a silent fallback.
+ */
+export function noMatchMessage(
+  platform: DevicePlatform,
+  fingerprint: string,
+  latest: { id: string; url: string } | undefined,
+): string {
+  const head =
+    `No finished ${platform} "${PROFILE}" build matches fingerprint ${fingerprint}, and device ` +
+    'runs never start an EAS build.';
+  if (!latest) return `${head} Run an e2e-test build for this fingerprint, then re-run.`;
+  return (
+    `${head} The latest ${platform} "${PROFILE}" build is ${latest.id}: if its native code still ` +
+    `fits this commit, re-run with build_url=${latest.url} (the workflow's build_url input); ` +
+    'otherwise run an e2e-test build for this fingerprint.'
+  );
+}
+
 /** eas-cli in apps/mobile as the development variant the e2e-test profile ships. */
 function eas(args: string): unknown {
   const { NODE_PATH: _nodePath, ...inherited } = process.env;
@@ -70,9 +90,13 @@ export function resolveBuild(
   const list = eas(`build:list ${filters} --fingerprint-hash ${fingerprint} --limit 1 --json`);
   const build = artifactOf(Array.isArray(list) ? (list[0] as BuildRecord) : undefined);
   if (!build) {
+    const latest = eas(`build:list ${filters} --limit 1 --json`);
     throw new Error(
-      `No finished ${platform} "${PROFILE}" build matches fingerprint ${fingerprint}. ` +
-        'Device runs never start an EAS build; run one for this fingerprint or pass build_url.',
+      noMatchMessage(
+        platform,
+        fingerprint,
+        artifactOf(Array.isArray(latest) ? (latest[0] as BuildRecord) : undefined),
+      ),
     );
   }
   return { url: build.url, id: build.id, fingerprint };

@@ -22,7 +22,7 @@ appId: app.critterpass.dev
     id: 'home-header-crew'
 - extendedWaitUntil:
     visible:
-      id: 'crews-sheet'
+      id: 'crews-start'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-3g-3-crews
@@ -30,6 +30,7 @@ appId: app.critterpass.dev
     file: dismiss.yaml
     env:
       ID: crews-sheet
+      MARK: crews-start
 - runFlow: home.yaml
 - tapOn:
     id: 'home-header-chat'
@@ -77,6 +78,7 @@ appId: app.critterpass.dev
     file: dismiss.yaml
     env:
       ID: new-poll
+      MARK: new-poll-question
 - tapOn:
     id: 'chat-map'
 - extendedWaitUntil:
