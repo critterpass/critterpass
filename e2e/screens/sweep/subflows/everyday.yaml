@@ -54,7 +54,7 @@ appId: app.critterpass.dev
       - takeScreenshot: ${LANG}-3g-1-mentions-keyboard
 - eraseText: 1
 - hideKeyboard
-- tapOn: 'Add attachment'
+- tapOn: 'Add attachment|Thêm tệp đính kèm'
 - extendedWaitUntil:
     visible:
       id: 'chat-attach'

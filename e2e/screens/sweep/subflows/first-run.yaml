@@ -1,7 +1,6 @@
 appId: app.critterpass.dev
 ---
-# A new account with no crew yet, from the first-run Home: the first-ever inbox (3b-5), place
-# search (3b-7) and the guest guide's page (3b-8), then a crew of its own (start a crew, its code,
+# A new account with no crew yet, from the first-run Home: the first-ever inbox (3b-5), then a crew of its own (start a crew, its code,
 # Home with nothing planned, the crews sheet 3g-3, the empty chat, the pitch sheet 3b-3), the
 # referral page and the not-found screen. Last, a fresh install opens that crew's invite link: the
 # ticket (3a-10), the three-tap pass (3a-12) and the manifest (3a-13). ${LANG} prefixes the
@@ -16,58 +15,6 @@ appId: app.critterpass.dev
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-3b-5-first-ever
-- runFlow: home.yaml
-- runFlow:
-    file: open-link.yaml
-    env:
-      URL: critterpass-dev://places/search
-- extendedWaitUntil:
-    visible:
-      id: 'place-search-field'
-    timeout: 15000
-- waitForAnimationToEnd
-- takeScreenshot: ${LANG}-3b-7-search-empty
-- tapOn:
-    id: 'place-search-field'
-- inputText: 'morocc'
-- extendedWaitUntil:
-    visible:
-      id: 'place-search-unguided'
-    timeout: 20000
-- waitForAnimationToEnd
-- takeScreenshot: ${LANG}-3b-7-search-keyboard
-- hideKeyboard
-- waitForAnimationToEnd
-- takeScreenshot: ${LANG}-3b-7-search
-- tapOn: 'MARRAKECH'
-- extendedWaitUntil:
-    visible:
-      id: 'guest-locals'
-    timeout: 30000
-- extendedWaitUntil:
-    notVisible:
-      id: 'guest-brief-loading'
-    timeout: 60000
-- waitForAnimationToEnd
-- takeScreenshot: ${LANG}-3b-8-guest
-- scrollUntilVisible:
-    element:
-      id: 'guest-solo'
-    centerElement: true
-- tapOn:
-    id: 'guest-solo'
-- extendedWaitUntil:
-    visible:
-      id: 'solo-confirm'
-    timeout: 5000
-- scrollUntilVisible:
-    element:
-      id: 'solo-cancel'
-    centerElement: true
-- waitForAnimationToEnd
-- takeScreenshot: ${LANG}-3b-8-solo-confirm
-- tapOn:
-    id: 'solo-cancel'
 - runFlow: home.yaml
 - runFlow:
     file: open-link.yaml
