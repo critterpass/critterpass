@@ -20,5 +20,7 @@ appId: app.critterpass.dev
 - assertVisible: 'NEEDS YOU · 0'
 - tapOn:
     id: 'inbox-tokek'
-- assertVisible: 'Nothing needs you yet. Back to sleep.'
+- extendedWaitUntil:
+    visible: 'Nothing needs you yet. Back to sleep.'
+    timeout: 5000
 - takeScreenshot: en-3b-5-all-caught-up
