@@ -52,7 +52,7 @@ function Scene({
   scene,
   photo = true,
   folded = false,
-  sweep = lines(() => 'read'),
+  sweep = lines(() => 'read').filter((line) => line.id !== 'l6'),
 }: {
   readonly scene: ScanScene;
   readonly photo?: boolean;

@@ -28,6 +28,13 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { useCategoryLabel } from '../components/category';
 import { toMajor } from '../format';
 
+const CATEGORY_COLOUR = (theme: ReturnType<typeof useTheme>) => ({
+  stays: theme.semantic.state.info,
+  food: theme.semantic.state.urgent,
+  transit: theme.semantic.state.success,
+  fun: theme.semantic.state.warning,
+});
+
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['20'], paddingTop: t.space['8'] },
 }));
@@ -175,6 +182,7 @@ export function BudgetView(props: BudgetViewProps) {
                 <LinearBar
                   key={line.category}
                   index={index}
+                  color={CATEGORY_COLOUR(theme)[line.category]}
                   label={upper(categoryLabel(line.category), locale)}
                   value={Number(line.spentMinor)}
                   max={Number(line.plannedMinor > 0n ? line.plannedMinor : line.spentMinor || 1n)}

@@ -47,19 +47,18 @@ export function PayerPicker({ members, payerId, onPick }: PayerPickerProps) {
   const { t } = useLingui();
   const reduced = useReducedImpactMotion();
   const diameter = sizeToken(theme.size.avatar, 'md');
-  const gap = theme.space['8'];
   const ringSize = diameter + theme.space['8'];
-  const index = Math.max(
-    0,
-    members.findIndex((member) => member.userId === payerId),
-  );
-  const x = useSharedValue(index * (diameter + gap));
-  const [measured, setMeasured] = useState(false);
+  const [slots, setSlots] = useState<Readonly<Record<string, number>>>({});
+  const target = slots[payerId];
+  const x = useSharedValue(0);
+  const placed = useSharedValue(false);
   useEffect(() => {
-    const target = index * (diameter + gap);
-    x.value = reduced || SPRING === undefined ? target : withSpring(target, SPRING);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- x is a stable shared value ref.
-  }, [index, diameter, gap, reduced]);
+    if (target === undefined) return;
+    const left = target - theme.space['4'];
+    x.value = !placed.value || reduced || SPRING === undefined ? left : withSpring(left, SPRING);
+    placed.value = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- shared values are stable refs.
+  }, [target, reduced]);
   const ringStyle = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
   return (
     <Row style={styles.row}>
@@ -70,9 +69,8 @@ export function PayerPicker({ members, payerId, onPick }: PayerPickerProps) {
         style={styles.avatars}
         accessibilityRole="radiogroup"
         accessibilityLabel={t({ id: 'money.add.paidBy', message: 'Paid by' })}
-        onLayout={() => setMeasured(true)}
       >
-        {measured ? (
+        {target !== undefined ? (
           <Animated.View
             pointerEvents="none"
             style={[
@@ -81,7 +79,7 @@ export function PayerPicker({ members, payerId, onPick }: PayerPickerProps) {
                 width: ringSize,
                 height: ringSize,
                 borderRadius: ringSize / 2,
-                start: -theme.space['4'],
+                start: 0,
               },
               ringStyle,
             ]}
@@ -96,6 +94,12 @@ export function PayerPicker({ members, payerId, onPick }: PayerPickerProps) {
             onPress={() => {
               feedback.emit('tick');
               onPick(member.userId);
+            }}
+            onLayout={(event) => {
+              const at = event.nativeEvent.layout.x;
+              setSlots((current) =>
+                current[member.userId] === at ? current : { ...current, [member.userId]: at },
+              );
             }}
             testID={`money-add-payer-${member.joinIndex}`}
           >

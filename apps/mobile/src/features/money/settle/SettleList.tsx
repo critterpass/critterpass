@@ -58,7 +58,7 @@ export function SettleList(props: SettleListProps) {
   const { t } = useLingui();
   const kindLabel = usePayoutKindLabel();
   const expenses = props.expenses;
-  const payments = props.rows.filter((row) => row.status !== 'confirmed').length;
+  const payments = props.rows.length;
   const line =
     props.rows.length === 0
       ? t({ id: 'money.settle.nothing', message: 'Nothing to settle. Everyone is square.' })

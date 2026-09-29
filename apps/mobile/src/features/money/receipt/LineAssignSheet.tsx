@@ -46,7 +46,7 @@ const useStyles = makeStyles((t) => ({
   },
   label: { flex: 1 },
   chip: {
-    borderRadius: t.radius.pill,
+    borderRadius: t.space['12'],
     paddingHorizontal: t.space['10'],
     paddingVertical: t.space['4'],
   },

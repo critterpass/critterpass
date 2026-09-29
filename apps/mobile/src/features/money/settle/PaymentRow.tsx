@@ -91,11 +91,20 @@ export function PaymentRow({
         <SettleRow
           from={{
             name: from?.name ?? '',
-            avatar: <Avatar name={from?.name ?? ''} joinIndex={from?.joinIndex ?? 0} decorative />,
+            avatar: (
+              <Avatar
+                name={from?.name ?? ''}
+                joinIndex={from?.joinIndex ?? 0}
+                size="md"
+                decorative
+              />
+            ),
           }}
           to={{
             name: to?.name ?? '',
-            avatar: <Avatar name={to?.name ?? ''} joinIndex={to?.joinIndex ?? 0} decorative />,
+            avatar: (
+              <Avatar name={to?.name ?? ''} joinIndex={to?.joinIndex ?? 0} size="md" decorative />
+            ),
           }}
           amount={formatAmount(row.amountMinor, row.currency, locale)}
           status={row.status === 'disputed' ? 'pending' : status}

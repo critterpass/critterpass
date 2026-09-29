@@ -34,7 +34,7 @@ const useStyles = makeStyles((t) => ({
     paddingHorizontal: t.space['32'],
   },
   chip: {
-    borderRadius: t.radius.pill,
+    borderRadius: t.space['20'],
     paddingHorizontal: t.space['14'],
     paddingVertical: t.space['8'],
   },

@@ -31,7 +31,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { ExpenseListRow } from '../components/ExpenseListRow';
 import type { ExpenseItem } from '../data/expense-items';
-import { formatAmount, formatSigned, heroParts } from '../format';
+import { formatSigned, formatWhole, heroParts } from '../format';
 import type { BalanceLine, HeroKind } from './model';
 
 const useStyles = makeStyles((t) => ({
@@ -117,7 +117,7 @@ export function BalancesView(props: BalancesViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const inset = useTabBarInset();
-  const spent = formatAmount(props.totalSpentMinor, props.currency, locale);
+  const spent = formatWhole(props.totalSpentMinor, props.currency, locale);
   const taps = props.settleTaps;
   const settleLabel =
     taps === 0

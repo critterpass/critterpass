@@ -6,7 +6,7 @@
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -102,6 +102,8 @@ export function AddExpenseView(props: AddExpenseViewProps) {
   const { t } = useLingui();
   const categoryLabel = useCategoryLabel();
   const shake = useShake(props.shake);
+  // EVENLY splits between everyone; tapping EVENLY again shows who is in, to leave someone out.
+  const [showWho, setShowWho] = useState(false);
   const { draft } = props;
   const crew = props.crewName;
   const eyebrow = props.editing
@@ -164,7 +166,10 @@ export function AddExpenseView(props: AddExpenseViewProps) {
         <Segmented<SplitEditorMode>
           label={upper(t({ id: 'money.add.split', message: 'Split' }), locale)}
           value={draft.mode}
-          onChange={props.onMode}
+          onChange={(mode) => {
+            if (mode === 'equal' && draft.mode === 'equal') setShowWho((shown) => !shown);
+            else props.onMode(mode);
+          }}
           segments={[
             {
               value: 'equal',
@@ -182,7 +187,9 @@ export function AddExpenseView(props: AddExpenseViewProps) {
           testID="money-add-split"
         />
         {draft.mode === 'equal' ? (
-          <SplitEditorEvenly members={props.members} draft={draft} onToggle={props.onToggle} />
+          showWho || draft.included.length < draft.memberIds.length ? (
+            <SplitEditorEvenly members={props.members} draft={draft} onToggle={props.onToggle} />
+          ) : null
         ) : draft.mode === 'weights' ? (
           <SplitEditorShares
             members={props.members}

@@ -90,3 +90,14 @@ export function calendarDate(localDate: string): Date {
   // eslint-disable-next-line lingui/no-unlocalized-strings -- an ISO time suffix, never copy.
   return new Date(`${localDate}T12:00:00Z`);
 }
+
+/** Whole units for headline totals: "US$4,812", "Rp 1.080.000". */
+export function formatWhole(amountMinor: bigint, currency: string, locale: string): string {
+  if (!known(currency)) return formatAmount(amountMinor, currency, locale);
+  return format.number(locale, Math.round(toMajor(amountMinor, currency)), {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+}
