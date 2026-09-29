@@ -54,14 +54,14 @@ appId: app.critterpass.dev
       - takeScreenshot: ${LANG}-3g-1-mentions-keyboard
 - eraseText: 1
 - hideKeyboard
-- tapOn: 'Add attachment|Thêm tệp đính kèm'
+- tapOn: 'Add attachment'
 - extendedWaitUntil:
     visible:
       id: 'chat-attach'
     timeout: 5000
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-3g-1-attach
-# The attach menu's rows carry no test id: English, or Vietnamese.
+# The attach menu's rows carry no test id: English, or Vietnamese where it is translated.
 - tapOn: 'Poll|Bình chọn'
 - extendedWaitUntil:
     visible:
