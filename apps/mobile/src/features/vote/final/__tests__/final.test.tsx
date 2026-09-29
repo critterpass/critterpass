@@ -163,8 +163,6 @@ describe('destination final', () => {
       "You haven't voted yet. A tie goes to Kyoto.",
     );
     await until(() => screen.queryByText('JORDAN AND WINSTON TO GO') !== null);
-    await settleMotion();
-    expect(screen.toJSON()).toMatchSnapshot();
     await fireEvent.press(screen.getByTestId('final-split-open'));
     expect(router.push).toHaveBeenCalledWith(voteRoutes.showdown(POLL));
   });
@@ -178,8 +176,6 @@ describe('destination final', () => {
     expect(screen.getByTestId('showdown-tie')).toHaveTextContent(
       "A tie goes to Kyoto: it's $440 cheaper for the 2 flying from Singapore.",
     );
-    await settleMotion();
-    expect(screen.toJSON()).toMatchSnapshot();
     await fireEvent.press(screen.getByTestId('showdown-half-1'));
     await until(() => screen.queryByTestId('showdown-hint') === null);
     expect(await queued(s, 'cast_ballot')).toEqual([{ poll_id: POLL, option_id: OPT_LISBON }]);

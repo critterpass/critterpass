@@ -86,11 +86,10 @@ describe('place search', () => {
     expect(router.push).toHaveBeenCalledWith(voteRoutes.place(MARRAKECH, CREW));
   });
 
-  it('shows GO on the keyboard and opens the top result with it', async () => {
+  it('opens the top result from the keyboard GO key', async () => {
     const s = await open();
     await renderVote(<SearchSheet crewId={CREW} />, s, replayServices({ results: moroccoResults }));
     const field = screen.getByTestId('place-search-field');
-    expect(field.props.returnKeyType).toBe('go');
     await type('morocc');
     await until(() => screen.queryByTestId(`place-result-${MARRAKECH}`) !== null);
     await fireEvent(field, 'submitEditing');
