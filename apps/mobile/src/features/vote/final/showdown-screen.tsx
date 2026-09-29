@@ -167,7 +167,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
         style={[styles.footer, { bottom: insets.bottom + theme.space['8'] }]}
         testID="showdown-footer"
       >
-        <Text variant="label" color={theme.semantic.action.primary}>
+        <Text variant="label" color={theme.semantic.action.primary} numberOfLines={2}>
           {upper(votesLine, i18n.locale)}
         </Text>
         {poll.myOptionId === null ? (

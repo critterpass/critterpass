@@ -218,9 +218,14 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
         <Text variant="h2" accessibilityRole="header">
           {upper(t({ id: 'vote.board.title', message: 'Where next?' }), i18n.locale)}
         </Text>
-        <Row gap="6" align="center">
+        <Row gap="6" align="center" style={{ flexShrink: 1 }}>
           <Animated.View style={[styles.dot, blink]} />
-          <Text variant="label" color={theme.color.pink} numberOfLines={1}>
+          <Text
+            variant="label"
+            color={theme.color.pink}
+            numberOfLines={2}
+            style={{ flexShrink: 1 }}
+          >
             {upper(status, i18n.locale)}
           </Text>
         </Row>
@@ -290,7 +295,13 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
         <Row justify="space-between" align="center" gap="8">
           <Stack gap="2" style={{ flex: 1 }}>
             {lines.toGo === null ? null : (
-              <Text variant="label" color={theme.semantic.action.primary}>
+              // Long names wrap to a second line and shrink there, never cut off.
+              <Text
+                variant="label"
+                color={theme.semantic.action.primary}
+                numberOfLines={2}
+                testID="final-to-go"
+              >
                 {upper(lines.toGo, i18n.locale)}
               </Text>
             )}
