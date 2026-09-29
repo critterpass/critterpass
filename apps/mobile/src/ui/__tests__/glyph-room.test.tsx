@@ -1,7 +1,8 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from '@jest/globals';
-import { StyleSheet } from 'react-native';
+import { fireEvent, screen } from '@testing-library/react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import type { TextStyle } from 'react-native';
 
 import { renderWithI18n } from '../../lib/i18n/testing';
@@ -158,5 +159,49 @@ describe('glyph room', () => {
     });
     expect(glyphRoomStyle(10, { marginTop: 'auto' })).toBeNull();
     expect(glyphRoomStyle(0, undefined)).toBeNull();
+  });
+});
+
+describe('glyph room at the top of a scroll view', () => {
+  const marginTopOf = (element: { props: { style?: unknown } }): number => {
+    const margin = (StyleSheet.flatten(element.props.style as TextStyle) ?? {}).marginTop;
+    return typeof margin === 'number' ? margin : 0;
+  };
+  const layoutAt = (y: number) => ({
+    nativeEvent: { layout: { x: 0, y, width: 350, height: 100 } },
+  });
+
+  it('keeps a first-line heading inside the content, never above its top edge', async () => {
+    await renderWithI18n(
+      <ThemeProvider fontScale={1}>
+        <ScrollView>
+          <Text variant="h1" testID="title">
+            Your number
+          </Text>
+        </ScrollView>
+      </ThemeProvider>,
+    );
+    const title = screen.getByTestId('title');
+    const pulledUp = marginTopOf(title);
+    expect(pulledUp).toBeLessThan(0);
+    // Laid out as the first child with no padding above it, the box starts above y = 0.
+    await fireEvent(title, 'layout', layoutAt(pulledUp));
+    expect(marginTopOf(screen.getByTestId('title'))).toBeGreaterThanOrEqual(0);
+  });
+
+  it('keeps the designed tight leading where the parent leaves the room above it', async () => {
+    await renderWithI18n(
+      <ThemeProvider fontScale={1}>
+        <ScrollView contentContainerStyle={{ paddingTop: 24 }}>
+          <Text variant="h1" testID="title">
+            Your number
+          </Text>
+        </ScrollView>
+      </ThemeProvider>,
+    );
+    const title = screen.getByTestId('title');
+    const pulledUp = marginTopOf(title);
+    await fireEvent(title, 'layout', layoutAt(24 + pulledUp));
+    expect(marginTopOf(screen.getByTestId('title'))).toBe(pulledUp);
   });
 });
