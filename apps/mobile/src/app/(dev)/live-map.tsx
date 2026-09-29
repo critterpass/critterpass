@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import {
   LIVE_MAP_SCENES,
   LiveMapScene,
   type LiveMapSceneName,
 } from '@/features/crew/live-map/scenes';
+import { Text } from '@/ui';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -25,7 +26,7 @@ export default function LiveMapScenes() {
           onPress={() => setScene(name)}
         >
           <View>
-            <Text style={styles.label}>{name}</Text>
+            <Text variant="body">{name}</Text>
           </View>
         </Pressable>
       ))}
@@ -36,5 +37,4 @@ export default function LiveMapScenes() {
 const styles = StyleSheet.create({
   list: { padding: 16, gap: 8, paddingTop: 64 },
   row: { padding: 14, borderRadius: 10, backgroundColor: '#1f1b38' },
-  label: { color: '#f4efe4', fontSize: 16 },
 });
