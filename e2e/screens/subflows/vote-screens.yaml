@@ -3,7 +3,15 @@ appId: app.critterpass.dev
 # From Home with the staging demo crew: place search (3b-7) for a country nobody guides, the guest
 # guide's page (3b-8) with its solo confirm, then PITCH TO THE CREW: the streamed pitch (3b-3) and,
 # once added, the board on Home (3b-1). ${PREFIX} names the screenshots by language.
+#
+# Home with a crew has no search entry, so the search opens by link; iOS asks once whether the app
+# may open its own link, and a dialog left open would cover the next flow's first screen.
 - openLink: critterpass-dev://places/search
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
 - extendedWaitUntil:
     visible:
       id: 'place-search-field'
@@ -48,7 +56,17 @@ appId: app.critterpass.dev
 - takeScreenshot: ${PREFIX}-3b-3-pitch
 - tapOn:
     id: 'pitch-add'
-- openLink: critterpass-dev://
+# Back to Home by edge swipes: a link to Home keeps the pushed screens.
+- repeat:
+    while:
+      notVisible:
+        id: 'destination-board'
+    times: 4
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+      - waitForAnimationToEnd
 - extendedWaitUntil:
     visible:
       id: 'destination-board'

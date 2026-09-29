@@ -4,6 +4,12 @@ appId: app.critterpass.dev
 # the staging demo crew, then walks search, the guest guide's page and a pitch onto the board.
 - launchApp:
     clearState: true
+# A link dialog an earlier flow left open covers the first screen.
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
 - extendedWaitUntil:
     visible:
       id: 'onboarding-open'
