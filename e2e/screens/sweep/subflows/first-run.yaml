@@ -1,10 +1,10 @@
 appId: app.critterpass.dev
 ---
-# A new account with no crew yet, from the first-run Home: the first-ever inbox (3b-5), then a crew of its own (start a crew, its code,
-# Home with nothing planned, the crews sheet 3g-3, the empty chat, the pitch sheet 3b-3), the
-# referral page and the not-found screen. Last, a fresh install opens that crew's invite link: the
-# ticket (3a-10), the three-tap pass (3a-12) and the manifest (3a-13). ${LANG} prefixes the
-# screenshots.
+# A new account with no crew yet, from the first-run Home: the first-ever inbox (3b-5), then a
+# crew of its own (start a crew, its code, Home with nothing planned, the crews sheet 3g-3, the
+# empty chat, the pitch sheet 3b-3), the referral page and the not-found screen. Last, a fresh
+# install opens that crew's invite link: the ticket (3a-10), the three-tap pass (3a-12) and the
+# manifest (3a-13). ${LANG} prefixes the screenshots.
 - runFlow:
     file: open-link.yaml
     env:
