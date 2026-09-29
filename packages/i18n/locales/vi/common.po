@@ -13,7 +13,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
 msgid "common.chat.fromAuthor"
-msgstr ""
+msgstr "{author}: {text}"
 
 #: ../../apps/mobile/src/ui/camera/ScanOverlay.tsx
 msgid "common.camera.scanned"
@@ -65,7 +65,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/chat/ChatRichCard.tsx
 msgid "common.chat.isTyping"
-msgstr ""
+msgstr "{name} đang nhắn"
 
 #: ../../apps/mobile/src/ui/data/BalanceBars.tsx
 msgid "common.data.balanceOwes"
@@ -170,7 +170,7 @@ msgstr ""
 #: ../../apps/mobile/src/ui/chat/AttachmentThumb.tsx
 #: ../../apps/mobile/src/ui/chat/Composer.tsx
 msgid "common.chat.addAttachment"
-msgstr ""
+msgstr "Thêm tệp đính kèm"
 
 #: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
 msgid "shareImage.instagram"
@@ -268,7 +268,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
 msgid "common.chat.closeActions"
-msgstr ""
+msgstr "Đóng"
 
 #: ../../apps/mobile/src/ui/critters/tier.tsx
 msgid "common.critter.tierCommon"
@@ -516,7 +516,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/chat/ChatMessage.tsx
 msgid "common.chat.messageActions"
-msgstr ""
+msgstr "Tuỳ chọn tin nhắn"
 
 #: ../../apps/mobile/src/app/(dev)/motion-lab.tsx
 msgid "motion.motionLab.title"
@@ -688,7 +688,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/chat/ReactionFloats.tsx
 msgid "common.chat.reactions"
-msgstr ""
+msgstr "Biểu cảm: {spoken}"
 
 #: ../../apps/mobile/src/ui/trip/PhraseCard.tsx
 msgid "common.trip.playPhrase"
@@ -696,7 +696,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/chat/Composer.tsx
 msgid "common.chat.recordVoice"
-msgstr ""
+msgstr "Ghi tin nhắn thoại"
 
 #: ../../apps/mobile/src/ui/plan/DiffRow.tsx
 msgid "common.plan.rejectChange"
@@ -708,7 +708,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/chat/AttachmentThumb.tsx
 msgid "common.chat.removeAttachment"
-msgstr ""
+msgstr "Bỏ {label}"
 
 #: ../../apps/mobile/src/ui/share-image/ShareImageSheet.tsx
 msgid "shareImage.rendering"
@@ -736,7 +736,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/chat/Composer.tsx
 msgid "common.chat.send"
-msgstr ""
+msgstr "Gửi"
 
 #: ../../apps/mobile/src/ui/states/OutboxList.tsx
 msgid "common.outbox.title"
@@ -808,7 +808,7 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/chat/Composer.tsx
 msgid "common.chat.stopRecording"
-msgstr ""
+msgstr "Dừng và gửi tin nhắn thoại"
 
 #: ../../apps/mobile/src/ui/trip/PhraseCard.tsx
 msgid "common.trip.stopPhrase"
