@@ -2,7 +2,7 @@ appId: app.critterpass.dev
 ---
 # Home's first run (3b-1) in another language: the dev gallery switches the running app's language
 # (`LOCALE`, a gallery locale code; not persisted), two back swipes return to the splash, and the
-# shortest onboarding pass reaches Home.
+# onboarding reaches Home.
 - runFlow: open-gallery.yaml
 - tapOn:
     id: 'gallery-locale-${LOCALE}'
@@ -13,7 +13,44 @@ appId: app.critterpass.dev
 - swipe:
     start: 2%, 50%
     end: 90%, 50%
-- runFlow: ../../home/subflows/onboard.yaml
+# The shortest onboarding pass that also runs on Android: search picks the airport, since Android's
+# hideKeyboard presses back when no keyboard is up.
+- runFlow: ../../onboarding/subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+- repeat:
+    times: 6
+    commands:
+      - tapOn:
+          id: 'taste-card-right'
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'taste-done'
+- tapOn:
+    id: 'home-search'
+- inputText: 'SGN'
+- tapOn:
+    id: 'home-row-SGN'
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-issued-save'
+- tapOn:
+    id: 'save-not-now'
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer-later'
+    timeout: 10000
+- tapOn:
+    id: 'permissions-primer-later'
 - extendedWaitUntil:
     visible:
       id: 'home-first-run'
