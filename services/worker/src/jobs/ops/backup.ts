@@ -38,7 +38,14 @@ export interface BackupResult {
   readonly pruned: readonly string[];
 }
 
-/** libpq environment for a `postgres://` URL, so no credential ever appears in argv. */
+/**
+ * libpq environment for a `postgres://` URL, so no credential ever appears in argv.
+ *
+ * Node's driver verifies `sslmode=verify-full` against the system trust store, but libpq looks for
+ * `~/.postgresql/root.crt` unless told otherwise, and the worker image has none. So a verify-full
+ * URL without its own `sslrootcert` verifies against the system roots (libpq 16+, and libpq only
+ * accepts `system` together with verify-full).
+ */
 export function libpqEnv(databaseUrl: string): Record<string, string> {
   const url = new URL(databaseUrl);
   const env: Record<string, string> = {
@@ -50,6 +57,9 @@ export function libpqEnv(databaseUrl: string): Record<string, string> {
   };
   const sslmode = url.searchParams.get('sslmode');
   if (sslmode !== null) env.PGSSLMODE = sslmode;
+  const sslrootcert = url.searchParams.get('sslrootcert');
+  if (sslrootcert !== null) env.PGSSLROOTCERT = sslrootcert;
+  else if (sslmode === 'verify-full') env.PGSSLROOTCERT = 'system';
   return env;
 }
 
