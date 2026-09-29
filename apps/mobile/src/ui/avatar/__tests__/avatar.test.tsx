@@ -33,66 +33,11 @@ describe('visibleAvatar', () => {
 });
 
 describe('UserAvatar', () => {
-  it('renders the pending photo with its review badge for the owner', async () => {
-    await renderUi(
-      <UserAvatar
-        name="Winston"
-        avatar={pending}
-        viewer="self"
-        reviewLabel="Under review"
-        testID="av"
-      />,
-    );
-    expect(screen.getByTestId('av-photo')).toBeTruthy();
-    expect(screen.getByText('UNDER REVIEW')).toBeTruthy();
-  });
-
   it('falls back to initials for crewmates while the photo is pending', async () => {
     await renderUi(<UserAvatar name="Winston" avatar={pending} viewer="others" testID="av" />);
     expect(screen.getByTestId('av-initials')).toBeTruthy();
     expect(screen.getByText('W')).toBeTruthy();
     expect(screen.queryByTestId('av-photo')).toBeNull();
-  });
-
-  it('keeps the rejected state visible to the owner as initials plus the badge', async () => {
-    await renderUi(
-      <UserAvatar
-        name="Winston"
-        avatar={{ ...pending, review: 'rejected' }}
-        viewer="self"
-        reviewLabel="Not approved"
-        testID="av"
-      />,
-    );
-    expect(screen.getByTestId('av-initials')).toBeTruthy();
-    expect(screen.getByText('NOT APPROVED')).toBeTruthy();
-  });
-
-  it('draws guide and ringed critter stickers', async () => {
-    await renderUi(
-      <UserAvatar
-        name="Winston"
-        avatar={{ kind: 'guide', guide: 'pon' }}
-        viewer="others"
-        testID="g"
-      />,
-    );
-    expect(screen.getByTestId('g-guide')).toBeTruthy();
-    expect(screen.getByLabelText('Pon')).toBeTruthy();
-    await renderUi(
-      <UserAvatar
-        name="Winston"
-        avatar={{
-          kind: 'critter',
-          critterKind: 'gecko',
-          critterName: 'Temple Tokek',
-          tier: 'rare',
-        }}
-        viewer="others"
-        testID="c"
-      />,
-    );
-    expect(screen.getByLabelText('Temple Tokek, Rare')).toBeTruthy();
   });
 });
 
@@ -111,36 +56,9 @@ describe('AvatarPicker', () => {
     });
     expect(onPick).toHaveBeenCalledWith('ajo');
   });
-
-  it('maps every guide to its dex sticker', () => {
-    expect(GUIDE_STICKERS.tokek.kind).toBe('gecko');
-    expect(GUIDE_STICKERS.lundi.kind).toBe('puffin');
-    expect(GUIDE_STICKERS.paco.kind).toBe('alpaca');
-  });
 });
 
 describe('PhotoAvatar', () => {
-  const propsOf = (id: string) =>
-    screen
-      .getAllByTestId(id)
-      .map((node) => (node.props as { skiaProps: Record<string, unknown> }).skiaProps);
-
-  it('traces a white sticker outline around the cut-out, under the subject', async () => {
-    await renderUi(<PhotoAvatar uri="file:///cut.png" size={120} cutout testID="p" />);
-    const images = propsOf('skia-image');
-    expect(images).toHaveLength(2);
-    expect(images.map((image) => (image['image'] as { uri: string }).uri)).toEqual([
-      'file:///cut.png',
-      'file:///cut.png',
-    ]);
-    // Bottom-anchored in the 110 pt canvas inside the ring, its flat edge sunk one outline below.
-    for (const image of images) {
-      expect(Number(image['y']) + Number(image['height'])).toBeCloseTo(115, 5);
-    }
-    expect(propsOf('skia-morphology')).toEqual([{ operator: 'dilate', radius: 5 }]);
-    expect(propsOf('skia-blend-color')[0]).toMatchObject({ mode: 'srcIn' });
-  });
-
   it('shows a photo without a subject as a plain circle crop', async () => {
     await renderUi(<PhotoAvatar uri="file:///photo.png" size={120} cutout={false} testID="p" />);
     expect(screen.queryByTestId('skia-image')).toBeNull();

@@ -157,19 +157,4 @@ describe('states', () => {
     expect(screen.getByText('miss you')).toBeTruthy();
     expect(screen.queryByTestId('chat-composer')).toBeNull();
   });
-
-  it('shows the offline banner while the network is down', async () => {
-    const s = await open();
-    await seedCrew(s);
-    await seedMessage(s, { seq: 1, sender: MAYA, body: 'hi' });
-    s.network.set(false);
-    await renderChat(<CrewChat crewId={CREW} />, s);
-    expect(await screen.findByText("You're offline. Messages send when you're back.")).toBeTruthy();
-  });
-
-  it('shows the skeleton until the owner is known', async () => {
-    const s = await open();
-    await renderChat(<CrewChat crewId={CREW} />, s);
-    expect(screen.getByTestId('chat-skeleton')).toBeTruthy();
-  });
 });

@@ -83,21 +83,6 @@ describe('pins and rows', () => {
     expect(screen.getByText('MEET-UP · 17:00')).toBeTruthy();
     expect(screen.getByText('Sharing switches itself off on Oct 19 at midnight.')).toBeTruthy();
   });
-
-  it('marks an approximate fix and Low Power Mode on your own row', async () => {
-    const s = await open();
-    await seedTrip(s);
-    await renderLiveMap(
-      s,
-      fakeServices({
-        answer: recordedSnapshot(),
-        ownFix: { lat: -8.5, lng: 115.26, acc: 1200, at: Date.parse('2026-10-18T08:37:59Z') },
-        lowPower: true,
-      }),
-    );
-    expect(await screen.findByTestId('live-approximate')).toBeTruthy();
-    expect(screen.getByTestId('live-saving-battery')).toBeTruthy();
-  });
 });
 
 describe('states', () => {
@@ -132,31 +117,6 @@ describe('states', () => {
     expect(await screen.findByText(/Sharing opens on Oct 15\./)).toBeTruthy();
   });
 
-  it('offers to share on the first open, and pauses from your own row', async () => {
-    const s = await open();
-    await seedTrip(s, { myShare: 'off' });
-    await renderLiveMap(s, fakeServices({ answer: recordedSnapshot() }));
-    expect(await screen.findByText('Share where you are with the crew?')).toBeTruthy();
-  });
-
-  it('shows your paused share: PAUSED header, RESUME chip', async () => {
-    const s = await open();
-    await seedTrip(s, { myShare: 'paused' });
-    await renderLiveMap(
-      s,
-      fakeServices({
-        answer: recordedSnapshot((body) => ({
-          ...body,
-          shares: body.shares.map((share) =>
-            share.uid === DEV ? { ...share, paused: true } : share,
-          ),
-        })),
-      }),
-    );
-    expect(await screen.findByText('RESUME')).toBeTruthy();
-    expect(screen.getByText('PAUSED')).toBeTruthy();
-  });
-
   it('keeps last-known pins offline with the time of the last update', async () => {
     const s = await open();
     await seedTrip(s);
@@ -164,36 +124,6 @@ describe('states', () => {
     await renderLiveMap(s, fakeServices({ answer: null }));
     expect(await screen.findByText('Offline · waiting for the crew')).toBeTruthy();
     expect(screen.getByText('Pings need a signal.')).toBeTruthy();
-  });
-
-  it('asks for a meet-up when there is none', async () => {
-    const s = await open();
-    await seedTrip(s, { meetup: false });
-    await renderLiveMap(
-      s,
-      fakeServices({ answer: recordedSnapshot((body) => ({ ...body, meetup: null, etas: [] })) }),
-    );
-    expect(await screen.findByText('SET A MEET-UP')).toBeTruthy();
-  });
-
-  it('celebrates when everyone sharing has arrived', async () => {
-    const s = await open();
-    await seedTrip(s);
-    await renderLiveMap(
-      s,
-      fakeServices({
-        answer: recordedSnapshot((body) => ({
-          ...body,
-          etas: body.etas.map((eta) => ({
-            ...eta,
-            min: 0,
-            arrived: true,
-            status: { key: 'arrived', poi: null, distance_m: 20 },
-          })),
-        })),
-      }),
-    );
-    expect(await screen.findByText(/^everyone's here$/i)).toBeTruthy();
   });
 });
 

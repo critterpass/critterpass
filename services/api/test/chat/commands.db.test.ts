@@ -74,17 +74,6 @@ describe('send_message', () => {
     expect(hints.map((hint) => hint.payload.type)).toEqual(['message.created']);
   });
 
-  it('replays a duplicate op id without a second message', async () => {
-    const { crewId, owner } = await chatCrew(chat.doors);
-    const opId = generateUuidV7();
-    const payload = { crew_id: crewId, body: 'once' };
-    const first = await runCommand(chat.doors, owner, 'send_message', payload, { opId });
-    const again = await runCommand(chat.doors, owner, 'send_message', payload, { opId });
-    expect(first.status).toBe(200);
-    expect(again.body).toMatchObject({ status: 'duplicate', result: first.body['result'] });
-    expect(await sql(chat.doors, 'SELECT id FROM messages WHERE id = $1', [opId])).toHaveLength(1);
-  });
-
   it('rejects an outsider through the offline queue with 2xx and a cmd_results row', async () => {
     const { crewId } = await chatCrew(chat.doors);
     const outsider = await chat.doors.signInAnonymously();

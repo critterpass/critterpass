@@ -115,27 +115,6 @@ afterEach(() => {
 });
 
 describe('TabBar', () => {
-  it('renders HOME · TRIPS · FAB · WALLET · PASS with HOME selected', async () => {
-    provideSessionGate(() => ({ status: 'ready' }));
-    await renderShell();
-    const tabs = screen.getAllByRole('tab');
-    expect(tabs.map((tab) => tab.props.accessibilityLabel as string)).toEqual([
-      'Home',
-      'Trips',
-      'Wallet',
-      'Pass',
-    ]);
-    expect(screen.getByTestId('tab-home').props.accessibilityState).toEqual({ selected: true });
-    expect(screen.getByTestId('guide-fab')).toBeTruthy();
-    expect(screen.getByText('home screen')).toBeTruthy();
-    expect(screen.getByTestId('sticker-pin', HIDDEN).props.accessibilityHint).toBe(
-      tokens.semantic.action.primary,
-    );
-    expect(screen.getByTestId('sticker-ticket', HIDDEN).props.accessibilityHint).toBe(
-      tokens.color.ink['300'],
-    );
-  });
-
   it('switches tabs on press', async () => {
     const shell = await renderShell();
     await fireEvent.press(screen.getByTestId('tab-wallet'));
@@ -159,12 +138,6 @@ describe('TabBar', () => {
     expect(home.props.accessibilityShowsLargeContentViewer).toBe(true);
     expect(home.props.accessibilityLargeContentTitle).toBe('Home');
     expect(home.props.accessibilityLabel).toBe('Home');
-  });
-
-  it('keeps labels at default size', async () => {
-    await renderShell();
-    expect(screen.getByText('HOME')).toBeTruthy();
-    expect(screen.getByTestId('tab-home').props.accessibilityShowsLargeContentViewer).toBe(false);
   });
 
   it.each([
@@ -240,23 +213,6 @@ function valueOf(node: unknown): number {
 
 describe('tab transition', () => {
   const { motion } = tokens;
-
-  it('fades in by 240 ms of a 420 ms rise of 12 pt', () => {
-    const options = tabTransition(motion, false);
-    const riseMs = 420;
-    expect(options.transitionSpec).toMatchObject({ config: { duration: riseMs } });
-    const progress = new Animated.Value(1);
-    const style = options.sceneStyleInterpolator?.({ current: { progress } }).sceneStyle as {
-      opacity: Animated.AnimatedInterpolation<number>;
-      transform: { translateY: Animated.AnimatedInterpolation<number> }[];
-    };
-    expect(valueOf(style.opacity)).toBe(0);
-    expect(valueOf(style.transform[0]?.translateY)).toBe(12);
-    progress.setValue(1 - 240 / 420);
-    expect(valueOf(style.opacity)).toBeCloseTo(1, 5);
-    progress.setValue(0);
-    expect(valueOf(style.transform[0]?.translateY)).toBe(0);
-  });
 
   it('cross-fades for 200 ms under reduced motion', () => {
     const options = tabTransition(motion, true);

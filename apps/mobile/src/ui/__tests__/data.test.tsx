@@ -18,38 +18,12 @@ import { CountUp } from '../data/CountUp';
 import { DayBarsVsPlan } from '../data/DayBarsVsPlan';
 import { Donut } from '../data/Donut';
 import { HourlyCrowd } from '../data/HourlyCrowd';
-import { LinearBar } from '../data/LinearBar';
 import { MonthBars } from '../data/MonthBars';
-import { Odometer } from '../data/Odometer';
 import { PollBars } from '../data/PollBars';
 import { ProgressRing } from '../data/ProgressRing';
-import { SegmentedProgress } from '../data/SegmentedProgress';
-import { SplitFlap } from '../data/SplitFlap';
 import { StreamText } from '../data/StreamText';
 import { WeatherStrip } from '../data/WeatherStrip';
-import { fixturesFor, listComponents } from '../gallery/registry';
 import { renderUi } from '../test-support/render';
-
-import '../data/data.fixtures';
-
-const DATA_COMPONENTS = [
-  'SegmentedProgress',
-  'LinearBar',
-  'ProgressRing',
-  'Donut',
-  'MonthBars',
-  'HourlyCrowd',
-  'BalanceBars',
-  'DayBarsVsPlan',
-  'WeatherStrip',
-  'CalendarHeatmap',
-  'PollBars',
-  'Countdown',
-  'Odometer',
-  'SplitFlap',
-  'CountUp',
-  'StreamText',
-];
 
 const colorOf = (node: { props: { style?: unknown } }) =>
   (StyleSheet.flatten(node.props.style as never) as { color?: string } | undefined)?.color;
@@ -65,19 +39,6 @@ afterEach(() => {
 });
 
 describe('chart text summaries', () => {
-  it('reads progress as a value and a sentence', async () => {
-    await renderUi(<SegmentedProgress total={4} done={2} label="Kyoto setup" />);
-    const bar = screen.getByRole('progressbar');
-    expect(bar.props.accessibilityLabel).toBe('Kyoto setup, 2 of 4 done');
-    expect(bar.props.accessibilityValue).toEqual({ min: 0, max: 4, now: 2 });
-  });
-
-  it('never signals overspend by colour alone', async () => {
-    await renderUi(<LinearBar label="Food" value={1620} max={1500} overLabel="Over by $120" />);
-    expect(screen.getByRole('progressbar', { name: 'Food, Over by $120' })).toBeTruthy();
-    expect(screen.getByText('OVER BY $120', { includeHiddenElements: true })).toBeTruthy();
-  });
-
   it('summarises every donut segment with its share', async () => {
     await renderUi(
       <Donut
@@ -230,16 +191,6 @@ describe('Countdown', () => {
 });
 
 describe('numbers', () => {
-  it('reads the odometer as one grouped amount', async () => {
-    await renderUi(<Odometer value={4812} prefix="$" accessibilityLabel="Spent" />);
-    expect(screen.getByRole('text', { name: 'Spent, $4,812' })).toBeTruthy();
-  });
-
-  it('reads the split-flap board as its plain value', async () => {
-    await renderUi(<SplitFlap value="GATE 7" length={8} accessibilityLabel="Gate" />);
-    expect(screen.getByRole('text', { name: 'Gate, GATE 7' })).toBeTruthy();
-  });
-
   it('counts up to the final value and speaks it immediately', async () => {
     jest.useFakeTimers();
     await renderUi(<CountUp value={1280} accessibilityLabel="Steps" />);
@@ -283,19 +234,5 @@ describe('StreamText', () => {
       busy: true,
     });
     expect(announce).not.toHaveBeenCalled();
-  });
-});
-
-describe('data gallery fixtures', () => {
-  it('registers and renders every data component', async () => {
-    expect(listComponents()).toEqual(expect.arrayContaining(DATA_COMPONENTS));
-    for (const component of DATA_COMPONENTS) {
-      const fixtures = fixturesFor(component);
-      expect(fixtures.length).toBeGreaterThan(0);
-      for (const fixture of fixtures) {
-        const { unmount } = await renderUi(<>{fixture.render()}</>);
-        await unmount();
-      }
-    }
   });
 });

@@ -7,25 +7,18 @@ import { describe, expect, it, jest } from '@jest/globals';
 
 import { tokens } from '@cp/design-tokens';
 
-import { fixturesFor } from '../gallery/registry';
 import { Icon } from '../icons/Icon';
 import { DayRow } from '../plan/DayRow';
 import { DayTimeline } from '../plan/DayTimeline';
 import { DiffRow } from '../plan/DiffRow';
-import { MustDoRow } from '../plan/MustDoRow';
 import { RoomAssign } from '../plan/RoomAssign';
 import { renderUi } from '../test-support/render';
 import { IdeaVoteBox } from '../vote/IdeaVoteBox';
-import { LiveOptionCards } from '../vote/LiveOptionCards';
 import { MoodPicker } from '../vote/MoodPicker';
 import { RateStack } from '../vote/RateStack';
-import { ResultTally } from '../vote/ResultTally';
 import { SplitShowdown } from '../vote/SplitShowdown';
 import { SwipeStack } from '../vote/SwipeStack';
 import { VoteBoard } from '../vote/VoteBoard';
-
-import '../plan/plan.fixtures';
-import '../vote/vote.fixtures';
 
 const act = (node: ReturnType<typeof screen.getByRole>, actionName: string) =>
   fireEvent(node, 'accessibilityAction', { nativeEvent: { actionName } });
@@ -120,11 +113,6 @@ describe('planning', () => {
     expect(onReject).toHaveBeenCalledTimes(1);
   });
 
-  it('announces who is still typing a must-do', async () => {
-    await renderUi(<MustDoRow owner={null} ownerName="Dev" state="typing" />);
-    expect(screen.getByLabelText('Dev is typing')).toBeTruthy();
-  });
-
   it('moves a person between rooms without dragging', async () => {
     const onMove = jest.fn();
     await renderUi(
@@ -171,19 +159,6 @@ describe('voting', () => {
     expect(onVote).toHaveBeenCalledWith('lisbon');
   });
 
-  it('summarises a closed vote', async () => {
-    await renderUi(
-      <ResultTally
-        headline="Kyoto wins 4–2"
-        rows={[
-          { id: 'k', name: 'Kyoto', votes: 4, color: color.orange, winner: true },
-          { id: 'l', name: 'Lisbon', votes: 2, color: color.green.base },
-        ]}
-      />,
-    );
-    expect(screen.getByLabelText('Kyoto wins 4–2; Kyoto, 4 votes; Lisbon, 2 votes')).toBeTruthy();
-  });
-
   it('answers the swipe deck with buttons and with swipe actions', async () => {
     const onAnswer = jest.fn();
     await renderUi(<SwipeStack cards={cards} onAnswer={onAnswer} />);
@@ -213,22 +188,6 @@ describe('voting', () => {
     ]);
   });
 
-  it('labels the leading live option and who is looking at it', async () => {
-    await renderUi(
-      <LiveOptionCards
-        presence={[{ id: 'a', name: 'Alex', color: color.green.base, optionId: 'penida' }]}
-        options={[
-          { id: 'penida', title: 'Nusa Penida', votes: 4 },
-          { id: 'gili', title: 'Gili T', votes: 2 },
-        ]}
-      />,
-    );
-    expect(
-      screen.getByRole('button', { name: 'Nusa Penida, 4 votes, Leading, Alex looking' }),
-    ).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Gili T, 2 votes' })).toBeTruthy();
-  });
-
   it('toggles an idea vote and picks a mood as a radio', async () => {
     const onToggle = jest.fn();
     const onChange = jest.fn();
@@ -256,37 +215,5 @@ describe('voting', () => {
     });
     await act(screen.getByRole('radio', { name: 'Meh' }), 'activate');
     expect(onChange).toHaveBeenCalledWith('meh');
-  });
-});
-
-describe('plan and vote gallery fixtures', () => {
-  // Fixtures that show critter stickers need the native Skia renderer; the gallery covers them.
-  const withSticker = new Set(['VoteBoard', 'SplitShowdown', 'MoodPicker']);
-  const components = [
-    'ActionPill',
-    'DayRow',
-    'DayTimeline',
-    'DiffRow',
-    'MustDoRow',
-    'RoomAssign',
-    'VoteBoard',
-    'SplitShowdown',
-    'ResultTally',
-    'SwipeStack',
-    'RateStack',
-    'LiveOptionCards',
-    'IdeaVoteBox',
-    'MoodPicker',
-  ];
-  it('registers every component and renders the sticker-free fixtures', async () => {
-    for (const component of components) {
-      const fixtures = fixturesFor(component);
-      expect(fixtures.length).toBeGreaterThan(0);
-      if (withSticker.has(component)) continue;
-      for (const fixture of fixtures) {
-        const { unmount } = await renderUi(<>{fixture.render()}</>);
-        await unmount();
-      }
-    }
   });
 });

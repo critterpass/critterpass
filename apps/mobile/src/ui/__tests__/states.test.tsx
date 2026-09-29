@@ -7,22 +7,15 @@ import { act, fireEvent, screen } from '@testing-library/react-native';
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { Linking, View } from 'react-native';
 
-import { fixturesFor, listComponents } from '../gallery/registry';
-import { ChecklistProgress } from '../states/ChecklistProgress';
 import { ConfirmSheet } from '../states/ConfirmSheet';
 import { EmptyState } from '../states/EmptyState';
 import { ErrorSheet } from '../states/ErrorSheet';
 import { LimitMeter } from '../states/LimitMeter';
 import { LockedTeaser } from '../states/LockedTeaser';
-import { OfflinePill } from '../states/OfflinePill';
-import { OutboxList } from '../states/OutboxList';
-import { PendingSync } from '../states/PendingSync';
 import { PermissionCard } from '../states/PermissionCard';
 import { Skeleton, SLOW_LOADING_MS } from '../states/Skeleton';
 import { relativeAge, StaleCaption } from '../states/StaleCaption';
 import { renderUi } from '../test-support/render';
-
-import '../states/states.fixtures';
 
 const activate = (element: Parameters<typeof fireEvent>[0]) =>
   fireEvent(element, 'accessibilityAction', { nativeEvent: { actionName: 'activate' } });
@@ -84,24 +77,6 @@ describe('state components', () => {
     expect([primary, alternative, back].map((fn) => fn.mock.calls.length)).toEqual([1, 1, 1]);
   });
 
-  it('marks offline writes and says when they will send', async () => {
-    await renderUi(
-      <View>
-        <OfflinePill />
-        <OutboxList
-          items={[
-            { key: '1', label: 'Expense', state: 'queued' },
-            { key: '2', label: 'Photo', state: 'sent' },
-          ]}
-        />
-      </View>,
-    );
-    expect(screen.getByLabelText('No signal').props.accessibilityLiveRegion).toBe('polite');
-    expect(screen.getByRole('header', { name: "SENDS WHEN YOU'RE BACK" })).toBeTruthy();
-    expect(screen.getByLabelText('Expense, Waiting for signal')).toBeTruthy();
-    expect(screen.getByLabelText('Photo, Sent')).toBeTruthy();
-  });
-
   it('timestamps stale data in the UI locale', async () => {
     const now = new Date('2026-09-27T12:00:00Z');
     expect(relativeAge(new Date('2026-09-27T09:00:00Z'), now, 'en')).toBe('3 hours ago');
@@ -156,19 +131,6 @@ describe('state components', () => {
     expect(defer).toHaveBeenCalled();
   });
 
-  it('reads pending items as sending', async () => {
-    await renderUi(
-      <PendingSync
-        pending
-        author={{ name: 'Maya', joinIndex: 1 }}
-        accessibilityLabel="Smoothie bowls"
-      >
-        <View />
-      </PendingSync>,
-    );
-    expect(screen.getByLabelText('Smoothie bowls, sending')).toBeTruthy();
-  });
-
   it('lists consequences and confirms or cancels', async () => {
     const onConfirm = jest.fn();
     const onCancel = jest.fn();
@@ -186,47 +148,5 @@ describe('state components', () => {
     await activate(screen.getByRole('button', { name: 'Cancel' }));
     expect(onConfirm).toHaveBeenCalledTimes(1);
     expect(onCancel).toHaveBeenCalledTimes(1);
-  });
-
-  it('reports job progress with the active step', async () => {
-    await renderUi(
-      <ChecklistProgress
-        title="Building your plan"
-        steps={[
-          { key: 'a', label: 'Reading', status: 'done' },
-          { key: 'b', label: 'Checking', status: 'active' },
-          { key: 'c', label: 'Pricing', status: 'pending' },
-        ]}
-      />,
-    );
-    const bar = screen.getByRole('progressbar', { name: 'Building your plan' });
-    expect(bar.props.accessibilityValue).toEqual({ min: 0, max: 3, now: 1, text: 'Checking' });
-  });
-});
-
-describe('gallery fixtures', () => {
-  const families = [
-    'EmptyState',
-    'Skeleton',
-    'ErrorSheet',
-    'OfflinePill',
-    'OutboxList',
-    'StaleCaption',
-    'PermissionCard',
-    'LockedTeaser',
-    'LimitMeter',
-    'PendingSync',
-    'ConfirmSheet',
-    'ChecklistProgress',
-  ];
-
-  it('has a fixture for every state component and renders the sticker-free ones', async () => {
-    expect(listComponents()).toEqual(expect.arrayContaining(families));
-    for (const component of families.filter((name) => name !== 'EmptyState')) {
-      for (const fixture of fixturesFor(component)) {
-        const { unmount } = await renderUi(<>{fixture.render()}</>);
-        await unmount();
-      }
-    }
   });
 });

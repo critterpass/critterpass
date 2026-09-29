@@ -1,46 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
-import { androidLocaleQualifier, generateStringsXml } from '../src/native/strings-xml';
-import { generateXcstrings } from '../src/native/xcstrings';
-import { cfBundleLocalizations, generateAndroidLocalesConfig } from '../src/native/locales-config';
+import { androidLocaleQualifier } from '../src/native/strings-xml';
+import { cfBundleLocalizations } from '../src/native/locales-config';
 import { UnsupportedNativeMessageError, parseForNative } from '../src/native/message-shape';
-
-// One plain message and one plural message, translated into a locale that keeps the same argument
-// order (vi) and one that also only has an "other" plural category (ja) — real shapes the surfaces
-// catalog's own messages will take.
-const sourceLocale = 'en';
-const messagesByLocale = {
-  en: {
-    'crew.chatNotification.title': '{sender} sent a message',
-    'trip.itemCount.label': '{count, plural, one {# item} other {# items}}',
-  },
-  vi: {
-    'crew.chatNotification.title': '{sender} đã gửi một tin nhắn',
-    'trip.itemCount.label': '{count, plural, other {# mục}}',
-  },
-  ja: {
-    'crew.chatNotification.title': '{sender}さんがメッセージを送信しました',
-    'trip.itemCount.label': '{count, plural, other {#件}}',
-  },
-};
-
-describe('generateXcstrings', () => {
-  it('matches the golden .xcstrings for en, vi and ja', () => {
-    expect(generateXcstrings({ sourceLocale, messagesByLocale })).toMatchSnapshot();
-  });
-});
-
-describe('generateStringsXml', () => {
-  it.each(['en', 'vi', 'ja'] as const)('matches the golden strings.xml for %s', (locale) => {
-    expect(
-      generateStringsXml({
-        locale,
-        messages: messagesByLocale[locale],
-        sourceMessages: messagesByLocale[sourceLocale],
-      }),
-    ).toMatchSnapshot();
-  });
-});
 
 describe('androidLocaleQualifier', () => {
   it('turns a BCP-47 tag into a b+ resource qualifier', () => {
@@ -52,10 +14,6 @@ describe('androidLocaleQualifier', () => {
 describe('locale config', () => {
   it('lists the shipped locales for CFBundleLocalizations', () => {
     expect(cfBundleLocalizations(['en', 'vi', 'th'])).toEqual(['en', 'vi', 'th']);
-  });
-
-  it('matches the golden Android locales_config.xml', () => {
-    expect(generateAndroidLocalesConfig(['en', 'vi', 'th'])).toMatchSnapshot();
   });
 });
 

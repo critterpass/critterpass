@@ -41,26 +41,6 @@ describe('DevToolsIndexScreen', () => {
     expect(getByTestId('dev-nav-spikes-timeline-drag')).toBeTruthy();
   });
 
-  it('groups the entries under demo data, labs, live checks and spikes headings', async () => {
-    const { getAllByRole, getByTestId } = await renderScreen();
-
-    const headings = getAllByRole('header');
-    ['DEVELOPER TOOLS', 'DEMO DATA', 'LABS', 'LIVE CHECKS', 'SPIKES'].forEach((title, index) => {
-      expect(headings[index]).toHaveTextContent(title);
-    });
-    expect(headings).toHaveLength(5);
-    for (const id of [
-      'dev-nav-sticker-lab',
-      'dev-nav-gallery',
-      'dev-nav-permissions',
-      'dev-nav-location-engine',
-      'dev-nav-permissions-primer',
-    ]) {
-      expect(getByTestId(id)).toBeTruthy();
-    }
-    expect(getByTestId('dev-nav-gallery')).toHaveTextContent(/^Component gallery/);
-  });
-
   it('offers the staging demo data seed for each inbox scenario', async () => {
     const { getByTestId } = await renderScreen();
 

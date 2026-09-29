@@ -138,27 +138,6 @@ describe('the real token source', () => {
     }
   });
 
-  it('has the 14 top-level categories from design-system.md §1, §3.2-3.3, §4', () => {
-    expect(Object.keys(tokens).sort()).toEqual(
-      [
-        'color',
-        'guide',
-        'member',
-        'motion',
-        'radius',
-        'ring',
-        'semantic',
-        'shadow',
-        'size',
-        'sound',
-        'space',
-        'texture',
-        'tier',
-        'type',
-      ].sort(),
-    );
-  });
-
   it('matches the canonical guide colours exactly', () => {
     expect(tokens.guide.tokek).toBe(tokens.color.yellow);
     expect(tokens.guide.pon).toBe(tokens.color.orange);

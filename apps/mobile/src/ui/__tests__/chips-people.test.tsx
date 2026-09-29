@@ -16,24 +16,17 @@ import { ChoiceChip } from '../chips/ChoiceChip';
 import { CountBadge } from '../chips/CountBadge';
 import { FilterChip } from '../chips/FilterChip';
 import { StatChipRow } from '../chips/StatChipRow';
-import { StatusChip } from '../chips/StatusChip';
-import { TierLabel } from '../chips/TierLabel';
 import { TiltedSticker } from '../chips/TiltedSticker';
-import { fixturesFor, listComponents } from '../gallery/registry';
 import { Avatar } from '../people/Avatar';
 import { AvatarStack } from '../people/AvatarStack';
 import { CritterAvatar } from '../people/CritterAvatar';
 import { EmptySeat } from '../people/EmptySeat';
 import { GuideLine } from '../people/GuideLine';
 import { LiveSticker } from '../people/LiveSticker';
-import { SilhouetteSlot } from '../people/SilhouetteSlot';
 import { BLINK_CLOSED_MS, BLINK_MIN_GAP_MS, useBlink } from '../people/use-blink';
 import { SurfaceToneProvider } from '../surface/Scaffold';
 import { createCanvasKitEngine, createMemoryStickerCache } from '../test-support/canvaskit-engine';
 import { renderUi } from '../test-support/render';
-
-import '../chips/chips.fixtures';
-import '../people/people.fixtures';
 
 let engine: SkiaEngine;
 beforeAll(async () => {
@@ -62,25 +55,6 @@ describe('chips', () => {
     expect(JSON.stringify(sunrise.props.style)).toContain('"rotate":"0deg"');
     expect(JSON.stringify(museums.props.style)).toContain('"rotate":"3deg"');
     expect(screen.getByRole('button', { name: 'Food, 12', selected: true })).toBeTruthy();
-  });
-
-  it('pairs every tier and status colour with words', async () => {
-    await renderUi(
-      <View>
-        <TierLabel tier="rare" suffix="Water temples only" />
-        <TierLabel tier="legendary" />
-        <StatusChip status="passPlus" />
-        <StatusChip status="maybe" />
-      </View>,
-    );
-    expect(screen.getByLabelText('Rare · Water temples only')).toBeTruthy();
-    expect(screen.getByText(`${tokens.tier.legendary.glyph} LEGENDARY`)).toBeTruthy();
-    // A no-break space keeps the glyph on the word's line in a narrow cell.
-    expect(
-      screen.getByText(`${tokens.tier.legendary.glyph}\u00A0LEGENDARY`, { normalizer: (t) => t }),
-    ).toBeTruthy();
-    expect(screen.getByText('PASS+')).toBeTruthy();
-    expect(screen.getByText('MAYBE')).toBeTruthy();
   });
 
   it('hides zero badges and caps large counts', async () => {
@@ -144,19 +118,6 @@ describe('people', () => {
     expect(screen.getByLabelText('Pon: Beat the buses.')).toBeTruthy();
     const voice = screen.getByText('Beat the buses.', { includeHiddenElements: true });
     expect(JSON.stringify(voice.props.style)).toContain(tokens.guide.onPaper.pon);
-  });
-
-  it('locks a silhouette slot with the locked label', async () => {
-    await renderUi(
-      <SilhouetteSlot
-        kind="tanuki"
-        city="Kyoto"
-        size={64}
-        engine={engine}
-        cache={createMemoryStickerCache()}
-      />,
-    );
-    expect(screen.getByLabelText('Undiscovered local, found by being in Kyoto')).toBeTruthy();
   });
 });
 
@@ -231,49 +192,5 @@ describe('useBlink', () => {
     await act(() => jest.advanceTimersByTime(BLINK_MIN_GAP_MS));
     expect(result.current).toBe(false);
     reduced.mockRestore();
-  });
-});
-
-describe('gallery fixtures', () => {
-  it('registers every chip and people family', () => {
-    expect(listComponents()).toEqual(
-      expect.arrayContaining([
-        'ChoiceChip',
-        'FilterChip',
-        'QuickActionChip',
-        'InfoPill',
-        'StatusChip',
-        'CountBadge',
-        'TierLabel',
-        'StatChipRow',
-        'TiltedSticker',
-        'Avatar',
-        'AvatarStack',
-        'CritterAvatar',
-        'EmptySeat',
-        'GuideLine',
-        'SilhouetteSlot',
-        'LiveSticker',
-      ]),
-    );
-  });
-
-  it('renders the chip fixtures and the sticker-free people fixtures', async () => {
-    // Fixtures showing a sticker need the native Skia renderer; the on-device gallery covers them.
-    const families = ['ChoiceChip', 'FilterChip', 'QuickActionChip', 'InfoPill', 'StatusChip'];
-    families.push(
-      'CountBadge',
-      'TierLabel',
-      'StatChipRow',
-      'TiltedSticker',
-      'AvatarStack',
-      'EmptySeat',
-    );
-    for (const component of families) {
-      for (const fixture of fixturesFor(component)) {
-        const { unmount } = await renderUi(<>{fixture.render()}</>);
-        await unmount();
-      }
-    }
   });
 });

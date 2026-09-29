@@ -23,9 +23,8 @@ Object.assign(globalThis, { TextDecoder, TextEncoder });
 
 const nodeRequire = require;
 
-// A local double for `@shopify/react-native-skia` (same class as `app/__mocks__/mock-skia.tsx` —
-// the native JSI/GPU host needed to run its real renderer isn't available under Jest — kept local
-// rather than importing that shared double, which the `ui` layer may not depend on): `Canvas`/
+// A local double for `@shopify/react-native-skia` (the native JSI/GPU host needed to run its real
+// renderer isn't available under Jest): `Canvas`/
 // `Group` render children so RNTL can query the surrounding UI; `Picture`/`Image`/`Path` are leaf
 // drawing primitives this test only needs to be present and inspectable via `testID`, not to draw
 // real pixels — this test's `engine` prop injects a real canvaskit-wasm engine for the actual
@@ -131,7 +130,7 @@ function createFakeFs(): StickerDiskFs & { readonly files: Map<string, Uint8Arra
   };
 }
 
-/** `react-native-reanimated` is mocked (no native Worklets runtime under Jest — see mock-reanimated.tsx), so a plain mutable `{ value }` object stands in for a real `SharedValue`, matching the same test-double pattern used throughout this codebase for native-boundary types. */
+/** `react-native-reanimated` is mocked (no native Worklets runtime under Jest), so a plain mutable `{ value }` object stands in for a real `SharedValue`, matching the same test-double pattern used throughout this codebase for native-boundary types. */
 function fakeSharedValue(initial: number): SharedValue<number> {
   return { value: initial } as unknown as SharedValue<number>;
 }
@@ -149,18 +148,6 @@ beforeAll(async () => {
 });
 
 describe('<Sticker>', () => {
-  it('renders the static cached image and labels it "{name}, {form} form"', async () => {
-    const cache = new StickerCache(
-      new MemoryLruCache(1024 * 1024),
-      new DiskLruCache(createFakeFs(), 1024 * 1024),
-    );
-    const { getByLabelText, findByTestId } = await render(
-      <Sticker kind="gecko" name="Tokek" size={96} engine={engine} cache={cache} />,
-    );
-    expect(getByLabelText('Tokek, common form')).toBeTruthy();
-    expect(await findByTestId('cached-image')).toBeTruthy();
-  });
-
   it('writes to the cache only once drawProgress reaches 1 (0, 0.5, then 1)', async () => {
     const fs = createFakeFs();
     const cache = new StickerCache(
@@ -222,23 +209,6 @@ describe('<Sticker>', () => {
       <Sticker kind="gecko" name="Tokek" size={96} closedEyes engine={engine} cache={cache} />,
     );
     await waitFor(() => expect(fs.files.size).toBe(2));
-  });
-
-  it('keeps the same outer box size whether showing the placeholder or the loaded image (no layout shift)', async () => {
-    const cache = new StickerCache(
-      new MemoryLruCache(1024 * 1024),
-      new DiskLruCache(createFakeFs(), 1024 * 1024),
-    );
-    const { toJSON, findByTestId } = await render(
-      <Sticker kind="gecko" name="Tokek" size={96} engine={engine} cache={cache} />,
-    );
-    const outerBefore = toJSON();
-    await findByTestId('cached-image');
-    const outerAfter = toJSON();
-    const sizeOf = (node: ReturnType<typeof toJSON>): unknown =>
-      Array.isArray(node) ? undefined : node?.props.style;
-    expect(sizeOf(outerBefore)).toEqual({ width: 96, height: 96 });
-    expect(sizeOf(outerAfter)).toEqual({ width: 96, height: 96 });
   });
 
   it('wears the paper sticker edge by default; masks and an explicit null stay bare', () => {

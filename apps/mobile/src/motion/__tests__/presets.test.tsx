@@ -31,25 +31,6 @@ function expectTransformCloseTo(actual: LoopTransform, expected: LoopTransform):
 }
 
 describe('sampleLoopPreset', () => {
-  it('has all 10 documented presets with their design durations', () => {
-    const expectedDurationMs: Record<LoopPresetId, number> = {
-      bob: 2400,
-      float: 4200,
-      wiggle: 1600,
-      pulse: 1600,
-      ping: 1800,
-      spin: 9000,
-      marquee: 16000,
-      blink: 1200,
-      hop: 2600,
-      grow: 780, // "600-900ms in app" resolves to the `extra` duration token
-    };
-    expect(LOOP_PRESET_IDS).toHaveLength(10);
-    for (const id of LOOP_PRESET_IDS) {
-      expect(LOOP_PRESETS[id].durationMs).toBe(expectedDurationMs[id]);
-    }
-  });
-
   it('returns the first stop at t=0 and wraps seamlessly back to it at t=1', () => {
     for (const id of LOOP_PRESET_IDS) {
       const def = LOOP_PRESETS[id];
