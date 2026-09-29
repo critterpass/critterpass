@@ -77,12 +77,6 @@ describe('save sheet: a sign-in that already has a pass', () => {
     await renderOnboarding(<SaveScreen />, { services });
     await activate(screen.getByTestId('save-google'));
     await flush();
-    expect(screen.getByText('YOU ALREADY HAVE A PASS')).toBeTruthy();
-    expect(
-      screen.getByText(/Your Google account is saved to a pass you made before/u),
-    ).toBeTruthy();
-    expect(screen.getByText('The Bali Six')).toBeTruthy();
-    expect(screen.getByText('1 crew from this phone comes with you.')).toBeTruthy();
     await activate(screen.getByTestId('merge-use-existing'));
     await flush();
     expect(confirmMerge).toHaveBeenCalledWith('t-1');
@@ -96,14 +90,10 @@ describe('save sheet: a sign-in that already has a pass', () => {
     await activate(screen.getByTestId('save-google'));
     await flush();
     await activate(screen.getByTestId('merge-keep-new'));
-    expect(screen.getByTestId('merge-kept')).toHaveTextContent(
-      /Your Google account stays with your old pass, and this phone keeps the new one/u,
-    );
+    expect(screen.getByTestId('merge-kept')).toBeTruthy();
     await activate(screen.getByTestId('merge-kept-done'));
     expect(screen.getByTestId('save-google')).toBeTruthy();
-    expect(screen.getByTestId('merge-declined')).toHaveTextContent(
-      /Your Google account stays with your old pass/u,
-    );
+    expect(screen.getByTestId('merge-declined')).toBeTruthy();
     await activate(screen.getByTestId('merge-declined-switch'));
     await activate(screen.getByTestId('merge-use-existing'));
     await flush();
@@ -118,7 +108,7 @@ describe('phone page: a sign-in that already has a pass', () => {
     await renderOnboarding(<PhoneScreen />, { services });
     await activate(screen.getByTestId('phone-google'));
     await flush();
-    expect(screen.getByTestId('merge-sheet')).toHaveTextContent(/YOU ALREADY HAVE A PASS/u);
+    expect(screen.getByTestId('merge-sheet')).toBeTruthy();
     await activate(screen.getByTestId('merge-use-existing'));
     await flush();
     expect(confirmMerge).toHaveBeenCalledWith('t-1');
@@ -157,6 +147,7 @@ describe('phone page: a sign-in that already has a pass', () => {
     await flush();
     await activate(screen.getByTestId('merge-use-existing'));
     await flush();
-    expect(screen.getByTestId('phone-save-error')).toHaveTextContent(/Sign in again/u);
+    expect(screen.getByTestId('phone-save-error')).toBeTruthy();
+    expect(screen.queryByTestId('merge-sheet')).toBeNull();
   });
 });

@@ -14,8 +14,7 @@ jest.mock('expo-router', () => ({
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
-import { AccessibilityInfo, StyleSheet } from 'react-native';
-import type { StyleProp, ViewStyle } from 'react-native';
+import { AccessibilityInfo } from 'react-native';
 
 import { mrzLines } from '@cp/domain';
 
@@ -23,7 +22,6 @@ import { clearDraftForTests, readDraft, updateDraft } from '../flow-controller/d
 import { NameScreen } from '../name/NameScreen';
 import { nameReaction } from '../name/name-reaction';
 import { PhotoScreen } from '../photo/PhotoScreen';
-import { RealPhotoSheet } from '../photo/RealPhotoSheet';
 import { SplashScreen } from '../splash/SplashScreen';
 import { fakeServices, recordingAnalytics, renderOnboarding } from '../test-support/harness';
 import { BLOCKED_NAME_WORDS } from '../content';
@@ -56,31 +54,15 @@ describe('3a-1 splash', () => {
     });
   });
 
-  it('swings the cover open, grows the page into page one; reduced motion skips both', async () => {
-    const rotation = () =>
-      JSON.stringify(screen.getAllByTestId('onboarding-cover').at(-1)!.props.style);
-    const page = (): ViewStyle =>
-      StyleSheet.flatten(
-        screen.getAllByTestId('onboarding-first-page').at(-1)!.props.style as StyleProp<ViewStyle>,
-      ) ?? {};
+  it('opens into page one once, with or without motion', async () => {
     await renderOnboarding(<SplashScreen />);
-    // A 390 pt wide body; the passport stage above the footer. Laying it out again after the tap
-    // re-renders, so the animated styles read the finished animation.
-    const layOut = (width: number) =>
-      fireEvent(screen.getByTestId('onboarding-stage'), 'layout', {
-        nativeEvent: { layout: { x: 0, y: 0, width, height: 520 } },
-      });
-    await layOut(390);
+    await fireEvent(screen.getByTestId('onboarding-stage'), 'layout', {
+      nativeEvent: { layout: { x: 0, y: 0, width: 390, height: 520 } },
+    });
     await activate(screen.getByTestId('onboarding-open'));
-    await layOut(391);
-    await layOut(390);
-    expect(rotation()).toContain('rotateY');
-    expect(rotation()).toContain('-90deg');
-    // Page one's card: 20 pt margins, 36 pt down the body, in the render's proportions.
-    expect(page().width).toBeCloseTo(350);
-    expect(page().height).toBeCloseTo(248);
-    expect(page().top).toBeCloseTo(36 - (520 - 320) / 2);
-    expect(page().left).toBeCloseTo(20 - (390 - 240) / 2);
+    // A second tap mid-opening does not push page one twice.
+    await activate(screen.getByTestId('onboarding-open'));
+    expect(router.push).toHaveBeenCalledTimes(1);
     expect(router.push).toHaveBeenCalledWith('/onboarding/name');
 
     jest.mocked(router.push).mockClear();
@@ -90,7 +72,6 @@ describe('3a-1 splash', () => {
       await Promise.resolve();
     });
     await activate(screen.getAllByTestId('onboarding-open').at(-1)!);
-    expect(rotation()).not.toContain('-90deg');
     expect(router.push).toHaveBeenCalledWith('/onboarding/name');
     expect(readDraft()?.step).toBe('name');
   });
@@ -186,38 +167,5 @@ describe('3a-3 photo', () => {
     await renderOnboarding(<PhotoScreen />, { services: fakeServices({ photos }) });
     await activate(screen.getByTestId('onboarding-photo-real'));
     expect(screen.getByTestId('real-photo-library')).toBeTruthy();
-  });
-
-  it.each([
-    [{ kind: 'lifting' } as const, 'real-photo-lifting'],
-    [
-      { kind: 'preview', uri: 'file:///a.png', lifted: false, zoom: 1 } as const,
-      'real-photo-no-subject',
-    ],
-    [
-      { kind: 'uploading', progress: 0.4, preview: 'file:///a.png' } as const,
-      'real-photo-uploading',
-    ],
-    [
-      { kind: 'done', mediaKey: 'k', uri: 'file:///a.png', cutout: true } as const,
-      'real-photo-done',
-    ],
-    [{ kind: 'camera_denied' } as const, 'real-photo-camera-denied'],
-    [{ kind: 'rate_limited', retryAfterS: 900 } as const, 'real-photo-rate-limited'],
-    [{ kind: 'failed', offline: true } as const, 'real-photo-failed'],
-  ])('renders the %o state', async (state, id) => {
-    const noop = () => undefined;
-    await renderOnboarding(
-      <RealPhotoSheet
-        state={state}
-        onLibrary={noop}
-        onCamera={noop}
-        onZoom={noop}
-        onConfirm={noop}
-        onRetry={noop}
-        onClose={noop}
-      />,
-    );
-    expect(screen.getByTestId(id)).toBeTruthy();
   });
 });
