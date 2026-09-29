@@ -27,7 +27,7 @@ CREATE POLICY stickers_select ON stickers FOR SELECT TO app_user
 CREATE POLICY stickers_system ON stickers FOR ALL TO app_system USING (true) WITH CHECK (true);
 GRANT SELECT ON stickers TO app_user;
 GRANT SELECT, INSERT ON stickers TO app_system;
-GRANT SELECT (id, user_id, crew_id, trip_id, kind, granted_at, created_at) ON stickers TO admin_reader;
+GRANT SELECT (created_at, crew_id, granted_at, id, kind, trip_id, user_id) ON stickers TO admin_reader;
 CREATE POLICY stickers_admin_reader ON stickers FOR SELECT TO admin_reader USING (true);
 
 -- The Settled Tokek: once a trip has no open payment and every participant's trip balance is zero,

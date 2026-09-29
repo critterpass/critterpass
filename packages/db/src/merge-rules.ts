@@ -326,3 +326,25 @@ registerMergeRule({
   personal: true,
 });
 registerMergeRule({ table: 'participant_dietary_flags', userColumn: 'user_id', strategy: 'drop' });
+// Money: a member's shares, scans and stickers follow them (their share of an expense and the
+// Settled Tokek of a trip exist once, the existing row wins); payout methods keep the surviving
+// account's own.
+registerMergeRule({
+  table: 'expense_shares',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['expense_id'],
+});
+registerMergeRule({ table: 'receipts', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({
+  table: 'stickers',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['trip_id', 'kind'],
+});
+registerMergeRule({
+  table: 'payout_methods',
+  userColumn: 'user_id',
+  strategy: 'keep_existing',
+  personal: true,
+});

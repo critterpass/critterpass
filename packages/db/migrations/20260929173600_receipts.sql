@@ -49,8 +49,9 @@ GRANT SELECT ON receipts TO app_user;
 GRANT INSERT (id, user_id, trip_id, crew_id, media_key, quality_issue, ocr_source, ocr_lines)
   ON receipts TO app_user;
 GRANT SELECT, INSERT, UPDATE ON receipts TO app_system;
-GRANT SELECT (id, user_id, trip_id, crew_id, expense_id, status, quality_issue, ocr_source,
-  failure_reason, parsed_at, created_at, updated_at) ON receipts TO admin_reader;
+GRANT SELECT (created_at, crew_id, expense_id, failure_reason, id, media_key, ocr_lines, ocr_source,
+  parsed, parsed_at, quality_issue, status, suggestions, trip_id, updated_at, user_id) ON receipts
+  TO admin_reader;
 CREATE POLICY receipts_admin_reader ON receipts FOR SELECT TO admin_reader USING (true);
 
 -- PowerSync publication (docs/code-standards.md §13), hand-copied from

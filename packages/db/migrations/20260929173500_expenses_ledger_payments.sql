@@ -245,16 +245,17 @@ GRANT SELECT ON payments TO app_user;
 GRANT SELECT, INSERT, UPDATE ON payments TO app_system;
 
 -- Ops console reads (non-C3 money rows).
-GRANT SELECT (id, crew_id, trip_id, payer_id, amount_minor, currency, fx_snapshot_id,
-  crew_amount_minor, crew_currency, split_mode, category, local_date, trip_day, source, created_by,
-  deleted_at, version, created_at, updated_at) ON expenses TO admin_reader;
+GRANT SELECT (amount_minor, booking_id, boost_id, category, created_at, created_by, crew_amount_minor,
+  crew_currency, crew_id, currency, deleted_at, deleted_by, description, fx_snapshot_id, id, local_date,
+  merchant, payer_id, poi_id, receipt_id, ride_id, source, spent_at, split_mode, trip_day, trip_id,
+  updated_at, version) ON expenses TO admin_reader;
 CREATE POLICY expenses_admin_reader ON expenses FOR SELECT TO admin_reader USING (true);
-GRANT SELECT (id, crew_id, trip_id, debtor_id, creditor_id, amount_minor, currency, source_kind,
-  source_id, reverses_id, created_at) ON ledger_entries TO admin_reader;
+GRANT SELECT (amount_minor, created_at, creditor_id, crew_id, currency, debtor_id, id, reverses_id,
+  source_id, source_kind, trip_id) ON ledger_entries TO admin_reader;
 CREATE POLICY ledger_entries_admin_reader ON ledger_entries FOR SELECT TO admin_reader USING (true);
-GRANT SELECT (id, crew_id, trip_id, from_id, to_id, amount_minor, currency, method, status,
-  requested_at, marked_at, confirmed_at, auto_confirmed, disputed_at, created_at, updated_at)
-  ON payments TO admin_reader;
+GRANT SELECT (amount_minor, auto_confirmed, confirmed_at, created_at, created_by, crew_id, currency,
+  dispute_note, disputed_at, from_id, id, last_nudged_at, marked_at, method, reissued_from_id,
+  requested_at, status, to_id, trip_id, updated_at, version) ON payments TO admin_reader;
 CREATE POLICY payments_admin_reader ON payments FOR SELECT TO admin_reader USING (true);
 
 -- ---------------------------------------------------------------------------------------------
