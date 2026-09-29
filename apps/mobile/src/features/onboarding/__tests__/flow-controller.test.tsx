@@ -117,6 +117,35 @@ describe('pass sync', () => {
     expect((await listQueuedCommands(stack.db)).length).toBe(1);
   });
 
+  it('sends a refused start_pass once, not again on every edit of the name', async () => {
+    const posted: string[] = [];
+    stack = await openTestLocalFirst({
+      holdUploads: true,
+      transport: {
+        postJson: (path) => {
+          posted.push(path);
+          return Promise.resolve({
+            status: 422,
+            body: { error: { code: 'VALIDATION', message: 'VALIDATION', retryable: false } },
+          });
+        },
+      },
+    });
+    updateDraft((d) => ({ ...d, step: 'name' }));
+    await render(<PassSync />, { wrapper: stack.wrapper });
+    await waitFor(() => expect(posted).toEqual(['/v1/cmd/start_pass']));
+
+    for (const name of ['W', 'Wi', 'Win', 'Wins', 'Winst']) {
+      await act(async () => {
+        updateDraft((d) => ({ ...d, given_name: name }));
+        await Promise.resolve();
+      });
+    }
+
+    expect(posted).toEqual(['/v1/cmd/start_pass']);
+    expect(readDraft()?.number).toBeNull();
+  });
+
   it('waits for the session before sending anything', async () => {
     updateDraft((d) => ({ ...d, ...FILLED, step: 'issued' }));
     await render(<PassSync />);

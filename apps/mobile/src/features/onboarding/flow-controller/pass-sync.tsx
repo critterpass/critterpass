@@ -1,6 +1,7 @@
 /**
  * Carries the device's pass to the server once there is a session: reserves the pass number with
- * `start_pass` as soon as a draft exists (online only; offline the pass shows the placeholder), and
+ * `start_pass` as soon as a draft exists (online only; offline, or when the server refuses it, the
+ * pass shows the placeholder; see number-reserver for when it is resent), and
  * hands `issue_pass` to the offline queue once the pass is issued, where it replays until applied.
  * The server's number then arrives through the synced `passes` row.
  */
@@ -18,6 +19,7 @@ import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';
 import { msg } from '@lingui/core/macro';
 
 import { readDraft, readPassSync, updateDraft, updatePassSync, usePassDraft } from './draft-store';
+import { createNumberReserver, type NumberReserver } from './number-reserver';
 
 export const START_PASS = defineClientCommand<{ pass_id: string }>({
   name: 'start_pass',
@@ -42,25 +44,39 @@ export interface PassSyncProps {
 export function PassSync({ writeAppGroupImage }: PassSyncProps) {
   const localFirst = useContext(LocalFirstContext);
   const draft = usePassDraft();
-  const starting = useRef(false);
+  const reserver = useRef<NumberReserver | null>(null);
+
+  // One reserver per session: it decides when `start_pass` goes out (never once per draft edit).
+  useEffect(() => {
+    if (localFirst === null) return undefined;
+    const next = createNumberReserver({
+      payload: () => {
+        const current = readDraft();
+        const sync = readPassSync();
+        if (current === null || current.number !== null) return null;
+        if (sync.numberReserved || sync.issueQueued) return null;
+        return { pass_id: current.pass_id };
+      },
+      send: (payload) => localFirst.commands.send(START_PASS, payload),
+      onApplied: (result) => {
+        if (!isStartPassResult(result)) return;
+        const number = result.number;
+        updateDraft((d) => ({ ...d, number }));
+        updatePassSync({ numberReserved: true });
+      },
+      network: localFirst.network,
+    });
+    reserver.current = next;
+    return () => {
+      next.stop();
+      if (reserver.current === next) reserver.current = null;
+    };
+  }, [localFirst]);
 
   // Reserve the number while the user fills in the pass.
   useEffect(() => {
-    if (localFirst === null || draft === null || draft.number !== null || starting.current) return;
-    if (readPassSync().numberReserved || readPassSync().issueQueued) return;
-    starting.current = true;
-    void localFirst.commands
-      .send(START_PASS, { pass_id: draft.pass_id })
-      .then((result) => {
-        if (result.kind === 'applied' && isStartPassResult(result.result)) {
-          const number = result.result.number;
-          updateDraft((d) => ({ ...d, number }));
-          updatePassSync({ numberReserved: true });
-        }
-      })
-      .finally(() => {
-        starting.current = false;
-      });
+    if (draft === null || draft.number !== null) return;
+    reserver.current?.request();
   }, [localFirst, draft]);
 
   // Queue the issue once, as soon as the pass is issued on the device.
