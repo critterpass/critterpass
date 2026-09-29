@@ -1,0 +1,2250 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`guest guide page draws the place facts, the locals as hints and the brief with its sources 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "backgroundColor": "#17142a",
+          "flex": 1,
+        }
+      }
+      testID="guest-page"
+    >
+      <RCTScrollView
+        contentContainerStyle={
+          [
+            {
+              "gap": 20,
+              "paddingHorizontal": 20,
+            },
+            {
+              "paddingBottom": 58,
+              "paddingTop": 55,
+            },
+          ]
+        }
+      >
+        <View>
+          <View
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "nowrap",
+                },
+                {
+                  "alignItems": "center",
+                  "justifyContent": "space-between",
+                },
+                undefined,
+              ]
+            }
+          >
+            <View
+              accessibilityActions={
+                [
+                  {
+                    "label": "← MOROCCO",
+                    "name": "activate",
+                  },
+                ]
+              }
+              accessibilityLabel="← MOROCCO"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "disabled": false,
+                  "selected": false,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+              style={
+                [
+                  {
+                    "minHeight": 44,
+                    "minWidth": 44,
+                  },
+                  {
+                    "alignItems": "flex-start",
+                    "justifyContent": "center",
+                  },
+                  {
+                    "transform": [
+                      {
+                        "scale": 1,
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="guest-back"
+            >
+              <View
+                style={
+                  [
+                    {
+                      "borderRadius": 16,
+                      "justifyContent": "center",
+                      "minHeight": 32,
+                      "paddingHorizontal": 14,
+                    },
+                    {
+                      "backgroundColor": "#2c2750",
+                    },
+                  ]
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#f4efe4",
+                        "fontFamily": "Archivo-W100-800",
+                        "fontSize": 14,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0.84,
+                        "lineHeight": 12.04,
+                      },
+                      undefined,
+                      {
+                        "marginTop": -5.725999999999999,
+                        "paddingTop": 5.725999999999999,
+                      },
+                    ]
+                  }
+                >
+                  ← MOROCCO
+                </Text>
+              </View>
+            </View>
+            <View
+              style={
+                {
+                  "transform": [
+                    {
+                      "perspective": 300,
+                    },
+                    {
+                      "rotateX": "0deg",
+                    },
+                  ],
+                }
+              }
+            >
+              <View
+                accessibilityActions={
+                  [
+                    {
+                      "label": "♡ SAVE",
+                      "name": "activate",
+                    },
+                  ]
+                }
+                accessibilityLabel="♡ SAVE"
+                accessibilityRole="button"
+                accessibilityState={
+                  {
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }
+                accessible={true}
+                collapsable={false}
+                onAccessibilityAction={[Function]}
+                style={
+                  [
+                    {
+                      "minHeight": 44,
+                      "minWidth": 44,
+                    },
+                    {
+                      "alignItems": "flex-start",
+                      "justifyContent": "center",
+                    },
+                    {
+                      "transform": [
+                        {
+                          "scale": 1,
+                        },
+                      ],
+                    },
+                  ]
+                }
+                testID="guest-save"
+              >
+                <View
+                  style={
+                    [
+                      {
+                        "borderRadius": 16,
+                        "justifyContent": "center",
+                        "minHeight": 32,
+                        "paddingHorizontal": 14,
+                      },
+                      {
+                        "backgroundColor": "#2c2750",
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    allowFontScaling={false}
+                    onLayout={[Function]}
+                    onTextLayout={[Function]}
+                    style={
+                      [
+                        {
+                          "color": "#f4efe4",
+                          "fontFamily": "Archivo-W100-800",
+                          "fontSize": 14,
+                          "fontStyle": "normal",
+                          "letterSpacing": 0.84,
+                          "lineHeight": 12.04,
+                        },
+                        undefined,
+                        {
+                          "marginTop": -5.725999999999999,
+                          "paddingTop": 5.725999999999999,
+                        },
+                      ]
+                    }
+                  >
+                    ♡ SAVE
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              {
+                "backgroundColor": "#ffd84a",
+                "borderRadius": 22,
+                "gap": 8,
+                "padding": 20,
+              }
+            }
+          >
+            <View
+              style={
+                [
+                  {
+                    "alignSelf": "flex-end",
+                  },
+                  {},
+                ]
+              }
+            >
+              <View
+                accessibilityLabel="Tokek"
+                style={
+                  {
+                    "height": 88,
+                    "width": 88,
+                  }
+                }
+              />
+            </View>
+            <Text
+              allowFontScaling={false}
+              onLayout={[Function]}
+              onTextLayout={[Function]}
+              style={
+                [
+                  {
+                    "color": "#17142a",
+                    "fontFamily": "Archivo-W62-900",
+                    "fontSize": 176,
+                    "fontStyle": "normal",
+                    "fontVariant": [
+                      "tabular-nums",
+                    ],
+                    "letterSpacing": -3.52,
+                    "lineHeight": 151.35999999999999,
+                  },
+                  undefined,
+                  {
+                    "marginTop": -71.98399999999998,
+                    "paddingTop": 71.98399999999998,
+                  },
+                ]
+              }
+            >
+              MARRAKECH
+            </Text>
+            <Text
+              allowFontScaling={false}
+              onLayout={[Function]}
+              onTextLayout={[Function]}
+              style={
+                [
+                  {
+                    "color": "#17142a",
+                    "fontFamily": "Geist-800",
+                    "fontSize": 11,
+                    "fontStyle": "normal",
+                    "letterSpacing": 0.88,
+                    "lineHeight": 15.399999999999999,
+                  },
+                  undefined,
+                  {
+                    "marginTop": -0.2970000000000015,
+                    "paddingTop": 0.2970000000000015,
+                  },
+                ]
+              }
+            >
+              GUEST GUIDE: TOKEK
+            </Text>
+            <View
+              accessibilityLabel="Tokek: Not my island, but I've done my homework."
+              accessible={true}
+              style={
+                [
+                  {
+                    "flexDirection": "row",
+                    "flexWrap": "nowrap",
+                  },
+                  {
+                    "alignItems": "center",
+                    "gap": 10,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <View
+                style={
+                  {
+                    "backgroundColor": "#1f1b38",
+                    "borderRadius": 20,
+                    "flex": 1,
+                    "paddingHorizontal": 14,
+                    "paddingVertical": 10,
+                  }
+                }
+              >
+                <Text
+                  allowFontScaling={false}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#ffd84a",
+                        "fontFamily": "Caveat-600",
+                        "fontSize": 20,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0,
+                        "lineHeight": 22,
+                      },
+                      undefined,
+                      {
+                        "marginTop": -1.7999999999999994,
+                        "paddingTop": 1.7999999999999994,
+                      },
+                    ]
+                  }
+                >
+                  Not my island, but I've done my homework.
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "flexDirection": "row",
+                  "flexWrap": "wrap",
+                },
+                {
+                  "alignItems": "center",
+                  "gap": 6,
+                },
+                undefined,
+              ]
+            }
+            testID="guest-facts"
+          >
+            <View
+              accessible={true}
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "alignSelf": "flex-start",
+                    "borderRadius": 9,
+                    "borderWidth": 2,
+                    "flexDirection": "row",
+                    "gap": 6,
+                    "minHeight": 32,
+                    "paddingHorizontal": 10,
+                  },
+                  {
+                    "borderColor": "#1f1b38",
+                  },
+                  null,
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#f4efe4",
+                      "fontFamily": "Geist-800",
+                      "fontSize": 11,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0.88,
+                      "lineHeight": 15.399999999999999,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.2970000000000015,
+                      "paddingTop": 0.2970000000000015,
+                    },
+                  ]
+                }
+              >
+                1 STOP FROM HOME
+              </Text>
+            </View>
+            <View
+              accessible={true}
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "alignSelf": "flex-start",
+                    "borderRadius": 9,
+                    "borderWidth": 2,
+                    "flexDirection": "row",
+                    "gap": 6,
+                    "minHeight": 32,
+                    "paddingHorizontal": 10,
+                  },
+                  {
+                    "borderColor": "#1f1b38",
+                  },
+                  null,
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#f4efe4",
+                      "fontFamily": "Geist-800",
+                      "fontSize": 11,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0.88,
+                      "lineHeight": 15.399999999999999,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.2970000000000015,
+                      "paddingTop": 0.2970000000000015,
+                    },
+                  ]
+                }
+              >
+                10 MAD ≈ $1
+              </Text>
+            </View>
+            <View
+              accessible={true}
+              style={
+                [
+                  {
+                    "alignItems": "center",
+                    "alignSelf": "flex-start",
+                    "borderRadius": 9,
+                    "borderWidth": 2,
+                    "flexDirection": "row",
+                    "gap": 6,
+                    "minHeight": 32,
+                    "paddingHorizontal": 10,
+                  },
+                  {
+                    "borderColor": "#1f1b38",
+                  },
+                  null,
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#f4efe4",
+                      "fontFamily": "Geist-800",
+                      "fontSize": 11,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0.88,
+                      "lineHeight": 15.399999999999999,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.2970000000000015,
+                      "paddingTop": 0.2970000000000015,
+                    },
+                  ]
+                }
+              >
+                BEST: MAR · OCT
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "flexDirection": "column",
+                },
+                {
+                  "gap": 8,
+                },
+                undefined,
+              ]
+            }
+            testID="guest-locals"
+          >
+            <View
+              style={
+                [
+                  {
+                    "flexDirection": "row",
+                    "flexWrap": "nowrap",
+                  },
+                  {
+                    "alignItems": "center",
+                    "justifyContent": "space-between",
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#ffd84a",
+                      "fontFamily": "Geist-700",
+                      "fontSize": 11,
+                      "fontStyle": "normal",
+                      "letterSpacing": 1.76,
+                      "lineHeight": 15.399999999999999,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.2970000000000015,
+                      "paddingTop": 0.2970000000000015,
+                    },
+                  ]
+                }
+              >
+                THE LOCALS
+              </Text>
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#a9a3c0",
+                      "fontFamily": "Geist-800",
+                      "fontSize": 11,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0.88,
+                      "lineHeight": 15.399999999999999,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.2970000000000015,
+                      "paddingTop": 0.2970000000000015,
+                    },
+                  ]
+                }
+              >
+                0/3 · FOUND BY BEING THERE
+              </Text>
+            </View>
+            <View
+              style={
+                [
+                  {
+                    "flexDirection": "row",
+                    "flexWrap": "wrap",
+                  },
+                  {
+                    "alignItems": "center",
+                    "gap": 10,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <View>
+                <View
+                  accessibilityLabel="A local. Hint: Lives in the cedar forests of the Middle Atlas."
+                  accessibilityRole="button"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="guest-local-0"
+                >
+                  <View
+                    style={
+                      [
+                        {
+                          "alignItems": "center",
+                          "backgroundColor": "#120f22",
+                          "borderRadius": 20,
+                          "height": 72,
+                          "justifyContent": "center",
+                          "width": 72,
+                        },
+                        {},
+                      ]
+                    }
+                  >
+                    <Text
+                      allowFontScaling={false}
+                      numberOfLines={3}
+                      onLayout={[Function]}
+                      onTextLayout={[Function]}
+                      style={
+                        [
+                          {
+                            "color": "#a9a3c0",
+                            "fontFamily": "Archivo-W70-900",
+                            "fontSize": 36,
+                            "fontStyle": "normal",
+                            "letterSpacing": 0,
+                            "lineHeight": 30.96,
+                          },
+                          undefined,
+                          {
+                            "marginTop": -14.723999999999997,
+                            "paddingTop": 14.723999999999997,
+                          },
+                        ]
+                      }
+                    >
+                      ?
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View>
+                <View
+                  accessibilityLabel="A local. Hint: Sleeps in the dunes by day."
+                  accessibilityRole="button"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="guest-local-1"
+                >
+                  <View
+                    style={
+                      [
+                        {
+                          "alignItems": "center",
+                          "backgroundColor": "#120f22",
+                          "borderRadius": 20,
+                          "height": 72,
+                          "justifyContent": "center",
+                          "width": 72,
+                        },
+                        {},
+                      ]
+                    }
+                  >
+                    <Text
+                      allowFontScaling={false}
+                      numberOfLines={3}
+                      onLayout={[Function]}
+                      onTextLayout={[Function]}
+                      style={
+                        [
+                          {
+                            "color": "#a9a3c0",
+                            "fontFamily": "Archivo-W70-900",
+                            "fontSize": 36,
+                            "fontStyle": "normal",
+                            "letterSpacing": 0,
+                            "lineHeight": 30.96,
+                          },
+                          undefined,
+                          {
+                            "marginTop": -14.723999999999997,
+                            "paddingTop": 14.723999999999997,
+                          },
+                        ]
+                      }
+                    >
+                      ?
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View>
+                <View
+                  accessibilityLabel="A local. Hint: Nests on sea cliffs south of Agadir."
+                  accessibilityRole="button"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="guest-local-2"
+                >
+                  <View
+                    style={
+                      [
+                        {
+                          "alignItems": "center",
+                          "backgroundColor": "#120f22",
+                          "borderRadius": 20,
+                          "height": 72,
+                          "justifyContent": "center",
+                          "width": 72,
+                        },
+                        {},
+                      ]
+                    }
+                  >
+                    <Text
+                      allowFontScaling={false}
+                      numberOfLines={3}
+                      onLayout={[Function]}
+                      onTextLayout={[Function]}
+                      style={
+                        [
+                          {
+                            "color": "#a9a3c0",
+                            "fontFamily": "Archivo-W70-900",
+                            "fontSize": 36,
+                            "fontStyle": "normal",
+                            "letterSpacing": 0,
+                            "lineHeight": 30.96,
+                          },
+                          undefined,
+                          {
+                            "marginTop": -14.723999999999997,
+                            "paddingTop": 14.723999999999997,
+                          },
+                        ]
+                      }
+                    >
+                      ?
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "flexDirection": "column",
+                },
+                {
+                  "gap": 8,
+                },
+                undefined,
+              ]
+            }
+            testID="guest-brief"
+          >
+            <Text
+              allowFontScaling={false}
+              onLayout={[Function]}
+              onTextLayout={[Function]}
+              style={
+                [
+                  {
+                    "color": "#ffd84a",
+                    "fontFamily": "Geist-700",
+                    "fontSize": 11,
+                    "fontStyle": "normal",
+                    "letterSpacing": 1.76,
+                    "lineHeight": 15.399999999999999,
+                  },
+                  undefined,
+                  {
+                    "marginTop": -0.2970000000000015,
+                    "paddingTop": 0.2970000000000015,
+                  },
+                ]
+              }
+            >
+              WHAT TOKEK KNOWS SO FAR
+            </Text>
+            <View
+              style={
+                [
+                  {
+                    "flexDirection": "column",
+                  },
+                  {
+                    "gap": 2,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#f4efe4",
+                      "fontFamily": "Geist-500",
+                      "fontSize": 14,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0,
+                      "lineHeight": 19.599999999999998,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.3780000000000019,
+                      "paddingTop": 0.3780000000000019,
+                    },
+                  ]
+                }
+              >
+                The Medina is full of intertwining narrow passageways and local shops.
+              </Text>
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#a9a3c0",
+                      "fontFamily": "Geist-500",
+                      "fontSize": 11.5,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0,
+                      "lineHeight": 16.099999999999998,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.31050000000000155,
+                      "paddingTop": 0.31050000000000155,
+                    },
+                  ]
+                }
+              >
+                en.wikivoyage.org
+              </Text>
+            </View>
+            <View
+              style={
+                [
+                  {
+                    "flexDirection": "column",
+                  },
+                  {
+                    "gap": 2,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#f4efe4",
+                      "fontFamily": "Geist-500",
+                      "fontSize": 14,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0,
+                      "lineHeight": 19.599999999999998,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.3780000000000019,
+                      "paddingTop": 0.3780000000000019,
+                    },
+                  ]
+                }
+              >
+                The windiest month in Marrakesh is June, averaging 8.1 miles per hour.
+              </Text>
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#a9a3c0",
+                      "fontFamily": "Geist-500",
+                      "fontSize": 11.5,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0,
+                      "lineHeight": 16.099999999999998,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.31050000000000155,
+                      "paddingTop": 0.31050000000000155,
+                    },
+                  ]
+                }
+              >
+                weatherspark.com
+              </Text>
+            </View>
+            <View
+              style={
+                [
+                  {
+                    "flexDirection": "column",
+                  },
+                  {
+                    "gap": 2,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#f4efe4",
+                      "fontFamily": "Geist-500",
+                      "fontSize": 14,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0,
+                      "lineHeight": 19.599999999999998,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.3780000000000019,
+                      "paddingTop": 0.3780000000000019,
+                    },
+                  ]
+                }
+              >
+                Marrakech is one of the imperial cities of Morocco.
+              </Text>
+              <Text
+                allowFontScaling={false}
+                onLayout={[Function]}
+                onTextLayout={[Function]}
+                style={
+                  [
+                    {
+                      "color": "#a9a3c0",
+                      "fontFamily": "Geist-500",
+                      "fontSize": 11.5,
+                      "fontStyle": "normal",
+                      "letterSpacing": 0,
+                      "lineHeight": 16.099999999999998,
+                    },
+                    undefined,
+                    {
+                      "marginTop": -0.31050000000000155,
+                      "paddingTop": 0.31050000000000155,
+                    },
+                  ]
+                }
+              >
+                en.wikivoyage.org
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              [
+                {
+                  "flexDirection": "column",
+                },
+                {
+                  "gap": 10,
+                },
+                undefined,
+              ]
+            }
+          >
+            <View
+              accessibilityActions={
+                [
+                  {
+                    "label": "Pitch to the crew",
+                    "name": "activate",
+                  },
+                ]
+              }
+              accessibilityLabel="Pitch to the crew"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+              style={
+                [
+                  {
+                    "minHeight": 44,
+                    "minWidth": 44,
+                  },
+                  [
+                    {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "gap": 8,
+                      "justifyContent": "center",
+                      "overflow": "hidden",
+                    },
+                    {
+                      "borderRadius": 29,
+                      "minHeight": 58,
+                      "paddingHorizontal": 24,
+                    },
+                    {
+                      "backgroundColor": "#ffd84a",
+                    },
+                    null,
+                    {
+                      "alignSelf": "stretch",
+                    },
+                    null,
+                  ],
+                  {
+                    "transform": [
+                      {
+                        "scale": 1,
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="guest-pitch"
+            >
+              <View>
+                <Text
+                  allowFontScaling={false}
+                  numberOfLines={2}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#17142a",
+                        "fontFamily": "Archivo-W100-900",
+                        "fontSize": 16,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0.96,
+                        "lineHeight": 13.76,
+                      },
+                      {
+                        "flexShrink": 1,
+                        "textAlign": "center",
+                      },
+                      {
+                        "marginTop": -6.543999999999999,
+                        "paddingTop": 6.543999999999999,
+                      },
+                    ]
+                  }
+                >
+                  PITCH TO THE CREW
+                </Text>
+              </View>
+            </View>
+            <View
+              accessibilityActions={
+                [
+                  {
+                    "label": "Solo trip",
+                    "name": "activate",
+                  },
+                ]
+              }
+              accessibilityLabel="Solo trip"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+              collapsable={false}
+              onAccessibilityAction={[Function]}
+              style={
+                [
+                  {
+                    "minHeight": 44,
+                    "minWidth": 44,
+                  },
+                  [
+                    {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                      "gap": 8,
+                      "justifyContent": "center",
+                      "overflow": "hidden",
+                    },
+                    {
+                      "borderRadius": 29,
+                      "minHeight": 58,
+                      "paddingHorizontal": 24,
+                    },
+                    null,
+                    {
+                      "borderColor": "#5b5487",
+                      "borderWidth": 2,
+                    },
+                    {
+                      "alignSelf": "stretch",
+                    },
+                    null,
+                  ],
+                  {
+                    "transform": [
+                      {
+                        "scale": 1,
+                      },
+                    ],
+                  },
+                ]
+              }
+              testID="guest-solo"
+            >
+              <View>
+                <Text
+                  allowFontScaling={false}
+                  numberOfLines={2}
+                  onLayout={[Function]}
+                  onTextLayout={[Function]}
+                  style={
+                    [
+                      {
+                        "color": "#f4efe4",
+                        "fontFamily": "Archivo-W100-900",
+                        "fontSize": 16,
+                        "fontStyle": "normal",
+                        "letterSpacing": 0.96,
+                        "lineHeight": 13.76,
+                      },
+                      {
+                        "flexShrink": 1,
+                        "textAlign": "center",
+                      },
+                      {
+                        "marginTop": -6.543999999999999,
+                        "paddingTop": 6.543999999999999,
+                      },
+                    ]
+                  }
+                >
+                  SOLO TRIP
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;
+
+exports[`place search heads a country nobody guides and opens the guest page for a city 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+      testID="place-search"
+    >
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#07060e",
+              "bottom": 0,
+              "end": 0,
+              "position": "absolute",
+              "start": 0,
+              "top": 0,
+            },
+            {
+              "opacity": 0.45,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={false}
+          collapsable={false}
+          focusable={true}
+          importantForAccessibility="no"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            }
+          }
+          testID="place-search-scrim"
+        />
+      </View>
+      <View
+        accessibilityLabel="Search places"
+        accessibilityViewIsModal={true}
+        collapsable={false}
+        onAccessibilityEscape={[Function]}
+        style={
+          [
+            {
+              "backgroundColor": "#1f1b38",
+              "borderTopEndRadius": 32,
+              "borderTopStartRadius": 32,
+              "bottom": 0,
+              "end": 0,
+              "overflow": "hidden",
+              "position": "absolute",
+              "start": 0,
+            },
+            {
+              "height": 1160.58,
+            },
+            {
+              "transform": [
+                {
+                  "translateY": 0,
+                },
+              ],
+            },
+          ]
+        }
+        testID="place-search-panel"
+      >
+        <View
+          accessibilityElementsHidden={true}
+          importantForAccessibility="no-hide-descendants"
+          style={
+            {
+              "alignItems": "center",
+              "paddingBottom": 4,
+              "paddingTop": 8,
+            }
+          }
+        >
+          <View
+            style={
+              {
+                "backgroundColor": "#3a3466",
+                "borderRadius": 2.5,
+                "height": 5,
+                "width": 36,
+              }
+            }
+          />
+        </View>
+        <View
+          onLayout={[Function]}
+          style={
+            [
+              {
+                "paddingTop": 16,
+              },
+              {
+                "flex": 1,
+              },
+              {
+                "paddingBottom": 34,
+              },
+            ]
+          }
+        >
+          <RCTScrollView
+            bounces={false}
+            collapsable={false}
+            keyboardShouldPersistTaps="handled"
+            onScroll={[Function]}
+            scrollEventThrottle={16}
+          >
+            <View>
+              <View
+                style={
+                  [
+                    {
+                      "flexDirection": "column",
+                    },
+                    {},
+                    {
+                      "gap": 12,
+                      "paddingBottom": 24,
+                      "paddingHorizontal": 20,
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    [
+                      {
+                        "flexDirection": "column",
+                      },
+                      {
+                        "gap": 8,
+                      },
+                      undefined,
+                    ]
+                  }
+                >
+                  <View
+                    style={
+                      [
+                        {
+                          "flexDirection": "column",
+                        },
+                        {
+                          "gap": 6,
+                        },
+                        undefined,
+                      ]
+                    }
+                  >
+                    <View
+                      style={
+                        [
+                          {
+                            "flexDirection": "row",
+                            "flexWrap": "nowrap",
+                          },
+                          {
+                            "alignItems": "center",
+                            "gap": 10,
+                          },
+                          [
+                            {
+                              "alignItems": "center",
+                              "backgroundColor": "#1f1b38",
+                              "borderRadius": 14,
+                              "borderWidth": 2,
+                              "minHeight": 56,
+                              "paddingEnd": 4,
+                              "paddingStart": 14,
+                            },
+                            {
+                              "borderColor": "#5b5487",
+                            },
+                          ],
+                        ]
+                      }
+                    >
+                      <View
+                        accessibilityElementsHidden={true}
+                        importantForAccessibility="no-hide-descendants"
+                        style={
+                          {
+                            "height": 18,
+                            "marginEnd": 8,
+                            "width": 18,
+                          }
+                        }
+                      >
+                        <View
+                          style={
+                            {
+                              "borderColor": "#a9a3c0",
+                              "borderRadius": 7,
+                              "borderWidth": 2.5,
+                              "height": 13,
+                              "width": 13,
+                            }
+                          }
+                        />
+                        <View
+                          style={
+                            {
+                              "backgroundColor": "#a9a3c0",
+                              "borderRadius": 1.25,
+                              "bottom": 2,
+                              "end": 0,
+                              "height": 2.5,
+                              "position": "absolute",
+                              "transform": [
+                                {
+                                  "rotate": "45deg",
+                                },
+                              ],
+                              "width": 7,
+                            }
+                          }
+                        />
+                      </View>
+                      <TextInput
+                        accessibilityLabel="A city or a country"
+                        accessibilityRole="search"
+                        allowFontScaling={false}
+                        aria-invalid={false}
+                        autoCorrect={false}
+                        autoFocus={true}
+                        onBlur={[Function]}
+                        onChangeText={[Function]}
+                        onFocus={[Function]}
+                        placeholder="A city or a country"
+                        placeholderTextColor="#8d87a8"
+                        returnKeyType="search"
+                        selectionColor="#ffd84a"
+                        style={
+                          [
+                            {
+                              "color": "#f4efe4",
+                              "flex": 1,
+                              "minHeight": 44,
+                              "paddingVertical": 10,
+                            },
+                            {
+                              "fontFamily": "Geist-600",
+                              "fontSize": 18,
+                            },
+                          ]
+                        }
+                        testID="place-search-field"
+                        value="morocc"
+                      />
+                      <View
+                        accessibilityActions={
+                          [
+                            {
+                              "label": "Clear",
+                              "name": "activate",
+                            },
+                          ]
+                        }
+                        accessibilityLabel="Clear"
+                        accessibilityRole="button"
+                        accessibilityState={
+                          {
+                            "disabled": false,
+                          }
+                        }
+                        accessible={true}
+                        collapsable={false}
+                        onAccessibilityAction={[Function]}
+                        style={
+                          [
+                            {
+                              "minHeight": 44,
+                              "minWidth": 44,
+                            },
+                            {
+                              "alignItems": "center",
+                              "justifyContent": "center",
+                            },
+                            {
+                              "transform": [
+                                {
+                                  "scale": 1,
+                                },
+                              ],
+                            },
+                          ]
+                        }
+                      >
+                        <Text
+                          allowFontScaling={false}
+                          onLayout={[Function]}
+                          onTextLayout={[Function]}
+                          style={
+                            [
+                              {
+                                "color": "#a9a3c0",
+                                "fontFamily": "Archivo-W78-900",
+                                "fontSize": 16,
+                                "fontStyle": "normal",
+                                "letterSpacing": 0.32,
+                                "lineHeight": 13.76,
+                              },
+                              undefined,
+                              {
+                                "marginTop": -6.543999999999999,
+                                "paddingTop": 6.543999999999999,
+                              },
+                            ]
+                          }
+                        >
+                          ✕
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={
+                    [
+                      {
+                        "flexDirection": "column",
+                      },
+                      {
+                        "gap": 2,
+                      },
+                      undefined,
+                    ]
+                  }
+                  testID="place-search-unguided"
+                >
+                  <Text
+                    allowFontScaling={false}
+                    numberOfLines={3}
+                    onLayout={[Function]}
+                    onTextLayout={[Function]}
+                    style={
+                      [
+                        {
+                          "color": "#f4efe4",
+                          "fontFamily": "Archivo-W70-900",
+                          "fontSize": 36,
+                          "fontStyle": "normal",
+                          "letterSpacing": 0,
+                          "lineHeight": 30.96,
+                        },
+                        undefined,
+                        {
+                          "marginTop": -14.723999999999997,
+                          "paddingTop": 14.723999999999997,
+                        },
+                      ]
+                    }
+                  >
+                    MOROCCO
+                  </Text>
+                  <Text
+                    allowFontScaling={false}
+                    onLayout={[Function]}
+                    onTextLayout={[Function]}
+                    style={
+                      [
+                        {
+                          "color": "#ff5fa8",
+                          "fontFamily": "Geist-800",
+                          "fontSize": 11,
+                          "fontStyle": "normal",
+                          "letterSpacing": 0.88,
+                          "lineHeight": 15.399999999999999,
+                        },
+                        undefined,
+                        {
+                          "marginTop": -0.2970000000000015,
+                          "paddingTop": 0.2970000000000015,
+                        },
+                      ]
+                    }
+                  >
+                    NO LIVE GUIDE YET
+                  </Text>
+                </View>
+                <View
+                  accessibilityLabel="Marrakech, Morocco · 1 local to find"
+                  accessibilityRole="button"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="place-result-0192f000-0000-7000-8000-0000000000e1"
+                >
+                  <View
+                    style={
+                      [
+                        {
+                          "flexDirection": "row",
+                          "flexWrap": "nowrap",
+                        },
+                        {
+                          "alignItems": "center",
+                          "gap": 12,
+                        },
+                        {
+                          "borderBottomColor": "#3a3466",
+                          "borderBottomWidth": 1,
+                          "paddingVertical": 12,
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      importantForAccessibility="no-hide-descendants"
+                      style={
+                        {
+                          "alignItems": "center",
+                          "backgroundColor": "#120f22",
+                          "borderRadius": 22,
+                          "height": 44,
+                          "justifyContent": "center",
+                          "width": 44,
+                        }
+                      }
+                    >
+                      <Text
+                        allowFontScaling={false}
+                        onLayout={[Function]}
+                        onTextLayout={[Function]}
+                        style={
+                          [
+                            {
+                              "color": "#a9a3c0",
+                              "fontFamily": "Archivo-W78-900",
+                              "fontSize": 16,
+                              "fontStyle": "normal",
+                              "letterSpacing": 0.32,
+                              "lineHeight": 13.76,
+                            },
+                            undefined,
+                            {
+                              "marginTop": -6.543999999999999,
+                              "paddingTop": 6.543999999999999,
+                            },
+                          ]
+                        }
+                      >
+                        ?
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        [
+                          {
+                            "flexDirection": "column",
+                          },
+                          {
+                            "gap": 2,
+                          },
+                          {
+                            "flex": 1,
+                          },
+                        ]
+                      }
+                    >
+                      <Text
+                        allowFontScaling={false}
+                        numberOfLines={1}
+                        onLayout={[Function]}
+                        onTextLayout={[Function]}
+                        style={
+                          [
+                            {
+                              "color": "#f4efe4",
+                              "fontFamily": "Archivo-W78-900",
+                              "fontSize": 16,
+                              "fontStyle": "normal",
+                              "letterSpacing": 0.32,
+                              "lineHeight": 13.76,
+                            },
+                            undefined,
+                            {
+                              "marginTop": -6.543999999999999,
+                              "paddingTop": 6.543999999999999,
+                            },
+                          ]
+                        }
+                      >
+                        MARRAKECH
+                      </Text>
+                      <Text
+                        allowFontScaling={false}
+                        numberOfLines={1}
+                        onLayout={[Function]}
+                        onTextLayout={[Function]}
+                        style={
+                          [
+                            {
+                              "color": "#a9a3c0",
+                              "fontFamily": "Geist-500",
+                              "fontSize": 12.5,
+                              "fontStyle": "normal",
+                              "letterSpacing": 0,
+                              "lineHeight": 16.875,
+                            },
+                            undefined,
+                            {
+                              "marginTop": -0.6500000000000006,
+                              "paddingTop": 0.6500000000000006,
+                            },
+                          ]
+                        }
+                      >
+                        Morocco · 1 local to find
+                      </Text>
+                    </View>
+                    <Text
+                      allowFontScaling={false}
+                      onLayout={[Function]}
+                      onTextLayout={[Function]}
+                      style={
+                        [
+                          {
+                            "color": "#a9a3c0",
+                            "fontFamily": "Archivo-W78-900",
+                            "fontSize": 16,
+                            "fontStyle": "normal",
+                            "letterSpacing": 0.32,
+                            "lineHeight": 13.76,
+                          },
+                          undefined,
+                          {
+                            "marginTop": -6.543999999999999,
+                            "paddingTop": 6.543999999999999,
+                          },
+                        ]
+                      }
+                    >
+                      ›
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  accessibilityLabel="Chefchaouen, Morocco · 1 local to find"
+                  accessibilityRole="button"
+                  accessibilityState={
+                    {
+                      "busy": undefined,
+                      "checked": undefined,
+                      "disabled": undefined,
+                      "expanded": undefined,
+                      "selected": undefined,
+                    }
+                  }
+                  accessibilityValue={
+                    {
+                      "max": undefined,
+                      "min": undefined,
+                      "now": undefined,
+                      "text": undefined,
+                    }
+                  }
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="place-result-0192f000-0000-7000-8000-0000000000e2"
+                >
+                  <View
+                    style={
+                      [
+                        {
+                          "flexDirection": "row",
+                          "flexWrap": "nowrap",
+                        },
+                        {
+                          "alignItems": "center",
+                          "gap": 12,
+                        },
+                        {
+                          "borderBottomColor": "#3a3466",
+                          "borderBottomWidth": 1,
+                          "paddingVertical": 12,
+                        },
+                      ]
+                    }
+                  >
+                    <View
+                      importantForAccessibility="no-hide-descendants"
+                      style={
+                        {
+                          "alignItems": "center",
+                          "backgroundColor": "#120f22",
+                          "borderRadius": 22,
+                          "height": 44,
+                          "justifyContent": "center",
+                          "width": 44,
+                        }
+                      }
+                    >
+                      <Text
+                        allowFontScaling={false}
+                        onLayout={[Function]}
+                        onTextLayout={[Function]}
+                        style={
+                          [
+                            {
+                              "color": "#a9a3c0",
+                              "fontFamily": "Archivo-W78-900",
+                              "fontSize": 16,
+                              "fontStyle": "normal",
+                              "letterSpacing": 0.32,
+                              "lineHeight": 13.76,
+                            },
+                            undefined,
+                            {
+                              "marginTop": -6.543999999999999,
+                              "paddingTop": 6.543999999999999,
+                            },
+                          ]
+                        }
+                      >
+                        ?
+                      </Text>
+                    </View>
+                    <View
+                      style={
+                        [
+                          {
+                            "flexDirection": "column",
+                          },
+                          {
+                            "gap": 2,
+                          },
+                          {
+                            "flex": 1,
+                          },
+                        ]
+                      }
+                    >
+                      <Text
+                        allowFontScaling={false}
+                        numberOfLines={1}
+                        onLayout={[Function]}
+                        onTextLayout={[Function]}
+                        style={
+                          [
+                            {
+                              "color": "#f4efe4",
+                              "fontFamily": "Archivo-W78-900",
+                              "fontSize": 16,
+                              "fontStyle": "normal",
+                              "letterSpacing": 0.32,
+                              "lineHeight": 13.76,
+                            },
+                            undefined,
+                            {
+                              "marginTop": -6.543999999999999,
+                              "paddingTop": 6.543999999999999,
+                            },
+                          ]
+                        }
+                      >
+                        CHEFCHAOUEN
+                      </Text>
+                      <Text
+                        allowFontScaling={false}
+                        numberOfLines={1}
+                        onLayout={[Function]}
+                        onTextLayout={[Function]}
+                        style={
+                          [
+                            {
+                              "color": "#a9a3c0",
+                              "fontFamily": "Geist-500",
+                              "fontSize": 12.5,
+                              "fontStyle": "normal",
+                              "letterSpacing": 0,
+                              "lineHeight": 16.875,
+                            },
+                            undefined,
+                            {
+                              "marginTop": -0.6500000000000006,
+                              "paddingTop": 0.6500000000000006,
+                            },
+                          ]
+                        }
+                      >
+                        Morocco · 1 local to find
+                      </Text>
+                    </View>
+                    <Text
+                      allowFontScaling={false}
+                      onLayout={[Function]}
+                      onTextLayout={[Function]}
+                      style={
+                        [
+                          {
+                            "color": "#a9a3c0",
+                            "fontFamily": "Archivo-W78-900",
+                            "fontSize": 16,
+                            "fontStyle": "normal",
+                            "letterSpacing": 0.32,
+                            "lineHeight": 13.76,
+                          },
+                          undefined,
+                          {
+                            "marginTop": -6.543999999999999,
+                            "paddingTop": 6.543999999999999,
+                          },
+                        ]
+                      }
+                    >
+                      ›
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  accessibilityLabel="Tokek: Nobody guides Morocco yet, so I'll cover it. The locals still turn up."
+                  accessible={true}
+                  style={
+                    [
+                      {
+                        "flexDirection": "row",
+                        "flexWrap": "nowrap",
+                      },
+                      {
+                        "alignItems": "center",
+                        "gap": 10,
+                      },
+                      undefined,
+                    ]
+                  }
+                >
+                  <View
+                    style={
+                      {
+                        "backgroundColor": "#1f1b38",
+                        "borderRadius": 20,
+                        "flex": 1,
+                        "paddingHorizontal": 14,
+                        "paddingVertical": 10,
+                      }
+                    }
+                  >
+                    <Text
+                      allowFontScaling={false}
+                      onLayout={[Function]}
+                      onTextLayout={[Function]}
+                      style={
+                        [
+                          {
+                            "color": "#ffd84a",
+                            "fontFamily": "Caveat-600",
+                            "fontSize": 20,
+                            "fontStyle": "normal",
+                            "letterSpacing": 0,
+                            "lineHeight": 22,
+                          },
+                          undefined,
+                          {
+                            "marginTop": -1.7999999999999994,
+                            "paddingTop": 1.7999999999999994,
+                          },
+                        ]
+                      }
+                    >
+                      Nobody guides Morocco yet, so I'll cover it. The locals still turn up.
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </RCTScrollView>
+        </View>
+        <View
+          accessibilityLabel="Close"
+          accessibilityRole="button"
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          hitSlop={2}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            [
+              {
+                "alignItems": "center",
+                "backgroundColor": "#2c2750",
+                "borderRadius": 20,
+                "height": 40,
+                "justifyContent": "center",
+                "width": 40,
+              },
+              null,
+              {
+                "end": 12,
+                "position": "absolute",
+                "top": 12,
+              },
+            ]
+          }
+          testID="place-search-close"
+        >
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#f4efe4",
+                  "borderRadius": 1.25,
+                  "height": 2.5,
+                  "position": "absolute",
+                  "width": 14,
+                },
+                {
+                  "transform": [
+                    {
+                      "rotate": "45deg",
+                    },
+                  ],
+                },
+              ]
+            }
+          />
+          <View
+            style={
+              [
+                {
+                  "backgroundColor": "#f4efe4",
+                  "borderRadius": 1.25,
+                  "height": 2.5,
+                  "position": "absolute",
+                  "width": 14,
+                },
+                {
+                  "transform": [
+                    {
+                      "rotate": "-45deg",
+                    },
+                  ],
+                },
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </View>
+</RNCSafeAreaProvider>
+`;

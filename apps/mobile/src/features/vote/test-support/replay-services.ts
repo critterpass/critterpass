@@ -48,6 +48,80 @@ export function kyotoPitchFrames(me: string): SseFrame[] {
   ];
 }
 
+export const MARRAKECH = '0192f000-0000-7000-8000-0000000000e1';
+export const CHEFCHAOUEN = '0192f000-0000-7000-8000-0000000000e2';
+
+/** Search for "morocc" over the place index: guest cities only, one country. */
+export const moroccoResults: PlaceResult[] = [
+  {
+    place_id: MARRAKECH,
+    name: 'Marrakech',
+    country: 'Morocco',
+    country_code: 'MA',
+    coverage: 'guest',
+    guide: 'tokek',
+    locals: ['barbary-macaque'],
+  },
+  {
+    place_id: CHEFCHAOUEN,
+    name: 'Chefchaouen',
+    country: 'Morocco',
+    country_code: 'MA',
+    coverage: 'guest',
+    guide: 'tokek',
+    locals: ['barbary-macaque'],
+  },
+];
+
+/** `POST /v1/places/{id}/guest-brief` for Marrakech (guest-01), as the api streamed it. */
+export const marrakechBriefFrames: SseFrame[] = [
+  {
+    type: 'place',
+    data: {
+      place_id: MARRAKECH,
+      name: 'Marrakech',
+      country: 'Morocco',
+      currency: 'MAD',
+      best_months: [3, 10],
+      fx: { base: 'MAD', quote: 'USD', rate: 0.1, as_of: '2026-09-28' },
+      stops: 1,
+      locals: [
+        { id: 'barbary-macaque', hint: 'Lives in the cedar forests of the Middle Atlas.' },
+        { id: 'fennec-fox', hint: 'Sleeps in the dunes by day.' },
+        { id: 'northern-bald-ibis', hint: 'Nests on sea cliffs south of Agadir.' },
+      ],
+    },
+  },
+  {
+    type: 'fact',
+    data: {
+      icon: 'walk',
+      text: 'The Medina is full of intertwining narrow passageways and local shops.',
+      url: 'https://en.wikivoyage.org/wiki/Marrakech',
+      domain: 'en.wikivoyage.org',
+    },
+  },
+  {
+    type: 'fact',
+    data: {
+      icon: 'sun',
+      text: 'The windiest month in Marrakesh is June, averaging 8.1 miles per hour.',
+      url: 'https://weatherspark.com/y/32742/Average-Weather-in-Marrakesh-Morocco-Year-Round',
+      domain: 'weatherspark.com',
+    },
+  },
+  {
+    type: 'fact',
+    data: {
+      icon: 'star',
+      text: 'Marrakech is one of the imperial cities of Morocco.',
+      url: 'https://en.wikivoyage.org/wiki/Marrakech',
+      domain: 'en.wikivoyage.org',
+    },
+  },
+  { type: 'done', data: { cached: false, ai_generated: true, hidden: false, sources: [] } },
+];
+
 export interface HeldStream {
   /** Sends the next `count` frames. */
   step(count?: number): void;
