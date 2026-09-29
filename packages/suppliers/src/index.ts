@@ -33,3 +33,4 @@ export {
   type TravelpayoutsPrice,
 } from './travelpayouts/fares/client';
 export { foundAtFromLink, mapFareMonth, type FareCellSummary } from './travelpayouts/fares/map';
+export * from './flight-status';

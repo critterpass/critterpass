@@ -17,6 +17,7 @@ import { registerFlightSegmentsSource, type DecisionRoute } from '@cp/domain';
 import type pg from 'pg';
 
 import type { AnyJobDefinition } from '../../boss';
+import { flightJobs, flightProvidersFromEnv } from '../flights';
 import { createAvatarMediaStore } from '../avatar/media-store';
 import { registerRetentionRule } from '../maint/retention-rules';
 import type { ReaderDeps } from './candidates';
@@ -130,6 +131,7 @@ export function bookingsJobs(
     deadlineReminderJob(),
     mailParseJob({ ...reader, store }),
     importParseJob({ ...reader, fetch: nodeFetchDeps }),
+    ...flightJobs(flightProvidersFromEnv(process.env, pool)),
   ];
 }
 

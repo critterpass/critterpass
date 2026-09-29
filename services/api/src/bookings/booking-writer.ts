@@ -24,6 +24,7 @@ import type pg from 'pg';
 import { asSystemRole } from '../admin/command';
 import { publishBooking } from '../commands/bookings/shared';
 import { parseMediaKey } from '../media/purposes';
+import { armFlightWatch, segmentsOf } from './flight-watch';
 
 export interface AttachmentInput {
   readonly media_key: string;
@@ -270,6 +271,8 @@ export async function insertBooking(
   });
   if (booking.kind === 'flight') {
     await emitFlightChange(tx, 'booking.flight_added', booking, booking.travellerIds, actorId);
+    // Every wallet flight is watched (free), from the moment it is added.
+    await asSystemRole(tx, async () => armFlightWatch(tx, await segmentsOf(tx, booking.id), now));
   }
   await publishBooking(tx, booking.crewId, booking.visibility, BOOKINGS_RT.bookingAdded, {
     booking_id: booking.id,

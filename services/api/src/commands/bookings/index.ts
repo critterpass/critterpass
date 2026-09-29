@@ -7,6 +7,9 @@ import { createEditBookingCommand } from './edit-booking';
 import { importPasteCommand } from './import-paste';
 import { importScanCommand } from './import-scan';
 import { createResolveImportCandidateCommand } from './resolve-import-candidate';
+import { reportLandedCommand } from './report-landed';
+import { setFlightCrewVisibilityCommand } from './set-flight-crew-visibility';
+import { watchFlightCommand } from './watch-flight';
 import { setBookingVisibilityCommand } from './set-booking-visibility';
 
 export type { BookingCommandDeps } from './deps';
@@ -19,4 +22,7 @@ export function registerBookingCommands(registry: CommandRegistry, deps: Booking
   registry.register(importPasteCommand);
   registry.register(importScanCommand);
   registry.register(createResolveImportCandidateCommand(deps));
+  registry.register(watchFlightCommand);
+  registry.register(reportLandedCommand);
+  registry.register(setFlightCrewVisibilityCommand);
 }

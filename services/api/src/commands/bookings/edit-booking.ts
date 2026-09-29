@@ -21,6 +21,7 @@ import {
   writeAttachments,
   writeSegments,
 } from '../../bookings/booking-writer';
+import { armFlightWatch, segmentsOf } from '../../bookings/flight-watch';
 import { defineCommand } from '../_framework/define-command';
 import { sealBarcode, type BookingCommandDeps } from './deps';
 import {
@@ -129,7 +130,12 @@ export function createEditBookingCommand(deps: BookingCommandDeps) {
         visibility: booking.visibility,
         flightCrewVisible: booking.flight_crew_visible,
       };
-      if (patch.segments !== undefined) await writeSegments(tx, owner, patch.segments);
+      if (patch.segments !== undefined) {
+        await writeSegments(tx, owner, patch.segments);
+        await asSystemRole(tx, async () =>
+          armFlightWatch(tx, await segmentsOf(tx, booking.id), ctx.clock.serverNow),
+        );
+      }
       if (patch.remove_attachments !== undefined) {
         await asSystemRole(tx, () =>
           tx.query(

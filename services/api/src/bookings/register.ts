@@ -16,6 +16,7 @@ import type { CommandRegistry } from '../commands/_framework/registry';
 import type { SessionResolver } from '../commands/_framework/session';
 import { mediaSigningConfigFromEnv, type MediaSigningConfig } from '../media/sign';
 import { registerInboundEmailWebhook } from '../routes/webhooks/inbound-email';
+import { registerAeroApiWebhook } from '../routes/webhooks/aeroapi';
 import { registerMailboxRoutes, type MailboxGate } from '../routes/mailbox-oauth';
 import {
   createConnectMailboxCommand,
@@ -65,6 +66,11 @@ export function registerBookings(
   registerBookedCosts();
   registerOfflineBundleRoute(app, { ...doors, keyring, signing: signingFromEnv(env) });
   registerMailbox(app, doors, keyring, env);
+  // AeroAPI alert deliveries: only with the path secret configured (the key lives in the worker).
+  const aeroSecret = env['AEROAPI_WEBHOOK_SECRET'];
+  if (aeroSecret !== undefined && aeroSecret.length >= 32) {
+    registerAeroApiWebhook(app, { pool: doors.pool, secret: aeroSecret });
+  }
   // Crew forward addresses: the Worker's webhook and the reply-code link need the shared secret
   // and the pepper sender addresses are hashed with.
   const secret = env['INBOUND_EMAIL_HMAC_SECRET'];

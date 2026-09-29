@@ -8,11 +8,7 @@
  * reach the crew only while the owner consents to surfacing them.
  */
 import { crypto as dbCrypto, withSystem } from '@cp/db';
-import {
-  BOOKINGS_QUEUES,
-  shouldReadMessage,
-  type TripWindow,
-} from '@cp/domain';
+import { BOOKINGS_QUEUES, shouldReadMessage, type TripWindow } from '@cp/domain';
 import type pg from 'pg';
 import { z } from 'zod';
 
