@@ -14,7 +14,7 @@ appId: app.critterpass.dev
     visible:
       id: 'onboarding-open'
     timeout: 60000
-- runFlow: ../home/subflows/onboard.yaml
+- runFlow: subflows/onboard-settled.yaml
 - runFlow:
     file: subflows/home-crews-screens.yaml
     env:
