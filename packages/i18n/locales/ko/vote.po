@@ -6,3 +6,668 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ko\n"
+
+#. placeholder {0}: alternative.name
+#. placeholder {1}: money(i18n.locale, alternative.delta_minor, alternative.currency)
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.cheaper"
+msgstr ""
+
+#. placeholder {0}: alternative.name
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.nearby"
+msgstr ""
+
+#. placeholder {0}: money(locale, chip.amount_minor, chip.currency)
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+msgid "vote.showdown.each"
+msgstr ""
+
+#. placeholder {0}: money(locale, chip.amount_minor, chip.currency)
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.chipPrice"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.underdog"
+msgstr ""
+
+#. placeholder {0}: poll.votedCount
+#. placeholder {1}: poll.eligibleIds.length
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.voted"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.byline"
+msgstr ""
+
+#. placeholder {0}: place.stops
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.stops"
+msgstr ""
+
+#. placeholder {0}: poll.pendingIds.length
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.toGoCount"
+msgstr ""
+
+#. placeholder {0}: listNames(pending, and)
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.toGo"
+msgstr ""
+
+#. placeholder {0}: loserGuide.name
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.consolation"
+msgstr ""
+
+#. placeholder {0}: option.votes
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.votes"
+msgstr ""
+
+#. placeholder {0}: option.votes
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+msgid "vote.showdown.votes"
+msgstr ""
+
+#. placeholder {0}: option.votes
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+msgid "vote.showdown.count"
+msgstr ""
+
+#. placeholder {0}: option.votes
+#: ../../apps/mobile/src/features/vote/board/pick-sheet.tsx
+msgid "vote.pick.votes"
+msgstr ""
+
+#. placeholder {0}: option.votes
+#: ../../apps/mobile/src/features/vote/board/sticker.tsx
+msgid "vote.board.votes"
+msgstr ""
+
+#. placeholder {0}: poll.votedCount
+#. placeholder {1}: lines.toGo ?? ''
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.tally"
+msgstr ""
+
+#. placeholder {0}: winner.label
+#: ../../apps/mobile/src/features/vote/poll/poll-result.tsx
+msgid "vote.result.won"
+msgstr ""
+
+#. placeholder {0}: flightHours(chip.minutes)
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+msgid "vote.showdown.flight"
+msgstr ""
+
+#. placeholder {0}: flightHours(chip.minutes)
+#. placeholder {1}: chip.origin
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.chipFlight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.byline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/result-row.tsx
+msgid "vote.search.localMany"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.finalists"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/result-row.tsx
+msgid "vote.search.liveGuide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.pickBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
+msgid "vote.guest.reading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.backInDeck"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.voteBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.queuedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.voteTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.voteLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.addedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.result"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
+msgid "vote.guest.found"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.hour"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/result-row.tsx
+msgid "vote.search.localOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.oneStop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.threeDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.label"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
+msgid "vote.guest.localHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.pickTitle"
+msgstr ""
+
+#. placeholder {0}: money(i18n.locale, tie.cheaperByMinor, tie.currency)
+#. placeholder {1}: originCity(tie.origin)
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.tieFull"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.tieShort"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.addOption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.onBoard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.and"
+msgstr ""
+
+#. placeholder {0}: index + 1
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.option"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.idle"
+msgstr ""
+
+#. placeholder {0}: search.query
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.back"
+msgstr ""
+
+#. placeholder {0}: chip.months.map((m) => monthShort(locale, m)).join(' · ')
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+msgid "vote.showdown.best"
+msgstr ""
+
+#. placeholder {0}: chip.months.map((month) => monthShort(locale, month)).join(' · ')
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.chipBest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.best"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.errorBody"
+msgstr ""
+
+#. placeholder {0}: winner.label
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.closedWinner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.closedNoWinner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.deadline"
+msgstr ""
+
+#. placeholder {0}: deadline.day
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.closesDay"
+msgstr ""
+
+#. placeholder {0}: deadline.day
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.closesDay"
+msgstr ""
+
+#. placeholder {0}: deadline.hours
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.closesHours"
+msgstr ""
+
+#. placeholder {0}: deadline.hours
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.closesHours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
+msgid "vote.guest.briefError"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.direct"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.allIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+msgid "vote.final.status"
+msgstr ""
+
+#. placeholder {0}: deadline.day
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+msgid "vote.final.statusDay"
+msgstr ""
+
+#. placeholder {0}: deadline.hours
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+msgid "vote.final.statusHours"
+msgstr ""
+
+#. placeholder {0}: placeOf(first)?.name ?? first.label
+#. placeholder {1}: placeOf(second)?.name ?? second.label
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+msgid "vote.final.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.finalLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.goToFinal"
+msgstr ""
+
+#. placeholder {0}: GUEST.name
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.guestGuide"
+msgstr ""
+
+#. placeholder {0}: money(i18n.locale, tie.cheaperByMinor, tie.currency)
+#. placeholder {1}: tie.memberCount
+#. placeholder {2}: originCity(tie.origin)
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.tie"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/chat-poll-card.tsx
+msgid "vote.poll.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.noGuide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.guestLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/poll-result.tsx
+msgid "vote.result.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.requested"
+msgstr ""
+
+#. placeholder {0}: search.query
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.orTry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.allowChange"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.pick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pick-sheet.tsx
+msgid "vote.pick.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.pickLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.pitchCta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.pitch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.pitch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/crew-picker.tsx
+msgid "vote.guest.noCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/register-chat-cards.ts
+msgid "vote.chat.attach"
+msgstr ""
+
+#. placeholder {0}: message.body
+#: ../../apps/mobile/src/features/vote/register-chat-cards.ts
+msgid "vote.chat.label"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.post"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.chipPending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.question"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.setUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.setupWith"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.solo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.started"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.start"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.removeTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "vote.queued.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "vote.queued.retract"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.emptyLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.finalFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.finalTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
+msgid "vote.guest.locals"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.setupWithOrganiser"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.errorTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pick-sheet.tsx
+msgid "vote.pick.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.error"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
+msgid "vote.guest.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
+msgid "vote.guest.retryPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.finalShort"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.status"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.final.vs"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/brief-stream.tsx
+msgid "vote.guest.knows"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
+msgid "vote.newPoll.never"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.untitled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+msgid "vote.board.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.header"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/inbox-renderers.ts
+msgid "vote.inbox.whereNext"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/crew-picker.tsx
+msgid "vote.guest.whichCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-stream.tsx
+msgid "vote.pitch.why"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.winner"
+msgstr ""
+
+#. placeholder {0}: pollScore(poll)
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.wins"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
+msgid "vote.final.notVoted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
+msgid "vote.showdown.hint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.missed"
+msgstr ""
+
+#. placeholder {0}: nameOf(poll, places, poll.myOptionId)
+#: ../../apps/mobile/src/features/vote/final/tie-line.tsx
+msgid "vote.final.youVoted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
+msgid "vote.search.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/pitch-sheet.tsx
+msgid "vote.pitch.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "vote.queued.trip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
+msgid "vote.reveal.lost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "vote.queued.pitch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "vote.queued.poll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/poll/poll-card.tsx
+msgid "vote.poll.yours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+msgid "vote.showdown.yours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/sticker.tsx
+msgid "vote.board.yours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/data/vote-commands.ts
+msgid "vote.queued.ballot"
+msgstr ""
