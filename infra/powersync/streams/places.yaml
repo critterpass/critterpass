@@ -1,6 +1,7 @@
 # Places streams (docs/data-model-sync-and-privacy.md §4): the offline pack for one trip's destination
-# and on-demand exploration of any destination. POIs are public catalogue rows; hidden POIs and POIs
-# merged into another are never sent. Columns are listed so the search vector and PostGIS shapes stay
+# and on-demand exploration of any destination. Only editorial POIs are sent: a destination's open-data
+# import runs to hundreds of thousands of rows, which search reaches over HTTP, while the phone carries
+# the curated few hundred. Hidden POIs and POIs merged into another are never sent. Columns are listed so the search vector and PostGIS shapes stay
 # server-side (lat/lng carry the position). A CTE cannot reference another CTE, so
 # trip_destination repeats core.yaml's `my_crews` membership filter inline.
 
@@ -19,6 +20,7 @@ streams:
           last_live_check_at, created_at, updated_at
         FROM pois
         WHERE destination_id IN trip_destination
+          AND curation = 'editorial'
           AND status != 'hidden'
           AND merged_into_id IS NULL
       - SELECT * FROM map_regions WHERE destination_id IN trip_destination
@@ -34,5 +36,6 @@ streams:
           last_live_check_at, created_at, updated_at
         FROM pois
         WHERE destination_id = subscription.parameter('destination_id')
+          AND curation = 'editorial'
           AND status != 'hidden'
           AND merged_into_id IS NULL

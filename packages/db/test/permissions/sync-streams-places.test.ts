@@ -34,16 +34,24 @@ beforeAll(async () => {
       [dest],
     );
     const active = poi.rows[0]!.id;
-    const insertPoi = async (destination: string, name: string, status: string) => {
+    await tx.query("UPDATE pois SET curation = 'editorial' WHERE id = $1", [active]);
+    const insertPoi = async (
+      destination: string,
+      name: string,
+      status: string,
+      curation: 'editorial' | 'auto' = 'editorial',
+    ) => {
       const { rows } = await tx.query<{ id: string }>(
-        `INSERT INTO pois (destination_id, name, category, lat, lng, status)
-         VALUES ($1, $2, 'other', 1, 1, $3) RETURNING id`,
-        [destination, name, status],
+        `INSERT INTO pois (destination_id, name, category, lat, lng, status, curation)
+         VALUES ($1, $2, 'other', 1, 1, $3, $4) RETURNING id`,
+        [destination, name, status, curation],
       );
       return rows[0]!.id;
     };
     const closed = await insertPoi(dest, 'Closed POI', 'closed');
     await insertPoi(dest, 'Hidden POI', 'hidden');
+    // An open-data import row nobody has curated stays server-side, searchable over HTTP only.
+    await insertPoi(dest, 'Imported POI', 'active', 'auto');
     const duplicate = await insertPoi(dest, 'Duplicate POI', 'active');
     await tx.query('UPDATE pois SET merged_into_id = $1 WHERE id = $2', [active, duplicate]);
     await insertPoi(other.rows[0]!.id, 'Elsewhere POI', 'active');
@@ -75,7 +83,7 @@ describe('trip_pack stream', () => {
   const params = (): Record<string, string> => ({ trip_id: harness.fixture.tripId });
 
   it.each(['member', 'organiser'] as const)(
-    "syncs the trip destination's visible POIs and map region to %s",
+    "syncs the trip destination's visible editorial POIs and map region to %s",
     async (actor) => {
       const ids = idsByTable(await harness.rows('trip_pack', actor, params()));
       expect(ids['pois']).toEqual([activePoiId, closedPoiId].sort());
@@ -99,7 +107,7 @@ describe('trip_pack stream', () => {
 });
 
 describe('explore stream', () => {
-  it.each(STREAM_ACTORS)("syncs any destination's visible POIs to %s", async (actor) => {
+  it.each(STREAM_ACTORS)("syncs any destination's visible editorial POIs to %s", async (actor) => {
     const ids = idsByTable(await harness.rows('explore', actor, { destination_id: destinationId }));
     expect(ids['pois']).toEqual([activePoiId, closedPoiId].sort());
   });
