@@ -44,14 +44,20 @@ function parseNumbers(list: string): string[] {
  * The fixed-code numbers this deployment honours, or `undefined` when there are none. A list
  * without its code (or the reverse) fails at boot rather than silently sending real codes.
  */
-export function fixedCodeNumbersFromEnv(env: FixedCodeEnv): FixedCodeNumbers | undefined {
+export function fixedCodeNumbersFromEnv(
+  env: FixedCodeEnv,
+  warn: (warning: string) => void = () => undefined,
+): FixedCodeNumbers | undefined {
   const byNumber = new Map<string, FixedCodeMatch>();
 
   const testListed = env.OTP_TEST_NUMBERS !== undefined;
   if (testListed !== (env.OTP_TEST_CODE !== undefined)) {
     throw new Error('OTP_TEST_NUMBERS and OTP_TEST_CODE must be set together');
   }
-  // Production never honours test numbers, whatever its variables say (the api logs that at boot).
+  // Production never honours test numbers, whatever its variables say.
+  if (env.APP_ENV === 'production' && env.OTP_TEST_NUMBERS !== undefined) {
+    warn('OTP_TEST_NUMBERS is set but production never honours test numbers');
+  }
   if (
     env.APP_ENV !== 'production' &&
     env.OTP_TEST_NUMBERS !== undefined &&

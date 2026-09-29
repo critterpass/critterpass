@@ -3,9 +3,10 @@
  * the EAS environment, the build profile (eas.json) or a local `.env`, and always win. Unset, a
  * production build uses the production services and every other variant (development, e2e,
  * staging) uses staging, so a build without them still gets a working session and never points
- * production at staging. The api and PowerSync readers live next to their clients
- * (places/apiBaseUrl.ts, powersync/connector.ts); this file adds the realtime socket and the
- * `config/endpoints.json` the extensions read.
+ * production at staging. The api reader lives next to its clients (places/apiBaseUrl.ts); this
+ * file resolves PowerSync and the realtime socket and writes the `config/endpoints.json` the
+ * extensions read. It imports expo-constants, so the Node sync harness never imports it (the
+ * connector it runs takes its endpoint as an argument).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer: URLs and wire values only. */
 import Constants from 'expo-constants';
@@ -53,6 +54,11 @@ export function defaultEndpoints(env: AppEnvironment): ServiceEndpoints {
 /** An inlined env value, else `fallback` (unset and empty both count as absent). */
 export function endpointOr(fromEnv: string | undefined, fallback: string): string {
   return fromEnv !== undefined && fromEnv.length > 0 ? fromEnv : fallback;
+}
+
+/** `EXPO_PUBLIC_POWERSYNC_URL`, else the build's default PowerSync service. */
+export function resolvePowerSyncUrl(env: AppEnvironment = currentAppEnvironment()): string {
+  return endpointOr(process.env['EXPO_PUBLIC_POWERSYNC_URL'], defaultEndpoints(env).powerSync);
 }
 
 /** `EXPO_PUBLIC_REALTIME_URL` (Centrifugo's `wss://…/connection/websocket`), else the default. */

@@ -184,12 +184,13 @@ describe('fixed-code configuration', () => {
         OTP_TEST_CODE: '123456',
       }),
     ).toThrow(/E\.164/);
+    const warnings: string[] = [];
     expect(
-      fixedCodeNumbersFromEnv({
-        APP_ENV: 'production',
-        OTP_TEST_NUMBERS: TEST_NUMBER,
-        OTP_TEST_CODE: '123456',
-      }),
+      fixedCodeNumbersFromEnv(
+        { APP_ENV: 'production', OTP_TEST_NUMBERS: TEST_NUMBER, OTP_TEST_CODE: '123456' },
+        (warning) => warnings.push(warning),
+      ),
     ).toBeUndefined();
+    expect(warnings).toEqual([expect.stringContaining('never honours test numbers')]);
   });
 });

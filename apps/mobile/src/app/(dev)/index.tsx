@@ -3,7 +3,6 @@ import * as Updates from 'expo-updates';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { sessionHeaders, startDeviceAppSession } from '@/data/app-session/device-session';
 import { seedDemoData, type DemoScenario } from '@/data/dev/seed-demo';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 
@@ -122,6 +121,9 @@ function SeedDemoData() {
   const seed = async (scenario: DemoScenario) => {
     setState({ kind: 'seeding' });
     try {
+      // Loaded on press: the device session pulls in every native module the app runs on.
+      const { sessionHeaders, startDeviceAppSession } =
+        await import('@/data/app-session/device-session');
       const session = await startDeviceAppSession();
       const outcome = await seedDemoData(
         { baseUrl: resolveApiBaseUrl(), sessionHeaders, db: session.localFirst.db },

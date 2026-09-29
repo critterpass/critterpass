@@ -8,7 +8,7 @@ import { DomainError, type ErrorCode } from '@cp/domain';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 
-import { createSyncConnector, resolvePowerSyncUrl } from '../connector';
+import { createSyncConnector } from '../connector';
 import {
   installKey,
   MemoryKeyStore,
@@ -77,11 +77,6 @@ describe('sync connector', () => {
     });
     await connector.uploadData({} as AbstractPowerSyncDatabase);
     expect(flushes).toBe(1);
-  });
-
-  it('defaults to the production sync service only in production', () => {
-    expect(resolvePowerSyncUrl('production')).toBe('https://sync.critterpass.app');
-    expect(resolvePowerSyncUrl('development')).toBe('https://powersync-api-staging.up.railway.app');
   });
 });
 

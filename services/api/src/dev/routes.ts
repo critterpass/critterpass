@@ -31,7 +31,7 @@ export interface DevRouteDeps {
   readonly pool: pg.Pool;
   readonly sessions: SessionResolver;
   readonly redis: RateLimitRedisClient;
-  readonly logger: Pick<Logger, 'info'>;
+  readonly logger: Pick<Logger, 'info' | 'warn'>;
   readonly clock?: () => Date;
 }
 
@@ -93,5 +93,6 @@ export function registerDevRoutesFromEnv(
 ): boolean {
   if (env.APP_ENV === 'production' || !env.DEV_SEED_ENABLED) return false;
   registerDevRoutes(app, { ...deps, appEnv: env.APP_ENV });
+  deps.logger.warn('POST /v1/dev/seed-demo is mounted (DEV_SEED_ENABLED)');
   return true;
 }

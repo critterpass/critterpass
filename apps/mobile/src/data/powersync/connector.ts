@@ -7,23 +7,11 @@
  */
 import type { PowerSyncBackendConnector, PowerSyncCredentials } from '@powersync/common';
 
-import {
-  currentAppEnvironment,
-  defaultEndpoints,
-  endpointOr,
-  type AppEnvironment,
-} from '../app-session/endpoints';
-
 export interface SyncConnectorOptions {
   /** PowerSync service URL, e.g. `https://sync.critterpass.app`. */
   readonly endpoint: string;
   readonly getSyncToken: () => Promise<string>;
   readonly flushCommands: () => Promise<void>;
-}
-
-/** `EXPO_PUBLIC_POWERSYNC_URL` (inlined by Metro at build time), else the build's default. */
-export function resolvePowerSyncUrl(env: AppEnvironment = currentAppEnvironment()): string {
-  return endpointOr(process.env['EXPO_PUBLIC_POWERSYNC_URL'], defaultEndpoints(env).powerSync);
 }
 
 export function createSyncConnector(options: SyncConnectorOptions): PowerSyncBackendConnector {

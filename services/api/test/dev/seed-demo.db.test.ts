@@ -23,7 +23,7 @@ import {
 let harness: CommandDoorsHarness;
 let producer: PgBoss;
 let caller: SignedIn;
-const logger = { info: () => undefined };
+const logger = { info: () => undefined, warn: () => undefined };
 
 beforeAll(async () => {
   harness = await startCommandDoors(

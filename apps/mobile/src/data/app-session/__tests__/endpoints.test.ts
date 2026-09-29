@@ -9,8 +9,12 @@ import { endpointsConfigSchema } from '@cp/domain';
 import { afterEach, describe, expect, it } from '@jest/globals';
 
 import { resolveApiBaseUrl } from '../../places/apiBaseUrl';
-import { resolvePowerSyncUrl } from '../../powersync/connector';
-import { appEnvironment, endpointsConfigJson, resolveRealtimeUrl } from '../endpoints';
+import {
+  appEnvironment,
+  endpointsConfigJson,
+  resolvePowerSyncUrl,
+  resolveRealtimeUrl,
+} from '../endpoints';
 
 interface EasProfile {
   readonly env?: Record<string, string>;

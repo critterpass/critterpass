@@ -115,7 +115,7 @@ const authModule = createAuthModule({
   baseUrl: `${env.PUBLIC_BASE_URL}/api/auth`,
   trustedOrigins: buildTrustedOriginsFromEnv(env),
   otpAdapters: buildOtpAdaptersFromEnv(env),
-  fixedCodes: fixedCodeNumbersFromEnv(env),
+  fixedCodes: fixedCodeNumbersFromEnv(env, (warning) => logger.warn(warning)),
   onFixedCode: (use) => logger.warn(use, 'fixed-code phone number used for sign-in'),
   rateLimit: { customRules: buildAuthRateLimitCustomRules() },
   attestation: buildAttestationConfigFromEnv(env),
@@ -129,10 +129,6 @@ const authModule = createAuthModule({
   google: buildGoogleSocialConfigFromEnv(env),
   isProduction: env.APP_ENV === 'production',
 });
-
-if (env.APP_ENV === 'production' && env.OTP_TEST_NUMBERS !== undefined) {
-  logger.warn('OTP_TEST_NUMBERS is set but production never honours test numbers');
-}
 
 // This phase's own routes that are not Better Auth endpoints (docs/api-contracts.md §5.1): the
 // attestation challenge always registers (it needs only Redis), while the rest register only when
@@ -236,9 +232,7 @@ registerAiRoutes(app, commandDoors, env, logger);
 registerTravelDataRoutes(app, commandDoors);
 registerCostRoutes(app, commandDoors);
 registerGeoRoutesFromEnv(app, commandDoors, env.GEOIP_CITY_MMDB, logger);
-if (registerDevRoutesFromEnv(app, { ...commandDoors, logger }, env)) {
-  logger.warn('POST /v1/dev/seed-demo is mounted (DEV_SEED_ENABLED)');
-}
+registerDevRoutesFromEnv(app, { ...commandDoors, logger }, env);
 registerLinkRoutes(app, {
   ...commandDoors,
   links: linkProviders,
