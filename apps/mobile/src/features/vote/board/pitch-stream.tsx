@@ -176,7 +176,7 @@ export function PitchCard({ state, people, onRetry }: PitchCardProps) {
               <Skeleton preset="lines" />
             ) : (
               <FadeSection>
-                <Text variant="h1" color={ink} testID="pitch-headline">
+                <Text variant="h1" color={ink} numberOfLines={4} testID="pitch-headline">
                   {upper(heading, i18n.locale)}
                 </Text>
               </FadeSection>
