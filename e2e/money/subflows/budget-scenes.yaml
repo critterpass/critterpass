@@ -1,0 +1,15 @@
+appId: app.critterpass.dev
+---
+# The trip budget (3i-6) and its states, prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: budget, READY: money-budget, SHOT: '${PREFIX}-3i-6-budget' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: budget-over, READY: money-budget, SHOT: '${PREFIX}-money-budget-over' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: budget-pre-trip, READY: money-budget, SHOT: '${PREFIX}-money-budget-pre-trip' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: budget-none, READY: money-budget-none, SHOT: '${PREFIX}-money-budget-none' }

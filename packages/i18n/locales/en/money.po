@@ -7,6 +7,16 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: whole(line.spentMinor)
+#. placeholder {1}: whole(line.plannedMinor)
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.dayA11y"
+msgstr "{0} of {1} planned"
+
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.biggest"
+msgstr "{biggest} is the biggest cost left."
+
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 msgid "money.review.title"
 msgstr "{count, plural, one {Tokek read # line} other {Tokek read # lines}}"
@@ -76,6 +86,15 @@ msgstr "{payer} pays {payee}"
 #: ../../apps/mobile/src/features/money/settle/SettleList.tsx
 msgid "money.settle.netted"
 msgstr "{payments, plural, one {Tokek netted {expenses} expenses down to one payment.} other {Tokek netted {expenses} expenses down to # payments.}}"
+
+#: ../../apps/mobile/src/features/money/budget/BudgetScreen.tsx
+msgid "money.budget.title"
+msgstr "{place} budget"
+
+#. placeholder {0}: whole(planned)
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.spentOf"
+msgstr "{spent} spent of {0}"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.settle.taps"
@@ -201,9 +220,17 @@ msgstr "Bank id"
 msgid "money.payout.bank"
 msgstr "Bank transfer"
 
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.before"
+msgstr "Before the trip"
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.tile.budget"
 msgstr "Budget"
+
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.byDay"
+msgstr "By day"
 
 #: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
 #: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
@@ -250,6 +277,10 @@ msgstr "Copied"
 msgid "money.pay.copy"
 msgstr "Copy"
 
+#: ../../apps/mobile/src/features/money/budget/BudgetScreen.tsx
+msgid "money.budget.target"
+msgstr "Crew total in {currency}"
+
 #: ../../apps/mobile/src/features/money/add-expense/AmountEntry.tsx
 msgid "money.add.currencyA11y"
 msgstr "Currency {currency}, change"
@@ -261,6 +292,14 @@ msgstr "Custom"
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.cutOff"
 msgstr "Cut off"
+
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.legend"
+msgstr "Dashes = plan"
+
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.day"
+msgstr "Day {day} of {days}"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.deleteConfirm"
@@ -380,6 +419,10 @@ msgstr "Glare"
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.cash"
 msgstr "Hand it over in person."
+
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.over"
+msgstr "Heading for {deltaText} over."
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.retakeBody"
@@ -526,6 +569,14 @@ msgstr "Name, category and day"
 msgid "money.add.eyebrow"
 msgstr "New expense · {crew}"
 
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.none"
+msgstr "No crew budget yet. An organiser can set one."
+
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.noneOrganiser"
+msgstr "No crew budget yet. Set one and every expense counts against it."
+
 #: ../../apps/mobile/src/features/money/history/HistoryView.tsx
 msgid "money.history.empty"
 msgstr "No expenses match."
@@ -563,6 +614,10 @@ msgstr "Nudge {payer}"
 #: ../../apps/mobile/src/features/money/settle/SettleScreen.tsx
 msgid "money.settle.nudged"
 msgstr "Nudged {who}. Gently."
+
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.under"
+msgstr "On track to finish {deltaText} under."
 
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.revealNone"
@@ -604,6 +659,11 @@ msgstr "Other"
 msgid "money.add.out"
 msgstr "Out"
 
+#. placeholder {0}: whole(line.spentMinor - line.plannedMinor)
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.overBy"
+msgstr "Over by {0}"
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.bars.owes"
 msgstr "Owes"
@@ -643,6 +703,10 @@ msgstr "People can hand it to you in person."
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pick"
 msgstr "Pick a photo"
+
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.planned"
+msgstr "Planned"
 
 #: ../../apps/mobile/src/features/money/settle/payout-labels.ts
 msgid "money.payout.promptpay"
@@ -692,6 +756,7 @@ msgstr "Requested"
 msgid "money.failure.retake"
 msgstr "Retake, flatter"
 
+#: ../../apps/mobile/src/features/money/budget/BudgetScreen.tsx
 #: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
 msgid "money.payout.save"
 msgstr "Save"
@@ -728,6 +793,11 @@ msgstr "Scan the receipt"
 msgid "money.latest.all"
 msgstr "See all"
 
+#: ../../apps/mobile/src/features/money/budget/BudgetScreen.tsx
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.set"
+msgstr "Set a crew budget"
+
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 #: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
 msgid "money.pay.back"
@@ -752,6 +822,10 @@ msgstr "Someone else paid?"
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.body"
 msgstr "Spend in any currency. Balances and settling up use this one, at the rate on the day each expense was added."
+
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.spent"
+msgstr "Spent"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.split"
@@ -846,6 +920,10 @@ msgstr "The total, not the lines"
 msgid "money.detail.goneTitle"
 msgstr "This expense is gone"
 
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.today"
+msgstr "Today"
+
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.today"
 msgstr "Today"
@@ -898,6 +976,14 @@ msgstr "Transit"
 #: ../../apps/mobile/src/features/money/balances/TripSheet.tsx
 msgid "money.trips.unnamed"
 msgstr "Trip"
+
+#: ../../apps/mobile/src/features/money/budget/BudgetScreen.tsx
+msgid "money.budget.titleNoPlace"
+msgstr "Trip budget"
+
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
+msgid "money.budget.after"
+msgstr "Trip over"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.failedLine"

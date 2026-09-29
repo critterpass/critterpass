@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# The trip budget in the money lab: the Bali budget as drawn (3i-6), over budget, before the trip
+# and with no crew budget set.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/budget-scenes.yaml
+    env:
+      PREFIX: en
