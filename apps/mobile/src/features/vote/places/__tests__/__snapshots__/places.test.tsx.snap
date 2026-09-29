@@ -363,8 +363,8 @@ exports[`guest guide page draws the place facts, the locals as hints and the bri
                       },
                       undefined,
                       {
-                        "marginTop": -1.7999999999999994,
-                        "paddingTop": 1.7999999999999994,
+                        "marginTop": -4.899999999999998,
+                        "paddingTop": 4.899999999999998,
                       },
                     ]
                   }
