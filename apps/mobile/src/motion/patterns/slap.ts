@@ -23,7 +23,8 @@ export interface UseSlapOptions {
 
 /**
  * A sticker slapping in: scale 0->1 with rotation ±24deg settling to ±8deg over 540ms (back easing).
- * Reduced motion: a 150ms opacity fade; the `slap` haptic/SFX cue still fires either way.
+ * Reduced motion: the sticker at rest (scale 1, ±8deg) fading in over 150ms; the `slap` haptic/SFX
+ * cue still fires either way.
  */
 export function useSlap({ active, direction = 1, delayMs = 0 }: UseSlapOptions) {
   const scale = useSharedValue(0);
@@ -34,6 +35,9 @@ export function useSlap({ active, direction = 1, delayMs = 0 }: UseSlapOptions) 
   useEffect(() => {
     if (!active) return;
     if (reduced) {
+      // The resting pose first: only the fade animates, so the sticker ends at full size.
+      scale.value = 1;
+      rotate.value = direction * 8;
       opacity.value = withDelay(
         delayMs,
         withTiming(1, { duration: REDUCED_IMPACT_FADE_MS, easing: standardEasing }, (finished) => {
