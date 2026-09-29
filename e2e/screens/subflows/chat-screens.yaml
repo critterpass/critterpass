@@ -71,22 +71,23 @@ appId: app.critterpass.dev
     id: 'start-crew-done'
 # Done does not always make the new crew the current one: choose it on the crews sheet.
 - waitForAnimationToEnd
+# The sheet's own id is not exposed to Maestro on iOS; its START A CREW card marks it open.
 - runFlow:
     when:
       notVisible:
-        id: 'crews-sheet'
+        id: 'crews-start'
     commands:
       - tapOn:
           id: 'home-header-crew'
 - extendedWaitUntil:
     visible:
-      id: 'crews-sheet'
+      id: 'crews-start'
     timeout: 15000
 - tapOn:
     text: '(?i).*quiet crew.*'
 - extendedWaitUntil:
     notVisible:
-      id: 'crews-sheet'
+      id: 'crews-start'
     timeout: 10000
 - extendedWaitUntil:
     visible:
