@@ -351,17 +351,26 @@ jobs:
           MODE: ${{ needs.prepare.outputs.mode }}
         run: |
           images=$RUNNER_TEMP/images
+          mkdir -p "$images"
           for platform in ios android; do
             dirs=$(ls -d "$RUNNER_TEMP/shards/device-$platform-shard-"*/screenshots 2>/dev/null || true)
             [ -z "$dirs" ] && continue
             mkdir -p "$RUNNER_TEMP/device/$platform"
             for dir in $dirs; do cp "$dir"/*.png "$RUNNER_TEMP/device/$platform/" 2>/dev/null || true; done
+            [ -z "$(ls "$RUNNER_TEMP/device/$platform")" ] && continue
             if [ "$MODE" = compare ]; then
-              pnpm screens:compare -- --from "$RUNNER_TEMP/device/$platform" --out "$images/$platform-sheets"
-            else
+              pnpm screens:compare -- --from "$RUNNER_TEMP/device/$platform" --out "$images/$platform-sheets" || true
+            fi
+            # No sheets (no design-id names, or the compare failed): post the screenshots themselves.
+            if [ "$MODE" != compare ] || ! ls "$images/$platform-sheets"/*.png >/dev/null 2>&1; then
+              [ "$MODE" = compare ] && echo "SHEETLESS=true" >> "$GITHUB_ENV"
+              rm -rf "$images/$platform-sheets"
               mkdir -p "$images/$platform" && cp -R "$RUNNER_TEMP/device/$platform/." "$images/$platform/"
             fi
           done
+          if ! find "$images" -name '*.png' | grep -q .; then
+            echo "::notice title=No screenshots::No shard captured a screenshot; the comment carries the check summary only."
+          fi
       - name: Summarise the checks
         env:
           PRESET: ${{ needs.prepare.outputs.preset }}
@@ -396,5 +405,6 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           SUMMARY_FILE: ${{ runner.temp }}/summary.md
         run: |
-          heading=$([ "$MODE" = compare ] && echo "Design | device sheets" || echo "Device screenshots")
+          heading="Device screenshots"
+          [ "$MODE" = compare ] && [ "${SHEETLESS:-}" != true ] && heading="Design | device sheets"
           tools/scripts/ci-device/publish-screenshots.sh "$PR" "$RUNNER_TEMP/images" "$heading ($JS_COMMIT)"

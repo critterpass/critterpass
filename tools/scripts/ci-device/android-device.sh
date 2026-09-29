@@ -37,8 +37,13 @@ device input keyevent 82
 device cmd uimode night "$([ "${APPEARANCE:-light}" = dark ] && echo yes || echo no)"
 
 # A full (not incremental) install, so the manifest's extractNativeLibs is honoured at install time;
-# -g grants every runtime permission, notifications included.
+# -g grants every runtime permission.
 adb -s "$serial" install --no-incremental -r -g "$apk"
+# Notifications start undecided, as on a fresh install, so the permission primer flows see the OS
+# prompt still to come (a grant from -g, once Maestro unsets it, would read as blocked instead).
+device pm revoke "$package" android.permission.POST_NOTIFICATIONS || true
+device pm clear-permission-flags "$package" android.permission.POST_NOTIFICATIONS \
+  user-set user-fixed review-required || true
 echo "Device ABIs: $(device getprop ro.product.cpu.abilist | tr -d '\r')"
 device dumpsys package "$package" | grep -E 'primaryCpuAbi|legacyNativeLibraryDir|flags=' | head -4 || true
 
