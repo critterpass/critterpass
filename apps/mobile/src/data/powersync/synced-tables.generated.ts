@@ -13,9 +13,13 @@ export const SYNCED_TABLE_COLUMNS = {
   activity_events: 'trip_id crew_id actor_kind actor_id verb object_kind object_id text at',
   agent_jobs:
     'trip_id user_id kind status steps partial input_hash base_version_id result_ref model tokens_in:integer tokens_out:integer cost_micros:integer pgboss_job_id created_at updated_at',
+  availability_summaries:
+    'trip_id date free_count:integer maybe_count:integer busy_count:integer unknown_count:integer member_count:integer computed_at created_at updated_at',
   avatars:
     'user_id kind form_id ring media_key moderation_status moderation_reason variant_keys created_at updated_at',
   ballots: 'poll_id option_id crew_id trip_id user_id source op_id cast_at created_at updated_at',
+  budget_plans:
+    'trip_id target_minor:integer currency band_low_minor:integer band_high_minor:integer breakdown stay_mix planned_by_day quote_version is_stale:integer locked_at locked_by version:integer created_at updated_at',
   change_sets:
     'trip_id base_version_id trigger scope author_kind author_id status poll_id cost_delta_minor:integer ops approved_by_kind approved_by result_version_id created_at updated_at',
   client_config: 'key value updated_at',
@@ -35,6 +39,8 @@ export const SYNCED_TABLE_COLUMNS = {
   critters:
     'key set_id no:integer city species art_params canonical_seed:integer note release_id created_at updated_at',
   crowd_forecasts: 'poi_id dow:integer hourly source fetched_at created_at updated_at',
+  date_window_options:
+    'trip_id position:integer kind start_date end_date free_count:integer member_count:integer missing_member_ids missed_must_do_ids ask_user_id ask_status price_delta_minor:integer currency season_score:integer reason is_pick:integer computed_at created_at updated_at',
   destination_cost_indices:
     'destination_id stay_type nightly_minor_low:integer nightly_minor_high:integer food_pp_day_minor:integer fun_pp_day_minor:integer currency source source_url sourced_on reviewed_at created_at updated_at',
   destinations:
@@ -126,6 +132,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'pass_id user_id kind seq_no:integer destination_id trip_id dates iata country ink_colour status stamped_at created_at updated_at',
   taste_profiles:
     'user_id answers tags tag_sources chronotype pace room_pref visibility created_at updated_at',
+  trip_budget_aggregates:
+    'trip_id currency maxes_count:integer member_count:integer band_low_minor:integer band_high_minor:integer step_minor:integer bucketed_dots under_all_ok:integer infeasible:integer computed_at created_at updated_at',
   trip_entitlements:
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
   trip_participants:

@@ -1099,6 +1099,61 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
   },
   poll_reveals: { selectProbe: ownRowProbe('poll_reveals'), expectations: SELF_ONLY },
+  // Trip setup: the organiser's own calendar source, day and default (owner only); a budget max
+  // nobody reads back through app_user, its owner included; a private ask its recipient alone
+  // reads; the derived counts, window options, budget aggregate and plan are crew-visible.
+  calendar_sources: { selectProbe: ownRowProbe('calendar_sources'), expectations: SELF_ONLY },
+  calendar_days: { selectProbe: ownRowProbe('calendar_days'), expectations: SELF_ONLY },
+  budget_defaults_private: {
+    selectProbe: ownRowProbe('budget_defaults_private'),
+    expectations: SELF_ONLY,
+  },
+  budget_max_private: {
+    selectProbe: ownRowProbe('budget_max_private'),
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(false, true, false),
+    },
+  },
+  availability_asks: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM availability_asks WHERE target_user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
+  availability_summaries: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM availability_summaries WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  date_window_options: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM date_window_options WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  trip_budget_aggregates: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM trip_budget_aggregates WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  budget_plans: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM budget_plans WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
   inbox_items: {
     selectProbe: {
       sql: 'SELECT 1 FROM inbox_items WHERE user_id = $1',

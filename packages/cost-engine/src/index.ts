@@ -117,6 +117,15 @@ export {
 } from './budget/breakdown';
 export { chooseStayMix, type StayMix, type StayMixPart, type StayRate } from './budget/stay-mix';
 export {
+  checkLockTarget,
+  isInfeasible,
+  isOnStep,
+  isUnderAll,
+  ownFit,
+  type LockCheck,
+  type OwnFit,
+} from './budget/feasibility';
+export {
   packRooms,
   previewSwap,
   repackWithout,

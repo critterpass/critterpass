@@ -1,0 +1,24 @@
+# Trip setup streams (docs/data-model-sync-and-privacy.md §4): the derived, crew-visible setup rows
+# sync with the trip to every active member of its crew, mirroring their RLS (app.is_trip_member).
+# Raw calendars, availability asks, budget maxes and dietary profiles are C3 and never published,
+# so no stream can name them.
+
+streams:
+  trip:
+    queries:
+      - |
+        SELECT * FROM availability_summaries
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM date_window_options
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM trip_budget_aggregates
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM budget_plans
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)

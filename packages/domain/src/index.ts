@@ -290,3 +290,4 @@ export * from './pass';
 export * from './taste';
 export * from './airports';
 export * from './crew-areas';
+export * from './setup';
