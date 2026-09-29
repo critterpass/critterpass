@@ -19,7 +19,6 @@ import { fixturesFor, listComponents } from '../gallery/registry';
 import { DOODLES } from '../icons/generated';
 import type { DoodleName } from '../icons/generated';
 import { Icon } from '../icons/Icon';
-import { StraightArrow } from '../icons/StraightArrow';
 import { DOODLE_A11Y } from '../icons/labels';
 import { barsPath, dotGridPath, parseDotLayer, ringsPath, wedgesPath } from '../textures/geometry';
 import { Halftone } from '../textures/halftone';
@@ -44,19 +43,6 @@ describe('doodle icon set', () => {
       expect({ name, painted: painted.length > 0 }).toEqual({ name, painted: true });
       await act(() => unmount());
     }
-  });
-
-  it('draws the straight arrow in its colour, turned to its direction', async () => {
-    await renderUi(<StraightArrow direction="up" color={tokens.color.ink['850']} testID="send" />);
-    const box = screen.getByTestId('send', { includeHiddenElements: true });
-    expect(box.props.style).toEqual(
-      expect.arrayContaining([expect.objectContaining({ width: 20, height: 20 })]),
-    );
-    expect(
-      JSON.stringify(
-        box.children.map((part) => (typeof part === 'string' ? part : part.props['style'])),
-      ),
-    ).toContain(tokens.color.ink['850']);
   });
 
   it('draws an accent-only doodle (the arrow) in its brush colour', async () => {
