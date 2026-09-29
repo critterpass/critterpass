@@ -5,9 +5,14 @@
  * written locally, so PowerSync's own CRUD queue stays empty and the command queue triggers its own
  * flushes; `uploadData` still flushes it whenever PowerSync asks.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer (docs/system-architecture.md
-   §3); every literal is SQL, a route path, a wire code or a developer-facing error, never copy. */
 import type { PowerSyncBackendConnector, PowerSyncCredentials } from '@powersync/common';
+
+import {
+  currentAppEnvironment,
+  defaultEndpoints,
+  endpointOr,
+  type AppEnvironment,
+} from '../app-session/endpoints';
 
 export interface SyncConnectorOptions {
   /** PowerSync service URL, e.g. `https://sync.critterpass.app`. */
@@ -16,12 +21,9 @@ export interface SyncConnectorOptions {
   readonly flushCommands: () => Promise<void>;
 }
 
-const DEFAULT_POWERSYNC_URL = 'https://sync.critterpass.app';
-
-/** `EXPO_PUBLIC_POWERSYNC_URL` (inlined by Metro at build time), else the production service. */
-export function resolvePowerSyncUrl(): string {
-  const fromEnv = process.env['EXPO_PUBLIC_POWERSYNC_URL'];
-  return fromEnv !== undefined && fromEnv.length > 0 ? fromEnv : DEFAULT_POWERSYNC_URL;
+/** `EXPO_PUBLIC_POWERSYNC_URL` (inlined by Metro at build time), else the build's default. */
+export function resolvePowerSyncUrl(env: AppEnvironment = currentAppEnvironment()): string {
+  return endpointOr(process.env['EXPO_PUBLIC_POWERSYNC_URL'], defaultEndpoints(env).powerSync);
 }
 
 export function createSyncConnector(options: SyncConnectorOptions): PowerSyncBackendConnector {

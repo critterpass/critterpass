@@ -79,8 +79,9 @@ describe('sync connector', () => {
     expect(flushes).toBe(1);
   });
 
-  it('defaults to the production sync service', () => {
-    expect(resolvePowerSyncUrl()).toBe('https://sync.critterpass.app');
+  it('defaults to the production sync service only in production', () => {
+    expect(resolvePowerSyncUrl('production')).toBe('https://sync.critterpass.app');
+    expect(resolvePowerSyncUrl('development')).toBe('https://powersync-api-staging.up.railway.app');
   });
 });
 

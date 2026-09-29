@@ -61,7 +61,29 @@ describe('build endpoints', () => {
     expect(resolveRealtimeUrl()).toBe('ws://localhost:8000/connection/websocket');
 
     process.env['EXPO_PUBLIC_REALTIME_URL'] = '';
-    expect(resolveRealtimeUrl()).toBe('wss://rt.critterpass.app/connection/websocket');
+    expect(resolveRealtimeUrl('production')).toBe('wss://rt.critterpass.app/connection/websocket');
+  });
+
+  it('falls back to production only for production, and to staging for every other variant', () => {
+    for (const name of ENDPOINT_VARS) delete process.env[name];
+    expect([
+      resolveApiBaseUrl('production'),
+      resolvePowerSyncUrl('production'),
+      resolveRealtimeUrl('production'),
+    ]).toEqual([
+      'https://api.critterpass.app',
+      'https://sync.critterpass.app',
+      'wss://rt.critterpass.app/connection/websocket',
+    ]);
+    for (const env of ['development', 'staging'] as const) {
+      expect([resolveApiBaseUrl(env), resolvePowerSyncUrl(env), resolveRealtimeUrl(env)]).toEqual([
+        'https://api-staging-de92.up.railway.app',
+        'https://powersync-api-staging.up.railway.app',
+        'wss://centrifugo-staging-652b.up.railway.app/connection/websocket',
+      ]);
+    }
+    // Jest runs with no app variant, which counts as development.
+    expect(resolveApiBaseUrl()).toBe('https://api-staging-de92.up.railway.app');
   });
 
   it('writes an endpoints config the extensions accept', () => {
