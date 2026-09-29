@@ -29,11 +29,13 @@ export function BunchPill({
   place,
   label,
   onPress,
+  flip = false,
 }: {
   readonly people: readonly PersonView[];
   readonly place: string | null;
   readonly label: string;
   readonly onPress: () => void;
+  readonly flip?: boolean;
 }) {
   const styles = usePinStyles();
   const theme = useTheme();
@@ -70,7 +72,7 @@ export function BunchPill({
             )}
           </Stack>
         </Row>
-        <View style={[styles.tail, { borderTopColor: colour }]} />
+        <View style={[styles.tail, flip ? styles.tailFlipped : null, { borderTopColor: colour }]} />
       </PressScale>
     </Animated.View>
   );

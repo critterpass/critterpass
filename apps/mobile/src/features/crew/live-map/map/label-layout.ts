@@ -106,3 +106,26 @@ export function declutter(
   }
   return offsets;
 }
+
+export interface HorizontalPlacement {
+  /** Grow the label leftwards from its pin (anchor bottom-right) instead of rightwards. */
+  readonly flip: boolean;
+  /** Extra horizontal shift (points) when neither side fits whole. */
+  readonly dx: number;
+}
+
+/**
+ * Keeps a label of `width` whose pin sits at screen x `px` inside `[inset, screenWidth - inset]`:
+ * rightwards when it fits, else leftwards (flipped) when that fits, else rightwards shifted in.
+ */
+export function placeHorizontally(
+  px: number,
+  width: number,
+  screenWidth: number,
+  inset: number,
+): HorizontalPlacement {
+  const right = screenWidth - inset;
+  if (px + width <= right) return { flip: false, dx: px < inset ? inset - px : 0 };
+  if (px - width >= inset) return { flip: true, dx: 0 };
+  return { flip: false, dx: Math.max(inset - px, right - (px + width)) };
+}

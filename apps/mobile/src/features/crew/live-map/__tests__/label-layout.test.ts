@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { declutter, fitProjection } from '../map/label-layout';
+import { declutter, fitProjection, placeHorizontally } from '../map/label-layout';
 
 const view = { width: 390, height: 844, padding: { top: 180, bottom: 380, left: 24, right: 170 } };
 
@@ -63,5 +63,25 @@ describe('label layout', () => {
     );
     // Lifting Alex (274–320) above the meet-up would reach 200 < 260: it drops to 304–350.
     expect(offsets.get('alex')).toEqual([0, 30]);
+  });
+
+  // A pin with a long Vietnamese status ("Thấy lần cuối 12 phút trước") is as wide as a pin gets.
+  const LONG = 220;
+
+  it('flips a long label at the right edge to grow leftwards, inside the screen', () => {
+    const placed = placeHorizontally(330, LONG, 390, 12);
+    expect(placed).toEqual({ flip: true, dx: 0 });
+    expect(330 - LONG).toBeGreaterThanOrEqual(12);
+  });
+
+  it('keeps a long label at the left edge growing rightwards, shifted in when the pin is off-edge', () => {
+    expect(placeHorizontally(20, LONG, 390, 12)).toEqual({ flip: false, dx: 0 });
+    expect(placeHorizontally(4, LONG, 390, 12)).toEqual({ flip: false, dx: 8 });
+  });
+
+  it('shifts inward when neither side fits whole', () => {
+    const placed = placeHorizontally(180, 300, 390, 12);
+    expect(placed.flip).toBe(false);
+    expect(180 + placed.dx + 300).toBeLessThanOrEqual(390 - 12);
   });
 });

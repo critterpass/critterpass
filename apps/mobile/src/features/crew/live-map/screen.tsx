@@ -14,12 +14,10 @@ import { Stack, useTheme } from '@/ui';
 import { clock, pinLabel, statusLine } from './copy';
 import { LiveMapServicesProvider, type LiveMapServices } from './data/services';
 import { lockScreenStarter } from './gate-slot';
-import { BunchPill } from './map/bunch-pill';
 import { HeaderPill } from './map/header-pill';
-import { declutter, fitProjection, type LabelBox } from './map/label-layout';
-import { boundsOf, LiveMapCanvas, regionTilesUrl, type CanvasPin } from './map/live-map-canvas';
+import { boundsOf, LiveMapCanvas, regionTilesUrl } from './map/live-map-canvas';
 import { MeetupPin } from './map/meetup-pin';
-import { MemberPin } from './map/member-pin';
+import { canvasPins, layoutPins, MEETUP_KEY } from './map/pin-layout';
 import type { LiveMapModel } from './model';
 import { MeetupEditor } from './panel/meetup-editor';
 import { Panel } from './panel/panel';
@@ -31,79 +29,6 @@ import { SharePrimer } from './states/share-primer';
 import { useLiveMapScreen } from './use-live-map-screen';
 
 const DEFAULT_CENTER: readonly [number, number] = [115.2625, -8.5069];
-
-function canvasPins(m: LiveMapModel): CanvasPin[] {
-  if (m.view === null || m.gate !== 'open') return [];
-  return m.view.pins.map((pin) => {
-    const people = pin.kind === 'single' ? [pin.person] : pin.people;
-    const lead = people[0];
-    const at = lead?.position?.at ?? 0;
-    const target =
-      pin.kind === 'single'
-        ? { lat: pin.person.position?.lat ?? 0, lng: pin.person.position?.lng ?? 0, at }
-        : { lat: pin.lat, lng: pin.lng, at };
-    const label = pinLabel(people, m.locale);
-    const open = () => m.setOverlay({ kind: 'person', people });
-    return {
-      key: people.map((person) => person.uid).join('+'),
-      target,
-      node:
-        pin.kind === 'single' ? (
-          <MemberPin
-            person={pin.person}
-            status={statusLine(pin.person, m.tz, m.locale, m.now)}
-            label={label}
-            onPress={open}
-          />
-        ) : (
-          <BunchPill
-            people={pin.people}
-            place={lead?.eta?.status.poi ?? null}
-            label={label}
-            onPress={open}
-          />
-        ),
-    };
-  });
-}
-
-/** Widest pin label, points: the right edge of the framed strip keeps it on screen. */
-const PIN_WIDTH = 200;
-const PIN_HEIGHT = 54;
-
-/** Lifts pin labels that would draw over the meet-up or each other (north first). */
-function placeLabels(
-  pins: CanvasPin[],
-  m: LiveMapModel,
-  framed: readonly (readonly [number, number])[],
-  view: Parameters<typeof fitProjection>[1],
-): CanvasPin[] {
-  if (framed.length < 2) return pins;
-  const project = fitProjection(framed, view);
-  const boxes: LabelBox[] = [];
-  if (m.meetup !== null) {
-    boxes.push({
-      key: 'meetup',
-      lng: m.meetup.lng,
-      lat: m.meetup.lat,
-      left: 0,
-      width: 280,
-      height: 64,
-    });
-  }
-  for (const pin of [...pins].sort((a, b) => b.target.lat - a.target.lat)) {
-    boxes.push({
-      key: pin.key,
-      lng: pin.target.lng,
-      lat: pin.target.lat,
-      left: 0,
-      width: PIN_WIDTH,
-      height: PIN_HEIGHT,
-    });
-  }
-  const offsets = declutter(boxes, project, view.padding.top - 20);
-  return pins.map((pin) => ({ ...pin, offset: offsets.get(pin.key) }));
-}
 
 function formatDay(at: Date, locale: string, tz: string | null): string {
   return new Intl.DateTimeFormat(locale, {
@@ -142,7 +67,8 @@ export function LiveMapView({
     top: insets.top + 110,
     bottom: panelHeight + 16,
     left: 24,
-    right: PIN_WIDTH - 24,
+    // Labels near the right edge flip leftwards, so the framed strip can run close to it.
+    right: 40,
   };
   const rawPins = canvasPins(m);
   const framed: (readonly [number, number])[] = rawPins.map((pin) => [
@@ -151,7 +77,9 @@ export function LiveMapView({
   ]);
   if (m.meetup !== null) framed.push([m.meetup.lng, m.meetup.lat]);
   if (you !== null) framed.push(you);
-  const pins = placeLabels(rawPins, m, framed, { width, height, padding });
+  const layout = layoutPins(rawPins, m, framed, { width, height, padding });
+  const pins = canvasPins(m, layout);
+  const meetupPlace = layout.get(MEETUP_KEY);
   const lastUpdate = m.updatedAt === null ? null : clock(m.updatedAt, m.tz, m.locale);
   const lock = lockScreenStarter();
   const footer =
@@ -179,6 +107,8 @@ export function LiveMapView({
             ? null
             : {
                 lngLat: [m.meetup.lng, m.meetup.lat],
+                flip: meetupPlace?.flip,
+                offset: meetupPlace?.offset,
                 node: (
                   <MeetupPin
                     place={m.meetup.place_name}

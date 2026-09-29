@@ -40,6 +40,8 @@ export const usePinStyles = makeStyles((th) => ({
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
   },
+  // A pin near the right edge grows leftwards: its tail sits under the right end instead.
+  tailFlipped: { alignSelf: 'flex-end', marginLeft: 0, marginRight: th.space['16'] },
   stale: { opacity: 0.5 },
   names: { flexShrink: 1 },
 }));
@@ -49,11 +51,13 @@ export function MemberPin({
   status,
   label,
   onPress,
+  flip = false,
 }: {
   readonly person: PersonView;
   readonly status: string;
   readonly label: string;
   readonly onPress: () => void;
+  readonly flip?: boolean;
 }) {
   const styles = usePinStyles();
   const theme = useTheme();
@@ -86,6 +90,7 @@ export function MemberPin({
         <View
           style={[
             styles.tail,
+            flip ? styles.tailFlipped : null,
             { borderTopColor: person.stale ? theme.semantic.text.secondary : colour },
           ]}
         />

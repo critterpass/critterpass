@@ -37,12 +37,18 @@ export interface CanvasPin {
   readonly node: ReactElement;
   /** Lift that keeps this label clear of the ones placed before it (./label-layout.ts). */
   readonly offset?: [number, number] | undefined;
+  /** The label grows leftwards from its pin (near the right edge). */
+  readonly flip?: boolean | undefined;
 }
 
 function GlidingPin({ pin }: { readonly pin: CanvasPin }) {
   const lngLat = useGlide(pin.target);
   return (
-    <ViewAnnotation lngLat={lngLat} anchor="bottom-left" offset={pin.offset ?? [0, 0]}>
+    <ViewAnnotation
+      lngLat={lngLat}
+      anchor={pin.flip === true ? 'bottom-right' : 'bottom-left'}
+      offset={pin.offset ?? [0, 0]}
+    >
       {pin.node}
     </ViewAnnotation>
   );
@@ -84,6 +90,8 @@ export function LiveMapCanvas({
   readonly meetup: {
     readonly lngLat: readonly [number, number];
     readonly node: ReactElement;
+    readonly flip?: boolean | undefined;
+    readonly offset?: [number, number] | undefined;
   } | null;
   readonly you: readonly [number, number] | null;
   readonly approximateYou: boolean;
@@ -143,7 +151,8 @@ export function LiveMapCanvas({
           <ViewAnnotation
             id="live-meetup"
             lngLat={[meetup.lngLat[0], meetup.lngLat[1]]}
-            anchor="bottom-left"
+            anchor={meetup.flip === true ? 'bottom-right' : 'bottom-left'}
+            offset={meetup.offset ?? [0, 0]}
             draggable={onMeetupDragged !== undefined}
             {...(onMeetupDragStart === undefined ? {} : { onDragStart: onMeetupDragStart })}
             onDragEnd={(event) => {
