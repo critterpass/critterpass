@@ -13,6 +13,7 @@ import { useLiveRows } from './live-rows';
 import { OPEN_DESTINATION_SQL, PLACES_SQL, PLACES_TABLES } from './poll-queries';
 import type { PollView } from './poll-view';
 import { useMyUid } from './use-my-uid';
+import { useRevealOnOpen } from './use-final';
 import { usePoll } from './use-poll';
 
 export interface BoardPlace {
@@ -93,6 +94,7 @@ export function homeVoteOf(poll: PollView): HomeVoteSlot {
 /** Home's vote slot: the crew's open destination poll, or null. */
 export function useHomeDestinationVote(crewId: string | null): HomeVoteSlot | null {
   const me = useMyUid();
+  useRevealOnOpen(me);
   const pollId = useOpenDestinationPoll(crewId);
   const { poll } = usePoll(pollId, me);
   return useMemo(() => (poll === null || poll.status !== 'open' ? null : homeVoteOf(poll)), [poll]);

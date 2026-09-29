@@ -27,6 +27,8 @@ export const voteRoutes = {
   /** A live guide's destination page (another area's 3d-1); the place page until it exists. */
   destination: (placeId: string, crewId?: string): Href =>
     hrefFor('3d-1', { placeId }) ?? voteRoutes.place(placeId, crewId),
+  /** Trip setup (another area's 3c-3), once that area has registered it. */
+  tripSetup: (tripId: string): Href | undefined => hrefFor('3c-3', { tripId }),
 };
 
 let registered = false;

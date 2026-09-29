@@ -111,8 +111,8 @@ describe('destination board', () => {
     const s = await open();
     await seedBoard(s);
     await renderVote(<Board me={s.uid} />, s);
-    await until(() => screen.queryByTestId('board-sticker-1') !== null);
-    expect(screen.getByTestId('board-status')).toHaveTextContent('VOTE OPEN · 1 OF 3 IN');
+    await until(() => screen.queryByText('VOTE OPEN · 1 OF 3 IN') !== null);
+    expect(screen.getByTestId('board-sticker-1')).toBeTruthy();
     expect(screen.queryByTestId('board-go-to-final')).toBeNull();
     await fireEvent.press(screen.getByTestId('board-sticker-1'));
     await until(() => screen.queryByText('VOTE OPEN · 2 OF 3 IN') !== null);
