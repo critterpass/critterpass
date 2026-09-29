@@ -75,6 +75,10 @@ describe('chips', () => {
     );
     expect(screen.getByLabelText('Rare · Water temples only')).toBeTruthy();
     expect(screen.getByText(`${tokens.tier.legendary.glyph} LEGENDARY`)).toBeTruthy();
+    // A no-break space keeps the glyph on the word's line in a narrow cell.
+    expect(
+      screen.getByText(`${tokens.tier.legendary.glyph}\u00A0LEGENDARY`, { normalizer: (t) => t }),
+    ).toBeTruthy();
     expect(screen.getByText('PASS+')).toBeTruthy();
     expect(screen.getByText('MAYBE')).toBeTruthy();
   });

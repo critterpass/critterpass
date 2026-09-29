@@ -4,6 +4,9 @@ import { Text } from '../text/Text';
 import type { TextVariant } from '../text/Text';
 import { useTheme } from '../theme';
 
+/** A no-break space: the tier glyph never wraps away from its word. */
+const GLUE = '\u00A0';
+
 export type Tier = 'common' | 'rare' | 'epic' | 'legendary';
 
 export function tierWord(tier: Tier): string {
@@ -36,7 +39,7 @@ export function TierLabel({ tier, suffix, variant = 'label', testID }: TierLabel
   const text = suffix ? `${word} · ${suffix}` : word;
   return (
     <Text testID={testID} variant={variant} color={token.color} accessibilityLabel={text}>
-      {`${token.glyph} ${text}`}
+      {`${token.glyph}${GLUE}${text}`}
     </Text>
   );
 }

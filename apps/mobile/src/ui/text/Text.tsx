@@ -119,7 +119,8 @@ function plainText(children: ReactNode): string | null {
 /**
  * The app's only text primitive: token typography per locale script (`fontFor`), uppercase at
  * render, tabular numerals where the token asks for them, Dynamic Type scaled per variant (display
- * and h1 damped to 0.5×, capped at AX3) and auto-fit for display/h1 strings.
+ * and h1 damped to 0.5×, capped at AX3), auto-fit for display/h1 strings, and uppercase words kept
+ * whole by shrinking to the auto-fit floor.
  */
 export function Text({
   variant = 'body',
@@ -161,12 +162,17 @@ export function Text({
     : { children, hasElements: false };
   const text = plainText(transformed.children);
   const { singleLine, maxLines: tokenMaxLines } = token.dynamicType;
-  const lineLimit = numberOfLines ?? (singleLine ? 1 : tokenMaxLines);
+  const fitting = (autoFit ?? token.dynamicType.autoFit === true) && text !== null;
+  // A single-line variant keeps one line by fitting to it; with fitting off it wraps, never cut.
+  const lineLimit = numberOfLines ?? (singleLine && fitting ? 1 : tokenMaxLines);
   const scaledSize = resolved.fontSize * font.sizeMultiplier * designScale(token, designSize);
   const fit = useAutoFit({
-    enabled: (autoFit ?? token.dynamicType.autoFit === true) && text !== null,
+    enabled: fitting,
     // A line count the caller set is kept; the variant's own single line wraps at the floor.
     wrapAtFloor: numberOfLines === undefined,
+    // Uppercase headings and labels are short words in tight boxes: one too wide shrinks to the
+    // floor rather than splitting mid-word.
+    keepWordsWhole: uppercase && text !== null,
     text: text ?? '',
     maxSize: scaledSize,
     minSize: Math.min(

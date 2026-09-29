@@ -60,7 +60,7 @@ export function ImportTiles({ sources, address, testID }: ImportTilesProps) {
             style={[styles.tile, { backgroundColor: source.color }]}
           >
             {source.icon}
-            <Text variant="h3" color={theme.semantic.text.onAccent}>
+            <Text variant="title" color={theme.semantic.text.onAccent}>
               {source.label}
             </Text>
             <Text variant="bodySm" color={theme.semantic.text.onAccent}>

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { LayoutChangeEvent, TextLayoutEvent } from 'react-native';
 
+import { hasWordBreak } from '../qa/text-layout-check';
+
 /**
  * Average glyph advance per em, used for the first-pass size estimate before the platform reports
  * real line breaks. Archivo's condensed display cuts run narrower than Geist's body text; both are
@@ -94,6 +96,12 @@ export interface UseAutoFitOptions extends Omit<FitInput, 'width'> {
    * more lines once the floor is reached. A caller's `numberOfLines` is always rendered as given.
    */
   readonly wrapAtFloor?: boolean;
+  /**
+   * Shrinks, down to `minSize`, while the platform splits a word across lines ("KILOMET" /
+   * "RES"): a label word wider than its box. Works without `enabled`, and then leaves the line
+   * limit and the first-pass estimate alone.
+   */
+  readonly keepWordsWhole?: boolean;
 }
 
 export interface AutoFitResult {
@@ -131,8 +139,10 @@ function finite(lines: number): number | undefined {
 export function useAutoFit({
   enabled,
   wrapAtFloor = false,
+  keepWordsWhole = false,
   ...fit
 }: UseAutoFitOptions): AutoFitResult {
+  const active = enabled || keepWordsWhole;
   const [width, setWidth] = useState<number | null>(null);
   const fresh = (key: string): Correction => ({ key, steps: 0, wrapped: false, overflowed: false });
   const [correction, setCorrection] = useState<Correction>(fresh(''));
@@ -151,13 +161,16 @@ export function useAutoFit({
   };
 
   const onTextLayout = (event: TextLayoutEvent) => {
-    if (!enabled || overflowed) return false;
-    // The first layout runs before the width is known: the fit hasn't started yet.
-    if (width === null) return true;
-    if (!isOverflowing(event.nativeEvent.lines, fit.text, maxLines)) return false;
+    if (!active || overflowed) return false;
+    // The first layout runs before the width is known: the fit hasn't started yet. Keeping words
+    // whole needs no width, only the platform's line breaks.
+    if (enabled && width === null) return true;
+    const { lines } = event.nativeEvent;
+    const overflowing = enabled && isOverflowing(lines, fit.text, maxLines);
+    if (!overflowing && !(keepWordsWhole && hasWordBreak(lines))) return false;
     if (fontSize > fit.minSize) {
       setCorrection({ ...current, steps: steps + 1 });
-    } else if (wrapAtFloor && !wrapped && maxLines < AUTO_FIT_WRAP_LINES) {
+    } else if (overflowing && wrapAtFloor && !wrapped && maxLines < AUTO_FIT_WRAP_LINES) {
       setCorrection({ ...current, wrapped: true });
     } else {
       setCorrection({ ...current, overflowed: true });
@@ -170,7 +183,8 @@ export function useAutoFit({
     numberOfLines: finite(
       !enabled || !wrapAtFloor || overflowed ? maxLines : Number.POSITIVE_INFINITY,
     ),
-    overflowed,
+    // A word still split at the floor is reported as broken, not as cut.
+    overflowed: enabled && overflowed,
     onLayout,
     onTextLayout,
   };

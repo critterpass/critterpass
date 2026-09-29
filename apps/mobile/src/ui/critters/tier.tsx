@@ -5,6 +5,9 @@ import { tokens } from '@cp/design-tokens';
 import { Text } from '../text/Text';
 import type { TextVariant } from '../text/Text';
 
+/** A no-break space: the tier glyph never wraps away from its word. */
+const GLUE = '\u00A0';
+
 export type Tier = 'common' | 'rare' | 'epic' | 'legendary';
 
 export const TIERS: readonly Tier[] = ['common', 'rare', 'epic', 'legendary'];
@@ -30,17 +33,20 @@ export function TierWord({
   suffix,
   variant = 'label',
   color,
+  glyph = true,
 }: {
   readonly tier: Tier;
   /** Appended after a middle dot ("Water temples"). */
   readonly suffix?: string;
   readonly variant?: TextVariant;
   readonly color?: string;
+  /** Off where the word sits alone in a narrow cell, as the form selector (3l-3) sets it. */
+  readonly glyph?: boolean;
 }) {
   const word = tierWord(tier);
   return (
     <Text variant={variant} color={color ?? tierColor(tier)}>
-      {`${tokens.tier[tier].glyph} ${word}${suffix ? ` · ${suffix}` : ''}`}
+      {`${glyph ? `${tokens.tier[tier].glyph}${GLUE}` : ''}${word}${suffix ? ` · ${suffix}` : ''}`}
     </Text>
   );
 }

@@ -159,12 +159,46 @@ describe('Text guards', () => {
     expect(reports).toEqual(['[ui-qa] TEXT_TRUNCATED "t" displayHero']);
   });
 
-  it('reports a word split across lines once, naming the text when it has no test id', async () => {
+  it('shrinks a split word to its floor, then reports it once, naming the text without a test id', async () => {
     const screen = await renderText(<Text variant="h3">SGN</Text>);
-    const element = screen.getByText('SGN');
-    await fireEvent(element, 'textLayout', lines('SG', 'N'));
-    await fireEvent(element, 'textLayout', lines('SG', 'N'));
+    const start = flat(screen.getByText('SGN')).fontSize ?? 0;
+    for (let i = 0; i < 12; i += 1) {
+      await fireEvent(screen.getByText('SGN'), 'textLayout', lines('SG', 'N'));
+    }
+    expect(flat(screen.getByText('SGN')).fontSize).toBeCloseTo(start * 0.7, 5);
     expect(reports).toEqual(['[ui-qa] TEXT_WORD_BROKEN "SGN" h3']);
+  });
+
+  it('keeps an uppercase word whole by shrinking it, and says nothing once it fits', async () => {
+    const screen = await renderText(<Text variant="title">Kilometres</Text>);
+    const start = flat(screen.getByText('KILOMETRES')).fontSize ?? 0;
+    await fireEvent(screen.getByText('KILOMETRES'), 'textLayout', lines('KILOMET', 'RES'));
+    const shrunk = flat(screen.getByText('KILOMETRES')).fontSize ?? 0;
+    expect(shrunk).toBeLessThan(start);
+    await fireEvent(screen.getByText('KILOMETRES'), 'textLayout', lines('KILOMETRES'));
+    expect(flat(screen.getByText('KILOMETRES')).fontSize).toBe(shrunk);
+    expect(reports).toEqual([]);
+  });
+
+  it('leaves body copy at its size when a long word breaks', async () => {
+    const screen = await renderText(<Text variant="body">Supercalifragilistic</Text>);
+    const start = flat(screen.getByText('Supercalifragilistic')).fontSize;
+    await fireEvent(
+      screen.getByText('Supercalifragilistic'),
+      'textLayout',
+      lines('Supercalifrag', 'ilistic'),
+    );
+    expect(flat(screen.getByText('Supercalifragilistic')).fontSize).toBe(start);
+  });
+
+  it('wraps a single-line variant with fitting off instead of cutting it', async () => {
+    const screen = await renderText(
+      <Text variant="displayMega" autoFit={false} testID="t">
+        Việt Nam · đặt chỗ · chuyến đi
+      </Text>,
+      'vi',
+    );
+    expect(screen.getByTestId('t').props.numberOfLines).toBeUndefined();
   });
 
   it('stays quiet for text that fits and while the fit is still settling', async () => {
