@@ -4,12 +4,18 @@
  * it advances to its final (`advance_poll_stage`). Closing an already closed poll answers with its
  * result.
  */
-import { closePollInTx, loadPollState } from '@cp/db';
+import { loadPollState } from '@cp/db';
 import { closePollPayloadSchema, DomainError, type PollTallyResult } from '@cp/domain';
 
 import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../_framework/define-command';
-import { lockPoll, requirePollOrganiser, tallyResult, visiblePoll } from './shared';
+import {
+  closeForEveryone,
+  lockPoll,
+  requirePollOrganiser,
+  tallyResult,
+  visiblePoll,
+} from './shared';
 
 export const closePollCommand = defineCommand({
   name: 'close_poll',
@@ -27,7 +33,7 @@ export const closePollCommand = defineCommand({
       throw new DomainError('STATE_INVALID', { reason: 'board_advances' });
     }
     return asSystemRole(tx, async () => {
-      await closePollInTx(tx, state, {
+      await closeForEveryone(tx, state, {
         reason: 'manual',
         now: ctx.clock.serverNow,
         actorId: ctx.uid,

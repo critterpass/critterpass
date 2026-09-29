@@ -3,7 +3,7 @@
  * exists), the poll row lock taken as the system (it serialises ballots against a close), the
  * tally every ballot surface gets back, and the organiser check.
  */
-import { loadPollState, tallyOf, type PollState } from '@cp/db';
+import { closePollInTx, loadPollState, tallyOf, type ClosePollInput, type PollState } from '@cp/db';
 import { DomainError, tallyWire, type PollTallyResult } from '@cp/domain';
 import type pg from 'pg';
 
@@ -93,4 +93,24 @@ export async function activeMemberIds(tx: pg.PoolClient, crewId: string): Promis
     [crewId],
   );
   return rows.map((row) => row.user_id);
+}
+
+/**
+ * Closes the poll from inside a voter's or organiser's command, already switched to the system
+ * role. Closing settles every voter's "vote needed" card and publishes each one's badge counts on
+ * their own user channel, and `app.enqueue_rt` lets a caller who carries `app.uid` publish only on
+ * their own; the close is the poll's work, not the caller's, so it runs without that identity,
+ * which is put back afterwards.
+ */
+export async function closeForEveryone(
+  tx: pg.PoolClient,
+  state: PollState,
+  input: ClosePollInput,
+): Promise<void> {
+  const { rows } = await tx.query<{ uid: string | null }>(
+    "SELECT current_setting('app.uid', true) AS uid",
+  );
+  await tx.query("SELECT set_config('app.uid', '', true)");
+  await closePollInTx(tx, state, input);
+  await tx.query("SELECT set_config('app.uid', $1, true)", [rows[0]?.uid ?? '']);
 }

@@ -7,7 +7,7 @@
  * voted, or the approval's decider is satisfied); a destination board never closes this way, it
  * advances to its final.
  */
-import { appendDomainEvent, closePollInTx, loadPollState, publishPollHints, tallyOf } from '@cp/db';
+import { appendDomainEvent, loadPollState, publishPollHints, tallyOf } from '@cp/db';
 import {
   ballotSourceForVia,
   castBallotPayloadSchema,
@@ -20,6 +20,7 @@ import {
 import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../_framework/define-command';
 import {
+  closeForEveryone,
   lockPoll,
   takesBallots,
   tallyResult,
@@ -116,7 +117,7 @@ export const castBallotCommand = defineCommand({
               : [after.poll.created_by],
         });
         if (verdict.decided) {
-          await closePollInTx(tx, after, {
+          await closeForEveryone(tx, after, {
             reason: verdict.reason,
             now,
             actorId: ctx.uid,
