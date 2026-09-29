@@ -2,7 +2,8 @@ appId: app.critterpass.dev
 ---
 # OPEN YOUR PASS on video: the cover swings open, the page under it grows into page one's pass
 # card, the name page fades in over it and only then does the keyboard rise. The recording
-# (passport-opening.mp4) lands in the shard artifact beside this flow's logs for frame review.
+# (passport-opening.mp4) lands in the flow's screenshots folder in the shard artifact, for frame
+# review; the still before it creates that folder, which the recording needs.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -10,6 +11,7 @@ appId: app.critterpass.dev
       id: 'onboarding-open'
     timeout: 60000
 - waitForAnimationToEnd
+- takeScreenshot: passport-opening-start
 - startRecording: passport-opening
 - tapOn:
     id: 'onboarding-open'
