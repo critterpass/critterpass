@@ -36,7 +36,16 @@ appId: app.critterpass.dev
     visible:
       text: 'LISBON'
     timeout: 10000
-- tapOn: 'LISBON'
+# The row, not the query: text matching would also find the typed 'lisbon'.
+- tapOn:
+    id: 'place-result-.*'
+    index: 0
+# Android keeps the search keyboard up over the guest page; its actions sit under it.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
 - extendedWaitUntil:
     visible:
       id: 'guest-pitch'

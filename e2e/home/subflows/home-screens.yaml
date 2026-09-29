@@ -14,9 +14,7 @@ appId: app.critterpass.dev
     visible:
       id: 'invite-code-screen'
     timeout: 10000
-- swipe:
-    start: 2%, 50%
-    end: 90%, 50%
+- runFlow: ../../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-first-run'

@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
 # The same Home states in Vietnamese: the dev gallery switches the running app's language (not
-# persisted), then two back swipes return to the splash.
+# persisted), then two steps back return to the splash.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -22,13 +22,9 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'gallery-locale-vi'
-- swipe:
-    start: 2%, 50%
-    end: 90%, 50%
+- runFlow: ../onboarding/subflows/back.yaml
 - waitForAnimationToEnd
-- swipe:
-    start: 2%, 50%
-    end: 90%, 50%
+- runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'onboarding-open'
