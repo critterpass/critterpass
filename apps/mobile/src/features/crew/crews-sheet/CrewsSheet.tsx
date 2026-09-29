@@ -15,15 +15,12 @@ import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { PillButton } from '@/ui/buttons/PillButton';
-import { CrewCard } from '@/ui/cards/CrewCard';
-import { DashedAddCard } from '@/ui/cards/DashedAddCard';
-import { AvatarStack } from '@/ui/people/AvatarStack';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { WaitlistCards } from '../waitlist/WaitlistCards';
-import { crewCardBadge } from './badge-slot';
+import { CrewSheetCard, StartCrewCard } from './crew-sheet-cards';
 import { ACCEPT_INVITE, DEFER_INVITE, rowId, SET_ACTIVE_CREW } from './crew-commands';
 import { useCrews } from './crew-data';
 import { useCrewServices } from './crew-services';
@@ -36,20 +33,8 @@ import {
 } from './crew-view';
 import { CREW_ROUTES } from './routes';
 
-const CARD_RING = 2;
-
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], gap: th.space['12'], paddingBottom: th.space['32'] },
-  // Crew cards sit on the sheet's raised surface: a sunken fill and a decorative ring set each one
-  // apart, and the active crew swaps the ring for the selection yellow (design-system §1.6).
-  card: {
-    borderWidth: CARD_RING,
-    borderColor: th.semantic.border.decorative,
-    borderRadius: th.radius.lg,
-    backgroundColor: th.semantic.bg.sunken,
-    overflow: 'hidden',
-  },
-  active: { borderColor: th.semantic.action.primary },
   invite: {
     borderWidth: 2,
     borderStyle: 'dashed',
@@ -137,7 +122,6 @@ export function CrewsSheet() {
   const now = new Date();
   const crews = crewCards(snapshot);
   const invites = inviteCards(snapshot, now);
-  const Badge = crewCardBadge();
 
   const pick = (crewId: string) => {
     if (localFirst === null) return;
@@ -194,34 +178,15 @@ export function CrewsSheet() {
           now={now}
         />
         {crews.map((card) => (
-          <View
+          <CrewSheetCard
             key={card.id}
-            style={[styles.card, card.active ? styles.active : null]}
-            testID={`crew-card-${card.id}`}
-          >
-            <CrewCard
-              tone="sunken"
-              name={card.name}
-              detail={statusLine(card, locale, now)}
-              members={
-                <AvatarStack
-                  members={card.members.map((m, index) => ({
-                    key: `${index}`,
-                    name: m.name,
-                    joinIndex: index,
-                  }))}
-                  max={6}
-                  size="sm"
-                />
-              }
-              membersLabel={t({
-                id: 'crew.sheet.members',
-                message: `${card.members.length} members`,
-              })}
-              status={Badge === null ? undefined : <Badge crewId={card.id} />}
-              onPress={() => pick(card.id)}
-            />
-          </View>
+            crewId={card.id}
+            name={card.name}
+            detail={statusLine(card, locale, now)}
+            members={card.members}
+            active={card.active}
+            onPress={() => pick(card.id)}
+          />
         ))}
         {open.map((invite) => (
           <InviteCard
@@ -246,11 +211,7 @@ export function CrewsSheet() {
             onLater={() => later(invite)}
           />
         ))}
-        <DashedAddCard
-          label={t({ id: 'crew.sheet.start', message: 'Start a crew' })}
-          onPress={() => router.push(CREW_ROUTES.newCrew)}
-          testID="crews-start"
-        />
+        <StartCrewCard onPress={() => router.push(CREW_ROUTES.newCrew)} />
       </ScrollView>
     </Sheet>
   );

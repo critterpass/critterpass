@@ -119,10 +119,11 @@ appId: app.critterpass.dev
     id: 'home-header-chat'
 - extendedWaitUntil:
     visible:
-      id: 'chat-attach'
+      id: 'chat-composer'
     timeout: 15000
+# The composer's + has no test id; its text is the only handle.
 - tapOn:
-    id: 'chat-attach'
+    text: '\+'
 - tapOn: ${POLL}
 - extendedWaitUntil:
     visible:

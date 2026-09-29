@@ -7,8 +7,8 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#. placeholder {0}: card.members.length
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+#. placeholder {0}: members.length
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.members"
 msgstr ""
 
@@ -32,6 +32,14 @@ msgstr ""
 msgid "crew.sheet.inDays"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.voteFinalLeader"
+msgstr "{place} dẫn đầu vòng chung kết"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.new"
+msgstr "{shown} mới"
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.beyond"
 msgstr ""
@@ -43,6 +51,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/crew/seat-limit/WaitlistSheet.tsx
 msgid "crew.seatLimit.body"
 msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.unreadSpoken"
+msgstr "{unread} tin nhắn mới"
 
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.aFriend"
@@ -283,6 +295,10 @@ msgstr ""
 msgid "crew.composer.share"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.startBody"
+msgstr "Đặt tên rồi chia sẻ mã. Hướng dẫn viên đến cùng chuyến đi đầu tiên."
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.navy"
 msgstr ""
@@ -388,6 +404,14 @@ msgstr ""
 msgid "crew.referral.how"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.lastPhoto"
+msgstr "đã gửi một ảnh"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.lastVoice"
+msgstr "đã gửi một tin nhắn thoại"
+
 #: ../../apps/mobile/src/features/crew/referral/ReferralScreen.tsx
 msgid "crew.referral.share"
 msgstr ""
@@ -408,9 +432,9 @@ msgstr ""
 msgid "crew.start.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/crew/crews-sheet/CrewsSheet.tsx
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.start"
-msgstr ""
+msgstr "Lập nhóm"
 
 #: ../../apps/mobile/src/features/crew/start-crew/StartCrewScreen.tsx
 msgid "crew.start.create"
@@ -483,6 +507,14 @@ msgstr ""
 #: ../../apps/mobile/src/features/crew/invite-composer/TagSuggestion.tsx
 msgid "crew.composer.useSuggestion"
 msgstr ""
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.voteFinal"
+msgstr "bình chọn vòng chung kết"
+
+#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
+msgid "crew.sheet.voteOpen"
+msgstr "đang bình chọn"
 
 #: ../../apps/mobile/src/features/crew/invite-composer/ContactFields.tsx
 msgid "crew.composer.tags"

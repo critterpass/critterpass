@@ -1,22 +1,31 @@
 /**
- * The crew card's badge slot: another area (crew chat) registers the component that renders a
- * crew's badge (its unread count). Until one registers, the slot renders nothing.
+ * The crew card's chat slot: crew chat registers two hooks, a crew's unread count and its last
+ * message, and the crews sheet draws the "N NEW" pill and the preview line from them. Until chat
+ * registers, cards show neither. Registration happens once at start-up, so the hooks are called
+ * in the same order on every render.
  */
-import type { ComponentType } from 'react';
-
-export interface CrewCardBadgeProps {
-  readonly crewId: string;
+export interface CrewLastMessage {
+  /** First name of the crewmate or guide who sent it. */
+  readonly sender: string;
+  readonly kind: 'text' | 'photo' | 'voice';
+  /** The text, for a text message. */
+  readonly body: string;
 }
 
-let badge: ComponentType<CrewCardBadgeProps> | null = null;
+export interface CrewCardChat {
+  readonly useUnread: (crewId: string) => number;
+  readonly useLastMessage: (crewId: string) => CrewLastMessage | null;
+}
 
-export function registerCrewCardBadge(component: ComponentType<CrewCardBadgeProps>): () => void {
-  badge = component;
+let chat: CrewCardChat | null = null;
+
+export function registerCrewCardChat(next: CrewCardChat): () => void {
+  chat = next;
   return () => {
-    if (badge === component) badge = null;
+    if (chat === next) chat = null;
   };
 }
 
-export function crewCardBadge(): ComponentType<CrewCardBadgeProps> | null {
-  return badge;
+export function crewCardChat(): CrewCardChat | null {
+  return chat;
 }
