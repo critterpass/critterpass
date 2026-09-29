@@ -7,7 +7,7 @@
 import { t } from '@lingui/core/macro';
 import { FlashList, type FlashListRef } from '@shopify/flash-list';
 import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react';
-import type { NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import type { LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -56,6 +56,7 @@ export function MessageList({
   const styles = useStyles();
   const list = useRef<FlashListRef<TimelineRow>>(null);
   const [atBottom, setAtBottom] = useState(true);
+  const height = useRef(0);
   const newest = useMemo(
     () => lastSeq(rows.flatMap((row) => (row.kind === 'message' ? [row.message] : []))),
     [rows],
@@ -72,8 +73,20 @@ export function MessageList({
     [newest, onSeenLatest],
   );
 
+  // The composer growing (more lines, a reply strip) or the keyboard rising shortens the list from
+  // below; a member reading the newest message keeps it, and its delivery line, in view.
+  const onLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      const next = event.nativeEvent.layout.height;
+      const shrank = next < height.current;
+      height.current = next;
+      if (shrank && atBottom) list.current?.scrollToEnd({ animated: false });
+    },
+    [atBottom],
+  );
+
   return (
-    <View style={styles.list}>
+    <View style={styles.list} onLayout={onLayout}>
       <FlashList
         ref={list}
         data={rows}

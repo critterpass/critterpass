@@ -1,15 +1,17 @@
 /**
- * The chat header: a plain back arrow (no circle, as in the render), the crew's name, "{n} people · {guide} is in this chat" (the guide line
- * only while the crew has a trip), and the MAP pill when a map target is registered.
+ * The chat header (3g-1): a plain back arrow, the crew's name on one compact line, "{n} people ·
+ * {guide} is in this chat" (the guide part only while the crew has a trip), and the MAP pill with
+ * its pin when a map target is registered.
  */
 import { plural, t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { I18nManager, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { Icon } from '@/ui/icons/Icon';
+import { StraightArrow } from '@/ui/icons/StraightArrow';
 import { HeaderPill } from '@/ui/shell/HeaderPills';
 import { Row, Stack, Text, useTheme } from '@/ui';
-import { degrees, makeStyles, MIN_TOUCH_TARGET } from '@/ui/theme';
+import { makeStyles, MIN_TOUCH_TARGET } from '@/ui/theme';
 
 import { chatMapTarget } from '../slots';
 
@@ -24,9 +26,6 @@ export function peopleLine(count: number, guideName: string | null): string {
 
 /** 3g-1 sets the crew name at the foot of the h3 range: a compact one-line header. */
 const TITLE_SIZE = 20;
-const ARROW_WIDTH = 18;
-const ARROW_STROKE = 2;
-const ARROW_HEAD = 10;
 
 const useStyles = makeStyles((th) => ({
   bar: {
@@ -43,33 +42,7 @@ const useStyles = makeStyles((th) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  arrow: { width: ARROW_WIDTH, height: ARROW_HEAD * 1.5, justifyContent: 'center' },
-  shaft: { height: ARROW_STROKE, borderRadius: ARROW_STROKE / 2 },
-  head: {
-    position: 'absolute',
-    start: ARROW_STROKE / 2,
-    width: ARROW_HEAD,
-    height: ARROW_HEAD,
-    borderStartWidth: ARROW_STROKE,
-    borderBottomWidth: ARROW_STROKE,
-    transform: [{ rotate: degrees(45) }],
-  },
 }));
-
-/** The render's plain "←": drawn strokes, pointing back in the reading direction. */
-function BackArrow({ color }: { readonly color: string }) {
-  const styles = useStyles();
-  return (
-    <View
-      style={[styles.arrow, { transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }]}
-      accessibilityElementsHidden
-      importantForAccessibility="no-hide-descendants"
-    >
-      <View style={[styles.shaft, { backgroundColor: color }]} />
-      <View style={[styles.head, { borderColor: color }]} />
-    </View>
-  );
-}
 
 export function ChatHeader({
   crewId,
@@ -96,7 +69,11 @@ export function ChatHeader({
         style={styles.back}
         testID="chat-back"
       >
-        <BackArrow color={theme.semantic.text.primary} />
+        <StraightArrow
+          direction="back"
+          size={theme.space['20']}
+          color={theme.semantic.text.primary}
+        />
       </Pressable>
       <Stack style={styles.titles} gap="2">
         <Text variant="h3" designSize={TITLE_SIZE} numberOfLines={1} accessibilityRole="header">
