@@ -31,6 +31,14 @@ msgstr "{editor} đã xoá · {on}"
 msgid "money.detail.editedBy"
 msgstr "{editor} đã sửa · {on}"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.qrLabel"
+msgstr "{label} cho {toName}"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutQr.tsx
+msgid "money.pay.qrA11y"
+msgstr "{label}, quét bằng ứng dụng ngân hàng"
+
 #: ../../apps/mobile/src/features/money/add-expense/SplitEditorCustom.tsx
 msgid "money.add.leftToAssign"
 msgstr "Còn {leftText} chưa chia"
@@ -48,10 +56,26 @@ msgstr "{names} không tham gia"
 msgid "money.review.pays"
 msgstr "{names} trả"
 
+#: ../../apps/mobile/src/features/money/settle/SettledTokekReveal.tsx
+msgid "money.settle.progress"
+msgstr "{open, plural, other {Còn # khoản nữa là cả {people} người nhận Tokek Sòng Phẳng.}}"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.titleOwed"
+msgstr "{payer} nợ bạn"
+
 #: ../../apps/mobile/src/features/money/components/ExpenseListRow.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.row.paid"
 msgstr "{payer} trả"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.titleOther"
+msgstr "{payer} trả {payee}"
+
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
+msgid "money.settle.netted"
+msgstr "{payments, plural, other {Tokek gộp {expenses} khoản chi còn # lần trả.}}"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.settle.taps"
@@ -76,6 +100,10 @@ msgstr "Một khoản chi mới"
 #: ../../apps/mobile/src/features/money/data/commands.ts
 msgid "money.queued.markPaid"
 msgstr "Một khoản đã đánh dấu trả"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.account"
+msgstr "Số tài khoản"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.tile.add"
@@ -117,9 +145,29 @@ msgstr "Đã chia đủ"
 msgid "money.hero.square"
 msgstr "Đã sòng phẳng"
 
+#: ../../apps/mobile/src/features/money/settle/SettledTokekReveal.tsx
+msgid "money.settle.settledLine"
+msgstr "Sòng phẳng rồi. Ai cũng nhận Tokek Sòng Phẳng."
+
+#: ../../apps/mobile/src/features/money/settle/use-settled-ceremony.ts
+msgid "money.settle.ceremony"
+msgstr "Sòng phẳng rồi. Ai cũng nhận Tokek Sòng Phẳng."
+
+#: ../../apps/mobile/src/features/money/settle/SettleScreen.tsx
+msgid "money.settle.nudgeLater"
+msgstr "Hôm nay nhắc rồi. Mai thử lại nhé."
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.amount"
+msgstr "Số tiền đã trả"
+
 #: ../../apps/mobile/src/features/money/data/commands.ts
 msgid "money.queued.editExpense"
 msgstr "Một lần sửa khoản chi"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
+msgid "money.pay.requested"
+msgstr "Đã nhắc {who} trả."
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.autoOff"
@@ -137,6 +185,22 @@ msgstr "Về Tiền"
 msgid "money.currency.done"
 msgstr "Số dư giờ tính bằng {currency}"
 
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.bank"
+msgstr "Ngân hàng"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.bin"
+msgstr "Mã ngân hàng (6 số)"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.acquirer"
+msgstr "Mã ngân hàng"
+
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.bank"
+msgstr "Chuyển khoản"
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.tile.budget"
 msgstr "Ngân sách"
@@ -150,6 +214,10 @@ msgstr "Theo phần"
 msgid "money.add.byShare"
 msgstr "Theo phần"
 
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.cash"
+msgstr "Tiền mặt"
+
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.category"
 msgstr "Danh mục"
@@ -162,9 +230,25 @@ msgstr "Thay đổi"
 msgid "money.scan.close"
 msgstr "Đóng quét"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
+msgid "money.pay.confirmed"
+msgstr "Đã xác nhận. Số dư được tính lại."
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.revealOffline"
+msgstr "Kết nối mạng để xem cách nhận tiền của {payee}. Bạn vẫn có thể báo đã trả."
+
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.noRate"
 msgstr "Sẽ quy đổi khi máy có tỷ giá"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
+msgid "money.pay.copied"
+msgstr "Đã chép"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.copy"
+msgstr "Chép"
 
 #: ../../apps/mobile/src/features/money/add-expense/AmountEntry.tsx
 msgid "money.add.currencyA11y"
@@ -194,6 +278,10 @@ msgstr "Xoá khoản chi này?"
 msgid "money.row.pendingDelete"
 msgstr "Sẽ xoá khi bạn có mạng lại"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentRow.tsx
+msgid "money.settle.status.disputed"
+msgstr "Có vấn đề"
+
 #: ../../apps/mobile/src/features/money/receipt/MemberPicker.tsx
 msgid "money.picker.done"
 msgstr "Xong"
@@ -205,6 +293,10 @@ msgstr "Xong"
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.done"
 msgstr "Xong"
+
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.duitnow"
+msgstr "DuitNow"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.edit"
@@ -244,6 +336,10 @@ msgstr "Mọi người"
 msgid "money.review.everyoneElse"
 msgstr "Những người còn lại"
 
+#: ../../apps/mobile/src/features/money/settle/SettleScreen.tsx
+msgid "money.settle.remindLater"
+msgstr "Hôm nay mọi người đã được nhắc rồi."
+
 #: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesScreen.tsx
 msgid "money.typeLines.everyone"
@@ -269,13 +365,38 @@ msgstr "Ăn uống"
 msgid "money.category.fun"
 msgstr "Vui chơi"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.revealLoading"
+msgstr "Đang lấy cách nhận tiền của {payee}…"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.loading"
+msgstr "Đang lấy thông tin đã lưu…"
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.glare"
 msgstr "Bị loá"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.cash"
+msgstr "Đưa tận tay."
+
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.retakeBody"
 msgstr "Đặt lên bàn. Tokek sẽ đợi"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
+msgid "money.settle.payYou"
+msgstr "Người khác trả bạn bằng"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.how"
+msgstr "Bạn đã trả bằng"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.confirm"
+msgstr "Đã nhận"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.deniedLine"
@@ -284,6 +405,10 @@ msgstr "Mình cần camera để đọc hoá đơn. Ảnh trong thư viện cũn
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.bars.owed"
 msgstr "Được nợ"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.dispute"
+msgstr "Chưa nhận được"
 
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 msgid "money.review.keepTotal"
@@ -349,10 +474,27 @@ msgstr "Đang tải tiền nong"
 msgid "money.empty.line"
 msgstr "Cứ ghi lại cả nhóm chi gì, mình sẽ lo ai nợ ai. Không ai phải tính nhẩm."
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.markPaid"
+msgstr "Báo đã trả"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentRow.tsx
+msgid "money.settle.status.marked"
+msgstr "Đã báo trả"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
+msgid "money.pay.marked"
+msgstr "Đã báo trả. Họ sẽ xác nhận khi tiền tới."
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.mobile"
+msgstr "Số điện thoại"
+
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 #: ../../apps/mobile/src/features/money/history/HistoryView.tsx
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
 msgid "money.back"
 msgstr "Tiền"
 
@@ -367,6 +509,14 @@ msgstr "Tiền nong là chuyện của nhóm"
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.name"
 msgstr "Tên"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.accountName"
+msgstr "Tên chủ tài khoản"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.name"
+msgstr "Tên người trả thấy"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.detailsA11y"
@@ -401,6 +551,23 @@ msgstr "Chưa chi gì. Thêm khoản đầu tiên và Tokek sẽ giữ sổ."
 msgid "money.settle.none"
 msgstr "Không có gì để thanh toán"
 
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
+msgid "money.settle.nothing"
+msgstr "Không có gì để thanh toán. Mọi người đã sòng phẳng."
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.nudge"
+msgstr "Nhắc khéo {payer}"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
+#: ../../apps/mobile/src/features/money/settle/SettleScreen.tsx
+msgid "money.settle.nudged"
+msgstr "Đã nhắc khéo {who}."
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.revealNone"
+msgstr "Khi {payee} nhắc, thông tin nhận tiền sẽ hiện ở đây. Tiền mặt thì lúc nào cũng được."
+
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 msgid "money.noTrip.line"
 msgstr "Khi nhóm có chuyến đi, mọi khoản chi sẽ về đây và mình giữ sổ."
@@ -421,6 +588,14 @@ msgstr "Chỉ người tổ chức mới đổi được."
 msgid "money.scan.settings"
 msgstr "Mở Cài đặt"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.openWise"
+msgstr "Mở Wise"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.other"
+msgstr "Khác"
+
 #: ../../apps/mobile/src/features/money/components/category.ts
 msgid "money.category.other"
 msgstr "Khác"
@@ -433,6 +608,10 @@ msgstr "Không tham gia"
 msgid "money.bars.owes"
 msgstr "Nợ"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentRow.tsx
+msgid "money.settle.status.paid"
+msgstr "Đã trả ✓"
+
 #: ../../apps/mobile/src/features/money/add-expense/PayerPicker.tsx
 msgid "money.add.paidBy"
 msgstr "Người trả"
@@ -441,9 +620,33 @@ msgstr "Người trả"
 msgid "money.add.currencyTitle"
 msgstr "Trả bằng"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.titlePay"
+msgstr "Trả {payee}"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.amountHint"
+msgstr "Trả một phần? Phần còn lại vẫn để ngỏ."
+
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.paynow"
+msgstr "PayNow"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentRow.tsx
+msgid "money.settle.status.pending"
+msgstr "Đang chờ"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.cashLine"
+msgstr "Mọi người có thể đưa tiền tận tay."
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pick"
 msgstr "Chọn ảnh"
+
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.promptpay"
+msgstr "PromptPay"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.rateNoDate"
@@ -461,9 +664,37 @@ msgstr "Đang đọc từng dòng…"
 msgid "money.typeLines.back"
 msgstr "Hoá đơn"
 
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
+msgid "money.settle.remind"
+msgstr "Nhắc mọi người"
+
+#: ../../apps/mobile/src/features/money/settle/SettleScreen.tsx
+msgid "money.settle.reminded"
+msgstr "Đã nhắc mọi người còn nợ."
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.remove"
+msgstr "Xoá"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsScreen.tsx
+msgid "money.payout.removed"
+msgstr "Đã xoá."
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.request"
+msgstr "Nhắc trả"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentRow.tsx
+msgid "money.settle.status.requested"
+msgstr "Đã nhắc"
+
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.retake"
 msgstr "Chụp lại, phẳng hơn"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.save"
+msgstr "Lưu"
 
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.save"
@@ -476,6 +707,10 @@ msgstr "Đã lưu"
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
 msgid "money.add.savedToast"
 msgstr "Đã lưu. Số dư được tính lại."
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsScreen.tsx
+msgid "money.payout.saved"
+msgstr "Đã lưu. Chỉ người trả bạn mới thấy."
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.tile.scan"
@@ -492,6 +727,15 @@ msgstr "Quét hoá đơn"
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.latest.all"
 msgstr "Xem hết"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.pay.back"
+msgstr "Thanh toán"
+
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
+msgid "money.settle.title"
+msgstr "Thanh toán"
 
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.namePlaceholder"
@@ -545,6 +789,10 @@ msgstr "Lập hoặc vào một nhóm và mình sẽ chia mọi hoá đơn với
 #: ../../apps/mobile/src/features/money/components/category.ts
 msgid "money.category.stays"
 msgstr "Chỗ ở"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.swift"
+msgstr "Mã SWIFT (không bắt buộc)"
 
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.switch"
@@ -618,6 +866,10 @@ msgstr "Tokek sẽ đọc khi bạn có mạng lại. Bạn có thể đóng l�
 msgid "money.scan.aimLine"
 msgstr "Tokek chụp khi giấy phẳng và yên, rồi đọc từng dòng."
 
+#: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
+msgid "money.pay.disputed"
+msgstr "Đã báo {who} là chưa nhận được."
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.blurry"
 msgstr "Mờ quá"
@@ -651,6 +903,10 @@ msgstr "Chuyến đi"
 msgid "money.scan.failedLine"
 msgstr "Thử lại, hoặc tự gõ vào. Chưa có gì được thêm."
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.typeAmount"
+msgstr "Nhập {amount} trong ứng dụng ngân hàng."
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeInstead"
 msgstr "Tự gõ vào"
@@ -662,6 +918,14 @@ msgstr "Gõ từng dòng"
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.title"
 msgstr "Gõ từng dòng"
+
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.vietqr"
+msgstr "VietQR"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.waiting"
+msgstr "Đang chờ {payee} xác nhận. Sau bảy ngày sẽ tự xác nhận."
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.pending"
@@ -704,6 +968,14 @@ msgstr "người trả"
 msgid "money.scan.whoPaid"
 msgstr "Ai trả?"
 
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.wise"
+msgstr "Wise"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.link"
+msgstr "Đường dẫn Wise"
+
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.yesterday"
 msgstr "Hôm qua"
@@ -719,3 +991,8 @@ msgstr "Bạn nợ"
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.hero.owed"
 msgstr "Bạn được nợ"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
+msgid "money.settle.private"
+msgstr "Thông tin của bạn chỉ người trả tiền mới thấy."

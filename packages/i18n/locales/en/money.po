@@ -31,6 +31,14 @@ msgstr "{editor} deleted it · {on}"
 msgid "money.detail.editedBy"
 msgstr "{editor} edited it · {on}"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.qrLabel"
+msgstr "{label} for {toName}"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutQr.tsx
+msgid "money.pay.qrA11y"
+msgstr "{label}, scan it with your bank app"
+
 #: ../../apps/mobile/src/features/money/add-expense/SplitEditorCustom.tsx
 msgid "money.add.leftToAssign"
 msgstr "{leftText} left to assign"
@@ -48,10 +56,26 @@ msgstr "{names} left out"
 msgid "money.review.pays"
 msgstr "{names} pays"
 
+#: ../../apps/mobile/src/features/money/settle/SettledTokekReveal.tsx
+msgid "money.settle.progress"
+msgstr "{open, plural, one {One more payment and all {people} of you get the Settled Tokek.} other {# more payments and all {people} of you get the Settled Tokek.}}"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.titleOwed"
+msgstr "{payer} owes you"
+
 #: ../../apps/mobile/src/features/money/components/ExpenseListRow.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.row.paid"
 msgstr "{payer} paid"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.titleOther"
+msgstr "{payer} pays {payee}"
+
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
+msgid "money.settle.netted"
+msgstr "{payments, plural, one {Tokek netted {expenses} expenses down to one payment.} other {Tokek netted {expenses} expenses down to # payments.}}"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.settle.taps"
@@ -76,6 +100,10 @@ msgstr "A new expense"
 #: ../../apps/mobile/src/features/money/data/commands.ts
 msgid "money.queued.markPaid"
 msgstr "A payment marked paid"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.account"
+msgstr "Account number"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.tile.add"
@@ -117,9 +145,29 @@ msgstr "All assigned"
 msgid "money.hero.square"
 msgstr "All square"
 
+#: ../../apps/mobile/src/features/money/settle/SettledTokekReveal.tsx
+msgid "money.settle.settledLine"
+msgstr "All square. Everyone gets the Settled Tokek."
+
+#: ../../apps/mobile/src/features/money/settle/use-settled-ceremony.ts
+msgid "money.settle.ceremony"
+msgstr "All square. Everyone gets the Settled Tokek."
+
+#: ../../apps/mobile/src/features/money/settle/SettleScreen.tsx
+msgid "money.settle.nudgeLater"
+msgstr "Already nudged today. Try tomorrow."
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.amount"
+msgstr "Amount paid"
+
 #: ../../apps/mobile/src/features/money/data/commands.ts
 msgid "money.queued.editExpense"
 msgstr "An expense edit"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
+msgid "money.pay.requested"
+msgstr "Asked {who} to pay."
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.autoOff"
@@ -137,6 +185,22 @@ msgstr "Back to Money"
 msgid "money.currency.done"
 msgstr "Balances now in {currency}"
 
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.bank"
+msgstr "Bank"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.bin"
+msgstr "Bank code (6 digits)"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.acquirer"
+msgstr "Bank id"
+
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.bank"
+msgstr "Bank transfer"
+
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.tile.budget"
 msgstr "Budget"
@@ -150,6 +214,10 @@ msgstr "By share"
 msgid "money.add.byShare"
 msgstr "By share"
 
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.cash"
+msgstr "Cash"
+
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.category"
 msgstr "Category"
@@ -162,9 +230,25 @@ msgstr "Changes"
 msgid "money.scan.close"
 msgstr "Close the scan"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
+msgid "money.pay.confirmed"
+msgstr "Confirmed. Balances re-count."
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.revealOffline"
+msgstr "Connect to see how {payee} gets paid. You can still mark it paid."
+
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.noRate"
 msgstr "Converts once this phone has a rate"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
+msgid "money.pay.copied"
+msgstr "Copied"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.copy"
+msgstr "Copy"
 
 #: ../../apps/mobile/src/features/money/add-expense/AmountEntry.tsx
 msgid "money.add.currencyA11y"
@@ -194,6 +278,10 @@ msgstr "Delete this expense?"
 msgid "money.row.pendingDelete"
 msgstr "Deleting when you are back online"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentRow.tsx
+msgid "money.settle.status.disputed"
+msgstr "Disputed"
+
 #: ../../apps/mobile/src/features/money/receipt/MemberPicker.tsx
 msgid "money.picker.done"
 msgstr "Done"
@@ -205,6 +293,10 @@ msgstr "Done"
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.done"
 msgstr "Done"
+
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.duitnow"
+msgstr "DuitNow"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.edit"
@@ -244,6 +336,10 @@ msgstr "Everyone"
 msgid "money.review.everyoneElse"
 msgstr "Everyone else"
 
+#: ../../apps/mobile/src/features/money/settle/SettleScreen.tsx
+msgid "money.settle.remindLater"
+msgstr "Everyone got a reminder today already."
+
 #: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesScreen.tsx
 msgid "money.typeLines.everyone"
@@ -269,13 +365,38 @@ msgstr "Food"
 msgid "money.category.fun"
 msgstr "Fun"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.revealLoading"
+msgstr "Getting how {payee} gets paid…"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.loading"
+msgstr "Getting your saved details…"
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.glare"
 msgstr "Glare"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.cash"
+msgstr "Hand it over in person."
+
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.retakeBody"
 msgstr "Hold it on the table. Tokek will wait"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
+msgid "money.settle.payYou"
+msgstr "How people pay you"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.how"
+msgstr "How you paid"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.confirm"
+msgstr "I got it"
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.deniedLine"
@@ -284,6 +405,10 @@ msgstr "I need the camera to read receipts. A photo from your library works too.
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.bars.owed"
 msgstr "Is owed"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.dispute"
+msgstr "It didn't arrive"
 
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 msgid "money.review.keepTotal"
@@ -349,10 +474,27 @@ msgstr "Loading the money"
 msgid "money.empty.line"
 msgstr "Log what the crew spends and I'll keep who-owes-who straight. Nobody does maths."
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.markPaid"
+msgstr "Mark paid"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentRow.tsx
+msgid "money.settle.status.marked"
+msgstr "Marked paid"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
+msgid "money.pay.marked"
+msgstr "Marked paid. They confirm when it lands."
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.mobile"
+msgstr "Mobile number"
+
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 #: ../../apps/mobile/src/features/money/history/HistoryView.tsx
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
 msgid "money.back"
 msgstr "Money"
 
@@ -367,6 +509,14 @@ msgstr "Money is for crews"
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.name"
 msgstr "Name"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.accountName"
+msgstr "Name on the account"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.name"
+msgstr "Name the payer sees"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.detailsA11y"
@@ -401,6 +551,23 @@ msgstr "Nothing spent yet. Add the first expense and Tokek keeps the tally."
 msgid "money.settle.none"
 msgstr "Nothing to settle"
 
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
+msgid "money.settle.nothing"
+msgstr "Nothing to settle. Everyone is square."
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.nudge"
+msgstr "Nudge {payer}"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
+#: ../../apps/mobile/src/features/money/settle/SettleScreen.tsx
+msgid "money.settle.nudged"
+msgstr "Nudged {who}. Gently."
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.revealNone"
+msgstr "Once {payee} requests it, their payment details show here. Cash works any time."
+
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 msgid "money.noTrip.line"
 msgstr "Once the crew has a trip, every expense lands here and I keep the tally."
@@ -421,6 +588,14 @@ msgstr "Only an organiser can switch it."
 msgid "money.scan.settings"
 msgstr "Open Settings"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.openWise"
+msgstr "Open Wise"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.other"
+msgstr "Other"
+
 #: ../../apps/mobile/src/features/money/components/category.ts
 msgid "money.category.other"
 msgstr "Other"
@@ -433,6 +608,10 @@ msgstr "Out"
 msgid "money.bars.owes"
 msgstr "Owes"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentRow.tsx
+msgid "money.settle.status.paid"
+msgstr "Paid ✓"
+
 #: ../../apps/mobile/src/features/money/add-expense/PayerPicker.tsx
 msgid "money.add.paidBy"
 msgstr "Paid by"
@@ -441,9 +620,33 @@ msgstr "Paid by"
 msgid "money.add.currencyTitle"
 msgstr "Paid in"
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.titlePay"
+msgstr "Pay {payee}"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.amountHint"
+msgstr "Paying part of it? The rest stays open."
+
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.paynow"
+msgstr "PayNow"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentRow.tsx
+msgid "money.settle.status.pending"
+msgstr "Pending"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.cashLine"
+msgstr "People can hand it to you in person."
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.pick"
 msgstr "Pick a photo"
+
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.promptpay"
+msgstr "PromptPay"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.rateNoDate"
@@ -461,9 +664,37 @@ msgstr "Reading the lines…"
 msgid "money.typeLines.back"
 msgstr "Receipt"
 
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
+msgid "money.settle.remind"
+msgstr "Remind everyone"
+
+#: ../../apps/mobile/src/features/money/settle/SettleScreen.tsx
+msgid "money.settle.reminded"
+msgstr "Reminded everyone who owes."
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.remove"
+msgstr "Remove"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsScreen.tsx
+msgid "money.payout.removed"
+msgstr "Removed."
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.request"
+msgstr "Request it"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentRow.tsx
+msgid "money.settle.status.requested"
+msgstr "Requested"
+
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.retake"
 msgstr "Retake, flatter"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.save"
+msgstr "Save"
 
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.save"
@@ -476,6 +707,10 @@ msgstr "Saved"
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseScreen.tsx
 msgid "money.add.savedToast"
 msgstr "Saved. Balances re-count."
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsScreen.tsx
+msgid "money.payout.saved"
+msgstr "Saved. Only the person paying you sees it."
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.tile.scan"
@@ -492,6 +727,15 @@ msgstr "Scan the receipt"
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.latest.all"
 msgstr "See all"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.pay.back"
+msgstr "Settle up"
+
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
+msgid "money.settle.title"
+msgstr "Settle up"
 
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.namePlaceholder"
@@ -545,6 +789,10 @@ msgstr "Start or join a crew and I will split every bill with them."
 #: ../../apps/mobile/src/features/money/components/category.ts
 msgid "money.category.stays"
 msgstr "Stays"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.swift"
+msgstr "SWIFT code (optional)"
 
 #: ../../apps/mobile/src/features/money/balances/CurrencySheet.tsx
 msgid "money.currency.switch"
@@ -618,6 +866,10 @@ msgstr "Tokek reads it when you're back online. You can close this."
 msgid "money.scan.aimLine"
 msgstr "Tokek snaps it when the paper is flat and still, then reads every line."
 
+#: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
+msgid "money.pay.disputed"
+msgstr "Told {who} it didn't arrive."
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.blurry"
 msgstr "Too blurry"
@@ -651,6 +903,10 @@ msgstr "Trip"
 msgid "money.scan.failedLine"
 msgstr "Try again, or type it in. Nothing was added."
 
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.typeAmount"
+msgstr "Type {amount} in your bank app."
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeInstead"
 msgstr "Type it in instead"
@@ -662,6 +918,14 @@ msgstr "Type the lines"
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.title"
 msgstr "Type the lines"
+
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.vietqr"
+msgstr "VietQR"
+
+#: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
+msgid "money.pay.waiting"
+msgstr "Waiting for {payee} to confirm. It confirms itself after seven days."
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.pending"
@@ -704,6 +968,14 @@ msgstr "who paid"
 msgid "money.scan.whoPaid"
 msgstr "Who paid?"
 
+#: ../../apps/mobile/src/features/money/settle/payout-labels.ts
+msgid "money.payout.wise"
+msgstr "Wise"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+msgid "money.payout.field.link"
+msgstr "Wise link"
+
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.yesterday"
 msgstr "Yesterday"
@@ -719,3 +991,8 @@ msgstr "You owe"
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.hero.owed"
 msgstr "You're owed"
+
+#: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
+#: ../../apps/mobile/src/features/money/settle/SettleList.tsx
+msgid "money.settle.private"
+msgstr "Your details are shared only with the person paying."
