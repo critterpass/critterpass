@@ -444,6 +444,7 @@ ALTER TABLE domain_events ADD CONSTRAINT domain_events_type_check CHECK (type IN
   'trip.dates_changed', 'trip.destination_set',
   'booking.flight_added', 'booking.flight_changed', 'booking.flight_removed',
   'user.tz_changed',
+  'location_share.changed', 'meetup.created', 'meetup.moved', 'meetup.crew_close', 'crew.pinged',
   'poll.created', 'poll.candidate_added', 'poll.candidate_removed', 'poll.stage_changed',
   'poll.closed', 'poll.cancelled', 'poll.reveal_seen', 'poll.lead_changed', 'poll.closing_soon', 'poll.pick_needed',
   'ballot.cast', 'ballot.changed', 'ballot.retracted',
