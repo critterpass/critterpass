@@ -115,7 +115,8 @@ SELECT
   i.locked_reason,
   i.cost_model,
   i.amount_minor,
-  i.currency
+  i.currency,
+  i.notes
 FROM itinerary_versions iv
 JOIN trips t ON t.id = iv.trip_id
 JOIN plan_items i ON i.version_id = iv.id

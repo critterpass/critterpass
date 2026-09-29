@@ -51,6 +51,7 @@ import {
 } from './draft/steps';
 import { stayRows, type SlotCheck, noSlotCheck } from './draft/suppliers';
 import { checkStage } from './draft/validate-repair';
+import { redraftJob } from './redraft';
 
 export interface DraftJobDeps {
   /** The model for one job's calls; absent without a DeepSeek key (the job then fails cleanly). */
@@ -261,5 +262,8 @@ export function draftJobs(env: DraftJobsEnv, deps: DraftJobsDeps): AnyJobDefinit
           assertRouteOn: deps.assertRouteOn,
         });
   const model = gateway === undefined ? undefined : gatewayDraftModel(gateway);
-  return [draftJob({ model, ...(deps.closures === undefined ? {} : { closures: deps.closures }) })];
+  return [
+    draftJob({ model, ...(deps.closures === undefined ? {} : { closures: deps.closures }) }),
+    redraftJob({ model }),
+  ];
 }
