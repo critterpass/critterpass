@@ -69,6 +69,7 @@ Last night went mostly to fixing what the founder found on build 10, and to maki
 | 26 Polls and destination vote | 11/12 | Vote flows and sheets after #173 |
 | 27 Trip setup | 7/12 | App screens in review (#163); the calendar module needs the next native build |
 | 33 Money | 12/12 | Server and app done: ledger, expenses, settle up, payout methods, budget and forecast, receipt scan and `cp-ocr` (behind `money.receipts`; its eval gate waits on the founder's receipt photos) |
+| 46 Monetization | 6/13 | Server done (billing sync, boosts, first trip free, crew yearly, paywall governor, billing console); app tasks and store accounts (App Store, Play, RevenueCat) open |
 | 39 Crew live map | 5/6 | Device data flows (share, pause, gate, window end) |
 | 51 Website | 7/11 | Web previews and web account deletion, which wait on later phases |
 
@@ -145,7 +146,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 43 | [Recap, story, awards, stamps](./phase-43-recap-stamps-memory.md) | 9 | 26, 31, 33, 40 | 19 | pending |
 | 44 | [Album, postcards, print](./phase-44-album-postcards.md) | 9 | 10, 12, 13, 43 | 20 | pending |
 | 45 | [You: profile, settings, export, deletion](./phase-45-you-profile-settings.md) | 12 | 5, 12, 22, 33, 43, 47, 49 | 21 | pending |
-| 46 | [Monetization](./phase-46-monetization.md) | 13 | 9, 11, 12, 24, 33, 39, 58 | 15 | pending |
+| 46 | [Monetization](./phase-46-monetization.md) | 13 | 9, 11, 12, 24, 33, 39, 58 | 15 | in_progress |
 | 47 | [Help centre, feedback, rating](./phase-47-help-feedback.md) | 8 | 17, 25, 43, 46, 58 | 20 | pending |
 | 48 | [Live Activities & Dynamic Island](./phase-48-live-activities.md) | 10 | 2, 5, 11, 34, 36, 39, 40 | 19 | pending |
 | 49 | [Actionable notifs, widgets](./phase-49-notification-surfaces-widgets.md) | 10 | 5, 11, 12, 26, 48 | 20 | pending |
