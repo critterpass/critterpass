@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# Screenshots of Home, the crews sheet, Start a crew and the inbox in English, empty and with the
+# staging demo crew, for `pnpm screens:compare` and the device workflow's compare mode.
+- launchApp:
+    clearState: true
+# A link dialog an earlier flow left open covers the first screen.
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: subflows/home-crews-screens.yaml
+    env:
+      PREFIX: en
+      POLL: 'Poll'
+# The shared controls on their gallery pages: the header and the segmented control in every state.
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'HomeHeader'
+- takeScreenshot: gallery-home-header
+- runFlow:
+    file: subflows/open-gallery-component.yaml
+    env:
+      COMPONENT: 'Segmented'
+- takeScreenshot: gallery-segmented
