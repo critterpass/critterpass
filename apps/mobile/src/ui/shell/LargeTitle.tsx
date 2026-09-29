@@ -44,9 +44,12 @@ const useStyles = makeStyles((t) => ({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  side: { flex: 1, alignItems: 'flex-start' },
-  end: { flex: 1, alignItems: 'flex-end' },
-  compact: { flexShrink: 1, maxWidth: '60%' },
+  // The slots keep their content's width (a back button, pills); the compact title takes what is
+  // left and truncates, so the actions are never squeezed.
+  side: { minWidth: MIN_TOUCH_TARGET, alignItems: 'flex-start' },
+  end: { minWidth: MIN_TOUCH_TARGET, alignItems: 'flex-end' },
+  compact: { flex: 1, minWidth: 0, paddingHorizontal: t.space['8'] },
+  compactText: { textAlign: 'center' },
   large: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['8'] },
 }));
 
@@ -89,6 +92,7 @@ export function LargeTitle({ title, collapse, collapsed = false, start, end }: L
           <Text
             variant="title"
             numberOfLines={1}
+            style={styles.compactText}
             accessibilityRole={collapsed ? 'header' : undefined}
           >
             {title}

@@ -2,6 +2,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { I18nManager, Pressable, View } from 'react-native';
 
+import { useSurfaceTone } from '../surface/Scaffold';
 import { Text } from '../text/Text';
 import { degrees, makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';
 
@@ -50,14 +51,27 @@ export interface BackEyebrowProps {
   readonly label: string;
   /** Defaults to going back one screen. */
   readonly onPress?: (() => void) | undefined;
+  /**
+   * Ink for the arrow and label. Defaults to the surface's: secondary text on dark screens, the
+   * on-accent ink on a colour surface (a showdown half, a hero), paper ink on paper.
+   */
+  readonly color?: string | undefined;
   readonly testID?: string | undefined;
 }
 
 /** "← SECTION" back affordance of pushed screens (docs/design-system.md §2.1). */
-export function BackEyebrow({ label, onPress, testID = 'back-eyebrow' }: BackEyebrowProps) {
+export function BackEyebrow({ label, onPress, color, testID = 'back-eyebrow' }: BackEyebrowProps) {
   const { t } = useLingui();
   const styles = useStyles();
   const theme = useTheme();
+  const tone = useSurfaceTone();
+  const ink =
+    color ??
+    (tone === 'accent'
+      ? theme.semantic.text.onAccent
+      : tone === 'paper'
+        ? theme.color.paper.muted
+        : theme.semantic.text.secondary);
   const section = label;
   return (
     <Pressable
@@ -67,8 +81,10 @@ export function BackEyebrow({ label, onPress, testID = 'back-eyebrow' }: BackEye
       onPress={onPress ?? (() => router.back())}
       style={styles.button}
     >
-      <BackArrow color={theme.semantic.text.secondary} />
-      <Text variant="eyebrow">{label}</Text>
+      <BackArrow color={ink} />
+      <Text variant="eyebrow" color={ink}>
+        {label}
+      </Text>
     </Pressable>
   );
 }

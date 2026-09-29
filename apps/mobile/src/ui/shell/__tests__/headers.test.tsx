@@ -1,11 +1,16 @@
 import { act, fireEvent } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
 import { router } from 'expo-router';
+import { StyleSheet } from 'react-native';
 import type * as ReactNativeModule from 'react-native';
+import type { StyleProp, TextStyle } from 'react-native';
+
+import { tokens } from '@cp/design-tokens';
 
 import { renderWithI18n } from '../../../lib/i18n/testing';
 import { fixturesFor } from '../../gallery/registry';
 import { BackEyebrow } from '../BackEyebrow';
+import { SurfaceToneProvider } from '../../surface/Scaffold';
 import { HeaderPill } from '../HeaderPills';
 import { HomeHeader } from '../HomeHeader';
 import { LargeTitle } from '../LargeTitle';
@@ -28,6 +33,20 @@ describe('BackEyebrow', () => {
     expect(screen.getByText('PROFILE')).toBeTruthy();
     await fireEvent.press(button);
     expect(onPress).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('BackEyebrow on colour', () => {
+  it('inks the arrow and label in the on-accent colour on a colour surface', async () => {
+    const screen = await renderWithI18n(
+      <SurfaceToneProvider value="accent">
+        <BackEyebrow label="Next trip · Final" onPress={() => {}} />
+      </SurfaceToneProvider>,
+    );
+    const label = screen.getByText('NEXT TRIP · FINAL');
+    expect(StyleSheet.flatten(label.props.style as StyleProp<TextStyle>)?.color).toBe(
+      tokens.semantic.text.onAccent,
+    );
   });
 });
 
