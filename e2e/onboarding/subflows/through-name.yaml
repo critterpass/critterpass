@@ -21,3 +21,6 @@ appId: app.critterpass.dev
     visible:
       id: 'onboarding-photo'
     timeout: 10000
+# The keyboard may still be closing as the photo page slides in, which moves its buttons: let the
+# page settle before a caller taps them.
+- waitForAnimationToEnd
