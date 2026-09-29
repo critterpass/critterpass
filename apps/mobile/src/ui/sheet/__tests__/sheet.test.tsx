@@ -107,6 +107,18 @@ describe('detentHeights', () => {
   });
 });
 
+/** A screen that was up before its sheet opened: the sheet's presenter. */
+function ScreenUnderSheet() {
+  return (
+    <>
+      <Scaffold testID="presenter" />
+      <Sheet onDismiss={() => {}} accessibilityLabel="Place">
+        <Text>body</Text>
+      </Sheet>
+    </>
+  );
+}
+
 describe('Sheet', () => {
   beforeEach(async () => {
     resetPresenterForTests();
@@ -118,17 +130,35 @@ describe('Sheet', () => {
   });
 
   it('rises to its detent and scales the presenter to .93', async () => {
-    const screen = await renderModal(
-      <Sheet onDismiss={() => {}} accessibilityLabel="Place">
-        <Text>body</Text>
-      </Sheet>,
-    );
+    const screen = await renderModal(<ScreenUnderSheet />);
     expect(screen.getByText('body')).toBeTruthy();
     expect(translateY(flat(screen.getByTestId('sheet-panel')))).toBe(0);
     expect(presenterProgress.value).toBe(1);
+    expect(flat(screen.getByTestId('presenter')).transform).toEqual([{ scale: 0.93 }]);
+  });
 
-    const presenter = await renderModal(<Scaffold testID="presenter" />);
-    expect(flat(presenter.getByTestId('presenter')).transform).toEqual([{ scale: 0.93 }]);
+  it('keeps a screen opened over the sheet full size', async () => {
+    await renderModal(
+      <Sheet onDismiss={() => {}}>
+        <Text>crews</Text>
+      </Sheet>,
+    );
+    expect(presenterProgress.value).toBe(1);
+    // A page pushed from the open sheet (start a crew, join with a code) mounts above it.
+    const page = await renderModal(<Scaffold testID="page" />);
+    expect(flat(page.getByTestId('page')).transform).toBeUndefined();
+  });
+
+  it('keeps a screen that renders its own sheet full size, so the sheet stays edge to edge', async () => {
+    const screen = await renderModal(
+      <Scaffold testID="chat">
+        <Sheet onDismiss={() => {}}>
+          <Text>attach</Text>
+        </Sheet>
+      </Scaffold>,
+    );
+    expect(presenterProgress.value).toBe(1);
+    expect(flat(screen.getByTestId('chat')).transform).toBeUndefined();
   });
 
   it('lays a header and the ✕ out in one row, so a trailing action never sits under the ✕', async () => {

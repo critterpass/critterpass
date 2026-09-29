@@ -1,0 +1,71 @@
+appId: app.critterpass.dev
+---
+# Sheets and the pages opened over them, edge to edge: the gallery's sheet and rise demos, then the
+# crews sheet with START A CREW and JOIN WITH A CODE opened from it, in English and Vietnamese.
+- runFlow: subflows/open-gallery.yaml
+- tapOn:
+    id: 'gallery-shell-sheet'
+- extendedWaitUntil:
+    visible:
+      id: 'sheet-panel'
+    timeout: 5000
+- waitForAnimationToEnd
+- takeScreenshot: en-gallery-sheet
+- tapOn:
+    id: 'sheet-close'
+- extendedWaitUntil:
+    notVisible:
+      id: 'sheet-panel'
+    timeout: 5000
+- tapOn:
+    id: 'gallery-shell-rise'
+- extendedWaitUntil:
+    visible:
+      id: 'rise-panel'
+    timeout: 5000
+- waitForAnimationToEnd
+- takeScreenshot: en-gallery-rise
+- tapOn:
+    id: 'rise-close'
+
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- runFlow: ../home/subflows/onboard.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+- runFlow:
+    file: subflows/modal-screens.yaml
+    env:
+      PREFIX: en
+# Vietnamese for the running app (not persisted), from Home's Developer tools entry.
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 15000
+- runFlow:
+    file: subflows/modal-screens.yaml
+    env:
+      PREFIX: vi

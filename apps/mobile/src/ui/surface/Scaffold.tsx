@@ -1,14 +1,14 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
-import Animated from 'react-native-reanimated';
+import Animated, { useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Deep import: the `@/motion` barrel also loads the Skia overlay host, which screens don't need.
 import { useScreenJoltStyle } from '@/motion/patterns/thud';
 
-import { usePresenterStyle } from '../sheet/presenter';
+import { PresenterHostContext, usePresenterStyle } from '../sheet/presenter';
 import type { Theme } from '../theme';
 import { makeStyles, useTheme } from '../theme';
 
@@ -93,7 +93,9 @@ export function Scaffold({
   const styles = useStyles();
   const insets = useSafeAreaInsets();
   const joltStyle = useScreenJoltStyle();
-  const presenterStyle = usePresenterStyle();
+  const hosting = useSharedValue(0);
+  const [host] = useState(() => ({ hosting }));
+  const presenterStyle = usePresenterStyle(hosting);
   const tone = TONE[variant];
   const backgroundColor = backgroundFor(variant, theme, accent);
 
@@ -103,21 +105,23 @@ export function Scaffold({
   };
 
   return (
-    <SurfaceToneProvider value={tone}>
-      <SurfaceBackgroundContext.Provider value={backgroundColor}>
-        <Animated.View
-          testID={testID}
-          style={[styles.root, { backgroundColor }, style, presenterStyle]}
-        >
-          <StatusBar barStyle={tone === 'dark' ? 'light-content' : 'dark-content'} />
-          {background ? (
-            <View style={StyleSheet.absoluteFill} pointerEvents="none">
-              {background}
-            </View>
-          ) : null}
-          <Animated.View style={[styles.content, padding, joltStyle]}>{children}</Animated.View>
-        </Animated.View>
-      </SurfaceBackgroundContext.Provider>
-    </SurfaceToneProvider>
+    <PresenterHostContext.Provider value={host}>
+      <SurfaceToneProvider value={tone}>
+        <SurfaceBackgroundContext.Provider value={backgroundColor}>
+          <Animated.View
+            testID={testID}
+            style={[styles.root, { backgroundColor }, style, presenterStyle]}
+          >
+            <StatusBar barStyle={tone === 'dark' ? 'light-content' : 'dark-content'} />
+            {background ? (
+              <View style={StyleSheet.absoluteFill} pointerEvents="none">
+                {background}
+              </View>
+            ) : null}
+            <Animated.View style={[styles.content, padding, joltStyle]}>{children}</Animated.View>
+          </Animated.View>
+        </SurfaceBackgroundContext.Provider>
+      </SurfaceToneProvider>
+    </PresenterHostContext.Provider>
   );
 }
