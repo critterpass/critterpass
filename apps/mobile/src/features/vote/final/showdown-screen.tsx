@@ -21,8 +21,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { impact, toast, useLoop } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
-import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Row } from '@/ui/layout/Row';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
@@ -117,13 +117,9 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
     <View style={styles.screen} testID="showdown">
       <View style={[styles.header, { top: insets.top + theme.space['8'] }]}>
         <Row justify="space-between" align="center">
-          <InlineAction
-            kind="choice"
-            label={upper(
-              t({ id: 'vote.showdown.back', message: 'Next trip · final' }),
-              i18n.locale,
-            )}
-            onPress={() => router.back()}
+          <BackEyebrow
+            label={t({ id: 'vote.showdown.back', message: 'Next trip · final' })}
+            color={theme.semantic.text.onAccent}
             testID="showdown-back"
           />
           {deadline === null || deadline.kind === 'past' ? null : (

@@ -34,13 +34,10 @@ import { ResultRow } from './result-row';
 const GUEST = GUIDE_STICKERS.tokek;
 
 const useStyles = makeStyles((th) => ({
-  // The top padding keeps the search field clear of the sheet's ✕ (top-end, 40 pt).
-  body: {
-    paddingHorizontal: th.space['20'],
-    paddingTop: th.space['32'],
-    paddingBottom: th.space['24'],
-    gap: th.space['12'],
-  },
+  body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['24'], gap: th.space['12'] },
+  // The header row ends 12 pt from the edge (room for a ✕ this sheet does not show); this evens
+  // the field with the list's gutter.
+  field: { marginEnd: th.size.gutter - th.space['12'] },
   results: {
     backgroundColor: th.semantic.bg.control,
     borderRadius: th.radius.lg,
@@ -86,10 +83,8 @@ export function SearchSheet({ crewId }: { readonly crewId: string | undefined })
     <Sheet
       detents={['large']}
       accessibilityLabel={t({ id: 'vote.search.title', message: 'Search places' })}
-      testID="place-search"
-    >
-      <SheetScrollView keyboardShouldPersistTaps="handled">
-        <Stack style={styles.body}>
+      header={
+        <View style={styles.field}>
           <SearchField
             value={query}
             onChangeText={setQuery}
@@ -102,6 +97,13 @@ export function SearchSheet({ crewId }: { readonly crewId: string | undefined })
             autoFocus
             testID="place-search-field"
           />
+        </View>
+      }
+      closable={false}
+      testID="place-search"
+    >
+      <SheetScrollView keyboardShouldPersistTaps="handled">
+        <Stack style={styles.body}>
           {country === null ? null : (
             <Row justify="space-between" align="center" gap="8" testID="place-search-unguided">
               <Text variant="eyebrow" color={theme.semantic.text.secondary} numberOfLines={1}>

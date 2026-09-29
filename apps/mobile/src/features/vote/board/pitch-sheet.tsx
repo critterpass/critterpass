@@ -38,9 +38,11 @@ import { flyToBoard } from './fly-to-board';
 import { PitchCard } from './pitch-stream';
 
 const useStyles = makeStyles((th) => ({
-  // The top padding keeps the search field clear of the sheet's ✕ (top-end, 40 pt).
-  body: { padding: th.space['16'], paddingTop: th.space['32'], gap: th.space['16'] },
-  footer: { paddingHorizontal: th.space['16'], paddingBottom: th.space['16'] },
+  body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['16'], gap: th.space['16'] },
+  footer: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['16'] },
+  // The header row ends 12 pt from the edge (room for a ✕ this sheet does not show); this evens
+  // the field with the body's gutter.
+  field: { marginEnd: th.size.gutter - th.space['12'] },
   results: { paddingTop: th.space['4'] },
 }));
 
@@ -143,10 +145,8 @@ export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
     <Sheet
       detents={['large']}
       accessibilityLabel={t({ id: 'vote.pitch.title', message: 'Pitch a place' })}
-      testID="pitch-sheet"
-    >
-      <SheetScrollView keyboardShouldPersistTaps="handled">
-        <Stack style={styles.body}>
+      header={
+        <View style={styles.field}>
           <SearchField
             value={query}
             onChangeText={(text) => {
@@ -156,15 +156,20 @@ export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
             label={t({ id: 'vote.pitch.search', message: 'Search a place' })}
             autoFocus={placeId === undefined}
             testID="pitch-search"
-            results={
-              picked === null && search.status === 'ready' ? (
-                <ResultRows
-                  results={search.results}
-                  onPick={(place) => pick({ id: place.place_id, name: place.name })}
-                />
-              ) : null
-            }
           />
+        </View>
+      }
+      closable={false}
+      testID="pitch-sheet"
+    >
+      <SheetScrollView keyboardShouldPersistTaps="handled">
+        <Stack style={styles.body}>
+          {picked === null && query.length > 0 && search.status === 'ready' ? (
+            <ResultRows
+              results={search.results}
+              onPick={(place) => pick({ id: place.place_id, name: place.name })}
+            />
+          ) : null}
           {picked === null && search.status === 'offline' ? (
             <Text variant="body" testID="pitch-offline">
               {t({
