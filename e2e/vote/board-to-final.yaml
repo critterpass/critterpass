@@ -19,6 +19,8 @@ appId: app.critterpass.dev
     element:
       id: 'board-go-to-final'
     timeout: 20000
+# A tap while the scroll is still coasting only stops it, so let it settle first.
+- waitForAnimationToEnd
 - tapOn:
     id: 'board-go-to-final'
 - extendedWaitUntil:

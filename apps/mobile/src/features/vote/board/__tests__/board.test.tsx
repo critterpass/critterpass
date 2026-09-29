@@ -130,6 +130,27 @@ describe('destination board', () => {
     expect(router.push).toHaveBeenCalledWith({ pathname: '/vote/pitch', params: { crewId: CREW } });
   });
 
+  it("sends the organiser's GO TO THE FINAL to the api", async () => {
+    const posted: { path: string; body: unknown }[] = [];
+    stack = await openTestLocalFirst({
+      holdUploads: true,
+      transport: {
+        postJson: (path, body) => {
+          posted.push({ path, body });
+          return Promise.resolve({ status: 200, body: { status: 'applied', result: {} } });
+        },
+      },
+    });
+    await seedCrew(stack);
+    await seedBoard(stack, { createdBy: stack.uid });
+    await renderVote(<Board me={stack.uid} />, stack);
+    await until(() => screen.queryByTestId('board-go-to-final') !== null);
+    await fireEvent.press(screen.getByTestId('board-go-to-final'));
+    await until(() => posted.length > 0);
+    expect(posted[0]?.path).toBe('/v1/cmd/advance_poll_stage');
+    expect((posted[0]?.body as { payload: unknown }).payload).toEqual({ poll_id: POLL });
+  });
+
   it('asks for the first pitch on an empty board', async () => {
     const s = await open();
     await seedPoll(s, { kind: 'destination', stage: 'board', question: null, options: [] });
