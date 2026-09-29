@@ -44,9 +44,14 @@ export default function GalleryComponentScreen() {
   return (
     <Scaffold testID={`gallery-detail-${component}`}>
       <ScrollView contentContainerStyle={styles.content}>
+        {/* Component names are one long word ("BACKGROUNDLOCATIONDISCLOSURE"): the title gets the
+            full width and fits itself to one line, and the Next button sits with the caption. */}
+        <Text variant="h2" accessibilityRole="header" autoFit numberOfLines={1}>
+          {component}
+        </Text>
         <Row gap="12" justify="space-between">
-          <Text variant="h2" accessibilityRole="header" style={{ flexShrink: 1 }}>
-            {component}
+          <Text variant="caption" style={{ flexShrink: 1 }}>
+            {`${settings.fontScale}x · ${settings.contrast} contrast · ${states.length} states`}
           </Text>
           {next ? (
             // Screenshot sweeps walk every component page in order without relaunching the app.
@@ -66,9 +71,6 @@ export default function GalleryComponentScreen() {
             </Pressable>
           ) : null}
         </Row>
-        <Text variant="caption">
-          {`${settings.fontScale}x · ${settings.contrast} contrast · ${states.length} states`}
-        </Text>
         <ThemeProvider fontScale={settings.fontScale} contrast={settings.contrast}>
           {states.map((fixture) => (
             <Stack key={fixture.state} gap="8" testID={`gallery-fixture-${fixture.state}`}>
