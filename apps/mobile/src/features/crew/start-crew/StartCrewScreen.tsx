@@ -6,7 +6,7 @@
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useContext, useState } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import {
   CREW_NAME_MAX,
@@ -34,8 +34,9 @@ import { useCrewServices } from '../crews-sheet/crew-services';
 import { CREW_ROUTES } from '../crews-sheet/routes';
 
 const useStyles = makeStyles((th) => ({
+  scroll: { flex: 1 },
   content: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: th.size.gutter,
     paddingTop: th.space['8'],
     gap: th.space['16'],
@@ -181,7 +182,13 @@ export function StartCrewScreen() {
 
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="start-crew">
-      <View style={styles.content}>
+      {/* A tap outside the field or a drag puts the keyboard away, so the footer is reachable. */}
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+      >
         <BackEyebrow label={t({ id: 'crew.start.back', message: 'Crews' })} />
         <Text variant="h1" accessibilityRole="header">
           {upper(t({ id: 'crew.start.title', message: 'Start a crew' }), locale)}
@@ -191,6 +198,7 @@ export function StartCrewScreen() {
           value={name}
           onChangeText={(next) => setName(next.slice(0, max))}
           message={t({ id: 'crew.start.nameHint', message: `Up to ${max} characters` })}
+          returnKeyType="done"
           testID="start-crew-name"
         />
         <Text variant="eyebrow">
@@ -205,7 +213,7 @@ export function StartCrewScreen() {
             })}
           </Text>
         ) : null}
-      </View>
+      </ScrollView>
       <View style={styles.footer}>
         <PillButton
           label={t({ id: 'crew.start.create', message: 'Start the crew' })}

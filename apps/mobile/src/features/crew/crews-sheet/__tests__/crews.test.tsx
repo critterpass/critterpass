@@ -254,6 +254,8 @@ describe('start a crew', () => {
     stack = await openTestLocalFirst({ holdUploads: true, uid: ME });
     await renderCrew(<StartCrewScreen />);
     expect(screen.getByTestId('start-crew-create')).toBeDisabled();
+    // Return closes the keyboard, which would otherwise cover the button.
+    expect(screen.getByTestId('start-crew-name').props.returnKeyType).toBe('done');
     await fireEvent.changeText(screen.getByTestId('start-crew-name'), '   ');
     expect(screen.getByTestId('start-crew-create')).toBeDisabled();
   });

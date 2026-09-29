@@ -41,7 +41,9 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'start-crew-name'
 - inputText: 'Lombok Gang'
-- hideKeyboard
+# Return closes the keyboard (hideKeyboard does not reliably on iOS).
+- pressKey: Enter
+- waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-start-crew-named
 - tapOn:
     id: 'start-crew-create'
