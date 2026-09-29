@@ -1,8 +1,8 @@
 appId: app.critterpass.dev
 ---
-# 3a-7 → 3a-8: the save sheet over the issued pass, the phone number step, then "Not now" to the
-# permissions page. Completing an OTP needs the api's test number; without it the flow stops at
-# the code-sent state.
+# 3a-7 → 3a-8: the save sheet over the issued pass, the phone number step with a staging test
+# number (+65 9123 4567 in the api's OTP_TEST_NUMBERS, never sent a message), its fixed code, and
+# on to the permissions page. Run with `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
 - launchApp:
     clearState: true
 - runFlow: subflows/through-name.yaml
@@ -45,12 +45,9 @@ appId: app.critterpass.dev
     visible:
       id: 'phone-sent'
     timeout: 20000
-- swipe:
-    start: 2%, 50%
-    end: 90%, 50%
-- tapOn:
-    id: 'save-not-now'
+- takeScreenshot: en-3a-8-code-sent
+- inputText: '${OTP_TEST_CODE}'
 - extendedWaitUntil:
     visible:
       id: 'permissions-primer'
-    timeout: 10000
+    timeout: 20000

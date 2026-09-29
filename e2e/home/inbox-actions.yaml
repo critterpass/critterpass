@@ -4,9 +4,15 @@ appId: app.critterpass.dev
 # row collapses, the NEEDS YOU count ticks down, and after the last one Tokek curls up (3b-5).
 # UNDO on a guide's change settles it. MARK ALL READ keeps the cards (read is not resolved).
 #
-# Needs before it can pass: an onboarded account with exactly one open needs-you item (a nudge,
-# answered with "Take a look"), and one guide change still inside its undo window in EARLIER.
-- launchApp
+# Data: the staging demo seed's `inbox` scenario: exactly one open needs-you item (Maya's nudge,
+# answered with "Take a look") and Tokek's plan change still inside its undo window in EARLIER.
+- launchApp:
+    clearState: true
+- runFlow: subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-inbox
 - openLink: critterpass-dev://inbox
 - extendedWaitUntil:
     visible:

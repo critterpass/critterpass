@@ -3,8 +3,15 @@ appId: app.critterpass.dev
 # 3b-5: with nothing needing the user, Tokek sleeps where the cards were; a tap opens one eye (the
 # toast), and Tokek goes back to sleep.
 #
-# Needs before it can pass: an onboarded account with no open needs-you items.
-- launchApp
+# Data: the staging demo seed's `caught_up` scenario: a crew and an inbox with nothing needing
+# the user.
+- launchApp:
+    clearState: true
+- runFlow: subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
 - openLink: critterpass-dev://inbox
 - extendedWaitUntil:
     visible:
