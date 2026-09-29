@@ -1,7 +1,8 @@
 /**
  * `billing.reconcile` (daily 05:00 Singapore, docs/api-contracts-async.md §2.3): re-reads from
  * RevenueCat every customer with a live store subscription (or one that lapsed in the last week,
- * or a grace that ran out) and repairs whatever a lost or late webhook left behind. Each customer
+ * or a grace that ran out) and repairs whatever a lost or late webhook left behind, including a
+ * boost split still waiting for its IOUs. Each customer
  * is its own transaction, so one failure never blocks the rest; running it twice changes nothing
  * the second time. The day's totals land in `ops_config billing.reconcile_last_run` for the
  * console's drift tile.
@@ -37,14 +38,22 @@ async function dueUsers(
   now: Date,
 ): Promise<string[]> {
   return withSystem(pool, async (tx) => {
+    // Split boosts whose IOUs could not be written yet (no FX rate then) are retried here too.
     const { rows } = await tx.query<{ user_id: string }>(
-      `SELECT DISTINCT user_id FROM subscriptions
-        WHERE platform IN ('app_store', 'play')
-          AND ($1::uuid IS NULL OR user_id > $1::uuid)
-          AND (status NOT IN ('expired', 'revoked')
-               OR period_end > $3::timestamptz - interval '7 days'
-               OR (grace_ends_at IS NOT NULL AND grace_ends_at > $3::timestamptz - interval '7 days'))
-        ORDER BY user_id LIMIT $2`,
+      `SELECT user_id FROM (
+         SELECT user_id FROM subscriptions
+          WHERE platform IN ('app_store', 'play')
+            AND (status NOT IN ('expired', 'revoked')
+                 OR period_end > $3::timestamptz - interval '7 days'
+                 OR (grace_ends_at IS NOT NULL
+                     AND grace_ends_at > $3::timestamptz - interval '7 days'))
+         UNION
+         SELECT buyer_id FROM trip_boosts
+          WHERE source = 'purchase' AND split_mode = 'split' AND expense_id IS NULL
+            AND status IN ('scheduled', 'active', 'ended')
+       ) due
+       WHERE $1::uuid IS NULL OR user_id > $1::uuid
+       ORDER BY user_id LIMIT $2`,
       [after, limit, now],
     );
     return rows.map((row) => row.user_id);

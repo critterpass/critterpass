@@ -8,6 +8,7 @@ import { z } from 'zod';
 import type { AnyJobDefinition } from '../../boss';
 import { billingApplyJob } from './apply';
 import { createBillingDoor, type BillingDoor } from './door-client';
+import { intentExpiryJob } from './intent-expiry';
 import { billingReconcileJob } from './reconcile';
 
 const envSchema = z.object({
@@ -19,7 +20,7 @@ const envSchema = z.object({
 });
 
 export function billingJobsFor(door: BillingDoor): AnyJobDefinition[] {
-  return [billingApplyJob(door), billingReconcileJob(door)];
+  return [billingApplyJob(door), billingReconcileJob(door), intentExpiryJob(door)];
 }
 
 export function billingJobs(

@@ -12,11 +12,15 @@ import type { Logger } from 'pino';
 import { z } from 'zod';
 
 import { registerBillingCommands } from '../commands/billing';
+import { registerBoostCommands } from '../commands/boost';
+import { expireIntent } from '../commands/boost/release-boost-intent';
 import type { CommandRegistry } from '../commands/_framework/registry';
 import { registerTripSourceLoader, registerUserSourceLoader } from '../entitlements';
 import { createKillSwitches } from '../ops/kill-switches';
 import { registerRevenueCatWebhook } from '../routes/webhooks/revenuecat';
+import { activateBoostPurchase } from './activate-boost';
 import { applyBillingEvent } from './apply-event';
+import { registerPurchaseHandler } from './fulfilment';
 import { registerBillingDoor, type BillingOpHandler } from './internal-door';
 import { createRevenueCatClient, type RevenueCatClient } from './rc-client';
 import { reconcileBatch } from './reconcile';
@@ -46,10 +50,14 @@ export const runOn =
   async <Row>(sql: string, values: readonly unknown[]) =>
     (await tx.query(sql, [...values])).rows as Row[];
 
-/** Registers every billing entitlement source with the materialiser (once per process). */
+/**
+ * Registers every billing entitlement source with the materialiser and every product's purchase
+ * handler (once per process).
+ */
 export function registerBillingSources(): void {
   if (sourcesRegistered) return;
   sourcesRegistered = true;
+  registerPurchaseHandler('boost_trip', { fulfil: activateBoostPurchase });
   for (const loader of BILLING_USER_LOADERS) {
     registerUserSourceLoader(({ tx, uid }) => loader(runOn(tx), uid));
   }
@@ -83,6 +91,10 @@ export function billingOps(deps: BillingProcessDeps): Partial<Record<string, Bil
         );
         throw error;
       }
+    },
+    expire_intent: (body) => {
+      const { intent_id: id } = body as { intent_id: string };
+      return withSystem(deps.pool, (tx) => expireIntent(tx, id, new Date()));
     },
     reconcile: (body) => {
       const { after_user_id: after, limit } = body as {
@@ -123,10 +135,9 @@ export function registerBilling<E extends { Variables: object }>(
     input.logger.warn('Store purchase verification is off: REVENUECAT_SECRET_API_KEY is unset');
   }
   registerBillingSources();
-  registerBillingCommands(input.commands, {
-    revenuecat,
-    switches: createKillSwitches(input.pool),
-  });
+  const switches = createKillSwitches(input.pool);
+  registerBillingCommands(input.commands, { revenuecat, switches });
+  registerBoostCommands(input.commands, { switches });
   if (env.REVENUECAT_WEBHOOK_AUTH === undefined) {
     input.logger.warn('The RevenueCat webhook is off: REVENUECAT_WEBHOOK_AUTH is unset');
   } else {

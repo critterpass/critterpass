@@ -16,6 +16,7 @@ import { registerBillingDoor } from '../../src/billing/internal-door';
 import { createRevenueCatClient, type RevenueCatClient } from '../../src/billing/rc-client';
 import { billingOps, registerBillingSources } from '../../src/billing/register';
 import { registerBillingCommands } from '../../src/commands/billing';
+import { registerBoostCommands } from '../../src/commands/boost';
 import type { CommandRegistry } from '../../src/commands/_framework/registry';
 import { createKillSwitches, type KillSwitches } from '../../src/ops/kill-switches';
 import { registerRevenueCatWebhook } from '../../src/routes/webhooks/revenuecat';
@@ -69,6 +70,7 @@ export async function startBillingHarness(
   const harness = await startMoneyHarness(
     (registry) => {
       registerBillingCommands(registry, { revenuecat: client, switches: lazySwitches });
+      registerBoostCommands(registry, { switches: lazySwitches });
       extra?.(registry, { revenuecat: client });
     },
     (app, deps) => {
@@ -187,4 +189,19 @@ export async function stateOf(pool: pg.Pool, uid: string): Promise<BillingState>
     transactions: Number(txns.rows[0]?.n ?? 0),
     events: Number(events.rows[0]?.n ?? 0),
   };
+}
+
+/** A recorded Trip Boost purchase for `uid` under `intentId`, as transaction `txn`. */
+export function boostPurchase(
+  uid: string,
+  intentId: string,
+  txn: string,
+): { webhook: { event: { id: string } }; subscriber: unknown } {
+  const raw = readFileSync(
+    path.join(import.meta.dirname, 'fixtures', 'boost-trip-purchase.json'),
+    'utf8',
+  );
+  return JSON.parse(
+    raw.replaceAll('$UID', uid).replaceAll('$INTENT', intentId).replaceAll('$TXN', txn),
+  ) as { webhook: { event: { id: string } }; subscriber: unknown };
 }
