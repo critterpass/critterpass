@@ -13,9 +13,10 @@ import { useLoop } from '@/motion/use-loop';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { Icon } from '@/ui/icons/Icon';
 import { PressScale } from '@/ui/press/PressScale';
-import { Sticker } from '@/ui/sticker/Sticker';
 import { Row, Stack, Text } from '@/ui';
 import { makeStyles } from '@/ui/theme';
+
+import { GuideImage } from './guide-image';
 
 const useStyles = makeStyles((th) => ({
   // The guide hops beside the pin on its right, so the whole pin grows right from its anchor.
@@ -104,7 +105,7 @@ export function MeetupPin({
         </Row>
       </PressScale>
       <Animated.View style={hop}>
-        <Sticker kind={guide.kind} name={guide.name} size={44} />
+        <GuideImage guide={guide} size={44} />
       </Animated.View>
     </View>
   );
