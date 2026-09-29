@@ -208,10 +208,10 @@ exports[`destination final casts from a showdown half, notes an underdog pick an
                 {
                   "alignItems": "flex-start",
                   "backgroundColor": "#ffd84a",
+                  "transformOrigin": "bottom",
                 },
                 null,
                 {
-                  "opacity": 0,
                   "transform": [
                     {
                       "scaleX": 1,
@@ -510,10 +510,10 @@ exports[`destination final casts from a showdown half, notes an underdog pick an
                 {
                   "alignItems": "flex-end",
                   "backgroundColor": "#ffd84a",
+                  "transformOrigin": "top",
                 },
                 null,
                 {
-                  "opacity": 0,
                   "transform": [
                     {
                       "scaleX": 1,

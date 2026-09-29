@@ -26,6 +26,7 @@ jest.mock('expo-router', () => ({
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
+import { StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 
 import { toastQueue } from '@/motion';
 import {
@@ -182,6 +183,30 @@ describe('destination final', () => {
     await until(() => screen.queryByTestId('showdown-hint') === null);
     expect(await queued(s, 'cast_ballot')).toEqual([{ poll_id: POLL, option_id: OPT_LISBON }]);
     await until(() => toastQueue.getCurrent()?.title.includes('underdog') === true);
+  });
+
+  it('shows both finalists before and after the viewer casts the deciding ballot', async () => {
+    const s = await open();
+    // The crew split evenly with the viewer's ballot the last one needed.
+    await seedFinal(s, [
+      { userId: MAYA, optionId: OPT_KYOTO },
+      { userId: JORDAN, optionId: OPT_LISBON },
+    ]);
+    await renderVote(<Final me={s.uid} view="showdown" />, s);
+    await until(() => screen.queryByText('LISBON') !== null);
+    const visible = (testID: string) => {
+      const half = screen.getByTestId(testID).children[0];
+      if (half === undefined || typeof half === 'string') return false;
+      return StyleSheet.flatten(half.props.style as StyleProp<ViewStyle>)?.opacity !== 0;
+    };
+    expect(screen.getByText('KYOTO')).toBeTruthy();
+    expect(visible('showdown-half-0')).toBe(true);
+    expect(visible('showdown-half-1')).toBe(true);
+    await fireEvent.press(screen.getByTestId('showdown-half-0'));
+    await until(() => screen.queryByTestId('showdown-hint') === null);
+    expect(await queued(s, 'cast_ballot')).toEqual([{ poll_id: POLL, option_id: OPT_KYOTO }]);
+    expect(visible('showdown-half-0')).toBe(true);
+    expect(visible('showdown-half-1')).toBe(true);
   });
 
   it('sends the showdown on to the reveal once the poll closes', async () => {
