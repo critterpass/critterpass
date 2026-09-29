@@ -133,7 +133,7 @@ export function Ticket({
             <Row wrap gap="12" style={styles.fields}>
               {fields.map((field) => (
                 <View key={field.key} style={{ width: '45%' }}>
-                  <DocField label={field.label} value={field.value} />
+                  <DocField label={field.label} value={field.value} wrap />
                 </View>
               ))}
             </Row>

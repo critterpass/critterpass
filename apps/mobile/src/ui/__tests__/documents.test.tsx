@@ -99,9 +99,11 @@ describe('document artefacts', () => {
     expect(flat(slot).position).toBeUndefined();
     const row = slot.parent;
     expect(flat(row).flexDirection).toBe('row');
-    expect(
-      within(row as never).getByText('WINDOW, BY MAYA', { includeHiddenElements: true }),
-    ).toBeTruthy();
+    const value = within(row as never).getByText('WINDOW, BY MAYA', {
+      includeHiddenElements: true,
+    });
+    // Beside the sticker a long value wraps rather than being cut.
+    expect(value.props.numberOfLines).toBeUndefined();
   });
 
   it('groups tickets, visas, receipts and gift cards under one label each', async () => {

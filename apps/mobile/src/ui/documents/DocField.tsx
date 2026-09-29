@@ -9,10 +9,12 @@ export interface DocFieldProps {
   readonly label: string;
   readonly value: string;
   readonly flex?: number;
+  /** Let a long value wrap onto more lines instead of cutting it (a ticket's narrow fields). */
+  readonly wrap?: boolean;
 }
 
 /** A labelled field printed on a document or ticket: small mono label over a bold value. */
-export function DocField({ label, value, flex }: DocFieldProps) {
+export function DocField({ label, value, flex, wrap = false }: DocFieldProps) {
   const theme = useTheme();
   const tone = useSurfaceTone();
   const labelColour =
@@ -26,7 +28,7 @@ export function DocField({ label, value, flex }: DocFieldProps) {
       <Text variant="monoData" color={labelColour}>
         {label}
       </Text>
-      <Text variant="title" numberOfLines={1}>
+      <Text variant="title" numberOfLines={wrap ? undefined : 1}>
         {value}
       </Text>
     </Stack>
