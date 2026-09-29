@@ -10,7 +10,7 @@ jest.mock('expo-router', () => ({ useIsFocused: () => true, router: { back: jest
 import { describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { fireEvent, render, screen, within } from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import type { ReactElement } from 'react';
@@ -146,18 +146,18 @@ describe('chat layout', () => {
         joinIndex={1}
       />,
     );
-    const capped = [];
+    const chain = [];
     for (let node = screen.getByText('heh').parent; node !== null; node = node.parent) {
-      const style = StyleSheet.flatten(node.props.style as never) as { maxWidth?: unknown } | null;
-      if (style?.maxWidth !== undefined) capped.push(node);
+      chain.push(StyleSheet.flatten(node.props.style as never) as Record<string, unknown> | null);
       if (node.props.testID === 'chat-message-short') break;
     }
-    expect(capped).toHaveLength(1);
-    expect(StyleSheet.flatten(capped[0]?.props.style as never)).toMatchObject({ maxWidth: '82%' });
-    // The capped view is the column holding the delivery line, not the bubble around the text.
-    const column = capped[0];
-    if (column === undefined) throw new Error('no capped view');
-    expect(within(column).queryByText('Sending')).not.toBeNull();
+    const capped = chain.findIndex((style) => style?.maxWidth !== undefined);
+    const bubble = chain.findIndex((style) => style?.backgroundColor !== undefined);
+    expect(chain.filter((style) => style?.maxWidth !== undefined)).toHaveLength(1);
+    expect(chain[capped]?.maxWidth).toBe('82%');
+    // The cap is an ancestor of the painted bubble, not the bubble itself.
+    expect(bubble).toBeGreaterThanOrEqual(0);
+    expect(capped).toBeGreaterThan(bubble);
   });
 
   it('composer', async () => {

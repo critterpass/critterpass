@@ -44,7 +44,12 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'start-crew-name'
 - inputText: 'Quiet Crew'
-- hideKeyboard
+# Return closes the single-line field's keyboard (hideKeyboard can leave it up over CREATE).
+- pressKey: Enter
+- waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      id: 'start-crew-create'
 - tapOn:
     id: 'start-crew-create'
 - extendedWaitUntil:

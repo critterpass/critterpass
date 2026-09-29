@@ -64,7 +64,10 @@ const useStyles = makeStyles((th) => ({
     paddingVertical: th.space['6'],
     paddingHorizontal: th.space['24'],
   },
-  meta: { gap: th.space['6'], alignItems: 'center' },
+  meta: { gap: th.space['6'], alignItems: 'center', paddingTop: th.space['4'] },
+  under: { alignItems: 'flex-start' },
+  underMine: { alignItems: 'flex-end' },
+  underTheirs: { paddingStart: (th.size.avatar.lg ?? 0) + th.space['8'] },
 }));
 
 export function Bubble(props: BubbleProps) {
@@ -206,10 +209,13 @@ export function Bubble(props: BubbleProps) {
               </GestureDetector>
             </Animated.View>
           </GestureDetector>
-          {props.reactions}
-          <DeliveryLine {...props} time={time} />
         </Stack>
       </Row>
+      {/* Under the bubble, not beside the avatar: the avatar lines up with the bubble's foot. */}
+      <View style={[styles.under, mine ? styles.underMine : styles.underTheirs]}>
+        {props.reactions}
+        <DeliveryLine {...props} time={time} />
+      </View>
     </Animated.View>
   );
 }
