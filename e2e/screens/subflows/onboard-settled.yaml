@@ -80,7 +80,13 @@ appId: app.critterpass.dev
           timeout: 10000
       - tapOn:
           id: 'home-row-SIN'
-- hideKeyboard
+# Android's hideKeyboard presses back when no keyboard is up, which leaves this page; Android
+# resizes the page above the keyboard, so only iOS needs it put away.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
 - tapOn:
     id: 'onboarding-home-next'
 - extendedWaitUntil:
