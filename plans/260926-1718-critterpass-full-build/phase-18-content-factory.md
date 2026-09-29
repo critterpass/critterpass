@@ -150,7 +150,7 @@ Build this phase's console panel to its render (`design/Ops - Content Batches.dc
 - Steps: 1. Run P14 importer per city, then a cross-language duplicate sweep: auto POIs ≤ 60 m apart with name trigram < 0.6 (e.g. "Chùa Cầu" vs "Japanese Covered Bridge") go to a Jev decision route `poi.duplicate_tiebreak` (Noul, many pairs per call through P13 `decide()`); p ≥ route threshold → merge through P14 merge redirects, gray band → content review batch. 2. Editorial generation from open data. 3. Taste tag mapping. 4. Publish via `upsert_poi` batch + `content.embed`.
 - Tests: `pnpm content places validate --all`
 - Done when (agent): importer + editorial generation ran for every guide city; validators pass on every record produced; zero supplier-sourced text; review batch queued. Counts (≥ 250/city, 61 index entries) are phase acceptance, approval → G3.
-- Status: in_progress — batch `2026-09-29-places-01` (2,395 items, 0 validator failures) is approved on staging; its publish is pending
+- Status: done — 07b26878, f3f151ae. Staging batch `2026-09-29-places-01` (release 01a0ee57): 2,395 items, 0 validator failures, 43 duplicate warnings resolved (21 rejected as the same place, 22 kept), 68 merges. Published v1 with 2,374 items. Curated POIs synced per city after merges: mexico-city 394, bali 392, cusco 386, kyoto 380, iceland 377, lisbon 377. Approved for staging testing by founder instruction; production review (G3) pending
 
 ### T8 — Spawn rules + legendary windows
 - Goal: every form obtainable; calendar complete.
