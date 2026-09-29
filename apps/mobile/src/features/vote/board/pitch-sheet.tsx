@@ -4,7 +4,8 @@
  * (starting a new vote when there is none) and flies the card onto the board with the toast
  * "{Place}'s on the board. {in} of {n} have voted." While a final is on, the place is queued for
  * the next board instead ("It joins the vote after this one."); a place already on the board says
- * so and leads back to it.
+ * so and leads back to it. While typing, the matches are wrapping place chips and there is no
+ * button yet; ADD TO THE VOTE arrives with the picked place's pitch.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -37,9 +38,12 @@ import { flyToBoard } from './fly-to-board';
 import { PitchCard } from './pitch-stream';
 
 const useStyles = makeStyles((th) => ({
-  body: { padding: th.space['16'], gap: th.space['16'] },
-  footer: { paddingHorizontal: th.space['16'], paddingBottom: th.space['16'] },
-  result: { paddingVertical: th.space['10'] },
+  body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['16'], gap: th.space['16'] },
+  footer: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['16'] },
+  // The header row ends 12 pt from the edge (room for a ✕ this sheet does not show); this evens
+  // the field with the body's gutter.
+  field: { marginEnd: th.size.gutter - th.space['12'] },
+  results: { paddingTop: th.space['4'] },
 }));
 
 export interface PitchSheetProps {
@@ -56,18 +60,17 @@ function ResultRows({
 }) {
   const styles = useStyles();
   return (
-    <Stack>
+    <Row gap="8" wrap style={styles.results} testID="pitch-results">
       {results.map((result, index) => (
-        <View key={result.place_id} style={styles.result}>
-          <QuickActionChip
-            label={result.country === null ? result.name : `${result.name} · ${result.country}`}
-            icon="pin"
-            onPress={() => onPick(result)}
-            testID={`pitch-result-${index}`}
-          />
-        </View>
+        <QuickActionChip
+          key={result.place_id}
+          label={result.country === null ? result.name : `${result.name} · ${result.country}`}
+          icon="pin"
+          onPress={() => onPick(result)}
+          testID={`pitch-result-${index}`}
+        />
       ))}
-    </Stack>
+    </Row>
   );
 }
 
@@ -142,10 +145,8 @@ export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
     <Sheet
       detents={['large']}
       accessibilityLabel={t({ id: 'vote.pitch.title', message: 'Pitch a place' })}
-      testID="pitch-sheet"
-    >
-      <SheetScrollView keyboardShouldPersistTaps="handled">
-        <Stack style={styles.body}>
+      header={
+        <View style={styles.field}>
           <SearchField
             value={query}
             onChangeText={(text) => {
@@ -155,15 +156,20 @@ export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
             label={t({ id: 'vote.pitch.search', message: 'Search a place' })}
             autoFocus={placeId === undefined}
             testID="pitch-search"
-            results={
-              picked === null && search.status === 'ready' ? (
-                <ResultRows
-                  results={search.results}
-                  onPick={(place) => pick({ id: place.place_id, name: place.name })}
-                />
-              ) : null
-            }
           />
+        </View>
+      }
+      closable={false}
+      testID="pitch-sheet"
+    >
+      <SheetScrollView keyboardShouldPersistTaps="handled">
+        <Stack style={styles.body}>
+          {picked === null && query.length > 0 && search.status === 'ready' ? (
+            <ResultRows
+              results={search.results}
+              onPick={(place) => pick({ id: place.place_id, name: place.name })}
+            />
+          ) : null}
           {picked === null && search.status === 'offline' ? (
             <Text variant="body" testID="pitch-offline">
               {t({
@@ -204,16 +210,18 @@ export function PitchSheet({ crewId, placeId }: PitchSheetProps) {
           ) : null}
         </Stack>
       </SheetScrollView>
-      <View style={styles.footer}>
-        <PillButton
-          label={cta}
-          onPress={() => void addToVote()}
-          disabled={picked === null || state.phase === 'streaming'}
-          loading={add.pending}
-          sheen={!onBoard}
-          testID="pitch-add"
-        />
-      </View>
+      {picked === null ? null : (
+        <View style={styles.footer}>
+          <PillButton
+            label={cta}
+            onPress={() => void addToVote()}
+            disabled={state.phase === 'streaming'}
+            loading={add.pending}
+            sheen={!onBoard}
+            testID="pitch-add"
+          />
+        </View>
+      )}
     </Sheet>
   );
 }

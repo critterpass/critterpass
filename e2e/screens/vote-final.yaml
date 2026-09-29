@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# Screenshots of the destination vote's final for `pnpm screens:capture`: a fresh account onboards,
+# takes the staging demo crew with its vote in the final, then walks the split card, the showdown
+# and the reveal.
+- launchApp:
+    clearState: true
+# A link dialog an earlier flow left open covers the first screen.
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-vote-final
+- runFlow:
+    file: subflows/vote-final-screens.yaml
+    env:
+      PREFIX: en

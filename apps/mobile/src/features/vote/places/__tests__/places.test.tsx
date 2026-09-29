@@ -86,6 +86,16 @@ describe('place search', () => {
     expect(router.push).toHaveBeenCalledWith(voteRoutes.place(MARRAKECH, CREW));
   });
 
+  it('opens the top result from the keyboard GO key', async () => {
+    const s = await open();
+    await renderVote(<SearchSheet crewId={CREW} />, s, replayServices({ results: moroccoResults }));
+    const field = screen.getByTestId('place-search-field');
+    await type('morocc');
+    await until(() => screen.queryByTestId(`place-result-${MARRAKECH}`) !== null);
+    await fireEvent(field, 'submitEditing');
+    expect(router.push).toHaveBeenCalledWith(voteRoutes.place(MARRAKECH, CREW));
+  });
+
   it('opens a live-guide place on its destination page', async () => {
     const s = await open();
     const kyoto = {

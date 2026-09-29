@@ -24,6 +24,8 @@ const useStyles = makeStyles((t) => ({
   },
   card: { borderRadius: t.radius.lg, minHeight: sizeToken(t.size.primaryCta, 'height') * 1.5 },
   plus: { color: t.semantic.text.primary },
+  // A label that wraps ("PITCH A / PLACE" in the circle) stays centred under the plus.
+  label: { textAlign: 'center' },
 }));
 
 /** Dashed placeholder that adds something (pitch a place, add a booking, invite). */
@@ -48,7 +50,7 @@ export function DashedAddCard({
       <Text variant="h3" style={styles.plus} accessibilityElementsHidden>
         +
       </Text>
-      <Text variant="label" color={theme.semantic.text.secondary}>
+      <Text variant="label" color={theme.semantic.text.secondary} style={styles.label}>
         {label}
       </Text>
     </PressScale>

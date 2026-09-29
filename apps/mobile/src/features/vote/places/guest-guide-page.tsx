@@ -35,6 +35,9 @@ import { SoloConfirm } from './solo-confirm';
 
 const GUEST = GUIDE_STICKERS.tokek;
 
+/** Smallest size the hero name shrinks to (a 13-letter city on a 360 pt phone). */
+const HERO_NAME_FLOOR = 40;
+
 const useStyles = makeStyles((th) => ({
   screen: { flex: 1, backgroundColor: th.semantic.bg.base },
   body: { paddingHorizontal: th.space['20'], gap: th.space['20'] },
@@ -175,7 +178,16 @@ export function GuestGuidePage({
               <Animated.View style={[{ alignSelf: 'flex-end' }, hop]}>
                 <LiveSticker kind={GUEST.kind} name={GUEST.name} size={88} drawOn={false} />
               </Animated.View>
-              <Text variant="displayMega" autoFit color={theme.semantic.text.onAccent}>
+              {/* One line per word, and a floor low enough that a long single-word city
+                  ("CHEFCHAOUEN") shrinks to fit instead of breaking mid-word or cutting off. */}
+              <Text
+                variant="displayMega"
+                autoFit
+                autoFitMinSize={HERO_NAME_FLOOR}
+                numberOfLines={Math.min(3, place.name.trim().split(/\s+/u).length)}
+                color={theme.semantic.text.onAccent}
+                testID="guest-name"
+              >
                 {upper(place.name, i18n.locale)}
               </Text>
               <Text variant="label" color={theme.semantic.text.onAccent}>

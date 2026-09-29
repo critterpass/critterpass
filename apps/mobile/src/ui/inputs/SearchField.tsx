@@ -1,6 +1,6 @@
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
-import { View } from 'react-native';
+import { View, type ReturnKeyTypeOptions } from 'react-native';
 
 import { Stack } from '../layout/Stack';
 import { makeStyles, useTheme } from '../theme';
@@ -15,6 +15,8 @@ export interface SearchFieldProps {
   /** Result rows rendered under the field while it has a query. */
   readonly results?: ReactNode;
   readonly autoFocus?: boolean;
+  /** The keyboard's return key, e.g. `go` where submitting opens the top result. @default 'search' */
+  readonly returnKeyType?: ReturnKeyTypeOptions;
   readonly testID?: string;
 }
 
@@ -63,6 +65,7 @@ export function SearchField({
   onSubmit,
   results,
   autoFocus,
+  returnKeyType = 'search',
   testID,
 }: SearchFieldProps) {
   const theme = useTheme();
@@ -76,7 +79,7 @@ export function SearchField({
         onChangeText={onChangeText}
         leading={<Lens />}
         placeholder={name}
-        returnKeyType="search"
+        returnKeyType={returnKeyType}
         autoCorrect={false}
         accessibilityRole="search"
         {...(onSubmit ? { onSubmitEditing: onSubmit } : {})}

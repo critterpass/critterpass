@@ -20,7 +20,7 @@ appId: app.critterpass.dev
 - assertVisible: 'NO LIVE GUIDE YET'
 - waitForAnimationToEnd
 - takeScreenshot: 3b-7
-- tapOn: 'MARRAKECH'
+- tapOn: 'Marrakech,.*'
 - extendedWaitUntil:
     visible:
       id: 'guest-brief'

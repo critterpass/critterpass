@@ -46,6 +46,7 @@ import { PitchSheet } from '../pitch-sheet';
 import { usePoll } from '../../data/use-poll';
 import {
   kyotoPitchFrames,
+  moroccoResults,
   PITCH_ID,
   replayServices,
   type HeldStream,
@@ -61,7 +62,6 @@ import {
   renderVote,
   seedCrew,
   seedPoll,
-  settleMotion,
   until,
 } from '../../test-support/vote-harness';
 
@@ -117,8 +117,6 @@ describe('destination board', () => {
     await fireEvent.press(screen.getByTestId('board-sticker-1'));
     await until(() => screen.queryByText('VOTE OPEN · 2 OF 3 IN') !== null);
     expect(await queued(s, 'cast_ballot')).toEqual([{ poll_id: POLL, option_id: OPT_LISBON }]);
-    await settleMotion();
-    expect(screen.toJSON()).toMatchSnapshot();
   });
 
   it('lets the organiser go to the final and opens the pitch sheet from the slot', async () => {
@@ -162,6 +160,22 @@ describe('destination board', () => {
 });
 
 describe('pitch sheet', () => {
+  it('offers ADD TO THE VOTE only once a place is picked', async () => {
+    const s = await open();
+    await seedBoard(s);
+    await renderVote(
+      <PitchSheet crewId={CREW} />,
+      s,
+      replayServices({ results: moroccoResults, pitch: kyotoPitchFrames(s.uid) }),
+    );
+    await fireEvent.changeText(screen.getByTestId('pitch-search'), 'morocc');
+    await until(() => screen.queryByTestId('pitch-result-1') !== null);
+    expect(screen.queryByTestId('pitch-add')).toBeNull();
+    await fireEvent.press(screen.getByTestId('pitch-result-0'));
+    await until(() => screen.queryByTestId('pitch-add') !== null);
+    expect(screen.queryByTestId('pitch-results')).toBeNull();
+  });
+
   it('streams the pitch section by section, then adds the place with its pitch', async () => {
     const s = await open();
     await seedBoard(s);

@@ -27,7 +27,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { ResultTally } from '@/ui/vote/ResultTally';
 
 import { useIsOrganiser, usePlaces } from '../data/use-board';
-import { originCity, useOrganiserName } from '../data/use-final';
+import { originCity, useOrganiserName, useRevealSeenOnOpen } from '../data/use-final';
 import { useMyUid } from '../data/use-my-uid';
 import { stackOf, usePeople } from '../data/use-people';
 import { usePoll } from '../data/use-poll';
@@ -260,9 +260,21 @@ function triggerConfettiOnce(): void {
   patterns.triggerConfetti(CONFETTI_ORIGIN.x, CONFETTI_ORIGIN.y, 'large', deviceTier);
 }
 
+/**
+ * The reveal plays once: a reveal this user has already seen (a cold start restoring this screen,
+ * or another device having shown it) leaves for where the user came from instead of replaying.
+ */
 export function WinnerRevealScreen({ pollId }: { readonly pollId: string }) {
   const me = useMyUid();
   const { poll } = usePoll(pollId, me);
-  if (poll === null || me === null || poll.status !== 'closed') return null;
+  const seenBefore = useRevealSeenOnOpen(pollId, me);
+  useEffect(() => {
+    if (seenBefore !== true) return;
+    if (router.canGoBack()) router.back();
+    else router.replace('/');
+  }, [seenBefore]);
+  if (poll === null || me === null || poll.status !== 'closed' || seenBefore !== false) {
+    return null;
+  }
   return <WinnerRevealView poll={poll} me={me} />;
 }

@@ -3,11 +3,18 @@
  * tool chips (flight hours, price each, best months) and who voted for it. The viewer's side wears
  * a ring; choosing it squashes the half from the VS edge.
  */
+import { tokens } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
+import { useEffect } from 'react';
 import { Pressable, View } from 'react-native';
-import Animated from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 
-import { patterns } from '@/motion';
+import { bezierEasing, useMotionMode } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
@@ -26,13 +33,54 @@ import { flightHours, guideOr, money, monthShort, upper } from '../format';
 /** Showdown stacks show this many voters before "+n" (boosted crews reach sixteen). */
 const MAX_AVATARS = 16;
 
+const SQUASH_EASING = bezierEasing(tokens.motion.easing.standard);
+/** Two segments of the 460 ms squash. */
+const SQUASH_SEGMENT_MS = 230;
+
+/**
+ * The squash a half does when it becomes the viewer's pick: sx1.14/sy.86 → .94/1.06 → rest, from
+ * the edge that meets the VS disc. Only the scale moves; a half is always fully visible, whether
+ * or not it has ever been chosen. Reduced motion keeps it still.
+ */
+function useChosenSquash(chosen: boolean) {
+  const scaleX = useSharedValue(1);
+  const scaleY = useSharedValue(1);
+  const [mode] = useMotionMode();
+  useEffect(() => {
+    if (!chosen || mode !== 'full') return;
+    scaleX.value = 1.14;
+    scaleY.value = 0.86;
+    scaleX.value = withSequence(
+      withTiming(0.94, { duration: SQUASH_SEGMENT_MS, easing: SQUASH_EASING }),
+      withTiming(1, { duration: SQUASH_SEGMENT_MS, easing: SQUASH_EASING }),
+    );
+    scaleY.value = withSequence(
+      withTiming(1.06, { duration: SQUASH_SEGMENT_MS, easing: SQUASH_EASING }),
+      withTiming(1, { duration: SQUASH_SEGMENT_MS, easing: SQUASH_EASING }),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- shared values are stable refs.
+  }, [chosen, mode]);
+  return useAnimatedStyle(() => ({
+    transform: [{ scaleX: scaleX.value }, { scaleY: scaleY.value }],
+  }));
+}
+
 const useStyles = makeStyles((th) => ({
   half: {
     flex: 1,
     padding: th.space['20'],
     overflow: 'hidden',
-    justifyContent: 'center',
     gap: th.space['10'],
+  },
+  // Each half's content gathers at the VS disc, clear of it, so the screen header above and the
+  // tally card below never cover a name or its voters.
+  top: {
+    justifyContent: 'flex-end',
+    paddingBottom: sizeToken(th.size.fab, 'size') / 2 + th.space['16'],
+  },
+  bottom: {
+    justifyContent: 'flex-start',
+    paddingTop: sizeToken(th.size.fab, 'size') / 2 + th.space['16'],
   },
   ghost: { position: 'absolute', opacity: 0.35 },
   mine: {
@@ -117,7 +165,7 @@ export function ShowdownHalf({
   const styles = useStyles();
   const theme = useTheme();
   const { t, i18n } = useLingui();
-  const squash = patterns.useSquash({ active: squashKey > 0 });
+  const squash = useChosenSquash(squashKey > 0);
   const guideId = guideOr(place?.guide);
   const guide = GUIDE_STICKERS[guideId];
   const ink = theme.semantic.text.onAccent;
@@ -141,9 +189,12 @@ export function ShowdownHalf({
       <Animated.View
         style={[
           styles.half,
+          alignEnd ? styles.bottom : styles.top,
           {
             backgroundColor: place?.colour ?? theme.color.yellow,
             alignItems: alignEnd ? 'flex-end' : 'flex-start',
+            // The squash grows from the edge that meets the VS disc.
+            transformOrigin: alignEnd ? 'top' : 'bottom',
           },
           option.mine ? styles.mine : null,
           squash,

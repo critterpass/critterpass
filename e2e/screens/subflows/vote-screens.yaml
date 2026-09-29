@@ -2,7 +2,8 @@ appId: app.critterpass.dev
 ---
 # From Home with the staging demo crew: place search (3b-7) for a country nobody guides, the guest
 # guide's page (3b-8) with its solo confirm, then PITCH TO THE CREW: the streamed pitch (3b-3) and,
-# once added, the board on Home (3b-1). ${PREFIX} names the screenshots by language.
+# once added, the board on Home (3b-1); last, the board's PITCH A PLACE sheet with the keyboard up
+# and its matches as place chips. ${PREFIX} names the screenshots by language.
 #
 # Home with a crew has no search entry, so the search opens by link; iOS asks once whether the app
 # may open its own link, and a dialog left open would cover the next flow's first screen.
@@ -23,7 +24,8 @@ appId: app.critterpass.dev
     timeout: 20000
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3b-7-search
-- tapOn: 'MARRAKECH'
+# The row's accessible name leads with the place ("Marrakech, Morocco · …") in every language.
+- tapOn: 'Marrakech,.*'
 - extendedWaitUntil:
     visible:
       id: 'guest-locals'
@@ -43,6 +45,9 @@ appId: app.critterpass.dev
     visible:
       id: 'solo-confirm'
     timeout: 5000
+- scrollUntilVisible:
+    element:
+      id: 'solo-cancel'
 - takeScreenshot: ${PREFIX}-3b-8-solo-confirm
 - tapOn:
     id: 'solo-cancel'
@@ -56,20 +61,45 @@ appId: app.critterpass.dev
 - takeScreenshot: ${PREFIX}-3b-3-pitch
 - tapOn:
     id: 'pitch-add'
-# Back to Home by edge swipes: a link to Home keeps the pushed screens.
-- repeat:
-    while:
-      notVisible:
-        id: 'destination-board'
-    times: 4
-    commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-      - waitForAnimationToEnd
+# Back to Home the way a person would: the place page's back, then a tap on the search sheet's
+# scrim. Edge swipes overshoot on Android, where a back on Home leaves the app.
 - extendedWaitUntil:
     visible:
+      id: 'guest-pitch'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'guest-back'
+    direction: UP
+- tapOn:
+    id: 'guest-back'
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 10000
+# The scrim shows above the sheet's top edge.
+- tapOn:
+    point: 50%, 6%
+- extendedWaitUntil:
+    notVisible:
+      id: 'place-search-field'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
       id: 'destination-board'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3b-1-board
+- tapOn:
+    id: 'board-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 10000
+- inputText: 'hong'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${PREFIX}-3b-3-search
