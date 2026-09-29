@@ -111,9 +111,11 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
   const { width } = image;
   const min = Math.max(2, width * LIMITS.frameMin);
   const max = width * LIMITS.frameMax;
-  const rows = rowsBetween(image, 0.12, 0.88, 200);
+  // Above the keyboard, when one is up: its tray runs to both edges.
+  const keyboard = keyboardTop(image);
+  const rows = rowsBetween(image, 0.12, keyboard === null ? 0.88 : keyboard / image.height, 200);
   const insets: number[] = [];
-  let edgeColour: Rgb = [0, 0, 0];
+  const edges: Rgb[] = [];
   for (const y of rows) {
     const left = pixel(image, 0, y);
     const right = pixel(image, width - 1, y);
@@ -124,7 +126,7 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
     if (l < min || l > max || r < min || r > max) continue;
     if (Math.abs(l - r) > Math.max(2, width * 0.01)) continue;
     insets.push(l);
-    edgeColour = left;
+    edges.push(left);
   }
   if (insets.length < rows.length * LIMITS.frameRows) return null;
   const inset = median(insets);
@@ -132,7 +134,7 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
   if (steady.length < rows.length * LIMITS.frameRows * 0.8) return null;
   return {
     code: 'SCREEN_FRAME',
-    detail: `a ${hex(edgeColour)} frame ${String(Math.round(inset))}px wide runs down both sides (${String(Math.round((insets.length / rows.length) * 100))}% of the screen); the screen background is ${hex(options.background)}`,
+    detail: `a ${hex(dominant(edges))} frame ${String(Math.round(inset))}px wide runs down both sides (${String(Math.round((insets.length / rows.length) * 100))}% of the screen); the screen background is ${hex(options.background)}`,
   };
 }
 

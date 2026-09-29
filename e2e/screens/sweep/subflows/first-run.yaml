@@ -75,11 +75,13 @@ appId: app.critterpass.dev
       visible:
         id: 'crews-start'
     commands:
-      - runFlow:
-          file: dismiss.yaml
-          env:
-            ID: crews-sheet
-            MARK: crews-start
+      # Choosing the crew closes the sheet onto Home (the sheet has no close button).
+      - tapOn:
+          id: 'crew-card-.*'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'crews-start'
+          timeout: 10000
 - runFlow: home.yaml
 - tapOn:
     id: 'home-header-chat'
