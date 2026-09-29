@@ -22,6 +22,9 @@ appId: app.critterpass.dev
 - assertVisible: 'NO LIVE GUIDE YET'
 - waitForAnimationToEnd
 - takeScreenshot: 3b-7
+- extendedWaitUntil:
+    visible: 'Marrakech,.*'
+    timeout: 10000
 - tapOn: 'Marrakech,.*'
 # Android keeps the search keyboard up over the guest page; the brief sits under it.
 - runFlow:
