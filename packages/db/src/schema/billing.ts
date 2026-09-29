@@ -128,6 +128,8 @@ export const crewYearGrants = pgTable('crew_year_grants', {
     .references(() => users.id),
   subscriptionId: uuid('subscription_id').references(() => subscriptions.id),
   originalTransactionId: text('original_transaction_id'),
+  intentId: uuid('intent_id').references(() => boostIntents.id),
+  splitExpenseId: uuid('split_expense_id').references(() => expenses.id),
   validFrom: at('valid_from').notNull(),
   validTo: at('valid_to').notNull(),
   reboundForPeriodEnd: at('rebound_for_period_end'),
@@ -174,6 +176,7 @@ export const boostCredits = pgTable('boost_credits', {
   expiresAt: at('expires_at'),
   consumedByBoostId: uuid('consumed_by_boost_id').references(() => tripBoosts.id),
   consumedAt: at('consumed_at'),
+  revokedAt: at('revoked_at'),
   createdAt: createdAt(),
 });
 

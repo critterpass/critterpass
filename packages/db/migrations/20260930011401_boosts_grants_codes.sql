@@ -43,6 +43,9 @@ CREATE TABLE crew_year_grants (
   buyer_id uuid NOT NULL REFERENCES users (id),
   subscription_id uuid REFERENCES subscriptions (id),
   original_transaction_id text CHECK (char_length(original_transaction_id) <= 200),
+  -- The lock it was bought under, and the split of the first purchase (renewals never split).
+  intent_id uuid REFERENCES boost_intents (id),
+  split_expense_id uuid REFERENCES expenses (id),
   valid_from timestamptz NOT NULL,
   valid_to timestamptz NOT NULL,
   -- The period end the last rebind happened in; a rebind is allowed while this is not valid_to.
@@ -56,6 +59,9 @@ CREATE UNIQUE INDEX crew_year_grants_subscription_uk ON crew_year_grants (subscr
   WHERE subscription_id IS NOT NULL;
 CREATE INDEX crew_year_grants_crew_id_idx ON crew_year_grants (crew_id);
 CREATE INDEX crew_year_grants_buyer_id_idx ON crew_year_grants (buyer_id);
+CREATE INDEX crew_year_grants_intent_id_idx ON crew_year_grants (intent_id) WHERE intent_id IS NOT NULL;
+CREATE INDEX crew_year_grants_split_expense_id_idx ON crew_year_grants (split_expense_id)
+  WHERE split_expense_id IS NOT NULL;
 CREATE TRIGGER crew_year_grants_touch_updated_at BEFORE UPDATE ON crew_year_grants
   FOR EACH ROW EXECUTE FUNCTION app.touch_updated_at();
 
@@ -172,6 +178,8 @@ CREATE TABLE boost_credits (
   expires_at timestamptz,
   consumed_by_boost_id uuid REFERENCES trip_boosts (id),
   consumed_at timestamptz,
+  -- A refunded purchase's unspent credit is withdrawn, never deleted.
+  revoked_at timestamptz,
   created_at timestamptz NOT NULL DEFAULT now(),
   CHECK (crew_id IS NOT NULL OR user_id IS NOT NULL),
   CHECK ((consumed_by_boost_id IS NULL) = (consumed_at IS NULL))
@@ -376,11 +384,11 @@ GRANT SELECT (buyer_id, created_at, crew_id, crew_year_grant_id, ends_at, expens
   trip_boosts TO admin_reader;
 CREATE POLICY trip_boosts_admin_reader ON trip_boosts FOR SELECT TO admin_reader USING (true);
 GRANT SELECT (consumed_at, consumed_by_boost_id, created_at, crew_id, expires_at, from_boost_id, id,
-  reason, store_transaction_id, user_id) ON boost_credits TO admin_reader;
+  reason, revoked_at, store_transaction_id, user_id) ON boost_credits TO admin_reader;
 CREATE POLICY boost_credits_admin_reader ON boost_credits FOR SELECT TO admin_reader USING (true);
-GRANT SELECT (buyer_id, created_at, crew_id, id, original_transaction_id, rebound_for_period_end,
-  revoked_at, subscription_id, updated_at, valid_from, valid_to) ON crew_year_grants TO
-  admin_reader;
+GRANT SELECT (buyer_id, created_at, crew_id, id, intent_id, original_transaction_id,
+  rebound_for_period_end, revoked_at, split_expense_id, subscription_id, updated_at, valid_from,
+  valid_to) ON crew_year_grants TO admin_reader;
 CREATE POLICY crew_year_grants_admin_reader ON crew_year_grants FOR SELECT TO admin_reader USING (true);
 GRANT SELECT (abuse_decision, created_at, crew_id, ends_at, id, member_overlap_hash, organiser_id,
   reviewed_at, starts_at, trip_id, updated_at) ON ftf_grants TO admin_reader;

@@ -4,7 +4,8 @@
  * and first trip free), the entitlement sources, the purchase commands and the internal door the
  * worker's billing jobs call. Secrets come from the environment and are never logged.
  */
-import { withSystem } from '@cp/db';
+import { onEventAppended, withSystem } from '@cp/db';
+import { DomainError } from '@cp/domain';
 import { BILLING_TRIP_LOADERS, BILLING_USER_LOADERS, type RunQuery } from '@cp/entitlements';
 import type { Hono } from 'hono';
 import type pg from 'pg';
@@ -20,7 +21,12 @@ import { createKillSwitches } from '../ops/kill-switches';
 import { registerRevenueCatWebhook } from '../routes/webhooks/revenuecat';
 import { activateBoostPurchase } from './activate-boost';
 import { applyBillingEvent } from './apply-event';
+import { expireBoost, onTripChanged } from './boost-lifecycle';
+import { revokeBoostPurchase } from './boost-revoke';
+import { crewYearChanged } from './crew-year';
+import { closeFirstTripFree, grantFirstTripFree } from './ftf-eligibility';
 import { registerPurchaseHandler } from './fulfilment';
+import { billingTripHook } from './trip-hooks';
 import { registerBillingDoor, type BillingOpHandler } from './internal-door';
 import { createRevenueCatClient, type RevenueCatClient } from './rc-client';
 import { reconcileBatch } from './reconcile';
@@ -57,7 +63,12 @@ export const runOn =
 export function registerBillingSources(): void {
   if (sourcesRegistered) return;
   sourcesRegistered = true;
-  registerPurchaseHandler('boost_trip', { fulfil: activateBoostPurchase });
+  registerPurchaseHandler('boost_trip', {
+    fulfil: activateBoostPurchase,
+    revoke: revokeBoostPurchase,
+  });
+  registerPurchaseHandler('crew_year', { subscriptionChanged: crewYearChanged });
+  onEventAppended(billingTripHook);
   for (const loader of BILLING_USER_LOADERS) {
     registerUserSourceLoader(({ tx, uid }) => loader(runOn(tx), uid));
   }
@@ -91,6 +102,26 @@ export function billingOps(deps: BillingProcessDeps): Partial<Record<string, Bil
         );
         throw error;
       }
+    },
+    expire_boost: (body) => {
+      const { boost_id: id } = body as { boost_id: string };
+      return withSystem(deps.pool, async (tx) => {
+        try {
+          return await expireBoost(tx, id, new Date());
+        } catch (error) {
+          // The same timer kind closes a first-trip-free window.
+          if (!(error instanceof DomainError) || error.code !== 'NOT_FOUND') throw error;
+          return { ftf_closed: await closeFirstTripFree(tx, id, new Date()) };
+        }
+      });
+    },
+    grant_ftf: (body) => {
+      const { trip_id: id } = body as { trip_id: string };
+      return withSystem(deps.pool, (tx) => grantFirstTripFree(tx, id, new Date()));
+    },
+    trip_changed: (body) => {
+      const { trip_id: id } = body as { trip_id: string };
+      return withSystem(deps.pool, (tx) => onTripChanged(tx, id, new Date()));
     },
     expire_intent: (body) => {
       const { intent_id: id } = body as { intent_id: string };

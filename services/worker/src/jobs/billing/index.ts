@@ -7,6 +7,7 @@ import { z } from 'zod';
 
 import type { AnyJobDefinition } from '../../boss';
 import { billingApplyJob } from './apply';
+import { boostExpireJob, ftfGrantJob, tripChangedJob } from './boost-expire';
 import { createBillingDoor, type BillingDoor } from './door-client';
 import { intentExpiryJob } from './intent-expiry';
 import { billingReconcileJob } from './reconcile';
@@ -20,7 +21,14 @@ const envSchema = z.object({
 });
 
 export function billingJobsFor(door: BillingDoor): AnyJobDefinition[] {
-  return [billingApplyJob(door), billingReconcileJob(door), intentExpiryJob(door)];
+  return [
+    billingApplyJob(door),
+    billingReconcileJob(door),
+    intentExpiryJob(door),
+    boostExpireJob(door),
+    ftfGrantJob(door),
+    tripChangedJob(door),
+  ];
 }
 
 export function billingJobs(

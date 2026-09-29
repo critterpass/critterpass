@@ -17,7 +17,8 @@ import { writeLedgerEntries } from '../money/ledger';
 import { reissueStaleRequests } from '../money/settle';
 
 export interface BoostForSplit {
-  readonly id: string;
+  /** The trip boost it pays for; null for a crew yearly purchase (its grant keeps the expense). */
+  readonly id: string | null;
   readonly tripId: string;
   readonly crewId: string;
   readonly buyerId: string;
@@ -142,7 +143,9 @@ export async function writeBoostSplit(
       reversesId: null,
     }));
   await writeLedgerEntries(tx, entries);
-  await tx.query('UPDATE trip_boosts SET expense_id = $2 WHERE id = $1', [boost.id, expenseId]);
+  if (boost.id !== null) {
+    await tx.query('UPDATE trip_boosts SET expense_id = $2 WHERE id = $1', [boost.id, expenseId]);
+  }
   await publishMoney(tx, boost.crewId, MONEY_RT.expenseAdded, {
     expense_id: expenseId,
     trip_id: boost.tripId,
@@ -159,16 +162,18 @@ export async function writeBoostSplit(
     tripId: boost.tripId,
     payload: { ...ids, expense_id: expenseId, payer_id: boost.buyerId, source: 'boost' },
   });
-  await emitEvent(tx, {
-    type: 'boost.split_added',
-    aggregateKind: 'trip_boost',
-    aggregateId: boost.id,
-    actorKind: 'system',
-    actorId: null,
-    crewId: boost.crewId,
-    tripId: boost.tripId,
-    payload: { ...ids, boost_id: boost.id, expense_id: expenseId },
-  });
+  if (boost.id !== null) {
+    await emitEvent(tx, {
+      type: 'boost.split_added',
+      aggregateKind: 'trip_boost',
+      aggregateId: boost.id,
+      actorKind: 'system',
+      actorId: null,
+      crewId: boost.crewId,
+      tripId: boost.tripId,
+      payload: { ...ids, boost_id: boost.id, expense_id: expenseId },
+    });
+  }
   await reissueStaleRequests(tx, boost.crewId, boost.tripId, trip.crew_currency);
   return expenseId;
 }

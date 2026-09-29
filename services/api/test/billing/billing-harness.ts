@@ -205,3 +205,39 @@ export function boostPurchase(
     raw.replaceAll('$UID', uid).replaceAll('$INTENT', intentId).replaceAll('$TXN', txn),
   ) as { webhook: { event: { id: string } }; subscriber: unknown };
 }
+
+/**
+ * A crew organised by `organiser` (another account's session) with `members`, and one trip they
+ * are all seated on, written directly: for suites that need the same person in several crews.
+ */
+export async function crewWithTrip(
+  pool: pg.Pool,
+  organiser: string,
+  members: readonly string[],
+): Promise<{ crewId: string; tripId: string }> {
+  return withSystem(pool, async (tx) => {
+    const { rows: crews } = await tx.query<{ id: string }>(
+      "INSERT INTO crews (name) VALUES ('Billing crew') RETURNING id",
+    );
+    const crewId = crews[0]!.id;
+    for (const [index, uid] of [organiser, ...members].entries()) {
+      await tx.query('INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, $3)', [
+        crewId,
+        uid,
+        index === 0 ? 'organiser' : 'member',
+      ]);
+    }
+    const { rows: trips } = await tx.query<{ id: string }>(
+      "INSERT INTO trips (crew_id, status) VALUES ($1, 'voting') RETURNING id",
+      [crewId],
+    );
+    const tripId = trips[0]!.id;
+    for (const [index, uid] of [organiser, ...members].entries()) {
+      await tx.query(
+        "INSERT INTO trip_participants (trip_id, user_id, role, rsvp) VALUES ($1, $2, $3, 'in')",
+        [tripId, uid, index === 0 ? 'organiser' : 'member'],
+      );
+    }
+    return { crewId, tripId };
+  });
+}
