@@ -4,7 +4,13 @@
  * picker and subject lift (otherwise `photos: null` and the real-photo option is not offered).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, env names and error codes, never copy. */
-import { GoogleSignin, isSuccessResponse } from '@react-native-google-signin/google-signin';
+import {
+  GoogleSignin,
+  isCancelledResponse,
+  isErrorWithCode,
+  isSuccessResponse,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
 import { Platform } from 'react-native';
@@ -21,6 +27,13 @@ import type { OnboardingServices } from './services';
 
 class NotConfiguredError extends Error {
   readonly code = 'NOT_CONFIGURED';
+}
+
+/** A native sign-in that ended without an account, with the code the save flow maps to a notice. */
+class ProviderStoppedError extends Error {
+  constructor(readonly code: 'SIGN_IN_CANCELLED' | 'PLAY_SERVICES_NOT_AVAILABLE') {
+    super(code);
+  }
 }
 
 const appleProvider: NativeIdTokenProvider = {
@@ -56,7 +69,14 @@ const googleProvider: NativeIdTokenProvider = {
       ...(Platform.OS === 'ios' && iosClientId ? { iosClientId } : {}),
       offlineAccess: false,
     });
-    const result = await GoogleSignin.signIn();
+    // Google's sheet can end without an account (none on the phone, "Checking info…" backed out):
+    // that reads as a cancel, and is reported and explained rather than silently reset.
+    const result = await GoogleSignin.signIn().catch((error: unknown) => {
+      if (isErrorWithCode(error) && error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE)
+        throw new ProviderStoppedError('PLAY_SERVICES_NOT_AVAILABLE');
+      throw error;
+    });
+    if (isCancelledResponse(result)) throw new ProviderStoppedError('SIGN_IN_CANCELLED');
     if (!isSuccessResponse(result)) return undefined;
     const idToken = result.data.idToken;
     // Google Sign-In has no nonce parameter; the server skips the check for an empty one.

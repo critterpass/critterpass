@@ -15,7 +15,14 @@ import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals
 import { act, fireEvent, screen } from '@testing-library/react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import type { SendOtpOutcome, VerifyOtpOutcome } from '@/data/auth';
+import { createAuthDataLayer } from '@/data/auth';
+import type {
+  AuthFailure,
+  MobileAuthClient,
+  NativeIdTokenProvider,
+  SendOtpOutcome,
+  VerifyOtpOutcome,
+} from '@/data/auth';
 import { isOnboardingComplete, setOnboardingComplete } from '@/lib/links/pending';
 
 import { clearDraftForTests, readDraft, updateDraft } from '../flow-controller/draft-store';
@@ -79,6 +86,23 @@ function withAuth(auth: Partial<OnboardingServices['auth']>): OnboardingServices
   return { ...base, auth: { ...base.auth, ...auth } };
 }
 
+/**
+ * The real auth data layer over a Google sheet that stops with `code` (as the device's Google
+ * provider throws it): the client is never reached, so it is an empty stand-in.
+ */
+function googleStopping(code: string) {
+  const reported: AuthFailure[] = [];
+  const layer = createAuthDataLayer({} as unknown as MobileAuthClient, {
+    apiBaseUrl: 'https://api.test',
+    reportFailure: (failure) => void reported.push(failure),
+  });
+  const google: NativeIdTokenProvider = {
+    requestIdToken: () => Promise.reject(Object.assign(new Error(code), { code })),
+  };
+  const services = { ...withAuth({ linkGoogle: layer.linkGoogle }), google };
+  return { services, reported };
+}
+
 describe('3a-7 save your pass', () => {
   it('links Google, ticks SAVED and moves on to permissions', async () => {
     jest.useFakeTimers();
@@ -113,6 +137,16 @@ describe('3a-7 save your pass', () => {
     await activate(screen.getByTestId('save-google'));
     await flush();
     expect(screen.queryByTestId('save-error')).toBeNull();
+    expect(router.replace).not.toHaveBeenCalled();
+  });
+
+  it('explains and reports a Google sheet that ended without an account', async () => {
+    const { services, reported } = googleStopping('SIGN_IN_CANCELLED');
+    await renderOnboarding(<SaveScreen />, { services });
+    await activate(screen.getByTestId('save-google'));
+    await flush();
+    expect(screen.getByTestId('save-error')).toHaveTextContent(/Google sign-in didn’t finish/u);
+    expect(reported).toEqual([{ flow: 'link_google', code: 'SIGN_IN_CANCELLED' }]);
     expect(router.replace).not.toHaveBeenCalled();
   });
 
@@ -227,6 +261,27 @@ describe('3a-8 phone sign-in', () => {
     expect(screen.getByTestId('phone-problem')).toHaveTextContent(line);
     await activate(screen.getByTestId('phone-change'));
     expect(screen.getByTestId('phone-send')).toBeTruthy();
+  });
+
+  it('tells a returning user when Google sign-in stops, instead of just resetting the button', async () => {
+    jest.mocked(useLocalSearchParams).mockReturnValue({ mode: 'returning' });
+    const { services, reported } = googleStopping('SIGN_IN_CANCELLED');
+    await renderOnboarding(<PhoneScreen />, { services });
+    await activate(screen.getByTestId('phone-google'));
+    await flush();
+    expect(screen.getByTestId('phone-save-error')).toHaveTextContent(
+      /Google sign-in didn’t finish/u,
+    );
+    expect(reported).toEqual([{ flow: 'link_google', code: 'SIGN_IN_CANCELLED' }]);
+  });
+
+  it('says Google sign-in is unavailable on a phone without Play services', async () => {
+    const { services, reported } = googleStopping('PLAY_SERVICES_NOT_AVAILABLE');
+    await renderOnboarding(<PhoneScreen />, { services });
+    await activate(screen.getByTestId('phone-google'));
+    await flush();
+    expect(screen.getByTestId('phone-save-error')).toHaveTextContent(/isn’t available/u);
+    expect(reported).toEqual([{ flow: 'link_google', code: 'PLAY_SERVICES_NOT_AVAILABLE' }]);
   });
 
   it('signs a returning user in to their pass', async () => {

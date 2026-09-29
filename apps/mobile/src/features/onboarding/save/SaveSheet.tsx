@@ -41,6 +41,11 @@ export function saveErrorLine(reason: SaveError): string {
         id: 'onboarding.save.error.unavailable',
         message: 'That sign-in isn’t available on this phone. Try another way.',
       });
+    case 'cancelled':
+      return t({
+        id: 'onboarding.save.error.cancelled',
+        message: 'Google sign-in didn’t finish. Try again, or use another way.',
+      });
     case 'merge_expired':
       return t({
         id: 'onboarding.save.error.expired',

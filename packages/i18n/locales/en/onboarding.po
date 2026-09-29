@@ -386,6 +386,10 @@ msgstr "Go home"
 msgid "onboarding.invite.pass.home"
 msgstr "Go home"
 
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.error.cancelled"
+msgstr "Google sign-in didn’t finish. Try again, or use another way."
+
 #: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 msgid "onboarding.invite.code.title"
 msgstr "Got a code?"

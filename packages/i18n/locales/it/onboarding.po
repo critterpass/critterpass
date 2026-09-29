@@ -386,6 +386,10 @@ msgstr ""
 msgid "onboarding.invite.pass.home"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.error.cancelled"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 msgid "onboarding.invite.code.title"
 msgstr ""
