@@ -1,6 +1,6 @@
 /**
  * `/v1/hazards`: a destination's current alerts, highest level first, with source links and read
- * times; expired weekly-report readings are left out and an alert not read lately is flagged stale.
+ * times; expired readings (a GDACS eruption no longer listed) are left out and an alert not read lately is flagged stale.
  */
 import { withSystem } from '@cp/db';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -29,8 +29,9 @@ beforeAll(async () => {
           'https://magma.esdm.go.id/v1/gunung-api/laporan/326904', $2, NULL, $3),
          ($1, 'volcano', 'Rinjani', 2, 'Level II (Waspada)', 'Rinjani (NTB) is at Level II (Waspada)',
           'magma', 'https://magma.esdm.go.id/v1/gunung-api/laporan/326868', $2, NULL, $4),
-         ($1, 'volcano', 'Agung', 3, 'Continuing Eruptive Activity', 'Agung (Indonesia) - weekly report',
-          'gvp', 'https://volcano.si.edu/reports_weekly.cfm', $2, $5, $3)`,
+         ($1, 'volcano', 'Agung', 3, 'Orange alert',
+          'Agung (Indonesia) eruption: orange alert from the Global Disaster Alert and Coordination System, GDACS',
+          'gdacs', 'https://www.gdacs.org/report.aspx?eventid=1000001&episodeid=1&eventtype=VO', $2, $5, $3)`,
       [
         bali,
         new Date(now - 86_400_000),

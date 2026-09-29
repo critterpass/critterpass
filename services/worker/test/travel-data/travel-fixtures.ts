@@ -175,10 +175,20 @@ export const RECORDED_HAZARD_ROUTES: readonly RecordedRoute[] = [
     file: 'imo-vona-notifications.html',
   },
   { path: '/bosai/warning/data/warning/260000.json', params: {}, file: 'jma-warning-260000.json' },
-  { path: '/news/WeeklyVolcanoRSS.xml', params: {}, file: 'gvp-weekly-volcano-rss.xml' },
+  {
+    path: '/gdacsapi/api/events/geteventlist/SEARCH',
+    params: { eventlist: 'VO' },
+    file: 'gdacs-volcano-events.json',
+  },
+  { path: '/cenapred/es/archivo/articulos', params: {}, file: 'cenapred-archivo-articulos.txt' },
+  {
+    path: '/cenapred/es/articulos/monitoreo-del-volcan-popocatepetl-hoy-28-de-septiembre-de-2026',
+    params: { idiom: 'es' },
+    file: 'cenapred-popocatepetl-2026-09-28.html',
+  },
 ];
 
-/** A recorded file read as the feed serves it (`latin1` for the GVP report). */
+/** A recorded file read as the feed serves it. */
 export function readHazardFixture(file: string, encoding: BufferEncoding = 'utf8'): string {
   return readFileSync(path.join(HAZARD_FIXTURES, file), encoding);
 }

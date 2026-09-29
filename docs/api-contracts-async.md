@@ -147,7 +147,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `season.ingest` | `0 4 * * *` SGT, works Mondays and inside blossom/foliage windows | month `price_index` from fares (≥ 3 origins); bloom/legendary windows → reminder reschedule | 15, 40 |
 | `season.research` | `0 5 1 * *` SGT | per live destination, code-built `web_search` queries (destination, month three ahead, event keywords) → `season.research` extraction → cited candidates in the season review queue (`season_events`, `reviewed_at` null, deduplicated); served only once a content reviewer approves (D23) | 15 |
 | `weather.refresh` (doc delta) | `*/15 * * * *`; each point due at 3 h, 1 h within 48 h of an outdoor item, 15 min marine while under way | WeatherAPI.com forecast + marine → `weather_snapshots`; `forecast.changed` on material change | 15 |
-| `hazards.refresh` (doc delta) | `*/15 * * * *`; reads hourly, every tick while a trip is under way | MAGMA / IMO / JMA / GVP → `hazard_alerts`; `hazard.changed` on a level move | 15 |
+| `hazards.refresh` (doc delta) | `*/15 * * * *`; reads hourly, every tick while a trip is under way | MAGMA / IMO / JMA / CENAPRED / GDACS → `hazard_alerts`; `hazard.changed` on a level move | 15 |
 | `briefing.build` | per user local morning (`scheduled_events`) | AI-27 | 36 |
 | `quests.generate` | per trip ~04:00 local | AI-32 → validator → publish, N-31 | 41 |
 | `roundup.build` | per tz bucket, user time −10 min (default 20:00) | AI-39 ≤5 items, template fallback, skip empty | 49 |

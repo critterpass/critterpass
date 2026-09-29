@@ -25,7 +25,8 @@ import type { WorkerEnv } from '../env';
 import { crowdsRefreshJob } from './crowds-refresh';
 import { faresRefreshJob } from './fares-refresh';
 import { fxRefreshJob } from './fx-refresh';
-import { fetchGvp } from './hazards/gvp';
+import { fetchCenapred } from './hazards/cenapred';
+import { fetchGdacs } from './hazards/gdacs';
 import { fetchImo } from './hazards/imo';
 import { fetchJma } from './hazards/jma';
 import { fetchMagma } from './hazards/magma';
@@ -105,7 +106,8 @@ export function travelDataJobs(
       magma: (signal) => fetchMagma(http, signal),
       imo: (signal) => fetchImo(http, signal),
       jma: (areaCodes, signal) => fetchJma(http, areaCodes, signal),
-      gvp: (signal) => fetchGvp(http, signal),
+      cenapred: (signal) => fetchCenapred(http, signal),
+      gdacs: (signal) => fetchGdacs(http, signal),
     }),
   ];
   const token = env.TRAVELPAYOUTS_TOKEN;

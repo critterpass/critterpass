@@ -48,7 +48,7 @@ export const HAZARD_KINDS = ['volcano', 'weather_warning'] as const;
 export const hazardKindSchema = z.enum(HAZARD_KINDS);
 export type HazardKind = z.infer<typeof hazardKindSchema>;
 
-export const HAZARD_SOURCES = ['magma', 'imo', 'jma', 'gvp'] as const;
+export const HAZARD_SOURCES = ['magma', 'imo', 'jma', 'cenapred', 'gdacs'] as const;
 export const hazardSourceSchema = z.enum(HAZARD_SOURCES);
 export type HazardSource = z.infer<typeof hazardSourceSchema>;
 

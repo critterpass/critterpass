@@ -339,7 +339,7 @@ No in-app money movement (C24). Boost split = IOU `ledger_entries(source_kind='b
 | `fare_cells` | origin_iata, dest_iata, destination_id, month (1st), depart_on, return_on, price_minor (null = never seen), currency (USD), transfers, duration_min, fastest_duration_min, days jsonb (cheapest per departure day), price_history jsonb (last 8 nights), found_at, fetched_at, checked_at | uk (origin_iata, dest_iata, month) | sys | R | — (HTTP only, not published) | C0 | content |
 | `season_months` | destination_id, month, crowd_index, price_index, price_index_source (editorial/fares), highlight_tag, colour_role (cheapest/peak/normal), source, source_url, sourced_on, reviewed_at (null = draft, not served) | uk (destination_id, month) | adm (`upsert_season_editorial`) / sys (`season.ingest`) | R (reviewed only) | catalog | C0 | content |
 | `season_events` | destination_id, key, kind (blossom/foliage/festival/ceremony/holiday/closure), name, starts_on, ends_on, confidence (typical/forecast/confirmed), source, source_url, sourced_on, forecast_updated_at, reviewed_at | uk (destination_id, key) | adm / sys | R (reviewed only) | catalog | C0 | content |
-| `hazard_alerts` | destination_id, kind (volcano/weather_warning), subject, level 1–4, level_label, headline, source (magma/imo/jma/gvp), source_url, issued_at, expires_at, fetched_at | uk (destination_id, source, subject) | sys | R | trip_pack | C0 | content |
+| `hazard_alerts` | destination_id, kind (volcano/weather_warning), subject, level 1–4, level_label, headline, source (magma/imo/jma/cenapred/gdacs), source_url, issued_at, expires_at, fetched_at | uk (destination_id, source, subject) | sys | R | trip_pack | C0 | content |
 
 ### 3.13 POI, map, content catalogue
 

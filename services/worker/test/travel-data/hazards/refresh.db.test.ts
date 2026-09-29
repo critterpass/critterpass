@@ -1,12 +1,14 @@
 /**
  * `hazards.refresh` over a migrated Postgres with the recorded official pages: Batur easing from
  * Level II to Level I and Rinjani first seen at Level II each emit one `hazard.changed` for the Bali
- * trip, Agung first seen at normal is stored quietly, the same pages again emit nothing, and a
- * failed feed leaves the last values.
+ * trip, Agung first seen at normal is stored quietly, Popocatépetl takes CENAPRED's light while GDACS
+ * lists no watched volcano, the same pages again emit nothing, and a failed feed leaves the last
+ * values.
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { fetchGvp } from '../../../src/travel-data/hazards/gvp';
+import { fetchCenapred } from '../../../src/travel-data/hazards/cenapred';
+import { fetchGdacs } from '../../../src/travel-data/hazards/gdacs';
 import { fetchImo } from '../../../src/travel-data/hazards/imo';
 import { fetchJma } from '../../../src/travel-data/hazards/jma';
 import { fetchMagma } from '../../../src/travel-data/hazards/magma';
@@ -30,7 +32,7 @@ import {
 let db: NotifyDb;
 let destinations: Record<string, string>;
 let baliTrip: string;
-const NOW = new Date('2026-09-28T03:00:00Z');
+const NOW = new Date('2026-09-29T03:00:00Z');
 
 function feeds(routes: readonly RecordedRoute[] = RECORDED_HAZARD_ROUTES): HazardFeeds {
   const { http } = recordedHttp(HAZARD_FIXTURES, routes);
@@ -38,7 +40,8 @@ function feeds(routes: readonly RecordedRoute[] = RECORDED_HAZARD_ROUTES): Hazar
     magma: (signal) => fetchMagma(http, signal),
     imo: (signal) => fetchImo(http, signal),
     jma: (codes, signal) => fetchJma(http, codes, signal),
-    gvp: (signal) => fetchGvp(http, signal),
+    cenapred: (signal) => fetchCenapred(http, signal),
+    gdacs: (signal) => fetchGdacs(http, signal),
   };
 }
 
@@ -84,7 +87,7 @@ describe('refreshHazards', () => {
       logger: silentLogger,
       now: NOW,
     });
-    expect(report).toMatchObject({ feedsRead: 4, feedsFailed: 0, events: 2 });
+    expect(report).toMatchObject({ feedsRead: 5, feedsFailed: 0, events: 2 });
     const events = await hazardEvents();
     expect(events).toHaveLength(2);
     expect(events).toMatchObject([
@@ -115,6 +118,24 @@ describe('refreshHazards', () => {
       { subject: 'Agung', source: 'magma', level: 1, level_label: 'Level I (Normal)' },
       { subject: 'Batur', source: 'magma', level: 1, level_label: 'Level I (Normal)' },
       { subject: 'Rinjani', source: 'magma', level: 2, level_label: 'Level II (Waspada)' },
+    ]);
+  });
+
+  it("stores Popocatépetl's CENAPRED light for Mexico City", async () => {
+    const { rows } = await db.pool.query(
+      `SELECT subject, source, level, level_label, issued_at, expires_at FROM hazard_alerts
+        WHERE destination_id = $1`,
+      [destinations['mexico-city']],
+    );
+    expect(rows).toEqual([
+      {
+        subject: 'Popocatepetl',
+        source: 'cenapred',
+        level: 2,
+        level_label: 'Amarillo Fase 2',
+        issued_at: new Date('2026-09-28T16:19:00Z'),
+        expires_at: new Date('2026-10-01T16:19:00Z'),
+      },
     ]);
   });
 
