@@ -40,7 +40,7 @@
       "env": {
         "APP_VARIANT": "development",
         "SENTRY_DISABLE_AUTO_UPLOAD": "true",
-        "ORG_GRADLE_PROJECT_reactNativeArchitectures": "arm64-v8a"
+        "ORG_GRADLE_PROJECT_reactNativeArchitectures": "arm64-v8a,x86_64"
       },
       "ios": {
         "simulator": true,
