@@ -1,4 +1,6 @@
 import { createTransport } from '@sentry/core';
+import { HTTPException } from 'hono/http-exception';
+import { validator } from 'hono/validator';
 import { pino } from 'pino';
 import { afterAll, describe, expect, it } from 'vitest';
 
@@ -43,6 +45,14 @@ function app() {
   instance.post('/v1/boom', () => {
     throw new Error('exploded for anna@example.com');
   });
+  instance.post(
+    '/v1/echo',
+    validator('json', (value: unknown) => ({ value })),
+    (c) => c.json(c.req.valid('json')),
+  );
+  instance.get('/v1/locked', () => {
+    throw new HTTPException(401, { message: 'Unauthorized' });
+  });
   return instance;
 }
 
@@ -85,5 +95,27 @@ describe('sentry', () => {
     }
     expect(event?.['release']).toBe('api@0.0.0+test');
     expect(event?.['environment']).toBe('test');
+  });
+
+  it('answers client errors with their wire code and reports none of them', async () => {
+    await errors.flush();
+    const before = envelopes.length;
+
+    const malformed = await app().request('/v1/echo', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: '{"text": ',
+    });
+    expect(malformed.status).toBe(422);
+    expect(await malformed.json()).toEqual({
+      error: { code: 'VALIDATION', message: 'Malformed JSON in request body', retryable: false },
+    });
+
+    const locked = await app().request('/v1/locked');
+    expect(locked.status).toBe(401);
+    expect(((await locked.json()) as { error: { code: string } }).error.code).toBe('AUTH_REQUIRED');
+
+    await errors.flush();
+    expect(envelopes.length).toBe(before);
   });
 });

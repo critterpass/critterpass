@@ -8,6 +8,7 @@ describe('app sentry options', () => {
   const options = sentryOptions({
     dsn: 'https://public@o1.ingest.us.sentry.io/1',
     environment: 'staging',
+    isDevice: true,
   });
 
   it('captures nothing visual and no default PII', () => {
@@ -21,6 +22,17 @@ describe('app sentry options', () => {
       enableAutoSessionTracking: true,
     });
     expect(sentryOptions({ dsn: undefined, environment: 'development' }).enabled).toBe(false);
+  });
+
+  it('sends nothing from a simulator or emulator, in any variant', () => {
+    for (const environment of ['development', 'staging', 'production']) {
+      const dsn = 'https://public@o1.ingest.us.sentry.io/1';
+      expect(sentryOptions({ dsn, environment, isDevice: false })).toMatchObject({
+        dsn: '',
+        enabled: false,
+      });
+      expect(sentryOptions({ dsn, environment, isDevice: true }).enabled).toBe(true);
+    }
   });
 
   it('scrubs events before they leave the device', () => {

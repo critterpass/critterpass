@@ -11,7 +11,7 @@ import type pg from 'pg';
 import type { Logger } from 'pino';
 import { ZodError } from 'zod';
 
-import type { AppEnv } from '../app';
+import { httpClientError, type AppEnv } from '../app';
 import type { RateLimitRedisClient } from '../abuse/rate-limits';
 import { outcomeBody } from '../commands/_framework/doors';
 import type { AccessVerifier } from './access';
@@ -44,7 +44,7 @@ const AUTH_PATHS = [
 export interface AdminRouterDeps {
   readonly pool: pg.Pool;
   readonly redis: RateLimitRedisClient;
-  readonly logger: Pick<Logger, 'error'>;
+  readonly logger: Pick<Logger, 'error' | 'warn'>;
   readonly auth: AdminAuth;
   readonly allowlist: AdminAllowlist;
   readonly access?: AccessVerifier | undefined;
@@ -198,6 +198,18 @@ export function createAdminRouter(deps: AdminRouterDeps): OpenAPIHono<AdminEnv> 
     }
     if (error instanceof ZodError) {
       return c.json(errorBody('VALIDATION', 'Invalid request', false), 422);
+    }
+    const clientError = httpClientError(error);
+    if (clientError !== undefined) {
+      deps.logger.warn(
+        {
+          req_id: c.req.header('x-request-id'),
+          code: clientError.code,
+          reason: clientError.message,
+        },
+        'admin client error',
+      );
+      return c.json(clientError.toResponseBody(), clientError.http as Parameters<typeof c.json>[1]);
     }
     deps.logger.error({ req_id: c.req.header('x-request-id'), err: error }, 'admin error');
     return c.json(errorBody('INTERNAL', 'Something went wrong', true), 500);
