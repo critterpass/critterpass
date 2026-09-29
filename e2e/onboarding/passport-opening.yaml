@@ -22,5 +22,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - stopRecording
+# Android CI emulators run with system animations off, which the app reads as reduced motion:
+# there the page opens without the choreography.
 - assertVisible:
-    id: 'onboarding-name-next'
+    id: 'onboarding-name-field'
