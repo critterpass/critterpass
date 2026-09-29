@@ -9,6 +9,13 @@ const path = require('node:path');
 // needs a new build, never an update onto an old one.
 const rootPackage = JSON.parse(readFileSync(path.join(__dirname, '../../package.json'), 'utf8'));
 
+// The workspace patch to op-sqlite's podspec (SQLCipher on CommonCrypto instead of OpenSSL) lives
+// outside node_modules' hashed sources, so it is counted here: editing it needs a new build.
+const opSqlitePatch = readFileSync(
+  path.join(__dirname, '../../patches/@op-engineering__op-sqlite.patch'),
+  'utf8',
+);
+
 /** @type {import('expo/fingerprint').Config} */
 const config = {
   extraSources: [
@@ -17,6 +24,12 @@ const config = {
       id: 'op-sqlite-ios-config',
       contents: JSON.stringify(rootPackage['op-sqlite'] ?? null),
       reasons: ['op-sqlite iOS build flags'],
+    },
+    {
+      type: 'contents',
+      id: 'op-sqlite-podspec-patch',
+      contents: opSqlitePatch,
+      reasons: ['op-sqlite podspec patch'],
     },
   ],
 };

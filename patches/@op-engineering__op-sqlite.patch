@@ -1,0 +1,18 @@
+diff --git a/op-sqlite.podspec b/op-sqlite.podspec
+index 905d8e957656f7c3b159ac6ba20be7209de3e14b..b3b454291e97931440acfbc60f69ae878d747f2f 100644
+--- a/op-sqlite.podspec
++++ b/op-sqlite.podspec
+@@ -145,8 +145,11 @@ Pod::Spec.new do |s|
+   if use_sqlcipher then
+     log_message.call("[OP-SQLITE] using SQLCipher")
+     exclude_files += ["cpp/sqlite3.c", "cpp/sqlite3.h", "cpp/libsql/OPLibsqlBridge.cpp", "cpp/libsql/OPLibsqlBridge.hpp", "ios/libsql.xcframework/**/*", "ios/libsql_experimental.xcframework/**/*", "ios/turso_sdk_kit.xcframework/**/*"]
+-    xcconfig[:GCC_PREPROCESSOR_DEFINITIONS] += " OP_SQLITE_USE_SQLCIPHER=1 HAVE_FULLFSYNC=1 SQLITE_HAS_CODEC SQLITE_TEMP_STORE=3 SQLITE_EXTRA_INIT=sqlcipher_extra_init SQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown"
+-    s.dependency "OpenSSL-Universal"
++    xcconfig[:GCC_PREPROCESSOR_DEFINITIONS] += " OP_SQLITE_USE_SQLCIPHER=1 HAVE_FULLFSYNC=1 SQLITE_HAS_CODEC SQLITE_TEMP_STORE=3 SQLITE_EXTRA_INIT=sqlcipher_extra_init SQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown SQLCIPHER_CRYPTO_CC"
++    s.frameworks = ["Security", "CoreFoundation"]
++    # The CommonCrypto provider includes CoreFoundation mid-amalgamation. As a clang module that
++    # re-exports an `assert` built without SQLite's NDEBUG and breaks the build; include it textually.
++    xcconfig[:CLANG_ENABLE_MODULES] = "NO"
+   elsif use_turso then
+     log_message.call("[OP-SQLITE] using Turso SDK kit")
+     exclude_files += ["cpp/sqlite3.c", "cpp/sqlite3.h", "cpp/OPBridge.hpp", "cpp/OPBridge.cpp", "cpp/sqlcipher/sqlite3.c", "cpp/sqlcipher/sqlite3.h", "cpp/libsql/OPLibsqlBridge.hpp", "cpp/libsql/OPLibsqlBridge.cpp", "ios/libsql_experimental.xcframework/**/*"]
