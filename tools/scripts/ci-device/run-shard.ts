@@ -183,7 +183,13 @@ function captureFailure(options: ShardOptions, slug: string): void {
     save(`${slug}.logcat.txt`, 'adb', ['-s', options.device, 'logcat', '-d', '-b', 'all']);
     save(`${slug}.crash.txt`, 'adb', ['-s', options.device, 'logcat', '-d', '-b', 'crash']);
   } else {
-    save(`${slug}.png`, 'xcrun', ['simctl', 'io', options.device, 'screenshot', '-']);
+    spawnSync('xcrun', [
+      'simctl',
+      'io',
+      options.device,
+      'screenshot',
+      path.join(dir, `${slug}.png`),
+    ]);
     const predicate = 'process BEGINSWITH "CritterPass" OR subsystem == "com.facebook.react.log"';
     const logArgs = ['simctl', 'spawn', options.device, 'log', 'show', '--last', '10m'];
     save(`${slug}.log.txt`, 'xcrun', [...logArgs, '--style', 'compact', '--predicate', predicate]);

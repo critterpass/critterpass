@@ -25,6 +25,15 @@ runtime=$(xcrun simctl list runtimes -j |
   jq -r '[.runtimes[] | select(.isAvailable and .platform == "iOS")] | sort_by(.version | split(".") | map(tonumber)) | last | .identifier')
 udid=$(xcrun simctl create "CritterPass CI" "${DEVICE:-iPhone 17}" "$runtime")
 echo "Simulator ${DEVICE:-iPhone 17} on $runtime ($udid)"
+
+# Pre-approve the app's URL schemes, so Maestro's openLink (simctl openurl) opens the app instead of
+# leaving iOS's "Open in …?" prompt on screen for this and every later flow.
+approvals="$HOME/Library/Developer/CoreSimulator/Devices/$udid/data/Library/Preferences/com.apple.launchservices.schemeapproval.plist"
+mkdir -p "$(dirname "$approvals")"
+bundle_id=$(plutil -extract CFBundleIdentifier raw "$app/Info.plist")
+for scheme in $(plutil -extract CFBundleURLTypes json -o - "$app/Info.plist" | jq -r '.[].CFBundleURLSchemes[]'); do
+  /usr/libexec/PlistBuddy -c "Add :com.apple.CoreSimulator.CoreSimulatorBridge-->$scheme string $bundle_id" "$approvals" >/dev/null
+done
 xcrun simctl boot "$udid"
 xcrun simctl bootstatus "$udid" -b >/dev/null
 xcrun simctl ui "$udid" appearance "${APPEARANCE:-light}"
