@@ -11,7 +11,7 @@ critical_path_tasks: 253
 
 | Field | Value |
 |---|---|
-| Status | in_progress: 13 of 59 phases done, 13 in progress; 241 of 594 tasks done (2026-09-28 23:10). See **Progress** below |
+| Status | in_progress: 13 of 59 phases done, 16 in progress; 256 of 594 tasks done (2026-09-29 07:05). See **Progress** below |
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
 | Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), the designed ops console (phases 58–59, added 2026-09-28), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
@@ -21,52 +21,53 @@ critical_path_tasks: 253
 | Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude for generation + Jev for typed decisions (D5 amended) |
 | Design | `design/` read-only; renders in `docs/design-renders/screens/*.png` + `screens.json` |
 
-## Progress (updated 2026-09-28 23:10)
+## Progress (updated 2026-09-29 07:05)
 
-**241 of 594 tasks done (41%).**
+**256 of 594 tasks done (43%).**
 - **Phases done (13):** 1, 3, 4, 8, 9, 10, 12, 13, 15, 16, 17, 23, 58.
-- **In progress:** 13 phases.
-- **Not started:** 33 phases.
+- **In progress:** 16.
+- **Not started:** 30.
 
-The critical path has cleared onboarding (22) and invites and crews (23); crew chat (24) is being built now.
+The critical path has cleared 22 → 23 → 24 → 25 (code complete; device runs pending), and phase 26 is being built.
+
+**Overnight (28–29 Sep):** crew chat (24), home, inbox and nudges (25), the ops console capture (58), invites follow-ups, the website on staging (51), and tonight's fixes and builds:
+- **Onboarding:** 10 UI fixes and a polish pass, plus automated UI checks (the `[ui-qa]` guards and design|device sheets).
+- **Sign-in:** an Apple sign-in fix, device attestation, and phone codes via Prelude.
+- **Platform:** Google, Firebase and Play Integrity wiring; a permission-free contact picker; iOS app-size cuts (about 28 MB); the Expo SDK alignment.
+- **Staging:** a DB connection budget.
+- **Builds:** EAS fingerprint and Android memory fixes. TestFlight builds 7 and 8, and the first Android builds (Play Part D).
 
 | In progress | Tasks | What's left |
 |---|---|---|
-| 2 Platform spikes | 15/15 | Android device runs; 2 iPhone Instruments runs (need Xcode signed in to the team) |
-| 5 Sticker renderer | 10/10 | Android mid-range device run |
-| 6 Motion and feedback | 8/10 | Android haptics build and native tests; Android motion flows |
-| 7 App shell and components | 17/18 | Android sweep |
-| 11 Jobs, notifications, push | 10/11 | Android push end to end: FCM keys are set; needs the first Android build |
-| 14 Places, maps, routing | 7/8 | Offline region-pack flow, which waits for a map screen |
+| 2 Platform spikes | 15/15 | Android device runs; 2 iPhone Instruments runs (Xcode sign-in) |
+| 5 Sticker renderer | 10/10 | Android device run (running now) |
+| 6 Motion and feedback | 8/10 | Android haptics tests and motion flows (running now) |
+| 7 App shell and components | 17/18 | Android sweep (running now) |
+| 11 Jobs, notifications, push | 10/11 | Android push end to end, after the Play upload and FCM token check |
+| 14 Places, maps, routing | 7/8 | Offline region-pack flow, which needs a map screen |
 | 18 Content factory | 12/13 | Places batch, which waits on the FSQ OS Places / Overture licence acceptance |
-| 19 Analytics and observability | 10/10 | P1 test alert (after the Grafana sign-in), Sentry device crash check, consent check |
-| 20 Permissions, location, visits | 11/11 | iOS flows and screenshots running now; Android flows |
+| 19 Analytics and observability | 10/10 | P1 test alert (Grafana sign-in), Sentry device crash check, consent check |
+| 20 Permissions, location, visits | 11/11 | Android location flows (running now) |
 | 21 Links and deep links | 8/9 | Funnel verification with live analytics |
-| 22 Onboarding | 10/11 | Fixes for the founder's device test are in progress (headline truncation, white frame behind sheets, sticker borders, stamps, phone field, Apple sign-in); then device flows and EN/VI screenshots |
-| 24 Crew chat | 7/8 | Built; device runs of the chat flows wait for the device lane |
-| 51 Website | 7/11 | Web previews of proposals, recaps and plans, and web account deletion, which wait on later phases |
+| 22 Onboarding | 10/11 | Android flows, and device checks of the photo cut-out |
+| 24 Crew chat | 7/8 | Two-device and offline chat flows on devices |
+| 25 Home, inbox, nudges | 8/9 | Data-backed flows, after the staging demo-data seed lands |
+| 26 Polls and destination vote | 0/12 | Being built |
+| 39 Crew live map | 0/6 | Being built |
+| 51 Website | 7/11 | Web previews and web account deletion, which wait on later phases |
 
 **Being built now:**
-- crew chat (24)
-- onboarding UI fixes plus automated UI checks
-- the Apple sign-in fix
-- the database connection budget
-- the Telegram phone-code channel (Twilio dropped)
-- iOS app-size cuts
-- invites and crews follow-ups
-- Google/Firebase wiring
-- iOS device runs
+- polls and destination vote (26)
+- crew live map (39)
+- Android device runs
+- staging demo data and test sessions (a "Seed demo data" developer action; test phone numbers for automated flows and App Review)
 
-**Next:**
-- **Critical path:** 24 → 25 home, inbox, nudges → 26 polls and destination vote → 27 trip setup → 28 drafting agent → 29 plan views.
-- **Ready in parallel:** 39 crew live map.
-- **Native builds:** after the current fixes merge, one iOS staging build, and the first Android builds (Play internal testing, Google setup Part D).
+**Next on the critical path:** 26 → 27 trip setup → 28 drafting agent → 29 plan views.
 
 **Staging:**
-- api, worker, PowerSync, Centrifugo and the Alloy collector run current main.
-- The website is on staging.critterpass.app.
-- TestFlight is on build 5, with the onboarding crash fix as an over-the-air update.
-- Monitoring: Grafana dashboards, uptime checks and traces are live.
+- Everything on current main: api, worker, PowerSync, Centrifugo and Alloy.
+- The website is at staging.critterpass.app.
+- TestFlight build 8; Android internal testing after the founder's first manual upload.
 
 **Founder items:** `plans/reports/founder-actions-260927-1745-open-items-for-founder-report.md` (local).
 
@@ -116,8 +117,8 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 22 | [Onboarding: passport, taste, avatar](./phase-22-onboarding-pass.md) | 11 | 5, 7, 9, 10, 18, 20, 21 | 8 | in_progress (10/11) |
 | 23 | [Invites, crews, referral, seat cap](./phase-23-invites-crews-growth.md) | 10 | 12, 21, 22 | 9 | done |
 | 24 | [Crew chat](./phase-24-crew-chat.md) | 8 | 10, 23 | 10 | in_progress (7/8) |
-| 25 | [Home, inbox, nudges, tips](./phase-25-home-inbox-nudges.md) | 9 | 11, 13, 15, 23, 24 | 11 | in_progress |
-| 26 | [Polls & destination vote](./phase-26-polls-destination-vote.md) | 12 | 10, 13, 16, 18, 24, 25 | 12 | pending |
+| 25 | [Home, inbox, nudges, tips](./phase-25-home-inbox-nudges.md) | 9 | 11, 13, 15, 23, 24 | 11 | in_progress (8/9) |
+| 26 | [Polls & destination vote](./phase-26-polls-destination-vote.md) | 12 | 10, 13, 16, 18, 24, 25 | 12 | in_progress (0/12) |
 | 27 | [Trip setup](./phase-27-trip-setup.md) | 12 | 10, 16, 20, 24, 25, 26 | 13 | pending |
 | 28 | [Drafting agent & redraft](./phase-28-draft-redraft-agent.md) | 11 | 13, 16, 18, 27 | 14 | pending |
 | 29 | [Plan views, editing, collab](./phase-29-plan-views-editing-collab.md) | 12 | 24, 26, 28 | 15 | pending |
@@ -130,7 +131,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 36 | [Trip hub, day-of, leave-by, offline](./phase-36-trip-day-offline.md) | 11 | 11, 13, 14, 15, 18, 20, 25, 32, 34 | 17 | pending |
 | 37 | [Disruptions](./phase-37-disruptions.md) | 11 | 15, 29, 35, 36 | 18 | pending |
 | 38 | [Help hub & crew SOS](./phase-38-safety-help-sos.md) | 7 | 11, 14, 18, 20, 32, 34, 35, 39 | 17 | pending |
-| 39 | [Crew live map](./phase-39-crew-live-map.md) | 6 | 12, 14, 20 | 7 | pending |
+| 39 | [Crew live map](./phase-39-crew-live-map.md) | 6 | 12, 14, 20 | 7 | in_progress (0/6) |
 | 40 | [Critters: hatch, Critterdex, legendaries](./phase-40-critters-collect.md) | 11 | 5, 6, 9, 14, 15, 18, 20, 25, 31, 34 | 18 | pending |
 | 41 | [Quests, XP, stickers](./phase-41-quests-stickers.md) | 7 | 13, 33, 40 | 19 | pending |
 | 42 | [Voice, point-and-ask, phrases](./phase-42-voice-camera-phrases.md) | 9 | 32, 41 | 20 | pending |
