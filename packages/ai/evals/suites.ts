@@ -14,6 +14,9 @@ export const SUITES = [
   'tips',
   'pitch',
   'guest-brief',
+  'availability-ask',
+  'ask-reply',
+  'fit-note',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -27,11 +30,15 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/src\/prompts\/tips\//u, ['tips']],
   [/^packages\/ai\/src\/prompts\/pitch\//u, ['pitch']],
   [/^packages\/ai\/src\/prompts\/guest-brief\//u, ['guest-brief']],
+  [/^packages\/ai\/src\/prompts\/availability-ask\//u, ['availability-ask', 'ask-reply']],
+  [/^packages\/ai\/src\/prompts\/ask-reply\//u, ['ask-reply']],
+  [/^packages\/ai\/src\/prompts\/fit-note\//u, ['fit-note']],
+  [/^packages\/ai\/evals\/lib\/setup-suites\.ts$/u, ['availability-ask', 'ask-reply', 'fit-note']],
   [/^packages\/ai\/evals\/lib\/guest-brief-suite\.ts$/u, ['guest-brief']],
   [/^packages\/ai\/evals\/lib\/stream-suites\.ts$/u, ['pitch', 'guest-brief']],
   [
     /^packages\/ai\/evals\/lib\/prompt-suites\.ts$/u,
-    ['invite-tags', 'crew-welcome', 'tips', 'pitch'],
+    ['invite-tags', 'crew-welcome', 'tips', 'pitch', 'availability-ask', 'ask-reply', 'fit-note'],
   ],
   [/^packages\/ai\/evals\//u, ALL],
   [/^packages\/ai\/(personas\/|src\/(persona|prompts)\/)/u, ['chat', 'persona', 'autonomy']],

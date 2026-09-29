@@ -73,6 +73,23 @@ export {
 export { opsWorkClaims } from './ops-work';
 export { cities, llmPois, mapRegions, poiEmbeddings, poiLiveChecks, pois } from './places';
 export { ballots, pitches, pollOptions, pollReveals, polls } from './polls';
+export {
+  availabilityAsks,
+  availabilitySummaries,
+  budgetDefaultsPrivate,
+  budgetMaxPrivate,
+  budgetPlans,
+  calendarDays,
+  calendarSources,
+  dateWindowOptions,
+  dietaryProfiles,
+  mustDos,
+  participantDietaryFlags,
+  roomAssignments,
+  roomPlans,
+  roomPrefs,
+  tripBudgetAggregates,
+} from './setup';
 export { changeSets, guideActions, itineraryVersions, planDays, planItems } from './plan';
 export { activityEvents, cmdLog, cmdResults, domainEvents, rtOutbox } from './platform';
 export {

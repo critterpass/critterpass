@@ -1,0 +1,20 @@
+{
+  "source": "Google Calendar API v3 freeBusy.query response for items [{id: primary}], shape per developers.google.com/calendar/api/v3/reference/freebusy/query; times set by the test (TODAY placeholders replaced at load).",
+  "response": {
+    "status": 200,
+    "body": {
+      "kind": "calendar#freeBusy",
+      "timeMin": "{{FROM}}",
+      "timeMax": "{{TO}}",
+      "calendars": {
+        "primary": {
+          "busy": [
+            { "start": "{{D10}}T01:00:00Z", "end": "{{D10}}T09:00:00Z" },
+            { "start": "{{D11}}T02:00:00Z", "end": "{{D11}}T03:00:00Z" },
+            { "start": "{{D12}}T00:00:00Z", "end": "{{D14}}T00:00:00Z" }
+          ]
+        }
+      }
+    }
+  }
+}

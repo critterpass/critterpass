@@ -227,18 +227,22 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
-| `set_availability` (C3) | `{days[{date, state: free\|maybe\|busy, source: manual\|device_cal\|oauth}]}` | self | – | `availability.updated` (aggregate recompute, no raw days) | A, O | 27 |
-| `connect_calendar` / `disconnect_calendar` | `{provider: google\|microsoft, auth_code}` / `{source_id}` | self | – | `calendar.connected/disconnected` | A | 27 |
-| `ask_availability` | `{trip_id, target_uid, range}` | organiser | – | `availability_ask.created` (N-05) | A, O | 27 |
-| `answer_availability_ask` | `{ask_id, answer, note?}` | target | – | `availability_ask.answered` (N-46) | A, O, N | 27 |
-| `lock_trip_dates` | `{trip_id, start, end}` | organiser | – | `trip.dates_locked` (boost window recompute) | A | 27 |
-| `submit_budget_max` (C3, write-only) | `{trip_id, amount_minor, currency}` | participant | – | `budget.submission_counted` (count only) | A, O | 27 |
-| `lock_budget_target` | `{trip_id, target_minor}` (server checks "under all N maxes") | organiser | – | `budget.locked` | A | 27 |
-| `set_room_assignment` | `{trip_id, base_version, rooms[{stay_id, uids[]}]}` | organiser | – | `rooms.changed` | A, O | 27 |
-| `lock_rooms` | `{trip_id}` | organiser | – | `rooms.locked` | A | 27 |
-| `set_stay_choice` | `{trip_id, stay_option_id}` | organiser | – | `stay.chosen` | A, O | 27 |
-| `set_must_dos` | `{trip_id, items[{poi_id\|text, priority}]}` | participant | – | `must_dos.changed` (→ fit check job) | A, O | 27 |
-| `track_lottery` | `{must_do_id, deadline, result_date}` (reminder only, never entry) | participant | – | `lottery.tracked` (N-45) | A, O | 27 |
+| `set_availability` (C3) | `{trip_id?, days[{date, state: free\|maybe\|busy, source: manual\|device_cal\|oauth, may_ask?}], clear?: date[], consent_tentative?}` (doc delta: trip_id, may_ask, clear, consent_tentative); dates within today − 1 … +190 d | self (a setup member of `trip_id` when given) | – | `availability.updated{user_id, trip_ids, days_count}` (no dates); queues `setup.window_recompute` for each trip the member is setting up | A, O | 27 |
+| `connect_calendar` / `disconnect_calendar` | `{provider: google\|microsoft, auth_code, state}` / `{source_id}` (doc delta: `state` from the OAuth start route, bound to the same user and device; code exchanged with its PKCE verifier; tokens stored only as an AES-256-GCM envelope; disconnect revokes where the provider allows it and forgets that source's days) | self; flag `calendar.oauth_<provider>` on (default off) | – | `calendar.connected/disconnected`; connect queues `calendar.sync` | A | 27 |
+| `ask_availability` | `{trip_id, target_uid, range, option_id}` (doc delta: only through the trip's `ask_first` window option for that member, range inside it; the member must have askable `maybe` days there) | organiser | – | the `setup.availability_ask` job writes the guide's line and files `availability_ask.created` (N-05, to the member only); 48 h timer `availability_ask.timeout` | A, O | 27 |
+| `answer_availability_ask` | `{ask_id, answer?: freed\|not_movable, text?}` (doc delta: `text` instead of `note`; a written reply is read by `setup.ask_reply` on `availability.reply_intent` and then erased) | the ask's member (action-key scope `inbox`) | – | `availability_ask.answered` (N-46 to whoever asked; `freed` turns their `maybe` days in the block `free`) | A, O, N | 27 |
+| `lock_trip_dates` | `{trip_id, start, end}` (≤ 30 days, not in the past) | organiser | – | `trip.dates_changed` (doc delta: the existing countdown input, instead of `trip.dates_locked`) + boost window recompute; a `won` trip enters setup; step moves past WHEN; a move marks the budget plan, room plan and must-do fits stale | A | 27 |
+| `submit_budget_max` (C3, write-only) | `{trip_id, amount_minor, currency, source?: entered\|profile_default}` → `{trip_id, set: true}` (doc delta: converted into the crew currency through the latest FX run; the answer never echoes the amount) | setup member (the crew less anyone who said no) | – | `budget.submission_counted{trip_id, maxes_count}` (count only) + `budget.count` on `trip_setup:`; the band moves only on the debounced `setup.budget_recompute` | A, O | 27 |
+| `set_budget_default` (doc delta) | `{amount_minor \| null, currency}` | self | – | – (the member's own default, prefilled into each trip; `null` forgets it) | A, O | 27 |
+| `lock_budget_target` | `{trip_id, target_minor}` (doc delta: a whole $50 step in the crew currency, else `VALIDATION{off_step}`; from 4 maxes checked against the published band only: above it `STATE_INVALID{over_band}` with no distance, no sweet spot `STATE_INVALID{infeasible}`; below 4 maxes no cross-member check; every attempt counts toward 3 an hour and 10 a day per trip → `RATE_LIMITED`) | organiser | – | `budget.locked{trip_id, checked_against_band}`; `budget_plans` (target, band, breakdown, stay mix); step → rooms | A | 27 |
+| `set_setup_step` (doc delta) | `{trip_id, step}` | organiser | – | `setup.step_changed` (+ `trip.status_changed` won → setup on the first step); back to any earlier step re-opens it (downstream marked stale), forward only past a step that does not apply (budget for a crew under two, rooms for a solo trip or one room, must-dos once one exists) | A, O | 27 |
+| `set_room_assignment` | `{trip_id, base_version, rooms[{stay_key, room_key, uids[]}], same_pairs_all_stays?}` (doc delta: room keys; a stale `base_version` → `VERSION_CONFLICT{current_version, rebased: false}`; more people than beds → `STATE_INVALID{over_capacity}`; the pairs copy to the trip's other stays unless turned off) | organiser | – | `rooms.changed{trip_id, version}`; queues `cost.recompute` | A, O | 27 |
+| `set_room_prefs` (doc delta) | `{trip_id, chips[early_bird\|night_owl\|light_sleeper\|snorer\|dont_care], partner_uid?}` | self (setup member) | – | – (read only by the server's grouping) | A, O | 27 |
+| `request_room_swap` (doc delta) | `{trip_id, with_uid?}` | self (setup member) | – | `room_swap.requested` → `room_swap.requested` on `trip_setup:` + push (`setup_task`) to the organisers | A, O | 27 |
+| `lock_rooms` | `{trip_id}` | organiser | – | `rooms.locked`; step → must-dos, which files `must_do.prompted` once per member without a must-do (push `setup_task`, deep link to the add sheet) | A | 27 |
+| `set_stay_choice` | `{trip_id, stay_option_id, stays?[{stay_type, nights}]}` (doc delta: needs locked dates; nights must add up to the trip's; each stay type priced from the destination's reviewed cost index in the crew currency, doubles and a single for an odd crew; the guide's grouping seated in every stay) | organiser | – | `stay.chosen`; `rooms.changed`; queues `cost.recompute` (room components priced into shares) | A, O | 27 |
+| `set_must_dos` | `{trip_id, items[{id?, poi_id?, text, priority}]}` (doc delta: the member's whole list, at most one primary; anything of theirs not listed is removed; a place another member already has merges into theirs as a co-owner) | setup member | – | `must_dos.changed{trip_id, user_id, must_do_ids}`; `must_do.row{must_do_id, fit_status}`; queues `ai.fit_check` | A, O | 27 |
+| `track_lottery` | `{must_do_id, deadline, result_date?}` (reminder only, never entry) | setup member | – | `lottery.tracked`; `reminders` (target_kind `must_do`) + `setup.lottery_remind` timers the day before entries close and on the result date → `lottery.reminder_due` (N-45) | A, O | 27 |
 
 ### 4.6 Drafting, plan, change review, swipe (P28, P29, P30)
 
@@ -523,7 +527,10 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/fx/snapshot?base` | S | Frankfurter v2 daily | 24 h, offline bundle |
 | `GET /v1/routes/eta` | S | Valhalla (+ Mapbox traffic for leave-by) | none |
 | `GET /v1/trips/{id}/live-snapshot` (doc delta) | S | crew live map state `{trip_id, window_ends_at, members[{uid, lat, lng, acc, activity, at}], shares[{uid, share_id, paused, changed_at}], etas[], meetup}`: latest fix per open, non-paused crew-map share via `app.shared_location_fixes`; participant while `app.crew_map_open` (unboosted → 402 `ENTITLEMENT_REQUIRED`, outside trip days / off the trip → 403 `NOT_ELIGIBLE`) | none |
-| `GET /v1/budget/{trip_id}/band` | S | `trip_budget_aggregates`, written by the budget band worker job with `@cp/cost-engine` `computeBudgetBand` (band from k ≥ 3, dots from k ≥ 4; doc delta) | none |
+| `GET /v1/budget/{trip_id}/band` | S | `trip_budget_aggregates`, written by the `setup.budget_recompute` job with `@cp/cost-engine` `computeBudgetBand`: band, dots, under-all and infeasible only from k ≥ 4 maxes; below that `K_ANON_UNAVAILABLE` with `{maxes_count, member_count}` (doc delta) | none |
+| `GET /v1/setup/{trip_id}/windows?length` (doc delta) | S | date window options for another trip length, computed on demand by the recompute job's engine and inputs (`app.setup_window_inputs`, as the server): `{trip_id, length_days, member_count, synced_count, options[{kind, start_date, end_date, free_count, member_count, missing_member_ids, missed_must_do_ids, ask_user_id, price_delta_minor, currency, season_score, reason, is_pick}]}`; setup members only (else `NOT_FOUND`), never a member's day | none |
+| `GET /v1/calendar/oauth/{provider}/start?device_id&tentative` (doc delta) | S | `{provider, state, authorize_url}`: PKCE S256, `state` in Redis for 10 min bound to the user and device; provider configured and flag `calendar.oauth_<provider>` on, else `SUPPLIER_UNAVAILABLE` / `STATE_INVALID{switched_off}` | no-store |
+| `GET /v1/calendar/oauth/{provider}/callback?code&state` (doc delta) | P | the provider's redirect: 302 to `<app scheme>://setup/calendar/connected?provider&status=authorized&state&code` (or `status=denied\|failed`); exchanges nothing, the app completes with `connect_calendar` | no-store |
 | `GET /v1/trips/{id}/costs?version` (doc delta) | S | stored calc as the caller may see it: own `share_calcs` row (lines, personal option deltas), every member's `trip_share_totals`, `cost_components`, freshness; `version` ≠ current → `VERSION_CONFLICT` | none |
 | `POST /v1/trips/{id}/costs/preview` (doc delta) | S | `{ops}` (ChangeSet ops) → caller's own delta, crew-wide `each_minor` when uniform, bookings moved, must-dos touched; `@cp/planner` + `@cp/cost-engine` | none |
 | `GET /v1/trips/{id}/offline-bundle?date` | S | manifest + signed URLs (bookings, phrases audio, FX, POIs, PMTiles region) | versioned |
@@ -543,7 +550,8 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/me/deletion/preflight` | S | balances, organiser roles, subscription source | – |
 | `GET /v1/me/rating-eligibility?trip_id` | S | heuristic flag | – |
 | `GET /v1/me/export/{id}` | S | signed URL | – |
-| `GET /v1/me/private/{kind}` | S | owner-only C3 (insurance, dietary, budget max, emergency info) → client `local_private` table; never synced | – |
+| `GET /v1/me/private/{kind}` | S | owner-only C3 (insurance, dietary, budget max, emergency info) → client `local_private` table; never synced. Doc delta: `budget_max?trip_id` → `{trip_id, amount_minor, currency, source, updated_at}` through `app.my_budget_max` (the caller's own only; `NOT_FOUND` when not set) and `budget_default` → `{amount_minor, currency, updated_at}` | – |
+| `GET /v1/setup/{trip_id}/own-fit` (doc delta) | S | `{trip_id, state: no_max\|no_target\|fits\|over}`: the caller's own max (crew currency) against the organiser's locked target; setup members only; never about anyone else | none |
 
 ### 5.6 Links and deep links (P21, P51)
 
@@ -656,6 +664,7 @@ Decision routes ([decision record](decisions/20260927-jev-decision-model.md)): e
 | `help.intent_classifier` | Choice | ask the user which topic they meant |
 | `idea.duplicate_tiebreak` | Noul | keep both ideas |
 | `compliance.check` | Noul per category | per surface policy (below) |
+| `availability.reply_intent` (doc delta) | Choice (`freed` / `not_movable` / `unclear`) over a written reply to the guide's private availability ask | the ask stays open and the member sees the two quick replies again |
 
 | Behaviour | Rule |
 |---|---|

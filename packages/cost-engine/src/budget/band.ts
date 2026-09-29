@@ -1,11 +1,13 @@
 /**
  * The budget sweet spot (3c-5) from write-only private maxes. Maxes go in; only a coarse band,
  * a count and (from four maxes) bucketed anonymous dots come out:
- * - no band at all until three maxes are in (`waiting`, "3 of 6");
+ * - nothing crew-level at all until four maxes are in (`waiting`, "3 of 6"): no band, no dots,
+ *   no under-all check and no infeasible notice, so a crew of two or three learns nothing about
+ *   each other's numbers;
  * - the upper edge is the lowest max floored to a $50 step and never equal to it, so the output
  *   only says the lowest max lies somewhere in (high, high + step];
  * - dots sit in buckets whose width is a whole number of steps on the same grid, so they narrow
- *   nothing the band did not already say.
+ *   nothing the band did not already say, and never on a max's own position.
  */
 import { DomainError } from '@cp/domain';
 
@@ -14,7 +16,7 @@ import { type Money } from '../money/money';
 import { convertWith, type FxContext } from '../shares/fx';
 import { bucketDots, type DotTrack } from './dots';
 
-export const BAND_MIN_MAXES = 3;
+export const BAND_MIN_MAXES = 4;
 export const DOTS_MIN_MAXES = 4;
 /** The band step: $50, expressed in the trip currency through the calc's FX snapshot. */
 export const BAND_STEP_USD_MINOR = 5_000n;

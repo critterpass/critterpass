@@ -1,0 +1,7 @@
+{
+  "source": "Google OAuth 2.0 token endpoint error for a reused or expired code, shape per RFC 6749 §5.2 as Google returns it.",
+  "response": {
+    "status": 400,
+    "body": { "error": "invalid_grant", "error_description": "Bad Request" }
+  }
+}

@@ -268,3 +268,61 @@ registerMergeRule({
   conflictColumns: ['poll_id'],
   personal: true,
 });
+
+// Trip setup: an anonymous uid's calendars, days and budget maxes follow the user; where the
+// existing account already has the same calendar kind, date or trip max, its own row wins.
+registerMergeRule({
+  table: 'calendar_sources',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['kind'],
+  personal: true,
+});
+registerMergeRule({
+  table: 'calendar_days',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['date'],
+  personal: true,
+});
+registerMergeRule({
+  table: 'budget_max_private',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['trip_id'],
+  personal: true,
+});
+registerMergeRule({
+  table: 'budget_defaults_private',
+  userColumn: 'user_id',
+  strategy: 'keep_existing',
+  personal: true,
+});
+// Rooms, must-dos and dietary data follow the user the same way; derived dietary flags are dropped
+// and re-derived from the surviving profile.
+registerMergeRule({
+  table: 'room_assignments',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['trip_id', 'stay_key'],
+});
+registerMergeRule({
+  table: 'room_prefs',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['trip_id'],
+  personal: true,
+});
+registerMergeRule({
+  table: 'must_dos',
+  userColumn: 'owner_id',
+  strategy: 'reassign',
+  conflictColumns: ['trip_id', 'priority'],
+});
+registerMergeRule({
+  table: 'dietary_profiles',
+  userColumn: 'user_id',
+  strategy: 'keep_existing',
+  personal: true,
+});
+registerMergeRule({ table: 'participant_dietary_flags', userColumn: 'user_id', strategy: 'drop' });

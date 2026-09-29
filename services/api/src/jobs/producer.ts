@@ -20,6 +20,7 @@ import {
   notifyRouteSingletonKey,
   NOTIFY_ROUTE_QUEUE,
   OG_RENDER_QUEUE,
+  SETUP_QUEUES,
   type NotifyRouteJob,
 } from '@cp/domain';
 import type pg from 'pg';
@@ -29,6 +30,7 @@ import type { Logger } from 'pino';
 import { CONTENT_PUBLISH_QUEUE } from '../admin/content/commands';
 import { enqueueCountdownRecompute } from '../commands/home';
 import { enqueueInboxFanout } from '../commands/inbox';
+import { queueSetupRecomputes } from '../commands/setup/membership-hook';
 
 export interface StartJobProducerOptions {
   /** A direct (non-PgBouncer) connection: pg-boss takes advisory locks while it starts. */
@@ -81,6 +83,8 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       OG_RENDER_QUEUE,
       INBOX_FANOUT_QUEUE,
       COUNTDOWN_RECOMPUTE_QUEUE,
+      ...Object.values(SETUP_QUEUES),
+      'cost.recompute',
     ]) {
       if ((await boss.getQueue(queue)) === null) {
         await boss.createQueue(queue, { policy: 'exclusive' });
@@ -107,4 +111,5 @@ export function routeNotificationsFromApiEvents(): void {
   onEventAppended(enqueueNotificationRouting);
   onEventAppended(enqueueInboxFanout);
   onEventAppended(enqueueCountdownRecompute);
+  onEventAppended(queueSetupRecomputes);
 }

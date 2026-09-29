@@ -108,14 +108,38 @@ export {
 } from './budget/band';
 export { bucketDots, bucketWidth, type DotTrack } from './budget/dots';
 export {
+  breakdownBars,
   budgetBreakdown,
   feasibleLow,
   type Breakdown,
+  type BreakdownBars,
   type BreakdownCategory,
   type BreakdownInput,
   type CostIndex,
 } from './budget/breakdown';
 export { chooseStayMix, type StayMix, type StayMixPart, type StayRate } from './budget/stay-mix';
+export {
+  budgetAggregate,
+  type BudgetAggregate,
+  type BudgetAggregateInput,
+} from './budget/aggregate';
+export {
+  budgetEstimates,
+  crewFeasibleLow,
+  fxContextOf,
+  planBreakdown,
+  type BudgetEstimateSource,
+  type BudgetEstimates,
+} from './budget/estimates';
+export {
+  checkLockTarget,
+  isInfeasible,
+  isOnStep,
+  isUnderAll,
+  ownFit,
+  type LockCheck,
+  type OwnFit,
+} from './budget/feasibility';
 export {
   packRooms,
   previewSwap,
@@ -126,6 +150,21 @@ export {
   type RoomSlot,
   type SwapDelta,
 } from './rooms/pack';
+export {
+  groupRooms,
+  type ProposedRoom,
+  type RoomChip,
+  type RoomGuest,
+  type RoomSpace,
+  type RoomTraitLabel,
+} from './rooms/group';
+export {
+  splitStay,
+  splitStays,
+  type PricedRoom,
+  type PricedStay,
+  type RoomSplit,
+} from './rooms/split';
 export {
   dropout,
   type DropoutChange,

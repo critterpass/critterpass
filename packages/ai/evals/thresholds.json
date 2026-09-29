@@ -10,7 +10,10 @@
     "crew-welcome": 1,
     "tips": 1,
     "pitch": 1,
-    "guest-brief": 1
+    "guest-brief": 1,
+    "availability-ask": 1,
+    "ask-reply": 1,
+    "fit-note": 1
   },
   "live": {
     "chat": 0.9,
@@ -23,7 +26,10 @@
     "crew-welcome": 0.95,
     "tips": 0.9,
     "pitch": 1,
-    "guest-brief": 1
+    "guest-brief": 1,
+    "availability-ask": 0.9,
+    "ask-reply": 0.9,
+    "fit-note": 0.9
   },
   "compliance_metrics": {
     "reject_precision": 0.95,

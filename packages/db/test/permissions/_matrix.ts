@@ -1099,6 +1099,107 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
   },
   poll_reveals: { selectProbe: ownRowProbe('poll_reveals'), expectations: SELF_ONLY },
+  // Trip setup: the organiser's own calendar source, day and default (owner only); a budget max
+  // nobody reads back through app_user, its owner included; a private ask its recipient alone
+  // reads; the derived counts, window options, budget aggregate and plan are crew-visible.
+  calendar_sources: { selectProbe: ownRowProbe('calendar_sources'), expectations: SELF_ONLY },
+  calendar_days: { selectProbe: ownRowProbe('calendar_days'), expectations: SELF_ONLY },
+  budget_defaults_private: {
+    selectProbe: ownRowProbe('budget_defaults_private'),
+    expectations: SELF_ONLY,
+  },
+  budget_max_private: {
+    selectProbe: ownRowProbe('budget_max_private'),
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(false, true, false),
+    },
+  },
+  availability_asks: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM availability_asks WHERE target_user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
+  availability_summaries: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM availability_summaries WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  date_window_options: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM date_window_options WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  trip_budget_aggregates: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM trip_budget_aggregates WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  budget_plans: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM budget_plans WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  room_plans: {
+    selectProbe: { sql: 'SELECT 1 FROM room_plans WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  room_assignments: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM room_assignments WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  participant_dietary_flags: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM participant_dietary_flags WHERE trip_id = $1 AND user_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  // Own room chips and dietary profile: the owner alone; room chips only on a trip of their crew.
+  room_prefs: {
+    selectProbe: ownRowProbe('room_prefs'),
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(true, true, true),
+    },
+  },
+  dietary_profiles: { selectProbe: ownRowProbe('dietary_profiles'), expectations: SELF_ONLY },
+  // Must-dos: the crew reads them; a member adds and edits only their own.
+  must_dos: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM must_dos WHERE trip_id = $1 AND owner_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, true, false),
+      coOrganiser: op(true, true, false),
+      organiser: op(true, true, true),
+    },
+  },
   inbox_items: {
     selectProbe: {
       sql: 'SELECT 1 FROM inbox_items WHERE user_id = $1',

@@ -1,0 +1,7 @@
+{
+  "source": "Google OAuth 2.0 token endpoint refresh for a revoked grant, RFC 6749 §5.2 error as Google returns it.",
+  "response": {
+    "status": 400,
+    "body": { "error": "invalid_grant", "error_description": "Token has been expired or revoked." }
+  }
+}

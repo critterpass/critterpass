@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { DOMAIN_EVENT_TYPES, type DomainEventType } from '../../src/events/catalogue';
 import { projectActivity } from '../../src/events/activity-rules';
+import { SETUP_EVENT_TYPES } from '../../src/setup/events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -88,6 +89,9 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'pitch.queued',
   'place.saved',
   'place.unsaved',
+  // Setup progress shows on the wizard itself (live on its realtime channel); availability, asks,
+  // budget counts and calendar nudges are private to the member they concern.
+  ...SETUP_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

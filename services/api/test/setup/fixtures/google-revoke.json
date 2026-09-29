@@ -1,0 +1,4 @@
+{
+  "source": "Google OAuth 2.0 revoke endpoint (oauth2.googleapis.com/revoke) success: an empty JSON body with 200.",
+  "response": { "status": 200, "body": {} }
+}

@@ -13,9 +13,13 @@ export const SYNCED_TABLE_COLUMNS = {
   activity_events: 'trip_id crew_id actor_kind actor_id verb object_kind object_id text at',
   agent_jobs:
     'trip_id user_id kind status steps partial input_hash base_version_id result_ref model tokens_in:integer tokens_out:integer cost_micros:integer pgboss_job_id created_at updated_at',
+  availability_summaries:
+    'trip_id date free_count:integer maybe_count:integer busy_count:integer unknown_count:integer member_count:integer computed_at created_at updated_at',
   avatars:
     'user_id kind form_id ring media_key moderation_status moderation_reason variant_keys created_at updated_at',
   ballots: 'poll_id option_id crew_id trip_id user_id source op_id cast_at created_at updated_at',
+  budget_plans:
+    'trip_id target_minor:integer currency band_low_minor:integer band_high_minor:integer breakdown stay_mix planned_by_day quote_version is_stale:integer locked_at locked_by version:integer created_at updated_at',
   change_sets:
     'trip_id base_version_id trigger scope author_kind author_id status poll_id cost_delta_minor:integer ops approved_by_kind approved_by result_version_id created_at updated_at',
   client_config: 'key value updated_at',
@@ -35,6 +39,8 @@ export const SYNCED_TABLE_COLUMNS = {
   critters:
     'key set_id no:integer city species art_params canonical_seed:integer note release_id created_at updated_at',
   crowd_forecasts: 'poi_id dow:integer hourly source fetched_at created_at updated_at',
+  date_window_options:
+    'trip_id position:integer kind start_date end_date free_count:integer member_count:integer missing_member_ids missed_must_do_ids ask_user_id ask_status price_delta_minor:integer currency season_score:integer reason is_pick:integer computed_at created_at updated_at',
   destination_cost_indices:
     'destination_id stay_type nightly_minor_low:integer nightly_minor_high:integer food_pp_day_minor:integer fun_pp_day_minor:integer currency source source_url sourced_on reviewed_at created_at updated_at',
   destinations:
@@ -77,12 +83,15 @@ export const SYNCED_TABLE_COLUMNS = {
   message_reactions: 'message_id crew_id user_id emoji created_at',
   messages:
     'crew_id trip_id seq:integer sender_kind sender_id guide_id type body ref_kind ref_id reply_to_id mentions mentions_guide:integer attachments edited_at deleted_at hidden_at created_at updated_at',
+  must_dos:
+    'trip_id owner_id title poi_id freeform:integer priority:integer co_owner_ids fit_status fit_note target_day:integer external_action external_deadline external_url fit_checked_at deleted_at version:integer created_at updated_at',
   notification_prefs:
     'user_id budget_per_day:integer roundup_time roundup_tz quiet_from quiet_to guide_tips:integer money:integer critters_nearby:integer crew_chat_mode leave_by_dnd:integer per_category voice_readout:integer created_at updated_at',
   notifications:
     'user_id crew_id trip_id event_id key category class sender template_id title body items ctx deep_link collapse_key thread_id dedupe_key is_private:integer needs_you:integer llm_generated:integer local_date not_before expires_at state drop_reason sent_at created_at updated_at',
   nudges:
     'sender_id target_id crew_id trip_id reason context channel scheduled_delivery_id send_at sent_at created_at updated_at',
+  participant_dietary_flags: 'trip_id user_id flags created_at updated_at',
   passes: 'user_id status number issued_at cover created_at updated_at',
   perks: 'key tier copy_key is_shipped:integer sort:integer created_at updated_at',
   phrase_cards:
@@ -107,6 +116,10 @@ export const SYNCED_TABLE_COLUMNS = {
     'referrer_id referee_id code invite_id via status void_reason qualified_at reward_kind reward_ref referee_device_id created_at updated_at',
   reminders:
     'user_id target_kind target_id fire_at condition status fired_at created_at updated_at',
+  room_assignments: 'trip_id stay_key room_key user_id trait_label created_at updated_at',
+  room_plans:
+    'trip_id stay_option_id rooms currency nights:integer stay_booking_id free_cancel_until same_pairs_all_stays:integer is_stale:integer locked_at locked_by version:integer created_at updated_at',
+  room_prefs: 'trip_id user_id chips partner_id created_at updated_at',
   roundups:
     'user_id local_date tz guide_id notification_ids lines sent_at fallback_used:integer created_at updated_at',
   saved_items: 'user_id kind ref_id list_name note created_at updated_at',
@@ -126,6 +139,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'pass_id user_id kind seq_no:integer destination_id trip_id dates iata country ink_colour status stamped_at created_at updated_at',
   taste_profiles:
     'user_id answers tags tag_sources chronotype pace room_pref visibility created_at updated_at',
+  trip_budget_aggregates:
+    'trip_id currency maxes_count:integer member_count:integer band_low_minor:integer band_high_minor:integer step_minor:integer track_high_minor:integer bucketed_dots under_all_ok:integer infeasible:integer computed_at created_at updated_at',
   trip_entitlements:
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
   trip_participants:
@@ -133,7 +148,7 @@ export const SYNCED_TABLE_COLUMNS = {
   trip_share_totals:
     'trip_id user_id total_minor:integer currency calc_version is_missing:integer created_at updated_at',
   trips:
-    'crew_id status phase setup_step destination_id guide_id is_guest_guide:integer is_solo:integer start_date end_date tz local_currency seat_cap:integer plan_progress:integer redrafts_used:integer redraft_limit:integer current_version_id draft_version_id reply_by cancelled_at created_at updated_at',
+    'crew_id status phase setup_step destination_id guide_id is_guest_guide:integer is_solo:integer start_date end_date tz local_currency seat_cap:integer trip_length_days:integer plan_progress:integer redrafts_used:integer redraft_limit:integer current_version_id draft_version_id reply_by cancelled_at created_at updated_at',
   usage_counters:
     'subject_kind subject_id metric period_key count:integer limit_at_time:integer reset_at started_at',
   user_entitlements:

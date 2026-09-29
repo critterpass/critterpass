@@ -24,7 +24,12 @@ export function bucketWidth(stepMinor: bigint, track: DotTrack): bigint {
   return steps * stepMinor;
 }
 
-/** Dot positions in [0, 1] along the track, ascending (no link to who submitted what). */
+/**
+ * Dot positions in [0, 1] along the track, ascending (no link to who submitted what). A dot stands
+ * for an amount half a minor unit off the integer grid (its bucket start plus a seeded offset), so
+ * it can never equal any max, which is always a whole number of minor units; nothing about the
+ * position depends on a max's value beyond its bucket.
+ */
 export function bucketDots(
   maxes: readonly bigint[],
   stepMinor: bigint,
@@ -42,9 +47,10 @@ export function bucketDots(
       const ordinal = perBucket.get(bucket) ?? 0;
       perBucket.set(bucket, ordinal + 1);
       const jitter = fraction(`${seed}:${bucket.toString()}:${ordinal}`);
-      const start = Number(bucket * width - track.lowMinor);
-      const position = span > 0 ? (start + jitter * Number(width)) / span : 0.5;
-      return Math.min(1, Math.max(0, Math.round(position * 1_000) / 1_000));
+      const offset = Math.floor(jitter * Number(width)) + 0.5;
+      const amount = Number(bucket * width - track.lowMinor) + offset;
+      // Off the track: pinned half a unit inside its ends, still off the integer grid.
+      return span > 0 ? Math.min(span - 0.5, Math.max(0.5, amount)) / span : 0.5;
     })
     .sort((a, b) => a - b);
 }

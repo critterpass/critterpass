@@ -293,6 +293,67 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
   },
   'place.saved': { user_id: crypto.randomUUID(), place_id: crypto.randomUUID() },
   'place.unsaved': { user_id: crypto.randomUUID(), place_id: crypto.randomUUID() },
+  'availability.updated': { user_id: crypto.randomUUID(), trip_ids: [], days_count: 3 },
+  'calendar.connected': {
+    user_id: crypto.randomUUID(),
+    source_id: crypto.randomUUID(),
+    kind: 'oauth_google',
+  },
+  'calendar.disconnected': {
+    user_id: crypto.randomUUID(),
+    source_id: crypto.randomUUID(),
+    kind: 'device',
+  },
+  'calendar.stale': { trip_id: crypto.randomUUID(), user_id: crypto.randomUUID(), reason: 'stale' },
+  'availability_ask.created': {
+    trip_id: crypto.randomUUID(),
+    ask_id: crypto.randomUUID(),
+    target_user_id: crypto.randomUUID(),
+  },
+  'availability_ask.answered': {
+    trip_id: crypto.randomUUID(),
+    ask_id: crypto.randomUUID(),
+    target_user_id: crypto.randomUUID(),
+    answer: 'freed',
+  },
+  'availability_ask.timed_out': {
+    trip_id: crypto.randomUUID(),
+    ask_id: crypto.randomUUID(),
+    target_user_id: crypto.randomUUID(),
+  },
+  'setup.step_changed': { trip_id: crypto.randomUUID(), from: 'when', to: 'budget' },
+  'budget.submission_counted': { trip_id: crypto.randomUUID(), maxes_count: 3 },
+  'budget.locked': { trip_id: crypto.randomUUID(), checked_against_band: true },
+  'rooms.changed': { trip_id: crypto.randomUUID(), version: 2 },
+  'rooms.locked': { trip_id: crypto.randomUUID() },
+  'room_swap.requested': {
+    trip_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    with_user_id: null,
+  },
+  'stay.chosen': { trip_id: crypto.randomUUID(), stay_option_id: 'ryokan' },
+  'must_dos.changed': {
+    trip_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    must_do_ids: [crypto.randomUUID()],
+  },
+  'must_do.fit_checked': {
+    trip_id: crypto.randomUUID(),
+    must_do_id: crypto.randomUUID(),
+    fit_status: 'tight',
+  },
+  'must_do.prompted': { trip_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
+  'lottery.tracked': {
+    trip_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    must_do_id: crypto.randomUUID(),
+  },
+  'lottery.reminder_due': {
+    trip_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    must_do_id: crypto.randomUUID(),
+    slot: 'deadline',
+  },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

@@ -4,6 +4,7 @@
  * whatever is left (never below the daily fun floor). Pure and synchronous, so the client runs it
  * on every knob frame and the server stores the same numbers.
  */
+import { allocate } from '../money/allocate';
 import { type CurrencyCode } from '../money/currencies';
 import { type Money } from '../money/money';
 import { chooseStayMix, type StayMixPart } from './stay-mix';
@@ -96,4 +97,33 @@ export function feasibleLow(input: Omit<BreakdownInput, 'target'>): Money | null
       (index.foodPpDayMinor + index.funPpDayMinor) * BigInt(days),
     flights.currency,
   );
+}
+
+export interface BreakdownBars {
+  readonly flights: Money;
+  readonly stays: Money;
+  readonly food: Money;
+  readonly fun: Money;
+}
+
+const BAR_ORDER = ['flights', 'stays', 'food', 'fun'] as const;
+
+/**
+ * The four bars under the knob, summing exactly to the target in minor units: each category's
+ * share of the breakdown, scaled to the target by largest remainder (so a target below the
+ * cheapest mix shrinks every bar rather than overflowing). `null` when nothing is priced yet.
+ */
+export function breakdownBars(target: Money, breakdown: Breakdown): BreakdownBars | null {
+  const weights = BAR_ORDER.map((id) => ({ id, weight: breakdown[id]?.amountMinor ?? 0n }));
+  if (target.amountMinor <= 0n || weights.every((w) => w.weight <= 0n)) return null;
+  const shares = allocate(
+    target,
+    weights.map((w) => ({ id: w.id, weight: w.weight > 0n ? w.weight : 0n })),
+  );
+  const of = (id: (typeof BAR_ORDER)[number]) =>
+    shares.find((share) => share.id === id)?.amount ?? {
+      amountMinor: 0n,
+      currency: target.currency,
+    };
+  return { flights: of('flights'), stays: of('stays'), food: of('food'), fun: of('fun') };
 }

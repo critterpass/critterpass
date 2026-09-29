@@ -1,0 +1,35 @@
+{
+  "source": "Microsoft Graph v1.0 GET /me/calendarView with $select=showAs,start,end,isAllDay and Prefer: outlook.timezone=\"UTC\", shape per learn.microsoft.com/graph/api/user-list-calendarview; only the selected properties are present.",
+  "response": {
+    "status": 200,
+    "body": {
+      "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('me')/calendarView(showAs,start,end,isAllDay)",
+      "value": [
+        {
+          "@odata.etag": "W/\"fixture-1\"",
+          "id": "AAMkAGFixture1",
+          "showAs": "busy",
+          "isAllDay": false,
+          "start": { "dateTime": "{{D10}}T01:00:00.0000000", "timeZone": "UTC" },
+          "end": { "dateTime": "{{D10}}T06:00:00.0000000", "timeZone": "UTC" }
+        },
+        {
+          "@odata.etag": "W/\"fixture-2\"",
+          "id": "AAMkAGFixture2",
+          "showAs": "tentative",
+          "isAllDay": true,
+          "start": { "dateTime": "{{D11}}T00:00:00.0000000", "timeZone": "UTC" },
+          "end": { "dateTime": "{{D12}}T00:00:00.0000000", "timeZone": "UTC" }
+        },
+        {
+          "@odata.etag": "W/\"fixture-3\"",
+          "id": "AAMkAGFixture3",
+          "showAs": "free",
+          "isAllDay": false,
+          "start": { "dateTime": "{{D13}}T01:00:00.0000000", "timeZone": "UTC" },
+          "end": { "dateTime": "{{D13}}T10:00:00.0000000", "timeZone": "UTC" }
+        }
+      ]
+    }
+  }
+}

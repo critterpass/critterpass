@@ -21,6 +21,7 @@
     "@cp/db": "workspace:*",
     "@cp/domain": "workspace:*",
     "@cp/i18n": "workspace:*",
+    "@cp/planner": "workspace:*",
     "@cp/suppliers": "workspace:*",
     "@duckdb/node-api": "catalog:",
     "@hono/node-server": "catalog:",
