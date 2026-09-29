@@ -129,5 +129,13 @@ appId: app.critterpass.dev
     visible:
       id: 'new-poll'
     timeout: 10000
+# The question field takes focus; put the keyboard away to show the deadline's segmented control.
+- waitForAnimationToEnd
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: 'new-poll-deadline'
+    direction: DOWN
+    timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-new-poll-sheet

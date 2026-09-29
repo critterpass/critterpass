@@ -41,8 +41,8 @@ const SMALL_AVATAR = sizeToken(tokens.size.avatar, 'sm');
 /** The pill's faces: a small avatar inside its cut-out ring, overlapping like `AvatarStack`. */
 const FACE = SMALL_AVATAR + tokens.ring.cutout.widthPt * 2;
 const FACE_OVERLAP = -7;
-/** The crew name is h2 (the design system's crew-name size); long names shrink to this floor. */
-const CREW_NAME_MIN = 18;
+/** The crew name is h2 (the design system's crew-name size); long names shrink to 60% of it. */
+const CREW_NAME_MIN_SCALE = 0.6;
 const ICON = tokens.space['20'];
 const CARET = tokens.space['6'];
 const RING_DEG = 14;
@@ -184,8 +184,11 @@ export function HomeHeader(props: HomeHeaderProps) {
           <Row gap="8">
             <Text
               variant="h2"
-              autoFit
-              autoFitMinSize={CREW_NAME_MIN}
+              // The platform fits the name to the width left of the pills (the estimate-based
+              // auto-fit ratchets down here, where the text's own width is the box it measures).
+              autoFit={false}
+              adjustsFontSizeToFit
+              minimumFontScale={CREW_NAME_MIN_SCALE}
               numberOfLines={isLarge ? 2 : 1}
               style={styles.crewName}
               testID="home-header-crew-name"
