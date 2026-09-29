@@ -61,6 +61,8 @@ export function SaveScreen() {
           onNotNow={notNow}
           onUseExisting={() => void flow.confirmSwitch()}
           onKeepNew={flow.keepThisPass}
+          onKeptDone={flow.closeKept}
+          onReopenMerge={flow.reopenMerge}
         />
       )}
     </>

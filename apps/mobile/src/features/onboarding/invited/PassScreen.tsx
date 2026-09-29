@@ -167,6 +167,8 @@ export function PassScreen() {
             onNotNow={() => void join()}
             onUseExisting={() => void save.confirmSwitch()}
             onKeepNew={save.keepThisPass}
+            onKeptDone={save.closeKept}
+            onReopenMerge={save.reopenMerge}
           />
         )}
       </>

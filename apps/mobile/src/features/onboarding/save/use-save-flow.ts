@@ -16,10 +16,21 @@ export type SaveState =
   | { readonly kind: 'idle' }
   | { readonly kind: 'working'; readonly provider: SaveProvider }
   | { readonly kind: 'saved'; readonly provider: SaveProvider }
-  | { readonly kind: 'merge'; readonly ticket: string; readonly preview: MergePreviewSummary }
-  | { readonly kind: 'merging'; readonly ticket: string; readonly preview: MergePreviewSummary }
+  | ({ readonly kind: 'merge' } & MergeContext)
+  | ({ readonly kind: 'merging' } & MergeContext)
+  /** "Keep this new pass" was picked: the sign-in stays with the old pass; switching stays open. */
+  | ({ readonly kind: 'kept' } & MergeContext)
+  /** The kept explanation was closed; the page offers the switch once more in a line. */
+  | ({ readonly kind: 'declined' } & MergeContext)
   | { readonly kind: 'switched' }
   | { readonly kind: 'error'; readonly provider: SaveProvider; readonly reason: SaveError };
+
+/** The identity that already has a pass, its ticket and what the switch would bring over. */
+export interface MergeContext {
+  readonly provider: SaveProvider;
+  readonly ticket: string;
+  readonly preview: MergePreviewSummary;
+}
 
 export type SaveError =
   'network' | 'different_email' | 'unavailable' | 'cancelled' | 'merge_expired' | 'unknown';
@@ -67,6 +78,7 @@ export function useSaveFlow() {
           } else {
             setState({
               kind: 'merge',
+              provider,
               ticket: outcome.ticket,
               preview: { crews: preview.crews, trips: preview.trips },
             });
@@ -99,16 +111,26 @@ export function useSaveFlow() {
     [services, handle],
   );
 
-  /** "Use that pass": the account that already exists wins; this device's crews move over. */
+  /** "Use my old pass": the account that already exists wins; this device's crews move over. */
   const confirmSwitch = useCallback(async () => {
-    if (state.kind !== 'merge') return;
-    setState({ kind: 'merging', ticket: state.ticket, preview: state.preview });
-    const result = await services.auth.confirmMerge(state.ticket).catch(() => null);
+    if (state.kind !== 'merge' && state.kind !== 'kept' && state.kind !== 'declined') return;
+    const { provider, ticket, preview } = state;
+    setState({ kind: 'merging', provider, ticket, preview });
+    const result = await services.auth.confirmMerge(ticket).catch(() => null);
     if (result?.kind === 'merged') setState({ kind: 'switched' });
     else if (result?.kind === 'ticket_invalid')
-      setState({ kind: 'error', provider: 'phone', reason: 'merge_expired' });
-    else setState({ kind: 'error', provider: 'phone', reason: 'network' });
+      setState({ kind: 'error', provider, reason: 'merge_expired' });
+    else setState({ kind: 'error', provider, reason: 'network' });
   }, [services, state]);
+
+  /** Moves between the merge choice and its "kept" follow-ups, keeping the ticket for a switch. */
+  const moveMerge = useCallback(
+    (kind: 'merge' | 'kept' | 'declined') => {
+      if (state.kind !== 'merge' && state.kind !== 'kept' && state.kind !== 'declined') return;
+      setState({ kind, provider: state.provider, ticket: state.ticket, preview: state.preview });
+    },
+    [state],
+  );
 
   return {
     state,
@@ -118,7 +140,11 @@ export function useSaveFlow() {
     /** Phone verification results arrive here from the phone screen. */
     handle,
     confirmSwitch,
-    /** "Keep this pass": back out of the merge; this device stays anonymous for now. */
-    keepThisPass: () => setState({ kind: 'idle' }),
+    /** "Keep this new pass": says what that means before anything else happens. */
+    keepThisPass: () => moveMerge('kept'),
+    /** Closes the "kept" explanation; the page still offers the switch. */
+    closeKept: () => moveMerge('declined'),
+    /** Back to the merge choice from a kept pass. */
+    reopenMerge: () => moveMerge('merge'),
   };
 }

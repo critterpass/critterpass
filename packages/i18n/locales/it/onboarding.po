@@ -7,14 +7,14 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: it\n"
 
+#. placeholder {0}: movingCrews.length
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.movingCount"
+msgstr ""
+
 #. placeholder {0}: format.list(locale, names)
 #: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
 msgid "onboarding.invite.ticket.membersIn"
-msgstr ""
-
-#. placeholder {0}: movingCrews.length
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.moving"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
@@ -36,6 +36,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.hoursAway"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.bodyFor"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.keptBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
+msgid "onboarding.merge.declinedLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
@@ -394,6 +406,10 @@ msgstr ""
 msgid "onboarding.invite.code.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.keptDone"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.nature"
 msgstr ""
@@ -477,6 +493,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.keepNew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
+msgid "onboarding.merge.keptTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
@@ -737,6 +758,10 @@ msgstr ""
 msgid "onboarding.tag.shopping.short"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.eyebrow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.returningBody"
 msgstr ""
@@ -937,10 +962,6 @@ msgstr ""
 msgid "onboarding.taste.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.body"
-msgstr ""
-
 #: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
 msgid "onboarding.invite.problem.tripClosedTitle"
 msgstr ""
@@ -1035,12 +1056,17 @@ msgstr ""
 msgid "onboarding.photo.real.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
-msgid "onboarding.save.phone"
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.useOld"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.useExisting"
+#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
+msgid "onboarding.merge.switchBack"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
+msgid "onboarding.save.phone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
@@ -1108,6 +1134,7 @@ msgid "onboarding.invite.ticket.you"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.title"
 msgstr ""
 
@@ -1131,6 +1158,10 @@ msgstr ""
 msgid "onboarding.phone.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.identity.apple"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.disclosure"
 msgstr ""
@@ -1143,8 +1174,16 @@ msgstr ""
 msgid "onboarding.name.label"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.identity.google"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/flow-controller/pass-sync.tsx
 msgid "onboarding.queued.issuePass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.identity.phone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx

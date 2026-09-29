@@ -7,15 +7,15 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: movingCrews.length
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.movingCount"
+msgstr "{0, plural, other {# nhóm trên điện thoại này sẽ đi cùng bạn.}}"
+
 #. placeholder {0}: format.list(locale, names)
 #: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
 msgid "onboarding.invite.ticket.membersIn"
 msgstr ""
-
-#. placeholder {0}: movingCrews.length
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.moving"
-msgstr "{0} nhóm trên điện thoại này cũng sẽ được chuyển sang."
 
 #: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
 msgid "onboarding.invite.code.alreadyIn"
@@ -37,6 +37,18 @@ msgstr "{current} / {0}"
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.hoursAway"
 msgstr "cách {hours} giờ"
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.bodyFor"
+msgstr "{identity} đã gắn với một pass bạn làm trước đây. Chuyển sang pass đó để tiếp tục từ chỗ bạn dừng lại."
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.keptBody"
+msgstr "{identity} vẫn gắn với pass cũ, còn điện thoại này giữ pass mới. Muốn lưu pass mới, hãy đăng nhập bằng cách khác."
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
+msgid "onboarding.merge.declinedLine"
+msgstr "{identity} vẫn gắn với pass cũ. Đăng nhập bằng cách khác để lưu pass này."
 
 #: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
 msgid "onboarding.invite.problem.revokedLine"
@@ -394,6 +406,10 @@ msgstr "Đăng nhập Google chưa xong. Thử lại, hoặc dùng cách khác n
 msgid "onboarding.invite.code.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.keptDone"
+msgstr "Đã hiểu"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.nature"
 msgstr "Mê thiên nhiên"
@@ -478,6 +494,11 @@ msgstr "Giữ an toàn"
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.keepNew"
 msgstr "Giữ pass mới này"
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
+msgid "onboarding.merge.keptTitle"
+msgstr "Giữ pass mới"
 
 #: ../../apps/mobile/src/features/onboarding/taste/quiz-copy.ts
 msgid "onboarding.quiz.evenings.left.label"
@@ -737,6 +758,10 @@ msgstr "Túi mua sắm"
 msgid "onboarding.tag.shopping.short"
 msgstr "Mua sắm"
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.eyebrow"
+msgstr "Đăng nhập"
+
 #: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
 msgid "onboarding.phone.returningBody"
 msgstr "Đăng nhập bằng số điện thoại, Apple ID hoặc tài khoản Google đã lưu pass của bạn."
@@ -937,10 +962,6 @@ msgstr ""
 msgid "onboarding.taste.title"
 msgstr "Cái này hay cái kia"
 
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.body"
-msgstr "Cách đăng nhập này thuộc về một pass bạn đã làm trước đây. Dùng pass đó, hoặc giữ pass mới trên điện thoại này."
-
 #: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
 msgid "onboarding.invite.problem.tripClosedTitle"
 msgstr ""
@@ -1035,13 +1056,18 @@ msgstr "Dùng ảnh thật"
 msgid "onboarding.photo.real.title"
 msgstr "Dùng ảnh thật"
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.useOld"
+msgstr "Dùng pass cũ của tôi"
+
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
+msgid "onboarding.merge.switchBack"
+msgstr "Chuyển sang pass cũ"
+
 #: ../../apps/mobile/src/features/onboarding/save/SaveSheet.tsx
 msgid "onboarding.save.phone"
 msgstr "Dùng số điện thoại"
-
-#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
-msgid "onboarding.merge.useExisting"
-msgstr "Dùng pass đó"
 
 #: ../../apps/mobile/src/features/onboarding/photo/RealPhotoSheet.tsx
 msgid "onboarding.photo.real.use"
@@ -1108,6 +1134,7 @@ msgid "onboarding.invite.ticket.you"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+#: ../../apps/mobile/src/features/onboarding/save/MergeSheet.tsx
 msgid "onboarding.merge.title"
 msgstr "Bạn đã có pass rồi"
 
@@ -1131,6 +1158,10 @@ msgstr ""
 msgid "onboarding.phone.title"
 msgstr "Số của bạn"
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.identity.apple"
+msgstr "Apple ID của bạn"
+
 #: ../../apps/mobile/src/features/onboarding/taste/TasteQuiz.tsx
 msgid "onboarding.taste.disclosure"
 msgstr "Các nhóm của bạn sẽ thấy những thẻ này để kế hoạch hợp với mọi người. Bạn có thể ẩn chúng trong Cài đặt."
@@ -1143,13 +1174,22 @@ msgstr "Hộ chiếu CritterPass của bạn"
 msgid "onboarding.name.label"
 msgstr "Tên của bạn"
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.identity.google"
+msgstr "Tài khoản Google của bạn"
+
 #: ../../apps/mobile/src/features/onboarding/flow-controller/pass-sync.tsx
 msgid "onboarding.queued.issuePass"
 msgstr "Pass mới của bạn"
 
+#: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
+msgid "onboarding.merge.identity.phone"
+msgstr "Số điện thoại của bạn"
+
 #: ../../apps/mobile/src/features/onboarding/issued/IssuedScreen.tsx
 msgid "onboarding.issued.title"
-msgstr "Pass của bạn\nđã sẵn sàng"
+msgstr "Pass của bạn\n"
+"đã sẵn sàng"
 
 #. placeholder {0}: printedName || notYet
 #: ../../apps/mobile/src/features/onboarding/pass-view.tsx

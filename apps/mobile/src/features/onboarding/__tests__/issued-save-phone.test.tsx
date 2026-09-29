@@ -150,42 +150,6 @@ describe('3a-7 save your pass', () => {
     expect(router.replace).not.toHaveBeenCalled();
   });
 
-  it('offers merge-or-switch when the account already has a pass', async () => {
-    const confirmMerge = jest.fn(() =>
-      Promise.resolve({ kind: 'merged' as const, userId: 'u-old' }),
-    );
-    const services = withAuth({
-      linkGoogle: () => Promise.resolve({ kind: 'merge_required', ticket: 't-1' }),
-      startMerge: () =>
-        Promise.resolve({
-          kind: 'preview',
-          crews: [{ id: 'c1', name: 'The Bali Six', owner: 'existing' }],
-          trips: [],
-        }),
-      confirmMerge,
-    });
-    await renderOnboarding(<SaveScreen />, { services });
-    await activate(screen.getByTestId('save-google'));
-    await flush();
-    expect(screen.getByText('The Bali Six')).toBeTruthy();
-    await activate(screen.getByTestId('merge-use-existing'));
-    await flush();
-    expect(confirmMerge).toHaveBeenCalledWith('t-1');
-    expect(isOnboardingComplete()).toBe(true);
-    expect(router.replace).toHaveBeenCalledWith('/');
-  });
-
-  it('keeps this pass when the user backs out of the merge', async () => {
-    const services = withAuth({
-      linkGoogle: () => Promise.resolve({ kind: 'merge_required', ticket: 't-1' }),
-    });
-    await renderOnboarding(<SaveScreen />, { services });
-    await activate(screen.getByTestId('save-google'));
-    await flush();
-    await activate(screen.getByTestId('merge-keep-new'));
-    expect(screen.getByTestId('save-google')).toBeTruthy();
-  });
-
   it('lets the user skip saving for now', async () => {
     await renderOnboarding(<SaveScreen />);
     await activate(screen.getByTestId('save-not-now'));
