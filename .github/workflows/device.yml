@@ -368,7 +368,7 @@ jobs:
               pnpm screens:compare -- --from "$RUNNER_TEMP/device/$platform" --out "$images/$platform-sheets" || true
             fi
             # No sheets (no design-id names, or the compare failed): post the screenshots themselves.
-            if [ "$MODE" != compare ] || ! ls "$images/$platform-sheets"/*.png >/dev/null 2>&1; then
+            if [ "$MODE" != compare ] || ! find "$images/$platform-sheets" -name '*.png' 2>/dev/null | grep -q .; then
               [ "$MODE" = compare ] && echo "SHEETLESS=true" >> "$GITHUB_ENV"
               rm -rf "$images/$platform-sheets"
               mkdir -p "$images/$platform" && cp -R "$RUNNER_TEMP/device/$platform/." "$images/$platform/"
