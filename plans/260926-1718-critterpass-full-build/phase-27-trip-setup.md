@@ -199,6 +199,7 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Steps: 1. EventKit full access / CalendarContract read; reduce to `{date,state}` natively. 2. Permission via P20 orchestrator with 3a-9 copy; denied → manual entry. 3. Foreground + background refresh re-upload. 4. OAuth connect via in-app browser to `/v1/calendar/oauth/*`; tentative opt-in toggle.
 - Tests: `pnpm --filter @cp/mobile test -- setup/calendar`; `cd apps/mobile/modules/cp-calendar && xcodebuild test -scheme CpCalendarTests`; `./gradlew :cp-calendar:testDebugUnitTest`
 - Done when: native unit tests prove no title/attendee/time leaves the module; manual fallback works with permission denied.
+- Status: done — f786c240, 9a2f72a8
 
 ### T8 — Wizard shell + When + No-week-fits screens
 - Goal: F-069 shell and 3c-3/3c-4 UI with member views.
@@ -206,6 +207,7 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Steps: 1. Step machine from `trips.setup_step`; organiser vs member rendering. 2. Heatmap (Skia or Reanimated cells) with animated opacity steps + draw-on stroke / scribble. 3. Options card-deal, CTA flap, ask flow waiting state, manual week picker. 4. All missing states listed in F-070.
 - Tests: `pnpm --filter @cp/mobile test -- features/setup/when`; `maestro test e2e/setup/when.yaml e2e/setup/no-week-fits.yaml`
 - Done when: RNTL layout snapshots committed and Maestro `takeScreenshot` artifacts produced for founder review against `3c-3_When.png` / `3c-4_No_week_fits.png`; member view shows no other member's day states; VoiceOver reads "{date}, {n} of {N} free".
+- Status: done — 16f56d0c
 
 ### T9 — Budget screen + private max entry
 - Goal: 3c-5 organiser screen and undesigned member max entry.
@@ -213,6 +215,7 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Steps: 1. Track with bucketed dots drop-in stagger + band squeeze animation; knob gesture with haptic ticks via feedback bus. 2. Breakdown re-flow + odometer. 3. Member entry with FX preview, write-only confirmation, `local_private` cache. 4. k<4, infeasible, waiting, multi-currency states.
 - Tests: `pnpm --filter @cp/mobile test -- features/setup/budget`; `maestro test e2e/setup/budget.yaml`
 - Done when: after submit, no screen or query on another device shows the value; dots hidden for a 3-person crew; knob above band flips the check and blocks LOOKS GOOD.
+- Status: done — d45ed76d
 
 ### T10 — Rooms screen
 - Goal: 3c-6 drag assignment with live price.
@@ -220,6 +223,7 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Steps: 1. Gesture kit long-press drag, spring shuffle, reject shake. 2. Tap-select a11y path. 3. Per-person odometer from `cost-engine/rooms`. 4. Book-here link + free-cancel line when an imported booking exists; member read-only + swap request.
 - Tests: `pnpm --filter @cp/mobile test -- features/setup/rooms`; `maestro test e2e/setup/rooms.yaml`
 - Done when: swap updates both avatars and prices on a second device within 1 s via `trip_setup:`; over-capacity drop is rejected.
+- Status: done — 21416849
 
 ### T11 — Must-dos list + add sheet with presence
 - Goal: 3c-7 and 3c-10.
@@ -227,6 +231,7 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Steps: 1. Per-keystroke search (debounce 120 ms, local fallback). 2. Typing presence publish/subscribe; dashed → solid row animation. 3. Lottery/book-ahead pills with truthful copy + reminder. 4. DRAFT MY TRIP CTA (enabled with ≥1 must-do; routes to P28 start).
 - Tests: `pnpm --filter @cp/mobile test -- features/setup/must-dos`; `maestro test e2e/setup/must-dos.yaml e2e/setup/must-dos-offline.yaml`
 - Done when: offline add queues and appears after reconnect with fit status; push deep link opens the sheet directly; no copy claims the app entered a lottery.
+- Status: done — 45de653c
 
 ## Phase acceptance criteria
 
