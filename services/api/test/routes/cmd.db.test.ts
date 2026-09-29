@@ -81,6 +81,21 @@ describe('POST /v1/cmd/{cmd}', () => {
     expect(replay.status).toBe(409);
   });
 
+  it('logs a rejected command with its code and failing field paths, never the values', async () => {
+    const session = await harness.signInAnonymously();
+    const op = envelope('create_test_crew', { crew_id: generateUuidV7(), name: 'Hoi An' });
+    const bad = { ...op, device: { ...op.device, tz: 'Mars/Olympus_Mons' } };
+
+    const response = await send(session, 'create_test_crew', bad);
+
+    expect(response.status).toBe(422);
+    const line = harness.logs.find(
+      (l) => l['msg'] === 'command rejected' && l['cmd'] === 'create_test_crew',
+    );
+    expect(line).toMatchObject({ code: 'VALIDATION', fields: ['device.tz'] });
+    expect(JSON.stringify(line)).not.toContain('Olympus');
+  });
+
   it('returns IDEMPOTENCY_MISMATCH (409) for a reused op_id with another payload', async () => {
     const session = await harness.signInAnonymously();
     const op = envelope('create_test_crew', { crew_id: generateUuidV7(), name: 'Hue' });

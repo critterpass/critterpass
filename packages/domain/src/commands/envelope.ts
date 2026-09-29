@@ -5,6 +5,7 @@
 import { z } from 'zod';
 
 import { uuidV7Schema } from '../ids';
+import { canonicalTz } from '../time/canonical-tz';
 
 function looksLikeIanaTimeZoneName(value: string): boolean {
   return value === 'UTC' || /^[A-Za-z_+-]+\/[A-Za-z0-9_+\-/]+$/.test(value);
@@ -12,23 +13,28 @@ function looksLikeIanaTimeZoneName(value: string): boolean {
 
 /**
  * Accepts canonical IANA names and backward-compatibility links alike (e.g. both
- * `Asia/Ho_Chi_Minh` and its older alias `Asia/Saigon`), matching Postgres's `pg_timezone_names`
- * more closely than `Intl.supportedValuesOf('timeZone')`, which omits some links ICU treats as
- * non-canonical. This is a client-input sanity check; `app.valid_tz` is the source of truth.
+ * `Asia/Ho_Chi_Minh` and its older alias `Asia/Saigon`, or the bare `GMT` an iOS simulator on a
+ * UTC host reports), matching Postgres's `pg_timezone_names` more closely than
+ * `Intl.supportedValuesOf('timeZone')`, which omits some links ICU treats as non-canonical. This is
+ * a client-input sanity check; `app.valid_tz` is the source of truth.
  */
 export function isIanaTimeZone(value: unknown): value is string {
-  if (typeof value !== 'string' || !looksLikeIanaTimeZoneName(value)) return false;
+  if (typeof value !== 'string') return false;
+  const tz = canonicalTz(value);
+  if (!looksLikeIanaTimeZoneName(tz)) return false;
   try {
-    new Intl.DateTimeFormat('en-US', { timeZone: value });
+    new Intl.DateTimeFormat('en-US', { timeZone: tz });
     return true;
   } catch {
     return false;
   }
 }
 
+/** Canonicalized on parse, so a link (`GMT`, `Asia/Saigon`) reaches handlers as its zone. */
 const ianaTimeZoneSchema = z
   .string()
-  .refine(isIanaTimeZone, { message: 'must be an IANA time zone' });
+  .refine(isIanaTimeZone, { message: 'must be an IANA time zone' })
+  .transform(canonicalTz);
 
 export const ACTOR_VIA_VALUES = [
   'app',

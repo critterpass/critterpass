@@ -37,6 +37,8 @@ export interface SignedIn {
 export interface CommandDoorsHarness {
   readonly pool: pg.Pool;
   readonly redis: RedisClientType;
+  /** Every line the app logged, parsed, oldest first. */
+  readonly logs: readonly Record<string, unknown>[];
   request(path: string, init?: RequestInit): Promise<Response>;
   signInAnonymously(): Promise<SignedIn>;
   promoteToRegistered(uid: string): Promise<void>;
@@ -71,7 +73,11 @@ export async function startCommandDoors(
     attestation: disabledAttestationConfig(),
   });
 
-  const logger = pino({ level: 'silent' });
+  const logs: Record<string, unknown>[] = [];
+  const logger = pino(
+    { level: 'info' },
+    { write: (line: string) => logs.push(JSON.parse(line) as Record<string, unknown>) },
+  );
   const app = createApp({
     service: 'api',
     version: 'test',
@@ -107,6 +113,7 @@ export async function startCommandDoors(
   return {
     pool,
     redis,
+    logs,
     request,
     async signInAnonymously() {
       const response = await request('/api/auth/sign-in/anonymous', { method: 'POST', body: '{}' });

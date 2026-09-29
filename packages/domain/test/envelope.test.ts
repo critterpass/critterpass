@@ -62,6 +62,14 @@ describe('commandEnvelopeSchema', () => {
     ).toBe(false);
   });
 
+  it('accepts a device.tz link such as GMT and hands handlers the canonical zone', () => {
+    const parsed = schema.safeParse(
+      validEnvelope({ device: { id: 'd', platform: 'ios', app_version: '1.0.0', tz: 'GMT' } }),
+    );
+    expect(parsed.success).toBe(true);
+    expect(parsed.data?.device.tz).toBe('Etc/GMT');
+  });
+
   it('rejects base_version 0 or negative', () => {
     expect(schema.safeParse(validEnvelope({ base_version: 0 })).success).toBe(false);
     expect(schema.safeParse(validEnvelope({ base_version: -1 })).success).toBe(false);
@@ -77,6 +85,8 @@ describe('isIanaTimeZone', () => {
     expect(isIanaTimeZone('Asia/Ho_Chi_Minh')).toBe(true);
     expect(isIanaTimeZone('Asia/Saigon')).toBe(true);
     expect(isIanaTimeZone('UTC')).toBe(true);
+    expect(isIanaTimeZone('GMT')).toBe(true);
+    expect(isIanaTimeZone('Etc/UTC')).toBe(true);
   });
 
   it('rejects bare offsets and nonsense', () => {
