@@ -81,7 +81,9 @@ function Chip({ step, index, state, onPress }: ChipProps) {
       ? t({ id: 'setup.stepper.a11yDone', message: `Step ${n}, ${title}, done` })
       : t({ id: 'setup.stepper.a11y', message: `Step ${n}, ${title}` });
   const face = (
-    <Animated.View style={[styles.chip, { backgroundColor: fill }, state === 'done' && !openedDone ? pop : null]}>
+    <Animated.View
+      style={[styles.chip, { backgroundColor: fill }, state === 'done' && !openedDone ? pop : null]}
+    >
       <Text
         variant="label"
         color={ink}
