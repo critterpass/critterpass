@@ -3,4 +3,5 @@
 export { deviceDraftServices } from './data/device-services';
 export { DraftServicesProvider } from './data/services';
 export { DraftingScreen } from './drafting/drafting-screen';
+export { DraftReviewScreen } from './review/draft-review-screen';
 export { draftRoutes, registerDraftScreens } from './routes';
