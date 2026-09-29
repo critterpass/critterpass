@@ -1,5 +1,6 @@
 import { Link } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Scaffold, Text } from '@/ui';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -9,16 +10,20 @@ export const __CP_DEV_ROUTE__ = true;
  * to zoom into, unlike the in-screen overlay used for the shared-element/teleport-overlay modes. */
 export default function GrowIntoPageDetailScreen() {
   return (
-    <View style={styles.container}>
-      <Link.AppleZoomTarget>
-        <View style={styles.card}>
-          <Text style={styles.title}>Detail</Text>
-        </View>
-      </Link.AppleZoomTarget>
-      <Link href="/(dev)/spikes/grow-into-page" style={styles.back}>
-        Back
-      </Link>
-    </View>
+    <Scaffold edges={['top', 'bottom']}>
+      <View style={styles.container}>
+        <Link.AppleZoomTarget>
+          <View style={styles.card}>
+            <Text variant="h3" style={styles.title}>
+              Detail
+            </Text>
+          </View>
+        </Link.AppleZoomTarget>
+        <Link href="/(dev)/spikes/grow-into-page" style={styles.back}>
+          Back
+        </Link>
+      </View>
+    </Scaffold>
   );
 }
 
@@ -32,6 +37,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  title: { fontSize: 24, fontWeight: '700', color: '#fff' },
+  title: { color: '#fff' },
   back: { fontSize: 16, color: '#4f86ff' },
 });

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { requestWithPrimer, type PermissionTrigger } from '@/lib/permissions';
 
@@ -9,6 +9,8 @@ import {
   type PermissionKind,
   type PermissionSnapshot,
 } from '../../../modules/cp-permissions';
+import { Scaffold, Text, useTheme } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -33,6 +35,7 @@ const TRIGGER: Readonly<Record<PermissionKind, PermissionTrigger>> = {
 };
 
 export default function PermissionsDevScreen() {
+  const theme = useTheme();
   const [snapshot, setSnapshot] = useState<PermissionSnapshot | null>(null);
   const api = getPermissions();
 
@@ -48,54 +51,71 @@ export default function PermissionsDevScreen() {
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.container} testID="dev-permissions">
-      <Text accessibilityRole="header" style={styles.title}>
-        Permissions
-      </Text>
-      {PERMISSION_KINDS.map((kind) => {
-        const report = snapshot?.reports[kind];
-        return (
-          <View key={kind} style={styles.row} testID={`dev-permission-${kind}`}>
-            <Text style={styles.kind}>{kind}</Text>
-            <Text style={styles.body} testID={`dev-permission-${kind}-status`}>
-              {report === undefined
-                ? '…'
-                : `${report.status}${report.canAskAgain ? '' : ' · settings only'}${
-                    report.available ? '' : ' · unavailable'
-                  }${report.level !== undefined ? ` · ${report.level}` : ''}${
-                    report.precise === false ? ' · approximate' : ''
-                  }`}
-            </Text>
-            <View style={styles.buttons}>
-              <Button
-                testID={`dev-permission-${kind}-primer`}
-                title="Primer"
-                onPress={() => void requestWithPrimer(kind, TRIGGER[kind]).then(refresh)}
-              />
-              <Button title="Request" onPress={() => void ask(kind)} />
-              {kind === 'location' ? (
-                <Button title="Always" onPress={() => void ask(kind, 'always')} />
-              ) : null}
-              <Button
-                title="Settings"
-                onPress={() => void api.openSettings(api.settingsTargetFor(kind))}
-              />
+    <Scaffold edges={['top', 'bottom']}>
+      <ScrollView contentContainerStyle={styles.container} testID="dev-permissions">
+        <Text accessibilityRole="header" variant="h3">
+          Permissions
+        </Text>
+        {PERMISSION_KINDS.map((kind) => {
+          const report = snapshot?.reports[kind];
+          return (
+            <View
+              key={kind}
+              style={[styles.row, { borderBottomColor: theme.semantic.border.decorative }]}
+              testID={`dev-permission-${kind}`}
+            >
+              <Text variant="rowTitle">{kind}</Text>
+              <Text variant="bodySm" testID={`dev-permission-${kind}-status`}>
+                {report === undefined
+                  ? '…'
+                  : `${report.status}${report.canAskAgain ? '' : ' · settings only'}${
+                      report.available ? '' : ' · unavailable'
+                    }${report.level !== undefined ? ` · ${report.level}` : ''}${
+                      report.precise === false ? ' · approximate' : ''
+                    }`}
+              </Text>
+              <View style={styles.buttons}>
+                <PillButton
+                  variant="secondary"
+                  size="sm"
+                  testID={`dev-permission-${kind}-primer`}
+                  label="Primer"
+                  onPress={() => void requestWithPrimer(kind, TRIGGER[kind]).then(refresh)}
+                />
+                <PillButton
+                  variant="secondary"
+                  size="sm"
+                  label="Request"
+                  onPress={() => void ask(kind)}
+                />
+                {kind === 'location' ? (
+                  <PillButton
+                    variant="secondary"
+                    size="sm"
+                    label="Always"
+                    onPress={() => void ask(kind, 'always')}
+                  />
+                ) : null}
+                <PillButton
+                  variant="secondary"
+                  size="sm"
+                  label="Settings"
+                  onPress={() => void api.openSettings(api.settingsTargetFor(kind))}
+                />
+              </View>
             </View>
-          </View>
-        );
-      })}
-      <Text style={styles.body} testID="dev-permissions-capabilities">
-        {JSON.stringify({ alarms: snapshot?.alarms, liveActivities: snapshot?.liveActivities })}
-      </Text>
-    </ScrollView>
+          );
+        })}
+        <Text variant="bodySm" testID="dev-permissions-capabilities">
+          {JSON.stringify({ alarms: snapshot?.alarms, liveActivities: snapshot?.liveActivities })}
+        </Text>
+      </ScrollView>
+    </Scaffold>
   );
 }
 
 const styles = StyleSheet.create({
   container: { padding: 16, gap: 12 },
-  title: { fontSize: 22, fontWeight: '700' },
   row: { gap: 4, borderBottomWidth: StyleSheet.hairlineWidth, paddingBottom: 8 },
-  kind: { fontSize: 16, fontWeight: '600' },
-  body: { fontSize: 14 },
   buttons: { flexDirection: 'row', gap: 8 },
 });

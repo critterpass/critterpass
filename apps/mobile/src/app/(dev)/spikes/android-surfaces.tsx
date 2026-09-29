@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Button, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 
 import {
   cancelFullScreenAlarm,
@@ -12,6 +12,8 @@ import {
   simulateLiveUpdatePush,
 } from '../../../../modules/cp-spike-android';
 import type { LiveUpdatePushPayload } from '../../../../modules/cp-spike-android';
+import { Scaffold, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -73,81 +75,128 @@ export default function AndroidSurfacesSpikeScreen() {
   }, [withErrorHandling]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text accessibilityRole="header" style={styles.title}>
-        Android surfaces spike
-      </Text>
-      <Text style={styles.body}>Running on API {String(Platform.Version)}.</Text>
+    <Scaffold edges={['top', 'bottom']}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text accessibilityRole="header" variant="h3">
+          Android surfaces spike
+        </Text>
+        <Text variant="bodySm">Running on API {String(Platform.Version)}.</Text>
 
-      <Text style={styles.sectionTitle}>Full-screen-intent alarm</Text>
-      <View style={styles.buttonRow}>
-        <Button title="Check FSI permission" onPress={checkFsi} />
-      </View>
-      {fsiGranted !== null ? (
-        <Text style={styles.body}>{fsiGranted ? 'Granted' : 'Denied — needs Settings'}</Text>
-      ) : null}
-      {fsiGranted === false ? (
+        <Text variant="title">Full-screen-intent alarm</Text>
         <View style={styles.buttonRow}>
-          <Button title="Open FSI settings" onPress={openFullScreenIntentSettings} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Check FSI permission"
+            onPress={checkFsi}
+          />
         </View>
-      ) : null}
+        {fsiGranted !== null ? (
+          <Text variant="bodySm">{fsiGranted ? 'Granted' : 'Denied — needs Settings'}</Text>
+        ) : null}
+        {fsiGranted === false ? (
+          <View style={styles.buttonRow}>
+            <PillButton
+              variant="secondary"
+              size="sm"
+              label="Open FSI settings"
+              onPress={openFullScreenIntentSettings}
+            />
+          </View>
+        ) : null}
 
-      <View style={styles.buttonRow}>
-        <Button title="Check exact-alarm permission" onPress={checkExactAlarm} />
-      </View>
-      {exactAlarmGranted !== null ? (
-        <Text style={styles.body}>{exactAlarmGranted ? 'Granted' : 'Denied — needs Settings'}</Text>
-      ) : null}
-      {exactAlarmGranted === false ? (
         <View style={styles.buttonRow}>
-          <Button title="Open exact-alarm settings" onPress={openExactAlarmSettings} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Check exact-alarm permission"
+            onPress={checkExactAlarm}
+          />
         </View>
-      ) : null}
+        {exactAlarmGranted !== null ? (
+          <Text variant="bodySm">{exactAlarmGranted ? 'Granted' : 'Denied — needs Settings'}</Text>
+        ) : null}
+        {exactAlarmGranted === false ? (
+          <View style={styles.buttonRow}>
+            <PillButton
+              variant="secondary"
+              size="sm"
+              label="Open exact-alarm settings"
+              onPress={openExactAlarmSettings}
+            />
+          </View>
+        ) : null}
 
-      <View style={styles.buttonRow}>
-        <Button title={`Schedule alarm in ${ALARM_DELAY_SECONDS}s`} onPress={scheduleAlarm} />
-      </View>
-      <View style={styles.buttonRow}>
-        <Button title="Cancel alarm" onPress={cancelAlarm} />
-      </View>
+        <View style={styles.buttonRow}>
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label={`Schedule alarm in ${ALARM_DELAY_SECONDS}s`}
+            onPress={scheduleAlarm}
+          />
+        </View>
+        <View style={styles.buttonRow}>
+          <PillButton variant="secondary" size="sm" label="Cancel alarm" onPress={cancelAlarm} />
+        </View>
 
-      <Text style={styles.sectionTitle}>Live Update push (local test hook)</Text>
-      <Text style={styles.body}>
-        No Firebase project exists in this environment, so this calls the exact same
-        `AndroidSurfacesPushReceiver.handle` a real FCM data message would reach — same parsing,
-        same notifier, only the transport differs.
-      </Text>
-      <View style={styles.buttonRow}>
-        <Button title="Start Live Update" onPress={() => simulatePush('start')} />
-      </View>
-      <View style={styles.buttonRow}>
-        <Button title="Update Live Update" onPress={() => simulatePush('update')} />
-      </View>
-      <View style={styles.buttonRow}>
-        <Button title="End Live Update" onPress={() => simulatePush('end')} />
-      </View>
-      <View style={styles.buttonRow}>
-        <Button title="Dismiss notification" onPress={dismissPush} />
-      </View>
+        <Text variant="title">Live Update push (local test hook)</Text>
+        <Text variant="bodySm">
+          No Firebase project exists in this environment, so this calls the exact same
+          `AndroidSurfacesPushReceiver.handle` a real FCM data message would reach — same parsing,
+          same notifier, only the transport differs.
+        </Text>
+        <View style={styles.buttonRow}>
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Start Live Update"
+            onPress={() => simulatePush('start')}
+          />
+        </View>
+        <View style={styles.buttonRow}>
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Update Live Update"
+            onPress={() => simulatePush('update')}
+          />
+        </View>
+        <View style={styles.buttonRow}>
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="End Live Update"
+            onPress={() => simulatePush('end')}
+          />
+        </View>
+        <View style={styles.buttonRow}>
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Dismiss notification"
+            onPress={dismissPush}
+          />
+        </View>
 
-      {status ? <Text style={styles.body}>{status}</Text> : null}
+        {status ? <Text variant="bodySm">{status}</Text> : null}
 
-      <Text style={styles.sectionTitle}>Glance widget</Text>
-      <Text style={styles.body}>
-        Long-press the home screen → widgets → CritterPass spike, then write a snapshot from the
-        cp-app-group spike screen to see it update.
-      </Text>
+        <Text variant="title">Glance widget</Text>
+        <Text variant="bodySm">
+          Long-press the home screen → widgets → CritterPass spike, then write a snapshot from the
+          cp-app-group spike screen to see it update.
+        </Text>
 
-      <Text style={styles.sectionTitle}>Founder checklist (physical API 36+ device)</Text>
-      <Text style={styles.body}>
-        1. Set GOOGLE_APPLICATION_CREDENTIALS + FCM_TEST_DEVICE_TOKEN and run{'\n'}
-        {'   '}pnpm --filter @cp/spikes run android-surfaces{'\n'}
-        2. Confirm the Live Update renders as a promoted ongoing notification from a real push.
-        {'\n'}
-        3. Grant FSI + exact alarm via Settings, schedule the alarm, lock the device, and confirm
-        the alarm activity shows over the lock screen at the scheduled time.
-      </Text>
-    </ScrollView>
+        <Text variant="title">Founder checklist (physical API 36+ device)</Text>
+        <Text variant="bodySm">
+          1. Set GOOGLE_APPLICATION_CREDENTIALS + FCM_TEST_DEVICE_TOKEN and run{'\n'}
+          {'   '}pnpm --filter @cp/spikes run android-surfaces{'\n'}
+          2. Confirm the Live Update renders as a promoted ongoing notification from a real push.
+          {'\n'}
+          3. Grant FSI + exact alarm via Settings, schedule the alarm, lock the device, and confirm
+          the alarm activity shows over the lock screen at the scheduled time.
+        </Text>
+      </ScrollView>
+    </Scaffold>
   );
 }
 
@@ -156,18 +205,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     gap: 12,
     padding: 16,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 8,
-  },
-  body: {
-    fontSize: 14,
   },
   buttonRow: {
     alignSelf: 'flex-start',

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import * as Updates from 'expo-updates';
-import { Button, DevSettings, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { DevSettings, Platform, ScrollView, StyleSheet, View } from 'react-native';
 
 import { getLocationNative, hasNativeSession } from '../../../modules/cp-location';
 import { getPermissions, type KindReport } from '../../../modules/cp-permissions';
@@ -16,6 +16,8 @@ import {
 } from '@/lib/location';
 import { getPermissionStore } from '@/lib/permissions';
 import { VisitConsentSheet } from '@/ui/permission-primer';
+import { Scaffold, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -117,61 +119,80 @@ export default function LocationEngineDevScreen() {
   }, [engine, on, location]);
 
   return (
-    <View style={styles.root}>
-      <ScrollView contentContainerStyle={styles.container} testID="dev-location-engine">
-        <Text accessibilityRole="header" style={styles.title}>
-          Location engine
-        </Text>
-        <Text testID="dev-location-native">
-          {hasNativeSession() ? 'native session' : 'foreground fallback'}
-        </Text>
-        <Text testID="dev-location-permission">
-          {`location: ${location?.status ?? '…'} ${location?.level ?? ''}`}
-        </Text>
-        <Text testID="dev-location-running">{`running: ${String(status?.running ?? false)}`}</Text>
-        <Text testID="dev-location-mode">{`mode: ${status?.tripMode ?? 'off'} (${status?.reason ?? ''})`}</Text>
-        <Text testID="dev-location-tier">{`tier: ${status?.tier ?? '-'}`}</Text>
-        <Text testID="dev-location-regions">{`regions: ${status?.regions ?? 0}`}</Text>
-        <Text testID="dev-location-fix">
-          {lastFix === null
-            ? 'fix: none'
-            : `fix: ${lastFix.lat.toFixed(5)},${lastFix.lng.toFixed(5)} ±${Math.round(lastFix.acc)}m mock=${lastFix.mock}`}
-        </Text>
-        <Text testID="dev-location-region-events">
-          {`region events: ${regions.map((r) => `${r.event}:${r.id}`).join(' ') || 'none'}`}
-        </Text>
-        <Text testID="dev-location-visits">{`visits: ${visits.join(', ') || 'none'}`}</Text>
-        <View style={styles.buttons}>
-          <Button testID="dev-location-start" title="Start trip day" onPress={() => setOn(true)} />
-          <Button testID="dev-location-stop" title="Stop" onPress={() => setOn(false)} />
-          <Button
-            testID="dev-location-reload"
-            title="Reload JS"
-            onPress={() => (__DEV__ ? DevSettings.reload() : void Updates.reloadAsync())}
-          />
-          <Button
-            testID="dev-location-consent"
-            title="Visit consent"
-            onPress={() => setConsent('showing')}
-          />
-          <Button
-            testID="dev-location-always"
-            title="Offer Always"
-            onPress={() => void offerAlwaysUpgrade('first_encounter')}
-          />
-        </View>
-        <Text testID="dev-location-consent-answer">{`consent: ${consent}`}</Text>
-      </ScrollView>
-      {consent === 'showing' ? (
-        <VisitConsentSheet onAnswer={(granted) => setConsent(granted ? 'on' : 'off')} />
-      ) : null}
-    </View>
+    <Scaffold edges={['top', 'bottom']}>
+      <View style={styles.root}>
+        <ScrollView contentContainerStyle={styles.container} testID="dev-location-engine">
+          <Text accessibilityRole="header" variant="h3">
+            Location engine
+          </Text>
+          <Text testID="dev-location-native">
+            {hasNativeSession() ? 'native session' : 'foreground fallback'}
+          </Text>
+          <Text testID="dev-location-permission">
+            {`location: ${location?.status ?? '…'} ${location?.level ?? ''}`}
+          </Text>
+          <Text testID="dev-location-running">{`running: ${String(status?.running ?? false)}`}</Text>
+          <Text testID="dev-location-mode">{`mode: ${status?.tripMode ?? 'off'} (${status?.reason ?? ''})`}</Text>
+          <Text testID="dev-location-tier">{`tier: ${status?.tier ?? '-'}`}</Text>
+          <Text testID="dev-location-regions">{`regions: ${status?.regions ?? 0}`}</Text>
+          <Text testID="dev-location-fix">
+            {lastFix === null
+              ? 'fix: none'
+              : `fix: ${lastFix.lat.toFixed(5)},${lastFix.lng.toFixed(5)} ±${Math.round(lastFix.acc)}m mock=${lastFix.mock}`}
+          </Text>
+          <Text testID="dev-location-region-events">
+            {`region events: ${regions.map((r) => `${r.event}:${r.id}`).join(' ') || 'none'}`}
+          </Text>
+          <Text testID="dev-location-visits">{`visits: ${visits.join(', ') || 'none'}`}</Text>
+          <View style={styles.buttons}>
+            <PillButton
+              variant="secondary"
+              size="sm"
+              testID="dev-location-start"
+              label="Start trip day"
+              onPress={() => setOn(true)}
+            />
+            <PillButton
+              variant="secondary"
+              size="sm"
+              testID="dev-location-stop"
+              label="Stop"
+              onPress={() => setOn(false)}
+            />
+            <PillButton
+              variant="secondary"
+              size="sm"
+              testID="dev-location-reload"
+              label="Reload JS"
+              onPress={() => (__DEV__ ? DevSettings.reload() : void Updates.reloadAsync())}
+            />
+            <PillButton
+              variant="secondary"
+              size="sm"
+              testID="dev-location-consent"
+              label="Visit consent"
+              onPress={() => setConsent('showing')}
+            />
+            <PillButton
+              variant="secondary"
+              size="sm"
+              testID="dev-location-always"
+              label="Offer Always"
+              onPress={() => void offerAlwaysUpgrade('first_encounter')}
+            />
+          </View>
+          <Text testID="dev-location-consent-answer">{`consent: ${consent}`}</Text>
+        </ScrollView>
+        {consent === 'showing' ? (
+          <VisitConsentSheet onAnswer={(granted) => setConsent(granted ? 'on' : 'off')} />
+        ) : null}
+      </View>
+    </Scaffold>
   );
 }
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
   container: { padding: 16, gap: 8 },
-  title: { fontSize: 22, fontWeight: '700' },
   buttons: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
 });

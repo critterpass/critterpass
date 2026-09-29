@@ -8,6 +8,15 @@ export function useSharedValue<T>(initial: T): { value: T } {
   return { value: initial };
 }
 
+export function makeMutable<T>(initial: T): { value: T } {
+  return { value: initial };
+}
+
+/** The gesture detector's animated event hook: no native events reach it under Jest. */
+export function useEvent(): () => void {
+  return () => {};
+}
+
 export function useFrameCallback(): { setActive: (active: boolean) => void } {
   return { setActive: () => {} };
 }
@@ -34,5 +43,10 @@ export function withTiming<T>(value: T): T {
   return value;
 }
 
-const Animated = { View };
+// react-native-gesture-handler wraps its detector with this at import time.
+function createAnimatedComponent<C>(component: C): C {
+  return component;
+}
+
+const Animated = { View, createAnimatedComponent };
 export default Animated;

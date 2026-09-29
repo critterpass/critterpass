@@ -1,10 +1,13 @@
 import { Canvas, Group, Path } from '@shopify/react-native-skia';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { runOnJS, useFrameCallback, useSharedValue } from 'react-native-reanimated';
 
 import { buildGeckoDrawing } from './critter-gecko-ops';
 import { buildGeckoPaintOps } from './critter-skia-paint';
+import { Scaffold, Stack, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
+import { Card } from '@/ui/cards/Card';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -99,62 +102,60 @@ export default function CritterSpikeScreen() {
   }, [drawing, progress]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text accessibilityRole="header" style={styles.title}>
-        Skia critter painter spike
-      </Text>
-      <Text style={styles.body}>
-        Re-tessellates every ink stroke's brush ribbon on each animation frame (no image caching) —
-        the worst-case draw-on cost this spike measures against the reference devices in the ADR.
-      </Text>
+    <Scaffold edges={['top', 'bottom']}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text accessibilityRole="header" variant="h3">
+          Skia critter painter spike
+        </Text>
+        <Text variant="bodySm">
+          Re-tessellates every ink stroke's brush ribbon on each animation frame (no image caching)
+          — the worst-case draw-on cost this spike measures against the reference devices in the
+          ADR.
+        </Text>
 
-      <Canvas style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}>
-        <Group transform={[{ scale: CANVAS_SIZE / 100 }]}>
-          {paintOps.map((op, i) => (
-            <Path
-              key={i}
-              path={op.path}
-              color={op.color}
-              opacity={op.opacity}
-              blendMode={op.blendMode}
-            />
-          ))}
-        </Group>
-      </Canvas>
+        <Canvas style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}>
+          <Group transform={[{ scale: CANVAS_SIZE / 100 }]}>
+            {paintOps.map((op, i) => (
+              <Path
+                key={i}
+                path={op.path}
+                color={op.color}
+                opacity={op.opacity}
+                blendMode={op.blendMode}
+              />
+            ))}
+          </Group>
+        </Canvas>
 
-      <View style={styles.buttonRow}>
-        <Button
-          title={running ? 'Drawing on…' : 'Play draw-on'}
-          onPress={startDrawOn}
-          disabled={running}
-        />
-      </View>
+        <View style={styles.buttonRow}>
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label={running ? 'Drawing on…' : 'Play draw-on'}
+            onPress={startDrawOn}
+            disabled={running}
+          />
+        </View>
 
-      <View style={styles.resultBox}>
-        <Text style={styles.resultLabel}>native committed fps (1 s window)</Text>
-        <Text style={styles.resultValue}>{nativeFps.toFixed(1)}</Text>
-      </View>
-      <View style={styles.resultBox}>
-        <Text style={styles.resultLabel}>JS paint-op rebuild (last frame)</Text>
-        <Text style={styles.resultValue}>{lastBuildMs.toFixed(2)} ms</Text>
-        <Text style={styles.body}>{paintOps.length} filled polygons this frame</Text>
-      </View>
-    </ScrollView>
+        <Card>
+          <Stack gap="4">
+            <Text variant="eyebrow">native committed fps (1 s window)</Text>
+            <Text variant="rowTitle">{nativeFps.toFixed(1)}</Text>
+          </Stack>
+        </Card>
+        <Card>
+          <Stack gap="4">
+            <Text variant="eyebrow">JS paint-op rebuild (last frame)</Text>
+            <Text variant="rowTitle">{lastBuildMs.toFixed(2)} ms</Text>
+            <Text variant="bodySm">{paintOps.length} filled polygons this frame</Text>
+          </Stack>
+        </Card>
+      </ScrollView>
+    </Scaffold>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flexGrow: 1, gap: 12, padding: 16, alignItems: 'flex-start' },
-  title: { fontSize: 20, fontWeight: '600' },
-  body: { fontSize: 14 },
   buttonRow: { alignSelf: 'flex-start' },
-  resultBox: {
-    gap: 4,
-    borderRadius: 8,
-    borderWidth: StyleSheet.hairlineWidth,
-    padding: 12,
-    alignSelf: 'stretch',
-  },
-  resultLabel: { fontSize: 12, textTransform: 'uppercase', opacity: 0.6 },
-  resultValue: { fontSize: 24, fontWeight: '700' },
 });

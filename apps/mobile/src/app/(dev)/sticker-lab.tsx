@@ -1,11 +1,13 @@
 import { FlashList } from '@shopify/flash-list';
 import { useCallback, useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { runOnJS, useFrameCallback, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import type { DexCell } from '@/ui/sticker/dex';
 import { DEX_CELLS, HERO_CELLS } from '@/ui/sticker/dex';
 import { getDefaultSkiaCache, Sticker } from '@/ui/sticker/Sticker';
+import { Scaffold, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -67,7 +69,7 @@ function HeroDrawOn({ testId, cell }: { testId: string; cell: DexCell }) {
         size={HERO_SIZE}
         drawProgress={progress}
       />
-      <Button testID={testId} title="draw on" onPress={replay} />
+      <PillButton variant="secondary" size="sm" testID={testId} label="draw on" onPress={replay} />
     </View>
   );
 }
@@ -100,47 +102,49 @@ export default function StickerLabScreen() {
   );
 
   return (
-    <View style={styles.container}>
-      <Text accessibilityRole="header" style={styles.title}>
-        Sticker lab ({DEX_CELLS.length} critters)
-      </Text>
-      <Text testID="sticker-lab-fps" style={styles.readout}>
-        fps: {fps.toFixed(1)}
-      </Text>
-      <Text testID="sticker-lab-cache-bytes" style={styles.readout}>
-        cache: {(cacheBytes / (1024 * 1024)).toFixed(2)} MB
-      </Text>
+    <Scaffold edges={['top', 'bottom']}>
+      <View style={styles.container}>
+        <Text accessibilityRole="header" variant="h3">
+          Sticker lab ({DEX_CELLS.length} critters)
+        </Text>
+        <Text testID="sticker-lab-fps" variant="monoData">
+          fps: {fps.toFixed(1)}
+        </Text>
+        <Text testID="sticker-lab-cache-bytes" variant="monoData">
+          cache: {(cacheBytes / (1024 * 1024)).toFixed(2)} MB
+        </Text>
 
-      <View style={styles.heroRow}>
-        <HeroDrawOn testId="sticker-lab-hero-1" cell={HERO_CELLS[0]} />
-        <HeroDrawOn testId="sticker-lab-hero-2" cell={HERO_CELLS[1]} />
-      </View>
+        <View style={styles.heroRow}>
+          <HeroDrawOn testId="sticker-lab-hero-1" cell={HERO_CELLS[0]} />
+          <HeroDrawOn testId="sticker-lab-hero-2" cell={HERO_CELLS[1]} />
+        </View>
 
-      <Button
-        testID="sticker-lab-closed-eyes-storm"
-        title={closedEyesStorm ? 'eyes: closed (storm on)' : 'eyes: open'}
-        onPress={() => setClosedEyesStorm((value) => !value)}
-      />
+        <PillButton
+          variant="secondary"
+          size="sm"
+          testID="sticker-lab-closed-eyes-storm"
+          label={closedEyesStorm ? 'eyes: closed (storm on)' : 'eyes: open'}
+          onPress={() => setClosedEyesStorm((value) => !value)}
+        />
 
-      {/* `testID` on the wrapping View, not `<FlashList>` itself: FlashList's own prop types don't
+        {/* `testID` on the wrapping View, not `<FlashList>` itself: FlashList's own prop types don't
           mention `testID` at all (checked its .d.ts), so there's no guarantee it forwards one to a
           real native accessibility identifier — a plain View reliably does. */}
-      <View testID="sticker-lab-grid" style={styles.grid}>
-        <FlashList
-          data={DEX_CELLS}
-          numColumns={GRID_COLUMNS}
-          keyExtractor={(item) => item.kind}
-          renderItem={renderItem}
-        />
+        <View testID="sticker-lab-grid" style={styles.grid}>
+          <FlashList
+            data={DEX_CELLS}
+            numColumns={GRID_COLUMNS}
+            keyExtractor={(item) => item.kind}
+            renderItem={renderItem}
+          />
+        </View>
       </View>
-    </View>
+    </Scaffold>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, gap: 8, padding: 16 },
-  title: { fontSize: 18, fontWeight: '600' },
-  readout: { fontSize: 13, opacity: 0.7 },
   heroRow: { flexDirection: 'row', gap: 16 },
   heroColumn: { alignItems: 'center', gap: 4 },
   grid: { flex: 1 },

@@ -6,7 +6,7 @@ import { Canvas, Group, Image, Path } from '@shopify/react-native-skia';
 import { drawAsImage } from '@shopify/react-native-skia';
 import type { SkImage } from '@shopify/react-native-skia';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -19,6 +19,8 @@ import Animated, {
 
 import { buildGeckoDrawing } from './critter-gecko-ops';
 import { buildGeckoPaintOps } from './critter-skia-paint';
+import { Scaffold, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -172,55 +174,59 @@ export default function CritterdexGridSpikeScreen() {
   }, [listImpl]);
 
   return (
-    <View style={styles.container}>
-      <Text accessibilityRole="header" style={styles.title}>
-        Critterdex grid spike ({GRID_ROWS * GRID_COLUMNS} cells)
-      </Text>
-      <View style={styles.buttonRow}>
-        <Button
-          title={`list: ${listImpl}`}
-          onPress={() => setListImpl((v) => (v === 'flash-list' ? 'legend-list' : 'flash-list'))}
-        />
-        <Button
-          title={liveCells ? 'cells: live redraw' : 'cells: cached image'}
-          onPress={() => setLiveCells((v) => !v)}
-        />
-        <Button title="scroll to end" onPress={scrollToEnd} />
-      </View>
-      <Text style={styles.body}>native committed fps: {nativeFps.toFixed(1)}</Text>
+    <Scaffold edges={['top', 'bottom']}>
+      <View style={styles.container}>
+        <Text accessibilityRole="header" variant="h3">
+          Critterdex grid spike ({GRID_ROWS * GRID_COLUMNS} cells)
+        </Text>
+        <View style={styles.buttonRow}>
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label={`list: ${listImpl}`}
+            onPress={() => setListImpl((v) => (v === 'flash-list' ? 'legend-list' : 'flash-list'))}
+          />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label={liveCells ? 'cells: live redraw' : 'cells: cached image'}
+            onPress={() => setLiveCells((v) => !v)}
+          />
+          <PillButton variant="secondary" size="sm" label="scroll to end" onPress={scrollToEnd} />
+        </View>
+        <Text variant="bodySm">native committed fps: {nativeFps.toFixed(1)}</Text>
 
-      <View style={styles.idleRow}>
-        {cachedImage &&
-          Array.from({ length: IDLE_CRITTER_COUNT }, (_, i) => (
-            <IdleBobbingCritter key={i} image={cachedImage} index={i} />
-          ))}
-      </View>
+        <View style={styles.idleRow}>
+          {cachedImage &&
+            Array.from({ length: IDLE_CRITTER_COUNT }, (_, i) => (
+              <IdleBobbingCritter key={i} image={cachedImage} index={i} />
+            ))}
+        </View>
 
-      {listImpl === 'flash-list' ? (
-        <FlashList
-          ref={flashListRef}
-          data={gridData}
-          numColumns={GRID_COLUMNS}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-        />
-      ) : (
-        <LegendList
-          ref={legendListRef}
-          data={gridData}
-          numColumns={GRID_COLUMNS}
-          keyExtractor={(item: GridCell) => item.id}
-          renderItem={renderItem}
-        />
-      )}
-    </View>
+        {listImpl === 'flash-list' ? (
+          <FlashList
+            ref={flashListRef}
+            data={gridData}
+            numColumns={GRID_COLUMNS}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+          />
+        ) : (
+          <LegendList
+            ref={legendListRef}
+            data={gridData}
+            numColumns={GRID_COLUMNS}
+            keyExtractor={(item: GridCell) => item.id}
+            renderItem={renderItem}
+          />
+        )}
+      </View>
+    </Scaffold>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, gap: 8, padding: 16 },
-  title: { fontSize: 18, fontWeight: '600' },
-  body: { fontSize: 13 },
   buttonRow: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
   idleRow: { flexDirection: 'row', gap: 8, height: CELL_SIZE * 0.6 },
   idleCritter: { width: CELL_SIZE * 0.6, height: CELL_SIZE * 0.6 },
