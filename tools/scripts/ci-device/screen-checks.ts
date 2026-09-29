@@ -43,7 +43,7 @@ export const LIMITS = {
   keyboardMin: 0.2,
   keyboardMax: 0.45,
   /** A band above the keyboard this tall or taller is reported. */
-  bandMin: 0.012,
+  bandMin: 0.02,
   /** Share of rows (in the content area) with anything on them, below which a screen is empty. */
   emptyRows: 0.24,
 } as const;
@@ -211,14 +211,14 @@ export function findKeyboardBand(image: RgbaImage): ScreenFinding | null {
 }
 
 export function findEmptyScreen(image: RgbaImage): ScreenFinding | null {
-  const keyboard = keyboardTop(image);
-  const end = keyboard === null ? LIMITS.bottom : keyboard / image.height;
-  const rows = rowsBetween(image, 0.1, end, 300);
+  // With the keyboard up a field has focus: the screen is doing its job however bare it looks.
+  if (keyboardTop(image) !== null) return null;
+  const rows = rowsBetween(image, 0.1, LIMITS.bottom, 300);
   const background = dominant(rows.flatMap((y) => rowSamples(image, y, 0.02, 0.98, 40)));
   let occupied = 0;
   for (const y of rows) {
     const samples = rowSamples(image, y, 0.02, 0.98, 200);
-    const ink = samples.filter((c) => colourDistance(c, background) > 16).length;
+    const ink = samples.filter((c) => colourDistance(c, background) > 10).length;
     if (ink >= 2) occupied += 1;
   }
   const share = occupied / rows.length;

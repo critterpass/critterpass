@@ -116,6 +116,12 @@ describe('screen checks', { timeout: 60_000 }, () => {
       expect(codes(load('empty-vote-showdown'))).toEqual(['EMPTY_SCREEN']);
     });
 
+    it('leaves a bare screen alone while the keyboard is up (a field has focus)', () => {
+      const code = load('join-code-gboard');
+      expect(keyboardTop(code)).not.toBeNull();
+      expect(codes(code)).toEqual([]);
+    });
+
     it('passes a busy screen and flags the same screen blank', () => {
       expect(findEmptyScreen(busyScreen())).toBeNull();
       const empty = blank(400, 860, BG);
