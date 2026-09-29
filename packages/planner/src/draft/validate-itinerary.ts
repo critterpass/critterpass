@@ -6,12 +6,12 @@
  * budget. Chronotype windows only make a plan tight, never invalid. Violations carry their day so
  * the repair pass can redo only the days that need it.
  */
-import type { DraftItem, Itinerary } from '@cp/domain';
+import type { DraftDay, DraftItem, Itinerary } from '@cp/domain';
 
 import { checkFeasibility } from '../feasibility/check';
 import type { FeasibilityItem } from '../feasibility/types';
 import { itineraryCostPpMinor } from './metrics';
-import { baseWindow, dayWindow, minuteOfDate } from './schedule-day';
+import { baseWindow, dayWindow, LUNCH_BEFORE_MIN, minuteOfDate } from './schedule-day';
 import type { DraftPoi, TravelMatrix, TripFrame } from './types';
 
 export const DRAFT_VIOLATION_CODES = [
@@ -25,6 +25,7 @@ export const DRAFT_VIOLATION_CODES = [
   'FLIGHT_BUFFER',
   'DIETARY',
   'DUPLICATE_PLACE',
+  'EXTRA_MEAL',
   'MUST_DO_MISSING',
   'OVER_BUDGET',
 ] as const;
@@ -100,11 +101,17 @@ function dayChecks(
   const poi = item.poi_id === null ? undefined : input.pois.get(item.poi_id);
   if (poi === undefined) return [at('UNKNOWN_POI')];
   if (closedOn(input.frame, poi, date) === 'poi') out.push(at('CLOSED_ON_DATE'));
-  if (item.kind === 'meal' && !input.frame.diets.every((diet) => suitsDiet(poi.tags, diet))) {
+  if (
+    item.kind === 'meal' &&
+    item.must_do_id === null &&
+    !input.frame.diets.every((diet) => suitsDiet(poi.tags, diet))
+  ) {
     out.push(at('DIETARY'));
   }
-  if (seen.has(poi.id)) out.push(at('DUPLICATE_PLACE'));
-  seen.add(poi.id);
+  if (item.kind === 'activity') {
+    if (seen.has(poi.id)) out.push(at('DUPLICATE_PLACE'));
+    seen.add(poi.id);
+  }
   const start = minuteOfDate(new Date(item.starts_at), date, input.frame.tz);
   const end = minuteOfDate(new Date(item.ends_at), date, input.frame.tz);
   const window = dayWindow(input.frame, dayIndex);
@@ -112,6 +119,27 @@ function dayChecks(
     const base = baseWindow(input.frame);
     const inBase = start >= base.startMin && end <= base.endMin;
     out.push(at(inBase ? 'FLIGHT_BUFFER' : 'DAY_OVERRUN'));
+  }
+  return out;
+}
+
+/** One lunch and one dinner a day: a second meal in the same stretch is one too many. */
+function extraMeals(day: DraftDay, tz: string): DraftViolation[] {
+  const slots = new Set<string>();
+  const out: DraftViolation[] = [];
+  for (const item of day.items) {
+    if (item.kind !== 'meal') continue;
+    const slot =
+      minuteOfDate(new Date(item.starts_at), day.date, tz) < LUNCH_BEFORE_MIN ? 'lunch' : 'dinner';
+    if (slots.has(slot)) {
+      out.push({
+        code: 'EXTRA_MEAL',
+        dayNo: day.day_no,
+        stableId: item.stable_id,
+        ...(item.poi_id === null ? {} : { poiId: item.poi_id }),
+      });
+    }
+    slots.add(slot);
   }
   return out;
 }
@@ -125,6 +153,7 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
   const dateIndex = new Map(input.frame.dates.map((date, index) => [date, index]));
   for (const day of input.itinerary.days) {
     const dayIndex = dateIndex.get(day.date) ?? day.day_no - 1;
+    violations.push(...extraMeals(day, input.frame.tz));
     for (const item of day.items) {
       dayOf.set(item.stable_id, day.day_no);
       violations.push(...dayChecks(input, item, day.day_no, dayIndex, day.date, seen));

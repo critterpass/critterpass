@@ -5,10 +5,9 @@
  * suit every diet in the crew. Places closed on every trip date never make a list. The guide sees
  * only these ids, so it cannot pick a place we do not know.
  */
-import { nextOpen, openAt } from '@cp/domain';
-
 import { closedOn, suitsDiet } from './validate-itinerary';
-import { dayWindow, instantAt } from './schedule-day';
+import { ceilGrid, dayWindow } from './schedule-day';
+import { spansOn } from './sequence';
 import type { DraftPoi, TripFrame } from './types';
 
 /** Taste tag → place categories and tags it points at. */
@@ -57,17 +56,16 @@ export interface CandidatePoolsInput {
   readonly tastes: Readonly<Record<string, number>>;
 }
 
+/** A place can go on a day when a whole visit fits inside both its hours and the day's window. */
 function openOnDay(poi: DraftPoi, frame: TripFrame, index: number): boolean {
   const date = frame.dates[index] as string;
   if (closedOn(frame, poi, date) === 'poi') return false;
-  if (poi.hours === null) return true;
   const window = dayWindow(frame, index);
-  if (window.endMin - window.startMin < 60) return false;
-  const from = instantAt(date, window.startMin, poi.tz);
-  const to = instantAt(date, window.endMin - 60, poi.tz);
-  if (openAt(poi.hours, poi.tz, from)) return true;
-  const next = nextOpen(poi.hours, poi.tz, from);
-  return next !== null && next.getTime() <= to.getTime();
+  return spansOn(poi.hours, date).some(
+    (span) =>
+      Math.max(window.startMin, ceilGrid(span.start)) + ceilGrid(poi.durationMin) <=
+      Math.min(window.endMin, span.end),
+  );
 }
 
 function tasteScore(poi: DraftPoi, tastes: Readonly<Record<string, number>>): number {

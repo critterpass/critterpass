@@ -36,11 +36,24 @@ export {
   GRID_MIN,
   instantAt,
   LUNCH,
+  LUNCH_BEFORE_MIN,
+  mealSlotAt,
   minuteOfDate,
   scheduleDay,
   stopPriceMinor,
   type ScheduleDayInput,
 } from './schedule-day';
+export {
+  bestOrder,
+  MAX_SEARCHED_STOPS,
+  mealSlots,
+  mealsInWindow,
+  spansOn,
+  visitOrder,
+  type PlannedOrder,
+  type SequenceInput,
+} from './sequence';
+export { straightLineMatrix } from './travel';
 export type {
   Chronotype,
   CostBands,

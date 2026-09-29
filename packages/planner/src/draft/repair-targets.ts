@@ -47,6 +47,8 @@ const TEXT: Readonly<Record<DraftViolationCode, (name: string) => string>> = {
   FLIGHT_BUFFER: (name) => `${name} is too close to the flight. Use fewer stops on this day.`,
   DIETARY: (name) => `${name} does not suit the crew's diets. Pick a meal place that does.`,
   DUPLICATE_PLACE: (name) => `${name} is already on another day. Pick a different place.`,
+  EXTRA_MEAL: (name) =>
+    `${name} is a second meal in the same stretch. Keep one lunch and one dinner.`,
   MUST_DO_MISSING: (name) => `${name} is a must-do and is missing. Fit it into this day.`,
   OVER_BUDGET: () => 'The trip is over budget. Pick cheaper stops on this day.',
 };
@@ -54,7 +56,7 @@ const TEXT: Readonly<Record<DraftViolationCode, (name: string) => string>> = {
 function nameOf(pois: ReadonlyMap<string, DraftPoi>, poiId: string | undefined): string {
   if (poiId === undefined) return 'This stop';
   const poi = pois.get(poiId);
-  return poi === undefined ? 'This stop' : `${poi.name} (${poi.id})`;
+  return poi === undefined ? 'This stop' : poi.name;
 }
 
 export function repairTargets(input: RepairTargetsInput): RepairTarget[] {
@@ -126,6 +128,7 @@ const DROPPED_CODES: ReadonlySet<DraftViolationCode> = new Set([
   'FLIGHT_BUFFER',
   'DIETARY',
   'DUPLICATE_PLACE',
+  'EXTRA_MEAL',
 ]);
 
 export interface DropResult {

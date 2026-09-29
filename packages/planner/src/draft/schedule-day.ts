@@ -39,6 +39,14 @@ const DEFAULT_DURATION: Readonly<Record<string, number>> = {
   shopping: 90,
 };
 
+/** A meal starting before this local minute is the day's lunch (a late one after 14:30). */
+export const LUNCH_BEFORE_MIN = 17 * 60;
+
+/** Lunch when the day has had none and it is not yet evening, else dinner (waiting for it). */
+export function mealSlotAt(startMin: number, lunched: boolean): typeof LUNCH | typeof DINNER {
+  return startMin < LUNCH_BEFORE_MIN && !lunched ? LUNCH : DINNER;
+}
+
 export function defaultDurationMin(category: string): number {
   return DEFAULT_DURATION[category] ?? 90;
 }
@@ -108,7 +116,7 @@ export function stopPriceMinor(
   if (bands === null) return 0;
   const factor = poi.priceLevel === null ? 1 : (LEVEL_FACTOR[poi.priceLevel] ?? 1);
   if (kind === 'activity') return Math.round((bands.funPpDayMinor / 2) * factor);
-  const share = startMin < 15 * 60 ? 0.35 : 0.45;
+  const share = startMin < LUNCH_BEFORE_MIN ? 0.35 : 0.45;
   return Math.round(bands.foodPpDayMinor * share * factor);
 }
 
@@ -141,12 +149,14 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
   const items: DraftItem[] = [];
   let at = input.window.startMin;
   let previous: string | null = null;
+  let lunched = false;
   input.choices.forEach((choice, index) => {
     const poi = input.pois.get(choice.poiId);
     const travelMin = previous === null ? 0 : (input.travel(previous, choice.poiId) ?? 0);
     let start = ceilGrid(at + travelMin);
     if (choice.kind === 'meal') {
-      const meal = start < 15 * 60 ? LUNCH : DINNER;
+      const meal = mealSlotAt(start, lunched);
+      if (meal === LUNCH) lunched = true;
       start = Math.max(start, meal.startMin);
     }
     if (poi !== undefined) start = openFrom(poi, input.date, start);

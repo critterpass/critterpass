@@ -16,6 +16,7 @@ promptfoo's `tests` format). They gate every change to prompts, personas, tools 
 | `tips` | 10 Home tip lines (`src/prompts/tips/evals.yaml`): one line under 120 characters naming the place, every number and month from the detector's facts, nothing from an event name that tries to instruct |
 | `pitch` | 10 guide pitches (`src/prompts/pitch/evals.yaml`): a streamed headline, two or three reasons and a quote from the model, every number and month from the pitch tools (grounding 100 %), no budget or supplier names, nothing obeyed from text in the data |
 | `guest-brief` | 15 guest-guide briefs (`src/prompts/guest-brief/evals.yaml`): 3 places searched on the allow-list (recorded Tavily) and 12 with a poisoned page; facts cite only fetched allow-listed pages, numbers only from their page, every line keeps the schema, and no injected instruction gets through |
+| `draft` | 30 golden crews across the six guide cities, 20 redraft requests and 10 injection cases (`draft/golden`), run through the real drafting pipeline (outline, day plans, repair, redraft, summary line): validator-clean after repair, no invented ids, words-only prose, must-dos kept, planted instructions inert; at least 90% of drafts validator-clean on the first pass. Recordings in `draft/fixtures`, one per case, keyed by call |
 
 ## Running
 

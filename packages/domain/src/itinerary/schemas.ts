@@ -30,11 +30,7 @@ export type LockedReason = z.infer<typeof lockedReasonSchema>;
  * names; `slot_available` is set only from a supplier's availability answer; `estimate` marks a
  * price from our cost bands.
  */
-export const DRAFT_ITEM_FLAGS = [
-  'closed_on_date',
-  'slot_available',
-  'estimate',
-] as const;
+export const DRAFT_ITEM_FLAGS = ['closed_on_date', 'slot_available', 'estimate'] as const;
 export const draftItemFlagSchema = z.enum(DRAFT_ITEM_FLAGS);
 export type DraftItemFlag = z.infer<typeof draftItemFlagSchema>;
 

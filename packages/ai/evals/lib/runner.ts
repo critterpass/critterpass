@@ -17,6 +17,7 @@ import {
   type MetricReport,
 } from './compliance';
 import { isPromptSuite, runPromptSuiteCases } from './prompt-suites';
+import { DRAFT_SUITE, runDraftSuite } from '../draft/suite';
 import { runCase, type EvalMode, type EvalOutput, type Pipeline } from './provider';
 import { EVALS_DIR, loadSuite, type Assertion, type CaseVars, type EvalCase } from './suite';
 
@@ -237,6 +238,17 @@ export async function runSuite(name: string, options: RunOptions): Promise<Suite
   const threshold = loadThresholds(options.root)[options.mode][name];
   if (threshold === undefined) throw new Error(`no ${options.mode} threshold for suite ${name}`);
   if (name === COMPLIANCE_SUITE) return runComplianceSuite(options, threshold);
+  if (name === DRAFT_SUITE) {
+    return runDraftSuite(
+      {
+        mode: options.mode,
+        ...(options.apiKey === undefined ? {} : { apiKey: options.apiKey }),
+        ...(options.baseURL === undefined ? {} : { baseURL: options.baseURL }),
+        ...(options.record === undefined ? {} : { record: options.record }),
+      },
+      threshold,
+    );
+  }
   const cases: CaseReport[] = [];
   if (isPromptSuite(name)) {
     cases.push(

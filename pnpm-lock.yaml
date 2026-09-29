@@ -931,6 +931,9 @@ importers:
       '@cp/domain':
         specifier: workspace:*
         version: link:../domain
+      '@cp/planner':
+        specifier: workspace:*
+        version: link:../planner
       zod:
         specifier: 'catalog:'
         version: 4.6.5

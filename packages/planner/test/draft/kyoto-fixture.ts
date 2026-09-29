@@ -51,11 +51,17 @@ export const P = {
   arashiyama: poi(5, 'Arashiyama Bamboo Grove', 'nature', { priceLevel: 0 }),
   kiyomizu: poi(6, 'Kiyomizu-dera', 'temple_shrine', { hours: hours('06:00', '18:00') }),
   museum: poi(7, 'Kyoto National Museum', 'museum', { hours: hours('09:30', '17:00') }),
-  ramen: poi(8, 'Menya Inoichi', 'food', { tags: ['vegetarian_options'] }),
+  ramen: poi(8, 'Menya Inoichi', 'food', {
+    tags: ['vegetarian_options'],
+    hours: hours('11:00', '15:00'),
+  }),
   shojin: poi(9, 'Shigetsu', 'food', { tags: ['vegan'], priceLevel: 3 }),
   yakitori: poi(10, 'Torito', 'food', { tags: [] }),
   tofu: poi(11, 'Okutan', 'food', { tags: ['vegetarian'] }),
   philosopher: poi(12, "Philosopher's Path", 'nature', { priceLevel: 0 }),
+  pontocho: poi(13, 'Pontocho Alley', 'nightlife', { hours: hours('17:00', '23:30') }),
+  kichi: poi(14, 'Kichi Kichi Omurice', 'food', { hours: hours('17:30', '21:30') }),
+  nijo: poi(15, 'Nijo Castle', 'museum', { hours: hours('08:45', '17:00') }),
 } as const;
 
 export const POIS: ReadonlyMap<string, DraftPoi> = new Map(Object.values(P).map((p) => [p.id, p]));

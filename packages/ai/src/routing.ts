@@ -106,7 +106,10 @@ interface RouteSpec {
 }
 
 type SpecOptions = Partial<
-  Pick<RouteSpec, 'output' | 'delivery' | 'cacheLayers' | 'vision' | 'webSearch' | 'temperature'>
+  Pick<
+    RouteSpec,
+    'output' | 'delivery' | 'cacheLayers' | 'vision' | 'webSearch' | 'temperature' | 'thinking'
+  >
 >;
 
 /**
@@ -140,7 +143,7 @@ const pro = (
   rest: SpecOptions = {},
 ): RouteSpec => {
   const delivery = rest.delivery ?? 'call';
-  const thinking: Thinking = delivery === 'stream' ? 'disabled' : 'enabled';
+  const thinking: Thinking = delivery === 'stream' ? 'disabled' : (rest.thinking ?? 'enabled');
   return {
     tier: 'pro',
     caller,
@@ -155,6 +158,17 @@ const pro = (
       ? { temperature: rest.temperature }
       : {}),
   };
+};
+
+/**
+ * The drafting calls a crew waits on (outline, day plans, repairs, redrafts): structured replies
+ * without thinking, sampled cool, so a draft lands in seconds and the same inputs plan alike. The
+ * planner validates every reply, so the time thinking would buy goes to its repair pass instead.
+ */
+const PLANNING_CALL: SpecOptions = {
+  output: 'structured',
+  thinking: 'disabled',
+  temperature: 0.3,
 };
 
 const GUIDE_STREAM: SpecOptions = {
@@ -188,9 +202,9 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'receipt.parse': fast('M', 4096, { output: 'structured', vision: true }),
   'menu.parse': fast('M', 4096, { output: 'structured', delivery: 'stream', vision: true }),
   'guide.chat_escalation': pro('C', 2048, 'low', GUIDE_STREAM),
-  'draft.day': pro('D', 16_000, 'low', { output: 'structured' }),
-  'draft.repair': pro('D', 8192, 'low', { output: 'structured' }),
-  'redraft.day': pro('D', 16_000, 'high', { output: 'structured' }),
+  'draft.day': pro('D', 4096, 'low', PLANNING_CALL),
+  'draft.repair': pro('D', 4096, 'low', PLANNING_CALL),
+  'redraft.day': pro('D', 4096, 'high', { ...PLANNING_CALL, temperature: 0.5 }),
   'proposal.personal': pro('D', 8192, 'low', { output: 'structured' }),
   'disruption.plan_b': pro('R', 8192, 'low', { output: 'structured' }),
   'recap.narration': pro('B', 16_000, 'low', { output: 'structured' }),
@@ -209,7 +223,10 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
     cacheLayers: PLAIN_LAYERS,
   }),
   'guest.guide': pro('C', 2048, 'low', { ...GUIDE_STREAM, webSearch: true }),
-  'draft.skeleton': pro('D', 32_000, 'high', { output: 'structured' }),
+  'draft.skeleton': pro('D', 8192, 'high', PLANNING_CALL),
+  'draft.skeleton_fast': fast('D', 8192, { ...PLANNING_CALL, cacheLayers: JOB_LAYERS }),
+  'draft.summary': fast(null, 256),
+  'draft.closures': fast(null, 2048, { output: 'structured' }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {

@@ -45,6 +45,10 @@ export const AI_ROUTES = [
   'guest.guide',
   // The itinerary skeleton.
   'draft.skeleton',
+  // Drafting on the fast tier: the skeleton when routed there, the summary line, closure extraction.
+  'draft.skeleton_fast',
+  'draft.summary',
+  'draft.closures',
   // Jev 1.13 typed decisions, each with a fast-tier twin.
   'guide.chime_in_classifier',
   'help.intent_classifier',
