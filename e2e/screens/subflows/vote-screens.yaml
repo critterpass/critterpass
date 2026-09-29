@@ -61,18 +61,25 @@ appId: app.critterpass.dev
 - takeScreenshot: ${PREFIX}-3b-3-pitch
 - tapOn:
     id: 'pitch-add'
-# Back to Home by edge swipes (a link to Home keeps the pushed screens). Stop on Home itself: one
-# more back there leaves the app on Android. The board sits below the fold.
-- repeat:
-    while:
-      notVisible:
-        id: 'dev-tools-entry'
-    times: 4
-    commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-      - waitForAnimationToEnd
+# Back to Home the way a person would: the place page's back, then a tap on the search sheet's
+# scrim. Edge swipes overshoot on Android, where a back on Home leaves the app.
+- extendedWaitUntil:
+    visible:
+      id: 'guest-back'
+    timeout: 15000
+- tapOn:
+    id: 'guest-back'
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 10000
+# The scrim shows above the sheet's top edge.
+- tapOn:
+    point: 50%, 6%
+- extendedWaitUntil:
+    notVisible:
+      id: 'place-search-field'
+    timeout: 10000
 - scrollUntilVisible:
     element:
       id: 'destination-board'
