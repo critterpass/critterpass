@@ -304,6 +304,8 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'must_do.prompted': ['setup_task'],
   'room_swap.requested': ['setup_task'],
   'lottery.reminder_due': ['lottery_deadline'],
+  // Drafting: the organiser's draft is ready (pushed only when the app is in the background).
+  'draft.ready': ['draft_ready'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

@@ -7,6 +7,7 @@
  */
 
 import { SETUP_QUEUE_DESCRIPTIONS, setupQueueSpecs } from '../setup/queues';
+import { DRAFT_QUEUE_DESCRIPTIONS, draftQueueSpecs } from '../itinerary/queues';
 
 /** pg-boss queue policies (pg-boss `QueuePolicy`). */
 export type QueuePolicy =
@@ -272,6 +273,7 @@ export const QUEUES = {
     cron: { expr: '0 5 * * *', tz: 'Asia/Singapore' },
   }),
   ...setupQueueSpecs(DEFAULT_QUEUE_SPEC),
+  ...draftQueueSpecs(DEFAULT_QUEUE_SPEC),
 } as const satisfies Record<string, QueueSpec>;
 
 export type QueueName = keyof typeof QUEUES;
@@ -331,6 +333,7 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'poll.remind': 'Reminds voters who have not voted before a poll closes',
   'ai.pitch': "Refreshes guide pitches for the places in crews' decks when their fares move",
   ...SETUP_QUEUE_DESCRIPTIONS,
+  ...DRAFT_QUEUE_DESCRIPTIONS,
 };
 
 export type JobPayloadRedactor = (data: unknown) => unknown;

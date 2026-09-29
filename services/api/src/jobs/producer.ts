@@ -15,6 +15,7 @@ import {
   CHAT_PHOTO_THUMBNAIL_QUEUE,
   CHAT_VOICE_TRANSCODE_QUEUE,
   COUNTDOWN_RECOMPUTE_QUEUE,
+  DRAFT_QUEUES,
   INBOX_FANOUT_QUEUE,
   notificationKeysForEvent,
   notifyRouteSingletonKey,
@@ -84,6 +85,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       INBOX_FANOUT_QUEUE,
       COUNTDOWN_RECOMPUTE_QUEUE,
       ...Object.values(SETUP_QUEUES),
+      ...Object.values(DRAFT_QUEUES),
       'cost.recompute',
     ]) {
       if ((await boss.getQueue(queue)) === null) {
