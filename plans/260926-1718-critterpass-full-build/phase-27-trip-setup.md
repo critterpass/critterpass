@@ -1,7 +1,7 @@
 ---
 phase: 27
 title: Trip setup: dates, budgets, rooms, must-dos
-status: pending
+status: in_progress
 depends_on: [10, 16, 20, 24, 25, 26]
 wave: 13
 features: [F-069, F-070, F-071, F-072, F-073]
@@ -143,6 +143,7 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Steps: 1. Drizzle tables per data-model §3.4 + deltas. 2. Hand SQL: RLS ENABLE+FORCE, grants per role, `app.recompute_availability(trip)`, `app.recompute_budget_band(trip)` (k≥4, bucket+jitter, band edge rule), `app.my_budget_max(trip)`. 3. Exclude C3 tables from publication; revoke from `guide_reader`. 4. zod schemas in domain.
 - Tests: `pnpm --filter @cp/db test -- permissions/budget-max-private permissions/calendar-days permissions/trip-budget-aggregates`
 - Done when: owner cannot SELECT own `budget_max_private` as `app_user`; organiser/other member/`guide_reader`/`powersync_repl` read 0 rows of every C3 table; band never equals the lowest max across a property test of 1,000 random crews; band, dots, under-all and infeasible flag all absent when k < 4; inference property tests for k = 2 and k = 3 (organiser knows own max, observes every output of the aggregate, band route and lock responses) cannot bound the other maxes more tightly than "set / not set".
+- Status: done — ec95597b
 
 ### T2 — Rooms, must-dos, dietary schema + sync streams
 - Goal: remaining setup tables and stream entries.
@@ -150,6 +151,7 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Steps: 1. `room_plans`, `room_assignments`, `must_dos`, `dietary_profiles` (X), `participant_dietary_flags` (derived with consent). 2. RLS: members read, organiser writes rooms, owner writes must-dos. 3. Append tables to `trip` stream. 4. PowerSync local replica test.
 - Tests: `pnpm --filter @cp/db test -- permissions/must-dos permissions/room-assignments permissions/dietary`; `pnpm --filter @cp/db test:sync`
 - Done when: non-participant reads 0 rows; member cannot write another member's must-do; dietary detail unreadable by peers, flags readable only with consent.
+- Status: done — ddf2d255
 
 ### T3 — Date-window engine
 - Goal: pure best-window + no-fit option generation.
@@ -157,6 +159,7 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Steps: 1. Sliding window over per-date counts (free/maybe/busy/unknown), variable length, horizon ≤ 6 months. 2. Score = full-crew > season score > fare delta; tie-break earliest. 3. No-fit: best partial (missing members + which must-dos/highlights they'd miss), best full-crew alternative with price delta + season note, ask-first candidate when blocker has only `maybe` days. 4. Output `date_window_options` rows.
 - Tests: `pnpm --filter @cp/planner test -- setup/windows`
 - Done when: fixtures reproduce 3c-3 (Apr 2–9 all 6) and 3c-4 (3 options, ask-Dev pick) outputs; 16-member, multi-month and empty-data cases covered.
+- Status: done — 0b0d3cf3
 
 ### T4 — Budget band & room pricing math
 - Goal: pure budget breakdown/knob validation and per-room split.
@@ -164,6 +167,7 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Steps: 1. `breakdown(target, estimates)` → FLIGHTS/STAYS/FOOD/FUN summing exactly to target (largest-remainder). 2. `isUnderAll(target, band)`; feasibility vs cheapest plan. 3. Trait clustering (couples, chronotype, sleep) → room proposal. 4. Per-room split with unequal prices, nights per stay.
 - Tests: `pnpm --filter @cp/cost-engine test -- budget rooms`
 - Done when: bars always sum to target in minor units; 3c-6 fixture groups light sleepers/early risers/night owls; odd crew sizes produce a valid plan or a capacity error.
+- Status: done — e8f6871e
 
 ### T5 — Availability & calendar commands, OAuth, sync jobs
 - Goal: server side of F-070.
@@ -171,6 +175,7 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Steps: 1. Handlers with policy + idempotent op_id; `set_availability` writes `calendar_days` then enqueues debounced recompute. 2. Google/Microsoft OAuth (PKCE, encrypted tokens, revoke on disconnect) + freeBusy → date-level reduction. 3. Ask flow: guide DM via P13 gateway + N-05 push with quick actions; reply intent; timeout job. 4. `trip_setup:` events via `rt_outbox`.
 - Tests: `pnpm --filter @cp/api test -- commands/setup/availability`; `pnpm --filter @cp/worker test -- jobs/calendar`
 - Done when: integration test proves organiser receives only counts/resolution; OAuth tokens never logged (log redaction test); stale nudge fires once per member per stale period.
+- Status: done — 3daea28f
 
 ### T6a — Budget commands, band route, private read
 - Goal: server side of F-071.
@@ -178,6 +183,7 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Steps: 1. Budget submit converts via FX snapshot, emits count-only event, debounced recompute. 2. `lock_budget_target`: k ≥ 4 rejects above band (`STATE_INVALID{over_band}`), k < 4 no cross-member check; rate limit 3/h, 10/day per trip. 3. Own-fit read (self only). 4. k < 4 → band route `K_ANON_UNAVAILABLE`.
 - Tests: `pnpm --filter @cp/api test -- commands/setup/budget`
 - Done when: no response body, event, log line or `rt_outbox` payload contains a max (grep-assert test on captured outputs); 4th lock attempt in an hour → `RATE_LIMITED`; k = 2 and k = 3 crews get no band, no infeasible notice, and own-fit only for the caller.
+- Status: done — 62d38f9b
 
 ### T6b — Rooms, must-do commands + fit-check job
 - Goal: server side of F-072–F-073.
@@ -185,6 +191,7 @@ Done when: organiser and members complete all four steps on iOS and Android agai
 - Steps: 1. Rooms with base_version check; prices from P16 cost bands into `cost_components`. 2. Must-dos + must-do prompt push. 3. `ai.fit_check`: planner fit + Haiku note; lottery → reminders only.
 - Tests: `pnpm --filter @cp/api test -- commands/setup/rooms commands/setup/must-dos`; `pnpm --filter @cp/worker test -- jobs/ai/fit-check`
 - Done when: fit status transitions visible on `trip_setup:`; must-do prompt push is sent to every participant once; concurrent room edit → rebase reject.
+- Status: done — 58f51b34
 
 ### T7 — cp-calendar native module + calendar connect UI
 - Goal: on-device date-level busy reduction and connection flows.
