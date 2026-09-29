@@ -29,10 +29,13 @@ import { Text } from '@/ui/text/Text';
 import { Halftone } from '@/ui/textures/halftone';
 import { degrees, makeStyles, useTheme } from '@/ui/theme';
 
+import type { PassDraft } from '@cp/domain';
+
 import { ensureDraft } from '../flow-controller/draft-store';
 import { ONBOARDING_ROUTES } from '../flow-controller/steps';
 import { useTrackStep } from '../flow-controller/track';
 import { PASSPORT_BOB, TOKEK_POP, useOnboardingLoop } from '../motion';
+import { OnboardingPassCard } from '../pass-view';
 import { FLOATERS, Floater } from './Floaters';
 import {
   COVER_H,
@@ -84,6 +87,7 @@ const useStyles = makeStyles((th) => ({
   tokek: { position: 'absolute', top: -58, alignSelf: 'center' },
   page: {
     position: 'absolute',
+    overflow: 'hidden',
     backgroundColor: th.color.paper.base,
   },
   footer: {
@@ -123,6 +127,7 @@ export function SplashScreen() {
   }, [mode]);
   // One opening per visit: a second tap mid-swing does nothing; the splash coming back re-arms it.
   const opening = useRef(false);
+  const [printed, setPrinted] = useState<PassDraft | null>(null);
   useEffect(() => {
     if (focused) opening.current = false;
   }, [focused]);
@@ -145,6 +150,9 @@ export function SplashScreen() {
       goToName();
       return;
     }
+    // Page one's card, printed on the page as it lands, so the page is never bare while the
+    // name page mounts.
+    setPrinted(ensureDraft());
     passport.start(goToName);
   };
 
@@ -174,6 +182,10 @@ export function SplashScreen() {
     };
   });
   const chromeStyle = useAnimatedStyle(() => ({ opacity: passport.chrome.value }));
+  // The card prints over the last 40% of the page's travel.
+  const printStyle = useAnimatedStyle(() => ({
+    opacity: Math.min(1, Math.max(0, (passport.grow.value - 0.6) / 0.4)),
+  }));
   const sheenStyle = useAnimatedStyle(() => ({
     opacity: sheen.value < 0 ? 0 : 0.22,
     transform: [
@@ -206,7 +218,13 @@ export function SplashScreen() {
             style={[styles.page, pageStyle]}
             pointerEvents="none"
             testID="onboarding-first-page"
-          />
+          >
+            {printed === null ? null : (
+              <Animated.View style={[{ width: to.width }, printStyle]}>
+                <OnboardingPassCard draft={printed} />
+              </Animated.View>
+            )}
+          </Animated.View>
           <Animated.View style={coverStyle} testID="onboarding-cover">
             <View
               style={styles.cover}
