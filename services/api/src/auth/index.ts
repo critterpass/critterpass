@@ -27,6 +27,7 @@ import {
   createOtpRouter,
   createRedisOtpDeliveryTracker,
   type OtpChannelAdapter,
+  type OtpChannelFailure,
 } from './otp/router';
 import type { OtpChannel } from './otp/countries';
 import {
@@ -72,6 +73,8 @@ export interface AuthModuleDeps {
   readonly fixedCodes?: FixedCodeNumbers | undefined;
   /** Told about every fixed-code sign-in attempt (the api logs it). */
   readonly onFixedCode?: ((use: { kind: FixedCodeKind; number: string }) => void) | undefined;
+  /** Every OTP channel send that failed, with the provider's reason (no phone number). */
+  readonly onOtpChannelFailure?: ((failure: OtpChannelFailure) => void) | undefined;
   readonly jwksRotationIntervalSeconds?: number | undefined;
   readonly rateLimit?: AuthConfigDeps['rateLimit'];
   readonly attestation: AttestationConfig;
@@ -144,6 +147,7 @@ export function createAuthModule(deps: AuthModuleDeps): AuthModule {
     adapters: deps.otpAdapters,
     tracker: createRedisOtpDeliveryTracker(deps.redis),
     switches,
+    onChannelFailure: deps.onOtpChannelFailure,
   });
 
   const { hook: verificationCreateAfter, consumePendingVerificationId } =

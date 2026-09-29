@@ -14,7 +14,9 @@ import {
 } from '../../src/auth/otp/countries';
 import {
   createOtpRouter,
+  describeChannelFailure,
   type OtpChannelAdapter,
+  type OtpChannelFailure,
   type OtpDeliveryTracker,
 } from '../../src/auth/otp/router';
 
@@ -208,6 +210,64 @@ describe('createOtpRouter channel order', () => {
     await expect(router.sendOTP(context)).rejects.toMatchObject({
       code: 'SUPPLIER_UNAVAILABLE',
       detail: { channel: 'prelude' },
+    });
+  });
+
+  it('reports each failed channel with the provider reason before falling through', async () => {
+    const failures: OtpChannelFailure[] = [];
+    const router = createOtpRouter({
+      adapters: {
+        telegram: {
+          send: () =>
+            Promise.reject(
+              new DomainError('SUPPLIER_UNAVAILABLE', {
+                channel: 'telegram',
+                status: 400,
+                detail: 'PHONE_NUMBER_INVALID',
+              }),
+            ),
+        },
+        prelude: {
+          send: () =>
+            Promise.reject(
+              new DomainError('SUPPLIER_UNAVAILABLE', {
+                channel: 'prelude',
+                status: 200,
+                detail: 'blocked',
+              }),
+            ),
+        },
+      },
+      tracker: noopTracker(),
+      switches: allOn,
+      onChannelFailure: (failure) => failures.push(failure),
+    });
+    await expect(router.sendOTP(context)).rejects.toMatchObject({ code: 'SUPPLIER_UNAVAILABLE' });
+    expect(failures).toEqual([
+      {
+        channel: 'telegram',
+        code: 'SUPPLIER_UNAVAILABLE',
+        status: 400,
+        reason: 'PHONE_NUMBER_INVALID',
+      },
+      { channel: 'prelude', code: 'SUPPLIER_UNAVAILABLE', status: 200, reason: 'blocked' },
+    ]);
+  });
+
+  it('masks phone numbers in a reported provider reason', () => {
+    const error = new DomainError('SUPPLIER_UNAVAILABLE', {
+      channel: 'prelude',
+      status: 422,
+      detail: '{"code":"invalid_phone_number","message":"+84 901 234 567 is not a valid number"}',
+    });
+    const failure = describeChannelFailure('prelude', error);
+    expect(failure.reason).toBe(
+      '{"code":"invalid_phone_number","message":"… is not a valid number"}',
+    );
+    expect(describeChannelFailure('whatsapp', new TypeError('fetch failed'))).toEqual({
+      channel: 'whatsapp',
+      code: 'TypeError',
+      reason: 'fetch failed',
     });
   });
 
