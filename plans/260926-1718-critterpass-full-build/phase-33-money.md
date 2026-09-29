@@ -1,7 +1,7 @@
 ---
 phase: 33
 title: Money: ledger, expenses, receipt scan, settle up, budget
-status: pending
+status: in_progress
 depends_on: [10, 12, 13, 27]
 wave: 14
 features: [F-105, F-106, F-107, F-108, F-109]
@@ -132,6 +132,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. Drizzle schema per data-model §3.8/§3.9. 2. Append-only trigger on `ledger_entries`, `expense_edits`. 3. RLS + grants for `app_user`, `app_system`, `guide_reader` (none), `powersync_repl` (published columns only). 4. `app.reveal_payout` + audit. 5. Publication + stream queries.
 - Tests: `pnpm --filter @cp/db test -- permissions/expenses permissions/ledger-entries permissions/payments permissions/payout-methods permissions/receipts permissions/stickers`
 - Done when: outsider/ex-member/member/organiser/anonymous matrix passes; UPDATE on `ledger_entries` fails for every role; `app.pseudonymise_user` succeeds only as `app_system` and leaves balances sum-zero; payout details unreadable except via reveal by the open payment's payer.
+- Status: done — 7e58e2a9
 
 ### T2 — Ledger engine: splits, itemised allocation, FX, ledger derivation
 - Goal: pure deterministic money core for every split mode.
@@ -139,6 +140,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. `computeShares(amount, currency, mode, shares)` for equal/weights/fixed/items, largest-remainder allocation with stable order (payer absorbs last minor unit). 2. Itemised: items per assignee, service/tax/tip/discount pro-rata by item subtotal. 3. Convert to crew currency via P12 FX snapshot. 4. `deriveEntries(expense)` and `reverseEntries(prev)`. 5. `balances(entries)` with sum-zero assertion.
 - Tests: `pnpm --filter @cp/cost-engine test -- ledger` (golden: 3i-1 nets +186.40/+41.00/0/−41.00/−92.10/−94.30; 3i-3 Jordan $1.50, others $13.34 at 15,835 IDR/USD; 3i-4 $11.37; property tests: shares sum = amount for random inputs)
 - Done when: all golden and property tests pass; zero float arithmetic (lint rule `no-float-money` passes).
+- Status: done — e465158d
 
 ### T3 — Expense commands, crew-chat expense message, guide tools
 - Goal: add/edit/delete expenses offline-first with realtime fan-out.
@@ -146,6 +148,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. Handlers: authz (participant; creator/payer/organiser edit), validate, write expense + shares + entries + `expense_edits` in one tx, `rt_outbox` events, `messages(type=expense)` row. 2. `base_version` conflict handling. 3. Settlement currency change + `money.rerate` job. 4. Register `balances_read`, `propose_expense` executors (numbers from engine). 5. `/sync/upload` path returns 2xx + `cmd_results` on validation reject.
 - Tests: `pnpm --filter @cp/api test -- money/expenses` (Testcontainers Postgres: idempotent replay same op_id; edit by non-payer rejected; delete writes reversal; offline upload reject returns 2xx)
 - Done when: tests pass; a second client receives `crew_money:` event within 1 s in the local docker-compose stack.
+- Status: done — 025248c8
 
 ### T4 — Settlement: netting, payment lifecycle, Settled Tokek grant
 - Goal: settle plan + payment state machine + one-timestamp crew reward.
@@ -153,6 +156,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. Optimal min-transfer DP (≤16 members) + greedy fallback >16 (never reached: seat cap 16). 2. Payment state machine table-driven. 3. Rate limits (nudge 1/pair/24 h, remind 1/24 h) → `STATE_INVALID{rate_limited}`. 4. `confirm_paid`: when all balances zero for the trip → grant `stickers(kind=settled)` to all participants in the same tx, `reward.granted{server_ts}`, ALWAYS push. 5. Auto-confirm job.
 - Tests: `pnpm --filter @cp/cost-engine test -- settle`; `pnpm --filter @cp/api test -- money/settle`
 - Done when: 3i-1 nets produce exactly 3 transfers; reward granted once with identical `granted_at` for 6 users under concurrent final confirms (two racing commands → one grant); state-machine table covers every transition.
+- Status: done — 32276b34
 
 ### T4b — Payout methods: EMVCo QR, encrypted storage, reveal, push actions
 - Goal: payee payout details stored encrypted and revealed only to the open payment's payer.
@@ -160,6 +164,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. EMVCo QR payload builder (PayNow SG, PromptPay TH, VietQR VN, DuitNow MY) with CRC16 tests against published spec examples. 2. Encrypted payout storage (P08 envelope helpers). 3. Reveal route over `app.reveal_payout` + audit. 4. `cp.money` action handlers registered with P11 router.
 - Tests: `pnpm --filter @cp/domain test -- payout`; `pnpm --filter @cp/api test -- money/payout`
 - Done when: CRC16 matches spec examples for all 4 schemes; reveal audited and refused for non-payer; push action marks paid via the same command.
+- Status: done — bf679cf3
 
 ### T5 — `cp-ocr` native module (iOS + Android)
 - Goal: on-device OCR lines with boxes, quality signals, barcode and document scan.
@@ -174,6 +179,7 @@ Done when: the 3i-1…3i-6 screens run against real data on iOS and Android (off
 - Steps: 1. Presign (`purpose=receipt`) + `POST /v1/receipts` → job. 2. Sonnet structured output keyed by line id (server-OCR fallback path: Sonnet vision transcribes lines to `s{index}` first, then the same parse); code-side number re-parse and cross-check; lines-vs-total check; quality classification merge. 3. Suggestions: presence from plan item attendees, consented dietary flags via `guide_reader`-safe `crew_profiles`, pro-rata service; reason strings from templates. 4. `receipts.parsed` update → synced. 5. `commit_receipt` → expense(split_mode=items). 6. Fair-use bump. 7. Purge rule registration.
 - Tests: `pnpm --filter @cp/api test -- money/receipts`; `pnpm --filter @cp/ai eval -- receipt-parse` (grader: every amount appears in its cited OCR line; totals reconcile)
 - Done when: eval pass rate ≥ 95 % on line amounts for the fixture set (Thai cases via server-OCR path); any hallucinated amount is rejected by code (seeded test).
+- Status: done — ccf70b13 (pipeline, recorded DeepSeek fixtures and a 14-case eval merged behind `money.receipts`, off by default; the eval gate on the founder's photographed receipt set is still pending, and the flag stays off until it passes)
 
 ### T7 — Money home, history, expense detail (3i-1)
 - Goal: Wallet tab with BOOKINGS | MONEY segment and the Balances screen.

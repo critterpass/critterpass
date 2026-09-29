@@ -6,6 +6,7 @@
  * Later features append rows.
  */
 
+import { MONEY_QUEUE_DESCRIPTIONS, moneyQueueSpecs } from '../money/queues';
 import { SETUP_QUEUE_DESCRIPTIONS, setupQueueSpecs } from '../setup/queues';
 
 /** pg-boss queue policies (pg-boss `QueuePolicy`). */
@@ -272,6 +273,7 @@ export const QUEUES = {
     cron: { expr: '0 5 * * *', tz: 'Asia/Singapore' },
   }),
   ...setupQueueSpecs(DEFAULT_QUEUE_SPEC),
+  ...moneyQueueSpecs(DEFAULT_QUEUE_SPEC),
 } as const satisfies Record<string, QueueSpec>;
 
 export type QueueName = keyof typeof QUEUES;
@@ -331,6 +333,7 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'poll.remind': 'Reminds voters who have not voted before a poll closes',
   'ai.pitch': "Refreshes guide pitches for the places in crews' decks when their fares move",
   ...SETUP_QUEUE_DESCRIPTIONS,
+  ...MONEY_QUEUE_DESCRIPTIONS,
 };
 
 export type JobPayloadRedactor = (data: unknown) => unknown;

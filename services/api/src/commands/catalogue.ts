@@ -14,6 +14,7 @@ import { registerDeviceCommands } from './device';
 import { registerHomeCommands } from './home';
 import { registerInboxCommands } from './inbox';
 import { registerLiveMapCommands } from './live-map';
+import { registerMoneyCommands } from './money';
 import { registerOnboardingCommands } from './onboarding';
 import { registerPollCommands } from './polls';
 import { reportContentCommand } from './report-content';
@@ -37,6 +38,7 @@ export function createAppCommandRegistry(): CommandRegistry {
   registerLiveMapCommands(commands);
   registerPollCommands(commands);
   registerSetupCommands(commands);
+  registerMoneyCommands(commands);
   commands.register(undoGuideActionCommand);
   commands.register(reportContentCommand);
   commands.register(approveOpsActionCommand);

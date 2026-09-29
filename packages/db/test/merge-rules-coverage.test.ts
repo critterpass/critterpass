@@ -28,9 +28,13 @@ afterAll(async () => {
 describe('merge rule coverage', () => {
   it('gives every public table with a user_id column a registered merge rule', async () => {
     const { rows } = await db.pool.query<{ table_name: string }>(
-      `SELECT DISTINCT table_name FROM information_schema.columns
-       WHERE table_schema = 'public' AND column_name = 'user_id'
-       ORDER BY table_name`,
+      // Base tables only: a view (member_balances) holds no rows of its own to merge.
+      `SELECT DISTINCT c.table_name FROM information_schema.columns c
+         JOIN information_schema.tables t
+           ON t.table_schema = c.table_schema AND t.table_name = c.table_name
+       WHERE c.table_schema = 'public' AND c.column_name = 'user_id'
+         AND t.table_type = 'BASE TABLE'
+       ORDER BY c.table_name`,
     );
     expect(rows.length).toBeGreaterThan(0);
     for (const row of rows) {

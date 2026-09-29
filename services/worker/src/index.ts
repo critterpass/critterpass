@@ -43,6 +43,7 @@ import {
 import { tipsEventHook, tipsJobs } from './jobs/tips';
 import { pitchJobs, registerPitchTipCandidates } from './jobs/pitches';
 import { registerSetupPushes, setupJobs } from './jobs/setup';
+import { moneyJobs, registerMoneyPushes } from './jobs/money';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';
@@ -157,6 +158,7 @@ const jobs: AnyJobDefinition[] = [
   ...tipsJobs(env, aiSwitches.assertAiRoute, llmObservability),
   ...pitchJobs(env, aiSwitches.assertAiRoute, llmObservability),
   ...setupJobs(env, { pool, assertRouteOn: aiSwitches.assertAiRoute, telemetry: llmObservability }),
+  ...moneyJobs(env, { pool, assertRouteOn: aiSwitches.assertAiRoute, telemetry: llmObservability }),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&
@@ -221,6 +223,7 @@ registerInviteNotifications();
 registerChatNotifications();
 registerLiveMapNotifications();
 registerSetupPushes();
+registerMoneyPushes();
 
 // Domain events → PostHog (consent-gated, idempotent on the event id).
 let analyticsExport: ExportLoop | undefined;

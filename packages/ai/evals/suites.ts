@@ -17,6 +17,7 @@ export const SUITES = [
   'availability-ask',
   'ask-reply',
   'fit-note',
+  'receipt-parse',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -33,6 +34,7 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/src\/prompts\/availability-ask\//u, ['availability-ask', 'ask-reply']],
   [/^packages\/ai\/src\/prompts\/ask-reply\//u, ['ask-reply']],
   [/^packages\/ai\/src\/prompts\/fit-note\//u, ['fit-note']],
+  [/^packages\/ai\/(src\/routes|evals)\/receipt-parse\//u, ['receipt-parse']],
   [/^packages\/ai\/evals\/lib\/setup-suites\.ts$/u, ['availability-ask', 'ask-reply', 'fit-note']],
   [/^packages\/ai\/evals\/lib\/guest-brief-suite\.ts$/u, ['guest-brief']],
   [/^packages\/ai\/evals\/lib\/stream-suites\.ts$/u, ['pitch', 'guest-brief']],

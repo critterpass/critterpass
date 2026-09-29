@@ -18,6 +18,7 @@ import type pg from 'pg';
 import type { Logger } from 'pino';
 
 import { registerCostToolExecutors } from '../cost/tool-executors';
+import { registerMoneyToolExecutors } from '../money/tools';
 import { placeDetailsTool, placesSearchTool } from '../places/tool-executors';
 import { registerTravelDataToolExecutors } from '../travel-data/tool-executors';
 
@@ -88,5 +89,6 @@ export function registerApiToolExecutors(
     placeDetailsTool(pool, context.uid, tripOf(context), input),
   );
   registerTravelDataToolExecutors(registry, pool);
+  registerMoneyToolExecutors(registry, pool);
   registerCostToolExecutors(registry, pool);
 }

@@ -65,6 +65,13 @@ export const FLAG_CATALOG = {
     description:
       'Show "Connect Outlook Calendar" in trip setup (free/busy only); off until the Microsoft app registration and publisher verification exist.',
   },
+  'money.receipts': {
+    kind: 'boolean',
+    default: false,
+    owner: 'trip',
+    description:
+      'Receipt scan and itemised split (3i-3, 3i-4); off until the receipt eval passes on the photographed receipt set. Manual expenses work regardless.',
+  },
   'setup.budget_dots': {
     kind: 'boolean',
     default: false,
