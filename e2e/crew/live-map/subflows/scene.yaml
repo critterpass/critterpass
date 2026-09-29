@@ -8,6 +8,16 @@ appId: app.critterpass.dev
     visible:
       id: '${READY}'
     timeout: 20000
+# A scene with a meet-up draws its guide from the sticker cache; wait for the image itself.
+- runFlow:
+    when:
+      visible:
+        id: 'live-guide-tokek'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'live-guide-tokek-image'
+          timeout: 15000
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: ${SHOT}

@@ -16,7 +16,7 @@ import { PressScale } from '@/ui/press/PressScale';
 import { Row, Stack, Text } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
-import { GuideImage } from './guide-image';
+import { GUIDE_IMAGE_PT, GuideImage } from './guide-image';
 
 const useStyles = makeStyles((th) => ({
   // The guide hops beside the pin on its right, so the whole pin grows right from its anchor.
@@ -105,7 +105,7 @@ export function MeetupPin({
         </Row>
       </PressScale>
       <Animated.View style={hop}>
-        <GuideImage guide={guide} size={44} />
+        <GuideImage guide={guide} size={GUIDE_IMAGE_PT} />
       </Animated.View>
     </View>
   );

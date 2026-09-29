@@ -65,7 +65,7 @@ const PIN_WIDTH = 220;
 /** The meet-up pin with the guide beside it. */
 const MEETUP_WIDTH = 280;
 /** Layout key of the meet-up pin. */
- 
+
 export const MEETUP_KEY = 'meetup';
 /** Labels stay this far inside the screen's left and right edges. */
 const EDGE_INSET = 12;

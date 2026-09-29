@@ -20,6 +20,8 @@ import {
 export type GuidePngRenderer = (kind: string, sizePt: number) => Promise<Uint8Array>;
 
 const ART_VERSION = 'sticker-dev-1';
+/** Size of the guide beside the meet-up pin. */
+export const GUIDE_IMAGE_PT = 44;
 
 /** The app's sticker renderer and cache (the same PNGs `<Sticker>` caches). */
 export const renderGuidePng: GuidePngRenderer = async (kind, sizePt) => {
