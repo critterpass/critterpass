@@ -8,10 +8,6 @@ appId: app.critterpass.dev
     visible:
       id: 'final-split-open'
     timeout: 30000
-- scrollUntilVisible:
-    element:
-      id: 'final-split-open'
-    centerElement: true
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3b-6-final
 - tapOn:
