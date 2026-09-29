@@ -115,7 +115,7 @@ export function renderSweepFlow(scenario: Scenario, lang: string): string {
     '    env:',
     `      LANG: ${lang}`,
   ];
-  if (scenario.onboard) lines.push('- runFlow: subflows/onboard.yaml');
+  if (scenario.onboard) lines.push('- runFlow: ../../home/subflows/onboard.yaml');
   if (scenario.seed) {
     lines.push('- runFlow:', '    file: ../../_shared/seed-demo.yaml', '    env:');
     lines.push(`      SEED: ${scenario.seed}`);

@@ -125,7 +125,12 @@ appId: app.critterpass.dev
 - takeScreenshot: ${LANG}-3a-5-home-search-keyboard
 - tapOn:
     id: 'home-row-SIN'
-- hideKeyboard
+# On Android hideKeyboard with no keyboard open is a BACK press, which would leave Home base.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-3a-5-home
 - tapOn:
