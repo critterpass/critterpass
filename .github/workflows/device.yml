@@ -10,6 +10,14 @@
 # screen and sheet in English and Vietnamese, in compare mode, posted to a pull request or, without
 # one, to the "Nightly UI sweep" issue.
 name: device
+# Tells queued runs apart: mode, branch, pull request, platform and flows (GitHub cuts a long title).
+run-name: >-
+  ${{ github.event_name == 'pull_request'
+  && format('device flows · {0} · #{1} · ios', github.head_ref, github.event.pull_request.number)
+  || github.event_name == 'schedule' && 'device nightly sweep · main · ios'
+  || format('device {0} · {1}{2} · {3}{4}', inputs.preset == 'sweep' && 'sweep' || inputs.mode,
+  github.ref_name, inputs.pr && format(' · #{0}', inputs.pr) || '', inputs.platform,
+  inputs.flows && format(' · {0}', inputs.flows) || '') }}
 
 on:
   workflow_dispatch:
@@ -56,8 +64,12 @@ on:
   pull_request:
     types: [labeled, opened, synchronize, reopened]
 
+# A pull request's runs supersede each other; so does re-dispatching the same flows on a branch.
 concurrency:
-  group: device-${{ github.event.pull_request.number || github.run_id }}
+  group: >-
+    ${{ github.event_name == 'workflow_dispatch'
+    && format('device-{0}-{1}-{2}-{3}-{4}', github.ref_name, inputs.mode, inputs.platform, inputs.preset, inputs.flows)
+    || format('device-{0}', github.event.pull_request.number || github.run_id) }}
   cancel-in-progress: true
 
 permissions:
