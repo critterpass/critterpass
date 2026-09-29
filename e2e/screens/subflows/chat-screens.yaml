@@ -32,7 +32,7 @@ appId: app.critterpass.dev
     visible:
       id: 'home-header-crew'
     timeout: 15000
-# A crew of one has only the guide's hello: start one, switch Home to it and open its chat.
+# A crew of one has no messages yet: start one and open its chat.
 - tapOn:
     id: 'home-header-crew'
 - extendedWaitUntil:
@@ -58,22 +58,23 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'start-crew-done'
+# A new crew becomes the current one. Done can land on the crews sheet: choose it there.
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'crews-sheet'
+    commands:
+      - tapOn:
+          text: '(?i).*quiet crew.*'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'crews-sheet'
+          timeout: 10000
 - extendedWaitUntil:
     visible:
-      id: 'home-header-crew'
+      id: 'home-header-chat'
     timeout: 15000
-- tapOn:
-    id: 'home-header-crew'
-- extendedWaitUntil:
-    visible:
-      text: '(?i)quiet crew'
-    timeout: 30000
-- tapOn:
-    text: '(?i)quiet crew'
-- extendedWaitUntil:
-    notVisible:
-      id: 'crews-sheet'
-    timeout: 10000
 - tapOn:
     id: 'home-header-chat'
 - extendedWaitUntil:
