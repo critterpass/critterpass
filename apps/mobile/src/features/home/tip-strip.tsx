@@ -1,5 +1,5 @@
 /**
- * 3b-2's tip strip: one data-backed line from the place's guide, in their voice (Caveat) inside a
+ * 3b-2's tip strip: one data-backed line from the place's guide, in their voice (Mynerve) inside a
  * speech bubble. Tapping opens the place's destination page; a fling either way dismisses it for the
  * whole crew (`dismiss_tip`, queued offline) and it leaves at once. Hidden when there is no tip or
  * the user turned guide tips off; sponsored content never comes through here.

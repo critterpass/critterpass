@@ -12,9 +12,9 @@ export const FACE_METRICS: Readonly<
   Record<string, { readonly ascent: number; readonly descent: number; readonly glyphTop: number }>
 > = {
   Archivo: { ascent: 0.878, descent: 0.21, glyphTop: 1.059 },
-  Caveat: { ascent: 0.96, descent: 0.3, glyphTop: 0.89 },
   Geist: { ascent: 1.005, descent: 0.295, glyphTop: 1.082 },
   GeistMono: { ascent: 1.005, descent: 0.295, glyphTop: 1.076 },
+  Mynerve: { ascent: 0.93, descent: 0.38, glyphTop: 0.965 },
   NotoSansThai: { ascent: 1.061, descent: 0.45, glyphTop: 0.865 },
 };
 

@@ -7,7 +7,7 @@ const FONT_FAMILY_CSS_NAME: Record<string, string> = {
   archivo: 'Archivo',
   geist: 'Geist',
   geistMono: 'Geist Mono',
-  caveat: 'Caveat',
+  voice: 'Mynerve',
 };
 
 function cssFontFamily(logicalName: string): string {

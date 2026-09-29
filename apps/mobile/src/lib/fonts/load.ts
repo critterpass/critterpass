@@ -34,8 +34,7 @@ export const BUNDLED_FONT_FAMILIES: readonly string[] = [
   'GeistMono-400',
   'GeistMono-500',
   'GeistMono-700',
-  'Caveat-600',
-  'Caveat-700',
+  'Mynerve-400',
   'NotoSansThai-400',
   'NotoSansThai-900',
 ];

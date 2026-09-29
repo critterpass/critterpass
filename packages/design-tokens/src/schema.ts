@@ -21,7 +21,7 @@ const colorSchema = z
 const cubicBezierSchema = z.tuple([z.number(), z.number(), z.number(), z.number()]);
 const cornerSetSchema = z.tuple([z.number(), z.number(), z.number(), z.number()]);
 
-const fontFamilySchema = z.enum(['archivo', 'geist', 'geistMono', 'caveat']);
+const fontFamilySchema = z.enum(['archivo', 'geist', 'geistMono', 'voice']);
 const textTransformSchema = z.enum(['none', 'uppercase']);
 
 const dynamicTypeSchema = z.object({

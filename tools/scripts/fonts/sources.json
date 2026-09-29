@@ -14,6 +14,15 @@
       "U+1EA0-1EF9",
       "U+20AB"
     ],
+    "vietnameseLetters": [
+      "U+0102-0103",
+      "U+0110-0111",
+      "U+0128-0129",
+      "U+0168-0169",
+      "U+01A0-01A1",
+      "U+01AF-01B0",
+      "U+1EA0-1EF9"
+    ],
     "punctuation": [
       "U+2013-2014",
       "U+2018-201A",
@@ -29,7 +38,8 @@
   },
   "$rangeNotes": {
     "mrz": "ICAO 9303 A-Z 0-9 '<' is already covered by the 'latin' range for every Latin family; no extra codepoints needed.",
-    "currency": "S$, US$ and Rp are plain Latin letters + digits (already in 'latin'); ¥ and £ come from 'latin1Supplement'; ₫ (dong) is in 'vietnamese'; ₩ (won), € (euro) and ฿ (baht sign) are 'currencyExtra'."
+    "currency": "S$, US$ and Rp are plain Latin letters + digits (already in 'latin'); ¥ and £ come from 'latin1Supplement'; ₫ (dong) is in 'vietnamese'; ₩ (won), € (euro) and ฿ (baht sign) are 'currencyExtra'.",
+    "vietnameseLetters": "'vietnamese' minus the dong sign: the letters a face must cover to set Vietnamese text without mixing fonts. Mynerve has no ₫, which falls back per glyph like any other missing symbol."
   },
   "families": {
     "archivo": {
@@ -46,7 +56,10 @@
         "url": "https://raw.githubusercontent.com/Omnibus-Type/Archivo/211127690e8ff106c36c935f7e5e697114cff103/OFL.txt"
       },
       "variable": true,
-      "axes": { "wdth": [62, 66, 70, 78, 100], "wght": [700, 800, 900] },
+      "axes": {
+        "wdth": [62, 66, 70, 78, 100],
+        "wght": [700, 800, 900]
+      },
       "instanceNaming": "Archivo-W{wdth}-{wght}",
       "unicodeRanges": [
         "latin",
@@ -146,6 +159,35 @@
       "keepFeatures": ["tnum", "case"],
       "targets": ["mobile", "web"]
     },
+    "mynerve": {
+      "displayName": "Mynerve",
+      "license": "OFL-1.1",
+      "licenseFileName": "OFL-Mynerve.txt",
+      "repo": "https://github.com/google/fonts",
+      "commit": "23e54b51ddffbc7713c583748e3bd86f62b1fa4a",
+      "licenseSource": {
+        "url": "https://raw.githubusercontent.com/google/fonts/23e54b51ddffbc7713c583748e3bd86f62b1fa4a/ofl/mynerve/OFL.txt"
+      },
+      "variable": false,
+      "staticSources": [
+        {
+          "weight": 400,
+          "url": "https://raw.githubusercontent.com/google/fonts/23e54b51ddffbc7713c583748e3bd86f62b1fa4a/ofl/mynerve/Mynerve-Regular.ttf",
+          "sha256": "1844706b0020e74f1cc38810266f8c45741bd0d9b7beeb05a584caee11dbc63e"
+        }
+      ],
+      "unicodeRanges": [
+        "latin",
+        "latin1Supplement",
+        "latinExtendedA",
+        "vietnamese",
+        "punctuation",
+        "currencyExtra"
+      ],
+      "criticalRanges": ["vietnameseLetters"],
+      "keepFeatures": ["tnum", "case"],
+      "targets": ["mobile", "web"]
+    },
     "caveat": {
       "displayName": "Caveat",
       "license": "OFL-1.1",
@@ -160,7 +202,9 @@
         "url": "https://raw.githubusercontent.com/google/fonts/5571d84c0d8c70ec1af4f64072d8c5cf1e4e9643/ofl/caveat/OFL.txt"
       },
       "variable": true,
-      "axes": { "wght": [600, 700] },
+      "axes": {
+        "wght": [600]
+      },
       "instanceNaming": "Caveat-{wght}",
       "unicodeRanges": [
         "latin",
@@ -171,7 +215,8 @@
         "currencyExtra"
       ],
       "keepFeatures": ["tnum", "case"],
-      "targets": ["mobile", "web"]
+      "targets": ["maps"],
+      "$comment": "Map place-name labels only (tools/maps/build-glyphs.ts); the app and web use Mynerve for the guide voice."
     },
     "instrumentSerif": {
       "displayName": "Instrument Serif",
@@ -219,7 +264,10 @@
         "url": "https://raw.githubusercontent.com/google/fonts/8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5/ofl/notosansthai/OFL.txt"
       },
       "variable": true,
-      "axes": { "wdth": [100], "wght": [400, 900] },
+      "axes": {
+        "wdth": [100],
+        "wght": [400, 900]
+      },
       "instanceNaming": "NotoSansThai-{wght}",
       "unicodeRanges": ["thai", "thaiLatinDigitsPunct"],
       "criticalRanges": ["thai"],

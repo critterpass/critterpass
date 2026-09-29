@@ -355,7 +355,7 @@ exports[`guest guide page draws the place facts, the locals as hints and the bri
                     [
                       {
                         "color": "#ffd84a",
-                        "fontFamily": "Caveat-600",
+                        "fontFamily": "Mynerve-400",
                         "fontSize": 20,
                         "fontStyle": "normal",
                         "letterSpacing": 0,

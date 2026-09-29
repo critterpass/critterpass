@@ -44,8 +44,8 @@ const bodyBase: BaseTypeStyle = {
 };
 
 const voiceBase: BaseTypeStyle = {
-  fontFamily: 'caveat',
-  fontWeight: 600,
+  fontFamily: 'voice',
+  fontWeight: 400,
   lineHeightMultiplier: 1.1,
   condensed: false,
 };
@@ -139,23 +139,39 @@ describe('fontFor — body-class Geist variant', () => {
   });
 });
 
-describe('fontFor — Caveat (guide voice)', () => {
-  it('renders Caveat normally for Latin and Vietnamese (glyphs are missing only for Thai/CJK)', () => {
+describe('fontFor: guide voice', () => {
+  it('renders Latin in Mynerve at the token line height', () => {
     expect(fontFor(voiceBase, 'en')).toEqual({
-      fontFamily: 'Caveat-600',
+      fontFamily: 'Mynerve-400',
       fontStyle: 'normal',
       sizeMultiplier: 1,
       lineHeightMultiplier: 1.1,
       condensedUpper: false,
     });
-    expect(fontFor(voiceBase, 'vi').fontFamily).toBe('Caveat-600');
   });
 
-  it.each(['th', 'ja', 'zh-Hans', 'ko'] as const)(
-    'falls back to Geist 500 italic for %s ("plain text for guide")',
+  it('keeps Vietnamese in Mynerve, which covers every Vietnamese letter', () => {
+    expect(fontFor(voiceBase, 'vi')).toEqual(fontFor(voiceBase, 'en'));
+    expect(fontFor(voiceBase, 'vi-VN').fontFamily).toBe('Mynerve-400');
+  });
+
+  it('follows the token when its line height changes', () => {
+    expect(fontFor({ ...voiceBase, lineHeightMultiplier: 1.2 }, 'vi').lineHeightMultiplier).toBe(
+      1.2,
+    );
+  });
+
+  it('falls back to Noto Sans Thai in italic for Thai, which Mynerve lacks', () => {
+    const resolved = fontFor(voiceBase, 'th');
+    expect(resolved.fontFamily).toBe('NotoSansThai-400');
+    expect(resolved.fontStyle).toBe('italic');
+  });
+
+  it.each(['ja', 'zh-Hans', 'ko'] as const)(
+    'leaves %s to the OS face in italic (CJK is never bundled)',
     (locale) => {
       const resolved = fontFor(voiceBase, locale);
-      expect(resolved.fontFamily).toBe('Geist-500');
+      expect(resolved.fontFamily).toBe('system');
       expect(resolved.fontStyle).toBe('italic');
     },
   );

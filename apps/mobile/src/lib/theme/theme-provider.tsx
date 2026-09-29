@@ -16,7 +16,7 @@ export interface ThemeSettings {
   readonly contrast: Contrast;
   /** OS font scale clamped to `MAX_FONT_SCALE`; text components apply per-variant damping. */
   readonly fontScale: number;
-  /** Swap the Caveat guide voice for Geist italic. */
+  /** Swap the Mynerve guide voice for Geist italic. */
   readonly plainGuideText: boolean;
 }
 

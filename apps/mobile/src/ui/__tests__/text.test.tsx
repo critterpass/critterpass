@@ -154,7 +154,7 @@ describe('Text', () => {
     expect(flat(title.getByTestId('t')).fontSize).toBe(16);
   });
 
-  it('resolves the face per script: Archivo width steps, system CJK, Caveat voice', async () => {
+  it('resolves the face per script: Archivo width steps, system CJK, Mynerve voice', async () => {
     const latin = await renderText(
       <Text variant="h1" testID="h1">
         Bali
@@ -177,7 +177,7 @@ describe('Text', () => {
         Hi
       </Text>,
     );
-    expect(flat(voice.getByTestId('v')).fontFamily).toBe('Caveat-600');
+    expect(flat(voice.getByTestId('v')).fontFamily).toBe('Mynerve-400');
   });
 
   it('swaps the guide voice for Geist italic under "plain text for guide"', async () => {
