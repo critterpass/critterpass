@@ -158,7 +158,7 @@ Every command also emits the generic `cmd.applied` metric; listed events are dom
 | `set_guide_skin` | `{guide_id, form_id}` | self | form owned | `profile.guide_skin_changed` | A, O | 40 |
 | `set_dietary_profile` (C3) | `{restrictions[], allergies[], notes?}` | self | – | `profile.dietary_changed` (no payload in event) | A, O | 22 |
 | `set_mailing_address` (C3, encrypted) | `{address fields}` | self | – | `profile.address_set` | A | 44 |
-| `set_payout_method` (C3, encrypted) | `{kind: paynow\|bank\|wallet\|link, details}` | self | – | `profile.payout_set` | A | 33 |
+| `set_payout_method` (C3, encrypted) | `{kind: bank\|paynow\|promptpay\|vietqr\|duitnow\|wise_link\|cash, country?, details (per-kind schema in `packages/domain/src/payout/catalogue.ts`), remove?}` → `{method_id, kind, removed}` (doc delta); details AES-GCM encrypted, one live method per kind; a validation reject names field paths only | self | – | `profile.payout_set` | A | 33 |
 | `request_data_export` | `{}` | self | – | `account.export_requested` → job | A | 45 |
 | `request_account_deletion` | `{reason?}` | self | – | `account.closed` (revoke sessions, schedule purge) | A | 45 |
 | `restore_account` | `{}` | self | within grace | `account.restored` | A | 45 |
@@ -553,6 +553,8 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/me/rating-eligibility?trip_id` | S | heuristic flag | – |
 | `GET /v1/me/export/{id}` | S | signed URL | – |
 | `GET /v1/me/private/{kind}` | S | owner-only C3 (insurance, dietary, budget max, emergency info) → client `local_private` table; never synced. Doc delta: `budget_max?trip_id` → `{trip_id, amount_minor, currency, source, updated_at}` through `app.my_budget_max` (the caller's own only; `NOT_FOUND` when not set) and `budget_default` → `{amount_minor, currency, updated_at}` | – |
+| `GET /v1/payments/{id}/payout` (doc delta) | S | the payer of an open payment → the payee's methods with decrypted details, through `app.reveal_payout` (audited in `ops.reveal_audit`); anyone else `NOT_FOUND`; online only, `Cache-Control: no-store`, never persisted on the device | – |
+| `GET /v1/me/payout-methods` (doc delta) | S | the caller's own payout methods with details, for the editor; `no-store` | – |
 | `GET /v1/setup/{trip_id}/own-fit` (doc delta) | S | `{trip_id, state: no_max\|no_target\|fits\|over}`: the caller's own max (crew currency) against the organiser's locked target; setup members only; never about anyone else | none |
 
 ### 5.6 Links and deep links (P21, P51)
