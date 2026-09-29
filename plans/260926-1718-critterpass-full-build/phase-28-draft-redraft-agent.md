@@ -179,6 +179,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. Stay affiliate link via P15 Travelpayouts client (`affiliate_clicks` sub_id via API) + "~$X estimate" from P16 cost bands. 2. Viator product match for must-dos; availability check behind `supplier.viator_booking` through the `packages/suppliers` availability port (P35 registers the Viator adapter; wiring + live check in P35). 3. Show free-cancel date only from an imported booking or a live Demand-adapter rate.
 - Tests: `pnpm --filter @cp/worker test -- jobs/ai/draft/suppliers`
 - Done when: supplier text never enters prompts (test asserts prompt payloads contain only ids/prices from our DB); contract test against the availability port with a recorded Viator `availability/check` fixture flags "Slot available"; flag off or no adapter registered → links only; no stay row shows free-cancel without an imported booking.
+- Status: blocked — server half done in e03f9a58 (stay rows from our cost bands, free-cancel only from an imported booking, prompts free of supplier content, slot-check seam defaulting to links only); the Viator availability contract test waits for the Viator adapter, a poi-to-product mapping and a recorded sandbox response; the stay/activity rows are the app lane's
 
 ### T10 — Pre-draft closure and holiday check (web search)
 - Goal: catch closures and public holidays on the trip dates before the skeleton is drafted (D23).
@@ -186,6 +187,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. In the prefetch step, code builds queries from destination, trip dates and candidate POI names (no user data) and calls `web_search`. 2. Extraction writes closure records `{poi_or_area, closed_from, closed_to, reason, source_url}` stored with the draft. 3. The planner reads the records, never raw snippets, and avoids or flags affected POIs. 4. The draft shows "closed {date}" with its source.
 - Tests: a fixture trip over Tết avoids a POI with a cited closure; no search text enters the skeleton prompt.
 - Done when: drafts avoid or flag cited closures on their dates, and each shown closure links its source.
+- Status: done — dcc34157
 
 ## Phase acceptance criteria
 
