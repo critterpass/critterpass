@@ -1,16 +1,164 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-09-29 19:53+0700\n"
+"POT-Creation-Date: 2026-09-29 20:13+0700\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#: ../../apps/mobile/src/features/setup/must-dos/add-must-do-sheet.tsx
-msgid "setup.addMustDo.title"
-msgstr ""
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.clash"
+msgstr "{clash, plural, other {# việc trùng lịch, mình sẽ tìm ngày khác.}}"
 
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-step.tsx
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.allFit"
+msgstr "{fit, plural, other {Cả # việc đều vừa.}}"
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.fit"
+msgstr "{fit} việc vừa."
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.found"
+msgstr "{guideName} tìm thấy"
+
+#: ../../apps/mobile/src/features/setup/must-dos/typing-row.tsx
+msgid "setup.mustDos.typing"
+msgstr "{name} đang gõ"
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.prompt"
+msgstr "{name} ơi, đến {place} mà thiếu điều gì thì chưa trọn?"
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.header"
+msgstr "{place} · Việc phải làm"
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.tight"
+msgstr "{tight, plural, other {# việc hơi sít.}}"
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.lottery"
+msgstr "Vé {title} phải bốc thăm. Mỗi người tự đăng ký trên trang chính thức. Mình sẽ nhắc."
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.waiting"
+msgstr "{waitingCount, plural, other {Còn # người nữa.}}"
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.search"
+msgstr "Một địa điểm hoặc lời của bạn"
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.returnKey"
+msgstr "Thêm"
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.keepA11y"
+msgstr "Thêm “{typed}” đúng như bạn gõ"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.addAnother"
+msgstr "Thêm việc nữa"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.addYours"
+msgstr "Thêm việc của bạn"
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.as"
+msgstr "Là {name}"
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.bookAhead"
+msgstr "Đặt trước"
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.checking"
+msgstr "Đang so với lịch đi."
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.clash"
+msgstr "Trùng"
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.closed"
+msgstr "Đóng cửa vào ngày đi"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.draft"
+msgstr "Lên lịch trình"
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.entriesClose"
+msgstr "Hạn đăng ký {date}"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.line"
+msgstr "Mỗi người thêm một điều mà thiếu nó chuyến đi chưa trọn."
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.fits"
+msgstr "Vừa"
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.fitsDay"
+msgstr "Vừa ngày {day}"
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.keep"
+msgstr "Giữ đúng như bạn gõ"
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.loading"
+msgstr "Đang tìm địa điểm"
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.lottery"
+msgstr "Bốc thăm"
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.noResults"
+msgstr "Không có nơi nào ở {place} khớp. Giữ lời của bạn ở dưới nhé."
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.offline"
+msgstr "Mất sóng nên chưa tìm được nơi mới. Cứ giữ lời của bạn, có mạng sẽ gửi."
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.offlineSaved"
+msgstr "Mất sóng: đây là các nơi có sẵn trên máy. Có mạng sẽ gửi lựa chọn của bạn."
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.line.empty"
+msgstr "Chưa ai thêm. Bạn mở hàng nhé."
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.title"
-msgstr ""
+msgstr "Mỗi người một việc"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
+msgid "setup.mustDos.row.remind"
+msgstr "Nhắc tôi đăng ký"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
+msgid "setup.mustDos.row.remove"
+msgstr "Xoá"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
+msgid "setup.mustDos.row.pending"
+msgstr "Có mạng sẽ gửi"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.doneLine"
+msgstr "Xong phần chuẩn bị. {guideName} bắt đầu lên lịch từ đây."
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.tight"
+msgstr "Sít"
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
+msgid "setup.mustDos.row.pendingA11y"
+msgstr "Đang chờ gửi"

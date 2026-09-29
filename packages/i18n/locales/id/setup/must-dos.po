@@ -1,16 +1,164 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-09-29 19:53+0700\n"
+"POT-Creation-Date: 2026-09-29 20:13+0700\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: id\n"
 
-#: ../../apps/mobile/src/features/setup/must-dos/add-must-do-sheet.tsx
-msgid "setup.addMustDo.title"
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.clash"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/must-dos/must-dos-step.tsx
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.allFit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.fit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.found"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/typing-row.tsx
+msgid "setup.mustDos.typing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.prompt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.header"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.tight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.lottery"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.returnKey"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.keepA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.addAnother"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.addYours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.as"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.bookAhead"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.line.checking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.clash"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.draft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.entriesClose"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.fits"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.fitsDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.lottery"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.noResults"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
+msgid "setup.addMustDo.offlineSaved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.line.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
+msgid "setup.mustDos.row.remind"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
+msgid "setup.mustDos.row.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
+msgid "setup.mustDos.row.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
+msgid "setup.mustDos.doneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/lines.ts
+msgid "setup.mustDos.pill.tight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
+msgid "setup.mustDos.row.pendingA11y"
 msgstr ""
