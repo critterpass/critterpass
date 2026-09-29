@@ -97,7 +97,7 @@ export function HeaderPill({
           {crewName}
         </Text>
         {members === 0 ? null : (
-          <Text variant="caption" color={theme.semantic.text.secondary} numberOfLines={2}>
+          <Text variant="caption" color={theme.semantic.text.secondary} numberOfLines={1}>
             {sharingLine(sharing, members)}
           </Text>
         )}
