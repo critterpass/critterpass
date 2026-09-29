@@ -175,7 +175,14 @@ export function GuestGuidePage({
               <Animated.View style={[{ alignSelf: 'flex-end' }, hop]}>
                 <LiveSticker kind={GUEST.kind} name={GUEST.name} size={88} drawOn={false} />
               </Animated.View>
-              <Text variant="displayMega" autoFit color={theme.semantic.text.onAccent}>
+              {/* One line per word: a long name shrinks to fit instead of breaking mid-word. */}
+              <Text
+                variant="displayMega"
+                autoFit
+                numberOfLines={Math.min(3, place.name.trim().split(/\s+/u).length)}
+                color={theme.semantic.text.onAccent}
+                testID="guest-name"
+              >
                 {upper(place.name, i18n.locale)}
               </Text>
               <Text variant="label" color={theme.semantic.text.onAccent}>

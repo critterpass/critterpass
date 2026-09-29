@@ -9,7 +9,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Keyboard, View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { toast } from '@/motion';
@@ -63,12 +63,15 @@ export function SearchSheet({ crewId }: { readonly crewId: string | undefined })
   const search = useDestinationSearch(query);
   const request = useCommand(requestPlaceCommand);
   const country = unguidedCountry(search.results);
-  const open = (result: PlaceResult) =>
+  // The keyboard goes down with the sheet's job done, so the place page opens uncovered.
+  const open = (result: PlaceResult) => {
+    Keyboard.dismiss();
     router.push(
       result.coverage === 'live'
         ? voteRoutes.destination(result.place_id, crewId)
         : voteRoutes.place(result.place_id, crewId),
     );
+  };
   const ask = async () => {
     const q = search.query;
     const sent = await request.send({ query: q });
