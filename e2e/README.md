@@ -16,8 +16,8 @@ x86_64 Google APIs image). No local simulator is involved.
 - **Manually:** Actions → device → Run workflow, or
   `gh workflow run device.yml -f platform=ios -f flows="e2e/smoke e2e/home"`.
 - **On a pull request:** add the `device-run` label. The run covers the full suite on iOS in
-  `flows` mode (Android runs are manual, `platform: android` or `both`), and repeats on every push while the label stays. Pull requests from
-  forks never run it.
+  `flows` mode and repeats on every push while the label stays. Android runs are manual
+  (`platform: android` or `both`). Pull requests from forks never run it.
 
 | Input        | Meaning                                                                                                                                               |
 | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
