@@ -43,6 +43,13 @@ export interface CommandClientOptions {
   readonly now?: () => Date;
 }
 
+/** The error envelope's `retryable`; without one, only 5xx and 429 are worth another try. */
+function isRetryable(body: unknown, status: number): boolean {
+  const retryable = (body as { error?: { retryable?: unknown } }).error?.retryable;
+  if (typeof retryable === 'boolean') return retryable;
+  return status >= 500 || status === 429;
+}
+
 export function createCommandClient(options: CommandClientOptions) {
   const now = options.now ?? (() => new Date());
 
@@ -81,11 +88,15 @@ export function createCommandClient(options: CommandClientOptions) {
       return { kind: 'applied', opId, result: (response.body as { result?: unknown }).result };
     }
     const error = wireError(response.body);
-    const code = error?.code ?? `HTTP_${response.status}`;
-    if (response.status >= 500 || response.status === 429 || error === null) {
-      return { kind: 'unavailable', opId, code };
+    if (error === null) {
+      return { kind: 'unavailable', opId, code: `HTTP_${response.status}` };
     }
-    return { kind: 'rejected', opId, code, detail: error.detail };
+    // The error's own `retryable` flag decides (docs/api-contracts.md §3): `RATE_LIMITED` or
+    // `INTERNAL` may pass on a later try, while `NUDGE_TOO_SOON` (429) or `VALIDATION` never will.
+    if (isRetryable(response.body, response.status)) {
+      return { kind: 'unavailable', opId, code: error.code };
+    }
+    return { kind: 'rejected', opId, code: error.code, detail: error.detail };
   }
 
   async function send<Payload>(

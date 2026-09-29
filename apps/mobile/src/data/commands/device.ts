@@ -5,7 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer (docs/system-architecture.md
    §3); every literal is a storage key or wire value, never copy. */
-import { generateUuidV7, type CommandDevice } from '@cp/domain';
+import { canonicalTz, generateUuidV7, isIanaTimeZone, type CommandDevice } from '@cp/domain';
 import Constants from 'expo-constants';
 import { getRandomValues } from 'expo-crypto';
 import { getCalendars } from 'expo-localization';
@@ -43,6 +43,17 @@ function platform(): CommandDevice['platform'] {
   return 'web';
 }
 
+/**
+ * The zone the envelope carries: the canonical IANA id of what the OS reports (an iOS simulator
+ * on a UTC host says `GMT`, older devices say `Asia/Saigon`), or `UTC` when the OS reports
+ * something that is no IANA zone at all (a custom `GMT+0700` offset), so no command is refused
+ * for the device's clock settings.
+ */
+export function deviceTimeZone(reported: string | null | undefined): string {
+  if (reported === null || reported === undefined || !isIanaTimeZone(reported)) return 'UTC';
+  return canonicalTz(reported);
+}
+
 /** Resolves (and caches) the device block for every envelope this install sends. */
 export function createDeviceResolver(): () => Promise<CommandDevice> {
   installRandomValues();
@@ -53,7 +64,7 @@ export function createDeviceResolver(): () => Promise<CommandDevice> {
       id: await id,
       platform: platform(),
       app_version: Constants.expoConfig?.version ?? '0.0.0',
-      tz: getCalendars()[0]?.timeZone ?? 'UTC',
+      tz: deviceTimeZone(getCalendars()[0]?.timeZone),
     };
   };
 }
