@@ -36,6 +36,10 @@ export const itineraryVersions = pgTable('itinerary_versions', {
   createdByJobId: uuid('created_by_job_id'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+  /** Cost, pace and transit totals computed by the planner (`draftMetricsSchema`). */
+  metrics: jsonb('metrics'),
+  /** Must-dos made, flags, closures, stays and named places (`draftCoverageSchema`). */
+  coverage: jsonb('coverage'),
 });
 
 export const planDays = pgTable('plan_days', {
@@ -97,6 +101,8 @@ export const planItems = pgTable('plan_items', {
   notes: text('notes'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+  /** Why a redraft must keep this item where it is (booking / must_do / user); null = free. */
+  lockedReason: text('locked_reason'),
 });
 
 export const changeSets = pgTable('change_sets', {

@@ -948,6 +948,22 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // Redraft reservations: organisers read them (they meter the organiser-only drafts); only the
+  // command handlers and the worker write, as app_system.
+  redraft_reservations: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM redraft_reservations WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
   // RLS class S: persona content reaches the guide only through llm.persona_packs.
   persona_packs: {
     selectProbe: { sql: 'SELECT 1 FROM persona_packs LIMIT 1', params: () => [] },

@@ -1,0 +1,17 @@
+# Drafting streams (docs/data-model-sync-and-privacy.md §4): redraft reservations ride trip_draft
+# beside the organiser drafts and their jobs (core.yaml, ai.yaml), matching the
+# redraft_reservations SELECT policy (app.is_trip_organiser while still an active crew member).
+# `organised_trips` repeats trip_draft's CTE from core.yaml verbatim; the crew-wide redraft count
+# is usage_counters on the trip stream.
+
+streams:
+  trip_draft:
+    with:
+      organised_trips: |
+        SELECT trip_id FROM trip_participants WHERE user_id = auth.user_id() AND role = 'organiser'
+    queries:
+      - |
+        SELECT * FROM redraft_reservations
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN organised_trips
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)

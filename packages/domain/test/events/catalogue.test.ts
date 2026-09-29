@@ -354,6 +354,38 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     must_do_id: crypto.randomUUID(),
     slot: 'deadline',
   },
+  'draft.requested': { trip_id: crypto.randomUUID(), job_id: crypto.randomUUID() },
+  'draft.ready': {
+    trip_id: crypto.randomUUID(),
+    job_id: crypto.randomUUID(),
+    version_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+  },
+  'draft.failed': { trip_id: crypto.randomUUID(), job_id: crypto.randomUUID() },
+  'draft.cancelled': { trip_id: crypto.randomUUID(), job_id: crypto.randomUUID() },
+  'draft.version_restored': {
+    trip_id: crypto.randomUUID(),
+    version_id: crypto.randomUUID(),
+    from_version_id: crypto.randomUUID(),
+  },
+  'redraft.requested': {
+    trip_id: crypto.randomUUID(),
+    redraft_id: crypto.randomUUID(),
+    day_no: 2,
+    reasons: ['less_train'],
+    free: false,
+  },
+  'redraft.delivered': {
+    trip_id: crypto.randomUUID(),
+    redraft_id: crypto.randomUUID(),
+    outcome: 'changed',
+  },
+  'redraft.kept': {
+    trip_id: crypto.randomUUID(),
+    redraft_id: crypto.randomUUID(),
+    version_id: crypto.randomUUID(),
+  },
+  'redraft.reverted': { trip_id: crypto.randomUUID(), redraft_id: crypto.randomUUID() },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

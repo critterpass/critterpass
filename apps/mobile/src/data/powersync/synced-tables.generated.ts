@@ -71,7 +71,7 @@ export const SYNCED_TABLE_COLUMNS = {
   invites:
     'crew_id trip_id inviter_id join_code_id kind seat_token_hash invitee_user_id channel status waitlist_position:integer expires_at claimed_by claimed_at nudged_at created_at updated_at',
   itinerary_versions:
-    'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at',
+    'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at metrics coverage',
   join_codes:
     'code target_kind target_id crew_id created_by expires_at max_uses:integer uses:integer status created_at updated_at',
   legendary_windows:
@@ -102,7 +102,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'crew_id trip_id destination_id pitched_by month:integer sections quote_ids model prompt_version cache_key fare_snapshot_id status created_at updated_at',
   plan_days: 'version_id trip_id day_no:integer date theme weather_ref created_at updated_at',
   plan_items:
-    'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at',
+    'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at locked_reason',
   pois: 'destination_id name name_local category lat:real lng:real location address hours hours_verified_at price_level:integer source_ids editorial tags fts status curation merged_into_id geofence visit_radius_m:integer timezone last_live_check_at created_at updated_at',
   poll_options:
     'poll_id crew_id trip_id kind ref_id label frozen_quote_id pitch_id proposed_by position:integer eliminated_at created_at updated_at',
@@ -112,6 +112,8 @@ export const SYNCED_TABLE_COLUMNS = {
   price_quotes:
     'trip_id kind origin destination_id dates amount_minor:integer currency source fetched_at frozen_at version:integer created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',
+  redraft_reservations:
+    'trip_id agent_job_id status free_reason quota_period_key settled_at created_at updated_at',
   referrals:
     'referrer_id referee_id code invite_id via status void_reason qualified_at reward_kind reward_ref referee_device_id created_at updated_at',
   reminders:

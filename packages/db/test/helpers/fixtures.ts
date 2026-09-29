@@ -370,6 +370,11 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       [tripId, member],
     );
     const agentJobId = jobRows[0]!.id;
+    // A redraft reservation on the trip: organiser-only, like the drafts it meters.
+    await tx.query('INSERT INTO redraft_reservations (trip_id, agent_job_id) VALUES ($1, $2)', [
+      tripId,
+      agentJobId,
+    ]);
     const { rows: offerRows } = await tx.query<{ id: string }>(
       "INSERT INTO guide_offers (trip_id, kind, slots_total) VALUES ($1, 'join_activity', 3) RETURNING id",
       [tripId],
