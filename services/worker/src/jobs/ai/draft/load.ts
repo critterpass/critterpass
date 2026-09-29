@@ -282,7 +282,8 @@ export async function loadDraftPlaces(
       lng: row.lng,
       tz: row.timezone,
       hours: hours.success && Object.keys(hours.data.weekly).length > 0 ? hours.data : null,
-      priceLevel: row.price_level,
+      // Free places carry a `free` tag (price levels start at 1).
+      priceLevel: (row.tags ?? []).includes('free') ? 0 : row.price_level,
       tags: row.tags ?? [],
       durationMin:
         typeof editorial.time_needed_min === 'number' && editorial.time_needed_min > 0

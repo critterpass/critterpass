@@ -152,7 +152,7 @@ export function placeLine(
   }
   if (poi.priceLevel !== null)
     parts.push(poi.priceLevel === 0 ? 'free' : `price ${'$'.repeat(poi.priceLevel)}`);
-  const tags = poi.tags.filter((tag) => !tag.startsWith('book_ahead'));
+  const tags = poi.tags.filter((tag) => !tag.startsWith('book_ahead') && tag !== 'free');
   if (tags.length > 0) parts.push(tags.slice(0, 4).join(' '));
   return `- ${parts.join(' | ')}`;
 }

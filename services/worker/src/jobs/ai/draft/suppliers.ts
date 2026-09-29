@@ -1,5 +1,5 @@
 /**
- * The draft's supplier touches, truthful by construction (docs/product-decisions.md D10). Stay
+ * The draft's supplier touches, truthful by construction (never merchant of record, no room holds). Stay
  * nights are night blocks priced from our own cost bands ("~$X estimate", never a supplier price),
  * with the affiliate partners a "Book here" click can go to; a free-cancellation date appears only
  * when the crew imported the booking that carries it. Activity slots are checked only through a
