@@ -509,10 +509,6 @@ msgid "crew.composer.useSuggestion"
 msgstr "Use {words}"
 
 #: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
-msgid "crew.sheet.voteFinal"
-msgstr "vote in the final"
-
-#: ../../apps/mobile/src/features/crew/crews-sheet/crew-sheet-cards.tsx
 msgid "crew.sheet.voteOpen"
 msgstr "vote open"
 

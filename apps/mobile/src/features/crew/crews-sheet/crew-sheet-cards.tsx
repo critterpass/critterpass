@@ -151,7 +151,8 @@ function useVoteLine(crewId: string): string | null {
   const place = found !== null && found.id === leader ? found.name : null;
   if (vote === null) return null;
   if (vote.stage === 'board') return t({ id: 'crew.sheet.voteOpen', message: 'vote open' });
-  if (place === null) return t({ id: 'crew.sheet.voteFinal', message: 'vote in the final' });
+  // The leader's name arrives a moment later; the line waits for it rather than changing twice.
+  if (place === null) return null;
   return t({ id: 'crew.sheet.voteFinalLeader', message: `${place} vote in the final` });
 }
 
