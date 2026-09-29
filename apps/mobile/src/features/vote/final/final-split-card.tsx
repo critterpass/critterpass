@@ -32,33 +32,11 @@ import { stackOf, usePeople } from '../data/use-people';
 import type { PollOptionView, PollView } from '../data/poll-view';
 import { deadlineParts, upper } from '../format';
 import { voteRoutes } from '../routes';
+import { CARD_HEIGHT, diagonalStyle } from './diagonal';
 import { pendingByName, useFinalLines } from './tie-line';
 
-const CARD_HEIGHT = 262;
 const RISE = 70;
 const ENTER = bezierEasing(tokens.motion.easing.enter);
-/** Where the diagonal meets the top and bottom edges (3b-6's 62/38 split), as card fractions. */
-const DIAGONAL_TOP = 0.62;
-const DIAGONAL_BOTTOM = 0.38;
-
-/**
- * The first place's colour cut by the diagonal: a tall band whose end edge passes through the
- * card's centre, turned about that point so the edge runs from 62 % at the top to 38 % at the
- * bottom.
- */
-function diagonalStyle(width: number) {
-  const degrees =
-    (Math.atan(((DIAGONAL_TOP - DIAGONAL_BOTTOM) * width) / CARD_HEIGHT) * 180) / Math.PI;
-  return {
-    position: 'absolute',
-    start: -width,
-    end: width / 2,
-    top: -CARD_HEIGHT,
-    bottom: -CARD_HEIGHT,
-    transformOrigin: 'right',
-    transform: [{ rotate: `${degrees}deg` }],
-  } as const;
-}
 
 const useStyles = makeStyles((th) => ({
   card: {
@@ -66,8 +44,7 @@ const useStyles = makeStyles((th) => ({
     borderRadius: th.radius.cardBig,
     overflow: 'hidden',
   },
-  // Each half's content keeps to its own side of the diagonal: the first place's name and guide
-  // top-start, the second's guide top-end and its name bottom-end, votes on the outer edges.
+  // Each half's content keeps to its own side of the diagonal.
   half: {
     position: 'absolute',
     top: 0,
@@ -295,7 +272,6 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
         <Row justify="space-between" align="center" gap="8">
           <Stack gap="2" style={{ flex: 1 }}>
             {lines.toGo === null ? null : (
-              // Long names wrap to a second line and shrink there, never cut off.
               <Text
                 variant="label"
                 color={theme.semantic.action.primary}
