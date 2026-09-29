@@ -42,8 +42,8 @@ export const TRAVEL_DESTINATIONS: Readonly<Record<string, TravelDestination>> = 
       { source: 'magma', subject: 'Batur' },
       { source: 'magma', subject: 'Agung' },
       { source: 'magma', subject: 'Rinjani' },
-      { source: 'gvp', subject: 'Batur' },
-      { source: 'gvp', subject: 'Agung' },
+      { source: 'gdacs', subject: 'Batur' },
+      { source: 'gdacs', subject: 'Agung' },
     ],
   },
   kyoto: {
@@ -65,7 +65,7 @@ export const TRAVEL_DESTINATIONS: Readonly<Record<string, TravelDestination>> = 
       { source: 'imo', subject: 'Bárðarbunga' },
       { source: 'imo', subject: 'Katla' },
       { source: 'imo', subject: 'Hekla' },
-      { source: 'gvp', subject: 'Reykjanes' },
+      { source: 'gdacs', subject: 'Reykjanes' },
     ],
   },
   'mexico-city': {
@@ -73,7 +73,10 @@ export const TRAVEL_DESTINATIONS: Readonly<Record<string, TravelDestination>> = 
     centroid: { lat: 19.4326, lng: -99.1332, elevation_m: 2240 },
     marine: null,
     summits: [],
-    hazards: [{ source: 'gvp', subject: 'Popocatepetl' }],
+    hazards: [
+      { source: 'cenapred', subject: 'Popocatepetl' },
+      { source: 'gdacs', subject: 'Popocatepetl' },
+    ],
   },
   lisbon: {
     airports: ['LIS'],

@@ -523,7 +523,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/destinations/{id}?origins&month` | S | POI + Travelpayouts + season | 6 h |
 | `GET /v1/fares?origins&dest&month` | S | Travelpayouts calendar (cached, "seen {time}") | 6 h |
 | `GET /v1/weather?lat&lng&from&to[&elevation_m]` / `/marine` | S | stored WeatherAPI.com snapshots nearest the point (30 km; marine 60 km), `stale` flag, attribution | 1 h |
-| `GET /v1/hazards?destination_id` (doc delta) | S | `hazard_alerts` (MAGMA, IMO, JMA, GVP), highest level first, `stale` after 3 h unread | 15 min |
+| `GET /v1/hazards?destination_id` (doc delta) | S | `hazard_alerts` (MAGMA, IMO, JMA, CENAPRED, GDACS), highest level first, `stale` after 3 h unread | 15 min |
 | `GET /v1/fx/snapshot?base` | S | Frankfurter v2 daily | 24 h, offline bundle |
 | `GET /v1/routes/eta` | S | Valhalla (+ Mapbox traffic for leave-by) | none |
 | `GET /v1/trips/{id}/live-snapshot` (doc delta) | S | crew live map state `{trip_id, window_ends_at, members[{uid, lat, lng, acc, activity, at}], shares[{uid, share_id, paused, changed_at}], etas[], meetup}`: latest fix per open, non-paused crew-map share via `app.shared_location_fixes`; participant while `app.crew_map_open` (unboosted → 402 `ENTITLEMENT_REQUIRED`, outside trip days / off the trip → 403 `NOT_ELIGIBLE`) | none |
