@@ -86,8 +86,8 @@ function placeLabels(
       key: 'meetup',
       lng: m.meetup.lng,
       lat: m.meetup.lat,
-      left: -160,
-      width: 270,
+      left: 0,
+      width: 280,
       height: 64,
     });
   }
@@ -101,7 +101,7 @@ function placeLabels(
       height: PIN_HEIGHT,
     });
   }
-  const offsets = declutter(boxes, project);
+  const offsets = declutter(boxes, project, view.padding.top - 20);
   return pins.map((pin) => ({ ...pin, offset: offsets.get(pin.key) }));
 }
 

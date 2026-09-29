@@ -66,12 +66,14 @@ const overlaps = (a: Rect, b: Rect): boolean =>
   a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1;
 
 /**
- * Upward offsets (points) per label so no two overlap, placing them in order (the first never
- * moves). Returns `[dx, dy]` for the annotation's `offset`.
+ * Offsets (points) per label so no two overlap, placing them in order (the first never moves):
+ * up by default, down below the clash when going up would pass `minY`. Returns `[dx, dy]` for the annotation's `offset`.
  */
 export function declutter(
   boxes: readonly LabelBox[],
   project: (lng: number, lat: number) => [number, number],
+  /** Labels never lift above this line (the header); they drop below the clash instead. */
+  minY = -Infinity,
 ): Map<string, [number, number]> {
   const placed: Rect[] = [];
   const offsets = new Map<string, [number, number]>();
@@ -84,12 +86,20 @@ export function declutter(
       y1: py,
     };
     let lift = 0;
+    let downward = false;
     for (let guard = 0; guard < 12; guard++) {
       const hit = placed.find((other) =>
         overlaps({ ...rect, y0: rect.y0 - lift, y1: rect.y1 - lift }, other),
       );
       if (hit === undefined) break;
-      lift = rect.y1 - hit.y0 + GAP;
+      const up = rect.y1 - hit.y0 + GAP;
+      if (!downward && rect.y0 - up >= minY) {
+        lift = up;
+      } else {
+        // No room above: sit just below the label it clashed with.
+        downward = true;
+        lift = rect.y0 - hit.y1 - GAP;
+      }
     }
     placed.push({ ...rect, y0: rect.y0 - lift, y1: rect.y1 - lift });
     offsets.set(box.key, [0, lift === 0 ? 0 : -lift]);

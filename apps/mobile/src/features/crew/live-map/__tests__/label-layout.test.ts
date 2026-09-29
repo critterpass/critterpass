@@ -36,4 +36,32 @@ describe('label layout', () => {
     expect(offsets.get('alex')).toEqual([0, -74]);
     expect(offsets.get('far')).toEqual([0, 0]);
   });
+
+  it('drops a label below the clash when lifting would pass under the header', () => {
+    const project = (lng: number, lat: number): [number, number] => [lng, lat];
+    const offsets = declutter(
+      [
+        { key: 'meetup', lng: 100, lat: 300, left: 0, width: 200, height: 50 },
+        { key: 'alex', lng: 150, lat: 320, left: 0, width: 200, height: 46 },
+      ],
+      project,
+      260,
+    );
+    // Lifting Alex (274–320) above the meet-up would reach 200 < 260: it drops to 304–350.
+    expect(offsets.get('alex')).toEqual([0, 30]);
+  });
+
+  it('drops a label below the clash when lifting would pass under the header', () => {
+    const project = (lng: number, lat: number): [number, number] => [lng, lat];
+    const offsets = declutter(
+      [
+        { key: 'meetup', lng: 100, lat: 300, left: 0, width: 200, height: 50 },
+        { key: 'alex', lng: 150, lat: 320, left: 0, width: 200, height: 46 },
+      ],
+      project,
+      260,
+    );
+    // Lifting Alex (274–320) above the meet-up would reach 200 < 260: it drops to 304–350.
+    expect(offsets.get('alex')).toEqual([0, 30]);
+  });
 });

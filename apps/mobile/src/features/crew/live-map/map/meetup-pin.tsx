@@ -18,6 +18,7 @@ import { Row, Stack, Text } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
 const useStyles = makeStyles((th) => ({
+  // The guide hops beside the pin on its right, so the whole pin grows right from its anchor.
   wrap: { alignItems: 'flex-end', flexDirection: 'row', gap: th.space['6'] },
   pin: {
     alignItems: 'center',
@@ -71,9 +72,6 @@ export function MeetupPin({
   const guide = GUIDE_STICKERS.tokek;
   return (
     <View style={styles.wrap}>
-      <Animated.View style={hop}>
-        <Sticker kind={guide.kind} name={guide.name} size={44} />
-      </Animated.View>
       <PressScale
         onPress={onPress}
         accessibilityRole="button"
@@ -105,6 +103,9 @@ export function MeetupPin({
           </Stack>
         </Row>
       </PressScale>
+      <Animated.View style={hop}>
+        <Sticker kind={guide.kind} name={guide.name} size={44} />
+      </Animated.View>
     </View>
   );
 }

@@ -143,7 +143,7 @@ export function LiveMapCanvas({
           <ViewAnnotation
             id="live-meetup"
             lngLat={[meetup.lngLat[0], meetup.lngLat[1]]}
-            anchor="bottom"
+            anchor="bottom-left"
             draggable={onMeetupDragged !== undefined}
             {...(onMeetupDragStart === undefined ? {} : { onDragStart: onMeetupDragStart })}
             onDragEnd={(event) => {
