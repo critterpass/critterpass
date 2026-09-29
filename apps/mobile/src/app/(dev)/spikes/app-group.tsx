@@ -1,8 +1,9 @@
 import { useCallback, useState } from 'react';
-import { Button, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { readOutboxActions, reloadWidgets, writeSnapshot } from '../../../../modules/cp-app-group';
 import { Scaffold, Stack, Text, useTheme } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
@@ -75,13 +76,23 @@ export default function AppGroupSpikeScreen() {
         </Text>
 
         <View style={styles.buttonRow}>
-          <Button title="Write hello snapshot" onPress={writeHelloSnapshot} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Write hello snapshot"
+            onPress={writeHelloSnapshot}
+          />
         </View>
         <View style={styles.buttonRow}>
-          <Button title="Reload widgets" onPress={refreshWidgets} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Reload widgets"
+            onPress={refreshWidgets}
+          />
         </View>
         <View style={styles.buttonRow}>
-          <Button title="Read outbox" onPress={readOutbox} />
+          <PillButton variant="secondary" size="sm" label="Read outbox" onPress={readOutbox} />
         </View>
 
         {result ? (

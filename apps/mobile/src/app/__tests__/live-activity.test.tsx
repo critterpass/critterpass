@@ -36,9 +36,9 @@ function renderScreen(ui: ReactElement) {
 
 describe('LiveActivitySpikeScreen', () => {
   it('seeds a LeaveBy content-state snapshot the widget target can read', async () => {
-    const { getByText, findByText } = await renderScreen(<LiveActivitySpikeScreen />);
+    const { findByText, getByLabelText } = await renderScreen(<LiveActivitySpikeScreen />);
 
-    await fireEvent.press(getByText('Seed leave-by preview snapshot'));
+    await fireEvent.press(getByLabelText('Seed leave-by preview snapshot'));
 
     expect(mockWriteSnapshot).toHaveBeenCalledTimes(1);
     const [key, json] = mockWriteSnapshot.mock.calls[0] as [string, string];

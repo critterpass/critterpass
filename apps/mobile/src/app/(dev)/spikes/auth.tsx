@@ -1,10 +1,11 @@
 import { GoogleSignin, isSuccessResponse } from '@react-native-google-signin/google-signin';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { useCallback, useEffect, useState } from 'react';
-import { Button, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { authClient } from './auth-client';
 import { Scaffold, Stack, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 import { TextField } from '@/ui/inputs/TextField';
 
@@ -192,13 +193,28 @@ export default function AuthSpikeScreen() {
         </Card>
 
         <View style={styles.buttonRow}>
-          <Button title="Sign in anonymously" onPress={signInAnonymously} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Sign in anonymously"
+            onPress={signInAnonymously}
+          />
         </View>
         <View style={styles.buttonRow}>
-          <Button title="Upgrade: Sign in with Apple" onPress={signInWithApple} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Upgrade: Sign in with Apple"
+            onPress={signInWithApple}
+          />
         </View>
         <View style={styles.buttonRow}>
-          <Button title="Upgrade: Sign in with Google" onPress={signInWithGoogle} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Upgrade: Sign in with Google"
+            onPress={signInWithGoogle}
+          />
         </View>
 
         <Card>
@@ -207,7 +223,7 @@ export default function AuthSpikeScreen() {
               phone upgrade (test number {testPhoneNumber ?? '(sign in first)'})
             </Text>
             <View style={styles.buttonRow}>
-              <Button title="Send code" onPress={sendPhoneOtp} />
+              <PillButton variant="secondary" size="sm" label="Send code" onPress={sendPhoneOtp} />
             </View>
             <TextField
               label="OTP code"
@@ -217,8 +233,10 @@ export default function AuthSpikeScreen() {
               keyboardType="number-pad"
             />
             <View style={styles.buttonRow}>
-              <Button
-                title="Verify code"
+              <PillButton
+                variant="secondary"
+                size="sm"
+                label="Verify code"
                 onPress={verifyPhoneOtp}
                 disabled={phoneCode.length === 0}
               />

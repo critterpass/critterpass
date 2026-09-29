@@ -6,7 +6,7 @@ import { Canvas, Group, Image, Path } from '@shopify/react-native-skia';
 import { drawAsImage } from '@shopify/react-native-skia';
 import type { SkImage } from '@shopify/react-native-skia';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -20,6 +20,7 @@ import Animated, {
 import { buildGeckoDrawing } from './critter-gecko-ops';
 import { buildGeckoPaintOps } from './critter-skia-paint';
 import { Scaffold, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -179,15 +180,19 @@ export default function CritterdexGridSpikeScreen() {
           Critterdex grid spike ({GRID_ROWS * GRID_COLUMNS} cells)
         </Text>
         <View style={styles.buttonRow}>
-          <Button
-            title={`list: ${listImpl}`}
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label={`list: ${listImpl}`}
             onPress={() => setListImpl((v) => (v === 'flash-list' ? 'legend-list' : 'flash-list'))}
           />
-          <Button
-            title={liveCells ? 'cells: live redraw' : 'cells: cached image'}
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label={liveCells ? 'cells: live redraw' : 'cells: cached image'}
             onPress={() => setLiveCells((v) => !v)}
           />
-          <Button title="scroll to end" onPress={scrollToEnd} />
+          <PillButton variant="secondary" size="sm" label="scroll to end" onPress={scrollToEnd} />
         </View>
         <Text variant="bodySm">native committed fps: {nativeFps.toFixed(1)}</Text>
 

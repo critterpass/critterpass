@@ -1,12 +1,13 @@
 import { FlashList } from '@shopify/flash-list';
 import { useCallback, useEffect, useState } from 'react';
-import { Button, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { runOnJS, useFrameCallback, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import type { DexCell } from '@/ui/sticker/dex';
 import { DEX_CELLS, HERO_CELLS } from '@/ui/sticker/dex';
 import { getDefaultSkiaCache, Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -68,7 +69,7 @@ function HeroDrawOn({ testId, cell }: { testId: string; cell: DexCell }) {
         size={HERO_SIZE}
         drawProgress={progress}
       />
-      <Button testID={testId} title="draw on" onPress={replay} />
+      <PillButton variant="secondary" size="sm" testID={testId} label="draw on" onPress={replay} />
     </View>
   );
 }
@@ -118,9 +119,11 @@ export default function StickerLabScreen() {
           <HeroDrawOn testId="sticker-lab-hero-2" cell={HERO_CELLS[1]} />
         </View>
 
-        <Button
+        <PillButton
+          variant="secondary"
+          size="sm"
           testID="sticker-lab-closed-eyes-storm"
-          title={closedEyesStorm ? 'eyes: closed (storm on)' : 'eyes: open'}
+          label={closedEyesStorm ? 'eyes: closed (storm on)' : 'eyes: open'}
           onPress={() => setClosedEyesStorm((value) => !value)}
         />
 

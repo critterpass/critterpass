@@ -1,6 +1,6 @@
 import * as Location from 'expo-location';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { reloadWidgets, writeSnapshot } from '../../../../modules/cp-app-group';
 import type { DwellState } from './dwell-ring';
@@ -13,6 +13,7 @@ import {
   subscribeDwellUpdates,
 } from './dwell-location-task';
 import { Scaffold, Stack, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
@@ -137,31 +138,39 @@ export default function LocationDwellSpikeScreen() {
         <Text variant="bodySm">permission: {permission}</Text>
 
         <View style={styles.buttonRow}>
-          <Button
-            title="Enable location (While-In-Use)"
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Enable location (While-In-Use)"
             onPress={() => void requestForeground()}
             disabled={permission !== 'unknown' && permission !== 'denied'}
           />
         </View>
         {permission === 'foreground' || permission === 'always' ? (
           <View style={styles.buttonRow}>
-            <Button
-              title="Enable background tracking (Always)"
+            <PillButton
+              variant="secondary"
+              size="sm"
+              label="Enable background tracking (Always)"
               onPress={() => void requestAlways()}
               disabled={permission === 'always'}
             />
           </View>
         ) : null}
         <View style={styles.buttonRow}>
-          <Button
-            title="Use current location as POI"
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Use current location as POI"
             onPress={() => void setPoiFromCurrentLocation()}
             disabled={permission === 'unknown' || permission === 'denied'}
           />
         </View>
         <View style={styles.buttonRow}>
-          <Button
-            title={tracking ? 'Stop trip-day session' : 'Start trip-day session'}
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label={tracking ? 'Stop trip-day session' : 'Start trip-day session'}
             onPress={() => void (tracking ? stopTracking() : startTracking())}
             disabled={!poi}
           />

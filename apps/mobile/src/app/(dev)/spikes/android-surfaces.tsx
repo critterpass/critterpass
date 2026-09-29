@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Button, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { Platform, ScrollView, StyleSheet, View } from 'react-native';
 
 import {
   cancelFullScreenAlarm,
@@ -13,6 +13,7 @@ import {
 } from '../../../../modules/cp-spike-android';
 import type { LiveUpdatePushPayload } from '../../../../modules/cp-spike-android';
 import { Scaffold, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -83,34 +84,59 @@ export default function AndroidSurfacesSpikeScreen() {
 
         <Text variant="title">Full-screen-intent alarm</Text>
         <View style={styles.buttonRow}>
-          <Button title="Check FSI permission" onPress={checkFsi} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Check FSI permission"
+            onPress={checkFsi}
+          />
         </View>
         {fsiGranted !== null ? (
           <Text variant="bodySm">{fsiGranted ? 'Granted' : 'Denied — needs Settings'}</Text>
         ) : null}
         {fsiGranted === false ? (
           <View style={styles.buttonRow}>
-            <Button title="Open FSI settings" onPress={openFullScreenIntentSettings} />
+            <PillButton
+              variant="secondary"
+              size="sm"
+              label="Open FSI settings"
+              onPress={openFullScreenIntentSettings}
+            />
           </View>
         ) : null}
 
         <View style={styles.buttonRow}>
-          <Button title="Check exact-alarm permission" onPress={checkExactAlarm} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Check exact-alarm permission"
+            onPress={checkExactAlarm}
+          />
         </View>
         {exactAlarmGranted !== null ? (
           <Text variant="bodySm">{exactAlarmGranted ? 'Granted' : 'Denied — needs Settings'}</Text>
         ) : null}
         {exactAlarmGranted === false ? (
           <View style={styles.buttonRow}>
-            <Button title="Open exact-alarm settings" onPress={openExactAlarmSettings} />
+            <PillButton
+              variant="secondary"
+              size="sm"
+              label="Open exact-alarm settings"
+              onPress={openExactAlarmSettings}
+            />
           </View>
         ) : null}
 
         <View style={styles.buttonRow}>
-          <Button title={`Schedule alarm in ${ALARM_DELAY_SECONDS}s`} onPress={scheduleAlarm} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label={`Schedule alarm in ${ALARM_DELAY_SECONDS}s`}
+            onPress={scheduleAlarm}
+          />
         </View>
         <View style={styles.buttonRow}>
-          <Button title="Cancel alarm" onPress={cancelAlarm} />
+          <PillButton variant="secondary" size="sm" label="Cancel alarm" onPress={cancelAlarm} />
         </View>
 
         <Text variant="title">Live Update push (local test hook)</Text>
@@ -120,16 +146,36 @@ export default function AndroidSurfacesSpikeScreen() {
           same notifier, only the transport differs.
         </Text>
         <View style={styles.buttonRow}>
-          <Button title="Start Live Update" onPress={() => simulatePush('start')} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Start Live Update"
+            onPress={() => simulatePush('start')}
+          />
         </View>
         <View style={styles.buttonRow}>
-          <Button title="Update Live Update" onPress={() => simulatePush('update')} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Update Live Update"
+            onPress={() => simulatePush('update')}
+          />
         </View>
         <View style={styles.buttonRow}>
-          <Button title="End Live Update" onPress={() => simulatePush('end')} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="End Live Update"
+            onPress={() => simulatePush('end')}
+          />
         </View>
         <View style={styles.buttonRow}>
-          <Button title="Dismiss notification" onPress={dismissPush} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Dismiss notification"
+            onPress={dismissPush}
+          />
         </View>
 
         {status ? <Text variant="bodySm">{status}</Text> : null}

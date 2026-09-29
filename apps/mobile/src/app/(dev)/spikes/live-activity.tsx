@@ -1,8 +1,9 @@
 import { useCallback, useState } from 'react';
-import { Button, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { writeSnapshot, reloadWidgets } from '../../../../modules/cp-app-group';
 import { Scaffold, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -55,7 +56,12 @@ export default function LiveActivitySpikeScreen() {
         </Text>
 
         <View style={styles.buttonRow}>
-          <Button title="Seed leave-by preview snapshot" onPress={seedLeaveByPreview} />
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label="Seed leave-by preview snapshot"
+            onPress={seedLeaveByPreview}
+          />
         </View>
 
         {status ? <Text variant="bodySm">{status}</Text> : null}

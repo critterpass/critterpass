@@ -1,7 +1,5 @@
-import { fireEvent, render } from '@testing-library/react-native';
+import { fireEvent } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
-import { i18n } from '@lingui/core';
-import { I18nProvider } from '@lingui/react';
 import type { ReactElement } from 'react';
 
 // Native-runtime boundary doubles (code-standards.md §17), same class as cp-app-group in
@@ -19,6 +17,7 @@ jest.mock('@legendapp/list/react-native', () => ({ LegendList: mockList.LegendLi
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
+import { renderUi } from '@/ui/test-support/render';
 
 import CritterdexGridSpikeScreen from '../(dev)/spikes/critterdex-grid';
 
@@ -27,32 +26,26 @@ const METRICS = {
   insets: { top: 47, left: 0, right: 0, bottom: 34 },
 };
 
-/**
- * Renders a (dev) screen under the providers the app root mounts above every route, minus the
- * gesture root: the Reanimated double above is too small for react-native-gesture-handler.
- */
+/** Renders a (dev) screen under the providers the app root mounts above every route. */
 function renderScreen(ui: ReactElement) {
-  i18n.loadAndActivate({ locale: 'en', messages: {} });
-  return render(
-    <I18nProvider i18n={i18n}>
-      <SafeAreaProvider initialMetrics={METRICS}>
-        <ScreenJoltProvider>{ui}</ScreenJoltProvider>
-      </SafeAreaProvider>
-    </I18nProvider>,
+  return renderUi(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <ScreenJoltProvider>{ui}</ScreenJoltProvider>
+    </SafeAreaProvider>,
   );
 }
 
 describe('CritterdexGridSpikeScreen', () => {
   it('renders 600 cells and can switch list implementation and cell mode', async () => {
-    const { getByRole, getByText } = await renderScreen(<CritterdexGridSpikeScreen />);
+    const { getByLabelText, getByRole } = await renderScreen(<CritterdexGridSpikeScreen />);
 
     expect(getByRole('header')).toHaveTextContent('CRITTERDEX GRID SPIKE (600 CELLS)');
-    expect(getByText('list: flash-list')).toBeTruthy();
+    expect(getByLabelText('list: flash-list')).toBeTruthy();
 
-    await fireEvent.press(getByText('list: flash-list'));
-    expect(getByText('list: legend-list')).toBeTruthy();
+    await fireEvent.press(getByLabelText('list: flash-list'));
+    expect(getByLabelText('list: legend-list')).toBeTruthy();
 
-    await fireEvent.press(getByText('cells: cached image'));
-    expect(getByText('cells: live redraw')).toBeTruthy();
+    await fireEvent.press(getByLabelText('cells: cached image'));
+    expect(getByLabelText('cells: live redraw')).toBeTruthy();
   });
 });

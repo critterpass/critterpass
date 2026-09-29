@@ -67,6 +67,8 @@ describe('DevToolsIndexScreen', () => {
     expect(getByTestId('dev-seed-demo')).toHaveTextContent('Seed demo data');
     expect(getByTestId('dev-seed-demo-inbox')).toBeTruthy();
     expect(getByTestId('dev-seed-demo-caught-up')).toBeTruthy();
+    expect(getByTestId('dev-seed-demo-vote')).toBeTruthy();
+    expect(getByTestId('dev-seed-demo-vote-final')).toBeTruthy();
   });
 
   it('shows a build marker proving which JS bundle is running (embedded, absent an EAS Update)', async () => {

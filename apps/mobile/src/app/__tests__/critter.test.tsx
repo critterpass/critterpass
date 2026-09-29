@@ -1,7 +1,4 @@
-import { render } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
-import { i18n } from '@lingui/core';
-import { I18nProvider } from '@lingui/react';
 import type { ReactElement } from 'react';
 
 // The real modules need a native JSI/GPU host Jest cannot provide; these are the native-runtime
@@ -17,6 +14,7 @@ jest.mock('react-native-reanimated', () => mockReanimated);
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
+import { renderUi } from '@/ui/test-support/render';
 
 import CritterSpikeScreen from '../(dev)/spikes/critter';
 
@@ -25,25 +23,19 @@ const METRICS = {
   insets: { top: 47, left: 0, right: 0, bottom: 34 },
 };
 
-/**
- * Renders a (dev) screen under the providers the app root mounts above every route, minus the
- * gesture root: the Reanimated double above is too small for react-native-gesture-handler.
- */
+/** Renders a (dev) screen under the providers the app root mounts above every route. */
 function renderScreen(ui: ReactElement) {
-  i18n.loadAndActivate({ locale: 'en', messages: {} });
-  return render(
-    <I18nProvider i18n={i18n}>
-      <SafeAreaProvider initialMetrics={METRICS}>
-        <ScreenJoltProvider>{ui}</ScreenJoltProvider>
-      </SafeAreaProvider>
-    </I18nProvider>,
+  return renderUi(
+    <SafeAreaProvider initialMetrics={METRICS}>
+      <ScreenJoltProvider>{ui}</ScreenJoltProvider>
+    </SafeAreaProvider>,
   );
 }
 
 describe('CritterSpikeScreen', () => {
   it('renders the play control and a native fps readout', async () => {
-    const { getByText } = await renderScreen(<CritterSpikeScreen />);
-    expect(getByText('Play draw-on')).toBeTruthy();
+    const { getByLabelText, getByText } = await renderScreen(<CritterSpikeScreen />);
+    expect(getByLabelText('Play draw-on')).toBeTruthy();
     expect(getByText(/native committed fps/i)).toBeTruthy();
   });
 });

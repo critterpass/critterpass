@@ -41,9 +41,9 @@ function renderScreen(ui: ReactElement) {
 
 describe('AppGroupSpikeScreen', () => {
   it('writes a schema-versioned hello snapshot and reports the round-trip time', async () => {
-    const { getByText, findByText } = await renderScreen(<AppGroupSpikeScreen />);
+    const { findByText, getByLabelText } = await renderScreen(<AppGroupSpikeScreen />);
 
-    await fireEvent.press(getByText('Write hello snapshot'));
+    await fireEvent.press(getByLabelText('Write hello snapshot'));
 
     expect(mockWriteSnapshot).toHaveBeenCalledTimes(1);
     const [key, json] = mockWriteSnapshot.mock.calls[0] as [string, string];
@@ -56,8 +56,8 @@ describe('AppGroupSpikeScreen', () => {
   });
 
   it('reloads widgets on demand', async () => {
-    const { getByText } = await renderScreen(<AppGroupSpikeScreen />);
-    await fireEvent.press(getByText('Reload widgets'));
+    const { getByLabelText } = await renderScreen(<AppGroupSpikeScreen />);
+    await fireEvent.press(getByLabelText('Reload widgets'));
     expect(mockReloadWidgets).toHaveBeenCalledTimes(1);
   });
 
@@ -65,9 +65,9 @@ describe('AppGroupSpikeScreen', () => {
     mockWriteSnapshot.mockImplementationOnce(() => {
       throw new Error('App Group container is unavailable');
     });
-    const { getByText, findByText } = await renderScreen(<AppGroupSpikeScreen />);
+    const { findByText, getByLabelText } = await renderScreen(<AppGroupSpikeScreen />);
 
-    await fireEvent.press(getByText('Write hello snapshot'));
+    await fireEvent.press(getByLabelText('Write hello snapshot'));
 
     expect(await findByText('App Group container is unavailable')).toBeTruthy();
   });

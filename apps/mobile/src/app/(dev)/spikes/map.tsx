@@ -2,10 +2,11 @@ import * as FileSystem from 'expo-file-system/legacy';
 import { Camera, Map } from '@maplibre/maplibre-react-native';
 import type { StyleSpecification } from '@maplibre/maplibre-react-native';
 import { useCallback, useMemo, useState } from 'react';
-import { Button, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import daNangDarkStyleJson from '../../../../../../tools/spikes/tiles/style/da-nang-dark.json';
 import { Scaffold, Text, useTheme } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 
 // The style JSON is authored as plain JSON (tools/spikes/tiles/README.md), so its `version`
 // field is a plain `number` to TypeScript; MapLibre's `StyleSpecification` requires the literal
@@ -103,16 +104,20 @@ export default function MapSpikeScreen() {
           {loadEvent ? <Text variant="bodySm">last event: {loadEvent}</Text> : null}
 
           <View style={styles.buttonRow}>
-            <Button
-              title="Download city pack (offline)"
+            <PillButton
+              variant="secondary"
+              size="sm"
+              label="Download city pack (offline)"
               onPress={downloadCityPack}
               disabled={downloadState === 'downloading'}
             />
           </View>
           {downloadState === 'done' ? (
             <View style={styles.buttonRow}>
-              <Button
-                title={useLocalFile ? 'Switch to remote source' : 'Switch to downloaded local file'}
+              <PillButton
+                variant="secondary"
+                size="sm"
+                label={useLocalFile ? 'Switch to remote source' : 'Switch to downloaded local file'}
                 onPress={() => setUseLocalFile((current) => !current)}
               />
             </View>

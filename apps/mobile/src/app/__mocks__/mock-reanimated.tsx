@@ -12,6 +12,11 @@ export function makeMutable<T>(initial: T): { value: T } {
   return { value: initial };
 }
 
+/** The gesture detector's animated event hook: no native events reach it under Jest. */
+export function useEvent(): () => void {
+  return () => {};
+}
+
 export function useFrameCallback(): { setActive: (active: boolean) => void } {
   return { setActive: () => {} };
 }

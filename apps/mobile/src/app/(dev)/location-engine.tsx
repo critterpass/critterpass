@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import * as Updates from 'expo-updates';
-import { Button, DevSettings, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { DevSettings, Platform, ScrollView, StyleSheet, View } from 'react-native';
 
 import { getLocationNative, hasNativeSession } from '../../../modules/cp-location';
 import { getPermissions, type KindReport } from '../../../modules/cp-permissions';
@@ -17,6 +17,7 @@ import {
 import { getPermissionStore } from '@/lib/permissions';
 import { VisitConsentSheet } from '@/ui/permission-primer';
 import { Scaffold, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -144,25 +145,39 @@ export default function LocationEngineDevScreen() {
           </Text>
           <Text testID="dev-location-visits">{`visits: ${visits.join(', ') || 'none'}`}</Text>
           <View style={styles.buttons}>
-            <Button
+            <PillButton
+              variant="secondary"
+              size="sm"
               testID="dev-location-start"
-              title="Start trip day"
+              label="Start trip day"
               onPress={() => setOn(true)}
             />
-            <Button testID="dev-location-stop" title="Stop" onPress={() => setOn(false)} />
-            <Button
+            <PillButton
+              variant="secondary"
+              size="sm"
+              testID="dev-location-stop"
+              label="Stop"
+              onPress={() => setOn(false)}
+            />
+            <PillButton
+              variant="secondary"
+              size="sm"
               testID="dev-location-reload"
-              title="Reload JS"
+              label="Reload JS"
               onPress={() => (__DEV__ ? DevSettings.reload() : void Updates.reloadAsync())}
             />
-            <Button
+            <PillButton
+              variant="secondary"
+              size="sm"
               testID="dev-location-consent"
-              title="Visit consent"
+              label="Visit consent"
               onPress={() => setConsent('showing')}
             />
-            <Button
+            <PillButton
+              variant="secondary"
+              size="sm"
               testID="dev-location-always"
-              title="Offer Always"
+              label="Offer Always"
               onPress={() => void offerAlwaysUpgrade('first_encounter')}
             />
           </View>

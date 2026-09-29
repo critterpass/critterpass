@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Button, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { requestWithPrimer, type PermissionTrigger } from '@/lib/permissions';
 
@@ -10,6 +10,7 @@ import {
   type PermissionSnapshot,
 } from '../../../modules/cp-permissions';
 import { Scaffold, Text, useTheme } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -74,17 +75,31 @@ export default function PermissionsDevScreen() {
                     }`}
               </Text>
               <View style={styles.buttons}>
-                <Button
+                <PillButton
+                  variant="secondary"
+                  size="sm"
                   testID={`dev-permission-${kind}-primer`}
-                  title="Primer"
+                  label="Primer"
                   onPress={() => void requestWithPrimer(kind, TRIGGER[kind]).then(refresh)}
                 />
-                <Button title="Request" onPress={() => void ask(kind)} />
+                <PillButton
+                  variant="secondary"
+                  size="sm"
+                  label="Request"
+                  onPress={() => void ask(kind)}
+                />
                 {kind === 'location' ? (
-                  <Button title="Always" onPress={() => void ask(kind, 'always')} />
+                  <PillButton
+                    variant="secondary"
+                    size="sm"
+                    label="Always"
+                    onPress={() => void ask(kind, 'always')}
+                  />
                 ) : null}
-                <Button
-                  title="Settings"
+                <PillButton
+                  variant="secondary"
+                  size="sm"
+                  label="Settings"
                   onPress={() => void api.openSettings(api.settingsTargetFor(kind))}
                 />
               </View>

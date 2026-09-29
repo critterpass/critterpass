@@ -1,11 +1,12 @@
 import { Canvas, Group, Path } from '@shopify/react-native-skia';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { runOnJS, useFrameCallback, useSharedValue } from 'react-native-reanimated';
 
 import { buildGeckoDrawing } from './critter-gecko-ops';
 import { buildGeckoPaintOps } from './critter-skia-paint';
 import { Scaffold, Stack, Text } from '@/ui';
+import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
@@ -127,8 +128,10 @@ export default function CritterSpikeScreen() {
         </Canvas>
 
         <View style={styles.buttonRow}>
-          <Button
-            title={running ? 'Drawing on…' : 'Play draw-on'}
+          <PillButton
+            variant="secondary"
+            size="sm"
+            label={running ? 'Drawing on…' : 'Play draw-on'}
             onPress={startDrawOn}
             disabled={running}
           />
