@@ -2,9 +2,8 @@ appId: app.critterpass.dev
 ---
 # The guide's voice on real screens in another language: the dev gallery switches the running app's
 # language (`LOCALE`, a gallery locale code; not persisted), two back swipes return to the splash,
-# onboarding reaches Home, and the staging demo seed (no inbox cards) gives Home a Bali trip with
-# its tip strip (3b-2, `${LOCALE}-3b-2-home`); the inbox then shows Tokek's all-caught-up line (3b-5,
-# `${LOCALE}-3b-5-all-caught-up`).
+# Tokek speaks on the name page (3a-2) and the this-or-that quiz (3a-4) on the way to Home, and the
+# staging demo seed gives Home a Bali trip with its tip strip (3b-2).
 - runFlow: open-gallery.yaml
 - tapOn:
     id: 'gallery-locale-${LOCALE}'
@@ -17,7 +16,34 @@ appId: app.critterpass.dev
     end: 90%, 50%
 # The shortest onboarding pass that also runs on Android: search picks the airport, since Android's
 # hideKeyboard presses back when no keyboard is up.
-- runFlow: ../../onboarding/subflows/through-name.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- tapOn:
+    id: 'onboarding-open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-name-field'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-name-field'
+- inputText: 'Winston'
+- hideKeyboard
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-name-tokek'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${LOCALE}-3a-2-name
+- tapOn:
+    id: 'onboarding-name-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-photo'
+    timeout: 10000
+- waitForAnimationToEnd
 - tapOn:
     id: 'onboarding-photo-next'
 - extendedWaitUntil:
@@ -30,6 +56,9 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'taste-card-right'
       - waitForAnimationToEnd
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${LOCALE}-3a-4-this-or-that
 - tapOn:
     id: 'taste-done'
 - tapOn:
@@ -64,13 +93,3 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: ${LOCALE}-3b-2-home
-- openLink: critterpass-dev://inbox
-- extendedWaitUntil:
-    visible:
-      id: 'inbox-caught-up'
-    timeout: 15000
-- tapOn:
-    id: 'inbox-tokek'
-- waitForAnimationToEnd:
-    timeout: 2000
-- takeScreenshot: ${LOCALE}-3b-5-all-caught-up
