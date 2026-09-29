@@ -385,3 +385,24 @@ describe('two-line CTA', () => {
     expect(flatOf(screen.getByTestId('cta')).paddingVertical).toBeGreaterThan(0);
   });
 });
+
+describe('Vietnamese stacked marks', () => {
+  it('opens the display leading for Vietnamese words, whatever the app language', async () => {
+    const screen = await renderWithI18n(
+      <ThemeProvider fontScale={1}>
+        <Text variant="displayXl" autoFit={false} testID="vi">
+          Việt Nam · đặt chỗ
+        </Text>
+        <Text variant="displayXl" autoFit={false} testID="en">
+          Kyoto
+        </Text>
+      </ThemeProvider>,
+    );
+    const leading = (id: string) => {
+      const style = StyleSheet.flatten(screen.getByTestId(id).props.style as TextStyle) ?? {};
+      return (style.lineHeight ?? 0) / (style.fontSize ?? 1);
+    };
+    expect(leading('vi')).toBeCloseTo(1.12, 5);
+    expect(leading('en')).toBeCloseTo(0.86, 5);
+  });
+});

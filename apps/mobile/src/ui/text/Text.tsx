@@ -109,6 +109,9 @@ function transformChildren(
   return { children: mapped, hasElements };
 }
 
+/** Vietnamese letters with marks above (Ặ, Ỗ, Ế…), which rise past the capitals' height. */
+const STACKED_MARKS = /[\u1EA0-\u1EF9]/u;
+
 function plainText(children: ReactNode): string | null {
   const parts: string[] = [];
   let plain = true;
@@ -149,6 +152,9 @@ export function Text({
 
   const widthStep = token.widthStep ?? token.widthStepMin;
   const fallback = plainGuideText ? token.plainTextFallback : undefined;
+  // Vietnamese words set in another language's UI (a hero "ĐÀ NẴNG" in English) still need the
+  // leading their stacked marks do, or the marks run into the line above.
+  const scriptLocale = STACKED_MARKS.test(plainText(children) ?? '') ? 'vi' : locale;
   const font = fontFor(
     {
       fontFamily: fallback?.fontFamily ?? token.fontFamily,
@@ -157,7 +163,7 @@ export function Text({
       lineHeightMultiplier: resolved.lineHeightMultiplier,
       condensed: token.condensed,
     },
-    locale,
+    scriptLocale,
   );
 
   const uppercase = token.textTransform === 'uppercase';

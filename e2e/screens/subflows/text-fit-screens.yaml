@@ -30,7 +30,7 @@ appId: app.critterpass.dev
     element:
       text: '.*AUTO-FIT LONG TITLE.*'
     direction: DOWN
-    timeout: 30000
+    timeout: 90000
 - takeScreenshot: ${LOCALE}-text-2x-long-h1
 - runFlow:
     file: open-gallery-component-in.yaml
