@@ -5,6 +5,8 @@
  * proxies (routes/internal-rt.ts) deny any channel whose namespace is not registered here.
  */
 import {
+  CREW_MAP_CHANNEL_ACL_SQL,
+  CREW_MAP_CHANNEL_NAMESPACE,
   RT_ACL_RULE_SQL,
   RT_CORE_NAMESPACES,
   type ChannelNamespace,
@@ -29,7 +31,11 @@ export interface RtNamespaceDefinition {
 
 /** The ACL for a catalogue rule: its shared SQL predicate, evaluated with the channel id. */
 export function aclForRule(rule: RtAclRule): RtAcl {
-  const sql = RT_ACL_RULE_SQL[rule];
+  return aclForSql(RT_ACL_RULE_SQL[rule]);
+}
+
+/** An ACL from one SQL predicate (`$1` = channel id, one row with `allowed`). */
+export function aclForSql(sql: string): RtAcl {
   return async (_uid, id, tx) => {
     const { rows } = await tx.query<{ allowed: boolean | null }>(sql, [id]);
     return rows[0]?.allowed === true;
@@ -61,3 +67,11 @@ for (const spec of RT_CORE_NAMESPACES) {
     ...(spec.clientPublish !== undefined ? { clientPublish: spec.clientPublish } : {}),
   });
 }
+
+// Crew live map positions: a participant while the crew map is open (boosted, trip days, before
+// last-day midnight); no history, so the app recovers from `GET /v1/trips/{id}/live-snapshot`.
+registerNamespace({
+  name: CREW_MAP_CHANNEL_NAMESPACE,
+  acl: aclForSql(CREW_MAP_CHANNEL_ACL_SQL),
+  presence: false,
+});

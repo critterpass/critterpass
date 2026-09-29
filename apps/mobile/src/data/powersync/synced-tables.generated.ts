@@ -71,6 +71,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'key form_id place_line rule months solar challenge source_url release_id created_at updated_at',
   location_shares: 'trip_id user_id reason starts_at ends_at paused:integer created_at updated_at',
   map_regions: 'destination_id pmtiles_key bytes:integer version created_at updated_at',
+  meetups:
+    'trip_id poi_id place_name lat:real lng:real meet_at created_by status arrived all_close_at created_at updated_at',
   message_reactions: 'message_id crew_id user_id emoji created_at',
   messages:
     'crew_id trip_id seq:integer sender_kind sender_id guide_id type body ref_kind ref_id reply_to_id mentions mentions_guide:integer attachments edited_at deleted_at hidden_at created_at updated_at',

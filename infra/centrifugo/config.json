@@ -152,6 +152,10 @@
         "join_leave": true,
         "force_push_join_leave": true,
         "allow_presence_for_subscriber": true
+      },
+      {
+        "name": "trip_locations",
+        "subscribe_proxy_enabled": true
       }
     ]
   },

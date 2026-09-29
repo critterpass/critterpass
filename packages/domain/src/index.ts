@@ -13,11 +13,7 @@ export {
 } from './channel-names';
 export * from './realtime';
 export * from './travel-data';
-export {
-  CAPABILITY_KEYS,
-  capabilityKeySchema,
-  type CapabilityKey,
-} from './entitlements/capability-keys';
+export * from './entitlements/capability-keys';
 export {
   entitlementRequiredDetailSchema,
   quotaExhaustedDetailSchema,
@@ -294,6 +290,7 @@ export * from './pass';
 export * from './taste';
 export * from './airports';
 export * from './chat';
+export * from './live-map';
 export * from './crews';
 export * from './home';
 export * from './invites';

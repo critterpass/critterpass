@@ -13,6 +13,7 @@ import { registerCrewCommands } from './crews';
 import { registerDeviceCommands } from './device';
 import { registerHomeCommands } from './home';
 import { registerInboxCommands } from './inbox';
+import { registerLiveMapCommands } from './live-map';
 import { registerOnboardingCommands } from './onboarding';
 import { reportContentCommand } from './report-content';
 import { registerLocationCommands } from './visits';
@@ -28,6 +29,7 @@ export function createAppCommandRegistry(): CommandRegistry {
   registerChatCommands(commands);
   registerInboxCommands(commands);
   registerHomeCommands(commands);
+  registerLiveMapCommands(commands);
   commands.register(undoGuideActionCommand);
   commands.register(reportContentCommand);
   commands.register(approveOpsActionCommand);

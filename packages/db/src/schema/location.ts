@@ -83,6 +83,8 @@ export const memberEtas = pgTable(
     etaMin: integer('eta_min'),
     mode: text('mode'),
     statusText: text('status_text'),
+    /** True when `eta_min` is a straight-line estimate, not a routed path. */
+    estimate: boolean('estimate').notNull().default(false),
     progress: real('progress'),
     sharing: text('sharing').notNull().default('off'),
     computedAt: instant('computed_at').notNull().defaultNow(),

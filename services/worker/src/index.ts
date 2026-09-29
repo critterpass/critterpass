@@ -25,6 +25,7 @@ import { createMetricsRecorder } from './obs/metrics';
 import { initWorkerSentry } from './obs/sentry';
 import { avatarJobs } from './jobs/avatar';
 import { chatJobs, registerChatNotifications } from './jobs/chat';
+import { liveMapJobs, registerLiveMapNotifications } from './jobs/live-map';
 import {
   inboxEventHook,
   inboxFanoutJob,
@@ -136,6 +137,7 @@ const jobs: AnyJobDefinition[] = [
   costRecomputeJob,
   ...avatarJobs(env, aiSwitches.assertAiRoute, llmObservability),
   ...chatJobs(env),
+  ...liveMapJobs(env, (error) => logger.warn({ err: error }, 'valhalla matrix failed')),
   inboxFanoutJob(),
   nudgeDispatchJob(),
   countdownRecomputeJob(),
@@ -200,6 +202,7 @@ registerHomeRetention();
 registerNudgeNotifications();
 registerInviteNotifications();
 registerChatNotifications();
+registerLiveMapNotifications();
 
 // Domain events → PostHog (consent-gated, idempotent on the event id).
 let analyticsExport: ExportLoop | undefined;

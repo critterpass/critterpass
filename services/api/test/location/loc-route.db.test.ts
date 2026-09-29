@@ -18,7 +18,7 @@ import { buildLocationFixture, type LocationFixture } from './location-fixture';
 
 let harness: CommandDoorsHarness;
 let fx: LocationFixture;
-const published: { channel: string; data: { fixes: { mock: number }[] } }[] = [];
+const published: { channel: string; data: { data: { fixes: { mock: number }[] } } }[] = [];
 
 beforeAll(async () => {
   harness = await startCommandDoors(
@@ -104,7 +104,7 @@ describe('POST /v1/loc', () => {
     expect(published.map((p) => p.channel).sort()).toEqual(
       [`sos:${sos}`, `trip_locations:${fx.tripId}`].sort(),
     );
-    expect(published[0]!.data.fixes[0]!.mock).toBe(MOCK_FLAG_SIMULATED);
+    expect(published[0]!.data.data.fixes[0]!.mock).toBe(MOCK_FLAG_SIMULATED);
   });
 
   it('answers 403 for an ended share and for someone else’s share', async () => {

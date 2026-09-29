@@ -164,6 +164,11 @@ export const QUEUES = {
     keepCompletedSeconds: 3600,
     cron: { expr: '* * * * *', tz: 'UTC' },
   }),
+  // Crew live map: a meet-up's ETAs are recounted every minute while someone shares (one short
+  // attempt: the next run is a minute away), and a crew-map share's end is announced at its
+  // last-day midnight by a per-share timer.
+  'eta.meetups': spec({ retryLimit: 1, expireInSeconds: 50, keepCompletedSeconds: 3600 }),
+  'location.expire': spec({ retryLimit: 3, keepCompletedSeconds: 86_400 }),
   'visits.ttl': spec({
     policy: 'stately',
     expireInSeconds: 10 * 60,
@@ -287,6 +292,8 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'cost.recompute': "Re-prices one trip's costs",
   'location.fixes_ttl': 'Expires live location fixes',
   'visits.ttl': 'Expires visits of archived trips',
+  'eta.meetups': "Recounts a crew meet-up's ETAs every minute",
+  'location.expire': 'Ends a crew-map share at last-day midnight',
   'avatar.moderate': 'Moderates one uploaded photo avatar',
   'avatar.render': "Renders an approved avatar's PNG variants",
   'chat.photo_thumbnail': "Renders a chat photo's thumbnail",

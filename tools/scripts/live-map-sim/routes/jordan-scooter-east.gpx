@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="critterpass live-map-sim" xmlns="http://www.topografix.com/GPX/1/1">
+  <trk><name>Jalan Raya Ubud east to Campuhan Ridge (scooter)</name><trkseg>
+    <trkpt lat="-8.50950" lon="115.27950"/>
+    <trkpt lat="-8.50830" lon="115.27300"/>
+    <trkpt lat="-8.50720" lon="115.26600"/>
+    <trkpt lat="-8.50640" lon="115.26000"/>
+    <trkpt lat="-8.50500" lon="115.25650"/>
+    <trkpt lat="-8.50330" lon="115.25470"/>
+  </trkseg></trk>
+</gpx>
