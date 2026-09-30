@@ -177,6 +177,13 @@ export const RT_CORE_NAMESPACES: readonly RtNamespaceSpec[] = [
     presence: false,
   },
   {
+    // Co-presence counts ("3 of 6 here") and who is still missing; never a place.
+    name: 'trip_copresence',
+    acl: 'trip_participant',
+    history: { size: 10, ttlSeconds: DAY },
+    presence: false,
+  },
+  {
     name: 'trip_presence',
     acl: 'trip_member',
     history: null,

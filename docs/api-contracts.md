@@ -350,11 +350,14 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 |---|---|---|---|---|---|---|
 | `record_visit` | `{visit_id, trip_id, poi_id, source: geofence\|expense\|manual, arrived_at, left_at?, evidence{dwell_s, acc, mock_flags, detection_version}}` (POI-level, TTL; never raw trail; client `visit_id` so a later call with `left_at` closes the same row; geofence needs `CONSENT(visit_detection)` and evidence: simulated/implausible flags, dwell < 60 s or acc > 50 m → `LOCATION_IMPLAUSIBLE`; accessory flag accepted; POI must be in the trip's destination) | participant (self) | – | `visit.recorded` `{visit_id, trip_id, source}` | O (bg) | 20 |
 | `delete_visit` | `{visit_id}` (owner only; already gone = `{deleted: false}`) | self | – | – | A, O | 20 |
-| `hatch_egg` | `{trip_id, trigger: landed\|arrived}` | S or self (device arrival) | – | `egg.hatched` (N-15) | S, A | 40 |
-| `start_encounter` | `{spawn_id, fix}` | participant | – | `encounter.started` | A, O | 40 |
+| `hatch_egg` | `{trip_id, trigger: arrived\|manual}` (landed is the worker's `critter.hatch`); critter commands in full: [api-contracts-critters.md](./api-contracts-critters.md) | S or self (device arrival, manual once under way) | – | `egg.hatched` (N-15) | S, A, O | 40 |
+| `start_encounter` | `{encounter_id, trip_id\|null, spawn_rule_id, poi_id\|null, started_at, offline}` (no coordinates; doc delta) | participant | – | `encounter.started` | A, O | 40 |
+| `end_encounter` (doc delta) | `{encounter_id, outcome: wandered_off\|abandoned, ended_at, dwell_s}` | owner | – | – | A, O | 40 |
 | `report_encounter_samples` | `{encounter_id, samples[], mock_flags}` | owner | – | – | O | 40 |
 | `befriend_critter` | `{encounter_id, evidence_bundle, attestation}` → entry pending→verified | owner | plausibility | `critter.befriended` (quest, icon unlock, N-49) | A, O | 40 |
-| `set_legendary_reminder` | `{window_id, on}` | self | – | `reminder.changed` (N-30) | A, O | 40 |
+| `set_legendary_reminder` | `{window_id, on}` | self | – | `legendary.reminder_set`; N-30 via `legendary.reminder_due` | A, O | 40 |
+| `set_guide_skin` (doc delta) | `{guide_id, form_id\|null}` (owned form; null reverts) | self | – | – | A, O | 40 |
+| `set_explore_at_home` (doc delta) | `{on}` | self | – | – | A, O | 40 |
 | `signup_quest` | `{quest_id}` | participant | – | `quest.signed_up` | A, O | 41 |
 | `grant_quest_reward` | `{quest_id, uids[]}` | S (evaluator) | – | `quest.completed`, `xp.granted` (N-17) | S | 41 |
 

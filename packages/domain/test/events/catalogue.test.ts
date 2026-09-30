@@ -35,6 +35,52 @@ const VENDOR_MSG = {
 const SWIPE = { trip_id: crypto.randomUUID(), session_id: crypto.randomUUID() };
 const SWIPE_CARD = { ...SWIPE, poi_id: crypto.randomUUID(), user_id: crypto.randomUUID() };
 const PROPOSAL = { trip_id: crypto.randomUUID(), proposal_id: crypto.randomUUID() };
+const EGG = {
+  trip_id: crypto.randomUUID(),
+  user_id: crypto.randomUUID(),
+  egg_id: crypto.randomUUID(),
+};
+const CRITTER_PAYLOADS = {
+  'egg.granted': EGG,
+  'egg.hatched': { ...EGG, form_id: crypto.randomUUID(), trigger: 'landed' },
+  'encounter.started': {
+    trip_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    encounter_id: crypto.randomUUID(),
+    spawn_rule_id: crypto.randomUUID(),
+  },
+  'critter.befriended': {
+    trip_id: null,
+    user_id: crypto.randomUUID(),
+    entry_id: crypto.randomUUID(),
+    form_id: crypto.randomUUID(),
+    critter_id: crypto.randomUUID(),
+    source: 'encounter',
+    first_in_crew: true,
+  },
+  'critter.revoked': {
+    trip_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    encounter_id: crypto.randomUUID(),
+    form_id: crypto.randomUUID(),
+  },
+  'copresence.completed': {
+    trip_id: crypto.randomUUID(),
+    spawn_rule_id: crypto.randomUUID(),
+    form_id: crypto.randomUUID(),
+    user_ids: [crypto.randomUUID()],
+  },
+  'legendary.reminder_set': {
+    user_id: crypto.randomUUID(),
+    window_id: crypto.randomUUID(),
+    on: true,
+  },
+  'legendary.reminder_due': {
+    user_id: crypto.randomUUID(),
+    window_id: crypto.randomUUID(),
+    reminder_id: crypto.randomUUID(),
+  },
+};
 
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
   'crew.member_joined': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
@@ -512,6 +558,7 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     item_id: crypto.randomUUID(),
     meetup_id: null,
   },
+  ...CRITTER_PAYLOADS,
   'draft.requested': { trip_id: crypto.randomUUID(), job_id: crypto.randomUUID() },
   'draft.ready': {
     trip_id: crypto.randomUUID(),

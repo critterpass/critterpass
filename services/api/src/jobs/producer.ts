@@ -32,6 +32,7 @@ import {
   TRIP_DAY_QUEUES,
   PROPOSAL_QUEUES,
   type NotifyRouteJob,
+  CRITTER_QUEUES,
 } from '@cp/domain';
 import type pg from 'pg';
 import { PgBoss } from 'pg-boss';
@@ -104,6 +105,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(TRIP_DAY_QUEUES),
       ...Object.values(EXPLORE_QUEUES),
       ...Object.values(PROPOSAL_QUEUES),
+      ...Object.values(CRITTER_QUEUES),
       'cost.recompute',
       SUPPLIER_QUEUES.replyParse,
     ]) {

@@ -345,6 +345,11 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'leave_by.alarm_due': ['leave_by_alarm'],
   'member.running_late': ['crew_ping'],
   'briefing.built': ['morning_briefing'],
+  // Critters: the egg hatching on arrival, a crewmate's find (roundup) and a legendary window a
+  // month away.
+  'egg.hatched': ['landed_egg_hatch'],
+  'critter.befriended': ['crewmate_befriended'],
+  'legendary.reminder_due': ['critter_window_reminder'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

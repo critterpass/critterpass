@@ -1590,6 +1590,38 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     selectProbe: { sql: 'SELECT 1 FROM readiness WHERE trip_id = $1', params: (f) => [f.tripId] },
     expectations: CREW_VISIBLE_READ,
   },
+  // Critters: own rows only, crewmates' eggs on a shared trip, crew counts to the crew, and the
+  // evidence and samples to nobody.
+  eggs: {
+    selectProbe: { sql: 'SELECT 1 FROM eggs WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  encounters: {
+    selectProbe: ownRowProbe('encounters'),
+    // Anyone may start their own encounter; only the owner reads it; the server updates it.
+    expectations: {
+      organiser: op(true, true, false),
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      outsider: op(false, true, false),
+      exMember: op(false, true, false),
+      anonymous: op(false, true, false),
+    },
+  },
+  encounter_evidence: {
+    selectProbe: { sql: 'SELECT 1 FROM encounter_evidence LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  encounter_samples: {
+    selectProbe: { sql: 'SELECT 1 FROM encounter_samples LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  collection_entries: { selectProbe: ownRowProbe('collection_entries'), expectations: OWNER_READ },
+  guide_skins: { selectProbe: ownRowProbe('guide_skins'), expectations: OWNER_READ },
+  crew_collection_counts: {
+    selectProbe: ownRowProbe('crew_collection_counts'),
+    expectations: CREW_VISIBLE_READ,
+  },
   offline_bundles: {
     selectProbe: {
       sql: 'SELECT 1 FROM offline_bundles WHERE trip_id = $1',
