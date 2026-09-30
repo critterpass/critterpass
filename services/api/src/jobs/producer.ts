@@ -27,6 +27,7 @@ import {
   BOOKINGS_QUEUES,
   PLAN_QUEUES,
   SETUP_QUEUES,
+  SUPPLIER_QUEUES,
   TRIP_DAY_QUEUES,
   type NotifyRouteJob,
 } from '@cp/domain';
@@ -100,6 +101,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(GUIDE_QUEUES),
       ...Object.values(TRIP_DAY_QUEUES),
       'cost.recompute',
+      SUPPLIER_QUEUES.replyParse,
     ]) {
       if ((await boss.getQueue(queue)) === null) {
         await boss.createQueue(queue, { policy: 'exclusive' });

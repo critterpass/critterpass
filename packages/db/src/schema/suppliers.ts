@@ -1,8 +1,9 @@
 /**
  * The supplier layer (docs/data-model.md §3.7), a typed mirror of the supplier migrations: orders
  * placed with a supplier that is the merchant of record and their items, affiliate clicks and
- * conversions, the trip's providers, and Grab ride quotes and logged rides. No table holds supplier content: ids, prices at the time
- * of display, status and references only.
+ * conversions, the trip's providers, Grab ride quotes and logged rides, and the ops desk's vendor
+ * threads and messages. No table holds supplier content: ids, prices at the time of display, status
+ * and references only.
  */
 import { registerTablePrivacy } from '@cp/domain';
 import { sql } from 'drizzle-orm';
@@ -12,6 +13,7 @@ import {
   date,
   integer,
   jsonb,
+  pgSchema,
   pgTable,
   text,
   timestamp,
@@ -21,7 +23,11 @@ import {
 import { registerMergeRule } from '../merge-rules';
 import { bookings } from './bookings';
 import { users } from './identity';
+import { opsApprovals, opsConciergeTasks } from './ops-console';
+import { pois } from './places';
 import { trips } from './trips';
+
+const ops = pgSchema('ops');
 
 const id = () =>
   uuid('id')
@@ -168,6 +174,54 @@ export const rides = pgTable('rides', {
   loggedBy: uuid('logged_by')
     .notNull()
     .references(() => users.id),
+  version: integer('version').notNull().default(1),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+/** RLS class S, C2: the desk's WhatsApp threads; the vendor's number is sealed and hashed. */
+export const opsVendorThreads = ops.table('vendor_threads', {
+  id: id(),
+  tripId: tripRef().notNull(),
+  requestedBy: uuid('requested_by')
+    .notNull()
+    .references(() => users.id),
+  providerId: uuid('provider_id').references(() => providers.id),
+  poiId: uuid('poi_id').references(() => pois.id),
+  vendorName: text('vendor_name').notNull(),
+  channel: text('channel').notNull(),
+  waContactEnc: text('wa_contact_enc'),
+  waContactHash: text('wa_contact_hash'),
+  status: text('status').notNull().default('open'),
+  taskId: uuid('task_id').references(() => opsConciergeTasks.id),
+  lastInboundAt: at('last_inbound_at'),
+  version: integer('version').notNull().default(1),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+/** Outbound drafts and sends (only ever with a matching approval) and verbatim inbound replies. */
+export const opsVendorMessages = ops.table('vendor_messages', {
+  id: id(),
+  threadId: uuid('thread_id')
+    .notNull()
+    .references(() => opsVendorThreads.id),
+  tripId: tripRef().notNull(),
+  direction: text('direction').notNull(),
+  proposedBy: text('proposed_by').notNull().default('user'),
+  intent: text('intent'),
+  body: text('body').notNull(),
+  status: text('status').notNull(),
+  approvedByUserId: uuid('approved_by_user_id').references(() => users.id),
+  approvedAt: at('approved_at'),
+  approvalId: uuid('approval_id').references(() => opsApprovals.id),
+  approvedTextSha256: char('approved_text_sha256', { length: 64 }),
+  templateName: text('template_name'),
+  waMessageId: text('wa_message_id').unique(),
+  sentByAdminId: uuid('sent_by_admin_id'),
+  sentAt: at('sent_at'),
+  failureReason: text('failure_reason'),
+  reply: jsonb('reply'),
   version: integer('version').notNull().default(1),
   createdAt: createdAt(),
   updatedAt: updatedAt(),

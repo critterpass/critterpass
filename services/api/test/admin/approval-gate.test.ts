@@ -10,7 +10,9 @@ import { describe, expect, it } from 'vitest';
 
 const SRC = path.resolve(import.meta.dirname, '../../src');
 const OUTBOUND = [
-  /INSERT\s+INTO\s+ops\.vendor_messages/i,
+  // A draft or an inbound reply is not outbound; an outbound row written approved or sent is.
+  /INSERT\s+INTO\s+ops\.vendor_messages[^;]*'outbound'[^;]*'(approved|sent|delivered|read)'/is,
+  /\bstatus\s*=\s*'sent'/,
   /\bsendVendorMessage\b/,
   /\bsend_vendor_message\b/,
   /graph\.facebook\.com\/[^'"`]*\/messages/,

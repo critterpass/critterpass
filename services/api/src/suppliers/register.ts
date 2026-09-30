@@ -21,6 +21,9 @@ import { registerOrderRoutes } from './order-routes';
 import { createRideQuoter, grabEstimatorFromEnv, registerRideQuoteRoute } from './rides-quote';
 import { registerSupplierPlanProviders } from './plan-providers';
 import { registerSettleDoor } from './settle-door';
+import { registerVendorWebhookRoutes } from '../routes/webhooks/whatsapp-vendor';
+import { vendorDepsFromEnv } from './vendor-store';
+import { registerVendorThreadsRoute } from './vendor-threads-route';
 
 export interface SupplierDoors {
   readonly pool: pg.Pool;
@@ -38,7 +41,24 @@ export function registerSupplierRoutes(
     doors.logger.warn({ err: error }, 'supplier call audit write failed'),
   );
   const port = viatorPortFromEnv(env, http);
-  registerSupplierCommands(doors.registry, { http, links: affiliateLinkConfigFromEnv(env), port });
+  const vendor = vendorDepsFromEnv(env, http);
+  registerSupplierCommands(doors.registry, {
+    http,
+    links: affiliateLinkConfigFromEnv(env),
+    port,
+    vendor,
+  });
+  registerVendorThreadsRoute(app, doors);
+  const appSecret = env['WHATSAPP_VENDOR_APP_SECRET'];
+  const verifyToken = env['WHATSAPP_VENDOR_VERIFY_TOKEN'];
+  if (appSecret && verifyToken && vendor.pepper !== undefined) {
+    registerVendorWebhookRoutes(app, {
+      pool: doors.pool,
+      appSecret,
+      verifyToken,
+      pepper: vendor.pepper,
+    });
+  }
   registerSupplierBridgeRoute(app, doors.pool);
   registerOrderRoutes(app, { ...doors, port });
   registerCancelQuoteRoute(app, { ...doors, port });

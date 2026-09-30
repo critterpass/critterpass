@@ -85,6 +85,23 @@ export { fetchFarefeed, leadService, type FarefeedService } from './grab/farefee
 export { GOJEK_APP_URL, GOJEK_FALLBACK_URL } from './gojek/deeplink';
 export { GRAB_FALLBACK_URL, rideAppLink, type RideLinkTarget } from './rides/links';
 export {
+  createWhatsAppBusinessClient,
+  waRecipient,
+  WHATSAPP_GRAPH_URL,
+  WHATSAPP_SUPPLIER,
+  type WhatsAppBusinessClient,
+  type WhatsAppBusinessConfig,
+  type WhatsAppSent,
+} from './whatsapp/client';
+export { VENDOR_REQUEST_TEMPLATE } from './whatsapp/templates';
+export {
+  parseWhatsAppWebhook,
+  verifyWhatsAppSignature,
+  type WhatsAppInbound,
+  type WhatsAppStatus,
+  type WhatsAppWebhook,
+} from './whatsapp/webhook-verify';
+export {
   quoteRide,
   type GrabEstimator,
   type RideQuote,

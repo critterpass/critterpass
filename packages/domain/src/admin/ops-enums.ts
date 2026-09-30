@@ -9,6 +9,7 @@ export const CONCIERGE_TASK_KINDS = [
   'clinic_handoff',
   'partner_booking',
   'review',
+  'other',
 ] as const;
 export const conciergeTaskKindSchema = z.enum(CONCIERGE_TASK_KINDS);
 export type ConciergeTaskKind = z.infer<typeof conciergeTaskKindSchema>;
@@ -31,6 +32,7 @@ export const PARTNER_KEYS = [
   'viator_booking',
   'gyg_api',
   'grab_farefeed',
+  'whatsapp_business',
 ] as const;
 export const partnerKeySchema = z.enum(PARTNER_KEYS);
 export type PartnerKey = z.infer<typeof partnerKeySchema>;

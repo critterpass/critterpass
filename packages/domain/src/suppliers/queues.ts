@@ -9,6 +9,7 @@ export const SUPPLIER_QUEUES = {
   holdExpiry: 'supplier.hold_expiry',
   viatorPoll: 'supplier.viator_poll',
   affiliateConversions: 'supplier.affiliate_conversions',
+  replyParse: 'vendor.reply_parse',
 } as const;
 
 export const SUPPLIER_QUEUE_SPECS = {
@@ -29,6 +30,8 @@ export const SUPPLIER_QUEUE_SPECS = {
     expireInSeconds: 30 * 60,
     cron: { expr: '30 3 * * *', tz: 'UTC' },
   },
+  // One job per inbound vendor reply, keyed by the message (a webhook redelivery queues nothing).
+  'vendor.reply_parse': { policy: 'exclusive', retryLimit: 3, deadLetter: true },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
 export function supplierQueueSpecs(
@@ -48,6 +51,7 @@ export const SUPPLIER_QUEUE_DESCRIPTIONS: Readonly<
   'supplier.hold_expiry': 'Lets a supplier hold go before it lapses and closes the votes on it',
   'supplier.viator_poll': 'Reads the status of Viator bookings waiting on the operator',
   'supplier.affiliate_conversions': 'Imports partner booking statistics into affiliate conversions',
+  'vendor.reply_parse': "Reads a vendor's WhatsApp reply into an intent card for the traveller",
 };
 
 /** The worker's status poll authenticates to the api's settle door with this header. */

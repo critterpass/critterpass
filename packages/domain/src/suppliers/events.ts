@@ -4,10 +4,12 @@
  */
 import { z } from 'zod';
 
+import { VENDOR_EVENT_PAYLOADS, VENDOR_EVENT_TYPES } from '../vendor-comms/events';
 import { AFFILIATE_PARTNERS } from './partners';
 import { supplierOrderStatusSchema } from './order-state';
 
 export const SUPPLIER_EVENT_TYPES = [
+  ...VENDOR_EVENT_TYPES,
   'supplier.link_opened',
   'activity.held',
   'activity.hold_released',
@@ -24,6 +26,7 @@ export type SupplierEventType = (typeof SUPPLIER_EVENT_TYPES)[number];
 const order = z.object({ trip_id: z.uuid(), order_id: z.uuid() });
 
 export const SUPPLIER_EVENT_PAYLOADS = {
+  ...VENDOR_EVENT_PAYLOADS,
   'supplier.link_opened': z.object({
     click_id: z.uuid(),
     trip_id: z.uuid().nullable(),
