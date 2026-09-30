@@ -124,18 +124,20 @@ export function LineAssignSheet(props: LineAssignSheetProps) {
           testID={`money-review-line-${row.lineId}`}
         >
           <Row style={[styles.row, row.check === null ? null : styles.check]}>
-            <Text variant="rowTitle" numberOfLines={1} style={styles.label}>
-              {row.label}
-            </Text>
-            {row.check === null ? null : (
-              <Text
-                variant="rowTitle"
-                color={theme.semantic.state.warning}
-                testID={`money-review-check-${row.lineId}`}
-              >
-                {row.check}
+            <Stack gap="2" style={styles.label}>
+              <Text variant="rowTitle" numberOfLines={1}>
+                {row.label}
               </Text>
-            )}
+              {row.check === null ? null : (
+                <Text
+                  variant="bodySm"
+                  color={theme.semantic.state.warning}
+                  testID={`money-review-check-${row.lineId}`}
+                >
+                  {row.check}
+                </Text>
+              )}
+            </Stack>
             {row.assignees === null || row.byShare ? null : (
               <Animated.View
                 {...(reduced
