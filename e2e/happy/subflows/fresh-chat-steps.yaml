@@ -67,9 +67,14 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'pitch-add'
 - openLink: critterpass-dev://
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
 - extendedWaitUntil:
     visible:
-      id: 'board-sticker-0'
+      id: 'tab-wallet'
     timeout: 30000
 # An expense on the vote's trip posts its card in the chat.
 - tapOn:
@@ -108,6 +113,10 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       id: 'chat-expense-view-.*'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'poll-option-0'
     timeout: 30000
 - assertNotVisible:
     id: 'chat-unknown-.*'
