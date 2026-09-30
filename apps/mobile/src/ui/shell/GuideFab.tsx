@@ -16,6 +16,7 @@ import { impact } from '@/motion/feedback';
 import { useLongPress } from '@/motion/gestures/long-press';
 import { usePress } from '@/motion/gestures/press';
 
+import { GUIDE_DEX_IDS } from '../avatar/guides';
 import { Sticker } from '../sticker/Sticker';
 import { makeStyles, sizeToken } from '../theme';
 
@@ -25,17 +26,8 @@ export const GUIDE_SHEET_SCREEN = '3j-1';
 // eslint-disable-next-line lingui/no-unlocalized-strings -- design screen id (data key), never rendered
 export const HELP_HUB_SCREEN = '3k-6';
 
-const GUIDE_CRITTER_IDS: Readonly<Record<GuideId, string>> = {
-  tokek: 'cp-112',
-  pon: 'cp-061',
-  lundi: 'cp-148',
-  ajo: 'cp-041',
-  sardi: 'cp-076',
-  paco: 'cp-145',
-};
-
 export function guideCritter(guideId: GuideId): Critter {
-  const critter = critters.find((entry) => entry.id === GUIDE_CRITTER_IDS[guideId]);
+  const critter = critters.find((entry) => entry.id === GUIDE_DEX_IDS[guideId]);
   if (!critter) {
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a developer-facing throw, never rendered.
     throw new Error(`critter-art: guide ${guideId} missing from the dex`);

@@ -6,7 +6,7 @@ import { useLiveRows } from '../../data/live-rows';
 
 const GUIDE_SQL = `SELECT g.slug, g.name FROM trips t JOIN guides g ON g.id = t.guide_id WHERE t.id = ?`;
 const GUIDE_TABLES = ['trips', 'guides'];
-const GUIDE_IDS: readonly string[] = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco'];
+const GUIDE_IDS: readonly string[] = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco', 'chava'];
 
 export interface TripGuide {
   readonly id: GuideId;

@@ -28,7 +28,7 @@ import { PlanOverviewView, type PlanTab } from './plan-overview-view';
 import { planRoutes } from './routes';
 import { PlanShareSlot } from './share-slot';
 
-const GUIDE_IDS: readonly string[] = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco'];
+const GUIDE_IDS: readonly string[] = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco', 'chava'];
 
 export function guideOf(data: PlanData): { id: GuideId; name: string } {
   const slug = data.trip?.guide_slug ?? 'tokek';

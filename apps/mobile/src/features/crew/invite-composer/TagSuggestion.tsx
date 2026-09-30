@@ -8,7 +8,7 @@ import { View } from 'react-native';
 
 import type { InviteTagsResponse } from '@cp/domain';
 
-import { GUIDE_STICKERS, type GuideAvatarId } from '@/ui/avatar/guides';
+import { GUIDE_STICKERS, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -20,8 +20,8 @@ const useStyles = makeStyles((th) => ({
   root: { gap: th.space['8'], alignItems: 'flex-start' },
 }));
 
-function guideOf(slug: string): GuideAvatarId {
-  return slug in GUIDE_STICKERS ? (slug as GuideAvatarId) : 'tokek';
+function guideOf(slug: string): GuideStickerId {
+  return isGuideStickerId(slug) ? slug : 'tokek';
 }
 
 export function TagSuggestion({

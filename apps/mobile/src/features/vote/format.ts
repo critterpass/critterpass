@@ -7,7 +7,7 @@ import { format } from '@cp/i18n';
 
 import type { GuideId } from '@/ui/people/GuideLine';
 
-const GUIDES: readonly GuideId[] = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco'];
+const GUIDES: readonly GuideId[] = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco', 'chava'];
 
 export function guideOr(value: string | null | undefined, fallback: GuideId = 'tokek'): GuideId {
   return GUIDES.includes(value as GuideId) ? (value as GuideId) : fallback;

@@ -13,7 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
-import { GUIDE_STICKERS, type GuideAvatarId } from '@/ui/avatar/guides';
+import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { SlideToConfirm } from '@/ui/inputs/SlideToConfirm';
 import { Stack } from '@/ui/layout/Stack';
@@ -25,7 +25,7 @@ const STICKER = 150;
 const GLOW = 440;
 
 export interface InAppAlarmProps {
-  readonly guide: GuideAvatarId;
+  readonly guide: GuideStickerId;
   /** "Leave-by alarm · Batur". */
   readonly eyebrow: string;
   readonly time: string;

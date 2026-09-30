@@ -37,6 +37,7 @@ const TONES = {
   ajo: 'pink',
   sardi: 'green',
   paco: 'cream',
+  chava: 'red',
 } as const;
 
 const TAG_ICONS: Readonly<Record<string, DoodleName>> = {
