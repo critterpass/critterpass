@@ -4,10 +4,9 @@
  * has one. We never show a driver, a plate or a car on its way: nobody is booked by us.
  */
 import { useLingui } from '@lingui/react/macro';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
-import { TextLink } from '@/ui/buttons/TextLink';
 import { Icon } from '@/ui/icons/Icon';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -90,11 +89,20 @@ export function GrabEstimateCard({
           </Text>
           <Row gap="8" align="center" style={{ flexWrap: 'wrap' }}>
             <Text variant="body">{fare.line}</Text>
-            <TextLink
-              label={t({ id: 'suppliers.rides.whyEstimate', message: 'Why this estimate' })}
+            <Pressable
+              accessibilityRole="link"
               onPress={fare.onWhy}
+              hitSlop={12}
               testID="getting-around-fare-why"
-            />
+            >
+              <Text
+                variant="body"
+                color={theme.semantic.text.secondary}
+                style={{ textDecorationLine: 'underline' }}
+              >
+                {t({ id: 'suppliers.rides.whyEstimate', message: 'Why this estimate' })}
+              </Text>
+            </Pressable>
           </Row>
           {fare.crew ? (
             <Text variant="caption" color={theme.semantic.text.secondary}>

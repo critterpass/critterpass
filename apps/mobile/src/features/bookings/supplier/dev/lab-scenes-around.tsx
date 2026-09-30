@@ -9,6 +9,7 @@ import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 
 import { EstimateSheet } from '../../getting-around/EstimateSheet';
+import { durationMessage } from '../../getting-around/duration';
 import { glossMessage } from '../../getting-around/phrase';
 import {
   GettingAroundView,
@@ -128,8 +129,6 @@ function AroundScene({
   const { t, i18n } = useLingui();
   const render = useSupplierCopy();
   const locale = useLocale();
-  const hours = kyoto ? 0 : 1;
-  const rest = kyoto ? '28' : '05';
   // The same place as the local line: Kyoto's phrase names the temple alone.
   const place = kyoto ? 'Kinkaku-ji' : 'Villa Kayu Manis, Jalan Raya Sayan, Ubud';
   const startedAt =
@@ -142,7 +141,7 @@ function AroundScene({
     <GettingAroundView
       status={status}
       guide={{ id: 'tokek', name: 'Tokek' }}
-      header={`${kyoto ? 'Kyoto Station → Kinkaku-ji' : 'Airport → Villa Kayu Manis'} · ${t({ id: 'suppliers.around.hours', message: `${hours}h ${rest}m` })}`}
+      header={`${kyoto ? 'Kyoto Station → Kinkaku-ji' : 'Airport → Villa Kayu Manis'} · ${i18n._(durationMessage(kyoto ? 28 : 65))}`}
       map={{
         from: kyoto ? STATION : AIRPORT,
         to: kyoto ? KINKAKU : VILLA,

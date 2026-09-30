@@ -19,8 +19,7 @@ msgstr ""
 msgid "suppliers.ticker.held"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+#: ../../apps/mobile/src/features/bookings/getting-around/duration.ts
 msgid "suppliers.around.hours"
 msgstr ""
 
@@ -28,8 +27,8 @@ msgstr ""
 msgid "suppliers.booked.memberOn"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
-msgid "suppliers.around.minutes"
+#: ../../apps/mobile/src/features/bookings/getting-around/duration.ts
+msgid "suppliers.around.minutesShort"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx

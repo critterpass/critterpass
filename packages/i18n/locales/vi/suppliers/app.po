@@ -19,8 +19,7 @@ msgstr "{guide} tìm được {seats} {what}"
 msgid "suppliers.ticker.held"
 msgstr "{guide} đã giữ {seats} {what}"
 
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+#: ../../apps/mobile/src/features/bookings/getting-around/duration.ts
 msgid "suppliers.around.hours"
 msgstr "{hours} giờ {rest} phút"
 
@@ -28,9 +27,9 @@ msgstr "{hours} giờ {rest} phút"
 msgid "suppliers.booked.memberOn"
 msgstr "{member} đã đặt trên {supplier}"
 
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
-msgid "suppliers.around.minutes"
-msgstr "{minutes} phút"
+#: ../../apps/mobile/src/features/bookings/getting-around/duration.ts
+msgid "suppliers.around.minutesShort"
+msgstr "{mins} phút"
 
 #: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
 msgid "suppliers.estimate.operator"
@@ -564,7 +563,7 @@ msgstr "Đưa thẻ bên dưới cho tài xế taxi xem."
 
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.rides.phraseCard"
-msgstr "Đưa cái này cho tài xế"
+msgstr "Cho tài xế xem"
 
 #: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
 msgid "suppliers.estimate.sources"

@@ -19,8 +19,7 @@ msgstr "{guide} found {seats} {what}"
 msgid "suppliers.ticker.held"
 msgstr "{guide} held {seats} {what}"
 
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+#: ../../apps/mobile/src/features/bookings/getting-around/duration.ts
 msgid "suppliers.around.hours"
 msgstr "{hours}h {rest}m"
 
@@ -28,9 +27,9 @@ msgstr "{hours}h {rest}m"
 msgid "suppliers.booked.memberOn"
 msgstr "{member} booked it on {supplier}"
 
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
-msgid "suppliers.around.minutes"
-msgstr "{minutes} min"
+#: ../../apps/mobile/src/features/bookings/getting-around/duration.ts
+msgid "suppliers.around.minutesShort"
+msgstr "{mins}m"
 
 #: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
 msgid "suppliers.estimate.operator"

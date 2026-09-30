@@ -18,6 +18,7 @@ import { useTripGuide } from '../supplier/data/use-trip-guide';
 import { rideAppName } from '../supplier/suppliers';
 import { GettingAroundView } from './GettingAroundView';
 import type { Leg } from './model';
+import { durationMessage } from './duration';
 import { driverPhrase, glossMessage } from './phrase';
 import { rideCard } from './ride-card';
 import { openRideLink } from './ride-links';
@@ -44,19 +45,12 @@ export function GettingAroundScreen({
   const to = data.leg.to;
   const from = data.leg.from ?? data.here;
 
-  const duration = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const rest = String(minutes % 60).padStart(2, '0');
-    return hours > 0
-      ? t({ id: 'suppliers.around.hours', message: `${hours}h ${rest}m` })
-      : t({ id: 'suppliers.around.minutes', message: `${minutes} min` });
-  };
   const header =
     to === null
       ? null
       : [
           data.leg.from ? `${data.leg.from.name} → ${to.name}` : to.name,
-          data.driveMinutes === null ? null : duration(data.driveMinutes),
+          data.driveMinutes === null ? null : i18n._(durationMessage(data.driveMinutes)),
         ]
           .filter((part): part is string => part !== null)
           .join(' · ');

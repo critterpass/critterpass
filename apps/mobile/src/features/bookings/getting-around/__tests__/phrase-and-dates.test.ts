@@ -7,6 +7,7 @@ import { setupI18n, type Messages } from '@lingui/core';
 
 import { loadCatalog } from '@cp/i18n';
 
+import { durationMessage } from '../duration';
 import { formatCheckedDate } from '../EstimateSheet';
 import { glossMessage } from '../phrase';
 
@@ -51,5 +52,19 @@ describe('check dates', () => {
     expect(formatCheckedDate('2026-09-30T03:00:00Z', 'en-US', 'America/Los_Angeles')).toBe(
       'Sep 29, 2026',
     );
+  });
+});
+
+describe('the header duration', () => {
+  it.each([
+    ['en', 28, '28m'],
+    ['en', 65, '1h 05m'],
+    ['en', 60, '1h 00m'],
+    ['vi', 28, '28 phút'],
+    ['vi', 65, '1 giờ 05 phút'],
+  ])('in %s, %i minutes read %s', async (locale, minutes, expected) => {
+    const messages: Messages = await loadCatalog(locale, 'suppliers/app');
+    const i18n = setupI18n({ locale, messages: { [locale]: messages } });
+    expect(i18n._(durationMessage(minutes))).toBe(expected);
   });
 });
