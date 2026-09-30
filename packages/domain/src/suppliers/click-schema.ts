@@ -1,6 +1,6 @@
 /**
  * `record_supplier_click` (docs/api-contracts.md §4.11): the app records a partner link click with
- * its own random sub id (so an offline tap can open `go.critterpass.app/r/{sub_id}` at once and the
+ * its own random sub id (so an offline tap can open `go.<domain>/out/{sub_id}` at once and the
  * bridge redirects once the click syncs); the server builds the partner link and answers it with
  * the disclosure the card shows.
  */
@@ -49,7 +49,11 @@ export const recordSupplierClickResultSchema = z.object({
 });
 export type RecordSupplierClickResult = z.infer<typeof recordSupplierClickResultSchema>;
 
-/** The bridge link an offline tap opens; it redirects to the partner once the click syncs. */
-export function bridgeUrl(subId: string, base = 'https://go.critterpass.app'): string {
-  return `${base}/r/${subId}`;
+/**
+ * The bridge link an offline tap opens; it redirects to the partner once the click syncs. `base` is
+ * the environment's `go.` host origin. The path stays outside the paths the app claims as app links,
+ * so the tap reaches the partner instead of reopening the app.
+ */
+export function bridgeUrl(subId: string, base: string): string {
+  return `${base.replace(/\/+$/u, '')}/out/${subId}`;
 }
