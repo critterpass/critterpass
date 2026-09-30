@@ -58,10 +58,13 @@ appId: app.critterpass.dev
     timeout: 60000
 - tapOn:
     id: 'pitch-add'
+- waitForAnimationToEnd
+# The sheet usually closes onto Home by itself; back out only if it is still open (a back from
+# Home would leave the app).
 - runFlow:
     when:
-      notVisible:
-        id: 'destination-board'
+      visible:
+        id: 'pitch-add'
     file: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
@@ -110,10 +113,11 @@ appId: app.critterpass.dev
     id: 'gallery-locale-vi'
 - runFlow: ../onboarding/subflows/back.yaml
 - waitForAnimationToEnd
+# Back from the gallery lands on the developer tools list, one more back on Home.
 - runFlow:
     when:
-      notVisible:
-        id: 'destination-board'
+      visible:
+        id: 'dev-nav-gallery'
     file: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
