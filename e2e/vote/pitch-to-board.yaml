@@ -4,10 +4,29 @@ appId: app.critterpass.dev
 # streams in section by section (sticker, chips, headline, reasons, quote); ADD TO THE VOTE puts
 # the place on the crew's board and Home shows WHERE NEXT? with its sticker.
 #
-# Needs before it can pass: an onboarded account that is the only-crew member of ${CREW_ID}, with
-# no open destination vote, and an api with the place index and the pitch route enabled.
-- launchApp
-- openLink: critterpass-dev://places/search?crewId=${CREW_ID}
+# Data: a fresh account onboards and starts its only crew, so the crew has no destination vote yet
+# and a pitch goes straight to it. Needs an api with the place index and the pitch route enabled.
+- launchApp:
+    clearState: true
+- runFlow: ../home/subflows/onboard.yaml
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 10000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Pitch Crew'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 20000
+- tapOn:
+    id: 'start-crew-done'
+- openLink: critterpass-dev://places/search
 - extendedWaitUntil:
     visible:
       id: 'place-search-field'
@@ -17,13 +36,33 @@ appId: app.critterpass.dev
     visible:
       text: 'LISBON'
     timeout: 10000
-- tapOn: 'LISBON'
-- extendedWaitUntil:
-    visible:
+# The row, not the query: text matching would also find the typed 'lisbon'.
+- tapOn:
+    id: 'place-result-.*'
+    index: 0
+# Android keeps the search keyboard up over the guest page; its actions sit under it.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
+# The pitch action sits below the guest guide's brief.
+- scrollUntilVisible:
+    element:
       id: 'guest-pitch'
+    direction: DOWN
     timeout: 30000
 - tapOn:
     id: 'guest-pitch'
+# Until the new crew has synced the page asks which crew to pitch to; pick it there.
+- runFlow:
+    when:
+      visible:
+        id: 'crew-picker'
+    commands:
+      - tapOn:
+          id: 'crew-pick-.*'
+          index: 0
 - extendedWaitUntil:
     visible:
       id: 'pitch-sheet'

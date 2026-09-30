@@ -3,22 +3,22 @@ appId: app.critterpass.dev
 # Report a crewmate's message with a reason, muting them at the same time; their messages leave
 # this device's timeline and a thank-you toast confirms the report.
 #
-# Needs before it can pass: an onboarded account in crew ${CREW_ID} where ${OTHER_NAME} has sent
-# ${OTHER_MESSAGE}.
-- launchApp
-- openLink: critterpass-dev://crew/${CREW_ID}/chat
-- extendedWaitUntil:
-    visible:
-      text: ${OTHER_MESSAGE}
-    timeout: 15000
-- longPressOn: ${OTHER_MESSAGE}
+# Data: the demo crew's chat, where Jordan Demo asked about Uluwatu.
+- runFlow: subflows/open-demo-chat.yaml
+- longPressOn: 'Can we do Uluwatu at sunset on day two\?'
 - tapOn: 'Report'
 - extendedWaitUntil:
     visible:
       id: 'chat-report'
     timeout: 5000
 - tapOn: 'Bullying or harassment'
-- tapOn: 'Also mute ${OTHER_NAME}'
+# The switch, not its title: only the switch flips the row. The switch's accessibility text adds
+# its state to the title, which the plain title does not match.
+- tapOn:
+    text: 'Also mute Jordan.+'
+- assertVisible:
+    text: 'Also mute Jordan.+'
+    checked: true
 - takeScreenshot: chat-report-sheet
 - tapOn:
     id: 'chat-report-send'
@@ -28,5 +28,5 @@ appId: app.critterpass.dev
     timeout: 10000
 - extendedWaitUntil:
     notVisible:
-      text: ${OTHER_MESSAGE}
+      text: 'Can we do Uluwatu at sunset on day two\?'
     timeout: 30000

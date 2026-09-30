@@ -133,7 +133,7 @@ Permission denied / WIU only while backgrounded (row "Updates when you open the 
 - Steps: 1. Seed boosted + unboosted trips. 2. Maestro flows with simulated location (iOS `simctl location`, Android emulator geo fix) + sim peers. 3. Assert ETA text changes after 60 s, pause hides own pin for peer (via API check), gate card on unboosted.
 - Tests: `maestro test e2e/crew/live-map/`
 - Done when: 4 flows green on iOS 26 simulator and Android API 36 emulator in CI.
-- Status: blocked — c466be7 flows written; the four data flows need the sim seed on staging and iOS/Android device runs
+- Status: blocked — c466be7 flows written. A demo-seed scenario alone cannot drive them: they need crewmates that keep moving during the run (`tools/scripts/live-map-sim/sim.ts` posting fixes every 5 s with `--join` for the device's uid), the device's own location set (`simctl location` / emulator geo fix), a peer-side api check while paused, and the trip window fast-forwarded. That is runner orchestration in `.github/workflows/device.yml` and `tools/scripts/ci-device` (start the sim against staging once the flow has onboarded and reported its uid), plus a Developer tools entry that seeds the boosted and unboosted trips, which is app code. Checked on the iOS runner (https://github.com/critterpass/critterpass/actions/runs/36587461907): all four fail at their first `openLink` because nothing sets `${TRIP_ID}` / `${UNBOOSTED_TRIP_ID}`
 
 ## Phase acceptance criteria
 - [ ] Permission tests prove unboosted/outsider/after-window cannot read `meetups`, `member_etas` or subscribe to `trip_locations`

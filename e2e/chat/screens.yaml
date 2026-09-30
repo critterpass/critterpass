@@ -3,14 +3,8 @@ appId: app.critterpass.dev
 # Screenshots of the crew chat's states for review against 3g-1: the timeline, the attach menu,
 # the recorder bar and the empty chat of a new crew.
 #
-# Needs before it can pass: an onboarded account in crew ${CREW_ID} with some history, and a
-# second crew ${NEW_CREW_ID} with no messages yet.
-- launchApp
-- openLink: critterpass-dev://crew/${CREW_ID}/chat
-- extendedWaitUntil:
-    visible:
-      id: 'chat-composer'
-    timeout: 15000
+# Data: the demo crew's chat, then a crew this account starts, which has no messages yet.
+- runFlow: subflows/open-demo-chat.yaml
 - takeScreenshot: chat-3g-1-timeline
 - tapOn: 'Add attachment'
 - extendedWaitUntil:
@@ -25,7 +19,40 @@ appId: app.critterpass.dev
     timeout: 10000
 - takeScreenshot: chat-voice-recorder
 - tapOn: 'Cancel'
-- openLink: critterpass-dev://crew/${NEW_CREW_ID}/chat
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 10000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Quiet Crew'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 20000
+- tapOn:
+    id: 'start-crew-done'
+# Make the new crew the active one, so Home's chat button opens its chat.
+- openLink: critterpass-dev://crew
+- extendedWaitUntil:
+    visible:
+      id: 'crews-sheet'
+    timeout: 10000
+- tapOn: 'Quiet Crew'
+- extendedWaitUntil:
+    notVisible:
+      id: 'crews-sheet'
+    timeout: 10000
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 15000
+- tapOn:
+    id: 'home-header-chat'
 - extendedWaitUntil:
     visible:
       id: 'chat-empty'

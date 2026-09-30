@@ -3,9 +3,16 @@ appId: app.critterpass.dev
 # A poll in crew chat: the "+" menu's Poll entry opens the new-poll sheet, POST puts the poll card
 # in the thread, and a tap on an answer votes at once (offline too) with the count moving.
 #
-# Needs before it can pass: an onboarded account that is an active member of crew ${CREW_ID}.
-- launchApp
-- openLink: critterpass-dev://crew/${CREW_ID}/chat
+# Data: a fresh account onboards, then the staging demo seed gives it Bali Demo Crew and its chat.
+- launchApp:
+    clearState: true
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo
+- tapOn:
+    id: 'home-header-chat'
 - extendedWaitUntil:
     visible:
       id: 'chat-composer'
@@ -32,11 +39,23 @@ appId: app.critterpass.dev
 - inputText: 'Ramen'
 - waitForAnimationToEnd
 - takeScreenshot: chat-new-poll
+# Android keeps the keyboard up over POST.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: 'new-poll-post'
+    direction: DOWN
+    timeout: 10000
 - tapOn:
     id: 'new-poll-post'
+# The card sets the question in capitals.
 - extendedWaitUntil:
     visible:
-      text: 'Dinner tonight?'
+      text: '(?i)dinner tonight\?'
     timeout: 15000
 - tapOn:
     id: 'poll-option-0'

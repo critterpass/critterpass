@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# A fresh account onboards, the staging demo seed gives it Bali Demo Crew with four crewmates and
+# a few messages, and Home's chat button opens the crew chat once the crewmates' messages are in.
+- launchApp:
+    clearState: true
+- runFlow: ../../home/subflows/onboard.yaml
+- runFlow:
+    file: ../../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      text: 'Rin still has to say if they are in.*'
+    timeout: 20000

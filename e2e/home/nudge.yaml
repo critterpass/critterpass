@@ -26,6 +26,6 @@ env:
     id: 'inbox-action-.*-nudge'
 - extendedWaitUntil:
     visible:
-      text: '.* left ${NAME} a nudge in their inbox\.'
+      text: '.* left ${NAME} a nudge in their inbox\..*'
     timeout: 15000
 - takeScreenshot: en-nudge-sent

@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
-# The region monitor survives JS reloads: a trip day plans regions (opening CLMonitor), then the
-# JS runtime reloads three times (the module is recreated each time, as after an OTA update) and
+# iOS only. The region monitor survives JS reloads: a trip day plans regions (opening CLMonitor),
+# then the JS runtime reloads three times (the module is recreated each time, as after an OTA update) and
 # the app keeps running with its regions.
 - launchApp:
     clearState: true

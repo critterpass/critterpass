@@ -2,14 +2,7 @@ appId: app.critterpass.dev
 ---
 # Long press a message: react from the emoji bar, edit it, then delete it for everyone, which leaves
 # the "Message deleted" tombstone in its place.
-#
-# Needs before it can pass: an onboarded account that is an active member of crew ${CREW_ID}.
-- launchApp
-- openLink: critterpass-dev://crew/${CREW_ID}/chat
-- extendedWaitUntil:
-    visible:
-      id: 'chat-composer'
-    timeout: 15000
+- runFlow: subflows/open-demo-chat.yaml
 - tapOn:
     text: 'Message.*'
 - inputText: 'sunset at 6?'
@@ -18,6 +11,12 @@ appId: app.critterpass.dev
     notVisible:
       text: 'Sending'
     timeout: 30000
+# Android leaves the keyboard up after sending; a long press would land on its keys.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
 - longPressOn: 'sunset at 6?'
 - extendedWaitUntil:
     visible:
@@ -39,6 +38,11 @@ appId: app.critterpass.dev
       text: 'sunset at 7?'
     timeout: 20000
 - assertVisible: 'edited.*'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
 - longPressOn: 'sunset at 7?'
 - tapOn: 'Delete for everyone'
 - tapOn:

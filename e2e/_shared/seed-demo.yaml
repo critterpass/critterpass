@@ -22,10 +22,8 @@ appId: app.critterpass.dev
     visible:
       id: 'dev-seed-demo-done'
     timeout: 120000
-# Back to Home with the edge swipe (a relaunch would restore this screen).
-- swipe:
-    start: 2%, 50%
-    end: 90%, 50%
+# Back to Home (a relaunch would restore this screen).
+- runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'

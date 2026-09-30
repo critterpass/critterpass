@@ -148,7 +148,7 @@ Empty new-crew chat ("Say hi to the crew" CTA from 3a-13), loading/first sync sk
 - Steps: 1. Integration test against docker-compose stack: two users, message via `/sync/upload`, `crew_chat` publication received, Centrifugo hint delivered. 2. Maestro flows on iOS + Android simulators.
 - Tests: `pnpm test:int -- chat`; `maestro test e2e/chat`
 - Done when: all flows pass on both platforms.
-- Status: blocked — flows and the two-device sync-stack scenario are in 5dd81ba8; the iOS and Android device runs wait for the device lane; Android is blocked until an Android e2e-test build from current main, because the demo-data seed the flows start from is newer JS than build 4ecd0486's native fingerprint accepts
+- Status: blocked — the flows start from a fresh account with the staging demo seed and open the chat from Home, with no crew ids. The second participant is the demo seed: Maya Demo answers when the account's own message is the newest at a reseed. offline-queue runs on Android only. On Android build 11: screens (https://github.com/critterpass/critterpass/actions/runs/36651330885), reactions-edit-delete and offline-queue-android (https://github.com/critterpass/critterpass/actions/runs/36655282364) pass. send-receive waits for this branch's reseed reply to deploy to staging. report fails because a reported and muted sender's messages stay in the timeline (app bug, with the chat lane). iOS after those
 
 ## Phase acceptance criteria
 

@@ -162,12 +162,12 @@ Done when: a staging run of the app + api produces catalog-valid PostHog events 
 
 ## Phase acceptance criteria
 - [x] Every master §10.5 event has a zod schema; guard rejects forbidden props
-- [ ] No client event leaves the device before analytics consent (Jest + staging check)
+- [ ] No client event leaves the device before analytics consent (Jest + staging check) — Jest green (T2); the staging check is blocked: `EXPO_PUBLIC_POSTHOG_KEY` is set in no EAS environment (development, preview, production), so device builds never start the PostHog client and a device run cannot show anything either way (the controller is adding the key)
 - [x] Server export idempotent (replay → same uuids), no person profile without consent
 - [x] Flags fall back to catalog defaults when PostHog is unreachable
-- [ ] Sentry: symbolicated staging crash for iOS + Android; api `INTERNAL` returns `event_id`; payloads scrubbed
+- [ ] Sentry: symbolicated staging crash for iOS + Android (not provable from a device run: the GitHub runner swaps a freshly exported bundle into the e2e-test build, whose `development` EAS env has no `SENTRY_AUTH_TOKEN`, so no source maps or dSYMs are uploaded for it; needs a preview/staging build, whose env does carry the token); api `INTERNAL` returns `event_id`; payloads scrubbed
 - [x] Grafana shows api → pg traces, PowerSync/Centrifugo/Redis metrics and slot lag (staging 2026-09-28: pg spans under api request spans in Tempo; Alloy targets up; `cp_pg_slot_lag_bytes` reporting)
-- [ ] P1 test alert dispatched inside hours, muted/queued outside (API-verified); phone receipt checked at M8
+- [x] P1 test alert dispatched inside hours, muted/queued outside (API-verified); phone receipt checked at M8 — P1 test alert delivered 2026-09-29 12:15
 - [x] Synthetic uptime checks green for api, sync, rt, web, media (staging 2026-09-28, Singapore + Frankfurt probes)
 - [x] Langfuse helper masks user text and writes trace id + cost metric
 - [x] Web analytics sets no cookies (Playwright)

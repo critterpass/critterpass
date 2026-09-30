@@ -1,7 +1,11 @@
 appId: app.critterpass.dev
+# Signal comes back even when a step fails, so the next flow on this device starts online.
+onFlowComplete:
+  - setAirplaneMode: disabled
 ---
 # First launch with no signal: the whole pass is made and issued on the device (placeholder number
-# with SYNCING), then signal returns and the queued issue goes up.
+# with SYNCING), then signal returns and the queued issue goes up. Android only: Maestro's airplane
+# mode cannot cut the iOS simulator's network, so there the pass is issued online at once.
 - setAirplaneMode: enabled
 - launchApp:
     clearState: true
