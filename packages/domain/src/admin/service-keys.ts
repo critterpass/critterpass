@@ -25,6 +25,7 @@ export const LIVE_ACTIVITY_SWITCH_KINDS = [
   'storm',
   'sos',
   'alarm',
+  'ride',
 ] as const;
 
 const OWNER_ONLY: readonly AdminRole[] = ['owner'];
