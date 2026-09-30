@@ -149,7 +149,7 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Tables + `calendar_feed_tokens`. 2. RLS + grants + `llm.my_personal_plan_ops` view. 3. Stream entries. 4. zod contracts for presence payloads; nullable provider interfaces.
 - Tests: `pnpm --filter @cp/db test -- permissions/comments permissions/personal-plan-ops`
 - Done when: non-participant reads 0 comments; peers read 0 personal ops; `guide_reader` with `app.uid`=A reads only A's personal ops and 0 rows from the base table.
-- Status: done — 2d5c709b
+- Status: done — 5ba860e5
 
 ### T2 — Plan ops + version conflicts + rebase
 - Goal: `apply_plan_ops` with lock rules and rebase.
@@ -157,7 +157,7 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Policy per Q-30; member edits rejected with `FORBIDDEN{use_changeset}` so client wraps them. 2. Version bump + `rt_outbox` `plan.ops`. 3. Rebase non-overlapping ops; conflicting → error with latest. 4. Activity events.
 - Tests: `pnpm --filter @cp/planner test -- rebase`; `pnpm --filter @cp/api test -- commands/plan`
 - Done when: 50 randomized concurrent op streams converge to the same version on replay; booked-item move without confirm rejected.
-- Status: done — 76f20625
+- Status: done — ed80689d
 
 ### T3 — ChangeSet lifecycle + decider policies
 - Goal: create/toggle/send/approve/apply/stale/expire.
@@ -165,7 +165,7 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Poll creation via P26 poll engine with policy defaults (C41) and `closes_at` bound by hold expiry. 2. Tally → auto-apply at threshold; organiser tie-break. 3. Stale detection + expiry. 4. Chat card message + actionable push via P11.
 - Tests: `pnpm --filter @cp/api test -- commands/changesets`; `pnpm --filter @cp/worker test -- jobs/plan`
 - Done when: table-driven tests cover all 4 policies × (approve, reject, tie, expiry); double-approve idempotent; stale set cannot apply; with a stub `HoldExpiryProvider` returning T, `closes_at` ≤ T; null provider leaves the policy default.
-- Status: done — c440b59c
+- Status: done — fc3c80b5
 
 ### T4 — Personal overlay merge
 - Goal: F-081 end to end.
@@ -173,7 +173,7 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Merge function + conflict markers. 2. Personal apply writes `personal_plan_ops` + share recompute (cost-engine). 3. "just you" tags + keep/drop UI.
 - Tests: `pnpm --filter @cp/planner test -- overlay`; `maestro test e2e/plan/overlay.yaml`
 - Done when: peer device plan unchanged; own share lowered when skipping optional item.
-- Status: server part done — 55765e75 (planner overlay merge and clashes, personal apply, `resolve_overlay_clash`); overlay UI and e2e with the app lane
+- Status: server part done — 887ea5c3 (planner overlay merge and clashes, personal apply, `resolve_overlay_clash`); overlay UI and e2e with the app lane
 
 ### T5 — Plan overview (3e-1)
 - Goal: overview screen with reorder, chips, presence, sweep.
@@ -216,7 +216,7 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Option cards, vote stickers, LEADING hop, tie/closed states. 2. Comment composer, +1, typing. 3. Guide accommodation card with KEEP/UNDO (`undo_guide_action`). 4. Closed poll → apply via ChangeSet.
 - Tests: `pnpm --filter @cp/api test -- commands/comments`; `pnpm --filter @cp/mobile test -- features/plan/collab`; `maestro test e2e/plan/collab.yaml`
 - Done when: comment + +1 + vote visible on second device < 1 s; UNDO reverts the guide change.
-- Status: server part done — c751236b (comment commands); decision view, composer and e2e with the app lane
+- Status: server part done — 350ea31a (comment commands); decision view, composer and e2e with the app lane
 
 ### T11 — Map & Calendar views
 - Goal: F-083 views.
@@ -231,7 +231,7 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. RFC 5545 ICS for my items (overlay-aware, tz-correct, stable UIDs from `stable_id`). 2. Revocable token feed. 3. Device write via the `cp-calendar` write method that P27 exposes (contract hook; P29 does not edit P27 files — if missing, plan.md delta adds `write.ts` to P27).
 - Tests: `pnpm --filter @cp/api test -- plan/calendar-feed` (validates with `ical.js` parser)
 - Done when: `ical.js` round-trip parses every event with correct tz and stable UIDs; revocation returns 404. Manual Apple/Google Calendar import → P54 launch checks.
-- Status: server part done — e9b662de (ICS feed route, `create_calendar_feed` / `revoke_calendar_feed`); export sheet and device write with the app lane
+- Status: server part done — 048f3794 (ICS feed route, `create_calendar_feed` / `revoke_calendar_feed`); export sheet and device write with the app lane
 
 ## Phase acceptance criteria
 
