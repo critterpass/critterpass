@@ -100,18 +100,22 @@ function Thinking({ guide, dayNo }: { readonly guide: GuideId; readonly dayNo: n
 }
 
 function Outcome({
+  guide,
   title,
   line,
   onBack,
 }: {
+  readonly guide: GuideId;
   readonly title: string;
   readonly line: string;
   readonly onBack: () => void;
 }) {
   const styles = useStyles();
   const theme = useTheme();
+  const info = GUIDE_STICKERS[guide];
   return (
     <View style={styles.centre} testID="redraft-outcome">
+      <Sticker kind={info.kind} name={info.name} pose="think" size={THINKING} />
       <Text variant="h2" style={styles.centred}>
         {title}
       </Text>
@@ -154,6 +158,7 @@ export function RedraftDiffView(props: RedraftDiffViewProps) {
   else if (phase === 'identical') {
     body = (
       <Outcome
+        guide={guide}
         title={t({ id: 'planDraft.diff.identicalTitle', message: 'Couldn’t beat this day' })}
         line={t({
           id: 'planDraft.diff.identical',
@@ -165,6 +170,7 @@ export function RedraftDiffView(props: RedraftDiffViewProps) {
   } else if (phase === 'failed') {
     body = (
       <Outcome
+        guide={guide}
         title={t({ id: 'planDraft.diff.failedTitle', message: 'That redraft didn’t work' })}
         line={t({
           id: 'planDraft.diff.failed',
@@ -176,6 +182,7 @@ export function RedraftDiffView(props: RedraftDiffViewProps) {
   } else if (phase === 'settled') {
     body = (
       <Outcome
+        guide={guide}
         title={t({ id: 'planDraft.diff.settledTitle', message: 'Already sorted' })}
         line={t({
           id: 'planDraft.diff.settled',
