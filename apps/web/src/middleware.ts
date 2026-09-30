@@ -8,7 +8,7 @@ import { linkRequestContext, type LinksWebEnv } from './lib/links/web-env';
 /**
  * `www.critterpass.app` -> the apex, preserving path/query (founder decision: go live on the apex).
  * Partner links on the `go.` host go through the api's attribution bridge; one the bridge cannot
- * redirect falls through to the referral page's not-found handoff.
+ * redirect falls through to the not-found page.
  */
 export const onRequest = defineMiddleware(async (context, next) => {
   const { url } = context;
@@ -17,7 +17,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     target.hostname = 'critterpass.app';
     return context.redirect(target.toString(), 301);
   }
-  if (url.pathname.startsWith('/r/')) {
+  if (url.pathname.startsWith('/out/')) {
     const linkContext = linkRequestContext(url, env as unknown as LinksWebEnv);
     const subId = supplierSubId(url.pathname, linkContext);
     if (subId !== null) {
