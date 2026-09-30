@@ -1,0 +1,74 @@
+appId: app.critterpass.dev
+---
+# The wallet (3h-1), its flight states, the archive, a booking, its form and the boarding pass,
+# prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: wallet, READY: bookings-stack, SHOT: '${PREFIX}-3h-1-bookings' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: wallet-delayed, READY: bookings-flight, SHOT: '${PREFIX}-bookings-flight-delayed' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: wallet-gate-change,
+        READY: bookings-flight,
+        SHOT: '${PREFIX}-bookings-flight-gate-change',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: wallet-boarding, READY: bookings-flight, SHOT: '${PREFIX}-bookings-flight-boarding' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: wallet-cancelled,
+        READY: bookings-flight,
+        SHOT: '${PREFIX}-bookings-flight-cancelled',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: wallet-landed, READY: bookings-flight, SHOT: '${PREFIX}-bookings-flight-landed' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: wallet-estimate, READY: bookings-flight, SHOT: '${PREFIX}-bookings-flight-estimate' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: wallet-stay, READY: bookings-body, SHOT: '${PREFIX}-bookings-activity-open' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: wallet-empty, READY: bookings-empty, SHOT: '${PREFIX}-bookings-empty' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: wallet-loading, READY: bookings-loading, SHOT: '${PREFIX}-bookings-loading' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: archive, READY: bookings-archive, SHOT: '${PREFIX}-bookings-archive' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: detail-flight, READY: bookings-detail, SHOT: '${PREFIX}-bookings-detail-flight' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: detail-activity, READY: bookings-detail, SHOT: '${PREFIX}-bookings-detail-activity' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: edit, READY: bookings-form-edit, SHOT: '${PREFIX}-bookings-edit' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: add-by-hand, READY: bookings-form-add, SHOT: '${PREFIX}-bookings-add-by-hand' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: pass, READY: bookings-pass-code, SHOT: '${PREFIX}-bookings-boarding-pass' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: pass-missing,
+        READY: bookings-pass-missing,
+        SHOT: '${PREFIX}-bookings-boarding-pass-missing',
+      }

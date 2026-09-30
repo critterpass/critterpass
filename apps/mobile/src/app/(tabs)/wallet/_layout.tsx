@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router/js-stack';
 import { useMemo } from 'react';
 
+import { registerBookingsScreens } from '@/features/bookings/routes';
 import { deviceMoneyServices } from '@/features/money/data/device-services';
 import { MoneyServicesProvider } from '@/features/money/data/services';
 import { registerMoneyScreens } from '@/features/money/routes';
@@ -11,6 +12,7 @@ import { useTheme } from '@/ui/theme';
 import { getOcr } from '../../../../modules/cp-ocr';
 
 registerMoneyScreens();
+registerBookingsScreens();
 
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, not copy
 export const unstable_settings = { initialRouteName: 'money/index' };

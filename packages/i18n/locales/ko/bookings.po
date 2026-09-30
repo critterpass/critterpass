@@ -6,3 +6,848 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ko\n"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.policy"
+msgstr ""
+
+#. placeholder {0}: props.archiveCount
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.archive.link"
+msgstr ""
+
+#. placeholder {0}: view.travellerIds.length
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.split"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.detail.paidBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.boardsEst"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
+msgid "bookings.offline.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
+msgid "bookings.offline.count"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
+msgid "bookings.banner.member"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
+msgid "bookings.banner.mine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/deck-meta.ts
+msgid "bookings.card.nights"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.seats"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.source"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.crewMany"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.crewOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.timeExample"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.dateExample"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.endExample"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.untitled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.delete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.insuranceDelete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.candidateAdd"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.candidateIgnore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.pasteCaption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.activity"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.addCard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.addTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.byHand"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.flightProblem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.duplicate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.forwardCaption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.phone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.phoneField"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
+msgid "bookings.missing.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.bag"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.boarding"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.pass"
+msgstr ""
+
+#. placeholder {0}: props.title
+#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassView.tsx
+msgid "bookings.pass.codeA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.passA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.boards"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.boat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.card.detailsA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+#: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
+msgid "bookings.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.noTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.call"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.cancelled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.cancelled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.car"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.checkOut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailbox.soon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.ref"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.ref"
+msgstr ""
+
+#. placeholder {0}: providerName(provider)
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.connect"
+msgstr ""
+
+#. placeholder {0}: providerName(status.connection.provider)
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.connected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.connectingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.copied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.docFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.shareFlight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.date"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.delayed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.delayedBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.delete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.delete.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.delete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.delete.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.departed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.card.details"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.disconnect"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.dismiss"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.diverted"
+msgstr ""
+
+#. placeholder {0}: index + 1
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.detail.doc"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.editTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailbox.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.flight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.flight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.shareFlightSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.forward"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.copiedToast"
+msgstr ""
+
+#. placeholder {0}: pending.length
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.found"
+msgstr ""
+
+#. placeholder {0}: dateTime(locale, deadline, tz)
+#: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
+msgid "bookings.card.freeCancel"
+msgstr ""
+
+#. placeholder {0}: dateTime(locale, booking.freeCancelUntil, props.tz)
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.freeCancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.from"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.from"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
+#: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.gate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.gateChange"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.titleProblem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailbox.gmail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.mailboxOffer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.doneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.footnote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.landed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.ignore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+msgid "bookings.add.addedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.provider"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.delete.wallets"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.delete.expense"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.landed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.timeProblem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.dateProblem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.field"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.doneTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.meet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.docPending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.deniedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.noPass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassView.tsx
+msgid "bookings.pass.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.deniedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailboxRow.off"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
+msgid "bookings.missing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.notes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.notes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
+msgid "bookings.archive.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.empty.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.nothing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.shareBookingSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.surfaceSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.docs"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.onTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.privacy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailbox.outlook"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.paidByYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.scanCaption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
+msgid "bookings.archive.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.paste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.fromClipboard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.policyNo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.policyField"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.docAttached"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.price"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.read"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailboxRow.connected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.promise"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.reading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
+#: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
+#: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
+msgid "bookings.card.ref"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
+msgid "bookings.banner.review"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.room"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.form.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.scan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.scan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.scheduled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
+#: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.seat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.seat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.seat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.shareBooking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.surface"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.check"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.splitA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.flightExample"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.stay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.failedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.error"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.denied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
+msgid "bookings.missing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.unsupported"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.airportProblem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.time"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.to"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.lockedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.perk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.parsing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.connectingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.ping"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.reminder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.rail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.transfer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.title"
+msgstr ""
+
+#. placeholder {0}: policy.provider
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.cardA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.who"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.failedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.voucher"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
+msgid "bookings.card.voucherA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.detail.landedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.what"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
+msgid "bookings.card.when"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.when"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.where"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.where"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.visibility"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.flightVisibility"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.sharing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailboxRow.locked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.landed"
+msgstr ""

@@ -1,0 +1,27 @@
+appId: app.critterpass.dev
+---
+# The insurance card on the wallet and the policy form, prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: insurance-card,
+        READY: bookings-insurance-card,
+        SHOT: '${PREFIX}-bookings-insurance-card',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: insurance-form,
+        READY: bookings-insurance-form,
+        SHOT: '${PREFIX}-bookings-insurance-form',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: insurance-form-offline,
+        READY: bookings-insurance-error,
+        SHOT: '${PREFIX}-bookings-insurance-form-offline',
+      }

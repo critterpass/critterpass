@@ -1,7 +1,7 @@
 ---
 phase: 34
 title: Bookings wallet, imports, mailbox scan, flight tracking
-status: in_progress
+status: done
 depends_on: [11, 13, 15, 33]
 wave: 15
 features: [F-100, F-101, F-102, F-121, F-036]
@@ -173,7 +173,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Steps: 1. Commands + encryption. 2. `GET /v1/me/private/insurance` → `local_private`. 3. Share flow API used by P35/P38 (consent write + scoped reveal). 4. Wallet card + edit form + document scan (cp-ocr).
 - Tests: `pnpm --filter @cp/api test -- bookings/insurance`; `maestro test e2e/bookings/insurance.yaml`
 - Done when: policy readable offline by owner only; share without consent → `CONSENT_REQUIRED`.
-- Status: done — f9bda7b3 (server; the wallet card, form and Maestro flow are the app lane's)
+- Status: done — f9bda7b3 (server), 0d56fe6d (wallet card, policy form with document scan, screenshot flow)
 
 ### T8 — Wallet stack UI (3h-1) + booking detail/edit
 - Goal: the card deck, flight card variants, boarding pass, detail/edit.
@@ -182,6 +182,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Tests: `pnpm --filter @cp/mobile test -- features/bookings/stack`; `maestro test e2e/bookings/wallet.yaml` (airplane mode step opens barcode)
 - Done when: renders match 3h-1 proportions; barcode opens offline; flight card updates live on `flight.status`.
 
+- Status: done — 1e302e3c (full brightness in PR #225, lands with the next native build)
 ### T9 — Add a booking UI (3h-2) + mailbox settings entry
 - Goal: three channels, crew candidates, assemble animation.
 - Files: `apps/mobile/src/app/(tabs)/wallet/bookings/add.tsx`, `apps/mobile/src/features/bookings/{add/,candidates/,paste/,scan/,mailbox/}`, `e2e/bookings/import.yaml`
@@ -189,6 +190,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Tests: `pnpm --filter @cp/mobile test -- features/bookings/add`; `maestro test e2e/bookings/import.yaml`
 - Done when: paste of a real confirmation code/URL yields a candidate; ADD animates into the stack and creates the split expense.
 
+- Status: done — 62a46352 (the mailbox sign-in return needs its route file `app/(tabs)/wallet/mailbox/connected.tsx`, outside this lane; flags stay off until provider verification)
 ### T10 — Wallet widget/LA snapshot fields and cross-phase events
 - Goal: publish the data other surfaces need, verified end to end.
 - Files: `services/worker/src/jobs/flights/snapshot.ts`, `packages/domain/src/flights/la-phase.ts`, `services/worker/test/flights/snapshot.test.ts`, `e2e/bookings/flight-day.yaml`
@@ -196,6 +198,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Tests: `pnpm --filter @cp/worker test -- flights/snapshot`; `maestro test e2e/bookings/flight-day.yaml`
 - Done when: emitted `flight.landed` / `boarding.soon` payloads validate against their `packages/domain` schemas; snapshot reflects a gate change within one job cycle.
 
+- Status: done — 457512e7 (`flight-day.yaml` walks the card through the day on lab fixtures; the live watched-flight run waits for the AeroAPI keys)
 ## Phase acceptance criteria
 - [ ] 9 permission suites pass; raw email, tokens, barcodes, policies never reachable by crewmates or `guide_reader`.
 - [ ] Forward, paste and scan each create a validated candidate with the real cancellation deadline when present.

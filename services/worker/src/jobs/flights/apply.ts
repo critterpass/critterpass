@@ -3,8 +3,8 @@
  * what changed (each change once), the segment takes the new times, gate and status, the boarding
  * ping moves with the departure, and the events go out: `flight.status_changed` per change (delay,
  * gate, cancel and divert push the traveller, N-14; delay is also what the disruption planner
- * reads), `flight.landed` exactly once, and a `flight.status` hint for the cards. A landed flight's
- * watch ends a day later.
+ * reads), `flight.landed` exactly once, and a `flight.status` hint for the cards; the leg's Live
+ * Activity phase follows. A landed flight's watch ends a day later.
  */
 import { appendDomainEvent, cancelScheduledEvent, outbox, scheduleEvent } from '@cp/db';
 import {
@@ -18,6 +18,8 @@ import {
 } from '@cp/domain';
 import type { FlightSnapshot } from '@cp/suppliers';
 import type pg from 'pg';
+
+import { syncLaPhase } from './snapshot';
 
 interface SegmentRow {
   readonly id: string;
@@ -156,5 +158,6 @@ export async function applyReading(
       { segment_id: segment.id, booking_id: segment.booking_id, status: diff.status },
     );
   }
+  await syncLaPhase(tx, segment.id, now);
   return diff.changes;
 }

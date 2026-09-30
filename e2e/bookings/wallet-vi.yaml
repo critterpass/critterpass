@@ -1,0 +1,45 @@
+appId: app.critterpass.dev
+---
+# The wallet, insurance and add-a-booking screenshots in Vietnamese: the dev gallery switches the
+# running app's language (not persisted), then back through the developer tools into the lab.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+# The back swipe lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/wallet-scenes.yaml
+    env: { PREFIX: vi }
+- runFlow:
+    file: subflows/insurance-scenes.yaml
+    env: { PREFIX: vi }
+- runFlow:
+    file: subflows/add-scenes.yaml
+    env: { PREFIX: vi }

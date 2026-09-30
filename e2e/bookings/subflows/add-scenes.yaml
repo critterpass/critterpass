@@ -1,0 +1,85 @@
+appId: app.critterpass.dev
+---
+# Adding a booking (3h-2) and its states: finds, reading, couldn't read, scan lines, the paste
+# sheet and the mailbox sheet, prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: add, READY: bookings-candidate-c-boat, SHOT: '${PREFIX}-3h-2-add-a-booking' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: add-assemble,
+        READY: bookings-candidate-c-boat-add,
+        SHOT: '${PREFIX}-bookings-add-assembled',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: add-empty, READY: bookings-add-mailbox, SHOT: '${PREFIX}-bookings-add-empty' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: add-reading,
+        READY: bookings-candidate-c-new-parsing,
+        SHOT: '${PREFIX}-bookings-add-reading',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: add-failed,
+        READY: bookings-candidate-c-failed-failed,
+        SHOT: '${PREFIX}-bookings-add-failed-duplicate',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: add-scan-denied,
+        READY: bookings-scan-line,
+        SHOT: '${PREFIX}-bookings-add-scan-denied',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: paste, READY: bookings-paste-field, SHOT: '${PREFIX}-bookings-paste' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: paste-offline,
+        READY: bookings-paste-error,
+        SHOT: '${PREFIX}-bookings-paste-offline',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: mailbox-soon, READY: bookings-mailbox-soon, SHOT: '${PREFIX}-bookings-mailbox-soon' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: mailbox-locked,
+        READY: bookings-mailbox-locked,
+        SHOT: '${PREFIX}-bookings-mailbox-locked',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: mailbox-choose,
+        READY: bookings-mailbox-choose,
+        SHOT: '${PREFIX}-bookings-mailbox-choose',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: mailbox-connected,
+        READY: bookings-mailbox-connected,
+        SHOT: '${PREFIX}-bookings-mailbox-connected',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: mailbox-done, READY: bookings-mailbox-back, SHOT: '${PREFIX}-bookings-mailbox-done' }

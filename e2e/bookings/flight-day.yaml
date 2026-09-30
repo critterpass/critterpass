@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# A flight day on the card, in the order the flight jobs move a watched leg (replayed from the
+# bookings lab's fixtures): scheduled times only, on time, a gate change, a delay, boarding, the
+# pass at the gate, landed. Each step asserts the status label the card reads.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: wallet-estimate, READY: bookings-flight, SHOT: 'en-flight-day-1-scheduled' }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: wallet, READY: bookings-flight, SHOT: 'en-flight-day-2-on-time' }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: wallet-gate-change, READY: bookings-flight, SHOT: 'en-flight-day-3-gate-change' }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: wallet-delayed, READY: bookings-flight, SHOT: 'en-flight-day-4-delayed' }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: wallet-boarding, READY: bookings-flight, SHOT: 'en-flight-day-5-boarding' }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: pass, READY: bookings-pass-code, SHOT: 'en-flight-day-6-pass' }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: wallet-landed, READY: bookings-flight, SHOT: 'en-flight-day-7-landed' }

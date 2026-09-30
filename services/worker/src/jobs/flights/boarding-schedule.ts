@@ -14,10 +14,12 @@ import { BOOKINGS_QUEUES } from '@cp/domain';
 import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
+import { syncLaPhase } from './snapshot';
 
 export async function pingBoarding(
   pool: pg.Pool,
   timer: Pick<ScheduledJobData, 'ref_id'>,
+  now: Date = new Date(),
 ): Promise<'pinged' | 'gone'> {
   return withSystem(pool, async (tx) => {
     const { rows } = await tx.query<{
@@ -49,6 +51,7 @@ export async function pingBoarding(
         estimated: segment.boarding_estimated,
       },
     });
+    await syncLaPhase(tx, timer.ref_id, now);
     return 'pinged';
   });
 }
