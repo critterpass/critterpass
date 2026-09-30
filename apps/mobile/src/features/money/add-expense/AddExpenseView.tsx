@@ -40,7 +40,8 @@ import { SplitEditorEvenly, SplitEditorShares } from './SplitEditorShares';
 const SHAKE_PT = 6;
 
 const useStyles = makeStyles((t) => ({
-  top: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
+  // The render's ~12pt rhythm: with 16 the split control slid under the keypad on a 6.3" iPhone.
+  top: { paddingHorizontal: t.size.gutter, gap: t.space['12'], paddingTop: t.space['8'] },
   bottom: { paddingHorizontal: t.size.gutter, gap: t.space['12'], paddingTop: t.space['8'] },
   details: {
     backgroundColor: t.semantic.bg.raised,
