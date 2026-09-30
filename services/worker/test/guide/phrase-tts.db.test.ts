@@ -10,7 +10,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import type { JobContext } from '../../src/boss';
 import { createElevenLabs } from '../../src/jobs/guide/elevenlabs';
-import { phraseAudioKey, phraseTtsJob } from '../../src/jobs/guide/phrase-tts';
+import { phraseTtsJob } from '../../src/jobs/guide/phrase-tts';
 import { insertUser, startNotifyDb, type NotifyDb } from '../notify-fixtures';
 import { crewTrip, fakeModel, testRuntime } from './guide-fixtures';
 
@@ -107,8 +107,18 @@ describe('phrase.tts', () => {
 
     expect(calls.map((call) => call.body.model_id)).toEqual(['eleven_flash_v2_5', 'eleven_v3']);
     expect(calls[0]?.url).toContain('/v1/text-to-speech/voice-default');
-    const key = phraseAudioKey({ id: indonesian, user_id: uid });
+    const card1 = await stored(indonesian);
+    expect(card1?.audio_status).toBe('ready');
+    const key = card1?.audio_key ?? '';
+    expect(key).toMatch(new RegExp(`^u/${uid}/phrase_audio/[0-9a-f-]{36}$`));
     expect(objects.get(key)).toEqual(new Uint8Array([0xff, 0xfb, 0x90]));
-    expect(await stored(indonesian)).toMatchObject({ audio_key: key, audio_status: 'ready' });
+    // Registered like an upload, on the card's trip, so read URLs reach the owner and the crew.
+    const { rows } = await db.pool.query(
+      'SELECT owner_id, kind, bytes, purpose, trip_id FROM media_objects WHERE r2_key = $1',
+      [key],
+    );
+    expect(rows).toEqual([
+      { owner_id: uid, kind: 'audio/mpeg', bytes: '3', purpose: 'phrase_audio', trip_id: tripId },
+    ]);
   });
 });

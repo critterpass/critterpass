@@ -8,7 +8,7 @@
 import { withSystem, withUser } from '@cp/db';
 import type pg from 'pg';
 
-import { parseMediaKey } from './purposes';
+import { readableKeyOwner } from './purposes';
 
 /**
  * Whether every key is an approved photo avatar (or one of its rendered variants) the caller can
@@ -64,7 +64,7 @@ export async function authorizeReads(
   uid: string,
   keys: readonly string[],
 ): Promise<boolean> {
-  const owners = keys.map((key) => parseMediaKey(key)?.ownerId);
+  const owners = keys.map((key) => readableKeyOwner(key));
   if (owners.some((owner) => owner === undefined)) return false;
 
   // Each lookup names the key's owner so it stays on media_objects' owner index.
