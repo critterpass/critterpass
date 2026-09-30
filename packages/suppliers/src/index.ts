@@ -1,4 +1,6 @@
 export * from './core/adapter';
+export * from './activity-adapter/contract';
+export { runActivityConformance, type ConformanceScenario } from './activity-adapter/conformance';
 export {
   buildAffiliateLink,
   partnerPageFor,
