@@ -1,0 +1,56 @@
+appId: app.critterpass.dev
+---
+# Release gate: adding a booking by pasting its confirmation. A fresh account takes the staging
+# demo crew's Bali trip; the pasted flight confirmation goes to the api, the guide reads it into a
+# candidate, ADD files it, and the wallet stack shows the flight card with its reference. A pasted
+# confirmation carries no boarding pass barcode (the pass comes from scanning it at check-in), so
+# the card offers no pass.
+- runFlow:
+    file: subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+# The Wallet tab opens on Money; Bookings opens by its link.
+- openLink: critterpass-dev://wallet/bookings/add
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-add'
+    timeout: 20000
+- tapOn: 'PASTE'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-paste-field'
+    timeout: 10000
+- evalScript: ${output.day = new Date(Date.now() + 21 * 86400000).toISOString().slice(0, 10)}
+- tapOn:
+    id: 'bookings-paste-field'
+- inputText: 'Singapore Airlines SQ 938, booking ref K7Q2PX, SIN to DPS on ${output.day}, departs 09:10, arrives 11:55.'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
+- tapOn:
+    id: 'bookings-paste-send'
+# The api queues the read; the candidate shows once the guide has read the confirmation.
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-candidate-.*-add'
+    timeout: 180000
+- assertVisible: '.*SQ ?938.*'
+- tapOn:
+    id: 'bookings-candidate-.*-add'
+- openLink: critterpass-dev://wallet/bookings
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-stack'
+    timeout: 30000
+- assertVisible: '.*SQ ?938.*'
+- tapOn:
+    id: 'bookings-open-details'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-flight'
+    timeout: 15000
+- assertVisible: '.*K7Q2PX.*'
+- assertNotVisible:
+    id: 'bookings-flight-pass'

@@ -1,0 +1,93 @@
+appId: app.critterpass.dev
+---
+# From a fresh account to DRAFT MY TRIP: the staging demo world's `vote_final` scenario (Kyoto
+# against Lisbon, 2–2, the account's ballot the last one), a vote for Kyoto, SET UP on the reveal
+# as organiser, then every setup step: free days marked by hand and the dates locked, the budget
+# locked, a stay picked and the rooms locked, one must-do added, and DRAFT MY TRIP, which starts
+# the guide's draft on the drafting screen (3c-8).
+- runFlow:
+    file: fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-vote-final
+- extendedWaitUntil:
+    visible:
+      id: 'final-split-open'
+    timeout: 20000
+- tapOn:
+    id: 'final-split-open'
+- extendedWaitUntil:
+    visible:
+      id: 'showdown'
+    timeout: 15000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'showdown-half-0'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+- runFlow: setup-when.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'budget-lock'
+    timeout: 30000
+- tapOn:
+    id: 'budget-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-rooms-stay-option-.*'
+    timeout: 30000
+- tapOn:
+    id: 'setup-rooms-stay-option-.*'
+    index: 0
+- scrollUntilVisible:
+    element:
+      id: 'setup-rooms-lock'
+    timeout: 10000
+- tapOn:
+    id: 'setup-rooms-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add'
+    timeout: 30000
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'Fushimi Inari at sunrise'
+- tapOn:
+    id: 'add-must-do-keep'
+- extendedWaitUntil:
+    visible:
+      text: 'Fushimi Inari at sunrise'
+    timeout: 15000
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: 'must-dos-draft'
+    timeout: 10000
+- tapOn:
+    id: 'must-dos-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-screen'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-steps'
+    timeout: 30000

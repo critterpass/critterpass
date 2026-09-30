@@ -4,7 +4,7 @@
 #
 #   tools/scripts/ci-device/android-device.sh <patched.apk> <out dir> "<flow.yaml …>"
 #
-# Env: APPEARANCE (light|dark), TSX_VERSION, and whatever the flows read (JS_COMMIT, OTP_TEST_CODE).
+# Env: APPEARANCE (light|dark), RECORD_VIDEO, TSX_VERSION, and whatever the flows read (JS_COMMIT, OTP_TEST_CODE).
 set -euo pipefail
 
 apk=$1
@@ -73,6 +73,8 @@ fi
 echo "App started ($(device dumpsys window | grep -m1 mCurrentFocus | tr -d '\r' | xargs))"
 device am force-stop "$package"
 
+# RECORD_VIDEO=true records every flow (the release gate).
+video=$([ "${RECORD_VIDEO:-}" = true ] && echo --video || true)
 # shellcheck disable=SC2086 # the flow list is intentionally word-split
 npx --yes "tsx@${TSX_VERSION:-4}" "$here/run-shard.ts" --platform android --device "$serial" \
-  --out "$out_dir" --env JS_COMMIT --env OTP_TEST_CODE --env CREW_ID --env CREW_NAME $flows
+  --out "$out_dir" --env JS_COMMIT --env OTP_TEST_CODE --env CREW_ID --env CREW_NAME $video $flows

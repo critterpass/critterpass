@@ -1,0 +1,50 @@
+appId: app.critterpass.dev
+---
+# Release gate: crew chat. A fresh account takes the staging demo crew, opens the chat from Home,
+# sees the crewmates' messages, sends one that the api accepts (it stops showing "Sending"), and a
+# crewmate answers it: reseeding while this account's message is the newest makes Maya Demo reply
+# through the api, and the reply reaches this device through sync.
+- runFlow:
+    file: subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      text: '.*Rin still has to say if they are in.*'
+    timeout: 30000
+- tapOn:
+    text: 'Message.*'
+- inputText: 'landing at six'
+- tapOn: 'Send'
+- extendedWaitUntil:
+    visible:
+      text: '.*landing at six.*'
+    timeout: 10000
+- extendedWaitUntil:
+    notVisible:
+      text: 'Sending'
+    timeout: 30000
+# Back to Home (on Android the first back may only close the keyboard).
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      notVisible:
+        id: 'dev-tools-entry'
+    file: ../onboarding/subflows/back.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      text: '.*Got it, see you there.*'
+    timeout: 30000
+- assertVisible: '.*landing at six.*'

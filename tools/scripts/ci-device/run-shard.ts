@@ -2,7 +2,7 @@
  * Runs one shard of Maestro flows on a booted simulator or emulator that already has the app.
  *
  *   tsx tools/scripts/ci-device/run-shard.ts --platform ios --device <udid|serial> --out <dir> \
- *     [--env OTP_TEST_CODE --env JS_COMMIT] <flow.yaml…>
+ *     [--env OTP_TEST_CODE --env JS_COMMIT] [--video] <flow.yaml…>
  *
  * Writes to --out: `junit/*.xml` and `maestro/<flow>/` (Maestro's run directory and logs) per flow,
  * `failures/` (the screen and the app's log after each failed flow), `screenshots/*.png` (every
@@ -11,6 +11,7 @@
  * flow or any `[ui-qa]` report fails the shard, and so does any screen-check finding;
  * on GitHub Actions each also becomes an error annotation and a line in the job summary.
  * `--env NAME` forwards that environment variable to every flow as `-e NAME=value` when it is set.
+ * `--video` records the screen during each flow into `videos/<flow>/` (./screen-video).
  */
 import { spawn, spawnSync } from 'node:child_process';
 import {
@@ -29,6 +30,7 @@ import { flowScreenshotNames, planCopies, type FlowScreens } from '../capture-fl
 import { failOnUiQa, pullUiQaLog, recordFlowUiQa, scanUiQa, type UiQaReport } from '../ui-qa-scan';
 import type { DevicePlatform } from './plan-shards';
 import { appBackground, scanScreenshots, SCREEN_CHECKS_LOG, writeFindings } from './screen-scan';
+import { startScreenRecorder } from './screen-video';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
 const MAESTRO = process.env.MAESTRO_BIN ?? path.join(homedir(), '.maestro/bin/maestro');
@@ -38,6 +40,7 @@ export interface ShardOptions {
   device: string;
   out: string;
   env: string[];
+  video: boolean;
   flows: string[];
 }
 
@@ -50,6 +53,7 @@ export function parseShardArgs(argv: string[], baseDir: string): ShardOptions {
       device: { type: 'string' },
       out: { type: 'string' },
       env: { type: 'string', multiple: true },
+      video: { type: 'boolean', default: false },
     },
   });
   const { platform, device, out } = values;
@@ -63,6 +67,7 @@ export function parseShardArgs(argv: string[], baseDir: string): ShardOptions {
     device,
     out: path.resolve(baseDir, out),
     env: values.env ?? [],
+    video: values.video,
     flows: flows.map((flow) => path.resolve(baseDir, flow)),
   };
 }
@@ -123,6 +128,13 @@ export function runShard(options: ShardOptions): {
     const label = path.relative(REPO_ROOT, flow);
     if (options.platform === 'android') adb(options.device, ['logcat', '-c']);
     console.log(`::group::${label}`);
+    const recorder = options.video
+      ? startScreenRecorder(
+          options.platform,
+          options.device,
+          path.join(options.out, 'videos', slug),
+        )
+      : undefined;
     const started = Date.now();
     const result = spawnSync(
       MAESTRO,
@@ -148,6 +160,7 @@ export function runShard(options: ShardOptions): {
         env: { ...process.env, MAESTRO_DRIVER_STARTUP_TIMEOUT: '360000' },
       },
     );
+    recorder?.stop();
     console.log('::endgroup::');
     const seconds = Math.round((Date.now() - started) / 1000);
     const passed = result.status === 0;
