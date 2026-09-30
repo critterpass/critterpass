@@ -11,7 +11,7 @@ import { ScrollView, View } from 'react-native';
 import { QuickActionChip } from '@/ui/chips/QuickActionChip';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { SettingsGroup, type SettingsRow } from '@/ui/inputs/SettingsGroup';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { OfflinePill } from '@/ui/states/OfflinePill';
 import { FooterFade, FOOTER_FADE_PT } from '@/ui/surface/FooterFade';
