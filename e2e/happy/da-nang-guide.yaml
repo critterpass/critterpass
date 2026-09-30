@@ -1,39 +1,159 @@
 appId: app.critterpass.dev
 ---
-# Happy path: a fresh account on staging finds Đà Nẵng, starts a trip there and meets its own guide,
-# Chà Vá, not the guest Tokek: place search, the place page, SOLO TRIP, then the guide button opens
-# the sheet with Chà Vá in its header.
+# Release gate: a brand-new user's crew picks Đà Nẵng and meets its own guide, Chà Vá, not the
+# guest Tokek. With no demo seed, a fresh account starts a crew, pitches Đà Nẵng (Chà Vá pitches
+# it) and Lisbon from Home, votes for Đà Nẵng, takes the top two to the final, casts the deciding
+# ballot, sets the trip up from the reveal, and opens the guide sheet: its header is Chà Vá.
 #
-# Data: a fresh account onboards. Needs the staging place index with the Vietnam set linked to
-# Chà Vá and the Đà Nẵng destination.
-- launchApp:
-    clearState: true
-- runFlow: ../home/subflows/onboard.yaml
-- openLink: critterpass-dev://places/search
+# Data: staging with the Vietnam set linked to Chà Vá and the Đà Nẵng destination.
+- runFlow: subflows/fresh-account.yaml
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
 - extendedWaitUntil:
     visible:
-      id: 'place-search-field'
+      id: 'start-crew-name'
     timeout: 15000
-- inputText: 'da nang'
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Company trip'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
 - extendedWaitUntil:
-    visible: 'Đà Nẵng.*'
-    timeout: 15000
-- tapOn: 'Đà Nẵng.*'
-- scrollUntilVisible:
-    element:
-      id: 'guest-solo'
+    visible:
+      id: 'start-crew-done'
     timeout: 30000
 - tapOn:
-    id: 'guest-solo'
-- assertVisible:
-    id: 'solo-confirm'
-- tapOn:
-    id: 'solo-start'
+    id: 'start-crew-done'
 - extendedWaitUntil:
-    notVisible:
-      id: 'solo-confirm'
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+# Đà Nẵng first: its live guide writes the pitch.
+- tapOn:
+    id: 'home-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
     timeout: 15000
-# Trip setup opens over Home; the guide button lives on the tab bar.
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'da nang'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- tapOn:
+    id: 'pitch-result-0'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- assertVisible: '(?i).*chà vá.*'
+- waitForAnimationToEnd
+- takeScreenshot: happy-da-nang-pitch
+- tapOn:
+    id: 'pitch-add'
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-add'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 30000
+# A second place, so the vote has a final.
+- scrollUntilVisible:
+    element:
+      id: 'board-pitch'
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 10000
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'lisbon'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- tapOn:
+    id: 'pitch-result-0'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- tapOn:
+    id: 'pitch-add'
+- runFlow:
+    when:
+      notVisible:
+        id: 'destination-board'
+    file: ../onboarding/subflows/back.yaml
+# The crew's only member first votes Lisbon, then switches to Đà Nẵng in the final: a ballot
+# that carries into the final unchanged does not close the vote.
+- scrollUntilVisible:
+    element:
+      text: '(?i)lisbon, 0 votes'
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn: '(?i)lisbon, 0 votes'
+- extendedWaitUntil:
+    visible:
+      text: '(?i)lisbon, 1 votes, your vote'
+    timeout: 15000
+- retry:
+    maxRetries: 2
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'pitch-search'
+          file: ../onboarding/subflows/back.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'board-go-to-final'
+          timeout: 20000
+          centerElement: true
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'board-go-to-final'
+      - extendedWaitUntil:
+          visible:
+            id: 'final-split'
+          timeout: 30000
+- tapOn:
+    id: 'final-split-open'
+- extendedWaitUntil:
+    visible:
+      id: 'showdown'
+    timeout: 15000
+- waitForAnimationToEnd
+# The deciding ballot: a tap on Đà Nẵng's half moves the vote from Lisbon.
+- tapOn: '(?i)đà nẵng'
+- extendedWaitUntil:
+    visible:
+      id: 'winner-reveal'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 15000
+- assertVisible: '(?i).*đà nẵng.*'
+- takeScreenshot: happy-da-nang-reveal
+- tapOn:
+    id: 'reveal-set-up'
+# Trip setup opens; back out to the tab bar, where the guide button lives.
 - runFlow:
     when:
       notVisible:
@@ -42,7 +162,7 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       id: 'guide-fab'
-    timeout: 20000
+    timeout: 30000
 - tapOn:
     id: 'guide-fab'
 - extendedWaitUntil:
