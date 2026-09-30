@@ -272,7 +272,7 @@ describe('destination final', () => {
     // A crowded half stops at the floor share of its designed width.
     expect(nameCap(fit, 120, 500, 5)).toBeCloseTo(135);
     // CHEFCHAOUEN (11 capitals) keeps the width it needs whole at the floor size.
-    expect(nameCap(fit, 120, 500, 11)).toBeCloseTo(11 * 44 * 0.45);
+    expect(nameCap(fit, 120, 500, 11)).toBeCloseTo(11 * 44 * 0.55);
   });
 
   it('sends the showdown on to the reveal once the poll closes', async () => {

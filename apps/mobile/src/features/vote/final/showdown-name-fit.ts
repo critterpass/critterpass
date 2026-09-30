@@ -10,8 +10,8 @@ import type { LayoutChangeEvent, TextLayoutEvent } from 'react-native';
 export const NAME_FLOOR = 44;
 /** The name never shrinks below this share of its designed size. */
 const MIN_NAME_SCALE = 0.45;
-/** Width of one condensed display capital per point of font size, with room to spare (measured 0.38). */
-const CAPITAL_EM = 0.45;
+/** Width of one condensed display capital per point of font size, with room to spare (M and H set about 0.45). */
+const CAPITAL_EM = 0.55;
 
 export interface NameFit {
   readonly key: string;
