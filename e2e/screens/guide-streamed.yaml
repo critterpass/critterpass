@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# Screenshots for `pnpm screens:capture` and `screens:compare`: guide answers replayed from their
+# streamed frames with a tool call between parts (the recorded places answer, and a Vietnamese
+# list), so each part starts on its own paragraph or list line, in English and Vietnamese.
+- runFlow:
+    file: subflows/guide-streamed-in.yaml
+    env:
+      LOCALE: 'en'
+- runFlow:
+    file: subflows/guide-streamed-in.yaml
+    env:
+      LOCALE: 'vi'
