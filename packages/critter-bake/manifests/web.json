@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "kind": ["gecko", "tanuki", "puffin", "axolotl", "sardine", "alpaca"],
+      "kind": ["gecko", "tanuki", "puffin", "axolotl", "sardine", "alpaca", "langur"],
       "forms": ["common"],
       "poses": ["idle"],
       "variants": ["color"],

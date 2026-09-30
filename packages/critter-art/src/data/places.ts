@@ -19,6 +19,7 @@ export const places: readonly Place[] = [
       'cp-008',
       'cp-009',
       'cp-010',
+      'cp-151',
     ],
   },
   {

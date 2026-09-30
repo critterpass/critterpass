@@ -154,4 +154,5 @@ export const critters: readonly Critter[] = [
   {"id":"cp-148","no":148,"num":"#148","name":"Lundi","species":"Atlantic puffin","city":"Reykjavík","place":"Iceland","code":"is","setGroup":3,"rank":58,"spec":{"k":"puffin"},"kind":"puffin"},
   {"id":"cp-149","no":149,"num":"#149","name":"Zunzún","species":"Bee hummingbird","city":"Havana","place":"Cuba","code":"cu","setGroup":3,"rank":59,"spec":{"b":"bird","v":"humming","c":["#54d6a4","#2e9a74","#dff7ea"],"beak":"needle","bc":"#3a3466"},"kind":"cp-149"},
   {"id":"cp-150","no":150,"num":"#150","name":"Milia","species":"Plains zebra","city":"Serengeti","place":"Tanzania","code":"tz","setGroup":3,"rank":60,"spec":{"b":"stand","v":"horse","c":["#fffaf0","#3a3466","#fffaf0"],"pat":"zebra","mc":"#3a3466"},"kind":"cp-150"},
+  {"id":"cp-151","no":151,"num":"#151","name":"Chà Vá","species":"Red-shanked douc langur","city":"Đà Nẵng","place":"Vietnam","code":"vn","setGroup":0,"rank":null,"spec":{"k":"langur"},"kind":"langur"},
 ];

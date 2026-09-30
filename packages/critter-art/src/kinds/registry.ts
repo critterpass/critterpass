@@ -2,6 +2,7 @@ import type { OpSink } from '../core/ops';
 import { alpaca } from './guides/alpaca';
 import { axolotl } from './guides/axolotl';
 import { gecko } from './guides/gecko';
+import { langur } from './guides/langur';
 import { puffin } from './guides/puffin';
 import { sardine } from './guides/sardine';
 import { tanuki } from './guides/tanuki';
@@ -83,6 +84,7 @@ registerKind('puffin', { fn: puffin, viewBox: DEFAULT_VIEW_BOX, animates: true }
 registerKind('axolotl', { fn: axolotl, viewBox: DEFAULT_VIEW_BOX, animates: true });
 registerKind('sardine', { fn: sardine, viewBox: DEFAULT_VIEW_BOX, animates: true });
 registerKind('alpaca', { fn: alpaca, viewBox: DEFAULT_VIEW_BOX, animates: true });
+registerKind('langur', { fn: langur, viewBox: DEFAULT_VIEW_BOX, animates: true });
 
 const ICONS: Readonly<Record<string, KindFn>> = {
   egg,

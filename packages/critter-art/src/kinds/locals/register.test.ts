@@ -10,10 +10,10 @@ const LOCAL_CRITTERS = critters.filter((c) => !isGuideSpec(c.spec));
 const GUIDE_CRITTERS = critters.filter((c) => isGuideSpec(c.spec));
 
 describe('registerLocalKinds (via src/kinds/registry)', () => {
-  it('registers all 150 critters (144 locals + 6 guide aliases)', () => {
-    expect(critters).toHaveLength(150);
+  it('registers all 151 critters (144 locals + 7 guide aliases)', () => {
+    expect(critters).toHaveLength(151);
     expect(LOCAL_CRITTERS).toHaveLength(144);
-    expect(GUIDE_CRITTERS).toHaveLength(6);
+    expect(GUIDE_CRITTERS).toHaveLength(7);
     for (const c of critters) expect(hasKind(c.id)).toBe(true);
   });
 

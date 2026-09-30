@@ -57,7 +57,7 @@ export const RAIN_QUESTION = "It's pouring in Ubud. What now?";
 export const RAIN_ANSWER =
   "Rain till about three. Here's a dry afternoon that still gets you to dinner at 19:30.";
 
-const question = (id: string, text: string, authorId = LAB_MAYA): SavedGuideMessage => ({
+export const question = (id: string, text: string, authorId = LAB_MAYA): SavedGuideMessage => ({
   id,
   role: 'user',
   authorId,
@@ -68,14 +68,14 @@ const question = (id: string, text: string, authorId = LAB_MAYA): SavedGuideMess
   createdAt: '2026-10-03T05:00:00Z',
 });
 
-const answer = (id: string, text: string, extra: Partial<SavedGuideMessage> = {}) => ({
+export const answer = (id: string, text: string, extra: Partial<SavedGuideMessage> = {}) => ({
   ...question(id, text),
   role: 'guide' as const,
   authorId: null,
   ...extra,
 });
 
-function live(state: Partial<TurnState>, text = RAIN_QUESTION): LiveTurn {
+export function live(state: Partial<TurnState>, text = RAIN_QUESTION): LiveTurn {
   return { key: 1, question: text, state: { ...THINKING, ...state } };
 }
 

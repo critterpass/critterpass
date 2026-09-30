@@ -3,9 +3,14 @@
  */
 import { z } from 'zod';
 
-/** Canonical guide palette (docs/product-decisions.md): Tokek/Pon/Lundi/Ajo/Sardi/Paco. */
+/**
+ * Canonical guide palette (docs/product-decisions.md): Tokek/Pon/Lundi/Ajo/Sardi/Paco. These six
+ * accents are also the member palette (`crews/colours.ts`), so a later guide's colour is added to
+ * the schema below, never to this list.
+ */
 export const GUIDE_COLOURS = ['yellow', 'orange', 'blue', 'pink', 'green', 'cream'] as const;
-export const guideColourSchema = z.enum(GUIDE_COLOURS);
+/** Every guide's colour: the six canonical accents plus Chà Vá's red. */
+export const guideColourSchema = z.enum([...GUIDE_COLOURS, 'red']);
 export type GuideColour = z.infer<typeof guideColourSchema>;
 
 export const DESTINATION_COVERAGES = ['live', 'guest'] as const;

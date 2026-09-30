@@ -101,7 +101,7 @@ describe('contrastPairs (design-system.md §5 accessibility contract)', () => {
 
 describe('guide.onPaper (computed, not hand-picked)', () => {
   it('gives every guide colour a paper-safe text variant', () => {
-    for (const id of ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco'] as const) {
+    for (const id of ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco', 'chava'] as const) {
       const onPaper = tokens.guide.onPaper[id];
       expect(contrastRatio(onPaper, tokens.color.paper.base)).toBeGreaterThanOrEqual(4.5);
     }

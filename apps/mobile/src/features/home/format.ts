@@ -45,6 +45,7 @@ const GUIDE_TONES: Readonly<Record<GuideId, CardTone>> = {
   ajo: 'pink',
   sardi: 'green',
   paco: 'cream',
+  chava: 'red',
 };
 
 export function isGuideId(value: string | null | undefined): value is GuideId {

@@ -8,7 +8,15 @@ import { darkenToContrast } from './contrast';
 import { getResolvedValue } from './resolve';
 import type { GuideId } from './types';
 
-export const GUIDE_IDS: readonly GuideId[] = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco'];
+export const GUIDE_IDS: readonly GuideId[] = [
+  'tokek',
+  'pon',
+  'lundi',
+  'ajo',
+  'sardi',
+  'paco',
+  'chava',
+];
 const ON_PAPER_MIN_RATIO = 4.5;
 
 export interface GuideColorEntry {

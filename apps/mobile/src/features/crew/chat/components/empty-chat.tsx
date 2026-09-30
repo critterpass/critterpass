@@ -4,12 +4,12 @@
  */
 import { t } from '@lingui/core/macro';
 
-import { GUIDE_AVATAR_IDS, type GuideAvatarId } from '@/ui/avatar/guides';
+import { isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
 import { EmptyState } from '@/ui/states/EmptyState';
 
 /** A known guide id for the slug, else Tokek (the default companion). */
-export function guideIdOf(slug: string | null | undefined): GuideAvatarId {
-  return GUIDE_AVATAR_IDS.find((id) => id === slug) ?? 'tokek';
+export function guideIdOf(slug: string | null | undefined): GuideStickerId {
+  return isGuideStickerId(slug) ? slug : 'tokek';
 }
 
 export function EmptyChat({

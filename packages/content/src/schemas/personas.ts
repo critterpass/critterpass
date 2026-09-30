@@ -1,5 +1,5 @@
 /**
- * `personas` release items: the six guides' packs and the guest guide. `pack` is the guide
+ * `personas` release items: the live guides' packs and the guest guide. `pack` is the guide
  * persona pack (voice, lexicon, local words, chattiness, colour, voice settings); its full shape is
  * owned by the AI package, which reads content releases, so the content factory validates `pack`
  * against that schema before a batch reaches review. This envelope pins what the catalogue needs:
@@ -7,7 +7,16 @@
  */
 import { z } from 'zod';
 
-export const PERSONA_KEYS = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco', 'guest'] as const;
+export const PERSONA_KEYS = [
+  'tokek',
+  'pon',
+  'lundi',
+  'ajo',
+  'sardi',
+  'paco',
+  'chava',
+  'guest',
+] as const;
 export const personaKeySchema = z.enum(PERSONA_KEYS);
 
 export const personaFixtureSchema = z

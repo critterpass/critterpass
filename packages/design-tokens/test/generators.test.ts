@@ -20,7 +20,7 @@ const kotlin = emitKotlin(leaves);
 const fontsCss = emitFontsCss();
 
 describe('guide colours match the canonical palette in every output', () => {
-  // Canonical guide colours: tokek yellow, pon orange, lundi blue, ajo pink, sardi green.
+  // Canonical guide colours: tokek yellow, pon orange, lundi blue, ajo pink, sardi green, chava red.
   // (paco is the aliased "cream" case, documented in guide.tokens.json; not spot-checked here.)
   const c5 = {
     tokek: tokens.color.yellow,
@@ -28,6 +28,7 @@ describe('guide colours match the canonical palette in every output', () => {
     lundi: tokens.color.blue,
     ajo: tokens.color.pink,
     sardi: tokens.color.green.base,
+    chava: tokens.color.red,
   } as const;
 
   it.each(Object.entries(c5))('TS, CSS, Swift and Kotlin all carry guide.%s', (id, hex) => {

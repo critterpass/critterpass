@@ -13,6 +13,7 @@ const GUIDE_KINDS: Readonly<Record<string, string>> = {
   ajo: 'axolotl',
   sardi: 'sardine',
   paco: 'alpaca',
+  chava: 'langur',
 };
 
 /** The sticker for the trip's guide; Tokek (the brand default) when the trip has none. */

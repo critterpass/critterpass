@@ -41,6 +41,7 @@ const FALLBACK_PLACES: Readonly<Record<GuideId, string>> = {
   ajo: 'Mexico City',
   sardi: 'Lisbon',
   paco: 'Cusco',
+  chava: 'Đà Nẵng',
 };
 /* eslint-enable lingui/no-unlocalized-strings */
 

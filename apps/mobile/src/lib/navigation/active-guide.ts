@@ -1,5 +1,5 @@
-/** The six guides (docs/product-decisions.md C5); `lib` can't import the token package's own type. */
-export type GuideId = 'tokek' | 'pon' | 'lundi' | 'ajo' | 'sardi' | 'paco';
+/** The live guides (docs/product-decisions.md C5); `lib` can't import the token package's own type. */
+export type GuideId = 'tokek' | 'pon' | 'lundi' | 'ajo' | 'sardi' | 'paco' | 'chava';
 
 export interface ActiveGuide {
   readonly guideId: GuideId;
