@@ -28,6 +28,7 @@ export const IOS_USAGE_STRINGS: Readonly<Record<string, string>> = {
   NSPhotoLibraryUsageDescription: 'Add the photos you pick to your crew album.',
   NSCalendarsFullAccessUsageDescription:
     'Find dates when your whole crew is free. Only free and busy times are used; event details stay on your phone.',
+  NSCalendarsWriteOnlyAccessUsageDescription: 'Adds your trip plans to your calendar.',
 };
 
 export const IOS_TEMPORARY_ACCURACY_STRINGS: Readonly<Record<string, string>> = {

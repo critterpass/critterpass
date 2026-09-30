@@ -4,7 +4,9 @@
  * busy per local date, never a title, attendee, place or time. `maybe` appears only when the
  * member chose to share tentative events.
  */
-import { nativeCpCalendarModule } from './src/CpCalendarModule';
+import { nativeCpCalendarModule, type NativePlanEvent } from './src/CpCalendarModule';
+
+export type PlanCalendarEvent = NativePlanEvent;
 
 export type DeviceDayState = 'free' | 'maybe' | 'busy';
 
@@ -53,4 +55,41 @@ export async function readBusyDays(
     .filter((day) => DATE.test(day.date) && STATES.includes(day.state))
     .filter((day) => includeTentative || day.state !== 'maybe')
     .map((day) => ({ date: day.date, state: day.state as DeviceDayState }));
+}
+
+/** Whether this build can add events (older builds only read busy days). */
+export function canWriteCalendar(): boolean {
+  return typeof nativeCpCalendarModule?.writeEvents === 'function';
+}
+
+/** Asks for permission to add events; false without the module or when refused. */
+export async function requestCalendarWriteAccess(): Promise<boolean> {
+  if (!canWriteCalendar() || nativeCpCalendarModule === null) return false;
+  return nativeCpCalendarModule.requestWriteAccess();
+}
+
+/**
+ * Adds plan items to the member's calendar; 0 without the module. Only well-formed events are
+ * passed on (an id, a title, parseable start before end, a zone).
+ */
+export async function writeCalendarEvents(events: readonly PlanCalendarEvent[]): Promise<number> {
+  if (!canWriteCalendar() || nativeCpCalendarModule === null) return 0;
+  const valid = events.filter(
+    (event) =>
+      event.id !== '' &&
+      event.title.trim() !== '' &&
+      event.tz !== '' &&
+      Date.parse(event.startsAt) < Date.parse(event.endsAt),
+  );
+  if (valid.length === 0) return 0;
+  return nativeCpCalendarModule.writeEvents(
+    valid.map(({ id, title, startsAt, endsAt, tz, notes }) => ({
+      id,
+      title,
+      startsAt,
+      endsAt,
+      tz,
+      notes,
+    })),
+  );
 }

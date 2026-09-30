@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.provider.CalendarContract.Events
 import android.provider.CalendarContract.Instances
 import androidx.core.content.ContextCompat
+import expo.modules.interfaces.permissions.PermissionsStatus
+import expo.modules.kotlin.Promise
 import expo.modules.kotlin.exception.CodedException
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
@@ -17,7 +19,8 @@ import java.time.ZoneId
  * are read with a projection of begin, end, all-day, availability and status only (never the
  * title, description, place or attendees) and reduced to one free / maybe / busy per local date
  * before anything returns. READ_CALENDAR is asked for by cp-permissions; without it the read
- * rejects with `ERR_CALENDAR_ACCESS`.
+ * rejects with `ERR_CALENDAR_ACCESS`. Plan items are added through ./CalendarWriter.kt behind
+ * WRITE_CALENDAR.
  */
 class CpCalendarModule : Module() {
   override fun definition() = ModuleDefinition {
@@ -31,6 +34,37 @@ class CpCalendarModule : Module() {
       }
       val zone = runCatching { ZoneId.of(tz) }.getOrDefault(ZoneId.systemDefault())
       BusyDayReducer.reduce(blocks(from, to, zone), from, to, zone, includeTentative).map { it.toMap() }
+    }
+
+    // Adding plan items (./CalendarWriter.kt): the calendar list picks where they go; no event is
+    // read back.
+    AsyncFunction("requestWriteAccess") { promise: Promise ->
+      val permissions = appContext.permissions
+      if (permissions == null) {
+        promise.resolve(false)
+        return@AsyncFunction
+      }
+      permissions.askForPermissions(
+        { result -> promise.resolve(result.values.all { it.status == PermissionsStatus.GRANTED }) },
+        Manifest.permission.READ_CALENDAR,
+        Manifest.permission.WRITE_CALENDAR,
+      )
+    }
+
+    AsyncFunction("writeEvents") { events: List<PlanEventRecord> ->
+      if (!canWrite()) {
+        throw CodedException("ERR_CALENDAR_WRITE", "Calendar write access is not granted", null)
+      }
+      val resolver = appContext.reactContext?.contentResolver
+        ?: throw CodedException("ERR_CALENDAR_WRITE", "React context is not available", null)
+      CalendarWriter.write(resolver, events)
+    }
+  }
+
+  private fun canWrite(): Boolean {
+    val context = appContext.reactContext ?: return false
+    return listOf(Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR).all {
+      ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
     }
   }
 
