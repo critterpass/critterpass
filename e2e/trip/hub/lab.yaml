@@ -1,0 +1,1707 @@
+appId: app.critterpass.dev
+---
+# The trip hub (3k-1) in every phase and state, and the trip switcher, in English then Vietnamese: the trip day lab's fixed-data scenes
+# (apps/mobile/src/app/(dev)/trip-day-lab.tsx), named `<lang>-<design id or route>-<state>` so
+# compare mode pairs each with its render.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-trip-day-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-trip-day-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-pre-trip'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-pre-trip
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-pre-trip'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-planning'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-planning'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-planning
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-planning'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-planning'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-travel-day'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-travel-day'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-travel-day
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-travel-day'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-travel-day'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-in-trip'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-in-trip'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-in-trip
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-in-trip'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-in-trip'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-post-trip'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-post-trip'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-post-trip
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-post-trip'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-post-trip'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-briefing-generating'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-briefing-generating'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-briefing-generating
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-briefing-generating'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-briefing-generating'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-briefing-empty'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-briefing-empty'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-briefing-empty
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-briefing-empty'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-briefing-empty'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-briefing-failed'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-briefing-failed'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-briefing-failed
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-briefing-failed'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-briefing-failed'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-briefing-stale'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-briefing-stale'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-briefing-stale
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-briefing-stale'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-briefing-stale'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-briefing-acted'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-briefing-acted'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-briefing-acted
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-briefing-acted'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-briefing-acted'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-no-bookings'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-no-bookings'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-no-bookings
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-no-bookings'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-no-bookings'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-ticker-line'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-ticker-line'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-ticker-line
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-ticker-line'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-ticker-line'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-guest-guide'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-guest-guide'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-guest-guide
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-guest-guide'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-guest-guide'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-loading'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-loading'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-loading'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-loading
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-loading'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-loading'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-trips-switcher'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-trips-switcher'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-trips-switcher
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-trips-switcher'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-trips-switcher'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-trips-empty'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-trips-empty'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list-empty'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-trips-empty
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-trips-empty'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-trips-empty'
+    timeout: 10000
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+# Going back lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-trip-day-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-trip-day-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-pre-trip'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-pre-trip
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-pre-trip'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-planning'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-planning'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-planning
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-planning'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-planning'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-travel-day'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-travel-day'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-travel-day
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-travel-day'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-travel-day'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-in-trip'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-in-trip'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-in-trip
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-in-trip'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-in-trip'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-post-trip'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-post-trip'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-post-trip
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-post-trip'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-post-trip'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-briefing-generating'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-briefing-generating'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-briefing-generating
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-briefing-generating'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-briefing-generating'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-briefing-empty'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-briefing-empty'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-briefing-empty
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-briefing-empty'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-briefing-empty'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-briefing-failed'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-briefing-failed'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-briefing-failed
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-briefing-failed'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-briefing-failed'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-briefing-stale'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-briefing-stale'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-briefing-stale
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-briefing-stale'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-briefing-stale'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-briefing-acted'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-briefing-acted'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-briefing-acted
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-briefing-acted'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-briefing-acted'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-no-bookings'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-no-bookings'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-no-bookings
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-no-bookings'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-no-bookings'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-ticker-line'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-ticker-line'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-ticker-line
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-ticker-line'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-ticker-line'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-guest-guide'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-guest-guide'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-guest-guide
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-guest-guide'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-guest-guide'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-loading'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-loading'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-loading'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-loading
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-loading'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-loading'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-trips-switcher'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-trips-switcher'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-trips-switcher
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-trips-switcher'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-trips-switcher'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-trips-empty'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-trips-empty'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-list-empty'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-trips-empty
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-trips-empty'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-trips-empty'
+    timeout: 10000

@@ -56,6 +56,11 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
         label: 'Plan views (3e-1/3e-3 scenes)',
       },
       {
+        testId: 'dev-nav-trip-day-lab',
+        href: '/(dev)/trip-day-lab',
+        label: 'Trip day (3k scenes)',
+      },
+      {
         testId: 'dev-nav-live-map',
         href: '/(dev)/live-map',
         label: 'Crew live map (3g-4 scenes)',

@@ -1,0 +1,208 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 16:07+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: nl\n"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.mapAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.notSavedYet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.noSpace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.savedTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.backToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.size"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.partSaved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.gone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-card.tsx
+msgid "trip.offline.backOnline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.kind.bookings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/conflicts-list.tsx
+msgid "trip.offline.conflictsTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.cancelSend"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.alreadySent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.alreadySending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
+msgid "trip.offline.lastSynced"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.kind.maps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.editLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.saveFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-card.tsx
+msgid "trip.offline.noSignal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.nothingSaved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.storageTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.headline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.headlineAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/conflicts-list.tsx
+msgid "trip.offline.conflictOk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-card.tsx
+msgid "trip.offline.online"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
+msgid "trip.offline.openPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.kind.phrases"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.readyHeadline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.saveNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.auto"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.savedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.savedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.saveEdit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/sends-list.tsx
+msgid "trip.offline.sendsTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/sends-list.tsx
+msgid "trip.offline.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.backToSettings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
+msgid "trip.offline.weakLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/still-works-list.tsx
+msgid "trip.offline.stillWorks"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.removeTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.notSaved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.planFirst"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-screen.tsx
+msgid "trip.offline.backToTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-screen.tsx
+msgid "trip.offline.storageLink"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.waitingSince"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-card.tsx
+msgid "trip.offline.weak"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.autoLine"
+msgstr ""

@@ -1,0 +1,687 @@
+appId: app.critterpass.dev
+---
+# The app's own leave-by alarm (5b-3) before and after its one snooze, and the alarm permission sheets, in English then Vietnamese: the trip day lab's fixed-data scenes
+# (apps/mobile/src/app/(dev)/trip-day-lab.tsx), named `<lang>-<design id or route>-<state>` so
+# compare mode pairs each with its render.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-trip-day-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-trip-day-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-5b-3-ringing'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-5b-3-ringing'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-alarm-ringing'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-5b-3-ringing
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-5b-3-ringing'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-5b-3-ringing'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-5b-3-crew-pinged'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-5b-3-crew-pinged'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-alarm-final'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-5b-3-crew-pinged
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-5b-3-crew-pinged'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-5b-3-crew-pinged'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-alarm-sheet-ask'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-alarm-sheet-ask'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-alarm-sheet-ask'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-alarm-sheet-ask
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-alarm-sheet-ask'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-alarm-sheet-ask'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-alarm-sheet-exact'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-alarm-sheet-exact'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-alarm-sheet-exact'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-alarm-sheet-exact
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-alarm-sheet-exact'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-alarm-sheet-exact'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-alarm-sheet-denied'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-alarm-sheet-denied'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-alarm-sheet-denied'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-alarm-sheet-denied
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-alarm-sheet-denied'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-alarm-sheet-denied'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-alarm-sheet-notification'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-alarm-sheet-notification'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-alarm-sheet-notification'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-alarm-sheet-notification
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-alarm-sheet-notification'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-alarm-sheet-notification'
+    timeout: 10000
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+# Going back lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-trip-day-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-trip-day-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-5b-3-ringing'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-5b-3-ringing'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-alarm-ringing'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-5b-3-ringing
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-5b-3-ringing'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-5b-3-ringing'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-5b-3-crew-pinged'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-5b-3-crew-pinged'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-alarm-final'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-5b-3-crew-pinged
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-5b-3-crew-pinged'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-5b-3-crew-pinged'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-alarm-sheet-ask'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-alarm-sheet-ask'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-alarm-sheet-ask'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-alarm-sheet-ask
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-alarm-sheet-ask'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-alarm-sheet-ask'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-alarm-sheet-exact'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-alarm-sheet-exact'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-alarm-sheet-exact'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-alarm-sheet-exact
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-alarm-sheet-exact'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-alarm-sheet-exact'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-alarm-sheet-denied'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-alarm-sheet-denied'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-alarm-sheet-denied'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-alarm-sheet-denied
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-alarm-sheet-denied'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-alarm-sheet-denied'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-alarm-sheet-notification'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-alarm-sheet-notification'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-alarm-sheet-notification'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-alarm-sheet-notification
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-alarm-sheet-notification'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - swipe:
+                start: 2%, 50%
+                end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-alarm-sheet-notification'
+    timeout: 10000

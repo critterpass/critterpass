@@ -1,0 +1,122 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 16:07+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.snoozeNote"
+msgstr "({guideName} will sigh)"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.guideLine"
+msgstr "{guideName} says: up! The day won't wait."
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.notificationTitle"
+msgstr "A notification, not an alarm"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.deniedTitle"
+msgstr "Alarms are off"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.askAllow"
+msgstr "Allow alarms"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.exactOpen"
+msgstr "Allow exact alarms"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.exactBody"
+msgstr "Android rings alarms on the minute only for apps you allow. Without it, a leave-by alarm can ring a few minutes late."
+
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.crewPinged"
+msgstr "Crew was pinged"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.notificationOk"
+msgstr "Got it"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+#: ../../apps/mobile/src/features/trip/alarm/alarm-runtime.tsx
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.imUp"
+msgstr "I'm up"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.title"
+msgstr "Leave by {time}"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.titlePlace"
+msgstr "Leave by {time} · {place}"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.eyebrow"
+msgstr "Leave-by alarm"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.eyebrowPlace"
+msgstr "Leave-by alarm · {place}"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.askTitle"
+msgstr "Let leave-by alarms ring?"
+
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.pingedLine"
+msgstr "No more snoozes. The crew was pinged to give you a knock."
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.notificationBody"
+msgstr "On this version of the app a leave-by rings as a notification with I'm up and Snooze. It won't ring through silent mode, so keep the sound on tonight."
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.deniedOpen"
+msgstr "Open Settings"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.pickupPlace"
+msgstr "Pickup at {pickupPlace} · {pickupTime}"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.pickup"
+msgstr "Pickup at {pickupTime}"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.exactTitle"
+msgstr "Ring on the minute"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.slide"
+msgstr "Slide, I'm up"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+#: ../../apps/mobile/src/features/trip/alarm/alarm-runtime.tsx
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.snooze"
+msgstr "Snooze 5 min"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.askBody"
+msgstr "They ring through silent mode and Focus, only at leave-by times, and only if you're not up yet. {guideName} stops ringing the moment you tap I'm up."
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.deniedBody"
+msgstr "This phone won't ring for leave-bys. {guideName} rings here while the app is open, and your crew gets a nudge to knock if you sleep through."
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.subtitle"
+msgstr "Time to get up and get going."

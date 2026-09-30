@@ -1,0 +1,122 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 16:07+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: tr\n"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.snoozeNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.guideLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.notificationTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.deniedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.askAllow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.exactOpen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.exactBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.crewPinged"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.notificationOk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+#: ../../apps/mobile/src/features/trip/alarm/alarm-runtime.tsx
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.imUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.titlePlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.eyebrowPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.askTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.pingedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.notificationBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.deniedOpen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.pickupPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.pickup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.exactTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.slide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+#: ../../apps/mobile/src/features/trip/alarm/alarm-runtime.tsx
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.snooze"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.askBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.deniedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.subtitle"
+msgstr ""

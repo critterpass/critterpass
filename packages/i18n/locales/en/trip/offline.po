@@ -1,0 +1,208 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 16:07+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.mapAt"
+msgstr "{label}, downloaded at {at}"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.notSavedYet"
+msgstr "{label}: needs signal to save"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.noSpace"
+msgstr "{label}: not saved, the phone is full"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.savedTrip"
+msgstr "{name} trip saved offline"
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.backToast"
+msgstr "{sent, plural, one {Back online. # thing sent.} other {Back online. # things sent.}}"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.size"
+msgstr "{size} MB"
+
+#: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.partSaved"
+msgstr "{time}. Part of today was saved to your phone at {savedAt}."
+
+#: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.saved"
+msgstr "{time}. Today was saved to your phone at {savedAt}."
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.gone"
+msgstr "Already sent"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-card.tsx
+msgid "trip.offline.backOnline"
+msgstr "Back online"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.kind.bookings"
+msgstr "Bookings"
+
+#: ../../apps/mobile/src/features/trip/offline/conflicts-list.tsx
+msgid "trip.offline.conflictsTitle"
+msgstr "Didn't go through"
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.cancelSend"
+msgstr "Don't send it"
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.alreadySent"
+msgstr "It was sent a moment ago."
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.alreadySending"
+msgstr "It's already on its way."
+
+#: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
+msgid "trip.offline.lastSynced"
+msgstr "Last synced {lastSynced}"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.kind.maps"
+msgstr "maps"
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.editLabel"
+msgstr "Message"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.saveFailed"
+msgstr "Needs signal to save. Try again when you have it."
+
+#: ../../apps/mobile/src/features/trip/offline/offline-card.tsx
+msgid "trip.offline.noSignal"
+msgstr "No signal"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.nothingSaved"
+msgstr "No trip is saved on this phone yet."
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.storageTitle"
+msgstr "Offline"
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.headline"
+msgstr "Offline"
+
+#: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.headlineAt"
+msgstr "Offline at {place}"
+
+#: ../../apps/mobile/src/features/trip/offline/conflicts-list.tsx
+msgid "trip.offline.conflictOk"
+msgstr "OK"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-card.tsx
+msgid "trip.offline.online"
+msgstr "Online"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
+msgid "trip.offline.openPlan"
+msgstr "Open today's plan"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.kind.phrases"
+msgstr "phrases"
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.readyHeadline"
+msgstr "Ready for no signal"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.remove"
+msgstr "Remove"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.saveNow"
+msgstr "Save today"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.auto"
+msgstr "Save trip days by themselves"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.savedTitle"
+msgstr "Saved trips"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.savedToast"
+msgstr "Saved. Today works with no signal."
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.saveEdit"
+msgstr "Send this instead"
+
+#: ../../apps/mobile/src/features/trip/offline/sends-list.tsx
+msgid "trip.offline.sendsTitle"
+msgstr "Sends when you're back"
+
+#: ../../apps/mobile/src/features/trip/offline/sends-list.tsx
+msgid "trip.offline.sent"
+msgstr "Sent"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.backToSettings"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
+msgid "trip.offline.weakLine"
+msgstr "Signal is weak. Sending slowly."
+
+#: ../../apps/mobile/src/features/trip/offline/still-works-list.tsx
+msgid "trip.offline.stillWorks"
+msgstr "Still works"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.removeTitle"
+msgstr "Take it off this phone"
+
+#: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.notSaved"
+msgstr "Today isn't saved to this phone yet. The plan still works; tickets and maps need signal."
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.plan"
+msgstr "Today's plan"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.planFirst"
+msgstr "Today's plan and the {time} {title}"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-screen.tsx
+msgid "trip.offline.backToTrip"
+msgstr "Trip"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-screen.tsx
+msgid "trip.offline.storageLink"
+msgstr "Trips saved on this phone"
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.waitingSince"
+msgstr "Waiting for signal since {since}"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-card.tsx
+msgid "trip.offline.weak"
+msgstr "Weak signal"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.autoLine"
+msgstr "Whenever the app is open in the days around a trip, and as an early start begins"

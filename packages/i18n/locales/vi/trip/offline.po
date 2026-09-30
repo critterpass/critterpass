@@ -1,0 +1,208 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 16:07+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.mapAt"
+msgstr "{label}, đã tải lúc {at}"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.notSavedYet"
+msgstr "{label}: cần có sóng để lưu"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.noSpace"
+msgstr "{label}: chưa lưu, máy đã đầy"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.savedTrip"
+msgstr "Chuyến {name} đã lưu ngoại tuyến"
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.backToast"
+msgstr "{sent, plural, other {Có sóng lại rồi. Đã gửi # mục.}}"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.size"
+msgstr "{size} MB"
+
+#: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.partSaved"
+msgstr "{time}. Một phần hôm nay đã được lưu vào máy lúc {savedAt}."
+
+#: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.saved"
+msgstr "{time}. Hôm nay đã được lưu vào máy lúc {savedAt}."
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.gone"
+msgstr "Đã gửi rồi"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-card.tsx
+msgid "trip.offline.backOnline"
+msgstr "Có sóng lại"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.kind.bookings"
+msgstr "Đặt chỗ"
+
+#: ../../apps/mobile/src/features/trip/offline/conflicts-list.tsx
+msgid "trip.offline.conflictsTitle"
+msgstr "Chưa gửi được"
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.cancelSend"
+msgstr "Đừng gửi nữa"
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.alreadySent"
+msgstr "Nó vừa được gửi xong."
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.alreadySending"
+msgstr "Nó đang được gửi đi rồi."
+
+#: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
+msgid "trip.offline.lastSynced"
+msgstr "Đồng bộ lần cuối {lastSynced}"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.kind.maps"
+msgstr "bản đồ"
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.editLabel"
+msgstr "Tin nhắn"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.saveFailed"
+msgstr "Cần có sóng để lưu. Thử lại khi có sóng nhé."
+
+#: ../../apps/mobile/src/features/trip/offline/offline-card.tsx
+msgid "trip.offline.noSignal"
+msgstr "Mất sóng"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.nothingSaved"
+msgstr "Chưa có chuyến nào được lưu trên máy này."
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.storageTitle"
+msgstr "Ngoại tuyến"
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.headline"
+msgstr "Mất sóng"
+
+#: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.headlineAt"
+msgstr "Mất sóng ở {place}"
+
+#: ../../apps/mobile/src/features/trip/offline/conflicts-list.tsx
+msgid "trip.offline.conflictOk"
+msgstr "OK"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-card.tsx
+msgid "trip.offline.online"
+msgstr "Có sóng"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
+msgid "trip.offline.openPlan"
+msgstr "Mở lịch trình hôm nay"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.kind.phrases"
+msgstr "câu giao tiếp"
+
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.readyHeadline"
+msgstr "Sẵn sàng khi mất sóng"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.remove"
+msgstr "Xóa"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.saveNow"
+msgstr "Lưu hôm nay"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.auto"
+msgstr "Tự lưu các ngày trong chuyến"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.savedTitle"
+msgstr "Chuyến đã lưu"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.savedToast"
+msgstr "Đã lưu. Hôm nay vẫn dùng được khi mất sóng."
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.saveEdit"
+msgstr "Gửi bản này thay thế"
+
+#: ../../apps/mobile/src/features/trip/offline/sends-list.tsx
+msgid "trip.offline.sendsTitle"
+msgstr "Sẽ gửi khi có sóng"
+
+#: ../../apps/mobile/src/features/trip/offline/sends-list.tsx
+msgid "trip.offline.sent"
+msgstr "Đã gửi"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.backToSettings"
+msgstr "Cài đặt"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
+msgid "trip.offline.weakLine"
+msgstr "Sóng yếu. Đang gửi chậm."
+
+#: ../../apps/mobile/src/features/trip/offline/still-works-list.tsx
+msgid "trip.offline.stillWorks"
+msgstr "Vẫn dùng được"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.removeTitle"
+msgstr "Xóa khỏi máy này"
+
+#: ../../apps/mobile/src/features/trip/offline/dev/offline-scenes.tsx
+#: ../../apps/mobile/src/features/trip/offline/use-offline.tsx
+msgid "trip.offline.notSaved"
+msgstr "Hôm nay chưa được lưu vào máy. Lịch trình vẫn xem được; vé và bản đồ cần có sóng."
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.plan"
+msgstr "Lịch trình hôm nay"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
+msgid "trip.offline.planFirst"
+msgstr "Lịch trình hôm nay và {title} lúc {time}"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-screen.tsx
+msgid "trip.offline.backToTrip"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-screen.tsx
+msgid "trip.offline.storageLink"
+msgstr "Các chuyến đã lưu trên máy"
+
+#: ../../apps/mobile/src/features/trip/offline/queued-item-sheet.tsx
+msgid "trip.offline.waitingSince"
+msgstr "Đang chờ sóng từ {since}"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-card.tsx
+msgid "trip.offline.weak"
+msgstr "Sóng yếu"
+
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.autoLine"
+msgstr "Mỗi khi mở ứng dụng trong những ngày quanh chuyến đi, và lúc bắt đầu một buổi khởi hành sớm"
