@@ -249,7 +249,9 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn: '6'
 - tapOn: '3'
-- tapOn: '000'
+- tapOn: '0'
+- tapOn: '0'
+- tapOn: '0'
 - tapOn:
     id: 'money-add-submit'
 - extendedWaitUntil:
