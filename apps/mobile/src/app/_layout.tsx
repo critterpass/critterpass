@@ -46,6 +46,7 @@ import '@/features/crew/routes';
 import '@/features/plan/day/register';
 import '@/features/guide/chat/register';
 import '@/features/plan/draft/register';
+import '@/features/proposal/register';
 import '@/features/vote/register';
 import '@/features/money/chat/register';
 import '@/features/plan/review/register-chat-card';
