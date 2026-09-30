@@ -3,8 +3,8 @@
  * on, but its timer must fire whatever happens to the switch after), the Viator status poll (where
  * the api's settle door is reachable) and the daily affiliate conversions import (where the
  * Travelpayouts token is set). Registering them also sets the click retention (13 months) and the
- * Grab quote retention (7 days). The reading of vendor replies registers apart
- * (`replyParseJobs`), with the AI route switches it needs.
+ * Grab quote retention (7 days). The reading of vendor replies registers with the AI route
+ * switches (`replyParseJobs`).
  */
 import {
   createDecisionClient,
@@ -59,23 +59,25 @@ export function replyParseJobs(
   telemetry?: Telemetry,
 ): AnyJobDefinition[] {
   const assertRouteOn = ai.assertAiRoute;
+  const key = env.ANTHROPIC_API_KEY || undefined;
+  const jev = env.TYPESAFE_API_KEY || undefined;
   const onUsage = (record: Parameters<typeof recordUsage>[1]) =>
     recordUsage((fn) => withSystem(pool, fn), record);
   const gateway =
-    env.ANTHROPIC_API_KEY === undefined
+    key === undefined
       ? undefined
       : createGateway({
-          apiKey: env.ANTHROPIC_API_KEY,
-          ...(env.ANTHROPIC_BASE_URL === undefined ? {} : { baseURL: env.ANTHROPIC_BASE_URL }),
+          apiKey: key,
+          ...(env.ANTHROPIC_BASE_URL ? { baseURL: env.ANTHROPIC_BASE_URL } : {}),
           ...(telemetry === undefined ? {} : { telemetry }),
           onUsage,
           assertRouteOn,
         });
   const decisions =
-    gateway === undefined && env.TYPESAFE_API_KEY === undefined
+    gateway === undefined && jev === undefined
       ? undefined
       : createDecisionClient({
-          apiKey: env.TYPESAFE_API_KEY,
+          apiKey: jev,
           ...(gateway === undefined ? {} : { gateway }),
           onUsage,
           assertRouteOn: (route: DecisionRoute) => assertRouteOn(route),
@@ -89,15 +91,17 @@ export function supplierJobs(
   parsed: Pick<SupplierJobsEnv, 'TRAVELPAYOUTS_TOKEN'>,
   pool: pg.Pool,
   logger: JobLogger,
+  ai?: { readonly assertAiRoute: AssertRouteOn },
   raw: Readonly<Record<string, string | undefined>> = process.env,
 ): AnyJobDefinition[] {
   wireSuppliers();
+  const replies = ai === undefined ? [] : replyParseJobs(raw, pool, ai);
   const env: SupplierJobsEnv = {
     TRAVELPAYOUTS_TOKEN: parsed.TRAVELPAYOUTS_TOKEN,
     API_INTERNAL_URL: raw['API_INTERNAL_URL'],
     SUPPLIERS_INTERNAL_SECRET: raw['SUPPLIERS_INTERNAL_SECRET'],
   };
-  const jobs: AnyJobDefinition[] = [holdExpiryJob()];
+  const jobs: AnyJobDefinition[] = [holdExpiryJob(), ...replies];
   if (env.API_INTERNAL_URL && env.SUPPLIERS_INTERNAL_SECRET) {
     jobs.push(
       viatorPollJob(
