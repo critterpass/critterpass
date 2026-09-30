@@ -173,12 +173,12 @@ msgstr "Đã cũ"
 msgid "plan.review.backPlan"
 msgstr "Kế hoạch"
 
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
-msgid "plan.card.eyebrow"
-msgstr "Thay đổi kế hoạch"
-
 #: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
 msgid "plan.card.label"
+msgstr "Thay đổi kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.eyebrow"
 msgstr "Thay đổi kế hoạch"
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts

@@ -173,12 +173,12 @@ msgstr "Out of date"
 msgid "plan.review.backPlan"
 msgstr "Plan"
 
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
-msgid "plan.card.eyebrow"
-msgstr "Plan change"
-
 #: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
 msgid "plan.card.label"
+msgstr "Plan change"
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.eyebrow"
 msgstr "Plan change"
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts

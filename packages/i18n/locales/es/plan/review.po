@@ -173,12 +173,12 @@ msgstr ""
 msgid "plan.review.backPlan"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
-msgid "plan.card.eyebrow"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
 msgid "plan.card.label"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
