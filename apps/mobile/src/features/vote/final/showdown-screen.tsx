@@ -92,7 +92,14 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
   const bottomInset = footerBottom + footerHeight + theme.space['16'];
   // Each half reports its content's height and its name's size; when the two don't fit the screen,
   // both names are set smaller at one shared size.
-  const names = useShowdownNames();
+  const names = useShowdownNames(
+    [
+      ...poll.options.map((o) =>
+        o.refId === null ? o.label : (places.get(o.refId)?.name ?? o.label),
+      ),
+      i18n.locale,
+    ].join('|'),
+  );
   useEffect(() => {
     if (poll.status === 'closed') router.replace(voteRoutes.reveal(poll.id));
   }, [poll.status, poll.id]);

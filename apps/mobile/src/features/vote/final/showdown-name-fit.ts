@@ -5,7 +5,7 @@
  * gets smaller billing): the largest at which both halves fit, found by a binary search over the
  * measured layout, never below the 44 pt floor, and never so narrow that the longest word breaks.
  */
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { LayoutChangeEvent, TextLayoutEvent } from 'react-native';
 
 /** Smallest a city name is set at when its half runs out of height (Vietnamese chips wrap taller). */
@@ -20,8 +20,9 @@ const SEARCH_STEPS = 24;
 export interface NameMeasure {
   readonly designHeight: number;
   readonly designWidth: number;
-  /** Line height at the designed size. */
+  /** Line height and line count at the designed size. */
   readonly designLine: number;
+  readonly designLines: number;
   /** The name's height as it is set right now. */
   readonly height: number;
   /** Characters in the name's longest word. */
@@ -51,22 +52,21 @@ function scaleAt(name: NameMeasure, line: number): number {
 }
 
 /**
- * Each half's name scale (1 = designed size): both at their designed size when the halves fit the
- * viewport there; otherwise both at the largest shared line height that fits, or at their floors.
+ * A first guess at the shared line height, from a straight-line model of the measured layout (a
+ * name's height scales with its size, the rest of the half stays): the largest that fits, or 0
+ * (both at their floors). Null when the halves fit at their designed size. The search below
+ * checks it against the real layout, which the model can miss (auto-fit, line breaks).
  */
-export function sharedNameScales(
+export function guessNameLine(
   halves: readonly [HalfMeasure, HalfMeasure],
   viewport: number,
-): readonly [number, number] {
-  if (viewport <= 0 || !halves.every(measured)) return [1, 1];
-  // What each half needs besides its name does not change with the name's size.
+): number | null {
+  if (viewport <= 0 || !halves.every(measured)) return null;
   const rest = halves.reduce((sum, half) => sum + half.natural - half.name.height, 0);
   const total = (line: number) =>
     halves.reduce((sum, half) => sum + half.name.designHeight * scaleAt(half.name, line), rest);
-  const top = Math.max(...halves.map((half) => half.name.designLine));
-  const scales = (line: number) =>
-    [scaleAt(halves[0].name, line), scaleAt(halves[1].name, line)] as const;
-  if (total(top) <= viewport) return [1, 1];
+  const top = topLine(halves);
+  if (total(top) <= viewport) return null;
   let low = 0;
   let high = top;
   for (let step = 0; step < SEARCH_STEPS; step += 1) {
@@ -74,7 +74,56 @@ export function sharedNameScales(
     if (total(mid) <= viewport) low = mid;
     else high = mid;
   }
-  return scales(low);
+  return low;
+}
+
+function topLine(halves: readonly HalfMeasure[]): number {
+  return Math.max(...halves.map((half) => half.name.designLine));
+}
+
+/** Both names' scale (1 = designed size) at a shared line height, or at their designed size. */
+export function scalesAt(
+  halves: readonly [HalfMeasure, HalfMeasure],
+  line: number | null,
+): readonly [number, number] {
+  if (line === null || !halves.every(measured)) return [1, 1];
+  return [scaleAt(halves[0].name, line), scaleAt(halves[1].name, line)];
+}
+
+/** Where the search for the shared line height stands: `line` null is the designed size. */
+export interface NameSearch {
+  readonly line: number | null;
+  readonly low: number;
+  readonly high: number;
+  readonly done: boolean;
+}
+
+export const DESIGN_SEARCH: NameSearch = { line: null, low: 0, high: 0, done: false };
+
+/** Search steps stop once the bracket is this narrow (points of line height). */
+const SEARCH_TOLERANCE = 2;
+
+/**
+ * One step, after the layout at `search.line` settled and was measured (`fits`: both halves fit
+ * the viewport). At the designed size a fit ends the search with nothing changed; otherwise it
+ * bisects between what fitted and what did not, starting from the model's guess, and ends on the
+ * largest size that fitted (0: both names at their floors).
+ */
+export function nextNameSearch(
+  search: NameSearch,
+  fits: boolean,
+  guess: number,
+  top: number,
+): NameSearch {
+  if (search.done) return search;
+  if (search.line === null) {
+    if (fits) return { ...search, done: true };
+    return { line: Math.min(guess, top), low: 0, high: top, done: false };
+  }
+  const low = fits ? search.line : search.low;
+  const high = fits ? search.high : search.line;
+  if (high - low <= SEARCH_TOLERANCE) return { line: low, low, high, done: true };
+  return { line: (low + high) / 2, low, high, done: false };
 }
 
 /** The box a name is set in at `scale` of its designed size, or null at the designed size. */
@@ -90,17 +139,20 @@ export function nameBox(name: NameMeasure, scale: number): number | null {
 export function useNameMeasure(name: string, locale: string, cap: number | null) {
   const key = `${name}|${locale}`;
   const longestWord = Math.max(0, ...name.split(/\s+/u).map((word) => [...word].length));
-  const [now, setNow] = useState({ height: 0, width: 0, line: 0 });
-  const [design, setDesign] = useState({ key, height: 0, width: 0, line: 0 });
+  const [now, setNow] = useState({ height: 0, width: 0, line: 0, lines: 0 });
+  const [design, setDesign] = useState({ key, height: 0, width: 0, line: 0, lines: 0 });
   // Adjusted while rendering (not in an effect) so a new name starts from its own design size.
   if (design.key !== key) {
-    setDesign({ key, height: 0, width: 0, line: 0 });
+    setDesign({ key, height: 0, width: 0, line: 0, lines: 0 });
   } else if (
     cap === null &&
     now.height > 0 &&
     now.width > 0 &&
     now.line > 0 &&
-    (design.height !== now.height || design.width !== now.width || design.line !== now.line)
+    (design.height !== now.height ||
+      design.width !== now.width ||
+      design.line !== now.line ||
+      design.lines !== now.lines)
   ) {
     setDesign({ key, ...now });
   }
@@ -108,6 +160,7 @@ export function useNameMeasure(name: string, locale: string, cap: number | null)
     designHeight: design.height,
     designWidth: design.width,
     designLine: design.line,
+    designLines: design.lines,
     height: now.height,
     longestWord,
   };
@@ -121,7 +174,11 @@ export function useNameMeasure(name: string, locale: string, cap: number | null)
       const { lines } = event.nativeEvent;
       const width = Math.max(0, ...lines.map((line) => line.width));
       const line = lines[0]?.height ?? 0;
-      setNow((m) => (m.width === width && m.line === line ? m : { ...m, width, line }));
+      setNow((m) =>
+        m.width === width && m.line === line && m.lines === lines.length
+          ? m
+          : { ...m, width, line, lines: lines.length },
+      );
     },
   };
 }
@@ -130,15 +187,27 @@ const NO_NAME: NameMeasure = {
   designHeight: 0,
   designWidth: 0,
   designLine: 0,
+  designLines: 0,
   height: 0,
   longestWord: 0,
 };
 const NO_HALF: HalfMeasure = { name: NO_NAME, natural: 0 };
 
-/** Collects both halves' measures and the viewport, and gives each half its name box. */
-export function useShowdownNames() {
+/** How long the layout must stay still before a search step reads it. */
+const SETTLE_MS = 120;
+
+/**
+ * Collects both halves' measures and the viewport and gives each half its name box. The names
+ * start at their designed size; only when the halves overflow does it search the real layout for
+ * the largest shared size that fits, one settled layout per step, the names hidden meanwhile.
+ */
+export function useShowdownNames(key: string) {
   const [viewport, setViewport] = useState(0);
   const [halves, setHalves] = useState<readonly [HalfMeasure, HalfMeasure]>([NO_HALF, NO_HALF]);
+  const [search, setSearch] = useState({ key, viewport, step: DESIGN_SEARCH });
+  // A new pair of names, a new language or a new screen size starts again from the design size.
+  if (search.key !== key || search.viewport !== viewport)
+    setSearch({ key, viewport, step: DESIGN_SEARCH });
   const update = useCallback((index: 0 | 1, change: Partial<HalfMeasure>) => {
     setHalves((current) => {
       const next = { ...current[index], ...change };
@@ -149,16 +218,41 @@ export function useShowdownNames() {
   const onSecondNatural = useCallback((natural: number) => update(1, { natural }), [update]);
   const onFirstName = useCallback((name: NameMeasure) => update(0, { name }), [update]);
   const onSecondName = useCallback((name: NameMeasure) => update(1, { name }), [update]);
-  const [first, second] = sharedNameScales(halves, viewport);
+  const ready = viewport > 0 && halves.every(measured);
+  const { step } = search;
+  useEffect(() => {
+    if (!ready || step.done) return undefined;
+    // Every new measurement restarts the wait, so a step reads a layout that has settled.
+    const timer = setTimeout(() => {
+      const fits = halves[0].natural + halves[1].natural <= viewport + 0.5;
+      const guess = guessNameLine(halves, viewport) ?? topLine(halves);
+      setSearch((current) =>
+        current.key === key && current.viewport === viewport
+          ? { ...current, step: nextNameSearch(current.step, fits, guess, topLine(halves)) }
+          : current,
+      );
+    }, SETTLE_MS);
+    return () => clearTimeout(timer);
+  }, [ready, step, halves, viewport, key]);
+  const [first, second] = scalesAt(halves, step.line);
+  const searching = step.line !== null && !step.done;
+  const box = (index: 0 | 1, scale: number) => {
+    const cap = nameBox(halves[index].name, scale);
+    const lines = halves[index].name.designLines;
+    // A many-line name keeps its designed line breaks, so it shrinks instead of reflowing.
+    return { nameCap: cap, nameLines: cap !== null && lines > 1 ? lines : undefined };
+  };
   return {
     onViewport: setViewport,
     first: {
-      nameCap: nameBox(halves[0].name, first),
+      ...box(0, first),
+      nameHidden: searching,
       onNaturalHeight: onFirstNatural,
       onNameMeasure: onFirstName,
     },
     second: {
-      nameCap: nameBox(halves[1].name, second),
+      ...box(1, second),
+      nameHidden: searching,
       onNaturalHeight: onSecondNatural,
       onNameMeasure: onSecondName,
     },

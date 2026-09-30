@@ -176,6 +176,8 @@ export function ShowdownHalf({
   squashKey,
   edgeInset,
   nameCap,
+  nameLines,
+  nameHidden,
   onNaturalHeight,
   onNameMeasure,
 }: {
@@ -190,6 +192,10 @@ export function ShowdownHalf({
   readonly edgeInset: number;
   /** The box the city name is set in (both halves at one shared size), or null at its designed size. */
   readonly nameCap: number | null;
+  /** The designed line count a many-line name keeps while it is set smaller. */
+  readonly nameLines: number | undefined;
+  /** The name is hidden while the screen searches for the size both names fit at. */
+  readonly nameHidden: boolean;
   /** Reports the height the half's content needs, before it grows to share the screen. */
   readonly onNaturalHeight: (height: number) => void;
   /** Reports the name's designed and current size. */
@@ -205,10 +211,12 @@ export function ShowdownHalf({
   const quote = option.pitchId === null ? null : (sectionsOf.get(option.pitchId)?.quote ?? null);
   const name = place?.name ?? option.label;
   const nameFit = useNameMeasure(name, i18n.locale, nameCap);
-  const { designHeight, designWidth, designLine, height, longestWord } = nameFit.measure;
+  const { designHeight, designWidth, designLine, designLines, height, longestWord } =
+    nameFit.measure;
   useEffect(
-    () => onNameMeasure({ designHeight, designWidth, designLine, height, longestWord }),
-    [designHeight, designWidth, designLine, height, longestWord, onNameMeasure],
+    () =>
+      onNameMeasure({ designHeight, designWidth, designLine, designLines, height, longestWord }),
+    [designHeight, designWidth, designLine, designLines, height, longestWord, onNameMeasure],
   );
   const endPadding = alignEnd
     ? edgeInset
@@ -251,7 +259,12 @@ export function ShowdownHalf({
             ? {}
             : {
                 autoFitMinSize: NAME_FLOOR,
-                style: { width: nameCap, textAlign: alignEnd ? 'right' : 'left' },
+                ...(nameLines === undefined ? {} : { numberOfLines: nameLines }),
+                style: {
+                  width: nameCap,
+                  textAlign: alignEnd ? 'right' : 'left',
+                  opacity: nameHidden ? 0 : 1,
+                },
               })}
           testID={`showdown-name-${alignEnd ? 1 : 0}`}
           onLayout={nameFit.onLayout}

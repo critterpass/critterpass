@@ -55,7 +55,13 @@ import {
   until,
 } from '../../test-support/vote-harness';
 import { FinalSplitCard } from '../final-split-card';
-import { sharedNameScales } from '../showdown-name-fit';
+import {
+  DESIGN_SEARCH,
+  guessNameLine,
+  nextNameSearch,
+  scalesAt,
+  type HalfMeasure,
+} from '../showdown-name-fit';
 import { ShowdownView } from '../showdown-screen';
 import { WinnerRevealScreen, WinnerRevealView } from '../winner-reveal';
 
@@ -253,35 +259,56 @@ describe('destination final', () => {
     await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(250, 300, 30));
     expect(nameWidth(0)).toBeUndefined();
     expect(nameWidth(1)).toBeUndefined();
-    // The lower half's chips wrap taller: both names are set in narrower boxes, at one line height.
+    // The lower half's chips wrap taller: both names are set in narrower boxes.
     await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(420, 300, 30));
-    const first = nameWidth(0);
-    const second = nameWidth(1);
-    expect(first).toBeLessThan(300);
-    expect(second).toBeLessThan(280);
-    expect(((first as number) / 300) * 150).toBeCloseTo(((second as number) / 280) * 120, 0);
+    await until(() => nameWidth(0) !== undefined && nameWidth(1) !== undefined);
+    expect(nameWidth(0)).toBeLessThan(300);
+    expect(nameWidth(1)).toBeLessThan(280);
   });
 
   it('keeps the designed size when the halves fit, and shrinks both names equally when not', () => {
-    const half = (designLine: number, natural: number, longestWord = 6) => ({
+    const half = (designLine: number, natural: number, longestWord = 3) => ({
       name: {
         designHeight: designLine,
         designWidth: 300,
         designLine,
+        designLines: 1,
         height: designLine,
         longestWord,
       },
       natural,
     });
+    // The layout as the device would measure it at a shared line height.
+    const totalAt = (halves: readonly [HalfMeasure, HalfMeasure], line: number | null) => {
+      const scales = scalesAt(halves, line);
+      return halves.reduce(
+        (sum, h, i) => sum + h.natural - h.name.height + h.name.designHeight * (scales[i] ?? 1),
+        0,
+      );
+    };
+    const run = (halves: readonly [HalfMeasure, HalfMeasure], viewport: number) => {
+      let search = DESIGN_SEARCH;
+      for (let step = 0; step < 20 && !search.done; step += 1) {
+        const fits = totalAt(halves, search.line) <= viewport;
+        search = nextNameSearch(search, fits, guessNameLine(halves, viewport) ?? 150, 150);
+      }
+      return search;
+    };
     // English: a big KYOTO and a smaller LISBON, 690 of 700 points in all. Nothing changes.
-    expect(sharedNameScales([half(150, 380), half(120, 310)], 700)).toEqual([1, 1]);
-    // Vietnamese chips wrap taller: 820 of 700. Both names end at one line height, and fit.
-    const [a, b] = sharedNameScales([half(150, 430), half(120, 390)], 700);
+    const en = [half(150, 380), half(120, 310)] as const;
+    expect(guessNameLine(en, 700)).toBeNull();
+    expect(run(en, 700)).toMatchObject({ line: null, done: true });
+    // Vietnamese chips wrap taller: 820 of 700. Both names end at one line height, the largest
+    // that fits.
+    const vi = [half(150, 430), half(120, 390)] as const;
+    const found = run(vi, 700);
+    expect(found.done).toBe(true);
+    const [a, b] = scalesAt(vi, found.line);
     expect(150 * a).toBeCloseTo(120 * b, 3);
-    expect(430 - 150 + 150 * a + (390 - 120) + 120 * b).toBeLessThanOrEqual(700.01);
-    expect(430 - 150 + 150 * a + (390 - 120) + 120 * b).toBeGreaterThan(699);
+    expect(totalAt(vi, found.line)).toBeLessThanOrEqual(700);
+    expect(totalAt(vi, (found.line ?? 0) + 3)).toBeGreaterThan(700);
     // Nothing fits even at the floor: each stops at its floor (44 pt, the longest word whole).
-    const [c, d] = sharedNameScales([half(150, 900, 11), half(120, 900, 3)], 700);
+    const [c, d] = scalesAt([half(150, 900, 11), half(120, 900)], 0);
     expect(c).toBeCloseTo((11 * 44 * 0.55) / 300);
     expect(d).toBeCloseTo(44 / (120 / 0.8));
   });

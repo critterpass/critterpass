@@ -87,7 +87,7 @@ export default function ShowdownLongScreen() {
   const styles = useStyles();
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const names = useShowdownNames();
+  const names = useShowdownNames(`${CHEF.name}|${HCM.name}`);
   const [footer, setFooter] = useState(0);
   const a = CHEF;
   const b = HCM;
