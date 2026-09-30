@@ -18,13 +18,53 @@ msgid "proposal.sent.writing"
 msgstr ""
 
 #. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.thinking"
+msgstr ""
+
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.pending"
+msgstr ""
+
+#. placeholder {0}: props.guideName
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
 msgid "proposal.sent.pending"
+msgstr ""
+
+#. placeholder {0}: props.organiserName
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.sub"
 msgstr ""
 
 #. placeholder {0}: props.destination
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.back"
+msgstr ""
+
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.sub"
+msgstr ""
+
+#. placeholder {0}: latest.name
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.hype.replied"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/proposal/chat-card.tsx
+msgid "proposal.card.member"
+msgstr ""
+
+#. placeholder {0}: pick.title
+#: ../../apps/mobile/src/features/proposal/your-version/picks-list.tsx
+msgid "proposal.version.pickA11y"
+msgstr ""
+
+#. placeholder {0}: trip.destination
+#: ../../apps/mobile/src/features/proposal/chat-card.tsx
+msgid "proposal.card.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
@@ -33,6 +73,26 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.subShared"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.titlePreview"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.hype.pct"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.hype.count"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.reaction.sixAm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
@@ -47,6 +107,15 @@ msgstr ""
 msgid "proposal.queued.followup"
 msgstr ""
 
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.asked"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.noStaySub"
 msgstr ""
@@ -57,6 +126,19 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.crew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.hype.title"
+msgstr ""
+
+#. placeholder {0}: pick.dayNo
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+msgid "proposal.version.day"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
@@ -71,9 +153,19 @@ msgstr ""
 msgid "proposal.sent.done"
 msgstr ""
 
+#. placeholder {0}: instantDate(locale, proposal.freeCancelUntil)
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+msgid "proposal.version.freeCancel"
+msgstr ""
+
 #. placeholder {0}: instantDate(locale, props.freeCancelUntil)
 #: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
 msgid "proposal.replyBy.whyCancel"
+msgstr ""
+
+#. placeholder {0}: instantDate(locale, proposal.freeCancelUntil)
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+msgid "proposal.objection.freeCancel"
 msgstr ""
 
 #. placeholder {0}: stay.freeCancelUntil
@@ -81,25 +173,94 @@ msgstr ""
 msgid "proposal.build.stayCancel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.value"
+msgstr ""
+
 #. placeholder {0}: instantDateTime(locale, props.fallback.toISOString())
 #: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
 msgid "proposal.replyBy.autoAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.reaction.laugh"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.laterDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.in"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.in"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.reaction.imIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.inAt"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.noRecipients"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.why.value"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.why.taste"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
 msgid "proposal.sent.title"
+msgstr ""
+
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.private"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
 msgid "proposal.replyBy.auto"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/chat-card.tsx
+msgid "proposal.card.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
 msgid "proposal.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.why.crew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.nothing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.reaction.okayWow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.reaction.fire"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
@@ -108,6 +269,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.personalOff"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.onlyHere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/chat-card.tsx
+msgid "proposal.card.open"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
@@ -131,6 +300,10 @@ msgstr ""
 msgid "proposal.build.previewAs"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.ready"
 msgstr ""
@@ -141,6 +314,19 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
 msgid "proposal.replyBy.title"
+msgstr ""
+
+#. placeholder {0}: instantDate(locale, deadline)
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+msgid "proposal.version.replyBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/share-card.tsx
+msgid "proposal.share.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/chat-card.tsx
+msgid "proposal.card.organiser"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
@@ -163,12 +349,41 @@ msgstr ""
 msgid "proposal.build.showCost"
 msgstr ""
 
+#. placeholder {0}: saving.label
+#: ../../apps/mobile/src/features/proposal/your-version/share-card.tsx
+msgid "proposal.share.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.other"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.noStay"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.later"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.cost"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
 msgid "proposal.replyBy.whyStart"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/chat-card.tsx
+msgid "proposal.card.locked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.dates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.plan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
@@ -183,16 +398,56 @@ msgstr ""
 msgid "proposal.build.trailer"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/chat-card.tsx
+msgid "proposal.card.a11y"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.failedSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
+msgid "proposal.objection.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/chat-card.tsx
+msgid "proposal.card.track"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
 msgid "proposal.sent.tracker"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.why.mustDo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.why.onlyHere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+msgid "proposal.version.out"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.taste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+msgid "proposal.version.youreIn"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+msgid "proposal.version.waitlisted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.mustDo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
@@ -201,4 +456,12 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
 msgid "proposal.queued.rsvp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/share-card.tsx
+msgid "proposal.share.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/share-card.tsx
+msgid "proposal.share.title"
 msgstr ""
