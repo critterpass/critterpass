@@ -1,5 +1,7 @@
 ---
 /** "A look inside": six app moments as phone cards on a horizontal, snap-scrolling route. */
+import { critters } from '@cp/critter-art';
+
 import { homeCopy as copy } from '../copy/home';
 import { siteTranslator } from '../i18n';
 import Sticker from '../Sticker.astro';
@@ -48,14 +50,14 @@ const t = await siteTranslator();
     </li>
     <li class="home-shot home-shot--pink">
       <h3 class="site-display home-shot__title">{t(copy.insideLocalTitle)}</h3>
-      <p class="home-shot__body">{t(copy.insideLocalBody)}</p>
+      <p class="home-shot__body">{t(copy.insideLocalBody, { count: critters.length })}</p>
       <div class="home-phone home-phone--glow" aria-hidden="true">
         <span class="home-phone__time">{t(copy.phoneTime)}</span>
         <p class="site-eyebrow home-phone__eyebrow home-phone__eyebrow--yellow">{t(copy.mockLocalEyebrow)}</p>
         <Sticker kind="cp-005" size={110} class="home-phone__local" />
         <p class="site-display home-phone__title home-phone__title--yellow">{t(copy.mockLocalName)}</p>
         <p class="home-phone__meta">{t(copy.mockLocalSpecies)}</p>
-        <b class="home-phone__chip">{t(copy.mockLocalFound)}</b>
+        <b class="home-phone__chip">{t(copy.mockLocalFound, { count: critters.length })}</b>
       </div>
     </li>
     <li class="home-shot home-shot--orange">

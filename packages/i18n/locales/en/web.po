@@ -73,7 +73,7 @@ msgstr "1 vote"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalFound"
-msgstr "10 / 150 found"
+msgstr "10 / {count} found"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatUnread"
@@ -317,7 +317,7 @@ msgstr "Every booking. Even with no signal."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideLocalBody"
-msgstr "Every city has a critter to hatch. 150 to collect, and you have to be there."
+msgstr "Every city has a critter to hatch. {count} to collect, and you have to be there."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insidePlanTitle"
