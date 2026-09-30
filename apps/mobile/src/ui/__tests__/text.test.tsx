@@ -362,6 +362,10 @@ describe('pill labels', () => {
     expect(
       StyleSheet.flatten(screen.getByTestId('cta').props.style as TextStyle)?.paddingVertical ?? 0,
     ).toBe(0);
+    // Its side padding comes down with it.
+    expect(
+      StyleSheet.flatten(screen.getByTestId('cta').props.style as TextStyle)?.paddingHorizontal,
+    ).toBeCloseTo(24 * LABEL_SHRINK_STEP, 5);
     // Too long even at the floor: it stops shrinking there.
     await wrapAtFloor(label(), twoLines);
     expect(sizeOf()).toBeCloseTo(full * LABEL_MIN_SCALE, 5);

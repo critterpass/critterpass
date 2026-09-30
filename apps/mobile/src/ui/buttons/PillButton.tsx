@@ -146,6 +146,8 @@ export function PillButton({
     scale < 1
       ? { fontSize: labelSize, letterSpacing: (labelToken.letterSpacing ?? 0) * labelSize }
       : null;
+  // A shrunk label takes its side padding down with it, so the pill gives the label the room.
+  const padding = scale < 1 ? { paddingHorizontal: styles[size].paddingHorizontal * scale } : null;
   return (
     <PressScale
       testID={testID}
@@ -158,6 +160,7 @@ export function PillButton({
       style={[
         styles.base,
         styles[size],
+        padding,
         fill ? { backgroundColor: fill } : null,
         variant === 'secondary' ? styles.outline : null,
         (block ?? size === 'lg') ? { alignSelf: 'stretch' } : { alignSelf: 'flex-start' },
