@@ -43,6 +43,17 @@
       "crop": "face",
       "format": "png",
       "out": "packages/critter-bake/out/tier-a/notification-avatars"
+    },
+    {
+      "kind": ["langur"],
+      "forms": ["common"],
+      "poses": ["idle", "cheer"],
+      "variants": ["color"],
+      "sizesPt": [48],
+      "scales": [2, 3],
+      "crop": "none",
+      "format": "png",
+      "out": "packages/critter-bake/out/tier-a/guides"
     }
   ]
 }
