@@ -98,8 +98,8 @@ its flows run (`tools/scripts/ci-device/runner-actions.ts`). At the step a flow'
 "Runner: …", call it from a script:
 
 ```yaml
-- evalScript: ${http.post('http://127.0.0.1:7788/push?fixture=e2e/notifications/fixtures/android-crew-chat.json', { body: '{}' }).status}
-- evalScript: ${http.post('http://127.0.0.1:7788/network?state=off', { body: '{}' }).status}
+- evalScript: "${http.post('http://127.0.0.1:7788/push?fixture=e2e/notifications/fixtures/android-crew-chat.json', { body: '{}' }).status}"
+- evalScript: "${http.post('http://127.0.0.1:7788/network?state=off', { body: '{}' }).status}"
 ```
 
 Maestro's `http.post` needs a body, so pass one even when the action ignores it. `/type` types its

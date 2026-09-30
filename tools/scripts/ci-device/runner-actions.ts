@@ -3,9 +3,9 @@
  * or cut the network. A flow can't run a shell command, but its scripts can make HTTP requests, so
  * each device shard serves these on localhost while its flows run:
  *
- *   - evalScript: ${http.post('http://127.0.0.1:7788/push?fixture=e2e/notifications/fixtures/android-crew-chat.json', { body: '{}' }).status}
- *   - evalScript: ${http.post('http://127.0.0.1:7788/network?state=off', { body: '{}' }).status}
- *   - evalScript: ${http.post('http://127.0.0.1:7788/type', { body: 'SQ 938' }).status}
+ *   - evalScript: "${http.post('http://127.0.0.1:7788/push?fixture=e2e/notifications/fixtures/android-crew-chat.json', { body: '{}' }).status}"
+ *   - evalScript: "${http.post('http://127.0.0.1:7788/network?state=off', { body: '{}' }).status}"
+ *   - evalScript: "${http.post('http://127.0.0.1:7788/type', { body: 'SQ 938' }).status}"
  *
  * `/push` reads the fixture (repo-root-relative JSON), fills its `${NAME}` placeholders from the
  * runner's environment (CREW_ID, CREW_NAME) and delivers it: `xcrun simctl push` on iOS, the FCM

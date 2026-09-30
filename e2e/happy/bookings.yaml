@@ -30,7 +30,7 @@ appId: app.critterpass.dev
     when:
       platform: Android
     commands:
-      - evalScript: ${http.post('http://127.0.0.1:7788/type', { body: output.paste }).status}
+      - evalScript: "${http.post('http://127.0.0.1:7788/type', { body: output.paste }).status}"
 - runFlow:
     when:
       platform: iOS
