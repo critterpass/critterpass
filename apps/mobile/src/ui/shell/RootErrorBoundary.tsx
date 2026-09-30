@@ -3,10 +3,12 @@ import { t } from '@lingui/core/macro';
 import { I18nProvider } from '@lingui/react';
 import type { ErrorBoundaryProps } from 'expo-router';
 import { router } from 'expo-router';
+import { useEffect } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { sourceLocale } from '@cp/i18n';
 
+import { clearSavedNavigation } from '@/lib/navigation/restore';
 import { ThemeProvider } from '@/lib/theme';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
@@ -129,8 +131,12 @@ function RecoveryPanel({ retry }: Pick<ErrorBoundaryProps, 'retry'>) {
  * it; only Expo Router's own SafeAreaProvider is. A boundary that throws while rendering takes a
  * release build down, so it mounts its own locale, theme settings and screen-jolt context. When the
  * layout failed before any locale was activated, it falls back to the source locale's own strings.
+ *
+ * It also drops the saved navigation state: that state still points at the screen that threw, and a
+ * cold start inside the restore window would put the user straight back on this panel.
  */
 export function RootErrorBoundary({ retry }: ErrorBoundaryProps) {
+  useEffect(() => clearSavedNavigation(), []);
   if (!i18n.locale) i18n.loadAndActivate({ locale: sourceLocale, messages: {} });
   return (
     <I18nProvider i18n={i18n}>

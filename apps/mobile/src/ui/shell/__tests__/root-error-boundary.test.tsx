@@ -3,6 +3,8 @@ import { i18n } from '@lingui/core';
 import { fireEvent, render } from '@testing-library/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { readSavedNavigation, writeSavedNavigation } from '@/lib/navigation/restore';
+
 import { RootErrorBoundary } from '../RootErrorBoundary';
 
 const METRICS = {
@@ -32,5 +34,25 @@ describe('RootErrorBoundary', () => {
     expect(getByTestId('shell-error-home')).toBeTruthy();
     await fireEvent.press(getByTestId('shell-error-retry'));
     expect(retry).toHaveBeenCalledTimes(1);
+  });
+
+  // The saved state still points at the screen that threw; restoring it on the next cold start
+  // would open straight onto this panel again.
+  it('forgets the saved navigation so a relaunch cannot restore the crash', async () => {
+    i18n.loadAndActivate({ locale: 'en', messages: {} });
+    writeSavedNavigation({
+      savedAt: Date.now(),
+      build: 'test',
+      state: { routes: [{ name: 'places/search' }] },
+    });
+    expect(readSavedNavigation()).toBeDefined();
+
+    await render(
+      <SafeAreaProvider initialMetrics={METRICS}>
+        <RootErrorBoundary error={new Error('render failed')} retry={() => Promise.resolve()} />
+      </SafeAreaProvider>,
+    );
+
+    expect(readSavedNavigation()).toBeUndefined();
   });
 });
