@@ -52,6 +52,10 @@ msgid "trip.hub.ticker.pitched"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.removed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.asked"
 msgstr ""
 
@@ -65,6 +69,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.tookSeat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.reverted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.rejected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.undid"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
@@ -227,7 +243,7 @@ msgstr ""
 msgid "trip.hub.tile.online"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
 msgid "trip.hub.cta.plan"
 msgstr ""
 
@@ -243,7 +259,7 @@ msgstr ""
 msgid "trip.briefing.setDone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
 msgid "trip.hub.cta.setup"
 msgstr ""
 
@@ -263,6 +279,10 @@ msgstr ""
 msgid "trip.hub.takeOff"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.moved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.today"
 msgstr ""
@@ -279,12 +299,16 @@ msgstr ""
 msgid "trip.list.voting"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
 msgid "trip.hub.cta.vote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.wheelsUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.whereNext"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/screen.tsx

@@ -120,16 +120,7 @@ function Hub({
 }
 
 function Ticker() {
-  const line = activityLine({
-    id: 'x',
-    actor_id: null,
-    verb: 'edited',
-    object_kind: 'trip',
-    object_id: null,
-    text: null,
-    at: '',
-    actor_name: 'Alex',
-  });
+  const line = activityLine({ verb: 'edited', actor_name: 'Alex' });
   return <Hub overrides={{ ticker: [{ id: 'x', text: line }] }} />;
 }
 

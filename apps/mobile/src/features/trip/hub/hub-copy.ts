@@ -59,22 +59,35 @@ export function moneyTile(amount: string | null, sign: number) {
     : { value: amount, caption: t({ id: 'trip.hub.tile.youOwe', message: 'you owe' }) };
 }
 
-export function activityLine(row: ActivityRow): string {
-  if (row.text !== null && row.text !== '') return row.text;
+/**
+ * A ticker line per activity verb. The row's `text` is the event's i18n id (`activity.trip_created`),
+ * never copy, so the line comes from the verb; a verb this build doesn't know reads as an update.
+ */
+export function activityLine(row: Pick<ActivityRow, 'verb' | 'actor_name'>): string {
   const name = row.actor_name ?? t({ id: 'trip.hub.ticker.someone', message: 'Someone' });
   switch (row.verb) {
     case 'joined':
       return t({ id: 'trip.hub.ticker.joined', message: `${name} joined the crew` });
     case 'left':
       return t({ id: 'trip.hub.ticker.left', message: `${name} left the crew` });
+    case 'removed':
+      return t({ id: 'trip.hub.ticker.removed', message: `${name} removed someone from the crew` });
     case 'created':
       return t({ id: 'trip.hub.ticker.created', message: `${name} started the trip` });
+    case 'moved':
+      return t({ id: 'trip.hub.ticker.moved', message: 'The trip moved to its next step' });
     case 'drafted':
       return t({ id: 'trip.hub.ticker.drafted', message: 'A new plan is ready' });
     case 'proposed':
       return t({ id: 'trip.hub.ticker.proposed', message: `${name} suggested a change` });
     case 'applied':
       return t({ id: 'trip.hub.ticker.applied', message: 'A change made it into the plan' });
+    case 'reverted':
+      return t({ id: 'trip.hub.ticker.reverted', message: `${name} took back a change` });
+    case 'rejected':
+      return t({ id: 'trip.hub.ticker.rejected', message: `${name} turned down a change` });
+    case 'undid':
+      return t({ id: 'trip.hub.ticker.undid', message: `${name} undid a guide's change` });
     case 'edited':
       return t({ id: 'trip.hub.ticker.edited', message: `${name} edited the plan` });
     case 'rsvped':
