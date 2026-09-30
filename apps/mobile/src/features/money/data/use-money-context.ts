@@ -91,7 +91,9 @@ export function useMoneyContext(requestedTripId: string | null = null): MoneyCon
         : {
             id: crewRow.id,
             name: crewRow.name ?? '',
-            settlementCurrency: crewRow.settlement_currency ?? me?.home_currency ?? 'USD',
+            // The server writes the ledger in USD until the crew picks a currency
+            // (coalesce(settlement_currency, 'USD')); anything else nets nothing.
+            settlementCurrency: crewRow.settlement_currency ?? 'USD',
             organiser: crewRow.role === 'organiser',
           };
     const tripList = trips.rows.map((row) => toTrip(row, crewRow));

@@ -157,6 +157,11 @@ export const ROOMS_SCENES: readonly SetupScene[] = [
     const trip = organiser();
     return { trip, model: model(trip, null) };
   }),
+  // No stay prices for the place and one room for everyone: LOOKS GOOD accepts the even split.
+  scene('rooms-even-split', () => {
+    const trip = organiser();
+    return { trip, model: model(trip, null, { stays: [], skippable: true }) };
+  }),
   scene('rooms-odd-crew', () => {
     const trip = organiser();
     return { trip, model: model(trip, ODD) };

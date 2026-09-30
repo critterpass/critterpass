@@ -63,6 +63,11 @@ describe('dates step view', () => {
     expect(handlers.onLock).toHaveBeenCalledWith('2027-04-02', '2027-04-09');
   });
 
+  it('counts a single synced calendar in the singular', async () => {
+    await show(whenModel({ synced: 1 }));
+    expect(screen.getByText('From one synced calendar. Five still to come.')).toBeTruthy();
+  });
+
   it('offers the ways out when no week fits, with the guide’s pick selected', async () => {
     const handlers = await show(noFit());
     expect(screen.getByText('NO WEEK FITS ALL SIX')).toBeTruthy();

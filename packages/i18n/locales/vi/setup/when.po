@@ -13,7 +13,19 @@ msgstr "“Có thể bận” thường là dời được. Đáng hỏi một c
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.line.checked"
-msgstr "{count} lịch, đã xem đến hết {until}. Không tuần nào hoàn hảo."
+msgstr "{calendars, plural, other {{count} lịch, đã xem đến hết {until}. Không tuần nào hoàn hảo.}}"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.some"
+msgstr "{calendars, plural, other {Từ {synced} lịch đã đồng bộ. Còn {left} người nữa.}}"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.oneMissing"
+msgstr "{calendars, plural, other {Từ {synced} lịch đã đồng bộ. {only} chưa kết nối.}}"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.all"
+msgstr "{calendars, plural, other {Từ {synced} lịch đã đồng bộ. Đủ cả rồi.}}"
 
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.fareRise"
@@ -134,18 +146,6 @@ msgstr "Đang tìm tuần hợp nhất"
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.freed"
 msgstr "Đã dời được"
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.line.some"
-msgstr "Từ {synced} lịch đã đồng bộ. Còn {left} người nữa."
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.line.oneMissing"
-msgstr "Từ {synced} lịch đã đồng bộ. {only} chưa kết nối."
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.line.all"
-msgstr "Từ {synced} lịch đã đồng bộ. Đủ cả rồi."
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx

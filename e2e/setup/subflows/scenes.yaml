@@ -16,6 +16,9 @@ appId: app.critterpass.dev
     env: { SCENE: when-empty }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: when-one-synced }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: when-computing }
 - runFlow:
     file: scene.yaml
@@ -110,6 +113,9 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: rooms-pick-stay }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: rooms-even-split }
 - runFlow:
     file: scene.yaml
     env: { SCENE: rooms-odd-crew }

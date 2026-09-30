@@ -13,7 +13,19 @@ msgstr "“Maybe” usually means it can move. Worth one message."
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.line.checked"
-msgstr "{count} calendars, checked through {until}. Nobody's week is perfect."
+msgstr "{calendars, plural, one {{count} calendar, checked through {until}. Nobody's week is perfect.} other {{count} calendars, checked through {until}. Nobody's week is perfect.}}"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.some"
+msgstr "{calendars, plural, one {From {synced} synced calendar. {left} still to come.} other {From {synced} synced calendars. {left} still to come.}}"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.oneMissing"
+msgstr "{calendars, plural, one {From {synced} synced calendar. {only} hasn’t connected yet.} other {From {synced} synced calendars. {only} hasn’t connected yet.}}"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.all"
+msgstr "{calendars, plural, one {From {synced} synced calendar. Everyone’s in.} other {From {synced} synced calendars. Everyone’s in.}}"
 
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.fareRise"
@@ -134,18 +146,6 @@ msgstr "Finding the best week"
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.freed"
 msgstr "Freed it"
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.line.some"
-msgstr "From {synced} synced calendars. {left} still to come."
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.line.oneMissing"
-msgstr "From {synced} synced calendars. {only} hasn’t connected yet."
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.line.all"
-msgstr "From {synced} synced calendars. Everyone’s in."
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx

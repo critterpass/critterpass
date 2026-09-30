@@ -72,6 +72,10 @@ export const WHEN_SCENES: readonly SetupScene[] = [
     ),
   },
   {
+    name: 'when-one-synced',
+    render: () => <When m={whenModel({ synced: 1 })} />,
+  },
+  {
     name: 'when-computing',
     render: () => <When m={whenModel({ mode: 'computing', best: null })} />,
   },

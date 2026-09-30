@@ -288,6 +288,7 @@ if they were verified design values.
 | 3c-5 Budget | No prices yet / pricing / lock answers | "No prices yet" card or a skeleton; fixed lines for over the band, too many tries and offline, none carrying a number. |
 | 3c-5 Budget | Stay mix line without the area ("2 ryokan nights, 5 apartment nights") | The stay data has no area ("in Gion"). |
 | 3c-6 Rooms | Picking the stay before a plan exists | `RadioCard` per cost-index stay type, "About $X a room a night, estimate"; the organiser picks one before any rooms exist. |
+| 3c-6 Rooms | No stay prices for the place, one room for everyone | The picker says the rooms split evenly; LOOKS GOOD accepts that even split (the Skip rooms move), so the link is not shown twice. |
 | 3c-6 Rooms (member) | Room wishes chips and "Ask to swap" | `ChoiceChip`s and `PillButton`; read-only plan with their own room. |
 | 3c-6 Rooms | Someone joined after the rooms were made | A dashed row of unplaced people who can be dropped into a room. |
 | 3c-6 Rooms | Later stays with the same pairs | "{n} rooms. Same pairs as the {first stay}." and a switch to set that stay separately; the render's "3 bedrooms, 2 bathrooms, a kitchen" has no data behind it. |
