@@ -20,6 +20,11 @@ export interface SegmentedProps<Value extends string> {
   readonly label: string;
   /** Leading caption inside the track ("Split"). */
   readonly caption?: string;
+  /**
+   * Fill of the selected segment: a cream pill (3b-4, 3e-1, 4e-1) or a yellow one (3i-2's split).
+   * @default 'cream'
+   */
+  readonly selectedTone?: 'cream' | 'yellow';
   readonly testID?: string;
 }
 
@@ -62,6 +67,7 @@ export function Segmented<Value extends string>({
   onChange,
   label,
   caption,
+  selectedTone = 'cream',
   testID,
 }: SegmentedProps<Value>) {
   const styles = useStyles();
@@ -92,7 +98,14 @@ export function Segmented<Value extends string>({
             accessibilityState={{ checked: selected }}
             style={[
               styles.segment,
-              selected ? { backgroundColor: theme.semantic.action.primary } : null,
+              selected
+                ? {
+                    backgroundColor:
+                      selectedTone === 'yellow'
+                        ? theme.semantic.action.primary
+                        : theme.semantic.text.primary,
+                  }
+                : null,
             ]}
           >
             <Text

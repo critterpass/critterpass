@@ -6,3 +6,265 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#. placeholder {0}: props.vote.yes
+#. placeholder {1}: props.vote.needed
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.tally"
+msgstr "{0}/{1} đồng ý"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.summary.memberDays"
+msgstr "{author} đề xuất thay đổi {days}."
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.summary.member"
+msgstr "{author} đề xuất những thay đổi này."
+
+#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
+msgid "plan.review.bookingsMoved"
+msgstr "{bookingsMoved, plural, other {chỗ đặt bị dời}}"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.title.dropout"
+msgstr "{count, plural, other {# thay đổi vì có người rút}}"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.title.delay"
+msgstr "{count, plural, other {# thay đổi vì trễ giờ}}"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.title.weather"
+msgstr "{count, plural, other {# thay đổi vì trời mưa}}"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.title.plan"
+msgstr "{count, plural, other {# thay đổi cho kế hoạch}}"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.summary.guideDays"
+msgstr "{guideName} đã sắp xếp lại {days}."
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.summary.guide"
+msgstr "{guideName} đã sắp xếp lại vài thứ."
+
+#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
+msgid "plan.review.mustDosTouched"
+msgstr "{mustDosTouched, plural, other {điểm nhất định ghé bị ảnh hưởng}}"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.send"
+msgstr "{needed, plural, other {Gửi cả nhóm · cần # người đồng ý}}"
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.tally"
+msgstr "{yes}/{needed} người đã đồng ý"
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.personal"
+msgstr "Chỉ áp dụng cho kế hoạch của tôi"
+
+#: ../../apps/mobile/src/features/plan/review/notification-actions.tsx
+msgid "plan.push.approve"
+msgstr "Đồng ý"
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.approved"
+msgstr "Đã duyệt"
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.applying"
+msgstr "Đã duyệt"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.applying"
+msgstr "Đã duyệt. Đang đưa vào kế hoạch."
+
+#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
+msgid "plan.review.queued.toggle"
+msgstr "Giữ hoặc bỏ một thay đổi"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.backDay"
+msgstr "Ngày {first}"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.backDays"
+msgstr "Ngày {first}–{last}"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.tag.delay"
+msgstr "Trễ giờ"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.approved"
+msgstr "Xong. Kế hoạch của mọi người đã có thay đổi này."
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.tag.dropout"
+msgstr "Có người rút"
+
+#: ../../apps/mobile/src/features/plan/review/change-card.tsx
+msgid "plan.review.dropped"
+msgstr "Đã bỏ"
+
+#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
+msgid "plan.review.each"
+msgstr "mỗi người"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.tag.chat"
+msgstr "Từ nhóm chat"
+
+#: ../../apps/mobile/src/features/plan/review/change-card.tsx
+msgid "plan.review.toggleHint"
+msgstr "Giữ hoặc bỏ thay đổi này"
+
+#: ../../apps/mobile/src/features/plan/review/change-card.tsx
+msgid "plan.review.kept"
+msgstr "Giữ"
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.rejected"
+msgstr "Giữ nguyên"
+
+#: ../../apps/mobile/src/features/plan/review/change-card.tsx
+msgid "plan.review.added"
+msgstr "Mới"
+
+#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
+msgid "plan.review.noCost"
+msgstr "Không đổi chi phí"
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.draft"
+msgstr "Chưa gửi"
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.no"
+msgstr "Không"
+
+#: ../../apps/mobile/src/features/plan/review/notification-actions.tsx
+msgid "plan.push.reject"
+msgstr "Không"
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.no"
+msgstr "Không"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.summary.noMustDo"
+msgstr "Không đụng tới điểm nhất định ghé của ai."
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.summary.mustDo"
+msgstr "Có một thay đổi đụng tới điểm nhất định ghé."
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.stale"
+msgstr "Đã cũ"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.backPlan"
+msgstr "Kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.eyebrow"
+msgstr "Thay đổi kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.sendSelf"
+msgstr "Đưa vào kế hoạch của tôi"
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.applyNow"
+msgstr "Áp dụng ngay"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.tag.weather"
+msgstr "Dự báo mưa"
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.expired"
+msgstr "Hết hạn"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.tag.redraft"
+msgstr "Phác thảo lại"
+
+#: ../../apps/mobile/src/features/plan/review/change-card.tsx
+msgid "plan.review.removed"
+msgstr "Bỏ khỏi kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.open"
+msgstr "Xem các thay đổi"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.needsSignal"
+msgstr "Gửi cần có sóng. Thử lại khi có mạng nhé."
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.tag.swap"
+msgstr "Hoán đổi"
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.failed"
+msgstr "Chưa thực hiện được. Không có gì thay đổi, thử lại nhé."
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.rejected"
+msgstr "Cả nhóm nói không, nên kế hoạch giữ nguyên."
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.stale"
+msgstr "Kế hoạch đã thay đổi từ lúc tạo đề xuất này, nên không áp dụng nguyên như vậy được."
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.supplierRefused"
+msgstr "Nhà cung cấp không dời chỗ đặt đó, nên không áp dụng được."
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.expired"
+msgstr "Hết thời gian bình chọn, nên kế hoạch giữ nguyên."
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.missing"
+msgstr "Thay đổi này chưa có trên máy bạn. Nó sẽ hiện ra khi đồng bộ xong."
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.warn.booking"
+msgstr "Thay đổi này dời một chỗ đặt, nên người tổ chức sẽ xác nhận với nhà cung cấp."
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.warn.mustDo"
+msgstr "Thay đổi này đụng tới điểm nhất định ghé của một người. Hỏi họ trước khi áp dụng nhé."
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.voting"
+msgstr "Đang bình chọn"
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.yes"
+msgstr "Đồng ý"
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.yes"
+msgstr "Đồng ý"
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.votedNo"
+msgstr "Bạn đã nói không."
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.votedYes"
+msgstr "Bạn đã đồng ý."
+
+#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
+msgid "plan.review.queued.no"
+msgstr "Bạn không đồng ý một thay đổi"
+
+#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
+msgid "plan.review.queued.yes"
+msgstr "Bạn đồng ý một thay đổi"

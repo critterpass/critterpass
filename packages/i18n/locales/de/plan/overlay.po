@@ -6,3 +6,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
+
+#: ../../apps/mobile/src/features/plan/overlay/clash-card.tsx
+msgid "plan.overlay.clash.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overlay/clash-card.tsx
+msgid "plan.overlay.clash.drop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overlay/data/use-personal-plan.ts
+msgid "plan.overlay.queued.drop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overlay/clash-card.tsx
+msgid "plan.overlay.clash.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overlay/data/use-personal-plan.ts
+msgid "plan.overlay.queued.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overlay/clash-card.tsx
+msgid "plan.overlay.clash.changed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overlay/clash-card.tsx
+msgid "plan.overlay.clash.removed"
+msgstr ""

@@ -8,6 +8,8 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { Alert, StyleSheet, View } from 'react-native';
 import type { AlertButton, StyleProp, ViewStyle } from 'react-native';
 
+import { tokens } from '@cp/design-tokens';
+
 import { PillButton } from '../buttons/PillButton';
 import { CodeBoxes, groupFitSize } from '../inputs/CodeBoxes';
 import { HoldRing } from '../inputs/HoldRing';
@@ -96,7 +98,11 @@ describe('inputs', () => {
         />
       </View>,
     );
-    expect(screen.getByRole('radio', { name: 'Evenly', checked: true })).toBeTruthy();
+    const evenly = screen.getByRole('radio', { name: 'Evenly', checked: true });
+    // The selected segment is cream with ink text, as in 3b-4, 3e-1 and 4e-1.
+    expect(StyleSheet.flatten(evenly.props.style)).toMatchObject({
+      backgroundColor: tokens.semantic.text.primary,
+    });
     await activate(screen.getByRole('radio', { name: 'Custom, 2', checked: false }));
     expect(onChange).toHaveBeenCalledWith('custom');
     await activate(screen.getByRole('radio', { name: "Ryokan, Pon's pick", checked: false }));
@@ -104,6 +110,25 @@ describe('inputs', () => {
       screen.getByRole('radio', { name: 'Tiếng Việt, Vietnamese', checked: true }),
     ).toBeTruthy();
     expect(onSelect).toHaveBeenCalledTimes(1);
+  });
+
+  it('fills the selected segment yellow when asked (3i-2 split)', async () => {
+    await renderUi(
+      <Segmented
+        label="Split"
+        value="evenly"
+        onChange={jest.fn()}
+        selectedTone="yellow"
+        segments={[
+          { value: 'evenly', label: 'Evenly' },
+          { value: 'custom', label: 'Custom' },
+        ]}
+      />,
+    );
+    const evenly = screen.getByRole('radio', { name: 'Evenly', checked: true });
+    expect(StyleSheet.flatten(evenly.props.style)).toMatchObject({
+      backgroundColor: tokens.semantic.action.primary,
+    });
   });
 
   it('labels text fields, reports errors and clears', async () => {

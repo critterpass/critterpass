@@ -1,0 +1,695 @@
+appId: app.critterpass.dev
+---
+# Trip plan overview (3e-1) and its states, in English then Vietnamese: the plan views lab's fixed-data scenes over the Bali
+# week (apps/mobile/src/app/(dev)/plan-views-lab.tsx), named `<lang>-<design id or route>-<state>`
+# so compare mode pairs each with its render.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-views-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-views-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-overview'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-1-plan
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-sweep'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-sweep'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-overview'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-1-guide-sweep
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-sweep'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-loading'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-loading'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-loading'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-1-loading
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-loading'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-empty'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-empty'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-empty'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-1-empty
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-empty'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-empty-member'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-empty-member'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-empty'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-1-empty-member
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-empty-member'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-offline'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-offline'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-offline'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-1-offline
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-offline'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-conflict'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-conflict'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-conflict'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-1-conflict
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-conflict'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-read-only'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-read-only'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-read-only'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-1-read-only
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-read-only'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-in-trip'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-in-trip'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-overview'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-1-in-trip
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-in-trip'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-draft'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-draft'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-1-draft
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-draft'
+    timeout: 10000
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+# Going back lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-views-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-views-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-overview'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-1-plan
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-sweep'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-sweep'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-overview'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-1-guide-sweep
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-sweep'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-loading'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-loading'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-loading'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-1-loading
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-loading'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-empty'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-empty'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-empty'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-1-empty
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-empty'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-empty-member'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-empty-member'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-empty'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-1-empty-member
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-empty-member'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-offline'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-offline'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-offline'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-1-offline
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-offline'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-conflict'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-conflict'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-conflict'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-1-conflict
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-conflict'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-read-only'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-read-only'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-read-only'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-1-read-only
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-read-only'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-in-trip'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-in-trip'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-overview'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-1-in-trip
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-in-trip'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-views-lab-overview-draft'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-views-lab-overview-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-draft'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-1-draft
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'plan-views-lab-overview-draft'
+    timeout: 10000

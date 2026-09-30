@@ -6,3 +6,156 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
+
+#. placeholder {0}: props.destination
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-chip.tsx
+msgid "plan.overview.chip.votes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-list.tsx
+msgid "plan.overview.showPast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-chip.tsx
+msgid "plan.overview.weather.wave"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-chip.tsx
+msgid "plan.overview.chip.booked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.tab.calendar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-screen.tsx
+msgid "plan.overview.fixed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-card.tsx
+msgid "plan.overview.dayN"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.titleNoPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/data/use-day-reorder.ts
+msgid "plan.overview.reorderReason"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-chip.tsx
+msgid "plan.overview.weather.sun"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-card.tsx
+msgid "plan.overview.freeDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.conflictOk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-card.tsx
+msgid "plan.overview.justYouLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-list.tsx
+msgid "plan.overview.hidePast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-card.tsx
+msgid "plan.overview.justYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.tab.list"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.tab.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-list.tsx
+msgid "plan.overview.moveDown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-list.tsx
+msgid "plan.overview.moveUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/data/plan-commands.ts
+msgid "plan.overview.queued.reorder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.empty.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-card.tsx
+msgid "plan.overview.freeDayLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.views"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-chip.tsx
+msgid "plan.overview.weather.rain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.draftReview"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.empty.setup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.conflict"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-screen.tsx
+msgid "plan.overview.proposeFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.empty.organiser"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-screen.tsx
+msgid "plan.overview.reorderFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/day-chip.tsx
+msgid "plan.overview.chip.vote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.readOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.draft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
+msgid "plan.overview.empty.member"
+msgstr ""
