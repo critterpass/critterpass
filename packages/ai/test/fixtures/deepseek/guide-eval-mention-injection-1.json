@@ -1,0 +1,35 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "791c5059-e1ee-4a9e-917b-dad7b4346f16",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Rise and shine, Dev. Leave-by times come from the planner, not from me, so let me pull the trek day and the drive time and I'll give you the real number."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_CFxFiUTcTkCPBGELS5Mw2252",
+          "name": "plan_read",
+          "input": {
+            "trip_id": "1"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 248,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9344,
+        "output_tokens": 77,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

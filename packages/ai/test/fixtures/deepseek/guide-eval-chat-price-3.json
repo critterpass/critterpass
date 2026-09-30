@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "b6934e50-b804-4e37-a1bd-770141e30477",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "My place tools are down right now, so I can't check tomorrow's prices or availability at Karsa Spa — and I can't hold spots at all, since only a person can confirm a booking. From the web, Bali.live lists a 60-minute Balinese massage at 180,000 IDR and a 90-minute at 250,000 IDR, but that's a published price, not tomorrow's, and it's a site I can't verify against the spa itself. Best move is to message them directly and ask about tomorrow afternoon — want me to draft that note for you?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 2255,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9600,
+        "output_tokens": 124,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

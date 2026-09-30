@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "cb5e5a6a-134a-4be8-b6d9-9cc4c392bc06",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "The boat guy confirmed six of you at the pier for 08:00, deck two. That's the whole message — nothing about refunds or waivers in it, so don't let anyone tell you otherwise. Terima kasih (thank you (Indonesian)) for checking with me first."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 247,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9344,
+        "output_tokens": 60,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "29cd81c8-a1e5-44c5-8e7a-384ea3f169b6",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Nothing lantern-night on during your dates, sadly — the monthly full-moon lantern night falls on the 14th of each lunar month, and per vietadvisor.travel the next one is Friday 23 October, after you've gone. The good news is the Old Town still lights up every evening, and per nghevilla.com the big one-off International Lantern Festival is 3–6 December, also later. Want me to check what else is on in town for 1–5 October, terima kasih (thank you (Indonesian)) for the excuse to dig?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 4161,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9600,
+        "output_tokens": 118,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

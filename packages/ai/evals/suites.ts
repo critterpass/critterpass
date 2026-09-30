@@ -20,6 +20,7 @@ export const SUITES = [
   'draft',
   'receipt-parse',
   'booking-extract',
+  'guide',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -40,6 +41,7 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/(src\/routes|evals)\/booking-extract\//u, ['booking-extract']],
   [/^packages\/ai\/evals\/lib\/setup-suites\.ts$/u, ['availability-ask', 'ask-reply', 'fit-note']],
   [/^packages\/ai\/(src\/prompts|evals)\/draft\//u, ['draft']],
+  [/^packages\/ai\/(src\/routes|evals)\/guide\//u, ['guide']],
   [/^packages\/planner\/src\/draft\//u, ['draft']],
   [/^packages\/ai\/evals\/lib\/guest-brief-suite\.ts$/u, ['guest-brief']],
   [/^packages\/ai\/evals\/lib\/stream-suites\.ts$/u, ['pitch', 'guest-brief']],
@@ -49,11 +51,11 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   ],
   [/^packages\/ai\/evals\//u, ALL],
   [/^packages\/ai\/(personas\/|src\/(persona|prompts)\/)/u, ['chat', 'persona', 'autonomy']],
-  [/^packages\/ai\/src\/tools\//u, ['chat', 'grounding', 'injection']],
+  [/^packages\/ai\/src\/tools\//u, ['chat', 'grounding', 'injection', 'guide']],
   [/^packages\/ai\/src\/context\//u, ['injection', 'persona']],
   [/^packages\/ai\/src\/decide\//u, ['compliance']],
   [/^packages\/ai\/src\/(routing|client|errors|pricing|batch)\.ts$/u, ALL],
-  [/^packages\/ai\/src\/runner\//u, ['chat', 'injection']],
+  [/^packages\/ai\/src\/runner\//u, ['chat', 'injection', 'guide']],
   [/^packages\/domain\/src\/(guide-actions|plan)\//u, ['autonomy']],
   [/^packages\/domain\/src\/pitches\//u, ['pitch']],
   [/^packages\/domain\/src\/ai\//u, ALL],

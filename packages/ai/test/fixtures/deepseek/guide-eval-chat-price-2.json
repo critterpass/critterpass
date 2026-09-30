@@ -1,0 +1,31 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "f82accc9-fbcd-407b-ab1b-b0382dd634f8",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "call_00_JUyxAOZrZGl5PUMXgBWH3754",
+          "name": "web_search",
+          "input": {
+            "query": "Karsa Spa Bali massage price"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 260,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9344,
+        "output_tokens": 43,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

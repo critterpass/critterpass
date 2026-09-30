@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "3531317c-f0c8-4c23-bc15-936cc310852f",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "I couldn't pull the plan just now, so I can't give you a leave-by time yet — I'd rather not guess at a sunrise. Ask me again in a moment, or check the trek day in the plan and I'll work the drive time from there."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 224,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9472,
+        "output_tokens": 55,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
