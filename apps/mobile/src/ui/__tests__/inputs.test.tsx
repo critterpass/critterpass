@@ -112,6 +112,25 @@ describe('inputs', () => {
     expect(onSelect).toHaveBeenCalledTimes(1);
   });
 
+  it('fills the selected segment yellow when asked (3i-2 split)', async () => {
+    await renderUi(
+      <Segmented
+        label="Split"
+        value="evenly"
+        onChange={jest.fn()}
+        selectedTone="yellow"
+        segments={[
+          { value: 'evenly', label: 'Evenly' },
+          { value: 'custom', label: 'Custom' },
+        ]}
+      />,
+    );
+    const evenly = screen.getByRole('radio', { name: 'Evenly', checked: true });
+    expect(StyleSheet.flatten(evenly.props.style)).toMatchObject({
+      backgroundColor: tokens.semantic.action.primary,
+    });
+  });
+
   it('labels text fields, reports errors and clears', async () => {
     const onChangeText = jest.fn();
     await renderUi(

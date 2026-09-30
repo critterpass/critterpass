@@ -164,6 +164,7 @@ export function AddExpenseView(props: AddExpenseViewProps) {
         </Pressable>
         <PayerPicker members={props.members} payerId={draft.payerId} onPick={props.onPayer} />
         <Segmented<SplitEditorMode>
+          selectedTone="yellow"
           label={upper(t({ id: 'money.add.split', message: 'Split' }), locale)}
           value={draft.mode}
           onChange={(mode) => {
