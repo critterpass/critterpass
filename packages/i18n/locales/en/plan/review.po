@@ -129,6 +129,10 @@ msgstr "Kept"
 msgid "plan.card.state.rejected"
 msgstr "Kept as is"
 
+#: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
+msgid "plan.card.loading"
+msgstr "Loading the plan change"
+
 #: ../../apps/mobile/src/features/plan/review/change-card.tsx
 msgid "plan.review.added"
 msgstr "New"
@@ -168,6 +172,10 @@ msgstr "Out of date"
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.backPlan"
 msgstr "Plan"
+
+#: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
+msgid "plan.card.label"
+msgstr "Plan change"
 
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.eyebrow"

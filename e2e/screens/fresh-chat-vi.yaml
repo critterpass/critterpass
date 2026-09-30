@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# The fresh-crew chat of e2e/happy/fresh-chat.yaml in Vietnamese, for the design | device sheets.
+- runFlow:
+    file: ../happy/subflows/fresh-chat-steps.yaml
+    env:
+      LANG: vi
+      ADD_EXPENSE: 'THÊM KHOẢN CHI'
+      MESSAGE_FIELD: 'Nhắn tin.*'
+      SEND: 'Gửi'
+      ATTACH: 'Thêm tệp đính kèm'
+      VOICE_NOTE: 'Tin nhắn thoại'
+      PAUSE_VOICE: 'Dừng tin nhắn thoại'

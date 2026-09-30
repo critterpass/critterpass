@@ -79,6 +79,14 @@ msgstr "{payer} owes you"
 msgid "money.row.paid"
 msgstr "{payer} paid"
 
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.paid"
+msgstr "{payer} paid {amount}"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.paidFor"
+msgstr "{payer} paid {amount} for {what}"
+
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.titleOther"
 msgstr "{payer} pays {payee}"
@@ -388,9 +396,18 @@ msgstr "Everyone had it"
 msgid "money.detail.deleteLedger"
 msgstr "Everyone’s balance goes back to how it was before it."
 
+#: ../../apps/mobile/src/features/money/chat/register.ts
+msgid "money.chat.label"
+msgstr "Expense"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.deletedToast"
 msgstr "Expense deleted. Balances re-count."
+
+#. placeholder {0}: message.body
+#: ../../apps/mobile/src/features/money/chat/register.ts
+msgid "money.chat.labelFor"
+msgstr "Expense: {0}"
 
 #: ../../apps/mobile/src/features/money/data/commands.ts
 msgid "money.queued.addExpense"
@@ -508,6 +525,10 @@ msgstr "Lines: {typedText} of {totalText}. The rest is shared by share."
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.over"
 msgstr "Lines: {typedText}, more than the {totalText} on the receipt"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.loading"
+msgstr "Loading the expense"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 msgid "money.loading"
@@ -831,6 +852,14 @@ msgstr "Spent"
 msgid "money.add.split"
 msgstr "Split"
 
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.split"
+msgstr "Split {ways} ways"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.splitEach"
+msgstr "Split {ways} ways · {each} each"
+
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.even"
 msgstr "Split evenly · {each} each"
@@ -919,6 +948,10 @@ msgstr "The total, not the lines"
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.goneTitle"
 msgstr "This expense is gone"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.deleted"
+msgstr "This expense was deleted"
 
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 msgid "money.budget.today"
@@ -1009,6 +1042,10 @@ msgstr "Type the lines"
 msgid "money.payout.vietqr"
 msgstr "VietQR"
 
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.view"
+msgstr "View"
+
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.waiting"
 msgstr "Waiting for {payee} to confirm. It confirms itself after seven days."
@@ -1073,6 +1110,14 @@ msgstr "You"
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.hero.owes"
 msgstr "You owe"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.youPaid"
+msgstr "You paid {amount}"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.youPaidFor"
+msgstr "You paid {amount} for {what}"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.hero.owed"

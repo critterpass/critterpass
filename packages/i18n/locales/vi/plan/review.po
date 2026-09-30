@@ -129,6 +129,10 @@ msgstr "Giữ"
 msgid "plan.card.state.rejected"
 msgstr "Giữ nguyên"
 
+#: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
+msgid "plan.card.loading"
+msgstr "Đang tải thay đổi kế hoạch"
+
 #: ../../apps/mobile/src/features/plan/review/change-card.tsx
 msgid "plan.review.added"
 msgstr "Mới"
@@ -168,6 +172,10 @@ msgstr "Đã cũ"
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.backPlan"
 msgstr "Kế hoạch"
+
+#: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
+msgid "plan.card.label"
+msgstr "Thay đổi kế hoạch"
 
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
 msgid "plan.card.eyebrow"

@@ -1,0 +1,179 @@
+appId: app.critterpass.dev
+---
+# A brand-new account's crew chat with no demo seed, in ${LANG} (en or vi): it starts its own crew,
+# pitches a place into the crew's vote, logs an expense, then in the chat checks every card draws
+# (no "needs a newer CritterPass" card), sends a text and a voice note and plays the note.
+# The UI strings the steps tap arrive as env values in the flow's language.
+- runFlow:
+    file: ../../screens/sweep/subflows/start.yaml
+    env:
+      LANG: ${LANG}
+- runFlow: ../../home/subflows/onboard.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+# Its own crew.
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 10000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Fresh Chat Crew'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 20000
+- tapOn:
+    id: 'start-crew-done'
+# A vote: pitching a place starts the crew's destination vote and posts its card in the chat.
+- openLink: critterpass-dev://places/search
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 15000
+- inputText: 'lisbon'
+- extendedWaitUntil:
+    visible:
+      id: 'place-result-.*'
+    timeout: 15000
+- tapOn:
+    id: 'place-result-.*'
+    index: 0
+- scrollUntilVisible:
+    element:
+      id: 'guest-pitch'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'guest-pitch'
+- runFlow:
+    when:
+      visible:
+        id: 'crew-picker'
+    commands:
+      - tapOn:
+          id: 'crew-pick-.*'
+          index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- tapOn:
+    id: 'pitch-add'
+# Back to Home through the stack (a link to Home would push a second Home with no way back).
+- waitForAnimationToEnd
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-wallet'
+    times: 4
+    commands:
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 30000
+# An expense on the vote's trip posts its card in the chat.
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- tapOn: ${ADD_EXPENSE}
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+# The keypad can take a moment to accept taps on a new crew's first expense: ADD stays disabled
+# until an amount lands, so the entry is typed again until the expense is added. Digits only: a
+# bare "0" would also match the amount display.
+- retry:
+    maxRetries: 3
+    commands:
+      - waitForAnimationToEnd
+      - tapOn: '1'
+      - tapOn: '2'
+      - tapOn: '5'
+      - tapOn:
+          id: 'money-add-submit'
+      - extendedWaitUntil:
+          visible:
+            id: 'money-latest-row'
+          timeout: 15000
+# The chat: the vote and the expense draw as their cards.
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 15000
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: 'chat-expense-view-.*'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'poll-option-0'
+    timeout: 30000
+- assertNotVisible:
+    id: 'chat-unknown-.*'
+- tapOn: ${MESSAGE_FIELD}
+- inputText: 'see you friday'
+- tapOn: ${SEND}
+- extendedWaitUntil:
+    visible:
+      text: '.*see you friday.*'
+    timeout: 10000
+- hideKeyboard
+- takeScreenshot: ${LANG}-3g-1-fresh-crew
+# A voice note: record about three seconds, send it, play it.
+- tapOn: ${ATTACH}
+- extendedWaitUntil:
+    visible: ${VOICE_NOTE}
+    timeout: 5000
+- tapOn: ${VOICE_NOTE}
+# The microphone prompt on a device that has not granted it yet.
+- runFlow:
+    when:
+      visible: 'Allow|OK|While using the app|Only this time'
+    commands:
+      - tapOn: 'Allow|OK|While using the app|Only this time'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-recorder'
+    timeout: 10000
+- extendedWaitUntil:
+    visible:
+      id: 'fresh-chat-never-shown'
+    timeout: 3000
+    optional: true
+- tapOn: ${SEND}
+- extendedWaitUntil:
+    visible:
+      id: 'chat-voice-play-.*'
+    timeout: 30000
+- extendedWaitUntil:
+    notVisible:
+      id: 'chat-recorder'
+    timeout: 10000
+- tapOn:
+    id: 'chat-voice-play-.*'
+    index: 0
+- extendedWaitUntil:
+    visible: ${PAUSE_VOICE}
+    timeout: 15000
+- takeScreenshot: ${LANG}-3g-1-fresh-crew-voice-playing

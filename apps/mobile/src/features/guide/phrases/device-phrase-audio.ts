@@ -8,6 +8,7 @@ import { Directory, File, Paths } from 'expo-file-system';
 
 import { sessionHeaders } from '@/data/app-session/device-session';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
+import { acquirePlaybackSession } from '@/motion/feedback';
 
 import type { PhraseAudioServices } from './phrase-audio';
 
@@ -59,10 +60,13 @@ export const devicePhraseAudio: PhraseAudioServices = {
   },
   play: (uri, onEnd) => {
     const player = createAudioPlayer(uri);
+    // A phrase is played on request, for someone to hear: it plays through the iOS silent switch.
+    const releaseSession = acquirePlaybackSession();
     const subscription = player.addListener('playbackStatusUpdate', (status) => {
       if (status.didJustFinish) {
         subscription.remove();
         player.remove();
+        releaseSession();
         onEnd();
       }
     });
@@ -71,6 +75,7 @@ export const devicePhraseAudio: PhraseAudioServices = {
       stop: () => {
         subscription.remove();
         player.remove();
+        releaseSession();
       },
     };
   },

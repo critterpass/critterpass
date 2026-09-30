@@ -79,6 +79,14 @@ msgstr "{payer} nợ bạn"
 msgid "money.row.paid"
 msgstr "{payer} trả"
 
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.paid"
+msgstr "{payer} đã trả {amount}"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.paidFor"
+msgstr "{payer} đã trả {amount} cho {what}"
+
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.titleOther"
 msgstr "{payer} trả {payee}"
@@ -388,9 +396,18 @@ msgstr "Mọi người cùng ăn"
 msgid "money.detail.deleteLedger"
 msgstr "Số dư của mọi người trở lại như trước khoản này."
 
+#: ../../apps/mobile/src/features/money/chat/register.ts
+msgid "money.chat.label"
+msgstr "Khoản chi"
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.deletedToast"
 msgstr "Đã xoá khoản chi. Số dư được tính lại."
+
+#. placeholder {0}: message.body
+#: ../../apps/mobile/src/features/money/chat/register.ts
+msgid "money.chat.labelFor"
+msgstr "Khoản chi: {0}"
 
 #: ../../apps/mobile/src/features/money/data/commands.ts
 msgid "money.queued.addExpense"
@@ -508,6 +525,10 @@ msgstr "Các dòng: {typedText} trên {totalText}. Phần còn lại chia theo p
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.over"
 msgstr "Các dòng: {typedText}, nhiều hơn {totalText} trên hoá đơn"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.loading"
+msgstr "Đang tải khoản chi"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
 msgid "money.loading"
@@ -831,6 +852,14 @@ msgstr "Đã chi"
 msgid "money.add.split"
 msgstr "Chia"
 
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.split"
+msgstr "Chia {ways} phần"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.splitEach"
+msgstr "Chia {ways} phần · mỗi người {each}"
+
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.even"
 msgstr "Chia đều · {each} mỗi người"
@@ -919,6 +948,10 @@ msgstr "Có tổng, không có từng món"
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.goneTitle"
 msgstr "Khoản chi này không còn"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.deleted"
+msgstr "Khoản chi này đã bị xoá"
 
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 msgid "money.budget.today"
@@ -1009,6 +1042,10 @@ msgstr "Gõ từng dòng"
 msgid "money.payout.vietqr"
 msgstr "VietQR"
 
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.view"
+msgstr "Xem"
+
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.waiting"
 msgstr "Đang chờ {payee} xác nhận. Sau bảy ngày sẽ tự xác nhận."
@@ -1073,6 +1110,14 @@ msgstr "Bạn"
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.hero.owes"
 msgstr "Bạn nợ"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.youPaid"
+msgstr "Bạn đã trả {amount}"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.youPaidFor"
+msgstr "Bạn đã trả {amount} cho {what}"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.hero.owed"

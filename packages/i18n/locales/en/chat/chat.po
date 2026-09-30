@@ -185,6 +185,10 @@ msgstr "Editing message"
 msgid "chat.delete.line"
 msgstr "Everyone sees \"Message deleted\" in its place."
 
+#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
+msgid "chat.card.unknown.action"
+msgstr "Get the update"
+
 #: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
 msgid "chat.mention.guide"
 msgstr "Guide"
@@ -267,10 +271,6 @@ msgstr "New"
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.unsafeLink"
 msgstr "Only http and https links can be sent."
-
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.action"
-msgstr "Open in app update"
 
 #: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
 msgid "chat.photo.open"

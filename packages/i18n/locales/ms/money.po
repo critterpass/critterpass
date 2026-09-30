@@ -79,6 +79,14 @@ msgstr ""
 msgid "money.row.paid"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.paid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.paidFor"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.titleOther"
 msgstr ""
@@ -388,8 +396,17 @@ msgstr ""
 msgid "money.detail.deleteLedger"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/chat/register.ts
+msgid "money.chat.label"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.deletedToast"
+msgstr ""
+
+#. placeholder {0}: message.body
+#: ../../apps/mobile/src/features/money/chat/register.ts
+msgid "money.chat.labelFor"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/data/commands.ts
@@ -507,6 +524,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesEditor.tsx
 msgid "money.typeLines.over"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/balances/BalancesScreen.tsx
@@ -831,6 +852,14 @@ msgstr ""
 msgid "money.add.split"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.split"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.splitEach"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.even"
 msgstr ""
@@ -918,6 +947,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 msgid "money.detail.goneTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.deleted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
@@ -1009,6 +1042,10 @@ msgstr ""
 msgid "money.payout.vietqr"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.view"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.waiting"
 msgstr ""
@@ -1072,6 +1109,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.hero.owes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.youPaid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.youPaidFor"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx

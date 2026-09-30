@@ -129,6 +129,10 @@ msgstr ""
 msgid "plan.card.state.rejected"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
+msgid "plan.card.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/review/change-card.tsx
 msgid "plan.review.added"
 msgstr ""
@@ -167,6 +171,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.backPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/register-chat-card.ts
+msgid "plan.card.label"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
