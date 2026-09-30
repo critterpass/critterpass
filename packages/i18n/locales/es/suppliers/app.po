@@ -496,8 +496,7 @@ msgstr ""
 msgid "suppliers.book.phone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+#: ../../apps/mobile/src/features/bookings/getting-around/phrase.ts
 msgid "suppliers.around.gloss"
 msgstr ""
 

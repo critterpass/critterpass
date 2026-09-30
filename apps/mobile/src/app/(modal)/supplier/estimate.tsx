@@ -1,6 +1,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { useLocalSearchParams } from 'expo-router';
 
+import { useLocale } from '@/lib/i18n/use-locale';
 import { EstimateSheet } from '@/features/bookings/getting-around/EstimateSheet';
 import { parseEstimateOption } from '@/features/bookings/getting-around/routes';
 import { Sheet } from '@/ui/sheet/Sheet';
@@ -8,7 +9,8 @@ import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 
 /** Why a fare estimate says what it says: basis, sources, when checked, whether reviewed. */
 export default function EstimateRoute() {
-  const { t, i18n } = useLingui();
+  const { t } = useLingui();
+  const locale = useLocale();
   const params = useLocalSearchParams<{ option?: string }>();
   const option = parseEstimateOption(params.option);
   return (
@@ -18,14 +20,7 @@ export default function EstimateRoute() {
       testID="supplier-estimate-sheet"
     >
       <SheetScrollView contentContainerStyle={{ padding: 20, paddingBottom: 40 }}>
-        {option === null ? null : (
-          <EstimateSheet
-            option={option}
-            date={(iso) =>
-              i18n.date(new Date(iso), { day: 'numeric', month: 'short', year: 'numeric' })
-            }
-          />
-        )}
+        {option === null ? null : <EstimateSheet option={option} locale={locale} />}
       </SheetScrollView>
     </Sheet>
   );

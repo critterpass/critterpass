@@ -5,21 +5,47 @@
  */
 import type { RideFareEstimateOption } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { Linking } from 'react-native';
+import { Linking, Pressable } from 'react-native';
 
-import { TextLink } from '@/ui/buttons/TextLink';
 import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
-import { useTheme } from '@/ui/theme';
+import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 
 export interface EstimateSheetProps {
   readonly option: RideFareEstimateOption;
-  /** Formats an ISO date for the reader. */
-  readonly date: (iso: string) => string;
+  readonly locale: string;
+  /** The reader's zone, for values that carry a time; calendar dates never shift. */
+  readonly timeZone?: string | undefined;
 }
 
-export function EstimateSheet({ option, date }: EstimateSheetProps) {
+const DATE_ONLY = /^(\d{4})-(\d{2})-(\d{2})$/u;
+
+/**
+ * "30 Sep 2026" for a check date. A date-only value (`2026-09-30`) is a calendar day, so it is
+ * formatted as that day in any zone; a full timestamp is shown in the reader's zone.
+ */
+export function formatCheckedDate(value: string, locale: string, timeZone?: string): string {
+  const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+  const day = DATE_ONLY.exec(value);
+  if (day) {
+    const at = new Date(Date.UTC(Number(day[1]), Number(day[2]) - 1, Number(day[3])));
+    return new Intl.DateTimeFormat(locale, { ...options, timeZone: 'UTC' }).format(at);
+  }
+  const at = new Date(value);
+  if (Number.isNaN(at.getTime())) return value;
+  return new Intl.DateTimeFormat(locale, { ...options, ...(timeZone ? { timeZone } : {}) }).format(
+    at,
+  );
+}
+
+const useStyles = makeStyles(() => ({
+  source: { alignSelf: 'stretch', minHeight: MIN_TOUCH_TARGET, justifyContent: 'center' },
+}));
+
+export function EstimateSheet({ option, locale, timeZone }: EstimateSheetProps) {
   const theme = useTheme();
+  const styles = useStyles();
+  const date = (value: string) => formatCheckedDate(value, locale, timeZone);
   const { t } = useLingui();
   const operator = option.operator;
   const basis =
@@ -67,10 +93,20 @@ export function EstimateSheet({ option, date }: EstimateSheetProps) {
           const on = date(source.checked_on);
           return (
             <Stack key={`${source.url}-${source.covers}`} gap="2">
-              <TextLink
-                label={source.covers}
+              <Pressable
+                accessibilityRole="link"
                 onPress={() => void Linking.openURL(source.url).catch(() => undefined)}
-              />
+                style={styles.source}
+                testID="supplier-estimate-source"
+              >
+                <Text
+                  variant="body"
+                  color={theme.semantic.action.primary}
+                  style={{ textAlign: 'left', textDecorationLine: 'underline' }}
+                >
+                  {source.covers}
+                </Text>
+              </Pressable>
               <Text variant="caption" color={theme.semantic.text.secondary}>
                 {t({ id: 'suppliers.estimate.sourceChecked', message: `Checked ${on}` })}
               </Text>

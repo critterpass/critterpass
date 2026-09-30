@@ -29,15 +29,15 @@ export const KYOTO_TAXI_ESTIMATE: RideFareEstimate = {
         {
           url: 'https://www.mk-group.co.jp/en/taxi/fare/',
           covers: 'MK Taxi fares, Kyoto city',
-          checked_on: '2026-09-29',
+          checked_on: '2026-09-30',
         },
         {
           url: 'https://www.mk-group.co.jp/en/taxi/',
           covers: 'MK Taxi dispatch fee',
-          checked_on: '2026-09-29',
+          checked_on: '2026-09-30',
         },
       ],
-      checked_at: '2026-09-29',
+      checked_at: '2026-09-30',
       reviewed: false,
     },
   ],

@@ -18,7 +18,7 @@ import { useTripGuide } from '../supplier/data/use-trip-guide';
 import { rideAppName } from '../supplier/suppliers';
 import { GettingAroundView } from './GettingAroundView';
 import type { Leg } from './model';
-import { driverPhrase } from './phrase';
+import { driverPhrase, glossMessage } from './phrase';
 import { rideCard } from './ride-card';
 import { openRideLink } from './ride-links';
 import { estimateRoute, logRideRoute } from './routes';
@@ -185,10 +185,7 @@ export function GettingAroundScreen({
           : {
               phrase: phrase.phrase,
               lang: phrase.lang,
-              gloss: t({
-                id: 'suppliers.around.gloss',
-                message: `Please take us to ${place}.`,
-              }),
+              gloss: i18n._(glossMessage(place)),
               eyebrow: render(
                 supplierCopy({ action: 'ride', state: 'phrase_card' }, ALL_PARTNERS_OFF),
               ),

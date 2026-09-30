@@ -9,6 +9,7 @@ import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 
 import { EstimateSheet } from '../../getting-around/EstimateSheet';
+import { glossMessage } from '../../getting-around/phrase';
 import {
   GettingAroundView,
   type GettingAroundViewProps,
@@ -66,17 +67,13 @@ const KYOTO: RideQuoteResult = {
 };
 
 function EstimateScene() {
-  const { t, i18n } = useLingui();
+  const { t } = useLingui();
+  const locale = useLocale();
   const option = KYOTO_TAXI_ESTIMATE.options[0];
   return option === undefined
     ? null
     : sheet(
-        <EstimateSheet
-          option={option}
-          date={(iso) =>
-            i18n.date(new Date(iso), { day: 'numeric', month: 'short', year: 'numeric' })
-          }
-        />,
+        <EstimateSheet option={option} locale={locale} />,
         t({ id: 'suppliers.estimate.title', message: 'Why this estimate' }),
         'supplier-estimate-sheet',
       );
@@ -189,10 +186,7 @@ function AroundScene({
           ? '金閣寺までお願いします。'
           : 'Tolong antar kami ke Villa Kayu Manis, Jalan Raya Sayan, Ubud.',
         lang: kyoto ? 'ja' : 'id',
-        gloss: t({
-          id: 'suppliers.around.gloss',
-          message: `Please take us to ${place}.`,
-        }),
+        gloss: i18n._(glossMessage(place)),
         eyebrow: render(supplierCopy({ action: 'ride', state: 'phrase_card' }, ALL_PARTNERS_OFF)),
       }}
       later={

@@ -4,6 +4,9 @@
  * local name and address alone, which a driver can still read.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- phrases in the destination's language, shown to drivers. */
+import type { MessageDescriptor } from '@lingui/core';
+import { msg } from '@lingui/core/macro';
+
 import type { Place } from './model';
 
 interface Template {
@@ -51,4 +54,9 @@ export function driverPhrase(place: Place, country: string | null): DriverPhrase
     lang: template?.lang ?? 'en',
     placeForGloss: joined(place.name, place.address),
   };
+}
+
+/** The gloss under the driver phrase, in the reader's language, naming the same place. */
+export function glossMessage(place: string): MessageDescriptor {
+  return msg({ id: 'suppliers.around.gloss', message: `Please take us to ${place}.` });
 }

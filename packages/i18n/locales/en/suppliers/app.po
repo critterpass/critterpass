@@ -496,10 +496,9 @@ msgstr "Payment cancelled. Nothing was charged."
 msgid "suppliers.book.phone"
 msgstr "Phone"
 
-#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+#: ../../apps/mobile/src/features/bookings/getting-around/phrase.ts
 msgid "suppliers.around.gloss"
-msgstr "Please take us to {0}."
+msgstr "Please take us to {place}."
 
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.activity.priceHeld"
