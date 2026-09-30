@@ -203,7 +203,7 @@ Done when: ballots from app, chat card, notification action, widget and Live Act
 - Steps: 1. Integration: ballots via app command, `/v1/actions` (notification key), widget intent key → one ballot. 2. Maestro two-simulator vote + reveal on both platforms.
 - Tests: `pnpm test:int -- polls`; `maestro test e2e/vote`
 - Done when: all green on iOS and Android.
-- Status: blocked — the multi-surface ballot test is green (99e73b8f) and the `e2e/vote` flows are written; the two-simulator Maestro run needs a demo seed with an open destination vote and the device lane
+- Status: blocked — flows start from a fresh account and the vote demo seeds. On Android build 11: chat-poll, board-to-final and showdown-reveal pass (https://github.com/critterpass/critterpass/actions/runs/36651330885, https://github.com/critterpass/critterpass/actions/runs/36654124089). pitch-to-board and search-guest-solo stop on a blank guest place page after tapping a search result on Android build 11 (app bug, reported; the known "THAT DIDN'T LOAD" after backing out of the solo confirm sits later in search-guest-solo). The multi-surface ballot test is green (99e73b8f). iOS runs after that fix
 
 ## Phase acceptance criteria
 
