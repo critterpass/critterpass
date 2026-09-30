@@ -19,6 +19,7 @@ import { deviceTier } from '@/motion/device-tier';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Stack } from '@/ui/layout/Stack';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { LiveSticker } from '@/ui/people/LiveSticker';
@@ -265,6 +266,8 @@ function triggerConfettiOnce(): void {
  * or another device having shown it) leaves for where the user came from instead of replaying.
  */
 export function WinnerRevealScreen({ pollId }: { readonly pollId: string }) {
+  // The reveal (3c-2) ends the vote on its SET UP call to action; the design draws no back control.
+  useNoBackByDesign();
   const me = useMyUid();
   const { poll } = usePoll(pollId, me);
   const seenBefore = useRevealSeenOnOpen(pollId, me);
