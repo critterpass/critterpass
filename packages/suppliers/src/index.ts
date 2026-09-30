@@ -1,3 +1,41 @@
+export * from './core/adapter';
+export * from './activity-adapter/contract';
+export { runActivityConformance, type ConformanceScenario } from './activity-adapter/conformance';
+export {
+  buildAffiliateLink,
+  partnerPageFor,
+  type AffiliateLinkConfig,
+} from './links/affiliate-link';
+export type { LinkTarget } from './links/link-spec';
+export { bookingCjLink, bookingPage, type CjBookingConfig } from './booking-cj/links';
+export { viatorAffiliateLink, type ViatorAffiliateConfig } from './viator/links';
+export {
+  createViatorAdapter,
+  VIATOR_MAX_CART_ITEMS,
+  VIATOR_PARTNER_KEY,
+  type ViatorAdapter,
+} from './viator/adapter';
+export {
+  VIATOR_PRODUCTION_URL,
+  VIATOR_SANDBOX_URL,
+  VIATOR_SUPPLIER,
+  type ViatorConfig,
+} from './viator/client';
+export { createRollingLimiter, type RollingLimiter } from './viator/rate-limit';
+export {
+  createPartnerLinks,
+  type PartnerLinkRequest,
+  type PartnerLinkResult,
+  type TravelpayoutsLinksConfig,
+} from './travelpayouts/links/client';
+export {
+  fetchActionsSince,
+  STATISTICS_PAGE_LIMIT,
+  type ActionsPage,
+  type TravelpayoutsAction,
+} from './travelpayouts/links/statistics';
+export { supplierRejected, supplierUnavailable, toSupplierDomainError } from './core/errors';
+export { isPartnerEnabled, requirePartnerEnabled, type FlagQuery } from './core/flags';
 export {
   createSqlSupplierCallAudit,
   noSupplierCallAudit,

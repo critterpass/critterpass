@@ -25,6 +25,7 @@ const BOOST = {
 };
 const CHANGE_SET = { trip_id: crypto.randomUUID(), change_set_id: crypto.randomUUID() };
 const COMMENT = { trip_id: crypto.randomUUID(), comment_id: crypto.randomUUID() };
+const ORDER = { trip_id: crypto.randomUUID(), order_id: crypto.randomUUID() };
 
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
   'crew.member_joined': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
@@ -622,6 +623,15 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
   'comment.deleted': COMMENT,
   'comment.plusoned': { ...COMMENT, user_id: crypto.randomUUID() },
   'comment.unplusoned': { ...COMMENT, user_id: crypto.randomUUID() },
+  'supplier.link_opened': { click_id: crypto.randomUUID(), trip_id: null, partner: 'agoda' },
+  'activity.held': { ...ORDER, hold_provided: true, status: 'holding' },
+  'activity.hold_released': ORDER,
+  'activity.hold_expired': ORDER,
+  'hold.expiring': { ...ORDER, buyer_id: crypto.randomUUID() },
+  'activity.booked': { ...ORDER, booking_id: crypto.randomUUID() },
+  'activity.pending': ORDER,
+  'activity.rejected': ORDER,
+  'activity.cancelled': { ...ORDER, refunded: true },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

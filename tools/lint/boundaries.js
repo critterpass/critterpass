@@ -191,6 +191,25 @@ export function architectureLintConfig(rootDir, boundariesPlugin) {
         'boundaries/dependencies': ['error', { default: 'disallow', policies: boundaryPolicies }],
       },
     },
+    // Supplier content (offer titles, descriptions, reviews) is shown verbatim and never sent to the
+    // LLM (docs/product-decisions.md §5): the AI package cannot even name its types.
+    {
+      files: ['packages/ai/**/*.{ts,tsx}'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              {
+                group: ['@cp/suppliers', '@cp/suppliers/*', '**/packages/suppliers/**'],
+                message:
+                  'Supplier content never reaches the guide: packages/ai may not import packages/suppliers.',
+              },
+            ],
+          },
+        ],
+      },
+    },
     {
       files: ['apps/**/*.{ts,tsx,js,mjs}'],
       rules: {

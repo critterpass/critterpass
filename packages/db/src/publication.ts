@@ -57,9 +57,12 @@ import * as schema from './schema';
  * the server's; travellers see their effect in `flight_segments`.
  * `codes` (packages/db/src/schema/billing.ts) is "S": gift and promo codes are only ever checked by
  * the server (a hash lookup); a client sees its own `code_redemptions`, never a code row.
+ * `affiliate_clicks` (packages/db/src/schema/suppliers.ts) is "S": clicks are written by the api
+ * and read only by the conversions import and the ops console, never by a client.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
+  'affiliate_clicks',
   'app_open_hours',
   'cities',
   'codes',

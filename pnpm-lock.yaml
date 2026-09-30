@@ -1227,6 +1227,9 @@ importers:
       '@cp/planner':
         specifier: workspace:*
         version: link:../../packages/planner
+      '@cp/suppliers':
+        specifier: workspace:*
+        version: link:../../packages/suppliers
       '@hono/node-server':
         specifier: 'catalog:'
         version: 2.1.1(hono@4.13.9)

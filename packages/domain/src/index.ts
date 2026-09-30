@@ -14,19 +14,7 @@ export {
 export * from './realtime';
 export * from './travel-data';
 export * from './entitlements/capability-keys';
-export {
-  entitlementRequiredDetailSchema,
-  quotaExhaustedDetailSchema,
-  redraftLimitDetailSchema,
-  seatLimitDetailSchema,
-  seatLimitOfferSchema,
-  SEAT_LIMIT_OFFERS,
-  type EntitlementRequiredDetail,
-  type QuotaExhaustedDetail,
-  type RedraftLimitDetail,
-  type SeatLimitDetail,
-  type SeatLimitOffer,
-} from './entitlements/errors';
+export * from './entitlements/errors';
 export {
   ENTITLEMENT_SUBJECT_KINDS,
   entitlementSubjectKindSchema,
@@ -296,5 +284,6 @@ export * from './itinerary';
 export * from './money';
 export * from './payout';
 export * from './bookings';
+export * from './suppliers';
 export * from './billing';
 export * from './paywall';

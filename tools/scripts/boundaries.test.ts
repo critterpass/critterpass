@@ -67,6 +67,20 @@ describe('architecture import rules', () => {
     expect(errors).toEqual([]);
   });
 
+  it('keeps supplier content types out of the AI package', async () => {
+    const byName = await lintAt(
+      'packages/ai/src/probe.ts',
+      "import type { SupplierOffer } from '@cp/suppliers';\nexport type X = SupplierOffer;\n",
+    );
+    expect(byName.some((error) => error.startsWith('no-restricted-imports'))).toBe(true);
+
+    const byPath = await lintAt(
+      'packages/ai/src/probe.ts',
+      "import type { SupplierOffer } from '../../suppliers/src/index';\nexport type X = SupplierOffer;\n",
+    );
+    expect(byPath.some((error) => error.startsWith('boundaries/dependencies'))).toBe(true);
+  });
+
   it('lets one feature use another only through its index', async () => {
     const internal = await lintAt(
       'apps/mobile/src/features/beta/probe.ts',

@@ -1,7 +1,7 @@
 ---
 phase: 35
 title: Supplier layer, rides, vendor comms & concierge desk
-status: pending
+status: in_progress
 depends_on: [13, 14, 17, 29, 33, 34, 58]
 wave: 16
 features: [F-103, F-104, F-117]
@@ -117,6 +117,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. Interface + typed errors mapping to api-contracts §3. 2. Egress client (static IP env, timeout, abort, audit row). 3. Tables + RLS + publication + `infra/powersync/streams/suppliers.yaml`. 4. Content-isolation rule + schema test (no content columns).
 - Tests: `pnpm --filter @cp/suppliers test -- core`; `pnpm --filter @cp/db test -- permissions/supplier-orders permissions/affiliate permissions/rides permissions/providers permissions/vendor-messaging`; `pnpm depcruise`
 - Done when: timeout at 120 s returns `UPSTREAM_TIMEOUT`; `packages/ai` importing supplier content types fails CI.
+- Status: done — add61daa (supplier orders, order items, affiliate clicks and conversions, providers; the rides and vendor-messaging tables land with their lanes in `*_rides_providers.sql`/`*_vendor_messaging.sql` follow-ups; the content rule lives in `tools/lint/boundaries.js`, the repo's dependency rules)
 
 ### T2 — Affiliate links, click attribution, conversions, disclosure
 - Goal: every link partner live with sub-id tracking.
@@ -124,6 +125,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. Deep-link builders per partner (Agoda, Trip.com, Booking.com CJ, Klook, GYG, Kiwitaxi, GetTransfer, Gojek) with opaque `sub_id`. 2. Bridge redirect on `go.critterpass.app/r/{sub_id}` for attribution (route handed to P21 link resolver as a registered target). 3. Click command (offline OK; URL built server-side on sync, cached link shown offline). 4. Daily conversions import. 5. Ranking guard test: identical results with commission rates permuted.
 - Tests: `pnpm --filter @cp/suppliers test -- links`; `pnpm --filter @cp/api test -- suppliers/affiliate`
 - Done when: each partner link resolves to the partner domain with our marker + sub_id; permuting commission rates never changes order.
+- Status: done — dcfe49aa (links convert through the Travelpayouts partner links API; live conversion needs `TRAVELPAYOUTS_MARKER` and `TRAVELPAYOUTS_TRS` set, then the converted-link fixtures are re-recorded; Booking.com and Viator links need their CJ and Viator affiliate ids)
 
 ### T3 — Viator adapter (Full + Booking)
 - Goal: complete Viator API client passing certification checks.
@@ -131,6 +133,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. Products/availability/check. 2. `/bookings/cart/hold` (≤ 16) mapping `pricing.status` + availability `HOLDING`/`HOLD_NOT_PROVIDED` + `validUntil`. 3. Payment session for Viator payment form (`VIATOR_FORM`). 4. `/bookings/cart/book`, status (rate limit 1/3 min), modified-since poll. 5. Cancel quote + cancel; amendment reasons. 6. Per-endpoint rolling 10 s rate limiter.
 - Tests: `pnpm --filter @cp/suppliers test -- viator` (unit on recorded sandbox responses) + `VIATOR_SANDBOX=1 pnpm --filter @cp/suppliers test:live -- viator` (real sandbox)
 - Done when: live sandbox run completes search → hold → book → cancel; rate limiter never exceeds documented limits.
+- Status: blocked — needs Viator sandbox approval to record fixtures and run the live search → hold → book → cancel (client, mappers and rate limiter at 2c3acb52, tested on Viator's published samples)
 
 ### T4 — Viator order flow: commands, hold expiry, voucher → wallet, compensation
 - Goal: server state machine §3.5 wired to wallet, money, votes, GuideActions.
@@ -138,6 +141,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. Table-driven state machine + transition trigger. 2. Hold → `supplier.hold_expiry` scheduled before `validUntil`; emits `hold.expiring`; registers the Viator implementations of P29's `HoldExpiryProvider` (poll `closes_at` clamp) and `BookingImpactProvider` (fee/cancel window, supplier refusal → blocked). Holds are placed only at booking time (after RSVP/vote), never at proposal time; if `validUntil` is shorter than the minimum vote window (`ops_config supplier.min_vote_window_min`, default 60), no hold is taken and copy is "book when agreed". 3. Book → pending poll → confirmed → P34 `add_booking(source=viator)` + P33 expense in one tx. 4. Cancel with quote. 5. `trip.dropout` handler. 6. Register GuideAction inverses + `bookable_activity`, `propose_hold` executors.
 - Tests: `pnpm --filter @cp/api test -- suppliers/viator-flow` (Testcontainers + recorded sandbox)
 - Done when: every state transition covered; hold expiry releases and closes linked vote; duplicate `book_activity` op_id never double-books; P29 clamp test: poll `closes_at` ≤ hold `validUntil`; booking-impact and supplier-refusal tests pass; a 20-min hold fixture yields no hold + "book when agreed".
+- Status: done — 41a0c583 (Viator behind the `ActivityBookingPort`; GuideAction inverses and the `bookable_activity`/`propose_hold` executors need `packages/ai` and the worker's guide-action registry, outside this lane; the dropout cancel waits on the `trip.dropout` queue; the Viator webhook stays unregistered, poll-only)
 
 ### T5 — Truthful copy rules + supplier card + booking sheet UI
 - Goal: in-app offer cards and Viator booking/payment on both platforms.
@@ -152,6 +156,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. Client with IP-whitelisted egress. 2. Search/rates → stay offer card data (verbatim, uncached). 3. Precheck + book via supplier-hosted or tokenised card path (Open question 2) behind `supplier.agoda_demand.book`. 4. Cancel two-step; BookingDetail poll → wallet. 5. Copy-mode switch via `ops.partner_adapters`.
 - Tests: `pnpm --filter @cp/suppliers test -- agoda` (recorded responses from Agoda's published API samples); `AGODA_SANDBOX=1 … test:live -- agoda` once credentials exist
 - Done when: unit suite green; flag off → adapter never called (asserted); flag on in staging with credentials passes the live run.
+- Status: blocked — needs Agoda Demand approval and credentials (stays switched off; Agoda links go through Travelpayouts meanwhile)
 
 ### T7 — Generic activity-adapter contract + GYG Partner API adapter (flagged)
 - Goal: a no-hold activity adapter contract any partner plugs into, proven with GYG (public OpenAPI).
@@ -159,6 +164,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. `ActivityAdapter` contract + reusable conformance suite (search → book → status → cancel, `hold_not_provided`). 2. GYG from OpenAPI → generated types; map to `SupplierOffer`/`BookRequest`; copy "Book on {supplier} · {n} left". 3. Flag `supplier.gyg_api`. 4. Order flow reuse from T4 with `hold_not_provided` path.
 - Tests: `pnpm --filter @cp/suppliers test -- activity-adapter gyg`
 - Done when: GYG type-checks against its published OpenAPI and passes the conformance suite on recorded responses; flag default off.
+- Status: blocked — contract and conformance run done (0e794f0b); the GYG adapter waits on GYG Partner API approval (GetYourGuide links go through Travelpayouts meanwhile)
 
 ### T7b — Klook Activity API + Trip.com Attractions distributor adapters (runs when approval + docs arrive)
 - Goal: plug both partners into the T7 contract. Both API docs are login-gated (supplier report), so this task is scheduled on approval, not in the wave; until then their deep links (T2) remain the path.
@@ -166,6 +172,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. Implement against the partner docs received at approval. 2. Flags `supplier.klook_activity_api`, `supplier.tripcom_distributor`. 3. Run T7 conformance suite.
 - Tests: `pnpm --filter @cp/suppliers test -- klook tripcom`
 - Done when: both pass the conformance suite on recorded partner sandbox responses; flags default off.
+- Status: blocked — needs Klook Activity API and Trip.com distributor approvals and their docs (links through Travelpayouts meanwhile)
 
 ### T8 — Rides: Grab Farefeed, Gojek fallback, ride logging
 - Goal: fare + ETA + deep link, ride legs and expenses.

@@ -367,6 +367,8 @@ registerMergeRule({
   strategy: 'reassign',
   personal: true,
 });
+// A merged member keeps their link clicks (orders and providers register from schema/suppliers.ts).
+registerMergeRule({ table: 'affiliate_clicks', userColumn: 'user_id', strategy: 'reassign' });
 // Billing: purchases, credits, redemptions and paywall history follow the account (a store product
 // or a code already held by the surviving account keeps its row).
 registerMergeRule({

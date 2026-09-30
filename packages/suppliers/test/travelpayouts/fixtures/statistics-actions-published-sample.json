@@ -1,0 +1,35 @@
+{
+  "results": [
+    {
+      "action_id": "b91cb378-770e-55c7-b126d10",
+      "created_at": "2025-06-23 13:43:30",
+      "date": "2025-06-23",
+      "external_click_id": "31130496725740",
+      "paid_profit_usd": "47.14",
+      "price_usd": "4288.00",
+      "state": "paid",
+      "sub_id": ".mobile_app_5f78c121aea424a64",
+      "updated_at": "2025-06-24 10:28:44"
+    }
+  ],
+  "fields": [
+    "action_id",
+    "external_click_id",
+    "sub_id",
+    "price_usd",
+    "paid_profit_usd",
+    "state",
+    "date",
+    "updated_at",
+    "created_at"
+  ],
+  "filters": [
+    { "field": "type", "op": "eq", "value": "action" },
+    { "field": "campaign_id", "op": "eq", "value": 100 },
+    { "field": "date", "op": "ge", "value": "2025-06-22" }
+  ],
+  "sort": [{ "field": "date", "order": "asc" }],
+  "total_rows": 40,
+  "offset": 0,
+  "limit": 1
+}
