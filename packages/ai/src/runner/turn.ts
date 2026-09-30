@@ -35,6 +35,7 @@ import {
   type ToolRunResult,
 } from '../tools/registry';
 import { searchFirst, webSources } from '../tools/web-search';
+import { textJoiner } from './text-join';
 import type { UsageContext } from '../usage';
 import {
   DEFAULT_INPUT_CHECK_BUDGET_MS,
@@ -168,6 +169,7 @@ export async function* runTurn(
     const first = searchFirst(route);
     const outputs: { readonly name: string; readonly output: unknown }[] = [];
     let finalText = '';
+    const joiner = textJoiner();
 
     for (let round = 0; ; round += 1) {
       const lastRound = round >= maxRounds;
@@ -190,7 +192,12 @@ export async function* runTurn(
           message = part.result.message;
         } else {
           const event = streamEvent(part.event);
-          if (event !== undefined) yield event;
+          if (event?.type === 'token') {
+            yield { type: 'token', text: joiner.token(event.text) };
+          } else if (event !== undefined) {
+            if (event.type === 'tool_start') joiner.toolCall();
+            yield event;
+          }
         }
       }
       if (message === undefined) throw new Error('model stream ended without a message');
