@@ -10,13 +10,16 @@ import { BOOKINGS_QUEUES, toLocalWallTime } from '@cp/domain';
 import type { AeroApiClient, AeroDataBoxClient, FlightSnapshot } from '@cp/suppliers';
 import type pg from 'pg';
 
-import { defineJob, type JobDefinition } from '../../boss';
+import { defineJob, type JobDefinition, type JobLogger } from '../../boss';
+import type { AdbGate } from './adb-budget';
 import { applyReading, readingMatches } from './apply';
 import { syncLaPhase } from './snapshot';
 
 export interface FlightProviders {
   readonly aero?: AeroApiClient | undefined;
   readonly adb?: AeroDataBoxClient | undefined;
+  /** The AeroDataBox plan's monthly budget and pacing; unset = calls go straight through. */
+  readonly adbGate?: AdbGate | undefined;
 }
 
 interface PolledSegment {
@@ -61,18 +64,23 @@ async function registerAlert(
 async function readingFor(
   providers: FlightProviders,
   segment: PolledSegment,
+  logger: Pick<JobLogger, 'warn'> | undefined,
 ): Promise<FlightSnapshot | null> {
   const day = (offset: number) =>
     new Date(segment.sched_dep_at.getTime() + offset * 86_400_000).toISOString().slice(0, 10);
-  const readings = providers.aero
-    ? await providers.aero.flightsByIdent(`${segment.carrier}${segment.flight_no}`, day(-1), day(2))
-    : providers.adb
-      ? await providers.adb.flightsOn(
-          segment.carrier,
-          segment.flight_no,
-          toLocalWallTime(segment.sched_dep_at, segment.tz ?? 'UTC').date,
-        )
-      : [];
+  const { aero, adb, adbGate } = providers;
+  let readings: FlightSnapshot[] = [];
+  if (aero) {
+    readings = await aero.flightsByIdent(`${segment.carrier}${segment.flight_no}`, day(-1), day(2));
+  } else if (adb) {
+    const read = () =>
+      adb.flightsOn(
+        segment.carrier,
+        segment.flight_no,
+        toLocalWallTime(segment.sched_dep_at, segment.tz ?? 'UTC').date,
+      );
+    readings = adbGate ? await adbGate.run(read, logger) : await read();
+  }
   return readings.find((reading) => readingMatches(segment, reading)) ?? null;
 }
 
@@ -81,6 +89,7 @@ export async function pollFlight(
   providers: FlightProviders,
   timer: Pick<ScheduledJobData, 'ref_id' | 'slot'>,
   now: Date,
+  logger?: Pick<JobLogger, 'warn'>,
 ): Promise<{ outcome: 'polled' | 'skipped'; changes: number }> {
   const segment = await withSystem(pool, async (tx) => {
     const { rows } = await tx.query<PolledSegment>(
@@ -101,7 +110,7 @@ export async function pollFlight(
   await withSystem(pool, (tx) => syncLaPhase(tx, segment.id, now));
   if (providers.aero !== undefined && timer.slot === 't72')
     await registerAlert(pool, providers.aero, segment);
-  const reading = await readingFor(providers, segment);
+  const reading = await readingFor(providers, segment, logger);
   if (reading === null) return { outcome: 'skipped', changes: 0 };
   const changes = await withSystem(pool, (tx) => applyReading(tx, segment.id, reading, now));
   return { outcome: 'polled', changes: changes.length };
@@ -112,6 +121,6 @@ export function flightPollJob(providers: FlightProviders): JobDefinition<Schedul
     queue: BOOKINGS_QUEUES.flightPoll,
     schema: scheduledJobDataSchema,
     singletonKey: (data) => `${data.ref_id}:${data.slot}`,
-    handler: async (data, ctx) => pollFlight(ctx.pool, providers, data, new Date()),
+    handler: async (data, ctx) => pollFlight(ctx.pool, providers, data, new Date(), ctx.logger),
   });
 }
