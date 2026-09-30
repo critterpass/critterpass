@@ -12,7 +12,12 @@ appId: app.critterpass.dev
       id: 'chat-report'
     timeout: 5000
 - tapOn: 'Bullying or harassment'
-- tapOn: 'Also mute Jordan'
+# The switch, not its title: only the switch flips the row.
+- tapOn:
+    rightOf: 'Also mute Jordan'
+- assertVisible:
+    rightOf: 'Also mute Jordan'
+    checked: true
 - takeScreenshot: chat-report-sheet
 - tapOn:
     id: 'chat-report-send'
