@@ -1,8 +1,8 @@
 appId: app.critterpass.dev
 ---
 # Release gate: the wallet for a real first-time traveller, with no demo seed. A fresh account
-# onboards from Ho Chi Minh City (home currency VND), starts a solo trip to Hội An (the crew of one
-# the app makes for it), and opens the Wallet tab. Money settles in VND and says there is nothing to
+# onboards from Ho Chi Minh City (home currency VND), starts a crew of one and a solo trip to Hội An
+# in it, and opens the Wallet tab. Money settles in VND and says there is nothing to
 # split yet; BOOKINGS | MONEY swaps in place; Add a booking shows the crew's forward address on the
 # staging mail domain and copies it; a typed expense lands in SPENT SO FAR and LATEST; and the
 # travel insurance form's SAVE sits above the tab bar where it can be tapped.
@@ -81,7 +81,24 @@ appId: app.critterpass.dev
     visible:
       id: 'home-first-run'
     timeout: 30000
-# A solo trip: the guest guide's page for Hội An starts a trip for one, in a crew of one.
+# A crew of one, then a solo trip in it: the guest guide's page for Hội An starts a trip for one.
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 10000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Da Nang'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 20000
+- tapOn:
+    id: 'start-crew-done'
 - openLink: critterpass-dev://places/search
 - extendedWaitUntil:
     visible:
@@ -106,6 +123,15 @@ appId: app.critterpass.dev
     visible:
       id: 'solo-confirm'
     timeout: 10000
+# Until the new crew has synced the page may ask which crew the trip is for.
+- runFlow:
+    when:
+      visible:
+        id: 'crew-picker'
+    commands:
+      - tapOn:
+          id: 'crew-pick-.*'
+          index: 0
 - tapOn:
     id: 'solo-start'
 - extendedWaitUntil:
