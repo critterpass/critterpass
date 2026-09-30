@@ -30,6 +30,7 @@ import {
   PLAN_QUEUES,
   SETUP_QUEUES,
   SUPPLIER_QUEUES,
+  SAFETY_QUEUES,
   TRIP_DAY_QUEUES,
   PROPOSAL_QUEUES,
   type NotifyRouteJob,
@@ -110,6 +111,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(CRITTER_QUEUES),
       ...Object.values(QUEST_QUEUES),
       LA_QUEUES.orchestrate,
+      ...Object.values(SAFETY_QUEUES),
       'cost.recompute',
       SUPPLIER_QUEUES.replyParse,
     ]) {

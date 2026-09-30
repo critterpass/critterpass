@@ -150,6 +150,50 @@ GRANT SELECT, INSERT ON help_session_messages TO app_user;
 GRANT SELECT, INSERT, UPDATE, DELETE ON help_session_messages TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
+-- A crewmate's command may publish on an incident's own `sos:{id}` channel (responses, messages,
+-- steps, the all-clear); everything else about `app.enqueue_rt` is unchanged. Takeovers on other
+-- members' `user:#uid` channels stay with the worker.
+CREATE OR REPLACE FUNCTION app.enqueue_rt(channel text, payload jsonb, kind text DEFAULT 'publish') RETURNS bigint
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public, app AS $$
+DECLARE
+  caller_uid uuid := app.uid();
+  new_id bigint;
+BEGIN
+  IF kind NOT IN ('publish', 'unsubscribe', 'disconnect') THEN
+    RAISE EXCEPTION 'invalid rt_outbox kind: %', kind USING ERRCODE = 'invalid_parameter_value';
+  END IF;
+
+  IF kind <> 'publish' AND caller_uid IS NOT NULL THEN
+    RAISE EXCEPTION 'only app_system or a trigger may enqueue kind %', kind USING ERRCODE = 'insufficient_privilege';
+  END IF;
+
+  IF caller_uid IS NOT NULL THEN
+    IF NOT (
+      channel = app.channel_name('user', caller_uid::text)
+      OR (channel LIKE 'crew%:%' AND app.is_crew_member(split_part(channel, ':', 2)::uuid))
+      OR (channel LIKE 'trip%:%' AND app.is_trip_member(split_part(channel, ':', 2)::uuid))
+      OR (channel LIKE 'poll:%' AND EXISTS (
+        SELECT 1 FROM polls p
+         WHERE p.id = split_part(channel, ':', 2)::uuid
+           AND app.can_read_poll_scope(p.crew_id, p.trip_id)
+      ))
+      OR (channel LIKE 'sos:%' AND EXISTS (
+        SELECT 1 FROM help_sessions s
+         WHERE s.id = split_part(channel, ':', 2)::uuid AND app.is_trip_member(s.trip_id)
+      ))
+    ) THEN
+      RAISE EXCEPTION 'not permitted to publish on channel %', channel USING ERRCODE = 'insufficient_privilege';
+    END IF;
+  END IF;
+
+  INSERT INTO rt_outbox (channel, payload, idem_key, kind)
+  VALUES (channel, payload, gen_random_uuid(), kind)
+  RETURNING id INTO new_id;
+  RETURN new_id;
+END;
+$$;
+
+-- ---------------------------------------------------------------------------------------------
 -- How old a queued `trigger_sos` may be on upload and still alert the crew (minutes), and whether
 -- Android may use a full-screen intent for SOS (on only after Play approves the declaration).
 -- The stale limit is read through this function: app_user holds no grant on ops.ops_config.
