@@ -79,6 +79,22 @@ const draftCatalogs = [
   },
 ];
 
+// The plan area keeps one nested catalog per surface (overview, day view, timeline, change review,
+// personal overlay, map and calendar views, live collaboration), so the plan lanes and the rest of
+// the plan area never edit the same file.
+const planSubAreas = [
+  'overview',
+  'day',
+  'timeline',
+  'review',
+  'overlay',
+  'views',
+  'collab',
+] as const;
+const planSubSources = (sub: string) => [
+  `${repoRootPrefix}/apps/mobile/src/features/plan/${sub}/**`,
+];
+
 const notificationSources = [
   {
     name: 'common',
@@ -135,7 +151,7 @@ export default defineConfig({
           : area === 'setup'
             ? [...testFileExcludes, ...setupSubAreas.flatMap(setupSubSources)]
             : area === 'plan'
-              ? [...testFileExcludes, `${draftRoot}/**`]
+              ? [...testFileExcludes, `${draftRoot}/**`, ...planSubAreas.flatMap(planSubSources)]
               : testFileExcludes,
     })),
     {
@@ -161,6 +177,12 @@ export default defineConfig({
       path: `locales/{locale}/plan-draft/${catalog.name}`,
       include: catalog.include,
       exclude: [...testFileExcludes, ...catalog.exclude],
+    })),
+    ...planSubAreas.map((sub) => ({
+      name: `plan/${sub}`,
+      path: `locales/{locale}/plan/${sub}`,
+      include: planSubSources(sub),
+      exclude: testFileExcludes,
     })),
     {
       name: 'web',
