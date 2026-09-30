@@ -3,17 +3,13 @@
  * their designed size; when the two halves' content fits the screen there, nothing changes. When
  * it doesn't, both names are set at one shared size (the same line height, so neither finalist
  * gets smaller billing): the largest at which both halves fit, found by a binary search over the
- * measured layout, never below the 44 pt floor, and never so narrow that the longest word breaks.
+ * measured layout, never below the 44 pt floor, and never so small that a word breaks.
  */
 import { useCallback, useEffect, useState } from 'react';
 import type { LayoutChangeEvent, TextLayoutEvent } from 'react-native';
 
 /** Smallest a city name is set at when its half runs out of height (Vietnamese chips wrap taller). */
 export const NAME_FLOOR = 44;
-/** The display token's line height as a share of its font size. */
-const NAME_LINE_EM = 0.8;
-/** Width of one condensed display capital per point of font size, with room to spare (M and H set about 0.45). */
-const CAPITAL_EM = 0.55;
 const SEARCH_STEPS = 24;
 
 /** One half's name as designed (measured while it is set at its designed size) and now. */
@@ -25,8 +21,8 @@ export interface NameMeasure {
   readonly designLines: number;
   /** The name's height as it is set right now. */
   readonly height: number;
-  /** Characters in the name's longest word. */
-  readonly longestWord: number;
+  /** Lines the name is set on right now (more than designed: a word broke or the name reflowed). */
+  readonly lines: number;
 }
 
 export interface HalfMeasure {
@@ -40,21 +36,14 @@ function measured(half: HalfMeasure): boolean {
   return name.designHeight > 0 && name.designWidth > 0 && name.designLine > 0 && half.natural > 0;
 }
 
-/** The smallest share of its designed size a name may take: the 44 pt floor, and its longest word whole. */
-function floorScale(name: NameMeasure): number {
-  const font = NAME_FLOOR / (name.designLine / NAME_LINE_EM);
-  const word = (name.longestWord * NAME_FLOOR * CAPITAL_EM) / name.designWidth;
-  return Math.min(1, Math.max(font, word));
-}
-
 function scaleAt(name: NameMeasure, line: number): number {
-  return Math.min(1, Math.max(line / name.designLine, floorScale(name)));
+  return Math.min(1, line / name.designLine);
 }
 
 /**
  * A first guess at the shared line height, from a straight-line model of the measured layout (a
- * name's height scales with its size, the rest of the half stays): the largest that fits, or 0
- * (both at their floors). Null when the halves fit at their designed size. The search below
+ * name's height scales with its size, the rest of the half stays): the largest that fits, or 0.
+ * Null when the halves fit at their designed size. The search below
  * checks it against the real layout, which the model can miss (auto-fit, line breaks).
  */
 export function guessNameLine(
@@ -95,35 +84,51 @@ export interface NameSearch {
   readonly line: number | null;
   readonly low: number;
   readonly high: number;
+  /** `low` broke a name (a word split, a many-word name reflowed): not a size to settle on. */
+  readonly lowBroke: boolean;
   readonly done: boolean;
 }
 
-export const DESIGN_SEARCH: NameSearch = { line: null, low: 0, high: 0, done: false };
+export const DESIGN_SEARCH: NameSearch = {
+  line: null,
+  low: 0,
+  high: 0,
+  lowBroke: true,
+  done: false,
+};
 
 /** Search steps stop once the bracket is this narrow (points of line height). */
 const SEARCH_TOLERANCE = 2;
 
 /**
- * One step, after the layout at `search.line` settled and was measured (`fits`: both halves fit
- * the viewport). At the designed size a fit ends the search with nothing changed; otherwise it
- * bisects between what fitted and what did not, starting from the model's guess, and ends on the
- * largest size that fitted (0: both names at their floors).
+ * One step, after the layout at `search.line` settled and was measured. `fits`: both halves fit
+ * the viewport; `broke`: a name is set on more lines than designed (auto-fit hit the 44 pt floor
+ * and split a word, or reflowed a many-word name). At the designed size a fit ends the search with
+ * nothing changed; otherwise it bisects, starting from the model's guess: a fit or a broken name
+ * goes larger, an overflow smaller. It ends on the largest size that fitted with every name whole,
+ * or, when none did, the smallest whole size (what still does not fit scrolls).
  */
 export function nextNameSearch(
   search: NameSearch,
   fits: boolean,
+  broke: boolean,
   guess: number,
   top: number,
 ): NameSearch {
   if (search.done) return search;
   if (search.line === null) {
     if (fits) return { ...search, done: true };
-    return { line: Math.min(guess, top), low: 0, high: top, done: false };
+    return { line: Math.min(guess, top), low: 0, high: top, lowBroke: true, done: false };
   }
-  const low = fits ? search.line : search.low;
-  const high = fits ? search.high : search.line;
-  if (high - low <= SEARCH_TOLERANCE) return { line: low, low, high, done: true };
-  return { line: (low + high) / 2, low, high, done: false };
+  const larger = fits || broke;
+  const next = {
+    low: larger ? search.line : search.low,
+    lowBroke: larger ? broke : search.lowBroke,
+    high: larger ? search.high : search.line,
+  };
+  if (next.high - next.low <= SEARCH_TOLERANCE)
+    return { ...next, line: next.lowBroke ? next.high : next.low, done: true };
+  return { ...next, line: (next.low + next.high) / 2, done: false };
 }
 
 /** The box a name is set in at `scale` of its designed size, or null at the designed size. */
@@ -138,7 +143,6 @@ export function nameBox(name: NameMeasure, scale: number): number | null {
  */
 export function useNameMeasure(name: string, locale: string, cap: number | null) {
   const key = `${name}|${locale}`;
-  const longestWord = Math.max(0, ...name.split(/\s+/u).map((word) => [...word].length));
   const [now, setNow] = useState({ height: 0, width: 0, line: 0, lines: 0 });
   const [design, setDesign] = useState({ key, height: 0, width: 0, line: 0, lines: 0 });
   // Adjusted while rendering (not in an effect) so a new name starts from its own design size.
@@ -162,7 +166,7 @@ export function useNameMeasure(name: string, locale: string, cap: number | null)
     designLine: design.line,
     designLines: design.lines,
     height: now.height,
-    longestWord,
+    lines: now.lines,
   };
   return {
     measure,
@@ -189,7 +193,7 @@ const NO_NAME: NameMeasure = {
   designLine: 0,
   designLines: 0,
   height: 0,
-  longestWord: 0,
+  lines: 0,
 };
 const NO_HALF: HalfMeasure = { name: NO_NAME, natural: 0 };
 
@@ -225,10 +229,11 @@ export function useShowdownNames(key: string) {
     // Every new measurement restarts the wait, so a step reads a layout that has settled.
     const timer = setTimeout(() => {
       const fits = halves[0].natural + halves[1].natural <= viewport + 0.5;
+      const broke = halves.some((half) => half.name.lines > half.name.designLines);
       const guess = guessNameLine(halves, viewport) ?? topLine(halves);
       setSearch((current) =>
         current.key === key && current.viewport === viewport
-          ? { ...current, step: nextNameSearch(current.step, fits, guess, topLine(halves)) }
+          ? { ...current, step: nextNameSearch(current.step, fits, broke, guess, topLine(halves)) }
           : current,
       );
     }, SETTLE_MS);
@@ -236,12 +241,7 @@ export function useShowdownNames(key: string) {
   }, [ready, step, halves, viewport, key]);
   const [first, second] = scalesAt(halves, step.line);
   const searching = step.line !== null && !step.done;
-  const box = (index: 0 | 1, scale: number) => {
-    const cap = nameBox(halves[index].name, scale);
-    const lines = halves[index].name.designLines;
-    // A many-line name keeps its designed line breaks, so it shrinks instead of reflowing.
-    return { nameCap: cap, nameLines: cap !== null && lines > 1 ? lines : undefined };
-  };
+  const box = (index: 0 | 1, scale: number) => ({ nameCap: nameBox(halves[index].name, scale) });
   return {
     onViewport: setViewport,
     first: {

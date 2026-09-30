@@ -267,14 +267,14 @@ describe('destination final', () => {
   });
 
   it('keeps the designed size when the halves fit, and shrinks both names equally when not', () => {
-    const half = (designLine: number, natural: number, longestWord = 3) => ({
+    const half = (designLine: number, natural: number) => ({
       name: {
         designHeight: designLine,
         designWidth: 300,
         designLine,
         designLines: 1,
         height: designLine,
-        longestWord,
+        lines: 1,
       },
       natural,
     });
@@ -286,11 +286,13 @@ describe('destination final', () => {
         0,
       );
     };
-    const run = (halves: readonly [HalfMeasure, HalfMeasure], viewport: number) => {
+    // A name set below `breakAt` line height splits a word.
+    const run = (halves: readonly [HalfMeasure, HalfMeasure], viewport: number, breakAt = 0) => {
       let search = DESIGN_SEARCH;
       for (let step = 0; step < 20 && !search.done; step += 1) {
         const fits = totalAt(halves, search.line) <= viewport;
-        search = nextNameSearch(search, fits, guessNameLine(halves, viewport) ?? 150, 150);
+        const broke = search.line !== null && search.line < breakAt;
+        search = nextNameSearch(search, fits, broke, guessNameLine(halves, viewport) ?? 150, 150);
       }
       return search;
     };
@@ -307,10 +309,13 @@ describe('destination final', () => {
     expect(150 * a).toBeCloseTo(120 * b, 3);
     expect(totalAt(vi, found.line)).toBeLessThanOrEqual(700);
     expect(totalAt(vi, (found.line ?? 0) + 3)).toBeGreaterThan(700);
-    // Nothing fits even at the floor: each stops at its floor (44 pt, the longest word whole).
-    const [c, d] = scalesAt([half(150, 900, 11), half(120, 900)], 0);
-    expect(c).toBeCloseTo((11 * 44 * 0.55) / 300);
-    expect(d).toBeCloseTo(44 / (120 / 0.8));
+    // Nothing fits unless a word breaks: the names stop at the smallest size that keeps them
+    // whole, and the rest scrolls.
+    const crowded = [half(150, 900), half(120, 900)] as const;
+    const whole = run(crowded, 700, 60);
+    expect(whole.done).toBe(true);
+    expect(whole.line).toBeGreaterThanOrEqual(60);
+    expect(whole.line).toBeLessThanOrEqual(63);
   });
 
   it('sends the showdown on to the reveal once the poll closes', async () => {
