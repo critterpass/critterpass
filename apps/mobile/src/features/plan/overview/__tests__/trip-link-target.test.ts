@@ -1,5 +1,5 @@
 /** `/trip/{id}/<rest>` links forward to the trip's own `/{id}/<rest>` with the query kept. */
- 
+
 import { describe, expect, it } from '@jest/globals';
 
 import { tripLinkTarget } from '../routes';
