@@ -8,6 +8,8 @@ import { outbox } from '@cp/db';
 import { channelName, DomainError, type MONEY_RT } from '@cp/domain';
 import type pg from 'pg';
 
+import { asSystemRole } from '../../admin/command';
+
 export interface MoneyTrip {
   readonly id: string;
   readonly crew_id: string;
@@ -16,10 +18,32 @@ export interface MoneyTrip {
   readonly start_date: string | null;
 }
 
-/** The trip as the caller sees it, with its crew's settlement currency (USD until one is set). */
+/**
+ * The crew's settlement currency, written now if it has none yet (a crew started before any member
+ * had a home): its members' most common home currency, else USD. Money is only ever recorded in a
+ * written currency, so a member joining later never changes what earlier entries are in.
+ */
+export async function settleCrewCurrency(tx: pg.PoolClient, crewId: string): Promise<string> {
+  const { rows } = await asSystemRole(tx, () =>
+    tx.query<{ currency: string }>(
+      `UPDATE crews
+          SET settlement_currency = coalesce(settlement_currency, app.crew_home_currency(id), 'USD')
+        WHERE id = $1
+        RETURNING settlement_currency AS currency`,
+      [crewId],
+    ),
+  );
+  const currency = rows[0]?.currency;
+  if (currency === undefined) throw new DomainError('NOT_FOUND', { reason: 'crew' });
+  return currency;
+}
+
+/** The trip as the caller sees it, with its crew's settlement currency (settled on first use). */
 export async function loadMoneyTrip(tx: pg.PoolClient, tripId: string): Promise<MoneyTrip> {
-  const { rows } = await tx.query<MoneyTrip>(
-    `SELECT t.id, t.crew_id, coalesce(c.settlement_currency, 'USD') AS crew_currency,
+  const { rows } = await tx.query<
+    Omit<MoneyTrip, 'crew_currency'> & { crew_currency: string | null }
+  >(
+    `SELECT t.id, t.crew_id, c.settlement_currency AS crew_currency,
             coalesce(t.tz, d.tz) AS tz, t.start_date::text AS start_date
        FROM trips t JOIN crews c ON c.id = t.crew_id
        LEFT JOIN destinations d ON d.id = t.destination_id
@@ -28,7 +52,8 @@ export async function loadMoneyTrip(tx: pg.PoolClient, tripId: string): Promise<
   );
   const trip = rows[0];
   if (trip === undefined) throw new DomainError('NOT_FOUND', { reason: 'trip' });
-  return trip;
+  const crewCurrency = trip.crew_currency ?? (await settleCrewCurrency(tx, trip.crew_id));
+  return { ...trip, crew_currency: crewCurrency };
 }
 
 /** Everyone the trip's money is between: participants not out, still active in the crew. */
