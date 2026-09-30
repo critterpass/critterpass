@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# Messages to places: writing one and every state of a thread, prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: vendor-draft, READY: vendor-draft, SHOT: '${PREFIX}-supplier-vendor-draft' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: vendor-draft-approved,
+        READY: vendor-draft-approved,
+        SHOT: '${PREFIX}-supplier-vendor-draft-approved',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: vendor-draft-self-send,
+        READY: vendor-draft-self-send,
+        SHOT: '${PREFIX}-supplier-vendor-draft-self-send',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: vendor-threads, READY: vendor-threads, SHOT: '${PREFIX}-supplier-vendor-threads' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: vendor-threads-empty,
+        READY: vendor-threads-empty,
+        SHOT: '${PREFIX}-supplier-vendor-threads-empty',
+      }

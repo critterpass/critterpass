@@ -70,6 +70,15 @@ msgstr "Còn khoảng {left} phút · ước tính"
 msgid "suppliers.rides.transferBooked"
 msgstr "Xe đón sân bay đã đặt trên {supplier} (từ email của bạn) · thông tin tài xế lấy từ voucher"
 
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.approvedLine"
+msgstr "Đã duyệt · bàn hỗ trợ sẽ gửi"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.approved"
+msgstr "Đã duyệt. Bàn hỗ trợ sẽ gửi đúng nội dung này."
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.vendor.ask"
 msgstr "Nhờ {vendor} {ask}? Mình sẽ soạn tin WhatsApp."
@@ -211,6 +220,10 @@ msgstr "Xong"
 msgid "suppliers.cancel.done"
 msgstr "Xong"
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.done"
+msgstr "Xong"
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.vendor.draftReady"
 msgstr "Tin nhắn đã soạn — gửi nhé?"
@@ -284,6 +297,11 @@ msgstr "Bao nhiêu người đi"
 msgid "suppliers.journey.start"
 msgstr "Mình đã lên xe"
 
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.failedLine"
+msgstr "Tin nhắn chưa đến được họ qua WhatsApp. Bàn hỗ trợ sẽ báo bạn bước tiếp theo."
+
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
 msgid "suppliers.cancel.keep"
 msgstr "Giữ lại"
@@ -320,6 +338,10 @@ msgstr "Bỏ qua"
 msgid "suppliers.around.loading"
 msgstr "Đang tải ngày của bạn"
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.loading"
+msgstr "Đang tải tin nhắn"
+
 #: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
 msgid "suppliers.journey.log"
 msgstr "Ghi lại"
@@ -349,6 +371,31 @@ msgstr "Đã ghi, và chia cho {0} người"
 msgid "suppliers.transfer.meeting"
 msgstr "Điểm hẹn: {meeting}"
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.textLabel"
+msgstr "Tin nhắn gửi {vendor}"
+
+#: ../../apps/mobile/src/app/(modal)/supplier/draft.tsx
+msgid "suppliers.vendor.draftTitle"
+msgstr "Nhắn cho một địa điểm"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.listError"
+msgstr "Chưa tải được tin nhắn. Thử lại sau chút nhé."
+
+#: ../../apps/mobile/src/app/(modal)/supplier/messages.tsx
+msgid "suppliers.vendor.listTitle"
+msgstr "Tin nhắn với các địa điểm"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.listOffline"
+msgstr "Cần có sóng để tải tin nhắn với các địa điểm."
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.empty"
+msgstr "Chưa có tin nhắn nào. Khi bạn hỏi một địa điểm, tin nhắn sẽ hiện ở đây."
+
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
 msgid "suppliers.cancel.noRefund"
 msgstr "Hủy bây giờ sẽ không được hoàn tiền"
@@ -368,6 +415,10 @@ msgstr "Không có sóng. Liên kết vẫn mở, trang của nhà cung cấp s�
 #: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
 msgid "suppliers.around.noTrip"
 msgstr "Chưa có chuyến đi nào đang diễn ra"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.exactNote"
+msgstr "Chưa có gì được gửi cho đến khi bạn bấm gửi, và {vendor} nhận đúng nội dung này."
 
 #: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
 msgid "suppliers.around.noPlace"
@@ -448,6 +499,24 @@ msgstr "Xe cho các điểm trong lịch trình sẽ hiện ở đây."
 msgid "suppliers.offers.seen"
 msgstr "xem lúc {time} trên Viator"
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.send"
+msgstr "Gửi"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.selfTitle"
+msgstr "Gửi từ WhatsApp của bạn"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.share"
+msgstr "Gửi qua WhatsApp"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.needsSignal"
+msgstr "Cần có sóng để gửi. Nội dung của bạn vẫn còn đây."
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.vendor.sentWaiting"
 msgstr "Đã gửi {time}, đang chờ"
@@ -472,6 +541,10 @@ msgstr "Chia đều cho {people} người đã đi. Để trống nếu chỉ mu
 msgid "suppliers.book.retry"
 msgstr "Chưa được. Thử lại sau chút nhé."
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.failed"
+msgstr "Chưa được. Thử lại nhé."
+
 #: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
 msgid "suppliers.offers.failed"
 msgstr "Chưa mở được. Thử lại nhé."
@@ -487,6 +560,11 @@ msgstr "Có vẻ đây không phải số tiền"
 #: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
 msgid "suppliers.rides.offlineNone"
 msgstr "Thẻ bên dưới dùng được khi không có mạng: đưa cho tài xế nào cũng được."
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.deskHours"
+msgstr "Bàn hỗ trợ gửi tin từ {open} đến {close} ({tz})."
 
 #: ../../apps/mobile/src/features/bookings/supplier/HoldTimer.tsx
 msgid "suppliers.hold.ranOutA11y"
@@ -570,6 +648,10 @@ msgstr "Chúng tôi có thể nhận hoa hồng. Điều đó không bao giờ t
 #: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
 msgid "suppliers.log.amount"
 msgstr "Chi phí ({0})"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.selfBody"
+msgstr "WhatsApp sẽ mở với nội dung này. Chọn cuộc trò chuyện với {vendor} rồi gửi. Họ sẽ trả lời bạn trực tiếp."
 
 #: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx
 msgid "suppliers.estimate.title"

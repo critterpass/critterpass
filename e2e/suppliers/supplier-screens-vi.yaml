@@ -40,3 +40,6 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/offer-scenes.yaml
     env: { PREFIX: vi }
+- runFlow:
+    file: subflows/vendor-scenes.yaml
+    env: { PREFIX: vi }

@@ -70,6 +70,15 @@ msgstr ""
 msgid "suppliers.rides.transferBooked"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.approvedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.approved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.vendor.ask"
 msgstr ""
@@ -211,6 +220,10 @@ msgstr ""
 msgid "suppliers.cancel.done"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.done"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.vendor.draftReady"
 msgstr ""
@@ -284,6 +297,11 @@ msgstr ""
 msgid "suppliers.journey.start"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.failedLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
 msgid "suppliers.cancel.keep"
 msgstr ""
@@ -320,6 +338,10 @@ msgstr ""
 msgid "suppliers.around.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
 msgid "suppliers.journey.log"
 msgstr ""
@@ -349,6 +371,31 @@ msgstr ""
 msgid "suppliers.transfer.meeting"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.textLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(modal)/supplier/draft.tsx
+msgid "suppliers.vendor.draftTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.listError"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(modal)/supplier/messages.tsx
+msgid "suppliers.vendor.listTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.listOffline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.empty"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
 msgid "suppliers.cancel.noRefund"
 msgstr ""
@@ -367,6 +414,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
 msgid "suppliers.around.noTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.exactNote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
@@ -448,6 +499,24 @@ msgstr ""
 msgid "suppliers.offers.seen"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.selfTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.needsSignal"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.vendor.sentWaiting"
 msgstr ""
@@ -472,6 +541,10 @@ msgstr ""
 msgid "suppliers.book.retry"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
 msgid "suppliers.offers.failed"
 msgstr ""
@@ -486,6 +559,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
 msgid "suppliers.rides.offlineNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.deskHours"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/supplier/HoldTimer.tsx
@@ -569,6 +647,10 @@ msgstr ""
 #. placeholder {0}: params.currency
 #: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
 msgid "suppliers.log.amount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.selfBody"
 msgstr ""
 
 #: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx

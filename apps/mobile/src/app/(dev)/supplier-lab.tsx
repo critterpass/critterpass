@@ -1,15 +1,31 @@
 import { router } from 'expo-router';
 import { ScrollView } from 'react-native';
 
+import { useLiveRows } from '@/features/bookings/data/live-rows';
 import { useWalletContext } from '@/features/bookings/data/use-wallet-context';
 import { SUPPLIER_LAB_SCENE_NAMES } from '@/features/bookings/supplier/dev/lab-scenes';
-import { gettingAroundRoute, offerRoute } from '@/features/bookings/supplier/routes';
+import {
+  gettingAroundRoute,
+  offerRoute,
+  vendorDraftRoute,
+  vendorMessagesRoute,
+} from '@/features/bookings/supplier/routes';
 import { Stack, Text } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
 export const __CP_DEV_ROUTE__ = true;
+
+// A place on the plan, else any place in the destination (the demo crew's plan has none).
+const PLACE_SQL = `SELECT id, name FROM (
+    SELECT p.id, p.name, 0 AS rank, pi.starts_at AS at
+      FROM plan_items pi JOIN pois p ON p.id = pi.poi_id WHERE pi.trip_id = ?
+    UNION ALL
+    SELECT p.id, p.name, 1 AS rank, NULL AS at
+      FROM pois p JOIN trips t ON t.destination_id = p.destination_id WHERE t.id = ?
+  ) ORDER BY rank, at LIMIT 1`;
+const PLACE_TABLES = ['plan_items', 'pois', 'trips'];
 
 /**
  * Supplier cards, booking and cancel sheets, Getting around (3h-3) and vendor messages: the live
@@ -18,6 +34,11 @@ export const __CP_DEV_ROUTE__ = true;
 export default function SupplierLab() {
   const { trip } = useWalletContext();
   const tripId = trip?.id ?? null;
+  const place = useLiveRows<{ id: string; name: string }>(
+    PLACE_SQL,
+    tripId === null ? null : [tripId, tripId],
+    PLACE_TABLES,
+  ).rows[0];
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 64 }}>
       <Stack gap="8">
@@ -42,6 +63,37 @@ export default function SupplierLab() {
             if (tripId !== null) router.push(gettingAroundRoute({ tripId }));
           }}
           testID="supplier-lab-live-around"
+        />
+        <ListCard
+          title={
+            place === undefined
+              ? 'Live message to a place (needs a planned place)'
+              : `Live message to ${place.name}`
+          }
+          chevron
+          onPress={() => {
+            if (tripId !== null && place !== undefined) {
+              router.push(
+                vendorDraftRoute({
+                  tripId,
+                  vendorKind: 'poi',
+                  vendorId: place.id,
+                  vendorName: place.name,
+                  intent: 'ask',
+                  text: `Hi ${place.name}, are you open tomorrow evening for 6 people?`,
+                }),
+              );
+            }
+          }}
+          testID="supplier-lab-live-draft"
+        />
+        <ListCard
+          title="Live messages to places"
+          chevron
+          onPress={() => {
+            if (tripId !== null) router.push(vendorMessagesRoute(tripId));
+          }}
+          testID="supplier-lab-live-messages"
         />
         {SUPPLIER_LAB_SCENE_NAMES.map((name) => (
           <ListCard

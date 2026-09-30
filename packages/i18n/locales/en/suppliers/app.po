@@ -70,6 +70,15 @@ msgstr "About {left} min to go · estimate"
 msgid "suppliers.rides.transferBooked"
 msgstr "Airport pickup booked on {supplier} (from your email) · driver details from your voucher"
 
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.approvedLine"
+msgstr "Approved · the desk sends it"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.approved"
+msgstr "Approved. The desk sends exactly this."
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.vendor.ask"
 msgstr "Ask {vendor} to {ask}? I'll draft the WhatsApp."
@@ -211,6 +220,10 @@ msgstr "Done"
 msgid "suppliers.cancel.done"
 msgstr "Done"
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.done"
+msgstr "Done"
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.vendor.draftReady"
 msgstr "Draft ready — send?"
@@ -284,6 +297,11 @@ msgstr "How many are going"
 msgid "suppliers.journey.start"
 msgstr "I'm in the car"
 
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.failedLine"
+msgstr "It didn’t reach them on WhatsApp. The desk will tell you what next."
+
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
 msgid "suppliers.cancel.keep"
 msgstr "Keep it"
@@ -320,6 +338,10 @@ msgstr "Let it go"
 msgid "suppliers.around.loading"
 msgstr "Loading your day"
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.loading"
+msgstr "Loading your messages"
+
 #: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
 msgid "suppliers.journey.log"
 msgstr "Log it"
@@ -349,6 +371,31 @@ msgstr "Logged, and split between {0}"
 msgid "suppliers.transfer.meeting"
 msgstr "Meet at: {meeting}"
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.textLabel"
+msgstr "Message to {vendor}"
+
+#: ../../apps/mobile/src/app/(modal)/supplier/draft.tsx
+msgid "suppliers.vendor.draftTitle"
+msgstr "Message to a place"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.listError"
+msgstr "Messages didn’t load. Try again in a moment."
+
+#: ../../apps/mobile/src/app/(modal)/supplier/messages.tsx
+msgid "suppliers.vendor.listTitle"
+msgstr "Messages to places"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.listOffline"
+msgstr "Messages to places need signal to load."
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.empty"
+msgstr "No messages to places yet. When you ask a place something, it shows here."
+
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
 msgid "suppliers.cancel.noRefund"
 msgstr "No refund if you cancel now"
@@ -368,6 +415,10 @@ msgstr "No signal. Links open, and the supplier's page loads once you're back."
 #: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
 msgid "suppliers.around.noTrip"
 msgstr "No trip under way"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.exactNote"
+msgstr "Nothing leaves until you send it, and {vendor} gets exactly this text."
 
 #: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
 msgid "suppliers.around.noPlace"
@@ -448,6 +499,24 @@ msgstr "Rides show up here for the places on your plan."
 msgid "suppliers.offers.seen"
 msgstr "seen {time} on Viator"
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.send"
+msgstr "Send"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.selfTitle"
+msgstr "Send it from your WhatsApp"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.share"
+msgstr "Send it on WhatsApp"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.needsSignal"
+msgstr "Sending needs signal. Your text is still here."
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.vendor.sentWaiting"
 msgstr "Sent {time}, waiting"
@@ -472,6 +541,10 @@ msgstr "Split evenly between the {people} who rode. Leave it empty to only note 
 msgid "suppliers.book.retry"
 msgstr "That didn’t go through. Try again in a moment."
 
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.failed"
+msgstr "That didn’t go through. Try again."
+
 #: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
 msgid "suppliers.offers.failed"
 msgstr "That didn't open. Try again."
@@ -487,6 +560,11 @@ msgstr "That doesn’t look like an amount"
 #: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
 msgid "suppliers.rides.offlineNone"
 msgstr "The card below works offline: show it to any driver."
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.deskHours"
+msgstr "The desk sends messages between {open} and {close} ({tz})."
 
 #: ../../apps/mobile/src/features/bookings/supplier/HoldTimer.tsx
 msgid "suppliers.hold.ranOutA11y"
@@ -570,6 +648,10 @@ msgstr "We may earn a commission. It never changes what {guide} recommends."
 #: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
 msgid "suppliers.log.amount"
 msgstr "What it cost ({0})"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.selfBody"
+msgstr "WhatsApp opens with this text. Pick {vendor}’s chat and send it. Their reply comes to you."
 
 #: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx
 msgid "suppliers.estimate.title"
