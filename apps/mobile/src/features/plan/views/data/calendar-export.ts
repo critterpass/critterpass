@@ -1,5 +1,5 @@
 /**
- * Calendar export (F-083): my plan items as calendar events, written straight to the phone's
+ * Calendar export: my plan items as calendar events, written straight to the phone's
  * calendar when the installed build's `cp-calendar` module can write (write-only access), and the
  * subscribable feed (`create_calendar_feed` → `webcal://…/v1/trips/{id}/calendar.ics?token`) that
  * follows every plan change; `revoke_calendar_feed` turns every live link off.
