@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 import { TypeLabScene } from '@/ui/text/dev/TypeLabScene';
 import { TYPE_LAB_PAGES } from '@/ui/text/dev/type-lab-rows';
@@ -11,5 +11,5 @@ export const __CP_DEV_ROUTE__ = true;
 export default function TypeScene() {
   const { page } = useLocalSearchParams<{ page: string }>();
   const found = TYPE_LAB_PAGES.find((entry) => entry.id === page);
-  return found === undefined ? null : <TypeLabScene page={found} />;
+  return found === undefined ? null : <TypeLabScene page={found} onBack={() => router.back()} />;
 }

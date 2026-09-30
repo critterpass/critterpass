@@ -71,7 +71,6 @@ const FACE_VARIANTS: readonly TextVariant[] = [
   'buttonLg',
   'buttonSm',
   'title',
-  'h3',
   'label',
   'eyebrow',
   'rowTitle',

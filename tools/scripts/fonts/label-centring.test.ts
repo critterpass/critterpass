@@ -41,7 +41,7 @@ describe('label centring', () => {
     const { scale, rows } = measureLabelOffsets(page(160));
     expect(scale).toBe(2);
     expect(rows).toEqual([
-      { index: 0, top: 100, bottom: 200, baseline: 160, capPx: 20, offsetPt: 0 },
+      { index: 0, top: 100, bottom: 200, baseline: 160, capPx: 20, inkTop: 140, offsetPt: 0 },
     ]);
   });
 

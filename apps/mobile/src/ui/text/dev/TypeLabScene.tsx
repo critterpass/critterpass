@@ -3,7 +3,7 @@ import { setupI18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { useMemo } from 'react';
 import type { ReactNode } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { resolveTypeVariant } from '@cp/design-tokens';
@@ -163,7 +163,14 @@ function LabRow({
  * One page of the type lab: every row of its group in its locale, each component flanked by key
  * bars for the capture analysis; with `guides`, a centre line and the ideal cap box drawn over it.
  */
-export function TypeLabScene({ page }: { readonly page: TypeLabPage }) {
+export function TypeLabScene({
+  page,
+  onBack,
+}: {
+  readonly page: TypeLabPage;
+  /** Tapping the page's title goes back to the list (captures tap it on both platforms). */
+  readonly onBack: () => void;
+}) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const i18n = useMemo(
@@ -180,7 +187,9 @@ export function TypeLabScene({ page }: { readonly page: TypeLabPage }) {
           { backgroundColor: theme.semantic.bg.base, paddingTop: insets.top + 8 },
         ]}
       >
-        <Text variant="caption">{page.id}</Text>
+        <Pressable testID="type-scene-back" accessibilityRole="button" onPress={onBack}>
+          <Text variant="caption">{`‹ ${page.id}`}</Text>
+        </Pressable>
         <View style={[styles.calibration, { backgroundColor: KEY.calibration }]} />
         {typeLabRows(page.group, page.locale).map((row) => (
           <LabRow key={row.name} capPt={capBoxPt(row.variant, page.locale)} guides={page.guides}>

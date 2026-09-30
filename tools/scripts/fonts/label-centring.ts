@@ -38,6 +38,8 @@ export interface RowOffset {
   readonly baseline: number;
   /** Ideal cap box height, in pixels. */
   readonly capPx: number;
+  /** Where most ink columns start: the capitals' top edge for an all-caps label, in pixels. */
+  readonly inkTop: number;
   /** Cap box centre minus component centre, in points (positive: below the centre). */
   readonly offsetPt: number;
 }
@@ -157,17 +159,34 @@ function measureRow(
   // The label sits mid-component: skip rounded ends, borders and selection rings.
   const x0 = left + Math.floor(width / 4);
   const x1 = right - Math.floor(width / 4);
+  const capPx = capRun[1] - capRun[0] + 1;
+  const componentCentre = (top + bottom + 1) / 2;
+  // Search a window around the centre, inside the visible shape: a control's touch target can be
+  // taller than its pill, whose edges and rings would read as ink.
   const inset = Math.max(Math.round(3 * scale), Math.round(height * 0.15));
-  const y0 = top + inset;
-  const y1 = bottom - inset;
+  const reach = Math.min(capPx * 1.2, height / 2 - inset);
+  const y0 = Math.round(componentCentre - reach);
+  const y1 = Math.round(componentCentre + reach) - 1;
   if (x1 <= x0 || y1 <= y0) return null;
 
   const fill = fillColour(image, x0, x1, y0, y1);
+  let contrast = 0;
   const bottoms: number[] = [];
+  const tops: number[] = [];
+  const columns: number[] = [];
   for (let x = x0; x <= x1; x += 1) {
+    for (let y = y0; y <= y1; y += 1)
+      contrast = Math.max(contrast, distance(pixel(image, x, y), fill));
     for (let y = y1; y >= y0; y -= 1) {
       if (distance(pixel(image, x, y), fill) > INK_THRESHOLD) {
         bottoms.push(y);
+        columns.push(x);
+        break;
+      }
+    }
+    for (let y = y0; y <= y1; y += 1) {
+      if (distance(pixel(image, x, y), fill) > INK_THRESHOLD) {
+        tops.push(y);
         break;
       }
     }
@@ -175,16 +194,26 @@ function measureRow(
   const lowest = mostCommon(bottoms);
   if (lowest === undefined || bottoms.length < 3) return null;
 
-  const baseline = lowest + 1;
-  const capPx = capRun[1] - capRun[0] + 1;
+  // Sub-pixel baseline: the glyphs' anti-aliased bottom edge covers part of its last rows.
+  const coverage = (y: number) => {
+    let sum = 0;
+    let count = 0;
+    columns.forEach((x, i) => {
+      if (bottoms[i] !== lowest) return;
+      sum += Math.min(1, distance(pixel(image, x, y), fill) / contrast);
+      count += 1;
+    });
+    return sum / count;
+  };
+  const baseline = lowest + coverage(lowest) + coverage(lowest + 1);
   const capCentre = baseline - capPx / 2;
-  const componentCentre = (top + bottom + 1) / 2;
   return {
     index,
     top,
     bottom: bottom + 1,
-    baseline,
+    baseline: Math.round(baseline * 100) / 100,
     capPx,
+    inkTop: mostCommon(tops) ?? lowest,
     offsetPt: Math.round(((capCentre - componentCentre) / scale) * 100) / 100,
   };
 }
@@ -216,7 +245,14 @@ if (isMainModule) {
     const { scale, rows } = measureLabelOffsets(decodePng(readFileSync(file)));
     for (const row of rows) {
       console.log(
-        [path.basename(file), row.index, row.offsetPt.toFixed(2), scale.toFixed(3)].join('\t'),
+        [
+          path.basename(file),
+          row.index,
+          row.offsetPt.toFixed(2),
+          scale.toFixed(3),
+          row.capPx,
+          (row.baseline - row.inkTop).toFixed(1),
+        ].join('\t'),
       );
     }
   }
