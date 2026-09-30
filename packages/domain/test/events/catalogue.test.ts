@@ -34,6 +34,7 @@ const VENDOR_MSG = {
 
 const SWIPE = { trip_id: crypto.randomUUID(), session_id: crypto.randomUUID() };
 const SWIPE_CARD = { ...SWIPE, poi_id: crypto.randomUUID(), user_id: crypto.randomUUID() };
+const PROPOSAL = { trip_id: crypto.randomUUID(), proposal_id: crypto.randomUUID() };
 
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
   'crew.member_joined': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
@@ -486,6 +487,23 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     user_id: crypto.randomUUID(),
     item_id: crypto.randomUUID(),
     action: 'nudge',
+  },
+  'proposal.created': { ...PROPOSAL, format: 'trailer', recipients: 5 },
+  'proposal.sent': { ...PROPOSAL, recipients: 5 },
+  'proposal.reacted': { ...PROPOSAL, user_id: crypto.randomUUID(), reaction: 'six_am' },
+  'proposal.engagement_counted': PROPOSAL,
+  'proposal.offer_published': { ...PROPOSAL, topic: 'cost' },
+  'proposal.reply_by_soon': { ...PROPOSAL, user_ids: [crypto.randomUUID()] },
+  'proposal.locked': { ...PROPOSAL, unanswered: 2 },
+  'followup.scheduled': PROPOSAL,
+  'followup.due': { ...PROPOSAL, followup_id: crypto.randomUUID() },
+  'suggestion.executed': { ...PROPOSAL, suggestion_id: crypto.randomUUID() },
+  'suggestion.dismissed': { ...PROPOSAL, suggestion_id: crypto.randomUUID() },
+  'participant.declined': { trip_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
+  'crew.member_updated': {
+    crew_id: crypto.randomUUID(),
+    user_id: crypto.randomUUID(),
+    keep_in_chat: true,
   },
   'member.running_late': {
     trip_id: crypto.randomUUID(),

@@ -242,6 +242,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'draft.skeleton_fast': fast('D', 8192, { ...PLANNING_CALL, cacheLayers: JOB_LAYERS }),
   'draft.summary': fast(null, 256),
   'draft.closures': fast(null, 2048, { output: 'structured' }),
+  'proposal.objection': fast(null, 768, { output: 'structured' }),
+  'proposal.suggestion': fast(null, 1024, { output: 'structured' }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
@@ -252,6 +254,7 @@ const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
   'compliance.check': twin(),
   'availability.reply_intent': twin(),
   'vendor.reply_intent': twin(),
+  'rsvp.reply_intent': twin(),
 };
 
 function toConfig(route: AiRoute, spec: RouteSpec): RouteConfig {
