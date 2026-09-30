@@ -1,6 +1,6 @@
 appId: app.critterpass.dev
 ---
-# The Kyoto fare estimate (3h-3) and its "why this estimate" sheet, prefixed `${PREFIX}`.
+# The Kyoto fare estimate (3h-3), its "why this estimate" sheet and the default 3h-3 scene, prefixed `${PREFIX}`.
 - runFlow:
     file: scene.yaml
     env:
@@ -17,3 +17,6 @@ appId: app.critterpass.dev
         READY: supplier-estimate-why,
         SHOT: '${PREFIX}-supplier-estimate-why',
       }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: around-links, READY: getting-around-ride-links, SHOT: '${PREFIX}-3h-3-links' }
