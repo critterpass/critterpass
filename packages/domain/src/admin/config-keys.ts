@@ -161,6 +161,14 @@ export const CONFIG_KEYS: Readonly<Record<string, ConfigKeyDefinition>> = {
     critical: false,
     description: 'Offer the iOS App Clip on invite pages (AASA appclips entry and banner card)',
   },
+  'explore.sponsored': {
+    group: 'suppliers',
+    schema: z.boolean(),
+    isPublic: true,
+    critical: true,
+    description:
+      'Show labelled sponsored picks to free users in Explore lists; off until the store ads declaration and privacy label are filed',
+  },
   ...Object.fromEntries(PARTNER_KEYS.flatMap((partner) => Object.entries(supplierKeys(partner)))),
   ...serviceKeys(),
 };

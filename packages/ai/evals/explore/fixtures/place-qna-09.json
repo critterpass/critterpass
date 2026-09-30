@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "ddb9121c-efcd-4eb5-9e94-0bc5ffb88931",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"summary\":\"The crew plans to visit Tegallalang early to avoid the heat, then head to Ubud market after.\",\"source_message_id\":\"m1\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 354,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 34,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

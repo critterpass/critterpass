@@ -43,6 +43,9 @@ export const AI_ROUTES = [
   'menu.parse',
   'email.parse_fallback',
   'guest.guide',
+  // Explore: the crew's Q&A line on a place page and the guide's notes on swipe cards.
+  'explore.place_qna',
+  'explore.swipe_notes',
   // The itinerary skeleton.
   'draft.skeleton',
   // Drafting on the fast tier: the skeleton when routed there, the summary line, closure extraction.

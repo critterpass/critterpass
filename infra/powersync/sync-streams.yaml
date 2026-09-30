@@ -41,6 +41,7 @@ streams:
         WHERE referee_id = auth.user_id()
       - SELECT *, user_id AS id FROM user_entitlements WHERE user_id = auth.user_id()
       - SELECT * FROM usage_counters WHERE subject_kind = 'user' AND subject_id = auth.user_id()
+      - SELECT * FROM saved_lists WHERE user_id = auth.user_id()
       - SELECT * FROM phrase_progress WHERE user_id = auth.user_id()
       - SELECT * FROM saved_items WHERE user_id = auth.user_id()
       - SELECT * FROM reminders WHERE user_id = auth.user_id()
@@ -186,6 +187,18 @@ streams:
         WHERE subject_kind = 'trip'
           AND subject_id = subscription.parameter('trip_id')
           AND subject_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM swipe_sessions
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM swipe_yes_votes
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM swipe_matches
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
       - |-
         SELECT * FROM guide_threads
         WHERE trip_id = subscription.parameter('trip_id')
@@ -494,6 +507,23 @@ streams:
       - |-
         SELECT * FROM fx_snapshots
         WHERE quote IN (SELECT local_currency FROM trips WHERE crew_id IN my_crews)
+  explore:
+    accept_potentially_dangerous_queries: true
+    queries:
+      - |-
+        SELECT id, poi_id, destination_id, text, lang, moderation_status, created_at, updated_at
+        FROM place_tips
+        WHERE destination_id = subscription.parameter('destination_id')
+          AND moderation_status = 'approved'
+      - |-
+        SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
+          hours_verified_at, price_level, editorial, tags, status, curation, visit_radius_m, timezone,
+          last_live_check_at, created_at, updated_at
+        FROM pois
+        WHERE destination_id = subscription.parameter('destination_id')
+          AND curation = 'editorial'
+          AND status != 'hidden'
+          AND merged_into_id IS NULL
   guide_chat:
     auto_subscribe: true
     queries:
@@ -505,17 +535,6 @@ streams:
         )
       - SELECT * FROM queued_guide_questions WHERE user_id = auth.user_id()
       - SELECT * FROM custom_phrase_cards WHERE user_id = auth.user_id()
-  explore:
-    accept_potentially_dangerous_queries: true
-    query: |-
-      SELECT id, destination_id, name, name_local, category, lat, lng, address, hours,
-        hours_verified_at, price_level, editorial, tags, status, curation, visit_radius_m, timezone,
-        last_live_check_at, created_at, updated_at
-      FROM pois
-      WHERE destination_id = subscription.parameter('destination_id')
-        AND curation = 'editorial'
-        AND status != 'hidden'
-        AND merged_into_id IS NULL
   trip_me:
     queries:
       - |-

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "3f50677b-8b78-40db-b2fb-2ce9f3c9e4d6",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"summary\":\"Linh suggests a Saturday evening walk at Hoan Kiem Lake, where there is a pedestrian street.\",\"source_message_id\":\"m1\"}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 363,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 32,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

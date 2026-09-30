@@ -210,6 +210,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'season.research': fast(null, 2048, { output: 'structured' }),
   'pitch.place': fast(null, 1024, { delivery: 'stream', cacheLayers: JOB_LAYERS }),
   'briefing.daily': fast('B', 2048, { output: 'structured', cacheLayers: JOB_LAYERS }),
+  'explore.place_qna': fast(null, 512, { output: 'structured' }),
+  'explore.swipe_notes': pro(null, 4096, 'low', { output: 'structured', cacheLayers: JOB_LAYERS }),
   'photo.picks': fast(null, 2048, { output: 'structured', vision: true }),
   'avatar.moderate': fast(null, 256, { output: 'structured', vision: true }),
   'receipt.parse': fast('M', 4096, { output: 'structured', vision: true }),

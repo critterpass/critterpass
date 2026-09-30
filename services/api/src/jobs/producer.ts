@@ -17,6 +17,7 @@ import {
   CHAT_VOICE_TRANSCODE_QUEUE,
   COUNTDOWN_RECOMPUTE_QUEUE,
   DRAFT_QUEUES,
+  EXPLORE_QUEUES,
   GUIDE_QUEUES,
   INBOX_FANOUT_QUEUE,
   notificationKeysForEvent,
@@ -100,6 +101,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(PLAN_QUEUES),
       ...Object.values(GUIDE_QUEUES),
       ...Object.values(TRIP_DAY_QUEUES),
+      ...Object.values(EXPLORE_QUEUES),
       'cost.recompute',
       SUPPLIER_QUEUES.replyParse,
     ]) {
