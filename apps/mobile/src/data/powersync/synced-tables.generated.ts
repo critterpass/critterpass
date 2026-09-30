@@ -41,7 +41,7 @@ export const SYNCED_TABLE_COLUMNS = {
   cmd_results: 'op_id uid cmd status code detail result_ref server_ts',
   code_redemptions: 'code_id user_id redeemed_at applied_as starts_at new_period_end created_at',
   collection_entries:
-    'user_id form_id critter_id found_at poi_id trip_id source encounter_id verification critter_name form_name created_at updated_at',
+    'user_id form_id critter_id found_at poi_id trip_id source encounter_id verification critter_name form_name announced_at created_at updated_at',
   comment_plus_ones: 'comment_id trip_id user_id created_at',
   comments:
     'trip_id anchor_kind anchor_id author_id body edited_at deleted_at created_at updated_at',

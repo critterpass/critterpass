@@ -59,9 +59,8 @@ export const encounters = pgTable('encounters', {
   /** The client's UUIDv7. */
   id: uuid('id').primaryKey(),
   userId: userId(),
-  tripId: uuid('trip_id')
-    .notNull()
-    .references(() => trips.id),
+  /** Null only for a home-set encounter (explore at home). */
+  tripId: uuid('trip_id').references(() => trips.id),
   spawnRuleId: uuid('spawn_rule_id')
     .notNull()
     .references(() => spawnRules.id),
@@ -124,6 +123,8 @@ export const collectionEntries = pgTable('collection_entries', {
   /** Copied from `critter_names` once verified; null for every form the owner has not found. */
   critterName: text('critter_name'),
   formName: text('form_name'),
+  /** Set once `reward.fanout` has announced the find. */
+  announcedAt: instant('announced_at'),
   ...stamps(),
 });
 

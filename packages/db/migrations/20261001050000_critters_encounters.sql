@@ -45,11 +45,12 @@ COMMENT ON COLUMN trip_participants.egg_id IS 'The traveller''s egg for this tri
 
 -- ---------------------------------------------------------------------------------------------
 -- encounters: RLS O, C1. The id is the client's (UUIDv7), so an offline start, its samples and
--- its befriend agree on one row. `verification` is set once befriended.
+-- its befriend agree on one row. `verification` is set once befriended. `trip_id` is null only for
+-- a home-set encounter (explore at home).
 CREATE TABLE encounters (
   id uuid PRIMARY KEY,
   user_id uuid NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-  trip_id uuid NOT NULL REFERENCES trips (id),
+  trip_id uuid REFERENCES trips (id),
   spawn_rule_id uuid NOT NULL REFERENCES spawn_rules (id),
   form_id uuid NOT NULL REFERENCES critter_forms (id),
   poi_id uuid REFERENCES pois (id),
@@ -145,6 +146,8 @@ CREATE TABLE collection_entries (
   verification text NOT NULL DEFAULT 'pending',
   critter_name text,
   form_name text,
+  -- Set by reward.fanout when the find is announced (crew hint, event, rewards), exactly once.
+  announced_at timestamptz,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now(),
   CONSTRAINT collection_entries_user_form_key UNIQUE (user_id, form_id)
@@ -258,6 +261,96 @@ CREATE TRIGGER user_settings_crew_counts AFTER UPDATE OF hide_collection ON user
   EXECUTE FUNCTION app.crew_collection_counts_trigger();
 CREATE TRIGGER crew_members_crew_counts AFTER INSERT OR UPDATE OF status ON crew_members
   FOR EACH ROW EXECUTE FUNCTION app.crew_collection_counts_trigger();
+
+-- ---------------------------------------------------------------------------------------------
+-- Eggs are granted and hatched through these two functions, from a command (after its own check,
+-- as app_system) or the worker, so every path grants the same form and hatches exactly once.
+--
+-- app.grant_egg: one egg per boarded traveller (RSVP in, or an organiser not out) per trip. The
+-- form is the destination set's starter: its lowest-numbered critter's common form in the live
+-- release, so a newly published destination set is picked up from the data. No set, no egg.
+CREATE FUNCTION app.grant_egg(p_user uuid, p_trip uuid)
+  RETURNS TABLE (egg_id uuid, created boolean)
+  LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+DECLARE
+  starter uuid;
+  inserted uuid;
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM trip_participants
+     WHERE trip_id = p_trip AND user_id = p_user
+       AND (rsvp = 'in' OR (role = 'organiser' AND rsvp <> 'out'))
+  ) THEN
+    RETURN;
+  END IF;
+  SELECT e.id INTO inserted FROM eggs e WHERE e.user_id = p_user AND e.trip_id = p_trip;
+  IF inserted IS NOT NULL THEN
+    RETURN QUERY SELECT inserted, false;
+    RETURN;
+  END IF;
+  SELECT f.id INTO starter
+    FROM trips t
+    JOIN destinations d ON d.id = t.destination_id
+    JOIN critter_sets s ON s.id = d.critter_set_id OR s.destination_id = d.id
+    JOIN critters c ON c.set_id = s.id
+    JOIN critter_forms f ON f.critter_id = c.id AND f.rarity = 'common'
+   WHERE t.id = p_trip AND app.is_live_release(f.release_id)
+   ORDER BY (s.id = d.critter_set_id) DESC, c.no, f.key
+   LIMIT 1;
+  IF starter IS NULL THEN
+    RETURN;
+  END IF;
+  INSERT INTO eggs (user_id, trip_id, form_id) VALUES (p_user, p_trip, starter)
+  ON CONFLICT (user_id, trip_id) DO NOTHING
+  RETURNING id INTO inserted;
+  IF inserted IS NULL THEN
+    SELECT e.id INTO inserted FROM eggs e WHERE e.user_id = p_user AND e.trip_id = p_trip;
+    RETURN QUERY SELECT inserted, false;
+    RETURN;
+  END IF;
+  UPDATE trip_participants SET egg_id = inserted WHERE trip_id = p_trip AND user_id = p_user;
+  RETURN QUERY SELECT inserted, true;
+END
+$$;
+REVOKE ALL ON FUNCTION app.grant_egg(uuid, uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.grant_egg(uuid, uuid) TO app_system;
+
+-- app.hatch_egg: grants the egg if the traveller boarded without one, hatches it once (whichever
+-- trigger comes first), and files the hatched form as a verified collection entry with its names.
+-- `hatched` is false when the egg had already hatched (another trigger or device got there first).
+CREATE FUNCTION app.hatch_egg(p_user uuid, p_trip uuid, p_trigger text)
+  RETURNS TABLE (egg_id uuid, form_id uuid, entry_id uuid, hatched boolean)
+  LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+DECLARE
+  egg uuid;
+  form uuid;
+  entry uuid;
+BEGIN
+  PERFORM app.grant_egg(p_user, p_trip);
+  UPDATE eggs e SET hatched_at = now(), trigger = p_trigger
+   WHERE e.user_id = p_user AND e.trip_id = p_trip AND e.hatched_at IS NULL
+  RETURNING e.id, e.form_id INTO egg, form;
+  IF egg IS NULL THEN
+    SELECT e.id, e.form_id INTO egg, form FROM eggs e WHERE e.user_id = p_user AND e.trip_id = p_trip;
+    IF egg IS NOT NULL THEN
+      RETURN QUERY SELECT egg, form, NULL::uuid, false;
+    END IF;
+    RETURN;
+  END IF;
+  INSERT INTO collection_entries (user_id, form_id, critter_id, found_at, trip_id, source,
+    verification, critter_name, form_name)
+  SELECT p_user, f.id, f.critter_id, now(), p_trip, 'hatch', 'verified',
+         (SELECT cn.name FROM critter_names cn
+           WHERE cn.critter_id = f.critter_id AND cn.form_id IS NULL AND cn.locale = 'en' LIMIT 1),
+         (SELECT cn.name FROM critter_names cn WHERE cn.form_id = f.id AND cn.locale = 'en' LIMIT 1)
+    FROM critter_forms f WHERE f.id = form
+  ON CONFLICT (user_id, form_id) DO NOTHING
+  RETURNING id INTO entry;
+  RETURN QUERY SELECT egg, form, entry, true;
+END
+$$;
+REVOKE ALL ON FUNCTION app.hatch_egg(uuid, uuid, text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.hatch_egg(uuid, uuid, text) TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- user_settings.explore_at_home: collecting in the home set needs this foreground opt-in.

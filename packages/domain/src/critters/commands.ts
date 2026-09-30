@@ -28,7 +28,8 @@ export type HatchEggPayload = z.infer<typeof hatchEggPayloadSchema>;
 export const startEncounterPayloadSchema = z.object({
   /** Client UUIDv7, so an offline start and its later samples and befriend agree on the row. */
   encounter_id: uuidV7Schema,
-  trip_id: z.uuid(),
+  /** Null only in the home set, with Explore at home on. */
+  trip_id: z.uuid().nullable(),
   spawn_rule_id: z.uuid(),
   /** The spot: one of the rule's POIs, or null for a geofence-only spawn. */
   poi_id: z.uuid().nullable(),

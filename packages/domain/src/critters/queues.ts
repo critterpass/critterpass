@@ -12,6 +12,7 @@ export const CRITTER_QUEUES = {
   grantEggs: 'critter.grant_eggs',
   hatch: 'critter.hatch',
   crewCounts: 'critter.crew_counts',
+  retention: 'critter.retention',
   copresence: 'copresence.evaluate',
   rewardFanout: 'reward.fanout',
   remindersConditional: 'reminders.conditional',
@@ -23,8 +24,13 @@ export const CRITTER_QUEUE_SPECS = {
   'critter.grant_eggs': { policy: 'exclusive', retryLimit: 5, notify: true },
   'critter.hatch': { policy: 'exclusive', retryLimit: 5, notify: true },
   'critter.crew_counts': { policy: 'exclusive', retryLimit: 5 },
+  'critter.retention': {
+    policy: 'singleton',
+    retryLimit: 2,
+    cron: { expr: '17 * * * *', tz: 'UTC' },
+  },
   'copresence.evaluate': { policy: 'exclusive', retryLimit: 5, notify: true },
-  'reward.fanout': { policy: 'standard', retryLimit: 5, deadLetter: true },
+  'reward.fanout': { policy: 'exclusive', retryLimit: 5, deadLetter: true },
   'reminders.conditional': { policy: 'exclusive', retryLimit: 3 },
   'reminders.reschedule': { policy: 'singleton', retryLimit: 3, expireInSeconds: 10 * 60 },
 } as const satisfies Record<string, Partial<QueueSpec>>;
@@ -47,6 +53,7 @@ export const CRITTER_QUEUE_DESCRIPTIONS: Readonly<
   'critter.grant_eggs': "Grants an egg to each boarded traveller on a trip that doesn't have one",
   'critter.hatch': "Hatches a traveller's egg when their final leg lands",
   'critter.crew_counts': "Rewrites one user's crew collection counts (removed when hidden)",
+  'critter.retention': 'Deletes encounter samples after 7 days and evidence after 30',
   'copresence.evaluate': 'Grants a co-presence legendary once every needed member overlapped',
   'reward.fanout': 'Runs every registered reward handler for one grant, at one server time',
   'reminders.conditional': 'Fires a reminder only while its condition still holds',
@@ -63,11 +70,8 @@ export const grantEggsJobSchema = z.object({
 });
 export type GrantEggsJob = z.infer<typeof grantEggsJobSchema>;
 
-export const hatchJobSchema = z.object({
-  trip_id: z.uuid(),
-  user_id: z.uuid(),
-  trigger: z.literal('landed'),
-});
+/** A `flight.landed` event: every traveller on the leg whose final leg it was hatches. */
+export const hatchJobSchema = z.object({ event_id: z.uuid() });
 export type HatchJob = z.infer<typeof hatchJobSchema>;
 
 export const crewCountsJobSchema = z.object({ user_id: z.uuid() });
@@ -87,3 +91,41 @@ export type RewardFanoutJob = z.infer<typeof rewardFanoutJobSchema>;
 
 /** Timer kinds armed in `scheduled_events` (the queue each fires into). */
 export const REMINDER_TIMER_KIND = CRITTER_QUEUES.remindersConditional;
+
+/**
+ * Events after which a critter job runs (the api and the worker each hook the events they append):
+ * boarding (an RSVP of in; `participant.boarded` when the boarding slide emits its own) and a trip
+ * moving grant eggs across the trip, and a landed leg hatches.
+ */
+export const EGG_GRANT_EVENTS: ReadonlySet<string> = new Set([
+  'rsvp.changed',
+  'participant.boarded',
+  'participant.declined',
+  'trip.status_changed',
+]);
+
+export interface CritterJobRequest {
+  readonly queue: string;
+  readonly data: Record<string, unknown>;
+  readonly singletonKey: string;
+}
+
+export function critterJobsForEvent(event: {
+  readonly id: string;
+  readonly type: string;
+  readonly tripId: string | null;
+}): CritterJobRequest[] {
+  if (event.type === 'flight.landed') {
+    return [{ queue: CRITTER_QUEUES.hatch, data: { event_id: event.id }, singletonKey: event.id }];
+  }
+  if (event.tripId !== null && EGG_GRANT_EVENTS.has(event.type)) {
+    return [
+      {
+        queue: CRITTER_QUEUES.grantEggs,
+        data: { trip_id: event.tripId },
+        singletonKey: event.tripId,
+      },
+    ];
+  }
+  return [];
+}
