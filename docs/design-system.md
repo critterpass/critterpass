@@ -46,6 +46,7 @@ One DTCG source in `packages/design-tokens/src/*.tokens.json` → generated TS (
 | `yellow` | `#ffd84a` | Accent |
 | `orange` | `#ff9a4d` | Accent |
 | `pink` | `#ff5fa8` | Accent |
+| `red` | `#ff6b5b` | Accent (Chà Vá, Đà Nẵng) |
 | `blue` | `#4f86ff` | Accent |
 | `green` | `#54d6a4` | Accent |
 | `green.deep` | `#2e9a74` | PAID stamp, spots |
@@ -77,7 +78,7 @@ Increase-contrast variants (auto when OS Increase Contrast is on): `border.contr
 | `brand.passplus` | yellow | Pass+ visa, badges |
 | `brand.boost` | pink | Boost stamp, badges |
 
-**Guide / place colours (canonical, C5):** `guide.tokek` yellow (Bali), `guide.pon` orange (Kyoto), `guide.lundi` blue (Iceland), `guide.ajo` pink (Mexico City), `guide.sardi` green (Lisbon), `guide.paco` cream (Cusco). `place.color = guide.color`. Non-guide places get a colour from `critters-data` set order cycling the 6 accents; stamp ink = destination colour, home stamp = orange (C7). Guide voice lines (Borel) use the guide colour; on paper use darkened variants (`*.onPaper`, ≥ 4.5:1).
+**Guide / place colours (canonical, C5):** `guide.tokek` yellow (Bali), `guide.pon` orange (Kyoto), `guide.lundi` blue (Iceland), `guide.ajo` pink (Mexico City), `guide.sardi` green (Lisbon), `guide.paco` cream (Cusco), `guide.chava` red (Đà Nẵng; added after the design, outside the 3×2 guide-grid order). `place.color = guide.color`. Non-guide places get a colour from `critters-data` set order cycling the 6 accents; stamp ink = destination colour, home stamp = orange (C7). Guide voice lines (Borel) use the guide colour; on paper use darkened variants (`*.onPaper`, ≥ 4.5:1).
 
 **Tier colours:** `tier.common #a9a3c0`, `tier.rare #4f86ff`, `tier.epic #ff5fa8`, `tier.legendary #ffd84a`. Rare = recolour + blue ring; epic = recolour + pose + 2 pt pink die-cut edge; legendary = gold recolour + 3 pt yellow edge + sparkles. Locked = `ink.600` silhouette (legendary: `gold.silhouette` on `gold.dark`) + "?" in tier colour. Tier is never colour-only: always paired with the tier word or a shape glyph (● common, ◆ rare, ★ epic, ✦ legendary) in dots and rings.
 

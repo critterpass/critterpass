@@ -144,6 +144,7 @@ describe('the real token source', () => {
     expect(tokens.guide.lundi).toBe(tokens.color.blue);
     expect(tokens.guide.ajo).toBe(tokens.color.pink);
     expect(tokens.guide.sardi).toBe(tokens.color.green.base);
+    expect(tokens.guide.chava).toBe(tokens.color.red);
     expect(tokens.guide.order).toEqual(['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco']);
   });
 

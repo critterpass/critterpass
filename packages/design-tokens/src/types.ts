@@ -38,6 +38,7 @@ export interface ColorTokens {
   readonly yellow: string;
   readonly orange: string;
   readonly pink: string;
+  readonly red: string;
   readonly blue: string;
   readonly green: { readonly base: string; readonly deep: string };
   readonly gold: { readonly base: string; readonly dark: string; readonly silhouette: string };
@@ -77,7 +78,7 @@ export interface SemanticTokens {
   readonly increaseContrast: { readonly borderControl: string; readonly textTertiary: string };
 }
 
-export type GuideId = 'tokek' | 'pon' | 'lundi' | 'ajo' | 'sardi' | 'paco';
+export type GuideId = 'tokek' | 'pon' | 'lundi' | 'ajo' | 'sardi' | 'paco' | 'chava';
 
 export interface GuideTokens {
   readonly order: readonly GuideId[];
@@ -87,6 +88,7 @@ export interface GuideTokens {
   readonly ajo: string;
   readonly sardi: string;
   readonly paco: string;
+  readonly chava: string;
   readonly onPaper: {
     readonly tokek: string;
     readonly pon: string;
@@ -94,6 +96,7 @@ export interface GuideTokens {
     readonly ajo: string;
     readonly sardi: string;
     readonly paco: string;
+    readonly chava: string;
   };
 }
 

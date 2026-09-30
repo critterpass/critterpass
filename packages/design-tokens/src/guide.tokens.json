@@ -3,13 +3,14 @@
     "order": {
       "$type": "cpList",
       "$value": ["tokek", "pon", "lundi", "ajo", "sardi", "paco"],
-      "$description": "Canonical guide order and colours; place.color = guide.color; non-guide places cycle this list"
+      "$description": "Canonical order of the six designed guides (3x2 guide grids) and their colours; place.color = guide.color; non-guide places cycle this list. Guides added after the design (chava) have a colour but sit outside this order."
     },
     "tokek": { "$type": "color", "$value": "{color.yellow}", "$description": "Bali" },
     "pon": { "$type": "color", "$value": "{color.orange}", "$description": "Kyoto" },
     "lundi": { "$type": "color", "$value": "{color.blue}", "$description": "Iceland" },
     "ajo": { "$type": "color", "$value": "{color.pink}", "$description": "Mexico City" },
     "sardi": { "$type": "color", "$value": "{color.green.base}", "$description": "Lisbon" },
+    "chava": { "$type": "color", "$value": "{color.red}", "$description": "Đà Nẵng" },
     "paco": {
       "$type": "color",
       "$value": "{color.paper.warm}",

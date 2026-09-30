@@ -18,10 +18,10 @@ import { seedTripKyotoSolo } from './trip-kyoto-solo';
 interface SeedGuide {
   readonly slug: string;
   readonly name: string;
-  readonly colour: 'yellow' | 'orange' | 'blue' | 'pink' | 'green' | 'cream';
+  readonly colour: 'yellow' | 'orange' | 'blue' | 'pink' | 'green' | 'cream' | 'red';
 }
 
-/** The six live guides (docs/product-decisions.md §6); colours per the canonical palette. */
+/** The live guides (docs/product-decisions.md §6, plus Chà Vá of Đà Nẵng); colours per the canonical palette. */
 const GUIDES: readonly SeedGuide[] = [
   { slug: 'tokek', name: 'Tokek', colour: 'yellow' },
   { slug: 'pon', name: 'Pon', colour: 'orange' },
@@ -29,6 +29,7 @@ const GUIDES: readonly SeedGuide[] = [
   { slug: 'ajo', name: 'Ajo', colour: 'pink' },
   { slug: 'sardi', name: 'Sardi', colour: 'green' },
   { slug: 'paco', name: 'Paco', colour: 'cream' },
+  { slug: 'chava', name: 'Chà Vá', colour: 'red' },
 ];
 
 async function seedCatalogue(tx: pg.PoolClient): Promise<void> {
