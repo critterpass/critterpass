@@ -112,18 +112,21 @@ All free (Q-78, entitlement matrix); guide work unmetered (system guide work).
 - Steps: 1. Tables/columns above, FORCE RLS, grants, `llm` view entries. 2. Matrix tests (participant, crew non-participant, outsider, guide_reader, powersync_repl).
 - Tests: `pnpm --filter @cp/db test -- permissions/disruptions permissions/watch-items permissions/journey-checks`
 - Done when: outsiders read nothing; guide_reader sees disruptions without C3 fields.
+- Status: done — 5c90bc02
 
 ### T2 — Flight impact analysis and autonomy classification
 - Files: `packages/planner/src/disruption/{flight-impact,classify-actions,compensation,index}.ts` + tests, `packages/domain/src/disruptions/{types,action-kinds,status}.ts`.
 - Steps: 1. Impact over plan version, bookings, flight travellers, leave-bys. 2. Candidate actions with `{kind, reversible, needs_approval, cost_delta, affected, compensation}` using phase-13 policy. 3. Re-trigger diff vs previous version.
 - Tests: `pnpm --filter @cp/planner test -- disruption`
 - Done when: 12 fixtures (delay, cancellation, diversion, missed connection, split crew) classify as expected; no vendor action is ever autonomous.
+- Status: done — 6ac953e3
 
 ### T3 — Disruption agent job, executor wiring, commands
 - Files: `services/worker/src/jobs/disruptions/{flight-disruption,apply-vendor-reply,retrigger}.ts`, `packages/ai/src/routes/disruption/{prompt,schema,validate}.ts`, `packages/ai/evals/disruption/**`, `services/api/src/commands/disruptions/{decide-disruption-action,undo-disruption-action,announce-disruption}.ts`, `services/api/test/disruptions/flight.test.ts`.
 - Steps: 1. `ai.disruption`: build impact → AI-28 words summary/rows (ids only from T2) → persist → execute autonomous via phase-13 executor, publish steps. 2. Vendor drafts via `propose_vendor_message` → phase-35 desk. 3. Decisions with C41 policy; undo with compensation drafts. 4. announce → chat card. 5. N-14/N-28, briefing insert.
 - Tests: `pnpm --filter @cp/worker test -- disruptions/flight`; `pnpm --filter @cp/api test -- disruptions`; `pnpm --filter @cp/ai eval -- disruption`
 - Done when: webhook fixture → disruption with done + needs-yes rows; approval by non-affected member rejected; undo restores plan version.
+- Status: done — bb6f3322 (server; the AI copy route is `disruption.plan_b`; realtime steps ride `trip_watch:{trip}` as `disruption.step` because the `disruption:` namespace has no ACL resolver)
 
 ### T4 — Flight delayed screen (3k-5)
 - Files: `apps/mobile/src/app/(trip)/disruption/[id].tsx`, `apps/mobile/src/features/trip/disruptions/flight/{screen,hero,done-list,needs-yes-card,tell-crew,undo-link,states/*}.tsx`, `packages/i18n/locales/en/trip/disruptions.po`.
@@ -136,6 +139,7 @@ All free (Q-78, entitlement matrix); guide work unmetered (system guide work).
 - Steps: 1. Cadence scheduling per trip. 2. Source fetch via phase-15 services; closures via curated + `web_search` with citations. 3. Rules → status; diff vs last snapshot; escalation → N-26 / roundup line, `storm.escalated` event. 4. Haiku copy with fallback templates.
 - Tests: `pnpm --filter @cp/planner test -- watch-rules`; `pnpm --filter @cp/worker test -- disruptions/weather-watch`; `pnpm --filter @cp/ai eval -- watch`
 - Done when: rough-seas fixture escalates to PLAN B exactly once; unchanged forecast sends nothing.
+- Status: done — 8e631999 (weather, sea, volcano and crowds scored; curated/web-cited closures and airport traffic are not wired)
 
 ### T6 — Forecast screen (3k-7)
 - Files: `apps/mobile/src/app/(trip)/forecast/[tripId].tsx`, `apps/mobile/src/features/trip/disruptions/forecast/{screen,day-strip,precip-bar,watch-list,watch-row,hourly-sheet,states/*}.tsx`.
@@ -148,6 +152,7 @@ All free (Q-78, entitlement matrix); guide work unmetered (system guide work).
 - Steps: 1. Options with feasibility (availability, fees via Viator cancel-quote), deltas from cost engine, recommendation rule. 2. Create Poll(kind=decision) with C41 policy + closes_at. 3. On result: apply ChangeSet; Viator new hold → `awaiting_booker_payment` + booker prompt (phase-35 payment form) → on confirmation cancel old via phase-35 executor; hold expiry/payment failure → revert to old booking (ChangeSet day swap stays only if the crew chose it without the boat; else offer keep/skip); affiliate link items; ledger only on confirmation. 4. Auto-withdraw on improvement.
 - Tests: `pnpm --filter @cp/planner test -- storm`; `pnpm --filter @cp/worker test -- disruptions/storm`
 - Done when: Viator sandbox swap with booker payment yields new booking + cancelled old (cancel issued strictly after confirmation); payment failure and hold expiry fixtures leave the old booking active and uncancelled; poll expiry keeps current plan.
+- Status: done — 4d045373 (server; the live Viator sandbox check is blocked until Viator Full + Booking access is approved; tested with the published-contract fixtures. The booker holds the new date from the card with `hold_storm_seats`, so seats are held when the booker confirms, not at the vote)
 
 ### T8 — Storm screen (3k-8)
 - Files: `apps/mobile/src/app/(trip)/storm/[pollId].tsx`, `apps/mobile/src/features/trip/disruptions/storm/{screen,metric-chips,option-card,consensus-row,booker-pay-card,states/*}.tsx`, `e2e/trip/disruptions/storm-swap.yaml`.
@@ -160,6 +165,7 @@ All free (Q-78, entitlement matrix); guide work unmetered (system guide work).
 - Steps: 1. `ai.replan` job (solver + AI-14 copy, ChangeSet trigger=weather). 2. 3e-2 overlay components exported for the phase-29 grid slot. 3. Accept → 3e-3 navigation; dismiss command.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/weather-suggestion`; `pnpm --filter @cp/worker test -- disruptions/replan`; `pnpm --filter @cp/ai eval -- replan`
 - Done when: RNTL + evals pass; stale suggestion withdrawn on plan change; this task creates `weather-ghost.yaml` and it is green.
+- Status: in progress — 1a9bf3d2 (server done: `ai.replan` job, `dismiss_weather_suggestion`, `replan.weather` route and evals; the 3e-2 overlay and `weather-ghost.yaml` belong to the app lane)
 
 ### T10 — Journey check, running-late detection and options
 - Files: `services/api/src/routes/journey.ts`, `services/worker/src/jobs/disruptions/{running-late,late-options,journey-stale}.ts`, `packages/planner/src/disruption/late-options.ts` + tests, `packages/ai/src/routes/late/**`, `packages/ai/evals/late/**`, `services/api/src/commands/disruptions/choose-late-option.ts`, `services/api/test/disruptions/late.test.ts`.
