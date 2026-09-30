@@ -58,6 +58,7 @@ export function DraftLoading({ trip, onBack }: DraftLoadingProps) {
                   <GuideLine
                     guide={trip.guide}
                     name={guideName}
+                    testID="draft-loading-slow"
                     line={t({
                       id: 'planDraft.loading.slow',
                       message: `${guideName} is laying out your days…`,
