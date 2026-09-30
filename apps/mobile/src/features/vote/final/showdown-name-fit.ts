@@ -1,125 +1,166 @@
 /**
- * How a showdown half's city name gives up height before anything scrolls (3c-1): the name keeps
- * its designed size while its half fits, and otherwise is set in a fixed, narrower box that
- * auto-fit shrinks it to.
+ * How the showdown's two city names give up height before anything scrolls (3c-1). Both start at
+ * their designed size; when the two halves' content fits the screen there, nothing changes. When
+ * it doesn't, both names are set at one shared size (the same line height, so neither finalist
+ * gets smaller billing): the largest at which both halves fit, found by a binary search over the
+ * measured layout, never below the 44 pt floor, and never so narrow that the longest word breaks.
  */
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import type { LayoutChangeEvent, TextLayoutEvent } from 'react-native';
 
-/** Smallest the city name shrinks to when its half runs out of height (Vietnamese chips wrap taller). */
+/** Smallest a city name is set at when its half runs out of height (Vietnamese chips wrap taller). */
 export const NAME_FLOOR = 44;
-/** The name never shrinks below this share of its designed size. */
-const MIN_NAME_SCALE = 0.45;
+/** The display token's line height as a share of its font size. */
+const NAME_LINE_EM = 0.8;
 /** Width of one condensed display capital per point of font size, with room to spare (M and H set about 0.45). */
 const CAPITAL_EM = 0.55;
+const SEARCH_STEPS = 24;
 
-export interface NameFit {
-  readonly key: string;
-  /** The box width this half alone needs to fit its share, or null when it fits as designed. */
-  readonly need: number | null;
-  /** The name's designed height, widest line and line height. */
+/** One half's name as designed (measured while it is set at its designed size) and now. */
+export interface NameMeasure {
+  readonly designHeight: number;
+  readonly designWidth: number;
+  /** Line height at the designed size. */
+  readonly designLine: number;
+  /** The name's height as it is set right now. */
   readonly height: number;
-  readonly width: number;
-  readonly line: number;
+  /** Characters in the name's longest word. */
+  readonly longestWord: number;
 }
 
-function wordFloor(longestWord: number): number {
-  return longestWord * NAME_FLOOR * CAPITAL_EM;
+export interface HalfMeasure {
+  readonly name: NameMeasure;
+  /** The height the half's content needs, as it is set right now. */
+  readonly natural: number;
 }
 
-/**
- * The box width that sheds `excess` more points of height from a name now `current` tall: the
- * height it must lose in all, as a share of its designed height, scales its designed line width.
- * Null when there is nothing to shed.
- */
-export function nameCap(
-  fit: Pick<NameFit, 'height' | 'width'>,
-  current: number,
-  excess: number,
-  longestWord: number,
-): number | null {
-  if (fit.height <= 0 || fit.width <= 0) return null;
-  const shed = excess + Math.max(0, fit.height - current);
-  if (shed <= 1) return null;
-  const cap = fit.width * Math.max(MIN_NAME_SCALE, 1 - shed / fit.height);
-  // Never narrower than the longest word needs at the floor, or it would break mid-word
-  // ("CHEFCHA / OUEN"); what the floor cannot shed scrolls.
-  return Math.max(cap, wordFloor(longestWord));
+function measured(half: HalfMeasure): boolean {
+  const { name } = half;
+  return name.designHeight > 0 && name.designWidth > 0 && name.designLine > 0 && half.natural > 0;
 }
 
-/** The line height this half's name would set at on its own (its designed one when it fits). */
-export function nameTarget(fit: NameFit): number | null {
-  if (fit.line <= 0 || fit.width <= 0) return null;
-  return fit.need === null ? fit.line : (fit.line * fit.need) / fit.width;
+/** The smallest share of its designed size a name may take: the 44 pt floor, and its longest word whole. */
+function floorScale(name: NameMeasure): number {
+  const font = NAME_FLOOR / (name.designLine / NAME_LINE_EM);
+  const word = (name.longestWord * NAME_FLOOR * CAPITAL_EM) / name.designWidth;
+  return Math.min(1, Math.max(font, word));
 }
 
-/** Both finalists get equal billing: the smaller of the two halves' own sizes, for both. */
-export function sharedNameSize(targets: readonly (number | null)[]): number | null {
-  const known = targets.filter((target): target is number => target !== null && target > 0);
-  return known.length === targets.length && known.length > 0 ? Math.min(...known) : null;
+function scaleAt(name: NameMeasure, line: number): number {
+  return Math.min(1, Math.max(line / name.designLine, floorScale(name)));
 }
 
 /**
- * The box the name is set in at the shared size: its designed width scaled to the shared line
- * height, never narrower than the longest word needs at the floor. Null at the designed size.
+ * Each half's name scale (1 = designed size): both at their designed size when the halves fit the
+ * viewport there; otherwise both at the largest shared line height that fits, or at their floors.
  */
-export function sharedNameCap(
-  fit: NameFit,
-  shared: number | null,
-  longestWord: number,
-): number | null {
-  if (shared === null || fit.line <= 0 || fit.width <= 0) return fit.need;
-  const cap = Math.max((fit.width * shared) / fit.line, wordFloor(longestWord));
-  return cap >= fit.width - 1 ? null : cap;
+export function sharedNameScales(
+  halves: readonly [HalfMeasure, HalfMeasure],
+  viewport: number,
+): readonly [number, number] {
+  if (viewport <= 0 || !halves.every(measured)) return [1, 1];
+  // What each half needs besides its name does not change with the name's size.
+  const rest = halves.reduce((sum, half) => sum + half.natural - half.name.height, 0);
+  const total = (line: number) =>
+    halves.reduce((sum, half) => sum + half.name.designHeight * scaleAt(half.name, line), rest);
+  const top = Math.max(...halves.map((half) => half.name.designLine));
+  const scales = (line: number) =>
+    [scaleAt(halves[0].name, line), scaleAt(halves[1].name, line)] as const;
+  if (total(top) <= viewport) return [1, 1];
+  let low = 0;
+  let high = top;
+  for (let step = 0; step < SEARCH_STEPS; step += 1) {
+    const mid = (low + high) / 2;
+    if (total(mid) <= viewport) low = mid;
+    else high = mid;
+  }
+  return scales(low);
 }
 
-export function useNameFit(name: string, locale: string, excess: number, shared: number | null) {
-  const fitKey = `${name}|${locale}`;
+/** The box a name is set in at `scale` of its designed size, or null at the designed size. */
+export function nameBox(name: NameMeasure, scale: number): number | null {
+  return scale >= 0.995 ? null : name.designWidth * scale;
+}
+
+/**
+ * Measures one half's name: its designed size while it is set uncapped (`cap` null) and its
+ * height as set. No line count is forced: Android reports an ellipsised line as the whole text,
+ * so auto-fit would never see the cut.
+ */
+export function useNameMeasure(name: string, locale: string, cap: number | null) {
+  const key = `${name}|${locale}`;
   const longestWord = Math.max(0, ...name.split(/\s+/u).map((word) => [...word].length));
-  // The name gives up height before anything scrolls. Its designed size is measured once (height,
-  // widest line, line height); a half that runs past its share needs a box narrower by the height it
-  // must shed, and the screen sets both names at the smaller of the two halves' sizes. The box is
-  // always scaled from the designed measure, never from the last capped one, so the names settle.
-  // No line count is forced: Android reports an ellipsised line as the whole text, so auto-fit
-  // would never see the cut.
-  const [measure, setMeasure] = useState({ height: 0, lineWidth: 0, line: 0 });
-  const [fit, setFit] = useState<NameFit>({
-    key: fitKey,
-    need: null,
-    height: 0,
-    width: 0,
-    line: 0,
-  });
-  const cap = sharedNameCap(fit, shared, longestWord);
-  // Adjusted while rendering (not in an effect) so the smaller name lands in the same pass.
-  if (fit.key !== fitKey) {
-    setFit({ key: fitKey, need: null, height: 0, width: 0, line: 0 });
+  const [now, setNow] = useState({ height: 0, width: 0, line: 0 });
+  const [design, setDesign] = useState({ key, height: 0, width: 0, line: 0 });
+  // Adjusted while rendering (not in an effect) so a new name starts from its own design size.
+  if (design.key !== key) {
+    setDesign({ key, height: 0, width: 0, line: 0 });
   } else if (
     cap === null &&
-    measure.height > 0 &&
-    measure.lineWidth > 0 &&
-    (fit.height !== measure.height || fit.width !== measure.lineWidth || fit.line !== measure.line)
+    now.height > 0 &&
+    now.width > 0 &&
+    now.line > 0 &&
+    (design.height !== now.height || design.width !== now.width || design.line !== now.line)
   ) {
-    setFit({ ...fit, height: measure.height, width: measure.lineWidth, line: measure.line });
-  } else if (fit.height > 0) {
-    const need = nameCap(fit, measure.height, excess, longestWord);
-    if (need !== null && (fit.need === null || Math.abs(need - fit.need) > 2))
-      setFit({ ...fit, need });
+    setDesign({ key, ...now });
   }
+  const measure: NameMeasure = {
+    designHeight: design.height,
+    designWidth: design.width,
+    designLine: design.line,
+    height: now.height,
+    longestWord,
+  };
   return {
-    cap,
-    target: nameTarget(fit),
+    measure,
     onLayout: (event: LayoutChangeEvent) => {
       const { height } = event.nativeEvent.layout;
-      setMeasure((m) => (m.height === height ? m : { ...m, height }));
+      setNow((m) => (m.height === height ? m : { ...m, height }));
     },
     onTextLayout: (event: TextLayoutEvent) => {
       const { lines } = event.nativeEvent;
-      const lineWidth = Math.max(0, ...lines.map((line) => line.width));
+      const width = Math.max(0, ...lines.map((line) => line.width));
       const line = lines[0]?.height ?? 0;
-      setMeasure((m) =>
-        m.lineWidth === lineWidth && m.line === line ? m : { ...m, lineWidth, line },
-      );
+      setNow((m) => (m.width === width && m.line === line ? m : { ...m, width, line }));
+    },
+  };
+}
+
+const NO_NAME: NameMeasure = {
+  designHeight: 0,
+  designWidth: 0,
+  designLine: 0,
+  height: 0,
+  longestWord: 0,
+};
+const NO_HALF: HalfMeasure = { name: NO_NAME, natural: 0 };
+
+/** Collects both halves' measures and the viewport, and gives each half its name box. */
+export function useShowdownNames() {
+  const [viewport, setViewport] = useState(0);
+  const [halves, setHalves] = useState<readonly [HalfMeasure, HalfMeasure]>([NO_HALF, NO_HALF]);
+  const update = useCallback((index: 0 | 1, change: Partial<HalfMeasure>) => {
+    setHalves((current) => {
+      const next = { ...current[index], ...change };
+      return index === 0 ? [next, current[1]] : [current[0], next];
+    });
+  }, []);
+  const onFirstNatural = useCallback((natural: number) => update(0, { natural }), [update]);
+  const onSecondNatural = useCallback((natural: number) => update(1, { natural }), [update]);
+  const onFirstName = useCallback((name: NameMeasure) => update(0, { name }), [update]);
+  const onSecondName = useCallback((name: NameMeasure) => update(1, { name }), [update]);
+  const [first, second] = sharedNameScales(halves, viewport);
+  return {
+    onViewport: setViewport,
+    first: {
+      nameCap: nameBox(halves[0].name, first),
+      onNaturalHeight: onFirstNatural,
+      onNameMeasure: onFirstName,
+    },
+    second: {
+      nameCap: nameBox(halves[1].name, second),
+      onNaturalHeight: onSecondNatural,
+      onNameMeasure: onSecondName,
     },
   };
 }

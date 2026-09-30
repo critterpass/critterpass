@@ -36,7 +36,7 @@ import type { PollOptionView, PollView } from '../data/poll-view';
 import { deadlineParts, guideOr, upper } from '../format';
 import { voteRoutes } from '../routes';
 import { ShowdownHalf } from './showdown-half';
-import { sharedNameSize } from './showdown-name-fit';
+import { useShowdownNames } from './showdown-name-fit';
 import { useFinalLines } from './tie-line';
 
 /** How far the VS disc punches toward the chosen half. */
@@ -69,15 +69,6 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
-/**
- * How far one half's content runs past the height it can have without the screen scrolling: half
- * the viewport, or whatever the other half leaves when that one needs less.
- */
-export function halfExcess(own: number, other: number, viewport: number): number {
-  if (viewport <= 0 || own <= 0 || other <= 0) return 0;
-  return Math.max(0, own - Math.max(viewport / 2, viewport - other));
-}
-
 export function ShowdownView({ poll }: { readonly poll: PollView }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -99,14 +90,9 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
   const footerBottom = insets.bottom + theme.space['8'];
   const topInset = headerTop + headerHeight + theme.space['12'];
   const bottomInset = footerBottom + footerHeight + theme.space['16'];
-  // Each half reports the height its content needs; one that runs past its share shrinks its name.
-  const [viewport, setViewport] = useState(0);
-  const [firstHeight, setFirstHeight] = useState(0);
-  const [secondHeight, setSecondHeight] = useState(0);
-  // Both names set at one size: the smaller of what each half needs.
-  const [firstName, setFirstName] = useState<number | null>(null);
-  const [secondName, setSecondName] = useState<number | null>(null);
-  const nameSize = sharedNameSize([firstName, secondName]);
+  // Each half reports its content's height and its name's size; when the two don't fit the screen,
+  // both names are set smaller at one shared size.
+  const names = useShowdownNames();
   useEffect(() => {
     if (poll.status === 'closed') router.replace(voteRoutes.reveal(poll.id));
   }, [poll.status, poll.id]);
@@ -173,7 +159,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
         contentContainerStyle={styles.bodyContent}
         bounces={false}
         showsVerticalScrollIndicator={false}
-        onLayout={(event) => setViewport(event.nativeEvent.layout.height)}
+        onLayout={(event) => names.onViewport(event.nativeEvent.layout.height)}
         testID="showdown-body"
       >
         <ShowdownHalf
@@ -185,10 +171,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           onVote={poll.canVote ? () => void vote(first, -1)() : undefined}
           squashKey={first.mine ? 1 : 0}
           edgeInset={topInset}
-          excess={halfExcess(firstHeight, secondHeight, viewport)}
-          onNaturalHeight={setFirstHeight}
-          sharedNameSize={nameSize}
-          onNameSize={setFirstName}
+          {...names.first}
         />
         <View style={styles.vsWrap} importantForAccessibility="no-hide-descendants">
           <Animated.View style={punchStyle}>
@@ -208,10 +191,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           onVote={poll.canVote ? () => void vote(second, 1)() : undefined}
           squashKey={second.mine ? 1 : 0}
           edgeInset={bottomInset}
-          excess={halfExcess(secondHeight, firstHeight, viewport)}
-          onNaturalHeight={setSecondHeight}
-          sharedNameSize={nameSize}
-          onNameSize={setSecondName}
+          {...names.second}
         />
       </ScrollView>
       <View

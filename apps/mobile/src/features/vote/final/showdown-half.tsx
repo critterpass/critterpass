@@ -28,7 +28,7 @@ import type { usePitchSections } from '../data/use-final';
 import { stackOf, type Person } from '../data/use-people';
 import type { PollOptionView } from '../data/poll-view';
 import { flightHours, guideOr, money, monthShort, upper } from '../format';
-import { NAME_FLOOR, useNameFit } from './showdown-name-fit';
+import { NAME_FLOOR, useNameMeasure, type NameMeasure } from './showdown-name-fit';
 
 /** Widest a half's pitch card grows; the faded critter sits in the rest of its row. */
 const COLUMN = '62%';
@@ -175,10 +175,9 @@ export function ShowdownHalf({
   onVote,
   squashKey,
   edgeInset,
-  excess,
+  nameCap,
   onNaturalHeight,
-  sharedNameSize,
-  onNameSize,
+  onNameMeasure,
 }: {
   readonly option: PollOptionView;
   readonly place: BoardPlace | undefined;
@@ -189,14 +188,12 @@ export function ShowdownHalf({
   readonly squashKey: number;
   /** Room kept at the half's outer edge: the screen header above the top half, the tally card below the bottom one. */
   readonly edgeInset: number;
-  /** How far this half's content runs past the height the screen can give it (0 when it fits). */
-  readonly excess: number;
+  /** The box the city name is set in (both halves at one shared size), or null at its designed size. */
+  readonly nameCap: number | null;
   /** Reports the height the half's content needs, before it grows to share the screen. */
   readonly onNaturalHeight: (height: number) => void;
-  /** The line height both names are set at (the smaller half's), or null until both are measured. */
-  readonly sharedNameSize: number | null;
-  /** Reports the line height this half's name would set at on its own. */
-  readonly onNameSize: (size: number | null) => void;
+  /** Reports the name's designed and current size. */
+  readonly onNameMeasure: (measure: NameMeasure) => void;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -207,9 +204,12 @@ export function ShowdownHalf({
   const ink = theme.semantic.text.onAccent;
   const quote = option.pitchId === null ? null : (sectionsOf.get(option.pitchId)?.quote ?? null);
   const name = place?.name ?? option.label;
-  const nameFit = useNameFit(name, i18n.locale, excess, sharedNameSize);
-  const nameTarget = nameFit.target;
-  useEffect(() => onNameSize(nameTarget), [nameTarget, onNameSize]);
+  const nameFit = useNameMeasure(name, i18n.locale, nameCap);
+  const { designHeight, designWidth, designLine, height, longestWord } = nameFit.measure;
+  useEffect(
+    () => onNameMeasure({ designHeight, designWidth, designLine, height, longestWord }),
+    [designHeight, designWidth, designLine, height, longestWord, onNameMeasure],
+  );
   const endPadding = alignEnd
     ? edgeInset
     : sizeToken(theme.size.fab, 'size') / 2 + theme.space['16'];
@@ -247,11 +247,11 @@ export function ShowdownHalf({
           variant="displayMega"
           color={ink}
           autoFit
-          {...(nameFit.cap === null
+          {...(nameCap === null
             ? {}
             : {
                 autoFitMinSize: NAME_FLOOR,
-                style: { width: nameFit.cap, textAlign: alignEnd ? 'right' : 'left' },
+                style: { width: nameCap, textAlign: alignEnd ? 'right' : 'left' },
               })}
           testID={`showdown-name-${alignEnd ? 1 : 0}`}
           onLayout={nameFit.onLayout}

@@ -55,7 +55,7 @@ import {
   until,
 } from '../../test-support/vote-harness';
 import { FinalSplitCard } from '../final-split-card';
-import { nameCap, sharedNameCap, sharedNameSize } from '../showdown-name-fit';
+import { sharedNameScales } from '../showdown-name-fit';
 import { ShowdownView } from '../showdown-screen';
 import { WinnerRevealScreen, WinnerRevealView } from '../winner-reveal';
 
@@ -228,7 +228,7 @@ describe('destination final', () => {
     expect(padding('showdown-half-1').paddingBottom).toBeGreaterThan(260);
   });
 
-  it("sets a half's name smaller when its content runs past its share of the screen", async () => {
+  it('sets both names smaller at one size only when the halves overflow the screen', async () => {
     const s = await open();
     await seedFinal(s, [{ userId: MAYA, optionId: OPT_KYOTO }]);
     await renderVote(<Final me={s.uid} view="showdown" />, s);
@@ -236,60 +236,54 @@ describe('destination final', () => {
     const layout = (y: number, width: number, height: number) => ({
       nativeEvent: { layout: { x: 0, y, width, height } },
     });
+    const lines = (width: number, height: number) => ({
+      nativeEvent: { lines: [{ width, height, text: 'KYOTO' }] },
+    });
     const nameWidth = (index: number) =>
       StyleSheet.flatten(
         screen.getByTestId(`showdown-name-${index}`).props.style as StyleProp<ViewStyle>,
       )?.width;
-    const lines = (width: number) => ({ nativeEvent: { lines: [{ width, text: 'KYOTO' }] } });
     await fireEvent(screen.getByTestId('showdown-body'), 'layout', layout(0, 360, 700));
-    for (const index of [0, 1]) {
-      await fireEvent(screen.getByTestId(`showdown-name-${index}`), 'layout', layout(0, 300, 120));
-      await fireEvent(screen.getByTestId(`showdown-name-${index}`), 'textLayout', lines(280));
-    }
-    // Both halves fit their share: the names keep their designed size.
-    await fireEvent(screen.getByTestId('showdown-votes-0'), 'layout', layout(200, 300, 30));
+    await fireEvent(screen.getByTestId('showdown-name-0'), 'textLayout', lines(300, 150));
+    await fireEvent(screen.getByTestId('showdown-name-0'), 'layout', layout(0, 300, 150));
+    await fireEvent(screen.getByTestId('showdown-name-1'), 'textLayout', lines(280, 120));
+    await fireEvent(screen.getByTestId('showdown-name-1'), 'layout', layout(0, 280, 120));
+    // Both halves fit the screen: both names keep their designed size.
+    await fireEvent(screen.getByTestId('showdown-votes-0'), 'layout', layout(250, 300, 30));
     await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(250, 300, 30));
     expect(nameWidth(0)).toBeUndefined();
     expect(nameWidth(1)).toBeUndefined();
-    // The lower half's chips wrap taller: its name gives up the difference, the other keeps its size.
-    await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(400, 300, 30));
-    const capped = nameWidth(1);
-    expect(capped).toBeLessThan(280);
-    expect(nameWidth(0)).toBeUndefined();
-    // Set smaller, the name is shorter and the half fits: the box stays put instead of narrowing on.
-    await fireEvent(screen.getByTestId('showdown-name-1'), 'layout', layout(0, 200, 76));
-    await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(356, 300, 30));
-    expect(nameWidth(1)).toBe(capped);
+    // The lower half's chips wrap taller: both names are set in narrower boxes, at one line height.
+    await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(420, 300, 30));
+    const first = nameWidth(0);
+    const second = nameWidth(1);
+    expect(first).toBeLessThan(300);
+    expect(second).toBeLessThan(280);
+    expect(((first as number) / 300) * 150).toBeCloseTo(((second as number) / 280) * 120, 0);
   });
 
-  it('sets both finalists at the smaller of the two sizes, keeping long words whole', () => {
-    // KYOTO fits as designed (line 150); LISBON's half needs it at line 100.
-    const kyoto = { key: 'k', need: null, height: 150, width: 330, line: 150 };
-    const lisbon = { key: 'l', need: 200, height: 150, width: 300, line: 150 };
-    expect(sharedNameSize([150, (150 * 200) / 300])).toBeCloseTo(100);
-    // Until both halves are measured, each keeps its own size.
-    expect(sharedNameSize([150, null])).toBeNull();
-    expect(sharedNameCap(kyoto, null, 5)).toBeNull();
-    // KYOTO gives up the same share LISBON needs.
-    expect(sharedNameCap(kyoto, 100, 5)).toBeCloseTo(220);
-    expect(sharedNameCap(lisbon, 100, 6)).toBeCloseTo(200);
-    // At the shared size a half that already fits there keeps its designed box.
-    expect(sharedNameCap({ ...kyoto, line: 100 }, 100, 5)).toBeNull();
-    // A long word never goes narrower than it needs whole at the floor.
-    expect(sharedNameCap(kyoto, 20, 11)).toBeCloseTo(11 * 44 * 0.55);
-  });
-
-  it('scales a name from its designed size, never below the floor share', () => {
-    // One line set at 150 pt (120 tall), 300 wide.
-    const fit = { height: 120, width: 300 };
-    expect(nameCap(fit, 120, 0, 5)).toBeNull();
-    expect(nameCap(fit, 120, 30, 5)).toBeCloseTo(225);
-    // Already shed 30 of the 30 needed: the same box, not a narrower one.
-    expect(nameCap(fit, 90, 0, 5)).toBeCloseTo(225);
-    // A crowded half stops at the floor share of its designed width.
-    expect(nameCap(fit, 120, 500, 5)).toBeCloseTo(135);
-    // CHEFCHAOUEN (11 capitals) keeps the width it needs whole at the floor size.
-    expect(nameCap(fit, 120, 500, 11)).toBeCloseTo(11 * 44 * 0.55);
+  it('keeps the designed size when the halves fit, and shrinks both names equally when not', () => {
+    const half = (designLine: number, natural: number, longestWord = 6) => ({
+      name: {
+        designHeight: designLine,
+        designWidth: 300,
+        designLine,
+        height: designLine,
+        longestWord,
+      },
+      natural,
+    });
+    // English: a big KYOTO and a smaller LISBON, 690 of 700 points in all. Nothing changes.
+    expect(sharedNameScales([half(150, 380), half(120, 310)], 700)).toEqual([1, 1]);
+    // Vietnamese chips wrap taller: 820 of 700. Both names end at one line height, and fit.
+    const [a, b] = sharedNameScales([half(150, 430), half(120, 390)], 700);
+    expect(150 * a).toBeCloseTo(120 * b, 3);
+    expect(430 - 150 + 150 * a + (390 - 120) + 120 * b).toBeLessThanOrEqual(700.01);
+    expect(430 - 150 + 150 * a + (390 - 120) + 120 * b).toBeGreaterThan(699);
+    // Nothing fits even at the floor: each stops at its floor (44 pt, the longest word whole).
+    const [c, d] = sharedNameScales([half(150, 900, 11), half(120, 900, 3)], 700);
+    expect(c).toBeCloseTo((11 * 44 * 0.55) / 300);
+    expect(d).toBeCloseTo(44 / (120 / 0.8));
   });
 
   it('sends the showdown on to the reveal once the poll closes', async () => {

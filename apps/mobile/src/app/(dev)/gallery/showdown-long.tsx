@@ -6,8 +6,7 @@ import type { PitchSections } from '@cp/domain';
 import type { BoardPlace } from '@/features/vote/data/use-board';
 import type { PollOptionView } from '@/features/vote/data/poll-view';
 import { ShowdownHalf } from '@/features/vote/final/showdown-half';
-import { sharedNameSize } from '@/features/vote/final/showdown-name-fit';
-import { halfExcess } from '@/features/vote/final/showdown-screen';
+import { useShowdownNames } from '@/features/vote/final/showdown-name-fit';
 import { makeStyles, Text, useTheme } from '@/ui';
 
 export const __CP_DEV_ROUTE__ = true;
@@ -88,13 +87,8 @@ export default function ShowdownLongScreen() {
   const styles = useStyles();
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const [viewport, setViewport] = useState(0);
-  const [first, setFirst] = useState(0);
-  const [second, setSecond] = useState(0);
+  const names = useShowdownNames();
   const [footer, setFooter] = useState(0);
-  const [firstName, setFirstName] = useState<number | null>(null);
-  const [secondName, setSecondName] = useState<number | null>(null);
-  const nameSize = sharedNameSize([firstName, secondName]);
   const a = CHEF;
   const b = HCM;
   const footerBottom = insets.bottom + theme.space['8'];
@@ -104,7 +98,7 @@ export default function ShowdownLongScreen() {
         style={{ flex: 1 }}
         contentContainerStyle={{ flexGrow: 1 }}
         bounces={false}
-        onLayout={(event) => setViewport(event.nativeEvent.layout.height)}
+        onLayout={(event) => names.onViewport(event.nativeEvent.layout.height)}
       >
         <ShowdownHalf
           option={option(a, 2)}
@@ -115,10 +109,7 @@ export default function ShowdownLongScreen() {
           onVote={undefined}
           squashKey={0}
           edgeInset={insets.top + theme.space['32']}
-          excess={halfExcess(first, second, viewport)}
-          onNaturalHeight={setFirst}
-          sharedNameSize={nameSize}
-          onNameSize={setFirstName}
+          {...names.first}
         />
         <ShowdownHalf
           option={option(b, 2)}
@@ -129,10 +120,7 @@ export default function ShowdownLongScreen() {
           onVote={undefined}
           squashKey={0}
           edgeInset={footerBottom + footer + theme.space['16']}
-          excess={halfExcess(second, first, viewport)}
-          onNaturalHeight={setSecond}
-          sharedNameSize={nameSize}
-          onNameSize={setSecondName}
+          {...names.second}
         />
       </ScrollView>
       <View
