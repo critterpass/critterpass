@@ -7,7 +7,6 @@
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, module names and HTTP verbs, never copy. */
 import { requireOptionalNativeModule } from 'expo';
 import {
-  createAudioPlayer,
   requestRecordingPermissionsAsync,
   RecordingPresets,
   setAudioModeAsync,
@@ -22,6 +21,7 @@ import { Linking } from 'react-native';
 
 import { sessionHeaders } from '@/data/app-session/device-session';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
+import { currentAudioSessionCategory } from '@/motion/feedback';
 
 import {
   ChatMediaProvider,
@@ -30,6 +30,7 @@ import {
   type PickOutcome,
   type VoiceRecorderPort,
 } from './media-services';
+import { deviceVoicePlayer } from './voice-player';
 
 const VOICE: RecordingOptions = {
   ...RecordingPresets.HIGH_QUALITY,
@@ -40,6 +41,17 @@ const VOICE: RecordingOptions = {
 /** Picker JPEG quality: phone originals shrink several times over with no visible loss in chat. */
 const PHOTO_QUALITY = 0.7;
 const SILENCE_DB = -60;
+
+/**
+ * The session to return to once a recording stops: the one the app holds (`ambient`, or `playback`
+ * while something plays through the silent switch), never the library's defaults.
+ */
+function afterRecording() {
+  return {
+    allowsRecording: false,
+    playsInSilentMode: currentAudioSessionCategory() === 'playback',
+  };
+}
 
 const http: MediaHttp = {
   async postJson(path, body) {
@@ -126,12 +138,12 @@ export function DeviceChatMediaProvider({ children }: { readonly children: React
       async stop() {
         const durationMs = audio.getStatus().durationMillis;
         await audio.stop();
-        await setAudioModeAsync({ allowsRecording: false });
+        await setAudioModeAsync(afterRecording());
         return audio.uri === null ? null : { uri: audio.uri, durationMs };
       },
       async cancel() {
         await audio.stop();
-        await setAudioModeAsync({ allowsRecording: false });
+        await setAudioModeAsync(afterRecording());
       },
       level() {
         const db = audio.getStatus().metering ?? SILENCE_DB;
@@ -145,17 +157,7 @@ export function DeviceChatMediaProvider({ children }: { readonly children: React
         hex(await digest(CryptoDigestAlgorithm.SHA256, new Uint8Array(bytes))),
       http,
       recorder,
-      createPlayer(url) {
-        const player = createAudioPlayer(url);
-        return {
-          play: () => player.play(),
-          pause: () => player.pause(),
-          setRate: (rate) => player.setPlaybackRate(rate),
-          position: () => ({ current: player.currentTime, duration: player.duration }),
-          playing: () => player.playing,
-          release: () => player.remove(),
-        };
-      },
+      createPlayer: deviceVoicePlayer,
       openSettings: () => void Linking.openSettings(),
     };
   }, [audio]);
