@@ -57,7 +57,10 @@ split text, one-line labels that wrapped, stickers without their edge or image, 
 that overlap or leave the screen, pushed screens with no back or close control, and icons that
 draw nothing. A label the design does set on two lines says so on its `Text` with
 `singleLine={false}`, the one exemption from the wrap check; `git grep 'singleLine={false}'` lists
-every one for review.
+every one for review. A screen that is sparse on purpose opts out of `EMPTY_SCREEN` (and only that
+check) in `tools/scripts/ci-device/sparse-by-design.ts`, the pixel checks' counterpart: its shot
+name's ending, with the render or undesigned-state row that makes it sparse. A screen that is bare
+because content never drew is a bug to fix, never an entry there.
 
 Each run is titled after its mode, branch, pull request, platform and flows, and dispatching the
 same flows on the same branch again cancels the older run. When no e2e-test build matches the

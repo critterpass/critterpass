@@ -12,6 +12,7 @@ import { parseArgs } from 'node:util';
 
 import { decodePng } from './png';
 import { checkScreen, parseHex, type Rgb, type ScreenFinding } from './screen-checks';
+import { isSparseByDesign } from './sparse-by-design';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
 const TOKENS = path.join(REPO_ROOT, 'packages/design-tokens/src');
@@ -50,8 +51,12 @@ export function scanScreenshots(dir: string, background: Rgb): Map<string, Scree
     .filter((file) => file.endsWith('.png'))
     .sort();
   for (const file of files) {
-    const findings = checkScreen(decodePng(readFileSync(path.join(dir, file))), { background });
-    if (findings.length > 0) byShot.set(file.slice(0, -'.png'.length), findings);
+    const shot = file.slice(0, -'.png'.length);
+    const findings = checkScreen(decodePng(readFileSync(path.join(dir, file))), {
+      background,
+      sparseByDesign: isSparseByDesign(shot),
+    });
+    if (findings.length > 0) byShot.set(shot, findings);
   }
   return byShot;
 }
