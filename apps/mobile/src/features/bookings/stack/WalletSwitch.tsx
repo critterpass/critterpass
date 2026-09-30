@@ -7,6 +7,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router, type Href } from 'expo-router';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Segmented } from '@/ui/inputs/Segmented';
 
 import { BOOKINGS_ROUTES } from '../routes';
@@ -19,6 +20,9 @@ const MONEY_HOME: Href = '/wallet/money';
 export function WalletSwitch({ current }: { readonly current: WalletHalf }) {
   const { t } = useLingui();
   const locale = useLocale();
+  // Both halves are the Wallet tab's root, drawn without a back (3i-1): the switch and the tab bar
+  // are the way around, even when a link pushed Bookings over Money.
+  useNoBackByDesign();
   return (
     <Segmented<WalletHalf>
       label={t({ id: 'bookings.switch.label', message: 'Wallet' })}
