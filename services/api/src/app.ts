@@ -8,6 +8,7 @@ import type pg from 'pg';
 import type { Logger } from 'pino';
 import { ZodError } from 'zod';
 
+import type { SessionResolver } from './commands/_framework/session';
 import { registerGeocodingRoutes } from './geocoding/routes';
 import { NOOP_ERROR_REPORTER, type ErrorReporter } from './obs/sentry';
 import { redactLinkPath } from './links/redact';
@@ -37,10 +38,12 @@ export interface AppDeps {
   tilesBaseUrl?: string;
   /** Sentry: unexpected errors are reported and `INTERNAL` carries `detail.event_id`. */
   errors?: ErrorReporter;
+  /** The signed-in session behind a request; the places, map and geocoding routes need one. */
+  sessions?: SessionResolver;
 }
 
-/** The identity a verified session/action-key middleware sets (that middleware does not exist yet);
- *  every places/geocoding route requires it and returns AUTH_REQUIRED when absent
+/** The identity the session middleware sets from the request's Better Auth session (cookie or
+ *  bearer); every places/geocoding route requires it and returns AUTH_REQUIRED when absent
  *  (docs/code-standards.md §18: every endpoint authenticated except health/JWKS/webhooks/public
  *  links). */
 export interface AuthVariables {
@@ -113,6 +116,25 @@ export function createApp(deps: AppDeps) {
   registerRoutingRoutes(app, { routing });
   if (deps.pool !== undefined) {
     const pool = deps.pool;
+    const sessions = deps.sessions;
+    if (sessions !== undefined) {
+      // Only the routes below read it; the other /v1/places/... routes resolve their own session.
+      for (const path of [
+        '/v1/places/:id',
+        '/v1/map/regions/:destination_id',
+        '/v1/geocode',
+        '/v1/geocode/reverse',
+      ]) {
+        app.use(path, async (c, next) => {
+          const session = await sessions(c.req.raw.headers);
+          if (session !== null) {
+            c.set('uid', session.uid);
+            c.set('device', c.req.header('x-cp-device') ?? 'unknown');
+          }
+          await next();
+        });
+      }
+    }
     registerPlacesRoutes(app, {
       pool,
       routeEtaProvider: routing,
