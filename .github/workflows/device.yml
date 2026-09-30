@@ -352,6 +352,17 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - uses: actions/download-artifact@v8
         with: { pattern: 'device-*-shard-*', path: '${{ runner.temp }}/shards' }
+      - name: Keep each shard in its own folder
+        env:
+          IOS: ${{ needs.prepare.outputs.ios }}
+        run: |
+          # A lone matching artifact is extracted straight into the path, without its folder.
+          shards=$RUNNER_TEMP/shards
+          if [ -d "$shards" ] && ! ls -d "$shards"/device-*-shard-* >/dev/null 2>&1; then
+            platform=$([ "$IOS" = true ] && echo ios || echo android)
+            mkdir -p "$RUNNER_TEMP/one" && mv "$shards"/* "$RUNNER_TEMP/one/" 2>/dev/null || true
+            mv "$RUNNER_TEMP/one" "$shards/device-$platform-shard-1"
+          fi
       - name: Collect the screenshots
         env:
           MODE: ${{ needs.prepare.outputs.mode }}
