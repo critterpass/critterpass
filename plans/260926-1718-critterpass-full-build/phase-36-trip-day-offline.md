@@ -129,6 +129,7 @@ Hub phase layouts (planning/travel day/in-trip/post), trip switcher, briefing fa
 - Steps: 1. Drizzle + SQL, FORCE RLS, grants. 2. Stream entries. 3. Permission matrix: self, co-participant, non-participant crew member, outsider, guide_reader, powersync_repl.
 - Tests: `pnpm --filter @cp/db test -- permissions/briefings permissions/readiness permissions/packing-items permissions/leave-bys permissions/alarms permissions/briefing-items permissions/offline-bundles`; `pnpm tsx tools/scripts/check-publication.ts`
 - Done when: co-participant cannot read another's briefing or personal packing rows; guide_reader has no briefing access; `offline_bundles` readable by trip participants only and not writable by `app_user`; publication check passes.
+- Status: done — 7e7f0e4c
 
 ### T2 — Leave-by engine (pure) and scheduler job
 - Goal: correct leave-by times and schedules in destination tz.
@@ -136,6 +137,7 @@ Hub phase layouts (planning/travel day/in-trip/post), trip switcher, briefing fa
 - Steps: 1. `computeLeaveBy(item, pickup, route, buffer, tz)`; eligibility rules. 2. Escalation machine (scheduled → window → alerting → departed/cancelled; knock at 2nd snooze or T0 with not-up). 3. Worker creates/updates `leave_bys` on plan/flight events; schedules `scheduled_events` T−8 h, T−3 h traffic re-check, T−45 min re-check, T−lead, T0. 4. Route via phase-14 `/routes/eta` internal client (Mapbox traffic when configured, else Valhalla, flag stored in `legs`).
 - Tests: `pnpm --filter @cp/planner test -- leave-by`; `pnpm --filter @cp/worker test -- trip-day/leave-by`
 - Done when: fixtures (Batur 03:30 pickup, airport run, dest tz ≠ device tz, DST) produce expected `leave_at`; plan change reschedules events exactly once.
+- Status: done — 761491ff (routes through the `RouteEtaProvider` port on Mapbox `driving-traffic`; without `MAPBOX_TOKEN` travel is a flagged straight-line estimate, Valhalla is not wired for leave-bys; the T−8 h Live Activity timer is left to the Live Activities phase)
 
 ### T3 — Trip-day commands, crew knock and realtime
 - Goal: readiness/snooze/packing/briefing actions end to end.
@@ -143,6 +145,7 @@ Hub phase layouts (planning/travel day/in-trip/post), trip switcher, briefing fa
 - Steps: 1. Handlers with authz (participant on item; organiser for buffer). 2. Action-key scopes for readiness/snooze. 3. Events → `trip_dayof` publish, N-21 on 2nd snooze/T0, N-23 + chat message for running late, nudge via `schedule_nudge`. 4. Idempotency + offline replay tests.
 - Tests: `pnpm --filter @cp/api test -- trip-day`
 - Done when: action-key `set_readiness` from a simulated extension succeeds and publishes within the test; 2nd snooze emits exactly one N-21 to up members.
+- Status: done — a880d26a
 
 ### T4 — Morning briefing job (AI-27) with evals
 - Goal: validated, persona-worded briefings with fallback.
@@ -150,6 +153,7 @@ Hub phase layouts (planning/travel day/in-trip/post), trip switcher, briefing fa
 - Steps: 1. Candidate builder via `app_system` + LLM views (no C3). 2. Sonnet call via phase-13 gateway (Langfuse trace). 3. Validator: only candidate ids, numbers must equal candidate numbers, ≤ 3 items. 4. Template fallback. 5. Event insert API used by other phases (`insertBriefingItem(event)`), dedupe. 6. Schedule per user local morning.
 - Tests: `pnpm --filter @cp/worker test -- trip-day/briefing`; `pnpm --filter @cp/ai eval -- briefing`
 - Done when: eval pass rate ≥ 95 % on 20 fixtures; forced model failure yields fallback briefing with `fallback_used=true`.
+- Status: done — b113504d (20 cases: 18 recorded live from DeepSeek at 20/20, 2 seeded validator slips; runs on the existing `briefing.daily` route)
 
 ### T5 — cp-alarm iOS (AlarmKit) + countdown presentation
 - Goal: real AlarmKit alarms with I'M UP and snooze-once.
@@ -185,6 +189,7 @@ Hub phase layouts (planning/travel day/in-trip/post), trip switcher, briefing fa
 - Steps: 1. Builder collects assets (attachments, phrase audio keys, FX snapshot, place labels, today point forecasts, map region ref) into `offline_bundles`. 2. Route returns signed URLs (media-worker HMAC). 3. Triggers: 20:00 local cron via `scheduled_events`, `stay_exit` event from location engine, leave-by window start. 4. Authz participant only.
 - Tests: `pnpm --filter @cp/api test -- trip-day/offline-bundle`; `pnpm --filter @cp/worker test -- trip-day/daybundle`
 - Done when: outsider gets 403; manifest version bumps only when content hash changes.
+- Status: done — 89dc3fa8 (composed into the bookings endpoint as a `days` section with today's and later days, so there is one endpoint; an outsider gets that endpoint's `NOT_FOUND`; the stay-exit trigger stays on the device)
 
 ### T10 — Offline bundle client and offline UI
 - Goal: 3k-4 state app-wide with real queue data.
