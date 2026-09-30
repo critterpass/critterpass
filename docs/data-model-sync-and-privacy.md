@@ -137,7 +137,7 @@ Service: self-hosted PowerSync Open Edition (Railway SG), Postgres bucket storag
 | `explore` | on demand | destination_id | `pois` (editorial only), `place_tips` |
 | `community` | on demand | shared_plan_id / destination | published `shared_plans`, `ratings` |
 | `help` | on demand | locale | `help_articles`, `ideas` |
-| `guide_chat` | auto | own | `guide_threads`, `guide_messages` (last 90 d), `queued_guide_questions` |
+| `guide_chat` | auto | own | `guide_threads`, `guide_messages` (last 90 d), `queued_guide_questions`, `custom_phrase_cards` (own), `phrase_progress` (doc delta: synced here) |
 
 Write path: all client writes go to the local insert-only `commands` table → `uploadData` → `POST /sync/upload` (batch) → each op runs its command handler in `withUser`; results land in `cmd_results` (stream `me`). Optimistic local rows are written to local-only overlay tables and reconciled when the server row replicates. Account switch (uid change) → `disconnectAndClear()`.
 
@@ -217,11 +217,11 @@ Phase owns the migration that creates the table (later phases may add columns vi
 | 29 Plan views, collaboration | `comments`, `comment_plus_ones`, `personal_plan_ops`, `calendar_feed_tokens` (C3, server-only; doc delta) |
 | 30 Explore | `swipe_sessions`, `swipe_votes`, `swipe_matches`, `place_tips` |
 | 31 Proposal, RSVP | `proposals`, `proposal_versions`, `proposal_reactions`, `hype_aggregates`, `engagement_events`, `private_guide_threads`, `anonymous_suggestions` |
-| 32 Guide chat, metering | `guide_threads`, `guide_messages`, `queued_guide_questions`, `phrase_progress` |
+| 32 Guide chat, metering | `guide_threads` (doc delta: group mode), `guide_messages`, `queued_guide_questions`, `phrase_progress`, `custom_phrase_cards` (doc delta), `guide_crew_turns` (doc delta) |
 | 33 Money | `expenses`, `expense_shares`, `expense_edits`, `receipts`, `ledger_entries`, `payments`, `payout_methods`, `stickers` (doc delta: created here; critters extend its kinds), `ops.reveal_audit` |
-| 34 Bookings wallet, imports, flights | `bookings`, `booking_attachments`, `flight_segments`, `flight_watches`, `import_candidates`, `inbound_emails`, `crew_inbound_addresses`, `mailbox_connections`, `insurance_policies` |
+| 34 Bookings wallet, imports, flights | `bookings`, `booking_attachments`, `flight_segments`, `flight_watches`, `import_candidates`, `inbound_emails`, `crew_inbound_addresses`, `inbound_sender_links` (doc delta), `mailbox_connections`, `insurance_policies` |
 | 35 Supplier layer, rides, vendor comms | `supplier_orders`, `supplier_order_items`, `affiliate_clicks`, `affiliate_conversions`, `ride_quotes`, `rides`, `providers`, `ops.vendor_threads`, `ops.vendor_messages` |
-| 36 Trip hub, day-of, leave-by | `briefings`, `briefing_items`, `packing_items`, `leave_bys`, `readiness`, `alarms` |
+| 36 Trip hub, day-of, leave-by | `briefings`, `briefing_items`, `packing_items`, `leave_bys`, `readiness`, `alarms`, `offline_bundles` (doc delta) |
 | 37 Disruptions | `disruptions`, `watch_items` |
 | 38 Help & SOS | `help_sessions`, `help_session_private` |
 | 39 Crew live map | `meetups` |
