@@ -6,7 +6,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import * as Notifications from 'expo-notifications';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Modal } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -15,6 +15,8 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { impact } from '@/motion/feedback';
 
 import { setAlarmPort, type AlarmPort } from './alarm-port';
+import { useDayBundlePrefetch } from '../bundle/background-prefetch';
+import { deviceTripDayServices } from '../bundle/device-services';
 import { setReadinessCommand, snoozeLeaveByCommand } from '../leave-by/commands';
 import type { LeaveByView } from '../leave-by/model';
 import { tripDayRoute } from '../hub/routes';
@@ -91,6 +93,15 @@ export function TripDayRuntime({ alarmPort }: { readonly alarmPort: AlarmPort | 
   const { send: sendReadiness } = useCommand(setReadinessCommand);
   const { send: sendSnooze } = useCommand(snoozeLeaveByCommand);
   const now = useNow(5000);
+  const services = useMemo(() => deviceTripDayServices(), []);
+  // A leave-by window opening saves that day again (the phone may be about to lose signal).
+  useDayBundlePrefetch(
+    services,
+    views
+      .filter((view) => view.phase === 'window')
+      .map((view) => view.id)
+      .join(','),
+  );
 
   const up = useCallback(
     (leaveById: string, source: 'notification' | 'alarm') => {

@@ -25,7 +25,7 @@ export interface HubTripInput {
   readonly startDate: string | null;
   readonly endDate: string | null;
   readonly tz: string;
-  /** C14: the viewer's first outbound departure, computed on the server. */
+  /** The viewer's first outbound departure, computed on the server. */
   readonly countdownTargetAt: string | null;
   readonly landedAt: string | null;
 }

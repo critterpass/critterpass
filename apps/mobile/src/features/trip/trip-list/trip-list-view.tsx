@@ -1,5 +1,5 @@
 /**
- * The trip switcher (Q-07) from props: one row per trip, or a way back to Home when there is none.
+ * The trip switcher from props: one row per trip, or a way back to Home when there is none.
  */
 import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';

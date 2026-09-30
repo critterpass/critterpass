@@ -7,12 +7,15 @@
 import { toLocalWallTime } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router, type Href } from 'expo-router';
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
 import { briefingState } from '../briefing/briefing-model';
+import { BUNDLE_KIND, savedDayId, type SavedDay } from '../bundle/bundle-manager';
+import { OfflineView } from '../offline/offline-view';
+import { useOffline } from '../offline/use-offline';
 import { useBriefingActions } from '../briefing/chip-actions';
 import { clockIn } from '../leave-by/model';
 import { useLiveRows, useOwnerUid } from './data/live-rows';
@@ -48,6 +51,16 @@ function activityHref(row: ActivityRow, tripId: string): Href | undefined {
   }
 }
 
+/** Today's saved day has every file it names (the BOOKINGS tile says "all offline"). */
+function todayComplete(data: string): boolean {
+  try {
+    const day = JSON.parse(data) as SavedDay;
+    return day.missing.length === 0 && day.assets.some((asset) => asset.kind === 'attachment');
+  } catch {
+    return false;
+  }
+}
+
 /** A month before the trip the briefing starts coming every morning. */
 const BRIEFING_LEAD_DAYS = 30;
 
@@ -67,17 +80,9 @@ function go(href: Href | undefined): (() => void) | undefined {
 export interface TripHubScreenProps {
   readonly tripId: string;
   readonly onSwitch: (() => void) | null;
-  /** The offline card (3k-4), shown in place of the header while offline. */
-  readonly offlineCard?: ReactNode;
-  readonly bookingsOffline?: boolean;
 }
 
-export function TripHubScreen({
-  tripId,
-  onSwitch,
-  offlineCard,
-  bookingsOffline = false,
-}: TripHubScreenProps) {
+export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   const me = useOwnerUid();
   const locale = useLocale();
   const { t } = useLingui();
@@ -93,6 +98,14 @@ export function TripHubScreen({
   const tz = tripTz ?? tzGuess;
   const today = toLocalWallTime(new Date(minute * 60_000), tz).date;
   const rows = useHubRows(tripId, me, today, minuteIso);
+  const offline = useOffline(tripId);
+  const offlineCard = offline === null ? null : <OfflineView {...offline} />;
+  const savedToday = useLiveRows<{ data: string }>(
+    'SELECT data FROM local_private WHERE kind = ? AND id = ?',
+    [BUNDLE_KIND, savedDayId(tripId, today)],
+    ['local_private'],
+  ).rows[0];
+  const bookingsOffline = savedToday !== undefined && todayComplete(savedToday.data);
   const registered = useRegisteredHubTiles();
   const names = useMemo(
     () => new Map(rows.members.map((row) => [row.user_id, row.display_name ?? ''])),
@@ -174,7 +187,7 @@ export function TripHubScreen({
     items: rows.briefingItems,
     pending: rows.pendingActs,
     today,
-    offline: offlineCard !== undefined && offlineCard !== null,
+    offline: offline !== null,
     inWindow,
   });
 
@@ -285,7 +298,7 @@ export function TripHubScreen({
         };
       })}
       onSwitch={onSwitch}
-      {...(offlineCard === undefined ? {} : { offlineCard })}
+      {...(offlineCard === null ? {} : { offlineCard })}
     />
   );
 }
