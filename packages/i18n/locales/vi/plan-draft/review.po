@@ -23,9 +23,14 @@ msgstr "{days} ngày"
 msgid "planDraft.history.daysCost"
 msgstr "{days} ngày · mỗi người {cost}"
 
+#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.back"
 msgstr "Chuẩn bị {destination}"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
+msgid "planDraft.loading.slow"
+msgstr "{guideName} đang sắp xếp các ngày của bạn…"
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.redrafting"
@@ -74,6 +79,10 @@ msgstr "Đủ cả {total} việc phải làm"
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.changeDay"
 msgstr "Nhờ {guideName} đổi một ngày"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
+msgid "planDraft.loading.back"
+msgstr "Quay lại"
 
 #: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
 msgid "planDraft.member.back"
@@ -142,6 +151,10 @@ msgstr "nó làm hỏng cả ngày"
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts
 msgid "planDraft.queued.keep"
 msgstr "Giữ một ngày soạn lại"
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
+msgid "planDraft.loading.label"
+msgstr "Đang tải bản nháp của bạn"
 
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
 msgid "planDraft.stale.line"

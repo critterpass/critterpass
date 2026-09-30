@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# Screenshots for `pnpm screens:capture` and `screens:compare`: the private draft while it loads
+# (the review's header and back over a day-list skeleton, the guide's line after 2 s), with the trip
+# known and with the trip row still syncing, in English and Vietnamese.
+- runFlow:
+    file: subflows/draft-loading-in.yaml
+    env:
+      LOCALE: 'en'
+- runFlow:
+    file: subflows/draft-loading-in.yaml
+    env:
+      LOCALE: 'vi'
