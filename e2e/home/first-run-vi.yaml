@@ -2,8 +2,7 @@ appId: app.critterpass.dev
 ---
 # The same Home states in Vietnamese: the dev gallery switches the running app's language (not
 # persisted), then two steps back return to the splash.
-- launchApp:
-    clearState: true
+- runFlow: subflows/fresh-install.yaml
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'

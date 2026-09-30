@@ -6,8 +6,7 @@ appId: app.critterpass.dev
 #
 # Data: the staging demo seed's `inbox` scenario: exactly one open needs-you item (Maya's nudge,
 # answered with "Take a look") and Tokek's plan change still inside its undo window in EARLIER.
-- launchApp:
-    clearState: true
+- runFlow: subflows/fresh-install.yaml
 - runFlow: subflows/onboard.yaml
 - runFlow:
     file: ../_shared/seed-demo.yaml

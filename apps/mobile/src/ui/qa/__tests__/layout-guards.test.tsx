@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { renderHook } from '@testing-library/react-native';
 import { act } from 'react';
+import { Dimensions } from 'react-native';
 
 import {
   focusedBackAffordances,
@@ -72,6 +73,33 @@ describe('HEADER_OVERLAP', () => {
     expect(reports).toEqual(
       UI_QA_ENABLED ? ['[ui-qa] HEADER_OVERLAP "home-header: caret overlaps chat"'] : [],
     );
+  });
+
+  it('waits out a push sliding the row in from the right before judging it', async () => {
+    jest.useFakeTimers();
+    const { result } = await renderHook(() => useHeaderOverlapGuard('home-header'));
+    // The screen's slide offset: off to the right at first, in place after two samples.
+    const width = Dimensions.get('window').width;
+    const offsets = [width * 0.6, width * 0.3];
+    let offset = 0;
+    const node = (r: QaRect) =>
+      ({
+        measureInWindow: (done: (x: number, y: number, w: number, h: number) => void) =>
+          done(r.x + offset, r.y, r.width, r.height),
+      }) satisfies QaMeasurable;
+    act(() => {
+      result.current.ref('caret')(node(rect(width / 2, 16)));
+      result.current.ref('inbox')(node(rect(width - 60, 44)));
+      result.current.onLayout();
+    });
+    for (const next of offsets) {
+      offset = next;
+      act(() => jest.advanceTimersByTime(400));
+    }
+    offset = 0;
+    act(() => jest.runAllTimers());
+    jest.useRealTimers();
+    expect(reports).toEqual([]);
   });
 });
 

@@ -5,8 +5,7 @@ appId: app.critterpass.dev
 #
 # Data: the staging demo seed's `caught_up` scenario: a crew and an inbox with nothing needing
 # the user.
-- launchApp:
-    clearState: true
+- runFlow: subflows/fresh-install.yaml
 - runFlow: subflows/onboard.yaml
 - runFlow:
     file: ../_shared/seed-demo.yaml
@@ -18,8 +17,11 @@ appId: app.critterpass.dev
       id: 'inbox-caught-up'
     timeout: 15000
 - assertVisible: 'NEEDS YOU · 0'
+# Tokek is awake for about two seconds and the toast for under three: don't wait for the screen
+# to settle after the tap, or both are over before the next step looks.
 - tapOn:
     id: 'inbox-tokek'
+    waitToSettleTimeoutMs: 500
 - extendedWaitUntil:
     # Android folds the island toast's lines into one node, so match within it.
     visible: '.*Nothing needs you yet\. Back to sleep\..*'

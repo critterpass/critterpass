@@ -9,8 +9,7 @@ env:
 # Data: the staging demo seed (e2e/_shared/seed-demo.yaml): ${NAME} joined Bali Demo Crew without
 # answering the trip's RSVP, and that card runs `send_nudge` for them. Each seed clears the
 # account's earlier nudges, so the pair cooldown never carries over between runs.
-- launchApp:
-    clearState: true
+- runFlow: subflows/fresh-install.yaml
 - runFlow: subflows/onboard.yaml
 - runFlow:
     file: ../_shared/seed-demo.yaml

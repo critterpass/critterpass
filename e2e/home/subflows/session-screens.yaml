@@ -10,8 +10,11 @@ appId: app.critterpass.dev
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3b-5-caught-up-first-ever
+# Tokek is awake for about two seconds and the toast for under three: don't wait for the screen
+# to settle after the tap, or both are over before the next step looks.
 - tapOn:
     id: 'inbox-tokek'
+    waitToSettleTimeoutMs: 500
 - takeScreenshot: ${PREFIX}-3b-5-tokek-awake
 - openLink: critterpass-dev://crew/new
 - extendedWaitUntil:

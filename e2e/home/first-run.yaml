@@ -2,8 +2,7 @@ appId: app.critterpass.dev
 ---
 # A new user's Home: first run with the six guides (3b-1) and JOIN WITH A CODE, the first-ever empty
 # inbox (3b-5) with Tokek opening one eye, then a crew with nothing planned yet.
-- launchApp:
-    clearState: true
+- runFlow: subflows/fresh-install.yaml
 - extendedWaitUntil:
     visible:
       id: 'onboarding-open'

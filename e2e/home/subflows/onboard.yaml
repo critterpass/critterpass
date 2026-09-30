@@ -11,8 +11,12 @@ appId: app.critterpass.dev
     visible:
       id: 'taste-card-left'
     timeout: 10000
+# Six picks show DONE; a tap the slow simulator drops just means one more pick.
 - repeat:
-    times: 6
+    while:
+      notVisible:
+        id: 'taste-done'
+    times: 9
     commands:
       - tapOn:
           id: 'taste-card-right'
@@ -57,10 +61,17 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'onboarding-issued-save'
 # Android closes the save sheet with back, the way e2e/onboarding/first-run-android.yaml does.
+# On iOS the sheet is still rising right after the tap: "Not now" is tapped where it comes to
+# rest, not where it was on the way up.
 - runFlow:
     when:
       platform: iOS
     commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'save-not-now'
+          timeout: 10000
+      - waitForAnimationToEnd
       - tapOn:
           id: 'save-not-now'
 - runFlow:
