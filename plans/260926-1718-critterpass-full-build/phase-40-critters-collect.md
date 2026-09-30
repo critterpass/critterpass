@@ -143,6 +143,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. zod schemas for five spawn kinds + windows. 2. Encounter reducer `(state, event{fix|tick|hold|leave}) → state` with hysteresis, accuracy gate, grace, drain, ready, wandered_off. 3. Solar sunrise/sunset per lat/lng/date (NOAA algorithm, no network). 4. Count derivations (C22) and home set (C39). 5. Defaults in `config.ts` overridable by server config.
 - Tests: `pnpm --filter @cp/domain test -- critters`
 - Done when: table-driven tests cover every §3.4 transition, grace/drain timing, solar within ±2 min of reference tables, and counts for fixtures.
+- Status: done — 73ac5105c
 
 ### T2 — Schema, RLS backstop, publication
 - Goal: critter collection tables with permission contract tests.
@@ -150,6 +151,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Drizzle tables + indexes per §3.9 (+ `guide_skins`, `trip_participants.egg_id`, `user_settings.explore_at_home`). 2. RLS policies + grants for `app_user`, `app_system`, `guide_reader`, `powersync_repl` (evidence column excluded). 3. `crew_collection_counts` table (app_user read for crew members, no write). 4. Publication entries (counts table in `crew_people`; no views published). 5. Schema test: `encounter_samples` has no lat/lng/geometry column.
 - Tests: `pnpm --filter @cp/db test -- permissions/eggs permissions/encounters permissions/collection-entries permissions/stickers permissions/guide-skins permissions/crew-collection-counts`; `pnpm tsx tools/scripts/check-publication.ts`
 - Done when: non-owner cannot read evidence or others' entries; crew sees counts only; `hide_collection` hides counts; publication excludes evidence and lists no views; `encounter_samples` schema test proves no coordinate columns.
+- Status: done — b7e4455ec
 
 ### T3 — Commands: egg, encounter, befriend, skin, settings
 - Goal: server handlers for all critter commands.
@@ -157,6 +159,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Handlers with app-layer policy (participant, owned form, trip state). 2. `befriend_critter` stores evidence, sets `verification=pending`, enqueues `critter.verify` in txn. 3. `hatch_egg` idempotent across triggers. 4. Domain events + `rt_outbox` rows.
 - Tests: `pnpm --filter @cp/api test -- critters`
 - Done when: replayed `op_id` is a no-op; offline-order batch via `/sync/upload` yields the same end state; rejects return 2xx + `cmd_results`.
+- Status: done — d22303c34
 
 ### T4 — Verification, rewards fan-out, hatch triggers
 - Goal: server truth for encounters and hatches.
@@ -164,6 +167,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Plausibility scoring (speed, teleport vs flights, attestation, mock, skew) with thresholds in config. 2. verify → `collection_entries` + `critter.befriended`; revoke → remove pending entry + `critter.revoked`. 3. `reward.fanout` registry with same-ts grant. 4. `participant.boarded` consumer → `grant_egg`; `flight.event{landed}` consumer → `hatch_egg`. 5. `crew_collection` hints + first-spotter. 6. `crew-counts` job maintaining `crew_collection_counts`.
 - Tests: `pnpm --filter @cp/worker test -- critters`
 - Done when: fixtures with mock flag, bad device-key signature or 900 km/h hop are revoked; clean fixtures verified (also with `attestation: unavailable`); boarded event grants one egg; landed webhook fixture hatches every crew member on that flight once; counts row updates on befriend/revoke and disappears when `hide_collection` is on.
+- Status: done — 83fe1f71a
 
 ### T5 — Legendary windows, reminders, co-presence
 - Goal: F-127 and F-128 server side.
@@ -171,6 +175,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Reminder scheduling a month before window in user tz; conditions registry (`window_active_not_found`, `quiet_window`, `crew_planning_again` used by phase 43). 2. Reschedule on `season.ingest` output. 3. Co-presence grouping + overlap check + grant to all + `trip_copresence` counts.
 - Tests: `pnpm --filter @cp/worker test -- critters/reminders critters/copresence`
 - Done when: 6-member fixture grants all six with identical `found_at`; 5-of-6 grants none; reminder fires only when condition holds.
+- Status: done — 3ef70601b
 
 ### T6 — Client encounter engine (offline)
 - Goal: device-side engine driving UI, commands and App Group.
