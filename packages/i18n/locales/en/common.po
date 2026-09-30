@@ -79,11 +79,11 @@ msgstr "{name}, {categoryLabel}"
 msgid "common.critter.slotFound"
 msgstr "{name}, {city}, {forms} of 4 forms"
 
-#: ../../apps/mobile/src/ui/sticker/a11y.ts
+#: ../../apps/mobile/src/lib/a11y/labels.ts
 msgid "sticker.a11y.formLabel"
 msgstr "{name}, {form} form"
 
-#: ../../apps/mobile/src/ui/sticker/a11y.ts
+#: ../../apps/mobile/src/lib/a11y/labels.ts
 msgid "sticker.a11y.poseLabel"
 msgstr "{name}, {pose}"
 
@@ -208,10 +208,6 @@ msgstr "Booked"
 msgid "common.status.boost"
 msgstr "Boost"
 
-#: ../../apps/mobile/src/app/index.tsx
-msgid "common.devHome.buildVariantLabel"
-msgstr "Build variant: {variant}"
-
 #: ../../apps/mobile/src/ui/chips/StatusChip.tsx
 msgid "common.status.building"
 msgstr "Building"
@@ -326,10 +322,6 @@ msgstr "Delete"
 #: ../../apps/mobile/src/app/(dev)/_probe.tsx
 msgid "common.devProbe.title"
 msgstr "Dev route probe"
-
-#: ../../apps/mobile/src/app/index.tsx
-msgid "common.devHome.devToolsEntry"
-msgstr "Developer tools"
 
 #: ../../apps/mobile/src/motion/island-toast/IslandToast.tsx
 msgid "motion.islandToast.dismiss"
@@ -872,7 +864,7 @@ msgstr "Try again"
 msgid "map.cpMap.locationDenied"
 msgstr "Turn on location to see where you are."
 
-#: ../../apps/mobile/src/ui/sticker/a11y.ts
+#: ../../apps/mobile/src/lib/a11y/labels.ts
 msgid "sticker.a11y.lockedLabel"
 msgstr "Undiscovered local, found by being in {city}"
 

@@ -151,7 +151,13 @@ export default defineConfig({
       name: 'server',
       path: 'locales/{locale}/server',
       include: [`${repoRootPrefix}/services/**`],
-      exclude: [...testFileExcludes, ...notificationSources.flatMap((catalog) => catalog.include)],
+      // Each service has its own node_modules, where a package directory can be named like a
+      // source file (`ical.js`); the extractor must never read into it.
+      exclude: [
+        ...testFileExcludes,
+        `${repoRootPrefix}/services/*/node_modules/**`,
+        ...notificationSources.flatMap((catalog) => catalog.include),
+      ],
     },
     // Push copy rendered in each recipient's locale by the worker (createServerI18n), one nested
     // catalog per notification area so the router's and the roundup's copy never share a file.
