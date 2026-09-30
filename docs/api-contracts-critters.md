@@ -22,7 +22,7 @@ Every command is idempotent by `op_id` and allows anonymous sessions. Rejections
 | `befriend_critter` | `{encounter_id, ready_at, befriended_at, via: hold\|accessible, evidence_bundle, attestation}` (§2) | owner; encounter `accruing`/`ready` (or already `befriended`, which is a no-op); `started_at − 60 s ≤ ready_at ≤ befriended_at ≤ now + 5 min` | `{encounter_id, verification: 'pending'}`. Stores evidence, sets the encounter `befriended` / `pending`, files a pending entry (except `co_presence` rules) and queues `critter.verify` in the same transaction | `critter.befriended` once verified (see §3) | A, O |
 | `set_guide_skin` (doc delta) | `{guide_id, form_id \| null}` | the form must be a verified entry of the caller (`NOT_ELIGIBLE` otherwise). `null` reverts to the canonical look | `{guide_id, form_id}` | – | A, O |
 | `set_explore_at_home` (doc delta) | `{on}` | self | `{explore_at_home}` | – | A, O |
-| `set_legendary_reminder` | `{window_id, on}` | self. `on` for an any-day window → `VALIDATION window_always_open` | `{reminder_id, fire_at}`. One pending reminder per window; it fires 30 days before the next window start, at 09:00 in the device tz (the next morning when the window is less than 30 days away). `on:false` cancels it | `legendary.reminder_set`; N-30 via `legendary.reminder_due` | A, O |
+| `set_legendary_reminder` | `{window_id, on}` | self. `on` for an any-day or year-round window → `VALIDATION window_always_open` (`nextWindowSpan` returns `null`; every scan is bounded) | `{reminder_id, fire_at}`. One pending reminder per window; it fires 30 days before the next window start, at 09:00 in the device tz (the next morning when the window is less than 30 days away). `on:false` cancels it | `legendary.reminder_set`; N-30 via `legendary.reminder_due` | A, O |
 | `grant_egg` (S, doc delta) | job `critter.grant_eggs {trip_id, user_id?}` | system | One egg per boarded traveller (RSVP `in`, or organiser not `out`) per trip. The form is the destination set's starter: the lowest-numbered critter's common form in the live release (`app.grant_egg`). Unhatched eggs of members now `out` are removed | `egg.granted` | S |
 
 Error codes: `NOT_FOUND` (trip, encounter, spawn rule, guide, window; another user's encounter reads as not found), `NOT_ELIGIBLE` (`not_on_trip`, `not_home_set`, `explore_at_home_off`, `form_not_owned`), `STATE_INVALID` (`trip_not_travelling`, `trip_not_started`, `before_start_date`, `encounter_ended`, `encounter_resolved`), `VALIDATION` (`spot_not_in_rule`, `spawn_not_in_trip_destination`, `times_out_of_order`, `started_in_future`, `encounter_id_taken`, `window_always_open`), `PAYLOAD_TOO_LARGE` (`samples_full`).
@@ -83,7 +83,7 @@ attestation =
 |---|---|---|
 | `crew_collection:{crew_id}` | `critter.befriended` | `{user_id, form_id, critter_id, entry_id}` (not sent for members hiding their collection) |
 | `crew_collection:{crew_id}` | `first_spotter` | same, when nobody else in the crew had that critter |
-| `trip_copresence:{trip_id}` | `copresence.progress` | `{rule_id, here, needed}`: counts only, never who or where |
+| `trip_copresence:{trip_id}` (trip participants; history 10 for 24 h) | `copresence.progress` | `{rule_id, here, needed, missing[]}`. `missing` lists the trip's members who have not been there yet (participation, never location). No coordinates |
 | `trip_copresence:{trip_id}` | `copresence.completed` | `{rule_id, form_id}` |
 
 ## 5. Jobs
