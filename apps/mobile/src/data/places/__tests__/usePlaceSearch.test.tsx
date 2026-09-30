@@ -22,6 +22,11 @@ jest.mock('../offlineSearch', () => ({
   searchPlacesOffline: (...args: unknown[]) => mockSearchPlacesOffline(...args),
 }));
 
+// The Better Auth Expo client lives behind native secure storage; the hook only needs its cookie.
+jest.mock('@/data/app-session/auth-client', () => ({
+  sessionHeaders: () => Promise.resolve({ cookie: 'better-auth.session_token=signed-in' }),
+}));
+
 import { usePlaceSearch } from '../usePlaceSearch';
 
 const ONLINE: NetworkStateStub = { isConnected: true, isInternetReachable: true };
@@ -81,7 +86,9 @@ describe('usePlaceSearch', () => {
     ]);
     expect(fetchMock).toHaveBeenCalledWith(
       expect.stringContaining('/v1/places/search?'),
-      expect.objectContaining({ credentials: 'include' }),
+      expect.objectContaining({
+        headers: expect.objectContaining({ cookie: 'better-auth.session_token=signed-in' }),
+      }),
     );
   });
 
