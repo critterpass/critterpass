@@ -1,3 +1,4 @@
+import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 
 import {
@@ -170,5 +171,59 @@ describe('rotationPick', () => {
       ),
     );
     expect(picks.size).toBeGreaterThan(1);
+  });
+});
+
+describe('nextWindowSpan termination', { timeout: 60_000 }, () => {
+  it('has nothing to wait for when a range covers the whole year', () => {
+    const fullYear = { type: 'annual_range', start: '01-01', end: '12-31' } as const;
+    expect(nextWindowSpan(fullYear, '2026-10-01')).toBeNull();
+    expect(
+      nextWindowSpan({ type: 'annual_range', start: '03-01', end: '02-28' }, '2027-01-10'),
+    ).toBeNull();
+  });
+
+  it('spans a range that wraps the year end, from either side', () => {
+    const wrap = { type: 'annual_range', start: '12-30', end: '01-02' } as const;
+    expect(nextWindowSpan(wrap, '2026-12-31')).toEqual({ start: '2026-12-30', end: '2027-01-02' });
+    expect(nextWindowSpan(wrap, '2027-01-01')).toEqual({ start: '2026-12-30', end: '2027-01-02' });
+    expect(nextWindowSpan(wrap, '2027-01-03')).toEqual({ start: '2027-12-30', end: '2028-01-02' });
+  });
+
+  it('spans one-day ranges, including a leap day years away', () => {
+    const one = { type: 'annual_range', start: '11-02', end: '11-02' } as const;
+    expect(nextWindowSpan(one, '2026-11-02')).toEqual({ start: '2026-11-02', end: '2026-11-02' });
+    const leap = { type: 'annual_range', start: '02-29', end: '02-29' } as const;
+    expect(nextWindowSpan(leap, '2028-03-01')).toEqual({ start: '2032-02-29', end: '2032-02-29' });
+  });
+
+  it('always terminates with a span that is open, bounded and not before its own opening', () => {
+    const day = fc
+      .integer({ min: 0, max: 365 * 12 })
+      .map((n) => new Date(Date.UTC(2024, 0, 1) + n * 86_400_000).toISOString().slice(0, 10));
+    const monthDay = fc
+      .tuple(fc.integer({ min: 1, max: 12 }), fc.integer({ min: 1, max: 31 }))
+      .map(([m, d]) => `${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`);
+    const rule = fc.oneof(
+      fc
+        .tuple(monthDay, monthDay)
+        .map(([start, end]) => ({ type: 'annual_range' as const, start, end })),
+      fc.record({
+        type: fc.constant('month_part' as const),
+        month: fc.integer({ min: 1, max: 12 }),
+        part: fc.constantFrom('early' as const, 'mid' as const, 'late' as const),
+      }),
+    );
+    fc.assert(
+      fc.property(rule, day, (r, from) => {
+        const span = nextWindowSpan(r, from);
+        if (span === null) return;
+        expect(span.start <= span.end).toBe(true);
+        expect(windowOpenOn(r, span.start)).toBe(true);
+        expect(windowOpenOn(r, span.end)).toBe(true);
+        expect(span.end >= from).toBe(true);
+      }),
+      { numRuns: 300 },
+    );
   });
 });

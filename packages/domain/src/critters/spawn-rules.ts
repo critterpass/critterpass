@@ -106,23 +106,43 @@ export interface WindowSpan {
   readonly end: string;
 }
 
+/** One window never spans more than a year: every extent scan stops here. */
+const MAX_SPAN_DAYS = 366;
+/** A 02-29 window opens only in leap years: the next opening can be four years away. */
+const MAX_LOOKAHEAD_DAYS = 4 * 366;
+
 /**
  * The next opening of a dated window on or after `fromLocalDate` (an open window counts from its
- * own first day). `null` for any-day windows, which never open or close.
+ * own first day). `null` when there is nothing to wait for: an any-day window, a range covering
+ * the whole year (open every day, so it never opens or closes), or a date that never comes. Every
+ * scan is bounded, so a content row can never hang a device or the worker.
  */
 export function nextWindowSpan(rule: WindowRule, fromLocalDate: string): WindowSpan | null {
   if (rule.type === 'any_day') return null;
-  // A window is at most a few weeks long and recurs yearly: scan back to its start, then forward.
-  let day = fromLocalDate;
-  if (windowOpenOn(rule, day)) {
-    while (windowOpenOn(rule, addDays(day, -1))) day = addDays(day, -1);
+  let start = fromLocalDate;
+  if (windowOpenOn(rule, start)) {
+    let back = 0;
+    while (back < MAX_SPAN_DAYS && windowOpenOn(rule, addDays(start, -1))) {
+      start = addDays(start, -1);
+      back += 1;
+    }
+    if (back >= MAX_SPAN_DAYS) return null;
   } else {
-    for (let i = 0; i < 367 && !windowOpenOn(rule, day); i += 1) day = addDays(day, 1);
-    if (!windowOpenOn(rule, day)) return null;
+    let ahead = 0;
+    while (ahead < MAX_LOOKAHEAD_DAYS && !windowOpenOn(rule, start)) {
+      start = addDays(start, 1);
+      ahead += 1;
+    }
+    if (!windowOpenOn(rule, start)) return null;
   }
-  let end = day;
-  while (windowOpenOn(rule, addDays(end, 1))) end = addDays(end, 1);
-  return { start: day, end };
+  let end = start;
+  let length = 1;
+  while (length < MAX_SPAN_DAYS && windowOpenOn(rule, addDays(end, 1))) {
+    end = addDays(end, 1);
+    length += 1;
+  }
+  if (length >= MAX_SPAN_DAYS) return null;
+  return { start, end };
 }
 
 export interface SpawnContext {
