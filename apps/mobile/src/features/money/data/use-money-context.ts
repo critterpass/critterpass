@@ -5,10 +5,10 @@
  * crew stream, which is always on).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- stream names and status values, never copy. */
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import {
@@ -56,31 +56,6 @@ export interface MoneyContext {
   readonly splitMembers: readonly MoneyMember[];
 }
 
-const TRIP_STREAM_TTL_S = 60 * 60 * 24;
-
-/** Holds the `trip` sync stream for `tripId` while mounted. */
-export function useTripStream(tripId: string | null): void {
-  const { db } = useLocalFirst();
-  useEffect(() => {
-    if (tripId === null) return undefined;
-    let released = false;
-    let unsubscribe: (() => void) | null = null;
-    db.syncStream('trip', { trip_id: tripId })
-      .subscribe({ ttl: TRIP_STREAM_TTL_S })
-      .then(
-        (subscription) => {
-          if (released) subscription.unsubscribe();
-          else unsubscribe = () => subscription.unsubscribe();
-        },
-        () => undefined,
-      );
-    return () => {
-      released = true;
-      unsubscribe?.();
-    };
-  }, [db, tripId]);
-}
-
 export function useMoneyContext(requestedTripId: string | null = null): MoneyContext {
   const locale = useLocale();
   const uidRows = useLiveRows<{ value: string }>(UID_SQL, [OWNER_UID_KEY], UID_TABLES);
@@ -106,7 +81,7 @@ export function useMoneyContext(requestedTripId: string | null = null): MoneyCon
     tripRow === null ? null : [tripRow.id],
     PARTICIPANTS_TABLES,
   );
-  useTripStream(tripRow?.id ?? null);
+  useTripStreams(tripRow?.id ?? null);
 
   return useMemo(() => {
     const memberList = toMembers(members.rows);
