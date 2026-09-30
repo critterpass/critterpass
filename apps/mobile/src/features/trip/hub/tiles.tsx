@@ -1,6 +1,7 @@
 /**
  * The hub's tiles (3k-1): PLAN, BOOKINGS and MONEY from this area, plus tiles other areas register
- * (QUESTS). Four tiles sit 2×2; while only three are registered for the trip they share one row.
+ * (QUESTS). They sit on the render's two-column grid: four fill it 2×2, and an odd last tile keeps
+ * its half width.
  */
 import { upper } from '@cp/i18n';
 import type { ReactNode } from 'react';
@@ -30,18 +31,11 @@ export interface HubTileData {
 const useStyles = makeStyles((th) => ({
   // A row's tiles share its height, whichever caption wraps furthest.
   tile: { flexGrow: 1, minHeight: th.space['32'] * 3 + th.space['16'] },
-  compact: { flexGrow: 1, minHeight: th.space['32'] * 3 },
   cell: { flex: 1 },
   title: { flexShrink: 1 },
 }));
 
-export function HubTile({
-  tile,
-  compact = false,
-}: {
-  readonly tile: HubTileData;
-  readonly compact?: boolean;
-}) {
+export function HubTile({ tile }: { readonly tile: HubTileData }) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
@@ -52,19 +46,20 @@ export function HubTile({
       radius="cardBig"
       {...(tile.onPress === undefined ? {} : { onPress: tile.onPress })}
       accessibilityLabel={[tile.title, tile.value, tile.caption].filter(Boolean).join(', ')}
-      style={compact ? styles.compact : styles.tile}
+      style={styles.tile}
       testID={`trip-hub-tile-${tile.key}`}
     >
       <Stack flex={1} justify="space-between" gap="12">
         <Row justify="space-between" align="center" gap="6">
-          {/* A longer title ("LỊCH TRÌNH") wraps beside the icon rather than running under it. */}
-          <Text variant="eyebrow" color={ink} style={styles.title}>
+          {/* A longer title ("LỊCH TRÌNH") wraps beside the icon at a word break; a word too long
+              for the room shrinks rather than splitting. */}
+          <Text variant="eyebrow" color={ink} style={styles.title} autoFit>
             {upper(tile.title, locale)}
           </Text>
           <Icon name={tile.icon} size={24} decorative color={ink} />
         </Row>
         <Stack gap="2">
-          <Text variant={compact ? 'h3' : 'h2'} color={ink} autoFit>
+          <Text variant="h2" color={ink} autoFit>
             {upper(tile.value, locale)}
           </Text>
           {tile.caption === null ? null : (
@@ -78,21 +73,18 @@ export function HubTile({
   );
 }
 
-/** Tiles in rows of two, or one row of three while a fourth is not registered. */
+/** Tiles in rows of two; a lone last tile keeps its column's width beside an empty one. */
 export function HubTiles({
   tiles,
 }: {
   readonly tiles: readonly { key: string; node: ReactNode }[];
 }) {
   const styles = useStyles();
-  const rows =
-    tiles.length === 3
-      ? [tiles]
-      : tiles.reduce<{ key: string; node: ReactNode }[][]>((acc, tile, index) => {
-          if (index % 2 === 0) acc.push([tile]);
-          else acc[acc.length - 1]?.push(tile);
-          return acc;
-        }, []);
+  const rows = tiles.reduce<{ key: string; node: ReactNode }[][]>((acc, tile, index) => {
+    if (index % 2 === 0) acc.push([tile]);
+    else acc[acc.length - 1]?.push(tile);
+    return acc;
+  }, []);
   return (
     <Stack gap="12" testID="trip-hub-tiles">
       {rows.map((row) => (
@@ -102,6 +94,7 @@ export function HubTiles({
               {tile.node}
             </View>
           ))}
+          {row.length === 1 ? <View style={styles.cell} /> : null}
         </Row>
       ))}
     </Stack>
@@ -112,7 +105,6 @@ export function HubTiles({
 export interface HubTileProps {
   readonly tripId: string;
   readonly crewId: string;
-  readonly compact: boolean;
 }
 
 interface Registered {

@@ -110,7 +110,7 @@ function Hub({
     onAct: noop,
     tiles: tiles.map((tile) => ({
       key: tile.key,
-      node: <HubTile tile={tile} compact={!quests} />,
+      node: <HubTile tile={tile} />,
     })),
     ticker: TICKER,
     onSwitch: null,

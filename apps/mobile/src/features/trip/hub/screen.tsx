@@ -196,7 +196,6 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
     net === null ? null : wholeMoney(locale, net.amountMinor, net.currency),
     net === null ? 0 : Math.sign(net.amountMinor),
   );
-  const compact = registered.length === 0;
   const titles = tileTitles();
   const builtIn = [
     {
@@ -229,19 +228,14 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       const onPress = go(href);
       return {
         key: tile.key,
-        node: (
-          <HubTile
-            tile={{ ...tile, ...(onPress === undefined ? {} : { onPress }) }}
-            compact={compact}
-          />
-        ),
+        node: <HubTile tile={{ ...tile, ...(onPress === undefined ? {} : { onPress }) }} />,
       };
     }),
     ...(trip === null
       ? []
       : registered.map(({ key, Tile }) => ({
           key,
-          node: <Tile tripId={tripId} crewId={trip.crew_id} compact={compact} />,
+          node: <Tile tripId={tripId} crewId={trip.crew_id} />,
         }))),
   ];
 
