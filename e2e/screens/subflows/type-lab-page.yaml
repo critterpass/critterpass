@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# Opens one type lab page (apps/mobile/src/app/(dev)/type-lab.tsx), takes `${PAGE}` and goes back
+# to the list through the page's title.
+- scrollUntilVisible:
+    element:
+      id: 'type-lab-${PAGE}'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'type-lab-${PAGE}'
+- extendedWaitUntil:
+    visible:
+      id: 'type-scene-ready'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${PAGE}
+- tapOn:
+    id: 'type-scene-back'
+- extendedWaitUntil:
+    visible:
+      id: 'type-lab-${PAGE}'
+    timeout: 10000
