@@ -605,6 +605,9 @@ importers:
       '@cp/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n
+      '@cp/planner':
+        specifier: workspace:*
+        version: link:../../packages/planner
       '@expo/app-integrity':
         specifier: 58.0.0
         version: 58.0.0(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))
