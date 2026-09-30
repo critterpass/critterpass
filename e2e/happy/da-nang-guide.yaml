@@ -1,0 +1,54 @@
+appId: app.critterpass.dev
+---
+# Happy path: a fresh account on staging finds Đà Nẵng, starts a trip there and meets its own guide,
+# Chà Vá, not the guest Tokek: place search, the place page, SOLO TRIP, then the guide button opens
+# the sheet with Chà Vá in its header.
+#
+# Data: a fresh account onboards. Needs the staging place index with the Vietnam set linked to
+# Chà Vá and the Đà Nẵng destination.
+- launchApp:
+    clearState: true
+- runFlow: ../home/subflows/onboard.yaml
+- openLink: critterpass-dev://places/search
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 15000
+- inputText: 'da nang'
+- extendedWaitUntil:
+    visible: 'Đà Nẵng.*'
+    timeout: 15000
+- tapOn: 'Đà Nẵng.*'
+- scrollUntilVisible:
+    element:
+      id: 'guest-solo'
+    timeout: 30000
+- tapOn:
+    id: 'guest-solo'
+- assertVisible:
+    id: 'solo-confirm'
+- tapOn:
+    id: 'solo-start'
+- extendedWaitUntil:
+    notVisible:
+      id: 'solo-confirm'
+    timeout: 15000
+# Trip setup opens over Home; the guide button lives on the tab bar.
+- runFlow:
+    when:
+      notVisible:
+        id: 'guide-fab'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'guide-fab'
+    timeout: 20000
+- tapOn:
+    id: 'guide-fab'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-composer'
+    timeout: 15000
+- assertVisible: '(?i)chà vá'
+- waitForAnimationToEnd
+- takeScreenshot: happy-da-nang-guide
