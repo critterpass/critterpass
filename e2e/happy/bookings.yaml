@@ -2,7 +2,7 @@ appId: app.critterpass.dev
 ---
 # Release gate: adding a booking by pasting its confirmation. A fresh account takes the staging
 # demo crew's Bali trip; the pasted flight confirmation goes to the api, the guide reads it into a
-# candidate, ADD files it, and the wallet stack shows the flight card with its reference. A pasted
+# candidate, ADD files it, the wallet stack shows the flight card, and its details show the reference. A pasted
 # confirmation carries no boarding pass barcode (the pass comes from scanning it at check-in), so
 # the card offers no pass.
 - runFlow:
@@ -75,12 +75,17 @@ appId: app.critterpass.dev
       id: 'bookings-stack'
     timeout: 30000
 - assertVisible: '.*SQ ?938.*'
-- tapOn:
-    id: 'bookings-open-details'
+# The open card is the flight card; with no pass scanned it offers none.
 - extendedWaitUntil:
     visible:
       id: 'bookings-flight'
     timeout: 15000
-- assertVisible: '.*K7Q2PX.*'
 - assertNotVisible:
     id: 'bookings-flight-pass'
+- tapOn:
+    id: 'bookings-open-details'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-detail'
+    timeout: 15000
+- assertVisible: '.*K7Q2PX.*'
