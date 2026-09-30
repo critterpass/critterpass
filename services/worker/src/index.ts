@@ -6,7 +6,7 @@ import { createClient } from 'redis';
 
 import packageJson from '../package.json' with { type: 'json' };
 
-import { aiJobs } from './ai';
+import { aiJobs, guideJobs } from './ai';
 import { contentJobs } from './content';
 import { createPostHogSink, startExportLoop, type ExportLoop } from './analytics-export';
 import { loadWorkerEnv } from './env';
@@ -167,6 +167,7 @@ const jobs: AnyJobDefinition[] = [
   ...bookingsJobs(env, pool, aiSwitches.assertAiRoute, llmObservability),
   ...billingJobs(process.env, logger, metrics),
   ...planJobs(),
+  ...guideJobs({ ...process.env, ...env }, pool, aiSwitches.assertAiRoute, llmObservability),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&

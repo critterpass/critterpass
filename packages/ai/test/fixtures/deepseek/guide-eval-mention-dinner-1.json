@@ -1,0 +1,42 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "3580dfbb-44f7-4571-8ee7-27599a3ff37c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "I'll have a look around the villa for somewhere veg-friendly."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_P0qZl9TEcBsBVkLl9buo1825",
+          "name": "places_search",
+          "input": {
+            "query": "vegetarian restaurant dinner",
+            "near": {
+              "lat": -8.5069,
+              "lng": 115.2625
+            },
+            "category": "food",
+            "dietary": ["vegetarian"],
+            "limit": 6
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 220,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9344,
+        "output_tokens": 138,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

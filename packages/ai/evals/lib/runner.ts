@@ -18,6 +18,7 @@ import {
 } from './compliance';
 import { isPromptSuite, runPromptSuiteCases } from './prompt-suites';
 import { DRAFT_SUITE, runDraftSuite } from '../draft/suite';
+import { GUIDE_SUITE, runGuideSuite } from '../guide/suite';
 import { runCase, type EvalMode, type EvalOutput, type Pipeline } from './provider';
 import { EVALS_DIR, loadSuite, type Assertion, type CaseVars, type EvalCase } from './suite';
 
@@ -202,7 +203,7 @@ function baseCheck(type: string, value: unknown, output: EvalOutput): GradeResul
   }
 }
 
-async function check(
+export async function check(
   assertion: Assertion,
   output: EvalOutput,
   testCase: EvalCase,
@@ -238,6 +239,7 @@ export async function runSuite(name: string, options: RunOptions): Promise<Suite
   const threshold = loadThresholds(options.root)[options.mode][name];
   if (threshold === undefined) throw new Error(`no ${options.mode} threshold for suite ${name}`);
   if (name === COMPLIANCE_SUITE) return runComplianceSuite(options, threshold);
+  if (name === GUIDE_SUITE) return runGuideSuite(options, threshold);
   if (name === DRAFT_SUITE) {
     return runDraftSuite(
       {

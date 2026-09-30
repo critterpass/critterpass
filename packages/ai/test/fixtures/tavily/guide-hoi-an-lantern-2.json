@@ -1,0 +1,61 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Hoi An events this week October 2026 old town",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.facebook.com/smiletravel.net/posts/-hoi-an-is-about-to-light-up-with-the-2026-international-lantern-festival-36-dec/1786602993470221",
+          "title": "Hoi An International Lantern Festival 2026 in Vietnam",
+          "content": "The 2026 Hoi An International Lantern Festival is set to transform the Ancient Town into a spectacular celebration where light, art and heritage come",
+          "score": 0.7355091,
+          "raw_content": null,
+          "published_date": null,
+          "id": "c8ea46-00"
+        },
+        {
+          "url": "https://www.tiktok.com/@meetupvietnam/video/7688943672481549588",
+          "title": "2026 Hoi An Lantern Festival Dates (Full Moon Nights)",
+          "content": "# 🏮 The Ultimate 2026 Hoi An Lantern Festival Guide! Hoi An is famous for its glowing lanterns along the river at night. While you can release lanterns almost any day of the year, there are certain nights when the Old Town becomes even more magical. ✨ 🌕 2026 Hoi An Lantern Festival dates: 🌙 January 21 🌙 February 19 🌙 March 21 🌙 April 19 🌙 May 19 🌙 June 17 🌙 July 17 🌙 August 15 🌙 September 14 🌙 October 13 🌙 November 11 🌙 December 11 These Full Moon Lantern Nights take place on the 14th day of [...] on the 14th day of the lunar month, when much of the town turns off its electric lights and thousands of colorful lanterns illuminate the streets and river.🏮✨ Save this guide for your Hoi An trip and send it to someone who would love to experience this magical night! 🧚‍♀️ - 👇 Comment “CENTRAL” to receive your Da Nang–Hoi An packages from Meetup Travel! cre: t.nguyen7018, razvan.todica, mecheckin. [...] video-cover",
+          "score": 0.71185225,
+          "raw_content": null,
+          "published_date": null,
+          "id": "0ef45f-01"
+        },
+        {
+          "url": "https://www.instagram.com/reel/Dd1YBWDC_rP",
+          "title": "THE HOI AN LANTERN FESTIVAL If you're planning a trip ...",
+          "content": "Once a month, Hoi An celebrates its Lantern Festival on the full moon, when the Old Town takes on an even more traditional atmosphere. Electric lights are",
+          "score": 0.37346497,
+          "raw_content": null,
+          "published_date": null,
+          "id": "3e1753-02"
+        },
+        {
+          "url": "https://vietone.travel/vietnam-cultural-events-2027",
+          "title": "Vietnam Cultural Events 2027: Jan–Jun Calendar for Agents",
+          "content": "| Hoi An full-moon lantern night | Thu 21 Jan | Hoi An | Confirmed | Last lantern night before Tet; town is calm, hotels reasonable |\n| Kitchen Gods’ Day (Ong Tao) — Tet markets open | Sat 30 Jan | Nationwide | Confirmed | Flower markets and peach-blossom streets fill from this day; best week for Tet photography | [...] The short version: Tet falls on Saturday 6 February 2027, Hung Kings’ Day lands on a Friday (16 April) and gives clients a three-day weekend, and the six Hoi An lantern nights of the half-year are 21 January, 19 February, 21 March, 20 April, 19 May and 18 June. Everything else — from the Perfume Pagoda season to the Da Nang fireworks — is below, month by month, with each date labelled so you know what you can promise a client and what you can only pencil in. [...] Our Travel Packages\n\n## FAQ\n\n### When is Tet 2027?\n\nSaturday 6 February 2027, the Year of the Goat. The Ministry of Home Affairs has proposed a seven-day holiday from 4 to 10 February (favoured) or ten days from 5 to 14 February; the decision is expected in autumn 2026.\n\n### What are the Hoi An lantern festival dates in 2027?\n\nFirst half of 2027: 21 January, 19 February, 21 March, 20 April, 19 May and 18 June — the 14th night of each lunar month.",
+          "score": 0.32158834,
+          "raw_content": null,
+          "published_date": "Mon, 28 Sep 2026 06:48:26 GMT",
+          "id": "a63117-03"
+        },
+        {
+          "url": "https://www.facebook.com/100087258378284/videos/-the-hoi-an-lantern-festival-if-youre-planning-a-trip-to-vietnam-save-these-date/1796126038256218",
+          "title": "Hoi An Lantern Festival Vietnam: Full Moon Dates & Boat ...",
+          "content": "Once a month, Hoi An celebrates its Lantern Festival on the full moon, when the Old Town takes on an even more traditional atmosphere. Electric lights are",
+          "score": 0.29294962,
+          "raw_content": null,
+          "published_date": null,
+          "id": "5cf812-04"
+        }
+      ],
+      "response_time": 1.38,
+      "request_id": "cc951828-d88b-4ab1-94a7-240adfd5bf84"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "f5e482eb-aab0-4688-94a2-134477b0dfbb",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "From that menu, gado-gado is your vegetarian one — it's a salad of vegetables with peanut sauce, though I can't promise the kitchen doesn't sneak in shrimp paste or a boiled egg. Nasi goreng and sate ayam both usually carry meat, so I'd ask before ordering those. Want me to check a place nearby that does it clearly veggie?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 152,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9472,
+        "output_tokens": 78,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

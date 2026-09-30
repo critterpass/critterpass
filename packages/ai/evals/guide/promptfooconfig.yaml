@@ -1,0 +1,12 @@
+# The guide's chat surfaces through their own prompt builders (src/routes/guide): the sheet, crew-chat
+# mentions, proactive offers and queued answers. Run: pnpm --filter @cp/ai eval guide
+description: Guide chat, crew-chat mentions, proactive offers and queued answers
+prompts:
+  - '{{question}}'
+providers:
+  - id: file://../lib/provider.ts
+tests:
+  - file://chat.yaml
+  - file://mention.yaml
+  - file://proactive.yaml
+  - file://queued.yaml

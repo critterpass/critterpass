@@ -70,7 +70,9 @@ describe('suite selection for a pull request', () => {
       'chat',
       'grounding',
       'injection',
+      'guide',
     ]);
+    expect(suitesForChanges(['packages/ai/src/routes/guide/chat.prompt.ts'])).toEqual(['guide']);
     expect(suitesForChanges(['packages/ai/personas/pon.json'])).toEqual([
       'chat',
       'persona',

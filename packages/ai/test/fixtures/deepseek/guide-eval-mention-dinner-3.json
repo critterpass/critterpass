@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "4299b642-37bc-41f8-a718-c12f1f578545",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "My place search is down tonight, so this comes from web guides, not from the app's own listings — and they're a few years old, so treat the details as a starting point.\n\nVeggies Abroad and Midnight Blue Elephant both point to the Jalan Sugriwa area of central Ubud as the veg-friendly strip, with several fully vegetarian and vegan kitchens around there; Vegan Food Quest mentions a casual Balinese spot on Jalan Sugriwa too. I'd rather not name small family places, so: walk or ride into central Ubud along Jalan Sugriwa and pick from what's open — and if you want it checked properly, terima kasih (thank you (Indonesian)) for the patience while I try the app's own search again later."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 2027,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9728,
+        "output_tokens": 158,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

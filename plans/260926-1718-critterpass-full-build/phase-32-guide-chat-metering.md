@@ -1,7 +1,7 @@
 ---
 phase: 32
 title: Guide chat, guide in crew chat, metering, phrase cards
-status: pending
+status: in_progress
 depends_on: [12, 13, 24, 29]
 wave: 16
 features: [F-093, F-094, F-097, F-098, F-099, F-160]
@@ -110,6 +110,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. Tables + group mode. 2. RLS + publication. 3. Testcontainers tests.
 - Tests: `pnpm --filter @cp/db test -- permissions/guide`
 - Done when: non-owner cannot read private thread; non-member cannot read group thread; `guide_reader` sees only the calling user's thread.
+- Status: done — 9720f652 (also `custom_phrase_cards` and the server-only `guide_crew_turns`; `llm.guide_history` and `llm.crew_profiles` views)
 
 ### T2 — Guide turn route + meter integration + tools wiring
 - Goal: SSE turn endpoint with quota reserve/commit/release and ChangeSet output.
@@ -117,6 +118,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. Route validation + context guide (C27). 2. meter exemptions + tz clamp. 3. Tool set per api-contracts §6 caller C. 4. `usage` event + `QUOTA_EXHAUSTED` error.
 - Tests: `pnpm --filter @cp/api test -- routes/guide`; `pnpm --filter @cp/ai eval -- guide`
 - Done when: 31 concurrent requests on 30-limit produce exactly 30 answers; failed turn releases quota; tz change test cannot exceed 30 in a day; a second tz change within 24 h is ignored.
+- Status: done — 34fcdfba, 3ad34ce8 (plan changes land as draft change sets via `create_changeset`); evals in f1fe892a
 
 ### T3 — Guide sheet UI (3j-1)
 - Goal: sheet, modes, streaming, plan cards, quick actions, states.
@@ -131,6 +133,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. Mention job streaming fan-out. 2. Metering rule (any Pass+/boost → unmetered). 3. Proactive trigger + rate limit + chat mode respect. 4. Offer card explicit confirm per member.
 - Tests: `pnpm --filter @cp/worker test -- guide`; `maestro test e2e/guide/crew-mention.yaml`
 - Done when: mention by free user with Pass+ crewmate does not increment usage; proactive cap enforced; offer never books without confirm; mention turn tool list is propose-only (test); prompt-assembly test shows no supplier text and availability numbers come from the template.
+- Status: server done — 73a42078 (mention stream route, `ai.guide_mention`, `guide.proactive`); app part (`features/guide/crew-mention`, Maestro) pending
 
 ### T5 — Meter chip + 4b-1 limit card
 - Goal: limit UX exactly as designed.
@@ -145,6 +148,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. Commands with guard. 2. Cron per tz bucket. 3. AI-40 answer counted to new day. 4. N-36 passive; status for briefing.
 - Tests: `pnpm --filter @cp/worker test -- guide/queued-answer`
 - Done when: fake-clock test answers at 00:00 in Asia/Saigon and not at 00:00 UTC; second queue same day rejected.
+- Status: server done — 7985fc0a (also `rate_guide_answer`); app part (`features/guide/queued`) pending
 
 ### T7 — Phrase cards + TTS pipeline
 - Goal: playable, showable, offline phrase cards.
@@ -152,6 +156,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. `<PhraseCard>` with play/show mode. 2. TTS job (ElevenLabs Flash/v3 by language, per-guide voice) → R2. 3. Offline bundle inclusion + on-device TTS fallback.
 - Tests: `pnpm --filter @cp/worker test -- guide/phrase-tts`; `maestro test e2e/guide/phrase-offline.yaml`
 - Done when: airplane-mode Maestro flow plays cached audio; custom address card produced within job.
+- Status: server done — b83eb562 (ElevenLabs adapter behind `ELEVENLABS_API_KEY` + `ELEVENLABS_VOICE_ID`, else on-device speech); app part (`features/guide/phrases`, Maestro) pending
 
 ### T8 — Dietary & accessibility capture + consent
 - Goal: undesigned capture flow built with design system.
@@ -166,6 +171,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. Cases: numbers only from tools, no supplier text, persona, refusal, dietary privacy, prompt injection in mentions / proactive triggers / vendor replies (no out-of-policy tool call, no leak). 2. Langfuse cost per trip tags.
 - Tests: `pnpm --filter @cp/ai eval -- guide`
 - Done when: suite green and wired into `ai-evals` workflow.
+- Status: done — f1fe892a (Langfuse cost per trip rides the `tripId` on every guide call’s usage context)
 
 ### T10 — Web search in guide answers
 - Goal: the guide answers fresh questions (what's on this week, holiday hours, ferry or metro strikes) with cited web results (D23).
@@ -173,6 +179,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. Enable the gateway's `web_search` tool (phase 13 T13) on guide chat routes; answers attribute each web fact to its source link, rendered as source chips. 2. Searches count toward the 30/day meter (D8) and the fair-use caps. 3. In crew chat the guide searches only when @mentioned, never in proactive posts. 4. Web numbers are cite-only: never in plan changes or costs (D5). 5. Queries pass the privacy screen from phase 13 T13.
 - Tests: chat eval cases for fresh-fact questions (EN and VI) with recorded search fixtures; a crew-chat test proves no search without an @mention; a meter test.
 - Done when: fresh-fact questions get answers citing their sources, crew chat searches only on @mention, and searches are metered.
+- Status: done — 567564a4
 
 ## Phase acceptance criteria
 - [ ] Concurrency test: exactly 30 metered answers/day on free tier.

@@ -1486,6 +1486,36 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(false, true, false),
     },
   },
+  // Guide chat: a private thread and everything under it is its owner's (the organiser's rows
+  // here); a trip's group thread is its crew's. The server writes all of it except phrase practice.
+  guide_threads: {
+    selectProbe: {
+      sql: "SELECT 1 FROM guide_threads WHERE trip_id = $1 AND mode = 'private'",
+      params: (f) => [f.tripId],
+    },
+    expectations: OWNER_READ,
+  },
+  guide_messages: {
+    selectProbe: {
+      sql: `SELECT 1 FROM guide_messages m WHERE m.trip_id = $1
+              AND m.thread_id IN (SELECT id FROM guide_threads WHERE mode = 'group')`,
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  queued_guide_questions: {
+    selectProbe: ownRowProbe('queued_guide_questions'),
+    expectations: OWNER_READ,
+  },
+  custom_phrase_cards: {
+    selectProbe: ownRowProbe('custom_phrase_cards'),
+    expectations: OWNER_READ,
+  },
+  phrase_progress: { selectProbe: ownRowProbe('phrase_progress'), expectations: SELF_ONLY },
+  guide_crew_turns: {
+    selectProbe: { sql: 'SELECT 1 FROM guide_crew_turns LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
 };
 
 /**

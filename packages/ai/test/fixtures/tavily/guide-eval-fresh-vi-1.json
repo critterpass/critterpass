@@ -1,0 +1,61 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Đà Lạt sự kiện lễ hội tháng 10 2026",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.facebook.com/LamDongTVfanpage/videos/festival-hoa-%C4%91%C3%A0-l%E1%BA%A1t-2026-l%C3%A2m-%C4%91%E1%BB%93ng-m%E1%BB%9F-r%E1%BB%99ng-kh%C3%B4ng-gian-h%C3%BAt-kh%C3%A1ch-du-l%E1%BB%8Bchfestival-h/1652876636371782",
+          "title": "Festival Hoa Đà Lạt 2026: Lâm Đồng mở rộng không gian ...",
+          "content": "Festival Hoa Đà Lạt lần thứ XI năm 2026 dự kiến diễn ra trong tháng 12, với 11 chương trình chính và 25 chương trình hưởng ứng.",
+          "score": 0.7621591,
+          "raw_content": null,
+          "published_date": null,
+          "id": "613593-00"
+        },
+        {
+          "url": "https://www.facebook.com/LamDongTVfanpage/videos/l%C3%A2m-%C4%91%E1%BB%93ng-%C4%91%E1%BA%A9y-nhanh-ti%E1%BA%BFn-%C4%91%E1%BB%99-chu%E1%BA%A9n-b%E1%BB%8B-festival-hoa-%C4%91%C3%A0-l%E1%BA%A1t-2026l%C3%A2m%C4%91%E1%BB%93ng-festivalhoad/1078704384896678",
+          "title": "Lâm Đồng đẩy nhanh tiến độ chuẩn bị Festival Hoa Đà Lạt ...",
+          "content": "Festival lần thứ mười một được định hướng phát huy những giá trị đã tạo dựng qua các kỳ trước làm rõ vẻ đẹp của Đà Lạt bốn mùa hoa kéo chuỗi hoạt động từ tháng",
+          "score": 0.39824316,
+          "raw_content": null,
+          "published_date": null,
+          "id": "ec41cd-01"
+        },
+        {
+          "url": "https://www.instagram.com/p/Ddp88hTEgFR",
+          "title": "Hội chợ Liên minh Du lịch Đài Loan 2026 ✨ ALL ...",
+          "content": "Voucher giảm 40% dịch vụ phòng tại Cụm Khách sạn TTC Đà Lạt 🍽️ Voucher giảm 10% dịch vụ F&B tại Cụm Khách sạn TTC Đà Lạt 🎟️ Voucher miễn phí tham",
+          "score": 0.39494804,
+          "raw_content": null,
+          "published_date": null,
+          "id": "1f0101-02"
+        },
+        {
+          "url": "https://www.facebook.com/groups/nvca16/posts/28170029252639883",
+          "title": "• Lễ Hội Lồng Đèn sắp đến rồi!",
+          "content": "✨ Ban Tổ chức trân trọng kính mời toàn thể Nhân dân, bà con và du khách thập phương về tham dự, tham quan và chung vui cùng Lễ hội Lồng Tồng Xuân Bính Ngọ",
+          "score": 0.14011282,
+          "raw_content": null,
+          "published_date": null,
+          "id": "b0a092-03"
+        },
+        {
+          "url": "https://www.vietnamplus.vn/tuyen-quang-le-hoi-com-thuan-hoa-mo-ra-nhieu-trai-nghiem-cho-du-khach-post1138879.vnp",
+          "title": "Thuận Hòa tổ chức lễ hội Cốm với trải nghiệm làm ...",
+          "content": "Lễ hội Cốm Thuận Hòa diễn ra ngày 10-11/10, mang đến trải nghiệm làm cốm, văn hóa dân gian, ẩm thực đặc trưng và khám phá cảnh quan địa phương. sự kiện,",
+          "score": 0.100869976,
+          "raw_content": null,
+          "published_date": "Tue, 29 Sep 2026 04:00:00 GMT",
+          "id": "eac42f-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "d87991bc-e4cd-46e3-9b6a-de9e3fe65e87"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "12de0b44-e1f3-4040-b54f-749c37df1fb6",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tôi tìm thấy hai nguồn nói hơi khác nhau về Festival Hoa Đà Lạt 2026: trang vietnam.travel ghi sự kiện kéo dài 01–31/10/2026, còn một bài tổng hợp trên Facebook lại ghi 1–10/12 ở Đà Lạt. Ngoài ra tôi chưa thấy sự kiện nào khác được xác nhận đúng vào 01–04/10, nên bạn đừng dựa hẳn vào lịch này nhé. Muốn tôi kiểm tra lại bằng nguồn chính thức gần ngày đi không?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 2558,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9600,
+        "output_tokens": 157,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

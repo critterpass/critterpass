@@ -149,3 +149,11 @@ export {
 } from './user-private';
 export { scheduledEvents } from '../jobs/schema';
 export { redraftReservations } from './draft';
+export {
+  customPhraseCards,
+  guideCrewTurns,
+  guideMessages,
+  guideThreads,
+  phraseProgress,
+  queuedGuideQuestions,
+} from './guide-chat';

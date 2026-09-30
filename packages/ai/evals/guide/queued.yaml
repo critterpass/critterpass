@@ -1,0 +1,28 @@
+- description: A question queued overnight is answered fresh in the morning, in persona
+  vars:
+    route: guide.chat
+    persona: pon
+    surface: queued
+    question: What time does the Ubud morning market open?
+    trip_context: >-
+      destination_name: Bali, start_date: 2026-10-10, end_date: 2026-10-16, tz: Asia/Makassar.
+    history:
+      - role: user
+        content: best warung near Monkey Forest?
+      - role: guide
+        content: Try Warung Biah Biah, cheap and busy.
+    replay:
+      fixtures: [guide-eval-queued-market-1, guide-eval-queued-market-2, guide-eval-queued-market-3]
+    search_fixtures:
+      [
+        guide-eval-queued-market-search-1,
+        guide-eval-queued-market-search-2,
+        guide-eval-queued-market-search-3,
+      ]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:persona_layered
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+    - type: not-icontains
+      value: asked last night after the free answers ran out

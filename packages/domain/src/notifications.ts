@@ -310,6 +310,7 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'lottery.reminder_due': ['lottery_deadline'],
   // Drafting: the organiser's draft is ready (pushed only when the app is in the background).
   'draft.ready': ['draft_ready'],
+  'guide.question_answered': ['queued_answer'],
   // Money: a new expense to the members it splits with, requests, nudges, reminders and
   // confirmations to the other side of each payment, and the Settled Tokek to everyone at once.
   'expense.added': ['money_event'],

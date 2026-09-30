@@ -1,0 +1,36 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "602c7bf5-b04f-4fb9-b22d-999c38202381",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Morning. Let me check that for you."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_o9cR9uCBGeSBvLwlSOQD1482",
+          "name": "places_search",
+          "input": {
+            "query": "Ubud morning market",
+            "category": "market"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 224,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9344,
+        "output_tokens": 64,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

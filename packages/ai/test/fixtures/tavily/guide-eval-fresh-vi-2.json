@@ -1,0 +1,61 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Da Lat events festival October 2026",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://vietnam.travel/things-to-do/festival-event/11th-da-lat-flower-festival-2026",
+          "title": "11th Da Lat Flower Festival 2026",
+          "content": "01 Oct 2026 - 31 Oct 2026. Da Lat Flower Festival 2026. A major cultural-tourism event attracting millions of visitors, expanding across Da Lat and",
+          "score": 0.90771407,
+          "raw_content": null,
+          "published_date": "Tue, 15 Sep 2026 00:00:00 GMT",
+          "id": "fa272e-00"
+        },
+        {
+          "url": "https://www.facebook.com/nguyenhathutrang/posts/-vietnam-festivals-calendar-2026planning-a-trip-to-vietnam-between-september-and/10236160856430168",
+          "title": "Vietnam festivals calendar September to December 2026",
+          "content": "Dalat Flower Festival (Dec 1–10, Da Lat, Lam Dong Province) - The highland city transforms into a floral wonderland with parades, flower exhibitions, and",
+          "score": 0.8335554,
+          "raw_content": null,
+          "published_date": null,
+          "id": "1a625e-01"
+        },
+        {
+          "url": "https://www.instagram.com/p/Ddtk-V6E7Om",
+          "title": "Mid-Autumn Festival is almost here in Vietnam. 🏮🌕🇻🇳 And ...",
+          "content": "Mid-Autumn Festival is one of Vietnam's most beloved family festivals — celebrating the harvest moon, children + togetherness. Da Nang | Oct 6, 2026.",
+          "score": 0.6549173,
+          "raw_content": null,
+          "published_date": null,
+          "id": "a10c1e-02"
+        },
+        {
+          "url": "https://www.vietfilmfest.com/viet-film-fest-2026-announces-this-years-lineup-and-special-events-tickets-now-on-sale",
+          "title": "Viet Film Fest 2026 Announces This Year’s Lineup and Special Events, Tickets Now on Sale - VAALA Presents Viet Film Fest",
+          "content": "Set in the mid 1980s of post-war Saigon, Ky Nam Inn is Leon Le’s latest romantic drama detailing the nuanced lives of private individuals in the midst of a changing Vietnam. The plot centers on Khang (Liên Bỉnh Phát), a young translator from Da Lat who moves into a working-class neighborhood and meets a cast of animated characters that give the film its livelihood. He falls for a middle-aged widow, Ky Nam (Đỗ Thị Hải Yến), who cooks in the neighborhood. While their connection is real, [...] Santa Ana, CA – The Vietnamese American Arts and Letters Association (VAALA) is excited to announce that tickets are now on sale for Viet Film Fest 2026. As the largest international Vietnamese film festival in the diaspora, Viet Film Fest 2026 will expand its in-person festival to four days, taking place from October 8–11 at The Frida Cinema, followed by a virtual festival from October 12–25, giving audiences more opportunities to experience Vietnamese stories from around the world. With 64 [...] ## Festival Screenings & Spotlight Presentations\n\nMost screenings will include a filmmakers Q&A post-screening. Final confirmation of panel participants, timing, and Q&A format is pending. For more information, please visit \n\nOpening Night Screening: A Little Dream of Me (Cảm ơn người đã thức cùng tôi) (2026, Vietnam; dir. Chung Chí Công)\n\nThursday, October 8 at 7:00 PM PST",
+          "score": 0.46104163,
+          "raw_content": null,
+          "published_date": "Wed, 16 Sep 2026 20:42:13 GMT",
+          "id": "074d6c-03"
+        },
+        {
+          "url": "https://www.tisland.travel/en/blog/festival-hue-2026",
+          "title": "Hue Festival 2026: Dates, Program & Tickets",
+          "content": "Hue Festival 2026 runs all year. Autumn season is on 1 August–30 September: boat races, Tuong opera and lanterns for Mid-Autumn on 25 September.",
+          "score": 0.17439653,
+          "raw_content": null,
+          "published_date": "Tue, 15 Sep 2026 00:00:00 GMT",
+          "id": "406738-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "db24e58f-97eb-479d-a705-be18f3cab460"
+    }
+  }
+}

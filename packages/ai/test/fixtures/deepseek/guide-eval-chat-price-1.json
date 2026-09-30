@@ -1,0 +1,39 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "33917ca8-7f6d-4b4e-80db-c22aa201aedb",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "I'd need to find Karsa Spa in my tools first — let me look."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_A6J6oBUZaT19dztWvl7U9727",
+          "name": "places_search",
+          "input": {
+            "query": "Karsa Spa",
+            "near": {
+              "lat": -8.5069,
+              "lng": 115.2625
+            }
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 250,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9216,
+        "output_tokens": 90,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

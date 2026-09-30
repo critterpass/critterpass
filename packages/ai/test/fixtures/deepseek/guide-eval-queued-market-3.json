@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "80f64f64-af45-43c1-86d8-33b90ca8a297",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "I couldn't reach the app's place tool, so this comes from the web: the traditional food side of Ubud's central market, across from the palace, starts around 4am and winds down by about 9am, per anywhere.com, and alike.io lists it as 4am to 9am. Go early, before the tour groups and the heat."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1987,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9600,
+        "output_tokens": 76,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

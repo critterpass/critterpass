@@ -1,0 +1,45 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "f6a100dd-f4e3-4e4c-b825-1dbaddc58e52",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Để tôi ngó xem tuần này Đà Lạt có gì nhé."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_UIhE1Hfp726orTveozEX5515",
+          "name": "web_search",
+          "input": {
+            "query": "Đà Lạt sự kiện lễ hội tháng 10 2026",
+            "news": true
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01_Si88xSuVyCucF5zTje361024",
+          "name": "web_search",
+          "input": {
+            "query": "Da Lat events festival October 2026",
+            "recent": "month"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 167,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9344,
+        "output_tokens": 143,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "3411f5e3-e41d-414b-bf41-71ff314e8f72",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "call_00_KfOhjlasXFtC5ZCozWb15739",
+          "name": "web_search",
+          "input": {
+            "query": "vegetarian restaurants Ubud Bali near villa dinner"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 150,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9600,
+        "output_tokens": 45,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
