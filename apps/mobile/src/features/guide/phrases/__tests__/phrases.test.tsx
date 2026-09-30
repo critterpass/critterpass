@@ -1,6 +1,6 @@
 /**
  * Phrase cards: recorded audio plays from the phone (airplane mode included), is fetched once when
- * missing, and a card whose audio can't be reached, or has none, is shown instead of played.
+ * missing, and a card whose audio can't be reached, or has none, is read in the phone's voice.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
@@ -8,6 +8,11 @@ const mockPush = jest.fn();
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
   router: { push: (href: unknown) => mockPush(href) },
+}));
+const mockSpeak = jest.fn();
+jest.mock('expo-speech', () => ({
+  speak: (text: unknown, options: unknown) => mockSpeak(text, options),
+  stop: () => Promise.resolve(),
 }));
 
 import { describe, expect, it, jest } from '@jest/globals';
@@ -107,9 +112,14 @@ describe('the phrase card', () => {
     </GestureHandlerRootView>
   );
 
-  it('has no play button without recorded audio, and opens SHOW mode', async () => {
+  it("reads a card without recorded audio in the phone's voice, and opens SHOW mode", async () => {
     await renderWithI18n(card(null));
-    expect(screen.queryByLabelText('Read aloud')).toBeNull();
+    expect(screen.getByText("Read in your phone's voice")).toBeTruthy();
+    await fireEvent.press(screen.getByLabelText('Read aloud'));
+    expect(mockSpeak).toHaveBeenCalledWith(
+      'Tolong ke Villa Kayu Manis, Jalan Raya Sayan, Ubud.',
+      expect.objectContaining({ language: 'id' }),
+    );
     await fireEvent.press(screen.getByText('Tolong ke Villa Kayu Manis, Jalan Raya Sayan, Ubud.'));
     expect(mockPush).toHaveBeenCalledWith({
       pathname: '/guide/phrase',

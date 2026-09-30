@@ -319,6 +319,10 @@ msgstr "Rather not eat"
 msgid "guide.queued.rate"
 msgstr "Rating a guide answer"
 
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.deviceVoice"
+msgstr "Read in your phone's voice"
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.resets"
 msgstr "Resets {clock}"
@@ -426,10 +430,6 @@ msgstr "That's my thirtieth answer today, and the free ones are used up. I'll be
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.refused"
 msgstr "That's not something I can help with. Ask me about the trip instead?"
-
-#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
-msgid "guide.phrase.unavailable"
-msgstr "The audio isn't on this phone yet. Tap the card to show it instead."
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.shareCaption"

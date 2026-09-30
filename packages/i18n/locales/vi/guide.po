@@ -319,6 +319,10 @@ msgstr "Không muốn ăn"
 msgid "guide.queued.rate"
 msgstr "Đánh giá câu trả lời của hướng dẫn viên"
 
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.deviceVoice"
+msgstr "Đọc bằng giọng của điện thoại"
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.resets"
 msgstr "Làm mới {clock}"
@@ -426,10 +430,6 @@ msgstr "Đó là câu trả lời thứ ba mươi của mình hôm nay, hết l�
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.refused"
 msgstr "Chuyện đó mình không giúp được. Hỏi mình về chuyến đi nhé?"
-
-#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
-msgid "guide.phrase.unavailable"
-msgstr "Âm thanh chưa có trên điện thoại này. Chạm vào thẻ để đưa người khác xem."
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.shareCaption"
