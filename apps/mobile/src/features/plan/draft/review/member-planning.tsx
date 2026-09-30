@@ -14,7 +14,13 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 
 import type { DraftTrip } from '../data/draft-trip';
 
-export function MemberPlanning({ trip }: { readonly trip: DraftTrip }) {
+export function MemberPlanning({
+  trip,
+  onBack,
+}: {
+  readonly trip: DraftTrip;
+  readonly onBack: () => void;
+}) {
   const locale = useLocale();
   const info = GUIDE_STICKERS[trip.guide];
   const names = format.list(
@@ -36,6 +42,10 @@ export function MemberPlanning({ trip }: { readonly trip: DraftTrip }) {
           id: 'planDraft.member.line',
           message: 'You’ll see the plan as soon as it’s sent to the crew.',
         })}
+        action={{
+          label: t({ id: 'planDraft.member.back', message: 'Back to the trip' }),
+          onPress: onBack,
+        }}
       />
     </Scaffold>
   );

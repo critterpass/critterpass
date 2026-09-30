@@ -109,5 +109,8 @@ export const REVIEW_SCENES: readonly DraftScene[] = [
   },
   { name: 'draft-empty', render: () => <NoDraft guide="pon" failed={false} onDraft={noop} /> },
   { name: 'draft-failed', render: () => <NoDraft guide="pon" failed onDraft={noop} /> },
-  { name: 'draft-member', render: () => <MemberPlanning trip={{ ...TRIP, isOrganiser: false }} /> },
+  {
+    name: 'draft-member',
+    render: () => <MemberPlanning trip={{ ...TRIP, isOrganiser: false }} onBack={noop} />,
+  },
 ];

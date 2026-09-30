@@ -43,7 +43,7 @@ export function GuideGlow({ guide }: { readonly guide: GuideId }) {
           <Rect x={0} y={0} width={width} height={height}>
             <RadialGradient
               c={vec(width / 2, RING * 0.9)}
-              r={width * 0.75}
+              r={Math.max(width, height)}
               colors={[theme.guide[guide], 'transparent']}
             />
           </Rect>

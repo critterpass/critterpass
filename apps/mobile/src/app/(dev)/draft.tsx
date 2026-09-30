@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { BackHandler, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { DRAFT_SCENES, sceneExit } from '@/features/plan/draft/scenes';
-import { Text } from '@/ui';
+import { Text, useTheme } from '@/ui';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -29,6 +29,7 @@ export function ErrorBoundary({ error, retry }: { error: Error; retry: () => Pro
 /** Drafting scenes (3c-8, 3c-9, 3c-11, 3c-12, 4f-3 and their states) over fixed data. */
 export default function DraftScenes() {
   const [scene, setScene] = useState<string | null>(null);
+  const theme = useTheme();
   const shown = DRAFT_SCENES.find((candidate) => candidate.name === scene);
   // Android's back returns to the list (screenshot flows press it between scenes).
   useEffect(() => {
@@ -42,7 +43,8 @@ export default function DraftScenes() {
   }, [scene]);
   if (shown !== undefined) {
     return (
-      <View style={styles.fill}>
+      // The app's own page colour behind a scene, so a sheet's scaled presenter sits on ink.
+      <View style={[styles.fill, { backgroundColor: theme.semantic.bg.base }]}>
         {shown.render()}
         <Pressable
           testID="draft-scene-back"

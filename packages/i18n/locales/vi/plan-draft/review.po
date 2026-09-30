@@ -75,6 +75,10 @@ msgstr "Đủ cả {total} việc phải làm"
 msgid "planDraft.review.changeDay"
 msgstr "Nhờ {guideName} đổi một ngày"
 
+#: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
+msgid "planDraft.member.back"
+msgstr "Về chuyến đi"
+
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.propose"
 msgstr "Lập đề xuất"

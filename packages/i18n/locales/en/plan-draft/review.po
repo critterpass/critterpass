@@ -75,6 +75,10 @@ msgstr "All {total} must-dos made it"
 msgid "planDraft.review.changeDay"
 msgstr "Ask {guideName} to change a day"
 
+#: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
+msgid "planDraft.member.back"
+msgstr "Back to the trip"
+
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.propose"
 msgstr "Build the proposal"

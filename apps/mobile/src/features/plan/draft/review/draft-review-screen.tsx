@@ -43,7 +43,13 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
   }, [drafting, tripId]);
 
   if (trip === undefined || trip === null || !draft.loaded || drafting) return null;
-  if (!trip.isOrganiser) return <MemberPlanning trip={trip} />;
+  if (!trip.isOrganiser)
+    return (
+      <MemberPlanning
+        trip={trip}
+        onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+      />
+    );
   if (draft.review === null) {
     return (
       <NoDraft
