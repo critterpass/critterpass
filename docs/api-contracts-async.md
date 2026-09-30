@@ -177,6 +177,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `location.fixes_ttl` | `* * * * *` UTC | delete fixes older than 15 min unless their SOS share is open or ended < 24 h ago | 20 |
 | `visits.ttl` | `5 * * * *` UTC | visits of archived/cancelled trips get `expires_at` = now + 30 d; delete visits past `expires_at` | 20 |
 | `daybundle.build` | night before + stay geofence exit + wake | offline bundle version | 36 |
+| `trips.lifecycle` (doc delta) | `*/10 * * * *` UTC | the timed trip moves of data-model-sync-and-privacy §3.1 on the trip's clock (`trips.tz`, else the destination's, else UTC), in lifecycle order so a trip that fell behind catches up in one run: `proposed → confirmed` (sent proposal's `reply_by` passed, ≥ 1 IN), `confirmed → pre_trip` (00:00 on start − 14 d, at once when confirmed later), `pre_trip → in_trip` (12:00 on the first day, fallback), `in_trip → post_trip` (midnight after the last day), `post_trip → archived` (`app.boost_window_end`, last day + 7 d); each move is its own transaction with its `trip.status_changed` | 36 |
+| `trips.lifecycle_signal` (doc delta) | `flight.landed`, `egg.hatched` (trigger `arrived`) | an inbound final leg (not a connection within 24 h, not landing where the traveller's first leg on the trip left from, landing from the day before the first day) or a device arrival from 00:00 on the first day starts a `pre_trip` trip; a return landing home on or after the last day ends an `in_trip` trip; first signal wins | 36 |
 | `recap.build` | trip end (last-day local midnight) + debounced re-run | AI-34, share renders, N-32 | 43 |
 | `anniversary.scan` | `0 1 * * *` per tz bucket | N-35 | 43 |
 | `ftf.ending` | FTF end −3 d local | N-33 (governed) | 46 |
