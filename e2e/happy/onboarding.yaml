@@ -39,7 +39,8 @@ appId: app.critterpass.dev
       - extendedWaitUntil:
           visible:
             id: 'home-row-SIN'
-          timeout: 10000
+          # The airport search answers from the api; a simulator on a busy runner can take a while.
+          timeout: 30000
       - tapOn:
           id: 'home-row-SIN'
 - runFlow:
