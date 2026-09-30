@@ -26,12 +26,6 @@ appId: app.critterpass.dev
     visible: 'Marrakech,.*'
     timeout: 10000
 - tapOn: 'Marrakech,.*'
-# Android keeps the search keyboard up over the guest page; the brief sits under it.
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - hideKeyboard
 - extendedWaitUntil:
     visible:
       id: 'guest-brief'

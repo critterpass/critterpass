@@ -9,8 +9,8 @@
 import { tokens } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useEffect } from 'react';
-import { View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ScrollView, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -23,7 +23,6 @@ import { impact, toast, useLoop } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
-import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
 
@@ -44,6 +43,8 @@ const PUNCH = 34;
 
 const useStyles = makeStyles((th) => ({
   screen: { flex: 1, backgroundColor: th.semantic.bg.base },
+  body: { flex: 1 },
+  bodyContent: { flexGrow: 1 },
   vsWrap: { height: 0, alignItems: 'center', justifyContent: 'center', zIndex: 2 },
   vs: {
     width: sizeToken(th.size.fab, 'size'),
@@ -80,6 +81,14 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
   const pulse = useLoop('pulse');
   const punch = useSharedValue(0);
   const punchStyle = useAnimatedStyle(() => ({ transform: [{ translateY: punch.value }] }));
+  // The header and the tally card float over the halves; each half keeps their measured height
+  // clear, so a name or its voters never sit under them however far the chips wrap.
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [footerHeight, setFooterHeight] = useState(0);
+  const headerTop = insets.top + theme.space['8'];
+  const footerBottom = insets.bottom + theme.space['8'];
+  const topInset = headerTop + headerHeight + theme.space['12'];
+  const bottomInset = footerBottom + footerHeight + theme.space['16'];
   useEffect(() => {
     if (poll.status === 'closed') router.replace(voteRoutes.reveal(poll.id));
   }, [poll.status, poll.id]);
@@ -115,7 +124,11 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
   });
   return (
     <View style={styles.screen} testID="showdown">
-      <View style={[styles.header, { top: insets.top + theme.space['8'] }]}>
+      <View
+        style={[styles.header, { top: headerTop }]}
+        onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}
+        testID="showdown-header"
+      >
         <Row justify="space-between" align="center">
           <BackEyebrow
             label={t({ id: 'vote.showdown.back', message: 'Next trip · final' })}
@@ -134,7 +147,15 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           )}
         </Row>
       </View>
-      <Stack style={{ flex: 1 }}>
+      {/* The halves fill the screen; content too tall for it (long names, wrapped chips, larger
+          text) scrolls instead of sliding under the header or the tally card. */}
+      <ScrollView
+        style={styles.body}
+        contentContainerStyle={styles.bodyContent}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        testID="showdown-body"
+      >
         <ShowdownHalf
           option={first}
           place={placeOf(first)}
@@ -143,6 +164,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           alignEnd={false}
           onVote={poll.canVote ? () => void vote(first, -1)() : undefined}
           squashKey={first.mine ? 1 : 0}
+          edgeInset={topInset}
         />
         <View style={styles.vsWrap} importantForAccessibility="no-hide-descendants">
           <Animated.View style={punchStyle}>
@@ -161,10 +183,12 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           alignEnd
           onVote={poll.canVote ? () => void vote(second, 1)() : undefined}
           squashKey={second.mine ? 1 : 0}
+          edgeInset={bottomInset}
         />
-      </Stack>
+      </ScrollView>
       <View
-        style={[styles.footer, { bottom: insets.bottom + theme.space['8'] }]}
+        style={[styles.footer, { bottom: footerBottom }]}
+        onLayout={(event) => setFooterHeight(event.nativeEvent.layout.height)}
         testID="showdown-footer"
       >
         <Text variant="label" color={theme.semantic.action.primary} numberOfLines={2}>

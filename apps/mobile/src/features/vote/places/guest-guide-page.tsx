@@ -3,12 +3,13 @@
  * would, with the facts code knows (stops from home, the exchange rate, the best months), the
  * locals as breathing silhouettes, and what the guest guide read up on from allow-listed sources.
  * SAVE flaps to SAVED; PITCH TO THE CREW opens the pitch for the crew (picking one when the page
- * was not opened from a crew); SOLO TRIP confirms a trip for one.
+ * was not opened from a crew); SOLO TRIP confirms a trip for one. While the confirm or the crew
+ * picker is open, back (the page's own control or Android's) returns to the actions, not off the page.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { BackHandler, ScrollView, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -137,6 +138,18 @@ export function GuestGuidePage({
     else if (crews.length === 1 && crews[0] !== undefined) pitchTo(crews[0].id);
     else setMode('crews');
   };
+  const back = () => {
+    if (mode === 'actions') router.back();
+    else setMode('actions');
+  };
+  useEffect(() => {
+    if (mode === 'actions') return undefined;
+    const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
+      setMode('actions');
+      return true;
+    });
+    return () => subscription.remove();
+  }, [mode]);
   return (
     <View style={styles.screen} testID="guest-page">
       <ScrollView
@@ -152,7 +165,7 @@ export function GuestGuidePage({
               `← ${place?.country ?? t({ id: 'vote.guest.back', message: 'Back' })}`,
               i18n.locale,
             )}
-            onPress={() => router.back()}
+            onPress={back}
             testID="guest-back"
           />
           <SaveFlap placeId={placeId} />

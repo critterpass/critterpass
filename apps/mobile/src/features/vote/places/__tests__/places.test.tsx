@@ -25,7 +25,8 @@ jest.mock('expo-router', () => ({
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen } from '@testing-library/react-native';
+import { act, fireEvent, screen } from '@testing-library/react-native';
+import { BackHandler } from 'react-native';
 import { router } from 'expo-router';
 
 import { toastQueue } from '@/motion';
@@ -56,6 +57,7 @@ async function open(): Promise<TestLocalFirst> {
 }
 
 afterEach(async () => {
+  jest.restoreAllMocks();
   (router.push as jest.Mock).mockClear();
   (router.back as jest.Mock).mockClear();
   toastQueue.dismiss();
@@ -202,6 +204,43 @@ describe('guest guide page', () => {
     const [trip] = await queued(s, 'create_trip');
     expect(trip).toMatchObject({ place_id: MARRAKECH, solo: true });
     expect(typeof trip?.['trip_id']).toBe('string');
+  });
+});
+
+describe('guest page back', () => {
+  it('goes back from the solo confirm to the actions, by its control and by Android back', async () => {
+    const handlers: Parameters<typeof BackHandler.addEventListener>[1][] = [];
+    const listen = BackHandler.addEventListener.bind(BackHandler);
+    jest.spyOn(BackHandler, 'addEventListener').mockImplementation((event, handler) => {
+      handlers.push(handler);
+      return listen(event, handler);
+    });
+    const s = await open();
+    await renderVote(
+      <GuestGuidePage placeId={MARRAKECH} crewId={undefined} />,
+      s,
+      replayServices({ brief: marrakechBriefFrames }),
+    );
+    await until(() => screen.queryByTestId('guest-solo') !== null, 15_000);
+
+    await fireEvent.press(screen.getByTestId('guest-solo'));
+    expect(screen.getByTestId('solo-confirm')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('guest-back'));
+    expect(screen.queryByTestId('solo-confirm')).toBeNull();
+    expect(screen.getByTestId('guest-solo')).toBeTruthy();
+
+    await fireEvent.press(screen.getByTestId('guest-solo'));
+    let consumed: boolean | null | undefined = false;
+    await act(() => {
+      consumed = handlers[handlers.length - 1]?.({} as never);
+    });
+    expect(consumed).toBe(true);
+    expect(screen.queryByTestId('solo-confirm')).toBeNull();
+    expect(screen.getByTestId('guest-pitch')).toBeTruthy();
+    expect(router.back).not.toHaveBeenCalled();
+
+    await fireEvent.press(screen.getByTestId('guest-back'));
+    expect(router.back).toHaveBeenCalledTimes(1);
   });
 });
 

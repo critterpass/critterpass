@@ -3,9 +3,10 @@ import { I18nProvider } from '@lingui/react';
 import { act, fireEvent, render, renderHook, within } from '@testing-library/react-native';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { cloneElement } from 'react';
-import type { ReactElement } from 'react';
+import type { ContextType, ReactElement } from 'react';
 import { BackHandler, StyleSheet, Text } from 'react-native';
 import type { ViewStyle } from 'react-native';
+import { NavigationContext } from 'expo-router/react-navigation';
 import { GestureHandlerRootView, State } from 'react-native-gesture-handler';
 import { fireGestureHandler, getByGestureTestId } from 'react-native-gesture-handler/jest-utils';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -291,6 +292,30 @@ describe('Sheet', () => {
     });
     expect(consumed).toBe(true);
     expect(onDismiss).toHaveBeenCalledTimes(1);
+  });
+
+  it('leaves Android back to a page pushed over its screen', async () => {
+    const handlers: Parameters<typeof BackHandler.addEventListener>[1][] = [];
+    jest.spyOn(BackHandler, 'addEventListener').mockImplementation((_event, handler) => {
+      handlers.push(handler);
+      return { remove: () => {} };
+    });
+    const onDismiss = jest.fn<() => void>();
+    // The search sheet's screen, with the place page pushed over it: no longer focused.
+    const covered = { isFocused: () => false } as unknown as ContextType<typeof NavigationContext>;
+    await renderModal(
+      <NavigationContext.Provider value={covered}>
+        <Sheet onDismiss={onDismiss}>
+          <Text>search</Text>
+        </Sheet>
+      </NavigationContext.Provider>,
+    );
+    let consumed: boolean | null | undefined = true;
+    await act(() => {
+      consumed = handlers[handlers.length - 1]?.({} as never);
+    });
+    expect(consumed).toBe(false);
+    expect(onDismiss).not.toHaveBeenCalled();
   });
 
   it('commits a drag from the grab zone past 150 pt and cancels a short one', async () => {

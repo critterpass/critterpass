@@ -206,6 +206,27 @@ describe('destination final', () => {
     expect(visible('showdown-half-1')).toBe(true);
   });
 
+  it('keeps each half clear of the header and the tally card however tall they get', async () => {
+    const s = await open();
+    await seedFinal(s, [{ userId: MAYA, optionId: OPT_KYOTO }]);
+    await renderVote(<Final me={s.uid} view="showdown" />, s);
+    await until(() => screen.queryByText('LISBON') !== null);
+    const padding = (testID: string) => {
+      const half = screen.getByTestId(testID).children[0];
+      if (half === undefined || typeof half === 'string') return {};
+      return StyleSheet.flatten(half.props.style as StyleProp<ViewStyle>) ?? {};
+    };
+    const layout = (height: number) => ({
+      nativeEvent: { layout: { x: 0, y: 0, width: 360, height } },
+    });
+    await fireEvent(screen.getByTestId('showdown-footer'), 'layout', layout(180));
+    await fireEvent(screen.getByTestId('showdown-header'), 'layout', layout(40));
+    expect(padding('showdown-half-1').paddingBottom).toBeGreaterThan(180);
+    expect(padding('showdown-half-0').paddingTop).toBeGreaterThan(40);
+    await fireEvent(screen.getByTestId('showdown-footer'), 'layout', layout(260));
+    expect(padding('showdown-half-1').paddingBottom).toBeGreaterThan(260);
+  });
+
   it('sends the showdown on to the reveal once the poll closes', async () => {
     const s = await open();
     await seedClosed(s, [{ userId: MAYA, optionId: OPT_KYOTO }], MAYA);

@@ -160,79 +160,83 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
   );
 
   return (
-    <Scaffold variant="dark" edges={['top']} testID="chat-screen">
-      <View style={styles.root}>
-        <ChatHeader
-          crewId={crewId}
-          crewName={info.crewName}
-          people={info.members.length}
-          guideName={guideName}
-        />
-        {sync.phase === 'offline' ? <OfflineBanner waiting={waiting} /> : null}
+    <>
+      <Scaffold variant="dark" edges={['top']} testID="chat-screen">
         <View style={styles.root}>
-          {!timeline.loaded || me === null ? (
-            <ChatSkeleton />
-          ) : timeline.messages.every((message) => message.senderKind === 'system') && !former ? (
-            <EmptyChat
-              guideSlug={info.guide?.slug ?? null}
-              guideName={guideName ?? 'Tokek'}
-              onSayHi={() => composer.current?.prefill('👋 ')}
-            />
-          ) : (
-            <MessageList
-              rows={rows}
-              today={today}
-              renderMessage={renderMessage}
-              footer={
-                <>
-                  {mediaControls.uploads}
-                  <TypingRow names={typing.names} />
-                </>
-              }
-              onLoadOlder={timeline.loadOlder}
-              onSeenLatest={markSeen}
-            />
-          )}
-        </View>
-        {/* The composer rides the keyboard on both platforms and pads the home indicator itself. */}
-        <KeyboardFooter inset="none" testID="chat-footer">
-          {former ? (
-            <FormerMemberBar />
-          ) : (
-            <>
-              {Hint === null ? null : createElement(Hint, { crewId })}
-              {mediaControls.bar}
-              <ChatComposer
-                ref={composer}
-                candidates={candidates}
-                guideName={guideName}
-                onSend={(draft) => {
-                  void send(draft);
-                  setReplyTo(null);
-                }}
-                onTyping={typing.notifyTyping}
-                {...mediaControls.composer}
-                {...(replyTo === null
-                  ? {}
-                  : {
-                      replyTo: {
-                        id: replyTo.id,
-                        preview: <ReplyQuote message={replyTo} />,
-                        onCancel: () => setReplyTo(null),
-                      },
-                    })}
-                {...(editing === null
-                  ? {}
-                  : { editing: { id: editing.id, onCancel: () => setEditing(null) } })}
-                onEdit={(messageId, body) => {
-                  const message = byId.get(messageId);
-                  if (message !== undefined) void edit(message, body);
-                }}
+          <ChatHeader
+            crewId={crewId}
+            crewName={info.crewName}
+            people={info.members.length}
+            guideName={guideName}
+          />
+          {sync.phase === 'offline' ? <OfflineBanner waiting={waiting} /> : null}
+          <View style={styles.root}>
+            {!timeline.loaded || me === null ? (
+              <ChatSkeleton />
+            ) : timeline.messages.every((message) => message.senderKind === 'system') && !former ? (
+              <EmptyChat
+                guideSlug={info.guide?.slug ?? null}
+                guideName={guideName ?? 'Tokek'}
+                onSayHi={() => composer.current?.prefill('👋 ')}
               />
-            </>
-          )}
-        </KeyboardFooter>
-      </View>
+            ) : (
+              <MessageList
+                rows={rows}
+                today={today}
+                renderMessage={renderMessage}
+                footer={
+                  <>
+                    {mediaControls.uploads}
+                    <TypingRow names={typing.names} />
+                  </>
+                }
+                onLoadOlder={timeline.loadOlder}
+                onSeenLatest={markSeen}
+              />
+            )}
+          </View>
+          {/* The composer rides the keyboard on both platforms and pads the home indicator itself. */}
+          <KeyboardFooter inset="none" testID="chat-footer">
+            {former ? (
+              <FormerMemberBar />
+            ) : (
+              <>
+                {Hint === null ? null : createElement(Hint, { crewId })}
+                {mediaControls.bar}
+                <ChatComposer
+                  ref={composer}
+                  candidates={candidates}
+                  guideName={guideName}
+                  onSend={(draft) => {
+                    void send(draft);
+                    setReplyTo(null);
+                  }}
+                  onTyping={typing.notifyTyping}
+                  {...mediaControls.composer}
+                  {...(replyTo === null
+                    ? {}
+                    : {
+                        replyTo: {
+                          id: replyTo.id,
+                          preview: <ReplyQuote message={replyTo} />,
+                          onCancel: () => setReplyTo(null),
+                        },
+                      })}
+                  {...(editing === null
+                    ? {}
+                    : { editing: { id: editing.id, onCancel: () => setEditing(null) } })}
+                  onEdit={(messageId, body) => {
+                    const message = byId.get(messageId);
+                    if (message !== undefined) void edit(message, body);
+                  }}
+                />
+              </>
+            )}
+          </KeyboardFooter>
+        </View>
+      </Scaffold>
+      {/* Beside the screen root, not inside it: the root scales as the sheet's presenter while the
+          sheet stays full-bleed over it. */}
       {mediaControls.sheet}
       {me === null ? null : (
         <ChatOverlays
@@ -250,6 +254,6 @@ export function CrewChat({ crewId }: { readonly crewId: string }) {
           }}
         />
       )}
-    </Scaffold>
+    </>
   );
 }
