@@ -5,7 +5,7 @@
  */
 import { tokens } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -33,6 +33,11 @@ import { flightHours, guideOr, money, monthShort, upper } from '../format';
 const COLUMN = '62%';
 /** The faded critter beside each pitch card. */
 const GHOST_SIZE = 120;
+
+/** Smallest the city name shrinks to when its half runs out of height (Vietnamese chips wrap taller). */
+const NAME_FLOOR = 44;
+/** A half shrinks its name at most to this share of its fitted width in one step. */
+const MIN_NAME_STEP = 0.4;
 
 /** Showdown stacks show this many voters before "+n" (boosted crews reach sixteen). */
 const MAX_AVATARS = 16;
@@ -174,6 +179,8 @@ export function ShowdownHalf({
   onVote,
   squashKey,
   edgeInset,
+  excess,
+  onNaturalHeight,
 }: {
   readonly option: PollOptionView;
   readonly place: BoardPlace | undefined;
@@ -184,6 +191,10 @@ export function ShowdownHalf({
   readonly squashKey: number;
   /** Room kept at the half's outer edge: the screen header above the top half, the tally card below the bottom one. */
   readonly edgeInset: number;
+  /** How far this half's content runs past the height the screen can give it (0 when it fits). */
+  readonly excess: number;
+  /** Reports the height the half's content needs, before it grows to share the screen. */
+  readonly onNaturalHeight: (height: number) => void;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -194,6 +205,26 @@ export function ShowdownHalf({
   const ink = theme.semantic.text.onAccent;
   const quote = option.pitchId === null ? null : (sectionsOf.get(option.pitchId)?.quote ?? null);
   const name = place?.name ?? option.label;
+  // The name gives up height before anything scrolls: its width cap narrows, and auto-fit sets it
+  // smaller to match. Content that already fits keeps the name at its designed size.
+  const [nameBox, setNameBox] = useState<{ width: number; height: number } | null>(null);
+  // Set while rendering (not in an effect) so the smaller name lands in the same pass.
+  const fitKey = `${name}|${i18n.locale}`;
+  const [fit, setFit] = useState<{ key: string; excess: number; cap: number | null }>({
+    key: fitKey,
+    excess: 0,
+    cap: null,
+  });
+  if (fit.key !== fitKey) {
+    setFit({ key: fitKey, excess: 0, cap: null });
+  } else if (excess > 1 && excess !== fit.excess && nameBox !== null && nameBox.height > 0) {
+    const scale = Math.max(MIN_NAME_STEP, (nameBox.height - excess) / nameBox.height);
+    setFit({ key: fitKey, excess, cap: nameBox.width * scale });
+  }
+  const nameCap = fit.cap;
+  const endPadding = alignEnd
+    ? edgeInset
+    : sizeToken(theme.size.fab, 'size') / 2 + theme.space['16'];
   return (
     <Pressable
       accessibilityRole="button"
@@ -224,7 +255,19 @@ export function ShowdownHalf({
           squash,
         ]}
       >
-        <Text variant="displayMega" color={ink} autoFit>
+        <Text
+          variant="displayMega"
+          color={ink}
+          autoFit
+          {...(nameCap === null
+            ? {}
+            : { autoFitMinSize: NAME_FLOOR, style: { maxWidth: nameCap } })}
+          testID={`showdown-name-${alignEnd ? 1 : 0}`}
+          onLayout={(event) => {
+            const { width, height } = event.nativeEvent.layout;
+            setNameBox({ width, height });
+          }}
+        >
           {upper(name, i18n.locale)}
         </Text>
         <View style={[styles.pitchRow, { flexDirection: alignEnd ? 'row-reverse' : 'row' }]}>
@@ -247,7 +290,15 @@ export function ShowdownHalf({
           </View>
         </View>
         <Facts option={option} sectionsOf={sectionsOf} alignEnd={alignEnd} />
-        <Row gap="8" align="center">
+        <Row
+          gap="8"
+          align="center"
+          testID={`showdown-votes-${alignEnd ? 1 : 0}`}
+          onLayout={(event) => {
+            const { y, height } = event.nativeEvent.layout;
+            onNaturalHeight(y + height + endPadding);
+          }}
+        >
           {option.voterIds.length > 0 ? (
             <AvatarStack members={stackOf(people, option.voterIds)} size="md" max={MAX_AVATARS} />
           ) : null}

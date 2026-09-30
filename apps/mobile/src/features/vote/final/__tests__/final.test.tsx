@@ -227,6 +227,32 @@ describe('destination final', () => {
     expect(padding('showdown-half-1').paddingBottom).toBeGreaterThan(260);
   });
 
+  it("sets a half's name smaller when its content runs past its share of the screen", async () => {
+    const s = await open();
+    await seedFinal(s, [{ userId: MAYA, optionId: OPT_KYOTO }]);
+    await renderVote(<Final me={s.uid} view="showdown" />, s);
+    await until(() => screen.queryByText('LISBON') !== null);
+    const layout = (y: number, width: number, height: number) => ({
+      nativeEvent: { layout: { x: 0, y, width, height } },
+    });
+    const nameWidth = (index: number) =>
+      StyleSheet.flatten(
+        screen.getByTestId(`showdown-name-${index}`).props.style as StyleProp<ViewStyle>,
+      )?.maxWidth;
+    await fireEvent(screen.getByTestId('showdown-body'), 'layout', layout(0, 360, 700));
+    await fireEvent(screen.getByTestId('showdown-name-0'), 'layout', layout(0, 300, 120));
+    await fireEvent(screen.getByTestId('showdown-name-1'), 'layout', layout(0, 300, 120));
+    // Both halves fit their share: the names keep their designed size.
+    await fireEvent(screen.getByTestId('showdown-votes-0'), 'layout', layout(200, 300, 30));
+    await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(250, 300, 30));
+    expect(nameWidth(0)).toBeUndefined();
+    expect(nameWidth(1)).toBeUndefined();
+    // The lower half's chips wrap taller: its name gives up the difference, the other keeps its size.
+    await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(400, 300, 30));
+    expect(nameWidth(1)).toBeLessThan(300);
+    expect(nameWidth(0)).toBeUndefined();
+  });
+
   it('sends the showdown on to the reveal once the poll closes', async () => {
     const s = await open();
     await seedClosed(s, [{ userId: MAYA, optionId: OPT_KYOTO }], MAYA);
