@@ -185,6 +185,10 @@ msgstr ""
 msgid "chat.delete.line"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
+msgid "chat.card.unknown.action"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
 msgid "chat.mention.guide"
 msgstr ""
@@ -266,10 +270,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.unsafeLink"
-msgstr ""
-
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.action"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx

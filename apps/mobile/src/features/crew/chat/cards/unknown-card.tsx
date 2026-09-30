@@ -39,7 +39,7 @@ export function UnknownCard({ message }: { readonly message: ChatMessage }) {
         {t({ id: 'chat.card.unknown.line', message: 'Update the app to see it here.' })}
       </Text>
       <InlineAction
-        label={t({ id: 'chat.card.unknown.action', message: 'Open in app update' })}
+        label={t({ id: 'chat.card.unknown.action', message: 'Get the update' })}
         onPress={() => void Linking.openURL(APP_UPDATE_URL)}
       />
     </Stack>

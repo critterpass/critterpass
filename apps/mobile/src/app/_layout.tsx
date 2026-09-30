@@ -42,6 +42,8 @@ import '@/features/plan/day/register';
 import '@/features/guide/chat/register';
 import '@/features/plan/draft/register';
 import '@/features/vote/register';
+import '@/features/money/chat/register';
+import '@/features/plan/review/register-chat-card';
 import { SetupNotificationActions } from '@/features/setup/notifications';
 import '@/features/setup/register';
 import '@/features/plan/overview/register';
