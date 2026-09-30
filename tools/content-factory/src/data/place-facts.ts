@@ -18,7 +18,7 @@ export interface PlaceFacts {
 
 // prettier-ignore
 export const PLACE_FACTS: Readonly<Record<string, PlaceFacts>> = {
-  vn: { country: 'VN', languages: ['vi'], script: 'Latn', tz: 'Asia/Ho_Chi_Minh', currency: 'VND', guide: null, destination: null },
+  vn: { country: 'VN', languages: ['vi'], script: 'Latn', tz: 'Asia/Ho_Chi_Minh', currency: 'VND', guide: null, destination: 'da-nang' },
   fr: { country: 'FR', languages: ['fr'], script: 'Latn', tz: 'Europe/Paris', currency: 'EUR', guide: null, destination: null },
   es: { country: 'ES', languages: ['es'], script: 'Latn', tz: 'Europe/Madrid', currency: 'EUR', guide: null, destination: null },
   us: { country: 'US', languages: ['en'], script: 'Latn', tz: 'America/New_York', currency: 'USD', guide: null, destination: null },

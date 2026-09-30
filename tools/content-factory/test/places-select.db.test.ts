@@ -8,6 +8,7 @@ import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
 import type pg from 'pg';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { pinnedPoiIds } from '../src/kinds/places/pins';
 import { selectCurated, selectionCandidates } from '../src/kinds/places/select';
 import { replayFetch } from './fixture-fetch';
 import { seedSelectFixture } from './places-select-fixture';
@@ -75,5 +76,36 @@ describe('curated POI selection', () => {
       maxCostMicros: 0,
     });
     expect(ids).toHaveLength(13);
+  });
+
+  it('pins a named place outside the buckets, taking the record nearest the pin', async () => {
+    const insert = `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids)
+      VALUES ($1, $2, 'stay', $3, $4, $5) RETURNING id`;
+    const near = await pool.query<{ id: string }>(insert, [
+      destinationId,
+      'Hotel Kanra Kyoto',
+      35.0,
+      135.7596,
+      { fsq_os: 'sel-kanra' },
+    ]);
+    await pool.query(insert, [
+      destinationId,
+      'Hotel Kanra Kyoto',
+      35.0052,
+      135.7641,
+      { overture: 'sel-o-kanra-far' },
+    ]);
+    const missing: string[] = [];
+    const ids = await pinnedPoiIds(
+      pool,
+      destinationId,
+      [
+        { name: 'hotel kanra kyoto', lat: 35.0001, lng: 135.7597 },
+        { name: 'Kinkaku-ji', lat: 35.0, lng: 135.0 },
+      ],
+      (line) => missing.push(line),
+    );
+    expect(ids).toEqual([near.rows[0]!.id]);
+    expect(missing).toEqual(['pinned place not found near its point: Kinkaku-ji']);
   });
 });
