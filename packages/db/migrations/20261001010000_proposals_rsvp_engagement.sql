@@ -55,7 +55,7 @@ CREATE POLICY proposals_select ON proposals FOR SELECT TO app_user
          AND (app.is_trip_organiser(trip_id) OR sent_at IS NOT NULL));
 CREATE POLICY proposals_system ON proposals FOR ALL TO app_system USING (true) WITH CHECK (true);
 GRANT SELECT ON proposals TO app_user;
-GRANT SELECT, INSERT, UPDATE ON proposals TO app_system;
+GRANT SELECT, INSERT, UPDATE, DELETE ON proposals TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- proposal_versions: RLS class T, C1. One per recipient; the recipient sees their own once the
@@ -102,7 +102,7 @@ CREATE POLICY proposal_versions_select ON proposal_versions FOR SELECT TO app_us
 CREATE POLICY proposal_versions_system ON proposal_versions FOR ALL TO app_system
   USING (true) WITH CHECK (true);
 GRANT SELECT ON proposal_versions TO app_user;
-GRANT SELECT, INSERT, UPDATE ON proposal_versions TO app_system;
+GRANT SELECT, INSERT, UPDATE, DELETE ON proposal_versions TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- proposal_reactions: RLS class T, C1. Quick replies a member chose to post: public on purpose.
@@ -124,7 +124,7 @@ CREATE POLICY proposal_reactions_select ON proposal_reactions FOR SELECT TO app_
 CREATE POLICY proposal_reactions_system ON proposal_reactions FOR ALL TO app_system
   USING (true) WITH CHECK (true);
 GRANT SELECT ON proposal_reactions TO app_user;
-GRANT SELECT, INSERT, DELETE ON proposal_reactions TO app_system;
+GRANT SELECT, INSERT, UPDATE, DELETE ON proposal_reactions TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- hype_aggregates: RLS class T, C1. The crew hype bar, from public reactions and boardings only.
@@ -146,7 +146,7 @@ CREATE POLICY hype_aggregates_select ON hype_aggregates FOR SELECT TO app_user
 CREATE POLICY hype_aggregates_system ON hype_aggregates FOR ALL TO app_system
   USING (true) WITH CHECK (true);
 GRANT SELECT ON hype_aggregates TO app_user;
-GRANT SELECT, INSERT, UPDATE ON hype_aggregates TO app_system;
+GRANT SELECT, INSERT, UPDATE, DELETE ON hype_aggregates TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- engagement_events: RLS class S, C2, 90 days. Passive signals (opened, viewed a slide, watched
@@ -167,7 +167,7 @@ ALTER TABLE engagement_events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE engagement_events FORCE ROW LEVEL SECURITY;
 CREATE POLICY engagement_events_system ON engagement_events FOR ALL TO app_system
   USING (true) WITH CHECK (true);
-GRANT SELECT, INSERT, DELETE ON engagement_events TO app_system;
+GRANT SELECT, INSERT, UPDATE, DELETE ON engagement_events TO app_system;
 
 -- Records one of the caller's own passive signals on a sent proposal they received. Returns
 -- nothing: not even the caller learns a count.
@@ -241,7 +241,7 @@ CREATE POLICY anonymous_suggestions_select ON anonymous_suggestions FOR SELECT T
 CREATE POLICY anonymous_suggestions_system ON anonymous_suggestions FOR ALL TO app_system
   USING (true) WITH CHECK (true);
 GRANT SELECT ON anonymous_suggestions TO app_user;
-GRANT SELECT, INSERT, DELETE ON anonymous_suggestions TO app_system;
+GRANT SELECT, INSERT, UPDATE, DELETE ON anonymous_suggestions TO app_system;
 ALTER TABLE private_guide_threads ADD CONSTRAINT private_guide_threads_anonymous_suggestion_fk
   FOREIGN KEY (anonymous_suggestion_id) REFERENCES anonymous_suggestions (id);
 
@@ -348,7 +348,7 @@ CREATE POLICY rsvp_suggestions_select ON rsvp_suggestions FOR SELECT TO app_user
 CREATE POLICY rsvp_suggestions_system ON rsvp_suggestions FOR ALL TO app_system
   USING (true) WITH CHECK (true);
 GRANT SELECT ON rsvp_suggestions TO app_user;
-GRANT SELECT, INSERT, UPDATE ON rsvp_suggestions TO app_system;
+GRANT SELECT, INSERT, UPDATE, DELETE ON rsvp_suggestions TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- proposal_followups: RLS class O, C2. "Ask me on Sunday" (the recipient's own) and resends the
@@ -380,7 +380,7 @@ CREATE POLICY proposal_followups_owner ON proposal_followups FOR SELECT TO app_u
 CREATE POLICY proposal_followups_system ON proposal_followups FOR ALL TO app_system
   USING (true) WITH CHECK (true);
 GRANT SELECT ON proposal_followups TO app_user;
-GRANT SELECT, INSERT, UPDATE ON proposal_followups TO app_system;
+GRANT SELECT, INSERT, UPDATE, DELETE ON proposal_followups TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- trip_dropouts: RLS class T, C1. The re-split a member's decline proposes (3f-7): the
@@ -406,7 +406,7 @@ CREATE POLICY trip_dropouts_select ON trip_dropouts FOR SELECT TO app_user
 CREATE POLICY trip_dropouts_system ON trip_dropouts FOR ALL TO app_system
   USING (true) WITH CHECK (true);
 GRANT SELECT ON trip_dropouts TO app_user;
-GRANT SELECT, INSERT, UPDATE ON trip_dropouts TO app_system;
+GRANT SELECT, INSERT, UPDATE, DELETE ON trip_dropouts TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- A member's command may publish public proposal updates (reactions, statuses, hype, offers) on

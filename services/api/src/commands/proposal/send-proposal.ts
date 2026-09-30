@@ -33,8 +33,8 @@ export const sendProposalCommand = defineCommand({
     if (recipients === 0) throw new DomainError('STATE_INVALID', { reason: 'no_recipients' });
     return asSystemRole(tx, async () => {
       await tx.query(
-        `UPDATE proposals SET status = 'sent', sent_at = $2 WHERE id = $1 AND status = 'building'`,
-        [proposal.id, ctx.clock.serverNow],
+        `UPDATE proposals SET status = $3, sent_at = $2 WHERE id = $1 AND status = 'building'`,
+        [proposal.id, ctx.clock.serverNow, 'sent'],
       );
       const moved = await tx.query(
         `UPDATE trips SET status = 'proposed' WHERE id = $1 AND status = 'draft_review'`,
