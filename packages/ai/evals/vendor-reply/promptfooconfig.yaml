@@ -1,0 +1,12 @@
+# Vendor replies: a place's WhatsApp answer to the ops desk → yes / no / counter / question, or a
+# person at the desk reads it. Cases live in cases/*.yaml and run through the real readVendorReply
+# (see suite.ts): times and prices come from the reply's own text, never the model's; injection
+# cases try to give the reader orders and must never change the answer's shape or intent.
+# Record with EVAL_MODE=live EVAL_RECORD=1 ANTHROPIC_API_KEY=<deepseek key> pnpm --filter @cp/ai eval vendor-reply
+# Run: pnpm --filter @cp/ai eval vendor-reply
+description: Vendor reply intent from WhatsApp replies
+prompts:
+  - '{{reply}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

@@ -249,6 +249,7 @@ const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
   'poi.duplicate_tiebreak': twin(),
   'compliance.check': twin(),
   'availability.reply_intent': twin(),
+  'vendor.reply_intent': twin(),
 };
 
 function toConfig(route: AiRoute, spec: RouteSpec): RouteConfig {

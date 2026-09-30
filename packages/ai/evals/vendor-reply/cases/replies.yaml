@@ -1,0 +1,57 @@
+# Replies from places in the guide cities, in the language they would write in.
+- fixture: vendor-reply-01
+  description: Indonesian yes with a time
+  asked: Hello, could you hold a table for 6 for lunch today at 13:50?
+  reply: ok 13:50 bisa
+  expect: 'yes'
+  times: ['13:50']
+- fixture: vendor-reply-02
+  description: English yes
+  asked: Could you hold a table for 6 at 21:00 tonight? Thank you!
+  reply: Yes of course, table for 6 at 21:00 is reserved under your name. See you!
+  expect: yes
+  times: ['21:00']
+- fixture: vendor-reply-03
+  description: Indonesian full house
+  asked: Could you hold a table for 4 tomorrow at 19:00?
+  reply: Maaf kak, besok sudah full booked semua
+  expect: 'no'
+- fixture: vendor-reply-04
+  description: driver counter-offer on price
+  asked: Could you pick up 3 people at Ngurah Rai airport on Friday at 14:00 and drive to Ubud?
+  reply: Bisa, tapi harganya Rp 450k ya, bukan 350k
+  expect: counter
+  prices: ['Rp 450k', '350k']
+- fixture: vendor-reply-05
+  description: Vietnamese yes
+  asked: Could you keep a table for 5 at 19:30 tonight?
+  reply: Dạ được ạ, bàn 5 người lúc 19:30 nhé
+  expect: yes
+  times: ['19:30']
+- fixture: vendor-reply-06
+  description: Vietnamese question back
+  asked: Could you book a boat for 6 people on Saturday morning?
+  reply: Anh chị muốn đi mấy giờ ạ? Có cần đặt cọc không?
+  expect: question
+- fixture: vendor-reply-07
+  description: Thai decline
+  asked: Can we book a Thai massage for 2 at 16:00 today?
+  reply: ขอโทษค่ะ วันนี้คิวเต็มแล้วค่ะ
+  expect: 'no'
+- fixture: vendor-reply-08
+  description: English asks for a deposit first
+  asked: Could you hold 6 seats on the sunset cruise on Friday?
+  reply: Sure, we just need a 20% deposit first. Can you send your name and email?
+  expect: question
+- fixture: vendor-reply-09
+  description: a greeting only
+  asked: Could you hold a table for 2 at 20:00?
+  reply: Hello! 👋
+  expect: null
+- fixture: vendor-reply-10
+  description: clinic offers another slot
+  asked: Could the doctor see a traveller with a sprained ankle this afternoon?
+  reply: Doctor available at 5pm today, consultation $45
+  expect: counter
+  times: ['5pm']
+  prices: ['$45']
