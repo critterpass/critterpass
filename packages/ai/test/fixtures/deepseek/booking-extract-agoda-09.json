@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "2a29eb63-b3fc-444d-a5be-195000b492a9",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"Scoot TR SGN → SIN\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1302564858\",\"starts_local\":\"2026-03-14T15:40\",\"ends_local\":\"2026-03-14T18:45\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":null,\"price\":{\"amount\":\"16.225.819\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\",\"Van Hieu Le\",\"Ngoc Bao Chau Vo\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":null,\"flights\":[{\"carrier\":\"TR\",\"number\":\"\",\"from\":\"SGN\",\"to\":\"SIN\",\"departs_local\":\"2026-03-14T15:40\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2026-03-14T18:45\",\"arrives_timezone\":\"Asia/Singapore\"},{\"carrier\":\"TR\",\"number\":\"\",\"from\":\"SIN\",\"to\":\"DPS\",\"departs_local\":\"2026-03-14T21:15\",\"departs_timezone\":\"Asia/Singapore\",\"arrives_local\":\"2026-03-15T00:05\",\"arrives_timezone\":\"Asia/Makassar\"}],\"room\":null,\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 253,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2816,
+        "output_tokens": 295,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

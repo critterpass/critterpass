@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "d86759e3-7560-402d-afba-ba77b23f2506",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"stay\",\"title\":\"Taman Sari Bali Resort & Spa\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1856250163\",\"starts_local\":\"2026-01-05T13:00\",\"ends_local\":\"2026-01-06T12:00\",\"timezone\":\"Asia/Makassar\",\"location\":\"Desa Pemuteran, Gerokgak, Singaraja, Bali, Indonesia, 81155\",\"price\":{\"amount\":\"2.842.401\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"Không hoàn tiền \\n\\nTừ 09:15SA 20 tháng 12 theo giờ Bali \\n\\nĐơn đặt phòng này không hoàn tiền và không thể nào thay đổi hoặc chỉnh sửa được. Không đến khách sạn hoặc chỗ nghỉ sẽ được giải quyết như là Vắng Mặt và sẽ phải trả một khoản tiền là 100% giá trị đặt phòng (Quy định của khách sạn).\",\"flights\":[],\"room\":\"2 Bedroom Pool Villa\",\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 229,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3712,
+        "output_tokens": 280,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

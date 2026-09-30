@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "3d64776f-2955-41f4-955d-58bce9ecb4b4",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"stay\",\"title\":\"Sanur Agung Hotel\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1955441052\",\"starts_local\":\"2027-07-03T14:00\",\"ends_local\":\"2027-07-04T12:00\",\"timezone\":\"Asia/Makassar\",\"location\":\"Jl. By Pass Ngr. Rai No. 174, Bali, Indonesia\",\"price\":{\"amount\":\"647.502\",\"currency\":\"IDR\"},\"travellers\":[\"Minh Duc Tran\"],\"free_cancel_until_local\":\"2027-06-30T00:00\",\"cancel_policy_text\":\"Hủy miễn phí \\n\\nTừ 11:23CH 18 tháng 6 theo giờ Bali \\n\\nKhông hoàn tiền \\n\\nTừ 12:00SA 30 tháng 6 theo giờ Bali\",\"flights\":[],\"room\":\"Phòng Loại Sang\",\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 139,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3840,
+        "output_tokens": 220,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

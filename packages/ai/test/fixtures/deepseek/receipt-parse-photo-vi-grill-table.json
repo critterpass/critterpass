@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "3a65de36-6654-41d4-b1e8-9218c2adb9a1",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"OM NƯỚNG\",\"datetime\":null,\"currency\":\"VND\",\"lines\":[{\"line_id\":\"l10\",\"label\":\"BỘ BẠ CHỈ CUỘN NĂM\",\"qty\":null,\"amount\":\"89,000\",\"kind\":\"item\"},{\"line_id\":\"l12\",\"label\":\"NEM CUA BE\",\"qty\":null,\"amount\":\"129,000\",\"kind\":\"item\"},{\"line_id\":\"l15\",\"label\":\"HÊN XÚC BÁNH ĐA\",\"qty\":null,\"amount\":\"159,000\",\"kind\":\"item\"},{\"line_id\":\"l18\",\"label\":\"TÔM SÔNG SỐT TÁC\",\"qty\":null,\"amount\":\"138,000\",\"kind\":\"item\"},{\"line_id\":\"l21\",\"label\":\"CHAN GA RÚT XƯƠNG XỐC MUOI\",\"qty\":null,\"amount\":\"59,000\",\"kind\":\"item\"},{\"line_id\":\"l24\",\"label\":\"GẦN BÒ XÀO SA TẾ\",\"qty\":null,\"amount\":\"169,000\",\"kind\":\"item\"},{\"line_id\":\"l27\",\"label\":\"CAM CHANH DAY\",\"qty\":null,\"amount\":\"39,000\",\"kind\":\"item\"},{\"line_id\":\"l31\",\"label\":\"BIA OM 1L\",\"qty\":null,\"amount\":\"65,000\",\"kind\":\"item\"},{\"line_id\":\"l33\",\"label\":\"BIABAY 1L\",\"qty\":null,\"amount\":\"966,000\",\"kind\":\"item\"},{\"line_id\":\"l35\",\"label\":\"BẠCH TUỘC CHÍN + SỐT CHAM CAY\",\"qty\":null,\"amount\":\"139,000\",\"kind\":\"item\"},{\"line_id\":\"l39\",\"label\":\"NỌNG HEO CHIÊN CHẦM CHÉO\",\"qty\":null,\"amount\":\"189,000\",\"kind\":\"item\"},{\"line_id\":\"l42\",\"label\":\"ĐẬU HŨ MĂM HÀNH\",\"qty\":null,\"amount\":\"38,000\",\"kind\":\"item\"},{\"line_id\":\"l45\",\"label\":\"BA CHỈ LÁC SA TẮC\",\"qty\":null,\"amount\":\"65,000\",\"kind\":\"item\"},{\"line_id\":\"l48\",\"label\":\"BIA LEO 500ML\",\"qty\":null,\"amount\":\"89,000\",\"kind\":\"item\"},{\"line_id\":\"l51\",\"label\":\"BIA AMBER (ĐO)\",\"qty\":null,\"amount\":\"89,000\",\"kind\":\"item\"},{\"line_id\":\"l54\",\"label\":\"ỐC: GIÁC XẢO RAU MUỐNG\",\"qty\":null,\"amount\":\"105,000\",\"kind\":\"item\"},{\"line_id\":\"l57\",\"label\":\"XẢ LÁCH DẦU GIẢM TRỘN\",\"qty\":null,\"amount\":\"25,000\",\"kind\":\"item\"},{\"line_id\":\"l60\",\"label\":\"KHAN LANI\",\"qty\":10,\"amount\":\"20,000\",\"kind\":\"item\"},{\"line_id\":\"l65\",\"label\":\"Dô ăn: 8% VAI\",\"qty\":null,\"amount\":\"109,680\",\"kind\":\"tax\"},{\"line_id\":\"l67\",\"label\":\"Đó uông: 10% VAT\",\"qty\":null,\"amount\":\"120,900\",\"kind\":\"tax\"}],\"total\":{\"line_id\":\"l69\",\"amount\":\"2,810,580\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 215,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1408,
+        "output_tokens": 771,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

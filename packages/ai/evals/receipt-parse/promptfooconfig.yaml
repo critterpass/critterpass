@@ -1,8 +1,12 @@
 # Receipt parse: OCR lines keyed by line id → validated charge lines and total. Every amount must be
 # printed on the line it cites (code re-parses it from there); totals must reconcile. Cases live in
 # cases/*.yaml and run through the real parseReceipt (see suite.ts); seeded cases grade the
-# validator on deliberate model slips. The founder's photographed receipts join as they arrive.
+# validator on deliberate model slips. fixtures/*.yaml hold the founder's photographed receipts
+# (redacted photos in apps/mobile/modules/cp-ocr/fixtures/, read by the device recogniser); they
+# join with EVAL_RECEIPT_PHOTOS=1 and are scored per country by line-accuracy.ts.
 # Run: pnpm --filter @cp/ai eval receipt-parse
+# Photos: EVAL_RECEIPT_PHOTOS=1 pnpm --filter @cp/ai eval receipt-parse
+# Line-amount accuracy: pnpm --filter @cp/ai exec tsx evals/receipt-parse/line-accuracy.ts
 description: Receipt parse keyed by OCR line id
 prompts:
   - '{{lines}}'

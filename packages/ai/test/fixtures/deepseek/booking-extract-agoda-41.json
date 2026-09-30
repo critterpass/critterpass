@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "76f1a9c3-db0a-4c22-9c71-85866854d8cf",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"stay\",\"title\":\"Greenview City Hotel\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1048664458\",\"starts_local\":\"2027-11-26T14:30\",\"ends_local\":\"2027-11-28T12:00\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":\"52 Khe Sanh, Đà Lạt, Việt Nam, 670000\",\"price\":{\"amount\":\"1.307.907\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"Không hoàn tiền \\n\\nTừ 02:27CH 28 tháng 10 theo giờ Đà Lạt\",\"flights\":[],\"room\":\"Phòng Superior 4 người\",\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 200,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3712,
+        "output_tokens": 190,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "e112f656-54b6-4109-9d89-540029e406b0",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"Bandar Nelayan\",\"datetime\":null,\"currency\":\"IDR\",\"lines\":[{\"line_id\":\"l4\",\"label\":\"LUMPIA KULIT TAHU UDANG\",\"qty\":null,\"amount\":\"88.000\",\"kind\":\"item\"},{\"line_id\":\"l6\",\"label\":\"MIE TERBANG REG\",\"qty\":null,\"amount\":\"118.000\",\"kind\":\"item\"},{\"line_id\":\"l10\",\"label\":\"KEPITING SOKA TELUR ASIN REG\",\"qty\":null,\"amount\":\"95.000\",\"kind\":\"item\"},{\"line_id\":\"l13\",\"label\":\"AILAN DUA RASA REG PUTIH\",\"qty\":null,\"amount\":\"85.000\",\"kind\":\"item\"},{\"line_id\":\"l16\",\"label\":\"CHEE TEA\",\"qty\":null,\"amount\":\"30.000\",\"kind\":\"item\"},{\"line_id\":\"l19\",\"label\":\"ICE TEA\",\"qty\":null,\"amount\":\"38.000\",\"kind\":\"item\"},{\"line_id\":\"l26\",\"label\":\"ICE LEMON TEA\",\"qty\":null,\"amount\":\"38.000\",\"kind\":\"item\"},{\"line_id\":\"l33\",\"label\":\"OYSTER\",\"qty\":null,\"amount\":\"70.000\",\"kind\":\"item\"},{\"line_id\":\"l38\",\"label\":\"KERAPU CANTANG SOUP JAHE\",\"qty\":null,\"amount\":\"304.000\",\"kind\":\"item\"},{\"line_id\":\"l45\",\"label\":\"Service Charge\",\"qty\":null,\"amount\":\"62.720\",\"kind\":\"service\"},{\"line_id\":\"l46\",\"label\":\"PB1\",\"qty\":null,\"amount\":\"95.872\",\"kind\":\"tax\"}],\"total\":{\"line_id\":\"l48\",\"amount\":\"1.05.000\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 253,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 384,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

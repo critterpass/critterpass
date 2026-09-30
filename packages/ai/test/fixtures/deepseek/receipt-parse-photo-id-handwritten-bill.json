@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "a430e265-7b9e-4004-b099-2b4ddf9915f0",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"Orang\",\"datetime\":null,\"currency\":\"IDR\",\"lines\":[{\"line_id\":\"l8\",\"label\":\"Hot cotk latte\",\"qty\":2,\"amount\":\"5hot\",\"kind\":\"item\"},{\"line_id\":\"l9\",\"label\":\"Sman Water\",\"qty\":null,\"amount\":\"\",\"kind\":\"item\"},{\"line_id\":\"l10\",\"label\":\"whole coconf t' ee\",\"qty\":null,\"amount\":\"3540\",\"kind\":\"item\"},{\"line_id\":\"l18\",\"label\":\"onu speual fsh yoon\",\"qty\":null,\"amount\":\"15l0000\",\"kind\":\"item\"},{\"line_id\":\"l20\",\"label\":\"2tisn\",\"qty\":null,\"amount\":\"312.00\",\"kind\":\"item\"},{\"line_id\":\"l21\",\"label\":\"Chicken F.P\",\"qty\":null,\"amount\":\"\",\"kind\":\"item\"},{\"line_id\":\"l22\",\"label\":\"raix venetuble\",\"qty\":null,\"amount\":\"48-ль\",\"kind\":\"item\"},{\"line_id\":\"l24\",\"label\":\"\",\"qty\":null,\"amount\":\"35-4000\",\"kind\":\"item\"},{\"line_id\":\"l27\",\"label\":\"chicken cerrg\",\"qty\":null,\"amount\":\"35-40\",\"kind\":\"item\"},{\"line_id\":\"l29\",\"label\":\"\",\"qty\":null,\"amount\":\"77-0о\",\"kind\":\"item\"},{\"line_id\":\"l31\",\"label\":\"10% Tax\",\"qty\":null,\"amount\":\"68-700\",\"kind\":\"tax\"}],\"total\":{\"line_id\":\"l35\",\"amount\":\"755.700\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 251,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 343,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

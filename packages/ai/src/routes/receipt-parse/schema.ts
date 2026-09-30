@@ -60,7 +60,8 @@ export const receiptReplySchema = z.object({
       z.object({
         line_id: z.string(),
         label: z.string(),
-        qty: z.int().nullable(),
+        /** A weight ("0.5" kg) is not a count: validation keeps whole numbers only. */
+        qty: z.number().nullable(),
         amount: z.string(),
         kind: z.enum(RECEIPT_LINE_KINDS),
       }),
@@ -96,7 +97,11 @@ export function parsePrintedAmount(printed: string, exponent: number): bigint | 
     .replace(/^[-−(]\s*/u, '')
     .replace(/\)$/u, '')
     .replace(/^(?:rp|rm|us\$|s\$|[$¥€£฿₫₩]|vnd|idr|thb|jpy|sgd|myr)\s*/iu, '')
-    .replace(/\s*(?:đ|₫|vnd|円|บาท)$/iu, '');
+    .replace(/\s*(?:đ|₫|vnd|円|บาท)$/iu, '')
+    // Thousands grouped with spaces ("55 000", "1 250 000"), as Vietnamese tills print them.
+    .replace(/^\d{1,3}(?:[ \u00A0\u202F]\d{3})+(?=(?:[.,]\d{1,2})?$)/u, (grouped) =>
+      grouped.replace(/[ \u00A0\u202F]/gu, ''),
+    );
   if (!/^\d[\d.,]*$/u.test(bare)) return null;
   const decimal = /[.,](\d{1,2})$/u.exec(bare);
   const whole = (decimal === null ? bare : bare.slice(0, decimal.index)).replace(/[.,]/gu, '');
@@ -147,6 +152,39 @@ function amountOnLine(line: OcrLine | undefined, printed: string, exponent: numb
   return parsePrintedAmount(printed, exponent);
 }
 
+/** How far from the cited line a price printed on its own line may sit. */
+const PRICE_LINE_REACH = 3;
+
+/** A line that prints nothing but one amount (a currency mark or a trailing `x` aside). */
+const isPriceOnly = (text: string) =>
+  /^[-−(]?\s*(?:rp|rm|us\$|s\$|[$¥€£฿₫₩]|vnd|idr|thb|jpy|sgd|myr)?\s*\d[\d.,\s]*\s*(?:đ|₫|vnd|円|บาท|x)?\)?$/iu.test(
+    text.trim(),
+  );
+
+/**
+ * The device recogniser often reads a price as its own line beside or under the item's name, and
+ * the model then cites the name's line. The amount is taken from the nearest line within reach
+ * that prints only that amount and that no other answer line claims; a total, a subtotal or an
+ * item line printing the same number never lends it.
+ */
+function priceLineNear(
+  ocrLines: readonly OcrLine[],
+  cited: string,
+  printed: string,
+  claimed: ReadonlySet<string>,
+): OcrLine | undefined {
+  const at = ocrLines.findIndex((line) => line.id === cited);
+  if (at === -1 || printed.trim() === '') return undefined;
+  for (let step = 1; step <= PRICE_LINE_REACH; step += 1) {
+    for (const index of [at + step, at - step]) {
+      const line = ocrLines[index];
+      if (line === undefined || claimed.has(line.id) || !isPriceOnly(line.text)) continue;
+      if (squash(line.text).includes(squash(printed))) return line;
+    }
+  }
+  return undefined;
+}
+
 /** Checks a model reply against the OCR lines; no number reaches the result unless it is printed. */
 export function validateReceiptReply(
   reply: ReceiptReply,
@@ -160,8 +198,23 @@ export function validateReceiptReply(
   const byId = new Map(ocrLines.map((line) => [line.id, line]));
   const lines: ParsedReceiptLine[] = [];
   const rejected: string[] = [];
+  // A line id answered without its prefix ("12" for "l12") names the same line.
+  const idOf = (id: string) => (byId.has(id) || !/^\d+$/u.test(id) ? id : `l${id}`);
+  const claimed = new Set([
+    ...reply.lines.map((line) => idOf(line.line_id)),
+    ...(reply.total === null ? [] : [idOf(reply.total.line_id)]),
+  ]);
   for (const line of reply.lines) {
-    const printed = amountOnLine(byId.get(line.line_id), line.amount, exponent);
+    let lineId = idOf(line.line_id);
+    let printed = amountOnLine(byId.get(lineId), line.amount, exponent);
+    if (printed === null) {
+      const near = priceLineNear(ocrLines, lineId, line.amount, claimed);
+      if (near !== undefined) {
+        claimed.add(near.id);
+        lineId = near.id;
+        printed = amountOnLine(near, line.amount, exponent);
+      }
+    }
     // A discount may be printed with its minus sign; every other charge is positive.
     const amount =
       printed !== null && line.kind === 'discount' && printed < 0n ? -printed : printed;
@@ -170,17 +223,25 @@ export function validateReceiptReply(
       continue;
     }
     lines.push({
-      line_id: line.line_id,
+      line_id: lineId,
       label: line.label.trim().slice(0, 80),
-      qty: line.qty,
+      qty: line.qty !== null && Number.isInteger(line.qty) ? line.qty : null,
       amount_minor: Number(amount),
       kind: line.kind,
     });
   }
-  const totalAmount =
-    reply.total === null
+  let totalLineId = reply.total === null ? null : idOf(reply.total.line_id);
+  let totalAmount =
+    reply.total === null || totalLineId === null
       ? null
-      : amountOnLine(byId.get(reply.total.line_id), reply.total.amount, exponent);
+      : amountOnLine(byId.get(totalLineId), reply.total.amount, exponent);
+  if (reply.total !== null && totalLineId !== null && totalAmount === null) {
+    const near = priceLineNear(ocrLines, totalLineId, reply.total.amount, claimed);
+    if (near !== undefined) {
+      totalLineId = near.id;
+      totalAmount = amountOnLine(near, reply.total.amount, exponent);
+    }
+  }
   if (reply.total !== null && totalAmount === null) rejected.push(reply.total.line_id);
   const linesTotal = lines.reduce(
     (sum, line) => sum + (line.kind === 'discount' ? -line.amount_minor : line.amount_minor),
@@ -201,7 +262,7 @@ export function validateReceiptReply(
     currency,
     lines,
     total_minor: total,
-    total_line_id: total === null ? null : (reply.total?.line_id ?? null),
+    total_line_id: total === null ? null : totalLineId,
     lines_total_minor: linesTotal,
     matches_total: matches,
     rejected_line_ids: rejected,

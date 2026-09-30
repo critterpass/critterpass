@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "81d6b884-3ccb-4349-a5c1-b813fb18d620",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"stay\",\"title\":\"A In Hotel Atistar\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1259513807\",\"starts_local\":\"2025-02-22T14:00\",\"ends_local\":\"2025-02-23T12:00\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":\"No. 30, Street 14, Ward 5, Go Vap District, Hồ Chí Minh, Việt Nam, 700000\",\"price\":{\"amount\":\"517.057\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\"],\"free_cancel_until_local\":\"2025-02-18T23:59\",\"cancel_policy_text\":\"Hủy miễn phí \\n\\nĐến 11:59CH 18 tháng 2 theo giờ Hồ Chí Minh \\n\\nKhông hoàn tiền \\n\\nTừ 12:00SA 19 tháng 2 theo giờ Hồ Chí Minh\",\"flights\":[],\"room\":\"Tiêu chuẩn - Không hút thuốc\",\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 217,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3712,
+        "output_tokens": 253,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

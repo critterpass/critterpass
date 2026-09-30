@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "164828b7-abbe-48ca-a465-63c8671768c7",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"VietJet Air · DLI → SGN\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1905912573\",\"starts_local\":\"2028-01-23T16:00\",\"ends_local\":\"2028-01-23T16:55\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":null,\"price\":{\"amount\":\"666.149\",\"currency\":\"VND\"},\"travellers\":[\"Thi Kim Lien Pham\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":null,\"flights\":[{\"carrier\":\"VietJet Air\",\"number\":null,\"from\":\"DLI\",\"to\":\"SGN\",\"departs_local\":\"2028-01-23T16:00\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2028-01-23T16:55\",\"arrives_timezone\":\"Asia/Ho_Chi_Minh\"}],\"room\":null,\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 179,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2688,
+        "output_tokens": 222,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

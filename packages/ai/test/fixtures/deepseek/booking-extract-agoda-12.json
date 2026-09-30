@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "2a3ac664-aa12-42d4-95ca-d2cfa3319a0e",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"AirAsia ECO · SGN → PEN\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1921124840\",\"starts_local\":\"2027-08-03T13:30\",\"ends_local\":\"2027-08-03T16:10\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":null,\"price\":{\"amount\":\"5.014.794\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\",\"Van Hieu Le\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":null,\"flights\":[{\"carrier\":\"AirAsia\",\"number\":\"ECO\",\"from\":\"SGN\",\"to\":\"PEN\",\"departs_local\":\"2027-08-03T13:30\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2027-08-03T16:10\",\"arrives_timezone\":\"Asia/Kuala_Lumpur\"}],\"room\":null,\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 236,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2688,
+        "output_tokens": 223,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

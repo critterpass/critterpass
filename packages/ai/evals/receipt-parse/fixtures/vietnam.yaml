@@ -1,0 +1,972 @@
+# Photographed receipts from Vietnam: the founder's photos, redacted (dates, times, order and
+# invoice numbers, staff names, card and bank details, QR codes boxed out), read by the device
+# recogniser into the lines below, and graded on the charges the paper prints.
+- description: a grill restaurant bill in a dotted table, two VAT rates
+  fixture: receipt-parse-photo-vi-grill-table
+  photo: vi-grill-table.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: OM NƯỚNG }
+    - { id: l1, text: 'CN3: 846 Sư Vạn Hạnh, P.13, Q. 10' }
+    - { id: l2, text: 'Hotline: 0839 838 839' }
+    - { id: l3, text: PHIEU TÍNH TIEN }
+    - { id: l4, text: A2.1 }
+    - { id: l5, text: Tên hàng }
+    - { id: l6, text: 'SL Đ,Giá' }
+    - { id: l7, text: T.Tiền }
+    - { id: l8, text: BỘ BẠ CHỈ CUỘN NĂM }
+    - { id: l9, text: '89,000' }
+    - { id: l10, text: '89,000' }
+    - { id: l11, text: NEM CUA BE }
+    - { id: l12, text: '129.000:129,000' }
+    - { id: l13, text: HÊN XÚC BÁNH ĐA }
+    - { id: l14, text: '159,000' }
+    - { id: l15, text: '159,000' }
+    - { id: l16, text: TÔM SÔNG SỐT TÁC }
+    - { id: l17, text: '139,000' }
+    - { id: l18, text: '138,000' }
+    - { id: l19, text: CHAN GA RÚT XƯƠNG XỐC MUOI }
+    - { id: l20, text: '58,000' }
+    - { id: l21, text: '59,000' }
+    - { id: l22, text: GẦN BÒ XÀO SA TẾ }
+    - { id: l23, text: '169,000' }
+    - { id: l24, text: ':169,000' }
+    - { id: l25, text: CAM CHANH DAY }
+    - { id: l26, text: '39,000' }
+    - { id: l27, text: '39,000' }
+    - { id: l28, text: F18 }
+    - { id: l29, text: BIA OM 1L }
+    - { id: l30, text: '65,000' }
+    - { id: l31, text: '65,000' }
+    - { id: l32, text: :BIABAY 1L }
+    - { id: l33, text: '69,000 966,000' }
+    - { id: l34, text: BẠCH TUỘC CHÍN + SỐT CHAM CAY }
+    - { id: l35, text: '139,000:139,000' }
+    - { id: l36, text: delet }
+    - { id: l37, text: :NỌNG HEO CHIÊN CHẦM CHÉO }
+    - { id: l38, text: '199,000' }
+    - { id: l39, text: '189,000' }
+    - { id: l40, text: ĐẬU HŨ MĂM HÀNH }
+    - { id: l41, text: '35,000' }
+    - { id: l42, text: '38,000' }
+    - { id: l43, text: BA CHỈ LÁC SA TẮC }
+    - { id: l44, text: '65,000' }
+    - { id: l45, text: '65,000' }
+    - { id: l46, text: :BIA LEO 500ML }
+    - { id: l47, text: '89,000' }
+    - { id: l48, text: '89,000' }
+    - { id: l49, text: BIA AMBER (ĐO) }
+    - { id: l50, text: '08,000' }
+    - { id: l51, text: '89,000' }
+    - { id: l52, text: 'ỐC: GIÁC XẢO RAU MUỐNG' }
+    - { id: l53, text: '05,000' }
+    - { id: l54, text: '105,000' }
+    - { id: l55, text: XẢ LÁCH DẦU GIẢM TRỘN }
+    - { id: l56, text: '1 25,000' }
+    - { id: l57, text: '25,000' }
+    - { id: l58, text: KHAN LANI }
+    - { id: l59, text: '10 2,000' }
+    - { id: l60, text: '20,000' }
+    - { id: l61, text: 'Tổng tiền hàng:' }
+    - { id: l62, text: '2,580,000' }
+    - { id: l63, text: 'Chiết khẩu:' }
+    - { id: l64, text: 'Dô ăn: 8% VAI' }
+    - { id: l65, text: '109,680' }
+    - { id: l66, text: 'Đó uông: 10% VAT' }
+    - { id: l67, text: '120,900' }
+    - { id: l68, text: 'Tông Công:' }
+    - { id: l69, text: '2,810,580' }
+  expect:
+    currency: VND
+    total_minor: 2810580
+    amounts:
+      - { kind: item, amount_minor: 89000 }
+      - { kind: item, amount_minor: 129000 }
+      - { kind: item, amount_minor: 159000 }
+      - { kind: item, amount_minor: 139000 }
+      - { kind: item, amount_minor: 59000 }
+      - { kind: item, amount_minor: 169000 }
+      - { kind: item, amount_minor: 39000 }
+      - { kind: item, amount_minor: 65000 }
+      - { kind: item, amount_minor: 966000 }
+      - { kind: item, amount_minor: 139000 }
+      - { kind: item, amount_minor: 199000 }
+      - { kind: item, amount_minor: 35000 }
+      - { kind: item, amount_minor: 65000 }
+      - { kind: item, amount_minor: 89000 }
+      - { kind: item, amount_minor: 89000 }
+      - { kind: item, amount_minor: 105000 }
+      - { kind: item, amount_minor: 25000 }
+      - { kind: item, amount_minor: 20000 }
+      - { kind: tax, amount_minor: 109680 }
+      - { kind: tax, amount_minor: 120900 }
+- description: a coffee chain receipt whose tax is inside the price
+  fixture: receipt-parse-photo-vi-coffee-chain
+  photo: vi-coffee-chain.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: TM }
+    - { id: l1, text: Store-Vivo City }
+    - { id: l2, text: '#01-28a, Ground Floor, SC Vivo City' }
+    - { id: l3, text: '1058 Nguyen Van Linh, District 7, HCMC' }
+    - { id: l4, text: (84) 28 3771 4975 }
+    - { id: l5, text: ======== }
+    - { id: l6, text: ======= }
+    - { id: l7, text: 1 Mon Nuoc V COD Cold Brew }
+    - { id: l8, text: '89,000' }
+    - { id: l9, text: Sub Total }
+    - { id: l10, text: '82,407' }
+    - { id: l11, text: Tax }
+    - { id: l12, text: '6,593' }
+    - { id: l13, text: Total }
+    - { id: l14, text: '89,000' }
+    - { id: l15, text: Credit Card }
+    - { id: l16, text: '89,000' }
+    - { id: l17, text: Change Due }
+    - { id: l18, text: De truy cap hoa don GTGT/ }
+    - { id: l19, text: 'To retrieve your VAT invoice:' }
+    - { id: l20, text: -Kiem tra email da nhap/check your email }
+    - { id: l21, text: -Hoac quet QR code/Or scan QR code }
+    - { id: l22, text: '-Hoac tra cuu tai/Or access link :' }
+    - { id: l23, text: htto }
+    - { id: l24, text: ce. }
+    - { id: l25, text: U }
+  expect:
+    currency: VND
+    total_minor: 89000
+    amounts:
+      - { kind: item, amount_minor: 89000 }
+- description: a beer hall bill over a second slip, with a percentage discount
+  fixture: receipt-parse-photo-vi-beer-hall-folder
+  photo: vi-beer-hall-folder.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: Wpt }
+    - { id: l1, text: PHIÊU THANH }
+    - { id: l2, text: Té }
+    - { id: l3, text: Nhé }
+    - { id: l4, text: Suố }
+    - { id: l5, text: BIA }
+    - { id: l6, text: Rườ }
+    - { id: l7, text: Khân }
+    - { id: l8, text: TÊN HÀNG }
+    - { id: l9, text: SI. }
+    - { id: l10, text: Prke }
+    - { id: l11, text: AaCArя }
+    - { id: l12, text: Henik }
+    - { id: l13, text: Buối }
+    - { id: l14, text: Петs }
+    - { id: l15, text: '22.600' }
+    - { id: l16, text: '86,000' }
+    - { id: l17, text: Nhớm.. }
+    - { id: l18, text: Đậu bá }
+    - { id: l19, text: Strong }
+    - { id: l20, text: Tiger }
+    - { id: l21, text: BIA THƠM (DƯA) }
+    - { id: l22, text: RumI me 500ml }
+    - { id: l23, text: liger bac }
+    - { id: l24, text: Strong Bow lon }
+    - { id: l25, text: Ghảm giá -36.1% }
+    - { id: l26, text: '6' }
+    - { id: l27, text: '155,000' }
+    - { id: l28, text: '165,000' }
+    - { id: l29, text: '32,000' }
+    - { id: l30, text: '30,000' }
+    - { id: l31, text: '- 165000' }
+    - { id: l32, text: '465,000' }
+    - { id: l33, text: '720,500' }
+    - { id: l34, text: '330,000' }
+    - { id: l35, text: '192,000' }
+    - { id: l36, text: Khoai t }
+    - { id: l37, text: Heniken bục }
+    - { id: l38, text: '32,000' }
+    - { id: l39, text: '256,000' }
+    - { id: l40, text: Chá mi }
+    - { id: l41, text: Khân lạnh }
+    - { id: l42, text: '12' }
+    - { id: l43, text: '4,000' }
+    - { id: l44, text: '48,000' }
+    - { id: l45, text: Đậu ho }
+    - { id: l46, text: Nước Lống }
+    - { id: l47, text: '2.077,000' }
+    - { id: l48, text: Sụn gà }
+    - { id: l49, text: Chả mực Hạ Long }
+    - { id: l50, text: '195,000' }
+    - { id: l51, text: '390,000' }
+    - { id: l52, text: Tôm sốt }
+    - { id: l53, text: Đâu hũ tảm hành }
+    - { id: l54, text: '2' }
+    - { id: l55, text: '75,000' }
+    - { id: l56, text: '150,000' }
+    - { id: l57, text: Mà Heo Nướng Nước }
+    - { id: l58, text: '145,000' }
+    - { id: l59, text: '290,000' }
+    - { id: l60, text: Má Heo }
+    - { id: l61, text: LAU Bao }
+    - { id: l62, text: Cơm chiên ghẹ kiếu }
+    - { id: l63, text: '185,000' }
+    - { id: l64, text: '370,000' }
+    - { id: l65, text: THE STREET }
+    - { id: l66, text: Cơm chiế }
+    - { id: l67, text: Khoui tây chiên }
+    - { id: l68, text: '75,000' }
+    - { id: l69, text: '150,000' }
+    - { id: l70, text: Khách hàn }
+    - { id: l71, text: Đậu bắp luộc châm }
+    - { id: l72, text: '05.000' }
+    - { id: l73, text: '05,000' }
+    - { id: l74, text: THÔI }
+    - { id: l75, text: chao }
+    - { id: l76, text: LÂU Bao tử hầm tiêu }
+    - { id: l77, text: '285,000' }
+    - { id: l78, text: '285,000' }
+    - { id: l79, text: 'Tên công ty:' }
+    - { id: l80, text: xanh }
+    - { id: l81, text: Tôm sốt Thái }
+    - { id: l82, text: '145,000' }
+    - { id: l83, text: '145,000' }
+    - { id: l84, text: 'MST:' }
+    - { id: l85, text: Sụn gà & tóp mỡ chien 1 }
+    - { id: l86, text: '135,000' }
+    - { id: l87, text: '135,000' }
+    - { id: l88, text: Dịa chỉ }
+    - { id: l89, text: nước mắm }
+    - { id: l90, text: Thức Ăn }
+    - { id: l91, text: '1,980,000' }
+    - { id: l92, text: SET }
+    - { id: l93, text: Tiền hàng }
+    - { id: l94, text: '4,057,000' }
+    - { id: l95, text: Enol }
+    - { id: l96, text: Chảm Món }
+    - { id: l97, text: '-168,000' }
+    - { id: l98, text: Nhân việ Thành tiền (rou giảm giớ) }
+    - { id: l99, text: '3,889,000' }
+    - { id: l100, text: VAT 89% (Thức đH) }
+    - { id: l101, text: '167,520' }
+    - { id: l102, text: 'VAT 10% (Thuốc lá, nưu, biu)' }
+    - { id: l103, text: '179,500' }
+    - { id: l104, text: TONG CONG }
+    - { id: l105, text: '4,236.020' }
+    - { id: l106, text: CÔN LẠI }
+    - { id: l107, text: '4,236.020' }
+  expect:
+    currency: VND
+    total_minor: 4236020
+    amounts:
+      - { kind: item, amount_minor: 66000 }
+      - { kind: item, amount_minor: 465000 }
+      - { kind: item, amount_minor: 330000 }
+      - { kind: item, amount_minor: 192000 }
+      - { kind: item, amount_minor: 720000 }
+      - { kind: item, amount_minor: 256000 }
+      - { kind: item, amount_minor: 48000 }
+      - { kind: item, amount_minor: 390000 }
+      - { kind: item, amount_minor: 150000 }
+      - { kind: item, amount_minor: 290000 }
+      - { kind: item, amount_minor: 370000 }
+      - { kind: item, amount_minor: 150000 }
+      - { kind: item, amount_minor: 65000 }
+      - { kind: item, amount_minor: 285000 }
+      - { kind: item, amount_minor: 145000 }
+      - { kind: item, amount_minor: 135000 }
+      - { kind: tax, amount_minor: 167520 }
+      - { kind: tax, amount_minor: 179500 }
+      - { kind: discount, amount_minor: 168000 }
+- description: a coffee shop slip with a voucher
+  fixture: receipt-parse-photo-vi-coffee-house
+  photo: vi-coffee-house.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: delete }
+    - { id: l1, text: P }
+    - { id: l2, text: enter }
+    - { id: l3, text: THE COFFEE HOUSE }
+    - { id: l4, text: '114 - 116 Nguyễn Ánh Thủ, Quận 12' }
+    - { id: l5, text: 'Delivery: 1800 6936' }
+    - { id: l6, text: 'Hotline: 02871 087 088' }
+    - { id: l7, text: www.thecoffeehouse.com }
+    - { id: l8, text: 'Khách hàng:' }
+    - { id: l9, text: TI }
+    - { id: l10, text: Tên món }
+    - { id: l11, text: Đ. Giá }
+    - { id: l12, text: T.Tiền }
+    - { id: l13, text: '1' }
+    - { id: l14, text: Latte Nong (R) }
+    - { id: l15, text: '1,0' }
+    - { id: l16, text: 55 000 }
+    - { id: l17, text: 55 000 }
+    - { id: l18, text: 2 Bông Phô Mai }
+    - { id: l19, text: Bánh mì Cha }
+    - { id: l20, text: '1,0' }
+    - { id: l21, text: 25 000 }
+    - { id: l22, text: 25 000 }
+    - { id: l23, text: (HCM) }
+    - { id: l24, text: 80 000 }
+    - { id: l25, text: 'Thành tiền:' }
+    - { id: l26, text: 25 000 }
+    - { id: l27, text: '+ Tiền phiếu giảm giá:' }
+    - { id: l28, text: 55 000 }
+    - { id: l29, text: 'Thanh Toàn :' }
+    - { id: l30, text: 55 000 }
+    - { id: l31, text: 'Tiền khách đưa :' }
+    - { id: l32, text: 'Tiền thừa :' }
+    - { id: l33, text: 55 000 }
+    - { id: l34, text: + MOMO_VND }
+    - { id: l35, text: Giá sản phầm đã bao gôm VAT 10% }
+    - { id: l36, text: 'Password wifi : thecoffeehouse' }
+    - { id: l37, text: Miễn phí giao hàng hóa đơn trên 50.000 VNĐ }
+    - { id: l38, text: Đặt hàng tại www.thecoffeehouse.com hoặc gọi 1800 693t }
+    - { id: l39, text: Phiếu thanh toán này chỉ có giá trị xuất hóa đơn GTGT }
+    - { id: l40, text: trong ngày. Liên hệ 02871 087 088. }
+    - { id: l41, text: s L năn lai! }
+  expect:
+    currency: VND
+    total_minor: 55000
+    amounts:
+      - { kind: item, amount_minor: 55000 }
+      - { kind: item, amount_minor: 25000 }
+      - { kind: discount, amount_minor: 25000 }
+- description: a restaurant bill with a free dish taken off
+  fixture: receipt-parse-photo-vi-restaurant-promo
+  photo: vi-restaurant-promo.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: ĐG }
+    - { id: l1, text: Lạc rang hàng }
+    - { id: l2, text: '20.000' }
+    - { id: l3, text: '20.000' }
+    - { id: l4, text: Bia hơi Hà Nội }
+    - { id: l5, text: '128.000' }
+    - { id: l6, text: '378.000' }
+    - { id: l7, text: Chả ốc Tràng }
+    - { id: l8, text: '119.000' }
+    - { id: l9, text: '119.000' }
+    - { id: l10, text: '4' }
+    - { id: l11, text: Đậu hũ chiên }
+    - { id: l12, text: giòn }
+    - { id: l13, text: '69.000' }
+    - { id: l14, text: '69.000' }
+    - { id: l15, text: '5' }
+    - { id: l16, text: chẩm muối }
+    - { id: l17, text: Rau củ luộc }
+    - { id: l18, text: vừng.. }
+    - { id: l19, text: '89.000' }
+    - { id: l20, text: '89.000' }
+    - { id: l21, text: Trâu Gắc Bếp }
+    - { id: l22, text: '7' }
+    - { id: l23, text: Tôm Sông }
+    - { id: l24, text: '139.000' }
+    - { id: l25, text: '139.000' }
+    - { id: l26, text: Cuốn }
+    - { id: l27, text: '99.000' }
+    - { id: l28, text: '99.000' }
+    - { id: l29, text: KM7 }
+    - { id: l30, text: Còn lại }
+    - { id: l31, text: '99.000' }
+    - { id: l32, text: '99.000' }
+    - { id: l33, text: Cơm chiên hải }
+    - { id: l34, text: '10' }
+    - { id: l35, text: Đậu hũ lướt }
+    - { id: l36, text: Ếch rang muối }
+    - { id: l37, text: sán }
+    - { id: l38, text: '139.000' }
+    - { id: l39, text: '119.000' }
+    - { id: l40, text: '139.000' }
+    - { id: l41, text: '119.000' }
+    - { id: l42, text: Dòi sụn Tràng }
+    - { id: l43, text: An }
+    - { id: l44, text: ván..- }
+    - { id: l45, text: '69.000' }
+    - { id: l46, text: '69.000' }
+    - { id: l47, text: Tiền hàng }
+    - { id: l48, text: '119.000' }
+    - { id: l49, text: '119.000' }
+    - { id: l50, text: Khuyễn mại }
+    - { id: l51, text: 1.359.000đ }
+    - { id: l52, text: Tổng thanh toán }
+    - { id: l53, text: -99.000đ }
+    - { id: l54, text: Còn phải thu }
+    - { id: l55, text: 1.260.000đ }
+    - { id: l56, text: 'HĐ đã được KM:' }
+    - { id: l57, text: 1.260.000đ }
+    - { id: l58, text: Món mời (món mới) }
+    - { id: l59, text: Vui lòng kiểm tra kỹ lại nội dung trước khi thanh }
+    - { id: l60, text: Hóa đơn chưa bao gồm VAT. }
+  expect:
+    currency: VND
+    total_minor: 1260000
+    amounts:
+      - { kind: item, amount_minor: 20000 }
+      - { kind: item, amount_minor: 378000 }
+      - { kind: item, amount_minor: 119000 }
+      - { kind: item, amount_minor: 69000 }
+      - { kind: item, amount_minor: 89000 }
+      - { kind: item, amount_minor: 139000 }
+      - { kind: item, amount_minor: 99000 }
+      - { kind: item, amount_minor: 119000 }
+      - { kind: item, amount_minor: 139000 }
+      - { kind: item, amount_minor: 69000 }
+      - { kind: item, amount_minor: 119000 }
+      - { kind: discount, amount_minor: 99000 }
+- description: a long souvenir shop receipt, unit price under each name
+  fixture: receipt-parse-photo-vi-souvenir-shop-long
+  photo: vi-souvenir-shop-long.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: 'Địa chỉ: 024 Ngũ Chỉ Sơn - TX Sa Pa - Tình Lào Ca' }
+    - { id: l1, text: Đặc Sản Sapa Hương Đà }
+    - { id: l2, text: 'Hotline: 0964574174 or 0905994911' }
+    - { id: l3, text: HOA ĐƠN BẢN HÀNG }
+    - { id: l4, text: 'Khách hàng: Khách lẻ' }
+    - { id: l5, text: 'SĐT:' }
+    - { id: l6, text: 'Địa chỉ: - -' }
+    - { id: l7, text: Đơn giá }
+    - { id: l8, text: SL }
+    - { id: l9, text: Thành tiền }
+    - { id: l10, text: Bánh hại dể T.A L1 }
+    - { id: l11, text: '60,000' }
+    - { id: l12, text: '12' }
+    - { id: l13, text: '720,000' }
+    - { id: l14, text: Búp bé chuông đồng }
+    - { id: l15, text: '56,000' }
+    - { id: l16, text: '56,000' }
+    - { id: l17, text: Thuốc gút viên (hộp) }
+    - { id: l18, text: '90,000' }
+    - { id: l19, text: '90,000' }
+    - { id: l20, text: Ví dài thổ cẩm }
+    - { id: l21, text: '35,000' }
+    - { id: l22, text: '1' }
+    - { id: l23, text: '35,000' }
+    - { id: l24, text: Mắc khén rừng }
+    - { id: l25, text: '35,000' }
+    - { id: l26, text: '1' }
+    - { id: l27, text: '35,000' }
+    - { id: l28, text: Hạt dỗi }
+    - { id: l29, text: '210,000' }
+    - { id: l30, text: '210,000' }
+    - { id: l31, text: Muôi ngâm chân }
+    - { id: l32, text: '1' }
+    - { id: l33, text: '70,000' }
+    - { id: l34, text: '70,000' }
+    - { id: l35, text: Cá bò rim - (hộp) }
+    - { id: l36, text: '1' }
+    - { id: l37, text: '110,000' }
+    - { id: l38, text: '110,000' }
+    - { id: l39, text: Trà hoa hồng }
+    - { id: l40, text: '2' }
+    - { id: l41, text: '120,000' }
+    - { id: l42, text: '60,000' }
+    - { id: l43, text: Nai khô Tây Bắc - (hộp) }
+    - { id: l44, text: '2' }
+    - { id: l45, text: '558,000' }
+    - { id: l46, text: '279.000' }
+    - { id: l47, text: Ô mai Đảo hông - (Lọ) }
+    - { id: l48, text: '70,000' }
+    - { id: l49, text: '70,000' }
+    - { id: l50, text: Bánh dảo Sapa }
+    - { id: l51, text: '1' }
+    - { id: l52, text: '25,000' }
+    - { id: l53, text: '25,000' }
+    - { id: l54, text: Trà sảm quế }
+    - { id: l55, text: '80,000' }
+    - { id: l56, text: '80,000' }
+    - { id: l57, text: Thịt trâu gác bếp }
+    - { id: l58, text: '800,000' }
+    - { id: l59, text: Bò sợi nhỏ 250g }
+    - { id: l60, text: '0.5' }
+    - { id: l61, text: '400,000' }
+    - { id: l62, text: '151.000' }
+    - { id: l63, text: '151,000' }
+    - { id: l64, text: 'Tổng tiền hàng:' }
+    - { id: l65, text: '2,730,000' }
+    - { id: l66, text: 'Chiết khẩu :' }
+    - { id: l67, text: bầy trám ba mươi nghìn đông chấn) }
+    - { id: l68, text: 'Tổng thanh toán:' }
+    - { id: l69, text: '2,730,000' }
+    - { id: l70, text: Cảm ơn và họn gặp lại! }
+    - { id: l71, text: Powereri by KIOTVIET. }
+  expect:
+    currency: VND
+    total_minor: 2730000
+    amounts:
+      - { kind: item, amount_minor: 720000 }
+      - { kind: item, amount_minor: 56000 }
+      - { kind: item, amount_minor: 90000 }
+      - { kind: item, amount_minor: 35000 }
+      - { kind: item, amount_minor: 35000 }
+      - { kind: item, amount_minor: 210000 }
+      - { kind: item, amount_minor: 70000 }
+      - { kind: item, amount_minor: 110000 }
+      - { kind: item, amount_minor: 120000 }
+      - { kind: item, amount_minor: 558000 }
+      - { kind: item, amount_minor: 70000 }
+      - { kind: item, amount_minor: 25000 }
+      - { kind: item, amount_minor: 80000 }
+      - { kind: item, amount_minor: 400000 }
+      - { kind: item, amount_minor: 151000 }
+- description: a Thai restaurant bill photographed small from a distance
+  fixture: receipt-parse-photo-vi-thai-restaurant-small
+  photo: vi-thai-restaurant-small.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: SÓI T1 }
+    - { id: l1, text: Thenk }
+    - { id: l2, text: Tan tưng }
+    - { id: l3, text: BIA CHANG THALAND (ChO) }
+    - { id: l4, text: '410.000' }
+    - { id: l5, text: KHAN LỚT (GH) }
+    - { id: l6, text: 7000 • 3 }
+    - { id: l7, text: 6:000 }
+    - { id: l8, text: Coer Rhi San Aao La Mumg }
+    - { id: l9, text: 125.000 + 1 }
+    - { id: l10, text: '125.000' }
+    - { id: l11, text: PHAU MUỜNG XAO 50T }
+    - { id: l12, text: SAGLLAL IPHEAS }
+    - { id: l13, text: 25.000 x 1 }
+    - { id: l14, text: 46:000 }
+    - { id: l15, text: 'PAO THẢ: (SẢ (PHUN)' }
+    - { id: l16, text: '฿5,000 • г' }
+    - { id: l17, text: '85.000' }
+    - { id: l18, text: SUON CAY THA1ON (PHIS6 269.000 / 1 }
+    - { id: l19, text: 866 200 }
+    - { id: l20, text: TÊA NUOEG NOQPING NHỘ }
+    - { id: l21, text: 100.000 x 1 }
+    - { id: l22, text: 12NJКO }
+    - { id: l23, text: CHEN HAU CU NAIGI }
+    - { id: l24, text: 16.000 x 1 }
+    - { id: l25, text: SA DEU }
+    - { id: l26, text: GỔI CA TRE BAM XOV (PAS) 81.000 x 1 }
+    - { id: l27, text: '85.000' }
+    - { id: l28, text: GRES IISESU (POdA) }
+    - { id: l29, text: H 000 }
+    - { id: l30, text: + 2 }
+    - { id: l31, text: 18/00 }
+    - { id: l32, text: RƯOU MO 2800ML (CHS) }
+    - { id: l33, text: 75.000 x 1 }
+    - { id: l34, text: '75.000' }
+    - { id: l35, text: BIA NGER NAU ALOH) }
+    - { id: l36, text: 25.000 x € }
+    - { id: l37, text: '200,000' }
+    - { id: l38, text: Thng điễn tưng }
+    - { id: l39, text: '1,570,000' }
+    - { id: l40, text: Ciêm gia tủe don }
+    - { id: l41, text: Ciảm giá thá thọ ởi viên }
+    - { id: l42, text: 'Tổng Cộng:' }
+    - { id: l43, text: '1,570,000' }
+    - { id: l44, text: Hoá dơn nãy đã hao gồm VAT ! }
+    - { id: l45, text: Qứa trình xa HDI) nếu có vẫn đã }
+    - { id: l46, text: nhấn tin qua zal }
+    - { id: l47, text: 'Sối xin lắng nghe, Cảm ơn qu' }
+    - { id: l48, text: ý khánh và hẹn gập lẹi }
+  expect:
+    currency: VND
+    total_minor: 1570000
+    amounts: null
+  excluded:
+    - 'amounts: the item amounts are too small in the photo to read with certainty'
+- description: a seafood place receipt, unit price under each name
+  fixture: receipt-parse-photo-vi-seafood-bank-transfer
+  photo: vi-seafood-bank-transfer.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: Tân Hỗ Quán }
+    - { id: l1, text: '362/17 Nguyễn Thị Thập, P. Tân Hưng, Q7' }
+    - { id: l2, text: 'SĐT: 0932933168' }
+    - { id: l3, text: BIEN LAI }
+    - { id: l4, text: Mặt hàng }
+    - { id: l5, text: SL }
+    - { id: l6, text: Số tiền }
+    - { id: l7, text: '3,000' }
+    - { id: l8, text: Khăn Lạnh }
+    - { id: l9, text: '5' }
+    - { id: l10, text: '15,000' }
+    - { id: l11, text: SUN GÀ(Chiên Mầm) }
+    - { id: l12, text: '110,000' }
+    - { id: l13, text: '2' }
+    - { id: l14, text: '220,000' }
+    - { id: l15, text: '16,000' }
+    - { id: l16, text: Tiger Nhỏ }
+    - { id: l17, text: '22' }
+    - { id: l18, text: '352,000' }
+    - { id: l19, text: MỰC TRỨNG(Hấp Gừng) }
+    - { id: l20, text: '140,000' }
+    - { id: l21, text: '140,000' }
+    - { id: l22, text: '230,000' }
+    - { id: l23, text: Món(Giò Heo) }
+    - { id: l24, text: '230,000' }
+    - { id: l25, text: '150,000' }
+    - { id: l26, text: ỐC HƯƠNG(Rang Muối) }
+    - { id: l27, text: '150,000' }
+    - { id: l28, text: SO HUYÉT(Nướng) }
+    - { id: l29, text: '100,000' }
+    - { id: l30, text: '1' }
+    - { id: l31, text: '100,000' }
+    - { id: l32, text: '110,000' }
+    - { id: l33, text: Cá Đuối (xào xả ớt) }
+    - { id: l34, text: '110,000' }
+    - { id: l35, text: Cá Bóp Nướng }
+    - { id: l36, text: '130,000' }
+    - { id: l37, text: '130,000' }
+    - { id: l38, text: CƠM(Hải sản) }
+    - { id: l39, text: '120,000' }
+    - { id: l40, text: '120,000' }
+    - { id: l41, text: BÒ(Lúc Lắc) }
+    - { id: l42, text: '130,000' }
+    - { id: l43, text: '130,000' }
+    - { id: l44, text: '90,000' }
+    - { id: l45, text: NGHÊU(Hấp Thái) }
+    - { id: l46, text: '1' }
+    - { id: l47, text: '90,000' }
+    - { id: l48, text: '110,000' }
+    - { id: l49, text: SƯỜN HEO(Nướng muối ớt) }
+    - { id: l50, text: '110,000' }
+    - { id: l51, text: Món(Đậu Hủ Giấy Bạc) }
+    - { id: l52, text: '120,000' }
+    - { id: l53, text: '120,000' }
+    - { id: l54, text: Tổng }
+    - { id: l55, text: '40' }
+    - { id: l56, text: '2,017,000' }
+    - { id: l57, text: Tổng }
+    - { id: l58, text: '2,017,000đ' }
+    - { id: l59, text: Tiên mặt }
+    - { id: l60, text: '2,017,000g' }
+    - { id: l61, text: Powered by Ocha }
+  expect:
+    currency: VND
+    total_minor: 2017000
+    amounts:
+      - { kind: item, amount_minor: 15000 }
+      - { kind: item, amount_minor: 220000 }
+      - { kind: item, amount_minor: 352000 }
+      - { kind: item, amount_minor: 140000 }
+      - { kind: item, amount_minor: 230000 }
+      - { kind: item, amount_minor: 150000 }
+      - { kind: item, amount_minor: 100000 }
+      - { kind: item, amount_minor: 110000 }
+      - { kind: item, amount_minor: 130000 }
+      - { kind: item, amount_minor: 120000 }
+      - { kind: item, amount_minor: 130000 }
+      - { kind: item, amount_minor: 90000 }
+      - { kind: item, amount_minor: 110000 }
+      - { kind: item, amount_minor: 120000 }
+- description: 'a handwritten lodge bill: rooms, meals and a boat, no total'
+  fixture: receipt-parse-photo-vi-handwritten-lodge-bill
+  photo: vi-handwritten-lodge-bill.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: 'CAT TIÊN GREEN BAMBOO CO.,LTD' }
+    - { id: l1, text: 'Đ/C: Ấp 1, Nam Cát Tiên, Tân Phú, Đồng Nai' }
+    - { id: l2, text: 'ĐT: 0824.402.345' }
+    - { id: l3, text: HÓA ĐƠN Số:..Cọc. 1triêu }
+    - { id: l4, text: 'Chuyên:' }
+    - { id: l5, text: 'Room, Restaurant' }
+    - { id: l6, text: 'Tour, Transfer' }
+    - { id: l7, text: SIT }
+    - { id: l8, text: TÊN HANG }
+    - { id: l9, text: ĐVT }
+    - { id: l10, text: LƯỢNG }
+    - { id: l11, text: SỐ }
+    - { id: l12, text: ĐƠN GIA }
+    - { id: l13, text: THÀNH TIỀN }
+    - { id: l14, text: '1' }
+    - { id: l15, text: '2' }
+    - { id: l16, text: Phòng }
+    - { id: l17, text: Ăn trưa }
+    - { id: l18, text: '4' }
+    - { id: l19, text: 1.670.000 }
+    - { id: l20, text: 2.800.000 }
+    - { id: l21, text: З }
+    - { id: l22, text: Ăn tôi }
+    - { id: l23, text: 1.265.000 }
+    - { id: l24, text: '4' }
+    - { id: l25, text: Đâu Chiện (hêm) }
+    - { id: l26, text: '2' }
+    - { id: l27, text: '120.000' }
+    - { id: l28, text: '5' }
+    - { id: l29, text: Cano }
+    - { id: l30, text: '10' }
+    - { id: l31, text: '1400.000' }
+    - { id: l32, text: '6' }
+    - { id: l33, text: '7' }
+    - { id: l34, text: '12' }
+    - { id: l35, text: TỔNG CỘNG }
+    - { id: l36, text: 'ng chữ:' }
+    - { id: l37, text: Ngày ..... tháng . }
+    - { id: l38, text: năm 202.... }
+    - { id: l39, text: Khách hàng }
+    - { id: l40, text: Người việt hóa đơn }
+  expect:
+    currency: VND
+    total_minor: null
+    amounts:
+      - { kind: item, amount_minor: 2800000 }
+      - { kind: item, amount_minor: 1670000 }
+      - { kind: item, amount_minor: 1265000 }
+      - { kind: item, amount_minor: 120000 }
+      - { kind: item, amount_minor: 1400000 }
+- description: a restaurant bill with a thumb over three names and a folded foot
+  fixture: receipt-parse-photo-vi-restaurant-thumb
+  photo: vi-restaurant-thumb.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: GAN }
+    - { id: l1, text: IGÂN 2 }
+    - { id: l2, text: Thành }
+    - { id: l3, text: ST }
+    - { id: l4, text: SL }
+    - { id: l5, text: Đơn giá GG }
+    - { id: l6, text: tien }
+    - { id: l7, text: '12,000' }
+    - { id: l8, text: '12,000' }
+    - { id: l9, text: '2' }
+    - { id: l10, text: '5' }
+    - { id: l11, text: '3,000' }
+    - { id: l12, text: '15,000' }
+    - { id: l13, text: ng }
+    - { id: l14, text: '1' }
+    - { id: l15, text: '20,000' }
+    - { id: l16, text: '20,000' }
+    - { id: l17, text: '4' }
+    - { id: l18, text: Đậu Hu Chiên }
+    - { id: l19, text: '99,000' }
+    - { id: l20, text: '99,000' }
+    - { id: l21, text: Giòn }
+    - { id: l22, text: De Phay }
+    - { id: l23, text: '1 199,000' }
+    - { id: l24, text: '199,000' }
+    - { id: l25, text: Rau Thập Cẩm }
+    - { id: l26, text: 6 Luộc Đậu Rồng }
+    - { id: l27, text: '1 119,000' }
+    - { id: l28, text: '119,000' }
+    - { id: l29, text: Kho Quẹt }
+    - { id: l30, text: '7' }
+    - { id: l31, text: CƠM CHIÊN HAI }
+    - { id: l32, text: SẢN }
+    - { id: l33, text: '1 159,000' }
+    - { id: l34, text: '169,000' }
+    - { id: l35, text: Sườn Dê Rút }
+    - { id: l36, text: '8' }
+    - { id: l37, text: Xương Nướng Giả 1 199.000 }
+    - { id: l38, text: '109,000' }
+    - { id: l39, text: Chön }
+    - { id: l40, text: '358,000' }
+    - { id: l41, text: KHOAI TÂY CHIẾN 1 }
+    - { id: l42, text: Khô Mưc Nướng }
+    - { id: l43, text: 2 179.000 }
+    - { id: l44, text: '79,000' }
+    - { id: l45, text: '79,000' }
+    - { id: l46, text: 'Tổng số món: 43' }
+    - { id: l47, text: 'Tổng giảm giá món: 0 g' }
+    - { id: l48, text: 'Thành tiên:' }
+    - { id: l49, text: '1,875,000 g' }
+    - { id: l50, text: 'Tổng tiền:' }
+    - { id: l51, text: '1,875,000 g' }
+    - { id: l52, text: +Thanh toán tiến mặt }
+    - { id: l53, text: '1,875,000 g' }
+    - { id: l54, text: Tiền nhận }
+    - { id: l55, text: '1,875,000 g' }
+    - { id: l56, text: Tiền thừa }
+    - { id: l57, text: 0 g }
+    - { id: l58, text: Quán Ăn Toàn Trí - Rạch Bùng Bình }
+    - { id: l59, text: 'Địa chỉ: 39 Rạch Bùng Binh, Phường 09, Quận 03,' }
+    - { id: l60, text: 'Hồ Chí Minh, Việt Nam' }
+    - { id: l61, text: 'Hotline: 0909349934' }
+    - { id: l62, text: Cảm ơn Quý Khách }
+    - { id: l63, text: Powered by IPOS vn }
+  expect:
+    currency: VND
+    total_minor: 1875000
+    amounts:
+      - { kind: item, amount_minor: 12000 }
+      - { kind: item, amount_minor: 15000 }
+      - { kind: item, amount_minor: 20000 }
+      - { kind: item, amount_minor: 99000 }
+      - { kind: item, amount_minor: 199000 }
+      - { kind: item, amount_minor: 119000 }
+      - { kind: item, amount_minor: 159000 }
+      - { kind: item, amount_minor: 199000 }
+      - { kind: item, amount_minor: 616000 }
+      - { kind: item, amount_minor: 358000 }
+      - { kind: item, amount_minor: 79000 }
+- description: a creased seafood bill priced by weight
+  fixture: receipt-parse-photo-vi-crab-seafood-creased
+  photo: vi-crab-seafood-creased.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: BỜ KÈ MR. CRAB }
+    - { id: l1, text: 'Đ/C: 112 Nguyễn Đình Chiểu, Mũi Né, Phan' }
+    - { id: l2, text: 'Thiet, BT' }
+    - { id: l3, text: 'SĐT: 0973.857.146 - 0972.267.736' }
+    - { id: l4, text: PHIẾU TÍNH TIÊN }
+    - { id: l5, text: BAN 55 }
+    - { id: l6, text: 'NVTN: thu ngân' }
+    - { id: l7, text: Tên Món }
+    - { id: l8, text: Đ. Gia }
+    - { id: l9, text: SL T. Tiên }
+    - { id: l10, text: Hau }
+    - { id: l11, text: '40,000 x 15 600,000' }
+    - { id: l12, text: Ốc tỏi }
+    - { id: l13, text: '450,000 x 0.8 360,000' }
+    - { id: l14, text: Mực lá }
+    - { id: l15, text: '650,000 x 0.7 455,000' }
+    - { id: l16, text: Tôm lớn biến }
+    - { id: l17, text: '650.000' }
+    - { id: l18, text: '€ 1 650,000' }
+    - { id: l19, text: cơm chiên hải sản }
+    - { id: l20, text: '120,000 x 1 120,000' }
+    - { id: l21, text: Chá giò hải san }
+    - { id: l22, text: '(Vietnamese Springrolls 120,000) x 1 120,000' }
+    - { id: l23, text: with seafood) }
+    - { id: l24, text: Cà tim }
+    - { id: l25, text: '60,000 x 1' }
+    - { id: l26, text: '60,000' }
+    - { id: l27, text: cá chim }
+    - { id: l28, text: '380,000 x 1' }
+    - { id: l29, text: '380,000' }
+    - { id: l30, text: Nước ngọt }
+    - { id: l31, text: '15,000 x 9 135,000' }
+    - { id: l32, text: Tổng tiên hàng }
+    - { id: l33, text: '2,880,000' }
+    - { id: l34, text: 'Giảm giá 0%:' }
+    - { id: l35, text: 'Tổng Cộng:' }
+    - { id: l36, text: '2,880,000' }
+    - { id: l37, text: 'Tiền khách đưa:' }
+    - { id: l38, text: '2,880,000' }
+    - { id: l39, text: 'Tiền thừa trả khách:' }
+    - { id: l40, text: Hai triệu tâm trăm tâm mươi nghìn đông chẵn }
+    - { id: l41, text: Giá chưa bao gòm VAT }
+    - { id: l42, text: ST }
+    - { id: l43, text: Cam Ơn Quý Khach Và Hẹn Gặp Lại!!! }
+  expect:
+    currency: VND
+    total_minor: 2880000
+    amounts:
+      - { kind: item, amount_minor: 600000 }
+      - { kind: item, amount_minor: 360000 }
+      - { kind: item, amount_minor: 455000 }
+      - { kind: item, amount_minor: 650000 }
+      - { kind: item, amount_minor: 120000 }
+      - { kind: item, amount_minor: 120000 }
+      - { kind: item, amount_minor: 60000 }
+      - { kind: item, amount_minor: 380000 }
+      - { kind: item, amount_minor: 135000 }
+- description: a folded street diner bill
+  fixture: receipt-parse-photo-vi-street-diner-folded
+  photo: vi-street-diner-folded.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: EXTRA }
+    - { id: l1, text: '111 Hai Bà trưng, Bên Nghé, Q1, HCM' }
+    - { id: l2, text: QUÁN BÁC HIÊN }
+    - { id: l3, text: 'ĐT: 0909285197' }
+    - { id: l4, text: Bàn 45 }
+    - { id: l5, text: PI }
+    - { id: l6, text: TÍNH TIỀN }
+    - { id: l7, text: rên hàng }
+    - { id: l8, text: Đ.Giá }
+    - { id: l9, text: TUYEN }
+    - { id: l10, text: SƯỜN NON NƯỚNG KIM }
+    - { id: l11, text: '120,000 x 1' }
+    - { id: l12, text: '120,000' }
+    - { id: l13, text: MÌ XÀO THẬP CẦM }
+    - { id: l14, text: CA TRỨNG LĂN BỌT }
+    - { id: l15, text: '130,000 x 1' }
+    - { id: l16, text: '85,000 x' }
+    - { id: l17, text: '1' }
+    - { id: l18, text: '130,000' }
+    - { id: l19, text: '85,000' }
+    - { id: l20, text: BÒ XÀO KHÔ QUA }
+    - { id: l21, text: '75,000 x 1' }
+    - { id: l22, text: '75,000' }
+    - { id: l23, text: KHĂN LẠNH }
+    - { id: l24, text: '3,000' }
+    - { id: l25, text: x 6 }
+    - { id: l26, text: '18,000' }
+    - { id: l27, text: ĐẬU }
+    - { id: l28, text: '10,000 x 1' }
+    - { id: l29, text: '10,000' }
+    - { id: l30, text: MÌ XÀO BÒ }
+    - { id: l31, text: '75,000 x 1' }
+    - { id: l32, text: '75,000' }
+    - { id: l33, text: BÔNG CẢI XÀO KHÔNG }
+    - { id: l34, text: '50,000 x 1' }
+    - { id: l35, text: '50,000' }
+    - { id: l36, text: SỤN GÀ CHIÊN NƯỚC MẮM }
+    - { id: l37, text: '100,000 x 1' }
+    - { id: l38, text: '100,000' }
+    - { id: l39, text: 333 lon }
+    - { id: l40, text: '20,000 x 22' }
+    - { id: l41, text: '440,000' }
+    - { id: l42, text: '1,103,000' }
+    - { id: l43, text: 'Tổng tiền hàng:' }
+    - { id: l44, text: 'Tổng cộng:' }
+    - { id: l45, text: 'Chiết khấu:' }
+    - { id: l46, text: '1,103,000' }
+    - { id: l47, text: Cảm ơn quý khách và hẹn gặp lại I!! }
+  expect:
+    currency: VND
+    total_minor: 1103000
+    amounts:
+      - { kind: item, amount_minor: 120000 }
+      - { kind: item, amount_minor: 130000 }
+      - { kind: item, amount_minor: 85000 }
+      - { kind: item, amount_minor: 75000 }
+      - { kind: item, amount_minor: 18000 }
+      - { kind: item, amount_minor: 10000 }
+      - { kind: item, amount_minor: 75000 }
+      - { kind: item, amount_minor: 50000 }
+      - { kind: item, amount_minor: 100000 }
+      - { kind: item, amount_minor: 440000 }
+- description: a cocktail bar bill in low light with a service charge
+  fixture: receipt-parse-photo-vi-cocktail-bar-dark
+  photo: vi-cocktail-bar-dark.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: In lần 1 }
+    - { id: l1, text: Khu trong - Bàn dài }
+    - { id: l2, text: Mặt hàng }
+    - { id: l3, text: SL/TL }
+    - { id: l4, text: T.Tiền }
+    - { id: l5, text: Bespoke Gin (Hendrick's) }
+    - { id: l6, text: '329,000' }
+    - { id: l7, text: '*Ghi chủ cn tc tb' }
+    - { id: l8, text: Bespoke Tequila (Lunazul) }
+    - { id: l9, text: '269,000' }
+    - { id: l10, text: '*Ghi chủ: đăng cay nặng' }
+    - { id: l11, text: Maker's Mark (Cocktail 40ml) }
+    - { id: l12, text: T }
+    - { id: l13, text: '329,000' }
+    - { id: l14, text: '*Ghi chứ: xoài cay it nạng' }
+    - { id: l15, text: Old Fashioned }
+    - { id: l16, text: '2' }
+    - { id: l17, text: '498,000' }
+    - { id: l18, text: (Rittenhouse Rye) }
+    - { id: l19, text: Tiên hàng (5) }
+    - { id: l20, text: '1,425,000' }
+    - { id: l21, text: 'Phí dịch vụ 5% (Service Charge 5%) (5%) +71,250' }
+    - { id: l22, text: TỔNG T^* • TÍNH }
+    - { id: l23, text: '1,496,250 g' }
+    - { id: l24, text: dưới đây để chuyển khoản/You }
+    - { id: l25, text: e below to make the transfer. }
+  expect:
+    currency: VND
+    total_minor: 1496250
+    amounts:
+      - { kind: item, amount_minor: 329000 }
+      - { kind: item, amount_minor: 269000 }
+      - { kind: item, amount_minor: 329000 }
+      - { kind: item, amount_minor: 498000 }
+      - { kind: service, amount_minor: 71250 }

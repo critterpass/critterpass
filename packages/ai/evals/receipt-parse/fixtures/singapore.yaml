@@ -1,0 +1,121 @@
+# Photographed receipts from Singapore: the founder's photos, redacted (dates, times, order and
+# invoice numbers, staff names, card and bank details, QR codes boxed out), read by the device
+# recogniser into the lines below, and graded on the charges the paper prints.
+- description: a creased airport snack receipt with bundle discounts
+  fixture: receipt-parse-photo-en-airport-snacks-creased
+  photo: en-airport-snacks-creased.jpg
+  country: singapore
+  currency_hint: SGD
+  lines:
+    - { id: l0, text: Bee Cheng Hiang }
+    - { id: l1, text: '#02-K24 TRANSIT EAST DEPARTURE' }
+    - { id: l2, text: CHANGI AIRPORT TEFMINAL 1 }
+    - { id: l3, text: SINGAPORE 819642 }
+    - { id: l4, text: 'TEL: 5702 1390' }
+    - { id: l5, text: GST Reg. No. 201711423Z }
+    - { id: l6, text: ITEM NAHE }
+    - { id: l7, text: QTY }
+    - { id: l8, text: PRICE }
+    - { id: l9, text: TOTAL }
+    - { id: l10, text: Mini EZ Pork 300g }
+    - { id: l11, text: '1092000110400300' }
+    - { id: l12, text: '1' }
+    - { id: l13, text: '24.22' }
+    - { id: l14, text: 24 22 }
+    - { id: l15, text: '1001800200000000' }
+    - { id: l16, text: Sliced Pork 450g }
+    - { id: l17, text: Any 2BOX SP/CP/SC/SB 480g E }
+    - { id: l18, text: '2' }
+    - { id: l19, text: '43.12' }
+    - { id: l20, text: '-16.34' }
+    - { id: l21, text: '86.24' }
+    - { id: l22, text: EZ Pork Jerky 300g }
+    - { id: l23, text: '1021900110400000' }
+    - { id: l24, text: '1' }
+    - { id: l25, text: '29.72' }
+    - { id: l26, text: '29.72' }
+    - { id: l27, text: Big Piglet Basket PC-P }
+    - { id: l28, text: '5701000400000100' }
+    - { id: l29, text: Big Piglet Basket GPC SWP120 E }
+    - { id: l30, text: '3.30' }
+    - { id: l31, text: '-19.80' }
+    - { id: l32, text: '19.80' }
+    - { id: l33, text: '123.84' }
+    - { id: l34, text: Sub Total }
+    - { id: l35, text: '0.00' }
+    - { id: l36, text: GST @ 0.00% }
+    - { id: l37, text: '123.84' }
+    - { id: l38, text: Total amount (S$) }
+    - { id: l39, text: 'Total No. Items : 10' }
+    - { id: l40, text: '-36.14' }
+    - { id: l41, text: Summary of Discounts }
+    - { id: l42, text: '-36.14' }
+    - { id: l43, text: Other disc. }
+    - { id: l44, text: Tender Sumary }
+    - { id: l45, text: '123.34' }
+    - { id: l46, text: Thank You! }
+  expect:
+    currency: SGD
+    total_minor: 12384
+    amounts:
+      - { kind: item, amount_minor: 2422 }
+      - { kind: item, amount_minor: 8624 }
+      - { kind: item, amount_minor: 2972 }
+      - { kind: item, amount_minor: 1980 }
+      - { kind: discount, amount_minor: 1634 }
+      - { kind: discount, amount_minor: 1980 }
+- description: an airport cafe receipt, GST included in the prices
+  fixture: receipt-parse-photo-en-airport-cafe-card
+  photo: en-airport-cafe-card.jpg
+  country: singapore
+  currency_hint: SGD
+  lines:
+    - { id: l0, text: Changi Airport Terminal 1 }
+    - { id: l1, text: The Coffee Bean & Tea Leaf }
+    - { id: l2, text: Departure/Transit East }
+    - { id: l3, text: 80 Airport Boulevard }
+    - { id: l4, text: Cincanore 819643 }
+    - { id: l5, text: Descriptions }
+    - { id: l6, text: T.Bacon & Chz Sourdough SW }
+    - { id: l7, text: '13.00' }
+    - { id: l8, text: '13.00' }
+    - { id: l9, text: Chicken Tikka Tomato Wrap }
+    - { id: l10, text: '1' }
+    - { id: l11, text: '12.50' }
+    - { id: l12, text: '12.50' }
+    - { id: l13, text: T.Bacon & Chz Sourdough SW }
+    - { id: l14, text: '13.00' }
+    - { id: l15, text: '13.00' }
+    - { id: l16, text: TA HOT. }
+    - { id: l17, text: '**1' }
+    - { id: l18, text: 0.00* }
+    - { id: l19, text: Iced Organic Matcha Latte (R) }
+    - { id: l20, text: '9.10' }
+    - { id: l21, text: '9.10' }
+    - { id: l22, text: W Lychee CBrewT (L) }
+    - { id: l23, text: '9.70' }
+    - { id: l24, text: '9.70' }
+    - { id: l25, text: G&G Chicken Ham & Cheese Ciabatta SW }
+    - { id: l26, text: '11.50' }
+    - { id: l27, text: '11.50' }
+    - { id: l28, text: '68.80' }
+    - { id: l29, text: '68.80' }
+    - { id: l30, text: No Signature Requ }
+    - { id: l31, text: '0.00' }
+    - { id: l32, text: CHANGE }
+    - { id: l33, text: '5.68' }
+    - { id: l34, text: Incl. GST 9% }
+    - { id: l35, text: 'GST REG NO: 199605163K' }
+    - { id: l36, text: Thank you. }
+    - { id: l37, text: Please come again }
+    - { id: l38, text: Scan below QRCODE for e-receipt }
+  expect:
+    currency: SGD
+    total_minor: 6880
+    amounts:
+      - { kind: item, amount_minor: 1300 }
+      - { kind: item, amount_minor: 1250 }
+      - { kind: item, amount_minor: 1300 }
+      - { kind: item, amount_minor: 910 }
+      - { kind: item, amount_minor: 970 }
+      - { kind: item, amount_minor: 1150 }

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "69a5742d-8f16-428f-83f3-315bf5b5b5fc",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"Bee Cheng Hiang\",\"datetime\":null,\"currency\":\"SGD\",\"lines\":[{\"line_id\":\"l14\",\"label\":\"Mini EZ Pork 300g\",\"qty\":1,\"amount\":\"24 22\",\"kind\":\"item\"},{\"line_id\":\"l21\",\"label\":\"Sliced Pork 450g\",\"qty\":2,\"amount\":\"86.24\",\"kind\":\"item\"},{\"line_id\":\"l26\",\"label\":\"EZ Pork Jerky 300g\",\"qty\":1,\"amount\":\"29.72\",\"kind\":\"item\"},{\"line_id\":\"l32\",\"label\":\"Big Piglet Basket GPC SWP120 E\",\"qty\":null,\"amount\":\"19.80\",\"kind\":\"item\"},{\"line_id\":\"l36\",\"label\":\"GST @ 0.00%\",\"qty\":null,\"amount\":\"0.00\",\"kind\":\"tax\"},{\"line_id\":\"l43\",\"label\":\"Other disc.\",\"qty\":null,\"amount\":\"36.14\",\"kind\":\"discount\"}],\"total\":{\"line_id\":\"l38\",\"amount\":\"123.84\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 265,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 229,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

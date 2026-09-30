@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "d2dffb97-648a-4f3d-a07f-acebe444af37",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"stay\",\"title\":\"Kelingking Tropical\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1720960896\",\"starts_local\":\"2027-05-09T12:00\",\"ends_local\":\"2027-05-10T12:00\",\"timezone\":\"Asia/Makassar\",\"location\":\"Jalan Klingking, Bunga Mekar, Kec. Nusa Penida, Kelingking tropical, Bali, Indonesia, 80771\",\"price\":{\"amount\":\"3.187.246\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"Không hoàn tiền \\n\\nTừ 07:59SA 4 tháng 5 theo giờ Bali\",\"flights\":[],\"room\":\"Phòng Loại Sang\",\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 194,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3712,
+        "output_tokens": 196,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

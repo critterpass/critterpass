@@ -1,0 +1,680 @@
+# Agoda confirmations, amendments, cancellations and service mail the founder forwarded: redacted copies (fake names, codes, contacts and payment details;
+# every date moved by whole weeks per email), graded against labels read from the redacted text.
+- description: a customer receipt whose body only points at the PDF it came with
+  fixture: booking-extract-agoda-01
+  provider: agoda
+  email: agoda-01.txt
+  subject: 'Agoda - Customer Receipt from Booking ID: 1491612482'
+  supplier: agoda
+  expect:
+    status: failed
+- description: a flight still being ticketed, no flight number printed yet
+  fixture: booking-extract-agoda-08
+  provider: agoda
+  email: agoda-08.txt
+  subject: 'Agoda đang xử lý việc đặt chỗ của quý khách – Mã đặt chỗ: 1905912573'
+  supplier: agoda
+  expect:
+    status: failed
+  excluded:
+    - a flight without a printed flight number is dropped by the text check, so nothing books
+- description: a two-leg flight still being ticketed, no flight numbers printed
+  fixture: booking-extract-agoda-09
+  provider: agoda
+  email: agoda-09.txt
+  subject: 'Agoda đang xử lý việc đặt chỗ của quý khách – Mã đặt chỗ: 1302564858'
+  supplier: agoda
+  expect:
+    status: failed
+  excluded:
+    - a flight without a printed flight number is dropped by the text check, so nothing books
+- description: a domestic flight still being ticketed, no flight number printed
+  fixture: booking-extract-agoda-10
+  provider: agoda
+  email: agoda-10.txt
+  subject: 'Agoda đang xử lý việc đặt chỗ của quý khách – Mã đặt chỗ: 1107854149'
+  supplier: agoda
+  expect:
+    status: failed
+  excluded:
+    - a flight without a printed flight number is dropped by the text check, so nothing books
+- description: an island flight still being ticketed, no flight number printed
+  fixture: booking-extract-agoda-11
+  provider: agoda
+  email: agoda-11.txt
+  subject: 'Agoda đang xử lý việc đặt phòng của quý khách – Mã đặt phòng: 1221494700'
+  supplier: agoda
+  expect:
+    status: failed
+  excluded:
+    - a flight without a printed flight number is dropped by the text check, so nothing books
+- description: a flight to Penang still being ticketed, no flight number printed
+  fixture: booking-extract-agoda-12
+  provider: agoda
+  email: agoda-12.txt
+  subject: 'Agoda đang xử lý việc đặt phòng của quý khách – Mã đặt phòng: 1921124840'
+  supplier: agoda
+  expect:
+    status: failed
+  excluded:
+    - a flight without a printed flight number is dropped by the text check, so nothing books
+- description: a stay cancelled free of charge (nothing left to import)
+  fixture: booking-extract-agoda-13
+  provider: agoda
+  email: agoda-13.txt
+  subject: 'Agoda đã hủy đơn đặt chỗ của quý khách – Mã đặt chỗ: 1187718033'
+  supplier: agoda
+  expect:
+    status: failed
+- description: a serviced apartment cancelled free of charge
+  fixture: booking-extract-agoda-14
+  provider: agoda
+  email: agoda-14.txt
+  subject: 'Agoda đã hủy đơn đặt chỗ của quý khách – Mã đặt chỗ: 1738746418'
+  supplier: agoda
+  expect:
+    status: failed
+- description: a second cancellation of the same apartment
+  fixture: booking-extract-agoda-15
+  provider: agoda
+  email: agoda-15.txt
+  subject: 'Agoda đã hủy đơn đặt chỗ của quý khách – Mã đặt chỗ: 1550943277'
+  supplier: agoda
+  expect:
+    status: failed
+- description: a return flight whose card payment failed, so nothing was booked
+  fixture: booking-extract-agoda-16
+  provider: agoda
+  email: agoda-16.txt
+  subject: 'Agoda không thể xác nhận việc đặt chỗ của quý khách – Mã đặt chỗ: 1738710601, 1907353261'
+  supplier: agoda
+  expect:
+    status: failed
+- description: a Nusa Penida stay whose card payment failed
+  fixture: booking-extract-agoda-17
+  provider: agoda
+  email: agoda-17.txt
+  subject: 'Agoda không thể xác nhận việc đặt chỗ của quý khách – Mã đặt chỗ: 1374170291'
+  supplier: agoda
+  expect:
+    status: failed
+- description: a villa paid at the property, non-refundable from booking (English)
+  fixture: booking-extract-agoda-18
+  provider: agoda
+  email: agoda-18.txt
+  subject: 'Booking confirmation with Agoda - Booking ID: 1714127684'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1714127684'
+        starts_at: 2026-12-26T07:00:00.000Z
+        price_minor: 7440000
+        currency: VND
+        free_cancel_until: null
+        cancel_policy: true
+- description: a property refusing to waive a cancellation fee
+  fixture: booking-extract-agoda-19
+  provider: agoda
+  email: agoda-19.txt
+  subject: Cancellation Fee Waiver - Property Denial 1048664458
+  supplier: agoda
+  expect:
+    status: failed
+- description: a cancellation fee waiver request passed on to the hotel
+  fixture: booking-extract-agoda-20
+  provider: agoda
+  email: agoda-20.txt
+  subject: Cancellation Fee Waiver - Request 1664803461
+  supplier: agoda
+  expect:
+    status: failed
+- description: a second fee waiver request for a Dalat hotel
+  fixture: booking-extract-agoda-21
+  provider: agoda
+  email: agoda-21.txt
+  subject: Cancellation Fee Waiver - Request 1048664458
+  supplier: agoda
+  expect:
+    status: failed
+- description: a customer satisfaction survey about a flight booking
+  fixture: booking-extract-agoda-22
+  provider: agoda
+  email: agoda-22.txt
+  subject: Mã Đặt Phòng Agoda 1302564858 Khảo Sát Về Cảm Giác Hài Lòng Của Khách Hàng
+  supplier: agoda
+  expect:
+    status: failed
+- description: a date change request forwarded to the airline, not yet confirmed
+  fixture: booking-extract-agoda-24
+  provider: agoda
+  email: agoda-24.txt
+  subject: 'RE: Customer Contact for Product: flight, Change-Request, L:English        |
+    BID:1921124840 | ROUTE_FLTBO [SF:vi-vn] [S:1Non] FCXX'
+  supplier: agoda
+  expect:
+    status: failed
+- description: a plain-text notice that a flight booking is being processed
+  fixture: booking-extract-agoda-25
+  provider: agoda
+  email: agoda-25.txt
+  subject: Việc đặt chỗ chuyến bay của quý khách đang được xử lý
+  supplier: agoda
+  expect:
+    status: failed
+- description: an amended Penang resort stay paid in dong, free cancellation until 23:59 on the eve
+  fixture: booking-extract-agoda-26
+  provider: agoda
+  email: agoda-26.txt
+  subject: Xác nhận Sửa đổi cho Mã đặt phòng số 1381373253
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1381373253'
+        starts_at: 2027-04-11T07:00:00.000Z
+        price_minor: 3359005
+        currency: VND
+        free_cancel_until_any:
+          - 2027-04-08T15:59:00.000Z
+          - 2027-04-08T16:00:00.000Z
+        cancel_policy: true
+- description: an amended Sanur hotel stay paid in dong, free cancellation until 23:59 on the eve
+  fixture: booking-extract-agoda-27
+  provider: agoda
+  email: agoda-27.txt
+  subject: Xác nhận Sửa đổi cho Mã đặt phòng số 1955441052
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1955441052'
+        starts_at: 2025-07-05T06:00:00.000Z
+        price_minor: 1005495
+        currency: VND
+        free_cancel_until_any:
+          - 2025-07-01T15:59:00.000Z
+          - 2025-07-01T16:00:00.000Z
+        cancel_policy: true
+- description: a Phu Quoc hotel paid at check-in with an empty cancellation section
+  fixture: booking-extract-agoda-28
+  provider: agoda
+  email: agoda-28.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1577057575'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1577057575'
+        starts_at: 2024-10-03T07:00:00.000Z
+        price_minor: 10406250
+        currency: VND
+        free_cancel_until: null
+  excluded:
+    - 'cancel_policy: the cancellation section prints no policy sentence'
+- description: the same Phu Quoc hotel re-sent with a free cancellation deadline
+  fixture: booking-extract-agoda-29
+  provider: agoda
+  email: agoda-29.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1577057575'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1577057575'
+        starts_at: 2024-11-07T07:00:00.000Z
+        price_minor: 10406250
+        currency: VND
+        free_cancel_until_any:
+          - 2024-11-01T16:59:00.000Z
+          - 2024-11-01T17:00:00.000Z
+        cancel_policy: true
+- description: a Mekong delta hotel paid today with an empty cancellation section
+  fixture: booking-extract-agoda-30
+  provider: agoda
+  email: agoda-30.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1491612482'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1491612482'
+        starts_at: 2024-10-26T07:00:00.000Z
+        price_minor: 918322
+        currency: VND
+        free_cancel_until: null
+  excluded:
+    - 'cancel_policy: the cancellation section prints no policy sentence'
+- description: a confirmed AirAsia flight to Penang for two
+  fixture: booking-extract-agoda-31
+  provider: agoda
+  email: agoda-31.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1921124840'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref_any:
+          - '1921124840'
+          - WVL59T
+        starts_at: 2024-12-24T06:30:00.000Z
+        flights:
+          - AK1503
+        price_minor: 5014794
+        currency: VND
+        free_cancel_until: null
+  excluded:
+    - 'cancel_policy: the ticket cancellation section is empty; only a change policy is printed'
+- description: a Penang resort priced in ringgit to pay later, free cancellation until the 20th
+  fixture: booking-extract-agoda-32
+  provider: agoda
+  email: agoda-32.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1187718033'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1187718033'
+        starts_at: 2025-04-22T07:00:00.000Z
+        price_minor: 67740
+        currency: MYR
+        free_cancel_until_any:
+          - 2025-04-19T15:59:00.000Z
+          - 2025-04-19T16:00:00.000Z
+        cancel_policy: true
+- description: a Kuala Lumpur apartment in ringgit with a partial-refund tier
+  fixture: booking-extract-agoda-33
+  provider: agoda
+  email: agoda-33.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1738746418'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1738746418'
+        starts_at: 2026-12-24T07:00:00.000Z
+        price_minor: 60165
+        currency: MYR
+        free_cancel_until_any:
+          - 2026-12-20T15:59:00.000Z
+          - 2026-12-20T16:00:00.000Z
+        cancel_policy: true
+- description: the Penang resort booked again in ringgit, free cancellation until the 9th
+  fixture: booking-extract-agoda-34
+  provider: agoda
+  email: agoda-34.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1381373253'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1381373253'
+        starts_at: 2027-04-11T07:00:00.000Z
+        price_minor: 48008
+        currency: MYR
+        free_cancel_until_any:
+          - 2027-04-08T15:59:00.000Z
+          - 2027-04-08T16:00:00.000Z
+        cancel_policy: true
+- description: a Kuala Lumpur apartment priced in US dollars to pay later
+  fixture: booking-extract-agoda-35
+  provider: agoda
+  email: agoda-35.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1550943277'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1550943277'
+        starts_at: 2027-05-11T07:00:00.000Z
+        price_minor: 13394
+        currency: USD
+        free_cancel_until_any:
+          - 2027-05-05T15:59:00.000Z
+          - 2027-05-05T16:00:00.000Z
+        cancel_policy: true
+- description: a Saigon hotel paid at check-in, free cancellation until 23:59 on the eve
+  fixture: booking-extract-agoda-36
+  provider: agoda
+  email: agoda-36.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1259513807'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1259513807'
+        starts_at: 2025-02-22T07:00:00.000Z
+        price_minor: 517057
+        currency: VND
+        free_cancel_until_any:
+          - 2025-02-18T16:59:00.000Z
+          - 2025-02-18T17:00:00.000Z
+        cancel_policy: true
+- description: an AirAsia flight with trip protection and a service bundle in the total
+  fixture: booking-extract-agoda-37
+  provider: agoda
+  email: agoda-37.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1171095658'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref_any:
+          - '1171095658'
+          - B5P459
+        starts_at: 2027-10-31T06:30:00.000Z
+        flights:
+          - AK1503
+        price_minor: 11191285
+        currency: VND
+        free_cancel_until: null
+        cancel_policy: true
+- description: a Kuala Lumpur apartment with a paid support add-on, free cancellation until the 10th
+  fixture: booking-extract-agoda-38
+  provider: agoda
+  email: agoda-38.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1073554637'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1073554637'
+        starts_at: 2025-04-15T07:00:00.000Z
+        price_minor: 5647181
+        currency: VND
+        free_cancel_until_any:
+          - 2025-04-09T15:59:00.000Z
+          - 2025-04-09T16:00:00.000Z
+        cancel_policy: true
+- description: an AirAsia flight home from Kuala Lumpur with paid seats
+  fixture: booking-extract-agoda-39
+  provider: agoda
+  email: agoda-39.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1192477756'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref_any:
+          - '1192477756'
+          - P55RL5
+        starts_at: 2025-01-03T06:40:00.000Z
+        flights:
+          - AK522
+        price_minor: 9675670
+        currency: VND
+        free_cancel_until: null
+  excluded:
+    - 'cancel_policy: the only cancellation sentence is for child tickets and the travellers are
+      adults'
+- description: a Dalat return trip on two carriers and two booking codes
+  fixture: booking-extract-agoda-40
+  provider: agoda
+  email: agoda-40.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1974671914,1905912573'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref_any:
+          - '1974671914'
+          - '1905912573'
+          - 6F8SL9
+          - L484FG
+        starts_at: 2025-08-13T22:50:00.000Z
+        flights:
+          - VN1380
+          - VJ363
+        price_minor: 1731857
+        currency: VND
+        free_cancel_until: null
+    alternatives:
+      - - kind: flight
+          supplier_ref_any:
+            - '1974671914'
+            - 6F8SL9
+          starts_at: 2025-08-13T22:50:00.000Z
+          flights:
+            - VN1380
+          free_cancel_until: null
+        - kind: flight
+          supplier_ref_any:
+            - '1905912573'
+            - L484FG
+          starts_at: 2025-08-17T09:00:00.000Z
+          flights:
+            - VJ363
+          free_cancel_until: null
+  excluded:
+    - 'cancel_policy: both cancellation sections are empty'
+    - 'price: one total covers both codes, so it is graded only when read as one booking'
+- description: a non-refundable Dalat hotel for three
+  fixture: booking-extract-agoda-41
+  provider: agoda
+  email: agoda-41.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1048664458'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1048664458'
+        starts_at: 2027-11-26T07:30:00.000Z
+        price_minor: 1307907
+        currency: VND
+        free_cancel_until: null
+        cancel_policy: true
+- description: 'a Bali return trip for three: Scoot via Singapore out, VietJet back'
+  fixture: booking-extract-agoda-42
+  provider: agoda
+  email: agoda-42.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1302564858,1147386012'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref_any:
+          - '1302564858'
+          - '1147386012'
+          - Q19744
+          - QRZ32F
+          - VDPG5A
+          - Q19744,QRZ32F,VDPG5A
+          - 2577Q9
+        starts_at: 2025-07-26T08:40:00.000Z
+        flights:
+          - TR553
+          - TR346
+          - VJ894
+        price_minor: 33465207
+        currency: VND
+        free_cancel_until: null
+    alternatives:
+      - - kind: flight
+          supplier_ref_any:
+            - '1302564858'
+            - Q19744
+            - QRZ32F
+            - VDPG5A
+            - Q19744,QRZ32F,VDPG5A
+          starts_at: 2025-07-26T08:40:00.000Z
+          flights:
+            - TR553
+            - TR346
+          free_cancel_until: null
+        - kind: flight
+          supplier_ref_any:
+            - '1147386012'
+            - 2577Q9
+          starts_at: 2025-08-02T06:35:00.000Z
+          flights:
+            - VJ894
+          free_cancel_until: null
+  excluded:
+    - 'cancel_policy: both cancellation sections are empty'
+    - 'price: one total covers both codes, so it is graded only when read as one booking'
+- description: the Scoot legs to Bali confirmed on their own
+  fixture: booking-extract-agoda-43
+  provider: agoda
+  email: agoda-43.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1302564858'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref_any:
+          - '1302564858'
+          - Q19744
+          - QRZ32F
+          - VDPG5A
+          - Q19744,QRZ32F,VDPG5A
+        starts_at: 2027-01-16T08:40:00.000Z
+        flights:
+          - TR553
+          - TR346
+        price_minor: 16225819
+        currency: VND
+        free_cancel_until: null
+  excluded:
+    - 'cancel_policy: the cancellation section is empty'
+- description: the VietJet flight home from Bali confirmed on its own
+  fixture: booking-extract-agoda-44
+  provider: agoda
+  email: agoda-44.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1147386012'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref_any:
+          - '1147386012'
+          - 2577Q9
+        starts_at: 2025-06-28T06:35:00.000Z
+        flights:
+          - VJ894
+        price_minor: 17239388
+        currency: VND
+        free_cancel_until: null
+  excluded:
+    - 'cancel_policy: the cancellation section is empty'
+- description: an amended Sanur hotel priced in rupiah to pay later
+  fixture: booking-extract-agoda-46
+  provider: agoda
+  email: agoda-46.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1955441052'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1955441052'
+        starts_at: 2027-07-03T06:00:00.000Z
+        price_minor: 64750200
+        currency: IDR
+        free_cancel_until_any:
+          - 2027-06-29T15:59:00.000Z
+          - 2027-06-29T16:00:00.000Z
+        cancel_policy: true
+- description: a non-refundable pool villa in north Bali
+  fixture: booking-extract-agoda-47
+  provider: agoda
+  email: agoda-47.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1856250163'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1856250163'
+        starts_at: 2026-01-05T05:00:00.000Z
+        price_minor: 2842401
+        currency: VND
+        free_cancel_until: null
+        cancel_policy: true
+- description: a non-refundable Nusa Penida stay, two rooms
+  fixture: booking-extract-agoda-48
+  provider: agoda
+  email: agoda-48.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1720960896'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: stay
+        supplier_ref: '1720960896'
+        starts_at: 2027-05-09T04:00:00.000Z
+        price_minor: 3187246
+        currency: VND
+        free_cancel_until: null
+        cancel_policy: true
+- description: a Da Nang return trip on two carriers, non-refundable tickets
+  fixture: booking-extract-agoda-49
+  provider: agoda
+  email: agoda-49.txt
+  subject: 'Xác nhận đặt chỗ với Agoda – Mã đặt chỗ: 1107854149,1246576075'
+  supplier: agoda
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref_any:
+          - '1107854149'
+          - '1246576075'
+          - A8219Q
+          - 7ZUH8K
+        starts_at: 2027-12-24T00:05:00.000Z
+        flights:
+          - 9G956
+          - VJ643
+        price_minor: 4743957
+        currency: VND
+        free_cancel_until: null
+        cancel_policy: true
+    alternatives:
+      - - kind: flight
+          supplier_ref_any:
+            - '1107854149'
+            - A8219Q
+          starts_at: 2027-12-24T00:05:00.000Z
+          flights:
+            - 9G956
+          free_cancel_until: null
+          cancel_policy: true
+        - kind: flight
+          supplier_ref_any:
+            - '1246576075'
+            - 7ZUH8K
+          starts_at: 2027-12-26T13:35:00.000Z
+          flights:
+            - VJ643
+          free_cancel_until: null
+          cancel_policy: true
+  excluded:
+    - 'price: one total covers both codes, so it is graded only when read as one booking'
+- description: a one-time sign-in code
+  fixture: booking-extract-agoda-50
+  provider: agoda
+  email: agoda-50.txt
+  subject: Your email OTP for Agoda is 302118
+  supplier: agoda
+  expect:
+    status: failed

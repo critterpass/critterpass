@@ -10,7 +10,7 @@ import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { RECEIPT_PARSE_FORMAT, RECEIPT_TRANSCRIBE_FORMAT, type OcrLine } from './schema';
 
 export const RECEIPT_PARSE_ROUTE = 'receipt.parse' as const;
-export const RECEIPT_PARSE_PROMPT_VERSION = 'receipt-parse@2';
+export const RECEIPT_PARSE_PROMPT_VERSION = 'receipt-parse@3';
 
 const PARSE_TASK = [
   '# Task',
@@ -21,6 +21,11 @@ const PARSE_TASK = [
   "  the id of the line the amount is printed on. `amount` is that line's amount copied exactly as",
   '  printed there, digits and separators included ("850.000", "13,34", "1,280"). Never compute,',
   '  convert, round or move an amount between lines; if a line shows no amount, leave it out.',
+  '  Photographed receipts often put a price on its own line next to (or just under or above) the',
+  "  item's name: cite that price line's id, not the name's. Each item is one charge: when it",
+  '  prints a unit price and a line total (often the unit price under the name and the total at',
+  '  the right, or two price columns), list it once, at the line total; a unit price is never a',
+  '  charge of its own.',
   '- `kind`: `item` for things bought, `service` for a service charge, `tax` for tax or VAT, `tip`',
   '  for a tip, `discount` for anything taken off (copy its amount without a minus sign).',
   '- `label`: the item name as printed, without the quantity or price. `qty`: the count when the',

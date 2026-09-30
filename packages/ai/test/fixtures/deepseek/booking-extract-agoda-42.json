@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "fb40213a-0ecb-4e8a-87d5-36ffb67a090c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"Scoot TR 553 · SGN → SIN\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1302564858\",\"starts_local\":\"2025-07-26T15:40\",\"ends_local\":\"2025-07-26T18:45\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":null,\"price\":{\"amount\":\"33.465.207\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\",\"Van Hieu Le\",\"Ngoc Bao Chau Vo\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"[Vé người lớn] Vé của quý khách không thể hủy để lấy lại tiền. Để biết chi tiết về chỗ ngồi, hành lý hoặc các hạn chế khác, vui lòng liên hệ trực tiếp với hãng hàng không.\",\"flights\":[{\"carrier\":\"TR\",\"number\":\"553\",\"from\":\"SGN\",\"to\":\"SIN\",\"departs_local\":\"2025-07-26T15:40\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2025-07-26T18:45\",\"arrives_timezone\":\"Asia/Singapore\"},{\"carrier\":\"TR\",\"number\":\"346\",\"from\":\"SIN\",\"to\":\"DPS\",\"departs_local\":\"2025-07-26T21:15\",\"departs_timezone\":\"Asia/Singapore\",\"arrives_local\":\"2025-07-27T00:05\",\"arrives_timezone\":\"Asia/Makassar\"},{\"carrier\":\"VJ\",\"number\":\"894\",\"from\":\"DPS\",\"to\":\"SGN\",\"departs_local\":\"2025-08-02T14:35\",\"departs_timezone\":\"Asia/Makassar\",\"arrives_local\":\"2025-08-02T17:25\",\"arrives_timezone\":\"Asia/Ho_Chi_Minh\"}],\"room\":null,\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 169,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 4224,
+        "output_tokens": 446,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

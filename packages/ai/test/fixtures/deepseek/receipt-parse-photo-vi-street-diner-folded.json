@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "857ea740-a8c9-477f-b951-afebef44f1e6",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"QUÁN BÁC HIÊN\",\"datetime\":null,\"currency\":\"VND\",\"lines\":[{\"line_id\":\"l12\",\"label\":\"SƯỜN NON NƯỚNG KIM\",\"qty\":1,\"amount\":\"120,000\",\"kind\":\"item\"},{\"line_id\":\"l18\",\"label\":\"MÌ XÀO THẬP CẦM\",\"qty\":1,\"amount\":\"130,000\",\"kind\":\"item\"},{\"line_id\":\"l19\",\"label\":\"CA TRỨNG LĂN BỌT\",\"qty\":1,\"amount\":\"85,000\",\"kind\":\"item\"},{\"line_id\":\"l22\",\"label\":\"BÒ XÀO KHÔ QUA\",\"qty\":1,\"amount\":\"75,000\",\"kind\":\"item\"},{\"line_id\":\"l26\",\"label\":\"KHĂN LẠNH\",\"qty\":6,\"amount\":\"18,000\",\"kind\":\"item\"},{\"line_id\":\"l29\",\"label\":\"ĐẬU\",\"qty\":1,\"amount\":\"10,000\",\"kind\":\"item\"},{\"line_id\":\"l32\",\"label\":\"MÌ XÀO BÒ\",\"qty\":1,\"amount\":\"75,000\",\"kind\":\"item\"},{\"line_id\":\"l35\",\"label\":\"BÔNG CẢI XÀO KHÔNG\",\"qty\":1,\"amount\":\"50,000\",\"kind\":\"item\"},{\"line_id\":\"l38\",\"label\":\"SỤN GÀ CHIÊN NƯỚC MẮM\",\"qty\":1,\"amount\":\"100,000\",\"kind\":\"item\"},{\"line_id\":\"l41\",\"label\":\"333 lon\",\"qty\":22,\"amount\":\"440,000\",\"kind\":\"item\"}],\"total\":{\"line_id\":\"l46\",\"amount\":\"1,103,000\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 226,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1152,
+        "output_tokens": 397,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

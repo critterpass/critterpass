@@ -1,0 +1,125 @@
+# VietJet e-tickets bought in the MoMo wallet: redacted copies (fake names, codes, contacts and payment details;
+# every date moved by whole weeks per email), graded against labels read from the redacted text.
+- description: a VietJet e-ticket bought in MoMo, Saigon to Hanoi at dawn
+  fixture: booking-extract-vietjet-01
+  provider: vietjet
+  email: vietjet-01.txt
+  subject: 'Xác nhận đặt vé máy bay Vietjet Air thành công trên ví MoMo - Mã giao dịch: 3980911000'
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref: 4JB22W
+        starts_at: 2024-03-14T22:25:00.000Z
+        flights:
+          - VJ198
+        price_minor: 1016400
+        currency: VND
+        free_cancel_until: null
+  excluded:
+    - 'cancel_policy: the e-ticket prints no cancellation policy, only a note on delayed flights'
+- description: the same dawn flight to Hanoi on another date
+  fixture: booking-extract-vietjet-02
+  provider: vietjet
+  email: vietjet-02.txt
+  subject: 'Xác nhận đặt vé máy bay Vietjet Air thành công trên ví MoMo - Mã giao dịch: 3414316723'
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref: TM9B8L
+        starts_at: 2023-09-21T22:25:00.000Z
+        flights:
+          - VJ198
+        price_minor: 1051400
+        currency: VND
+        free_cancel_until: null
+  excluded:
+    - 'cancel_policy: the e-ticket prints no cancellation policy, only a note on delayed flights'
+- description: the dawn flight to Hanoi a third time
+  fixture: booking-extract-vietjet-03
+  provider: vietjet
+  email: vietjet-03.txt
+  subject: 'Xác nhận đặt vé máy bay Vietjet Air thành công trên ví MoMo - Mã giao dịch: 3176560835'
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref: 298H0J
+        starts_at: 2023-07-14T22:25:00.000Z
+        flights:
+          - VJ198
+        price_minor: 1036400
+        currency: VND
+        free_cancel_until: null
+  excluded:
+    - 'cancel_policy: the e-ticket prints no cancellation policy, only a note on delayed flights'
+- description: a VietJet e-ticket to Hue with the passenger ID printed
+  fixture: booking-extract-vietjet-04
+  provider: vietjet
+  email: vietjet-04.txt
+  subject: 'Xác nhận đặt vé máy bay Vietjet Air thành công trên ví MoMo - Mã giao dịch: 3043298578'
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref: KMXHLR
+        starts_at: 2024-04-23T23:10:00.000Z
+        flights:
+          - VJ300
+        price_minor: 1176608
+        currency: VND
+        free_cancel_until: null
+  excluded:
+    - 'cancel_policy: the e-ticket prints no cancellation policy, only a note on delayed flights'
+- description: a Hue return trip for two under one reservation code, seats printed
+  fixture: booking-extract-vietjet-05
+  provider: vietjet
+  email: vietjet-05.txt
+  subject: 'Xác nhận đặt vé máy bay Vietjet Air thành công trên ví MoMo - Mã giao dịch: 72597047486.'
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref: Q6DTX0
+        starts_at: 2026-04-03T12:55:00.000Z
+        flights:
+          - VJ1310
+          - VJ1315
+        price_minor: 5167600
+        currency: VND
+        free_cancel_until: null
+    alternatives:
+      - - kind: flight
+          supplier_ref: Q6DTX0
+          starts_at: 2026-04-03T12:55:00.000Z
+          flights:
+            - VJ1310
+          free_cancel_until: null
+        - kind: flight
+          supplier_ref: Q6DTX0
+          starts_at: 2026-04-05T16:20:00.000Z
+          flights:
+            - VJ1315
+          free_cancel_until: null
+  excluded:
+    - 'cancel_policy: the e-ticket prints no cancellation policy, only a note on delayed flights'
+    - 'price: one total covers both legs, so it is graded only when read as one booking'
+- description: a midday VietJet e-ticket
+  fixture: booking-extract-vietjet-06
+  provider: vietjet
+  email: vietjet-06.txt
+  subject: 'Xác nhận đặt vé máy bay Vietjet Air thành công trên ví MoMo - Mã giao dịch: 97051780102.'
+  expect:
+    status: parsed
+    bookings:
+      - kind: flight
+        supplier_ref: W2XY33
+        starts_at: 2024-06-14T05:25:00.000Z
+        flights:
+          - VJ1138
+        price_minor: 2307200
+        currency: VND
+        free_cancel_until: null
+  excluded:
+    - 'cancel_policy: the e-ticket prints no cancellation policy, only a note on delayed flights'

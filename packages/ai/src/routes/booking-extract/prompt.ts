@@ -10,7 +10,7 @@ import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { BOOKING_EXTRACT_FORMAT } from './schema';
 
 export const BOOKING_EXTRACT_ROUTE = 'email.parse' as const;
-export const BOOKING_EXTRACT_PROMPT_VERSION = 'booking-extract@1';
+export const BOOKING_EXTRACT_PROMPT_VERSION = 'booking-extract@2';
 
 const TASK = [
   '# Task',
@@ -18,7 +18,10 @@ const TASK = [
   'You read a travel confirmation the traveller forwarded, pasted or scanned, and list what it',
   'booked. One entry per booking: a hotel stay, a flight reservation (all its legs), an activity or',
   'tour, a boat or ferry, a transfer, a train, a car hire. Marketing, other offers, ads and',
-  '“you may also like” sections are not bookings. If the text books nothing, answer an empty list.',
+  '“you may also like” sections are not bookings. Nor are notices that a booking was cancelled,',
+  'failed or is still being processed, messages about changing it or waiving its fees, surveys,',
+  'sign-in codes, and receipts for a ride or a meal already taken. If the text books nothing,',
+  'answer an empty list.',
   '- `kind`: flight, stay, activity, boat, transfer, rail, car or other.',
   '- `title`: what the traveller would call it ("Villa Tirta, Ubud", "Nusa Penida snorkel day").',
   '  For a flight use "<carrier> <number> · <from> → <to>".',
@@ -33,7 +36,9 @@ const TASK = [
   '- `travellers`: guest or passenger names as printed.',
   '- `cancel_policy_text`: the cancellation policy sentence(s) copied word for word; null if none.',
   '  `free_cancel_until_local`: the last local date and time free cancellation is possible, only',
-  '  when that text states one; else null.',
+  '  when that text states one; else null. In a tiered policy (free, then a partial or no refund',
+  '  "from" a time) free cancellation ends when the next tier starts; a "from" time printed under',
+  '  the free tier is when it began, not when it ends.',
   '- `flights` (flights only, one per leg in order): IATA carrier code and flight number, IATA',
   '  airport codes, local departure and arrival YYYY-MM-DDTHH:MM with each airport’s IANA zone.',
   '- `room`, `meeting_point`, `seat`: as printed, else null.',

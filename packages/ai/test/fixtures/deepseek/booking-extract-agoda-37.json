@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "4eed51fc-75db-43ee-a9fa-6a209a2df0bc",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"AirAsia AK 1503 · SGN → PEN\",\"supplier_name\":\"AirAsia\",\"confirmation_code\":\"1171095658\",\"starts_local\":\"2027-10-31T13:30\",\"ends_local\":\"2027-10-31T16:10\",\"timezone\":null,\"location\":null,\"price\":{\"amount\":\"11.191.285\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\",\"Van Hieu Le\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"[Vé người lớn] Vé của quý khách có thể được hủy và hoàn trả mà không tính phí phạt. Để biết chi tiết về chỗ ngồi, hành lý hoặc các hạn chế khác, vui lòng liên hệ trực tiếp với hãng hàng không.\",\"flights\":[{\"carrier\":\"AK\",\"number\":\"1503\",\"from\":\"SGN\",\"to\":\"PEN\",\"departs_local\":\"2027-10-31T13:30\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2027-10-31T16:10\",\"arrives_timezone\":\"Asia/Kuala_Lumpur\"}],\"room\":null,\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 174,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 4096,
+        "output_tokens": 298,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
