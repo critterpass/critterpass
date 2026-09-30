@@ -173,7 +173,7 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Merge function + conflict markers. 2. Personal apply writes `personal_plan_ops` + share recompute (cost-engine). 3. "just you" tags + keep/drop UI.
 - Tests: `pnpm --filter @cp/planner test -- overlay`; `maestro test e2e/plan/overlay.yaml`
 - Done when: peer device plan unchanged; own share lowered when skipping optional item.
-- Status: server part done — 887ea5c3 (planner overlay merge and clashes, personal apply, `resolve_overlay_clash`); overlay UI and e2e with the app lane
+- Status: done — 887ea5c3 (server: planner overlay merge and clashes, personal apply, `resolve_overlay_clash`), 642ab2c3 (app: just-you days, clash keep/drop, e2e)
 
 ### T5 — Plan overview (3e-1)
 - Goal: overview screen with reorder, chips, presence, sweep.
@@ -181,6 +181,7 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Local queries (group + overlay + draft mode). 2. Drag reorder with spring, remote reorder animation. 3. Chips, weather, sweep once per unseen change. 4. All missing states.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/overview`; `maestro test e2e/plan/overview.yaml`
 - Done when: reorder on device A animates on device B < 1 s; offline reorder reconciles.
+- Status: done — d1462efe
 
 ### T6 — Day view, item detail, add/remove
 - Goal: F-078.
@@ -215,6 +216,7 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Card deal, toggles, odometer chips. 2. Send/apply-personal actions. 3. `ChangesetChatCard` exported for P24 chat renderer (voting/approved/rejected/expired/stale). 4. Push action handling.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/review`; `maestro test e2e/plan/review.yaml`
 - Done when: approving from push updates the chat tally on another device; all-rejected disables send.
+- Status: done — e7035ff3
 
 ### T10 — Live collab decision view + comments
 - Goal: 3g-2 and anchored comments.
@@ -230,6 +232,7 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Map with per-day routes/pins (P14 kit, offline). 2. Calendar grid. 3. Segmented control wiring.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/views`; `maestro test e2e/plan/views.yaml`
 - Done when: map works offline with downloaded region; tapping pin opens item detail.
+- Status: done — 52e281df
 
 ### T12 — Calendar export (device write + ICS feed)
 - Goal: F-083 export.
@@ -237,7 +240,7 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. RFC 5545 ICS for my items (overlay-aware, tz-correct, stable UIDs from `stable_id`). 2. Revocable token feed. 3. Device write via the `cp-calendar` write method that P27 exposes (contract hook; P29 does not edit P27 files — if missing, plan.md delta adds `write.ts` to P27).
 - Tests: `pnpm --filter @cp/api test -- plan/calendar-feed` (validates with `ical.js` parser)
 - Done when: `ical.js` round-trip parses every event with correct tz and stable UIDs; revocation returns 404. Manual Apple/Google Calendar import → P54 launch checks.
-- Status: server part done — 048f3794 (ICS feed route, `create_calendar_feed` / `revoke_calendar_feed`); export sheet and device write with the app lane
+- Status: done — 048f3794 (server: ICS feed route, `create_calendar_feed` / `revoke_calendar_feed`), 5b8cfc95 (app: export sheet; the device write lights up with the native `cp-calendar` write methods held for the next build)
 
 ## Phase acceptance criteria
 
