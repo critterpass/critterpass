@@ -42,6 +42,15 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# On iOS the edge swipe can go back past the lab to the home screen; the language stays set.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+      - runFlow: ../../guide/subflows/open-lab.yaml
 - scrollUntilVisible:
     element:
       id: 'guide-lab-chat-streamed-list'
