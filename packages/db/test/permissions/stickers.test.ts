@@ -8,6 +8,7 @@ import { randomUUID } from 'node:crypto';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { withSystem, withUser } from '../../src/tx';
+import { insertTrip, insertTripParticipant } from '../helpers/actors';
 import { visibleRows } from '../helpers/setup-privacy';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
@@ -57,5 +58,51 @@ describe('stickers', () => {
     await expect(
       withSystem(harness.db.pool, (tx) => tx.query(grant, [actors.organiser, crewId, tripId])),
     ).rejects.toThrow(/stickers_settled_once_uk/);
+  });
+
+  it('grants once, without a deadlock, when the last two payments clear at the same moment', async () => {
+    const { actors, crewId } = harness.fixture;
+    const { organiser, member, coOrganiser } = actors;
+    const tripId = await withSystem(harness.db.pool, async (tx) => {
+      const id = await insertTrip(tx, { crewId });
+      for (const uid of [organiser, member, coOrganiser]) {
+        await insertTripParticipant(tx, { tripId: id, userId: uid, rsvp: 'in' });
+      }
+      return id;
+    });
+    const entry = `INSERT INTO ledger_entries (crew_id, trip_id, debtor_id, creditor_id, amount_minor,
+        currency, source_kind, source_id)
+      VALUES ($1, $2, $3, $4, 100, 'USD', $5, gen_random_uuid())`;
+    // Two members each owe the organiser 1.00; each pays it back in its own transaction.
+    await harness.db.pool.query(entry, [crewId, tripId, member, organiser, 'expense']);
+    await harness.db.pool.query(entry, [crewId, tripId, coOrganiser, organiser, 'expense']);
+    const confirm = async (payer: string) => {
+      const client = await harness.db.pool.connect();
+      await client.query('BEGIN');
+      await client.query('SET LOCAL ROLE app_system');
+      // The payment's entry takes a key share on the trip row before the grant locks it.
+      await client.query(entry, [crewId, tripId, organiser, payer, 'payment']);
+      return client;
+    };
+    const [first, second] = await Promise.all([confirm(member), confirm(coOrganiser)]);
+    const grant = (client: typeof first) =>
+      client
+        .query<{ granted_user: string }>(
+          'SELECT granted_user FROM app.grant_settled_if_square($1, now())',
+          [tripId],
+        )
+        .then(async (result) => {
+          await client.query('COMMIT');
+          return result.rows.length;
+        })
+        .finally(() => client.release());
+    const granted = await Promise.all([grant(first), grant(second)]);
+    expect(granted.sort()).toEqual([0, 3]);
+    const { rows } = await harness.db.pool.query<{ n: number; at: number }>(
+      `SELECT count(*)::int AS n, count(DISTINCT granted_at)::int AS at FROM stickers
+        WHERE trip_id = $1 AND kind = 'settled'`,
+      [tripId],
+    );
+    expect(rows[0]).toEqual({ n: 3, at: 1 });
   });
 });
