@@ -15,6 +15,10 @@ msgstr "???"
 msgid "critters.dex.rankGroupCities"
 msgstr "{cities, plural, one {Rank {from}–{to} · # city each} other {Rank {from}–{to} · # cities each}}"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.crewChip"
+msgstr "{count} in the crew"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.guideBody"
 msgstr "{days, plural, one {Your guide for the next # day, and critter {number} in the {place} set.} other {Your guide for the next # days, and critter {number} in the {place} set.}}"
@@ -35,9 +39,25 @@ msgstr "{found}/{total} found"
 msgid "critters.crew.befriended"
 msgstr "{member} befriended a critter"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.crewHere"
+msgstr "{member} befriended one here."
+
 #: ../../apps/mobile/src/features/critters/critters-copy.ts
 msgid "critters.crew.firstSpotter"
 msgstr "{member} spotted a new critter first"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.wanderedBody"
+msgstr "{minutes, plural, one {You left {place} after # minute, and it's shy. It comes back when the place goes quiet.} other {You left {place} after # minutes, and it's shy. It comes back when the place goes quiet.}}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.stayed"
+msgstr "{minutes, plural, one {You stayed # min} other {You stayed # min}}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.noticed"
+msgstr "{minutes, plural, one {You stayed # minute. It noticed.} other {You stayed # minutes. It noticed.}}"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.formsOf"
@@ -51,6 +71,10 @@ msgstr "{name} has {count}"
 msgid "critters.hatch.hatched"
 msgstr "{name} hatched"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.isHere"
+msgstr "{name} is here"
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.skinSet"
 msgstr "{name} is your guide's look now"
@@ -58,6 +82,14 @@ msgstr "{name} is your guide's look now"
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.shareAlt"
 msgstr "{name}, found in {city}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.formOf"
+msgstr "{name}'s {tier} form, {no} of {total}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.reminderTitle"
+msgstr "{place} is going quiet"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryTitle"
@@ -67,6 +99,14 @@ msgstr "{placeLine}, {span}"
 msgid "critters.detail.shareLine"
 msgstr "{tier} · found in {city}"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.formEyebrow"
+msgstr "{tier} form · {no} of {total}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.formNo"
+msgstr "{tier} form, {no} of {total}"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.nextForm"
 msgstr "{tier} next: {requirement}."
@@ -74,6 +114,14 @@ msgstr "{tier} next: {requirement}."
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.landed"
 msgstr "{time} · You landed"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.xp"
+msgstr "+{xp} XP"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.scene"
+msgstr "A critter at {place}"
 
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.encounter"
@@ -91,6 +139,10 @@ msgstr "A critter you befriended"
 msgid "critters.queued.remindOn"
 msgstr "A legendary reminder"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.addToPass"
+msgstr "Add to your pass"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterAll"
 msgstr "All"
@@ -102,6 +154,26 @@ msgstr "Also has it"
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.classicLook"
 msgstr "Back to the classic look"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.backToDay"
+msgstr "Back to the day"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.befriend"
+msgstr "Befriend"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.tapInstead"
+msgstr "Befriend without holding"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.befriended"
+msgstr "Befriended!"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.bestChance"
+msgstr "Best chance"
 
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.remindOff"
@@ -119,9 +191,21 @@ msgstr "Critter {number} in the {place} set."
 msgid "critters.dex.back"
 msgstr "Critterdex"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.nothingBody"
+msgstr "Critters come out at real places. Walk to a spot on your plan and stay a while."
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyFoundBody"
 msgstr "Critters only show up where they live. Your first one hatches when you land."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.mode"
+msgstr "Encounter"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.over"
+msgstr "Encounter over"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.exploreAtHome"
@@ -163,6 +247,14 @@ msgstr "Hatch it"
 msgid "critters.dex.hereNow"
 msgstr "Here now · {place}"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.hold"
+msgstr "Hold"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.holdTitle"
+msgstr "Hold to befriend"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.homeEyebrow"
 msgstr "Home set"
@@ -175,9 +267,33 @@ msgstr "How long you stayed"
 msgid "critters.egg.waitingBody"
 msgstr "It hatches when you land in {place}."
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.legendaryBody"
+msgstr "It only comes out now, and only for those who stay. Keep still and it'll settle."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.wandered"
+msgstr "It wandered off"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.readyBody"
+msgstr "It's settled next to you. Hold the ring and it's yours."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.shyBody"
+msgstr "It's shy around crowds. Stay a few minutes and it'll come closer."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.legendaryMode"
+msgstr "Legendary"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryOnDates"
 msgstr "Legendary on your dates"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.look"
+msgstr "Look"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.makeGuide"
@@ -199,6 +315,10 @@ msgstr "Near me"
 msgid "critters.dex.emptyNearBody"
 msgstr "No critters within 5 km of you or your trip. Try ALL to see every place."
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.noForecast"
+msgstr "No crowd forecast here yet. Early mornings are usually the quietest."
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptySearchTitle"
 msgstr "No place called “{query}”"
@@ -215,9 +335,25 @@ msgstr "Nobody lives nearby"
 msgid "critters.dex.emptyFoundTitle"
 msgstr "Nothing befriended yet"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.nothingTitle"
+msgstr "Nothing stirring yet"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.reminderDenied"
+msgstr "Notifications are off, so we can’t nudge you. Turn them on in Settings."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.onPass"
+msgstr "On your pass. We’re checking it, then it’s yours for good."
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.rankGroup"
 msgstr "Rank {from}–{to}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.remindAt"
+msgstr "Remind me at {time}"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.sayHi"
@@ -235,13 +371,41 @@ msgstr "Search by country or city, like Vietnam or Hội An."
 msgid "critters.detail.share"
 msgstr "Share"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.shareCrew"
+msgstr "Share with the crew"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.later"
 msgstr "Show me around later"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.someoneHere"
+msgstr "Someone is here"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.unseenBody"
 msgstr "Someone new is waiting to say hi."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.rustled"
+msgstr "Something rustled near {place}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.stayTitle"
+msgstr "Stay close"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.reminderBody"
+msgstr "The shy one might come back now. Go softly."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.today"
+msgstr "Today, {time}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.tomorrow"
+msgstr "Tomorrow, {time}"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.undo"
@@ -250,6 +414,10 @@ msgstr "Undo"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.locked"
 msgstr "Unknown local at {city}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.reminderSet"
+msgstr "We'll nudge you at {time}"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.welcome"
@@ -263,9 +431,17 @@ msgstr "Where"
 msgid "critters.hatch.youMadeIt"
 msgstr "You made it"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.youreAt"
+msgstr "You're at {place}"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.readyBody"
 msgstr "You're in {place}. It's ready when you are."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.drainingBody"
+msgstr "You've stepped away. It's watching from the edge, so come back slowly."
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.title"

@@ -11,10 +11,13 @@ import { setExploreAtHome, useExploreAtHome } from '@/lib/location';
 
 import { hatchEggCommand, setExploreAtHomeCommand } from '../data/commands';
 import { eggCardFor, hatchSeen, useHatchSeenVersion } from '../hatch/hatch-model';
-import { critterRoute, hatchRoute, LEGENDARIES_ROUTE, setRoute } from '../routes';
+import { useEncounter } from '../engine/use-encounter';
+import { critterRoute, encounterRoute, hatchRoute, LEGENDARIES_ROUTE, setRoute } from '../routes';
 import type { DexFilter } from './dex-model';
 import { DexView } from './dex-view';
 import { useDexRows } from './use-dex';
+
+const LIVE = new Set(['accruing', 'ready', 'draining']);
 
 export function PassScreen({ now = () => new Date() }: { readonly now?: () => Date }) {
   const data = useDexRows();
@@ -25,6 +28,9 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
   const exploreOn = useExploreAtHome();
   useHatchSeenVersion();
   const egg = eggCardFor(data.input.trips, now(), hatchSeen);
+  const { snapshot } = useEncounter();
+  const live = LIVE.has(snapshot.phase) && snapshot.encounterId !== null;
+  const encounterId = snapshot.encounterId;
 
   const onHatch = () => {
     if (egg === null) return;
@@ -53,6 +59,15 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
       onOpenSet={(id) => router.push(setRoute(id))}
       onOpenCritter={(id) => router.push(critterRoute(id))}
       onOpenLegendaries={() => router.push(LEGENDARIES_ROUTE)}
+      encounter={
+        live && encounterId !== null
+          ? {
+              place: snapshot.candidate?.spot.name ?? '',
+              progress: snapshot.progress,
+              onOpen: () => router.push(encounterRoute(encounterId)),
+            }
+          : null
+      }
     />
   );
 }

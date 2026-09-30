@@ -3,10 +3,12 @@ import type { ReactNode } from 'react';
 
 import { DETAIL_SCENES } from './detail-scenes';
 import { DEX_SCENES } from './dex-scenes';
+import { ENCOUNTER_SCENES } from './encounter-scenes';
 
 export const CRITTER_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...DEX_SCENES,
   ...DETAIL_SCENES,
+  ...ENCOUNTER_SCENES,
 };
 
 export const CRITTER_SCENE_NAMES: readonly string[] = Object.keys(CRITTER_SCENES);

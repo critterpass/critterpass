@@ -1,0 +1,634 @@
+appId: app.critterpass.dev
+---
+# Encounters in every state, in English then Vietnamese: filling, ready, stepped away and a
+# nameless one (3l-4), a legendary (3l-10), wandered off with and without a forecast (3l-5),
+# befriended (3l-6) and nothing nearby, from the critters lab's fixed-data scenes
+# (apps/mobile/src/app/(dev)/critters-lab.tsx), named `<lang>-<design id>-<state>`.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-critters-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-critters-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-4-filling'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-4-filling'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-4-filling'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-accruing'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-4-filling
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-4-filling'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-4-ready'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-4-ready'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-ready'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-4-ready
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-4-ready'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-4-stepped-away'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-4-stepped-away'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-draining'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-4-stepped-away
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-4-stepped-away'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-4-unknown-name'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-4-unknown-name'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-accruing'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-4-unknown-name
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-4-unknown-name'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-10-legendary'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-10-legendary'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-ready'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-10-legendary
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-10-legendary'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-5-wandered'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-5-wandered'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-wandered_off'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-5-wandered
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-5-wandered'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-5-no-forecast'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-5-no-forecast'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-wandered_off'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-5-no-forecast
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-5-no-forecast'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-6-befriended'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-6-befriended'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-befriended'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-6-befriended
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-6-befriended'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-4-nothing'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-4-nothing'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-nothing'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-4-nothing
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-4-nothing'
+    timeout: 10000
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+# Going back lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-critters-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-critters-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-4-filling'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-4-filling'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-4-filling'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-accruing'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3l-4-filling
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-4-filling'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-4-ready'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-4-ready'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-ready'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3l-4-ready
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-4-ready'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-4-stepped-away'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-4-stepped-away'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-draining'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3l-4-stepped-away
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-4-stepped-away'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-4-unknown-name'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-4-unknown-name'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-accruing'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3l-4-unknown-name
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-4-unknown-name'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-10-legendary'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-10-legendary'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-ready'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3l-10-legendary
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-10-legendary'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-5-wandered'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-5-wandered'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-wandered_off'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3l-5-wandered
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-5-wandered'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-5-no-forecast'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-5-no-forecast'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-wandered_off'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3l-5-no-forecast
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-5-no-forecast'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-6-befriended'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-6-befriended'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-befriended'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3l-6-befriended
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-6-befriended'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-4-nothing'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-4-nothing'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-nothing'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3l-4-nothing
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-4-nothing'
+    timeout: 10000

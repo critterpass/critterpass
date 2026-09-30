@@ -8,10 +8,12 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and file keys, never copy. */
 import { resolveEncounterConfig, type WindowRule } from '@cp/domain';
+import { router } from 'expo-router';
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { getLocationEngine, useExploreAtHome } from '@/lib/location';
+import { toast } from '@/motion';
 
 import { useInFront } from '../data/app-front';
 import {
@@ -47,7 +49,9 @@ import {
   type SpawnSqlRow,
 } from '../data/spawn-rows';
 import { windowRule } from '../dex/dex-model';
+import { look, rustled } from '../encounter/encounter-copy';
 import { deviceTimeZone } from '../hatch/hatch-model';
+import { encounterRoute } from '../routes';
 import type { EngineSnapshot } from './engine';
 import { writeNearby } from './nearby-snapshot';
 import { encounterEngine, setEncounterInputs } from './session';
@@ -170,6 +174,18 @@ export function EncounterRuntime() {
     return () => clearInterval(timer);
   }, [live]);
   useEffect(() => writeNearby(snapshot), [snapshot]);
+
+  // A new encounter while the app is in front: say so, with a way in.
+  const startedId = snapshot.phase === 'accruing' ? snapshot.encounterId : null;
+  const place = snapshot.candidate?.spot.name ?? '';
+  useEffect(() => {
+    if (startedId === null || !foreground) return;
+    toast.show({
+      id: `critters-rustled-${startedId}`,
+      title: rustled(place),
+      action: { label: look(), onPress: () => router.push(encounterRoute(startedId)) },
+    });
+  }, [startedId, foreground, place]);
   return null;
 }
 

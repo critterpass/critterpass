@@ -15,6 +15,10 @@ msgstr "???"
 msgid "critters.dex.rankGroupCities"
 msgstr "{cities, plural, other {Hạng {from}–{to} · mỗi nơi # thành phố}}"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.crewChip"
+msgstr "{count} người trong nhóm"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.guideBody"
 msgstr "{days, plural, other {Hướng dẫn viên của bạn trong # ngày tới, và là bạn nhỏ {number} trong bộ {place}.}}"
@@ -35,9 +39,25 @@ msgstr "Đã gặp {found}/{total}"
 msgid "critters.crew.befriended"
 msgstr "{member} vừa kết bạn với một bạn nhỏ"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.crewHere"
+msgstr "{member} đã kết bạn với một bạn ở đây."
+
 #: ../../apps/mobile/src/features/critters/critters-copy.ts
 msgid "critters.crew.firstSpotter"
 msgstr "{member} là người đầu tiên thấy một bạn nhỏ mới"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.wanderedBody"
+msgstr "{minutes, plural, other {Bạn rời {place} sau # phút, mà bạn ấy lại nhát. Bạn ấy sẽ quay lại khi nơi này yên tĩnh.}}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.stayed"
+msgstr "{minutes, plural, other {Bạn ở lại # phút}}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.noticed"
+msgstr "{minutes, plural, other {Bạn ở lại # phút. Bạn ấy đã để ý.}}"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.formsOf"
@@ -51,6 +71,10 @@ msgstr "{name} có {count}"
 msgid "critters.hatch.hatched"
 msgstr "{name} đã nở"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.isHere"
+msgstr "{name} đang ở đây"
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.skinSet"
 msgstr "{name} giờ là diện mạo hướng dẫn viên của bạn"
@@ -58,6 +82,14 @@ msgstr "{name} giờ là diện mạo hướng dẫn viên của bạn"
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.shareAlt"
 msgstr "{name}, gặp ở {city}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.formOf"
+msgstr "Dạng {tier} của {name}, {no} trên {total}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.reminderTitle"
+msgstr "{place} đang yên dần"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryTitle"
@@ -67,6 +99,14 @@ msgstr "{placeLine}, {span}"
 msgid "critters.detail.shareLine"
 msgstr "{tier} · gặp ở {city}"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.formEyebrow"
+msgstr "Dạng {tier} · {no} trên {total}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.formNo"
+msgstr "Dạng {tier}, {no} trên {total}"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.nextForm"
 msgstr "Dạng {tier} tiếp theo: {requirement}."
@@ -74,6 +114,14 @@ msgstr "Dạng {tier} tiếp theo: {requirement}."
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.landed"
 msgstr "{time} · Bạn đã hạ cánh"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.xp"
+msgstr "+{xp} XP"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.scene"
+msgstr "Một bạn nhỏ ở {place}"
 
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.encounter"
@@ -91,6 +139,10 @@ msgstr "Một bạn nhỏ bạn vừa kết bạn"
 msgid "critters.queued.remindOn"
 msgstr "Một lời nhắc huyền thoại"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.addToPass"
+msgstr "Thêm vào thẻ của bạn"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterAll"
 msgstr "Tất cả"
@@ -102,6 +154,26 @@ msgstr "Cũng có"
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.classicLook"
 msgstr "Về lại diện mạo cũ"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.backToDay"
+msgstr "Về lịch hôm nay"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.befriend"
+msgstr "Kết bạn"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.tapInstead"
+msgstr "Kết bạn không cần giữ"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.befriended"
+msgstr "Đã kết bạn!"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.bestChance"
+msgstr "Cơ hội tốt nhất"
 
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.remindOff"
@@ -119,9 +191,21 @@ msgstr "Bạn nhỏ {number} trong bộ {place}."
 msgid "critters.dex.back"
 msgstr "Critterdex"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.nothingBody"
+msgstr "Bạn nhỏ xuất hiện ở những nơi có thật. Hãy đến một điểm trong lịch trình và ở lại một lúc."
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyFoundBody"
 msgstr "Bạn nhỏ chỉ xuất hiện ở nơi chúng sống. Bạn đầu tiên sẽ nở khi bạn hạ cánh."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.mode"
+msgstr "Gặp gỡ"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.over"
+msgstr "Đã kết thúc"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.exploreAtHome"
@@ -163,6 +247,14 @@ msgstr "Cho nở"
 msgid "critters.dex.hereNow"
 msgstr "Đang ở · {place}"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.hold"
+msgstr "Giữ"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.holdTitle"
+msgstr "Giữ để kết bạn"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.homeEyebrow"
 msgstr "Bộ quê nhà"
@@ -175,9 +267,33 @@ msgstr "Thời gian bạn ở lại"
 msgid "critters.egg.waitingBody"
 msgstr "Trứng sẽ nở khi bạn hạ cánh ở {place}."
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.legendaryBody"
+msgstr "Bạn ấy chỉ xuất hiện lúc này, và chỉ với ai chịu ở lại. Đứng yên, bạn ấy sẽ lại gần."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.wandered"
+msgstr "Bạn ấy đã bỏ đi"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.readyBody"
+msgstr "Bạn ấy đã ngồi yên cạnh bạn. Giữ vòng tròn là thành bạn."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.shyBody"
+msgstr "Bạn ấy nhát chỗ đông người. Ở lại vài phút, bạn ấy sẽ lại gần hơn."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.legendaryMode"
+msgstr "Huyền thoại"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryOnDates"
 msgstr "Huyền thoại trong ngày đi của bạn"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.look"
+msgstr "Xem"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.makeGuide"
@@ -199,6 +315,10 @@ msgstr "Gần tôi"
 msgid "critters.dex.emptyNearBody"
 msgstr "Không có bạn nhỏ nào trong vòng 5 km quanh bạn hay chuyến đi. Chọn TẤT CẢ để xem mọi nơi."
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.noForecast"
+msgstr "Nơi này chưa có dự báo đông người. Sáng sớm thường là lúc yên nhất."
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptySearchTitle"
 msgstr "Không có nơi nào tên “{query}”"
@@ -215,9 +335,25 @@ msgstr "Quanh đây chưa có ai"
 msgid "critters.dex.emptyFoundTitle"
 msgstr "Chưa kết bạn với ai"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.nothingTitle"
+msgstr "Chưa có động tĩnh gì"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.reminderDenied"
+msgstr "Thông báo đang tắt nên chúng tôi không nhắc được. Hãy bật trong Cài đặt."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.onPass"
+msgstr "Đã vào thẻ của bạn. Chúng tôi đang kiểm tra, xong là của bạn luôn."
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.rankGroup"
 msgstr "Hạng {from}–{to}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.remindAt"
+msgstr "Nhắc tôi lúc {time}"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.sayHi"
@@ -235,13 +371,41 @@ msgstr "Tìm theo quốc gia hoặc thành phố, như Việt Nam hay Hội An."
 msgid "critters.detail.share"
 msgstr "Chia sẻ"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.shareCrew"
+msgstr "Chia sẻ với nhóm"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.later"
 msgstr "Để sau dẫn tôi đi dạo"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.someoneHere"
+msgstr "Có ai đó ở đây"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.unseenBody"
 msgstr "Có một bạn mới đang chờ chào bạn."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.rustled"
+msgstr "Có gì đó xào xạc gần {place}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.stayTitle"
+msgstr "Ở gần thêm chút"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.reminderBody"
+msgstr "Bạn nhỏ nhút nhát có thể đã quay lại. Đi nhẹ nhàng thôi."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.today"
+msgstr "Hôm nay, {time}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.tomorrow"
+msgstr "Ngày mai, {time}"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.undo"
@@ -250,6 +414,10 @@ msgstr "Hoàn tác"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.locked"
 msgstr "Một bạn nhỏ chưa biết ở {city}"
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.reminderSet"
+msgstr "Chúng tôi sẽ nhắc bạn lúc {time}"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.welcome"
@@ -263,9 +431,17 @@ msgstr "Ở đâu"
 msgid "critters.hatch.youMadeIt"
 msgstr "Bạn đã đến nơi"
 
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.youreAt"
+msgstr "Bạn đang ở {place}"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.readyBody"
 msgstr "Bạn đang ở {place}. Trứng sẵn sàng khi bạn muốn."
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.drainingBody"
+msgstr "Bạn vừa đi xa một chút. Bạn ấy đang nhìn từ mép, quay lại từ từ nhé."
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.title"

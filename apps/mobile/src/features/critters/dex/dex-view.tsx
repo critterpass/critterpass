@@ -39,6 +39,7 @@ import {
   searchLabel,
 } from './dex-copy';
 import { filterSets, type DexFilter, type DexModel, type SetModel } from './dex-model';
+import { EncounterBanner, type EncounterBannerModel } from './encounter-banner';
 import { HereNowCard } from './here-now';
 import { HomeSetCard, PlaceRow } from './set-rows';
 
@@ -60,6 +61,8 @@ export interface DexViewProps {
   readonly onOpenSet: (setId: string) => void;
   readonly onOpenCritter: (critterId: string) => void;
   readonly onOpenLegendaries: () => void;
+  /** An encounter under way, with a way back into it. */
+  readonly encounter?: EncounterBannerModel | null;
 }
 
 type Item =
@@ -159,6 +162,7 @@ export function DexView(props: DexViewProps) {
       />
       {narrowed ? null : (
         <>
+          {props.encounter == null ? null : <EncounterBanner banner={props.encounter} />}
           {props.egg === null ? null : (
             <EggCard
               egg={props.egg}
