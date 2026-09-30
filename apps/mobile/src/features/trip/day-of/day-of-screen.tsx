@@ -134,7 +134,15 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
 
   return (
     <DayOfView
-      state={trip.loaded && leaveBys.loaded ? 'ready' : 'loading'}
+      // Ready once the day's own rows are in, so the hero never swaps its words under the reader.
+      state={
+        trip.loaded &&
+        leaveBys.loaded &&
+        packing.loaded &&
+        (items.loaded || (tripRow !== null && tripRow.current_version_id === null))
+          ? 'ready'
+          : 'loading'
+      }
       eyebrow={dayEyebrow(localDate, dayNo, locale)}
       forecast={forecast === null ? null : forecastLabel(forecast.tempC, forecast.atTheTop, locale)}
       leaveBy={leaveBy}
