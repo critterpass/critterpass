@@ -14,6 +14,7 @@ import { moderationModule } from '../modules/moderation';
 import { partnersModule } from '../modules/partners';
 import { seasonModule } from '../modules/season';
 import { supportModule } from '../modules/support';
+import { vendorDeskModule } from '../modules/vendor-desk';
 
 export const ADMIN_MODULES: readonly AdminModule[] = [
   moderationModule,
@@ -25,6 +26,7 @@ export const ADMIN_MODULES: readonly AdminModule[] = [
   partnersModule,
   supportModule,
   deskModule,
+  vendorDeskModule,
   billingModule,
   auditModule,
 ];
