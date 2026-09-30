@@ -144,7 +144,7 @@ Every command also emits the generic `cmd.applied` metric; listed events are dom
 |---|---|---|---|---|---|---|
 | `register_device` | `{platform, push_token?, apns_env, tz, locale, app_version, capabilities{la, alarmkit, widget_push, live_updates}}` | self | – | `device.registered` | A | 11 |
 | `update_device_permissions` | `{perms{notifications, alarms, location, calendar, camera, microphone, speech, photos_add, photos_read, live_activities: not_determined\|denied\|restricted\|limited\|provisional\|granted; location_level: none\|wiu\|always, location_precise, notifications_time_sensitive, exact_alarm, full_screen_intent, la_enabled, la_frequent}}` (all optional; stored on `devices.permission_state`; unchanged = no-op; contacts need no prompt) | self | – | `device.permissions_changed` (derived capability only: push alert/quiet/inbox, can_ring, live_activities, encounters) | A, O | 20 |
-| `set_consent` | `{purpose: visit_detection\|analytics\|marketing, granted, copy_version?}` (one `consents` row per purpose; withdrawal keeps `granted_at`, stamps `revoked_at`) | self | – | – | A, O | 20 |
+| `set_consent` | `{purpose: visit_detection\|analytics\|marketing\|dietary_visibility, granted, copy_version?}` (one `consents` row per purpose; withdrawal keeps `granted_at`, stamps `revoked_at`; doc delta: `dietary_visibility`) | self | – | – | A, O | 20 |
 | `register_la_token` | `{activity_type, activity_id?, kind: push_to_start\|update, token}` | self | – | `la.token_registered` | A, L | 48 |
 | `end_la` | `{activity_id}` | self | – | `la.ended` | A, L | 48 |
 | `register_widget_token` | `{kind, token}` / `sync_installed_widgets {kinds[]}` | self | – | `widget.registered` | A | 49 |
@@ -158,7 +158,7 @@ Every command also emits the generic `cmd.applied` metric; listed events are dom
 | `set_notification_prefs` | `{budget 1–10, roundup_time, quiet{from,to}, per_category{}, chattiness, voice_readout}` | self | voice_readout: Pass+ | `prefs.changed` | A, O | 49 |
 | `set_app_icon` | `{icon_id}` | self | icon unlocked (earned/free) or Pass+ | `profile.icon_changed` | A | 45 |
 | `set_guide_skin` | `{guide_id, form_id}` | self | form owned | `profile.guide_skin_changed` | A, O | 40 |
-| `set_dietary_profile` (C3) | `{restrictions[], allergies[], notes?}` | self | – | `profile.dietary_changed` (no payload in event) | A, O | 22 |
+| `set_dietary_profile` (C3) (doc delta) | `{diet: none\|vegetarian\|vegan\|pescatarian\|halal\|kosher, allergies[], avoid[], spice?, accessibility_notes?}` → `CONSENT_REQUIRED` without `dietary_visibility` consent for crew-visible flags; stores notes encrypted, mirrors `consent_at` and visibility onto the profile | self | – | `profile.dietary_changed` (no payload in event) | A, O | 22 |
 | `set_mailing_address` (C3, encrypted) | `{address fields}` | self | – | `profile.address_set` | A | 44 |
 | `set_payout_method` (C3, encrypted) | `{kind: bank\|paynow\|promptpay\|vietqr\|duitnow\|wise_link\|cash, country?, details (per-kind schema in `packages/domain/src/payout/catalogue.ts`), remove?}` → `{method_id, kind, removed}` (doc delta); details AES-GCM encrypted, one live method per kind; a validation reject names field paths only | self | – | `profile.payout_set` | A | 33 |
 | `request_data_export` | `{}` | self | – | `account.export_requested` → job | A | 45 |
@@ -291,7 +291,9 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
 | `queue_guide_question` | `{thread_id, text}` (answered at 00:00 reset) | owner | only when `QUOTA_EXHAUSTED` | `guide.question_queued` | A, O | 32 |
+| `cancel_queued_question` (doc delta) | `{question_id}` | owner | – | `guide.question_cancelled` | A, O | 32 |
 | `rate_guide_answer` | `{message_id, verdict, note?}` | owner | – | `guide.answer_rated` (Langfuse score) | A, O | 32 |
+| `claim_guide_offer` (doc delta) | `{offer_id}` → `{offer_id, status}` (takes the offer's row lock, fails if full or expired, idempotent per member, publishes on crew_chat) | member | – | `guide_offer.taken` | A, O | 32 |
 | `request_phrase_card` | `{trip_id, purpose, address?, language, register}` | participant | – | `phrase.requested` → TTS job | A | 32 |
 | `record_phrase_practice` | `{phrase_id, recognised, ok}` | self | – | `phrase.practised` (quest input) | A, O | 42 |
 
