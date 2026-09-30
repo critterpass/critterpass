@@ -1,1 +1,1 @@
-import type{Messages}from"@lingui/core";export const messages=JSON.parse("{}")as Messages;
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"plan.timeline.a11y.earlier\":[\"Dời sớm 15 phút\"],\"plan.timeline.a11y.extend\":[\"Kéo dài thêm 15 phút\"],\"plan.timeline.a11y.lane\":[\"Chuyển sang làn kế tiếp\"],\"plan.timeline.a11y.later\":[\"Dời muộn 15 phút\"],\"plan.timeline.a11y.shorten\":[\"Rút ngắn 15 phút\"],\"plan.timeline.overlap\":[\"Trùng giờ\"],\"plan.timeline.travelShort\":[\"Thiếu \",[\"0\"],\" phút để tới đây\"]}")as Messages;

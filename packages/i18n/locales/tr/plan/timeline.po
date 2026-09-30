@@ -6,3 +6,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: tr\n"
+
+#. placeholder {0}: warning.minutes ?? 0
+#: ../../apps/mobile/src/features/plan/timeline/timeline-editor.tsx
+msgid "plan.timeline.travelShort"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.extend"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.earlier"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.later"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.lane"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-editor.tsx
+msgid "plan.timeline.overlap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.shorten"
+msgstr ""

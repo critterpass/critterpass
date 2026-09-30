@@ -6,3 +6,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#. placeholder {0}: warning.minutes ?? 0
+#: ../../apps/mobile/src/features/plan/timeline/timeline-editor.tsx
+msgid "plan.timeline.travelShort"
+msgstr "{0} min short to get here"
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.extend"
+msgstr "Extend by 15 minutes"
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.earlier"
+msgstr "Move 15 minutes earlier"
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.later"
+msgstr "Move 15 minutes later"
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.lane"
+msgstr "Move to the next lane"
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-editor.tsx
+msgid "plan.timeline.overlap"
+msgstr "Overlaps"
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.shorten"
+msgstr "Shorten by 15 minutes"

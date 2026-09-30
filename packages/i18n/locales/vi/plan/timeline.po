@@ -6,3 +6,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#. placeholder {0}: warning.minutes ?? 0
+#: ../../apps/mobile/src/features/plan/timeline/timeline-editor.tsx
+msgid "plan.timeline.travelShort"
+msgstr "Thiếu {0} phút để tới đây"
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.extend"
+msgstr "Kéo dài thêm 15 phút"
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.earlier"
+msgstr "Dời sớm 15 phút"
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.later"
+msgstr "Dời muộn 15 phút"
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.lane"
+msgstr "Chuyển sang làn kế tiếp"
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-editor.tsx
+msgid "plan.timeline.overlap"
+msgstr "Trùng giờ"
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.shorten"
+msgstr "Rút ngắn 15 phút"

@@ -21,6 +21,7 @@ import { clockRange } from './format';
 import { ItemDetailSheet } from './item-detail-sheet';
 import { dayItems, type DayItem } from './plan-model';
 import { addOp, moveToDayOp, removeOp, resizeOp, type DaySlot } from './plan-ops';
+import { TimelineEditor } from '../timeline/timeline-editor';
 import { mapsUrl, placeRoute } from './routes';
 import { usePlanEditor, type EditOutcome } from './use-plan-editor';
 import { useTripPlan, type TripPlan } from './use-trip-plan';
@@ -154,6 +155,18 @@ export function DayScreen({ tripId, dayNo }: { readonly tripId: string; readonly
         editable={editable}
         onOpen={(item) => setOpenId(item.stableId)}
         onAdd={() => setAdding(true)}
+        timeline={
+          <TimelineEditor
+            items={items}
+            day={slot}
+            members={members}
+            meta={meta}
+            pending={(id) => plan.queued.has(id) || plan.proposed.has(id)}
+            editable={editable}
+            onOpen={(item) => setOpenId(item.stableId)}
+            onCommit={(ops) => void editor.submit(ops).then(announce)}
+          />
+        }
       />
       {openId === null ? null : (
         <ItemDetailSheet

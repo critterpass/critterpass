@@ -5,7 +5,8 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import { upper } from '@cp/i18n';
 
