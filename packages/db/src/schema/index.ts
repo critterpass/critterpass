@@ -176,3 +176,13 @@ export {
   packingItems,
   readiness,
 } from './trip-day';
+export * from './proposals';
+export {
+  collectionEntries,
+  crewCollectionCounts,
+  eggs,
+  encounterEvidence,
+  encounterSamples,
+  encounters,
+  guideSkins,
+} from './critters';

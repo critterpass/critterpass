@@ -37,8 +37,10 @@ export const rtJobProgressSchema = z.strictObject({
   pct: z.number().min(0).max(100),
 });
 
+/** The bell and app icon: open needs-you items and unread ones (`BadgeCounts`). */
 export const rtBadgeCountsSchema = z.strictObject({
-  counts: z.record(z.string().max(64), z.number().int().nonnegative()),
+  needs_you: z.number().int().nonnegative(),
+  unread: z.number().int().nonnegative(),
 });
 
 export const rtOtpChannelFailedSchema = z.strictObject({

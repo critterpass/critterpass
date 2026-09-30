@@ -17,13 +17,7 @@ import { createMMKV } from 'react-native-mmkv';
 
 import { createLinkResolverClient, type ClaimDevice } from '../../lib/links/resolver-client';
 import type { FixUpload } from '../../lib/location';
-import {
-  createAuthDataLayer,
-  createMobileAuthClient,
-  type AuthDataLayer,
-  type MobileAuthClient,
-} from '../auth';
-import { createDeviceAttestor } from '../auth/device-attestor';
+import { createAuthDataLayer, type AuthDataLayer } from '../auth';
 import { createDeviceResolver } from '../commands/device';
 import type { ExtensionOutbox } from '../commands/drain-extension-outbox';
 import { resolveApiBaseUrl } from '../places/apiBaseUrl';
@@ -33,16 +27,11 @@ import { expoPushNative, secureInstallIdStorage } from '../push/expo-native';
 import type { PushLifecycleDeps } from '../push/use-push-lifecycle';
 import type { AppStateSource } from '../realtime/client';
 import { createDeviceRecoveryStore } from '../realtime/device-recovery-store';
+import { authClient, sessionHeaders } from './auth-client';
 import { appEnvironment, endpointsConfigJson, resolveRealtimeUrl } from './endpoints';
 import { createLinksHttp } from './links-http';
 import { startAppSession, type AppSession } from './start-app-session';
 import { startOnce } from './start-once';
-
-function appScheme(): string {
-  const scheme = Constants.expoConfig?.scheme;
-  const first = Array.isArray(scheme) ? scheme[0] : scheme;
-  return first ?? 'critterpass';
-}
 
 /** Background failures stay out of the UI; they surface in the device log. */
 export function reportAppSessionError(error: unknown): void {
@@ -72,21 +61,7 @@ export function configureDeviceAppGroup(access: AppGroupAccess): void {
   appGroup = access;
 }
 
-let client: MobileAuthClient | null = null;
-
-function authClient(): MobileAuthClient {
-  client ??= createMobileAuthClient({
-    baseUrl: resolveApiBaseUrl(),
-    scheme: appScheme(),
-    attestor: createDeviceAttestor(resolveApiBaseUrl()),
-  });
-  return client;
-}
-
-/** The session cookie for authenticated api requests outside the command path (presign, geo). */
-export async function sessionHeaders(): Promise<Record<string, string>> {
-  return { cookie: await authClient().getCookie() };
-}
+export { sessionHeaders } from './auth-client';
 
 let auth: AuthDataLayer | null = null;
 

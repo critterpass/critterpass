@@ -1,0 +1,257 @@
+{
+  "kind": "ride_tariffs",
+  "version": 2,
+  "items": [
+    {
+      "id": "bali:ride_hail_car",
+      "destination": "bali",
+      "ride_class": "ride_hail_car",
+      "operator": "Indonesian Ministry of Transportation, zone I band",
+      "currency": "IDR",
+      "basis": "regulated_band",
+      "standard": {
+        "base_fare": 0,
+        "included_km": 0,
+        "per_km": 3500,
+        "later": null,
+        "per_min": null,
+        "minimum_fare": null
+      },
+      "upper": {
+        "base_fare": 0,
+        "included_km": 0,
+        "per_km": 6000,
+        "later": null,
+        "per_min": null,
+        "minimum_fare": null
+      },
+      "time_charge": "whole_trip",
+      "extras": [],
+      "round_to": 1000,
+      "sources": [
+        {
+          "url": "https://katadata.co.id/digital/startup/6863a5d9714bd/aturan-lengkap-tarif-ojol-dan-taksi-online-antar-penumpang-makanan-barang",
+          "covers": "Taksi online zone I (Java, Bali, Sumatra): Rp3,500 lower and Rp6,000 upper per km (Permenhub PM 118/2018); no minimum fare given",
+          "checked_on": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "id": "bali:ride_hail_bike",
+      "destination": "bali",
+      "ride_class": "ride_hail_bike",
+      "operator": "Indonesian Ministry of Transportation, zone I band",
+      "currency": "IDR",
+      "basis": "regulated_band",
+      "standard": {
+        "base_fare": 8000,
+        "included_km": 4,
+        "per_km": 2000,
+        "later": null,
+        "per_min": null,
+        "minimum_fare": 8000
+      },
+      "upper": {
+        "base_fare": 10000,
+        "included_km": 4,
+        "per_km": 2500,
+        "later": null,
+        "per_min": null,
+        "minimum_fare": 10000
+      },
+      "time_charge": "whole_trip",
+      "extras": [],
+      "round_to": 1000,
+      "sources": [
+        {
+          "url": "https://katadata.co.id/digital/startup/6863a5d9714bd/aturan-lengkap-tarif-ojol-dan-taksi-online-antar-penumpang-makanan-barang",
+          "covers": "Ojek online zone I: Rp2,000 lower and Rp2,500 upper per km; minimum Rp8,000 to Rp10,000 for the first 4 km (Kepmenhub KP 667/2022)",
+          "checked_on": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "id": "kyoto:metered_taxi",
+      "destination": "kyoto",
+      "ride_class": "metered_taxi",
+      "operator": "MK Taxi Kyoto",
+      "currency": "JPY",
+      "basis": "meter_tariff",
+      "standard": {
+        "base_fare": 470,
+        "included_km": 0.9,
+        "per_km": 369.0037,
+        "later": null,
+        "per_min": 60,
+        "minimum_fare": null
+      },
+      "upper": {
+        "base_fare": 564,
+        "included_km": 0.9,
+        "per_km": 442.8044,
+        "later": null,
+        "per_min": 72,
+        "minimum_fare": null
+      },
+      "time_charge": "slow_traffic",
+      "extras": [
+        {
+          "kind": "dispatch",
+          "amount": 300
+        }
+      ],
+      "round_to": 10,
+      "sources": [
+        {
+          "url": "https://www.mk-group.co.jp/kyoto/taxi/",
+          "covers": "普通車 ¥470 to 0.9 km, ¥100 per 271 m, ¥100 per 1 min 40 s at 10 km/h or slower, ¥300 dispatch, 20% more 22:00 to 05:00 (as of 21 June 2026)",
+          "checked_on": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "id": "lisbon:metered_taxi",
+      "destination": "lisbon",
+      "ride_class": "metered_taxi",
+      "operator": "Portuguese taxi reference tariff (AMT)",
+      "currency": "EUR",
+      "basis": "meter_tariff",
+      "standard": {
+        "base_fare": 2,
+        "included_km": 0,
+        "per_km": 0.58,
+        "later": null,
+        "per_min": 0.28,
+        "minimum_fare": null
+      },
+      "upper": null,
+      "time_charge": "whole_trip",
+      "extras": [
+        {
+          "kind": "dispatch",
+          "amount": 0.8
+        }
+      ],
+      "round_to": 0.5,
+      "sources": [
+        {
+          "url": "https://www.antral.pt/noticias/publicado-regulamento-que-define-as-novas-regras-de-formacao-dos-precos-no-servico-de-taxi/",
+          "covers": "Regulamento 717/2026, taxis up to 4 seats: flag drop €2.00; first-year transitional €0.58 per km and €0.28 per minute (weekday daytime); €0.80 for booking by phone, radio or app",
+          "checked_on": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "id": "iceland:metered_taxi",
+      "destination": "iceland",
+      "ride_class": "metered_taxi",
+      "operator": "Hreyfill",
+      "currency": "ISK",
+      "basis": "meter_tariff",
+      "standard": {
+        "base_fare": 880,
+        "included_km": 0,
+        "per_km": 477,
+        "later": {
+          "from_km": 4,
+          "per_km": 364
+        },
+        "per_min": 198,
+        "minimum_fare": null
+      },
+      "upper": {
+        "base_fare": 880,
+        "included_km": 0,
+        "per_km": 564,
+        "later": {
+          "from_km": 4,
+          "per_km": 452
+        },
+        "per_min": 247,
+        "minimum_fare": null
+      },
+      "time_charge": "slow_traffic",
+      "extras": [
+        {
+          "kind": "airport_pickup",
+          "amount": 490
+        }
+      ],
+      "round_to": 100,
+      "sources": [
+        {
+          "url": "https://www.hreyfill.is/en/prices/",
+          "covers": "Valid from 18 March 2026: start 880 kr, 477 kr per km for the first 4 km then 364 kr (nights and weekends 564 and 452 kr), 198 kr (247 kr) per minute waiting, 490 kr on trips from Keflavik airport",
+          "checked_on": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "id": "da-nang:ride_hail_car",
+      "destination": "da-nang",
+      "ride_class": "ride_hail_car",
+      "operator": "Grab (GrabCar, 4 seats)",
+      "currency": "VND",
+      "basis": "operator_rates",
+      "standard": {
+        "base_fare": 27000,
+        "included_km": 2,
+        "per_km": 12175,
+        "later": null,
+        "per_min": 442,
+        "minimum_fare": null
+      },
+      "upper": null,
+      "time_charge": "whole_trip",
+      "extras": [],
+      "round_to": 1000,
+      "sources": [
+        {
+          "url": "https://www.grab.com/vn/en/blog/bang-thong-tin-cac-dich-vu-tren-ung-dung-grab/",
+          "covers": "Đà Nẵng GrabCar: 27,000đ for the first 2 km, then 12,175đ per km and 442đ per minute after the first 2 km (updated 8 July 2026)",
+          "checked_on": "2026-09-30"
+        },
+        {
+          "url": "https://www.grab.com/vn/en/blog/driver/thongtindichvu/",
+          "covers": "Same Đà Nẵng GrabCar figures with 8% VAT, valid 1 July 2025 to 31 December 2026; GrabCar 6 seats 33,382đ, 14,335đ per km, 864đ per minute",
+          "checked_on": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "id": "da-nang:ride_hail_bike",
+      "destination": "da-nang",
+      "ride_class": "ride_hail_bike",
+      "operator": "Grab (GrabBike)",
+      "currency": "VND",
+      "basis": "operator_rates",
+      "standard": {
+        "base_fare": 12273,
+        "included_km": 2,
+        "per_km": 4222,
+        "later": null,
+        "per_min": 344,
+        "minimum_fare": null
+      },
+      "upper": null,
+      "time_charge": "whole_trip",
+      "extras": [],
+      "round_to": 1000,
+      "sources": [
+        {
+          "url": "https://www.grab.com/vn/en/blog/bang-thong-tin-cac-dich-vu-tren-ung-dung-grab/",
+          "covers": "Đà Nẵng GrabBike: 12,273đ for the first 2 km, then 4,222đ per km and 344đ per minute after the first 2 km (updated 8 July 2026)",
+          "checked_on": "2026-09-30"
+        }
+      ]
+    }
+  ],
+  "generated_by": {
+    "batch_key": "2026-09-30-ride-tariffs-02",
+    "route": null,
+    "model": null,
+    "generated_at": "2026-09-30T15:54:55.088Z"
+  },
+  "approved_by": null,
+  "checksum": "4fd2d2d069f37a66a41185afded8e0d11bd07719745ae6b92344e415bc2c9cc9"
+}

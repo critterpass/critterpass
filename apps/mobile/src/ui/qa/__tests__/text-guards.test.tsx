@@ -72,6 +72,17 @@ describe('layout checks', () => {
     ).toBe(false);
   });
 
+  it('reads a shorter layout of text with no line limit as stale, not cut', () => {
+    // A streaming answer grows between the layout and the event: the lines hold the earlier text.
+    const stale = {
+      lines: [{ text: "Let me check what the weather's actually " }],
+      text: "Let me check what the weather's actually doing in Ubud",
+      truncationIsBug: true,
+    };
+    expect(textLayoutProblems({ ...stale, lineLimited: false })).toEqual([]);
+    expect(textLayoutProblems({ ...stale, lineLimited: true })).toEqual(['TEXT_TRUNCATED']);
+  });
+
   it('treats a caller-chosen ellipsis as intended', () => {
     const cut = { lines: [{ text: 'HO CHI MINH…' }], text: 'HO CHI MINH CITY' };
     expect(textLayoutProblems({ ...cut, truncationIsBug: false })).toEqual([]);
@@ -141,6 +152,20 @@ describe('Text fit rules', () => {
 });
 
 describe('Text guards', () => {
+  it('does not report a growing voice line laid out before its latest text', async () => {
+    const screen = await renderText(
+      <Text variant="voice" testID="t">
+        Let me check what the weather&apos;s actually doing in Ubud for your dates.
+      </Text>,
+    );
+    await fireEvent(
+      screen.getByTestId('t'),
+      'textLayout',
+      lines("Let me check what the weather's "),
+    );
+    expect(reports).toEqual([]);
+  });
+
   it('reports a headline still cut after wrapping, as iOS lays it out', async () => {
     const screen = await renderText(
       <Text variant="displayHero" testID="t">

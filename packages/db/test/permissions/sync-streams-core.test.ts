@@ -219,7 +219,17 @@ describe('trip_draft stream', () => {
     'syncs organiser-only drafts to %s',
     async (actor) => {
       const ids = idsByTable(await harness.rows('trip_draft', actor, params()));
+      const proposalIds = async (table: string) =>
+        (
+          await harness.db.pool.query<{ id: string }>(
+            `SELECT id FROM ${table} WHERE trip_id = $1 ORDER BY id`,
+            [harness.fixture.tripId],
+          )
+        ).rows.map((row) => row.id);
       expect(ids).toEqual({
+        proposals: await proposalIds('proposals'),
+        proposal_versions: await proposalIds('proposal_versions'),
+        rsvp_suggestions: await proposalIds('rsvp_suggestions'),
         agent_jobs: [harness.fixture.agentJobId],
         itinerary_versions: [draft.versionId],
         plan_days: [draft.dayId],

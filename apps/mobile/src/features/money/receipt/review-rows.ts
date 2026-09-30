@@ -15,6 +15,13 @@ export interface ReviewCopy {
   readonly not: (names: string) => string;
   readonly pays: (names: string) => string;
   readonly everyoneElse: string;
+  /** A line's amount as the receipt shows it; without it no line is marked to check. */
+  readonly amount?: (minor: bigint) => string;
+}
+
+/** The lines to check against the paper: only while the lines miss the printed total. */
+export function linesToCheck(parsed: ParsedReceipt): ReadonlySet<string> {
+  return new Set(parsed.matches_total ? [] : (parsed.review_line_ids ?? []));
 }
 
 export function reviewRows(
@@ -23,13 +30,19 @@ export function reviewRows(
   members: readonly MoneyMember[],
   copy: ReviewCopy,
 ): ReviewRow[] {
+  const toCheck = linesToCheck(parsed);
   return parsed.lines.map((line) => {
     const qty = line.qty !== null && line.qty > 1 ? ` ×${String(line.qty)}` : '';
     const label = `${line.label}${qty}`;
+    const check =
+      toCheck.has(line.line_id) && copy.amount !== undefined
+        ? copy.amount(BigInt(line.amount_minor))
+        : null;
     if (line.kind !== 'item') {
       return {
         lineId: line.line_id,
         label,
+        check,
         assignees: null,
         chip: { text: copy.byShare, tone: 'plain' },
         byShare: true,
@@ -44,7 +57,14 @@ export function reviewRows(
         : left.length <= 2
           ? { text: copy.not(left.map((member) => member.name).join(', ')), tone: 'pink' as const }
           : { text: had.map((member) => member.name).join(', '), tone: 'plain' as const };
-    return { lineId: line.line_id, label, assignees: had ?? members, chip, byShare: false };
+    return {
+      lineId: line.line_id,
+      label,
+      check,
+      assignees: had ?? members,
+      chip,
+      byShare: false,
+    };
   });
 }
 

@@ -1590,6 +1590,38 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     selectProbe: { sql: 'SELECT 1 FROM readiness WHERE trip_id = $1', params: (f) => [f.tripId] },
     expectations: CREW_VISIBLE_READ,
   },
+  // Critters: own rows only, crewmates' eggs on a shared trip, crew counts to the crew, and the
+  // evidence and samples to nobody.
+  eggs: {
+    selectProbe: { sql: 'SELECT 1 FROM eggs WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  encounters: {
+    selectProbe: ownRowProbe('encounters'),
+    // Anyone may start their own encounter; only the owner reads it; the server updates it.
+    expectations: {
+      organiser: op(true, true, false),
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      outsider: op(false, true, false),
+      exMember: op(false, true, false),
+      anonymous: op(false, true, false),
+    },
+  },
+  encounter_evidence: {
+    selectProbe: { sql: 'SELECT 1 FROM encounter_evidence LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  encounter_samples: {
+    selectProbe: { sql: 'SELECT 1 FROM encounter_samples LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  collection_entries: { selectProbe: ownRowProbe('collection_entries'), expectations: OWNER_READ },
+  guide_skins: { selectProbe: ownRowProbe('guide_skins'), expectations: OWNER_READ },
+  crew_collection_counts: {
+    selectProbe: ownRowProbe('crew_collection_counts'),
+    expectations: CREW_VISIBLE_READ,
+  },
   offline_bundles: {
     selectProbe: {
       sql: 'SELECT 1 FROM offline_bundles WHERE trip_id = $1',
@@ -1641,6 +1673,73 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   sponsored_event_counts: {
     selectProbe: { sql: 'SELECT 1 FROM sponsored_event_counts LIMIT 1', params: () => [] },
     expectations: SYSTEM_ONLY,
+  },
+  proposals: {
+    selectProbe: { sql: 'SELECT 1 FROM proposals WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  proposal_versions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM proposal_versions WHERE trip_id = $1 AND recipient_id = $2',
+      params: (f) => [f.tripId, f.actors.member],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  proposal_reactions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM proposal_reactions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  hype_aggregates: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM hype_aggregates WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  engagement_events: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM engagement_events WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: SYSTEM_ONLY,
+  },
+  private_guide_threads: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM private_guide_threads WHERE owner_id = $1',
+      params: (f) => [f.actors.member],
+    },
+    expectations: { ...SYSTEM_ONLY, member: op(true, false, false) },
+  },
+  anonymous_suggestions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM anonymous_suggestions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  rsvp_suggestions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM rsvp_suggestions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: { ...CREW_VISIBLE_READ, member: F },
+  },
+  proposal_followups: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM proposal_followups WHERE user_id = $1',
+      params: (f) => [f.actors.member],
+    },
+    expectations: { ...SYSTEM_ONLY, member: op(true, false, false) },
+  },
+  trip_dropouts: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM trip_dropouts WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
   },
 };
 

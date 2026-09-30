@@ -7,30 +7,354 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.needed.body"
+msgstr "{asker} asked: {question} Tap an answer, I will count."
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.needs_yes.title"
+msgstr "{asker} wants to change the plan"
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.needs_yes.body"
+msgstr "{count, plural, one {# change} other {# changes}} for {crew}. Approve or reject?"
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.late_title"
+msgstr "{crew}"
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.title"
+msgstr "{crew}"
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.found_title"
+msgstr "{crew}"
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.meetup_changed.title"
+msgstr "{crew}"
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.readiness"
+msgstr "{crew} is getting ready to leave. Tell them where you're at."
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.invite_nudge.title"
 msgstr "{crew} is still saving you a spot"
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.invite_open"
+msgstr "{crew} is still saving you a spot. Have a look when you can."
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.vote"
+msgstr "{crew} is waiting on your vote. It takes a tap, and I'll do the counting."
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.applied.body"
+msgstr "{crew} said yes, so I updated the plan."
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.rsvp"
+msgstr "{crew} wants to know if you're in. Yes, no or maybe all help."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_title"
+msgstr "{flight} · {route}"
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.boarding_title"
+msgstr "{flight} is boarding"
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.queued_answer.title"
+msgstr "{guide} answered your question"
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.guide.title"
+msgstr "{guide}, for {crew}"
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.needed.title"
+msgstr "{guide}, for {crew}"
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.winner.title"
+msgstr "{guide}, for {crew}"
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.title"
+msgstr "{guide}, with a nudge from {sender}"
+
+#: ../domain/src/itinerary/templates.ts
+msgid "notifications.draft.ready.title"
+msgstr "{guide}'s draft is ready"
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.title"
 msgstr "{inviter} wants you in {crew}"
 
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.briefing_body"
+msgstr "{line}"
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.body"
+msgstr "{line}"
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.not_movable"
+msgstr "{name} can't move {dates}. Pick the week that works best."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.freed"
+msgstr "{name} freed {dates}. The week works for all."
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.late_body"
+msgstr "{name} is running {minutes} min late."
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.knock_body"
+msgstr "{name} might need a knock."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.rooms.swap"
+msgstr "{name} would like to swap rooms. Have a look before you lock them."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.calendar.missing"
+msgstr "{name}, mark the days you could do {place}. It takes a minute."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.must_do.prompt"
+msgstr "{name}, what's the one thing {place} isn't complete without?"
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.calendar.stale"
+msgstr "{name}, your calendar hasn't synced in over {days} days. Open setup so {place} counts you in."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.requested"
+msgstr "{payee} asked you for {amount}."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.confirmed"
+msgstr "{payee} got your {amount}. All clear."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.disputed"
+msgstr "{payee} hasn't seen your {amount} yet. Check the transfer?"
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.nudged"
+msgstr "{payee} nudged you about {amount}. Gently."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.expense_added"
+msgstr "{payer} paid {amount} for {what}. Your share is {share}."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.marked_paid"
+msgstr "{payer} says they paid you {amount}. Got it?"
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.knock_title"
+msgstr "{place} · leave by {time}"
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.briefing_title"
+msgstr "{place} · today"
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.winner.body"
+msgstr "{place} won {score}. Come see the reveal."
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.closing.hours"
+msgstr "{question} closes in two hours. One tap and you are in."
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.closing.day"
+msgstr "{question} closes tomorrow and you have not voted yet."
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.title"
+msgstr "{sender} · {crew}"
+
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.title"
+msgstr "{sender} · {crew}"
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.meetup_changed.moved"
+msgstr "{sender} moved the meet-up: {place}, {time}."
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.meetup_changed.created"
+msgstr "{sender} set a meet-up: {place}, {time}."
+
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.text"
+msgstr "{text}"
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.lottery.result"
+msgstr "{title} results are out {date}. Check the official site to see if you got in."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.deadline_body"
+msgstr "{title}: cancel for free until {deadline}. After that the booking’s own terms apply."
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.title"
 msgstr "A seat just opened"
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.settled.title"
+msgstr "All square"
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.boarding_body"
+msgstr "Boarding at gate {gate}. Your pass is in the wallet."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.boarding_estimated"
+msgstr "Boarding should open about now (est.). Your pass is in the wallet."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_cancelled"
+msgstr "Cancelled by the airline. Open the card to see your options."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_delayed"
+msgstr "Delayed {minutes} min. New departure {time}."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_diverted"
+msgstr "Diverted. I’ll keep you posted."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.lottery.deadline"
+msgstr "Entries for {title} close {date}. Each of you enters on the official site."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.settled.body"
+msgstr "Everyone gets the Settled Tokek."
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.meetup_changed.crew_close"
+msgstr "Everyone's nearly at {place}."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.found_body"
+msgstr "Found a booking in {member}’s email: {title}. Add it to the wallet?"
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.deadline_title"
+msgstr "Free cancellation ends tomorrow"
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_gate"
+msgstr "Gate change: now gate {gate}."
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.final.body"
+msgstr "It's {first} or {second} now. Your vote decides it."
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.body"
 msgstr "Join now, or save it for later."
 
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.alarm_title"
+msgstr "Leave by {time} · {place}"
+
+#: ../domain/src/bookings/templates.ts
+msgid "email.bookings.link_subject"
+msgstr "Link this email to CritterPass"
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.ping_meetup"
+msgstr "Meet at {place}, {time}."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.timed_out"
+msgstr "No answer from {name} in two days, so {dates} is back to the best partial week."
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.kept.body"
+msgstr "Not enough yeses from {crew}, so nothing changed."
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.on_my_way"
+msgstr "On my way."
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.on_my_way_eta"
+msgstr "On my way. {minutes} min out."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.template"
+msgstr "Quick one, {name}: your {dates} block is marked maybe. Could you free it for {place}?"
+
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.photo"
+msgstr "Sent a photo"
+
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.voice"
+msgstr "Sent a voice note"
+
 #: ../../services/worker/src/push/payload.ts
 msgid "notifications.push.privateBody"
 msgstr "Sent you something. Open to see it."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.reminded"
+msgstr "Settle-up time: you owe {payee} {amount}."
+
+#: ../domain/src/bookings/templates.ts
+msgid "email.bookings.link_body"
+msgstr "Someone forwarded a booking from this address to {crew} on CritterPass. If it was you, enter {code} in the app within 24 hours to link this email to your account. If it wasn’t, ignore this message and nothing will be imported."
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.invite_nudge.body"
 msgstr "Tap to join them. It takes a few seconds."
 
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.applied.title"
+msgstr "The plan changed"
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.kept.title"
+msgstr "The plan stays as it was"
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.queued_answer.body"
+msgstr "The question you asked last night has its answer."
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.payment"
+msgstr "There's a settle-up waiting for you in {crew}. Two taps and you're square."
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.alarm_body"
+msgstr "Time to get up. Tap when you are up."
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.ping"
+msgstr "Where is everyone? Check the map."
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.destination.body"
+msgstr "Where next? {count} places are on the board. Pick one."
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.body"
 msgstr "You're next on {crew}'s trip. The seat is yours if you take it within a day."
+
+#: ../domain/src/itinerary/templates.ts
+msgid "notifications.draft.ready.body"
+msgstr "Your {place} draft is in. Only you can see it for now."

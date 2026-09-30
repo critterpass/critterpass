@@ -1,0 +1,57 @@
+name: remote tests
+
+# Runs one package's suite on a GitHub runner instead of this Mac: database suites (Testcontainers)
+# and other heavy tests, so agents never need the local Docker. Start it with
+# `pnpm test:remote <package> [--script test:db] [-- <test files or -t pattern>]`, which dispatches
+# this workflow on the pushed branch, waits and prints the result.
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: pnpm filter of the package, e.g. @cp/api
+        required: true
+      script:
+        description: package script to run (test:db, test, e2e)
+        default: test:db
+      args:
+        description: arguments passed to the script after --, e.g. a test file or -t "pattern"
+        default: ''
+      label:
+        description: tag that lets the caller find this run
+        default: ''
+
+run-name: remote tests · ${{ inputs.package }} ${{ inputs.script }} ${{ inputs.args }} ${{ inputs.label }}
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    name: ${{ inputs.package }} ${{ inputs.script }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      # The worker's chat voice-note suite runs the real ffmpeg, as the worker image does.
+      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+      - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
+        with:
+          cache-prefix: turbo-node26_
+      - name: Run the suite
+        env:
+          PACKAGE: ${{ inputs.package }}
+          SCRIPT: ${{ inputs.script }}
+          ARGS: ${{ inputs.args }}
+        # ARGS is split like a shell would (several files, or -t "a pattern"), without evaluating it.
+        run: |
+          mapfile -t argv < <(python3 -c 'import os, shlex; print("\n".join(shlex.split(os.environ["ARGS"])))')
+          if [ "${#argv[@]}" -gt 0 ] && [ -n "${argv[0]}" ]; then
+            pnpm turbo run "$SCRIPT" --filter="$PACKAGE" --continue -- "${argv[@]}"
+          else
+            pnpm turbo run "$SCRIPT" --filter="$PACKAGE" --continue
+          fi

@@ -1,0 +1,182 @@
+{
+  "destination": "da-nang",
+  "months": [
+    {
+      "month": 1,
+      "crowd_index": 50,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Đà Nẵng Department of Culture, Sports and Tourism cumulative 2025 accommodation guests (1.6M Jan–Feb, 4.6M Jan–May, 12.8M Jan–Aug, 16.5M Jan–Nov, 17.3M year), spread by month with the summer domestic peak; editorial interpolation",
+      "source_url": "https://danang.gov.vn/vi/w/da-nang-don-165-trieu-luot-khach-luu-tru-trong-11-thang-nam-2025",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "month": 2,
+      "crowd_index": 55,
+      "price_index": null,
+      "highlight_tag": "FEB TẾT, DRY",
+      "colour_role": "normal",
+      "source": "Đà Nẵng Department of Culture, Sports and Tourism cumulative 2025 accommodation guests (1.6M Jan–Feb, 4.6M Jan–May, 12.8M Jan–Aug, 16.5M Jan–Nov, 17.3M year), spread by month with the summer domestic peak; editorial interpolation",
+      "source_url": "https://danang.gov.vn/vi/w/da-nang-don-165-trieu-luot-khach-luu-tru-trong-11-thang-nam-2025",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "month": 3,
+      "crowd_index": 60,
+      "price_index": null,
+      "highlight_tag": "MAR DRIEST",
+      "colour_role": "normal",
+      "source": "Rain normals (Vietnam Institute for Building Science and Technology, via Wikipedia's Đà Nẵng climate table): wet and typhoon season September to December",
+      "source_url": "https://en.wikipedia.org/wiki/Da_Nang#Climate",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "month": 4,
+      "crowd_index": 65,
+      "price_index": null,
+      "highlight_tag": "APR CALM SEA",
+      "colour_role": "normal",
+      "source": "Rain normals (Vietnam Institute for Building Science and Technology, via Wikipedia's Đà Nẵng climate table): wet and typhoon season September to December",
+      "source_url": "https://en.wikipedia.org/wiki/Da_Nang#Climate",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "month": 5,
+      "crowd_index": 70,
+      "price_index": null,
+      "highlight_tag": null,
+      "colour_role": "normal",
+      "source": "Đà Nẵng Department of Culture, Sports and Tourism cumulative 2025 accommodation guests (1.6M Jan–Feb, 4.6M Jan–May, 12.8M Jan–Aug, 16.5M Jan–Nov, 17.3M year), spread by month with the summer domestic peak; editorial interpolation",
+      "source_url": "https://danang.gov.vn/vi/w/da-nang-don-165-trieu-luot-khach-luu-tru-trong-11-thang-nam-2025",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "month": 6,
+      "crowd_index": 90,
+      "price_index": null,
+      "highlight_tag": "JUN FIREWORKS",
+      "colour_role": "peak",
+      "source": "Đà Nẵng Department of Culture, Sports and Tourism cumulative 2025 accommodation guests (1.6M Jan–Feb, 4.6M Jan–May, 12.8M Jan–Aug, 16.5M Jan–Nov, 17.3M year), spread by month with the summer domestic peak; editorial interpolation",
+      "source_url": "https://danang.gov.vn/vi/w/da-nang-don-165-trieu-luot-khach-luu-tru-trong-11-thang-nam-2025",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "month": 7,
+      "crowd_index": 100,
+      "price_index": null,
+      "highlight_tag": "JUL PEAK",
+      "colour_role": "peak",
+      "source": "Đà Nẵng Department of Culture, Sports and Tourism cumulative 2025 accommodation guests (1.6M Jan–Feb, 4.6M Jan–May, 12.8M Jan–Aug, 16.5M Jan–Nov, 17.3M year), spread by month with the summer domestic peak; editorial interpolation",
+      "source_url": "https://danang.gov.vn/vi/w/da-nang-don-165-trieu-luot-khach-luu-tru-trong-11-thang-nam-2025",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "month": 8,
+      "crowd_index": 95,
+      "price_index": null,
+      "highlight_tag": "AUG PEAK",
+      "colour_role": "peak",
+      "source": "Đà Nẵng Department of Culture, Sports and Tourism cumulative 2025 accommodation guests (1.6M Jan–Feb, 4.6M Jan–May, 12.8M Jan–Aug, 16.5M Jan–Nov, 17.3M year), spread by month with the summer domestic peak; editorial interpolation",
+      "source_url": "https://danang.gov.vn/vi/w/da-nang-don-165-trieu-luot-khach-luu-tru-trong-11-thang-nam-2025",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "month": 9,
+      "crowd_index": 60,
+      "price_index": null,
+      "highlight_tag": "SEP RAINS START",
+      "colour_role": "normal",
+      "source": "Rain normals (Vietnam Institute for Building Science and Technology, via Wikipedia's Đà Nẵng climate table): wet and typhoon season September to December",
+      "source_url": "https://en.wikipedia.org/wiki/Da_Nang#Climate",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "month": 10,
+      "crowd_index": 50,
+      "price_index": null,
+      "highlight_tag": "OCT STORMS, WETTEST",
+      "colour_role": "cheapest",
+      "source": "Rain normals (Vietnam Institute for Building Science and Technology, via Wikipedia's Đà Nẵng climate table): wet and typhoon season September to December",
+      "source_url": "https://en.wikipedia.org/wiki/Da_Nang#Climate",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "month": 11,
+      "crowd_index": 45,
+      "price_index": null,
+      "highlight_tag": "NOV FLOOD RISK",
+      "colour_role": "cheapest",
+      "source": "Rain normals (Vietnam Institute for Building Science and Technology, via Wikipedia's Đà Nẵng climate table): wet and typhoon season September to December",
+      "source_url": "https://en.wikipedia.org/wiki/Da_Nang#Climate",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "month": 12,
+      "crowd_index": 40,
+      "price_index": null,
+      "highlight_tag": "DEC RAINY, QUIET",
+      "colour_role": "cheapest",
+      "source": "Rain normals (Vietnam Institute for Building Science and Technology, via Wikipedia's Đà Nẵng climate table): wet and typhoon season September to December",
+      "source_url": "https://en.wikipedia.org/wiki/Da_Nang#Climate",
+      "sourced_on": "2026-09-30"
+    }
+  ],
+  "events": [
+    {
+      "key": "hoi-an-full-moon-october-2026",
+      "kind": "festival",
+      "name": "Hội An full-moon lantern night (14th of the lunar month)",
+      "starts_on": "2026-10-23",
+      "ends_on": "2026-10-23",
+      "confidence": "typical",
+      "source": "Hội An monthly lantern night calendar (lunar 14th)",
+      "source_url": "https://www.nghevilla.com/en/blog/hoi-an-lantern-festival-2026-calendar-dates",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "key": "hoi-an-full-moon-november-2026",
+      "kind": "festival",
+      "name": "Hội An full-moon lantern night (14th of the lunar month)",
+      "starts_on": "2026-11-22",
+      "ends_on": "2026-11-22",
+      "confidence": "typical",
+      "source": "Hội An monthly lantern night calendar (lunar 14th)",
+      "source_url": "https://www.nghevilla.com/en/blog/hoi-an-lantern-festival-2026-calendar-dates",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "key": "hoi-an-full-moon-december-2026",
+      "kind": "festival",
+      "name": "Hội An full-moon lantern night (14th of the lunar month)",
+      "starts_on": "2026-12-22",
+      "ends_on": "2026-12-22",
+      "confidence": "typical",
+      "source": "Hội An monthly lantern night calendar (lunar 14th)",
+      "source_url": "https://www.nghevilla.com/en/blog/hoi-an-lantern-festival-2026-calendar-dates",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "key": "tet-2027",
+      "kind": "holiday",
+      "name": "Tết Nguyên Đán (Lunar New Year); many shops and restaurants close",
+      "starts_on": "2027-02-05",
+      "ends_on": "2027-02-10",
+      "confidence": "typical",
+      "source": "Vietnam Tết 2027 public holiday calendar",
+      "source_url": "https://globalholidayscalendar.com/countries/vietnam/tet/2027",
+      "sourced_on": "2026-09-30"
+    },
+    {
+      "key": "diff-2027",
+      "kind": "festival",
+      "name": "Đà Nẵng International Fireworks Festival (DIFF), Saturday nights on the Hàn River",
+      "starts_on": "2027-05-29",
+      "ends_on": "2027-07-10",
+      "confidence": "typical",
+      "source": "DIFF official site; 2026 ran 30 May to 11 July, 2027 dates not yet announced",
+      "source_url": "https://diff.vn/en/",
+      "sourced_on": "2026-09-30"
+    }
+  ]
+}

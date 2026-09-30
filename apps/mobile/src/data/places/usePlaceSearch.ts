@@ -5,16 +5,15 @@
  * (that layer may not depend on `@cp/domain` — tools/lint/boundaries.js — so this `mobile-data`
  * layer, which may, is where the mapping happens).
  *
- * The real production session/auth client for the api service does not exist yet (only a dev-spike
- * one at `apps/mobile/src/app/(dev)/spikes/auth-client.ts`, pointed at a throwaway service) — this
- * still issues a real `fetch` with `credentials: 'include'` against the real route, so it starts
- * working the moment that lands, and surfaces the api's real `AUTH_REQUIRED` error envelope until
- * then rather than a fake empty result.
+ * The route needs the signed-in session, so every request carries the Better Auth cookie from
+ * `sessionHeaders()`, as the app's other api reads do.
  */
 import { CATEGORY_ICON_KEYS, poiCategorySchema, type PoiCategory } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useNetworkState } from 'expo-network';
 import { useCallback, useEffect, useState } from 'react';
+
+import { sessionHeaders } from '@/data/app-session/auth-client';
 
 import { resolveApiBaseUrl } from './apiBaseUrl';
 import { getOfflineDb, searchPlacesOffline, type OfflinePlaceRecord } from './offlineSearch';
@@ -77,8 +76,8 @@ interface RawSearchResult {
   readonly lng: number;
 }
 
-/* eslint-disable lingui/no-unlocalized-strings -- query-param names, a URL path, and a fetch
-   RequestCredentials value below, never rendered as copy. */
+/* eslint-disable lingui/no-unlocalized-strings -- query-param names, a URL path and header values
+   below, never rendered as copy. */
 async function fetchOnline(
   baseUrl: string,
   options: UsePlaceSearchOptions,
@@ -93,7 +92,7 @@ async function fetchOnline(
   if (options.limit !== undefined) params.set('limit', String(options.limit));
 
   const response = await fetch(`${baseUrl}/v1/places/search?${params.toString()}`, {
-    credentials: 'include',
+    headers: { accept: 'application/json', ...(await sessionHeaders()) },
   });
   /* eslint-enable lingui/no-unlocalized-strings */
   if (!response.ok) {

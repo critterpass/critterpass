@@ -47,6 +47,12 @@ export interface TextLayoutCheck {
    * text, so the lines alone can't show that cut.
    */
   readonly cutByFit?: boolean;
+  /**
+   * The text renders with a line limit. Without one the platform never cuts it, so fewer
+   * characters in the lines than in the text is a layout of an earlier, shorter string (a
+   * streaming answer whose text grew before the event arrived), not a truncation.
+   */
+  readonly lineLimited?: boolean;
   /** The design sets this text on one line (button, pill and chip labels): a second line is a bug. */
   readonly singleLine?: boolean;
 }
@@ -57,11 +63,14 @@ export function textLayoutProblems({
   text,
   truncationIsBug,
   cutByFit = false,
+  lineLimited = true,
   singleLine = false,
 }: TextLayoutCheck): UiQaCode[] {
   const problems: UiQaCode[] = [];
   /* eslint-disable lingui/no-unlocalized-strings -- report codes, never shown to a user */
-  if (truncationIsBug && (cutByFit || isTruncated(lines, text))) problems.push('TEXT_TRUNCATED');
+  if (truncationIsBug && (cutByFit || (lineLimited && isTruncated(lines, text)))) {
+    problems.push('TEXT_TRUNCATED');
+  }
   if (hasWordBreak(lines)) problems.push('TEXT_WORD_BROKEN');
   if (singleLine && lines.length > 1) problems.push('TEXT_WRAPPED');
   /* eslint-enable lingui/no-unlocalized-strings */
