@@ -16,6 +16,8 @@ import { registerDisruptionNotifications } from './notify';
 import { disruptionReactJob } from './react';
 import { registerWatchNotifications, watchWriter } from './watch-notify';
 import { weatherWatchJob } from './weather-watch';
+import { stormCommitJob } from './storm-commit';
+import { stormHandoff } from './storm-decision';
 
 export { disruptionEventHook } from './hooks';
 
@@ -39,6 +41,7 @@ export function disruptionJobs(
     flightDisruptionJob(disruptionWriter(gateway)),
     disruptionReactJob(),
     noAnswerJob(),
-    weatherWatchJob(watchWriter(gateway)),
+    weatherWatchJob(watchWriter(gateway), stormHandoff),
+    stormCommitJob(),
   ];
 }

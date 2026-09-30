@@ -19,6 +19,7 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import { defineJob, type JobDefinition } from '../../boss';
+import { withdrawStorm } from './storm-decision';
 import { loadWatchInputs, type WatchedTrip } from './watch-score';
 
 export type WatchWriter = (
@@ -157,6 +158,9 @@ export async function watchTrip(
       watch_item_id: change.id,
       status: change.status,
     });
+    if (change.from === 'plan_b' && change.verdict.status !== 'plan_b') {
+      await withdrawStorm(tx, change.id);
+    }
     const rising =
       change.from === null || watchRank(change.verdict.status) > watchRank(change.from);
     if (!rising || change.verdict.status === 'go') continue;

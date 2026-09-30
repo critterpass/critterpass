@@ -35,8 +35,13 @@ function weather(at: string, fields: Partial<WeatherHour> = {}): WeatherHour {
     ...fields,
   };
 }
-const sea = (at: string, wave: number): MarineHour =>
-  ({ at, wave_m: wave, swell_m: wave, swell_period_s: 9, water_temp_c: 28 });
+const sea = (at: string, wave: number): MarineHour => ({
+  at,
+  wave_m: wave,
+  swell_m: wave,
+  swell_period_s: 9,
+  water_temp_c: 28,
+});
 
 const calm = {
   weather: [weather('2026-10-16T02:00:00Z')],

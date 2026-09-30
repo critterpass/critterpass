@@ -8,7 +8,7 @@
  *   decided it and handed to the desk) or kept;
  * - vendor messages sent, failed or answered, and "undo everything" → ./apply-vendor-reply.ts.
  */
-import { appendDomainEvent, withSystem } from '@cp/db';
+import { appendDomainEvent, sendInTx, withSystem } from '@cp/db';
 import {
   DISRUPTION_QUEUES,
   disruptionReactJobSchema,
@@ -20,6 +20,7 @@ import type pg from 'pg';
 import { defineJob, type JobDefinition } from '../../boss';
 import { applyApprovedGuideAction, executeGuideAction } from '../../guide-actions';
 import { reactToUndo, reactToVendorMessage } from './apply-vendor-reply';
+import { seatsNotConfirmed } from './storm-supplier';
 import { advancePlan } from './execute-rows';
 import { disruptionsWhere, moveRow, type DisruptionRow } from './rows';
 import { approveVendorDraft, withdrawVendorDraft } from './vendor-drafts';
@@ -178,6 +179,7 @@ async function onPollClosed(tx: pg.PoolClient, event: ReactEvent, now: Date): Pr
   const pollId = str(event, 'poll_id');
   if (pollId === null) return 0;
   const winner = str(event, 'winner_option_id');
+  if (await decideStorm(tx, pollId, winner)) return 1;
   let decided = 0;
   for (const disruption of await disruptionsWhere(tx, 'poll', pollId)) {
     const row = disruption.actions.find((action) => action.poll?.id === pollId);
@@ -187,6 +189,35 @@ async function onPollClosed(tx: pg.PoolClient, event: ReactEvent, now: Date): Pr
     decided += 1;
   }
   return decided;
+}
+
+/** A storm vote closed: record the crew's choice (none → keep) and commit it. */
+async function decideStorm(
+  tx: pg.PoolClient,
+  pollId: string,
+  winner: string | null,
+): Promise<boolean> {
+  const { rows } = await tx.query<{
+    id: string;
+    options: { id: string; poll_option_id: string }[];
+  }>(
+    `SELECT id, options FROM disruptions
+      WHERE decision_poll_id = $1 AND kind = 'storm' AND status = 'open' FOR UPDATE`,
+    [pollId],
+  );
+  const storm = rows[0];
+  if (storm === undefined) return false;
+  const chosen = storm.options.find((option) => option.poll_option_id === winner)?.id ?? 'keep';
+  await tx.query('UPDATE disruptions SET chosen_option_id = $2 WHERE id = $1', [storm.id, chosen]);
+  await sendInTx(
+    tx,
+    DISRUPTION_QUEUES.stormCommit,
+    { disruption_id: storm.id },
+    {
+      singletonKey: storm.id,
+    },
+  );
+  return true;
 }
 
 export async function reactToEvent(
@@ -218,6 +249,10 @@ export async function reactToEvent(
         return onPollClosed(tx, event, now);
       case 'disruption.action_undone':
         return reactToUndo(tx, event, now);
+      case 'activity.hold_expired':
+      case 'activity.hold_released':
+      case 'activity.rejected':
+        return seatsNotConfirmed(tx, event);
       case 'vendor_msg.approved':
       case 'vendor_msg.sent':
       case 'vendor_msg.failed':

@@ -56,3 +56,16 @@ export const journeyCheckResultSchema = z.object({
   disruption_id: z.uuid().nullable(),
 });
 export type JourneyCheckResult = z.infer<typeof journeyCheckResultSchema>;
+
+/**
+ * `hold_storm_seats {disruption_id, hold_id}`: the original booker holds the new date of a storm
+ * swap's Viator booking (then pays it with `book_activity`). `hold_id` is the app's, for replays.
+ */
+export const holdStormSeatsPayloadSchema = z.strictObject({
+  disruption_id: z.uuid(),
+  hold_id: z.uuid(),
+});
+export type HoldStormSeatsPayload = z.infer<typeof holdStormSeatsPayloadSchema>;
+
+/** Viator's cancel reason for a booking moved to a calmer day by the crew's storm decision. */
+export const STORM_CANCEL_REASON = 'Customer_Service.Weather';

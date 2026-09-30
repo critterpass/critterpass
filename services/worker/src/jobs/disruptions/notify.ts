@@ -39,10 +39,22 @@ export function registerDisruptionNotifications(): void {
   registered = true;
   registerNotificationTrigger('disruption.needs_yes', 'disruption_update');
   registerNotificationTrigger('disruption.detected', 'disruption_update');
+  // A row's decision poll, or (storm) the disruption's own vote, whose voters are its members.
   const pollRow = async (tx: pg.PoolClient, routed: RoutedEvent) => {
     const facts = await disruption(tx, routed);
-    const row = facts?.actions.find((action) => action.poll?.id === str(routed, 'action_id'));
-    return { facts, row };
+    const pollId = str(routed, 'action_id');
+    const row = facts?.actions.find((action) => action.poll?.id === pollId);
+    if (row !== undefined || facts === undefined) return { facts, row };
+    const { rows } = await tx.query<{ question: string; voters: string[] }>(
+      'SELECT question, eligible_voter_ids AS voters FROM polls WHERE id = $1',
+      [pollId],
+    );
+    const poll = rows[0];
+    return {
+      facts,
+      row:
+        poll === undefined ? undefined : { affected_user_ids: poll.voters, label: poll.question },
+    };
   };
   const deepLink = (routed: RoutedEvent) =>
     `/trip/${str(routed, 'trip_id') ?? ''}/disruption/${str(routed, 'disruption_id') ?? ''}`;

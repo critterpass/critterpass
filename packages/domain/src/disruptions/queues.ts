@@ -81,6 +81,9 @@ export const DISRUPTION_REACT_EVENTS = [
   'vendor_msg.failed',
   'vendor_msg.reply_parsed',
   'disruption.action_undone',
+  'activity.hold_expired',
+  'activity.hold_released',
+  'activity.rejected',
 ] as const;
 const REACT_EVENTS: ReadonlySet<string> = new Set(DISRUPTION_REACT_EVENTS);
 
