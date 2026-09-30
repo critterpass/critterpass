@@ -47,7 +47,7 @@ describe('plan progress parser', () => {
       section,
     );
     expect(readme).toContain(
-      '| **2** | [2 · Money](plans/x/phase-02-money.md) | ◐ in progress | ▰▰▰▱▱▱▱▱▱▱ | 1/4 |',
+      '| **2** | [2 · Money](plans/x/phase-money.md) | ◐ in progress | ▰▰▰▱▱▱▱▱▱▱ | 1/4 |',
     );
     expect(readme).not.toContain('old');
     expect(readme.endsWith('<!-- progress:end -->\n## B\n')).toBe(true);
