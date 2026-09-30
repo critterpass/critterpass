@@ -226,16 +226,8 @@ msgstr ""
 msgid "guide.quick.pharmacy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
-msgid "guide.queued.applyMine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/guide/chat/components/guide-plan-card.tsx
 msgid "guide.plan.pending"
-msgstr ""
-
-#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
-msgid "guide.queued.propose"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx

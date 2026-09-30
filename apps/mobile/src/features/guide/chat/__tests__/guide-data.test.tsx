@@ -1,7 +1,6 @@
 /**
  * The guide sheet's synced reads over the real local-first stack: the context guide's trip and
- * guide, the GROUP and JUST ME threads with their saved answers, and a plan card's swaps named
- * from the plan's own places.
+ * guide, the GROUP and JUST ME threads with their saved answers, and today's meter.
  */
 jest.mock(
   '@powersync/common',
@@ -23,7 +22,6 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
 import { useGuideContext } from '../data/use-guide-context';
 import { useGuideThread } from '../data/use-guide-thread';
-import { usePlanCard } from '../data/use-plan-card';
 import { useGuideMeter } from '../../meter/use-guide-meter';
 
 configure({ asyncUtilTimeout: 5000 });
@@ -37,9 +35,6 @@ const GROUP = '0192f000-0000-7000-8000-00000000a001';
 const PRIVATE = '0192f000-0000-7000-8000-00000000a002';
 const VERSION = '0192f000-0000-7000-8000-00000000f001';
 const CHANGESET = '0192f000-0000-7000-8000-00000000c5e1';
-const RIDGE = '0192f000-0000-7000-8000-00000000e101';
-const PAON = '0192f000-0000-7000-8000-00000000e102';
-const ITEM = '0192f000-0000-7000-8000-00000000e201';
 
 const stacks: TestLocalFirst[] = [];
 afterEach(async () => {
@@ -129,51 +124,6 @@ describe('the guide sheet reads', () => {
     await waitFor(() => expect(mine.result.current.exists).toBe(true));
     expect(mine.result.current.threadId).toBe(PRIVATE);
     expect(mine.result.current.messages).toEqual([]);
-  });
-
-  it('names a plan card swap from the plan and the place', async () => {
-    const stack = await seeded();
-    const { db } = stack;
-    await db.execute(
-      "INSERT INTO pois (id, name) VALUES (?, 'Campuhan Ridge walk'), (?, 'Cooking class, Paon')",
-      [RIDGE, PAON],
-    );
-    await db.execute(
-      "INSERT INTO plan_items (id, version_id, trip_id, stable_id, poi_id, starts_at) VALUES ('pi', ?, ?, ?, ?, '2099-04-03T05:00:00Z')",
-      [VERSION, TRIP, ITEM, RIDGE],
-    );
-    await db.execute(
-      "INSERT INTO change_sets (id, trip_id, status, cost_delta_minor, ops) VALUES (?, ?, 'draft', 2200, ?)",
-      [
-        CHANGESET,
-        TRIP,
-        JSON.stringify([
-          {
-            op: 'swap',
-            target: ITEM,
-            after: { poi_id: PAON, starts_at: '2099-04-03T05:00:00Z' },
-            reason: 'Indoors',
-            affected_user_ids: [],
-            booking_impact: false,
-          },
-        ]),
-      ],
-    );
-    const { result } = await renderHook(() => usePlanCard(CHANGESET), { wrapper: stack.wrapper });
-    await waitFor(() => expect(result.current?.swaps[0]?.after?.label).toBe('Cooking class, Paon'));
-    expect(result.current).toMatchObject({
-      status: 'draft',
-      costDeltaMinor: 2200,
-      currency: 'JPY',
-      tz: 'Asia/Tokyo',
-      swaps: [
-        {
-          op: 'swap',
-          before: { label: 'Campuhan Ridge walk', startsAt: '2099-04-03T05:00:00Z' },
-          reason: 'Indoors',
-        },
-      ],
-    });
   });
 
   it('reads the meter for today, and a boosted trip as unlimited', async () => {

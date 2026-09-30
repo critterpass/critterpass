@@ -226,17 +226,9 @@ msgstr "Pass+ keeps {guideName} talking: text, voice and camera, as much as you 
 msgid "guide.quick.pharmacy"
 msgstr "Pharmacy"
 
-#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
-msgid "guide.queued.applyMine"
-msgstr "Plan change for your own day"
-
 #: ../../apps/mobile/src/features/guide/chat/components/guide-plan-card.tsx
 msgid "guide.plan.pending"
 msgstr "Plan change on its way…"
-
-#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
-msgid "guide.queued.propose"
-msgstr "Plan change sent to the crew"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.propose"

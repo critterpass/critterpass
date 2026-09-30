@@ -25,7 +25,7 @@ msgstr "{0} trên {1} hôm nay"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.cost"
-msgstr "{cost} cho cả chuyến"
+msgstr "{cost} mỗi người"
 
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.body"
@@ -196,7 +196,7 @@ msgstr "Nhấn giữ để xem thao tác"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.noCost"
-msgstr "Chi phí không đổi"
+msgstr "Mỗi người trả không đổi"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.notHelpful"
@@ -226,17 +226,9 @@ msgstr "Pass+ giúp {guideName} trò chuyện thoải mái: chữ, giọng nói 
 msgid "guide.quick.pharmacy"
 msgstr "Nhà thuốc"
 
-#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
-msgid "guide.queued.applyMine"
-msgstr "Thay đổi lịch trình cho riêng ngày của bạn"
-
 #: ../../apps/mobile/src/features/guide/chat/components/guide-plan-card.tsx
 msgid "guide.plan.pending"
 msgstr "Thay đổi lịch trình đang tới…"
-
-#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
-msgid "guide.queued.propose"
-msgstr "Đã gửi thay đổi lịch trình cho cả nhóm"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.propose"

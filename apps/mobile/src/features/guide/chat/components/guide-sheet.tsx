@@ -176,7 +176,9 @@ export function GuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }
           names={names}
           live={turn.live}
           waiting={turn.queued}
-          renderProposal={(id) => <GuidePlanCard changesetId={id} canPropose={shared} />}
+          renderProposal={(id) => (
+            <GuidePlanCard tripId={trip?.tripId ?? null} changesetId={id} canPropose={shared} />
+          )}
           onPrompt={send}
           onRetry={turn.retry}
           onRate={(messageId, verdict) => void rate.send({ message_id: messageId, verdict })}

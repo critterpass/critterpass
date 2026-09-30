@@ -4,7 +4,6 @@
  * crew as a vote in crew chat) or JUST ME (applied to the asker's own day only). REVIEW opens the
  * full change review. Once sent or applied the card says so instead of offering the actions.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- Intl format options, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -21,10 +20,10 @@ import type { PlanCardModel, PlanSwap } from '../data/use-plan-card';
 
 export type PlanCardOutcome = 'open' | 'sent' | 'applied' | 'closed';
 
-export function outcomeOf(status: PlanCardModel['status']): PlanCardOutcome {
-  if (status === 'draft' || status === 'proposed') return 'open';
-  if (status === 'voting') return 'sent';
-  if (status === 'applied' || status === 'approved') return 'applied';
+export function outcomeOf(state: PlanCardModel['state']): PlanCardOutcome {
+  if (state === 'draft') return 'open';
+  if (state === 'voting') return 'sent';
+  if (state === 'approved' || state === 'applying') return 'applied';
   return 'closed';
 }
 
@@ -35,44 +34,28 @@ const useStyles = makeStyles((t) => ({
   secondary: { flex: 2 },
 }));
 
-export function localTime(iso: string | null, tz: string | null, locale: string): string | null {
-  if (iso === null) return null;
-  try {
-    return new Intl.DateTimeFormat(locale, {
-      hour: '2-digit',
-      minute: '2-digit',
-      hourCycle: 'h23',
-      ...(tz === null ? {} : { timeZone: tz }),
-    }).format(new Date(iso));
-  } catch {
-    return null;
-  }
-}
-
-function SwapRow({
-  swap,
-  tz,
-  index,
-}: {
-  readonly swap: PlanSwap;
-  readonly tz: string | null;
-  readonly index: number;
-}) {
+function SwapRow({ swap, index }: { readonly swap: PlanSwap; readonly index: number }) {
   const styles = useStyles();
   const theme = useTheme();
   const { t, i18n } = useLingui();
   const dealt = patterns.useDeal({ active: true, index: index * 2 });
-  const beforeTime = localTime(swap.before?.startsAt ?? null, tz, i18n.locale);
   const before =
     swap.before === null
       ? null
-      : [beforeTime, swap.before.label ?? t({ id: 'guide.plan.anItem', message: 'A plan item' })]
+      : [
+          swap.before.time,
+          swap.before.label === ''
+            ? t({ id: 'guide.plan.anItem', message: 'A plan item' })
+            : swap.before.label,
+        ]
           .filter(Boolean)
           .join(' ');
   const afterLabel =
     swap.after === null
       ? t({ id: 'guide.plan.removed', message: 'Taken out of the plan' })
-      : (swap.after.label ?? t({ id: 'guide.plan.newItem', message: 'Something new' }));
+      : swap.after.label === ''
+        ? t({ id: 'guide.plan.newItem', message: 'Something new' })
+        : swap.after.label;
   return (
     <Animated.View style={dealt} testID={`guide-plan-swap-${index}`}>
       <Stack gap="4">
@@ -92,10 +75,9 @@ function SwapRow({
   );
 }
 
+/** "+$22" (whole units), or null when nobody's share moves or it differs per person. */
 export function costLine(model: PlanCardModel, locale: string): string | null {
-  if (model.costDeltaMinor === null || model.currency === null || model.costDeltaMinor === 0) {
-    return null;
-  }
+  if (model.eachMinor === null || model.currency === null || model.eachMinor === 0) return null;
   try {
     const digits =
       new Intl.NumberFormat('en', { style: 'currency', currency: model.currency }).resolvedOptions()
@@ -105,7 +87,7 @@ export function costLine(model: PlanCardModel, locale: string): string | null {
       currency: model.currency,
       signDisplay: 'always',
       maximumFractionDigits: 0,
-    }).format(model.costDeltaMinor / 10 ** digits);
+    }).format(model.eachMinor / 10 ** digits);
   } catch {
     return null;
   }
@@ -131,7 +113,7 @@ export function PlanCardView({
   const styles = useStyles();
   const theme = useTheme();
   const { t, i18n } = useLingui();
-  const outcome = outcomeOf(model.status);
+  const outcome = outcomeOf(model.state);
   const cost = costLine(model, i18n.locale);
   return (
     <Card tone="raised" testID={`guide-plan-card-${model.changesetId}`}>
@@ -139,15 +121,15 @@ export function PlanCardView({
         {model.swaps.map((swap, index) => (
           <Stack key={`${swap.target}-${index}`} gap="12">
             {index === 0 ? null : <View style={styles.divider} />}
-            <SwapRow swap={swap} tz={model.tz} index={index} />
+            <SwapRow swap={swap} index={index} />
           </Stack>
         ))}
         {model.swaps.length > 0 ? <View style={styles.divider} /> : null}
         <Row justify="space-between" align="center">
           <Text variant="bodySm" color={theme.semantic.text.secondary}>
             {cost === null
-              ? t({ id: 'guide.plan.noCost', message: 'No change to the cost' })
-              : t({ id: 'guide.plan.cost', message: `${cost} for the trip` })}
+              ? t({ id: 'guide.plan.noCost', message: 'No change to what each pays' })
+              : t({ id: 'guide.plan.cost', message: `${cost} each` })}
           </Text>
           <TextLink
             label={t({ id: 'guide.plan.review', message: 'Review' })}

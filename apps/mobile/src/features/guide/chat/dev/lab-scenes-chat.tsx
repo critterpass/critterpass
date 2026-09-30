@@ -31,23 +31,22 @@ export const LAB_NAMES = new Map([
 export const LAB_PLAN: PlanCardModel = {
   changesetId: '0192f000-0000-7000-8000-00000000c5e1',
   tripId: '0192f000-0000-7000-8000-00000000b001',
-  status: 'draft',
-  costDeltaMinor: 13_200,
+  state: 'draft',
+  eachMinor: 2_200,
   currency: 'USD',
-  tz: 'Asia/Makassar',
   swaps: [
     {
       target: 'a',
       op: 'swap',
-      before: { label: 'Campuhan Ridge walk', startsAt: '2026-10-03T06:00:00Z' },
-      after: { label: 'Cooking class, Paon', startsAt: '2026-10-03T06:00:00Z' },
+      before: { label: 'Campuhan Ridge walk', time: '14:00' },
+      after: { label: 'Cooking class, Paon', time: '14:00' },
       reason: 'Indoors · 4 seats open · book in the plan',
     },
     {
       target: 'b',
       op: 'swap',
-      before: { label: 'Monkey Forest', startsAt: '2026-10-03T08:30:00Z' },
-      after: { label: 'Puri Lukisan Museum', startsAt: '2026-10-03T08:30:00Z' },
+      before: { label: 'Monkey Forest', time: '16:30' },
+      after: { label: 'Puri Lukisan Museum', time: '16:30' },
       reason: '10 min walk from Paon · covered garden',
     },
   ],
@@ -229,7 +228,5 @@ export const CHAT_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'chat-offline': () => (
     <LabSheet messages={RAIN_SAVED} waiting={['Is the cooking class still on if it floods?']} />
   ),
-  'chat-sent': () => (
-    <LabSheet messages={RAIN_SAVED} proposal={{ ...LAB_PLAN, status: 'voting' }} />
-  ),
+  'chat-sent': () => <LabSheet messages={RAIN_SAVED} proposal={{ ...LAB_PLAN, state: 'voting' }} />,
 };

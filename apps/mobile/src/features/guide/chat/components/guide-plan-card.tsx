@@ -1,37 +1,33 @@
 /**
- * A plan card from the synced change set: PROPOSE TO GROUP sends it to the crew (`send_changeset`,
- * the vote lands in crew chat), JUST ME applies it to the asker's own day (`apply_changeset`,
- * personal). REVIEW opens the change review (3e-3). Until the change set syncs down the card
- * shows a short placeholder line.
+ * A plan card from the plan area's change review: PROPOSE TO GROUP sends the change set to the
+ * crew (the vote lands in crew chat), JUST ME applies it to the asker's own day (personal), and
+ * REVIEW opens the full change review (3e-3). Until the change set syncs down the card shows a
+ * short placeholder line.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
 import { useLingui } from '@lingui/react/macro';
-import { router, type Href } from 'expo-router';
+import { router } from 'expo-router';
+import { useState } from 'react';
 
-import { useCommand } from '@/data/commands/use-command';
-import { hrefFor } from '@/lib/navigation/screen-registry';
+import { planRoutes, useChangesetActions } from '@/features/plan';
 import { Text, useTheme } from '@/ui';
 
-import { applyChangesetCommand, sendChangesetCommand } from '../data/guide-commands';
 import { usePlanCard } from '../data/use-plan-card';
 import { PlanCardView } from './plan-card';
 
-export function reviewHref(tripId: string, changesetId: string): Href {
-  return hrefFor('3e-3', { tripId, changesetId }) ?? (`/${tripId}/review/${changesetId}` as Href);
-}
-
 export function GuidePlanCard({
+  tripId,
   changesetId,
   canPropose,
 }: {
+  readonly tripId: string | null;
   readonly changesetId: string;
   readonly canPropose: boolean;
 }) {
   const { t } = useLingui();
   const theme = useTheme();
-  const model = usePlanCard(changesetId);
-  const propose = useCommand(sendChangesetCommand);
-  const apply = useCommand(applyChangesetCommand);
+  const model = usePlanCard(tripId, changesetId);
+  const actions = useChangesetActions(changesetId);
+  const [busy, setBusy] = useState(false);
   if (model === null) {
     return (
       <Text variant="bodySm" color={theme.semantic.text.secondary} testID="guide-plan-pending">
@@ -39,14 +35,18 @@ export function GuidePlanCard({
       </Text>
     );
   }
+  const run = (action: () => Promise<unknown>) => {
+    setBusy(true);
+    void action().finally(() => setBusy(false));
+  };
   return (
     <PlanCardView
       model={model}
       canPropose={canPropose}
-      busy={propose.pending || apply.pending}
-      onPropose={() => void propose.send({ changeset_id: changesetId })}
-      onJustMe={() => void apply.send({ changeset_id: changesetId, scope: 'personal' })}
-      onReview={() => router.push(reviewHref(model.tripId, changesetId))}
+      busy={busy}
+      onPropose={() => run(actions.send)}
+      onJustMe={() => run(actions.applyPersonal)}
+      onReview={() => router.push(planRoutes.review(model.tripId, changesetId))}
     />
   );
 }
