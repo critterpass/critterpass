@@ -1,0 +1,156 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 06:30+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.title"
+msgstr "{days, plural, one {{guideName} is drafting your day} other {{guideName} is drafting your # days}}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.offline"
+msgstr "{days, plural, one {I’ll start on your day as soon as you’re back online.} other {I’ll start on your # days as soon as you’re back online.}}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.failedTitle"
+msgstr "{guideName} couldn’t finish"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.stays"
+msgstr "{n, plural, one {Picked a {stayType} in {area}} other {Picked # {stayType} stays in {area}}}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.daysPlanned"
+msgstr "{n, plural, one {Planned one day} other {Planned # days}}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.readProfiles"
+msgstr "{n, plural, one {Read one taste profile} other {Read # taste profiles}}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.line"
+msgstr "About 20 seconds. You review it before anyone else sees it."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.back"
+msgstr "Back to setup"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.balance"
+msgstr "Balancing {early} early birds and {late} night owls"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.days"
+msgstr "Balancing the days"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.season"
+msgstr "Checked the {signal}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.seasonNone"
+msgstr "Checked the season"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.check"
+msgstr "Checking food and opening hours"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.hours"
+msgstr "Checking opening hours"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.season"
+msgstr "Checking the season"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.dayCard"
+msgstr "Day {n} · {theme}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.again"
+msgstr "Draft again"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.stoppedTitle"
+msgstr "Draft stopped"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.food"
+msgstr "Finding {dietary} food for {name}"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.blocked"
+msgstr "I can’t start this draft yet. Finish setup and try again."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.fail.model"
+msgstr "I couldn’t reach my notes. Try again."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.fail.places"
+msgstr "I don’t know enough places there yet."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.noDates"
+msgstr "Lock the dates first, then I’ll draft."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.failed"
+msgstr "Nobody saw it and nothing was used up. Want me to try again?"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.stopped"
+msgstr "Nobody saw it. Start again whenever you like."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.blockedTitle"
+msgstr "Not quite ready"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.outline"
+msgstr "Picking where you stay"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.profiles"
+msgstr "Reading taste profiles"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.working.saving"
+msgstr "Saving your draft"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.pace"
+msgstr "Setting the pace"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.fail.setup"
+msgstr "Setup isn’t finished yet."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.cancel"
+msgstr "Stop drafting"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.slow"
+msgstr "Taking a bit longer than usual. I’ll ping you when it’s ready."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.fail.other"
+msgstr "This step didn’t work out."
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/drafting-view.tsx
+msgid "planDraft.drafting.offlineTitle"
+msgstr "Waiting for signal"
+
+#: ../../apps/mobile/src/features/plan/draft/drafting/step-copy.ts
+msgid "planDraft.step.saved"
+msgstr "Your draft is ready"

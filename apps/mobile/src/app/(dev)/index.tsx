@@ -48,6 +48,11 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/setup',
         label: 'Trip setup (3c-3…3c-10 scenes)',
       },
+      {
+        testId: 'dev-nav-draft',
+        href: '/(dev)/draft',
+        label: 'Drafting and redrafts (3c-8…3c-12, 4f-3 scenes)',
+      },
     ],
   },
   {

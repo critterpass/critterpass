@@ -158,6 +158,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. Subscribe `trip_draft:` + poll fallback. 2. Motion per spec via motion runtime presets. 3. Slow/failure/offline/cancel states. 4. Fold transition to review on done.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/draft/drafting`; `maestro test e2e/plan/draft-drafting.yaml`
 - Done when: backgrounding during job then tapping the push lands on 3c-9; failed step visible with reason.
+- Status: done — 137c7ed2
 
 ### T7 — Private draft review (3c-9) + version history
 - Goal: organiser review screen.
@@ -165,6 +166,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. Rows from local `trip_draft` data; drop-in + stamp motion. 2. Coverage, over-budget, stale, lottery notes. 3. Stay rows: book-here link / free-cancel date. 4. Crew-side "{name} is planning" header status.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/draft/review`; `maestro test e2e/plan/draft-review.yaml`
 - Done when: a member device shows no draft data (Maestro run as member); tapping a day pushes the typed route helper `routes.day(tripId, day, {version: 'draft'})` (contract test; P29 builds the draft-mode day screen); RNTL layout snapshots committed; Maestro `takeScreenshot` artifact for `3c-9`.
+- Status: done — f12d48c1
 
 ### T8 — Change-a-day sheet, last-redraft interstitial, diff screen
 - Goal: 3c-11, 4f-3, 3c-12.
@@ -172,6 +174,7 @@ Done when: `ai.draft` produces a version that passes the planner validator for a
 - Steps: 1. Sheet with chips, note, counter; interstitial before last; limit → Boost upsell (P46 entry). 2. Thinking beat (900 ms fold) while job runs. 3. Diff animation sequence; KEEP IT / put back with toasts + success haptic. 4. Failure/identical/conflict states.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/draft/redraft`; `maestro test e2e/plan/draft-redraft.yaml`
 - Done when: counter decrements only on delivered results; revert restores prior day rows; copy never says "I booked it".
+- Status: done — e7578431
 
 ### T9 — Draft supplier touches (stays links, Viator availability)
 - Goal: truthful stay/activity affordances in draft and redraft.

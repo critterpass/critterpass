@@ -1,0 +1,251 @@
+appId: app.critterpass.dev
+---
+# The drafting screen (3c-8) and its states, in English, from the fixed developer scenes: running,
+# starting, slow, a step failed on the way, failed, waiting for signal, stopped, dates not locked.
+- launchApp:
+    clearState: true
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: draft
+      READY: draft-scene-list
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-3c-8-drafting'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-3c-8-drafting'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-3c-8-drafting
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-starting'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-starting'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-drafting-starting
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-slow'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-slow'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-drafting-slow
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-partial'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-partial'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-drafting-partial
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-failed'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-failed'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-drafting-failed
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-offline'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-offline'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-drafting-offline
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-stopped'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-stopped'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-drafting-stopped
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-drafting-no-dates'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-drafting-no-dates'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-drafting-no-dates
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'

@@ -1,0 +1,248 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 06:30+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ja\n"
+
+#: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
+msgid "planDraft.member.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.sub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.days"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.daysCost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.redrafting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.some"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
+msgid "planDraft.stay.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/data/quota-copy.ts
+msgid "planDraft.counter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.lottery"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.one"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.two"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.coverage.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.changeDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
+msgid "planDraft.member.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.propose"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/closure-notes.tsx
+msgid "planDraft.closure.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.miss.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.current"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.a11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.redraftReadyDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.draft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.made"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
+msgid "planDraft.history.restored"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.history"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
+msgid "planDraft.stay.estimate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.miss.unknown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.miss.dropped"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/data/commands.ts
+msgid "planDraft.queued.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.miss.noTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.failedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.onlyYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.redraftOpen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.optional"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/coverage-strip.tsx
+msgid "planDraft.overBudget"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/data/commands.ts
+msgid "planDraft.queued.revert"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.cta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/version-history-sheet.tsx
+msgid "planDraft.history.restore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/data/commands.ts
+msgid "planDraft.queued.restore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "planDraft.day.closedNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/closure-notes.tsx
+msgid "planDraft.closure.source"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-screen.tsx
+msgid "planDraft.history.restoredSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.budget"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.dates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.failedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.mustDos"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx
+msgid "planDraft.stale.rooms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/no-draft.tsx
+msgid "planDraft.empty.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
+msgid "planDraft.member.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/stay-rows.tsx
+msgid "planDraft.stay.freeCancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
+msgid "planDraft.review.redraftReady"
+msgstr ""

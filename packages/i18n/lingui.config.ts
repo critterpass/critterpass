@@ -66,6 +66,19 @@ const setupSubSources = (sub: string) => [
   `${repoRootPrefix}/apps/mobile/src/features/setup/${sub}/**`,
 ];
 
+// The organiser's drafting screens keep nested catalogs inside the plan area (`plan-draft/*`):
+// drafting, redraft, and review (the rest of the drafting feature).
+const draftRoot = `${repoRootPrefix}/apps/mobile/src/features/plan/draft`;
+const draftSubAreas = ['drafting', 'redraft'] as const;
+const draftCatalogs = [
+  ...draftSubAreas.map((sub) => ({ name: sub, include: [`${draftRoot}/${sub}/**`], exclude: [] })),
+  {
+    name: 'review',
+    include: [`${draftRoot}/**`],
+    exclude: draftSubAreas.map((sub) => `${draftRoot}/${sub}/**`),
+  },
+];
+
 const notificationSources = [
   {
     name: 'common',
@@ -121,7 +134,9 @@ export default defineConfig({
           ? [...testFileExcludes, ...chatSources, ...liveMapSources]
           : area === 'setup'
             ? [...testFileExcludes, ...setupSubAreas.flatMap(setupSubSources)]
-            : testFileExcludes,
+            : area === 'plan'
+              ? [...testFileExcludes, `${draftRoot}/**`]
+              : testFileExcludes,
     })),
     {
       name: 'chat/chat',
@@ -140,6 +155,12 @@ export default defineConfig({
       path: `locales/{locale}/setup/${sub}`,
       include: setupSubSources(sub),
       exclude: testFileExcludes,
+    })),
+    ...draftCatalogs.map((catalog) => ({
+      name: `plan-draft/${catalog.name}`,
+      path: `locales/{locale}/plan-draft/${catalog.name}`,
+      include: catalog.include,
+      exclude: [...testFileExcludes, ...catalog.exclude],
     })),
     {
       name: 'web',
