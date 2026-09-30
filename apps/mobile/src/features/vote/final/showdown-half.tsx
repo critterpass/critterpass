@@ -38,8 +38,6 @@ const GHOST_SIZE = 120;
 const NAME_FLOOR = 44;
 /** The name never shrinks below this share of its designed size. */
 const MIN_NAME_SCALE = 0.45;
-/** A many-word name keeps one word per line, up to this many lines. */
-const MAX_NAME_LINES = 3;
 
 interface NameFit {
   readonly key: string;
@@ -232,7 +230,9 @@ export function ShowdownHalf({
   // height and the widest line it sets); a half that runs past its share then gives the name a
   // fixed box narrower by the height it must shed, and auto-fit sets it smaller to fit that box.
   // The box is always scaled from the designed measure, never from the last capped one, so the
-  // name settles at one size. Content that already fits keeps the name as designed.
+  // name settles at one size. No line count is forced: Android reports an ellipsised line as the
+  // whole text, so auto-fit would never see the cut. Content that already fits keeps the name as
+  // designed.
   const [measure, setMeasure] = useState({ height: 0, lineWidth: 0 });
   const fitKey = `${name}|${i18n.locale}`;
   const [fit, setFit] = useState<NameFit>({ key: fitKey, cap: null, height: 0, width: 0 });
@@ -250,7 +250,6 @@ export function ShowdownHalf({
     const cap = nameCap(fit, measure.height, excess);
     if (cap !== null && Math.abs(cap - fit.cap) > 2) setFit({ ...fit, cap });
   }
-  const words = name.trim().split(/\s+/u).length;
   const endPadding = alignEnd
     ? edgeInset
     : sizeToken(theme.size.fab, 'size') / 2 + theme.space['16'];
@@ -292,7 +291,6 @@ export function ShowdownHalf({
             ? {}
             : {
                 autoFitMinSize: NAME_FLOOR,
-                numberOfLines: Math.min(MAX_NAME_LINES, words),
                 style: { width: fit.cap, textAlign: alignEnd ? 'right' : 'left' },
               })}
           testID={`showdown-name-${alignEnd ? 1 : 0}`}
