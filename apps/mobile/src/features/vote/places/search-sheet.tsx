@@ -18,7 +18,6 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { SearchField } from '@/ui/inputs/SearchField';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
-import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
@@ -64,8 +63,6 @@ export function SearchSheet({ crewId }: { readonly crewId: string | undefined })
   const search = useDestinationSearch(query);
   const request = useCommand(requestPlaceCommand);
   const country = unguidedCountry(search.results);
-  // The sheet has no ✕ by design: its grabber, the swipe down and the scrim tap are the way back.
-  useBackAffordance();
   // The keyboard goes down with the sheet's job done, so the place page opens uncovered.
   const open = (result: PlaceResult) => {
     Keyboard.dismiss();

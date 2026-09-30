@@ -9,6 +9,7 @@ import Animated from 'react-native-reanimated';
 
 import { useLoop } from '@/motion/use-loop';
 import { PressScale } from '@/ui/press/PressScale';
+import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { Row, Stack, Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
@@ -66,6 +67,8 @@ export function HeaderPill({
 }) {
   const styles = useStyles();
   const theme = useTheme();
+  // "← CHAT" / "← BACK" is the map's way back.
+  useBackAffordance();
   const blink = useLoop('blink', { active: !paused });
   const backLabel = fromChat
     ? t({ id: 'liveMap.header.chat', message: 'Chat' })

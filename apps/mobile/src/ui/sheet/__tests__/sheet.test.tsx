@@ -12,6 +12,8 @@ import { fireGestureHandler, getByGestureTestId } from 'react-native-gesture-han
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ThemeProvider } from '../../../lib/theme';
+import { focusedBackAffordances } from '../../qa/back-affordance';
+import { UI_QA_ENABLED } from '../../qa/ui-qa';
 import { ScreenJoltProvider } from '../../../motion/patterns/thud';
 import { resetMotionModeForTests } from '../../../motion/test-support/reset-motion-mode';
 import { useMotionMode } from '../../../motion/motion-mode';
@@ -211,6 +213,10 @@ describe('Sheet', () => {
       </Sheet>,
     );
     expect(bare.queryByTestId('sheet-close')).toBeNull();
+    // Without a ✕ the drag down and the scrim still take it back: it counts as the way back.
+    expect(focusedBackAffordances()).toBe(UI_QA_ENABLED ? 1 : 0);
+    await act(() => bare.unmount());
+    expect(focusedBackAffordances()).toBe(0);
   });
 
   it('keeps the ✕ floating at the corner when there is no header', async () => {
