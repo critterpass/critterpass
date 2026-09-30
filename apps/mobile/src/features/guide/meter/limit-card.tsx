@@ -34,6 +34,8 @@ const useStyles = makeStyles((t) => ({
   track: { flexDirection: 'row', gap: t.space['4'] },
   cell: { flex: 1, height: 12, borderRadius: t.radius.xs },
   half: { flex: 1 },
+  // Each button starts at its label's width and they share what is left, as in 4b-1.
+  cta: { flexGrow: 1, flexShrink: 1, flexBasis: 'auto' },
   hint: {
     backgroundColor: t.semantic.bg.raised,
     borderRadius: t.radius.lg,
@@ -181,7 +183,7 @@ export function LimitCard(props: LimitCardProps) {
             </Text>
             <Row gap="8">
               {props.onGetPass === undefined ? null : (
-                <View style={styles.half}>
+                <View style={styles.cta}>
                   <PillButton
                     label={t({ id: 'guide.limit.getPass', message: 'Get Pass+' })}
                     onPress={props.onGetPass}
@@ -191,7 +193,7 @@ export function LimitCard(props: LimitCardProps) {
                 </View>
               )}
               {props.onAskAtMidnight === undefined ? null : (
-                <View style={styles.half}>
+                <View style={styles.cta}>
                   <PillButton
                     variant="secondary"
                     label={t({ id: 'guide.limit.askAtMidnight', message: 'Ask at midnight' })}

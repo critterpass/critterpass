@@ -25,7 +25,7 @@ msgstr "{0} of {1} today"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.cost"
-msgstr "{cost} for the trip"
+msgstr "{cost} each"
 
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.body"
@@ -253,7 +253,7 @@ msgstr "Mild"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.noCost"
-msgstr "No change to the cost"
+msgstr "No change to what each pays"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.dietNone"
@@ -369,7 +369,7 @@ msgstr "Someone got the last slot first."
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.ownAllergy"
-msgstr "Something else"
+msgstr "Something else? Type it and tap done"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.newItem"
