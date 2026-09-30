@@ -5,12 +5,11 @@
  * PASS carries it to the pass.
  */
 import { upper } from '@cp/i18n';
-import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { useTweenedNumber } from '@/ui/data/CountUp';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Tag } from '@/ui/plan/ActionPill';
 import { EncounterCard } from '@/ui/critters/EncounterCard';
@@ -137,25 +136,13 @@ export function WanderedCard(props: {
   );
 }
 
-/** Counts up from zero over the chip's first moment (numbers never jump). */
+/** Counts up from zero with the app's shared number tween (numbers never jump). */
 function XpChip({ xp }: { readonly xp: number }) {
   const theme = useTheme();
-  const reduced = useReducedImpactMotion();
-  const [shown, setShown] = useState(reduced ? xp : 0);
-  useEffect(() => {
-    if (reduced) return undefined;
-    const started = Date.now();
-    const duration = theme.motion.duration.base * 2;
-    const timer = setInterval(() => {
-      const t = Math.min(1, (Date.now() - started) / duration);
-      setShown(Math.round(xp * (1 - (1 - t) ** 3)));
-      if (t >= 1) clearInterval(timer);
-    }, 16);
-    return () => clearInterval(timer);
-  }, [xp, reduced, theme.motion.duration.base]);
+  const shown = useTweenedNumber(xp);
   return (
     <Tag
-      label={xpChip(shown)}
+      label={xpChip(Math.round(shown))}
       color={theme.color.yellow}
       textColor={theme.semantic.text.onAccent}
     />
