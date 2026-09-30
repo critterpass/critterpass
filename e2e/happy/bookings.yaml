@@ -22,6 +22,13 @@ appId: app.critterpass.dev
     timeout: 10000
 - evalScript: ${output.day = new Date(Date.now() + 21 * 86400000).toISOString().slice(0, 10)}
 - evalScript: ${output.paste = 'Singapore Airlines booking confirmed. Booking reference K7Q2PX. Passenger WINSTON. Flight SQ 938 from Singapore (SIN) to Denpasar Bali (DPS) on ' + output.day + ', departs 09:10, arrives 11:55.'}
+# Android: the runner turns the soft keyboard off, so typed keys go straight into the field and no
+# keyboard panel is left over READ IT; it comes back after the send.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - evalScript: "${http.post('http://127.0.0.1:7788/keyboard?state=off', { body: '{}' }).status}"
 - tapOn:
     id: 'bookings-paste-field'
 # Runner: types the confirmation on Android in short chunks with a pause after each (Maestro's
@@ -42,24 +49,18 @@ appId: app.critterpass.dev
     visible:
       text: '.*arrives 11:55.*'
     timeout: 300000
-# Android closes the keyboard with Back (Maestro's hideKeyboard swipes when Back is not enough, and
-# the swipe opened Gboard's clipboard panel over READ IT); iOS uses hideKeyboard.
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - pressKey: back
 - runFlow:
     when:
       platform: iOS
     commands:
       - hideKeyboard
-- extendedWaitUntil:
-    visible:
-      id: 'bookings-paste-send'
-    timeout: 10000
 - tapOn:
     id: 'bookings-paste-send'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - evalScript: "${http.post('http://127.0.0.1:7788/keyboard?state=on', { body: '{}' }).status}"
 # The api queues the read; the candidate shows once the guide has read the confirmation.
 - extendedWaitUntil:
     visible:

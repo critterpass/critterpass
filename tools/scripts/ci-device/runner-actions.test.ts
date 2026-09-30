@@ -102,6 +102,34 @@ describe('runner actions', () => {
     expect(handleAction('/type', { ...ctx, platform: 'ios' }, 'x').status).toBe(501);
   });
 
+  it('turns the soft keyboard off and back on on Android', () => {
+    const { root, calls, env } = setup();
+    const run: Run = (command, args) => {
+      calls.push({ command, args });
+      return {
+        status: 0,
+        output: args.includes('default_input_method') ? 'com.example/.Ime\n' : '',
+      };
+    };
+    const ctx = { platform: 'android' as const, device: 'emulator-5554', root, env, run };
+    expect(handleAction('/keyboard?state=off', ctx).status).toBe(200);
+    expect(calls.at(-1)?.args).toEqual([
+      '-s',
+      'emulator-5554',
+      'shell',
+      'ime',
+      'disable',
+      'com.example/.Ime',
+    ]);
+    expect(handleAction('/keyboard?state=on', ctx).status).toBe(200);
+    expect(calls.slice(-2).map((call) => call.args.slice(3))).toEqual([
+      ['ime', 'enable', 'com.example/.Ime'],
+      ['ime', 'set', 'com.example/.Ime'],
+    ]);
+    expect(handleAction('/keyboard?state=up', ctx).status).toBe(400);
+    expect(handleAction('/keyboard?state=off', { ...ctx, platform: 'ios' }).status).toBe(501);
+  });
+
   it('answers what it cannot do', () => {
     const { root, run, env } = setup();
     const ios = { platform: 'ios' as const, device: 'UDID', root, env, run };

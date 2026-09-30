@@ -17,7 +17,9 @@
  * falls behind one long `input text`, and Android drops the key events still queued past its input
  * dispatch timeout, which cut the text off mid-word. `/type` answers 202 at once and types in the
  * background (the whole text takes longer than a flow script's request may wait); the flow then
- * waits for the text's end to show. The other actions answer 200 when done.
+ * waits for the text's end to show. `/keyboard?state=off|on` disables the soft keyboard (the default
+ * input method) and brings it back (Android): typed keys still reach the focused field, and no
+ * keyboard panel is left covering the screen's buttons. The other actions answer 200 when done.
  *
  *   tsx tools/scripts/ci-device/runner-actions.ts --platform android --device <serial> [--port 7788]
  */
@@ -127,6 +129,29 @@ export function inputTextArg(text: string): string {
   return quote(text.replace(/%/g, '\\%').replace(/ /g, '%s'));
 }
 
+let disabledInputMethod: string | undefined;
+
+function keyboard(state: string, ctx: ActionContext): ActionResult {
+  if (state !== 'on' && state !== 'off') return { status: 400, message: 'state: on or off' };
+  if (ctx.platform === 'ios') return { status: 501, message: 'Android only' };
+  const adb = (...args: string[]) => ctx.run('adb', ['-s', ctx.device, 'shell', ...args]);
+  if (state === 'off') {
+    const current = adb('settings', 'get', 'secure', 'default_input_method').output.trim();
+    if (current === '' || current === 'null')
+      return { status: 200, message: 'no keyboard to hide' };
+    const result = adb('ime', 'disable', current);
+    if (result.status !== 0) return { status: 500, message: result.output };
+    disabledInputMethod = current;
+    return { status: 200, message: `keyboard off (${current})` };
+  }
+  if (disabledInputMethod === undefined) return { status: 200, message: 'keyboard already on' };
+  adb('ime', 'enable', disabledInputMethod);
+  const result = adb('ime', 'set', disabledInputMethod);
+  if (result.status !== 0) return { status: 500, message: result.output };
+  disabledInputMethod = undefined;
+  return { status: 200, message: 'keyboard on' };
+}
+
 /** Characters per `input text` call, and the pause that lets the field catch up after each. */
 export const TYPE_CHUNK_LENGTH = 8;
 export const TYPE_CHUNK_PAUSE_MS = 1500;
@@ -166,13 +191,14 @@ function type(text: string, ctx: ActionContext): ActionResult {
   };
 }
 
-/** Routes one request (`/push?fixture=…`, `/network?state=…`, `/type` with a body) to its action. */
+/** Routes one request (`/push?fixture=…`, `/network?state=…`, `/type` with a body, `/keyboard?state=…`) to its action. */
 export function handleAction(url: string, ctx: ActionContext, body = ''): ActionResult {
   const { pathname, searchParams } = new URL(url, 'http://127.0.0.1');
   try {
     if (pathname === '/push') return push(searchParams.get('fixture') ?? '', ctx);
     if (pathname === '/network') return network(searchParams.get('state') ?? '', ctx);
     if (pathname === '/type') return type(body, ctx);
+    if (pathname === '/keyboard') return keyboard(searchParams.get('state') ?? '', ctx);
     return { status: 404, message: `no action ${pathname}` };
   } catch (error) {
     return { status: 500, message: error instanceof Error ? error.message : String(error) };
