@@ -1,7 +1,9 @@
+/* eslint-disable lingui/no-unlocalized-strings -- route names, not copy. */
 import { Stack } from 'expo-router/js-stack';
 import { useMemo } from 'react';
 
 import { registerBookingsScreens } from '@/features/bookings/routes';
+import { WALLET_HALF_OPTIONS } from '@/features/bookings/stack/wallet-halves';
 import { deviceMoneyServices } from '@/features/money/data/device-services';
 import { MoneyServicesProvider } from '@/features/money/data/services';
 import { registerMoneyScreens } from '@/features/money/routes';
@@ -14,12 +16,11 @@ import { getOcr } from '../../../../modules/cp-ocr';
 registerMoneyScreens();
 registerBookingsScreens();
 
-// eslint-disable-next-line lingui/no-unlocalized-strings -- a route name, not copy
 export const unstable_settings = { initialRouteName: 'money/index' };
 
 /**
- * The WALLET tab: BOOKINGS | MONEY. Money's Balances opens first; Budget pushes inside the tab (it
- * keeps the tab bar). The bookings half registers its own screens under `bookings/`.
+ * The WALLET tab: BOOKINGS | MONEY. Money's Balances opens first and the switch swaps the halves in
+ * place (no transition, no back swipe); Budget pushes inside the tab (it keeps the tab bar). The bookings half registers its own screens under `bookings/`.
  */
 export default function WalletLayout() {
   const { motion } = useTheme();
@@ -27,7 +28,10 @@ export default function WalletLayout() {
   const services = useMemo(() => deviceMoneyServices(getOcr()), []);
   return (
     <MoneyServicesProvider services={services}>
-      <Stack screenOptions={pushTransition(motion, motionMode !== 'full')} />
+      <Stack screenOptions={pushTransition(motion, motionMode !== 'full')}>
+        <Stack.Screen name="money/index" options={WALLET_HALF_OPTIONS} />
+        <Stack.Screen name="bookings" options={WALLET_HALF_OPTIONS} />
+      </Stack>
     </MoneyServicesProvider>
   );
 }
