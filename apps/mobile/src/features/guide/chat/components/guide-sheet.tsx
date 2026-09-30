@@ -174,6 +174,7 @@ export function GuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }
           hasTrip={trip !== null}
           messages={thread.messages}
           names={names}
+          me={context.uid}
           live={turn.live}
           waiting={turn.queued}
           renderProposal={(id) => (
@@ -192,7 +193,6 @@ export function GuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }
       onSend={() => send(draft)}
       {...(onAttach === undefined ? {} : { onAttach })}
       {...(voice === undefined ? {} : { onMic: () => router.push(voice) })}
-      scrollKey={`${thread.messages.length}:${turn.live?.state.text.length ?? 0}:${turn.queued.length}:${turn.quota === null ? 0 : 1}`}
     />
   );
 }

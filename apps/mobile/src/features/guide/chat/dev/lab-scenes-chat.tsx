@@ -22,11 +22,9 @@ import { THINKING, type TurnState } from '../data/turn-state';
 
 const noop = () => undefined;
 
-export const LAB_ME = '0192f000-0000-7000-8000-0000000000a1';
-export const LAB_NAMES = new Map([
-  [LAB_ME, { name: 'Maya', joinIndex: 0 }],
-  ['me', { name: 'Maya', joinIndex: 0 }],
-]);
+export const LAB_ME = '0192f000-0000-7000-8000-0000000000b9';
+export const LAB_MAYA = '0192f000-0000-7000-8000-0000000000a1';
+export const LAB_NAMES = new Map([[LAB_MAYA, { name: 'Maya', joinIndex: 0 }]]);
 
 export const LAB_PLAN: PlanCardModel = {
   changesetId: '0192f000-0000-7000-8000-00000000c5e1',
@@ -56,10 +54,10 @@ export const RAIN_QUESTION = "It's pouring in Ubud. What now?";
 export const RAIN_ANSWER =
   "Rain till about three. Here's a dry afternoon that still gets you to dinner at 19:30.";
 
-const question = (id: string, text: string): SavedGuideMessage => ({
+const question = (id: string, text: string, authorId = LAB_MAYA): SavedGuideMessage => ({
   id,
   role: 'user',
-  authorId: LAB_ME,
+  authorId,
   text,
   proposals: [],
   sources: [],
@@ -136,6 +134,7 @@ export function LabSheet(options: LabSheetOptions) {
           hasTrip
           messages={options.messages ?? []}
           names={LAB_NAMES}
+          me={LAB_ME}
           live={options.live ?? null}
           waiting={options.waiting ?? []}
           renderProposal={() => (
@@ -160,7 +159,6 @@ export function LabSheet(options: LabSheetOptions) {
       onSend={noop}
       onAttach={noop}
       onMic={noop}
-      scrollKey="lab"
     />
   );
 }

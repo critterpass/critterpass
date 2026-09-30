@@ -6,8 +6,9 @@
  */
 import type { ReactNode } from 'react';
 
-import { Stack } from '@/ui';
-import { ChatMessage } from '@/ui/chat/ChatMessage';
+import { View } from 'react-native';
+
+import { Row, Stack, Text, makeStyles } from '@/ui';
 import { Avatar } from '@/ui/people/Avatar';
 
 import type { SavedGuideMessage } from '../data/use-guide-thread';
@@ -21,6 +22,8 @@ export interface GuideConversationProps {
   readonly hasTrip: boolean;
   readonly messages: readonly SavedGuideMessage[];
   readonly names: ReadonlyMap<string, { readonly name: string; readonly joinIndex: number }>;
+  /** The asker's uid: their own questions sit on the right. */
+  readonly me: string | null;
   readonly live: LiveTurn | null;
   readonly waiting: readonly string[];
   readonly renderProposal: (changesetId: string) => ReactNode;
@@ -38,23 +41,40 @@ export function liveSettled(live: LiveTurn, messages: readonly SavedGuideMessage
   return messages.some((message) => message.role === 'guide' && message.text.trim() === text);
 }
 
-function Question({
+const useStyles = makeStyles((t) => ({
+  row: { alignItems: 'flex-end', gap: t.space['8'] },
+  mine: { justifyContent: 'flex-end' },
+  bubble: {
+    backgroundColor: t.semantic.bg.control,
+    borderRadius: t.radius.lg,
+    paddingHorizontal: t.space['14'],
+    paddingVertical: t.space['10'],
+    flexShrink: 1,
+  },
+}));
+
+/**
+ * A question in the thread: the asker's own on the right, a crewmate's (GROUP) on the left with
+ * their avatar.
+ */
+export function QuestionBubble({
   text,
   author,
 }: {
   readonly text: string;
-  readonly author: { readonly name: string; readonly joinIndex: number } | undefined;
+  /** Null for the asker's own question. */
+  readonly author: { readonly name: string; readonly joinIndex: number } | null;
 }) {
+  const styles = useStyles();
   return (
-    <ChatMessage
-      kind="theirs"
-      text={text}
-      {...(author === undefined
-        ? {}
-        : {
-            avatar: <Avatar name={author.name} joinIndex={author.joinIndex} size="sm" decorative />,
-          })}
-    />
+    <Row style={[styles.row, author === null ? styles.mine : null]} testID="guide-question">
+      {author === null ? null : (
+        <Avatar name={author.name} joinIndex={author.joinIndex} size="sm" decorative />
+      )}
+      <View style={styles.bubble}>
+        <Text variant="body">{text}</Text>
+      </View>
+    </Row>
   );
 }
 
@@ -64,7 +84,11 @@ export function GuideConversation(props: GuideConversationProps) {
   const liveQuestionSaved =
     live !== null &&
     messages.some((message) => message.role === 'user' && message.text === live.question);
-  const empty = messages.length === 0 && live === null && props.waiting.length === 0;
+  const empty =
+    messages.length === 0 &&
+    live === null &&
+    props.waiting.length === 0 &&
+    props.footer === undefined;
   return (
     <Stack gap="16" testID="guide-conversation">
       {empty ? (
@@ -77,10 +101,14 @@ export function GuideConversation(props: GuideConversationProps) {
       ) : null}
       {messages.map((message) =>
         message.role === 'user' ? (
-          <Question
+          <QuestionBubble
             key={message.id}
             text={message.text}
-            author={message.authorId === null ? undefined : names.get(message.authorId)}
+            author={
+              message.authorId === null || message.authorId === props.me
+                ? null
+                : (names.get(message.authorId) ?? null)
+            }
           />
         ) : (
           <Stack key={message.id} gap="12">
@@ -102,7 +130,7 @@ export function GuideConversation(props: GuideConversationProps) {
       )}
       {showLive && live !== null ? (
         <Stack gap="12" testID="guide-live">
-          {liveQuestionSaved ? null : <Question text={live.question} author={names.get('me')} />}
+          {liveQuestionSaved ? null : <QuestionBubble text={live.question} author={null} />}
           {live.state.phase === 'thinking' ? (
             <GuideThinking color={color} checking={live.state.checking > 0} />
           ) : null}

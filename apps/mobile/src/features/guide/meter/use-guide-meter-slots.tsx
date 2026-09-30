@@ -11,8 +11,8 @@ import { useState } from 'react';
 
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { Stack } from '@/ui';
-import { ChatMessage } from '@/ui/chat/ChatMessage';
 
+import { QuestionBubble } from '../chat/components/guide-conversation';
 import type { GuideMeterHook } from '../chat/components/guide-sheet';
 import { useLiveQuery } from '../chat/data/live-rows';
 import { QueuedQuestionRow, QueueProblemLine } from '../queued/queued-question-row';
@@ -64,7 +64,7 @@ export const useGuideMeterSlots: GuideMeterHook = (input) => {
   return {
     footer: (
       <Stack gap="16">
-        {refused === null ? null : <ChatMessage kind="theirs" text={refused} />}
+        {refused === null ? null : <QuestionBubble text={refused} author={null} />}
         <LimitCard
           guideName={input.guideName}
           color={input.color}

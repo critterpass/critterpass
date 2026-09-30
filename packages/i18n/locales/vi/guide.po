@@ -369,7 +369,7 @@ msgstr "Có người đã lấy chỗ cuối cùng trước bạn."
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.ownAllergy"
-msgstr "Thứ khác"
+msgstr "Thứ khác? Gõ vào rồi chạm xong"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.newItem"

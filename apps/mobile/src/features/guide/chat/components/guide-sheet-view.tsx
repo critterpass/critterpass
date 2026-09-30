@@ -5,7 +5,7 @@
  * countdown bar.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 import { ScrollView as HorizontalScroll } from 'react-native';
 
 import { upper } from '@cp/i18n';
@@ -33,8 +33,6 @@ export interface GuideSheetViewProps {
   readonly onSend: () => void;
   readonly onAttach?: () => void;
   readonly onMic?: () => void;
-  /** Changes whenever the thread grows, to keep the latest line in view. */
-  readonly scrollKey: string;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -47,9 +45,6 @@ export function GuideSheetView(props: GuideSheetViewProps) {
   const styles = useStyles();
   const { t, i18n } = useLingui();
   const scroll = useRef<{ scrollToEnd: (options?: { animated?: boolean }) => void }>(null);
-  useEffect(() => {
-    scroll.current?.scrollToEnd({ animated: true });
-  }, [props.scrollKey]);
   return (
     <Sheet
       detents={['large']}
@@ -60,6 +55,8 @@ export function GuideSheetView(props: GuideSheetViewProps) {
     >
       <SheetScrollView
         keyboardShouldPersistTaps="handled"
+        // The latest line stays in view as the thread grows.
+        onContentSizeChange={() => scroll.current?.scrollToEnd({ animated: true })}
         // React 19 passes `ref` as a prop, through to the scroll view.
         {...({ ref: scroll } as object)}
       >

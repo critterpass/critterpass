@@ -8,9 +8,15 @@
 import type { ReactNode } from 'react';
 
 import { Stack, useTheme } from '@/ui';
-import { ChatMessage } from '@/ui/chat/ChatMessage';
 
-import { LabSheet, LAB_TRIP, RAIN_ANSWER, RAIN_QUESTION } from '../../chat/dev/lab-scenes-chat';
+import {
+  LabSheet,
+  LAB_ME,
+  LAB_TRIP,
+  RAIN_ANSWER,
+  RAIN_QUESTION,
+} from '../../chat/dev/lab-scenes-chat';
+import { QuestionBubble } from '../../chat/components/guide-conversation';
 import type { SavedGuideMessage } from '../../chat/data/use-guide-thread';
 import { LimitCard, LimitComposer, QueueComposer } from '../limit-card';
 import { QueuedQuestionRow } from '../../queued/queued-question-row';
@@ -39,7 +45,7 @@ function PonLimit({
         {
           id: 'q1',
           role: 'user',
-          authorId: null,
+          authorId: LAB_ME,
           text: 'Where do we eat near Fushimi Inari?',
           proposals: [],
           sources: [],
@@ -56,7 +62,9 @@ function PonLimit({
       messages={saved}
       footer={
         <Stack gap="16">
-          {refused ? <ChatMessage kind="theirs" text="Can we swap Nara for Uji on day 3?" /> : null}
+          {refused ? (
+            <QuestionBubble text="Can we swap Nara for Uji on day 3?" author={null} />
+          ) : null}
           <LimitCard
             guideName="Pon"
             color={theme.guide.pon}

@@ -14,7 +14,7 @@ import { patterns } from '@/motion';
 import { Row, Stack, Text, makeStyles, useTheme } from '@/ui';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
-import { Card } from '@/ui/cards/Card';
+import { SplitCtaRow } from '@/ui/buttons/SplitCtaRow';
 
 import type { PlanCardModel, PlanSwap } from '../data/use-plan-card';
 
@@ -30,8 +30,11 @@ export function outcomeOf(state: PlanCardModel['state']): PlanCardOutcome {
 const useStyles = makeStyles((t) => ({
   divider: { height: 1, backgroundColor: t.semantic.border.decorative },
   struck: { textDecorationLine: 'line-through' },
-  primary: { flex: 3 },
-  secondary: { flex: 2 },
+  card: {
+    backgroundColor: t.semantic.bg.control,
+    borderRadius: t.radius.lg,
+    padding: t.space['16'],
+  },
 }));
 
 function SwapRow({ swap, index }: { readonly swap: PlanSwap; readonly index: number }) {
@@ -116,7 +119,7 @@ export function PlanCardView({
   const outcome = outcomeOf(model.state);
   const cost = costLine(model, i18n.locale);
   return (
-    <Card tone="raised" testID={`guide-plan-card-${model.changesetId}`}>
+    <View style={styles.card} testID={`guide-plan-card-${model.changesetId}`}>
       <Stack gap="12">
         {model.swaps.map((swap, index) => (
           <Stack key={`${swap.target}-${index}`} gap="12">
@@ -138,9 +141,9 @@ export function PlanCardView({
           />
         </Row>
         {outcome === 'open' ? (
-          <Row gap="8">
-            {canPropose ? (
-              <View style={styles.primary}>
+          canPropose ? (
+            <SplitCtaRow
+              primary={
                 <PillButton
                   label={t({ id: 'guide.plan.propose', message: 'Propose to group' })}
                   onPress={onPropose}
@@ -148,19 +151,26 @@ export function PlanCardView({
                   block
                   testID="guide-plan-propose"
                 />
-              </View>
-            ) : null}
-            <View style={styles.secondary}>
-              <PillButton
-                variant="secondary"
-                label={t({ id: 'guide.plan.justMe', message: 'Just me' })}
-                onPress={onJustMe}
-                disabled={busy}
-                block
-                testID="guide-plan-just-me"
-              />
-            </View>
-          </Row>
+              }
+              secondary={
+                <PillButton
+                  variant="secondary"
+                  label={t({ id: 'guide.plan.justMe', message: 'Just me' })}
+                  onPress={onJustMe}
+                  disabled={busy}
+                  testID="guide-plan-just-me"
+                />
+              }
+            />
+          ) : (
+            <PillButton
+              label={t({ id: 'guide.plan.justMe', message: 'Just me' })}
+              onPress={onJustMe}
+              disabled={busy}
+              block
+              testID="guide-plan-just-me"
+            />
+          )
         ) : (
           <Text variant="label" testID="guide-plan-outcome">
             {outcome === 'sent'
@@ -171,6 +181,6 @@ export function PlanCardView({
           </Text>
         )}
       </Stack>
-    </Card>
+    </View>
   );
 }

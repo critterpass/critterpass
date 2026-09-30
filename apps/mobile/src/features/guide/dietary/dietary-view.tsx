@@ -135,7 +135,15 @@ export function DietaryView(props: DietaryViewProps) {
           ))}
         </Row>
         <TextField
-          label={t({ id: 'guide.dietary.ownAllergy', message: 'Something else' })}
+          label={t({
+            id: 'guide.dietary.ownAllergy',
+            message: 'Something else? Type it and tap done',
+          })}
+          labelHidden
+          placeholder={t({
+            id: 'guide.dietary.ownAllergy',
+            message: 'Something else? Type it and tap done',
+          })}
           value={ownAllergy}
           onChangeText={setOwnAllergy}
           returnKeyType="done"
@@ -152,6 +160,11 @@ export function DietaryView(props: DietaryViewProps) {
       <Section title={t({ id: 'guide.dietary.avoid', message: 'Rather not eat' })}>
         <TextField
           label={t({ id: 'guide.dietary.avoidLabel', message: 'Coriander, offal, raw fish…' })}
+          labelHidden
+          placeholder={t({
+            id: 'guide.dietary.avoidLabel',
+            message: 'Coriander, offal, raw fish…',
+          })}
           value={avoidText}
           onChangeText={(text) => {
             setAvoidText(text);
@@ -177,6 +190,11 @@ export function DietaryView(props: DietaryViewProps) {
       <Section title={t({ id: 'guide.dietary.access', message: 'Getting around' })}>
         <TextField
           label={t({
+            id: 'guide.dietary.accessLabel',
+            message: 'Steps, long walks, hearing, anything the guide should plan around',
+          })}
+          labelHidden
+          placeholder={t({
             id: 'guide.dietary.accessLabel',
             message: 'Steps, long walks, hearing, anything the guide should plan around',
           })}
