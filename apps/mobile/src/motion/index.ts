@@ -14,6 +14,7 @@ export { IslandToast, toast, toastQueue, useToastQueue } from './island-toast';
 export type { QueuedToast, ToastAction, ToastRequest } from './island-toast';
 export type { MotionMode } from './motion-mode';
 export { combineMotionMode, useMotionMode } from './motion-mode';
+export { E2E_IDLE_LOOP_MS, idleLoopBudgetMs, useIdleLoopRunning } from './idle-pause';
 export { OverlayHost } from './overlay/OverlayHost';
 export type { FlyToRect, FlyToRequest } from './overlay/fly-to';
 export { flyTo, flyToOverlay } from './overlay/fly-to';

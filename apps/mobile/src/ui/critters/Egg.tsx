@@ -13,6 +13,7 @@ import Animated, {
 
 import { tokens } from '@cp/design-tokens';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { useSlap } from '@/motion/patterns/slap';
 
@@ -66,9 +67,15 @@ export function Egg({ state, color, size = 72, hatchling, hatchlingName, testID 
   const reduced = useReducedImpactMotion();
   const rotate = useSharedValue(0);
   const height = size * HEIGHT_RATIO;
+  const wobbling = useIdleLoopRunning(state === 'wobbling');
 
   useEffect(() => {
-    if (reduced || state === 'resting' || state === 'hatched') {
+    if (
+      reduced ||
+      state === 'resting' ||
+      state === 'hatched' ||
+      (state === 'wobbling' && !wobbling)
+    ) {
       rotate.value = 0;
       return;
     }
@@ -89,7 +96,7 @@ export function Egg({ state, color, size = 72, hatchling, hatchlingName, testID 
             withTiming(0, { duration: beat / 2 }),
           );
     // eslint-disable-next-line react-hooks/exhaustive-deps -- rotate is a stable shared value ref.
-  }, [state, reduced]);
+  }, [state, reduced, wobbling]);
   const wobble = useAnimatedStyle(() => ({ transform: [{ rotate: `${rotate.value}deg` }] }));
 
   const label =
