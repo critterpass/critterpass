@@ -7,6 +7,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   buildMedia,
+  failedStep,
   formatGateReport,
   parseJunit,
   previewSpeed,
@@ -96,6 +97,16 @@ describe('release gate report', { timeout: 60_000 }, () => {
     expect(text).toContain(
       '| `money` | android | **FAIL** | 2m 5s | <img src="https://raw/run/android/money.gif" width="120"> | [MP4](https://blob/run/android/money.mp4) | `Element not found: Id matching regex: settle \\| confirm`<br><img src="https://raw/run/android/money-failure.png" width="120"> |',
     );
+  });
+
+  it('names the step a flow failed on from its Maestro log', () => {
+    const log = [
+      '06:24:03.1 [ INFO] maestro.cli.runner.TestSuiteInteractor.runFlow$lambda$18$lambda$6: Tap on id: send COMPLETED',
+      '06:24:25.6 [ INFO] maestro.cli.runner.TestSuiteInteractor.runFlow$lambda$18$lambda$10: Input text landing at six FAILED',
+      '06:24:25.7 [ INFO] maestro.cli.runner.TestSuiteInteractor.runFlow$lambda$18$lambda$10: Run chat.yaml FAILED',
+    ].join('\n');
+    expect(failedStep(log)).toBe('Input text landing at six');
+    expect(failedStep('nothing failed')).toBeUndefined();
   });
 
   it('speeds long previews up so they stay near a minute', () => {

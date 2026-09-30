@@ -17,9 +17,9 @@ import path from 'node:path';
 import type { DevicePlatform } from './plan-shards';
 
 const REMOTE_DIR = '/sdcard/cp-video';
-/** Half the Pixel 7's 1080×2400 at a modest bit rate: small segments, still readable text. */
-const ANDROID_SIZE = '540x1200';
-const ANDROID_BIT_RATE = '1500000';
+/** A third of the Pixel 7's 1080×2400, the report's own size: the emulator encodes in software, so a smaller picture leaves the app its CPU. */
+const ANDROID_SIZE = '360x800';
+const ANDROID_BIT_RATE = '1000000';
 
 export interface ScreenRecorder {
   /** Stops recording and returns the recorded files in order (empty when nothing was recorded). */

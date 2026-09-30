@@ -65,6 +65,16 @@ export function flowName(slug: string): string {
   return slug.replace(/^e2e__happy__/, '').replace(/__/g, '/');
 }
 
+/**
+ * The step Maestro failed on, from its log (`… runFlow…: Input text landing at six FAILED`): a
+ * failure message alone ("Unknown error", a driver timeout) does not say which step it was. The
+ * step itself fails first, then the subflows around it.
+ */
+export function failedStep(log: string): string | undefined {
+  const steps = [...log.matchAll(/TestSuiteInteractor\.runFlow\S*: (.+) FAILED$/gm)];
+  return steps[0]?.[1]?.trim();
+}
+
 /** Every flow of every shard; the JS commit check is listed only when it failed. */
 export function readGateFlows(root: string): GateFlow[] {
   if (!existsSync(root)) return [];
@@ -81,7 +91,23 @@ export function readGateFlows(root: string): GateFlow[] {
         .map((file) => {
           const slug = file.replace(/\.xml$/, '');
           const result = parseJunit(readFileSync(path.join(junit, file), 'utf8'));
-          return { platform, slug, name: flowName(slug), shardDir, ...result };
+          const log = path.join(shardDir, 'maestro', slug, 'maestro.log');
+          const step =
+            result.failure && existsSync(log) ? failedStep(readFileSync(log, 'utf8')) : undefined;
+          // Assertions name their element already; other failures (a driver timeout) need the step.
+          const bare =
+            result.failure === undefined ||
+            /^(Assertion is false|Element not found)/.test(result.failure);
+          const failure = step && !bare ? `${step}: ${result.failure ?? ''}` : result.failure;
+          return {
+            platform,
+            slug,
+            name: flowName(slug),
+            shardDir,
+            passed: result.passed,
+            seconds: result.seconds,
+            ...(failure === undefined ? {} : { failure }),
+          };
         })
         .filter((flow) => flow.slug !== JS_COMMIT_FLOW || !flow.passed);
     })
@@ -109,18 +135,19 @@ export interface GateMedia {
 /** Joins a flow's segments into one small MP4 and a GIF preview; copies its failure screen. */
 export function buildMedia(flow: GateFlow, mediaDir: string): GateMedia {
   const dir = path.join(mediaDir, flow.platform);
+  const file = flow.name.replace(/\//g, '__');
   mkdirSync(dir, { recursive: true });
   const media: { mp4?: string; gif?: string; failureShot?: string } = {};
   const shot = path.join(flow.shardDir, 'failures', `${flow.slug}.png`);
   if (!flow.passed && existsSync(shot)) {
-    media.failureShot = `${flow.platform}/${flow.name}-failure.png`;
+    media.failureShot = `${flow.platform}/${file}-failure.png`;
     copyFileSync(shot, path.join(mediaDir, media.failureShot));
   }
   const segments = segmentFiles(path.join(flow.shardDir, 'videos', flow.slug));
   if (segments.length === 0) return media;
-  const list = path.join(dir, `${flow.name}.segments.txt`);
+  const list = path.join(dir, `${file}.segments.txt`);
   writeFileSync(list, segments.map((file) => `file '${file}'\n`).join(''));
-  const mp4 = `${flow.platform}/${flow.name}.mp4`;
+  const mp4 = `${flow.platform}/${file}.mp4`;
   const encoded = ffmpeg([
     ...['-f', 'concat', '-safe', '0', '-i', list],
     ...['-vf', 'scale=360:-2,fps=15', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '30'],
@@ -128,7 +155,7 @@ export function buildMedia(flow: GateFlow, mediaDir: string): GateMedia {
   ]);
   if (!encoded) return media;
   media.mp4 = mp4;
-  const gif = `${flow.platform}/${flow.name}.gif`;
+  const gif = `${flow.platform}/${file}.gif`;
   const speed = previewSpeed(flow.seconds);
   const filter = `setpts=PTS/${String(speed)},fps=4,scale=240:-2:flags=lanczos,split[a][b];[a]palettegen=max_colors=64[p];[b][p]paletteuse=dither=bayer`;
   if (
