@@ -19,7 +19,6 @@ import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import { AvatarStack } from '@/ui/people/AvatarStack';
-import { GuideLine } from '@/ui/people/GuideLine';
 import { LiveSticker } from '@/ui/people/LiveSticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
@@ -29,6 +28,11 @@ import type { usePitchSections } from '../data/use-final';
 import { stackOf, type Person } from '../data/use-people';
 import type { PollOptionView } from '../data/poll-view';
 import { flightHours, guideOr, money, monthShort, upper } from '../format';
+
+/** Width of a half's pitch card and chips; the faded critter keeps to the rest. */
+const COLUMN = '62%';
+/** The faded critter behind each half. */
+const GHOST_SIZE = 150;
 
 /** Showdown stacks show this many voters before "+n" (boosted crews reach sixteen). */
 const MAX_AVATARS = 16;
@@ -66,23 +70,29 @@ function useChosenSquash(chosen: boolean) {
 }
 
 const useStyles = makeStyles((th) => ({
+  // Each half is at least as tall as its content and shares what is left of the screen with the
+  // other, so neither is ever clipped under the header or the tally card.
+  press: { flexGrow: 1, flexShrink: 1, flexBasis: 'auto' },
   half: {
-    flex: 1,
-    padding: th.space['20'],
+    flexGrow: 1,
+    paddingHorizontal: th.space['20'],
+    justifyContent: 'flex-start',
     overflow: 'hidden',
     gap: th.space['10'],
   },
-  // Each half's content gathers at the VS disc, clear of it, so the screen header above and the
-  // tally card below never cover a name or its voters.
-  top: {
-    justifyContent: 'flex-end',
-    paddingBottom: sizeToken(th.size.fab, 'size') / 2 + th.space['16'],
-  },
-  bottom: {
-    justifyContent: 'flex-start',
-    paddingTop: sizeToken(th.size.fab, 'size') / 2 + th.space['16'],
-  },
+  // Content starts right under each half's top edge: under the screen header for the top half,
+  // clear of the VS disc for the bottom one.
+  top: { paddingBottom: sizeToken(th.size.fab, 'size') / 2 + th.space['16'] },
+  bottom: { paddingTop: sizeToken(th.size.fab, 'size') / 2 + th.space['16'] },
   ghost: { position: 'absolute', opacity: 0.35 },
+  column: { maxWidth: COLUMN },
+  quote: {
+    maxWidth: COLUMN,
+    backgroundColor: th.semantic.bg.raised,
+    borderRadius: th.radius.lg,
+    paddingHorizontal: th.space['14'],
+    paddingVertical: th.space['10'],
+  },
   mine: {
     borderWidth: sizeToken(th.size.fab, 'ringWidth'),
     borderColor: th.semantic.text.onAccent,
@@ -92,10 +102,13 @@ const useStyles = makeStyles((th) => ({
 function Facts({
   option,
   sectionsOf,
+  alignEnd,
 }: {
   readonly option: PollOptionView;
   readonly sectionsOf: ReturnType<typeof usePitchSections>;
+  readonly alignEnd: boolean;
 }) {
+  const styles = useStyles();
   const { t, i18n } = useLingui();
   const sections = option.pitchId === null ? undefined : sectionsOf.get(option.pitchId);
   const locale = i18n.locale;
@@ -135,7 +148,7 @@ function Facts({
   });
   if (chips.length === 0) return null;
   return (
-    <Row gap="6" wrap>
+    <Row gap="6" wrap justify={alignEnd ? 'flex-end' : 'flex-start'} style={styles.column}>
       {chips.map((chip) => (
         <InfoPill key={chip} variant="outline">
           {chip}
@@ -153,6 +166,7 @@ export function ShowdownHalf({
   alignEnd,
   onVote,
   squashKey,
+  edgeInset,
 }: {
   readonly option: PollOptionView;
   readonly place: BoardPlace | undefined;
@@ -161,6 +175,8 @@ export function ShowdownHalf({
   readonly alignEnd: boolean;
   readonly onVote: (() => void) | undefined;
   readonly squashKey: number;
+  /** Room kept at the half's outer edge: the screen header above the top half, the tally card below the bottom one. */
+  readonly edgeInset: number;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -183,13 +199,14 @@ export function ShowdownHalf({
         .join(', ')}
       accessibilityState={{ selected: option.mine, disabled: onVote === undefined }}
       onPress={onVote}
-      style={{ flex: 1 }}
+      style={styles.press}
       testID={`showdown-half-${alignEnd ? 1 : 0}`}
     >
       <Animated.View
         style={[
           styles.half,
           alignEnd ? styles.bottom : styles.top,
+          alignEnd ? { paddingBottom: edgeInset } : { paddingTop: edgeInset },
           {
             backgroundColor: place?.colour ?? theme.color.yellow,
             alignItems: alignEnd ? 'flex-end' : 'flex-start',
@@ -203,19 +220,26 @@ export function ShowdownHalf({
         <View
           style={[
             styles.ghost,
-            alignEnd ? { left: -theme.space['16'] } : { right: -theme.space['16'] },
+            // Beside the pitch card and chips, never over them: they keep to the other side.
+            alignEnd
+              ? { left: -theme.space['16'], bottom: edgeInset }
+              : { right: -theme.space['16'], bottom: sizeToken(theme.size.fab, 'size') / 2 },
           ]}
           pointerEvents="none"
         >
-          <LiveSticker kind={guide.kind} name={guide.name} size={180} drawOn={false} />
+          <LiveSticker kind={guide.kind} name={guide.name} size={GHOST_SIZE} drawOn={false} />
         </View>
         <Text variant="displayMega" color={ink} autoFit>
           {upper(name, i18n.locale)}
         </Text>
         {quote === null ? null : (
-          <GuideLine guide={guideId} name={guide.name} line={quote} bubble />
+          <View style={styles.quote} accessible accessibilityLabel={`${guide.name}: ${quote}`}>
+            <Text variant="voice" color={tokens.guide[guideId]}>
+              {quote}
+            </Text>
+          </View>
         )}
-        <Facts option={option} sectionsOf={sectionsOf} />
+        <Facts option={option} sectionsOf={sectionsOf} alignEnd={alignEnd} />
         <Row gap="8" align="center">
           {option.voterIds.length > 0 ? (
             <AvatarStack members={stackOf(people, option.voterIds)} size="md" max={MAX_AVATARS} />
