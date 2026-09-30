@@ -168,6 +168,7 @@ const jobs: AnyJobDefinition[] = [
   ...billingJobs(process.env, logger, metrics),
   ...planJobs(),
   ...guideJobs({ ...process.env, ...env }, pool, aiSwitches.assertAiRoute, llmObservability),
+  ...(await import('./jobs/suppliers')).supplierJobs(env, pool, logger),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&
@@ -219,10 +220,8 @@ jobs.push(
   roundupBuild,
   roundupScanJob(roundupBuild),
 );
-onEventAppended(routeEventHook);
-onEventAppended(inboxEventHook);
-onEventAppended(countdownEventHook);
-onEventAppended(tipsEventHook);
+for (const hook of [routeEventHook, inboxEventHook, countdownEventHook, tipsEventHook])
+  onEventAppended(hook);
 registerHomeInboxFanouts();
 registerHomeRetention();
 registerNudgeNotifications();

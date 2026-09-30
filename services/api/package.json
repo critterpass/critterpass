@@ -24,6 +24,7 @@
     "@cp/domain": "workspace:*",
     "@cp/entitlements": "workspace:*",
     "@cp/planner": "workspace:*",
+    "@cp/suppliers": "workspace:*",
     "@hono/node-server": "catalog:",
     "@hono/zod-openapi": "catalog:",
     "@opentelemetry/api": "catalog:",

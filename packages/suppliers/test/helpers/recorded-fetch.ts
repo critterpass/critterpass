@@ -15,14 +15,21 @@ export interface RecordedRoute {
 
 export interface RecordedRequest {
   readonly url: URL;
+  readonly method: string;
   readonly headers: Headers;
+  readonly body: string | null;
 }
 
 export function recordedFetch(fixtureDir: string, routes: readonly RecordedRoute[]) {
   const requests: RecordedRequest[] = [];
   const fetch = (input: string | URL, init?: RequestInit): Promise<Response> => {
     const url = new URL(input);
-    requests.push({ url, headers: new Headers(init?.headers) });
+    requests.push({
+      url,
+      method: init?.method ?? 'GET',
+      headers: new Headers(init?.headers),
+      body: typeof init?.body === 'string' ? init.body : null,
+    });
     const route = routes.find(
       (candidate) =>
         candidate.path === url.pathname &&

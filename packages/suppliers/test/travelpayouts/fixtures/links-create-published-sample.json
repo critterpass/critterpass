@@ -1,0 +1,28 @@
+{
+  "result": {
+    "trs": 197987,
+    "marker": 339296,
+    "shorten": false,
+    "links": [
+      {
+        "url": "https://yesim.app/country/turkey/3days-500mb-esim-data-plan/",
+        "code": "success",
+        "partner_url": "https://yesim.tp.st/kn3kv29H?erid=2VtzqwiKLkx"
+      },
+      {
+        "url": "https://www.airalo.com/ru/georgia-esim/kargi-mobile-7days-1gb",
+        "code": "failed",
+        "message": "trs is not subscribed for brand",
+        "partner_url": ""
+      },
+      {
+        "url": "https://www.amazon.com/travel/?__rr=1",
+        "code": "failed",
+        "message": "can't create partner link",
+        "partner_url": ""
+      }
+    ]
+  },
+  "code": "success",
+  "status": 200
+}

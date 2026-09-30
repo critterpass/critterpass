@@ -116,7 +116,7 @@ export function holdReleaseAt(validUntil: Date, now: Date): Date {
   return at < now ? now : at;
 }
 
-/** A vote on a held item closes this long before the hold lapses, leaving time to pay (C41). */
+/** A vote on a held item closes this long before the hold lapses, leaving time to pay. */
 export const VOTE_CLOSE_LEAD_MS = 10 * 60_000;
 
 export function voteDeadlineForHold(validUntil: Date): Date {

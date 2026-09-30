@@ -1,4 +1,24 @@
 export * from './core/adapter';
+export {
+  buildAffiliateLink,
+  partnerPageFor,
+  type AffiliateLinkConfig,
+} from './links/affiliate-link';
+export type { LinkTarget } from './links/link-spec';
+export { bookingCjLink, bookingPage, type CjBookingConfig } from './booking-cj/links';
+export { viatorAffiliateLink, type ViatorAffiliateConfig } from './viator/links';
+export {
+  createPartnerLinks,
+  type PartnerLinkRequest,
+  type PartnerLinkResult,
+  type TravelpayoutsLinksConfig,
+} from './travelpayouts/links/client';
+export {
+  fetchActionsSince,
+  STATISTICS_PAGE_LIMIT,
+  type ActionsPage,
+  type TravelpayoutsAction,
+} from './travelpayouts/links/statistics';
 export { supplierRejected, supplierUnavailable, toSupplierDomainError } from './core/errors';
 export { isPartnerEnabled, requirePartnerEnabled, type FlagQuery } from './core/flags';
 export {

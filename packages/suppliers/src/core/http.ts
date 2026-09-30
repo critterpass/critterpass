@@ -46,6 +46,8 @@ export interface SupplierHttp {
   request(request: SupplierRequest): Promise<SupplierResponse>;
   /** GET + JSON parse + schema check; a body that fails the schema is a non-retryable error. */
   getJson<T>(request: SupplierRequest, schema: z.ZodType<T>): Promise<T>;
+  /** Any method with a JSON body, parsed and checked the same way (writes are never retried). */
+  sendJson<T>(request: SupplierRequest, schema: z.ZodType<T>): Promise<T>;
 }
 
 export interface SupplierHttpOptions {
@@ -144,33 +146,40 @@ export function createSupplierHttp(options: SupplierHttpOptions): SupplierHttp {
     throw lastError ?? new Error('supplier request produced no result');
   }
 
+  function parse<T>(req: SupplierRequest, response: SupplierResponse, schema: z.ZodType<T>): T {
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(response.body);
+    } catch (error) {
+      throw new SupplierHttpError(
+        `${req.supplier} ${req.endpoint} returned a body that is not JSON`,
+        req.supplier,
+        response.status,
+        false,
+        { cause: error },
+      );
+    }
+    const result = schema.safeParse(parsed);
+    if (!result.success) {
+      throw new SupplierHttpError(
+        `${req.supplier} ${req.endpoint} returned an unexpected shape`,
+        req.supplier,
+        response.status,
+        false,
+        { cause: result.error },
+      );
+    }
+    return result.data;
+  }
+
   return {
     request,
     async getJson(req, schema) {
-      const response = await request({ ...req, method: 'GET' });
-      let parsed: unknown;
-      try {
-        parsed = JSON.parse(response.body);
-      } catch (error) {
-        throw new SupplierHttpError(
-          `${req.supplier} ${req.endpoint} returned a body that is not JSON`,
-          req.supplier,
-          response.status,
-          false,
-          { cause: error },
-        );
-      }
-      const result = schema.safeParse(parsed);
-      if (!result.success) {
-        throw new SupplierHttpError(
-          `${req.supplier} ${req.endpoint} returned an unexpected shape`,
-          req.supplier,
-          response.status,
-          false,
-          { cause: result.error },
-        );
-      }
-      return result.data;
+      return parse(req, await request({ ...req, method: 'GET' }), schema);
+    },
+    async sendJson(req, schema) {
+      const headers = { 'Content-Type': 'application/json', ...req.headers };
+      return parse(req, await request({ ...req, headers }), schema);
     },
   };
 }
